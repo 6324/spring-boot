@@ -6,11 +6,12 @@
 	<groupId>org.springframework.boot</groupId>
 	<artifactId>spring-boot-build</artifactId>
 	<version>${revision}</version>
-	<packaging>pom</packaging>
+    <packaging>pom</packaging>
 	<name>Spring Boot Build</name>
 	<description>Spring Boot Build</description>
 	<properties>
 		<revision>2.2.14.BUILD-SNAPSHOT</revision>
+		<spring-framework.version>5.2.12.RELEASE</spring-framework.version>
 		<main.basedir>${basedir}</main.basedir>
 	</properties>
 	<!-- Most elements are in profiles so they are stripped out during maven-flatten -->
@@ -105,6 +106,7 @@
 				</plugins>
 			</build>
 			<modules>
+				<module>spring-framework</module>
 				<module>spring-boot-project</module>
 				<!-- Smoke tests are built via the invoker plugin -->
 				<module>spring-boot-tests</module>

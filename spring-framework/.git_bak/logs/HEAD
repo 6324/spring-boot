@@ -1,0 +1,12 @@
+0000000000000000000000000000000000000000 fe73c630dae9dd87e58f301b75385636d1839e81 google <google@gmail.com> 1677736801 +0800	clone: from https://github.com/6324/spring-framework.git
+fe73c630dae9dd87e58f301b75385636d1839e81 e163078a56648991789c264c43dcb89f798f46ba google <google@gmail.com> 1677756339 +0800	checkout: moving from main to 5.2.x
+e163078a56648991789c264c43dcb89f798f46ba fe73c630dae9dd87e58f301b75385636d1839e81 google <google@gmail.com> 1678349908 +0800	checkout: moving from 5.2.x to main
+fe73c630dae9dd87e58f301b75385636d1839e81 e163078a56648991789c264c43dcb89f798f46ba google <google@gmail.com> 1678350095 +0800	checkout: moving from main to 5.2.x
+e163078a56648991789c264c43dcb89f798f46ba e163078a56648991789c264c43dcb89f798f46ba google <google@gmail.com> 1678419348 +0800	checkout: moving from 5.2.x to my/maven_project
+e163078a56648991789c264c43dcb89f798f46ba 31b51ebb22428ded510304341c396ed47c8f65e4 google <google@gmail.com> 1678420467 +0800	commit: init
+31b51ebb22428ded510304341c396ed47c8f65e4 d159cb65915840b2dc2297ee6b40309b8aa5d2aa google <google@gmail.com> 1678420474 +0800	checkout: moving from my/maven_project to 5.0.x
+d159cb65915840b2dc2297ee6b40309b8aa5d2aa 21648426e942e97292c60aa104d809d9dab1ea9b google <google@gmail.com> 1678420485 +0800	checkout: moving from 5.0.x to 4.3.x
+21648426e942e97292c60aa104d809d9dab1ea9b 4f9593da1c4deed6b00eff00e28ab9c58e8fb240 google <google@gmail.com> 1678420497 +0800	checkout: moving from 4.3.x to 3.0.x
+4f9593da1c4deed6b00eff00e28ab9c58e8fb240 a636420239f7e664a654f6aa8d6e3a9b9b2da056 google <google@gmail.com> 1678420530 +0800	checkout: moving from 3.0.x to 4.0.x
+a636420239f7e664a654f6aa8d6e3a9b9b2da056 e163078a56648991789c264c43dcb89f798f46ba google <google@gmail.com> 1678425486 +0800	checkout: moving from 4.0.x to 5.2.x
+e163078a56648991789c264c43dcb89f798f46ba 31b51ebb22428ded510304341c396ed47c8f65e4 google <google@gmail.com> 1678425648 +0800	checkout: moving from 5.2.x to my/maven_project

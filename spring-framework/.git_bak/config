@@ -1,0 +1,28 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = https://github.com/6324/spring-framework.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
+[branch "5.2.x"]
+	remote = origin
+	merge = refs/heads/5.2.x
+[branch "5.0.x"]
+	remote = origin
+	merge = refs/heads/5.0.x
+[branch "4.3.x"]
+	remote = origin
+	merge = refs/heads/4.3.x
+[branch "3.0.x"]
+	remote = origin
+	merge = refs/heads/3.0.x
+[branch "4.0.x"]
+	remote = origin
+	merge = refs/heads/4.0.x
