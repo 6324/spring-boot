@@ -2888,7 +2888,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
-				<artifactId>spring-framework-bom</artifactId>
+				<artifactId>spring-framework</artifactId>
 				<version>5.2.12.RELEASE</version>
 				<scope>import</scope>
 				<type>pom</type>

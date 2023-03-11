@@ -10,11 +10,6 @@
     <name>Spring Framework (Bill of Materials)</name>
     <description>Spring Framework (Bill of Materials)</description>
     <url>https://github.com/spring-projects/spring-framework</url>
-    <!--	<parent>-->
-    <!--		<groupId>org.springframework</groupId>-->
-    <!--		<artifactId>spring-framework</artifactId>-->
-    <!--		<version>5.2.12.RELEASE</version>-->
-    <!--	</parent>-->
 
     <parent>
         <groupId>org.springframework.boot</groupId>
