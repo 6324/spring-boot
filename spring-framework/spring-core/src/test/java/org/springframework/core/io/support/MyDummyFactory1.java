@@ -30,4 +30,5 @@ public class MyDummyFactory1 implements DummyFactory {
 	public String getString() {
 		return "Foo";
 	}
+
 }

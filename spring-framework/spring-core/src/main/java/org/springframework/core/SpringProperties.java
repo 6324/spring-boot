@@ -29,15 +29,17 @@ import org.springframework.lang.Nullable;
 /**
  * Static holder for local Spring properties, i.e. defined at the Spring library level.
  *
- * <p>Reads a {@code spring.properties} file from the root of the Spring library classpath,
+ * <p>
+ * Reads a {@code spring.properties} file from the root of the Spring library classpath,
  * and also allows for programmatically setting properties through {@link #setProperty}.
- * When checking a property, local entries are being checked first, then falling back
- * to JVM-level system properties through a {@link System#getProperty} check.
+ * When checking a property, local entries are being checked first, then falling back to
+ * JVM-level system properties through a {@link System#getProperty} check.
  *
- * <p>This is an alternative way to set Spring-related system properties such as
- * "spring.getenv.ignore" and "spring.beaninfo.ignore", in particular for scenarios
- * where JVM system properties are locked on the target platform (e.g. WebSphere).
- * See {@link #setFlag} for a convenient way to locally set such flags to "true".
+ * <p>
+ * This is an alternative way to set Spring-related system properties such as
+ * "spring.getenv.ignore" and "spring.beaninfo.ignore", in particular for scenarios where
+ * JVM system properties are locked on the target platform (e.g. WebSphere). See
+ * {@link #setFlag} for a convenient way to locally set such flags to "true".
  *
  * @author Juergen Hoeller
  * @since 3.2.7
@@ -54,12 +56,11 @@ public final class SpringProperties {
 
 	private static final Properties localProperties = new Properties();
 
-
 	static {
 		try {
 			ClassLoader cl = SpringProperties.class.getClassLoader();
-			URL url = (cl != null ? cl.getResource(PROPERTIES_RESOURCE_LOCATION) :
-					ClassLoader.getSystemResource(PROPERTIES_RESOURCE_LOCATION));
+			URL url = (cl != null ? cl.getResource(PROPERTIES_RESOURCE_LOCATION)
+					: ClassLoader.getSystemResource(PROPERTIES_RESOURCE_LOCATION));
 			if (url != null) {
 				logger.debug("Found 'spring.properties' file in local classpath");
 				InputStream is = url.openStream();
@@ -78,10 +79,8 @@ public final class SpringProperties {
 		}
 	}
 
-
 	private SpringProperties() {
 	}
-
 
 	/**
 	 * Programmatically set a local property, overriding an entry in the
@@ -99,8 +98,8 @@ public final class SpringProperties {
 	}
 
 	/**
-	 * Retrieve the property value for the given key, checking local Spring
-	 * properties first and falling back to JVM-level system properties.
+	 * Retrieve the property value for the given key, checking local Spring properties
+	 * first and falling back to JVM-level system properties.
 	 * @param key the property key
 	 * @return the associated property value, or {@code null} if none found
 	 */
@@ -121,8 +120,8 @@ public final class SpringProperties {
 	}
 
 	/**
-	 * Programmatically set a local flag to "true", overriding an
-	 * entry in the {@code spring.properties} file (if any).
+	 * Programmatically set a local flag to "true", overriding an entry in the
+	 * {@code spring.properties} file (if any).
 	 * @param key the property key
 	 */
 	public static void setFlag(String key) {
@@ -132,8 +131,7 @@ public final class SpringProperties {
 	/**
 	 * Retrieve the flag for the given property key.
 	 * @param key the property key
-	 * @return {@code true} if the property is set to "true",
-	 * {@code} false otherwise
+	 * @return {@code true} if the property is set to "true", {@code} false otherwise
 	 */
 	public static boolean getFlag(String key) {
 		return Boolean.parseBoolean(getProperty(key));

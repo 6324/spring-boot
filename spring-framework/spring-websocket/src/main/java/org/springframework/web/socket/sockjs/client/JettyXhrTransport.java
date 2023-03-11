@@ -49,9 +49,10 @@ import org.springframework.web.socket.sockjs.frame.SockJsFrame;
 /**
  * An XHR transport based on Jetty's {@link org.eclipse.jetty.client.HttpClient}.
  *
- * <p>When used for testing purposes (e.g. load testing) the {@code HttpClient}
- * properties must be set to allow a larger than usual number of connections and
- * threads. For example:
+ * <p>
+ * When used for testing purposes (e.g. load testing) the {@code HttpClient} properties
+ * must be set to allow a larger than usual number of connections and threads. For
+ * example:
  *
  * <pre class="code">
  * HttpClient httpClient = new HttpClient();
@@ -66,12 +67,10 @@ public class JettyXhrTransport extends AbstractXhrTransport implements Lifecycle
 
 	private final HttpClient httpClient;
 
-
 	public JettyXhrTransport(HttpClient httpClient) {
 		Assert.notNull(httpClient, "'httpClient' is required");
 		this.httpClient = httpClient;
 	}
-
 
 	public HttpClient getHttpClient() {
 		return this.httpClient;
@@ -106,10 +105,9 @@ public class JettyXhrTransport extends AbstractXhrTransport implements Lifecycle
 		return this.httpClient.isRunning();
 	}
 
-
 	@Override
-	protected void connectInternal(TransportRequest transportRequest, WebSocketHandler handler,
-			URI url, HttpHeaders handshakeHeaders, XhrClientSockJsSession session,
+	protected void connectInternal(TransportRequest transportRequest, WebSocketHandler handler, URI url,
+			HttpHeaders handshakeHeaders, XhrClientSockJsSession session,
 			SettableListenableFuture<WebSocketSession> connectFuture) {
 
 		HttpHeaders httpHeaders = transportRequest.getHttpRequestHeaders();
@@ -136,8 +134,8 @@ public class JettyXhrTransport extends AbstractXhrTransport implements Lifecycle
 		return executeRequest(url, HttpMethod.POST, headers, message.getPayload());
 	}
 
-	protected ResponseEntity<String> executeRequest(URI url, HttpMethod method,
-			HttpHeaders headers, @Nullable String body) {
+	protected ResponseEntity<String> executeRequest(URI url, HttpMethod method, HttpHeaders headers,
+			@Nullable String body) {
 
 		Request httpRequest = this.httpClient.newRequest(url).method(method);
 		addHttpHeaders(httpRequest, headers);
@@ -153,11 +151,10 @@ public class JettyXhrTransport extends AbstractXhrTransport implements Lifecycle
 		}
 		HttpStatus status = HttpStatus.valueOf(response.getStatus());
 		HttpHeaders responseHeaders = toHttpHeaders(response.getHeaders());
-		return (response.getContent() != null ?
-				new ResponseEntity<>(response.getContentAsString(), responseHeaders, status) :
-				new ResponseEntity<>(responseHeaders, status));
+		return (response.getContent() != null
+				? new ResponseEntity<>(response.getContentAsString(), responseHeaders, status)
+				: new ResponseEntity<>(responseHeaders, status));
 	}
-
 
 	private static void addHttpHeaders(Request request, HttpHeaders headers) {
 		headers.forEach((key, values) -> {
@@ -181,11 +178,10 @@ public class JettyXhrTransport extends AbstractXhrTransport implements Lifecycle
 		return responseHeaders;
 	}
 
-
 	/**
 	 * Jetty client {@link org.eclipse.jetty.client.api.Response.Listener Response
-	 * Listener} that splits the body of the response into SockJS frames and
-	 * delegates them to the {@link XhrClientSockJsSession}.
+	 * Listener} that splits the body of the response into SockJS frames and delegates
+	 * them to the {@link XhrClientSockJsSession}.
 	 */
 	private class SockJsResponseListener extends Response.Listener.Adapter {
 
@@ -199,7 +195,7 @@ public class JettyXhrTransport extends AbstractXhrTransport implements Lifecycle
 
 		private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-		public SockJsResponseListener(URI url, HttpHeaders headers,	XhrClientSockJsSession sockJsSession,
+		public SockJsResponseListener(URI url, HttpHeaders headers, XhrClientSockJsSession sockJsSession,
 				SettableListenableFuture<WebSocketSession> connectFuture) {
 
 			this.transportUrl = url;
@@ -282,6 +278,7 @@ public class JettyXhrTransport extends AbstractXhrTransport implements Lifecycle
 				this.sockJsSession.afterTransportClosed(new CloseStatus(1006, failure.getMessage()));
 			}
 		}
+
 	}
 
 }

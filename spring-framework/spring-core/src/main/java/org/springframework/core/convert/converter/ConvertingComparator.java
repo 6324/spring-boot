@@ -25,9 +25,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.comparator.Comparators;
 
 /**
- * A {@link Comparator} that converts values before they are compared.
- * The specified {@link Converter} will be used to convert each value
- * before it passed to the underlying {@code Comparator}.
+ * A {@link Comparator} that converts values before they are compared. The specified
+ * {@link Converter} will be used to convert each value before it passed to the underlying
+ * {@code Comparator}.
  *
  * @author Phillip Webb
  * @since 3.2
@@ -39,7 +39,6 @@ public class ConvertingComparator<S, T> implements Comparator<S> {
 	private final Comparator<T> comparator;
 
 	private final Converter<S, T> converter;
-
 
 	/**
 	 * Create a new {@link ConvertingComparator} instance.
@@ -67,12 +66,11 @@ public class ConvertingComparator<S, T> implements Comparator<S> {
 	 * @param conversionService the conversion service
 	 * @param targetType the target type
 	 */
-	public ConvertingComparator(
-			Comparator<T> comparator, ConversionService conversionService, Class<? extends T> targetType) {
+	public ConvertingComparator(Comparator<T> comparator, ConversionService conversionService,
+			Class<? extends T> targetType) {
 
 		this(comparator, new ConversionServiceConverter<>(conversionService, targetType));
 	}
-
 
 	@Override
 	public int compare(S o1, S o2) {
@@ -101,7 +99,6 @@ public class ConvertingComparator<S, T> implements Comparator<S> {
 		return new ConvertingComparator<>(comparator, Map.Entry::getValue);
 	}
 
-
 	/**
 	 * Adapts a {@link ConversionService} and <tt>targetType</tt> to a {@link Converter}.
 	 */
@@ -111,8 +108,7 @@ public class ConvertingComparator<S, T> implements Comparator<S> {
 
 		private final Class<? extends T> targetType;
 
-		public ConversionServiceConverter(ConversionService conversionService,
-			Class<? extends T> targetType) {
+		public ConversionServiceConverter(ConversionService conversionService, Class<? extends T> targetType) {
 			Assert.notNull(conversionService, "ConversionService must not be null");
 			Assert.notNull(targetType, "TargetType must not be null");
 			this.conversionService = conversionService;
@@ -124,6 +120,7 @@ public class ConvertingComparator<S, T> implements Comparator<S> {
 		public T convert(S source) {
 			return this.conversionService.convert(source, this.targetType);
 		}
+
 	}
 
 }

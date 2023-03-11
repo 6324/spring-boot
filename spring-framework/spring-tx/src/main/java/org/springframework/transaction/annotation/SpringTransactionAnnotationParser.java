@@ -47,8 +47,8 @@ public class SpringTransactionAnnotationParser implements TransactionAnnotationP
 	@Override
 	@Nullable
 	public TransactionAttribute parseTransactionAnnotation(AnnotatedElement element) {
-		AnnotationAttributes attributes = AnnotatedElementUtils.findMergedAnnotationAttributes(
-				element, Transactional.class, false, false);
+		AnnotationAttributes attributes = AnnotatedElementUtils.findMergedAnnotationAttributes(element,
+				Transactional.class, false, false);
 		if (attributes != null) {
 			return parseTransactionAnnotation(attributes);
 		}
@@ -89,7 +89,6 @@ public class SpringTransactionAnnotationParser implements TransactionAnnotationP
 
 		return rbta;
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {

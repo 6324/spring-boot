@@ -34,7 +34,6 @@ public class MethodNameBasedMBeanInfoAssemblerMappedTests extends AbstractJmxAss
 
 	protected static final String OBJECT_NAME = "bean:name=testBean4";
 
-
 	@Test
 	public void testGetAgeIsReadOnly() throws Exception {
 		ModelMBeanInfo info = getMBeanInfoFromAssembler();
@@ -46,8 +45,8 @@ public class MethodNameBasedMBeanInfoAssemblerMappedTests extends AbstractJmxAss
 
 	@Test
 	public void testWithFallThrough() throws Exception {
-		MethodNameBasedMBeanInfoAssembler assembler =
-				getWithMapping("foobar", "add,myOperation,getName,setName,getAge");
+		MethodNameBasedMBeanInfoAssembler assembler = getWithMapping("foobar",
+				"add,myOperation,getName,setName,getAge");
 		assembler.setManagedMethods("getNickName", "setNickName");
 
 		ModelMBeanInfo inf = assembler.getMBeanInfo(getBean(), getObjectName());

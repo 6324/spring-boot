@@ -47,9 +47,8 @@ import static org.mockito.Mockito.verify;
 public class CciLocalTransactionTests {
 
 	/**
-	 * Test if a transaction ( begin / commit ) is executed on the
-	 * LocalTransaction when CciLocalTransactionManager is specified as
-	 * transaction manager.
+	 * Test if a transaction ( begin / commit ) is executed on the LocalTransaction when
+	 * CciLocalTransactionManager is specified as transaction manager.
 	 */
 	@Test
 	public void testLocalTransactionCommit() throws ResourceException {
@@ -73,7 +72,8 @@ public class CciLocalTransactionTests {
 		tt.execute(new TransactionCallbackWithoutResult() {
 			@Override
 			protected void doInTransactionWithoutResult(TransactionStatus status) {
-				assertThat(TransactionSynchronizationManager.hasResource(connectionFactory)).as("Has thread connection").isTrue();
+				assertThat(TransactionSynchronizationManager.hasResource(connectionFactory)).as("Has thread connection")
+						.isTrue();
 				CciTemplate ct = new CciTemplate(connectionFactory);
 				ct.execute(interactionSpec, record, record);
 			}
@@ -86,9 +86,9 @@ public class CciLocalTransactionTests {
 	}
 
 	/**
-	 * Test if a transaction ( begin / rollback ) is executed on the
-	 * LocalTransaction when CciLocalTransactionManager is specified as
-	 * transaction manager and a non-checked exception is thrown.
+	 * Test if a transaction ( begin / rollback ) is executed on the LocalTransaction when
+	 * CciLocalTransactionManager is specified as transaction manager and a non-checked
+	 * exception is thrown.
 	 */
 	@Test
 	public void testLocalTransactionRollback() throws ResourceException {
@@ -113,7 +113,8 @@ public class CciLocalTransactionTests {
 			tt.execute(new TransactionCallback<Void>() {
 				@Override
 				public Void doInTransaction(TransactionStatus status) {
-					assertThat(TransactionSynchronizationManager.hasResource(connectionFactory)).as("Has thread connection").isTrue();
+					assertThat(TransactionSynchronizationManager.hasResource(connectionFactory))
+							.as("Has thread connection").isTrue();
 					CciTemplate ct = new CciTemplate(connectionFactory);
 					ct.execute(interactionSpec, record, record);
 					throw new DataRetrievalFailureException("error");
@@ -128,4 +129,5 @@ public class CciLocalTransactionTests {
 		verify(localTransaction).rollback();
 		verify(connection).close();
 	}
+
 }

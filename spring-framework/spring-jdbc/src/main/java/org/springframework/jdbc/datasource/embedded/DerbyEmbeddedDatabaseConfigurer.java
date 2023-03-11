@@ -29,7 +29,8 @@ import org.springframework.lang.Nullable;
 /**
  * {@link EmbeddedDatabaseConfigurer} for the Apache Derby database.
  *
- * <p>Call {@link #getInstance()} to get the singleton instance of this class.
+ * <p>
+ * Call {@link #getInstance()} to get the singleton instance of this class.
  *
  * @author Oliver Gierke
  * @author Juergen Hoeller
@@ -41,7 +42,6 @@ final class DerbyEmbeddedDatabaseConfigurer implements EmbeddedDatabaseConfigure
 
 	@Nullable
 	private static DerbyEmbeddedDatabaseConfigurer instance;
-
 
 	/**
 	 * Get the singleton {@link DerbyEmbeddedDatabaseConfigurer} instance.
@@ -57,7 +57,6 @@ final class DerbyEmbeddedDatabaseConfigurer implements EmbeddedDatabaseConfigure
 		return instance;
 	}
 
-
 	private DerbyEmbeddedDatabaseConfigurer() {
 	}
 
@@ -72,8 +71,7 @@ final class DerbyEmbeddedDatabaseConfigurer implements EmbeddedDatabaseConfigure
 	@Override
 	public void shutdown(DataSource dataSource, String databaseName) {
 		try {
-			new EmbeddedDriver().connect(
-					String.format(URL_TEMPLATE, databaseName, "drop=true"), new Properties());
+			new EmbeddedDriver().connect(String.format(URL_TEMPLATE, databaseName, "drop=true"), new Properties());
 		}
 		catch (SQLException ex) {
 			// Error code that indicates successful shutdown

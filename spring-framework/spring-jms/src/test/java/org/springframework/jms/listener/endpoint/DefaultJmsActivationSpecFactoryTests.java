@@ -35,23 +35,24 @@ import static org.mockito.Mockito.mock;
  */
 public class DefaultJmsActivationSpecFactoryTests {
 
-	private final JmsActivationSpecConfig activationSpecConfig = new JmsActivationSpecConfig() {{
-		setMaxConcurrency(5);
-		setPrefetchSize(3);
-		setAcknowledgeMode(Session.AUTO_ACKNOWLEDGE);
-		setClientId("clientid");
-		setDestinationName("destinationname");
-		setDurableSubscriptionName("durableSubscriptionName");
-		setMessageSelector("selector");
-	}};
-
+	private final JmsActivationSpecConfig activationSpecConfig = new JmsActivationSpecConfig() {
+		{
+			setMaxConcurrency(5);
+			setPrefetchSize(3);
+			setAcknowledgeMode(Session.AUTO_ACKNOWLEDGE);
+			setClientId("clientid");
+			setDestinationName("destinationname");
+			setDurableSubscriptionName("durableSubscriptionName");
+			setMessageSelector("selector");
+		}
+	};
 
 	@Test
 	public void activeMQResourceAdapterSetup() {
 		activationSpecConfig.setAcknowledgeMode(Session.SESSION_TRANSACTED);
 		JmsActivationSpecFactory activationSpecFactory = new DefaultJmsActivationSpecFactory();
-		StubActiveMQActivationSpec spec = (StubActiveMQActivationSpec) activationSpecFactory.createActivationSpec(
-				new StubActiveMQResourceAdapter(), activationSpecConfig);
+		StubActiveMQActivationSpec spec = (StubActiveMQActivationSpec) activationSpecFactory
+				.createActivationSpec(new StubActiveMQResourceAdapter(), activationSpecConfig);
 
 		assertThat(spec.getMaxSessions()).isEqualTo(5);
 		assertThat(spec.getMaxMessagesPerSessions()).isEqualTo(3);
@@ -76,14 +77,13 @@ public class DefaultJmsActivationSpecFactoryTests {
 		assertThat(spec.getMaxBatchSize()).isEqualTo(3);
 	}
 
-
 	private static class StubActiveMQResourceAdapter extends StubResourceAdapter {
-	}
 
+	}
 
 	private static class StubWebSphereResourceAdapterImpl extends StubResourceAdapter {
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class StubActiveMQActivationSpec extends StubJmsActivationSpec {
@@ -127,8 +127,8 @@ public class DefaultJmsActivationSpecFactoryTests {
 		public void setUseRAManagedTransaction(boolean useRAManagedTransaction) {
 			this.useRAManagedTransaction = useRAManagedTransaction;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class StubWebSphereActivationSpecImpl extends StubJmsActivationSpec {
@@ -162,6 +162,7 @@ public class DefaultJmsActivationSpecFactoryTests {
 		public void setMaxBatchSize(int maxBatchSize) {
 			this.maxBatchSize = maxBatchSize;
 		}
+
 	}
 
 }

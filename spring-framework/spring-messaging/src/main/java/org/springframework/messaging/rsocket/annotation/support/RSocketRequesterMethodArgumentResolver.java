@@ -26,8 +26,8 @@ import org.springframework.messaging.rsocket.RSocketRequester;
 import org.springframework.util.Assert;
 
 /**
- * Resolves arguments of type {@link RSocket} that can be used for making
- * requests to the remote peer.
+ * Resolves arguments of type {@link RSocket} that can be used for making requests to the
+ * remote peer.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -35,11 +35,10 @@ import org.springframework.util.Assert;
 public class RSocketRequesterMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
 	/**
-	 * Message header name that is expected to have the {@link RSocket} to
-	 * initiate new interactions to the remote peer with.
+	 * Message header name that is expected to have the {@link RSocket} to initiate new
+	 * interactions to the remote peer with.
 	 */
 	public static final String RSOCKET_REQUESTER_HEADER = "rsocketRequester";
-
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {

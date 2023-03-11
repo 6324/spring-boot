@@ -186,14 +186,17 @@ public class ProxyFactoryTests {
 	public void testGetsAllInterfaces() {
 		// Extend to get new interface
 		class TestBeanSubclass extends TestBean implements Comparable<Object> {
+
 			@Override
 			public int compareTo(Object arg0) {
 				throw new UnsupportedOperationException("compareTo");
 			}
+
 		}
 		TestBeanSubclass raw = new TestBeanSubclass();
 		ProxyFactory factory = new ProxyFactory(raw);
-		//System.out.println("Proxied interfaces are " + StringUtils.arrayToDelimitedString(factory.getProxiedInterfaces(), ","));
+		// System.out.println("Proxied interfaces are " +
+		// StringUtils.arrayToDelimitedString(factory.getProxiedInterfaces(), ","));
 		assertThat(factory.getProxiedInterfaces().length).as("Found correct number of interfaces").isEqualTo(5);
 		ITestBean tb = (ITestBean) factory.getProxy();
 		assertThat(tb).as("Picked up secondary interface").isInstanceOf(IOther.class);
@@ -208,7 +211,8 @@ public class ProxyFactoryTests {
 		factory.addAdvisor(0, new DefaultIntroductionAdvisor(ti, TimeStamped.class));
 
 		Class<?>[] newProxiedInterfaces = factory.getProxiedInterfaces();
-		assertThat(newProxiedInterfaces.length).as("Advisor proxies one more interface after introduction").isEqualTo(oldProxiedInterfaces.length + 1);
+		assertThat(newProxiedInterfaces.length).as("Advisor proxies one more interface after introduction")
+				.isEqualTo(oldProxiedInterfaces.length + 1);
 
 		TimeStamped ts = (TimeStamped) factory.getProxy();
 		assertThat(ts.getTimeStamp() == t).isTrue();
@@ -219,10 +223,12 @@ public class ProxyFactoryTests {
 	@Test
 	public void testInterceptorInclusionMethods() {
 		class MyInterceptor implements MethodInterceptor {
+
 			@Override
 			public Object invoke(MethodInvocation invocation) throws Throwable {
 				throw new UnsupportedOperationException();
 			}
+
 		}
 
 		NopInterceptor di = new NopInterceptor();
@@ -247,7 +253,8 @@ public class ProxyFactoryTests {
 	public void testCanAddAndRemoveAspectInterfacesOnSingleton() {
 		ProxyFactory config = new ProxyFactory(new TestBean());
 
-		assertThat(config.getProxy() instanceof TimeStamped).as("Shouldn't implement TimeStamped before manipulation").isFalse();
+		assertThat(config.getProxy() instanceof TimeStamped).as("Shouldn't implement TimeStamped before manipulation")
+				.isFalse();
 
 		long time = 666L;
 		TimestampIntroductionInterceptor ti = new TimestampIntroductionInterceptor();
@@ -267,8 +274,7 @@ public class ProxyFactoryTests {
 
 		assertThat(config.getAdvisors().length == oldCount).isTrue();
 
-		assertThatExceptionOfType(RuntimeException.class)
-				.as("Existing object won't implement this interface any more")
+		assertThatExceptionOfType(RuntimeException.class).as("Existing object won't implement this interface any more")
 				.isThrownBy(ts::getTimeStamp); // Existing reference will fail
 
 		assertThat(config.getProxy() instanceof TimeStamped).as("Should no longer implement TimeStamped").isFalse();
@@ -370,22 +376,22 @@ public class ProxyFactoryTests {
 		assertThat(proxy.getName()).isEqualTo("tb");
 	}
 
-
 	@Order(2)
 	public static class A implements Runnable {
 
 		@Override
 		public void run() {
 		}
+
 	}
 
-
 	@Order(1)
-	public static class B implements Runnable{
+	public static class B implements Runnable {
 
 		@Override
 		public void run() {
 		}
+
 	}
 
 }

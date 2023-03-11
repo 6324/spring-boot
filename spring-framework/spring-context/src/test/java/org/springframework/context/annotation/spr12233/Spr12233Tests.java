@@ -29,7 +29,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
-
 /**
  * Tests cornering the regression reported in SPR-12233.
  *
@@ -47,6 +46,7 @@ public class Spr12233Tests {
 	}
 
 	static class NeverConfigurationCondition implements ConfigurationCondition {
+
 		@Override
 		public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
 			return false;
@@ -56,6 +56,7 @@ public class Spr12233Tests {
 		public ConfigurationPhase getConfigurationPhase() {
 			return ConfigurationPhase.REGISTER_BEAN;
 		}
+
 	}
 
 	@Import(ComponentScanningConfiguration.class)
@@ -69,12 +70,13 @@ public class Spr12233Tests {
 
 	}
 
-
 	@Configuration
 	@Conditional(NeverConfigurationCondition.class)
 	static class ConditionWithPropertyValueInjection {
 
 		@Value("${idontexist}")
 		private String property;
+
 	}
+
 }

@@ -124,7 +124,7 @@ class JOptCommandLinePropertySourceTests {
 	@Test
 	void withDefaultNonOptionArgsNameAndNoNonOptionArgsPresent() {
 		OptionParser parser = new OptionParser();
-		parser.acceptsAll(Arrays.asList("o1","option1")).withRequiredArg();
+		parser.acceptsAll(Arrays.asList("o1", "option1")).withRequiredArg();
 		parser.accepts("o2");
 		OptionSet optionSet = parser.parse("--o1=v1", "--o2");
 		EnumerablePropertySource<?> ps = new JOptCommandLinePropertySource(optionSet);
@@ -181,7 +181,9 @@ class JOptCommandLinePropertySourceTests {
 	}
 
 	public enum OptionEnum {
+
 		VAL_1;
+
 	}
 
 }

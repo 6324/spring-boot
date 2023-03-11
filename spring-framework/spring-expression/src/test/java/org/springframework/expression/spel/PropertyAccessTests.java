@@ -76,19 +76,19 @@ public class PropertyAccessTests extends AbstractExpressionTests {
 
 	/**
 	 * The standard reflection resolver cannot find properties on null objects but some
-	 * supplied resolver might be able to - so null shouldn't crash the reflection resolver.
+	 * supplied resolver might be able to - so null shouldn't crash the reflection
+	 * resolver.
 	 */
 	@Test
 	public void testAccessingOnNullObject() {
-		SpelExpression expr = (SpelExpression)parser.parseExpression("madeup");
+		SpelExpression expr = (SpelExpression) parser.parseExpression("madeup");
 		EvaluationContext context = new StandardEvaluationContext(null);
-		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(() ->
-				expr.getValue(context))
-			.satisfies(ex -> assertThat(ex.getMessageCode()).isEqualTo(SpelMessage.PROPERTY_OR_FIELD_NOT_READABLE_ON_NULL));
+		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(() -> expr.getValue(context)).satisfies(
+				ex -> assertThat(ex.getMessageCode()).isEqualTo(SpelMessage.PROPERTY_OR_FIELD_NOT_READABLE_ON_NULL));
 		assertThat(expr.isWritable(context)).isFalse();
-		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(() ->
-				expr.setValue(context, "abc"))
-			.satisfies(ex -> assertThat(ex.getMessageCode()).isEqualTo(SpelMessage.PROPERTY_OR_FIELD_NOT_WRITABLE_ON_NULL));
+		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(() -> expr.setValue(context, "abc"))
+				.satisfies(ex -> assertThat(ex.getMessageCode())
+						.isEqualTo(SpelMessage.PROPERTY_OR_FIELD_NOT_WRITABLE_ON_NULL));
 	}
 
 	@Test
@@ -97,8 +97,10 @@ public class PropertyAccessTests extends AbstractExpressionTests {
 		SpelExpressionParser parser = new SpelExpressionParser();
 		StandardEvaluationContext ctx = new StandardEvaluationContext();
 
-		// Even though this property accessor is added after the reflection one, it specifically
-		// names the String class as the type it is interested in so is chosen in preference to
+		// Even though this property accessor is added after the reflection one, it
+		// specifically
+		// names the String class as the type it is interested in so is chosen in
+		// preference to
 		// any 'default' ones
 		ctx.addPropertyAccessor(new StringyPropertyAccessor());
 		Expression expr = parser.parseRaw("new String('hello').flibbles");
@@ -116,9 +118,9 @@ public class PropertyAccessTests extends AbstractExpressionTests {
 		assertThat((int) i).isEqualTo(99);
 
 		// Cannot set it to a string value
-		assertThatExceptionOfType(EvaluationException.class).isThrownBy(() ->
-				flibbleexpr.setValue(ctx, "not allowed"));
-		// message will be: EL1063E:(pos 20): A problem occurred whilst attempting to set the property
+		assertThatExceptionOfType(EvaluationException.class).isThrownBy(() -> flibbleexpr.setValue(ctx, "not allowed"));
+		// message will be: EL1063E:(pos 20): A problem occurred whilst attempting to set
+		// the property
 		// 'flibbles': 'Cannot set flibbles to an object of type 'class java.lang.String''
 		// System.out.println(e.getMessage());
 	}
@@ -173,8 +175,8 @@ public class PropertyAccessTests extends AbstractExpressionTests {
 	@Test
 	public void noGetClassAccess() {
 		EvaluationContext context = SimpleEvaluationContext.forReadOnlyDataBinding().build();
-		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(() ->
-				parser.parseExpression("'a'.class.name").getValue(context));
+		assertThatExceptionOfType(SpelEvaluationException.class)
+				.isThrownBy(() -> parser.parseExpression("'a'.class.name").getValue(context));
 	}
 
 	@Test
@@ -187,8 +189,8 @@ public class PropertyAccessTests extends AbstractExpressionTests {
 		target.setName("p2");
 		assertThat(expr.getValue(context, target)).isEqualTo("p2");
 
-		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(() ->
-				parser.parseExpression("name='p3'").getValue(context, target));
+		assertThatExceptionOfType(SpelEvaluationException.class)
+				.isThrownBy(() -> parser.parseExpression("name='p3'").getValue(context, target));
 	}
 
 	@Test
@@ -234,8 +236,8 @@ public class PropertyAccessTests extends AbstractExpressionTests {
 	public void propertyAccessWithoutMethodResolver() {
 		EvaluationContext context = SimpleEvaluationContext.forReadOnlyDataBinding().build();
 		Person target = new Person("p1");
-		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(() ->
-				parser.parseExpression("name.substring(1)").getValue(context, target));
+		assertThatExceptionOfType(SpelEvaluationException.class)
+				.isThrownBy(() -> parser.parseExpression("name.substring(1)").getValue(context, target));
 	}
 
 	@Test
@@ -248,8 +250,8 @@ public class PropertyAccessTests extends AbstractExpressionTests {
 	@Test
 	public void propertyAccessWithInstanceMethodResolverAndTypedRootObject() {
 		Person target = new Person("p1");
-		EvaluationContext context = SimpleEvaluationContext.forReadOnlyDataBinding().
-				withInstanceMethods().withTypedRootObject(target, TypeDescriptor.valueOf(Object.class)).build();
+		EvaluationContext context = SimpleEvaluationContext.forReadOnlyDataBinding().withInstanceMethods()
+				.withTypedRootObject(target, TypeDescriptor.valueOf(Object.class)).build();
 
 		assertThat(parser.parseExpression("name.substring(1)").getValue(context, target)).isEqualTo("1");
 		assertThat(context.getRootObject().getValue()).isSameAs(target);
@@ -261,10 +263,9 @@ public class PropertyAccessTests extends AbstractExpressionTests {
 		EvaluationContext context = SimpleEvaluationContext.forReadOnlyDataBinding().build();
 		Expression expression = parser.parseExpression("stringArrayOfThreeItems[3]");
 		assertThatExceptionOfType(SpelEvaluationException.class)
-			.isThrownBy(() -> expression.getValue(context, new Inventor()))
-			.satisfies(ex -> assertThat(ex.getMessageCode()).isEqualTo(SpelMessage.ARRAY_INDEX_OUT_OF_BOUNDS));
+				.isThrownBy(() -> expression.getValue(context, new Inventor()))
+				.satisfies(ex -> assertThat(ex.getMessageCode()).isEqualTo(SpelMessage.ARRAY_INDEX_OUT_OF_BOUNDS));
 	}
-
 
 	// This can resolve the property 'flibbles' on any String (very useful...)
 	private static class StringyPropertyAccessor implements PropertyAccessor {
@@ -273,7 +274,7 @@ public class PropertyAccessTests extends AbstractExpressionTests {
 
 		@Override
 		public Class<?>[] getSpecificTargetClasses() {
-			return new Class<?>[] {String.class};
+			return new Class<?>[] { String.class };
 		}
 
 		@Override
@@ -301,7 +302,8 @@ public class PropertyAccessTests extends AbstractExpressionTests {
 		}
 
 		@Override
-		public void write(EvaluationContext context, Object target, String name, Object newValue) throws AccessException {
+		public void write(EvaluationContext context, Object target, String name, Object newValue)
+				throws AccessException {
 			if (!name.equals("flibbles")) {
 				throw new RuntimeException("Assertion Failed! name should be flibbles");
 			}
@@ -313,8 +315,8 @@ public class PropertyAccessTests extends AbstractExpressionTests {
 				throw new AccessException("Cannot set flibbles to an object of type '" + newValue.getClass() + "'");
 			}
 		}
-	}
 
+	}
 
 	private static class ConfigurablePropertyAccessor implements PropertyAccessor {
 
@@ -347,6 +349,7 @@ public class PropertyAccessTests extends AbstractExpressionTests {
 		@Override
 		public void write(EvaluationContext context, Object target, String name, Object newValue) {
 		}
+
 	}
 
 }

@@ -44,7 +44,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Thomas Risberg
  */
-public class TableMetaDataContextTests  {
+public class TableMetaDataContextTests {
 
 	private Connection connection;
 
@@ -54,7 +54,6 @@ public class TableMetaDataContextTests  {
 
 	private TableMetaDataContext context = new TableMetaDataContext();
 
-
 	@BeforeEach
 	public void setUp() throws Exception {
 		connection = mock(Connection.class);
@@ -63,7 +62,6 @@ public class TableMetaDataContextTests  {
 		given(connection.getMetaData()).willReturn(databaseMetaData);
 		given(dataSource.getConnection()).willReturn(connection);
 	}
-
 
 	@Test
 	public void testMatchInParametersAndSqlTypeInfoWrapping() throws Exception {
@@ -77,14 +75,10 @@ public class TableMetaDataContextTests  {
 		given(metaDataResultSet.getString("TABLE_TYPE")).willReturn("TABLE");
 
 		ResultSet columnsResultSet = mock(ResultSet.class);
-		given(columnsResultSet.next()).willReturn(
-				true, true, true, true, false);
-		given(columnsResultSet.getString("COLUMN_NAME")).willReturn(
-				"id", "name", "customersince", "version");
-		given(columnsResultSet.getInt("DATA_TYPE")).willReturn(
-				Types.INTEGER, Types.VARCHAR, Types.DATE, Types.NUMERIC);
-		given(columnsResultSet.getBoolean("NULLABLE")).willReturn(
-				false, true, true, false);
+		given(columnsResultSet.next()).willReturn(true, true, true, true, false);
+		given(columnsResultSet.getString("COLUMN_NAME")).willReturn("id", "name", "customersince", "version");
+		given(columnsResultSet.getInt("DATA_TYPE")).willReturn(Types.INTEGER, Types.VARCHAR, Types.DATE, Types.NUMERIC);
+		given(columnsResultSet.getBoolean("NULLABLE")).willReturn(false, true, true, false);
 
 		given(databaseMetaData.getDatabaseProductName()).willReturn("MyDB");
 		given(databaseMetaData.getDatabaseProductName()).willReturn("1.0");
@@ -153,7 +147,8 @@ public class TableMetaDataContextTests  {
 		String insertString = context.createInsertString(keyCols);
 
 		assertThat(values.size()).as("wrong number of parameters: ").isEqualTo(0);
-		assertThat(insertString).as("empty insert not generated correctly").isEqualTo("INSERT INTO customers () VALUES()");
+		assertThat(insertString).as("empty insert not generated correctly")
+				.isEqualTo("INSERT INTO customers () VALUES()");
 		verify(metaDataResultSet, atLeastOnce()).next();
 		verify(columnsResultSet, atLeastOnce()).next();
 		verify(metaDataResultSet).close();

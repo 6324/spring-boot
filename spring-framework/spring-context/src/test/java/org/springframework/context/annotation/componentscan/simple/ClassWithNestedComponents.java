@@ -22,10 +22,12 @@ public class ClassWithNestedComponents {
 
 	@Component
 	public static class NestedComponent extends ClassWithNestedComponents {
+
 	}
 
 	@Component
 	public static class OtherNestedComponent extends ClassWithNestedComponents {
+
 	}
 
 }

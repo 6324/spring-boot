@@ -204,13 +204,11 @@ public class MessageHeaderAccessorTests {
 		MessageHeaders headers = accessor.getMessageHeaders();
 		Message<?> message = MessageBuilder.createMessage("payload", headers);
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				accessor.setLeaveMutable(true))
-			.withMessageContaining("Already immutable");
+		assertThatIllegalStateException().isThrownBy(() -> accessor.setLeaveMutable(true))
+				.withMessageContaining("Already immutable");
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				accessor.setHeader("foo", "baz"))
-			.withMessageContaining("Already immutable");
+		assertThatIllegalStateException().isThrownBy(() -> accessor.setHeader("foo", "baz"))
+				.withMessageContaining("Already immutable");
 
 		assertThat(headers.get("foo")).isEqualTo("bar");
 		assertThat(MessageHeaderAccessor.getAccessor(message, MessageHeaderAccessor.class)).isSameAs(accessor);
@@ -281,7 +279,6 @@ public class MessageHeaderAccessorTests {
 		MessageHeaderAccessor accessor = new MessageHeaderAccessor();
 		assertThat(accessor.getMessageHeaders().getId()).isNotNull();
 	}
-
 
 	@Test
 	public void idTimestampWithMutableHeaders() {
@@ -390,7 +387,6 @@ public class MessageHeaderAccessorTests {
 		assertThat(output.getHeaders().get(MessageHeaders.CONTENT_TYPE)).isNotNull();
 	}
 
-
 	public static class TestMessageHeaderAccessor extends MessageHeaderAccessor {
 
 		public TestMessageHeaderAccessor() {
@@ -408,6 +404,7 @@ public class MessageHeaderAccessorTests {
 		protected TestMessageHeaderAccessor createAccessor(Message<?> message) {
 			return wrap(message);
 		}
+
 	}
 
 }

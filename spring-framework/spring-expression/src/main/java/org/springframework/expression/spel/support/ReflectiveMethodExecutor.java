@@ -52,7 +52,6 @@ public class ReflectiveMethodExecutor implements MethodExecutor {
 
 	private boolean argumentConversionOccurred = false;
 
-
 	/**
 	 * Create a new executor for the given method.
 	 * @param method the method to invoke
@@ -68,7 +67,6 @@ public class ReflectiveMethodExecutor implements MethodExecutor {
 		}
 	}
 
-
 	/**
 	 * Return the original method that this executor has been configured for.
 	 */
@@ -77,18 +75,19 @@ public class ReflectiveMethodExecutor implements MethodExecutor {
 	}
 
 	/**
-	 * Find the first public class in the methods declaring class hierarchy that declares this method.
-	 * Sometimes the reflective method discovery logic finds a suitable method that can easily be
-	 * called via reflection but cannot be called from generated code when compiling the expression
-	 * because of visibility restrictions. For example if a non-public class overrides toString(),
-	 * this helper method will walk up the type hierarchy to find the first public type that declares
-	 * the method (if there is one!). For toString() it may walk as far as Object.
+	 * Find the first public class in the methods declaring class hierarchy that declares
+	 * this method. Sometimes the reflective method discovery logic finds a suitable
+	 * method that can easily be called via reflection but cannot be called from generated
+	 * code when compiling the expression because of visibility restrictions. For example
+	 * if a non-public class overrides toString(), this helper method will walk up the
+	 * type hierarchy to find the first public type that declares the method (if there is
+	 * one!). For toString() it may walk as far as Object.
 	 */
 	@Nullable
 	public Class<?> getPublicDeclaringClass() {
 		if (!this.computedPublicDeclaringClass) {
-			this.publicDeclaringClass =
-					discoverPublicDeclaringClass(this.originalMethod, this.originalMethod.getDeclaringClass());
+			this.publicDeclaringClass = discoverPublicDeclaringClass(this.originalMethod,
+					this.originalMethod.getDeclaringClass());
 			this.computedPublicDeclaringClass = true;
 		}
 		return this.publicDeclaringClass;
@@ -115,19 +114,19 @@ public class ReflectiveMethodExecutor implements MethodExecutor {
 		return this.argumentConversionOccurred;
 	}
 
-
 	@Override
 	public TypedValue execute(EvaluationContext context, Object target, Object... arguments) throws AccessException {
 		try {
-			this.argumentConversionOccurred = ReflectionHelper.convertArguments(
-					context.getTypeConverter(), arguments, this.originalMethod, this.varargsPosition);
+			this.argumentConversionOccurred = ReflectionHelper.convertArguments(context.getTypeConverter(), arguments,
+					this.originalMethod, this.varargsPosition);
 			if (this.originalMethod.isVarArgs()) {
-				arguments = ReflectionHelper.setupArgumentsForVarargsInvocation(
-						this.originalMethod.getParameterTypes(), arguments);
+				arguments = ReflectionHelper.setupArgumentsForVarargsInvocation(this.originalMethod.getParameterTypes(),
+						arguments);
 			}
 			ReflectionUtils.makeAccessible(this.methodToInvoke);
 			Object value = this.methodToInvoke.invoke(target, arguments);
-			return new TypedValue(value, new TypeDescriptor(new MethodParameter(this.originalMethod, -1)).narrow(value));
+			return new TypedValue(value,
+					new TypeDescriptor(new MethodParameter(this.originalMethod, -1)).narrow(value));
 		}
 		catch (Exception ex) {
 			throw new AccessException("Problem invoking method: " + this.methodToInvoke, ex);

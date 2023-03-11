@@ -27,8 +27,8 @@ import org.springframework.core.convert.converter.ConditionalGenericConverter;
 import org.springframework.lang.Nullable;
 
 /**
- * Converts an Object to a single-element Collection containing the Object.
- * Will convert the Object to the target Collection's parameterized type if necessary.
+ * Converts an Object to a single-element Collection containing the Object. Will convert
+ * the Object to the target Collection's parameterized type if necessary.
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -38,11 +38,9 @@ final class ObjectToCollectionConverter implements ConditionalGenericConverter {
 
 	private final ConversionService conversionService;
 
-
 	public ObjectToCollectionConverter(ConversionService conversionService) {
 		this.conversionService = conversionService;
 	}
-
 
 	@Override
 	public Set<ConvertiblePair> getConvertibleTypes() {
@@ -51,7 +49,8 @@ final class ObjectToCollectionConverter implements ConditionalGenericConverter {
 
 	@Override
 	public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
-		return ConversionUtils.canConvertElements(sourceType, targetType.getElementTypeDescriptor(), this.conversionService);
+		return ConversionUtils.canConvertElements(sourceType, targetType.getElementTypeDescriptor(),
+				this.conversionService);
 	}
 
 	@Override

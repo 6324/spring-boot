@@ -21,8 +21,7 @@ import org.springframework.core.annotation.MergedAnnotations;
 import org.springframework.core.type.MethodMetadata;
 
 /**
- * {@link MethodMetadata} created from a
- * {@link SimpleMethodMetadataReadingVisitor}.
+ * {@link MethodMetadata} created from a {@link SimpleMethodMetadataReadingVisitor}.
  *
  * @author Phillip Webb
  * @since 5.2
@@ -39,9 +38,8 @@ final class SimpleMethodMetadata implements MethodMetadata {
 
 	private final MergedAnnotations annotations;
 
-
-	public SimpleMethodMetadata(String methodName, int access, String declaringClassName,
-			String returnTypeName, MergedAnnotations annotations) {
+	public SimpleMethodMetadata(String methodName, int access, String declaringClassName, String returnTypeName,
+			MergedAnnotations annotations) {
 
 		this.methodName = methodName;
 		this.access = access;
@@ -49,7 +47,6 @@ final class SimpleMethodMetadata implements MethodMetadata {
 		this.returnTypeName = returnTypeName;
 		this.annotations = annotations;
 	}
-
 
 	@Override
 	public String getMethodName() {

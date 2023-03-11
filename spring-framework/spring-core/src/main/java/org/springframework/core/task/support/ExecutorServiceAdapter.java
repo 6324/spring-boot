@@ -24,19 +24,21 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.util.Assert;
 
 /**
- * Adapter that takes a Spring {@link org.springframework.core.task.TaskExecutor}
- * and exposes a full {@code java.util.concurrent.ExecutorService} for it.
+ * Adapter that takes a Spring {@link org.springframework.core.task.TaskExecutor} and
+ * exposes a full {@code java.util.concurrent.ExecutorService} for it.
  *
- * <p>This is primarily for adapting to client components that communicate via the
- * {@code java.util.concurrent.ExecutorService} API. It can also be used as
- * common ground between a local Spring {@code TaskExecutor} backend and a
- * JNDI-located {@code ManagedExecutorService} in a Java EE 7 environment.
+ * <p>
+ * This is primarily for adapting to client components that communicate via the
+ * {@code java.util.concurrent.ExecutorService} API. It can also be used as common ground
+ * between a local Spring {@code TaskExecutor} backend and a JNDI-located
+ * {@code ManagedExecutorService} in a Java EE 7 environment.
  *
- * <p><b>NOTE:</b> This ExecutorService adapter does <em>not</em> support the
- * lifecycle methods in the {@code java.util.concurrent.ExecutorService} API
- * ("shutdown()" etc), similar to a server-wide {@code ManagedExecutorService}
- * in a Java EE 7 environment. The lifecycle is always up to the backend pool,
- * with this adapter acting as an access-only proxy for that target pool.
+ * <p>
+ * <b>NOTE:</b> This ExecutorService adapter does <em>not</em> support the lifecycle
+ * methods in the {@code java.util.concurrent.ExecutorService} API ("shutdown()" etc),
+ * similar to a server-wide {@code ManagedExecutorService} in a Java EE 7 environment. The
+ * lifecycle is always up to the backend pool, with this adapter acting as an access-only
+ * proxy for that target pool.
  *
  * @author Juergen Hoeller
  * @since 3.0
@@ -46,7 +48,6 @@ public class ExecutorServiceAdapter extends AbstractExecutorService {
 
 	private final TaskExecutor taskExecutor;
 
-
 	/**
 	 * Create a new ExecutorServiceAdapter, using the given target executor.
 	 * @param taskExecutor the target executor to delegate to
@@ -55,7 +56,6 @@ public class ExecutorServiceAdapter extends AbstractExecutorService {
 		Assert.notNull(taskExecutor, "TaskExecutor must not be null");
 		this.taskExecutor = taskExecutor;
 	}
-
 
 	@Override
 	public void execute(Runnable task) {

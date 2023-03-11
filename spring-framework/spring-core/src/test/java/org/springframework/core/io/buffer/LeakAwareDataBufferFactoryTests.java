@@ -30,13 +30,11 @@ class LeakAwareDataBufferFactoryTests {
 
 	private final LeakAwareDataBufferFactory bufferFactory = new LeakAwareDataBufferFactory();
 
-
 	@Test
 	void leak() {
 		DataBuffer dataBuffer = this.bufferFactory.allocateBuffer();
 		try {
-			assertThatExceptionOfType(AssertionError.class).isThrownBy(
-					this.bufferFactory::checkForLeaks);
+			assertThatExceptionOfType(AssertionError.class).isThrownBy(this.bufferFactory::checkForLeaks);
 		}
 		finally {
 			release(dataBuffer);

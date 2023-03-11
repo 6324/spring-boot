@@ -55,7 +55,8 @@ public enum FilterType {
 	 */
 	REGEX,
 
-	/** Filter candidates using a given custom
+	/**
+	 * Filter candidates using a given custom
 	 * {@link org.springframework.core.type.filter.TypeFilter} implementation.
 	 */
 	CUSTOM

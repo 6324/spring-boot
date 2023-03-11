@@ -30,12 +30,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
- *
  * @author Stephane Nicoll
  */
 public class GenericMessageConverterTests {
 
 	private final ConversionService conversionService = new DefaultConversionService();
+
 	private final GenericMessageConverter converter = new GenericMessageConverter(conversionService);
 
 	@Test
@@ -53,8 +53,9 @@ public class GenericMessageConverterTests {
 	@Test
 	public void fromMessageWithFailedConversion() {
 		Message<String> content = MessageBuilder.withPayload("test not a number").build();
-		assertThatExceptionOfType(MessageConversionException.class).isThrownBy(() ->
-				converter.fromMessage(content, Integer.class))
-			.withCauseInstanceOf(ConversionException.class);
+		assertThatExceptionOfType(MessageConversionException.class)
+				.isThrownBy(() -> converter.fromMessage(content, Integer.class))
+				.withCauseInstanceOf(ConversionException.class);
 	}
+
 }

@@ -42,6 +42,7 @@ import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for {@link VersionResourceResolver}.
+ *
  * @author Rossen Stoyanchev
  * @author Brian Clozel
  */
@@ -54,7 +55,6 @@ public class VersionResourceResolverTests {
 	private ResourceResolverChain chain;
 
 	private VersionStrategy versionStrategy;
-
 
 	@BeforeEach
 	public void setup() {
@@ -74,8 +74,7 @@ public class VersionResourceResolverTests {
 		given(this.chain.resolveResource(null, file, this.locations)).willReturn(Mono.just(expected));
 
 		this.resolver.setStrategyMap(Collections.singletonMap("/**", this.versionStrategy));
-		Resource actual = this.resolver
-				.resolveResourceInternal(null, file, this.locations, this.chain)
+		Resource actual = this.resolver.resolveResourceInternal(null, file, this.locations, this.chain)
 				.block(Duration.ofMillis(5000));
 
 		assertThat(actual).isEqualTo(expected);
@@ -89,8 +88,7 @@ public class VersionResourceResolverTests {
 		given(this.chain.resolveResource(null, file, this.locations)).willReturn(Mono.empty());
 
 		this.resolver.setStrategyMap(Collections.emptyMap());
-		Resource actual = this.resolver
-				.resolveResourceInternal(null, file, this.locations, this.chain)
+		Resource actual = this.resolver.resolveResourceInternal(null, file, this.locations, this.chain)
 				.block(Duration.ofMillis(5000));
 
 		assertThat((Object) actual).isNull();
@@ -104,8 +102,7 @@ public class VersionResourceResolverTests {
 		given(this.versionStrategy.extractVersion(file)).willReturn("");
 
 		this.resolver.setStrategyMap(Collections.singletonMap("/**", this.versionStrategy));
-		Resource actual = this.resolver
-				.resolveResourceInternal(null, file, this.locations, this.chain)
+		Resource actual = this.resolver.resolveResourceInternal(null, file, this.locations, this.chain)
 				.block(Duration.ofMillis(5000));
 
 		assertThat((Object) actual).isNull();
@@ -124,8 +121,7 @@ public class VersionResourceResolverTests {
 		given(this.versionStrategy.removeVersion(versionFile, version)).willReturn(file);
 
 		this.resolver.setStrategyMap(Collections.singletonMap("/**", this.versionStrategy));
-		Resource actual = this.resolver
-				.resolveResourceInternal(null, versionFile, this.locations, this.chain)
+		Resource actual = this.resolver.resolveResourceInternal(null, versionFile, this.locations, this.chain)
 				.block(Duration.ofMillis(5000));
 
 		assertThat((Object) actual).isNull();
@@ -145,8 +141,7 @@ public class VersionResourceResolverTests {
 		given(this.versionStrategy.getResourceVersion(expected)).willReturn(Mono.just("newer-version"));
 
 		this.resolver.setStrategyMap(Collections.singletonMap("/**", this.versionStrategy));
-		Resource actual = this.resolver
-				.resolveResourceInternal(null, versionFile, this.locations, this.chain)
+		Resource actual = this.resolver.resolveResourceInternal(null, versionFile, this.locations, this.chain)
 				.block(Duration.ofMillis(5000));
 
 		assertThat((Object) actual).isNull();
@@ -168,8 +163,7 @@ public class VersionResourceResolverTests {
 		given(this.versionStrategy.getResourceVersion(expected)).willReturn(Mono.just(version));
 
 		this.resolver.setStrategyMap(Collections.singletonMap("/**", this.versionStrategy));
-		Resource actual = this.resolver
-				.resolveResourceInternal(exchange, versionFile, this.locations, this.chain)
+		Resource actual = this.resolver.resolveResourceInternal(exchange, versionFile, this.locations, this.chain)
 				.block(Duration.ofMillis(5000));
 
 		assertThat(actual.getFilename()).isEqualTo(expected.getFilename());
@@ -200,14 +194,12 @@ public class VersionResourceResolverTests {
 
 		assertThat(this.resolver.getStrategyMap()).hasSize(4);
 
-		assertThat(this.resolver.getStrategyForPath("js/something.js"))
-				.isInstanceOf(FixedVersionStrategy.class);
+		assertThat(this.resolver.getStrategyForPath("js/something.js")).isInstanceOf(FixedVersionStrategy.class);
 
 		assertThat(this.resolver.getStrategyForPath("fixedversion/js/something.js"))
 				.isInstanceOf(FixedVersionStrategy.class);
 
-		assertThat(this.resolver.getStrategyForPath("css/something.css"))
-				.isInstanceOf(FixedVersionStrategy.class);
+		assertThat(this.resolver.getStrategyForPath("css/something.css")).isInstanceOf(FixedVersionStrategy.class);
 
 		assertThat(this.resolver.getStrategyForPath("fixedversion/css/something.css"))
 				.isInstanceOf(FixedVersionStrategy.class);
@@ -220,6 +212,5 @@ public class VersionResourceResolverTests {
 				.block(Duration.ofMillis(1000));
 		assertThat(resolved).isEqualTo("/foo.css");
 	}
-
 
 }

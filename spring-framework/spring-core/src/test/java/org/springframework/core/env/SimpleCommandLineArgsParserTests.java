@@ -35,7 +35,6 @@ class SimpleCommandLineArgsParserTests {
 
 	private final SimpleCommandLineArgsParser parser = new SimpleCommandLineArgsParser();
 
-
 	@Test
 	void withNoOptions() {
 		assertThat(parser.parse().getOptionValues("foo")).isNull();
@@ -101,15 +100,15 @@ class SimpleCommandLineArgsParserTests {
 	@Test
 	void assertOptionNamesIsUnmodifiable() {
 		CommandLineArgs args = new SimpleCommandLineArgsParser().parse();
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-				args.getOptionNames().add("bogus"));
+		assertThatExceptionOfType(UnsupportedOperationException.class)
+				.isThrownBy(() -> args.getOptionNames().add("bogus"));
 	}
 
 	@Test
 	void assertNonOptionArgsIsUnmodifiable() {
 		CommandLineArgs args = new SimpleCommandLineArgsParser().parse();
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-				args.getNonOptionArgs().add("foo"));
+		assertThatExceptionOfType(UnsupportedOperationException.class)
+				.isThrownBy(() -> args.getNonOptionArgs().add("foo"));
 	}
 
 }

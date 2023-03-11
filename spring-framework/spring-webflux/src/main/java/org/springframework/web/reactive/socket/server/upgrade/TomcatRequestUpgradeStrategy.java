@@ -54,7 +54,6 @@ public class TomcatRequestUpgradeStrategy implements RequestUpgradeStrategy {
 
 	private static final String SERVER_CONTAINER_ATTR = "javax.websocket.server.ServerContainer";
 
-
 	@Nullable
 	private Long asyncSendTimeout;
 
@@ -69,7 +68,6 @@ public class TomcatRequestUpgradeStrategy implements RequestUpgradeStrategy {
 
 	@Nullable
 	private WsServerContainer serverContainer;
-
 
 	/**
 	 * Exposes the underlying config option on
@@ -123,10 +121,9 @@ public class TomcatRequestUpgradeStrategy implements RequestUpgradeStrategy {
 		return this.maxBinaryMessageBufferSize;
 	}
 
-
 	@Override
-	public Mono<Void> upgrade(ServerWebExchange exchange, WebSocketHandler handler,
-			@Nullable String subProtocol, Supplier<HandshakeInfo> handshakeInfoFactory){
+	public Mono<Void> upgrade(ServerWebExchange exchange, WebSocketHandler handler, @Nullable String subProtocol,
+			Supplier<HandshakeInfo> handshakeInfoFactory) {
 
 		ServerHttpRequest request = exchange.getRequest();
 		ServerHttpResponse response = exchange.getResponse();
@@ -137,21 +134,19 @@ public class TomcatRequestUpgradeStrategy implements RequestUpgradeStrategy {
 		HandshakeInfo handshakeInfo = handshakeInfoFactory.get();
 		DataBufferFactory bufferFactory = response.bufferFactory();
 
-		Endpoint endpoint = new StandardWebSocketHandlerAdapter(
-				handler, session -> new TomcatWebSocketSession(session, handshakeInfo, bufferFactory));
+		Endpoint endpoint = new StandardWebSocketHandlerAdapter(handler,
+				session -> new TomcatWebSocketSession(session, handshakeInfo, bufferFactory));
 
 		String requestURI = servletRequest.getRequestURI();
 		DefaultServerEndpointConfig config = new DefaultServerEndpointConfig(requestURI, endpoint);
-		config.setSubprotocols(subProtocol != null ?
-				Collections.singletonList(subProtocol) : Collections.emptyList());
+		config.setSubprotocols(subProtocol != null ? Collections.singletonList(subProtocol) : Collections.emptyList());
 
 		// Trigger WebFlux preCommit actions and upgrade
-		return exchange.getResponse().setComplete()
-				.then(Mono.fromCallable(() -> {
-					WsServerContainer container = getContainer(servletRequest);
-					container.doUpgrade(servletRequest, servletResponse, config, Collections.emptyMap());
-					return null;
-				}));
+		return exchange.getResponse().setComplete().then(Mono.fromCallable(() -> {
+			WsServerContainer container = getContainer(servletRequest);
+			container.doUpgrade(servletRequest, servletResponse, config, Collections.emptyMap());
+			return null;
+		}));
 	}
 
 	private static HttpServletRequest getNativeRequest(ServerHttpRequest request) {
@@ -162,8 +157,7 @@ public class TomcatRequestUpgradeStrategy implements RequestUpgradeStrategy {
 			return getNativeRequest(((ServerHttpRequestDecorator) request).getDelegate());
 		}
 		else {
-			throw new IllegalArgumentException(
-					"Couldn't find HttpServletRequest in " + request.getClass().getName());
+			throw new IllegalArgumentException("Couldn't find HttpServletRequest in " + request.getClass().getName());
 		}
 	}
 
@@ -175,8 +169,7 @@ public class TomcatRequestUpgradeStrategy implements RequestUpgradeStrategy {
 			return getNativeResponse(((ServerHttpResponseDecorator) response).getDelegate());
 		}
 		else {
-			throw new IllegalArgumentException(
-					"Couldn't find HttpServletResponse in " + response.getClass().getName());
+			throw new IllegalArgumentException("Couldn't find HttpServletResponse in " + response.getClass().getName());
 		}
 	}
 

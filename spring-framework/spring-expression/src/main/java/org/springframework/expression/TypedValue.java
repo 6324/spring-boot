@@ -21,9 +21,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Encapsulates an object and a {@link TypeDescriptor} that describes it.
- * The type descriptor can contain generic declarations that would not
- * be accessible through a simple {@code getClass()} call on the object.
+ * Encapsulates an object and a {@link TypeDescriptor} that describes it. The type
+ * descriptor can contain generic declarations that would not be accessible through a
+ * simple {@code getClass()} call on the object.
  *
  * @author Andy Clement
  * @author Juergen Hoeller
@@ -36,22 +36,20 @@ public class TypedValue {
 	 */
 	public static final TypedValue NULL = new TypedValue(null);
 
-
 	@Nullable
 	private final Object value;
 
 	@Nullable
 	private TypeDescriptor typeDescriptor;
 
-
 	/**
-	 * Create a {@link TypedValue} for a simple object. The {@link TypeDescriptor}
-	 * is inferred from the object, so no generic declarations are preserved.
+	 * Create a {@link TypedValue} for a simple object. The {@link TypeDescriptor} is
+	 * inferred from the object, so no generic declarations are preserved.
 	 * @param value the object value
 	 */
 	public TypedValue(@Nullable Object value) {
 		this.value = value;
-		this.typeDescriptor = null;  // initialized when/if requested
+		this.typeDescriptor = null; // initialized when/if requested
 	}
 
 	/**
@@ -64,7 +62,6 @@ public class TypedValue {
 		this.value = value;
 		this.typeDescriptor = typeDescriptor;
 	}
-
 
 	@Nullable
 	public Object getValue() {
@@ -79,7 +76,6 @@ public class TypedValue {
 		return this.typeDescriptor;
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -90,9 +86,9 @@ public class TypedValue {
 		}
 		TypedValue otherTv = (TypedValue) other;
 		// Avoid TypeDescriptor initialization if not necessary
-		return (ObjectUtils.nullSafeEquals(this.value, otherTv.value) &&
-				((this.typeDescriptor == null && otherTv.typeDescriptor == null) ||
-						ObjectUtils.nullSafeEquals(getTypeDescriptor(), otherTv.getTypeDescriptor())));
+		return (ObjectUtils.nullSafeEquals(this.value, otherTv.value)
+				&& ((this.typeDescriptor == null && otherTv.typeDescriptor == null)
+						|| ObjectUtils.nullSafeEquals(getTypeDescriptor(), otherTv.getTypeDescriptor())));
 	}
 
 	@Override

@@ -29,12 +29,10 @@ public class TestSimpSubscription implements SimpSubscription {
 
 	private TestSimpSession session;
 
-
 	public TestSimpSubscription(String id, String destination) {
 		this.destination = destination;
 		this.id = id;
 	}
-
 
 	@Override
 	public String getId() {
@@ -55,7 +53,6 @@ public class TestSimpSubscription implements SimpSubscription {
 		return destination;
 	}
 
-
 	@Override
 	public boolean equals(Object other) {
 		if (this == other) {
@@ -65,8 +62,8 @@ public class TestSimpSubscription implements SimpSubscription {
 			return false;
 		}
 		SimpSubscription otherSubscription = (SimpSubscription) other;
-		return (ObjectUtils.nullSafeEquals(getSession(), otherSubscription.getSession()) &&
-				this.id.equals(otherSubscription.getId()));
+		return (ObjectUtils.nullSafeEquals(getSession(), otherSubscription.getSession())
+				&& this.id.equals(otherSubscription.getId()));
 	}
 
 	@Override

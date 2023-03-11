@@ -80,7 +80,6 @@ public class BodyExtractorsTests {
 
 	private Optional<ServerHttpResponse> serverResponse = Optional.empty();
 
-
 	@BeforeEach
 	public void createContext() {
 		final List<HttpMessageReader<?>> messageReaders = new ArrayList<>();
@@ -114,45 +113,39 @@ public class BodyExtractorsTests {
 		this.hints = new HashMap<String, Object>();
 	}
 
-
 	@Test
 	public void toMono() {
 		BodyExtractor<Mono<String>, ReactiveHttpInputMessage> extractor = BodyExtractors.toMono(String.class);
 
 		DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
-		DefaultDataBuffer dataBuffer =
-				factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
+		DefaultDataBuffer dataBuffer = factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
 		MockServerHttpRequest request = MockServerHttpRequest.post("/").body(body);
 		Mono<String> result = extractor.extract(request, this.context);
 
-		StepVerifier.create(result)
-				.expectNext("foo")
-				.expectComplete()
-				.verify();
+		StepVerifier.create(result).expectNext("foo").expectComplete().verify();
 	}
 
 	@Test
 	public void toMonoParameterizedTypeReference() {
-		BodyExtractor<Mono<Map<String, String>>, ReactiveHttpInputMessage> extractor =
-				BodyExtractors.toMono(new ParameterizedTypeReference<Map<String, String>>() {});
+		BodyExtractor<Mono<Map<String, String>>, ReactiveHttpInputMessage> extractor = BodyExtractors
+				.toMono(new ParameterizedTypeReference<Map<String, String>>() {
+				});
 
 		DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
-		DefaultDataBuffer dataBuffer =
-				factory.wrap(ByteBuffer.wrap("{\"username\":\"foo\",\"password\":\"bar\"}".getBytes(StandardCharsets.UTF_8)));
+		DefaultDataBuffer dataBuffer = factory
+				.wrap(ByteBuffer.wrap("{\"username\":\"foo\",\"password\":\"bar\"}".getBytes(StandardCharsets.UTF_8)));
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
-		MockServerHttpRequest request = MockServerHttpRequest.post("/").contentType(MediaType.APPLICATION_JSON).body(body);
+		MockServerHttpRequest request = MockServerHttpRequest.post("/").contentType(MediaType.APPLICATION_JSON)
+				.body(body);
 		Mono<Map<String, String>> result = extractor.extract(request, this.context);
 
-		Map<String, String > expected = new LinkedHashMap<>();
+		Map<String, String> expected = new LinkedHashMap<>();
 		expected.put("username", "foo");
 		expected.put("password", "bar");
-		StepVerifier.create(result)
-				.expectNext(expected)
-				.expectComplete()
-				.verify();
+		StepVerifier.create(result).expectNext(expected).expectComplete().verify();
 	}
 
 	@Test
@@ -161,29 +154,26 @@ public class BodyExtractorsTests {
 		this.hints.put(JSON_VIEW_HINT, SafeToDeserialize.class);
 
 		DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
-		DefaultDataBuffer dataBuffer =
-				factory.wrap(ByteBuffer.wrap("{\"username\":\"foo\",\"password\":\"bar\"}".getBytes(StandardCharsets.UTF_8)));
+		DefaultDataBuffer dataBuffer = factory
+				.wrap(ByteBuffer.wrap("{\"username\":\"foo\",\"password\":\"bar\"}".getBytes(StandardCharsets.UTF_8)));
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
-		MockServerHttpRequest request = MockServerHttpRequest.post("/")
-				.contentType(MediaType.APPLICATION_JSON)
+		MockServerHttpRequest request = MockServerHttpRequest.post("/").contentType(MediaType.APPLICATION_JSON)
 				.body(body);
 
 		Mono<User> result = extractor.extract(request, this.context);
 
-		StepVerifier.create(result)
-				.consumeNextWith(user -> {
-					assertThat(user.getUsername()).isEqualTo("foo");
-					assertThat(user.getPassword()).isNull();
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(result).consumeNextWith(user -> {
+			assertThat(user.getUsername()).isEqualTo("foo");
+			assertThat(user.getPassword()).isNull();
+		}).expectComplete().verify();
 	}
 
-	@Test  // SPR-15758
+	@Test // SPR-15758
 	public void toMonoWithEmptyBodyAndNoContentType() {
-		BodyExtractor<Mono<Map<String, String>>, ReactiveHttpInputMessage> extractor =
-				BodyExtractors.toMono(new ParameterizedTypeReference<Map<String, String>>() {});
+		BodyExtractor<Mono<Map<String, String>>, ReactiveHttpInputMessage> extractor = BodyExtractors
+				.toMono(new ParameterizedTypeReference<Map<String, String>>() {
+				});
 
 		MockServerHttpRequest request = MockServerHttpRequest.post("/").body(Flux.empty());
 		Mono<Map<String, String>> result = extractor.extract(request, this.context);
@@ -194,20 +184,17 @@ public class BodyExtractorsTests {
 	@Test
 	public void toMonoVoidAsClientShouldConsumeAndCancel() {
 		DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
-		DefaultDataBuffer dataBuffer =
-				factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
+		DefaultDataBuffer dataBuffer = factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
 		TestPublisher<DataBuffer> body = TestPublisher.create();
 
 		BodyExtractor<Mono<Void>, ReactiveHttpInputMessage> extractor = BodyExtractors.toMono(Void.class);
 		MockClientHttpResponse response = new MockClientHttpResponse(HttpStatus.OK);
 		response.setBody(body.flux());
 
-		StepVerifier.create(extractor.extract(response, this.context))
-				.then(() -> {
-					body.assertWasSubscribed();
-					body.emit(dataBuffer);
-				})
-				.verifyComplete();
+		StepVerifier.create(extractor.extract(response, this.context)).then(() -> {
+			body.assertWasSubscribed();
+			body.emit(dataBuffer);
+		}).verifyComplete();
 
 		body.assertCancelled();
 	}
@@ -220,12 +207,10 @@ public class BodyExtractorsTests {
 		MockClientHttpResponse response = new MockClientHttpResponse(HttpStatus.OK);
 		response.setBody(body.flux());
 
-		StepVerifier.create(extractor.extract(response, this.context))
-				.then(() -> {
-					body.assertWasSubscribed();
-					body.complete();
-				})
-				.verifyComplete();
+		StepVerifier.create(extractor.extract(response, this.context)).then(() -> {
+			body.assertWasSubscribed();
+			body.complete();
+		}).verifyComplete();
 	}
 
 	@Test
@@ -233,17 +218,13 @@ public class BodyExtractorsTests {
 		BodyExtractor<Flux<String>, ReactiveHttpInputMessage> extractor = BodyExtractors.toFlux(String.class);
 
 		DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
-		DefaultDataBuffer dataBuffer =
-				factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
+		DefaultDataBuffer dataBuffer = factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
 		MockServerHttpRequest request = MockServerHttpRequest.post("/").body(body);
 		Flux<String> result = extractor.extract(request, this.context);
 
-		StepVerifier.create(result)
-				.expectNext("foo")
-				.expectComplete()
-				.verify();
+		StepVerifier.create(result).expectNext("foo").expectComplete().verify();
 	}
 
 	@Test
@@ -256,23 +237,18 @@ public class BodyExtractorsTests {
 		DefaultDataBuffer dataBuffer = factory.wrap(ByteBuffer.wrap(text.getBytes(StandardCharsets.UTF_8)));
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
-		MockServerHttpRequest request = MockServerHttpRequest.post("/")
-				.contentType(MediaType.APPLICATION_JSON)
+		MockServerHttpRequest request = MockServerHttpRequest.post("/").contentType(MediaType.APPLICATION_JSON)
 				.body(body);
 
 		Flux<User> result = extractor.extract(request, this.context);
 
-		StepVerifier.create(result)
-				.consumeNextWith(user -> {
-					assertThat(user.getUsername()).isEqualTo("foo");
-					assertThat(user.getPassword()).isNull();
-				})
-				.consumeNextWith(user -> {
-					assertThat(user.getUsername()).isEqualTo("bar");
-					assertThat(user.getPassword()).isNull();
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(result).consumeNextWith(user -> {
+			assertThat(user.getUsername()).isEqualTo("foo");
+			assertThat(user.getPassword()).isNull();
+		}).consumeNextWith(user -> {
+			assertThat(user.getUsername()).isEqualTo("bar");
+			assertThat(user.getPassword()).isNull();
+		}).expectComplete().verify();
 	}
 
 	@Test
@@ -280,12 +256,10 @@ public class BodyExtractorsTests {
 		BodyExtractor<Flux<String>, ReactiveHttpInputMessage> extractor = BodyExtractors.toFlux(String.class);
 
 		DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
-		DefaultDataBuffer dataBuffer =
-				factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
+		DefaultDataBuffer dataBuffer = factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
-		MockServerHttpRequest request = MockServerHttpRequest.post("/")
-				.contentType(MediaType.APPLICATION_JSON)
+		MockServerHttpRequest request = MockServerHttpRequest.post("/").contentType(MediaType.APPLICATION_JSON)
 				.body(body);
 
 		BodyExtractor.Context emptyContext = new BodyExtractor.Context() {
@@ -306,9 +280,7 @@ public class BodyExtractorsTests {
 		};
 
 		Flux<String> result = extractor.extract(request, emptyContext);
-		StepVerifier.create(result)
-				.expectError(UnsupportedMediaTypeException.class)
-				.verify();
+		StepVerifier.create(result).expectError(UnsupportedMediaTypeException.class).verify();
 	}
 
 	@Test
@@ -319,84 +291,67 @@ public class BodyExtractorsTests {
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
 		MockServerHttpRequest request = MockServerHttpRequest.post("/")
-				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.body(body);
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED).body(body);
 
 		Mono<MultiValueMap<String, String>> result = BodyExtractors.toFormData().extract(request, this.context);
 
-		StepVerifier.create(result)
-				.consumeNextWith(form -> {
-					assertThat(form.size()).as("Invalid result").isEqualTo(3);
-					assertThat(form.getFirst("name 1")).as("Invalid result").isEqualTo("value 1");
-					List<String> values = form.get("name 2");
-					assertThat(values.size()).as("Invalid result").isEqualTo(2);
-					assertThat(values.get(0)).as("Invalid result").isEqualTo("value 2+1");
-					assertThat(values.get(1)).as("Invalid result").isEqualTo("value 2+2");
-					assertThat(form.getFirst("name 3")).as("Invalid result").isNull();
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(result).consumeNextWith(form -> {
+			assertThat(form.size()).as("Invalid result").isEqualTo(3);
+			assertThat(form.getFirst("name 1")).as("Invalid result").isEqualTo("value 1");
+			List<String> values = form.get("name 2");
+			assertThat(values.size()).as("Invalid result").isEqualTo(2);
+			assertThat(values.get(0)).as("Invalid result").isEqualTo("value 2+1");
+			assertThat(values.get(1)).as("Invalid result").isEqualTo("value 2+2");
+			assertThat(form.getFirst("name 3")).as("Invalid result").isNull();
+		}).expectComplete().verify();
 	}
 
 	@Test
 	public void toParts() {
 		BodyExtractor<Flux<Part>, ServerHttpRequest> extractor = BodyExtractors.toParts();
 
-		String bodyContents = "-----------------------------9051914041544843365972754266\r\n" +
-				"Content-Disposition: form-data; name=\"text\"\r\n" +
-				"\r\n" +
-				"text default\r\n" +
-				"-----------------------------9051914041544843365972754266\r\n" +
-				"Content-Disposition: form-data; name=\"file1\"; filename=\"a.txt\"\r\n" +
-				"Content-Type: text/plain\r\n" +
-				"\r\n" +
-				"Content of a.txt.\r\n" +
-				"\r\n" +
-				"-----------------------------9051914041544843365972754266\r\n" +
-				"Content-Disposition: form-data; name=\"file2\"; filename=\"a.html\"\r\n" +
-				"Content-Type: text/html\r\n" +
-				"\r\n" +
-				"<!DOCTYPE html><title>Content of a.html.</title>\r\n" +
-				"\r\n" +
-				"-----------------------------9051914041544843365972754266--\r\n";
+		String bodyContents = "-----------------------------9051914041544843365972754266\r\n"
+				+ "Content-Disposition: form-data; name=\"text\"\r\n" + "\r\n" + "text default\r\n"
+				+ "-----------------------------9051914041544843365972754266\r\n"
+				+ "Content-Disposition: form-data; name=\"file1\"; filename=\"a.txt\"\r\n"
+				+ "Content-Type: text/plain\r\n" + "\r\n" + "Content of a.txt.\r\n" + "\r\n"
+				+ "-----------------------------9051914041544843365972754266\r\n"
+				+ "Content-Disposition: form-data; name=\"file2\"; filename=\"a.html\"\r\n"
+				+ "Content-Type: text/html\r\n" + "\r\n" + "<!DOCTYPE html><title>Content of a.html.</title>\r\n"
+				+ "\r\n" + "-----------------------------9051914041544843365972754266--\r\n";
 
 		DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
-		DefaultDataBuffer dataBuffer =
-				factory.wrap(ByteBuffer.wrap(bodyContents.getBytes(StandardCharsets.UTF_8)));
+		DefaultDataBuffer dataBuffer = factory.wrap(ByteBuffer.wrap(bodyContents.getBytes(StandardCharsets.UTF_8)));
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
 		MockServerHttpRequest request = MockServerHttpRequest.post("/")
-				.header("Content-Type", "multipart/form-data; boundary=---------------------------9051914041544843365972754266")
+				.header("Content-Type",
+						"multipart/form-data; boundary=---------------------------9051914041544843365972754266")
 				.body(body);
 
 		Flux<Part> result = extractor.extract(request, this.context);
 
-		StepVerifier.create(result)
-				.consumeNextWith(part -> {
-					assertThat(part.name()).isEqualTo("text");
-					boolean condition = part instanceof FormFieldPart;
-					assertThat(condition).isTrue();
-					FormFieldPart formFieldPart = (FormFieldPart) part;
-					assertThat(formFieldPart.value()).isEqualTo("text default");
-				})
-				.consumeNextWith(part -> {
-					assertThat(part.name()).isEqualTo("file1");
-					boolean condition = part instanceof FilePart;
-					assertThat(condition).isTrue();
-					FilePart filePart = (FilePart) part;
-					assertThat(filePart.filename()).isEqualTo("a.txt");
-					assertThat(filePart.headers().getContentType()).isEqualTo(MediaType.TEXT_PLAIN);
-				})
-				.consumeNextWith(part -> {
-					assertThat(part.name()).isEqualTo("file2");
-					boolean condition = part instanceof FilePart;
-					assertThat(condition).isTrue();
-					FilePart filePart = (FilePart) part;
-					assertThat(filePart.filename()).isEqualTo("a.html");
-					assertThat(filePart.headers().getContentType()).isEqualTo(MediaType.TEXT_HTML);
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(result).consumeNextWith(part -> {
+			assertThat(part.name()).isEqualTo("text");
+			boolean condition = part instanceof FormFieldPart;
+			assertThat(condition).isTrue();
+			FormFieldPart formFieldPart = (FormFieldPart) part;
+			assertThat(formFieldPart.value()).isEqualTo("text default");
+		}).consumeNextWith(part -> {
+			assertThat(part.name()).isEqualTo("file1");
+			boolean condition = part instanceof FilePart;
+			assertThat(condition).isTrue();
+			FilePart filePart = (FilePart) part;
+			assertThat(filePart.filename()).isEqualTo("a.txt");
+			assertThat(filePart.headers().getContentType()).isEqualTo(MediaType.TEXT_PLAIN);
+		}).consumeNextWith(part -> {
+			assertThat(part.name()).isEqualTo("file2");
+			boolean condition = part instanceof FilePart;
+			assertThat(condition).isTrue();
+			FilePart filePart = (FilePart) part;
+			assertThat(filePart.filename()).isEqualTo("a.html");
+			assertThat(filePart.headers().getContentType()).isEqualTo(MediaType.TEXT_HTML);
+		}).expectComplete().verify();
 	}
 
 	@Test
@@ -404,17 +359,13 @@ public class BodyExtractorsTests {
 		BodyExtractor<Flux<DataBuffer>, ReactiveHttpInputMessage> extractor = BodyExtractors.toDataBuffers();
 
 		DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
-		DefaultDataBuffer dataBuffer =
-				factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
+		DefaultDataBuffer dataBuffer = factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
 		MockServerHttpRequest request = MockServerHttpRequest.post("/").body(body);
 		Flux<DataBuffer> result = extractor.extract(request, this.context);
 
-		StepVerifier.create(result)
-				.expectNext(dataBuffer)
-				.expectComplete()
-				.verify();
+		StepVerifier.create(result).expectNext(dataBuffer).expectComplete().verify();
 	}
 
 	@Test // SPR-17054
@@ -428,23 +379,20 @@ public class BodyExtractorsTests {
 		response.setBody(body.flux());
 
 		BodyExtractor<Mono<User>, ReactiveHttpInputMessage> extractor = BodyExtractors.toMono(User.class);
-		StepVerifier.create(extractor.extract(response, this.context))
-				.then(() -> {
-					body.assertWasSubscribed();
-					body.emit(buffer);
-				})
-				.expectErrorSatisfies(throwable -> {
-					boolean condition = throwable instanceof UnsupportedMediaTypeException;
-					assertThat(condition).isTrue();
-					assertThatExceptionOfType(IllegalReferenceCountException.class).isThrownBy(
-							buffer::release);
-					body.assertCancelled();
-				}).verify();
+		StepVerifier.create(extractor.extract(response, this.context)).then(() -> {
+			body.assertWasSubscribed();
+			body.emit(buffer);
+		}).expectErrorSatisfies(throwable -> {
+			boolean condition = throwable instanceof UnsupportedMediaTypeException;
+			assertThat(condition).isTrue();
+			assertThatExceptionOfType(IllegalReferenceCountException.class).isThrownBy(buffer::release);
+			body.assertCancelled();
+		}).verify();
 	}
 
+	interface SafeToDeserialize {
 
-	interface SafeToDeserialize {}
-
+	}
 
 	@SuppressWarnings("unused")
 	private static class User {
@@ -477,6 +425,7 @@ public class BodyExtractorsTests {
 		public void setPassword(String password) {
 			this.password = password;
 		}
+
 	}
 
 }

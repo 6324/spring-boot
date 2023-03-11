@@ -26,4 +26,5 @@ public class DestroyBean implements DisposableBean {
 	public void destroy() throws Exception {
 		System.setProperty("security.destroy", "true");
 	}
+
 }

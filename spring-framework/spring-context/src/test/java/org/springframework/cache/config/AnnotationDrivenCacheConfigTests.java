@@ -28,8 +28,7 @@ public class AnnotationDrivenCacheConfigTests extends AbstractCacheAnnotationTes
 
 	@Override
 	protected ConfigurableApplicationContext getApplicationContext() {
-		return new GenericXmlApplicationContext(
-				"/org/springframework/cache/config/annotationDrivenCacheConfig.xml");
+		return new GenericXmlApplicationContext("/org/springframework/cache/config/annotationDrivenCacheConfig.xml");
 	}
 
 }

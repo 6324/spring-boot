@@ -49,27 +49,31 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * {@link org.springframework.beans.factory.config.BeanPostProcessor} implementation
- * that invokes annotated init and destroy methods. Allows for an annotation
- * alternative to Spring's {@link org.springframework.beans.factory.InitializingBean}
- * and {@link org.springframework.beans.factory.DisposableBean} callback interfaces.
+ * {@link org.springframework.beans.factory.config.BeanPostProcessor} implementation that
+ * invokes annotated init and destroy methods. Allows for an annotation alternative to
+ * Spring's {@link org.springframework.beans.factory.InitializingBean} and
+ * {@link org.springframework.beans.factory.DisposableBean} callback interfaces.
  *
- * <p>The actual annotation types that this post-processor checks for can be
- * configured through the {@link #setInitAnnotationType "initAnnotationType"}
- * and {@link #setDestroyAnnotationType "destroyAnnotationType"} properties.
- * Any custom annotation can be used, since there are no required annotation
- * attributes.
+ * <p>
+ * The actual annotation types that this post-processor checks for can be configured
+ * through the {@link #setInitAnnotationType "initAnnotationType"} and
+ * {@link #setDestroyAnnotationType "destroyAnnotationType"} properties. Any custom
+ * annotation can be used, since there are no required annotation attributes.
  *
- * <p>Init and destroy annotations may be applied to methods of any visibility:
- * public, package-protected, protected, or private. Multiple such methods
- * may be annotated, but it is recommended to only annotate one single
- * init method and destroy method, respectively.
+ * <p>
+ * Init and destroy annotations may be applied to methods of any visibility: public,
+ * package-protected, protected, or private. Multiple such methods may be annotated, but
+ * it is recommended to only annotate one single init method and destroy method,
+ * respectively.
  *
- * <p>Spring's {@link org.springframework.context.annotation.CommonAnnotationBeanPostProcessor}
- * supports the JSR-250 {@link javax.annotation.PostConstruct} and {@link javax.annotation.PreDestroy}
- * annotations out of the box, as init annotation and destroy annotation, respectively.
- * Furthermore, it also supports the {@link javax.annotation.Resource} annotation
- * for annotation-driven injection of named beans.
+ * <p>
+ * Spring's
+ * {@link org.springframework.context.annotation.CommonAnnotationBeanPostProcessor}
+ * supports the JSR-250 {@link javax.annotation.PostConstruct} and
+ * {@link javax.annotation.PreDestroy} annotations out of the box, as init annotation and
+ * destroy annotation, respectively. Furthermore, it also supports the
+ * {@link javax.annotation.Resource} annotation for annotation-driven injection of named
+ * beans.
  *
  * @author Juergen Hoeller
  * @since 2.5
@@ -80,23 +84,25 @@ import org.springframework.util.ReflectionUtils;
 public class InitDestroyAnnotationBeanPostProcessor
 		implements DestructionAwareBeanPostProcessor, MergedBeanDefinitionPostProcessor, PriorityOrdered, Serializable {
 
-	private final transient LifecycleMetadata emptyLifecycleMetadata =
-			new LifecycleMetadata(Object.class, Collections.emptyList(), Collections.emptyList()) {
-				@Override
-				public void checkConfigMembers(RootBeanDefinition beanDefinition) {
-				}
-				@Override
-				public void invokeInitMethods(Object target, String beanName) {
-				}
-				@Override
-				public void invokeDestroyMethods(Object target, String beanName) {
-				}
-				@Override
-				public boolean hasDestroyMethods() {
-					return false;
-				}
-			};
+	private final transient LifecycleMetadata emptyLifecycleMetadata = new LifecycleMetadata(Object.class,
+			Collections.emptyList(), Collections.emptyList()) {
+		@Override
+		public void checkConfigMembers(RootBeanDefinition beanDefinition) {
+		}
 
+		@Override
+		public void invokeInitMethods(Object target, String beanName) {
+		}
+
+		@Override
+		public void invokeDestroyMethods(Object target, String beanName) {
+		}
+
+		@Override
+		public boolean hasDestroyMethods() {
+			return false;
+		}
+	};
 
 	protected transient Log logger = LogFactory.getLog(getClass());
 
@@ -111,24 +117,25 @@ public class InitDestroyAnnotationBeanPostProcessor
 	@Nullable
 	private final transient Map<Class<?>, LifecycleMetadata> lifecycleMetadataCache = new ConcurrentHashMap<>(256);
 
-
 	/**
-	 * Specify the init annotation to check for, indicating initialization
-	 * methods to call after configuration of a bean.
-	 * <p>Any custom annotation can be used, since there are no required
-	 * annotation attributes. There is no default, although a typical choice
-	 * is the JSR-250 {@link javax.annotation.PostConstruct} annotation.
+	 * Specify the init annotation to check for, indicating initialization methods to call
+	 * after configuration of a bean.
+	 * <p>
+	 * Any custom annotation can be used, since there are no required annotation
+	 * attributes. There is no default, although a typical choice is the JSR-250
+	 * {@link javax.annotation.PostConstruct} annotation.
 	 */
 	public void setInitAnnotationType(Class<? extends Annotation> initAnnotationType) {
 		this.initAnnotationType = initAnnotationType;
 	}
 
 	/**
-	 * Specify the destroy annotation to check for, indicating destruction
-	 * methods to call when the context is shutting down.
-	 * <p>Any custom annotation can be used, since there are no required
-	 * annotation attributes. There is no default, although a typical choice
-	 * is the JSR-250 {@link javax.annotation.PreDestroy} annotation.
+	 * Specify the destroy annotation to check for, indicating destruction methods to call
+	 * when the context is shutting down.
+	 * <p>
+	 * Any custom annotation can be used, since there are no required annotation
+	 * attributes. There is no default, although a typical choice is the JSR-250
+	 * {@link javax.annotation.PreDestroy} annotation.
 	 */
 	public void setDestroyAnnotationType(Class<? extends Annotation> destroyAnnotationType) {
 		this.destroyAnnotationType = destroyAnnotationType;
@@ -142,7 +149,6 @@ public class InitDestroyAnnotationBeanPostProcessor
 	public int getOrder() {
 		return this.order;
 	}
-
 
 	@Override
 	public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {
@@ -195,7 +201,6 @@ public class InitDestroyAnnotationBeanPostProcessor
 		return findLifecycleMetadata(bean.getClass()).hasDestroyMethods();
 	}
 
-
 	private LifecycleMetadata findLifecycleMetadata(Class<?> clazz) {
 		if (this.lifecycleMetadataCache == null) {
 			// Happens after deserialization, during destruction...
@@ -217,7 +222,8 @@ public class InitDestroyAnnotationBeanPostProcessor
 	}
 
 	private LifecycleMetadata buildLifecycleMetadata(final Class<?> clazz) {
-		if (!AnnotationUtils.isCandidateClass(clazz, Arrays.asList(this.initAnnotationType, this.destroyAnnotationType))) {
+		if (!AnnotationUtils.isCandidateClass(clazz,
+				Arrays.asList(this.initAnnotationType, this.destroyAnnotationType))) {
 			return this.emptyLifecycleMetadata;
 		}
 
@@ -251,14 +257,13 @@ public class InitDestroyAnnotationBeanPostProcessor
 		}
 		while (targetClass != null && targetClass != Object.class);
 
-		return (initMethods.isEmpty() && destroyMethods.isEmpty() ? this.emptyLifecycleMetadata :
-				new LifecycleMetadata(clazz, initMethods, destroyMethods));
+		return (initMethods.isEmpty() && destroyMethods.isEmpty() ? this.emptyLifecycleMetadata
+				: new LifecycleMetadata(clazz, initMethods, destroyMethods));
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Serialization support
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
 		// Rely on default serialization; just initialize state after deserialization.
@@ -267,7 +272,6 @@ public class InitDestroyAnnotationBeanPostProcessor
 		// Initialize transient fields.
 		this.logger = LogFactory.getLog(getClass());
 	}
-
 
 	/**
 	 * Class representing information about annotated init and destroy methods.
@@ -302,7 +306,8 @@ public class InitDestroyAnnotationBeanPostProcessor
 					beanDefinition.registerExternallyManagedInitMethod(methodIdentifier);
 					checkedInitMethods.add(element);
 					if (logger.isTraceEnabled()) {
-						logger.trace("Registered init method on class [" + this.targetClass.getName() + "]: " + element);
+						logger.trace(
+								"Registered init method on class [" + this.targetClass.getName() + "]: " + element);
 					}
 				}
 			}
@@ -313,7 +318,8 @@ public class InitDestroyAnnotationBeanPostProcessor
 					beanDefinition.registerExternallyManagedDestroyMethod(methodIdentifier);
 					checkedDestroyMethods.add(element);
 					if (logger.isTraceEnabled()) {
-						logger.trace("Registered destroy method on class [" + this.targetClass.getName() + "]: " + element);
+						logger.trace(
+								"Registered destroy method on class [" + this.targetClass.getName() + "]: " + element);
 					}
 				}
 			}
@@ -323,8 +329,8 @@ public class InitDestroyAnnotationBeanPostProcessor
 
 		public void invokeInitMethods(Object target, String beanName) throws Throwable {
 			Collection<LifecycleElement> checkedInitMethods = this.checkedInitMethods;
-			Collection<LifecycleElement> initMethodsToIterate =
-					(checkedInitMethods != null ? checkedInitMethods : this.initMethods);
+			Collection<LifecycleElement> initMethodsToIterate = (checkedInitMethods != null ? checkedInitMethods
+					: this.initMethods);
 			if (!initMethodsToIterate.isEmpty()) {
 				for (LifecycleElement element : initMethodsToIterate) {
 					if (logger.isTraceEnabled()) {
@@ -337,8 +343,8 @@ public class InitDestroyAnnotationBeanPostProcessor
 
 		public void invokeDestroyMethods(Object target, String beanName) throws Throwable {
 			Collection<LifecycleElement> checkedDestroyMethods = this.checkedDestroyMethods;
-			Collection<LifecycleElement> destroyMethodsToUse =
-					(checkedDestroyMethods != null ? checkedDestroyMethods : this.destroyMethods);
+			Collection<LifecycleElement> destroyMethodsToUse = (checkedDestroyMethods != null ? checkedDestroyMethods
+					: this.destroyMethods);
 			if (!destroyMethodsToUse.isEmpty()) {
 				for (LifecycleElement element : destroyMethodsToUse) {
 					if (logger.isTraceEnabled()) {
@@ -351,12 +357,12 @@ public class InitDestroyAnnotationBeanPostProcessor
 
 		public boolean hasDestroyMethods() {
 			Collection<LifecycleElement> checkedDestroyMethods = this.checkedDestroyMethods;
-			Collection<LifecycleElement> destroyMethodsToUse =
-					(checkedDestroyMethods != null ? checkedDestroyMethods : this.destroyMethods);
+			Collection<LifecycleElement> destroyMethodsToUse = (checkedDestroyMethods != null ? checkedDestroyMethods
+					: this.destroyMethods);
 			return !destroyMethodsToUse.isEmpty();
 		}
-	}
 
+	}
 
 	/**
 	 * Class representing injection information about an annotated method.
@@ -372,8 +378,8 @@ public class InitDestroyAnnotationBeanPostProcessor
 				throw new IllegalStateException("Lifecycle method annotation requires a no-arg method: " + method);
 			}
 			this.method = method;
-			this.identifier = (Modifier.isPrivate(method.getModifiers()) ?
-					ClassUtils.getQualifiedMethodName(method) : method.getName());
+			this.identifier = (Modifier.isPrivate(method.getModifiers()) ? ClassUtils.getQualifiedMethodName(method)
+					: method.getName());
 		}
 
 		public Method getMethod() {
@@ -405,6 +411,7 @@ public class InitDestroyAnnotationBeanPostProcessor
 		public int hashCode() {
 			return this.identifier.hashCode();
 		}
+
 	}
 
 }

@@ -40,7 +40,6 @@ class SynthesizingMethodParameterTests {
 
 	private SynthesizingMethodParameter intReturnType;
 
-
 	@BeforeEach
 	void setUp() throws NoSuchMethodException {
 		method = getClass().getMethod("method", String.class, Long.TYPE);
@@ -48,7 +47,6 @@ class SynthesizingMethodParameterTests {
 		longParameter = new SynthesizingMethodParameter(method, 1);
 		intReturnType = new SynthesizingMethodParameter(method, -1);
 	}
-
 
 	@Test
 	void equals() throws NoSuchMethodException {
@@ -100,10 +98,8 @@ class SynthesizingMethodParameterTests {
 
 	@Test
 	void indexValidation() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new SynthesizingMethodParameter(method, 2));
+		assertThatIllegalArgumentException().isThrownBy(() -> new SynthesizingMethodParameter(method, 2));
 	}
-
 
 	public int method(String p1, long p2) {
 		return 42;

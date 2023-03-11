@@ -56,14 +56,12 @@ public class SockJsServiceTests extends AbstractHttpRequestTests {
 
 	private WebSocketHandler handler;
 
-
 	@Override
 	@BeforeEach
 	public void setup() {
 		super.setup();
 		this.service = new TestSockJsService(new ThreadPoolTaskScheduler());
 	}
-
 
 	@Test
 	public void validateRequest() {
@@ -97,14 +95,16 @@ public class SockJsServiceTests extends AbstractHttpRequestTests {
 
 		String body = this.servletResponse.getContentAsString();
 		assertThat(body.substring(0, body.indexOf(':'))).isEqualTo("{\"entropy\"");
-		assertThat(body.substring(body.indexOf(','))).isEqualTo(",\"origins\":[\"*:*\"],\"cookie_needed\":true,\"websocket\":true}");
+		assertThat(body.substring(body.indexOf(',')))
+				.isEqualTo(",\"origins\":[\"*:*\"],\"cookie_needed\":true,\"websocket\":true}");
 
 		this.service.setSessionCookieNeeded(false);
 		this.service.setWebSocketEnabled(false);
 		resetResponseAndHandleRequest("GET", "/echo/info", HttpStatus.OK);
 
 		body = this.servletResponse.getContentAsString();
-		assertThat(body.substring(body.indexOf(','))).isEqualTo(",\"origins\":[\"*:*\"],\"cookie_needed\":false,\"websocket\":false}");
+		assertThat(body.substring(body.indexOf(',')))
+				.isEqualTo(",\"origins\":[\"*:*\"],\"cookie_needed\":false,\"websocket\":false}");
 
 		this.service.setAllowedOrigins(Collections.singletonList("https://mydomain1.example"));
 		resetResponseAndHandleRequest("GET", "/echo/info", HttpStatus.OK);
@@ -113,7 +113,7 @@ public class SockJsServiceTests extends AbstractHttpRequestTests {
 		assertThat(this.servletResponse.getHeader(HttpHeaders.VARY)).isNull();
 	}
 
-	@Test  // SPR-12226 and SPR-12660
+	@Test // SPR-12226 and SPR-12660
 	public void handleInfoGetWithOrigin() throws IOException {
 		this.servletRequest.setServerName("mydomain2.example");
 		this.servletRequest.addHeader(HttpHeaders.ORIGIN, "http://mydomain2.example");
@@ -124,12 +124,14 @@ public class SockJsServiceTests extends AbstractHttpRequestTests {
 		assertThat(header).isEqualTo("no-store, no-cache, must-revalidate, max-age=0");
 		String body = this.servletResponse.getContentAsString();
 		assertThat(body.substring(0, body.indexOf(':'))).isEqualTo("{\"entropy\"");
-		assertThat(body.substring(body.indexOf(','))).isEqualTo(",\"origins\":[\"*:*\"],\"cookie_needed\":true,\"websocket\":true}");
+		assertThat(body.substring(body.indexOf(',')))
+				.isEqualTo(",\"origins\":[\"*:*\"],\"cookie_needed\":true,\"websocket\":true}");
 
 		this.service.setAllowedOrigins(Collections.singletonList("http://mydomain1.example"));
 		resetResponseAndHandleRequest("GET", "/echo/info", HttpStatus.OK);
 
-		this.service.setAllowedOrigins(Arrays.asList("http://mydomain1.example", "http://mydomain2.example", "http://mydomain3.example"));
+		this.service.setAllowedOrigins(
+				Arrays.asList("http://mydomain1.example", "http://mydomain2.example", "http://mydomain3.example"));
 		resetResponseAndHandleRequest("GET", "/echo/info", HttpStatus.OK);
 
 		this.service.setAllowedOrigins(Collections.singletonList("*"));
@@ -140,7 +142,7 @@ public class SockJsServiceTests extends AbstractHttpRequestTests {
 		resetResponseAndHandleRequest("GET", "/echo/info", HttpStatus.FORBIDDEN);
 	}
 
-	@Test  // SPR-11443
+	@Test // SPR-11443
 	public void handleInfoGetCorsFilter() {
 		// Simulate scenario where Filter would have already set CORS headers
 		this.servletResponse.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "foobar:123");
@@ -150,7 +152,7 @@ public class SockJsServiceTests extends AbstractHttpRequestTests {
 		assertThat(this.servletResponse.getHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN)).isEqualTo("foobar:123");
 	}
 
-	@Test  // SPR-11919
+	@Test // SPR-11919
 	public void handleInfoGetWildflyNPE() throws IOException {
 		HttpServletResponse mockResponse = mock(HttpServletResponse.class);
 		ServletOutputStream ous = mock(ServletOutputStream.class);
@@ -163,7 +165,7 @@ public class SockJsServiceTests extends AbstractHttpRequestTests {
 		verify(mockResponse, times(1)).getOutputStream();
 	}
 
-	@Test  // SPR-12660
+	@Test // SPR-12660
 	public void handleInfoOptions() {
 		this.servletRequest.addHeader(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, "Last-Modified");
 		resetResponseAndHandleRequest("OPTIONS", "/echo/info", HttpStatus.NO_CONTENT);
@@ -174,7 +176,7 @@ public class SockJsServiceTests extends AbstractHttpRequestTests {
 		assertThat(this.service.getCorsConfiguration(this.servletRequest)).isNull();
 	}
 
-	@Test  // SPR-12226 and SPR-12660
+	@Test // SPR-12226 and SPR-12660
 	public void handleInfoOptionsWithAllowedOrigin() {
 		this.servletRequest.setServerName("mydomain2.example");
 		this.servletRequest.addHeader(HttpHeaders.ORIGIN, "http://mydomain2.example");
@@ -187,7 +189,8 @@ public class SockJsServiceTests extends AbstractHttpRequestTests {
 		resetResponseAndHandleRequest("OPTIONS", "/echo/info", HttpStatus.NO_CONTENT);
 		assertThat(this.service.getCorsConfiguration(this.servletRequest)).isNotNull();
 
-		this.service.setAllowedOrigins(Arrays.asList("http://mydomain1.example", "http://mydomain2.example", "http://mydomain3.example"));
+		this.service.setAllowedOrigins(
+				Arrays.asList("http://mydomain1.example", "http://mydomain2.example", "http://mydomain3.example"));
 		resetResponseAndHandleRequest("OPTIONS", "/echo/info", HttpStatus.NO_CONTENT);
 		assertThat(this.service.getCorsConfiguration(this.servletRequest)).isNotNull();
 
@@ -196,7 +199,7 @@ public class SockJsServiceTests extends AbstractHttpRequestTests {
 		assertThat(this.service.getCorsConfiguration(this.servletRequest)).isNotNull();
 	}
 
-	@Test  // SPR-16304
+	@Test // SPR-16304
 	public void handleInfoOptionsWithForbiddenOrigin() {
 		this.servletRequest.setServerName("mydomain3.com");
 		this.servletRequest.addHeader(HttpHeaders.ORIGIN, "https://mydomain2.example");
@@ -209,10 +212,11 @@ public class SockJsServiceTests extends AbstractHttpRequestTests {
 		this.service.setAllowedOrigins(Collections.singletonList("https://mydomain1.example"));
 		resetResponseAndHandleRequest("OPTIONS", "/echo/info", HttpStatus.FORBIDDEN);
 		corsConfiguration = this.service.getCorsConfiguration(this.servletRequest);
-		assertThat(corsConfiguration.getAllowedOrigins()).isEqualTo(Collections.singletonList("https://mydomain1.example"));
+		assertThat(corsConfiguration.getAllowedOrigins())
+				.isEqualTo(Collections.singletonList("https://mydomain1.example"));
 	}
 
-	@Test  // SPR-12283
+	@Test // SPR-12283
 	public void handleInfoOptionsWithOriginAndCorsHeadersDisabled() {
 		this.servletRequest.addHeader(HttpHeaders.ORIGIN, "https://mydomain2.example");
 		this.service.setAllowedOrigins(Collections.singletonList("*"));
@@ -226,7 +230,8 @@ public class SockJsServiceTests extends AbstractHttpRequestTests {
 		resetResponseAndHandleRequest("OPTIONS", "/echo/info", HttpStatus.FORBIDDEN);
 		assertThat(this.service.getCorsConfiguration(this.servletRequest)).isNull();
 
-		this.service.setAllowedOrigins(Arrays.asList("https://mydomain1.example", "https://mydomain2.example", "http://mydomain3.example"));
+		this.service.setAllowedOrigins(
+				Arrays.asList("https://mydomain1.example", "https://mydomain2.example", "http://mydomain3.example"));
 		resetResponseAndHandleRequest("OPTIONS", "/echo/info", HttpStatus.NO_CONTENT);
 		assertThat(this.service.getCorsConfiguration(this.servletRequest)).isNull();
 	}
@@ -238,7 +243,8 @@ public class SockJsServiceTests extends AbstractHttpRequestTests {
 		assertThat(this.servletResponse.getContentType()).isEqualTo("text/html;charset=UTF-8");
 		assertThat(this.servletResponse.getContentAsString().startsWith("<!DOCTYPE html>\n")).isTrue();
 		assertThat(this.servletResponse.getContentLength()).isEqualTo(490);
-		assertThat(this.response.getHeaders().getCacheControl()).isEqualTo("no-store, no-cache, must-revalidate, max-age=0");
+		assertThat(this.response.getHeaders().getCacheControl())
+				.isEqualTo("no-store, no-cache, must-revalidate, max-age=0");
 		assertThat(this.response.getHeaders().getETag()).isEqualTo("\"0096cbd37f2a5218c33bb0826a7c74cbf\"");
 	}
 
@@ -263,9 +269,9 @@ public class SockJsServiceTests extends AbstractHttpRequestTests {
 		this.servletRequest.setContentType("");
 		resetResponseAndHandleRequest("GET", "/echo/info", HttpStatus.OK);
 
-		assertThat(this.servletResponse.getStatus()).as("Invalid/empty content should have been ignored").isEqualTo(200);
+		assertThat(this.servletResponse.getStatus()).as("Invalid/empty content should have been ignored")
+				.isEqualTo(200);
 	}
-
 
 	private void resetResponseAndHandleRequest(String httpMethod, String uri, HttpStatus httpStatus) {
 		resetResponse();
@@ -279,7 +285,6 @@ public class SockJsServiceTests extends AbstractHttpRequestTests {
 
 		assertThat(this.servletResponse.getStatus()).isEqualTo(httpStatus.value());
 	}
-
 
 	private static class TestSockJsService extends AbstractSockJsService {
 
@@ -307,6 +312,7 @@ public class SockJsServiceTests extends AbstractHttpRequestTests {
 			this.transport = transport;
 			this.handler = handler;
 		}
+
 	}
 
 }

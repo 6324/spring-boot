@@ -63,10 +63,9 @@ final class DefaultRSocketStrategies implements RSocketStrategies {
 
 	private final MetadataExtractor metadataExtractor;
 
-
-	private DefaultRSocketStrategies(List<Encoder<?>> encoders, List<Decoder<?>> decoders,
-			RouteMatcher routeMatcher, ReactiveAdapterRegistry adapterRegistry,
-			DataBufferFactory bufferFactory, MetadataExtractor metadataExtractor) {
+	private DefaultRSocketStrategies(List<Encoder<?>> encoders, List<Decoder<?>> decoders, RouteMatcher routeMatcher,
+			ReactiveAdapterRegistry adapterRegistry, DataBufferFactory bufferFactory,
+			MetadataExtractor metadataExtractor) {
 
 		this.encoders = Collections.unmodifiableList(encoders);
 		this.decoders = Collections.unmodifiableList(decoders);
@@ -75,7 +74,6 @@ final class DefaultRSocketStrategies implements RSocketStrategies {
 		this.bufferFactory = bufferFactory;
 		this.metadataExtractor = metadataExtractor;
 	}
-
 
 	@Override
 	public List<Encoder<?>> encoders() {
@@ -106,7 +104,6 @@ final class DefaultRSocketStrategies implements RSocketStrategies {
 	public MetadataExtractor metadataExtractor() {
 		return this.metadataExtractor;
 	}
-
 
 	/**
 	 * Default implementation of {@link RSocketStrategies.Builder}.
@@ -153,7 +150,6 @@ final class DefaultRSocketStrategies implements RSocketStrategies {
 			this.bufferFactory = other.dataBufferFactory();
 			this.metadataExtractor = other.metadataExtractor();
 		}
-
 
 		@Override
 		public Builder encoder(Encoder<?>... encoders) {
@@ -213,21 +209,20 @@ final class DefaultRSocketStrategies implements RSocketStrategies {
 		public RSocketStrategies build() {
 			RouteMatcher matcher = (this.routeMatcher != null ? this.routeMatcher : initRouteMatcher());
 
-			ReactiveAdapterRegistry registry = (this.adapterRegistry != null ?
-					this.adapterRegistry : ReactiveAdapterRegistry.getSharedInstance());
+			ReactiveAdapterRegistry registry = (this.adapterRegistry != null ? this.adapterRegistry
+					: ReactiveAdapterRegistry.getSharedInstance());
 
-			DataBufferFactory factory = (this.bufferFactory != null ?
-					this.bufferFactory : new NettyDataBufferFactory(PooledByteBufAllocator.DEFAULT));
+			DataBufferFactory factory = (this.bufferFactory != null ? this.bufferFactory
+					: new NettyDataBufferFactory(PooledByteBufAllocator.DEFAULT));
 
-			MetadataExtractor extractor = (this.metadataExtractor != null ?
-					this.metadataExtractor : new DefaultMetadataExtractor(this.decoders));
+			MetadataExtractor extractor = (this.metadataExtractor != null ? this.metadataExtractor
+					: new DefaultMetadataExtractor(this.decoders));
 
 			if (extractor instanceof MetadataExtractorRegistry) {
 				this.metadataExtractors.forEach(consumer -> consumer.accept((MetadataExtractorRegistry) extractor));
 			}
 
-			return new DefaultRSocketStrategies(
-					this.encoders, this.decoders, matcher, registry, factory, extractor);
+			return new DefaultRSocketStrategies(this.encoders, this.decoders, matcher, registry, factory, extractor);
 		}
 
 		private RouteMatcher initRouteMatcher() {
@@ -235,6 +230,7 @@ final class DefaultRSocketStrategies implements RSocketStrategies {
 			pathMatcher.setPathSeparator(".");
 			return new SimpleRouteMatcher(pathMatcher);
 		}
+
 	}
 
 }

@@ -34,7 +34,6 @@ public class ByteArrayMessageConverter extends AbstractMessageConverter {
 		super(MimeTypeUtils.APPLICATION_OCTET_STREAM);
 	}
 
-
 	@Override
 	protected boolean supports(Class<?> clazz) {
 		return (byte[].class == clazz);
@@ -42,16 +41,16 @@ public class ByteArrayMessageConverter extends AbstractMessageConverter {
 
 	@Override
 	@Nullable
-	protected Object convertFromInternal(
-			Message<?> message, @Nullable Class<?> targetClass, @Nullable Object conversionHint) {
+	protected Object convertFromInternal(Message<?> message, @Nullable Class<?> targetClass,
+			@Nullable Object conversionHint) {
 
 		return message.getPayload();
 	}
 
 	@Override
 	@Nullable
-	protected Object convertToInternal(
-			Object payload, @Nullable MessageHeaders headers, @Nullable Object conversionHint) {
+	protected Object convertToInternal(Object payload, @Nullable MessageHeaders headers,
+			@Nullable Object conversionHint) {
 
 		return payload;
 	}

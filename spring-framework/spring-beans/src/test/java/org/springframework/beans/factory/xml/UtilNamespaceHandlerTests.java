@@ -52,7 +52,6 @@ public class UtilNamespaceHandlerTests {
 
 	private CollectingReaderEventListener listener = new CollectingReaderEventListener();
 
-
 	@BeforeEach
 	public void setUp() {
 		this.beanFactory = new DefaultListableBeanFactory();
@@ -60,7 +59,6 @@ public class UtilNamespaceHandlerTests {
 		reader.setEventListener(this.listener);
 		reader.loadBeanDefinitions(new ClassPathResource("testUtilNamespace.xml", getClass()));
 	}
-
 
 	@Test
 	public void testConstant() {
@@ -84,7 +82,8 @@ public class UtilNamespaceHandlerTests {
 		ComponentDefinition constantComponent = this.listener.getComponentDefinition("min");
 		assertThat(propertiesComponent).as("Event for 'min' not sent").isNotNull();
 		AbstractBeanDefinition constantBean = (AbstractBeanDefinition) constantComponent.getBeanDefinitions()[0];
-		assertThat(constantBean.getBeanClass()).as("Incorrect BeanDefinition").isEqualTo(FieldRetrievingFactoryBean.class);
+		assertThat(constantBean.getBeanClass()).as("Incorrect BeanDefinition")
+				.isEqualTo(FieldRetrievingFactoryBean.class);
 	}
 
 	@Test

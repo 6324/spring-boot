@@ -31,15 +31,16 @@ import org.springframework.util.ErrorHandler;
 /**
  * Simple implementation of the {@link ApplicationEventMulticaster} interface.
  *
- * <p>Multicasts all events to all registered listeners, leaving it up to
- * the listeners to ignore events that they are not interested in.
- * Listeners will usually perform corresponding {@code instanceof}
- * checks on the passed-in event object.
+ * <p>
+ * Multicasts all events to all registered listeners, leaving it up to the listeners to
+ * ignore events that they are not interested in. Listeners will usually perform
+ * corresponding {@code instanceof} checks on the passed-in event object.
  *
- * <p>By default, all listeners are invoked in the calling thread.
- * This allows the danger of a rogue listener blocking the entire application,
- * but adds minimal overhead. Specify an alternative task executor to have
- * listeners executed in different threads, for example from a thread pool.
+ * <p>
+ * By default, all listeners are invoked in the calling thread. This allows the danger of
+ * a rogue listener blocking the entire application, but adds minimal overhead. Specify an
+ * alternative task executor to have listeners executed in different threads, for example
+ * from a thread pool.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -54,7 +55,6 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 	@Nullable
 	private ErrorHandler errorHandler;
 
-
 	/**
 	 * Create a new SimpleApplicationEventMulticaster.
 	 */
@@ -68,16 +68,17 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 		setBeanFactory(beanFactory);
 	}
 
-
 	/**
-	 * Set a custom executor (typically a {@link org.springframework.core.task.TaskExecutor})
-	 * to invoke each listener with.
-	 * <p>Default is equivalent to {@link org.springframework.core.task.SyncTaskExecutor},
+	 * Set a custom executor (typically a
+	 * {@link org.springframework.core.task.TaskExecutor}) to invoke each listener with.
+	 * <p>
+	 * Default is equivalent to {@link org.springframework.core.task.SyncTaskExecutor},
 	 * executing all listeners synchronously in the calling thread.
-	 * <p>Consider specifying an asynchronous task executor here to not block the
-	 * caller until all listeners have been executed. However, note that asynchronous
-	 * execution will not participate in the caller's thread context (class loader,
-	 * transaction association) unless the TaskExecutor explicitly supports this.
+	 * <p>
+	 * Consider specifying an asynchronous task executor here to not block the caller
+	 * until all listeners have been executed. However, note that asynchronous execution
+	 * will not participate in the caller's thread context (class loader, transaction
+	 * association) unless the TaskExecutor explicitly supports this.
 	 * @see org.springframework.core.task.SyncTaskExecutor
 	 * @see org.springframework.core.task.SimpleAsyncTaskExecutor
 	 */
@@ -94,18 +95,20 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 	}
 
 	/**
-	 * Set the {@link ErrorHandler} to invoke in case an exception is thrown
-	 * from a listener.
-	 * <p>Default is none, with a listener exception stopping the current
-	 * multicast and getting propagated to the publisher of the current event.
-	 * If a {@linkplain #setTaskExecutor task executor} is specified, each
-	 * individual listener exception will get propagated to the executor but
-	 * won't necessarily stop execution of other listeners.
-	 * <p>Consider setting an {@link ErrorHandler} implementation that catches
-	 * and logs exceptions (a la
+	 * Set the {@link ErrorHandler} to invoke in case an exception is thrown from a
+	 * listener.
+	 * <p>
+	 * Default is none, with a listener exception stopping the current multicast and
+	 * getting propagated to the publisher of the current event. If a
+	 * {@linkplain #setTaskExecutor task executor} is specified, each individual listener
+	 * exception will get propagated to the executor but won't necessarily stop execution
+	 * of other listeners.
+	 * <p>
+	 * Consider setting an {@link ErrorHandler} implementation that catches and logs
+	 * exceptions (a la
 	 * {@link org.springframework.scheduling.support.TaskUtils#LOG_AND_SUPPRESS_ERROR_HANDLER})
-	 * or an implementation that logs exceptions while nevertheless propagating them
-	 * (e.g. {@link org.springframework.scheduling.support.TaskUtils#LOG_AND_PROPAGATE_ERROR_HANDLER}).
+	 * or an implementation that logs exceptions while nevertheless propagating them (e.g.
+	 * {@link org.springframework.scheduling.support.TaskUtils#LOG_AND_PROPAGATE_ERROR_HANDLER}).
 	 * @since 4.1
 	 */
 	public void setErrorHandler(@Nullable ErrorHandler errorHandler) {
@@ -120,7 +123,6 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 	protected ErrorHandler getErrorHandler() {
 		return this.errorHandler;
 	}
-
 
 	@Override
 	public void multicastEvent(ApplicationEvent event) {
@@ -166,7 +168,7 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 		}
 	}
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void doInvokeListener(ApplicationListener listener, ApplicationEvent event) {
 		try {
 			listener.onApplicationEvent(event);
@@ -174,7 +176,8 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 		catch (ClassCastException ex) {
 			String msg = ex.getMessage();
 			if (msg == null || matchesClassCastMessage(msg, event.getClass())) {
-				// Possibly a lambda-defined listener which we could not resolve the generic event type for
+				// Possibly a lambda-defined listener which we could not resolve the
+				// generic event type for
 				// -> let's suppress the exception and just log a debug message.
 				Log logger = LogFactory.getLog(getClass());
 				if (logger.isTraceEnabled()) {
@@ -188,7 +191,8 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 	}
 
 	private boolean matchesClassCastMessage(String classCastMessage, Class<?> eventClass) {
-		// On Java 8, the message starts with the class name: "java.lang.String cannot be cast..."
+		// On Java 8, the message starts with the class name: "java.lang.String cannot be
+		// cast..."
 		if (classCastMessage.startsWith(eventClass.getName())) {
 			return true;
 		}
@@ -196,7 +200,8 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 		if (classCastMessage.startsWith(eventClass.toString())) {
 			return true;
 		}
-		// On Java 9, the message used to contain the module name: "java.base/java.lang.String cannot be cast..."
+		// On Java 9, the message used to contain the module name:
+		// "java.base/java.lang.String cannot be cast..."
 		int moduleSeparatorIndex = classCastMessage.indexOf('/');
 		if (moduleSeparatorIndex != -1 && classCastMessage.startsWith(eventClass.getName(), moduleSeparatorIndex + 1)) {
 			return true;

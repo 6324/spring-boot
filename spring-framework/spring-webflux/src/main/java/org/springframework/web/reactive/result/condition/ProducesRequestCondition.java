@@ -38,36 +38,35 @@ import org.springframework.web.server.UnsupportedMediaTypeStatusException;
 
 /**
  * A logical disjunction (' || ') request condition to match a request's 'Accept' header
- * to a list of media type expressions. Two kinds of media type expressions are
- * supported, which are described in {@link RequestMapping#produces()} and
- * {@link RequestMapping#headers()} where the header name is 'Accept'.
- * Regardless of which syntax is used, the semantics are the same.
+ * to a list of media type expressions. Two kinds of media type expressions are supported,
+ * which are described in {@link RequestMapping#produces()} and
+ * {@link RequestMapping#headers()} where the header name is 'Accept'. Regardless of which
+ * syntax is used, the semantics are the same.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
  */
 public final class ProducesRequestCondition extends AbstractRequestCondition<ProducesRequestCondition> {
 
-	private static final RequestedContentTypeResolver DEFAULT_CONTENT_TYPE_RESOLVER =
-			new RequestedContentTypeResolverBuilder().build();
+	private static final RequestedContentTypeResolver DEFAULT_CONTENT_TYPE_RESOLVER = new RequestedContentTypeResolverBuilder()
+			.build();
 
 	private static final ProducesRequestCondition EMPTY_CONDITION = new ProducesRequestCondition();
 
 	private static final String MEDIA_TYPES_ATTRIBUTE = ProducesRequestCondition.class.getName() + ".MEDIA_TYPES";
 
-
-	private final List<ProduceMediaTypeExpression> mediaTypeAllList =
-			Collections.singletonList(new ProduceMediaTypeExpression(MediaType.ALL_VALUE));
+	private final List<ProduceMediaTypeExpression> mediaTypeAllList = Collections
+			.singletonList(new ProduceMediaTypeExpression(MediaType.ALL_VALUE));
 
 	private final List<ProduceMediaTypeExpression> expressions;
 
 	private final RequestedContentTypeResolver contentTypeResolver;
 
-
 	/**
-	 * Creates a new instance from "produces" expressions. If 0 expressions
-	 * are provided in total, this condition will match to any request.
-	 * @param produces expressions with syntax defined by {@link RequestMapping#produces()}
+	 * Creates a new instance from "produces" expressions. If 0 expressions are provided
+	 * in total, this condition will match to any request.
+	 * @param produces expressions with syntax defined by
+	 * {@link RequestMapping#produces()}
 	 */
 	public ProducesRequestCondition(String... produces) {
 		this(produces, null);
@@ -75,10 +74,11 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 
 	/**
 	 * Creates a new instance with "produces" and "header" expressions. "Header"
-	 * expressions where the header name is not 'Accept' or have no header value
-	 * defined are ignored. If 0 expressions are provided in total, this condition
-	 * will match to any request.
-	 * @param produces expressions with syntax defined by {@link RequestMapping#produces()}
+	 * expressions where the header name is not 'Accept' or have no header value defined
+	 * are ignored. If 0 expressions are provided in total, this condition will match to
+	 * any request.
+	 * @param produces expressions with syntax defined by
+	 * {@link RequestMapping#produces()}
 	 * @param headers expressions with syntax defined by {@link RequestMapping#headers()}
 	 */
 	public ProducesRequestCondition(String[] produces, String[] headers) {
@@ -86,9 +86,10 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 	}
 
 	/**
-	 * Same as {@link #ProducesRequestCondition(String[], String[])} but also
-	 * accepting a {@link ContentNegotiationManager}.
-	 * @param produces expressions with syntax defined by {@link RequestMapping#produces()}
+	 * Same as {@link #ProducesRequestCondition(String[], String[])} but also accepting a
+	 * {@link ContentNegotiationManager}.
+	 * @param produces expressions with syntax defined by
+	 * {@link RequestMapping#produces()}
 	 * @param headers expressions with syntax defined by {@link RequestMapping#headers()}
 	 * @param resolver used to determine requested content type
 	 */
@@ -123,14 +124,13 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 	}
 
 	/**
-	 * Private constructor for internal use to create matching conditions.
-	 * Note the expressions List is neither sorted, nor deep copied.
+	 * Private constructor for internal use to create matching conditions. Note the
+	 * expressions List is neither sorted, nor deep copied.
 	 */
 	private ProducesRequestCondition(List<ProduceMediaTypeExpression> expressions, ProducesRequestCondition other) {
 		this.expressions = expressions;
 		this.contentTypeResolver = other.contentTypeResolver;
 	}
-
 
 	/**
 	 * Return the contained "produces" expressions.
@@ -171,9 +171,9 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 	}
 
 	/**
-	 * Returns the "other" instance if it has any expressions; returns "this"
-	 * instance otherwise. Practically that means a method-level "produces"
-	 * overrides a type-level "produces" condition.
+	 * Returns the "other" instance if it has any expressions; returns "this" instance
+	 * otherwise. Practically that means a method-level "produces" overrides a type-level
+	 * "produces" condition.
 	 */
 	@Override
 	public ProducesRequestCondition combine(ProducesRequestCondition other) {
@@ -181,14 +181,13 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 	}
 
 	/**
-	 * Checks if any of the contained media type expressions match the given
-	 * request 'Content-Type' header and returns an instance that is guaranteed
-	 * to contain matching expressions only. The match is performed via
+	 * Checks if any of the contained media type expressions match the given request
+	 * 'Content-Type' header and returns an instance that is guaranteed to contain
+	 * matching expressions only. The match is performed via
 	 * {@link MediaType#isCompatibleWith(MediaType)}.
 	 * @param exchange the current exchange
-	 * @return the same instance if there are no expressions;
-	 * or a new condition with matching expressions;
-	 * or {@code null} if no expressions match.
+	 * @return the same instance if there are no expressions; or a new condition with
+	 * matching expressions; or {@code null} if no expressions match.
 	 */
 	@Override
 	@Nullable
@@ -233,17 +232,17 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 	 * <ol>
 	 * <li>Sort 'Accept' header media types by quality value via
 	 * {@link MediaType#sortByQualityValue(List)} and iterate the list.
-	 * <li>Get the first index of matching media types in each "produces"
-	 * condition first matching with {@link MediaType#equals(Object)} and
-	 * then with {@link MediaType#includes(MediaType)}.
+	 * <li>Get the first index of matching media types in each "produces" condition first
+	 * matching with {@link MediaType#equals(Object)} and then with
+	 * {@link MediaType#includes(MediaType)}.
 	 * <li>If a lower index is found, the condition at that index wins.
-	 * <li>If both indexes are equal, the media types at the index are
-	 * compared further with {@link MediaType#SPECIFICITY_COMPARATOR}.
+	 * <li>If both indexes are equal, the media types at the index are compared further
+	 * with {@link MediaType#SPECIFICITY_COMPARATOR}.
 	 * </ol>
-	 * <p>It is assumed that both instances have been obtained via
-	 * {@link #getMatchingCondition(ServerWebExchange)} and each instance
-	 * contains the matching producible media type expression only or
-	 * is otherwise empty.
+	 * <p>
+	 * It is assumed that both instances have been obtained via
+	 * {@link #getMatchingCondition(ServerWebExchange)} and each instance contains the
+	 * matching producible media type expression only or is otherwise empty.
 	 */
 	@Override
 	public int compareTo(ProducesRequestCondition other, ServerWebExchange exchange) {
@@ -283,8 +282,8 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 	private int indexOfEqualMediaType(MediaType mediaType) {
 		for (int i = 0; i < getExpressionsToCompare().size(); i++) {
 			MediaType currentMediaType = getExpressionsToCompare().get(i).getMediaType();
-			if (mediaType.getType().equalsIgnoreCase(currentMediaType.getType()) &&
-					mediaType.getSubtype().equalsIgnoreCase(currentMediaType.getSubtype())) {
+			if (mediaType.getType().equalsIgnoreCase(currentMediaType.getType())
+					&& mediaType.getSubtype().equalsIgnoreCase(currentMediaType.getSubtype())) {
 				return i;
 			}
 		}
@@ -317,13 +316,12 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 	}
 
 	/**
-	 * Return the contained "produces" expressions or if that's empty, a list
-	 * with a {@value MediaType#ALL_VALUE} expression.
+	 * Return the contained "produces" expressions or if that's empty, a list with a
+	 * {@value MediaType#ALL_VALUE} expression.
 	 */
 	private List<ProduceMediaTypeExpression> getExpressionsToCompare() {
-		return (this.expressions.isEmpty() ? this.mediaTypeAllList  : this.expressions);
+		return (this.expressions.isEmpty() ? this.mediaTypeAllList : this.expressions);
 	}
-
 
 	/**
 	 * Use this to clear {@link #MEDIA_TYPES_ATTRIBUTE} that contains the parsed,
@@ -334,7 +332,6 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 	public static void clearMediaTypesAttribute(ServerWebExchange exchange) {
 		exchange.getAttributes().remove(MEDIA_TYPES_ATTRIBUTE);
 	}
-
 
 	/**
 	 * Parses and matches a single media type expression to a request's 'Accept' header.
@@ -370,6 +367,7 @@ public final class ProducesRequestCondition extends AbstractRequestCondition<Pro
 			}
 			return true;
 		}
+
 	}
 
 }

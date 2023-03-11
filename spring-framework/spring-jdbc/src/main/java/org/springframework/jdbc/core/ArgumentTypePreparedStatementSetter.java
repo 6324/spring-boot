@@ -25,8 +25,8 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.lang.Nullable;
 
 /**
- * Simple adapter for {@link PreparedStatementSetter} that applies
- * given arrays of arguments and JDBC argument types.
+ * Simple adapter for {@link PreparedStatementSetter} that applies given arrays of
+ * arguments and JDBC argument types.
  *
  * @author Juergen Hoeller
  * @since 3.2.3
@@ -39,21 +39,19 @@ public class ArgumentTypePreparedStatementSetter implements PreparedStatementSet
 	@Nullable
 	private final int[] argTypes;
 
-
 	/**
 	 * Create a new ArgTypePreparedStatementSetter for the given arguments.
 	 * @param args the arguments to set
 	 * @param argTypes the corresponding SQL types of the arguments
 	 */
 	public ArgumentTypePreparedStatementSetter(@Nullable Object[] args, @Nullable int[] argTypes) {
-		if ((args != null && argTypes == null) || (args == null && argTypes != null) ||
-				(args != null && args.length != argTypes.length)) {
+		if ((args != null && argTypes == null) || (args == null && argTypes != null)
+				|| (args != null && args.length != argTypes.length)) {
 			throw new InvalidDataAccessApiUsageException("args and argTypes parameters must match");
 		}
 		this.args = args;
 		this.argTypes = argTypes;
 	}
-
 
 	@Override
 	public void setValues(PreparedStatement ps) throws SQLException {
@@ -86,8 +84,8 @@ public class ArgumentTypePreparedStatementSetter implements PreparedStatementSet
 	}
 
 	/**
-	 * Set the value for the prepared statement's specified parameter position using the passed in
-	 * value and type. This method can be overridden by sub-classes if needed.
+	 * Set the value for the prepared statement's specified parameter position using the
+	 * passed in value and type. This method can be overridden by sub-classes if needed.
 	 * @param ps the PreparedStatement
 	 * @param parameterPosition index of the parameter position
 	 * @param argType the argument type

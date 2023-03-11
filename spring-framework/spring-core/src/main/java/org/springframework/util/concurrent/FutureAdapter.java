@@ -45,7 +45,6 @@ public abstract class FutureAdapter<T, S> implements Future<T> {
 
 	private final Object mutex = new Object();
 
-
 	/**
 	 * Constructs a new {@code FutureAdapter} with the given adaptee.
 	 * @param adaptee the future to delegate to
@@ -54,7 +53,6 @@ public abstract class FutureAdapter<T, S> implements Future<T> {
 		Assert.notNull(adaptee, "Delegate must not be null");
 		this.adaptee = adaptee;
 	}
-
 
 	/**
 	 * Returns the adaptee.
@@ -95,31 +93,31 @@ public abstract class FutureAdapter<T, S> implements Future<T> {
 	final T adaptInternal(S adapteeResult) throws ExecutionException {
 		synchronized (this.mutex) {
 			switch (this.state) {
-				case SUCCESS:
-					return (T) this.result;
-				case FAILURE:
-					Assert.state(this.result instanceof ExecutionException, "Failure without exception");
-					throw (ExecutionException) this.result;
-				case NEW:
-					try {
-						T adapted = adapt(adapteeResult);
-						this.result = adapted;
-						this.state = State.SUCCESS;
-						return adapted;
-					}
-					catch (ExecutionException ex) {
-						this.result = ex;
-						this.state = State.FAILURE;
-						throw ex;
-					}
-					catch (Throwable ex) {
-						ExecutionException execEx = new ExecutionException(ex);
-						this.result = execEx;
-						this.state = State.FAILURE;
-						throw execEx;
-					}
-				default:
-					throw new IllegalStateException();
+			case SUCCESS:
+				return (T) this.result;
+			case FAILURE:
+				Assert.state(this.result instanceof ExecutionException, "Failure without exception");
+				throw (ExecutionException) this.result;
+			case NEW:
+				try {
+					T adapted = adapt(adapteeResult);
+					this.result = adapted;
+					this.state = State.SUCCESS;
+					return adapted;
+				}
+				catch (ExecutionException ex) {
+					this.result = ex;
+					this.state = State.FAILURE;
+					throw ex;
+				}
+				catch (Throwable ex) {
+					ExecutionException execEx = new ExecutionException(ex);
+					this.result = execEx;
+					this.state = State.FAILURE;
+					throw execEx;
+				}
+			default:
+				throw new IllegalStateException();
 			}
 		}
 	}
@@ -131,7 +129,10 @@ public abstract class FutureAdapter<T, S> implements Future<T> {
 	@Nullable
 	protected abstract T adapt(S adapteeResult) throws ExecutionException;
 
+	private enum State {
 
-	private enum State {NEW, SUCCESS, FAILURE}
+		NEW, SUCCESS, FAILURE
+
+	}
 
 }

@@ -104,7 +104,8 @@ import org.springframework.util.xml.StaxUtils;
 /**
  * Implementation of the {@code GenericMarshaller} interface for JAXB 2.2.
  *
- * <p>The typical usage will be to set either the "contextPath" or the "classesToBeBound"
+ * <p>
+ * The typical usage will be to set either the "contextPath" or the "classesToBeBound"
  * property on this bean, possibly customize the marshaller and unmarshaller by setting
  * properties, schemas, adapters, and listeners, and to refer to it.
  *
@@ -128,9 +129,8 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 
 	private static final String CID = "cid:";
 
-	private static final EntityResolver NO_OP_ENTITY_RESOLVER =
-			(publicId, systemId) -> new InputSource(new StringReader(""));
-
+	private static final EntityResolver NO_OP_ENTITY_RESOLVER = (publicId,
+			systemId) -> new InputSource(new StringReader(""));
 
 	/** Logger available to subclasses. */
 	protected final Log logger = LogFactory.getLog(getClass());
@@ -199,10 +199,9 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 
 	private boolean processExternalEntities = false;
 
-
 	/**
-	 * Set multiple JAXB context paths. The given array of context paths gets
-	 * converted to a colon-delimited string, as supported by JAXB.
+	 * Set multiple JAXB context paths. The given array of context paths gets converted to
+	 * a colon-delimited string, as supported by JAXB.
 	 */
 	public void setContextPaths(String... contextPaths) {
 		Assert.notEmpty(contextPaths, "'contextPaths' must not be empty");
@@ -211,8 +210,9 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 
 	/**
 	 * Set a JAXB context path.
-	 * <p>Setting either this property, {@link #setClassesToBeBound "classesToBeBound"}
-	 * or {@link #setPackagesToScan "packagesToScan"} is required.
+	 * <p>
+	 * Setting either this property, {@link #setClassesToBeBound "classesToBeBound"} or
+	 * {@link #setPackagesToScan "packagesToScan"} is required.
 	 */
 	public void setContextPath(@Nullable String contextPath) {
 		this.contextPath = contextPath;
@@ -228,8 +228,9 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 
 	/**
 	 * Set the list of Java classes to be recognized by a newly created JAXBContext.
-	 * <p>Setting either this property, {@link #setContextPath "contextPath"}
-	 * or {@link #setPackagesToScan "packagesToScan"} is required.
+	 * <p>
+	 * Setting either this property, {@link #setContextPath "contextPath"} or
+	 * {@link #setPackagesToScan "packagesToScan"} is required.
 	 */
 	public void setClassesToBeBound(@Nullable Class<?>... classesToBeBound) {
 		this.classesToBeBound = classesToBeBound;
@@ -245,9 +246,11 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 
 	/**
 	 * Set the packages to search for classes with JAXB2 annotations in the classpath.
-	 * This is using a Spring-bases search and therefore analogous to Spring's component-scan
-	 * feature ({@link org.springframework.context.annotation.ClassPathBeanDefinitionScanner}).
-	 * <p>Setting either this property, {@link #setContextPath "contextPath"} or
+	 * This is using a Spring-bases search and therefore analogous to Spring's
+	 * component-scan feature
+	 * ({@link org.springframework.context.annotation.ClassPathBeanDefinitionScanner}).
+	 * <p>
+	 * Setting either this property, {@link #setContextPath "contextPath"} or
 	 * {@link #setClassesToBeBound "classesToBeBound"} is required.
 	 */
 	public void setPackagesToScan(@Nullable String... packagesToScan) {
@@ -263,8 +266,8 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 	}
 
 	/**
-	 * Set the {@code JAXBContext} properties. These implementation-specific
-	 * properties will be set on the underlying {@code JAXBContext}.
+	 * Set the {@code JAXBContext} properties. These implementation-specific properties
+	 * will be set on the underlying {@code JAXBContext}.
 	 */
 	public void setJaxbContextProperties(Map<String, ?> jaxbContextProperties) {
 		this.jaxbContextProperties = jaxbContextProperties;
@@ -272,8 +275,9 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 
 	/**
 	 * Set the JAXB {@code Marshaller} properties.
-	 * <p>These properties will be set on the underlying JAXB {@code Marshaller},
-	 * and allow for features such as indentation.
+	 * <p>
+	 * These properties will be set on the underlying JAXB {@code Marshaller}, and allow
+	 * for features such as indentation.
 	 * @param properties the properties
 	 * @see javax.xml.bind.Marshaller#setProperty(String, Object)
 	 * @see javax.xml.bind.Marshaller#JAXB_ENCODING
@@ -287,7 +291,8 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 
 	/**
 	 * Set the JAXB {@code Unmarshaller} properties.
-	 * <p>These properties will be set on the underlying JAXB {@code Unmarshaller}.
+	 * <p>
+	 * These properties will be set on the underlying JAXB {@code Unmarshaller}.
 	 * @param properties the properties
 	 * @see javax.xml.bind.Unmarshaller#setProperty(String, Object)
 	 */
@@ -296,22 +301,24 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 	}
 
 	/**
-	 * Specify the {@code Marshaller.Listener} to be registered with the JAXB {@code Marshaller}.
+	 * Specify the {@code Marshaller.Listener} to be registered with the JAXB
+	 * {@code Marshaller}.
 	 */
 	public void setMarshallerListener(Marshaller.Listener marshallerListener) {
 		this.marshallerListener = marshallerListener;
 	}
 
 	/**
-	 * Set the {@code Unmarshaller.Listener} to be registered with the JAXB {@code Unmarshaller}.
+	 * Set the {@code Unmarshaller.Listener} to be registered with the JAXB
+	 * {@code Unmarshaller}.
 	 */
 	public void setUnmarshallerListener(Unmarshaller.Listener unmarshallerListener) {
 		this.unmarshallerListener = unmarshallerListener;
 	}
 
 	/**
-	 * Set the JAXB validation event handler. This event handler will be called by JAXB
-	 * if any validation errors are encountered during calls to any of the marshal APIs.
+	 * Set the JAXB validation event handler. This event handler will be called by JAXB if
+	 * any validation errors are encountered during calls to any of the marshal APIs.
 	 */
 	public void setValidationEventHandler(ValidationEventHandler validationEventHandler) {
 		this.validationEventHandler = validationEventHandler;
@@ -329,7 +336,7 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 	 * Set the schema resource to use for validation.
 	 */
 	public void setSchema(Resource schemaResource) {
-		this.schemaResources = new Resource[] {schemaResource};
+		this.schemaResources = new Resource[] { schemaResource };
 	}
 
 	/**
@@ -340,8 +347,8 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 	}
 
 	/**
-	 * Set the schema language.
-	 * Default is the W3C XML Schema: {@code http://www.w3.org/2001/XMLSchema"}.
+	 * Set the schema language. Default is the W3C XML Schema:
+	 * {@code http://www.w3.org/2001/XMLSchema"}.
 	 * @see XMLConstants#W3C_XML_SCHEMA_NS_URI
 	 * @see XMLConstants#RELAXNG_NS_URI
 	 */
@@ -362,15 +369,16 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 	/**
 	 * Set whether to lazily initialize the {@link JAXBContext} for this marshaller.
 	 * Default is {@code false} to initialize on startup; can be switched to {@code true}.
-	 * <p>Early initialization just applies if {@link #afterPropertiesSet()} is called.
+	 * <p>
+	 * Early initialization just applies if {@link #afterPropertiesSet()} is called.
 	 */
 	public void setLazyInit(boolean lazyInit) {
 		this.lazyInit = lazyInit;
 	}
 
 	/**
-	 * Specify whether MTOM support should be enabled or not.
-	 * Default is {@code false}: marshalling using XOP/MTOM not being enabled.
+	 * Specify whether MTOM support should be enabled or not. Default is {@code false}:
+	 * marshalling using XOP/MTOM not being enabled.
 	 */
 	public void setMtomEnabled(boolean mtomEnabled) {
 		this.mtomEnabled = mtomEnabled;
@@ -379,12 +387,16 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 	/**
 	 * Specify whether the {@link #supports(Class)} returns {@code true} for the
 	 * {@link JAXBElement} class.
-	 * <p>Default is {@code false}, meaning that {@code supports(Class)} always returns
+	 * <p>
+	 * Default is {@code false}, meaning that {@code supports(Class)} always returns
 	 * {@code false} for {@code JAXBElement} classes (though {@link #supports(Type)} can
-	 * return {@code true}, since it can obtain the type parameters of {@code JAXBElement}).
-	 * <p>This property is typically enabled in combination with usage of classes like
+	 * return {@code true}, since it can obtain the type parameters of
+	 * {@code JAXBElement}).
+	 * <p>
+	 * This property is typically enabled in combination with usage of classes like
 	 * {@link org.springframework.web.servlet.view.xml.MarshallingView MarshallingView},
-	 * since the {@code ModelAndView} does not offer type parameter information at runtime.
+	 * since the {@code ModelAndView} does not offer type parameter information at
+	 * runtime.
 	 * @see #supports(Class)
 	 * @see #supports(Type)
 	 */
@@ -395,11 +407,12 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 	/**
 	 * Specify whether the {@link #supports(Class)} should check for
 	 * {@link XmlRootElement @XmlRootElement} annotations.
-	 * <p>Default is {@code true}, meaning that {@code supports(Class)} will check for
-	 * this annotation. However, some JAXB implementations (i.e. EclipseLink MOXy) allow
-	 * for defining the bindings in an external definition file, thus keeping the classes
-	 * annotations free. Setting this property to {@code false} supports these
-	 * JAXB implementations.
+	 * <p>
+	 * Default is {@code true}, meaning that {@code supports(Class)} will check for this
+	 * annotation. However, some JAXB implementations (i.e. EclipseLink MOXy) allow for
+	 * defining the bindings in an external definition file, thus keeping the classes
+	 * annotations free. Setting this property to {@code false} supports these JAXB
+	 * implementations.
 	 * @see #supports(Class)
 	 * @see #supports(Type)
 	 */
@@ -417,7 +430,8 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 
 	/**
 	 * Indicate whether DTD parsing should be supported.
-	 * <p>Default is {@code false} meaning that DTD is disabled.
+	 * <p>
+	 * Default is {@code false} meaning that DTD is disabled.
 	 */
 	public void setSupportDtd(boolean supportDtd) {
 		this.supportDtd = supportDtd;
@@ -432,13 +446,15 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 
 	/**
 	 * Indicate whether external XML entities are processed when unmarshalling.
-	 * <p>Default is {@code false}, meaning that external entities are not resolved.
-	 * Note that processing of external entities will only be enabled/disabled when the
+	 * <p>
+	 * Default is {@code false}, meaning that external entities are not resolved. Note
+	 * that processing of external entities will only be enabled/disabled when the
 	 * {@code Source} passed to {@link #unmarshal(Source)} is a {@link SAXSource} or
 	 * {@link StreamSource}. It has no effect for {@link DOMSource} or {@link StAXSource}
 	 * instances.
-	 * <p><strong>Note:</strong> setting this option to {@code true} also automatically
-	 * sets {@link #setSupportDtd} to {@code true}.
+	 * <p>
+	 * <strong>Note:</strong> setting this option to {@code true} also automatically sets
+	 * {@link #setSupportDtd} to {@code true}.
 	 */
 	public void setProcessExternalEntities(boolean processExternalEntities) {
 		this.processExternalEntities = processExternalEntities;
@@ -454,12 +470,10 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 		return this.processExternalEntities;
 	}
 
-
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
 		this.beanClassLoader = classLoader;
 	}
-
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -467,10 +481,10 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 		boolean hasClassesToBeBound = !ObjectUtils.isEmpty(this.classesToBeBound);
 		boolean hasPackagesToScan = !ObjectUtils.isEmpty(this.packagesToScan);
 
-		if (hasContextPath && (hasClassesToBeBound || hasPackagesToScan) ||
-				(hasClassesToBeBound && hasPackagesToScan)) {
-			throw new IllegalArgumentException("Specify either 'contextPath', 'classesToBeBound', " +
-					"or 'packagesToScan'");
+		if (hasContextPath && (hasClassesToBeBound || hasPackagesToScan)
+				|| (hasClassesToBeBound && hasPackagesToScan)) {
+			throw new IllegalArgumentException(
+					"Specify either 'contextPath', 'classesToBeBound', " + "or 'packagesToScan'");
 		}
 		if (!hasContextPath && !hasClassesToBeBound && !hasPackagesToScan) {
 			throw new IllegalArgumentException(
@@ -544,8 +558,8 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 
 	private JAXBContext createJaxbContextFromClasses(Class<?>... classesToBeBound) throws JAXBException {
 		if (logger.isDebugEnabled()) {
-			logger.debug("Creating JAXBContext with classes to be bound [" +
-					StringUtils.arrayToCommaDelimitedString(classesToBeBound) + "]");
+			logger.debug("Creating JAXBContext with classes to be bound ["
+					+ StringUtils.arrayToCommaDelimitedString(classesToBeBound) + "]");
 		}
 		if (this.jaxbContextProperties != null) {
 			return JAXBContext.newInstance(classesToBeBound, this.jaxbContextProperties);
@@ -557,8 +571,8 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 
 	private JAXBContext createJaxbContextFromPackages(String... packagesToScan) throws JAXBException {
 		if (logger.isDebugEnabled()) {
-			logger.debug("Creating JAXBContext by scanning packages [" +
-					StringUtils.arrayToCommaDelimitedString(packagesToScan) + "]");
+			logger.debug("Creating JAXBContext by scanning packages ["
+					+ StringUtils.arrayToCommaDelimitedString(packagesToScan) + "]");
 		}
 		ClassPathJaxb2TypeScanner scanner = new ClassPathJaxb2TypeScanner(this.beanClassLoader, packagesToScan);
 		Class<?>[] jaxb2Classes = scanner.scanPackages();
@@ -574,11 +588,11 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 		}
 	}
 
-	@SuppressWarnings("deprecation")  // on JDK 9
+	@SuppressWarnings("deprecation") // on JDK 9
 	private Schema loadSchema(Resource[] resources, String schemaLanguage) throws IOException, SAXException {
 		if (logger.isDebugEnabled()) {
-			logger.debug("Setting validation schema to " +
-					StringUtils.arrayToCommaDelimitedString(this.schemaResources));
+			logger.debug(
+					"Setting validation schema to " + StringUtils.arrayToCommaDelimitedString(this.schemaResources));
 		}
 		Assert.notEmpty(resources, "No resources given");
 		Assert.hasLength(schemaLanguage, "No schema language provided");
@@ -598,25 +612,24 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 		return schemaFactory.newSchema(schemaSources);
 	}
 
-
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return (this.supportJaxbElementClass && JAXBElement.class.isAssignableFrom(clazz)) ||
-				supportsInternal(clazz, this.checkForXmlRootElement);
+		return (this.supportJaxbElementClass && JAXBElement.class.isAssignableFrom(clazz))
+				|| supportsInternal(clazz, this.checkForXmlRootElement);
 	}
 
 	@Override
 	public boolean supports(Type genericType) {
 		if (genericType instanceof ParameterizedType) {
 			ParameterizedType parameterizedType = (ParameterizedType) genericType;
-			if (JAXBElement.class == parameterizedType.getRawType() &&
-					parameterizedType.getActualTypeArguments().length == 1) {
+			if (JAXBElement.class == parameterizedType.getRawType()
+					&& parameterizedType.getActualTypeArguments().length == 1) {
 				Type typeArgument = parameterizedType.getActualTypeArguments()[0];
 				if (typeArgument instanceof Class) {
 					Class<?> classArgument = (Class<?>) typeArgument;
-					return ((classArgument.isArray() && Byte.TYPE == classArgument.getComponentType()) ||
-							isPrimitiveWrapper(classArgument) || isStandardClass(classArgument) ||
-							supportsInternal(classArgument, false));
+					return ((classArgument.isArray() && Byte.TYPE == classArgument.getComponentType())
+							|| isPrimitiveWrapper(classArgument) || isStandardClass(classArgument)
+							|| supportsInternal(classArgument, false));
 				}
 				else if (typeArgument instanceof GenericArrayType) {
 					GenericArrayType arrayType = (GenericArrayType) typeArgument;
@@ -652,41 +665,30 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 	}
 
 	/**
-	 * Checks whether the given type is a primitive wrapper type.
-	 * Compare section 8.5.1 of the JAXB2 spec.
+	 * Checks whether the given type is a primitive wrapper type. Compare section 8.5.1 of
+	 * the JAXB2 spec.
 	 */
 	private boolean isPrimitiveWrapper(Class<?> clazz) {
-		return (Boolean.class == clazz ||
-				Byte.class == clazz ||
-				Short.class == clazz ||
-				Integer.class == clazz ||
-				Long.class == clazz ||
-				Float.class == clazz ||
-				Double.class == clazz);
+		return (Boolean.class == clazz || Byte.class == clazz || Short.class == clazz || Integer.class == clazz
+				|| Long.class == clazz || Float.class == clazz || Double.class == clazz);
 	}
 
 	/**
-	 * Checks whether the given type is a standard class.
-	 * Compare section 8.5.2 of the JAXB2 spec.
+	 * Checks whether the given type is a standard class. Compare section 8.5.2 of the
+	 * JAXB2 spec.
 	 */
 	private boolean isStandardClass(Class<?> clazz) {
-		return (String.class == clazz ||
-				BigInteger.class.isAssignableFrom(clazz) ||
-				BigDecimal.class.isAssignableFrom(clazz) ||
-				Calendar.class.isAssignableFrom(clazz) ||
-				Date.class.isAssignableFrom(clazz) ||
-				QName.class.isAssignableFrom(clazz) ||
-				URI.class == clazz ||
-				XMLGregorianCalendar.class.isAssignableFrom(clazz) ||
-				Duration.class.isAssignableFrom(clazz) ||
-				Image.class == clazz ||
-				DataHandler.class == clazz ||
-				// Source and subclasses should be supported according to the JAXB2 spec, but aren't in the RI
+		return (String.class == clazz || BigInteger.class.isAssignableFrom(clazz)
+				|| BigDecimal.class.isAssignableFrom(clazz) || Calendar.class.isAssignableFrom(clazz)
+				|| Date.class.isAssignableFrom(clazz) || QName.class.isAssignableFrom(clazz) || URI.class == clazz
+				|| XMLGregorianCalendar.class.isAssignableFrom(clazz) || Duration.class.isAssignableFrom(clazz)
+				|| Image.class == clazz || DataHandler.class == clazz ||
+				// Source and subclasses should be supported according to the JAXB2 spec,
+				// but aren't in the RI
 				// Source.class.isAssignableFrom(clazz) ||
 				UUID.class == clazz);
 
 	}
-
 
 	// Marshalling
 
@@ -716,8 +718,9 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 
 	/**
 	 * Return a newly created JAXB marshaller.
-	 * <p>Note: JAXB marshallers are not necessarily thread-safe.
-	 * This method is public as of 5.2.
+	 * <p>
+	 * Note: JAXB marshallers are not necessarily thread-safe. This method is public as of
+	 * 5.2.
 	 * @since 5.2
 	 * @see #createUnmarshaller()
 	 */
@@ -749,14 +752,14 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 	}
 
 	/**
-	 * Template method that can be overridden by concrete JAXB marshallers
-	 * for custom initialization behavior. Gets called after creation of JAXB
-	 * {@code Marshaller}, and after the respective properties have been set.
-	 * <p>The default implementation sets the
-	 * {@link #setMarshallerProperties defined properties}, the
-	 * {@link #setValidationEventHandler validation event handler}, the
-	 * {@link #setSchemas schemas}, {@link #setMarshallerListener listener},
-	 * and {@link #setAdapters adapters}.
+	 * Template method that can be overridden by concrete JAXB marshallers for custom
+	 * initialization behavior. Gets called after creation of JAXB {@code Marshaller}, and
+	 * after the respective properties have been set.
+	 * <p>
+	 * The default implementation sets the {@link #setMarshallerProperties defined
+	 * properties}, the {@link #setValidationEventHandler validation event handler}, the
+	 * {@link #setSchemas schemas}, {@link #setMarshallerListener listener}, and
+	 * {@link #setAdapters adapters}.
 	 */
 	protected void initJaxbMarshaller(Marshaller marshaller) throws JAXBException {
 		if (this.marshallerProperties != null) {
@@ -779,7 +782,6 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 			marshaller.setSchema(this.schema);
 		}
 	}
-
 
 	// Unmarshalling
 
@@ -809,8 +811,8 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 		}
 		catch (NullPointerException ex) {
 			if (!isSupportDtd()) {
-				throw new UnmarshallingFailureException("NPE while unmarshalling: " +
-						"This can happen due to the presence of DTD declarations which are disabled.", ex);
+				throw new UnmarshallingFailureException("NPE while unmarshalling: "
+						+ "This can happen due to the presence of DTD declarations which are disabled.", ex);
 			}
 			throw ex;
 		}
@@ -821,8 +823,9 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 
 	/**
 	 * Return a newly created JAXB unmarshaller.
-	 * <p>Note: JAXB unmarshallers are not necessarily thread-safe.
-	 * This method is public as of 5.2.
+	 * <p>
+	 * Note: JAXB unmarshallers are not necessarily thread-safe. This method is public as
+	 * of 5.2.
 	 * @since 5.2
 	 * @see #createMarshaller()
 	 */
@@ -840,16 +843,14 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 	protected Object unmarshalStaxSource(Unmarshaller jaxbUnmarshaller, Source staxSource) throws JAXBException {
 		XMLStreamReader streamReader = StaxUtils.getXMLStreamReader(staxSource);
 		if (streamReader != null) {
-			return (this.mappedClass != null ?
-					jaxbUnmarshaller.unmarshal(streamReader, this.mappedClass).getValue() :
-					jaxbUnmarshaller.unmarshal(streamReader));
+			return (this.mappedClass != null ? jaxbUnmarshaller.unmarshal(streamReader, this.mappedClass).getValue()
+					: jaxbUnmarshaller.unmarshal(streamReader));
 		}
 		else {
 			XMLEventReader eventReader = StaxUtils.getXMLEventReader(staxSource);
 			if (eventReader != null) {
-				return (this.mappedClass != null ?
-						jaxbUnmarshaller.unmarshal(eventReader, this.mappedClass).getValue() :
-						jaxbUnmarshaller.unmarshal(eventReader));
+				return (this.mappedClass != null ? jaxbUnmarshaller.unmarshal(eventReader, this.mappedClass).getValue()
+						: jaxbUnmarshaller.unmarshal(eventReader));
 			}
 			else {
 				throw new IllegalArgumentException("StaxSource contains neither XMLStreamReader nor XMLEventReader");
@@ -857,7 +858,7 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 		}
 	}
 
-	@SuppressWarnings("deprecation")  // on JDK 9
+	@SuppressWarnings("deprecation") // on JDK 9
 	private Source processSource(Source source) {
 		if (StaxUtils.isStaxSource(source) || source instanceof DOMSource) {
 			return source;
@@ -903,14 +904,14 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 	}
 
 	/**
-	 * Template method that can be overridden by concrete JAXB marshallers
-	 * for custom initialization behavior. Gets called after creation of JAXB
-	 * {@code Marshaller}, and after the respective properties have been set.
-	 * <p>The default implementation sets the
-	 * {@link #setUnmarshallerProperties defined properties}, the
-	 * {@link #setValidationEventHandler validation event handler}, the
-	 * {@link #setSchemas schemas}, {@link #setUnmarshallerListener listener},
-	 * and {@link #setAdapters adapters}.
+	 * Template method that can be overridden by concrete JAXB marshallers for custom
+	 * initialization behavior. Gets called after creation of JAXB {@code Marshaller}, and
+	 * after the respective properties have been set.
+	 * <p>
+	 * The default implementation sets the {@link #setUnmarshallerProperties defined
+	 * properties}, the {@link #setValidationEventHandler validation event handler}, the
+	 * {@link #setSchemas schemas}, {@link #setUnmarshallerListener listener}, and
+	 * {@link #setAdapters adapters}.
 	 */
 	protected void initJaxbUnmarshaller(Unmarshaller unmarshaller) throws JAXBException {
 		if (this.unmarshallerProperties != null) {
@@ -935,8 +936,8 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 	}
 
 	/**
-	 * Convert the given {@code JAXBException} to an appropriate exception
-	 * from the {@code org.springframework.oxm} hierarchy.
+	 * Convert the given {@code JAXBException} to an appropriate exception from the
+	 * {@code org.springframework.oxm} hierarchy.
 	 * @param ex {@code JAXBException} that occurred
 	 * @return the corresponding {@code XmlMappingException}
 	 */
@@ -956,7 +957,6 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 		}
 	}
 
-
 	private static class Jaxb2AttachmentMarshaller extends AttachmentMarshaller {
 
 		private final MimeContainer mimeContainer;
@@ -966,8 +966,8 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 		}
 
 		@Override
-		public String addMtomAttachment(byte[] data, int offset, int length, String mimeType,
-				String elementNamespace, String elementLocalName) {
+		public String addMtomAttachment(byte[] data, int offset, int length, String mimeType, String elementNamespace,
+				String elementLocalName) {
 			ByteArrayDataSource dataSource = new ByteArrayDataSource(mimeType, data, offset, length);
 			return addMtomAttachment(new DataHandler(dataSource), elementNamespace, elementLocalName);
 		}
@@ -1008,8 +1008,8 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 		public boolean isXOPPackage() {
 			return this.mimeContainer.convertToXopPackage();
 		}
-	}
 
+	}
 
 	private static class Jaxb2AttachmentUnmarshaller extends AttachmentUnmarshaller {
 
@@ -1053,8 +1053,8 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 		public boolean isXOPPackage() {
 			return this.mimeContainer.isXopPackage();
 		}
-	}
 
+	}
 
 	/**
 	 * DataSource that wraps around a byte array.
@@ -1095,6 +1095,7 @@ public class Jaxb2Marshaller implements MimeMarshaller, MimeUnmarshaller, Generi
 		public String getName() {
 			return "ByteArrayDataSource";
 		}
+
 	}
 
 }

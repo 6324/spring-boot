@@ -34,8 +34,8 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.lang.Nullable;
 
 /**
- * Extension of {@link org.springframework.beans.factory.parsing.ReaderContext},
- * specific to use with an {@link XmlBeanDefinitionReader}. Provides access to the
+ * Extension of {@link org.springframework.beans.factory.parsing.ReaderContext}, specific
+ * to use with an {@link XmlBeanDefinitionReader}. Provides access to the
  * {@link NamespaceHandlerResolver} configured in the {@link XmlBeanDefinitionReader}.
  *
  * @author Rob Harrop
@@ -48,7 +48,6 @@ public class XmlReaderContext extends ReaderContext {
 
 	private final NamespaceHandlerResolver namespaceHandlerResolver;
 
-
 	/**
 	 * Construct a new {@code XmlReaderContext}.
 	 * @param resource the XML bean definition resource
@@ -58,16 +57,14 @@ public class XmlReaderContext extends ReaderContext {
 	 * @param reader the XML bean definition reader in use
 	 * @param namespaceHandlerResolver the XML namespace resolver
 	 */
-	public XmlReaderContext(
-			Resource resource, ProblemReporter problemReporter,
-			ReaderEventListener eventListener, SourceExtractor sourceExtractor,
-			XmlBeanDefinitionReader reader, NamespaceHandlerResolver namespaceHandlerResolver) {
+	public XmlReaderContext(Resource resource, ProblemReporter problemReporter, ReaderEventListener eventListener,
+			SourceExtractor sourceExtractor, XmlBeanDefinitionReader reader,
+			NamespaceHandlerResolver namespaceHandlerResolver) {
 
 		super(resource, problemReporter, eventListener, sourceExtractor);
 		this.reader = reader;
 		this.namespaceHandlerResolver = namespaceHandlerResolver;
 	}
-
 
 	/**
 	 * Return the XML bean definition reader in use.
@@ -86,8 +83,9 @@ public class XmlReaderContext extends ReaderContext {
 
 	/**
 	 * Return the resource loader to use, if any.
-	 * <p>This will be non-null in regular scenarios,
-	 * also allowing access to the resource class loader.
+	 * <p>
+	 * This will be non-null in regular scenarios, also allowing access to the resource
+	 * class loader.
 	 * @see XmlBeanDefinitionReader#setResourceLoader
 	 * @see ResourceLoader#getClassLoader()
 	 */
@@ -98,8 +96,9 @@ public class XmlReaderContext extends ReaderContext {
 
 	/**
 	 * Return the bean class loader to use, if any.
-	 * <p>Note that this will be null in regular scenarios,
-	 * as an indication to lazily resolve bean classes.
+	 * <p>
+	 * Note that this will be null in regular scenarios, as an indication to lazily
+	 * resolve bean classes.
 	 * @see XmlBeanDefinitionReader#setBeanClassLoader
 	 */
 	@Nullable
@@ -123,7 +122,6 @@ public class XmlReaderContext extends ReaderContext {
 		return this.namespaceHandlerResolver;
 	}
 
-
 	// Convenience methods to delegate to
 
 	/**
@@ -136,8 +134,8 @@ public class XmlReaderContext extends ReaderContext {
 	}
 
 	/**
-	 * Call the bean name generator for the given bean definition
-	 * and register the bean definition under the generated name.
+	 * Call the bean name generator for the given bean definition and register the bean
+	 * definition under the generated name.
 	 * @see XmlBeanDefinitionReader#getBeanNameGenerator()
 	 * @see org.springframework.beans.factory.support.BeanNameGenerator#generateBeanName
 	 * @see BeanDefinitionRegistry#registerBeanDefinition

@@ -52,7 +52,6 @@ class LocaleContextResolverIntegrationTests extends AbstractRequestMappingIntegr
 
 	private final WebClient webClient = WebClient.create();
 
-
 	@Override
 	protected ApplicationContext initApplicationContext() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
@@ -61,28 +60,21 @@ class LocaleContextResolverIntegrationTests extends AbstractRequestMappingIntegr
 		return context;
 	}
 
-
 	@ParameterizedHttpServerTest
 	void fixedLocale(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		Mono<ClientResponse> result = webClient
-				.get()
-				.uri("http://localhost:" + this.port + "/")
-				.exchange();
+		Mono<ClientResponse> result = webClient.get().uri("http://localhost:" + this.port + "/").exchange();
 
-		StepVerifier.create(result)
-				.consumeNextWith(response -> {
-					assertThat(response.statusCode()).isEqualTo(HttpStatus.OK);
-					assertThat(response.headers().asHttpHeaders().getContentLanguage()).isEqualTo(Locale.GERMANY);
-				})
-				.verifyComplete();
+		StepVerifier.create(result).consumeNextWith(response -> {
+			assertThat(response.statusCode()).isEqualTo(HttpStatus.OK);
+			assertThat(response.headers().asHttpHeaders().getContentLanguage()).isEqualTo(Locale.GERMANY);
+		}).verifyComplete();
 	}
-
 
 	@Configuration
 	@ComponentScan(resourcePattern = "**/LocaleContextResolverIntegrationTests*.class")
-	@SuppressWarnings({"unused", "WeakerAccess"})
+	@SuppressWarnings({ "unused", "WeakerAccess" })
 	static class WebConfig extends WebFluxConfigurationSupport {
 
 		@Override
@@ -114,9 +106,10 @@ class LocaleContextResolverIntegrationTests extends AbstractRequestMappingIntegr
 				exchange.getResponse().getHeaders().setContentLanguage(locale);
 				return Mono.empty();
 			}
-		}
-	}
 
+		}
+
+	}
 
 	@Controller
 	@SuppressWarnings("unused")
@@ -126,6 +119,7 @@ class LocaleContextResolverIntegrationTests extends AbstractRequestMappingIntegr
 		public String foo() {
 			return "foo";
 		}
+
 	}
 
 }

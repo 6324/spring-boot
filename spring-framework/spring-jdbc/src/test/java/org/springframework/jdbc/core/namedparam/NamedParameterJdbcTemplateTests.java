@@ -61,25 +61,21 @@ import static org.mockito.Mockito.verify;
  */
 public class NamedParameterJdbcTemplateTests {
 
-	private static final String SELECT_NAMED_PARAMETERS =
-			"select id, forename from custmr where id = :id and country = :country";
-	private static final String SELECT_NAMED_PARAMETERS_PARSED =
-			"select id, forename from custmr where id = ? and country = ?";
-	private static final String SELECT_NO_PARAMETERS =
-			"select id, forename from custmr";
+	private static final String SELECT_NAMED_PARAMETERS = "select id, forename from custmr where id = :id and country = :country";
 
-	private static final String UPDATE_NAMED_PARAMETERS =
-			"update seat_status set booking_id = null where performance_id = :perfId and price_band_id = :priceId";
-	private static final String UPDATE_NAMED_PARAMETERS_PARSED =
-			"update seat_status set booking_id = null where performance_id = ? and price_band_id = ?";
+	private static final String SELECT_NAMED_PARAMETERS_PARSED = "select id, forename from custmr where id = ? and country = ?";
 
-	private static final String UPDATE_ARRAY_PARAMETERS =
-			"update customer set type = array[:typeIds] where id = :id";
-	private static final String UPDATE_ARRAY_PARAMETERS_PARSED =
-			"update customer set type = array[?, ?, ?] where id = ?";
+	private static final String SELECT_NO_PARAMETERS = "select id, forename from custmr";
 
-	private static final String[] COLUMN_NAMES = new String[] {"id", "forename"};
+	private static final String UPDATE_NAMED_PARAMETERS = "update seat_status set booking_id = null where performance_id = :perfId and price_band_id = :priceId";
 
+	private static final String UPDATE_NAMED_PARAMETERS_PARSED = "update seat_status set booking_id = null where performance_id = ? and price_band_id = ?";
+
+	private static final String UPDATE_ARRAY_PARAMETERS = "update customer set type = array[:typeIds] where id = :id";
+
+	private static final String UPDATE_ARRAY_PARAMETERS_PARSED = "update customer set type = array[?, ?, ?] where id = ?";
+
+	private static final String[] COLUMN_NAMES = new String[] { "id", "forename" };
 
 	private Connection connection;
 
@@ -95,12 +91,11 @@ public class NamedParameterJdbcTemplateTests {
 
 	private NamedParameterJdbcTemplate namedParameterTemplate;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		connection = mock(Connection.class);
 		dataSource = mock(DataSource.class);
-		preparedStatement =	mock(PreparedStatement.class);
+		preparedStatement = mock(PreparedStatement.class);
 		resultSet = mock(ResultSet.class);
 		namedParameterTemplate = new NamedParameterJdbcTemplate(dataSource);
 		databaseMetaData = mock(DatabaseMetaData.class);
@@ -112,17 +107,14 @@ public class NamedParameterJdbcTemplateTests {
 		given(databaseMetaData.supportsBatchUpdates()).willReturn(true);
 	}
 
-
 	@Test
 	public void testNullDataSourceProvidedToCtor() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new NamedParameterJdbcTemplate((DataSource) null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new NamedParameterJdbcTemplate((DataSource) null));
 	}
 
 	@Test
 	public void testNullJdbcTemplateProvidedToCtor() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-		new NamedParameterJdbcTemplate((JdbcOperations) null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new NamedParameterJdbcTemplate((JdbcOperations) null));
 	}
 
 	@Test
@@ -202,12 +194,11 @@ public class NamedParameterJdbcTemplateTests {
 	public void testExecuteNoParameters() throws SQLException {
 		given(preparedStatement.executeUpdate()).willReturn(1);
 
-		Object result = namedParameterTemplate.execute(SELECT_NO_PARAMETERS,
-				(PreparedStatementCallback<Object>) ps -> {
-					assertThat(ps).isEqualTo(preparedStatement);
-					ps.executeQuery();
-					return "result";
-				});
+		Object result = namedParameterTemplate.execute(SELECT_NO_PARAMETERS, (PreparedStatementCallback<Object>) ps -> {
+			assertThat(ps).isEqualTo(preparedStatement);
+			ps.executeQuery();
+			return "result";
+		});
 
 		assertThat(result).isEqualTo("result");
 		verify(connection).prepareStatement(SELECT_NO_PARAMETERS);
@@ -223,14 +214,13 @@ public class NamedParameterJdbcTemplateTests {
 
 		params.put("id", new SqlParameterValue(Types.DECIMAL, 1));
 		params.put("country", "UK");
-		Customer cust = namedParameterTemplate.query(SELECT_NAMED_PARAMETERS, params,
-				rs -> {
-					rs.next();
-					Customer cust1 = new Customer();
-					cust1.setId(rs.getInt(COLUMN_NAMES[0]));
-					cust1.setForename(rs.getString(COLUMN_NAMES[1]));
-					return cust1;
-				});
+		Customer cust = namedParameterTemplate.query(SELECT_NAMED_PARAMETERS, params, rs -> {
+			rs.next();
+			Customer cust1 = new Customer();
+			cust1.setId(rs.getInt(COLUMN_NAMES[0]));
+			cust1.setForename(rs.getString(COLUMN_NAMES[1]));
+			return cust1;
+		});
 
 		assertThat(cust.getId() == 1).as("Customer id was assigned correctly").isTrue();
 		assertThat(cust.getForename().equals("rod")).as("Customer forename was assigned correctly").isTrue();
@@ -248,14 +238,13 @@ public class NamedParameterJdbcTemplateTests {
 		given(resultSet.getInt("id")).willReturn(1);
 		given(resultSet.getString("forename")).willReturn("rod");
 
-		Customer cust = namedParameterTemplate.query(SELECT_NO_PARAMETERS,
-				rs -> {
-					rs.next();
-					Customer cust1 = new Customer();
-					cust1.setId(rs.getInt(COLUMN_NAMES[0]));
-					cust1.setForename(rs.getString(COLUMN_NAMES[1]));
-					return cust1;
-				});
+		Customer cust = namedParameterTemplate.query(SELECT_NO_PARAMETERS, rs -> {
+			rs.next();
+			Customer cust1 = new Customer();
+			cust1.setId(rs.getInt(COLUMN_NAMES[0]));
+			cust1.setForename(rs.getString(COLUMN_NAMES[1]));
+			return cust1;
+		});
 
 		assertThat(cust.getId() == 1).as("Customer id was assigned correctly").isTrue();
 		assertThat(cust.getForename().equals("rod")).as("Customer forename was assigned correctly").isTrue();
@@ -283,7 +272,8 @@ public class NamedParameterJdbcTemplateTests {
 
 		assertThat(customers.size()).isEqualTo(1);
 		assertThat(customers.get(0).getId() == 1).as("Customer id was assigned correctly").isTrue();
-		assertThat(customers.get(0).getForename().equals("rod")).as("Customer forename was assigned correctly").isTrue();
+		assertThat(customers.get(0).getForename().equals("rod")).as("Customer forename was assigned correctly")
+				.isTrue();
 		verify(connection).prepareStatement(SELECT_NAMED_PARAMETERS_PARSED);
 		verify(preparedStatement).setObject(1, 1, Types.DECIMAL);
 		verify(preparedStatement).setString(2, "UK");
@@ -308,7 +298,8 @@ public class NamedParameterJdbcTemplateTests {
 
 		assertThat(customers.size()).isEqualTo(1);
 		assertThat(customers.get(0).getId() == 1).as("Customer id was assigned correctly").isTrue();
-		assertThat(customers.get(0).getForename().equals("rod")).as("Customer forename was assigned correctly").isTrue();
+		assertThat(customers.get(0).getForename().equals("rod")).as("Customer forename was assigned correctly")
+				.isTrue();
 		verify(connection).prepareStatement(SELECT_NO_PARAMETERS);
 		verify(resultSet).close();
 		verify(preparedStatement).close();
@@ -323,17 +314,17 @@ public class NamedParameterJdbcTemplateTests {
 
 		params.put("id", new SqlParameterValue(Types.DECIMAL, 1));
 		params.put("country", "UK");
-		List<Customer> customers = namedParameterTemplate.query(SELECT_NAMED_PARAMETERS, params,
-				(rs, rownum) -> {
-					Customer cust = new Customer();
-					cust.setId(rs.getInt(COLUMN_NAMES[0]));
-					cust.setForename(rs.getString(COLUMN_NAMES[1]));
-					return cust;
-				});
+		List<Customer> customers = namedParameterTemplate.query(SELECT_NAMED_PARAMETERS, params, (rs, rownum) -> {
+			Customer cust = new Customer();
+			cust.setId(rs.getInt(COLUMN_NAMES[0]));
+			cust.setForename(rs.getString(COLUMN_NAMES[1]));
+			return cust;
+		});
 
 		assertThat(customers.size()).isEqualTo(1);
 		assertThat(customers.get(0).getId() == 1).as("Customer id was assigned correctly").isTrue();
-		assertThat(customers.get(0).getForename().equals("rod")).as("Customer forename was assigned correctly").isTrue();
+		assertThat(customers.get(0).getForename().equals("rod")).as("Customer forename was assigned correctly")
+				.isTrue();
 		verify(connection).prepareStatement(SELECT_NAMED_PARAMETERS_PARSED);
 		verify(preparedStatement).setObject(1, 1, Types.DECIMAL);
 		verify(preparedStatement).setString(2, "UK");
@@ -348,17 +339,17 @@ public class NamedParameterJdbcTemplateTests {
 		given(resultSet.getInt("id")).willReturn(1);
 		given(resultSet.getString("forename")).willReturn("rod");
 
-		List<Customer> customers = namedParameterTemplate.query(SELECT_NO_PARAMETERS,
-				(rs, rownum) -> {
-					Customer cust = new Customer();
-					cust.setId(rs.getInt(COLUMN_NAMES[0]));
-					cust.setForename(rs.getString(COLUMN_NAMES[1]));
-					return cust;
-				});
+		List<Customer> customers = namedParameterTemplate.query(SELECT_NO_PARAMETERS, (rs, rownum) -> {
+			Customer cust = new Customer();
+			cust.setId(rs.getInt(COLUMN_NAMES[0]));
+			cust.setForename(rs.getString(COLUMN_NAMES[1]));
+			return cust;
+		});
 
 		assertThat(customers.size()).isEqualTo(1);
 		assertThat(customers.get(0).getId() == 1).as("Customer id was assigned correctly").isTrue();
-		assertThat(customers.get(0).getForename().equals("rod")).as("Customer forename was assigned correctly").isTrue();
+		assertThat(customers.get(0).getForename().equals("rod")).as("Customer forename was assigned correctly")
+				.isTrue();
 		verify(connection).prepareStatement(SELECT_NO_PARAMETERS);
 		verify(resultSet).close();
 		verify(preparedStatement).close();
@@ -374,13 +365,12 @@ public class NamedParameterJdbcTemplateTests {
 		params.put("id", new SqlParameterValue(Types.DECIMAL, 1));
 		params.put("country", "UK");
 
-		Customer cust = namedParameterTemplate.queryForObject(SELECT_NAMED_PARAMETERS, params,
-				(rs, rownum) -> {
-					Customer cust1 = new Customer();
-					cust1.setId(rs.getInt(COLUMN_NAMES[0]));
-					cust1.setForename(rs.getString(COLUMN_NAMES[1]));
-					return cust1;
-				});
+		Customer cust = namedParameterTemplate.queryForObject(SELECT_NAMED_PARAMETERS, params, (rs, rownum) -> {
+			Customer cust1 = new Customer();
+			cust1.setId(rs.getInt(COLUMN_NAMES[0]));
+			cust1.setForename(rs.getString(COLUMN_NAMES[1]));
+			return cust1;
+		});
 
 		assertThat(cust.getId() == 1).as("Customer id was assigned correctly").isTrue();
 		assertThat(cust.getForename().equals("rod")).as("Customer forename was assigned correctly").isTrue();
@@ -430,14 +420,14 @@ public class NamedParameterJdbcTemplateTests {
 		final Map<String, Integer>[] ids = new Map[2];
 		ids[0] = Collections.singletonMap("id", 100);
 		ids[1] = Collections.singletonMap("id", 200);
-		final int[] rowsAffected = new int[] {1, 2};
+		final int[] rowsAffected = new int[] { 1, 2 };
 
 		given(preparedStatement.executeBatch()).willReturn(rowsAffected);
 		given(connection.getMetaData()).willReturn(databaseMetaData);
 		namedParameterTemplate = new NamedParameterJdbcTemplate(new JdbcTemplate(dataSource, false));
 
-		int[] actualRowsAffected = namedParameterTemplate.batchUpdate(
-				"UPDATE NOSUCHTABLE SET DATE_DISPATCHED = SYSDATE WHERE ID = :id", ids);
+		int[] actualRowsAffected = namedParameterTemplate
+				.batchUpdate("UPDATE NOSUCHTABLE SET DATE_DISPATCHED = SYSDATE WHERE ID = :id", ids);
 		assertThat(actualRowsAffected.length == 2).as("executed 2 updates").isTrue();
 		assertThat(actualRowsAffected[0]).isEqualTo(rowsAffected[0]);
 		assertThat(actualRowsAffected[1]).isEqualTo(rowsAffected[1]);
@@ -455,8 +445,8 @@ public class NamedParameterJdbcTemplateTests {
 		final Map<String, Integer>[] ids = new Map[0];
 		namedParameterTemplate = new NamedParameterJdbcTemplate(new JdbcTemplate(dataSource, false));
 
-		int[] actualRowsAffected = namedParameterTemplate.batchUpdate(
-				"UPDATE NOSUCHTABLE SET DATE_DISPATCHED = SYSDATE WHERE ID = :id", ids);
+		int[] actualRowsAffected = namedParameterTemplate
+				.batchUpdate("UPDATE NOSUCHTABLE SET DATE_DISPATCHED = SYSDATE WHERE ID = :id", ids);
 		assertThat(actualRowsAffected.length == 0).as("executed 0 updates").isTrue();
 	}
 
@@ -465,14 +455,14 @@ public class NamedParameterJdbcTemplateTests {
 		SqlParameterSource[] ids = new SqlParameterSource[2];
 		ids[0] = new MapSqlParameterSource("id", 100);
 		ids[1] = new MapSqlParameterSource("id", 200);
-		final int[] rowsAffected = new int[] {1, 2};
+		final int[] rowsAffected = new int[] { 1, 2 };
 
 		given(preparedStatement.executeBatch()).willReturn(rowsAffected);
 		given(connection.getMetaData()).willReturn(databaseMetaData);
 		namedParameterTemplate = new NamedParameterJdbcTemplate(new JdbcTemplate(dataSource, false));
 
-		int[] actualRowsAffected = namedParameterTemplate.batchUpdate(
-				"UPDATE NOSUCHTABLE SET DATE_DISPATCHED = SYSDATE WHERE ID = :id", ids);
+		int[] actualRowsAffected = namedParameterTemplate
+				.batchUpdate("UPDATE NOSUCHTABLE SET DATE_DISPATCHED = SYSDATE WHERE ID = :id", ids);
 		assertThat(actualRowsAffected.length == 2).as("executed 2 updates").isTrue();
 		assertThat(actualRowsAffected[0]).isEqualTo(rowsAffected[0]);
 		assertThat(actualRowsAffected[1]).isEqualTo(rowsAffected[1]);
@@ -492,17 +482,15 @@ public class NamedParameterJdbcTemplateTests {
 		parameters[1] = Collections.singletonMap("ids", Arrays.asList("3", "4"));
 		parameters[2] = Collections.singletonMap("ids", (Iterable<Integer>) () -> Arrays.asList(5, 6).iterator());
 
-		final int[] rowsAffected = new int[] {1, 2, 3};
+		final int[] rowsAffected = new int[] { 1, 2, 3 };
 		given(preparedStatement.executeBatch()).willReturn(rowsAffected);
 		given(connection.getMetaData()).willReturn(databaseMetaData);
 
 		JdbcTemplate template = new JdbcTemplate(dataSource, false);
 		namedParameterTemplate = new NamedParameterJdbcTemplate(template);
 
-		int[] actualRowsAffected = namedParameterTemplate.batchUpdate(
-				"delete sometable where id in (:ids)",
-				parameters
-		);
+		int[] actualRowsAffected = namedParameterTemplate.batchUpdate("delete sometable where id in (:ids)",
+				parameters);
 
 		assertThat(actualRowsAffected.length).as("executed 3 updates").isEqualTo(3);
 
@@ -530,14 +518,14 @@ public class NamedParameterJdbcTemplateTests {
 		ids[0] = new MapSqlParameterSource().addValue("id", null, Types.NULL);
 		ids[1] = new MapSqlParameterSource().addValue("id", 100, Types.NUMERIC);
 		ids[2] = new MapSqlParameterSource().addValue("id", 200, Types.NUMERIC);
-		final int[] rowsAffected = new int[] {1, 2, 3};
+		final int[] rowsAffected = new int[] { 1, 2, 3 };
 
 		given(preparedStatement.executeBatch()).willReturn(rowsAffected);
 		given(connection.getMetaData()).willReturn(databaseMetaData);
 		namedParameterTemplate = new NamedParameterJdbcTemplate(new JdbcTemplate(dataSource, false));
 
-		int[] actualRowsAffected = namedParameterTemplate.batchUpdate(
-				"UPDATE NOSUCHTABLE SET DATE_DISPATCHED = SYSDATE WHERE ID = :id", ids);
+		int[] actualRowsAffected = namedParameterTemplate
+				.batchUpdate("UPDATE NOSUCHTABLE SET DATE_DISPATCHED = SYSDATE WHERE ID = :id", ids);
 		assertThat(actualRowsAffected.length == 3).as("executed 3 updates").isTrue();
 		assertThat(actualRowsAffected[0]).isEqualTo(rowsAffected[0]);
 		assertThat(actualRowsAffected[1]).isEqualTo(rowsAffected[1]);

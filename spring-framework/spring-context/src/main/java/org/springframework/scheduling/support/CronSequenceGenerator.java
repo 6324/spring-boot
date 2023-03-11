@@ -29,15 +29,16 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
 /**
- * Date sequence generator for a
- * <a href="https://www.manpagez.com/man/5/crontab/">Crontab pattern</a>,
- * allowing clients to specify a pattern that the sequence matches.
+ * Date sequence generator for a <a href="https://www.manpagez.com/man/5/crontab/">Crontab
+ * pattern</a>, allowing clients to specify a pattern that the sequence matches.
  *
- * <p>The pattern is a list of six single space-separated fields: representing
- * second, minute, hour, day, month, weekday. Month and weekday names can be
- * given as the first three letters of the English names.
+ * <p>
+ * The pattern is a list of six single space-separated fields: representing second,
+ * minute, hour, day, month, weekday. Month and weekday names can be given as the first
+ * three letters of the English names.
  *
- * <p>Example patterns:
+ * <p>
+ * Example patterns:
  * <ul>
  * <li>"0 0 * * * *" = the top of every hour of every day.</li>
  * <li>"*&#47;10 * * * * *" = every ten seconds.</li>
@@ -73,10 +74,9 @@ public class CronSequenceGenerator {
 
 	private final BitSet seconds = new BitSet(60);
 
-
 	/**
-	 * Construct a {@link CronSequenceGenerator} from the pattern provided,
-	 * using the default {@link TimeZone}.
+	 * Construct a {@link CronSequenceGenerator} from the pattern provided, using the
+	 * default {@link TimeZone}.
 	 * @param expression a space-separated list of time fields
 	 * @throws IllegalArgumentException if the pattern cannot be parsed
 	 * @see java.util.TimeZone#getDefault()
@@ -86,8 +86,8 @@ public class CronSequenceGenerator {
 	}
 
 	/**
-	 * Construct a {@link CronSequenceGenerator} from the pattern provided,
-	 * using the specified {@link TimeZone}.
+	 * Construct a {@link CronSequenceGenerator} from the pattern provided, using the
+	 * specified {@link TimeZone}.
 	 * @param expression a space-separated list of time fields
 	 * @param timeZone the TimeZone to use for generated trigger times
 	 * @throws IllegalArgumentException if the pattern cannot be parsed
@@ -104,7 +104,6 @@ public class CronSequenceGenerator {
 		doParse(fields);
 	}
 
-
 	/**
 	 * Return the cron pattern that this sequence generator has been built for.
 	 */
@@ -112,31 +111,29 @@ public class CronSequenceGenerator {
 		return this.expression;
 	}
 
-
 	/**
-	 * Get the next {@link Date} in the sequence matching the Cron pattern and
-	 * after the value provided. The return value will have a whole number of
-	 * seconds, and will be after the input value.
+	 * Get the next {@link Date} in the sequence matching the Cron pattern and after the
+	 * value provided. The return value will have a whole number of seconds, and will be
+	 * after the input value.
 	 * @param date a seed value
 	 * @return the next value matching the pattern
 	 */
 	public Date next(Date date) {
 		/*
-		The plan:
-
-		1 Start with whole second (rounding up if necessary)
-
-		2 If seconds match move on, otherwise find the next match:
-		2.1 If next match is in the next minute then roll forwards
-
-		3 If minute matches move on, otherwise find the next match
-		3.1 If next match is in the next hour then roll forwards
-		3.2 Reset the seconds and go to 2
-
-		4 If hour matches move on, otherwise find the next match
-		4.1 If next match is in the next day then roll forwards,
-		4.2 Reset the minutes and seconds and go to 2
-		*/
+		 * The plan:
+		 *
+		 * 1 Start with whole second (rounding up if necessary)
+		 *
+		 * 2 If seconds match move on, otherwise find the next match: 2.1 If next match is
+		 * in the next minute then roll forwards
+		 *
+		 * 3 If minute matches move on, otherwise find the next match 3.1 If next match is
+		 * in the next hour then roll forwards 3.2 Reset the seconds and go to 2
+		 *
+		 * 4 If hour matches move on, otherwise find the next match 4.1 If next match is
+		 * in the next day then roll forwards, 4.2 Reset the minutes and seconds and go to
+		 * 2
+		 */
 
 		Calendar calendar = new GregorianCalendar();
 		calendar.setTimeZone(this.timeZone);
@@ -148,7 +145,8 @@ public class CronSequenceGenerator {
 		doNext(calendar, calendar.get(Calendar.YEAR));
 
 		if (calendar.getTimeInMillis() == originalTimestamp) {
-			// We arrived at the original timestamp - round up to the next whole second and try again...
+			// We arrived at the original timestamp - round up to the next whole second
+			// and try again...
 			calendar.add(Calendar.SECOND, 1);
 			doNext(calendar, calendar.get(Calendar.YEAR));
 		}
@@ -198,8 +196,8 @@ public class CronSequenceGenerator {
 		int updateMonth = findNext(this.months, month, calendar, Calendar.MONTH, Calendar.YEAR, resets);
 		if (month != updateMonth) {
 			if (calendar.get(Calendar.YEAR) - dot > 4) {
-				throw new IllegalArgumentException("Invalid cron expression \"" + this.expression +
-						"\" led to runaway search for next trigger");
+				throw new IllegalArgumentException(
+						"Invalid cron expression \"" + this.expression + "\" led to runaway search for next trigger");
 			}
 			doNext(calendar, dot);
 		}
@@ -226,18 +224,19 @@ public class CronSequenceGenerator {
 	}
 
 	/**
-	 * Search the bits provided for the next set bit after the value provided,
-	 * and reset the calendar.
+	 * Search the bits provided for the next set bit after the value provided, and reset
+	 * the calendar.
 	 * @param bits a {@link BitSet} representing the allowed values of the field
 	 * @param value the current value of the field
 	 * @param calendar the calendar to increment as we move through the bits
-	 * @param field the field to increment in the calendar (@see
-	 * {@link Calendar} for the static constants defining valid fields)
-	 * @param lowerOrders the Calendar field ids that should be reset (i.e. the
-	 * ones of lower significance than the field of interest)
+	 * @param field the field to increment in the calendar (@see {@link Calendar} for the
+	 * static constants defining valid fields)
+	 * @param lowerOrders the Calendar field ids that should be reset (i.e. the ones of
+	 * lower significance than the field of interest)
 	 * @return the value of the calendar field that is next in the sequence
 	 */
-	private int findNext(BitSet bits, int value, Calendar calendar, int field, int nextField, List<Integer> lowerOrders) {
+	private int findNext(BitSet bits, int value, Calendar calendar, int field, int nextField,
+			List<Integer> lowerOrders) {
 		int nextValue = bits.nextSetBit(value);
 		// roll over if needed
 		if (nextValue == -1) {
@@ -260,7 +259,6 @@ public class CronSequenceGenerator {
 			calendar.set(field, field == Calendar.DAY_OF_MONTH ? 1 : 0);
 		}
 	}
-
 
 	// Parsing logic invoked by the constructor
 
@@ -292,8 +290,8 @@ public class CronSequenceGenerator {
 	}
 
 	/**
-	 * Replace the values in the comma-separated list (case insensitive)
-	 * with their index in the list.
+	 * Replace the values in the comma-separated list (case insensitive) with their index
+	 * in the list.
 	 * @return a new String with the values from the list replaced
 	 */
 	private String replaceOrdinals(String value, String commaSeparatedList) {
@@ -324,7 +322,8 @@ public class CronSequenceGenerator {
 		int max = 12;
 		value = replaceOrdinals(value, "FOO,JAN,FEB,MAR,APR,MAY,JUN,JUL,AUG,SEP,OCT,NOV,DEC");
 		BitSet months = new BitSet(13);
-		// Months start with 1 in Cron and 0 in Calendar, so push the values first into a longer bit set
+		// Months start with 1 in Cron and 0 in Calendar, so push the values first into a
+		// longer bit set
 		setNumberHits(months, value, 1, max + 1);
 		// ... and then rotate it to the front of the months
 		for (int i = 1; i <= max; i++) {
@@ -345,8 +344,8 @@ public class CronSequenceGenerator {
 			else {
 				String[] split = StringUtils.delimitedListToStringArray(field, "/");
 				if (split.length > 2) {
-					throw new IllegalArgumentException("Incrementer has more than two fields: '" +
-							field + "' in expression \"" + this.expression + "\"");
+					throw new IllegalArgumentException("Incrementer has more than two fields: '" + field
+							+ "' in expression \"" + this.expression + "\"");
 				}
 				int[] range = getRange(split[0], min, max);
 				if (!split[0].contains("-")) {
@@ -354,8 +353,8 @@ public class CronSequenceGenerator {
 				}
 				int delta = Integer.parseInt(split[1]);
 				if (delta <= 0) {
-					throw new IllegalArgumentException("Incrementer delta must be 1 or higher: '" +
-							field + "' in expression \"" + this.expression + "\"");
+					throw new IllegalArgumentException("Incrementer delta must be 1 or higher: '" + field
+							+ "' in expression \"" + this.expression + "\"");
 				}
 				for (int i = range[0]; i <= range[1]; i += delta) {
 					bits.set(i);
@@ -377,27 +376,26 @@ public class CronSequenceGenerator {
 		else {
 			String[] split = StringUtils.delimitedListToStringArray(field, "-");
 			if (split.length > 2) {
-				throw new IllegalArgumentException("Range has more than two fields: '" +
-						field + "' in expression \"" + this.expression + "\"");
+				throw new IllegalArgumentException(
+						"Range has more than two fields: '" + field + "' in expression \"" + this.expression + "\"");
 			}
 			result[0] = Integer.parseInt(split[0]);
 			result[1] = Integer.parseInt(split[1]);
 		}
 		if (result[0] >= max || result[1] >= max) {
-			throw new IllegalArgumentException("Range exceeds maximum (" + max + "): '" +
-					field + "' in expression \"" + this.expression + "\"");
+			throw new IllegalArgumentException(
+					"Range exceeds maximum (" + max + "): '" + field + "' in expression \"" + this.expression + "\"");
 		}
 		if (result[0] < min || result[1] < min) {
-			throw new IllegalArgumentException("Range less than minimum (" + min + "): '" +
-					field + "' in expression \"" + this.expression + "\"");
+			throw new IllegalArgumentException(
+					"Range less than minimum (" + min + "): '" + field + "' in expression \"" + this.expression + "\"");
 		}
 		if (result[0] > result[1]) {
-			throw new IllegalArgumentException("Invalid inverted range: '" + field +
-					"' in expression \"" + this.expression + "\"");
+			throw new IllegalArgumentException(
+					"Invalid inverted range: '" + field + "' in expression \"" + this.expression + "\"");
 		}
 		return result;
 	}
-
 
 	/**
 	 * Determine whether the specified expression represents a valid cron pattern.
@@ -426,7 +424,6 @@ public class CronSequenceGenerator {
 		return (fields != null && fields.length == 6);
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -436,15 +433,15 @@ public class CronSequenceGenerator {
 			return false;
 		}
 		CronSequenceGenerator otherCron = (CronSequenceGenerator) other;
-		return (this.months.equals(otherCron.months) && this.daysOfMonth.equals(otherCron.daysOfMonth) &&
-				this.daysOfWeek.equals(otherCron.daysOfWeek) && this.hours.equals(otherCron.hours) &&
-				this.minutes.equals(otherCron.minutes) && this.seconds.equals(otherCron.seconds));
+		return (this.months.equals(otherCron.months) && this.daysOfMonth.equals(otherCron.daysOfMonth)
+				&& this.daysOfWeek.equals(otherCron.daysOfWeek) && this.hours.equals(otherCron.hours)
+				&& this.minutes.equals(otherCron.minutes) && this.seconds.equals(otherCron.seconds));
 	}
 
 	@Override
 	public int hashCode() {
-		return (17 * this.months.hashCode() + 29 * this.daysOfMonth.hashCode() + 37 * this.daysOfWeek.hashCode() +
-				41 * this.hours.hashCode() + 53 * this.minutes.hashCode() + 61 * this.seconds.hashCode());
+		return (17 * this.months.hashCode() + 29 * this.daysOfMonth.hashCode() + 37 * this.daysOfWeek.hashCode()
+				+ 41 * this.hours.hashCode() + 53 * this.minutes.hashCode() + 61 * this.seconds.hashCode());
 	}
 
 	@Override

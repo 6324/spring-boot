@@ -32,17 +32,19 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionManager;
 
 /**
- * AOP Alliance MethodInterceptor for declarative transaction
- * management using the common Spring transaction infrastructure
+ * AOP Alliance MethodInterceptor for declarative transaction management using the common
+ * Spring transaction infrastructure
  * ({@link org.springframework.transaction.PlatformTransactionManager}/
  * {@link org.springframework.transaction.ReactiveTransactionManager}).
  *
- * <p>Derives from the {@link TransactionAspectSupport} class which
- * contains the integration with Spring's underlying transaction API.
- * TransactionInterceptor simply calls the relevant superclass methods
- * such as {@link #invokeWithinTransaction} in the correct order.
+ * <p>
+ * Derives from the {@link TransactionAspectSupport} class which contains the integration
+ * with Spring's underlying transaction API. TransactionInterceptor simply calls the
+ * relevant superclass methods such as {@link #invokeWithinTransaction} in the correct
+ * order.
  *
- * <p>TransactionInterceptors are thread-safe.
+ * <p>
+ * TransactionInterceptors are thread-safe.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -55,7 +57,8 @@ public class TransactionInterceptor extends TransactionAspectSupport implements 
 
 	/**
 	 * Create a new TransactionInterceptor.
-	 * <p>Transaction manager and transaction attributes still need to be set.
+	 * <p>
+	 * Transaction manager and transaction attributes still need to be set.
 	 * @see #setTransactionManager
 	 * @see #setTransactionAttributes(java.util.Properties)
 	 * @see #setTransactionAttributeSource(TransactionAttributeSource)
@@ -65,7 +68,8 @@ public class TransactionInterceptor extends TransactionAspectSupport implements 
 
 	/**
 	 * Create a new TransactionInterceptor.
-	 * @param ptm the default transaction manager to perform the actual transaction management
+	 * @param ptm the default transaction manager to perform the actual transaction
+	 * management
 	 * @param tas the attribute source to be used to find transaction attributes
 	 * @since 5.2.5
 	 * @see #setTransactionManager
@@ -78,7 +82,8 @@ public class TransactionInterceptor extends TransactionAspectSupport implements 
 
 	/**
 	 * Create a new TransactionInterceptor.
-	 * @param ptm the default transaction manager to perform the actual transaction management
+	 * @param ptm the default transaction manager to perform the actual transaction
+	 * management
 	 * @param tas the attribute source to be used to find transaction attributes
 	 * @see #setTransactionManager
 	 * @see #setTransactionAttributeSource
@@ -93,7 +98,8 @@ public class TransactionInterceptor extends TransactionAspectSupport implements 
 
 	/**
 	 * Create a new TransactionInterceptor.
-	 * @param ptm the default transaction manager to perform the actual transaction management
+	 * @param ptm the default transaction manager to perform the actual transaction
+	 * management
 	 * @param attributes the transaction attributes in properties format
 	 * @see #setTransactionManager
 	 * @see #setTransactionAttributes(java.util.Properties)
@@ -104,7 +110,6 @@ public class TransactionInterceptor extends TransactionAspectSupport implements 
 		setTransactionManager(ptm);
 		setTransactionAttributes(attributes);
 	}
-
 
 	@Override
 	@Nullable
@@ -118,13 +123,13 @@ public class TransactionInterceptor extends TransactionAspectSupport implements 
 		return invokeWithinTransaction(invocation.getMethod(), targetClass, invocation::proceed);
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Serialization support
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	private void writeObject(ObjectOutputStream oos) throws IOException {
-		// Rely on default serialization, although this class itself doesn't carry state anyway...
+		// Rely on default serialization, although this class itself doesn't carry state
+		// anyway...
 		oos.defaultWriteObject();
 
 		// Deserialize superclass fields.
@@ -135,7 +140,8 @@ public class TransactionInterceptor extends TransactionAspectSupport implements 
 	}
 
 	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-		// Rely on default serialization, although this class itself doesn't carry state anyway...
+		// Rely on default serialization, although this class itself doesn't carry state
+		// anyway...
 		ois.defaultReadObject();
 
 		// Serialize all relevant superclass fields.

@@ -30,15 +30,17 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureTask;
 
 /**
- * {@link TaskExecutor} implementation that fires up a new Thread for each task,
- * executing it asynchronously.
+ * {@link TaskExecutor} implementation that fires up a new Thread for each task, executing
+ * it asynchronously.
  *
- * <p>Supports limiting concurrent threads through the "concurrencyLimit"
- * bean property. By default, the number of concurrent threads is unlimited.
+ * <p>
+ * Supports limiting concurrent threads through the "concurrencyLimit" bean property. By
+ * default, the number of concurrent threads is unlimited.
  *
- * <p><b>NOTE: This implementation does not reuse threads!</b> Consider a
- * thread-pooling TaskExecutor implementation instead, in particular for
- * executing a large number of short-lived tasks.
+ * <p>
+ * <b>NOTE: This implementation does not reuse threads!</b> Consider a thread-pooling
+ * TaskExecutor implementation instead, in particular for executing a large number of
+ * short-lived tasks.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -63,7 +65,6 @@ public class SimpleAsyncTaskExecutor extends CustomizableThreadCreator
 	 */
 	public static final int NO_CONCURRENCY = ConcurrencyThrottleSupport.NO_CONCURRENCY;
 
-
 	/** Internal concurrency throttle used by this executor. */
 	private final ConcurrencyThrottleAdapter concurrencyThrottle = new ConcurrencyThrottleAdapter();
 
@@ -72,7 +73,6 @@ public class SimpleAsyncTaskExecutor extends CustomizableThreadCreator
 
 	@Nullable
 	private TaskDecorator taskDecorator;
-
 
 	/**
 	 * Create a new SimpleAsyncTaskExecutor with default thread name prefix.
@@ -97,11 +97,11 @@ public class SimpleAsyncTaskExecutor extends CustomizableThreadCreator
 		this.threadFactory = threadFactory;
 	}
 
-
 	/**
-	 * Specify an external factory to use for creating new Threads,
-	 * instead of relying on the local properties of this executor.
-	 * <p>You may specify an inner ThreadFactory bean or also a ThreadFactory reference
+	 * Specify an external factory to use for creating new Threads, instead of relying on
+	 * the local properties of this executor.
+	 * <p>
+	 * You may specify an inner ThreadFactory bean or also a ThreadFactory reference
 	 * obtained from JNDI (on a Java EE 6 server) or some other lookup mechanism.
 	 * @see #setThreadNamePrefix
 	 * @see #setThreadPriority
@@ -119,18 +119,21 @@ public class SimpleAsyncTaskExecutor extends CustomizableThreadCreator
 	}
 
 	/**
-	 * Specify a custom {@link TaskDecorator} to be applied to any {@link Runnable}
-	 * about to be executed.
-	 * <p>Note that such a decorator is not necessarily being applied to the
-	 * user-supplied {@code Runnable}/{@code Callable} but rather to the actual
-	 * execution callback (which may be a wrapper around the user-supplied task).
-	 * <p>The primary use case is to set some execution context around the task's
-	 * invocation, or to provide some monitoring/statistics for task execution.
-	 * <p><b>NOTE:</b> Exception handling in {@code TaskDecorator} implementations
-	 * is limited to plain {@code Runnable} execution via {@code execute} calls.
-	 * In case of {@code #submit} calls, the exposed {@code Runnable} will be a
-	 * {@code FutureTask} which does not propagate any exceptions; you might
-	 * have to cast it and call {@code Future#get} to evaluate exceptions.
+	 * Specify a custom {@link TaskDecorator} to be applied to any {@link Runnable} about
+	 * to be executed.
+	 * <p>
+	 * Note that such a decorator is not necessarily being applied to the user-supplied
+	 * {@code Runnable}/{@code Callable} but rather to the actual execution callback
+	 * (which may be a wrapper around the user-supplied task).
+	 * <p>
+	 * The primary use case is to set some execution context around the task's invocation,
+	 * or to provide some monitoring/statistics for task execution.
+	 * <p>
+	 * <b>NOTE:</b> Exception handling in {@code TaskDecorator} implementations is limited
+	 * to plain {@code Runnable} execution via {@code execute} calls. In case of
+	 * {@code #submit} calls, the exposed {@code Runnable} will be a {@code FutureTask}
+	 * which does not propagate any exceptions; you might have to cast it and call
+	 * {@code Future#get} to evaluate exceptions.
 	 * @since 4.3
 	 */
 	public final void setTaskDecorator(TaskDecorator taskDecorator) {
@@ -138,13 +141,13 @@ public class SimpleAsyncTaskExecutor extends CustomizableThreadCreator
 	}
 
 	/**
-	 * Set the maximum number of parallel accesses allowed.
-	 * -1 indicates no concurrency limit at all.
-	 * <p>In principle, this limit can be changed at runtime,
-	 * although it is generally designed as a config time setting.
-	 * NOTE: Do not switch between -1 and any concrete limit at runtime,
-	 * as this will lead to inconsistent concurrency counts: A limit
-	 * of -1 effectively turns off concurrency counting completely.
+	 * Set the maximum number of parallel accesses allowed. -1 indicates no concurrency
+	 * limit at all.
+	 * <p>
+	 * In principle, this limit can be changed at runtime, although it is generally
+	 * designed as a config time setting. NOTE: Do not switch between -1 and any concrete
+	 * limit at runtime, as this will lead to inconsistent concurrency counts: A limit of
+	 * -1 effectively turns off concurrency counting completely.
 	 * @see #UNBOUNDED_CONCURRENCY
 	 */
 	public void setConcurrencyLimit(int concurrencyLimit) {
@@ -168,10 +171,9 @@ public class SimpleAsyncTaskExecutor extends CustomizableThreadCreator
 		return this.concurrencyThrottle.isThrottleActive();
 	}
 
-
 	/**
-	 * Executes the given task, within a concurrency throttle
-	 * if configured (through the superclass's settings).
+	 * Executes the given task, within a concurrency throttle if configured (through the
+	 * superclass's settings).
 	 * @see #doExecute(Runnable)
 	 */
 	@Override
@@ -180,11 +182,11 @@ public class SimpleAsyncTaskExecutor extends CustomizableThreadCreator
 	}
 
 	/**
-	 * Executes the given task, within a concurrency throttle
-	 * if configured (through the superclass's settings).
-	 * <p>Executes urgent tasks (with 'immediate' timeout) directly,
-	 * bypassing the concurrency throttle (if active). All other
-	 * tasks are subject to throttling.
+	 * Executes the given task, within a concurrency throttle if configured (through the
+	 * superclass's settings).
+	 * <p>
+	 * Executes urgent tasks (with 'immediate' timeout) directly, bypassing the
+	 * concurrency throttle (if active). All other tasks are subject to throttling.
 	 * @see #TIMEOUT_IMMEDIATE
 	 * @see #doExecute(Runnable)
 	 */
@@ -231,7 +233,8 @@ public class SimpleAsyncTaskExecutor extends CustomizableThreadCreator
 
 	/**
 	 * Template method for the actual execution of a task.
-	 * <p>The default implementation creates a new Thread and starts it.
+	 * <p>
+	 * The default implementation creates a new Thread and starts it.
 	 * @param task the Runnable to execute
 	 * @see #setThreadFactory
 	 * @see #createThread
@@ -242,11 +245,9 @@ public class SimpleAsyncTaskExecutor extends CustomizableThreadCreator
 		thread.start();
 	}
 
-
 	/**
-	 * Subclass of the general ConcurrencyThrottleSupport class,
-	 * making {@code beforeAccess()} and {@code afterAccess()}
-	 * visible to the surrounding class.
+	 * Subclass of the general ConcurrencyThrottleSupport class, making
+	 * {@code beforeAccess()} and {@code afterAccess()} visible to the surrounding class.
 	 */
 	private static class ConcurrencyThrottleAdapter extends ConcurrencyThrottleSupport {
 
@@ -259,12 +260,12 @@ public class SimpleAsyncTaskExecutor extends CustomizableThreadCreator
 		protected void afterAccess() {
 			super.afterAccess();
 		}
+
 	}
 
-
 	/**
-	 * This Runnable calls {@code afterAccess()} after the
-	 * target Runnable has finished its execution.
+	 * This Runnable calls {@code afterAccess()} after the target Runnable has finished
+	 * its execution.
 	 */
 	private class ConcurrencyThrottlingRunnable implements Runnable {
 
@@ -283,6 +284,7 @@ public class SimpleAsyncTaskExecutor extends CustomizableThreadCreator
 				concurrencyThrottle.afterAccess();
 			}
 		}
+
 	}
 
 }

@@ -41,60 +41,49 @@ class MergedAnnotationCollectorsTests {
 
 	@Test
 	void toAnnotationSetCollectsLinkedHashSetWithSynthesizedAnnotations() {
-		Set<TestAnnotation> set = stream().collect(
-				MergedAnnotationCollectors.toAnnotationSet());
-		assertThat(set).isInstanceOf(LinkedHashSet.class).flatExtracting(
-				TestAnnotation::value).containsExactly("a", "b", "c");
+		Set<TestAnnotation> set = stream().collect(MergedAnnotationCollectors.toAnnotationSet());
+		assertThat(set).isInstanceOf(LinkedHashSet.class).flatExtracting(TestAnnotation::value).containsExactly("a",
+				"b", "c");
 		assertThat(set).allMatch(SynthesizedAnnotation.class::isInstance);
 	}
 
 	@Test
 	void toAnnotationArrayCollectsAnnotationArrayWithSynthesizedAnnotations() {
-		Annotation[] array = stream().collect(
-				MergedAnnotationCollectors.toAnnotationArray());
-		assertThat(Arrays.stream(array).map(
-				annotation -> ((TestAnnotation) annotation).value())).containsExactly("a",
-						"b", "c");
-		assertThat(array).allMatch(SynthesizedAnnotation.class::isInstance);
-	}
-
-	@Test
-	void toSuppliedAnnotationArrayCollectsAnnotationArrayWithSynthesizedAnnotations() {
-		TestAnnotation[] array = stream().collect(
-				MergedAnnotationCollectors.toAnnotationArray(TestAnnotation[]::new));
-		assertThat(Arrays.stream(array).map(TestAnnotation::value)).containsExactly("a",
+		Annotation[] array = stream().collect(MergedAnnotationCollectors.toAnnotationArray());
+		assertThat(Arrays.stream(array).map(annotation -> ((TestAnnotation) annotation).value())).containsExactly("a",
 				"b", "c");
 		assertThat(array).allMatch(SynthesizedAnnotation.class::isInstance);
 	}
 
 	@Test
+	void toSuppliedAnnotationArrayCollectsAnnotationArrayWithSynthesizedAnnotations() {
+		TestAnnotation[] array = stream().collect(MergedAnnotationCollectors.toAnnotationArray(TestAnnotation[]::new));
+		assertThat(Arrays.stream(array).map(TestAnnotation::value)).containsExactly("a", "b", "c");
+		assertThat(array).allMatch(SynthesizedAnnotation.class::isInstance);
+	}
+
+	@Test
 	void toMultiValueMapCollectsMultiValueMap() {
-		MultiValueMap<String, Object> map = stream().map(
-				MergedAnnotation::filterDefaultValues).collect(
-						MergedAnnotationCollectors.toMultiValueMap(
-								Adapt.CLASS_TO_STRING));
+		MultiValueMap<String, Object> map = stream().map(MergedAnnotation::filterDefaultValues)
+				.collect(MergedAnnotationCollectors.toMultiValueMap(Adapt.CLASS_TO_STRING));
 		assertThat(map.get("value")).containsExactly("a", "b", "c");
-		assertThat(map.get("extra")).containsExactly("java.lang.String",
-				"java.lang.Integer");
+		assertThat(map.get("extra")).containsExactly("java.lang.String", "java.lang.Integer");
 	}
 
 	@Test
 	void toFinishedMultiValueMapCollectsMultiValueMap() {
-		MultiValueMap<String, Object> map = stream().collect(
-				MergedAnnotationCollectors.toMultiValueMap(result -> {
-					result.add("finished", true);
-					return result;
-				}));
+		MultiValueMap<String, Object> map = stream().collect(MergedAnnotationCollectors.toMultiValueMap(result -> {
+			result.add("finished", true);
+			return result;
+		}));
 		assertThat(map.get("value")).containsExactly("a", "b", "c");
-		assertThat(map.get("extra")).containsExactly(void.class, String.class,
-				Integer.class);
+		assertThat(map.get("extra")).containsExactly(void.class, String.class, Integer.class);
 		assertThat(map.get("finished")).containsExactly(true);
 	}
 
 	private Stream<MergedAnnotation<TestAnnotation>> stream() {
 		return MergedAnnotations.from(WithTestAnnotations.class).stream(TestAnnotation.class);
 	}
-
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Repeatable(TestAnnotations.class)
@@ -114,12 +103,14 @@ class MergedAnnotationCollectorsTests {
 	@interface TestAnnotations {
 
 		TestAnnotation[] value();
+
 	}
 
 	@TestAnnotation("a")
 	@TestAnnotation(name = "b", extra = String.class)
 	@TestAnnotation(name = "c", extra = Integer.class)
 	static class WithTestAnnotations {
+
 	}
 
 }

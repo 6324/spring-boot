@@ -19,8 +19,8 @@ package org.springframework.messaging.tcp;
 import org.springframework.messaging.Message;
 
 /**
- * A contract for managing lifecycle events for a TCP connection including
- * the handling of incoming messages.
+ * A contract for managing lifecycle events for a TCP connection including the handling of
+ * incoming messages.
  *
  * @author Rossen Stoyanchev
  * @since 4.0

@@ -31,8 +31,8 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternUtils;
 
 /**
- * {@link FactoryBean} implementation that takes a list of location Strings
- * and creates a sorted array of {@link Resource} instances.
+ * {@link FactoryBean} implementation that takes a list of location Strings and creates a
+ * sorted array of {@link Resource} instances.
  *
  * @author Dave Syer
  * @author Juergen Hoeller
@@ -45,7 +45,6 @@ public class SortedResourcesFactoryBean extends AbstractFactoryBean<Resource[]> 
 
 	private ResourcePatternResolver resourcePatternResolver;
 
-
 	public SortedResourcesFactoryBean(List<String> locations) {
 		this.locations = locations;
 		this.resourcePatternResolver = new PathMatchingResourcePatternResolver();
@@ -56,12 +55,10 @@ public class SortedResourcesFactoryBean extends AbstractFactoryBean<Resource[]> 
 		this.resourcePatternResolver = ResourcePatternUtils.getResourcePatternResolver(resourceLoader);
 	}
 
-
 	@Override
 	public void setResourceLoader(ResourceLoader resourceLoader) {
 		this.resourcePatternResolver = ResourcePatternUtils.getResourcePatternResolver(resourceLoader);
 	}
-
 
 	@Override
 	public Class<? extends Resource[]> getObjectType() {

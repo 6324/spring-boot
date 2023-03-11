@@ -34,7 +34,6 @@ public class BeanFactoryResolver implements BeanResolver {
 
 	private final BeanFactory beanFactory;
 
-
 	/**
 	 * Create a new {@link BeanFactoryResolver} for the given factory.
 	 * @param beanFactory the {@link BeanFactory} to resolve bean names against
@@ -43,7 +42,6 @@ public class BeanFactoryResolver implements BeanResolver {
 		Assert.notNull(beanFactory, "BeanFactory must not be null");
 		this.beanFactory = beanFactory;
 	}
-
 
 	@Override
 	public Object resolve(EvaluationContext context, String beanName) throws AccessException {

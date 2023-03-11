@@ -52,9 +52,8 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 @SuppressWarnings("serial")
 public class CglibProxyTests extends AbstractAopProxyTests implements Serializable {
 
-	private static final String DEPENDENCY_CHECK_CONTEXT =
-			CglibProxyTests.class.getSimpleName() + "-with-dependency-checking.xml";
-
+	private static final String DEPENDENCY_CHECK_CONTEXT = CglibProxyTests.class.getSimpleName()
+			+ "-with-dependency-checking.xml";
 
 	@Override
 	protected Object createProxy(ProxyCreatorSupport as) {
@@ -75,11 +74,9 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 		return true;
 	}
 
-
 	@Test
 	public void testNullConfig() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new CglibAopProxy(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new CglibAopProxy(null));
 	}
 
 	@Test
@@ -87,8 +84,7 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 		AdvisedSupport pc = new AdvisedSupport(ITestBean.class);
 		pc.addAdvice(new NopInterceptor());
 		AopProxy aop = createAopProxy(pc);
-		assertThatExceptionOfType(AopConfigException.class).isThrownBy(
-				aop::getProxy);
+		assertThatExceptionOfType(AopConfigException.class).isThrownBy(aop::getProxy);
 	}
 
 	@Test
@@ -154,7 +150,8 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 		AopProxy aop = new CglibAopProxy(as);
 
 		CglibTestBean proxy = (CglibTestBean) aop.getProxy();
-		assertThat(proxy.getName()).as("The name property has been overwritten by the constructor").isEqualTo("Rob Harrop");
+		assertThat(proxy.getName()).as("The name property has been overwritten by the constructor")
+				.isEqualTo("Rob Harrop");
 	}
 
 	@Test
@@ -168,7 +165,8 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 		AopProxy aop = new CglibAopProxy(as);
 
 		PrivateCglibTestBean proxy = (PrivateCglibTestBean) aop.getProxy();
-		assertThat(proxy.toString()).as("The name property has been overwritten by the constructor").isEqualTo("Rob Harrop");
+		assertThat(proxy.toString()).as("The name property has been overwritten by the constructor")
+				.isEqualTo("Rob Harrop");
 	}
 
 	@Test
@@ -201,7 +199,7 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 	}
 
 	private ITestBean getAdvisedProxy(TestBean target) {
-		ProxyFactory pf = new ProxyFactory(new Class<?>[]{ITestBean.class});
+		ProxyFactory pf = new ProxyFactory(new Class<?>[] { ITestBean.class });
 		pf.setProxyTargetClass(true);
 
 		MethodInterceptor advice = new NopInterceptor();
@@ -210,14 +208,17 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 			public ClassFilter getClassFilter() {
 				return ClassFilter.TRUE;
 			}
+
 			@Override
 			public MethodMatcher getMethodMatcher() {
 				return MethodMatcher.TRUE;
 			}
+
 			@Override
 			public boolean equals(Object obj) {
 				return true;
 			}
+
 			@Override
 			public int hashCode() {
 				return 0;
@@ -265,7 +266,7 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 		AdvisedSupport pc = new AdvisedSupport();
 		pc.setTargetSource(mockTargetSource);
 		CglibAopProxy aop = new CglibAopProxy(pc);
-		aop.setConstructorArguments(new Object[] {"Rob Harrop", 22}, new Class<?>[] {String.class, int.class});
+		aop.setConstructorArguments(new Object[] { "Rob Harrop", 22 }, new Class<?>[] { String.class, int.class });
 
 		NoArgCtorTestBean proxy = (NoArgCtorTestBean) aop.getProxy();
 		assertThat(proxy).isNotNull();
@@ -284,7 +285,7 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 		ITestBean proxy1 = (ITestBean) cglib.getProxy();
 
 		mockTargetSource.setTarget(proxy1);
-		as = new AdvisedSupport(new Class<?>[]{});
+		as = new AdvisedSupport(new Class<?>[] {});
 		as.setTargetSource(mockTargetSource);
 		as.addAdvice(new NopInterceptor());
 		cglib = new CglibAopProxy(as);
@@ -306,7 +307,7 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 		ITestBean proxy1 = (ITestBean) cglib.getProxy();
 
 		mockTargetSource.setTarget(proxy1);
-		as = new AdvisedSupport(new Class<?>[]{});
+		as = new AdvisedSupport(new Class<?>[] {});
 		as.setTargetSource(mockTargetSource);
 		as.addAdvice(new NopInterceptor());
 		cglib = new CglibAopProxy(as);
@@ -386,14 +387,13 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 		assertThat(proxy.add(1, 3)).isEqualTo(4);
 	}
 
-	@Test  // SPR-13328
+	@Test // SPR-13328
 	@SuppressWarnings("unchecked")
 	public void testVarargsWithEnumArray() {
 		ProxyFactory proxyFactory = new ProxyFactory(new MyBean());
 		MyBean proxy = (MyBean) proxyFactory.getProxy();
 		assertThat(proxy.doWithVarargs(MyEnum.A, MyOtherEnum.C)).isTrue();
 	}
-
 
 	public static class MyBean {
 
@@ -415,24 +415,24 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 		public <V extends MyInterface> boolean doWithVarargs(V... args) {
 			return true;
 		}
-	}
 
+	}
 
 	public interface MyInterface {
-	}
 
+	}
 
 	public enum MyEnum implements MyInterface {
 
 		A, B;
-	}
 
+	}
 
 	public enum MyOtherEnum implements MyInterface {
 
 		C, D;
-	}
 
+	}
 
 	public static class ExceptionThrower {
 
@@ -460,8 +460,8 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 				finallyInvoked = true;
 			}
 		}
-	}
 
+	}
 
 	public static class NoArgCtorTestBean {
 
@@ -478,8 +478,8 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 		public void reset() {
 			called = false;
 		}
-	}
 
+	}
 
 	public static class ProtectedMethodTestBean {
 
@@ -488,8 +488,8 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 		protected String getString() {
 			return this.value;
 		}
-	}
 
+	}
 
 	public static class PackageMethodTestBean {
 
@@ -498,8 +498,8 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 		String getString() {
 			return this.value;
 		}
-	}
 
+	}
 
 	private static class PrivateCglibTestBean {
 
@@ -521,9 +521,10 @@ public class CglibProxyTests extends AbstractAopProxyTests implements Serializab
 		public String toString() {
 			return this.name;
 		}
-	}
-}
 
+	}
+
+}
 
 class CglibTestBean {
 
@@ -545,8 +546,8 @@ class CglibTestBean {
 	public String toString() {
 		return this.name;
 	}
-}
 
+}
 
 class UnsupportedInterceptor implements MethodInterceptor {
 
@@ -554,4 +555,5 @@ class UnsupportedInterceptor implements MethodInterceptor {
 	public Object invoke(MethodInvocation mi) throws Throwable {
 		throw new UnsupportedOperationException(mi.getMethod().getName());
 	}
+
 }

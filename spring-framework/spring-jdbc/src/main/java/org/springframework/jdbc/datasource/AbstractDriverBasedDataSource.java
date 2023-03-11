@@ -23,8 +23,8 @@ import java.util.Properties;
 import org.springframework.lang.Nullable;
 
 /**
- * Abstract base class for JDBC {@link javax.sql.DataSource} implementations
- * that operate on a JDBC {@link java.sql.Driver}.
+ * Abstract base class for JDBC {@link javax.sql.DataSource} implementations that operate
+ * on a JDBC {@link java.sql.Driver}.
  *
  * @author Juergen Hoeller
  * @since 2.5.5
@@ -50,7 +50,6 @@ public abstract class AbstractDriverBasedDataSource extends AbstractDataSource {
 
 	@Nullable
 	private Properties connectionProperties;
-
 
 	/**
 	 * Set the JDBC URL to use for connecting through the Driver.
@@ -137,11 +136,12 @@ public abstract class AbstractDriverBasedDataSource extends AbstractDataSource {
 	}
 
 	/**
-	 * Specify arbitrary connection properties as key/value pairs,
-	 * to be passed to the Driver.
-	 * <p>Can also contain "user" and "password" properties. However,
-	 * any "username" and "password" bean properties specified on this
-	 * DataSource will override the corresponding connection properties.
+	 * Specify arbitrary connection properties as key/value pairs, to be passed to the
+	 * Driver.
+	 * <p>
+	 * Can also contain "user" and "password" properties. However, any "username" and
+	 * "password" bean properties specified on this DataSource will override the
+	 * corresponding connection properties.
 	 * @see java.sql.Driver#connect(String, java.util.Properties)
 	 */
 	public void setConnectionProperties(@Nullable Properties connectionProperties) {
@@ -156,10 +156,9 @@ public abstract class AbstractDriverBasedDataSource extends AbstractDataSource {
 		return this.connectionProperties;
 	}
 
-
 	/**
-	 * This implementation delegates to {@code getConnectionFromDriver},
-	 * using the default username and password of this DataSource.
+	 * This implementation delegates to {@code getConnectionFromDriver}, using the default
+	 * username and password of this DataSource.
 	 * @see #getConnectionFromDriver(String, String)
 	 * @see #setUsername
 	 * @see #setPassword
@@ -170,8 +169,8 @@ public abstract class AbstractDriverBasedDataSource extends AbstractDataSource {
 	}
 
 	/**
-	 * This implementation delegates to {@code getConnectionFromDriver},
-	 * using the given username and password.
+	 * This implementation delegates to {@code getConnectionFromDriver}, using the given
+	 * username and password.
 	 * @see #getConnectionFromDriver(String, String)
 	 */
 	@Override
@@ -179,17 +178,17 @@ public abstract class AbstractDriverBasedDataSource extends AbstractDataSource {
 		return getConnectionFromDriver(username, password);
 	}
 
-
 	/**
-	 * Build properties for the Driver, including the given username and password (if any),
-	 * and obtain a corresponding Connection.
+	 * Build properties for the Driver, including the given username and password (if
+	 * any), and obtain a corresponding Connection.
 	 * @param username the name of the user
 	 * @param password the password to use
 	 * @return the obtained Connection
 	 * @throws SQLException in case of failure
 	 * @see java.sql.Driver#connect(String, java.util.Properties)
 	 */
-	protected Connection getConnectionFromDriver(@Nullable String username, @Nullable String password) throws SQLException {
+	protected Connection getConnectionFromDriver(@Nullable String username, @Nullable String password)
+			throws SQLException {
 		Properties mergedProps = new Properties();
 		Properties connProps = getConnectionProperties();
 		if (connProps != null) {
@@ -214,7 +213,8 @@ public abstract class AbstractDriverBasedDataSource extends AbstractDataSource {
 
 	/**
 	 * Obtain a Connection using the given properties.
-	 * <p>Template method to be implemented by subclasses.
+	 * <p>
+	 * Template method to be implemented by subclasses.
 	 * @param props the merged connection properties
 	 * @return the obtained Connection
 	 * @throws SQLException in case of failure

@@ -39,16 +39,20 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON;
 import static org.springframework.util.MimeTypeUtils.TEXT_PLAIN;
 
 /**
- * An {@code MessageConverter} that reads and writes
- * {@link com.google.protobuf.Message com.google.protobuf.Messages} using
+ * An {@code MessageConverter} that reads and writes {@link com.google.protobuf.Message
+ * com.google.protobuf.Messages} using
  * <a href="https://developers.google.com/protocol-buffers/">Google Protocol Buffers</a>.
  *
- * <p>To generate {@code Message} Java classes, you need to install the {@code protoc} binary.
+ * <p>
+ * To generate {@code Message} Java classes, you need to install the {@code protoc}
+ * binary.
  *
- * <p>This converter supports by default {@code "application/x-protobuf"} with the official
+ * <p>
+ * This converter supports by default {@code "application/x-protobuf"} with the official
  * {@code "com.google.protobuf:protobuf-java"} library.
  *
- * <p>{@code "application/json"} can be supported with the official
+ * <p>
+ * {@code "application/json"} can be supported with the official
  * {@code "com.google.protobuf:protobuf-java-util"} 3.x, with 3.3 or higher recommended.
  *
  * @author Parviz Rozikov
@@ -67,14 +71,12 @@ public class ProtobufMessageConverter extends AbstractMessageConverter {
 	 */
 	public static final MimeType PROTOBUF = new MimeType("application", "x-protobuf", DEFAULT_CHARSET);
 
-
 	private static final Map<Class<?>, Method> methodCache = new ConcurrentReferenceHashMap<>();
 
 	final ExtensionRegistry extensionRegistry;
 
 	@Nullable
 	private final ProtobufFormatSupport protobufFormatSupport;
-
 
 	/**
 	 * Constructor with a default instance of {@link ExtensionRegistry}.
@@ -112,7 +114,6 @@ public class ProtobufMessageConverter extends AbstractMessageConverter {
 		this.extensionRegistry = (extensionRegistry == null ? ExtensionRegistry.newInstance() : extensionRegistry);
 	}
 
-
 	@Override
 	protected boolean supports(Class<?> clazz) {
 		return Message.class.isAssignableFrom(clazz);
@@ -121,13 +122,13 @@ public class ProtobufMessageConverter extends AbstractMessageConverter {
 	@Override
 	protected boolean canConvertTo(Object payload, @Nullable MessageHeaders headers) {
 		MimeType contentType = getMimeType(headers);
-		return (super.canConvertTo(payload, headers) ||
-				this.protobufFormatSupport != null && this.protobufFormatSupport.supportsWriteOnly(contentType));
+		return (super.canConvertTo(payload, headers)
+				|| this.protobufFormatSupport != null && this.protobufFormatSupport.supportsWriteOnly(contentType));
 	}
 
 	@Override
-	protected Object convertFromInternal(org.springframework.messaging.Message<?> message,
-			Class<?> targetClass, @Nullable Object conversionHint) {
+	protected Object convertFromInternal(org.springframework.messaging.Message<?> message, Class<?> targetClass,
+			@Nullable Object conversionHint) {
 
 		MimeType contentType = getMimeType(message.getHeaders());
 		final Object payload = message.getPayload();
@@ -157,10 +158,9 @@ public class ProtobufMessageConverter extends AbstractMessageConverter {
 		return builder.build();
 	}
 
-
 	@Override
-	protected Object convertToInternal(
-			Object payload, @Nullable MessageHeaders headers, @Nullable Object conversionHint) {
+	protected Object convertToInternal(Object payload, @Nullable MessageHeaders headers,
+			@Nullable Object conversionHint) {
 
 		final Message message = (Message) payload;
 
@@ -195,7 +195,8 @@ public class ProtobufMessageConverter extends AbstractMessageConverter {
 
 	/**
 	 * Create a new {@code Message.Builder} instance for the given class.
-	 * <p>This method uses a ConcurrentReferenceHashMap for caching method lookups.
+	 * <p>
+	 * This method uses a ConcurrentReferenceHashMap for caching method lookups.
 	 */
 	private Message.Builder getMessageBuilder(Class<?> clazz) {
 		try {
@@ -212,7 +213,6 @@ public class ProtobufMessageConverter extends AbstractMessageConverter {
 		}
 	}
 
-
 	/**
 	 * Protobuf format support.
 	 */
@@ -222,14 +222,14 @@ public class ProtobufMessageConverter extends AbstractMessageConverter {
 
 		boolean supportsWriteOnly(@Nullable MimeType mediaType);
 
-		void merge(org.springframework.messaging.Message<?> message,
-				Charset charset, MimeType contentType, ExtensionRegistry extensionRegistry,
-				Message.Builder builder) throws IOException, MessageConversionException;
+		void merge(org.springframework.messaging.Message<?> message, Charset charset, MimeType contentType,
+				ExtensionRegistry extensionRegistry, Message.Builder builder)
+				throws IOException, MessageConversionException;
 
 		void print(Message message, OutputStream output, MimeType contentType, Charset charset)
 				throws IOException, MessageConversionException;
-	}
 
+	}
 
 	/**
 	 * {@link ProtobufFormatSupport} implementation used when
@@ -248,7 +248,7 @@ public class ProtobufMessageConverter extends AbstractMessageConverter {
 
 		@Override
 		public MimeType[] supportedMediaTypes() {
-			return new MimeType[]{APPLICATION_JSON};
+			return new MimeType[] { APPLICATION_JSON };
 		}
 
 		@Override
@@ -257,16 +257,15 @@ public class ProtobufMessageConverter extends AbstractMessageConverter {
 		}
 
 		@Override
-		public void merge(org.springframework.messaging.Message<?> message, Charset charset,
-				MimeType contentType, ExtensionRegistry extensionRegistry, Message.Builder builder)
+		public void merge(org.springframework.messaging.Message<?> message, Charset charset, MimeType contentType,
+				ExtensionRegistry extensionRegistry, Message.Builder builder)
 				throws IOException, MessageConversionException {
 
 			if (contentType.isCompatibleWith(APPLICATION_JSON)) {
 				this.parser.merge(message.getPayload().toString(), builder);
 			}
 			else {
-				throw new MessageConversionException(
-						"protobuf-java-util does not support parsing " + contentType);
+				throw new MessageConversionException("protobuf-java-util does not support parsing " + contentType);
 			}
 		}
 
@@ -280,10 +279,10 @@ public class ProtobufMessageConverter extends AbstractMessageConverter {
 				writer.flush();
 			}
 			else {
-				throw new MessageConversionException(
-						"protobuf-java-util does not support printing " + contentType);
+				throw new MessageConversionException("protobuf-java-util does not support printing " + contentType);
 			}
 		}
+
 	}
 
 }

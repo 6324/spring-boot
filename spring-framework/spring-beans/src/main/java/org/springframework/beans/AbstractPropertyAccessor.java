@@ -24,9 +24,9 @@ import java.util.Map;
 import org.springframework.lang.Nullable;
 
 /**
- * Abstract implementation of the {@link PropertyAccessor} interface.
- * Provides base implementations of all convenience methods, with the
- * implementation of actual property access left to subclasses.
+ * Abstract implementation of the {@link PropertyAccessor} interface. Provides base
+ * implementations of all convenience methods, with the implementation of actual property
+ * access left to subclasses.
  *
  * @author Juergen Hoeller
  * @author Stephane Nicoll
@@ -41,7 +41,6 @@ public abstract class AbstractPropertyAccessor extends TypeConverterSupport impl
 	private boolean autoGrowNestedPaths = false;
 
 	boolean suppressNotWritablePropertyException = false;
-
 
 	@Override
 	public void setExtractOldValueForEditor(boolean extractOldValueForEditor) {
@@ -62,7 +61,6 @@ public abstract class AbstractPropertyAccessor extends TypeConverterSupport impl
 	public boolean isAutoGrowNestedPaths() {
 		return this.autoGrowNestedPaths;
 	}
-
 
 	@Override
 	public void setPropertyValue(PropertyValue pv) throws BeansException {
@@ -89,8 +87,8 @@ public abstract class AbstractPropertyAccessor extends TypeConverterSupport impl
 			throws BeansException {
 
 		List<PropertyAccessException> propertyAccessExceptions = null;
-		List<PropertyValue> propertyValues = (pvs instanceof MutablePropertyValues ?
-				((MutablePropertyValues) pvs).getPropertyValueList() : Arrays.asList(pvs.getPropertyValues()));
+		List<PropertyValue> propertyValues = (pvs instanceof MutablePropertyValues
+				? ((MutablePropertyValues) pvs).getPropertyValueList() : Arrays.asList(pvs.getPropertyValues()));
 
 		if (ignoreUnknown) {
 			this.suppressNotWritablePropertyException = true;
@@ -136,7 +134,6 @@ public abstract class AbstractPropertyAccessor extends TypeConverterSupport impl
 		}
 	}
 
-
 	// Redefined with public visibility.
 	@Override
 	@Nullable
@@ -148,10 +145,10 @@ public abstract class AbstractPropertyAccessor extends TypeConverterSupport impl
 	 * Actually get the value of a property.
 	 * @param propertyName name of the property to get the value of
 	 * @return the value of the property
-	 * @throws InvalidPropertyException if there is no such property or
-	 * if the property isn't readable
-	 * @throws PropertyAccessException if the property was valid but the
-	 * accessor method failed
+	 * @throws InvalidPropertyException if there is no such property or if the property
+	 * isn't readable
+	 * @throws PropertyAccessException if the property was valid but the accessor method
+	 * failed
 	 */
 	@Override
 	@Nullable
@@ -161,10 +158,10 @@ public abstract class AbstractPropertyAccessor extends TypeConverterSupport impl
 	 * Actually set a property value.
 	 * @param propertyName name of the property to set value of
 	 * @param value the new value
-	 * @throws InvalidPropertyException if there is no such property or
-	 * if the property isn't writable
-	 * @throws PropertyAccessException if the property was valid but the
-	 * accessor method failed or a type mismatch occurred
+	 * @throws InvalidPropertyException if there is no such property or if the property
+	 * isn't writable
+	 * @throws PropertyAccessException if the property was valid but the accessor method
+	 * failed or a type mismatch occurred
 	 */
 	@Override
 	public abstract void setPropertyValue(String propertyName, @Nullable Object value) throws BeansException;

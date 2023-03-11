@@ -37,7 +37,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class ServerEndpointRegistrationTests {
 
-
 	@Test
 	public void endpointPerConnection() throws Exception {
 
@@ -63,7 +62,6 @@ public class ServerEndpointRegistrationTests {
 		assertThat(actual).isSameAs(endpoint);
 	}
 
-
 	@Configuration
 	static class Config {
 
@@ -71,6 +69,7 @@ public class ServerEndpointRegistrationTests {
 		public EchoService echoService() {
 			return new EchoService();
 		}
+
 	}
 
 	private static class EchoEndpoint extends Endpoint {
@@ -86,8 +85,11 @@ public class ServerEndpointRegistrationTests {
 		@Override
 		public void onOpen(Session session, EndpointConfig config) {
 		}
+
 	}
 
-	private static class EchoService {	}
+	private static class EchoService {
+
+	}
 
 }

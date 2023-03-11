@@ -41,32 +41,28 @@ import org.springframework.web.reactive.function.BodyExtractor;
 
 /**
  * Represents an HTTP response, as returned by {@link WebClient} and also
- * {@link ExchangeFunction}. Provides access to the response status and
- * headers, and also methods to consume the response body.
+ * {@link ExchangeFunction}. Provides access to the response status and headers, and also
+ * methods to consume the response body.
  *
- * <p><strong>NOTE:</strong> When using a {@link ClientResponse}
- * through the {@code WebClient}
- * {@link WebClient.RequestHeadersSpec#exchange() exchange()} method,
- * you have to make sure that the body is consumed or released by using
- * one of the following methods:
+ * <p>
+ * <strong>NOTE:</strong> When using a {@link ClientResponse} through the
+ * {@code WebClient} {@link WebClient.RequestHeadersSpec#exchange() exchange()} method,
+ * you have to make sure that the body is consumed or released by using one of the
+ * following methods:
  * <ul>
  * <li>{@link #body(BodyExtractor)}</li>
- * <li>{@link #bodyToMono(Class)} or
- *     {@link #bodyToMono(ParameterizedTypeReference)}</li>
- * <li>{@link #bodyToFlux(Class)} or
- *     {@link #bodyToFlux(ParameterizedTypeReference)}</li>
- * <li>{@link #toEntity(Class)} or
- *     {@link #toEntity(ParameterizedTypeReference)}</li>
+ * <li>{@link #bodyToMono(Class)} or {@link #bodyToMono(ParameterizedTypeReference)}</li>
+ * <li>{@link #bodyToFlux(Class)} or {@link #bodyToFlux(ParameterizedTypeReference)}</li>
+ * <li>{@link #toEntity(Class)} or {@link #toEntity(ParameterizedTypeReference)}</li>
  * <li>{@link #toEntityList(Class)} or
- *     {@link #toEntityList(ParameterizedTypeReference)}</li>
-*  <li>{@link #toBodilessEntity()}</li>
+ * {@link #toEntityList(ParameterizedTypeReference)}</li>
+ * <li>{@link #toBodilessEntity()}</li>
  * <li>{@link #releaseBody()}</li>
  * </ul>
- * You can also use {@code bodyToMono(Void.class)} if no response content is
- * expected. However keep in mind the connection will be closed, instead of
- * being placed back in the pool, if any content does arrive. This is in
- * contrast to {@link #releaseBody()} which does consume the full body and
- * releases any content received.
+ * You can also use {@code bodyToMono(Void.class)} if no response content is expected.
+ * However keep in mind the connection will be closed, instead of being placed back in the
+ * pool, if any content does arrive. This is in contrast to {@link #releaseBody()} which
+ * does consume the full body and releases any content received.
  *
  * @author Brian Clozel
  * @author Arjen Poutsma
@@ -165,7 +161,8 @@ public interface ClientResponse {
 
 	/**
 	 * Return this response as a delayed {@code ResponseEntity}.
-	 * @param bodyTypeReference a type reference describing the expected response body type
+	 * @param bodyTypeReference a type reference describing the expected response body
+	 * type
 	 * @param <T> response body type
 	 * @return {@code Mono} with the {@code ResponseEntity}
 	 */
@@ -188,17 +185,17 @@ public interface ClientResponse {
 	<T> Mono<ResponseEntity<List<T>>> toEntityList(ParameterizedTypeReference<T> elementTypeRef);
 
 	/**
-	 * Return this response as a delayed {@code ResponseEntity} containing
-	 * status and headers, but no body. Calling this method will
-	 * {@linkplain #releaseBody() release} the body of the response.
+	 * Return this response as a delayed {@code ResponseEntity} containing status and
+	 * headers, but no body. Calling this method will {@linkplain #releaseBody() release}
+	 * the body of the response.
 	 * @return {@code Mono} with the bodiless {@code ResponseEntity}
 	 * @since 5.2
 	 */
 	Mono<ResponseEntity<Void>> toBodilessEntity();
 
 	/**
-	 * Create a {@link WebClientResponseException} that contains the response
-	 * status, headers, body, and the originating request.
+	 * Create a {@link WebClientResponseException} that contains the response status,
+	 * headers, body, and the originating request.
 	 * @return a {@code Mono} with the created exception
 	 * @since 5.2
 	 */
@@ -206,15 +203,15 @@ public interface ClientResponse {
 
 	/**
 	 * Return a log message prefix to use to correlate messages for this exchange.
-	 * <p>The prefix is based on {@linkplain ClientRequest#logPrefix()}, which
-	 * itself is based on the value of the {@link ClientRequest#LOG_ID_ATTRIBUTE
-	 * LOG_ID_ATTRIBUTE} request attribute, further surrounded with "[" and "]".
+	 * <p>
+	 * The prefix is based on {@linkplain ClientRequest#logPrefix()}, which itself is
+	 * based on the value of the {@link ClientRequest#LOG_ID_ATTRIBUTE LOG_ID_ATTRIBUTE}
+	 * request attribute, further surrounded with "[" and "]".
 	 * @return the log message prefix or an empty String if the
 	 * {@link ClientRequest#LOG_ID_ATTRIBUTE LOG_ID_ATTRIBUTE} is not set
 	 * @since 5.2.3
 	 */
 	String logPrefix();
-
 
 	// Static builder methods
 
@@ -228,8 +225,8 @@ public interface ClientResponse {
 	}
 
 	/**
-	 * Create a response builder with the given status code and using default strategies for
-	 * reading the body.
+	 * Create a response builder with the given status code and using default strategies
+	 * for reading the body.
 	 * @param statusCode the status code
 	 * @return the created builder
 	 */
@@ -238,7 +235,8 @@ public interface ClientResponse {
 	}
 
 	/**
-	 * Create a response builder with the given status code and strategies for reading the body.
+	 * Create a response builder with the given status code and strategies for reading the
+	 * body.
 	 * @param statusCode the status code
 	 * @param strategies the strategies
 	 * @return the created builder
@@ -248,7 +246,8 @@ public interface ClientResponse {
 	}
 
 	/**
-	 * Create a response builder with the given raw status code and strategies for reading the body.
+	 * Create a response builder with the given raw status code and strategies for reading
+	 * the body.
 	 * @param statusCode the status code
 	 * @param strategies the strategies
 	 * @return the created builder
@@ -270,6 +269,7 @@ public interface ClientResponse {
 			public List<HttpMessageReader<?>> messageReaders() {
 				return messageReaders;
 			}
+
 			@Override
 			public List<HttpMessageWriter<?>> messageWriters() {
 				// not used in the response
@@ -278,9 +278,9 @@ public interface ClientResponse {
 		});
 	}
 
-
 	/**
 	 * Represents the headers of the HTTP response.
+	 *
 	 * @see ClientResponse#headers()
 	 */
 	interface Headers {
@@ -292,14 +292,15 @@ public interface ClientResponse {
 		OptionalLong contentLength();
 
 		/**
-		 * Return the {@linkplain MediaType media type} of the body, as specified
-		 * by the {@code Content-Type} header.
+		 * Return the {@linkplain MediaType media type} of the body, as specified by the
+		 * {@code Content-Type} header.
 		 */
 		Optional<MediaType> contentType();
 
 		/**
 		 * Return the header value(s), if any, for the header of the given name.
-		 * <p>Return an empty list if no header values are found.
+		 * <p>
+		 * Return an empty list if no header values are found.
 		 * @param headerName the header name
 		 */
 		List<String> header(String headerName);
@@ -308,8 +309,8 @@ public interface ClientResponse {
 		 * Return the headers as an {@link HttpHeaders} instance.
 		 */
 		HttpHeaders asHttpHeaders();
-	}
 
+	}
 
 	/**
 	 * Defines a builder for a response.
@@ -342,10 +343,11 @@ public interface ClientResponse {
 
 		/**
 		 * Manipulate this response's headers with the given consumer.
-		 * <p>The headers provided to the consumer are "live", so that the consumer
-		 * can be used to {@linkplain HttpHeaders#set(String, String) overwrite}
-		 * existing header values, {@linkplain HttpHeaders#remove(Object) remove}
-		 * values, or use any of the other {@link HttpHeaders} methods.
+		 * <p>
+		 * The headers provided to the consumer are "live", so that the consumer can be
+		 * used to {@linkplain HttpHeaders#set(String, String) overwrite} existing header
+		 * values, {@linkplain HttpHeaders#remove(Object) remove} values, or use any of
+		 * the other {@link HttpHeaders} methods.
 		 * @param headersConsumer a function that consumes the {@code HttpHeaders}
 		 * @return this builder
 		 */
@@ -361,10 +363,11 @@ public interface ClientResponse {
 
 		/**
 		 * Manipulate this response's cookies with the given consumer.
-		 * <p>The map provided to the consumer is "live", so that the consumer can be used to
-		 * {@linkplain MultiValueMap#set(Object, Object) overwrite} existing cookie values,
-		 * {@linkplain MultiValueMap#remove(Object) remove} values, or use any of the other
-		 * {@link MultiValueMap} methods.
+		 * <p>
+		 * The map provided to the consumer is "live", so that the consumer can be used to
+		 * {@linkplain MultiValueMap#set(Object, Object) overwrite} existing cookie
+		 * values, {@linkplain MultiValueMap#remove(Object) remove} values, or use any of
+		 * the other {@link MultiValueMap} methods.
 		 * @param cookiesConsumer a function that consumes the cookies map
 		 * @return this builder
 		 */
@@ -372,9 +375,10 @@ public interface ClientResponse {
 
 		/**
 		 * Set the body of the response.
-		 * <p>Calling this methods will
-		 * {@linkplain org.springframework.core.io.buffer.DataBufferUtils#release(DataBuffer) release}
-		 * the existing body of the builder.
+		 * <p>
+		 * Calling this methods will
+		 * {@linkplain org.springframework.core.io.buffer.DataBufferUtils#release(DataBuffer)
+		 * release} the existing body of the builder.
 		 * @param body the new body
 		 * @return this builder
 		 */
@@ -382,9 +386,10 @@ public interface ClientResponse {
 
 		/**
 		 * Set the body of the response to the UTF-8 encoded bytes of the given string.
-		 * <p>Calling this methods will
-		 * {@linkplain org.springframework.core.io.buffer.DataBufferUtils#release(DataBuffer) release}
-		 * the existing body of the builder.
+		 * <p>
+		 * Calling this methods will
+		 * {@linkplain org.springframework.core.io.buffer.DataBufferUtils#release(DataBuffer)
+		 * release} the existing body of the builder.
 		 * @param body the new body
 		 * @return this builder
 		 */
@@ -402,6 +407,7 @@ public interface ClientResponse {
 		 * Build the response.
 		 */
 		ClientResponse build();
+
 	}
 
 }

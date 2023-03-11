@@ -50,34 +50,27 @@ class RenderingResponseIntegrationTests extends AbstractRouterFunctionIntegratio
 
 	private final RestTemplate restTemplate = new RestTemplate();
 
-
 	@Override
 	protected RouterFunction<?> routerFunction() {
 		RenderingResponseHandler handler = new RenderingResponseHandler();
 		RouterFunction<RenderingResponse> normalRoute = route(GET("/normal"), handler::render);
 		RouterFunction<RenderingResponse> filteredRoute = route(GET("/filter"), handler::render)
 				.filter(ofResponseProcessor(
-						response -> RenderingResponse.from(response)
-								.modelAttribute("qux", "quux")
-								.build()));
+						response -> RenderingResponse.from(response).modelAttribute("qux", "quux").build()));
 
 		return normalRoute.and(filteredRoute);
 	}
 
 	@Override
 	protected HandlerStrategies handlerStrategies() {
-		return HandlerStrategies.builder()
-				.viewResolver(new DummyViewResolver())
-				.build();
+		return HandlerStrategies.builder().viewResolver(new DummyViewResolver()).build();
 	}
-
 
 	@ParameterizedHttpServerTest
 	void normal(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		ResponseEntity<String> result =
-				restTemplate.getForEntity("http://localhost:" + port + "/normal", String.class);
+		ResponseEntity<String> result = restTemplate.getForEntity("http://localhost:" + port + "/normal", String.class);
 
 		assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
 		Map<String, String> body = parseBody(result.getBody());
@@ -90,8 +83,7 @@ class RenderingResponseIntegrationTests extends AbstractRouterFunctionIntegratio
 	void filter(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		ResponseEntity<String> result =
-				restTemplate.getForEntity("http://localhost:" + port + "/filter", String.class);
+		ResponseEntity<String> result = restTemplate.getForEntity("http://localhost:" + port + "/filter", String.class);
 
 		assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
 		Map<String, String> body = parseBody(result.getBody());
@@ -113,14 +105,12 @@ class RenderingResponseIntegrationTests extends AbstractRouterFunctionIntegratio
 		return result;
 	}
 
-
 	private static class RenderingResponseHandler {
 
 		public Mono<RenderingResponse> render(ServerRequest request) {
-			return RenderingResponse.create("foo")
-					.modelAttribute("bar", "baz")
-					.build();
+			return RenderingResponse.create("foo").modelAttribute("bar", "baz").build();
 		}
+
 	}
 
 	private static class DummyViewResolver implements ViewResolver {
@@ -129,8 +119,8 @@ class RenderingResponseIntegrationTests extends AbstractRouterFunctionIntegratio
 		public Mono<View> resolveViewName(String viewName, Locale locale) {
 			return Mono.just(new DummyView(viewName));
 		}
-	}
 
+	}
 
 	private static class DummyView implements View {
 
@@ -161,6 +151,7 @@ class RenderingResponseIntegrationTests extends AbstractRouterFunctionIntegratio
 			response.getHeaders().setContentType(MediaType.TEXT_PLAIN);
 			return response.writeWith(Mono.just(buffer));
 		}
+
 	}
 
 }

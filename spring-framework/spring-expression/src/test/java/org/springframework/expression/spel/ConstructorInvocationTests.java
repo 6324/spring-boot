@@ -52,7 +52,6 @@ public class ConstructorInvocationTests extends AbstractExpressionTests {
 		evaluateAndCheckError("new FooBar()", SpelMessage.CONSTRUCTOR_INVOCATION_PROBLEM);
 	}
 
-
 	@SuppressWarnings("serial")
 	static class TestException extends Exception {
 
@@ -61,8 +60,8 @@ public class ConstructorInvocationTests extends AbstractExpressionTests {
 	static class Tester {
 
 		public static int counter;
-		public int i;
 
+		public int i;
 
 		public Tester() {
 		}
@@ -87,7 +86,6 @@ public class ConstructorInvocationTests extends AbstractExpressionTests {
 
 	}
 
-
 	@Test
 	public void testConstructorThrowingException_SPR6760() {
 		// Test ctor on inventor:
@@ -97,7 +95,8 @@ public class ConstructorInvocationTests extends AbstractExpressionTests {
 		// In each case it increments the Tester field 'counter' when invoked
 
 		SpelExpressionParser parser = new SpelExpressionParser();
-		Expression expr = parser.parseExpression("new org.springframework.expression.spel.ConstructorInvocationTests$Tester(#bar).i");
+		Expression expr = parser
+				.parseExpression("new org.springframework.expression.spel.ConstructorInvocationTests$Tester(#bar).i");
 
 		// Normal exit
 		StandardEvaluationContext eContext = TestScenarioCreator.getTestEvaluationContext();
@@ -127,9 +126,8 @@ public class ConstructorInvocationTests extends AbstractExpressionTests {
 		// 4 will make it throw a checked exception - this will be wrapped by spel on the
 		// way out
 		eContext.setVariable("bar", 4);
-		assertThatExceptionOfType(Exception.class).isThrownBy(() ->
-				expr.getValue(eContext))
-			.withMessageContaining("Tester");
+		assertThatExceptionOfType(Exception.class).isThrownBy(() -> expr.getValue(eContext))
+				.withMessageContaining("Tester");
 		// A problem occurred whilst attempting to construct an object of type
 		// 'org.springframework.expression.spel.ConstructorInvocationTests$Tester'
 		// using arguments '(java.lang.Integer)'
@@ -139,9 +137,8 @@ public class ConstructorInvocationTests extends AbstractExpressionTests {
 
 		// 1 will make it throw a RuntimeException - SpEL will let this through
 		eContext.setVariable("bar", 1);
-		assertThatExceptionOfType(Exception.class).isThrownBy(() ->
-				expr.getValue(eContext))
-			.satisfies(ex -> assertThat(ex).isNotInstanceOf(SpelEvaluationException.class));
+		assertThatExceptionOfType(Exception.class).isThrownBy(() -> expr.getValue(eContext))
+				.satisfies(ex -> assertThat(ex).isNotInstanceOf(SpelEvaluationException.class));
 		// A problem occurred whilst attempting to construct an object of type
 		// 'org.springframework.expression.spel.ConstructorInvocationTests$Tester'
 		// using arguments '(java.lang.Integer)'
@@ -171,7 +168,6 @@ public class ConstructorInvocationTests extends AbstractExpressionTests {
 		assertThat(ctx.getConstructorResolvers().size()).isEqualTo(2);
 	}
 
-
 	static class DummyConstructorResolver implements ConstructorResolver {
 
 		@Override
@@ -182,12 +178,11 @@ public class ConstructorInvocationTests extends AbstractExpressionTests {
 
 	}
 
-
 	@Test
 	public void testVarargsInvocation01() {
 		// Calling 'Fruit(String... strings)'
 		evaluate("new org.springframework.expression.spel.testresources.Fruit('a','b','c').stringscount()", 3,
-			Integer.class);
+				Integer.class);
 		evaluate("new org.springframework.expression.spel.testresources.Fruit('a').stringscount()", 1, Integer.class);
 		evaluate("new org.springframework.expression.spel.testresources.Fruit().stringscount()", 0, Integer.class);
 		// all need converting to strings
@@ -196,23 +191,24 @@ public class ConstructorInvocationTests extends AbstractExpressionTests {
 		evaluate("new org.springframework.expression.spel.testresources.Fruit(1).stringscount()", 1, Integer.class);
 		// first and last need conversion
 		evaluate("new org.springframework.expression.spel.testresources.Fruit(1,'a',3.0d).stringscount()", 3,
-			Integer.class);
+				Integer.class);
 	}
 
 	@Test
 	public void testVarargsInvocation02() {
 		// Calling 'Fruit(int i, String... strings)' - returns int+length_of_strings
 		evaluate("new org.springframework.expression.spel.testresources.Fruit(5,'a','b','c').stringscount()", 8,
-			Integer.class);
+				Integer.class);
 		evaluate("new org.springframework.expression.spel.testresources.Fruit(2,'a').stringscount()", 3, Integer.class);
 		evaluate("new org.springframework.expression.spel.testresources.Fruit(4).stringscount()", 4, Integer.class);
-		evaluate("new org.springframework.expression.spel.testresources.Fruit(8,2,3).stringscount()", 10, Integer.class);
+		evaluate("new org.springframework.expression.spel.testresources.Fruit(8,2,3).stringscount()", 10,
+				Integer.class);
 		evaluate("new org.springframework.expression.spel.testresources.Fruit(9).stringscount()", 9, Integer.class);
 		evaluate("new org.springframework.expression.spel.testresources.Fruit(2,'a',3.0d).stringscount()", 4,
-			Integer.class);
+				Integer.class);
 		evaluate(
-			"new org.springframework.expression.spel.testresources.Fruit(8,stringArrayOfThreeItems).stringscount()",
-			11, Integer.class);
+				"new org.springframework.expression.spel.testresources.Fruit(8,stringArrayOfThreeItems).stringscount()",
+				11, Integer.class);
 	}
 
 	/*

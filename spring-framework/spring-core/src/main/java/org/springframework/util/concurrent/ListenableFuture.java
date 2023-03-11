@@ -20,11 +20,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 /**
- * Extend {@link Future} with the capability to accept completion callbacks.
- * If the future has completed when the callback is added, the callback is
- * triggered immediately.
+ * Extend {@link Future} with the capability to accept completion callbacks. If the future
+ * has completed when the callback is added, the callback is triggered immediately.
  *
- * <p>Inspired by {@code com.google.common.util.concurrent.ListenableFuture}.
+ * <p>
+ * Inspired by {@code com.google.common.util.concurrent.ListenableFuture}.
  *
  * @author Arjen Poutsma
  * @author Sebastien Deleuze
@@ -47,7 +47,6 @@ public interface ListenableFuture<T> extends Future<T> {
 	 * @since 4.1
 	 */
 	void addCallback(SuccessCallback<? super T> successCallback, FailureCallback failureCallback);
-
 
 	/**
 	 * Expose this {@link ListenableFuture} as a JDK {@link CompletableFuture}.

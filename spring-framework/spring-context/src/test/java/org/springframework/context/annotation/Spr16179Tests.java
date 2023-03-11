@@ -30,18 +30,18 @@ public class Spr16179Tests {
 
 	@Test
 	public void repro() {
-		AnnotationConfigApplicationContext bf =
-				new AnnotationConfigApplicationContext(AssemblerConfig.class, AssemblerInjection.class);
+		AnnotationConfigApplicationContext bf = new AnnotationConfigApplicationContext(AssemblerConfig.class,
+				AssemblerInjection.class);
 
 		assertThat(bf.getBean(AssemblerInjection.class).assembler0).isSameAs(bf.getBean("someAssembler"));
-		// assertNull(bf.getBean(AssemblerInjection.class).assembler1);  TODO: accidental match
+		// assertNull(bf.getBean(AssemblerInjection.class).assembler1); TODO: accidental
+		// match
 		// assertNull(bf.getBean(AssemblerInjection.class).assembler2);
 		assertThat(bf.getBean(AssemblerInjection.class).assembler3).isSameAs(bf.getBean("pageAssembler"));
 		assertThat(bf.getBean(AssemblerInjection.class).assembler4).isSameAs(bf.getBean("pageAssembler"));
 		assertThat(bf.getBean(AssemblerInjection.class).assembler5).isSameAs(bf.getBean("pageAssembler"));
 		assertThat(bf.getBean(AssemblerInjection.class).assembler6).isSameAs(bf.getBean("pageAssembler"));
 	}
-
 
 	@Configuration
 	static class AssemblerConfig {
@@ -53,10 +53,11 @@ public class Spr16179Tests {
 
 		@Bean
 		Assembler<SomeType> someAssembler() {
-			return new Assembler<SomeType>() {};
+			return new Assembler<SomeType>() {
+			};
 		}
-	}
 
+	}
 
 	public static class AssemblerInjection {
 
@@ -80,19 +81,31 @@ public class Spr16179Tests {
 
 		@Autowired(required = false)
 		PageAssembler<String> assembler6;
+
 	}
 
+	interface Assembler<T> {
 
-	interface Assembler<T> {}
+	}
 
-	interface PageAssembler<T> extends Assembler<Page<T>> {}
+	interface PageAssembler<T> extends Assembler<Page<T>> {
 
-	static class PageAssemblerImpl<T> implements PageAssembler<T> {}
+	}
 
-	interface Page<T> {}
+	static class PageAssemblerImpl<T> implements PageAssembler<T> {
 
-	interface SomeType {}
+	}
 
-	interface SomeOtherType {}
+	interface Page<T> {
+
+	}
+
+	interface SomeType {
+
+	}
+
+	interface SomeOtherType {
+
+	}
 
 }

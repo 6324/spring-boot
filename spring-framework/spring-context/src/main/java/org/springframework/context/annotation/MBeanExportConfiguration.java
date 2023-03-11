@@ -41,7 +41,8 @@ import org.springframework.util.StringUtils;
 /**
  * {@code @Configuration} class that registers a {@link AnnotationMBeanExporter} bean.
  *
- * <p>This configuration class is automatically imported when using the
+ * <p>
+ * This configuration class is automatically imported when using the
  * {@link EnableMBeanExport} annotation. See its javadoc for complete usage details.
  *
  * @author Phillip Webb
@@ -64,7 +65,6 @@ public class MBeanExportConfiguration implements ImportAware, EnvironmentAware, 
 	@Nullable
 	private BeanFactory beanFactory;
 
-
 	@Override
 	public void setImportMetadata(AnnotationMetadata importMetadata) {
 		Map<String, Object> map = importMetadata.getAnnotationAttributes(EnableMBeanExport.class.getName());
@@ -84,7 +84,6 @@ public class MBeanExportConfiguration implements ImportAware, EnvironmentAware, 
 	public void setBeanFactory(BeanFactory beanFactory) {
 		this.beanFactory = beanFactory;
 	}
-
 
 	@Bean(name = MBEAN_EXPORTER_BEAN_NAME)
 	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
@@ -131,7 +130,6 @@ public class MBeanExportConfiguration implements ImportAware, EnvironmentAware, 
 		RegistrationPolicy registrationPolicy = enableMBeanExport.getEnum("registration");
 		exporter.setRegistrationPolicy(registrationPolicy);
 	}
-
 
 	/**
 	 * Specific platforms that might need custom MBean handling.
@@ -184,6 +182,7 @@ public class MBeanExportConfiguration implements ImportAware, EnvironmentAware, 
 			}
 			return null;
 		}
+
 	}
 
 }

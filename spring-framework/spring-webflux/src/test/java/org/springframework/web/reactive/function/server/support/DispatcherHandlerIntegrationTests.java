@@ -45,7 +45,6 @@ class DispatcherHandlerIntegrationTests extends AbstractHttpHandlerIntegrationTe
 
 	private final RestTemplate restTemplate = new RestTemplate();
 
-
 	@Override
 	protected HttpHandler createHttpHandler() {
 		AnnotationConfigApplicationContext wac = new AnnotationConfigApplicationContext();
@@ -55,17 +54,15 @@ class DispatcherHandlerIntegrationTests extends AbstractHttpHandlerIntegrationTe
 		return WebHttpHandlerBuilder.webHandler(new DispatcherHandler(wac)).build();
 	}
 
-
 	@ParameterizedHttpServerTest
 	void nested(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		ResponseEntity<String> result = this.restTemplate
-				.getForEntity("http://localhost:" + this.port + "/foo/bar", String.class);
+		ResponseEntity<String> result = this.restTemplate.getForEntity("http://localhost:" + this.port + "/foo/bar",
+				String.class);
 
 		assertThat(result.getStatusCodeValue()).isEqualTo(200);
 	}
-
 
 	@Configuration
 	@EnableWebFlux
@@ -73,11 +70,8 @@ class DispatcherHandlerIntegrationTests extends AbstractHttpHandlerIntegrationTe
 
 		@Bean
 		public RouterFunction<ServerResponse> router(Handler handler) {
-			return route()
-					.path("/foo", () -> route()
-							.nest(accept(MediaType.APPLICATION_JSON), builder -> builder
-									.GET("/bar", handler::handle))
-							.build())
+			return route().path("/foo", () -> route()
+					.nest(accept(MediaType.APPLICATION_JSON), builder -> builder.GET("/bar", handler::handle)).build())
 					.build();
 		}
 
@@ -85,14 +79,15 @@ class DispatcherHandlerIntegrationTests extends AbstractHttpHandlerIntegrationTe
 		public Handler handler() {
 			return new Handler();
 		}
-	}
 
+	}
 
 	static class Handler {
 
 		public Mono<ServerResponse> handle(ServerRequest request) {
 			return ServerResponse.ok().build();
 		}
+
 	}
 
 }

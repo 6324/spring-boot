@@ -40,7 +40,6 @@ public class SetValueTests extends AbstractExpressionTests {
 
 	private final static boolean DEBUG = false;
 
-
 	@Test
 	public void testSetProperty() {
 		setValue("wonNobelPrize", true);
@@ -73,7 +72,7 @@ public class SetValueTests extends AbstractExpressionTests {
 		setValue("arrayContainer.floats[1]", 3.0f);
 		setValue("arrayContainer.booleans[1]", false);
 		setValue("arrayContainer.doubles[1]", 3.4d);
-		setValue("arrayContainer.shorts[1]", (short)3);
+		setValue("arrayContainer.shorts[1]", (short) 3);
 		setValue("arrayContainer.longs[1]", 3L);
 		setValue("arrayContainer.bytes[1]", (byte) 3);
 		setValue("arrayContainer.chars[1]", (char) 3);
@@ -89,10 +88,13 @@ public class SetValueTests extends AbstractExpressionTests {
 		assertThat(e1.isWritable(lContext)).as("Should not be writable!").isFalse();
 
 		Expression e2 = parser.parseExpression("arrayContainer.wibble.foo");
-		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(() ->
-				e2.isWritable(lContext));
-//			org.springframework.expression.spel.SpelEvaluationException: EL1008E:(pos 15): Property or field 'wibble' cannot be found on object of type 'org.springframework.expression.spel.testresources.ArrayContainer' - maybe not public?
-//					at org.springframework.expression.spel.ast.PropertyOrFieldReference.readProperty(PropertyOrFieldReference.java:225)
+		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(() -> e2.isWritable(lContext));
+		// org.springframework.expression.spel.SpelEvaluationException: EL1008E:(pos 15):
+		// Property or field 'wibble' cannot be found on object of type
+		// 'org.springframework.expression.spel.testresources.ArrayContainer' - maybe not
+		// public?
+		// at
+		// org.springframework.expression.spel.ast.PropertyOrFieldReference.readProperty(PropertyOrFieldReference.java:225)
 
 		// VARIABLE
 		// the variable does not exist (but that is OK, we should be writable)
@@ -105,13 +107,11 @@ public class SetValueTests extends AbstractExpressionTests {
 		// INDEXER
 		// non existent indexer (wibble made up)
 		Expression e5 = parser.parseExpression("arrayContainer.wibble[99]");
-		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(() ->
-				e5.isWritable(lContext));
+		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(() -> e5.isWritable(lContext));
 
 		// non existent indexer (index via a string)
 		Expression e6 = parser.parseExpression("arrayContainer.ints['abc']");
-		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(() ->
-				e6.isWritable(lContext));
+		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(() -> e6.isWritable(lContext));
 	}
 
 	@Test
@@ -121,9 +121,9 @@ public class SetValueTests extends AbstractExpressionTests {
 		setValueExpectError("arrayContainer.floats[1]", "dribble");
 		setValueExpectError("arrayContainer.booleans[1]", "nein");
 		// TODO -- this fails with NPE due to ArrayToObject converter - discuss with Andy
-		//setValueExpectError("arrayContainer.doubles[1]", new ArrayList<String>());
-		//setValueExpectError("arrayContainer.shorts[1]", new ArrayList<String>());
-		//setValueExpectError("arrayContainer.longs[1]", new ArrayList<String>());
+		// setValueExpectError("arrayContainer.doubles[1]", new ArrayList<String>());
+		// setValueExpectError("arrayContainer.shorts[1]", new ArrayList<String>());
+		// setValueExpectError("arrayContainer.longs[1]", new ArrayList<String>());
 		setValueExpectError("arrayContainer.bytes[1]", "NaB");
 		setValueExpectError("arrayContainer.chars[1]", "NaC");
 	}
@@ -140,7 +140,8 @@ public class SetValueTests extends AbstractExpressionTests {
 
 	@Test
 	public void testSetGenericListElementValueTypeCoersion() {
-		// TODO currently failing since setValue does a getValue and "Wien" string != PlaceOfBirth - check with andy
+		// TODO currently failing since setValue does a getValue and "Wien" string !=
+		// PlaceOfBirth - check with andy
 		setValue("placesLivedList[0]", "Wien");
 	}
 
@@ -162,7 +163,7 @@ public class SetValueTests extends AbstractExpressionTests {
 
 	@Test
 	public void testSetMapElements() {
-		setValue("testMap['montag']","lundi");
+		setValue("testMap['montag']", "lundi");
 	}
 
 	@Test
@@ -202,13 +203,13 @@ public class SetValueTests extends AbstractExpressionTests {
 
 		// All keys should be strings
 		Set<?> ks = parse("mapOfStringToBoolean.keySet()").getValue(eContext, Set.class);
-		for (Object o: ks) {
+		for (Object o : ks) {
 			assertThat(o.getClass()).isEqualTo(String.class);
 		}
 
 		// All values should be booleans
 		Collection<?> vs = parse("mapOfStringToBoolean.values()").getValue(eContext, Collection.class);
-		for (Object o: vs) {
+		for (Object o : vs) {
 			assertThat(o.getClass()).isEqualTo(Boolean.class);
 		}
 
@@ -216,7 +217,6 @@ public class SetValueTests extends AbstractExpressionTests {
 		Object o = e.getValue(eContext);
 		assertThat(o).isEqualTo(Boolean.TRUE);
 	}
-
 
 	private Expression parse(String expressionString) throws Exception {
 		return parser.parseExpression(expressionString);
@@ -232,8 +232,7 @@ public class SetValueTests extends AbstractExpressionTests {
 			SpelUtilities.printAbstractSyntaxTree(System.out, e);
 		}
 		StandardEvaluationContext lContext = TestScenarioCreator.getTestEvaluationContext();
-		assertThatExceptionOfType(EvaluationException.class).isThrownBy(() ->
-				e.setValue(lContext, value));
+		assertThatExceptionOfType(EvaluationException.class).isThrownBy(() -> e.setValue(lContext, value));
 	}
 
 	protected void setValue(String expression, Object value) {
@@ -246,7 +245,8 @@ public class SetValueTests extends AbstractExpressionTests {
 			StandardEvaluationContext lContext = TestScenarioCreator.getTestEvaluationContext();
 			assertThat(e.isWritable(lContext)).as("Expression is not writeable but should be").isTrue();
 			e.setValue(lContext, value);
-			assertThat(e.getValue(lContext,value.getClass())).as("Retrieved value was not equal to set value").isEqualTo(value);
+			assertThat(e.getValue(lContext, value.getClass())).as("Retrieved value was not equal to set value")
+					.isEqualTo(value);
 		}
 		catch (EvaluationException | ParseException ex) {
 			throw new AssertionError("Unexpected Exception: " + ex.getMessage(), ex);
@@ -254,7 +254,7 @@ public class SetValueTests extends AbstractExpressionTests {
 	}
 
 	/**
-	 * For use when coercion is happening during a setValue().  The expectedValue should be
+	 * For use when coercion is happening during a setValue(). The expectedValue should be
 	 * the coerced form of the value.
 	 */
 	protected void setValue(String expression, Object value, Object expectedValue) {

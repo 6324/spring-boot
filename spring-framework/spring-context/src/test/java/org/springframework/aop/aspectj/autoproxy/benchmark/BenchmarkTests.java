@@ -39,8 +39,8 @@ import org.springframework.util.StopWatch;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Integration tests for AspectJ auto proxying. Includes mixing with Spring AOP
- * Advisors to demonstrate that existing autoproxying contract is honoured.
+ * Integration tests for AspectJ auto proxying. Includes mixing with Spring AOP Advisors
+ * to demonstrate that existing autoproxying contract is honoured.
  *
  * @author Rod Johnson
  * @author Chris Beams
@@ -192,7 +192,6 @@ public class BenchmarkTests {
 
 }
 
-
 class MultiplyReturnValueInterceptor implements MethodInterceptor {
 
 	private int multiple = 2;
@@ -216,7 +215,6 @@ class MultiplyReturnValueInterceptor implements MethodInterceptor {
 
 }
 
-
 class TraceAfterReturningAdvice implements AfterReturningAdvice {
 
 	public int afterTakesInt;
@@ -227,19 +225,15 @@ class TraceAfterReturningAdvice implements AfterReturningAdvice {
 	}
 
 	public static Advisor advisor() {
-		return new DefaultPointcutAdvisor(
-			new StaticMethodMatcherPointcut() {
-				@Override
-				public boolean matches(Method method, Class<?> targetClass) {
-					return method.getParameterCount() == 1 &&
-						method.getParameterTypes()[0].equals(Integer.class);
-				}
-			},
-			new TraceAfterReturningAdvice());
+		return new DefaultPointcutAdvisor(new StaticMethodMatcherPointcut() {
+			@Override
+			public boolean matches(Method method, Class<?> targetClass) {
+				return method.getParameterCount() == 1 && method.getParameterTypes()[0].equals(Integer.class);
+			}
+		}, new TraceAfterReturningAdvice());
 	}
 
 }
-
 
 @Aspect
 class TraceAspect {
@@ -260,7 +254,6 @@ class TraceAspect {
 
 }
 
-
 class TraceBeforeAdvice implements MethodBeforeAdvice {
 
 	public int beforeStringReturn;
@@ -271,14 +264,12 @@ class TraceBeforeAdvice implements MethodBeforeAdvice {
 	}
 
 	public static Advisor advisor() {
-		return new DefaultPointcutAdvisor(
-			new StaticMethodMatcherPointcut() {
-				@Override
-				public boolean matches(Method method, Class<?> targetClass) {
-					return method.getReturnType().equals(String.class);
-				}
-			},
-			new TraceBeforeAdvice());
+		return new DefaultPointcutAdvisor(new StaticMethodMatcherPointcut() {
+			@Override
+			public boolean matches(Method method, Class<?> targetClass) {
+				return method.getReturnType().equals(String.class);
+			}
+		}, new TraceBeforeAdvice());
 	}
 
 }

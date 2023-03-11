@@ -66,7 +66,6 @@ public class DelegatingWebFluxConfigurationTests {
 
 	private DelegatingWebFluxConfiguration delegatingConfig;
 
-
 	@BeforeEach
 	public void setup() {
 		delegatingConfig = new DelegatingWebFluxConfiguration();
@@ -74,7 +73,6 @@ public class DelegatingWebFluxConfigurationTests {
 		given(webFluxConfigurer.getValidator()).willReturn(null);
 		given(webFluxConfigurer.getMessageCodesResolver()).willReturn(null);
 	}
-
 
 	@Test
 	public void requestMappingHandlerMapping() throws Exception {
@@ -94,9 +92,10 @@ public class DelegatingWebFluxConfigurationTests {
 		FormattingConversionService formattingConversionService = delegatingConfig.webFluxConversionService();
 		Validator validator = delegatingConfig.webFluxValidator();
 
-		ConfigurableWebBindingInitializer initializer = (ConfigurableWebBindingInitializer)
-				this.delegatingConfig.requestMappingHandlerAdapter(reactiveAdapterRegistry, serverCodecConfigurer,
-						formattingConversionService, validator).getWebBindingInitializer();
+		ConfigurableWebBindingInitializer initializer = (ConfigurableWebBindingInitializer) this.delegatingConfig
+				.requestMappingHandlerAdapter(reactiveAdapterRegistry, serverCodecConfigurer,
+						formattingConversionService, validator)
+				.getWebBindingInitializer();
 
 		verify(webFluxConfigurer).configureHttpMessageCodecs(codecsConfigurer.capture());
 		verify(webFluxConfigurer).getValidator();
@@ -128,10 +127,8 @@ public class DelegatingWebFluxConfigurationTests {
 	@Test
 	public void responseBodyResultHandler() throws Exception {
 		delegatingConfig.setConfigurers(Collections.singletonList(webFluxConfigurer));
-		delegatingConfig.responseBodyResultHandler(
-				delegatingConfig.webFluxAdapterRegistry(),
-				delegatingConfig.serverCodecConfigurer(),
-				delegatingConfig.webFluxContentTypeResolver());
+		delegatingConfig.responseBodyResultHandler(delegatingConfig.webFluxAdapterRegistry(),
+				delegatingConfig.serverCodecConfigurer(), delegatingConfig.webFluxContentTypeResolver());
 
 		verify(webFluxConfigurer).configureHttpMessageCodecs(codecsConfigurer.capture());
 		verify(webFluxConfigurer).configureContentTypeResolver(any(RequestedContentTypeResolverBuilder.class));

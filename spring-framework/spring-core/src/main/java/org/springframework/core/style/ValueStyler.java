@@ -19,8 +19,8 @@ package org.springframework.core.style;
 import org.springframework.lang.Nullable;
 
 /**
- * Strategy that encapsulates value String styling algorithms
- * according to Spring conventions.
+ * Strategy that encapsulates value String styling algorithms according to Spring
+ * conventions.
  *
  * @author Keith Donald
  * @since 1.2.2

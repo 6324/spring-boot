@@ -69,7 +69,6 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 
 	private static final RequestConditionHolder EMPTY_CUSTOM = new RequestConditionHolder(null);
 
-
 	@Nullable
 	private final String name;
 
@@ -89,7 +88,6 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 
 	private final int hashCode;
 
-
 	public RequestMappingInfo(@Nullable String name, @Nullable PatternsRequestCondition patterns,
 			@Nullable RequestMethodsRequestCondition methods, @Nullable ParamsRequestCondition params,
 			@Nullable HeadersRequestCondition headers, @Nullable ConsumesRequestCondition consumes,
@@ -104,9 +102,8 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 		this.producesCondition = (produces != null ? produces : EMPTY_PRODUCES);
 		this.customConditionHolder = (custom != null ? new RequestConditionHolder(custom) : EMPTY_CUSTOM);
 
-		this.hashCode = calculateHashCode(
-				this.patternsCondition, this.methodsCondition, this.paramsCondition, this.headersCondition,
-				this.consumesCondition, this.producesCondition, this.customConditionHolder);
+		this.hashCode = calculateHashCode(this.patternsCondition, this.methodsCondition, this.paramsCondition,
+				this.headersCondition, this.consumesCondition, this.producesCondition, this.customConditionHolder);
 	}
 
 	/**
@@ -128,7 +125,6 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 				info.consumesCondition, info.producesCondition, customRequestCondition);
 	}
 
-
 	/**
 	 * Return the name for this mapping, or {@code null}.
 	 */
@@ -138,48 +134,48 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 	}
 
 	/**
-	 * Returns the URL patterns of this {@link RequestMappingInfo};
-	 * or instance with 0 patterns, never {@code null}.
+	 * Returns the URL patterns of this {@link RequestMappingInfo}; or instance with 0
+	 * patterns, never {@code null}.
 	 */
 	public PatternsRequestCondition getPatternsCondition() {
 		return this.patternsCondition;
 	}
 
 	/**
-	 * Returns the HTTP request methods of this {@link RequestMappingInfo};
-	 * or instance with 0 request methods, never {@code null}.
+	 * Returns the HTTP request methods of this {@link RequestMappingInfo}; or instance
+	 * with 0 request methods, never {@code null}.
 	 */
 	public RequestMethodsRequestCondition getMethodsCondition() {
 		return this.methodsCondition;
 	}
 
 	/**
-	 * Returns the "parameters" condition of this {@link RequestMappingInfo};
-	 * or instance with 0 parameter expressions, never {@code null}.
+	 * Returns the "parameters" condition of this {@link RequestMappingInfo}; or instance
+	 * with 0 parameter expressions, never {@code null}.
 	 */
 	public ParamsRequestCondition getParamsCondition() {
 		return this.paramsCondition;
 	}
 
 	/**
-	 * Returns the "headers" condition of this {@link RequestMappingInfo};
-	 * or instance with 0 header expressions, never {@code null}.
+	 * Returns the "headers" condition of this {@link RequestMappingInfo}; or instance
+	 * with 0 header expressions, never {@code null}.
 	 */
 	public HeadersRequestCondition getHeadersCondition() {
 		return this.headersCondition;
 	}
 
 	/**
-	 * Returns the "consumes" condition of this {@link RequestMappingInfo};
-	 * or instance with 0 consumes expressions, never {@code null}.
+	 * Returns the "consumes" condition of this {@link RequestMappingInfo}; or instance
+	 * with 0 consumes expressions, never {@code null}.
 	 */
 	public ConsumesRequestCondition getConsumesCondition() {
 		return this.consumesCondition;
 	}
 
 	/**
-	 * Returns the "produces" condition of this {@link RequestMappingInfo};
-	 * or instance with 0 produces expressions, never {@code null}.
+	 * Returns the "produces" condition of this {@link RequestMappingInfo}; or instance
+	 * with 0 produces expressions, never {@code null}.
 	 */
 	public ProducesRequestCondition getProducesCondition() {
 		return this.producesCondition;
@@ -193,10 +189,11 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 		return this.customConditionHolder.getCondition();
 	}
 
-
 	/**
-	 * Combines "this" request mapping info (i.e. the current instance) with another request mapping info instance.
-	 * <p>Example: combine type- and method-level request mappings.
+	 * Combines "this" request mapping info (i.e. the current instance) with another
+	 * request mapping info instance.
+	 * <p>
+	 * Example: combine type- and method-level request mappings.
 	 * @return a new request mapping info instance; never {@code null}
 	 */
 	@Override
@@ -210,8 +207,8 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 		ProducesRequestCondition produces = this.producesCondition.combine(other.producesCondition);
 		RequestConditionHolder custom = this.customConditionHolder.combine(other.customConditionHolder);
 
-		return new RequestMappingInfo(name, patterns,
-				methods, params, headers, consumes, produces, custom.getCondition());
+		return new RequestMappingInfo(name, patterns, methods, params, headers, consumes, produces,
+				custom.getCondition());
 	}
 
 	@Nullable
@@ -228,10 +225,12 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 	}
 
 	/**
-	 * Checks if all conditions in this request mapping info match the provided request and returns
-	 * a potentially new request mapping info with conditions tailored to the current request.
-	 * <p>For example the returned instance may contain the subset of URL patterns that match to
-	 * the current request, sorted with best matching patterns on top.
+	 * Checks if all conditions in this request mapping info match the provided request
+	 * and returns a potentially new request mapping info with conditions tailored to the
+	 * current request.
+	 * <p>
+	 * For example the returned instance may contain the subset of URL patterns that match
+	 * to the current request, sorted with best matching patterns on top.
 	 * @return a new instance in case all conditions match; or {@code null} otherwise
 	 */
 	@Override
@@ -266,15 +265,17 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 		if (custom == null) {
 			return null;
 		}
-		return new RequestMappingInfo(this.name, patterns,
-				methods, params, headers, consumes, produces, custom.getCondition());
+		return new RequestMappingInfo(this.name, patterns, methods, params, headers, consumes, produces,
+				custom.getCondition());
 	}
 
 	/**
-	 * Compares "this" info (i.e. the current instance) with another info in the context of a request.
-	 * <p>Note: It is assumed both instances have been obtained via
-	 * {@link #getMatchingCondition(ServerWebExchange)} to ensure they have conditions with
-	 * content relevant to current request.
+	 * Compares "this" info (i.e. the current instance) with another info in the context
+	 * of a request.
+	 * <p>
+	 * Note: It is assumed both instances have been obtained via
+	 * {@link #getMatchingCondition(ServerWebExchange)} to ensure they have conditions
+	 * with content relevant to current request.
 	 */
 	@Override
 	public int compareTo(RequestMappingInfo other, ServerWebExchange exchange) {
@@ -318,13 +319,13 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 			return false;
 		}
 		RequestMappingInfo otherInfo = (RequestMappingInfo) other;
-		return (this.patternsCondition.equals(otherInfo.patternsCondition) &&
-				this.methodsCondition.equals(otherInfo.methodsCondition) &&
-				this.paramsCondition.equals(otherInfo.paramsCondition) &&
-				this.headersCondition.equals(otherInfo.headersCondition) &&
-				this.consumesCondition.equals(otherInfo.consumesCondition) &&
-				this.producesCondition.equals(otherInfo.producesCondition) &&
-				this.customConditionHolder.equals(otherInfo.customConditionHolder));
+		return (this.patternsCondition.equals(otherInfo.patternsCondition)
+				&& this.methodsCondition.equals(otherInfo.methodsCondition)
+				&& this.paramsCondition.equals(otherInfo.paramsCondition)
+				&& this.headersCondition.equals(otherInfo.headersCondition)
+				&& this.consumesCondition.equals(otherInfo.consumesCondition)
+				&& this.producesCondition.equals(otherInfo.producesCondition)
+				&& this.customConditionHolder.equals(otherInfo.customConditionHolder));
 	}
 
 	@Override
@@ -332,14 +333,12 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 		return this.hashCode;
 	}
 
-	private static int calculateHashCode(
-			PatternsRequestCondition patterns, RequestMethodsRequestCondition methods,
-			ParamsRequestCondition params, HeadersRequestCondition headers,
-			ConsumesRequestCondition consumes, ProducesRequestCondition produces,
-			RequestConditionHolder custom) {
+	private static int calculateHashCode(PatternsRequestCondition patterns, RequestMethodsRequestCondition methods,
+			ParamsRequestCondition params, HeadersRequestCondition headers, ConsumesRequestCondition consumes,
+			ProducesRequestCondition produces, RequestConditionHolder custom) {
 
-		return patterns.hashCode() * 31 + methods.hashCode() + params.hashCode() +
-				headers.hashCode() + consumes.hashCode() + produces.hashCode() + custom.hashCode();
+		return patterns.hashCode() * 31 + methods.hashCode() + params.hashCode() + headers.hashCode()
+				+ consumes.hashCode() + produces.hashCode() + custom.hashCode();
 	}
 
 	@Override
@@ -372,7 +371,6 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 		return builder.toString();
 	}
 
-
 	/**
 	 * Create a new {@code RequestMappingInfo.Builder} with the given paths.
 	 * @param paths the paths to use
@@ -380,7 +378,6 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 	public static Builder paths(String... paths) {
 		return new DefaultBuilder(paths);
 	}
-
 
 	/**
 	 * Defines a builder for creating a RequestMappingInfo.
@@ -404,7 +401,8 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 
 		/**
 		 * Set the header conditions.
-		 * <p>By default this is not set.
+		 * <p>
+		 * By default this is not set.
 		 */
 		Builder headers(String... headers);
 
@@ -437,8 +435,8 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 		 * Build the RequestMappingInfo.
 		 */
 		RequestMappingInfo build();
-	}
 
+	}
 
 	private static class DefaultBuilder implements Builder {
 
@@ -471,7 +469,6 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 
 		private BuilderConfiguration options = new BuilderConfiguration();
 
-
 		public DefaultBuilder(String... paths) {
 			this.paths = paths;
 		}
@@ -497,10 +494,9 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 		@Override
 		public DefaultBuilder headers(String... headers) {
 			for (String header : headers) {
-				this.hasContentType = this.hasContentType ||
-						header.contains("Content-Type") || header.contains("content-type");
-				this.hasAccept = this.hasAccept ||
-						header.contains("Accept") || header.contains("accept");
+				this.hasContentType = this.hasContentType || header.contains("Content-Type")
+						|| header.contains("content-type");
+				this.hasAccept = this.hasAccept || header.contains("Accept") || header.contains("accept");
 			}
 			this.headers = headers;
 			return this;
@@ -539,23 +535,20 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 		@Override
 		public RequestMappingInfo build() {
 
-			PathPatternParser parser = (this.options.getPatternParser() != null ?
-					this.options.getPatternParser() : PathPatternParser.defaultInstance);
+			PathPatternParser parser = (this.options.getPatternParser() != null ? this.options.getPatternParser()
+					: PathPatternParser.defaultInstance);
 
 			RequestedContentTypeResolver contentTypeResolver = this.options.getContentTypeResolver();
 
 			return new RequestMappingInfo(this.mappingName,
 					isEmpty(this.paths) ? null : new PatternsRequestCondition(parse(this.paths, parser)),
-					ObjectUtils.isEmpty(this.methods) ?
-							null : new RequestMethodsRequestCondition(this.methods),
-					ObjectUtils.isEmpty(this.params) ?
-							null : new ParamsRequestCondition(this.params),
-					ObjectUtils.isEmpty(this.headers) ?
-							null : new HeadersRequestCondition(this.headers),
-					ObjectUtils.isEmpty(this.consumes) && !this.hasContentType ?
-							null : new ConsumesRequestCondition(this.consumes, this.headers),
-					ObjectUtils.isEmpty(this.produces) && !this.hasAccept ?
-							null : new ProducesRequestCondition(this.produces, this.headers, contentTypeResolver),
+					ObjectUtils.isEmpty(this.methods) ? null : new RequestMethodsRequestCondition(this.methods),
+					ObjectUtils.isEmpty(this.params) ? null : new ParamsRequestCondition(this.params),
+					ObjectUtils.isEmpty(this.headers) ? null : new HeadersRequestCondition(this.headers),
+					ObjectUtils.isEmpty(this.consumes) && !this.hasContentType ? null
+							: new ConsumesRequestCondition(this.consumes, this.headers),
+					ObjectUtils.isEmpty(this.produces) && !this.hasAccept ? null
+							: new ProducesRequestCondition(this.produces, this.headers, contentTypeResolver),
 					this.customCondition);
 		}
 
@@ -583,13 +576,14 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 			}
 			return true;
 		}
+
 	}
 
-
 	/**
-	 * Container for configuration options used for request mapping purposes.
-	 * Such configuration is required to create RequestMappingInfo instances but
-	 * is typically used across all RequestMappingInfo instances.
+	 * Container for configuration options used for request mapping purposes. Such
+	 * configuration is required to create RequestMappingInfo instances but is typically
+	 * used across all RequestMappingInfo instances.
+	 *
 	 * @see Builder#options
 	 */
 	public static class BuilderConfiguration {
@@ -611,7 +605,8 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 
 		/**
 		 * Set the ContentNegotiationManager to use for the ProducesRequestCondition.
-		 * <p>By default this is not set.
+		 * <p>
+		 * By default this is not set.
 		 */
 		public void setContentTypeResolver(RequestedContentTypeResolver resolver) {
 			this.contentTypeResolver = resolver;
@@ -621,6 +616,7 @@ public final class RequestMappingInfo implements RequestCondition<RequestMapping
 		public RequestedContentTypeResolver getContentTypeResolver() {
 			return this.contentTypeResolver;
 		}
+
 	}
 
 }

@@ -37,7 +37,8 @@ import org.springframework.util.StringUtils;
 /**
  * Generic utility methods for working with SQL scripts.
  *
- * <p>Mainly for internal use within the framework.
+ * <p>
+ * Mainly for internal use within the framework.
  *
  * @author Thomas Risberg
  * @author Sam Brannen
@@ -60,19 +61,21 @@ public abstract class ScriptUtils {
 
 	/**
 	 * Fallback statement separator within SQL scripts: {@code "\n"}.
-	 * <p>Used if neither a custom separator nor the
-	 * {@link #DEFAULT_STATEMENT_SEPARATOR} is present in a given script.
+	 * <p>
+	 * Used if neither a custom separator nor the {@link #DEFAULT_STATEMENT_SEPARATOR} is
+	 * present in a given script.
 	 */
 	public static final String FALLBACK_STATEMENT_SEPARATOR = "\n";
 
 	/**
 	 * End of file (EOF) SQL statement separator: {@code "^^^ END OF SCRIPT ^^^"}.
-	 * <p>This value may be supplied as the {@code separator} to {@link
-	 * #executeSqlScript(Connection, EncodedResource, boolean, boolean, String, String, String, String)}
-	 * to denote that an SQL script contains a single statement (potentially
-	 * spanning multiple lines) with no explicit statement separator. Note that
-	 * such a script should not actually contain this value; it is merely a
-	 * <em>virtual</em> statement separator.
+	 * <p>
+	 * This value may be supplied as the {@code separator} to
+	 * {@link #executeSqlScript(Connection, EncodedResource, boolean, boolean, String, String, String, String)}
+	 * to denote that an SQL script contains a single statement (potentially spanning
+	 * multiple lines) with no explicit statement separator. Note that such a script
+	 * should not actually contain this value; it is merely a <em>virtual</em> statement
+	 * separator.
 	 */
 	public static final String EOF_STATEMENT_SEPARATOR = "^^^ END OF SCRIPT ^^^";
 
@@ -85,7 +88,7 @@ public abstract class ScriptUtils {
 	 * Default prefixes for single-line comments within SQL scripts: {@code ["--"]}.
 	 * @since 5.2
 	 */
-	public static final String[] DEFAULT_COMMENT_PREFIXES = {DEFAULT_COMMENT_PREFIX};
+	public static final String[] DEFAULT_COMMENT_PREFIXES = { DEFAULT_COMMENT_PREFIX };
 
 	/**
 	 * Default start delimiter for block comments within SQL scripts: {@code "/*"}.
@@ -97,23 +100,24 @@ public abstract class ScriptUtils {
 	 */
 	public static final String DEFAULT_BLOCK_COMMENT_END_DELIMITER = "*/";
 
-
 	private static final Log logger = LogFactory.getLog(ScriptUtils.class);
 
-
 	/**
-	 * Execute the given SQL script using default settings for statement
-	 * separators, comment delimiters, and exception handling flags.
-	 * <p>Statement separators and comments will be removed before executing
-	 * individual statements within the supplied script.
-	 * <p><strong>Warning</strong>: this method does <em>not</em> release the
-	 * provided {@link Connection}.
+	 * Execute the given SQL script using default settings for statement separators,
+	 * comment delimiters, and exception handling flags.
+	 * <p>
+	 * Statement separators and comments will be removed before executing individual
+	 * statements within the supplied script.
+	 * <p>
+	 * <strong>Warning</strong>: this method does <em>not</em> release the provided
+	 * {@link Connection}.
 	 * @param connection the JDBC connection to use to execute the script; already
 	 * configured and ready to use
-	 * @param resource the resource to load the SQL script from; encoded with the
-	 * current platform's default encoding
+	 * @param resource the resource to load the SQL script from; encoded with the current
+	 * platform's default encoding
 	 * @throws ScriptException if an error occurred while executing the SQL script
-	 * @see #executeSqlScript(Connection, EncodedResource, boolean, boolean, String, String, String, String)
+	 * @see #executeSqlScript(Connection, EncodedResource, boolean, boolean, String,
+	 * String, String, String)
 	 * @see #DEFAULT_STATEMENT_SEPARATOR
 	 * @see #DEFAULT_COMMENT_PREFIX
 	 * @see #DEFAULT_BLOCK_COMMENT_START_DELIMITER
@@ -126,18 +130,21 @@ public abstract class ScriptUtils {
 	}
 
 	/**
-	 * Execute the given SQL script using default settings for statement
-	 * separators, comment delimiters, and exception handling flags.
-	 * <p>Statement separators and comments will be removed before executing
-	 * individual statements within the supplied script.
-	 * <p><strong>Warning</strong>: this method does <em>not</em> release the
-	 * provided {@link Connection}.
+	 * Execute the given SQL script using default settings for statement separators,
+	 * comment delimiters, and exception handling flags.
+	 * <p>
+	 * Statement separators and comments will be removed before executing individual
+	 * statements within the supplied script.
+	 * <p>
+	 * <strong>Warning</strong>: this method does <em>not</em> release the provided
+	 * {@link Connection}.
 	 * @param connection the JDBC connection to use to execute the script; already
 	 * configured and ready to use
-	 * @param resource the resource (potentially associated with a specific encoding)
-	 * to load the SQL script from
+	 * @param resource the resource (potentially associated with a specific encoding) to
+	 * load the SQL script from
 	 * @throws ScriptException if an error occurred while executing the SQL script
-	 * @see #executeSqlScript(Connection, EncodedResource, boolean, boolean, String, String, String, String)
+	 * @see #executeSqlScript(Connection, EncodedResource, boolean, boolean, String,
+	 * String, String, String)
 	 * @see #DEFAULT_STATEMENT_SEPARATOR
 	 * @see #DEFAULT_COMMENT_PREFIX
 	 * @see #DEFAULT_BLOCK_COMMENT_START_DELIMITER
@@ -152,25 +159,27 @@ public abstract class ScriptUtils {
 
 	/**
 	 * Execute the given SQL script.
-	 * <p>Statement separators and comments will be removed before executing
-	 * individual statements within the supplied script.
-	 * <p><strong>Warning</strong>: this method does <em>not</em> release the
-	 * provided {@link Connection}.
+	 * <p>
+	 * Statement separators and comments will be removed before executing individual
+	 * statements within the supplied script.
+	 * <p>
+	 * <strong>Warning</strong>: this method does <em>not</em> release the provided
+	 * {@link Connection}.
 	 * @param connection the JDBC connection to use to execute the script; already
 	 * configured and ready to use
-	 * @param resource the resource (potentially associated with a specific encoding)
-	 * to load the SQL script from
-	 * @param continueOnError whether or not to continue without throwing an exception
-	 * in the event of an error
-	 * @param ignoreFailedDrops whether or not to continue in the event of specifically
-	 * an error on a {@code DROP} statement
-	 * @param commentPrefix the prefix that identifies single-line comments in the
-	 * SQL script (typically "--")
+	 * @param resource the resource (potentially associated with a specific encoding) to
+	 * load the SQL script from
+	 * @param continueOnError whether or not to continue without throwing an exception in
+	 * the event of an error
+	 * @param ignoreFailedDrops whether or not to continue in the event of specifically an
+	 * error on a {@code DROP} statement
+	 * @param commentPrefix the prefix that identifies single-line comments in the SQL
+	 * script (typically "--")
 	 * @param separator the script statement separator; defaults to
 	 * {@value #DEFAULT_STATEMENT_SEPARATOR} if not specified and falls back to
 	 * {@value #FALLBACK_STATEMENT_SEPARATOR} as a last resort; may be set to
-	 * {@value #EOF_STATEMENT_SEPARATOR} to signal that the script contains a
-	 * single statement without a separator
+	 * {@value #EOF_STATEMENT_SEPARATOR} to signal that the script contains a single
+	 * statement without a separator
 	 * @param blockCommentStartDelimiter the <em>start</em> block comment delimiter
 	 * @param blockCommentEndDelimiter the <em>end</em> block comment delimiter
 	 * @throws ScriptException if an error occurred while executing the SQL script
@@ -184,32 +193,33 @@ public abstract class ScriptUtils {
 			boolean ignoreFailedDrops, String commentPrefix, @Nullable String separator,
 			String blockCommentStartDelimiter, String blockCommentEndDelimiter) throws ScriptException {
 
-		executeSqlScript(connection, resource, continueOnError, ignoreFailedDrops,
-				new String[] { commentPrefix }, separator, blockCommentStartDelimiter,
-				blockCommentEndDelimiter);
+		executeSqlScript(connection, resource, continueOnError, ignoreFailedDrops, new String[] { commentPrefix },
+				separator, blockCommentStartDelimiter, blockCommentEndDelimiter);
 	}
 
 	/**
 	 * Execute the given SQL script.
-	 * <p>Statement separators and comments will be removed before executing
-	 * individual statements within the supplied script.
-	 * <p><strong>Warning</strong>: this method does <em>not</em> release the
-	 * provided {@link Connection}.
+	 * <p>
+	 * Statement separators and comments will be removed before executing individual
+	 * statements within the supplied script.
+	 * <p>
+	 * <strong>Warning</strong>: this method does <em>not</em> release the provided
+	 * {@link Connection}.
 	 * @param connection the JDBC connection to use to execute the script; already
 	 * configured and ready to use
-	 * @param resource the resource (potentially associated with a specific encoding)
-	 * to load the SQL script from
-	 * @param continueOnError whether or not to continue without throwing an exception
-	 * in the event of an error
-	 * @param ignoreFailedDrops whether or not to continue in the event of specifically
-	 * an error on a {@code DROP} statement
-	 * @param commentPrefixes the prefixes that identify single-line comments in the
-	 * SQL script (typically "--")
+	 * @param resource the resource (potentially associated with a specific encoding) to
+	 * load the SQL script from
+	 * @param continueOnError whether or not to continue without throwing an exception in
+	 * the event of an error
+	 * @param ignoreFailedDrops whether or not to continue in the event of specifically an
+	 * error on a {@code DROP} statement
+	 * @param commentPrefixes the prefixes that identify single-line comments in the SQL
+	 * script (typically "--")
 	 * @param separator the script statement separator; defaults to
 	 * {@value #DEFAULT_STATEMENT_SEPARATOR} if not specified and falls back to
 	 * {@value #FALLBACK_STATEMENT_SEPARATOR} as a last resort; may be set to
-	 * {@value #EOF_STATEMENT_SEPARATOR} to signal that the script contains a
-	 * single statement without a separator
+	 * {@value #EOF_STATEMENT_SEPARATOR} to signal that the script contains a single
+	 * statement without a separator
 	 * @param blockCommentStartDelimiter the <em>start</em> block comment delimiter
 	 * @param blockCommentEndDelimiter the <em>end</em> block comment delimiter
 	 * @throws ScriptException if an error occurred while executing the SQL script
@@ -241,9 +251,8 @@ public abstract class ScriptUtils {
 			if (separator == null) {
 				separator = DEFAULT_STATEMENT_SEPARATOR;
 			}
-			if (!EOF_STATEMENT_SEPARATOR.equals(separator) &&
-					!containsStatementSeparator(resource, script, separator, commentPrefixes,
-						blockCommentStartDelimiter, blockCommentEndDelimiter)) {
+			if (!EOF_STATEMENT_SEPARATOR.equals(separator) && !containsStatementSeparator(resource, script, separator,
+					commentPrefixes, blockCommentStartDelimiter, blockCommentEndDelimiter)) {
 				separator = FALLBACK_STATEMENT_SEPARATOR;
 			}
 
@@ -263,9 +272,9 @@ public abstract class ScriptUtils {
 							logger.debug(rowsAffected + " returned as update count for SQL: " + statement);
 							SQLWarning warningToLog = stmt.getWarnings();
 							while (warningToLog != null) {
-								logger.debug("SQLWarning ignored: SQL state '" + warningToLog.getSQLState() +
-										"', error code '" + warningToLog.getErrorCode() +
-										"', message [" + warningToLog.getMessage() + "]");
+								logger.debug("SQLWarning ignored: SQL state '" + warningToLog.getSQLState()
+										+ "', error code '" + warningToLog.getErrorCode() + "', message ["
+										+ warningToLog.getMessage() + "]");
 								warningToLog = warningToLog.getNextWarning();
 							}
 						}
@@ -274,7 +283,8 @@ public abstract class ScriptUtils {
 						boolean dropStatement = StringUtils.startsWithIgnoreCase(statement.trim(), "drop");
 						if (continueOnError || (dropStatement && ignoreFailedDrops)) {
 							if (logger.isDebugEnabled()) {
-								logger.debug(ScriptStatementFailedException.buildErrorMessage(statement, stmtNumber, resource), ex);
+								logger.debug(ScriptStatementFailedException.buildErrorMessage(statement, stmtNumber,
+										resource), ex);
 							}
 						}
 						else {
@@ -301,19 +311,19 @@ public abstract class ScriptUtils {
 			if (ex instanceof ScriptException) {
 				throw (ScriptException) ex;
 			}
-			throw new UncategorizedScriptException(
-				"Failed to execute database script from resource [" + resource + "]", ex);
+			throw new UncategorizedScriptException("Failed to execute database script from resource [" + resource + "]",
+					ex);
 		}
 	}
 
 	/**
-	 * Read a script from the provided resource, using the supplied comment prefixes
-	 * and statement separator, and build a {@code String} containing the lines.
-	 * <p>Lines <em>beginning</em> with one of the comment prefixes are excluded
-	 * from the results; however, line comments anywhere else &mdash; for example,
-	 * within a statement &mdash; will be included in the results.
-	 * @param resource the {@code EncodedResource} containing the script
-	 * to be processed
+	 * Read a script from the provided resource, using the supplied comment prefixes and
+	 * statement separator, and build a {@code String} containing the lines.
+	 * <p>
+	 * Lines <em>beginning</em> with one of the comment prefixes are excluded from the
+	 * results; however, line comments anywhere else &mdash; for example, within a
+	 * statement &mdash; will be included in the results.
+	 * @param resource the {@code EncodedResource} containing the script to be processed
 	 * @param separator the statement separator in the SQL script (typically ";")
 	 * @param commentPrefixes the prefixes that identify comments in the SQL script
 	 * (typically "--")
@@ -321,8 +331,8 @@ public abstract class ScriptUtils {
 	 * @return a {@code String} containing the script lines
 	 * @throws IOException in case of I/O errors
 	 */
-	static String readScript(EncodedResource resource, @Nullable String separator,
-			String[] commentPrefixes, String blockCommentEndDelimiter) throws IOException {
+	static String readScript(EncodedResource resource, @Nullable String separator, String[] commentPrefixes,
+			String blockCommentEndDelimiter) throws IOException {
 
 		try (LineNumberReader lnr = new LineNumberReader(resource.getReader())) {
 			return readScript(lnr, commentPrefixes, separator, blockCommentEndDelimiter);
@@ -331,21 +341,22 @@ public abstract class ScriptUtils {
 
 	/**
 	 * Read a script from the provided {@code LineNumberReader}, using the supplied
-	 * comment prefix and statement separator, and build a {@code String} containing
-	 * the lines.
-	 * <p>Lines <em>beginning</em> with the comment prefix are excluded from the
-	 * results; however, line comments anywhere else &mdash; for example, within
-	 * a statement &mdash; will be included in the results.
-	 * @param lineNumberReader the {@code LineNumberReader} containing the script
-	 * to be processed
+	 * comment prefix and statement separator, and build a {@code String} containing the
+	 * lines.
+	 * <p>
+	 * Lines <em>beginning</em> with the comment prefix are excluded from the results;
+	 * however, line comments anywhere else &mdash; for example, within a statement
+	 * &mdash; will be included in the results.
+	 * @param lineNumberReader the {@code LineNumberReader} containing the script to be
+	 * processed
 	 * @param commentPrefix the prefix that identifies comments in the SQL script
 	 * (typically "--")
 	 * @param separator the statement separator in the SQL script (typically ";")
 	 * @param blockCommentEndDelimiter the <em>end</em> block comment delimiter
 	 * @return a {@code String} containing the script lines
 	 * @throws IOException in case of I/O errors
-	 * @deprecated as of Spring Framework 5.2.16 with no plans for replacement.
-	 * This is an internal API and will likely be removed in Spring Framework 6.0.
+	 * @deprecated as of Spring Framework 5.2.16 with no plans for replacement. This is an
+	 * internal API and will likely be removed in Spring Framework 6.0.
 	 */
 	@Deprecated
 	public static String readScript(LineNumberReader lineNumberReader, @Nullable String commentPrefix,
@@ -357,13 +368,14 @@ public abstract class ScriptUtils {
 
 	/**
 	 * Read a script from the provided {@code LineNumberReader}, using the supplied
-	 * comment prefixes and statement separator, and build a {@code String} containing
-	 * the lines.
-	 * <p>Lines <em>beginning</em> with one of the comment prefixes are excluded
-	 * from the results; however, line comments anywhere else &mdash; for example,
-	 * within a statement &mdash; will be included in the results.
-	 * @param lineNumberReader the {@code LineNumberReader} containing the script
-	 * to be processed
+	 * comment prefixes and statement separator, and build a {@code String} containing the
+	 * lines.
+	 * <p>
+	 * Lines <em>beginning</em> with one of the comment prefixes are excluded from the
+	 * results; however, line comments anywhere else &mdash; for example, within a
+	 * statement &mdash; will be included in the results.
+	 * @param lineNumberReader the {@code LineNumberReader} containing the script to be
+	 * processed
 	 * @param commentPrefixes the prefixes that identify comments in the SQL script
 	 * (typically "--")
 	 * @param separator the statement separator in the SQL script (typically ";")
@@ -371,8 +383,8 @@ public abstract class ScriptUtils {
 	 * @return a {@code String} containing the script lines
 	 * @throws IOException in case of I/O errors
 	 * @since 5.2
-	 * @deprecated as of Spring Framework 5.2.16 with no plans for replacement.
-	 * This is an internal API and will likely be removed in Spring Framework 6.0.
+	 * @deprecated as of Spring Framework 5.2.16 with no plans for replacement. This is an
+	 * internal API and will likely be removed in Spring Framework 6.0.
 	 */
 	@Deprecated
 	public static String readScript(LineNumberReader lineNumberReader, @Nullable String[] commentPrefixes,
@@ -381,8 +393,8 @@ public abstract class ScriptUtils {
 		String currentStatement = lineNumberReader.readLine();
 		StringBuilder scriptBuilder = new StringBuilder();
 		while (currentStatement != null) {
-			if ((blockCommentEndDelimiter != null && currentStatement.contains(blockCommentEndDelimiter)) ||
-				(commentPrefixes != null && !startsWithAny(currentStatement, commentPrefixes, 0))) {
+			if ((blockCommentEndDelimiter != null && currentStatement.contains(blockCommentEndDelimiter))
+					|| (commentPrefixes != null && !startsWithAny(currentStatement, commentPrefixes, 0))) {
 				if (scriptBuilder.length() > 0) {
 					scriptBuilder.append('\n');
 				}
@@ -411,44 +423,48 @@ public abstract class ScriptUtils {
 
 	/**
 	 * Determine if the provided SQL script contains the specified delimiter.
-	 * <p>This method is intended to be used to find the string delimiting each
-	 * SQL statement &mdash; for example, a ';' character.
-	 * <p>Any occurrence of the delimiter within the script will be ignored if it
-	 * is within a <em>literal</em> block of text enclosed in single quotes
-	 * ({@code '}) or double quotes ({@code "}), if it is escaped with a backslash
-	 * ({@code \}), or if it is within a single-line comment or block comment.
+	 * <p>
+	 * This method is intended to be used to find the string delimiting each SQL statement
+	 * &mdash; for example, a ';' character.
+	 * <p>
+	 * Any occurrence of the delimiter within the script will be ignored if it is within a
+	 * <em>literal</em> block of text enclosed in single quotes ({@code '}) or double
+	 * quotes ({@code "}), if it is escaped with a backslash ({@code \}), or if it is
+	 * within a single-line comment or block comment.
 	 * @param script the SQL script to search within
 	 * @param delimiter the statement delimiter to search for
 	 * @see #DEFAULT_COMMENT_PREFIXES
 	 * @see #DEFAULT_BLOCK_COMMENT_START_DELIMITER
 	 * @see #DEFAULT_BLOCK_COMMENT_END_DELIMITER
-	 * @deprecated as of Spring Framework 5.2.16 with no plans for replacement.
-	 * This is an internal API and will likely be removed in Spring Framework 6.0.
+	 * @deprecated as of Spring Framework 5.2.16 with no plans for replacement. This is an
+	 * internal API and will likely be removed in Spring Framework 6.0.
 	 */
 	@Deprecated
 	public static boolean containsSqlScriptDelimiters(String script, String delimiter) {
 		return containsStatementSeparator(null, script, delimiter, DEFAULT_COMMENT_PREFIXES,
-			DEFAULT_BLOCK_COMMENT_START_DELIMITER, DEFAULT_BLOCK_COMMENT_END_DELIMITER);
+				DEFAULT_BLOCK_COMMENT_START_DELIMITER, DEFAULT_BLOCK_COMMENT_END_DELIMITER);
 	}
 
 	/**
 	 * Determine if the provided SQL script contains the specified statement separator.
-	 * <p>This method is intended to be used to find the string separating each
-	 * SQL statement &mdash; for example, a ';' character.
-	 * <p>Any occurrence of the separator within the script will be ignored if it
-	 * is within a <em>literal</em> block of text enclosed in single quotes
-	 * ({@code '}) or double quotes ({@code "}), if it is escaped with a backslash
-	 * ({@code \}), or if it is within a single-line comment or block comment.
-	 * @param resource the resource from which the script was read, or {@code null}
-	 * if unknown
+	 * <p>
+	 * This method is intended to be used to find the string separating each SQL statement
+	 * &mdash; for example, a ';' character.
+	 * <p>
+	 * Any occurrence of the separator within the script will be ignored if it is within a
+	 * <em>literal</em> block of text enclosed in single quotes ({@code '}) or double
+	 * quotes ({@code "}), if it is escaped with a backslash ({@code \}), or if it is
+	 * within a single-line comment or block comment.
+	 * @param resource the resource from which the script was read, or {@code null} if
+	 * unknown
 	 * @param script the SQL script to search within
 	 * @param separator the statement separator to search for
-	 * @param commentPrefixes the prefixes that identify single-line comments
-	 * (typically {@code "--"})
+	 * @param commentPrefixes the prefixes that identify single-line comments (typically
+	 * {@code "--"})
 	 * @param blockCommentStartDelimiter the <em>start</em> block comment delimiter
 	 * (typically {@code "/*"})
-	 * @param blockCommentEndDelimiter the <em>end</em> block comment delimiter
-	 * (typically <code>"*&#47;"</code>)
+	 * @param blockCommentEndDelimiter the <em>end</em> block comment delimiter (typically
+	 * <code>"*&#47;"</code>)
 	 * @since 5.2.16
 	 */
 	private static boolean containsStatementSeparator(@Nullable EncodedResource resource, String script,
@@ -488,7 +504,8 @@ public abstract class ScriptUtils {
 						continue;
 					}
 					else {
-						// If there's no EOL, we must be at the end of the script, so stop here.
+						// If there's no EOL, we must be at the end of the script, so stop
+						// here.
 						break;
 					}
 				}
@@ -511,25 +528,25 @@ public abstract class ScriptUtils {
 	}
 
 	/**
-	 * Split an SQL script into separate statements delimited by the provided
-	 * separator character. Each individual statement will be added to the
-	 * provided {@code List}.
-	 * <p>Within the script, {@value #DEFAULT_COMMENT_PREFIX} will be used as the
-	 * comment prefix; any text beginning with the comment prefix and extending to
-	 * the end of the line will be omitted from the output. Similarly,
+	 * Split an SQL script into separate statements delimited by the provided separator
+	 * character. Each individual statement will be added to the provided {@code List}.
+	 * <p>
+	 * Within the script, {@value #DEFAULT_COMMENT_PREFIX} will be used as the comment
+	 * prefix; any text beginning with the comment prefix and extending to the end of the
+	 * line will be omitted from the output. Similarly,
 	 * {@value #DEFAULT_BLOCK_COMMENT_START_DELIMITER} and
-	 * {@value #DEFAULT_BLOCK_COMMENT_END_DELIMITER} will be used as the
-	 * <em>start</em> and <em>end</em> block comment delimiters: any text enclosed
-	 * in a block comment will be omitted from the output. In addition, multiple
-	 * adjacent whitespace characters will be collapsed into a single space.
+	 * {@value #DEFAULT_BLOCK_COMMENT_END_DELIMITER} will be used as the <em>start</em>
+	 * and <em>end</em> block comment delimiters: any text enclosed in a block comment
+	 * will be omitted from the output. In addition, multiple adjacent whitespace
+	 * characters will be collapsed into a single space.
 	 * @param script the SQL script
 	 * @param separator character separating each statement (typically a ';')
 	 * @param statements the list that will contain the individual statements
 	 * @throws ScriptException if an error occurred while splitting the SQL script
 	 * @see #splitSqlScript(String, String, List)
 	 * @see #splitSqlScript(EncodedResource, String, String, String, String, String, List)
-	 * @deprecated as of Spring Framework 5.2.16 with no plans for replacement.
-	 * This is an internal API and will likely be removed in Spring Framework 6.0.
+	 * @deprecated as of Spring Framework 5.2.16 with no plans for replacement. This is an
+	 * internal API and will likely be removed in Spring Framework 6.0.
 	 */
 	@Deprecated
 	public static void splitSqlScript(String script, char separator, List<String> statements) throws ScriptException {
@@ -537,26 +554,26 @@ public abstract class ScriptUtils {
 	}
 
 	/**
-	 * Split an SQL script into separate statements delimited by the provided
-	 * separator string. Each individual statement will be added to the
-	 * provided {@code List}.
-	 * <p>Within the script, {@value #DEFAULT_COMMENT_PREFIX} will be used as the
-	 * comment prefix; any text beginning with the comment prefix and extending to
-	 * the end of the line will be omitted from the output. Similarly,
+	 * Split an SQL script into separate statements delimited by the provided separator
+	 * string. Each individual statement will be added to the provided {@code List}.
+	 * <p>
+	 * Within the script, {@value #DEFAULT_COMMENT_PREFIX} will be used as the comment
+	 * prefix; any text beginning with the comment prefix and extending to the end of the
+	 * line will be omitted from the output. Similarly,
 	 * {@value #DEFAULT_BLOCK_COMMENT_START_DELIMITER} and
-	 * {@value #DEFAULT_BLOCK_COMMENT_END_DELIMITER} will be used as the
-	 * <em>start</em> and <em>end</em> block comment delimiters: any text enclosed
-	 * in a block comment will be omitted from the output. In addition, multiple
-	 * adjacent whitespace characters will be collapsed into a single space.
+	 * {@value #DEFAULT_BLOCK_COMMENT_END_DELIMITER} will be used as the <em>start</em>
+	 * and <em>end</em> block comment delimiters: any text enclosed in a block comment
+	 * will be omitted from the output. In addition, multiple adjacent whitespace
+	 * characters will be collapsed into a single space.
 	 * @param script the SQL script
-	 * @param separator text separating each statement
-	 * (typically a ';' or newline character)
+	 * @param separator text separating each statement (typically a ';' or newline
+	 * character)
 	 * @param statements the list that will contain the individual statements
 	 * @throws ScriptException if an error occurred while splitting the SQL script
 	 * @see #splitSqlScript(String, char, List)
 	 * @see #splitSqlScript(EncodedResource, String, String, String, String, String, List)
-	 * @deprecated as of Spring Framework 5.2.16 with no plans for replacement.
-	 * This is an internal API and will likely be removed in Spring Framework 6.0.
+	 * @deprecated as of Spring Framework 5.2.16 with no plans for replacement. This is an
+	 * internal API and will likely be removed in Spring Framework 6.0.
 	 */
 	@Deprecated
 	public static void splitSqlScript(String script, String separator, List<String> statements) throws ScriptException {
@@ -565,72 +582,70 @@ public abstract class ScriptUtils {
 	}
 
 	/**
-	 * Split an SQL script into separate statements delimited by the provided
-	 * separator string. Each individual statement will be added to the provided
-	 * {@code List}.
-	 * <p>Within the script, the provided {@code commentPrefix} will be honored:
-	 * any text beginning with the comment prefix and extending to the end of the
-	 * line will be omitted from the output. Similarly, the provided
-	 * {@code blockCommentStartDelimiter} and {@code blockCommentEndDelimiter}
-	 * delimiters will be honored: any text enclosed in a block comment will be
-	 * omitted from the output. In addition, multiple adjacent whitespace characters
-	 * will be collapsed into a single space.
+	 * Split an SQL script into separate statements delimited by the provided separator
+	 * string. Each individual statement will be added to the provided {@code List}.
+	 * <p>
+	 * Within the script, the provided {@code commentPrefix} will be honored: any text
+	 * beginning with the comment prefix and extending to the end of the line will be
+	 * omitted from the output. Similarly, the provided {@code blockCommentStartDelimiter}
+	 * and {@code blockCommentEndDelimiter} delimiters will be honored: any text enclosed
+	 * in a block comment will be omitted from the output. In addition, multiple adjacent
+	 * whitespace characters will be collapsed into a single space.
 	 * @param resource the resource from which the script was read
 	 * @param script the SQL script
-	 * @param separator text separating each statement
-	 * (typically a ';' or newline character)
-	 * @param commentPrefix the prefix that identifies SQL line comments
-	 * (typically "--")
-	 * @param blockCommentStartDelimiter the <em>start</em> block comment delimiter;
-	 * never {@code null} or empty
-	 * @param blockCommentEndDelimiter the <em>end</em> block comment delimiter;
-	 * never {@code null} or empty
+	 * @param separator text separating each statement (typically a ';' or newline
+	 * character)
+	 * @param commentPrefix the prefix that identifies SQL line comments (typically "--")
+	 * @param blockCommentStartDelimiter the <em>start</em> block comment delimiter; never
+	 * {@code null} or empty
+	 * @param blockCommentEndDelimiter the <em>end</em> block comment delimiter; never
+	 * {@code null} or empty
 	 * @param statements the list that will contain the individual statements
 	 * @throws ScriptException if an error occurred while splitting the SQL script
-	 * @deprecated as of Spring Framework 5.2.16 with no plans for replacement.
-	 * This is an internal API and will likely be removed in Spring Framework 6.0.
+	 * @deprecated as of Spring Framework 5.2.16 with no plans for replacement. This is an
+	 * internal API and will likely be removed in Spring Framework 6.0.
 	 */
 	@Deprecated
-	public static void splitSqlScript(@Nullable EncodedResource resource, String script,
-			String separator, String commentPrefix, String blockCommentStartDelimiter,
-			String blockCommentEndDelimiter, List<String> statements) throws ScriptException {
+	public static void splitSqlScript(@Nullable EncodedResource resource, String script, String separator,
+			String commentPrefix, String blockCommentStartDelimiter, String blockCommentEndDelimiter,
+			List<String> statements) throws ScriptException {
 
 		Assert.hasText(commentPrefix, "'commentPrefix' must not be null or empty");
-		splitSqlScript(resource, script, separator, new String[] { commentPrefix },
-				blockCommentStartDelimiter, blockCommentEndDelimiter, statements);
+		splitSqlScript(resource, script, separator, new String[] { commentPrefix }, blockCommentStartDelimiter,
+				blockCommentEndDelimiter, statements);
 	}
 
 	/**
-	 * Split an SQL script into separate statements delimited by the provided
-	 * separator string. Each individual statement will be added to the provided
-	 * {@code List}.
-	 * <p>Within the script, the provided {@code commentPrefixes} will be honored:
-	 * any text beginning with one of the comment prefixes and extending to the
-	 * end of the line will be omitted from the output. Similarly, the provided
-	 * {@code blockCommentStartDelimiter} and {@code blockCommentEndDelimiter}
-	 * delimiters will be honored: any text enclosed in a block comment will be
-	 * omitted from the output. In addition, multiple adjacent whitespace characters
-	 * will be collapsed into a single space.
+	 * Split an SQL script into separate statements delimited by the provided separator
+	 * string. Each individual statement will be added to the provided {@code List}.
+	 * <p>
+	 * Within the script, the provided {@code commentPrefixes} will be honored: any text
+	 * beginning with one of the comment prefixes and extending to the end of the line
+	 * will be omitted from the output. Similarly, the provided
+	 * {@code blockCommentStartDelimiter} and {@code blockCommentEndDelimiter} delimiters
+	 * will be honored: any text enclosed in a block comment will be omitted from the
+	 * output. In addition, multiple adjacent whitespace characters will be collapsed into
+	 * a single space.
 	 * @param resource the resource from which the script was read
 	 * @param script the SQL script
-	 * @param separator text separating each statement
-	 * (typically a ';' or newline character)
-	 * @param commentPrefixes the prefixes that identify SQL line comments
-	 * (typically "--")
-	 * @param blockCommentStartDelimiter the <em>start</em> block comment delimiter;
-	 * never {@code null} or empty
-	 * @param blockCommentEndDelimiter the <em>end</em> block comment delimiter;
-	 * never {@code null} or empty
+	 * @param separator text separating each statement (typically a ';' or newline
+	 * character)
+	 * @param commentPrefixes the prefixes that identify SQL line comments (typically
+	 * "--")
+	 * @param blockCommentStartDelimiter the <em>start</em> block comment delimiter; never
+	 * {@code null} or empty
+	 * @param blockCommentEndDelimiter the <em>end</em> block comment delimiter; never
+	 * {@code null} or empty
 	 * @param statements the list that will contain the individual statements
 	 * @throws ScriptException if an error occurred while splitting the SQL script
 	 * @since 5.2
-	 * @deprecated as of Spring Framework 5.2.16 with no plans for replacement.
-	 * This is an internal API and will likely be removed in Spring Framework 6.0.
+	 * @deprecated as of Spring Framework 5.2.16 with no plans for replacement. This is an
+	 * internal API and will likely be removed in Spring Framework 6.0.
 	 */
 	@Deprecated
-	public static void splitSqlScript(@Nullable EncodedResource resource, String script,
-			String separator, String[] commentPrefixes, String blockCommentStartDelimiter,
-			String blockCommentEndDelimiter, List<String> statements) throws ScriptException {
+	public static void splitSqlScript(@Nullable EncodedResource resource, String script, String separator,
+			String[] commentPrefixes, String blockCommentStartDelimiter, String blockCommentEndDelimiter,
+			List<String> statements) throws ScriptException {
 
 		Assert.hasText(script, "'script' must not be null or empty");
 		Assert.notNull(separator, "'separator' must not be null");
@@ -683,7 +698,8 @@ public abstract class ScriptUtils {
 						continue;
 					}
 					else {
-						// If there's no EOL, we must be at the end of the script, so stop here.
+						// If there's no EOL, we must be at the end of the script, so stop
+						// here.
 						break;
 					}
 				}

@@ -46,21 +46,17 @@ public class DataAccessUtilsTests {
 
 		assertThat(DataAccessUtils.uniqueResult(col)).isNull();
 
-		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class).isThrownBy(() ->
-				DataAccessUtils.requiredUniqueResult(col))
-			.satisfies(sizeRequirements(1, 0));
+		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class)
+				.isThrownBy(() -> DataAccessUtils.requiredUniqueResult(col)).satisfies(sizeRequirements(1, 0));
 
-		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class).isThrownBy(() ->
-				DataAccessUtils.objectResult(col, String.class))
-			.satisfies(sizeRequirements(1, 0));
+		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class)
+				.isThrownBy(() -> DataAccessUtils.objectResult(col, String.class)).satisfies(sizeRequirements(1, 0));
 
-		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class).isThrownBy(() ->
-				DataAccessUtils.intResult(col))
-			.satisfies(sizeRequirements(1, 0));
+		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class)
+				.isThrownBy(() -> DataAccessUtils.intResult(col)).satisfies(sizeRequirements(1, 0));
 
-		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class).isThrownBy(() ->
-				DataAccessUtils.longResult(col))
-			.satisfies(sizeRequirements(1, 0));
+		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class)
+				.isThrownBy(() -> DataAccessUtils.longResult(col)).satisfies(sizeRequirements(1, 0));
 	}
 
 	@Test
@@ -69,25 +65,20 @@ public class DataAccessUtilsTests {
 		col.add("test1");
 		col.add("test2");
 
-		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class).isThrownBy(() ->
-				DataAccessUtils.uniqueResult(col))
-			.satisfies(sizeRequirements(1, 2));
+		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class)
+				.isThrownBy(() -> DataAccessUtils.uniqueResult(col)).satisfies(sizeRequirements(1, 2));
 
-		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class).isThrownBy(() ->
-				DataAccessUtils.requiredUniqueResult(col))
-			.satisfies(sizeRequirements(1, 2));
+		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class)
+				.isThrownBy(() -> DataAccessUtils.requiredUniqueResult(col)).satisfies(sizeRequirements(1, 2));
 
-		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class).isThrownBy(() ->
-				DataAccessUtils.objectResult(col, String.class))
-			.satisfies(sizeRequirements(1, 2));
+		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class)
+				.isThrownBy(() -> DataAccessUtils.objectResult(col, String.class)).satisfies(sizeRequirements(1, 2));
 
-		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class).isThrownBy(() ->
-				DataAccessUtils.intResult(col))
-			.satisfies(sizeRequirements(1, 2));
+		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class)
+				.isThrownBy(() -> DataAccessUtils.intResult(col)).satisfies(sizeRequirements(1, 2));
 
-		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class).isThrownBy(() ->
-				DataAccessUtils.longResult(col))
-			.satisfies(sizeRequirements(1, 2));
+		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class)
+				.isThrownBy(() -> DataAccessUtils.longResult(col)).satisfies(sizeRequirements(1, 2));
 	}
 
 	@Test
@@ -119,15 +110,14 @@ public class DataAccessUtilsTests {
 	}
 
 	@Test
-	@SuppressWarnings("deprecation")  // on JDK 9
+	@SuppressWarnings("deprecation") // on JDK 9
 	public void withEquivalentIntegerInstanceTwice() {
 		Collection<Integer> col = new ArrayList<>(2);
 		col.add(new Integer(5));
 		col.add(new Integer(5));
 
-		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class).isThrownBy(() ->
-				DataAccessUtils.uniqueResult(col))
-			.satisfies(sizeRequirements(1, 2));
+		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class)
+				.isThrownBy(() -> DataAccessUtils.uniqueResult(col)).satisfies(sizeRequirements(1, 2));
 	}
 
 	@Test
@@ -152,11 +142,11 @@ public class DataAccessUtilsTests {
 		assertThat(DataAccessUtils.requiredUniqueResult(col)).isEqualTo("test1");
 		assertThat(DataAccessUtils.objectResult(col, String.class)).isEqualTo("test1");
 
-		assertThatExceptionOfType(TypeMismatchDataAccessException.class).isThrownBy(() ->
-				DataAccessUtils.intResult(col));
+		assertThatExceptionOfType(TypeMismatchDataAccessException.class)
+				.isThrownBy(() -> DataAccessUtils.intResult(col));
 
-		assertThatExceptionOfType(TypeMismatchDataAccessException.class).isThrownBy(() ->
-				DataAccessUtils.longResult(col));
+		assertThatExceptionOfType(TypeMismatchDataAccessException.class)
+				.isThrownBy(() -> DataAccessUtils.longResult(col));
 	}
 
 	@Test
@@ -170,11 +160,11 @@ public class DataAccessUtilsTests {
 		assertThat(DataAccessUtils.objectResult(col, Date.class)).isEqualTo(date);
 		assertThat(DataAccessUtils.objectResult(col, String.class)).isEqualTo(date.toString());
 
-		assertThatExceptionOfType(TypeMismatchDataAccessException.class).isThrownBy(() ->
-				DataAccessUtils.intResult(col));
+		assertThatExceptionOfType(TypeMismatchDataAccessException.class)
+				.isThrownBy(() -> DataAccessUtils.intResult(col));
 
-		assertThatExceptionOfType(TypeMismatchDataAccessException.class).isThrownBy(() ->
-				DataAccessUtils.longResult(col));
+		assertThatExceptionOfType(TypeMismatchDataAccessException.class)
+				.isThrownBy(() -> DataAccessUtils.longResult(col));
 	}
 
 	@Test
@@ -193,8 +183,8 @@ public class DataAccessUtilsTests {
 		assertThat(DataAccessUtils.translateIfNecessary(in, mpet)).isSameAs(out);
 	}
 
-	private <E extends IncorrectResultSizeDataAccessException> Consumer<E> sizeRequirements(
-			int expectedSize, int actualSize) {
+	private <E extends IncorrectResultSizeDataAccessException> Consumer<E> sizeRequirements(int expectedSize,
+			int actualSize) {
 		return ex -> {
 			assertThat(ex.getExpectedSize()).as("expected size").isEqualTo(expectedSize);
 			assertThat(ex.getActualSize()).as("actual size").isEqualTo(actualSize);
@@ -214,6 +204,7 @@ public class DataAccessUtilsTests {
 		public DataAccessException translateExceptionIfPossible(RuntimeException ex) {
 			return (DataAccessException) translations.get(ex);
 		}
+
 	}
 
 }

@@ -28,9 +28,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 
 /**
- * A simple implementation of {@link TypeLocator} that uses the context ClassLoader
- * (or any ClassLoader set upon it). It supports 'well-known' packages: So if a
- * type cannot be found, it will try the registered imports to locate it.
+ * A simple implementation of {@link TypeLocator} that uses the context ClassLoader (or
+ * any ClassLoader set upon it). It supports 'well-known' packages: So if a type cannot be
+ * found, it will try the registered imports to locate it.
  *
  * @author Andy Clement
  * @author Juergen Hoeller
@@ -43,10 +43,9 @@ public class StandardTypeLocator implements TypeLocator {
 
 	private final List<String> knownPackagePrefixes = new LinkedList<>();
 
-
 	/**
-	 * Create a StandardTypeLocator for the default ClassLoader
-	 * (typically, the thread context ClassLoader).
+	 * Create a StandardTypeLocator for the default ClassLoader (typically, the thread
+	 * context ClassLoader).
 	 */
 	public StandardTypeLocator() {
 		this(ClassUtils.getDefaultClassLoader());
@@ -58,14 +57,14 @@ public class StandardTypeLocator implements TypeLocator {
 	 */
 	public StandardTypeLocator(@Nullable ClassLoader classLoader) {
 		this.classLoader = classLoader;
-		// Similar to when writing regular Java code, it only knows about java.lang by default
+		// Similar to when writing regular Java code, it only knows about java.lang by
+		// default
 		registerImport("java.lang");
 	}
 
-
 	/**
-	 * Register a new import prefix that will be used when searching for unqualified types.
-	 * Expected format is something like "java.lang".
+	 * Register a new import prefix that will be used when searching for unqualified
+	 * types. Expected format is something like "java.lang".
 	 * @param prefix the prefix to register
 	 */
 	public void registerImport(String prefix) {
@@ -87,7 +86,6 @@ public class StandardTypeLocator implements TypeLocator {
 	public List<String> getImportPrefixes() {
 		return Collections.unmodifiableList(this.knownPackagePrefixes);
 	}
-
 
 	/**
 	 * Find a (possibly unqualified) type reference - first using the type name as-is,

@@ -24,12 +24,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Map-based implementation of the BindingResult interface,
- * supporting registration and evaluation of binding errors on
- * Map attributes.
+ * Map-based implementation of the BindingResult interface, supporting registration and
+ * evaluation of binding errors on Map attributes.
  *
- * <p>Can be used as errors holder for custom binding onto a
- * Map, for example when invoking a Validator for a Map object.
+ * <p>
+ * Can be used as errors holder for custom binding onto a Map, for example when invoking a
+ * Validator for a Map object.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -39,7 +39,6 @@ import org.springframework.util.Assert;
 public class MapBindingResult extends AbstractBindingResult implements Serializable {
 
 	private final Map<?, ?> target;
-
 
 	/**
 	 * Create a new MapBindingResult instance.
@@ -51,7 +50,6 @@ public class MapBindingResult extends AbstractBindingResult implements Serializa
 		Assert.notNull(target, "Target Map must not be null");
 		this.target = target;
 	}
-
 
 	/**
 	 * Return the target Map to bind onto.

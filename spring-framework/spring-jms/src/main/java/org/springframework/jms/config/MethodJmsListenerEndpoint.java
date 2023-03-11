@@ -40,8 +40,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.StringValueResolver;
 
 /**
- * A {@link JmsListenerEndpoint} providing the method to invoke to process
- * an incoming message for this endpoint.
+ * A {@link JmsListenerEndpoint} providing the method to invoke to process an incoming
+ * message for this endpoint.
  *
  * @author Stephane Nicoll
  * @author Juergen Hoeller
@@ -63,7 +63,6 @@ public class MethodJmsListenerEndpoint extends AbstractJmsListenerEndpoint imple
 
 	@Nullable
 	private StringValueResolver embeddedValueResolver;
-
 
 	/**
 	 * Set the actual bean instance to invoke this endpoint method on.
@@ -91,8 +90,9 @@ public class MethodJmsListenerEndpoint extends AbstractJmsListenerEndpoint imple
 
 	/**
 	 * Set the most specific method known for this endpoint's declaration.
-	 * <p>In case of a proxy, this will be the method on the target class
-	 * (if annotated itself, that is, if not just annotated in an interface).
+	 * <p>
+	 * In case of a proxy, this will be the method on the target class (if annotated
+	 * itself, that is, if not just annotated in an interface).
 	 * @since 4.2.3
 	 */
 	public void setMostSpecificMethod(@Nullable Method mostSpecificMethod) {
@@ -117,8 +117,8 @@ public class MethodJmsListenerEndpoint extends AbstractJmsListenerEndpoint imple
 
 	/**
 	 * Set the {@link MessageHandlerMethodFactory} to use to build the
-	 * {@link InvocableHandlerMethod} responsible to manage the invocation
-	 * of this endpoint.
+	 * {@link InvocableHandlerMethod} responsible to manage the invocation of this
+	 * endpoint.
 	 */
 	public void setMessageHandlerMethodFactory(MessageHandlerMethodFactory messageHandlerMethodFactory) {
 		this.messageHandlerMethodFactory = messageHandlerMethodFactory;
@@ -141,7 +141,6 @@ public class MethodJmsListenerEndpoint extends AbstractJmsListenerEndpoint imple
 		}
 	}
 
-
 	@Override
 	protected MessagingMessageListenerAdapter createMessageListener(MessageListenerContainer container) {
 		Assert.state(this.messageHandlerMethodFactory != null,
@@ -150,8 +149,8 @@ public class MethodJmsListenerEndpoint extends AbstractJmsListenerEndpoint imple
 		Object bean = getBean();
 		Method method = getMethod();
 		Assert.state(bean != null && method != null, "No bean+method set on endpoint");
-		InvocableHandlerMethod invocableHandlerMethod =
-				this.messageHandlerMethodFactory.createInvocableHandlerMethod(bean, method);
+		InvocableHandlerMethod invocableHandlerMethod = this.messageHandlerMethodFactory
+				.createInvocableHandlerMethod(bean, method);
 		messageListener.setHandlerMethod(invocableHandlerMethod);
 		String responseDestination = getDefaultResponseDestination();
 		if (StringUtils.hasText(responseDestination)) {
@@ -198,8 +197,8 @@ public class MethodJmsListenerEndpoint extends AbstractJmsListenerEndpoint imple
 		if (ann != null) {
 			Object[] destinations = ann.value();
 			if (destinations.length != 1) {
-				throw new IllegalStateException("Invalid @" + SendTo.class.getSimpleName() + " annotation on '" +
-						specificMethod + "' one destination must be set (got " + Arrays.toString(destinations) + ")");
+				throw new IllegalStateException("Invalid @" + SendTo.class.getSimpleName() + " annotation on '"
+						+ specificMethod + "' one destination must be set (got " + Arrays.toString(destinations) + ")");
 			}
 			return resolve((String) destinations[0]);
 		}
@@ -220,12 +219,10 @@ public class MethodJmsListenerEndpoint extends AbstractJmsListenerEndpoint imple
 		return (this.embeddedValueResolver != null ? this.embeddedValueResolver.resolveStringValue(value) : value);
 	}
 
-
 	@Override
 	protected StringBuilder getEndpointDescription() {
-		return super.getEndpointDescription()
-				.append(" | bean='").append(this.bean).append("'")
-				.append(" | method='").append(this.method).append("'");
+		return super.getEndpointDescription().append(" | bean='").append(this.bean).append("'").append(" | method='")
+				.append(this.method).append("'");
 	}
 
 }

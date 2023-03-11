@@ -33,7 +33,6 @@ public class NamedBeanHolder<T> implements NamedBean {
 
 	private final T beanInstance;
 
-
 	/**
 	 * Create a new holder for the given bean name plus instance.
 	 * @param beanName the name of the bean
@@ -44,7 +43,6 @@ public class NamedBeanHolder<T> implements NamedBean {
 		this.beanName = beanName;
 		this.beanInstance = beanInstance;
 	}
-
 
 	/**
 	 * Return the name of the bean.

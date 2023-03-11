@@ -46,26 +46,24 @@ class SerializationConverterTests {
 	@Test
 	void nonSerializableObject() {
 		SerializingConverter toBytes = new SerializingConverter();
-		assertThatExceptionOfType(SerializationFailedException.class).isThrownBy(() ->
-				toBytes.convert(new Object()))
-			.withCauseInstanceOf(IllegalArgumentException.class);
+		assertThatExceptionOfType(SerializationFailedException.class).isThrownBy(() -> toBytes.convert(new Object()))
+				.withCauseInstanceOf(IllegalArgumentException.class);
 	}
 
 	@Test
 	void nonSerializableField() {
 		SerializingConverter toBytes = new SerializingConverter();
-		assertThatExceptionOfType(SerializationFailedException.class).isThrownBy(() ->
-				toBytes.convert(new UnSerializable()))
-			.withCauseInstanceOf(NotSerializableException.class);
+		assertThatExceptionOfType(SerializationFailedException.class)
+				.isThrownBy(() -> toBytes.convert(new UnSerializable()))
+				.withCauseInstanceOf(NotSerializableException.class);
 	}
 
 	@Test
 	void deserializationFailure() {
 		DeserializingConverter fromBytes = new DeserializingConverter();
-		assertThatExceptionOfType(SerializationFailedException.class).isThrownBy(() ->
-				fromBytes.convert("Junk".getBytes()));
+		assertThatExceptionOfType(SerializationFailedException.class)
+				.isThrownBy(() -> fromBytes.convert("Junk".getBytes()));
 	}
-
 
 	class UnSerializable implements Serializable {
 
@@ -73,6 +71,7 @@ class SerializationConverterTests {
 
 		@SuppressWarnings("unused")
 		private Object object;
+
 	}
 
 }

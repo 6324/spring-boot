@@ -250,10 +250,12 @@ class StringUtilsTests {
 		String inString = "The quick brown fox jumped over the lazy dog";
 
 		String noThe = StringUtils.delete(inString, "the");
-		assertThat(noThe.equals("The quick brown fox jumped over  lazy dog")).as("Result has no the [" + noThe + "]").isTrue();
+		assertThat(noThe.equals("The quick brown fox jumped over  lazy dog")).as("Result has no the [" + noThe + "]")
+				.isTrue();
 
 		String nohe = StringUtils.delete(inString, "he");
-		assertThat(nohe.equals("T quick brown fox jumped over t lazy dog")).as("Result has no he [" + nohe + "]").isTrue();
+		assertThat(nohe.equals("T quick brown fox jumped over t lazy dog")).as("Result has no he [" + nohe + "]")
+				.isTrue();
 
 		String nosp = StringUtils.delete(inString, " ");
 		assertThat(nosp.equals("Thequickbrownfoxjumpedoverthelazydog")).as("Result has no spaces").isTrue();
@@ -364,9 +366,12 @@ class StringUtilsTests {
 		assertThat(StringUtils.stripFilenameExtension("mypath/myfile")).isEqualTo("mypath/myfile");
 		assertThat(StringUtils.stripFilenameExtension("mypath/myfile.")).isEqualTo("mypath/myfile");
 		assertThat(StringUtils.stripFilenameExtension("mypath/myfile.txt")).isEqualTo("mypath/myfile");
-		assertThat(StringUtils.stripFilenameExtension("/home/user/.m2/settings/myfile")).isEqualTo("/home/user/.m2/settings/myfile");
-		assertThat(StringUtils.stripFilenameExtension("/home/user/.m2/settings/myfile.")).isEqualTo("/home/user/.m2/settings/myfile");
-		assertThat(StringUtils.stripFilenameExtension("/home/user/.m2/settings/myfile.txt")).isEqualTo("/home/user/.m2/settings/myfile");
+		assertThat(StringUtils.stripFilenameExtension("/home/user/.m2/settings/myfile"))
+				.isEqualTo("/home/user/.m2/settings/myfile");
+		assertThat(StringUtils.stripFilenameExtension("/home/user/.m2/settings/myfile."))
+				.isEqualTo("/home/user/.m2/settings/myfile");
+		assertThat(StringUtils.stripFilenameExtension("/home/user/.m2/settings/myfile.txt"))
+				.isEqualTo("/home/user/.m2/settings/myfile");
 	}
 
 	@Test
@@ -401,31 +406,46 @@ class StringUtilsTests {
 		assertThat(StringUtils.cleanPath("file:./../")).isEqualTo("file:../");
 		assertThat(StringUtils.cleanPath("file:.././")).isEqualTo("file:../");
 		assertThat(StringUtils.cleanPath("file:/mypath/spring.factories")).isEqualTo("file:/mypath/spring.factories");
-		assertThat(StringUtils.cleanPath("file:///c:/some/../path/the%20file.txt")).isEqualTo("file:///c:/path/the%20file.txt");
+		assertThat(StringUtils.cleanPath("file:///c:/some/../path/the%20file.txt"))
+				.isEqualTo("file:///c:/path/the%20file.txt");
 	}
 
 	@Test
 	void pathEquals() {
-		assertThat(StringUtils.pathEquals("/dummy1/dummy2/dummy3", "/dummy1/dummy2/dummy3")).as("Must be true for the same strings").isTrue();
-		assertThat(StringUtils.pathEquals("C:\\dummy1\\dummy2\\dummy3", "C:\\dummy1\\dummy2\\dummy3")).as("Must be true for the same win strings").isTrue();
-		assertThat(StringUtils.pathEquals("/dummy1/bin/../dummy2/dummy3", "/dummy1/dummy2/dummy3")).as("Must be true for one top path on 1").isTrue();
-		assertThat(StringUtils.pathEquals("C:\\dummy1\\dummy2\\dummy3", "C:\\dummy1\\bin\\..\\dummy2\\dummy3")).as("Must be true for one win top path on 2").isTrue();
-		assertThat(StringUtils.pathEquals("/dummy1/bin/../dummy2/bin/../dummy3", "/dummy1/dummy2/dummy3")).as("Must be true for two top paths on 1").isTrue();
-		assertThat(StringUtils.pathEquals("C:\\dummy1\\dummy2\\dummy3", "C:\\dummy1\\bin\\..\\dummy2\\bin\\..\\dummy3")).as("Must be true for two win top paths on 2").isTrue();
-		assertThat(StringUtils.pathEquals("/dummy1/bin/tmp/../../dummy2/dummy3", "/dummy1/dummy2/dummy3")).as("Must be true for double top paths on 1").isTrue();
-		assertThat(StringUtils.pathEquals("/dummy1/dummy2/dummy3", "/dummy1/dum/dum/../../dummy2/dummy3")).as("Must be true for double top paths on 2 with similarity").isTrue();
-		assertThat(StringUtils.pathEquals("./dummy1/dummy2/dummy3", "dummy1/dum/./dum/../../dummy2/dummy3")).as("Must be true for current paths").isTrue();
-		assertThat(StringUtils.pathEquals("./dummy1/dummy2/dummy3", "/dummy1/dum/./dum/../../dummy2/dummy3")).as("Must be false for relative/absolute paths").isFalse();
-		assertThat(StringUtils.pathEquals("/dummy1/dummy2/dummy3", "/dummy1/dummy4/dummy3")).as("Must be false for different strings").isFalse();
-		assertThat(StringUtils.pathEquals("/dummy1/bin/tmp/../dummy2/dummy3", "/dummy1/dummy2/dummy3")).as("Must be false for one false path on 1").isFalse();
-		assertThat(StringUtils.pathEquals("C:\\dummy1\\dummy2\\dummy3", "C:\\dummy1\\bin\\tmp\\..\\dummy2\\dummy3")).as("Must be false for one false win top path on 2").isFalse();
-		assertThat(StringUtils.pathEquals("/dummy1/bin/../dummy2/dummy3", "/dummy1/dummy2/dummy4")).as("Must be false for top path on 1 + difference").isFalse();
+		assertThat(StringUtils.pathEquals("/dummy1/dummy2/dummy3", "/dummy1/dummy2/dummy3"))
+				.as("Must be true for the same strings").isTrue();
+		assertThat(StringUtils.pathEquals("C:\\dummy1\\dummy2\\dummy3", "C:\\dummy1\\dummy2\\dummy3"))
+				.as("Must be true for the same win strings").isTrue();
+		assertThat(StringUtils.pathEquals("/dummy1/bin/../dummy2/dummy3", "/dummy1/dummy2/dummy3"))
+				.as("Must be true for one top path on 1").isTrue();
+		assertThat(StringUtils.pathEquals("C:\\dummy1\\dummy2\\dummy3", "C:\\dummy1\\bin\\..\\dummy2\\dummy3"))
+				.as("Must be true for one win top path on 2").isTrue();
+		assertThat(StringUtils.pathEquals("/dummy1/bin/../dummy2/bin/../dummy3", "/dummy1/dummy2/dummy3"))
+				.as("Must be true for two top paths on 1").isTrue();
+		assertThat(StringUtils.pathEquals("C:\\dummy1\\dummy2\\dummy3", "C:\\dummy1\\bin\\..\\dummy2\\bin\\..\\dummy3"))
+				.as("Must be true for two win top paths on 2").isTrue();
+		assertThat(StringUtils.pathEquals("/dummy1/bin/tmp/../../dummy2/dummy3", "/dummy1/dummy2/dummy3"))
+				.as("Must be true for double top paths on 1").isTrue();
+		assertThat(StringUtils.pathEquals("/dummy1/dummy2/dummy3", "/dummy1/dum/dum/../../dummy2/dummy3"))
+				.as("Must be true for double top paths on 2 with similarity").isTrue();
+		assertThat(StringUtils.pathEquals("./dummy1/dummy2/dummy3", "dummy1/dum/./dum/../../dummy2/dummy3"))
+				.as("Must be true for current paths").isTrue();
+		assertThat(StringUtils.pathEquals("./dummy1/dummy2/dummy3", "/dummy1/dum/./dum/../../dummy2/dummy3"))
+				.as("Must be false for relative/absolute paths").isFalse();
+		assertThat(StringUtils.pathEquals("/dummy1/dummy2/dummy3", "/dummy1/dummy4/dummy3"))
+				.as("Must be false for different strings").isFalse();
+		assertThat(StringUtils.pathEquals("/dummy1/bin/tmp/../dummy2/dummy3", "/dummy1/dummy2/dummy3"))
+				.as("Must be false for one false path on 1").isFalse();
+		assertThat(StringUtils.pathEquals("C:\\dummy1\\dummy2\\dummy3", "C:\\dummy1\\bin\\tmp\\..\\dummy2\\dummy3"))
+				.as("Must be false for one false win top path on 2").isFalse();
+		assertThat(StringUtils.pathEquals("/dummy1/bin/../dummy2/dummy3", "/dummy1/dummy2/dummy4"))
+				.as("Must be false for top path on 1 + difference").isFalse();
 	}
 
 	@Test
 	void concatenateStringArrays() {
-		String[] input1 = new String[] {"myString2"};
-		String[] input2 = new String[] {"myString1", "myString2"};
+		String[] input1 = new String[] { "myString2" };
+		String[] input2 = new String[] { "myString1", "myString2" };
 		String[] result = StringUtils.concatenateStringArrays(input1, input2);
 		assertThat(result.length).isEqualTo(3);
 		assertThat(result[0]).isEqualTo("myString2");
@@ -440,8 +460,8 @@ class StringUtilsTests {
 	@Test
 	@Deprecated
 	void mergeStringArrays() {
-		String[] input1 = new String[] {"myString2"};
-		String[] input2 = new String[] {"myString1", "myString2"};
+		String[] input1 = new String[] { "myString2" };
+		String[] input2 = new String[] { "myString1", "myString2" };
 		String[] result = StringUtils.mergeStringArrays(input1, input2);
 		assertThat(result.length).isEqualTo(2);
 		assertThat(result[0]).isEqualTo("myString2");
@@ -454,7 +474,7 @@ class StringUtilsTests {
 
 	@Test
 	void sortStringArray() {
-		String[] input = new String[] {"myString2"};
+		String[] input = new String[] { "myString2" };
 		input = StringUtils.addStringToArray(input, "myString1");
 		assertThat(input[0]).isEqualTo("myString2");
 		assertThat(input[1]).isEqualTo("myString1");
@@ -466,7 +486,7 @@ class StringUtilsTests {
 
 	@Test
 	void removeDuplicateStrings() {
-		String[] input = new String[] {"myString2", "myString1", "myString2"};
+		String[] input = new String[] { "myString2", "myString1", "myString2" };
 		input = StringUtils.removeDuplicateStrings(input);
 		assertThat(input[0]).isEqualTo("myString2");
 		assertThat(input[1]).isEqualTo("myString1");
@@ -474,7 +494,7 @@ class StringUtilsTests {
 
 	@Test
 	void splitArrayElementsIntoProperties() {
-		String[] input = new String[] {"key1=value1 ", "key2 =\"value2\""};
+		String[] input = new String[] { "key1=value1 ", "key2 =\"value2\"" };
 		Properties result = StringUtils.splitArrayElementsIntoProperties(input, "=");
 		assertThat(result.getProperty("key1")).isEqualTo("value1");
 		assertThat(result.getProperty("key2")).isEqualTo("\"value2\"");
@@ -482,7 +502,7 @@ class StringUtilsTests {
 
 	@Test
 	void splitArrayElementsIntoPropertiesAndDeletedChars() {
-		String[] input = new String[] {"key1=value1 ", "key2 =\"value2\""};
+		String[] input = new String[] { "key1=value1 ", "key2 =\"value2\"" };
 		Properties result = StringUtils.splitArrayElementsIntoProperties(input, "=", "\"");
 		assertThat(result.getProperty("key1")).isEqualTo("value1");
 		assertThat(result.getProperty("key2")).isEqualTo("value2");
@@ -499,7 +519,8 @@ class StringUtilsTests {
 	void tokenizeToStringArrayWithNotIgnoreEmptyTokens() {
 		String[] sa = StringUtils.tokenizeToStringArray("a,b , ,c", ",", true, false);
 		assertThat(sa.length).isEqualTo(4);
-		assertThat(sa[0].equals("a") && sa[1].equals("b") && sa[2].isEmpty() && sa[3].equals("c")).as("components are correct").isTrue();
+		assertThat(sa[0].equals("a") && sa[1].equals("b") && sa[2].isEmpty() && sa[3].equals("c"))
+				.as("components are correct").isTrue();
 	}
 
 	@Test
@@ -558,23 +579,22 @@ class StringUtilsTests {
 	@Test
 	void commaDelimitedListToStringArrayMatchWords() {
 		// Could read these from files
-		String[] sa = new String[] {"foo", "bar", "big"};
+		String[] sa = new String[] { "foo", "bar", "big" };
 		doTestCommaDelimitedListToStringArrayLegalMatch(sa);
 		doTestStringArrayReverseTransformationMatches(sa);
 
-		sa = new String[] {"a", "b", "c"};
+		sa = new String[] { "a", "b", "c" };
 		doTestCommaDelimitedListToStringArrayLegalMatch(sa);
 		doTestStringArrayReverseTransformationMatches(sa);
 
 		// Test same words
-		sa = new String[] {"AA", "AA", "AA", "AA", "AA"};
+		sa = new String[] { "AA", "AA", "AA", "AA", "AA" };
 		doTestCommaDelimitedListToStringArrayLegalMatch(sa);
 		doTestStringArrayReverseTransformationMatches(sa);
 	}
 
 	private void doTestStringArrayReverseTransformationMatches(String[] sa) {
-		String[] reverse =
-				StringUtils.commaDelimitedListToStringArray(StringUtils.arrayToCommaDelimitedString(sa));
+		String[] reverse = StringUtils.commaDelimitedListToStringArray(StringUtils.arrayToCommaDelimitedString(sa));
 		assertThat(Arrays.asList(reverse)).as("Reverse transformation is equal").isEqualTo(Arrays.asList(sa));
 	}
 
@@ -590,7 +610,7 @@ class StringUtilsTests {
 	@Test
 	void commaDelimitedListToStringArrayWithOtherPunctuation() {
 		// Could read these from files
-		String[] sa = new String[] {"xcvwert4456346&*.", "///", ".!", ".", ";"};
+		String[] sa = new String[] { "xcvwert4456346&*.", "///", ".!", ".", ";" };
 		doTestCommaDelimitedListToStringArrayLegalMatch(sa);
 	}
 
@@ -604,7 +624,7 @@ class StringUtilsTests {
 		assertThat(sa.length).as("a,,b produces array length 3").isEqualTo(3);
 		assertThat(sa[0].equals("a") && sa[1].isEmpty() && sa[2].equals("b")).as("components are correct").isTrue();
 
-		sa = new String[] {"", "", "a", ""};
+		sa = new String[] { "", "", "a", "" };
 		doTestCommaDelimitedListToStringArrayLegalMatch(sa);
 	}
 
@@ -621,7 +641,6 @@ class StringUtilsTests {
 		assertThat(sa.length).as("String array length is correct with legal match").isEqualTo(components.length);
 		assertThat(Arrays.equals(sa, components)).as("Output equals input").isTrue();
 	}
-
 
 	@Test
 	void parseLocaleStringSunnyDay() {
@@ -643,80 +662,87 @@ class StringUtilsTests {
 		assertThat(locale).as("When given an empty Locale string, must return null.").isNull();
 	}
 
-	@Test  // SPR-8637
+	@Test // SPR-8637
 	void parseLocaleWithMultiSpecialCharactersInVariant() {
 		String variant = "proper-northern";
 		String localeString = "en_GB_" + variant;
 		Locale locale = StringUtils.parseLocaleString(localeString);
-		assertThat(locale.getVariant()).as("Multi-valued variant portion of the Locale not extracted correctly.").isEqualTo(variant);
+		assertThat(locale.getVariant()).as("Multi-valued variant portion of the Locale not extracted correctly.")
+				.isEqualTo(variant);
 	}
 
-	@Test  // SPR-3671
+	@Test // SPR-3671
 	void parseLocaleWithMultiValuedVariant() {
 		String variant = "proper_northern";
 		String localeString = "en_GB_" + variant;
 		Locale locale = StringUtils.parseLocaleString(localeString);
-		assertThat(locale.getVariant()).as("Multi-valued variant portion of the Locale not extracted correctly.").isEqualTo(variant);
+		assertThat(locale.getVariant()).as("Multi-valued variant portion of the Locale not extracted correctly.")
+				.isEqualTo(variant);
 	}
 
-	@Test  // SPR-3671
+	@Test // SPR-3671
 	void parseLocaleWithMultiValuedVariantUsingSpacesAsSeparators() {
 		String variant = "proper northern";
 		String localeString = "en GB " + variant;
 		Locale locale = StringUtils.parseLocaleString(localeString);
-		assertThat(locale.getVariant()).as("Multi-valued variant portion of the Locale not extracted correctly.").isEqualTo(variant);
+		assertThat(locale.getVariant()).as("Multi-valued variant portion of the Locale not extracted correctly.")
+				.isEqualTo(variant);
 	}
 
-	@Test  // SPR-3671
+	@Test // SPR-3671
 	void parseLocaleWithMultiValuedVariantUsingMixtureOfUnderscoresAndSpacesAsSeparators() {
 		String variant = "proper northern";
 		String localeString = "en_GB_" + variant;
 		Locale locale = StringUtils.parseLocaleString(localeString);
-		assertThat(locale.getVariant()).as("Multi-valued variant portion of the Locale not extracted correctly.").isEqualTo(variant);
+		assertThat(locale.getVariant()).as("Multi-valued variant portion of the Locale not extracted correctly.")
+				.isEqualTo(variant);
 	}
 
-	@Test  // SPR-3671
+	@Test // SPR-3671
 	void parseLocaleWithMultiValuedVariantUsingSpacesAsSeparatorsWithLotsOfLeadingWhitespace() {
 		String variant = "proper northern";
-		String localeString = "en GB            " + variant;  // lots of whitespace
+		String localeString = "en GB            " + variant; // lots of whitespace
 		Locale locale = StringUtils.parseLocaleString(localeString);
-		assertThat(locale.getVariant()).as("Multi-valued variant portion of the Locale not extracted correctly.").isEqualTo(variant);
+		assertThat(locale.getVariant()).as("Multi-valued variant portion of the Locale not extracted correctly.")
+				.isEqualTo(variant);
 	}
 
-	@Test  // SPR-3671
+	@Test // SPR-3671
 	void parseLocaleWithMultiValuedVariantUsingUnderscoresAsSeparatorsWithLotsOfLeadingWhitespace() {
 		String variant = "proper_northern";
-		String localeString = "en_GB_____" + variant;  // lots of underscores
+		String localeString = "en_GB_____" + variant; // lots of underscores
 		Locale locale = StringUtils.parseLocaleString(localeString);
-		assertThat(locale.getVariant()).as("Multi-valued variant portion of the Locale not extracted correctly.").isEqualTo(variant);
+		assertThat(locale.getVariant()).as("Multi-valued variant portion of the Locale not extracted correctly.")
+				.isEqualTo(variant);
 	}
 
-	@Test  // SPR-7779
+	@Test // SPR-7779
 	void parseLocaleWithInvalidCharacters() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				StringUtils.parseLocaleString("%0D%0AContent-length:30%0D%0A%0D%0A%3Cscript%3Ealert%28123%29%3C/script%3E"));
+		assertThatIllegalArgumentException().isThrownBy(() -> StringUtils
+				.parseLocaleString("%0D%0AContent-length:30%0D%0A%0D%0A%3Cscript%3Ealert%28123%29%3C/script%3E"));
 	}
 
-	@Test  // SPR-9420
+	@Test // SPR-9420
 	void parseLocaleWithSameLowercaseTokenForLanguageAndCountry() {
 		assertThat(StringUtils.parseLocaleString("tr_tr").toString()).isEqualTo("tr_TR");
 		assertThat(StringUtils.parseLocaleString("bg_bg_vnt").toString()).isEqualTo("bg_BG_vnt");
 	}
 
-	@Test  // SPR-11806
+	@Test // SPR-11806
 	void parseLocaleWithVariantContainingCountryCode() {
 		String variant = "GBtest";
 		String localeString = "en_GB_" + variant;
 		Locale locale = StringUtils.parseLocaleString(localeString);
-		assertThat(locale.getVariant()).as("Variant containing country code not extracted correctly").isEqualTo(variant);
+		assertThat(locale.getVariant()).as("Variant containing country code not extracted correctly")
+				.isEqualTo(variant);
 	}
 
-	@Test  // SPR-14718, SPR-7598
+	@Test // SPR-14718, SPR-7598
 	void parseJava7Variant() {
 		assertThat(StringUtils.parseLocaleString("sr__#LATN").toString()).isEqualTo("sr__#LATN");
 	}
 
-	@Test  // SPR-16651
+	@Test // SPR-16651
 	void availableLocalesWithLocaleString() {
 		for (Locale locale : Locale.getAvailableLocales()) {
 			Locale parsedLocale = StringUtils.parseLocaleString(locale.toString());
@@ -729,7 +755,7 @@ class StringUtilsTests {
 		}
 	}
 
-	@Test  // SPR-16651
+	@Test // SPR-16651
 	void availableLocalesWithLanguageTag() {
 		for (Locale locale : Locale.getAvailableLocales()) {
 			Locale parsedLocale = StringUtils.parseLocale(locale.toLanguageTag());

@@ -40,8 +40,7 @@ class PropertyOverrideBeanDefinitionParser extends AbstractPropertyLoadingBeanDe
 	protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
 		super.doParse(element, parserContext, builder);
 
-		builder.addPropertyValue("ignoreInvalidKeys",
-				Boolean.valueOf(element.getAttribute("ignore-unresolvable")));
+		builder.addPropertyValue("ignoreInvalidKeys", Boolean.valueOf(element.getAttribute("ignore-unresolvable")));
 
 	}
 

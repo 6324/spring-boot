@@ -62,13 +62,11 @@ public class TestSockJsSession extends AbstractSockJsSession {
 
 	private List<WebSocketExtension> extensions = new ArrayList<>();
 
-
-	public TestSockJsSession(String sessionId, SockJsServiceConfig config,
-			WebSocketHandler wsHandler, Map<String, Object> attributes) {
+	public TestSockJsSession(String sessionId, SockJsServiceConfig config, WebSocketHandler wsHandler,
+			Map<String, Object> attributes) {
 
 		super(sessionId, config, wsHandler, attributes);
 	}
-
 
 	public void setUri(URI uri) {
 		this.uri = uri;

@@ -16,7 +16,6 @@
 
 package org.springframework.web.reactive.result.method.annotation;
 
-
 import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
@@ -32,13 +31,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test fixture with {@link SessionAttributesHandler}.
+ *
  * @author Rossen Stoyanchev
  */
 public class SessionAttributesHandlerTests {
 
-	private final SessionAttributesHandler sessionAttributesHandler =
-			new SessionAttributesHandler(TestController.class);
-
+	private final SessionAttributesHandler sessionAttributesHandler = new SessionAttributesHandler(
+			TestController.class);
 
 	@Test
 	public void isSessionAttribute() {
@@ -56,12 +55,16 @@ public class SessionAttributesHandlerTests {
 		session.getAttributes().put("attr3", new TestBean());
 		session.getAttributes().put("attr4", new TestBean());
 
-		assertThat(sessionAttributesHandler.retrieveAttributes(session).keySet()).as("Named attributes (attr1, attr2) should be 'known' right away").isEqualTo(new HashSet<>(asList("attr1", "attr2")));
+		assertThat(sessionAttributesHandler.retrieveAttributes(session).keySet())
+				.as("Named attributes (attr1, attr2) should be 'known' right away")
+				.isEqualTo(new HashSet<>(asList("attr1", "attr2")));
 
 		// Resolve 'attr3' by type
 		sessionAttributesHandler.isHandlerSessionAttribute("attr3", TestBean.class);
 
-		assertThat(sessionAttributesHandler.retrieveAttributes(session).keySet()).as("Named attributes (attr1, attr2) and resolved attribute (att3) should be 'known'").isEqualTo(new HashSet<>(asList("attr1", "attr2", "attr3")));
+		assertThat(sessionAttributesHandler.retrieveAttributes(session).keySet())
+				.as("Named attributes (attr1, attr2) and resolved attribute (att3) should be 'known'")
+				.isEqualTo(new HashSet<>(asList("attr1", "attr2", "attr3")));
 	}
 
 	@Test
@@ -101,9 +104,9 @@ public class SessionAttributesHandlerTests {
 		assertThat(condition).isTrue();
 	}
 
-
 	@SessionAttributes(names = { "attr1", "attr2" }, types = { TestBean.class })
 	private static class TestController {
+
 	}
 
 }

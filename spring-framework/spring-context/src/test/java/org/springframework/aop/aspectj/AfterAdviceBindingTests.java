@@ -45,11 +45,10 @@ public class AfterAdviceBindingTests {
 
 	private TestBean testBeanTarget;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml",
+				getClass());
 		AdviceBindingTestAspect afterAdviceAspect = (AdviceBindingTestAspect) ctx.getBean("testAspect");
 
 		testBeanProxy = (ITestBean) ctx.getBean("testBean");
@@ -61,7 +60,6 @@ public class AfterAdviceBindingTests {
 		mockCollaborator = mock(AdviceBindingCollaborator.class);
 		afterAdviceAspect.setCollaborator(mockCollaborator);
 	}
-
 
 	@Test
 	public void testOneIntArg() {
@@ -84,7 +82,7 @@ public class AfterAdviceBindingTests {
 	@Test
 	public void testOneIntAndOneObjectArgs() {
 		testBeanProxy.setAge(5);
-		verify(mockCollaborator).oneIntAndOneObject(5,this.testBeanProxy);
+		verify(mockCollaborator).oneIntAndOneObject(5, this.testBeanProxy);
 	}
 
 	@Test

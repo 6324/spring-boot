@@ -23,8 +23,8 @@ import org.springframework.scripting.ScriptSource;
 import org.springframework.util.Assert;
 
 /**
- * Subclass of {@link BeanFactoryRefreshableTargetSource} that determines whether
- * a refresh is required through the given {@link ScriptFactory}.
+ * Subclass of {@link BeanFactoryRefreshableTargetSource} that determines whether a
+ * refresh is required through the given {@link ScriptFactory}.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -39,18 +39,17 @@ public class RefreshableScriptTargetSource extends BeanFactoryRefreshableTargetS
 
 	private final boolean isFactoryBean;
 
-
 	/**
 	 * Create a new RefreshableScriptTargetSource.
 	 * @param beanFactory the BeanFactory to fetch the scripted bean from
 	 * @param beanName the name of the target bean
-	 * @param scriptFactory the ScriptFactory to delegate to for determining
-	 * whether a refresh is required
+	 * @param scriptFactory the ScriptFactory to delegate to for determining whether a
+	 * refresh is required
 	 * @param scriptSource the ScriptSource for the script definition
 	 * @param isFactoryBean whether the target script defines a FactoryBean
 	 */
-	public RefreshableScriptTargetSource(BeanFactory beanFactory, String beanName,
-			ScriptFactory scriptFactory, ScriptSource scriptSource, boolean isFactoryBean) {
+	public RefreshableScriptTargetSource(BeanFactory beanFactory, String beanName, ScriptFactory scriptFactory,
+			ScriptSource scriptSource, boolean isFactoryBean) {
 
 		super(beanFactory, beanName);
 		Assert.notNull(scriptFactory, "ScriptFactory must not be null");
@@ -60,10 +59,9 @@ public class RefreshableScriptTargetSource extends BeanFactoryRefreshableTargetS
 		this.isFactoryBean = isFactoryBean;
 	}
 
-
 	/**
-	 * Determine whether a refresh is required through calling
-	 * ScriptFactory's {@code requiresScriptedObjectRefresh} method.
+	 * Determine whether a refresh is required through calling ScriptFactory's
+	 * {@code requiresScriptedObjectRefresh} method.
 	 * @see ScriptFactory#requiresScriptedObjectRefresh(ScriptSource)
 	 */
 	@Override

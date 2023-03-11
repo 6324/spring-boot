@@ -35,8 +35,8 @@ import org.springframework.util.ClassUtils;
 
 /**
  * {@link org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator}
- * subclass that exposes AspectJ's invocation context and understands AspectJ's rules
- * for advice precedence when multiple pieces of advice come from the same aspect.
+ * subclass that exposes AspectJ's invocation context and understands AspectJ's rules for
+ * advice precedence when multiple pieces of advice come from the same aspect.
  *
  * @author Adrian Colyer
  * @author Juergen Hoeller
@@ -48,29 +48,30 @@ public class AspectJAwareAdvisorAutoProxyCreator extends AbstractAdvisorAutoProx
 
 	private static final Comparator<Advisor> DEFAULT_PRECEDENCE_COMPARATOR = new AspectJPrecedenceComparator();
 
-
 	/**
 	 * Sort the supplied {@link Advisor} instances according to AspectJ precedence.
-	 * <p>If two pieces of advice come from the same aspect, they will have the same
-	 * order. Advice from the same aspect is then further ordered according to the
-	 * following rules:
+	 * <p>
+	 * If two pieces of advice come from the same aspect, they will have the same order.
+	 * Advice from the same aspect is then further ordered according to the following
+	 * rules:
 	 * <ul>
-	 * <li>If either of the pair is <em>after</em> advice, then the advice declared
-	 * last gets highest precedence (i.e., runs last).</li>
+	 * <li>If either of the pair is <em>after</em> advice, then the advice declared last
+	 * gets highest precedence (i.e., runs last).</li>
 	 * <li>Otherwise the advice declared first gets highest precedence (i.e., runs
 	 * first).</li>
 	 * </ul>
-	 * <p><b>Important:</b> Advisors are sorted in precedence order, from highest
-	 * precedence to lowest. "On the way in" to a join point, the highest precedence
-	 * advisor should run first. "On the way out" of a join point, the highest
-	 * precedence advisor should run last.
+	 * <p>
+	 * <b>Important:</b> Advisors are sorted in precedence order, from highest precedence
+	 * to lowest. "On the way in" to a join point, the highest precedence advisor should
+	 * run first. "On the way out" of a join point, the highest precedence advisor should
+	 * run last.
 	 */
 	@Override
 	protected List<Advisor> sortAdvisors(List<Advisor> advisors) {
 		List<PartiallyComparableAdvisorHolder> partiallyComparableAdvisors = new ArrayList<>(advisors.size());
 		for (Advisor advisor : advisors) {
-			partiallyComparableAdvisors.add(
-					new PartiallyComparableAdvisorHolder(advisor, DEFAULT_PRECEDENCE_COMPARATOR));
+			partiallyComparableAdvisors
+					.add(new PartiallyComparableAdvisorHolder(advisor, DEFAULT_PRECEDENCE_COMPARATOR));
 		}
 		List<PartiallyComparableAdvisorHolder> sorted = PartialOrder.sort(partiallyComparableAdvisors);
 		if (sorted != null) {
@@ -87,8 +88,9 @@ public class AspectJAwareAdvisorAutoProxyCreator extends AbstractAdvisorAutoProx
 
 	/**
 	 * Add an {@link ExposeInvocationInterceptor} to the beginning of the advice chain.
-	 * <p>This additional advice is needed when using AspectJ pointcut expressions
-	 * and when using AspectJ-style advice.
+	 * <p>
+	 * This additional advice is needed when using AspectJ pointcut expressions and when
+	 * using AspectJ-style advice.
 	 */
 	@Override
 	protected void extendAdvisors(List<Advisor> candidateAdvisors) {
@@ -100,17 +102,17 @@ public class AspectJAwareAdvisorAutoProxyCreator extends AbstractAdvisorAutoProx
 		// TODO: Consider optimization by caching the list of the aspect names
 		List<Advisor> candidateAdvisors = findCandidateAdvisors();
 		for (Advisor advisor : candidateAdvisors) {
-			if (advisor instanceof AspectJPointcutAdvisor &&
-					((AspectJPointcutAdvisor) advisor).getAspectName().equals(beanName)) {
+			if (advisor instanceof AspectJPointcutAdvisor
+					&& ((AspectJPointcutAdvisor) advisor).getAspectName().equals(beanName)) {
 				return true;
 			}
 		}
 		return super.shouldSkip(beanClass, beanName);
 	}
 
-
 	/**
-	 * Implements AspectJ's {@link PartialComparable} interface for defining partial orderings.
+	 * Implements AspectJ's {@link PartialComparable} interface for defining partial
+	 * orderings.
 	 */
 	private static class PartiallyComparableAdvisorHolder implements PartialComparable {
 
@@ -157,6 +159,7 @@ public class AspectJAwareAdvisorAutoProxyCreator extends AbstractAdvisorAutoProx
 			}
 			return sb.toString();
 		}
+
 	}
 
 }

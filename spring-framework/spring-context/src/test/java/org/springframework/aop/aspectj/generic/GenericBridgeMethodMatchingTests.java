@@ -27,12 +27,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Tests for AspectJ pointcut expression matching when working with bridge methods.
  *
- * <p>Depending on the caller's static type either the bridge method or the user-implemented method
- * gets called as the way into the proxy. Therefore, we need tests for calling a bean with
- * static type set to type with generic method and to type with specific non-generic implementation.
+ * <p>
+ * Depending on the caller's static type either the bridge method or the user-implemented
+ * method gets called as the way into the proxy. Therefore, we need tests for calling a
+ * bean with static type set to type with generic method and to type with specific
+ * non-generic implementation.
  *
- * <p>This class focuses on JDK proxy, while a subclass, GenericBridgeMethodMatchingClassProxyTests,
- * focuses on class proxying.
+ * <p>
+ * This class focuses on JDK proxy, while a subclass,
+ * GenericBridgeMethodMatchingClassProxyTests, focuses on class proxying.
  *
  * See SPR-3556 for more details.
  *
@@ -45,19 +48,17 @@ public class GenericBridgeMethodMatchingTests {
 
 	protected GenericCounterAspect counterAspect;
 
-
 	@SuppressWarnings("unchecked")
 	@org.junit.jupiter.api.BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
+				getClass().getSimpleName() + "-context.xml", getClass());
 
 		counterAspect = (GenericCounterAspect) ctx.getBean("counterAspect");
 		counterAspect.count = 0;
 
 		testBean = (DerivedInterface<String>) ctx.getBean("testBean");
 	}
-
 
 	@Test
 	public void testGenericDerivedInterfaceMethodThroughInterface() {
@@ -73,18 +74,17 @@ public class GenericBridgeMethodMatchingTests {
 
 }
 
-
 interface BaseInterface<T> {
 
 	void genericBaseInterfaceMethod(T t);
-}
 
+}
 
 interface DerivedInterface<T> extends BaseInterface<T> {
 
 	public void genericDerivedInterfaceMethod(T t);
-}
 
+}
 
 class DerivedStringParameterizedClass implements DerivedInterface<String> {
 
@@ -95,6 +95,7 @@ class DerivedStringParameterizedClass implements DerivedInterface<String> {
 	@Override
 	public void genericBaseInterfaceMethod(String t) {
 	}
+
 }
 
 @Aspect
@@ -108,4 +109,3 @@ class GenericCounterAspect {
 	}
 
 }
-

@@ -37,8 +37,8 @@ public abstract class MarshallingException extends XmlMappingException {
 	}
 
 	/**
-	 * Construct a {@code MarshallingException} with the specified detail message
-	 * and nested exception.
+	 * Construct a {@code MarshallingException} with the specified detail message and
+	 * nested exception.
 	 * @param msg the detail message
 	 * @param cause the nested exception
 	 */

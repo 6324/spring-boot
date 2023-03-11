@@ -52,13 +52,10 @@ public class DefaultClientRequestBuilderTests {
 
 	@Test
 	public void from() throws URISyntaxException {
-		ClientRequest other = ClientRequest.create(GET, URI.create("https://example.com"))
-				.header("foo", "bar")
+		ClientRequest other = ClientRequest.create(GET, URI.create("https://example.com")).header("foo", "bar")
 				.cookie("baz", "qux").build();
-		ClientRequest result = ClientRequest.from(other)
-				.headers(httpHeaders -> httpHeaders.set("foo", "baar"))
-				.cookies(cookies -> cookies.set("baz", "quux"))
-		.build();
+		ClientRequest result = ClientRequest.from(other).headers(httpHeaders -> httpHeaders.set("foo", "baar"))
+				.cookies(cookies -> cookies.set("baz", "quux")).build();
 		assertThat(result.url()).isEqualTo(new URI("https://example.com"));
 		assertThat(result.method()).isEqualTo(GET);
 		assertThat(result.headers().size()).isEqualTo(1);
@@ -90,17 +87,15 @@ public class DefaultClientRequestBuilderTests {
 
 	@Test
 	public void cookie() {
-		ClientRequest result = ClientRequest.create(GET, URI.create("https://example.com"))
-				.cookie("foo", "bar").build();
+		ClientRequest result = ClientRequest.create(GET, URI.create("https://example.com")).cookie("foo", "bar")
+				.build();
 		assertThat(result.cookies().getFirst("foo")).isEqualTo("bar");
 	}
 
 	@Test
 	public void build() {
-		ClientRequest result = ClientRequest.create(GET, URI.create("https://example.com"))
-				.header("MyKey", "MyValue")
-				.cookie("foo", "bar")
-				.build();
+		ClientRequest result = ClientRequest.create(GET, URI.create("https://example.com")).header("MyKey", "MyValue")
+				.cookie("foo", "bar").build();
 
 		MockClientHttpRequest request = new MockClientHttpRequest(GET, "/");
 		ExchangeStrategies strategies = mock(ExchangeStrategies.class);
@@ -115,16 +110,14 @@ public class DefaultClientRequestBuilderTests {
 	@Test
 	public void bodyInserter() {
 		String body = "foo";
-		BodyInserter<String, ClientHttpRequest> inserter =
-				(response, strategies) -> {
-					byte[] bodyBytes = body.getBytes(UTF_8);
-					DataBuffer buffer = new DefaultDataBufferFactory().wrap(bodyBytes);
+		BodyInserter<String, ClientHttpRequest> inserter = (response, strategies) -> {
+			byte[] bodyBytes = body.getBytes(UTF_8);
+			DataBuffer buffer = new DefaultDataBufferFactory().wrap(bodyBytes);
 
-					return response.writeWith(Mono.just(buffer));
-				};
+			return response.writeWith(Mono.just(buffer));
+		};
 
-		ClientRequest result = ClientRequest.create(POST, URI.create("https://example.com"))
-				.body(inserter).build();
+		ClientRequest result = ClientRequest.create(POST, URI.create("https://example.com")).body(inserter).build();
 
 		List<HttpMessageWriter<?>> messageWriters = new ArrayList<>();
 		messageWriters.add(new EncoderHttpMessageWriter<>(CharSequenceEncoder.allMimeTypes()));
@@ -136,9 +129,7 @@ public class DefaultClientRequestBuilderTests {
 		result.writeTo(request, strategies).block();
 		assertThat(request.getBody()).isNotNull();
 
-		StepVerifier.create(request.getBody())
-				.expectNextCount(1)
-				.verifyComplete();
+		StepVerifier.create(request.getBody()).expectNextCount(1).verifyComplete();
 	}
 
 	@Test
@@ -158,16 +149,15 @@ public class DefaultClientRequestBuilderTests {
 		result.writeTo(request, strategies).block();
 		assertThat(request.getBody()).isNotNull();
 
-		StepVerifier.create(request.getBody())
-				.expectNextCount(1)
-				.verifyComplete();
+		StepVerifier.create(request.getBody()).expectNextCount(1).verifyComplete();
 	}
 
 	@Test
 	public void bodyParameterizedTypeReference() {
 		String body = "foo";
 		Publisher<String> publisher = Mono.just(body);
-		ParameterizedTypeReference<String> typeReference = new ParameterizedTypeReference<String>() {};
+		ParameterizedTypeReference<String> typeReference = new ParameterizedTypeReference<String>() {
+		};
 		ClientRequest result = ClientRequest.create(POST, URI.create("https://example.com"))
 				.body(publisher, typeReference).build();
 
@@ -181,9 +171,7 @@ public class DefaultClientRequestBuilderTests {
 		result.writeTo(request, strategies).block();
 		assertThat(request.getBody()).isNotNull();
 
-		StepVerifier.create(request.getBody())
-				.expectNextCount(1)
-				.verifyComplete();
+		StepVerifier.create(request.getBody()).expectNextCount(1).verifyComplete();
 	}
 
 }

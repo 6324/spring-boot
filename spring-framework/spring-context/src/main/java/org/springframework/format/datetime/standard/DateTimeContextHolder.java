@@ -31,13 +31,10 @@ import org.springframework.lang.Nullable;
  */
 public final class DateTimeContextHolder {
 
-	private static final ThreadLocal<DateTimeContext> dateTimeContextHolder =
-			new NamedThreadLocal<>("DateTimeContext");
-
+	private static final ThreadLocal<DateTimeContext> dateTimeContextHolder = new NamedThreadLocal<>("DateTimeContext");
 
 	private DateTimeContextHolder() {
 	}
-
 
 	/**
 	 * Reset the DateTimeContext for the current thread.
@@ -48,8 +45,8 @@ public final class DateTimeContextHolder {
 
 	/**
 	 * Associate the given DateTimeContext with the current thread.
-	 * @param dateTimeContext the current DateTimeContext,
-	 * or {@code null} to reset the thread-bound context
+	 * @param dateTimeContext the current DateTimeContext, or {@code null} to reset the
+	 * thread-bound context
 	 */
 	public static void setDateTimeContext(@Nullable DateTimeContext dateTimeContext) {
 		if (dateTimeContext == null) {
@@ -69,9 +66,9 @@ public final class DateTimeContextHolder {
 		return dateTimeContextHolder.get();
 	}
 
-
 	/**
-	 * Obtain a DateTimeFormatter with user-specific settings applied to the given base Formatter.
+	 * Obtain a DateTimeFormatter with user-specific settings applied to the given base
+	 * Formatter.
 	 * @param formatter the base formatter that establishes default formatting rules
 	 * (generally user independent)
 	 * @param locale the current user locale (may be {@code null} if not known)

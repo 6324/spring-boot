@@ -57,11 +57,10 @@ public class PersistenceExceptionTranslationPostProcessorTests {
 		gac.registerBeanDefinition("classProxied", new RootBeanDefinition(RepositoryWithoutInterface.class));
 		gac.registerBeanDefinition("classProxiedAndAdvised",
 				new RootBeanDefinition(RepositoryWithoutInterfaceAndOtherwiseAdvised.class));
-		gac.registerBeanDefinition("myTranslator",
-				new RootBeanDefinition(MyPersistenceExceptionTranslator.class));
+		gac.registerBeanDefinition("myTranslator", new RootBeanDefinition(MyPersistenceExceptionTranslator.class));
 		gac.registerBeanDefinition("proxyCreator",
-				BeanDefinitionBuilder.rootBeanDefinition(AnnotationAwareAspectJAutoProxyCreator.class).
-						addPropertyValue("order", 50).getBeanDefinition());
+				BeanDefinitionBuilder.rootBeanDefinition(AnnotationAwareAspectJAutoProxyCreator.class)
+						.addPropertyValue("order", 50).getBeanDefinition());
 		gac.registerBeanDefinition("logger", new RootBeanDefinition(LogAllAspect.class));
 		gac.refresh();
 
@@ -77,31 +76,28 @@ public class PersistenceExceptionTranslationPostProcessorTests {
 		assertThat(AopUtils.isAopProxy(rwi2)).isTrue();
 		rwi2.additionalMethod(false);
 		checkWillTranslateExceptions(rwi2);
-		assertThatExceptionOfType(DataAccessResourceFailureException.class).isThrownBy(() ->
-				rwi2.additionalMethod(true))
-			.withMessage("my failure");
+		assertThatExceptionOfType(DataAccessResourceFailureException.class)
+				.isThrownBy(() -> rwi2.additionalMethod(true)).withMessage("my failure");
 	}
 
 	protected void checkWillTranslateExceptions(Object o) {
 		assertThat(o).isInstanceOf(Advised.class);
-		assertThat(((Advised) o).getAdvisors()).anyMatch(
-				PersistenceExceptionTranslationAdvisor.class::isInstance);
+		assertThat(((Advised) o).getAdvisors()).anyMatch(PersistenceExceptionTranslationAdvisor.class::isInstance);
 	}
-
 
 	@Repository
 	public static class RepositoryWithoutInterface {
 
 		public void nameDoesntMatter() {
 		}
-	}
 
+	}
 
 	public interface Additional {
 
 		void additionalMethod(boolean fail);
-	}
 
+	}
 
 	public static class RepositoryWithoutInterfaceAndOtherwiseAdvised extends StereotypedRepositoryInterfaceImpl
 			implements Additional {
@@ -112,8 +108,8 @@ public class PersistenceExceptionTranslationPostProcessorTests {
 				throw new PersistenceException("my failure");
 			}
 		}
-	}
 
+	}
 
 	public static class MyPersistenceExceptionTranslator implements PersistenceExceptionTranslator {
 
@@ -124,8 +120,8 @@ public class PersistenceExceptionTranslationPostProcessorTests {
 			}
 			return null;
 		}
-	}
 
+	}
 
 	@Aspect
 	public static class LogAllAspect {
@@ -134,6 +130,7 @@ public class PersistenceExceptionTranslationPostProcessorTests {
 		public void log(JoinPoint jp) {
 			System.out.println("Before " + jp.getSignature().getName());
 		}
+
 	}
 
 }

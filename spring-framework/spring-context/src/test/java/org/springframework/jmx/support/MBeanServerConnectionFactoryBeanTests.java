@@ -41,13 +41,11 @@ class MBeanServerConnectionFactoryBeanTests extends AbstractMBeanServerTests {
 
 	private final String serviceUrl = "service:jmx:jmxmp://localhost:" + SocketUtils.findAvailableTcpPort();
 
-
 	@Test
 	void noServiceUrl() throws Exception {
 		MBeanServerConnectionFactoryBean bean = new MBeanServerConnectionFactoryBean();
-		assertThatIllegalArgumentException()
-			.isThrownBy(bean::afterPropertiesSet)
-			.withMessage("Property 'serviceUrl' is required");
+		assertThatIllegalArgumentException().isThrownBy(bean::afterPropertiesSet)
+				.withMessage("Property 'serviceUrl' is required");
 	}
 
 	@Test
@@ -64,7 +62,8 @@ class MBeanServerConnectionFactoryBeanTests extends AbstractMBeanServerTests {
 				assertThat(connection).as("Connection should not be null").isNotNull();
 
 				// perform simple MBean count test
-				assertThat(connection.getMBeanCount()).as("MBean count should be the same").isEqualTo(getServer().getMBeanCount());
+				assertThat(connection.getMBeanCount()).as("MBean count should be the same")
+						.isEqualTo(getServer().getMBeanCount());
 			}
 			finally {
 				bean.destroy();
@@ -112,7 +111,8 @@ class MBeanServerConnectionFactoryBeanTests extends AbstractMBeanServerTests {
 
 	private JMXConnectorServer startConnectorServer() throws Exception {
 		JMXServiceURL jmxServiceUrl = new JMXServiceURL(this.serviceUrl);
-		JMXConnectorServer connectorServer = JMXConnectorServerFactory.newJMXConnectorServer(jmxServiceUrl, null, getServer());
+		JMXConnectorServer connectorServer = JMXConnectorServerFactory.newJMXConnectorServer(jmxServiceUrl, null,
+				getServer());
 		connectorServer.start();
 		return connectorServer;
 	}

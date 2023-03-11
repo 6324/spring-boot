@@ -28,9 +28,10 @@ import org.springframework.core.io.buffer.DataBufferFactory;
 /**
  * Represents a WebSocket session.
  *
- * <p>Use {@link WebSocketSession#receive() session.receive()} to compose on
- * the inbound message stream, and {@link WebSocketSession#send(Publisher)
- * session.send(publisher)} to provide the outbound message stream.
+ * <p>
+ * Use {@link WebSocketSession#receive() session.receive()} to compose on the inbound
+ * message stream, and {@link WebSocketSession#send(Publisher) session.send(publisher)} to
+ * provide the outbound message stream.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -62,21 +63,22 @@ public interface WebSocketSession {
 
 	/**
 	 * Provides access to the stream of inbound messages.
-	 * <p>This stream receives a completion or error signal when the connection
-	 * is closed. In a typical {@link WebSocketHandler} implementation this
-	 * stream is composed into the overall processing flow, so that when the
-	 * connection is closed, handling will end.
-	 * <p>See the class-level doc of {@link WebSocketHandler} and the reference
-	 * for more details and examples of how to handle the session.
+	 * <p>
+	 * This stream receives a completion or error signal when the connection is closed. In
+	 * a typical {@link WebSocketHandler} implementation this stream is composed into the
+	 * overall processing flow, so that when the connection is closed, handling will end.
+	 * <p>
+	 * See the class-level doc of {@link WebSocketHandler} and the reference for more
+	 * details and examples of how to handle the session.
 	 */
 	Flux<WebSocketMessage> receive();
 
 	/**
 	 * Give a source of outgoing messages, write the messages and return a
-	 * {@code Mono<Void>} that completes when the source completes and writing
-	 * is done.
-	 * <p>See the class-level doc of {@link WebSocketHandler} and the reference
-	 * for more details and examples of how to handle the session.
+	 * {@code Mono<Void>} that completes when the source completes and writing is done.
+	 * <p>
+	 * See the class-level doc of {@link WebSocketHandler} and the reference for more
+	 * details and examples of how to handle the session.
 	 */
 	Mono<Void> send(Publisher<WebSocketMessage> messages);
 
@@ -93,7 +95,6 @@ public interface WebSocketSession {
 	 */
 	Mono<Void> close(CloseStatus status);
 
-
 	// WebSocketMessage factory methods
 
 	/**
@@ -109,14 +110,14 @@ public interface WebSocketSession {
 	WebSocketMessage binaryMessage(Function<DataBufferFactory, DataBuffer> payloadFactory);
 
 	/**
-	 * Factory method to create a ping WebSocketMessage using the
-	 * {@link #bufferFactory()} for the session.
+	 * Factory method to create a ping WebSocketMessage using the {@link #bufferFactory()}
+	 * for the session.
 	 */
 	WebSocketMessage pingMessage(Function<DataBufferFactory, DataBuffer> payloadFactory);
 
 	/**
-	 * Factory method to create a pong WebSocketMessage using the
-	 * {@link #bufferFactory()} for the session.
+	 * Factory method to create a pong WebSocketMessage using the {@link #bufferFactory()}
+	 * for the session.
 	 */
 	WebSocketMessage pongMessage(Function<DataBufferFactory, DataBuffer> payloadFactory);
 

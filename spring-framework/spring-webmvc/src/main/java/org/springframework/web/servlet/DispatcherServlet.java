@@ -955,10 +955,7 @@ public class DispatcherServlet extends FrameworkServlet {
 	private void logRequest(HttpServletRequest request) {
 		LogFormatUtils.traceDebug(logger, traceOn -> {
 			String params;
-			if (StringUtils.startsWithIgnoreCase(request.getContentType(), "multipart/")) {
-				params = "multipart";
-			}
-			else if (isEnableLoggingRequestDetails()) {
+			if (isEnableLoggingRequestDetails()) {
 				params = request.getParameterMap().entrySet().stream()
 						.map(entry -> entry.getKey() + ":" + Arrays.toString(entry.getValue()))
 						.collect(Collectors.joining(", "));

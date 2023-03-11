@@ -85,17 +85,16 @@ final class PersistenceUnitReader {
 
 	private static final String META_INF = "META-INF";
 
-
 	private static final Log logger = LogFactory.getLog(PersistenceUnitReader.class);
 
 	private final ResourcePatternResolver resourcePatternResolver;
 
 	private final DataSourceLookup dataSourceLookup;
 
-
 	/**
 	 * Create a new PersistenceUnitReader.
-	 * @param resourcePatternResolver the ResourcePatternResolver to use for loading resources
+	 * @param resourcePatternResolver the ResourcePatternResolver to use for loading
+	 * resources
 	 * @param dataSourceLookup the DataSourceLookup to resolve DataSource names in
 	 * {@code persistence.xml} files against
 	 */
@@ -106,14 +105,13 @@ final class PersistenceUnitReader {
 		this.dataSourceLookup = dataSourceLookup;
 	}
 
-
 	/**
 	 * Parse and build all persistence unit infos defined in the specified XML file(s).
 	 * @param persistenceXmlLocation the resource location (can be a pattern)
 	 * @return the resulting PersistenceUnitInfo instances
 	 */
 	public SpringPersistenceUnitInfo[] readPersistenceUnitInfos(String persistenceXmlLocation) {
-		return readPersistenceUnitInfos(new String[] {persistenceXmlLocation});
+		return readPersistenceUnitInfos(new String[] { persistenceXmlLocation });
 	}
 
 	/**
@@ -154,7 +152,6 @@ final class PersistenceUnitReader {
 		return infos.toArray(new SpringPersistenceUnitInfo[0]);
 	}
 
-
 	/**
 	 * Validate the given stream and return a valid DOM document for parsing.
 	 */
@@ -168,12 +165,11 @@ final class PersistenceUnitReader {
 		return parser.parse(stream);
 	}
 
-
 	/**
 	 * Parse the validated document and add entries to the given unit info list.
 	 */
-	protected List<SpringPersistenceUnitInfo> parseDocument(
-			Resource resource, Document document, List<SpringPersistenceUnitInfo> infos) throws IOException {
+	protected List<SpringPersistenceUnitInfo> parseDocument(Resource resource, Document document,
+			List<SpringPersistenceUnitInfo> infos) throws IOException {
 
 		Element persistence = document.getDocumentElement();
 		String version = persistence.getAttribute(PERSISTENCE_VERSION);
@@ -190,8 +186,8 @@ final class PersistenceUnitReader {
 	/**
 	 * Parse the unit info DOM element.
 	 */
-	protected SpringPersistenceUnitInfo parsePersistenceUnitInfo(
-			Element persistenceUnit, String version, @Nullable URL rootUrl) throws IOException {
+	protected SpringPersistenceUnitInfo parsePersistenceUnitInfo(Element persistenceUnit, String version,
+			@Nullable URL rootUrl) throws IOException {
 
 		SpringPersistenceUnitInfo unitInfo = new SpringPersistenceUnitInfo();
 
@@ -319,18 +315,17 @@ final class PersistenceUnitReader {
 						unitInfo.addJarFileUrl(new URL(rootUrl, value));
 					}
 					else {
-						logger.warn("Cannot resolve jar-file entry [" + value + "] in persistence unit '" +
-								unitInfo.getPersistenceUnitName() + "' without root URL");
+						logger.warn("Cannot resolve jar-file entry [" + value + "] in persistence unit '"
+								+ unitInfo.getPersistenceUnitName() + "' without root URL");
 					}
 				}
 			}
 		}
 	}
 
-
 	/**
-	 * Determine the persistence unit root URL based on the given resource
-	 * (which points to the {@code persistence.xml} file we're reading).
+	 * Determine the persistence unit root URL based on the given resource (which points
+	 * to the {@code persistence.xml} file we're reading).
 	 * @param resource the resource to check
 	 * @return the corresponding persistence unit root URL
 	 * @throws IOException if the checking failed
@@ -348,17 +343,17 @@ final class PersistenceUnitReader {
 		String urlToString = originalURL.toExternalForm();
 		if (!urlToString.contains(META_INF)) {
 			if (logger.isInfoEnabled()) {
-				logger.info(resource.getFilename() +
-						" should be located inside META-INF directory; cannot determine persistence unit root URL for " +
-						resource);
+				logger.info(resource.getFilename()
+						+ " should be located inside META-INF directory; cannot determine persistence unit root URL for "
+						+ resource);
 			}
 			return null;
 		}
 		if (urlToString.lastIndexOf(META_INF) == urlToString.lastIndexOf('/') - (1 + META_INF.length())) {
 			if (logger.isInfoEnabled()) {
-				logger.info(resource.getFilename() +
-						" is not located in the root of META-INF directory; cannot determine persistence unit root URL for " +
-						resource);
+				logger.info(resource.getFilename()
+						+ " is not located in the root of META-INF directory; cannot determine persistence unit root URL for "
+						+ resource);
 			}
 			return null;
 		}

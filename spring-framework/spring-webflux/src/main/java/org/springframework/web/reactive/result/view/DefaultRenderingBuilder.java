@@ -45,11 +45,9 @@ class DefaultRenderingBuilder implements Rendering.RedirectBuilder {
 	@Nullable
 	private HttpHeaders headers;
 
-
 	DefaultRenderingBuilder(Object view) {
 		this.view = view;
 	}
-
 
 	@Override
 	public DefaultRenderingBuilder modelAttribute(String name, Object value) {
@@ -123,7 +121,6 @@ class DefaultRenderingBuilder implements Rendering.RedirectBuilder {
 		Assert.isInstanceOf(RedirectView.class, this.view);
 		return (RedirectView) this.view;
 	}
-
 
 	@Override
 	public Rendering build() {

@@ -31,9 +31,8 @@ import org.springframework.web.reactive.BindingContext;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * Resolves method arguments of type {@link HttpEntity} or {@link RequestEntity}
- * by reading the body of the request through a compatible
- * {@code HttpMessageReader}.
+ * Resolves method arguments of type {@link HttpEntity} or {@link RequestEntity} by
+ * reading the body of the request through a compatible {@code HttpMessageReader}.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -44,7 +43,6 @@ public class HttpEntityMethodArgumentResolver extends AbstractMessageReaderArgum
 		super(readers, registry);
 	}
 
-
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return checkParameterTypeNoReactiveWrapper(parameter,
@@ -52,8 +50,8 @@ public class HttpEntityMethodArgumentResolver extends AbstractMessageReaderArgum
 	}
 
 	@Override
-	public Mono<Object> resolveArgument(
-			MethodParameter parameter, BindingContext bindingContext, ServerWebExchange exchange) {
+	public Mono<Object> resolveArgument(MethodParameter parameter, BindingContext bindingContext,
+			ServerWebExchange exchange) {
 
 		Class<?> entityType = parameter.getParameterType();
 		return readBody(parameter.nested(), parameter, false, bindingContext, exchange)
@@ -62,9 +60,9 @@ public class HttpEntityMethodArgumentResolver extends AbstractMessageReaderArgum
 	}
 
 	private Object createEntity(@Nullable Object body, Class<?> entityType, ServerHttpRequest request) {
-		return (RequestEntity.class.equals(entityType) ?
-				new RequestEntity<>(body, request.getHeaders(), request.getMethod(), request.getURI()) :
-				new HttpEntity<>(body, request.getHeaders()));
+		return (RequestEntity.class.equals(entityType)
+				? new RequestEntity<>(body, request.getHeaders(), request.getMethod(), request.getURI())
+				: new HttpEntity<>(body, request.getHeaders()));
 	}
 
 }

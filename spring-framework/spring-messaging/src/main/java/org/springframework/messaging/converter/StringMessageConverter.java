@@ -26,8 +26,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.MimeType;
 
 /**
- * A {@link MessageConverter} that supports MIME type "text/plain" with the
- * payload converted to and from a String.
+ * A {@link MessageConverter} that supports MIME type "text/plain" with the payload
+ * converted to and from a String.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -35,7 +35,6 @@ import org.springframework.util.MimeType;
 public class StringMessageConverter extends AbstractMessageConverter {
 
 	private final Charset defaultCharset;
-
 
 	public StringMessageConverter() {
 		this(StandardCharsets.UTF_8);
@@ -46,7 +45,6 @@ public class StringMessageConverter extends AbstractMessageConverter {
 		Assert.notNull(defaultCharset, "Default Charset must not be null");
 		this.defaultCharset = defaultCharset;
 	}
-
 
 	@Override
 	protected boolean supports(Class<?> clazz) {
@@ -62,8 +60,8 @@ public class StringMessageConverter extends AbstractMessageConverter {
 
 	@Override
 	@Nullable
-	protected Object convertToInternal(
-			Object payload, @Nullable MessageHeaders headers, @Nullable Object conversionHint) {
+	protected Object convertToInternal(Object payload, @Nullable MessageHeaders headers,
+			@Nullable Object conversionHint) {
 
 		if (byte[].class == getSerializedPayloadClass()) {
 			Charset charset = getContentTypeCharset(getMimeType(headers));

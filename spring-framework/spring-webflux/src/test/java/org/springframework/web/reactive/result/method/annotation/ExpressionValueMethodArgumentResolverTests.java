@@ -46,9 +46,10 @@ public class ExpressionValueMethodArgumentResolverTests {
 	private final MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
 
 	private MethodParameter paramSystemProperty;
-	private MethodParameter paramNotSupported;
-	private MethodParameter paramAlsoNotSupported;
 
+	private MethodParameter paramNotSupported;
+
+	private MethodParameter paramAlsoNotSupported;
 
 	@BeforeEach
 	@SuppressWarnings("resource")
@@ -64,7 +65,6 @@ public class ExpressionValueMethodArgumentResolverTests {
 		this.paramAlsoNotSupported = new MethodParameter(method, 2);
 	}
 
-
 	@Test
 	public void supportsParameter() {
 		assertThat(this.resolver.supportsParameter(this.paramSystemProperty)).isTrue();
@@ -73,17 +73,17 @@ public class ExpressionValueMethodArgumentResolverTests {
 	@Test
 	public void doesNotSupport() {
 		assertThat(this.resolver.supportsParameter(this.paramNotSupported)).isFalse();
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.resolver.supportsParameter(this.paramAlsoNotSupported))
-			.withMessageStartingWith("ExpressionValueMethodArgumentResolver does not support reactive type wrapper");
+		assertThatIllegalStateException().isThrownBy(() -> this.resolver.supportsParameter(this.paramAlsoNotSupported))
+				.withMessageStartingWith(
+						"ExpressionValueMethodArgumentResolver does not support reactive type wrapper");
 	}
 
 	@Test
 	public void resolveSystemProperty() {
 		System.setProperty("systemProperty", "22");
 		try {
-			Mono<Object> mono = this.resolver.resolveArgument(
-					this.paramSystemProperty,  new BindingContext(), this.exchange);
+			Mono<Object> mono = this.resolver.resolveArgument(this.paramSystemProperty, new BindingContext(),
+					this.exchange);
 
 			Object value = mono.block();
 			assertThat(value).isEqualTo(22);
@@ -96,11 +96,8 @@ public class ExpressionValueMethodArgumentResolverTests {
 
 	// TODO: test with expression for ServerWebExchange
 
-
 	@SuppressWarnings("unused")
-	public void params(
-			@Value("#{systemProperties.systemProperty}") int param1,
-			String notSupported,
+	public void params(@Value("#{systemProperties.systemProperty}") int param1, String notSupported,
 			@Value("#{systemProperties.foo}") Mono<String> alsoNotSupported) {
 	}
 

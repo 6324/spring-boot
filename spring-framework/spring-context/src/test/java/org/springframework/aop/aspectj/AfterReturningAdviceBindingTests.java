@@ -49,11 +49,10 @@ public class AfterReturningAdviceBindingTests {
 
 	private AfterReturningAdviceBindingCollaborator mockCollaborator;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml",
+				getClass());
 
 		afterAdviceAspect = (AfterReturningAdviceBindingTestAspect) ctx.getBean("testAspect");
 
@@ -64,9 +63,8 @@ public class AfterReturningAdviceBindingTests {
 		assertThat(AopUtils.isAopProxy(testBeanProxy)).isTrue();
 
 		// we need the real target too, not just the proxy...
-		this.testBeanTarget = (TestBean) ((Advised)testBeanProxy).getTargetSource().getTarget();
+		this.testBeanTarget = (TestBean) ((Advised) testBeanProxy).getTargetSource().getTarget();
 	}
-
 
 	@Test
 	public void testOneIntArg() {
@@ -83,7 +81,7 @@ public class AfterReturningAdviceBindingTests {
 	@Test
 	public void testOneIntAndOneObjectArgs() {
 		testBeanProxy.setAge(5);
-		verify(mockCollaborator).oneIntAndOneObject(5,this.testBeanProxy);
+		verify(mockCollaborator).oneIntAndOneObject(5, this.testBeanProxy);
 	}
 
 	@Test
@@ -147,7 +145,6 @@ public class AfterReturningAdviceBindingTests {
 
 }
 
-
 final class AfterReturningAdviceBindingTestAspect extends AdviceBindingTestAspect {
 
 	private AfterReturningAdviceBindingCollaborator getCollaborator() {
@@ -181,11 +178,17 @@ final class AfterReturningAdviceBindingTestAspect extends AdviceBindingTestAspec
 	interface AfterReturningAdviceBindingCollaborator extends AdviceBindingCollaborator {
 
 		void oneString(String s);
+
 		void oneTestBeanArg(TestBean b);
+
 		void testBeanArrayArg(ITestBean[] b);
+
 		void objectMatchNoArgs();
+
 		void stringMatchNoArgs();
+
 		void oneInt(int result);
+
 	}
 
 }

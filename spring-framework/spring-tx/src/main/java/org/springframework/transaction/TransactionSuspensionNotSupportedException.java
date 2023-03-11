@@ -17,8 +17,8 @@
 package org.springframework.transaction;
 
 /**
- * Exception thrown when attempting to suspend an existing transaction
- * but transaction suspension is not supported by the underlying backend.
+ * Exception thrown when attempting to suspend an existing transaction but transaction
+ * suspension is not supported by the underlying backend.
  *
  * @author Juergen Hoeller
  * @since 1.1

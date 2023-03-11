@@ -161,12 +161,12 @@ public class PagedListHolderTests {
 		assertThat(holder.getPage()).isEqualTo(0);
 	}
 
-
-
 	public static class MockFilter {
 
 		private String name = "";
+
 		private String age = "";
+
 		private String extendedInfo = "";
 
 		public String getName() {
@@ -195,14 +195,19 @@ public class PagedListHolderTests {
 
 		@Override
 		public boolean equals(Object o) {
-			if (this == o) return true;
-			if (!(o instanceof MockFilter)) return false;
+			if (this == o)
+				return true;
+			if (!(o instanceof MockFilter))
+				return false;
 
 			final MockFilter mockFilter = (MockFilter) o;
 
-			if (!age.equals(mockFilter.age)) return false;
-			if (!extendedInfo.equals(mockFilter.extendedInfo)) return false;
-			if (!name.equals(mockFilter.name)) return false;
+			if (!age.equals(mockFilter.age))
+				return false;
+			if (!extendedInfo.equals(mockFilter.extendedInfo))
+				return false;
+			if (!name.equals(mockFilter.name))
+				return false;
 
 			return true;
 		}
@@ -215,6 +220,7 @@ public class PagedListHolderTests {
 			result = 29 * result + extendedInfo.hashCode();
 			return result;
 		}
+
 	}
 
 }

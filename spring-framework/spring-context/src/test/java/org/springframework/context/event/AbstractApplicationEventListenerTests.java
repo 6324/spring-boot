@@ -36,7 +36,6 @@ public abstract class AbstractApplicationEventListenerTests {
 		}
 	}
 
-
 	protected static class GenericTestEvent<T> extends ApplicationEvent {
 
 		private final T payload;
@@ -49,6 +48,7 @@ public abstract class AbstractApplicationEventListenerTests {
 		public T getPayload() {
 			return this.payload;
 		}
+
 	}
 
 	protected static class SmartGenericTestEvent<T> extends GenericTestEvent<T> implements ResolvableTypeProvider {
@@ -57,14 +57,14 @@ public abstract class AbstractApplicationEventListenerTests {
 
 		public SmartGenericTestEvent(Object source, T payload) {
 			super(source, payload);
-			this.resolvableType = ResolvableType.forClassWithGenerics(
-					getClass(), payload.getClass());
+			this.resolvableType = ResolvableType.forClassWithGenerics(getClass(), payload.getClass());
 		}
 
 		@Override
 		public ResolvableType getResolvableType() {
 			return this.resolvableType;
 		}
+
 	}
 
 	protected static class StringEvent extends GenericTestEvent<String> {
@@ -72,6 +72,7 @@ public abstract class AbstractApplicationEventListenerTests {
 		public StringEvent(Object source, String payload) {
 			super(source, payload);
 		}
+
 	}
 
 	protected static class LongEvent extends GenericTestEvent<Long> {
@@ -79,31 +80,35 @@ public abstract class AbstractApplicationEventListenerTests {
 		public LongEvent(Object source, Long payload) {
 			super(source, payload);
 		}
+
 	}
 
 	protected <T> GenericTestEvent<T> createGenericTestEvent(T payload) {
 		return new GenericTestEvent<>(this, payload);
 	}
 
-
 	static class GenericEventListener implements ApplicationListener<GenericTestEvent<?>> {
+
 		@Override
 		public void onApplicationEvent(GenericTestEvent<?> event) {
 		}
+
 	}
 
 	static class ObjectEventListener implements ApplicationListener<GenericTestEvent<Object>> {
+
 		@Override
 		public void onApplicationEvent(GenericTestEvent<Object> event) {
 		}
+
 	}
 
-	static class UpperBoundEventListener
-			implements ApplicationListener<GenericTestEvent<? extends RuntimeException>> {
+	static class UpperBoundEventListener implements ApplicationListener<GenericTestEvent<? extends RuntimeException>> {
 
 		@Override
 		public void onApplicationEvent(GenericTestEvent<? extends RuntimeException> event) {
 		}
+
 	}
 
 	static class StringEventListener implements ApplicationListener<GenericTestEvent<String>> {
@@ -111,6 +116,7 @@ public abstract class AbstractApplicationEventListenerTests {
 		@Override
 		public void onApplicationEvent(GenericTestEvent<String> event) {
 		}
+
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -119,6 +125,7 @@ public abstract class AbstractApplicationEventListenerTests {
 		@Override
 		public void onApplicationEvent(ApplicationEvent event) {
 		}
+
 	}
 
 	static class TestEvents {

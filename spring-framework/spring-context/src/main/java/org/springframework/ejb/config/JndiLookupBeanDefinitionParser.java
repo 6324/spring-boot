@@ -25,8 +25,9 @@ import org.springframework.jndi.JndiObjectFactoryBean;
 import org.springframework.util.StringUtils;
 
 /**
- * Simple {@link org.springframework.beans.factory.xml.BeanDefinitionParser} implementation that
- * translates {@code jndi-lookup} tag into {@link JndiObjectFactoryBean} definitions.
+ * Simple {@link org.springframework.beans.factory.xml.BeanDefinitionParser}
+ * implementation that translates {@code jndi-lookup} tag into
+ * {@link JndiObjectFactoryBean} definitions.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -41,7 +42,6 @@ class JndiLookupBeanDefinitionParser extends AbstractJndiLocatingBeanDefinitionP
 
 	public static final String DEFAULT_OBJECT = "defaultObject";
 
-
 	@Override
 	protected Class<?> getBeanClass(Element element) {
 		return JndiObjectFactoryBean.class;
@@ -49,8 +49,8 @@ class JndiLookupBeanDefinitionParser extends AbstractJndiLocatingBeanDefinitionP
 
 	@Override
 	protected boolean isEligibleAttribute(String attributeName) {
-		return (super.isEligibleAttribute(attributeName) &&
-				!DEFAULT_VALUE.equals(attributeName) && !DEFAULT_REF.equals(attributeName));
+		return (super.isEligibleAttribute(attributeName) && !DEFAULT_VALUE.equals(attributeName)
+				&& !DEFAULT_REF.equals(attributeName));
 	}
 
 	@Override
@@ -61,8 +61,8 @@ class JndiLookupBeanDefinitionParser extends AbstractJndiLocatingBeanDefinitionP
 		String defaultRef = element.getAttribute(DEFAULT_REF);
 		if (StringUtils.hasLength(defaultValue)) {
 			if (StringUtils.hasLength(defaultRef)) {
-				parserContext.getReaderContext().error("<jndi-lookup> element is only allowed to contain either " +
-						"'default-value' attribute OR 'default-ref' attribute, not both", element);
+				parserContext.getReaderContext().error("<jndi-lookup> element is only allowed to contain either "
+						+ "'default-value' attribute OR 'default-ref' attribute, not both", element);
 			}
 			builder.addPropertyValue(DEFAULT_OBJECT, defaultValue);
 		}

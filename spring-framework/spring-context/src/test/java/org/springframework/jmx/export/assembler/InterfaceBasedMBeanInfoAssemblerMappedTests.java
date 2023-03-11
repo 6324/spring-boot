@@ -46,21 +46,19 @@ public class InterfaceBasedMBeanInfoAssemblerMappedTests extends AbstractJmxAsse
 
 	@Test
 	public void testWithUnknownClass() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				getWithMapping("com.foo.bar.Unknown"));
+		assertThatIllegalArgumentException().isThrownBy(() -> getWithMapping("com.foo.bar.Unknown"));
 	}
 
 	@Test
 	public void testWithNonInterface() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				getWithMapping("JmxTestBean"));
+		assertThatIllegalArgumentException().isThrownBy(() -> getWithMapping("JmxTestBean"));
 	}
 
 	@Test
 	public void testWithFallThrough() throws Exception {
-		InterfaceBasedMBeanInfoAssembler assembler =
-				getWithMapping("foobar", "org.springframework.jmx.export.assembler.ICustomJmxBean");
-		assembler.setManagedInterfaces(new Class<?>[] {IAdditionalTestMethods.class});
+		InterfaceBasedMBeanInfoAssembler assembler = getWithMapping("foobar",
+				"org.springframework.jmx.export.assembler.ICustomJmxBean");
+		assembler.setManagedInterfaces(new Class<?>[] { IAdditionalTestMethods.class });
 
 		ModelMBeanInfo inf = assembler.getMBeanInfo(getBean(), getObjectName());
 		MBeanAttributeInfo attr = inf.getAttribute("NickName");
@@ -93,9 +91,8 @@ public class InterfaceBasedMBeanInfoAssemblerMappedTests extends AbstractJmxAsse
 
 	@Override
 	protected MBeanInfoAssembler getAssembler() throws Exception {
-		return getWithMapping(
-				"org.springframework.jmx.export.assembler.IAdditionalTestMethods, " +
-				"org.springframework.jmx.export.assembler.ICustomJmxBean");
+		return getWithMapping("org.springframework.jmx.export.assembler.IAdditionalTestMethods, "
+				+ "org.springframework.jmx.export.assembler.ICustomJmxBean");
 	}
 
 	@Override

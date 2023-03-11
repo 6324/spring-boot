@@ -32,7 +32,6 @@ class LinkedCaseInsensitiveMapTests {
 
 	private final LinkedCaseInsensitiveMap<String> map = new LinkedCaseInsensitiveMap<>();
 
-
 	@Test
 	void putAndGet() {
 		assertThat(map.put("key", "value1")).isNull();
@@ -131,7 +130,6 @@ class LinkedCaseInsensitiveMapTests {
 		assertThat(copy.get("KEY")).isEqualTo("value2");
 		assertThat(copy.get("Key")).isEqualTo("value2");
 	}
-
 
 	@Test
 	void clearFromKeySet() {

@@ -41,9 +41,10 @@ import org.springframework.util.StringUtils;
 /**
  * {@code MessageHandler} with support for "user" destinations.
  *
- * <p>Listens for messages with "user" destinations, translates their destination
- * to actual target destinations unique to the active session(s) of a user, and
- * then sends the resolved messages to the broker channel to be delivered.
+ * <p>
+ * Listens for messages with "user" destinations, translates their destination to actual
+ * target destinations unique to the active session(s) of a user, and then sends the
+ * resolved messages to the broker channel to be delivered.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -51,7 +52,6 @@ import org.springframework.util.StringUtils;
 public class UserDestinationMessageHandler implements MessageHandler, SmartLifecycle {
 
 	private static final Log logger = SimpLogging.forLogName(UserDestinationMessageHandler.class);
-
 
 	private final SubscribableChannel clientInboundChannel;
 
@@ -71,17 +71,15 @@ public class UserDestinationMessageHandler implements MessageHandler, SmartLifec
 
 	private final Object lifecycleMonitor = new Object();
 
-
 	/**
-	 * Create an instance with the given client and broker channels subscribing
-	 * to handle messages from each and then sending any resolved messages to the
-	 * broker channel.
+	 * Create an instance with the given client and broker channels subscribing to handle
+	 * messages from each and then sending any resolved messages to the broker channel.
 	 * @param clientInboundChannel messages received from clients.
 	 * @param brokerChannel messages sent to the broker.
 	 * @param resolver the resolver for "user" destinations.
 	 */
-	public UserDestinationMessageHandler(SubscribableChannel clientInboundChannel,
-			SubscribableChannel brokerChannel, UserDestinationResolver resolver) {
+	public UserDestinationMessageHandler(SubscribableChannel clientInboundChannel, SubscribableChannel brokerChannel,
+			UserDestinationResolver resolver) {
 
 		Assert.notNull(clientInboundChannel, "'clientInChannel' must not be null");
 		Assert.notNull(brokerChannel, "'brokerChannel' must not be null");
@@ -93,7 +91,6 @@ public class UserDestinationMessageHandler implements MessageHandler, SmartLifec
 		this.destinationResolver = resolver;
 	}
 
-
 	/**
 	 * Return the configured {@link UserDestinationResolver}.
 	 */
@@ -102,15 +99,16 @@ public class UserDestinationMessageHandler implements MessageHandler, SmartLifec
 	}
 
 	/**
-	 * Set a destination to broadcast messages to that remain unresolved because
-	 * the user is not connected. In a multi-application server scenario this
-	 * gives other application servers a chance to try.
-	 * <p>By default this is not set.
+	 * Set a destination to broadcast messages to that remain unresolved because the user
+	 * is not connected. In a multi-application server scenario this gives other
+	 * application servers a chance to try.
+	 * <p>
+	 * By default this is not set.
 	 * @param destination the target destination.
 	 */
 	public void setBroadcastDestination(@Nullable String destination) {
-		this.broadcastHandler = (StringUtils.hasText(destination) ?
-				new BroadcastHandler(this.messagingTemplate, destination) : null);
+		this.broadcastHandler = (StringUtils.hasText(destination)
+				? new BroadcastHandler(this.messagingTemplate, destination) : null);
 	}
 
 	/**
@@ -122,17 +120,17 @@ public class UserDestinationMessageHandler implements MessageHandler, SmartLifec
 	}
 
 	/**
-	 * Return the messaging template used to send resolved messages to the
-	 * broker channel.
+	 * Return the messaging template used to send resolved messages to the broker channel.
 	 */
 	public MessageSendingOperations<String> getBrokerMessagingTemplate() {
 		return this.messagingTemplate;
 	}
 
 	/**
-	 * Configure a custom {@link MessageHeaderInitializer} to initialize the
-	 * headers of resolved target messages.
-	 * <p>By default this is not set.
+	 * Configure a custom {@link MessageHeaderInitializer} to initialize the headers of
+	 * resolved target messages.
+	 * <p>
+	 * By default this is not set.
 	 */
 	public void setHeaderInitializer(@Nullable MessageHeaderInitializer headerInitializer) {
 		this.headerInitializer = headerInitializer;
@@ -145,7 +143,6 @@ public class UserDestinationMessageHandler implements MessageHandler, SmartLifec
 	public MessageHeaderInitializer getHeaderInitializer() {
 		return this.headerInitializer;
 	}
-
 
 	@Override
 	public final void start() {
@@ -177,7 +174,6 @@ public class UserDestinationMessageHandler implements MessageHandler, SmartLifec
 	public final boolean isRunning() {
 		return this.running;
 	}
-
 
 	@Override
 	public void handleMessage(Message<?> message) throws MessagingException {
@@ -229,10 +225,9 @@ public class UserDestinationMessageHandler implements MessageHandler, SmartLifec
 		return "UserDestinationMessageHandler[" + this.destinationResolver + "]";
 	}
 
-
 	/**
-	 * A handler that broadcasts locally unresolved messages to the broker and
-	 * also handles similar broadcasts received from the broker.
+	 * A handler that broadcasts locally unresolved messages to the broker and also
+	 * handles similar broadcasts received from the broker.
 	 */
 	private static class BroadcastHandler {
 
@@ -257,8 +252,8 @@ public class UserDestinationMessageHandler implements MessageHandler, SmartLifec
 			if (!getBroadcastDestination().equals(destination)) {
 				return message;
 			}
-			SimpMessageHeaderAccessor accessor =
-					SimpMessageHeaderAccessor.getAccessor(message, SimpMessageHeaderAccessor.class);
+			SimpMessageHeaderAccessor accessor = SimpMessageHeaderAccessor.getAccessor(message,
+					SimpMessageHeaderAccessor.class);
 			Assert.state(accessor != null, "No SimpMessageHeaderAccessor");
 			if (accessor.getSessionId() == null) {
 				// Our own broadcast
@@ -278,14 +273,17 @@ public class UserDestinationMessageHandler implements MessageHandler, SmartLifec
 			if (destination != null) {
 				newAccessor.setDestination(destination);
 			}
-			newAccessor.setHeader(SimpMessageHeaderAccessor.IGNORE_ERROR, true); // ensure send doesn't block
+			newAccessor.setHeader(SimpMessageHeaderAccessor.IGNORE_ERROR, true); // ensure
+																					// send
+																					// doesn't
+																					// block
 			return MessageBuilder.createMessage(message.getPayload(), newAccessor.getMessageHeaders());
 		}
 
 		public void handleUnresolved(Message<?> message) {
 			MessageHeaders headers = message.getHeaders();
-			if (SimpMessageHeaderAccessor.getFirstNativeHeader(
-					SimpMessageHeaderAccessor.ORIGINAL_DESTINATION, headers) != null) {
+			if (SimpMessageHeaderAccessor.getFirstNativeHeader(SimpMessageHeaderAccessor.ORIGINAL_DESTINATION,
+					headers) != null) {
 				// Re-broadcast
 				return;
 			}
@@ -299,6 +297,7 @@ public class UserDestinationMessageHandler implements MessageHandler, SmartLifec
 			}
 			this.messagingTemplate.send(getBroadcastDestination(), message);
 		}
+
 	}
 
 }

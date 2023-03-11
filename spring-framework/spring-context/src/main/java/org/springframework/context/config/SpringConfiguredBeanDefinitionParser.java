@@ -36,12 +36,9 @@ class SpringConfiguredBeanDefinitionParser implements BeanDefinitionParser {
 	/**
 	 * The bean name of the internally managed bean configurer aspect.
 	 */
-	public static final String BEAN_CONFIGURER_ASPECT_BEAN_NAME =
-			"org.springframework.context.config.internalBeanConfigurerAspect";
+	public static final String BEAN_CONFIGURER_ASPECT_BEAN_NAME = "org.springframework.context.config.internalBeanConfigurerAspect";
 
-	static final String BEAN_CONFIGURER_ASPECT_CLASS_NAME =
-			"org.springframework.beans.factory.aspectj.AnnotationBeanConfigurerAspect";
-
+	static final String BEAN_CONFIGURER_ASPECT_CLASS_NAME = "org.springframework.beans.factory.aspectj.AnnotationBeanConfigurerAspect";
 
 	@Override
 	public BeanDefinition parse(Element element, ParserContext parserContext) {

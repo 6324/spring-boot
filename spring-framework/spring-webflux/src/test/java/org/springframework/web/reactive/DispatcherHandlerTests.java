@@ -41,13 +41,13 @@ import static org.mockito.Mockito.withSettings;
 
 /**
  * Unit tests for {@link DispatcherHandler}.
+ *
  * @author Rossen Stoyanchev
  */
 public class DispatcherHandlerTests {
 
-	private static final MethodParameter RETURN_TYPE =
-			ResolvableMethod.on(DispatcherHandler.class).named("handle").resolveReturnType();
-
+	private static final MethodParameter RETURN_TYPE = ResolvableMethod.on(DispatcherHandler.class).named("handle")
+			.resolveReturnType();
 
 	@Test
 	public void handlerMappingOrder() {
@@ -72,10 +72,9 @@ public class DispatcherHandlerTests {
 		assertThat(exchange.getResponse().getBodyAsString().block(Duration.ofSeconds(5))).isEqualTo("1");
 	}
 
-
 	@SuppressWarnings("unused")
-	private void handle() {}
-
+	private void handle() {
+	}
 
 	private static class SupplierHandlerAdapter implements HandlerAdapter {
 
@@ -88,8 +87,8 @@ public class DispatcherHandlerTests {
 		public Mono<HandlerResult> handle(ServerWebExchange exchange, Object handler) {
 			return Mono.just(new HandlerResult(handler, ((Supplier<?>) handler).get(), RETURN_TYPE));
 		}
-	}
 
+	}
 
 	private static class StringHandlerResultHandler implements HandlerResultHandler {
 
@@ -105,6 +104,7 @@ public class DispatcherHandlerTests {
 			DataBuffer dataBuffer = new DefaultDataBufferFactory().wrap(bytes);
 			return exchange.getResponse().writeWith(Mono.just(dataBuffer));
 		}
+
 	}
 
 }

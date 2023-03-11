@@ -40,7 +40,6 @@ public class HandlerMethodReturnValueHandlerComposite implements HandlerMethodRe
 
 	private final List<HandlerMethodReturnValueHandler> returnValueHandlers = new ArrayList<>();
 
-
 	/**
 	 * Return a read-only list with the configured handlers.
 	 */
@@ -64,7 +63,8 @@ public class HandlerMethodReturnValueHandlerComposite implements HandlerMethodRe
 	}
 
 	/**
-	 * Add the given {@link HandlerMethodReturnValueHandler HandlerMethodReturnValueHandlers}.
+	 * Add the given {@link HandlerMethodReturnValueHandler
+	 * HandlerMethodReturnValueHandlers}.
 	 */
 	public HandlerMethodReturnValueHandlerComposite addHandlers(
 			@Nullable List<? extends HandlerMethodReturnValueHandler> handlers) {

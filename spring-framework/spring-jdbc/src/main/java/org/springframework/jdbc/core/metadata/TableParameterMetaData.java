@@ -31,7 +31,6 @@ public class TableParameterMetaData {
 
 	private final boolean nullable;
 
-
 	/**
 	 * Constructor taking all the properties.
 	 */
@@ -40,7 +39,6 @@ public class TableParameterMetaData {
 		this.sqlType = sqlType;
 		this.nullable = nullable;
 	}
-
 
 	/**
 	 * Get the parameter name.

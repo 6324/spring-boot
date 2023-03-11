@@ -23,12 +23,13 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
- * Wraps another {@link org.springframework.web.socket.WebSocketHandler}
- * instance and delegates to it.
+ * Wraps another {@link org.springframework.web.socket.WebSocketHandler} instance and
+ * delegates to it.
  *
- * <p>Also provides a {@link #getDelegate()} method to return the decorated
- * handler as well as a {@link #getLastHandler()} method to go through all nested
- * delegates and return the "last" handler.
+ * <p>
+ * Also provides a {@link #getDelegate()} method to return the decorated handler as well
+ * as a {@link #getLastHandler()} method to go through all nested delegates and return the
+ * "last" handler.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -37,12 +38,10 @@ public class WebSocketHandlerDecorator implements WebSocketHandler {
 
 	private final WebSocketHandler delegate;
 
-
 	public WebSocketHandlerDecorator(WebSocketHandler delegate) {
 		Assert.notNull(delegate, "Delegate must not be null");
 		this.delegate = delegate;
 	}
-
 
 	public WebSocketHandler getDelegate() {
 		return this.delegate;

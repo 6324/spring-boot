@@ -27,4 +27,5 @@ public class ConstructorBean {
 
 	public ConstructorBean(Object obj) {
 	}
+
 }

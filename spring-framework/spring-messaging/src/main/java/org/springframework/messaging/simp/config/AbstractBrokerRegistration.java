@@ -41,15 +41,14 @@ public abstract class AbstractBrokerRegistration {
 
 	private final List<String> destinationPrefixes;
 
-
 	/**
 	 * Create a new broker registration.
 	 * @param clientInboundChannel the inbound channel
 	 * @param clientOutboundChannel the outbound channel
 	 * @param destinationPrefixes the destination prefixes
 	 */
-	public AbstractBrokerRegistration(SubscribableChannel clientInboundChannel,
-			MessageChannel clientOutboundChannel, @Nullable String[] destinationPrefixes) {
+	public AbstractBrokerRegistration(SubscribableChannel clientInboundChannel, MessageChannel clientOutboundChannel,
+			@Nullable String[] destinationPrefixes) {
 
 		Assert.notNull(clientInboundChannel, "'clientInboundChannel' must not be null");
 		Assert.notNull(clientOutboundChannel, "'clientOutboundChannel' must not be null");
@@ -57,10 +56,9 @@ public abstract class AbstractBrokerRegistration {
 		this.clientInboundChannel = clientInboundChannel;
 		this.clientOutboundChannel = clientOutboundChannel;
 
-		this.destinationPrefixes = (destinationPrefixes != null ?
-				Arrays.asList(destinationPrefixes) : Collections.emptyList());
+		this.destinationPrefixes = (destinationPrefixes != null ? Arrays.asList(destinationPrefixes)
+				: Collections.emptyList());
 	}
-
 
 	protected SubscribableChannel getClientInboundChannel() {
 		return this.clientInboundChannel;
@@ -73,7 +71,6 @@ public abstract class AbstractBrokerRegistration {
 	protected Collection<String> getDestinationPrefixes() {
 		return this.destinationPrefixes;
 	}
-
 
 	protected abstract AbstractBrokerMessageHandler getMessageHandler(SubscribableChannel brokerChannel);
 

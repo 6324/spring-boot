@@ -30,8 +30,8 @@ import org.springframework.core.convert.converter.ConditionalGenericConverter;
 import org.springframework.lang.Nullable;
 
 /**
- * Converts a {@link Stream} to and from a collection or array, converting the
- * element type if necessary.
+ * Converts a {@link Stream} to and from a collection or array, converting the element
+ * type if necessary.
  *
  * @author Stephane Nicoll
  * @since 4.2
@@ -44,11 +44,9 @@ class StreamConverter implements ConditionalGenericConverter {
 
 	private final ConversionService conversionService;
 
-
 	public StreamConverter(ConversionService conversionService) {
 		this.conversionService = conversionService;
 	}
-
 
 	@Override
 	public Set<ConvertiblePair> getConvertibleTypes() {
@@ -78,8 +76,8 @@ class StreamConverter implements ConditionalGenericConverter {
 	}
 
 	/**
-	 * Validate that the specified {@code sourceType} can be converted to a {@link Collection} of
-	 * the type of the stream elements.
+	 * Validate that the specified {@code sourceType} can be converted to a
+	 * {@link Collection} of the type of the stream elements.
 	 * @param elementType the type of the stream elements
 	 * @param sourceType the type to convert from
 	 */
@@ -116,7 +114,6 @@ class StreamConverter implements ConditionalGenericConverter {
 		}
 		return target.stream();
 	}
-
 
 	private static Set<ConvertiblePair> createConvertibleTypes() {
 		Set<ConvertiblePair> convertiblePairs = new HashSet<>();

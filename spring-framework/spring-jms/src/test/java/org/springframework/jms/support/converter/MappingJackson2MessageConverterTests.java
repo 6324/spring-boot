@@ -55,7 +55,6 @@ public class MappingJackson2MessageConverterTests {
 
 	private Session sessionMock;
 
-
 	@BeforeEach
 	public void setup() {
 		sessionMock = mock(Session.class);
@@ -63,7 +62,6 @@ public class MappingJackson2MessageConverterTests {
 		converter.setEncodingPropertyName("__encoding__");
 		converter.setTypeIdPropertyName("__typeid__");
 	}
-
 
 	@Test
 	public void toBytesMessage() throws Exception {
@@ -90,13 +88,12 @@ public class MappingJackson2MessageConverterTests {
 		given(bytesMessageMock.getStringProperty("__typeid__")).willReturn(Object.class.getName());
 		given(bytesMessageMock.propertyExists("__encoding__")).willReturn(false);
 		given(bytesMessageMock.getBodyLength()).willReturn(new Long(bytes.length));
-		given(bytesMessageMock.readBytes(any(byte[].class))).willAnswer(
-				new Answer<Integer>() {
-					@Override
-					public Integer answer(InvocationOnMock invocation) throws Throwable {
-						return byteStream.read((byte[]) invocation.getArguments()[0]);
-					}
-				});
+		given(bytesMessageMock.readBytes(any(byte[].class))).willAnswer(new Answer<Integer>() {
+			@Override
+			public Integer answer(InvocationOnMock invocation) throws Throwable {
+				return byteStream.read((byte[]) invocation.getArguments()[0]);
+			}
+		});
 
 		Object result = converter.fromMessage(bytesMessageMock);
 		assertThat(unmarshalled).as("Invalid result").isEqualTo(result);
@@ -136,7 +133,7 @@ public class MappingJackson2MessageConverterTests {
 		given(textMessageMock.getStringProperty("__typeid__")).willReturn(MyBean.class.getName());
 		given(textMessageMock.getText()).willReturn(text);
 
-		MyBean result = (MyBean)converter.fromMessage(textMessageMock);
+		MyBean result = (MyBean) converter.fromMessage(textMessageMock);
 		assertThat(unmarshalled).as("Invalid result").isEqualTo(result);
 	}
 
@@ -149,7 +146,7 @@ public class MappingJackson2MessageConverterTests {
 		given(textMessageMock.getStringProperty("__typeid__")).willReturn(MyBean.class.getName());
 		given(textMessageMock.getText()).willReturn(text);
 
-		MyBean result = (MyBean)converter.fromMessage(textMessageMock);
+		MyBean result = (MyBean) converter.fromMessage(textMessageMock);
 		assertThat(unmarshalled).as("Invalid result").isEqualTo(result);
 	}
 
@@ -207,11 +204,11 @@ public class MappingJackson2MessageConverterTests {
 		Method method = this.getClass().getDeclaredMethod("invalid");
 		MethodParameter returnType = new MethodParameter(method, -1);
 
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				testToTextMessageWithReturnType(returnType));
+		assertThatIllegalArgumentException().isThrownBy(() -> testToTextMessageWithReturnType(returnType));
 	}
 
-	private void testToTextMessageWithReturnType(MethodParameter returnType) throws JMSException, NoSuchMethodException {
+	private void testToTextMessageWithReturnType(MethodParameter returnType)
+			throws JMSException, NoSuchMethodException {
 		converter.setTargetType(MessageType.TEXT);
 		TextMessage textMessageMock = mock(TextMessage.class);
 
@@ -229,7 +226,6 @@ public class MappingJackson2MessageConverterTests {
 		MyAnotherBean bean = new MyAnotherBean("test", "lengthy description");
 		given(sessionMock.createTextMessage(isA(String.class))).willReturn(textMessageMock);
 
-
 		converter.toMessage(bean, sessionMock, Summary.class);
 		verify(textMessageMock).setStringProperty("__typeid__", MyAnotherBean.class.getName());
 		verify(sessionMock).createTextMessage("{\"name\":\"test\"}");
@@ -243,12 +239,10 @@ public class MappingJackson2MessageConverterTests {
 		MyAnotherBean bean = new MyAnotherBean("test", "lengthy description");
 		given(sessionMock.createTextMessage(isA(String.class))).willReturn(textMessageMock);
 
-
 		converter.toMessage(bean, sessionMock, Full.class);
 		verify(textMessageMock).setStringProperty("__typeid__", MyAnotherBean.class.getName());
 		verify(sessionMock).createTextMessage("{\"name\":\"test\",\"description\":\"lengthy description\"}");
 	}
-
 
 	@JsonView(Summary.class)
 	public MyAnotherBean summary() {
@@ -259,11 +253,10 @@ public class MappingJackson2MessageConverterTests {
 		return new MyAnotherBean();
 	}
 
-	@JsonView({Summary.class, Full.class})
+	@JsonView({ Summary.class, Full.class })
 	public MyAnotherBean invalid() {
 		return new MyAnotherBean();
 	}
-
 
 	public static class MyBean {
 
@@ -303,13 +296,16 @@ public class MappingJackson2MessageConverterTests {
 		public int hashCode() {
 			return foo != null ? foo.hashCode() : 0;
 		}
+
 	}
 
+	private interface Summary {
 
-	private interface Summary {};
+	};
 
-	private interface Full extends Summary {};
+	private interface Full extends Summary {
 
+	};
 
 	private static class MyAnotherBean {
 
@@ -342,6 +338,7 @@ public class MappingJackson2MessageConverterTests {
 		public void setDescription(String description) {
 			this.description = description;
 		}
+
 	}
 
 }

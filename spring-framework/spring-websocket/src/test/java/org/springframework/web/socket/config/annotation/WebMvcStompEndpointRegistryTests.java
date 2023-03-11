@@ -45,7 +45,6 @@ public class WebMvcStompEndpointRegistryTests {
 
 	private SubProtocolWebSocketHandler webSocketHandler;
 
-
 	@BeforeEach
 	public void setup() {
 		SubscribableChannel inChannel = mock(SubscribableChannel.class);
@@ -56,7 +55,6 @@ public class WebMvcStompEndpointRegistryTests {
 		TaskScheduler scheduler = mock(TaskScheduler.class);
 		this.endpointRegistry = new WebMvcStompEndpointRegistry(this.webSocketHandler, transport, scheduler);
 	}
-
 
 	@Test
 	public void stompProtocolHandler() {
@@ -79,7 +77,7 @@ public class WebMvcStompEndpointRegistryTests {
 		this.endpointRegistry.addEndpoint("/stompOverWebSocket");
 		this.endpointRegistry.addEndpoint("/stompOverSockJS").withSockJS();
 
-		//SPR-12403
+		// SPR-12403
 		assertThat(this.webSocketHandler.getProtocolHandlers().size()).isEqualTo(1);
 
 		hm = (SimpleUrlHandlerMapping) this.endpointRegistry.getHandlerMapping();

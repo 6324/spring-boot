@@ -51,10 +51,10 @@ public class WebSocketHttpRequestHandlerTests {
 
 	private final HandshakeHandler handshakeHandler = mock(HandshakeHandler.class);
 
-	private final WebSocketHttpRequestHandler requestHandler = new WebSocketHttpRequestHandler(mock(WebSocketHandler.class), this.handshakeHandler);
+	private final WebSocketHttpRequestHandler requestHandler = new WebSocketHttpRequestHandler(
+			mock(WebSocketHandler.class), this.handshakeHandler);
 
 	private final MockHttpServletResponse response = new MockHttpServletResponse();
-
 
 	@Test
 	public void success() throws ServletException, IOException {
@@ -75,8 +75,7 @@ public class WebSocketHttpRequestHandlerTests {
 				.willThrow(new IllegalStateException("bad state"));
 
 		assertThatThrownBy(() -> this.requestHandler.handleRequest(new MockHttpServletRequest(), this.response))
-				.isInstanceOf(HandshakeFailureException.class)
-				.hasRootCauseInstanceOf(IllegalStateException.class)
+				.isInstanceOf(HandshakeFailureException.class).hasRootCauseInstanceOf(IllegalStateException.class)
 				.hasMessageEndingWith("bad state");
 
 		assertThat(this.response.getHeader("headerName")).isEqualTo("headerValue");
@@ -94,7 +93,6 @@ public class WebSocketHttpRequestHandlerTests {
 		assertThat(this.response.getHeader("headerName")).isEqualTo("headerValue");
 	}
 
-
 	private static class TestInterceptor implements HandshakeInterceptor {
 
 		private final boolean allowHandshake;
@@ -102,7 +100,6 @@ public class WebSocketHttpRequestHandlerTests {
 		private TestInterceptor(boolean allowHandshake) {
 			this.allowHandshake = allowHandshake;
 		}
-
 
 		@Override
 		public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
@@ -113,11 +110,12 @@ public class WebSocketHttpRequestHandlerTests {
 		}
 
 		@Override
-		public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response,
-				WebSocketHandler wsHandler, Exception exception) {
+		public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
+				Exception exception) {
 
 			response.getHeaders().add("exceptionHeaderName", "exceptionHeaderValue");
 		}
+
 	}
 
 }

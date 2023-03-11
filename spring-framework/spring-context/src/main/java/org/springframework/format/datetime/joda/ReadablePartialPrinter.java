@@ -33,7 +33,6 @@ public final class ReadablePartialPrinter implements Printer<ReadablePartial> {
 
 	private final DateTimeFormatter formatter;
 
-
 	/**
 	 * Create a new ReadableInstantPrinter.
 	 * @param formatter the Joda DateTimeFormatter instance
@@ -41,7 +40,6 @@ public final class ReadablePartialPrinter implements Printer<ReadablePartial> {
 	public ReadablePartialPrinter(DateTimeFormatter formatter) {
 		this.formatter = formatter;
 	}
-
 
 	@Override
 	public String print(ReadablePartial partial, Locale locale) {

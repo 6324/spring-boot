@@ -27,4 +27,5 @@ public class PropertyBean {
 	public void setProperty(Object property) {
 
 	}
+
 }

@@ -27,19 +27,16 @@ public abstract class TaskManagementConfigUtils {
 	/**
 	 * The bean name of the internally managed Scheduled annotation processor.
 	 */
-	public static final String SCHEDULED_ANNOTATION_PROCESSOR_BEAN_NAME =
-			"org.springframework.context.annotation.internalScheduledAnnotationProcessor";
+	public static final String SCHEDULED_ANNOTATION_PROCESSOR_BEAN_NAME = "org.springframework.context.annotation.internalScheduledAnnotationProcessor";
 
 	/**
 	 * The bean name of the internally managed Async annotation processor.
 	 */
-	public static final String ASYNC_ANNOTATION_PROCESSOR_BEAN_NAME =
-			"org.springframework.context.annotation.internalAsyncAnnotationProcessor";
+	public static final String ASYNC_ANNOTATION_PROCESSOR_BEAN_NAME = "org.springframework.context.annotation.internalAsyncAnnotationProcessor";
 
 	/**
 	 * The bean name of the internally managed AspectJ async execution aspect.
 	 */
-	public static final String ASYNC_EXECUTION_ASPECT_BEAN_NAME =
-			"org.springframework.scheduling.config.internalAsyncExecutionAspect";
+	public static final String ASYNC_EXECUTION_ASPECT_BEAN_NAME = "org.springframework.scheduling.config.internalAsyncExecutionAspect";
 
 }

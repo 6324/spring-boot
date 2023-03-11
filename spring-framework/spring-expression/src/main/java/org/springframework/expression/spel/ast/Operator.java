@@ -29,9 +29,9 @@ import org.springframework.util.NumberUtils;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Common supertype for operators that operate on either one or two operands.
- * In the case of multiply or divide there would be two operands, but for
- * unary plus or minus, there is only one.
+ * Common supertype for operators that operate on either one or two operands. In the case
+ * of multiply or divide there would be two operands, but for unary plus or minus, there
+ * is only one.
  *
  * @author Andy Clement
  * @author Juergen Hoeller
@@ -53,12 +53,10 @@ public abstract class Operator extends SpelNodeImpl {
 	@Nullable
 	protected String rightActualDescriptor;
 
-
 	public Operator(String payload, int startPos, int endPos, SpelNodeImpl... operands) {
 		super(startPos, endPos, operands);
 		this.operatorName = payload;
 	}
-
 
 	public SpelNodeImpl getLeftOperand() {
 		return this.children[0];
@@ -88,7 +86,6 @@ public abstract class Operator extends SpelNodeImpl {
 		return sb.toString();
 	}
 
-
 	protected boolean isCompilableOperatorUsingNumerics() {
 		SpelNodeImpl left = getLeftOperand();
 		SpelNodeImpl right = getRightOperand();
@@ -99,8 +96,8 @@ public abstract class Operator extends SpelNodeImpl {
 		// Supported operand types for equals (at the moment)
 		String leftDesc = left.exitTypeDescriptor;
 		String rightDesc = right.exitTypeDescriptor;
-		DescriptorComparison dc = DescriptorComparison.checkNumericCompatibility(
-				leftDesc, rightDesc, this.leftActualDescriptor, this.rightActualDescriptor);
+		DescriptorComparison dc = DescriptorComparison.checkNumericCompatibility(leftDesc, rightDesc,
+				this.leftActualDescriptor, this.rightActualDescriptor);
 		return (dc.areNumbers && dc.areCompatible);
 	}
 
@@ -117,9 +114,9 @@ public abstract class Operator extends SpelNodeImpl {
 		Label endOfIf = new Label();
 		boolean unboxLeft = !CodeFlow.isPrimitive(leftDesc);
 		boolean unboxRight = !CodeFlow.isPrimitive(rightDesc);
-		DescriptorComparison dc = DescriptorComparison.checkNumericCompatibility(
-				leftDesc, rightDesc, this.leftActualDescriptor, this.rightActualDescriptor);
-		char targetType = dc.compatibleType;  // CodeFlow.toPrimitiveTargetDesc(leftDesc);
+		DescriptorComparison dc = DescriptorComparison.checkNumericCompatibility(leftDesc, rightDesc,
+				this.leftActualDescriptor, this.rightActualDescriptor);
+		char targetType = dc.compatibleType; // CodeFlow.toPrimitiveTargetDesc(leftDesc);
 
 		cf.enterCompilationScope();
 		left.generateCode(mv, cf);
@@ -138,70 +135,71 @@ public abstract class Operator extends SpelNodeImpl {
 		}
 
 		// This code block checks whether the left or right operand is null and handles
-		// those cases before letting the original code (that only handled actual numbers) run
+		// those cases before letting the original code (that only handled actual numbers)
+		// run
 		Label rightIsNonNull = new Label();
-		mv.visitInsn(DUP);  // stack: left/right/right
-		mv.visitJumpInsn(IFNONNULL, rightIsNonNull);  // stack: left/right
+		mv.visitInsn(DUP); // stack: left/right/right
+		mv.visitJumpInsn(IFNONNULL, rightIsNonNull); // stack: left/right
 		// here: RIGHT==null LEFT==unknown
-		mv.visitInsn(SWAP);  // right/left
+		mv.visitInsn(SWAP); // right/left
 		Label leftNotNullRightIsNull = new Label();
-		mv.visitJumpInsn(IFNONNULL, leftNotNullRightIsNull);  // stack: right
+		mv.visitJumpInsn(IFNONNULL, leftNotNullRightIsNull); // stack: right
 		// here: RIGHT==null LEFT==null
-		mv.visitInsn(POP);  // stack: <nothing>
+		mv.visitInsn(POP); // stack: <nothing>
 		// load 0 or 1 depending on comparison instruction
 		switch (compInstruction1) {
 		case IFGE: // OpLT
 		case IFLE: // OpGT
-			mv.visitInsn(ICONST_0);  // false - null is not < or > null
+			mv.visitInsn(ICONST_0); // false - null is not < or > null
 			break;
 		case IFGT: // OpLE
 		case IFLT: // OpGE
-			mv.visitInsn(ICONST_1);  // true - null is <= or >= null
+			mv.visitInsn(ICONST_1); // true - null is <= or >= null
 			break;
 		default:
 			throw new IllegalStateException("Unsupported: " + compInstruction1);
 		}
 		mv.visitJumpInsn(GOTO, endOfIf);
-		mv.visitLabel(leftNotNullRightIsNull);  // stack: right
+		mv.visitLabel(leftNotNullRightIsNull); // stack: right
 		// RIGHT==null LEFT!=null
-		mv.visitInsn(POP);  // stack: <nothing>
+		mv.visitInsn(POP); // stack: <nothing>
 		// load 0 or 1 depending on comparison instruction
 		switch (compInstruction1) {
 		case IFGE: // OpLT
 		case IFGT: // OpLE
-			mv.visitInsn(ICONST_0);  // false - something is not < or <= null
+			mv.visitInsn(ICONST_0); // false - something is not < or <= null
 			break;
 		case IFLE: // OpGT
 		case IFLT: // OpGE
-			mv.visitInsn(ICONST_1);  // true - something is > or >= null
+			mv.visitInsn(ICONST_1); // true - something is > or >= null
 			break;
 		default:
 			throw new IllegalStateException("Unsupported: " + compInstruction1);
 		}
 		mv.visitJumpInsn(GOTO, endOfIf);
 
-		mv.visitLabel(rightIsNonNull);  // stack: left/right
+		mv.visitLabel(rightIsNonNull); // stack: left/right
 		// here: RIGHT!=null LEFT==unknown
-		mv.visitInsn(SWAP);  // stack: right/left
-		mv.visitInsn(DUP);  // stack: right/left/left
+		mv.visitInsn(SWAP); // stack: right/left
+		mv.visitInsn(DUP); // stack: right/left/left
 		Label neitherRightNorLeftAreNull = new Label();
-		mv.visitJumpInsn(IFNONNULL, neitherRightNorLeftAreNull);  // stack: right/left
+		mv.visitJumpInsn(IFNONNULL, neitherRightNorLeftAreNull); // stack: right/left
 		// here: RIGHT!=null LEFT==null
-		mv.visitInsn(POP2);  // stack: <nothing>
+		mv.visitInsn(POP2); // stack: <nothing>
 		switch (compInstruction1) {
 		case IFGE: // OpLT
 		case IFGT: // OpLE
-			mv.visitInsn(ICONST_1);  // true - null is < or <= something
+			mv.visitInsn(ICONST_1); // true - null is < or <= something
 			break;
 		case IFLE: // OpGT
 		case IFLT: // OpGE
-			mv.visitInsn(ICONST_0);  // false - null is not > or >= something
+			mv.visitInsn(ICONST_0); // false - null is not > or >= something
 			break;
 		default:
 			throw new IllegalStateException("Unsupported: " + compInstruction1);
 		}
 		mv.visitJumpInsn(GOTO, endOfIf);
-		mv.visitLabel(neitherRightNorLeftAreNull);  // stack: right/left
+		mv.visitLabel(neitherRightNorLeftAreNull); // stack: right/left
 		// neither were null so unbox and proceed with numeric comparison
 		if (unboxLeft) {
 			CodeFlow.insertUnboxInsns(mv, targetType, leftDesc);
@@ -243,19 +241,19 @@ public abstract class Operator extends SpelNodeImpl {
 
 		// Other numbers are not yet supported (isCompilable will not have returned true)
 		mv.visitInsn(ICONST_1);
-		mv.visitJumpInsn(GOTO,endOfIf);
+		mv.visitJumpInsn(GOTO, endOfIf);
 		mv.visitLabel(elseTarget);
 		mv.visitInsn(ICONST_0);
 		mv.visitLabel(endOfIf);
 		cf.pushDescriptor("Z");
 	}
 
-
 	/**
 	 * Perform an equality check for the given operand values.
-	 * <p>This method is not just used for reflective comparisons in subclasses
-	 * but also from compiled expression code, which is why it needs to be
-	 * declared as {@code public static} here.
+	 * <p>
+	 * This method is not just used for reflective comparisons in subclasses but also from
+	 * compiled expression code, which is why it needs to be declared as
+	 * {@code public static} here.
 	 * @param context the current evaluation context
 	 * @param left the left-hand operand value
 	 * @param right the right-hand operand value
@@ -321,10 +319,9 @@ public abstract class Operator extends SpelNodeImpl {
 		return false;
 	}
 
-
 	/**
-	 * A descriptor comparison encapsulates the result of comparing descriptor
-	 * for two operands and describes at what level they are compatible.
+	 * A descriptor comparison encapsulates the result of comparing descriptor for two
+	 * operands and describes at what level they are compatible.
 	 */
 	protected static final class DescriptorComparison {
 
@@ -332,11 +329,12 @@ public abstract class Operator extends SpelNodeImpl {
 
 		static final DescriptorComparison INCOMPATIBLE_NUMBERS = new DescriptorComparison(true, false, ' ');
 
-		final boolean areNumbers;  // Were the two compared descriptor both for numbers?
+		final boolean areNumbers; // Were the two compared descriptor both for numbers?
 
-		final boolean areCompatible;  // If they were numbers, were they compatible?
+		final boolean areCompatible; // If they were numbers, were they compatible?
 
-		final char compatibleType;  // When compatible, what is the descriptor of the common type
+		final char compatibleType; // When compatible, what is the descriptor of the
+									// common type
 
 		private DescriptorComparison(boolean areNumbers, boolean areCompatible, char compatibleType) {
 			this.areNumbers = areNumbers;
@@ -346,21 +344,24 @@ public abstract class Operator extends SpelNodeImpl {
 
 		/**
 		 * Return an object that indicates whether the input descriptors are compatible.
-		 * <p>A declared descriptor is what could statically be determined (e.g. from looking
+		 * <p>
+		 * A declared descriptor is what could statically be determined (e.g. from looking
 		 * at the return value of a property accessor method) whilst an actual descriptor
 		 * is the type of an actual object that was returned, which may differ.
-		 * <p>For generic types with unbound type variables, the declared descriptor
+		 * <p>
+		 * For generic types with unbound type variables, the declared descriptor
 		 * discovered may be 'Object' but from the actual descriptor it is possible to
 		 * observe that the objects are really numeric values (e.g. ints).
 		 * @param leftDeclaredDescriptor the statically determinable left descriptor
 		 * @param rightDeclaredDescriptor the statically determinable right descriptor
 		 * @param leftActualDescriptor the dynamic/runtime left object descriptor
 		 * @param rightActualDescriptor the dynamic/runtime right object descriptor
-		 * @return a DescriptorComparison object indicating the type of compatibility, if any
+		 * @return a DescriptorComparison object indicating the type of compatibility, if
+		 * any
 		 */
-		public static DescriptorComparison checkNumericCompatibility(
-				@Nullable String leftDeclaredDescriptor, @Nullable String rightDeclaredDescriptor,
-				@Nullable String leftActualDescriptor, @Nullable String rightActualDescriptor) {
+		public static DescriptorComparison checkNumericCompatibility(@Nullable String leftDeclaredDescriptor,
+				@Nullable String rightDeclaredDescriptor, @Nullable String leftActualDescriptor,
+				@Nullable String rightActualDescriptor) {
 
 			String ld = leftDeclaredDescriptor;
 			String rd = rightDeclaredDescriptor;
@@ -368,7 +369,8 @@ public abstract class Operator extends SpelNodeImpl {
 			boolean leftNumeric = CodeFlow.isPrimitiveOrUnboxableSupportedNumberOrBoolean(ld);
 			boolean rightNumeric = CodeFlow.isPrimitiveOrUnboxableSupportedNumberOrBoolean(rd);
 
-			// If the declared descriptors aren't providing the information, try the actual descriptors
+			// If the declared descriptors aren't providing the information, try the
+			// actual descriptors
 			if (!leftNumeric && !ObjectUtils.nullSafeEquals(ld, leftActualDescriptor)) {
 				ld = leftActualDescriptor;
 				leftNumeric = CodeFlow.isPrimitiveOrUnboxableSupportedNumberOrBoolean(ld);
@@ -390,6 +392,7 @@ public abstract class Operator extends SpelNodeImpl {
 				return DescriptorComparison.NOT_NUMBERS;
 			}
 		}
+
 	}
 
 }

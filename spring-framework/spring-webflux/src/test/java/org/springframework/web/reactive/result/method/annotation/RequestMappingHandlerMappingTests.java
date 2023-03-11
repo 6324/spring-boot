@@ -63,12 +63,10 @@ public class RequestMappingHandlerMappingTests {
 
 	private final RequestMappingHandlerMapping handlerMapping = new RequestMappingHandlerMapping();
 
-
 	@BeforeEach
 	public void setup() {
 		this.handlerMapping.setApplicationContext(wac);
 	}
-
 
 	@Test
 	public void resolveEmbeddedValuesInPatterns() {
@@ -83,22 +81,25 @@ public class RequestMappingHandlerMappingTests {
 	@Test
 	public void pathPrefix() throws Exception {
 		this.handlerMapping.setEmbeddedValueResolver(value -> "/${prefix}".equals(value) ? "/api" : value);
-		this.handlerMapping.setPathPrefixes(Collections.singletonMap(
-				"/${prefix}", HandlerTypePredicate.forAnnotation(RestController.class)));
+		this.handlerMapping.setPathPrefixes(
+				Collections.singletonMap("/${prefix}", HandlerTypePredicate.forAnnotation(RestController.class)));
 
 		Method method = UserController.class.getMethod("getUser");
 		RequestMappingInfo info = this.handlerMapping.getMappingForMethod(method, UserController.class);
 
 		assertThat(info).isNotNull();
-		assertThat(info.getPatternsCondition().getPatterns()).isEqualTo(Collections.singleton(new PathPatternParser().parse("/api/user/{id}")));
+		assertThat(info.getPatternsCondition().getPatterns())
+				.isEqualTo(Collections.singleton(new PathPatternParser().parse("/api/user/{id}")));
 	}
 
 	@Test
 	public void resolveRequestMappingViaComposedAnnotation() throws Exception {
 		RequestMappingInfo info = assertComposedAnnotationMapping("postJson", "/postJson", RequestMethod.POST);
 
-		assertThat(info.getConsumesCondition().getConsumableMediaTypes().iterator().next().toString()).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
-		assertThat(info.getProducesCondition().getProducibleMediaTypes().iterator().next().toString()).isEqualTo(MediaType.APPLICATION_JSON_VALUE);
+		assertThat(info.getConsumesCondition().getConsumableMediaTypes().iterator().next().toString())
+				.isEqualTo(MediaType.APPLICATION_JSON_VALUE);
+		assertThat(info.getProducesCondition().getProducibleMediaTypes().iterator().next().toString())
+				.isEqualTo(MediaType.APPLICATION_JSON_VALUE);
 	}
 
 	@Test // SPR-14988
@@ -114,13 +115,10 @@ public class RequestMappingHandlerMappingTests {
 		this.wac.registerSingleton("testController", ComposedAnnotationController.class);
 		this.wac.refresh();
 		this.handlerMapping.afterPropertiesSet();
-		RequestMappingInfo info = this.handlerMapping.getHandlerMethods().keySet().stream()
-				.filter(i -> {
-					PatternsRequestCondition condition = i.getPatternsCondition();
-					return condition.getPatterns().iterator().next().getPatternString().equals("/post");
-				})
-				.findFirst()
-				.orElseThrow(() -> new AssertionError("No /post"));
+		RequestMappingInfo info = this.handlerMapping.getHandlerMethods().keySet().stream().filter(i -> {
+			PatternsRequestCondition condition = i.getPatternsCondition();
+			return condition.getPatterns().iterator().next().getPatternString().equals("/post");
+		}).findFirst().orElseThrow(() -> new AssertionError("No /post"));
 
 		assertThat(info.getConsumesCondition().isBodyRequired()).isFalse();
 	}
@@ -150,7 +148,6 @@ public class RequestMappingHandlerMappingTests {
 		assertComposedAnnotationMapping(RequestMethod.PATCH);
 	}
 
-
 	private RequestMappingInfo assertComposedAnnotationMapping(RequestMethod requestMethod) throws Exception {
 		String methodName = requestMethod.name().toLowerCase();
 		String path = "/" + methodName;
@@ -178,8 +175,8 @@ public class RequestMappingHandlerMappingTests {
 		return info;
 	}
 
-
-	@Controller @SuppressWarnings("unused")
+	@Controller
+	@SuppressWarnings("unused")
 	@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	static class ComposedAnnotationController {
 
@@ -210,23 +207,24 @@ public class RequestMappingHandlerMappingTests {
 		@PatchMapping("/patch")
 		public void patch() {
 		}
+
 	}
 
 	private static class Foo {
+
 	}
 
-
-	@RequestMapping(method = RequestMethod.POST,
-			produces = MediaType.APPLICATION_JSON_VALUE,
+	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 	@Target(ElementType.METHOD)
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface PostJson {
 
-		@AliasFor(annotation = RequestMapping.class, attribute = "path") @SuppressWarnings("unused")
+		@AliasFor(annotation = RequestMapping.class, attribute = "path")
+		@SuppressWarnings("unused")
 		String[] value() default {};
-	}
 
+	}
 
 	@RestController
 	@RequestMapping("/user")
@@ -236,6 +234,7 @@ public class RequestMappingHandlerMappingTests {
 		public Principal getUser() {
 			return mock(Principal.class);
 		}
+
 	}
 
 }

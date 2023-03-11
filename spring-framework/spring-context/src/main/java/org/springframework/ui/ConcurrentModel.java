@@ -25,13 +25,14 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of the {@link Model} interface based on a {@link ConcurrentHashMap}
- * for use in concurrent scenarios.
+ * Implementation of the {@link Model} interface based on a {@link ConcurrentHashMap} for
+ * use in concurrent scenarios.
  *
- * <p>Exposed to handler methods by Spring WebFlux, typically via a declaration of the
- * {@link Model} interface. There is typically no need to create it within user code.
- * If necessary a handler method can return a regular {@code java.util.Map},
- * likely a {@code java.util.ConcurrentMap}, for a pre-determined model.
+ * <p>
+ * Exposed to handler methods by Spring WebFlux, typically via a declaration of the
+ * {@link Model} interface. There is typically no need to create it within user code. If
+ * necessary a handler method can return a regular {@code java.util.Map}, likely a
+ * {@code java.util.ConcurrentMap}, for a pre-determined model.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -46,8 +47,8 @@ public class ConcurrentModel extends ConcurrentHashMap<String, Object> implement
 	}
 
 	/**
-	 * Construct a new {@code ModelMap} containing the supplied attribute
-	 * under the supplied name.
+	 * Construct a new {@code ModelMap} containing the supplied attribute under the
+	 * supplied name.
 	 * @see #addAttribute(String, Object)
 	 */
 	public ConcurrentModel(String attributeName, Object attributeValue) {
@@ -55,15 +56,13 @@ public class ConcurrentModel extends ConcurrentHashMap<String, Object> implement
 	}
 
 	/**
-	 * Construct a new {@code ModelMap} containing the supplied attribute.
-	 * Uses attribute name generation to generate the key for the supplied model
-	 * object.
+	 * Construct a new {@code ModelMap} containing the supplied attribute. Uses attribute
+	 * name generation to generate the key for the supplied model object.
 	 * @see #addAttribute(Object)
 	 */
 	public ConcurrentModel(Object attributeValue) {
 		addAttribute(attributeValue);
 	}
-
 
 	@Override
 	@Nullable
@@ -86,8 +85,8 @@ public class ConcurrentModel extends ConcurrentHashMap<String, Object> implement
 	/**
 	 * Add the supplied attribute under the supplied name.
 	 * @param attributeName the name of the model attribute (never {@code null})
-	 * @param attributeValue the model attribute value (ignored if {@code null},
-	 * just removing an existing entry if any)
+	 * @param attributeValue the model attribute value (ignored if {@code null}, just
+	 * removing an existing entry if any)
 	 */
 	@Override
 	public ConcurrentModel addAttribute(String attributeName, @Nullable Object attributeValue) {
@@ -99,10 +98,11 @@ public class ConcurrentModel extends ConcurrentHashMap<String, Object> implement
 	/**
 	 * Add the supplied attribute to this {@code Map} using a
 	 * {@link org.springframework.core.Conventions#getVariableName generated name}.
-	 * <p><i>Note: Empty {@link Collection Collections} are not added to
-	 * the model when using this method because we cannot correctly determine
-	 * the true convention name. View code should check for {@code null} rather
-	 * than for empty collections as is already done by JSTL tags.</i>
+	 * <p>
+	 * <i>Note: Empty {@link Collection Collections} are not added to the model when using
+	 * this method because we cannot correctly determine the true convention name. View
+	 * code should check for {@code null} rather than for empty collections as is already
+	 * done by JSTL tags.</i>
 	 * @param attributeValue the model attribute value (never {@code null})
 	 */
 	@Override
@@ -115,8 +115,8 @@ public class ConcurrentModel extends ConcurrentHashMap<String, Object> implement
 	}
 
 	/**
-	 * Copy all attributes in the supplied {@code Collection} into this
-	 * {@code Map}, using attribute name generation for each element.
+	 * Copy all attributes in the supplied {@code Collection} into this {@code Map}, using
+	 * attribute name generation for each element.
 	 * @see #addAttribute(Object)
 	 */
 	@Override
@@ -142,9 +142,8 @@ public class ConcurrentModel extends ConcurrentHashMap<String, Object> implement
 	}
 
 	/**
-	 * Copy all attributes in the supplied {@code Map} into this {@code Map},
-	 * with existing objects of the same name taking precedence (i.e. not getting
-	 * replaced).
+	 * Copy all attributes in the supplied {@code Map} into this {@code Map}, with
+	 * existing objects of the same name taking precedence (i.e. not getting replaced).
 	 */
 	@Override
 	public ConcurrentModel mergeAttributes(@Nullable Map<String, ?> attributes) {

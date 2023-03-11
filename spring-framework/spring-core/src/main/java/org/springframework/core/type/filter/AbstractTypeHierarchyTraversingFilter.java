@@ -29,10 +29,10 @@ import org.springframework.lang.Nullable;
 /**
  * Type filter that is aware of traversing over hierarchy.
  *
- * <p>This filter is useful when matching needs to be made based on potentially the
- * whole class/interface hierarchy. The algorithm employed uses a succeed-fast
- * strategy: if at any time a match is declared, no further processing is
- * carried out.
+ * <p>
+ * This filter is useful when matching needs to be made based on potentially the whole
+ * class/interface hierarchy. The algorithm employed uses a succeed-fast strategy: if at
+ * any time a match is declared, no further processing is carried out.
  *
  * @author Ramnivas Laddad
  * @author Mark Fisher
@@ -46,12 +46,10 @@ public abstract class AbstractTypeHierarchyTraversingFilter implements TypeFilte
 
 	private final boolean considerInterfaces;
 
-
 	protected AbstractTypeHierarchyTraversingFilter(boolean considerInherited, boolean considerInterfaces) {
 		this.considerInherited = considerInherited;
 		this.considerInterfaces = considerInterfaces;
 	}
-
 
 	@Override
 	public boolean match(MetadataReader metadataReader, MetadataReaderFactory metadataReaderFactory)
@@ -86,8 +84,8 @@ public abstract class AbstractTypeHierarchyTraversingFilter implements TypeFilte
 					}
 					catch (IOException ex) {
 						if (logger.isDebugEnabled()) {
-							logger.debug("Could not read super class [" + metadata.getSuperClassName() +
-									"] of type-filtered class [" + metadata.getClassName() + "]");
+							logger.debug("Could not read super class [" + metadata.getSuperClassName()
+									+ "] of type-filtered class [" + metadata.getClassName() + "]");
 						}
 					}
 				}
@@ -112,8 +110,8 @@ public abstract class AbstractTypeHierarchyTraversingFilter implements TypeFilte
 					}
 					catch (IOException ex) {
 						if (logger.isDebugEnabled()) {
-							logger.debug("Could not read interface [" + ifc + "] for type-filtered class [" +
-									metadata.getClassName() + "]");
+							logger.debug("Could not read interface [" + ifc + "] for type-filtered class ["
+									+ metadata.getClassName() + "]");
 						}
 					}
 				}
@@ -128,9 +126,8 @@ public abstract class AbstractTypeHierarchyTraversingFilter implements TypeFilte
 	}
 
 	/**
-	 * Override this to match self characteristics alone. Typically,
-	 * the implementation will use a visitor to extract information
-	 * to perform matching.
+	 * Override this to match self characteristics alone. Typically, the implementation
+	 * will use a visitor to extract information to perform matching.
 	 */
 	protected boolean matchSelf(MetadataReader metadataReader) {
 		return false;

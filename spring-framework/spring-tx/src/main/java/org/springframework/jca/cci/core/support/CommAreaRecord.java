@@ -42,7 +42,6 @@ public class CommAreaRecord implements Record, Streamable {
 
 	private String recordShortDescription = "";
 
-
 	/**
 	 * Create a new CommAreaRecord.
 	 * @see #read(java.io.InputStream)
@@ -57,7 +56,6 @@ public class CommAreaRecord implements Record, Streamable {
 	public CommAreaRecord(byte[] bytes) {
 		this.bytes = bytes;
 	}
-
 
 	@Override
 	public void setRecordName(String recordName) {
@@ -79,7 +77,6 @@ public class CommAreaRecord implements Record, Streamable {
 		return this.recordShortDescription;
 	}
 
-
 	@Override
 	public void read(InputStream in) throws IOException {
 		this.bytes = FileCopyUtils.copyToByteArray(in);
@@ -94,7 +91,6 @@ public class CommAreaRecord implements Record, Streamable {
 	public byte[] toByteArray() {
 		return this.bytes;
 	}
-
 
 	@Override
 	public Object clone() {

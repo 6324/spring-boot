@@ -65,7 +65,6 @@ public class DefaultWebClientTests {
 
 	private WebClient.Builder builder;
 
-
 	@BeforeEach
 	public void setup() {
 		ClientResponse mockResponse = mock(ClientResponse.class);
@@ -73,11 +72,9 @@ public class DefaultWebClientTests {
 		this.builder = WebClient.builder().baseUrl("/base").exchangeFunction(this.exchangeFunction);
 	}
 
-
 	@Test
 	public void basic() {
-		this.builder.build().get().uri("/path")
-				.exchange().block(Duration.ofSeconds(10));
+		this.builder.build().get().uri("/path").exchange().block(Duration.ofSeconds(10));
 
 		ClientRequest request = verifyAndGetRequest();
 		assertThat(request.url().toString()).isEqualTo("/base/path");
@@ -87,9 +84,8 @@ public class DefaultWebClientTests {
 
 	@Test
 	public void uriBuilder() {
-		this.builder.build().get()
-				.uri(builder -> builder.path("/path").queryParam("q", "12").build())
-				.exchange().block(Duration.ofSeconds(10));
+		this.builder.build().get().uri(builder -> builder.path("/path").queryParam("q", "12").build()).exchange()
+				.block(Duration.ofSeconds(10));
 
 		ClientRequest request = verifyAndGetRequest();
 		assertThat(request.url().toString()).isEqualTo("/base/path?q=12");
@@ -97,9 +93,8 @@ public class DefaultWebClientTests {
 
 	@Test // gh-22705
 	public void uriBuilderWithUriTemplate() {
-		this.builder.build().get()
-					.uri("/path/{id}", builder -> builder.queryParam("q", "12").build("identifier"))
-					.exchange().block(Duration.ofSeconds(10));
+		this.builder.build().get().uri("/path/{id}", builder -> builder.queryParam("q", "12").build("identifier"))
+				.exchange().block(Duration.ofSeconds(10));
 
 		ClientRequest request = verifyAndGetRequest();
 		assertThat(request.url().toString()).isEqualTo("/base/path/identifier?q=12");
@@ -108,9 +103,8 @@ public class DefaultWebClientTests {
 
 	@Test
 	public void uriBuilderWithPathOverride() {
-		this.builder.build().get()
-				.uri(builder -> builder.replacePath("/path").build())
-				.exchange().block(Duration.ofSeconds(10));
+		this.builder.build().get().uri(builder -> builder.replacePath("/path").build()).exchange()
+				.block(Duration.ofSeconds(10));
 
 		ClientRequest request = verifyAndGetRequest();
 		assertThat(request.url().toString()).isEqualTo("/path");
@@ -119,7 +113,7 @@ public class DefaultWebClientTests {
 	@Test
 	public void requestHeaderAndCookie() {
 		this.builder.build().get().uri("/path").accept(MediaType.APPLICATION_JSON)
-				.cookies(cookies -> cookies.add("id", "123"))	// SPR-16178
+				.cookies(cookies -> cookies.add("id", "123")) // SPR-16178
 				.exchange().block(Duration.ofSeconds(10));
 
 		ClientRequest request = verifyAndGetRequest();
@@ -129,10 +123,7 @@ public class DefaultWebClientTests {
 
 	@Test
 	public void defaultHeaderAndCookie() {
-		WebClient client = this.builder
-				.defaultHeader("Accept", "application/json")
-				.defaultCookie("id", "123")
-				.build();
+		WebClient client = this.builder.defaultHeader("Accept", "application/json").defaultCookie("id", "123").build();
 
 		client.get().uri("/path").exchange().block(Duration.ofSeconds(10));
 
@@ -143,15 +134,10 @@ public class DefaultWebClientTests {
 
 	@Test
 	public void defaultHeaderAndCookieOverrides() {
-		WebClient client = this.builder
-				.defaultHeader("Accept", "application/json")
-				.defaultCookie("id", "123")
-				.build();
+		WebClient client = this.builder.defaultHeader("Accept", "application/json").defaultCookie("id", "123").build();
 
-		client.get().uri("/path")
-				.header("Accept", "application/xml")
-				.cookie("id", "456")
-				.exchange().block(Duration.ofSeconds(10));
+		client.get().uri("/path").header("Accept", "application/xml").cookie("id", "456").exchange()
+				.block(Duration.ofSeconds(10));
 
 		ClientRequest request = verifyAndGetRequest();
 		assertThat(request.headers().getFirst("Accept")).isEqualTo("application/xml");
@@ -160,30 +146,21 @@ public class DefaultWebClientTests {
 
 	@Test
 	public void defaultHeaderAndCookieCopies() {
-		WebClient client1 = this.builder
-				.defaultHeader("Accept", "application/json")
-				.defaultCookie("id", "123")
-				.build();
-		WebClient client2 = this.builder
-				.defaultHeader("Accept", "application/xml")
-				.defaultCookies(cookies -> cookies.set("id", "456"))
-				.build();
+		WebClient client1 = this.builder.defaultHeader("Accept", "application/json").defaultCookie("id", "123").build();
+		WebClient client2 = this.builder.defaultHeader("Accept", "application/xml")
+				.defaultCookies(cookies -> cookies.set("id", "456")).build();
 
-		client1.get().uri("/path")
-				.exchange().block(Duration.ofSeconds(10));
+		client1.get().uri("/path").exchange().block(Duration.ofSeconds(10));
 
 		ClientRequest request = verifyAndGetRequest();
 		assertThat(request.headers().getFirst("Accept")).isEqualTo("application/json");
 		assertThat(request.cookies().getFirst("id")).isEqualTo("123");
 
-
-		client2.get().uri("/path")
-				.exchange().block(Duration.ofSeconds(10));
+		client2.get().uri("/path").exchange().block(Duration.ofSeconds(10));
 
 		request = verifyAndGetRequest();
 		assertThat(request.headers().getFirst("Accept")).isEqualTo("application/xml");
 		assertThat(request.cookies().getFirst("id")).isEqualTo("456");
-
 
 	}
 
@@ -197,15 +174,12 @@ public class DefaultWebClientTests {
 			return next.exchange(request);
 		};
 
-		WebClient client = this.builder
-				.defaultRequest(spec -> spec.attribute("foo", context.get()))
-				.filter(filter)
+		WebClient client = this.builder.defaultRequest(spec -> spec.attribute("foo", context.get())).filter(filter)
 				.build();
 
 		try {
 			context.set("bar");
-			client.get().uri("/path").attribute("foo", "bar")
-					.exchange().block(Duration.ofSeconds(10));
+			client.get().uri("/path").attribute("foo", "bar").exchange().block(Duration.ofSeconds(10));
 		}
 		finally {
 			context.remove();
@@ -219,31 +193,23 @@ public class DefaultWebClientTests {
 		Mono<Void> mono = Mono.empty();
 		WebClient client = this.builder.build();
 
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				client.post().uri("https://example.com").bodyValue(mono));
+		assertThatIllegalArgumentException().isThrownBy(() -> client.post().uri("https://example.com").bodyValue(mono));
 	}
 
 	@Test
 	public void mutateDoesCopy() {
 		// First, build the clients
 
-		WebClient.Builder builder = WebClient.builder()
-				.filter((request, next) -> next.exchange(request))
-				.defaultHeader("foo", "bar")
-				.defaultCookie("foo", "bar");
+		WebClient.Builder builder = WebClient.builder().filter((request, next) -> next.exchange(request))
+				.defaultHeader("foo", "bar").defaultCookie("foo", "bar");
 
 		WebClient client1 = builder.build();
 
-		WebClient client2 = builder.filter((request, next) -> next.exchange(request))
-				.defaultHeader("baz", "qux")
-				.defaultCookie("baz", "qux")
-				.build();
+		WebClient client2 = builder.filter((request, next) -> next.exchange(request)).defaultHeader("baz", "qux")
+				.defaultCookie("baz", "qux").build();
 
-		WebClient client1a = client1.mutate()
-				.filter((request, next) -> next.exchange(request))
-				.defaultHeader("baz", "qux")
-				.defaultCookie("baz", "qux")
-				.build();
+		WebClient client1a = client1.mutate().filter((request, next) -> next.exchange(request))
+				.defaultHeader("baz", "qux").defaultCookie("baz", "qux").build();
 
 		// Now, verify what each client has..
 
@@ -265,12 +231,11 @@ public class DefaultWebClientTests {
 
 	@Test
 	void cloneBuilder() {
-		Consumer<ClientCodecConfigurer> codecsConfig = c -> {};
+		Consumer<ClientCodecConfigurer> codecsConfig = c -> {
+		};
 		ExchangeFunction exchangeFunction = request -> Mono.empty();
 		WebClient.Builder builder = WebClient.builder().baseUrl("https://example.org")
-				.exchangeFunction(exchangeFunction)
-				.filter((request, next) -> Mono.empty())
-				.codecs(codecsConfig);
+				.exchangeFunction(exchangeFunction).filter((request, next) -> Mono.empty()).codecs(codecsConfig);
 
 		WebClient.Builder clonedBuilder = builder.clone();
 
@@ -288,10 +253,8 @@ public class DefaultWebClientTests {
 			return next.exchange(request);
 		};
 
-		this.builder.filter(filter).build()
-				.get().uri("/path")
-				.attribute("foo", "bar")
-				.exchange().block(Duration.ofSeconds(10));
+		this.builder.filter(filter).build().get().uri("/path").attribute("foo", "bar").exchange()
+				.block(Duration.ofSeconds(10));
 
 		assertThat(actual.get("foo")).isEqualTo("bar");
 
@@ -307,10 +270,8 @@ public class DefaultWebClientTests {
 			return next.exchange(request);
 		};
 
-		this.builder.filter(filter).build()
-				.get().uri("/path")
-				.attribute("foo", null)
-				.exchange().block(Duration.ofSeconds(10));
+		this.builder.filter(filter).build().get().uri("/path").attribute("foo", null).exchange()
+				.block(Duration.ofSeconds(10));
 
 		assertThat(actual.get("foo")).isNull();
 
@@ -321,9 +282,7 @@ public class DefaultWebClientTests {
 	@Test
 	public void apply() {
 		WebClient client = this.builder
-				.apply(builder -> builder
-						.defaultHeader("Accept", "application/json")
-						.defaultCookie("id", "123"))
+				.apply(builder -> builder.defaultHeader("Accept", "application/json").defaultCookie("id", "123"))
 				.build();
 
 		client.get().uri("/path").exchange().block(Duration.ofSeconds(10));
@@ -346,12 +305,7 @@ public class DefaultWebClientTests {
 	@Test
 	public void shouldApplyFiltersAtSubscription() {
 		WebClient client = this.builder
-				.filter((request, next) ->
-					next.exchange(ClientRequest
-							.from(request)
-							.header("Custom", "value")
-							.build())
-				)
+				.filter((request, next) -> next.exchange(ClientRequest.from(request).header("Custom", "value").build()))
 				.build();
 		Mono<ClientResponse> exchange = client.get().uri("/path").exchange();
 		verifyNoInteractions(this.exchangeFunction);
@@ -366,9 +320,7 @@ public class DefaultWebClientTests {
 		ClientResponse response = ClientResponse.create(HttpStatus.BAD_REQUEST).build();
 		given(exchangeFunction.exchange(any())).willReturn(Mono.just(response));
 
-		Mono<Void> result = this.builder.build().get()
-				.uri("/path")
-				.retrieve()
+		Mono<Void> result = this.builder.build().get().uri("/path").retrieve()
 				.onStatus(HttpStatus::is4xxClientError, resp -> Mono.error(new IllegalStateException("1")))
 				.onStatus(HttpStatus::is4xxClientError, resp -> Mono.error(new IllegalStateException("2")))
 				.bodyToMono(Void.class);
@@ -389,12 +341,9 @@ public class DefaultWebClientTests {
 		given(predicate1.test(HttpStatus.BAD_REQUEST)).willReturn(false);
 		given(predicate2.test(HttpStatus.BAD_REQUEST)).willReturn(false);
 
-		Mono<Void> result = this.builder.build().get()
-				.uri("/path")
-				.retrieve()
+		Mono<Void> result = this.builder.build().get().uri("/path").retrieve()
 				.onStatus(predicate1, resp -> Mono.error(new IllegalStateException()))
-				.onStatus(predicate2, resp -> Mono.error(new IllegalStateException()))
-				.bodyToMono(Void.class);
+				.onStatus(predicate2, resp -> Mono.error(new IllegalStateException())).bodyToMono(Void.class);
 
 		StepVerifier.create(result).expectError(WebClientResponseException.class).verify();
 

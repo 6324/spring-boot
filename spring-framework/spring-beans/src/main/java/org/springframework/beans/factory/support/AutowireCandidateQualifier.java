@@ -20,9 +20,9 @@ import org.springframework.beans.BeanMetadataAttributeAccessor;
 import org.springframework.util.Assert;
 
 /**
- * Qualifier for resolving autowire candidates. A bean definition that
- * includes one or more such qualifiers enables fine-grained matching
- * against annotations on a field or parameter to be autowired.
+ * Qualifier for resolving autowire candidates. A bean definition that includes one or
+ * more such qualifiers enables fine-grained matching against annotations on a field or
+ * parameter to be autowired.
  *
  * @author Mark Fisher
  * @author Juergen Hoeller
@@ -39,10 +39,8 @@ public class AutowireCandidateQualifier extends BeanMetadataAttributeAccessor {
 
 	private final String typeName;
 
-
 	/**
-	 * Construct a qualifier to match against an annotation of the
-	 * given type.
+	 * Construct a qualifier to match against an annotation of the given type.
 	 * @param type the annotation type
 	 */
 	public AutowireCandidateQualifier(Class<?> type) {
@@ -50,10 +48,10 @@ public class AutowireCandidateQualifier extends BeanMetadataAttributeAccessor {
 	}
 
 	/**
-	 * Construct a qualifier to match against an annotation of the
-	 * given type name.
-	 * <p>The type name may match the fully-qualified class name of
-	 * the annotation or the short class name (without the package).
+	 * Construct a qualifier to match against an annotation of the given type name.
+	 * <p>
+	 * The type name may match the fully-qualified class name of the annotation or the
+	 * short class name (without the package).
 	 * @param typeName the name of the annotation type
 	 */
 	public AutowireCandidateQualifier(String typeName) {
@@ -62,9 +60,8 @@ public class AutowireCandidateQualifier extends BeanMetadataAttributeAccessor {
 	}
 
 	/**
-	 * Construct a qualifier to match against an annotation of the
-	 * given type whose {@code value} attribute also matches
-	 * the specified value.
+	 * Construct a qualifier to match against an annotation of the given type whose
+	 * {@code value} attribute also matches the specified value.
 	 * @param type the annotation type
 	 * @param value the annotation value to match
 	 */
@@ -73,11 +70,11 @@ public class AutowireCandidateQualifier extends BeanMetadataAttributeAccessor {
 	}
 
 	/**
-	 * Construct a qualifier to match against an annotation of the
-	 * given type name whose {@code value} attribute also matches
-	 * the specified value.
-	 * <p>The type name may match the fully-qualified class name of
-	 * the annotation or the short class name (without the package).
+	 * Construct a qualifier to match against an annotation of the given type name whose
+	 * {@code value} attribute also matches the specified value.
+	 * <p>
+	 * The type name may match the fully-qualified class name of the annotation or the
+	 * short class name (without the package).
 	 * @param typeName the name of the annotation type
 	 * @param value the annotation value to match
 	 */
@@ -87,11 +84,10 @@ public class AutowireCandidateQualifier extends BeanMetadataAttributeAccessor {
 		setAttribute(VALUE_KEY, value);
 	}
 
-
 	/**
-	 * Retrieve the type name. This value will be the same as the
-	 * type name provided to the constructor or the fully-qualified
-	 * class name if a Class instance was provided to the constructor.
+	 * Retrieve the type name. This value will be the same as the type name provided to
+	 * the constructor or the fully-qualified class name if a Class instance was provided
+	 * to the constructor.
 	 */
 	public String getTypeName() {
 		return this.typeName;

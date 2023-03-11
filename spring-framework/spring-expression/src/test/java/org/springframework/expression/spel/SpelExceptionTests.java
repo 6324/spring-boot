@@ -41,16 +41,14 @@ public class SpelExceptionTests {
 	public void spelExpressionMapNullVariables() {
 		ExpressionParser parser = new SpelExpressionParser();
 		Expression spelExpression = parser.parseExpression("#aMap.containsKey('one')");
-		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(
-				spelExpression::getValue);
+		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(spelExpression::getValue);
 	}
 
 	@Test
 	public void spelExpressionMapIndexAccessNullVariables() {
 		ExpressionParser parser = new SpelExpressionParser();
 		Expression spelExpression = parser.parseExpression("#aMap['one'] eq 1");
-		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(
-				spelExpression::getValue);
+		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(spelExpression::getValue);
 	}
 
 	@Test
@@ -80,16 +78,14 @@ public class SpelExceptionTests {
 	public void spelExpressionListNullVariables() {
 		ExpressionParser parser = new SpelExpressionParser();
 		Expression spelExpression = parser.parseExpression("#aList.contains('one')");
-		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(
-				spelExpression::getValue);
+		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(spelExpression::getValue);
 	}
 
 	@Test
 	public void spelExpressionListIndexAccessNullVariables() {
 		ExpressionParser parser = new SpelExpressionParser();
 		Expression spelExpression = parser.parseExpression("#aList[0] eq 'one'");
-		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(
-				spelExpression::getValue);
+		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(spelExpression::getValue);
 	}
 
 	@Test
@@ -140,8 +136,7 @@ public class SpelExceptionTests {
 	public void spelExpressionArrayIndexAccessNullVariables() {
 		ExpressionParser parser = new SpelExpressionParser();
 		Expression spelExpression = parser.parseExpression("#anArray[0] eq 1");
-		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(
-				spelExpression::getValue);
+		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(spelExpression::getValue);
 	}
 
 	@Test
@@ -152,7 +147,7 @@ public class SpelExceptionTests {
 		StandardEvaluationContext ctx = new StandardEvaluationContext();
 		ctx.setVariables(new HashMap<String, Object>() {
 			{
-				put("anArray", new int[] {1,2,3});
+				put("anArray", new int[] { 1, 2, 3 });
 			}
 		});
 		boolean result = spelExpression.getValue(ctx, Boolean.class);

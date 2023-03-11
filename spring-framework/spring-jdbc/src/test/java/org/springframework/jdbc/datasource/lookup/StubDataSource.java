@@ -24,7 +24,8 @@ import org.springframework.jdbc.datasource.AbstractDataSource;
 /**
  * Stub, do-nothing DataSource implementation.
  *
- * <p>All methods throw {@link UnsupportedOperationException}.
+ * <p>
+ * All methods throw {@link UnsupportedOperationException}.
  *
  * @author Rick Evans
  */

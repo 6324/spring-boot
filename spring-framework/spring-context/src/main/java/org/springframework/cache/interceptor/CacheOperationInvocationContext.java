@@ -21,8 +21,9 @@ import java.lang.reflect.Method;
 /**
  * Representation of the context of the invocation of a cache operation.
  *
- * <p>The cache operation is static and independent of a particular invocation;
- * this interface gathers the operation and a particular invocation.
+ * <p>
+ * The cache operation is static and independent of a particular invocation; this
+ * interface gathers the operation and a particular invocation.
  *
  * @author Stephane Nicoll
  * @since 4.1

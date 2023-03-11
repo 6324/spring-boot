@@ -25,8 +25,8 @@ import org.springframework.util.Assert;
 
 /**
  * Implementation of {@link PersistenceExceptionTranslator} that supports chaining,
- * allowing the addition of PersistenceExceptionTranslator instances in order.
- * Returns {@code non-null} on the first (if any) match.
+ * allowing the addition of PersistenceExceptionTranslator instances in order. Returns
+ * {@code non-null} on the first (if any) match.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -36,7 +36,6 @@ public class ChainedPersistenceExceptionTranslator implements PersistenceExcepti
 
 	/** List of PersistenceExceptionTranslators. */
 	private final List<PersistenceExceptionTranslator> delegates = new ArrayList<>(4);
-
 
 	/**
 	 * Add a PersistenceExceptionTranslator to the chained delegate list.
@@ -52,7 +51,6 @@ public class ChainedPersistenceExceptionTranslator implements PersistenceExcepti
 	public final PersistenceExceptionTranslator[] getDelegates() {
 		return this.delegates.toArray(new PersistenceExceptionTranslator[0]);
 	}
-
 
 	@Override
 	@Nullable

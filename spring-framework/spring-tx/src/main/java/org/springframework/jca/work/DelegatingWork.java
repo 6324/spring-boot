@@ -32,7 +32,6 @@ public class DelegatingWork implements Work {
 
 	private final Runnable delegate;
 
-
 	/**
 	 * Create a new DelegatingWork.
 	 * @param delegate the Runnable implementation to delegate to
@@ -49,7 +48,6 @@ public class DelegatingWork implements Work {
 		return this.delegate;
 	}
 
-
 	/**
 	 * Delegates execution to the underlying Runnable.
 	 */
@@ -59,8 +57,8 @@ public class DelegatingWork implements Work {
 	}
 
 	/**
-	 * This implementation is empty, since we expect the Runnable
-	 * to terminate based on some specific shutdown signal.
+	 * This implementation is empty, since we expect the Runnable to terminate based on
+	 * some specific shutdown signal.
 	 */
 	@Override
 	public void release() {

@@ -34,12 +34,13 @@ import org.springframework.util.concurrent.ListenableFutureTask;
 
 /**
  * Subclass of Quartz's SimpleThreadPool that implements Spring's
- * {@link org.springframework.core.task.TaskExecutor} interface
- * and listens to Spring lifecycle callbacks.
+ * {@link org.springframework.core.task.TaskExecutor} interface and listens to Spring
+ * lifecycle callbacks.
  *
- * <p>Can be shared between a Quartz Scheduler (specified as "taskExecutor")
- * and other TaskExecutor users, or even used completely independent of
- * a Quartz Scheduler (as plain TaskExecutor backend).
+ * <p>
+ * Can be shared between a Quartz Scheduler (specified as "taskExecutor") and other
+ * TaskExecutor users, or even used completely independent of a Quartz Scheduler (as plain
+ * TaskExecutor backend).
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -52,10 +53,8 @@ public class SimpleThreadPoolTaskExecutor extends SimpleThreadPool
 
 	private boolean waitForJobsToCompleteOnShutdown = false;
 
-
 	/**
-	 * Set whether to wait for running jobs to complete on shutdown.
-	 * Default is "false".
+	 * Set whether to wait for running jobs to complete on shutdown. Default is "false".
 	 * @see org.quartz.simpl.SimpleThreadPool#shutdown(boolean)
 	 */
 	public void setWaitForJobsToCompleteOnShutdown(boolean waitForJobsToCompleteOnShutdown) {
@@ -66,7 +65,6 @@ public class SimpleThreadPoolTaskExecutor extends SimpleThreadPool
 	public void afterPropertiesSet() throws SchedulerConfigException {
 		initialize();
 	}
-
 
 	@Override
 	public void execute(Runnable task) {
@@ -108,7 +106,6 @@ public class SimpleThreadPoolTaskExecutor extends SimpleThreadPool
 		execute(future);
 		return future;
 	}
-
 
 	@Override
 	public void destroy() {

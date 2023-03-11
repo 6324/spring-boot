@@ -24,7 +24,8 @@ import org.springframework.util.ClassUtils;
 /**
  * {@link EmbeddedDatabaseConfigurer} for an HSQL embedded database instance.
  *
- * <p>Call {@link #getInstance()} to get the singleton instance of this class.
+ * <p>
+ * Call {@link #getInstance()} to get the singleton instance of this class.
  *
  * @author Keith Donald
  * @author Oliver Gierke
@@ -37,7 +38,6 @@ final class HsqlEmbeddedDatabaseConfigurer extends AbstractEmbeddedDatabaseConfi
 
 	private final Class<? extends Driver> driverClass;
 
-
 	/**
 	 * Get the singleton {@link HsqlEmbeddedDatabaseConfigurer} instance.
 	 * @return the configurer instance
@@ -46,12 +46,11 @@ final class HsqlEmbeddedDatabaseConfigurer extends AbstractEmbeddedDatabaseConfi
 	@SuppressWarnings("unchecked")
 	public static synchronized HsqlEmbeddedDatabaseConfigurer getInstance() throws ClassNotFoundException {
 		if (instance == null) {
-			instance = new HsqlEmbeddedDatabaseConfigurer( (Class<? extends Driver>)
-					ClassUtils.forName("org.hsqldb.jdbcDriver", HsqlEmbeddedDatabaseConfigurer.class.getClassLoader()));
+			instance = new HsqlEmbeddedDatabaseConfigurer((Class<? extends Driver>) ClassUtils
+					.forName("org.hsqldb.jdbcDriver", HsqlEmbeddedDatabaseConfigurer.class.getClassLoader()));
 		}
 		return instance;
 	}
-
 
 	private HsqlEmbeddedDatabaseConfigurer(Class<? extends Driver> driverClass) {
 		this.driverClass = driverClass;

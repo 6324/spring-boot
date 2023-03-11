@@ -33,13 +33,17 @@ import org.springframework.util.StringValueResolver;
  * A specialization of {@link FormattingConversionService} configured by default with
  * converters and formatters appropriate for most applications.
  *
- * <p>Designed for direct instantiation but also exposes the static {@link #addDefaultFormatters}
- * utility method for ad hoc use against any {@code FormatterRegistry} instance, just
- * as {@code DefaultConversionService} exposes its own
- * {@link DefaultConversionService#addDefaultConverters addDefaultConverters} method.
+ * <p>
+ * Designed for direct instantiation but also exposes the static
+ * {@link #addDefaultFormatters} utility method for ad hoc use against any
+ * {@code FormatterRegistry} instance, just as {@code DefaultConversionService} exposes
+ * its own {@link DefaultConversionService#addDefaultConverters addDefaultConverters}
+ * method.
  *
- * <p>Automatically registers formatters for JSR-354 Money & Currency, JSR-310 Date-Time
- * and/or Joda-Time 2.x, depending on the presence of the corresponding API on the classpath.
+ * <p>
+ * Automatically registers formatters for JSR-354 Money & Currency, JSR-310 Date-Time
+ * and/or Joda-Time 2.x, depending on the presence of the corresponding API on the
+ * classpath.
  *
  * @author Chris Beams
  * @author Juergen Hoeller
@@ -56,7 +60,6 @@ public class DefaultFormattingConversionService extends FormattingConversionServ
 		jsr354Present = ClassUtils.isPresent("javax.money.MonetaryAmount", classLoader);
 		jodaTimePresent = ClassUtils.isPresent("org.joda.time.YearMonth", classLoader);
 	}
-
 
 	/**
 	 * Create a new {@code DefaultFormattingConversionService} with the set of
@@ -83,12 +86,13 @@ public class DefaultFormattingConversionService extends FormattingConversionServ
 	 * {@linkplain DefaultConversionService#addDefaultConverters default converters} and,
 	 * based on the value of {@code registerDefaultFormatters}, the set of
 	 * {@linkplain #addDefaultFormatters default formatters}.
-	 * @param embeddedValueResolver delegated to {@link #setEmbeddedValueResolver(StringValueResolver)}
-	 * prior to calling {@link #addDefaultFormatters}.
+	 * @param embeddedValueResolver delegated to
+	 * {@link #setEmbeddedValueResolver(StringValueResolver)} prior to calling
+	 * {@link #addDefaultFormatters}.
 	 * @param registerDefaultFormatters whether to register default formatters
 	 */
-	public DefaultFormattingConversionService(
-			@Nullable StringValueResolver embeddedValueResolver, boolean registerDefaultFormatters) {
+	public DefaultFormattingConversionService(@Nullable StringValueResolver embeddedValueResolver,
+			boolean registerDefaultFormatters) {
 
 		if (embeddedValueResolver != null) {
 			setEmbeddedValueResolver(embeddedValueResolver);
@@ -98,7 +102,6 @@ public class DefaultFormattingConversionService extends FormattingConversionServ
 			addDefaultFormatters(this);
 		}
 	}
-
 
 	/**
 	 * Add formatters appropriate for most environments: including number formatters,

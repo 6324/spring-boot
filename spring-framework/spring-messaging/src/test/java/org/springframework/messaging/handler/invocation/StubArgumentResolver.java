@@ -37,7 +37,6 @@ public class StubArgumentResolver implements HandlerMethodArgumentResolver {
 
 	private List<MethodParameter> resolvedParameters = new ArrayList<>();
 
-
 	public StubArgumentResolver(Object value) {
 		this(value.getClass(), value);
 	}
@@ -51,11 +50,9 @@ public class StubArgumentResolver implements HandlerMethodArgumentResolver {
 		this.value = value;
 	}
 
-
 	public List<MethodParameter> getResolvedParameters() {
 		return resolvedParameters;
 	}
-
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {

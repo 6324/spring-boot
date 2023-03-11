@@ -61,24 +61,27 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
- * Security test case. Checks whether the container uses its privileges for its
- * internal work but does not leak them when touching/calling user code.
+ * Security test case. Checks whether the container uses its privileges for its internal
+ * work but does not leak them when touching/calling user code.
  *
- * <p>The first half of the test case checks that permissions are downgraded when
- * calling user code while the second half that the caller code permission get
- * through and Spring doesn't override the permission stack.
+ * <p>
+ * The first half of the test case checks that permissions are downgraded when calling
+ * user code while the second half that the caller code permission get through and Spring
+ * doesn't override the permission stack.
  *
  * @author Costin Leau
  */
 public class CallbacksSecurityTests {
 
 	private DefaultListableBeanFactory beanFactory;
+
 	private SecurityContextProvider provider;
 
 	@SuppressWarnings("unused")
 	private static class NonPrivilegedBean {
 
 		private String expectedName;
+
 		public static boolean destroyed = false;
 
 		public NonPrivilegedBean(String expected) {
@@ -116,14 +119,15 @@ public class CallbacksSecurityTests {
 		private void checkCurrentContext() {
 			assertThat(getCurrentSubjectName()).isEqualTo(expectedName);
 		}
+
 	}
 
 	@SuppressWarnings("unused")
-	private static class NonPrivilegedSpringCallbacksBean implements
-			InitializingBean, DisposableBean, BeanClassLoaderAware,
-			BeanFactoryAware, BeanNameAware {
+	private static class NonPrivilegedSpringCallbacksBean
+			implements InitializingBean, DisposableBean, BeanClassLoaderAware, BeanFactoryAware, BeanNameAware {
 
 		private String expectedName;
+
 		public static boolean destroyed = false;
 
 		public NonPrivilegedSpringCallbacksBean(String expected) {
@@ -153,18 +157,19 @@ public class CallbacksSecurityTests {
 		}
 
 		@Override
-		public void setBeanFactory(BeanFactory beanFactory)
-				throws BeansException {
+		public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 			checkCurrentContext();
 		}
 
 		private void checkCurrentContext() {
 			assertThat(getCurrentSubjectName()).isEqualTo(expectedName);
 		}
+
 	}
 
 	@SuppressWarnings({ "unused", "rawtypes" })
 	private static class NonPrivilegedFactoryBean implements SmartFactoryBean {
+
 		private String expectedName;
 
 		public NonPrivilegedFactoryBean(String expected) {
@@ -205,6 +210,7 @@ public class CallbacksSecurityTests {
 		private void checkCurrentContext() {
 			assertThat(getCurrentSubjectName()).isEqualTo(expectedName);
 		}
+
 	}
 
 	@SuppressWarnings("unused")
@@ -226,6 +232,7 @@ public class CallbacksSecurityTests {
 			assertThat(getCurrentSubjectName()).isEqualTo(expectedName);
 			return new Object();
 		}
+
 	}
 
 	private static String getCurrentSubjectName() {
@@ -257,9 +264,7 @@ public class CallbacksSecurityTests {
 		// setup security
 		if (System.getSecurityManager() == null) {
 			Policy policy = Policy.getPolicy();
-			URL policyURL = getClass()
-					.getResource(
-							"/org/springframework/beans/factory/support/security/policy.all");
+			URL policyURL = getClass().getResource("/org/springframework/beans/factory/support/security/policy.all");
 			System.setProperty("java.security.policy", policyURL.toString());
 			System.setProperty("policy.allowSystemProperty", "true");
 			policy.refresh();
@@ -271,12 +276,10 @@ public class CallbacksSecurityTests {
 	@BeforeEach
 	public void setUp() throws Exception {
 
-		final ProtectionDomain empty = new ProtectionDomain(null,
-				new Permissions());
+		final ProtectionDomain empty = new ProtectionDomain(null, new Permissions());
 
 		provider = new SecurityContextProvider() {
-			private final AccessControlContext acc = new AccessControlContext(
-					new ProtectionDomain[] { empty });
+			private final AccessControlContext acc = new AccessControlContext(new ProtectionDomain[] { empty });
 
 			@Override
 			public AccessControlContext getAccessControlContext() {
@@ -285,8 +288,7 @@ public class CallbacksSecurityTests {
 		};
 
 		DefaultResourceLoader drl = new DefaultResourceLoader();
-		Resource config = drl
-				.getResource("/org/springframework/beans/factory/support/security/callbacks.xml");
+		Resource config = drl.getResource("/org/springframework/beans/factory/support/security/callbacks.xml");
 		beanFactory = new DefaultListableBeanFactory();
 		new XmlBeanDefinitionReader(beanFactory).loadBeanDefinitions(config);
 		beanFactory.setSecurityContextProvider(provider);
@@ -295,38 +297,34 @@ public class CallbacksSecurityTests {
 	@Test
 	public void testSecuritySanity() throws Exception {
 		AccessControlContext acc = provider.getAccessControlContext();
-		assertThatExceptionOfType(SecurityException.class).as(
-				"Acc should not have any permissions").isThrownBy(() ->
-				acc.checkPermission(new PropertyPermission("*", "read")));
+		assertThatExceptionOfType(SecurityException.class).as("Acc should not have any permissions")
+				.isThrownBy(() -> acc.checkPermission(new PropertyPermission("*", "read")));
 
 		CustomCallbackBean bean = new CustomCallbackBean();
 		Method method = bean.getClass().getMethod("destroy");
 		method.setAccessible(true);
 
-		assertThatExceptionOfType(Exception.class).isThrownBy(() ->
-				AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
-						method.invoke(bean);
-						return null;
-					}, acc));
+		assertThatExceptionOfType(Exception.class)
+				.isThrownBy(() -> AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> {
+					method.invoke(bean);
+					return null;
+				}, acc));
 
 		Class<ConstructorBean> cl = ConstructorBean.class;
-		assertThatExceptionOfType(Exception.class).isThrownBy(() ->
-				AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () ->
-						cl.newInstance(), acc));
+		assertThatExceptionOfType(Exception.class).isThrownBy(
+				() -> AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> cl.newInstance(), acc));
 	}
 
 	@Test
 	public void testSpringInitBean() throws Exception {
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				beanFactory.getBean("spring-init"))
-			.withCauseInstanceOf(SecurityException.class);
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> beanFactory.getBean("spring-init"))
+				.withCauseInstanceOf(SecurityException.class);
 	}
 
 	@Test
 	public void testCustomInitBean() throws Exception {
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				beanFactory.getBean("custom-init"))
-			.withCauseInstanceOf(SecurityException.class);
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> beanFactory.getBean("custom-init"))
+				.withCauseInstanceOf(SecurityException.class);
 	}
 
 	@Test
@@ -345,9 +343,8 @@ public class CallbacksSecurityTests {
 
 	@Test
 	public void testCustomFactoryObject() throws Exception {
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				beanFactory.getBean("spring-factory"))
-			.withCauseInstanceOf(SecurityException.class);
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> beanFactory.getBean("spring-factory"))
+				.withCauseInstanceOf(SecurityException.class);
 	}
 
 	@Test
@@ -358,30 +355,29 @@ public class CallbacksSecurityTests {
 
 	@Test
 	public void testCustomStaticFactoryMethod() throws Exception {
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				beanFactory.getBean("custom-static-factory-method"))
-			.satisfies(ex -> assertThat(ex.getMostSpecificCause()).isInstanceOf(SecurityException.class));
+		assertThatExceptionOfType(BeanCreationException.class)
+				.isThrownBy(() -> beanFactory.getBean("custom-static-factory-method"))
+				.satisfies(ex -> assertThat(ex.getMostSpecificCause()).isInstanceOf(SecurityException.class));
 	}
 
 	@Test
 	public void testCustomInstanceFactoryMethod() throws Exception {
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				beanFactory.getBean("custom-factory-method"))
-			.satisfies(ex -> assertThat(ex.getMostSpecificCause()).isInstanceOf(SecurityException.class));
+		assertThatExceptionOfType(BeanCreationException.class)
+				.isThrownBy(() -> beanFactory.getBean("custom-factory-method"))
+				.satisfies(ex -> assertThat(ex.getMostSpecificCause()).isInstanceOf(SecurityException.class));
 	}
 
 	@Test
 	public void testTrustedFactoryMethod() throws Exception {
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				beanFactory.getBean("privileged-static-factory-method"))
-			.satisfies(mostSpecificCauseOf(SecurityException.class));
+		assertThatExceptionOfType(BeanCreationException.class)
+				.isThrownBy(() -> beanFactory.getBean("privileged-static-factory-method"))
+				.satisfies(mostSpecificCauseOf(SecurityException.class));
 	}
 
 	@Test
 	public void testConstructor() throws Exception {
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				beanFactory.getBean("constructor"))
-			.satisfies(mostSpecificCauseOf(SecurityException.class));
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> beanFactory.getBean("constructor"))
+				.satisfies(mostSpecificCauseOf(SecurityException.class));
 	}
 
 	@Test
@@ -401,31 +397,27 @@ public class CallbacksSecurityTests {
 
 	@Test
 	public void testPropertyInjection() throws Exception {
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				beanFactory.getBean("property-injection"))
-			.withMessageContaining("security");
+		assertThatExceptionOfType(BeanCreationException.class)
+				.isThrownBy(() -> beanFactory.getBean("property-injection")).withMessageContaining("security");
 		beanFactory.getBean("working-property-injection");
 	}
 
 	@Test
 	public void testInitSecurityAwarePrototypeBean() {
 		final DefaultListableBeanFactory lbf = new DefaultListableBeanFactory();
-		BeanDefinitionBuilder bdb = BeanDefinitionBuilder
-				.genericBeanDefinition(NonPrivilegedBean.class).setScope(
-						BeanDefinition.SCOPE_PROTOTYPE)
-				.setInitMethodName("init").setDestroyMethodName("destroy")
+		BeanDefinitionBuilder bdb = BeanDefinitionBuilder.genericBeanDefinition(NonPrivilegedBean.class)
+				.setScope(BeanDefinition.SCOPE_PROTOTYPE).setInitMethodName("init").setDestroyMethodName("destroy")
 				.addConstructorArgValue("user1");
 		lbf.registerBeanDefinition("test", bdb.getBeanDefinition());
 		final Subject subject = new Subject();
 		subject.getPrincipals().add(new TestPrincipal("user1"));
 
-		NonPrivilegedBean bean = Subject.doAsPrivileged(
-				subject, new PrivilegedAction<NonPrivilegedBean>() {
-					@Override
-					public NonPrivilegedBean run() {
-						return lbf.getBean("test", NonPrivilegedBean.class);
-					}
-				}, null);
+		NonPrivilegedBean bean = Subject.doAsPrivileged(subject, new PrivilegedAction<NonPrivilegedBean>() {
+			@Override
+			public NonPrivilegedBean run() {
+				return lbf.getBean("test", NonPrivilegedBean.class);
+			}
+		}, null);
 		assertThat(bean).isNotNull();
 	}
 

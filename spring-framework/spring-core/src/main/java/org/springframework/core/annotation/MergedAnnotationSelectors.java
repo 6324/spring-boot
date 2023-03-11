@@ -20,8 +20,8 @@ import java.lang.annotation.Annotation;
 import java.util.function.Predicate;
 
 /**
- * {@link MergedAnnotationSelector} implementations that provide various options
- * for {@link MergedAnnotation} instances.
+ * {@link MergedAnnotationSelector} implementations that provide various options for
+ * {@link MergedAnnotation} instances.
  *
  * @author Phillip Webb
  * @since 5.2
@@ -34,10 +34,8 @@ public abstract class MergedAnnotationSelectors {
 
 	private static final MergedAnnotationSelector<?> FIRST_DIRECTLY_DECLARED = new FirstDirectlyDeclared();
 
-
 	private MergedAnnotationSelectors() {
 	}
-
 
 	/**
 	 * Select the nearest annotation, i.e. the one with the lowest distance.
@@ -51,13 +49,13 @@ public abstract class MergedAnnotationSelectors {
 	/**
 	 * Select the first directly declared annotation when possible. If no direct
 	 * annotations are declared then the nearest annotation is selected.
-	 * @return a selector that picks the first directly declared annotation whenever possible
+	 * @return a selector that picks the first directly declared annotation whenever
+	 * possible
 	 */
 	@SuppressWarnings("unchecked")
 	public static <A extends Annotation> MergedAnnotationSelector<A> firstDirectlyDeclared() {
 		return (MergedAnnotationSelector<A>) FIRST_DIRECTLY_DECLARED;
 	}
-
 
 	/**
 	 * {@link MergedAnnotationSelector} to select the nearest annotation.
@@ -70,8 +68,8 @@ public abstract class MergedAnnotationSelectors {
 		}
 
 		@Override
-		public MergedAnnotation<Annotation> select(
-				MergedAnnotation<Annotation> existing, MergedAnnotation<Annotation> candidate) {
+		public MergedAnnotation<Annotation> select(MergedAnnotation<Annotation> existing,
+				MergedAnnotation<Annotation> candidate) {
 
 			if (candidate.getDistance() < existing.getDistance()) {
 				return candidate;
@@ -81,10 +79,8 @@ public abstract class MergedAnnotationSelectors {
 
 	}
 
-
 	/**
-	 * {@link MergedAnnotationSelector} to select the first directly declared
-	 * annotation.
+	 * {@link MergedAnnotationSelector} to select the first directly declared annotation.
 	 */
 	private static class FirstDirectlyDeclared implements MergedAnnotationSelector<Annotation> {
 
@@ -94,8 +90,8 @@ public abstract class MergedAnnotationSelectors {
 		}
 
 		@Override
-		public MergedAnnotation<Annotation> select(
-				MergedAnnotation<Annotation> existing, MergedAnnotation<Annotation> candidate) {
+		public MergedAnnotation<Annotation> select(MergedAnnotation<Annotation> existing,
+				MergedAnnotation<Annotation> candidate) {
 
 			if (existing.getDistance() > 0 && candidate.getDistance() == 0) {
 				return candidate;

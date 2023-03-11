@@ -37,22 +37,25 @@ import org.springframework.lang.Nullable;
 
 /**
  * Subclass of Quartz's {@link JobStoreCMT} class that delegates to a Spring-managed
- * {@link DataSource} instead of using a Quartz-managed JDBC connection pool.
- * This JobStore will be used if SchedulerFactoryBean's "dataSource" property is set.
+ * {@link DataSource} instead of using a Quartz-managed JDBC connection pool. This
+ * JobStore will be used if SchedulerFactoryBean's "dataSource" property is set.
  *
- * <p>Supports both transactional and non-transactional DataSource access.
- * With a non-XA DataSource and local Spring transactions, a single DataSource
- * argument is sufficient. In case of an XA DataSource and global JTA transactions,
- * SchedulerFactoryBean's "nonTransactionalDataSource" property should be set,
- * passing in a non-XA DataSource that will not participate in global transactions.
+ * <p>
+ * Supports both transactional and non-transactional DataSource access. With a non-XA
+ * DataSource and local Spring transactions, a single DataSource argument is sufficient.
+ * In case of an XA DataSource and global JTA transactions, SchedulerFactoryBean's
+ * "nonTransactionalDataSource" property should be set, passing in a non-XA DataSource
+ * that will not participate in global transactions.
  *
- * <p>Operations performed by this JobStore will properly participate in any
- * kind of Spring-managed transaction, as it uses Spring's DataSourceUtils
- * connection handling methods that are aware of a current transaction.
+ * <p>
+ * Operations performed by this JobStore will properly participate in any kind of
+ * Spring-managed transaction, as it uses Spring's DataSourceUtils connection handling
+ * methods that are aware of a current transaction.
  *
- * <p>Note that all Quartz Scheduler operations that affect the persistent
- * job store should usually be performed within active transactions,
- * as they assume to get proper locks etc.
+ * <p>
+ * Note that all Quartz Scheduler operations that affect the persistent job store should
+ * usually be performed within active transactions, as they assume to get proper locks
+ * etc.
  *
  * @author Juergen Hoeller
  * @since 1.1
@@ -63,37 +66,35 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.jdbc.datasource.DataSourceUtils#doGetConnection
  * @see org.springframework.jdbc.datasource.DataSourceUtils#releaseConnection
  */
-@SuppressWarnings("unchecked")  // due to a warning in Quartz 2.2's JobStoreCMT
+@SuppressWarnings("unchecked") // due to a warning in Quartz 2.2's JobStoreCMT
 public class LocalDataSourceJobStore extends JobStoreCMT {
 
 	/**
-	 * Name used for the transactional ConnectionProvider for Quartz.
-	 * This provider will delegate to the local Spring-managed DataSource.
+	 * Name used for the transactional ConnectionProvider for Quartz. This provider will
+	 * delegate to the local Spring-managed DataSource.
 	 * @see org.quartz.utils.DBConnectionManager#addConnectionProvider
 	 * @see SchedulerFactoryBean#setDataSource
 	 */
 	public static final String TX_DATA_SOURCE_PREFIX = "springTxDataSource.";
 
 	/**
-	 * Name used for the non-transactional ConnectionProvider for Quartz.
-	 * This provider will delegate to the local Spring-managed DataSource.
+	 * Name used for the non-transactional ConnectionProvider for Quartz. This provider
+	 * will delegate to the local Spring-managed DataSource.
 	 * @see org.quartz.utils.DBConnectionManager#addConnectionProvider
 	 * @see SchedulerFactoryBean#setDataSource
 	 */
 	public static final String NON_TX_DATA_SOURCE_PREFIX = "springNonTxDataSource.";
 
-
 	@Nullable
 	private DataSource dataSource;
-
 
 	@Override
 	public void initialize(ClassLoadHelper loadHelper, SchedulerSignaler signaler) throws SchedulerConfigException {
 		// Absolutely needs thread-bound DataSource to initialize.
 		this.dataSource = SchedulerFactoryBean.getConfigTimeDataSource();
 		if (this.dataSource == null) {
-			throw new SchedulerConfigException("No local DataSource found for configuration - " +
-					"'dataSource' property must be set on SchedulerFactoryBean");
+			throw new SchedulerConfigException("No local DataSource found for configuration - "
+					+ "'dataSource' property must be set on SchedulerFactoryBean");
 		}
 
 		// Configure transactional connection settings for Quartz.
@@ -101,24 +102,24 @@ public class LocalDataSourceJobStore extends JobStoreCMT {
 		setDontSetAutoCommitFalse(true);
 
 		// Register transactional ConnectionProvider for Quartz.
-		DBConnectionManager.getInstance().addConnectionProvider(
-				TX_DATA_SOURCE_PREFIX + getInstanceName(),
+		DBConnectionManager.getInstance().addConnectionProvider(TX_DATA_SOURCE_PREFIX + getInstanceName(),
 				new ConnectionProvider() {
 					@Override
 					public Connection getConnection() throws SQLException {
 						// Return a transactional Connection, if any.
 						return DataSourceUtils.doGetConnection(dataSource);
 					}
+
 					@Override
 					public void shutdown() {
 						// Do nothing - a Spring-managed DataSource has its own lifecycle.
 					}
+
 					@Override
 					public void initialize() {
 						// Do nothing - a Spring-managed DataSource has its own lifecycle.
 					}
-				}
-		);
+				});
 
 		// Non-transactional DataSource is optional: fall back to default
 		// DataSource if not explicitly specified.
@@ -129,24 +130,24 @@ public class LocalDataSourceJobStore extends JobStoreCMT {
 		setNonManagedTXDataSource(NON_TX_DATA_SOURCE_PREFIX + getInstanceName());
 
 		// Register non-transactional ConnectionProvider for Quartz.
-		DBConnectionManager.getInstance().addConnectionProvider(
-				NON_TX_DATA_SOURCE_PREFIX + getInstanceName(),
+		DBConnectionManager.getInstance().addConnectionProvider(NON_TX_DATA_SOURCE_PREFIX + getInstanceName(),
 				new ConnectionProvider() {
 					@Override
 					public Connection getConnection() throws SQLException {
 						// Always return a non-transactional Connection.
 						return nonTxDataSourceToUse.getConnection();
 					}
+
 					@Override
 					public void shutdown() {
 						// Do nothing - a Spring-managed DataSource has its own lifecycle.
 					}
+
 					@Override
 					public void initialize() {
 						// Do nothing - a Spring-managed DataSource has its own lifecycle.
 					}
-				}
-		);
+				});
 
 		// No, if HSQL is the platform, we really don't want to use locks...
 		try {

@@ -32,16 +32,19 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Base class for JSR-107 caching aspects, such as the {@link JCacheInterceptor}
- * or an AspectJ aspect.
+ * Base class for JSR-107 caching aspects, such as the {@link JCacheInterceptor} or an
+ * AspectJ aspect.
  *
- * <p>Use the Spring caching abstraction for cache-related operations. No JSR-107
- * {@link javax.cache.Cache} or {@link javax.cache.CacheManager} are required to
- * process standard JSR-107 cache annotations.
+ * <p>
+ * Use the Spring caching abstraction for cache-related operations. No JSR-107
+ * {@link javax.cache.Cache} or {@link javax.cache.CacheManager} are required to process
+ * standard JSR-107 cache annotations.
  *
- * <p>The {@link JCacheOperationSource} is used for determining caching operations
+ * <p>
+ * The {@link JCacheOperationSource} is used for determining caching operations
  *
- * <p>A cache aspect is serializable if its {@code JCacheOperationSource} is serializable.
+ * <p>
+ * A cache aspect is serializable if its {@code JCacheOperationSource} is serializable.
  *
  * @author Stephane Nicoll
  * @since 4.1
@@ -70,7 +73,6 @@ public class JCacheAspectSupport extends AbstractCacheInvoker implements Initial
 
 	private boolean initialized = false;
 
-
 	/**
 	 * Set the CacheOperationSource for this cache aspect.
 	 */
@@ -83,8 +85,8 @@ public class JCacheAspectSupport extends AbstractCacheInvoker implements Initial
 	 * Return the CacheOperationSource for this cache aspect.
 	 */
 	public JCacheOperationSource getCacheOperationSource() {
-		Assert.state(this.cacheOperationSource != null, "The 'cacheOperationSource' property is required: " +
-				"If there are no cacheable methods, then don't use a cache aspect.");
+		Assert.state(this.cacheOperationSource != null, "The 'cacheOperationSource' property is required: "
+				+ "If there are no cacheable methods, then don't use a cache aspect.");
 		return this.cacheOperationSource;
 	}
 
@@ -100,16 +102,16 @@ public class JCacheAspectSupport extends AbstractCacheInvoker implements Initial
 		this.initialized = true;
 	}
 
-
 	@Nullable
 	protected Object execute(CacheOperationInvoker invoker, Object target, Method method, Object[] args) {
-		// Check whether aspect is enabled to cope with cases where the AJ is pulled in automatically
+		// Check whether aspect is enabled to cope with cases where the AJ is pulled in
+		// automatically
 		if (this.initialized) {
 			Class<?> targetClass = AopProxyUtils.ultimateTargetClass(target);
 			JCacheOperation<?> operation = getCacheOperationSource().getCacheOperation(method, targetClass);
 			if (operation != null) {
-				CacheOperationInvocationContext<?> context =
-						createCacheOperationInvocationContext(target, args, operation);
+				CacheOperationInvocationContext<?> context = createCacheOperationInvocationContext(target, args,
+						operation);
 				return execute(context, invoker);
 			}
 		}
@@ -118,11 +120,10 @@ public class JCacheAspectSupport extends AbstractCacheInvoker implements Initial
 	}
 
 	@SuppressWarnings("unchecked")
-	private CacheOperationInvocationContext<?> createCacheOperationInvocationContext(
-			Object target, Object[] args, JCacheOperation<?> operation) {
+	private CacheOperationInvocationContext<?> createCacheOperationInvocationContext(Object target, Object[] args,
+			JCacheOperation<?> operation) {
 
-		return new DefaultCacheInvocationContext<>(
-				(JCacheOperation<Annotation>) operation, target, args);
+		return new DefaultCacheInvocationContext<>((JCacheOperation<Annotation>) operation, target, args);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -133,23 +134,23 @@ public class JCacheAspectSupport extends AbstractCacheInvoker implements Initial
 
 		if (operation instanceof CacheResultOperation) {
 			Assert.state(this.cacheResultInterceptor != null, "No CacheResultInterceptor");
-			return this.cacheResultInterceptor.invoke(
-					(CacheOperationInvocationContext<CacheResultOperation>) context, adapter);
+			return this.cacheResultInterceptor.invoke((CacheOperationInvocationContext<CacheResultOperation>) context,
+					adapter);
 		}
 		else if (operation instanceof CachePutOperation) {
 			Assert.state(this.cachePutInterceptor != null, "No CachePutInterceptor");
-			return this.cachePutInterceptor.invoke(
-					(CacheOperationInvocationContext<CachePutOperation>) context, adapter);
+			return this.cachePutInterceptor.invoke((CacheOperationInvocationContext<CachePutOperation>) context,
+					adapter);
 		}
 		else if (operation instanceof CacheRemoveOperation) {
 			Assert.state(this.cacheRemoveEntryInterceptor != null, "No CacheRemoveEntryInterceptor");
-			return this.cacheRemoveEntryInterceptor.invoke(
-					(CacheOperationInvocationContext<CacheRemoveOperation>) context, adapter);
+			return this.cacheRemoveEntryInterceptor
+					.invoke((CacheOperationInvocationContext<CacheRemoveOperation>) context, adapter);
 		}
 		else if (operation instanceof CacheRemoveAllOperation) {
 			Assert.state(this.cacheRemoveAllInterceptor != null, "No CacheRemoveAllInterceptor");
-			return this.cacheRemoveAllInterceptor.invoke(
-					(CacheOperationInvocationContext<CacheRemoveAllOperation>) context, adapter);
+			return this.cacheRemoveAllInterceptor
+					.invoke((CacheOperationInvocationContext<CacheRemoveAllOperation>) context, adapter);
 		}
 		else {
 			throw new IllegalArgumentException("Cannot handle " + operation);
@@ -157,9 +158,9 @@ public class JCacheAspectSupport extends AbstractCacheInvoker implements Initial
 	}
 
 	/**
-	 * Execute the underlying operation (typically in case of cache miss) and return
-	 * the result of the invocation. If an exception occurs it will be wrapped in
-	 * a {@code ThrowableWrapper}: the exception can be handled or modified but it
+	 * Execute the underlying operation (typically in case of cache miss) and return the
+	 * result of the invocation. If an exception occurs it will be wrapped in a
+	 * {@code ThrowableWrapper}: the exception can be handled or modified but it
 	 * <em>must</em> be wrapped in a {@code ThrowableWrapper} as well.
 	 * @param invoker the invoker handling the operation being cached
 	 * @return the result of the invocation
@@ -168,7 +169,6 @@ public class JCacheAspectSupport extends AbstractCacheInvoker implements Initial
 	protected Object invokeOperation(CacheOperationInvoker invoker) {
 		return invoker.invoke();
 	}
-
 
 	private class CacheOperationInvokerAdapter implements CacheOperationInvoker {
 
@@ -182,6 +182,7 @@ public class JCacheAspectSupport extends AbstractCacheInvoker implements Initial
 		public Object invoke() throws ThrowableWrapper {
 			return invokeOperation(this.delegate);
 		}
+
 	}
 
 }

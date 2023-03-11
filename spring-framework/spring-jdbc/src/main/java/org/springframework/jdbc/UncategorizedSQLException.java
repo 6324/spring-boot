@@ -22,8 +22,8 @@ import org.springframework.dao.UncategorizedDataAccessException;
 import org.springframework.lang.Nullable;
 
 /**
- * Exception thrown when we can't classify an SQLException into
- * one of our generic data access exceptions.
+ * Exception thrown when we can't classify an SQLException into one of our generic data
+ * access exceptions.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -35,7 +35,6 @@ public class UncategorizedSQLException extends UncategorizedDataAccessException 
 	@Nullable
 	private final String sql;
 
-
 	/**
 	 * Constructor for UncategorizedSQLException.
 	 * @param task name of current task
@@ -43,12 +42,10 @@ public class UncategorizedSQLException extends UncategorizedDataAccessException 
 	 * @param ex the root cause
 	 */
 	public UncategorizedSQLException(String task, @Nullable String sql, SQLException ex) {
-		super(task + "; uncategorized SQLException" + (sql != null ? " for SQL [" + sql + "]" : "") +
-				"; SQL state [" + ex.getSQLState() + "]; error code [" + ex.getErrorCode() + "]; " +
-				ex.getMessage(), ex);
+		super(task + "; uncategorized SQLException" + (sql != null ? " for SQL [" + sql + "]" : "") + "; SQL state ["
+				+ ex.getSQLState() + "]; error code [" + ex.getErrorCode() + "]; " + ex.getMessage(), ex);
 		this.sql = sql;
 	}
-
 
 	/**
 	 * Return the underlying SQLException.

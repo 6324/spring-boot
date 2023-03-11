@@ -59,7 +59,6 @@ public class SimpleMessageListenerContainerTests {
 
 	private final SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
 
-
 	@Test
 	public void testSettingMessageListenerToANullType() {
 		this.container.setMessageListener(null);
@@ -68,29 +67,29 @@ public class SimpleMessageListenerContainerTests {
 
 	@Test
 	public void testSettingMessageListenerToAnUnsupportedType() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.container.setMessageListener("Bingo"));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.container.setMessageListener("Bingo"));
 	}
 
 	@Test
 	public void testSessionTransactedModeReallyDoesDefaultToFalse() {
-		assertThat(this.container.isPubSubNoLocal()).as("The [pubSubLocal] property of SimpleMessageListenerContainer " +
-				"must default to false. Change this test (and the attendant javadoc) if you have changed the default.").isFalse();
+		assertThat(this.container.isPubSubNoLocal()).as("The [pubSubLocal] property of SimpleMessageListenerContainer "
+				+ "must default to false. Change this test (and the attendant javadoc) if you have changed the default.")
+				.isFalse();
 	}
 
 	@Test
 	public void testSettingConcurrentConsumersToZeroIsNotAllowed() {
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-				this.container.setConcurrentConsumers(0);
-				this.container.afterPropertiesSet();
+			this.container.setConcurrentConsumers(0);
+			this.container.afterPropertiesSet();
 		});
 	}
 
 	@Test
 	public void testSettingConcurrentConsumersToANegativeValueIsNotAllowed() {
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-				this.container.setConcurrentConsumers(-198);
-				this.container.afterPropertiesSet();
+			this.container.setConcurrentConsumers(-198);
+			this.container.afterPropertiesSet();
 		});
 	}
 
@@ -101,7 +100,8 @@ public class SimpleMessageListenerContainerTests {
 		// Queue gets created in order to create MessageConsumer for that Destination...
 		given(session.createQueue(DESTINATION_NAME)).willReturn(QUEUE_DESTINATION);
 		// and then the MessageConsumer gets created...
-		given(session.createConsumer(QUEUE_DESTINATION, null)).willReturn(messageConsumer);  // no MessageSelector...
+		given(session.createConsumer(QUEUE_DESTINATION, null)).willReturn(messageConsumer); // no
+																							// MessageSelector...
 
 		Connection connection = mock(Connection.class);
 		// session gets created in order to register MessageListener...
@@ -132,7 +132,8 @@ public class SimpleMessageListenerContainerTests {
 		// Queue gets created in order to create MessageConsumer for that Destination...
 		given(session.createQueue(DESTINATION_NAME)).willReturn(QUEUE_DESTINATION);
 		// and then the MessageConsumer gets created...
-		given(session.createConsumer(QUEUE_DESTINATION, null)).willReturn(messageConsumer);  // no MessageSelector...
+		given(session.createConsumer(QUEUE_DESTINATION, null)).willReturn(messageConsumer); // no
+																							// MessageSelector...
 
 		Connection connection = mock(Connection.class);
 		// session gets created in order to register MessageListener...
@@ -165,7 +166,8 @@ public class SimpleMessageListenerContainerTests {
 		// Queue gets created in order to create MessageConsumer for that Destination...
 		given(session.createQueue(DESTINATION_NAME)).willReturn(QUEUE_DESTINATION);
 		// and then the MessageConsumer gets created...
-		given(session.createConsumer(QUEUE_DESTINATION, null)).willReturn(messageConsumer);  // no MessageSelector...
+		given(session.createConsumer(QUEUE_DESTINATION, null)).willReturn(messageConsumer); // no
+																							// MessageSelector...
 		// an exception is thrown, so the rollback logic is being applied here...
 		given(session.getTransacted()).willReturn(false);
 		given(session.getAcknowledgeMode()).willReturn(Session.AUTO_ACKNOWLEDGE);
@@ -216,7 +218,8 @@ public class SimpleMessageListenerContainerTests {
 
 		final Session session = mock(Session.class);
 		given(session.createQueue(DESTINATION_NAME)).willReturn(QUEUE_DESTINATION);
-		given(session.createConsumer(QUEUE_DESTINATION, null)).willReturn(messageConsumer);  // no MessageSelector...
+		given(session.createConsumer(QUEUE_DESTINATION, null)).willReturn(messageConsumer); // no
+																							// MessageSelector...
 		given(session.getTransacted()).willReturn(false);
 		given(session.getAcknowledgeMode()).willReturn(Session.AUTO_ACKNOWLEDGE);
 
@@ -262,7 +265,8 @@ public class SimpleMessageListenerContainerTests {
 		// Queue gets created in order to create MessageConsumer for that Destination...
 		given(session.createQueue(DESTINATION_NAME)).willReturn(QUEUE_DESTINATION);
 		// and then the MessageConsumer gets created...
-		given(session.createConsumer(QUEUE_DESTINATION, null)).willReturn(messageConsumer);  // no MessageSelector...
+		given(session.createConsumer(QUEUE_DESTINATION, null)).willReturn(messageConsumer); // no
+																							// MessageSelector...
 		// an exception is thrown, so the rollback logic is being applied here...
 		given(session.getTransacted()).willReturn(false);
 
@@ -298,7 +302,6 @@ public class SimpleMessageListenerContainerTests {
 		// a Throwable from a MessageListener MUST simply be swallowed...
 		messageConsumer.sendMessage(message);
 
-
 		verify(connection).setExceptionListener(this.container);
 		verify(connection).start();
 		verify(exceptionListener).onException(theException);
@@ -313,7 +316,8 @@ public class SimpleMessageListenerContainerTests {
 		// Queue gets created in order to create MessageConsumer for that Destination...
 		given(session.createQueue(DESTINATION_NAME)).willReturn(QUEUE_DESTINATION);
 		// and then the MessageConsumer gets created...
-		given(session.createConsumer(QUEUE_DESTINATION, null)).willReturn(messageConsumer);  // no MessageSelector...
+		given(session.createConsumer(QUEUE_DESTINATION, null)).willReturn(messageConsumer); // no
+																							// MessageSelector...
 		// an exception is thrown, so the rollback logic is being applied here...
 		given(session.getTransacted()).willReturn(false);
 
@@ -360,7 +364,8 @@ public class SimpleMessageListenerContainerTests {
 		// Queue gets created in order to create MessageConsumer for that Destination...
 		given(session.createQueue(DESTINATION_NAME)).willReturn(QUEUE_DESTINATION);
 		// and then the MessageConsumer gets created...
-		given(session.createConsumer(QUEUE_DESTINATION, null)).willReturn(messageConsumer);  // no MessageSelector...
+		given(session.createConsumer(QUEUE_DESTINATION, null)).willReturn(messageConsumer); // no
+																							// MessageSelector...
 		// an exception is thrown, so the rollback logic is being applied here...
 		given(session.getTransacted()).willReturn(false);
 
@@ -404,7 +409,8 @@ public class SimpleMessageListenerContainerTests {
 		// Queue gets created in order to create MessageConsumer for that Destination...
 		given(session.createQueue(DESTINATION_NAME)).willReturn(QUEUE_DESTINATION);
 		// and then the MessageConsumer gets created...
-		given(session.createConsumer(QUEUE_DESTINATION, null)).willReturn(messageConsumer);  // no MessageSelector...
+		given(session.createConsumer(QUEUE_DESTINATION, null)).willReturn(messageConsumer); // no
+																							// MessageSelector...
 		// an exception is thrown, so the rollback logic is being applied here...
 		given(session.getTransacted()).willReturn(true);
 
@@ -447,7 +453,8 @@ public class SimpleMessageListenerContainerTests {
 		// Queue gets created in order to create MessageConsumer for that Destination...
 		given(session.createQueue(DESTINATION_NAME)).willReturn(QUEUE_DESTINATION);
 		// and then the MessageConsumer gets created...
-		given(session.createConsumer(QUEUE_DESTINATION, null)).willReturn(messageConsumer);  // no MessageSelector...
+		given(session.createConsumer(QUEUE_DESTINATION, null)).willReturn(messageConsumer); // no
+																							// MessageSelector...
 
 		Connection connection = mock(Connection.class);
 		// session gets created in order to register MessageListener...
@@ -473,7 +480,6 @@ public class SimpleMessageListenerContainerTests {
 		verify(connection).close();
 	}
 
-
 	private static class TestMessageListener implements MessageListener {
 
 		public boolean executorInvoked = false;
@@ -484,8 +490,8 @@ public class SimpleMessageListenerContainerTests {
 		public void onMessage(Message message) {
 			this.listenerInvoked = true;
 		}
-	}
 
+	}
 
 	private static class SimpleMessageConsumer implements MessageConsumer {
 
@@ -529,6 +535,7 @@ public class SimpleMessageListenerContainerTests {
 		public void close() {
 			throw new UnsupportedOperationException();
 		}
+
 	}
 
 }

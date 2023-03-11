@@ -37,9 +37,10 @@ public class AopNamespaceHandlerThrowingTests {
 
 	@Test
 	public void testParseThrowingOnOtherAdviceType() {
-		assertThatExceptionOfType(BeanDefinitionStoreException.class).isThrownBy(() ->
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-error.xml", getClass()))
-			.matches(ex -> ex.contains(SAXParseException.class));
+		assertThatExceptionOfType(BeanDefinitionStoreException.class)
+				.isThrownBy(
+						() -> new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-error.xml", getClass()))
+				.matches(ex -> ex.contains(SAXParseException.class));
 	}
 
 }

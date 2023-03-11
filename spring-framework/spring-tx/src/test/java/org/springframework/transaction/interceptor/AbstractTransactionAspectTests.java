@@ -45,12 +45,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 /**
- * Mock object based tests for transaction aspects. A true unit test in that it
- * tests how the transaction aspect uses the PlatformTransactionManager helper,
- * rather than indirectly testing the helper implementation.
+ * Mock object based tests for transaction aspects. A true unit test in that it tests how
+ * the transaction aspect uses the PlatformTransactionManager helper, rather than
+ * indirectly testing the helper implementation.
  *
- * <p>This is a superclass to allow testing both the AOP Alliance MethodInterceptor
- * and the AspectJ aspect.
+ * <p>
+ * This is a superclass to allow testing both the AOP Alliance MethodInterceptor and the
+ * AspectJ aspect.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -64,14 +65,12 @@ public abstract class AbstractTransactionAspectTests {
 
 	protected Method exceptionalMethod;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		getNameMethod = ITestBean.class.getMethod("getName");
 		setNameMethod = ITestBean.class.getMethod("setName", String.class);
 		exceptionalMethod = ITestBean.class.getMethod("exceptional", Throwable.class);
 	}
-
 
 	@Test
 	public void noTransaction() throws Exception {
@@ -81,7 +80,8 @@ public abstract class AbstractTransactionAspectTests {
 		TransactionAttributeSource tas = new MapTransactionAttributeSource();
 
 		// All the methods in this class use the advised() template method
-		// to obtain a transaction object, configured with the given PlatformTransactionManager
+		// to obtain a transaction object, configured with the given
+		// PlatformTransactionManager
 		// and transaction attribute source
 		ITestBean itb = (ITestBean) advised(tb, ptm, tas);
 
@@ -155,8 +155,8 @@ public abstract class AbstractTransactionAspectTests {
 		ITestBean itb = (ITestBean) advised(tb, ptm, tas);
 
 		checkTransactionStatus(false);
-		assertThatExceptionOfType(OptimisticLockingFailureException.class).isThrownBy(() ->
-				itb.exceptional(new OptimisticLockingFailureException("")));
+		assertThatExceptionOfType(OptimisticLockingFailureException.class)
+				.isThrownBy(() -> itb.exceptional(new OptimisticLockingFailureException("")));
 		checkTransactionStatus(false);
 
 		assertThat(ptm.getDefinition()).isSameAs(txatt);
@@ -181,7 +181,7 @@ public abstract class AbstractTransactionAspectTests {
 		given(ptm.getTransaction(txatt)).willReturn(status);
 
 		TestBean tb = new TestBean();
-		ITestBean itb = (ITestBean) advised(tb, ptm, new TransactionAttributeSource[] {tas1, tas2});
+		ITestBean itb = (ITestBean) advised(tb, ptm, new TransactionAttributeSource[] { tas1, tas2 });
 
 		checkTransactionStatus(false);
 		itb.getName();
@@ -267,7 +267,8 @@ public abstract class AbstractTransactionAspectTests {
 	@Test
 	public void enclosingTransactionWithNestedTransactionOnAdvisedInside() throws Throwable {
 		final TransactionAttribute outerTxatt = new DefaultTransactionAttribute();
-		final TransactionAttribute innerTxatt = new DefaultTransactionAttribute(TransactionDefinition.PROPAGATION_NESTED);
+		final TransactionAttribute innerTxatt = new DefaultTransactionAttribute(
+				TransactionDefinition.PROPAGATION_NESTED);
 
 		Method outerMethod = exceptionalMethod;
 		Method innerMethod = getNameMethod;
@@ -362,14 +363,14 @@ public abstract class AbstractTransactionAspectTests {
 	}
 
 	/**
-	 * Check that the given exception thrown by the target can produce the
-	 * desired behavior with the appropriate transaction attribute.
+	 * Check that the given exception thrown by the target can produce the desired
+	 * behavior with the appropriate transaction attribute.
 	 * @param ex exception to be thrown by the target
 	 * @param shouldRollback whether this should cause a transaction rollback
 	 */
 	@SuppressWarnings("serial")
-	protected void doTestRollbackOnException(
-			final Exception ex, final boolean shouldRollback, boolean rollbackException) throws Exception {
+	protected void doTestRollbackOnException(final Exception ex, final boolean shouldRollback,
+			boolean rollbackException) throws Exception {
 
 		TransactionAttribute txatt = new DefaultTransactionAttribute() {
 			@Override
@@ -460,8 +461,7 @@ public abstract class AbstractTransactionAspectTests {
 	}
 
 	/**
-	 * Simulate a transaction infrastructure failure.
-	 * Shouldn't invoke target method.
+	 * Simulate a transaction infrastructure failure. Shouldn't invoke target method.
 	 */
 	@Test
 	public void cannotCreateTransaction() throws Exception {
@@ -495,9 +495,9 @@ public abstract class AbstractTransactionAspectTests {
 	}
 
 	/**
-	 * Simulate failure of the underlying transaction infrastructure to commit.
-	 * Check that the target method was invoked, but that the transaction
-	 * infrastructure exception was thrown to the client
+	 * Simulate failure of the underlying transaction infrastructure to commit. Check that
+	 * the target method was invoked, but that the transaction infrastructure exception
+	 * was thrown to the client
 	 */
 	@Test
 	public void cannotCommitTransaction() throws Exception {
@@ -546,24 +546,23 @@ public abstract class AbstractTransactionAspectTests {
 		}
 	}
 
-
-	protected Object advised(
-			Object target, PlatformTransactionManager ptm, TransactionAttributeSource[] tas) throws Exception {
+	protected Object advised(Object target, PlatformTransactionManager ptm, TransactionAttributeSource[] tas)
+			throws Exception {
 
 		return advised(target, ptm, new CompositeTransactionAttributeSource(tas));
 	}
 
 	/**
-	 * Subclasses must implement this to create an advised object based on the
-	 * given target. In the case of AspectJ, the  advised object will already
-	 * have been created, as there's no distinction between target and proxy.
-	 * In the case of Spring's own AOP framework, a proxy must be created
-	 * using a suitably configured transaction interceptor
-	 * @param target the target if there's a distinct target. If not (AspectJ),
-	 * return target.
+	 * Subclasses must implement this to create an advised object based on the given
+	 * target. In the case of AspectJ, the advised object will already have been created,
+	 * as there's no distinction between target and proxy. In the case of Spring's own AOP
+	 * framework, a proxy must be created using a suitably configured transaction
+	 * interceptor
+	 * @param target the target if there's a distinct target. If not (AspectJ), return
+	 * target.
 	 * @return transactional advised object
 	 */
-	protected abstract Object advised(
-			Object target, PlatformTransactionManager ptm, TransactionAttributeSource tas) throws Exception;
+	protected abstract Object advised(Object target, PlatformTransactionManager ptm, TransactionAttributeSource tas)
+			throws Exception;
 
 }

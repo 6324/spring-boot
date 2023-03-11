@@ -38,7 +38,6 @@ public final class ConversionServiceFactory {
 	private ConversionServiceFactory() {
 	}
 
-
 	/**
 	 * Register the given Converter objects with the given target ConverterRegistry.
 	 * @param converters the converter objects: implementing {@link Converter},
@@ -58,8 +57,8 @@ public final class ConversionServiceFactory {
 					registry.addConverterFactory((ConverterFactory<?, ?>) converter);
 				}
 				else {
-					throw new IllegalArgumentException("Each converter object must implement one of the " +
-							"Converter, ConverterFactory, or GenericConverter interfaces");
+					throw new IllegalArgumentException("Each converter object must implement one of the "
+							+ "Converter, ConverterFactory, or GenericConverter interfaces");
 				}
 			}
 		}

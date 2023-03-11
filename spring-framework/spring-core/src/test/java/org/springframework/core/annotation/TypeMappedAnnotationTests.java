@@ -29,8 +29,8 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Tests for {@link TypeMappedAnnotation}. See also
- * {@link MergedAnnotationsTests} for a much more extensive collection of tests.
+ * Tests for {@link TypeMappedAnnotation}. See also {@link MergedAnnotationsTests} for a
+ * much more extensive collection of tests.
  *
  * @author Phillip Webb
  */
@@ -43,28 +43,23 @@ class TypeMappedAnnotationTests {
 	}
 
 	private void testExplicitMirror(Class<?> annotatedClass) {
-		TypeMappedAnnotation<ExplicitMirror> annotation = getTypeMappedAnnotation(
-				annotatedClass, ExplicitMirror.class);
+		TypeMappedAnnotation<ExplicitMirror> annotation = getTypeMappedAnnotation(annotatedClass, ExplicitMirror.class);
 		assertThat(annotation.getString("a")).isEqualTo("test");
 		assertThat(annotation.getString("b")).isEqualTo("test");
 	}
 
 	@Test
 	void mappingExplicitAliasToMetaAnnotationReturnsMappedValues() {
-		TypeMappedAnnotation<?> annotation = getTypeMappedAnnotation(
-				WithExplicitAliasToMetaAnnotation.class,
-				ExplicitAliasToMetaAnnotation.class,
-				ExplicitAliasMetaAnnotationTarget.class);
+		TypeMappedAnnotation<?> annotation = getTypeMappedAnnotation(WithExplicitAliasToMetaAnnotation.class,
+				ExplicitAliasToMetaAnnotation.class, ExplicitAliasMetaAnnotationTarget.class);
 		assertThat(annotation.getString("aliased")).isEqualTo("aliased");
 		assertThat(annotation.getString("nonAliased")).isEqualTo("nonAliased");
 	}
 
 	@Test
 	void mappingConventionAliasToMetaAnnotationReturnsMappedValues() {
-		TypeMappedAnnotation<?> annotation = getTypeMappedAnnotation(
-				WithConventionAliasToMetaAnnotation.class,
-				ConventionAliasToMetaAnnotation.class,
-				ConventionAliasMetaAnnotationTarget.class);
+		TypeMappedAnnotation<?> annotation = getTypeMappedAnnotation(WithConventionAliasToMetaAnnotation.class,
+				ConventionAliasToMetaAnnotation.class, ConventionAliasMetaAnnotationTarget.class);
 		assertThat(annotation.getString("value")).isEqualTo("");
 		assertThat(annotation.getString("convention")).isEqualTo("convention");
 	}
@@ -76,8 +71,7 @@ class TypeMappedAnnotationTests {
 		for (int i = 0; i < methods.size(); i++) {
 			attributes.put(methods.get(i).getName(), new Object[] {});
 		}
-		MergedAnnotation<ArrayTypes> annotation = TypeMappedAnnotation.of(null, null,
-				ArrayTypes.class, attributes);
+		MergedAnnotation<ArrayTypes> annotation = TypeMappedAnnotation.of(null, null, ArrayTypes.class, attributes);
 		assertThat(annotation.getValue("stringValue")).contains(new String[] {});
 		assertThat(annotation.getValue("byteValue")).contains(new byte[] {});
 		assertThat(annotation.getValue("shortValue")).contains(new short[] {});
@@ -95,15 +89,14 @@ class TypeMappedAnnotationTests {
 	@Test
 	void adaptFromNestedMergedAnnotation() {
 		MergedAnnotation<Nested> nested = MergedAnnotation.of(Nested.class);
-		MergedAnnotation<?> annotation = TypeMappedAnnotation.of(null, null,
-				NestedContainer.class, Collections.singletonMap("value", nested));
+		MergedAnnotation<?> annotation = TypeMappedAnnotation.of(null, null, NestedContainer.class,
+				Collections.singletonMap("value", nested));
 		assertThat(annotation.getAnnotation("value", Nested.class)).isSameAs(nested);
 	}
 
 	@Test
 	void adaptFromStringToClass() {
-		MergedAnnotation<?> annotation = TypeMappedAnnotation.of(null, null,
-				ClassAttributes.class,
+		MergedAnnotation<?> annotation = TypeMappedAnnotation.of(null, null, ClassAttributes.class,
 				Collections.singletonMap("classValue", InputStream.class.getName()));
 		assertThat(annotation.getString("classValue")).isEqualTo(InputStream.class.getName());
 		assertThat(annotation.getClass("classValue")).isEqualTo(InputStream.class);
@@ -117,31 +110,28 @@ class TypeMappedAnnotationTests {
 		assertThat(annotation.getClassArray("classArrayValue")).containsExactly(InputStream.class);
 	}
 
-	private <A extends Annotation> TypeMappedAnnotation<A> getTypeMappedAnnotation(
-			Class<?> source, Class<A> annotationType) {
+	private <A extends Annotation> TypeMappedAnnotation<A> getTypeMappedAnnotation(Class<?> source,
+			Class<A> annotationType) {
 		return getTypeMappedAnnotation(source, annotationType, annotationType);
 	}
 
-	private <A extends Annotation> TypeMappedAnnotation<A> getTypeMappedAnnotation(
-			Class<?> source, Class<? extends Annotation> rootAnnotationType,
-			Class<A> annotationType) {
+	private <A extends Annotation> TypeMappedAnnotation<A> getTypeMappedAnnotation(Class<?> source,
+			Class<? extends Annotation> rootAnnotationType, Class<A> annotationType) {
 		Annotation rootAnnotation = source.getAnnotation(rootAnnotationType);
 		AnnotationTypeMapping mapping = getMapping(rootAnnotation, annotationType);
-		return TypeMappedAnnotation.createIfPossible(mapping, source, rootAnnotation, 0, IntrospectionFailureLogger.INFO);
+		return TypeMappedAnnotation.createIfPossible(mapping, source, rootAnnotation, 0,
+				IntrospectionFailureLogger.INFO);
 	}
 
-	private AnnotationTypeMapping getMapping(Annotation annotation,
-			Class<? extends Annotation> mappedAnnotationType) {
-		AnnotationTypeMappings mappings = AnnotationTypeMappings.forAnnotationType(
-				annotation.annotationType());
+	private AnnotationTypeMapping getMapping(Annotation annotation, Class<? extends Annotation> mappedAnnotationType) {
+		AnnotationTypeMappings mappings = AnnotationTypeMappings.forAnnotationType(annotation.annotationType());
 		for (int i = 0; i < mappings.size(); i++) {
 			AnnotationTypeMapping candidate = mappings.get(i);
 			if (candidate.getAnnotationType().equals(mappedAnnotationType)) {
 				return candidate;
 			}
 		}
-		throw new IllegalStateException(
-				"No mapping from " + annotation + " to " + mappedAnnotationType);
+		throw new IllegalStateException("No mapping from " + annotation + " to " + mappedAnnotationType);
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
@@ -241,7 +231,11 @@ class TypeMappedAnnotationTests {
 
 	}
 
-	enum ExampleEnum {ONE,TWO,THREE}
+	enum ExampleEnum {
+
+		ONE, TWO, THREE
+
+	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	static @interface NestedContainer {

@@ -41,8 +41,8 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.socket.server.HandshakeFailureException;
 
 /**
- * A WebSocket {@code RequestUpgradeStrategy} for Oracle's WebLogic.
- * Supports 12.1.3 as well as 12.2.1, as of Spring Framework 4.2.3.
+ * A WebSocket {@code RequestUpgradeStrategy} for Oracle's WebLogic. Supports 12.1.3 as
+ * well as 12.2.1, as of Spring Framework 4.2.3.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -54,12 +54,12 @@ public class WebLogicRequestUpgradeStrategy extends AbstractTyrusRequestUpgradeS
 
 	private static final WebLogicServletWriterHelper servletWriterHelper = new WebLogicServletWriterHelper();
 
-	private static final Connection.CloseListener noOpCloseListener = (reason -> {});
-
+	private static final Connection.CloseListener noOpCloseListener = (reason -> {
+	});
 
 	@Override
-	protected void handleSuccess(HttpServletRequest request, HttpServletResponse response,
-			UpgradeInfo upgradeInfo, TyrusUpgradeResponse upgradeResponse) throws IOException, ServletException {
+	protected void handleSuccess(HttpServletRequest request, HttpServletResponse response, UpgradeInfo upgradeInfo,
+			TyrusUpgradeResponse upgradeResponse) throws IOException, ServletException {
 
 		response.setStatus(upgradeResponse.getStatus());
 		upgradeResponse.getHeaders().forEach((key, value) -> response.addHeader(key, Utils.getHeaderFromList(value)));
@@ -83,7 +83,6 @@ public class WebLogicRequestUpgradeStrategy extends AbstractTyrusRequestUpgradeS
 		webSocketHelper.registerForReadEvent(webSocket);
 	}
 
-
 	private static Class<?> type(String className) throws ClassNotFoundException {
 		return WebLogicRequestUpgradeStrategy.class.getClassLoader().loadClass(className);
 	}
@@ -100,7 +99,6 @@ public class WebLogicRequestUpgradeStrategy extends AbstractTyrusRequestUpgradeS
 		}
 		return request;
 	}
-
 
 	/**
 	 * Helps to create and invoke {@code weblogic.servlet.internal.MuxableSocketHTTP}.
@@ -121,8 +119,7 @@ public class WebLogicRequestUpgradeStrategy extends AbstractTyrusRequestUpgradeS
 			try {
 				type = type("weblogic.websocket.tyrus.TyrusMuxableWebSocket");
 
-				constructor = type.getDeclaredConstructor(
-						type("weblogic.servlet.internal.MuxableSocketHTTP"),
+				constructor = type.getDeclaredConstructor(type("weblogic.servlet.internal.MuxableSocketHTTP"),
 						type("weblogic.websocket.tyrus.CoherenceServletFilterService"),
 						type("weblogic.servlet.spi.SubjectHandle"));
 				subjectHelper = new SubjectHelper();
@@ -137,7 +134,7 @@ public class WebLogicRequestUpgradeStrategy extends AbstractTyrusRequestUpgradeS
 
 		private Object newInstance(HttpServletRequest request, @Nullable Object httpSocket) {
 			try {
-				Object[] args = new Object[] {httpSocket, null, subjectHelper.getSubject(request)};
+				Object[] args = new Object[] { httpSocket, null, subjectHelper.getSubject(request) };
 				return constructor.newInstance(args);
 			}
 			catch (Exception ex) {
@@ -162,8 +159,8 @@ public class WebLogicRequestUpgradeStrategy extends AbstractTyrusRequestUpgradeS
 				throw new HandshakeFailureException("Failed to register WebSocket for read event", ex);
 			}
 		}
-	}
 
+	}
 
 	private static class SubjectHelper {
 
@@ -182,12 +179,12 @@ public class WebLogicRequestUpgradeStrategy extends AbstractTyrusRequestUpgradeS
 
 				className = "weblogic.servlet.security.internal.SecurityModule";
 				this.currentUserMethod = method(className, "getCurrentUser",
-						type("weblogic.servlet.security.internal.ServletSecurityContext"),
-						HttpServletRequest.class);
+						type("weblogic.servlet.security.internal.ServletSecurityContext"), HttpServletRequest.class);
 
 				className = "weblogic.servlet.security.internal.WebAppSecurity";
 				this.providerMethod = method(className, "getProvider");
-				this.anonymousSubjectMethod = this.providerMethod.getReturnType().getDeclaredMethod("getAnonymousSubject");
+				this.anonymousSubjectMethod = this.providerMethod.getReturnType()
+						.getDeclaredMethod("getAnonymousSubject");
 			}
 			catch (Exception ex) {
 				throw new IllegalStateException("No compatible WebSocket version found", ex);
@@ -209,8 +206,8 @@ public class WebLogicRequestUpgradeStrategy extends AbstractTyrusRequestUpgradeS
 				throw new HandshakeFailureException("Failed to obtain SubjectHandle", ex);
 			}
 		}
-	}
 
+	}
 
 	/**
 	 * Helps to create and invoke {@code weblogic.websocket.tyrus.TyrusServletWriter}.
@@ -240,6 +237,7 @@ public class WebLogicRequestUpgradeStrategy extends AbstractTyrusRequestUpgradeS
 				throw new HandshakeFailureException("Failed to create TyrusServletWriter", ex);
 			}
 		}
+
 	}
 
 }

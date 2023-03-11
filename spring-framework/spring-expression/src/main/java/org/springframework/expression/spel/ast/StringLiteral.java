@@ -32,7 +32,6 @@ public class StringLiteral extends Literal {
 
 	private final TypedValue value;
 
-
 	public StringLiteral(String payload, int startPos, int endPos, String value) {
 		super(payload, startPos, endPos);
 
@@ -43,7 +42,6 @@ public class StringLiteral extends Literal {
 		this.value = new TypedValue(valueWithinQuotes);
 		this.exitTypeDescriptor = "Ljava/lang/String";
 	}
-
 
 	@Override
 	public TypedValue getLiteralValue() {

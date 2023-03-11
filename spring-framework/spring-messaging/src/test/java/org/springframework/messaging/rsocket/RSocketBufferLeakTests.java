@@ -74,24 +74,20 @@ class RSocketBufferLeakTests {
 
 	private RSocketRequester requester;
 
-
 	@BeforeAll
 	void setupOnce() {
 		context = new AnnotationConfigApplicationContext(ServerConfig.class);
 		RSocketMessageHandler messageHandler = context.getBean(RSocketMessageHandler.class);
 		SocketAcceptor responder = messageHandler.responder();
 
-		server = RSocketServer.create(responder)
-				.payloadDecoder(PayloadDecoder.ZERO_COPY)
-				.interceptors(registry -> registry.forResponder(payloadInterceptor)) // intercept responding
-				.bind(TcpServerTransport.create("localhost", 7000))
-				.block();
+		server = RSocketServer.create(responder).payloadDecoder(PayloadDecoder.ZERO_COPY)
+				.interceptors(registry -> registry.forResponder(payloadInterceptor)) // intercept
+																						// responding
+				.bind(TcpServerTransport.create("localhost", 7000)).block();
 
 		requester = RSocketRequester.builder()
 				.rsocketConnector(conn -> conn.interceptors(registry -> registry.forRequester(payloadInterceptor)))
-				.rsocketStrategies(context.getBean(RSocketStrategies.class))
-				.connectTcp("localhost", 7000)
-				.block();
+				.rsocketStrategies(context.getBean(RSocketStrategies.class)).connectTcp("localhost", 7000).block();
 	}
 
 	@AfterAll
@@ -100,7 +96,6 @@ class RSocketBufferLeakTests {
 		server.dispose();
 		context.close();
 	}
-
 
 	@BeforeEach
 	void setUp() {
@@ -117,7 +112,6 @@ class RSocketBufferLeakTests {
 	private LeakAwareNettyDataBufferFactory getLeakAwareNettyDataBufferFactory() {
 		return (LeakAwareNettyDataBufferFactory) context.getBean(RSocketStrategies.class).dataBufferFactory();
 	}
-
 
 	@Test
 	void assemblyTimeErrorForHandleAndReply() {
@@ -160,15 +154,12 @@ class RSocketBufferLeakTests {
 	@Test
 	public void echoChannel() {
 		Flux<String> result = requester.route("echo-channel")
-				.data(Flux.range(1, 10).map(i -> "Hello " + i), String.class)
-				.retrieveFlux(String.class);
+				.data(Flux.range(1, 10).map(i -> "Hello " + i), String.class).retrieveFlux(String.class);
 
-		StepVerifier.create(result)
-				.expectNext("Hello 1 async").expectNextCount(8).expectNext("Hello 10 async")
-				.thenCancel()  // https://github.com/rsocket/rsocket-java/issues/613
+		StepVerifier.create(result).expectNext("Hello 1 async").expectNextCount(8).expectNext("Hello 10 async")
+				.thenCancel() // https://github.com/rsocket/rsocket-java/issues/613
 				.verify(Duration.ofSeconds(5));
 	}
-
 
 	@Controller
 	static class ServerController {
@@ -190,8 +181,7 @@ class RSocketBufferLeakTests {
 
 		@MessageMapping("error-signal")
 		Flux<String> errorSignal(String payload) {
-			return Flux.error(new IllegalArgumentException("bad input"))
-					.delayElements(Duration.ofMillis(10))
+			return Flux.error(new IllegalArgumentException("bad input")).delayElements(Duration.ofMillis(10))
 					.cast(String.class);
 		}
 
@@ -209,8 +199,8 @@ class RSocketBufferLeakTests {
 		Flux<String> echoChannel(Flux<String> payloads) {
 			return payloads.delayElements(Duration.ofMillis(10)).map(payload -> payload + " async");
 		}
-	}
 
+	}
 
 	@Configuration
 	static class ServerConfig {
@@ -230,11 +220,10 @@ class RSocketBufferLeakTests {
 		@Bean
 		RSocketStrategies rsocketStrategies() {
 			return RSocketStrategies.builder()
-					.dataBufferFactory(new LeakAwareNettyDataBufferFactory(PooledByteBufAllocator.DEFAULT))
-					.build();
+					.dataBufferFactory(new LeakAwareNettyDataBufferFactory(PooledByteBufAllocator.DEFAULT)).build();
 		}
-	}
 
+	}
 
 	/**
 	 * Store all intercepted incoming and outgoing payloads and then use
@@ -245,13 +234,10 @@ class RSocketBufferLeakTests {
 		private final List<PayloadSavingDecorator> rsockets = new CopyOnWriteArrayList<>();
 
 		void checkForLeaks() {
-			this.rsockets.stream().map(PayloadSavingDecorator::getPayloads)
-					.forEach(payloadInfoProcessor -> {
-						payloadInfoProcessor.onComplete();
-						payloadInfoProcessor
-								.doOnNext(this::checkForLeak)
-								.blockLast();
-					});
+			this.rsockets.stream().map(PayloadSavingDecorator::getPayloads).forEach(payloadInfoProcessor -> {
+				payloadInfoProcessor.onComplete();
+				payloadInfoProcessor.doOnNext(this::checkForLeak).blockLast();
+			});
 		}
 
 		private void checkForLeak(PayloadLeakInfo info) {
@@ -286,7 +272,6 @@ class RSocketBufferLeakTests {
 			this.rsockets.add(decorator);
 			return decorator;
 		}
-
 
 		private static class PayloadSavingDecorator extends AbstractRSocket {
 
@@ -323,8 +308,7 @@ class RSocketBufferLeakTests {
 
 			@Override
 			public Flux<io.rsocket.Payload> requestChannel(Publisher<io.rsocket.Payload> payloads) {
-				return this.delegate
-						.requestChannel(Flux.from(payloads).doOnNext(this::addPayload))
+				return this.delegate.requestChannel(Flux.from(payloads).doOnNext(this::addPayload))
 						.doOnNext(this::addPayload);
 			}
 
@@ -337,9 +321,10 @@ class RSocketBufferLeakTests {
 			public Mono<Void> metadataPush(io.rsocket.Payload payload) {
 				return this.delegate.metadataPush(addPayload(payload));
 			}
-		}
-	}
 
+		}
+
+	}
 
 	private static class PayloadLeakInfo {
 
@@ -360,6 +345,7 @@ class RSocketBufferLeakTests {
 		public String toString() {
 			return this.description;
 		}
+
 	}
 
 }

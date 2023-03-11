@@ -135,4 +135,5 @@ class StreamUtilsTests {
 		ordered.verify(source).write(bytes, 1, 2);
 		ordered.verify(source, never()).close();
 	}
+
 }

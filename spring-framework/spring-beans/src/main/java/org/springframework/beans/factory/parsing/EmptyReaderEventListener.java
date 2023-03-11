@@ -17,8 +17,8 @@
 package org.springframework.beans.factory.parsing;
 
 /**
- * Empty implementation of the {@link ReaderEventListener} interface,
- * providing no-op implementations of all callback methods.
+ * Empty implementation of the {@link ReaderEventListener} interface, providing no-op
+ * implementations of all callback methods.
  *
  * @author Juergen Hoeller
  * @since 2.0

@@ -29,7 +29,8 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * {@code HandlerAdapter} implementation that supports {@link HandlerFunction HandlerFunctions}.
+ * {@code HandlerAdapter} implementation that supports {@link HandlerFunction
+ * HandlerFunctions}.
  *
  * @author Arjen Poutsma
  * @since 5.0
@@ -48,7 +49,6 @@ public class HandlerFunctionAdapter implements HandlerAdapter {
 		}
 	}
 
-
 	@Override
 	public boolean supports(Object handler) {
 		return handler instanceof HandlerFunction;
@@ -61,4 +61,5 @@ public class HandlerFunctionAdapter implements HandlerAdapter {
 		return handlerFunction.handle(request)
 				.map(response -> new HandlerResult(handlerFunction, response, HANDLER_FUNCTION_RETURN_TYPE));
 	}
+
 }

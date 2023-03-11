@@ -28,24 +28,15 @@ import org.springframework.messaging.simp.SimpMessageType;
 public enum StompCommand {
 
 	// client
-	STOMP(SimpMessageType.CONNECT),
-	CONNECT(SimpMessageType.CONNECT),
-	DISCONNECT(SimpMessageType.DISCONNECT),
-	SUBSCRIBE(SimpMessageType.SUBSCRIBE, true, true, false),
-	UNSUBSCRIBE(SimpMessageType.UNSUBSCRIBE, false, true, false),
-	SEND(SimpMessageType.MESSAGE, true, false, true),
-	ACK(SimpMessageType.OTHER),
-	NACK(SimpMessageType.OTHER),
-	BEGIN(SimpMessageType.OTHER),
-	COMMIT(SimpMessageType.OTHER),
-	ABORT(SimpMessageType.OTHER),
+	STOMP(SimpMessageType.CONNECT), CONNECT(SimpMessageType.CONNECT), DISCONNECT(SimpMessageType.DISCONNECT), SUBSCRIBE(
+			SimpMessageType.SUBSCRIBE, true, true,
+			false), UNSUBSCRIBE(SimpMessageType.UNSUBSCRIBE, false, true, false), SEND(SimpMessageType.MESSAGE, true,
+					false, true), ACK(SimpMessageType.OTHER), NACK(SimpMessageType.OTHER), BEGIN(
+							SimpMessageType.OTHER), COMMIT(SimpMessageType.OTHER), ABORT(SimpMessageType.OTHER),
 
 	// server
-	CONNECTED(SimpMessageType.OTHER),
-	RECEIPT(SimpMessageType.OTHER),
-	MESSAGE(SimpMessageType.MESSAGE, true, true, true),
-	ERROR(SimpMessageType.OTHER, false, false, true);
-
+	CONNECTED(SimpMessageType.OTHER), RECEIPT(SimpMessageType.OTHER), MESSAGE(SimpMessageType.MESSAGE, true, true,
+			true), ERROR(SimpMessageType.OTHER, false, false, true);
 
 	private final SimpMessageType messageType;
 
@@ -54,7 +45,6 @@ public enum StompCommand {
 	private final boolean subscriptionId;
 
 	private final boolean body;
-
 
 	StompCommand(SimpMessageType messageType) {
 		this(messageType, false, false, false);
@@ -66,7 +56,6 @@ public enum StompCommand {
 		this.subscriptionId = subscriptionId;
 		this.body = body;
 	}
-
 
 	public SimpMessageType getMessageType() {
 		return this.messageType;

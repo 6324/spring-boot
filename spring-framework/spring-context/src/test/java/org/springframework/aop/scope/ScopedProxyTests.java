@@ -42,15 +42,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ScopedProxyTests {
 
 	private static final Class<?> CLASS = ScopedProxyTests.class;
+
 	private static final String CLASSNAME = CLASS.getSimpleName();
 
 	private static final ClassPathResource LIST_CONTEXT = new ClassPathResource(CLASSNAME + "-list.xml", CLASS);
+
 	private static final ClassPathResource MAP_CONTEXT = new ClassPathResource(CLASSNAME + "-map.xml", CLASS);
+
 	private static final ClassPathResource OVERRIDE_CONTEXT = new ClassPathResource(CLASSNAME + "-override.xml", CLASS);
+
 	private static final ClassPathResource TESTBEAN_CONTEXT = new ClassPathResource(CLASSNAME + "-testbean.xml", CLASS);
 
-
-	@Test  // SPR-2108
+	@Test // SPR-2108
 	public void testProxyAssignable() throws Exception {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
 		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(MAP_CONTEXT);

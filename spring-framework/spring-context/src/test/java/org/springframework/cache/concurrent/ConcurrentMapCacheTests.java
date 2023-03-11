@@ -46,7 +46,6 @@ public class ConcurrentMapCacheTests extends AbstractValueAdaptingCacheTests<Con
 
 	protected ConcurrentMapCache cacheNoNull;
 
-
 	@BeforeEach
 	public void setup() {
 		this.nativeCache = new ConcurrentHashMap<>();
@@ -70,7 +69,6 @@ public class ConcurrentMapCacheTests extends AbstractValueAdaptingCacheTests<Con
 	protected ConcurrentMap<Object, Object> getNativeCache() {
 		return this.nativeCache;
 	}
-
 
 	@Test
 	public void testIsStoreByReferenceByDefault() {
@@ -96,10 +94,8 @@ public class ConcurrentMapCacheTests extends AbstractValueAdaptingCacheTests<Con
 	public void testNonSerializableContent() {
 		ConcurrentMapCache serializeCache = createCacheWithStoreByValue();
 
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				serializeCache.put(createRandomKey(), this.cache))
-			.withMessageContaining("Failed to serialize")
-			.withMessageContaining(this.cache.getClass().getName());
+		assertThatIllegalArgumentException().isThrownBy(() -> serializeCache.put(createRandomKey(), this.cache))
+				.withMessageContaining("Failed to serialize").withMessageContaining(this.cache.getClass().getName());
 
 	}
 
@@ -109,12 +105,9 @@ public class ConcurrentMapCacheTests extends AbstractValueAdaptingCacheTests<Con
 
 		String key = createRandomKey();
 		this.nativeCache.put(key, "Some garbage");
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				serializeCache.get(key))
-			.withMessageContaining("Failed to deserialize")
-			.withMessageContaining("Some garbage");
+		assertThatIllegalArgumentException().isThrownBy(() -> serializeCache.get(key))
+				.withMessageContaining("Failed to deserialize").withMessageContaining("Some garbage");
 	}
-
 
 	private ConcurrentMapCache createCacheWithStoreByValue() {
 		return new ConcurrentMapCache(CACHE_NAME, this.nativeCache, true,

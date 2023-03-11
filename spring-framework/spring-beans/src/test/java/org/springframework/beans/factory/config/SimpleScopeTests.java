@@ -41,16 +41,19 @@ public class SimpleScopeTests {
 
 	private DefaultListableBeanFactory beanFactory;
 
-
 	@BeforeEach
 	public void setup() {
 		beanFactory = new DefaultListableBeanFactory();
 		Scope scope = new NoOpScope() {
 			private int index;
-			private List<TestBean> objects = new LinkedList<>(); {
+
+			private List<TestBean> objects = new LinkedList<>();
+
+			{
 				objects.add(new TestBean());
 				objects.add(new TestBean());
 			}
+
 			@Override
 			public Object get(String name, ObjectFactory<?> objectFactory) {
 				if (index >= objects.size()) {
@@ -67,10 +70,9 @@ public class SimpleScopeTests {
 		assertThat(scopeNames[0]).isEqualTo("myScope");
 		assertThat(beanFactory.getRegisteredScope("myScope")).isSameAs(scope);
 
-		new XmlBeanDefinitionReader(beanFactory).loadBeanDefinitions(
-				qualifiedResource(SimpleScopeTests.class, "context.xml"));
+		new XmlBeanDefinitionReader(beanFactory)
+				.loadBeanDefinitions(qualifiedResource(SimpleScopeTests.class, "context.xml"));
 	}
-
 
 	@Test
 	public void testCanGetScopedObject() {

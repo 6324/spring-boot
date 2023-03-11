@@ -25,7 +25,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
 
 /**
- * A Spring {@link FactoryBean} that builds and exposes a preconfigured {@link ForkJoinPool}.
+ * A Spring {@link FactoryBean} that builds and exposes a preconfigured
+ * {@link ForkJoinPool}.
  *
  * @author Juergen Hoeller
  * @since 3.1
@@ -48,17 +49,18 @@ public class ForkJoinPoolFactoryBean implements FactoryBean<ForkJoinPool>, Initi
 	@Nullable
 	private ForkJoinPool forkJoinPool;
 
-
 	/**
 	 * Set whether to expose JDK 8's 'common' {@link ForkJoinPool}.
-	 * <p>Default is "false", creating a local {@link ForkJoinPool} instance based on the
+	 * <p>
+	 * Default is "false", creating a local {@link ForkJoinPool} instance based on the
 	 * {@link #setParallelism "parallelism"}, {@link #setThreadFactory "threadFactory"},
 	 * {@link #setUncaughtExceptionHandler "uncaughtExceptionHandler"} and
 	 * {@link #setAsyncMode "asyncMode"} properties on this FactoryBean.
-	 * <p><b>NOTE:</b> Setting this flag to "true" effectively ignores all other
-	 * properties on this FactoryBean, reusing the shared common JDK {@link ForkJoinPool}
-	 * instead. This is a fine choice on JDK 8 but does remove the application's ability
-	 * to customize ForkJoinPool behavior, in particular the use of custom threads.
+	 * <p>
+	 * <b>NOTE:</b> Setting this flag to "true" effectively ignores all other properties
+	 * on this FactoryBean, reusing the shared common JDK {@link ForkJoinPool} instead.
+	 * This is a fine choice on JDK 8 but does remove the application's ability to
+	 * customize ForkJoinPool behavior, in particular the use of custom threads.
 	 * @since 3.2
 	 * @see java.util.concurrent.ForkJoinPool#commonPool()
 	 */
@@ -74,45 +76,48 @@ public class ForkJoinPoolFactoryBean implements FactoryBean<ForkJoinPool>, Initi
 	}
 
 	/**
-	 * Set the factory for creating new ForkJoinWorkerThreads.
-	 * Default is {@link ForkJoinPool#defaultForkJoinWorkerThreadFactory}.
+	 * Set the factory for creating new ForkJoinWorkerThreads. Default is
+	 * {@link ForkJoinPool#defaultForkJoinWorkerThreadFactory}.
 	 */
 	public void setThreadFactory(ForkJoinPool.ForkJoinWorkerThreadFactory threadFactory) {
 		this.threadFactory = threadFactory;
 	}
 
 	/**
-	 * Set the handler for internal worker threads that terminate due to unrecoverable errors
-	 * encountered while executing tasks. Default is none.
+	 * Set the handler for internal worker threads that terminate due to unrecoverable
+	 * errors encountered while executing tasks. Default is none.
 	 */
 	public void setUncaughtExceptionHandler(Thread.UncaughtExceptionHandler uncaughtExceptionHandler) {
 		this.uncaughtExceptionHandler = uncaughtExceptionHandler;
 	}
 
 	/**
-	 * Specify whether to establish a local first-in-first-out scheduling mode for forked tasks
-	 * that are never joined. This mode (asyncMode = {@code true}) may be more appropriate
-	 * than the default locally stack-based mode in applications in which worker threads only
-	 * process event-style asynchronous tasks. Default is {@code false}.
+	 * Specify whether to establish a local first-in-first-out scheduling mode for forked
+	 * tasks that are never joined. This mode (asyncMode = {@code true}) may be more
+	 * appropriate than the default locally stack-based mode in applications in which
+	 * worker threads only process event-style asynchronous tasks. Default is
+	 * {@code false}.
 	 */
 	public void setAsyncMode(boolean asyncMode) {
 		this.asyncMode = asyncMode;
 	}
 
 	/**
-	 * Set the maximum number of seconds that this ForkJoinPool is supposed to block
-	 * on shutdown in order to wait for remaining tasks to complete their execution
-	 * before the rest of the container continues to shut down. This is particularly
-	 * useful if your remaining tasks are likely to need access to other resources
-	 * that are also managed by the container.
-	 * <p>By default, this ForkJoinPool won't wait for the termination of tasks at all.
-	 * It will continue to fully execute all ongoing tasks as well as all remaining
-	 * tasks in the queue, in parallel to the rest of the container shutting down.
-	 * In contrast, if you specify an await-termination period using this property,
-	 * this executor will wait for the given time (max) for the termination of tasks.
-	 * <p>Note that this feature works for the {@link #setCommonPool "commonPool"}
-	 * mode as well. The underlying ForkJoinPool won't actually terminate in that
-	 * case but will wait for all tasks to terminate.
+	 * Set the maximum number of seconds that this ForkJoinPool is supposed to block on
+	 * shutdown in order to wait for remaining tasks to complete their execution before
+	 * the rest of the container continues to shut down. This is particularly useful if
+	 * your remaining tasks are likely to need access to other resources that are also
+	 * managed by the container.
+	 * <p>
+	 * By default, this ForkJoinPool won't wait for the termination of tasks at all. It
+	 * will continue to fully execute all ongoing tasks as well as all remaining tasks in
+	 * the queue, in parallel to the rest of the container shutting down. In contrast, if
+	 * you specify an await-termination period using this property, this executor will
+	 * wait for the given time (max) for the termination of tasks.
+	 * <p>
+	 * Note that this feature works for the {@link #setCommonPool "commonPool"} mode as
+	 * well. The underlying ForkJoinPool won't actually terminate in that case but will
+	 * wait for all tasks to terminate.
 	 * @see java.util.concurrent.ForkJoinPool#shutdown()
 	 * @see java.util.concurrent.ForkJoinPool#awaitTermination
 	 */
@@ -122,10 +127,9 @@ public class ForkJoinPoolFactoryBean implements FactoryBean<ForkJoinPool>, Initi
 
 	@Override
 	public void afterPropertiesSet() {
-		this.forkJoinPool = (this.commonPool ? ForkJoinPool.commonPool() :
-				new ForkJoinPool(this.parallelism, this.threadFactory, this.uncaughtExceptionHandler, this.asyncMode));
+		this.forkJoinPool = (this.commonPool ? ForkJoinPool.commonPool() : new ForkJoinPool(this.parallelism,
+				this.threadFactory, this.uncaughtExceptionHandler, this.asyncMode));
 	}
-
 
 	@Override
 	@Nullable
@@ -142,7 +146,6 @@ public class ForkJoinPoolFactoryBean implements FactoryBean<ForkJoinPool>, Initi
 	public boolean isSingleton() {
 		return true;
 	}
-
 
 	@Override
 	public void destroy() {

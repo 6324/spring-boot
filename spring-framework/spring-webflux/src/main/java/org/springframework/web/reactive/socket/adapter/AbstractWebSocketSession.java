@@ -35,9 +35,9 @@ import org.springframework.web.reactive.socket.WebSocketMessage;
 import org.springframework.web.reactive.socket.WebSocketSession;
 
 /**
- * Convenient base class for {@link WebSocketSession} implementations that
- * holds common fields and exposes accessors. Also implements the
- * {@code WebSocketMessage} factory methods.
+ * Convenient base class for {@link WebSocketSession} implementations that holds common
+ * fields and exposes accessors. Also implements the {@code WebSocketMessage} factory
+ * methods.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -58,7 +58,6 @@ public abstract class AbstractWebSocketSession<T> implements WebSocketSession {
 	private final Map<String, Object> attributes = new ConcurrentHashMap<>();
 
 	private final String logPrefix;
-
 
 	/**
 	 * Create a new WebSocket session.
@@ -84,7 +83,6 @@ public abstract class AbstractWebSocketSession<T> implements WebSocketSession {
 	private static String initLogPrefix(HandshakeInfo info, String id) {
 		return info.getLogPrefix() != null ? info.getLogPrefix() : "[" + id + "] ";
 	}
-
 
 	protected T getDelegate() {
 		return this.delegate;
@@ -114,13 +112,11 @@ public abstract class AbstractWebSocketSession<T> implements WebSocketSession {
 		return this.logPrefix;
 	}
 
-
 	@Override
 	public abstract Flux<WebSocketMessage> receive();
 
 	@Override
 	public abstract Mono<Void> send(Publisher<WebSocketMessage> messages);
-
 
 	// WebSocketMessage factory methods
 
@@ -148,7 +144,6 @@ public abstract class AbstractWebSocketSession<T> implements WebSocketSession {
 		DataBuffer payload = payloadFactory.apply(bufferFactory());
 		return new WebSocketMessage(WebSocketMessage.Type.PONG, payload);
 	}
-
 
 	@Override
 	public String toString() {

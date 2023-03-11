@@ -34,9 +34,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 /**
- * ASM method visitor which looks for the annotations defined on a method,
- * exposing them through the {@link org.springframework.core.type.MethodMetadata}
- * interface.
+ * ASM method visitor which looks for the annotations defined on a method, exposing them
+ * through the {@link org.springframework.core.type.MethodMetadata} interface.
  *
  * @author Juergen Hoeller
  * @author Mark Pollack
@@ -44,9 +43,9 @@ import org.springframework.util.MultiValueMap;
  * @author Chris Beams
  * @author Phillip Webb
  * @since 3.0
- * @deprecated As of Spring Framework 5.2, this class and related classes in this
- * package have been replaced by {@link SimpleAnnotationMetadataReadingVisitor}
- * and related classes for internal use within the framework.
+ * @deprecated As of Spring Framework 5.2, this class and related classes in this package
+ * have been replaced by {@link SimpleAnnotationMetadataReadingVisitor} and related
+ * classes for internal use within the framework.
  */
 @Deprecated
 public class MethodMetadataReadingVisitor extends MethodVisitor implements MethodMetadata {
@@ -68,9 +67,8 @@ public class MethodMetadataReadingVisitor extends MethodVisitor implements Metho
 
 	protected final LinkedMultiValueMap<String, AnnotationAttributes> attributesMap = new LinkedMultiValueMap<>(4);
 
-
-	public MethodMetadataReadingVisitor(String methodName, int access, String declaringClassName,
-			String returnTypeName, @Nullable ClassLoader classLoader, Set<MethodMetadata> methodMetadataSet) {
+	public MethodMetadataReadingVisitor(String methodName, int access, String declaringClassName, String returnTypeName,
+			@Nullable ClassLoader classLoader, Set<MethodMetadata> methodMetadataSet) {
 
 		super(SpringAsmInfo.ASM_VERSION);
 		this.methodName = methodName;
@@ -80,7 +78,6 @@ public class MethodMetadataReadingVisitor extends MethodVisitor implements Metho
 		this.classLoader = classLoader;
 		this.methodMetadataSet = methodMetadataSet;
 	}
-
 
 	@Override
 	public MergedAnnotations getAnnotations() {
@@ -95,10 +92,9 @@ public class MethodMetadataReadingVisitor extends MethodVisitor implements Metho
 		}
 		this.methodMetadataSet.add(this);
 		String className = Type.getType(desc).getClassName();
-		return new AnnotationAttributesReadingVisitor(
-				className, this.attributesMap, this.metaAnnotationMap, this.classLoader);
+		return new AnnotationAttributesReadingVisitor(className, this.attributesMap, this.metaAnnotationMap,
+				this.classLoader);
 	}
-
 
 	@Override
 	public String getMethodName() {
@@ -133,18 +129,19 @@ public class MethodMetadataReadingVisitor extends MethodVisitor implements Metho
 	@Override
 	@Nullable
 	public AnnotationAttributes getAnnotationAttributes(String annotationName, boolean classValuesAsString) {
-		AnnotationAttributes raw = AnnotationReadingVisitorUtils.getMergedAnnotationAttributes(
-				this.attributesMap, this.metaAnnotationMap, annotationName);
+		AnnotationAttributes raw = AnnotationReadingVisitorUtils.getMergedAnnotationAttributes(this.attributesMap,
+				this.metaAnnotationMap, annotationName);
 		if (raw == null) {
 			return null;
 		}
-		return AnnotationReadingVisitorUtils.convertClassValues(
-				"method '" + getMethodName() + "'", this.classLoader, raw, classValuesAsString);
+		return AnnotationReadingVisitorUtils.convertClassValues("method '" + getMethodName() + "'", this.classLoader,
+				raw, classValuesAsString);
 	}
 
 	@Override
 	@Nullable
-	public MultiValueMap<String, Object> getAllAnnotationAttributes(String annotationName, boolean classValuesAsString) {
+	public MultiValueMap<String, Object> getAllAnnotationAttributes(String annotationName,
+			boolean classValuesAsString) {
 		if (!this.attributesMap.containsKey(annotationName)) {
 			return null;
 		}

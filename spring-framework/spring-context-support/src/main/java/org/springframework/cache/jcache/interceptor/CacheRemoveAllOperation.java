@@ -33,13 +33,11 @@ class CacheRemoveAllOperation extends AbstractJCacheOperation<CacheRemoveAll> {
 
 	private final ExceptionTypeFilter exceptionTypeFilter;
 
-
 	public CacheRemoveAllOperation(CacheMethodDetails<CacheRemoveAll> methodDetails, CacheResolver cacheResolver) {
 		super(methodDetails, cacheResolver);
 		CacheRemoveAll ann = methodDetails.getCacheAnnotation();
 		this.exceptionTypeFilter = createExceptionTypeFilter(ann.evictFor(), ann.noEvictFor());
 	}
-
 
 	@Override
 	public ExceptionTypeFilter getExceptionTypeFilter() {

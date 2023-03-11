@@ -69,19 +69,15 @@ public enum TypeCode {
 	 */
 	SHORT(Short.TYPE);
 
-
 	private Class<?> type;
-
 
 	TypeCode(Class<?> type) {
 		this.type = type;
 	}
 
-
 	public Class<?> getType() {
 		return this.type;
 	}
-
 
 	public static TypeCode forName(String name) {
 		TypeCode[] tcs = values();

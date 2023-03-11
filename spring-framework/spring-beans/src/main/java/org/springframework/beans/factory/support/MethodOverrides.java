@@ -23,11 +23,12 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import org.springframework.lang.Nullable;
 
 /**
- * Set of method overrides, determining which, if any, methods on a
- * managed object the Spring IoC container will override at runtime.
+ * Set of method overrides, determining which, if any, methods on a managed object the
+ * Spring IoC container will override at runtime.
  *
- * <p>The currently supported {@link MethodOverride} variants are
- * {@link LookupOverride} and {@link ReplaceOverride}.
+ * <p>
+ * The currently supported {@link MethodOverride} variants are {@link LookupOverride} and
+ * {@link ReplaceOverride}.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -37,7 +38,6 @@ import org.springframework.lang.Nullable;
 public class MethodOverrides {
 
 	private final Set<MethodOverride> overrides = new CopyOnWriteArraySet<>();
-
 
 	/**
 	 * Create new MethodOverrides.
@@ -51,7 +51,6 @@ public class MethodOverrides {
 	public MethodOverrides(MethodOverrides other) {
 		addOverrides(other);
 	}
-
 
 	/**
 	 * Copy all given method overrides into this object.
@@ -100,7 +99,6 @@ public class MethodOverrides {
 		}
 		return match;
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {

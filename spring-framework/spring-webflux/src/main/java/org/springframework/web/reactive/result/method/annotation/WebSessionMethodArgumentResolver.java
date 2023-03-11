@@ -38,11 +38,9 @@ public class WebSessionMethodArgumentResolver extends HandlerMethodArgumentResol
 	// We need this resolver separate from ServerWebExchangeArgumentResolver which
 	// implements SyncHandlerMethodArgumentResolver.
 
-
 	public WebSessionMethodArgumentResolver(ReactiveAdapterRegistry adapterRegistry) {
 		super(adapterRegistry);
 	}
-
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -50,8 +48,7 @@ public class WebSessionMethodArgumentResolver extends HandlerMethodArgumentResol
 	}
 
 	@Override
-	public Mono<Object> resolveArgument(
-			MethodParameter parameter, BindingContext context, ServerWebExchange exchange) {
+	public Mono<Object> resolveArgument(MethodParameter parameter, BindingContext context, ServerWebExchange exchange) {
 
 		Mono<WebSession> session = exchange.getSession();
 		ReactiveAdapter adapter = getAdapterRegistry().getAdapter(parameter.getParameterType());

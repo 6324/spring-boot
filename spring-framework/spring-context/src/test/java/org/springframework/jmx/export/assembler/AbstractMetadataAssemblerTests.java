@@ -58,14 +58,16 @@ public abstract class AbstractMetadataAssemblerTests extends AbstractJmxAssemble
 	public void testAttributeDescriptionOnSetter() throws Exception {
 		ModelMBeanInfo inf = getMBeanInfoFromAssembler();
 		ModelMBeanAttributeInfo attr = inf.getAttribute(AGE_ATTRIBUTE);
-		assertThat(attr.getDescription()).as("The description for the age attribute is incorrect").isEqualTo("The Age Attribute");
+		assertThat(attr.getDescription()).as("The description for the age attribute is incorrect")
+				.isEqualTo("The Age Attribute");
 	}
 
 	@Test
 	public void testAttributeDescriptionOnGetter() throws Exception {
 		ModelMBeanInfo inf = getMBeanInfoFromAssembler();
 		ModelMBeanAttributeInfo attr = inf.getAttribute(NAME_ATTRIBUTE);
-		assertThat(attr.getDescription()).as("The description for the name attribute is incorrect").isEqualTo("The Name Attribute");
+		assertThat(attr.getDescription()).as("The description for the name attribute is incorrect")
+				.isEqualTo("The Name Attribute");
 	}
 
 	/**
@@ -176,10 +178,13 @@ public abstract class AbstractMetadataAssemblerTests extends AbstractJmxAssemble
 		start(exporter);
 
 		MBeanInfo inf = getServer().getMBeanInfo(ObjectNameManager.getInstance(objectName));
-		assertThat(inf.getOperations().length).as("Incorrect number of operations").isEqualTo(getExpectedOperationCount());
-		assertThat(inf.getAttributes().length).as("Incorrect number of attributes").isEqualTo(getExpectedAttributeCount());
+		assertThat(inf.getOperations().length).as("Incorrect number of operations")
+				.isEqualTo(getExpectedOperationCount());
+		assertThat(inf.getAttributes().length).as("Incorrect number of attributes")
+				.isEqualTo(getExpectedAttributeCount());
 
-		assertThat(assembler.includeBean(proxy.getClass(), "some bean name")).as("Not included in autodetection").isTrue();
+		assertThat(assembler.includeBean(proxy.getClass(), "some bean name")).as("Not included in autodetection")
+				.isTrue();
 	}
 
 	@Test
@@ -187,8 +192,11 @@ public abstract class AbstractMetadataAssemblerTests extends AbstractJmxAssemble
 		ModelMBeanInfo inf = getMBeanInfoFromAssembler();
 		ModelMBeanAttributeInfo metric = inf.getAttribute(QUEUE_SIZE_METRIC);
 		ModelMBeanOperationInfo operation = inf.getOperation("getQueueSize");
-		assertThat(metric.getDescription()).as("The description for the queue size metric is incorrect").isEqualTo("The QueueSize metric");
-		assertThat(operation.getDescription()).as("The description for the getter operation of the queue size metric is incorrect").isEqualTo("The QueueSize metric");
+		assertThat(metric.getDescription()).as("The description for the queue size metric is incorrect")
+				.isEqualTo("The QueueSize metric");
+		assertThat(operation.getDescription())
+				.as("The description for the getter operation of the queue size metric is incorrect")
+				.isEqualTo("The QueueSize metric");
 	}
 
 	@Test
@@ -201,7 +209,8 @@ public abstract class AbstractMetadataAssemblerTests extends AbstractJmxAssemble
 		assertThat(desc.getFieldValue("units")).as("Unit should be messages").isEqualTo("messages");
 		assertThat(desc.getFieldValue("displayName")).as("Display Name should be Queue Size").isEqualTo("Queue Size");
 		assertThat(desc.getFieldValue("metricType")).as("Metric Type should be COUNTER").isEqualTo("COUNTER");
-		assertThat(desc.getFieldValue("metricCategory")).as("Metric Category should be utilization").isEqualTo("utilization");
+		assertThat(desc.getFieldValue("metricCategory")).as("Metric Category should be utilization")
+				.isEqualTo("utilization");
 	}
 
 	@Test
@@ -212,7 +221,8 @@ public abstract class AbstractMetadataAssemblerTests extends AbstractJmxAssemble
 		assertThat(desc.getFieldValue("persistPolicy")).as("Persist Policy should not be populated").isNull();
 		assertThat(desc.getFieldValue("persistPeriod")).as("Persist Period should not be populated").isNull();
 		assertThat(desc.getFieldValue("units")).as("Unit should not be populated").isNull();
-		assertThat(desc.getFieldValue("displayName")).as("Display Name should be populated by default via JMX").isEqualTo(CACHE_ENTRIES_METRIC);
+		assertThat(desc.getFieldValue("displayName")).as("Display Name should be populated by default via JMX")
+				.isEqualTo(CACHE_ENTRIES_METRIC);
 		assertThat(desc.getFieldValue("metricType")).as("Metric Type should be GAUGE").isEqualTo("GAUGE");
 		assertThat(desc.getFieldValue("metricCategory")).as("Metric Category should not be populated").isNull();
 	}

@@ -24,13 +24,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Unit tests for {@link LimitedDataBufferList}.
+ *
  * @author Rossen Stoyanchev
  * @since 5.1.11
  */
 public class LimitedDataBufferListTests {
 
 	private final static DataBufferFactory bufferFactory = new DefaultDataBufferFactory();
-
 
 	@Test
 	void limitEnforced() {
@@ -52,7 +52,6 @@ public class LimitedDataBufferListTests {
 		list.clear();
 		list.add(toDataBuffer("12345"));
 	}
-
 
 	private static DataBuffer toDataBuffer(String value) {
 		return bufferFactory.wrap(value.getBytes(StandardCharsets.UTF_8));

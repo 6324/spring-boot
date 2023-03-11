@@ -40,6 +40,7 @@ import static org.mockito.Mockito.verify;
 
 /**
  * Unit tests for {@link RSocketStrategies}.
+ *
  * @author Rossen Stoyanchev
  * @since 5.2
  */
@@ -49,17 +50,11 @@ class DefaultRSocketStrategiesTests {
 	void defaultSettings() {
 		RSocketStrategies strategies = RSocketStrategies.create();
 
-		assertThat(strategies.encoders()).hasSize(4).hasOnlyElementsOfTypes(
-				CharSequenceEncoder.class,
-				ByteArrayEncoder.class,
-				ByteBufferEncoder.class,
-				DataBufferEncoder.class);
+		assertThat(strategies.encoders()).hasSize(4).hasOnlyElementsOfTypes(CharSequenceEncoder.class,
+				ByteArrayEncoder.class, ByteBufferEncoder.class, DataBufferEncoder.class);
 
-		assertThat(strategies.decoders()).hasSize(4).hasOnlyElementsOfTypes(
-				StringDecoder.class,
-				ByteArrayDecoder.class,
-				ByteBufferDecoder.class,
-				DataBufferDecoder.class);
+		assertThat(strategies.decoders()).hasSize(4).hasOnlyElementsOfTypes(StringDecoder.class, ByteArrayDecoder.class,
+				ByteBufferDecoder.class, DataBufferDecoder.class);
 
 		assertThat(strategies.routeMatcher()).isNotNull();
 		assertThat(strategies.metadataExtractor()).isNotNull();
@@ -74,19 +69,13 @@ class DefaultRSocketStrategiesTests {
 		DefaultMetadataExtractor extractor = new DefaultMetadataExtractor();
 		ReactiveAdapterRegistry registry = new ReactiveAdapterRegistry();
 
-		RSocketStrategies strategies = RSocketStrategies.builder()
-				.encoders(encoders -> {
-					encoders.clear();
-					encoders.add(new ByteArrayEncoder());
-				})
-				.decoders(decoders -> {
-					decoders.clear();
-					decoders.add(new ByteArrayDecoder());
-				})
-				.routeMatcher(matcher)
-				.metadataExtractor(extractor)
-				.reactiveAdapterStrategy(registry)
-				.build();
+		RSocketStrategies strategies = RSocketStrategies.builder().encoders(encoders -> {
+			encoders.clear();
+			encoders.add(new ByteArrayEncoder());
+		}).decoders(decoders -> {
+			decoders.clear();
+			decoders.add(new ByteArrayDecoder());
+		}).routeMatcher(matcher).metadataExtractor(extractor).reactiveAdapterStrategy(registry).build();
 
 		assertThat(strategies.encoders()).hasSize(1);
 		assertThat(strategies.decoders()).hasSize(1);

@@ -27,8 +27,9 @@ import org.springframework.util.Assert;
 /**
  * Convenient class for building up pointcuts.
  *
- * <p>All methods return {@code ComposablePointcut}, so we can use concise idioms
- * like in the following example.
+ * <p>
+ * All methods return {@code ComposablePointcut}, so we can use concise idioms like in the
+ * following example.
  *
  * <pre class="code">Pointcut pc = new ComposablePointcut()
  *                      .union(classFilter)
@@ -50,10 +51,9 @@ public class ComposablePointcut implements Pointcut, Serializable {
 
 	private MethodMatcher methodMatcher;
 
-
 	/**
-	 * Create a default ComposablePointcut, with {@code ClassFilter.TRUE}
-	 * and {@code MethodMatcher.TRUE}.
+	 * Create a default ComposablePointcut, with {@code ClassFilter.TRUE} and
+	 * {@code MethodMatcher.TRUE}.
 	 */
 	public ComposablePointcut() {
 		this.classFilter = ClassFilter.TRUE;
@@ -71,8 +71,8 @@ public class ComposablePointcut implements Pointcut, Serializable {
 	}
 
 	/**
-	 * Create a ComposablePointcut for the given ClassFilter,
-	 * with {@code MethodMatcher.TRUE}.
+	 * Create a ComposablePointcut for the given ClassFilter, with
+	 * {@code MethodMatcher.TRUE}.
 	 * @param classFilter the ClassFilter to use
 	 */
 	public ComposablePointcut(ClassFilter classFilter) {
@@ -82,8 +82,8 @@ public class ComposablePointcut implements Pointcut, Serializable {
 	}
 
 	/**
-	 * Create a ComposablePointcut for the given MethodMatcher,
-	 * with {@code ClassFilter.TRUE}.
+	 * Create a ComposablePointcut for the given MethodMatcher, with
+	 * {@code ClassFilter.TRUE}.
 	 * @param methodMatcher the MethodMatcher to use
 	 */
 	public ComposablePointcut(MethodMatcher methodMatcher) {
@@ -103,7 +103,6 @@ public class ComposablePointcut implements Pointcut, Serializable {
 		this.classFilter = classFilter;
 		this.methodMatcher = methodMatcher;
 	}
-
 
 	/**
 	 * Apply a union with the given ClassFilter.
@@ -147,16 +146,16 @@ public class ComposablePointcut implements Pointcut, Serializable {
 
 	/**
 	 * Apply a union with the given Pointcut.
-	 * <p>Note that for a Pointcut union, methods will only match if their
-	 * original ClassFilter (from the originating Pointcut) matches as well.
-	 * MethodMatchers and ClassFilters from different Pointcuts will never
-	 * get interleaved with each other.
+	 * <p>
+	 * Note that for a Pointcut union, methods will only match if their original
+	 * ClassFilter (from the originating Pointcut) matches as well. MethodMatchers and
+	 * ClassFilters from different Pointcuts will never get interleaved with each other.
 	 * @param other the Pointcut to apply a union with
 	 * @return this composable pointcut (for call chaining)
 	 */
 	public ComposablePointcut union(Pointcut other) {
-		this.methodMatcher = MethodMatchers.union(
-				this.methodMatcher, this.classFilter, other.getMethodMatcher(), other.getClassFilter());
+		this.methodMatcher = MethodMatchers.union(this.methodMatcher, this.classFilter, other.getMethodMatcher(),
+				other.getClassFilter());
 		this.classFilter = ClassFilters.union(this.classFilter, other.getClassFilter());
 		return this;
 	}
@@ -171,7 +170,6 @@ public class ComposablePointcut implements Pointcut, Serializable {
 		this.methodMatcher = MethodMatchers.intersection(this.methodMatcher, other.getMethodMatcher());
 		return this;
 	}
-
 
 	@Override
 	public ClassFilter getClassFilter() {
@@ -192,8 +190,8 @@ public class ComposablePointcut implements Pointcut, Serializable {
 			return false;
 		}
 		ComposablePointcut otherPointcut = (ComposablePointcut) other;
-		return (this.classFilter.equals(otherPointcut.classFilter) &&
-				this.methodMatcher.equals(otherPointcut.methodMatcher));
+		return (this.classFilter.equals(otherPointcut.classFilter)
+				&& this.methodMatcher.equals(otherPointcut.methodMatcher));
 	}
 
 	@Override

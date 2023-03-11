@@ -89,7 +89,7 @@ public class ArrayConstructorTests extends AbstractExpressionTests {
 	public void typeArrayConstructors() {
 		evaluate("new String[]{'a','b','c','d'}[1]", "b", String.class);
 		evaluateAndCheckError("new String[]{'a','b','c','d'}.size()", SpelMessage.METHOD_NOT_FOUND, 30, "size()",
-			"java.lang.String[]");
+				"java.lang.String[]");
 		evaluate("new String[]{'a','b','c','d'}.length", 4, Integer.class);
 	}
 
@@ -102,8 +102,8 @@ public class ArrayConstructorTests extends AbstractExpressionTests {
 	public void multiDimensionalArray() {
 		evaluate("new String[2][2]", "[Ljava.lang.String;[2]{[2]{null,null},[2]{null,null}}", String[][].class);
 		evaluate("new String[3][2][1]",
-			"[[Ljava.lang.String;[3]{[2]{[1]{null},[1]{null}},[2]{[1]{null},[1]{null}},[2]{[1]{null},[1]{null}}}",
-			String[][][].class);
+				"[[Ljava.lang.String;[3]{[2]{[1]{null},[1]{null}},[2]{[1]{null},[1]{null}},[2]{[1]{null},[1]{null}}}",
+				String[][][].class);
 	}
 
 	@Test

@@ -39,21 +39,19 @@ abstract class AbstractJCacheKeyOperation<A extends Annotation> extends Abstract
 
 	private final List<CacheParameterDetail> keyParameterDetails;
 
-
 	/**
 	 * Create a new instance.
 	 * @param methodDetails the {@link CacheMethodDetails} related to the cached method
 	 * @param cacheResolver the cache resolver to resolve regular caches
 	 * @param keyGenerator the key generator to compute cache keys
 	 */
-	protected AbstractJCacheKeyOperation(CacheMethodDetails<A> methodDetails,
-			CacheResolver cacheResolver, KeyGenerator keyGenerator) {
+	protected AbstractJCacheKeyOperation(CacheMethodDetails<A> methodDetails, CacheResolver cacheResolver,
+			KeyGenerator keyGenerator) {
 
 		super(methodDetails, cacheResolver);
 		this.keyGenerator = keyGenerator;
 		this.keyParameterDetails = initializeKeyParameterDetails(this.allParameterDetails);
 	}
-
 
 	/**
 	 * Return the {@link KeyGenerator} to use to compute cache keys.
@@ -63,13 +61,15 @@ abstract class AbstractJCacheKeyOperation<A extends Annotation> extends Abstract
 	}
 
 	/**
-	 * Return the {@link CacheInvocationParameter} for the parameters that are to be
-	 * used to compute the key.
-	 * <p>Per the spec, if some method parameters are annotated with
-	 * {@link javax.cache.annotation.CacheKey}, only those parameters should be part
-	 * of the key. If none are annotated, all parameters except the parameter annotated
-	 * with {@link javax.cache.annotation.CacheValue} should be part of the key.
-	 * <p>The method arguments must match the signature of the related method invocation
+	 * Return the {@link CacheInvocationParameter} for the parameters that are to be used
+	 * to compute the key.
+	 * <p>
+	 * Per the spec, if some method parameters are annotated with
+	 * {@link javax.cache.annotation.CacheKey}, only those parameters should be part of
+	 * the key. If none are annotated, all parameters except the parameter annotated with
+	 * {@link javax.cache.annotation.CacheValue} should be part of the key.
+	 * <p>
+	 * The method arguments must match the signature of the related method invocation
 	 * @param values the parameters value for a particular invocation
 	 * @return the {@link CacheInvocationParameter} instances for the parameters to be
 	 * used to compute the key
@@ -79,14 +79,13 @@ abstract class AbstractJCacheKeyOperation<A extends Annotation> extends Abstract
 		for (CacheParameterDetail keyParameterDetail : this.keyParameterDetails) {
 			int parameterPosition = keyParameterDetail.getParameterPosition();
 			if (parameterPosition >= values.length) {
-				throw new IllegalStateException("Values mismatch, key parameter at position "
-						+ parameterPosition + " cannot be matched against " + values.length + " value(s)");
+				throw new IllegalStateException("Values mismatch, key parameter at position " + parameterPosition
+						+ " cannot be matched against " + values.length + " value(s)");
 			}
 			result.add(keyParameterDetail.toCacheInvocationParameter(values[parameterPosition]));
 		}
 		return result.toArray(new CacheInvocationParameter[0]);
 	}
-
 
 	private static List<CacheParameterDetail> initializeKeyParameterDetails(List<CacheParameterDetail> allParameters) {
 		List<CacheParameterDetail> all = new ArrayList<>();

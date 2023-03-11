@@ -29,8 +29,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of {@code XMLEventReader} based on a {@link List}
- * of {@link XMLEvent} elements.
+ * Implementation of {@code XMLEventReader} based on a {@link List} of {@link XMLEvent}
+ * elements.
  *
  * @author Arjen Poutsma
  * @author Juergen Hoeller
@@ -45,12 +45,10 @@ class ListBasedXMLEventReader extends AbstractXMLEventReader {
 
 	private int cursor = 0;
 
-
 	public ListBasedXMLEventReader(List<XMLEvent> events) {
 		Assert.notNull(events, "XMLEvent List must not be null");
 		this.events = new ArrayList<>(events);
 	}
-
 
 	@Override
 	public boolean hasNext() {
@@ -112,24 +110,23 @@ class ListBasedXMLEventReader extends AbstractXMLEventReader {
 		while (true) {
 			XMLEvent event = nextEvent();
 			switch (event.getEventType()) {
-				case XMLStreamConstants.START_ELEMENT:
-				case XMLStreamConstants.END_ELEMENT:
-					return event;
-				case XMLStreamConstants.END_DOCUMENT:
-					return null;
-				case XMLStreamConstants.SPACE:
-				case XMLStreamConstants.COMMENT:
-				case XMLStreamConstants.PROCESSING_INSTRUCTION:
-					continue;
-				case XMLStreamConstants.CDATA:
-				case XMLStreamConstants.CHARACTERS:
-					if (!event.asCharacters().isWhiteSpace()) {
-						throw new XMLStreamException(
-								"Non-ignorable whitespace CDATA or CHARACTERS event: " + event);
-					}
-					break;
-				default:
-					throw new XMLStreamException("Expected START_ELEMENT or END_ELEMENT: " + event);
+			case XMLStreamConstants.START_ELEMENT:
+			case XMLStreamConstants.END_ELEMENT:
+				return event;
+			case XMLStreamConstants.END_DOCUMENT:
+				return null;
+			case XMLStreamConstants.SPACE:
+			case XMLStreamConstants.COMMENT:
+			case XMLStreamConstants.PROCESSING_INSTRUCTION:
+				continue;
+			case XMLStreamConstants.CDATA:
+			case XMLStreamConstants.CHARACTERS:
+				if (!event.asCharacters().isWhiteSpace()) {
+					throw new XMLStreamException("Non-ignorable whitespace CDATA or CHARACTERS event: " + event);
+				}
+				break;
+			default:
+				throw new XMLStreamException("Expected START_ELEMENT or END_ELEMENT: " + event);
 			}
 		}
 	}

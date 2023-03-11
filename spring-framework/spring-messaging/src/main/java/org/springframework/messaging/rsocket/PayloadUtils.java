@@ -31,8 +31,8 @@ import org.springframework.core.io.buffer.NettyDataBuffer;
 import org.springframework.core.io.buffer.NettyDataBufferFactory;
 
 /**
- * Static utility methods to create {@link Payload} from {@link DataBuffer}s
- * and vice versa.
+ * Static utility methods to create {@link Payload} from {@link DataBuffer}s and vice
+ * versa.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -40,10 +40,9 @@ import org.springframework.core.io.buffer.NettyDataBufferFactory;
 public abstract class PayloadUtils {
 
 	/**
-	 * Use this method to slice, retain and wrap the data portion of the
-	 * {@code Payload}, and also to release the {@code Payload}. This assumes
-	 * the Payload metadata has been read by now and ensures downstream code
-	 * need only be aware of {@code DataBuffer}s.
+	 * Use this method to slice, retain and wrap the data portion of the {@code Payload},
+	 * and also to release the {@code Payload}. This assumes the Payload metadata has been
+	 * read by now and ensures downstream code need only be aware of {@code DataBuffer}s.
 	 * @param payload the payload to process
 	 * @param bufferFactory the DataBufferFactory to wrap with
 	 * @return the created {@code DataBuffer} instance
@@ -67,42 +66,40 @@ public abstract class PayloadUtils {
 
 	/**
 	 * Create a Payload from the given metadata and data.
-	 * <p>If at least one is {@link NettyDataBuffer} then {@link ByteBufPayload}
-	 * is created with either obtaining the underlying native {@link ByteBuf}
-	 * or using {@link Unpooled#wrappedBuffer(ByteBuffer...)} if necessary.
-	 * Otherwise, if both are {@link DefaultDataBuffer}, then
-	 * {@link DefaultPayload} is created.
+	 * <p>
+	 * If at least one is {@link NettyDataBuffer} then {@link ByteBufPayload} is created
+	 * with either obtaining the underlying native {@link ByteBuf} or using
+	 * {@link Unpooled#wrappedBuffer(ByteBuffer...)} if necessary. Otherwise, if both are
+	 * {@link DefaultDataBuffer}, then {@link DefaultPayload} is created.
 	 * @param data the data part for the payload
 	 * @param metadata the metadata part for the payload
 	 * @return the created payload
 	 */
 	public static Payload createPayload(DataBuffer data, DataBuffer metadata) {
-		return data instanceof NettyDataBuffer || metadata instanceof NettyDataBuffer ?
-				ByteBufPayload.create(asByteBuf(data), asByteBuf(metadata)) :
-				DefaultPayload.create(asByteBuffer(data), asByteBuffer(metadata));
+		return data instanceof NettyDataBuffer || metadata instanceof NettyDataBuffer
+				? ByteBufPayload.create(asByteBuf(data), asByteBuf(metadata))
+				: DefaultPayload.create(asByteBuffer(data), asByteBuffer(metadata));
 	}
 
 	/**
-	 * Create a Payload with data only. The created payload is
-	 * {@link ByteBufPayload} if the input is {@link NettyDataBuffer} or
-	 * otherwise it is {@link DefaultPayload}.
+	 * Create a Payload with data only. The created payload is {@link ByteBufPayload} if
+	 * the input is {@link NettyDataBuffer} or otherwise it is {@link DefaultPayload}.
 	 * @param data the data part for the payload
 	 * @return created payload
 	 */
 	public static Payload createPayload(DataBuffer data) {
-		return data instanceof NettyDataBuffer ?
-				ByteBufPayload.create(asByteBuf(data)) : DefaultPayload.create(asByteBuffer(data));
+		return data instanceof NettyDataBuffer ? ByteBufPayload.create(asByteBuf(data))
+				: DefaultPayload.create(asByteBuffer(data));
 	}
 
-
 	static ByteBuf asByteBuf(DataBuffer buffer) {
-		return buffer instanceof NettyDataBuffer ?
-				((NettyDataBuffer) buffer).getNativeBuffer() : Unpooled.wrappedBuffer(buffer.asByteBuffer());
+		return buffer instanceof NettyDataBuffer ? ((NettyDataBuffer) buffer).getNativeBuffer()
+				: Unpooled.wrappedBuffer(buffer.asByteBuffer());
 	}
 
 	private static ByteBuffer asByteBuffer(DataBuffer buffer) {
-		return buffer instanceof DefaultDataBuffer ?
-				((DefaultDataBuffer) buffer).getNativeBuffer() : buffer.asByteBuffer();
+		return buffer instanceof DefaultDataBuffer ? ((DefaultDataBuffer) buffer).getNativeBuffer()
+				: buffer.asByteBuffer();
 	}
 
 }

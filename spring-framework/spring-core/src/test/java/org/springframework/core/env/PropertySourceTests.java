@@ -37,18 +37,26 @@ class PropertySourceTests {
 	@Test
 	@SuppressWarnings("serial")
 	void equals() {
-		Map<String, Object> map1 = new HashMap<String, Object>() {{
-			put("a", "b");
-		}};
-		Map<String, Object> map2 = new HashMap<String, Object>() {{
-			put("c", "d");
-		}};
-		Properties props1 = new Properties() {{
-			setProperty("a", "b");
-		}};
-		Properties props2 = new Properties() {{
-			setProperty("c", "d");
-		}};
+		Map<String, Object> map1 = new HashMap<String, Object>() {
+			{
+				put("a", "b");
+			}
+		};
+		Map<String, Object> map2 = new HashMap<String, Object>() {
+			{
+				put("c", "d");
+			}
+		};
+		Properties props1 = new Properties() {
+			{
+				setProperty("a", "b");
+			}
+		};
+		Properties props2 = new Properties() {
+			{
+				setProperty("c", "d");
+			}
+		};
 
 		MapPropertySource mps = new MapPropertySource("mps", map1);
 		assertThat(mps).isEqualTo(mps);
@@ -69,12 +77,16 @@ class PropertySourceTests {
 	@Test
 	@SuppressWarnings("serial")
 	void collectionsOperations() {
-		Map<String, Object> map1 = new HashMap<String, Object>() {{
-			put("a", "b");
-		}};
-		Map<String, Object> map2 = new HashMap<String, Object>() {{
-			put("c", "d");
-		}};
+		Map<String, Object> map1 = new HashMap<String, Object>() {
+			{
+				put("a", "b");
+			}
+		};
+		Map<String, Object> map2 = new HashMap<String, Object>() {
+			{
+				put("c", "d");
+			}
+		};
 
 		PropertySource<?> ps1 = new MapPropertySource("ps1", map1);
 		ps1.getSource();
@@ -83,8 +95,12 @@ class PropertySourceTests {
 		assertThat(propertySources.contains(ps1)).isTrue();
 		assertThat(propertySources.contains(PropertySource.named("ps1"))).isTrue();
 
-		PropertySource<?> ps1replacement = new MapPropertySource("ps1", map2); // notice - different map
-		assertThat(propertySources.add(ps1replacement)).isTrue(); // true because linkedlist allows duplicates
+		PropertySource<?> ps1replacement = new MapPropertySource("ps1", map2); // notice -
+																				// different
+																				// map
+		assertThat(propertySources.add(ps1replacement)).isTrue(); // true because
+																	// linkedlist allows
+																	// duplicates
 		assertThat(propertySources).hasSize(2);
 		assertThat(propertySources.remove(PropertySource.named("ps1"))).isTrue();
 		assertThat(propertySources).hasSize(1);

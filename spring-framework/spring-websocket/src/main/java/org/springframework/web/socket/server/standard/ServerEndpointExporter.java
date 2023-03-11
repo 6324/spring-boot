@@ -42,9 +42,10 @@ import org.springframework.web.context.support.WebApplicationObjectSupport;
  * annotated endpoints should have their {@code configurator} property set to
  * {@link SpringConfigurator}.
  *
- * <p>When this class is used, by declaring it in Spring configuration, it should be
- * possible to turn off a Servlet container's scan for WebSocket endpoints. This can be
- * done with the help of the {@code <absolute-ordering>} element in {@code web.xml}.
+ * <p>
+ * When this class is used, by declaring it in Spring configuration, it should be possible
+ * to turn off a Servlet container's scan for WebSocket endpoints. This can be done with
+ * the help of the {@code <absolute-ordering>} element in {@code web.xml}.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -62,7 +63,6 @@ public class ServerEndpointExporter extends WebApplicationObjectSupport
 	@Nullable
 	private ServerContainer serverContainer;
 
-
 	/**
 	 * Explicitly list annotated endpoint types that should be registered on startup. This
 	 * can be done if you wish to turn off a Servlet container's scan for endpoints, which
@@ -74,8 +74,8 @@ public class ServerEndpointExporter extends WebApplicationObjectSupport
 	}
 
 	/**
-	 * Set the JSR-356 {@link ServerContainer} to use for endpoint registration.
-	 * If not set, the container is going to be retrieved via the {@code ServletContext}.
+	 * Set the JSR-356 {@link ServerContainer} to use for endpoint registration. If not
+	 * set, the container is going to be retrieved via the {@code ServletContext}.
 	 */
 	public void setServerContainer(@Nullable ServerContainer serverContainer) {
 		this.serverContainer = serverContainer;
@@ -92,8 +92,8 @@ public class ServerEndpointExporter extends WebApplicationObjectSupport
 	@Override
 	protected void initServletContext(ServletContext servletContext) {
 		if (this.serverContainer == null) {
-			this.serverContainer =
-					(ServerContainer) servletContext.getAttribute("javax.websocket.server.ServerContainer");
+			this.serverContainer = (ServerContainer) servletContext
+					.getAttribute("javax.websocket.server.ServerContainer");
 		}
 	}
 
@@ -111,7 +111,6 @@ public class ServerEndpointExporter extends WebApplicationObjectSupport
 	public void afterSingletonsInstantiated() {
 		registerEndpoints();
 	}
-
 
 	/**
 	 * Actually register the endpoints. Called by {@link #afterSingletonsInstantiated()}.
@@ -145,10 +144,10 @@ public class ServerEndpointExporter extends WebApplicationObjectSupport
 	private void registerEndpoint(Class<?> endpointClass) {
 		ServerContainer serverContainer = getServerContainer();
 		Assert.state(serverContainer != null,
-				"No ServerContainer set. Most likely the server's own WebSocket ServletContainerInitializer " +
-				"has not run yet. Was the Spring ApplicationContext refreshed through a " +
-				"org.springframework.web.context.ContextLoaderListener, " +
-				"i.e. after the ServletContext has been fully initialized?");
+				"No ServerContainer set. Most likely the server's own WebSocket ServletContainerInitializer "
+						+ "has not run yet. Was the Spring ApplicationContext refreshed through a "
+						+ "org.springframework.web.context.ContextLoaderListener, "
+						+ "i.e. after the ServletContext has been fully initialized?");
 		try {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Registering @ServerEndpoint class: " + endpointClass);

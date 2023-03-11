@@ -102,7 +102,8 @@ public class MethodInvocationTests extends AbstractExpressionTests {
 		assertThat(o).isEqualTo(3);
 		assertThat(parser.parseExpression("counter").getValue(eContext)).isEqualTo(1);
 
-		// Now the expression has cached that throwException(int) is the right thing to call
+		// Now the expression has cached that throwException(int) is the right thing to
+		// call
 		// Let's change 'bar' to be a PlaceOfBirth which indicates the cached reference is
 		// out of date.
 		eContext.setVariable("bar", new PlaceOfBirth("London"));
@@ -110,7 +111,8 @@ public class MethodInvocationTests extends AbstractExpressionTests {
 		assertThat(o).isEqualTo("London");
 		// That confirms the logic to mark the cached reference stale and retry is working
 
-		// Now let's cause the method to exit via exception and ensure it doesn't cause a retry.
+		// Now let's cause the method to exit via exception and ensure it doesn't cause a
+		// retry.
 
 		// First, switch back to throwException(int)
 		eContext.setVariable("bar", 3);
@@ -118,11 +120,10 @@ public class MethodInvocationTests extends AbstractExpressionTests {
 		assertThat(o).isEqualTo(3);
 		assertThat(parser.parseExpression("counter").getValue(eContext)).isEqualTo(2);
 
-
 		// Now cause it to throw an exception:
 		eContext.setVariable("bar", 1);
 		assertThatExceptionOfType(Exception.class).isThrownBy(() -> expr.getValue(eContext))
-			.isNotInstanceOf(SpelEvaluationException.class);
+				.isNotInstanceOf(SpelEvaluationException.class);
 
 		// If counter is 4 then the method got called twice!
 		assertThat(parser.parseExpression("counter").getValue(eContext)).isEqualTo(3);
@@ -135,7 +136,8 @@ public class MethodInvocationTests extends AbstractExpressionTests {
 	}
 
 	/**
-	 * Check on first usage (when the cachedExecutor in MethodReference is null) that the exception is not wrapped.
+	 * Check on first usage (when the cachedExecutor in MethodReference is null) that the
+	 * exception is not wrapped.
 	 */
 	@Test
 	public void testMethodThrowingException_SPR6941() {
@@ -150,7 +152,7 @@ public class MethodInvocationTests extends AbstractExpressionTests {
 
 		context.setVariable("bar", 2);
 		assertThatExceptionOfType(Exception.class).isThrownBy(() -> expr.getValue(context))
-			.satisfies(ex -> assertThat(ex).isNotInstanceOf(SpelEvaluationException.class));
+				.satisfies(ex -> assertThat(ex).isNotInstanceOf(SpelEvaluationException.class));
 	}
 
 	@Test
@@ -166,8 +168,8 @@ public class MethodInvocationTests extends AbstractExpressionTests {
 
 		context.setVariable("bar", 4);
 		assertThatExceptionOfType(ExpressionInvocationTargetException.class).isThrownBy(() -> expr.getValue(context))
-			.satisfies(ex -> assertThat(ex.getCause().getClass().getName()).isEqualTo(
-					"org.springframework.expression.spel.testresources.Inventor$TestException"));
+				.satisfies(ex -> assertThat(ex.getCause().getClass().getName())
+						.isEqualTo("org.springframework.expression.spel.testresources.Inventor$TestException"));
 	}
 
 	@Test
@@ -176,7 +178,7 @@ public class MethodInvocationTests extends AbstractExpressionTests {
 		StandardEvaluationContext context = new StandardEvaluationContext();
 		context.setRootObject(new TestObject());
 		LocalFilter filter = new LocalFilter();
-		context.registerMethodFilter(TestObject.class,filter);
+		context.registerMethodFilter(TestObject.class, filter);
 
 		// Filter will be called but not do anything, so first doit() will be invoked
 		SpelExpression expr = (SpelExpression) parser.parseExpression("doit(1)");
@@ -202,7 +204,7 @@ public class MethodInvocationTests extends AbstractExpressionTests {
 
 		// check de-registration works
 		filter.filterCalled = false;
-		context.registerMethodFilter(TestObject.class,null);//clear filter
+		context.registerMethodFilter(TestObject.class, null);// clear filter
 		context.setRootObject(new TestObject());
 		expr = (SpelExpression) parser.parseExpression("doit(1)");
 		result = expr.getValue(context, String.class);
@@ -237,9 +239,14 @@ public class MethodInvocationTests extends AbstractExpressionTests {
 		evaluate("aVarargsMethod('a','b','c')", "[a, b, c]", String.class);
 		evaluate("aVarargsMethod('a')", "[a]", String.class);
 		evaluate("aVarargsMethod()", "[]", String.class);
-		evaluate("aVarargsMethod(1,2,3)", "[1, 2, 3]", String.class); // all need converting to strings
+		evaluate("aVarargsMethod(1,2,3)", "[1, 2, 3]", String.class); // all need
+																		// converting to
+																		// strings
 		evaluate("aVarargsMethod(1)", "[1]", String.class); // needs string conversion
-		evaluate("aVarargsMethod(1,'a',3.0d)", "[1, a, 3.0]", String.class); // first and last need conversion
+		evaluate("aVarargsMethod(1,'a',3.0d)", "[1, a, 3.0]", String.class); // first and
+																				// last
+																				// need
+																				// conversion
 		evaluate("aVarargsMethod(new String[]{'a','b','c'})", "[a, b, c]", String.class);
 		evaluate("aVarargsMethod(new String[]{})", "[]", String.class);
 		evaluate("aVarargsMethod(null)", "[null]", String.class);
@@ -272,7 +279,8 @@ public class MethodInvocationTests extends AbstractExpressionTests {
 		evaluate("optionalVarargsMethod(9)", "[Optional[9]]", String.class);
 		evaluate("optionalVarargsMethod(2,3)", "[Optional[2], Optional[3]]", String.class);
 		evaluate("optionalVarargsMethod('a',3.0d)", "[Optional[a], Optional[3.0]]", String.class);
-		evaluate("optionalVarargsMethod(new String[]{'a','b','c'})", "[Optional[a], Optional[b], Optional[c]]", String.class);
+		evaluate("optionalVarargsMethod(new String[]{'a','b','c'})", "[Optional[a], Optional[b], Optional[c]]",
+				String.class);
 		// The following should actually evaluate to [Optional.empty] instead of [null],
 		// but ReflectionHelper.convertArguments() passes the array type instead of
 		// the array's component type as the target type to the ConversionService, and
@@ -285,7 +293,7 @@ public class MethodInvocationTests extends AbstractExpressionTests {
 
 	@Test
 	public void testInvocationOnNullContextObject() {
-		evaluateAndCheckError("null.toString()",SpelMessage.METHOD_CALL_ON_NULL_OBJECT_NOT_ALLOWED);
+		evaluateAndCheckError("null.toString()", SpelMessage.METHOD_CALL_ON_NULL_OBJECT_NOT_ALLOWED);
 	}
 
 	@Test
@@ -305,7 +313,6 @@ public class MethodInvocationTests extends AbstractExpressionTests {
 		byte[] outBytes = expression.getValue(context, byte[].class);
 		assertThat(outBytes).isSameAs(bytes);
 	}
-
 
 	// Simple filter
 	static class LocalFilter implements MethodFilter {
@@ -332,23 +339,23 @@ public class MethodInvocationTests extends AbstractExpressionTests {
 		public List<Method> filter(List<Method> methods) {
 			filterCalled = true;
 			List<Method> forRemoval = new ArrayList<>();
-			for (Method method: methods) {
+			for (Method method : methods) {
 				if (removeIfNotAnnotated && !isAnnotated(method)) {
 					forRemoval.add(method);
 				}
 			}
-			for (Method method: forRemoval) {
+			for (Method method : forRemoval) {
 				methods.remove(method);
 			}
 			return methods;
 		}
-	}
 
+	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface Anno {
-	}
 
+	}
 
 	class TestObject {
 
@@ -358,10 +365,10 @@ public class MethodInvocationTests extends AbstractExpressionTests {
 
 		@Anno
 		public String doit(double d) {
-			return "double "+d;
+			return "double " + d;
 		}
-	}
 
+	}
 
 	static class DummyMethodResolver implements MethodResolver {
 
@@ -370,14 +377,15 @@ public class MethodInvocationTests extends AbstractExpressionTests {
 				List<TypeDescriptor> argumentTypes) throws AccessException {
 			throw new UnsupportedOperationException();
 		}
-	}
 
+	}
 
 	public static class BytesService {
 
 		public byte[] handleBytes(byte[] bytes) {
 			return bytes;
 		}
+
 	}
 
 }

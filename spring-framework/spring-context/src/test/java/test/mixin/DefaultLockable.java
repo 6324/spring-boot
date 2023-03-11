@@ -16,7 +16,6 @@
 
 package test.mixin;
 
-
 /**
  * Simple implementation of Lockable interface for use in mixins.
  *

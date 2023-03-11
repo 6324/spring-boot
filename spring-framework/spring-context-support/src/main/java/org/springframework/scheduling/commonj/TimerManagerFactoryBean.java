@@ -31,21 +31,24 @@ import org.springframework.context.Lifecycle;
 import org.springframework.lang.Nullable;
 
 /**
- * {@link org.springframework.beans.factory.FactoryBean} that retrieves a
- * CommonJ {@link commonj.timers.TimerManager} and exposes it for bean references.
+ * {@link org.springframework.beans.factory.FactoryBean} that retrieves a CommonJ
+ * {@link commonj.timers.TimerManager} and exposes it for bean references.
  *
- * <p><b>This is the central convenience class for setting up a
- * CommonJ TimerManager in a Spring context.</b>
+ * <p>
+ * <b>This is the central convenience class for setting up a CommonJ TimerManager in a
+ * Spring context.</b>
  *
- * <p>Allows for registration of ScheduledTimerListeners. This is the main
- * purpose of this class; the TimerManager itself could also be fetched
- * from JNDI via {@link org.springframework.jndi.JndiObjectFactoryBean}.
- * In scenarios that just require static registration of tasks at startup,
- * there is no need to access the TimerManager itself in application code.
+ * <p>
+ * Allows for registration of ScheduledTimerListeners. This is the main purpose of this
+ * class; the TimerManager itself could also be fetched from JNDI via
+ * {@link org.springframework.jndi.JndiObjectFactoryBean}. In scenarios that just require
+ * static registration of tasks at startup, there is no need to access the TimerManager
+ * itself in application code.
  *
- * <p>Note that the TimerManager uses a TimerListener instance that is
- * shared between repeated executions, in contrast to Quartz which
- * instantiates a new Job for each execution.
+ * <p>
+ * Note that the TimerManager uses a TimerListener instance that is shared between
+ * repeated executions, in contrast to Quartz which instantiates a new Job for each
+ * execution.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -64,23 +67,22 @@ public class TimerManagerFactoryBean extends TimerManagerAccessor
 
 	private final List<Timer> timers = new LinkedList<>();
 
-
 	/**
-	 * Register a list of ScheduledTimerListener objects with the TimerManager
-	 * that this FactoryBean creates. Depending on each ScheduledTimerListener's settings,
-	 * it will be registered via one of TimerManager's schedule methods.
+	 * Register a list of ScheduledTimerListener objects with the TimerManager that this
+	 * FactoryBean creates. Depending on each ScheduledTimerListener's settings, it will
+	 * be registered via one of TimerManager's schedule methods.
 	 * @see commonj.timers.TimerManager#schedule(commonj.timers.TimerListener, long)
 	 * @see commonj.timers.TimerManager#schedule(commonj.timers.TimerListener, long, long)
-	 * @see commonj.timers.TimerManager#scheduleAtFixedRate(commonj.timers.TimerListener, long, long)
+	 * @see commonj.timers.TimerManager#scheduleAtFixedRate(commonj.timers.TimerListener,
+	 * long, long)
 	 */
 	public void setScheduledTimerListeners(ScheduledTimerListener[] scheduledTimerListeners) {
 		this.scheduledTimerListeners = scheduledTimerListeners;
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of InitializingBean interface
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	@Override
 	public void afterPropertiesSet() throws NamingException {
@@ -95,12 +97,12 @@ public class TimerManagerFactoryBean extends TimerManagerAccessor
 				}
 				else {
 					if (scheduledTask.isFixedRate()) {
-						timer = timerManager.scheduleAtFixedRate(
-								scheduledTask.getTimerListener(), scheduledTask.getDelay(), scheduledTask.getPeriod());
+						timer = timerManager.scheduleAtFixedRate(scheduledTask.getTimerListener(),
+								scheduledTask.getDelay(), scheduledTask.getPeriod());
 					}
 					else {
-						timer = timerManager.schedule(
-								scheduledTask.getTimerListener(), scheduledTask.getDelay(), scheduledTask.getPeriod());
+						timer = timerManager.schedule(scheduledTask.getTimerListener(), scheduledTask.getDelay(),
+								scheduledTask.getPeriod());
 					}
 				}
 				this.timers.add(timer);
@@ -108,10 +110,9 @@ public class TimerManagerFactoryBean extends TimerManagerAccessor
 		}
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of FactoryBean interface
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	@Override
 	@Nullable
@@ -130,14 +131,13 @@ public class TimerManagerFactoryBean extends TimerManagerAccessor
 		return true;
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of DisposableBean interface
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
-	 * Cancels all statically registered Timers on shutdown,
-	 * and stops the underlying TimerManager (if not shared).
+	 * Cancels all statically registered Timers on shutdown, and stops the underlying
+	 * TimerManager (if not shared).
 	 * @see commonj.timers.Timer#cancel()
 	 * @see commonj.timers.TimerManager#stop()
 	 */

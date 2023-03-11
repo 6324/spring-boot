@@ -58,17 +58,16 @@ public class ClientSockJsSessionTests {
 
 	private SettableListenableFuture<WebSocketSession> connectFuture;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		SockJsUrlInfo urlInfo = new SockJsUrlInfo(new URI("https://example.com"));
 		Transport transport = mock(Transport.class);
-		TransportRequest request = new DefaultTransportRequest(urlInfo, null, null, transport, TransportType.XHR, CODEC);
+		TransportRequest request = new DefaultTransportRequest(urlInfo, null, null, transport, TransportType.XHR,
+				CODEC);
 		this.handler = mock(WebSocketHandler.class);
 		this.connectFuture = new SettableListenableFuture<>();
 		this.session = new TestClientSockJsSession(request, this.handler, this.connectFuture);
 	}
-
 
 	@Test
 	public void handleFrameOpen() throws Exception {
@@ -128,10 +127,10 @@ public class ClientSockJsSessionTests {
 	@Test
 	public void handleFrameMessageWithWebSocketHandlerException() throws Exception {
 		this.session.handleFrame(SockJsFrame.openFrame().getContent());
-		willThrow(new IllegalStateException("Fake error")).given(this.handler)
-				.handleMessage(this.session, new TextMessage("foo"));
-		willThrow(new IllegalStateException("Fake error")).given(this.handler)
-				.handleMessage(this.session, new TextMessage("bar"));
+		willThrow(new IllegalStateException("Fake error")).given(this.handler).handleMessage(this.session,
+				new TextMessage("foo"));
+		willThrow(new IllegalStateException("Fake error")).given(this.handler).handleMessage(this.session,
+				new TextMessage("bar"));
 		this.session.handleFrame(SockJsFrame.messageFrame(CODEC, "foo", "bar").getContent());
 		assertThat(this.session.isOpen()).isEqualTo(true);
 		verify(this.handler).afterConnectionEstablished(this.session);
@@ -188,17 +187,15 @@ public class ClientSockJsSessionTests {
 	@Test
 	public void closeWithNullStatus() throws Exception {
 		this.session.handleFrame(SockJsFrame.openFrame().getContent());
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.session.close(null))
-			.withMessageContaining("Invalid close status");
+		assertThatIllegalArgumentException().isThrownBy(() -> this.session.close(null))
+				.withMessageContaining("Invalid close status");
 	}
 
 	@Test
 	public void closeWithStatusOutOfRange() throws Exception {
 		this.session.handleFrame(SockJsFrame.openFrame().getContent());
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.session.close(new CloseStatus(2999, "reason")))
-			.withMessageContaining("Invalid close status");
+		assertThatIllegalArgumentException().isThrownBy(() -> this.session.close(new CloseStatus(2999, "reason")))
+				.withMessageContaining("Invalid close status");
 	}
 
 	@Test
@@ -214,13 +211,11 @@ public class ClientSockJsSessionTests {
 		assertThat(this.session.sentMessage).isEqualTo(new TextMessage("[\"foo\"]"));
 	}
 
-
 	private static class TestClientSockJsSession extends AbstractClientSockJsSession {
 
 		private TextMessage sentMessage;
 
 		private CloseStatus disconnectStatus;
-
 
 		protected TestClientSockJsSession(TransportRequest request, WebSocketHandler handler,
 				SettableListenableFuture<WebSocketSession> connectFuture) {
@@ -276,6 +271,7 @@ public class ClientSockJsSessionTests {
 		public List<WebSocketExtension> getExtensions() {
 			return null;
 		}
+
 	}
 
 }

@@ -32,7 +32,6 @@ public class AspectEntry implements ParseState.Entry {
 
 	private final String ref;
 
-
 	/**
 	 * Create a new {@code AspectEntry} instance.
 	 * @param id the id of the aspect element
@@ -42,7 +41,6 @@ public class AspectEntry implements ParseState.Entry {
 		this.id = id;
 		this.ref = ref;
 	}
-
 
 	@Override
 	public String toString() {

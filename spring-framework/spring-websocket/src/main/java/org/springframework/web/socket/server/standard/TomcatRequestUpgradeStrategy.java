@@ -35,12 +35,13 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.socket.server.HandshakeFailureException;
 
 /**
- * A WebSocket {@code RequestUpgradeStrategy} for Apache Tomcat. Compatible with
- * all versions of Tomcat that support JSR-356, i.e. Tomcat 7.0.47+ and higher.
+ * A WebSocket {@code RequestUpgradeStrategy} for Apache Tomcat. Compatible with all
+ * versions of Tomcat that support JSR-356, i.e. Tomcat 7.0.47+ and higher.
  *
- * <p>To modify properties of the underlying {@link javax.websocket.server.ServerContainer}
- * you can use {@link ServletServerContainerFactoryBean} in XML configuration or,
- * when using Java configuration, access the container instance through the
+ * <p>
+ * To modify properties of the underlying {@link javax.websocket.server.ServerContainer}
+ * you can use {@link ServletServerContainerFactoryBean} in XML configuration or, when
+ * using Java configuration, access the container instance through the
  * "javax.websocket.server.ServerContainer" ServletContext attribute.
  *
  * @author Rossen Stoyanchev
@@ -50,7 +51,7 @@ public class TomcatRequestUpgradeStrategy extends AbstractStandardUpgradeStrateg
 
 	@Override
 	public String[] getSupportedVersions() {
-		return new String[] {"13"};
+		return new String[] { "13" };
 	}
 
 	@Override
@@ -62,8 +63,8 @@ public class TomcatRequestUpgradeStrategy extends AbstractStandardUpgradeStrateg
 		HttpServletResponse servletResponse = getHttpServletResponse(response);
 
 		StringBuffer requestUrl = servletRequest.getRequestURL();
-		String path = servletRequest.getRequestURI();  // shouldn't matter
-		Map<String, String> pathParams = Collections.<String, String> emptyMap();
+		String path = servletRequest.getRequestURI(); // shouldn't matter
+		Map<String, String> pathParams = Collections.<String, String>emptyMap();
 
 		ServerEndpointRegistration endpointConfig = new ServerEndpointRegistration(path, endpoint);
 		endpointConfig.setSubprotocols(Collections.singletonList(selectedProtocol));
@@ -73,12 +74,11 @@ public class TomcatRequestUpgradeStrategy extends AbstractStandardUpgradeStrateg
 			getContainer(servletRequest).doUpgrade(servletRequest, servletResponse, endpointConfig, pathParams);
 		}
 		catch (ServletException ex) {
-			throw new HandshakeFailureException(
-					"Servlet request failed to upgrade to WebSocket: " + requestUrl, ex);
+			throw new HandshakeFailureException("Servlet request failed to upgrade to WebSocket: " + requestUrl, ex);
 		}
 		catch (IOException ex) {
-			throw new HandshakeFailureException(
-					"Response update failed during upgrade to WebSocket: " + requestUrl, ex);
+			throw new HandshakeFailureException("Response update failed during upgrade to WebSocket: " + requestUrl,
+					ex);
 		}
 	}
 

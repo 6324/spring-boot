@@ -37,9 +37,9 @@ public interface HandlerFilterFunction<T extends ServerResponse, R extends Serve
 
 	/**
 	 * Apply this filter to the given handler function. The given
-	 * {@linkplain HandlerFunction handler function} represents the next entity in the chain,
-	 * and can be {@linkplain HandlerFunction#handle(ServerRequest) invoked} in order to
-	 * proceed to this entity, or not invoked to block the chain.
+	 * {@linkplain HandlerFunction handler function} represents the next entity in the
+	 * chain, and can be {@linkplain HandlerFunction#handle(ServerRequest) invoked} in
+	 * order to proceed to this entity, or not invoked to block the chain.
 	 * @param request the request
 	 * @param next the next handler or filter function in the chain
 	 * @return the filtered response
@@ -48,8 +48,8 @@ public interface HandlerFilterFunction<T extends ServerResponse, R extends Serve
 	Mono<R> filter(ServerRequest request, HandlerFunction<T> next);
 
 	/**
-	 * Return a composed filter function that first applies this filter, and then applies the
-	 * {@code after} filter.
+	 * Return a composed filter function that first applies this filter, and then applies
+	 * the {@code after} filter.
 	 * @param after the filter to apply after this filter is applied
 	 * @return a composed filter that first applies this function and then applies the
 	 * {@code after} function
@@ -63,7 +63,8 @@ public interface HandlerFilterFunction<T extends ServerResponse, R extends Serve
 	}
 
 	/**
-	 * Apply this filter to the given handler function, resulting in a filtered handler function.
+	 * Apply this filter to the given handler function, resulting in a filtered handler
+	 * function.
 	 * @param handler the handler function to filter
 	 * @return the filtered handler function
 	 */

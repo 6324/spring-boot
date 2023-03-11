@@ -45,7 +45,8 @@ public class JythonScriptTemplateTests {
 		model.put("body", "This is the body");
 		String url = "org/springframework/web/reactive/result/view/script/jython/template.html";
 		MockServerHttpResponse response = renderViewWithModel(url, model);
-		assertThat(response.getBodyAsString().block()).isEqualTo("<html><head><title>Layout example</title></head><body><p>This is the body</p></body></html>");
+		assertThat(response.getBodyAsString().block()).isEqualTo(
+				"<html><head><title>Layout example</title></head><body><p>This is the body</p></body></html>");
 	}
 
 	private MockServerHttpResponse renderViewWithModel(String viewUrl, Map<String, Object> model) throws Exception {
@@ -67,7 +68,6 @@ public class JythonScriptTemplateTests {
 		return view;
 	}
 
-
 	@Configuration
 	static class ScriptTemplatingConfiguration {
 
@@ -79,6 +79,7 @@ public class JythonScriptTemplateTests {
 			configurer.setRenderFunction("render");
 			return configurer;
 		}
+
 	}
 
 }

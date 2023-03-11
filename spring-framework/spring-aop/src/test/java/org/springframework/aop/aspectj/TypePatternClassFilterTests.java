@@ -70,7 +70,8 @@ class TypePatternClassFilterTests {
 
 	@Test
 	void subclassMatching() {
-		TypePatternClassFilter tpcf = new TypePatternClassFilter("org.springframework.beans.testfixture.beans.ITestBean+");
+		TypePatternClassFilter tpcf = new TypePatternClassFilter(
+				"org.springframework.beans.testfixture.beans.ITestBean+");
 
 		assertThat(tpcf.matches(TestBean.class)).as("Must match: in package").isTrue();
 		assertThat(tpcf.matches(ITestBean.class)).as("Must match: in package").isTrue();
@@ -121,8 +122,8 @@ class TypePatternClassFilterTests {
 		TypePatternClassFilter filter1 = new TypePatternClassFilter("org.springframework.beans.testfixture.beans.*");
 		TypePatternClassFilter filter2 = new TypePatternClassFilter("org.springframework.beans.testfixture.beans.*");
 
-		assertThat(filter1.toString())
-			.isEqualTo("org.springframework.aop.aspectj.TypePatternClassFilter: org.springframework.beans.testfixture.beans.*");
+		assertThat(filter1.toString()).isEqualTo(
+				"org.springframework.aop.aspectj.TypePatternClassFilter: org.springframework.beans.testfixture.beans.*");
 		assertThat(filter1.toString()).isEqualTo(filter2.toString());
 	}
 

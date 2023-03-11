@@ -55,10 +55,13 @@ import org.springframework.web.socket.sockjs.support.AbstractSockJsService;
  * A basic implementation of {@link org.springframework.web.socket.sockjs.SockJsService}
  * with support for SPI-based transport handling and session management.
  *
- * <p>Based on the {@link TransportHandler} SPI. {@code TransportHandlers} may
- * additionally implement the {@link SockJsSessionFactory} and {@link HandshakeHandler} interfaces.
+ * <p>
+ * Based on the {@link TransportHandler} SPI. {@code TransportHandlers} may additionally
+ * implement the {@link SockJsSessionFactory} and {@link HandshakeHandler} interfaces.
  *
- * <p>See the {@link AbstractSockJsService} base class for important details on request mapping.
+ * <p>
+ * See the {@link AbstractSockJsService} base class for important details on request
+ * mapping.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -67,9 +70,8 @@ import org.springframework.web.socket.sockjs.support.AbstractSockJsService;
  */
 public class TransportHandlingSockJsService extends AbstractSockJsService implements SockJsServiceConfig, Lifecycle {
 
-	private static final boolean jackson2Present = ClassUtils.isPresent(
-			"com.fasterxml.jackson.databind.ObjectMapper", TransportHandlingSockJsService.class.getClassLoader());
-
+	private static final boolean jackson2Present = ClassUtils.isPresent("com.fasterxml.jackson.databind.ObjectMapper",
+			TransportHandlingSockJsService.class.getClassLoader());
 
 	private final Map<TransportType, TransportHandler> handlers = new EnumMap<>(TransportType.class);
 
@@ -85,12 +87,12 @@ public class TransportHandlingSockJsService extends AbstractSockJsService implem
 
 	private volatile boolean running;
 
-
 	/**
-	 * Create a TransportHandlingSockJsService with given {@link TransportHandler handler} types.
-	 * @param scheduler a task scheduler for heart-beat messages and removing timed-out sessions;
-	 * the provided TaskScheduler should be declared as a Spring bean to ensure it gets
-	 * initialized at start-up and shuts down when the application stops
+	 * Create a TransportHandlingSockJsService with given {@link TransportHandler handler}
+	 * types.
+	 * @param scheduler a task scheduler for heart-beat messages and removing timed-out
+	 * sessions; the provided TaskScheduler should be declared as a Spring bean to ensure
+	 * it gets initialized at start-up and shuts down when the application stops
 	 * @param handlers one or more {@link TransportHandler} implementations to use
 	 */
 	public TransportHandlingSockJsService(TaskScheduler scheduler, TransportHandler... handlers) {
@@ -98,10 +100,11 @@ public class TransportHandlingSockJsService extends AbstractSockJsService implem
 	}
 
 	/**
-	 * Create a TransportHandlingSockJsService with given {@link TransportHandler handler} types.
-	 * @param scheduler a task scheduler for heart-beat messages and removing timed-out sessions;
-	 * the provided TaskScheduler should be declared as a Spring bean to ensure it gets
-	 * initialized at start-up and shuts down when the application stops
+	 * Create a TransportHandlingSockJsService with given {@link TransportHandler handler}
+	 * types.
+	 * @param scheduler a task scheduler for heart-beat messages and removing timed-out
+	 * sessions; the provided TaskScheduler should be declared as a Spring bean to ensure
+	 * it gets initialized at start-up and shuts down when the application stops
 	 * @param handlers one or more {@link TransportHandler} implementations to use
 	 */
 	public TransportHandlingSockJsService(TaskScheduler scheduler, Collection<TransportHandler> handlers) {
@@ -122,7 +125,6 @@ public class TransportHandlingSockJsService extends AbstractSockJsService implem
 		}
 	}
 
-
 	/**
 	 * Return the registered handlers per transport type.
 	 */
@@ -139,8 +141,8 @@ public class TransportHandlingSockJsService extends AbstractSockJsService implem
 
 	@Override
 	public SockJsMessageCodec getMessageCodec() {
-		Assert.state(this.messageCodec != null, "A SockJsMessageCodec is required but not available: " +
-				"Add Jackson to the classpath, or configure a custom SockJsMessageCodec.");
+		Assert.state(this.messageCodec != null, "A SockJsMessageCodec is required but not available: "
+				+ "Add Jackson to the classpath, or configure a custom SockJsMessageCodec.");
 		return this.messageCodec;
 	}
 
@@ -160,7 +162,6 @@ public class TransportHandlingSockJsService extends AbstractSockJsService implem
 	public List<HandshakeInterceptor> getHandshakeInterceptors() {
 		return this.interceptors;
 	}
-
 
 	@Override
 	public void start() {
@@ -190,7 +191,6 @@ public class TransportHandlingSockJsService extends AbstractSockJsService implem
 	public boolean isRunning() {
 		return this.running;
 	}
-
 
 	@Override
 	protected void handleRawWebSocketRequest(ServerHttpRequest request, ServerHttpResponse response,
@@ -286,9 +286,8 @@ public class TransportHandlingSockJsService extends AbstractSockJsService implem
 				else {
 					response.setStatusCode(HttpStatus.NOT_FOUND);
 					if (logger.isDebugEnabled()) {
-						logger.debug("Session not found, sessionId=" + sessionId +
-								". The session may have been closed " +
-								"(e.g. missed heart-beat) while a message was coming in.");
+						logger.debug("Session not found, sessionId=" + sessionId + ". The session may have been closed "
+								+ "(e.g. missed heart-beat) while a message was coming in.");
 					}
 					return;
 				}

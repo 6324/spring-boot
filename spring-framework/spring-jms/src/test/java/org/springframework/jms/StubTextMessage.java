@@ -57,14 +57,12 @@ public class StubTextMessage implements TextMessage {
 
 	private ConcurrentHashMap<String, Object> properties = new ConcurrentHashMap<>();
 
-
 	public StubTextMessage() {
 	}
 
 	public StubTextMessage(String text) {
 		this.text = text;
 	}
-
 
 	@Override
 	public String getText() throws JMSException {

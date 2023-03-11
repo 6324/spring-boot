@@ -63,7 +63,6 @@ public class SQLErrorCodeSQLExceptionTranslatorTests {
 		ERROR_CODES.setCannotSerializeTransactionCodes("9");
 	}
 
-
 	@Test
 	public void errorCodeTranslation() {
 		SQLExceptionTranslator sext = new SQLErrorCodeSQLExceptionTranslator(ERROR_CODES);
@@ -74,7 +73,8 @@ public class SQLErrorCodeSQLExceptionTranslatorTests {
 		assertThat((Object) bsgex.getSQLException()).isEqualTo(badSqlEx);
 
 		SQLException invResEx = new SQLException("", "", 4);
-		InvalidResultSetAccessException irsex = (InvalidResultSetAccessException) sext.translate("task", "SQL", invResEx);
+		InvalidResultSetAccessException irsex = (InvalidResultSetAccessException) sext.translate("task", "SQL",
+				invResEx);
 		assertThat(irsex.getSql()).isEqualTo("SQL");
 		assertThat((Object) irsex.getSQLException()).isEqualTo(invResEx);
 
@@ -87,7 +87,8 @@ public class SQLErrorCodeSQLExceptionTranslatorTests {
 
 		SQLException dupKeyEx = new SQLException("", "", 10);
 		DataAccessException dksex = sext.translate("task", "SQL", dupKeyEx);
-		assertThat(DataIntegrityViolationException.class.isInstance(dksex)).as("Not instance of DataIntegrityViolationException").isTrue();
+		assertThat(DataIntegrityViolationException.class.isInstance(dksex))
+				.as("Not instance of DataIntegrityViolationException").isTrue();
 
 		// Test fallback. We assume that no database will ever return this error code,
 		// but 07xxx will be bad grammar picked up by the fallback SQLState translator
@@ -122,7 +123,8 @@ public class SQLErrorCodeSQLExceptionTranslatorTests {
 
 		SQLException dataAccessEx = new SQLException("", "", 5);
 		DataTruncation dataTruncation = new DataTruncation(1, true, true, 1, 1, dataAccessEx);
-		DataAccessResourceFailureException daex = (DataAccessResourceFailureException) sext.translate("task", "SQL", dataTruncation);
+		DataAccessResourceFailureException daex = (DataAccessResourceFailureException) sext.translate("task", "SQL",
+				dataTruncation);
 		assertThat(daex.getCause()).isEqualTo(dataTruncation);
 	}
 
@@ -131,7 +133,8 @@ public class SQLErrorCodeSQLExceptionTranslatorTests {
 	public void customTranslateMethodTranslation() {
 		final String TASK = "TASK";
 		final String SQL = "SQL SELECT *";
-		final DataAccessException customDex = new DataAccessException("") {};
+		final DataAccessException customDex = new DataAccessException("") {
+		};
 
 		final SQLException badSqlEx = new SQLException("", "", 1);
 		SQLException intVioEx = new SQLException("", "", 6);
@@ -179,8 +182,7 @@ public class SQLErrorCodeSQLExceptionTranslatorTests {
 		assertThat(diex.getCause()).isEqualTo(invResEx);
 
 		// Shouldn't custom translate this - invalid class
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				customTranslation.setExceptionClass(String.class));
+		assertThatIllegalArgumentException().isThrownBy(() -> customTranslation.setExceptionClass(String.class));
 	}
 
 	@Test

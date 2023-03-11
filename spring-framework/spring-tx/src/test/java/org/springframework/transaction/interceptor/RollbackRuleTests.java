@@ -66,26 +66,23 @@ public class RollbackRuleTests {
 		RollbackRuleAttribute rr = new RollbackRuleAttribute(java.lang.Throwable.class.getName());
 		assertThat(rr.getDepth(new MyRuntimeException("")) > 0).isTrue();
 		assertThat(rr.getDepth(new IOException()) > 0).isTrue();
-		assertThat(rr.getDepth(new FatalBeanException(null,null)) > 0).isTrue();
+		assertThat(rr.getDepth(new FatalBeanException(null, null)) > 0).isTrue();
 		assertThat(rr.getDepth(new RuntimeException()) > 0).isTrue();
 	}
 
 	@Test
 	public void ctorArgMustBeAThrowableClassWithNonThrowableType() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new RollbackRuleAttribute(StringBuffer.class));
+		assertThatIllegalArgumentException().isThrownBy(() -> new RollbackRuleAttribute(StringBuffer.class));
 	}
 
 	@Test
 	public void ctorArgMustBeAThrowableClassWithNullThrowableType() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new RollbackRuleAttribute((Class<?>) null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new RollbackRuleAttribute((Class<?>) null));
 	}
 
 	@Test
 	public void ctorArgExceptionStringNameVersionWithNull() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new RollbackRuleAttribute((String) null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new RollbackRuleAttribute((String) null));
 	}
 
 	@Test
@@ -101,6 +98,7 @@ public class RollbackRuleTests {
 		static class EnclosedException extends RuntimeException {
 
 		}
+
 	}
 
 }

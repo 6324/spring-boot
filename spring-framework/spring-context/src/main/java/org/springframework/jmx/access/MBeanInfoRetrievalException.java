@@ -19,8 +19,7 @@ package org.springframework.jmx.access;
 import org.springframework.jmx.JmxException;
 
 /**
- * Thrown if an exception is encountered when trying to retrieve
- * MBean metadata.
+ * Thrown if an exception is encountered when trying to retrieve MBean metadata.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -32,8 +31,7 @@ import org.springframework.jmx.JmxException;
 public class MBeanInfoRetrievalException extends JmxException {
 
 	/**
-	 * Create a new {@code MBeanInfoRetrievalException} with the
-	 * specified error message.
+	 * Create a new {@code MBeanInfoRetrievalException} with the specified error message.
 	 * @param msg the detail message
 	 */
 	public MBeanInfoRetrievalException(String msg) {
@@ -41,8 +39,8 @@ public class MBeanInfoRetrievalException extends JmxException {
 	}
 
 	/**
-	 * Create a new {@code MBeanInfoRetrievalException} with the
-	 * specified error message and root cause.
+	 * Create a new {@code MBeanInfoRetrievalException} with the specified error message
+	 * and root cause.
 	 * @param msg the detail message
 	 * @param cause the root cause
 	 */

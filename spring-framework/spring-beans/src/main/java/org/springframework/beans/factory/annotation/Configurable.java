@@ -26,7 +26,8 @@ import java.lang.annotation.Target;
 /**
  * Marks a class as being eligible for Spring-driven configuration.
  *
- * <p>Typically used with the AspectJ {@code AnnotationBeanConfigurerAspect}.
+ * <p>
+ * Typically used with the AspectJ {@code AnnotationBeanConfigurerAspect}.
  *
  * @author Rod Johnson
  * @author Rob Harrop

@@ -59,14 +59,12 @@ class ClassUtilsTests {
 
 	private final ClassLoader classLoader = getClass().getClassLoader();
 
-
 	@BeforeEach
 	void clearStatics() {
 		InnerClass.noArgCalled = false;
 		InnerClass.argCalled = false;
 		InnerClass.overloadedCalled = false;
 	}
-
 
 	@Test
 	void isPresent() {
@@ -81,10 +79,13 @@ class ClassUtilsTests {
 		assertThat(ClassUtils.forName(String[].class.getName(), classLoader)).isEqualTo(String[].class);
 		assertThat(ClassUtils.forName(String[][].class.getName(), classLoader)).isEqualTo(String[][].class);
 		assertThat(ClassUtils.forName(String[][][].class.getName(), classLoader)).isEqualTo(String[][][].class);
-		assertThat(ClassUtils.forName("org.springframework.tests.sample.objects.TestObject", classLoader)).isEqualTo(TestObject.class);
-		assertThat(ClassUtils.forName("org.springframework.tests.sample.objects.TestObject[]", classLoader)).isEqualTo(TestObject[].class);
+		assertThat(ClassUtils.forName("org.springframework.tests.sample.objects.TestObject", classLoader))
+				.isEqualTo(TestObject.class);
+		assertThat(ClassUtils.forName("org.springframework.tests.sample.objects.TestObject[]", classLoader))
+				.isEqualTo(TestObject[].class);
 		assertThat(ClassUtils.forName(TestObject[].class.getName(), classLoader)).isEqualTo(TestObject[].class);
-		assertThat(ClassUtils.forName("org.springframework.tests.sample.objects.TestObject[][]", classLoader)).isEqualTo(TestObject[][].class);
+		assertThat(ClassUtils.forName("org.springframework.tests.sample.objects.TestObject[][]", classLoader))
+				.isEqualTo(TestObject[][].class);
 		assertThat(ClassUtils.forName(TestObject[][].class.getName(), classLoader)).isEqualTo(TestObject[][].class);
 		assertThat(ClassUtils.forName("[[[S", classLoader)).isEqualTo(short[][][].class);
 	}
@@ -128,16 +129,18 @@ class ClassUtilsTests {
 
 	@Test
 	void isCacheSafe() {
-		ClassLoader childLoader1 = new ClassLoader(classLoader) {};
-		ClassLoader childLoader2 = new ClassLoader(classLoader) {};
+		ClassLoader childLoader1 = new ClassLoader(classLoader) {
+		};
+		ClassLoader childLoader2 = new ClassLoader(classLoader) {
+		};
 		ClassLoader childLoader3 = new ClassLoader(classLoader) {
 			@Override
 			public Class<?> loadClass(String name) throws ClassNotFoundException {
 				return childLoader1.loadClass(name);
 			}
 		};
-		Class<?> composite = ClassUtils.createCompositeInterface(
-				new Class<?>[] {Serializable.class, Externalizable.class}, childLoader1);
+		Class<?> composite = ClassUtils
+				.createCompositeInterface(new Class<?>[] { Serializable.class, Externalizable.class }, childLoader1);
 
 		assertThat(ClassUtils.isCacheSafe(String.class, null)).isTrue();
 		assertThat(ClassUtils.isCacheSafe(String.class, classLoader)).isTrue();
@@ -157,24 +160,9 @@ class ClassUtilsTests {
 	}
 
 	@ParameterizedTest
-	@CsvSource({
-		"boolean, boolean",
-		"byte, byte",
-		"char, char",
-		"short, short",
-		"int, int",
-		"long, long",
-		"float, float",
-		"double, double",
-		"[Z, boolean[]",
-		"[B, byte[]",
-		"[C, char[]",
-		"[S, short[]",
-		"[I, int[]",
-		"[J, long[]",
-		"[F, float[]",
-		"[D, double[]"
-	})
+	@CsvSource({ "boolean, boolean", "byte, byte", "char, char", "short, short", "int, int", "long, long",
+			"float, float", "double, double", "[Z, boolean[]", "[B, byte[]", "[C, char[]", "[S, short[]", "[I, int[]",
+			"[J, long[]", "[F, float[]", "[D, double[]" })
 	void resolvePrimitiveClassName(String input, Class<?> output) {
 		assertThat(ClassUtils.resolvePrimitiveClassName(input)).isEqualTo(output);
 	}
@@ -287,8 +275,10 @@ class ClassUtilsTests {
 
 	@Test
 	void getMethodCountForName() {
-		assertThat(ClassUtils.getMethodCountForName(OverloadedMethodsClass.class, "print")).as("Verifying number of overloaded 'print' methods for OverloadedMethodsClass.").isEqualTo(2);
-		assertThat(ClassUtils.getMethodCountForName(SubOverloadedMethodsClass.class, "print")).as("Verifying number of overloaded 'print' methods for SubOverloadedMethodsClass.").isEqualTo(4);
+		assertThat(ClassUtils.getMethodCountForName(OverloadedMethodsClass.class, "print"))
+				.as("Verifying number of overloaded 'print' methods for OverloadedMethodsClass.").isEqualTo(2);
+		assertThat(ClassUtils.getMethodCountForName(SubOverloadedMethodsClass.class, "print"))
+				.as("Verifying number of overloaded 'print' methods for SubOverloadedMethodsClass.").isEqualTo(4);
 	}
 
 	@Test
@@ -349,7 +339,8 @@ class ClassUtilsTests {
 		assertThat(ClassUtils.addResourcePathToPackagePath(Proxy.class, "xyzabc.xml")).isEqualTo(result);
 		assertThat(ClassUtils.addResourcePathToPackagePath(Proxy.class, "/xyzabc.xml")).isEqualTo(result);
 
-		assertThat(ClassUtils.addResourcePathToPackagePath(Proxy.class, "a/b/c/d.xml")).isEqualTo("java/lang/reflect/a/b/c/d.xml");
+		assertThat(ClassUtils.addResourcePathToPackagePath(Proxy.class, "a/b/c/d.xml"))
+				.isEqualTo("java/lang/reflect/a/b/c/d.xml");
 	}
 
 	@Test
@@ -431,19 +422,20 @@ class ClassUtilsTests {
 		assertThat(ClassUtils.isPrimitiveOrWrapper(type)).isTrue();
 	}
 
-
 	@Target(ElementType.METHOD)
 	@Retention(RetentionPolicy.RUNTIME)
-	@ValueSource(classes = { Boolean.class, Character.class, Byte.class, Short.class,
-		Integer.class, Long.class, Float.class, Double.class, Void.class })
+	@ValueSource(classes = { Boolean.class, Character.class, Byte.class, Short.class, Integer.class, Long.class,
+			Float.class, Double.class, Void.class })
 	@interface WrapperTypes {
+
 	}
 
 	@Target(ElementType.METHOD)
 	@Retention(RetentionPolicy.RUNTIME)
-	@ValueSource(classes = { boolean.class, char.class, byte.class, short.class,
-		int.class, long.class, float.class, double.class, void.class })
+	@ValueSource(classes = { boolean.class, char.class, byte.class, short.class, int.class, long.class, float.class,
+			double.class, void.class })
 	@interface PrimitiveTypes {
+
 	}
 
 	public static class InnerClass {
@@ -463,6 +455,7 @@ class ClassUtilsTests {
 		public static void argStaticMethod(String anArg) {
 			argCalled = true;
 		}
+
 	}
 
 	@SuppressWarnings("unused")
@@ -475,6 +468,7 @@ class ClassUtilsTests {
 		public void print(String[] messages) {
 			/* no-op */
 		}
+
 	}
 
 	@SuppressWarnings("unused")
@@ -487,6 +481,7 @@ class ClassUtilsTests {
 		void print(String header, String[] messages, String footer) {
 			/* no-op */
 		}
+
 	}
 
 }

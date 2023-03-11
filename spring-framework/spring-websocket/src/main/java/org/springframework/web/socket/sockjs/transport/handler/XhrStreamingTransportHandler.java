@@ -46,7 +46,6 @@ public class XhrStreamingTransportHandler extends AbstractHttpSendingTransportHa
 		PRELUDE[2048] = '\n';
 	}
 
-
 	@Override
 	public TransportType getTransportType() {
 		return TransportType.XHR_STREAMING;
@@ -63,8 +62,8 @@ public class XhrStreamingTransportHandler extends AbstractHttpSendingTransportHa
 	}
 
 	@Override
-	public StreamingSockJsSession createSession(
-			String sessionId, WebSocketHandler handler, Map<String, Object> attributes) {
+	public StreamingSockJsSession createSession(String sessionId, WebSocketHandler handler,
+			Map<String, Object> attributes) {
 
 		return new XhrStreamingSockJsSession(sessionId, getServiceConfig(), handler, attributes);
 	}
@@ -74,11 +73,10 @@ public class XhrStreamingTransportHandler extends AbstractHttpSendingTransportHa
 		return new DefaultSockJsFrameFormat("%s\n");
 	}
 
-
 	private class XhrStreamingSockJsSession extends StreamingSockJsSession {
 
-		public XhrStreamingSockJsSession(String sessionId, SockJsServiceConfig config,
-				WebSocketHandler wsHandler, Map<String, Object> attributes) {
+		public XhrStreamingSockJsSession(String sessionId, SockJsServiceConfig config, WebSocketHandler wsHandler,
+				Map<String, Object> attributes) {
 
 			super(sessionId, config, wsHandler, attributes);
 		}
@@ -87,6 +85,7 @@ public class XhrStreamingTransportHandler extends AbstractHttpSendingTransportHa
 		protected byte[] getPrelude(ServerHttpRequest request) {
 			return PRELUDE;
 		}
+
 	}
 
 }

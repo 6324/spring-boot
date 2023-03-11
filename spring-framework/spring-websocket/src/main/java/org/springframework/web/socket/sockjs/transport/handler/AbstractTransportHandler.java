@@ -37,7 +37,6 @@ public abstract class AbstractTransportHandler implements TransportHandler {
 	@Nullable
 	private SockJsServiceConfig serviceConfig;
 
-
 	@Override
 	public void initialize(SockJsServiceConfig serviceConfig) {
 		this.serviceConfig = serviceConfig;

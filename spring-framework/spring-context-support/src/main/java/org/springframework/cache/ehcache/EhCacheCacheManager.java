@@ -41,10 +41,9 @@ public class EhCacheCacheManager extends AbstractTransactionSupportingCacheManag
 	@Nullable
 	private net.sf.ehcache.CacheManager cacheManager;
 
-
 	/**
-	 * Create a new EhCacheCacheManager, setting the target EhCache CacheManager
-	 * through the {@link #setCacheManager} bean property.
+	 * Create a new EhCacheCacheManager, setting the target EhCache CacheManager through
+	 * the {@link #setCacheManager} bean property.
 	 */
 	public EhCacheCacheManager() {
 	}
@@ -56,7 +55,6 @@ public class EhCacheCacheManager extends AbstractTransactionSupportingCacheManag
 	public EhCacheCacheManager(net.sf.ehcache.CacheManager cacheManager) {
 		this.cacheManager = cacheManager;
 	}
-
 
 	/**
 	 * Set the backing EhCache {@link net.sf.ehcache.CacheManager}.
@@ -80,7 +78,6 @@ public class EhCacheCacheManager extends AbstractTransactionSupportingCacheManag
 		}
 		super.afterPropertiesSet();
 	}
-
 
 	@Override
 	protected Collection<Cache> loadCaches() {

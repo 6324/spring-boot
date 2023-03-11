@@ -34,7 +34,6 @@ public class SpelExpressionParser extends TemplateAwareExpressionParser {
 
 	private final SpelParserConfiguration configuration;
 
-
 	/**
 	 * Create a parser with default settings.
 	 */
@@ -51,13 +50,13 @@ public class SpelExpressionParser extends TemplateAwareExpressionParser {
 		this.configuration = configuration;
 	}
 
-
 	public SpelExpression parseRaw(String expressionString) throws ParseException {
 		return doParseExpression(expressionString, null);
 	}
 
 	@Override
-	protected SpelExpression doParseExpression(String expressionString, @Nullable ParserContext context) throws ParseException {
+	protected SpelExpression doParseExpression(String expressionString, @Nullable ParserContext context)
+			throws ParseException {
 		return new InternalSpelExpressionParser(this.configuration).doParseExpression(expressionString, context);
 	}
 

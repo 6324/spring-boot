@@ -23,7 +23,8 @@ import org.springframework.util.Assert;
 /**
  * An {@link ApplicationEvent} that carries an arbitrary payload.
  *
- * <p>Mainly intended for internal use within the framework.
+ * <p>
+ * Mainly intended for internal use within the framework.
  *
  * @author Stephane Nicoll
  * @since 4.2
@@ -33,7 +34,6 @@ import org.springframework.util.Assert;
 public class PayloadApplicationEvent<T> extends ApplicationEvent implements ResolvableTypeProvider {
 
 	private final T payload;
-
 
 	/**
 	 * Create a new PayloadApplicationEvent.
@@ -45,7 +45,6 @@ public class PayloadApplicationEvent<T> extends ApplicationEvent implements Reso
 		Assert.notNull(payload, "Payload must not be null");
 		this.payload = payload;
 	}
-
 
 	@Override
 	public ResolvableType getResolvableType() {

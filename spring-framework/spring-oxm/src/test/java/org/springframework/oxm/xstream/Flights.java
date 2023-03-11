@@ -40,4 +40,5 @@ public class Flights {
 	public void setStrings(List<String> strings) {
 		this.strings = strings;
 	}
+
 }

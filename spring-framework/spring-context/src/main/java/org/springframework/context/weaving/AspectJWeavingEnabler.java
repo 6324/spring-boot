@@ -33,8 +33,8 @@ import org.springframework.lang.Nullable;
 
 /**
  * Post-processor that registers AspectJ's
- * {@link org.aspectj.weaver.loadtime.ClassPreProcessorAgentAdapter}
- * with the Spring application context's default
+ * {@link org.aspectj.weaver.loadtime.ClassPreProcessorAgentAdapter} with the Spring
+ * application context's default
  * {@link org.springframework.instrument.classloading.LoadTimeWeaver}.
  *
  * @author Juergen Hoeller
@@ -49,13 +49,11 @@ public class AspectJWeavingEnabler
 	 */
 	public static final String ASPECTJ_AOP_XML_RESOURCE = "META-INF/aop.xml";
 
-
 	@Nullable
 	private ClassLoader beanClassLoader;
 
 	@Nullable
 	private LoadTimeWeaver loadTimeWeaver;
-
 
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
@@ -77,14 +75,15 @@ public class AspectJWeavingEnabler
 		enableAspectJWeaving(this.loadTimeWeaver, this.beanClassLoader);
 	}
 
-
 	/**
 	 * Enable AspectJ weaving with the given {@link LoadTimeWeaver}.
-	 * @param weaverToUse the LoadTimeWeaver to apply to (or {@code null} for a default weaver)
-	 * @param beanClassLoader the class loader to create a default weaver for (if necessary)
+	 * @param weaverToUse the LoadTimeWeaver to apply to (or {@code null} for a default
+	 * weaver)
+	 * @param beanClassLoader the class loader to create a default weaver for (if
+	 * necessary)
 	 */
-	public static void enableAspectJWeaving(
-			@Nullable LoadTimeWeaver weaverToUse, @Nullable ClassLoader beanClassLoader) {
+	public static void enableAspectJWeaving(@Nullable LoadTimeWeaver weaverToUse,
+			@Nullable ClassLoader beanClassLoader) {
 
 		if (weaverToUse == null) {
 			if (InstrumentationLoadTimeWeaver.isInstrumentationAvailable()) {
@@ -94,14 +93,13 @@ public class AspectJWeavingEnabler
 				throw new IllegalStateException("No LoadTimeWeaver available");
 			}
 		}
-		weaverToUse.addTransformer(
-				new AspectJClassBypassingClassFileTransformer(new ClassPreProcessorAgentAdapter()));
+		weaverToUse.addTransformer(new AspectJClassBypassingClassFileTransformer(new ClassPreProcessorAgentAdapter()));
 	}
 
-
 	/**
-	 * ClassFileTransformer decorator that suppresses processing of AspectJ
-	 * classes in order to avoid potential LinkageErrors.
+	 * ClassFileTransformer decorator that suppresses processing of AspectJ classes in
+	 * order to avoid potential LinkageErrors.
+	 *
 	 * @see org.springframework.context.annotation.LoadTimeWeavingConfiguration
 	 */
 	private static class AspectJClassBypassingClassFileTransformer implements ClassFileTransformer {
@@ -121,6 +119,7 @@ public class AspectJWeavingEnabler
 			}
 			return this.delegate.transform(loader, className, classBeingRedefined, protectionDomain, classfileBuffer);
 		}
+
 	}
 
 }

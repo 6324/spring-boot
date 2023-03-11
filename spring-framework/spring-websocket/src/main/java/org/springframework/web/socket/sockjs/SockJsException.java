@@ -31,7 +31,6 @@ public class SockJsException extends NestedRuntimeException {
 	@Nullable
 	private final String sessionId;
 
-
 	/**
 	 * Constructor for SockJsException.
 	 * @param message the exception message
@@ -51,7 +50,6 @@ public class SockJsException extends NestedRuntimeException {
 		super(message, cause);
 		this.sessionId = sessionId;
 	}
-
 
 	/**
 	 * Return the SockJS session id.

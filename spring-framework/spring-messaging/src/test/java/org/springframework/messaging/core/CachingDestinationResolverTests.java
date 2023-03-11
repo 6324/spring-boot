@@ -54,14 +54,12 @@ public class CachingDestinationResolverTests {
 	@Test
 	public void noTargetSet() {
 		CachingDestinationResolverProxy<String> resolverProxy = new CachingDestinationResolverProxy<>();
-		assertThatIllegalArgumentException().isThrownBy(
-				resolverProxy::afterPropertiesSet);
+		assertThatIllegalArgumentException().isThrownBy(resolverProxy::afterPropertiesSet);
 	}
 
 	@Test
 	public void nullTargetThroughConstructor() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new CachingDestinationResolverProxy<String>(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new CachingDestinationResolverProxy<String>(null));
 	}
 
 }

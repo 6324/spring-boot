@@ -38,11 +38,9 @@ final class CollectionToStringConverter implements ConditionalGenericConverter {
 
 	private final ConversionService conversionService;
 
-
 	public CollectionToStringConverter(ConversionService conversionService) {
 		this.conversionService = conversionService;
 	}
-
 
 	@Override
 	public Set<ConvertiblePair> getConvertibleTypes() {
@@ -51,8 +49,8 @@ final class CollectionToStringConverter implements ConditionalGenericConverter {
 
 	@Override
 	public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
-		return ConversionUtils.canConvertElements(
-				sourceType.getElementTypeDescriptor(), targetType, this.conversionService);
+		return ConversionUtils.canConvertElements(sourceType.getElementTypeDescriptor(), targetType,
+				this.conversionService);
 	}
 
 	@Override
@@ -67,8 +65,8 @@ final class CollectionToStringConverter implements ConditionalGenericConverter {
 		}
 		StringJoiner sj = new StringJoiner(DELIMITER);
 		for (Object sourceElement : sourceCollection) {
-			Object targetElement = this.conversionService.convert(
-					sourceElement, sourceType.elementTypeDescriptor(sourceElement), targetType);
+			Object targetElement = this.conversionService.convert(sourceElement,
+					sourceType.elementTypeDescriptor(sourceElement), targetType);
 			sj.add(String.valueOf(targetElement));
 		}
 		return sj.toString();

@@ -40,11 +40,12 @@ import org.springframework.validation.annotation.Validated;
 
 /**
  * A resolver to extract and convert the payload of a message using a
- * {@link MessageConverter}. It also validates the payload using a
- * {@link Validator} if the argument is annotated with a Validation annotation.
+ * {@link MessageConverter}. It also validates the payload using a {@link Validator} if
+ * the argument is annotated with a Validation annotation.
  *
- * <p>This {@link HandlerMethodArgumentResolver} should be ordered last as it
- * supports all types and does not require the {@link Payload} annotation.
+ * <p>
+ * This {@link HandlerMethodArgumentResolver} should be ordered last as it supports all
+ * types and does not require the {@link Payload} annotation.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -60,7 +61,6 @@ public class PayloadMethodArgumentResolver implements HandlerMethodArgumentResol
 	private final Validator validator;
 
 	private final boolean useDefaultResolution;
-
 
 	/**
 	 * Create a new {@code PayloadArgumentResolver} with the given
@@ -86,9 +86,9 @@ public class PayloadMethodArgumentResolver implements HandlerMethodArgumentResol
 	 * {@link MessageConverter} and {@link Validator}.
 	 * @param messageConverter the MessageConverter to use (required)
 	 * @param validator the Validator to use (optional)
-	 * @param useDefaultResolution if "true" (the default) this resolver supports
-	 * all parameters; if "false" then only arguments with the {@code @Payload}
-	 * annotation are supported.
+	 * @param useDefaultResolution if "true" (the default) this resolver supports all
+	 * parameters; if "false" then only arguments with the {@code @Payload} annotation are
+	 * supported.
 	 */
 	public PayloadMethodArgumentResolver(MessageConverter messageConverter, @Nullable Validator validator,
 			boolean useDefaultResolution) {
@@ -98,7 +98,6 @@ public class PayloadMethodArgumentResolver implements HandlerMethodArgumentResol
 		this.validator = validator;
 		this.useDefaultResolution = useDefaultResolution;
 	}
-
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -141,8 +140,8 @@ public class PayloadMethodArgumentResolver implements HandlerMethodArgumentResol
 				payload = this.converter.fromMessage(message, targetClass);
 			}
 			if (payload == null) {
-				throw new MessageConversionException(message, "Cannot convert from [" +
-						payloadClass.getName() + "] to [" + targetClass.getName() + "] for " + message);
+				throw new MessageConversionException(message, "Cannot convert from [" + payloadClass.getName()
+						+ "] to [" + targetClass.getName() + "] for " + message);
 			}
 			validate(message, parameter, payload);
 			return payload;
@@ -175,10 +174,11 @@ public class PayloadMethodArgumentResolver implements HandlerMethodArgumentResol
 
 	/**
 	 * Resolve the target class to convert the payload to.
-	 * <p>By default this is simply {@link MethodParameter#getParameterType()}
-	 * but that can be overridden to select a more specific target type after
-	 * also taking into account the "Content-Type", e.g. return {@code String}
-	 * if target type is {@code Object} and {@code "Content-Type:text/**"}.
+	 * <p>
+	 * By default this is simply {@link MethodParameter#getParameterType()} but that can
+	 * be overridden to select a more specific target type after also taking into account
+	 * the "Content-Type", e.g. return {@code String} if target type is {@code Object} and
+	 * {@code "Content-Type:text/**"}.
 	 * @param parameter the target method parameter
 	 * @param message the message being processed
 	 * @return the target type to use
@@ -190,9 +190,9 @@ public class PayloadMethodArgumentResolver implements HandlerMethodArgumentResol
 
 	/**
 	 * Validate the payload if applicable.
-	 * <p>The default implementation checks for {@code @javax.validation.Valid},
-	 * Spring's {@link Validated},
-	 * and custom annotations whose name starts with "Valid".
+	 * <p>
+	 * The default implementation checks for {@code @javax.validation.Valid}, Spring's
+	 * {@link Validated}, and custom annotations whose name starts with "Valid".
 	 * @param message the currently processed message
 	 * @param parameter the method parameter
 	 * @param target the target payload object
@@ -206,9 +206,9 @@ public class PayloadMethodArgumentResolver implements HandlerMethodArgumentResol
 			Validated validatedAnn = AnnotationUtils.getAnnotation(ann, Validated.class);
 			if (validatedAnn != null || ann.annotationType().getSimpleName().startsWith("Valid")) {
 				Object hints = (validatedAnn != null ? validatedAnn.value() : AnnotationUtils.getValue(ann));
-				Object[] validationHints = (hints instanceof Object[] ? (Object[]) hints : new Object[] {hints});
-				BeanPropertyBindingResult bindingResult =
-						new BeanPropertyBindingResult(target, getParameterName(parameter));
+				Object[] validationHints = (hints instanceof Object[] ? (Object[]) hints : new Object[] { hints });
+				BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(target,
+						getParameterName(parameter));
 				if (!ObjectUtils.isEmpty(validationHints) && this.validator instanceof SmartValidator) {
 					((SmartValidator) this.validator).validate(target, bindingResult, validationHints);
 				}

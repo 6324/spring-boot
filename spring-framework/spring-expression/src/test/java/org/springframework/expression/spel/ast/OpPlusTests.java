@@ -46,8 +46,7 @@ public class OpPlusTests {
 
 	@Test
 	public void test_emptyOperands() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new OpPlus(-1, -1));
+		assertThatIllegalArgumentException().isThrownBy(() -> new OpPlus(-1, -1));
 	}
 
 	@Test
@@ -57,8 +56,7 @@ public class OpPlusTests {
 		StringLiteral str = new StringLiteral("word", -1, -1, "word");
 
 		OpPlus o = new OpPlus(-1, -1, str);
-		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(() ->
-				o.getValueInternal(expressionState));
+		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(() -> o.getValueInternal(expressionState));
 	}
 
 	@Test

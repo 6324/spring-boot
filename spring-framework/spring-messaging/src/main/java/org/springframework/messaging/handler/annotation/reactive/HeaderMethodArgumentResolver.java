@@ -33,9 +33,9 @@ import org.springframework.messaging.support.NativeMessageHeaderAccessor;
 import org.springframework.util.Assert;
 
 /**
- * Resolver for {@link Header @Header} arguments. Headers are resolved from
- * either the top-level header map or the nested
- * {@link NativeMessageHeaderAccessor native} header map.
+ * Resolver for {@link Header @Header} arguments. Headers are resolved from either the
+ * top-level header map or the nested {@link NativeMessageHeaderAccessor native} header
+ * map.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -46,13 +46,11 @@ public class HeaderMethodArgumentResolver extends AbstractNamedValueMethodArgume
 
 	private static final Log logger = LogFactory.getLog(HeaderMethodArgumentResolver.class);
 
-
-	public HeaderMethodArgumentResolver(
-			ConversionService conversionService, @Nullable ConfigurableBeanFactory beanFactory) {
+	public HeaderMethodArgumentResolver(ConversionService conversionService,
+			@Nullable ConfigurableBeanFactory beanFactory) {
 
 		super(conversionService, beanFactory);
 	}
-
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -75,9 +73,9 @@ public class HeaderMethodArgumentResolver extends AbstractNamedValueMethodArgume
 
 		if (headerValue != null && nativeHeaderValue != null) {
 			if (logger.isDebugEnabled()) {
-				logger.debug("A value was found for '" + name + "', in both the top level header map " +
-						"and also in the nested map for native headers. Using the value from top level map. " +
-						"Use 'nativeHeader.myHeader' to resolve the native header.");
+				logger.debug("A value was found for '" + name + "', in both the top level header map "
+						+ "and also in the nested map for native headers. Using the value from top level map. "
+						+ "Use 'nativeHeader.myHeader' to resolve the native header.");
 			}
 		}
 
@@ -105,16 +103,16 @@ public class HeaderMethodArgumentResolver extends AbstractNamedValueMethodArgume
 
 	@Override
 	protected void handleMissingValue(String headerName, MethodParameter parameter, Message<?> message) {
-		throw new MessageHandlingException(message, "Missing header '" + headerName +
-				"' for method parameter type [" + parameter.getParameterType() + "]");
+		throw new MessageHandlingException(message,
+				"Missing header '" + headerName + "' for method parameter type [" + parameter.getParameterType() + "]");
 	}
-
 
 	private static final class HeaderNamedValueInfo extends NamedValueInfo {
 
 		private HeaderNamedValueInfo(Header annotation) {
 			super(annotation.name(), annotation.required(), annotation.defaultValue());
 		}
+
 	}
 
 }

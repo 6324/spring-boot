@@ -28,9 +28,10 @@ import org.springframework.cache.jcache.JCacheCache;
 import org.springframework.util.Assert;
 
 /**
- * Spring's {@link CacheResolver} implementation that delegates to a standard
- * JSR-107 {@link javax.cache.annotation.CacheResolver}.
- * <p>Used internally to invoke user-based JSR-107 cache resolvers.
+ * Spring's {@link CacheResolver} implementation that delegates to a standard JSR-107
+ * {@link javax.cache.annotation.CacheResolver}.
+ * <p>
+ * Used internally to invoke user-based JSR-107 cache resolvers.
  *
  * @author Stephane Nicoll
  * @since 4.1
@@ -38,7 +39,6 @@ import org.springframework.util.Assert;
 class CacheResolverAdapter implements CacheResolver {
 
 	private final javax.cache.annotation.CacheResolver target;
-
 
 	/**
 	 * Create a new instance with the JSR-107 cache resolver to invoke.
@@ -48,10 +48,9 @@ class CacheResolverAdapter implements CacheResolver {
 		this.target = target;
 	}
 
-
 	/**
-	 * Return the underlying {@link javax.cache.annotation.CacheResolver}
-	 * that this instance is using.
+	 * Return the underlying {@link javax.cache.annotation.CacheResolver} that this
+	 * instance is using.
 	 */
 	protected javax.cache.annotation.CacheResolver getTarget() {
 		return this.target;

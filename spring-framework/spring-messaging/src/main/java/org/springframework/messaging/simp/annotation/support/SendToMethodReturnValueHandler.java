@@ -49,10 +49,11 @@ import org.springframework.util.StringUtils;
  * A {@link HandlerMethodReturnValueHandler} for sending to destinations specified in a
  * {@link SendTo} or {@link SendToUser} method-level annotations.
  *
- * <p>The value returned from the method is converted, and turned to a {@link Message} and
+ * <p>
+ * The value returned from the method is converted, and turned to a {@link Message} and
  * sent through the provided {@link MessageChannel}. The message is then enriched with the
- * session id of the input message as well as the destination from the annotation(s).
- * If multiple destinations are specified, a copy of the message is sent to each destination.
+ * session id of the input message as well as the destination from the annotation(s). If
+ * multiple destinations are specified, a copy of the message is sent to each destination.
  *
  * @author Rossen Stoyanchev
  * @author Sebastien Deleuze
@@ -73,19 +74,18 @@ public class SendToMethodReturnValueHandler implements HandlerMethodReturnValueH
 	@Nullable
 	private MessageHeaderInitializer headerInitializer;
 
-
 	public SendToMethodReturnValueHandler(SimpMessageSendingOperations messagingTemplate, boolean annotationRequired) {
 		Assert.notNull(messagingTemplate, "'messagingTemplate' must not be null");
 		this.messagingTemplate = messagingTemplate;
 		this.annotationRequired = annotationRequired;
 	}
 
-
 	/**
 	 * Configure a default prefix to add to message destinations in cases where a method
 	 * is not annotated with {@link SendTo @SendTo} or does not specify any destinations
 	 * through the annotation's value attribute.
-	 * <p>By default, the prefix is set to "/topic".
+	 * <p>
+	 * By default, the prefix is set to "/topic".
 	 */
 	public void setDefaultDestinationPrefix(String defaultDestinationPrefix) {
 		this.defaultDestinationPrefix = defaultDestinationPrefix;
@@ -100,10 +100,11 @@ public class SendToMethodReturnValueHandler implements HandlerMethodReturnValueH
 	}
 
 	/**
-	 * Configure a default prefix to add to message destinations in cases where a
-	 * method is annotated with {@link SendToUser @SendToUser} but does not specify
-	 * any destinations through the annotation's value attribute.
-	 * <p>By default, the prefix is set to "/queue".
+	 * Configure a default prefix to add to message destinations in cases where a method
+	 * is annotated with {@link SendToUser @SendToUser} but does not specify any
+	 * destinations through the annotation's value attribute.
+	 * <p>
+	 * By default, the prefix is set to "/queue".
 	 */
 	public void setDefaultUserDestinationPrefix(String prefix) {
 		this.defaultUserDestinationPrefix = prefix;
@@ -120,7 +121,8 @@ public class SendToMethodReturnValueHandler implements HandlerMethodReturnValueH
 	/**
 	 * Configure a {@link MessageHeaderInitializer} to apply to the headers of all
 	 * messages sent to the client outbound channel.
-	 * <p>By default this property is not set.
+	 * <p>
+	 * By default this property is not set.
 	 */
 	public void setHeaderInitializer(@Nullable MessageHeaderInitializer headerInitializer) {
 		this.headerInitializer = headerInitializer;
@@ -134,14 +136,13 @@ public class SendToMethodReturnValueHandler implements HandlerMethodReturnValueH
 		return this.headerInitializer;
 	}
 
-
 	@Override
 	public boolean supportsReturnType(MethodParameter returnType) {
-		return (returnType.hasMethodAnnotation(SendTo.class) ||
-				AnnotatedElementUtils.hasAnnotation(returnType.getDeclaringClass(), SendTo.class) ||
-				returnType.hasMethodAnnotation(SendToUser.class) ||
-				AnnotatedElementUtils.hasAnnotation(returnType.getDeclaringClass(), SendToUser.class) ||
-				!this.annotationRequired);
+		return (returnType.hasMethodAnnotation(SendTo.class)
+				|| AnnotatedElementUtils.hasAnnotation(returnType.getDeclaringClass(), SendTo.class)
+				|| returnType.hasMethodAnnotation(SendToUser.class)
+				|| AnnotatedElementUtils.hasAnnotation(returnType.getDeclaringClass(), SendToUser.class)
+				|| !this.annotationRequired);
 	}
 
 	@Override
@@ -171,12 +172,12 @@ public class SendToMethodReturnValueHandler implements HandlerMethodReturnValueH
 			for (String destination : destinations) {
 				destination = destinationHelper.expandTemplateVars(destination);
 				if (broadcast) {
-					this.messagingTemplate.convertAndSendToUser(
-							user, destination, returnValue, createHeaders(null, returnType));
+					this.messagingTemplate.convertAndSendToUser(user, destination, returnValue,
+							createHeaders(null, returnType));
 				}
 				else {
-					this.messagingTemplate.convertAndSendToUser(
-							user, destination, returnValue, createHeaders(sessionId, returnType));
+					this.messagingTemplate.convertAndSendToUser(user, destination, returnValue,
+							createHeaders(sessionId, returnType));
 				}
 			}
 		}
@@ -204,21 +205,22 @@ public class SendToMethodReturnValueHandler implements HandlerMethodReturnValueH
 			return new DestinationHelper(headers, c1, c2);
 		}
 
-		return (m1 != null || m2 != null ?
-				new DestinationHelper(headers, m1, m2) : new DestinationHelper(headers, c1, c2));
+		return (m1 != null || m2 != null ? new DestinationHelper(headers, m1, m2)
+				: new DestinationHelper(headers, c1, c2));
 	}
 
 	@Nullable
 	protected String getUserName(Message<?> message, MessageHeaders headers) {
 		Principal principal = SimpMessageHeaderAccessor.getUser(headers);
 		if (principal != null) {
-			return (principal instanceof DestinationUserNameProvider ?
-					((DestinationUserNameProvider) principal).getDestinationUserName() : principal.getName());
+			return (principal instanceof DestinationUserNameProvider
+					? ((DestinationUserNameProvider) principal).getDestinationUserName() : principal.getName());
 		}
 		return null;
 	}
 
-	protected String[] getTargetDestinations(@Nullable Annotation annotation, Message<?> message, String defaultPrefix) {
+	protected String[] getTargetDestinations(@Nullable Annotation annotation, Message<?> message,
+			String defaultPrefix) {
 		if (annotation != null) {
 			String[] value = (String[]) AnnotationUtils.getValue(annotation);
 			if (!ObjectUtils.isEmpty(value)) {
@@ -232,8 +234,8 @@ public class SendToMethodReturnValueHandler implements HandlerMethodReturnValueH
 			throw new IllegalStateException("No lookup destination header in " + message);
 		}
 
-		return (destination.startsWith("/") ?
-				new String[] {defaultPrefix + destination} : new String[] {defaultPrefix + '/' + destination});
+		return (destination.startsWith("/") ? new String[] { defaultPrefix + destination }
+				: new String[] { defaultPrefix + '/' + destination });
 	}
 
 	private MessageHeaders createHeaders(@Nullable String sessionId, MethodParameter returnType) {
@@ -249,12 +251,10 @@ public class SendToMethodReturnValueHandler implements HandlerMethodReturnValueH
 		return headerAccessor.getMessageHeaders();
 	}
 
-
 	@Override
 	public String toString() {
 		return "SendToMethodReturnValueHandler [annotationRequired=" + this.annotationRequired + "]";
 	}
-
 
 	private class DestinationHelper {
 
@@ -265,7 +265,6 @@ public class SendToMethodReturnValueHandler implements HandlerMethodReturnValueH
 
 		@Nullable
 		private final SendToUser sendToUser;
-
 
 		public DestinationHelper(MessageHeaders headers, @Nullable SendToUser sendToUser, @Nullable SendTo sendTo) {
 			Map<String, String> variables = getTemplateVariables(headers);
@@ -293,6 +292,7 @@ public class SendToMethodReturnValueHandler implements HandlerMethodReturnValueH
 		public String expandTemplateVars(String destination) {
 			return placeholderHelper.replacePlaceholders(destination, this.placeholderResolver);
 		}
+
 	}
 
 }

@@ -35,8 +35,9 @@ import org.springframework.web.socket.sockjs.SockJsService;
 import org.springframework.web.socket.sockjs.transport.handler.WebSocketTransportHandler;
 
 /**
- * Base class for {@link WebSocketHandlerRegistration WebSocketHandlerRegistrations} that gathers all the configuration
- * options but allows sub-classes to put together the actual HTTP request mappings.
+ * Base class for {@link WebSocketHandlerRegistration WebSocketHandlerRegistrations} that
+ * gathers all the configuration options but allows sub-classes to put together the actual
+ * HTTP request mappings.
  *
  * @author Rossen Stoyanchev
  * @author Sebastien Deleuze
@@ -56,7 +57,6 @@ public abstract class AbstractWebSocketHandlerRegistration<M> implements WebSock
 
 	@Nullable
 	private SockJsServiceRegistration sockJsServiceRegistration;
-
 
 	@Override
 	public WebSocketHandlerRegistration addHandler(WebSocketHandler handler, String... paths) {
@@ -120,9 +120,9 @@ public abstract class AbstractWebSocketHandlerRegistration<M> implements WebSock
 
 	/**
 	 * Expose the {@code SockJsServiceRegistration} -- if SockJS is enabled or
-	 * {@code null} otherwise -- so that it can be configured with a TaskScheduler
-	 * if the application did not provide one. This should be done prior to
-	 * calling {@link #getMappings()}.
+	 * {@code null} otherwise -- so that it can be configured with a TaskScheduler if the
+	 * application did not provide one. This should be done prior to calling
+	 * {@link #getMappings()}.
 	 */
 	@Nullable
 	protected SockJsServiceRegistration getSockJsServiceRegistration() {
@@ -157,11 +157,10 @@ public abstract class AbstractWebSocketHandlerRegistration<M> implements WebSock
 		return (this.handshakeHandler != null ? this.handshakeHandler : new DefaultHandshakeHandler());
 	}
 
-
 	protected abstract M createMappings();
 
-	protected abstract void addSockJsServiceMapping(M mappings, SockJsService sockJsService,
-			WebSocketHandler handler, String pathPattern);
+	protected abstract void addSockJsServiceMapping(M mappings, SockJsService sockJsService, WebSocketHandler handler,
+			String pathPattern);
 
 	protected abstract void addWebSocketHandlerMapping(M mappings, WebSocketHandler wsHandler,
 			HandshakeHandler handshakeHandler, HandshakeInterceptor[] interceptors, String path);

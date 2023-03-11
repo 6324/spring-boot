@@ -25,7 +25,8 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Bean factory post processor that logs a warning for {@link Deprecated @Deprecated} beans.
+ * Bean factory post processor that logs a warning for {@link Deprecated @Deprecated}
+ * beans.
  *
  * @author Arjen Poutsma
  * @since 3.0.3
@@ -38,10 +39,11 @@ public class DeprecatedBeanWarner implements BeanFactoryPostProcessor {
 	protected transient Log logger = LogFactory.getLog(getClass());
 
 	/**
-	 * Set the name of the logger to use.
-	 * The name will be passed to the underlying logger implementation through Commons Logging,
-	 * getting interpreted as log category according to the logger's configuration.
-	 * <p>This can be specified to not log into the category of this warner class but rather
+	 * Set the name of the logger to use. The name will be passed to the underlying logger
+	 * implementation through Commons Logging, getting interpreted as log category
+	 * according to the logger's configuration.
+	 * <p>
+	 * This can be specified to not log into the category of this warner class but rather
 	 * into a specific named category.
 	 * @see org.apache.commons.logging.LogFactory#getLog(String)
 	 * @see java.util.logging.Logger#getLogger(String)
@@ -49,7 +51,6 @@ public class DeprecatedBeanWarner implements BeanFactoryPostProcessor {
 	public void setLoggerName(String loggerName) {
 		this.logger = LogFactory.getLog(loggerName);
 	}
-
 
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
@@ -95,7 +96,8 @@ public class DeprecatedBeanWarner implements BeanFactoryPostProcessor {
 
 	/**
 	 * Actually write to the underlying log.
-	 * <p>The default implementations logs the message at "warn" level.
+	 * <p>
+	 * The default implementations logs the message at "warn" level.
 	 * @param message the message to write
 	 */
 	protected void writeToLog(String message) {
@@ -104,8 +106,9 @@ public class DeprecatedBeanWarner implements BeanFactoryPostProcessor {
 
 	/**
 	 * Determine whether the {@link #logger} field is enabled.
-	 * <p>Default is {@code true} when the "warn" level is enabled.
-	 * Subclasses can override this to change the level under which logging occurs.
+	 * <p>
+	 * Default is {@code true} when the "warn" level is enabled. Subclasses can override
+	 * this to change the level under which logging occurs.
 	 */
 	protected boolean isLogEnabled() {
 		return logger.isWarnEnabled();

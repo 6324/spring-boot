@@ -34,7 +34,6 @@ public class CorsRegistryTests {
 
 	private final CorsRegistry registry = new CorsRegistry();
 
-
 	@Test
 	public void noMapping() {
 		assertThat(this.registry.getCorsConfigurations().isEmpty()).isTrue();

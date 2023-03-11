@@ -37,9 +37,11 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.util.pattern.PathPattern;
 
 /**
- * {@code HandlerMapping} implementation that supports {@link RouterFunction RouterFunctions}.
+ * {@code HandlerMapping} implementation that supports {@link RouterFunction
+ * RouterFunctions}.
  *
- * <p>If no {@link RouterFunction} is provided at
+ * <p>
+ * If no {@link RouterFunction} is provided at
  * {@linkplain #RouterFunctionMapping(RouterFunction) construction time}, this mapping
  * will detect all router functions in the application context, and consult them in
  * {@linkplain org.springframework.core.annotation.Order order}.
@@ -54,30 +56,31 @@ public class RouterFunctionMapping extends AbstractHandlerMapping implements Ini
 
 	private List<HttpMessageReader<?>> messageReaders = Collections.emptyList();
 
-
 	/**
 	 * Create an empty {@code RouterFunctionMapping}.
-	 * <p>If this constructor is used, this mapping will detect all
-	 * {@link RouterFunction} instances available in the application context.
+	 * <p>
+	 * If this constructor is used, this mapping will detect all {@link RouterFunction}
+	 * instances available in the application context.
 	 */
 	public RouterFunctionMapping() {
 	}
 
 	/**
 	 * Create a {@code RouterFunctionMapping} with the given {@link RouterFunction}.
-	 * <p>If this constructor is used, no application context detection will occur.
+	 * <p>
+	 * If this constructor is used, no application context detection will occur.
 	 * @param routerFunction the router function to use for mapping
 	 */
 	public RouterFunctionMapping(RouterFunction<?> routerFunction) {
 		this.routerFunction = routerFunction;
 	}
 
-
 	/**
 	 * Return the configured {@link RouterFunction}.
-	 * <p><strong>Note:</strong> When router functions are detected from the
-	 * ApplicationContext, this method may return {@code null} if invoked
-	 * prior to {@link #afterPropertiesSet()}.
+	 * <p>
+	 * <strong>Note:</strong> When router functions are detected from the
+	 * ApplicationContext, this method may return {@code null} if invoked prior to
+	 * {@link #afterPropertiesSet()}.
 	 * @return the router function or {@code null}
 	 */
 	@Nullable
@@ -87,7 +90,8 @@ public class RouterFunctionMapping extends AbstractHandlerMapping implements Ini
 
 	/**
 	 * Configure HTTP message readers to de-serialize the request body with.
-	 * <p>By default this is set to the {@link ServerCodecConfigurer}'s defaults.
+	 * <p>
+	 * By default this is set to the {@link ServerCodecConfigurer}'s defaults.
 	 */
 	public void setMessageReaders(List<HttpMessageReader<?>> messageReaders) {
 		this.messageReaders = messageReaders;
@@ -115,11 +119,8 @@ public class RouterFunctionMapping extends AbstractHandlerMapping implements Ini
 	}
 
 	private List<RouterFunction<?>> routerFunctions() {
-		List<RouterFunction<?>> functions = obtainApplicationContext()
-				.getBeanProvider(RouterFunction.class)
-				.orderedStream()
-				.map(router -> (RouterFunction<?>)router)
-				.collect(Collectors.toList());
+		List<RouterFunction<?>> functions = obtainApplicationContext().getBeanProvider(RouterFunction.class)
+				.orderedStream().map(router -> (RouterFunction<?>) router).collect(Collectors.toList());
 		return (!CollectionUtils.isEmpty(functions) ? functions : Collections.emptyList());
 	}
 
@@ -141,7 +142,6 @@ public class RouterFunctionMapping extends AbstractHandlerMapping implements Ini
 		}
 	}
 
-
 	@Override
 	protected Mono<?> getHandlerInternal(ServerWebExchange exchange) {
 		if (this.routerFunction != null) {
@@ -155,8 +155,8 @@ public class RouterFunctionMapping extends AbstractHandlerMapping implements Ini
 	}
 
 	@SuppressWarnings("unchecked")
-	private void setAttributes(
-			Map<String, Object> attributes, ServerRequest serverRequest, HandlerFunction<?> handlerFunction) {
+	private void setAttributes(Map<String, Object> attributes, ServerRequest serverRequest,
+			HandlerFunction<?> handlerFunction) {
 
 		attributes.put(RouterFunctions.REQUEST_ATTRIBUTE, serverRequest);
 		attributes.put(BEST_MATCHING_HANDLER_ATTRIBUTE, handlerFunction);
@@ -165,8 +165,8 @@ public class RouterFunctionMapping extends AbstractHandlerMapping implements Ini
 		if (matchingPattern != null) {
 			attributes.put(BEST_MATCHING_PATTERN_ATTRIBUTE, matchingPattern);
 		}
-		Map<String, String> uriVariables =
-				(Map<String, String>) attributes.get(RouterFunctions.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+		Map<String, String> uriVariables = (Map<String, String>) attributes
+				.get(RouterFunctions.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
 		if (uriVariables != null) {
 			attributes.put(URI_TEMPLATE_VARIABLES_ATTRIBUTE, uriVariables);
 		}

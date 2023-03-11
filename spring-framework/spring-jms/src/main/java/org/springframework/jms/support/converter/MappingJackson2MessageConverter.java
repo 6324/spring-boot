@@ -44,18 +44,20 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * Message converter that uses Jackson 2.x to convert messages to and from JSON.
- * Maps an object to a {@link BytesMessage}, or to a {@link TextMessage} if the
- * {@link #setTargetType targetType} is set to {@link MessageType#TEXT}.
- * Converts from a {@link TextMessage} or {@link BytesMessage} to an object.
+ * Message converter that uses Jackson 2.x to convert messages to and from JSON. Maps an
+ * object to a {@link BytesMessage}, or to a {@link TextMessage} if the
+ * {@link #setTargetType targetType} is set to {@link MessageType#TEXT}. Converts from a
+ * {@link TextMessage} or {@link BytesMessage} to an object.
  *
- * <p>It customizes Jackson's default properties with the following ones:
+ * <p>
+ * It customizes Jackson's default properties with the following ones:
  * <ul>
  * <li>{@link MapperFeature#DEFAULT_VIEW_INCLUSION} is disabled</li>
  * <li>{@link DeserializationFeature#FAIL_ON_UNKNOWN_PROPERTIES} is disabled</li>
  * </ul>
  *
- * <p>Compatible with Jackson 2.6 and higher, as of Spring 4.3.
+ * <p>
+ * Compatible with Jackson 2.6 and higher, as of Spring 4.3.
  *
  * @author Mark Pollack
  * @author Dave Syer
@@ -69,7 +71,6 @@ public class MappingJackson2MessageConverter implements SmartMessageConverter, B
 	 * The default encoding used for writing to text messages: UTF-8.
 	 */
 	public static final String DEFAULT_ENCODING = "UTF-8";
-
 
 	private ObjectMapper objectMapper;
 
@@ -91,7 +92,6 @@ public class MappingJackson2MessageConverter implements SmartMessageConverter, B
 	@Nullable
 	private ClassLoader beanClassLoader;
 
-
 	public MappingJackson2MessageConverter() {
 		this.objectMapper = new ObjectMapper();
 		this.objectMapper.configure(MapperFeature.DEFAULT_VIEW_INCLUSION, false);
@@ -109,9 +109,10 @@ public class MappingJackson2MessageConverter implements SmartMessageConverter, B
 	/**
 	 * Specify whether {@link #toMessage(Object, Session)} should marshal to a
 	 * {@link BytesMessage} or a {@link TextMessage}.
-	 * <p>The default is {@link MessageType#BYTES}, i.e. this converter marshals to
-	 * a {@link BytesMessage}. Note that the default version of this converter
-	 * supports {@link MessageType#BYTES} and {@link MessageType#TEXT} only.
+	 * <p>
+	 * The default is {@link MessageType#BYTES}, i.e. this converter marshals to a
+	 * {@link BytesMessage}. Note that the default version of this converter supports
+	 * {@link MessageType#BYTES} and {@link MessageType#TEXT} only.
 	 * @see MessageType#BYTES
 	 * @see MessageType#TEXT
 	 */
@@ -121,11 +122,12 @@ public class MappingJackson2MessageConverter implements SmartMessageConverter, B
 	}
 
 	/**
-	 * Specify the encoding to use when converting to and from text-based
-	 * message body content. The default encoding will be "UTF-8".
-	 * <p>When reading from a text-based message, an encoding may have been
-	 * suggested through a special JMS property which will then be preferred
-	 * over the encoding set on this MessageConverter instance.
+	 * Specify the encoding to use when converting to and from text-based message body
+	 * content. The default encoding will be "UTF-8".
+	 * <p>
+	 * When reading from a text-based message, an encoding may have been suggested through
+	 * a special JMS property which will then be preferred over the encoding set on this
+	 * MessageConverter instance.
 	 * @see #setEncodingPropertyName
 	 */
 	public void setEncoding(String encoding) {
@@ -133,10 +135,11 @@ public class MappingJackson2MessageConverter implements SmartMessageConverter, B
 	}
 
 	/**
-	 * Specify the name of the JMS message property that carries the encoding from
-	 * bytes to String and back is BytesMessage is used during the conversion process.
-	 * <p>Default is none. Setting this property is optional; if not set, UTF-8 will
-	 * be used for decoding any incoming bytes message.
+	 * Specify the name of the JMS message property that carries the encoding from bytes
+	 * to String and back is BytesMessage is used during the conversion process.
+	 * <p>
+	 * Default is none. Setting this property is optional; if not set, UTF-8 will be used
+	 * for decoding any incoming bytes message.
 	 * @see #setEncoding
 	 */
 	public void setEncodingPropertyName(String encodingPropertyName) {
@@ -146,8 +149,9 @@ public class MappingJackson2MessageConverter implements SmartMessageConverter, B
 	/**
 	 * Specify the name of the JMS message property that carries the type id for the
 	 * contained object: either a mapped id value or a raw Java class name.
-	 * <p>Default is none. <b>NOTE: This property needs to be set in order to allow
-	 * for converting from an incoming message to a Java object.</b>
+	 * <p>
+	 * Default is none. <b>NOTE: This property needs to be set in order to allow for
+	 * converting from an incoming message to a Java object.</b>
 	 * @see #setTypeIdMappings
 	 */
 	public void setTypeIdPropertyName(String typeIdPropertyName) {
@@ -155,10 +159,11 @@ public class MappingJackson2MessageConverter implements SmartMessageConverter, B
 	}
 
 	/**
-	 * Specify mappings from type ids to Java classes, if desired.
-	 * This allows for synthetic ids in the type id message property,
-	 * instead of transferring Java class names.
-	 * <p>Default is no custom mappings, i.e. transferring raw Java class names.
+	 * Specify mappings from type ids to Java classes, if desired. This allows for
+	 * synthetic ids in the type id message property, instead of transferring Java class
+	 * names.
+	 * <p>
+	 * Default is no custom mappings, i.e. transferring raw Java class names.
 	 * @param typeIdMappings a Map with type id values as keys and Java classes as values
 	 */
 	public void setTypeIdMappings(Map<String, Class<?>> typeIdMappings) {
@@ -174,20 +179,19 @@ public class MappingJackson2MessageConverter implements SmartMessageConverter, B
 		this.beanClassLoader = classLoader;
 	}
 
-
 	@Override
 	public Message toMessage(Object object, Session session) throws JMSException, MessageConversionException {
 		Message message;
 		try {
 			switch (this.targetType) {
-				case TEXT:
-					message = mapToTextMessage(object, session, this.objectMapper.writer());
-					break;
-				case BYTES:
-					message = mapToBytesMessage(object, session, this.objectMapper.writer());
-					break;
-				default:
-					message = mapToMessage(object, session, this.objectMapper.writer(), this.targetType);
+			case TEXT:
+				message = mapToTextMessage(object, session, this.objectMapper.writer());
+				break;
+			case BYTES:
+				message = mapToBytesMessage(object, session, this.objectMapper.writer());
+				break;
+			default:
+				message = mapToMessage(object, session, this.objectMapper.writer(), this.targetType);
 			}
 		}
 		catch (IOException ex) {
@@ -205,8 +209,8 @@ public class MappingJackson2MessageConverter implements SmartMessageConverter, B
 	}
 
 	/**
-	 * Convert a Java object to a JMS Message using the specified json view
-	 * and the supplied session  to create the message object.
+	 * Convert a Java object to a JMS Message using the specified json view and the
+	 * supplied session to create the message object.
 	 * @param object the object to convert
 	 * @param session the Session to use for creating a JMS Message
 	 * @param jsonView the view to use to filter the content
@@ -243,14 +247,14 @@ public class MappingJackson2MessageConverter implements SmartMessageConverter, B
 		Message message;
 		try {
 			switch (this.targetType) {
-				case TEXT:
-					message = mapToTextMessage(object, session, objectWriter);
-					break;
-				case BYTES:
-					message = mapToBytesMessage(object, session, objectWriter);
-					break;
-				default:
-					message = mapToMessage(object, session, objectWriter, this.targetType);
+			case TEXT:
+				message = mapToTextMessage(object, session, objectWriter);
+				break;
+			case BYTES:
+				message = mapToBytesMessage(object, session, objectWriter);
+				break;
+			default:
+				message = mapToMessage(object, session, objectWriter, this.targetType);
 			}
 		}
 		catch (IOException ex) {
@@ -259,7 +263,6 @@ public class MappingJackson2MessageConverter implements SmartMessageConverter, B
 		setTypeIdOnMessage(object, message);
 		return message;
 	}
-
 
 	/**
 	 * Map the given object to a {@link TextMessage}.
@@ -300,7 +303,8 @@ public class MappingJackson2MessageConverter implements SmartMessageConverter, B
 			objectWriter.writeValue(writer, object);
 		}
 		else {
-			// Jackson usually defaults to UTF-8 but can also go straight to bytes, e.g. for Smile.
+			// Jackson usually defaults to UTF-8 but can also go straight to bytes, e.g.
+			// for Smile.
 			// We use a direct byte array argument for the latter case to work as well.
 			objectWriter.writeValue(bos, object);
 		}
@@ -315,10 +319,11 @@ public class MappingJackson2MessageConverter implements SmartMessageConverter, B
 	}
 
 	/**
-	 * Template method that allows for custom message mapping.
-	 * Invoked when {@link #setTargetType} is not {@link MessageType#TEXT} or
+	 * Template method that allows for custom message mapping. Invoked when
+	 * {@link #setTargetType} is not {@link MessageType#TEXT} or
 	 * {@link MessageType#BYTES}.
-	 * <p>The default implementation throws an {@link IllegalArgumentException}.
+	 * <p>
+	 * The default implementation throws an {@link IllegalArgumentException}.
 	 * @param object the object to marshal
 	 * @param session the JMS Session
 	 * @param objectWriter the writer to use
@@ -330,15 +335,16 @@ public class MappingJackson2MessageConverter implements SmartMessageConverter, B
 	protected Message mapToMessage(Object object, Session session, ObjectWriter objectWriter, MessageType targetType)
 			throws JMSException, IOException {
 
-		throw new IllegalArgumentException("Unsupported message type [" + targetType +
-				"]. MappingJackson2MessageConverter by default only supports TextMessages and BytesMessages.");
+		throw new IllegalArgumentException("Unsupported message type [" + targetType
+				+ "]. MappingJackson2MessageConverter by default only supports TextMessages and BytesMessages.");
 	}
 
 	/**
 	 * Set a type id for the given payload object on the given JMS Message.
-	 * <p>The default implementation consults the configured type id mapping and
-	 * sets the resulting value (either a mapped id or the raw Java class name)
-	 * into the configured type id message property.
+	 * <p>
+	 * The default implementation consults the configured type id mapping and sets the
+	 * resulting value (either a mapped id or the raw Java class name) into the configured
+	 * type id message property.
 	 * @param object the payload object to set a type id for
 	 * @param message the JMS Message on which to set the type id property
 	 * @throws JMSException if thrown by JMS methods
@@ -419,29 +425,30 @@ public class MappingJackson2MessageConverter implements SmartMessageConverter, B
 	}
 
 	/**
-	 * Template method that allows for custom message mapping.
-	 * Invoked when {@link #setTargetType} is not {@link MessageType#TEXT} or
+	 * Template method that allows for custom message mapping. Invoked when
+	 * {@link #setTargetType} is not {@link MessageType#TEXT} or
 	 * {@link MessageType#BYTES}.
-	 * <p>The default implementation throws an {@link IllegalArgumentException}.
+	 * <p>
+	 * The default implementation throws an {@link IllegalArgumentException}.
 	 * @param message the input message
 	 * @param targetJavaType the target type
 	 * @return the message converted to an object
 	 * @throws JMSException if thrown by JMS
 	 * @throws IOException in case of I/O errors
 	 */
-	protected Object convertFromMessage(Message message, JavaType targetJavaType)
-			throws JMSException, IOException {
+	protected Object convertFromMessage(Message message, JavaType targetJavaType) throws JMSException, IOException {
 
-		throw new IllegalArgumentException("Unsupported message type [" + message.getClass() +
-				"]. MappingJacksonMessageConverter by default only supports TextMessages and BytesMessages.");
+		throw new IllegalArgumentException("Unsupported message type [" + message.getClass()
+				+ "]. MappingJacksonMessageConverter by default only supports TextMessages and BytesMessages.");
 	}
 
 	/**
-	 * Determine a Jackson JavaType for the given JMS Message,
-	 * typically parsing a type id message property.
-	 * <p>The default implementation parses the configured type id property name
-	 * and consults the configured type id mapping. This can be overridden with
-	 * a different strategy, e.g. doing some heuristics based on message origin.
+	 * Determine a Jackson JavaType for the given JMS Message, typically parsing a type id
+	 * message property.
+	 * <p>
+	 * The default implementation parses the configured type id property name and consults
+	 * the configured type id mapping. This can be overridden with a different strategy,
+	 * e.g. doing some heuristics based on message origin.
 	 * @param message the JMS Message from which to get the type id property
 	 * @throws JMSException if thrown by JMS methods
 	 * @see #setTypeIdOnMessage(Object, javax.jms.Message)
@@ -452,8 +459,8 @@ public class MappingJackson2MessageConverter implements SmartMessageConverter, B
 		String typeId = message.getStringProperty(this.typeIdPropertyName);
 		if (typeId == null) {
 			throw new MessageConversionException(
-					"Could not find type id property [" + this.typeIdPropertyName + "] on message [" +
-					message.getJMSMessageID() + "] from destination [" + message.getJMSDestination() + "]");
+					"Could not find type id property [" + this.typeIdPropertyName + "] on message ["
+							+ message.getJMSMessageID() + "] from destination [" + message.getJMSDestination() + "]");
 		}
 		Class<?> mappedClass = this.idClassMappings.get(typeId);
 		if (mappedClass != null) {
@@ -470,8 +477,8 @@ public class MappingJackson2MessageConverter implements SmartMessageConverter, B
 
 	/**
 	 * Determine a Jackson serialization view based on the given conversion hint.
-	 * @param conversionHint the conversion hint Object as passed into the
-	 * converter for the current conversion attempt
+	 * @param conversionHint the conversion hint Object as passed into the converter for
+	 * the current conversion attempt
 	 * @return the serialization view class, or {@code null} if none
 	 */
 	@Nullable

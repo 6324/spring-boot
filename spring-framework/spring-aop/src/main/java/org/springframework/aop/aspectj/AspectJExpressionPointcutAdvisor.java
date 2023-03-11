@@ -33,7 +33,6 @@ public class AspectJExpressionPointcutAdvisor extends AbstractGenericPointcutAdv
 
 	private final AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
 
-
 	public void setExpression(@Nullable String expression) {
 		this.pointcut.setExpression(expression);
 	}

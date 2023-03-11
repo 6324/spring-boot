@@ -24,7 +24,8 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Tests the evaluation of basic literals: boolean, integer, hex integer, long, real, null, date
+ * Tests the evaluation of basic literals: boolean, integer, hex integer, long, real,
+ * null, date
  *
  * @author Andy Clement
  */
@@ -158,17 +159,24 @@ public class LiteralTests extends AbstractExpressionTests {
 	@Test
 	public void testConversions() {
 		// getting the expression type to be what we want - either:
-		evaluate("new Integer(37).byteValue()", (byte) 37, Byte.class); // calling byteValue() on Integer.class
-		evaluateAndAskForReturnType("new Integer(37)", (byte) 37, Byte.class); // relying on registered type converters
+		evaluate("new Integer(37).byteValue()", (byte) 37, Byte.class); // calling
+																		// byteValue() on
+																		// Integer.class
+		evaluateAndAskForReturnType("new Integer(37)", (byte) 37, Byte.class); // relying
+																				// on
+																				// registered
+																				// type
+																				// converters
 	}
 
 	@Test
 	public void testNotWritable() throws Exception {
-		SpelExpression expr = (SpelExpression)parser.parseExpression("37");
+		SpelExpression expr = (SpelExpression) parser.parseExpression("37");
 		assertThat(expr.isWritable(new StandardEvaluationContext())).isFalse();
-		expr = (SpelExpression)parser.parseExpression("37L");
+		expr = (SpelExpression) parser.parseExpression("37L");
 		assertThat(expr.isWritable(new StandardEvaluationContext())).isFalse();
-		expr = (SpelExpression)parser.parseExpression("true");
+		expr = (SpelExpression) parser.parseExpression("true");
 		assertThat(expr.isWritable(new StandardEvaluationContext())).isFalse();
 	}
+
 }

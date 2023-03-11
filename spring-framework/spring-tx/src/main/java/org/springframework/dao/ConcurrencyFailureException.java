@@ -21,8 +21,9 @@ import org.springframework.lang.Nullable;
 /**
  * Exception thrown on concurrency failure.
  *
- * <p>This exception should be subclassed to indicate the type of failure:
- * optimistic locking, failure to acquire lock, etc.
+ * <p>
+ * This exception should be subclassed to indicate the type of failure: optimistic
+ * locking, failure to acquire lock, etc.
  *
  * @author Thomas Risberg
  * @since 1.1

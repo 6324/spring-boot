@@ -48,7 +48,6 @@ class TestTransport implements Transport {
 
 	private ListenableFuture future;
 
-
 	public TestTransport(String name) {
 		this.name = name;
 	}
@@ -86,11 +85,9 @@ class TestTransport implements Transport {
 		return "TestTransport[" + name + "]";
 	}
 
-
 	static class XhrTestTransport extends TestTransport implements XhrTransport {
 
 		private boolean streamingDisabled;
-
 
 		XhrTestTransport(String name) {
 			super(name);
@@ -98,9 +95,8 @@ class TestTransport implements Transport {
 
 		@Override
 		public List<TransportType> getTransportTypes() {
-			return (isXhrStreamingDisabled() ?
-					Collections.singletonList(TransportType.XHR) :
-					Arrays.asList(TransportType.XHR_STREAMING, TransportType.XHR));
+			return (isXhrStreamingDisabled() ? Collections.singletonList(TransportType.XHR)
+					: Arrays.asList(TransportType.XHR_STREAMING, TransportType.XHR));
 		}
 
 		public void setStreamingDisabled(boolean streamingDisabled) {
@@ -120,6 +116,7 @@ class TestTransport implements Transport {
 		public String executeInfoRequest(URI infoUrl, HttpHeaders headers) {
 			return null;
 		}
+
 	}
 
 }

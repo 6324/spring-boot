@@ -50,10 +50,12 @@ public class CookieValueMethodArgumentResolverTests {
 	private BindingContext bindingContext;
 
 	private MethodParameter cookieParameter;
-	private MethodParameter cookieStringParameter;
-	private MethodParameter stringParameter;
-	private MethodParameter cookieMonoParameter;
 
+	private MethodParameter cookieStringParameter;
+
+	private MethodParameter stringParameter;
+
+	private MethodParameter cookieMonoParameter;
 
 	@BeforeEach
 	@SuppressWarnings("resource")
@@ -72,7 +74,6 @@ public class CookieValueMethodArgumentResolverTests {
 		this.cookieMonoParameter = new SynthesizingMethodParameter(method, 3);
 	}
 
-
 	@Test
 	public void supportsParameter() {
 		assertThat(this.resolver.supportsParameter(this.cookieParameter)).isTrue();
@@ -82,9 +83,8 @@ public class CookieValueMethodArgumentResolverTests {
 	@Test
 	public void doesNotSupportParameter() {
 		assertThat(this.resolver.supportsParameter(this.stringParameter)).isFalse();
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.resolver.supportsParameter(this.cookieMonoParameter))
-			.withMessageStartingWith("CookieValueMethodArgumentResolver does not support reactive type wrapper");
+		assertThatIllegalStateException().isThrownBy(() -> this.resolver.supportsParameter(this.cookieMonoParameter))
+				.withMessageStartingWith("CookieValueMethodArgumentResolver does not support reactive type wrapper");
 	}
 
 	@Test
@@ -92,8 +92,7 @@ public class CookieValueMethodArgumentResolverTests {
 		HttpCookie expected = new HttpCookie("name", "foo");
 		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/").cookie(expected));
 
-		Mono<Object> mono = this.resolver.resolveArgument(
-				this.cookieParameter, this.bindingContext, exchange);
+		Mono<Object> mono = this.resolver.resolveArgument(this.cookieParameter, this.bindingContext, exchange);
 
 		assertThat(mono.block()).isEqualTo(expected);
 	}
@@ -103,8 +102,7 @@ public class CookieValueMethodArgumentResolverTests {
 		HttpCookie cookie = new HttpCookie("name", "foo");
 		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/").cookie(cookie));
 
-		Mono<Object> mono = this.resolver.resolveArgument(
-				this.cookieStringParameter, this.bindingContext, exchange);
+		Mono<Object> mono = this.resolver.resolveArgument(this.cookieStringParameter, this.bindingContext, exchange);
 
 		assertThat(mono.block()).as("Invalid result").isEqualTo(cookie.getValue());
 	}
@@ -112,7 +110,8 @@ public class CookieValueMethodArgumentResolverTests {
 	@Test
 	public void resolveCookieDefaultValue() {
 		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
-		Object result = this.resolver.resolveArgument(this.cookieStringParameter, this.bindingContext, exchange).block();
+		Object result = this.resolver.resolveArgument(this.cookieStringParameter, this.bindingContext, exchange)
+				.block();
 
 		boolean condition = result instanceof String;
 		assertThat(condition).isTrue();
@@ -123,18 +122,12 @@ public class CookieValueMethodArgumentResolverTests {
 	public void notFound() {
 		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
 		Mono<Object> mono = resolver.resolveArgument(this.cookieParameter, this.bindingContext, exchange);
-		StepVerifier.create(mono)
-				.expectNextCount(0)
-				.expectError(ServerWebInputException.class)
-				.verify();
+		StepVerifier.create(mono).expectNextCount(0).expectError(ServerWebInputException.class).verify();
 	}
 
-
 	@SuppressWarnings("unused")
-	public void params(
-			@CookieValue("name") HttpCookie cookie,
-			@CookieValue(name = "name", defaultValue = "bar") String cookieString,
-			String stringParam,
+	public void params(@CookieValue("name") HttpCookie cookie,
+			@CookieValue(name = "name", defaultValue = "bar") String cookieString, String stringParam,
 			@CookieValue Mono<String> monoCookie) {
 	}
 

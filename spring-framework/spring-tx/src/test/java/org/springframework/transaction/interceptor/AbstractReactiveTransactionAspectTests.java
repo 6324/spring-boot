@@ -53,14 +53,12 @@ public abstract class AbstractReactiveTransactionAspectTests {
 
 	protected Method exceptionalMethod;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		getNameMethod = TestBean.class.getMethod("getName");
 		setNameMethod = TestBean.class.getMethod("setName", String.class);
 		exceptionalMethod = TestBean.class.getMethod("exceptional", Throwable.class);
 	}
-
 
 	@Test
 	public void noTransaction() throws Exception {
@@ -70,7 +68,8 @@ public abstract class AbstractReactiveTransactionAspectTests {
 		TransactionAttributeSource tas = new MapTransactionAttributeSource();
 
 		// All the methods in this class use the advised() template method
-		// to obtain a transaction object, configured with the when PlatformTransactionManager
+		// to obtain a transaction object, configured with the when
+		// PlatformTransactionManager
 		// and transaction attribute source
 		TestBean itb = (TestBean) advised(tb, rtm, tas);
 
@@ -101,9 +100,7 @@ public abstract class AbstractReactiveTransactionAspectTests {
 		DefaultTestBean tb = new DefaultTestBean();
 		TestBean itb = (TestBean) advised(tb, rtm, tas);
 
-		itb.getName()
-				.as(StepVerifier::create)
-				.verifyComplete();
+		itb.getName().as(StepVerifier::create).verifyComplete();
 
 		verify(rtm).commit(status);
 	}
@@ -127,15 +124,11 @@ public abstract class AbstractReactiveTransactionAspectTests {
 		given(rtm.commit(status)).willReturn(Mono.empty());
 
 		DefaultTestBean tb = new DefaultTestBean();
-		TestBean itb = (TestBean) advised(tb, rtm, new TransactionAttributeSource[] {tas1, tas2});
+		TestBean itb = (TestBean) advised(tb, rtm, new TransactionAttributeSource[] { tas1, tas2 });
 
-		itb.getName()
-				.as(StepVerifier::create)
-				.verifyComplete();
+		itb.getName().as(StepVerifier::create).verifyComplete();
 
-		Mono.from(itb.setName("myName"))
-				.as(StepVerifier::create)
-				.verifyComplete();
+		Mono.from(itb.setName("myName")).as(StepVerifier::create).verifyComplete();
 
 		verify(rtm, times(2)).commit(status);
 	}
@@ -159,13 +152,10 @@ public abstract class AbstractReactiveTransactionAspectTests {
 		DefaultTestBean tb = new DefaultTestBean();
 		TestBean itb = (TestBean) advised(tb, rtm, tas);
 
-		itb.getName()
-				.as(StepVerifier::create)
-				.verifyComplete();
+		itb.getName().as(StepVerifier::create).verifyComplete();
 
 		verify(rtm).commit(status);
 	}
-
 
 	@Test
 	public void rollbackOnCheckedException() throws Throwable {
@@ -208,14 +198,14 @@ public abstract class AbstractReactiveTransactionAspectTests {
 	}
 
 	/**
-	 * Check that the when exception thrown by the target can produce the
-	 * desired behavior with the appropriate transaction attribute.
+	 * Check that the when exception thrown by the target can produce the desired behavior
+	 * with the appropriate transaction attribute.
 	 * @param ex exception to be thrown by the target
 	 * @param shouldRollback whether this should cause a transaction rollback
 	 */
 	@SuppressWarnings("serial")
-	protected void doTestRollbackOnException(
-			final Exception ex, final boolean shouldRollback, boolean rollbackException) throws Exception {
+	protected void doTestRollbackOnException(final Exception ex, final boolean shouldRollback,
+			boolean rollbackException) throws Exception {
 
 		TransactionAttribute txatt = new DefaultTransactionAttribute() {
 			@Override
@@ -252,16 +242,14 @@ public abstract class AbstractReactiveTransactionAspectTests {
 		DefaultTestBean tb = new DefaultTestBean();
 		TestBean itb = (TestBean) advised(tb, rtm, tas);
 
-		itb.exceptional(ex)
-				.as(StepVerifier::create)
-				.expectErrorSatisfies(actual -> {
-					if (rollbackException) {
-						assertThat(actual).isEqualTo(tex);
-					}
-					else {
-						assertThat(actual).isEqualTo(ex);
-					}
-				}).verify();
+		itb.exceptional(ex).as(StepVerifier::create).expectErrorSatisfies(actual -> {
+			if (rollbackException) {
+				assertThat(actual).isEqualTo(tex);
+			}
+			else {
+				assertThat(actual).isEqualTo(ex);
+			}
+		}).verify();
 
 		if (!rollbackException) {
 			if (shouldRollback) {
@@ -274,8 +262,7 @@ public abstract class AbstractReactiveTransactionAspectTests {
 	}
 
 	/**
-	 * Simulate a transaction infrastructure failure.
-	 * Shouldn't invoke target method.
+	 * Simulate a transaction infrastructure failure. Shouldn't invoke target method.
 	 */
 	@Test
 	public void cannotCreateTransaction() throws Exception {
@@ -299,16 +286,13 @@ public abstract class AbstractReactiveTransactionAspectTests {
 		};
 		TestBean itb = (TestBean) advised(tb, rtm, tas);
 
-		itb.getName()
-				.as(StepVerifier::create)
-				.expectError(CannotCreateTransactionException.class)
-				.verify();
+		itb.getName().as(StepVerifier::create).expectError(CannotCreateTransactionException.class).verify();
 	}
 
 	/**
-	 * Simulate failure of the underlying transaction infrastructure to commit.
-	 * Check that the target method was invoked, but that the transaction
-	 * infrastructure exception was thrown to the client
+	 * Simulate failure of the underlying transaction infrastructure to commit. Check that
+	 * the target method was invoked, but that the transaction infrastructure exception
+	 * was thrown to the client
 	 */
 	@Test
 	public void cannotCommitTransaction() throws Exception {
@@ -333,20 +317,14 @@ public abstract class AbstractReactiveTransactionAspectTests {
 
 		String name = "new name";
 
-		Mono.from(itb.setName(name))
-				.as(StepVerifier::create)
-				.consumeErrorWith(throwable -> {
-					assertThat(throwable.getClass()).isEqualTo(RuntimeException.class);
-					assertThat(throwable.getCause()).isEqualTo(ex);
-				})
-				.verify();
+		Mono.from(itb.setName(name)).as(StepVerifier::create).consumeErrorWith(throwable -> {
+			assertThat(throwable.getClass()).isEqualTo(RuntimeException.class);
+			assertThat(throwable.getCause()).isEqualTo(ex);
+		}).verify();
 
 		// Should have invoked target and changed name
 
-		itb.getName()
-				.as(StepVerifier::create)
-				.expectNext(name)
-				.verifyComplete();
+		itb.getName().as(StepVerifier::create).expectNext(name).verifyComplete();
 	}
 
 	private void checkReactiveTransaction(boolean expected) {
@@ -358,26 +336,24 @@ public abstract class AbstractReactiveTransactionAspectTests {
 		}).block();
 	}
 
-
-	protected Object advised(
-			Object target, ReactiveTransactionManager rtm, TransactionAttributeSource[] tas) throws Exception {
+	protected Object advised(Object target, ReactiveTransactionManager rtm, TransactionAttributeSource[] tas)
+			throws Exception {
 
 		return advised(target, rtm, new CompositeTransactionAttributeSource(tas));
 	}
 
 	/**
-	 * Subclasses must implement this to create an advised object based on the
-	 * when target. In the case of AspectJ, the  advised object will already
-	 * have been created, as there's no distinction between target and proxy.
-	 * In the case of Spring's own AOP framework, a proxy must be created
-	 * using a suitably configured transaction interceptor
-	 * @param target the target if there's a distinct target. If not (AspectJ),
-	 * return target.
+	 * Subclasses must implement this to create an advised object based on the when
+	 * target. In the case of AspectJ, the advised object will already have been created,
+	 * as there's no distinction between target and proxy. In the case of Spring's own AOP
+	 * framework, a proxy must be created using a suitably configured transaction
+	 * interceptor
+	 * @param target the target if there's a distinct target. If not (AspectJ), return
+	 * target.
 	 * @return transactional advised object
 	 */
-	protected abstract Object advised(
-			Object target, ReactiveTransactionManager rtm, TransactionAttributeSource tas) throws Exception;
-
+	protected abstract Object advised(Object target, ReactiveTransactionManager rtm, TransactionAttributeSource tas)
+			throws Exception;
 
 	public interface TestBean {
 
@@ -386,8 +362,8 @@ public abstract class AbstractReactiveTransactionAspectTests {
 		Publisher<Void> setName(String name);
 
 		Mono<Void> exceptional(Throwable t);
-	}
 
+	}
 
 	public class DefaultTestBean implements TestBean {
 
@@ -410,6 +386,7 @@ public abstract class AbstractReactiveTransactionAspectTests {
 			}
 			return Mono.empty();
 		}
+
 	}
 
 }

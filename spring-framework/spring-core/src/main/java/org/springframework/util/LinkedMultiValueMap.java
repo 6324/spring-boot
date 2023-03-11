@@ -30,8 +30,9 @@ import org.springframework.lang.Nullable;
  * Simple implementation of {@link MultiValueMap} that wraps a {@link LinkedHashMap},
  * storing multiple values in a {@link LinkedList}.
  *
- * <p>This Map implementation is generally not thread-safe. It is primarily designed
- * for data structures exposed from request objects, for use in a single thread only.
+ * <p>
+ * This Map implementation is generally not thread-safe. It is primarily designed for data
+ * structures exposed from request objects, for use in a single thread only.
  *
  * @author Arjen Poutsma
  * @author Juergen Hoeller
@@ -45,7 +46,6 @@ public class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializa
 
 	private final Map<K, List<V>> targetMap;
 
-
 	/**
 	 * Create a new LinkedMultiValueMap that wraps a {@link LinkedHashMap}.
 	 */
@@ -54,8 +54,8 @@ public class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializa
 	}
 
 	/**
-	 * Create a new LinkedMultiValueMap that wraps a {@link LinkedHashMap}
-	 * with the given initial capacity.
+	 * Create a new LinkedMultiValueMap that wraps a {@link LinkedHashMap} with the given
+	 * initial capacity.
 	 * @param initialCapacity the initial capacity
 	 */
 	public LinkedMultiValueMap(int initialCapacity) {
@@ -63,9 +63,9 @@ public class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializa
 	}
 
 	/**
-	 * Copy constructor: Create a new LinkedMultiValueMap with the same mappings as
-	 * the specified Map. Note that this will be a shallow copy; its value-holding
-	 * List entries will get reused and therefore cannot get modified independently.
+	 * Copy constructor: Create a new LinkedMultiValueMap with the same mappings as the
+	 * specified Map. Note that this will be a shallow copy; its value-holding List
+	 * entries will get reused and therefore cannot get modified independently.
 	 * @param otherMap the Map whose mappings are to be placed in this Map
 	 * @see #clone()
 	 * @see #deepCopy()
@@ -73,7 +73,6 @@ public class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializa
 	public LinkedMultiValueMap(Map<K, List<V>> otherMap) {
 		this.targetMap = new LinkedHashMap<>(otherMap);
 	}
-
 
 	// MultiValueMap implementation
 
@@ -125,7 +124,6 @@ public class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializa
 		});
 		return singleValueMap;
 	}
-
 
 	// Map implementation
 
@@ -206,7 +204,6 @@ public class LinkedMultiValueMap<K, V> implements MultiValueMap<K, V>, Serializa
 	public String toString() {
 		return this.targetMap.toString();
 	}
-
 
 	/**
 	 * Create a deep copy of this Map.

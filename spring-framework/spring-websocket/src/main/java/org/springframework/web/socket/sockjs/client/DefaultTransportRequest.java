@@ -48,7 +48,6 @@ class DefaultTransportRequest implements TransportRequest {
 
 	private static final Log logger = LogFactory.getLog(DefaultTransportRequest.class);
 
-
 	private final SockJsUrlInfo sockJsUrlInfo;
 
 	private final HttpHeaders handshakeHeaders;
@@ -74,10 +73,9 @@ class DefaultTransportRequest implements TransportRequest {
 	@Nullable
 	private DefaultTransportRequest fallbackRequest;
 
-
-	public DefaultTransportRequest(SockJsUrlInfo sockJsUrlInfo,
-			@Nullable HttpHeaders handshakeHeaders, @Nullable HttpHeaders httpRequestHeaders,
-			Transport transport, TransportType serverTransportType, SockJsMessageCodec codec) {
+	public DefaultTransportRequest(SockJsUrlInfo sockJsUrlInfo, @Nullable HttpHeaders handshakeHeaders,
+			@Nullable HttpHeaders httpRequestHeaders, Transport transport, TransportType serverTransportType,
+			SockJsMessageCodec codec) {
 
 		Assert.notNull(sockJsUrlInfo, "SockJsUrlInfo is required");
 		Assert.notNull(transport, "Transport is required");
@@ -90,7 +88,6 @@ class DefaultTransportRequest implements TransportRequest {
 		this.serverTransportType = serverTransportType;
 		this.codec = codec;
 	}
-
 
 	@Override
 	public SockJsUrlInfo getSockJsUrlInfo() {
@@ -144,7 +141,6 @@ class DefaultTransportRequest implements TransportRequest {
 		this.fallbackRequest = fallbackRequest;
 	}
 
-
 	public void connect(WebSocketHandler handler, SettableListenableFuture<WebSocketSession> future) {
 		if (logger.isTraceEnabled()) {
 			logger.trace("Starting " + this);
@@ -153,7 +149,6 @@ class DefaultTransportRequest implements TransportRequest {
 		scheduleConnectTimeoutTask(connectCallback);
 		this.transport.connect(this, handler).addCallback(connectCallback);
 	}
-
 
 	private void scheduleConnectTimeoutTask(ConnectCallback connectHandler) {
 		if (this.timeoutScheduler != null) {
@@ -168,18 +163,15 @@ class DefaultTransportRequest implements TransportRequest {
 		}
 	}
 
-
 	@Override
 	public String toString() {
 		return "TransportRequest[url=" + getTransportUrl() + "]";
 	}
 
-
 	/**
-	 * Updates the given (global) future based success or failure to connect for
-	 * the entire SockJS request regardless of which transport actually managed
-	 * to connect. Also implements {@code Runnable} to handle a scheduled timeout
-	 * callback.
+	 * Updates the given (global) future based success or failure to connect for the
+	 * entire SockJS request regardless of which transport actually managed to connect.
+	 * Also implements {@code Runnable} to handle a scheduled timeout callback.
 	 */
 	private class ConnectCallback implements ListenableFutureCallback<WebSocketSession>, Runnable {
 
@@ -243,10 +235,11 @@ class DefaultTransportRequest implements TransportRequest {
 				}
 			}
 			else {
-				logger.error("Connect success/failure events already took place for " +
-						DefaultTransportRequest.this + ". Ignoring this additional failure event.", ex);
+				logger.error("Connect success/failure events already took place for " + DefaultTransportRequest.this
+						+ ". Ignoring this additional failure event.", ex);
 			}
 		}
+
 	}
 
 }

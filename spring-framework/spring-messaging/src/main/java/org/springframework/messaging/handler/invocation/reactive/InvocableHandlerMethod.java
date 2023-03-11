@@ -41,8 +41,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Extension of {@link HandlerMethod} that invokes the underlying method with
- * argument values resolved from the current HTTP request through a list of
+ * Extension of {@link HandlerMethod} that invokes the underlying method with argument
+ * values resolved from the current HTTP request through a list of
  * {@link HandlerMethodArgumentResolver}.
  *
  * @author Rossen Stoyanchev
@@ -54,13 +54,11 @@ public class InvocableHandlerMethod extends HandlerMethod {
 
 	private static final Object NO_ARG_VALUE = new Object();
 
-
 	private HandlerMethodArgumentResolverComposite resolvers = new HandlerMethodArgumentResolverComposite();
 
 	private ParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
 
 	private ReactiveAdapterRegistry reactiveAdapterRegistry = ReactiveAdapterRegistry.getSharedInstance();
-
 
 	/**
 	 * Create an instance from a {@code HandlerMethod}.
@@ -76,10 +74,9 @@ public class InvocableHandlerMethod extends HandlerMethod {
 		super(bean, method);
 	}
 
-
 	/**
-	 * Configure the argument resolvers to use to use for resolving method
-	 * argument values against a {@code ServerWebExchange}.
+	 * Configure the argument resolvers to use to use for resolving method argument values
+	 * against a {@code ServerWebExchange}.
 	 */
 	public void setArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 		this.resolvers.addResolvers(resolvers);
@@ -93,9 +90,10 @@ public class InvocableHandlerMethod extends HandlerMethod {
 	}
 
 	/**
-	 * Set the ParameterNameDiscoverer for resolving parameter names when needed
-	 * (e.g. default request attribute name).
-	 * <p>Default is a {@link DefaultParameterNameDiscoverer}.
+	 * Set the ParameterNameDiscoverer for resolving parameter names when needed (e.g.
+	 * default request attribute name).
+	 * <p>
+	 * Default is a {@link DefaultParameterNameDiscoverer}.
 	 */
 	public void setParameterNameDiscoverer(ParameterNameDiscoverer nameDiscoverer) {
 		this.parameterNameDiscoverer = nameDiscoverer;
@@ -110,12 +108,12 @@ public class InvocableHandlerMethod extends HandlerMethod {
 
 	/**
 	 * Configure a reactive adapter registry. This is needed for async return values.
-	 * <p>By default this is a {@link ReactiveAdapterRegistry} with default settings.
+	 * <p>
+	 * By default this is a {@link ReactiveAdapterRegistry} with default settings.
 	 */
 	public void setReactiveAdapterRegistry(ReactiveAdapterRegistry registry) {
 		this.reactiveAdapterRegistry = registry;
 	}
-
 
 	/**
 	 * Invoke the method for the given exchange.
@@ -156,8 +154,8 @@ public class InvocableHandlerMethod extends HandlerMethod {
 			MethodParameter returnType = getReturnType();
 			Class<?> reactiveType = (isSuspendingFunction ? value.getClass() : returnType.getParameterType());
 			ReactiveAdapter adapter = this.reactiveAdapterRegistry.getAdapter(reactiveType);
-			return (isAsyncVoidReturnType(returnType, adapter) ?
-					Mono.from(adapter.toPublisher(value)) : Mono.justOrEmpty(value));
+			return (isAsyncVoidReturnType(returnType, adapter) ? Mono.from(adapter.toPublisher(value))
+					: Mono.justOrEmpty(value));
 		});
 	}
 
@@ -176,12 +174,11 @@ public class InvocableHandlerMethod extends HandlerMethod {
 				continue;
 			}
 			if (!this.resolvers.supportsParameter(parameter)) {
-				return Mono.error(new MethodArgumentResolutionException(
-						message, parameter, formatArgumentError(parameter, "No suitable resolver")));
+				return Mono.error(new MethodArgumentResolutionException(message, parameter,
+						formatArgumentError(parameter, "No suitable resolver")));
 			}
 			try {
-				argMonos.add(this.resolvers.resolveArgument(parameter, message)
-						.defaultIfEmpty(NO_ARG_VALUE)
+				argMonos.add(this.resolvers.resolveArgument(parameter, message).defaultIfEmpty(NO_ARG_VALUE)
 						.doOnError(ex -> logArgumentErrorIfNecessary(parameter, ex)));
 			}
 			catch (Exception ex) {
@@ -189,8 +186,8 @@ public class InvocableHandlerMethod extends HandlerMethod {
 				argMonos.add(Mono.error(ex));
 			}
 		}
-		return Mono.zip(argMonos, values ->
-				Stream.of(values).map(value -> value != NO_ARG_VALUE ? value : null).toArray());
+		return Mono.zip(argMonos,
+				values -> Stream.of(values).map(value -> value != NO_ARG_VALUE ? value : null).toArray());
 	}
 
 	private void logArgumentErrorIfNecessary(MethodParameter parameter, Throwable ex) {

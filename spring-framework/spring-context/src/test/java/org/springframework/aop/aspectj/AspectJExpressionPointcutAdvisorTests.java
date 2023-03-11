@@ -37,15 +37,13 @@ public class AspectJExpressionPointcutAdvisorTests {
 
 	private CallCountingInterceptor interceptor;
 
-
 	@BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml",
+				getClass());
 		testBean = (ITestBean) ctx.getBean("testBean");
 		interceptor = (CallCountingInterceptor) ctx.getBean("interceptor");
 	}
-
 
 	@Test
 	public void testPointcutting() {
@@ -57,7 +55,6 @@ public class AspectJExpressionPointcutAdvisorTests {
 	}
 
 }
-
 
 class CallCountingInterceptor implements MethodInterceptor {
 
@@ -76,4 +73,5 @@ class CallCountingInterceptor implements MethodInterceptor {
 	public void reset() {
 		this.count = 0;
 	}
+
 }

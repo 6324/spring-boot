@@ -71,21 +71,25 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 /**
- * JMX exporter that allows for exposing any <i>Spring-managed bean</i> to a
- * JMX {@link javax.management.MBeanServer}, without the need to define any
- * JMX-specific information in the bean classes.
+ * JMX exporter that allows for exposing any <i>Spring-managed bean</i> to a JMX
+ * {@link javax.management.MBeanServer}, without the need to define any JMX-specific
+ * information in the bean classes.
  *
- * <p>If a bean implements one of the JMX management interfaces, MBeanExporter can
- * simply register the MBean with the server through its autodetection process.
+ * <p>
+ * If a bean implements one of the JMX management interfaces, MBeanExporter can simply
+ * register the MBean with the server through its autodetection process.
  *
- * <p>If a bean does not implement one of the JMX management interfaces, MBeanExporter
- * will create the management information using the supplied {@link MBeanInfoAssembler}.
+ * <p>
+ * If a bean does not implement one of the JMX management interfaces, MBeanExporter will
+ * create the management information using the supplied {@link MBeanInfoAssembler}.
  *
- * <p>A list of {@link MBeanExporterListener MBeanExporterListeners} can be registered
- * via the {@link #setListeners(MBeanExporterListener[]) listeners} property, allowing
+ * <p>
+ * A list of {@link MBeanExporterListener MBeanExporterListeners} can be registered via
+ * the {@link #setListeners(MBeanExporterListener[]) listeners} property, allowing
  * application code to be notified of MBean registration and unregistration events.
  *
- * <p>This exporter is compatible with MBeans as well as MXBeans.
+ * <p>
+ * This exporter is compatible with MBeans as well as MXBeans.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -100,8 +104,8 @@ import org.springframework.util.ObjectUtils;
  * @see org.springframework.jmx.export.assembler.MBeanInfoAssembler
  * @see MBeanExporterListener
  */
-public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExportOperations,
-		BeanClassLoaderAware, BeanFactoryAware, InitializingBean, SmartInitializingSingleton, DisposableBean {
+public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExportOperations, BeanClassLoaderAware,
+		BeanFactoryAware, InitializingBean, SmartInitializingSingleton, DisposableBean {
 
 	/**
 	 * Autodetection mode indicating that no autodetection should be used.
@@ -114,8 +118,8 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	public static final int AUTODETECT_MBEAN = 1;
 
 	/**
-	 * Autodetection mode indicating that only the {@link MBeanInfoAssembler} should be able
-	 * to autodetect beans.
+	 * Autodetection mode indicating that only the {@link MBeanInfoAssembler} should be
+	 * able to autodetect beans.
 	 */
 	public static final int AUTODETECT_ASSEMBLER = 2;
 
@@ -124,10 +128,9 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	 */
 	public static final int AUTODETECT_ALL = AUTODETECT_MBEAN | AUTODETECT_ASSEMBLER;
 
-
 	/**
-	 * Wildcard used to map a {@link javax.management.NotificationListener}
-	 * to all MBeans registered by the {@code MBeanExporter}.
+	 * Wildcard used to map a {@link javax.management.NotificationListener} to all MBeans
+	 * registered by the {@code MBeanExporter}.
 	 */
 	private static final String WILDCARD = "*";
 
@@ -136,7 +139,6 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 
 	/** Prefix for the autodetect constants defined in this class. */
 	private static final String CONSTANT_PREFIX_AUTODETECT = "AUTODETECT_";
-
 
 	/** Constants instance for this class. */
 	private static final Constants constants = new Constants(MBeanExporter.class);
@@ -161,7 +163,10 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	/** Indicates whether Spring should modify generated ObjectNames. */
 	private boolean ensureUniqueRuntimeObjectNames = true;
 
-	/** Indicates whether Spring should expose the managed resource ClassLoader in the MBean. */
+	/**
+	 * Indicates whether Spring should expose the managed resource ClassLoader in the
+	 * MBean.
+	 */
 	private boolean exposeManagedResourceClassLoader = true;
 
 	/** A set of bean names that should be excluded from autodetection. */
@@ -171,7 +176,9 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	@Nullable
 	private MBeanExporterListener[] listeners;
 
-	/** The NotificationListeners to register for the MBeans registered by this exporter. */
+	/**
+	 * The NotificationListeners to register for the MBeans registered by this exporter.
+	 */
 	@Nullable
 	private NotificationListenerBean[] notificationListeners;
 
@@ -186,20 +193,19 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	@Nullable
 	private ListableBeanFactory beanFactory;
 
-
 	/**
-	 * Supply a {@code Map} of beans to be registered with the JMX
-	 * {@code MBeanServer}.
-	 * <p>The String keys are the basis for the creation of JMX object names.
-	 * By default, a JMX {@code ObjectName} will be created straight
-	 * from the given key. This can be customized through specifying a
-	 * custom {@code NamingStrategy}.
-	 * <p>Both bean instances and bean names are allowed as values.
-	 * Bean instances are typically linked in through bean references.
-	 * Bean names will be resolved as beans in the current factory, respecting
-	 * lazy-init markers (that is, not triggering initialization of such beans).
-	 * @param beans a Map with JMX names as keys and bean instances or bean names
-	 * as values
+	 * Supply a {@code Map} of beans to be registered with the JMX {@code MBeanServer}.
+	 * <p>
+	 * The String keys are the basis for the creation of JMX object names. By default, a
+	 * JMX {@code ObjectName} will be created straight from the given key. This can be
+	 * customized through specifying a custom {@code NamingStrategy}.
+	 * <p>
+	 * Both bean instances and bean names are allowed as values. Bean instances are
+	 * typically linked in through bean references. Bean names will be resolved as beans
+	 * in the current factory, respecting lazy-init markers (that is, not triggering
+	 * initialization of such beans).
+	 * @param beans a Map with JMX names as keys and bean instances or bean names as
+	 * values
 	 * @see #setNamingStrategy
 	 * @see org.springframework.jmx.export.naming.KeyNamingStrategy
 	 * @see javax.management.ObjectName#ObjectName(String)
@@ -209,11 +215,11 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	}
 
 	/**
-	 * Set whether to autodetect MBeans in the bean factory that this exporter
-	 * runs in. Will also ask an {@code AutodetectCapableMBeanInfoAssembler}
-	 * if available.
-	 * <p>This feature is turned off by default. Explicitly specify
-	 * {@code true} here to enable autodetection.
+	 * Set whether to autodetect MBeans in the bean factory that this exporter runs in.
+	 * Will also ask an {@code AutodetectCapableMBeanInfoAssembler} if available.
+	 * <p>
+	 * This feature is turned off by default. Explicitly specify {@code true} here to
+	 * enable autodetection.
 	 * @see #setAssembler
 	 * @see AutodetectCapableMBeanInfoAssembler
 	 * @see #isMBean
@@ -224,8 +230,8 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 
 	/**
 	 * Set the autodetection mode to use.
-	 * @throws IllegalArgumentException if the supplied value is not
-	 * one of the {@code AUTODETECT_} constants
+	 * @throws IllegalArgumentException if the supplied value is not one of the
+	 * {@code AUTODETECT_} constants
 	 * @see #setAutodetectModeName(String)
 	 * @see #AUTODETECT_ALL
 	 * @see #AUTODETECT_ASSEMBLER
@@ -241,8 +247,8 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 
 	/**
 	 * Set the autodetection mode to use by name.
-	 * @throws IllegalArgumentException if the supplied value is not resolvable
-	 * to one of the {@code AUTODETECT_} constants or is {@code null}
+	 * @throws IllegalArgumentException if the supplied value is not resolvable to one of
+	 * the {@code AUTODETECT_} constants or is {@code null}
 	 * @see #setAutodetectMode(int)
 	 * @see #AUTODETECT_ALL
 	 * @see #AUTODETECT_ASSEMBLER
@@ -257,22 +263,24 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	}
 
 	/**
-	 * Specify whether to allow eager initialization of candidate beans
-	 * when autodetecting MBeans in the Spring application context.
-	 * <p>Default is "false", respecting lazy-init flags on bean definitions.
-	 * Switch this to "true" in order to search lazy-init beans as well,
-	 * including FactoryBean-produced objects that haven't been initialized yet.
+	 * Specify whether to allow eager initialization of candidate beans when autodetecting
+	 * MBeans in the Spring application context.
+	 * <p>
+	 * Default is "false", respecting lazy-init flags on bean definitions. Switch this to
+	 * "true" in order to search lazy-init beans as well, including FactoryBean-produced
+	 * objects that haven't been initialized yet.
 	 */
 	public void setAllowEagerInit(boolean allowEagerInit) {
 		this.allowEagerInit = allowEagerInit;
 	}
 
 	/**
-	 * Set the implementation of the {@code MBeanInfoAssembler} interface to use
-	 * for this exporter. Default is a {@code SimpleReflectiveMBeanInfoAssembler}.
-	 * <p>The passed-in assembler can optionally implement the
-	 * {@code AutodetectCapableMBeanInfoAssembler} interface, which enables it
-	 * to participate in the exporter's MBean autodetection process.
+	 * Set the implementation of the {@code MBeanInfoAssembler} interface to use for this
+	 * exporter. Default is a {@code SimpleReflectiveMBeanInfoAssembler}.
+	 * <p>
+	 * The passed-in assembler can optionally implement the
+	 * {@code AutodetectCapableMBeanInfoAssembler} interface, which enables it to
+	 * participate in the exporter's MBean autodetection process.
 	 * @see org.springframework.jmx.export.assembler.SimpleReflectiveMBeanInfoAssembler
 	 * @see org.springframework.jmx.export.assembler.AutodetectCapableMBeanInfoAssembler
 	 * @see org.springframework.jmx.export.assembler.MetadataMBeanInfoAssembler
@@ -283,8 +291,8 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	}
 
 	/**
-	 * Set the implementation of the {@code ObjectNamingStrategy} interface
-	 * to use for this exporter. Default is a {@code KeyNamingStrategy}.
+	 * Set the implementation of the {@code ObjectNamingStrategy} interface to use for
+	 * this exporter. Default is a {@code KeyNamingStrategy}.
 	 * @see org.springframework.jmx.export.naming.KeyNamingStrategy
 	 * @see org.springframework.jmx.export.naming.MetadataNamingStrategy
 	 */
@@ -294,10 +302,11 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 
 	/**
 	 * Indicates whether Spring should ensure that {@link ObjectName ObjectNames}
-	 * generated by the configured {@link ObjectNamingStrategy} for
-	 * runtime-registered MBeans ({@link #registerManagedResource}) should get
-	 * modified: to ensure uniqueness for every instance of a managed {@code Class}.
-	 * <p>The default value is {@code true}.
+	 * generated by the configured {@link ObjectNamingStrategy} for runtime-registered
+	 * MBeans ({@link #registerManagedResource}) should get modified: to ensure uniqueness
+	 * for every instance of a managed {@code Class}.
+	 * <p>
+	 * The default value is {@code true}.
 	 * @see #registerManagedResource
 	 * @see JmxUtils#appendIdentityToObjectName(javax.management.ObjectName, Object)
 	 */
@@ -307,11 +316,12 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 
 	/**
 	 * Indicates whether or not the managed resource should be exposed on the
-	 * {@link Thread#getContextClassLoader() thread context ClassLoader} before
-	 * allowing any invocations on the MBean to occur.
-	 * <p>The default value is {@code true}, exposing a {@link SpringModelMBean}
-	 * which performs thread context ClassLoader management. Switch this flag off to
-	 * expose a standard JMX {@link javax.management.modelmbean.RequiredModelMBean}.
+	 * {@link Thread#getContextClassLoader() thread context ClassLoader} before allowing
+	 * any invocations on the MBean to occur.
+	 * <p>
+	 * The default value is {@code true}, exposing a {@link SpringModelMBean} which
+	 * performs thread context ClassLoader management. Switch this flag off to expose a
+	 * standard JMX {@link javax.management.modelmbean.RequiredModelMBean}.
 	 */
 	public void setExposeManagedResourceClassLoader(boolean exposeManagedResourceClassLoader) {
 		this.exposeManagedResourceClassLoader = exposeManagedResourceClassLoader;
@@ -334,8 +344,8 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	}
 
 	/**
-	 * Set the {@code MBeanExporterListener}s that should be notified
-	 * of MBean registration and unregistration events.
+	 * Set the {@code MBeanExporterListener}s that should be notified of MBean
+	 * registration and unregistration events.
 	 * @see MBeanExporterListener
 	 */
 	public void setListeners(MBeanExporterListener... listeners) {
@@ -343,10 +353,9 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	}
 
 	/**
-	 * Set the {@link NotificationListenerBean NotificationListenerBeans}
-	 * containing the
-	 * {@link javax.management.NotificationListener NotificationListeners}
-	 * that will be registered with the {@link MBeanServer}.
+	 * Set the {@link NotificationListenerBean NotificationListenerBeans} containing the
+	 * {@link javax.management.NotificationListener NotificationListeners} that will be
+	 * registered with the {@link MBeanServer}.
 	 * @see #setNotificationListenerMappings(java.util.Map)
 	 * @see NotificationListenerBean
 	 */
@@ -355,23 +364,23 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	}
 
 	/**
-	 * Set the {@link NotificationListener NotificationListeners} to register
-	 * with the {@link javax.management.MBeanServer}.
-	 * <P>The key of each entry in the {@code Map} is a {@link String}
-	 * representation of the {@link javax.management.ObjectName} or the bean
-	 * name of the MBean the listener should be registered for. Specifying an
-	 * asterisk ({@code *}) for a key will cause the listener to be
-	 * associated with all MBeans registered by this class at startup time.
-	 * <p>The value of each entry is the
-	 * {@link javax.management.NotificationListener} to register. For more
-	 * advanced options such as registering
-	 * {@link javax.management.NotificationFilter NotificationFilters} and
-	 * handback objects see {@link #setNotificationListeners(NotificationListenerBean[])}.
+	 * Set the {@link NotificationListener NotificationListeners} to register with the
+	 * {@link javax.management.MBeanServer}.
+	 * <P>
+	 * The key of each entry in the {@code Map} is a {@link String} representation of the
+	 * {@link javax.management.ObjectName} or the bean name of the MBean the listener
+	 * should be registered for. Specifying an asterisk ({@code *}) for a key will cause
+	 * the listener to be associated with all MBeans registered by this class at startup
+	 * time.
+	 * <p>
+	 * The value of each entry is the {@link javax.management.NotificationListener} to
+	 * register. For more advanced options such as registering
+	 * {@link javax.management.NotificationFilter NotificationFilters} and handback
+	 * objects see {@link #setNotificationListeners(NotificationListenerBean[])}.
 	 */
 	public void setNotificationListenerMappings(Map<?, ? extends NotificationListener> listeners) {
 		Assert.notNull(listeners, "'listeners' must not be null");
-		List<NotificationListenerBean> notificationListeners =
-				new ArrayList<>(listeners.size());
+		List<NotificationListenerBean> notificationListeners = new ArrayList<>(listeners.size());
 
 		listeners.forEach((key, listener) -> {
 			// Get the listener from the map value.
@@ -394,9 +403,8 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 
 	/**
 	 * This callback is only required for resolution of bean names in the
-	 * {@link #setBeans(java.util.Map) "beans"} {@link Map} and for
-	 * autodetection of MBeans (in the latter case, a
-	 * {@code ListableBeanFactory} is required).
+	 * {@link #setBeans(java.util.Map) "beans"} {@link Map} and for autodetection of
+	 * MBeans (in the latter case, a {@code ListableBeanFactory} is required).
 	 * @see #setBeans
 	 * @see #setAutodetect
 	 */
@@ -410,14 +418,14 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 		}
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Lifecycle in bean factory: automatically register/unregister beans
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	@Override
 	public void afterPropertiesSet() {
-		// If no server was provided then try to find one. This is useful in an environment
+		// If no server was provided then try to find one. This is useful in an
+		// environment
 		// where there is already an MBeanServer loaded.
 		if (this.server == null) {
 			this.server = JmxUtils.locateMBeanServer();
@@ -425,7 +433,8 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	}
 
 	/**
-	 * Kick off bean registration automatically after the regular singleton instantiation phase.
+	 * Kick off bean registration automatically after the regular singleton instantiation
+	 * phase.
 	 * @see #registerBeans()
 	 */
 	@Override
@@ -444,8 +453,8 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	}
 
 	/**
-	 * Unregisters all beans that this exported has exposed via JMX
-	 * when the enclosing {@code ApplicationContext} is destroyed.
+	 * Unregisters all beans that this exported has exposed via JMX when the enclosing
+	 * {@code ApplicationContext} is destroyed.
 	 */
 	@Override
 	public void destroy() {
@@ -454,10 +463,9 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 		unregisterBeans();
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of MBeanExportOperations interface
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	@Override
 	public ObjectName registerManagedResource(Object managedResource) throws MBeanExportException {
@@ -502,26 +510,27 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 		doUnregister(objectName);
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Exporter implementation
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
 	 * Register the defined beans with the {@link MBeanServer}.
-	 * <p>Each bean is exposed to the {@code MBeanServer} via a
-	 * {@code ModelMBean}. The actual implementation of the
-	 * {@code ModelMBean} interface used depends on the implementation of
-	 * the {@code ModelMBeanProvider} interface that is configured. By
-	 * default the {@code RequiredModelMBean} class that is supplied with
-	 * all JMX implementations is used.
-	 * <p>The management interface produced for each bean is dependent on the
-	 * {@code MBeanInfoAssembler} implementation being used. The
-	 * {@code ObjectName} given to each bean is dependent on the
-	 * implementation of the {@code ObjectNamingStrategy} interface being used.
+	 * <p>
+	 * Each bean is exposed to the {@code MBeanServer} via a {@code ModelMBean}. The
+	 * actual implementation of the {@code ModelMBean} interface used depends on the
+	 * implementation of the {@code ModelMBeanProvider} interface that is configured. By
+	 * default the {@code RequiredModelMBean} class that is supplied with all JMX
+	 * implementations is used.
+	 * <p>
+	 * The management interface produced for each bean is dependent on the
+	 * {@code MBeanInfoAssembler} implementation being used. The {@code ObjectName} given
+	 * to each bean is dependent on the implementation of the {@code ObjectNamingStrategy}
+	 * interface being used.
 	 */
 	protected void registerBeans() {
-		// The beans property may be null, for example if we are relying solely on autodetection.
+		// The beans property may be null, for example if we are relying solely on
+		// autodetection.
 		if (this.beans == null) {
 			this.beans = new HashMap<>();
 			// Use AUTODETECT_ALL as default in no beans specified explicitly.
@@ -542,8 +551,8 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 				autodetect(this.beans, (beanClass, beanName) -> isMBean(beanClass));
 			}
 			// Allow the assembler a chance to vote for bean inclusion.
-			if ((mode == AUTODETECT_ASSEMBLER || mode == AUTODETECT_ALL) &&
-					this.assembler instanceof AutodetectCapableMBeanInfoAssembler) {
+			if ((mode == AUTODETECT_ASSEMBLER || mode == AUTODETECT_ALL)
+					&& this.assembler instanceof AutodetectCapableMBeanInfoAssembler) {
 				autodetect(this.beans, ((AutodetectCapableMBeanInfoAssembler) this.assembler)::includeBean);
 			}
 		}
@@ -561,23 +570,23 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	 * @see org.springframework.beans.factory.config.BeanDefinition#isLazyInit
 	 */
 	protected boolean isBeanDefinitionLazyInit(ListableBeanFactory beanFactory, String beanName) {
-		return (beanFactory instanceof ConfigurableListableBeanFactory && beanFactory.containsBeanDefinition(beanName) &&
-				((ConfigurableListableBeanFactory) beanFactory).getBeanDefinition(beanName).isLazyInit());
+		return (beanFactory instanceof ConfigurableListableBeanFactory && beanFactory.containsBeanDefinition(beanName)
+				&& ((ConfigurableListableBeanFactory) beanFactory).getBeanDefinition(beanName).isLazyInit());
 	}
 
 	/**
 	 * Register an individual bean with the {@link #setServer MBeanServer}.
-	 * <p>This method is responsible for deciding <strong>how</strong> a bean
-	 * should be exposed to the {@code MBeanServer}. Specifically, if the
-	 * supplied {@code mapValue} is the name of a bean that is configured
-	 * for lazy initialization, then a proxy to the resource is registered with
-	 * the {@code MBeanServer} so that the lazy load behavior is
-	 * honored. If the bean is already an MBean then it will be registered
-	 * directly with the {@code MBeanServer} without any intervention. For
-	 * all other beans or bean names, the resource itself is registered with
-	 * the {@code MBeanServer} directly.
-	 * @param mapValue the value configured for this bean in the beans map;
-	 * may be either the {@code String} name of a bean, or the bean itself
+	 * <p>
+	 * This method is responsible for deciding <strong>how</strong> a bean should be
+	 * exposed to the {@code MBeanServer}. Specifically, if the supplied {@code mapValue}
+	 * is the name of a bean that is configured for lazy initialization, then a proxy to
+	 * the resource is registered with the {@code MBeanServer} so that the lazy load
+	 * behavior is honored. If the bean is already an MBean then it will be registered
+	 * directly with the {@code MBeanServer} without any intervention. For all other beans
+	 * or bean names, the resource itself is registered with the {@code MBeanServer}
+	 * directly.
+	 * @param mapValue the value configured for this bean in the beans map; may be either
+	 * the {@code String} name of a bean, or the bean itself
 	 * @param beanKey the key associated with this bean in the beans map
 	 * @return the {@code ObjectName} under which the resource was registered
 	 * @throws MBeanExportException if the export failed
@@ -608,8 +617,8 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 			else {
 				// Plain bean instance -> register it directly.
 				if (this.beanFactory != null) {
-					Map<String, ?> beansOfSameType =
-							this.beanFactory.getBeansOfType(mapValue.getClass(), false, this.allowEagerInit);
+					Map<String, ?> beansOfSameType = this.beanFactory.getBeansOfType(mapValue.getClass(), false,
+							this.allowEagerInit);
 					for (Map.Entry<String, ?> entry : beansOfSameType.entrySet()) {
 						if (entry.getValue() == mapValue) {
 							String beanName = entry.getKey();
@@ -629,8 +638,8 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	}
 
 	/**
-	 * Replace any bean names used as keys in the {@code NotificationListener}
-	 * mappings with their corresponding {@code ObjectName} values.
+	 * Replace any bean names used as keys in the {@code NotificationListener} mappings
+	 * with their corresponding {@code ObjectName} values.
 	 * @param beanName the name of the bean to be registered
 	 * @param objectName the {@code ObjectName} under which the bean will be registered
 	 * with the {@code MBeanServer}
@@ -644,12 +653,12 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	}
 
 	/**
-	 * Registers an existing MBean or an MBean adapter for a plain bean
-	 * with the {@code MBeanServer}.
+	 * Registers an existing MBean or an MBean adapter for a plain bean with the
+	 * {@code MBeanServer}.
 	 * @param bean the bean to register, either an MBean or a plain bean
 	 * @param beanKey the key associated with this bean in the beans map
-	 * @return the {@code ObjectName} under which the bean was registered
-	 * with the {@code MBeanServer}
+	 * @return the {@code ObjectName} under which the bean was registered with the
+	 * {@code MBeanServer}
 	 */
 	private ObjectName registerBeanInstance(Object bean, String beanKey) throws JMException {
 		ObjectName objectName = getObjectName(bean, beanKey);
@@ -666,15 +675,15 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 
 		if (mbeanToExpose != null) {
 			if (logger.isDebugEnabled()) {
-				logger.debug("Located MBean '" + beanKey + "': registering with JMX server as MBean [" +
-						objectName + "]");
+				logger.debug(
+						"Located MBean '" + beanKey + "': registering with JMX server as MBean [" + objectName + "]");
 			}
 			doRegister(mbeanToExpose, objectName);
 		}
 		else {
 			if (logger.isDebugEnabled()) {
-				logger.debug("Located managed bean '" + beanKey + "': registering with JMX server as MBean [" +
-						objectName + "]");
+				logger.debug("Located managed bean '" + beanKey + "': registering with JMX server as MBean ["
+						+ objectName + "]");
 			}
 			ModelMBean mbean = createAndConfigureMBean(bean, beanKey);
 			doRegister(mbean, objectName);
@@ -689,8 +698,8 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	 * {@code MBeanServer} indirectly through a proxy.
 	 * @param beanName the name of the bean in the {@code BeanFactory}
 	 * @param beanKey the key associated with this bean in the beans map
-	 * @return the {@code ObjectName} under which the bean was registered
-	 * with the {@code MBeanServer}
+	 * @return the {@code ObjectName} under which the bean was registered with the
+	 * {@code MBeanServer}
 	 */
 	private ObjectName registerLazyInit(String beanName, String beanKey) throws JMException {
 		Assert.state(this.beanFactory != null, "No BeanFactory set");
@@ -709,15 +718,16 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 			Object proxy = proxyFactory.getProxy(this.beanClassLoader);
 			ObjectName objectName = getObjectName(proxy, beanKey);
 			if (logger.isDebugEnabled()) {
-				logger.debug("Located MBean '" + beanKey + "': registering with JMX server as lazy-init MBean [" +
-						objectName + "]");
+				logger.debug("Located MBean '" + beanKey + "': registering with JMX server as lazy-init MBean ["
+						+ objectName + "]");
 			}
 			doRegister(proxy, objectName);
 			return objectName;
 		}
 
 		else {
-			// A simple bean... Let's create a lazy-init ModelMBean proxy with notification support.
+			// A simple bean... Let's create a lazy-init ModelMBean proxy with
+			// notification support.
 			NotificationPublisherAwareLazyTargetSource targetSource = new NotificationPublisherAwareLazyTargetSource();
 			targetSource.setTargetBeanName(beanName);
 			targetSource.setBeanFactory(this.beanFactory);
@@ -726,8 +736,8 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 			Object proxy = proxyFactory.getProxy(this.beanClassLoader);
 			ObjectName objectName = getObjectName(proxy, beanKey);
 			if (logger.isDebugEnabled()) {
-				logger.debug("Located simple bean '" + beanKey + "': registering with JMX server as lazy-init MBean [" +
-						objectName + "]");
+				logger.debug("Located simple bean '" + beanKey + "': registering with JMX server as lazy-init MBean ["
+						+ objectName + "]");
 			}
 			ModelMBean mbean = createAndConfigureMBean(proxy, beanKey);
 			targetSource.setModelMBean(mbean);
@@ -739,14 +749,15 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 
 	/**
 	 * Retrieve the {@code ObjectName} for a bean.
-	 * <p>If the bean implements the {@code SelfNaming} interface, then the
+	 * <p>
+	 * If the bean implements the {@code SelfNaming} interface, then the
 	 * {@code ObjectName} will be retrieved using {@code SelfNaming.getObjectName()}.
 	 * Otherwise, the configured {@code ObjectNamingStrategy} is used.
 	 * @param bean the name of the bean in the {@code BeanFactory}
 	 * @param beanKey the key associated with the bean in the beans map
 	 * @return the {@code ObjectName} for the supplied bean
-	 * @throws javax.management.MalformedObjectNameException
-	 * if the retrieved {@code ObjectName} is malformed
+	 * @throws javax.management.MalformedObjectNameException if the retrieved
+	 * {@code ObjectName} is malformed
 	 */
 	protected ObjectName getObjectName(Object bean, @Nullable String beanKey) throws MalformedObjectNameException {
 		if (bean instanceof SelfNaming) {
@@ -759,10 +770,11 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 
 	/**
 	 * Determine whether the given bean class qualifies as an MBean as-is.
-	 * <p>The default implementation delegates to {@link JmxUtils#isMBean},
-	 * which checks for {@link javax.management.DynamicMBean} classes as well
-	 * as classes with corresponding "*MBean" interface (Standard MBeans)
-	 * or corresponding "*MXBean" interface (Java 6 MXBeans).
+	 * <p>
+	 * The default implementation delegates to {@link JmxUtils#isMBean}, which checks for
+	 * {@link javax.management.DynamicMBean} classes as well as classes with corresponding
+	 * "*MBean" interface (Standard MBeans) or corresponding "*MXBean" interface (Java 6
+	 * MXBeans).
 	 * @param beanClass the bean class to analyze
 	 * @return whether the class qualifies as an MBean
 	 * @see org.springframework.jmx.support.JmxUtils#isMBean(Class)
@@ -773,9 +785,10 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 
 	/**
 	 * Build an adapted MBean for the given bean instance, if possible.
-	 * <p>The default implementation builds a JMX 1.2 StandardMBean
-	 * for the target's MBean/MXBean interface in case of an AOP proxy,
-	 * delegating the interface's management operations to the proxy.
+	 * <p>
+	 * The default implementation builds a JMX 1.2 StandardMBean for the target's
+	 * MBean/MXBean interface in case of an AOP proxy, delegating the interface's
+	 * management operations to the proxy.
 	 * @param bean the original bean instance
 	 * @return the adapted MBean, or {@code null} if not possible
 	 */
@@ -787,8 +800,8 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 			Class<?> ifc = JmxUtils.getMXBeanInterface(targetClass);
 			if (ifc != null) {
 				if (!ifc.isInstance(bean)) {
-					throw new NotCompliantMBeanException("Managed bean [" + bean +
-							"] has a target class with an MXBean interface but does not expose it in the proxy");
+					throw new NotCompliantMBeanException("Managed bean [" + bean
+							+ "] has a target class with an MXBean interface but does not expose it in the proxy");
 				}
 				return new StandardMBean(bean, ((Class<Object>) ifc), true);
 			}
@@ -796,8 +809,8 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 				ifc = JmxUtils.getMBeanInterface(targetClass);
 				if (ifc != null) {
 					if (!ifc.isInstance(bean)) {
-						throw new NotCompliantMBeanException("Managed bean [" + bean +
-								"] has a target class with an MBean interface but does not expose it in the proxy");
+						throw new NotCompliantMBeanException("Managed bean [" + bean
+								+ "] has a target class with an MBean interface but does not expose it in the proxy");
 					}
 					return new StandardMBean(bean, ((Class<Object>) ifc));
 				}
@@ -807,15 +820,14 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	}
 
 	/**
-	 * Creates an MBean that is configured with the appropriate management
-	 * interface for the supplied managed resource.
+	 * Creates an MBean that is configured with the appropriate management interface for
+	 * the supplied managed resource.
 	 * @param managedResource the resource that is to be exported as an MBean
 	 * @param beanKey the key associated with the managed bean
 	 * @see #createModelMBean()
 	 * @see #getMBeanInfo(Object, String)
 	 */
-	protected ModelMBean createAndConfigureMBean(Object managedResource, String beanKey)
-			throws MBeanExportException {
+	protected ModelMBean createAndConfigureMBean(Object managedResource, String beanKey) throws MBeanExportException {
 		try {
 			ModelMBean mbean = createModelMBean();
 			mbean.setModelMBeanInfo(getMBeanInfo(managedResource, beanKey));
@@ -823,16 +835,17 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 			return mbean;
 		}
 		catch (Throwable ex) {
-			throw new MBeanExportException("Could not create ModelMBean for managed resource [" +
-					managedResource + "] with key '" + beanKey + "'", ex);
+			throw new MBeanExportException("Could not create ModelMBean for managed resource [" + managedResource
+					+ "] with key '" + beanKey + "'", ex);
 		}
 	}
 
 	/**
 	 * Create an instance of a class that implements {@code ModelMBean}.
-	 * <p>This method is called to obtain a {@code ModelMBean} instance to
-	 * use when registering a bean. This method is called once per bean during the
-	 * registration phase and must return a new instance of {@code ModelMBean}
+	 * <p>
+	 * This method is called to obtain a {@code ModelMBean} instance to use when
+	 * registering a bean. This method is called once per bean during the registration
+	 * phase and must return a new instance of {@code ModelMBean}
 	 * @return a new instance of a class that implements {@code ModelMBean}
 	 * @throws javax.management.MBeanException if creation of the ModelMBean failed
 	 */
@@ -841,30 +854,28 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	}
 
 	/**
-	 * Gets the {@code ModelMBeanInfo} for the bean with the supplied key
-	 * and of the supplied type.
+	 * Gets the {@code ModelMBeanInfo} for the bean with the supplied key and of the
+	 * supplied type.
 	 */
 	private ModelMBeanInfo getMBeanInfo(Object managedBean, String beanKey) throws JMException {
 		ModelMBeanInfo info = this.assembler.getMBeanInfo(managedBean, beanKey);
-		if (logger.isInfoEnabled() && ObjectUtils.isEmpty(info.getAttributes()) &&
-				ObjectUtils.isEmpty(info.getOperations())) {
-			logger.info("Bean with key '" + beanKey +
-					"' has been registered as an MBean but has no exposed attributes or operations");
+		if (logger.isInfoEnabled() && ObjectUtils.isEmpty(info.getAttributes())
+				&& ObjectUtils.isEmpty(info.getOperations())) {
+			logger.info("Bean with key '" + beanKey
+					+ "' has been registered as an MBean but has no exposed attributes or operations");
 		}
 		return info;
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Autodetection process
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
 	 * Performs the actual autodetection process, delegating to an
-	 * {@code AutodetectCallback} instance to vote on the inclusion of a
-	 * given bean.
-	 * @param callback the {@code AutodetectCallback} to use when deciding
-	 * whether to include a bean or not
+	 * {@code AutodetectCallback} instance to vote on the inclusion of a given bean.
+	 * @param callback the {@code AutodetectCallback} to use when deciding whether to
+	 * include a bean or not
 	 */
 	private void autodetect(Map<String, Object> beans, AutodetectCallback callback) {
 		Assert.state(this.beanFactory != null, "No BeanFactory set");
@@ -887,18 +898,20 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 								continue;
 							}
 						}
-						if (!ScopedProxyUtils.isScopedTarget(beanName) && !beans.containsValue(beanName) &&
-								(beanInstance == null ||
-										!CollectionUtils.containsInstance(beans.values(), beanInstance))) {
+						if (!ScopedProxyUtils.isScopedTarget(beanName) && !beans.containsValue(beanName)
+								&& (beanInstance == null
+										|| !CollectionUtils.containsInstance(beans.values(), beanInstance))) {
 							// Not already registered for JMX exposure.
 							beans.put(beanName, (beanInstance != null ? beanInstance : beanName));
 							if (logger.isDebugEnabled()) {
-								logger.debug("Bean with name '" + beanName + "' has been autodetected for JMX exposure");
+								logger.debug(
+										"Bean with name '" + beanName + "' has been autodetected for JMX exposure");
 							}
 						}
 						else {
 							if (logger.isTraceEnabled()) {
-								logger.trace("Bean with name '" + beanName + "' is already registered for JMX exposure");
+								logger.trace(
+										"Bean with name '" + beanName + "' is already registered for JMX exposure");
 							}
 						}
 					}
@@ -914,33 +927,34 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	}
 
 	/**
-	 * Indicates whether or not a particular bean name is present in the excluded beans list.
+	 * Indicates whether or not a particular bean name is present in the excluded beans
+	 * list.
 	 */
 	private boolean isExcluded(String beanName) {
-		return (this.excludedBeans.contains(beanName) ||
-					(beanName.startsWith(BeanFactory.FACTORY_BEAN_PREFIX) &&
-							this.excludedBeans.contains(beanName.substring(BeanFactory.FACTORY_BEAN_PREFIX.length()))));
+		return (this.excludedBeans.contains(beanName) || (beanName.startsWith(BeanFactory.FACTORY_BEAN_PREFIX)
+				&& this.excludedBeans.contains(beanName.substring(BeanFactory.FACTORY_BEAN_PREFIX.length()))));
 	}
 
 	/**
 	 * Return whether the specified bean definition should be considered as abstract.
 	 */
 	private boolean isBeanDefinitionAbstract(ListableBeanFactory beanFactory, String beanName) {
-		return (beanFactory instanceof ConfigurableListableBeanFactory && beanFactory.containsBeanDefinition(beanName) &&
-				((ConfigurableListableBeanFactory) beanFactory).getBeanDefinition(beanName).isAbstract());
+		return (beanFactory instanceof ConfigurableListableBeanFactory && beanFactory.containsBeanDefinition(beanName)
+				&& ((ConfigurableListableBeanFactory) beanFactory).getBeanDefinition(beanName).isAbstract());
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Notification and listener management
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
-	 * If the supplied managed resource implements the {@link NotificationPublisherAware} an instance of
-	 * {@link org.springframework.jmx.export.notification.NotificationPublisher} is injected.
+	 * If the supplied managed resource implements the {@link NotificationPublisherAware}
+	 * an instance of
+	 * {@link org.springframework.jmx.export.notification.NotificationPublisher} is
+	 * injected.
 	 */
-	private void injectNotificationPublisherIfNecessary(
-			Object managedResource, @Nullable ModelMBean modelMBean, @Nullable ObjectName objectName) {
+	private void injectNotificationPublisherIfNecessary(Object managedResource, @Nullable ModelMBean modelMBean,
+			@Nullable ObjectName objectName) {
 
 		if (managedResource instanceof NotificationPublisherAware && modelMBean != null && objectName != null) {
 			((NotificationPublisherAware) managedResource).setNotificationPublisher(
@@ -949,8 +963,8 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	}
 
 	/**
-	 * Register the configured {@link NotificationListener NotificationListeners}
-	 * with the {@link MBeanServer}.
+	 * Register the configured {@link NotificationListener NotificationListeners} with the
+	 * {@link MBeanServer}.
 	 */
 	private void registerNotificationListeners() throws MBeanExportException {
 		if (this.notificationListeners != null) {
@@ -977,8 +991,8 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	}
 
 	/**
-	 * Unregister the configured {@link NotificationListener NotificationListeners}
-	 * from the {@link MBeanServer}.
+	 * Unregister the configured {@link NotificationListener NotificationListeners} from
+	 * the {@link MBeanServer}.
 	 */
 	private void unregisterNotificationListeners() {
 		if (this.server != null) {
@@ -1002,10 +1016,11 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	/**
 	 * Called when an MBean is registered. Notifies all registered
 	 * {@link MBeanExporterListener MBeanExporterListeners} of the registration event.
-	 * <p>Please note that if an {@link MBeanExporterListener} throws a (runtime)
-	 * exception when notified, this will essentially interrupt the notification process
-	 * and any remaining listeners that have yet to be notified will not (obviously)
-	 * receive the {@link MBeanExporterListener#mbeanRegistered(javax.management.ObjectName)}
+	 * <p>
+	 * Please note that if an {@link MBeanExporterListener} throws a (runtime) exception
+	 * when notified, this will essentially interrupt the notification process and any
+	 * remaining listeners that have yet to be notified will not (obviously) receive the
+	 * {@link MBeanExporterListener#mbeanRegistered(javax.management.ObjectName)}
 	 * callback.
 	 * @param objectName the {@code ObjectName} of the registered MBean
 	 */
@@ -1017,10 +1032,11 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	/**
 	 * Called when an MBean is unregistered. Notifies all registered
 	 * {@link MBeanExporterListener MBeanExporterListeners} of the unregistration event.
-	 * <p>Please note that if an {@link MBeanExporterListener} throws a (runtime)
-	 * exception when notified, this will essentially interrupt the notification process
-	 * and any remaining listeners that have yet to be notified will not (obviously)
-	 * receive the {@link MBeanExporterListener#mbeanUnregistered(javax.management.ObjectName)}
+	 * <p>
+	 * Please note that if an {@link MBeanExporterListener} throws a (runtime) exception
+	 * when notified, this will essentially interrupt the notification process and any
+	 * remaining listeners that have yet to be notified will not (obviously) receive the
+	 * {@link MBeanExporterListener#mbeanUnregistered(javax.management.ObjectName)}
 	 * callback.
 	 * @param objectName the {@code ObjectName} of the unregistered MBean
 	 */
@@ -1028,7 +1044,6 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	protected void onUnregister(ObjectName objectName) {
 		notifyListenersOfUnregistration(objectName);
 	}
-
 
 	/**
 	 * Notifies all registered {@link MBeanExporterListener MBeanExporterListeners} of the
@@ -1054,10 +1069,9 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 		}
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Inner classes for internal use
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
 	 * Internal callback interface for the autodetection process.
@@ -1066,19 +1080,19 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 	private interface AutodetectCallback {
 
 		/**
-		 * Called during the autodetection process to decide whether
-		 * or not a bean should be included.
+		 * Called during the autodetection process to decide whether or not a bean should
+		 * be included.
 		 * @param beanClass the class of the bean
 		 * @param beanName the name of the bean
 		 */
 		boolean include(Class<?> beanClass, String beanName);
-	}
 
+	}
 
 	/**
 	 * Extension of {@link LazyInitTargetSource} that will inject a
-	 * {@link org.springframework.jmx.export.notification.NotificationPublisher}
-	 * into the lazy resource as it is created if required.
+	 * {@link org.springframework.jmx.export.notification.NotificationPublisher} into the
+	 * lazy resource as it is created if required.
 	 */
 	@SuppressWarnings("serial")
 	private class NotificationPublisherAwareLazyTargetSource extends LazyInitTargetSource {
@@ -1115,6 +1129,7 @@ public class MBeanExporter extends MBeanRegistrationSupport implements MBeanExpo
 		protected void postProcessTargetObject(Object targetObject) {
 			injectNotificationPublisherIfNecessary(targetObject, this.modelMBean, this.objectName);
 		}
+
 	}
 
 }

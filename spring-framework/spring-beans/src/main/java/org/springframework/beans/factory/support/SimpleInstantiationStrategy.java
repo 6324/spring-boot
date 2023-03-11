@@ -34,8 +34,9 @@ import org.springframework.util.StringUtils;
 /**
  * Simple object instantiation strategy for use in a BeanFactory.
  *
- * <p>Does not support Method Injection, although it provides hooks for subclasses
- * to override to add Method Injection support, for example by overriding methods.
+ * <p>
+ * Does not support Method Injection, although it provides hooks for subclasses to
+ * override to add Method Injection support, for example by overriding methods.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -45,17 +46,16 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 
 	private static final ThreadLocal<Method> currentlyInvokedFactoryMethod = new ThreadLocal<>();
 
-
 	/**
 	 * Return the factory method currently being invoked or {@code null} if none.
-	 * <p>Allows factory method implementations to determine whether the current
-	 * caller is the container itself as opposed to user code.
+	 * <p>
+	 * Allows factory method implementations to determine whether the current caller is
+	 * the container itself as opposed to user code.
 	 */
 	@Nullable
 	public static Method getCurrentlyInvokedFactoryMethod() {
 		return currentlyInvokedFactoryMethod.get();
 	}
-
 
 	@Override
 	public Object instantiate(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner) {
@@ -94,11 +94,12 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 
 	/**
 	 * Subclasses can override this method, which is implemented to throw
-	 * UnsupportedOperationException, if they can instantiate an object with
-	 * the Method Injection specified in the given RootBeanDefinition.
-	 * Instantiation should use a no-arg constructor.
+	 * UnsupportedOperationException, if they can instantiate an object with the Method
+	 * Injection specified in the given RootBeanDefinition. Instantiation should use a
+	 * no-arg constructor.
 	 */
-	protected Object instantiateWithMethodInjection(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner) {
+	protected Object instantiateWithMethodInjection(RootBeanDefinition bd, @Nullable String beanName,
+			BeanFactory owner) {
 		throw new UnsupportedOperationException("Method Injection not supported in SimpleInstantiationStrategy");
 	}
 
@@ -123,12 +124,12 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 
 	/**
 	 * Subclasses can override this method, which is implemented to throw
-	 * UnsupportedOperationException, if they can instantiate an object with
-	 * the Method Injection specified in the given RootBeanDefinition.
-	 * Instantiation should use the given constructor and parameters.
+	 * UnsupportedOperationException, if they can instantiate an object with the Method
+	 * Injection specified in the given RootBeanDefinition. Instantiation should use the
+	 * given constructor and parameters.
 	 */
-	protected Object instantiateWithMethodInjection(RootBeanDefinition bd, @Nullable String beanName,
-			BeanFactory owner, @Nullable Constructor<?> ctor, Object... args) {
+	protected Object instantiateWithMethodInjection(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner,
+			@Nullable Constructor<?> ctor, Object... args) {
 
 		throw new UnsupportedOperationException("Method Injection not supported in SimpleInstantiationStrategy");
 	}
@@ -167,9 +168,8 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 			}
 		}
 		catch (IllegalArgumentException ex) {
-			throw new BeanInstantiationException(factoryMethod,
-					"Illegal arguments to factory method '" + factoryMethod.getName() + "'; " +
-					"args: " + StringUtils.arrayToCommaDelimitedString(args), ex);
+			throw new BeanInstantiationException(factoryMethod, "Illegal arguments to factory method '"
+					+ factoryMethod.getName() + "'; " + "args: " + StringUtils.arrayToCommaDelimitedString(args), ex);
 		}
 		catch (IllegalAccessException ex) {
 			throw new BeanInstantiationException(factoryMethod,
@@ -177,10 +177,11 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 		}
 		catch (InvocationTargetException ex) {
 			String msg = "Factory method '" + factoryMethod.getName() + "' threw exception";
-			if (bd.getFactoryBeanName() != null && owner instanceof ConfigurableBeanFactory &&
-					((ConfigurableBeanFactory) owner).isCurrentlyInCreation(bd.getFactoryBeanName())) {
-				msg = "Circular reference involving containing bean '" + bd.getFactoryBeanName() + "' - consider " +
-						"declaring the factory method as static for independence from its containing instance. " + msg;
+			if (bd.getFactoryBeanName() != null && owner instanceof ConfigurableBeanFactory
+					&& ((ConfigurableBeanFactory) owner).isCurrentlyInCreation(bd.getFactoryBeanName())) {
+				msg = "Circular reference involving containing bean '" + bd.getFactoryBeanName() + "' - consider "
+						+ "declaring the factory method as static for independence from its containing instance. "
+						+ msg;
 			}
 			throw new BeanInstantiationException(factoryMethod, msg, ex.getTargetException());
 		}

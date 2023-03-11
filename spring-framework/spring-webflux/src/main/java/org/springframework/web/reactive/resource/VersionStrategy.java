@@ -22,14 +22,14 @@ import org.springframework.core.io.Resource;
 import org.springframework.lang.Nullable;
 
 /**
- * A strategy to determine the version of a static resource and to apply and/or
- * extract it from the URL path.
+ * A strategy to determine the version of a static resource and to apply and/or extract it
+ * from the URL path.
  *
  * @author Rossen Stoyanchev
  * @author Brian Clozel
  * @since 5.0
  * @see VersionResourceResolver
-*/
+ */
 public interface VersionStrategy {
 
 	/**
@@ -41,8 +41,8 @@ public interface VersionStrategy {
 	String extractVersion(String requestPath);
 
 	/**
-	 * Remove the version from the request path. It is assumed that the given
-	 * version was extracted via {@link #extractVersion(String)}.
+	 * Remove the version from the request path. It is assumed that the given version was
+	 * extracted via {@link #extractVersion(String)}.
 	 * @param requestPath the request path of the resource being resolved
 	 * @param version the version obtained from {@link #extractVersion(String)}
 	 * @return the request path with the version removed

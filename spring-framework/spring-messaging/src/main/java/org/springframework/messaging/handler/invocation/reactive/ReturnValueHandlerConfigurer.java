@@ -23,8 +23,8 @@ import java.util.List;
 import org.springframework.util.Assert;
 
 /**
- * Assist with configuration for handler method return value handlers.
- * At present, it supports only providing a list of custom handlers.
+ * Assist with configuration for handler method return value handlers. At present, it
+ * supports only providing a list of custom handlers.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -32,7 +32,6 @@ import org.springframework.util.Assert;
 public class ReturnValueHandlerConfigurer {
 
 	private final List<HandlerMethodReturnValueHandler> customHandlers = new ArrayList<>(8);
-
 
 	/**
 	 * Configure custom return value handlers for handler methods.
@@ -42,7 +41,6 @@ public class ReturnValueHandlerConfigurer {
 		Assert.notNull(handlers, "'handlers' must not be null");
 		this.customHandlers.addAll(Arrays.asList(handlers));
 	}
-
 
 	public List<HandlerMethodReturnValueHandler> getCustomHandlers() {
 		return this.customHandlers;

@@ -76,8 +76,8 @@ public class DestroyMethodInferenceTests {
 
 	@Test
 	public void xml() {
-		ConfigurableApplicationContext ctx = new GenericXmlApplicationContext(
-				getClass(), "DestroyMethodInferenceTests-context.xml");
+		ConfigurableApplicationContext ctx = new GenericXmlApplicationContext(getClass(),
+				"DestroyMethodInferenceTests-context.xml");
 		WithLocalCloseMethod x1 = ctx.getBean("x1", WithLocalCloseMethod.class);
 		WithLocalCloseMethod x2 = ctx.getBean("x2", WithLocalCloseMethod.class);
 		WithLocalCloseMethod x3 = ctx.getBean("x3", WithLocalCloseMethod.class);
@@ -103,7 +103,6 @@ public class DestroyMethodInferenceTests {
 		assertThat(x9.closed).isTrue();
 		assertThat(x10.closed).isTrue();
 	}
-
 
 	@Configuration(proxyBeanMethods = false)
 	static class Config {
@@ -140,6 +139,7 @@ public class DestroyMethodInferenceTests {
 				public void close() {
 					throw new IllegalStateException("close() should not be called");
 				}
+
 				@SuppressWarnings("unused")
 				public void other() {
 					this.closed = true;
@@ -171,8 +171,8 @@ public class DestroyMethodInferenceTests {
 		public WithAutoCloseable c10() {
 			return new WithAutoCloseable();
 		}
-	}
 
+	}
 
 	static class WithExplicitDestroyMethod {
 
@@ -181,8 +181,8 @@ public class DestroyMethodInferenceTests {
 		public void explicitClose() {
 			closed = true;
 		}
-	}
 
+	}
 
 	static class WithLocalCloseMethod {
 
@@ -191,8 +191,8 @@ public class DestroyMethodInferenceTests {
 		public void close() {
 			closed = true;
 		}
-	}
 
+	}
 
 	static class WithInheritedCloseMethod implements Closeable {
 
@@ -202,14 +202,14 @@ public class DestroyMethodInferenceTests {
 		public void close() {
 			closed = true;
 		}
-	}
 
+	}
 
 	static class WithNoCloseMethod {
 
 		boolean closed = false;
-	}
 
+	}
 
 	static class WithLocalShutdownMethod {
 
@@ -218,8 +218,8 @@ public class DestroyMethodInferenceTests {
 		public void shutdown() {
 			closed = true;
 		}
-	}
 
+	}
 
 	static class WithDisposableBean implements DisposableBean {
 
@@ -229,8 +229,8 @@ public class DestroyMethodInferenceTests {
 		public void destroy() {
 			closed = true;
 		}
-	}
 
+	}
 
 	static class WithAutoCloseable implements AutoCloseable {
 
@@ -240,6 +240,7 @@ public class DestroyMethodInferenceTests {
 		public void close() {
 			closed = true;
 		}
+
 	}
 
 }

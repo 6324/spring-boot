@@ -78,12 +78,11 @@ public class AnnotationTransactionNamespaceHandlerTests {
 		assertThat(ptm.begun).as("Should not have started another transaction").isEqualTo(1);
 
 		// try with exceptional
-		assertThatExceptionOfType(Throwable.class).isThrownBy(() ->
-				testBean.exceptional(new IllegalArgumentException("foo")))
-			.satisfies(ex -> {
-				assertThat(ptm.begun).as("Should have another started transaction").isEqualTo(2);
-				assertThat(ptm.rollbacks).as("Should have 1 rolled back transaction").isEqualTo(1);
-			});
+		assertThatExceptionOfType(Throwable.class)
+				.isThrownBy(() -> testBean.exceptional(new IllegalArgumentException("foo"))).satisfies(ex -> {
+					assertThat(ptm.begun).as("Should have another started transaction").isEqualTo(2);
+					assertThat(ptm.rollbacks).as("Should have 1 rolled back transaction").isEqualTo(1);
+				});
 	}
 
 	@Test
@@ -99,21 +98,22 @@ public class AnnotationTransactionNamespaceHandlerTests {
 	@Test
 	public void mBeanExportAlsoWorks() throws Exception {
 		MBeanServer server = ManagementFactory.getPlatformMBeanServer();
-		Object actual = server.invoke(ObjectName.getInstance("test:type=TestBean"), "doSomething", new Object[0], new String[0]);
+		Object actual = server.invoke(ObjectName.getInstance("test:type=TestBean"), "doSomething", new Object[0],
+				new String[0]);
 		assertThat(actual).isEqualTo("done");
 	}
 
 	@Test
 	public void transactionalEventListenerRegisteredProperly() {
-		assertThat(this.context.containsBean(TransactionManagementConfigUtils
-				.TRANSACTIONAL_EVENT_LISTENER_FACTORY_BEAN_NAME)).isTrue();
+		assertThat(this.context
+				.containsBean(TransactionManagementConfigUtils.TRANSACTIONAL_EVENT_LISTENER_FACTORY_BEAN_NAME))
+						.isTrue();
 		assertThat(this.context.getBeansOfType(TransactionalEventListenerFactory.class).size()).isEqualTo(1);
 	}
 
 	private TransactionalTestBean getTestBean() {
 		return (TransactionalTestBean) context.getBean("testBean");
 	}
-
 
 	@Service
 	@ManagedResource("test:type=TestBean")
@@ -149,6 +149,7 @@ public class AnnotationTransactionNamespaceHandlerTests {
 		@Transactional
 		protected void annotationsOnProtectedAreIgnored() {
 		}
+
 	}
 
 }

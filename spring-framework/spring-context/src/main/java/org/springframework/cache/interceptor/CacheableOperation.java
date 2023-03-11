@@ -33,7 +33,6 @@ public class CacheableOperation extends CacheOperation {
 
 	private final boolean sync;
 
-
 	/**
 	 * Create a new {@link CacheableOperation} instance from the given builder.
 	 * @since 4.3
@@ -44,7 +43,6 @@ public class CacheableOperation extends CacheOperation {
 		this.sync = b.sync;
 	}
 
-
 	@Nullable
 	public String getUnless() {
 		return this.unless;
@@ -54,9 +52,9 @@ public class CacheableOperation extends CacheOperation {
 		return this.sync;
 	}
 
-
 	/**
 	 * A builder that can be used to create a {@link CacheableOperation}.
+	 *
 	 * @since 4.3
 	 */
 	public static class Builder extends CacheOperation.Builder {
@@ -90,6 +88,7 @@ public class CacheableOperation extends CacheOperation {
 		public CacheableOperation build() {
 			return new CacheableOperation(this);
 		}
+
 	}
 
 }

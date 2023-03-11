@@ -21,18 +21,18 @@ import commonj.timers.TimerListener;
 import org.springframework.lang.Nullable;
 
 /**
- * JavaBean that describes a scheduled TimerListener, consisting of
- * the TimerListener itself (or a Runnable to create a TimerListener for)
- * and a delay plus period. Period needs to be specified;
- * there is no point in a default for it.
+ * JavaBean that describes a scheduled TimerListener, consisting of the TimerListener
+ * itself (or a Runnable to create a TimerListener for) and a delay plus period. Period
+ * needs to be specified; there is no point in a default for it.
  *
- * <p>The CommonJ TimerManager does not offer more sophisticated scheduling
- * options such as cron expressions. Consider using Quartz for such
- * advanced needs.
+ * <p>
+ * The CommonJ TimerManager does not offer more sophisticated scheduling options such as
+ * cron expressions. Consider using Quartz for such advanced needs.
  *
- * <p>Note that the TimerManager uses a TimerListener instance that is
- * shared between repeated executions, in contrast to Quartz which
- * instantiates a new Job for each execution.
+ * <p>
+ * Note that the TimerManager uses a TimerListener instance that is shared between
+ * repeated executions, in contrast to Quartz which instantiates a new Job for each
+ * execution.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -51,10 +51,8 @@ public class ScheduledTimerListener {
 
 	private boolean fixedRate = false;
 
-
 	/**
-	 * Create a new ScheduledTimerListener,
-	 * to be populated via bean properties.
+	 * Create a new ScheduledTimerListener, to be populated via bean properties.
 	 * @see #setTimerListener
 	 * @see #setDelay
 	 * @see #setPeriod
@@ -64,8 +62,7 @@ public class ScheduledTimerListener {
 	}
 
 	/**
-	 * Create a new ScheduledTimerListener, with default
-	 * one-time execution without delay.
+	 * Create a new ScheduledTimerListener, with default one-time execution without delay.
 	 * @param timerListener the TimerListener to schedule
 	 */
 	public ScheduledTimerListener(TimerListener timerListener) {
@@ -73,8 +70,8 @@ public class ScheduledTimerListener {
 	}
 
 	/**
-	 * Create a new ScheduledTimerListener, with default
-	 * one-time execution with the given delay.
+	 * Create a new ScheduledTimerListener, with default one-time execution with the given
+	 * delay.
 	 * @param timerListener the TimerListener to schedule
 	 * @param delay the delay before starting the task for the first time (ms)
 	 */
@@ -98,8 +95,7 @@ public class ScheduledTimerListener {
 	}
 
 	/**
-	 * Create a new ScheduledTimerListener, with default
-	 * one-time execution without delay.
+	 * Create a new ScheduledTimerListener, with default one-time execution without delay.
 	 * @param timerTask the Runnable to schedule as TimerListener
 	 */
 	public ScheduledTimerListener(Runnable timerTask) {
@@ -107,8 +103,8 @@ public class ScheduledTimerListener {
 	}
 
 	/**
-	 * Create a new ScheduledTimerListener, with default
-	 * one-time execution with the given delay.
+	 * Create a new ScheduledTimerListener, with default one-time execution with the given
+	 * delay.
 	 * @param timerTask the Runnable to schedule as TimerListener
 	 * @param delay the delay before starting the task for the first time (ms)
 	 */
@@ -130,7 +126,6 @@ public class ScheduledTimerListener {
 		this.period = period;
 		this.fixedRate = fixedRate;
 	}
-
 
 	/**
 	 * Set the Runnable to schedule as TimerListener.
@@ -156,11 +151,11 @@ public class ScheduledTimerListener {
 	}
 
 	/**
-	 * Set the delay before starting the task for the first time,
-	 * in milliseconds. Default is 0, immediately starting the
-	 * task after successful scheduling.
-	 * <p>If the "firstTime" property is specified, this property will be ignored.
-	 * Specify one or the other, not both.
+	 * Set the delay before starting the task for the first time, in milliseconds. Default
+	 * is 0, immediately starting the task after successful scheduling.
+	 * <p>
+	 * If the "firstTime" property is specified, this property will be ignored. Specify
+	 * one or the other, not both.
 	 */
 	public void setDelay(long delay) {
 		this.delay = delay;
@@ -175,15 +170,18 @@ public class ScheduledTimerListener {
 
 	/**
 	 * Set the period between repeated task executions, in milliseconds.
-	 * <p>Default is -1, leading to one-time execution. In case of zero or a
-	 * positive value, the task will be executed repeatedly, with the given
-	 * interval in-between executions.
-	 * <p>Note that the semantics of the period value vary between fixed-rate
-	 * and fixed-delay execution.
-	 * <p><b>Note:</b> A period of 0 (for example as fixed delay) <i>is</i>
-	 * supported, because the CommonJ specification defines this as a legal value.
-	 * Hence a value of 0 will result in immediate re-execution after a job has
-	 * finished (not in one-time execution like with {@code java.util.Timer}).
+	 * <p>
+	 * Default is -1, leading to one-time execution. In case of zero or a positive value,
+	 * the task will be executed repeatedly, with the given interval in-between
+	 * executions.
+	 * <p>
+	 * Note that the semantics of the period value vary between fixed-rate and fixed-delay
+	 * execution.
+	 * <p>
+	 * <b>Note:</b> A period of 0 (for example as fixed delay) <i>is</i> supported,
+	 * because the CommonJ specification defines this as a legal value. Hence a value of 0
+	 * will result in immediate re-execution after a job has finished (not in one-time
+	 * execution like with {@code java.util.Timer}).
 	 * @see #setFixedRate
 	 * @see #isOneTimeTask()
 	 * @see commonj.timers.TimerManager#schedule(commonj.timers.TimerListener, long, long)
@@ -209,11 +207,13 @@ public class ScheduledTimerListener {
 	}
 
 	/**
-	 * Set whether to schedule as fixed-rate execution, rather than
-	 * fixed-delay execution. Default is "false", i.e. fixed delay.
-	 * <p>See TimerManager javadoc for details on those execution modes.
+	 * Set whether to schedule as fixed-rate execution, rather than fixed-delay execution.
+	 * Default is "false", i.e. fixed delay.
+	 * <p>
+	 * See TimerManager javadoc for details on those execution modes.
 	 * @see commonj.timers.TimerManager#schedule(commonj.timers.TimerListener, long, long)
-	 * @see commonj.timers.TimerManager#scheduleAtFixedRate(commonj.timers.TimerListener, long, long)
+	 * @see commonj.timers.TimerManager#scheduleAtFixedRate(commonj.timers.TimerListener,
+	 * long, long)
 	 */
 	public void setFixedRate(boolean fixedRate) {
 		this.fixedRate = fixedRate;

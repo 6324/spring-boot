@@ -28,8 +28,8 @@ import javax.jms.TopicSubscriber;
 import org.springframework.lang.Nullable;
 
 /**
- * JMS MessageConsumer decorator that adapts all calls
- * to a shared MessageConsumer instance underneath.
+ * JMS MessageConsumer decorator that adapts all calls to a shared MessageConsumer
+ * instance underneath.
  *
  * @author Juergen Hoeller
  * @since 2.5.6
@@ -38,11 +38,9 @@ class CachedMessageConsumer implements MessageConsumer, QueueReceiver, TopicSubs
 
 	protected final MessageConsumer target;
 
-
 	public CachedMessageConsumer(MessageConsumer target) {
 		this.target = target;
 	}
-
 
 	@Override
 	public String getMessageSelector() throws JMSException {
@@ -95,7 +93,6 @@ class CachedMessageConsumer implements MessageConsumer, QueueReceiver, TopicSubs
 	public void close() throws JMSException {
 		// It's a cached MessageConsumer...
 	}
-
 
 	@Override
 	public String toString() {

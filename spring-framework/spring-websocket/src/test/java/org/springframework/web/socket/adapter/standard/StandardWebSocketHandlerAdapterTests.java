@@ -37,7 +37,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 /**
- * Test fixture for {@link org.springframework.web.socket.adapter.standard.StandardWebSocketHandlerAdapter}.
+ * Test fixture for
+ * {@link org.springframework.web.socket.adapter.standard.StandardWebSocketHandlerAdapter}.
  *
  * @author Rossen Stoyanchev
  */
@@ -50,7 +51,6 @@ public class StandardWebSocketHandlerAdapterTests {
 	private StandardWebSocketSession webSocketSession;
 
 	private Session session;
-
 
 	@BeforeEach
 	public void setup() {
@@ -76,7 +76,8 @@ public class StandardWebSocketHandlerAdapterTests {
 	@Test
 	public void onClose() throws Throwable {
 		this.adapter.onClose(this.session, new CloseReason(CloseCodes.NORMAL_CLOSURE, "reason"));
-		verify(this.webSocketHandler).afterConnectionClosed(this.webSocketSession, CloseStatus.NORMAL.withReason("reason"));
+		verify(this.webSocketHandler).afterConnectionClosed(this.webSocketSession,
+				CloseStatus.NORMAL.withReason("reason"));
 	}
 
 	@Test

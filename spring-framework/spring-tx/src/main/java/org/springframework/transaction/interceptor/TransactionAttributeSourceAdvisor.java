@@ -25,12 +25,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Advisor driven by a {@link TransactionAttributeSource}, used to include
- * a {@link TransactionInterceptor} only for methods that are transactional.
+ * Advisor driven by a {@link TransactionAttributeSource}, used to include a
+ * {@link TransactionInterceptor} only for methods that are transactional.
  *
- * <p>Because the AOP framework caches advice calculations, this is normally
- * faster than just letting the TransactionInterceptor run and find out
- * itself that it has no work to do.
+ * <p>
+ * Because the AOP framework caches advice calculations, this is normally faster than just
+ * letting the TransactionInterceptor run and find out itself that it has no work to do.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -51,7 +51,6 @@ public class TransactionAttributeSourceAdvisor extends AbstractPointcutAdvisor {
 		}
 	};
 
-
 	/**
 	 * Create a new TransactionAttributeSourceAdvisor.
 	 */
@@ -66,7 +65,6 @@ public class TransactionAttributeSourceAdvisor extends AbstractPointcutAdvisor {
 		setTransactionInterceptor(interceptor);
 	}
 
-
 	/**
 	 * Set the transaction interceptor to use for this advisor.
 	 */
@@ -75,13 +73,12 @@ public class TransactionAttributeSourceAdvisor extends AbstractPointcutAdvisor {
 	}
 
 	/**
-	 * Set the {@link ClassFilter} to use for this pointcut.
-	 * Default is {@link ClassFilter#TRUE}.
+	 * Set the {@link ClassFilter} to use for this pointcut. Default is
+	 * {@link ClassFilter#TRUE}.
 	 */
 	public void setClassFilter(ClassFilter classFilter) {
 		this.pointcut.setClassFilter(classFilter);
 	}
-
 
 	@Override
 	public Advice getAdvice() {

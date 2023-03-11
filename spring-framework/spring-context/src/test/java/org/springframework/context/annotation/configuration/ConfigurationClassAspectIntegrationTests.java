@@ -37,16 +37,17 @@ import org.springframework.core.io.ClassPathResource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
- * System tests covering use of AspectJ {@link Aspect}s in conjunction with {@link Configuration} classes.
- * {@link Bean} methods may return aspects, or Configuration classes may themselves be annotated with Aspect.
- * In the latter case, advice methods are declared inline within the Configuration class.  This makes for a
+ * System tests covering use of AspectJ {@link Aspect}s in conjunction with
+ * {@link Configuration} classes. {@link Bean} methods may return aspects, or
+ * Configuration classes may themselves be annotated with Aspect. In the latter case,
+ * advice methods are declared inline within the Configuration class. This makes for a
  * particularly convenient syntax requiring no extra artifact for the aspect.
  *
- * <p>Currently it is assumed that the user is bootstrapping Configuration class processing via XML (using
- * annotation-config or component-scan), and thus will also use {@code <aop:aspectj-autoproxy/>} to enable
- * processing of the Aspect annotation.
+ * <p>
+ * Currently it is assumed that the user is bootstrapping Configuration class processing
+ * via XML (using annotation-config or component-scan), and thus will also use
+ * {@code <aop:aspectj-autoproxy/>} to enable processing of the Aspect annotation.
  *
  * @author Chris Beams
  * @author Juergen Hoeller
@@ -83,10 +84,10 @@ public class ConfigurationClassAspectIntegrationTests {
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(Application.class, CountingAspect.class);
 		ctx.getBeansOfType(Runnable.class).forEach((k, v) -> v.run());
 
-		// TODO: returns just 1 as of AspectJ 1.9 beta 3, not detecting the applicable lambda expression anymore
+		// TODO: returns just 1 as of AspectJ 1.9 beta 3, not detecting the applicable
+		// lambda expression anymore
 		// assertEquals(2, ctx.getBean(CountingAspect.class).count);
 	}
-
 
 	@Aspect
 	@Configuration
@@ -101,8 +102,8 @@ public class ConfigurationClassAspectIntegrationTests {
 		public void touchBean(TestBean testBean) {
 			testBean.setName("advisedName");
 		}
-	}
 
+	}
 
 	@Configuration
 	static class ConfigurationWithAspect {
@@ -116,8 +117,8 @@ public class ConfigurationClassAspectIntegrationTests {
 		public NameChangingAspect nameChangingAspect() {
 			return new NameChangingAspect();
 		}
-	}
 
+	}
 
 	@Aspect
 	static class NameChangingAspect {
@@ -126,9 +127,8 @@ public class ConfigurationClassAspectIntegrationTests {
 		public void touchBean(TestBean testBean) {
 			testBean.setName("advisedName");
 		}
+
 	}
-
-
 
 	@Configuration
 	@EnableAspectJAutoProxy
@@ -148,8 +148,8 @@ public class ConfigurationClassAspectIntegrationTests {
 			return () -> {
 			};
 		}
-	}
 
+	}
 
 	@Aspect
 	public static class CountingAspect {
@@ -160,6 +160,7 @@ public class ConfigurationClassAspectIntegrationTests {
 		public void after(JoinPoint joinPoint) {
 			count++;
 		}
+
 	}
 
 }

@@ -133,8 +133,8 @@ public class SQLErrorCodesFactoryTests {
 		assertThat(Arrays.binarySearch(sec.getPermissionDeniedCodes(), "10") >= 0).isTrue();
 		assertThat(Arrays.binarySearch(sec.getDuplicateKeyCodes(), "301") >= 0).isTrue();
 		assertThat(Arrays.binarySearch(sec.getDataIntegrityViolationCodes(), "461") >= 0).isTrue();
-		assertThat(Arrays.binarySearch(sec.getDataAccessResourceFailureCodes(), "-813") >=0).isTrue();
-		assertThat(Arrays.binarySearch(sec.getInvalidResultSetAccessCodes(), "582") >=0).isTrue();
+		assertThat(Arrays.binarySearch(sec.getDataAccessResourceFailureCodes(), "-813") >= 0).isTrue();
+		assertThat(Arrays.binarySearch(sec.getInvalidResultSetAccessCodes(), "582") >= 0).isTrue();
 		assertThat(Arrays.binarySearch(sec.getCannotAcquireLockCodes(), "131") >= 0).isTrue();
 		assertThat(Arrays.binarySearch(sec.getCannotSerializeTransactionCodes(), "138") >= 0).isTrue();
 		assertThat(Arrays.binarySearch(sec.getDeadlockLoserCodes(), "133") >= 0).isTrue();
@@ -144,7 +144,9 @@ public class SQLErrorCodesFactoryTests {
 	@Test
 	public void testLookupOrder() {
 		class TestSQLErrorCodesFactory extends SQLErrorCodesFactory {
+
 			private int lookups = 0;
+
 			@Override
 			protected Resource loadResource(String path) {
 				++lookups;
@@ -159,6 +161,7 @@ public class SQLErrorCodesFactoryTests {
 					return null;
 				}
 			}
+
 		}
 
 		// Should have failed to load without error
@@ -173,6 +176,7 @@ public class SQLErrorCodesFactoryTests {
 	@Test
 	public void testFindUserDefinedCodes() {
 		class TestSQLErrorCodesFactory extends SQLErrorCodesFactory {
+
 			@Override
 			protected Resource loadResource(String path) {
 				if (SQLErrorCodesFactory.SQL_ERROR_CODE_OVERRIDE_PATH.equals(path)) {
@@ -180,6 +184,7 @@ public class SQLErrorCodesFactoryTests {
 				}
 				return null;
 			}
+
 		}
 
 		// Should have loaded without error
@@ -193,6 +198,7 @@ public class SQLErrorCodesFactoryTests {
 	@Test
 	public void testInvalidUserDefinedCodeFormat() {
 		class TestSQLErrorCodesFactory extends SQLErrorCodesFactory {
+
 			@Override
 			protected Resource loadResource(String path) {
 				if (SQLErrorCodesFactory.SQL_ERROR_CODE_OVERRIDE_PATH.equals(path)) {
@@ -201,6 +207,7 @@ public class SQLErrorCodesFactoryTests {
 				}
 				return null;
 			}
+
 		}
 
 		// Should have failed to load without error
@@ -215,6 +222,7 @@ public class SQLErrorCodesFactoryTests {
 	@Test
 	public void testFindCustomCodes() {
 		class TestSQLErrorCodesFactory extends SQLErrorCodesFactory {
+
 			@Override
 			protected Resource loadResource(String path) {
 				if (SQLErrorCodesFactory.SQL_ERROR_CODE_OVERRIDE_PATH.equals(path)) {
@@ -222,13 +230,13 @@ public class SQLErrorCodesFactoryTests {
 				}
 				return null;
 			}
+
 		}
 
 		// Should have loaded without error
 		TestSQLErrorCodesFactory sf = new TestSQLErrorCodesFactory();
 		assertThat(sf.getErrorCodes("Oracle").getCustomTranslations().length).isEqualTo(1);
-		CustomSQLErrorCodesTranslation translation =
-				sf.getErrorCodes("Oracle").getCustomTranslations()[0];
+		CustomSQLErrorCodesTranslation translation = sf.getErrorCodes("Oracle").getCustomTranslations()[0];
 		assertThat(translation.getExceptionClass()).isEqualTo(CustomErrorCodeException.class);
 		assertThat(translation.getErrorCodes().length).isEqualTo(1);
 	}
@@ -263,7 +271,8 @@ public class SQLErrorCodesFactoryTests {
 		assertThat(sec).isNull();
 	}
 
-	private SQLErrorCodes getErrorCodesFromDataSource(String productName, SQLErrorCodesFactory factory) throws Exception {
+	private SQLErrorCodes getErrorCodesFromDataSource(String productName, SQLErrorCodesFactory factory)
+			throws Exception {
 		DatabaseMetaData databaseMetaData = mock(DatabaseMetaData.class);
 		given(databaseMetaData.getDatabaseProductName()).willReturn(productName);
 
@@ -323,6 +332,7 @@ public class SQLErrorCodesFactoryTests {
 	@Test
 	public void testWildCardNameRecognized() throws Exception {
 		class WildcardSQLErrorCodesFactory extends SQLErrorCodesFactory {
+
 			@Override
 			protected Resource loadResource(String path) {
 				if (SQLErrorCodesFactory.SQL_ERROR_CODE_OVERRIDE_PATH.equals(path)) {
@@ -330,6 +340,7 @@ public class SQLErrorCodesFactoryTests {
 				}
 				return null;
 			}
+
 		}
 
 		WildcardSQLErrorCodesFactory factory = new WildcardSQLErrorCodesFactory();

@@ -41,7 +41,6 @@ public final class PongMessage extends AbstractWebSocketMessage<ByteBuffer> {
 		super(payload);
 	}
 
-
 	@Override
 	public int getPayloadLength() {
 		return getPayload().remaining();

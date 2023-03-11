@@ -41,7 +41,6 @@ public class MessageReceivingTemplateTests {
 
 	private TestMessagingTemplate template;
 
-
 	@BeforeEach
 	public void setup() {
 		this.template = new TestMessagingTemplate();
@@ -60,8 +59,7 @@ public class MessageReceivingTemplateTests {
 
 	@Test
 	public void receiveMissingDefaultDestination() {
-		assertThatIllegalStateException().isThrownBy(
-				this.template::receive);
+		assertThatIllegalStateException().isThrownBy(this.template::receive);
 	}
 
 	@Test
@@ -101,9 +99,9 @@ public class MessageReceivingTemplateTests {
 		this.template.setReceiveMessage(expected);
 		this.template.setMessageConverter(new GenericMessageConverter());
 
-		assertThatExceptionOfType(MessageConversionException.class).isThrownBy(() ->
-				this.template.receiveAndConvert("somewhere", Integer.class))
-			.withCauseInstanceOf(ConversionFailedException.class);
+		assertThatExceptionOfType(MessageConversionException.class)
+				.isThrownBy(() -> this.template.receiveAndConvert("somewhere", Integer.class))
+				.withCauseInstanceOf(ConversionFailedException.class);
 	}
 
 	@Test
@@ -116,12 +114,11 @@ public class MessageReceivingTemplateTests {
 			this.template.receiveAndConvert(Writer.class);
 		}
 		catch (MessageConversionException ex) {
-			assertThat(ex.getMessage().contains("payload")).as("Invalid exception message '" + ex.getMessage() + "'").isTrue();
+			assertThat(ex.getMessage().contains("payload")).as("Invalid exception message '" + ex.getMessage() + "'")
+					.isTrue();
 			assertThat(ex.getFailedMessage()).isSameAs(expected);
 		}
 	}
-
-
 
 	private static class TestMessagingTemplate extends AbstractMessagingTemplate<String> {
 
@@ -148,6 +145,7 @@ public class MessageReceivingTemplateTests {
 			this.destination = destination;
 			return null;
 		}
+
 	}
 
 }

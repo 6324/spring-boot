@@ -40,12 +40,10 @@ public class StatementCreatorUtilsTests {
 
 	private PreparedStatement preparedStatement;
 
-
 	@BeforeEach
 	public void setUp() {
 		preparedStatement = mock(PreparedStatement.class);
 	}
-
 
 	@Test
 	public void testSetParameterValueWithNullAndType() throws SQLException {
@@ -128,7 +126,8 @@ public class StatementCreatorUtilsTests {
 		verify(preparedStatement).setObject(1, "test", Types.CHAR);
 	}
 
-	@Test public void testSetParameterValueWithStringAndUnknownType() throws SQLException {
+	@Test
+	public void testSetParameterValueWithStringAndUnknownType() throws SQLException {
 		StatementCreatorUtils.setParameterValue(preparedStatement, 1, SqlTypeValue.TYPE_UNKNOWN, null, "test");
 		verify(preparedStatement).setString(1, "test");
 	}
@@ -210,7 +209,7 @@ public class StatementCreatorUtilsTests {
 		verify(preparedStatement).setTimestamp(1, new java.sql.Timestamp(cal.getTime().getTime()), cal);
 	}
 
-	@Test  // SPR-8571
+	@Test // SPR-8571
 	public void testSetParameterValueWithStringAndVendorSpecificType() throws SQLException {
 		Connection con = mock(Connection.class);
 		DatabaseMetaData dbmd = mock(DatabaseMetaData.class);
@@ -221,7 +220,7 @@ public class StatementCreatorUtilsTests {
 		verify(preparedStatement).setString(1, "test");
 	}
 
-	@Test  // SPR-8571
+	@Test // SPR-8571
 	public void testSetParameterValueWithNullAndVendorSpecificType() throws SQLException {
 		StatementCreatorUtils.shouldIgnoreGetParameterType = true;
 		Connection con = mock(Connection.class);

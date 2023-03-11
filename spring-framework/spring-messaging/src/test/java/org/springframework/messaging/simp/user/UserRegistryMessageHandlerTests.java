@@ -48,6 +48,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 /**
  * User tests for {@link UserRegistryMessageHandler}.
+ *
  * @author Rossen Stoyanchev
  */
 @ExtendWith(MockitoExtension.class)
@@ -61,13 +62,11 @@ public class UserRegistryMessageHandlerTests {
 
 	private MessageConverter converter;
 
-
 	@Mock
 	private MessageChannel brokerChannel;
 
 	@Mock
 	private TaskScheduler taskScheduler;
-
 
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -174,7 +173,6 @@ public class UserRegistryMessageHandlerTests {
 		this.multiServerRegistry.addRemoteRegistryDto(message, this.converter, 20000);
 		assertThat(this.multiServerRegistry.getUserCount()).isEqualTo(1);
 	}
-
 
 	private Runnable getUserRegistryTask() {
 		BrokerAvailabilityEvent event = new BrokerAvailabilityEvent(true, this);

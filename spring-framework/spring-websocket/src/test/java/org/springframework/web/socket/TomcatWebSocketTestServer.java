@@ -52,7 +52,6 @@ public class TomcatWebSocketTestServer implements WebSocketTestServer {
 
 	private Context context;
 
-
 	@Override
 	public void setup() {
 		Connector connector = new Connector(Http11NioProtocol.class.getName());

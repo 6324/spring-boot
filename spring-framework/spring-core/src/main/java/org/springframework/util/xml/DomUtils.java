@@ -33,8 +33,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Convenience methods for working with the DOM API,
- * in particular for working with DOM Nodes and DOM Elements.
+ * Convenience methods for working with the DOM API, in particular for working with DOM
+ * Nodes and DOM Elements.
  *
  * @author Juergen Hoeller
  * @author Rob Harrop
@@ -48,9 +48,10 @@ import org.springframework.util.Assert;
 public abstract class DomUtils {
 
 	/**
-	 * Retrieves all child elements of the given DOM element that match any of the given element names.
-	 * Only looks at the direct child level of the given element; do not go into further depth
-	 * (in contrast to the DOM API's {@code getElementsByTagName} method).
+	 * Retrieves all child elements of the given DOM element that match any of the given
+	 * element names. Only looks at the direct child level of the given element; do not go
+	 * into further depth (in contrast to the DOM API's {@code getElementsByTagName}
+	 * method).
 	 * @param ele the DOM element to analyze
 	 * @param childEleNames the child element names to look for
 	 * @return a List of child {@code org.w3c.dom.Element} instances
@@ -73,9 +74,9 @@ public abstract class DomUtils {
 	}
 
 	/**
-	 * Retrieves all child elements of the given DOM element that match the given element name.
-	 * Only look at the direct child level of the given element; do not go into further depth
-	 * (in contrast to the DOM API's {@code getElementsByTagName} method).
+	 * Retrieves all child elements of the given DOM element that match the given element
+	 * name. Only look at the direct child level of the given element; do not go into
+	 * further depth (in contrast to the DOM API's {@code getElementsByTagName} method).
 	 * @param ele the DOM element to analyze
 	 * @param childEleName the child element name to look for
 	 * @return a List of child {@code org.w3c.dom.Element} instances
@@ -83,7 +84,7 @@ public abstract class DomUtils {
 	 * @see org.w3c.dom.Element#getElementsByTagName
 	 */
 	public static List<Element> getChildElementsByTagName(Element ele, String childEleName) {
-		return getChildElementsByTagName(ele, new String[] {childEleName});
+		return getChildElementsByTagName(ele, new String[] { childEleName });
 	}
 
 	/**
@@ -138,9 +139,10 @@ public abstract class DomUtils {
 
 	/**
 	 * Extracts the text value from the given DOM element, ignoring XML comments.
-	 * <p>Appends all CharacterData nodes and EntityReference nodes into a single
-	 * String value, excluding Comment nodes. Only exposes actual user-specified
-	 * text, no default values of any kind.
+	 * <p>
+	 * Appends all CharacterData nodes and EntityReference nodes into a single String
+	 * value, excluding Comment nodes. Only exposes actual user-specified text, no default
+	 * values of any kind.
 	 * @see CharacterData
 	 * @see EntityReference
 	 * @see Comment
@@ -160,8 +162,8 @@ public abstract class DomUtils {
 
 	/**
 	 * Namespace-aware equals comparison. Returns {@code true} if either
-	 * {@link Node#getLocalName} or {@link Node#getNodeName} equals
-	 * {@code desiredName}, otherwise returns {@code false}.
+	 * {@link Node#getLocalName} or {@link Node#getNodeName} equals {@code desiredName},
+	 * otherwise returns {@code false}.
 	 */
 	public static boolean nodeNameEquals(Node node, String desiredName) {
 		Assert.notNull(node, "Node must not be null");
@@ -170,7 +172,8 @@ public abstract class DomUtils {
 	}
 
 	/**
-	 * Returns a SAX {@code ContentHandler} that transforms callback calls to DOM {@code Node}s.
+	 * Returns a SAX {@code ContentHandler} that transforms callback calls to DOM
+	 * {@code Node}s.
 	 * @param node the node to publish events to
 	 * @return the content handler
 	 */

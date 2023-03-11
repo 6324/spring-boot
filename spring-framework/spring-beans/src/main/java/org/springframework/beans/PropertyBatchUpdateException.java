@@ -25,13 +25,14 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Combined exception, composed of individual PropertyAccessException instances.
- * An object of this class is created at the beginning of the binding
- * process, and errors added to it as necessary.
+ * Combined exception, composed of individual PropertyAccessException instances. An object
+ * of this class is created at the beginning of the binding process, and errors added to
+ * it as necessary.
  *
- * <p>The binding process continues when it encounters application-level
- * PropertyAccessExceptions, applying those changes that can be applied
- * and storing rejected changes in an object of this class.
+ * <p>
+ * The binding process continues when it encounters application-level
+ * PropertyAccessExceptions, applying those changes that can be applied and storing
+ * rejected changes in an object of this class.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -43,7 +44,6 @@ public class PropertyBatchUpdateException extends BeansException {
 	/** List of PropertyAccessException objects. */
 	private final PropertyAccessException[] propertyAccessExceptions;
 
-
 	/**
 	 * Create a new PropertyBatchUpdateException.
 	 * @param propertyAccessExceptions the List of PropertyAccessExceptions
@@ -54,7 +54,6 @@ public class PropertyBatchUpdateException extends BeansException {
 		this.propertyAccessExceptions = propertyAccessExceptions;
 	}
 
-
 	/**
 	 * If this returns 0, no errors were encountered during binding.
 	 */
@@ -64,7 +63,8 @@ public class PropertyBatchUpdateException extends BeansException {
 
 	/**
 	 * Return an array of the propertyAccessExceptions stored in this object.
-	 * <p>Will return the empty array (not {@code null}) if there were no errors.
+	 * <p>
+	 * Will return the empty array (not {@code null}) if there were no errors.
 	 */
 	public final PropertyAccessException[] getPropertyAccessExceptions() {
 		return this.propertyAccessExceptions;
@@ -82,7 +82,6 @@ public class PropertyBatchUpdateException extends BeansException {
 		}
 		return null;
 	}
-
 
 	@Override
 	public String getMessage() {
@@ -108,8 +107,8 @@ public class PropertyBatchUpdateException extends BeansException {
 	@Override
 	public void printStackTrace(PrintStream ps) {
 		synchronized (ps) {
-			ps.println(getClass().getName() + "; nested PropertyAccessException details (" +
-					getExceptionCount() + ") are:");
+			ps.println(getClass().getName() + "; nested PropertyAccessException details (" + getExceptionCount()
+					+ ") are:");
 			for (int i = 0; i < this.propertyAccessExceptions.length; i++) {
 				ps.println("PropertyAccessException " + (i + 1) + ":");
 				this.propertyAccessExceptions[i].printStackTrace(ps);
@@ -120,8 +119,8 @@ public class PropertyBatchUpdateException extends BeansException {
 	@Override
 	public void printStackTrace(PrintWriter pw) {
 		synchronized (pw) {
-			pw.println(getClass().getName() + "; nested PropertyAccessException details (" +
-					getExceptionCount() + ") are:");
+			pw.println(getClass().getName() + "; nested PropertyAccessException details (" + getExceptionCount()
+					+ ") are:");
 			for (int i = 0; i < this.propertyAccessExceptions.length; i++) {
 				pw.println("PropertyAccessException " + (i + 1) + ":");
 				this.propertyAccessExceptions[i].printStackTrace(pw);

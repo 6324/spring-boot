@@ -41,8 +41,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 /**
- * Mock object based abstract class for RowMapper tests.
- * Initializes mock objects and verifies results.
+ * Mock object based abstract class for RowMapper tests. Initializes mock objects and
+ * verifies results.
  *
  * @author Thomas Risberg
  */
@@ -76,9 +76,11 @@ public abstract class AbstractRowMapperTests {
 		assertThat(bean.getBalance()).isEqualTo(new BigDecimal("1234.56"));
 	}
 
+	protected enum MockType {
 
-	protected enum MockType {ONE, TWO, THREE};
+		ONE, TWO, THREE
 
+	};
 
 	protected static class Mock {
 
@@ -117,8 +119,7 @@ public abstract class AbstractRowMapperTests {
 			given(resultSet.wasNull()).willReturn(type == MockType.TWO);
 
 			given(resultSetMetaData.getColumnCount()).willReturn(4);
-			given(resultSetMetaData.getColumnLabel(1)).willReturn(
-					type == MockType.THREE ? "Last Name" : "name");
+			given(resultSetMetaData.getColumnLabel(1)).willReturn(type == MockType.THREE ? "Last Name" : "name");
 			given(resultSetMetaData.getColumnLabel(2)).willReturn("age");
 			given(resultSetMetaData.getColumnLabel(3)).willReturn("birth_date");
 			given(resultSetMetaData.getColumnLabel(4)).willReturn("balance");
@@ -137,6 +138,7 @@ public abstract class AbstractRowMapperTests {
 			verify(resultSet).close();
 			verify(statement).close();
 		}
+
 	}
 
 }

@@ -17,9 +17,9 @@
 package org.springframework.transaction;
 
 /**
- * Exception that gets thrown when an invalid timeout is specified,
- * that is, the specified timeout valid is out of range or the
- * transaction manager implementation doesn't support timeouts.
+ * Exception that gets thrown when an invalid timeout is specified, that is, the specified
+ * timeout valid is out of range or the transaction manager implementation doesn't support
+ * timeouts.
  *
  * @author Juergen Hoeller
  * @since 12.05.2003
@@ -28,7 +28,6 @@ package org.springframework.transaction;
 public class InvalidTimeoutException extends TransactionUsageException {
 
 	private final int timeout;
-
 
 	/**
 	 * Constructor for InvalidTimeoutException.

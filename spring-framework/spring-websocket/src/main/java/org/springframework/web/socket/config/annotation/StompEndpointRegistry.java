@@ -33,9 +33,10 @@ public interface StompEndpointRegistry {
 	StompWebSocketEndpointRegistration addEndpoint(String... paths);
 
 	/**
-	 * Set the order of the {@link org.springframework.web.servlet.HandlerMapping}
-	 * used for STOMP endpoints relative to other Spring MVC handler mappings.
-	 * <p>By default this is set to 1.
+	 * Set the order of the {@link org.springframework.web.servlet.HandlerMapping} used
+	 * for STOMP endpoints relative to other Spring MVC handler mappings.
+	 * <p>
+	 * By default this is set to 1.
 	 */
 	void setOrder(int order);
 

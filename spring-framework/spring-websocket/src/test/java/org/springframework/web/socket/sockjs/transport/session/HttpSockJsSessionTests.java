@@ -56,7 +56,6 @@ public class HttpSockJsSessionTests extends AbstractSockJsSessionTests<TestAbstr
 
 	private SockJsFrameFormat frameFormat;
 
-
 	@Override
 	protected TestAbstractHttpSockJsSession initSockJsSession() {
 		return new TestAbstractHttpSockJsSession(this.sockJsConfig, this.webSocketHandler, null);
@@ -102,7 +101,6 @@ public class HttpSockJsSessionTests extends AbstractSockJsSessionTests<TestAbstr
 		verifyNoMoreInteractions(this.webSocketHandler);
 	}
 
-
 	static class TestAbstractHttpSockJsSession extends StreamingSockJsSession {
 
 		private IOException exceptionOnWriteFrame;
@@ -110,7 +108,6 @@ public class HttpSockJsSessionTests extends AbstractSockJsSessionTests<TestAbstr
 		private boolean cacheFlushed;
 
 		private boolean heartbeatScheduled;
-
 
 		public TestAbstractHttpSockJsSession(SockJsServiceConfig config, WebSocketHandler handler,
 				Map<String, Object> attributes) {
@@ -155,6 +152,7 @@ public class HttpSockJsSessionTests extends AbstractSockJsSessionTests<TestAbstr
 				super.writeFrameInternal(frame);
 			}
 		}
+
 	}
 
 }

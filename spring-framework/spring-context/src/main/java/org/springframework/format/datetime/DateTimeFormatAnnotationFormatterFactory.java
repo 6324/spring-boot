@@ -31,13 +31,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.StringUtils;
 
 /**
- * Formats fields annotated with the {@link DateTimeFormat} annotation using a {@link DateFormatter}.
+ * Formats fields annotated with the {@link DateTimeFormat} annotation using a
+ * {@link DateFormatter}.
  *
  * @author Phillip Webb
  * @since 3.2
  * @see org.springframework.format.datetime.joda.JodaDateTimeFormatAnnotationFormatterFactory
  */
-public class DateTimeFormatAnnotationFormatterFactory  extends EmbeddedValueResolutionSupport
+public class DateTimeFormatAnnotationFormatterFactory extends EmbeddedValueResolutionSupport
 		implements AnnotationFormatterFactory<DateTimeFormat> {
 
 	private static final Set<Class<?>> FIELD_TYPES;
@@ -49,7 +50,6 @@ public class DateTimeFormatAnnotationFormatterFactory  extends EmbeddedValueReso
 		fieldTypes.add(Long.class);
 		FIELD_TYPES = Collections.unmodifiableSet(fieldTypes);
 	}
-
 
 	@Override
 	public Set<Class<?>> getFieldTypes() {

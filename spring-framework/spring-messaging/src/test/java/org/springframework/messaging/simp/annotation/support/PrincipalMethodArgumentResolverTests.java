@@ -42,13 +42,11 @@ public class PrincipalMethodArgumentResolverTests {
 
 	private final ResolvableMethod testMethod = ResolvableMethod.on(getClass()).named("handle").build();
 
-
 	@Test
 	public void supportsParameter() {
 		assertThat(this.resolver.supportsParameter(this.testMethod.arg(Principal.class))).isTrue();
 		assertThat(this.resolver.supportsParameter(this.testMethod.arg(Optional.class, Principal.class))).isTrue();
 	}
-
 
 	@Test
 	public void resolverArgument() {
@@ -64,7 +62,6 @@ public class PrincipalMethodArgumentResolverTests {
 		actual = this.resolver.resolveArgument(param, message);
 		assertThat(actual).isInstanceOf(Optional.class).extracting(o -> ((Optional<?>) o).get()).isSameAs(user);
 	}
-
 
 	@SuppressWarnings("unused")
 	void handle(Principal user, Optional<Principal> optionalUser) {

@@ -34,13 +34,11 @@ class ResizableByteArrayOutputStreamTests {
 
 	private byte[] helloBytes;
 
-
 	@BeforeEach
 	void setUp() throws Exception {
 		this.baos = new ResizableByteArrayOutputStream(INITIAL_CAPACITY);
 		this.helloBytes = "Hello World".getBytes("UTF-8");
 	}
-
 
 	@Test
 	void resize() throws Exception {
@@ -71,18 +69,16 @@ class ResizableByteArrayOutputStreamTests {
 	}
 
 	@Test
-	void write() throws Exception{
+	void write() throws Exception {
 		this.baos.write(helloBytes);
 		assertByteArrayEqualsString(this.baos);
 	}
 
 	@Test
-	void failResize() throws Exception{
+	void failResize() throws Exception {
 		this.baos.write(helloBytes);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.baos.resize(5));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.baos.resize(5));
 	}
-
 
 	private void assertByteArrayEqualsString(ResizableByteArrayOutputStream actual) {
 		assertThat(actual.toByteArray()).isEqualTo(helloBytes);

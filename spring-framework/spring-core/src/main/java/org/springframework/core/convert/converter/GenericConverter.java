@@ -25,17 +25,21 @@ import org.springframework.util.Assert;
 /**
  * Generic converter interface for converting between two or more types.
  *
- * <p>This is the most flexible of the Converter SPI interfaces, but also the most complex.
- * It is flexible in that a GenericConverter may support converting between multiple source/target
- * type pairs (see {@link #getConvertibleTypes()}. In addition, GenericConverter implementations
- * have access to source/target {@link TypeDescriptor field context} during the type conversion
- * process. This allows for resolving source and target field metadata such as annotations and
- * generics information, which can be used to influence the conversion logic.
+ * <p>
+ * This is the most flexible of the Converter SPI interfaces, but also the most complex.
+ * It is flexible in that a GenericConverter may support converting between multiple
+ * source/target type pairs (see {@link #getConvertibleTypes()}. In addition,
+ * GenericConverter implementations have access to source/target {@link TypeDescriptor
+ * field context} during the type conversion process. This allows for resolving source and
+ * target field metadata such as annotations and generics information, which can be used
+ * to influence the conversion logic.
  *
- * <p>This interface should generally not be used when the simpler {@link Converter} or
+ * <p>
+ * This interface should generally not be used when the simpler {@link Converter} or
  * {@link ConverterFactory} interface is sufficient.
  *
- * <p>Implementations may additionally implement {@link ConditionalConverter}.
+ * <p>
+ * Implementations may additionally implement {@link ConditionalConverter}.
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -49,15 +53,18 @@ public interface GenericConverter {
 
 	/**
 	 * Return the source and target types that this converter can convert between.
-	 * <p>Each entry is a convertible source-to-target type pair.
-	 * <p>For {@link ConditionalConverter conditional converters} this method may return
+	 * <p>
+	 * Each entry is a convertible source-to-target type pair.
+	 * <p>
+	 * For {@link ConditionalConverter conditional converters} this method may return
 	 * {@code null} to indicate all source-to-target pairs should be considered.
 	 */
 	@Nullable
 	Set<ConvertiblePair> getConvertibleTypes();
 
 	/**
-	 * Convert the source object to the targetType described by the {@code TypeDescriptor}.
+	 * Convert the source object to the targetType described by the
+	 * {@code TypeDescriptor}.
 	 * @param source the source object to convert (may be {@code null})
 	 * @param sourceType the type descriptor of the field we are converting from
 	 * @param targetType the type descriptor of the field we are converting to
@@ -65,7 +72,6 @@ public interface GenericConverter {
 	 */
 	@Nullable
 	Object convert(@Nullable Object source, TypeDescriptor sourceType, TypeDescriptor targetType);
-
 
 	/**
 	 * Holder for a source-to-target class pair.
@@ -117,6 +123,7 @@ public interface GenericConverter {
 		public String toString() {
 			return (this.sourceType.getName() + " -> " + this.targetType.getName());
 		}
+
 	}
 
 }

@@ -26,11 +26,12 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Helper class for calculating property matches, according to a configurable
- * distance. Provide the list of potential matches and an easy way to generate
- * an error message. Works for both java bean properties and fields.
+ * Helper class for calculating property matches, according to a configurable distance.
+ * Provide the list of potential matches and an easy way to generate an error message.
+ * Works for both java bean properties and fields.
  *
- * <p>Mainly for use within the framework and in particular the binding facility.
+ * <p>
+ * Mainly for use within the framework and in particular the binding facility.
  *
  * @author Alef Arendsen
  * @author Arjen Poutsma
@@ -44,7 +45,6 @@ public abstract class PropertyMatches {
 
 	/** Default maximum property distance: 2. */
 	public static final int DEFAULT_MAX_DISTANCE = 2;
-
 
 	// Static factory methods
 
@@ -86,13 +86,11 @@ public abstract class PropertyMatches {
 		return new FieldPropertyMatches(propertyName, beanClass, maxDistance);
 	}
 
-
 	// Instance state
 
 	private final String propertyName;
 
 	private final String[] possibleMatches;
-
 
 	/**
 	 * Create a new PropertyMatches instance for the given property and possible matches.
@@ -101,7 +99,6 @@ public abstract class PropertyMatches {
 		this.propertyName = propertyName;
 		this.possibleMatches = possibleMatches;
 	}
-
 
 	/**
 	 * Return the name of the requested property.
@@ -118,11 +115,10 @@ public abstract class PropertyMatches {
 	}
 
 	/**
-	 * Build an error message for the given invalid property name,
-	 * indicating the possible property matches.
+	 * Build an error message for the given invalid property name, indicating the possible
+	 * property matches.
 	 */
 	public abstract String buildErrorMessage();
-
 
 	// Implementation support for subclasses
 
@@ -142,8 +138,8 @@ public abstract class PropertyMatches {
 	}
 
 	/**
-	 * Calculate the distance between the given two Strings
-	 * according to the Levenshtein algorithm.
+	 * Calculate the distance between the given two Strings according to the Levenshtein
+	 * algorithm.
 	 * @param s1 the first String
 	 * @param s2 the second String
 	 * @return the distance value
@@ -182,7 +178,6 @@ public abstract class PropertyMatches {
 		return d[s1.length()][s2.length()];
 	}
 
-
 	// Concrete subclasses
 
 	private static class BeanPropertyMatches extends PropertyMatches {
@@ -194,8 +189,8 @@ public abstract class PropertyMatches {
 
 		/**
 		 * Generate possible property alternatives for the given property and class.
-		 * Internally uses the {@code getStringDistance} method, which in turn uses
-		 * the Levenshtein algorithm to determine the distance between two Strings.
+		 * Internally uses the {@code getStringDistance} method, which in turn uses the
+		 * Levenshtein algorithm to determine the distance between two Strings.
 		 * @param descriptors the JavaBeans property descriptors to search
 		 * @param maxDistance the maximum distance to accept
 		 */
@@ -216,8 +211,8 @@ public abstract class PropertyMatches {
 		@Override
 		public String buildErrorMessage() {
 			StringBuilder msg = new StringBuilder(160);
-			msg.append("Bean property '").append(getPropertyName()).append(
-					"' is not writable or has an invalid setter method. ");
+			msg.append("Bean property '").append(getPropertyName())
+					.append("' is not writable or has an invalid setter method. ");
 			if (!ObjectUtils.isEmpty(getPossibleMatches())) {
 				appendHintMessage(msg);
 			}
@@ -226,8 +221,8 @@ public abstract class PropertyMatches {
 			}
 			return msg.toString();
 		}
-	}
 
+	}
 
 	private static class FieldPropertyMatches extends PropertyMatches {
 
@@ -257,6 +252,7 @@ public abstract class PropertyMatches {
 			}
 			return msg.toString();
 		}
+
 	}
 
 }

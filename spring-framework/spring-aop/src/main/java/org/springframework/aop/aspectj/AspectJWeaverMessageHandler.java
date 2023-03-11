@@ -24,18 +24,22 @@ import org.aspectj.bridge.IMessage.Kind;
 import org.aspectj.bridge.IMessageHandler;
 
 /**
- * Implementation of AspectJ's {@link IMessageHandler} interface that
- * routes AspectJ weaving messages through the same logging system as the
- * regular Spring messages.
+ * Implementation of AspectJ's {@link IMessageHandler} interface that routes AspectJ
+ * weaving messages through the same logging system as the regular Spring messages.
  *
- * <p>Pass the option...
+ * <p>
+ * Pass the option...
  *
- * <p><code class="code">-XmessageHandlerClass:org.springframework.aop.aspectj.AspectJWeaverMessageHandler</code>
+ * <p>
+ * <code class=
+ * "code">-XmessageHandlerClass:org.springframework.aop.aspectj.AspectJWeaverMessageHandler</code>
  *
- * <p>to the weaver; for example, specifying the following in a
- * "{@code META-INF/aop.xml} file:
+ * <p>
+ * to the weaver; for example, specifying the following in a "{@code META-INF/aop.xml}
+ * file:
  *
- * <p><code class="code">&lt;weaver options="..."/&gt;</code>
+ * <p>
+ * <code class="code">&lt;weaver options="..."/&gt;</code>
  *
  * @author Adrian Colyer
  * @author Juergen Hoeller
@@ -46,7 +50,6 @@ public class AspectJWeaverMessageHandler implements IMessageHandler {
 	private static final String AJ_ID = "[AspectJ] ";
 
 	private static final Log logger = LogFactory.getLog("AspectJ Weaver");
-
 
 	@Override
 	public boolean handleMessage(IMessage message) throws AbortException {

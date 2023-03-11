@@ -22,8 +22,7 @@ import java.lang.reflect.Method;
 import org.springframework.lang.Nullable;
 
 /**
- * Exception thrown when instantiation of a bean failed.
- * Carries the offending bean class.
+ * Exception thrown when instantiation of a bean failed. Carries the offending bean class.
  *
  * @author Juergen Hoeller
  * @since 1.2.8
@@ -38,7 +37,6 @@ public class BeanInstantiationException extends FatalBeanException {
 
 	@Nullable
 	private final Method constructingMethod;
-
 
 	/**
 	 * Create a new BeanInstantiationException.
@@ -78,8 +76,8 @@ public class BeanInstantiationException extends FatalBeanException {
 
 	/**
 	 * Create a new BeanInstantiationException.
-	 * @param constructingMethod the delegate for bean construction purposes
-	 * (typically, but not necessarily, a static factory method)
+	 * @param constructingMethod the delegate for bean construction purposes (typically,
+	 * but not necessarily, a static factory method)
 	 * @param msg the detail message
 	 * @param cause the root cause
 	 * @since 4.3
@@ -91,7 +89,6 @@ public class BeanInstantiationException extends FatalBeanException {
 		this.constructingMethod = constructingMethod;
 	}
 
-
 	/**
 	 * Return the offending bean class (never {@code null}).
 	 * @return the class that was to be instantiated
@@ -102,8 +99,8 @@ public class BeanInstantiationException extends FatalBeanException {
 
 	/**
 	 * Return the offending constructor, if known.
-	 * @return the constructor in use, or {@code null} in case of a
-	 * factory method or in case of default instantiation
+	 * @return the constructor in use, or {@code null} in case of a factory method or in
+	 * case of default instantiation
 	 * @since 4.3
 	 */
 	@Nullable
@@ -113,8 +110,8 @@ public class BeanInstantiationException extends FatalBeanException {
 
 	/**
 	 * Return the delegate for bean construction purposes, if known.
-	 * @return the method in use (typically a static factory method),
-	 * or {@code null} in case of constructor-based instantiation
+	 * @return the method in use (typically a static factory method), or {@code null} in
+	 * case of constructor-based instantiation
 	 * @since 4.3
 	 */
 	@Nullable

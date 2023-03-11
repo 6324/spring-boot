@@ -26,8 +26,8 @@ import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
- * Callback for resource cleanup at the end of a Spring-managed transaction
- * for a pre-bound Hibernate Session.
+ * Callback for resource cleanup at the end of a Spring-managed transaction for a
+ * pre-bound Hibernate Session.
  *
  * @author Juergen Hoeller
  * @since 4.2
@@ -42,22 +42,20 @@ public class SpringSessionSynchronization implements TransactionSynchronization,
 
 	private boolean holderActive = true;
 
-
 	public SpringSessionSynchronization(SessionHolder sessionHolder, SessionFactory sessionFactory) {
 		this(sessionHolder, sessionFactory, false);
 	}
 
-	public SpringSessionSynchronization(SessionHolder sessionHolder, SessionFactory sessionFactory, boolean newSession) {
+	public SpringSessionSynchronization(SessionHolder sessionHolder, SessionFactory sessionFactory,
+			boolean newSession) {
 		this.sessionHolder = sessionHolder;
 		this.sessionFactory = sessionFactory;
 		this.newSession = newSession;
 	}
 
-
 	private Session getCurrentSession() {
 		return this.sessionHolder.getSession();
 	}
-
 
 	@Override
 	public int getOrder() {
@@ -68,7 +66,8 @@ public class SpringSessionSynchronization implements TransactionSynchronization,
 	public void suspend() {
 		if (this.holderActive) {
 			TransactionSynchronizationManager.unbindResource(this.sessionFactory);
-			// Eagerly disconnect the Session here, to make release mode "on_close" work on JBoss.
+			// Eagerly disconnect the Session here, to make release mode "on_close" work
+			// on JBoss.
 			getCurrentSession().disconnect();
 		}
 	}
@@ -106,7 +105,8 @@ public class SpringSessionSynchronization implements TransactionSynchronization,
 				// In case of pre-bound Session, restore previous flush mode.
 				session.setFlushMode(this.sessionHolder.getPreviousFlushMode());
 			}
-			// Eagerly disconnect the Session here, to make release mode "on_close" work nicely.
+			// Eagerly disconnect the Session here, to make release mode "on_close" work
+			// nicely.
 			session.disconnect();
 		}
 		finally {

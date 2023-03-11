@@ -21,10 +21,11 @@ import org.springframework.web.socket.WebSocketHandler;
 /**
  * A factory for applying decorators to a WebSocketHandler.
  *
- * <p>Decoration should be done through sub-classing
+ * <p>
+ * Decoration should be done through sub-classing
  * {@link org.springframework.web.socket.handler.WebSocketHandlerDecorator
- * WebSocketHandlerDecorator} to allow any code to traverse decorators and/or
- * unwrap the original handler when necessary .
+ * WebSocketHandlerDecorator} to allow any code to traverse decorators and/or unwrap the
+ * original handler when necessary .
  *
  * @author Rossen Stoyanchev
  * @since 4.1.2

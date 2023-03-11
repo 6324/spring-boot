@@ -26,16 +26,18 @@ import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.lang.Nullable;
 
 /**
- * A subclass of {@link EmbeddedDatabaseFactory} that implements {@link FactoryBean}
- * for registration as a Spring bean. Returns the actual {@link DataSource} that
- * provides connectivity to the embedded database to Spring.
+ * A subclass of {@link EmbeddedDatabaseFactory} that implements {@link FactoryBean} for
+ * registration as a Spring bean. Returns the actual {@link DataSource} that provides
+ * connectivity to the embedded database to Spring.
  *
- * <p>The target {@link DataSource} is returned instead of an {@link EmbeddedDatabase}
- * proxy since the {@link FactoryBean} will manage the initialization and destruction
- * lifecycle of the embedded database instance.
+ * <p>
+ * The target {@link DataSource} is returned instead of an {@link EmbeddedDatabase} proxy
+ * since the {@link FactoryBean} will manage the initialization and destruction lifecycle
+ * of the embedded database instance.
  *
- * <p>Implements {@link DisposableBean} to shutdown the embedded database when the
- * managing Spring container is being closed.
+ * <p>
+ * Implements {@link DisposableBean} to shutdown the embedded database when the managing
+ * Spring container is being closed.
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -47,10 +49,9 @@ public class EmbeddedDatabaseFactoryBean extends EmbeddedDatabaseFactory
 	@Nullable
 	private DatabasePopulator databaseCleaner;
 
-
 	/**
-	 * Set a script execution to be run in the bean destruction callback,
-	 * cleaning up the database and leaving it in a known state for others.
+	 * Set a script execution to be run in the bean destruction callback, cleaning up the
+	 * database and leaving it in a known state for others.
 	 * @param databaseCleaner the database script executor to run on destroy
 	 * @see #setDatabasePopulator
 	 * @see org.springframework.jdbc.datasource.init.DataSourceInitializer#setDatabaseCleaner
@@ -63,7 +64,6 @@ public class EmbeddedDatabaseFactoryBean extends EmbeddedDatabaseFactory
 	public void afterPropertiesSet() {
 		initDatabase();
 	}
-
 
 	@Override
 	@Nullable
@@ -80,7 +80,6 @@ public class EmbeddedDatabaseFactoryBean extends EmbeddedDatabaseFactory
 	public boolean isSingleton() {
 		return true;
 	}
-
 
 	@Override
 	public void destroy() {

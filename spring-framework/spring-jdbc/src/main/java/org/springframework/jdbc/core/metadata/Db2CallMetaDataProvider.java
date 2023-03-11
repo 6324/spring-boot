@@ -22,8 +22,8 @@ import java.sql.SQLException;
 import org.springframework.lang.Nullable;
 
 /**
- * DB2 specific implementation for the {@link CallMetaDataProvider} interface.
- * This class is intended for internal use by the Simple JDBC classes.
+ * DB2 specific implementation for the {@link CallMetaDataProvider} interface. This class
+ * is intended for internal use by the Simple JDBC classes.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -34,7 +34,6 @@ public class Db2CallMetaDataProvider extends GenericCallMetaDataProvider {
 	public Db2CallMetaDataProvider(DatabaseMetaData databaseMetaData) throws SQLException {
 		super(databaseMetaData);
 	}
-
 
 	@Override
 	public void initializeWithMetaData(DatabaseMetaData databaseMetaData) throws SQLException {

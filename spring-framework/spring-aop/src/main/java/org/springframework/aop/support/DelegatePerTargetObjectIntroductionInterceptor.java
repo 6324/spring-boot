@@ -31,20 +31,23 @@ import org.springframework.util.ReflectionUtils;
  * Convenient implementation of the
  * {@link org.springframework.aop.IntroductionInterceptor} interface.
  *
- * <p>This differs from {@link DelegatingIntroductionInterceptor} in that a single
- * instance of this class can be used to advise multiple target objects, and each target
- * object will have its <i>own</i> delegate (whereas DelegatingIntroductionInterceptor
- * shares the same delegate, and hence the same state across all targets).
+ * <p>
+ * This differs from {@link DelegatingIntroductionInterceptor} in that a single instance
+ * of this class can be used to advise multiple target objects, and each target object
+ * will have its <i>own</i> delegate (whereas DelegatingIntroductionInterceptor shares the
+ * same delegate, and hence the same state across all targets).
  *
- * <p>The {@code suppressInterface} method can be used to suppress interfaces
- * implemented by the delegate class but which should not be introduced to the
- * owning AOP proxy.
+ * <p>
+ * The {@code suppressInterface} method can be used to suppress interfaces implemented by
+ * the delegate class but which should not be introduced to the owning AOP proxy.
  *
- * <p>An instance of this class is serializable if the delegates are.
+ * <p>
+ * An instance of this class is serializable if the delegates are.
  *
- * <p><i>Note: There are some implementation similarities between this class and
- * {@link DelegatingIntroductionInterceptor} that suggest a possible refactoring
- * to extract a common ancestor class in the future.</i>
+ * <p>
+ * <i>Note: There are some implementation similarities between this class and
+ * {@link DelegatingIntroductionInterceptor} that suggest a possible refactoring to
+ * extract a common ancestor class in the future.</i>
  *
  * @author Adrian Colyer
  * @author Juergen Hoeller
@@ -57,14 +60,14 @@ public class DelegatePerTargetObjectIntroductionInterceptor extends Introduction
 		implements IntroductionInterceptor {
 
 	/**
-	 * Hold weak references to keys as we don't want to interfere with garbage collection..
+	 * Hold weak references to keys as we don't want to interfere with garbage
+	 * collection..
 	 */
 	private final Map<Object, Object> delegateMap = new WeakHashMap<>();
 
 	private Class<?> defaultImplType;
 
 	private Class<?> interfaceType;
-
 
 	public DelegatePerTargetObjectIntroductionInterceptor(Class<?> defaultImplType, Class<?> interfaceType) {
 		this.defaultImplType = defaultImplType;
@@ -79,11 +82,10 @@ public class DelegatePerTargetObjectIntroductionInterceptor extends Introduction
 		suppressInterface(DynamicIntroductionAdvice.class);
 	}
 
-
 	/**
-	 * Subclasses may need to override this if they want to perform custom
-	 * behaviour in around advice. However, subclasses should invoke this
-	 * method, which handles introduced interfaces and forwarding to the target.
+	 * Subclasses may need to override this if they want to perform custom behaviour in
+	 * around advice. However, subclasses should invoke this method, which handles
+	 * introduced interfaces and forwarding to the target.
 	 */
 	@Override
 	@Nullable
@@ -109,9 +111,9 @@ public class DelegatePerTargetObjectIntroductionInterceptor extends Introduction
 
 	/**
 	 * Proceed with the supplied {@link org.aopalliance.intercept.MethodInterceptor}.
-	 * Subclasses can override this method to intercept method invocations on the
-	 * target object which is useful when an introduction needs to monitor the object
-	 * that it is introduced into. This method is <strong>never</strong> called for
+	 * Subclasses can override this method to intercept method invocations on the target
+	 * object which is useful when an introduction needs to monitor the object that it is
+	 * introduced into. This method is <strong>never</strong> called for
 	 * {@link MethodInvocation MethodInvocations} on the introduced interfaces.
 	 */
 	protected Object doProceed(MethodInvocation mi) throws Throwable {
@@ -137,8 +139,8 @@ public class DelegatePerTargetObjectIntroductionInterceptor extends Introduction
 			return ReflectionUtils.accessibleConstructor(this.defaultImplType).newInstance();
 		}
 		catch (Throwable ex) {
-			throw new IllegalArgumentException("Cannot create default implementation for '" +
-					this.interfaceType.getName() + "' mixin (" + this.defaultImplType.getName() + "): " + ex);
+			throw new IllegalArgumentException("Cannot create default implementation for '"
+					+ this.interfaceType.getName() + "' mixin (" + this.defaultImplType.getName() + "): " + ex);
 		}
 	}
 

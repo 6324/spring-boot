@@ -37,13 +37,14 @@ import org.springframework.util.PatternMatchUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Factory for creating {@link SQLErrorCodes} based on the
- * "databaseProductName" taken from the {@link java.sql.DatabaseMetaData}.
+ * Factory for creating {@link SQLErrorCodes} based on the "databaseProductName" taken
+ * from the {@link java.sql.DatabaseMetaData}.
  *
- * <p>Returns {@code SQLErrorCodes} populated with vendor codes
- * defined in a configuration file named "sql-error-codes.xml".
- * Reads the default file in this package if not overridden by a file in
- * the root of the class path (for example in the "/WEB-INF/classes" directory).
+ * <p>
+ * Returns {@code SQLErrorCodes} populated with vendor codes defined in a configuration
+ * file named "sql-error-codes.xml". Reads the default file in this package if not
+ * overridden by a file in the root of the class path (for example in the
+ * "/WEB-INF/classes" directory).
  *
  * @author Thomas Risberg
  * @author Rod Johnson
@@ -53,8 +54,8 @@ import org.springframework.util.StringUtils;
 public class SQLErrorCodesFactory {
 
 	/**
-	 * The name of custom SQL error codes file, loading from the root
-	 * of the class path (e.g. from the "/WEB-INF/classes" directory).
+	 * The name of custom SQL error codes file, loading from the root of the class path
+	 * (e.g. from the "/WEB-INF/classes" directory).
 	 */
 	public static final String SQL_ERROR_CODE_OVERRIDE_PATH = "sql-error-codes.xml";
 
@@ -63,14 +64,12 @@ public class SQLErrorCodesFactory {
 	 */
 	public static final String SQL_ERROR_CODE_DEFAULT_PATH = "org/springframework/jdbc/support/sql-error-codes.xml";
 
-
 	private static final Log logger = LogFactory.getLog(SQLErrorCodesFactory.class);
 
 	/**
 	 * Keep track of a single instance so we can return it to classes that request it.
 	 */
 	private static final SQLErrorCodesFactory instance = new SQLErrorCodesFactory();
-
 
 	/**
 	 * Return the singleton instance.
@@ -79,10 +78,9 @@ public class SQLErrorCodesFactory {
 		return instance;
 	}
 
-
 	/**
-	 * Map to hold error codes for all databases defined in the config file.
-	 * Key is the database product name, value is the SQLErrorCodes instance.
+	 * Map to hold error codes for all databases defined in the config file. Key is the
+	 * database product name, value is the SQLErrorCodes instance.
 	 */
 	private final Map<String, SQLErrorCodes> errorCodesMap;
 
@@ -91,13 +89,13 @@ public class SQLErrorCodesFactory {
 	 */
 	private final Map<DataSource, SQLErrorCodes> dataSourceCache = new ConcurrentReferenceHashMap<>(16);
 
-
 	/**
 	 * Create a new instance of the {@link SQLErrorCodesFactory} class.
-	 * <p>Not public to enforce Singleton design pattern. Would be private
-	 * except to allow testing via overriding the
-	 * {@link #loadResource(String)} method.
-	 * <p><b>Do not subclass in application code.</b>
+	 * <p>
+	 * Not public to enforce Singleton design pattern. Would be private except to allow
+	 * testing via overriding the {@link #loadResource(String)} method.
+	 * <p>
+	 * <b>Do not subclass in application code.</b>
 	 * @see #loadResource(String)
 	 */
 	protected SQLErrorCodesFactory() {
@@ -140,12 +138,13 @@ public class SQLErrorCodesFactory {
 
 	/**
 	 * Load the given resource from the class path.
-	 * <p><b>Not to be overridden by application developers, who should obtain
-	 * instances of this class from the static {@link #getInstance()} method.</b>
-	 * <p>Protected for testability.
+	 * <p>
+	 * <b>Not to be overridden by application developers, who should obtain instances of
+	 * this class from the static {@link #getInstance()} method.</b>
+	 * <p>
+	 * Protected for testability.
 	 * @param path resource path; either a custom path or one of either
-	 * {@link #SQL_ERROR_CODE_DEFAULT_PATH} or
-	 * {@link #SQL_ERROR_CODE_OVERRIDE_PATH}.
+	 * {@link #SQL_ERROR_CODE_DEFAULT_PATH} or {@link #SQL_ERROR_CODE_OVERRIDE_PATH}.
 	 * @return the resource, or {@code null} if the resource wasn't found
 	 * @see #getInstance
 	 */
@@ -154,13 +153,13 @@ public class SQLErrorCodesFactory {
 		return new ClassPathResource(path, getClass().getClassLoader());
 	}
 
-
 	/**
 	 * Return the {@link SQLErrorCodes} instance for the given database.
-	 * <p>No need for a database meta-data lookup.
+	 * <p>
+	 * No need for a database meta-data lookup.
 	 * @param databaseName the database name (must not be {@code null})
-	 * @return the {@code SQLErrorCodes} instance for the given database
-	 * (never {@code null}; potentially empty)
+	 * @return the {@code SQLErrorCodes} instance for the given database (never
+	 * {@code null}; potentially empty)
 	 * @throws IllegalArgumentException if the supplied database name is {@code null}
 	 */
 	public SQLErrorCodes getErrorCodes(String databaseName) {
@@ -191,13 +190,12 @@ public class SQLErrorCodesFactory {
 	}
 
 	/**
-	 * Return {@link SQLErrorCodes} for the given {@link DataSource},
-	 * evaluating "databaseProductName" from the
-	 * {@link java.sql.DatabaseMetaData}, or an empty error codes
-	 * instance if no {@code SQLErrorCodes} were found.
+	 * Return {@link SQLErrorCodes} for the given {@link DataSource}, evaluating
+	 * "databaseProductName" from the {@link java.sql.DatabaseMetaData}, or an empty error
+	 * codes instance if no {@code SQLErrorCodes} were found.
 	 * @param dataSource the {@code DataSource} identifying the database
-	 * @return the corresponding {@code SQLErrorCodes} object
-	 * (never {@code null}; potentially empty)
+	 * @return the corresponding {@code SQLErrorCodes} object (never {@code null};
+	 * potentially empty)
 	 * @see java.sql.DatabaseMetaData#getDatabaseProductName()
 	 */
 	public SQLErrorCodes getErrorCodes(DataSource dataSource) {
@@ -206,13 +204,12 @@ public class SQLErrorCodesFactory {
 	}
 
 	/**
-	 * Return {@link SQLErrorCodes} for the given {@link DataSource},
-	 * evaluating "databaseProductName" from the
-	 * {@link java.sql.DatabaseMetaData}, or {@code null} if case
-	 * of a JDBC meta-data access problem.
+	 * Return {@link SQLErrorCodes} for the given {@link DataSource}, evaluating
+	 * "databaseProductName" from the {@link java.sql.DatabaseMetaData}, or {@code null}
+	 * if case of a JDBC meta-data access problem.
 	 * @param dataSource the {@code DataSource} identifying the database
-	 * @return the corresponding {@code SQLErrorCodes} object,
-	 * or {@code null} in case of a JDBC meta-data access problem
+	 * @return the corresponding {@code SQLErrorCodes} object, or {@code null} in case of
+	 * a JDBC meta-data access problem
 	 * @since 5.2.9
 	 * @see java.sql.DatabaseMetaData#getDatabaseProductName()
 	 */
@@ -264,8 +261,8 @@ public class SQLErrorCodesFactory {
 	public SQLErrorCodes registerDatabase(DataSource dataSource, String databaseName) {
 		SQLErrorCodes sec = getErrorCodes(databaseName);
 		if (logger.isDebugEnabled()) {
-			logger.debug("Caching SQL error codes for DataSource [" + identify(dataSource) +
-					"]: database product name is '" + databaseName + "'");
+			logger.debug("Caching SQL error codes for DataSource [" + identify(dataSource)
+					+ "]: database product name is '" + databaseName + "'");
 		}
 		this.dataSourceCache.put(dataSource, sec);
 		return sec;
@@ -274,8 +271,8 @@ public class SQLErrorCodesFactory {
 	/**
 	 * Clear the cache for the specified {@link DataSource}, if registered.
 	 * @param dataSource the {@code DataSource} identifying the database
-	 * @return the corresponding {@code SQLErrorCodes} object that got removed,
-	 * or {@code null} if not registered
+	 * @return the corresponding {@code SQLErrorCodes} object that got removed, or
+	 * {@code null} if not registered
 	 * @since 4.3.5
 	 * @see #registerDatabase(DataSource, String)
 	 */
@@ -285,8 +282,8 @@ public class SQLErrorCodesFactory {
 	}
 
 	/**
-	 * Build an identification String for the given {@link DataSource},
-	 * primarily for logging purposes.
+	 * Build an identification String for the given {@link DataSource}, primarily for
+	 * logging purposes.
 	 * @param dataSource the {@code DataSource} to introspect
 	 * @return the identification String
 	 */
@@ -298,18 +295,18 @@ public class SQLErrorCodesFactory {
 	 * Check the {@link CustomSQLExceptionTranslatorRegistry} for any entries.
 	 */
 	private void checkCustomTranslatorRegistry(String databaseName, SQLErrorCodes errorCodes) {
-		SQLExceptionTranslator customTranslator =
-				CustomSQLExceptionTranslatorRegistry.getInstance().findTranslatorForDatabase(databaseName);
+		SQLExceptionTranslator customTranslator = CustomSQLExceptionTranslatorRegistry.getInstance()
+				.findTranslatorForDatabase(databaseName);
 		if (customTranslator != null) {
 			if (errorCodes.getCustomSqlExceptionTranslator() != null && logger.isDebugEnabled()) {
-				logger.debug("Overriding already defined custom translator '" +
-						errorCodes.getCustomSqlExceptionTranslator().getClass().getSimpleName() +
-						" with '" + customTranslator.getClass().getSimpleName() +
-						"' found in the CustomSQLExceptionTranslatorRegistry for database '" + databaseName + "'");
+				logger.debug("Overriding already defined custom translator '"
+						+ errorCodes.getCustomSqlExceptionTranslator().getClass().getSimpleName() + " with '"
+						+ customTranslator.getClass().getSimpleName()
+						+ "' found in the CustomSQLExceptionTranslatorRegistry for database '" + databaseName + "'");
 			}
 			else if (logger.isTraceEnabled()) {
-				logger.trace("Using custom translator '" + customTranslator.getClass().getSimpleName() +
-						"' found in the CustomSQLExceptionTranslatorRegistry for database '" + databaseName + "'");
+				logger.trace("Using custom translator '" + customTranslator.getClass().getSimpleName()
+						+ "' found in the CustomSQLExceptionTranslatorRegistry for database '" + databaseName + "'");
 			}
 			errorCodes.setCustomSqlExceptionTranslator(customTranslator);
 		}

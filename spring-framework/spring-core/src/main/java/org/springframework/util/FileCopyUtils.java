@@ -35,7 +35,8 @@ import org.springframework.lang.Nullable;
  * of 4096 bytes, and close all affected streams when done. A variation of the copy
  * methods from this class that leave streams open can be found in {@link StreamUtils}.
  *
- * <p>Mainly for use within the framework, but also useful for application code.
+ * <p>
+ * Mainly for use within the framework, but also useful for application code.
  *
  * @author Juergen Hoeller
  * @author Hyunjin Choi
@@ -50,10 +51,9 @@ public abstract class FileCopyUtils {
 	 */
 	public static final int BUFFER_SIZE = StreamUtils.BUFFER_SIZE;
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Copy methods for java.io.File
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
 	 * Copy the contents of the given input File to the given output File.
@@ -91,14 +91,13 @@ public abstract class FileCopyUtils {
 		return copyToByteArray(Files.newInputStream(in.toPath()));
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Copy methods for java.io.InputStream / java.io.OutputStream
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
-	 * Copy the contents of the given InputStream to the given OutputStream.
-	 * Closes both streams when done.
+	 * Copy the contents of the given InputStream to the given OutputStream. Closes both
+	 * streams when done.
 	 * @param in the stream to copy from
 	 * @param out the stream to copy to
 	 * @return the number of bytes copied
@@ -118,8 +117,8 @@ public abstract class FileCopyUtils {
 	}
 
 	/**
-	 * Copy the contents of the given byte array to the given OutputStream.
-	 * Closes the stream when done.
+	 * Copy the contents of the given byte array to the given OutputStream. Closes the
+	 * stream when done.
 	 * @param in the byte array to copy from
 	 * @param out the OutputStream to copy to
 	 * @throws IOException in case of I/O errors
@@ -137,8 +136,8 @@ public abstract class FileCopyUtils {
 	}
 
 	/**
-	 * Copy the contents of the given InputStream into a new byte array.
-	 * Closes the stream when done.
+	 * Copy the contents of the given InputStream into a new byte array. Closes the stream
+	 * when done.
 	 * @param in the stream to copy from (may be {@code null} or empty)
 	 * @return the new byte array that has been copied to (possibly empty)
 	 * @throws IOException in case of I/O errors
@@ -153,14 +152,12 @@ public abstract class FileCopyUtils {
 		return out.toByteArray();
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Copy methods for java.io.Reader / java.io.Writer
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
-	 * Copy the contents of the given Reader to the given Writer.
-	 * Closes both when done.
+	 * Copy the contents of the given Reader to the given Writer. Closes both when done.
 	 * @param in the Reader to copy from
 	 * @param out the Writer to copy to
 	 * @return the number of characters copied
@@ -188,8 +185,8 @@ public abstract class FileCopyUtils {
 	}
 
 	/**
-	 * Copy the contents of the given String to the given Writer.
-	 * Closes the writer when done.
+	 * Copy the contents of the given String to the given Writer. Closes the writer when
+	 * done.
 	 * @param in the String to copy from
 	 * @param out the Writer to copy to
 	 * @throws IOException in case of I/O errors
@@ -207,8 +204,7 @@ public abstract class FileCopyUtils {
 	}
 
 	/**
-	 * Copy the contents of the given Reader into a String.
-	 * Closes the reader when done.
+	 * Copy the contents of the given Reader into a String. Closes the reader when done.
 	 * @param in the reader to copy from (may be {@code null} or empty)
 	 * @return the String that has been copied to (possibly empty)
 	 * @throws IOException in case of I/O errors

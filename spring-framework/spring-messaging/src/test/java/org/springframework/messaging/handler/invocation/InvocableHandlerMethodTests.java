@@ -41,7 +41,6 @@ public class InvocableHandlerMethodTests {
 
 	private final HandlerMethodArgumentResolverComposite resolvers = new HandlerMethodArgumentResolverComposite();
 
-
 	@Test
 	public void resolveArg() throws Exception {
 		this.resolvers.addResolver(new StubArgumentResolver(99));
@@ -71,9 +70,9 @@ public class InvocableHandlerMethodTests {
 	@Test
 	public void cannotResolveArg() throws Exception {
 		Method method = ResolvableMethod.on(Handler.class).mockCall(c -> c.handle(0, "")).method();
-		assertThatExceptionOfType(MethodArgumentResolutionException.class).isThrownBy(() ->
-				invoke(new Handler(), method))
-			.withMessageContaining("Could not resolve parameter [0]");
+		assertThatExceptionOfType(MethodArgumentResolutionException.class)
+				.isThrownBy(() -> invoke(new Handler(), method))
+				.withMessageContaining("Could not resolve parameter [0]");
 	}
 
 	@Test
@@ -100,9 +99,8 @@ public class InvocableHandlerMethodTests {
 	public void exceptionInResolvingArg() throws Exception {
 		this.resolvers.addResolver(new ExceptionRaisingArgumentResolver());
 		Method method = ResolvableMethod.on(Handler.class).mockCall(c -> c.handle(0, "")).method();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				invoke(new Handler(), method));
-		// expected -  allow HandlerMethodArgumentResolver exceptions to propagate
+		assertThatIllegalArgumentException().isThrownBy(() -> invoke(new Handler(), method));
+		// expected - allow HandlerMethodArgumentResolver exceptions to propagate
 	}
 
 	@Test
@@ -110,14 +108,11 @@ public class InvocableHandlerMethodTests {
 		this.resolvers.addResolver(new StubArgumentResolver(Integer.class, "__not_an_int__"));
 		this.resolvers.addResolver(new StubArgumentResolver("value"));
 		Method method = ResolvableMethod.on(Handler.class).mockCall(c -> c.handle(0, "")).method();
-		assertThatIllegalStateException().isThrownBy(() ->
-				invoke(new Handler(), method))
-			.withCauseInstanceOf(IllegalArgumentException.class)
-			.withMessageContaining("Endpoint [")
-			.withMessageContaining("Method [")
-			.withMessageContaining("with argument values:")
-			.withMessageContaining("[0] [type=java.lang.String] [value=__not_an_int__]")
-			.withMessageContaining("[1] [type=java.lang.String] [value=value");
+		assertThatIllegalStateException().isThrownBy(() -> invoke(new Handler(), method))
+				.withCauseInstanceOf(IllegalArgumentException.class).withMessageContaining("Endpoint [")
+				.withMessageContaining("Method [").withMessageContaining("with argument values:")
+				.withMessageContaining("[0] [type=java.lang.String] [value=__not_an_int__]")
+				.withMessageContaining("[1] [type=java.lang.String] [value=value");
 	}
 
 	@Test
@@ -125,31 +120,24 @@ public class InvocableHandlerMethodTests {
 		Handler handler = new Handler();
 		Method method = ResolvableMethod.on(Handler.class).argTypes(Throwable.class).resolveMethod();
 		RuntimeException runtimeException = new RuntimeException("error");
-		assertThatExceptionOfType(RuntimeException.class).isThrownBy(() ->
-				invoke(handler, method, runtimeException))
-			.isSameAs(runtimeException);
+		assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> invoke(handler, method, runtimeException))
+				.isSameAs(runtimeException);
 		Error error = new Error("error");
-		assertThatExceptionOfType(Error.class).isThrownBy(() ->
-				invoke(handler, method, error))
-			.isSameAs(error);
+		assertThatExceptionOfType(Error.class).isThrownBy(() -> invoke(handler, method, error)).isSameAs(error);
 		Exception exception = new Exception("error");
-		assertThatExceptionOfType(Exception.class).isThrownBy(() ->
-				invoke(handler, method, exception))
-			.isSameAs(exception);
+		assertThatExceptionOfType(Exception.class).isThrownBy(() -> invoke(handler, method, exception))
+				.isSameAs(exception);
 		Throwable throwable = new Throwable("error", exception);
-		assertThatIllegalStateException().isThrownBy(() ->
-				invoke(handler, method, throwable))
-			.withCause(throwable)
-			.withMessageContaining("Invocation failure");
+		assertThatIllegalStateException().isThrownBy(() -> invoke(handler, method, throwable)).withCause(throwable)
+				.withMessageContaining("Invocation failure");
 	}
 
-	@Test  // Based on SPR-13917 (spring-web)
+	@Test // Based on SPR-13917 (spring-web)
 	public void invocationErrorMessage() throws Exception {
 		this.resolvers.addResolver(new StubArgumentResolver(double.class));
 		Method method = ResolvableMethod.on(Handler.class).mockCall(c -> c.handle(0.0)).method();
-		assertThatIllegalStateException().isThrownBy(() ->
-				invoke(new Handler(), method))
-			.withMessageContaining("Illegal argument");
+		assertThatIllegalStateException().isThrownBy(() -> invoke(new Handler(), method))
+				.withMessageContaining("Illegal argument");
 	}
 
 	@Nullable
@@ -162,8 +150,6 @@ public class InvocableHandlerMethodTests {
 	private StubArgumentResolver getStubResolver(int index) {
 		return (StubArgumentResolver) this.resolvers.getResolvers().get(index);
 	}
-
-
 
 	@SuppressWarnings("unused")
 	private static class Handler {
@@ -178,8 +164,8 @@ public class InvocableHandlerMethodTests {
 		public void handleWithException(Throwable ex) throws Throwable {
 			throw ex;
 		}
-	}
 
+	}
 
 	private static class ExceptionRaisingArgumentResolver implements HandlerMethodArgumentResolver {
 
@@ -192,6 +178,7 @@ public class InvocableHandlerMethodTests {
 		public Object resolveArgument(MethodParameter parameter, Message<?> message) {
 			throw new IllegalArgumentException("oops, can't read");
 		}
+
 	}
 
 }

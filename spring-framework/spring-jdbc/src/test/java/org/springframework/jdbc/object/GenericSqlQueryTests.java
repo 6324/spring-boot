@@ -47,8 +47,7 @@ import static org.mockito.Mockito.verify;
  */
 public class GenericSqlQueryTests {
 
-	private static final String SELECT_ID_FORENAME_NAMED_PARAMETERS_PARSED =
-			"select id, forename from custmr where id = ? and country = ?";
+	private static final String SELECT_ID_FORENAME_NAMED_PARAMETERS_PARSED = "select id, forename from custmr where id = ? and country = ?";
 
 	private DefaultListableBeanFactory beanFactory;
 
@@ -57,7 +56,6 @@ public class GenericSqlQueryTests {
 	private PreparedStatement preparedStatement;
 
 	private ResultSet resultSet;
-
 
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -107,7 +105,7 @@ public class GenericSqlQueryTests {
 			queryResults = query.executeByNamedParam(params);
 		}
 		else {
-			Object[] params = new Object[] {1, "UK"};
+			Object[] params = new Object[] { 1, "UK" };
 			queryResults = query.execute(params);
 		}
 		assertThat(queryResults.size() == 1).as("Customer was returned correctly").isTrue();

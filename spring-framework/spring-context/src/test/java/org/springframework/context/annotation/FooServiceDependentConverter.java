@@ -23,7 +23,8 @@ import org.springframework.core.convert.converter.Converter;
 /**
  * @author Juergen Hoeller
  */
-public class FooServiceDependentConverter implements Converter<String, org.springframework.beans.testfixture.beans.TestBean> {
+public class FooServiceDependentConverter
+		implements Converter<String, org.springframework.beans.testfixture.beans.TestBean> {
 
 	@SuppressWarnings("unused")
 	private FooService fooService;

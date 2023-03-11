@@ -37,12 +37,13 @@ import org.springframework.web.socket.messaging.SubProtocolWebSocketHandler;
 import org.springframework.web.socket.messaging.WebSocketAnnotationMethodMessageHandler;
 
 /**
- * Extends {@link AbstractMessageBrokerConfiguration} and adds configuration for
- * receiving and responding to STOMP messages from WebSocket clients.
+ * Extends {@link AbstractMessageBrokerConfiguration} and adds configuration for receiving
+ * and responding to STOMP messages from WebSocket clients.
  *
- * <p>Typically used in conjunction with
- * {@link EnableWebSocketMessageBroker @EnableWebSocketMessageBroker} but can
- * also be extended directly.
+ * <p>
+ * Typically used in conjunction with
+ * {@link EnableWebSocketMessageBroker @EnableWebSocketMessageBroker} but can also be
+ * extended directly.
  *
  * @author Rossen Stoyanchev
  * @author Artem Bilan
@@ -53,11 +54,10 @@ public abstract class WebSocketMessageBrokerConfigurationSupport extends Abstrac
 	@Nullable
 	private WebSocketTransportRegistration transportRegistration;
 
-
 	@Override
 	protected SimpAnnotationMethodMessageHandler createAnnotationMethodMessageHandler() {
-		return new WebSocketAnnotationMethodMessageHandler(
-				clientInboundChannel(), clientOutboundChannel(), brokerMessagingTemplate());
+		return new WebSocketAnnotationMethodMessageHandler(clientInboundChannel(), clientOutboundChannel(),
+				brokerMessagingTemplate());
 	}
 
 	@Override
@@ -72,8 +72,8 @@ public abstract class WebSocketMessageBrokerConfigurationSupport extends Abstrac
 	@Bean
 	public HandlerMapping stompWebSocketHandlerMapping() {
 		WebSocketHandler handler = decorateWebSocketHandler(subProtocolWebSocketHandler());
-		WebMvcStompEndpointRegistry registry = new WebMvcStompEndpointRegistry(
-				handler, getTransportRegistration(), messageBrokerTaskScheduler());
+		WebMvcStompEndpointRegistry registry = new WebMvcStompEndpointRegistry(handler, getTransportRegistration(),
+				messageBrokerTaskScheduler());
 		ApplicationContext applicationContext = getApplicationContext();
 		if (applicationContext != null) {
 			registry.setApplicationContext(applicationContext);
@@ -135,7 +135,8 @@ public abstract class WebSocketMessageBrokerConfigurationSupport extends Abstrac
 	@Override
 	protected MappingJackson2MessageConverter createJacksonConverter() {
 		MappingJackson2MessageConverter messageConverter = super.createJacksonConverter();
-		// Use Jackson builder in order to have JSR-310 and Joda-Time modules registered automatically
+		// Use Jackson builder in order to have JSR-310 and Joda-Time modules registered
+		// automatically
 		Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
 		ApplicationContext applicationContext = getApplicationContext();
 		if (applicationContext != null) {

@@ -25,8 +25,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Exception thrown when a mail sending error is encountered.
- * Can register failed messages with their exceptions.
+ * Exception thrown when a mail sending error is encountered. Can register failed messages
+ * with their exceptions.
  *
  * @author Dmitriy Kopylenko
  * @author Juergen Hoeller
@@ -38,7 +38,6 @@ public class MailSendException extends MailException {
 
 	@Nullable
 	private final Exception[] messageExceptions;
-
 
 	/**
 	 * Constructor for MailSendException.
@@ -60,14 +59,15 @@ public class MailSendException extends MailException {
 	}
 
 	/**
-	 * Constructor for registration of failed messages, with the
-	 * messages that failed as keys, and the thrown exceptions as values.
-	 * <p>The messages should be the same that were originally passed
-	 * to the invoked send method.
+	 * Constructor for registration of failed messages, with the messages that failed as
+	 * keys, and the thrown exceptions as values.
+	 * <p>
+	 * The messages should be the same that were originally passed to the invoked send
+	 * method.
 	 * @param msg the detail message
 	 * @param cause the root cause from the mail API in use
-	 * @param failedMessages a Map of failed messages as keys and thrown
-	 * exceptions as values
+	 * @param failedMessages a Map of failed messages as keys and thrown exceptions as
+	 * values
 	 */
 	public MailSendException(@Nullable String msg, @Nullable Throwable cause, Map<Object, Exception> failedMessages) {
 		super(msg, cause);
@@ -76,32 +76,35 @@ public class MailSendException extends MailException {
 	}
 
 	/**
-	 * Constructor for registration of failed messages, with the
-	 * messages that failed as keys, and the thrown exceptions as values.
-	 * <p>The messages should be the same that were originally passed
-	 * to the invoked send method.
-	 * @param failedMessages a Map of failed messages as keys and thrown
-	 * exceptions as values
+	 * Constructor for registration of failed messages, with the messages that failed as
+	 * keys, and the thrown exceptions as values.
+	 * <p>
+	 * The messages should be the same that were originally passed to the invoked send
+	 * method.
+	 * @param failedMessages a Map of failed messages as keys and thrown exceptions as
+	 * values
 	 */
 	public MailSendException(Map<Object, Exception> failedMessages) {
 		this(null, null, failedMessages);
 	}
 
-
 	/**
-	 * Return a Map with the failed messages as keys, and the thrown exceptions
-	 * as values.
-	 * <p>Note that a general mail server connection failure will not result
-	 * in failed messages being returned here: A message will only be
-	 * contained here if actually sending it was attempted but failed.
-	 * <p>The messages will be the same that were originally passed to the
-	 * invoked send method, that is, SimpleMailMessages in case of using
-	 * the generic MailSender interface.
-	 * <p>In case of sending MimeMessage instances via JavaMailSender,
-	 * the messages will be of type MimeMessage.
-	 * <p><b>NOTE:</b> This Map will not be available after serialization.
-	 * Use {@link #getMessageExceptions()} in such a scenario, which will
-	 * be available after serialization as well.
+	 * Return a Map with the failed messages as keys, and the thrown exceptions as values.
+	 * <p>
+	 * Note that a general mail server connection failure will not result in failed
+	 * messages being returned here: A message will only be contained here if actually
+	 * sending it was attempted but failed.
+	 * <p>
+	 * The messages will be the same that were originally passed to the invoked send
+	 * method, that is, SimpleMailMessages in case of using the generic MailSender
+	 * interface.
+	 * <p>
+	 * In case of sending MimeMessage instances via JavaMailSender, the messages will be
+	 * of type MimeMessage.
+	 * <p>
+	 * <b>NOTE:</b> This Map will not be available after serialization. Use
+	 * {@link #getMessageExceptions()} in such a scenario, which will be available after
+	 * serialization as well.
 	 * @return the Map of failed messages as keys and thrown exceptions as values
 	 * @see SimpleMailMessage
 	 * @see javax.mail.internet.MimeMessage
@@ -112,16 +115,16 @@ public class MailSendException extends MailException {
 
 	/**
 	 * Return an array with thrown message exceptions.
-	 * <p>Note that a general mail server connection failure will not result
-	 * in failed messages being returned here: A message will only be
-	 * contained here if actually sending it was attempted but failed.
-	 * @return the array of thrown message exceptions,
-	 * or an empty array if no failed messages
+	 * <p>
+	 * Note that a general mail server connection failure will not result in failed
+	 * messages being returned here: A message will only be contained here if actually
+	 * sending it was attempted but failed.
+	 * @return the array of thrown message exceptions, or an empty array if no failed
+	 * messages
 	 */
 	public final Exception[] getMessageExceptions() {
 		return (this.messageExceptions != null ? this.messageExceptions : new Exception[0]);
 	}
-
 
 	@Override
 	@Nullable
@@ -170,8 +173,7 @@ public class MailSendException extends MailException {
 			super.printStackTrace(ps);
 		}
 		else {
-			ps.println(super.toString() + "; message exception details (" +
-					this.messageExceptions.length + ") are:");
+			ps.println(super.toString() + "; message exception details (" + this.messageExceptions.length + ") are:");
 			for (int i = 0; i < this.messageExceptions.length; i++) {
 				Exception subEx = this.messageExceptions[i];
 				ps.println("Failed message " + (i + 1) + ":");
@@ -186,8 +188,7 @@ public class MailSendException extends MailException {
 			super.printStackTrace(pw);
 		}
 		else {
-			pw.println(super.toString() + "; message exception details (" +
-					this.messageExceptions.length + ") are:");
+			pw.println(super.toString() + "; message exception details (" + this.messageExceptions.length + ") are:");
 			for (int i = 0; i < this.messageExceptions.length; i++) {
 				Exception subEx = this.messageExceptions[i];
 				pw.println("Failed message " + (i + 1) + ":");

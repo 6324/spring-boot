@@ -34,8 +34,7 @@ public class URLEditorTests {
 
 	@Test
 	public void testCtorWithNullResourceEditor() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new URLEditor(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new URLEditor(null));
 	}
 
 	@Test
@@ -63,8 +62,8 @@ public class URLEditorTests {
 	@Test
 	public void testClasspathURL() throws Exception {
 		PropertyEditor urlEditor = new URLEditor();
-		urlEditor.setAsText("classpath:" + ClassUtils.classPackageAsResourcePath(getClass()) +
-				"/" + ClassUtils.getShortName(getClass()) + ".class");
+		urlEditor.setAsText("classpath:" + ClassUtils.classPackageAsResourcePath(getClass()) + "/"
+				+ ClassUtils.getShortName(getClass()) + ".class");
 		Object value = urlEditor.getValue();
 		boolean condition1 = value instanceof URL;
 		assertThat(condition1).isTrue();
@@ -77,8 +76,8 @@ public class URLEditorTests {
 	@Test
 	public void testWithNonExistentResource() throws Exception {
 		PropertyEditor urlEditor = new URLEditor();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				urlEditor.setAsText("gonna:/freak/in/the/morning/freak/in/the.evening"));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> urlEditor.setAsText("gonna:/freak/in/the/morning/freak/in/the.evening"));
 	}
 
 	@Test

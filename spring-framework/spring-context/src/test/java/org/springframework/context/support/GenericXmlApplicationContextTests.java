@@ -23,7 +23,6 @@ import org.springframework.util.ClassUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * Unit tests for {@link GenericXmlApplicationContext}.
  *
@@ -34,11 +33,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class GenericXmlApplicationContextTests {
 
 	private static final Class<?> RELATIVE_CLASS = GenericXmlApplicationContextTests.class;
-	private static final String RESOURCE_BASE_PATH = ClassUtils.classPackageAsResourcePath(RELATIVE_CLASS);
-	private static final String RESOURCE_NAME = GenericXmlApplicationContextTests.class.getSimpleName() + "-context.xml";
-	private static final String FQ_RESOURCE_PATH = RESOURCE_BASE_PATH + '/' + RESOURCE_NAME;
-	private static final String TEST_BEAN_NAME = "testBean";
 
+	private static final String RESOURCE_BASE_PATH = ClassUtils.classPackageAsResourcePath(RELATIVE_CLASS);
+
+	private static final String RESOURCE_NAME = GenericXmlApplicationContextTests.class.getSimpleName()
+			+ "-context.xml";
+
+	private static final String FQ_RESOURCE_PATH = RESOURCE_BASE_PATH + '/' + RESOURCE_NAME;
+
+	private static final String TEST_BEAN_NAME = "testBean";
 
 	@Test
 	public void classRelativeResourceLoading_ctor() {
@@ -67,4 +70,5 @@ public class GenericXmlApplicationContextTests {
 		ctx.refresh();
 		assertThat(ctx.containsBean(TEST_BEAN_NAME)).isTrue();
 	}
+
 }

@@ -33,7 +33,6 @@ public class IncorrectResultSetColumnCountException extends DataRetrievalFailure
 
 	private final int actualCount;
 
-
 	/**
 	 * Constructor for IncorrectResultSetColumnCountException.
 	 * @param expectedCount the expected column count
@@ -56,7 +55,6 @@ public class IncorrectResultSetColumnCountException extends DataRetrievalFailure
 		this.expectedCount = expectedCount;
 		this.actualCount = actualCount;
 	}
-
 
 	/**
 	 * Return the expected column count.

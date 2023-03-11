@@ -28,16 +28,14 @@ import io.rsocket.util.RSocketProxy;
 import reactor.core.publisher.Mono;
 
 /**
- * Intercept received RSockets and count successfully completed requests seen
- * on the server side. This is useful for verifying fire-and-forget
- * interactions.
+ * Intercept received RSockets and count successfully completed requests seen on the
+ * server side. This is useful for verifying fire-and-forget interactions.
  *
  * @author Rossen Stoyanchev
  */
 class FireAndForgetCountingInterceptor extends AbstractRSocket implements RSocketInterceptor {
 
 	private final List<CountingDecorator> rsockets = new CopyOnWriteArrayList<>();
-
 
 	public int getRSocketCount() {
 		return this.rsockets.size();
@@ -47,14 +45,12 @@ class FireAndForgetCountingInterceptor extends AbstractRSocket implements RSocke
 		return this.rsockets.get(index).getFireAndForgetCount();
 	}
 
-
 	@Override
 	public RSocket apply(RSocket rsocket) {
 		CountingDecorator decorator = new CountingDecorator(rsocket);
 		this.rsockets.add(decorator);
 		return decorator;
 	}
-
 
 	private static class CountingDecorator extends RSocketProxy {
 
@@ -72,6 +68,7 @@ class FireAndForgetCountingInterceptor extends AbstractRSocket implements RSocke
 		public Mono<Void> fireAndForget(Payload payload) {
 			return super.fireAndForget(payload).doOnSuccess(aVoid -> this.fireAndForget.incrementAndGet());
 		}
+
 	}
 
 }

@@ -40,20 +40,19 @@ public class Ternary extends SpelNodeImpl {
 		super(startPos, endPos, args);
 	}
 
-
 	/**
 	 * Evaluate the condition and if true evaluate the first alternative, otherwise
 	 * evaluate the second alternative.
 	 * @param state the expression state
-	 * @throws EvaluationException if the condition does not evaluate correctly to
-	 * a boolean or there is a problem executing the chosen alternative
+	 * @throws EvaluationException if the condition does not evaluate correctly to a
+	 * boolean or there is a problem executing the chosen alternative
 	 */
 	@Override
 	public TypedValue getValueInternal(ExpressionState state) throws EvaluationException {
 		Boolean value = this.children[0].getValue(state, Boolean.class);
 		if (value == null) {
-			throw new SpelEvaluationException(getChild(0).getStartPosition(),
-					SpelMessage.TYPE_CONVERSION_ERROR, "null", "boolean");
+			throw new SpelEvaluationException(getChild(0).getStartPosition(), SpelMessage.TYPE_CONVERSION_ERROR, "null",
+					"boolean");
 		}
 		TypedValue result = this.children[value ? 1 : 2].getValueInternal(state);
 		computeExitTypeDescriptor();
@@ -66,8 +65,8 @@ public class Ternary extends SpelNodeImpl {
 	}
 
 	private void computeExitTypeDescriptor() {
-		if (this.exitTypeDescriptor == null && this.children[1].exitTypeDescriptor != null &&
-				this.children[2].exitTypeDescriptor != null) {
+		if (this.exitTypeDescriptor == null && this.children[1].exitTypeDescriptor != null
+				&& this.children[2].exitTypeDescriptor != null) {
 			String leftDescriptor = this.children[1].exitTypeDescriptor;
 			String rightDescriptor = this.children[2].exitTypeDescriptor;
 			if (ObjectUtils.nullSafeEquals(leftDescriptor, rightDescriptor)) {
@@ -85,9 +84,9 @@ public class Ternary extends SpelNodeImpl {
 		SpelNodeImpl condition = this.children[0];
 		SpelNodeImpl left = this.children[1];
 		SpelNodeImpl right = this.children[2];
-		return (condition.isCompilable() && left.isCompilable() && right.isCompilable() &&
-				CodeFlow.isBooleanCompatible(condition.exitTypeDescriptor) &&
-				left.exitTypeDescriptor != null && right.exitTypeDescriptor != null);
+		return (condition.isCompilable() && left.isCompilable() && right.isCompilable()
+				&& CodeFlow.isBooleanCompatible(condition.exitTypeDescriptor) && left.exitTypeDescriptor != null
+				&& right.exitTypeDescriptor != null);
 	}
 
 	@Override

@@ -19,8 +19,8 @@ package org.springframework.core;
 import org.springframework.util.Assert;
 
 /**
- * {@link InheritableThreadLocal} subclass that exposes a specified name
- * as {@link #toString()} result (allowing for introspection).
+ * {@link InheritableThreadLocal} subclass that exposes a specified name as
+ * {@link #toString()} result (allowing for introspection).
  *
  * @author Juergen Hoeller
  * @since 2.5.2
@@ -30,7 +30,6 @@ import org.springframework.util.Assert;
 public class NamedInheritableThreadLocal<T> extends InheritableThreadLocal<T> {
 
 	private final String name;
-
 
 	/**
 	 * Create a new NamedInheritableThreadLocal with the given name.

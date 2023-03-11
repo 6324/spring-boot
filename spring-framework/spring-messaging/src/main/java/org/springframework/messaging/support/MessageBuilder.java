@@ -25,8 +25,8 @@ import org.springframework.messaging.MessageHeaders;
 import org.springframework.util.Assert;
 
 /**
- * A builder for creating a {@link GenericMessage}
- * (or {@link ErrorMessage} if the payload is of type {@link Throwable}).
+ * A builder for creating a {@link GenericMessage} (or {@link ErrorMessage} if the payload
+ * is of type {@link Throwable}).
  *
  * @author Arjen Poutsma
  * @author Mark Fisher
@@ -45,7 +45,6 @@ public final class MessageBuilder<T> {
 
 	private MessageHeaderAccessor headerAccessor;
 
-
 	private MessageBuilder(Message<T> providedMessage) {
 		Assert.notNull(providedMessage, "Message must not be null");
 		this.payload = providedMessage.getPayload();
@@ -61,7 +60,6 @@ public final class MessageBuilder<T> {
 		this.headerAccessor = accessor;
 	}
 
-
 	/**
 	 * Set the message headers to use by providing a {@code MessageHeaderAccessor}.
 	 * @param accessor the headers to use
@@ -73,8 +71,8 @@ public final class MessageBuilder<T> {
 	}
 
 	/**
-	 * Set the value for the given header name. If the provided value is {@code null},
-	 * the header will be removed.
+	 * Set the value for the given header name. If the provided value is {@code null}, the
+	 * header will be removed.
 	 */
 	public MessageBuilder<T> setHeader(String headerName, @Nullable Object headerValue) {
 		this.headerAccessor.setHeader(headerName, headerValue);
@@ -167,12 +165,12 @@ public final class MessageBuilder<T> {
 		}
 	}
 
-
 	/**
 	 * Create a builder for a new {@link Message} instance pre-populated with all of the
 	 * headers copied from the provided message. The payload of the provided Message will
 	 * also be used as the payload for the new message.
-	 * <p>If the provided message is an {@link ErrorMessage}, the
+	 * <p>
+	 * If the provided message is an {@link ErrorMessage}, the
 	 * {@link ErrorMessage#getOriginalMessage() originalMessage} it contains, will be
 	 * passed on to new instance.
 	 * @param message the Message from which the payload and all headers will be copied
@@ -190,10 +188,11 @@ public final class MessageBuilder<T> {
 	}
 
 	/**
-	 * A shortcut factory method for creating a message with the given payload
-	 * and {@code MessageHeaders}.
-	 * <p><strong>Note:</strong> the given {@code MessageHeaders} instance is used
-	 * directly in the new message, i.e. it is not copied.
+	 * A shortcut factory method for creating a message with the given payload and
+	 * {@code MessageHeaders}.
+	 * <p>
+	 * <strong>Note:</strong> the given {@code MessageHeaders} instance is used directly
+	 * in the new message, i.e. it is not copied.
 	 * @param payload the payload to use (never {@code null})
 	 * @param messageHeaders the headers to use (never {@code null})
 	 * @return the created message

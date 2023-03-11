@@ -44,34 +44,34 @@ import static org.springframework.core.env.AbstractEnvironment.RESERVED_DEFAULT_
 public class StandardEnvironmentTests {
 
 	private static final String ALLOWED_PROPERTY_NAME = "theanswer";
+
 	private static final String ALLOWED_PROPERTY_VALUE = "42";
 
 	private static final String DISALLOWED_PROPERTY_NAME = "verboten";
+
 	private static final String DISALLOWED_PROPERTY_VALUE = "secret";
 
 	private static final String STRING_PROPERTY_NAME = "stringPropName";
+
 	private static final String STRING_PROPERTY_VALUE = "stringPropValue";
+
 	private static final Object NON_STRING_PROPERTY_NAME = new Object();
+
 	private static final Object NON_STRING_PROPERTY_VALUE = new Object();
 
 	private final ConfigurableEnvironment environment = new StandardEnvironment();
-
 
 	@Test
 	void merge() {
 		ConfigurableEnvironment child = new StandardEnvironment();
 		child.setActiveProfiles("c1", "c2");
-		child.getPropertySources().addLast(
-				new MockPropertySource("childMock")
-						.withProperty("childKey", "childVal")
-						.withProperty("bothKey", "childBothVal"));
+		child.getPropertySources().addLast(new MockPropertySource("childMock").withProperty("childKey", "childVal")
+				.withProperty("bothKey", "childBothVal"));
 
 		ConfigurableEnvironment parent = new StandardEnvironment();
 		parent.setActiveProfiles("p1", "p2");
-		parent.getPropertySources().addLast(
-				new MockPropertySource("parentMock")
-						.withProperty("parentKey", "parentVal")
-						.withProperty("bothKey", "parentBothVal"));
+		parent.getPropertySources().addLast(new MockPropertySource("parentMock").withProperty("parentKey", "parentVal")
+				.withProperty("bothKey", "parentBothVal"));
 
 		assertThat(child.getProperty("childKey")).isEqualTo("childVal");
 		assertThat(child.getProperty("parentKey")).isNull();
@@ -81,8 +81,8 @@ public class StandardEnvironmentTests {
 		assertThat(parent.getProperty("parentKey")).isEqualTo("parentVal");
 		assertThat(parent.getProperty("bothKey")).isEqualTo("parentBothVal");
 
-		assertThat(child.getActiveProfiles()).isEqualTo(new String[]{"c1","c2"});
-		assertThat(parent.getActiveProfiles()).isEqualTo(new String[]{"p1","p2"});
+		assertThat(child.getActiveProfiles()).isEqualTo(new String[] { "c1", "c2" });
+		assertThat(parent.getActiveProfiles()).isEqualTo(new String[] { "p1", "p2" });
 
 		child.merge(parent);
 
@@ -94,16 +94,20 @@ public class StandardEnvironmentTests {
 		assertThat(parent.getProperty("parentKey")).isEqualTo("parentVal");
 		assertThat(parent.getProperty("bothKey")).isEqualTo("parentBothVal");
 
-		assertThat(child.getActiveProfiles()).isEqualTo(new String[]{"c1","c2","p1","p2"});
-		assertThat(parent.getActiveProfiles()).isEqualTo(new String[]{"p1","p2"});
+		assertThat(child.getActiveProfiles()).isEqualTo(new String[] { "c1", "c2", "p1", "p2" });
+		assertThat(parent.getActiveProfiles()).isEqualTo(new String[] { "p1", "p2" });
 	}
 
 	@Test
 	void propertySourceOrder() {
 		ConfigurableEnvironment env = new StandardEnvironment();
 		MutablePropertySources sources = env.getPropertySources();
-		assertThat(sources.precedenceOf(PropertySource.named(StandardEnvironment.SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME))).isEqualTo(0);
-		assertThat(sources.precedenceOf(PropertySource.named(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME))).isEqualTo(1);
+		assertThat(
+				sources.precedenceOf(PropertySource.named(StandardEnvironment.SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME)))
+						.isEqualTo(0);
+		assertThat(
+				sources.precedenceOf(PropertySource.named(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME)))
+						.isEqualTo(1);
 		assertThat(sources).hasSize(2);
 	}
 
@@ -111,7 +115,8 @@ public class StandardEnvironmentTests {
 	void propertySourceTypes() {
 		ConfigurableEnvironment env = new StandardEnvironment();
 		MutablePropertySources sources = env.getPropertySources();
-		assertThat(sources.get(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME)).isInstanceOf(SystemEnvironmentPropertySource.class);
+		assertThat(sources.get(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME))
+				.isInstanceOf(SystemEnvironmentPropertySource.class);
 	}
 
 	@Test
@@ -200,11 +205,11 @@ public class StandardEnvironmentTests {
 
 	@Test
 	void reservedDefaultProfile() {
-		assertThat(environment.getDefaultProfiles()).isEqualTo(new String[]{RESERVED_DEFAULT_PROFILE_NAME});
+		assertThat(environment.getDefaultProfiles()).isEqualTo(new String[] { RESERVED_DEFAULT_PROFILE_NAME });
 		System.setProperty(DEFAULT_PROFILES_PROPERTY_NAME, "d0");
-		assertThat(environment.getDefaultProfiles()).isEqualTo(new String[]{"d0"});
+		assertThat(environment.getDefaultProfiles()).isEqualTo(new String[] { "d0" });
 		environment.setDefaultProfiles("d1", "d2");
-		assertThat(environment.getDefaultProfiles()).isEqualTo(new String[]{"d1","d2"});
+		assertThat(environment.getDefaultProfiles()).isEqualTo(new String[] { "d1", "d2" });
 		System.clearProperty(DEFAULT_PROFILES_PROPERTY_NAME);
 	}
 
@@ -243,15 +248,17 @@ public class StandardEnvironmentTests {
 
 	@Test
 	void getActiveProfiles_fromSystemProperties_withMulitpleProfiles_withWhitespace() {
-		System.setProperty(ACTIVE_PROFILES_PROPERTY_NAME, " bar , baz "); // notice whitespace
+		System.setProperty(ACTIVE_PROFILES_PROPERTY_NAME, " bar , baz "); // notice
+																			// whitespace
 		assertThat(environment.getActiveProfiles()).contains("bar", "baz");
 		System.clearProperty(ACTIVE_PROFILES_PROPERTY_NAME);
 	}
 
 	@Test
 	void getDefaultProfiles() {
-		assertThat(environment.getDefaultProfiles()).isEqualTo(new String[] {RESERVED_DEFAULT_PROFILE_NAME});
-		environment.getPropertySources().addFirst(new MockPropertySource().withProperty(DEFAULT_PROFILES_PROPERTY_NAME, "pd1"));
+		assertThat(environment.getDefaultProfiles()).isEqualTo(new String[] { RESERVED_DEFAULT_PROFILE_NAME });
+		environment.getPropertySources()
+				.addFirst(new MockPropertySource().withProperty(DEFAULT_PROFILES_PROPERTY_NAME, "pd1"));
 		assertThat(environment.getDefaultProfiles().length).isEqualTo(1);
 		assertThat(Arrays.asList(environment.getDefaultProfiles())).contains("pd1");
 	}
@@ -269,8 +276,7 @@ public class StandardEnvironmentTests {
 
 	@Test
 	void acceptsProfiles_withEmptyArgumentList() {
-		assertThatIllegalArgumentException().isThrownBy(
-				environment::acceptsProfiles);
+		assertThatIllegalArgumentException().isThrownBy(environment::acceptsProfiles);
 	}
 
 	@Test
@@ -302,7 +308,8 @@ public class StandardEnvironmentTests {
 	@Test
 	void acceptsProfiles_activeProfileSetViaProperty() {
 		assertThat(environment.acceptsProfiles("p1")).isFalse();
-		environment.getPropertySources().addFirst(new MockPropertySource().withProperty(ACTIVE_PROFILES_PROPERTY_NAME, "p1"));
+		environment.getPropertySources()
+				.addFirst(new MockPropertySource().withProperty(ACTIVE_PROFILES_PROPERTY_NAME, "p1"));
 		assertThat(environment.acceptsProfiles("p1")).isTrue();
 	}
 
@@ -354,9 +361,8 @@ public class StandardEnvironmentTests {
 
 		env.addActiveProfile("validProfile"); // succeeds
 
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				env.addActiveProfile("invalid-profile"))
-			.withMessage("Invalid profile [invalid-profile]: must not contain dash character");
+		assertThatIllegalArgumentException().isThrownBy(() -> env.addActiveProfile("invalid-profile"))
+				.withMessage("Invalid profile [invalid-profile]: must not contain dash character");
 	}
 
 	@Test
@@ -394,7 +400,8 @@ public class StandardEnvironmentTests {
 			assertThat(systemProperties.get(ALLOWED_PROPERTY_NAME)).isEqualTo(ALLOWED_PROPERTY_VALUE);
 			assertThat(systemProperties.get(DISALLOWED_PROPERTY_NAME)).isEqualTo(DISALLOWED_PROPERTY_VALUE);
 
-			// non-string keys and values work fine... until the security manager is introduced below
+			// non-string keys and values work fine... until the security manager is
+			// introduced below
 			assertThat(systemProperties.get(STRING_PROPERTY_NAME)).isEqualTo(NON_STRING_PROPERTY_VALUE);
 			assertThat(systemProperties.get(NON_STRING_PROPERTY_NAME)).isEqualTo(STRING_PROPERTY_VALUE);
 		}
@@ -403,17 +410,21 @@ public class StandardEnvironmentTests {
 		SecurityManager securityManager = new SecurityManager() {
 			@Override
 			public void checkPropertiesAccess() {
-				// see https://download.oracle.com/javase/1.5.0/docs/api/java/lang/System.html#getProperties()
+				// see
+				// https://download.oracle.com/javase/1.5.0/docs/api/java/lang/System.html#getProperties()
 				throw new AccessControlException("Accessing the system properties is disallowed");
 			}
+
 			@Override
 			public void checkPropertyAccess(String key) {
-				// see https://download.oracle.com/javase/1.5.0/docs/api/java/lang/System.html#getProperty(java.lang.String)
+				// see
+				// https://download.oracle.com/javase/1.5.0/docs/api/java/lang/System.html#getProperty(java.lang.String)
 				if (DISALLOWED_PROPERTY_NAME.equals(key)) {
-					throw new AccessControlException(
-							String.format("Accessing the system property [%s] is disallowed", DISALLOWED_PROPERTY_NAME));
+					throw new AccessControlException(String.format("Accessing the system property [%s] is disallowed",
+							DISALLOWED_PROPERTY_NAME));
 				}
 			}
+
 			@Override
 			public void checkPermission(Permission perm) {
 				// allow everything else
@@ -427,22 +438,23 @@ public class StandardEnvironmentTests {
 				Map<?, ?> systemProperties = environment.getSystemProperties();
 				assertThat(systemProperties).isNotNull();
 				assertThat(systemProperties).isInstanceOf(ReadOnlySystemAttributesMap.class);
-				assertThat((String)systemProperties.get(ALLOWED_PROPERTY_NAME)).isEqualTo(ALLOWED_PROPERTY_VALUE);
+				assertThat((String) systemProperties.get(ALLOWED_PROPERTY_NAME)).isEqualTo(ALLOWED_PROPERTY_VALUE);
 				assertThat(systemProperties.get(DISALLOWED_PROPERTY_NAME)).isNull();
 
 				// nothing we can do here in terms of warning the user that there was
 				// actually a (non-string) value available. By this point, we only
 				// have access to calling System.getProperty(), which itself returns null
-				// if the value is non-string.  So we're stuck with returning a potentially
+				// if the value is non-string. So we're stuck with returning a potentially
 				// misleading null.
 				assertThat(systemProperties.get(STRING_PROPERTY_NAME)).isNull();
 
-				// in the case of a non-string *key*, however, we can do better.  Alert
+				// in the case of a non-string *key*, however, we can do better. Alert
 				// the user that under these very special conditions (non-object key +
 				// SecurityManager that disallows access to system properties), they
 				// cannot do what they're attempting.
-				assertThatIllegalArgumentException().as("searching with non-string key against ReadOnlySystemAttributesMap").isThrownBy(() ->
-				systemProperties.get(NON_STRING_PROPERTY_NAME));
+				assertThatIllegalArgumentException()
+						.as("searching with non-string key against ReadOnlySystemAttributesMap")
+						.isThrownBy(() -> systemProperties.get(NON_STRING_PROPERTY_NAME));
 			}
 		}
 		finally {
@@ -469,14 +481,16 @@ public class StandardEnvironmentTests {
 		SecurityManager securityManager = new SecurityManager() {
 			@Override
 			public void checkPermission(Permission perm) {
-				//see https://download.oracle.com/javase/1.5.0/docs/api/java/lang/System.html#getenv()
+				// see
+				// https://download.oracle.com/javase/1.5.0/docs/api/java/lang/System.html#getenv()
 				if ("getenv.*".equals(perm.getName())) {
 					throw new AccessControlException("Accessing the system environment is disallowed");
 				}
-				//see https://download.oracle.com/javase/1.5.0/docs/api/java/lang/System.html#getenv(java.lang.String)
-				if (("getenv."+DISALLOWED_PROPERTY_NAME).equals(perm.getName())) {
-					throw new AccessControlException(
-						String.format("Accessing the system environment variable [%s] is disallowed", DISALLOWED_PROPERTY_NAME));
+				// see
+				// https://download.oracle.com/javase/1.5.0/docs/api/java/lang/System.html#getenv(java.lang.String)
+				if (("getenv." + DISALLOWED_PROPERTY_NAME).equals(perm.getName())) {
+					throw new AccessControlException(String.format(
+							"Accessing the system environment variable [%s] is disallowed", DISALLOWED_PROPERTY_NAME));
 				}
 			}
 		};

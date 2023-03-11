@@ -21,8 +21,8 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.orm.ObjectRetrievalFailureException;
 
 /**
- * JPA-specific subclass of ObjectRetrievalFailureException.
- * Converts JPA's EntityNotFoundException.
+ * JPA-specific subclass of ObjectRetrievalFailureException. Converts JPA's
+ * EntityNotFoundException.
  *
  * @author Juergen Hoeller
  * @since 2.0

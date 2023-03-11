@@ -28,8 +28,8 @@ import org.xml.sax.ext.LexicalHandler;
 import org.springframework.lang.Nullable;
 
 /**
- * Abstract base class for SAX {@code XMLReader} implementations.
- * Contains properties as defined in {@link XMLReader}, and does not recognize any features.
+ * Abstract base class for SAX {@code XMLReader} implementations. Contains properties as
+ * defined in {@link XMLReader}, and does not recognize any features.
  *
  * @author Arjen Poutsma
  * @author Juergen Hoeller
@@ -55,7 +55,6 @@ abstract class AbstractXMLReader implements XMLReader {
 
 	@Nullable
 	private LexicalHandler lexicalHandler;
-
 
 	@Override
 	public void setContentHandler(@Nullable ContentHandler contentHandler) {
@@ -106,11 +105,10 @@ abstract class AbstractXMLReader implements XMLReader {
 		return this.lexicalHandler;
 	}
 
-
 	/**
-	 * This implementation throws a {@code SAXNotRecognizedException} exception
-	 * for any feature outside of the "http://xml.org/sax/features/" namespace
-	 * and returns {@code false} for any feature within.
+	 * This implementation throws a {@code SAXNotRecognizedException} exception for any
+	 * feature outside of the "http://xml.org/sax/features/" namespace and returns
+	 * {@code false} for any feature within.
 	 */
 	@Override
 	public boolean getFeature(String name) throws SAXNotRecognizedException, SAXNotSupportedException {
@@ -123,9 +121,9 @@ abstract class AbstractXMLReader implements XMLReader {
 	}
 
 	/**
-	 * This implementation throws a {@code SAXNotRecognizedException} exception
-	 * for any feature outside of the "http://xml.org/sax/features/" namespace
-	 * and accepts a {@code false} value for any feature within.
+	 * This implementation throws a {@code SAXNotRecognizedException} exception for any
+	 * feature outside of the "http://xml.org/sax/features/" namespace and accepts a
+	 * {@code false} value for any feature within.
 	 */
 	@Override
 	public void setFeature(String name, boolean value) throws SAXNotRecognizedException, SAXNotSupportedException {
@@ -140,8 +138,9 @@ abstract class AbstractXMLReader implements XMLReader {
 	}
 
 	/**
-	 * Throws a {@code SAXNotRecognizedException} exception when the given property does not signify a lexical
-	 * handler. The property name for a lexical handler is {@code http://xml.org/sax/properties/lexical-handler}.
+	 * Throws a {@code SAXNotRecognizedException} exception when the given property does
+	 * not signify a lexical handler. The property name for a lexical handler is
+	 * {@code http://xml.org/sax/properties/lexical-handler}.
 	 */
 	@Override
 	@Nullable
@@ -155,8 +154,9 @@ abstract class AbstractXMLReader implements XMLReader {
 	}
 
 	/**
-	 * Throws a {@code SAXNotRecognizedException} exception when the given property does not signify a lexical
-	 * handler. The property name for a lexical handler is {@code http://xml.org/sax/properties/lexical-handler}.
+	 * Throws a {@code SAXNotRecognizedException} exception when the given property does
+	 * not signify a lexical handler. The property name for a lexical handler is
+	 * {@code http://xml.org/sax/properties/lexical-handler}.
 	 */
 	@Override
 	public void setProperty(String name, Object value) throws SAXNotRecognizedException, SAXNotSupportedException {

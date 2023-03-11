@@ -58,7 +58,6 @@ public class UndertowTestServer implements WebSocketTestServer {
 
 	private DeploymentManager manager;
 
-
 	@Override
 	public void setup() {
 	}
@@ -67,24 +66,22 @@ public class UndertowTestServer implements WebSocketTestServer {
 	@SuppressWarnings("deprecation")
 	public void deployConfig(WebApplicationContext wac, Filter... filters) {
 		DispatcherServletInstanceFactory servletFactory = new DispatcherServletInstanceFactory(wac);
-		// manually building WebSocketDeploymentInfo in order to avoid class cast exceptions
+		// manually building WebSocketDeploymentInfo in order to avoid class cast
+		// exceptions
 		// with tomcat's implementation when using undertow 1.1.0+
 		WebSocketDeploymentInfo info = new WebSocketDeploymentInfo();
 		try {
 			info.setWorker(Xnio.getInstance().createWorker(OptionMap.EMPTY));
-			info.setBuffers(new org.xnio.ByteBufferSlicePool(1024,1024));
+			info.setBuffers(new org.xnio.ByteBufferSlicePool(1024, 1024));
 		}
 		catch (IOException ex) {
 			throw new IllegalStateException(ex);
 		}
 
-		ServletInfo servletInfo = servlet("DispatcherServlet", DispatcherServlet.class, servletFactory)
-				.addMapping("/").setAsyncSupported(true);
-		DeploymentInfo servletBuilder = deployment()
-				.setClassLoader(UndertowTestServer.class.getClassLoader())
-				.setDeploymentName("undertow-websocket-test")
-				.setContextPath("/")
-				.addServlet(servletInfo)
+		ServletInfo servletInfo = servlet("DispatcherServlet", DispatcherServlet.class, servletFactory).addMapping("/")
+				.setAsyncSupported(true);
+		DeploymentInfo servletBuilder = deployment().setClassLoader(UndertowTestServer.class.getClassLoader())
+				.setDeploymentName("undertow-websocket-test").setContextPath("/").addServlet(servletInfo)
 				.addServletContextAttribute(WebSocketDeploymentInfo.ATTRIBUTE_NAME, info);
 		for (final Filter filter : filters) {
 			String filterName = filter.getClass().getName();
@@ -134,7 +131,6 @@ public class UndertowTestServer implements WebSocketTestServer {
 		return this.manager.getDeployment().getServletContext();
 	}
 
-
 	private static class DispatcherServletInstanceFactory implements InstanceFactory<Servlet> {
 
 		private final WebApplicationContext wac;
@@ -150,13 +146,14 @@ public class UndertowTestServer implements WebSocketTestServer {
 				public Servlet getInstance() {
 					return new DispatcherServlet(wac);
 				}
+
 				@Override
 				public void release() {
 				}
 			};
 		}
-	}
 
+	}
 
 	private static class FilterInstanceFactory implements InstanceFactory<Filter> {
 
@@ -173,10 +170,13 @@ public class UndertowTestServer implements WebSocketTestServer {
 				public Filter getInstance() {
 					return filter;
 				}
+
 				@Override
-				public void release() {}
+				public void release() {
+				}
 			};
 		}
+
 	}
 
 }

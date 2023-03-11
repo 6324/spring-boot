@@ -36,18 +36,18 @@ public class JmsDestinationAccessorTests {
 
 		JmsDestinationAccessor accessor = new StubJmsDestinationAccessor();
 		accessor.setConnectionFactory(connectionFactory);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				accessor.setDestinationResolver(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> accessor.setDestinationResolver(null));
 	}
 
 	@Test
 	public void testSessionTransactedModeReallyDoesDefaultToFalse() throws Exception {
 		JmsDestinationAccessor accessor = new StubJmsDestinationAccessor();
-		assertThat(accessor.isPubSubDomain()).as("The [pubSubDomain] property of JmsDestinationAccessor must default to " +
-				"false (i.e. Queues are used by default). Change this test (and the " +
-				"attendant Javadoc) if you have changed the default.").isFalse();
+		assertThat(accessor.isPubSubDomain())
+				.as("The [pubSubDomain] property of JmsDestinationAccessor must default to "
+						+ "false (i.e. Queues are used by default). Change this test (and the "
+						+ "attendant Javadoc) if you have changed the default.")
+				.isFalse();
 	}
-
 
 	private static class StubJmsDestinationAccessor extends JmsDestinationAccessor {
 

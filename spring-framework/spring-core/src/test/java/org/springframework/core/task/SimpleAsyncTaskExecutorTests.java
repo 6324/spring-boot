@@ -38,14 +38,14 @@ class SimpleAsyncTaskExecutorTests {
 		SimpleAsyncTaskExecutor executor = new SimpleAsyncTaskExecutor();
 		executor.setConcurrencyLimit(ConcurrencyThrottleSupport.NO_CONCURRENCY);
 		assertThat(executor.isThrottleActive()).isTrue();
-		assertThatIllegalStateException().isThrownBy(() ->
-				executor.execute(new NoOpRunnable()));
+		assertThatIllegalStateException().isThrownBy(() -> executor.execute(new NoOpRunnable()));
 	}
 
 	@Test
 	void throttleIsNotActiveByDefault() throws Exception {
 		SimpleAsyncTaskExecutor executor = new SimpleAsyncTaskExecutor();
-		assertThat(executor.isThrottleActive()).as("Concurrency throttle must not default to being active (on)").isFalse();
+		assertThat(executor.isThrottleActive()).as("Concurrency throttle must not default to being active (on)")
+				.isFalse();
 	}
 
 	@Test
@@ -74,8 +74,7 @@ class SimpleAsyncTaskExecutorTests {
 
 	@Test
 	void throwsExceptionWhenSuppliedWithNullRunnable() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new SimpleAsyncTaskExecutor().execute(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new SimpleAsyncTaskExecutor().execute(null));
 	}
 
 	private void executeAndWait(SimpleAsyncTaskExecutor executor, Runnable task, Object monitor) {
@@ -89,15 +88,14 @@ class SimpleAsyncTaskExecutorTests {
 		}
 	}
 
-
 	private static final class NoOpRunnable implements Runnable {
 
 		@Override
 		public void run() {
 			// no-op
 		}
-	}
 
+	}
 
 	private static abstract class AbstractNotifyingRunnable implements Runnable {
 
@@ -120,8 +118,8 @@ class SimpleAsyncTaskExecutorTests {
 		}
 
 		protected abstract void doRun();
-	}
 
+	}
 
 	private static final class ThreadNameHarvester extends AbstractNotifyingRunnable {
 
@@ -139,6 +137,7 @@ class SimpleAsyncTaskExecutorTests {
 		protected void doRun() {
 			this.threadName = Thread.currentThread().getName();
 		}
+
 	}
 
 }

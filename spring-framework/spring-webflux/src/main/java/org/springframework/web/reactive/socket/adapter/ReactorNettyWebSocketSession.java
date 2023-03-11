@@ -30,7 +30,6 @@ import org.springframework.web.reactive.socket.HandshakeInfo;
 import org.springframework.web.reactive.socket.WebSocketMessage;
 import org.springframework.web.reactive.socket.WebSocketSession;
 
-
 /**
  * {@link WebSocketSession} implementation for use with the Reactor Netty's
  * {@link NettyInbound} and {@link NettyOutbound}.
@@ -43,12 +42,11 @@ public class ReactorNettyWebSocketSession
 
 	private final int maxFramePayloadLength;
 
-
 	/**
 	 * Constructor for the session, using the {@link #DEFAULT_FRAME_MAX_SIZE} value.
 	 */
-	public ReactorNettyWebSocketSession(WebsocketInbound inbound, WebsocketOutbound outbound,
-			HandshakeInfo info, NettyDataBufferFactory bufferFactory) {
+	public ReactorNettyWebSocketSession(WebsocketInbound inbound, WebsocketOutbound outbound, HandshakeInfo info,
+			NettyDataBufferFactory bufferFactory) {
 
 		this(inbound, outbound, info, bufferFactory, DEFAULT_FRAME_MAX_SIZE);
 	}
@@ -57,22 +55,17 @@ public class ReactorNettyWebSocketSession
 	 * Constructor with an additional maxFramePayloadLength argument.
 	 * @since 5.1
 	 */
-	public ReactorNettyWebSocketSession(WebsocketInbound inbound, WebsocketOutbound outbound,
-			HandshakeInfo info, NettyDataBufferFactory bufferFactory,
-			int maxFramePayloadLength) {
+	public ReactorNettyWebSocketSession(WebsocketInbound inbound, WebsocketOutbound outbound, HandshakeInfo info,
+			NettyDataBufferFactory bufferFactory, int maxFramePayloadLength) {
 
 		super(new WebSocketConnection(inbound, outbound), info, bufferFactory);
 		this.maxFramePayloadLength = maxFramePayloadLength;
 	}
 
-
 	@Override
 	public Flux<WebSocketMessage> receive() {
-		return getDelegate().getInbound()
-				.aggregateFrames(this.maxFramePayloadLength)
-				.receiveFrames()
-				.map(super::toMessage)
-				.doOnNext(message -> {
+		return getDelegate().getInbound().aggregateFrames(this.maxFramePayloadLength).receiveFrames()
+				.map(super::toMessage).doOnNext(message -> {
 					if (logger.isTraceEnabled()) {
 						logger.trace(getLogPrefix() + "Received " + message);
 					}
@@ -81,23 +74,18 @@ public class ReactorNettyWebSocketSession
 
 	@Override
 	public Mono<Void> send(Publisher<WebSocketMessage> messages) {
-		Flux<WebSocketFrame> frames = Flux.from(messages)
-				.doOnNext(message -> {
-					if (logger.isTraceEnabled()) {
-						logger.trace(getLogPrefix() + "Sending " + message);
-					}
-				})
-				.map(this::toFrame);
-		return getDelegate().getOutbound()
-				.sendObject(frames)
-				.then();
+		Flux<WebSocketFrame> frames = Flux.from(messages).doOnNext(message -> {
+			if (logger.isTraceEnabled()) {
+				logger.trace(getLogPrefix() + "Sending " + message);
+			}
+		}).map(this::toFrame);
+		return getDelegate().getOutbound().sendObject(frames).then();
 	}
 
 	@Override
 	public Mono<Void> close(CloseStatus status) {
 		return getDelegate().getOutbound().sendClose(status.getCode(), status.getReason());
 	}
-
 
 	/**
 	 * Simple container for {@link NettyInbound} and {@link NettyOutbound}.
@@ -107,7 +95,6 @@ public class ReactorNettyWebSocketSession
 		private final WebsocketInbound inbound;
 
 		private final WebsocketOutbound outbound;
-
 
 		public WebSocketConnection(WebsocketInbound inbound, WebsocketOutbound outbound) {
 			this.inbound = inbound;
@@ -121,6 +108,7 @@ public class ReactorNettyWebSocketSession
 		public WebsocketOutbound getOutbound() {
 			return this.outbound;
 		}
+
 	}
 
 }

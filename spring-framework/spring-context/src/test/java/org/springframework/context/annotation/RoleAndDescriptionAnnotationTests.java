@@ -24,9 +24,9 @@ import org.springframework.context.annotation.role.ComponentWithoutRole;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
- * Tests the use of the @Role and @Description annotation on @Bean methods and @Component classes.
+ * Tests the use of the @Role and @Description annotation on @Bean methods and @Component
+ * classes.
  *
  * @author Chris Beams
  * @author Juergen Hoeller
@@ -56,7 +56,6 @@ public class RoleAndDescriptionAnnotationTests {
 		assertThat(ctx.getBeanDefinition("componentWithRole").getDescription()).isEqualTo("A Component with a role");
 	}
 
-
 	@Test
 	public void viaComponentScanning() {
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
@@ -68,9 +67,9 @@ public class RoleAndDescriptionAnnotationTests {
 		assertThat(ctx.getBeanDefinition("componentWithRole").getDescription()).isEqualTo("A Component with a role");
 	}
 
-
 	@Configuration
 	static class Config {
+
 		@Bean
 		public String foo() {
 			return "foo";
@@ -82,6 +81,7 @@ public class RoleAndDescriptionAnnotationTests {
 		public String bar() {
 			return "bar";
 		}
+
 	}
 
 }

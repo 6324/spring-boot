@@ -34,7 +34,6 @@ public class WebClientResponseException extends WebClientException {
 
 	private static final long serialVersionUID = 4127543205414951611L;
 
-
 	private final int statusCode;
 
 	private final String statusText;
@@ -48,13 +47,12 @@ public class WebClientResponseException extends WebClientException {
 	@Nullable
 	private final HttpRequest request;
 
-
 	/**
 	 * Constructor with response data only, and a default message.
 	 * @since 5.1
 	 */
-	public WebClientResponseException(int statusCode, String statusText,
-			@Nullable HttpHeaders headers, @Nullable byte[] body, @Nullable Charset charset) {
+	public WebClientResponseException(int statusCode, String statusText, @Nullable HttpHeaders headers,
+			@Nullable byte[] body, @Nullable Charset charset) {
 
 		this(statusCode, statusText, headers, body, charset, null);
 	}
@@ -63,23 +61,22 @@ public class WebClientResponseException extends WebClientException {
 	 * Constructor with response data only, and a default message.
 	 * @since 5.1.4
 	 */
-	public WebClientResponseException(int status, String reasonPhrase,
-			@Nullable HttpHeaders headers, @Nullable byte[] body, @Nullable Charset charset,
-			@Nullable HttpRequest request) {
+	public WebClientResponseException(int status, String reasonPhrase, @Nullable HttpHeaders headers,
+			@Nullable byte[] body, @Nullable Charset charset, @Nullable HttpRequest request) {
 
 		this(initMessage(status, reasonPhrase, request), status, reasonPhrase, headers, body, charset, request);
 	}
 
 	private static String initMessage(int status, String reasonPhrase, @Nullable HttpRequest request) {
-		return status + " " + reasonPhrase +
-				(request != null ? " from " + request.getMethodValue() + " " + request.getURI() : "");
+		return status + " " + reasonPhrase
+				+ (request != null ? " from " + request.getMethodValue() + " " + request.getURI() : "");
 	}
 
 	/**
 	 * Constructor with a prepared message.
 	 */
-	public WebClientResponseException(String message, int statusCode, String statusText,
-			@Nullable HttpHeaders headers, @Nullable byte[] responseBody, @Nullable Charset charset) {
+	public WebClientResponseException(String message, int statusCode, String statusText, @Nullable HttpHeaders headers,
+			@Nullable byte[] responseBody, @Nullable Charset charset) {
 		this(message, statusCode, statusText, headers, responseBody, charset, null);
 	}
 
@@ -87,9 +84,8 @@ public class WebClientResponseException extends WebClientException {
 	 * Constructor with a prepared message.
 	 * @since 5.1.4
 	 */
-	public WebClientResponseException(String message, int statusCode, String statusText,
-			@Nullable HttpHeaders headers, @Nullable byte[] responseBody, @Nullable Charset charset,
-			@Nullable HttpRequest request) {
+	public WebClientResponseException(String message, int statusCode, String statusText, @Nullable HttpHeaders headers,
+			@Nullable byte[] responseBody, @Nullable Charset charset, @Nullable HttpRequest request) {
 
 		super(message);
 
@@ -100,7 +96,6 @@ public class WebClientResponseException extends WebClientException {
 		this.responseCharset = (charset != null ? charset : StandardCharsets.ISO_8859_1);
 		this.request = request;
 	}
-
 
 	/**
 	 * Return the HTTP status code value.
@@ -158,8 +153,8 @@ public class WebClientResponseException extends WebClientException {
 	 * Create {@code WebClientResponseException} or an HTTP status specific subclass.
 	 * @since 5.1
 	 */
-	public static WebClientResponseException create(
-			int statusCode, String statusText, HttpHeaders headers, byte[] body, @Nullable Charset charset) {
+	public static WebClientResponseException create(int statusCode, String statusText, HttpHeaders headers, byte[] body,
+			@Nullable Charset charset) {
 
 		return create(statusCode, statusText, headers, body, charset, null);
 	}
@@ -168,56 +163,54 @@ public class WebClientResponseException extends WebClientException {
 	 * Create {@code WebClientResponseException} or an HTTP status specific subclass.
 	 * @since 5.1.4
 	 */
-	public static WebClientResponseException create(
-			int statusCode, String statusText, HttpHeaders headers, byte[] body,
+	public static WebClientResponseException create(int statusCode, String statusText, HttpHeaders headers, byte[] body,
 			@Nullable Charset charset, @Nullable HttpRequest request) {
 
 		HttpStatus httpStatus = HttpStatus.resolve(statusCode);
 		if (httpStatus != null) {
 			switch (httpStatus) {
-				case BAD_REQUEST:
-					return new WebClientResponseException.BadRequest(statusText, headers, body, charset, request);
-				case UNAUTHORIZED:
-					return new WebClientResponseException.Unauthorized(statusText, headers, body, charset, request);
-				case FORBIDDEN:
-					return new WebClientResponseException.Forbidden(statusText, headers, body, charset, request);
-				case NOT_FOUND:
-					return new WebClientResponseException.NotFound(statusText, headers, body, charset, request);
-				case METHOD_NOT_ALLOWED:
-					return new WebClientResponseException.MethodNotAllowed(statusText, headers, body, charset, request);
-				case NOT_ACCEPTABLE:
-					return new WebClientResponseException.NotAcceptable(statusText, headers, body, charset, request);
-				case CONFLICT:
-					return new WebClientResponseException.Conflict(statusText, headers, body, charset, request);
-				case GONE:
-					return new WebClientResponseException.Gone(statusText, headers, body, charset, request);
-				case UNSUPPORTED_MEDIA_TYPE:
-					return new WebClientResponseException.UnsupportedMediaType(statusText, headers, body, charset, request);
-				case TOO_MANY_REQUESTS:
-					return new WebClientResponseException.TooManyRequests(statusText, headers, body, charset, request);
-				case UNPROCESSABLE_ENTITY:
-					return new WebClientResponseException.UnprocessableEntity(statusText, headers, body, charset, request);
-				case INTERNAL_SERVER_ERROR:
-					return new WebClientResponseException.InternalServerError(statusText, headers, body, charset, request);
-				case NOT_IMPLEMENTED:
-					return new WebClientResponseException.NotImplemented(statusText, headers, body, charset, request);
-				case BAD_GATEWAY:
-					return new WebClientResponseException.BadGateway(statusText, headers, body, charset, request);
-				case SERVICE_UNAVAILABLE:
-					return new WebClientResponseException.ServiceUnavailable(statusText, headers, body, charset, request);
-				case GATEWAY_TIMEOUT:
-					return new WebClientResponseException.GatewayTimeout(statusText, headers, body, charset, request);
+			case BAD_REQUEST:
+				return new WebClientResponseException.BadRequest(statusText, headers, body, charset, request);
+			case UNAUTHORIZED:
+				return new WebClientResponseException.Unauthorized(statusText, headers, body, charset, request);
+			case FORBIDDEN:
+				return new WebClientResponseException.Forbidden(statusText, headers, body, charset, request);
+			case NOT_FOUND:
+				return new WebClientResponseException.NotFound(statusText, headers, body, charset, request);
+			case METHOD_NOT_ALLOWED:
+				return new WebClientResponseException.MethodNotAllowed(statusText, headers, body, charset, request);
+			case NOT_ACCEPTABLE:
+				return new WebClientResponseException.NotAcceptable(statusText, headers, body, charset, request);
+			case CONFLICT:
+				return new WebClientResponseException.Conflict(statusText, headers, body, charset, request);
+			case GONE:
+				return new WebClientResponseException.Gone(statusText, headers, body, charset, request);
+			case UNSUPPORTED_MEDIA_TYPE:
+				return new WebClientResponseException.UnsupportedMediaType(statusText, headers, body, charset, request);
+			case TOO_MANY_REQUESTS:
+				return new WebClientResponseException.TooManyRequests(statusText, headers, body, charset, request);
+			case UNPROCESSABLE_ENTITY:
+				return new WebClientResponseException.UnprocessableEntity(statusText, headers, body, charset, request);
+			case INTERNAL_SERVER_ERROR:
+				return new WebClientResponseException.InternalServerError(statusText, headers, body, charset, request);
+			case NOT_IMPLEMENTED:
+				return new WebClientResponseException.NotImplemented(statusText, headers, body, charset, request);
+			case BAD_GATEWAY:
+				return new WebClientResponseException.BadGateway(statusText, headers, body, charset, request);
+			case SERVICE_UNAVAILABLE:
+				return new WebClientResponseException.ServiceUnavailable(statusText, headers, body, charset, request);
+			case GATEWAY_TIMEOUT:
+				return new WebClientResponseException.GatewayTimeout(statusText, headers, body, charset, request);
 			}
 		}
 		return new WebClientResponseException(statusCode, statusText, headers, body, charset, request);
 	}
 
-
-
 	// Subclasses for specific, client-side, HTTP status codes
 
 	/**
 	 * {@link WebClientResponseException} for status HTTP 400 Bad Request.
+	 *
 	 * @since 5.1
 	 */
 	@SuppressWarnings("serial")
@@ -232,6 +225,7 @@ public class WebClientResponseException extends WebClientException {
 
 	/**
 	 * {@link WebClientResponseException} for status HTTP 401 Unauthorized.
+	 *
 	 * @since 5.1
 	 */
 	@SuppressWarnings("serial")
@@ -241,10 +235,12 @@ public class WebClientResponseException extends WebClientException {
 				@Nullable HttpRequest request) {
 			super(HttpStatus.UNAUTHORIZED.value(), statusText, headers, body, charset, request);
 		}
+
 	}
 
 	/**
 	 * {@link WebClientResponseException} for status HTTP 403 Forbidden.
+	 *
 	 * @since 5.1
 	 */
 	@SuppressWarnings("serial")
@@ -254,10 +250,12 @@ public class WebClientResponseException extends WebClientException {
 				@Nullable HttpRequest request) {
 			super(HttpStatus.FORBIDDEN.value(), statusText, headers, body, charset, request);
 		}
+
 	}
 
 	/**
 	 * {@link WebClientResponseException} for status HTTP 404 Not Found.
+	 *
 	 * @since 5.1
 	 */
 	@SuppressWarnings("serial")
@@ -267,37 +265,42 @@ public class WebClientResponseException extends WebClientException {
 				@Nullable HttpRequest request) {
 			super(HttpStatus.NOT_FOUND.value(), statusText, headers, body, charset, request);
 		}
+
 	}
 
 	/**
 	 * {@link WebClientResponseException} for status HTTP 405 Method Not Allowed.
+	 *
 	 * @since 5.1
 	 */
 	@SuppressWarnings("serial")
 	public static class MethodNotAllowed extends WebClientResponseException {
 
-		MethodNotAllowed(String statusText, HttpHeaders headers, byte[] body,
-				@Nullable Charset charset, @Nullable HttpRequest request) {
-			super(HttpStatus.METHOD_NOT_ALLOWED.value(), statusText, headers, body, charset,
-					request);
+		MethodNotAllowed(String statusText, HttpHeaders headers, byte[] body, @Nullable Charset charset,
+				@Nullable HttpRequest request) {
+			super(HttpStatus.METHOD_NOT_ALLOWED.value(), statusText, headers, body, charset, request);
 		}
+
 	}
 
 	/**
 	 * {@link WebClientResponseException} for status HTTP 406 Not Acceptable.
+	 *
 	 * @since 5.1
 	 */
 	@SuppressWarnings("serial")
 	public static class NotAcceptable extends WebClientResponseException {
 
-		NotAcceptable(String statusText, HttpHeaders headers, byte[] body,
-				@Nullable Charset charset, @Nullable HttpRequest request) {
+		NotAcceptable(String statusText, HttpHeaders headers, byte[] body, @Nullable Charset charset,
+				@Nullable HttpRequest request) {
 			super(HttpStatus.NOT_ACCEPTABLE.value(), statusText, headers, body, charset, request);
 		}
+
 	}
 
 	/**
 	 * {@link WebClientResponseException} for status HTTP 409 Conflict.
+	 *
 	 * @since 5.1
 	 */
 	@SuppressWarnings("serial")
@@ -307,10 +310,12 @@ public class WebClientResponseException extends WebClientException {
 				@Nullable HttpRequest request) {
 			super(HttpStatus.CONFLICT.value(), statusText, headers, body, charset, request);
 		}
+
 	}
 
 	/**
 	 * {@link WebClientResponseException} for status HTTP 410 Gone.
+	 *
 	 * @since 5.1
 	 */
 	@SuppressWarnings("serial")
@@ -320,84 +325,90 @@ public class WebClientResponseException extends WebClientException {
 				@Nullable HttpRequest request) {
 			super(HttpStatus.GONE.value(), statusText, headers, body, charset, request);
 		}
+
 	}
 
 	/**
 	 * {@link WebClientResponseException} for status HTTP 415 Unsupported Media Type.
+	 *
 	 * @since 5.1
 	 */
 	@SuppressWarnings("serial")
 	public static class UnsupportedMediaType extends WebClientResponseException {
 
-		UnsupportedMediaType(String statusText, HttpHeaders headers, byte[] body,
-				@Nullable Charset charset, @Nullable HttpRequest request) {
+		UnsupportedMediaType(String statusText, HttpHeaders headers, byte[] body, @Nullable Charset charset,
+				@Nullable HttpRequest request) {
 
-			super(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value(), statusText, headers, body, charset,
-					request);
+			super(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value(), statusText, headers, body, charset, request);
 		}
+
 	}
 
 	/**
 	 * {@link WebClientResponseException} for status HTTP 422 Unprocessable Entity.
+	 *
 	 * @since 5.1
 	 */
 	@SuppressWarnings("serial")
 	public static class UnprocessableEntity extends WebClientResponseException {
 
-		UnprocessableEntity(String statusText, HttpHeaders headers, byte[] body,
-				@Nullable Charset charset, @Nullable HttpRequest request) {
-			super(HttpStatus.UNPROCESSABLE_ENTITY.value(), statusText, headers, body, charset,
-					request);
+		UnprocessableEntity(String statusText, HttpHeaders headers, byte[] body, @Nullable Charset charset,
+				@Nullable HttpRequest request) {
+			super(HttpStatus.UNPROCESSABLE_ENTITY.value(), statusText, headers, body, charset, request);
 		}
+
 	}
 
 	/**
 	 * {@link WebClientResponseException} for status HTTP 429 Too Many Requests.
+	 *
 	 * @since 5.1
 	 */
 	@SuppressWarnings("serial")
 	public static class TooManyRequests extends WebClientResponseException {
 
-		TooManyRequests(String statusText, HttpHeaders headers, byte[] body,
-				@Nullable Charset charset, @Nullable HttpRequest request) {
-			super(HttpStatus.TOO_MANY_REQUESTS.value(), statusText, headers, body, charset,
-					request);
+		TooManyRequests(String statusText, HttpHeaders headers, byte[] body, @Nullable Charset charset,
+				@Nullable HttpRequest request) {
+			super(HttpStatus.TOO_MANY_REQUESTS.value(), statusText, headers, body, charset, request);
 		}
+
 	}
-
-
 
 	// Subclasses for specific, server-side, HTTP status codes
 
 	/**
 	 * {@link WebClientResponseException} for status HTTP 500 Internal Server Error.
+	 *
 	 * @since 5.1
 	 */
 	@SuppressWarnings("serial")
 	public static class InternalServerError extends WebClientResponseException {
 
-		InternalServerError(String statusText, HttpHeaders headers, byte[] body,
-				@Nullable Charset charset, @Nullable HttpRequest request) {
-			super(HttpStatus.INTERNAL_SERVER_ERROR.value(), statusText, headers, body, charset,
-					request);
+		InternalServerError(String statusText, HttpHeaders headers, byte[] body, @Nullable Charset charset,
+				@Nullable HttpRequest request) {
+			super(HttpStatus.INTERNAL_SERVER_ERROR.value(), statusText, headers, body, charset, request);
 		}
+
 	}
 
 	/**
 	 * {@link WebClientResponseException} for status HTTP 501 Not Implemented.
+	 *
 	 * @since 5.1
 	 */
 	@SuppressWarnings("serial")
 	public static class NotImplemented extends WebClientResponseException {
 
-		NotImplemented(String statusText, HttpHeaders headers, byte[] body,
-				@Nullable Charset charset, @Nullable HttpRequest request) {
+		NotImplemented(String statusText, HttpHeaders headers, byte[] body, @Nullable Charset charset,
+				@Nullable HttpRequest request) {
 			super(HttpStatus.NOT_IMPLEMENTED.value(), statusText, headers, body, charset, request);
 		}
+
 	}
 
 	/**
 	 * {@link WebClientResponseException} for status HTTP HTTP 502 Bad Gateway.
+	 *
 	 * @since 5.1
 	 */
 	@SuppressWarnings("serial")
@@ -407,34 +418,37 @@ public class WebClientResponseException extends WebClientException {
 				@Nullable HttpRequest request) {
 			super(HttpStatus.BAD_GATEWAY.value(), statusText, headers, body, charset, request);
 		}
+
 	}
 
 	/**
 	 * {@link WebClientResponseException} for status HTTP 503 Service Unavailable.
+	 *
 	 * @since 5.1
 	 */
 	@SuppressWarnings("serial")
 	public static class ServiceUnavailable extends WebClientResponseException {
 
-		ServiceUnavailable(String statusText, HttpHeaders headers, byte[] body,
-				@Nullable Charset charset, @Nullable HttpRequest request) {
-			super(HttpStatus.SERVICE_UNAVAILABLE.value(), statusText, headers, body, charset,
-					request);
+		ServiceUnavailable(String statusText, HttpHeaders headers, byte[] body, @Nullable Charset charset,
+				@Nullable HttpRequest request) {
+			super(HttpStatus.SERVICE_UNAVAILABLE.value(), statusText, headers, body, charset, request);
 		}
+
 	}
 
 	/**
 	 * {@link WebClientResponseException} for status HTTP 504 Gateway Timeout.
+	 *
 	 * @since 5.1
 	 */
 	@SuppressWarnings("serial")
 	public static class GatewayTimeout extends WebClientResponseException {
 
-		GatewayTimeout(String statusText, HttpHeaders headers, byte[] body,
-				@Nullable Charset charset, @Nullable HttpRequest request) {
-			super(HttpStatus.GATEWAY_TIMEOUT.value(), statusText, headers, body, charset,
-					request);
+		GatewayTimeout(String statusText, HttpHeaders headers, byte[] body, @Nullable Charset charset,
+				@Nullable HttpRequest request) {
+			super(HttpStatus.GATEWAY_TIMEOUT.value(), statusText, headers, body, charset, request);
 		}
+
 	}
 
 }

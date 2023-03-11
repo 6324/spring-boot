@@ -29,12 +29,13 @@ import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.util.CollectionUtils;
 
 /**
- * A {@link WebSocketMessageBrokerConfigurationSupport} extension that detects
- * beans of type {@link WebSocketMessageBrokerConfigurer} and delegates to all
- * of them allowing callback style customization of the configuration provided
- * in {@link WebSocketMessageBrokerConfigurationSupport}.
+ * A {@link WebSocketMessageBrokerConfigurationSupport} extension that detects beans of
+ * type {@link WebSocketMessageBrokerConfigurer} and delegates to all of them allowing
+ * callback style customization of the configuration provided in
+ * {@link WebSocketMessageBrokerConfigurationSupport}.
  *
- * <p>This class is typically imported via {@link EnableWebSocketMessageBroker}.
+ * <p>
+ * This class is typically imported via {@link EnableWebSocketMessageBroker}.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -44,14 +45,12 @@ public class DelegatingWebSocketMessageBrokerConfiguration extends WebSocketMess
 
 	private final List<WebSocketMessageBrokerConfigurer> configurers = new ArrayList<>();
 
-
 	@Autowired(required = false)
 	public void setConfigurers(List<WebSocketMessageBrokerConfigurer> configurers) {
 		if (!CollectionUtils.isEmpty(configurers)) {
 			this.configurers.addAll(configurers);
 		}
 	}
-
 
 	@Override
 	protected void registerStompEndpoints(StompEndpointRegistry registry) {

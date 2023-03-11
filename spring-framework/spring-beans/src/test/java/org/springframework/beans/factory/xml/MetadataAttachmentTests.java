@@ -33,12 +33,11 @@ public class MetadataAttachmentTests {
 
 	private DefaultListableBeanFactory beanFactory;
 
-
 	@BeforeEach
 	public void setUp() throws Exception {
 		this.beanFactory = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(this.beanFactory).loadBeanDefinitions(
-				new ClassPathResource("withMeta.xml", getClass()));
+		new XmlBeanDefinitionReader(this.beanFactory)
+				.loadBeanDefinitions(new ClassPathResource("withMeta.xml", getClass()));
 	}
 
 	@Test

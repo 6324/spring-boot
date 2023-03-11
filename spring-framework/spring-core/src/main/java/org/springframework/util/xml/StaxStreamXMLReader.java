@@ -33,7 +33,8 @@ import org.springframework.util.StringUtils;
 
 /**
  * SAX {@code XMLReader} that reads from a StAX {@code XMLStreamReader}. Reads from an
- * {@code XMLStreamReader}, and calls the corresponding methods on the SAX callback interfaces.
+ * {@code XMLStreamReader}, and calls the corresponding methods on the SAX callback
+ * interfaces.
  *
  * @author Arjen Poutsma
  * @since 3.0
@@ -54,13 +55,14 @@ class StaxStreamXMLReader extends AbstractStaxXMLReader {
 	@Nullable
 	private String encoding;
 
-
 	/**
-	 * Construct a new instance of the {@code StaxStreamXmlReader} that reads from the given
-	 * {@code XMLStreamReader}. The supplied stream reader must be in {@code XMLStreamConstants.START_DOCUMENT}
-	 * or {@code XMLStreamConstants.START_ELEMENT} state.
+	 * Construct a new instance of the {@code StaxStreamXmlReader} that reads from the
+	 * given {@code XMLStreamReader}. The supplied stream reader must be in
+	 * {@code XMLStreamConstants.START_DOCUMENT} or
+	 * {@code XMLStreamConstants.START_ELEMENT} state.
 	 * @param reader the {@code XMLEventReader} to read from
-	 * @throws IllegalStateException if the reader is not at the start of a document or element
+	 * @throws IllegalStateException if the reader is not at the start of a document or
+	 * element
 	 */
 	StaxStreamXMLReader(XMLStreamReader reader) {
 		int event = reader.getEventType();
@@ -70,7 +72,6 @@ class StaxStreamXMLReader extends AbstractStaxXMLReader {
 		this.reader = reader;
 	}
 
-
 	@Override
 	protected void parseInternal() throws SAXException, XMLStreamException {
 		boolean documentStarted = false;
@@ -78,47 +79,47 @@ class StaxStreamXMLReader extends AbstractStaxXMLReader {
 		int elementDepth = 0;
 		int eventType = this.reader.getEventType();
 		while (true) {
-			if (eventType != XMLStreamConstants.START_DOCUMENT && eventType != XMLStreamConstants.END_DOCUMENT &&
-					!documentStarted) {
+			if (eventType != XMLStreamConstants.START_DOCUMENT && eventType != XMLStreamConstants.END_DOCUMENT
+					&& !documentStarted) {
 				handleStartDocument();
 				documentStarted = true;
 			}
 			switch (eventType) {
-				case XMLStreamConstants.START_ELEMENT:
-					elementDepth++;
-					handleStartElement();
-					break;
-				case XMLStreamConstants.END_ELEMENT:
-					elementDepth--;
-					if (elementDepth >= 0) {
-						handleEndElement();
-					}
-					break;
-				case XMLStreamConstants.PROCESSING_INSTRUCTION:
-					handleProcessingInstruction();
-					break;
-				case XMLStreamConstants.CHARACTERS:
-				case XMLStreamConstants.SPACE:
-				case XMLStreamConstants.CDATA:
-					handleCharacters();
-					break;
-				case XMLStreamConstants.START_DOCUMENT:
-					handleStartDocument();
-					documentStarted = true;
-					break;
-				case XMLStreamConstants.END_DOCUMENT:
-					handleEndDocument();
-					documentEnded = true;
-					break;
-				case XMLStreamConstants.COMMENT:
-					handleComment();
-					break;
-				case XMLStreamConstants.DTD:
-					handleDtd();
-					break;
-				case XMLStreamConstants.ENTITY_REFERENCE:
-					handleEntityReference();
-					break;
+			case XMLStreamConstants.START_ELEMENT:
+				elementDepth++;
+				handleStartElement();
+				break;
+			case XMLStreamConstants.END_ELEMENT:
+				elementDepth--;
+				if (elementDepth >= 0) {
+					handleEndElement();
+				}
+				break;
+			case XMLStreamConstants.PROCESSING_INSTRUCTION:
+				handleProcessingInstruction();
+				break;
+			case XMLStreamConstants.CHARACTERS:
+			case XMLStreamConstants.SPACE:
+			case XMLStreamConstants.CDATA:
+				handleCharacters();
+				break;
+			case XMLStreamConstants.START_DOCUMENT:
+				handleStartDocument();
+				documentStarted = true;
+				break;
+			case XMLStreamConstants.END_DOCUMENT:
+				handleEndDocument();
+				documentEnded = true;
+				break;
+			case XMLStreamConstants.COMMENT:
+				handleComment();
+				break;
+			case XMLStreamConstants.DTD:
+				handleDtd();
+				break;
+			case XMLStreamConstants.ENTITY_REFERENCE:
+				handleEntityReference();
+				break;
 			}
 			if (this.reader.hasNext() && elementDepth >= 0) {
 				eventType = this.reader.next();
@@ -149,24 +150,29 @@ class StaxStreamXMLReader extends AbstractStaxXMLReader {
 				public int getColumnNumber() {
 					return (location != null ? location.getColumnNumber() : -1);
 				}
+
 				@Override
 				public int getLineNumber() {
 					return (location != null ? location.getLineNumber() : -1);
 				}
+
 				@Override
 				@Nullable
 				public String getPublicId() {
 					return (location != null ? location.getPublicId() : null);
 				}
+
 				@Override
 				@Nullable
 				public String getSystemId() {
 					return (location != null ? location.getSystemId() : null);
 				}
+
 				@Override
 				public String getXMLVersion() {
 					return xmlVersion;
 				}
+
 				@Override
 				@Nullable
 				public String getEncoding() {
@@ -194,8 +200,8 @@ class StaxStreamXMLReader extends AbstractStaxXMLReader {
 						startPrefixMapping(prefix, namespace);
 					}
 				}
-				getContentHandler().startElement(qName.getNamespaceURI(), qName.getLocalPart(),
-						toQualifiedName(qName), getAttributes());
+				getContentHandler().startElement(qName.getNamespaceURI(), qName.getLocalPart(), toQualifiedName(qName),
+						getAttributes());
 			}
 			else {
 				getContentHandler().startElement("", "", toQualifiedName(qName), getAttributes());
@@ -227,8 +233,8 @@ class StaxStreamXMLReader extends AbstractStaxXMLReader {
 			getLexicalHandler().startCDATA();
 		}
 		if (getContentHandler() != null) {
-			getContentHandler().characters(this.reader.getTextCharacters(),
-					this.reader.getTextStart(), this.reader.getTextLength());
+			getContentHandler().characters(this.reader.getTextCharacters(), this.reader.getTextStart(),
+					this.reader.getTextLength());
 		}
 		if (XMLStreamConstants.CDATA == this.reader.getEventType() && getLexicalHandler() != null) {
 			getLexicalHandler().endCDATA();
@@ -237,8 +243,8 @@ class StaxStreamXMLReader extends AbstractStaxXMLReader {
 
 	private void handleComment() throws SAXException {
 		if (getLexicalHandler() != null) {
-			getLexicalHandler().comment(this.reader.getTextCharacters(),
-					this.reader.getTextStart(), this.reader.getTextLength());
+			getLexicalHandler().comment(this.reader.getTextCharacters(), this.reader.getTextStart(),
+					this.reader.getTextLength());
 		}
 	}
 

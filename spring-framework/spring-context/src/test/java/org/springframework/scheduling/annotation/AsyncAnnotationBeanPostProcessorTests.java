@@ -122,8 +122,7 @@ public class AsyncAnnotationBeanPostProcessorTests {
 		executorDefinition.getPropertyValues().add("threadNamePrefix", "testExecutor");
 		context.registerBeanDefinition("myExecutor", executorDefinition);
 
-		BeanDefinition targetDefinition =
-				new RootBeanDefinition(AsyncAnnotationBeanPostProcessorTests.TestBean.class);
+		BeanDefinition targetDefinition = new RootBeanDefinition(AsyncAnnotationBeanPostProcessorTests.TestBean.class);
 		context.registerBeanDefinition("target", targetDefinition);
 
 		context.refresh();
@@ -151,8 +150,7 @@ public class AsyncAnnotationBeanPostProcessorTests {
 		executorDefinition2.getPropertyValues().add("threadNamePrefix", "testExecutor2");
 		context.registerBeanDefinition("taskExecutor", executorDefinition2);
 
-		BeanDefinition targetDefinition =
-				new RootBeanDefinition(AsyncAnnotationBeanPostProcessorTests.TestBean.class);
+		BeanDefinition targetDefinition = new RootBeanDefinition(AsyncAnnotationBeanPostProcessorTests.TestBean.class);
 		context.registerBeanDefinition("target", targetDefinition);
 
 		context.refresh();
@@ -176,8 +174,8 @@ public class AsyncAnnotationBeanPostProcessorTests {
 		Thread asyncThread = testBean.getThread();
 		assertThat(asyncThread.getName().startsWith("testExecutor")).isTrue();
 
-		TestableAsyncUncaughtExceptionHandler exceptionHandler =
-				context.getBean("exceptionHandler", TestableAsyncUncaughtExceptionHandler.class);
+		TestableAsyncUncaughtExceptionHandler exceptionHandler = context.getBean("exceptionHandler",
+				TestableAsyncUncaughtExceptionHandler.class);
 		assertThat(exceptionHandler.isCalled()).as("handler should not have been called yet").isFalse();
 
 		testBean.failWithVoid();
@@ -190,12 +188,12 @@ public class AsyncAnnotationBeanPostProcessorTests {
 	@Test
 	@SuppressWarnings("resource")
 	public void handleExceptionWithFuture() {
-		ConfigurableApplicationContext context =
-				new AnnotationConfigApplicationContext(ConfigWithExceptionHandler.class);
+		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(
+				ConfigWithExceptionHandler.class);
 		ITestBean testBean = context.getBean("target", ITestBean.class);
 
-		TestableAsyncUncaughtExceptionHandler exceptionHandler =
-				context.getBean("exceptionHandler", TestableAsyncUncaughtExceptionHandler.class);
+		TestableAsyncUncaughtExceptionHandler exceptionHandler = context.getBean("exceptionHandler",
+				TestableAsyncUncaughtExceptionHandler.class);
 		assertThat(exceptionHandler.isCalled()).as("handler should not have been called yet").isFalse();
 		Future<Object> result = testBean.failWithFuture();
 		assertFutureWithException(result, exceptionHandler);
@@ -204,12 +202,12 @@ public class AsyncAnnotationBeanPostProcessorTests {
 	@Test
 	@SuppressWarnings("resource")
 	public void handleExceptionWithListenableFuture() {
-		ConfigurableApplicationContext context =
-				new AnnotationConfigApplicationContext(ConfigWithExceptionHandler.class);
+		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(
+				ConfigWithExceptionHandler.class);
 		ITestBean testBean = context.getBean("target", ITestBean.class);
 
-		TestableAsyncUncaughtExceptionHandler exceptionHandler =
-				context.getBean("exceptionHandler", TestableAsyncUncaughtExceptionHandler.class);
+		TestableAsyncUncaughtExceptionHandler exceptionHandler = context.getBean("exceptionHandler",
+				TestableAsyncUncaughtExceptionHandler.class);
 		assertThat(exceptionHandler.isCalled()).as("handler should not have been called yet").isFalse();
 		Future<Object> result = testBean.failWithListenableFuture();
 		assertFutureWithException(result, exceptionHandler);
@@ -217,17 +215,15 @@ public class AsyncAnnotationBeanPostProcessorTests {
 
 	private void assertFutureWithException(Future<Object> result,
 			TestableAsyncUncaughtExceptionHandler exceptionHandler) {
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(
-				result::get)
-			.withCauseExactlyInstanceOf(UnsupportedOperationException.class);
+		assertThatExceptionOfType(ExecutionException.class).isThrownBy(result::get)
+				.withCauseExactlyInstanceOf(UnsupportedOperationException.class);
 		assertThat(exceptionHandler.isCalled()).as("handler should never be called with Future return type").isFalse();
 	}
 
 	@Test
 	public void handleExceptionWithCustomExceptionHandler() {
 		Method m = ReflectionUtils.findMethod(TestBean.class, "failWithVoid");
-		TestableAsyncUncaughtExceptionHandler exceptionHandler =
-				new TestableAsyncUncaughtExceptionHandler();
+		TestableAsyncUncaughtExceptionHandler exceptionHandler = new TestableAsyncUncaughtExceptionHandler();
 		BeanDefinition processorDefinition = new RootBeanDefinition(AsyncAnnotationBeanPostProcessor.class);
 		processorDefinition.getPropertyValues().add("exceptionHandler", exceptionHandler);
 
@@ -243,8 +239,7 @@ public class AsyncAnnotationBeanPostProcessorTests {
 	@Test
 	public void exceptionHandlerThrowsUnexpectedException() {
 		Method m = ReflectionUtils.findMethod(TestBean.class, "failWithVoid");
-		TestableAsyncUncaughtExceptionHandler exceptionHandler =
-				new TestableAsyncUncaughtExceptionHandler(true);
+		TestableAsyncUncaughtExceptionHandler exceptionHandler = new TestableAsyncUncaughtExceptionHandler(true);
 		BeanDefinition processorDefinition = new RootBeanDefinition(AsyncAnnotationBeanPostProcessor.class);
 		processorDefinition.getPropertyValues().add("exceptionHandler", exceptionHandler);
 		processorDefinition.getPropertyValues().add("executor", new DirectExecutor());
@@ -266,7 +261,6 @@ public class AsyncAnnotationBeanPostProcessorTests {
 		return context;
 	}
 
-
 	private interface ITestBean {
 
 		Thread getThread();
@@ -281,8 +275,8 @@ public class AsyncAnnotationBeanPostProcessorTests {
 		void failWithVoid();
 
 		void await(long timeout);
-	}
 
+	}
 
 	public static class TestBean implements ITestBean {
 
@@ -329,8 +323,8 @@ public class AsyncAnnotationBeanPostProcessorTests {
 				Thread.currentThread().interrupt();
 			}
 		}
-	}
 
+	}
 
 	private static class DirectExecutor implements Executor {
 
@@ -338,8 +332,8 @@ public class AsyncAnnotationBeanPostProcessorTests {
 		public void execute(Runnable r) {
 			r.run();
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableAsync
@@ -359,6 +353,7 @@ public class AsyncAnnotationBeanPostProcessorTests {
 		public TestableAsyncUncaughtExceptionHandler exceptionHandler() {
 			return new TestableAsyncUncaughtExceptionHandler();
 		}
+
 	}
 
 }

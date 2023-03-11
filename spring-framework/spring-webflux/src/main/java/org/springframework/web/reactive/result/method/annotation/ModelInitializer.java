@@ -42,8 +42,8 @@ import org.springframework.web.reactive.result.method.InvocableHandlerMethod;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * Package-private class to assist {@link RequestMappingHandlerAdapter} with
- * default model initialization through {@code @ModelAttribute} methods.
+ * Package-private class to assist {@link RequestMappingHandlerAdapter} with default model
+ * initialization through {@code @ModelAttribute} methods.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -54,7 +54,6 @@ class ModelInitializer {
 
 	private final ReactiveAdapterRegistry adapterRegistry;
 
-
 	public ModelInitializer(ControllerMethodResolver methodResolver, ReactiveAdapterRegistry adapterRegistry) {
 		Assert.notNull(methodResolver, "ControllerMethodResolver is required");
 		Assert.notNull(adapterRegistry, "ReactiveAdapterRegistry is required");
@@ -62,11 +61,9 @@ class ModelInitializer {
 		this.adapterRegistry = adapterRegistry;
 	}
 
-
 	/**
-	 * Initialize the {@link org.springframework.ui.Model Model} based on a
-	 * (type-level) {@code @SessionAttributes} annotation and
-	 * {@code @ModelAttribute} methods.
+	 * Initialize the {@link org.springframework.ui.Model Model} based on a (type-level)
+	 * {@code @SessionAttributes} annotation and {@code @ModelAttribute} methods.
 	 * @param handlerMethod the target controller method
 	 * @param bindingContext the context containing the model
 	 * @param exchange the current exchange
@@ -76,30 +73,27 @@ class ModelInitializer {
 	public Mono<Void> initModel(HandlerMethod handlerMethod, InitBinderBindingContext bindingContext,
 			ServerWebExchange exchange) {
 
-		List<InvocableHandlerMethod> modelMethods =
-				this.methodResolver.getModelAttributeMethods(handlerMethod);
+		List<InvocableHandlerMethod> modelMethods = this.methodResolver.getModelAttributeMethods(handlerMethod);
 
-		SessionAttributesHandler sessionAttributesHandler =
-				this.methodResolver.getSessionAttributesHandler(handlerMethod);
+		SessionAttributesHandler sessionAttributesHandler = this.methodResolver
+				.getSessionAttributesHandler(handlerMethod);
 
 		if (!sessionAttributesHandler.hasSessionAttributes()) {
 			return invokeModelAttributeMethods(bindingContext, modelMethods, exchange);
 		}
 
-		return exchange.getSession()
-				.flatMap(session -> {
-					Map<String, Object> attributes = sessionAttributesHandler.retrieveAttributes(session);
-					bindingContext.getModel().mergeAttributes(attributes);
-					bindingContext.setSessionContext(sessionAttributesHandler, session);
-					return invokeModelAttributeMethods(bindingContext, modelMethods, exchange)
-							.doOnSuccess(aVoid ->
-								findModelAttributes(handlerMethod, sessionAttributesHandler).forEach(name -> {
-									if (!bindingContext.getModel().containsAttribute(name)) {
-										Object value = session.getRequiredAttribute(name);
-										bindingContext.getModel().addAttribute(name, value);
-									}
-								}));
-				});
+		return exchange.getSession().flatMap(session -> {
+			Map<String, Object> attributes = sessionAttributesHandler.retrieveAttributes(session);
+			bindingContext.getModel().mergeAttributes(attributes);
+			bindingContext.setSessionContext(sessionAttributesHandler, session);
+			return invokeModelAttributeMethods(bindingContext, modelMethods, exchange)
+					.doOnSuccess(aVoid -> findModelAttributes(handlerMethod, sessionAttributesHandler).forEach(name -> {
+						if (!bindingContext.getModel().containsAttribute(name)) {
+							Object value = session.getRequiredAttribute(name);
+							bindingContext.getModel().addAttribute(name, value);
+						}
+					}));
+		});
 	}
 
 	private Mono<Void> invokeModelAttributeMethods(BindingContext bindingContext,
@@ -108,11 +102,8 @@ class ModelInitializer {
 		List<Mono<HandlerResult>> resultList = new ArrayList<>();
 		modelMethods.forEach(invocable -> resultList.add(invocable.invoke(exchange, bindingContext)));
 
-		return Mono
-				.zip(resultList, objectArray ->
-						Arrays.stream(objectArray)
-								.map(object -> handleResult(((HandlerResult) object), bindingContext))
-								.collect(Collectors.toList()))
+		return Mono.zip(resultList, objectArray -> Arrays.stream(objectArray)
+				.map(object -> handleResult(((HandlerResult) object), bindingContext)).collect(Collectors.toList()))
 				.flatMap(Mono::when);
 	}
 
@@ -130,19 +121,21 @@ class ModelInitializer {
 		return Mono.empty();
 	}
 
-	private boolean isAsyncVoidType(ResolvableType type, @Nullable  ReactiveAdapter adapter) {
+	private boolean isAsyncVoidType(ResolvableType type, @Nullable ReactiveAdapter adapter) {
 		return (adapter != null && (adapter.isNoValue() || type.resolveGeneric() == Void.class));
 	}
 
 	private String getAttributeName(MethodParameter param) {
 		return Optional
-				.ofNullable(AnnotatedElementUtils.findMergedAnnotation(param.getAnnotatedElement(), ModelAttribute.class))
-				.filter(ann -> StringUtils.hasText(ann.value()))
-				.map(ModelAttribute::value)
+				.ofNullable(
+						AnnotatedElementUtils.findMergedAnnotation(param.getAnnotatedElement(), ModelAttribute.class))
+				.filter(ann -> StringUtils.hasText(ann.value())).map(ModelAttribute::value)
 				.orElseGet(() -> Conventions.getVariableNameForParameter(param));
 	}
 
-	/** Find {@code @ModelAttribute} arguments also listed as {@code @SessionAttributes}. */
+	/**
+	 * Find {@code @ModelAttribute} arguments also listed as {@code @SessionAttributes}.
+	 */
 	private List<String> findModelAttributes(HandlerMethod handlerMethod,
 			SessionAttributesHandler sessionAttributesHandler) {
 
@@ -160,9 +153,9 @@ class ModelInitializer {
 	}
 
 	/**
-	 * Derive the model attribute name for the given method parameter based on
-	 * a {@code @ModelAttribute} parameter annotation (if present) or falling
-	 * back on parameter type based conventions.
+	 * Derive the model attribute name for the given method parameter based on a
+	 * {@code @ModelAttribute} parameter annotation (if present) or falling back on
+	 * parameter type based conventions.
 	 * @param parameter a descriptor for the method parameter
 	 * @return the derived name
 	 * @see Conventions#getVariableNameForParameter(MethodParameter)

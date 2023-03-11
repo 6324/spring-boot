@@ -26,7 +26,8 @@ import org.springframework.lang.Nullable;
 /**
  * Interface specifying the API to be implemented by a class providing call meta-data.
  *
- * <p>This is intended for internal use by Spring's
+ * <p>
+ * This is intended for internal use by Spring's
  * {@link org.springframework.jdbc.core.simple.SimpleJdbcCall}.
  *
  * @author Thomas Risberg
@@ -42,67 +43,67 @@ public interface CallMetaDataProvider {
 	void initializeWithMetaData(DatabaseMetaData databaseMetaData) throws SQLException;
 
 	/**
-	 * Initialize the database specific management of procedure column meta-data.
-	 * This is only called for databases that are supported. This initialization
-	 * can be turned off by specifying that column meta-data should not be used.
+	 * Initialize the database specific management of procedure column meta-data. This is
+	 * only called for databases that are supported. This initialization can be turned off
+	 * by specifying that column meta-data should not be used.
 	 * @param databaseMetaData used to retrieve database specific information
 	 * @param catalogName name of catalog to use (or {@code null} if none)
 	 * @param schemaName name of schema name to use (or {@code null} if none)
 	 * @param procedureName name of the stored procedure
 	 * @throws SQLException in case of initialization failure
-	 * @see	org.springframework.jdbc.core.simple.SimpleJdbcCall#withoutProcedureColumnMetaDataAccess()
+	 * @see org.springframework.jdbc.core.simple.SimpleJdbcCall#withoutProcedureColumnMetaDataAccess()
 	 */
 	void initializeWithProcedureColumnMetaData(DatabaseMetaData databaseMetaData, @Nullable String catalogName,
 			@Nullable String schemaName, @Nullable String procedureName) throws SQLException;
 
 	/**
-	 * Provide any modification of the procedure name passed in to match the meta-data currently used.
-	 * This could include altering the case.
+	 * Provide any modification of the procedure name passed in to match the meta-data
+	 * currently used. This could include altering the case.
 	 */
 	@Nullable
 	String procedureNameToUse(@Nullable String procedureName);
 
 	/**
-	 * Provide any modification of the catalog name passed in to match the meta-data currently used.
-	 * This could include altering the case.
+	 * Provide any modification of the catalog name passed in to match the meta-data
+	 * currently used. This could include altering the case.
 	 */
 	@Nullable
 	String catalogNameToUse(@Nullable String catalogName);
 
 	/**
-	 * Provide any modification of the schema name passed in to match the meta-data currently used.
-	 * This could include altering the case.
+	 * Provide any modification of the schema name passed in to match the meta-data
+	 * currently used. This could include altering the case.
 	 */
 	@Nullable
 	String schemaNameToUse(@Nullable String schemaName);
 
 	/**
-	 * Provide any modification of the catalog name passed in to match the meta-data currently used.
-	 * The returned value will be used for meta-data lookups. This could include altering the case
-	 * used or providing a base catalog if none is provided.
+	 * Provide any modification of the catalog name passed in to match the meta-data
+	 * currently used. The returned value will be used for meta-data lookups. This could
+	 * include altering the case used or providing a base catalog if none is provided.
 	 */
 	@Nullable
-	String metaDataCatalogNameToUse(@Nullable String catalogName) ;
+	String metaDataCatalogNameToUse(@Nullable String catalogName);
 
 	/**
-	 * Provide any modification of the schema name passed in to match the meta-data currently used.
-	 * The returned value will be used for meta-data lookups. This could include altering the case
-	 * used or providing a base schema if none is provided.
+	 * Provide any modification of the schema name passed in to match the meta-data
+	 * currently used. The returned value will be used for meta-data lookups. This could
+	 * include altering the case used or providing a base schema if none is provided.
 	 */
 	@Nullable
 	String metaDataSchemaNameToUse(@Nullable String schemaName);
 
 	/**
-	 * Provide any modification of the column name passed in to match the meta-data currently used.
-	 * This could include altering the case.
+	 * Provide any modification of the column name passed in to match the meta-data
+	 * currently used. This could include altering the case.
 	 * @param parameterName name of the parameter of column
 	 */
 	@Nullable
 	String parameterNameToUse(@Nullable String parameterName);
 
 	/**
-	 * Create a default out parameter based on the provided meta-data.
-	 * This is used when no explicit parameter declaration has been made.
+	 * Create a default out parameter based on the provided meta-data. This is used when
+	 * no explicit parameter declaration has been made.
 	 * @param parameterName the name of the parameter
 	 * @param meta meta-data used for this call
 	 * @return the configured SqlOutParameter
@@ -110,8 +111,8 @@ public interface CallMetaDataProvider {
 	SqlParameter createDefaultOutParameter(String parameterName, CallParameterMetaData meta);
 
 	/**
-	 * Create a default in/out parameter based on the provided meta-data.
-	 * This is used when no explicit parameter declaration has been made.
+	 * Create a default in/out parameter based on the provided meta-data. This is used
+	 * when no explicit parameter declaration has been made.
 	 * @param parameterName the name of the parameter
 	 * @param meta meta-data used for this call
 	 * @return the configured SqlInOutParameter
@@ -119,8 +120,8 @@ public interface CallMetaDataProvider {
 	SqlParameter createDefaultInOutParameter(String parameterName, CallParameterMetaData meta);
 
 	/**
-	 * Create a default in parameter based on the provided meta-data.
-	 * This is used when no explicit parameter declaration has been made.
+	 * Create a default in parameter based on the provided meta-data. This is used when no
+	 * explicit parameter declaration has been made.
 	 * @param parameterName the name of the parameter
 	 * @param meta meta-data used for this call
 	 * @return the configured SqlParameter
@@ -135,8 +136,8 @@ public interface CallMetaDataProvider {
 	String getUserName();
 
 	/**
-	 * Does this database support returning ResultSets that should be retrieved with the JDBC call:
-	 * {@link java.sql.Statement#getResultSet()}?
+	 * Does this database support returning ResultSets that should be retrieved with the
+	 * JDBC call: {@link java.sql.Statement#getResultSet()}?
 	 */
 	boolean isReturnResultSetSupported();
 
@@ -147,8 +148,8 @@ public interface CallMetaDataProvider {
 	boolean isRefCursorSupported();
 
 	/**
-	 * Get the {@link java.sql.Types} type for columns that return ResultSets as ref cursors
-	 * if this feature is supported.
+	 * Get the {@link java.sql.Types} type for columns that return ResultSets as ref
+	 * cursors if this feature is supported.
 	 */
 	int getRefCursorSqlType();
 
@@ -158,9 +159,9 @@ public interface CallMetaDataProvider {
 	boolean isProcedureColumnMetaDataUsed();
 
 	/**
-	 * Should we bypass the return parameter with the specified name.
-	 * This allows the database specific implementation to skip the processing
-	 * for specific results returned by the database call.
+	 * Should we bypass the return parameter with the specified name. This allows the
+	 * database specific implementation to skip the processing for specific results
+	 * returned by the database call.
 	 */
 	boolean byPassReturnParameter(String parameterName);
 

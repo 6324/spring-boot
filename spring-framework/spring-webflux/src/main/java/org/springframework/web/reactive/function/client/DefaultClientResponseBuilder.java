@@ -65,7 +65,6 @@ final class DefaultClientResponseBuilder implements ClientResponse.Builder {
 		}
 	};
 
-
 	private ExchangeStrategies strategies;
 
 	private int statusCode = 200;
@@ -81,7 +80,6 @@ final class DefaultClientResponseBuilder implements ClientResponse.Builder {
 
 	private HttpRequest request;
 
-
 	public DefaultClientResponseBuilder(ExchangeStrategies strategies) {
 		Assert.notNull(strategies, "ExchangeStrategies must not be null");
 		this.strategies = strategies;
@@ -95,10 +93,9 @@ final class DefaultClientResponseBuilder implements ClientResponse.Builder {
 		this.headers.addAll(other.headers().asHttpHeaders());
 		this.cookies.addAll(other.cookies());
 		this.originalResponse = other;
-		this.request = (other instanceof DefaultClientResponse ?
-				((DefaultClientResponse) other).request() : EMPTY_REQUEST);
+		this.request = (other instanceof DefaultClientResponse ? ((DefaultClientResponse) other).request()
+				: EMPTY_REQUEST);
 	}
-
 
 	@Override
 	public DefaultClientResponseBuilder statusCode(HttpStatus statusCode) {
@@ -153,11 +150,10 @@ final class DefaultClientResponseBuilder implements ClientResponse.Builder {
 		Assert.notNull(body, "Body must not be null");
 		releaseBody();
 		DataBufferFactory dataBufferFactory = new DefaultDataBufferFactory();
-		this.body = Flux.just(body).
-				map(s -> {
-					byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
-					return dataBufferFactory.wrap(bytes);
-				});
+		this.body = Flux.just(body).map(s -> {
+			byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
+			return dataBufferFactory.wrap(bytes);
+		});
 		return this;
 	}
 
@@ -174,17 +170,16 @@ final class DefaultClientResponseBuilder implements ClientResponse.Builder {
 
 	@Override
 	public ClientResponse build() {
-		ClientHttpResponse httpResponse =
-				new BuiltClientHttpResponse(this.statusCode, this.headers, this.cookies, this.body);
+		ClientHttpResponse httpResponse = new BuiltClientHttpResponse(this.statusCode, this.headers, this.cookies,
+				this.body);
 
-		// When building ClientResponse manually, the ClientRequest.logPrefix() has to be passed,
+		// When building ClientResponse manually, the ClientRequest.logPrefix() has to be
+		// passed,
 		// e.g. via ClientResponse.Builder, but this (builder) is not used currently.
 		return new DefaultClientResponse(httpResponse, this.strategies,
 				this.originalResponse != null ? this.originalResponse.logPrefix() : "",
-				this.request.getMethodValue() + " " + this.request.getURI(),
-				() -> this.request);
+				this.request.getMethodValue() + " " + this.request.getURI(), () -> this.request);
 	}
-
 
 	private static class BuiltClientHttpResponse implements ClientHttpResponse {
 
@@ -229,6 +224,7 @@ final class DefaultClientResponseBuilder implements ClientResponse.Builder {
 		public Flux<DataBuffer> getBody() {
 			return this.body;
 		}
+
 	}
 
 }

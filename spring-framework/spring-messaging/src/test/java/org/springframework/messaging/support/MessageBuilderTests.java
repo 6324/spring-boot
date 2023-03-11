@@ -46,9 +46,7 @@ public class MessageBuilderTests {
 
 	@Test
 	public void testHeaderValues() {
-		Message<String> message = MessageBuilder.withPayload("test")
-				.setHeader("foo", "bar")
-				.setHeader("count", 123)
+		Message<String> message = MessageBuilder.withPayload("test").setHeader("foo", "bar").setHeader("count", 123)
 				.build();
 		assertThat(message.getHeaders().get("foo", String.class)).isEqualTo("bar");
 		assertThat(message.getHeaders().get("count", Integer.class)).isEqualTo(123);
@@ -56,15 +54,10 @@ public class MessageBuilderTests {
 
 	@Test
 	public void testCopiedHeaderValues() {
-		Message<String> message1 = MessageBuilder.withPayload("test1")
-				.setHeader("foo", "1")
-				.setHeader("bar", "2")
+		Message<String> message1 = MessageBuilder.withPayload("test1").setHeader("foo", "1").setHeader("bar", "2")
 				.build();
-		Message<String> message2 = MessageBuilder.withPayload("test2")
-				.copyHeaders(message1.getHeaders())
-				.setHeader("foo", "42")
-				.setHeaderIfAbsent("bar", "99")
-				.build();
+		Message<String> message2 = MessageBuilder.withPayload("test2").copyHeaders(message1.getHeaders())
+				.setHeader("foo", "42").setHeaderIfAbsent("bar", "99").build();
 		assertThat(message1.getPayload()).isEqualTo("test1");
 		assertThat(message2.getPayload()).isEqualTo("test2");
 		assertThat(message1.getHeaders().get("foo")).isEqualTo("1");
@@ -76,33 +69,29 @@ public class MessageBuilderTests {
 	@Test
 	public void testIdHeaderValueReadOnly() {
 		UUID id = UUID.randomUUID();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				MessageBuilder.withPayload("test").setHeader(MessageHeaders.ID, id));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> MessageBuilder.withPayload("test").setHeader(MessageHeaders.ID, id));
 	}
 
 	@Test
 	public void testTimestampValueReadOnly() {
 		Long timestamp = 12345L;
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				MessageBuilder.withPayload("test").setHeader(MessageHeaders.TIMESTAMP, timestamp).build());
+		assertThatIllegalArgumentException().isThrownBy(
+				() -> MessageBuilder.withPayload("test").setHeader(MessageHeaders.TIMESTAMP, timestamp).build());
 	}
 
 	@Test
 	public void copyHeadersIfAbsent() {
-		Message<String> message1 = MessageBuilder.withPayload("test1")
-				.setHeader("foo", "bar").build();
-		Message<String> message2 = MessageBuilder.withPayload("test2")
-				.setHeader("foo", 123)
-				.copyHeadersIfAbsent(message1.getHeaders())
-				.build();
+		Message<String> message1 = MessageBuilder.withPayload("test1").setHeader("foo", "bar").build();
+		Message<String> message2 = MessageBuilder.withPayload("test2").setHeader("foo", 123)
+				.copyHeadersIfAbsent(message1.getHeaders()).build();
 		assertThat(message2.getPayload()).isEqualTo("test2");
 		assertThat(message2.getHeaders().get("foo")).isEqualTo(123);
 	}
 
 	@Test
 	public void createFromMessage() {
-		Message<String> message1 = MessageBuilder.withPayload("test")
-				.setHeader("foo", "bar").build();
+		Message<String> message1 = MessageBuilder.withPayload("test").setHeader("foo", "bar").build();
 		Message<String> message2 = MessageBuilder.fromMessage(message1).build();
 		assertThat(message2.getPayload()).isEqualTo("test");
 		assertThat(message2.getHeaders().get("foo")).isEqualTo("bar");
@@ -123,8 +112,7 @@ public class MessageBuilderTests {
 
 	@Test
 	public void createIdRegenerated() {
-		Message<String> message1 = MessageBuilder.withPayload("test")
-				.setHeader("foo", "bar").build();
+		Message<String> message1 = MessageBuilder.withPayload("test").setHeader("foo", "bar").build();
 		Message<String> message2 = MessageBuilder.fromMessage(message1).setHeader("another", 1).build();
 		assertThat(message2.getHeaders().get("foo")).isEqualTo("bar");
 		assertThat(message2.getHeaders().getId()).isNotSameAs(message1.getHeaders().getId());
@@ -132,21 +120,15 @@ public class MessageBuilderTests {
 
 	@Test
 	public void testRemove() {
-		Message<Integer> message1 = MessageBuilder.withPayload(1)
-				.setHeader("foo", "bar").build();
-		Message<Integer> message2 = MessageBuilder.fromMessage(message1)
-				.removeHeader("foo")
-				.build();
+		Message<Integer> message1 = MessageBuilder.withPayload(1).setHeader("foo", "bar").build();
+		Message<Integer> message2 = MessageBuilder.fromMessage(message1).removeHeader("foo").build();
 		assertThat(message2.getHeaders().containsKey("foo")).isFalse();
 	}
 
 	@Test
 	public void testSettingToNullRemoves() {
-		Message<Integer> message1 = MessageBuilder.withPayload(1)
-				.setHeader("foo", "bar").build();
-		Message<Integer> message2 = MessageBuilder.fromMessage(message1)
-				.setHeader("foo", null)
-				.build();
+		Message<Integer> message1 = MessageBuilder.withPayload(1).setHeader("foo", "bar").build();
+		Message<Integer> message2 = MessageBuilder.fromMessage(message1).setHeader("foo", null).build();
 		assertThat(message2.getHeaders().containsKey("foo")).isFalse();
 	}
 
@@ -177,7 +159,8 @@ public class MessageBuilderTests {
 		Map<String, Object> originalHeaders = new HashMap<>();
 		originalHeaders.put("b", "xyz");
 		originalHeaders.put("c", current);
-		Message<?> original = MessageBuilder.withPayload("foo").setHeader("a", 123).copyHeaders(originalHeaders).build();
+		Message<?> original = MessageBuilder.withPayload("foo").setHeader("a", 123).copyHeaders(originalHeaders)
+				.build();
 		Map<String, Object> newHeaders = new HashMap<>();
 		newHeaders.put("a", 123);
 		newHeaders.put("b", "xyz");
@@ -204,8 +187,7 @@ public class MessageBuilderTests {
 		MessageHeaders headers = accessor.getMessageHeaders();
 		Message<?> message = MessageBuilder.createMessage("foo", headers);
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				accessor.setHeader("foo", "bar"))
+		assertThatIllegalStateException().isThrownBy(() -> accessor.setHeader("foo", "bar"))
 				.withMessageContaining("Already immutable");
 
 		assertThat(MessageHeaderAccessor.getAccessor(message, MessageHeaderAccessor.class)).isSameAs(accessor);
@@ -243,4 +225,5 @@ public class MessageBuilderTests {
 		assertThat(message2.getHeaders().get("foo")).isEqualTo("bar2");
 		assertThat(message3.getHeaders().get("foo")).isEqualTo("bar3");
 	}
+
 }

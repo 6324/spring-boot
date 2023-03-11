@@ -25,17 +25,18 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
 
 /**
- * Subclass of PropertyPlaceholderConfigurer that supports JDK 1.4's
- * Preferences API ({@code java.util.prefs}).
+ * Subclass of PropertyPlaceholderConfigurer that supports JDK 1.4's Preferences API
+ * ({@code java.util.prefs}).
  *
- * <p>Tries to resolve placeholders as keys first in the user preferences,
- * then in the system preferences, then in this configurer's properties.
- * Thus, behaves like PropertyPlaceholderConfigurer if no corresponding
- * preferences defined.
+ * <p>
+ * Tries to resolve placeholders as keys first in the user preferences, then in the system
+ * preferences, then in this configurer's properties. Thus, behaves like
+ * PropertyPlaceholderConfigurer if no corresponding preferences defined.
  *
- * <p>Supports custom paths for the system and user preferences trees. Also
- * supports custom paths specified in placeholders ("myPath/myPlaceholderKey").
- * Uses the respective root node if not specified.
+ * <p>
+ * Supports custom paths for the system and user preferences trees. Also supports custom
+ * paths specified in placeholders ("myPath/myPlaceholderKey"). Uses the respective root
+ * node if not specified.
  *
  * @author Juergen Hoeller
  * @since 16.02.2004
@@ -57,27 +58,25 @@ public class PreferencesPlaceholderConfigurer extends PropertyPlaceholderConfigu
 
 	private Preferences userPrefs = Preferences.userRoot();
 
-
 	/**
-	 * Set the path in the system preferences tree to use for resolving
-	 * placeholders. Default is the root node.
+	 * Set the path in the system preferences tree to use for resolving placeholders.
+	 * Default is the root node.
 	 */
 	public void setSystemTreePath(String systemTreePath) {
 		this.systemTreePath = systemTreePath;
 	}
 
 	/**
-	 * Set the path in the system preferences tree to use for resolving
-	 * placeholders. Default is the root node.
+	 * Set the path in the system preferences tree to use for resolving placeholders.
+	 * Default is the root node.
 	 */
 	public void setUserTreePath(String userTreePath) {
 		this.userTreePath = userTreePath;
 	}
 
-
 	/**
-	 * This implementation eagerly fetches the Preferences instances
-	 * for the required system and user tree nodes.
+	 * This implementation eagerly fetches the Preferences instances for the required
+	 * system and user tree nodes.
 	 */
 	@Override
 	public void afterPropertiesSet() {
@@ -90,9 +89,8 @@ public class PreferencesPlaceholderConfigurer extends PropertyPlaceholderConfigu
 	}
 
 	/**
-	 * This implementation tries to resolve placeholders as keys first
-	 * in the user preferences, then in the system preferences, then in
-	 * the passed-in properties.
+	 * This implementation tries to resolve placeholders as keys first in the user
+	 * preferences, then in the system preferences, then in the passed-in properties.
 	 */
 	@Override
 	protected String resolvePlaceholder(String placeholder, Properties props) {

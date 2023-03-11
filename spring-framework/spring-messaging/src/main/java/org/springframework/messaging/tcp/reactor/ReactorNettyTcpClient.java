@@ -70,7 +70,6 @@ public class ReactorNettyTcpClient<P> implements TcpOperations<P> {
 
 	private static final int PUBLISH_ON_BUFFER_SIZE = 16;
 
-
 	private final TcpClient tcpClient;
 
 	private final ReactorNettyCodec<P> codec;
@@ -90,14 +89,15 @@ public class ReactorNettyTcpClient<P> implements TcpOperations<P> {
 
 	private volatile boolean stopping = false;
 
-
 	/**
 	 * Simple constructor with the host and port to use to connect to.
-	 * <p>This constructor manages the lifecycle of the {@link TcpClient} and
-	 * underlying resources such as {@link ConnectionProvider},
-	 * {@link LoopResources}, and {@link ChannelGroup}.
-	 * <p>For full control over the initialization and lifecycle of the
-	 * TcpClient, use {@link #ReactorNettyTcpClient(TcpClient, ReactorNettyCodec)}.
+	 * <p>
+	 * This constructor manages the lifecycle of the {@link TcpClient} and underlying
+	 * resources such as {@link ConnectionProvider}, {@link LoopResources}, and
+	 * {@link ChannelGroup}.
+	 * <p>
+	 * For full control over the initialization and lifecycle of the TcpClient, use
+	 * {@link #ReactorNettyTcpClient(TcpClient, ReactorNettyCodec)}.
 	 * @param host the host to connect to
 	 * @param port the port to connect to
 	 * @param codec for encoding and decoding the input/output byte streams
@@ -113,17 +113,15 @@ public class ReactorNettyTcpClient<P> implements TcpOperations<P> {
 		this.poolResources = ConnectionProvider.fixed("tcp-client-pool", 10000);
 		this.codec = codec;
 
-		this.tcpClient = TcpClient.create(this.poolResources)
-				.host(host).port(port)
-				.runOn(this.loopResources, false)
+		this.tcpClient = TcpClient.create(this.poolResources).host(host).port(port).runOn(this.loopResources, false)
 				.doOnConnected(conn -> this.channelGroup.add(conn.channel()));
 	}
 
 	/**
-	 * A variant of {@link #ReactorNettyTcpClient(String, int, ReactorNettyCodec)}
-	 * that still manages the lifecycle of the {@link TcpClient} and underlying
-	 * resources, but allows for direct configuration of other properties of the
-	 * client through a {@code Function<TcpClient, TcpClient>}.
+	 * A variant of {@link #ReactorNettyTcpClient(String, int, ReactorNettyCodec)} that
+	 * still manages the lifecycle of the {@link TcpClient} and underlying resources, but
+	 * allows for direct configuration of other properties of the client through a
+	 * {@code Function<TcpClient, TcpClient>}.
 	 * @param clientConfigurer the configurer function
 	 * @param codec for encoding and decoding the input/output byte streams
 	 * @since 5.1.3
@@ -138,15 +136,13 @@ public class ReactorNettyTcpClient<P> implements TcpOperations<P> {
 		this.poolResources = ConnectionProvider.fixed("tcp-client-pool", 10000);
 		this.codec = codec;
 
-		this.tcpClient = clientConfigurer.apply(TcpClient
-				.create(this.poolResources)
-				.runOn(this.loopResources, false)
+		this.tcpClient = clientConfigurer.apply(TcpClient.create(this.poolResources).runOn(this.loopResources, false)
 				.doOnConnected(conn -> this.channelGroup.add(conn.channel())));
 	}
 
 	/**
-	 * Constructor with an externally created {@link TcpClient} instance whose
-	 * lifecycle is expected to be managed externally.
+	 * Constructor with an externally created {@link TcpClient} instance whose lifecycle
+	 * is expected to be managed externally.
 	 * @param tcpClient the TcpClient instance to use
 	 * @param codec for encoding and decoding the input/output byte streams
 	 * @see org.springframework.messaging.simp.stomp.StompReactorNettyCodec
@@ -161,7 +157,6 @@ public class ReactorNettyTcpClient<P> implements TcpOperations<P> {
 		this.loopResources = null;
 		this.poolResources = null;
 	}
-
 
 	/**
 	 * Set an alternative logger to use than the one based on the class name.
@@ -180,7 +175,6 @@ public class ReactorNettyTcpClient<P> implements TcpOperations<P> {
 		return logger;
 	}
 
-
 	@Override
 	public ListenableFuture<Void> connect(final TcpConnectionHandler<P> handler) {
 		Assert.notNull(handler, "TcpConnectionHandler is required");
@@ -189,11 +183,8 @@ public class ReactorNettyTcpClient<P> implements TcpOperations<P> {
 			return handleShuttingDownConnectFailure(handler);
 		}
 
-		Mono<Void> connectMono = this.tcpClient
-				.handle(new ReactorNettyHandler(handler))
-				.connect()
-				.doOnError(handler::afterConnectFailure)
-				.then();
+		Mono<Void> connectMono = this.tcpClient.handle(new ReactorNettyHandler(handler)).connect()
+				.doOnError(handler::afterConnectFailure).then();
 
 		return new MonoToListenableFutureAdapter<>(connectMono);
 	}
@@ -211,16 +202,16 @@ public class ReactorNettyTcpClient<P> implements TcpOperations<P> {
 		// Report first connect to the ListenableFuture
 		MonoProcessor<Void> connectMono = MonoProcessor.create();
 
-		this.tcpClient
-				.handle(new ReactorNettyHandler(handler))
-				.connect()
-				.doOnNext(updateConnectMono(connectMono))
-				.doOnError(updateConnectMono(connectMono))
-				.doOnError(handler::afterConnectFailure)    // report all connect failures to the handler
-				.flatMap(Connection::onDispose)             // post-connect issues
-				.retryWhen(reconnectFunction(strategy))
-				.repeatWhen(reconnectFunction(strategy))
-				.subscribe();
+		this.tcpClient.handle(new ReactorNettyHandler(handler)).connect().doOnNext(updateConnectMono(connectMono))
+				.doOnError(updateConnectMono(connectMono)).doOnError(handler::afterConnectFailure) // report
+																									// all
+																									// connect
+																									// failures
+																									// to
+																									// the
+																									// handler
+				.flatMap(Connection::onDispose) // post-connect issues
+				.retryWhen(reconnectFunction(strategy)).repeatWhen(reconnectFunction(strategy)).subscribe();
 
 		return new MonoToListenableFutureAdapter<>(connectMono);
 	}
@@ -245,11 +236,9 @@ public class ReactorNettyTcpClient<P> implements TcpOperations<P> {
 	}
 
 	private <T> Function<Flux<T>, Publisher<?>> reconnectFunction(ReconnectStrategy reconnectStrategy) {
-		return flux -> flux
-				.scan(1, (count, element) -> count++)
+		return flux -> flux.scan(1, (count, element) -> count++)
 				.flatMap(attempt -> Optional.ofNullable(reconnectStrategy.getTimeToNextAttempt(attempt))
-						.map(time -> Mono.delay(Duration.ofMillis(time), this.scheduler))
-						.orElse(Mono.empty()));
+						.map(time -> Mono.delay(Duration.ofMillis(time), this.scheduler)).orElse(Mono.empty()));
 	}
 
 	@Override
@@ -302,7 +291,6 @@ public class ReactorNettyTcpClient<P> implements TcpOperations<P> {
 		return "ReactorNettyTcpClient[" + this.tcpClient + "]";
 	}
 
-
 	private class ReactorNettyHandler implements BiFunction<NettyInbound, NettyOutbound, Publisher<Void>> {
 
 		private final TcpConnectionHandler<P> connectionHandler;
@@ -320,23 +308,19 @@ public class ReactorNettyTcpClient<P> implements TcpOperations<P> {
 				}
 			});
 			DirectProcessor<Void> completion = DirectProcessor.create();
-			TcpConnection<P> connection = new ReactorNettyTcpConnection<>(inbound, outbound,  codec, completion);
+			TcpConnection<P> connection = new ReactorNettyTcpConnection<>(inbound, outbound, codec, completion);
 			scheduler.schedule(() -> this.connectionHandler.afterConnected(connection));
 
 			inbound.withConnection(conn -> conn.addHandler(new StompMessageDecoder<>(codec)));
 
-			inbound.receiveObject()
-					.cast(Message.class)
-					.publishOn(scheduler, PUBLISH_ON_BUFFER_SIZE)
-					.subscribe(
-							this.connectionHandler::handleMessage,
-							this.connectionHandler::handleFailure,
-							this.connectionHandler::afterConnectionClosed);
+			inbound.receiveObject().cast(Message.class).publishOn(scheduler, PUBLISH_ON_BUFFER_SIZE).subscribe(
+					this.connectionHandler::handleMessage, this.connectionHandler::handleFailure,
+					this.connectionHandler::afterConnectionClosed);
 
 			return completion;
 		}
-	}
 
+	}
 
 	private static class StompMessageDecoder<P> extends ByteToMessageDecoder {
 
@@ -351,6 +335,7 @@ public class ReactorNettyTcpClient<P> implements TcpOperations<P> {
 			Collection<Message<P>> messages = this.codec.decode(in);
 			out.addAll(messages);
 		}
+
 	}
 
 }

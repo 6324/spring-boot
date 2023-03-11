@@ -37,28 +37,33 @@ public abstract class AstUtils {
 	 * target type (as opposed to 'general' resolvers that could work for any type) are
 	 * placed at the start of the list. In addition, there are specific resolvers that
 	 * exactly name the class in question and resolvers that name a specific class but it
-	 * is a supertype of the class we have. These are put at the end of the specific resolvers
-	 * set and will be tried after exactly matching accessors but before generic accessors.
+	 * is a supertype of the class we have. These are put at the end of the specific
+	 * resolvers set and will be tried after exactly matching accessors but before generic
+	 * accessors.
 	 * @param targetType the type upon which property access is being attempted
 	 * @return a list of resolvers that should be tried in order to access the property
 	 */
-	public static List<PropertyAccessor> getPropertyAccessorsToTry(
-			@Nullable Class<?> targetType, List<PropertyAccessor> propertyAccessors) {
+	public static List<PropertyAccessor> getPropertyAccessorsToTry(@Nullable Class<?> targetType,
+			List<PropertyAccessor> propertyAccessors) {
 
 		List<PropertyAccessor> specificAccessors = new ArrayList<>();
 		List<PropertyAccessor> generalAccessors = new ArrayList<>();
 		for (PropertyAccessor resolver : propertyAccessors) {
 			Class<?>[] targets = resolver.getSpecificTargetClasses();
-			if (targets == null) {  // generic resolver that says it can be used for any type
+			if (targets == null) { // generic resolver that says it can be used for any
+									// type
 				generalAccessors.add(resolver);
 			}
 			else {
 				if (targetType != null) {
 					for (Class<?> clazz : targets) {
-						if (clazz == targetType) {  // put exact matches on the front to be tried first?
+						if (clazz == targetType) { // put exact matches on the front to be
+													// tried first?
 							specificAccessors.add(resolver);
 						}
-						else if (clazz.isAssignableFrom(targetType)) {  // put supertype matches at the end of the
+						else if (clazz.isAssignableFrom(targetType)) { // put supertype
+																		// matches at the
+																		// end of the
 							// specificAccessor list
 							generalAccessors.add(resolver);
 						}

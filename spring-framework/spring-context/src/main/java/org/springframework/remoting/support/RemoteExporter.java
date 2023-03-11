@@ -23,12 +23,13 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * Abstract base class for classes that export a remote service.
- * Provides "service" and "serviceInterface" bean properties.
+ * Abstract base class for classes that export a remote service. Provides "service" and
+ * "serviceInterface" bean properties.
  *
- * <p>Note that the service interface being used will show some signs of
- * remotability, like the granularity of method calls that it offers.
- * Furthermore, it has to have serializable arguments etc.
+ * <p>
+ * Note that the service interface being used will show some signs of remotability, like
+ * the granularity of method calls that it offers. Furthermore, it has to have
+ * serializable arguments etc.
  *
  * @author Juergen Hoeller
  * @since 26.12.2003
@@ -43,10 +44,8 @@ public abstract class RemoteExporter extends RemotingSupport {
 
 	private Object[] interceptors;
 
-
 	/**
-	 * Set the service to export.
-	 * Typically populated via a bean reference.
+	 * Set the service to export. Typically populated via a bean reference.
 	 */
 	public void setService(Object service) {
 		this.service = service;
@@ -60,8 +59,8 @@ public abstract class RemoteExporter extends RemotingSupport {
 	}
 
 	/**
-	 * Set the interface of the service to export.
-	 * The interface must be suitable for the particular service and remoting strategy.
+	 * Set the interface of the service to export. The interface must be suitable for the
+	 * particular service and remoting strategy.
 	 */
 	public void setServiceInterface(Class<?> serviceInterface) {
 		Assert.notNull(serviceInterface, "'serviceInterface' must not be null");
@@ -77,13 +76,14 @@ public abstract class RemoteExporter extends RemotingSupport {
 	}
 
 	/**
-	 * Set whether to register a RemoteInvocationTraceInterceptor for exported
-	 * services. Only applied when a subclass uses {@code getProxyForService}
-	 * for creating the proxy to expose.
-	 * <p>Default is "true". RemoteInvocationTraceInterceptor's most important value
-	 * is that it logs exception stacktraces on the server, before propagating an
-	 * exception to the client. Note that RemoteInvocationTraceInterceptor will <i>not</i>
-	 * be registered by default if the "interceptors" property has been specified.
+	 * Set whether to register a RemoteInvocationTraceInterceptor for exported services.
+	 * Only applied when a subclass uses {@code getProxyForService} for creating the proxy
+	 * to expose.
+	 * <p>
+	 * Default is "true". RemoteInvocationTraceInterceptor's most important value is that
+	 * it logs exception stacktraces on the server, before propagating an exception to the
+	 * client. Note that RemoteInvocationTraceInterceptor will <i>not</i> be registered by
+	 * default if the "interceptors" property has been specified.
 	 * @see #setInterceptors
 	 * @see #getProxyForService
 	 * @see RemoteInvocationTraceInterceptor
@@ -93,17 +93,17 @@ public abstract class RemoteExporter extends RemotingSupport {
 	}
 
 	/**
-	 * Set additional interceptors (or advisors) to be applied before the
-	 * remote endpoint, e.g. a PerformanceMonitorInterceptor.
-	 * <p>You may specify any AOP Alliance MethodInterceptors or other
-	 * Spring AOP Advices, as well as Spring AOP Advisors.
+	 * Set additional interceptors (or advisors) to be applied before the remote endpoint,
+	 * e.g. a PerformanceMonitorInterceptor.
+	 * <p>
+	 * You may specify any AOP Alliance MethodInterceptors or other Spring AOP Advices, as
+	 * well as Spring AOP Advisors.
 	 * @see #getProxyForService
 	 * @see org.springframework.aop.interceptor.PerformanceMonitorInterceptor
 	 */
 	public void setInterceptors(Object[] interceptors) {
 		this.interceptors = interceptors;
 	}
-
 
 	/**
 	 * Check whether the service reference has been set.
@@ -114,8 +114,8 @@ public abstract class RemoteExporter extends RemotingSupport {
 	}
 
 	/**
-	 * Check whether a service reference has been set,
-	 * and whether it matches the specified service.
+	 * Check whether a service reference has been set, and whether it matches the
+	 * specified service.
 	 * @see #setServiceInterface
 	 * @see #setService
 	 */
@@ -125,22 +125,23 @@ public abstract class RemoteExporter extends RemotingSupport {
 
 		Object service = getService();
 		if (service instanceof String) {
-			throw new IllegalArgumentException("Service [" + service + "] is a String " +
-					"rather than an actual service reference: Have you accidentally specified " +
-					"the service bean name as value instead of as reference?");
+			throw new IllegalArgumentException("Service [" + service + "] is a String "
+					+ "rather than an actual service reference: Have you accidentally specified "
+					+ "the service bean name as value instead of as reference?");
 		}
 		if (!serviceInterface.isInstance(service)) {
-			throw new IllegalArgumentException("Service interface [" + serviceInterface.getName() +
-					"] needs to be implemented by service [" + service + "] of class [" +
-					service.getClass().getName() + "]");
+			throw new IllegalArgumentException(
+					"Service interface [" + serviceInterface.getName() + "] needs to be implemented by service ["
+							+ service + "] of class [" + service.getClass().getName() + "]");
 		}
 	}
 
 	/**
-	 * Get a proxy for the given service object, implementing the specified
-	 * service interface.
-	 * <p>Used to export a proxy that does not expose any internals but just
-	 * a specific interface intended for remote access. Furthermore, a
+	 * Get a proxy for the given service object, implementing the specified service
+	 * interface.
+	 * <p>
+	 * Used to export a proxy that does not expose any internals but just a specific
+	 * interface intended for remote access. Furthermore, a
 	 * {@link RemoteInvocationTraceInterceptor} will be registered (by default).
 	 * @return the proxy
 	 * @see #setServiceInterface
@@ -171,10 +172,10 @@ public abstract class RemoteExporter extends RemotingSupport {
 	}
 
 	/**
-	 * Return a short name for this exporter.
-	 * Used for tracing of remote invocations.
-	 * <p>Default is the unqualified class name (without package).
-	 * Can be overridden in subclasses.
+	 * Return a short name for this exporter. Used for tracing of remote invocations.
+	 * <p>
+	 * Default is the unqualified class name (without package). Can be overridden in
+	 * subclasses.
 	 * @see #getProxyForService
 	 * @see RemoteInvocationTraceInterceptor
 	 * @see org.springframework.util.ClassUtils#getShortName

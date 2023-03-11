@@ -24,9 +24,9 @@ import org.springframework.ui.context.HierarchicalThemeSource;
 import org.springframework.ui.context.ThemeSource;
 
 /**
- * Utility class for UI application context implementations.
- * Provides support for a special bean named "themeSource",
- * of type {@link org.springframework.ui.context.ThemeSource}.
+ * Utility class for UI application context implementations. Provides support for a
+ * special bean named "themeSource", of type
+ * {@link org.springframework.ui.context.ThemeSource}.
  *
  * @author Jean-Pierre Pawlak
  * @author Juergen Hoeller
@@ -35,20 +35,18 @@ import org.springframework.ui.context.ThemeSource;
 public abstract class UiApplicationContextUtils {
 
 	/**
-	 * Name of the ThemeSource bean in the factory.
-	 * If none is supplied, theme resolution is delegated to the parent.
+	 * Name of the ThemeSource bean in the factory. If none is supplied, theme resolution
+	 * is delegated to the parent.
 	 * @see org.springframework.ui.context.ThemeSource
 	 */
 	public static final String THEME_SOURCE_BEAN_NAME = "themeSource";
 
-
 	private static final Log logger = LogFactory.getLog(UiApplicationContextUtils.class);
 
-
 	/**
-	 * Initialize the ThemeSource for the given application context,
-	 * autodetecting a bean with the name "themeSource". If no such
-	 * bean is found, a default (empty) ThemeSource will be used.
+	 * Initialize the ThemeSource for the given application context, autodetecting a bean
+	 * with the name "themeSource". If no such bean is found, a default (empty)
+	 * ThemeSource will be used.
 	 * @param context current application context
 	 * @return the initialized theme source (will never be {@code null})
 	 * @see #THEME_SOURCE_BEAN_NAME
@@ -60,7 +58,8 @@ public abstract class UiApplicationContextUtils {
 			if (context.getParent() instanceof ThemeSource && themeSource instanceof HierarchicalThemeSource) {
 				HierarchicalThemeSource hts = (HierarchicalThemeSource) themeSource;
 				if (hts.getParentThemeSource() == null) {
-					// Only set parent context as parent ThemeSource if no parent ThemeSource
+					// Only set parent context as parent ThemeSource if no parent
+					// ThemeSource
 					// registered already.
 					hts.setParentThemeSource((ThemeSource) context.getParent());
 				}
@@ -72,7 +71,8 @@ public abstract class UiApplicationContextUtils {
 		}
 		else {
 			// Use default ThemeSource to be able to accept getTheme calls, either
-			// delegating to parent context's default or to local ResourceBundleThemeSource.
+			// delegating to parent context's default or to local
+			// ResourceBundleThemeSource.
 			HierarchicalThemeSource themeSource = null;
 			if (context.getParent() instanceof ThemeSource) {
 				themeSource = new DelegatingThemeSource();
@@ -82,8 +82,8 @@ public abstract class UiApplicationContextUtils {
 				themeSource = new ResourceBundleThemeSource();
 			}
 			if (logger.isDebugEnabled()) {
-				logger.debug("Unable to locate ThemeSource with name '" + THEME_SOURCE_BEAN_NAME +
-						"': using default [" + themeSource + "]");
+				logger.debug("Unable to locate ThemeSource with name '" + THEME_SOURCE_BEAN_NAME + "': using default ["
+						+ themeSource + "]");
 			}
 			return themeSource;
 		}

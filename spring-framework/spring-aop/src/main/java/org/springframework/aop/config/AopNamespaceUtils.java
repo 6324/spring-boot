@@ -25,14 +25,15 @@ import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.lang.Nullable;
 
 /**
- * Utility class for handling registration of auto-proxy creators used internally
- * by the '{@code aop}' namespace tags.
+ * Utility class for handling registration of auto-proxy creators used internally by the
+ * '{@code aop}' namespace tags.
  *
- * <p>Only a single auto-proxy creator should be registered and multiple configuration
+ * <p>
+ * Only a single auto-proxy creator should be registered and multiple configuration
  * elements may wish to register different concrete implementations. As such this class
  * delegates to {@link AopConfigUtils} which provides a simple escalation protocol.
- * Callers may request a particular auto-proxy creator and know that creator,
- * <i>or a more capable variant thereof</i>, will be registered as a post-processor.
+ * Callers may request a particular auto-proxy creator and know that creator, <i>or a more
+ * capable variant thereof</i>, will be registered as a post-processor.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -52,18 +53,15 @@ public abstract class AopNamespaceUtils {
 	 */
 	private static final String EXPOSE_PROXY_ATTRIBUTE = "expose-proxy";
 
+	public static void registerAutoProxyCreatorIfNecessary(ParserContext parserContext, Element sourceElement) {
 
-	public static void registerAutoProxyCreatorIfNecessary(
-			ParserContext parserContext, Element sourceElement) {
-
-		BeanDefinition beanDefinition = AopConfigUtils.registerAutoProxyCreatorIfNecessary(
-				parserContext.getRegistry(), parserContext.extractSource(sourceElement));
+		BeanDefinition beanDefinition = AopConfigUtils.registerAutoProxyCreatorIfNecessary(parserContext.getRegistry(),
+				parserContext.extractSource(sourceElement));
 		useClassProxyingIfNecessary(parserContext.getRegistry(), sourceElement);
 		registerComponentIfNecessary(beanDefinition, parserContext);
 	}
 
-	public static void registerAspectJAutoProxyCreatorIfNecessary(
-			ParserContext parserContext, Element sourceElement) {
+	public static void registerAspectJAutoProxyCreatorIfNecessary(ParserContext parserContext, Element sourceElement) {
 
 		BeanDefinition beanDefinition = AopConfigUtils.registerAspectJAutoProxyCreatorIfNecessary(
 				parserContext.getRegistry(), parserContext.extractSource(sourceElement));
@@ -71,8 +69,8 @@ public abstract class AopNamespaceUtils {
 		registerComponentIfNecessary(beanDefinition, parserContext);
 	}
 
-	public static void registerAspectJAnnotationAutoProxyCreatorIfNecessary(
-			ParserContext parserContext, Element sourceElement) {
+	public static void registerAspectJAnnotationAutoProxyCreatorIfNecessary(ParserContext parserContext,
+			Element sourceElement) {
 
 		BeanDefinition beanDefinition = AopConfigUtils.registerAspectJAnnotationAutoProxyCreatorIfNecessary(
 				parserContext.getRegistry(), parserContext.extractSource(sourceElement));
@@ -93,7 +91,8 @@ public abstract class AopNamespaceUtils {
 		}
 	}
 
-	private static void registerComponentIfNecessary(@Nullable BeanDefinition beanDefinition, ParserContext parserContext) {
+	private static void registerComponentIfNecessary(@Nullable BeanDefinition beanDefinition,
+			ParserContext parserContext) {
 		if (beanDefinition != null) {
 			parserContext.registerComponent(
 					new BeanComponentDefinition(beanDefinition, AopConfigUtils.AUTO_PROXY_CREATOR_BEAN_NAME));

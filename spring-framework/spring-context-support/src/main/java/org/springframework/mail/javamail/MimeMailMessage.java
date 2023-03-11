@@ -25,12 +25,13 @@ import org.springframework.mail.MailMessage;
 import org.springframework.mail.MailParseException;
 
 /**
- * Implementation of the MailMessage interface for a JavaMail MIME message,
- * to let message population code interact with a simple message or a MIME
- * message through a common interface.
+ * Implementation of the MailMessage interface for a JavaMail MIME message, to let message
+ * population code interact with a simple message or a MIME message through a common
+ * interface.
  *
- * <p>Uses a MimeMessageHelper underneath. Can either be created with a
- * MimeMessageHelper instance or with a JavaMail MimeMessage instance.
+ * <p>
+ * Uses a MimeMessageHelper underneath. Can either be created with a MimeMessageHelper
+ * instance or with a JavaMail MimeMessage instance.
  *
  * @author Juergen Hoeller
  * @since 1.1.5
@@ -40,7 +41,6 @@ import org.springframework.mail.MailParseException;
 public class MimeMailMessage implements MailMessage {
 
 	private final MimeMessageHelper helper;
-
 
 	/**
 	 * Create a new MimeMailMessage based on the given MimeMessageHelper.
@@ -71,7 +71,6 @@ public class MimeMailMessage implements MailMessage {
 	public final MimeMessage getMimeMessage() {
 		return this.helper.getMimeMessage();
 	}
-
 
 	@Override
 	public void setFrom(String from) throws MailParseException {

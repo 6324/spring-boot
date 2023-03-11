@@ -38,24 +38,24 @@ import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * A {@code MessageHeaderAccessor} to use when creating a {@code Message} from
- * a decoded STOMP frame, or when encoding a {@code Message} to a STOMP frame.
+ * A {@code MessageHeaderAccessor} to use when creating a {@code Message} from a decoded
+ * STOMP frame, or when encoding a {@code Message} to a STOMP frame.
  *
- * <p>When created from STOMP frame content, the actual STOMP headers are
- * stored in the native header sub-map managed by the parent class
- * {@link org.springframework.messaging.support.NativeMessageHeaderAccessor}
- * while the parent class {@link SimpMessageHeaderAccessor} manages common
- * processing headers some of which are based on STOMP headers
- * (e.g. destination, content-type, etc).
+ * <p>
+ * When created from STOMP frame content, the actual STOMP headers are stored in the
+ * native header sub-map managed by the parent class
+ * {@link org.springframework.messaging.support.NativeMessageHeaderAccessor} while the
+ * parent class {@link SimpMessageHeaderAccessor} manages common processing headers some
+ * of which are based on STOMP headers (e.g. destination, content-type, etc).
  *
- * <p>An instance of this class can also be created by wrapping an existing
- * {@code Message}. That message may have been created with the more generic
- * {@link org.springframework.messaging.simp.SimpMessageHeaderAccessor} in
- * which case STOMP headers are created from common processing headers.
- * In this case it is also necessary to invoke either
- * {@link #updateStompCommandAsClientMessage()} or
- * {@link #updateStompCommandAsServerMessage()} if sending a message and
- * depending on whether a message is sent to a client or the message broker.
+ * <p>
+ * An instance of this class can also be created by wrapping an existing {@code Message}.
+ * That message may have been created with the more generic
+ * {@link org.springframework.messaging.simp.SimpMessageHeaderAccessor} in which case
+ * STOMP headers are created from common processing headers. In this case it is also
+ * necessary to invoke either {@link #updateStompCommandAsClientMessage()} or
+ * {@link #updateStompCommandAsServerMessage()} if sending a message and depending on
+ * whether a message is sent to a client or the message broker.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -64,8 +64,7 @@ public class StompHeaderAccessor extends SimpMessageHeaderAccessor {
 
 	private static final AtomicLong messageIdCounter = new AtomicLong();
 
-	private static final long[] DEFAULT_HEARTBEAT = new long[] {0, 0};
-
+	private static final long[] DEFAULT_HEARTBEAT = new long[] { 0, 0 };
 
 	// STOMP header names
 
@@ -77,7 +76,8 @@ public class StompHeaderAccessor extends SimpMessageHeaderAccessor {
 
 	public static final String STOMP_MESSAGE_ID_HEADER = "message-id";
 
-	public static final String STOMP_RECEIPT_HEADER = "receipt"; // any client frame except CONNECT
+	public static final String STOMP_RECEIPT_HEADER = "receipt"; // any client frame
+																	// except CONNECT
 
 	public static final String STOMP_RECEIPT_ID_HEADER = "receipt-id"; // RECEIPT frame
 
@@ -109,7 +109,6 @@ public class StompHeaderAccessor extends SimpMessageHeaderAccessor {
 
 	private static final String CREDENTIALS_HEADER = "stompCredentials";
 
-
 	/**
 	 * A constructor for creating message headers from a parsed STOMP frame.
 	 */
@@ -120,9 +119,9 @@ public class StompHeaderAccessor extends SimpMessageHeaderAccessor {
 	}
 
 	/**
-	 * A constructor for accessing and modifying existing message headers.
-	 * Note that the message headers may not have been created from a STOMP frame
-	 * but may have rather originated from using the more generic
+	 * A constructor for accessing and modifying existing message headers. Note that the
+	 * message headers may not have been created from a STOMP frame but may have rather
+	 * originated from using the more generic
 	 * {@link org.springframework.messaging.simp.SimpMessageHeaderAccessor}.
 	 */
 	StompHeaderAccessor(Message<?> message) {
@@ -133,7 +132,6 @@ public class StompHeaderAccessor extends SimpMessageHeaderAccessor {
 	StompHeaderAccessor() {
 		super(SimpMessageType.HEARTBEAT, null);
 	}
-
 
 	void updateSimpMessageHeadersFromStompHeaders() {
 		if (getNativeHeaders() == null) {
@@ -176,7 +174,6 @@ public class StompHeaderAccessor extends SimpMessageHeaderAccessor {
 		}
 		trySetStompHeaderForSubscriptionId();
 	}
-
 
 	@Override
 	protected MessageHeaderAccessor createAccessor(Message<?> message) {
@@ -243,7 +240,7 @@ public class StompHeaderAccessor extends SimpMessageHeaderAccessor {
 		if (rawValues == null) {
 			return Arrays.copyOf(DEFAULT_HEARTBEAT, 2);
 		}
-		return new long[] {Long.parseLong(rawValues[0]), Long.parseLong(rawValues[1])};
+		return new long[] { Long.parseLong(rawValues[0]), Long.parseLong(rawValues[1]) };
 	}
 
 	public void setAcceptVersion(String acceptVersion) {
@@ -406,7 +403,6 @@ public class StompHeaderAccessor extends SimpMessageHeaderAccessor {
 		setNativeHeader(STOMP_VERSION_HEADER, version);
 	}
 
-
 	// Logging related
 
 	@Override
@@ -484,11 +480,9 @@ public class StompHeaderAccessor extends SimpMessageHeaderAccessor {
 		}
 		Charset charset = mimeType.getCharset();
 		charset = (charset != null ? charset : StandardCharsets.UTF_8);
-		return (bytes.length < 80) ?
-				contentType + " payload=" + new String(bytes, charset) :
-				contentType + " payload=" + new String(Arrays.copyOf(bytes, 80), charset) + "...(truncated)";
+		return (bytes.length < 80) ? contentType + " payload=" + new String(bytes, charset)
+				: contentType + " payload=" + new String(Arrays.copyOf(bytes, 80), charset) + "...(truncated)";
 	}
-
 
 	// Static factory methods and accessors
 
@@ -507,8 +501,8 @@ public class StompHeaderAccessor extends SimpMessageHeaderAccessor {
 	}
 
 	/**
-	 * Create headers for a heartbeat. While a STOMP heartbeat frame does not
-	 * have headers, a session id is needed for processing purposes at a minimum.
+	 * Create headers for a heartbeat. While a STOMP heartbeat frame does not have
+	 * headers, a session id is needed for processing purposes at a minimum.
 	 */
 	public static StompHeaderAccessor createForHeartbeat() {
 		return new StompHeaderAccessor();
@@ -544,7 +538,6 @@ public class StompHeaderAccessor extends SimpMessageHeaderAccessor {
 		return (!CollectionUtils.isEmpty(values) ? Integer.valueOf(values.get(0)) : null);
 	}
 
-
 	private static class StompPasscode {
 
 		private final String passcode;
@@ -557,6 +550,7 @@ public class StompHeaderAccessor extends SimpMessageHeaderAccessor {
 		public String toString() {
 			return "[PROTECTED]";
 		}
+
 	}
 
 }

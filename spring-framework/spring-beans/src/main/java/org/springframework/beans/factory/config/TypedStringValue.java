@@ -23,12 +23,13 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Holder for a typed String value. Can be added to bean definitions
- * in order to explicitly specify a target type for a String value,
- * for example for collection elements.
+ * Holder for a typed String value. Can be added to bean definitions in order to
+ * explicitly specify a target type for a String value, for example for collection
+ * elements.
  *
- * <p>This holder will just store the String value and the target type.
- * The actual conversion will be performed by the bean factory.
+ * <p>
+ * This holder will just store the String value and the target type. The actual conversion
+ * will be performed by the bean factory.
  *
  * @author Juergen Hoeller
  * @since 1.2
@@ -51,7 +52,6 @@ public class TypedStringValue implements BeanMetadataElement {
 
 	private volatile boolean dynamic;
 
-
 	/**
 	 * Create a new {@link TypedStringValue} for the given String value.
 	 * @param value the String value
@@ -61,8 +61,7 @@ public class TypedStringValue implements BeanMetadataElement {
 	}
 
 	/**
-	 * Create a new {@link TypedStringValue} for the given String value
-	 * and target type.
+	 * Create a new {@link TypedStringValue} for the given String value and target type.
 	 * @param value the String value
 	 * @param targetType the type to convert to
 	 */
@@ -72,8 +71,7 @@ public class TypedStringValue implements BeanMetadataElement {
 	}
 
 	/**
-	 * Create a new {@link TypedStringValue} for the given String value
-	 * and target type.
+	 * Create a new {@link TypedStringValue} for the given String value and target type.
 	 * @param value the String value
 	 * @param targetTypeName the type to convert to
 	 */
@@ -82,11 +80,11 @@ public class TypedStringValue implements BeanMetadataElement {
 		setTargetTypeName(targetTypeName);
 	}
 
-
 	/**
 	 * Set the String value.
-	 * <p>Only necessary for manipulating a registered value,
-	 * for example in BeanFactoryPostProcessors.
+	 * <p>
+	 * Only necessary for manipulating a registered value, for example in
+	 * BeanFactoryPostProcessors.
 	 */
 	public void setValue(@Nullable String value) {
 		this.value = value;
@@ -102,8 +100,9 @@ public class TypedStringValue implements BeanMetadataElement {
 
 	/**
 	 * Set the type to convert to.
-	 * <p>Only necessary for manipulating a registered value,
-	 * for example in BeanFactoryPostProcessors.
+	 * <p>
+	 * Only necessary for manipulating a registered value, for example in
+	 * BeanFactoryPostProcessors.
 	 */
 	public void setTargetType(Class<?> targetType) {
 		Assert.notNull(targetType, "'targetType' must not be null");
@@ -150,9 +149,9 @@ public class TypedStringValue implements BeanMetadataElement {
 	}
 
 	/**
-	 * Determine the type to convert to, resolving it from a specified class name
-	 * if necessary. Will also reload a specified Class from its name when called
-	 * with the target type already resolved.
+	 * Determine the type to convert to, resolving it from a specified class name if
+	 * necessary. Will also reload a specified Class from its name when called with the
+	 * target type already resolved.
 	 * @param classLoader the ClassLoader to use for resolving a (potential) class name
 	 * @return the resolved type to convert to
 	 * @throws ClassNotFoundException if the type cannot be resolved
@@ -168,10 +167,10 @@ public class TypedStringValue implements BeanMetadataElement {
 		return resolvedClass;
 	}
 
-
 	/**
 	 * Set the configuration source {@code Object} for this metadata element.
-	 * <p>The exact type of the object will depend on the configuration mechanism used.
+	 * <p>
+	 * The exact type of the object will depend on the configuration mechanism used.
 	 */
 	public void setSource(@Nullable Object source) {
 		this.source = source;
@@ -199,8 +198,8 @@ public class TypedStringValue implements BeanMetadataElement {
 	}
 
 	/**
-	 * Mark this value as dynamic, i.e. as containing an expression
-	 * and hence not being subject to caching.
+	 * Mark this value as dynamic, i.e. as containing an expression and hence not being
+	 * subject to caching.
 	 */
 	public void setDynamic() {
 		this.dynamic = true;
@@ -213,7 +212,6 @@ public class TypedStringValue implements BeanMetadataElement {
 		return this.dynamic;
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -223,8 +221,8 @@ public class TypedStringValue implements BeanMetadataElement {
 			return false;
 		}
 		TypedStringValue otherValue = (TypedStringValue) other;
-		return (ObjectUtils.nullSafeEquals(this.value, otherValue.value) &&
-				ObjectUtils.nullSafeEquals(this.targetType, otherValue.targetType));
+		return (ObjectUtils.nullSafeEquals(this.value, otherValue.value)
+				&& ObjectUtils.nullSafeEquals(this.targetType, otherValue.targetType));
 	}
 
 	@Override

@@ -29,8 +29,8 @@ import org.springframework.messaging.Message;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
- * Implementation of {@link AbstractEncoderMethodReturnValueHandler} for tests.
- * "Handles" by storing encoded return values.
+ * Implementation of {@link AbstractEncoderMethodReturnValueHandler} for tests. "Handles"
+ * by storing encoded return values.
  *
  * @author Rossen Stoyanchev
  */
@@ -38,11 +38,9 @@ public class TestEncoderMethodReturnValueHandler extends AbstractEncoderMethodRe
 
 	private Flux<DataBuffer> encodedContent;
 
-
 	public TestEncoderMethodReturnValueHandler(List<Encoder<?>> encoders, ReactiveAdapterRegistry registry) {
 		super(encoders, registry);
 	}
-
 
 	public Flux<DataBuffer> getContent() {
 		return this.encodedContent;
@@ -53,8 +51,8 @@ public class TestEncoderMethodReturnValueHandler extends AbstractEncoderMethodRe
 	}
 
 	@Override
-	protected Mono<Void> handleEncodedContent(
-			Flux<DataBuffer> encodedContent, MethodParameter returnType, Message<?> message) {
+	protected Mono<Void> handleEncodedContent(Flux<DataBuffer> encodedContent, MethodParameter returnType,
+			Message<?> message) {
 
 		this.encodedContent = encodedContent.cache();
 		return this.encodedContent.then();
@@ -65,4 +63,5 @@ public class TestEncoderMethodReturnValueHandler extends AbstractEncoderMethodRe
 		this.encodedContent = Flux.empty();
 		return Mono.empty();
 	}
+
 }

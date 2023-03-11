@@ -24,12 +24,14 @@ import org.springframework.lang.Nullable;
  * have been processed. This type of selector can be particularly useful when the selected
  * imports are {@code @Conditional}.
  *
- * <p>Implementations can also extend the {@link org.springframework.core.Ordered}
- * interface or use the {@link org.springframework.core.annotation.Order} annotation to
- * indicate a precedence against other {@link DeferredImportSelector DeferredImportSelectors}.
+ * <p>
+ * Implementations can also extend the {@link org.springframework.core.Ordered} interface
+ * or use the {@link org.springframework.core.annotation.Order} annotation to indicate a
+ * precedence against other {@link DeferredImportSelector DeferredImportSelectors}.
  *
- * <p>Implementations may also provide an {@link #getImportGroup() import group} which
- * can provide additional sorting and filtering logic across different selectors.
+ * <p>
+ * Implementations may also provide an {@link #getImportGroup() import group} which can
+ * provide additional sorting and filtering logic across different selectors.
  *
  * @author Phillip Webb
  * @author Stephane Nicoll
@@ -39,7 +41,8 @@ public interface DeferredImportSelector extends ImportSelector {
 
 	/**
 	 * Return a specific import group.
-	 * <p>The default implementations return {@code null} for no grouping required.
+	 * <p>
+	 * The default implementations return {@code null} for no grouping required.
 	 * @return the import group class, or {@code null} if none
 	 * @since 5.0
 	 */
@@ -48,9 +51,9 @@ public interface DeferredImportSelector extends ImportSelector {
 		return null;
 	}
 
-
 	/**
 	 * Interface used to group results from different import selectors.
+	 *
 	 * @since 5.0
 	 */
 	interface Group {
@@ -62,11 +65,10 @@ public interface DeferredImportSelector extends ImportSelector {
 		void process(AnnotationMetadata metadata, DeferredImportSelector selector);
 
 		/**
-		 * Return the {@link Entry entries} of which class(es) should be imported
-		 * for this group.
+		 * Return the {@link Entry entries} of which class(es) should be imported for this
+		 * group.
 		 */
 		Iterable<Entry> selectImports();
-
 
 		/**
 		 * An entry that holds the {@link AnnotationMetadata} of the importing
@@ -119,7 +121,9 @@ public interface DeferredImportSelector extends ImportSelector {
 			public String toString() {
 				return this.importClassName;
 			}
+
 		}
+
 	}
 
 }

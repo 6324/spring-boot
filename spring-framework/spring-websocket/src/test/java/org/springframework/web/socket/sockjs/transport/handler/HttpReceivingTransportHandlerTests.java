@@ -62,8 +62,8 @@ public class HttpReceivingTransportHandlerTests extends AbstractHttpRequestTests
 	@Test
 	public void readMessagesNoSession() throws Exception {
 		WebSocketHandler webSocketHandler = mock(WebSocketHandler.class);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new XhrReceivingTransportHandler().handleRequest(this.request, this.response, webSocketHandler, null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new XhrReceivingTransportHandler()
+				.handleRequest(this.request, this.response, webSocketHandler, null));
 	}
 
 	@Test
@@ -79,11 +79,10 @@ public class HttpReceivingTransportHandlerTests extends AbstractHttpRequestTests
 
 		XhrReceivingTransportHandler transportHandler = new XhrReceivingTransportHandler();
 		transportHandler.initialize(sockJsConfig);
-		assertThatExceptionOfType(SockJsMessageDeliveryException.class).isThrownBy(() ->
-				transportHandler.handleRequest(this.request, this.response, wsHandler, session));
+		assertThatExceptionOfType(SockJsMessageDeliveryException.class)
+				.isThrownBy(() -> transportHandler.handleRequest(this.request, this.response, wsHandler, session));
 		assertThat(session.getCloseStatus()).isNull();
 	}
-
 
 	private void handleRequest(AbstractHttpReceivingTransportHandler transportHandler) throws Exception {
 		WebSocketHandler wsHandler = mock(WebSocketHandler.class);

@@ -35,8 +35,8 @@ import org.springframework.util.ReflectionUtils;
 
 /**
  * {@link InvocationHandler} for an {@link Annotation} that Spring has
- * <em>synthesized</em> (i.e. wrapped in a dynamic proxy) with additional
- * functionality such as attribute alias handling.
+ * <em>synthesized</em> (i.e. wrapped in a dynamic proxy) with additional functionality
+ * such as attribute alias handling.
  *
  * @author Sam Brannen
  * @author Phillip Webb
@@ -61,7 +61,6 @@ final class SynthesizedMergedAnnotationInvocationHandler<A extends Annotation> i
 	@Nullable
 	private volatile String string;
 
-
 	private SynthesizedMergedAnnotationInvocationHandler(MergedAnnotation<A> annotation, Class<A> type) {
 		Assert.notNull(annotation, "MergedAnnotation must not be null");
 		Assert.notNull(type, "Type must not be null");
@@ -70,7 +69,6 @@ final class SynthesizedMergedAnnotationInvocationHandler<A extends Annotation> i
 		this.type = type;
 		this.attributes = AttributeMethods.forAnnotationType(type);
 	}
-
 
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) {
@@ -89,8 +87,8 @@ final class SynthesizedMergedAnnotationInvocationHandler<A extends Annotation> i
 		if (this.attributes.indexOf(method.getName()) != -1) {
 			return getAttributeValue(method);
 		}
-		throw new AnnotationConfigurationException(String.format(
-				"Method [%s] is unsupported for synthesized annotation type [%s]", method, this.type));
+		throw new AnnotationConfigurationException(
+				String.format("Method [%s] is unsupported for synthesized annotation type [%s]", method, this.type));
 	}
 
 	private boolean isAnnotationTypeMethod(Method method) {
@@ -215,12 +213,13 @@ final class SynthesizedMergedAnnotationInvocationHandler<A extends Annotation> i
 	private Object getAttributeValue(Method method) {
 		Object value = this.valueCache.computeIfAbsent(method.getName(), attributeName -> {
 			Class<?> type = ClassUtils.resolvePrimitiveIfNecessary(method.getReturnType());
-			return this.annotation.getValue(attributeName, type).orElseThrow(
-					() -> new NoSuchElementException("No value found for attribute named '" + attributeName +
-							"' in merged annotation " + this.annotation.getType().getName()));
+			return this.annotation.getValue(attributeName, type)
+					.orElseThrow(() -> new NoSuchElementException("No value found for attribute named '" + attributeName
+							+ "' in merged annotation " + this.annotation.getType().getName()));
 		});
 
-		// Clone non-empty arrays so that users cannot alter the contents of values in our cache.
+		// Clone non-empty arrays so that users cannot alter the contents of values in our
+		// cache.
 		if (value.getClass().isArray() && Array.getLength(value) > 0) {
 			value = cloneArray(value);
 		}
@@ -266,11 +265,10 @@ final class SynthesizedMergedAnnotationInvocationHandler<A extends Annotation> i
 	static <A extends Annotation> A createProxy(MergedAnnotation<A> annotation, Class<A> type) {
 		ClassLoader classLoader = type.getClassLoader();
 		InvocationHandler handler = new SynthesizedMergedAnnotationInvocationHandler<>(annotation, type);
-		Class<?>[] interfaces = isVisible(classLoader, SynthesizedAnnotation.class) ?
-				new Class<?>[] {type, SynthesizedAnnotation.class} : new Class<?>[] {type};
+		Class<?>[] interfaces = isVisible(classLoader, SynthesizedAnnotation.class)
+				? new Class<?>[] { type, SynthesizedAnnotation.class } : new Class<?>[] { type };
 		return (A) Proxy.newProxyInstance(classLoader, interfaces, handler);
 	}
-
 
 	private static boolean isVisible(ClassLoader classLoader, Class<?> interfaceClass) {
 		if (classLoader == interfaceClass.getClassLoader()) {

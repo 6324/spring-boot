@@ -29,18 +29,19 @@ import org.springframework.lang.Nullable;
 
 /**
  * Extension of the generic JCA 1.5
- * {@link org.springframework.jca.endpoint.GenericMessageEndpointManager},
- * adding JMS-specific support for ActivationSpec configuration.
+ * {@link org.springframework.jca.endpoint.GenericMessageEndpointManager}, adding
+ * JMS-specific support for ActivationSpec configuration.
  *
- * <p>Allows for defining a common {@link JmsActivationSpecConfig} object
- * that gets converted into a provider-specific JCA 1.5 ActivationSpec
- * object for activating the endpoint.
+ * <p>
+ * Allows for defining a common {@link JmsActivationSpecConfig} object that gets converted
+ * into a provider-specific JCA 1.5 ActivationSpec object for activating the endpoint.
  *
- * <p><b>NOTE:</b> This JCA-based endpoint manager supports standard JMS
- * {@link javax.jms.MessageListener} endpoints only. It does <i>not</i> support
- * Spring's {@link org.springframework.jms.listener.SessionAwareMessageListener}
- * variant, simply because the JCA endpoint management contract does not allow
- * for obtaining the current JMS {@link javax.jms.Session}.
+ * <p>
+ * <b>NOTE:</b> This JCA-based endpoint manager supports standard JMS
+ * {@link javax.jms.MessageListener} endpoints only. It does <i>not</i> support Spring's
+ * {@link org.springframework.jms.listener.SessionAwareMessageListener} variant, simply
+ * because the JCA endpoint management contract does not allow for obtaining the current
+ * JMS {@link javax.jms.Session}.
  *
  * @author Juergen Hoeller
  * @author Stephane Nicoll
@@ -63,10 +64,10 @@ public class JmsMessageEndpointManager extends GenericMessageEndpointManager
 	@Nullable
 	private JmsActivationSpecConfig activationSpecConfig;
 
-
 	/**
 	 * Set the JMS MessageListener for this endpoint.
-	 * <p>This is a shortcut for configuring a dedicated JmsMessageEndpointFactory.
+	 * <p>
+	 * This is a shortcut for configuring a dedicated JmsMessageEndpointFactory.
 	 * @see JmsMessageEndpointFactory#setMessageListener
 	 */
 	public void setMessageListener(MessageListener messageListener) {
@@ -82,16 +83,18 @@ public class JmsMessageEndpointManager extends GenericMessageEndpointManager
 	}
 
 	/**
-	 * Set the XA transaction manager to use for wrapping endpoint
-	 * invocations, enlisting the endpoint resource in each such transaction.
-	 * <p>The passed-in object may be a transaction manager which implements
-	 * Spring's {@link org.springframework.transaction.jta.TransactionFactory}
-	 * interface, or a plain {@link javax.transaction.TransactionManager}.
-	 * <p>If no transaction manager is specified, the endpoint invocation
-	 * will simply not be wrapped in an XA transaction. Consult your
-	 * resource provider's ActivationSpec documentation for the local
-	 * transaction options of your particular provider.
-	 * <p>This is a shortcut for configuring a dedicated JmsMessageEndpointFactory.
+	 * Set the XA transaction manager to use for wrapping endpoint invocations, enlisting
+	 * the endpoint resource in each such transaction.
+	 * <p>
+	 * The passed-in object may be a transaction manager which implements Spring's
+	 * {@link org.springframework.transaction.jta.TransactionFactory} interface, or a
+	 * plain {@link javax.transaction.TransactionManager}.
+	 * <p>
+	 * If no transaction manager is specified, the endpoint invocation will simply not be
+	 * wrapped in an XA transaction. Consult your resource provider's ActivationSpec
+	 * documentation for the local transaction options of your particular provider.
+	 * <p>
+	 * This is a shortcut for configuring a dedicated JmsMessageEndpointFactory.
 	 * @see JmsMessageEndpointFactory#setTransactionManager
 	 */
 	public void setTransactionManager(Object transactionManager) {
@@ -99,30 +102,34 @@ public class JmsMessageEndpointManager extends GenericMessageEndpointManager
 	}
 
 	/**
-	 * Set the factory for concrete JCA 1.5 ActivationSpec objects,
-	 * creating JCA ActivationSpecs based on
-	 * {@link #setActivationSpecConfig JmsActivationSpecConfig} objects.
-	 * <p>This factory is dependent on the concrete JMS provider, e.g. on ActiveMQ.
-	 * The default implementation simply guesses the ActivationSpec class name
-	 * from the provider's class name (e.g. "ActiveMQResourceAdapter" ->
-	 * "ActiveMQActivationSpec" in the same package), and populates the
-	 * ActivationSpec properties as suggested by the JCA 1.5 specification
-	 * (plus a couple of autodetected vendor-specific properties).
+	 * Set the factory for concrete JCA 1.5 ActivationSpec objects, creating JCA
+	 * ActivationSpecs based on {@link #setActivationSpecConfig JmsActivationSpecConfig}
+	 * objects.
+	 * <p>
+	 * This factory is dependent on the concrete JMS provider, e.g. on ActiveMQ. The
+	 * default implementation simply guesses the ActivationSpec class name from the
+	 * provider's class name (e.g. "ActiveMQResourceAdapter" -> "ActiveMQActivationSpec"
+	 * in the same package), and populates the ActivationSpec properties as suggested by
+	 * the JCA 1.5 specification (plus a couple of autodetected vendor-specific
+	 * properties).
 	 * @see DefaultJmsActivationSpecFactory
 	 */
 	public void setActivationSpecFactory(@Nullable JmsActivationSpecFactory activationSpecFactory) {
-		this.activationSpecFactory =
-				(activationSpecFactory != null ? activationSpecFactory : new DefaultJmsActivationSpecFactory());
+		this.activationSpecFactory = (activationSpecFactory != null ? activationSpecFactory
+				: new DefaultJmsActivationSpecFactory());
 	}
 
 	/**
-	 * Set the DestinationResolver to use for resolving destination names
-	 * into the JCA 1.5 ActivationSpec "destination" property.
-	 * <p>If not specified, destination names will simply be passed in as Strings.
-	 * If specified, destination names will be resolved into Destination objects first.
-	 * <p>Note that a DestinationResolver is usually specified on the JmsActivationSpecFactory
-	 * (see {@link StandardJmsActivationSpecFactory#setDestinationResolver}). This is simply
-	 * a shortcut for parameterizing the default JmsActivationSpecFactory; it will replace
+	 * Set the DestinationResolver to use for resolving destination names into the JCA 1.5
+	 * ActivationSpec "destination" property.
+	 * <p>
+	 * If not specified, destination names will simply be passed in as Strings. If
+	 * specified, destination names will be resolved into Destination objects first.
+	 * <p>
+	 * Note that a DestinationResolver is usually specified on the
+	 * JmsActivationSpecFactory (see
+	 * {@link StandardJmsActivationSpecFactory#setDestinationResolver}). This is simply a
+	 * shortcut for parameterizing the default JmsActivationSpecFactory; it will replace
 	 * any custom JmsActivationSpecFactory that might have been set before.
 	 * @see StandardJmsActivationSpecFactory#setDestinationResolver
 	 */
@@ -135,16 +142,17 @@ public class JmsMessageEndpointManager extends GenericMessageEndpointManager
 	/**
 	 * Specify the {@link JmsActivationSpecConfig} object that this endpoint manager
 	 * should use for activating its listener.
-	 * <p>This config object will be turned into a concrete JCA 1.5 ActivationSpec
-	 * object through a {@link #setActivationSpecFactory JmsActivationSpecFactory}.
+	 * <p>
+	 * This config object will be turned into a concrete JCA 1.5 ActivationSpec object
+	 * through a {@link #setActivationSpecFactory JmsActivationSpecFactory}.
 	 */
 	public void setActivationSpecConfig(@Nullable JmsActivationSpecConfig activationSpecConfig) {
 		this.activationSpecConfig = activationSpecConfig;
 	}
 
 	/**
-	 * Return the {@link JmsActivationSpecConfig} object that this endpoint manager
-	 * should use for activating its listener. Return {@code null} if none is set.
+	 * Return the {@link JmsActivationSpecConfig} object that this endpoint manager should
+	 * use for activating its listener. Return {@code null} if none is set.
 	 */
 	@Nullable
 	public JmsActivationSpecConfig getActivationSpecConfig() {
@@ -152,14 +160,13 @@ public class JmsMessageEndpointManager extends GenericMessageEndpointManager
 	}
 
 	/**
-	 * Set the name of this message endpoint. Populated with the bean name
-	 * automatically when defined within Spring's bean factory.
+	 * Set the name of this message endpoint. Populated with the bean name automatically
+	 * when defined within Spring's bean factory.
 	 */
 	@Override
 	public void setBeanName(String beanName) {
 		this.endpointFactory.setBeanName(beanName);
 	}
-
 
 	@Override
 	public void afterPropertiesSet() throws ResourceException {
@@ -177,16 +184,14 @@ public class JmsMessageEndpointManager extends GenericMessageEndpointManager
 		super.afterPropertiesSet();
 	}
 
-
 	@Override
 	public void setupMessageListener(Object messageListener) {
 		if (messageListener instanceof MessageListener) {
 			setMessageListener((MessageListener) messageListener);
 		}
 		else {
-			throw new IllegalArgumentException("Unsupported message listener '" +
-					messageListener.getClass().getName() + "': only '" + MessageListener.class.getName() +
-					"' type is supported");
+			throw new IllegalArgumentException("Unsupported message listener '" + messageListener.getClass().getName()
+					+ "': only '" + MessageListener.class.getName() + "' type is supported");
 		}
 	}
 
@@ -236,4 +241,5 @@ public class JmsMessageEndpointManager extends GenericMessageEndpointManager
 		}
 		throw new IllegalStateException("Could not determine reply qosSettings - no activation spec config is set");
 	}
+
 }

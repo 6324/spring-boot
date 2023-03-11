@@ -66,13 +66,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ClassPathScanningCandidateComponentProviderTests {
 
 	private static final String TEST_BASE_PACKAGE = "example.scannable";
+
 	private static final String TEST_PROFILE_PACKAGE = "example.profilescan";
+
 	private static final String TEST_DEFAULT_PROFILE_NAME = "testDefault";
 
 	private static final ClassLoader TEST_BASE_CLASSLOADER = CandidateComponentsTestClassLoader.index(
 			ClassPathScanningCandidateComponentProviderTests.class.getClassLoader(),
 			new ClassPathResource("spring.components", NamedComponent.class));
-
 
 	@Test
 	public void defaultsWithScan() {
@@ -497,11 +498,11 @@ public class ClassPathScanningCandidateComponentProviderTests {
 	@Test
 	public void componentScanningFindsComponentsAnnotatedWithAnnotationsContainingNestedAnnotations() {
 		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(true);
-		Set<BeanDefinition> components = provider.findCandidateComponents(AnnotatedComponent.class.getPackage().getName());
+		Set<BeanDefinition> components = provider
+				.findCandidateComponents(AnnotatedComponent.class.getPackage().getName());
 		assertThat(components).hasSize(1);
 		assertThat(components.iterator().next().getBeanClassName()).isEqualTo(AnnotatedComponent.class.getName());
 	}
-
 
 	private boolean containsBeanClass(Set<BeanDefinition> candidates, Class<?> beanClass) {
 		for (BeanDefinition candidate : candidates) {
@@ -513,38 +514,44 @@ public class ClassPathScanningCandidateComponentProviderTests {
 	}
 
 	private void assertBeanDefinitionType(Set<BeanDefinition> candidates) {
-		candidates.forEach(c ->
-			assertThat(c).isInstanceOf(ScannedGenericBeanDefinition.class)
-		);
+		candidates.forEach(c -> assertThat(c).isInstanceOf(ScannedGenericBeanDefinition.class));
 	}
-
 
 	@Profile(TEST_DEFAULT_PROFILE_NAME)
 	@Component(DefaultProfileAnnotatedComponent.BEAN_NAME)
 	private static class DefaultProfileAnnotatedComponent {
+
 		static final String BEAN_NAME = "defaultProfileAnnotatedComponent";
+
 	}
 
-	@Profile({TEST_DEFAULT_PROFILE_NAME, "dev"})
+	@Profile({ TEST_DEFAULT_PROFILE_NAME, "dev" })
 	@Component(DefaultAndDevProfileAnnotatedComponent.BEAN_NAME)
 	private static class DefaultAndDevProfileAnnotatedComponent {
+
 		static final String BEAN_NAME = "defaultAndDevProfileAnnotatedComponent";
+
 	}
 
-	@DefaultProfile @DevProfile
+	@DefaultProfile
+	@DevProfile
 	@Component(MetaProfileAnnotatedComponent.BEAN_NAME)
 	private static class MetaProfileAnnotatedComponent {
+
 		static final String BEAN_NAME = "metaProfileAnnotatedComponent";
+
 	}
 
 	@Profile(TEST_DEFAULT_PROFILE_NAME)
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface DefaultProfile {
+
 	}
 
 	@Profile("dev")
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface DevProfile {
+
 	}
 
 }

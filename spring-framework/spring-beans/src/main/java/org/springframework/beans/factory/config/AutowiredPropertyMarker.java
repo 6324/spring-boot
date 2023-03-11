@@ -21,12 +21,13 @@ import java.io.Serializable;
 import org.springframework.lang.Nullable;
 
 /**
- * Simple marker class for an individually autowired property value, to be added
- * to {@link BeanDefinition#getPropertyValues()} for a specific bean property.
+ * Simple marker class for an individually autowired property value, to be added to
+ * {@link BeanDefinition#getPropertyValues()} for a specific bean property.
  *
- * <p>At runtime, this will be replaced with a {@link DependencyDescriptor}
- * for the corresponding bean property's write method, eventually to be resolved
- * through a {@link AutowireCapableBeanFactory#resolveDependency} step.
+ * <p>
+ * At runtime, this will be replaced with a {@link DependencyDescriptor} for the
+ * corresponding bean property's write method, eventually to be resolved through a
+ * {@link AutowireCapableBeanFactory#resolveDependency} step.
  *
  * @author Juergen Hoeller
  * @since 5.2
@@ -42,14 +43,12 @@ public final class AutowiredPropertyMarker implements Serializable {
 	 */
 	public static final Object INSTANCE = new AutowiredPropertyMarker();
 
-
 	private AutowiredPropertyMarker() {
 	}
 
 	private Object readResolve() {
 		return INSTANCE;
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object obj) {

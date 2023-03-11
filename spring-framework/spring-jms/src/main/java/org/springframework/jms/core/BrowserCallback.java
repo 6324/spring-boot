@@ -25,9 +25,10 @@ import org.springframework.lang.Nullable;
 /**
  * Callback for browsing the messages in a JMS queue.
  *
- * <p>To be used with {@link JmsTemplate}'s callback methods that take a
- * {@link BrowserCallback} argument, often implemented as an anonymous
- * inner class or as a lambda expression.
+ * <p>
+ * To be used with {@link JmsTemplate}'s callback methods that take a
+ * {@link BrowserCallback} argument, often implemented as an anonymous inner class or as a
+ * lambda expression.
  *
  * @author Juergen Hoeller
  * @since 2.5.1
@@ -43,8 +44,8 @@ public interface BrowserCallback<T> {
 	 * {@link javax.jms.QueueBrowser}.
 	 * @param session the JMS {@code Session} object to use
 	 * @param browser the JMS {@code QueueBrowser} object to use
-	 * @return a result object from working with the {@code Session}, if any
-	 * (or {@code null} if none)
+	 * @return a result object from working with the {@code Session}, if any (or
+	 * {@code null} if none)
 	 * @throws javax.jms.JMSException if thrown by JMS API methods
 	 */
 	@Nullable

@@ -28,12 +28,13 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Abstract BeanFactory-based PointcutAdvisor that allows for any Advice
- * to be configured as reference to an Advice bean in a BeanFactory.
+ * Abstract BeanFactory-based PointcutAdvisor that allows for any Advice to be configured
+ * as reference to an Advice bean in a BeanFactory.
  *
- * <p>Specifying the name of an advice bean instead of the advice object itself
- * (if running within a BeanFactory) increases loose coupling at initialization time,
- * in order to not initialize the advice object until the pointcut actually matches.
+ * <p>
+ * Specifying the name of an advice bean instead of the advice object itself (if running
+ * within a BeanFactory) increases loose coupling at initialization time, in order to not
+ * initialize the advice object until the pointcut actually matches.
  *
  * @author Juergen Hoeller
  * @since 2.0.2
@@ -54,13 +55,12 @@ public abstract class AbstractBeanFactoryPointcutAdvisor extends AbstractPointcu
 
 	private transient volatile Object adviceMonitor = new Object();
 
-
 	/**
 	 * Specify the name of the advice bean that this advisor should refer to.
-	 * <p>An instance of the specified bean will be obtained on first access
-	 * of this advisor's advice. This advisor will only ever obtain at most one
-	 * single instance of the advice bean, caching the instance for the lifetime
-	 * of the advisor.
+	 * <p>
+	 * An instance of the specified bean will be obtained on first access of this
+	 * advisor's advice. This advisor will only ever obtain at most one single instance of
+	 * the advice bean, caching the instance for the lifetime of the advisor.
 	 * @see #getAdvice()
 	 */
 	public void setAdviceBeanName(@Nullable String adviceBeanName) {
@@ -91,8 +91,8 @@ public abstract class AbstractBeanFactoryPointcutAdvisor extends AbstractPointcu
 	}
 
 	/**
-	 * Specify a particular instance of the target advice directly,
-	 * avoiding lazy resolution in {@link #getAdvice()}.
+	 * Specify a particular instance of the target advice directly, avoiding lazy
+	 * resolution in {@link #getAdvice()}.
 	 * @since 3.1
 	 */
 	public void setAdvice(Advice advice) {
@@ -145,10 +145,9 @@ public abstract class AbstractBeanFactoryPointcutAdvisor extends AbstractPointcu
 		return sb.toString();
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Serialization support
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
 		// Rely on default serialization, just initialize state after deserialization.

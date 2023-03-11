@@ -21,8 +21,8 @@ import java.lang.reflect.Method;
 import org.springframework.aop.MethodMatcher;
 
 /**
- * Convenient abstract superclass for static method matchers, which don't care
- * about arguments at runtime.
+ * Convenient abstract superclass for static method matchers, which don't care about
+ * arguments at runtime.
  *
  * @author Rod Johnson
  */

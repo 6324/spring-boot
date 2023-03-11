@@ -52,7 +52,6 @@ public class HandshakeInterceptorChainTests extends AbstractHttpRequestTests {
 
 	private Map<String, Object> attributes;
 
-
 	@Override
 	@BeforeEach
 	public void setup() {
@@ -65,7 +64,6 @@ public class HandshakeInterceptorChainTests extends AbstractHttpRequestTests {
 		wsHandler = mock(WebSocketHandler.class);
 		attributes = new HashMap<>();
 	}
-
 
 	@Test
 	public void success() throws Exception {

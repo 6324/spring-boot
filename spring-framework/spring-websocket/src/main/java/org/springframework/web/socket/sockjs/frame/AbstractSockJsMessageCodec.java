@@ -75,9 +75,8 @@ public abstract class AbstractSockJsMessageCodec implements SockJsMessageCodec {
 	 * See `escapable_by_server` variable in the SockJS protocol test suite.
 	 */
 	private boolean isSockJsSpecialChar(char ch) {
-		return (ch <= '\u001F') || (ch >= '\u200C' && ch <= '\u200F') ||
-				(ch >= '\u2028' && ch <= '\u202F') || (ch >= '\u2060' && ch <= '\u206F') ||
-				(ch >= '\uFFF0') || (ch >= '\uD800' && ch <= '\uDFFF');
+		return (ch <= '\u001F') || (ch >= '\u200C' && ch <= '\u200F') || (ch >= '\u2028' && ch <= '\u202F')
+				|| (ch >= '\u2060' && ch <= '\u206F') || (ch >= '\uFFF0') || (ch >= '\uD800' && ch <= '\uDFFF');
 	}
 
 }

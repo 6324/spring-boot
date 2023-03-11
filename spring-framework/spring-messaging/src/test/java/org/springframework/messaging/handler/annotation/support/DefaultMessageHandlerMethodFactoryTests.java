@@ -54,7 +54,6 @@ public class DefaultMessageHandlerMethodFactoryTests {
 
 	private final SampleBean sample = new SampleBean();
 
-
 	@Test
 	public void customConversion() throws Exception {
 		DefaultMessageHandlerMethodFactory instance = createInstance();
@@ -68,8 +67,8 @@ public class DefaultMessageHandlerMethodFactoryTests {
 		instance.setConversionService(conversionService);
 		instance.afterPropertiesSet();
 
-		InvocableHandlerMethod invocableHandlerMethod =
-				createInvocableHandlerMethod(instance, "simpleString", String.class);
+		InvocableHandlerMethod invocableHandlerMethod = createInvocableHandlerMethod(instance, "simpleString",
+				String.class);
 
 		invocableHandlerMethod.invoke(MessageBuilder.withPayload(sample).build());
 		assertMethodInvocation(sample, "simpleString");
@@ -79,15 +78,16 @@ public class DefaultMessageHandlerMethodFactoryTests {
 	public void customConversionServiceFailure() throws Exception {
 		DefaultMessageHandlerMethodFactory instance = createInstance();
 		GenericConversionService conversionService = new GenericConversionService();
-		assertThat(conversionService.canConvert(Integer.class, String.class)).as("conversion service should fail to convert payload").isFalse();
+		assertThat(conversionService.canConvert(Integer.class, String.class))
+				.as("conversion service should fail to convert payload").isFalse();
 		instance.setConversionService(conversionService);
 		instance.afterPropertiesSet();
 
-		InvocableHandlerMethod invocableHandlerMethod =
-				createInvocableHandlerMethod(instance, "simpleString", String.class);
+		InvocableHandlerMethod invocableHandlerMethod = createInvocableHandlerMethod(instance, "simpleString",
+				String.class);
 
-		assertThatExceptionOfType(MessageConversionException.class).isThrownBy(() ->
-				invocableHandlerMethod.invoke(MessageBuilder.withPayload(123).build()));
+		assertThatExceptionOfType(MessageConversionException.class)
+				.isThrownBy(() -> invocableHandlerMethod.invoke(MessageBuilder.withPayload(123).build()));
 	}
 
 	@Test
@@ -97,11 +97,11 @@ public class DefaultMessageHandlerMethodFactoryTests {
 		instance.setMessageConverter(messageConverter);
 		instance.afterPropertiesSet();
 
-		InvocableHandlerMethod invocableHandlerMethod =
-				createInvocableHandlerMethod(instance, "simpleString", String.class);
+		InvocableHandlerMethod invocableHandlerMethod = createInvocableHandlerMethod(instance, "simpleString",
+				String.class);
 
-		assertThatExceptionOfType(MessageConversionException.class).isThrownBy(() ->
-				invocableHandlerMethod.invoke(MessageBuilder.withPayload(123).build()));
+		assertThatExceptionOfType(MessageConversionException.class)
+				.isThrownBy(() -> invocableHandlerMethod.invoke(MessageBuilder.withPayload(123).build()));
 	}
 
 	@Test
@@ -112,8 +112,8 @@ public class DefaultMessageHandlerMethodFactoryTests {
 		instance.setCustomArgumentResolvers(customResolvers);
 		instance.afterPropertiesSet();
 
-		InvocableHandlerMethod invocableHandlerMethod =
-				createInvocableHandlerMethod(instance, "customArgumentResolver", Locale.class);
+		InvocableHandlerMethod invocableHandlerMethod = createInvocableHandlerMethod(instance, "customArgumentResolver",
+				Locale.class);
 
 		invocableHandlerMethod.invoke(MessageBuilder.withPayload(123).build());
 		assertMethodInvocation(sample, "customArgumentResolver");
@@ -130,17 +130,18 @@ public class DefaultMessageHandlerMethodFactoryTests {
 		Message<String> message = MessageBuilder.withPayload("sample").build();
 
 		// This will work as the local resolver is set
-		InvocableHandlerMethod invocableHandlerMethod =
-				createInvocableHandlerMethod(instance, "customArgumentResolver", Locale.class);
+		InvocableHandlerMethod invocableHandlerMethod = createInvocableHandlerMethod(instance, "customArgumentResolver",
+				Locale.class);
 		invocableHandlerMethod.invoke(message);
 		assertMethodInvocation(sample, "customArgumentResolver");
 
 		// This won't work as no resolver is known for the payload
-		InvocableHandlerMethod invocableHandlerMethod2 =
-				createInvocableHandlerMethod(instance, "simpleString", String.class);
+		InvocableHandlerMethod invocableHandlerMethod2 = createInvocableHandlerMethod(instance, "simpleString",
+				String.class);
 
-		assertThatExceptionOfType(MethodArgumentResolutionException.class).isThrownBy(() ->
-				invocableHandlerMethod2.invoke(message)).withMessageContaining("No suitable resolver");
+		assertThatExceptionOfType(MethodArgumentResolutionException.class)
+				.isThrownBy(() -> invocableHandlerMethod2.invoke(message))
+				.withMessageContaining("No suitable resolver");
 	}
 
 	@Test
@@ -148,8 +149,8 @@ public class DefaultMessageHandlerMethodFactoryTests {
 		DefaultMessageHandlerMethodFactory instance = createInstance();
 		instance.afterPropertiesSet();
 
-		InvocableHandlerMethod invocableHandlerMethod =
-				createInvocableHandlerMethod(instance, "payloadValidation", String.class);
+		InvocableHandlerMethod invocableHandlerMethod = createInvocableHandlerMethod(instance, "payloadValidation",
+				String.class);
 		invocableHandlerMethod.invoke(MessageBuilder.withPayload("failure").build());
 		assertMethodInvocation(sample, "payloadValidation");
 	}
@@ -162,6 +163,7 @@ public class DefaultMessageHandlerMethodFactoryTests {
 			public boolean supports(Class<?> clazz) {
 				return String.class.isAssignableFrom(clazz);
 			}
+
 			@Override
 			public void validate(Object target, Errors errors) {
 				String value = (String) target;
@@ -172,19 +174,19 @@ public class DefaultMessageHandlerMethodFactoryTests {
 		});
 		instance.afterPropertiesSet();
 
-		InvocableHandlerMethod invocableHandlerMethod =
-				createInvocableHandlerMethod(instance, "payloadValidation", String.class);
-		assertThatExceptionOfType(MethodArgumentNotValidException.class).isThrownBy(() ->
-				invocableHandlerMethod.invoke(MessageBuilder.withPayload("failure").build()));
+		InvocableHandlerMethod invocableHandlerMethod = createInvocableHandlerMethod(instance, "payloadValidation",
+				String.class);
+		assertThatExceptionOfType(MethodArgumentNotValidException.class)
+				.isThrownBy(() -> invocableHandlerMethod.invoke(MessageBuilder.withPayload("failure").build()));
 	}
-
 
 	private void assertMethodInvocation(SampleBean bean, String methodName) {
-		assertThat((boolean) bean.invocations.get(methodName)).as("Method " + methodName + " should have been invoked").isTrue();
+		assertThat((boolean) bean.invocations.get(methodName)).as("Method " + methodName + " should have been invoked")
+				.isTrue();
 	}
 
-	private InvocableHandlerMethod createInvocableHandlerMethod(
-			DefaultMessageHandlerMethodFactory factory, String methodName, Class<?>... parameterTypes) {
+	private InvocableHandlerMethod createInvocableHandlerMethod(DefaultMessageHandlerMethodFactory factory,
+			String methodName, Class<?>... parameterTypes) {
 		return factory.createInvocableHandlerMethod(sample, getListenerMethod(methodName, parameterTypes));
 	}
 
@@ -196,10 +198,10 @@ public class DefaultMessageHandlerMethodFactoryTests {
 
 	private Method getListenerMethod(String methodName, Class<?>... parameterTypes) {
 		Method method = ReflectionUtils.findMethod(SampleBean.class, methodName, parameterTypes);
-		assertThat(("no method found with name " + methodName + " and parameters " + Arrays.toString(parameterTypes))).isNotNull();
+		assertThat(("no method found with name " + methodName + " and parameters " + Arrays.toString(parameterTypes)))
+				.isNotNull();
 		return method;
 	}
-
 
 	static class SampleBean {
 
@@ -217,8 +219,8 @@ public class DefaultMessageHandlerMethodFactoryTests {
 			invocations.put("customArgumentResolver", true);
 			assertThat(locale).as("Wrong value for locale").isEqualTo(Locale.getDefault());
 		}
-	}
 
+	}
 
 	static class CustomHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
@@ -231,6 +233,7 @@ public class DefaultMessageHandlerMethodFactoryTests {
 		public Object resolveArgument(MethodParameter parameter, Message<?> message) throws Exception {
 			return Locale.getDefault();
 		}
+
 	}
 
 }

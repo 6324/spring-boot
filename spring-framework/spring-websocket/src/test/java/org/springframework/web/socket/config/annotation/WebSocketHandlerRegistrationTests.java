@@ -48,7 +48,6 @@ public class WebSocketHandlerRegistrationTests {
 
 	private TaskScheduler taskScheduler = mock(TaskScheduler.class);
 
-
 	@Test
 	public void minimal() {
 		WebSocketHandler handler = new TextWebSocketHandler();
@@ -115,7 +114,8 @@ public class WebSocketHandlerRegistrationTests {
 		WebSocketHandler handler = new TextWebSocketHandler();
 		HttpSessionHandshakeInterceptor interceptor = new HttpSessionHandshakeInterceptor();
 
-		this.registration.addHandler(handler, "/foo").addInterceptors(interceptor).setAllowedOrigins("https://mydomain1.example");
+		this.registration.addHandler(handler, "/foo").addInterceptors(interceptor)
+				.setAllowedOrigins("https://mydomain1.example");
 
 		List<Mapping> mappings = this.registration.getMappings();
 		assertThat(mappings.size()).isEqualTo(1);
@@ -134,10 +134,8 @@ public class WebSocketHandlerRegistrationTests {
 		WebSocketHandler handler = new TextWebSocketHandler();
 		HttpSessionHandshakeInterceptor interceptor = new HttpSessionHandshakeInterceptor();
 
-		this.registration.addHandler(handler, "/foo")
-				.addInterceptors(interceptor)
-				.setAllowedOrigins("https://mydomain1.example")
-				.withSockJS();
+		this.registration.addHandler(handler, "/foo").addInterceptors(interceptor)
+				.setAllowedOrigins("https://mydomain1.example").withSockJS();
 
 		this.registration.getSockJsServiceRegistration().setTaskScheduler(this.taskScheduler);
 
@@ -186,11 +184,10 @@ public class WebSocketHandlerRegistrationTests {
 		assertThat(mapping.path).isEqualTo("/foo/**");
 		assertThat(mapping.sockJsService).isNotNull();
 
-		WebSocketTransportHandler transportHandler =
-				(WebSocketTransportHandler) mapping.sockJsService.getTransportHandlers().get(TransportType.WEBSOCKET);
+		WebSocketTransportHandler transportHandler = (WebSocketTransportHandler) mapping.sockJsService
+				.getTransportHandlers().get(TransportType.WEBSOCKET);
 		assertThat(transportHandler.getHandshakeHandler()).isSameAs(handshakeHandler);
 	}
-
 
 	private static class TestWebSocketHandlerRegistration extends AbstractWebSocketHandlerRegistration<List<Mapping>> {
 
@@ -212,8 +209,8 @@ public class WebSocketHandlerRegistrationTests {
 
 			mappings.add(new Mapping(handler, path, handshakeHandler, interceptors));
 		}
-	}
 
+	}
 
 	private static class Mapping {
 
@@ -242,6 +239,7 @@ public class WebSocketHandlerRegistrationTests {
 			this.interceptors = interceptors;
 			this.sockJsService = null;
 		}
+
 	}
 
 }

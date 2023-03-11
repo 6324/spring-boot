@@ -27,10 +27,11 @@ import java.lang.reflect.Type;
 public interface GenericUnmarshaller extends Unmarshaller {
 
 	/**
-	 * Indicates whether this marshaller can marshal instances of the supplied generic type.
+	 * Indicates whether this marshaller can marshal instances of the supplied generic
+	 * type.
 	 * @param genericType the type that this marshaller is being asked if it can marshal
-	 * @return {@code true} if this marshaller can indeed marshal instances of the supplied type;
-	 * {@code false} otherwise
+	 * @return {@code true} if this marshaller can indeed marshal instances of the
+	 * supplied type; {@code false} otherwise
 	 */
 	boolean supports(Type genericType);
 

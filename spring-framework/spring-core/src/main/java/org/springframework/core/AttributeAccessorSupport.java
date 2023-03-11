@@ -25,10 +25,11 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * Support class for {@link AttributeAccessor AttributeAccessors}, providing
- * a base implementation of all methods. To be extended by subclasses.
+ * Support class for {@link AttributeAccessor AttributeAccessors}, providing a base
+ * implementation of all methods. To be extended by subclasses.
  *
- * <p>{@link Serializable} if subclasses and all attribute values are {@link Serializable}.
+ * <p>
+ * {@link Serializable} if subclasses and all attribute values are {@link Serializable}.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -39,7 +40,6 @@ public abstract class AttributeAccessorSupport implements AttributeAccessor, Ser
 
 	/** Map with String keys and Object values. */
 	private final Map<String, Object> attributes = new LinkedHashMap<>();
-
 
 	@Override
 	public void setAttribute(String name, @Nullable Object value) {
@@ -77,7 +77,6 @@ public abstract class AttributeAccessorSupport implements AttributeAccessor, Ser
 		return StringUtils.toStringArray(this.attributes.keySet());
 	}
 
-
 	/**
 	 * Copy the attributes from the supplied AttributeAccessor to this accessor.
 	 * @param source the AttributeAccessor to copy from
@@ -90,11 +89,10 @@ public abstract class AttributeAccessorSupport implements AttributeAccessor, Ser
 		}
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
-		return (this == other || (other instanceof AttributeAccessorSupport &&
-				this.attributes.equals(((AttributeAccessorSupport) other).attributes)));
+		return (this == other || (other instanceof AttributeAccessorSupport
+				&& this.attributes.equals(((AttributeAccessorSupport) other).attributes)));
 	}
 
 	@Override

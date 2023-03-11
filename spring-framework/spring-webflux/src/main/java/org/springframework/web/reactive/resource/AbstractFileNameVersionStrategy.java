@@ -25,8 +25,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StringUtils;
 
 /**
- * Abstract base class for filename suffix based {@link VersionStrategy}
- * implementations, e.g. "static/myresource-version.js"
+ * Abstract base class for filename suffix based {@link VersionStrategy} implementations,
+ * e.g. "static/myresource-version.js"
  *
  * @author Rossen Stoyanchev
  * @author Brian Clozel
@@ -37,7 +37,6 @@ public abstract class AbstractFileNameVersionStrategy implements VersionStrategy
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	private static final Pattern pattern = Pattern.compile("-(\\S*)\\.");
-
 
 	@Override
 	public String extractVersion(String requestPath) {

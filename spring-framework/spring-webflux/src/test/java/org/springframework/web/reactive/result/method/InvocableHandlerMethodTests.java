@@ -60,11 +60,9 @@ public class InvocableHandlerMethodTests {
 
 	private static final Duration TIMEOUT = Duration.ofSeconds(5);
 
-
 	private final MockServerWebExchange exchange = MockServerWebExchange.from(get("http://localhost:8080/path"));
 
 	private final List<HandlerMethodArgumentResolver> resolvers = new ArrayList<>();
-
 
 	@Test
 	public void resolveArg() {
@@ -95,9 +93,8 @@ public class InvocableHandlerMethodTests {
 	public void cannotResolveArg() {
 		Method method = ResolvableMethod.on(TestController.class).mockCall(o -> o.singleArg(null)).method();
 		Mono<HandlerResult> mono = invoke(new TestController(), method);
-		assertThatIllegalStateException().isThrownBy(
-				mono::block)
-			.withMessage("Could not resolve parameter [0] in " + method.toGenericString() + ": No suitable resolver");
+		assertThatIllegalStateException().isThrownBy(mono::block).withMessage(
+				"Could not resolve parameter [0] in " + method.toGenericString() + ": No suitable resolver");
 	}
 
 	@Test
@@ -123,9 +120,8 @@ public class InvocableHandlerMethodTests {
 		Method method = ResolvableMethod.on(TestController.class).mockCall(o -> o.singleArg(null)).method();
 		Mono<HandlerResult> mono = invoke(new TestController(), method);
 
-		assertThatExceptionOfType(UnsupportedMediaTypeStatusException.class).isThrownBy(
-				mono::block)
-			.withMessage("415 UNSUPPORTED_MEDIA_TYPE \"boo\"");
+		assertThatExceptionOfType(UnsupportedMediaTypeStatusException.class).isThrownBy(mono::block)
+				.withMessage("415 UNSUPPORTED_MEDIA_TYPE \"boo\"");
 	}
 
 	@Test
@@ -133,13 +129,10 @@ public class InvocableHandlerMethodTests {
 		this.resolvers.add(stubResolver(1));
 		Method method = ResolvableMethod.on(TestController.class).mockCall(o -> o.singleArg(null)).method();
 		Mono<HandlerResult> mono = invoke(new TestController(), method);
-		assertThatIllegalStateException().isThrownBy(
-				mono::block)
-			.withCauseInstanceOf(IllegalArgumentException.class)
-			.withMessageContaining("Controller [")
-			.withMessageContaining("Method [")
-			.withMessageContaining("with argument values:")
-			.withMessageContaining("[0] [type=java.lang.Integer] [value=1]");
+		assertThatIllegalStateException().isThrownBy(mono::block).withCauseInstanceOf(IllegalArgumentException.class)
+				.withMessageContaining("Controller [").withMessageContaining("Method [")
+				.withMessageContaining("with argument values:")
+				.withMessageContaining("[0] [type=java.lang.Integer] [value=1]");
 	}
 
 	@Test
@@ -147,9 +140,7 @@ public class InvocableHandlerMethodTests {
 		Method method = ResolvableMethod.on(TestController.class).mockCall(TestController::exceptionMethod).method();
 		Mono<HandlerResult> mono = invoke(new TestController(), method);
 
-		assertThatIllegalStateException().isThrownBy(
-				mono::block)
-			.withMessage("boo");
+		assertThatIllegalStateException().isThrownBy(mono::block).withMessage("boo");
 	}
 
 	@Test
@@ -214,7 +205,6 @@ public class InvocableHandlerMethodTests {
 		assertThat(result).as("Expected no result (i.e. fully handled)").isNull();
 	}
 
-
 	@Nullable
 	private HandlerResult invokeForResult(Object handler, Method method, Object... providedArgs) {
 		return invoke(handler, method, providedArgs).block(Duration.ofSeconds(5));
@@ -238,14 +228,11 @@ public class InvocableHandlerMethodTests {
 	}
 
 	private void assertHandlerResultValue(Mono<HandlerResult> mono, String expected) {
-		StepVerifier.create(mono)
-				.consumeNextWith(result -> assertThat(result.getReturnValue()).isEqualTo(expected))
-				.expectComplete()
-				.verify();
+		StepVerifier.create(mono).consumeNextWith(result -> assertThat(result.getReturnValue()).isEqualTo(expected))
+				.expectComplete().verify();
 	}
 
-
-	@SuppressWarnings({"unused", "UnusedReturnValue", "SameParameterValue"})
+	@SuppressWarnings({ "unused", "UnusedReturnValue", "SameParameterValue" })
 	static class TestController {
 
 		String singleArg(String q) {
@@ -270,8 +257,7 @@ public class InvocableHandlerMethodTests {
 		}
 
 		Mono<Void> responseMonoVoid(ServerHttpResponse response) {
-			return Mono.delay(Duration.ofMillis(100))
-					.thenEmpty(Mono.defer(() -> response.writeWith(getBody("body"))));
+			return Mono.delay(Duration.ofMillis(100)).thenEmpty(Mono.defer(() -> response.writeWith(getBody("body"))));
 		}
 
 		void exchange(ServerWebExchange exchange) {
@@ -294,6 +280,7 @@ public class InvocableHandlerMethodTests {
 		private Flux<DataBuffer> getBody(String body) {
 			return Flux.just(new DefaultDataBufferFactory().wrap(body.getBytes(StandardCharsets.UTF_8)));
 		}
+
 	}
 
 }

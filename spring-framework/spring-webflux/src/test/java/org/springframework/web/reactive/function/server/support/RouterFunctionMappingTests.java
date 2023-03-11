@@ -33,10 +33,10 @@ import org.springframework.web.testfixture.server.MockServerWebExchange;
  */
 public class RouterFunctionMappingTests {
 
-	private final ServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("https://example.com/match"));
+	private final ServerWebExchange exchange = MockServerWebExchange
+			.from(MockServerHttpRequest.get("https://example.com/match"));
 
 	private final ServerCodecConfigurer codecConfigurer = ServerCodecConfigurer.create();
-
 
 	@Test
 	public void normal() {
@@ -48,10 +48,7 @@ public class RouterFunctionMappingTests {
 
 		Mono<Object> result = mapping.getHandler(this.exchange);
 
-		StepVerifier.create(result)
-				.expectNext(handlerFunction)
-				.expectComplete()
-				.verify();
+		StepVerifier.create(result).expectNext(handlerFunction).expectComplete().verify();
 	}
 
 	@Test
@@ -62,9 +59,7 @@ public class RouterFunctionMappingTests {
 
 		Mono<Object> result = mapping.getHandler(this.exchange);
 
-		StepVerifier.create(result)
-				.expectComplete()
-				.verify();
+		StepVerifier.create(result).expectComplete().verify();
 	}
 
 }

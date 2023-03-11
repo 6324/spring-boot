@@ -76,11 +76,9 @@ public class CustomInterceptorTests {
 
 	@Test
 	public void customInterceptorAppliesWithCheckedException() {
-		assertThatExceptionOfType(RuntimeException.class).isThrownBy(() ->
-				this.cs.throwChecked(0L))
-			.withCauseExactlyInstanceOf(IOException.class);
+		assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> this.cs.throwChecked(0L))
+				.withCauseExactlyInstanceOf(IOException.class);
 	}
-
 
 	@Configuration
 	@EnableCaching
@@ -103,11 +101,11 @@ public class CustomInterceptorTests {
 			cacheInterceptor.setCacheOperationSources(cacheOperationSource);
 			return cacheInterceptor;
 		}
+
 	}
 
 	/**
-	 * A test {@link CacheInterceptor} that handles special exception
-	 * types.
+	 * A test {@link CacheInterceptor} that handles special exception types.
 	 */
 	@SuppressWarnings("serial")
 	static class TestCacheInterceptor extends CacheInterceptor {
@@ -128,6 +126,7 @@ public class CustomInterceptorTests {
 				}
 			}
 		}
+
 	}
 
 }

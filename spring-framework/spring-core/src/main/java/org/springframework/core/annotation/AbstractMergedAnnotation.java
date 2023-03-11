@@ -38,7 +38,6 @@ abstract class AbstractMergedAnnotation<A extends Annotation> implements MergedA
 	@Nullable
 	private volatile A synthesizedAnnotation;
 
-
 	@Override
 	public boolean isDirectlyPresent() {
 		return isPresent() && getDistance() == 0;
@@ -194,8 +193,7 @@ abstract class AbstractMergedAnnotation<A extends Annotation> implements MergedA
 	}
 
 	@Override
-	public Optional<A> synthesize(Predicate<? super MergedAnnotation<A>> condition)
-			throws NoSuchElementException {
+	public Optional<A> synthesize(Predicate<? super MergedAnnotation<A>> condition) throws NoSuchElementException {
 
 		return (condition.test(this) ? Optional.of(synthesize()) : Optional.empty());
 	}
@@ -216,8 +214,8 @@ abstract class AbstractMergedAnnotation<A extends Annotation> implements MergedA
 	private <T> T getRequiredAttributeValue(String attributeName, Class<T> type) {
 		T value = getAttributeValue(attributeName, type);
 		if (value == null) {
-			throw new NoSuchElementException("No attribute named '" + attributeName +
-					"' present in merged annotation " + getType().getName());
+			throw new NoSuchElementException(
+					"No attribute named '" + attributeName + "' present in merged annotation " + getType().getName());
 		}
 		return value;
 	}
@@ -225,10 +223,10 @@ abstract class AbstractMergedAnnotation<A extends Annotation> implements MergedA
 	/**
 	 * Get the underlying attribute value.
 	 * @param attributeName the attribute name
-	 * @param type the type to return (see {@link MergedAnnotation} class
-	 * documentation for details)
-	 * @return the attribute value or {@code null} if the value is not found and
-	 * is not required
+	 * @param type the type to return (see {@link MergedAnnotation} class documentation
+	 * for details)
+	 * @return the attribute value or {@code null} if the value is not found and is not
+	 * required
 	 * @throws IllegalArgumentException if the source type is not compatible
 	 * @throws NoSuchElementException if the value is required but not found
 	 */

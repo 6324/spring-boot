@@ -41,8 +41,8 @@ import org.springframework.util.ObjectUtils;
 
 /**
  * Decorator for a standard {@link BeanInfo} object, e.g. as created by
- * {@link Introspector#getBeanInfo(Class)}, designed to discover and register
- * static and/or non-void returning setter methods. For example:
+ * {@link Introspector#getBeanInfo(Class)}, designed to discover and register static
+ * and/or non-void returning setter methods. For example:
  *
  * <pre class="code">
  * public class Bean {
@@ -85,14 +85,14 @@ class ExtendedBeanInfo implements BeanInfo {
 
 	private final Set<PropertyDescriptor> propertyDescriptors = new TreeSet<>(new PropertyDescriptorComparator());
 
-
 	/**
-	 * Wrap the given {@link BeanInfo} instance; copy all its existing property descriptors
-	 * locally, wrapping each in a custom {@link SimpleIndexedPropertyDescriptor indexed}
-	 * or {@link SimplePropertyDescriptor non-indexed} {@code PropertyDescriptor}
-	 * variant that bypasses default JDK weak/soft reference management; then search
-	 * through its method descriptors to find any non-void returning write methods and
-	 * update or create the corresponding {@link PropertyDescriptor} for each one found.
+	 * Wrap the given {@link BeanInfo} instance; copy all its existing property
+	 * descriptors locally, wrapping each in a custom
+	 * {@link SimpleIndexedPropertyDescriptor indexed} or {@link SimplePropertyDescriptor
+	 * non-indexed} {@code PropertyDescriptor} variant that bypasses default JDK weak/soft
+	 * reference management; then search through its method descriptors to find any
+	 * non-void returning write methods and update or create the corresponding
+	 * {@link PropertyDescriptor} for each one found.
 	 * @param delegate the wrapped {@code BeanInfo}, which is never modified
 	 * @see #getPropertyDescriptors()
 	 */
@@ -100,12 +100,13 @@ class ExtendedBeanInfo implements BeanInfo {
 		this.delegate = delegate;
 		for (PropertyDescriptor pd : delegate.getPropertyDescriptors()) {
 			try {
-				this.propertyDescriptors.add(pd instanceof IndexedPropertyDescriptor ?
-						new SimpleIndexedPropertyDescriptor((IndexedPropertyDescriptor) pd) :
-						new SimplePropertyDescriptor(pd));
+				this.propertyDescriptors.add(pd instanceof IndexedPropertyDescriptor
+						? new SimpleIndexedPropertyDescriptor((IndexedPropertyDescriptor) pd)
+						: new SimplePropertyDescriptor(pd));
 			}
 			catch (IntrospectionException ex) {
-				// Probably simply a method that wasn't meant to follow the JavaBeans pattern...
+				// Probably simply a method that wasn't meant to follow the JavaBeans
+				// pattern...
 				if (logger.isDebugEnabled()) {
 					logger.debug("Ignoring invalid bean property '" + pd.getName() + "': " + ex.getMessage());
 				}
@@ -118,7 +119,8 @@ class ExtendedBeanInfo implements BeanInfo {
 					handleCandidateWriteMethod(method);
 				}
 				catch (IntrospectionException ex) {
-					// We're only trying to find candidates, can easily ignore extra ones here...
+					// We're only trying to find candidates, can easily ignore extra ones
+					// here...
 					if (logger.isDebugEnabled()) {
 						logger.debug("Ignoring candidate write method [" + method + "]: " + ex.getMessage());
 					}
@@ -126,7 +128,6 @@ class ExtendedBeanInfo implements BeanInfo {
 			}
 		}
 	}
-
 
 	private List<Method> findCandidateWriteMethods(MethodDescriptor[] methodDescriptors) {
 		List<Method> matches = new ArrayList<>();
@@ -146,9 +147,9 @@ class ExtendedBeanInfo implements BeanInfo {
 	public static boolean isCandidateWriteMethod(Method method) {
 		String methodName = method.getName();
 		int nParams = method.getParameterCount();
-		return (methodName.length() > 3 && methodName.startsWith("set") && Modifier.isPublic(method.getModifiers()) &&
-				(!void.class.isAssignableFrom(method.getReturnType()) || Modifier.isStatic(method.getModifiers())) &&
-				(nParams == 1 || (nParams == 2 && int.class == method.getParameterTypes()[0])));
+		return (methodName.length() > 3 && methodName.startsWith("set") && Modifier.isPublic(method.getModifiers())
+				&& (!void.class.isAssignableFrom(method.getReturnType()) || Modifier.isStatic(method.getModifiers()))
+				&& (nParams == 1 || (nParams == 2 && int.class == method.getParameterTypes()[0])));
 	}
 
 	private void handleCandidateWriteMethod(Method method) throws IntrospectionException {
@@ -166,16 +167,16 @@ class ExtendedBeanInfo implements BeanInfo {
 		}
 		else if (nParams == 2) {
 			if (existingPd == null) {
-				this.propertyDescriptors.add(
-						new SimpleIndexedPropertyDescriptor(propertyName, null, null, null, method));
+				this.propertyDescriptors
+						.add(new SimpleIndexedPropertyDescriptor(propertyName, null, null, null, method));
 			}
 			else if (existingPd instanceof IndexedPropertyDescriptor) {
 				((IndexedPropertyDescriptor) existingPd).setIndexedWriteMethod(method);
 			}
 			else {
 				this.propertyDescriptors.remove(existingPd);
-				this.propertyDescriptors.add(new SimpleIndexedPropertyDescriptor(
-						propertyName, existingPd.getReadMethod(), existingPd.getWriteMethod(), null, method));
+				this.propertyDescriptors.add(new SimpleIndexedPropertyDescriptor(propertyName,
+						existingPd.getReadMethod(), existingPd.getWriteMethod(), null, method));
 			}
 		}
 		else {
@@ -191,15 +192,15 @@ class ExtendedBeanInfo implements BeanInfo {
 			if (pd instanceof IndexedPropertyDescriptor) {
 				IndexedPropertyDescriptor ipd = (IndexedPropertyDescriptor) pd;
 				candidateType = ipd.getIndexedPropertyType();
-				if (candidateName.equals(propertyName) &&
-						(candidateType.equals(propertyType) || candidateType.equals(propertyType.getComponentType()))) {
+				if (candidateName.equals(propertyName) && (candidateType.equals(propertyType)
+						|| candidateType.equals(propertyType.getComponentType()))) {
 					return pd;
 				}
 			}
 			else {
 				candidateType = pd.getPropertyType();
-				if (candidateName.equals(propertyName) &&
-						(candidateType.equals(propertyType) || propertyType.equals(candidateType.getComponentType()))) {
+				if (candidateName.equals(propertyName) && (candidateType.equals(propertyType)
+						|| propertyType.equals(candidateType.getComponentType()))) {
 					return pd;
 				}
 			}
@@ -210,7 +211,6 @@ class ExtendedBeanInfo implements BeanInfo {
 	private String propertyNameFor(Method method) {
 		return Introspector.decapitalize(method.getName().substring(3));
 	}
-
 
 	/**
 	 * Return the set of {@link PropertyDescriptor PropertyDescriptors} from the wrapped
@@ -257,7 +257,6 @@ class ExtendedBeanInfo implements BeanInfo {
 	public MethodDescriptor[] getMethodDescriptors() {
 		return this.delegate.getMethodDescriptors();
 	}
-
 
 	/**
 	 * A simple {@link PropertyDescriptor}.
@@ -339,13 +338,14 @@ class ExtendedBeanInfo implements BeanInfo {
 
 		@Override
 		public boolean equals(@Nullable Object other) {
-			return (this == other || (other instanceof PropertyDescriptor &&
-					PropertyDescriptorUtils.equals(this, (PropertyDescriptor) other)));
+			return (this == other || (other instanceof PropertyDescriptor
+					&& PropertyDescriptorUtils.equals(this, (PropertyDescriptor) other)));
 		}
 
 		@Override
 		public int hashCode() {
-			return (ObjectUtils.nullSafeHashCode(getReadMethod()) * 29 + ObjectUtils.nullSafeHashCode(getWriteMethod()));
+			return (ObjectUtils.nullSafeHashCode(getReadMethod()) * 29
+					+ ObjectUtils.nullSafeHashCode(getWriteMethod()));
 		}
 
 		@Override
@@ -353,8 +353,8 @@ class ExtendedBeanInfo implements BeanInfo {
 			return String.format("%s[name=%s, propertyType=%s, readMethod=%s, writeMethod=%s]",
 					getClass().getSimpleName(), getName(), getPropertyType(), this.readMethod, this.writeMethod);
 		}
-	}
 
+	}
 
 	/**
 	 * A simple {@link IndexedPropertyDescriptor}.
@@ -398,8 +398,8 @@ class ExtendedBeanInfo implements BeanInfo {
 			this.propertyType = PropertyDescriptorUtils.findPropertyType(readMethod, writeMethod);
 			this.indexedReadMethod = indexedReadMethod;
 			this.indexedWriteMethod = indexedWriteMethod;
-			this.indexedPropertyType = PropertyDescriptorUtils.findIndexedPropertyType(
-					propertyName, this.propertyType, indexedReadMethod, indexedWriteMethod);
+			this.indexedPropertyType = PropertyDescriptorUtils.findIndexedPropertyType(propertyName, this.propertyType,
+					indexedReadMethod, indexedWriteMethod);
 		}
 
 		@Override
@@ -465,8 +465,8 @@ class ExtendedBeanInfo implements BeanInfo {
 		public Class<?> getIndexedPropertyType() {
 			if (this.indexedPropertyType == null) {
 				try {
-					this.indexedPropertyType = PropertyDescriptorUtils.findIndexedPropertyType(
-							getName(), getPropertyType(), this.indexedReadMethod, this.indexedWriteMethod);
+					this.indexedPropertyType = PropertyDescriptorUtils.findIndexedPropertyType(getName(),
+							getPropertyType(), this.indexedReadMethod, this.indexedWriteMethod);
 				}
 				catch (IntrospectionException ex) {
 					// Ignore, as does IndexedPropertyDescriptor#getIndexedPropertyType
@@ -498,10 +498,10 @@ class ExtendedBeanInfo implements BeanInfo {
 				return false;
 			}
 			IndexedPropertyDescriptor otherPd = (IndexedPropertyDescriptor) other;
-			return (ObjectUtils.nullSafeEquals(getIndexedReadMethod(), otherPd.getIndexedReadMethod()) &&
-					ObjectUtils.nullSafeEquals(getIndexedWriteMethod(), otherPd.getIndexedWriteMethod()) &&
-					ObjectUtils.nullSafeEquals(getIndexedPropertyType(), otherPd.getIndexedPropertyType()) &&
-					PropertyDescriptorUtils.equals(this, otherPd));
+			return (ObjectUtils.nullSafeEquals(getIndexedReadMethod(), otherPd.getIndexedReadMethod())
+					&& ObjectUtils.nullSafeEquals(getIndexedWriteMethod(), otherPd.getIndexedWriteMethod())
+					&& ObjectUtils.nullSafeEquals(getIndexedPropertyType(), otherPd.getIndexedPropertyType())
+					&& PropertyDescriptorUtils.equals(this, otherPd));
 		}
 
 		@Override
@@ -515,17 +515,19 @@ class ExtendedBeanInfo implements BeanInfo {
 
 		@Override
 		public String toString() {
-			return String.format("%s[name=%s, propertyType=%s, indexedPropertyType=%s, " +
-							"readMethod=%s, writeMethod=%s, indexedReadMethod=%s, indexedWriteMethod=%s]",
-					getClass().getSimpleName(), getName(), getPropertyType(), getIndexedPropertyType(),
-					this.readMethod, this.writeMethod, this.indexedReadMethod, this.indexedWriteMethod);
+			return String.format(
+					"%s[name=%s, propertyType=%s, indexedPropertyType=%s, "
+							+ "readMethod=%s, writeMethod=%s, indexedReadMethod=%s, indexedWriteMethod=%s]",
+					getClass().getSimpleName(), getName(), getPropertyType(), getIndexedPropertyType(), this.readMethod,
+					this.writeMethod, this.indexedReadMethod, this.indexedWriteMethod);
 		}
-	}
 
+	}
 
 	/**
 	 * Sorts PropertyDescriptor instances alpha-numerically to emulate the behavior of
 	 * {@link java.beans.BeanInfo#getPropertyDescriptors()}.
+	 *
 	 * @see ExtendedBeanInfo#propertyDescriptors
 	 */
 	static class PropertyDescriptorComparator implements Comparator<PropertyDescriptor> {
@@ -547,6 +549,7 @@ class ExtendedBeanInfo implements BeanInfo {
 			}
 			return left.length() - right.length();
 		}
+
 	}
 
 }

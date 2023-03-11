@@ -46,48 +46,34 @@ public class RequiredAnnotationBeanPostProcessorTests {
 	@Test
 	public void testWithRequiredPropertyOmitted() {
 		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
-		BeanDefinition beanDef = BeanDefinitionBuilder
-			.genericBeanDefinition(RequiredTestBean.class)
-			.addPropertyValue("name", "Rob Harrop")
-			.addPropertyValue("favouriteColour", "Blue")
-			.addPropertyValue("jobTitle", "Grand Poobah")
-			.getBeanDefinition();
+		BeanDefinition beanDef = BeanDefinitionBuilder.genericBeanDefinition(RequiredTestBean.class)
+				.addPropertyValue("name", "Rob Harrop").addPropertyValue("favouriteColour", "Blue")
+				.addPropertyValue("jobTitle", "Grand Poobah").getBeanDefinition();
 		factory.registerBeanDefinition("testBean", beanDef);
 		factory.addBeanPostProcessor(new RequiredAnnotationBeanPostProcessor());
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(
-				factory::preInstantiateSingletons)
-			.withMessageContaining("Property")
-			.withMessageContaining("age")
-			.withMessageContaining("testBean");
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(factory::preInstantiateSingletons)
+				.withMessageContaining("Property").withMessageContaining("age").withMessageContaining("testBean");
 	}
 
 	@Test
 	public void testWithThreeRequiredPropertiesOmitted() {
 		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
-		BeanDefinition beanDef = BeanDefinitionBuilder
-			.genericBeanDefinition(RequiredTestBean.class)
-			.addPropertyValue("name", "Rob Harrop")
-			.getBeanDefinition();
+		BeanDefinition beanDef = BeanDefinitionBuilder.genericBeanDefinition(RequiredTestBean.class)
+				.addPropertyValue("name", "Rob Harrop").getBeanDefinition();
 		factory.registerBeanDefinition("testBean", beanDef);
 		factory.addBeanPostProcessor(new RequiredAnnotationBeanPostProcessor());
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(
-				factory::preInstantiateSingletons)
-			.withMessageContaining("Properties")
-			.withMessageContaining("age")
-			.withMessageContaining("favouriteColour")
-			.withMessageContaining("jobTitle")
-			.withMessageContaining("testBean");
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(factory::preInstantiateSingletons)
+				.withMessageContaining("Properties").withMessageContaining("age")
+				.withMessageContaining("favouriteColour").withMessageContaining("jobTitle")
+				.withMessageContaining("testBean");
 	}
 
 	@Test
 	public void testWithAllRequiredPropertiesSpecified() {
 		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
-		BeanDefinition beanDef = BeanDefinitionBuilder
-			.genericBeanDefinition(RequiredTestBean.class)
-			.addPropertyValue("age", "24")
-			.addPropertyValue("favouriteColour", "Blue")
-			.addPropertyValue("jobTitle", "Grand Poobah")
-			.getBeanDefinition();
+		BeanDefinition beanDef = BeanDefinitionBuilder.genericBeanDefinition(RequiredTestBean.class)
+				.addPropertyValue("age", "24").addPropertyValue("favouriteColour", "Blue")
+				.addPropertyValue("jobTitle", "Grand Poobah").getBeanDefinition();
 		factory.registerBeanDefinition("testBean", beanDef);
 		factory.addBeanPostProcessor(new RequiredAnnotationBeanPostProcessor());
 		factory.preInstantiateSingletons();
@@ -99,49 +85,35 @@ public class RequiredAnnotationBeanPostProcessorTests {
 	@Test
 	public void testWithCustomAnnotation() {
 		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
-		BeanDefinition beanDef = BeanDefinitionBuilder
-			.genericBeanDefinition(RequiredTestBean.class)
-			.getBeanDefinition();
+		BeanDefinition beanDef = BeanDefinitionBuilder.genericBeanDefinition(RequiredTestBean.class)
+				.getBeanDefinition();
 		factory.registerBeanDefinition("testBean", beanDef);
 		RequiredAnnotationBeanPostProcessor rabpp = new RequiredAnnotationBeanPostProcessor();
 		rabpp.setRequiredAnnotationType(MyRequired.class);
 		factory.addBeanPostProcessor(rabpp);
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(
-				factory::preInstantiateSingletons)
-			.withMessageContaining("Property")
-			.withMessageContaining("name")
-			.withMessageContaining("testBean");
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(factory::preInstantiateSingletons)
+				.withMessageContaining("Property").withMessageContaining("name").withMessageContaining("testBean");
 	}
 
 	@Test
 	public void testWithStaticFactoryMethod() {
 		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
-		BeanDefinition beanDef = BeanDefinitionBuilder
-				.genericBeanDefinition(RequiredTestBean.class)
-				.setFactoryMethod("create")
-				.addPropertyValue("name", "Rob Harrop")
-				.addPropertyValue("favouriteColour", "Blue")
-				.addPropertyValue("jobTitle", "Grand Poobah")
+		BeanDefinition beanDef = BeanDefinitionBuilder.genericBeanDefinition(RequiredTestBean.class)
+				.setFactoryMethod("create").addPropertyValue("name", "Rob Harrop")
+				.addPropertyValue("favouriteColour", "Blue").addPropertyValue("jobTitle", "Grand Poobah")
 				.getBeanDefinition();
 		factory.registerBeanDefinition("testBean", beanDef);
 		factory.addBeanPostProcessor(new RequiredAnnotationBeanPostProcessor());
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(
-				factory::preInstantiateSingletons)
-			.withMessageContaining("Property")
-			.withMessageContaining("age")
-			.withMessageContaining("testBean");
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(factory::preInstantiateSingletons)
+				.withMessageContaining("Property").withMessageContaining("age").withMessageContaining("testBean");
 	}
 
 	@Test
 	public void testWithStaticFactoryMethodAndRequiredPropertiesSpecified() {
 		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
-		BeanDefinition beanDef = BeanDefinitionBuilder
-				.genericBeanDefinition(RequiredTestBean.class)
-				.setFactoryMethod("create")
-				.addPropertyValue("age", "24")
-				.addPropertyValue("favouriteColour", "Blue")
-				.addPropertyValue("jobTitle", "Grand Poobah")
-				.getBeanDefinition();
+		BeanDefinition beanDef = BeanDefinitionBuilder.genericBeanDefinition(RequiredTestBean.class)
+				.setFactoryMethod("create").addPropertyValue("age", "24").addPropertyValue("favouriteColour", "Blue")
+				.addPropertyValue("jobTitle", "Grand Poobah").getBeanDefinition();
 		factory.registerBeanDefinition("testBean", beanDef);
 		factory.addBeanPostProcessor(new RequiredAnnotationBeanPostProcessor());
 		factory.preInstantiateSingletons();
@@ -164,12 +136,11 @@ public class RequiredAnnotationBeanPostProcessorTests {
 		factory.preInstantiateSingletons();
 	}
 
-
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.METHOD)
 	public @interface MyRequired {
-	}
 
+	}
 
 	public static class RequiredTestBean implements BeanNameAware, BeanFactoryAware {
 
@@ -180,7 +151,6 @@ public class RequiredAnnotationBeanPostProcessorTests {
 		private String favouriteColour;
 
 		private String jobTitle;
-
 
 		public int getAge() {
 			return age;
@@ -231,14 +201,15 @@ public class RequiredAnnotationBeanPostProcessorTests {
 		public static RequiredTestBean create() {
 			return new RequiredTestBean();
 		}
-	}
 
+	}
 
 	public static class RequiredTestBeanFactory {
 
 		public RequiredTestBean create() {
 			return new RequiredTestBean();
 		}
+
 	}
 
 }

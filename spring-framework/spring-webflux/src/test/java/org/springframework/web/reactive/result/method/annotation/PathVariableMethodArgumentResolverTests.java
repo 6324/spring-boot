@@ -52,14 +52,17 @@ public class PathVariableMethodArgumentResolverTests {
 
 	private PathVariableMethodArgumentResolver resolver;
 
-	private final MockServerWebExchange exchange= MockServerWebExchange.from(MockServerHttpRequest.get("/"));
+	private final MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
 
 	private MethodParameter paramNamedString;
-	private MethodParameter paramString;
-	private MethodParameter paramNotRequired;
-	private MethodParameter paramOptional;
-	private MethodParameter paramMono;
 
+	private MethodParameter paramString;
+
+	private MethodParameter paramNotRequired;
+
+	private MethodParameter paramOptional;
+
+	private MethodParameter paramMono;
 
 	@BeforeEach
 	public void setup() throws Exception {
@@ -73,14 +76,12 @@ public class PathVariableMethodArgumentResolverTests {
 		paramMono = new SynthesizingMethodParameter(method, 4);
 	}
 
-
 	@Test
 	public void supportsParameter() {
 		assertThat(this.resolver.supportsParameter(this.paramNamedString)).isTrue();
 		assertThat(this.resolver.supportsParameter(this.paramString)).isFalse();
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.resolver.supportsParameter(this.paramMono))
-			.withMessageStartingWith("PathVariableMethodArgumentResolver does not support reactive type wrapper");
+		assertThatIllegalStateException().isThrownBy(() -> this.resolver.supportsParameter(this.paramMono))
+				.withMessageStartingWith("PathVariableMethodArgumentResolver does not support reactive type wrapper");
 	}
 
 	@Test
@@ -126,20 +127,14 @@ public class PathVariableMethodArgumentResolverTests {
 	public void handleMissingValue() {
 		BindingContext bindingContext = new BindingContext();
 		Mono<Object> mono = this.resolver.resolveArgument(this.paramNamedString, bindingContext, this.exchange);
-		StepVerifier.create(mono)
-				.expectNextCount(0)
-				.expectError(ServerErrorException.class)
-				.verify();
+		StepVerifier.create(mono).expectNextCount(0).expectError(ServerErrorException.class).verify();
 	}
 
 	@Test
 	public void nullIfNotRequired() {
 		BindingContext bindingContext = new BindingContext();
 		Mono<Object> mono = this.resolver.resolveArgument(this.paramNotRequired, bindingContext, this.exchange);
-		StepVerifier.create(mono)
-				.expectNextCount(0)
-				.expectComplete()
-				.verify();
+		StepVerifier.create(mono).expectNextCount(0).expectComplete().verify();
 	}
 
 	@Test
@@ -147,23 +142,16 @@ public class PathVariableMethodArgumentResolverTests {
 		BindingContext bindingContext = new BindingContext();
 		Mono<Object> mono = this.resolver.resolveArgument(this.paramOptional, bindingContext, this.exchange);
 
-		StepVerifier.create(mono)
-				.consumeNextWith(value -> {
-					boolean condition = value instanceof Optional;
-					assertThat(condition).isTrue();
-					assertThat(((Optional<?>) value).isPresent()).isFalse();
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(mono).consumeNextWith(value -> {
+			boolean condition = value instanceof Optional;
+			assertThat(condition).isTrue();
+			assertThat(((Optional<?>) value).isPresent()).isFalse();
+		}).expectComplete().verify();
 	}
 
-
-	@SuppressWarnings({"unused", "OptionalUsedAsFieldOrParameterType"})
-	public void handle(
-			@PathVariable(value = "name") String param1,
-			String param2,
-			@PathVariable(name = "name", required = false) String param3,
-			@PathVariable("name") Optional<String> param4,
+	@SuppressWarnings({ "unused", "OptionalUsedAsFieldOrParameterType" })
+	public void handle(@PathVariable(value = "name") String param1, String param2,
+			@PathVariable(name = "name", required = false) String param3, @PathVariable("name") Optional<String> param4,
 			@PathVariable Mono<String> param5) {
 	}
 

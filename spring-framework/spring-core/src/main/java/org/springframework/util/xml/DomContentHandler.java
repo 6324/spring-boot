@@ -43,7 +43,6 @@ class DomContentHandler implements ContentHandler {
 
 	private final Node node;
 
-
 	/**
 	 * Create a new instance of the {@code DomContentHandler} with the given node.
 	 * @param node the node to publish events to
@@ -57,7 +56,6 @@ class DomContentHandler implements ContentHandler {
 			this.document = node.getOwnerDocument();
 		}
 	}
-
 
 	private Node getParent() {
 		if (!this.elements.isEmpty()) {
@@ -109,7 +107,6 @@ class DomContentHandler implements ContentHandler {
 		ProcessingInstruction pi = this.document.createProcessingInstruction(target, data);
 		parent.appendChild(pi);
 	}
-
 
 	// Unsupported
 

@@ -19,8 +19,8 @@ package org.springframework.aop.aspectj;
 import org.springframework.core.Ordered;
 
 /**
- * Interface to be implemented by types that can supply the information
- * needed to sort advice/advisors by AspectJ's precedence rules.
+ * Interface to be implemented by types that can supply the information needed to sort
+ * advice/advisors by AspectJ's precedence rules.
  *
  * @author Adrian Colyer
  * @since 2.0

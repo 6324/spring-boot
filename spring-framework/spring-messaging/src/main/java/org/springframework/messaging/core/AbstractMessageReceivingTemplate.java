@@ -22,8 +22,8 @@ import org.springframework.messaging.converter.MessageConversionException;
 import org.springframework.messaging.converter.MessageConverter;
 
 /**
- * An extension of {@link AbstractMessageSendingTemplate} that adds support for
- * receive style operations as defined by {@link MessageReceivingOperations}.
+ * An extension of {@link AbstractMessageSendingTemplate} that adds support for receive
+ * style operations as defined by {@link MessageReceivingOperations}.
  *
  * @author Mark Fisher
  * @author Rossen Stoyanchev
@@ -49,12 +49,11 @@ public abstract class AbstractMessageReceivingTemplate<D> extends AbstractMessag
 	/**
 	 * Actually receive a message from the given destination.
 	 * @param destination the target destination
-	 * @return the received message, possibly {@code null} if the message could not
-	 * be received, for example due to a timeout
+	 * @return the received message, possibly {@code null} if the message could not be
+	 * received, for example due to a timeout
 	 */
 	@Nullable
 	protected abstract Message<?> doReceive(D destination);
-
 
 	@Override
 	@Nullable
@@ -86,8 +85,8 @@ public abstract class AbstractMessageReceivingTemplate<D> extends AbstractMessag
 		MessageConverter messageConverter = getMessageConverter();
 		T value = (T) messageConverter.fromMessage(message, targetClass);
 		if (value == null) {
-			throw new MessageConversionException(message, "Unable to convert payload [" + message.getPayload() +
-					"] to type [" + targetClass + "] using converter [" + messageConverter + "]");
+			throw new MessageConversionException(message, "Unable to convert payload [" + message.getPayload()
+					+ "] to type [" + targetClass + "] using converter [" + messageConverter + "]");
 		}
 		return value;
 	}

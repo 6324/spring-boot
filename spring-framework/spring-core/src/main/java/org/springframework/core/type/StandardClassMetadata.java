@@ -24,8 +24,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link ClassMetadata} implementation that uses standard reflection
- * to introspect a given {@code Class}.
+ * {@link ClassMetadata} implementation that uses standard reflection to introspect a
+ * given {@code Class}.
  *
  * @author Juergen Hoeller
  * @since 2.5
@@ -33,7 +33,6 @@ import org.springframework.util.StringUtils;
 public class StandardClassMetadata implements ClassMetadata {
 
 	private final Class<?> introspectedClass;
-
 
 	/**
 	 * Create a new StandardClassMetadata wrapper for the given Class.
@@ -52,7 +51,6 @@ public class StandardClassMetadata implements ClassMetadata {
 	public final Class<?> getIntrospectedClass() {
 		return this.introspectedClass;
 	}
-
 
 	@Override
 	public String getClassName() {
@@ -81,9 +79,8 @@ public class StandardClassMetadata implements ClassMetadata {
 
 	@Override
 	public boolean isIndependent() {
-		return (!hasEnclosingClass() ||
-				(this.introspectedClass.getDeclaringClass() != null &&
-						Modifier.isStatic(this.introspectedClass.getModifiers())));
+		return (!hasEnclosingClass() || (this.introspectedClass.getDeclaringClass() != null
+				&& Modifier.isStatic(this.introspectedClass.getModifiers())));
 	}
 
 	@Override

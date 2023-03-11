@@ -39,10 +39,10 @@ import org.springframework.util.Assert;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Tests the interaction between {@link ApplicationContext} implementations and
- * any registered {@link BeanFactoryPostProcessor} implementations.  Specifically
- * {@link StaticApplicationContext} is used for the tests, but what's represented
- * here is any {@link AbstractApplicationContext} implementation.
+ * Tests the interaction between {@link ApplicationContext} implementations and any
+ * registered {@link BeanFactoryPostProcessor} implementations. Specifically
+ * {@link StaticApplicationContext} is used for the tests, but what's represented here is
+ * any {@link AbstractApplicationContext} implementation.
  *
  * @author Colin Sampaleanu
  * @author Juergen Hoeller
@@ -132,7 +132,8 @@ public class BeanFactoryPostProcessorTests {
 		StaticApplicationContext ac = new StaticApplicationContext();
 		ac.registerSingleton("tb1", TestBean.class);
 		ac.registerSingleton("tb2", TestBean.class);
-		ac.registerBeanDefinition("bdrpp2", new RootBeanDefinition(PrioritizedOuterBeanDefinitionRegistryPostProcessor.class));
+		ac.registerBeanDefinition("bdrpp2",
+				new RootBeanDefinition(PrioritizedOuterBeanDefinitionRegistryPostProcessor.class));
 		ac.refresh();
 		assertThat(ac.getBean("bfpp1", TestBeanFactoryPostProcessor.class).wasCalled).isTrue();
 		assertThat(ac.getBean("bfpp2", TestBeanFactoryPostProcessor.class).wasCalled).isTrue();
@@ -143,7 +144,8 @@ public class BeanFactoryPostProcessorTests {
 		StaticApplicationContext ac = new StaticApplicationContext();
 		ac.registerBeanDefinition("bfpp", new RootBeanDefinition(ListeningBeanFactoryPostProcessor.class));
 		ac.refresh();
-		boolean condition = ac.getBean(ListeningBeanFactoryPostProcessor.class).received instanceof ContextRefreshedEvent;
+		boolean condition = ac
+				.getBean(ListeningBeanFactoryPostProcessor.class).received instanceof ContextRefreshedEvent;
 		assertThat(condition).isTrue();
 	}
 
@@ -154,10 +156,10 @@ public class BeanFactoryPostProcessorTests {
 		rbd.getPropertyValues().add("listeningBean", new RootBeanDefinition(ListeningBean.class));
 		ac.registerBeanDefinition("bfpp", rbd);
 		ac.refresh();
-		boolean condition = ac.getBean(NestingBeanFactoryPostProcessor.class).getListeningBean().received instanceof ContextRefreshedEvent;
+		boolean condition = ac.getBean(NestingBeanFactoryPostProcessor.class)
+				.getListeningBean().received instanceof ContextRefreshedEvent;
 		assertThat(condition).isTrue();
 	}
-
 
 	public static class TestBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
@@ -173,10 +175,11 @@ public class BeanFactoryPostProcessorTests {
 		public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
 			wasCalled = true;
 		}
+
 	}
 
-
-	public static class PrioritizedBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor, Ordered {
+	public static class PrioritizedBeanDefinitionRegistryPostProcessor
+			implements BeanDefinitionRegistryPostProcessor, Ordered {
 
 		@Override
 		public int getOrder() {
@@ -191,8 +194,8 @@ public class BeanFactoryPostProcessorTests {
 		@Override
 		public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		}
-	}
 
+	}
 
 	public static class TestBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {
 
@@ -208,34 +211,37 @@ public class BeanFactoryPostProcessorTests {
 		public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 			this.wasCalled = true;
 		}
-	}
 
+	}
 
 	public static class OuterBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor {
 
 		@Override
 		public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-			registry.registerBeanDefinition("anotherpp", new RootBeanDefinition(TestBeanDefinitionRegistryPostProcessor.class));
-			registry.registerBeanDefinition("ppp", new RootBeanDefinition(PrioritizedBeanDefinitionRegistryPostProcessor.class));
+			registry.registerBeanDefinition("anotherpp",
+					new RootBeanDefinition(TestBeanDefinitionRegistryPostProcessor.class));
+			registry.registerBeanDefinition("ppp",
+					new RootBeanDefinition(PrioritizedBeanDefinitionRegistryPostProcessor.class));
 		}
 
 		@Override
 		public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		}
+
 	}
 
-
-	public static class PrioritizedOuterBeanDefinitionRegistryPostProcessor extends OuterBeanDefinitionRegistryPostProcessor
-			implements PriorityOrdered {
+	public static class PrioritizedOuterBeanDefinitionRegistryPostProcessor
+			extends OuterBeanDefinitionRegistryPostProcessor implements PriorityOrdered {
 
 		@Override
 		public int getOrder() {
 			return HIGHEST_PRECEDENCE;
 		}
+
 	}
 
-
-	public static class ListeningBeanFactoryPostProcessor implements BeanFactoryPostProcessor, ApplicationListener<ApplicationEvent> {
+	public static class ListeningBeanFactoryPostProcessor
+			implements BeanFactoryPostProcessor, ApplicationListener<ApplicationEvent> {
 
 		public ApplicationEvent received;
 
@@ -248,8 +254,8 @@ public class BeanFactoryPostProcessorTests {
 			Assert.state(this.received == null, "Just one ContextRefreshedEvent expected");
 			this.received = event;
 		}
-	}
 
+	}
 
 	public static class ListeningBean implements ApplicationListener<ApplicationEvent> {
 
@@ -260,8 +266,8 @@ public class BeanFactoryPostProcessorTests {
 			Assert.state(this.received == null, "Just one ContextRefreshedEvent expected");
 			this.received = event;
 		}
-	}
 
+	}
 
 	public static class NestingBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
@@ -278,6 +284,7 @@ public class BeanFactoryPostProcessorTests {
 		@Override
 		public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		}
+
 	}
 
 }

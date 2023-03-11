@@ -17,12 +17,12 @@
 package org.springframework.core.style;
 
 /**
- * Simple utility class to allow for convenient access to value
- * styling logic, mainly to support descriptive logging messages.
+ * Simple utility class to allow for convenient access to value styling logic, mainly to
+ * support descriptive logging messages.
  *
- * <p>For more sophisticated needs, use the {@link ValueStyler} abstraction
- * directly. This class simply uses a shared {@link DefaultValueStyler}
- * instance underneath.
+ * <p>
+ * For more sophisticated needs, use the {@link ValueStyler} abstraction directly. This
+ * class simply uses a shared {@link DefaultValueStyler} instance underneath.
  *
  * @author Keith Donald
  * @since 1.2.2
@@ -32,8 +32,8 @@ package org.springframework.core.style;
 public abstract class StylerUtils {
 
 	/**
-	 * Default ValueStyler instance used by the {@code style} method.
-	 * Also available for the {@link ToStringCreator} class in this package.
+	 * Default ValueStyler instance used by the {@code style} method. Also available for
+	 * the {@link ToStringCreator} class in this package.
 	 */
 	static final ValueStyler DEFAULT_VALUE_STYLER = new DefaultValueStyler();
 

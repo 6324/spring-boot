@@ -32,13 +32,14 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.util.Assert;
 
 /**
- * Simple AOP Alliance {@link MethodInterceptor} implementation that binds a new
- * Hibernate {@link Session} for each method invocation, if none bound before.
+ * Simple AOP Alliance {@link MethodInterceptor} implementation that binds a new Hibernate
+ * {@link Session} for each method invocation, if none bound before.
  *
- * <p>This is a simple Hibernate Session scoping interceptor along the lines of
- * {@link OpenSessionInViewInterceptor}, just for use with AOP setup instead of
- * MVC setup. It opens a new {@link Session} with flush mode "MANUAL" since the
- * Session is only meant for reading, except when participating in a transaction.
+ * <p>
+ * This is a simple Hibernate Session scoping interceptor along the lines of
+ * {@link OpenSessionInViewInterceptor}, just for use with AOP setup instead of MVC setup.
+ * It opens a new {@link Session} with flush mode "MANUAL" since the Session is only meant
+ * for reading, except when participating in a transaction.
  *
  * @author Juergen Hoeller
  * @since 4.2
@@ -53,7 +54,6 @@ public class OpenSessionInterceptor implements MethodInterceptor, InitializingBe
 	@Nullable
 	private SessionFactory sessionFactory;
 
-
 	/**
 	 * Set the Hibernate SessionFactory that should be used to create Hibernate Sessions.
 	 */
@@ -62,7 +62,8 @@ public class OpenSessionInterceptor implements MethodInterceptor, InitializingBe
 	}
 
 	/**
-	 * Return the Hibernate SessionFactory that should be used to create Hibernate Sessions.
+	 * Return the Hibernate SessionFactory that should be used to create Hibernate
+	 * Sessions.
 	 */
 	@Nullable
 	public SessionFactory getSessionFactory() {
@@ -75,7 +76,6 @@ public class OpenSessionInterceptor implements MethodInterceptor, InitializingBe
 			throw new IllegalArgumentException("Property 'sessionFactory' is required");
 		}
 	}
-
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -102,7 +102,8 @@ public class OpenSessionInterceptor implements MethodInterceptor, InitializingBe
 
 	/**
 	 * Open a Session for the given SessionFactory.
-	 * <p>The default implementation delegates to the {@link SessionFactory#openSession}
+	 * <p>
+	 * The default implementation delegates to the {@link SessionFactory#openSession}
 	 * method and sets the {@link Session}'s flush mode to "MANUAL".
 	 * @param sessionFactory the SessionFactory to use
 	 * @return the Session to use

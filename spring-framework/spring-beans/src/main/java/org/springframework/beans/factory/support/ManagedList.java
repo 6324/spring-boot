@@ -24,8 +24,8 @@ import org.springframework.beans.Mergeable;
 import org.springframework.lang.Nullable;
 
 /**
- * Tag collection class used to hold managed List elements, which may
- * include runtime bean references (to be resolved into bean objects).
+ * Tag collection class used to hold managed List elements, which may include runtime bean
+ * references (to be resolved into bean objects).
  *
  * @author Rod Johnson
  * @author Rob Harrop
@@ -44,7 +44,6 @@ public class ManagedList<E> extends ArrayList<E> implements Mergeable, BeanMetad
 
 	private boolean mergeEnabled;
 
-
 	public ManagedList() {
 	}
 
@@ -52,10 +51,10 @@ public class ManagedList<E> extends ArrayList<E> implements Mergeable, BeanMetad
 		super(initialCapacity);
 	}
 
-
 	/**
 	 * Set the configuration source {@code Object} for this metadata element.
-	 * <p>The exact type of the object will depend on the configuration mechanism used.
+	 * <p>
+	 * The exact type of the object will depend on the configuration mechanism used.
 	 */
 	public void setSource(@Nullable Object source) {
 		this.source = source;
@@ -83,8 +82,8 @@ public class ManagedList<E> extends ArrayList<E> implements Mergeable, BeanMetad
 	}
 
 	/**
-	 * Set whether merging should be enabled for this collection,
-	 * in case of a 'parent' collection value being present.
+	 * Set whether merging should be enabled for this collection, in case of a 'parent'
+	 * collection value being present.
 	 */
 	public void setMergeEnabled(boolean mergeEnabled) {
 		this.mergeEnabled = mergeEnabled;

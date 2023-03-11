@@ -28,15 +28,15 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link FactoryBean} for creating {@link ThreadPoolTaskExecutor} instances,
- * primarily used behind the XML task namespace.
+ * {@link FactoryBean} for creating {@link ThreadPoolTaskExecutor} instances, primarily
+ * used behind the XML task namespace.
  *
  * @author Mark Fisher
  * @author Juergen Hoeller
  * @since 3.0
  */
-public class TaskExecutorFactoryBean implements
-		FactoryBean<TaskExecutor>, BeanNameAware, InitializingBean, DisposableBean {
+public class TaskExecutorFactoryBean
+		implements FactoryBean<TaskExecutor>, BeanNameAware, InitializingBean, DisposableBean {
 
 	@Nullable
 	private String poolSize;
@@ -55,7 +55,6 @@ public class TaskExecutorFactoryBean implements
 
 	@Nullable
 	private ThreadPoolTaskExecutor target;
-
 
 	public void setPoolSize(String poolSize) {
 		this.poolSize = poolSize;
@@ -77,7 +76,6 @@ public class TaskExecutorFactoryBean implements
 	public void setBeanName(String beanName) {
 		this.beanName = beanName;
 	}
-
 
 	@Override
 	public void afterPropertiesSet() {
@@ -136,12 +134,13 @@ public class TaskExecutorFactoryBean implements
 				executor.setMaxPoolSize(maxPoolSize);
 			}
 			catch (NumberFormatException ex) {
-				throw new IllegalArgumentException("Invalid pool-size value [" + this.poolSize + "]: only single " +
-						"maximum integer (e.g. \"5\") and minimum-maximum range (e.g. \"3-5\") are supported", ex);
+				throw new IllegalArgumentException(
+						"Invalid pool-size value [" + this.poolSize + "]: only single "
+								+ "maximum integer (e.g. \"5\") and minimum-maximum range (e.g. \"3-5\") are supported",
+						ex);
 			}
 		}
 	}
-
 
 	@Override
 	@Nullable
@@ -158,7 +157,6 @@ public class TaskExecutorFactoryBean implements
 	public boolean isSingleton() {
 		return true;
 	}
-
 
 	@Override
 	public void destroy() {

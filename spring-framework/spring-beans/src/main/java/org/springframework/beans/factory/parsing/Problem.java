@@ -20,10 +20,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Represents a problem with a bean definition configuration.
- * Mainly serves as common argument passed into a {@link ProblemReporter}.
+ * Represents a problem with a bean definition configuration. Mainly serves as common
+ * argument passed into a {@link ProblemReporter}.
  *
- * <p>May indicate a potentially fatal problem (an error) or just a warning.
+ * <p>
+ * May indicate a potentially fatal problem (an error) or just a warning.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -42,11 +43,11 @@ public class Problem {
 	@Nullable
 	private final Throwable rootCause;
 
-
 	/**
 	 * Create a new instance of the {@link Problem} class.
 	 * @param message a message detailing the problem
-	 * @param location the location within a bean configuration source that triggered the error
+	 * @param location the location within a bean configuration source that triggered the
+	 * error
 	 */
 	public Problem(String message, Location location) {
 		this(message, location, null, null);
@@ -56,7 +57,8 @@ public class Problem {
 	 * Create a new instance of the {@link Problem} class.
 	 * @param message a message detailing the problem
 	 * @param parseState the {@link ParseState} at the time of the error
-	 * @param location the location within a bean configuration source that triggered the error
+	 * @param location the location within a bean configuration source that triggered the
+	 * error
 	 */
 	public Problem(String message, Location location, ParseState parseState) {
 		this(message, location, parseState, null);
@@ -65,9 +67,11 @@ public class Problem {
 	/**
 	 * Create a new instance of the {@link Problem} class.
 	 * @param message a message detailing the problem
-	 * @param rootCause the underlying exception that caused the error (may be {@code null})
+	 * @param rootCause the underlying exception that caused the error (may be
+	 * {@code null})
 	 * @param parseState the {@link ParseState} at the time of the error
-	 * @param location the location within a bean configuration source that triggered the error
+	 * @param location the location within a bean configuration source that triggered the
+	 * error
 	 */
 	public Problem(String message, Location location, @Nullable ParseState parseState, @Nullable Throwable rootCause) {
 		Assert.notNull(message, "Message must not be null");
@@ -77,7 +81,6 @@ public class Problem {
 		this.parseState = parseState;
 		this.rootCause = rootCause;
 	}
-
 
 	/**
 	 * Get the message detailing the problem.
@@ -94,8 +97,8 @@ public class Problem {
 	}
 
 	/**
-	 * Get the description of the bean configuration source that triggered the error,
-	 * as contained within this Problem's Location object.
+	 * Get the description of the bean configuration source that triggered the error, as
+	 * contained within this Problem's Location object.
 	 * @see #getLocation()
 	 */
 	public String getResourceDescription() {
@@ -117,7 +120,6 @@ public class Problem {
 	public Throwable getRootCause() {
 		return this.rootCause;
 	}
-
 
 	@Override
 	public String toString() {

@@ -42,10 +42,9 @@ public class PayloadApplicationEventTests {
 		assertThat(ac.getBean(AuditableListener.class).events.contains(event)).isTrue();
 	}
 
-
 	public interface Auditable {
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	public static class AuditablePayloadEvent<T> extends PayloadApplicationEvent<T> implements Auditable {
@@ -53,8 +52,8 @@ public class PayloadApplicationEventTests {
 		public AuditablePayloadEvent(Object source, T payload) {
 			super(source, payload);
 		}
-	}
 
+	}
 
 	@Component
 	public static class AuditableListener {
@@ -65,6 +64,7 @@ public class PayloadApplicationEventTests {
 		public void onEvent(Auditable event) {
 			events.add(event);
 		}
+
 	}
 
 }

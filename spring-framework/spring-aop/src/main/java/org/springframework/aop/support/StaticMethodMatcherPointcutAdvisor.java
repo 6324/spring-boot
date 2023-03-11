@@ -26,8 +26,8 @@ import org.springframework.core.Ordered;
 import org.springframework.util.Assert;
 
 /**
- * Convenient base class for Advisors that are also static pointcuts.
- * Serializable if Advice and subclass are.
+ * Convenient base class for Advisors that are also static pointcuts. Serializable if
+ * Advice and subclass are.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -40,10 +40,9 @@ public abstract class StaticMethodMatcherPointcutAdvisor extends StaticMethodMat
 
 	private int order = Ordered.LOWEST_PRECEDENCE;
 
-
 	/**
-	 * Create a new StaticMethodMatcherPointcutAdvisor,
-	 * expecting bean-style configuration.
+	 * Create a new StaticMethodMatcherPointcutAdvisor, expecting bean-style
+	 * configuration.
 	 * @see #setAdvice
 	 */
 	public StaticMethodMatcherPointcutAdvisor() {
@@ -57,7 +56,6 @@ public abstract class StaticMethodMatcherPointcutAdvisor extends StaticMethodMat
 		Assert.notNull(advice, "Advice must not be null");
 		this.advice = advice;
 	}
-
 
 	public void setOrder(int order) {
 		this.order = order;

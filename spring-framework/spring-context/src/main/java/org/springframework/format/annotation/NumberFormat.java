@@ -25,19 +25,21 @@ import java.lang.annotation.Target;
 /**
  * Declares that a field or method parameter should be formatted as a number.
  *
- * <p>Supports formatting by style or custom pattern string. Can be applied
- * to any JDK {@code Number} type such as {@code Double} and {@code Long}.
+ * <p>
+ * Supports formatting by style or custom pattern string. Can be applied to any JDK
+ * {@code Number} type such as {@code Double} and {@code Long}.
  *
- * <p>For style-based formatting, set the {@link #style} attribute to be the
- * desired {@link Style}. For custom formatting, set the {@link #pattern}
- * attribute to be the number pattern, such as {@code #, ###.##}.
+ * <p>
+ * For style-based formatting, set the {@link #style} attribute to be the desired
+ * {@link Style}. For custom formatting, set the {@link #pattern} attribute to be the
+ * number pattern, such as {@code #, ###.##}.
  *
- * <p>Each attribute is mutually exclusive, so only set one attribute per
- * annotation instance (the one most convenient one for your formatting needs).
- * When the {@link #pattern} attribute is specified, it takes precedence over
- * the {@link #style} attribute. When no annotation attributes are specified,
- * the default format applied is style-based for either number of currency,
- * depending on the annotated field or method parameter type.
+ * <p>
+ * Each attribute is mutually exclusive, so only set one attribute per annotation instance
+ * (the one most convenient one for your formatting needs). When the {@link #pattern}
+ * attribute is specified, it takes precedence over the {@link #style} attribute. When no
+ * annotation attributes are specified, the default format applied is style-based for
+ * either number of currency, depending on the annotated field or method parameter type.
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -46,26 +48,27 @@ import java.lang.annotation.Target;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE})
+@Target({ ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE })
 public @interface NumberFormat {
 
 	/**
 	 * The style pattern to use to format the field.
-	 * <p>Defaults to {@link Style#DEFAULT} for general-purpose number formatting
-	 * for most annotated types, except for money types which default to currency
-	 * formatting. Set this attribute when you wish to format your field in
-	 * accordance with a common style other than the default style.
+	 * <p>
+	 * Defaults to {@link Style#DEFAULT} for general-purpose number formatting for most
+	 * annotated types, except for money types which default to currency formatting. Set
+	 * this attribute when you wish to format your field in accordance with a common style
+	 * other than the default style.
 	 */
 	Style style() default Style.DEFAULT;
 
 	/**
 	 * The custom pattern to use to format the field.
-	 * <p>Defaults to empty String, indicating no custom pattern String has been specified.
-	 * Set this attribute when you wish to format your field in accordance with a
-	 * custom number pattern not represented by a style.
+	 * <p>
+	 * Defaults to empty String, indicating no custom pattern String has been specified.
+	 * Set this attribute when you wish to format your field in accordance with a custom
+	 * number pattern not represented by a style.
 	 */
 	String pattern() default "";
-
 
 	/**
 	 * Common number format styles.
@@ -93,6 +96,7 @@ public @interface NumberFormat {
 		 * The currency format for the current locale.
 		 */
 		CURRENCY
+
 	}
 
 }

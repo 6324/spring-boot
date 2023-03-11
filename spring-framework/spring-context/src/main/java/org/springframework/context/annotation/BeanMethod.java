@@ -46,18 +46,21 @@ final class BeanMethod extends ConfigurationMethod {
 
 		if (this.configurationClass.getMetadata().isAnnotated(Configuration.class.getName())) {
 			if (!getMetadata().isOverridable()) {
-				// instance @Bean methods within @Configuration classes must be overridable to accommodate CGLIB
+				// instance @Bean methods within @Configuration classes must be
+				// overridable to accommodate CGLIB
 				problemReporter.error(new NonOverridableMethodError());
 			}
 		}
 	}
 
-
 	private class NonOverridableMethodError extends Problem {
 
 		public NonOverridableMethodError() {
-			super(String.format("@Bean method '%s' must not be private or final; change the method's modifiers to continue",
+			super(String.format(
+					"@Bean method '%s' must not be private or final; change the method's modifiers to continue",
 					getMetadata().getMethodName()), getResourceLocation());
 		}
+
 	}
+
 }

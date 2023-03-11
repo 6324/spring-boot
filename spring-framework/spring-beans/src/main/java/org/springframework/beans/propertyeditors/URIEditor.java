@@ -28,20 +28,23 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Editor for {@code java.net.URI}, to directly populate a URI property
- * instead of using a String property as bridge.
+ * Editor for {@code java.net.URI}, to directly populate a URI property instead of using a
+ * String property as bridge.
  *
- * <p>Supports Spring-style URI notation: any fully qualified standard URI
- * ("file:", "http:", etc) and Spring's special "classpath:" pseudo-URL,
- * which will be resolved to a corresponding URI.
+ * <p>
+ * Supports Spring-style URI notation: any fully qualified standard URI ("file:", "http:",
+ * etc) and Spring's special "classpath:" pseudo-URL, which will be resolved to a
+ * corresponding URI.
  *
- * <p>By default, this editor will encode Strings into URIs. For instance,
- * a space will be encoded into {@code %20}. This behavior can be changed
- * by calling the {@link #URIEditor(boolean)} constructor.
+ * <p>
+ * By default, this editor will encode Strings into URIs. For instance, a space will be
+ * encoded into {@code %20}. This behavior can be changed by calling the
+ * {@link #URIEditor(boolean)} constructor.
  *
- * <p>Note: A URI is more relaxed than a URL in that it does not require
- * a valid protocol to be specified. Any scheme within a valid URI syntax
- * is allowed, even without a matching protocol handler being registered.
+ * <p>
+ * Note: A URI is more relaxed than a URL in that it does not require a valid protocol to
+ * be specified. Any scheme within a valid URI syntax is allowed, even without a matching
+ * protocol handler being registered.
  *
  * @author Juergen Hoeller
  * @since 2.0.2
@@ -55,19 +58,17 @@ public class URIEditor extends PropertyEditorSupport {
 
 	private final boolean encode;
 
-
-
 	/**
-	 * Create a new, encoding URIEditor, converting "classpath:" locations into
-	 * standard URIs (not trying to resolve them into physical resources).
+	 * Create a new, encoding URIEditor, converting "classpath:" locations into standard
+	 * URIs (not trying to resolve them into physical resources).
 	 */
 	public URIEditor() {
 		this(true);
 	}
 
 	/**
-	 * Create a new URIEditor, converting "classpath:" locations into
-	 * standard URIs (not trying to resolve them into physical resources).
+	 * Create a new URIEditor, converting "classpath:" locations into standard URIs (not
+	 * trying to resolve them into physical resources).
 	 * @param encode indicates whether Strings will be encoded or not
 	 * @since 3.0
 	 */
@@ -77,20 +78,20 @@ public class URIEditor extends PropertyEditorSupport {
 	}
 
 	/**
-	 * Create a new URIEditor, using the given ClassLoader to resolve
-	 * "classpath:" locations into physical resource URLs.
-	 * @param classLoader the ClassLoader to use for resolving "classpath:" locations
-	 * (may be {@code null} to indicate the default ClassLoader)
+	 * Create a new URIEditor, using the given ClassLoader to resolve "classpath:"
+	 * locations into physical resource URLs.
+	 * @param classLoader the ClassLoader to use for resolving "classpath:" locations (may
+	 * be {@code null} to indicate the default ClassLoader)
 	 */
 	public URIEditor(@Nullable ClassLoader classLoader) {
 		this(classLoader, true);
 	}
 
 	/**
-	 * Create a new URIEditor, using the given ClassLoader to resolve
-	 * "classpath:" locations into physical resource URLs.
-	 * @param classLoader the ClassLoader to use for resolving "classpath:" locations
-	 * (may be {@code null} to indicate the default ClassLoader)
+	 * Create a new URIEditor, using the given ClassLoader to resolve "classpath:"
+	 * locations into physical resource URLs.
+	 * @param classLoader the ClassLoader to use for resolving "classpath:" locations (may
+	 * be {@code null} to indicate the default ClassLoader)
 	 * @param encode indicates whether Strings will be encoded or not
 	 * @since 3.0
 	 */
@@ -98,7 +99,6 @@ public class URIEditor extends PropertyEditorSupport {
 		this.classLoader = (classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader());
 		this.encode = encode;
 	}
-
 
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException {
@@ -111,7 +111,8 @@ public class URIEditor extends PropertyEditorSupport {
 					setValue(resource.getURI());
 				}
 				catch (IOException ex) {
-					throw new IllegalArgumentException("Could not retrieve URI for " + resource + ": " + ex.getMessage());
+					throw new IllegalArgumentException(
+							"Could not retrieve URI for " + resource + ": " + ex.getMessage());
 				}
 			}
 			else {
@@ -130,7 +131,8 @@ public class URIEditor extends PropertyEditorSupport {
 
 	/**
 	 * Create a URI instance for the given user-specified String value.
-	 * <p>The default implementation encodes the value into a RFC-2396 compliant URI.
+	 * <p>
+	 * The default implementation encodes the value into a RFC-2396 compliant URI.
 	 * @param value the value to convert into a URI instance
 	 * @return the URI instance
 	 * @throws java.net.URISyntaxException if URI conversion failed
@@ -149,7 +151,6 @@ public class URIEditor extends PropertyEditorSupport {
 			return new URI(value);
 		}
 	}
-
 
 	@Override
 	public String getAsText() {

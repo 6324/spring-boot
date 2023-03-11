@@ -25,8 +25,8 @@ import org.springframework.core.ResolvableType;
 import org.springframework.lang.Nullable;
 
 /**
- * Simple factory for shared List instances. Allows for central setup
- * of Lists via the "list" element in XML bean definitions.
+ * Simple factory for shared List instances. Allows for central setup of Lists via the
+ * "list" element in XML bean definitions.
  *
  * @author Juergen Hoeller
  * @since 09.12.2003
@@ -42,7 +42,6 @@ public class ListFactoryBean extends AbstractFactoryBean<List<Object>> {
 	@Nullable
 	private Class<? extends List> targetListClass;
 
-
 	/**
 	 * Set the source List, typically populated via XML "list" elements.
 	 */
@@ -51,9 +50,10 @@ public class ListFactoryBean extends AbstractFactoryBean<List<Object>> {
 	}
 
 	/**
-	 * Set the class to use for the target List. Can be populated with a fully
-	 * qualified class name when defined in a Spring application context.
-	 * <p>Default is a {@code java.util.ArrayList}.
+	 * Set the class to use for the target List. Can be populated with a fully qualified
+	 * class name when defined in a Spring application context.
+	 * <p>
+	 * Default is a {@code java.util.ArrayList}.
 	 * @see java.util.ArrayList
 	 */
 	@SuppressWarnings("rawtypes")
@@ -66,7 +66,6 @@ public class ListFactoryBean extends AbstractFactoryBean<List<Object>> {
 		}
 		this.targetListClass = targetListClass;
 	}
-
 
 	@Override
 	@SuppressWarnings("rawtypes")

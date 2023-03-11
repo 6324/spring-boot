@@ -20,9 +20,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.transaction.TransactionDefinition;
 
 /**
- * This interface adds a {@code rollbackOn} specification to {@link TransactionDefinition}.
- * As custom {@code rollbackOn} is only possible with AOP, it resides in the AOP-related
- * transaction subpackage.
+ * This interface adds a {@code rollbackOn} specification to
+ * {@link TransactionDefinition}. As custom {@code rollbackOn} is only possible with AOP,
+ * it resides in the AOP-related transaction subpackage.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -34,8 +34,9 @@ public interface TransactionAttribute extends TransactionDefinition {
 
 	/**
 	 * Return a qualifier value associated with this transaction attribute.
-	 * <p>This may be used for choosing a corresponding transaction manager
-	 * to process this specific transaction.
+	 * <p>
+	 * This may be used for choosing a corresponding transaction manager to process this
+	 * specific transaction.
 	 * @since 3.0
 	 */
 	@Nullable

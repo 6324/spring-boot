@@ -29,9 +29,9 @@ import org.springframework.util.Assert;
 /**
  * JBoss VFS based {@link Resource} implementation.
  *
- * <p>As of Spring 4.0, this class supports VFS 3.x on JBoss AS 6+
- * (package {@code org.jboss.vfs}) and is in particular compatible with
- * JBoss AS 7 and WildFly 8+.
+ * <p>
+ * As of Spring 4.0, this class supports VFS 3.x on JBoss AS 6+ (package
+ * {@code org.jboss.vfs}) and is in particular compatible with JBoss AS 7 and WildFly 8+.
  *
  * @author Ales Justin
  * @author Juergen Hoeller
@@ -44,17 +44,15 @@ public class VfsResource extends AbstractResource {
 
 	private final Object resource;
 
-
 	/**
 	 * Create a new {@code VfsResource} wrapping the given resource handle.
-	 * @param resource a {@code org.jboss.vfs.VirtualFile} instance
-	 * (untyped in order to avoid a static dependency on the VFS API)
+	 * @param resource a {@code org.jboss.vfs.VirtualFile} instance (untyped in order to
+	 * avoid a static dependency on the VFS API)
 	 */
 	public VfsResource(Object resource) {
 		Assert.notNull(resource, "VirtualFile must not be null");
 		this.resource = resource;
 	}
-
 
 	@Override
 	public InputStream getInputStream() throws IOException {
@@ -132,8 +130,8 @@ public class VfsResource extends AbstractResource {
 
 	@Override
 	public boolean equals(@Nullable Object other) {
-		return (this == other || (other instanceof VfsResource &&
-				this.resource.equals(((VfsResource) other).resource)));
+		return (this == other
+				|| (other instanceof VfsResource && this.resource.equals(((VfsResource) other).resource)));
 	}
 
 	@Override

@@ -36,22 +36,25 @@ import org.springframework.util.StringValueResolver;
  * configured with converters and formatters for common types such as numbers and
  * datetimes.
  *
- * <p>Additional converters and formatters can be registered declaratively through
- * {@link #setConverters(Set)} and {@link #setFormatters(Set)}. Another option
- * is to register converters and formatters in code by implementing the
- * {@link FormatterRegistrar} interface. You can then configure provide the set
- * of registrars to use through {@link #setFormatterRegistrars(Set)}.
+ * <p>
+ * Additional converters and formatters can be registered declaratively through
+ * {@link #setConverters(Set)} and {@link #setFormatters(Set)}. Another option is to
+ * register converters and formatters in code by implementing the
+ * {@link FormatterRegistrar} interface. You can then configure provide the set of
+ * registrars to use through {@link #setFormatterRegistrars(Set)}.
  *
- * <p>A good example for registering converters and formatters in code is
- * {@code JodaTimeFormatterRegistrar}, which registers a number of
- * date-related formatters and converters. For a more detailed list of cases
- * see {@link #setFormatterRegistrars(Set)}
+ * <p>
+ * A good example for registering converters and formatters in code is
+ * {@code JodaTimeFormatterRegistrar}, which registers a number of date-related formatters
+ * and converters. For a more detailed list of cases see
+ * {@link #setFormatterRegistrars(Set)}
  *
- * <p>Like all {@code FactoryBean} implementations, this class is suitable for
- * use when configuring a Spring application context using Spring {@code <beans>}
- * XML. When configuring the container with
- * {@link org.springframework.context.annotation.Configuration @Configuration}
- * classes, simply instantiate, configure and return the appropriate
+ * <p>
+ * Like all {@code FactoryBean} implementations, this class is suitable for use when
+ * configuring a Spring application context using Spring {@code <beans>} XML. When
+ * configuring the container with
+ * {@link org.springframework.context.annotation.Configuration @Configuration} classes,
+ * simply instantiate, configure and return the appropriate
  * {@code FormattingConversionService} object from a
  * {@link org.springframework.context.annotation.Bean @Bean} method.
  *
@@ -81,7 +84,6 @@ public class FormattingConversionServiceFactoryBean
 	@Nullable
 	private FormattingConversionService conversionService;
 
-
 	/**
 	 * Configure the set of custom converter objects that should be added.
 	 * @param converters instances of any of the following:
@@ -95,23 +97,26 @@ public class FormattingConversionServiceFactoryBean
 
 	/**
 	 * Configure the set of custom formatter objects that should be added.
-	 * @param formatters instances of {@link Formatter} or {@link AnnotationFormatterFactory}
+	 * @param formatters instances of {@link Formatter} or
+	 * {@link AnnotationFormatterFactory}
 	 */
 	public void setFormatters(Set<?> formatters) {
 		this.formatters = formatters;
 	}
 
 	/**
-	 * <p>Configure the set of FormatterRegistrars to invoke to register
-	 * Converters and Formatters in addition to those added declaratively
-	 * via {@link #setConverters(Set)} and {@link #setFormatters(Set)}.
-	 * <p>FormatterRegistrars are useful when registering multiple related
-	 * converters and formatters for a formatting category, such as Date
-	 * formatting. All types related needed to support the formatting
-	 * category can be registered from one place.
-	 * <p>FormatterRegistrars can also be used to register Formatters
-	 * indexed under a specific field type different from its own &lt;T&gt;,
-	 * or when registering a Formatter from a Printer/Parser pair.
+	 * <p>
+	 * Configure the set of FormatterRegistrars to invoke to register Converters and
+	 * Formatters in addition to those added declaratively via {@link #setConverters(Set)}
+	 * and {@link #setFormatters(Set)}.
+	 * <p>
+	 * FormatterRegistrars are useful when registering multiple related converters and
+	 * formatters for a formatting category, such as Date formatting. All types related
+	 * needed to support the formatting category can be registered from one place.
+	 * <p>
+	 * FormatterRegistrars can also be used to register Formatters indexed under a
+	 * specific field type different from its own &lt;T&gt;, or when registering a
+	 * Formatter from a Printer/Parser pair.
 	 * @see FormatterRegistry#addFormatterForFieldType(Class, Formatter)
 	 * @see FormatterRegistry#addFormatterForFieldType(Class, Printer, Parser)
 	 */
@@ -121,8 +126,9 @@ public class FormattingConversionServiceFactoryBean
 
 	/**
 	 * Indicate whether default formatters should be registered or not.
-	 * <p>By default, built-in formatters are registered. This flag can be used
-	 * to turn that off and rely on explicitly registered formatters only.
+	 * <p>
+	 * By default, built-in formatters are registered. This flag can be used to turn that
+	 * off and rely on explicitly registered formatters only.
 	 * @see #setFormatters(Set)
 	 * @see #setFormatterRegistrars(Set)
 	 */
@@ -135,10 +141,10 @@ public class FormattingConversionServiceFactoryBean
 		this.embeddedValueResolver = embeddedValueResolver;
 	}
 
-
 	@Override
 	public void afterPropertiesSet() {
-		this.conversionService = new DefaultFormattingConversionService(this.embeddedValueResolver, this.registerDefaultFormatters);
+		this.conversionService = new DefaultFormattingConversionService(this.embeddedValueResolver,
+				this.registerDefaultFormatters);
 		ConversionServiceFactory.registerConverters(this.converters, this.conversionService);
 		registerFormatters(this.conversionService);
 	}
@@ -164,7 +170,6 @@ public class FormattingConversionServiceFactoryBean
 			}
 		}
 	}
-
 
 	@Override
 	@Nullable

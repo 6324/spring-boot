@@ -28,5 +28,7 @@ public class ClassWithProtectedAnnotatedMember {
 	}
 
 	@Transactional
-	protected void doInTransaction() {}
+	protected void doInTransaction() {
+	}
+
 }

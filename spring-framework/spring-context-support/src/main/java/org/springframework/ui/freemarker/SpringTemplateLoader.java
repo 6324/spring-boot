@@ -29,9 +29,9 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.lang.Nullable;
 
 /**
- * FreeMarker {@link TemplateLoader} adapter that loads via a Spring {@link ResourceLoader}.
- * Used by {@link FreeMarkerConfigurationFactory} for any resource loader path that cannot
- * be resolved to a {@link java.io.File}.
+ * FreeMarker {@link TemplateLoader} adapter that loads via a Spring
+ * {@link ResourceLoader}. Used by {@link FreeMarkerConfigurationFactory} for any resource
+ * loader path that cannot be resolved to a {@link java.io.File}.
  *
  * @author Juergen Hoeller
  * @since 14.03.2004
@@ -46,7 +46,6 @@ public class SpringTemplateLoader implements TemplateLoader {
 
 	private final String templateLoaderPath;
 
-
 	/**
 	 * Create a new SpringTemplateLoader.
 	 * @param resourceLoader the Spring ResourceLoader to use
@@ -59,11 +58,10 @@ public class SpringTemplateLoader implements TemplateLoader {
 		}
 		this.templateLoaderPath = templateLoaderPath;
 		if (logger.isDebugEnabled()) {
-			logger.debug("SpringTemplateLoader for FreeMarker: using resource loader [" + this.resourceLoader +
-					"] and template loader path [" + this.templateLoaderPath + "]");
+			logger.debug("SpringTemplateLoader for FreeMarker: using resource loader [" + this.resourceLoader
+					+ "] and template loader path [" + this.templateLoaderPath + "]");
 		}
 	}
-
 
 	@Override
 	@Nullable
@@ -97,8 +95,8 @@ public class SpringTemplateLoader implements TemplateLoader {
 		}
 		catch (IOException ex) {
 			if (logger.isDebugEnabled()) {
-				logger.debug("Could not obtain last-modified timestamp for FreeMarker template in " +
-						resource + ": " + ex);
+				logger.debug(
+						"Could not obtain last-modified timestamp for FreeMarker template in " + resource + ": " + ex);
 			}
 			return -1;
 		}

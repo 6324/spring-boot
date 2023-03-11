@@ -24,8 +24,10 @@ import org.springframework.util.NumberUtils;
 /**
  * Converts from a String any JDK-standard Number implementation.
  *
- * <p>Support Number classes including Byte, Short, Integer, Float, Double, Long, BigInteger, BigDecimal. This class
- * delegates to {@link NumberUtils#parseNumber(String, Class)} to perform the conversion.
+ * <p>
+ * Support Number classes including Byte, Short, Integer, Float, Double, Long, BigInteger,
+ * BigDecimal. This class delegates to {@link NumberUtils#parseNumber(String, Class)} to
+ * perform the conversion.
  *
  * @author Keith Donald
  * @since 3.0
@@ -46,7 +48,6 @@ final class StringToNumberConverterFactory implements ConverterFactory<String, N
 		return new StringToNumber<>(targetType);
 	}
 
-
 	private static final class StringToNumber<T extends Number> implements Converter<String, T> {
 
 		private final Class<T> targetType;
@@ -63,6 +64,7 @@ final class StringToNumberConverterFactory implements ConverterFactory<String, N
 			}
 			return NumberUtils.parseNumber(source, this.targetType);
 		}
+
 	}
 
 }

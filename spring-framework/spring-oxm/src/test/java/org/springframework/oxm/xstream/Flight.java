@@ -31,4 +31,5 @@ public class Flight {
 	public void setFlightNumber(long number) {
 		this.flightNumber = number;
 	}
+
 }

@@ -37,9 +37,9 @@ import org.springframework.messaging.handler.invocation.AbstractExceptionHandler
 import org.springframework.util.Assert;
 
 /**
- * Help to initialize and invoke an {@link InvocableHandlerMethod}, and to then
- * apply return value handling and exception handling. Holds all necessary
- * configuration necessary to do so.
+ * Help to initialize and invoke an {@link InvocableHandlerMethod}, and to then apply
+ * return value handling and exception handling. Holds all necessary configuration
+ * necessary to do so.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -48,33 +48,28 @@ class InvocableHelper {
 
 	private static final Log logger = LogFactory.getLog(InvocableHelper.class);
 
+	private final HandlerMethodArgumentResolverComposite argumentResolvers = new HandlerMethodArgumentResolverComposite();
 
-	private final HandlerMethodArgumentResolverComposite argumentResolvers =
-			new HandlerMethodArgumentResolverComposite();
-
-	private final HandlerMethodReturnValueHandlerComposite returnValueHandlers =
-			new HandlerMethodReturnValueHandlerComposite();
+	private final HandlerMethodReturnValueHandlerComposite returnValueHandlers = new HandlerMethodReturnValueHandlerComposite();
 
 	private ReactiveAdapterRegistry reactiveAdapterRegistry = ReactiveAdapterRegistry.getSharedInstance();
 
 	private final Function<Class<?>, AbstractExceptionHandlerMethodResolver> exceptionMethodResolverFactory;
 
-	private final Map<Class<?>, AbstractExceptionHandlerMethodResolver> exceptionHandlerCache =
-			new ConcurrentHashMap<>(64);
+	private final Map<Class<?>, AbstractExceptionHandlerMethodResolver> exceptionHandlerCache = new ConcurrentHashMap<>(
+			64);
 
-	private final Map<MessagingAdviceBean, AbstractExceptionHandlerMethodResolver> exceptionHandlerAdviceCache =
-			new LinkedHashMap<>(64);
+	private final Map<MessagingAdviceBean, AbstractExceptionHandlerMethodResolver> exceptionHandlerAdviceCache = new LinkedHashMap<>(
+			64);
 
-
-	public InvocableHelper(
-			Function<Class<?>, AbstractExceptionHandlerMethodResolver> exceptionMethodResolverFactory) {
+	public InvocableHelper(Function<Class<?>, AbstractExceptionHandlerMethodResolver> exceptionMethodResolverFactory) {
 
 		this.exceptionMethodResolverFactory = exceptionMethodResolverFactory;
 	}
 
 	/**
-	 * Add the arguments resolvers to use for message handling and exception
-	 * handling methods.
+	 * Add the arguments resolvers to use for message handling and exception handling
+	 * methods.
 	 */
 	public void addArgumentResolvers(List<? extends HandlerMethodArgumentResolver> resolvers) {
 		this.argumentResolvers.addResolvers(resolvers);
@@ -89,8 +84,8 @@ class InvocableHelper {
 	}
 
 	/**
-	 * Add the return value handlers to use for message handling and exception
-	 * handling methods.
+	 * Add the return value handlers to use for message handling and exception handling
+	 * methods.
 	 */
 	public void addReturnValueHandlers(List<? extends HandlerMethodReturnValueHandler> handlers) {
 		this.returnValueHandlers.addHandlers(handlers);
@@ -98,8 +93,9 @@ class InvocableHelper {
 
 	/**
 	 * Configure the registry for adapting various reactive types.
-	 * <p>By default this is an instance of {@link ReactiveAdapterRegistry} with
-	 * default settings.
+	 * <p>
+	 * By default this is an instance of {@link ReactiveAdapterRegistry} with default
+	 * settings.
 	 */
 	public void setReactiveAdapterRegistry(ReactiveAdapterRegistry registry) {
 		Assert.notNull(registry, "ReactiveAdapterRegistry is required");
@@ -117,12 +113,11 @@ class InvocableHelper {
 	 * Method to populate the MessagingAdviceBean cache (e.g. to support "global"
 	 * {@code @MessageExceptionHandler}).
 	 */
-	public void registerExceptionHandlerAdvice(
-			MessagingAdviceBean bean, AbstractExceptionHandlerMethodResolver resolver) {
+	public void registerExceptionHandlerAdvice(MessagingAdviceBean bean,
+			AbstractExceptionHandlerMethodResolver resolver) {
 
 		this.exceptionHandlerAdviceCache.put(bean, resolver);
 	}
-
 
 	/**
 	 * Create {@link InvocableHandlerMethod} with the configured arg resolvers.
@@ -138,10 +133,10 @@ class InvocableHelper {
 
 	/**
 	 * Find an exception handling method for the given exception.
-	 * <p>The default implementation searches methods in the class hierarchy of
-	 * the HandlerMethod first and if not found, it continues searching for
-	 * additional handling methods registered via
-	 * {@link #registerExceptionHandlerAdvice}.
+	 * <p>
+	 * The default implementation searches methods in the class hierarchy of the
+	 * HandlerMethod first and if not found, it continues searching for additional
+	 * handling methods registered via {@link #registerExceptionHandlerAdvice}.
 	 * @param handlerMethod the method where the exception was raised
 	 * @param ex the exception raised or signaled
 	 * @return a method to handle the exception, or {@code null}
@@ -163,7 +158,8 @@ class InvocableHelper {
 			exceptionHandlerMethod = new InvocableHandlerMethod(handlerMethod.getBean(), method);
 		}
 		else {
-			for (Map.Entry<MessagingAdviceBean, AbstractExceptionHandlerMethodResolver> entry : this.exceptionHandlerAdviceCache.entrySet()) {
+			for (Map.Entry<MessagingAdviceBean, AbstractExceptionHandlerMethodResolver> entry : this.exceptionHandlerAdviceCache
+					.entrySet()) {
 				MessagingAdviceBean advice = entry.getKey();
 				if (advice.isApplicableToBeanType(beanType)) {
 					resolver = entry.getValue();
@@ -185,16 +181,13 @@ class InvocableHelper {
 		return exceptionHandlerMethod;
 	}
 
-
 	public Mono<Void> handleMessage(HandlerMethod handlerMethod, Message<?> message) {
 		InvocableHandlerMethod invocable = initMessageMappingMethod(handlerMethod);
 		if (logger.isDebugEnabled()) {
 			logger.debug("Invoking " + invocable.getShortLogMessage());
 		}
-		return invocable.invoke(message)
-				.switchIfEmpty(Mono.defer(() -> handleReturnValue(null, invocable, message)))
-				.flatMap(returnValue -> handleReturnValue(returnValue, invocable, message))
-				.onErrorResume(ex -> {
+		return invocable.invoke(message).switchIfEmpty(Mono.defer(() -> handleReturnValue(null, invocable, message)))
+				.flatMap(returnValue -> handleReturnValue(returnValue, invocable, message)).onErrorResume(ex -> {
 					InvocableHandlerMethod exHandler = initExceptionHandlerMethod(handlerMethod, ex);
 					if (exHandler == null) {
 						return Mono.error(ex);
@@ -208,8 +201,8 @@ class InvocableHelper {
 				});
 	}
 
-	private Mono<Void> handleReturnValue(
-			@Nullable Object returnValue, HandlerMethod handlerMethod, Message<?> message) {
+	private Mono<Void> handleReturnValue(@Nullable Object returnValue, HandlerMethod handlerMethod,
+			Message<?> message) {
 
 		MethodParameter returnType = handlerMethod.getReturnType();
 		return this.returnValueHandlers.handleReturnValue(returnValue, returnType, message);

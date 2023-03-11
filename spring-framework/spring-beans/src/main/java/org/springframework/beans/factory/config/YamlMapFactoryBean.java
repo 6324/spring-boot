@@ -24,16 +24,18 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
 
 /**
- * Factory for a {@code Map} that reads from a YAML source, preserving the
- * YAML-declared value types and their structure.
+ * Factory for a {@code Map} that reads from a YAML source, preserving the YAML-declared
+ * value types and their structure.
  *
- * <p>YAML is a nice human-readable format for configuration, and it has some
- * useful hierarchical properties. It's more or less a superset of JSON, so it
- * has a lot of similar features.
+ * <p>
+ * YAML is a nice human-readable format for configuration, and it has some useful
+ * hierarchical properties. It's more or less a superset of JSON, so it has a lot of
+ * similar features.
  *
- * <p>If multiple resources are provided the later ones will override entries in
- * the earlier ones hierarchically; that is, all entries with the same nested key
- * of type {@code Map} at any depth are merged. For example:
+ * <p>
+ * If multiple resources are provided the later ones will override entries in the earlier
+ * ones hierarchically; that is, all entries with the same nested key of type {@code Map}
+ * at any depth are merged. For example:
  *
  * <pre class="code">
  * foo:
@@ -61,10 +63,11 @@ import org.springframework.lang.Nullable;
  * five: six
  * </pre>
  *
- * Note that the value of "foo" in the first document is not simply replaced
- * with the value in the second, but its nested values are merged.
+ * Note that the value of "foo" in the first document is not simply replaced with the
+ * value in the second, but its nested values are merged.
  *
- * <p>Requires SnakeYAML 1.18 or higher, as of Spring Framework 5.0.6.
+ * <p>
+ * Requires SnakeYAML 1.18 or higher, as of Spring Framework 5.0.6.
  *
  * @author Dave Syer
  * @author Juergen Hoeller
@@ -77,10 +80,9 @@ public class YamlMapFactoryBean extends YamlProcessor implements FactoryBean<Map
 	@Nullable
 	private Map<String, Object> map;
 
-
 	/**
-	 * Set if a singleton should be created, or a new object on each request
-	 * otherwise. Default is {@code true} (a singleton).
+	 * Set if a singleton should be created, or a new object on each request otherwise.
+	 * Default is {@code true} (a singleton).
 	 */
 	public void setSingleton(boolean singleton) {
 		this.singleton = singleton;
@@ -109,13 +111,14 @@ public class YamlMapFactoryBean extends YamlProcessor implements FactoryBean<Map
 		return Map.class;
 	}
 
-
 	/**
-	 * Template method that subclasses may override to construct the object
-	 * returned by this factory.
-	 * <p>Invoked lazily the first time {@link #getObject()} is invoked in
-	 * case of a shared singleton; else, on each {@link #getObject()} call.
-	 * <p>The default implementation returns the merged {@code Map} instance.
+	 * Template method that subclasses may override to construct the object returned by
+	 * this factory.
+	 * <p>
+	 * Invoked lazily the first time {@link #getObject()} is invoked in case of a shared
+	 * singleton; else, on each {@link #getObject()} call.
+	 * <p>
+	 * The default implementation returns the merged {@code Map} instance.
 	 * @return the object returned by this factory
 	 * @see #process(MatchCallback)
 	 */
@@ -125,7 +128,7 @@ public class YamlMapFactoryBean extends YamlProcessor implements FactoryBean<Map
 		return result;
 	}
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void merge(Map<String, Object> output, Map<String, Object> map) {
 		map.forEach((key, value) -> {
 			Object existing = output.get(key);

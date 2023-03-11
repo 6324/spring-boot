@@ -64,7 +64,8 @@ public class ImportTests {
 		int configClasses = 2;
 		int beansInClasses = 2;
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-		beanFactory.registerBeanDefinition("config", new RootBeanDefinition(ConfigurationWithImportAnnotation.class.getName()));
+		beanFactory.registerBeanDefinition("config",
+				new RootBeanDefinition(ConfigurationWithImportAnnotation.class.getName()));
 		ConfigurationClassPostProcessor pp = new ConfigurationClassPostProcessor();
 		pp.postProcessBeanFactory(beanFactory);
 		assertThat(beanFactory.getBeanDefinitionCount()).isEqualTo(configClasses + beansInClasses);
@@ -74,47 +75,56 @@ public class ImportTests {
 	public void testProcessImportsWithDoubleImports() {
 		int configClasses = 3;
 		int beansInClasses = 3;
-		assertBeanDefinitionCount((configClasses + beansInClasses), ConfigurationWithImportAnnotation.class, OtherConfigurationWithImportAnnotation.class);
+		assertBeanDefinitionCount((configClasses + beansInClasses), ConfigurationWithImportAnnotation.class,
+				OtherConfigurationWithImportAnnotation.class);
 	}
 
 	@Test
 	public void testProcessImportsWithExplicitOverridingBefore() {
 		int configClasses = 2;
 		int beansInClasses = 2;
-		assertBeanDefinitionCount((configClasses + beansInClasses), OtherConfiguration.class, ConfigurationWithImportAnnotation.class);
+		assertBeanDefinitionCount((configClasses + beansInClasses), OtherConfiguration.class,
+				ConfigurationWithImportAnnotation.class);
 	}
 
 	@Test
 	public void testProcessImportsWithExplicitOverridingAfter() {
 		int configClasses = 2;
 		int beansInClasses = 2;
-		assertBeanDefinitionCount((configClasses + beansInClasses), ConfigurationWithImportAnnotation.class, OtherConfiguration.class);
+		assertBeanDefinitionCount((configClasses + beansInClasses), ConfigurationWithImportAnnotation.class,
+				OtherConfiguration.class);
 	}
 
 	@Configuration
 	@Import(OtherConfiguration.class)
 	static class ConfigurationWithImportAnnotation {
+
 		@Bean
 		public ITestBean one() {
 			return new TestBean();
 		}
+
 	}
 
 	@Configuration
 	@Import(OtherConfiguration.class)
 	static class OtherConfigurationWithImportAnnotation {
+
 		@Bean
 		public ITestBean two() {
 			return new TestBean();
 		}
+
 	}
 
 	@Configuration
 	static class OtherConfiguration {
+
 		@Bean
 		public ITestBean three() {
 			return new TestBean();
 		}
+
 	}
 
 	// ------------------------------------------------------------------------
@@ -139,14 +149,17 @@ public class ImportTests {
 		public ITestBean accountRepository() {
 			return new TestBean();
 		}
+
 	}
 
 	@Configuration
 	static class DataSourceConfig {
+
 		@Bean
 		public ITestBean dataSourceA() {
 			return new TestBean();
 		}
+
 	}
 
 	// ------------------------------------------------------------------------
@@ -167,12 +180,11 @@ public class ImportTests {
 		assertBeanDefinitionCount((configClasses + beansInClasses), WithMultipleArgumentsToImportAnnotation.class);
 	}
 
-
 	@Test
 	public void testImportAnnotationWithMultipleArgumentsResultingInOverriddenBeanDefinition() {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-		beanFactory.registerBeanDefinition("config", new RootBeanDefinition(
-				WithMultipleArgumentsThatWillCauseDuplication.class));
+		beanFactory.registerBeanDefinition("config",
+				new RootBeanDefinition(WithMultipleArgumentsThatWillCauseDuplication.class));
 		ConfigurationClassPostProcessor pp = new ConfigurationClassPostProcessor();
 		pp.postProcessBeanFactory(beanFactory);
 		assertThat(beanFactory.getBeanDefinitionCount()).isEqualTo(4);
@@ -180,24 +192,29 @@ public class ImportTests {
 	}
 
 	@Configuration
-	@Import({Foo1.class, Foo2.class})
+	@Import({ Foo1.class, Foo2.class })
 	static class WithMultipleArgumentsThatWillCauseDuplication {
+
 	}
 
 	@Configuration
 	static class Foo1 {
+
 		@Bean
 		public ITestBean foo() {
 			return new TestBean("foo1");
 		}
+
 	}
 
 	@Configuration
 	static class Foo2 {
+
 		@Bean
 		public ITestBean foo() {
 			return new TestBean("foo2");
 		}
+
 	}
 
 	// ------------------------------------------------------------------------
@@ -211,6 +228,7 @@ public class ImportTests {
 
 	@Configuration
 	static class OuterConfig {
+
 		@Bean
 		String whatev() {
 			return "whatev";
@@ -219,19 +237,24 @@ public class ImportTests {
 		@Configuration
 		@Import(ExternalConfig.class)
 		static class InnerConfig {
+
 			@Bean
 			public ITestBean innerBean() {
 				return new TestBean();
 			}
+
 		}
+
 	}
 
 	@Configuration
 	static class ExternalConfig {
+
 		@Bean
 		public ITestBean extBean() {
 			return new TestBean();
 		}
+
 	}
 
 	// ------------------------------------------------------------------------
@@ -239,24 +262,29 @@ public class ImportTests {
 	@Configuration
 	@Import(SecondLevel.class)
 	static class FirstLevel {
+
 		@Bean
 		public TestBean m() {
 			return new TestBean();
 		}
+
 	}
 
 	@Configuration
-	@Import({ThirdLevel.class, InitBean.class})
+	@Import({ ThirdLevel.class, InitBean.class })
 	static class SecondLevel {
+
 		@Bean
 		public TestBean n() {
 			return new TestBean();
 		}
+
 	}
 
 	@Configuration
 	@DependsOn("org.springframework.context.annotation.configuration.ImportTests$InitBean")
 	static class ThirdLevel {
+
 		public ThirdLevel() {
 			assertThat(InitBean.initialized).isTrue();
 		}
@@ -275,39 +303,48 @@ public class ImportTests {
 		public ITestBean thirdLevelC() {
 			return new TestBean();
 		}
+
 	}
 
 	static class InitBean {
+
 		public static boolean initialized = false;
 
 		public InitBean() {
 			initialized = true;
 		}
+
 	}
 
 	@Configuration
-	@Import({LeftConfig.class, RightConfig.class})
+	@Import({ LeftConfig.class, RightConfig.class })
 	static class WithMultipleArgumentsToImportAnnotation {
+
 		@Bean
 		public TestBean m() {
 			return new TestBean();
 		}
+
 	}
 
 	@Configuration
 	static class LeftConfig {
+
 		@Bean
 		public ITestBean left() {
 			return new TestBean();
 		}
+
 	}
 
 	@Configuration
 	static class RightConfig {
+
 		@Bean
 		public ITestBean right() {
 			return new TestBean();
 		}
+
 	}
 
 	// ------------------------------------------------------------------------
@@ -321,16 +358,20 @@ public class ImportTests {
 
 	@Configuration
 	@Import(NonConfigAnnotated.class)
-	static class ConfigAnnotated { }
+	static class ConfigAnnotated {
 
-	static class NonConfigAnnotated { }
+	}
+
+	static class NonConfigAnnotated {
+
+	}
 
 	// ------------------------------------------------------------------------
 
 	/**
-	 * Test that values supplied to @Configuration(value="...") are propagated as the
-	 * bean name for the configuration class even in the case of inclusion via @Import
-	 * or in the case of automatic registration via nesting
+	 * Test that values supplied to @Configuration(value="...") are propagated as the bean
+	 * name for the configuration class even in the case of inclusion via @Import or in
+	 * the case of automatic registration via nesting
 	 */
 	@Test
 	public void reproSpr9023() {
@@ -343,11 +384,15 @@ public class ImportTests {
 	}
 
 	@Configuration("config-a")
-	static class A { }
+	static class A {
+
+	}
 
 	@Configuration("config-b")
 	@Import(A.class)
-	static class B { }
+	static class B {
+
+	}
 
 	@Test
 	public void testProcessImports() {

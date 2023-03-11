@@ -38,12 +38,11 @@ import org.springframework.util.TypeUtils;
 public class AspectJAfterReturningAdvice extends AbstractAspectJAdvice
 		implements AfterReturningAdvice, AfterAdvice, Serializable {
 
-	public AspectJAfterReturningAdvice(
-			Method aspectJBeforeAdviceMethod, AspectJExpressionPointcut pointcut, AspectInstanceFactory aif) {
+	public AspectJAfterReturningAdvice(Method aspectJBeforeAdviceMethod, AspectJExpressionPointcut pointcut,
+			AspectInstanceFactory aif) {
 
 		super(aspectJBeforeAdviceMethod, pointcut, aif);
 	}
-
 
 	@Override
 	public boolean isBeforeAdvice() {
@@ -61,34 +60,34 @@ public class AspectJAfterReturningAdvice extends AbstractAspectJAdvice
 	}
 
 	@Override
-	public void afterReturning(@Nullable Object returnValue, Method method, Object[] args, @Nullable Object target) throws Throwable {
+	public void afterReturning(@Nullable Object returnValue, Method method, Object[] args, @Nullable Object target)
+			throws Throwable {
 		if (shouldInvokeOnReturnValueOf(method, returnValue)) {
 			invokeAdviceMethod(getJoinPointMatch(), returnValue, null);
 		}
 	}
 
-
 	/**
-	 * Following AspectJ semantics, if a returning clause was specified, then the
-	 * advice is only invoked if the returned value is an instance of the given
-	 * returning type and generic type parameters, if any, match the assignment
-	 * rules. If the returning type is Object, the advice is *always* invoked.
+	 * Following AspectJ semantics, if a returning clause was specified, then the advice
+	 * is only invoked if the returned value is an instance of the given returning type
+	 * and generic type parameters, if any, match the assignment rules. If the returning
+	 * type is Object, the advice is *always* invoked.
 	 * @param returnValue the return value of the target method
 	 * @return whether to invoke the advice method for the given return value
 	 */
 	private boolean shouldInvokeOnReturnValueOf(Method method, @Nullable Object returnValue) {
 		Class<?> type = getDiscoveredReturningType();
 		Type genericType = getDiscoveredReturningGenericType();
-		// If we aren't dealing with a raw type, check if generic parameters are assignable.
-		return (matchesReturnValue(type, method, returnValue) &&
-				(genericType == null || genericType == type ||
-						TypeUtils.isAssignable(genericType, method.getGenericReturnType())));
+		// If we aren't dealing with a raw type, check if generic parameters are
+		// assignable.
+		return (matchesReturnValue(type, method, returnValue) && (genericType == null || genericType == type
+				|| TypeUtils.isAssignable(genericType, method.getGenericReturnType())));
 	}
 
 	/**
 	 * Following AspectJ semantics, if a return value is null (or return type is void),
-	 * then the return type of target method should be used to determine whether advice
-	 * is invoked or not. Also, even if the return type is void, if the type of argument
+	 * then the return type of target method should be used to determine whether advice is
+	 * invoked or not. Also, even if the return type is void, if the type of argument
 	 * declared in the advice method is Object, then the advice must still get invoked.
 	 * @param type the type of argument declared in advice method
 	 * @param method the advice method

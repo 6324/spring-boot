@@ -35,8 +35,8 @@ import org.xml.sax.ext.LexicalHandler;
 import org.springframework.lang.Nullable;
 
 /**
- * SAX {@link org.xml.sax.ContentHandler} and {@link LexicalHandler}
- * that writes to a {@link javax.xml.stream.util.XMLEventConsumer}.
+ * SAX {@link org.xml.sax.ContentHandler} and {@link LexicalHandler} that writes to a
+ * {@link javax.xml.stream.util.XMLEventConsumer}.
  *
  * @author Arjen Poutsma
  * @since 4.0.3
@@ -46,7 +46,6 @@ class StaxEventHandler extends AbstractStaxHandler {
 	private final XMLEventFactory eventFactory;
 
 	private final XMLEventWriter eventWriter;
-
 
 	/**
 	 * Construct a new instance of the {@code StaxEventContentHandler} that writes to the
@@ -69,7 +68,6 @@ class StaxEventHandler extends AbstractStaxHandler {
 		this.eventWriter = eventWriter;
 	}
 
-
 	@Override
 	public void setDocumentLocator(@Nullable Locator locator) {
 		if (locator != null) {
@@ -88,20 +86,19 @@ class StaxEventHandler extends AbstractStaxHandler {
 	}
 
 	@Override
-	protected void startElementInternal(QName name, Attributes atts,
-			Map<String, String> namespaceMapping) throws XMLStreamException {
+	protected void startElementInternal(QName name, Attributes atts, Map<String, String> namespaceMapping)
+			throws XMLStreamException {
 
 		List<Attribute> attributes = getAttributes(atts);
 		List<Namespace> namespaces = getNamespaces(namespaceMapping);
-		this.eventWriter.add(
-				this.eventFactory.createStartElement(name, attributes.iterator(), namespaces.iterator()));
+		this.eventWriter.add(this.eventFactory.createStartElement(name, attributes.iterator(), namespaces.iterator()));
 
 	}
 
 	private List<Namespace> getNamespaces(Map<String, String> namespaceMappings) {
 		List<Namespace> result = new ArrayList<>(namespaceMappings.size());
-		namespaceMappings.forEach((prefix, namespaceUri) ->
-				result.add(this.eventFactory.createNamespace(prefix, namespaceUri)));
+		namespaceMappings
+				.forEach((prefix, namespaceUri) -> result.add(this.eventFactory.createNamespace(prefix, namespaceUri)));
 		return result;
 	}
 
@@ -158,7 +155,6 @@ class StaxEventHandler extends AbstractStaxHandler {
 	protected void skippedEntityInternal(String name) {
 	}
 
-
 	private static final class LocatorLocationAdapter implements Location {
 
 		private final Locator locator;
@@ -191,6 +187,7 @@ class StaxEventHandler extends AbstractStaxHandler {
 		public String getSystemId() {
 			return this.locator.getSystemId();
 		}
+
 	}
 
 }

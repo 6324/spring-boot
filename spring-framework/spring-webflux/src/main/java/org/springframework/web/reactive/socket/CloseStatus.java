@@ -21,13 +21,13 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Representation of WebSocket "close" status codes and reasons. Status codes
- * in the 1xxx range are pre-defined by the protocol.
+ * Representation of WebSocket "close" status codes and reasons. Status codes in the 1xxx
+ * range are pre-defined by the protocol.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
- * @see <a href="https://tools.ietf.org/html/rfc6455#section-7.4.1">
- *     RFC 6455, Section 7.4.1 "Defined Status Codes"</a>
+ * @see <a href="https://tools.ietf.org/html/rfc6455#section-7.4.1"> RFC 6455, Section
+ * 7.4.1 "Defined Status Codes"</a>
  */
 public final class CloseStatus {
 
@@ -47,7 +47,7 @@ public final class CloseStatus {
 	 * "1002 indicates that an endpoint is terminating the connection due to a protocol
 	 * error."
 	 */
-	public static final CloseStatus PROTOCOL_ERROR  = new CloseStatus(1002);
+	public static final CloseStatus PROTOCOL_ERROR = new CloseStatus(1002);
 
 	/**
 	 * "1003 indicates that an endpoint is terminating the connection because it has
@@ -132,12 +132,10 @@ public final class CloseStatus {
 	 */
 	public static final CloseStatus TLS_HANDSHAKE_FAILURE = new CloseStatus(1015);
 
-
 	private final int code;
 
 	@Nullable
 	private final String reason;
-
 
 	/**
 	 * Create a new {@link CloseStatus} instance.
@@ -157,7 +155,6 @@ public final class CloseStatus {
 		this.code = code;
 		this.reason = reason;
 	}
-
 
 	/**
 	 * Return the status code.
@@ -184,7 +181,6 @@ public final class CloseStatus {
 		return new CloseStatus(this.code, reason);
 	}
 
-
 	public boolean equalsCode(CloseStatus other) {
 		return (this.code == other.code);
 	}
@@ -198,8 +194,7 @@ public final class CloseStatus {
 			return false;
 		}
 		CloseStatus otherStatus = (CloseStatus) other;
-		return (this.code == otherStatus.code &&
-				ObjectUtils.nullSafeEquals(this.reason, otherStatus.reason));
+		return (this.code == otherStatus.code && ObjectUtils.nullSafeEquals(this.reason, otherStatus.reason));
 	}
 
 	@Override

@@ -23,9 +23,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of {@link AspectInstanceFactory} that is backed by a
- * specified singleton object, returning the same instance for every
- * {@link #getAspectInstance()} call.
+ * Implementation of {@link AspectInstanceFactory} that is backed by a specified singleton
+ * object, returning the same instance for every {@link #getAspectInstance()} call.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -37,7 +36,6 @@ public class SingletonAspectInstanceFactory implements AspectInstanceFactory, Se
 
 	private final Object aspectInstance;
 
-
 	/**
 	 * Create a new SingletonAspectInstanceFactory for the given aspect instance.
 	 * @param aspectInstance the singleton aspect instance
@@ -46,7 +44,6 @@ public class SingletonAspectInstanceFactory implements AspectInstanceFactory, Se
 		Assert.notNull(aspectInstance, "Aspect instance must not be null");
 		this.aspectInstance = aspectInstance;
 	}
-
 
 	@Override
 	public final Object getAspectInstance() {
@@ -60,10 +57,9 @@ public class SingletonAspectInstanceFactory implements AspectInstanceFactory, Se
 	}
 
 	/**
-	 * Determine the order for this factory's aspect instance,
-	 * either an instance-specific order expressed through implementing
-	 * the {@link org.springframework.core.Ordered} interface,
-	 * or a fallback order.
+	 * Determine the order for this factory's aspect instance, either an instance-specific
+	 * order expressed through implementing the {@link org.springframework.core.Ordered}
+	 * interface, or a fallback order.
 	 * @see org.springframework.core.Ordered
 	 * @see #getOrderForAspectClass
 	 */
@@ -76,10 +72,11 @@ public class SingletonAspectInstanceFactory implements AspectInstanceFactory, Se
 	}
 
 	/**
-	 * Determine a fallback order for the case that the aspect instance
-	 * does not express an instance-specific order through implementing
-	 * the {@link org.springframework.core.Ordered} interface.
-	 * <p>The default implementation simply returns {@code Ordered.LOWEST_PRECEDENCE}.
+	 * Determine a fallback order for the case that the aspect instance does not express
+	 * an instance-specific order through implementing the
+	 * {@link org.springframework.core.Ordered} interface.
+	 * <p>
+	 * The default implementation simply returns {@code Ordered.LOWEST_PRECEDENCE}.
 	 * @param aspectClass the aspect class
 	 */
 	protected int getOrderForAspectClass(Class<?> aspectClass) {

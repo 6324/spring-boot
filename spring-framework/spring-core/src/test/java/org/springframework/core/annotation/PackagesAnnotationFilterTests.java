@@ -30,23 +30,20 @@ class PackagesAnnotationFilterTests {
 
 	@Test
 	void createWhenPackagesIsNullThrowsException() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new PackagesAnnotationFilter((String[]) null))
-			.withMessage("Packages array must not be null");
+		assertThatIllegalArgumentException().isThrownBy(() -> new PackagesAnnotationFilter((String[]) null))
+				.withMessage("Packages array must not be null");
 	}
 
 	@Test
 	void createWhenPackagesContainsNullThrowsException() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new PackagesAnnotationFilter((String) null))
-			.withMessage("Packages array must not have empty elements");
+		assertThatIllegalArgumentException().isThrownBy(() -> new PackagesAnnotationFilter((String) null))
+				.withMessage("Packages array must not have empty elements");
 	}
 
 	@Test
 	void createWhenPackagesContainsEmptyTextThrowsException() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new PackagesAnnotationFilter(""))
-			.withMessage("Packages array must not have empty elements");
+		assertThatIllegalArgumentException().isThrownBy(() -> new PackagesAnnotationFilter(""))
+				.withMessage("Packages array must not have empty elements");
 	}
 
 	@Test
@@ -69,10 +66,8 @@ class PackagesAnnotationFilterTests {
 
 	@Test
 	void equalsAndHashCode() {
-		PackagesAnnotationFilter filter1 = new PackagesAnnotationFilter("com.example",
-				"org.springframework");
-		PackagesAnnotationFilter filter2 = new PackagesAnnotationFilter(
-				"org.springframework", "com.example");
+		PackagesAnnotationFilter filter1 = new PackagesAnnotationFilter("com.example", "org.springframework");
+		PackagesAnnotationFilter filter2 = new PackagesAnnotationFilter("org.springframework", "com.example");
 		PackagesAnnotationFilter filter3 = new PackagesAnnotationFilter("com.examples");
 		assertThat(filter1.hashCode()).isEqualTo(filter2.hashCode());
 		assertThat(filter1).isEqualTo(filter1).isEqualTo(filter2).isNotEqualTo(filter3);

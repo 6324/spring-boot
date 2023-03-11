@@ -28,21 +28,21 @@ import org.springframework.core.Conventions;
 import org.springframework.lang.Nullable;
 
 /**
- * Simple {@code NamespaceHandler} implementation that maps custom attributes
- * directly through to bean properties. An important point to note is that this
- * {@code NamespaceHandler} does not have a corresponding schema since there
- * is no way to know in advance all possible attribute names.
+ * Simple {@code NamespaceHandler} implementation that maps custom attributes directly
+ * through to bean properties. An important point to note is that this
+ * {@code NamespaceHandler} does not have a corresponding schema since there is no way to
+ * know in advance all possible attribute names.
  *
- * <p>An example of the usage of this {@code NamespaceHandler} is shown below:
+ * <p>
+ * An example of the usage of this {@code NamespaceHandler} is shown below:
  *
  * <pre class="code">
  * &lt;bean id=&quot;rob&quot; class=&quot;..TestBean&quot; p:name=&quot;Rob Harrop&quot; p:spouse-ref=&quot;sally&quot;/&gt;</pre>
  *
- * Here the '{@code p:name}' corresponds directly to the '{@code name}'
- * property on class '{@code TestBean}'. The '{@code p:spouse-ref}'
- * attributes corresponds to the '{@code spouse}' property and, rather
- * than being the concrete value, it contains the name of the bean that will
- * be injected into that property.
+ * Here the '{@code p:name}' corresponds directly to the '{@code name}' property on class
+ * '{@code TestBean}'. The '{@code p:spouse-ref}' attributes corresponds to the
+ * '{@code spouse}' property and, rather than being the concrete value, it contains the
+ * name of the bean that will be injected into that property.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -52,7 +52,6 @@ public class SimplePropertyNamespaceHandler implements NamespaceHandler {
 
 	private static final String REF_SUFFIX = "-ref";
 
-
 	@Override
 	public void init() {
 	}
@@ -60,8 +59,8 @@ public class SimplePropertyNamespaceHandler implements NamespaceHandler {
 	@Override
 	@Nullable
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
-		parserContext.getReaderContext().error(
-				"Class [" + getClass().getName() + "] does not support custom elements.", element);
+		parserContext.getReaderContext().error("Class [" + getClass().getName() + "] does not support custom elements.",
+				element);
 		return null;
 	}
 
@@ -73,8 +72,10 @@ public class SimplePropertyNamespaceHandler implements NamespaceHandler {
 			String propertyValue = attr.getValue();
 			MutablePropertyValues pvs = definition.getBeanDefinition().getPropertyValues();
 			if (pvs.contains(propertyName)) {
-				parserContext.getReaderContext().error("Property '" + propertyName + "' is already defined using " +
-						"both <property> and inline syntax. Only one approach may be used per property.", attr);
+				parserContext.getReaderContext()
+						.error("Property '" + propertyName + "' is already defined using "
+								+ "both <property> and inline syntax. Only one approach may be used per property.",
+								attr);
 			}
 			if (propertyName.endsWith(REF_SUFFIX)) {
 				propertyName = propertyName.substring(0, propertyName.length() - REF_SUFFIX.length());

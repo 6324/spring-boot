@@ -64,17 +64,24 @@ class OrderUtilsTests {
 		assertThat(OrderUtils.getPriority(OrderAndPriority.class)).isEqualTo(Integer.valueOf(55));
 	}
 
-
 	@Order(50)
-	private static class SimpleOrder {}
+	private static class SimpleOrder {
+
+	}
 
 	@Priority(55)
-	private static class SimplePriority {}
+	private static class SimplePriority {
+
+	}
 
 	@Order(50)
 	@Priority(55)
-	private static class OrderAndPriority {}
+	private static class OrderAndPriority {
 
-	private static class NoOrder {}
+	}
+
+	private static class NoOrder {
+
+	}
 
 }

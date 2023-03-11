@@ -27,13 +27,11 @@ public class LifecycleTestBean implements Lifecycle {
 
 	private static int stopCounter;
 
-
 	private int startOrder;
 
 	private int stopOrder;
 
 	private boolean running;
-
 
 	public int getStartOrder() {
 		return startOrder;

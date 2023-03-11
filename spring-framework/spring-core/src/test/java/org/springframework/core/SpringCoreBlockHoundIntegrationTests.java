@@ -42,20 +42,18 @@ import static org.junit.jupiter.api.condition.JRE.JAVA_14;
 @DisabledForJreRange(min = JAVA_14)
 public class SpringCoreBlockHoundIntegrationTests {
 
-
 	@BeforeAll
 	static void setUp() {
-		BlockHound.builder()
-				.with(new ReactorBlockHoundIntegration()) // Reactor non-blocking thread predicate
-				.with(new ReactiveAdapterRegistry.SpringCoreBlockHoundIntegration())
-				.install();
+		BlockHound.builder().with(new ReactorBlockHoundIntegration()) // Reactor
+																		// non-blocking
+																		// thread
+																		// predicate
+				.with(new ReactiveAdapterRegistry.SpringCoreBlockHoundIntegration()).install();
 	}
-
 
 	@Test
 	void blockHoundIsInstalled() {
-		assertThatThrownBy(() -> testNonBlockingTask(() -> Thread.sleep(10)))
-				.hasMessageContaining("Blocking call!");
+		assertThatThrownBy(() -> testNonBlockingTask(() -> Thread.sleep(10))).hasMessageContaining("Blocking call!");
 	}
 
 	@Test
@@ -63,7 +61,7 @@ public class SpringCoreBlockHoundIntegrationTests {
 		testNonBlockingTask(() -> {
 			Method setName = TestObject.class.getMethod("setName", String.class);
 			String[] names = new LocalVariableTableParameterNameDiscoverer().getParameterNames(setName);
-			assertThat(names).isEqualTo(new String[] {"name"});
+			assertThat(names).isEqualTo(new String[] { "name" });
 		});
 	}
 
@@ -108,11 +106,11 @@ public class SpringCoreBlockHoundIntegrationTests {
 		});
 	}
 
-
 	@FunctionalInterface
 	private interface NonBlockingTask {
 
 		void run() throws Exception;
+
 	}
 
 }

@@ -25,8 +25,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Read-only EL property accessor that knows how to retrieve keys
- * of a Spring {@link Environment} instance.
+ * Read-only EL property accessor that knows how to retrieve keys of a Spring
+ * {@link Environment} instance.
  *
  * @author Chris Beams
  * @since 3.1
@@ -35,7 +35,7 @@ public class EnvironmentAccessor implements PropertyAccessor {
 
 	@Override
 	public Class<?>[] getSpecificTargetClasses() {
-		return new Class<?>[] {Environment.class};
+		return new Class<?>[] { Environment.class };
 	}
 
 	/**
@@ -48,8 +48,8 @@ public class EnvironmentAccessor implements PropertyAccessor {
 	}
 
 	/**
-	 * Access the given target object by resolving the given property name against the given target
-	 * environment.
+	 * Access the given target object by resolving the given property name against the
+	 * given target environment.
 	 */
 	@Override
 	public TypedValue read(EvaluationContext context, @Nullable Object target, String name) throws AccessException {

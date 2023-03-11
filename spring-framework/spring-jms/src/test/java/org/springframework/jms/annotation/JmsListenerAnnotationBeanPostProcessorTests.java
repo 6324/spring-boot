@@ -57,8 +57,8 @@ public class JmsListenerAnnotationBeanPostProcessorTests {
 
 	@Test
 	public void simpleMessageListener() throws Exception {
-		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(
-				Config.class, SimpleMessageListenerTestBean.class);
+		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(Config.class,
+				SimpleMessageListenerTestBean.class);
 
 		JmsListenerContainerTestFactory factory = context.getBean(JmsListenerContainerTestFactory.class);
 		assertThat(factory.getListenerContainers().size()).as("One container should have been registered").isEqualTo(1);
@@ -68,8 +68,10 @@ public class JmsListenerAnnotationBeanPostProcessorTests {
 		assertThat(endpoint.getClass()).as("Wrong endpoint type").isEqualTo(MethodJmsListenerEndpoint.class);
 		MethodJmsListenerEndpoint methodEndpoint = (MethodJmsListenerEndpoint) endpoint;
 		assertThat(methodEndpoint.getBean().getClass()).isEqualTo(SimpleMessageListenerTestBean.class);
-		assertThat(methodEndpoint.getMethod()).isEqualTo(SimpleMessageListenerTestBean.class.getMethod("handleIt", String.class));
-		assertThat(methodEndpoint.getMostSpecificMethod()).isEqualTo(SimpleMessageListenerTestBean.class.getMethod("handleIt", String.class));
+		assertThat(methodEndpoint.getMethod())
+				.isEqualTo(SimpleMessageListenerTestBean.class.getMethod("handleIt", String.class));
+		assertThat(methodEndpoint.getMostSpecificMethod())
+				.isEqualTo(SimpleMessageListenerTestBean.class.getMethod("handleIt", String.class));
 
 		SimpleMessageListenerContainer listenerContainer = new SimpleMessageListenerContainer();
 		methodEndpoint.setupListenerContainer(listenerContainer);
@@ -82,19 +84,22 @@ public class JmsListenerAnnotationBeanPostProcessorTests {
 
 	@Test
 	public void metaAnnotationIsDiscovered() throws Exception {
-		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(
-				Config.class, MetaAnnotationTestBean.class);
+		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(Config.class,
+				MetaAnnotationTestBean.class);
 
 		try {
 			JmsListenerContainerTestFactory factory = context.getBean(JmsListenerContainerTestFactory.class);
-			assertThat(factory.getListenerContainers().size()).as("one container should have been registered").isEqualTo(1);
+			assertThat(factory.getListenerContainers().size()).as("one container should have been registered")
+					.isEqualTo(1);
 
 			JmsListenerEndpoint endpoint = factory.getListenerContainers().get(0).getEndpoint();
 			assertThat(endpoint.getClass()).as("Wrong endpoint type").isEqualTo(MethodJmsListenerEndpoint.class);
 			MethodJmsListenerEndpoint methodEndpoint = (MethodJmsListenerEndpoint) endpoint;
 			assertThat(methodEndpoint.getBean().getClass()).isEqualTo(MetaAnnotationTestBean.class);
-			assertThat(methodEndpoint.getMethod()).isEqualTo(MetaAnnotationTestBean.class.getMethod("handleIt", String.class));
-			assertThat(methodEndpoint.getMostSpecificMethod()).isEqualTo(MetaAnnotationTestBean.class.getMethod("handleIt", String.class));
+			assertThat(methodEndpoint.getMethod())
+					.isEqualTo(MetaAnnotationTestBean.class.getMethod("handleIt", String.class));
+			assertThat(methodEndpoint.getMostSpecificMethod())
+					.isEqualTo(MetaAnnotationTestBean.class.getMethod("handleIt", String.class));
 			assertThat(((AbstractJmsListenerEndpoint) endpoint).getDestination()).isEqualTo("metaTestQueue");
 		}
 		finally {
@@ -104,11 +109,12 @@ public class JmsListenerAnnotationBeanPostProcessorTests {
 
 	@Test
 	public void sendToAnnotationFoundOnInterfaceProxy() throws Exception {
-		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(
-				Config.class, ProxyConfig.class, InterfaceProxyTestBean.class);
+		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(Config.class, ProxyConfig.class,
+				InterfaceProxyTestBean.class);
 		try {
 			JmsListenerContainerTestFactory factory = context.getBean(JmsListenerContainerTestFactory.class);
-			assertThat(factory.getListenerContainers().size()).as("one container should have been registered").isEqualTo(1);
+			assertThat(factory.getListenerContainers().size()).as("one container should have been registered")
+					.isEqualTo(1);
 
 			JmsListenerEndpoint endpoint = factory.getListenerContainers().get(0).getEndpoint();
 			assertThat(endpoint.getClass()).as("Wrong endpoint type").isEqualTo(MethodJmsListenerEndpoint.class);
@@ -116,8 +122,10 @@ public class JmsListenerAnnotationBeanPostProcessorTests {
 			assertThat(AopUtils.isJdkDynamicProxy(methodEndpoint.getBean())).isTrue();
 			boolean condition = methodEndpoint.getBean() instanceof SimpleService;
 			assertThat(condition).isTrue();
-			assertThat(methodEndpoint.getMethod()).isEqualTo(SimpleService.class.getMethod("handleIt", String.class, String.class));
-			assertThat(methodEndpoint.getMostSpecificMethod()).isEqualTo(InterfaceProxyTestBean.class.getMethod("handleIt", String.class, String.class));
+			assertThat(methodEndpoint.getMethod())
+					.isEqualTo(SimpleService.class.getMethod("handleIt", String.class, String.class));
+			assertThat(methodEndpoint.getMostSpecificMethod())
+					.isEqualTo(InterfaceProxyTestBean.class.getMethod("handleIt", String.class, String.class));
 
 			Method method = ReflectionUtils.findMethod(endpoint.getClass(), "getDefaultResponseDestination");
 			ReflectionUtils.makeAccessible(method);
@@ -131,11 +139,12 @@ public class JmsListenerAnnotationBeanPostProcessorTests {
 
 	@Test
 	public void sendToAnnotationFoundOnCglibProxy() throws Exception {
-		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(
-				Config.class, ProxyConfig.class, ClassProxyTestBean.class);
+		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(Config.class, ProxyConfig.class,
+				ClassProxyTestBean.class);
 		try {
 			JmsListenerContainerTestFactory factory = context.getBean(JmsListenerContainerTestFactory.class);
-			assertThat(factory.getListenerContainers().size()).as("one container should have been registered").isEqualTo(1);
+			assertThat(factory.getListenerContainers().size()).as("one container should have been registered")
+					.isEqualTo(1);
 
 			JmsListenerEndpoint endpoint = factory.getListenerContainers().get(0).getEndpoint();
 			assertThat(endpoint.getClass()).as("Wrong endpoint type").isEqualTo(MethodJmsListenerEndpoint.class);
@@ -143,8 +152,10 @@ public class JmsListenerAnnotationBeanPostProcessorTests {
 			assertThat(AopUtils.isCglibProxy(methodEndpoint.getBean())).isTrue();
 			boolean condition = methodEndpoint.getBean() instanceof ClassProxyTestBean;
 			assertThat(condition).isTrue();
-			assertThat(methodEndpoint.getMethod()).isEqualTo(ClassProxyTestBean.class.getMethod("handleIt", String.class, String.class));
-			assertThat(methodEndpoint.getMostSpecificMethod()).isEqualTo(ClassProxyTestBean.class.getMethod("handleIt", String.class, String.class));
+			assertThat(methodEndpoint.getMethod())
+					.isEqualTo(ClassProxyTestBean.class.getMethod("handleIt", String.class, String.class));
+			assertThat(methodEndpoint.getMostSpecificMethod())
+					.isEqualTo(ClassProxyTestBean.class.getMethod("handleIt", String.class, String.class));
 
 			Method method = ReflectionUtils.findMethod(endpoint.getClass(), "getDefaultResponseDestination");
 			ReflectionUtils.makeAccessible(method);
@@ -159,12 +170,11 @@ public class JmsListenerAnnotationBeanPostProcessorTests {
 	@Test
 	@SuppressWarnings("resource")
 	public void invalidProxy() {
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				new AnnotationConfigApplicationContext(Config.class, ProxyConfig.class, InvalidProxyTestBean.class))
-			.withCauseInstanceOf(IllegalStateException.class)
-			.withMessageContaining("handleIt2");
+		assertThatExceptionOfType(BeanCreationException.class)
+				.isThrownBy(() -> new AnnotationConfigApplicationContext(Config.class, ProxyConfig.class,
+						InvalidProxyTestBean.class))
+				.withCauseInstanceOf(IllegalStateException.class).withMessageContaining("handleIt2");
 	}
-
 
 	@Component
 	static class SimpleMessageListenerTestBean {
@@ -172,8 +182,8 @@ public class JmsListenerAnnotationBeanPostProcessorTests {
 		@JmsListener(destination = "testQueue")
 		public void handleIt(String body) {
 		}
-	}
 
+	}
 
 	@Component
 	static class MetaAnnotationTestBean {
@@ -181,15 +191,15 @@ public class JmsListenerAnnotationBeanPostProcessorTests {
 		@FooListener
 		public void handleIt(String body) {
 		}
-	}
 
+	}
 
 	@JmsListener(destination = "metaTestQueue")
 	@Target(ElementType.METHOD)
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface FooListener {
-	}
 
+	}
 
 	@Configuration
 	static class Config {
@@ -211,8 +221,8 @@ public class JmsListenerAnnotationBeanPostProcessorTests {
 		public JmsListenerContainerTestFactory testFactory() {
 			return new JmsListenerContainerTestFactory();
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableTransactionManagement
@@ -222,14 +232,14 @@ public class JmsListenerAnnotationBeanPostProcessorTests {
 		public PlatformTransactionManager transactionManager() {
 			return mock(PlatformTransactionManager.class);
 		}
-	}
 
+	}
 
 	interface SimpleService {
 
 		void handleIt(String value, String body);
-	}
 
+	}
 
 	@Component
 	static class InterfaceProxyTestBean implements SimpleService {
@@ -240,8 +250,8 @@ public class JmsListenerAnnotationBeanPostProcessorTests {
 		@SendTo("foobar")
 		public void handleIt(@Header String value, String body) {
 		}
-	}
 
+	}
 
 	@Component
 	static class ClassProxyTestBean {
@@ -251,8 +261,8 @@ public class JmsListenerAnnotationBeanPostProcessorTests {
 		@SendTo("foobar")
 		public void handleIt(@Header String value, String body) {
 		}
-	}
 
+	}
 
 	@Component
 	static class InvalidProxyTestBean implements SimpleService {
@@ -266,6 +276,7 @@ public class JmsListenerAnnotationBeanPostProcessorTests {
 		@SendTo("foobar")
 		public void handleIt2(String body) {
 		}
+
 	}
 
 }

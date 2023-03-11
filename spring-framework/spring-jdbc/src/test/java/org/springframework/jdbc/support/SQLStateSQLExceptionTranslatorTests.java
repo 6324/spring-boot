@@ -44,11 +44,10 @@ public class SQLStateSQLExceptionTranslatorTests {
 
 	private static final String SQL = "select count(0) from t_sheep where over_fence = ... yawn... 1";
 
-
 	@Test
 	public void testTranslateNullException() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new SQLStateSQLExceptionTranslator().translate("", "", null));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> new SQLStateSQLExceptionTranslator().translate("", "", null));
 	}
 
 	@Test
@@ -81,15 +80,18 @@ public class SQLStateSQLExceptionTranslatorTests {
 		doTest("00000000", UncategorizedSQLException.class);
 	}
 
-
 	private void doTest(String sqlState, Class<?> dataAccessExceptionType) {
 		SQLException ex = new SQLException(REASON, sqlState);
 		SQLExceptionTranslator translator = new SQLStateSQLExceptionTranslator();
 		DataAccessException dax = translator.translate(TASK, SQL, ex);
 		assertThat(dax).as("Translation must *never* result in a null DataAccessException being returned.").isNotNull();
-		assertThat(dax.getClass()).as("Wrong DataAccessException type returned as the result of the translation").isEqualTo(dataAccessExceptionType);
-		assertThat(dax.getCause()).as("The original SQLException must be preserved in the translated DataAccessException").isNotNull();
-		assertThat(dax.getCause()).as("The exact same original SQLException must be preserved in the translated DataAccessException").isSameAs(ex);
+		assertThat(dax.getClass()).as("Wrong DataAccessException type returned as the result of the translation")
+				.isEqualTo(dataAccessExceptionType);
+		assertThat(dax.getCause())
+				.as("The original SQLException must be preserved in the translated DataAccessException").isNotNull();
+		assertThat(dax.getCause())
+				.as("The exact same original SQLException must be preserved in the translated DataAccessException")
+				.isSameAs(ex);
 	}
 
 }

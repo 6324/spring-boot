@@ -39,6 +39,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link WebSocketAnnotationMethodMessageHandler}.
+ *
  * @author Rossen Stoyanchev
  */
 public class WebSocketAnnotationMethodMessageHandlerTests {
@@ -46,7 +47,6 @@ public class WebSocketAnnotationMethodMessageHandlerTests {
 	private TestWebSocketAnnotationMethodMessageHandler messageHandler;
 
 	private StaticApplicationContext applicationContext;
-
 
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -76,7 +76,6 @@ public class WebSocketAnnotationMethodMessageHandlerTests {
 		assertThat(controllerAdvice.isExceptionHandled()).isTrue();
 	}
 
-
 	@Controller
 	private static class TestController {
 
@@ -84,13 +83,13 @@ public class WebSocketAnnotationMethodMessageHandlerTests {
 		public void handleWithSimulatedException() {
 			throw new IllegalStateException("simulated exception");
 		}
+
 	}
 
 	@ControllerAdvice
 	private static class TestControllerAdvice {
 
 		private boolean exceptionHandled;
-
 
 		public boolean isExceptionHandled() {
 			return this.exceptionHandled;
@@ -100,6 +99,7 @@ public class WebSocketAnnotationMethodMessageHandlerTests {
 		public void handleException(IllegalStateException ex) {
 			this.exceptionHandled = true;
 		}
+
 	}
 
 	private static class TestWebSocketAnnotationMethodMessageHandler extends WebSocketAnnotationMethodMessageHandler {
@@ -109,6 +109,7 @@ public class WebSocketAnnotationMethodMessageHandlerTests {
 
 			super(clientInboundChannel, clientOutboundChannel, brokerTemplate);
 		}
+
 	}
 
 }

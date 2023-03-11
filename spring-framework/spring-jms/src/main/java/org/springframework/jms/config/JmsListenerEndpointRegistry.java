@@ -39,18 +39,17 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Creates the necessary {@link MessageListenerContainer} instances for the
- * registered {@linkplain JmsListenerEndpoint endpoints}. Also manages the
- * lifecycle of the listener containers, in particular within the lifecycle
- * of the application context.
+ * Creates the necessary {@link MessageListenerContainer} instances for the registered
+ * {@linkplain JmsListenerEndpoint endpoints}. Also manages the lifecycle of the listener
+ * containers, in particular within the lifecycle of the application context.
  *
- * <p>Contrary to {@link MessageListenerContainer MessageListenerContainers}
- * created manually, listener containers managed by registry are not beans
- * in the application context and are not candidates for autowiring.
- * Use {@link #getListenerContainers()} if you need to access this registry's
- * listener containers for management purposes. If you need to access to a
- * specific message listener container, use {@link #getListenerContainer(String)}
- * with the id of the endpoint.
+ * <p>
+ * Contrary to {@link MessageListenerContainer MessageListenerContainers} created
+ * manually, listener containers managed by registry are not beans in the application
+ * context and are not candidates for autowiring. Use {@link #getListenerContainers()} if
+ * you need to access this registry's listener containers for management purposes. If you
+ * need to access to a specific message listener container, use
+ * {@link #getListenerContainer(String)} with the id of the endpoint.
  *
  * @author Stephane Nicoll
  * @author Juergen Hoeller
@@ -59,13 +58,12 @@ import org.springframework.util.Assert;
  * @see MessageListenerContainer
  * @see JmsListenerContainerFactory
  */
-public class JmsListenerEndpointRegistry implements DisposableBean, SmartLifecycle,
-		ApplicationContextAware, ApplicationListener<ContextRefreshedEvent> {
+public class JmsListenerEndpointRegistry
+		implements DisposableBean, SmartLifecycle, ApplicationContextAware, ApplicationListener<ContextRefreshedEvent> {
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
-	private final Map<String, MessageListenerContainer> listenerContainers =
-			new ConcurrentHashMap<>();
+	private final Map<String, MessageListenerContainer> listenerContainers = new ConcurrentHashMap<>();
 
 	private int phase = DEFAULT_PHASE;
 
@@ -73,7 +71,6 @@ public class JmsListenerEndpointRegistry implements DisposableBean, SmartLifecyc
 	private ApplicationContext applicationContext;
 
 	private boolean contextRefreshed;
-
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) {
@@ -87,10 +84,9 @@ public class JmsListenerEndpointRegistry implements DisposableBean, SmartLifecyc
 		}
 	}
 
-
 	/**
-	 * Return the {@link MessageListenerContainer} with the specified id or
-	 * {@code null} if no such container exists.
+	 * Return the {@link MessageListenerContainer} with the specified id or {@code null}
+	 * if no such container exists.
 	 * @param id the id of the container
 	 * @return the container or {@code null} if no container with that id exists
 	 * @see JmsListenerEndpoint#getId()
@@ -120,10 +116,12 @@ public class JmsListenerEndpointRegistry implements DisposableBean, SmartLifecyc
 
 	/**
 	 * Create a message listener container for the given {@link JmsListenerEndpoint}.
-	 * <p>This create the necessary infrastructure to honor that endpoint
-	 * with regards to its configuration.
-	 * <p>The {@code startImmediately} flag determines if the container should be
-	 * started immediately.
+	 * <p>
+	 * This create the necessary infrastructure to honor that endpoint with regards to its
+	 * configuration.
+	 * <p>
+	 * The {@code startImmediately} flag determines if the container should be started
+	 * immediately.
 	 * @param endpoint the endpoint to add
 	 * @param factory the listener factory to use
 	 * @param startImmediately start the container immediately if necessary
@@ -152,11 +150,13 @@ public class JmsListenerEndpointRegistry implements DisposableBean, SmartLifecyc
 
 	/**
 	 * Create a message listener container for the given {@link JmsListenerEndpoint}.
-	 * <p>This create the necessary infrastructure to honor that endpoint
-	 * with regards to its configuration.
+	 * <p>
+	 * This create the necessary infrastructure to honor that endpoint with regards to its
+	 * configuration.
 	 * @param endpoint the endpoint to add
 	 * @param factory the listener factory to use
-	 * @see #registerListenerContainer(JmsListenerEndpoint, JmsListenerContainerFactory, boolean)
+	 * @see #registerListenerContainer(JmsListenerEndpoint, JmsListenerContainerFactory,
+	 * boolean)
 	 */
 	public void registerListenerContainer(JmsListenerEndpoint endpoint, JmsListenerContainerFactory<?> factory) {
 		registerListenerContainer(endpoint, factory, false);
@@ -180,17 +180,16 @@ public class JmsListenerEndpointRegistry implements DisposableBean, SmartLifecyc
 		}
 
 		int containerPhase = listenerContainer.getPhase();
-		if (containerPhase < Integer.MAX_VALUE) {  // a custom phase value
+		if (containerPhase < Integer.MAX_VALUE) { // a custom phase value
 			if (this.phase < Integer.MAX_VALUE && this.phase != containerPhase) {
-				throw new IllegalStateException("Encountered phase mismatch between container factory definitions: " +
-						this.phase + " vs " + containerPhase);
+				throw new IllegalStateException("Encountered phase mismatch between container factory definitions: "
+						+ this.phase + " vs " + containerPhase);
 			}
 			this.phase = listenerContainer.getPhase();
 		}
 
 		return listenerContainer;
 	}
-
 
 	// Delegating implementation of SmartLifecycle
 
@@ -233,8 +232,8 @@ public class JmsListenerEndpointRegistry implements DisposableBean, SmartLifecyc
 	}
 
 	/**
-	 * Start the specified {@link MessageListenerContainer} if it should be started
-	 * on startup or when start is called explicitly after startup.
+	 * Start the specified {@link MessageListenerContainer} if it should be started on
+	 * startup or when start is called explicitly after startup.
 	 * @see MessageListenerContainer#isAutoStartup()
 	 */
 	private void startIfNecessary(MessageListenerContainer listenerContainer) {
@@ -257,7 +256,6 @@ public class JmsListenerEndpointRegistry implements DisposableBean, SmartLifecyc
 		}
 	}
 
-
 	private static class AggregatingCallback implements Runnable {
 
 		private final AtomicInteger count;
@@ -275,6 +273,7 @@ public class JmsListenerEndpointRegistry implements DisposableBean, SmartLifecyc
 				this.finishCallback.run();
 			}
 		}
+
 	}
 
 }

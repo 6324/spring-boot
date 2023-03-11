@@ -26,16 +26,17 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * {@link ConfigurablePropertyAccessor} implementation that directly accesses
- * instance fields. Allows for direct binding to fields instead of going through
- * JavaBean setters.
+ * {@link ConfigurablePropertyAccessor} implementation that directly accesses instance
+ * fields. Allows for direct binding to fields instead of going through JavaBean setters.
  *
- * <p>As of Spring 4.2, the vast majority of the {@link BeanWrapper} features have
- * been merged to {@link AbstractPropertyAccessor}, which means that property
- * traversal as well as collections and map access is now supported here as well.
+ * <p>
+ * As of Spring 4.2, the vast majority of the {@link BeanWrapper} features have been
+ * merged to {@link AbstractPropertyAccessor}, which means that property traversal as well
+ * as collections and map access is now supported here as well.
  *
- * <p>A DirectFieldAccessor's default for the "extractOldValueForEditor" setting
- * is "true", since a field can always be read without side effects.
+ * <p>
+ * A DirectFieldAccessor's default for the "extractOldValueForEditor" setting is "true",
+ * since a field can always be read without side effects.
  *
  * @author Juergen Hoeller
  * @author Stephane Nicoll
@@ -49,7 +50,6 @@ public class DirectFieldAccessor extends AbstractNestablePropertyAccessor {
 
 	private final Map<String, FieldPropertyHandler> fieldMap = new HashMap<>();
 
-
 	/**
 	 * Create a new DirectFieldAccessor for the given object.
 	 * @param object the object wrapped by this DirectFieldAccessor
@@ -59,8 +59,8 @@ public class DirectFieldAccessor extends AbstractNestablePropertyAccessor {
 	}
 
 	/**
-	 * Create a new DirectFieldAccessor for the given object,
-	 * registering a nested path that the object is in.
+	 * Create a new DirectFieldAccessor for the given object, registering a nested path
+	 * that the object is in.
 	 * @param object the object wrapped by this DirectFieldAccessor
 	 * @param nestedPath the nested path of the object
 	 * @param parent the containing DirectFieldAccessor (must not be {@code null})
@@ -68,7 +68,6 @@ public class DirectFieldAccessor extends AbstractNestablePropertyAccessor {
 	protected DirectFieldAccessor(Object object, String nestedPath, DirectFieldAccessor parent) {
 		super(object, nestedPath, parent);
 	}
-
 
 	@Override
 	@Nullable
@@ -95,7 +94,6 @@ public class DirectFieldAccessor extends AbstractNestablePropertyAccessor {
 		throw new NotWritablePropertyException(getRootClass(), getNestedPath() + propertyName,
 				matches.buildErrorMessage(), matches.getPossibleMatches());
 	}
-
 
 	private class FieldPropertyHandler extends PropertyHandler {
 
@@ -131,8 +129,8 @@ public class DirectFieldAccessor extends AbstractNestablePropertyAccessor {
 			}
 
 			catch (IllegalAccessException ex) {
-				throw new InvalidPropertyException(getWrappedClass(),
-						this.field.getName(), "Field is not accessible", ex);
+				throw new InvalidPropertyException(getWrappedClass(), this.field.getName(), "Field is not accessible",
+						ex);
 			}
 		}
 
@@ -143,10 +141,11 @@ public class DirectFieldAccessor extends AbstractNestablePropertyAccessor {
 				this.field.set(getWrappedInstance(), value);
 			}
 			catch (IllegalAccessException ex) {
-				throw new InvalidPropertyException(getWrappedClass(), this.field.getName(),
-						"Field is not accessible", ex);
+				throw new InvalidPropertyException(getWrappedClass(), this.field.getName(), "Field is not accessible",
+						ex);
 			}
 		}
+
 	}
 
 }

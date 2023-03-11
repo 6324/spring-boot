@@ -19,8 +19,8 @@ package org.springframework.remoting.support;
 import org.aopalliance.intercept.MethodInvocation;
 
 /**
- * Abstract base class for remote service accessors that are based
- * on serialization of {@link RemoteInvocation} objects.
+ * Abstract base class for remote service accessors that are based on serialization of
+ * {@link RemoteInvocation} objects.
  *
  * Provides a "remoteInvocationFactory" property, with a
  * {@link DefaultRemoteInvocationFactory} as default strategy.
@@ -36,16 +36,16 @@ public abstract class RemoteInvocationBasedAccessor extends UrlBasedRemoteAccess
 
 	private RemoteInvocationFactory remoteInvocationFactory = new DefaultRemoteInvocationFactory();
 
-
 	/**
-	 * Set the RemoteInvocationFactory to use for this accessor.
-	 * Default is a {@link DefaultRemoteInvocationFactory}.
-	 * <p>A custom invocation factory can add further context information
-	 * to the invocation, for example user credentials.
+	 * Set the RemoteInvocationFactory to use for this accessor. Default is a
+	 * {@link DefaultRemoteInvocationFactory}.
+	 * <p>
+	 * A custom invocation factory can add further context information to the invocation,
+	 * for example user credentials.
 	 */
 	public void setRemoteInvocationFactory(RemoteInvocationFactory remoteInvocationFactory) {
-		this.remoteInvocationFactory =
-				(remoteInvocationFactory != null ? remoteInvocationFactory : new DefaultRemoteInvocationFactory());
+		this.remoteInvocationFactory = (remoteInvocationFactory != null ? remoteInvocationFactory
+				: new DefaultRemoteInvocationFactory());
 	}
 
 	/**
@@ -57,12 +57,14 @@ public abstract class RemoteInvocationBasedAccessor extends UrlBasedRemoteAccess
 
 	/**
 	 * Create a new RemoteInvocation object for the given AOP method invocation.
-	 * <p>The default implementation delegates to the configured
-	 * {@link #setRemoteInvocationFactory RemoteInvocationFactory}.
-	 * This can be overridden in subclasses in order to provide custom RemoteInvocation
-	 * subclasses, containing additional invocation parameters (e.g. user credentials).
-	 * <p>Note that it is preferable to build a custom RemoteInvocationFactory
-	 * as a reusable strategy, instead of overriding this method.
+	 * <p>
+	 * The default implementation delegates to the configured
+	 * {@link #setRemoteInvocationFactory RemoteInvocationFactory}. This can be overridden
+	 * in subclasses in order to provide custom RemoteInvocation subclasses, containing
+	 * additional invocation parameters (e.g. user credentials).
+	 * <p>
+	 * Note that it is preferable to build a custom RemoteInvocationFactory as a reusable
+	 * strategy, instead of overriding this method.
 	 * @param methodInvocation the current AOP method invocation
 	 * @return the RemoteInvocation object
 	 * @see RemoteInvocationFactory#createRemoteInvocation
@@ -72,10 +74,12 @@ public abstract class RemoteInvocationBasedAccessor extends UrlBasedRemoteAccess
 	}
 
 	/**
-	 * Recreate the invocation result contained in the given RemoteInvocationResult object.
-	 * <p>The default implementation calls the default {@code recreate()} method.
-	 * This can be overridden in subclass to provide custom recreation, potentially
-	 * processing the returned result object.
+	 * Recreate the invocation result contained in the given RemoteInvocationResult
+	 * object.
+	 * <p>
+	 * The default implementation calls the default {@code recreate()} method. This can be
+	 * overridden in subclass to provide custom recreation, potentially processing the
+	 * returned result object.
 	 * @param result the RemoteInvocationResult to recreate
 	 * @return a return value if the invocation result is a successful return
 	 * @throws Throwable if the invocation result is an exception

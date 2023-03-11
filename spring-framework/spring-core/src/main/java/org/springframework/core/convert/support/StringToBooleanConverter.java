@@ -47,7 +47,6 @@ final class StringToBooleanConverter implements Converter<String, Boolean> {
 		falseValues.add("0");
 	}
 
-
 	@Override
 	@Nullable
 	public Boolean convert(String source) {

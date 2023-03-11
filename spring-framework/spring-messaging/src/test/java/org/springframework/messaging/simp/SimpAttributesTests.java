@@ -39,7 +39,6 @@ public class SimpAttributesTests {
 
 	private final SimpAttributes simpAttributes = new SimpAttributes("session1", this.map);
 
-
 	@Test
 	public void getAttribute() {
 		this.simpAttributes.setAttribute("name1", "value1");
@@ -54,8 +53,7 @@ public class SimpAttributesTests {
 		this.simpAttributes.setAttribute("name2", "value1");
 		this.simpAttributes.setAttribute("name3", "value1");
 
-		assertThat(this.simpAttributes.getAttributeNames())
-				.containsExactlyInAnyOrder("name1", "name2", "name3");
+		assertThat(this.simpAttributes.getAttributeNames()).containsExactlyInAnyOrder("name1", "name2", "name3");
 	}
 
 	@Test
@@ -63,16 +61,16 @@ public class SimpAttributesTests {
 		Runnable callback = mock(Runnable.class);
 		this.simpAttributes.registerDestructionCallback("name1", callback);
 
-		assertThat(this.simpAttributes.getAttribute(
-				SimpAttributes.DESTRUCTION_CALLBACK_NAME_PREFIX + "name1")).isSameAs(callback);
+		assertThat(this.simpAttributes.getAttribute(SimpAttributes.DESTRUCTION_CALLBACK_NAME_PREFIX + "name1"))
+				.isSameAs(callback);
 	}
 
 	@Test
 	public void registerDestructionCallbackAfterSessionCompleted() {
 		this.simpAttributes.sessionCompleted();
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.simpAttributes.registerDestructionCallback("name1", mock(Runnable.class)))
-			.withMessageContaining("already completed");
+		assertThatIllegalStateException()
+				.isThrownBy(() -> this.simpAttributes.registerDestructionCallback("name1", mock(Runnable.class)))
+				.withMessageContaining("already completed");
 	}
 
 	@Test

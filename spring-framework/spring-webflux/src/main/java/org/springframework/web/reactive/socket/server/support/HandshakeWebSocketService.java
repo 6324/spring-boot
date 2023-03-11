@@ -47,10 +47,9 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.ServerWebInputException;
 
 /**
- * {@code WebSocketService} implementation that handles a WebSocket HTTP
- * handshake request by delegating to a {@link RequestUpgradeStrategy} which
- * is either auto-detected (no-arg constructor) from the classpath but can
- * also be explicitly configured.
+ * {@code WebSocketService} implementation that handles a WebSocket HTTP handshake request
+ * by delegating to a {@link RequestUpgradeStrategy} which is either auto-detected (no-arg
+ * constructor) from the classpath but can also be explicitly configured.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -62,7 +61,6 @@ public class HandshakeWebSocketService implements WebSocketService, Lifecycle {
 	private static final String SEC_WEBSOCKET_PROTOCOL = "Sec-WebSocket-Protocol";
 
 	private static final Mono<Map<String, Object>> EMPTY_ATTRIBUTES = Mono.just(Collections.emptyMap());
-
 
 	private static final boolean tomcatPresent;
 
@@ -80,9 +78,7 @@ public class HandshakeWebSocketService implements WebSocketService, Lifecycle {
 		reactorNettyPresent = ClassUtils.isPresent("reactor.netty.http.server.HttpServerResponse", classLoader);
 	}
 
-
 	protected static final Log logger = LogFactory.getLog(HandshakeWebSocketService.class);
-
 
 	private final RequestUpgradeStrategy upgradeStrategy;
 
@@ -90,7 +86,6 @@ public class HandshakeWebSocketService implements WebSocketService, Lifecycle {
 	private Predicate<String> sessionAttributePredicate;
 
 	private volatile boolean running = false;
-
 
 	/**
 	 * Default constructor automatic, classpath detection based discovery of the
@@ -134,11 +129,9 @@ public class HandshakeWebSocketService implements WebSocketService, Lifecycle {
 			return (RequestUpgradeStrategy) ReflectionUtils.accessibleConstructor(clazz).newInstance();
 		}
 		catch (Throwable ex) {
-			throw new IllegalStateException(
-					"Failed to instantiate RequestUpgradeStrategy: " + className, ex);
+			throw new IllegalStateException("Failed to instantiate RequestUpgradeStrategy: " + className, ex);
 		}
 	}
-
 
 	/**
 	 * Return the {@link RequestUpgradeStrategy} for WebSocket requests.
@@ -149,9 +142,10 @@ public class HandshakeWebSocketService implements WebSocketService, Lifecycle {
 
 	/**
 	 * Configure a predicate to use to extract
-	 * {@link org.springframework.web.server.WebSession WebSession} attributes
-	 * and use them to initialize the WebSocket session with.
-	 * <p>By default this is not set in which case no attributes are passed.
+	 * {@link org.springframework.web.server.WebSession WebSession} attributes and use
+	 * them to initialize the WebSocket session with.
+	 * <p>
+	 * By default this is not set in which case no attributes are passed.
 	 * @param predicate the predicate
 	 * @since 5.1
 	 */
@@ -160,15 +154,14 @@ public class HandshakeWebSocketService implements WebSocketService, Lifecycle {
 	}
 
 	/**
-	 * Return the configured predicate for initialization WebSocket session
-	 * attributes from {@code WebSession} attributes.
+	 * Return the configured predicate for initialization WebSocket session attributes
+	 * from {@code WebSession} attributes.
 	 * @since 5.1
 	 */
 	@Nullable
 	public Predicate<String> getSessionAttributePredicate() {
 		return this.sessionAttributePredicate;
 	}
-
 
 	@Override
 	public void start() {
@@ -203,7 +196,6 @@ public class HandshakeWebSocketService implements WebSocketService, Lifecycle {
 		return this.running;
 	}
 
-
 	@Override
 	public Mono<Void> handleRequest(ServerWebExchange exchange, WebSocketHandler handler) {
 		ServerHttpRequest request = exchange.getRequest();
@@ -211,8 +203,8 @@ public class HandshakeWebSocketService implements WebSocketService, Lifecycle {
 		HttpHeaders headers = request.getHeaders();
 
 		if (HttpMethod.GET != method) {
-			return Mono.error(new MethodNotAllowedException(
-					request.getMethodValue(), Collections.singleton(HttpMethod.GET)));
+			return Mono.error(
+					new MethodNotAllowedException(request.getMethodValue(), Collections.singleton(HttpMethod.GET)));
 		}
 
 		if (!"WebSocket".equalsIgnoreCase(headers.getUpgrade())) {
@@ -231,10 +223,8 @@ public class HandshakeWebSocketService implements WebSocketService, Lifecycle {
 
 		String protocol = selectProtocol(headers, handler);
 
-		return initAttributes(exchange).flatMap(attributes ->
-				this.upgradeStrategy.upgrade(exchange, handler, protocol,
-						() -> createHandshakeInfo(exchange, request, protocol, attributes))
-		);
+		return initAttributes(exchange).flatMap(attributes -> this.upgradeStrategy.upgrade(exchange, handler, protocol,
+				() -> createHandshakeInfo(exchange, request, protocol, attributes)));
 	}
 
 	private Mono<Void> handleBadRequest(ServerWebExchange exchange, String reason) {
@@ -262,8 +252,8 @@ public class HandshakeWebSocketService implements WebSocketService, Lifecycle {
 		if (this.sessionAttributePredicate == null) {
 			return EMPTY_ATTRIBUTES;
 		}
-		return exchange.getSession().map(session ->
-				session.getAttributes().entrySet().stream()
+		return exchange.getSession()
+				.map(session -> session.getAttributes().entrySet().stream()
 						.filter(entry -> this.sessionAttributePredicate.test(entry.getKey()))
 						.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
 	}

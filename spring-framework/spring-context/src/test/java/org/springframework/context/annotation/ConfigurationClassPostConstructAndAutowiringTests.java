@@ -28,12 +28,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Tests cornering the issue reported in SPR-8080. If the product of a @Bean method
  * was @Autowired into a configuration class while at the same time the declaring
- * configuration class for the @Bean method in question has a @PostConstruct
- * (or other initializer) method, the container would become confused about the
- * 'currently in creation' status of the autowired bean and result in creating multiple
- * instances of the given @Bean, violating container scoping / singleton semantics.
+ * configuration class for the @Bean method in question has a @PostConstruct (or other
+ * initializer) method, the container would become confused about the 'currently in
+ * creation' status of the autowired bean and result in creating multiple instances of the
+ * given @Bean, violating container scoping / singleton semantics.
  *
- * <p>This is resolved through no longer relying on 'currently in creation' status, but
+ * <p>
+ * This is resolved through no longer relying on 'currently in creation' status, but
  * rather on a thread local that informs the enhanced bean method implementation whether
  * the factory is the caller or not.
  *
@@ -78,7 +79,6 @@ public class ConfigurationClassPostConstructAndAutowiringTests {
 		assertThat(testBean.getAge()).isEqualTo(2);
 	}
 
-
 	@Configuration
 	static class Config1 {
 
@@ -96,8 +96,8 @@ public class ConfigurationClassPostConstructAndAutowiringTests {
 			testBean.setAge(1);
 			return testBean;
 		}
-	}
 
+	}
 
 	@Configuration
 	static class Config2 {
@@ -108,6 +108,7 @@ public class ConfigurationClassPostConstructAndAutowiringTests {
 		void setTestBean(TestBean testBean) {
 			this.testBean = testBean;
 		}
+
 	}
 
 }

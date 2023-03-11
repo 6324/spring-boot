@@ -32,9 +32,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 class RootClassFilterTests {
 
 	private final ClassFilter filter1 = new RootClassFilter(Exception.class);
-	private final ClassFilter filter2 = new RootClassFilter(Exception.class);
-	private final ClassFilter filter3 = new RootClassFilter(ITestBean.class);
 
+	private final ClassFilter filter2 = new RootClassFilter(Exception.class);
+
+	private final ClassFilter filter3 = new RootClassFilter(ITestBean.class);
 
 	@Test
 	void matches() {
@@ -57,7 +58,8 @@ class RootClassFilterTests {
 
 	@Test
 	void testToString() {
-		assertThat(filter1.toString()).isEqualTo("org.springframework.aop.support.RootClassFilter: java.lang.Exception");
+		assertThat(filter1.toString())
+				.isEqualTo("org.springframework.aop.support.RootClassFilter: java.lang.Exception");
 		assertThat(filter1.toString()).isEqualTo(filter2.toString());
 	}
 

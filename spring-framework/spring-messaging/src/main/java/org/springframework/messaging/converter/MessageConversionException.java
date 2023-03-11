@@ -41,7 +41,8 @@ public class MessageConversionException extends MessagingException {
 		super(failedMessage, description);
 	}
 
-	public MessageConversionException(Message<?> failedMessage, @Nullable String description, @Nullable Throwable cause) {
+	public MessageConversionException(Message<?> failedMessage, @Nullable String description,
+			@Nullable Throwable cause) {
 		super(failedMessage, description, cause);
 	}
 

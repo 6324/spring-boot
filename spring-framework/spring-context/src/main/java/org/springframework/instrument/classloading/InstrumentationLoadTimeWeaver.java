@@ -31,18 +31,22 @@ import org.springframework.util.ClassUtils;
 /**
  * {@link LoadTimeWeaver} relying on VM {@link Instrumentation}.
  *
- * <p>Start the JVM specifying the Java agent to be used &mdash; for example, as
- * follows where <code>spring-instrument-{version}.jar</code> is a JAR file
- * containing the {@link InstrumentationSavingAgent} class shipped with Spring
- * and where <code>{version}</code> is the release version of the Spring
- * Framework (e.g., {@code 5.1.5.RELEASE}).
+ * <p>
+ * Start the JVM specifying the Java agent to be used &mdash; for example, as follows
+ * where <code>spring-instrument-{version}.jar</code> is a JAR file containing the
+ * {@link InstrumentationSavingAgent} class shipped with Spring and where
+ * <code>{version}</code> is the release version of the Spring Framework (e.g.,
+ * {@code 5.1.5.RELEASE}).
  *
- * <p><code>-javaagent:path/to/spring-instrument-{version}.jar</code>
+ * <p>
+ * <code>-javaagent:path/to/spring-instrument-{version}.jar</code>
  *
- * <p>In Eclipse, for example, add something similar to the following to the
- * JVM arguments for the Eclipse "Run configuration":
+ * <p>
+ * In Eclipse, for example, add something similar to the following to the JVM arguments
+ * for the Eclipse "Run configuration":
  *
- * <p><code>-javaagent:${project_loc}/lib/spring-instrument-{version}.jar</code>
+ * <p>
+ * <code>-javaagent:${project_loc}/lib/spring-instrument-{version}.jar</code>
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -55,7 +59,6 @@ public class InstrumentationLoadTimeWeaver implements LoadTimeWeaver {
 			"org.springframework.instrument.InstrumentationSavingAgent",
 			InstrumentationLoadTimeWeaver.class.getClassLoader());
 
-
 	@Nullable
 	private final ClassLoader classLoader;
 
@@ -63,7 +66,6 @@ public class InstrumentationLoadTimeWeaver implements LoadTimeWeaver {
 	private final Instrumentation instrumentation;
 
 	private final List<ClassFileTransformer> transformers = new ArrayList<>(4);
-
 
 	/**
 	 * Create a new InstrumentationLoadTimeWeaver for the default ClassLoader.
@@ -74,19 +76,19 @@ public class InstrumentationLoadTimeWeaver implements LoadTimeWeaver {
 
 	/**
 	 * Create a new InstrumentationLoadTimeWeaver for the given ClassLoader.
-	 * @param classLoader the ClassLoader that registered transformers are supposed to apply to
+	 * @param classLoader the ClassLoader that registered transformers are supposed to
+	 * apply to
 	 */
 	public InstrumentationLoadTimeWeaver(@Nullable ClassLoader classLoader) {
 		this.classLoader = classLoader;
 		this.instrumentation = getInstrumentation();
 	}
 
-
 	@Override
 	public void addTransformer(ClassFileTransformer transformer) {
 		Assert.notNull(transformer, "Transformer must not be null");
-		FilteringClassFileTransformer actualTransformer =
-				new FilteringClassFileTransformer(transformer, this.classLoader);
+		FilteringClassFileTransformer actualTransformer = new FilteringClassFileTransformer(transformer,
+				this.classLoader);
 		synchronized (this.transformers) {
 			Assert.state(this.instrumentation != null,
 					"Must start with Java agent to use InstrumentationLoadTimeWeaver. See Spring documentation.");
@@ -96,9 +98,8 @@ public class InstrumentationLoadTimeWeaver implements LoadTimeWeaver {
 	}
 
 	/**
-	 * We have the ability to weave the current class loader when starting the
-	 * JVM in this way, so the instrumentable class loader will always be the
-	 * current loader.
+	 * We have the ability to weave the current class loader when starting the JVM in this
+	 * way, so the instrumentable class loader will always be the current loader.
 	 */
 	@Override
 	public ClassLoader getInstrumentableClassLoader() {
@@ -128,7 +129,6 @@ public class InstrumentationLoadTimeWeaver implements LoadTimeWeaver {
 		}
 	}
 
-
 	/**
 	 * Check whether an Instrumentation instance is available for the current VM.
 	 * @see #getInstrumentation()
@@ -152,7 +152,6 @@ public class InstrumentationLoadTimeWeaver implements LoadTimeWeaver {
 		}
 	}
 
-
 	/**
 	 * Inner class to avoid InstrumentationSavingAgent dependency.
 	 */
@@ -161,8 +160,8 @@ public class InstrumentationLoadTimeWeaver implements LoadTimeWeaver {
 		public static Instrumentation getInstrumentation() {
 			return InstrumentationSavingAgent.getInstrumentation();
 		}
-	}
 
+	}
 
 	/**
 	 * Decorator that only applies the given target transformer to a specific ClassLoader.
@@ -174,8 +173,8 @@ public class InstrumentationLoadTimeWeaver implements LoadTimeWeaver {
 		@Nullable
 		private final ClassLoader targetClassLoader;
 
-		public FilteringClassFileTransformer(
-				ClassFileTransformer targetTransformer, @Nullable ClassLoader targetClassLoader) {
+		public FilteringClassFileTransformer(ClassFileTransformer targetTransformer,
+				@Nullable ClassLoader targetClassLoader) {
 
 			this.targetTransformer = targetTransformer;
 			this.targetClassLoader = targetClassLoader;
@@ -189,14 +188,15 @@ public class InstrumentationLoadTimeWeaver implements LoadTimeWeaver {
 			if (this.targetClassLoader != loader) {
 				return null;
 			}
-			return this.targetTransformer.transform(
-					loader, className, classBeingRedefined, protectionDomain, classfileBuffer);
+			return this.targetTransformer.transform(loader, className, classBeingRedefined, protectionDomain,
+					classfileBuffer);
 		}
 
 		@Override
 		public String toString() {
 			return "FilteringClassFileTransformer for: " + this.targetTransformer.toString();
 		}
+
 	}
 
 }

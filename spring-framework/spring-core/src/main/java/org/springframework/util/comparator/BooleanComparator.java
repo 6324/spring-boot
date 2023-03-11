@@ -22,8 +22,8 @@ import java.util.Comparator;
 import org.springframework.lang.Nullable;
 
 /**
- * A {@link Comparator} for {@link Boolean} objects that can sort either
- * {@code true} or {@code false} first.
+ * A {@link Comparator} for {@link Boolean} objects that can sort either {@code true} or
+ * {@code false} first.
  *
  * @author Keith Donald
  * @since 1.2.2
@@ -32,27 +32,24 @@ import org.springframework.lang.Nullable;
 public class BooleanComparator implements Comparator<Boolean>, Serializable {
 
 	/**
-	 * A shared default instance of this comparator,
-	 * treating {@code true} lower than {@code false}.
+	 * A shared default instance of this comparator, treating {@code true} lower than
+	 * {@code false}.
 	 */
 	public static final BooleanComparator TRUE_LOW = new BooleanComparator(true);
 
 	/**
-	 * A shared default instance of this comparator,
-	 * treating {@code true} higher than {@code false}.
+	 * A shared default instance of this comparator, treating {@code true} higher than
+	 * {@code false}.
 	 */
 	public static final BooleanComparator TRUE_HIGH = new BooleanComparator(false);
 
-
 	private final boolean trueLow;
 
-
 	/**
-	 * Create a BooleanComparator that sorts boolean values based on
-	 * the provided flag.
-	 * <p>Alternatively, you can use the default shared instances:
-	 * {@code BooleanComparator.TRUE_LOW} and
-	 * {@code BooleanComparator.TRUE_HIGH}.
+	 * Create a BooleanComparator that sorts boolean values based on the provided flag.
+	 * <p>
+	 * Alternatively, you can use the default shared instances:
+	 * {@code BooleanComparator.TRUE_LOW} and {@code BooleanComparator.TRUE_HIGH}.
 	 * @param trueLow whether to treat true as lower or higher than false
 	 * @see #TRUE_LOW
 	 * @see #TRUE_HIGH
@@ -61,17 +58,15 @@ public class BooleanComparator implements Comparator<Boolean>, Serializable {
 		this.trueLow = trueLow;
 	}
 
-
 	@Override
 	public int compare(Boolean v1, Boolean v2) {
 		return (v1 ^ v2) ? ((v1 ^ this.trueLow) ? 1 : -1) : 0;
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
-		return (this == other || (other instanceof BooleanComparator &&
-				this.trueLow == ((BooleanComparator) other).trueLow));
+		return (this == other
+				|| (other instanceof BooleanComparator && this.trueLow == ((BooleanComparator) other).trueLow));
 	}
 
 	@Override

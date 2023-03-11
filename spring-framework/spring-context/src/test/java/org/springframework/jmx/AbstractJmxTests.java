@@ -20,8 +20,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
- * Base JMX test class that pre-loads an ApplicationContext from a user-configurable file. Override the
- * {@link #getApplicationContextPath()} method to control the configuration file location.
+ * Base JMX test class that pre-loads an ApplicationContext from a user-configurable file.
+ * Override the {@link #getApplicationContextPath()} method to control the configuration
+ * file location.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -29,7 +30,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 public abstract class AbstractJmxTests extends AbstractMBeanServerTests {
 
 	private ConfigurableApplicationContext ctx;
-
 
 	@Override
 	protected final void onSetUp() throws Exception {
@@ -50,4 +50,5 @@ public abstract class AbstractJmxTests extends AbstractMBeanServerTests {
 	protected ApplicationContext getContext() {
 		return this.ctx;
 	}
+
 }

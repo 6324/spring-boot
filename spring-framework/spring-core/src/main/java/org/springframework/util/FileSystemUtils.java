@@ -43,16 +43,16 @@ import static java.nio.file.FileVisitOption.FOLLOW_LINKS;
 public abstract class FileSystemUtils {
 
 	/**
-	 * Delete the supplied {@link File} - for directories,
-	 * recursively delete any nested directories or files as well.
-	 * <p>Note: Like {@link File#delete()}, this method does not throw any
-	 * exception but rather silently returns {@code false} in case of I/O
-	 * errors. Consider using {@link #deleteRecursively(Path)} for NIO-style
-	 * handling of I/O errors, clearly differentiating between non-existence
-	 * and failure to delete an existing file.
+	 * Delete the supplied {@link File} - for directories, recursively delete any nested
+	 * directories or files as well.
+	 * <p>
+	 * Note: Like {@link File#delete()}, this method does not throw any exception but
+	 * rather silently returns {@code false} in case of I/O errors. Consider using
+	 * {@link #deleteRecursively(Path)} for NIO-style handling of I/O errors, clearly
+	 * differentiating between non-existence and failure to delete an existing file.
 	 * @param root the root {@code File} to delete
-	 * @return {@code true} if the {@code File} was successfully deleted,
-	 * otherwise {@code false}
+	 * @return {@code true} if the {@code File} was successfully deleted, otherwise
+	 * {@code false}
 	 */
 	public static boolean deleteRecursively(@Nullable File root) {
 		if (root == null) {
@@ -68,11 +68,11 @@ public abstract class FileSystemUtils {
 	}
 
 	/**
-	 * Delete the supplied {@link File} &mdash; for directories,
-	 * recursively delete any nested directories or files as well.
+	 * Delete the supplied {@link File} &mdash; for directories, recursively delete any
+	 * nested directories or files as well.
 	 * @param root the root {@code File} to delete
-	 * @return {@code true} if the {@code File} existed and was deleted,
-	 * or {@code false} if it did not exist
+	 * @return {@code true} if the {@code File} existed and was deleted, or {@code false}
+	 * if it did not exist
 	 * @throws IOException in the case of I/O errors
 	 * @since 5.0
 	 */
@@ -90,6 +90,7 @@ public abstract class FileSystemUtils {
 				Files.delete(file);
 				return FileVisitResult.CONTINUE;
 			}
+
 			@Override
 			public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
 				Files.delete(dir);
@@ -100,8 +101,8 @@ public abstract class FileSystemUtils {
 	}
 
 	/**
-	 * Recursively copy the contents of the {@code src} file/directory
-	 * to the {@code dest} file/directory.
+	 * Recursively copy the contents of the {@code src} file/directory to the {@code dest}
+	 * file/directory.
 	 * @param src the source directory
 	 * @param dest the destination directory
 	 * @throws IOException in the case of I/O errors
@@ -113,8 +114,8 @@ public abstract class FileSystemUtils {
 	}
 
 	/**
-	 * Recursively copy the contents of the {@code src} file/directory
-	 * to the {@code dest} file/directory.
+	 * Recursively copy the contents of the {@code src} file/directory to the {@code dest}
+	 * file/directory.
 	 * @param src the source directory
 	 * @param dest the destination directory
 	 * @throws IOException in the case of I/O errors
@@ -132,6 +133,7 @@ public abstract class FileSystemUtils {
 					Files.createDirectories(dest.resolve(src.relativize(dir)));
 					return FileVisitResult.CONTINUE;
 				}
+
 				@Override
 				public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
 					Files.copy(file, dest.resolve(src.relativize(file)), StandardCopyOption.REPLACE_EXISTING);

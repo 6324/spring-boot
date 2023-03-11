@@ -98,7 +98,8 @@ class ResourceTests {
 		doTestResource(resource);
 		Resource resource2 = new ClassPathResource("org/springframework/core/../core/io/./Resource.class");
 		assertThat(resource2).isEqualTo(resource);
-		Resource resource3 = new ClassPathResource("org/springframework/core/").createRelative("../core/io/./Resource.class");
+		Resource resource3 = new ClassPathResource("org/springframework/core/")
+				.createRelative("../core/io/./Resource.class");
 		assertThat(resource3).isEqualTo(resource);
 
 		// Check whether equal/hashCode works in a HashSet.
@@ -110,10 +111,11 @@ class ResourceTests {
 
 	@Test
 	void classPathResourceWithClassLoader() throws IOException {
-		Resource resource =
-				new ClassPathResource("org/springframework/core/io/Resource.class", getClass().getClassLoader());
+		Resource resource = new ClassPathResource("org/springframework/core/io/Resource.class",
+				getClass().getClassLoader());
 		doTestResource(resource);
-		assertThat(new ClassPathResource("org/springframework/core/../core/io/./Resource.class", getClass().getClassLoader())).isEqualTo(resource);
+		assertThat(new ClassPathResource("org/springframework/core/../core/io/./Resource.class",
+				getClass().getClassLoader())).isEqualTo(resource);
 	}
 
 	@Test
@@ -202,10 +204,8 @@ class ResourceTests {
 		Resource relative4 = resource.createRelative("X.class");
 		assertThat(relative4.exists()).isFalse();
 		assertThat(relative4.isReadable()).isFalse();
-		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(
-				relative4::contentLength);
-		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(
-				relative4::lastModified);
+		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(relative4::contentLength);
+		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(relative4::lastModified);
 	}
 
 	@Test
@@ -261,21 +261,18 @@ class ResourceTests {
 			public String getDescription() {
 				return name;
 			}
+
 			@Override
 			public InputStream getInputStream() throws IOException {
 				throw new FileNotFoundException();
 			}
 		};
 
-		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(
-				resource::getURL)
-			.withMessageContaining(name);
-		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(
-				resource::getFile)
-			.withMessageContaining(name);
-		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(() ->
-				resource.createRelative("/testing"))
-			.withMessageContaining(name);
+		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(resource::getURL).withMessageContaining(name);
+		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(resource::getFile)
+				.withMessageContaining(name);
+		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(() -> resource.createRelative("/testing"))
+				.withMessageContaining(name);
 
 		assertThat(resource.getFilename()).isNull();
 	}
@@ -287,6 +284,7 @@ class ResourceTests {
 			public InputStream getInputStream() {
 				return new ByteArrayInputStream(new byte[] { 'a', 'b', 'c' });
 			}
+
 			@Override
 			public String getDescription() {
 				return "";
@@ -315,26 +313,28 @@ class ResourceTests {
 
 	@Test
 	void inputStreamNotFoundOnFileSystemResource() throws IOException {
-		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(() ->
-				new FileSystemResource(getClass().getResource("Resource.class").getFile()).createRelative("X").getInputStream());
+		assertThatExceptionOfType(FileNotFoundException.class)
+				.isThrownBy(() -> new FileSystemResource(getClass().getResource("Resource.class").getFile())
+						.createRelative("X").getInputStream());
 	}
 
 	@Test
 	void readableChannelNotFoundOnFileSystemResource() throws IOException {
-		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(() ->
-				new FileSystemResource(getClass().getResource("Resource.class").getFile()).createRelative("X").readableChannel());
+		assertThatExceptionOfType(FileNotFoundException.class)
+				.isThrownBy(() -> new FileSystemResource(getClass().getResource("Resource.class").getFile())
+						.createRelative("X").readableChannel());
 	}
 
 	@Test
 	void inputStreamNotFoundOnClassPathResource() throws IOException {
-		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(() ->
-				new ClassPathResource("Resource.class", getClass()).createRelative("X").getInputStream());
+		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(
+				() -> new ClassPathResource("Resource.class", getClass()).createRelative("X").getInputStream());
 	}
 
 	@Test
 	void readableChannelNotFoundOnClassPathResource() throws IOException {
-		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(() ->
-				new ClassPathResource("Resource.class", getClass()).createRelative("X").readableChannel());
+		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(
+				() -> new ClassPathResource("Resource.class", getClass()).createRelative("X").readableChannel());
 	}
 
 }

@@ -36,8 +36,8 @@ import org.springframework.web.reactive.socket.WebSocketMessage;
 import org.springframework.web.reactive.socket.WebSocketSession;
 
 /**
- * Spring {@link WebSocketSession} implementation that adapts to a Jetty
- * WebSocket {@link org.eclipse.jetty.websocket.api.Session}.
+ * Spring {@link WebSocketSession} implementation that adapts to a Jetty WebSocket
+ * {@link org.eclipse.jetty.websocket.api.Session}.
  *
  * @author Violeta Georgieva
  * @author Rossen Stoyanchev
@@ -47,7 +47,6 @@ public class JettyWebSocketSession extends AbstractListenerWebSocketSession<Sess
 
 	@Nullable
 	private volatile SuspendToken suspendToken;
-
 
 	public JettyWebSocketSession(Session session, HandshakeInfo info, DataBufferFactory factory) {
 		this(session, info, factory, null);
@@ -60,7 +59,6 @@ public class JettyWebSocketSession extends AbstractListenerWebSocketSession<Sess
 		// TODO: suspend causes failures if invoked at this stage
 		// suspendReceiving();
 	}
-
 
 	@Override
 	protected boolean canSuspendReceiving() {
@@ -111,7 +109,6 @@ public class JettyWebSocketSession extends AbstractListenerWebSocketSession<Sess
 		getDelegate().close(status.getCode(), status.getReason());
 		return Mono.empty();
 	}
-
 
 	private final class SendProcessorCallback implements WriteCallback {
 

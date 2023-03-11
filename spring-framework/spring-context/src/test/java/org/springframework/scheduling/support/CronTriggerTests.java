@@ -55,7 +55,6 @@ class CronTriggerTests {
 		roundup(this.calendar);
 	}
 
-
 	@ParameterizedCronTriggerTest
 	void testMatchAll(LocalDateTime localDateTime, TimeZone timeZone) {
 		setUp(localDateTime, timeZone);
@@ -298,7 +297,8 @@ class CronTriggerTests {
 		setUp(localDateTime, timeZone);
 
 		CronTrigger trigger = new CronTrigger("0 0 0 * * *", timeZone);
-		this.calendar.set(Calendar.MONTH, 7); // August: 31 days and not a daylight saving boundary
+		this.calendar.set(Calendar.MONTH, 7); // August: 31 days and not a daylight saving
+												// boundary
 		this.calendar.set(Calendar.DAY_OF_MONTH, 30);
 		Date localDate = this.calendar.getTime();
 		this.calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -319,7 +319,8 @@ class CronTriggerTests {
 		setUp(localDateTime, timeZone);
 
 		CronTrigger trigger = new CronTrigger("0 0 0 * * *", timeZone);
-		this.calendar.set(Calendar.MONTH, 9); // October: 31 days and a daylight saving boundary in CET
+		this.calendar.set(Calendar.MONTH, 9); // October: 31 days and a daylight saving
+												// boundary in CET
 		this.calendar.set(Calendar.DAY_OF_MONTH, 30);
 		Date localDate = this.calendar.getTime();
 		this.calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -826,7 +827,8 @@ class CronTriggerTests {
 		Date localDate = this.calendar.getTime();
 		TriggerContext context1 = getTriggerContext(localDate);
 		if (timeZone.equals(TimeZone.getTimeZone("CET"))) {
-			// Clocks go forward an hour so 2am doesn't exist in CET for this localDateTime
+			// Clocks go forward an hour so 2am doesn't exist in CET for this
+			// localDateTime
 			this.calendar.add(Calendar.DAY_OF_MONTH, 1);
 		}
 		this.calendar.add(Calendar.HOUR_OF_DAY, 1);
@@ -854,19 +856,17 @@ class CronTriggerTests {
 		return context;
 	}
 
-
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.METHOD)
 	@ParameterizedTest(name = "[{index}] localDateTime[{0}], time zone[{1}]")
 	@MethodSource("parameters")
 	@interface ParameterizedCronTriggerTest {
+
 	}
 
 	static Stream<Arguments> parameters() {
-		return Stream.of(
-			arguments(LocalDateTime.now(), TimeZone.getTimeZone("PST")),
-			arguments(LocalDateTime.now(), TimeZone.getTimeZone("CET"))
-		);
+		return Stream.of(arguments(LocalDateTime.now(), TimeZone.getTimeZone("PST")),
+				arguments(LocalDateTime.now(), TimeZone.getTimeZone("CET")));
 	}
 
 }

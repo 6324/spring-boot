@@ -39,7 +39,6 @@ public class AnnotationTestBean implements IJmxTestBean {
 
 	private boolean isSuperman;
 
-
 	@Override
 	@ManagedAttribute(description = "The Age Attribute", currencyTimeLimit = 15)
 	public int getAge() {
@@ -58,9 +57,7 @@ public class AnnotationTestBean implements IJmxTestBean {
 	}
 
 	@Override
-	@ManagedAttribute(description = "The Name Attribute",
-			currencyTimeLimit = 20,
-			defaultValue = "bar",
+	@ManagedAttribute(description = "The Name Attribute", currencyTimeLimit = 20, defaultValue = "bar",
 			persistPolicy = "OnUpdate")
 	public void setName(String name) {
 		this.name = name;
@@ -92,8 +89,8 @@ public class AnnotationTestBean implements IJmxTestBean {
 
 	@Override
 	@ManagedOperation(description = "Add Two Numbers Together")
-	@ManagedOperationParameter(name="x", description="Left operand")
-	@ManagedOperationParameter(name="y", description="Right operand")
+	@ManagedOperationParameter(name = "x", description = "Left operand")
+	@ManagedOperationParameter(name = "y", description = "Right operand")
 	public int add(int x, int y) {
 		return x + y;
 	}
@@ -106,8 +103,9 @@ public class AnnotationTestBean implements IJmxTestBean {
 		throw new RuntimeException();
 	}
 
-	@ManagedMetric(description="The QueueSize metric", currencyTimeLimit = 20, persistPolicy="OnUpdate", persistPeriod=300,
-			category="utilization", metricType = MetricType.COUNTER, displayName="Queue Size", unit="messages")
+	@ManagedMetric(description = "The QueueSize metric", currencyTimeLimit = 20, persistPolicy = "OnUpdate",
+			persistPeriod = 300, category = "utilization", metricType = MetricType.COUNTER, displayName = "Queue Size",
+			unit = "messages")
 	public long getQueueSize() {
 		return 100L;
 	}

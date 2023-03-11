@@ -30,8 +30,8 @@ import org.springframework.context.annotation.Role;
 import org.springframework.lang.Nullable;
 
 /**
- * Abstract JSR-107 specific {@code @Configuration} class providing common
- * structure for enabling JSR-107 annotation-driven cache management capability.
+ * Abstract JSR-107 specific {@code @Configuration} class providing common structure for
+ * enabling JSR-107 annotation-driven cache management capability.
  *
  * @author Stephane Nicoll
  * @author Juergen Hoeller
@@ -44,7 +44,6 @@ public abstract class AbstractJCacheConfiguration extends AbstractCachingConfigu
 	@Nullable
 	protected Supplier<CacheResolver> exceptionCacheResolver;
 
-
 	@Override
 	protected void useCachingConfigurer(CachingConfigurer config) {
 		super.useCachingConfigurer(config);
@@ -56,8 +55,8 @@ public abstract class AbstractJCacheConfiguration extends AbstractCachingConfigu
 	@Bean(name = "jCacheOperationSource")
 	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 	public JCacheOperationSource cacheOperationSource() {
-		return new DefaultJCacheOperationSource(
-				this.cacheManager, this.cacheResolver, this.exceptionCacheResolver, this.keyGenerator);
+		return new DefaultJCacheOperationSource(this.cacheManager, this.cacheResolver, this.exceptionCacheResolver,
+				this.keyGenerator);
 	}
 
 }

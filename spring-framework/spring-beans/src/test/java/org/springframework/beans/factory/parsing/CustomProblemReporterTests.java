@@ -42,7 +42,6 @@ public class CustomProblemReporterTests {
 
 	private XmlBeanDefinitionReader reader;
 
-
 	@BeforeEach
 	public void setup() {
 		this.problemReporter = new CollatingProblemReporter();
@@ -50,7 +49,6 @@ public class CustomProblemReporterTests {
 		this.reader = new XmlBeanDefinitionReader(this.beanFactory);
 		this.reader.setProblemReporter(this.problemReporter);
 	}
-
 
 	@Test
 	public void testErrorsAreCollated() {
@@ -60,7 +58,6 @@ public class CustomProblemReporterTests {
 		TestBean bean = (TestBean) this.beanFactory.getBean("validBean");
 		assertThat(bean).isNotNull();
 	}
-
 
 	private static class CollatingProblemReporter implements ProblemReporter {
 
@@ -86,6 +83,7 @@ public class CustomProblemReporterTests {
 		public void warning(Problem problem) {
 			this.warnings.add(problem);
 		}
+
 	}
 
 }

@@ -38,10 +38,10 @@ class JcaListenerContainerParser extends AbstractListenerContainerParser {
 
 	private static final String ACTIVATION_SPEC_FACTORY_ATTRIBUTE = "activation-spec-factory";
 
-
 	@Override
-	protected RootBeanDefinition createContainerFactory(String factoryId, Element containerEle, ParserContext parserContext,
-			PropertyValues commonContainerProperties, PropertyValues specificContainerProperties) {
+	protected RootBeanDefinition createContainerFactory(String factoryId, Element containerEle,
+			ParserContext parserContext, PropertyValues commonContainerProperties,
+			PropertyValues specificContainerProperties) {
 
 		RootBeanDefinition factoryDef = new RootBeanDefinition();
 		factoryDef.setBeanClassName("org.springframework.jms.config.DefaultJcaListenerContainerFactory");
@@ -95,14 +95,15 @@ class JcaListenerContainerParser extends AbstractListenerContainerParser {
 	}
 
 	@Override
-	protected MutablePropertyValues parseSpecificContainerProperties(Element containerEle, ParserContext parserContext) {
+	protected MutablePropertyValues parseSpecificContainerProperties(Element containerEle,
+			ParserContext parserContext) {
 		MutablePropertyValues properties = new MutablePropertyValues();
 
 		if (containerEle.hasAttribute(RESOURCE_ADAPTER_ATTRIBUTE)) {
 			String resourceAdapterBeanName = containerEle.getAttribute(RESOURCE_ADAPTER_ATTRIBUTE);
 			if (!StringUtils.hasText(resourceAdapterBeanName)) {
-				parserContext.getReaderContext().error(
-						"Listener container 'resource-adapter' attribute contains empty value.", containerEle);
+				parserContext.getReaderContext()
+						.error("Listener container 'resource-adapter' attribute contains empty value.", containerEle);
 			}
 			else {
 				properties.add("resourceAdapter", new RuntimeBeanReference(resourceAdapterBeanName));
@@ -113,9 +114,9 @@ class JcaListenerContainerParser extends AbstractListenerContainerParser {
 		String destinationResolverBeanName = containerEle.getAttribute(DESTINATION_RESOLVER_ATTRIBUTE);
 		if (StringUtils.hasText(activationSpecFactoryBeanName)) {
 			if (StringUtils.hasText(destinationResolverBeanName)) {
-				parserContext.getReaderContext().error("Specify either 'activation-spec-factory' or " +
-						"'destination-resolver', not both. If you define a dedicated JmsActivationSpecFactory bean, " +
-						"specify the custom DestinationResolver there (if possible).", containerEle);
+				parserContext.getReaderContext().error("Specify either 'activation-spec-factory' or "
+						+ "'destination-resolver', not both. If you define a dedicated JmsActivationSpecFactory bean, "
+						+ "specify the custom DestinationResolver there (if possible).", containerEle);
 			}
 			properties.add("activationSpecFactory", new RuntimeBeanReference(activationSpecFactoryBeanName));
 		}

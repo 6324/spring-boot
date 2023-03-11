@@ -25,8 +25,8 @@ import io.netty.buffer.ByteBuf;
 import org.springframework.messaging.Message;
 
 /**
- * Convenient base class for {@link ReactorNettyCodec} implementations that need
- * to work with NIO {@link ByteBuffer ByteBuffers}.
+ * Convenient base class for {@link ReactorNettyCodec} implementations that need to work
+ * with NIO {@link ByteBuffer ByteBuffers}.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -47,7 +47,6 @@ public abstract class AbstractNioBufferReactorNettyCodec<P> implements ReactorNe
 	public void encode(Message<P> message, ByteBuf outputBuffer) {
 		outputBuffer.writeBytes(encodeInternal(message));
 	}
-
 
 	protected abstract List<Message<P>> decodeInternal(ByteBuffer nioBuffer);
 

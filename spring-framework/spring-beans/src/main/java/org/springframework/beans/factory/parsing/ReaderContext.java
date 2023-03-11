@@ -20,8 +20,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.lang.Nullable;
 
 /**
- * Context that gets passed along a bean definition reading process,
- * encapsulating all relevant configuration as well as state.
+ * Context that gets passed along a bean definition reading process, encapsulating all
+ * relevant configuration as well as state.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -37,7 +37,6 @@ public class ReaderContext {
 
 	private final SourceExtractor sourceExtractor;
 
-
 	/**
 	 * Construct a new {@code ReaderContext}.
 	 * @param resource the XML bean definition resource
@@ -45,8 +44,8 @@ public class ReaderContext {
 	 * @param eventListener the event listener in use
 	 * @param sourceExtractor the source extractor in use
 	 */
-	public ReaderContext(Resource resource, ProblemReporter problemReporter,
-			ReaderEventListener eventListener, SourceExtractor sourceExtractor) {
+	public ReaderContext(Resource resource, ProblemReporter problemReporter, ReaderEventListener eventListener,
+			SourceExtractor sourceExtractor) {
 
 		this.resource = resource;
 		this.problemReporter = problemReporter;
@@ -57,7 +56,6 @@ public class ReaderContext {
 	public final Resource getResource() {
 		return this.resource;
 	}
-
 
 	// Errors and warnings
 
@@ -85,7 +83,8 @@ public class ReaderContext {
 	/**
 	 * Raise a fatal error.
 	 */
-	public void fatal(String message, @Nullable Object source, @Nullable ParseState parseState, @Nullable Throwable cause) {
+	public void fatal(String message, @Nullable Object source, @Nullable ParseState parseState,
+			@Nullable Throwable cause) {
 		Location location = new Location(getResource(), source);
 		this.problemReporter.fatal(new Problem(message, location, parseState, cause));
 	}
@@ -114,7 +113,8 @@ public class ReaderContext {
 	/**
 	 * Raise a regular error.
 	 */
-	public void error(String message, @Nullable Object source, @Nullable ParseState parseState, @Nullable Throwable cause) {
+	public void error(String message, @Nullable Object source, @Nullable ParseState parseState,
+			@Nullable Throwable cause) {
 		Location location = new Location(getResource(), source);
 		this.problemReporter.error(new Problem(message, location, parseState, cause));
 	}
@@ -143,11 +143,11 @@ public class ReaderContext {
 	/**
 	 * Raise a non-critical warning.
 	 */
-	public void warning(String message, @Nullable Object source, @Nullable ParseState parseState, @Nullable Throwable cause) {
+	public void warning(String message, @Nullable Object source, @Nullable ParseState parseState,
+			@Nullable Throwable cause) {
 		Location location = new Location(getResource(), source);
 		this.problemReporter.warning(new Problem(message, location, parseState, cause));
 	}
-
 
 	// Explicit parse events
 
@@ -185,7 +185,6 @@ public class ReaderContext {
 	public void fireImportProcessed(String importedResource, Resource[] actualResources, @Nullable Object source) {
 		this.eventListener.importProcessed(new ImportDefinition(importedResource, actualResources, source));
 	}
-
 
 	// Source extraction
 

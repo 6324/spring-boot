@@ -28,6 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link RequestedContentTypeResolverBuilder}.
+ *
  * @author Rossen Stoyanchev
  */
 public class RequestedContentTypeResolverBuilderTests {
@@ -36,8 +37,8 @@ public class RequestedContentTypeResolverBuilderTests {
 	public void defaultSettings() throws Exception {
 
 		RequestedContentTypeResolver resolver = new RequestedContentTypeResolverBuilder().build();
-		MockServerWebExchange exchange = MockServerWebExchange.from(
-				MockServerHttpRequest.get("/flower").accept(MediaType.IMAGE_GIF));
+		MockServerWebExchange exchange = MockServerWebExchange
+				.from(MockServerHttpRequest.get("/flower").accept(MediaType.IMAGE_GIF));
 		List<MediaType> mediaTypes = resolver.resolveMediaTypes(exchange);
 
 		assertThat(mediaTypes).isEqualTo(Collections.singletonList(MediaType.IMAGE_GIF));
@@ -63,8 +64,8 @@ public class RequestedContentTypeResolverBuilderTests {
 		builder.parameterResolver().mediaType("json", MediaType.APPLICATION_JSON).parameterName("s");
 		RequestedContentTypeResolver resolver = builder.build();
 
-		List<MediaType> mediaTypes = resolver.resolveMediaTypes(
-				MockServerWebExchange.from(MockServerHttpRequest.get("/flower?s=json")));
+		List<MediaType> mediaTypes = resolver
+				.resolveMediaTypes(MockServerWebExchange.from(MockServerHttpRequest.get("/flower?s=json")));
 
 		assertThat(mediaTypes).isEqualTo(Collections.singletonList(MediaType.APPLICATION_JSON));
 	}
@@ -76,8 +77,8 @@ public class RequestedContentTypeResolverBuilderTests {
 		builder.fixedResolver(MediaType.APPLICATION_JSON);
 		RequestedContentTypeResolver resolver = builder.build();
 
-		List<MediaType> mediaTypes = resolver.resolveMediaTypes(
-				MockServerWebExchange.from(MockServerHttpRequest.get("/").accept(MediaType.ALL)));
+		List<MediaType> mediaTypes = resolver
+				.resolveMediaTypes(MockServerWebExchange.from(MockServerHttpRequest.get("/").accept(MediaType.ALL)));
 
 		assertThat(mediaTypes).isEqualTo(Collections.singletonList(MediaType.APPLICATION_JSON));
 	}

@@ -41,10 +41,13 @@ import org.springframework.util.Assert;
  * {@link Source} implementation that uses a {@link Marshaller}.Can be constructed with a
  * {@code Marshaller} and an object to be marshalled.
  *
- * <p>Even though {@code MarshallingSource} extends from {@code SAXSource}, calling the methods of
- * {@code SAXSource} is <strong>not supported</strong>. In general, the only supported operation on this class is
- * to use the {@code XMLReader} obtained via {@link #getXMLReader()} to parse the input source obtained via {@link
- * #getInputSource()}. Calling {@link #setXMLReader(XMLReader)} or {@link #setInputSource(InputSource)} will result in
+ * <p>
+ * Even though {@code MarshallingSource} extends from {@code SAXSource}, calling the
+ * methods of {@code SAXSource} is <strong>not supported</strong>. In general, the only
+ * supported operation on this class is to use the {@code XMLReader} obtained via
+ * {@link #getXMLReader()} to parse the input source obtained via
+ * {@link #getInputSource()}. Calling {@link #setXMLReader(XMLReader)} or
+ * {@link #setInputSource(InputSource)} will result in
  * {@code UnsupportedOperationException}s.
  *
  * @author Arjen Poutsma
@@ -56,7 +59,6 @@ public class MarshallingSource extends SAXSource {
 	private final Marshaller marshaller;
 
 	private final Object content;
-
 
 	/**
 	 * Create a new {@code MarshallingSource} with the given marshaller and content.
@@ -70,7 +72,6 @@ public class MarshallingSource extends SAXSource {
 		this.marshaller = marshaller;
 		this.content = content;
 	}
-
 
 	/**
 	 * Return the {@code Marshaller} used by this {@code MarshallingSource}.
@@ -101,7 +102,6 @@ public class MarshallingSource extends SAXSource {
 	public void setXMLReader(XMLReader reader) {
 		throw new UnsupportedOperationException("setXMLReader is not supported");
 	}
-
 
 	private static final class MarshallingXMLReader implements XMLReader {
 
@@ -238,6 +238,7 @@ public class MarshallingSource extends SAXSource {
 				}
 			}
 		}
+
 	}
 
 }

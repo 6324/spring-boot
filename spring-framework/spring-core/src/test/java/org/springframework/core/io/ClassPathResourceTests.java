@@ -26,8 +26,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
- * Unit tests that serve as regression tests for the bugs described in SPR-6888
- * and SPR-9413.
+ * Unit tests that serve as regression tests for the bugs described in SPR-6888 and
+ * SPR-9413.
  *
  * @author Chris Beams
  * @author Sam Brannen
@@ -35,7 +35,9 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 class ClassPathResourceTests {
 
 	private static final String PACKAGE_PATH = "org/springframework/core/io";
+
 	private static final String NONEXISTENT_RESOURCE_NAME = "nonexistent.xml";
+
 	private static final String FQ_RESOURCE_PATH = PACKAGE_PATH + '/' + NONEXISTENT_RESOURCE_NAME;
 
 	/**
@@ -44,7 +46,6 @@ class ClassPathResourceTests {
 	private static final String FQ_RESOURCE_PATH_WITH_LEADING_SLASH = '/' + FQ_RESOURCE_PATH;
 
 	private static final Pattern DESCRIPTION_PATTERN = Pattern.compile("^class path resource \\[(.+?)]$");
-
 
 	@Test
 	void stringConstructorRaisesExceptionWithFullyQualifiedPath() {
@@ -80,32 +81,35 @@ class ClassPathResourceTests {
 
 	@Test
 	void getDescriptionWithClassLiteralConstructorAndLeadingSlash() {
-		assertDescriptionContainsExpectedPath(
-				new ClassPathResource(FQ_RESOURCE_PATH_WITH_LEADING_SLASH, getClass()), FQ_RESOURCE_PATH);
+		assertDescriptionContainsExpectedPath(new ClassPathResource(FQ_RESOURCE_PATH_WITH_LEADING_SLASH, getClass()),
+				FQ_RESOURCE_PATH);
 	}
 
 	@Test
 	void getDescriptionWithClassLoaderConstructor() {
-		assertDescriptionContainsExpectedPath(
-				new ClassPathResource(FQ_RESOURCE_PATH, getClass().getClassLoader()), FQ_RESOURCE_PATH);
+		assertDescriptionContainsExpectedPath(new ClassPathResource(FQ_RESOURCE_PATH, getClass().getClassLoader()),
+				FQ_RESOURCE_PATH);
 	}
 
 	@Test
 	void getDescriptionWithClassLoaderConstructorAndLeadingSlash() {
 		assertDescriptionContainsExpectedPath(
-				new ClassPathResource(FQ_RESOURCE_PATH_WITH_LEADING_SLASH, getClass().getClassLoader()), FQ_RESOURCE_PATH);
+				new ClassPathResource(FQ_RESOURCE_PATH_WITH_LEADING_SLASH, getClass().getClassLoader()),
+				FQ_RESOURCE_PATH);
 	}
 
 	@Test
 	void dropLeadingSlashForClassLoaderAccess() {
 		assertThat(new ClassPathResource("/test.html").getPath()).isEqualTo("test.html");
-		assertThat(((ClassPathResource) new ClassPathResource("").createRelative("/test.html")).getPath()).isEqualTo("test.html");
+		assertThat(((ClassPathResource) new ClassPathResource("").createRelative("/test.html")).getPath())
+				.isEqualTo("test.html");
 	}
 
 	@Test
 	void preserveLeadingSlashForClassRelativeAccess() {
 		assertThat(new ClassPathResource("/test.html", getClass()).getPath()).isEqualTo("/test.html");
-		assertThat(((ClassPathResource) new ClassPathResource("", getClass()).createRelative("/test.html")).getPath()).isEqualTo("/test.html");
+		assertThat(((ClassPathResource) new ClassPathResource("", getClass()).createRelative("/test.html")).getPath())
+				.isEqualTo("/test.html");
 	}
 
 	@Test
@@ -119,7 +123,6 @@ class ClassPathResourceTests {
 		assertThat(jarDir.isReadable()).isFalse();
 	}
 
-
 	private void assertDescriptionContainsExpectedPath(ClassPathResource resource, String expectedPath) {
 		Matcher matcher = DESCRIPTION_PATTERN.matcher(resource.getDescription());
 		assertThat(matcher.matches()).isTrue();
@@ -130,9 +133,8 @@ class ClassPathResourceTests {
 	}
 
 	private void assertExceptionContainsFullyQualifiedPath(ClassPathResource resource) {
-		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(
-				resource::getInputStream)
-			.withMessageContaining(FQ_RESOURCE_PATH);
+		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(resource::getInputStream)
+				.withMessageContaining(FQ_RESOURCE_PATH);
 	}
 
 }

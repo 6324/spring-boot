@@ -19,8 +19,8 @@ package org.springframework.jmx;
 import org.springframework.core.NestedRuntimeException;
 
 /**
- * General base exception to be thrown on JMX errors.
- * Unchecked since JMX failures are usually fatal.
+ * General base exception to be thrown on JMX errors. Unchecked since JMX failures are
+ * usually fatal.
  *
  * @author Juergen Hoeller
  * @since 2.0

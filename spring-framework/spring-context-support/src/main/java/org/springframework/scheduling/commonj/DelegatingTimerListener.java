@@ -36,7 +36,6 @@ public class DelegatingTimerListener implements TimerListener {
 
 	private final Runnable runnable;
 
-
 	/**
 	 * Create a new DelegatingTimerListener.
 	 * @param runnable the Runnable implementation to delegate to
@@ -45,7 +44,6 @@ public class DelegatingTimerListener implements TimerListener {
 		Assert.notNull(runnable, "Runnable is required");
 		this.runnable = runnable;
 	}
-
 
 	/**
 	 * Delegates execution to the underlying Runnable.

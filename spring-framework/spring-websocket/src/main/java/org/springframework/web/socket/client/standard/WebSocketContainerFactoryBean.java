@@ -33,7 +33,6 @@ public class WebSocketContainerFactoryBean implements FactoryBean<WebSocketConta
 
 	private final WebSocketContainer webSocketContainer = ContainerProvider.getWebSocketContainer();
 
-
 	public void setAsyncSendTimeout(long timeoutInMillis) {
 		this.webSocketContainer.setAsyncSendTimeout(timeoutInMillis);
 	}

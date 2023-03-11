@@ -26,9 +26,11 @@ import org.springframework.util.Assert;
 
 /**
  * Subclass of {@link MutablePersistenceUnitInfo} that adds instrumentation hooks based on
- * Spring's {@link org.springframework.instrument.classloading.LoadTimeWeaver} abstraction.
+ * Spring's {@link org.springframework.instrument.classloading.LoadTimeWeaver}
+ * abstraction.
  *
- * <p>This class is restricted to package visibility, in contrast to its superclass.
+ * <p>
+ * This class is restricted to package visibility, in contrast to its superclass.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -44,10 +46,9 @@ class SpringPersistenceUnitInfo extends MutablePersistenceUnitInfo {
 	@Nullable
 	private ClassLoader classLoader;
 
-
 	/**
-	 * Initialize this PersistenceUnitInfo with the LoadTimeWeaver SPI interface
-	 * used by Spring to add instrumentation to the current class loader.
+	 * Initialize this PersistenceUnitInfo with the LoadTimeWeaver SPI interface used by
+	 * Spring to add instrumentation to the current class loader.
 	 */
 	public void init(LoadTimeWeaver loadTimeWeaver) {
 		Assert.notNull(loadTimeWeaver, "LoadTimeWeaver must not be null");
@@ -56,17 +57,16 @@ class SpringPersistenceUnitInfo extends MutablePersistenceUnitInfo {
 	}
 
 	/**
-	 * Initialize this PersistenceUnitInfo with the current class loader
-	 * (instead of with a LoadTimeWeaver).
+	 * Initialize this PersistenceUnitInfo with the current class loader (instead of with
+	 * a LoadTimeWeaver).
 	 */
 	public void init(@Nullable ClassLoader classLoader) {
 		this.classLoader = classLoader;
 	}
 
-
 	/**
-	 * This implementation returns the LoadTimeWeaver's instrumentable ClassLoader,
-	 * if specified.
+	 * This implementation returns the LoadTimeWeaver's instrumentable ClassLoader, if
+	 * specified.
 	 */
 	@Override
 	@Nullable
@@ -90,8 +90,8 @@ class SpringPersistenceUnitInfo extends MutablePersistenceUnitInfo {
 	 */
 	@Override
 	public ClassLoader getNewTempClassLoader() {
-		ClassLoader tcl = (this.loadTimeWeaver != null ? this.loadTimeWeaver.getThrowawayClassLoader() :
-				new SimpleThrowawayClassLoader(this.classLoader));
+		ClassLoader tcl = (this.loadTimeWeaver != null ? this.loadTimeWeaver.getThrowawayClassLoader()
+				: new SimpleThrowawayClassLoader(this.classLoader));
 		String packageToExclude = getPersistenceProviderPackageName();
 		if (packageToExclude != null && tcl instanceof DecoratingClassLoader) {
 			((DecoratingClassLoader) tcl).excludePackage(packageToExclude);

@@ -46,8 +46,8 @@ import org.springframework.web.socket.sockjs.transport.handler.WebSocketTranspor
  */
 abstract class WebSocketNamespaceUtils {
 
-	public static RuntimeBeanReference registerHandshakeHandler(
-			Element element, ParserContext context, @Nullable Object source) {
+	public static RuntimeBeanReference registerHandshakeHandler(Element element, ParserContext context,
+			@Nullable Object source) {
 
 		RuntimeBeanReference handlerRef;
 		Element handlerElem = DomUtils.getChildElementByTagName(element, "handshake-handler");
@@ -65,8 +65,8 @@ abstract class WebSocketNamespaceUtils {
 	}
 
 	@Nullable
-	public static RuntimeBeanReference registerSockJsService(
-			Element element, String schedulerName, ParserContext context, @Nullable Object source) {
+	public static RuntimeBeanReference registerSockJsService(Element element, String schedulerName,
+			ParserContext context, @Nullable Object source) {
 
 		Element sockJsElement = DomUtils.getChildElementByTagName(element, "sockjs");
 
@@ -96,7 +96,8 @@ abstract class WebSocketNamespaceUtils {
 				sockJsServiceDef.getConstructorArgumentValues().addIndexedArgumentValue(1, transportHandlers);
 			}
 			else if (handshakeHandler != null) {
-				RuntimeBeanReference handshakeHandlerRef = new RuntimeBeanReference(handshakeHandler.getAttribute("ref"));
+				RuntimeBeanReference handshakeHandlerRef = new RuntimeBeanReference(
+						handshakeHandler.getAttribute("ref"));
 				RootBeanDefinition transportHandler = new RootBeanDefinition(WebSocketTransportHandler.class);
 				transportHandler.setSource(source);
 				transportHandler.getConstructorArgumentValues().addIndexedArgumentValue(0, handshakeHandlerRef);
@@ -160,8 +161,8 @@ abstract class WebSocketNamespaceUtils {
 		return null;
 	}
 
-	public static RuntimeBeanReference registerScheduler(
-			String schedulerName, ParserContext context, @Nullable Object source) {
+	public static RuntimeBeanReference registerScheduler(String schedulerName, ParserContext context,
+			@Nullable Object source) {
 
 		if (!context.getRegistry().containsBeanDefinition(schedulerName)) {
 			RootBeanDefinition taskSchedulerDef = new RootBeanDefinition(ThreadPoolTaskScheduler.class);

@@ -29,7 +29,8 @@ import org.springframework.lang.Nullable;
 /**
  * Converts from a Collection to another Collection.
  *
- * <p>First, creates a new Collection of the requested targetType with a size equal to the
+ * <p>
+ * First, creates a new Collection of the requested targetType with a size equal to the
  * size of the source Collection. Then copies each element in the source collection to the
  * target collection. Will perform an element conversion from the source collection's
  * parameterized type to the target collection's parameterized type if necessary.
@@ -42,11 +43,9 @@ final class CollectionToCollectionConverter implements ConditionalGenericConvert
 
 	private final ConversionService conversionService;
 
-
 	public CollectionToCollectionConverter(ConversionService conversionService) {
 		this.conversionService = conversionService;
 	}
-
 
 	@Override
 	public Set<ConvertiblePair> getConvertibleTypes() {
@@ -55,8 +54,8 @@ final class CollectionToCollectionConverter implements ConditionalGenericConvert
 
 	@Override
 	public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
-		return ConversionUtils.canConvertElements(
-				sourceType.getElementTypeDescriptor(), targetType.getElementTypeDescriptor(), this.conversionService);
+		return ConversionUtils.canConvertElements(sourceType.getElementTypeDescriptor(),
+				targetType.getElementTypeDescriptor(), this.conversionService);
 	}
 
 	@Override
@@ -77,7 +76,8 @@ final class CollectionToCollectionConverter implements ConditionalGenericConvert
 			return source;
 		}
 
-		// At this point, we need a collection copy in any case, even if just for finding out about element copies...
+		// At this point, we need a collection copy in any case, even if just for finding
+		// out about element copies...
 		Collection<Object> target = CollectionFactory.createCollection(targetType.getType(),
 				(elementDesc != null ? elementDesc.getType() : null), sourceCollection.size());
 

@@ -26,4 +26,5 @@ import java.lang.annotation.Target;
 public @interface NestedAnnotation {
 
 	String name() default "";
+
 }

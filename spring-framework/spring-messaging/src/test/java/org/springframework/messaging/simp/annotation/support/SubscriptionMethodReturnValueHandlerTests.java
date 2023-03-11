@@ -65,7 +65,6 @@ public class SubscriptionMethodReturnValueHandlerTests {
 
 	private static final String PAYLOAD = "payload";
 
-
 	@Mock
 	private MessageChannel messageChannel;
 
@@ -83,7 +82,6 @@ public class SubscriptionMethodReturnValueHandlerTests {
 	private MethodParameter messageMappingReturnType;
 
 	private MethodParameter subscribeEventJsonViewReturnType;
-
 
 	@BeforeEach
 	public void setup() throws Exception {
@@ -107,7 +105,6 @@ public class SubscriptionMethodReturnValueHandlerTests {
 		method = this.getClass().getDeclaredMethod("getJsonView");
 		this.subscribeEventJsonViewReturnType = new MethodParameter(method, -1);
 	}
-
 
 	@Test
 	public void supportsReturnType() throws Exception {
@@ -134,12 +131,14 @@ public class SubscriptionMethodReturnValueHandlerTests {
 		SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.wrap(message);
 
 		assertThat(headerAccessor.getId()).as("SimpMessageHeaderAccessor should have disabled id").isNull();
-		assertThat(headerAccessor.getTimestamp()).as("SimpMessageHeaderAccessor should have disabled timestamp").isNull();
+		assertThat(headerAccessor.getTimestamp()).as("SimpMessageHeaderAccessor should have disabled timestamp")
+				.isNull();
 		assertThat(headerAccessor.getSessionId()).isEqualTo(sessionId);
 		assertThat(headerAccessor.getSubscriptionId()).isEqualTo(subscriptionId);
 		assertThat(headerAccessor.getDestination()).isEqualTo(destination);
 		assertThat(headerAccessor.getContentType()).isEqualTo(MIME_TYPE);
-		assertThat(headerAccessor.getHeader(SimpMessagingTemplate.CONVERSION_HINT_HEADER)).isEqualTo(this.subscribeEventReturnType);
+		assertThat(headerAccessor.getHeader(SimpMessagingTemplate.CONVERSION_HINT_HEADER))
+				.isEqualTo(this.subscribeEventReturnType);
 	}
 
 	@Test
@@ -158,14 +157,15 @@ public class SubscriptionMethodReturnValueHandlerTests {
 		ArgumentCaptor<MessageHeaders> captor = ArgumentCaptor.forClass(MessageHeaders.class);
 		verify(messagingTemplate).convertAndSend(eq("/dest"), eq(PAYLOAD), captor.capture());
 
-		SimpMessageHeaderAccessor headerAccessor =
-				MessageHeaderAccessor.getAccessor(captor.getValue(), SimpMessageHeaderAccessor.class);
+		SimpMessageHeaderAccessor headerAccessor = MessageHeaderAccessor.getAccessor(captor.getValue(),
+				SimpMessageHeaderAccessor.class);
 
 		assertThat(headerAccessor).isNotNull();
 		assertThat(headerAccessor.isMutable()).isTrue();
 		assertThat(headerAccessor.getSessionId()).isEqualTo(sessionId);
 		assertThat(headerAccessor.getSubscriptionId()).isEqualTo(subscriptionId);
-		assertThat(headerAccessor.getHeader(SimpMessagingTemplate.CONVERSION_HINT_HEADER)).isEqualTo(this.subscribeEventReturnType);
+		assertThat(headerAccessor.getHeader(SimpMessagingTemplate.CONVERSION_HINT_HEADER))
+				.isEqualTo(this.subscribeEventReturnType);
 	}
 
 	@Test
@@ -183,9 +183,9 @@ public class SubscriptionMethodReturnValueHandlerTests {
 		Message<?> message = this.messageCaptor.getValue();
 		assertThat(message).isNotNull();
 
-		assertThat(new String((byte[]) message.getPayload(), StandardCharsets.UTF_8)).isEqualTo("{\"withView1\":\"with\"}");
+		assertThat(new String((byte[]) message.getPayload(), StandardCharsets.UTF_8))
+				.isEqualTo("{\"withView1\":\"with\"}");
 	}
-
 
 	private Message<?> createInputMessage(String sessId, String subsId, String dest, Principal principal) {
 		SimpMessageHeaderAccessor headers = SimpMessageHeaderAccessor.create();
@@ -195,7 +195,6 @@ public class SubscriptionMethodReturnValueHandlerTests {
 		headers.setUser(principal);
 		return MessageBuilder.withPayload(new byte[0]).copyHeaders(headers.toMap()).build();
 	}
-
 
 	@SubscribeMapping("/data") // not needed for the tests but here for completeness
 	private String getData() {
@@ -208,12 +207,12 @@ public class SubscriptionMethodReturnValueHandlerTests {
 		return PAYLOAD;
 	}
 
-	@MessageMapping("/handle")	// not needed for the tests but here for completeness
+	@MessageMapping("/handle") // not needed for the tests but here for completeness
 	public String handle() {
 		return PAYLOAD;
 	}
 
-	@SubscribeMapping("/jsonview")	// not needed for the tests but here for completeness
+	@SubscribeMapping("/jsonview") // not needed for the tests but here for completeness
 	@JsonView(MyJacksonView1.class)
 	public JacksonViewBean getJsonView() {
 		JacksonViewBean payload = new JacksonViewBean();
@@ -223,9 +222,13 @@ public class SubscriptionMethodReturnValueHandlerTests {
 		return payload;
 	}
 
+	private interface MyJacksonView1 {
 
-	private interface MyJacksonView1 {};
-	private interface MyJacksonView2 {};
+	};
+
+	private interface MyJacksonView2 {
+
+	};
 
 	private static class JacksonViewBean {
 
@@ -263,6 +266,7 @@ public class SubscriptionMethodReturnValueHandlerTests {
 		public void setWithoutView(String withoutView) {
 			this.withoutView = withoutView;
 		}
+
 	}
 
 }

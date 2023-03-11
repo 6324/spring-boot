@@ -61,12 +61,11 @@ final class DefaultRenderingResponseBuilder implements RenderingResponse.Builder
 
 	private final Map<String, Object> model = new LinkedHashMap<>();
 
-
 	public DefaultRenderingResponseBuilder(RenderingResponse other) {
 		Assert.notNull(other, "RenderingResponse must not be null");
 		this.name = other.name();
-		this.status = (other instanceof DefaultRenderingResponse ?
-				((DefaultRenderingResponse) other).statusCode : other.statusCode().value());
+		this.status = (other instanceof DefaultRenderingResponse ? ((DefaultRenderingResponse) other).statusCode
+				: other.statusCode().value());
 		this.headers.putAll(other.headers());
 		this.model.putAll(other.model());
 	}
@@ -75,7 +74,6 @@ final class DefaultRenderingResponseBuilder implements RenderingResponse.Builder
 		Assert.notNull(name, "Name must not be null");
 		this.name = name;
 	}
-
 
 	@Override
 	public RenderingResponse.Builder status(HttpStatus status) {
@@ -153,10 +151,8 @@ final class DefaultRenderingResponseBuilder implements RenderingResponse.Builder
 
 	@Override
 	public Mono<RenderingResponse> build() {
-		return Mono.just(
-				new DefaultRenderingResponse(this.status, this.headers, this.cookies, this.name, this.model));
+		return Mono.just(new DefaultRenderingResponse(this.status, this.headers, this.cookies, this.name, this.model));
 	}
-
 
 	private static final class DefaultRenderingResponse extends DefaultServerResponseBuilder.AbstractServerResponse
 			implements RenderingResponse {
@@ -190,10 +186,9 @@ final class DefaultRenderingResponseBuilder implements RenderingResponse.Builder
 			Stream<ViewResolver> viewResolverStream = context.viewResolvers().stream();
 
 			return Flux.fromStream(viewResolverStream)
-					.concatMap(viewResolver -> viewResolver.resolveViewName(name(), locale))
-					.next()
-					.switchIfEmpty(Mono.error(() ->
-							new IllegalArgumentException("Could not resolve view with name '" + name() + "'")))
+					.concatMap(viewResolver -> viewResolver.resolveViewName(name(), locale)).next()
+					.switchIfEmpty(Mono.error(
+							() -> new IllegalArgumentException("Could not resolve view with name '" + name() + "'")))
 					.flatMap(view -> {
 						List<MediaType> mediaTypes = view.getSupportedMediaTypes();
 						return view.render(model(),

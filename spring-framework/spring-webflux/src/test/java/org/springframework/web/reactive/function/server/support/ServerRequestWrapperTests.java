@@ -48,7 +48,6 @@ public class ServerRequestWrapperTests {
 
 	private final ServerRequestWrapper wrapper = new ServerRequestWrapper(mockRequest);
 
-
 	@Test
 	public void request() {
 		assertThat(wrapper.request()).isSameAs(mockRequest);
@@ -159,7 +158,8 @@ public class ServerRequestWrapperTests {
 	@Test
 	public void bodyToMonoParameterizedTypeReference() {
 		Mono<String> result = Mono.just("foo");
-		ParameterizedTypeReference<String> reference = new ParameterizedTypeReference<String>() {};
+		ParameterizedTypeReference<String> reference = new ParameterizedTypeReference<String>() {
+		};
 		given(mockRequest.bodyToMono(reference)).willReturn(result);
 
 		assertThat(wrapper.bodyToMono(reference)).isSameAs(result);
@@ -176,7 +176,8 @@ public class ServerRequestWrapperTests {
 	@Test
 	public void bodyToFluxParameterizedTypeReference() {
 		Flux<String> result = Flux.just("foo");
-		ParameterizedTypeReference<String> reference = new ParameterizedTypeReference<String>() {};
+		ParameterizedTypeReference<String> reference = new ParameterizedTypeReference<String>() {
+		};
 		given(mockRequest.bodyToFlux(reference)).willReturn(result);
 
 		assertThat(wrapper.bodyToFlux(reference)).isSameAs(result);

@@ -30,9 +30,9 @@ public class MockCallbackPreferringTransactionManager implements CallbackPreferr
 
 	private TransactionStatus status;
 
-
 	@Override
-	public <T> T execute(TransactionDefinition definition, TransactionCallback<T> callback) throws TransactionException {
+	public <T> T execute(TransactionDefinition definition, TransactionCallback<T> callback)
+			throws TransactionException {
 		this.definition = definition;
 		this.status = new SimpleTransactionStatus();
 		return callback.doInTransaction(this.status);
@@ -45,7 +45,6 @@ public class MockCallbackPreferringTransactionManager implements CallbackPreferr
 	public TransactionStatus getStatus() {
 		return this.status;
 	}
-
 
 	@Override
 	public TransactionStatus getTransaction(@Nullable TransactionDefinition definition) throws TransactionException {

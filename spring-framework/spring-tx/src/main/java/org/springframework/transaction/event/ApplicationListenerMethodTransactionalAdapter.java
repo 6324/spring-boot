@@ -28,14 +28,15 @@ import org.springframework.transaction.support.TransactionSynchronizationAdapter
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
- * {@link GenericApplicationListener} adapter that delegates the processing of
- * an event to a {@link TransactionalEventListener} annotated method. Supports
- * the exact same features as any regular {@link EventListener} annotated method
- * but is aware of the transactional context of the event publisher.
+ * {@link GenericApplicationListener} adapter that delegates the processing of an event to
+ * a {@link TransactionalEventListener} annotated method. Supports the exact same features
+ * as any regular {@link EventListener} annotated method but is aware of the transactional
+ * context of the event publisher.
  *
- * <p>Processing of {@link TransactionalEventListener} is enabled automatically
- * when Spring's transaction management is enabled. For other cases, registering
- * a bean of type {@link TransactionalEventListenerFactory} is required.
+ * <p>
+ * Processing of {@link TransactionalEventListener} is enabled automatically when Spring's
+ * transaction management is enabled. For other cases, registering a bean of type
+ * {@link TransactionalEventListenerFactory} is required.
  *
  * @author Stephane Nicoll
  * @author Juergen Hoeller
@@ -47,21 +48,20 @@ class ApplicationListenerMethodTransactionalAdapter extends ApplicationListenerM
 
 	private final TransactionalEventListener annotation;
 
-
 	public ApplicationListenerMethodTransactionalAdapter(String beanName, Class<?> targetClass, Method method) {
 		super(beanName, targetClass, method);
-		TransactionalEventListener ann = AnnotatedElementUtils.findMergedAnnotation(method, TransactionalEventListener.class);
+		TransactionalEventListener ann = AnnotatedElementUtils.findMergedAnnotation(method,
+				TransactionalEventListener.class);
 		if (ann == null) {
 			throw new IllegalStateException("No TransactionalEventListener annotation found on method: " + method);
 		}
 		this.annotation = ann;
 	}
 
-
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
-		if (TransactionSynchronizationManager.isSynchronizationActive() &&
-				TransactionSynchronizationManager.isActualTransactionActive()) {
+		if (TransactionSynchronizationManager.isSynchronizationActive()
+				&& TransactionSynchronizationManager.isActualTransactionActive()) {
 			TransactionSynchronization transactionSynchronization = createTransactionSynchronization(event);
 			TransactionSynchronizationManager.registerSynchronization(transactionSynchronization);
 		}
@@ -83,7 +83,6 @@ class ApplicationListenerMethodTransactionalAdapter extends ApplicationListenerM
 		return new TransactionSynchronizationEventAdapter(this, event, this.annotation.phase());
 	}
 
-
 	private static class TransactionSynchronizationEventAdapter extends TransactionSynchronizationAdapter {
 
 		private final ApplicationListenerMethodAdapter listener;
@@ -92,8 +91,8 @@ class ApplicationListenerMethodTransactionalAdapter extends ApplicationListenerM
 
 		private final TransactionPhase phase;
 
-		public TransactionSynchronizationEventAdapter(ApplicationListenerMethodAdapter listener,
-				ApplicationEvent event, TransactionPhase phase) {
+		public TransactionSynchronizationEventAdapter(ApplicationListenerMethodAdapter listener, ApplicationEvent event,
+				TransactionPhase phase) {
 
 			this.listener = listener;
 			this.event = event;
@@ -128,6 +127,7 @@ class ApplicationListenerMethodTransactionalAdapter extends ApplicationListenerM
 		protected void processEvent() {
 			this.listener.processEvent(this.event);
 		}
+
 	}
 
 }

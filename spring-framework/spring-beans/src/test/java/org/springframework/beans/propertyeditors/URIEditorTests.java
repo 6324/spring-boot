@@ -65,8 +65,8 @@ public class URIEditorTests {
 	@Test
 	public void classpathURL() throws Exception {
 		PropertyEditor uriEditor = new URIEditor(getClass().getClassLoader());
-		uriEditor.setAsText("classpath:" + ClassUtils.classPackageAsResourcePath(getClass()) +
-				"/" + ClassUtils.getShortName(getClass()) + ".class");
+		uriEditor.setAsText("classpath:" + ClassUtils.classPackageAsResourcePath(getClass()) + "/"
+				+ ClassUtils.getShortName(getClass()) + ".class");
 		Object value = uriEditor.getValue();
 		boolean condition1 = value instanceof URI;
 		assertThat(condition1).isTrue();
@@ -79,8 +79,8 @@ public class URIEditorTests {
 	@Test
 	public void classpathURLWithWhitespace() throws Exception {
 		PropertyEditor uriEditor = new URIEditor(getClass().getClassLoader());
-		uriEditor.setAsText("  classpath:" + ClassUtils.classPackageAsResourcePath(getClass()) +
-				"/" + ClassUtils.getShortName(getClass()) + ".class  ");
+		uriEditor.setAsText("  classpath:" + ClassUtils.classPackageAsResourcePath(getClass()) + "/"
+				+ ClassUtils.getShortName(getClass()) + ".class  ");
 		Object value = uriEditor.getValue();
 		boolean condition1 = value instanceof URI;
 		assertThat(condition1).isTrue();
@@ -139,7 +139,6 @@ public class URIEditorTests {
 		assertThat(uriEditor.getAsText()).isEqualTo(uri.toString());
 		assertThat(uri.toASCIIString()).isEqualTo("https://example.com/spaces%20and%20%E2%82%AC");
 	}
-
 
 	private void doTestURI(String uriSpec) {
 		PropertyEditor uriEditor = new URIEditor();

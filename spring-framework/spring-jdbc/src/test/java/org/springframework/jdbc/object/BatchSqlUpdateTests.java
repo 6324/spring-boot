@@ -109,4 +109,5 @@ public class BatchSqlUpdateTests {
 		verify(preparedStatement, times(2)).addBatch();
 		verify(preparedStatement).close();
 	}
+
 }

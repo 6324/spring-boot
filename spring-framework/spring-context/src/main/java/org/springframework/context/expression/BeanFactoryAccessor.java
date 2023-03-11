@@ -25,8 +25,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * EL property accessor that knows how to traverse the beans of a
- * Spring {@link org.springframework.beans.factory.BeanFactory}.
+ * EL property accessor that knows how to traverse the beans of a Spring
+ * {@link org.springframework.beans.factory.BeanFactory}.
  *
  * @author Juergen Hoeller
  * @author Andy Clement
@@ -36,7 +36,7 @@ public class BeanFactoryAccessor implements PropertyAccessor {
 
 	@Override
 	public Class<?>[] getSpecificTargetClasses() {
-		return new Class<?>[] {BeanFactory.class};
+		return new Class<?>[] { BeanFactory.class };
 	}
 
 	@Override

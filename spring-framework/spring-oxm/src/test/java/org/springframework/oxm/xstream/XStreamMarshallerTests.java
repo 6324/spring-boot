@@ -78,7 +78,6 @@ class XStreamMarshallerTests {
 
 	private XStreamMarshaller marshaller;
 
-
 	@BeforeEach
 	void createMarshaller() {
 		marshaller = new XStreamMarshaller();
@@ -86,7 +85,6 @@ class XStreamMarshallerTests {
 		marshaller.setAliases(Collections.singletonMap("flight", Flight.class.getName()));
 		flight.setFlightNumber(42L);
 	}
-
 
 	@Test
 	void marshalDOMResult() throws Exception {
@@ -159,7 +157,8 @@ class XStreamMarshallerTests {
 		InOrder ordered = inOrder(contentHandler);
 		ordered.verify(contentHandler).startDocument();
 		ordered.verify(contentHandler).startElement(eq(""), eq("flight"), eq("flight"), isA(Attributes.class));
-		ordered.verify(contentHandler).startElement(eq(""), eq("flightNumber"), eq("flightNumber"), isA(Attributes.class));
+		ordered.verify(contentHandler).startElement(eq(""), eq("flightNumber"), eq("flightNumber"),
+				isA(Attributes.class));
 		ordered.verify(contentHandler).characters(isA(char[].class), eq(0), eq(2));
 		ordered.verify(contentHandler).endElement("", "flightNumber", "flightNumber");
 		ordered.verify(contentHandler).endElement("", "flight", "flight");
@@ -189,7 +188,7 @@ class XStreamMarshallerTests {
 	@Test
 	void converters() throws Exception {
 		marshaller.setConverters(new EncodedByteArrayConverter());
-		byte[] buf = {0x1, 0x2};
+		byte[] buf = { 0x1, 0x2 };
 
 		// Execute multiple times concurrently to ensure there are no concurrency issues.
 		// See https://github.com/spring-projects/spring-framework/issues/25017
@@ -237,7 +236,8 @@ class XStreamMarshallerTests {
 
 	@Test
 	void useAttributesForClassStringListMap() throws Exception {
-		marshaller.setUseAttributeFor(Collections.singletonMap(Flight.class, Collections.singletonList("flightNumber")));
+		marshaller
+				.setUseAttributeFor(Collections.singletonMap(Flight.class, Collections.singletonList("flightNumber")));
 		Writer writer = new StringWriter();
 		marshaller.marshal(flight, new StreamResult(writer));
 		String expected = "<flight flightNumber=\"42\" />";
@@ -272,7 +272,8 @@ class XStreamMarshallerTests {
 
 	@Test
 	void fieldAliases() throws Exception {
-		marshaller.setFieldAliases(Collections.singletonMap("org.springframework.oxm.xstream.Flight.flightNumber", "flightNo"));
+		marshaller.setFieldAliases(
+				Collections.singletonMap("org.springframework.oxm.xstream.Flight.flightNumber", "flightNo"));
 		Writer writer = new StringWriter();
 		marshaller.marshal(flight, new StreamResult(writer));
 		String expected = "<flight><flightNo>42</flightNo></flight>";
@@ -331,9 +332,8 @@ class XStreamMarshallerTests {
 		marshaller.setStreamDriver(new JsonHierarchicalStreamDriver() {
 			@Override
 			public HierarchicalStreamWriter createWriter(Writer writer) {
-				return new JsonWriter(writer, JsonWriter.DROP_ROOT_MODE,
-						new JsonWriter.Format(new char[0], new char[0],
-								JsonWriter.Format.SPACE_AFTER_LABEL | JsonWriter.Format.COMPACT_EMPTY_ELEMENT));
+				return new JsonWriter(writer, JsonWriter.DROP_ROOT_MODE, new JsonWriter.Format(new char[0], new char[0],
+						JsonWriter.Format.SPACE_AFTER_LABEL | JsonWriter.Format.COMPACT_EMPTY_ELEMENT));
 			}
 		});
 
@@ -354,14 +354,13 @@ class XStreamMarshallerTests {
 		assertThat(XmlContent.from(writer)).isSimilarTo(expected);
 	}
 
-
-	private static void assertXpathExists(String xPathExpression, String inXMLString){
+	private static void assertXpathExists(String xPathExpression, String inXMLString) {
 		Source source = Input.fromString(inXMLString).build();
 		Iterable<Node> nodes = new JAXPXPathEngine().selectNodes(xPathExpression, source);
 		assertThat(nodes).as("Expecting to find matches for Xpath " + xPathExpression).hasSizeGreaterThan(0);
 	}
 
-	private static void assertXpathDoesNotExist(String xPathExpression, String inXMLString){
+	private static void assertXpathDoesNotExist(String xPathExpression, String inXMLString) {
 		Source source = Input.fromString(inXMLString).build();
 		Iterable<Node> nodes = new JAXPXPathEngine().selectNodes(xPathExpression, source);
 		assertThat(nodes).as("Should be zero matches for Xpath " + xPathExpression).isEmpty();

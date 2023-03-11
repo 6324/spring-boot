@@ -44,8 +44,8 @@ import org.springframework.util.NumberUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Generic utility methods for working with JDBC. Mainly for internal use
- * within the framework, but also useful for custom JDBC access code.
+ * Generic utility methods for working with JDBC. Mainly for internal use within the
+ * framework, but also useful for custom JDBC access code.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -73,10 +73,9 @@ public abstract class JdbcUtils {
 		}
 	}
 
-
 	/**
-	 * Close the given JDBC Connection and ignore any thrown exception.
-	 * This is useful for typical finally blocks in manual JDBC code.
+	 * Close the given JDBC Connection and ignore any thrown exception. This is useful for
+	 * typical finally blocks in manual JDBC code.
 	 * @param con the JDBC Connection to close (may be {@code null})
 	 */
 	public static void closeConnection(@Nullable Connection con) {
@@ -88,15 +87,16 @@ public abstract class JdbcUtils {
 				logger.debug("Could not close JDBC Connection", ex);
 			}
 			catch (Throwable ex) {
-				// We don't trust the JDBC driver: It might throw RuntimeException or Error.
+				// We don't trust the JDBC driver: It might throw RuntimeException or
+				// Error.
 				logger.debug("Unexpected exception on closing JDBC Connection", ex);
 			}
 		}
 	}
 
 	/**
-	 * Close the given JDBC Statement and ignore any thrown exception.
-	 * This is useful for typical finally blocks in manual JDBC code.
+	 * Close the given JDBC Statement and ignore any thrown exception. This is useful for
+	 * typical finally blocks in manual JDBC code.
 	 * @param stmt the JDBC Statement to close (may be {@code null})
 	 */
 	public static void closeStatement(@Nullable Statement stmt) {
@@ -108,15 +108,16 @@ public abstract class JdbcUtils {
 				logger.trace("Could not close JDBC Statement", ex);
 			}
 			catch (Throwable ex) {
-				// We don't trust the JDBC driver: It might throw RuntimeException or Error.
+				// We don't trust the JDBC driver: It might throw RuntimeException or
+				// Error.
 				logger.trace("Unexpected exception on closing JDBC Statement", ex);
 			}
 		}
 	}
 
 	/**
-	 * Close the given JDBC ResultSet and ignore any thrown exception.
-	 * This is useful for typical finally blocks in manual JDBC code.
+	 * Close the given JDBC ResultSet and ignore any thrown exception. This is useful for
+	 * typical finally blocks in manual JDBC code.
 	 * @param rs the JDBC ResultSet to close (may be {@code null})
 	 */
 	public static void closeResultSet(@Nullable ResultSet rs) {
@@ -128,7 +129,8 @@ public abstract class JdbcUtils {
 				logger.trace("Could not close JDBC ResultSet", ex);
 			}
 			catch (Throwable ex) {
-				// We don't trust the JDBC driver: It might throw RuntimeException or Error.
+				// We don't trust the JDBC driver: It might throw RuntimeException or
+				// Error.
 				logger.trace("Unexpected exception on closing JDBC ResultSet", ex);
 			}
 		}
@@ -136,21 +138,24 @@ public abstract class JdbcUtils {
 
 	/**
 	 * Retrieve a JDBC column value from a ResultSet, using the specified value type.
-	 * <p>Uses the specifically typed ResultSet accessor methods, falling back to
+	 * <p>
+	 * Uses the specifically typed ResultSet accessor methods, falling back to
 	 * {@link #getResultSetValue(java.sql.ResultSet, int)} for unknown types.
-	 * <p>Note that the returned value may not be assignable to the specified
-	 * required type, in case of an unknown type. Calling code needs to deal
-	 * with this case appropriately, e.g. throwing a corresponding exception.
+	 * <p>
+	 * Note that the returned value may not be assignable to the specified required type,
+	 * in case of an unknown type. Calling code needs to deal with this case
+	 * appropriately, e.g. throwing a corresponding exception.
 	 * @param rs is the ResultSet holding the data
 	 * @param index is the column index
 	 * @param requiredType the required value type (may be {@code null})
-	 * @return the value object (possibly not of the specified required type,
-	 * with further conversion steps necessary)
+	 * @return the value object (possibly not of the specified required type, with further
+	 * conversion steps necessary)
 	 * @throws SQLException if thrown by the JDBC API
 	 * @see #getResultSetValue(ResultSet, int)
 	 */
 	@Nullable
-	public static Object getResultSetValue(ResultSet rs, int index, @Nullable Class<?> requiredType) throws SQLException {
+	public static Object getResultSetValue(ResultSet rs, int index, @Nullable Class<?> requiredType)
+			throws SQLException {
 		if (requiredType == null) {
 			return getResultSetValue(rs, index);
 		}
@@ -179,8 +184,7 @@ public abstract class JdbcUtils {
 		else if (float.class == requiredType || Float.class == requiredType) {
 			value = rs.getFloat(index);
 		}
-		else if (double.class == requiredType || Double.class == requiredType ||
-				Number.class == requiredType) {
+		else if (double.class == requiredType || Double.class == requiredType || Number.class == requiredType) {
 			value = rs.getDouble(index);
 		}
 		else if (BigDecimal.class == requiredType) {
@@ -256,20 +260,21 @@ public abstract class JdbcUtils {
 			return getResultSetValue(rs, index);
 		}
 
-		// Perform was-null check if necessary (for results that the JDBC driver returns as primitives).
+		// Perform was-null check if necessary (for results that the JDBC driver returns
+		// as primitives).
 		return (rs.wasNull() ? null : value);
 	}
 
 	/**
-	 * Retrieve a JDBC column value from a ResultSet, using the most appropriate
-	 * value type. The returned value should be a detached value object, not having
-	 * any ties to the active ResultSet: in particular, it should not be a Blob or
-	 * Clob object but rather a byte array or String representation, respectively.
-	 * <p>Uses the {@code getObject(index)} method, but includes additional "hacks"
-	 * to get around Oracle 10g returning a non-standard object for its TIMESTAMP
-	 * datatype and a {@code java.sql.Date} for DATE columns leaving out the
-	 * time portion: These columns will explicitly be extracted as standard
-	 * {@code java.sql.Timestamp} object.
+	 * Retrieve a JDBC column value from a ResultSet, using the most appropriate value
+	 * type. The returned value should be a detached value object, not having any ties to
+	 * the active ResultSet: in particular, it should not be a Blob or Clob object but
+	 * rather a byte array or String representation, respectively.
+	 * <p>
+	 * Uses the {@code getObject(index)} method, but includes additional "hacks" to get
+	 * around Oracle 10g returning a non-standard object for its TIMESTAMP datatype and a
+	 * {@code java.sql.Date} for DATE columns leaving out the time portion: These columns
+	 * will explicitly be extracted as standard {@code java.sql.Timestamp} object.
 	 * @param rs is the ResultSet holding the data
 	 * @param index is the column index
 	 * @return the value object
@@ -315,17 +320,19 @@ public abstract class JdbcUtils {
 
 	/**
 	 * Extract database meta-data via the given DatabaseMetaDataCallback.
-	 * <p>This method will open a connection to the database and retrieve its meta-data.
+	 * <p>
+	 * This method will open a connection to the database and retrieve its meta-data.
 	 * Since this method is called before the exception translation feature is configured
 	 * for a DataSource, this method can not rely on SQLException translation itself.
-	 * <p>Any exceptions will be wrapped in a MetaDataAccessException. This is a checked
+	 * <p>
+	 * Any exceptions will be wrapped in a MetaDataAccessException. This is a checked
 	 * exception and any calling code should catch and handle this exception. You can just
-	 * log the error and hope for the best, but there is probably a more serious error that
-	 * will reappear when you try to access the database again.
+	 * log the error and hope for the best, but there is probably a more serious error
+	 * that will reappear when you try to access the database again.
 	 * @param dataSource the DataSource to extract meta-data for
 	 * @param action callback that will do the actual work
-	 * @return object containing the extracted information, as returned by
-	 * the DatabaseMetaDataCallback's {@code processMetaData} method
+	 * @return object containing the extracted information, as returned by the
+	 * DatabaseMetaDataCallback's {@code processMetaData} method
 	 * @throws MetaDataAccessException if meta-data access failed
 	 * @see java.sql.DatabaseMetaData
 	 */
@@ -341,11 +348,12 @@ public abstract class JdbcUtils {
 			}
 			catch (SQLException ex) {
 				if (DataSourceUtils.isConnectionTransactional(con, dataSource)) {
-					// Probably a closed thread-bound Connection - retry against fresh Connection
+					// Probably a closed thread-bound Connection - retry against fresh
+					// Connection
 					DataSourceUtils.releaseConnection(con, dataSource);
 					con = null;
-					logger.debug("Failed to obtain DatabaseMetaData from transactional Connection - " +
-							"retrying against fresh Connection", ex);
+					logger.debug("Failed to obtain DatabaseMetaData from transactional Connection - "
+							+ "retrying against fresh Connection", ex);
 					con = dataSource.getConnection();
 					metaData = con.getMetaData();
 				}
@@ -375,53 +383,54 @@ public abstract class JdbcUtils {
 	}
 
 	/**
-	 * Call the specified method on DatabaseMetaData for the given DataSource,
-	 * and extract the invocation result.
+	 * Call the specified method on DatabaseMetaData for the given DataSource, and extract
+	 * the invocation result.
 	 * @param dataSource the DataSource to extract meta-data for
 	 * @param metaDataMethodName the name of the DatabaseMetaData method to call
 	 * @return the object returned by the specified DatabaseMetaData method
-	 * @throws MetaDataAccessException if we couldn't access the DatabaseMetaData
-	 * or failed to invoke the specified method
+	 * @throws MetaDataAccessException if we couldn't access the DatabaseMetaData or
+	 * failed to invoke the specified method
 	 * @see java.sql.DatabaseMetaData
 	 * @deprecated as of 5.2.9, in favor of
-	 * {@link #extractDatabaseMetaData(DataSource, DatabaseMetaDataCallback)}
-	 * with a lambda expression or method reference and a generically typed result
+	 * {@link #extractDatabaseMetaData(DataSource, DatabaseMetaDataCallback)} with a
+	 * lambda expression or method reference and a generically typed result
 	 */
 	@Deprecated
 	@SuppressWarnings("unchecked")
 	public static <T> T extractDatabaseMetaData(DataSource dataSource, final String metaDataMethodName)
 			throws MetaDataAccessException {
 
-		return (T) extractDatabaseMetaData(dataSource,
-				dbmd -> {
-					try {
-						return DatabaseMetaData.class.getMethod(metaDataMethodName).invoke(dbmd);
-					}
-					catch (NoSuchMethodException ex) {
-						throw new MetaDataAccessException("No method named '" + metaDataMethodName +
-								"' found on DatabaseMetaData instance [" + dbmd + "]", ex);
-					}
-					catch (IllegalAccessException ex) {
-						throw new MetaDataAccessException(
-								"Could not access DatabaseMetaData method '" + metaDataMethodName + "'", ex);
-					}
-					catch (InvocationTargetException ex) {
-						if (ex.getTargetException() instanceof SQLException) {
-							throw (SQLException) ex.getTargetException();
-						}
-						throw new MetaDataAccessException(
-								"Invocation of DatabaseMetaData method '" + metaDataMethodName + "' failed", ex);
-					}
-				});
+		return (T) extractDatabaseMetaData(dataSource, dbmd -> {
+			try {
+				return DatabaseMetaData.class.getMethod(metaDataMethodName).invoke(dbmd);
+			}
+			catch (NoSuchMethodException ex) {
+				throw new MetaDataAccessException("No method named '" + metaDataMethodName
+						+ "' found on DatabaseMetaData instance [" + dbmd + "]", ex);
+			}
+			catch (IllegalAccessException ex) {
+				throw new MetaDataAccessException(
+						"Could not access DatabaseMetaData method '" + metaDataMethodName + "'", ex);
+			}
+			catch (InvocationTargetException ex) {
+				if (ex.getTargetException() instanceof SQLException) {
+					throw (SQLException) ex.getTargetException();
+				}
+				throw new MetaDataAccessException(
+						"Invocation of DatabaseMetaData method '" + metaDataMethodName + "' failed", ex);
+			}
+		});
 	}
 
 	/**
 	 * Return whether the given JDBC driver supports JDBC 2.0 batch updates.
-	 * <p>Typically invoked right before execution of a given set of statements:
-	 * to decide whether the set of SQL statements should be executed through
-	 * the JDBC 2.0 batch mechanism or simply in a traditional one-by-one fashion.
-	 * <p>Logs a warning if the "supportsBatchUpdates" methods throws an exception
-	 * and simply returns {@code false} in that case.
+	 * <p>
+	 * Typically invoked right before execution of a given set of statements: to decide
+	 * whether the set of SQL statements should be executed through the JDBC 2.0 batch
+	 * mechanism or simply in a traditional one-by-one fashion.
+	 * <p>
+	 * Logs a warning if the "supportsBatchUpdates" methods throws an exception and simply
+	 * returns {@code false} in that case.
 	 * @param con the Connection to check
 	 * @return whether JDBC 2.0 batch updates are supported
 	 * @see java.sql.DatabaseMetaData#supportsBatchUpdates()
@@ -446,8 +455,8 @@ public abstract class JdbcUtils {
 	}
 
 	/**
-	 * Extract a common name for the target database in use even if
-	 * various drivers/platforms provide varying names at runtime.
+	 * Extract a common name for the target database in use even if various
+	 * drivers/platforms provide varying names at runtime.
 	 * @param source the name as provided in database meta-data
 	 * @return the common name to be used (e.g. "DB2" or "Sybase")
 	 */
@@ -460,10 +469,8 @@ public abstract class JdbcUtils {
 		else if ("MariaDB".equals(source)) {
 			name = "MySQL";
 		}
-		else if ("Sybase SQL Server".equals(source) ||
-				"Adaptive Server Enterprise".equals(source) ||
-				"ASE".equals(source) ||
-				"sql server".equalsIgnoreCase(source) ) {
+		else if ("Sybase SQL Server".equals(source) || "Adaptive Server Enterprise".equals(source)
+				|| "ASE".equals(source) || "sql server".equalsIgnoreCase(source)) {
 			name = "Sybase";
 		}
 		return name;
@@ -475,17 +482,16 @@ public abstract class JdbcUtils {
 	 * @return whether the type is numeric
 	 */
 	public static boolean isNumeric(int sqlType) {
-		return (Types.BIT == sqlType || Types.BIGINT == sqlType || Types.DECIMAL == sqlType ||
-				Types.DOUBLE == sqlType || Types.FLOAT == sqlType || Types.INTEGER == sqlType ||
-				Types.NUMERIC == sqlType || Types.REAL == sqlType || Types.SMALLINT == sqlType ||
-				Types.TINYINT == sqlType);
+		return (Types.BIT == sqlType || Types.BIGINT == sqlType || Types.DECIMAL == sqlType || Types.DOUBLE == sqlType
+				|| Types.FLOAT == sqlType || Types.INTEGER == sqlType || Types.NUMERIC == sqlType
+				|| Types.REAL == sqlType || Types.SMALLINT == sqlType || Types.TINYINT == sqlType);
 	}
 
 	/**
 	 * Resolve the standard type name for the given SQL type, if possible.
 	 * @param sqlType the SQL type to resolve
-	 * @return the corresponding constant name in {@link java.sql.Types}
-	 * (e.g. "VARCHAR"/"NUMERIC"), or {@code null} if not resolvable
+	 * @return the corresponding constant name in {@link java.sql.Types} (e.g.
+	 * "VARCHAR"/"NUMERIC"), or {@code null} if not resolvable
 	 * @since 5.2
 	 */
 	@Nullable
@@ -494,12 +500,14 @@ public abstract class JdbcUtils {
 	}
 
 	/**
-	 * Determine the column name to use. The column name is determined based on a
-	 * lookup using ResultSetMetaData.
-	 * <p>This method implementation takes into account recent clarifications
-	 * expressed in the JDBC 4.0 specification:
-	 * <p><i>columnLabel - the label for the column specified with the SQL AS clause.
-	 * If the SQL AS clause was not specified, then the label is the name of the column</i>.
+	 * Determine the column name to use. The column name is determined based on a lookup
+	 * using ResultSetMetaData.
+	 * <p>
+	 * This method implementation takes into account recent clarifications expressed in
+	 * the JDBC 4.0 specification:
+	 * <p>
+	 * <i>columnLabel - the label for the column specified with the SQL AS clause. If the
+	 * SQL AS clause was not specified, then the label is the name of the column</i>.
 	 * @param resultSetMetaData the current meta-data to use
 	 * @param columnIndex the index of the column for the look up
 	 * @return the column name to use
@@ -514,8 +522,9 @@ public abstract class JdbcUtils {
 	}
 
 	/**
-	 * Convert a column name with underscores to the corresponding property name using "camel case".
-	 * A name like "customer_number" would match a "customerNumber" property name.
+	 * Convert a column name with underscores to the corresponding property name using
+	 * "camel case". A name like "customer_number" would match a "customerNumber" property
+	 * name.
 	 * @param name the column name to be converted
 	 * @return the name using "camel case"
 	 */

@@ -43,7 +43,8 @@ public class SQLExceptionSubclassFactory {
 		return new SQLFeatureNotSupportedException(reason, SQLState, vendorCode);
 	}
 
-	public static SQLException newSQLIntegrityConstraintViolationException(String reason, String SQLState, int vendorCode) {
+	public static SQLException newSQLIntegrityConstraintViolationException(String reason, String SQLState,
+			int vendorCode) {
 		return new SQLIntegrityConstraintViolationException(reason, SQLState, vendorCode);
 	}
 

@@ -27,7 +27,7 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan
 public class ComponentScanAnnotatedConfigWithImplicitBasePackage {
 
-	@Bean  // override of scanned class
+	@Bean // override of scanned class
 	public ConfigurableComponent configurableComponent() {
 		return new ConfigurableComponent(true);
 	}

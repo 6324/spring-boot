@@ -58,7 +58,6 @@ public class UndertowWebSocketClient implements WebSocketClient {
 
 	private static final int DEFAULT_POOL_BUFFER_SIZE = 8192;
 
-
 	private final XnioWorker worker;
 
 	private ByteBufferPool byteBufferPool;
@@ -67,14 +66,14 @@ public class UndertowWebSocketClient implements WebSocketClient {
 
 	private final DataBufferFactory bufferFactory = new DefaultDataBufferFactory();
 
-
 	/**
 	 * Constructor with the {@link XnioWorker} to pass to
 	 * {@link io.undertow.websockets.client.WebSocketClient#connectionBuilder}.
 	 * @param worker the Xnio worker
 	 */
 	public UndertowWebSocketClient(XnioWorker worker) {
-		this(worker, builder -> {});
+		this(worker, builder -> {
+		});
 	}
 
 	/**
@@ -91,7 +90,8 @@ public class UndertowWebSocketClient implements WebSocketClient {
 	 * Alternate constructor providing additional control over the
 	 * {@link ConnectionBuilder} for each WebSocket connection.
 	 * @param worker the Xnio worker to use to create {@code ConnectionBuilder}'s
-	 * @param byteBufferPool the ByteBufferPool to use to create {@code ConnectionBuilder}'s
+	 * @param byteBufferPool the ByteBufferPool to use to create
+	 * {@code ConnectionBuilder}'s
 	 * @param builderConsumer a consumer to configure {@code ConnectionBuilder}'s
 	 * @since 5.0.8
 	 */
@@ -105,7 +105,6 @@ public class UndertowWebSocketClient implements WebSocketClient {
 		this.builderConsumer = builderConsumer;
 	}
 
-
 	/**
 	 * Return the configured {@link XnioWorker}.
 	 */
@@ -116,8 +115,9 @@ public class UndertowWebSocketClient implements WebSocketClient {
 	/**
 	 * Set the {@link io.undertow.connector.ByteBufferPool ByteBufferPool} to pass to
 	 * {@link io.undertow.websockets.client.WebSocketClient#connectionBuilder}.
-	 * <p>By default an indirect {@link io.undertow.server.DefaultByteBufferPool}
-	 * with a buffer size of 8192 is used.
+	 * <p>
+	 * By default an indirect {@link io.undertow.server.DefaultByteBufferPool} with a
+	 * buffer size of 8192 is used.
 	 * @since 5.0.8
 	 * @see #DEFAULT_POOL_BUFFER_SIZE
 	 */
@@ -127,8 +127,8 @@ public class UndertowWebSocketClient implements WebSocketClient {
 	}
 
 	/**
-	 * Return the {@link io.undertow.connector.ByteBufferPool} currently used
-	 * for newly created WebSocket sessions by this client.
+	 * Return the {@link io.undertow.connector.ByteBufferPool} currently used for newly
+	 * created WebSocket sessions by this client.
 	 * @return the byte buffer pool
 	 * @since 5.0.8
 	 */
@@ -143,7 +143,6 @@ public class UndertowWebSocketClient implements WebSocketClient {
 		return this.builderConsumer;
 	}
 
-
 	@Override
 	public Mono<Void> execute(URI url, WebSocketHandler handler) {
 		return execute(url, new HttpHeaders(), handler);
@@ -156,40 +155,39 @@ public class UndertowWebSocketClient implements WebSocketClient {
 
 	private Mono<Void> executeInternal(URI url, HttpHeaders headers, WebSocketHandler handler) {
 		MonoProcessor<Void> completion = MonoProcessor.create();
-		return Mono.fromCallable(
-				() -> {
-					if (logger.isDebugEnabled()) {
-						logger.debug("Connecting to " + url);
-					}
-					List<String> protocols = handler.getSubProtocols();
-					ConnectionBuilder builder = createConnectionBuilder(url);
-					DefaultNegotiation negotiation = new DefaultNegotiation(protocols, headers, builder);
-					builder.setClientNegotiation(negotiation);
-					return builder.connect().addNotifier(
-							new IoFuture.HandlingNotifier<WebSocketChannel, Object>() {
-								@Override
-								public void handleDone(WebSocketChannel channel, Object attachment) {
-									handleChannel(url, handler, completion, negotiation, channel);
-								}
-								@Override
-								public void handleFailed(IOException ex, Object attachment) {
-									completion.onError(new IllegalStateException("Failed to connect to " + url, ex));
-								}
-							}, null);
-				})
-				.then(completion);
+		return Mono.fromCallable(() -> {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Connecting to " + url);
+			}
+			List<String> protocols = handler.getSubProtocols();
+			ConnectionBuilder builder = createConnectionBuilder(url);
+			DefaultNegotiation negotiation = new DefaultNegotiation(protocols, headers, builder);
+			builder.setClientNegotiation(negotiation);
+			return builder.connect().addNotifier(new IoFuture.HandlingNotifier<WebSocketChannel, Object>() {
+				@Override
+				public void handleDone(WebSocketChannel channel, Object attachment) {
+					handleChannel(url, handler, completion, negotiation, channel);
+				}
+
+				@Override
+				public void handleFailed(IOException ex, Object attachment) {
+					completion.onError(new IllegalStateException("Failed to connect to " + url, ex));
+				}
+			}, null);
+		}).then(completion);
 	}
 
 	/**
 	 * Create a {@link ConnectionBuilder} for the given URI.
-	 * <p>The default implementation creates a builder with the configured
-	 * {@link #getXnioWorker() XnioWorker} and {@link #getByteBufferPool() ByteBufferPool} and
-	 * then passes it to the {@link #getConnectionBuilderConsumer() consumer}
-	 * provided at construction time.
+	 * <p>
+	 * The default implementation creates a builder with the configured
+	 * {@link #getXnioWorker() XnioWorker} and {@link #getByteBufferPool() ByteBufferPool}
+	 * and then passes it to the {@link #getConnectionBuilderConsumer() consumer} provided
+	 * at construction time.
 	 */
 	protected ConnectionBuilder createConnectionBuilder(URI url) {
-		ConnectionBuilder builder = io.undertow.websockets.client.WebSocketClient
-				.connectionBuilder(getXnioWorker(), getByteBufferPool(), url);
+		ConnectionBuilder builder = io.undertow.websockets.client.WebSocketClient.connectionBuilder(getXnioWorker(),
+				getByteBufferPool(), url);
 		this.builderConsumer.accept(builder);
 		return builder;
 	}
@@ -204,9 +202,7 @@ public class UndertowWebSocketClient implements WebSocketClient {
 		channel.getReceiveSetter().set(adapter);
 		channel.resumeReceives();
 
-		handler.handle(session)
-				.checkpoint(url + " [UndertowWebSocketClient]")
-				.subscribe(session);
+		handler.handle(session).checkpoint(url + " [UndertowWebSocketClient]").subscribe(session);
 	}
 
 	private HandshakeInfo createHandshakeInfo(URI url, DefaultNegotiation negotiation) {
@@ -214,7 +210,6 @@ public class UndertowWebSocketClient implements WebSocketClient {
 		String protocol = responseHeaders.getFirst("Sec-WebSocket-Protocol");
 		return new HandshakeInfo(url, responseHeaders, Mono.empty(), protocol);
 	}
-
 
 	private static final class DefaultNegotiation extends WebSocketClientNegotiation {
 
@@ -252,6 +247,7 @@ public class UndertowWebSocketClient implements WebSocketClient {
 				this.delegate.afterRequest(headers);
 			}
 		}
+
 	}
 
 }

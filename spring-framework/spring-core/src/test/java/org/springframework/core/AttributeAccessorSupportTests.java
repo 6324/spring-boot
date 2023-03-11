@@ -68,6 +68,7 @@ class AttributeAccessorSupportTests {
 
 	@SuppressWarnings("serial")
 	private static class SimpleAttributeAccessorSupport extends AttributeAccessorSupport {
+
 	}
 
 }

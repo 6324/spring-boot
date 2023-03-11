@@ -34,7 +34,8 @@ public class BeanNamePointcutMatchingTests {
 	public void testMatchingPointcuts() {
 		assertMatch("someName", "bean(someName)");
 
-		// Spring bean names are less restrictive compared to AspectJ names (methods, types etc.)
+		// Spring bean names are less restrictive compared to AspectJ names (methods,
+		// types etc.)
 		// MVC Controller-kind
 		assertMatch("someName/someOtherName", "bean(someName/someOtherName)");
 		assertMatch("someName/foo/someOtherName", "bean(someName/*/someOtherName)");
@@ -77,13 +78,16 @@ public class BeanNamePointcutMatchingTests {
 		assertMisMatch("someName", "!bean(someName) || bean(someOtherName)");
 	}
 
-
 	private void assertMatch(String beanName, String pcExpression) {
-		assertThat(matches(beanName, pcExpression)).as("Unexpected mismatch for bean \"" + beanName + "\" for pcExpression \"" + pcExpression + "\"").isTrue();
+		assertThat(matches(beanName, pcExpression))
+				.as("Unexpected mismatch for bean \"" + beanName + "\" for pcExpression \"" + pcExpression + "\"")
+				.isTrue();
 	}
 
 	private void assertMisMatch(String beanName, String pcExpression) {
-		assertThat(matches(beanName, pcExpression)).as("Unexpected match for bean \"" + beanName + "\" for pcExpression \"" + pcExpression + "\"").isFalse();
+		assertThat(matches(beanName, pcExpression))
+				.as("Unexpected match for bean \"" + beanName + "\" for pcExpression \"" + pcExpression + "\"")
+				.isFalse();
 	}
 
 	private static boolean matches(final String beanName, String pcExpression) {

@@ -57,7 +57,6 @@ public class StandardWebSocketClientTests {
 
 	private WebSocketHttpHeaders headers;
 
-
 	@BeforeEach
 	public void setup() {
 		this.headers = new WebSocketHttpHeaders();
@@ -66,7 +65,6 @@ public class StandardWebSocketClientTests {
 		this.wsContainer = mock(WebSocketContainer.class);
 		this.wsClient = new StandardWebSocketClient(this.wsContainer);
 	}
-
 
 	@Test
 	public void testGetLocalAddress() throws Exception {
@@ -89,8 +87,8 @@ public class StandardWebSocketClientTests {
 	@Test
 	public void testGetLocalAddressNoScheme() throws Exception {
 		URI uri = new URI("localhost/abc");
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.wsClient.doHandshake(this.wsHandler, this.headers, uri));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> this.wsClient.doHandshake(this.wsHandler, this.headers, uri));
 	}
 
 	@Test
@@ -136,7 +134,7 @@ public class StandardWebSocketClientTests {
 	@Test
 	public void clientEndpointConfigWithUserProperties() throws Exception {
 
-		Map<String,Object> userProperties = Collections.singletonMap("foo", "bar");
+		Map<String, Object> userProperties = Collections.singletonMap("foo", "bar");
 
 		URI uri = new URI("ws://localhost/abc");
 		this.wsClient.setUserProperties(userProperties);

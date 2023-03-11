@@ -29,8 +29,7 @@ public class JndiTemplateEditorTests {
 
 	@Test
 	public void testNullIsIllegalArgument() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new JndiTemplateEditor().setAsText(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new JndiTemplateEditor().setAsText(null));
 	}
 
 	@Test
@@ -50,7 +49,8 @@ public class JndiTemplateEditorTests {
 		je.setAsText("jndiInitialSomethingOrOther=org.springframework.myjndi.CompleteRubbish\nfoo=bar");
 		JndiTemplate jt = (JndiTemplate) je.getValue();
 		assertThat(jt.getEnvironment().size() == 2).isTrue();
-		assertThat(jt.getEnvironment().getProperty("jndiInitialSomethingOrOther").equals("org.springframework.myjndi.CompleteRubbish")).isTrue();
+		assertThat(jt.getEnvironment().getProperty("jndiInitialSomethingOrOther")
+				.equals("org.springframework.myjndi.CompleteRubbish")).isTrue();
 		assertThat(jt.getEnvironment().getProperty("foo").equals("bar")).isTrue();
 	}
 

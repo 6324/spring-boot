@@ -72,7 +72,8 @@ class SerializableTypeWrapperTests {
 
 	@Test
 	void genericArrayType() throws Exception {
-		GenericArrayType type = (GenericArrayType) SerializableTypeWrapper.forField(Fields.class.getField("genericArrayType"));
+		GenericArrayType type = (GenericArrayType) SerializableTypeWrapper
+				.forField(Fields.class.getField("genericArrayType"));
 		assertThat(type.toString()).isEqualTo("java.util.List<java.lang.String>[]");
 		assertSerializable(type);
 		assertSerializable(type.getGenericComponentType());
@@ -80,7 +81,8 @@ class SerializableTypeWrapperTests {
 
 	@Test
 	void parameterizedType() throws Exception {
-		ParameterizedType type = (ParameterizedType) SerializableTypeWrapper.forField(Fields.class.getField("parameterizedType"));
+		ParameterizedType type = (ParameterizedType) SerializableTypeWrapper
+				.forField(Fields.class.getField("parameterizedType"));
 		assertThat(type.toString()).isEqualTo("java.util.List<java.lang.String>");
 		assertSerializable(type);
 		assertSerializable(type.getOwnerType());
@@ -91,7 +93,8 @@ class SerializableTypeWrapperTests {
 
 	@Test
 	void typeVariableType() throws Exception {
-		TypeVariable<?> type = (TypeVariable<?>) SerializableTypeWrapper.forField(Fields.class.getField("typeVariableType"));
+		TypeVariable<?> type = (TypeVariable<?>) SerializableTypeWrapper
+				.forField(Fields.class.getField("typeVariableType"));
 		assertThat(type.toString()).isEqualTo("T");
 		assertSerializable(type);
 		assertSerializable(type.getBounds());
@@ -99,14 +102,14 @@ class SerializableTypeWrapperTests {
 
 	@Test
 	void wildcardType() throws Exception {
-		ParameterizedType typeSource = (ParameterizedType) SerializableTypeWrapper.forField(Fields.class.getField("wildcardType"));
+		ParameterizedType typeSource = (ParameterizedType) SerializableTypeWrapper
+				.forField(Fields.class.getField("wildcardType"));
 		WildcardType type = (WildcardType) typeSource.getActualTypeArguments()[0];
 		assertThat(type.toString()).isEqualTo("? extends java.lang.CharSequence");
 		assertSerializable(type);
 		assertSerializable(type.getLowerBounds());
 		assertSerializable(type.getUpperBounds());
 	}
-
 
 	private void assertSerializable(Object source) throws Exception {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -116,7 +119,6 @@ class SerializableTypeWrapperTests {
 		ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
 		assertThat(ois.readObject()).isEqualTo(source);
 	}
-
 
 	static class Fields<T> {
 
@@ -129,19 +131,20 @@ class SerializableTypeWrapperTests {
 		public T typeVariableType;
 
 		public List<? extends CharSequence> wildcardType;
-	}
 
+	}
 
 	interface Methods {
 
 		<T> List<T> method(Class<T> p1, T p2);
-	}
 
+	}
 
 	static class Constructors {
 
 		public Constructors(List<String> p) {
 		}
+
 	}
 
 }

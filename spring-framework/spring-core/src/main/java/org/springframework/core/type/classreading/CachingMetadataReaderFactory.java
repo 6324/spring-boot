@@ -27,9 +27,9 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.lang.Nullable;
 
 /**
- * Caching implementation of the {@link MetadataReaderFactory} interface,
- * caching a {@link MetadataReader} instance per Spring {@link Resource} handle
- * (i.e. per ".class" file).
+ * Caching implementation of the {@link MetadataReaderFactory} interface, caching a
+ * {@link MetadataReader} instance per Spring {@link Resource} handle (i.e. per ".class"
+ * file).
  *
  * @author Juergen Hoeller
  * @author Costin Leau
@@ -44,10 +44,9 @@ public class CachingMetadataReaderFactory extends SimpleMetadataReaderFactory {
 	@Nullable
 	private Map<Resource, MetadataReader> metadataReaderCache;
 
-
 	/**
-	 * Create a new CachingMetadataReaderFactory for the default class loader,
-	 * using a local resource cache.
+	 * Create a new CachingMetadataReaderFactory for the default class loader, using a
+	 * local resource cache.
 	 */
 	public CachingMetadataReaderFactory() {
 		super();
@@ -55,8 +54,8 @@ public class CachingMetadataReaderFactory extends SimpleMetadataReaderFactory {
 	}
 
 	/**
-	 * Create a new CachingMetadataReaderFactory for the given {@link ClassLoader},
-	 * using a local resource cache.
+	 * Create a new CachingMetadataReaderFactory for the given {@link ClassLoader}, using
+	 * a local resource cache.
 	 * @param classLoader the ClassLoader to use
 	 */
 	public CachingMetadataReaderFactory(@Nullable ClassLoader classLoader) {
@@ -67,27 +66,26 @@ public class CachingMetadataReaderFactory extends SimpleMetadataReaderFactory {
 	/**
 	 * Create a new CachingMetadataReaderFactory for the given {@link ResourceLoader},
 	 * using a shared resource cache if supported or a local resource cache otherwise.
-	 * @param resourceLoader the Spring ResourceLoader to use
-	 * (also determines the ClassLoader to use)
+	 * @param resourceLoader the Spring ResourceLoader to use (also determines the
+	 * ClassLoader to use)
 	 * @see DefaultResourceLoader#getResourceCache
 	 */
 	public CachingMetadataReaderFactory(@Nullable ResourceLoader resourceLoader) {
 		super(resourceLoader);
 		if (resourceLoader instanceof DefaultResourceLoader) {
-			this.metadataReaderCache =
-					((DefaultResourceLoader) resourceLoader).getResourceCache(MetadataReader.class);
+			this.metadataReaderCache = ((DefaultResourceLoader) resourceLoader).getResourceCache(MetadataReader.class);
 		}
 		else {
 			setCacheLimit(DEFAULT_CACHE_LIMIT);
 		}
 	}
 
-
 	/**
 	 * Specify the maximum number of entries for the MetadataReader cache.
-	 * <p>Default is 256 for a local cache, whereas a shared cache is
-	 * typically unbounded. This method enforces a local resource cache,
-	 * even if the {@link ResourceLoader} supports a shared resource cache.
+	 * <p>
+	 * Default is 256 for a local cache, whereas a shared cache is typically unbounded.
+	 * This method enforces a local resource cache, even if the {@link ResourceLoader}
+	 * supports a shared resource cache.
 	 */
 	public void setCacheLimit(int cacheLimit) {
 		if (cacheLimit <= 0) {
@@ -112,7 +110,6 @@ public class CachingMetadataReaderFactory extends SimpleMetadataReaderFactory {
 			return (this.metadataReaderCache != null ? Integer.MAX_VALUE : 0);
 		}
 	}
-
 
 	@Override
 	public MetadataReader getMetadataReader(Resource resource) throws IOException {
@@ -155,7 +152,6 @@ public class CachingMetadataReaderFactory extends SimpleMetadataReaderFactory {
 		}
 	}
 
-
 	@SuppressWarnings("serial")
 	private static class LocalResourceCache extends LinkedHashMap<Resource, MetadataReader> {
 
@@ -178,6 +174,7 @@ public class CachingMetadataReaderFactory extends SimpleMetadataReaderFactory {
 		protected boolean removeEldestEntry(Map.Entry<Resource, MetadataReader> eldest) {
 			return size() > this.cacheLimit;
 		}
+
 	}
 
 }

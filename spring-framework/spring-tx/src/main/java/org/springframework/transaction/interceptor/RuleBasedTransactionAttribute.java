@@ -27,12 +27,13 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.lang.Nullable;
 
 /**
- * TransactionAttribute implementation that works out whether a given exception
- * should cause transaction rollback by applying a number of rollback rules,
- * both positive and negative. If no custom rollback rules apply, this attribute
- * behaves like DefaultTransactionAttribute (rolling back on runtime exceptions).
+ * TransactionAttribute implementation that works out whether a given exception should
+ * cause transaction rollback by applying a number of rollback rules, both positive and
+ * negative. If no custom rollback rules apply, this attribute behaves like
+ * DefaultTransactionAttribute (rolling back on runtime exceptions).
  *
- * <p>{@link TransactionAttributeEditor} creates objects of this class.
+ * <p>
+ * {@link TransactionAttributeEditor} creates objects of this class.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -48,17 +49,15 @@ public class RuleBasedTransactionAttribute extends DefaultTransactionAttribute i
 	/** Prefix for commit-on-exception rules in description strings. */
 	public static final String PREFIX_COMMIT_RULE = "+";
 
-
 	/** Static for optimal serializability. */
 	private static final Log logger = LogFactory.getLog(RuleBasedTransactionAttribute.class);
 
 	@Nullable
 	private List<RollbackRuleAttribute> rollbackRules;
 
-
 	/**
-	 * Create a new RuleBasedTransactionAttribute, with default settings.
-	 * Can be modified through bean property setters.
+	 * Create a new RuleBasedTransactionAttribute, with default settings. Can be modified
+	 * through bean property setters.
 	 * @see #setPropagationBehavior
 	 * @see #setIsolationLevel
 	 * @see #setTimeout
@@ -85,8 +84,8 @@ public class RuleBasedTransactionAttribute extends DefaultTransactionAttribute i
 	}
 
 	/**
-	 * Create a new DefaultTransactionAttribute with the given
-	 * propagation behavior. Can be modified through bean property setters.
+	 * Create a new DefaultTransactionAttribute with the given propagation behavior. Can
+	 * be modified through bean property setters.
 	 * @param propagationBehavior one of the propagation constants in the
 	 * TransactionDefinition interface
 	 * @param rollbackRules the list of RollbackRuleAttributes to apply
@@ -99,10 +98,9 @@ public class RuleBasedTransactionAttribute extends DefaultTransactionAttribute i
 		this.rollbackRules = rollbackRules;
 	}
 
-
 	/**
-	 * Set the list of {@code RollbackRuleAttribute} objects
-	 * (and/or {@code NoRollbackRuleAttribute} objects) to apply.
+	 * Set the list of {@code RollbackRuleAttribute} objects (and/or
+	 * {@code NoRollbackRuleAttribute} objects) to apply.
 	 * @see RollbackRuleAttribute
 	 * @see NoRollbackRuleAttribute
 	 */
@@ -111,8 +109,7 @@ public class RuleBasedTransactionAttribute extends DefaultTransactionAttribute i
 	}
 
 	/**
-	 * Return the list of {@code RollbackRuleAttribute} objects
-	 * (never {@code null}).
+	 * Return the list of {@code RollbackRuleAttribute} objects (never {@code null}).
 	 */
 	public List<RollbackRuleAttribute> getRollbackRules() {
 		if (this.rollbackRules == null) {
@@ -121,11 +118,9 @@ public class RuleBasedTransactionAttribute extends DefaultTransactionAttribute i
 		return this.rollbackRules;
 	}
 
-
 	/**
-	 * Winning rule is the shallowest rule (that is, the closest in the
-	 * inheritance hierarchy to the exception). If no rule applies (-1),
-	 * return false.
+	 * Winning rule is the shallowest rule (that is, the closest in the inheritance
+	 * hierarchy to the exception). If no rule applies (-1), return false.
 	 * @see TransactionAttribute#rollbackOn(java.lang.Throwable)
 	 */
 	@Override
@@ -159,7 +154,6 @@ public class RuleBasedTransactionAttribute extends DefaultTransactionAttribute i
 
 		return !(winner instanceof NoRollbackRuleAttribute);
 	}
-
 
 	@Override
 	public String toString() {

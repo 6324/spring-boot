@@ -57,20 +57,17 @@ class WebSocketIntegrationTests extends AbstractWebSocketIntegrationTests {
 
 	private static final Duration TIMEOUT = Duration.ofMillis(5000);
 
-
 	@Override
 	protected Class<?> getWebConfigClass() {
 		return WebConfig.class;
 	}
-
 
 	@ParameterizedWebSocketTest
 	void echo(WebSocketClient client, HttpServer server, Class<?> serverConfigClass) throws Exception {
 		startServer(client, server, serverConfigClass);
 
 		if (server instanceof TomcatHttpServer) {
-			Mono.fromRunnable(this::testEcho)
-					.retryWhen(Retry.max(3).filter(ex -> ex instanceof IllegalStateException))
+			Mono.fromRunnable(this::testEcho).retryWhen(Retry.max(3).filter(ex -> ex instanceof IllegalStateException))
 					.block();
 		}
 		else {
@@ -82,11 +79,10 @@ class WebSocketIntegrationTests extends AbstractWebSocketIntegrationTests {
 		int count = 100;
 		Flux<String> input = Flux.range(1, count).map(index -> "msg-" + index);
 		ReplayProcessor<Object> output = ReplayProcessor.create(count);
-		this.client.execute(getUrl("/echo"), session -> session
-				.send(input.map(session::textMessage))
-				.thenMany(session.receive().take(count).map(WebSocketMessage::getPayloadAsText))
-				.subscribeWith(output)
-				.then())
+		this.client.execute(getUrl("/echo"),
+				session -> session.send(input.map(session::textMessage))
+						.thenMany(session.receive().take(count).map(WebSocketMessage::getPayloadAsText))
+						.subscribeWith(output).then())
 				.block(TIMEOUT);
 		assertThat(output.isTerminated()).isTrue();
 		assertThat(output.collectList().block()).isEqualTo(input.collectList().block());
@@ -100,23 +96,18 @@ class WebSocketIntegrationTests extends AbstractWebSocketIntegrationTests {
 		AtomicReference<HandshakeInfo> infoRef = new AtomicReference<>();
 		MonoProcessor<Object> output = MonoProcessor.create();
 
-		this.client.execute(getUrl("/sub-protocol"),
-				new WebSocketHandler() {
-					@Override
-					public List<String> getSubProtocols() {
-						return Collections.singletonList(protocol);
-					}
+		this.client.execute(getUrl("/sub-protocol"), new WebSocketHandler() {
+			@Override
+			public List<String> getSubProtocols() {
+				return Collections.singletonList(protocol);
+			}
 
-					@Override
-					public Mono<Void> handle(WebSocketSession session) {
-						infoRef.set(session.getHandshakeInfo());
-						return session.receive()
-								.map(WebSocketMessage::getPayloadAsText)
-								.subscribeWith(output)
-								.then();
-					}
-				})
-				.block(TIMEOUT);
+			@Override
+			public Mono<Void> handle(WebSocketSession session) {
+				infoRef.set(session.getHandshakeInfo());
+				return session.receive().map(WebSocketMessage::getPayloadAsText).subscribeWith(output).then();
+			}
+		}).block(TIMEOUT);
 
 		HandshakeInfo info = infoRef.get();
 		assertThat(info.getHeaders().getFirst("Upgrade")).isEqualToIgnoringCase("websocket");
@@ -134,10 +125,7 @@ class WebSocketIntegrationTests extends AbstractWebSocketIntegrationTests {
 		MonoProcessor<Object> output = MonoProcessor.create();
 
 		this.client.execute(getUrl("/custom-header"), headers,
-				session -> session.receive()
-						.map(WebSocketMessage::getPayloadAsText)
-						.subscribeWith(output)
-						.then())
+				session -> session.receive().map(WebSocketMessage::getPayloadAsText).subscribeWith(output).then())
 				.block(TIMEOUT);
 
 		assertThat(output.block(TIMEOUT)).isEqualTo("my-header:my-value");
@@ -147,17 +135,11 @@ class WebSocketIntegrationTests extends AbstractWebSocketIntegrationTests {
 	void sessionClosing(WebSocketClient client, HttpServer server, Class<?> serverConfigClass) throws Exception {
 		startServer(client, server, serverConfigClass);
 
-		this.client.execute(getUrl("/close"),
-				session -> {
-					logger.debug("Starting..");
-					return session.receive()
-							.doOnNext(s -> logger.debug("inbound " + s))
-							.then()
-							.doFinally(signalType ->
-									logger.debug("Completed with: " + signalType)
-							);
-				})
-				.block(TIMEOUT);
+		this.client.execute(getUrl("/close"), session -> {
+			logger.debug("Starting..");
+			return session.receive().doOnNext(s -> logger.debug("inbound " + s)).then()
+					.doFinally(signalType -> logger.debug("Completed with: " + signalType));
+		}).block(TIMEOUT);
 	}
 
 	@ParameterizedWebSocketTest
@@ -166,19 +148,13 @@ class WebSocketIntegrationTests extends AbstractWebSocketIntegrationTests {
 
 		MonoProcessor<Object> output = MonoProcessor.create();
 		AtomicReference<String> cookie = new AtomicReference<>();
-		this.client.execute(getUrl("/cookie"),
-				session -> {
-					cookie.set(session.getHandshakeInfo().getHeaders().getFirst("Set-Cookie"));
-					return session.receive()
-							.map(WebSocketMessage::getPayloadAsText)
-							.subscribeWith(output)
-							.then();
-				})
-				.block(TIMEOUT);
+		this.client.execute(getUrl("/cookie"), session -> {
+			cookie.set(session.getHandshakeInfo().getHeaders().getFirst("Set-Cookie"));
+			return session.receive().map(WebSocketMessage::getPayloadAsText).subscribeWith(output).then();
+		}).block(TIMEOUT);
 		assertThat(output.block(TIMEOUT)).isEqualTo("cookie");
 		assertThat(cookie.get()).isEqualTo("project=spring");
 	}
-
 
 	@Configuration
 	static class WebConfig {
@@ -203,8 +179,8 @@ class WebSocketIntegrationTests extends AbstractWebSocketIntegrationTests {
 				return chain.filter(exchange);
 			};
 		}
-	}
 
+	}
 
 	private static class EchoWebSocketHandler implements WebSocketHandler {
 
@@ -213,8 +189,8 @@ class WebSocketIntegrationTests extends AbstractWebSocketIntegrationTests {
 			// Use retain() for Reactor Netty
 			return session.send(session.receive().doOnNext(WebSocketMessage::retain));
 		}
-	}
 
+	}
 
 	private static class SubProtocolWebSocketHandler implements WebSocketHandler {
 
@@ -229,8 +205,8 @@ class WebSocketIntegrationTests extends AbstractWebSocketIntegrationTests {
 			WebSocketMessage message = session.textMessage(protocol != null ? protocol : "none");
 			return session.send(Mono.just(message));
 		}
-	}
 
+	}
 
 	private static class CustomHeaderHandler implements WebSocketHandler {
 
@@ -241,18 +217,19 @@ class WebSocketIntegrationTests extends AbstractWebSocketIntegrationTests {
 			WebSocketMessage message = session.textMessage(payload);
 			return session.send(Mono.just(message));
 		}
-	}
 
+	}
 
 	private static class SessionClosingHandler implements WebSocketHandler {
 
 		@Override
 		public Mono<Void> handle(WebSocketSession session) {
-			return session.send(Flux
-					.error(new Throwable())
-					.onErrorResume(ex -> session.close(CloseStatus.GOING_AWAY)) // SPR-17306 (nested close)
+			return session.send(Flux.error(new Throwable()).onErrorResume(ex -> session.close(CloseStatus.GOING_AWAY)) // SPR-17306
+																														// (nested
+																														// close)
 					.cast(WebSocketMessage.class));
 		}
+
 	}
 
 	private static class CookieHandler implements WebSocketHandler {
@@ -262,6 +239,7 @@ class WebSocketIntegrationTests extends AbstractWebSocketIntegrationTests {
 			WebSocketMessage message = session.textMessage("cookie");
 			return session.send(Mono.just(message));
 		}
+
 	}
 
 }

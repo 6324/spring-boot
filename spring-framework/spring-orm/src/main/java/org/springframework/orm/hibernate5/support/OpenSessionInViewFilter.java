@@ -40,32 +40,35 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
- * Servlet Filter that binds a Hibernate Session to the thread for the entire
- * processing of the request. Intended for the "Open Session in View" pattern,
- * i.e. to allow for lazy loading in web views despite the original transactions
- * already being completed.
+ * Servlet Filter that binds a Hibernate Session to the thread for the entire processing
+ * of the request. Intended for the "Open Session in View" pattern, i.e. to allow for lazy
+ * loading in web views despite the original transactions already being completed.
  *
- * <p>This filter makes Hibernate Sessions available via the current thread, which
- * will be autodetected by transaction managers. It is suitable for service layer
- * transactions via {@link org.springframework.orm.hibernate5.HibernateTransactionManager}
- * as well as for non-transactional execution (if configured appropriately).
+ * <p>
+ * This filter makes Hibernate Sessions available via the current thread, which will be
+ * autodetected by transaction managers. It is suitable for service layer transactions via
+ * {@link org.springframework.orm.hibernate5.HibernateTransactionManager} as well as for
+ * non-transactional execution (if configured appropriately).
  *
- * <p><b>NOTE</b>: This filter will by default <i>not</i> flush the Hibernate Session,
- * with the flush mode set to {@code FlushMode.MANUAL}. It assumes to be used
- * in combination with service layer transactions that care for the flushing: The
- * active transaction manager will temporarily change the flush mode to
- * {@code FlushMode.AUTO} during a read-write transaction, with the flush
- * mode reset to {@code FlushMode.MANUAL} at the end of each transaction.
+ * <p>
+ * <b>NOTE</b>: This filter will by default <i>not</i> flush the Hibernate Session, with
+ * the flush mode set to {@code FlushMode.MANUAL}. It assumes to be used in combination
+ * with service layer transactions that care for the flushing: The active transaction
+ * manager will temporarily change the flush mode to {@code FlushMode.AUTO} during a
+ * read-write transaction, with the flush mode reset to {@code FlushMode.MANUAL} at the
+ * end of each transaction.
  *
- * <p><b>WARNING:</b> Applying this filter to existing logic can cause issues that
- * have not appeared before, through the use of a single Hibernate Session for the
- * processing of an entire request. In particular, the reassociation of persistent
- * objects with a Hibernate Session has to occur at the very beginning of request
- * processing, to avoid clashes with already loaded instances of the same objects.
+ * <p>
+ * <b>WARNING:</b> Applying this filter to existing logic can cause issues that have not
+ * appeared before, through the use of a single Hibernate Session for the processing of an
+ * entire request. In particular, the reassociation of persistent objects with a Hibernate
+ * Session has to occur at the very beginning of request processing, to avoid clashes with
+ * already loaded instances of the same objects.
  *
- * <p>Looks up the SessionFactory in Spring's root web application context.
- * Supports a "sessionFactoryBeanName" filter init-param in {@code web.xml};
- * the default bean name is "sessionFactory".
+ * <p>
+ * Looks up the SessionFactory in Spring's root web application context. Supports a
+ * "sessionFactoryBeanName" filter init-param in {@code web.xml}; the default bean name is
+ * "sessionFactory".
  *
  * @author Juergen Hoeller
  * @since 4.2
@@ -85,10 +88,9 @@ public class OpenSessionInViewFilter extends OncePerRequestFilter {
 
 	private String sessionFactoryBeanName = DEFAULT_SESSION_FACTORY_BEAN_NAME;
 
-
 	/**
-	 * Set the bean name of the SessionFactory to fetch from Spring's
-	 * root application context. Default is "sessionFactory".
+	 * Set the bean name of the SessionFactory to fetch from Spring's root application
+	 * context. Default is "sessionFactory".
 	 * @see #DEFAULT_SESSION_FACTORY_BEAN_NAME
 	 */
 	public void setSessionFactoryBeanName(String sessionFactoryBeanName) {
@@ -96,18 +98,17 @@ public class OpenSessionInViewFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Return the bean name of the SessionFactory to fetch from Spring's
-	 * root application context.
+	 * Return the bean name of the SessionFactory to fetch from Spring's root application
+	 * context.
 	 */
 	protected String getSessionFactoryBeanName() {
 		return this.sessionFactoryBeanName;
 	}
 
-
 	/**
-	 * Returns "false" so that the filter may re-bind the opened Hibernate
-	 * {@code Session} to each asynchronously dispatched thread and postpone
-	 * closing it until the very last asynchronous dispatch.
+	 * Returns "false" so that the filter may re-bind the opened Hibernate {@code Session}
+	 * to each asynchronously dispatched thread and postpone closing it until the very
+	 * last asynchronous dispatch.
 	 */
 	@Override
 	protected boolean shouldNotFilterAsyncDispatch() {
@@ -115,8 +116,8 @@ public class OpenSessionInViewFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Returns "false" so that the filter may provide a Hibernate
-	 * {@code Session} to each error dispatches.
+	 * Returns "false" so that the filter may provide a Hibernate {@code Session} to each
+	 * error dispatches.
 	 */
 	@Override
 	protected boolean shouldNotFilterErrorDispatch() {
@@ -124,8 +125,7 @@ public class OpenSessionInViewFilter extends OncePerRequestFilter {
 	}
 
 	@Override
-	protected void doFilterInternal(
-			HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
 		SessionFactory sessionFactory = lookupSessionFactory(request);
@@ -158,8 +158,8 @@ public class OpenSessionInViewFilter extends OncePerRequestFilter {
 
 		finally {
 			if (!participate) {
-				SessionHolder sessionHolder =
-						(SessionHolder) TransactionSynchronizationManager.unbindResource(sessionFactory);
+				SessionHolder sessionHolder = (SessionHolder) TransactionSynchronizationManager
+						.unbindResource(sessionFactory);
 				if (!isAsyncStarted(request)) {
 					logger.debug("Closing Hibernate Session in OpenSessionInViewFilter");
 					SessionFactoryUtils.closeSession(sessionHolder.getSession());
@@ -169,10 +169,11 @@ public class OpenSessionInViewFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Look up the SessionFactory that this filter should use,
-	 * taking the current HTTP request as argument.
-	 * <p>The default implementation delegates to the {@link #lookupSessionFactory()}
-	 * variant without arguments.
+	 * Look up the SessionFactory that this filter should use, taking the current HTTP
+	 * request as argument.
+	 * <p>
+	 * The default implementation delegates to the {@link #lookupSessionFactory()} variant
+	 * without arguments.
 	 * @param request the current request
 	 * @return the SessionFactory to use
 	 */
@@ -182,8 +183,9 @@ public class OpenSessionInViewFilter extends OncePerRequestFilter {
 
 	/**
 	 * Look up the SessionFactory that this filter should use.
-	 * <p>The default implementation looks for a bean with the specified name
-	 * in Spring's root application context.
+	 * <p>
+	 * The default implementation looks for a bean with the specified name in Spring's
+	 * root application context.
 	 * @return the SessionFactory to use
 	 * @see #getSessionFactoryBeanName
 	 */
@@ -197,7 +199,8 @@ public class OpenSessionInViewFilter extends OncePerRequestFilter {
 
 	/**
 	 * Open a Session for the SessionFactory that this filter uses.
-	 * <p>The default implementation delegates to the {@link SessionFactory#openSession}
+	 * <p>
+	 * The default implementation delegates to the {@link SessionFactory#openSession}
 	 * method and sets the {@link Session}'s flush mode to "MANUAL".
 	 * @param sessionFactory the SessionFactory that this filter uses
 	 * @return the Session to use

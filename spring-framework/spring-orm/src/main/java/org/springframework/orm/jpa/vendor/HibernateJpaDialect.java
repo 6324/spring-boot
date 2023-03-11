@@ -75,8 +75,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * {@link org.springframework.orm.jpa.JpaDialect} implementation for
- * Hibernate EntityManager. Developed against Hibernate 5.1/5.2/5.3/5.4.
+ * {@link org.springframework.orm.jpa.JpaDialect} implementation for Hibernate
+ * EntityManager. Developed against Hibernate 5.1/5.2/5.3/5.4.
  *
  * @author Juergen Hoeller
  * @author Costin Leau
@@ -108,29 +108,28 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 		Assert.state(FlushMode.class == getFlushMode.getReturnType(), "Could not find Hibernate getFlushMode method");
 	}
 
-
 	boolean prepareConnection = true;
 
 	@Nullable
 	private SQLExceptionTranslator jdbcExceptionTranslator;
 
-
 	/**
-	 * Set whether to prepare the underlying JDBC Connection of a transactional
-	 * Hibernate Session, that is, whether to apply a transaction-specific
-	 * isolation level and/or the transaction's read-only flag to the underlying
-	 * JDBC Connection.
-	 * <p>Default is "true". If you turn this flag off, JPA transaction management
-	 * will not support per-transaction isolation levels anymore. It will not call
-	 * {@code Connection.setReadOnly(true)} for read-only transactions anymore either.
-	 * If this flag is turned off, no cleanup of a JDBC Connection is required after
-	 * a transaction, since no Connection settings will get modified.
-	 * <p><b>NOTE:</b> The default behavior in terms of read-only handling changed
-	 * in Spring 4.1, propagating the read-only status to the JDBC Connection now,
-	 * analogous to other Spring transaction managers. This may have the effect
-	 * that you're running into read-only enforcement now where previously write
-	 * access has accidentally been tolerated: Please revise your transaction
-	 * declarations accordingly, removing invalid read-only markers if necessary.
+	 * Set whether to prepare the underlying JDBC Connection of a transactional Hibernate
+	 * Session, that is, whether to apply a transaction-specific isolation level and/or
+	 * the transaction's read-only flag to the underlying JDBC Connection.
+	 * <p>
+	 * Default is "true". If you turn this flag off, JPA transaction management will not
+	 * support per-transaction isolation levels anymore. It will not call
+	 * {@code Connection.setReadOnly(true)} for read-only transactions anymore either. If
+	 * this flag is turned off, no cleanup of a JDBC Connection is required after a
+	 * transaction, since no Connection settings will get modified.
+	 * <p>
+	 * <b>NOTE:</b> The default behavior in terms of read-only handling changed in Spring
+	 * 4.1, propagating the read-only status to the JDBC Connection now, analogous to
+	 * other Spring transaction managers. This may have the effect that you're running
+	 * into read-only enforcement now where previously write access has accidentally been
+	 * tolerated: Please revise your transaction declarations accordingly, removing
+	 * invalid read-only markers if necessary.
 	 * @since 4.1
 	 * @see java.sql.Connection#setTransactionIsolation
 	 * @see java.sql.Connection#setReadOnly
@@ -141,7 +140,8 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 
 	/**
 	 * Set the JDBC exception translator for Hibernate exception translation purposes.
-	 * <p>Applied to any detected {@link java.sql.SQLException} root cause of a Hibernate
+	 * <p>
+	 * Applied to any detected {@link java.sql.SQLException} root cause of a Hibernate
 	 * {@link JDBCException}, overriding Hibernate's own {@code SQLException} translation
 	 * (which is based on a Hibernate Dialect for a specific target database).
 	 * @since 5.1
@@ -153,7 +153,6 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 	public void setJdbcExceptionTranslator(SQLExceptionTranslator jdbcExceptionTranslator) {
 		this.jdbcExceptionTranslator = jdbcExceptionTranslator;
 	}
-
 
 	@Override
 	public Object beginTransaction(EntityManager entityManager, TransactionDefinition definition)
@@ -175,8 +174,8 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 				previousIsolationLevel = DataSourceUtils.prepareConnectionForTransaction(preparedCon, definition);
 			}
 			else if (isolationLevelNeeded) {
-				throw new InvalidIsolationLevelException(getClass().getSimpleName() +
-						" does not support custom isolation levels since the 'prepareConnection' flag is off.");
+				throw new InvalidIsolationLevelException(getClass().getSimpleName()
+						+ " does not support custom isolation levels since the 'prepareConnection' flag is off.");
 			}
 		}
 
@@ -185,8 +184,8 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 
 		// Adapt flush mode and store previous isolation level, if any.
 		FlushMode previousFlushMode = prepareFlushMode(session, definition.isReadOnly());
-		if (definition instanceof ResourceTransactionDefinition &&
-				((ResourceTransactionDefinition) definition).isLocalResource()) {
+		if (definition instanceof ResourceTransactionDefinition
+				&& ((ResourceTransactionDefinition) definition).isLocalResource()) {
 			// As of 5.1, we explicitly optimize for a transaction-local EntityManager,
 			// aligned with native HibernateTransactionManager behavior.
 			previousFlushMode = null;
@@ -194,8 +193,8 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 				session.setDefaultReadOnly(true);
 			}
 		}
-		return new SessionTransactionData(
-				session, previousFlushMode, preparedCon, previousIsolationLevel, definition.isReadOnly());
+		return new SessionTransactionData(session, previousFlushMode, preparedCon, previousIsolationLevel,
+				definition.isReadOnly());
 	}
 
 	@Override
@@ -258,8 +257,8 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 	}
 
 	/**
-	 * Convert the given HibernateException to an appropriate exception
-	 * from the {@code org.springframework.dao} hierarchy.
+	 * Convert the given HibernateException to an appropriate exception from the
+	 * {@code org.springframework.dao} hierarchy.
 	 * @param ex the HibernateException that occurred
 	 * @return the corresponding DataAccessException instance
 	 */
@@ -282,7 +281,8 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 		}
 		if (ex instanceof QueryTimeoutException) {
 			QueryTimeoutException jdbcEx = (QueryTimeoutException) ex;
-			return new org.springframework.dao.QueryTimeoutException(ex.getMessage() + "; SQL [" + jdbcEx.getSQL() + "]", ex);
+			return new org.springframework.dao.QueryTimeoutException(
+					ex.getMessage() + "; SQL [" + jdbcEx.getSQL() + "]", ex);
 		}
 		if (ex instanceof LockAcquisitionException) {
 			LockAcquisitionException jdbcEx = (LockAcquisitionException) ex;
@@ -294,8 +294,8 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 		}
 		if (ex instanceof ConstraintViolationException) {
 			ConstraintViolationException jdbcEx = (ConstraintViolationException) ex;
-			return new DataIntegrityViolationException(ex.getMessage()  + "; SQL [" + jdbcEx.getSQL() +
-					"]; constraint [" + jdbcEx.getConstraintName() + "]", ex);
+			return new DataIntegrityViolationException(ex.getMessage() + "; SQL [" + jdbcEx.getSQL() + "]; constraint ["
+					+ jdbcEx.getConstraintName() + "]", ex);
 		}
 		if (ex instanceof DataException) {
 			DataException jdbcEx = (DataException) ex;
@@ -326,11 +326,13 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 		}
 		if (ex instanceof UnresolvableObjectException) {
 			UnresolvableObjectException hibEx = (UnresolvableObjectException) ex;
-			return new ObjectRetrievalFailureException(hibEx.getEntityName(), hibEx.getIdentifier(), ex.getMessage(), ex);
+			return new ObjectRetrievalFailureException(hibEx.getEntityName(), hibEx.getIdentifier(), ex.getMessage(),
+					ex);
 		}
 		if (ex instanceof WrongClassException) {
 			WrongClassException hibEx = (WrongClassException) ex;
-			return new ObjectRetrievalFailureException(hibEx.getEntityName(), hibEx.getIdentifier(), ex.getMessage(), ex);
+			return new ObjectRetrievalFailureException(hibEx.getEntityName(), hibEx.getIdentifier(), ex.getMessage(),
+					ex);
 		}
 		if (ex instanceof StaleObjectStateException) {
 			StaleObjectStateException hibEx = (StaleObjectStateException) ex;
@@ -356,7 +358,6 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 	protected Session getSession(EntityManager entityManager) {
 		return entityManager.unwrap(Session.class);
 	}
-
 
 	private static class SessionTransactionData {
 
@@ -391,17 +392,16 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 			if (this.preparedCon != null && this.session.isConnected()) {
 				Connection conToReset = HibernateConnectionHandle.doGetConnection(this.session);
 				if (conToReset != this.preparedCon) {
-					LogFactory.getLog(HibernateJpaDialect.class).warn(
-							"JDBC Connection to reset not identical to originally prepared Connection - please " +
-							"make sure to use connection release mode ON_CLOSE (the default) and to run against " +
-							"Hibernate 4.2+ (or switch HibernateJpaDialect's prepareConnection flag to false");
+					LogFactory.getLog(HibernateJpaDialect.class)
+							.warn("JDBC Connection to reset not identical to originally prepared Connection - please "
+									+ "make sure to use connection release mode ON_CLOSE (the default) and to run against "
+									+ "Hibernate 4.2+ (or switch HibernateJpaDialect's prepareConnection flag to false");
 				}
-				DataSourceUtils.resetConnectionAfterTransaction(
-						conToReset, this.previousIsolationLevel, this.readOnly);
+				DataSourceUtils.resetConnectionAfterTransaction(conToReset, this.previousIsolationLevel, this.readOnly);
 			}
 		}
-	}
 
+	}
 
 	private static class HibernateConnectionHandle implements ConnectionHandle {
 
@@ -423,7 +423,8 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 			try {
 				Method methodToUse = connectionMethodToUse;
 				if (methodToUse == null) {
-					// Reflective lookup to find SessionImpl's connection() method on Hibernate 4.x/5.x
+					// Reflective lookup to find SessionImpl's connection() method on
+					// Hibernate 4.x/5.x
 					methodToUse = session.getClass().getMethod("connection");
 					connectionMethodToUse = methodToUse;
 				}
@@ -435,6 +436,7 @@ public class HibernateJpaDialect extends DefaultJpaDialect {
 				throw new IllegalStateException("Cannot find connection() method on Hibernate Session", ex);
 			}
 		}
+
 	}
 
 }

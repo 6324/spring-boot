@@ -35,11 +35,12 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Represents selection over a map or collection.
- * For example: {1,2,3,4,5,6,7,8,9,10}.?{#isEven(#this) == 'y'} returns [2, 4, 6, 8, 10]
+ * Represents selection over a map or collection. For example:
+ * {1,2,3,4,5,6,7,8,9,10}.?{#isEven(#this) == 'y'} returns [2, 4, 6, 8, 10]
  *
- * <p>Basically a subset of the input data is returned based on the
- * evaluation of the expression supplied as selection criteria.
+ * <p>
+ * Basically a subset of the input data is returned based on the evaluation of the
+ * expression supplied as selection criteria.
  *
  * @author Andy Clement
  * @author Mark Fisher
@@ -68,13 +69,11 @@ public class Selection extends SpelNodeImpl {
 
 	private final boolean nullSafe;
 
-
 	public Selection(boolean nullSafe, int variant, int startPos, int endPos, SpelNodeImpl expression) {
 		super(startPos, endPos, expression);
 		this.nullSafe = nullSafe;
 		this.variant = variant;
 	}
-
 
 	@Override
 	public TypedValue getValueInternal(ExpressionState state) throws EvaluationException {
@@ -127,16 +126,16 @@ public class Selection extends SpelNodeImpl {
 			if (this.variant == LAST) {
 				Map<Object, Object> resultMap = new HashMap<>();
 				Object lastValue = result.get(lastKey);
-				resultMap.put(lastKey,lastValue);
-				return new ValueRef.TypedValueHolderValueRef(new TypedValue(resultMap),this);
+				resultMap.put(lastKey, lastValue);
+				return new ValueRef.TypedValueHolderValueRef(new TypedValue(resultMap), this);
 			}
 
-			return new ValueRef.TypedValueHolderValueRef(new TypedValue(result),this);
+			return new ValueRef.TypedValueHolderValueRef(new TypedValue(result), this);
 		}
 
 		if (operand instanceof Iterable || ObjectUtils.isArray(operand)) {
-			Iterable<?> data = (operand instanceof Iterable ?
-					(Iterable<?>) operand : Arrays.asList(ObjectUtils.toObjectArray(operand)));
+			Iterable<?> data = (operand instanceof Iterable ? (Iterable<?>) operand
+					: Arrays.asList(ObjectUtils.toObjectArray(operand)));
 
 			List<Object> result = new ArrayList<>();
 			int index = 0;
@@ -210,9 +209,12 @@ public class Selection extends SpelNodeImpl {
 
 	private String prefix() {
 		switch (this.variant) {
-			case ALL:   return "?[";
-			case FIRST: return "^[";
-			case LAST:  return "$[";
+		case ALL:
+			return "?[";
+		case FIRST:
+			return "^[";
+		case LAST:
+			return "$[";
 		}
 		return "";
 	}

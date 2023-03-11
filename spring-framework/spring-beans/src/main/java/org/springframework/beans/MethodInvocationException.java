@@ -19,8 +19,8 @@ package org.springframework.beans;
 import java.beans.PropertyChangeEvent;
 
 /**
- * Thrown when a bean property getter or setter method throws an exception,
- * analogous to an InvocationTargetException.
+ * Thrown when a bean property getter or setter method throws an exception, analogous to
+ * an InvocationTargetException.
  *
  * @author Rod Johnson
  */
@@ -31,7 +31,6 @@ public class MethodInvocationException extends PropertyAccessException {
 	 * Error code that a method invocation error will be registered with.
 	 */
 	public static final String ERROR_CODE = "methodInvocation";
-
 
 	/**
 	 * Create a new MethodInvocationException.

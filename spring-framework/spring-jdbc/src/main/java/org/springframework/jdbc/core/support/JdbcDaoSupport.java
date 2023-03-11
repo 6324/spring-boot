@@ -31,12 +31,14 @@ import org.springframework.util.Assert;
 /**
  * Convenient super class for JDBC-based data access objects.
  *
- * <p>Requires a {@link javax.sql.DataSource} to be set, providing a
- * {@link org.springframework.jdbc.core.JdbcTemplate} based on it to
- * subclasses through the {@link #getJdbcTemplate()} method.
+ * <p>
+ * Requires a {@link javax.sql.DataSource} to be set, providing a
+ * {@link org.springframework.jdbc.core.JdbcTemplate} based on it to subclasses through
+ * the {@link #getJdbcTemplate()} method.
  *
- * <p>This base class is mainly intended for JdbcTemplate usage but can
- * also be used when working with a Connection directly or when using
+ * <p>
+ * This base class is mainly intended for JdbcTemplate usage but can also be used when
+ * working with a Connection directly or when using
  * {@code org.springframework.jdbc.object} operation objects.
  *
  * @author Juergen Hoeller
@@ -50,7 +52,6 @@ public abstract class JdbcDaoSupport extends DaoSupport {
 	@Nullable
 	private JdbcTemplate jdbcTemplate;
 
-
 	/**
 	 * Set the JDBC DataSource to be used by this DAO.
 	 */
@@ -62,10 +63,11 @@ public abstract class JdbcDaoSupport extends DaoSupport {
 	}
 
 	/**
-	 * Create a JdbcTemplate for the given DataSource.
-	 * Only invoked if populating the DAO with a DataSource reference!
-	 * <p>Can be overridden in subclasses to provide a JdbcTemplate instance
-	 * with different configuration, or a custom JdbcTemplate subclass.
+	 * Create a JdbcTemplate for the given DataSource. Only invoked if populating the DAO
+	 * with a DataSource reference!
+	 * <p>
+	 * Can be overridden in subclasses to provide a JdbcTemplate instance with different
+	 * configuration, or a custom JdbcTemplate subclass.
 	 * @param dataSource the JDBC DataSource to create a JdbcTemplate for
 	 * @return the new JdbcTemplate instance
 	 * @see #setDataSource
@@ -83,8 +85,8 @@ public abstract class JdbcDaoSupport extends DaoSupport {
 	}
 
 	/**
-	 * Set the JdbcTemplate for this DAO explicitly,
-	 * as an alternative to specifying a DataSource.
+	 * Set the JdbcTemplate for this DAO explicitly, as an alternative to specifying a
+	 * DataSource.
 	 */
 	public final void setJdbcTemplate(@Nullable JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
@@ -92,8 +94,8 @@ public abstract class JdbcDaoSupport extends DaoSupport {
 	}
 
 	/**
-	 * Return the JdbcTemplate for this DAO,
-	 * pre-initialized with the DataSource or set explicitly.
+	 * Return the JdbcTemplate for this DAO, pre-initialized with the DataSource or set
+	 * explicitly.
 	 */
 	@Nullable
 	public final JdbcTemplate getJdbcTemplate() {
@@ -101,11 +103,11 @@ public abstract class JdbcDaoSupport extends DaoSupport {
 	}
 
 	/**
-	 * Initialize the template-based configuration of this DAO.
-	 * Called after a new JdbcTemplate has been set, either directly
-	 * or through a DataSource.
-	 * <p>This implementation is empty. Subclasses may override this
-	 * to configure further objects based on the JdbcTemplate.
+	 * Initialize the template-based configuration of this DAO. Called after a new
+	 * JdbcTemplate has been set, either directly or through a DataSource.
+	 * <p>
+	 * This implementation is empty. Subclasses may override this to configure further
+	 * objects based on the JdbcTemplate.
 	 * @see #getJdbcTemplate()
 	 */
 	protected void initTemplateConfig() {
@@ -118,10 +120,9 @@ public abstract class JdbcDaoSupport extends DaoSupport {
 		}
 	}
 
-
 	/**
-	 * Return the SQLExceptionTranslator of this DAO's JdbcTemplate,
-	 * for translating SQLExceptions in custom JDBC access code.
+	 * Return the SQLExceptionTranslator of this DAO's JdbcTemplate, for translating
+	 * SQLExceptions in custom JDBC access code.
 	 * @see org.springframework.jdbc.core.JdbcTemplate#getExceptionTranslator()
 	 */
 	protected final SQLExceptionTranslator getExceptionTranslator() {
@@ -143,8 +144,8 @@ public abstract class JdbcDaoSupport extends DaoSupport {
 	}
 
 	/**
-	 * Close the given JDBC Connection, created via this DAO's DataSource,
-	 * if it isn't bound to the thread.
+	 * Close the given JDBC Connection, created via this DAO's DataSource, if it isn't
+	 * bound to the thread.
 	 * @param con the Connection to close
 	 * @see org.springframework.jdbc.datasource.DataSourceUtils#releaseConnection
 	 */

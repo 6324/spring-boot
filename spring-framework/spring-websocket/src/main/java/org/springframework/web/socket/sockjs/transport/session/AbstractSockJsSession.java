@@ -54,35 +54,37 @@ import org.springframework.web.socket.sockjs.transport.SockJsSession;
  */
 public abstract class AbstractSockJsSession implements SockJsSession {
 
-	private enum State {NEW, OPEN, CLOSED}
+	private enum State {
 
+		NEW, OPEN, CLOSED
+
+	}
 
 	/**
 	 * Log category to use on network IO exceptions after a client has gone away.
-	 * <p>Servlet containers don't expose a client disconnected callback; see
-	 * <a href="https://github.com/eclipse-ee4j/servlet-api/issues/44">eclipse-ee4j/servlet-api#44</a>.
-	 * Therefore network IO failures may occur simply because a client has gone away,
-	 * and that can fill the logs with unnecessary stack traces.
-	 * <p>We make a best effort to identify such network failures, on a per-server
-	 * basis, and log them under a separate log category. A simple one-line message
-	 * is logged at DEBUG level, while a full stack trace is shown at TRACE level.
+	 * <p>
+	 * Servlet containers don't expose a client disconnected callback; see <a href=
+	 * "https://github.com/eclipse-ee4j/servlet-api/issues/44">eclipse-ee4j/servlet-api#44</a>.
+	 * Therefore network IO failures may occur simply because a client has gone away, and
+	 * that can fill the logs with unnecessary stack traces.
+	 * <p>
+	 * We make a best effort to identify such network failures, on a per-server basis, and
+	 * log them under a separate log category. A simple one-line message is logged at
+	 * DEBUG level, while a full stack trace is shown at TRACE level.
 	 * @see #disconnectedClientLogger
 	 */
-	public static final String DISCONNECTED_CLIENT_LOG_CATEGORY =
-			"org.springframework.web.socket.sockjs.DisconnectedClient";
+	public static final String DISCONNECTED_CLIENT_LOG_CATEGORY = "org.springframework.web.socket.sockjs.DisconnectedClient";
 
 	/**
-	 * Tomcat: ClientAbortException or EOFException
-	 * Jetty: EofException
-	 * WildFly, GlassFish: java.io.IOException "Broken pipe" (already covered)
-	 * <p>TODO:
-	 * This definition is currently duplicated between HttpWebHandlerAdapter
-	 * and AbstractSockJsSession. It is a candidate for a common utility class.
+	 * Tomcat: ClientAbortException or EOFException Jetty: EofException WildFly,
+	 * GlassFish: java.io.IOException "Broken pipe" (already covered)
+	 * <p>
+	 * TODO: This definition is currently duplicated between HttpWebHandlerAdapter and
+	 * AbstractSockJsSession. It is a candidate for a common utility class.
 	 * @see #indicatesDisconnectedClient(Throwable)
 	 */
-	private static final Set<String> DISCONNECTED_CLIENT_EXCEPTIONS =
-			new HashSet<>(Arrays.asList("ClientAbortException", "EOFException", "EofException"));
-
+	private static final Set<String> DISCONNECTED_CLIENT_EXCEPTIONS = new HashSet<>(
+			Arrays.asList("ClientAbortException", "EOFException", "EofException"));
 
 	/**
 	 * Separate logger to use on network IO failure after a client has gone away.
@@ -116,14 +118,14 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 
 	private volatile boolean heartbeatDisabled;
 
-
 	/**
 	 * Create a new instance.
 	 * @param id the session ID
 	 * @param config the SockJS service configuration options
 	 * @param handler the recipient of SockJS messages
-	 * @param attributes the attributes from the HTTP handshake to associate with the WebSocket
-	 * session; the provided attributes are copied, the original map is not used.
+	 * @param attributes the attributes from the HTTP handshake to associate with the
+	 * WebSocket session; the provided attributes are copied, the original map is not
+	 * used.
 	 */
 	public AbstractSockJsSession(String id, SockJsServiceConfig config, WebSocketHandler handler,
 			@Nullable Map<String, Object> attributes) {
@@ -140,7 +142,6 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 			this.attributes.putAll(attributes);
 		}
 	}
-
 
 	@Override
 	public String getId() {
@@ -160,7 +161,6 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 		return this.attributes;
 	}
 
-
 	// Message sending
 
 	@Override
@@ -171,7 +171,6 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 	}
 
 	protected abstract void sendMessageInternal(String message) throws IOException;
-
 
 	// Lifecycle related methods
 
@@ -297,20 +296,19 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 	}
 
 	/**
-	 * Polling and Streaming sessions periodically close the current HTTP request and
-	 * wait for the next request to come through. During this "downtime" the session is
-	 * still open but inactive and unable to send messages and therefore has to buffer
-	 * them temporarily. A WebSocket session by contrast is stateful and remain active
-	 * until closed.
+	 * Polling and Streaming sessions periodically close the current HTTP request and wait
+	 * for the next request to come through. During this "downtime" the session is still
+	 * open but inactive and unable to send messages and therefore has to buffer them
+	 * temporarily. A WebSocket session by contrast is stateful and remain active until
+	 * closed.
 	 */
 	public abstract boolean isActive();
 
 	/**
-	 * Actually close the underlying WebSocket session or in the case of HTTP
-	 * transports complete the underlying request.
+	 * Actually close the underlying WebSocket session or in the case of HTTP transports
+	 * complete the underlying request.
 	 */
 	protected abstract void disconnect(CloseStatus status) throws IOException;
-
 
 	// Frame writing
 
@@ -352,9 +350,9 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 				disconnectedClientLogger.trace("Looks like the client has gone away", ex);
 			}
 			else if (disconnectedClientLogger.isDebugEnabled()) {
-				disconnectedClientLogger.debug("Looks like the client has gone away: " + ex +
-						" (For a full stack trace, set the log category '" + DISCONNECTED_CLIENT_LOG_CATEGORY +
-						"' to TRACE level.)");
+				disconnectedClientLogger.debug("Looks like the client has gone away: " + ex
+						+ " (For a full stack trace, set the log category '" + DISCONNECTED_CLIENT_LOG_CATEGORY
+						+ "' to TRACE level.)");
 			}
 		}
 		else {
@@ -362,13 +360,12 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 		}
 	}
 
-	private boolean indicatesDisconnectedClient(Throwable ex)  {
+	private boolean indicatesDisconnectedClient(Throwable ex) {
 		String message = NestedExceptionUtils.getMostSpecificCause(ex).getMessage();
 		message = (message != null ? message.toLowerCase() : "");
 		String className = ex.getClass().getSimpleName();
 		return (message.contains("broken pipe") || DISCONNECTED_CLIENT_EXCEPTIONS.contains(className));
 	}
-
 
 	// Delegation methods
 
@@ -408,15 +405,13 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 
 	private static List<String> getUndelivered(String[] messages, int i) {
 		switch (messages.length - i) {
-			case 0:
-				return Collections.emptyList();
-			case 1:
-				return (messages[i].trim().isEmpty() ?
-						Collections.emptyList() : Collections.singletonList(messages[i]));
-			default:
-				return Arrays.stream(Arrays.copyOfRange(messages, i, messages.length))
-						.filter(message -> !message.trim().isEmpty())
-						.collect(Collectors.toList());
+		case 0:
+			return Collections.emptyList();
+		case 1:
+			return (messages[i].trim().isEmpty() ? Collections.emptyList() : Collections.singletonList(messages[i]));
+		default:
+			return Arrays.stream(Arrays.copyOfRange(messages, i, messages.length))
+					.filter(message -> !message.trim().isEmpty()).collect(Collectors.toList());
 		}
 	}
 
@@ -467,14 +462,12 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 		this.handler.handleTransportError(this, ex);
 	}
 
-
 	// Self description
 
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + "[id=" + getId() + "]";
 	}
-
 
 	private class HeartbeatTask implements Runnable {
 
@@ -500,6 +493,7 @@ public abstract class AbstractSockJsSession implements SockJsSession {
 		void cancel() {
 			this.expired = true;
 		}
+
 	}
 
 }

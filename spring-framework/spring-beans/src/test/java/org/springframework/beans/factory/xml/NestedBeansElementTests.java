@@ -26,15 +26,14 @@ import org.springframework.core.io.Resource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * Tests for new nested beans element support in Spring XML
  *
  * @author Chris Beams
  */
 public class NestedBeansElementTests {
-	private final Resource XML =
-		new ClassPathResource("NestedBeansElementTests-context.xml", this.getClass());
+
+	private final Resource XML = new ClassPathResource("NestedBeansElementTests-context.xml", this.getClass());
 
 	@Test
 	public void getBean_withoutActiveProfile() {

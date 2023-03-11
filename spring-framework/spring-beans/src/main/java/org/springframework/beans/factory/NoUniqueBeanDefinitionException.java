@@ -39,7 +39,6 @@ public class NoUniqueBeanDefinitionException extends NoSuchBeanDefinitionExcepti
 	@Nullable
 	private final Collection<String> beanNamesFound;
 
-
 	/**
 	 * Create a new {@code NoUniqueBeanDefinitionException}.
 	 * @param type required type of the non-unique bean
@@ -58,8 +57,8 @@ public class NoUniqueBeanDefinitionException extends NoSuchBeanDefinitionExcepti
 	 * @param beanNamesFound the names of all matching beans (as a Collection)
 	 */
 	public NoUniqueBeanDefinitionException(Class<?> type, Collection<String> beanNamesFound) {
-		super(type, "expected single matching bean but found " + beanNamesFound.size() + ": " +
-				StringUtils.collectionToCommaDelimitedString(beanNamesFound));
+		super(type, "expected single matching bean but found " + beanNamesFound.size() + ": "
+				+ StringUtils.collectionToCommaDelimitedString(beanNamesFound));
 		this.numberOfBeansFound = beanNamesFound.size();
 		this.beanNamesFound = beanNamesFound;
 	}
@@ -80,8 +79,8 @@ public class NoUniqueBeanDefinitionException extends NoSuchBeanDefinitionExcepti
 	 * @since 5.1
 	 */
 	public NoUniqueBeanDefinitionException(ResolvableType type, Collection<String> beanNamesFound) {
-		super(type, "expected single matching bean but found " + beanNamesFound.size() + ": " +
-				StringUtils.collectionToCommaDelimitedString(beanNamesFound));
+		super(type, "expected single matching bean but found " + beanNamesFound.size() + ": "
+				+ StringUtils.collectionToCommaDelimitedString(beanNamesFound));
 		this.numberOfBeansFound = beanNamesFound.size();
 		this.beanNamesFound = beanNamesFound;
 	}
@@ -96,10 +95,9 @@ public class NoUniqueBeanDefinitionException extends NoSuchBeanDefinitionExcepti
 		this(type, Arrays.asList(beanNamesFound));
 	}
 
-
 	/**
-	 * Return the number of beans found when only one matching bean was expected.
-	 * For a NoUniqueBeanDefinitionException, this will usually be higher than 1.
+	 * Return the number of beans found when only one matching bean was expected. For a
+	 * NoUniqueBeanDefinitionException, this will usually be higher than 1.
 	 * @see #getBeanType()
 	 */
 	@Override
@@ -108,8 +106,8 @@ public class NoUniqueBeanDefinitionException extends NoSuchBeanDefinitionExcepti
 	}
 
 	/**
-	 * Return the names of all beans found when only one matching bean was expected.
-	 * Note that this may be {@code null} if not specified at construction time.
+	 * Return the names of all beans found when only one matching bean was expected. Note
+	 * that this may be {@code null} if not specified at construction time.
 	 * @since 4.3
 	 * @see #getBeanType()
 	 */

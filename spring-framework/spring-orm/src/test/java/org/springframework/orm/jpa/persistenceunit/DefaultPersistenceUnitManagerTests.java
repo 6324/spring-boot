@@ -25,8 +25,6 @@ import org.springframework.orm.jpa.domain.Person;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
-
 /**
  * Tests for {@link DefaultPersistenceUnitManager}.
  *
@@ -47,16 +45,14 @@ public class DefaultPersistenceUnitManagerTests {
 	@Test
 	public void defaultDomainWithIndex() {
 		this.manager.setPackagesToScan("org.springframework.orm.jpa.domain");
-		this.manager.setResourceLoader(new DefaultResourceLoader(
-				CandidateComponentsTestClassLoader.index(getClass().getClassLoader(),
-						new ClassPathResource("spring.components", Person.class))));
+		this.manager.setResourceLoader(new DefaultResourceLoader(CandidateComponentsTestClassLoader
+				.index(getClass().getClassLoader(), new ClassPathResource("spring.components", Person.class))));
 		testDefaultDomain();
 	}
 
 	private void testDefaultDomain() {
 		SpringPersistenceUnitInfo puInfo = buildDefaultPersistenceUnitInfo();
-		assertThat(puInfo.getManagedClassNames()).contains(
-				"org.springframework.orm.jpa.domain.Person",
+		assertThat(puInfo.getManagedClassNames()).contains("org.springframework.orm.jpa.domain.Person",
 				"org.springframework.orm.jpa.domain.DriversLicense");
 	}
 

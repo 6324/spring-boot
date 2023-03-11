@@ -1,6 +1,5 @@
 /**
- * Support classes for handling messages from simple messaging protocols
- * (like STOMP).
+ * Support classes for handling messages from simple messaging protocols (like STOMP).
  */
 @NonNullApi
 @NonNullFields

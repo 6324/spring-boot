@@ -49,16 +49,14 @@ public class ComponentScanParserWithUserDefinedStrategiesTests {
 
 	@Test
 	public void testInvalidConstructorBeanNameGenerator() {
-		assertThatExceptionOfType(BeansException.class).isThrownBy(() ->
-			new ClassPathXmlApplicationContext(
-					"org/springframework/context/annotation/invalidConstructorNameGeneratorTests.xml"));
+		assertThatExceptionOfType(BeansException.class).isThrownBy(() -> new ClassPathXmlApplicationContext(
+				"org/springframework/context/annotation/invalidConstructorNameGeneratorTests.xml"));
 	}
 
 	@Test
 	public void testInvalidClassNameScopeMetadataResolver() {
-		assertThatExceptionOfType(BeansException.class).isThrownBy(() ->
-				new ClassPathXmlApplicationContext(
-						"org/springframework/context/annotation/invalidClassNameScopeResolverTests.xml"));
+		assertThatExceptionOfType(BeansException.class).isThrownBy(() -> new ClassPathXmlApplicationContext(
+				"org/springframework/context/annotation/invalidClassNameScopeResolverTests.xml"));
 	}
 
 }

@@ -26,9 +26,9 @@ import org.springframework.aop.AfterReturningAdvice;
 import org.springframework.util.Assert;
 
 /**
- * Interceptor to wrap an {@link org.springframework.aop.AfterReturningAdvice}.
- * Used internally by the AOP framework; application developers should not need
- * to use this class directly.
+ * Interceptor to wrap an {@link org.springframework.aop.AfterReturningAdvice}. Used
+ * internally by the AOP framework; application developers should not need to use this
+ * class directly.
  *
  * @author Rod Johnson
  * @see MethodBeforeAdviceInterceptor
@@ -39,7 +39,6 @@ public class AfterReturningAdviceInterceptor implements MethodInterceptor, After
 
 	private final AfterReturningAdvice advice;
 
-
 	/**
 	 * Create a new AfterReturningAdviceInterceptor for the given advice.
 	 * @param advice the AfterReturningAdvice to wrap
@@ -48,7 +47,6 @@ public class AfterReturningAdviceInterceptor implements MethodInterceptor, After
 		Assert.notNull(advice, "Advice must not be null");
 		this.advice = advice;
 	}
-
 
 	@Override
 	public Object invoke(MethodInvocation mi) throws Throwable {

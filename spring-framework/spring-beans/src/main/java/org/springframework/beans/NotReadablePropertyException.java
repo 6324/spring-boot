@@ -17,8 +17,8 @@
 package org.springframework.beans;
 
 /**
- * Exception thrown on an attempt to get the value of a property
- * that isn't readable, because there's no getter method.
+ * Exception thrown on an attempt to get the value of a property that isn't readable,
+ * because there's no getter method.
  *
  * @author Juergen Hoeller
  * @since 1.0.2
@@ -33,8 +33,8 @@ public class NotReadablePropertyException extends InvalidPropertyException {
 	 */
 	public NotReadablePropertyException(Class<?> beanClass, String propertyName) {
 		super(beanClass, propertyName,
-				"Bean property '" + propertyName + "' is not readable or has an invalid getter method: " +
-				"Does the return type of the getter match the parameter type of the setter?");
+				"Bean property '" + propertyName + "' is not readable or has an invalid getter method: "
+						+ "Does the return type of the getter match the parameter type of the setter?");
 	}
 
 	/**

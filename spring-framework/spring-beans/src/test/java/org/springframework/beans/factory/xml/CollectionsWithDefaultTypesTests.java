@@ -37,8 +37,8 @@ public class CollectionsWithDefaultTypesTests {
 
 	public CollectionsWithDefaultTypesTests() {
 		this.beanFactory = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(this.beanFactory).loadBeanDefinitions(
-				new ClassPathResource("collectionsWithDefaultTypes.xml", getClass()));
+		new XmlBeanDefinitionReader(this.beanFactory)
+				.loadBeanDefinitions(new ClassPathResource("collectionsWithDefaultTypes.xml", getClass()));
 	}
 
 	@Test
@@ -70,7 +70,7 @@ public class CollectionsWithDefaultTypesTests {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private void assertMap(Map<?,?> map) {
+	private void assertMap(Map<?, ?> map) {
 		for (Map.Entry entry : map.entrySet()) {
 			assertThat(entry.getKey().getClass()).as("Key type is incorrect").isEqualTo(Integer.class);
 			assertThat(entry.getValue().getClass()).as("Value type is incorrect").isEqualTo(Boolean.class);

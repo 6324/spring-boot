@@ -51,14 +51,16 @@ import org.springframework.web.reactive.result.view.AbstractUrlBasedView;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * An {@link AbstractUrlBasedView} subclass designed to run any template library
- * based on a JSR-223 script engine.
+ * An {@link AbstractUrlBasedView} subclass designed to run any template library based on
+ * a JSR-223 script engine.
  *
- * <p>If not set, each property is auto-detected by looking up a single
- * {@link ScriptTemplateConfig} bean in the web application context and using
- * it to obtain the configured properties.
+ * <p>
+ * If not set, each property is auto-detected by looking up a single
+ * {@link ScriptTemplateConfig} bean in the web application context and using it to obtain
+ * the configured properties.
  *
- * <p>The Nashorn JavaScript engine requires Java 8+ and may require setting the
+ * <p>
+ * The Nashorn JavaScript engine requires Java 8+ and may require setting the
  * {@code sharedEngine} property to {@code false} in order to run properly. See
  * {@link ScriptTemplateConfigurer#setSharedEngine(Boolean)} for more details.
  *
@@ -71,7 +73,6 @@ import org.springframework.web.server.ServerWebExchange;
 public class ScriptTemplateView extends AbstractUrlBasedView {
 
 	private static final String DEFAULT_RESOURCE_LOADER_PATH = "classpath:";
-
 
 	@Nullable
 	private ScriptEngine engine;
@@ -100,7 +101,6 @@ public class ScriptTemplateView extends AbstractUrlBasedView {
 	@Nullable
 	private volatile ScriptEngineManager scriptEngineManager;
 
-
 	/**
 	 * Constructor for use as a bean.
 	 * @see #setUrl
@@ -114,7 +114,6 @@ public class ScriptTemplateView extends AbstractUrlBasedView {
 	public ScriptTemplateView(String url) {
 		super(url);
 	}
-
 
 	/**
 	 * See {@link ScriptTemplateConfigurer#setEngine(ScriptEngine)} documentation.
@@ -226,13 +225,11 @@ public class ScriptTemplateView extends AbstractUrlBasedView {
 		if (this.engineName != null) {
 			engineCount++;
 		}
-		Assert.isTrue(engineCount == 1,
-				"You should define either 'engine', 'engineSupplier' or 'engineName'.");
+		Assert.isTrue(engineCount == 1, "You should define either 'engine', 'engineSupplier' or 'engineName'.");
 
 		if (Boolean.FALSE.equals(this.sharedEngine)) {
-			Assert.isTrue(this.engine == null,
-					"When 'sharedEngine' is set to false, you should specify the " +
-					"script engine using 'engineName' or 'engineSupplier' , not 'engine'.");
+			Assert.isTrue(this.engine == null, "When 'sharedEngine' is set to false, you should specify the "
+					+ "script engine using 'engineName' or 'engineSupplier' , not 'engine'.");
 		}
 		else if (this.engine != null) {
 			loadScripts(this.engine);
@@ -320,13 +317,13 @@ public class ScriptTemplateView extends AbstractUrlBasedView {
 
 	protected ScriptTemplateConfig autodetectViewConfig() throws BeansException {
 		try {
-			return BeanFactoryUtils.beanOfTypeIncludingAncestors(
-					obtainApplicationContext(), ScriptTemplateConfig.class, true, false);
+			return BeanFactoryUtils.beanOfTypeIncludingAncestors(obtainApplicationContext(), ScriptTemplateConfig.class,
+					true, false);
 		}
 		catch (NoSuchBeanDefinitionException ex) {
-			throw new ApplicationContextException("Expected a single ScriptTemplateConfig bean in the current " +
-					"web application context or the parent root context: ScriptTemplateConfigurer is " +
-					"the usual implementation. This bean may have any name.", ex);
+			throw new ApplicationContextException("Expected a single ScriptTemplateConfig bean in the current "
+					+ "web application context or the parent root context: ScriptTemplateConfigurer is "
+					+ "the usual implementation. This bean may have any name.", ex);
 		}
 	}
 
@@ -338,8 +335,8 @@ public class ScriptTemplateView extends AbstractUrlBasedView {
 	}
 
 	@Override
-	protected Mono<Void> renderInternal(
-			Map<String, Object> model, @Nullable MediaType contentType, ServerWebExchange exchange) {
+	protected Mono<Void> renderInternal(Map<String, Object> model, @Nullable MediaType contentType,
+			ServerWebExchange exchange) {
 
 		return exchange.getResponse().writeWith(Mono.fromCallable(() -> {
 			try {
@@ -358,8 +355,8 @@ public class ScriptTemplateView extends AbstractUrlBasedView {
 				};
 
 				Locale locale = LocaleContextHolder.getLocale(exchange.getLocaleContext());
-				RenderingContext context = new RenderingContext(
-						obtainApplicationContext(), locale, templateLoader, url);
+				RenderingContext context = new RenderingContext(obtainApplicationContext(), locale, templateLoader,
+						url);
 
 				Object html;
 				if (this.renderFunction == null) {
@@ -377,10 +374,14 @@ public class ScriptTemplateView extends AbstractUrlBasedView {
 				}
 
 				byte[] bytes = String.valueOf(html).getBytes(StandardCharsets.UTF_8);
-				return exchange.getResponse().bufferFactory().wrap(bytes); // just wrapping, no allocation
+				return exchange.getResponse().bufferFactory().wrap(bytes); // just
+																			// wrapping,
+																			// no
+																			// allocation
 			}
 			catch (ScriptException ex) {
-				throw new IllegalStateException("Failed to render script template", new StandardScriptEvalException(ex));
+				throw new IllegalStateException("Failed to render script template",
+						new StandardScriptEvalException(ex));
 			}
 			catch (Exception ex) {
 				throw new IllegalStateException("Failed to render script template", ex);

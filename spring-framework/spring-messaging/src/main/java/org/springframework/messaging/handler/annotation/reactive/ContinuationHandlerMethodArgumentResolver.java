@@ -39,4 +39,5 @@ public class ContinuationHandlerMethodArgumentResolver implements HandlerMethodA
 	public Mono<Object> resolveArgument(MethodParameter parameter, Message<?> message) {
 		return Mono.empty();
 	}
+
 }

@@ -22,11 +22,12 @@ import org.springframework.core.Ordered;
 import org.springframework.lang.Nullable;
 
 /**
- * Extended variant of the standard {@link ApplicationListener} interface,
- * exposing further metadata such as the supported event and source type.
+ * Extended variant of the standard {@link ApplicationListener} interface, exposing
+ * further metadata such as the supported event and source type.
  *
- * <p>For full introspection of generic event types, consider implementing
- * the {@link GenericApplicationListener} interface instead.
+ * <p>
+ * For full introspection of generic event types, consider implementing the
+ * {@link GenericApplicationListener} interface instead.
  *
  * @author Juergen Hoeller
  * @since 3.0
@@ -43,7 +44,8 @@ public interface SmartApplicationListener extends ApplicationListener<Applicatio
 
 	/**
 	 * Determine whether this listener actually supports the given source type.
-	 * <p>The default implementation always returns {@code true}.
+	 * <p>
+	 * The default implementation always returns {@code true}.
 	 * @param sourceType the source type, or {@code null} if no source
 	 */
 	default boolean supportsSourceType(@Nullable Class<?> sourceType) {
@@ -52,7 +54,8 @@ public interface SmartApplicationListener extends ApplicationListener<Applicatio
 
 	/**
 	 * Determine this listener's order in a set of listeners for the same event.
-	 * <p>The default implementation returns {@link #LOWEST_PRECEDENCE}.
+	 * <p>
+	 * The default implementation returns {@link #LOWEST_PRECEDENCE}.
 	 */
 	@Override
 	default int getOrder() {

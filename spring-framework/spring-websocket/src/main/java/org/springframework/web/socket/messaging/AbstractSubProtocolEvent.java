@@ -24,8 +24,8 @@ import org.springframework.messaging.Message;
 import org.springframework.util.Assert;
 
 /**
- * A base class for events for a message received from a WebSocket client and
- * parsed into a higher-level sub-protocol (e.g. STOMP).
+ * A base class for events for a message received from a WebSocket client and parsed into
+ * a higher-level sub-protocol (e.g. STOMP).
  *
  * @author Rossen Stoyanchev
  * @since 4.1
@@ -37,7 +37,6 @@ public abstract class AbstractSubProtocolEvent extends ApplicationEvent {
 
 	@Nullable
 	private final Principal user;
-
 
 	/**
 	 * Create a new AbstractSubProtocolEvent.
@@ -60,12 +59,9 @@ public abstract class AbstractSubProtocolEvent extends ApplicationEvent {
 		this.user = user;
 	}
 
-
 	/**
-	 * Return the Message associated with the event. Here is an example of
-	 * obtaining information about the session id or any headers in the
-	 * message:
-	 * <pre class="code">
+	 * Return the Message associated with the event. Here is an example of obtaining
+	 * information about the session id or any headers in the message: <pre class="code">
 	 * StompHeaderAccessor headers = StompHeaderAccessor.wrap(message);
 	 * headers.getSessionId();
 	 * headers.getSessionAttributes();

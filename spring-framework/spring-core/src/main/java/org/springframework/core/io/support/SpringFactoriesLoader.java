@@ -42,17 +42,18 @@ import org.springframework.util.StringUtils;
 /**
  * General purpose factory loading mechanism for internal use within the framework.
  *
- * <p>{@code SpringFactoriesLoader} {@linkplain #loadFactories loads} and instantiates
- * factories of a given type from {@value #FACTORIES_RESOURCE_LOCATION} files which
- * may be present in multiple JAR files in the classpath. The {@code spring.factories}
- * file must be in {@link Properties} format, where the key is the fully qualified
- * name of the interface or abstract class, and the value is a comma-separated list of
- * implementation class names. For example:
+ * <p>
+ * {@code SpringFactoriesLoader} {@linkplain #loadFactories loads} and instantiates
+ * factories of a given type from {@value #FACTORIES_RESOURCE_LOCATION} files which may be
+ * present in multiple JAR files in the classpath. The {@code spring.factories} file must
+ * be in {@link Properties} format, where the key is the fully qualified name of the
+ * interface or abstract class, and the value is a comma-separated list of implementation
+ * class names. For example:
  *
  * <pre class="code">example.MyService=example.MyServiceImpl1,example.MyServiceImpl2</pre>
  *
- * where {@code example.MyService} is the name of the interface, and {@code MyServiceImpl1}
- * and {@code MyServiceImpl2} are two implementations.
+ * where {@code example.MyService} is the name of the interface, and
+ * {@code MyServiceImpl1} and {@code MyServiceImpl2} are two implementations.
  *
  * @author Arjen Poutsma
  * @author Juergen Hoeller
@@ -63,30 +64,31 @@ public final class SpringFactoriesLoader {
 
 	/**
 	 * The location to look for factories.
-	 * <p>Can be present in multiple JAR files.
+	 * <p>
+	 * Can be present in multiple JAR files.
 	 */
 	public static final String FACTORIES_RESOURCE_LOCATION = "META-INF/spring.factories";
-
 
 	private static final Log logger = LogFactory.getLog(SpringFactoriesLoader.class);
 
 	private static final Map<ClassLoader, MultiValueMap<String, String>> cache = new ConcurrentReferenceHashMap<>();
 
-
 	private SpringFactoriesLoader() {
 	}
-
 
 	/**
 	 * Load and instantiate the factory implementations of the given type from
 	 * {@value #FACTORIES_RESOURCE_LOCATION}, using the given class loader.
-	 * <p>The returned factories are sorted through {@link AnnotationAwareOrderComparator}.
-	 * <p>If a custom instantiation strategy is required, use {@link #loadFactoryNames}
-	 * to obtain all registered factory names.
+	 * <p>
+	 * The returned factories are sorted through {@link AnnotationAwareOrderComparator}.
+	 * <p>
+	 * If a custom instantiation strategy is required, use {@link #loadFactoryNames} to
+	 * obtain all registered factory names.
 	 * @param factoryType the interface or abstract class representing the factory
-	 * @param classLoader the ClassLoader to use for loading (can be {@code null} to use the default)
-	 * @throws IllegalArgumentException if any factory implementation class cannot
-	 * be loaded or if an error occurs while instantiating any factory
+	 * @param classLoader the ClassLoader to use for loading (can be {@code null} to use
+	 * the default)
+	 * @throws IllegalArgumentException if any factory implementation class cannot be
+	 * loaded or if an error occurs while instantiating any factory
 	 * @see #loadFactoryNames
 	 */
 	public static <T> List<T> loadFactories(Class<T> factoryType, @Nullable ClassLoader classLoader) {
@@ -108,9 +110,8 @@ public final class SpringFactoriesLoader {
 	}
 
 	/**
-	 * Load the fully qualified class names of factory implementations of the
-	 * given type from {@value #FACTORIES_RESOURCE_LOCATION}, using the given
-	 * class loader.
+	 * Load the fully qualified class names of factory implementations of the given type
+	 * from {@value #FACTORIES_RESOURCE_LOCATION}, using the given class loader.
 	 * @param factoryType the interface or abstract class representing the factory
 	 * @param classLoader the ClassLoader to use for loading resources; can be
 	 * {@code null} to use the default
@@ -129,9 +130,8 @@ public final class SpringFactoriesLoader {
 		}
 
 		try {
-			Enumeration<URL> urls = (classLoader != null ?
-					classLoader.getResources(FACTORIES_RESOURCE_LOCATION) :
-					ClassLoader.getSystemResources(FACTORIES_RESOURCE_LOCATION));
+			Enumeration<URL> urls = (classLoader != null ? classLoader.getResources(FACTORIES_RESOURCE_LOCATION)
+					: ClassLoader.getSystemResources(FACTORIES_RESOURCE_LOCATION));
 			result = new LinkedMultiValueMap<>();
 			while (urls.hasMoreElements()) {
 				URL url = urls.nextElement();
@@ -139,7 +139,8 @@ public final class SpringFactoriesLoader {
 				Properties properties = PropertiesLoaderUtils.loadProperties(resource);
 				for (Map.Entry<?, ?> entry : properties.entrySet()) {
 					String factoryTypeName = ((String) entry.getKey()).trim();
-					for (String factoryImplementationName : StringUtils.commaDelimitedListToStringArray((String) entry.getValue())) {
+					for (String factoryImplementationName : StringUtils
+							.commaDelimitedListToStringArray((String) entry.getValue())) {
 						result.add(factoryTypeName, factoryImplementationName.trim());
 					}
 				}
@@ -148,25 +149,25 @@ public final class SpringFactoriesLoader {
 			return result;
 		}
 		catch (IOException ex) {
-			throw new IllegalArgumentException("Unable to load factories from location [" +
-					FACTORIES_RESOURCE_LOCATION + "]", ex);
+			throw new IllegalArgumentException(
+					"Unable to load factories from location [" + FACTORIES_RESOURCE_LOCATION + "]", ex);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private static <T> T instantiateFactory(String factoryImplementationName, Class<T> factoryType, ClassLoader classLoader) {
+	private static <T> T instantiateFactory(String factoryImplementationName, Class<T> factoryType,
+			ClassLoader classLoader) {
 		try {
 			Class<?> factoryImplementationClass = ClassUtils.forName(factoryImplementationName, classLoader);
 			if (!factoryType.isAssignableFrom(factoryImplementationClass)) {
-				throw new IllegalArgumentException(
-						"Class [" + factoryImplementationName + "] is not assignable to factory type [" + factoryType.getName() + "]");
+				throw new IllegalArgumentException("Class [" + factoryImplementationName
+						+ "] is not assignable to factory type [" + factoryType.getName() + "]");
 			}
 			return (T) ReflectionUtils.accessibleConstructor(factoryImplementationClass).newInstance();
 		}
 		catch (Throwable ex) {
-			throw new IllegalArgumentException(
-				"Unable to instantiate factory class [" + factoryImplementationName + "] for factory type [" + factoryType.getName() + "]",
-				ex);
+			throw new IllegalArgumentException("Unable to instantiate factory class [" + factoryImplementationName
+					+ "] for factory type [" + factoryType.getName() + "]", ex);
 		}
 	}
 

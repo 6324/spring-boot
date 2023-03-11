@@ -19,13 +19,15 @@ package org.springframework.jdbc.support.incrementer;
 import javax.sql.DataSource;
 
 /**
- * {@link DataFieldMaxValueIncrementer} that retrieves the next value
- * of a given HSQL sequence.
+ * {@link DataFieldMaxValueIncrementer} that retrieves the next value of a given HSQL
+ * sequence.
  *
- * <p>Thanks to Guillaume Bilodeau for the suggestion!
+ * <p>
+ * Thanks to Guillaume Bilodeau for the suggestion!
  *
- * <p><b>NOTE:</b> This is an alternative to using a regular table to support
- * generating unique keys that was necessary in previous versions of HSQL.
+ * <p>
+ * <b>NOTE:</b> This is an alternative to using a regular table to support generating
+ * unique keys that was necessary in previous versions of HSQL.
  *
  * @author Thomas Risberg
  * @since 2.5
@@ -49,7 +51,6 @@ public class HsqlSequenceMaxValueIncrementer extends AbstractSequenceMaxValueInc
 	public HsqlSequenceMaxValueIncrementer(DataSource dataSource, String incrementerName) {
 		super(dataSource, incrementerName);
 	}
-
 
 	@Override
 	protected String getSequenceQuery() {

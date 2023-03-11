@@ -25,20 +25,20 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link FactoryBean} for easy configuration of a {@link ConcurrentMapCache}
- * when used within a Spring container. Can be configured through bean properties;
- * uses the assigned Spring bean name as the default cache name.
+ * {@link FactoryBean} for easy configuration of a {@link ConcurrentMapCache} when used
+ * within a Spring container. Can be configured through bean properties; uses the assigned
+ * Spring bean name as the default cache name.
  *
- * <p>Useful for testing or simple caching scenarios, typically in combination
- * with {@link org.springframework.cache.support.SimpleCacheManager} or
- * dynamically through {@link ConcurrentMapCacheManager}.
+ * <p>
+ * Useful for testing or simple caching scenarios, typically in combination with
+ * {@link org.springframework.cache.support.SimpleCacheManager} or dynamically through
+ * {@link ConcurrentMapCacheManager}.
  *
  * @author Costin Leau
  * @author Juergen Hoeller
  * @since 3.1
  */
-public class ConcurrentMapCacheFactoryBean
-		implements FactoryBean<ConcurrentMapCache>, BeanNameAware, InitializingBean {
+public class ConcurrentMapCacheFactoryBean implements FactoryBean<ConcurrentMapCache>, BeanNameAware, InitializingBean {
 
 	private String name = "";
 
@@ -50,28 +50,29 @@ public class ConcurrentMapCacheFactoryBean
 	@Nullable
 	private ConcurrentMapCache cache;
 
-
 	/**
 	 * Specify the name of the cache.
-	 * <p>Default is "" (empty String).
+	 * <p>
+	 * Default is "" (empty String).
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * Specify the ConcurrentMap to use as an internal store
-	 * (possibly pre-populated).
-	 * <p>Default is a standard {@link java.util.concurrent.ConcurrentHashMap}.
+	 * Specify the ConcurrentMap to use as an internal store (possibly pre-populated).
+	 * <p>
+	 * Default is a standard {@link java.util.concurrent.ConcurrentHashMap}.
 	 */
 	public void setStore(ConcurrentMap<Object, Object> store) {
 		this.store = store;
 	}
 
 	/**
-	 * Set whether to allow {@code null} values
-	 * (adapting them to an internal null holder value).
-	 * <p>Default is "true".
+	 * Set whether to allow {@code null} values (adapting them to an internal null holder
+	 * value).
+	 * <p>
+	 * Default is "true".
 	 */
 	public void setAllowNullValues(boolean allowNullValues) {
 		this.allowNullValues = allowNullValues;
@@ -86,10 +87,9 @@ public class ConcurrentMapCacheFactoryBean
 
 	@Override
 	public void afterPropertiesSet() {
-		this.cache = (this.store != null ? new ConcurrentMapCache(this.name, this.store, this.allowNullValues) :
-				new ConcurrentMapCache(this.name, this.allowNullValues));
+		this.cache = (this.store != null ? new ConcurrentMapCache(this.name, this.store, this.allowNullValues)
+				: new ConcurrentMapCache(this.name, this.allowNullValues));
 	}
-
 
 	@Override
 	@Nullable

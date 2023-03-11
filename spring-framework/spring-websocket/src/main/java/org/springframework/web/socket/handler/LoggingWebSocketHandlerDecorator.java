@@ -34,16 +34,14 @@ public class LoggingWebSocketHandlerDecorator extends WebSocketHandlerDecorator 
 
 	private static final Log logger = LogFactory.getLog(LoggingWebSocketHandlerDecorator.class);
 
-
 	public LoggingWebSocketHandlerDecorator(WebSocketHandler delegate) {
 		super(delegate);
 	}
 
-
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		if (logger.isDebugEnabled()) {
-			logger.debug("New "	+ session);
+			logger.debug("New " + session);
 		}
 		super.afterConnectionEstablished(session);
 	}

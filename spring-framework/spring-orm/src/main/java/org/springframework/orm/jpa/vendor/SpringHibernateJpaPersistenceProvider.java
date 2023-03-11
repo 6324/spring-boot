@@ -31,8 +31,8 @@ import org.hibernate.jpa.boot.internal.PersistenceUnitInfoDescriptor;
 import org.springframework.orm.jpa.persistenceunit.SmartPersistenceUnitInfo;
 
 /**
- * Spring-specific subclass of the standard {@link HibernatePersistenceProvider}
- * from the {@code org.hibernate.jpa} package, adding support for
+ * Spring-specific subclass of the standard {@link HibernatePersistenceProvider} from the
+ * {@code org.hibernate.jpa} package, adding support for
  * {@link SmartPersistenceUnitInfo#getManagedPackages()}.
  *
  * @author Juergen Hoeller
@@ -49,13 +49,12 @@ class SpringHibernateJpaPersistenceProvider extends HibernatePersistenceProvider
 		if (info instanceof SmartPersistenceUnitInfo) {
 			mergedClassesAndPackages.addAll(((SmartPersistenceUnitInfo) info).getManagedPackages());
 		}
-		return new EntityManagerFactoryBuilderImpl(
-				new PersistenceUnitInfoDescriptor(info) {
-					@Override
-					public List<String> getManagedClassNames() {
-						return mergedClassesAndPackages;
-					}
-				}, properties).build();
+		return new EntityManagerFactoryBuilderImpl(new PersistenceUnitInfoDescriptor(info) {
+			@Override
+			public List<String> getManagedClassNames() {
+				return mergedClassesAndPackages;
+			}
+		}, properties).build();
 	}
 
 }

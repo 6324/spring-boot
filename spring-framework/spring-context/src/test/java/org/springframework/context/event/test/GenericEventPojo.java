@@ -25,6 +25,7 @@ import org.springframework.core.ResolvableTypeProvider;
  * @author Stephane Nicoll
  */
 public class GenericEventPojo<T> implements ResolvableTypeProvider {
+
 	private final T value;
 
 	public GenericEventPojo(T value) {
@@ -38,8 +39,10 @@ public class GenericEventPojo<T> implements ResolvableTypeProvider {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
 		GenericEventPojo<?> that = (GenericEventPojo<?>) o;
 
@@ -50,4 +53,5 @@ public class GenericEventPojo<T> implements ResolvableTypeProvider {
 	public int hashCode() {
 		return this.value.hashCode();
 	}
+
 }

@@ -40,7 +40,6 @@ public class ByteArrayEncoder extends AbstractEncoder<byte[]> {
 		super(MimeTypeUtils.ALL);
 	}
 
-
 	@Override
 	public boolean canEncode(ResolvableType elementType, @Nullable MimeType mimeType) {
 		Class<?> clazz = elementType.toClass();
@@ -48,18 +47,17 @@ public class ByteArrayEncoder extends AbstractEncoder<byte[]> {
 	}
 
 	@Override
-	public Flux<DataBuffer> encode(Publisher<? extends byte[]> inputStream,
-			DataBufferFactory bufferFactory, ResolvableType elementType, @Nullable MimeType mimeType,
-			@Nullable Map<String, Object> hints) {
+	public Flux<DataBuffer> encode(Publisher<? extends byte[]> inputStream, DataBufferFactory bufferFactory,
+			ResolvableType elementType, @Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
 
 		// Use (byte[] bytes) for Eclipse
-		return Flux.from(inputStream).map((byte[] bytes) ->
-				encodeValue(bytes, bufferFactory, elementType, mimeType, hints));
+		return Flux.from(inputStream)
+				.map((byte[] bytes) -> encodeValue(bytes, bufferFactory, elementType, mimeType, hints));
 	}
 
 	@Override
-	public DataBuffer encodeValue(byte[] bytes, DataBufferFactory bufferFactory,
-			ResolvableType valueType, @Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
+	public DataBuffer encodeValue(byte[] bytes, DataBufferFactory bufferFactory, ResolvableType valueType,
+			@Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
 
 		DataBuffer dataBuffer = bufferFactory.wrap(bytes);
 		if (logger.isDebugEnabled() && !Hints.isLoggingSuppressed(hints)) {

@@ -25,8 +25,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * AspectJPointcutAdvisor that adapts an {@link AbstractAspectJAdvice}
- * to the {@link org.springframework.aop.PointcutAdvisor} interface.
+ * AspectJPointcutAdvisor that adapts an {@link AbstractAspectJAdvice} to the
+ * {@link org.springframework.aop.PointcutAdvisor} interface.
  *
  * @author Adrian Colyer
  * @author Juergen Hoeller
@@ -41,7 +41,6 @@ public class AspectJPointcutAdvisor implements PointcutAdvisor, Ordered {
 	@Nullable
 	private Integer order;
 
-
 	/**
 	 * Create a new AspectJPointcutAdvisor for the given advice.
 	 * @param advice the AbstractAspectJAdvice to wrap
@@ -51,7 +50,6 @@ public class AspectJPointcutAdvisor implements PointcutAdvisor, Ordered {
 		this.advice = advice;
 		this.pointcut = advice.buildSafePointcut();
 	}
-
 
 	public void setOrder(int order) {
 		this.order = order;
@@ -90,7 +88,6 @@ public class AspectJPointcutAdvisor implements PointcutAdvisor, Ordered {
 	public String getAspectName() {
 		return this.advice.getAspectName();
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {

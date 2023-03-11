@@ -1,6 +1,5 @@
 /**
- * Support classes for JNDI usage,
- * including a JNDI-based BeanFactory implementation.
+ * Support classes for JNDI usage, including a JNDI-based BeanFactory implementation.
  */
 @NonNullApi
 @NonNullFields

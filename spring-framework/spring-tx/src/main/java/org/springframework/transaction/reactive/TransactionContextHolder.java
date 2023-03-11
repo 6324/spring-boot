@@ -21,8 +21,8 @@ import java.util.Deque;
 import org.springframework.transaction.NoTransactionException;
 
 /**
- * Mutable holder for reactive transaction {@link TransactionContext contexts}.
- * This holder keeps references to individual {@link TransactionContext}s.
+ * Mutable holder for reactive transaction {@link TransactionContext contexts}. This
+ * holder keeps references to individual {@link TransactionContext}s.
  *
  * @author Mark Paluch
  * @author Juergen Hoeller
@@ -33,11 +33,9 @@ final class TransactionContextHolder {
 
 	private final Deque<TransactionContext> transactionStack;
 
-
 	TransactionContextHolder(Deque<TransactionContext> transactionStack) {
 		this.transactionStack = transactionStack;
 	}
-
 
 	/**
 	 * Return the current {@link TransactionContext}.

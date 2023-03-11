@@ -63,7 +63,6 @@ public class ComposablePointcutTests {
 		}
 	};
 
-
 	@Test
 	public void testMatchAll() throws NoSuchMethodException {
 		Pointcut pc = new ComposablePointcut();

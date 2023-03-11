@@ -25,11 +25,12 @@ import org.springframework.lang.Nullable;
  * Interface to be implemented for retrieving values for more complex database-specific
  * types not supported by the standard {@code CallableStatement.getObject} method.
  *
- * <p>Implementations perform the actual work of getting the actual values. They must
- * implement the callback method {@code getTypeValue} which can throw SQLExceptions
- * that will be caught and translated by the calling code. This callback method has
- * access to the underlying Connection via the given CallableStatement object, if that
- * should be needed to create any database-specific objects.
+ * <p>
+ * Implementations perform the actual work of getting the actual values. They must
+ * implement the callback method {@code getTypeValue} which can throw SQLExceptions that
+ * will be caught and translated by the calling code. This callback method has access to
+ * the underlying Connection via the given CallableStatement object, if that should be
+ * needed to create any database-specific objects.
  *
  * @author Thomas Risberg
  * @since 1.1
@@ -40,14 +41,12 @@ import org.springframework.lang.Nullable;
 public interface SqlReturnType {
 
 	/**
-	 * Constant that indicates an unknown (or unspecified) SQL type.
-	 * Passed into setTypeValue if the original operation method does
-	 * not specify an SQL type.
+	 * Constant that indicates an unknown (or unspecified) SQL type. Passed into
+	 * setTypeValue if the original operation method does not specify an SQL type.
 	 * @see java.sql.Types
 	 * @see JdbcOperations#update(String, Object[])
 	 */
 	int TYPE_UNKNOWN = Integer.MIN_VALUE;
-
 
 	/**
 	 * Get the type value from the specific object.

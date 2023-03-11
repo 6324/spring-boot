@@ -31,20 +31,21 @@ import org.springframework.util.Assert;
  * the exposed proxy (either an existing AOP proxy or a newly generated proxy that
  * implements all of the target's interfaces).
  *
- * <p>Translates native resource exceptions to Spring's
+ * <p>
+ * Translates native resource exceptions to Spring's
  * {@link org.springframework.dao.DataAccessException DataAccessException} hierarchy.
  * Autodetects beans that implement the
  * {@link org.springframework.dao.support.PersistenceExceptionTranslator
  * PersistenceExceptionTranslator} interface, which are subsequently asked to translate
  * candidate exceptions.
  *
- * <p>All of Spring's applicable resource factories (e.g.
- * {@link org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean})
- * implement the {@code PersistenceExceptionTranslator} interface out of the box.
- * As a consequence, all that is usually needed to enable automatic exception
- * translation is marking all affected beans (such as Repositories or DAOs)
- * with the {@code @Repository} annotation, along with defining this post-processor
- * as a bean in the application context.
+ * <p>
+ * All of Spring's applicable resource factories (e.g.
+ * {@link org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean}) implement
+ * the {@code PersistenceExceptionTranslator} interface out of the box. As a consequence,
+ * all that is usually needed to enable automatic exception translation is marking all
+ * affected beans (such as Repositories or DAOs) with the {@code @Repository} annotation,
+ * along with defining this post-processor as a bean in the application context.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -59,13 +60,13 @@ public class PersistenceExceptionTranslationPostProcessor extends AbstractBeanFa
 
 	private Class<? extends Annotation> repositoryAnnotationType = Repository.class;
 
-
 	/**
-	 * Set the 'repository' annotation type.
-	 * The default repository annotation type is the {@link Repository} annotation.
-	 * <p>This setter property exists so that developers can provide their own
-	 * (non-Spring-specific) annotation type to indicate that a class has a
-	 * repository role.
+	 * Set the 'repository' annotation type. The default repository annotation type is the
+	 * {@link Repository} annotation.
+	 * <p>
+	 * This setter property exists so that developers can provide their own
+	 * (non-Spring-specific) annotation type to indicate that a class has a repository
+	 * role.
 	 * @param repositoryAnnotationType the desired annotation type
 	 */
 	public void setRepositoryAnnotationType(Class<? extends Annotation> repositoryAnnotationType) {
@@ -81,8 +82,8 @@ public class PersistenceExceptionTranslationPostProcessor extends AbstractBeanFa
 			throw new IllegalArgumentException(
 					"Cannot use PersistenceExceptionTranslator autodetection without ListableBeanFactory");
 		}
-		this.advisor = new PersistenceExceptionTranslationAdvisor(
-				(ListableBeanFactory) beanFactory, this.repositoryAnnotationType);
+		this.advisor = new PersistenceExceptionTranslationAdvisor((ListableBeanFactory) beanFactory,
+				this.repositoryAnnotationType);
 	}
 
 }

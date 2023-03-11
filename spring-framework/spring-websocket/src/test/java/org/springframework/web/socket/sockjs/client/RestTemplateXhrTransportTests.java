@@ -74,7 +74,6 @@ public class RestTemplateXhrTransportTests {
 
 	private final WebSocketHandler webSocketHandler = mock(WebSocketHandler.class);
 
-
 	@Test
 	public void connectReceiveAndClose() throws Exception {
 		String body = "o\n" + "a[\"foo\"]\n" + "c[3000,\"Go away!\"]";
@@ -130,19 +129,18 @@ public class RestTemplateXhrTransportTests {
 		given(restTemplate.execute((URI) any(), eq(HttpMethod.POST), any(), any())).willThrow(expected);
 
 		final CountDownLatch latch = new CountDownLatch(1);
-		connect(restTemplate).addCallback(
-				new ListenableFutureCallback<WebSocketSession>() {
-					@Override
-					public void onSuccess(WebSocketSession result) {
-					}
-					@Override
-					public void onFailure(Throwable ex) {
-						if (ex == expected) {
-							latch.countDown();
-						}
-					}
+		connect(restTemplate).addCallback(new ListenableFutureCallback<WebSocketSession>() {
+			@Override
+			public void onSuccess(WebSocketSession result) {
+			}
+
+			@Override
+			public void onFailure(Throwable ex) {
+				if (ex == expected) {
+					latch.countDown();
 				}
-		);
+			}
+		});
 		verifyNoMoreInteractions(this.webSocketHandler);
 	}
 
@@ -181,8 +179,8 @@ public class RestTemplateXhrTransportTests {
 		SockJsUrlInfo urlInfo = new SockJsUrlInfo(new URI("https://example.com"));
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("h-foo", "h-bar");
-		TransportRequest request = new DefaultTransportRequest(urlInfo, headers, headers,
-				transport, TransportType.XHR, CODEC);
+		TransportRequest request = new DefaultTransportRequest(urlInfo, headers, headers, transport, TransportType.XHR,
+				CODEC);
 
 		return transport.connect(request, this.webSocketHandler);
 	}
@@ -200,12 +198,9 @@ public class RestTemplateXhrTransportTests {
 		return new ByteArrayInputStream(bytes);
 	}
 
-
-
 	private static class TestRestTemplate extends RestTemplate {
 
 		private Queue<ClientHttpResponse> responses = new LinkedBlockingDeque<>();
-
 
 		private TestRestTemplate(ClientHttpResponse... responses) {
 			this.responses.addAll(Arrays.asList(responses));
@@ -223,7 +218,7 @@ public class RestTemplateXhrTransportTests {
 			}
 			return null;
 		}
-	}
 
+	}
 
 }

@@ -49,10 +49,12 @@ class StaxStreamXMLReaderTests extends AbstractStaxXMLReaderTests {
 	void partial() throws Exception {
 		XMLInputFactory inputFactory = XMLInputFactory.newInstance();
 		XMLStreamReader streamReader = inputFactory.createXMLStreamReader(new StringReader(CONTENT));
-		streamReader.nextTag();  // skip to root
-		assertThat(streamReader.getName()).as("Invalid element").isEqualTo(new QName("http://springframework.org/spring-ws", "root"));
-		streamReader.nextTag();  // skip to child
-		assertThat(streamReader.getName()).as("Invalid element").isEqualTo(new QName("http://springframework.org/spring-ws", "child"));
+		streamReader.nextTag(); // skip to root
+		assertThat(streamReader.getName()).as("Invalid element")
+				.isEqualTo(new QName("http://springframework.org/spring-ws", "root"));
+		streamReader.nextTag(); // skip to child
+		assertThat(streamReader.getName()).as("Invalid element")
+				.isEqualTo(new QName("http://springframework.org/spring-ws", "child"));
 		StaxStreamXMLReader xmlReader = new StaxStreamXMLReader(streamReader);
 
 		ContentHandler contentHandler = mock(ContentHandler.class);
@@ -61,7 +63,8 @@ class StaxStreamXMLReaderTests extends AbstractStaxXMLReaderTests {
 
 		verify(contentHandler).setDocumentLocator(any(Locator.class));
 		verify(contentHandler).startDocument();
-		verify(contentHandler).startElement(eq("http://springframework.org/spring-ws"), eq("child"), eq("child"), any(Attributes.class));
+		verify(contentHandler).startElement(eq("http://springframework.org/spring-ws"), eq("child"), eq("child"),
+				any(Attributes.class));
 		verify(contentHandler).endElement("http://springframework.org/spring-ws", "child", "child");
 		verify(contentHandler).endDocument();
 	}

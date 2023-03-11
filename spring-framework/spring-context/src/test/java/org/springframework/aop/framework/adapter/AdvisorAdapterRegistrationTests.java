@@ -50,19 +50,18 @@ public class AdvisorAdapterRegistrationTests {
 
 	@Test
 	public void testAdvisorAdapterRegistrationManagerNotPresentInContext() {
-		ClassPathXmlApplicationContext ctx =
-			new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-without-bpp.xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
+				getClass().getSimpleName() + "-without-bpp.xml", getClass());
 		ITestBean tb = (ITestBean) ctx.getBean("testBean");
 		// just invoke any method to see if advice fired
-		assertThatExceptionOfType(UnknownAdviceTypeException.class).isThrownBy(
-				tb::getName);
+		assertThatExceptionOfType(UnknownAdviceTypeException.class).isThrownBy(tb::getName);
 		assertThat(getAdviceImpl(tb).getInvocationCounter()).isZero();
 	}
 
 	@Test
 	public void testAdvisorAdapterRegistrationManagerPresentInContext() {
-		ClassPathXmlApplicationContext ctx =
-			new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-with-bpp.xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
+				getClass().getSimpleName() + "-with-bpp.xml", getClass());
 		ITestBean tb = (ITestBean) ctx.getBean("testBean");
 		// just invoke any method to see if advice fired
 		tb.getName();
@@ -77,13 +76,11 @@ public class AdvisorAdapterRegistrationTests {
 
 }
 
-
 interface SimpleBeforeAdvice extends BeforeAdvice {
 
 	void before() throws Throwable;
 
 }
-
 
 @SuppressWarnings("serial")
 class SimpleBeforeAdviceAdapter implements AdvisorAdapter, Serializable {
@@ -96,11 +93,10 @@ class SimpleBeforeAdviceAdapter implements AdvisorAdapter, Serializable {
 	@Override
 	public MethodInterceptor getInterceptor(Advisor advisor) {
 		SimpleBeforeAdvice advice = (SimpleBeforeAdvice) advisor.getAdvice();
-		return new SimpleBeforeAdviceInterceptor(advice) ;
+		return new SimpleBeforeAdviceInterceptor(advice);
 	}
 
 }
-
 
 class SimpleBeforeAdviceImpl implements SimpleBeforeAdvice {
 
@@ -117,7 +113,6 @@ class SimpleBeforeAdviceImpl implements SimpleBeforeAdvice {
 
 }
 
-
 final class SimpleBeforeAdviceInterceptor implements MethodInterceptor {
 
 	private SimpleBeforeAdvice advice;
@@ -131,4 +126,5 @@ final class SimpleBeforeAdviceInterceptor implements MethodInterceptor {
 		advice.before();
 		return mi.proceed();
 	}
+
 }

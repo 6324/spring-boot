@@ -38,15 +38,17 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 
 /**
- * {@link FactoryBean} that creates a JSR-160 {@link JMXConnectorServer},
- * optionally registers it with the {@link MBeanServer}, and then starts it.
+ * {@link FactoryBean} that creates a JSR-160 {@link JMXConnectorServer}, optionally
+ * registers it with the {@link MBeanServer}, and then starts it.
  *
- * <p>The {@code JMXConnectorServer} can be started in a separate thread by setting the
- * {@code threaded} property to {@code true}. You can configure this thread to be a
- * daemon thread by setting the {@code daemon} property to {@code true}.
+ * <p>
+ * The {@code JMXConnectorServer} can be started in a separate thread by setting the
+ * {@code threaded} property to {@code true}. You can configure this thread to be a daemon
+ * thread by setting the {@code daemon} property to {@code true}.
  *
- * <p>The {@code JMXConnectorServer} is correctly shut down when an instance of this
- * class is destroyed on shutdown of the containing {@code ApplicationContext}.
+ * <p>
+ * The {@code JMXConnectorServer} is correctly shut down when an instance of this class is
+ * destroyed on shutdown of the containing {@code ApplicationContext}.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -59,7 +61,6 @@ public class ConnectorServerFactoryBean extends MBeanRegistrationSupport
 
 	/** The default service URL. */
 	public static final String DEFAULT_SERVICE_URL = "service:jmx:jmxmp://localhost:9875";
-
 
 	private String serviceUrl = DEFAULT_SERVICE_URL;
 
@@ -78,7 +79,6 @@ public class ConnectorServerFactoryBean extends MBeanRegistrationSupport
 	@Nullable
 	private JMXConnectorServer connectorServer;
 
-
 	/**
 	 * Set the service URL for the {@code JMXConnectorServer}.
 	 */
@@ -87,16 +87,16 @@ public class ConnectorServerFactoryBean extends MBeanRegistrationSupport
 	}
 
 	/**
-	 * Set the environment properties used to construct the {@code JMXConnectorServer}
-	 * as {@code java.util.Properties} (String key/value pairs).
+	 * Set the environment properties used to construct the {@code JMXConnectorServer} as
+	 * {@code java.util.Properties} (String key/value pairs).
 	 */
 	public void setEnvironment(@Nullable Properties environment) {
 		CollectionUtils.mergePropertiesIntoMap(environment, this.environment);
 	}
 
 	/**
-	 * Set the environment properties used to construct the {@code JMXConnector}
-	 * as a {@code Map} of String keys and arbitrary Object values.
+	 * Set the environment properties used to construct the {@code JMXConnector} as a
+	 * {@code Map} of String keys and arbitrary Object values.
 	 */
 	public void setEnvironmentMap(@Nullable Map<String, ?> environment) {
 		if (environment != null) {
@@ -112,9 +112,8 @@ public class ConnectorServerFactoryBean extends MBeanRegistrationSupport
 	}
 
 	/**
-	 * Set the {@code ObjectName} used to register the {@code JMXConnectorServer}
-	 * itself with the {@code MBeanServer}, as {@code ObjectName} instance
-	 * or as {@code String}.
+	 * Set the {@code ObjectName} used to register the {@code JMXConnectorServer} itself
+	 * with the {@code MBeanServer}, as {@code ObjectName} instance or as {@code String}.
 	 * @throws MalformedObjectNameException if the {@code ObjectName} is malformed
 	 */
 	public void setObjectName(Object objectName) throws MalformedObjectNameException {
@@ -136,12 +135,11 @@ public class ConnectorServerFactoryBean extends MBeanRegistrationSupport
 		this.daemon = daemon;
 	}
 
-
 	/**
 	 * Start the connector server. If the {@code threaded} flag is set to {@code true},
-	 * the {@code JMXConnectorServer} will be started in a separate thread.
-	 * If the {@code daemon} flag is set to {@code true}, that thread will be
-	 * started as a daemon thread.
+	 * the {@code JMXConnectorServer} will be started in a separate thread. If the
+	 * {@code daemon} flag is set to {@code true}, that thread will be started as a daemon
+	 * thread.
 	 * @throws JMException if a problem occurred when registering the connector server
 	 * with the {@code MBeanServer}
 	 * @throws IOException if there is a problem starting the connector server
@@ -205,7 +203,6 @@ public class ConnectorServerFactoryBean extends MBeanRegistrationSupport
 		}
 	}
 
-
 	@Override
 	@Nullable
 	public JMXConnectorServer getObject() {
@@ -221,7 +218,6 @@ public class ConnectorServerFactoryBean extends MBeanRegistrationSupport
 	public boolean isSingleton() {
 		return true;
 	}
-
 
 	/**
 	 * Stop the {@code JMXConnectorServer} managed by an instance of this class.

@@ -32,7 +32,6 @@ public class SimpleJmsListenerEndpointTests {
 
 	private final SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
 
-
 	@Test
 	public void createListener() {
 		SimpleJmsListenerEndpoint endpoint = new SimpleJmsListenerEndpoint();

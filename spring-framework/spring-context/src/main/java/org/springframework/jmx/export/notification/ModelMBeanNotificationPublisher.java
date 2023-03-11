@@ -26,10 +26,10 @@ import javax.management.modelmbean.ModelMBeanNotificationBroadcaster;
 import org.springframework.util.Assert;
 
 /**
- * {@link NotificationPublisher} implementation that uses the infrastructure
- * provided by the {@link ModelMBean} interface to track
- * {@link javax.management.NotificationListener javax.management.NotificationListeners}
- * and send {@link Notification Notifications} to those listeners.
+ * {@link NotificationPublisher} implementation that uses the infrastructure provided by
+ * the {@link ModelMBean} interface to track {@link javax.management.NotificationListener
+ * javax.management.NotificationListeners} and send {@link Notification Notifications} to
+ * those listeners.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -56,18 +56,18 @@ public class ModelMBeanNotificationPublisher implements NotificationPublisher {
 	 */
 	private final Object managedResource;
 
-
 	/**
-	 * Create a new instance of the {@link ModelMBeanNotificationPublisher} class
-	 * that will publish all {@link javax.management.Notification Notifications}
-	 * to the supplied {@link ModelMBean}.
+	 * Create a new instance of the {@link ModelMBeanNotificationPublisher} class that
+	 * will publish all {@link javax.management.Notification Notifications} to the
+	 * supplied {@link ModelMBean}.
 	 * @param modelMBean the target {@link ModelMBean}; must not be {@code null}
 	 * @param objectName the {@link ObjectName} of the source {@link ModelMBean}
-	 * @param managedResource the managed resource exposed by the supplied {@link ModelMBean}
+	 * @param managedResource the managed resource exposed by the supplied
+	 * {@link ModelMBean}
 	 * @throws IllegalArgumentException if any of the parameters is {@code null}
 	 */
-	public ModelMBeanNotificationPublisher(
-			ModelMBeanNotificationBroadcaster modelMBean, ObjectName objectName, Object managedResource) {
+	public ModelMBeanNotificationPublisher(ModelMBeanNotificationBroadcaster modelMBean, ObjectName objectName,
+			Object managedResource) {
 
 		Assert.notNull(modelMBean, "'modelMBean' must not be null");
 		Assert.notNull(objectName, "'objectName' must not be null");
@@ -77,13 +77,14 @@ public class ModelMBeanNotificationPublisher implements NotificationPublisher {
 		this.managedResource = managedResource;
 	}
 
-
 	/**
-	 * Send the supplied {@link Notification} using the wrapped
-	 * {@link ModelMBean} instance.
+	 * Send the supplied {@link Notification} using the wrapped {@link ModelMBean}
+	 * instance.
 	 * @param notification the {@link Notification} to be sent
-	 * @throws IllegalArgumentException if the supplied {@code notification} is {@code null}
-	 * @throws UnableToSendNotificationException if the supplied {@code notification} could not be sent
+	 * @throws IllegalArgumentException if the supplied {@code notification} is
+	 * {@code null}
+	 * @throws UnableToSendNotificationException if the supplied {@code notification}
+	 * could not be sent
 	 */
 	@Override
 	public void sendNotification(Notification notification) {
@@ -103,10 +104,10 @@ public class ModelMBeanNotificationPublisher implements NotificationPublisher {
 	}
 
 	/**
-	 * Replaces the notification source if necessary to do so.
-	 * From the {@link Notification javadoc}:
-	 * <i>"It is strongly recommended that notification senders use the object name
-	 * rather than a reference to the MBean object as the source."</i>
+	 * Replaces the notification source if necessary to do so. From the
+	 * {@link Notification javadoc}: <i>"It is strongly recommended that notification
+	 * senders use the object name rather than a reference to the MBean object as the
+	 * source."</i>
 	 * @param notification the {@link Notification} whose
 	 * {@link javax.management.Notification#getSource()} might need massaging
 	 */

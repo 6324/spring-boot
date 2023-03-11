@@ -36,31 +36,28 @@ import org.springframework.lang.Nullable;
 public class VariableReference extends SpelNodeImpl {
 
 	// Well known variables:
-	private static final String THIS = "this";  // currently active context object
+	private static final String THIS = "this"; // currently active context object
 
-	private static final String ROOT = "root";  // root context object
-
+	private static final String ROOT = "root"; // root context object
 
 	private final String name;
-
 
 	public VariableReference(String variableName, int startPos, int endPos) {
 		super(startPos, endPos);
 		this.name = variableName;
 	}
 
-
 	@Override
 	public ValueRef getValueRef(ExpressionState state) throws SpelEvaluationException {
 		if (this.name.equals(THIS)) {
-			return new ValueRef.TypedValueHolderValueRef(state.getActiveContextObject(),this);
+			return new ValueRef.TypedValueHolderValueRef(state.getActiveContextObject(), this);
 		}
 		if (this.name.equals(ROOT)) {
-			return new ValueRef.TypedValueHolderValueRef(state.getRootContextObject(),this);
+			return new ValueRef.TypedValueHolderValueRef(state.getRootContextObject(), this);
 		}
 		TypedValue result = state.lookupVariable(this.name);
 		// a null value will mean either the value was null or the variable was not found
-		return new VariableRef(this.name,result,state.getEvaluationContext());
+		return new VariableRef(this.name, result, state.getEvaluationContext());
 	}
 
 	@Override
@@ -78,7 +75,8 @@ public class VariableReference extends SpelNodeImpl {
 		if (value == null || !Modifier.isPublic(value.getClass().getModifiers())) {
 			// If the type is not public then when generateCode produces a checkcast to it
 			// then an IllegalAccessError will occur.
-			// If resorting to Object isn't sufficient, the hierarchy could be traversed for
+			// If resorting to Object isn't sufficient, the hierarchy could be traversed
+			// for
 			// the first public type.
 			this.exitTypeDescriptor = "Ljava/lang/Object";
 		}
@@ -112,17 +110,17 @@ public class VariableReference extends SpelNodeImpl {
 	@Override
 	public void generateCode(MethodVisitor mv, CodeFlow cf) {
 		if (this.name.equals(ROOT)) {
-			mv.visitVarInsn(ALOAD,1);
+			mv.visitVarInsn(ALOAD, 1);
 		}
 		else {
 			mv.visitVarInsn(ALOAD, 2);
 			mv.visitLdcInsn(this.name);
-			mv.visitMethodInsn(INVOKEINTERFACE, "org/springframework/expression/EvaluationContext", "lookupVariable", "(Ljava/lang/String;)Ljava/lang/Object;",true);
+			mv.visitMethodInsn(INVOKEINTERFACE, "org/springframework/expression/EvaluationContext", "lookupVariable",
+					"(Ljava/lang/String;)Ljava/lang/Object;", true);
 		}
 		CodeFlow.insertCheckCast(mv, this.exitTypeDescriptor);
 		cf.pushDescriptor(this.exitTypeDescriptor);
 	}
-
 
 	private static class VariableRef implements ValueRef {
 
@@ -152,6 +150,7 @@ public class VariableReference extends SpelNodeImpl {
 		public boolean isWritable() {
 			return true;
 		}
+
 	}
 
 }

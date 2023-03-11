@@ -58,9 +58,12 @@ public class UndertowSockJsIntegrationTests extends AbstractSockJsIntegrationTes
 
 	@Configuration
 	static class UndertowTestConfig {
+
 		@Bean
 		public RequestUpgradeStrategy upgradeStrategy() {
 			return new UndertowRequestUpgradeStrategy();
 		}
+
 	}
+
 }

@@ -24,8 +24,8 @@ import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
- * Spring-specific subclass of Hibernate's JTASessionContext,
- * setting {@code FlushMode.MANUAL} for read-only transactions.
+ * Spring-specific subclass of Hibernate's JTASessionContext, setting
+ * {@code FlushMode.MANUAL} for read-only transactions.
  *
  * @author Juergen Hoeller
  * @since 4.2

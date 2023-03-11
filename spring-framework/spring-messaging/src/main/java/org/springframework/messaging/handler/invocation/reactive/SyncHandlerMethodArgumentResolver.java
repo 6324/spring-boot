@@ -23,8 +23,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.messaging.Message;
 
 /**
- * An extension of {@link HandlerMethodArgumentResolver} for implementations
- * that are synchronous in nature and do not block to resolve values.
+ * An extension of {@link HandlerMethodArgumentResolver} for implementations that are
+ * synchronous in nature and do not block to resolve values.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -33,8 +33,9 @@ public interface SyncHandlerMethodArgumentResolver extends HandlerMethodArgument
 
 	/**
 	 * {@inheritDoc}
-	 * <p>By default this simply delegates to {@link #resolveArgumentValue} for
-	 * synchronous resolution.
+	 * <p>
+	 * By default this simply delegates to {@link #resolveArgumentValue} for synchronous
+	 * resolution.
 	 */
 	@Override
 	default Mono<Object> resolveArgument(MethodParameter parameter, Message<?> message) {

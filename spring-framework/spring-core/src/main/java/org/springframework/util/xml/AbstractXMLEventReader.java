@@ -34,7 +34,6 @@ abstract class AbstractXMLEventReader implements XMLEventReader {
 
 	private boolean closed;
 
-
 	@Override
 	public Object next() {
 		try {
@@ -47,8 +46,7 @@ abstract class AbstractXMLEventReader implements XMLEventReader {
 
 	@Override
 	public void remove() {
-		throw new UnsupportedOperationException(
-				"remove not supported on " + ClassUtils.getShortName(getClass()));
+		throw new UnsupportedOperationException("remove not supported on " + ClassUtils.getShortName(getClass()));
 	}
 
 	/**

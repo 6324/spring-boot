@@ -81,10 +81,11 @@ import org.springframework.util.StringValueResolver;
 import org.springframework.validation.Validator;
 
 /**
- * A handler for messages delegating to {@link MessageMapping @MessageMapping}
- * and {@link SubscribeMapping @SubscribeMapping} annotated methods.
+ * A handler for messages delegating to {@link MessageMapping @MessageMapping} and
+ * {@link SubscribeMapping @SubscribeMapping} annotated methods.
  *
- * <p>Supports Ant-style path patterns with template variables.
+ * <p>
+ * Supports Ant-style path patterns with template variables.
  *
  * @author Rossen Stoyanchev
  * @author Brian Clozel
@@ -94,9 +95,8 @@ import org.springframework.validation.Validator;
 public class SimpAnnotationMethodMessageHandler extends AbstractMethodMessageHandler<SimpMessageMappingInfo>
 		implements EmbeddedValueResolverAware, SmartLifecycle {
 
-	private static final boolean reactorPresent = ClassUtils.isPresent(
-			"reactor.core.publisher.Flux", SimpAnnotationMethodMessageHandler.class.getClassLoader());
-
+	private static final boolean reactorPresent = ClassUtils.isPresent("reactor.core.publisher.Flux",
+			SimpAnnotationMethodMessageHandler.class.getClassLoader());
 
 	private final SubscribableChannel clientInboundChannel;
 
@@ -125,13 +125,15 @@ public class SimpAnnotationMethodMessageHandler extends AbstractMethodMessageHan
 
 	private final Object lifecycleMonitor = new Object();
 
-
 	/**
-	 * Create an instance of SimpAnnotationMethodMessageHandler with the given
-	 * message channels and broker messaging template.
-	 * @param clientInboundChannel the channel for receiving messages from clients (e.g. WebSocket clients)
-	 * @param clientOutboundChannel the channel for messages to clients (e.g. WebSocket clients)
-	 * @param brokerTemplate a messaging template to send application messages to the broker
+	 * Create an instance of SimpAnnotationMethodMessageHandler with the given message
+	 * channels and broker messaging template.
+	 * @param clientInboundChannel the channel for receiving messages from clients (e.g.
+	 * WebSocket clients)
+	 * @param clientOutboundChannel the channel for messages to clients (e.g. WebSocket
+	 * clients)
+	 * @param brokerTemplate a messaging template to send application messages to the
+	 * broker
 	 */
 	public SimpAnnotationMethodMessageHandler(SubscribableChannel clientInboundChannel,
 			MessageChannel clientOutboundChannel, SimpMessageSendingOperations brokerTemplate) {
@@ -150,15 +152,16 @@ public class SimpAnnotationMethodMessageHandler extends AbstractMethodMessageHan
 		this.messageConverter = new CompositeMessageConverter(converters);
 	}
 
-
 	/**
 	 * {@inheritDoc}
-	 * <p>Destination prefixes are expected to be slash-separated Strings and
-	 * therefore a slash is automatically appended where missing to ensure a
-	 * proper prefix-based match (i.e. matching complete segments).
-	 * <p>Note however that the remaining portion of a destination after the
-	 * prefix may use a different separator (e.g. commonly "." in messaging)
-	 * depending on the configured {@code PathMatcher}.
+	 * <p>
+	 * Destination prefixes are expected to be slash-separated Strings and therefore a
+	 * slash is automatically appended where missing to ensure a proper prefix-based match
+	 * (i.e. matching complete segments).
+	 * <p>
+	 * Note however that the remaining portion of a destination after the prefix may use a
+	 * different separator (e.g. commonly "." in messaging) depending on the configured
+	 * {@code PathMatcher}.
 	 */
 	@Override
 	public void setDestinationPrefixes(@Nullable Collection<String> prefixes) {
@@ -181,9 +184,10 @@ public class SimpAnnotationMethodMessageHandler extends AbstractMethodMessageHan
 	}
 
 	/**
-	 * Configure a {@link MessageConverter} to use to convert the payload of a message from
-	 * its serialized form with a specific MIME type to an Object matching the target method
-	 * parameter. The converter is also used when sending a message to the message broker.
+	 * Configure a {@link MessageConverter} to use to convert the payload of a message
+	 * from its serialized form with a specific MIME type to an Object matching the target
+	 * method parameter. The converter is also used when sending a message to the message
+	 * broker.
 	 * @see CompositeMessageConverter
 	 */
 	public void setMessageConverter(MessageConverter converter) {
@@ -199,9 +203,10 @@ public class SimpAnnotationMethodMessageHandler extends AbstractMethodMessageHan
 	}
 
 	/**
-	 * Configure a {@link ConversionService} to use when resolving method arguments,
-	 * for example message header values.
-	 * <p>By default, {@link DefaultFormattingConversionService} is used.
+	 * Configure a {@link ConversionService} to use when resolving method arguments, for
+	 * example message header values.
+	 * <p>
+	 * By default, {@link DefaultFormattingConversionService} is used.
 	 */
 	public void setConversionService(ConversionService conversionService) {
 		this.conversionService = conversionService;
@@ -215,9 +220,10 @@ public class SimpAnnotationMethodMessageHandler extends AbstractMethodMessageHan
 	}
 
 	/**
-	 * Set the PathMatcher implementation to use for matching destinations
-	 * against configured destination patterns.
-	 * <p>By default, {@link AntPathMatcher} is used.
+	 * Set the PathMatcher implementation to use for matching destinations against
+	 * configured destination patterns.
+	 * <p>
+	 * By default, {@link AntPathMatcher} is used.
 	 */
 	public void setPathMatcher(PathMatcher pathMatcher) {
 		Assert.notNull(pathMatcher, "PathMatcher must not be null");
@@ -256,9 +262,10 @@ public class SimpAnnotationMethodMessageHandler extends AbstractMethodMessageHan
 
 	/**
 	 * Configure a {@link MessageHeaderInitializer} to pass on to
-	 * {@link HandlerMethodReturnValueHandler HandlerMethodReturnValueHandlers}
-	 * that send messages from controller return values.
-	 * <p>By default, this property is not set.
+	 * {@link HandlerMethodReturnValueHandler HandlerMethodReturnValueHandlers} that send
+	 * messages from controller return values.
+	 * <p>
+	 * By default, this property is not set.
 	 */
 	public void setHeaderInitializer(@Nullable MessageHeaderInitializer headerInitializer) {
 		this.headerInitializer = headerInitializer;
@@ -271,7 +278,6 @@ public class SimpAnnotationMethodMessageHandler extends AbstractMethodMessageHan
 	public MessageHeaderInitializer getHeaderInitializer() {
 		return this.headerInitializer;
 	}
-
 
 	@Override
 	public final void start() {
@@ -302,12 +308,11 @@ public class SimpAnnotationMethodMessageHandler extends AbstractMethodMessageHan
 		return this.running;
 	}
 
-
 	@Override
 	protected List<HandlerMethodArgumentResolver> initArgumentResolvers() {
 		ApplicationContext context = getApplicationContext();
-		ConfigurableBeanFactory beanFactory = (context instanceof ConfigurableApplicationContext ?
-				((ConfigurableApplicationContext) context).getBeanFactory() : null);
+		ConfigurableBeanFactory beanFactory = (context instanceof ConfigurableApplicationContext
+				? ((ConfigurableApplicationContext) context).getBeanFactory() : null);
 
 		List<HandlerMethodArgumentResolver> resolvers = new ArrayList<>();
 
@@ -340,13 +345,12 @@ public class SimpAnnotationMethodMessageHandler extends AbstractMethodMessageHan
 
 		// Annotation-based return value types
 
-		SendToMethodReturnValueHandler sendToHandler =
-				new SendToMethodReturnValueHandler(this.brokerTemplate, true);
+		SendToMethodReturnValueHandler sendToHandler = new SendToMethodReturnValueHandler(this.brokerTemplate, true);
 		sendToHandler.setHeaderInitializer(this.headerInitializer);
 		handlers.add(sendToHandler);
 
-		SubscriptionMethodReturnValueHandler subscriptionHandler =
-				new SubscriptionMethodReturnValueHandler(this.clientMessagingTemplate);
+		SubscriptionMethodReturnValueHandler subscriptionHandler = new SubscriptionMethodReturnValueHandler(
+				this.clientMessagingTemplate);
 		subscriptionHandler.setHeaderInitializer(this.headerInitializer);
 		handlers.add(subscriptionHandler);
 
@@ -372,7 +376,6 @@ public class SimpAnnotationMethodMessageHandler extends AbstractMethodMessageHan
 	protected Log getHandlerMethodLogger() {
 		return SimpLogging.forLog(HandlerMethod.defaultLogger);
 	}
-
 
 	@Override
 	protected boolean isHandler(Class<?> beanType) {
@@ -400,7 +403,8 @@ public class SimpAnnotationMethodMessageHandler extends AbstractMethodMessageHan
 		if (subscribeAnn != null) {
 			MessageMapping typeAnn = AnnotatedElementUtils.findMergedAnnotation(handlerType, MessageMapping.class);
 			// Only actually register it if there are destinations specified;
-			// otherwise @SubscribeMapping is just being used as a (meta-annotation) marker.
+			// otherwise @SubscribeMapping is just being used as a (meta-annotation)
+			// marker.
 			if (subscribeAnn.value().length > 0 || (typeAnn != null && typeAnn.value().length > 0)) {
 				SimpMessageMappingInfo result = createSubscribeMappingCondition(subscribeAnn.value());
 				if (typeAnn != null) {
@@ -492,8 +496,8 @@ public class SimpAnnotationMethodMessageHandler extends AbstractMethodMessageHan
 	}
 
 	@Override
-	protected void handleMatch(SimpMessageMappingInfo mapping, HandlerMethod handlerMethod,
-			String lookupDestination, Message<?> message) {
+	protected void handleMatch(SimpMessageMappingInfo mapping, HandlerMethod handlerMethod, String lookupDestination,
+			Message<?> message) {
 
 		Set<String> patterns = mapping.getDestinationConditions().getPatterns();
 		if (!CollectionUtils.isEmpty(patterns)) {

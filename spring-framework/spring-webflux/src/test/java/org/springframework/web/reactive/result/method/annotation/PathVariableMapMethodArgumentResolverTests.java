@@ -46,13 +46,15 @@ public class PathVariableMapMethodArgumentResolverTests {
 
 	private PathVariableMapMethodArgumentResolver resolver;
 
-	private final MockServerWebExchange exchange= MockServerWebExchange.from(MockServerHttpRequest.get("/"));
+	private final MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
 
 	private MethodParameter paramMap;
-	private MethodParameter paramNamedMap;
-	private MethodParameter paramMapNoAnnot;
-	private MethodParameter paramMonoMap;
 
+	private MethodParameter paramNamedMap;
+
+	private MethodParameter paramMapNoAnnot;
+
+	private MethodParameter paramMonoMap;
 
 	@BeforeEach
 	public void setup() throws Exception {
@@ -65,15 +67,14 @@ public class PathVariableMapMethodArgumentResolverTests {
 		this.paramMonoMap = new MethodParameter(method, 3);
 	}
 
-
 	@Test
 	public void supportsParameter() {
 		assertThat(resolver.supportsParameter(paramMap)).isTrue();
 		assertThat(resolver.supportsParameter(paramNamedMap)).isFalse();
 		assertThat(resolver.supportsParameter(paramMapNoAnnot)).isFalse();
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.resolver.supportsParameter(this.paramMonoMap))
-			.withMessageStartingWith("PathVariableMapMethodArgumentResolver does not support reactive type wrapper");
+		assertThatIllegalStateException().isThrownBy(() -> this.resolver.supportsParameter(this.paramMonoMap))
+				.withMessageStartingWith(
+						"PathVariableMapMethodArgumentResolver does not support reactive type wrapper");
 	}
 
 	@Test
@@ -97,12 +98,9 @@ public class PathVariableMapMethodArgumentResolverTests {
 		assertThat(result).isEqualTo(Collections.emptyMap());
 	}
 
-
 	@SuppressWarnings("unused")
-	public void handle(
-			@PathVariable Map<String, String> map,
-			@PathVariable(value = "name") Map<String, String> namedMap,
-			Map<String, String> mapWithoutAnnotat,
+	public void handle(@PathVariable Map<String, String> map,
+			@PathVariable(value = "name") Map<String, String> namedMap, Map<String, String> mapWithoutAnnotat,
 			@PathVariable Mono<Map<?, ?>> monoMap) {
 	}
 

@@ -45,7 +45,8 @@ public class Spr7816Tests {
 
 		private Map<String, Class<? extends DomainEntity>> supportedTypes;
 
-		public FilterAdapter(final String extensionPrefix, final Map<String, Class<? extends DomainEntity>> supportedTypes) {
+		public FilterAdapter(final String extensionPrefix,
+				final Map<String, Class<? extends DomainEntity>> supportedTypes) {
 			this.extensionPrefix = extensionPrefix;
 			this.supportedTypes = supportedTypes;
 		}
@@ -61,15 +62,19 @@ public class Spr7816Tests {
 	}
 
 	public static class Building extends DomainEntity {
+
 	}
 
 	public static class Entrance extends DomainEntity {
+
 	}
 
 	public static class Dwelling extends DomainEntity {
+
 	}
 
 	public abstract static class DomainEntity {
 
 	}
+
 }

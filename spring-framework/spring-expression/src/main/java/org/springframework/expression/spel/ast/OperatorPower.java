@@ -38,7 +38,6 @@ public class OperatorPower extends Operator {
 		super("^", startPos, endPos, operands);
 	}
 
-
 	@Override
 	public TypedValue getValueInternal(ExpressionState state) throws EvaluationException {
 		SpelNodeImpl leftOp = getLeftOperand();

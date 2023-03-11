@@ -45,8 +45,8 @@ import org.springframework.context.testfixture.cache.beans.DefaultCacheableServi
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Integration tests for {@code @EnableCaching} and its related
- * {@code @Configuration} classes.
+ * Integration tests for {@code @EnableCaching} and its related {@code @Configuration}
+ * classes.
  *
  * @author Chris Beams
  * @author Stephane Nicoll
@@ -94,7 +94,7 @@ public class EnableCachingTests extends AbstractCacheAnnotationTests {
 	public void multipleCacheManagerBeans_implementsCachingConfigurer() {
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
 		ctx.register(MultiCacheManagerConfigurer.class);
-		ctx.refresh();  // does not throw an exception
+		ctx.refresh(); // does not throw an exception
 	}
 
 	@Test
@@ -130,7 +130,8 @@ public class EnableCachingTests extends AbstractCacheAnnotationTests {
 		CacheInterceptor ci = context.getBean(CacheInterceptor.class);
 		assertThat(ci.getCacheResolver()).isNotNull();
 		assertThat(ci.getCacheResolver().getClass()).isEqualTo(SimpleCacheResolver.class);
-		assertThat(((SimpleCacheResolver) ci.getCacheResolver()).getCacheManager()).isSameAs(context.getBean(CacheManager.class));
+		assertThat(((SimpleCacheResolver) ci.getCacheResolver()).getCacheManager())
+				.isSameAs(context.getBean(CacheManager.class));
 		context.close();
 	}
 
@@ -142,7 +143,6 @@ public class EnableCachingTests extends AbstractCacheAnnotationTests {
 		assertThat(ci.getKeyGenerator()).isSameAs(context.getBean("keyGenerator"));
 		context.close();
 	}
-
 
 	@Configuration
 	@EnableCaching
@@ -185,14 +185,14 @@ public class EnableCachingTests extends AbstractCacheAnnotationTests {
 		public CacheManager customCacheManager() {
 			return CacheTestUtils.createSimpleCacheManager("testCache");
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching
 	static class EmptyConfig {
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching
@@ -202,8 +202,8 @@ public class EnableCachingTests extends AbstractCacheAnnotationTests {
 		public CacheManager cm1() {
 			return new NoOpCacheManager();
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching
@@ -218,8 +218,8 @@ public class EnableCachingTests extends AbstractCacheAnnotationTests {
 		public CacheManager cm2() {
 			return new NoOpCacheManager();
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching
@@ -244,8 +244,8 @@ public class EnableCachingTests extends AbstractCacheAnnotationTests {
 		public KeyGenerator keyGenerator() {
 			return null;
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching
@@ -255,8 +255,8 @@ public class EnableCachingTests extends AbstractCacheAnnotationTests {
 		public CacheManager cm() {
 			return new NoOpCacheManager();
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching
@@ -279,6 +279,7 @@ public class EnableCachingTests extends AbstractCacheAnnotationTests {
 		public CacheResolver cacheResolver() {
 			return new NamedCacheResolver(cacheManager(), "foo");
 		}
+
 	}
 
 }

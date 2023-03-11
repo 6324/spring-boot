@@ -34,8 +34,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
- * Tests for redirect view, and query string construction.
- * Doesn't test URL encoding, although it does check that it's called.
+ * Tests for redirect view, and query string construction. Doesn't test URL encoding,
+ * although it does check that it's called.
  *
  * @author Sebastien Deleuze
  */
@@ -43,18 +43,15 @@ public class RedirectViewTests {
 
 	private MockServerWebExchange exchange;
 
-
 	@BeforeEach
 	public void setup() {
 		this.exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/context/path").contextPath("/context"));
 	}
 
-
 	@Test
 	public void noUrlSet() throws Exception {
 		RedirectView rv = new RedirectView(null);
-		assertThatIllegalArgumentException().isThrownBy(
-				rv::afterPropertiesSet);
+		assertThatIllegalArgumentException().isThrownBy(rv::afterPropertiesSet);
 	}
 
 	@Test
@@ -88,7 +85,8 @@ public class RedirectViewTests {
 		String url = "/test.html?id=1";
 		RedirectView view = new RedirectView(url);
 		view.render(new HashMap<>(), MediaType.TEXT_HTML, this.exchange).block();
-		assertThat(this.exchange.getResponse().getHeaders().getLocation()).isEqualTo(URI.create("/context/test.html?id=1"));
+		assertThat(this.exchange.getResponse().getHeaders().getLocation())
+				.isEqualTo(URI.create("/context/test.html?id=1"));
 	}
 
 	@Test
@@ -112,7 +110,8 @@ public class RedirectViewTests {
 		Map<String, String> model = Collections.singletonMap("foo", "bar");
 		RedirectView view = new RedirectView(url);
 		view.render(model, MediaType.TEXT_HTML, this.exchange).block();
-		assertThat(this.exchange.getResponse().getHeaders().getLocation()).isEqualTo(URI.create("https://url.somewhere.com?foo=bar"));
+		assertThat(this.exchange.getResponse().getHeaders().getLocation())
+				.isEqualTo(URI.create("https://url.somewhere.com?foo=bar"));
 	}
 
 	@Test
@@ -122,7 +121,8 @@ public class RedirectViewTests {
 		this.exchange.getAttributes().put(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE, attributes);
 		RedirectView view = new RedirectView(url);
 		view.render(new HashMap<>(), MediaType.TEXT_HTML, exchange).block();
-		assertThat(this.exchange.getResponse().getHeaders().getLocation()).isEqualTo(URI.create("https://url.somewhere.com?foo=bar"));
+		assertThat(this.exchange.getResponse().getHeaders().getLocation())
+				.isEqualTo(URI.create("https://url.somewhere.com?foo=bar"));
 	}
 
 	@Test
@@ -132,7 +132,8 @@ public class RedirectViewTests {
 		this.exchange = MockServerWebExchange.from(MockServerHttpRequest.get("https://url.somewhere.com?a=b&c=d"));
 		view.render(new HashMap<>(), MediaType.TEXT_HTML, this.exchange).block();
 		assertThat(this.exchange.getResponse().getStatusCode()).isEqualTo(HttpStatus.SEE_OTHER);
-		assertThat(this.exchange.getResponse().getHeaders().getLocation()).isEqualTo(URI.create("https://url.somewhere.com?foo=bar&a=b&c=d#bazz"));
+		assertThat(this.exchange.getResponse().getHeaders().getLocation())
+				.isEqualTo(URI.create("https://url.somewhere.com?foo=bar&a=b&c=d#bazz"));
 	}
 
 }

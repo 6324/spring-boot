@@ -25,8 +25,8 @@ import java.lang.reflect.Parameter;
 import org.springframework.core.MethodParameter;
 
 /**
- * A {@link MethodParameter} variant which synthesizes annotations that
- * declare attribute aliases via {@link AliasFor @AliasFor}.
+ * A {@link MethodParameter} variant which synthesizes annotations that declare attribute
+ * aliases via {@link AliasFor @AliasFor}.
  *
  * @author Juergen Hoeller
  * @author Sam Brannen
@@ -37,12 +37,11 @@ import org.springframework.core.MethodParameter;
 public class SynthesizingMethodParameter extends MethodParameter {
 
 	/**
-	 * Create a new {@code SynthesizingMethodParameter} for the given method,
-	 * with nesting level 1.
+	 * Create a new {@code SynthesizingMethodParameter} for the given method, with nesting
+	 * level 1.
 	 * @param method the Method to specify a parameter for
-	 * @param parameterIndex the index of the parameter: -1 for the method
-	 * return type; 0 for the first method parameter; 1 for the second method
-	 * parameter, etc.
+	 * @param parameterIndex the index of the parameter: -1 for the method return type; 0
+	 * for the first method parameter; 1 for the second method parameter, etc.
 	 */
 	public SynthesizingMethodParameter(Method method, int parameterIndex) {
 		super(method, parameterIndex);
@@ -51,20 +50,19 @@ public class SynthesizingMethodParameter extends MethodParameter {
 	/**
 	 * Create a new {@code SynthesizingMethodParameter} for the given method.
 	 * @param method the Method to specify a parameter for
-	 * @param parameterIndex the index of the parameter: -1 for the method
-	 * return type; 0 for the first method parameter; 1 for the second method
-	 * parameter, etc.
-	 * @param nestingLevel the nesting level of the target type
-	 * (typically 1; e.g. in case of a List of Lists, 1 would indicate the
-	 * nested List, whereas 2 would indicate the element of the nested List)
+	 * @param parameterIndex the index of the parameter: -1 for the method return type; 0
+	 * for the first method parameter; 1 for the second method parameter, etc.
+	 * @param nestingLevel the nesting level of the target type (typically 1; e.g. in case
+	 * of a List of Lists, 1 would indicate the nested List, whereas 2 would indicate the
+	 * element of the nested List)
 	 */
 	public SynthesizingMethodParameter(Method method, int parameterIndex, int nestingLevel) {
 		super(method, parameterIndex, nestingLevel);
 	}
 
 	/**
-	 * Create a new {@code SynthesizingMethodParameter} for the given constructor,
-	 * with nesting level 1.
+	 * Create a new {@code SynthesizingMethodParameter} for the given constructor, with
+	 * nesting level 1.
 	 * @param constructor the Constructor to specify a parameter for
 	 * @param parameterIndex the index of the parameter
 	 */
@@ -76,9 +74,9 @@ public class SynthesizingMethodParameter extends MethodParameter {
 	 * Create a new {@code SynthesizingMethodParameter} for the given constructor.
 	 * @param constructor the Constructor to specify a parameter for
 	 * @param parameterIndex the index of the parameter
-	 * @param nestingLevel the nesting level of the target type
-	 * (typically 1; e.g. in case of a List of Lists, 1 would indicate the
-	 * nested List, whereas 2 would indicate the element of the nested List)
+	 * @param nestingLevel the nesting level of the target type (typically 1; e.g. in case
+	 * of a List of Lists, 1 would indicate the nested List, whereas 2 would indicate the
+	 * element of the nested List)
 	 */
 	public SynthesizingMethodParameter(Constructor<?> constructor, int parameterIndex, int nestingLevel) {
 		super(constructor, parameterIndex, nestingLevel);
@@ -92,7 +90,6 @@ public class SynthesizingMethodParameter extends MethodParameter {
 	protected SynthesizingMethodParameter(SynthesizingMethodParameter original) {
 		super(original);
 	}
-
 
 	@Override
 	protected <A extends Annotation> A adaptAnnotation(A annotation) {
@@ -109,11 +106,11 @@ public class SynthesizingMethodParameter extends MethodParameter {
 		return new SynthesizingMethodParameter(this);
 	}
 
-
 	/**
 	 * Create a new SynthesizingMethodParameter for the given method or constructor.
-	 * <p>This is a convenience factory method for scenarios where a
-	 * Method or Constructor reference is treated in a generic fashion.
+	 * <p>
+	 * This is a convenience factory method for scenarios where a Method or Constructor
+	 * reference is treated in a generic fashion.
 	 * @param executable the Method or Constructor to specify a parameter for
 	 * @param parameterIndex the index of the parameter
 	 * @return the corresponding SynthesizingMethodParameter instance
@@ -133,8 +130,9 @@ public class SynthesizingMethodParameter extends MethodParameter {
 
 	/**
 	 * Create a new SynthesizingMethodParameter for the given parameter descriptor.
-	 * <p>This is a convenience factory method for scenarios where a
-	 * Java 8 {@link Parameter} descriptor is already available.
+	 * <p>
+	 * This is a convenience factory method for scenarios where a Java 8 {@link Parameter}
+	 * descriptor is already available.
 	 * @param parameter the parameter descriptor
 	 * @return the corresponding SynthesizingMethodParameter instance
 	 * @since 5.0

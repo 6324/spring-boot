@@ -65,9 +65,7 @@ public class SQLStateExceptionTranslatorTests {
 	}
 
 	/**
-	 * PostgreSQL can return null.
-	 * SAP DB can apparently return empty SQL code.
-	 * Bug 729170
+	 * PostgreSQL can return null. SAP DB can apparently return empty SQL code. Bug 729170
 	 */
 	@Test
 	public void malformedSqlStateCodes() {
@@ -81,7 +79,6 @@ public class SQLStateExceptionTranslatorTests {
 		sex = new SQLException("Message", "I", 1);
 		testMalformedSqlStateCode(sex);
 	}
-
 
 	private void testMalformedSqlStateCode(SQLException sex) {
 		try {

@@ -26,8 +26,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * An implementation of {@link Message} with a generic payload.
- * Once created, a GenericMessage is immutable.
+ * An implementation of {@link Message} with a generic payload. Once created, a
+ * GenericMessage is immutable.
  *
  * @author Mark Fisher
  * @since 4.0
@@ -38,11 +38,9 @@ public class GenericMessage<T> implements Message<T>, Serializable {
 
 	private static final long serialVersionUID = 4268801052358035098L;
 
-
 	private final T payload;
 
 	private final MessageHeaders headers;
-
 
 	/**
 	 * Create a new message with the given payload.
@@ -53,8 +51,8 @@ public class GenericMessage<T> implements Message<T>, Serializable {
 	}
 
 	/**
-	 * Create a new message with the given payload and headers.
-	 * The content of the given header map is copied.
+	 * Create a new message with the given payload and headers. The content of the given
+	 * header map is copied.
 	 * @param payload the message payload (never {@code null})
 	 * @param headers message headers to use for initialization
 	 */
@@ -64,8 +62,9 @@ public class GenericMessage<T> implements Message<T>, Serializable {
 
 	/**
 	 * A constructor with the {@link MessageHeaders} instance to use.
-	 * <p><strong>Note:</strong> the given {@code MessageHeaders} instance is used
-	 * directly in the new message, i.e. it is not copied.
+	 * <p>
+	 * <strong>Note:</strong> the given {@code MessageHeaders} instance is used directly
+	 * in the new message, i.e. it is not copied.
 	 * @param payload the message payload (never {@code null})
 	 * @param headers message headers
 	 */
@@ -76,7 +75,6 @@ public class GenericMessage<T> implements Message<T>, Serializable {
 		this.headers = headers;
 	}
 
-
 	@Override
 	public T getPayload() {
 		return this.payload;
@@ -86,7 +84,6 @@ public class GenericMessage<T> implements Message<T>, Serializable {
 	public MessageHeaders getHeaders() {
 		return this.headers;
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {

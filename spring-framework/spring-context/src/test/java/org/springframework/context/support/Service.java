@@ -39,7 +39,6 @@ public class Service implements ApplicationContextAware, MessageSourceAware, Dis
 
 	private boolean properlyDestroyed = false;
 
-
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
@@ -64,7 +63,6 @@ public class Service implements ApplicationContextAware, MessageSourceAware, Dis
 	public Resource[] getResources() {
 		return resources;
 	}
-
 
 	@Override
 	public void destroy() {

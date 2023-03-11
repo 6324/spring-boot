@@ -65,38 +65,37 @@ public abstract class DataBufferUtils {
 
 	private static final Consumer<DataBuffer> RELEASE_CONSUMER = DataBufferUtils::release;
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Reading
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
 	 * Obtain a {@link InputStream} from the given supplier, and read it into a
-	 * {@code Flux} of {@code DataBuffer}s. Closes the input stream when the
-	 * Flux is terminated.
+	 * {@code Flux} of {@code DataBuffer}s. Closes the input stream when the Flux is
+	 * terminated.
 	 * @param inputStreamSupplier the supplier for the input stream to read from
 	 * @param bufferFactory the factory to create data buffers with
 	 * @param bufferSize the maximum size of the data buffers
 	 * @return a Flux of data buffers read from the given channel
 	 */
-	public static Flux<DataBuffer> readInputStream(
-			Callable<InputStream> inputStreamSupplier, DataBufferFactory bufferFactory, int bufferSize) {
+	public static Flux<DataBuffer> readInputStream(Callable<InputStream> inputStreamSupplier,
+			DataBufferFactory bufferFactory, int bufferSize) {
 
 		Assert.notNull(inputStreamSupplier, "'inputStreamSupplier' must not be null");
 		return readByteChannel(() -> Channels.newChannel(inputStreamSupplier.call()), bufferFactory, bufferSize);
 	}
 
 	/**
-	 * Obtain a {@link ReadableByteChannel} from the given supplier, and read
-	 * it into a {@code Flux} of {@code DataBuffer}s. Closes the channel when
-	 * the Flux is terminated.
+	 * Obtain a {@link ReadableByteChannel} from the given supplier, and read it into a
+	 * {@code Flux} of {@code DataBuffer}s. Closes the channel when the Flux is
+	 * terminated.
 	 * @param channelSupplier the supplier for the channel to read from
 	 * @param bufferFactory the factory to create data buffers with
 	 * @param bufferSize the maximum size of the data buffers
 	 * @return a Flux of data buffers read from the given channel
 	 */
-	public static Flux<DataBuffer> readByteChannel(
-			Callable<ReadableByteChannel> channelSupplier, DataBufferFactory bufferFactory, int bufferSize) {
+	public static Flux<DataBuffer> readByteChannel(Callable<ReadableByteChannel> channelSupplier,
+			DataBufferFactory bufferFactory, int bufferSize) {
 
 		Assert.notNull(channelSupplier, "'channelSupplier' must not be null");
 		Assert.notNull(bufferFactory, "'dataBufferFactory' must not be null");
@@ -110,65 +109,63 @@ public abstract class DataBufferUtils {
 	}
 
 	/**
-	 * Obtain a {@code AsynchronousFileChannel} from the given supplier, and read
-	 * it into a {@code Flux} of {@code DataBuffer}s. Closes the channel when
-	 * the Flux is terminated.
+	 * Obtain a {@code AsynchronousFileChannel} from the given supplier, and read it into
+	 * a {@code Flux} of {@code DataBuffer}s. Closes the channel when the Flux is
+	 * terminated.
 	 * @param channelSupplier the supplier for the channel to read from
 	 * @param bufferFactory the factory to create data buffers with
 	 * @param bufferSize the maximum size of the data buffers
 	 * @return a Flux of data buffers read from the given channel
 	 */
-	public static Flux<DataBuffer> readAsynchronousFileChannel(
-			Callable<AsynchronousFileChannel> channelSupplier, DataBufferFactory bufferFactory, int bufferSize) {
+	public static Flux<DataBuffer> readAsynchronousFileChannel(Callable<AsynchronousFileChannel> channelSupplier,
+			DataBufferFactory bufferFactory, int bufferSize) {
 
 		return readAsynchronousFileChannel(channelSupplier, 0, bufferFactory, bufferSize);
 	}
 
 	/**
-	 * Obtain a {@code AsynchronousFileChannel} from the given supplier, and
-	 * read it into a {@code Flux} of {@code DataBuffer}s, starting at the given
-	 * position. Closes the channel when the Flux is terminated.
+	 * Obtain a {@code AsynchronousFileChannel} from the given supplier, and read it into
+	 * a {@code Flux} of {@code DataBuffer}s, starting at the given position. Closes the
+	 * channel when the Flux is terminated.
 	 * @param channelSupplier the supplier for the channel to read from
 	 * @param position the position to start reading from
 	 * @param bufferFactory the factory to create data buffers with
 	 * @param bufferSize the maximum size of the data buffers
 	 * @return a Flux of data buffers read from the given channel
 	 */
-	public static Flux<DataBuffer> readAsynchronousFileChannel(
-			Callable<AsynchronousFileChannel> channelSupplier, long position,
-			DataBufferFactory bufferFactory, int bufferSize) {
+	public static Flux<DataBuffer> readAsynchronousFileChannel(Callable<AsynchronousFileChannel> channelSupplier,
+			long position, DataBufferFactory bufferFactory, int bufferSize) {
 
 		Assert.notNull(channelSupplier, "'channelSupplier' must not be null");
 		Assert.notNull(bufferFactory, "'dataBufferFactory' must not be null");
 		Assert.isTrue(position >= 0, "'position' must be >= 0");
 		Assert.isTrue(bufferSize > 0, "'bufferSize' must be > 0");
 
-		Flux<DataBuffer> flux = Flux.using(channelSupplier,
-				channel -> Flux.create(sink -> {
-					ReadCompletionHandler handler =
-							new ReadCompletionHandler(channel, sink, position, bufferFactory, bufferSize);
-					sink.onCancel(handler::cancel);
-					sink.onRequest(handler::request);
-				}),
-				channel -> {
-					// Do not close channel from here, rather wait for the current read callback
-					// and then complete after releasing the DataBuffer.
-				});
+		Flux<DataBuffer> flux = Flux.using(channelSupplier, channel -> Flux.create(sink -> {
+			ReadCompletionHandler handler = new ReadCompletionHandler(channel, sink, position, bufferFactory,
+					bufferSize);
+			sink.onCancel(handler::cancel);
+			sink.onRequest(handler::request);
+		}), channel -> {
+			// Do not close channel from here, rather wait for the current read callback
+			// and then complete after releasing the DataBuffer.
+		});
 
 		return flux.doOnDiscard(PooledDataBuffer.class, DataBufferUtils::release);
 	}
 
 	/**
-	 * Read bytes from the given file {@code Path} into a {@code Flux} of {@code DataBuffer}s.
-	 * The method ensures that the file is closed when the flux is terminated.
+	 * Read bytes from the given file {@code Path} into a {@code Flux} of
+	 * {@code DataBuffer}s. The method ensures that the file is closed when the flux is
+	 * terminated.
 	 * @param path the path to read bytes from
 	 * @param bufferFactory the factory to create data buffers with
 	 * @param bufferSize the maximum size of the data buffers
 	 * @return a Flux of data buffers read from the given channel
 	 * @since 5.2
 	 */
-	public static Flux<DataBuffer> read(
-			Path path, DataBufferFactory bufferFactory, int bufferSize, OpenOption... options) {
+	public static Flux<DataBuffer> read(Path path, DataBufferFactory bufferFactory, int bufferSize,
+			OpenOption... options) {
 
 		Assert.notNull(path, "Path must not be null");
 		Assert.notNull(bufferFactory, "BufferFactory must not be null");
@@ -180,17 +177,18 @@ public abstract class DataBufferUtils {
 			}
 		}
 
-		return readAsynchronousFileChannel(() -> AsynchronousFileChannel.open(path, options),
-				bufferFactory, bufferSize);
+		return readAsynchronousFileChannel(() -> AsynchronousFileChannel.open(path, options), bufferFactory,
+				bufferSize);
 	}
 
 	/**
 	 * Read the given {@code Resource} into a {@code Flux} of {@code DataBuffer}s.
-	 * <p>If the resource is a file, it is read into an
-	 * {@code AsynchronousFileChannel} and turned to {@code Flux} via
-	 * {@link #readAsynchronousFileChannel(Callable, DataBufferFactory, int)} or else
-	 * fall back to {@link #readByteChannel(Callable, DataBufferFactory, int)}.
-	 * Closes the channel when the flux is terminated.
+	 * <p>
+	 * If the resource is a file, it is read into an {@code AsynchronousFileChannel} and
+	 * turned to {@code Flux} via
+	 * {@link #readAsynchronousFileChannel(Callable, DataBufferFactory, int)} or else fall
+	 * back to {@link #readByteChannel(Callable, DataBufferFactory, int)}. Closes the
+	 * channel when the flux is terminated.
 	 * @param resource the resource to read from
 	 * @param bufferFactory the factory to create data buffers with
 	 * @param bufferSize the maximum size of the data buffers
@@ -201,28 +199,29 @@ public abstract class DataBufferUtils {
 	}
 
 	/**
-	 * Read the given {@code Resource} into a {@code Flux} of {@code DataBuffer}s
-	 * starting at the given position.
-	 * <p>If the resource is a file, it is read into an
-	 * {@code AsynchronousFileChannel} and turned to {@code Flux} via
-	 * {@link #readAsynchronousFileChannel(Callable, DataBufferFactory, int)} or else
-	 * fall back on {@link #readByteChannel(Callable, DataBufferFactory, int)}.
-	 * Closes the channel when the flux is terminated.
+	 * Read the given {@code Resource} into a {@code Flux} of {@code DataBuffer}s starting
+	 * at the given position.
+	 * <p>
+	 * If the resource is a file, it is read into an {@code AsynchronousFileChannel} and
+	 * turned to {@code Flux} via
+	 * {@link #readAsynchronousFileChannel(Callable, DataBufferFactory, int)} or else fall
+	 * back on {@link #readByteChannel(Callable, DataBufferFactory, int)}. Closes the
+	 * channel when the flux is terminated.
 	 * @param resource the resource to read from
 	 * @param position the position to start reading from
 	 * @param bufferFactory the factory to create data buffers with
 	 * @param bufferSize the maximum size of the data buffers
 	 * @return a Flux of data buffers read from the given channel
 	 */
-	public static Flux<DataBuffer> read(
-			Resource resource, long position, DataBufferFactory bufferFactory, int bufferSize) {
+	public static Flux<DataBuffer> read(Resource resource, long position, DataBufferFactory bufferFactory,
+			int bufferSize) {
 
 		try {
 			if (resource.isFile()) {
 				File file = resource.getFile();
 				return readAsynchronousFileChannel(
-						() -> AsynchronousFileChannel.open(file.toPath(), StandardOpenOption.READ),
-						position, bufferFactory, bufferSize);
+						() -> AsynchronousFileChannel.open(file.toPath(), StandardOpenOption.READ), position,
+						bufferFactory, bufferSize);
 			}
 		}
 		catch (IOException ignore) {
@@ -232,25 +231,24 @@ public abstract class DataBufferUtils {
 		return position == 0 ? result : skipUntilByteCount(result, position);
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Writing
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
 	 * Write the given stream of {@link DataBuffer DataBuffers} to the given
-	 * {@code OutputStream}. Does <strong>not</strong> close the output stream
-	 * when the flux is terminated, and does <strong>not</strong>
-	 * {@linkplain #release(DataBuffer) release} the data buffers in the source.
-	 * If releasing is required, then subscribe to the returned {@code Flux}
-	 * with a {@link #releaseConsumer()}.
-	 * <p>Note that the writing process does not start until the returned
-	 * {@code Flux} is subscribed to.
+	 * {@code OutputStream}. Does <strong>not</strong> close the output stream when the
+	 * flux is terminated, and does <strong>not</strong> {@linkplain #release(DataBuffer)
+	 * release} the data buffers in the source. If releasing is required, then subscribe
+	 * to the returned {@code Flux} with a {@link #releaseConsumer()}.
+	 * <p>
+	 * Note that the writing process does not start until the returned {@code Flux} is
+	 * subscribed to.
 	 * @param source the stream of data buffers to be written
 	 * @param outputStream the output stream to write to
-	 * @return a Flux containing the same buffers as in {@code source}, that
-	 * starts the writing process when subscribed to, and that publishes any
-	 * writing errors and the completion signal
+	 * @return a Flux containing the same buffers as in {@code source}, that starts the
+	 * writing process when subscribed to, and that publishes any writing errors and the
+	 * completion signal
 	 */
 	public static Flux<DataBuffer> write(Publisher<DataBuffer> source, OutputStream outputStream) {
 		Assert.notNull(source, "'source' must not be null");
@@ -262,18 +260,18 @@ public abstract class DataBufferUtils {
 
 	/**
 	 * Write the given stream of {@link DataBuffer DataBuffers} to the given
-	 * {@code WritableByteChannel}. Does <strong>not</strong> close the channel
-	 * when the flux is terminated, and does <strong>not</strong>
-	 * {@linkplain #release(DataBuffer) release} the data buffers in the source.
-	 * If releasing is required, then subscribe to the returned {@code Flux}
-	 * with a {@link #releaseConsumer()}.
-	 * <p>Note that the writing process does not start until the returned
-	 * {@code Flux} is subscribed to.
+	 * {@code WritableByteChannel}. Does <strong>not</strong> close the channel when the
+	 * flux is terminated, and does <strong>not</strong> {@linkplain #release(DataBuffer)
+	 * release} the data buffers in the source. If releasing is required, then subscribe
+	 * to the returned {@code Flux} with a {@link #releaseConsumer()}.
+	 * <p>
+	 * Note that the writing process does not start until the returned {@code Flux} is
+	 * subscribed to.
 	 * @param source the stream of data buffers to be written
 	 * @param channel the channel to write to
-	 * @return a Flux containing the same buffers as in {@code source}, that
-	 * starts the writing process when subscribed to, and that publishes any
-	 * writing errors and the completion signal
+	 * @return a Flux containing the same buffers as in {@code source}, that starts the
+	 * writing process when subscribed to, and that publishes any writing errors and the
+	 * completion signal
 	 */
 	public static Flux<DataBuffer> write(Publisher<DataBuffer> source, WritableByteChannel channel) {
 		Assert.notNull(source, "'source' must not be null");
@@ -289,18 +287,19 @@ public abstract class DataBufferUtils {
 
 	/**
 	 * Write the given stream of {@link DataBuffer DataBuffers} to the given
-	 * {@code AsynchronousFileChannel}. Does <strong>not</strong> close the
-	 * channel when the flux is terminated, and does <strong>not</strong>
-	 * {@linkplain #release(DataBuffer) release} the data buffers in the source.
-	 * If releasing is required, then subscribe to the returned {@code Flux}
-	 * with a {@link #releaseConsumer()}.
-	 * <p>Note that the writing process does not start until the returned
-	 * {@code Flux} is subscribed to.
+	 * {@code AsynchronousFileChannel}. Does <strong>not</strong> close the channel when
+	 * the flux is terminated, and does <strong>not</strong>
+	 * {@linkplain #release(DataBuffer) release} the data buffers in the source. If
+	 * releasing is required, then subscribe to the returned {@code Flux} with a
+	 * {@link #releaseConsumer()}.
+	 * <p>
+	 * Note that the writing process does not start until the returned {@code Flux} is
+	 * subscribed to.
 	 * @param source the stream of data buffers to be written
 	 * @param channel the channel to write to
-	 * @return a Flux containing the same buffers as in {@code source}, that
-	 * starts the writing process when subscribed to, and that publishes any
-	 * writing errors and the completion signal
+	 * @return a Flux containing the same buffers as in {@code source}, that starts the
+	 * writing process when subscribed to, and that publishes any writing errors and the
+	 * completion signal
 	 * @since 5.0.10
 	 */
 	public static Flux<DataBuffer> write(Publisher<DataBuffer> source, AsynchronousFileChannel channel) {
@@ -309,22 +308,23 @@ public abstract class DataBufferUtils {
 
 	/**
 	 * Write the given stream of {@link DataBuffer DataBuffers} to the given
-	 * {@code AsynchronousFileChannel}. Does <strong>not</strong> close the channel
-	 * when the flux is terminated, and does <strong>not</strong>
-	 * {@linkplain #release(DataBuffer) release} the data buffers in the source.
-	 * If releasing is required, then subscribe to the returned {@code Flux} with a
+	 * {@code AsynchronousFileChannel}. Does <strong>not</strong> close the channel when
+	 * the flux is terminated, and does <strong>not</strong>
+	 * {@linkplain #release(DataBuffer) release} the data buffers in the source. If
+	 * releasing is required, then subscribe to the returned {@code Flux} with a
 	 * {@link #releaseConsumer()}.
-	 * <p>Note that the writing process does not start until the returned
-	 * {@code Flux} is subscribed to.
+	 * <p>
+	 * Note that the writing process does not start until the returned {@code Flux} is
+	 * subscribed to.
 	 * @param source the stream of data buffers to be written
 	 * @param channel the channel to write to
 	 * @param position the file position where writing is to begin; must be non-negative
-	 * @return a flux containing the same buffers as in {@code source}, that
-	 * starts the writing process when subscribed to, and that publishes any
-	 * writing errors and the completion signal
+	 * @return a flux containing the same buffers as in {@code source}, that starts the
+	 * writing process when subscribed to, and that publishes any writing errors and the
+	 * completion signal
 	 */
-	public static Flux<DataBuffer> write(
-			Publisher<? extends DataBuffer> source, AsynchronousFileChannel channel, long position) {
+	public static Flux<DataBuffer> write(Publisher<? extends DataBuffer> source, AsynchronousFileChannel channel,
+			long position) {
 
 		Assert.notNull(source, "'source' must not be null");
 		Assert.notNull(channel, "'channel' must not be null");
@@ -337,14 +337,12 @@ public abstract class DataBufferUtils {
 			flux.subscribe(handler);
 		});
 
-
 	}
 
 	/**
-	 * Write the given stream of {@link DataBuffer DataBuffers} to the given
-	 * file {@link Path}. The optional {@code options} parameter specifies
-	 * how the file is created or opened (defaults to
-	 * {@link StandardOpenOption#CREATE CREATE},
+	 * Write the given stream of {@link DataBuffer DataBuffers} to the given file
+	 * {@link Path}. The optional {@code options} parameter specifies how the file is
+	 * created or opened (defaults to {@link StandardOpenOption#CREATE CREATE},
 	 * {@link StandardOpenOption#TRUNCATE_EXISTING TRUNCATE_EXISTING}, and
 	 * {@link StandardOpenOption#WRITE WRITE}).
 	 * @param source the stream of data buffers to be written
@@ -363,9 +361,7 @@ public abstract class DataBufferUtils {
 			try {
 				AsynchronousFileChannel channel = AsynchronousFileChannel.open(destination, optionSet, null);
 				sink.onDispose(() -> closeChannel(channel));
-				write(source, channel).subscribe(DataBufferUtils::release,
-						sink::error,
-						sink::success);
+				write(source, channel).subscribe(DataBufferUtils::release, sink::error, sink::success);
 			}
 			catch (IOException ex) {
 				sink.error(ex);
@@ -402,15 +398,14 @@ public abstract class DataBufferUtils {
 		}
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Various
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
 	 * Relay buffers from the given {@link Publisher} until the total
-	 * {@linkplain DataBuffer#readableByteCount() byte count} reaches
-	 * the given maximum byte count, or until the publisher is complete.
+	 * {@linkplain DataBuffer#readableByteCount() byte count} reaches the given maximum
+	 * byte count, or until the publisher is complete.
 	 * @param publisher the publisher to filter
 	 * @param maxByteCount the maximum byte count
 	 * @return a flux whose maximum byte count is {@code maxByteCount}
@@ -421,18 +416,16 @@ public abstract class DataBufferUtils {
 
 		return Flux.defer(() -> {
 			AtomicLong countDown = new AtomicLong(maxByteCount);
-			return Flux.from(publisher)
-					.map(buffer -> {
-						long remainder = countDown.addAndGet(-buffer.readableByteCount());
-						if (remainder < 0) {
-							int length = buffer.readableByteCount() + (int) remainder;
-							return buffer.slice(0, length);
-						}
-						else {
-							return buffer;
-						}
-					})
-					.takeUntil(buffer -> countDown.get() <= 0);
+			return Flux.from(publisher).map(buffer -> {
+				long remainder = countDown.addAndGet(-buffer.readableByteCount());
+				if (remainder < 0) {
+					int length = buffer.readableByteCount() + (int) remainder;
+					return buffer.slice(0, length);
+				}
+				else {
+					return buffer;
+				}
+			}).takeUntil(buffer -> countDown.get() <= 0);
 		});
 
 		// No doOnDiscard as operators used do not cache (and drop) buffers
@@ -440,8 +433,8 @@ public abstract class DataBufferUtils {
 
 	/**
 	 * Skip buffers from the given {@link Publisher} until the total
-	 * {@linkplain DataBuffer#readableByteCount() byte count} reaches
-	 * the given maximum byte count, or until the publisher is complete.
+	 * {@linkplain DataBuffer#readableByteCount() byte count} reaches the given maximum
+	 * byte count, or until the publisher is complete.
 	 * @param publisher the publisher to filter
 	 * @param maxByteCount the maximum byte count
 	 * @return a flux with the remaining part of the given publisher
@@ -452,23 +445,21 @@ public abstract class DataBufferUtils {
 
 		return Flux.defer(() -> {
 			AtomicLong countDown = new AtomicLong(maxByteCount);
-			return Flux.from(publisher)
-					.skipUntil(buffer -> {
-						long remainder = countDown.addAndGet(-buffer.readableByteCount());
-						return remainder < 0;
-					})
-					.map(buffer -> {
-						long remainder = countDown.get();
-						if (remainder < 0) {
-							countDown.set(0);
-							int start = buffer.readableByteCount() + (int)remainder;
-							int length = (int) -remainder;
-							return buffer.slice(start, length);
-						}
-						else {
-							return buffer;
-						}
-					});
+			return Flux.from(publisher).skipUntil(buffer -> {
+				long remainder = countDown.addAndGet(-buffer.readableByteCount());
+				return remainder < 0;
+			}).map(buffer -> {
+				long remainder = countDown.get();
+				if (remainder < 0) {
+					countDown.set(0);
+					int start = buffer.readableByteCount() + (int) remainder;
+					int length = (int) -remainder;
+					return buffer.slice(start, length);
+				}
+				else {
+					return buffer;
+				}
+			});
 		}).doOnDiscard(PooledDataBuffer.class, DataBufferUtils::release);
 	}
 
@@ -488,8 +479,8 @@ public abstract class DataBufferUtils {
 	}
 
 	/**
-	 * Release the given data buffer, if it is a {@link PooledDataBuffer} and
-	 * has been {@linkplain PooledDataBuffer#isAllocated() allocated}.
+	 * Release the given data buffer, if it is a {@link PooledDataBuffer} and has been
+	 * {@linkplain PooledDataBuffer#isAllocated() allocated}.
 	 * @param dataBuffer the data buffer to release
 	 * @return {@code true} if the buffer was released; {@code false} otherwise.
 	 */
@@ -513,8 +504,8 @@ public abstract class DataBufferUtils {
 	}
 
 	/**
-	 * Return a consumer that calls {@link #release(DataBuffer)} on all
-	 * passed data buffers.
+	 * Return a consumer that calls {@link #release(DataBuffer)} on all passed data
+	 * buffers.
 	 */
 	public static Consumer<DataBuffer> releaseConsumer() {
 		return RELEASE_CONSUMER;
@@ -522,15 +513,15 @@ public abstract class DataBufferUtils {
 
 	/**
 	 * Return a new {@code DataBuffer} composed from joining together the given
-	 * {@code dataBuffers} elements. Depending on the {@link DataBuffer} type,
-	 * the returned buffer may be a single buffer containing all data of the
-	 * provided buffers, or it may be a zero-copy, composite with references to
-	 * the given buffers.
-	 * <p>If {@code dataBuffers} produces an error or if there is a cancel
-	 * signal, then all accumulated buffers will be
-	 * {@linkplain #release(DataBuffer) released}.
-	 * <p>Note that the given data buffers do <strong>not</strong> have to be
-	 * released. They will be released as part of the returned composite.
+	 * {@code dataBuffers} elements. Depending on the {@link DataBuffer} type, the
+	 * returned buffer may be a single buffer containing all data of the provided buffers,
+	 * or it may be a zero-copy, composite with references to the given buffers.
+	 * <p>
+	 * If {@code dataBuffers} produces an error or if there is a cancel signal, then all
+	 * accumulated buffers will be {@linkplain #release(DataBuffer) released}.
+	 * <p>
+	 * Note that the given data buffers do <strong>not</strong> have to be released. They
+	 * will be released as part of the returned composite.
 	 * @param dataBuffers the data buffers that are to be composed
 	 * @return a buffer that is composed from the {@code dataBuffers} argument
 	 * @since 5.0.3
@@ -540,13 +531,13 @@ public abstract class DataBufferUtils {
 	}
 
 	/**
-	 * Variant of {@link #join(Publisher)} that behaves the same way up until
-	 * the specified max number of bytes to buffer. Once the limit is exceeded,
+	 * Variant of {@link #join(Publisher)} that behaves the same way up until the
+	 * specified max number of bytes to buffer. Once the limit is exceeded,
 	 * {@link DataBufferLimitException} is raised.
 	 * @param buffers the data buffers that are to be composed
 	 * @param maxByteCount the max number of bytes to buffer, or -1 for unlimited
-	 * @return a buffer with the aggregated content, possibly an empty Mono if
-	 * the max number of bytes to buffer is exceeded.
+	 * @return a buffer with the aggregated content, possibly an empty Mono if the max
+	 * number of bytes to buffer is exceeded.
 	 * @throws DataBufferLimitException if maxByteCount is exceeded
 	 * @since 5.1.11
 	 */
@@ -558,16 +549,14 @@ public abstract class DataBufferUtils {
 			return (Mono<DataBuffer>) buffers;
 		}
 
-		return Flux.from(buffers)
-				.collect(() -> new LimitedDataBufferList(maxByteCount), LimitedDataBufferList::add)
-				.filter(list -> !list.isEmpty())
-				.map(list -> list.get(0).factory().join(list))
+		return Flux.from(buffers).collect(() -> new LimitedDataBufferList(maxByteCount), LimitedDataBufferList::add)
+				.filter(list -> !list.isEmpty()).map(list -> list.get(0).factory().join(list))
 				.doOnDiscard(PooledDataBuffer.class, DataBufferUtils::release);
 	}
 
 	/**
-	 * Return a {@link Matcher} for the given delimiter.
-	 * The matcher can be used to find the delimiters in a stream of data buffers.
+	 * Return a {@link Matcher} for the given delimiter. The matcher can be used to find
+	 * the delimiters in a stream of data buffers.
 	 * @param delimiter the delimiter bytes to find
 	 * @return the matcher
 	 * @since 5.2
@@ -577,8 +566,8 @@ public abstract class DataBufferUtils {
 	}
 
 	/**
-	 * Return a {@link Matcher} for the given delimiters.
-	 * The matcher can be used to find the delimiters in a stream of data buffers.
+	 * Return a {@link Matcher} for the given delimiters. The matcher can be used to find
+	 * the delimiters in a stream of data buffers.
 	 * @param delimiters the delimiters bytes to find
 	 * @return the matcher
 	 * @since 5.2
@@ -591,19 +580,18 @@ public abstract class DataBufferUtils {
 	private static NestedMatcher createMatcher(byte[] delimiter) {
 		Assert.isTrue(delimiter.length > 0, "Delimiter must not be empty");
 		switch (delimiter.length) {
-			case 1:
-				return (delimiter[0] == 10 ? SingleByteMatcher.NEWLINE_MATCHER : new SingleByteMatcher(delimiter));
-			case 2:
-				return new TwoByteMatcher(delimiter);
-			default:
-				return new KnuthMorrisPrattMatcher(delimiter);
+		case 1:
+			return (delimiter[0] == 10 ? SingleByteMatcher.NEWLINE_MATCHER : new SingleByteMatcher(delimiter));
+		case 2:
+			return new TwoByteMatcher(delimiter);
+		default:
+			return new KnuthMorrisPrattMatcher(delimiter);
 		}
 	}
 
-
 	/**
-	 * Contract to find delimiter(s) against one or more data buffers that can
-	 * be passed one at a time to the {@link #match(DataBuffer)} method.
+	 * Contract to find delimiter(s) against one or more data buffers that can be passed
+	 * one at a time to the {@link #match(DataBuffer)} method.
 	 *
 	 * @since 5.2
 	 * @see #match(DataBuffer)
@@ -611,8 +599,8 @@ public abstract class DataBufferUtils {
 	public interface Matcher {
 
 		/**
-		 * Find the first matching delimiter and return the index of the last
-		 * byte of the delimiter, or {@code -1} if not found.
+		 * Find the first matching delimiter and return the index of the last byte of the
+		 * delimiter, or {@code -1} if not found.
 		 */
 		int match(DataBuffer dataBuffer);
 
@@ -625,8 +613,8 @@ public abstract class DataBufferUtils {
 		 * Reset the state of this matcher.
 		 */
 		void reset();
-	}
 
+	}
 
 	/**
 	 * Matcher that supports searching for multiple delimiters.
@@ -634,7 +622,6 @@ public abstract class DataBufferUtils {
 	private static class CompositeMatcher implements Matcher {
 
 		private static final byte[] NO_DELIMITER = new byte[0];
-
 
 		private final NestedMatcher[] matchers;
 
@@ -685,30 +672,29 @@ public abstract class DataBufferUtils {
 				matcher.reset();
 			}
 		}
+
 	}
 
-
 	/**
-	 * Matcher that can be nested within {@link CompositeMatcher} where multiple
-	 * matchers advance together using the same index, one byte at a time.
+	 * Matcher that can be nested within {@link CompositeMatcher} where multiple matchers
+	 * advance together using the same index, one byte at a time.
 	 */
 	private interface NestedMatcher extends Matcher {
 
 		/**
-		 * Perform a match against the next byte of the stream and return true
-		 * if the delimiter is fully matched.
+		 * Perform a match against the next byte of the stream and return true if the
+		 * delimiter is fully matched.
 		 */
 		boolean match(byte b);
 
 	}
-
 
 	/**
 	 * Matcher for a single byte delimiter.
 	 */
 	private static class SingleByteMatcher implements NestedMatcher {
 
-		static SingleByteMatcher NEWLINE_MATCHER = new SingleByteMatcher(new byte[] {10});
+		static SingleByteMatcher NEWLINE_MATCHER = new SingleByteMatcher(new byte[] { 10 });
 
 		private final byte[] delimiter;
 
@@ -741,8 +727,8 @@ public abstract class DataBufferUtils {
 		@Override
 		public void reset() {
 		}
-	}
 
+	}
 
 	/**
 	 * Base class for a {@link NestedMatcher}.
@@ -752,7 +738,6 @@ public abstract class DataBufferUtils {
 		private final byte[] delimiter;
 
 		private int matches = 0;
-
 
 		protected AbstractNestedMatcher(byte[] delimiter) {
 			this.delimiter = delimiter;
@@ -796,12 +781,12 @@ public abstract class DataBufferUtils {
 		public void reset() {
 			this.matches = 0;
 		}
+
 	}
 
-
 	/**
-	 * Matcher with a 2 byte delimiter that does not benefit from a
-	 * Knuth-Morris-Pratt suffix-prefix table.
+	 * Matcher with a 2 byte delimiter that does not benefit from a Knuth-Morris-Pratt
+	 * suffix-prefix table.
 	 */
 	private static class TwoByteMatcher extends AbstractNestedMatcher {
 
@@ -809,12 +794,15 @@ public abstract class DataBufferUtils {
 			super(delimiter);
 			Assert.isTrue(delimiter.length == 2, "Expected a 2-byte delimiter");
 		}
-	}
 
+	}
 
 	/**
 	 * Implementation of {@link Matcher} that uses the Knuth-Morris-Pratt algorithm.
-	 * @see <a href="https://www.nayuki.io/page/knuth-morris-pratt-string-matching">Knuth-Morris-Pratt string matching</a>
+	 *
+	 * @see <a href=
+	 * "https://www.nayuki.io/page/knuth-morris-pratt-string-matching">Knuth-Morris-Pratt
+	 * string matching</a>
 	 */
 	private static class KnuthMorrisPrattMatcher extends AbstractNestedMatcher {
 
@@ -848,8 +836,8 @@ public abstract class DataBufferUtils {
 			}
 			return super.match(b);
 		}
-	}
 
+	}
 
 	private static class ReadableByteChannelGenerator implements Consumer<SynchronousSink<DataBuffer>> {
 
@@ -859,8 +847,8 @@ public abstract class DataBufferUtils {
 
 		private final int bufferSize;
 
-		public ReadableByteChannelGenerator(
-				ReadableByteChannel channel, DataBufferFactory dataBufferFactory, int bufferSize) {
+		public ReadableByteChannelGenerator(ReadableByteChannel channel, DataBufferFactory dataBufferFactory,
+				int bufferSize) {
 
 			this.channel = channel;
 			this.dataBufferFactory = dataBufferFactory;
@@ -892,8 +880,8 @@ public abstract class DataBufferUtils {
 				}
 			}
 		}
-	}
 
+	}
 
 	private static class ReadCompletionHandler implements CompletionHandler<Integer, DataBuffer> {
 
@@ -909,8 +897,8 @@ public abstract class DataBufferUtils {
 
 		private final AtomicReference<State> state = new AtomicReference<>(State.IDLE);
 
-		public ReadCompletionHandler(AsynchronousFileChannel channel,
-				FluxSink<DataBuffer> sink, long position, DataBufferFactory dataBufferFactory, int bufferSize) {
+		public ReadCompletionHandler(AsynchronousFileChannel channel, FluxSink<DataBuffer> sink, long position,
+				DataBufferFactory dataBufferFactory, int bufferSize) {
 
 			this.channel = channel;
 			this.sink = sink;
@@ -932,9 +920,12 @@ public abstract class DataBufferUtils {
 		public void cancel() {
 			this.state.getAndSet(State.DISPOSED);
 
-			// According java.nio.channels.AsynchronousChannel "if an I/O operation is outstanding
-			// on the channel and the channel's close method is invoked, then the I/O operation
-			// fails with the exception AsynchronousCloseException". That should invoke the failed
+			// According java.nio.channels.AsynchronousChannel "if an I/O operation is
+			// outstanding
+			// on the channel and the channel's close method is invoked, then the I/O
+			// operation
+			// fails with the exception AsynchronousCloseException". That should invoke
+			// the failed
 			// callback below which and the current DataBuffer should be released.
 
 			closeChannel(this.channel);
@@ -993,10 +984,12 @@ public abstract class DataBufferUtils {
 		}
 
 		private enum State {
-			IDLE, READING, DISPOSED
-		}
-	}
 
+			IDLE, READING, DISPOSED
+
+		}
+
+	}
 
 	private static class WritableByteChannelSubscriber extends BaseSubscriber<DataBuffer> {
 
@@ -1039,8 +1032,8 @@ public abstract class DataBufferUtils {
 		protected void hookOnComplete() {
 			this.sink.complete();
 		}
-	}
 
+	}
 
 	private static class WriteCompletionHandler extends BaseSubscriber<DataBuffer>
 			implements CompletionHandler<Integer, ByteBuffer> {
@@ -1057,8 +1050,7 @@ public abstract class DataBufferUtils {
 
 		private final AtomicReference<DataBuffer> dataBuffer = new AtomicReference<>();
 
-		public WriteCompletionHandler(
-				FluxSink<DataBuffer> sink, AsynchronousFileChannel channel, long position) {
+		public WriteCompletionHandler(FluxSink<DataBuffer> sink, AsynchronousFileChannel channel, long position) {
 
 			this.sink = sink;
 			this.channel = channel;
@@ -1130,6 +1122,7 @@ public abstract class DataBufferUtils {
 			this.sink.next(dataBuffer);
 			this.dataBuffer.set(null);
 		}
+
 	}
 
 }

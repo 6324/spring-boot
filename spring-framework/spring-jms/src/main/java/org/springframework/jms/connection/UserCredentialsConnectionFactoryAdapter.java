@@ -32,19 +32,20 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * An adapter for a target JMS {@link javax.jms.ConnectionFactory}, applying the
- * given user credentials to every standard {@code createConnection()} call,
- * that is, implicitly invoking {@code createConnection(username, password)}
- * on the target. All other methods simply delegate to the corresponding methods
- * of the target ConnectionFactory.
+ * An adapter for a target JMS {@link javax.jms.ConnectionFactory}, applying the given
+ * user credentials to every standard {@code createConnection()} call, that is, implicitly
+ * invoking {@code createConnection(username, password)} on the target. All other methods
+ * simply delegate to the corresponding methods of the target ConnectionFactory.
  *
- * <p>Can be used to proxy a target JNDI ConnectionFactory that does not have user
- * credentials configured. Client code can work with the ConnectionFactory without
- * passing in username and password on every {@code createConnection()} call.
+ * <p>
+ * Can be used to proxy a target JNDI ConnectionFactory that does not have user
+ * credentials configured. Client code can work with the ConnectionFactory without passing
+ * in username and password on every {@code createConnection()} call.
  *
- * <p>In the following example, client code can simply transparently work
- * with the preconfigured "myConnectionFactory", implicitly accessing
- * "myTargetConnectionFactory" with the specified user credentials.
+ * <p>
+ * In the following example, client code can simply transparently work with the
+ * preconfigured "myConnectionFactory", implicitly accessing "myTargetConnectionFactory"
+ * with the specified user credentials.
  *
  * <pre class="code">
  * &lt;bean id="myTargetConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean"&gt;
@@ -57,16 +58,18 @@ import org.springframework.util.StringUtils;
  *   &lt;property name="password" value="mypassword"/&gt;
  * &lt;/bean></pre>
  *
- * <p>If the "username" is empty, this proxy will simply delegate to the standard
- * {@code createConnection()} method of the target ConnectionFactory.
- * This can be used to keep a UserCredentialsConnectionFactoryAdapter bean
- * definition just for the <i>option</i> of implicitly passing in user credentials
- * if the particular target ConnectionFactory requires it.
+ * <p>
+ * If the "username" is empty, this proxy will simply delegate to the standard
+ * {@code createConnection()} method of the target ConnectionFactory. This can be used to
+ * keep a UserCredentialsConnectionFactoryAdapter bean definition just for the
+ * <i>option</i> of implicitly passing in user credentials if the particular target
+ * ConnectionFactory requires it.
  *
- * <p>As of Spring Framework 5, this class delegates JMS 2.0 {@code JMSContext}
- * calls and therefore requires the JMS 2.0 API to be present at runtime.
- * It may nevertheless run against a JMS 1.1 driver (bound to the JMS 2.0 API)
- * as long as no actual JMS 2.0 calls are triggered by the application's setup.
+ * <p>
+ * As of Spring Framework 5, this class delegates JMS 2.0 {@code JMSContext} calls and
+ * therefore requires the JMS 2.0 API to be present at runtime. It may nevertheless run
+ * against a JMS 1.1 driver (bound to the JMS 2.0 API) as long as no actual JMS 2.0 calls
+ * are triggered by the application's setup.
  *
  * @author Juergen Hoeller
  * @since 1.2
@@ -86,9 +89,8 @@ public class UserCredentialsConnectionFactoryAdapter
 	@Nullable
 	private String password;
 
-	private final ThreadLocal<JmsUserCredentials> threadBoundCredentials =
-			new NamedThreadLocal<>("Current JMS user credentials");
-
+	private final ThreadLocal<JmsUserCredentials> threadBoundCredentials = new NamedThreadLocal<>(
+			"Current JMS user credentials");
 
 	/**
 	 * Set the target ConnectionFactory that this ConnectionFactory should delegate to.
@@ -99,16 +101,16 @@ public class UserCredentialsConnectionFactoryAdapter
 	}
 
 	/**
-	 * Set the username that this adapter should use for retrieving Connections.
-	 * Default is no specific user.
+	 * Set the username that this adapter should use for retrieving Connections. Default
+	 * is no specific user.
 	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
 	/**
-	 * Set the password that this adapter should use for retrieving Connections.
-	 * Default is no specific password.
+	 * Set the password that this adapter should use for retrieving Connections. Default
+	 * is no specific password.
 	 */
 	public void setPassword(String password) {
 		this.password = password;
@@ -121,13 +123,13 @@ public class UserCredentialsConnectionFactoryAdapter
 		}
 	}
 
-
 	/**
-	 * Set user credententials for this proxy and the current thread.
-	 * The given username and password will be applied to all subsequent
-	 * {@code createConnection()} calls on this ConnectionFactory proxy.
-	 * <p>This will override any statically specified user credentials,
-	 * that is, values of the "username" and "password" bean properties.
+	 * Set user credententials for this proxy and the current thread. The given username
+	 * and password will be applied to all subsequent {@code createConnection()} calls on
+	 * this ConnectionFactory proxy.
+	 * <p>
+	 * This will override any statically specified user credentials, that is, values of
+	 * the "username" and "password" bean properties.
 	 * @param username the username to apply
 	 * @param password the password to apply
 	 * @see #removeCredentialsFromCurrentThread
@@ -137,19 +139,18 @@ public class UserCredentialsConnectionFactoryAdapter
 	}
 
 	/**
-	 * Remove any user credentials for this proxy from the current thread.
-	 * Statically specified user credentials apply again afterwards.
+	 * Remove any user credentials for this proxy from the current thread. Statically
+	 * specified user credentials apply again afterwards.
 	 * @see #setCredentialsForCurrentThread
 	 */
 	public void removeCredentialsFromCurrentThread() {
 		this.threadBoundCredentials.remove();
 	}
 
-
 	/**
-	 * Determine whether there are currently thread-bound credentials,
-	 * using them if available, falling back to the statically specified
-	 * username and password (i.e. values of the bean properties) otherwise.
+	 * Determine whether there are currently thread-bound credentials, using them if
+	 * available, falling back to the statically specified username and password (i.e.
+	 * values of the bean properties) otherwise.
 	 * @see #doCreateConnection
 	 */
 	@Override
@@ -193,9 +194,9 @@ public class UserCredentialsConnectionFactoryAdapter
 	}
 
 	/**
-	 * Determine whether there are currently thread-bound credentials,
-	 * using them if available, falling back to the statically specified
-	 * username and password (i.e. values of the bean properties) else.
+	 * Determine whether there are currently thread-bound credentials, using them if
+	 * available, falling back to the statically specified username and password (i.e.
+	 * values of the bean properties) else.
 	 * @see #doCreateQueueConnection
 	 */
 	@Override
@@ -218,9 +219,10 @@ public class UserCredentialsConnectionFactoryAdapter
 	}
 
 	/**
-	 * This implementation delegates to the {@code createQueueConnection(username, password)}
-	 * method of the target QueueConnectionFactory, passing in the specified user credentials.
-	 * If the specified username is empty, it will simply delegate to the standard
+	 * This implementation delegates to the
+	 * {@code createQueueConnection(username, password)} method of the target
+	 * QueueConnectionFactory, passing in the specified user credentials. If the specified
+	 * username is empty, it will simply delegate to the standard
 	 * {@code createQueueConnection()} method of the target ConnectionFactory.
 	 * @param username the username to use
 	 * @param password the password to use
@@ -228,8 +230,8 @@ public class UserCredentialsConnectionFactoryAdapter
 	 * @see javax.jms.QueueConnectionFactory#createQueueConnection(String, String)
 	 * @see javax.jms.QueueConnectionFactory#createQueueConnection()
 	 */
-	protected QueueConnection doCreateQueueConnection(
-			@Nullable String username, @Nullable String password) throws JMSException {
+	protected QueueConnection doCreateQueueConnection(@Nullable String username, @Nullable String password)
+			throws JMSException {
 
 		ConnectionFactory target = obtainTargetConnectionFactory();
 		if (!(target instanceof QueueConnectionFactory)) {
@@ -245,9 +247,9 @@ public class UserCredentialsConnectionFactoryAdapter
 	}
 
 	/**
-	 * Determine whether there are currently thread-bound credentials,
-	 * using them if available, falling back to the statically specified
-	 * username and password (i.e. values of the bean properties) else.
+	 * Determine whether there are currently thread-bound credentials, using them if
+	 * available, falling back to the statically specified username and password (i.e.
+	 * values of the bean properties) else.
 	 * @see #doCreateTopicConnection
 	 */
 	@Override
@@ -270,9 +272,10 @@ public class UserCredentialsConnectionFactoryAdapter
 	}
 
 	/**
-	 * This implementation delegates to the {@code createTopicConnection(username, password)}
-	 * method of the target TopicConnectionFactory, passing in the specified user credentials.
-	 * If the specified username is empty, it will simply delegate to the standard
+	 * This implementation delegates to the
+	 * {@code createTopicConnection(username, password)} method of the target
+	 * TopicConnectionFactory, passing in the specified user credentials. If the specified
+	 * username is empty, it will simply delegate to the standard
 	 * {@code createTopicConnection()} method of the target ConnectionFactory.
 	 * @param username the username to use
 	 * @param password the password to use
@@ -280,8 +283,8 @@ public class UserCredentialsConnectionFactoryAdapter
 	 * @see javax.jms.TopicConnectionFactory#createTopicConnection(String, String)
 	 * @see javax.jms.TopicConnectionFactory#createTopicConnection()
 	 */
-	protected TopicConnection doCreateTopicConnection(
-			@Nullable String username, @Nullable String password) throws JMSException {
+	protected TopicConnection doCreateTopicConnection(@Nullable String username, @Nullable String password)
+			throws JMSException {
 
 		ConnectionFactory target = obtainTargetConnectionFactory();
 		if (!(target instanceof TopicConnectionFactory)) {
@@ -321,7 +324,6 @@ public class UserCredentialsConnectionFactoryAdapter
 		return this.targetConnectionFactory;
 	}
 
-
 	/**
 	 * Inner class used as ThreadLocal value.
 	 */
@@ -340,6 +342,7 @@ public class UserCredentialsConnectionFactoryAdapter
 		public String toString() {
 			return "JmsUserCredentials[username='" + this.username + "',password='" + this.password + "']";
 		}
+
 	}
 
 }

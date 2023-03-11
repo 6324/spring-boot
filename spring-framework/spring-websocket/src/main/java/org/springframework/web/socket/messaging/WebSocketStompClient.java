@@ -63,9 +63,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * A STOMP over WebSocket client that connects using an implementation of
- * {@link org.springframework.web.socket.client.WebSocketClient WebSocketClient}
- * including {@link org.springframework.web.socket.sockjs.client.SockJsClient
- * SockJsClient}.
+ * {@link org.springframework.web.socket.client.WebSocketClient WebSocketClient} including
+ * {@link org.springframework.web.socket.sockjs.client.SockJsClient SockJsClient}.
  *
  * @author Rossen Stoyanchev
  * @since 4.2
@@ -84,19 +83,16 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 
 	private volatile boolean running = false;
 
-
 	/**
-	 * Class constructor. Sets {@link #setDefaultHeartbeat} to "0,0" but will
-	 * reset it back to the preferred "10000,10000" when a
-	 * {@link #setTaskScheduler} is configured.
+	 * Class constructor. Sets {@link #setDefaultHeartbeat} to "0,0" but will reset it
+	 * back to the preferred "10000,10000" when a {@link #setTaskScheduler} is configured.
 	 * @param webSocketClient the WebSocket client to connect with
 	 */
 	public WebSocketStompClient(WebSocketClient webSocketClient) {
 		Assert.notNull(webSocketClient, "WebSocketClient is required");
 		this.webSocketClient = webSocketClient;
-		setDefaultHeartbeat(new long[] {0, 0});
+		setDefaultHeartbeat(new long[] { 0, 0 });
 	}
-
 
 	/**
 	 * Return the configured WebSocketClient.
@@ -107,23 +103,24 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 
 	/**
 	 * {@inheritDoc}
-	 * <p>Also automatically sets the {@link #setDefaultHeartbeat defaultHeartbeat}
-	 * property to "10000,10000" if it is currently set to "0,0".
+	 * <p>
+	 * Also automatically sets the {@link #setDefaultHeartbeat defaultHeartbeat} property
+	 * to "10000,10000" if it is currently set to "0,0".
 	 */
 	@Override
 	public void setTaskScheduler(@Nullable TaskScheduler taskScheduler) {
 		if (!isDefaultHeartbeatEnabled()) {
-			setDefaultHeartbeat(new long[] {10000, 10000});
+			setDefaultHeartbeat(new long[] { 10000, 10000 });
 		}
 		super.setTaskScheduler(taskScheduler);
 	}
 
 	/**
-	 * Configure the maximum size allowed for inbound STOMP message.
-	 * Since a STOMP message can be received in multiple WebSocket messages,
-	 * buffering may be required and this property determines the maximum buffer
-	 * size per message.
-	 * <p>By default this is set to 64 * 1024 (64K).
+	 * Configure the maximum size allowed for inbound STOMP message. Since a STOMP message
+	 * can be received in multiple WebSocket messages, buffering may be required and this
+	 * property determines the maximum buffer size per message.
+	 * <p>
+	 * By default this is set to 64 * 1024 (64K).
 	 */
 	public void setInboundMessageSizeLimit(int inboundMessageSizeLimit) {
 		this.inboundMessageSizeLimit = inboundMessageSizeLimit;
@@ -137,17 +134,18 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 	}
 
 	/**
-	 * Set whether to auto-start the contained WebSocketClient when the Spring
-	 * context has been refreshed.
-	 * <p>Default is "true".
+	 * Set whether to auto-start the contained WebSocketClient when the Spring context has
+	 * been refreshed.
+	 * <p>
+	 * Default is "true".
 	 */
 	public void setAutoStartup(boolean autoStartup) {
 		this.autoStartup = autoStartup;
 	}
 
 	/**
-	 * Return the value for the 'autoStartup' property. If "true", this client
-	 * will automatically start and stop the contained WebSocketClient.
+	 * Return the value for the 'autoStartup' property. If "true", this client will
+	 * automatically start and stop the contained WebSocketClient.
 	 */
 	@Override
 	public boolean isAutoStartup() {
@@ -155,11 +153,12 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 	}
 
 	/**
-	 * Specify the phase in which the WebSocket client should be started and
-	 * subsequently closed. The startup order proceeds from lowest to highest,
-	 * and the shutdown order is the reverse of that.
-	 * <p>By default this is Integer.MAX_VALUE meaning that the WebSocket client
-	 * is started as late as possible and stopped as soon as possible.
+	 * Specify the phase in which the WebSocket client should be started and subsequently
+	 * closed. The startup order proceeds from lowest to highest, and the shutdown order
+	 * is the reverse of that.
+	 * <p>
+	 * By default this is Integer.MAX_VALUE meaning that the WebSocket client is started
+	 * as late as possible and stopped as soon as possible.
 	 */
 	public void setPhase(int phase) {
 		this.phase = phase;
@@ -172,7 +171,6 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 	public int getPhase() {
 		return this.phase;
 	}
-
 
 	@Override
 	public void start() {
@@ -200,11 +198,10 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 		return this.running;
 	}
 
-
 	/**
 	 * Connect to the given WebSocket URL and notify the given
-	 * {@link org.springframework.messaging.simp.stomp.StompSessionHandler}
-	 * when connected on the STOMP level after the CONNECTED frame is received.
+	 * {@link org.springframework.messaging.simp.stomp.StompSessionHandler} when connected
+	 * on the STOMP level after the CONNECTED frame is received.
 	 * @param url the url to connect to
 	 * @param handler the session handler
 	 * @param uriVars the URI variables to expand into the URL
@@ -215,9 +212,8 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 	}
 
 	/**
-	 * An overloaded version of
-	 * {@link #connect(String, StompSessionHandler, Object...)} that also
-	 * accepts {@link WebSocketHttpHeaders} to use for the WebSocket handshake.
+	 * An overloaded version of {@link #connect(String, StompSessionHandler, Object...)}
+	 * that also accepts {@link WebSocketHttpHeaders} to use for the WebSocket handshake.
 	 * @param url the url to connect to
 	 * @param handshakeHeaders the headers for the WebSocket handshake
 	 * @param handler the session handler
@@ -231,10 +227,9 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 	}
 
 	/**
-	 * An overloaded version of
-	 * {@link #connect(String, StompSessionHandler, Object...)} that also accepts
-	 * {@link WebSocketHttpHeaders} to use for the WebSocket handshake and
-	 * {@link StompHeaders} for the STOMP CONNECT frame.
+	 * An overloaded version of {@link #connect(String, StompSessionHandler, Object...)}
+	 * that also accepts {@link WebSocketHttpHeaders} to use for the WebSocket handshake
+	 * and {@link StompHeaders} for the STOMP CONNECT frame.
 	 * @param url the url to connect to
 	 * @param handshakeHeaders headers for the WebSocket handshake
 	 * @param connectHeaders headers for the STOMP CONNECT frame
@@ -252,8 +247,8 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 
 	/**
 	 * An overloaded version of
-	 * {@link #connect(String, WebSocketHttpHeaders, StompSessionHandler, Object...)}
-	 * that accepts a fully prepared {@link java.net.URI}.
+	 * {@link #connect(String, WebSocketHttpHeaders, StompSessionHandler, Object...)} that
+	 * accepts a fully prepared {@link java.net.URI}.
 	 * @param url the url to connect to
 	 * @param handshakeHeaders the headers for the WebSocket handshake
 	 * @param connectHeaders headers for the STOMP CONNECT frame
@@ -266,8 +261,7 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 		Assert.notNull(url, "'url' must not be null");
 		ConnectionHandlingStompSession session = createSession(connectHeaders, sessionHandler);
 		WebSocketTcpConnectionHandlerAdapter adapter = new WebSocketTcpConnectionHandlerAdapter(session);
-		getWebSocketClient()
-				.doHandshake(new LoggingWebSocketHandlerDecorator(adapter), handshakeHeaders, url)
+		getWebSocketClient().doHandshake(new LoggingWebSocketHandlerDecorator(adapter), handshakeHeaders, url)
 				.addCallback(adapter);
 		return session.getSessionFuture();
 	}
@@ -281,12 +275,11 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 		return connectHeaders;
 	}
 
-
 	/**
 	 * Adapt WebSocket to the TcpConnectionHandler and TcpConnection contracts.
 	 */
-	private class WebSocketTcpConnectionHandlerAdapter implements ListenableFutureCallback<WebSocketSession>,
-			WebSocketHandler, TcpConnection<byte[]> {
+	private class WebSocketTcpConnectionHandlerAdapter
+			implements ListenableFutureCallback<WebSocketSession>, WebSocketHandler, TcpConnection<byte[]> {
 
 		private final TcpConnectionHandler<byte[]> connectionHandler;
 
@@ -449,8 +442,8 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 				}
 			}
 		}
-	}
 
+	}
 
 	/**
 	 * Encode and decode STOMP WebSocket messages.
@@ -482,9 +475,9 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 			result = this.bufferingDecoder.decode(byteBuffer);
 			if (result.isEmpty()) {
 				if (logger.isTraceEnabled()) {
-					logger.trace("Incomplete STOMP frame content received, bufferSize=" +
-							this.bufferingDecoder.getBufferSize() + ", bufferSizeLimit=" +
-							this.bufferingDecoder.getBufferSizeLimit() + ".");
+					logger.trace("Incomplete STOMP frame content received, bufferSize="
+							+ this.bufferingDecoder.getBufferSize() + ", bufferSizeLimit="
+							+ this.bufferingDecoder.getBufferSizeLimit() + ".");
 				}
 			}
 			return result;
@@ -496,12 +489,12 @@ public class WebSocketStompClient extends StompClientSupport implements SmartLif
 			byte[] payload = message.getPayload();
 			byte[] bytes = ENCODER.encode(accessor.getMessageHeaders(), payload);
 
-			boolean useBinary = (payload.length > 0  &&
-					!(SockJsSession.class.isAssignableFrom(sessionType)) &&
-					MimeTypeUtils.APPLICATION_OCTET_STREAM.isCompatibleWith(accessor.getContentType()));
+			boolean useBinary = (payload.length > 0 && !(SockJsSession.class.isAssignableFrom(sessionType))
+					&& MimeTypeUtils.APPLICATION_OCTET_STREAM.isCompatibleWith(accessor.getContentType()));
 
 			return (useBinary ? new BinaryMessage(bytes) : new TextMessage(bytes));
 		}
+
 	}
 
 }

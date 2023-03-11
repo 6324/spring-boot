@@ -28,10 +28,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 
 /**
- * Adapter that implements the {@link Runnable} interface as a configurable
- * method invocation based on Spring's MethodInvoker.
+ * Adapter that implements the {@link Runnable} interface as a configurable method
+ * invocation based on Spring's MethodInvoker.
  *
- * <p>Inherits common configuration properties from
+ * <p>
+ * Inherits common configuration properties from
  * {@link org.springframework.util.MethodInvoker}.
  *
  * @author Juergen Hoeller
@@ -45,7 +46,6 @@ public class MethodInvokingRunnable extends ArgumentConvertingMethodInvoker
 
 	@Nullable
 	private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
-
 
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
@@ -61,7 +61,6 @@ public class MethodInvokingRunnable extends ArgumentConvertingMethodInvoker
 	public void afterPropertiesSet() throws ClassNotFoundException, NoSuchMethodException {
 		prepare();
 	}
-
 
 	@Override
 	public void run() {
@@ -83,8 +82,7 @@ public class MethodInvokingRunnable extends ArgumentConvertingMethodInvoker
 	 * @return the error message, including the target method name etc
 	 */
 	protected String getInvocationFailureMessage() {
-		return "Invocation of method '" + getTargetMethod() +
-				"' on target class [" + getTargetClass() + "] failed";
+		return "Invocation of method '" + getTargetMethod() + "' on target class [" + getTargetClass() + "] failed";
 	}
 
 }

@@ -59,7 +59,6 @@ public class JodaTimeFormattingTests {
 
 	private DataBinder binder;
 
-
 	@BeforeEach
 	public void setup() {
 		JodaTimeFormatterRegistrar registrar = new JodaTimeFormatterRegistrar();
@@ -87,7 +86,6 @@ public class JodaTimeFormattingTests {
 		LocaleContextHolder.setLocale(null);
 		JodaTimeContextHolder.setJodaTimeContext(null);
 	}
-
 
 	@Test
 	public void testJodaTimePatternsForStyle() {
@@ -133,7 +131,7 @@ public class JodaTimeFormattingTests {
 	@Test
 	public void testBindLocalDateArray() {
 		MutablePropertyValues propertyValues = new MutablePropertyValues();
-		propertyValues.add("localDate", new String[]{"10/31/09"});
+		propertyValues.add("localDate", new String[] { "10/31/09" });
 		binder.bind(propertyValues);
 		assertThat(binder.getBindingResult().getErrorCount()).isEqualTo(0);
 	}
@@ -327,7 +325,8 @@ public class JodaTimeFormattingTests {
 	@Test
 	public void testBindDateTimeAnnotatedDefault() {
 		MutablePropertyValues propertyValues = new MutablePropertyValues();
-		propertyValues.add("dateTimeAnnotatedDefault", new DateTime(2009, 10, 31, 12, 0, ISOChronology.getInstanceUTC()));
+		propertyValues.add("dateTimeAnnotatedDefault",
+				new DateTime(2009, 10, 31, 12, 0, ISOChronology.getInstanceUTC()));
 		binder.bind(propertyValues);
 		assertThat(binder.getBindingResult().getErrorCount()).isEqualTo(0);
 		String value = binder.getBindingResult().getFieldValue("dateTimeAnnotatedDefault").toString();
@@ -421,7 +420,8 @@ public class JodaTimeFormattingTests {
 		propertyValues.add("instantAnnotated", "2009-10-31T12:00:00.000Z");
 		binder.bind(propertyValues);
 		assertThat(binder.getBindingResult().getErrorCount()).isEqualTo(0);
-		assertThat(binder.getBindingResult().getFieldValue("instantAnnotated")).isEqualTo("2009-10-31T07:00:00.000-05:00");
+		assertThat(binder.getBindingResult().getFieldValue("instantAnnotated"))
+				.isEqualTo("2009-10-31T07:00:00.000-05:00");
 	}
 
 	@Test
@@ -430,7 +430,8 @@ public class JodaTimeFormattingTests {
 		propertyValues.add("mutableDateTimeAnnotated", "2009-10-31T12:00:00.000Z");
 		binder.bind(propertyValues);
 		assertThat(binder.getBindingResult().getErrorCount()).isEqualTo(0);
-		assertThat(binder.getBindingResult().getFieldValue("mutableDateTimeAnnotated")).isEqualTo("2009-10-31T07:00:00.000-05:00");
+		assertThat(binder.getBindingResult().getFieldValue("mutableDateTimeAnnotated"))
+				.isEqualTo("2009-10-31T07:00:00.000-05:00");
 	}
 
 	@Test
@@ -439,12 +440,14 @@ public class JodaTimeFormattingTests {
 		registrar.setDateTimeFormatter(org.joda.time.format.DateTimeFormat.shortDateTime());
 		setup(registrar);
 		Date date = new Date();
-		Object actual = this.conversionService.convert(date, TypeDescriptor.valueOf(Date.class), TypeDescriptor.valueOf(String.class));
-		String expected = JodaTimeContextHolder.getFormatter(org.joda.time.format.DateTimeFormat.shortDateTime(), Locale.US).print(new DateTime(date));
+		Object actual = this.conversionService.convert(date, TypeDescriptor.valueOf(Date.class),
+				TypeDescriptor.valueOf(String.class));
+		String expected = JodaTimeContextHolder
+				.getFormatter(org.joda.time.format.DateTimeFormat.shortDateTime(), Locale.US).print(new DateTime(date));
 		assertThat(actual).isEqualTo(expected);
 	}
 
-	@Test  // SPR-10105
+	@Test // SPR-10105
 	@SuppressWarnings("deprecation")
 	public void stringToDateWithoutGlobalFormat() {
 		String string = "Sat, 12 Aug 1995 13:30:00 GM";
@@ -452,7 +455,7 @@ public class JodaTimeFormattingTests {
 		assertThat(date).isEqualTo(new Date(string));
 	}
 
-	@Test  // SPR-10105
+	@Test // SPR-10105
 	public void stringToDateWithGlobalFormat() {
 		JodaTimeFormatterRegistrar registrar = new JodaTimeFormatterRegistrar();
 		DateTimeFormatterFactory factory = new DateTimeFormatterFactory();
@@ -501,37 +504,36 @@ public class JodaTimeFormattingTests {
 		assertThat(binder.getBindingResult().getFieldValue("monthDay").toString().equals("--12-03")).isTrue();
 	}
 
-
 	@SuppressWarnings("unused")
 	private static class JodaTimeBean {
 
 		private LocalDate localDate;
 
-		@DateTimeFormat(style="M-")
+		@DateTimeFormat(style = "M-")
 		private LocalDate localDateAnnotated;
 
 		private LocalTime localTime;
 
-		@DateTimeFormat(style="-M")
+		@DateTimeFormat(style = "-M")
 		private LocalTime localTimeAnnotated;
 
 		private LocalDateTime localDateTime;
 
-		@DateTimeFormat(style="MS")
+		@DateTimeFormat(style = "MS")
 		private LocalDateTime localDateTimeAnnotated;
 
 		private DateTime dateTime;
 
-		@DateTimeFormat(style="MS")
+		@DateTimeFormat(style = "MS")
 		private DateTime dateTimeAnnotated;
 
 		@DateTimeFormat
 		private Date date;
 
-		@DateTimeFormat(style="S-")
+		@DateTimeFormat(style = "S-")
 		private Date dateAnnotated;
 
-		@DateTimeFormat(style="S-")
+		@DateTimeFormat(style = "S-")
 		private Calendar calendarAnnotated;
 
 		private Long millis;
@@ -541,22 +543,22 @@ public class JodaTimeFormattingTests {
 
 		private Long millisAnnotated;
 
-		@DateTimeFormat(pattern="M/d/yy h:mm a")
+		@DateTimeFormat(pattern = "M/d/yy h:mm a")
 		private DateTime dateTimeAnnotatedPattern;
 
-		@DateTimeFormat(iso=ISO.DATE)
+		@DateTimeFormat(iso = ISO.DATE)
 		private LocalDate isoDate;
 
-		@DateTimeFormat(iso=ISO.TIME)
+		@DateTimeFormat(iso = ISO.TIME)
 		private LocalTime isoTime;
 
-		@DateTimeFormat(iso=ISO.DATE_TIME)
+		@DateTimeFormat(iso = ISO.DATE_TIME)
 		private DateTime isoDateTime;
 
-		@DateTimeFormat(iso=ISO.DATE_TIME)
+		@DateTimeFormat(iso = ISO.DATE_TIME)
 		private Instant instantAnnotated;
 
-		@DateTimeFormat(iso=ISO.DATE_TIME)
+		@DateTimeFormat(iso = ISO.DATE_TIME)
 		private Instant mutableDateTimeAnnotated;
 
 		private Period period;
@@ -681,12 +683,12 @@ public class JodaTimeFormattingTests {
 			this.millis = millis;
 		}
 
-		@DateTimeFormat(style="S-")
+		@DateTimeFormat(style = "S-")
 		public Long getMillisAnnotated() {
 			return millisAnnotated;
 		}
 
-		public void setMillisAnnotated(@DateTimeFormat(style="S-") Long millisAnnotated) {
+		public void setMillisAnnotated(@DateTimeFormat(style = "S-") Long millisAnnotated) {
 			this.millisAnnotated = millisAnnotated;
 		}
 
@@ -765,6 +767,7 @@ public class JodaTimeFormattingTests {
 		public List<JodaTimeBean> getChildren() {
 			return children;
 		}
+
 	}
 
 }

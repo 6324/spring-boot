@@ -55,19 +55,14 @@ class MultipartIntegrationTests extends AbstractRouterFunctionIntegrationTests {
 
 	private ClassPathResource resource = new ClassPathResource("org/springframework/http/codec/multipart/foo.txt");
 
-
 	@ParameterizedHttpServerTest
 	void multipartData(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		Mono<ClientResponse> result = webClient
-				.post()
-				.uri("http://localhost:" + this.port + "/multipartData")
-				.bodyValue(generateBody())
-				.exchange();
+		Mono<ClientResponse> result = webClient.post().uri("http://localhost:" + this.port + "/multipartData")
+				.bodyValue(generateBody()).exchange();
 
-		StepVerifier
-				.create(result)
+		StepVerifier.create(result)
 				.consumeNextWith(response -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK))
 				.verifyComplete();
 	}
@@ -76,14 +71,10 @@ class MultipartIntegrationTests extends AbstractRouterFunctionIntegrationTests {
 	void parts(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		Mono<ClientResponse> result = webClient
-				.post()
-				.uri("http://localhost:" + this.port + "/parts")
-				.bodyValue(generateBody())
-				.exchange();
+		Mono<ClientResponse> result = webClient.post().uri("http://localhost:" + this.port + "/parts")
+				.bodyValue(generateBody()).exchange();
 
-		StepVerifier
-				.create(result)
+		StepVerifier.create(result)
 				.consumeNextWith(response -> assertThat(response.statusCode()).isEqualTo(HttpStatus.OK))
 				.verifyComplete();
 	}
@@ -92,26 +83,19 @@ class MultipartIntegrationTests extends AbstractRouterFunctionIntegrationTests {
 	void transferTo(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		Mono<String> result = webClient
-				.post()
-				.uri("http://localhost:" + this.port + "/transferTo")
-				.bodyValue(generateBody())
-				.retrieve()
-				.bodyToMono(String.class);
+		Mono<String> result = webClient.post().uri("http://localhost:" + this.port + "/transferTo")
+				.bodyValue(generateBody()).retrieve().bodyToMono(String.class);
 
-		StepVerifier
-				.create(result)
-				.consumeNextWith(location -> {
-					try {
-						byte[] actualBytes = Files.readAllBytes(Paths.get(location));
-						byte[] expectedBytes = FileCopyUtils.copyToByteArray(this.resource.getInputStream());
-						assertThat(actualBytes).isEqualTo(expectedBytes);
-					}
-					catch (IOException ex) {
-						fail("IOException", ex);
-					}
-				})
-				.verifyComplete();
+		StepVerifier.create(result).consumeNextWith(location -> {
+			try {
+				byte[] actualBytes = Files.readAllBytes(Paths.get(location));
+				byte[] expectedBytes = FileCopyUtils.copyToByteArray(this.resource.getInputStream());
+				assertThat(actualBytes).isEqualTo(expectedBytes);
+			}
+			catch (IOException ex) {
+				fail("IOException", ex);
+			}
+		}).verifyComplete();
 	}
 
 	private MultiValueMap<String, HttpEntity<?>> generateBody() {
@@ -124,59 +108,47 @@ class MultipartIntegrationTests extends AbstractRouterFunctionIntegrationTests {
 	@Override
 	protected RouterFunction<ServerResponse> routerFunction() {
 		MultipartHandler multipartHandler = new MultipartHandler();
-		return route()
-				.POST("/multipartData", multipartHandler::multipartData)
-				.POST("/parts", multipartHandler::parts)
-				.POST("/transferTo", multipartHandler::transferTo)
-				.build();
+		return route().POST("/multipartData", multipartHandler::multipartData).POST("/parts", multipartHandler::parts)
+				.POST("/transferTo", multipartHandler::transferTo).build();
 	}
-
 
 	private static class MultipartHandler {
 
 		public Mono<ServerResponse> multipartData(ServerRequest request) {
-			return request
-					.body(BodyExtractors.toMultipartData())
-					.flatMap(map -> {
-						Map<String, Part> parts = map.toSingleValueMap();
-						try {
-							assertThat(parts.size()).isEqualTo(2);
-							assertThat(((FilePart) parts.get("fooPart")).filename()).isEqualTo("foo.txt");
-							assertThat(((FormFieldPart) parts.get("barPart")).value()).isEqualTo("bar");
-							return ServerResponse.ok().build();
-						}
-						catch(Exception e) {
-							return Mono.error(e);
-						}
-					});
+			return request.body(BodyExtractors.toMultipartData()).flatMap(map -> {
+				Map<String, Part> parts = map.toSingleValueMap();
+				try {
+					assertThat(parts.size()).isEqualTo(2);
+					assertThat(((FilePart) parts.get("fooPart")).filename()).isEqualTo("foo.txt");
+					assertThat(((FormFieldPart) parts.get("barPart")).value()).isEqualTo("bar");
+					return ServerResponse.ok().build();
+				}
+				catch (Exception e) {
+					return Mono.error(e);
+				}
+			});
 		}
 
 		public Mono<ServerResponse> parts(ServerRequest request) {
-			return request.body(BodyExtractors.toParts()).collectList()
-					.flatMap(parts -> {
-						try {
-							assertThat(parts.size()).isEqualTo(2);
-							assertThat(((FilePart) parts.get(0)).filename()).isEqualTo("foo.txt");
-							assertThat(((FormFieldPart) parts.get(1)).value()).isEqualTo("bar");
-							return ServerResponse.ok().build();
-						}
-						catch(Exception e) {
-							return Mono.error(e);
-						}
-					});
+			return request.body(BodyExtractors.toParts()).collectList().flatMap(parts -> {
+				try {
+					assertThat(parts.size()).isEqualTo(2);
+					assertThat(((FilePart) parts.get(0)).filename()).isEqualTo("foo.txt");
+					assertThat(((FormFieldPart) parts.get(1)).value()).isEqualTo("bar");
+					return ServerResponse.ok().build();
+				}
+				catch (Exception e) {
+					return Mono.error(e);
+				}
+			});
 		}
 
 		public Mono<ServerResponse> transferTo(ServerRequest request) {
-			return request.body(BodyExtractors.toParts())
-					.filter(part -> part instanceof FilePart)
-					.next()
-					.cast(FilePart.class)
-					.flatMap(part -> {
+			return request.body(BodyExtractors.toParts()).filter(part -> part instanceof FilePart).next()
+					.cast(FilePart.class).flatMap(part -> {
 						try {
 							Path tempFile = Files.createTempFile("MultipartIntegrationTests", null);
-							return part.transferTo(tempFile)
-									.then(ServerResponse.ok()
-											.bodyValue(tempFile.toString()));
+							return part.transferTo(tempFile).then(ServerResponse.ok().bodyValue(tempFile.toString()));
 						}
 						catch (Exception e) {
 							return Mono.error(e);

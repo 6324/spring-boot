@@ -26,9 +26,9 @@ import java.lang.reflect.Proxy;
 import org.springframework.util.Assert;
 
 /**
- * Reflective wrapper around a WebLogic 10 class loader. Used to
- * encapsulate the classloader-specific methods (discovered and
- * called through reflection) from the load-time weaver.
+ * Reflective wrapper around a WebLogic 10 class loader. Used to encapsulate the
+ * classloader-specific methods (discovered and called through reflection) from the
+ * load-time weaver.
  *
  * @author Costin Leau
  * @author Juergen Hoeller
@@ -39,7 +39,6 @@ class WebLogicClassLoaderAdapter {
 	private static final String GENERIC_CLASS_LOADER_NAME = "weblogic.utils.classloaders.GenericClassLoader";
 
 	private static final String CLASS_PRE_PROCESSOR_NAME = "weblogic.utils.classloaders.ClassPreProcessor";
-
 
 	private final ClassLoader classLoader;
 
@@ -53,22 +52,22 @@ class WebLogicClassLoaderAdapter {
 
 	private final Constructor<?> wlGenericClassLoaderConstructor;
 
-
 	public WebLogicClassLoaderAdapter(ClassLoader classLoader) {
 		Class<?> wlGenericClassLoaderClass;
 		try {
 			wlGenericClassLoaderClass = classLoader.loadClass(GENERIC_CLASS_LOADER_NAME);
 			this.wlPreProcessorClass = classLoader.loadClass(CLASS_PRE_PROCESSOR_NAME);
-			this.addPreProcessorMethod = classLoader.getClass().getMethod(
-					"addInstanceClassPreProcessor", this.wlPreProcessorClass);
+			this.addPreProcessorMethod = classLoader.getClass().getMethod("addInstanceClassPreProcessor",
+					this.wlPreProcessorClass);
 			this.getClassFinderMethod = classLoader.getClass().getMethod("getClassFinder");
 			this.getParentMethod = classLoader.getClass().getMethod("getParent");
-			this.wlGenericClassLoaderConstructor = wlGenericClassLoaderClass.getConstructor(
-					this.getClassFinderMethod.getReturnType(), ClassLoader.class);
+			this.wlGenericClassLoaderConstructor = wlGenericClassLoaderClass
+					.getConstructor(this.getClassFinderMethod.getReturnType(), ClassLoader.class);
 		}
 		catch (Throwable ex) {
 			throw new IllegalStateException(
-					"Could not initialize WebLogic LoadTimeWeaver because WebLogic 10 API classes are not available", ex);
+					"Could not initialize WebLogic LoadTimeWeaver because WebLogic 10 API classes are not available",
+					ex);
 		}
 
 		if (!wlGenericClassLoaderClass.isInstance(classLoader)) {
@@ -78,17 +77,17 @@ class WebLogicClassLoaderAdapter {
 		this.classLoader = classLoader;
 	}
 
-
 	public void addTransformer(ClassFileTransformer transformer) {
 		Assert.notNull(transformer, "ClassFileTransformer must not be null");
 		try {
 			InvocationHandler adapter = new WebLogicClassPreProcessorAdapter(transformer, this.classLoader);
 			Object adapterInstance = Proxy.newProxyInstance(this.wlPreProcessorClass.getClassLoader(),
-					new Class<?>[] {this.wlPreProcessorClass}, adapter);
+					new Class<?>[] { this.wlPreProcessorClass }, adapter);
 			this.addPreProcessorMethod.invoke(this.classLoader, adapterInstance);
 		}
 		catch (InvocationTargetException ex) {
-			throw new IllegalStateException("WebLogic addInstanceClassPreProcessor method threw exception", ex.getCause());
+			throw new IllegalStateException("WebLogic addInstanceClassPreProcessor method threw exception",
+					ex.getCause());
 		}
 		catch (Throwable ex) {
 			throw new IllegalStateException("Could not invoke WebLogic addInstanceClassPreProcessor method", ex);

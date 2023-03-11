@@ -25,12 +25,13 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Property editor for an array of {@link Class Classes}, to enable
- * the direct population of a {@code Class[]} property without having to
- * use a {@code String} class name property as bridge.
+ * Property editor for an array of {@link Class Classes}, to enable the direct population
+ * of a {@code Class[]} property without having to use a {@code String} class name
+ * property as bridge.
  *
- * <p>Also supports "java.lang.String[]"-style array class names, in contrast
- * to the standard {@link Class#forName(String)} method.
+ * <p>
+ * Also supports "java.lang.String[]"-style array class names, in contrast to the standard
+ * {@link Class#forName(String)} method.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -41,25 +42,21 @@ public class ClassArrayEditor extends PropertyEditorSupport {
 	@Nullable
 	private final ClassLoader classLoader;
 
-
 	/**
-	 * Create a default {@code ClassEditor}, using the thread
-	 * context {@code ClassLoader}.
+	 * Create a default {@code ClassEditor}, using the thread context {@code ClassLoader}.
 	 */
 	public ClassArrayEditor() {
 		this(null);
 	}
 
 	/**
-	 * Create a default {@code ClassArrayEditor}, using the given
-	 * {@code ClassLoader}.
-	 * @param classLoader the {@code ClassLoader} to use
-	 * (or pass {@code null} for the thread context {@code ClassLoader})
+	 * Create a default {@code ClassArrayEditor}, using the given {@code ClassLoader}.
+	 * @param classLoader the {@code ClassLoader} to use (or pass {@code null} for the
+	 * thread context {@code ClassLoader})
 	 */
 	public ClassArrayEditor(@Nullable ClassLoader classLoader) {
 		this.classLoader = (classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader());
 	}
-
 
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException {

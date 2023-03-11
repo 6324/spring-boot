@@ -41,7 +41,6 @@ public final class ReactiveTypeDescriptor {
 
 	private final boolean deferred;
 
-
 	private ReactiveTypeDescriptor(Class<?> reactiveType, boolean multiValue, boolean noValue,
 			@Nullable Supplier<?> emptySupplier) {
 
@@ -59,7 +58,6 @@ public final class ReactiveTypeDescriptor {
 		this.deferred = deferred;
 	}
 
-
 	/**
 	 * Return the reactive type for this descriptor.
 	 */
@@ -68,18 +66,18 @@ public final class ReactiveTypeDescriptor {
 	}
 
 	/**
-	 * Return {@code true} if the reactive type can produce more than 1 value
-	 * can be produced and is therefore a good fit to adapt to {@code Flux}.
-	 * A {@code false} return value implies the reactive type can produce 1
-	 * value at most and is therefore a good fit to adapt to {@code Mono}.
+	 * Return {@code true} if the reactive type can produce more than 1 value can be
+	 * produced and is therefore a good fit to adapt to {@code Flux}. A {@code false}
+	 * return value implies the reactive type can produce 1 value at most and is therefore
+	 * a good fit to adapt to {@code Mono}.
 	 */
 	public boolean isMultiValue() {
 		return this.multiValue;
 	}
 
 	/**
-	 * Return {@code true} if the reactive type does not produce any values and
-	 * only provides completion and error signals.
+	 * Return {@code true} if the reactive type does not produce any values and only
+	 * provides completion and error signals.
 	 */
 	public boolean isNoValue() {
 		return this.noValue;
@@ -93,8 +91,8 @@ public final class ReactiveTypeDescriptor {
 	}
 
 	/**
-	 * Return an empty-value instance for the underlying reactive or async type.
-	 * Use of this type implies {@link #supportsEmpty()} is true.
+	 * Return an empty-value instance for the underlying reactive or async type. Use of
+	 * this type implies {@link #supportsEmpty()} is true.
 	 */
 	public Object getEmptyValue() {
 		Assert.state(this.emptyValueSupplier != null, "Empty values not supported");
@@ -102,15 +100,14 @@ public final class ReactiveTypeDescriptor {
 	}
 
 	/**
-	 * Whether the underlying operation is deferred and needs to be started
-	 * explicitly, e.g. via subscribing (or similar), or whether it is triggered
-	 * without the consumer having any control.
+	 * Whether the underlying operation is deferred and needs to be started explicitly,
+	 * e.g. via subscribing (or similar), or whether it is triggered without the consumer
+	 * having any control.
 	 * @since 5.2.7
 	 */
 	public boolean isDeferred() {
 		return this.deferred;
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {
@@ -127,7 +124,6 @@ public final class ReactiveTypeDescriptor {
 	public int hashCode() {
 		return this.reactiveType.hashCode();
 	}
-
 
 	/**
 	 * Descriptor for a reactive type that can produce 0..N values.
@@ -165,8 +161,8 @@ public final class ReactiveTypeDescriptor {
 	}
 
 	/**
-	 * The same as {@link #singleOptionalValue(Class, Supplier)} but for a
-	 * non-deferred, async type such as {@link java.util.concurrent.CompletableFuture}.
+	 * The same as {@link #singleOptionalValue(Class, Supplier)} but for a non-deferred,
+	 * async type such as {@link java.util.concurrent.CompletableFuture}.
 	 * @param type the reactive type
 	 * @param emptySupplier a supplier of an empty-value instance of the reactive type
 	 * @since 5.2.7

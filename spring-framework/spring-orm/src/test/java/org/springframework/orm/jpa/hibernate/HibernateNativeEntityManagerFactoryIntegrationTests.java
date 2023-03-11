@@ -32,12 +32,14 @@ import org.springframework.orm.jpa.domain.Person;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Hibernate-specific JPA tests with native SessionFactory setup and getCurrentSession interaction.
+ * Hibernate-specific JPA tests with native SessionFactory setup and getCurrentSession
+ * interaction.
  *
  * @author Juergen Hoeller
  * @since 5.1
  */
-public class HibernateNativeEntityManagerFactoryIntegrationTests extends AbstractContainerEntityManagerFactoryIntegrationTests {
+public class HibernateNativeEntityManagerFactoryIntegrationTests
+		extends AbstractContainerEntityManagerFactoryIntegrationTests {
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -45,13 +47,11 @@ public class HibernateNativeEntityManagerFactoryIntegrationTests extends Abstrac
 	@Autowired
 	private ApplicationContext applicationContext;
 
-
 	@Override
 	protected String[] getConfigLocations() {
-		return new String[] {"/org/springframework/orm/jpa/hibernate/hibernate-manager-native.xml",
-				"/org/springframework/orm/jpa/memdb.xml", "/org/springframework/orm/jpa/inject.xml"};
+		return new String[] { "/org/springframework/orm/jpa/hibernate/hibernate-manager-native.xml",
+				"/org/springframework/orm/jpa/memdb.xml", "/org/springframework/orm/jpa/inject.xml" };
 	}
-
 
 	@Override
 	@Test
@@ -85,7 +85,7 @@ public class HibernateNativeEntityManagerFactoryIntegrationTests extends Abstrac
 		assertThat(people.get(0).postLoaded).isSameAs(applicationContext);
 	}
 
-	@Test  // SPR-16956
+	@Test // SPR-16956
 	public void testReadOnly() {
 		assertThat(sessionFactory.getCurrentSession().getHibernateFlushMode()).isSameAs(FlushMode.AUTO);
 		assertThat(sessionFactory.getCurrentSession().isDefaultReadOnly()).isFalse();

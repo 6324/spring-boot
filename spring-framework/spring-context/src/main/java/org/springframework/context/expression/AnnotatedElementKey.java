@@ -23,8 +23,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Represent an {@link AnnotatedElement} on a particular {@link Class}
- * and is suitable as a key.
+ * Represent an {@link AnnotatedElement} on a particular {@link Class} and is suitable as
+ * a key.
  *
  * @author Costin Leau
  * @author Stephane Nicoll
@@ -38,17 +38,15 @@ public final class AnnotatedElementKey implements Comparable<AnnotatedElementKey
 	@Nullable
 	private final Class<?> targetClass;
 
-
 	/**
-	 * Create a new instance with the specified {@link AnnotatedElement} and
-	 * optional target {@link Class}.
+	 * Create a new instance with the specified {@link AnnotatedElement} and optional
+	 * target {@link Class}.
 	 */
 	public AnnotatedElementKey(AnnotatedElement element, @Nullable Class<?> targetClass) {
 		Assert.notNull(element, "AnnotatedElement must not be null");
 		this.element = element;
 		this.targetClass = targetClass;
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {
@@ -59,8 +57,8 @@ public final class AnnotatedElementKey implements Comparable<AnnotatedElementKey
 			return false;
 		}
 		AnnotatedElementKey otherKey = (AnnotatedElementKey) other;
-		return (this.element.equals(otherKey.element) &&
-				ObjectUtils.nullSafeEquals(this.targetClass, otherKey.targetClass));
+		return (this.element.equals(otherKey.element)
+				&& ObjectUtils.nullSafeEquals(this.targetClass, otherKey.targetClass));
 	}
 
 	@Override

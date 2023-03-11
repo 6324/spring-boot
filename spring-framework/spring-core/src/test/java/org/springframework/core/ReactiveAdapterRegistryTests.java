@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link ReactiveAdapterRegistry}.
+ *
  * @author Rossen Stoyanchev
  */
 @SuppressWarnings("unchecked")
 class ReactiveAdapterRegistryTests {
 
 	private final ReactiveAdapterRegistry registry = ReactiveAdapterRegistry.getSharedInstance();
-
 
 	@Test
 	void defaultAdapterRegistrations() {
@@ -82,10 +82,8 @@ class ReactiveAdapterRegistryTests {
 
 		assertThat(adapter2).isSameAs(adapter1);
 
-		this.registry.registerReactiveType(
-				ReactiveTypeDescriptor.multiValue(FluxProcessor.class, FluxProcessor::empty),
-				o -> (FluxProcessor<?, ?>) o,
-				FluxProcessor::from);
+		this.registry.registerReactiveType(ReactiveTypeDescriptor.multiValue(FluxProcessor.class, FluxProcessor::empty),
+				o -> (FluxProcessor<?, ?>) o, FluxProcessor::from);
 
 		ReactiveAdapter adapter3 = getAdapter(FluxProcessor.class);
 

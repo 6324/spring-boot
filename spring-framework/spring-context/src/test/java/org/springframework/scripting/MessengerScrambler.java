@@ -19,8 +19,7 @@ package org.springframework.scripting;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 /**
- * Twee advice that 'scrambles' the return value
- * of a {@link Messenger} invocation.
+ * Twee advice that 'scrambles' the return value of a {@link Messenger} invocation.
  *
  * @author Rick Evans
  */

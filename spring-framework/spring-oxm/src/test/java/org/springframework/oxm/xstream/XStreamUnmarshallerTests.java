@@ -50,7 +50,6 @@ public class XStreamUnmarshallerTests {
 
 	private XStreamMarshaller unmarshaller;
 
-
 	@BeforeEach
 	public void createUnmarshaller() {
 		unmarshaller = new XStreamMarshaller();
@@ -59,7 +58,6 @@ public class XStreamUnmarshallerTests {
 		aliases.put("flight", Flight.class);
 		unmarshaller.setAliases(aliases);
 	}
-
 
 	@Test
 	public void unmarshalDomSource() throws Exception {
@@ -93,7 +91,6 @@ public class XStreamUnmarshallerTests {
 		testFlight(flights);
 	}
 
-
 	private void testFlight(Object o) {
 		boolean condition = o instanceof Flight;
 		assertThat(condition).as("Unmarshalled object is not Flights").isTrue();
@@ -103,4 +100,3 @@ public class XStreamUnmarshallerTests {
 	}
 
 }
-

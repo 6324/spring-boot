@@ -30,7 +30,8 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
  * @author Arjen Poutsma
  * @since 5.0
  * @param <T> the type of data to extract
- * @param <M> the type of {@link ReactiveHttpInputMessage} this extractor can be applied to
+ * @param <M> the type of {@link ReactiveHttpInputMessage} this extractor can be applied
+ * to
  * @see BodyExtractors
  */
 @FunctionalInterface
@@ -44,14 +45,14 @@ public interface BodyExtractor<T, M extends ReactiveHttpInputMessage> {
 	 */
 	T extract(M inputMessage, Context context);
 
-
 	/**
 	 * Defines the context used during the extraction.
 	 */
 	interface Context {
 
 		/**
-		 * Return the {@link HttpMessageReader HttpMessageReaders} to be used for body extraction.
+		 * Return the {@link HttpMessageReader HttpMessageReaders} to be used for body
+		 * extraction.
 		 * @return the stream of message readers
 		 */
 		List<HttpMessageReader<?>> messageReaders();
@@ -65,6 +66,7 @@ public interface BodyExtractor<T, M extends ReactiveHttpInputMessage> {
 		 * Return the map of hints to use to customize body extraction.
 		 */
 		Map<String, Object> hints();
+
 	}
 
 }

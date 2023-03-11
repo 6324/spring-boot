@@ -30,16 +30,16 @@ import org.springframework.util.Assert;
 import org.springframework.util.ResourceUtils;
 
 /**
- * Editor for {@code java.nio.file.Path}, to directly populate a Path
- * property instead of using a String property as bridge.
+ * Editor for {@code java.nio.file.Path}, to directly populate a Path property instead of
+ * using a String property as bridge.
  *
- * <p>Based on {@link Paths#get(URI)}'s resolution algorithm, checking
- * registered NIO file system providers, including the default file system
- * for "file:..." paths. Also supports Spring-style URL notation: any fully
- * qualified standard URL and Spring's special "classpath:" pseudo-URL, as
- * well as Spring's context-specific relative file paths. As a fallback, a
- * path will be resolved in the file system via {@code Paths#get(String)}
- * if no existing context-relative resource could be found.
+ * <p>
+ * Based on {@link Paths#get(URI)}'s resolution algorithm, checking registered NIO file
+ * system providers, including the default file system for "file:..." paths. Also supports
+ * Spring-style URL notation: any fully qualified standard URL and Spring's special
+ * "classpath:" pseudo-URL, as well as Spring's context-specific relative file paths. As a
+ * fallback, a path will be resolved in the file system via {@code Paths#get(String)} if
+ * no existing context-relative resource could be found.
  *
  * @author Juergen Hoeller
  * @since 4.3.2
@@ -53,7 +53,6 @@ import org.springframework.util.ResourceUtils;
 public class PathEditor extends PropertyEditorSupport {
 
 	private final ResourceEditor resourceEditor;
-
 
 	/**
 	 * Create a new PathEditor, using the default ResourceEditor underneath.
@@ -70,7 +69,6 @@ public class PathEditor extends PropertyEditorSupport {
 		Assert.notNull(resourceEditor, "ResourceEditor must not be null");
 		this.resourceEditor = resourceEditor;
 	}
-
 
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException {

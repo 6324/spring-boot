@@ -26,11 +26,12 @@ import org.apache.commons.logging.Log;
 
 /**
  * Performance monitor interceptor that uses <b>JAMon</b> library to perform the
- * performance measurement on the intercepted method and output the stats.
- * In addition, it tracks/counts exceptions thrown by the intercepted method.
- * The stack traces can be viewed in the JAMon web application.
+ * performance measurement on the intercepted method and output the stats. In addition, it
+ * tracks/counts exceptions thrown by the intercepted method. The stack traces can be
+ * viewed in the JAMon web application.
  *
- * <p>This code is inspired by Thierry Templier's blog.
+ * <p>
+ * This code is inspired by Thierry Templier's blog.
  *
  * @author Dmitriy Kopylenko
  * @author Juergen Hoeller
@@ -44,7 +45,6 @@ import org.apache.commons.logging.Log;
 public class JamonPerformanceMonitorInterceptor extends AbstractMonitoringInterceptor {
 
 	private boolean trackAllInvocations = false;
-
 
 	/**
 	 * Create a new JamonPerformanceMonitorInterceptor with a static logger.
@@ -66,8 +66,8 @@ public class JamonPerformanceMonitorInterceptor extends AbstractMonitoringInterc
 	 * Create a new JamonPerformanceMonitorInterceptor with a dynamic or static logger,
 	 * according to the given flag.
 	 * @param useDynamicLogger whether to use a dynamic logger or a static logger
-	 * @param trackAllInvocations whether to track all invocations that go through
-	 * this interceptor, or just invocations with trace logging enabled
+	 * @param trackAllInvocations whether to track all invocations that go through this
+	 * interceptor, or just invocations with trace logging enabled
 	 * @see #setUseDynamicLogger
 	 */
 	public JamonPerformanceMonitorInterceptor(boolean useDynamicLogger, boolean trackAllInvocations) {
@@ -75,22 +75,21 @@ public class JamonPerformanceMonitorInterceptor extends AbstractMonitoringInterc
 		setTrackAllInvocations(trackAllInvocations);
 	}
 
-
 	/**
-	 * Set whether to track all invocations that go through this interceptor,
-	 * or just invocations with trace logging enabled.
-	 * <p>Default is "false": Only invocations with trace logging enabled will
-	 * be monitored. Specify "true" to let JAMon track all invocations,
-	 * gathering statistics even when trace logging is disabled.
+	 * Set whether to track all invocations that go through this interceptor, or just
+	 * invocations with trace logging enabled.
+	 * <p>
+	 * Default is "false": Only invocations with trace logging enabled will be monitored.
+	 * Specify "true" to let JAMon track all invocations, gathering statistics even when
+	 * trace logging is disabled.
 	 */
 	public void setTrackAllInvocations(boolean trackAllInvocations) {
 		this.trackAllInvocations = trackAllInvocations;
 	}
 
-
 	/**
-	 * Always applies the interceptor if the "trackAllInvocations" flag has been set;
-	 * else just kicks in if the log is enabled.
+	 * Always applies the interceptor if the "trackAllInvocations" flag has been set; else
+	 * just kicks in if the log is enabled.
 	 * @see #setTrackAllInvocations
 	 * @see #isLogEnabled
 	 */
@@ -100,8 +99,8 @@ public class JamonPerformanceMonitorInterceptor extends AbstractMonitoringInterc
 	}
 
 	/**
-	 * Wraps the invocation with a JAMon Monitor and writes the current
-	 * performance statistics to the log (if enabled).
+	 * Wraps the invocation with a JAMon Monitor and writes the current performance
+	 * statistics to the log (if enabled).
 	 * @see com.jamonapi.MonitorFactory#start
 	 * @see com.jamonapi.Monitor#stop
 	 */
@@ -127,8 +126,8 @@ public class JamonPerformanceMonitorInterceptor extends AbstractMonitoringInterc
 	}
 
 	/**
-	 * Count the thrown exception and put the stack trace in the details portion of the key.
-	 * This will allow the stack trace to be viewed in the JAMon web application.
+	 * Count the thrown exception and put the stack trace in the details portion of the
+	 * key. This will allow the stack trace to be viewed in the JAMon web application.
 	 */
 	protected void trackException(MonKey key, Throwable ex) {
 		String stackTrace = "stackTrace=" + Misc.getExceptionTrace(ex);

@@ -38,7 +38,6 @@ public class SimpleTriggerContext implements TriggerContext {
 	@Nullable
 	private volatile Date lastCompletionTime;
 
-
 	/**
 	 * Create a SimpleTriggerContext with all time values set to {@code null}.
 	 */
@@ -51,16 +50,16 @@ public class SimpleTriggerContext implements TriggerContext {
 	 * @param lastActualExecutionTime last <i>actual</i> execution time
 	 * @param lastCompletionTime last completion time
 	 */
-	public SimpleTriggerContext(Date lastScheduledExecutionTime, Date lastActualExecutionTime, Date lastCompletionTime) {
+	public SimpleTriggerContext(Date lastScheduledExecutionTime, Date lastActualExecutionTime,
+			Date lastCompletionTime) {
 		this.lastScheduledExecutionTime = lastScheduledExecutionTime;
 		this.lastActualExecutionTime = lastActualExecutionTime;
 		this.lastCompletionTime = lastCompletionTime;
 	}
 
-
 	/**
 	 * Update this holder's state with the latest time values.
- 	 * @param lastScheduledExecutionTime last <i>scheduled</i> execution time
+	 * @param lastScheduledExecutionTime last <i>scheduled</i> execution time
 	 * @param lastActualExecutionTime last <i>actual</i> execution time
 	 * @param lastCompletionTime last completion time
 	 */
@@ -69,7 +68,6 @@ public class SimpleTriggerContext implements TriggerContext {
 		this.lastActualExecutionTime = lastActualExecutionTime;
 		this.lastCompletionTime = lastCompletionTime;
 	}
-
 
 	@Override
 	@Nullable

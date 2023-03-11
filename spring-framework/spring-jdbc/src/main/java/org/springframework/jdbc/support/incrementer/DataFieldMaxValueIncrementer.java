@@ -19,11 +19,12 @@ package org.springframework.jdbc.support.incrementer;
 import org.springframework.dao.DataAccessException;
 
 /**
- * Interface that defines contract of incrementing any data store field's
- * maximum value. Works much like a sequence number generator.
+ * Interface that defines contract of incrementing any data store field's maximum value.
+ * Works much like a sequence number generator.
  *
- * <p>Typical implementations may use standard SQL, native RDBMS sequences
- * or Stored Procedures to do the job.
+ * <p>
+ * Typical implementations may use standard SQL, native RDBMS sequences or Stored
+ * Procedures to do the job.
  *
  * @author Dmitriy Kopylenko
  * @author Jean-Pierre Pawlak

@@ -25,15 +25,16 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
 /**
- * Property editor for {@code java.util.Date},
- * supporting a custom {@code java.text.DateFormat}.
+ * Property editor for {@code java.util.Date}, supporting a custom
+ * {@code java.text.DateFormat}.
  *
- * <p>This is not meant to be used as system PropertyEditor but rather
- * as locale-specific date editor within custom controller code,
- * parsing user-entered number strings into Date properties of beans
- * and rendering them in the UI form.
+ * <p>
+ * This is not meant to be used as system PropertyEditor but rather as locale-specific
+ * date editor within custom controller code, parsing user-entered number strings into
+ * Date properties of beans and rendering them in the UI form.
  *
- * <p>In web MVC code, this editor will typically be registered with
+ * <p>
+ * In web MVC code, this editor will typically be registered with
  * {@code binder.registerCustomEditor}.
  *
  * @author Juergen Hoeller
@@ -50,13 +51,13 @@ public class CustomDateEditor extends PropertyEditorSupport {
 
 	private final int exactDateLength;
 
-
 	/**
-	 * Create a new CustomDateEditor instance, using the given DateFormat
-	 * for parsing and rendering.
-	 * <p>The "allowEmpty" parameter states if an empty String should
-	 * be allowed for parsing, i.e. get interpreted as null value.
-	 * Otherwise, an IllegalArgumentException gets thrown in that case.
+	 * Create a new CustomDateEditor instance, using the given DateFormat for parsing and
+	 * rendering.
+	 * <p>
+	 * The "allowEmpty" parameter states if an empty String should be allowed for parsing,
+	 * i.e. get interpreted as null value. Otherwise, an IllegalArgumentException gets
+	 * thrown in that case.
 	 * @param dateFormat the DateFormat to use for parsing and rendering
 	 * @param allowEmpty if empty strings should be allowed
 	 */
@@ -67,19 +68,21 @@ public class CustomDateEditor extends PropertyEditorSupport {
 	}
 
 	/**
-	 * Create a new CustomDateEditor instance, using the given DateFormat
-	 * for parsing and rendering.
-	 * <p>The "allowEmpty" parameter states if an empty String should
-	 * be allowed for parsing, i.e. get interpreted as null value.
-	 * Otherwise, an IllegalArgumentException gets thrown in that case.
-	 * <p>The "exactDateLength" parameter states that IllegalArgumentException gets
-	 * thrown if the String does not exactly match the length specified. This is useful
-	 * because SimpleDateFormat does not enforce strict parsing of the year part,
-	 * not even with {@code setLenient(false)}. Without an "exactDateLength"
-	 * specified, the "01/01/05" would get parsed to "01/01/0005". However, even
-	 * with an "exactDateLength" specified, prepended zeros in the day or month
-	 * part may still allow for a shorter year part, so consider this as just
-	 * one more assertion that gets you closer to the intended date format.
+	 * Create a new CustomDateEditor instance, using the given DateFormat for parsing and
+	 * rendering.
+	 * <p>
+	 * The "allowEmpty" parameter states if an empty String should be allowed for parsing,
+	 * i.e. get interpreted as null value. Otherwise, an IllegalArgumentException gets
+	 * thrown in that case.
+	 * <p>
+	 * The "exactDateLength" parameter states that IllegalArgumentException gets thrown if
+	 * the String does not exactly match the length specified. This is useful because
+	 * SimpleDateFormat does not enforce strict parsing of the year part, not even with
+	 * {@code setLenient(false)}. Without an "exactDateLength" specified, the "01/01/05"
+	 * would get parsed to "01/01/0005". However, even with an "exactDateLength"
+	 * specified, prepended zeros in the day or month part may still allow for a shorter
+	 * year part, so consider this as just one more assertion that gets you closer to the
+	 * intended date format.
 	 * @param dateFormat the DateFormat to use for parsing and rendering
 	 * @param allowEmpty if empty strings should be allowed
 	 * @param exactDateLength the exact expected length of the date String
@@ -89,7 +92,6 @@ public class CustomDateEditor extends PropertyEditorSupport {
 		this.allowEmpty = allowEmpty;
 		this.exactDateLength = exactDateLength;
 	}
-
 
 	/**
 	 * Parse the Date from the given text, using the specified DateFormat.

@@ -66,11 +66,9 @@ public class ModelInitializerTests {
 
 	private static final Duration TIMEOUT = Duration.ofMillis(5000);
 
-
 	private ModelInitializer modelInitializer;
 
 	private final ServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/path"));
-
 
 	@BeforeEach
 	public void setup() {
@@ -79,12 +77,11 @@ public class ModelInitializerTests {
 		ArgumentResolverConfigurer resolverConfigurer = new ArgumentResolverConfigurer();
 		resolverConfigurer.addCustomResolver(new ModelMethodArgumentResolver(adapterRegistry));
 
-		ControllerMethodResolver methodResolver = new ControllerMethodResolver(
-				resolverConfigurer, adapterRegistry, new StaticApplicationContext(), Collections.emptyList());
+		ControllerMethodResolver methodResolver = new ControllerMethodResolver(resolverConfigurer, adapterRegistry,
+				new StaticApplicationContext(), Collections.emptyList());
 
 		this.modelInitializer = new ModelInitializer(methodResolver, adapterRegistry);
 	}
-
 
 	@Test
 	public void initBinderMethod() {
@@ -176,9 +173,9 @@ public class ModelInitializerTests {
 
 		Method method = ResolvableMethod.on(TestController.class).annotPresent(PostMapping.class).resolveMethod();
 		HandlerMethod handlerMethod = new HandlerMethod(controller, method);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.modelInitializer.initModel(handlerMethod, context, this.exchange).block(TIMEOUT))
-			.withMessage("Required attribute 'missing-bean' is missing.");
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> this.modelInitializer.initModel(handlerMethod, context, this.exchange).block(TIMEOUT))
+				.withMessage("Required attribute 'missing-bean' is missing.");
 	}
 
 	@Test
@@ -202,31 +199,25 @@ public class ModelInitializerTests {
 		assertThat(session.getAttributes().size()).isEqualTo(0);
 	}
 
-
 	private InitBinderBindingContext getBindingContext(Object controller) {
-		List<SyncInvocableHandlerMethod> binderMethods =
-				MethodIntrospector.selectMethods(controller.getClass(), BINDER_METHODS)
-						.stream()
-						.map(method -> new SyncInvocableHandlerMethod(controller, method))
-						.collect(Collectors.toList());
+		List<SyncInvocableHandlerMethod> binderMethods = MethodIntrospector
+				.selectMethods(controller.getClass(), BINDER_METHODS).stream()
+				.map(method -> new SyncInvocableHandlerMethod(controller, method)).collect(Collectors.toList());
 
 		WebBindingInitializer bindingInitializer = new ConfigurableWebBindingInitializer();
 		return new InitBinderBindingContext(bindingInitializer, binderMethods);
 	}
 
-
 	@SuppressWarnings("unused")
-	@SessionAttributes({"bean", "missing-bean"})
+	@SessionAttributes({ "bean", "missing-bean" })
 	private static class TestController {
 
 		@Nullable
 		private Validator validator;
 
-
 		void setValidator(Validator validator) {
 			this.validator = validator;
 		}
-
 
 		@InitBinder
 		public void initDataBinder(WebDataBinder dataBinder) {
@@ -258,18 +249,18 @@ public class ModelInitializerTests {
 		@ModelAttribute
 		public Mono<Void> voidMonoMethodBean(Model model) {
 			return Mono.just("Void Mono Method Bean")
-					.doOnNext(name -> model.addAttribute("voidMonoMethodBean", new TestBean(name)))
-					.then();
+					.doOnNext(name -> model.addAttribute("voidMonoMethodBean", new TestBean(name))).then();
 		}
 
 		@GetMapping
-		public void handleGet() {}
+		public void handleGet() {
+		}
 
 		@PostMapping
-		public void handlePost(@ModelAttribute("missing-bean") TestBean testBean) {}
+		public void handlePost(@ModelAttribute("missing-bean") TestBean testBean) {
+		}
 
 	}
-
 
 	private static class TestBean {
 
@@ -287,10 +278,10 @@ public class ModelInitializerTests {
 		public String toString() {
 			return "TestBean[name=" + this.name + "]";
 		}
+
 	}
 
-
-	private static final ReflectionUtils.MethodFilter BINDER_METHODS = method ->
-			AnnotationUtils.findAnnotation(method, InitBinder.class) != null;
+	private static final ReflectionUtils.MethodFilter BINDER_METHODS = method -> AnnotationUtils.findAnnotation(method,
+			InitBinder.class) != null;
 
 }

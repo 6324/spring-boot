@@ -17,10 +17,9 @@
 package org.springframework.cglib.core;
 
 /**
- * CGLIB GeneratorStrategy variant which exposes the application ClassLoader
- * as current thread context ClassLoader for the time of class generation.
- * The ASM ClassWriter in Spring's ASM variant will pick it up when doing
- * common superclass resolution.
+ * CGLIB GeneratorStrategy variant which exposes the application ClassLoader as current
+ * thread context ClassLoader for the time of class generation. The ASM ClassWriter in
+ * Spring's ASM variant will pick it up when doing common superclass resolution.
  *
  * @author Juergen Hoeller
  * @since 5.2

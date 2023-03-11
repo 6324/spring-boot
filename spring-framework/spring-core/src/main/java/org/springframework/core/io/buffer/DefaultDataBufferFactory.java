@@ -23,8 +23,8 @@ import org.springframework.util.Assert;
 
 /**
  * Default implementation of the {@code DataBufferFactory} interface. Allows for
- * specification of the default initial capacity at construction time, as well
- * as whether heap-based or direct buffers are to be preferred.
+ * specification of the default initial capacity at construction time, as well as whether
+ * heap-based or direct buffers are to be preferred.
  *
  * @author Arjen Poutsma
  * @since 5.0
@@ -38,11 +38,9 @@ public class DefaultDataBufferFactory implements DataBufferFactory {
 	 */
 	public static final int DEFAULT_INITIAL_CAPACITY = 256;
 
-
 	private final boolean preferDirect;
 
 	private final int defaultInitialCapacity;
-
 
 	/**
 	 * Creates a new {@code DefaultDataBufferFactory} with default settings.
@@ -52,9 +50,8 @@ public class DefaultDataBufferFactory implements DataBufferFactory {
 	}
 
 	/**
-	 * Creates a new {@code DefaultDataBufferFactory}, indicating whether direct
-	 * buffers should be created by {@link #allocateBuffer()} and
-	 * {@link #allocateBuffer(int)}.
+	 * Creates a new {@code DefaultDataBufferFactory}, indicating whether direct buffers
+	 * should be created by {@link #allocateBuffer()} and {@link #allocateBuffer(int)}.
 	 * @param preferDirect {@code true} if direct buffers are to be preferred;
 	 * {@code false} otherwise
 	 */
@@ -63,10 +60,9 @@ public class DefaultDataBufferFactory implements DataBufferFactory {
 	}
 
 	/**
-	 * Creates a new {@code DefaultDataBufferFactory}, indicating whether direct
-	 * buffers should be created by {@link #allocateBuffer()} and
-	 * {@link #allocateBuffer(int)}, and what the capacity is to be used for
-	 * {@link #allocateBuffer()}.
+	 * Creates a new {@code DefaultDataBufferFactory}, indicating whether direct buffers
+	 * should be created by {@link #allocateBuffer()} and {@link #allocateBuffer(int)},
+	 * and what the capacity is to be used for {@link #allocateBuffer()}.
 	 * @param preferDirect {@code true} if direct buffers are to be preferred;
 	 * {@code false} otherwise
 	 */
@@ -76,7 +72,6 @@ public class DefaultDataBufferFactory implements DataBufferFactory {
 		this.defaultInitialCapacity = defaultInitialCapacity;
 	}
 
-
 	@Override
 	public DefaultDataBuffer allocateBuffer() {
 		return allocateBuffer(this.defaultInitialCapacity);
@@ -84,9 +79,8 @@ public class DefaultDataBufferFactory implements DataBufferFactory {
 
 	@Override
 	public DefaultDataBuffer allocateBuffer(int initialCapacity) {
-		ByteBuffer byteBuffer = (this.preferDirect ?
-				ByteBuffer.allocateDirect(initialCapacity) :
-				ByteBuffer.allocate(initialCapacity));
+		ByteBuffer byteBuffer = (this.preferDirect ? ByteBuffer.allocateDirect(initialCapacity)
+				: ByteBuffer.allocate(initialCapacity));
 		return DefaultDataBuffer.fromEmptyByteBuffer(this, byteBuffer);
 	}
 
@@ -102,8 +96,9 @@ public class DefaultDataBufferFactory implements DataBufferFactory {
 
 	/**
 	 * {@inheritDoc}
-	 * <p>This implementation creates a single {@link DefaultDataBuffer}
-	 * to contain the data in {@code dataBuffers}.
+	 * <p>
+	 * This implementation creates a single {@link DefaultDataBuffer} to contain the data
+	 * in {@code dataBuffers}.
 	 */
 	@Override
 	public DefaultDataBuffer join(List<? extends DataBuffer> dataBuffers) {
@@ -114,7 +109,6 @@ public class DefaultDataBufferFactory implements DataBufferFactory {
 		dataBuffers.forEach(DataBufferUtils::release);
 		return result;
 	}
-
 
 	@Override
 	public String toString() {

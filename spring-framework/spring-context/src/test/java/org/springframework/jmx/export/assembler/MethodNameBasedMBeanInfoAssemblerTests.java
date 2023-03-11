@@ -33,7 +33,6 @@ public class MethodNameBasedMBeanInfoAssemblerTests extends AbstractJmxAssembler
 
 	protected static final String OBJECT_NAME = "bean:name=testBean5";
 
-
 	@Override
 	protected String getObjectName() {
 		return OBJECT_NAME;

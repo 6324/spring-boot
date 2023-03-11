@@ -41,7 +41,6 @@ public class NameMatchMethodPointcutTests {
 
 	protected SerializableNopInterceptor nop;
 
-
 	/**
 	 * Create an empty pointcut, populating instance variables.
 	 */
@@ -53,7 +52,6 @@ public class NameMatchMethodPointcutTests {
 		pf.addAdvisor(new DefaultPointcutAdvisor(pc, nop));
 		proxied = (Person) pf.getProxy();
 	}
-
 
 	@Test
 	public void testMatchingOnly() {
@@ -74,7 +72,6 @@ public class NameMatchMethodPointcutTests {
 		proxied.echo(null);
 		assertThat(nop.getCount()).isEqualTo(0);
 	}
-
 
 	@Test
 	public void testMatchOneMethod() throws Throwable {

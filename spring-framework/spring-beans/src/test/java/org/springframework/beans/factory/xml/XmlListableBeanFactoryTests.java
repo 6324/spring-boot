@@ -43,13 +43,12 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Juergen Hoeller
  * @since 09.11.2003
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class XmlListableBeanFactoryTests extends AbstractListableBeanFactoryTests {
 
 	private DefaultListableBeanFactory parent;
 
 	private DefaultListableBeanFactory factory;
-
 
 	@BeforeEach
 	public void setup() {
@@ -81,6 +80,7 @@ public class XmlListableBeanFactoryTests extends AbstractListableBeanFactoryTest
 				}
 				return bean;
 			}
+
 			@Override
 			public Object postProcessAfterInitialization(Object bean, String name) throws BeansException {
 				return bean;
@@ -96,7 +96,6 @@ public class XmlListableBeanFactoryTests extends AbstractListableBeanFactoryTest
 	protected BeanFactory getBeanFactory() {
 		return factory;
 	}
-
 
 	@Test
 	@Override
@@ -252,7 +251,8 @@ public class XmlListableBeanFactoryTests extends AbstractListableBeanFactoryTest
 	@Test
 	public void commentsAndCdataInValue() {
 		TestBean bean = (TestBean) getBeanFactory().getBean("commentsInValue");
-		assertThat(bean.getName()).as("Failed to handle comments and CDATA properly").isEqualTo("this is a <!--comment-->");
+		assertThat(bean.getName()).as("Failed to handle comments and CDATA properly")
+				.isEqualTo("this is a <!--comment-->");
 	}
 
 }

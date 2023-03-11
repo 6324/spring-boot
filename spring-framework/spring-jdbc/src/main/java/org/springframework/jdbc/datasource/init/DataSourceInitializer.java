@@ -24,9 +24,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Used to {@linkplain #setDatabasePopulator set up} a database during
- * initialization and {@link #setDatabaseCleaner clean up} a database during
- * destruction.
+ * Used to {@linkplain #setDatabasePopulator set up} a database during initialization and
+ * {@link #setDatabaseCleaner clean up} a database during destruction.
  *
  * @author Dave Syer
  * @author Sam Brannen
@@ -46,11 +45,11 @@ public class DataSourceInitializer implements InitializingBean, DisposableBean {
 
 	private boolean enabled = true;
 
-
 	/**
-	 * The {@link DataSource} for the database to populate when this component
-	 * is initialized and to clean up when this component is shut down.
-	 * <p>This property is mandatory with no default provided.
+	 * The {@link DataSource} for the database to populate when this component is
+	 * initialized and to clean up when this component is shut down.
+	 * <p>
+	 * This property is mandatory with no default provided.
 	 * @param dataSource the DataSource
 	 */
 	public void setDataSource(DataSource dataSource) {
@@ -67,8 +66,8 @@ public class DataSourceInitializer implements InitializingBean, DisposableBean {
 	}
 
 	/**
-	 * Set the {@link DatabasePopulator} to execute during the bean destruction
-	 * phase, cleaning up the database and leaving it in a known state for others.
+	 * Set the {@link DatabasePopulator} to execute during the bean destruction phase,
+	 * cleaning up the database and leaving it in a known state for others.
 	 * @param databaseCleaner the {@code DatabasePopulator} to use during destruction
 	 * @see #setDatabasePopulator
 	 */
@@ -77,19 +76,18 @@ public class DataSourceInitializer implements InitializingBean, DisposableBean {
 	}
 
 	/**
-	 * Flag to explicitly enable or disable the {@linkplain #setDatabasePopulator
-	 * database populator} and {@linkplain #setDatabaseCleaner database cleaner}.
-	 * @param enabled {@code true} if the database populator and database cleaner
-	 * should be called on startup and shutdown, respectively
+	 * Flag to explicitly enable or disable the {@linkplain #setDatabasePopulator database
+	 * populator} and {@linkplain #setDatabaseCleaner database cleaner}.
+	 * @param enabled {@code true} if the database populator and database cleaner should
+	 * be called on startup and shutdown, respectively
 	 */
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
 
-
 	/**
-	 * Use the {@linkplain #setDatabasePopulator database populator} to set up
-	 * the database.
+	 * Use the {@linkplain #setDatabasePopulator database populator} to set up the
+	 * database.
 	 */
 	@Override
 	public void afterPropertiesSet() {
@@ -97,8 +95,7 @@ public class DataSourceInitializer implements InitializingBean, DisposableBean {
 	}
 
 	/**
-	 * Use the {@linkplain #setDatabaseCleaner database cleaner} to clean up the
-	 * database.
+	 * Use the {@linkplain #setDatabaseCleaner database cleaner} to clean up the database.
 	 */
 	@Override
 	public void destroy() {

@@ -40,12 +40,13 @@ import org.springframework.util.ClassUtils;
 
 /**
  * Implementation of {@link ParameterNameDiscoverer} that uses the LocalVariableTable
- * information in the method attributes to discover parameter names. Returns
- * {@code null} if the class file was compiled without debug information.
+ * information in the method attributes to discover parameter names. Returns {@code null}
+ * if the class file was compiled without debug information.
  *
- * <p>Uses ObjectWeb's ASM library for analyzing class files. Each discoverer instance
- * caches the ASM discovered information for each introspected Class, in a thread-safe
- * manner. It is recommended to reuse ParameterNameDiscoverer instances as far as possible.
+ * <p>
+ * Uses ObjectWeb's ASM library for analyzing class files. Each discoverer instance caches
+ * the ASM discovered information for each introspected Class, in a thread-safe manner. It
+ * is recommended to reuse ParameterNameDiscoverer instances as far as possible.
  *
  * @author Adrian Colyer
  * @author Costin Leau
@@ -61,9 +62,9 @@ public class LocalVariableTableParameterNameDiscoverer implements ParameterNameD
 	// marker object for classes that do not have any debug info
 	private static final Map<Executable, String[]> NO_DEBUG_INFO_MAP = Collections.emptyMap();
 
-	// the cache uses a nested index (value is a map) to keep the top level cache relatively small in size
+	// the cache uses a nested index (value is a map) to keep the top level cache
+	// relatively small in size
 	private final Map<Class<?>, Map<Executable, String[]>> parameterNamesCache = new ConcurrentHashMap<>(32);
-
 
 	@Override
 	@Nullable
@@ -87,8 +88,9 @@ public class LocalVariableTableParameterNameDiscoverer implements ParameterNameD
 
 	/**
 	 * Inspects the target class.
-	 * <p>Exceptions will be logged, and a marker map returned to indicate the
-	 * lack of debug information.
+	 * <p>
+	 * Exceptions will be logged, and a marker map returned to indicate the lack of debug
+	 * information.
 	 */
 	private Map<Executable, String[]> inspectClass(Class<?> clazz) {
 		InputStream is = clazz.getResourceAsStream(ClassUtils.getClassFileName(clazz));
@@ -96,8 +98,8 @@ public class LocalVariableTableParameterNameDiscoverer implements ParameterNameD
 			// We couldn't load the class file, which is not fatal as it
 			// simply means this method of discovering parameter names won't work.
 			if (logger.isDebugEnabled()) {
-				logger.debug("Cannot find '.class' file for class [" + clazz +
-						"] - unable to determine constructor/method parameter names");
+				logger.debug("Cannot find '.class' file for class [" + clazz
+						+ "] - unable to determine constructor/method parameter names");
 			}
 			return NO_DEBUG_INFO_MAP;
 		}
@@ -109,15 +111,15 @@ public class LocalVariableTableParameterNameDiscoverer implements ParameterNameD
 		}
 		catch (IOException ex) {
 			if (logger.isDebugEnabled()) {
-				logger.debug("Exception thrown while reading '.class' file for class [" + clazz +
-						"] - unable to determine constructor/method parameter names", ex);
+				logger.debug("Exception thrown while reading '.class' file for class [" + clazz
+						+ "] - unable to determine constructor/method parameter names", ex);
 			}
 		}
 		catch (IllegalArgumentException ex) {
 			if (logger.isDebugEnabled()) {
-				logger.debug("ASM ClassReader failed to parse class file [" + clazz +
-						"], probably due to a new Java class file version that isn't supported yet " +
-						"- unable to determine constructor/method parameter names", ex);
+				logger.debug("ASM ClassReader failed to parse class file [" + clazz
+						+ "], probably due to a new Java class file version that isn't supported yet "
+						+ "- unable to determine constructor/method parameter names", ex);
 			}
 		}
 		finally {
@@ -131,10 +133,9 @@ public class LocalVariableTableParameterNameDiscoverer implements ParameterNameD
 		return NO_DEBUG_INFO_MAP;
 	}
 
-
 	/**
-	 * Helper class that inspects all methods and constructors and then
-	 * attempts to find the parameter names for the given {@link Executable}.
+	 * Helper class that inspects all methods and constructors and then attempts to find
+	 * the parameter names for the given {@link Executable}.
 	 */
 	private static class ParameterNameDiscoveringVisitor extends ClassVisitor {
 
@@ -167,8 +168,8 @@ public class LocalVariableTableParameterNameDiscoverer implements ParameterNameD
 		private static boolean isStatic(int access) {
 			return ((access & Opcodes.ACC_STATIC) > 0);
 		}
-	}
 
+	}
 
 	private static class LocalVariableTableVisitor extends MethodVisitor {
 
@@ -194,7 +195,8 @@ public class LocalVariableTableParameterNameDiscoverer implements ParameterNameD
 		 */
 		private final int[] lvtSlotIndex;
 
-		public LocalVariableTableVisitor(Class<?> clazz, Map<Executable, String[]> map, String name, String desc, boolean isStatic) {
+		public LocalVariableTableVisitor(Class<?> clazz, Map<Executable, String[]> map, String name, String desc,
+				boolean isStatic) {
 			super(SpringAsmInfo.ASM_VERSION);
 			this.clazz = clazz;
 			this.executableMap = map;
@@ -206,7 +208,8 @@ public class LocalVariableTableParameterNameDiscoverer implements ParameterNameD
 		}
 
 		@Override
-		public void visitLocalVariable(String name, String description, String signature, Label start, Label end, int index) {
+		public void visitLocalVariable(String name, String description, String signature, Label start, Label end,
+				int index) {
 			this.hasLvtInfo = true;
 			for (int i = 0; i < this.lvtSlotIndex.length; i++) {
 				if (this.lvtSlotIndex[i] == index) {
@@ -239,8 +242,8 @@ public class LocalVariableTableParameterNameDiscoverer implements ParameterNameD
 				return this.clazz.getDeclaredMethod(this.name, argTypes);
 			}
 			catch (NoSuchMethodException ex) {
-				throw new IllegalStateException("Method [" + this.name +
-						"] was discovered in the .class file but cannot be resolved in the class object", ex);
+				throw new IllegalStateException("Method [" + this.name
+						+ "] was discovered in the .class file but cannot be resolved in the class object", ex);
 			}
 		}
 
@@ -263,6 +266,7 @@ public class LocalVariableTableParameterNameDiscoverer implements ParameterNameD
 			// float is not a wide type
 			return (aType == Type.LONG_TYPE || aType == Type.DOUBLE_TYPE);
 		}
+
 	}
 
 }

@@ -58,27 +58,39 @@ public class ResourceScriptSourceTests {
 		// And then mock the file changing; i.e. the File says it has been modified
 		given(resource.lastModified()).willReturn(100L, 100L, 200L);
 		// does not support File-based reading; delegates to InputStream-style reading...
-		//resource.getFile();
-		//mock.setThrowable(new FileNotFoundException());
+		// resource.getFile();
+		// mock.setThrowable(new FileNotFoundException());
 		given(resource.getInputStream()).willReturn(StreamUtils.emptyInput());
 
 		ResourceScriptSource scriptSource = new ResourceScriptSource(resource);
-		assertThat(scriptSource.isModified()).as("ResourceScriptSource must start off in the 'isModified' state (it obviously isn't).").isTrue();
+		assertThat(scriptSource.isModified())
+				.as("ResourceScriptSource must start off in the 'isModified' state (it obviously isn't).").isTrue();
 		scriptSource.getScriptAsString();
-		assertThat(scriptSource.isModified()).as("ResourceScriptSource must not report back as being modified if the underlying File resource is not reporting a changed lastModified time.").isFalse();
+		assertThat(scriptSource.isModified()).as(
+				"ResourceScriptSource must not report back as being modified if the underlying File resource is not reporting a changed lastModified time.")
+				.isFalse();
 		// Must now report back as having been modified
-		assertThat(scriptSource.isModified()).as("ResourceScriptSource must report back as being modified if the underlying File resource is reporting a changed lastModified time.").isTrue();
+		assertThat(scriptSource.isModified()).as(
+				"ResourceScriptSource must report back as being modified if the underlying File resource is reporting a changed lastModified time.")
+				.isTrue();
 	}
 
 	@Test
 	public void lastModifiedWorksWithResourceThatDoesNotSupportFileBasedAccessAtAll() throws Exception {
 		Resource resource = new ByteArrayResource(new byte[0]);
 		ResourceScriptSource scriptSource = new ResourceScriptSource(resource);
-		assertThat(scriptSource.isModified()).as("ResourceScriptSource must start off in the 'isModified' state (it obviously isn't).").isTrue();
+		assertThat(scriptSource.isModified())
+				.as("ResourceScriptSource must start off in the 'isModified' state (it obviously isn't).").isTrue();
 		scriptSource.getScriptAsString();
-		assertThat(scriptSource.isModified()).as("ResourceScriptSource must not report back as being modified if the underlying File resource is not reporting a changed lastModified time.").isFalse();
-		// Must now continue to report back as not having been modified 'cos the Resource does not support access as a File (and so the lastModified date cannot be determined).
-		assertThat(scriptSource.isModified()).as("ResourceScriptSource must not report back as being modified if the underlying File resource is not reporting a changed lastModified time.").isFalse();
+		assertThat(scriptSource.isModified()).as(
+				"ResourceScriptSource must not report back as being modified if the underlying File resource is not reporting a changed lastModified time.")
+				.isFalse();
+		// Must now continue to report back as not having been modified 'cos the Resource
+		// does not support access as a File (and so the lastModified date cannot be
+		// determined).
+		assertThat(scriptSource.isModified()).as(
+				"ResourceScriptSource must not report back as being modified if the underlying File resource is not reporting a changed lastModified time.")
+				.isFalse();
 	}
 
 }

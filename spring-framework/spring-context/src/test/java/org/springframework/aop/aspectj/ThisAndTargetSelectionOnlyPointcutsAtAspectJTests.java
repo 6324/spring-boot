@@ -41,18 +41,16 @@ public class ThisAndTargetSelectionOnlyPointcutsAtAspectJTests {
 
 	private Counter counter;
 
-
 	@org.junit.jupiter.api.BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml",
+				getClass());
 		testBean = (TestInterface) ctx.getBean("testBean");
 		testAnnotatedClassBean = (TestInterface) ctx.getBean("testAnnotatedClassBean");
 		testAnnotatedMethodBean = (TestInterface) ctx.getBean("testAnnotatedMethodBean");
 		counter = (Counter) ctx.getBean("counter");
 		counter.reset();
 	}
-
 
 	@Test
 	public void thisAsClassDoesNotMatch() {
@@ -96,7 +94,6 @@ public class ThisAndTargetSelectionOnlyPointcutsAtAspectJTests {
 		assertThat(counter.thisAsInterfaceAndTargetAsInterfaceCounter).isEqualTo(1);
 	}
 
-
 	@Test
 	public void atTargetClassAnnotationMatch() {
 		testAnnotatedClassBean.doIt();
@@ -110,13 +107,17 @@ public class ThisAndTargetSelectionOnlyPointcutsAtAspectJTests {
 	}
 
 	public static interface TestInterface {
+
 		public void doIt();
+
 	}
 
 	public static class TestImpl implements TestInterface {
+
 		@Override
 		public void doIt() {
 		}
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
@@ -126,28 +127,41 @@ public class ThisAndTargetSelectionOnlyPointcutsAtAspectJTests {
 
 	@TestAnnotation
 	public static class AnnotatedClassTestImpl implements TestInterface {
+
 		@Override
 		public void doIt() {
 		}
+
 	}
 
 	public static class AnnotatedMethodTestImpl implements TestInterface {
+
 		@Override
 		@TestAnnotation
 		public void doIt() {
 		}
+
 	}
 
 	@Aspect
 	public static class Counter {
+
 		int thisAsClassCounter;
+
 		int thisAsInterfaceCounter;
+
 		int targetAsClassCounter;
+
 		int targetAsInterfaceCounter;
+
 		int thisAsClassAndTargetAsClassCounter;
+
 		int thisAsInterfaceAndTargetAsInterfaceCounter;
+
 		int thisAsInterfaceAndTargetAsClassCounter;
+
 		int atTargetClassAnnotationCounter;
+
 		int atAnnotationMethodAnnotationCounter;
 
 		public void reset() {
@@ -182,20 +196,20 @@ public class ThisAndTargetSelectionOnlyPointcutsAtAspectJTests {
 			targetAsInterfaceCounter++;
 		}
 
-		@Before("this(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestImpl) " +
-				"&& target(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestImpl)")
+		@Before("this(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestImpl) "
+				+ "&& target(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestImpl)")
 		public void incrementThisAsClassAndTargetAsClassCounter() {
 			thisAsClassAndTargetAsClassCounter++;
 		}
 
-		@Before("this(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestInterface) " +
-				"&& target(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestInterface)")
+		@Before("this(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestInterface) "
+				+ "&& target(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestInterface)")
 		public void incrementThisAsInterfaceAndTargetAsInterfaceCounter() {
 			thisAsInterfaceAndTargetAsInterfaceCounter++;
 		}
 
-		@Before("this(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestInterface) " +
-				"&& target(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestImpl)")
+		@Before("this(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestInterface) "
+				+ "&& target(org.springframework.aop.aspectj.ThisAndTargetSelectionOnlyPointcutsAtAspectJTests.TestImpl)")
 		public void incrementThisAsInterfaceAndTargetAsClassCounter() {
 			thisAsInterfaceAndTargetAsClassCounter++;
 		}
@@ -211,4 +225,5 @@ public class ThisAndTargetSelectionOnlyPointcutsAtAspectJTests {
 		}
 
 	}
+
 }

@@ -37,18 +37,16 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class DomContentHandlerTests {
 
-	private static final String XML_1 =
-			"<?xml version='1.0' encoding='UTF-8'?>" + "<?pi content?>" + "<root xmlns='namespace'>" +
-					"<prefix:child xmlns:prefix='namespace2' xmlns:prefix2='namespace3' prefix2:attr='value'>content</prefix:child>" +
-					"</root>";
+	private static final String XML_1 = "<?xml version='1.0' encoding='UTF-8'?>" + "<?pi content?>"
+			+ "<root xmlns='namespace'>"
+			+ "<prefix:child xmlns:prefix='namespace2' xmlns:prefix2='namespace3' prefix2:attr='value'>content</prefix:child>"
+			+ "</root>";
 
-	private static final String XML_2_EXPECTED =
-			"<?xml version='1.0' encoding='UTF-8'?>" + "<root xmlns='namespace'>" + "<child xmlns='namespace2' />" +
-					"</root>";
+	private static final String XML_2_EXPECTED = "<?xml version='1.0' encoding='UTF-8'?>" + "<root xmlns='namespace'>"
+			+ "<child xmlns='namespace2' />" + "</root>";
 
-	private static final String XML_2_SNIPPET =
-			"<?xml version='1.0' encoding='UTF-8'?>" + "<child xmlns='namespace2' />";
-
+	private static final String XML_2_SNIPPET = "<?xml version='1.0' encoding='UTF-8'?>"
+			+ "<child xmlns='namespace2' />";
 
 	private Document expected;
 
@@ -60,9 +58,8 @@ class DomContentHandlerTests {
 
 	private DocumentBuilder documentBuilder;
 
-
 	@BeforeEach
-	@SuppressWarnings("deprecation")  // on JDK 9
+	@SuppressWarnings("deprecation") // on JDK 9
 	void setUp() throws Exception {
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		documentBuilderFactory.setNamespaceAware(true);
@@ -70,7 +67,6 @@ class DomContentHandlerTests {
 		result = documentBuilder.newDocument();
 		xmlReader = org.xml.sax.helpers.XMLReaderFactory.createXMLReader();
 	}
-
 
 	@Test
 	void contentHandlerDocumentNamespacePrefixes() throws Exception {

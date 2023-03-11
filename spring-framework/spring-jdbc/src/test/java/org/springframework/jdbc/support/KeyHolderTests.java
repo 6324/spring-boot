@@ -43,7 +43,6 @@ public class KeyHolderTests {
 
 	private final KeyHolder kh = new GeneratedKeyHolder();
 
-
 	@Test
 	public void singleKey() {
 		kh.getKeyList().addAll(singletonList(singletonMap("key", 1)));
@@ -55,46 +54,47 @@ public class KeyHolderTests {
 	public void singleKeyNonNumeric() {
 		kh.getKeyList().addAll(singletonList(singletonMap("key", "1")));
 
-		assertThatExceptionOfType(DataRetrievalFailureException.class).isThrownBy(() ->
-				kh.getKey().intValue())
-			.withMessageStartingWith("The generated key is not of a supported numeric type.");
+		assertThatExceptionOfType(DataRetrievalFailureException.class).isThrownBy(() -> kh.getKey().intValue())
+				.withMessageStartingWith("The generated key is not of a supported numeric type.");
 	}
 
 	@Test
 	public void noKeyReturnedInMap() {
 		kh.getKeyList().addAll(singletonList(emptyMap()));
 
-		assertThatExceptionOfType(DataRetrievalFailureException.class).isThrownBy(() ->
-				kh.getKey())
-			.withMessageStartingWith("Unable to retrieve the generated key.");
+		assertThatExceptionOfType(DataRetrievalFailureException.class).isThrownBy(() -> kh.getKey())
+				.withMessageStartingWith("Unable to retrieve the generated key.");
 	}
 
 	@Test
 	public void multipleKeys() {
-		Map<String, Object> m = new HashMap<String, Object>() {{
-			put("key", 1);
-			put("seq", 2);
-		}};
+		Map<String, Object> m = new HashMap<String, Object>() {
+			{
+				put("key", 1);
+				put("seq", 2);
+			}
+		};
 		kh.getKeyList().addAll(singletonList(m));
 
 		assertThat(kh.getKeys().size()).as("two keys should be in the map").isEqualTo(2);
-		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(() ->
-				kh.getKey())
-			.withMessageStartingWith("The getKey method should only be used when a single key is returned.");
+		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(() -> kh.getKey())
+				.withMessageStartingWith("The getKey method should only be used when a single key is returned.");
 	}
 
 	@Test
 	public void multipleKeyRows() {
-		Map<String, Object> m = new HashMap<String, Object>() {{
-			put("key", 1);
-			put("seq", 2);
-		}};
+		Map<String, Object> m = new HashMap<String, Object>() {
+			{
+				put("key", 1);
+				put("seq", 2);
+			}
+		};
 		kh.getKeyList().addAll(asList(m, m));
 
 		assertThat(kh.getKeyList().size()).as("two rows should be in the list").isEqualTo(2);
-		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(() ->
-				kh.getKeys())
-			.withMessageStartingWith("The getKeys method should only be used when keys for a single row are returned.");
+		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(() -> kh.getKeys())
+				.withMessageStartingWith(
+						"The getKeys method should only be used when keys for a single row are returned.");
 	}
 
 }

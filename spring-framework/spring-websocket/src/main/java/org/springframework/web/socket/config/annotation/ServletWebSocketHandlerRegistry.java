@@ -33,8 +33,8 @@ import org.springframework.web.socket.server.support.WebSocketHandlerMapping;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * {@link WebSocketHandlerRegistry} with Spring MVC handler mappings for the
- * handshake requests.
+ * {@link WebSocketHandlerRegistry} with Spring MVC handler mappings for the handshake
+ * requests.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -48,10 +48,8 @@ public class ServletWebSocketHandlerRegistry implements WebSocketHandlerRegistry
 	@Nullable
 	private UrlPathHelper urlPathHelper;
 
-
 	public ServletWebSocketHandlerRegistry() {
 	}
-
 
 	@Override
 	public WebSocketHandlerRegistration addHandler(WebSocketHandler handler, String... paths) {
@@ -62,9 +60,10 @@ public class ServletWebSocketHandlerRegistry implements WebSocketHandlerRegistry
 	}
 
 	/**
-	 * Set the order for the resulting {@link SimpleUrlHandlerMapping} relative to
-	 * other handler mappings configured in Spring MVC.
-	 * <p>The default value is 1.
+	 * Set the order for the resulting {@link SimpleUrlHandlerMapping} relative to other
+	 * handler mappings configured in Spring MVC.
+	 * <p>
+	 * The default value is 1.
 	 */
 	public void setOrder(int order) {
 		this.order = order;
@@ -75,8 +74,8 @@ public class ServletWebSocketHandlerRegistry implements WebSocketHandlerRegistry
 	}
 
 	/**
-	 * Set the UrlPathHelper to configure on the {@code SimpleUrlHandlerMapping}
-	 * used to map handshake requests.
+	 * Set the UrlPathHelper to configure on the {@code SimpleUrlHandlerMapping} used to
+	 * map handshake requests.
 	 */
 	public void setUrlPathHelper(@Nullable UrlPathHelper urlPathHelper) {
 		this.urlPathHelper = urlPathHelper;
@@ -87,28 +86,24 @@ public class ServletWebSocketHandlerRegistry implements WebSocketHandlerRegistry
 		return this.urlPathHelper;
 	}
 
-
 	/**
-	 * Whether there are any endpoint SockJS registrations without a TaskScheduler.
-	 * This method should be invoked just before {@link #getHandlerMapping()} to
-	 * allow for registrations to be made first.
+	 * Whether there are any endpoint SockJS registrations without a TaskScheduler. This
+	 * method should be invoked just before {@link #getHandlerMapping()} to allow for
+	 * registrations to be made first.
 	 */
 	protected boolean requiresTaskScheduler() {
-		return this.registrations.stream()
-				.anyMatch(r -> r.getSockJsServiceRegistration() != null &&
-						r.getSockJsServiceRegistration().getTaskScheduler() == null);
+		return this.registrations.stream().anyMatch(r -> r.getSockJsServiceRegistration() != null
+				&& r.getSockJsServiceRegistration().getTaskScheduler() == null);
 	}
 
 	/**
-	 * Provide the TaskScheduler to use for SockJS endpoints for which a task
-	 * scheduler has not been explicitly registered. This method must be called
-	 * prior to {@link #getHandlerMapping()}.
+	 * Provide the TaskScheduler to use for SockJS endpoints for which a task scheduler
+	 * has not been explicitly registered. This method must be called prior to
+	 * {@link #getHandlerMapping()}.
 	 */
 	protected void setTaskScheduler(TaskScheduler scheduler) {
-		this.registrations.stream()
-				.map(ServletWebSocketHandlerRegistration::getSockJsServiceRegistration)
-				.filter(Objects::nonNull)
-				.filter(r -> r.getTaskScheduler() == null)
+		this.registrations.stream().map(ServletWebSocketHandlerRegistration::getSockJsServiceRegistration)
+				.filter(Objects::nonNull).filter(r -> r.getTaskScheduler() == null)
 				.forEach(registration -> registration.setTaskScheduler(scheduler));
 	}
 

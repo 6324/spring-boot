@@ -27,8 +27,9 @@ import org.springframework.lang.Nullable;
 /**
  * Metadata interface for a Spring-managed JPA {@link EntityManagerFactory}.
  *
- * <p>This facility can be obtained from Spring-managed EntityManagerFactory
- * proxies through casting the EntityManagerFactory handle to this interface.
+ * <p>
+ * This facility can be obtained from Spring-managed EntityManagerFactory proxies through
+ * casting the EntityManagerFactory handle to this interface.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -43,29 +44,30 @@ public interface EntityManagerFactoryInfo {
 	EntityManagerFactory getNativeEntityManagerFactory();
 
 	/**
-	 * Return the underlying PersistenceProvider that the underlying
-	 * EntityManagerFactory was created with.
-	 * @return the PersistenceProvider used to create this EntityManagerFactory,
-	 * or {@code null} if the standard JPA provider autodetection process
-	 * was used to configure the EntityManagerFactory
+	 * Return the underlying PersistenceProvider that the underlying EntityManagerFactory
+	 * was created with.
+	 * @return the PersistenceProvider used to create this EntityManagerFactory, or
+	 * {@code null} if the standard JPA provider autodetection process was used to
+	 * configure the EntityManagerFactory
 	 */
 	@Nullable
 	PersistenceProvider getPersistenceProvider();
 
 	/**
-	 * Return the PersistenceUnitInfo used to create this
-	 * EntityManagerFactory, if the in-container API was used.
-	 * @return the PersistenceUnitInfo used to create this EntityManagerFactory,
-	 * or {@code null} if the in-container contract was not used to
-	 * configure the EntityManagerFactory
+	 * Return the PersistenceUnitInfo used to create this EntityManagerFactory, if the
+	 * in-container API was used.
+	 * @return the PersistenceUnitInfo used to create this EntityManagerFactory, or
+	 * {@code null} if the in-container contract was not used to configure the
+	 * EntityManagerFactory
 	 */
 	@Nullable
 	PersistenceUnitInfo getPersistenceUnitInfo();
 
 	/**
-	 * Return the name of the persistence unit used to create this
-	 * EntityManagerFactory, or {@code null} if it is an unnamed default.
-	 * <p>If {@code getPersistenceUnitInfo()} returns non-null, the result of
+	 * Return the name of the persistence unit used to create this EntityManagerFactory,
+	 * or {@code null} if it is an unnamed default.
+	 * <p>
+	 * If {@code getPersistenceUnitInfo()} returns non-null, the result of
 	 * {@code getPersistenceUnitName()} must be equal to the value returned by
 	 * {@code PersistenceUnitInfo.getPersistenceUnitName()}.
 	 * @see #getPersistenceUnitInfo()
@@ -75,33 +77,35 @@ public interface EntityManagerFactoryInfo {
 	String getPersistenceUnitName();
 
 	/**
-	 * Return the JDBC DataSource that this EntityManagerFactory
-	 * obtains its JDBC Connections from.
+	 * Return the JDBC DataSource that this EntityManagerFactory obtains its JDBC
+	 * Connections from.
 	 * @return the JDBC DataSource, or {@code null} if not known
 	 */
 	@Nullable
 	DataSource getDataSource();
 
 	/**
-	 * Return the (potentially vendor-specific) EntityManager interface
-	 * that this factory's EntityManagers will implement.
-	 * <p>A {@code null} return value suggests that autodetection is supposed
-	 * to happen: either based on a target {@code EntityManager} instance
-	 * or simply defaulting to {@code javax.persistence.EntityManager}.
+	 * Return the (potentially vendor-specific) EntityManager interface that this
+	 * factory's EntityManagers will implement.
+	 * <p>
+	 * A {@code null} return value suggests that autodetection is supposed to happen:
+	 * either based on a target {@code EntityManager} instance or simply defaulting to
+	 * {@code javax.persistence.EntityManager}.
 	 */
 	@Nullable
 	Class<? extends EntityManager> getEntityManagerInterface();
 
 	/**
-	 * Return the vendor-specific JpaDialect implementation for this
-	 * EntityManagerFactory, or {@code null} if not known.
+	 * Return the vendor-specific JpaDialect implementation for this EntityManagerFactory,
+	 * or {@code null} if not known.
 	 */
 	@Nullable
 	JpaDialect getJpaDialect();
 
 	/**
 	 * Return the ClassLoader that the application's beans are loaded with.
-	 * <p>Proxies will be generated in this ClassLoader.
+	 * <p>
+	 * Proxies will be generated in this ClassLoader.
 	 */
 	ClassLoader getBeanClassLoader();
 

@@ -69,12 +69,10 @@ public class PersistenceExceptionTranslationAdvisorTests {
 		ri.throwsPersistenceException();
 
 		target.setBehavior(persistenceException1);
-		assertThatExceptionOfType(RuntimeException.class).isThrownBy(
-				ri::noThrowsClause)
-			.isSameAs(persistenceException1);
-		assertThatExceptionOfType(RuntimeException.class).isThrownBy(
-				ri::throwsPersistenceException)
-			.isSameAs(persistenceException1);
+		assertThatExceptionOfType(RuntimeException.class).isThrownBy(ri::noThrowsClause)
+				.isSameAs(persistenceException1);
+		assertThatExceptionOfType(RuntimeException.class).isThrownBy(ri::throwsPersistenceException)
+				.isSameAs(persistenceException1);
 	}
 
 	@Test
@@ -86,12 +84,9 @@ public class PersistenceExceptionTranslationAdvisorTests {
 		ri.throwsPersistenceException();
 
 		target.setBehavior(doNotTranslate);
-		assertThatExceptionOfType(RuntimeException.class).isThrownBy(
-				ri::noThrowsClause)
-			.isSameAs(doNotTranslate);
-		assertThatExceptionOfType(RuntimeException.class).isThrownBy(
-				ri::throwsPersistenceException)
-			.isSameAs(doNotTranslate);
+		assertThatExceptionOfType(RuntimeException.class).isThrownBy(ri::noThrowsClause).isSameAs(doNotTranslate);
+		assertThatExceptionOfType(RuntimeException.class).isThrownBy(ri::throwsPersistenceException)
+				.isSameAs(doNotTranslate);
 	}
 
 	@Test
@@ -123,21 +118,19 @@ public class PersistenceExceptionTranslationAdvisorTests {
 		RepositoryInterface ri = createProxy(target);
 
 		target.setBehavior(persistenceException1);
-		assertThatExceptionOfType(DataAccessException.class).isThrownBy(
-				ri::noThrowsClause)
-			.withCause(persistenceException1);
+		assertThatExceptionOfType(DataAccessException.class).isThrownBy(ri::noThrowsClause)
+				.withCause(persistenceException1);
 
-		assertThatExceptionOfType(PersistenceException.class).isThrownBy(
-				ri::throwsPersistenceException)
-			.isSameAs(persistenceException1);
+		assertThatExceptionOfType(PersistenceException.class).isThrownBy(ri::throwsPersistenceException)
+				.isSameAs(persistenceException1);
 	}
-
 
 	public interface RepositoryInterface {
 
 		void noThrowsClause();
 
 		void throwsPersistenceException() throws PersistenceException;
+
 	}
 
 	public static class RepositoryInterfaceImpl implements RepositoryInterface {
@@ -161,39 +154,49 @@ public class PersistenceExceptionTranslationAdvisorTests {
 				throw runtimeException;
 			}
 		}
+
 	}
 
 	@Repository
 	public static class StereotypedRepositoryInterfaceImpl extends RepositoryInterfaceImpl {
+
 		// Extends above class just to add repository annotation
+
 	}
 
 	public static class MyStereotypedRepositoryInterfaceImpl extends StereotypedRepositoryInterfaceImpl {
+
 	}
 
 	@MyRepository
 	public static class CustomStereotypedRepositoryInterfaceImpl extends RepositoryInterfaceImpl {
+
 	}
 
-	@Target({ElementType.TYPE})
+	@Target({ ElementType.TYPE })
 	@Retention(RetentionPolicy.RUNTIME)
 	@Repository
 	public @interface MyRepository {
+
 	}
 
 	@Repository
 	public interface StereotypedInterface {
+
 	}
 
 	public static class MyInterfaceStereotypedRepositoryInterfaceImpl extends RepositoryInterfaceImpl
 			implements StereotypedInterface {
+
 	}
 
 	public interface StereotypedInheritingInterface extends StereotypedInterface {
+
 	}
 
 	public static class MyInterfaceInheritedStereotypedRepositoryInterfaceImpl extends RepositoryInterfaceImpl
 			implements StereotypedInheritingInterface {
+
 	}
 
 }

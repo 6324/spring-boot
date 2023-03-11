@@ -30,14 +30,16 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.function.SingletonSupplier;
 
 /**
- * AOP Alliance MethodInterceptor for declarative cache
- * management using JSR-107 caching annotations.
+ * AOP Alliance MethodInterceptor for declarative cache management using JSR-107 caching
+ * annotations.
  *
- * <p>Derives from the {@link JCacheAspectSupport} class which
- * contains the integration with Spring's underlying caching API.
- * JCacheInterceptor simply calls the relevant superclass method.
+ * <p>
+ * Derives from the {@link JCacheAspectSupport} class which contains the integration with
+ * Spring's underlying caching API. JCacheInterceptor simply calls the relevant superclass
+ * method.
  *
- * <p>JCacheInterceptors are thread-safe.
+ * <p>
+ * JCacheInterceptors are thread-safe.
  *
  * @author Stephane Nicoll
  * @author Juergen Hoeller
@@ -55,14 +57,13 @@ public class JCacheInterceptor extends JCacheAspectSupport implements MethodInte
 
 	/**
 	 * Construct a new {@code JCacheInterceptor} with the given error handler.
-	 * @param errorHandler a supplier for the error handler to use,
-	 * applying the default error handler if the supplier is not resolvable
+	 * @param errorHandler a supplier for the error handler to use, applying the default
+	 * error handler if the supplier is not resolvable
 	 * @since 5.1
 	 */
 	public JCacheInterceptor(@Nullable Supplier<CacheErrorHandler> errorHandler) {
 		this.errorHandler = new SingletonSupplier<>(errorHandler, SimpleCacheErrorHandler::new);
 	}
-
 
 	@Override
 	@Nullable

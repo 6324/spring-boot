@@ -37,8 +37,8 @@ public interface HandlerResultHandler {
 	boolean supports(HandlerResult result);
 
 	/**
-	 * Process the given result modifying response headers and/or writing data
-	 * to the response.
+	 * Process the given result modifying response headers and/or writing data to the
+	 * response.
 	 * @param exchange current server exchange
 	 * @param result the result from the handling
 	 * @return {@code Mono<Void>} to indicate when request handling is complete.

@@ -22,10 +22,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * A simple log message type for use with Commons Logging, allowing
- * for convenient lazy resolution of a given {@link Supplier} instance
- * (typically bound to a Java 8 lambda expression) or a printf-style
- * format string ({@link String#format}) in its {@link #toString()}.
+ * A simple log message type for use with Commons Logging, allowing for convenient lazy
+ * resolution of a given {@link Supplier} instance (typically bound to a Java 8 lambda
+ * expression) or a printf-style format string ({@link String#format}) in its
+ * {@link #toString()}.
  *
  * @author Juergen Hoeller
  * @since 5.2
@@ -44,7 +44,6 @@ public abstract class LogMessage implements CharSequence {
 	@Nullable
 	private String result;
 
-
 	@Override
 	public int length() {
 		return toString().length();
@@ -61,8 +60,8 @@ public abstract class LogMessage implements CharSequence {
 	}
 
 	/**
-	 * This will be called by the logging provider, potentially once
-	 * per log target (therefore locally caching the result here).
+	 * This will be called by the logging provider, potentially once per log target
+	 * (therefore locally caching the result here).
 	 */
 	@Override
 	public String toString() {
@@ -73,7 +72,6 @@ public abstract class LogMessage implements CharSequence {
 	}
 
 	abstract String buildString();
-
 
 	/**
 	 * Build a lazily resolving message from the given supplier.
@@ -140,7 +138,6 @@ public abstract class LogMessage implements CharSequence {
 		return new FormatMessageX(format, args);
 	}
 
-
 	private static final class SupplierMessage extends LogMessage {
 
 		private Supplier<? extends CharSequence> supplier;
@@ -154,8 +151,8 @@ public abstract class LogMessage implements CharSequence {
 		String buildString() {
 			return this.supplier.get().toString();
 		}
-	}
 
+	}
 
 	private static abstract class FormatMessage extends LogMessage {
 
@@ -165,8 +162,8 @@ public abstract class LogMessage implements CharSequence {
 			Assert.notNull(format, "Format must not be null");
 			this.format = format;
 		}
-	}
 
+	}
 
 	private static final class FormatMessage1 extends FormatMessage {
 
@@ -181,8 +178,8 @@ public abstract class LogMessage implements CharSequence {
 		protected String buildString() {
 			return String.format(this.format, this.arg1);
 		}
-	}
 
+	}
 
 	private static final class FormatMessage2 extends FormatMessage {
 
@@ -200,8 +197,8 @@ public abstract class LogMessage implements CharSequence {
 		String buildString() {
 			return String.format(this.format, this.arg1, this.arg2);
 		}
-	}
 
+	}
 
 	private static final class FormatMessage3 extends FormatMessage {
 
@@ -222,8 +219,8 @@ public abstract class LogMessage implements CharSequence {
 		String buildString() {
 			return String.format(this.format, this.arg1, this.arg2, this.arg3);
 		}
-	}
 
+	}
 
 	private static final class FormatMessage4 extends FormatMessage {
 
@@ -247,8 +244,8 @@ public abstract class LogMessage implements CharSequence {
 		String buildString() {
 			return String.format(this.format, this.arg1, this.arg2, this.arg3, this.arg4);
 		}
-	}
 
+	}
 
 	private static final class FormatMessageX extends FormatMessage {
 
@@ -263,6 +260,7 @@ public abstract class LogMessage implements CharSequence {
 		String buildString() {
 			return String.format(this.format, this.args);
 		}
+
 	}
 
 }

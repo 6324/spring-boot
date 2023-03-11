@@ -30,7 +30,8 @@ import org.springframework.util.ClassUtils;
  * {@link LoadTimeWeaver} implementation for GlassFish's
  * {@code org.glassfish.api.deployment.InstrumentableClassLoader InstrumentableClassLoader}.
  *
- * <p>As of Spring Framework 5.0, this weaver supports GlassFish 4+.
+ * <p>
+ * As of Spring Framework 5.0, this weaver supports GlassFish 4+.
  *
  * @author Costin Leau
  * @author Juergen Hoeller
@@ -38,9 +39,7 @@ import org.springframework.util.ClassUtils;
  */
 public class GlassFishLoadTimeWeaver implements LoadTimeWeaver {
 
-	private static final String INSTRUMENTABLE_LOADER_CLASS_NAME =
-			"org.glassfish.api.deployment.InstrumentableClassLoader";
-
+	private static final String INSTRUMENTABLE_LOADER_CLASS_NAME = "org.glassfish.api.deployment.InstrumentableClassLoader";
 
 	private final ClassLoader classLoader;
 
@@ -48,10 +47,9 @@ public class GlassFishLoadTimeWeaver implements LoadTimeWeaver {
 
 	private final Method copyMethod;
 
-
 	/**
-	 * Create a new instance of the {@link GlassFishLoadTimeWeaver} class using
-	 * the default {@link ClassLoader class loader}.
+	 * Create a new instance of the {@link GlassFishLoadTimeWeaver} class using the
+	 * default {@link ClassLoader class loader}.
 	 * @see org.springframework.util.ClassUtils#getDefaultClassLoader()
 	 */
 	public GlassFishLoadTimeWeaver() {
@@ -59,8 +57,8 @@ public class GlassFishLoadTimeWeaver implements LoadTimeWeaver {
 	}
 
 	/**
-	 * Create a new instance of the {@link GlassFishLoadTimeWeaver} class using
-	 * the supplied {@link ClassLoader}.
+	 * Create a new instance of the {@link GlassFishLoadTimeWeaver} class using the
+	 * supplied {@link ClassLoader}.
 	 * @param classLoader the {@code ClassLoader} to delegate to for weaving
 	 */
 	public GlassFishLoadTimeWeaver(@Nullable ClassLoader classLoader) {
@@ -69,7 +67,8 @@ public class GlassFishLoadTimeWeaver implements LoadTimeWeaver {
 		Class<?> instrumentableLoaderClass;
 		try {
 			instrumentableLoaderClass = classLoader.loadClass(INSTRUMENTABLE_LOADER_CLASS_NAME);
-			this.addTransformerMethod = instrumentableLoaderClass.getMethod("addTransformer", ClassFileTransformer.class);
+			this.addTransformerMethod = instrumentableLoaderClass.getMethod("addTransformer",
+					ClassFileTransformer.class);
 			this.copyMethod = instrumentableLoaderClass.getMethod("copy");
 		}
 		catch (Throwable ex) {
@@ -87,13 +86,12 @@ public class GlassFishLoadTimeWeaver implements LoadTimeWeaver {
 		}
 
 		if (clazzLoader == null) {
-			throw new IllegalArgumentException(classLoader + " and its parents are not suitable ClassLoaders: A [" +
-					instrumentableLoaderClass.getName() + "] implementation is required.");
+			throw new IllegalArgumentException(classLoader + " and its parents are not suitable ClassLoaders: A ["
+					+ instrumentableLoaderClass.getName() + "] implementation is required.");
 		}
 
 		this.classLoader = clazzLoader;
 	}
-
 
 	@Override
 	public void addTransformer(ClassFileTransformer transformer) {

@@ -78,7 +78,6 @@ public class DefaultServerRequestTests {
 			new DecoderHttpMessageReader<>(new Jackson2JsonDecoder()),
 			new DecoderHttpMessageReader<>(StringDecoder.allMimeTypes()));
 
-
 	@Test
 	public void method() {
 		HttpMethod method = HttpMethod.HEAD;
@@ -94,8 +93,7 @@ public class DefaultServerRequestTests {
 		URI uri = URI.create("https://example.com");
 
 		DefaultServerRequest request = new DefaultServerRequest(
-				MockServerWebExchange.from(MockServerHttpRequest.method(HttpMethod.GET, uri)),
-				this.messageReaders);
+				MockServerWebExchange.from(MockServerHttpRequest.method(HttpMethod.GET, uri)), this.messageReaders);
 
 		assertThat(request.uri()).isEqualTo(uri);
 	}
@@ -104,9 +102,7 @@ public class DefaultServerRequestTests {
 	public void uriBuilder() throws URISyntaxException {
 		URI uri = new URI("http", "localhost", "/path", "a=1", null);
 		DefaultServerRequest request = new DefaultServerRequest(
-				MockServerWebExchange.from(MockServerHttpRequest.method(HttpMethod.GET, uri)),
-				this.messageReaders);
-
+				MockServerWebExchange.from(MockServerHttpRequest.method(HttpMethod.GET, uri)), this.messageReaders);
 
 		URI result = request.uriBuilder().build();
 		assertThat(result.getScheme()).isEqualTo("http");
@@ -118,8 +114,8 @@ public class DefaultServerRequestTests {
 
 	@Test
 	public void attribute() {
-		MockServerWebExchange exchange = MockServerWebExchange.from(
-				MockServerHttpRequest.method(HttpMethod.GET, "https://example.com"));
+		MockServerWebExchange exchange = MockServerWebExchange
+				.from(MockServerHttpRequest.method(HttpMethod.GET, "https://example.com"));
 		exchange.getAttributes().put("foo", "bar");
 
 		DefaultServerRequest request = new DefaultServerRequest(exchange, messageReaders);
@@ -165,7 +161,6 @@ public class DefaultServerRequestTests {
 		assertThat(request.pathVariable("foo")).isEqualTo("bar");
 	}
 
-
 	@Test
 	public void pathVariableNotFound() {
 		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("https://example.com"));
@@ -174,8 +169,7 @@ public class DefaultServerRequestTests {
 
 		DefaultServerRequest request = new DefaultServerRequest(exchange, messageReaders);
 
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				request.pathVariable("baz"));
+		assertThatIllegalArgumentException().isThrownBy(() -> request.pathVariable("baz"));
 	}
 
 	@Test
@@ -192,8 +186,7 @@ public class DefaultServerRequestTests {
 	@Test
 	public void header() {
 		HttpHeaders httpHeaders = new HttpHeaders();
-		List<MediaType> accept =
-				Collections.singletonList(MediaType.APPLICATION_JSON);
+		List<MediaType> accept = Collections.singletonList(MediaType.APPLICATION_JSON);
 		httpHeaders.setAccept(accept);
 		List<Charset> acceptCharset = Collections.singletonList(StandardCharsets.UTF_8);
 		httpHeaders.setAcceptCharset(acceptCharset);
@@ -206,10 +199,8 @@ public class DefaultServerRequestTests {
 		List<HttpRange> range = Collections.singletonList(HttpRange.createByteRange(0, 42));
 		httpHeaders.setRange(range);
 
-		DefaultServerRequest request = new DefaultServerRequest(
-				MockServerWebExchange.from(MockServerHttpRequest
-						.method(HttpMethod.GET, "https://example.com?foo=bar")
-						.headers(httpHeaders)),
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange
+				.from(MockServerHttpRequest.method(HttpMethod.GET, "https://example.com?foo=bar").headers(httpHeaders)),
 				this.messageReaders);
 
 		ServerRequest.Headers headers = request.headers();
@@ -225,8 +216,8 @@ public class DefaultServerRequestTests {
 	@Test
 	public void cookies() {
 		HttpCookie cookie = new HttpCookie("foo", "bar");
-		MockServerWebExchange exchange = MockServerWebExchange.from(
-				MockServerHttpRequest.method(HttpMethod.GET, "https://example.com").cookie(cookie));
+		MockServerWebExchange exchange = MockServerWebExchange
+				.from(MockServerHttpRequest.method(HttpMethod.GET, "https://example.com").cookie(cookie));
 
 		DefaultServerRequest request = new DefaultServerRequest(exchange, messageReaders);
 
@@ -240,18 +231,16 @@ public class DefaultServerRequestTests {
 	@Test
 	public void body() {
 		DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
-		DefaultDataBuffer dataBuffer =
-				factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
+		DefaultDataBuffer dataBuffer = factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.TEXT_PLAIN);
 
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.GET, "https://example.com?foo=bar")
-				.headers(httpHeaders)
-				.body(body);
-		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), messageReaders);
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.GET, "https://example.com?foo=bar")
+				.headers(httpHeaders).body(body);
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				messageReaders);
 
 		Mono<String> resultMono = request.body(toMono(String.class));
 		assertThat(resultMono.block()).isEqualTo("foo");
@@ -260,17 +249,15 @@ public class DefaultServerRequestTests {
 	@Test
 	public void bodyToMono() {
 		DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
-		DefaultDataBuffer dataBuffer =
-				factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
+		DefaultDataBuffer dataBuffer = factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.TEXT_PLAIN);
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.GET, "https://example.com?foo=bar")
-				.headers(httpHeaders)
-				.body(body);
-		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), messageReaders);
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.GET, "https://example.com?foo=bar")
+				.headers(httpHeaders).body(body);
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				messageReaders);
 
 		Mono<String> resultMono = request.bodyToMono(String.class);
 		assertThat(resultMono.block()).isEqualTo("foo");
@@ -279,19 +266,18 @@ public class DefaultServerRequestTests {
 	@Test
 	public void bodyToMonoParameterizedTypeReference() {
 		DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
-		DefaultDataBuffer dataBuffer =
-				factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
+		DefaultDataBuffer dataBuffer = factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.TEXT_PLAIN);
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.GET, "https://example.com?foo=bar")
-				.headers(httpHeaders)
-				.body(body);
-		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), messageReaders);
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.GET, "https://example.com?foo=bar")
+				.headers(httpHeaders).body(body);
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				messageReaders);
 
-		ParameterizedTypeReference<String> typeReference = new ParameterizedTypeReference<String>() {};
+		ParameterizedTypeReference<String> typeReference = new ParameterizedTypeReference<String>() {
+		};
 		Mono<String> resultMono = request.bodyToMono(typeReference);
 		assertThat(resultMono.block()).isEqualTo("foo");
 	}
@@ -299,39 +285,35 @@ public class DefaultServerRequestTests {
 	@Test
 	public void bodyToMonoDecodingException() {
 		DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
-		DefaultDataBuffer dataBuffer =
-				factory.wrap(ByteBuffer.wrap("{\"invalid\":\"json\" ".getBytes(StandardCharsets.UTF_8)));
+		DefaultDataBuffer dataBuffer = factory
+				.wrap(ByteBuffer.wrap("{\"invalid\":\"json\" ".getBytes(StandardCharsets.UTF_8)));
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.POST, "https://example.com/invalid")
-				.headers(httpHeaders)
-				.body(body);
-		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), messageReaders);
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.POST, "https://example.com/invalid")
+				.headers(httpHeaders).body(body);
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				messageReaders);
 
-		Mono<Map<String, String>> resultMono = request.bodyToMono(
-				new ParameterizedTypeReference<Map<String, String>>() {});
-		StepVerifier.create(resultMono)
-				.expectError(ServerWebInputException.class)
-				.verify();
+		Mono<Map<String, String>> resultMono = request
+				.bodyToMono(new ParameterizedTypeReference<Map<String, String>>() {
+				});
+		StepVerifier.create(resultMono).expectError(ServerWebInputException.class).verify();
 	}
 
 	@Test
 	public void bodyToFlux() {
 		DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
-		DefaultDataBuffer dataBuffer =
-				factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
+		DefaultDataBuffer dataBuffer = factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.TEXT_PLAIN);
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.GET, "https://example.com?foo=bar")
-				.headers(httpHeaders)
-				.body(body);
-		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), messageReaders);
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.GET, "https://example.com?foo=bar")
+				.headers(httpHeaders).body(body);
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				messageReaders);
 
 		Flux<String> resultFlux = request.bodyToFlux(String.class);
 		assertThat(resultFlux.collectList().block()).isEqualTo(Collections.singletonList("foo"));
@@ -340,19 +322,18 @@ public class DefaultServerRequestTests {
 	@Test
 	public void bodyToFluxParameterizedTypeReference() {
 		DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
-		DefaultDataBuffer dataBuffer =
-				factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
+		DefaultDataBuffer dataBuffer = factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.TEXT_PLAIN);
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.GET, "https://example.com?foo=bar")
-				.headers(httpHeaders)
-				.body(body);
-		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), messageReaders);
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.GET, "https://example.com?foo=bar")
+				.headers(httpHeaders).body(body);
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				messageReaders);
 
-		ParameterizedTypeReference<String> typeReference = new ParameterizedTypeReference<String>() {};
+		ParameterizedTypeReference<String> typeReference = new ParameterizedTypeReference<String>() {
+		};
 		Flux<String> resultFlux = request.bodyToFlux(typeReference);
 		assertThat(resultFlux.collectList().block()).isEqualTo(Collections.singletonList("foo"));
 	}
@@ -360,91 +341,74 @@ public class DefaultServerRequestTests {
 	@Test
 	public void bodyUnacceptable() {
 		DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
-		DefaultDataBuffer dataBuffer =
-				factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
+		DefaultDataBuffer dataBuffer = factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.TEXT_PLAIN);
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.GET, "https://example.com?foo=bar")
-				.headers(httpHeaders)
-				.body(body);
-		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.GET, "https://example.com?foo=bar")
+				.headers(httpHeaders).body(body);
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 
 		Flux<String> resultFlux = request.bodyToFlux(String.class);
-		StepVerifier.create(resultFlux)
-				.expectError(UnsupportedMediaTypeStatusException.class)
-				.verify();
+		StepVerifier.create(resultFlux).expectError(UnsupportedMediaTypeStatusException.class).verify();
 	}
 
 	@Test
 	public void formData() {
 		DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
-		DefaultDataBuffer dataBuffer =
-				factory.wrap(ByteBuffer.wrap("foo=bar&baz=qux".getBytes(StandardCharsets.UTF_8)));
+		DefaultDataBuffer dataBuffer = factory
+				.wrap(ByteBuffer.wrap("foo=bar&baz=qux".getBytes(StandardCharsets.UTF_8)));
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.GET, "https://example.com")
-				.headers(httpHeaders)
-				.body(body);
-		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.GET, "https://example.com")
+				.headers(httpHeaders).body(body);
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 
 		Mono<MultiValueMap<String, String>> resultData = request.formData();
-		StepVerifier.create(resultData)
-				.consumeNextWith(formData -> {
-					assertThat(formData.size()).isEqualTo(2);
-					assertThat(formData.getFirst("foo")).isEqualTo("bar");
-					assertThat(formData.getFirst("baz")).isEqualTo("qux");
-				})
-				.verifyComplete();
+		StepVerifier.create(resultData).consumeNextWith(formData -> {
+			assertThat(formData.size()).isEqualTo(2);
+			assertThat(formData.getFirst("foo")).isEqualTo("bar");
+			assertThat(formData.getFirst("baz")).isEqualTo("qux");
+		}).verifyComplete();
 	}
 
 	@Test
 	public void multipartData() {
-		String data = "--12345\r\n" +
-				"Content-Disposition: form-data; name=\"foo\"\r\n" +
-				"\r\n" +
-				"bar\r\n" +
-				"--12345\r\n" +
-				"Content-Disposition: form-data; name=\"baz\"\r\n" +
-				"\r\n" +
-				"qux\r\n" +
-				"--12345--\r\n";
+		String data = "--12345\r\n" + "Content-Disposition: form-data; name=\"foo\"\r\n" + "\r\n" + "bar\r\n"
+				+ "--12345\r\n" + "Content-Disposition: form-data; name=\"baz\"\r\n" + "\r\n" + "qux\r\n"
+				+ "--12345--\r\n";
 		DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
-		DefaultDataBuffer dataBuffer =
-				factory.wrap(ByteBuffer.wrap(data.getBytes(StandardCharsets.UTF_8)));
+		DefaultDataBuffer dataBuffer = factory.wrap(ByteBuffer.wrap(data.getBytes(StandardCharsets.UTF_8)));
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.set(HttpHeaders.CONTENT_TYPE, "multipart/form-data; boundary=12345");
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.GET, "https://example.com")
-				.headers(httpHeaders)
-				.body(body);
-		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.GET, "https://example.com")
+				.headers(httpHeaders).body(body);
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 
 		Mono<MultiValueMap<String, Part>> resultData = request.multipartData();
-		StepVerifier.create(resultData)
-				.consumeNextWith(formData -> {
-					assertThat(formData.size()).isEqualTo(2);
+		StepVerifier.create(resultData).consumeNextWith(formData -> {
+			assertThat(formData.size()).isEqualTo(2);
 
-					Part part = formData.getFirst("foo");
-					boolean condition1 = part instanceof FormFieldPart;
-					assertThat(condition1).isTrue();
-					FormFieldPart formFieldPart = (FormFieldPart) part;
-					assertThat(formFieldPart.value()).isEqualTo("bar");
+			Part part = formData.getFirst("foo");
+			boolean condition1 = part instanceof FormFieldPart;
+			assertThat(condition1).isTrue();
+			FormFieldPart formFieldPart = (FormFieldPart) part;
+			assertThat(formFieldPart.value()).isEqualTo("bar");
 
-					part = formData.getFirst("baz");
-					boolean condition = part instanceof FormFieldPart;
-					assertThat(condition).isTrue();
-					formFieldPart = (FormFieldPart) part;
-					assertThat(formFieldPart.value()).isEqualTo("qux");
-				})
-				.verifyComplete();
+			part = formData.getFirst("baz");
+			boolean condition = part instanceof FormFieldPart;
+			assertThat(condition).isTrue();
+			formFieldPart = (FormFieldPart) part;
+			assertThat(formFieldPart.value()).isEqualTo("qux");
+		}).verifyComplete();
 	}
 
 	@ParameterizedHttpMethodTest
@@ -452,22 +416,18 @@ public class DefaultServerRequestTests {
 		Instant now = Instant.now().truncatedTo(ChronoUnit.SECONDS);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setIfModifiedSince(now);
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.valueOf(method), "/")
-				.headers(headers)
-				.build();
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.valueOf(method), "/")
+				.headers(headers).build();
 
-		DefaultServerRequest request =
-				new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 
 		Mono<ServerResponse> result = request.checkNotModified(now);
 
-		StepVerifier.create(result)
-				.assertNext(serverResponse -> {
-					assertThat(serverResponse.statusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
-					assertThat(serverResponse.headers().getLastModified()).isEqualTo(now.toEpochMilli());
-				})
-				.verifyComplete();
+		StepVerifier.create(result).assertNext(serverResponse -> {
+			assertThat(serverResponse.statusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
+			assertThat(serverResponse.headers().getLastModified()).isEqualTo(now.toEpochMilli());
+		}).verifyComplete();
 	}
 
 	@ParameterizedHttpMethodTest
@@ -476,18 +436,15 @@ public class DefaultServerRequestTests {
 		Instant oneMinuteAgo = now.minus(1, ChronoUnit.MINUTES);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setIfModifiedSince(oneMinuteAgo);
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.valueOf(method), "/")
-				.headers(headers)
-				.build();
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.valueOf(method), "/")
+				.headers(headers).build();
 
-		DefaultServerRequest request =
-				new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 
 		Mono<ServerResponse> result = request.checkNotModified(now);
 
-		StepVerifier.create(result)
-				.verifyComplete();
+		StepVerifier.create(result).verifyComplete();
 	}
 
 	@ParameterizedHttpMethodTest
@@ -495,22 +452,18 @@ public class DefaultServerRequestTests {
 		String eTag = "\"Foo\"";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setIfNoneMatch(eTag);
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.valueOf(method), "/")
-				.headers(headers)
-				.build();
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.valueOf(method), "/")
+				.headers(headers).build();
 
-		DefaultServerRequest request =
-				new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 
 		Mono<ServerResponse> result = request.checkNotModified(eTag);
 
-		StepVerifier.create(result)
-				.assertNext(serverResponse -> {
-					assertThat(serverResponse.statusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
-					assertThat(serverResponse.headers().getETag()).isEqualTo(eTag);
-				})
-				.verifyComplete();
+		StepVerifier.create(result).assertNext(serverResponse -> {
+			assertThat(serverResponse.statusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
+			assertThat(serverResponse.headers().getETag()).isEqualTo(eTag);
+		}).verifyComplete();
 	}
 
 	@ParameterizedHttpMethodTest
@@ -518,22 +471,18 @@ public class DefaultServerRequestTests {
 		String eTag = "\"Foo, Bar\"";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setIfNoneMatch(eTag);
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.valueOf(method), "/")
-				.headers(headers)
-				.build();
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.valueOf(method), "/")
+				.headers(headers).build();
 
-		DefaultServerRequest request =
-				new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 
 		Mono<ServerResponse> result = request.checkNotModified(eTag);
 
-		StepVerifier.create(result)
-				.assertNext(serverResponse -> {
-					assertThat(serverResponse.statusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
-					assertThat(serverResponse.headers().getETag()).isEqualTo(eTag);
-				})
-				.verifyComplete();
+		StepVerifier.create(result).assertNext(serverResponse -> {
+			assertThat(serverResponse.statusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
+			assertThat(serverResponse.headers().getETag()).isEqualTo(eTag);
+		}).verifyComplete();
 	}
 
 	@ParameterizedHttpMethodTest
@@ -542,18 +491,15 @@ public class DefaultServerRequestTests {
 		String oldEtag = "Bar";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setIfNoneMatch(oldEtag);
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.valueOf(method), "/")
-				.headers(headers)
-				.build();
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.valueOf(method), "/")
+				.headers(headers).build();
 
-		DefaultServerRequest request =
-				new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 
 		Mono<ServerResponse> result = request.checkNotModified(currentETag);
 
-		StepVerifier.create(result)
-				.verifyComplete();
+		StepVerifier.create(result).verifyComplete();
 	}
 
 	@ParameterizedHttpMethodTest
@@ -562,22 +508,18 @@ public class DefaultServerRequestTests {
 		String paddedEtag = String.format("\"%s\"", eTag);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setIfNoneMatch(paddedEtag);
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.valueOf(method), "/")
-				.headers(headers)
-				.build();
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.valueOf(method), "/")
+				.headers(headers).build();
 
-		DefaultServerRequest request =
-				new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 
 		Mono<ServerResponse> result = request.checkNotModified(eTag);
 
-		StepVerifier.create(result)
-				.assertNext(serverResponse -> {
-					assertThat(serverResponse.statusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
-					assertThat(serverResponse.headers().getETag()).isEqualTo(paddedEtag);
-				})
-				.verifyComplete();
+		StepVerifier.create(result).assertNext(serverResponse -> {
+			assertThat(serverResponse.statusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
+			assertThat(serverResponse.headers().getETag()).isEqualTo(paddedEtag);
+		}).verifyComplete();
 	}
 
 	@ParameterizedHttpMethodTest
@@ -586,18 +528,15 @@ public class DefaultServerRequestTests {
 		String oldEtag = "Bar";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setIfNoneMatch(oldEtag);
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.valueOf(method), "/")
-				.headers(headers)
-				.build();
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.valueOf(method), "/")
+				.headers(headers).build();
 
-		DefaultServerRequest request =
-				new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 
 		Mono<ServerResponse> result = request.checkNotModified(currentETag);
 
-		StepVerifier.create(result)
-				.verifyComplete();
+		StepVerifier.create(result).verifyComplete();
 	}
 
 	@ParameterizedHttpMethodTest
@@ -605,18 +544,15 @@ public class DefaultServerRequestTests {
 		String eTag = "\"Foo\"";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setIfNoneMatch("*");
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.valueOf(method), "/")
-				.headers(headers)
-				.build();
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.valueOf(method), "/")
+				.headers(headers).build();
 
-		DefaultServerRequest request =
-				new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 
 		Mono<ServerResponse> result = request.checkNotModified(eTag);
 
-		StepVerifier.create(result)
-				.verifyComplete();
+		StepVerifier.create(result).verifyComplete();
 	}
 
 	@ParameterizedHttpMethodTest
@@ -627,23 +563,19 @@ public class DefaultServerRequestTests {
 		headers.setIfNoneMatch(eTag);
 		headers.setIfModifiedSince(now);
 
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.valueOf(method), "/")
-				.headers(headers)
-				.build();
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.valueOf(method), "/")
+				.headers(headers).build();
 
-		DefaultServerRequest request =
-				new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 
 		Mono<ServerResponse> result = request.checkNotModified(now, eTag);
 
-		StepVerifier.create(result)
-				.assertNext(serverResponse -> {
-					assertThat(serverResponse.statusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
-					assertThat(serverResponse.headers().getETag()).isEqualTo(eTag);
-					assertThat(serverResponse.headers().getLastModified()).isEqualTo(now.toEpochMilli());
-				})
-				.verifyComplete();
+		StepVerifier.create(result).assertNext(serverResponse -> {
+			assertThat(serverResponse.statusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
+			assertThat(serverResponse.headers().getETag()).isEqualTo(eTag);
+			assertThat(serverResponse.headers().getLastModified()).isEqualTo(now.toEpochMilli());
+		}).verifyComplete();
 	}
 
 	@ParameterizedHttpMethodTest
@@ -654,23 +586,19 @@ public class DefaultServerRequestTests {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setIfNoneMatch(eTag);
 		headers.setIfModifiedSince(oneMinuteAgo);
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.valueOf(method), "/")
-				.headers(headers)
-				.build();
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.valueOf(method), "/")
+				.headers(headers).build();
 
-		DefaultServerRequest request =
-				new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 
 		Mono<ServerResponse> result = request.checkNotModified(now, eTag);
 
-		StepVerifier.create(result)
-				.assertNext(serverResponse -> {
-					assertThat(serverResponse.statusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
-					assertThat(serverResponse.headers().getETag()).isEqualTo(eTag);
-					assertThat(serverResponse.headers().getLastModified()).isEqualTo(now.toEpochMilli());
-				})
-				.verifyComplete();
+		StepVerifier.create(result).assertNext(serverResponse -> {
+			assertThat(serverResponse.statusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
+			assertThat(serverResponse.headers().getETag()).isEqualTo(eTag);
+			assertThat(serverResponse.headers().getLastModified()).isEqualTo(now.toEpochMilli());
+		}).verifyComplete();
 	}
 
 	@ParameterizedHttpMethodTest
@@ -681,24 +609,21 @@ public class DefaultServerRequestTests {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setIfNoneMatch(oldEtag);
 		headers.setIfModifiedSince(now);
-		MockServerHttpRequest mockRequest = MockServerHttpRequest
-				.method(HttpMethod.valueOf(method), "/")
-				.headers(headers)
-				.build();
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.method(HttpMethod.valueOf(method), "/")
+				.headers(headers).build();
 
-		DefaultServerRequest request =
-				new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		DefaultServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 
 		Mono<ServerResponse> result = request.checkNotModified(now, currentETag);
 
-		StepVerifier.create(result)
-				.verifyComplete();
+		StepVerifier.create(result).verifyComplete();
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.METHOD)
 	@ParameterizedTest(name = "[{index}] {0}")
-	@ValueSource(strings = {"GET", "HEAD"})
+	@ValueSource(strings = { "GET", "HEAD" })
 	@interface ParameterizedHttpMethodTest {
 
 	}

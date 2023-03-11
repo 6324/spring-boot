@@ -28,10 +28,11 @@ import org.springframework.stereotype.Repository;
 /**
  * @author Juergen Hoeller
  */
-@Target({ElementType.TYPE})
+@Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Repository
 @Primary
 @Lazy
 public @interface MyRepository {
+
 }

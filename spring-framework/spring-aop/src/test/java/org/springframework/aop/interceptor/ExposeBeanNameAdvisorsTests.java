@@ -32,6 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ExposeBeanNameAdvisorsTests {
 
 	private class RequiresBeanNameBoundTestBean extends TestBean {
+
 		private final String beanName;
 
 		public RequiresBeanNameBoundTestBean(String beanName) {
@@ -43,6 +44,7 @@ public class ExposeBeanNameAdvisorsTests {
 			assertThat(ExposeBeanNameAdvisors.getBeanName()).isEqualTo(beanName);
 			return super.getAge();
 		}
+
 	}
 
 	@Test

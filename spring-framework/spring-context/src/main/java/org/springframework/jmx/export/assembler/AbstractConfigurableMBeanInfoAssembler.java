@@ -30,8 +30,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
 /**
- * Base class for MBeanInfoAssemblers that support configurable
- * JMX notification behavior.
+ * Base class for MBeanInfoAssemblers that support configurable JMX notification behavior.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -44,7 +43,6 @@ public abstract class AbstractConfigurableMBeanInfoAssembler extends AbstractRef
 
 	private final Map<String, ModelMBeanNotificationInfo[]> notificationInfoMappings = new HashMap<>();
 
-
 	public void setNotificationInfos(ManagedNotification[] notificationInfos) {
 		ModelMBeanNotificationInfo[] infos = new ModelMBeanNotificationInfo[notificationInfos.length];
 		for (int i = 0; i < notificationInfos.length; i++) {
@@ -55,10 +53,9 @@ public abstract class AbstractConfigurableMBeanInfoAssembler extends AbstractRef
 	}
 
 	public void setNotificationInfoMappings(Map<String, Object> notificationInfoMappings) {
-		notificationInfoMappings.forEach((beanKey, result) ->
-				this.notificationInfoMappings.put(beanKey, extractNotificationMetadata(result)));
+		notificationInfoMappings.forEach(
+				(beanKey, result) -> this.notificationInfoMappings.put(beanKey, extractNotificationMetadata(result)));
 	}
-
 
 	@Override
 	protected ModelMBeanNotificationInfo[] getNotificationInfo(Object managedBean, String beanKey) {
@@ -75,7 +72,7 @@ public abstract class AbstractConfigurableMBeanInfoAssembler extends AbstractRef
 	private ModelMBeanNotificationInfo[] extractNotificationMetadata(Object mapValue) {
 		if (mapValue instanceof ManagedNotification) {
 			ManagedNotification mn = (ManagedNotification) mapValue;
-			return new ModelMBeanNotificationInfo[] {JmxMetadataUtils.convertToModelMBeanNotificationInfo(mn)};
+			return new ModelMBeanNotificationInfo[] { JmxMetadataUtils.convertToModelMBeanNotificationInfo(mn) };
 		}
 		else if (mapValue instanceof Collection) {
 			Collection<?> col = (Collection<?>) mapValue;

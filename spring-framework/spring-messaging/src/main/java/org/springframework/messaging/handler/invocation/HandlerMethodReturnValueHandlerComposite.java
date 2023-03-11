@@ -39,11 +39,9 @@ public class HandlerMethodReturnValueHandlerComposite implements AsyncHandlerMet
 	/** Public for wrapping with fallback logger. */
 	public static final Log defaultLogger = LogFactory.getLog(HandlerMethodReturnValueHandlerComposite.class);
 
-
 	private Log logger = defaultLogger;
 
 	private final List<HandlerMethodReturnValueHandler> returnValueHandlers = new ArrayList<>();
-
 
 	/**
 	 * Set an alternative logger to use than the one based on the class name.
@@ -85,7 +83,8 @@ public class HandlerMethodReturnValueHandlerComposite implements AsyncHandlerMet
 	}
 
 	/**
-	 * Add the given {@link HandlerMethodReturnValueHandler HandlerMethodReturnValueHandlers}.
+	 * Add the given {@link HandlerMethodReturnValueHandler
+	 * HandlerMethodReturnValueHandlers}.
 	 */
 	public HandlerMethodReturnValueHandlerComposite addHandlers(
 			@Nullable List<? extends HandlerMethodReturnValueHandler> handlers) {
@@ -130,8 +129,8 @@ public class HandlerMethodReturnValueHandlerComposite implements AsyncHandlerMet
 	@Override
 	public boolean isAsyncReturnValue(Object returnValue, MethodParameter returnType) {
 		HandlerMethodReturnValueHandler handler = getReturnValueHandler(returnType);
-		return (handler instanceof AsyncHandlerMethodReturnValueHandler &&
-				((AsyncHandlerMethodReturnValueHandler) handler).isAsyncReturnValue(returnValue, returnType));
+		return (handler instanceof AsyncHandlerMethodReturnValueHandler
+				&& ((AsyncHandlerMethodReturnValueHandler) handler).isAsyncReturnValue(returnValue, returnType));
 	}
 
 	@Override

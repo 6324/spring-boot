@@ -53,20 +53,17 @@ public class RouterFunctionsTests {
 		HandlerFunction<ServerResponse> handlerFunction = request -> ServerResponse.ok().build();
 
 		MockServerHttpRequest mockRequest = MockServerHttpRequest.get("https://example.com").build();
-		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 		RequestPredicate requestPredicate = mock(RequestPredicate.class);
 		given(requestPredicate.test(request)).willReturn(true);
 
-		RouterFunction<ServerResponse>
-				result = RouterFunctions.route(requestPredicate, handlerFunction);
+		RouterFunction<ServerResponse> result = RouterFunctions.route(requestPredicate, handlerFunction);
 		assertThat(result).isNotNull();
 
 		Mono<HandlerFunction<ServerResponse>> resultHandlerFunction = result.route(request);
 
-		StepVerifier.create(resultHandlerFunction)
-				.expectNext(handlerFunction)
-				.expectComplete()
-				.verify();
+		StepVerifier.create(resultHandlerFunction).expectNext(handlerFunction).expectComplete().verify();
 	}
 
 	@Test
@@ -74,7 +71,8 @@ public class RouterFunctionsTests {
 		HandlerFunction<ServerResponse> handlerFunction = request -> ServerResponse.ok().build();
 
 		MockServerHttpRequest mockRequest = MockServerHttpRequest.get("https://example.com").build();
-		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 		RequestPredicate requestPredicate = mock(RequestPredicate.class);
 		given(requestPredicate.test(request)).willReturn(false);
 
@@ -82,9 +80,7 @@ public class RouterFunctionsTests {
 		assertThat(result).isNotNull();
 
 		Mono<HandlerFunction<ServerResponse>> resultHandlerFunction = result.route(request);
-		StepVerifier.create(resultHandlerFunction)
-				.expectComplete()
-				.verify();
+		StepVerifier.create(resultHandlerFunction).expectComplete().verify();
 	}
 
 	@Test
@@ -93,7 +89,8 @@ public class RouterFunctionsTests {
 		RouterFunction<ServerResponse> routerFunction = request -> Mono.just(handlerFunction);
 
 		MockServerHttpRequest mockRequest = MockServerHttpRequest.get("https://example.com").build();
-		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 		RequestPredicate requestPredicate = mock(RequestPredicate.class);
 		given(requestPredicate.nest(request)).willReturn(Optional.of(request));
 
@@ -101,10 +98,7 @@ public class RouterFunctionsTests {
 		assertThat(result).isNotNull();
 
 		Mono<HandlerFunction<ServerResponse>> resultHandlerFunction = result.route(request);
-		StepVerifier.create(resultHandlerFunction)
-				.expectNext(handlerFunction)
-				.expectComplete()
-				.verify();
+		StepVerifier.create(resultHandlerFunction).expectNext(handlerFunction).expectComplete().verify();
 	}
 
 	@Test
@@ -113,7 +107,8 @@ public class RouterFunctionsTests {
 		RouterFunction<ServerResponse> routerFunction = request -> Mono.just(handlerFunction);
 
 		MockServerHttpRequest mockRequest = MockServerHttpRequest.get("https://example.com").build();
-		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 		RequestPredicate requestPredicate = mock(RequestPredicate.class);
 		given(requestPredicate.nest(request)).willReturn(Optional.empty());
 
@@ -121,16 +116,13 @@ public class RouterFunctionsTests {
 		assertThat(result).isNotNull();
 
 		Mono<HandlerFunction<ServerResponse>> resultHandlerFunction = result.route(request);
-		StepVerifier.create(resultHandlerFunction)
-				.expectComplete()
-				.verify();
+		StepVerifier.create(resultHandlerFunction).expectComplete().verify();
 	}
 
 	@Test
 	public void toHttpHandlerNormal() {
 		HandlerFunction<ServerResponse> handlerFunction = request -> ServerResponse.accepted().build();
-		RouterFunction<ServerResponse> routerFunction =
-				RouterFunctions.route(RequestPredicates.all(), handlerFunction);
+		RouterFunction<ServerResponse> routerFunction = RouterFunctions.route(RequestPredicates.all(), handlerFunction);
 
 		HttpHandler result = RouterFunctions.toHttpHandler(routerFunction);
 		assertThat(result).isNotNull();
@@ -143,12 +135,10 @@ public class RouterFunctionsTests {
 
 	@Test
 	public void toHttpHandlerHandlerThrowsException() {
-		HandlerFunction<ServerResponse> handlerFunction =
-				request -> {
-					throw new IllegalStateException();
-				};
-		RouterFunction<ServerResponse> routerFunction =
-				RouterFunctions.route(RequestPredicates.all(), handlerFunction);
+		HandlerFunction<ServerResponse> handlerFunction = request -> {
+			throw new IllegalStateException();
+		};
+		RouterFunction<ServerResponse> routerFunction = RouterFunctions.route(RequestPredicates.all(), handlerFunction);
 
 		HttpHandler result = RouterFunctions.toHttpHandler(routerFunction);
 		assertThat(result).isNotNull();
@@ -161,10 +151,8 @@ public class RouterFunctionsTests {
 
 	@Test
 	public void toHttpHandlerHandlerReturnsException() {
-		HandlerFunction<ServerResponse> handlerFunction =
-				request -> Mono.error(new IllegalStateException());
-		RouterFunction<ServerResponse> routerFunction =
-				RouterFunctions.route(RequestPredicates.all(), handlerFunction);
+		HandlerFunction<ServerResponse> handlerFunction = request -> Mono.error(new IllegalStateException());
+		RouterFunction<ServerResponse> routerFunction = RouterFunctions.route(RequestPredicates.all(), handlerFunction);
 
 		HttpHandler result = RouterFunctions.toHttpHandler(routerFunction);
 		assertThat(result).isNotNull();
@@ -177,10 +165,9 @@ public class RouterFunctionsTests {
 
 	@Test
 	public void toHttpHandlerHandlerResponseStatusException() {
-		HandlerFunction<ServerResponse> handlerFunction =
-				request -> Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found"));
-		RouterFunction<ServerResponse> routerFunction =
-				RouterFunctions.route(RequestPredicates.all(), handlerFunction);
+		HandlerFunction<ServerResponse> handlerFunction = request -> Mono
+				.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found"));
+		RouterFunction<ServerResponse> routerFunction = RouterFunctions.route(RequestPredicates.all(), handlerFunction);
 
 		HttpHandler result = RouterFunctions.toHttpHandler(routerFunction);
 		assertThat(result).isNotNull();
@@ -200,25 +187,28 @@ public class RouterFunctionsTests {
 					public HttpStatus statusCode() {
 						return HttpStatus.OK;
 					}
+
 					@Override
 					public int rawStatusCode() {
 						return 200;
 					}
+
 					@Override
 					public HttpHeaders headers() {
 						return new HttpHeaders();
 					}
+
 					@Override
 					public MultiValueMap<String, ResponseCookie> cookies() {
 						return new LinkedMultiValueMap<>();
 					}
+
 					@Override
 					public Mono<Void> writeTo(ServerWebExchange exchange, Context context) {
 						return Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found"));
 					}
 				});
-		RouterFunction<ServerResponse> routerFunction =
-				RouterFunctions.route(RequestPredicates.all(), handlerFunction);
+		RouterFunction<ServerResponse> routerFunction = RouterFunctions.route(RequestPredicates.all(), handlerFunction);
 
 		HttpHandler result = RouterFunctions.toHttpHandler(routerFunction);
 		assertThat(result).isNotNull();
@@ -238,25 +228,28 @@ public class RouterFunctionsTests {
 					public HttpStatus statusCode() {
 						return HttpStatus.OK;
 					}
+
 					@Override
 					public int rawStatusCode() {
 						return 200;
 					}
+
 					@Override
 					public HttpHeaders headers() {
 						return new HttpHeaders();
 					}
+
 					@Override
 					public MultiValueMap<String, ResponseCookie> cookies() {
 						return new LinkedMultiValueMap<>();
 					}
+
 					@Override
 					public Mono<Void> writeTo(ServerWebExchange exchange, Context context) {
 						throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
 					}
 				});
-		RouterFunction<ServerResponse> routerFunction =
-				RouterFunctions.route(RequestPredicates.all(), handlerFunction);
+		RouterFunction<ServerResponse> routerFunction = RouterFunctions.route(RequestPredicates.all(), handlerFunction);
 
 		HttpHandler result = RouterFunctions.toHttpHandler(routerFunction);
 		assertThat(result).isNotNull();
@@ -280,11 +273,9 @@ public class RouterFunctionsTests {
 		};
 
 		HandlerFunction<ServerResponse> handlerFunction = request -> ServerResponse.accepted().build();
-		RouterFunction<ServerResponse> routerFunction =
-				RouterFunctions.route(RequestPredicates.all(), handlerFunction);
+		RouterFunction<ServerResponse> routerFunction = RouterFunctions.route(RequestPredicates.all(), handlerFunction);
 
-		HandlerStrategies handlerStrategies = HandlerStrategies.builder()
-				.webFilter(webFilter).build();
+		HandlerStrategies handlerStrategies = HandlerStrategies.builder().webFilter(webFilter).build();
 
 		HttpHandler result = RouterFunctions.toHttpHandler(routerFunction, handlerStrategies);
 		assertThat(result).isNotNull();

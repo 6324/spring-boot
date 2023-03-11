@@ -41,20 +41,20 @@ import static org.springframework.web.testfixture.http.server.reactive.MockServe
  */
 public class ModelMethodArgumentResolverTests {
 
-	private final ModelMethodArgumentResolver resolver =
-			new ModelMethodArgumentResolver(ReactiveAdapterRegistry.getSharedInstance());
+	private final ModelMethodArgumentResolver resolver = new ModelMethodArgumentResolver(
+			ReactiveAdapterRegistry.getSharedInstance());
 
 	private final ServerWebExchange exchange = MockServerWebExchange.from(get("/"));
 
 	private final ResolvableMethod resolvable = ResolvableMethod.on(getClass()).named("handle").build();
 
-
 	@Test
 	public void supportsParameter() {
 		assertThat(this.resolver.supportsParameter(this.resolvable.arg(Model.class))).isTrue();
 		assertThat(this.resolver.supportsParameter(this.resolvable.arg(ModelMap.class))).isTrue();
-		assertThat(this.resolver.supportsParameter(
-				this.resolvable.annotNotPresent().arg(Map.class, String.class, Object.class))).isTrue();
+		assertThat(this.resolver
+				.supportsParameter(this.resolvable.annotNotPresent().arg(Map.class, String.class, Object.class)))
+						.isTrue();
 
 		assertThat(this.resolver.supportsParameter(this.resolvable.arg(Object.class))).isFalse();
 		assertThat(this.resolver.supportsParameter(
@@ -74,13 +74,9 @@ public class ModelMethodArgumentResolverTests {
 		assertThat(result).isSameAs(context.getModel());
 	}
 
-
 	@SuppressWarnings("unused")
-	void handle(
-			Model model,
-			Map<String, Object> map,
-			@RequestBody Map<String, Object> annotatedMap,
-			ModelMap modelMap,
-			Object object) {}
+	void handle(Model model, Map<String, Object> map, @RequestBody Map<String, Object> annotatedMap, ModelMap modelMap,
+			Object object) {
+	}
 
 }

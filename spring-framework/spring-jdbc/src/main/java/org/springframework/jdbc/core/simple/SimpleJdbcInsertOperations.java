@@ -22,9 +22,9 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.KeyHolder;
 
 /**
- * Interface specifying the API for a Simple JDBC Insert implemented by {@link SimpleJdbcInsert}.
- * This interface is not often used directly, but provides the option to enhance testability,
- * as it can easily be mocked or stubbed.
+ * Interface specifying the API for a Simple JDBC Insert implemented by
+ * {@link SimpleJdbcInsert}. This interface is not often used directly, but provides the
+ * option to enhance testability, as it can easily be mocked or stubbed.
  *
  * @author Thomas Risberg
  * @since 2.5
@@ -74,12 +74,12 @@ public interface SimpleJdbcInsertOperations {
 
 	/**
 	 * Include synonyms for the column meta-data lookups via JDBC.
-	 * <p>Note: This is only necessary to include for Oracle since other databases
-	 * supporting synonyms seems to include the synonyms automatically.
+	 * <p>
+	 * Note: This is only necessary to include for Oracle since other databases supporting
+	 * synonyms seems to include the synonyms automatically.
 	 * @return the instance of this SimpleJdbcInsert
 	 */
 	SimpleJdbcInsertOperations includeSynonymsForTableColumnMetaData();
-
 
 	/**
 	 * Execute the insert using the values passed in.
@@ -97,9 +97,10 @@ public interface SimpleJdbcInsertOperations {
 
 	/**
 	 * Execute the insert using the values passed in and return the generated key.
-	 * <p>This requires that the name of the columns with auto generated keys have been specified.
-	 * This method will always return a KeyHolder but the caller must verify that it actually
-	 * contains the generated keys.
+	 * <p>
+	 * This requires that the name of the columns with auto generated keys have been
+	 * specified. This method will always return a KeyHolder but the caller must verify
+	 * that it actually contains the generated keys.
 	 * @param args a Map containing column names and corresponding value
 	 * @return the generated key value
 	 */
@@ -107,9 +108,10 @@ public interface SimpleJdbcInsertOperations {
 
 	/**
 	 * Execute the insert using the values passed in and return the generated key.
-	 * <p>This requires that the name of the columns with auto generated keys have been specified.
-	 * This method will always return a KeyHolder but the caller must verify that it actually
-	 * contains the generated keys.
+	 * <p>
+	 * This requires that the name of the columns with auto generated keys have been
+	 * specified. This method will always return a KeyHolder but the caller must verify
+	 * that it actually contains the generated keys.
 	 * @param parameterSource the SqlParameterSource containing values to use for insert
 	 * @return the generated key value.
 	 */
@@ -117,9 +119,10 @@ public interface SimpleJdbcInsertOperations {
 
 	/**
 	 * Execute the insert using the values passed in and return the generated keys.
-	 * <p>This requires that the name of the columns with auto generated keys have been specified.
-	 * This method will always return a KeyHolder but the caller must verify that it actually
-	 * contains the generated keys.
+	 * <p>
+	 * This requires that the name of the columns with auto generated keys have been
+	 * specified. This method will always return a KeyHolder but the caller must verify
+	 * that it actually contains the generated keys.
 	 * @param args a Map containing column names and corresponding value
 	 * @return the KeyHolder containing all generated keys
 	 */
@@ -127,9 +130,10 @@ public interface SimpleJdbcInsertOperations {
 
 	/**
 	 * Execute the insert using the values passed in and return the generated keys.
-	 * <p>This requires that the name of the columns with auto generated keys have been specified.
-	 * This method will always return a KeyHolder but the caller must verify that it actually
-	 * contains the generated keys.
+	 * <p>
+	 * This requires that the name of the columns with auto generated keys have been
+	 * specified. This method will always return a KeyHolder but the caller must verify
+	 * that it actually contains the generated keys.
 	 * @param parameterSource the SqlParameterSource containing values to use for insert
 	 * @return the KeyHolder containing all generated keys
 	 */
@@ -137,7 +141,8 @@ public interface SimpleJdbcInsertOperations {
 
 	/**
 	 * Execute a batch insert using the batch of values passed in.
-	 * @param batch an array of Maps containing a batch of column names and corresponding value
+	 * @param batch an array of Maps containing a batch of column names and corresponding
+	 * value
 	 * @return the array of number of rows affected as returned by the JDBC driver
 	 */
 	@SuppressWarnings("unchecked")

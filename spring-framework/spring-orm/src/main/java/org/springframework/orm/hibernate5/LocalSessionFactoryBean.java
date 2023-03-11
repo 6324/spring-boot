@@ -58,14 +58,16 @@ import org.springframework.util.ClassUtils;
  * way to set up a shared Hibernate SessionFactory in a Spring application context; the
  * SessionFactory can then be passed to data access objects via dependency injection.
  *
- * <p>Compatible with Hibernate 5.0/5.1 as well as 5.2/5.3/5.4, as of Spring 5.2.
- * Set up with Hibernate 5.2+, {@code LocalSessionFactoryBean} is an immediate alternative
- * to {@link org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean} for common
- * JPA purposes: In particular with Hibernate 5.3/5.4, the Hibernate {@code SessionFactory}
- * will natively expose the JPA {@code EntityManagerFactory} interface as well, and
- * Hibernate {@code BeanContainer} integration will be registered out of the box.
- * In combination with {@link HibernateTransactionManager}, this naturally allows for
- * mixing JPA access code with native Hibernate access code within the same transaction.
+ * <p>
+ * Compatible with Hibernate 5.0/5.1 as well as 5.2/5.3/5.4, as of Spring 5.2. Set up with
+ * Hibernate 5.2+, {@code LocalSessionFactoryBean} is an immediate alternative to
+ * {@link org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean} for common
+ * JPA purposes: In particular with Hibernate 5.3/5.4, the Hibernate
+ * {@code SessionFactory} will natively expose the JPA {@code EntityManagerFactory}
+ * interface as well, and Hibernate {@code BeanContainer} integration will be registered
+ * out of the box. In combination with {@link HibernateTransactionManager}, this naturally
+ * allows for mixing JPA access code with native Hibernate access code within the same
+ * transaction.
  *
  * @author Juergen Hoeller
  * @since 4.2
@@ -75,8 +77,8 @@ import org.springframework.util.ClassUtils;
  * @see LocalSessionFactoryBuilder
  * @see org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
  */
-public class LocalSessionFactoryBean extends HibernateExceptionTranslator
-		implements FactoryBean<SessionFactory>, ResourceLoaderAware, BeanFactoryAware, InitializingBean, DisposableBean {
+public class LocalSessionFactoryBean extends HibernateExceptionTranslator implements FactoryBean<SessionFactory>,
+		ResourceLoaderAware, BeanFactoryAware, InitializingBean, DisposableBean {
 
 	@Nullable
 	private DataSource dataSource;
@@ -158,33 +160,35 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 	@Nullable
 	private SessionFactory sessionFactory;
 
-
 	/**
-	 * Set the DataSource to be used by the SessionFactory.
-	 * If set, this will override corresponding settings in Hibernate properties.
-	 * <p>If this is set, the Hibernate settings should not define
-	 * a connection provider to avoid meaningless double configuration.
+	 * Set the DataSource to be used by the SessionFactory. If set, this will override
+	 * corresponding settings in Hibernate properties.
+	 * <p>
+	 * If this is set, the Hibernate settings should not define a connection provider to
+	 * avoid meaningless double configuration.
 	 */
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
 
 	/**
-	 * Set the location of a single Hibernate XML config file, for example as
-	 * classpath resource "classpath:hibernate.cfg.xml".
-	 * <p>Note: Can be omitted when all necessary properties and mapping
-	 * resources are specified locally via this bean.
+	 * Set the location of a single Hibernate XML config file, for example as classpath
+	 * resource "classpath:hibernate.cfg.xml".
+	 * <p>
+	 * Note: Can be omitted when all necessary properties and mapping resources are
+	 * specified locally via this bean.
 	 * @see Configuration#configure(java.net.URL)
 	 */
 	public void setConfigLocation(Resource configLocation) {
-		this.configLocations = new Resource[] {configLocation};
+		this.configLocations = new Resource[] { configLocation };
 	}
 
 	/**
-	 * Set the locations of multiple Hibernate XML config files, for example as
-	 * classpath resources "classpath:hibernate.cfg.xml,classpath:extension.cfg.xml".
-	 * <p>Note: Can be omitted when all necessary properties and mapping
-	 * resources are specified locally via this bean.
+	 * Set the locations of multiple Hibernate XML config files, for example as classpath
+	 * resources "classpath:hibernate.cfg.xml,classpath:extension.cfg.xml".
+	 * <p>
+	 * Note: Can be omitted when all necessary properties and mapping resources are
+	 * specified locally via this bean.
 	 * @see Configuration#configure(java.net.URL)
 	 */
 	public void setConfigLocations(Resource... configLocations) {
@@ -192,12 +196,13 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 	}
 
 	/**
-	 * Set Hibernate mapping resources to be found in the class path,
-	 * like "example.hbm.xml" or "mypackage/example.hbm.xml".
-	 * Analogous to mapping entries in a Hibernate XML config file.
-	 * Alternative to the more generic setMappingLocations method.
-	 * <p>Can be used to add to mappings from a Hibernate XML config file,
-	 * or to specify all mappings locally.
+	 * Set Hibernate mapping resources to be found in the class path, like
+	 * "example.hbm.xml" or "mypackage/example.hbm.xml". Analogous to mapping entries in a
+	 * Hibernate XML config file. Alternative to the more generic setMappingLocations
+	 * method.
+	 * <p>
+	 * Can be used to add to mappings from a Hibernate XML config file, or to specify all
+	 * mappings locally.
 	 * @see #setMappingLocations
 	 * @see Configuration#addResource
 	 */
@@ -206,12 +211,13 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 	}
 
 	/**
-	 * Set locations of Hibernate mapping files, for example as classpath
-	 * resource "classpath:example.hbm.xml". Supports any resource location
-	 * via Spring's resource abstraction, for example relative paths like
-	 * "WEB-INF/mappings/example.hbm.xml" when running in an application context.
-	 * <p>Can be used to add to mappings from a Hibernate XML config file,
-	 * or to specify all mappings locally.
+	 * Set locations of Hibernate mapping files, for example as classpath resource
+	 * "classpath:example.hbm.xml". Supports any resource location via Spring's resource
+	 * abstraction, for example relative paths like "WEB-INF/mappings/example.hbm.xml"
+	 * when running in an application context.
+	 * <p>
+	 * Can be used to add to mappings from a Hibernate XML config file, or to specify all
+	 * mappings locally.
 	 * @see Configuration#addInputStream
 	 */
 	public void setMappingLocations(Resource... mappingLocations) {
@@ -219,12 +225,12 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 	}
 
 	/**
-	 * Set locations of cacheable Hibernate mapping files, for example as web app
-	 * resource "/WEB-INF/mapping/example.hbm.xml". Supports any resource location
-	 * via Spring's resource abstraction, as long as the resource can be resolved
-	 * in the file system.
-	 * <p>Can be used to add to mappings from a Hibernate XML config file,
-	 * or to specify all mappings locally.
+	 * Set locations of cacheable Hibernate mapping files, for example as web app resource
+	 * "/WEB-INF/mapping/example.hbm.xml". Supports any resource location via Spring's
+	 * resource abstraction, as long as the resource can be resolved in the file system.
+	 * <p>
+	 * Can be used to add to mappings from a Hibernate XML config file, or to specify all
+	 * mappings locally.
 	 * @see Configuration#addCacheableFile(File)
 	 */
 	public void setCacheableMappingLocations(Resource... cacheableMappingLocations) {
@@ -232,10 +238,11 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 	}
 
 	/**
-	 * Set locations of jar files that contain Hibernate mapping resources,
-	 * like "WEB-INF/lib/example.hbm.jar".
-	 * <p>Can be used to add to mappings from a Hibernate XML config file,
-	 * or to specify all mappings locally.
+	 * Set locations of jar files that contain Hibernate mapping resources, like
+	 * "WEB-INF/lib/example.hbm.jar".
+	 * <p>
+	 * Can be used to add to mappings from a Hibernate XML config file, or to specify all
+	 * mappings locally.
 	 * @see Configuration#addJar(File)
 	 */
 	public void setMappingJarLocations(Resource... mappingJarLocations) {
@@ -243,10 +250,11 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 	}
 
 	/**
-	 * Set locations of directories that contain Hibernate mapping resources,
-	 * like "WEB-INF/mappings".
-	 * <p>Can be used to add to mappings from a Hibernate XML config file,
-	 * or to specify all mappings locally.
+	 * Set locations of directories that contain Hibernate mapping resources, like
+	 * "WEB-INF/mappings".
+	 * <p>
+	 * Can be used to add to mappings from a Hibernate XML config file, or to specify all
+	 * mappings locally.
 	 * @see Configuration#addDirectory(File)
 	 */
 	public void setMappingDirectoryLocations(Resource... mappingDirectoryLocations) {
@@ -254,9 +262,9 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 	}
 
 	/**
-	 * Set a Hibernate entity interceptor that allows to inspect and change
-	 * property values before writing to and reading from the database.
-	 * Will get applied to any new Session created by this factory.
+	 * Set a Hibernate entity interceptor that allows to inspect and change property
+	 * values before writing to and reading from the database. Will get applied to any new
+	 * Session created by this factory.
 	 * @see Configuration#setInterceptor
 	 */
 	public void setEntityInterceptor(Interceptor entityInterceptor) {
@@ -280,9 +288,9 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 	}
 
 	/**
-	 * Set the Spring {@link org.springframework.transaction.jta.JtaTransactionManager}
-	 * or the JTA {@link javax.transaction.TransactionManager} to be used with Hibernate,
-	 * if any. Implicitly sets up {@code JtaPlatform}.
+	 * Set the Spring {@link org.springframework.transaction.jta.JtaTransactionManager} or
+	 * the JTA {@link javax.transaction.TransactionManager} to be used with Hibernate, if
+	 * any. Implicitly sets up {@code JtaPlatform}.
 	 * @see LocalSessionFactoryBuilder#setJtaTransactionManager
 	 */
 	public void setJtaTransactionManager(Object jtaTransactionManager) {
@@ -290,10 +298,11 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 	}
 
 	/**
-	 * Set the Hibernate {@link RegionFactory} to use for the SessionFactory.
-	 * Allows for using a Spring-managed {@code RegionFactory} instance.
-	 * <p>Note: If this is set, the Hibernate settings should not define a
-	 * cache provider to avoid meaningless double configuration.
+	 * Set the Hibernate {@link RegionFactory} to use for the SessionFactory. Allows for
+	 * using a Spring-managed {@code RegionFactory} instance.
+	 * <p>
+	 * Note: If this is set, the Hibernate settings should not define a cache provider to
+	 * avoid meaningless double configuration.
 	 * @since 5.1
 	 * @see LocalSessionFactoryBuilder#setCacheRegionFactory
 	 */
@@ -311,7 +320,8 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 	}
 
 	/**
-	 * Set a {@link CurrentTenantIdentifierResolver} to be passed on to the SessionFactory.
+	 * Set a {@link CurrentTenantIdentifierResolver} to be passed on to the
+	 * SessionFactory.
 	 * @see LocalSessionFactoryBuilder#setCurrentTenantIdentifierResolver
 	 */
 	public void setCurrentTenantIdentifierResolver(CurrentTenantIdentifierResolver currentTenantIdentifierResolver) {
@@ -320,9 +330,10 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 
 	/**
 	 * Set Hibernate properties, such as "hibernate.dialect".
-	 * <p>Note: Do not specify a transaction provider here when using
-	 * Spring-driven transactions. It is also advisable to omit connection
-	 * provider settings and use a Spring-set DataSource instead.
+	 * <p>
+	 * Note: Do not specify a transaction provider here when using Spring-driven
+	 * transactions. It is also advisable to omit connection provider settings and use a
+	 * Spring-set DataSource instead.
 	 * @see #setDataSource
 	 */
 	public void setHibernateProperties(Properties hibernateProperties) {
@@ -330,8 +341,8 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 	}
 
 	/**
-	 * Return the Hibernate properties, if any. Mainly available for
-	 * configuration through property paths that specify individual keys.
+	 * Return the Hibernate properties, if any. Mainly available for configuration through
+	 * property paths that specify individual keys.
 	 */
 	public Properties getHibernateProperties() {
 		if (this.hibernateProperties == null) {
@@ -342,9 +353,10 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 
 	/**
 	 * Specify custom type filters for Spring-based scanning for entity classes.
-	 * <p>Default is to search all specified packages for classes annotated with
-	 * {@code @javax.persistence.Entity}, {@code @javax.persistence.Embeddable}
-	 * or {@code @javax.persistence.MappedSuperclass}.
+	 * <p>
+	 * Default is to search all specified packages for classes annotated with
+	 * {@code @javax.persistence.Entity}, {@code @javax.persistence.Embeddable} or
+	 * {@code @javax.persistence.MappedSuperclass}.
 	 * @see #setPackagesToScan
 	 */
 	public void setEntityTypeFilters(TypeFilter... entityTypeFilters) {
@@ -360,8 +372,8 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 	}
 
 	/**
-	 * Specify the names of annotated packages, for which package-level
-	 * annotation metadata will be read.
+	 * Specify the names of annotated packages, for which package-level annotation
+	 * metadata will be read.
 	 * @see Configuration#addPackage(String)
 	 */
 	public void setAnnotatedPackages(String... annotatedPackages) {
@@ -378,15 +390,16 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 	}
 
 	/**
-	 * Specify an asynchronous executor for background bootstrapping,
-	 * e.g. a {@link org.springframework.core.task.SimpleAsyncTaskExecutor}.
-	 * <p>{@code SessionFactory} initialization will then switch into background
-	 * bootstrap mode, with a {@code SessionFactory} proxy immediately returned for
-	 * injection purposes instead of waiting for Hibernate's bootstrapping to complete.
-	 * However, note that the first actual call to a {@code SessionFactory} method will
-	 * then block until Hibernate's bootstrapping completed, if not ready by then.
-	 * For maximum benefit, make sure to avoid early {@code SessionFactory} calls
-	 * in init methods of related beans, even for metadata introspection purposes.
+	 * Specify an asynchronous executor for background bootstrapping, e.g. a
+	 * {@link org.springframework.core.task.SimpleAsyncTaskExecutor}.
+	 * <p>
+	 * {@code SessionFactory} initialization will then switch into background bootstrap
+	 * mode, with a {@code SessionFactory} proxy immediately returned for injection
+	 * purposes instead of waiting for Hibernate's bootstrapping to complete. However,
+	 * note that the first actual call to a {@code SessionFactory} method will then block
+	 * until Hibernate's bootstrapping completed, if not ready by then. For maximum
+	 * benefit, make sure to avoid early {@code SessionFactory} calls in init methods of
+	 * related beans, even for metadata introspection purposes.
 	 * @since 4.3
 	 * @see LocalSessionFactoryBuilder#buildSessionFactory(AsyncTaskExecutor)
 	 */
@@ -396,9 +409,10 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 
 	/**
 	 * Specify one or more Hibernate {@link Integrator} implementations to apply.
-	 * <p>This will only be applied for an internally built {@link MetadataSources}
-	 * instance. {@link #setMetadataSources} effectively overrides such settings,
-	 * with integrators to be applied to the externally built {@link MetadataSources}.
+	 * <p>
+	 * This will only be applied for an internally built {@link MetadataSources} instance.
+	 * {@link #setMetadataSources} effectively overrides such settings, with integrators
+	 * to be applied to the externally built {@link MetadataSources}.
 	 * @since 5.1
 	 * @see #setMetadataSources
 	 * @see BootstrapServiceRegistryBuilder#applyIntegrator
@@ -422,11 +436,14 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 
 	/**
 	 * Determine the Hibernate {@link MetadataSources} to use.
-	 * <p>Can also be externally called to initialize and pre-populate a {@link MetadataSources}
-	 * instance which is then going to be used for {@link SessionFactory} building.
+	 * <p>
+	 * Can also be externally called to initialize and pre-populate a
+	 * {@link MetadataSources} instance which is then going to be used for
+	 * {@link SessionFactory} building.
 	 * @return the MetadataSources to use (never {@code null})
 	 * @since 4.3
-	 * @see LocalSessionFactoryBuilder#LocalSessionFactoryBuilder(DataSource, ResourceLoader, MetadataSources)
+	 * @see LocalSessionFactoryBuilder#LocalSessionFactoryBuilder(DataSource,
+	 * ResourceLoader, MetadataSources)
 	 */
 	public MetadataSources getMetadataSources() {
 		this.metadataSourcesAccessed = true;
@@ -468,32 +485,31 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 
 	/**
 	 * Accept the containing {@link BeanFactory}, registering corresponding Hibernate
-	 * {@link org.hibernate.resource.beans.container.spi.BeanContainer} integration for
-	 * it if possible. This requires a Spring {@link ConfigurableListableBeanFactory}
-	 * and Hibernate 5.3 or higher on the classpath.
+	 * {@link org.hibernate.resource.beans.container.spi.BeanContainer} integration for it
+	 * if possible. This requires a Spring {@link ConfigurableListableBeanFactory} and
+	 * Hibernate 5.3 or higher on the classpath.
 	 * @since 5.1
 	 * @see SpringBeanContainer
 	 * @see LocalSessionFactoryBuilder#setBeanContainer
 	 */
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) {
-		if (beanFactory instanceof ConfigurableListableBeanFactory &&
-				ClassUtils.isPresent("org.hibernate.resource.beans.container.spi.BeanContainer",
-						getClass().getClassLoader())) {
+		if (beanFactory instanceof ConfigurableListableBeanFactory && ClassUtils
+				.isPresent("org.hibernate.resource.beans.container.spi.BeanContainer", getClass().getClassLoader())) {
 			this.beanFactory = (ConfigurableListableBeanFactory) beanFactory;
 		}
 	}
 
-
 	@Override
 	public void afterPropertiesSet() throws IOException {
 		if (this.metadataSources != null && !this.metadataSourcesAccessed) {
-			// Repeated initialization with no user-customized MetadataSources -> clear it.
+			// Repeated initialization with no user-customized MetadataSources -> clear
+			// it.
 			this.metadataSources = null;
 		}
 
-		LocalSessionFactoryBuilder sfb = new LocalSessionFactoryBuilder(
-				this.dataSource, getResourceLoader(), getMetadataSources());
+		LocalSessionFactoryBuilder sfb = new LocalSessionFactoryBuilder(this.dataSource, getResourceLoader(),
+				getMetadataSources());
 
 		if (this.configLocations != null) {
 			for (Resource resource : this.configLocations) {
@@ -518,7 +534,8 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 		}
 
 		if (this.cacheableMappingLocations != null) {
-			// Register given cacheable Hibernate mapping definitions, read from the file system.
+			// Register given cacheable Hibernate mapping definitions, read from the file
+			// system.
 			for (Resource resource : this.cacheableMappingLocations) {
 				sfb.addCacheableFile(resource.getFile());
 			}
@@ -601,25 +618,28 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 	}
 
 	/**
-	 * Subclasses can override this method to perform custom initialization
-	 * of the SessionFactory instance, creating it via the given Configuration
-	 * object that got prepared by this LocalSessionFactoryBean.
-	 * <p>The default implementation invokes LocalSessionFactoryBuilder's buildSessionFactory.
-	 * A custom implementation could prepare the instance in a specific way (e.g. applying
-	 * a custom ServiceRegistry) or use a custom SessionFactoryImpl subclass.
+	 * Subclasses can override this method to perform custom initialization of the
+	 * SessionFactory instance, creating it via the given Configuration object that got
+	 * prepared by this LocalSessionFactoryBean.
+	 * <p>
+	 * The default implementation invokes LocalSessionFactoryBuilder's
+	 * buildSessionFactory. A custom implementation could prepare the instance in a
+	 * specific way (e.g. applying a custom ServiceRegistry) or use a custom
+	 * SessionFactoryImpl subclass.
 	 * @param sfb a LocalSessionFactoryBuilder prepared by this LocalSessionFactoryBean
 	 * @return the SessionFactory instance
 	 * @see LocalSessionFactoryBuilder#buildSessionFactory
 	 */
 	protected SessionFactory buildSessionFactory(LocalSessionFactoryBuilder sfb) {
-		return (this.bootstrapExecutor != null ? sfb.buildSessionFactory(this.bootstrapExecutor) :
-				sfb.buildSessionFactory());
+		return (this.bootstrapExecutor != null ? sfb.buildSessionFactory(this.bootstrapExecutor)
+				: sfb.buildSessionFactory());
 	}
 
 	/**
-	 * Return the Hibernate Configuration object used to build the SessionFactory.
-	 * Allows for access to configuration metadata stored there (rarely needed).
-	 * @throws IllegalStateException if the Configuration object has not been initialized yet
+	 * Return the Hibernate Configuration object used to build the SessionFactory. Allows
+	 * for access to configuration metadata stored there (rarely needed).
+	 * @throws IllegalStateException if the Configuration object has not been initialized
+	 * yet
 	 */
 	public final Configuration getConfiguration() {
 		if (this.configuration == null) {
@@ -627,7 +647,6 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 		}
 		return this.configuration;
 	}
-
 
 	@Override
 	@Nullable
@@ -644,7 +663,6 @@ public class LocalSessionFactoryBean extends HibernateExceptionTranslator
 	public boolean isSingleton() {
 		return true;
 	}
-
 
 	@Override
 	public void destroy() {

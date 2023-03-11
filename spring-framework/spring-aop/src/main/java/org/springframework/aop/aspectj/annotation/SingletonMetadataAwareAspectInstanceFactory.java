@@ -23,8 +23,8 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.OrderUtils;
 
 /**
- * Implementation of {@link MetadataAwareAspectInstanceFactory} that is backed
- * by a specified singleton object, returning the same instance for every
+ * Implementation of {@link MetadataAwareAspectInstanceFactory} that is backed by a
+ * specified singleton object, returning the same instance for every
  * {@link #getAspectInstance()} call.
  *
  * @author Rod Johnson
@@ -38,7 +38,6 @@ public class SingletonMetadataAwareAspectInstanceFactory extends SingletonAspect
 
 	private final AspectMetadata metadata;
 
-
 	/**
 	 * Create a new SingletonMetadataAwareAspectInstanceFactory for the given aspect.
 	 * @param aspectInstance the singleton aspect instance
@@ -48,7 +47,6 @@ public class SingletonMetadataAwareAspectInstanceFactory extends SingletonAspect
 		super(aspectInstance);
 		this.metadata = new AspectMetadata(aspectInstance.getClass(), aspectName);
 	}
-
 
 	@Override
 	public final AspectMetadata getAspectMetadata() {

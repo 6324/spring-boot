@@ -22,11 +22,12 @@ import java.util.Collections;
 import org.springframework.lang.Nullable;
 
 /**
- * A simple instance filter that checks if a given instance match based on
- * a collection of includes and excludes element.
+ * A simple instance filter that checks if a given instance match based on a collection of
+ * includes and excludes element.
  *
- * <p>Subclasses may want to override {@link #match(Object, Object)} to provide
- * a custom matching algorithm.
+ * <p>
+ * Subclasses may want to override {@link #match(Object, Object)} to provide a custom
+ * matching algorithm.
  *
  * @author Stephane Nicoll
  * @since 4.1
@@ -40,28 +41,29 @@ public class InstanceFilter<T> {
 
 	private final boolean matchIfEmpty;
 
-
 	/**
 	 * Create a new instance based on includes/excludes collections.
-	 * <p>A particular element will match if it "matches" the one of the element in the
-	 * includes list and  does not match one of the element in the excludes list.
-	 * <p>Subclasses may redefine what matching means. By default, an element match with
+	 * <p>
+	 * A particular element will match if it "matches" the one of the element in the
+	 * includes list and does not match one of the element in the excludes list.
+	 * <p>
+	 * Subclasses may redefine what matching means. By default, an element match with
 	 * another if it is equals according to {@link Object#equals(Object)}
-	 * <p>If both collections are empty, {@code matchIfEmpty} defines if
-	 * an element matches or not.
+	 * <p>
+	 * If both collections are empty, {@code matchIfEmpty} defines if an element matches
+	 * or not.
 	 * @param includes the collection of includes
 	 * @param excludes the collection of excludes
 	 * @param matchIfEmpty the matching result if both the includes and the excludes
 	 * collections are empty
 	 */
-	public InstanceFilter(@Nullable Collection<? extends T> includes,
-			@Nullable Collection<? extends T> excludes, boolean matchIfEmpty) {
+	public InstanceFilter(@Nullable Collection<? extends T> includes, @Nullable Collection<? extends T> excludes,
+			boolean matchIfEmpty) {
 
 		this.includes = (includes != null ? includes : Collections.emptyList());
 		this.excludes = (excludes != null ? excludes : Collections.emptyList());
 		this.matchIfEmpty = matchIfEmpty;
 	}
-
 
 	/**
 	 * Determine if the specified {code instance} matches this filter.
@@ -87,8 +89,8 @@ public class InstanceFilter<T> {
 	}
 
 	/**
-	 * Determine if the specified {@code instance} is equal to the
-	 * specified {@code candidate}.
+	 * Determine if the specified {@code instance} is equal to the specified
+	 * {@code candidate}.
 	 * @param instance the instance to handle
 	 * @param candidate a candidate defined by this filter
 	 * @return {@code true} if the instance matches the candidate
@@ -99,7 +101,8 @@ public class InstanceFilter<T> {
 
 	/**
 	 * Determine if the specified {@code instance} matches one of the candidates.
-	 * <p>If the candidates collection is {@code null}, returns {@code false}.
+	 * <p>
+	 * If the candidates collection is {@code null}, returns {@code false}.
 	 * @param instance the instance to check
 	 * @param candidates a list of candidates
 	 * @return {@code true} if the instance match or the candidates collection is null

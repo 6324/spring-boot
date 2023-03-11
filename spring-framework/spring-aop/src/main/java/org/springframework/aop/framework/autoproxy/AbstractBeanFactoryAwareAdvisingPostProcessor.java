@@ -24,12 +24,12 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.lang.Nullable;
 
 /**
- * Extension of {@link AbstractAutoProxyCreator} which implements {@link BeanFactoryAware},
- * adds exposure of the original target class for each proxied bean
- * ({@link AutoProxyUtils#ORIGINAL_TARGET_CLASS_ATTRIBUTE}),
- * and participates in an externally enforced target-class mode for any given bean
- * ({@link AutoProxyUtils#PRESERVE_TARGET_CLASS_ATTRIBUTE}).
- * This post-processor is therefore aligned with {@link AbstractAutoProxyCreator}.
+ * Extension of {@link AbstractAutoProxyCreator} which implements
+ * {@link BeanFactoryAware}, adds exposure of the original target class for each proxied
+ * bean ({@link AutoProxyUtils#ORIGINAL_TARGET_CLASS_ATTRIBUTE}), and participates in an
+ * externally enforced target-class mode for any given bean
+ * ({@link AutoProxyUtils#PRESERVE_TARGET_CLASS_ATTRIBUTE}). This post-processor is
+ * therefore aligned with {@link AbstractAutoProxyCreator}.
  *
  * @author Juergen Hoeller
  * @since 4.2.3
@@ -43,11 +43,10 @@ public abstract class AbstractBeanFactoryAwareAdvisingPostProcessor extends Abst
 	@Nullable
 	private ConfigurableListableBeanFactory beanFactory;
 
-
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) {
-		this.beanFactory = (beanFactory instanceof ConfigurableListableBeanFactory ?
-				(ConfigurableListableBeanFactory) beanFactory : null);
+		this.beanFactory = (beanFactory instanceof ConfigurableListableBeanFactory
+				? (ConfigurableListableBeanFactory) beanFactory : null);
 	}
 
 	@Override
@@ -57,8 +56,8 @@ public abstract class AbstractBeanFactoryAwareAdvisingPostProcessor extends Abst
 		}
 
 		ProxyFactory proxyFactory = super.prepareProxyFactory(bean, beanName);
-		if (!proxyFactory.isProxyTargetClass() && this.beanFactory != null &&
-				AutoProxyUtils.shouldProxyTargetClass(this.beanFactory, beanName)) {
+		if (!proxyFactory.isProxyTargetClass() && this.beanFactory != null
+				&& AutoProxyUtils.shouldProxyTargetClass(this.beanFactory, beanName)) {
 			proxyFactory.setProxyTargetClass(true);
 		}
 		return proxyFactory;
@@ -66,8 +65,7 @@ public abstract class AbstractBeanFactoryAwareAdvisingPostProcessor extends Abst
 
 	@Override
 	protected boolean isEligible(Object bean, String beanName) {
-		return (!AutoProxyUtils.isOriginalInstance(beanName, bean.getClass()) &&
-				super.isEligible(bean, beanName));
+		return (!AutoProxyUtils.isOriginalInstance(beanName, bean.getClass()) && super.isEligible(bean, beanName));
 	}
 
 }

@@ -31,9 +31,9 @@ import org.springframework.web.server.ServerWebExchange;
 
 /**
  * Resolver for {@link Map} method arguments also annotated with
- * {@link PathVariable @PathVariable} where the annotation does not specify a
- * path variable name. The resulting {@link Map} argument is a coyp of all URI
- * template name-value pairs.
+ * {@link PathVariable @PathVariable} where the annotation does not specify a path
+ * variable name. The resulting {@link Map} argument is a coyp of all URI template
+ * name-value pairs.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -46,7 +46,6 @@ public class PathVariableMapMethodArgumentResolver extends HandlerMethodArgument
 		super(adapterRegistry);
 	}
 
-
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return checkAnnotatedParamNoReactiveWrapper(parameter, PathVariable.class, this::allVariables);
@@ -56,10 +55,9 @@ public class PathVariableMapMethodArgumentResolver extends HandlerMethodArgument
 		return (Map.class.isAssignableFrom(type) && !StringUtils.hasText(pathVariable.value()));
 	}
 
-
 	@Override
-	public Object resolveArgumentValue(
-			MethodParameter methodParameter, BindingContext context, ServerWebExchange exchange) {
+	public Object resolveArgumentValue(MethodParameter methodParameter, BindingContext context,
+			ServerWebExchange exchange) {
 
 		String name = HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE;
 		return exchange.getAttributeOrDefault(name, Collections.emptyMap());

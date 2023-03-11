@@ -48,7 +48,6 @@ public class DefaultLobHandlerTests {
 
 	private LobCreator lobCreator = lobHandler.getLobCreator();
 
-
 	@Test
 	public void testGetBlobAsBytes() throws SQLException {
 		lobHandler.getBlobAsBytes(rs, 1);

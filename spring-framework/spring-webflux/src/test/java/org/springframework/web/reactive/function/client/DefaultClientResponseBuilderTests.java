@@ -43,18 +43,13 @@ public class DefaultClientResponseBuilderTests {
 
 	private final DataBufferFactory dataBufferFactory = new DefaultDataBufferFactory();
 
-
 	@Test
 	public void normal() {
-		Flux<DataBuffer> body = Flux.just("baz")
-				.map(s -> s.getBytes(StandardCharsets.UTF_8))
+		Flux<DataBuffer> body = Flux.just("baz").map(s -> s.getBytes(StandardCharsets.UTF_8))
 				.map(dataBufferFactory::wrap);
 
 		ClientResponse response = ClientResponse.create(HttpStatus.BAD_GATEWAY, ExchangeStrategies.withDefaults())
-				.header("foo", "bar")
-				.cookie("baz", "qux")
-				.body(body)
-				.build();
+				.header("foo", "bar").cookie("baz", "qux").body(body).build();
 
 		assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_GATEWAY);
 		HttpHeaders responseHeaders = response.headers().asHttpHeaders();
@@ -62,15 +57,12 @@ public class DefaultClientResponseBuilderTests {
 		assertThat(response.cookies().getFirst("baz")).as("qux").isNotNull();
 		assertThat(response.cookies().getFirst("baz").getValue()).isEqualTo("qux");
 
-		StepVerifier.create(response.bodyToFlux(String.class))
-				.expectNext("baz")
-				.verifyComplete();
+		StepVerifier.create(response.bodyToFlux(String.class)).expectNext("baz").verifyComplete();
 	}
 
 	@Test
 	public void from() {
-		Flux<DataBuffer> otherBody = Flux.just("foo", "bar")
-				.map(s -> s.getBytes(StandardCharsets.UTF_8))
+		Flux<DataBuffer> otherBody = Flux.just("foo", "bar").map(s -> s.getBytes(StandardCharsets.UTF_8))
 				.map(dataBufferFactory::wrap);
 
 		HttpRequest mockClientHttpRequest = new MockClientHttpRequest(HttpMethod.GET, "/path");
@@ -80,19 +72,14 @@ public class DefaultClientResponseBuilderTests {
 		httpResponse.getCookies().add("baz", ResponseCookie.from("baz", "qux").build());
 		httpResponse.setBody(otherBody);
 
+		DefaultClientResponse other = new DefaultClientResponse(httpResponse, ExchangeStrategies.withDefaults(),
+				"my-prefix", "", () -> mockClientHttpRequest);
 
-		DefaultClientResponse other = new DefaultClientResponse(
-				httpResponse, ExchangeStrategies.withDefaults(), "my-prefix", "", () -> mockClientHttpRequest);
-
-		Flux<DataBuffer> body = Flux.just("baz")
-				.map(s -> s.getBytes(StandardCharsets.UTF_8))
+		Flux<DataBuffer> body = Flux.just("baz").map(s -> s.getBytes(StandardCharsets.UTF_8))
 				.map(dataBufferFactory::wrap);
 
-		ClientResponse result = ClientResponse.from(other)
-				.headers(httpHeaders -> httpHeaders.set("foo", "baar"))
-				.cookies(cookies -> cookies.set("baz", ResponseCookie.from("baz", "quux").build()))
-				.body(body)
-				.build();
+		ClientResponse result = ClientResponse.from(other).headers(httpHeaders -> httpHeaders.set("foo", "baar"))
+				.cookies(cookies -> cookies.set("baz", ResponseCookie.from("baz", "quux").build())).body(body).build();
 
 		assertThat(result.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 		assertThat(result.headers().asHttpHeaders().size()).isEqualTo(2);
@@ -101,9 +88,7 @@ public class DefaultClientResponseBuilderTests {
 		assertThat(result.cookies().getFirst("baz").getValue()).isEqualTo("quux");
 		assertThat(result.logPrefix()).isEqualTo("my-prefix");
 
-		StepVerifier.create(result.bodyToFlux(String.class))
-				.expectNext("baz")
-				.verifyComplete();
+		StepVerifier.create(result.bodyToFlux(String.class)).expectNext("baz").verifyComplete();
 	}
 
 	@Test
@@ -114,4 +99,5 @@ public class DefaultClientResponseBuilderTests {
 		assertThat(result.rawStatusCode()).isEqualTo(499);
 		assertThatIllegalArgumentException().isThrownBy(result::statusCode);
 	}
+
 }

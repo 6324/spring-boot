@@ -37,9 +37,9 @@ import javax.script.SimpleBindings;
 public abstract class StandardScriptUtils {
 
 	/**
-	 * Retrieve a {@link ScriptEngine} from the given {@link ScriptEngineManager}
-	 * by name, delegating to {@link ScriptEngineManager#getEngineByName} but
-	 * throwing a descriptive exception if not found or if initialization failed.
+	 * Retrieve a {@link ScriptEngine} from the given {@link ScriptEngineManager} by name,
+	 * delegating to {@link ScriptEngineManager#getEngineByName} but throwing a
+	 * descriptive exception if not found or if initialization failed.
 	 * @param scriptEngineManager the ScriptEngineManager to use
 	 * @param engineName the name of the engine
 	 * @return a corresponding ScriptEngine (never {@code null})
@@ -53,22 +53,25 @@ public abstract class StandardScriptUtils {
 			for (ScriptEngineFactory engineFactory : scriptEngineManager.getEngineFactories()) {
 				List<String> factoryNames = engineFactory.getNames();
 				if (factoryNames.contains(engineName)) {
-					// Special case: getEngineByName returned null but engine is present...
-					// Let's assume it failed to initialize (which ScriptEngineManager silently swallows).
-					// If it happens to initialize fine now, alright, but we really expect an exception.
+					// Special case: getEngineByName returned null but engine is
+					// present...
+					// Let's assume it failed to initialize (which ScriptEngineManager
+					// silently swallows).
+					// If it happens to initialize fine now, alright, but we really expect
+					// an exception.
 					try {
 						engine = engineFactory.getScriptEngine();
 						engine.setBindings(scriptEngineManager.getBindings(), ScriptContext.GLOBAL_SCOPE);
 					}
 					catch (Throwable ex) {
-						throw new IllegalStateException("Script engine with name '" + engineName +
-								"' failed to initialize", ex);
+						throw new IllegalStateException(
+								"Script engine with name '" + engineName + "' failed to initialize", ex);
 					}
 				}
 				engineNames.addAll(factoryNames);
 			}
-			throw new IllegalArgumentException("Script engine with name '" + engineName +
-					"' not found; registered engine names: " + engineNames);
+			throw new IllegalArgumentException(
+					"Script engine with name '" + engineName + "' not found; registered engine names: " + engineNames);
 		}
 		return engine;
 	}

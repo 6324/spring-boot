@@ -51,8 +51,7 @@ public class StandardComponentsTests {
 	public void testStandardOperatorOverloader() throws EvaluationException {
 		OperatorOverloader oo = new StandardOperatorOverloader();
 		assertThat(oo.overridesOperation(Operation.ADD, null, null)).isFalse();
-		assertThatExceptionOfType(EvaluationException.class).isThrownBy(() ->
-				oo.operate(Operation.ADD, 2, 3));
+		assertThatExceptionOfType(EvaluationException.class).isThrownBy(() -> oo.operate(Operation.ADD, 2, 3));
 	}
 
 	@Test

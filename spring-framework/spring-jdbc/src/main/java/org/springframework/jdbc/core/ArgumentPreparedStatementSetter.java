@@ -22,7 +22,8 @@ import java.sql.SQLException;
 import org.springframework.lang.Nullable;
 
 /**
- * Simple adapter for {@link PreparedStatementSetter} that applies a given array of arguments.
+ * Simple adapter for {@link PreparedStatementSetter} that applies a given array of
+ * arguments.
  *
  * @author Juergen Hoeller
  * @since 3.2.3
@@ -32,7 +33,6 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter,
 	@Nullable
 	private final Object[] args;
 
-
 	/**
 	 * Create a new ArgPreparedStatementSetter for the given arguments.
 	 * @param args the arguments to set
@@ -40,7 +40,6 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter,
 	public ArgumentPreparedStatementSetter(@Nullable Object[] args) {
 		this.args = args;
 	}
-
 
 	@Override
 	public void setValues(PreparedStatement ps) throws SQLException {
@@ -53,8 +52,8 @@ public class ArgumentPreparedStatementSetter implements PreparedStatementSetter,
 	}
 
 	/**
-	 * Set the value for prepared statements specified parameter index using the passed in value.
-	 * This method can be overridden by sub-classes if needed.
+	 * Set the value for prepared statements specified parameter index using the passed in
+	 * value. This method can be overridden by sub-classes if needed.
 	 * @param ps the PreparedStatement
 	 * @param parameterPosition index of the parameter position
 	 * @param argValue the value to set

@@ -41,7 +41,6 @@ public class JeeNamespaceHandlerEventTests {
 
 	private DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
-
 	@BeforeEach
 	public void setUp() throws Exception {
 		this.reader = new XmlBeanDefinitionReader(this.beanFactory);

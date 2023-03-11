@@ -22,10 +22,11 @@ import org.apache.commons.logging.Log;
 import org.springframework.util.StopWatch;
 
 /**
- * Simple AOP Alliance {@code MethodInterceptor} for performance monitoring.
- * This interceptor has no effect on the intercepted method call.
+ * Simple AOP Alliance {@code MethodInterceptor} for performance monitoring. This
+ * interceptor has no effect on the intercepted method call.
  *
- * <p>Uses a {@code StopWatch} for the actual performance measuring.
+ * <p>
+ * Uses a {@code StopWatch} for the actual performance measuring.
  *
  * @author Rod Johnson
  * @author Dmitriy Kopylenko
@@ -51,7 +52,6 @@ public class PerformanceMonitorInterceptor extends AbstractMonitoringInterceptor
 	public PerformanceMonitorInterceptor(boolean useDynamicLogger) {
 		setUseDynamicLogger(useDynamicLogger);
 	}
-
 
 	@Override
 	protected Object invokeUnderTrace(MethodInvocation invocation, Log logger) throws Throwable {

@@ -34,12 +34,11 @@ import org.springframework.aop.AfterAdvice;
 public class AspectJAfterThrowingAdvice extends AbstractAspectJAdvice
 		implements MethodInterceptor, AfterAdvice, Serializable {
 
-	public AspectJAfterThrowingAdvice(
-			Method aspectJBeforeAdviceMethod, AspectJExpressionPointcut pointcut, AspectInstanceFactory aif) {
+	public AspectJAfterThrowingAdvice(Method aspectJBeforeAdviceMethod, AspectJExpressionPointcut pointcut,
+			AspectInstanceFactory aif) {
 
 		super(aspectJBeforeAdviceMethod, pointcut, aif);
 	}
-
 
 	@Override
 	public boolean isBeforeAdvice() {
@@ -70,8 +69,8 @@ public class AspectJAfterThrowingAdvice extends AbstractAspectJAdvice
 	}
 
 	/**
-	 * In AspectJ semantics, after throwing advice that specifies a throwing clause
-	 * is only invoked if the thrown exception is a subtype of the given throwing type.
+	 * In AspectJ semantics, after throwing advice that specifies a throwing clause is
+	 * only invoked if the thrown exception is a subtype of the given throwing type.
 	 */
 	private boolean shouldInvokeOnThrowing(Throwable ex) {
 		return getDiscoveredThrowingType().isAssignableFrom(ex.getClass());

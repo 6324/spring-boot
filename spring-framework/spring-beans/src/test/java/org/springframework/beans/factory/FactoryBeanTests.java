@@ -41,11 +41,14 @@ import static org.springframework.core.testfixture.io.ResourceTestUtils.qualifie
 public class FactoryBeanTests {
 
 	private static final Class<?> CLASS = FactoryBeanTests.class;
-	private static final Resource RETURNS_NULL_CONTEXT = qualifiedResource(CLASS, "returnsNull.xml");
-	private static final Resource WITH_AUTOWIRING_CONTEXT = qualifiedResource(CLASS, "withAutowiring.xml");
-	private static final Resource ABSTRACT_CONTEXT = qualifiedResource(CLASS, "abstract.xml");
-	private static final Resource CIRCULAR_CONTEXT = qualifiedResource(CLASS, "circular.xml");
 
+	private static final Resource RETURNS_NULL_CONTEXT = qualifiedResource(CLASS, "returnsNull.xml");
+
+	private static final Resource WITH_AUTOWIRING_CONTEXT = qualifiedResource(CLASS, "withAutowiring.xml");
+
+	private static final Resource ABSTRACT_CONTEXT = qualifiedResource(CLASS, "abstract.xml");
+
+	private static final Resource CIRCULAR_CONTEXT = qualifiedResource(CLASS, "circular.xml");
 
 	@Test
 	public void testFactoryBeanReturnsNull() throws Exception {
@@ -122,7 +125,6 @@ public class FactoryBeanTests {
 		assertThat(counter.getCount("bean2")).isEqualTo(1);
 	}
 
-
 	public static class NullReturningFactoryBean implements FactoryBean<Object> {
 
 		@Override
@@ -139,8 +141,8 @@ public class FactoryBeanTests {
 		public boolean isSingleton() {
 			return true;
 		}
-	}
 
+	}
 
 	public static class Alpha implements InitializingBean {
 
@@ -158,8 +160,8 @@ public class FactoryBeanTests {
 		public void afterPropertiesSet() {
 			Assert.notNull(beta, "'beta' property is required");
 		}
-	}
 
+	}
 
 	public static class Beta implements InitializingBean {
 
@@ -187,12 +189,12 @@ public class FactoryBeanTests {
 		public void afterPropertiesSet() {
 			Assert.notNull(gamma, "'gamma' property is required");
 		}
-	}
 
+	}
 
 	public static class Gamma {
-	}
 
+	}
 
 	@Component
 	public static class BetaFactoryBean implements FactoryBean<Object> {
@@ -220,12 +222,12 @@ public class FactoryBeanTests {
 		public boolean isSingleton() {
 			return true;
 		}
-	}
 
+	}
 
 	public abstract static class AbstractFactoryBean implements FactoryBean<Object> {
-	}
 
+	}
 
 	public static class PassThroughFactoryBean<T> implements FactoryBean<T>, BeanFactoryAware {
 
@@ -267,8 +269,8 @@ public class FactoryBeanTests {
 		public boolean isSingleton() {
 			return true;
 		}
-	}
 
+	}
 
 	public static class CountingPostProcessor implements BeanPostProcessor {
 
@@ -302,8 +304,8 @@ public class FactoryBeanTests {
 				return 0;
 			}
 		}
-	}
 
+	}
 
 	public static class BeanImpl1 {
 
@@ -316,8 +318,8 @@ public class FactoryBeanTests {
 		public void setImpl2(BeanImpl2 impl2) {
 			this.impl2 = impl2;
 		}
-	}
 
+	}
 
 	public static class BeanImpl2 {
 
@@ -330,6 +332,7 @@ public class FactoryBeanTests {
 		public void setImpl1(BeanImpl1 impl1) {
 			this.impl1 = impl1;
 		}
+
 	}
 
 }

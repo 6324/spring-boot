@@ -36,17 +36,20 @@ class CustomEnvironmentTests {
 
 	@Test
 	void control() {
-		Environment env = new AbstractEnvironment() { };
+		Environment env = new AbstractEnvironment() {
+		};
 		assertThat(env.acceptsProfiles(defaultProfile())).isTrue();
 	}
 
 	@Test
 	void withNoReservedDefaultProfile() {
 		class CustomEnvironment extends AbstractEnvironment {
+
 			@Override
 			protected Set<String> getReservedDefaultProfiles() {
 				return Collections.emptySet();
 			}
+
 		}
 
 		Environment env = new CustomEnvironment();
@@ -56,10 +59,12 @@ class CustomEnvironmentTests {
 	@Test
 	void withSingleCustomReservedDefaultProfile() {
 		class CustomEnvironment extends AbstractEnvironment {
+
 			@Override
 			protected Set<String> getReservedDefaultProfiles() {
 				return Collections.singleton("rd1");
 			}
+
 		}
 
 		Environment env = new CustomEnvironment();
@@ -70,14 +75,18 @@ class CustomEnvironmentTests {
 	@Test
 	void withMultiCustomReservedDefaultProfile() {
 		class CustomEnvironment extends AbstractEnvironment {
+
 			@Override
 			@SuppressWarnings("serial")
 			protected Set<String> getReservedDefaultProfiles() {
-				return new HashSet<String>() {{
+				return new HashSet<String>() {
+					{
 						add("rd1");
 						add("rd2");
-				}};
+					}
+				};
 			}
+
 		}
 
 		ConfigurableEnvironment env = new CustomEnvironment();
@@ -109,6 +118,6 @@ class CustomEnvironmentTests {
 		return Profiles.of(AbstractEnvironment.RESERVED_DEFAULT_PROFILE_NAME);
 	}
 
-
 	// -- tests relating to customizing property sources -------------------------------
+
 }

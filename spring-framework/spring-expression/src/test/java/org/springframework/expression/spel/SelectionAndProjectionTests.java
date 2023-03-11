@@ -303,7 +303,6 @@ public class SelectionAndProjectionTests {
 		assertThat(array[2]).isEqualTo(7);
 	}
 
-
 	static class ListTestBean {
 
 		private final List<Integer> integers = new ArrayList<>();
@@ -317,8 +316,8 @@ public class SelectionAndProjectionTests {
 		public List<Integer> getIntegers() {
 			return integers;
 		}
-	}
 
+	}
 
 	static class SetTestBean {
 
@@ -333,8 +332,8 @@ public class SelectionAndProjectionTests {
 		public Set<Integer> getIntegers() {
 			return integers;
 		}
-	}
 
+	}
 
 	static class IterableTestBean {
 
@@ -354,8 +353,8 @@ public class SelectionAndProjectionTests {
 				}
 			};
 		}
-	}
 
+	}
 
 	static class ArrayTestBean {
 
@@ -377,8 +376,8 @@ public class SelectionAndProjectionTests {
 		public Integer[] getIntegers() {
 			return integers;
 		}
-	}
 
+	}
 
 	static class MapTestBean {
 
@@ -396,8 +395,8 @@ public class SelectionAndProjectionTests {
 		public Map<String, String> getColors() {
 			return colors;
 		}
-	}
 
+	}
 
 	static class IntegerTestBean {
 
@@ -449,8 +448,8 @@ public class SelectionAndProjectionTests {
 			}
 			return array;
 		}
-	}
 
+	}
 
 	static class IntegerWrapper {
 
@@ -463,6 +462,7 @@ public class SelectionAndProjectionTests {
 		public Number getValue() {
 			return this.value;
 		}
+
 	}
 
 }

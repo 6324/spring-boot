@@ -39,8 +39,8 @@ public class CacheProxyFactoryBeanTests {
 
 	@Test
 	public void configurationClassWithCacheProxyFactoryBean() {
-		try (AnnotationConfigApplicationContext applicationContext =
-				new AnnotationConfigApplicationContext(CacheProxyFactoryBeanConfiguration.class)) {
+		try (AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(
+				CacheProxyFactoryBeanConfiguration.class)) {
 			Greeter greeter = applicationContext.getBean("greeter", Greeter.class);
 			assertThat(greeter).isNotNull();
 			assertThat(greeter.isCacheMiss()).isFalse();
@@ -56,7 +56,6 @@ public class CacheProxyFactoryBeanTests {
 			assertThat(greeter.isCacheMiss()).isFalse();
 		}
 	}
-
 
 	@Configuration
 	@EnableCaching
@@ -87,8 +86,8 @@ public class CacheProxyFactoryBeanTests {
 			builder.setCacheName(cacheName);
 			return builder.build();
 		}
-	}
 
+	}
 
 	interface Greeter {
 
@@ -108,8 +107,8 @@ public class CacheProxyFactoryBeanTests {
 			setCacheMiss();
 			return String.format("Hello %s!", name);
 		}
-	}
 
+	}
 
 	static class SimpleGreeter implements Greeter {
 
@@ -124,6 +123,7 @@ public class CacheProxyFactoryBeanTests {
 		public void setCacheMiss() {
 			this.cacheMiss.set(true);
 		}
+
 	}
 
 }

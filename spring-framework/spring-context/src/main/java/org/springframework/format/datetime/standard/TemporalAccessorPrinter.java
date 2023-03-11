@@ -23,8 +23,9 @@ import java.util.Locale;
 import org.springframework.format.Printer;
 
 /**
- * {@link Printer} implementation for a JSR-310 {@link java.time.temporal.TemporalAccessor},
- * using a {@link java.time.format.DateTimeFormatter}) (the contextual one, if available).
+ * {@link Printer} implementation for a JSR-310
+ * {@link java.time.temporal.TemporalAccessor}, using a
+ * {@link java.time.format.DateTimeFormatter}) (the contextual one, if available).
  *
  * @author Juergen Hoeller
  * @since 4.0
@@ -35,7 +36,6 @@ public final class TemporalAccessorPrinter implements Printer<TemporalAccessor> 
 
 	private final DateTimeFormatter formatter;
 
-
 	/**
 	 * Create a new TemporalAccessorPrinter.
 	 * @param formatter the base DateTimeFormatter instance
@@ -43,7 +43,6 @@ public final class TemporalAccessorPrinter implements Printer<TemporalAccessor> 
 	public TemporalAccessorPrinter(DateTimeFormatter formatter) {
 		this.formatter = formatter;
 	}
-
 
 	@Override
 	public String print(TemporalAccessor partial, Locale locale) {

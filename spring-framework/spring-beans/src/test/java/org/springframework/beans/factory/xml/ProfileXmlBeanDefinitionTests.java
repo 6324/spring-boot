@@ -29,8 +29,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
- * Tests various combinations of profile declarations against various profile
- * activation and profile default scenarios.
+ * Tests various combinations of profile declarations against various profile activation
+ * and profile default scenarios.
  *
  * @author Chris Beams
  * @author Sam Brannen
@@ -39,31 +39,46 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 public class ProfileXmlBeanDefinitionTests {
 
 	private static final String PROD_ELIGIBLE_XML = "ProfileXmlBeanDefinitionTests-prodProfile.xml";
+
 	private static final String DEV_ELIGIBLE_XML = "ProfileXmlBeanDefinitionTests-devProfile.xml";
+
 	private static final String NOT_DEV_ELIGIBLE_XML = "ProfileXmlBeanDefinitionTests-notDevProfile.xml";
+
 	private static final String ALL_ELIGIBLE_XML = "ProfileXmlBeanDefinitionTests-noProfile.xml";
+
 	private static final String MULTI_ELIGIBLE_XML = "ProfileXmlBeanDefinitionTests-multiProfile.xml";
+
 	private static final String MULTI_NEGATED_XML = "ProfileXmlBeanDefinitionTests-multiProfileNegated.xml";
+
 	private static final String MULTI_NOT_DEV_ELIGIBLE_XML = "ProfileXmlBeanDefinitionTests-multiProfileNotDev.xml";
+
 	private static final String MULTI_ELIGIBLE_SPACE_DELIMITED_XML = "ProfileXmlBeanDefinitionTests-spaceDelimitedProfile.xml";
+
 	private static final String UNKNOWN_ELIGIBLE_XML = "ProfileXmlBeanDefinitionTests-unknownProfile.xml";
+
 	private static final String DEFAULT_ELIGIBLE_XML = "ProfileXmlBeanDefinitionTests-defaultProfile.xml";
+
 	private static final String CUSTOM_DEFAULT_ELIGIBLE_XML = "ProfileXmlBeanDefinitionTests-customDefaultProfile.xml";
+
 	private static final String DEFAULT_AND_DEV_ELIGIBLE_XML = "ProfileXmlBeanDefinitionTests-defaultAndDevProfile.xml";
 
 	private static final String PROD_ACTIVE = "prod";
+
 	private static final String DEV_ACTIVE = "dev";
+
 	private static final String NULL_ACTIVE = null;
+
 	private static final String UNKNOWN_ACTIVE = "unknown";
+
 	private static final String[] NONE_ACTIVE = new String[0];
+
 	private static final String[] MULTI_ACTIVE = new String[] { PROD_ACTIVE, DEV_ACTIVE };
 
 	private static final String TARGET_BEAN = "foo";
 
 	@Test
 	public void testProfileValidation() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				beanFactoryFor(PROD_ELIGIBLE_XML, NULL_ACTIVE));
+		assertThatIllegalArgumentException().isThrownBy(() -> beanFactoryFor(PROD_ELIGIBLE_XML, NULL_ACTIVE));
 	}
 
 	@Test
@@ -169,13 +184,12 @@ public class ProfileXmlBeanDefinitionTests {
 			XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
 			ConfigurableEnvironment env = new StandardEnvironment();
 			// env.setActiveProfiles(DEV_ACTIVE);
-			//env.setDefaultProfiles("default");
+			// env.setDefaultProfiles("default");
 			reader.setEnvironment(env);
 			reader.loadBeanDefinitions(new ClassPathResource(DEFAULT_AND_DEV_ELIGIBLE_XML, getClass()));
 			assertThat(beanFactory).is(containingTarget());
 		}
 	}
-
 
 	private BeanDefinitionRegistry beanFactoryFor(String xmlName, String... activeProfiles) {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();

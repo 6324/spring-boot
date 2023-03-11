@@ -35,11 +35,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Abstract base class for bean definition readers which implement
- * the {@link BeanDefinitionReader} interface.
+ * Abstract base class for bean definition readers which implement the
+ * {@link BeanDefinitionReader} interface.
  *
- * <p>Provides common properties like the bean factory to work on
- * and the class loader to use for loading bean classes.
+ * <p>
+ * Provides common properties like the bean factory to work on and the class loader to use
+ * for loading bean classes.
  *
  * @author Juergen Hoeller
  * @author Chris Beams
@@ -63,21 +64,23 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 
 	private BeanNameGenerator beanNameGenerator = DefaultBeanNameGenerator.INSTANCE;
 
-
 	/**
 	 * Create a new AbstractBeanDefinitionReader for the given bean factory.
-	 * <p>If the passed-in bean factory does not only implement the BeanDefinitionRegistry
+	 * <p>
+	 * If the passed-in bean factory does not only implement the BeanDefinitionRegistry
 	 * interface but also the ResourceLoader interface, it will be used as default
 	 * ResourceLoader as well. This will usually be the case for
 	 * {@link org.springframework.context.ApplicationContext} implementations.
-	 * <p>If given a plain BeanDefinitionRegistry, the default ResourceLoader will be a
+	 * <p>
+	 * If given a plain BeanDefinitionRegistry, the default ResourceLoader will be a
 	 * {@link org.springframework.core.io.support.PathMatchingResourcePatternResolver}.
-	 * <p>If the passed-in bean factory also implements {@link EnvironmentCapable} its
-	 * environment will be used by this reader.  Otherwise, the reader will initialize and
+	 * <p>
+	 * If the passed-in bean factory also implements {@link EnvironmentCapable} its
+	 * environment will be used by this reader. Otherwise, the reader will initialize and
 	 * use a {@link StandardEnvironment}. All ApplicationContext implementations are
 	 * EnvironmentCapable, while normal BeanFactory implementations are not.
-	 * @param registry the BeanFactory to load bean definitions into,
-	 * in the form of a BeanDefinitionRegistry
+	 * @param registry the BeanFactory to load bean definitions into, in the form of a
+	 * BeanDefinitionRegistry
 	 * @see #setResourceLoader
 	 * @see #setEnvironment
 	 */
@@ -102,7 +105,6 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 		}
 	}
 
-
 	public final BeanDefinitionRegistry getBeanFactory() {
 		return this.registry;
 	}
@@ -113,13 +115,15 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	}
 
 	/**
-	 * Set the ResourceLoader to use for resource locations.
-	 * If specifying a ResourcePatternResolver, the bean definition reader
-	 * will be capable of resolving resource patterns to Resource arrays.
-	 * <p>Default is PathMatchingResourcePatternResolver, also capable of
-	 * resource pattern resolving through the ResourcePatternResolver interface.
-	 * <p>Setting this to {@code null} suggests that absolute resource loading
-	 * is not available for this bean definition reader.
+	 * Set the ResourceLoader to use for resource locations. If specifying a
+	 * ResourcePatternResolver, the bean definition reader will be capable of resolving
+	 * resource patterns to Resource arrays.
+	 * <p>
+	 * Default is PathMatchingResourcePatternResolver, also capable of resource pattern
+	 * resolving through the ResourcePatternResolver interface.
+	 * <p>
+	 * Setting this to {@code null} suggests that absolute resource loading is not
+	 * available for this bean definition reader.
 	 * @see org.springframework.core.io.support.ResourcePatternResolver
 	 * @see org.springframework.core.io.support.PathMatchingResourcePatternResolver
 	 */
@@ -135,9 +139,10 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 
 	/**
 	 * Set the ClassLoader to use for bean classes.
-	 * <p>Default is {@code null}, which suggests to not load bean classes
-	 * eagerly but rather to just register bean definitions with class names,
-	 * with the corresponding Classes to be resolved later (or never).
+	 * <p>
+	 * Default is {@code null}, which suggests to not load bean classes eagerly but rather
+	 * to just register bean definitions with class names, with the corresponding Classes
+	 * to be resolved later (or never).
 	 * @see Thread#getContextClassLoader()
 	 */
 	public void setBeanClassLoader(@Nullable ClassLoader beanClassLoader) {
@@ -151,9 +156,9 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	}
 
 	/**
-	 * Set the Environment to use when reading bean definitions. Most often used
-	 * for evaluating profile information to determine which bean definitions
-	 * should be read and which should be omitted.
+	 * Set the Environment to use when reading bean definitions. Most often used for
+	 * evaluating profile information to determine which bean definitions should be read
+	 * and which should be omitted.
 	 */
 	public void setEnvironment(Environment environment) {
 		Assert.notNull(environment, "Environment must not be null");
@@ -166,9 +171,10 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	}
 
 	/**
-	 * Set the BeanNameGenerator to use for anonymous beans
-	 * (without explicit bean name specified).
-	 * <p>Default is a {@link DefaultBeanNameGenerator}.
+	 * Set the BeanNameGenerator to use for anonymous beans (without explicit bean name
+	 * specified).
+	 * <p>
+	 * Default is a {@link DefaultBeanNameGenerator}.
 	 */
 	public void setBeanNameGenerator(@Nullable BeanNameGenerator beanNameGenerator) {
 		this.beanNameGenerator = (beanNameGenerator != null ? beanNameGenerator : DefaultBeanNameGenerator.INSTANCE);
@@ -178,7 +184,6 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 	public BeanNameGenerator getBeanNameGenerator() {
 		return this.beanNameGenerator;
 	}
-
 
 	@Override
 	public int loadBeanDefinitions(Resource... resources) throws BeanDefinitionStoreException {
@@ -197,20 +202,22 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 
 	/**
 	 * Load bean definitions from the specified resource location.
-	 * <p>The location can also be a location pattern, provided that the
-	 * ResourceLoader of this bean definition reader is a ResourcePatternResolver.
-	 * @param location the resource location, to be loaded with the ResourceLoader
-	 * (or ResourcePatternResolver) of this bean definition reader
-	 * @param actualResources a Set to be filled with the actual Resource objects
-	 * that have been resolved during the loading process. May be {@code null}
-	 * to indicate that the caller is not interested in those Resource objects.
+	 * <p>
+	 * The location can also be a location pattern, provided that the ResourceLoader of
+	 * this bean definition reader is a ResourcePatternResolver.
+	 * @param location the resource location, to be loaded with the ResourceLoader (or
+	 * ResourcePatternResolver) of this bean definition reader
+	 * @param actualResources a Set to be filled with the actual Resource objects that
+	 * have been resolved during the loading process. May be {@code null} to indicate that
+	 * the caller is not interested in those Resource objects.
 	 * @return the number of bean definitions found
 	 * @throws BeanDefinitionStoreException in case of loading or parsing errors
 	 * @see #getResourceLoader()
 	 * @see #loadBeanDefinitions(org.springframework.core.io.Resource)
 	 * @see #loadBeanDefinitions(org.springframework.core.io.Resource[])
 	 */
-	public int loadBeanDefinitions(String location, @Nullable Set<Resource> actualResources) throws BeanDefinitionStoreException {
+	public int loadBeanDefinitions(String location, @Nullable Set<Resource> actualResources)
+			throws BeanDefinitionStoreException {
 		ResourceLoader resourceLoader = getResourceLoader();
 		if (resourceLoader == null) {
 			throw new BeanDefinitionStoreException(

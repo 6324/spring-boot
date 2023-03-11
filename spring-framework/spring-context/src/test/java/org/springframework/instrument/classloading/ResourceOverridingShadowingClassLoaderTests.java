@@ -34,8 +34,8 @@ public class ResourceOverridingShadowingClassLoaderTests {
 
 	private ClassLoader thisClassLoader = getClass().getClassLoader();
 
-	private ResourceOverridingShadowingClassLoader overridingLoader = new ResourceOverridingShadowingClassLoader(thisClassLoader);
-
+	private ResourceOverridingShadowingClassLoader overridingLoader = new ResourceOverridingShadowingClassLoader(
+			thisClassLoader);
 
 	@Test
 	public void testFindsExistingResourceWithGetResourceAndNoOverrides() {
@@ -85,4 +85,5 @@ public class ResourceOverridingShadowingClassLoaderTests {
 		}
 		return elts;
 	}
+
 }

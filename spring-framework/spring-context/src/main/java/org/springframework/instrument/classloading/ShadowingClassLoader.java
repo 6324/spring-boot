@@ -34,8 +34,8 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * ClassLoader decorator that shadows an enclosing ClassLoader,
- * applying registered transformers to all affected classes.
+ * ClassLoader decorator that shadows an enclosing ClassLoader, applying registered
+ * transformers to all affected classes.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -47,11 +47,10 @@ import org.springframework.util.StringUtils;
 public class ShadowingClassLoader extends DecoratingClassLoader {
 
 	/** Packages that are excluded by default. */
-	public static final String[] DEFAULT_EXCLUDED_PACKAGES =
-			new String[] {"java.", "javax.", "jdk.", "sun.", "oracle.", "com.sun.", "com.ibm.", "COM.ibm.",
-					"org.w3c.", "org.xml.", "org.dom4j.", "org.eclipse", "org.aspectj.", "net.sf.cglib",
-					"org.springframework.cglib", "org.apache.xerces.", "org.apache.commons.logging."};
-
+	public static final String[] DEFAULT_EXCLUDED_PACKAGES = new String[] { "java.", "javax.", "jdk.", "sun.",
+			"oracle.", "com.sun.", "com.ibm.", "COM.ibm.", "org.w3c.", "org.xml.", "org.dom4j.", "org.eclipse",
+			"org.aspectj.", "net.sf.cglib", "org.springframework.cglib", "org.apache.xerces.",
+			"org.apache.commons.logging." };
 
 	private final ClassLoader enclosingClassLoader;
 
@@ -59,10 +58,9 @@ public class ShadowingClassLoader extends DecoratingClassLoader {
 
 	private final Map<String, Class<?>> classCache = new HashMap<>();
 
-
 	/**
-	 * Create a new ShadowingClassLoader, decorating the given ClassLoader,
-	 * applying {@link #DEFAULT_EXCLUDED_PACKAGES}.
+	 * Create a new ShadowingClassLoader, decorating the given ClassLoader, applying
+	 * {@link #DEFAULT_EXCLUDED_PACKAGES}.
 	 * @param enclosingClassLoader the ClassLoader to decorate
 	 * @see #ShadowingClassLoader(ClassLoader, boolean)
 	 */
@@ -86,7 +84,6 @@ public class ShadowingClassLoader extends DecoratingClassLoader {
 		}
 	}
 
-
 	/**
 	 * Add the given ClassFileTransformer to the list of transformers that this
 	 * ClassLoader will apply.
@@ -106,7 +103,6 @@ public class ShadowingClassLoader extends DecoratingClassLoader {
 		Assert.notNull(other, "Other ClassLoader must not be null");
 		this.classFileTransformers.addAll(other.classFileTransformers);
 	}
-
 
 	@Override
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
@@ -128,13 +124,13 @@ public class ShadowingClassLoader extends DecoratingClassLoader {
 	 * @return whether the specified class should be shadowed
 	 */
 	private boolean shouldShadow(String className) {
-		return (!className.equals(getClass().getName()) && !className.endsWith("ShadowingClassLoader") &&
-				isEligibleForShadowing(className));
+		return (!className.equals(getClass().getName()) && !className.endsWith("ShadowingClassLoader")
+				&& isEligibleForShadowing(className));
 	}
 
 	/**
-	 * Determine whether the specified class is eligible for shadowing
-	 * by this class loader.
+	 * Determine whether the specified class is eligible for shadowing by this class
+	 * loader.
 	 * @param className the class name to check
 	 * @return whether the specified class is eligible
 	 * @see #isExcluded
@@ -142,7 +138,6 @@ public class ShadowingClassLoader extends DecoratingClassLoader {
 	protected boolean isEligibleForShadowing(String className) {
 		return !isExcluded(className);
 	}
-
 
 	private Class<?> doLoadClass(String name) throws ClassNotFoundException {
 		String internalName = StringUtils.replace(name, ".", "/") + ".class";
@@ -183,7 +178,6 @@ public class ShadowingClassLoader extends DecoratingClassLoader {
 			throw new IllegalStateException(ex);
 		}
 	}
-
 
 	@Override
 	public URL getResource(String name) {

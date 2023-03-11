@@ -56,7 +56,6 @@ abstract class AutowireUtils {
 		return result != 0 ? result : Integer.compare(e2.getParameterCount(), e1.getParameterCount());
 	};
 
-
 	/**
 	 * Sort the given constructors, preferring public constructors and "greedy" ones with
 	 * a maximum number of arguments. The result will contain public constructors first,
@@ -69,10 +68,10 @@ abstract class AutowireUtils {
 	}
 
 	/**
-	 * Sort the given factory methods, preferring public methods and "greedy" ones
-	 * with a maximum of arguments. The result will contain public methods first,
-	 * with decreasing number of arguments, then non-public methods, again with
-	 * decreasing number of arguments.
+	 * Sort the given factory methods, preferring public methods and "greedy" ones with a
+	 * maximum of arguments. The result will contain public methods first, with decreasing
+	 * number of arguments, then non-public methods, again with decreasing number of
+	 * arguments.
 	 * @param factoryMethods the factory method array to sort
 	 */
 	public static void sortFactoryMethods(Method[] factoryMethods) {
@@ -81,7 +80,8 @@ abstract class AutowireUtils {
 
 	/**
 	 * Determine whether the given bean property is excluded from dependency checks.
-	 * <p>This implementation excludes properties defined by CGLIB.
+	 * <p>
+	 * This implementation excludes properties defined by CGLIB.
 	 * @param pd the PropertyDescriptor of the bean property
 	 * @return whether the bean property is excluded
 	 */
@@ -101,8 +101,8 @@ abstract class AutowireUtils {
 	}
 
 	/**
-	 * Return whether the setter method of the given bean property is defined
-	 * in any of the given interfaces.
+	 * Return whether the setter method of the given bean property is defined in any of
+	 * the given interfaces.
 	 * @param pd the PropertyDescriptor of the bean property
 	 * @param interfaces the Set of interfaces (Class objects)
 	 * @return whether the setter method is defined by an interface
@@ -121,8 +121,8 @@ abstract class AutowireUtils {
 	}
 
 	/**
-	 * Resolve the given autowiring value against the given required type,
-	 * e.g. an {@link ObjectFactory} value to its actual object result.
+	 * Resolve the given autowiring value against the given required type, e.g. an
+	 * {@link ObjectFactory} value to its actual object result.
 	 * @param autowiringValue the value to resolve
 	 * @param requiredType the type to assign the result to
 	 * @return the resolved value
@@ -131,8 +131,8 @@ abstract class AutowireUtils {
 		if (autowiringValue instanceof ObjectFactory && !requiredType.isInstance(autowiringValue)) {
 			ObjectFactory<?> factory = (ObjectFactory<?>) autowiringValue;
 			if (autowiringValue instanceof Serializable && requiredType.isInterface()) {
-				autowiringValue = Proxy.newProxyInstance(requiredType.getClassLoader(),
-						new Class<?>[] {requiredType}, new ObjectFactoryDelegatingInvocationHandler(factory));
+				autowiringValue = Proxy.newProxyInstance(requiredType.getClassLoader(), new Class<?>[] { requiredType },
+						new ObjectFactoryDelegatingInvocationHandler(factory));
 			}
 			else {
 				return factory.getObject();
@@ -142,38 +142,38 @@ abstract class AutowireUtils {
 	}
 
 	/**
-	 * Determine the target type for the generic return type of the given
-	 * <em>generic factory method</em>, where formal type variables are declared
-	 * on the given method itself.
-	 * <p>For example, given a factory method with the following signature, if
-	 * {@code resolveReturnTypeForFactoryMethod()} is invoked with the reflected
-	 * method for {@code createProxy()} and an {@code Object[]} array containing
-	 * {@code MyService.class}, {@code resolveReturnTypeForFactoryMethod()} will
-	 * infer that the target return type is {@code MyService}.
+	 * Determine the target type for the generic return type of the given <em>generic
+	 * factory method</em>, where formal type variables are declared on the given method
+	 * itself.
+	 * <p>
+	 * For example, given a factory method with the following signature, if
+	 * {@code resolveReturnTypeForFactoryMethod()} is invoked with the reflected method
+	 * for {@code createProxy()} and an {@code Object[]} array containing
+	 * {@code MyService.class}, {@code resolveReturnTypeForFactoryMethod()} will infer
+	 * that the target return type is {@code MyService}.
 	 * <pre class="code">{@code public static <T> T createProxy(Class<T> clazz)}</pre>
 	 * <h4>Possible Return Values</h4>
 	 * <ul>
 	 * <li>the target return type, if it can be inferred</li>
-	 * <li>the {@linkplain Method#getReturnType() standard return type}, if
-	 * the given {@code method} does not declare any {@linkplain
-	 * Method#getTypeParameters() formal type variables}</li>
-	 * <li>the {@linkplain Method#getReturnType() standard return type}, if the
-	 * target return type cannot be inferred (e.g., due to type erasure)</li>
-	 * <li>{@code null}, if the length of the given arguments array is shorter
-	 * than the length of the {@linkplain
-	 * Method#getGenericParameterTypes() formal argument list} for the given
-	 * method</li>
+	 * <li>the {@linkplain Method#getReturnType() standard return type}, if the given
+	 * {@code method} does not declare any {@linkplain Method#getTypeParameters() formal
+	 * type variables}</li>
+	 * <li>the {@linkplain Method#getReturnType() standard return type}, if the target
+	 * return type cannot be inferred (e.g., due to type erasure)</li>
+	 * <li>{@code null}, if the length of the given arguments array is shorter than the
+	 * length of the {@linkplain Method#getGenericParameterTypes() formal argument list}
+	 * for the given method</li>
 	 * </ul>
 	 * @param method the method to introspect (never {@code null})
-	 * @param args the arguments that will be supplied to the method when it is
-	 * invoked (never {@code null})
-	 * @param classLoader the ClassLoader to resolve class names against,
-	 * if necessary (never {@code null})
+	 * @param args the arguments that will be supplied to the method when it is invoked
+	 * (never {@code null})
+	 * @param classLoader the ClassLoader to resolve class names against, if necessary
+	 * (never {@code null})
 	 * @return the resolved target return type or the standard method return type
 	 * @since 3.2.5
 	 */
-	public static Class<?> resolveReturnTypeForFactoryMethod(
-			Method method, Object[] args, @Nullable ClassLoader classLoader) {
+	public static Class<?> resolveReturnTypeForFactoryMethod(Method method, Object[] args,
+			@Nullable ClassLoader classLoader) {
 
 		Assert.notNull(method, "Method must not be null");
 		Assert.notNull(args, "Argument array must not be null");
@@ -210,8 +210,8 @@ abstract class AutowireUtils {
 							}
 						}
 						catch (ClassNotFoundException ex) {
-							throw new IllegalStateException("Failed to resolve value type [" +
-									typedValue.getTargetTypeName() + "] for factory method argument", ex);
+							throw new IllegalStateException("Failed to resolve value type ["
+									+ typedValue.getTargetTypeName() + "] for factory method argument", ex);
 						}
 					}
 					else if (arg != null && !(arg instanceof BeanMetadataElement)) {
@@ -245,11 +245,12 @@ abstract class AutowireUtils {
 										return ClassUtils.forName(className, classLoader);
 									}
 									catch (ClassNotFoundException ex) {
-										throw new IllegalStateException("Could not resolve class name [" + arg +
-												"] for factory method argument", ex);
+										throw new IllegalStateException("Could not resolve class name [" + arg
+												+ "] for factory method argument", ex);
 									}
 								}
-								// Consider adding logic to determine the class of the typeArg, if possible.
+								// Consider adding logic to determine the class of the
+								// typeArg, if possible.
 								// For now, just fall back...
 								return method.getReturnType();
 							}
@@ -262,7 +263,6 @@ abstract class AutowireUtils {
 		// Fall back...
 		return method.getReturnType();
 	}
-
 
 	/**
 	 * Reflective {@link InvocationHandler} for lazy access to the current target object.
@@ -297,6 +297,7 @@ abstract class AutowireUtils {
 				throw ex.getTargetException();
 			}
 		}
+
 	}
 
 }

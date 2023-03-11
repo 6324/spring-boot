@@ -43,17 +43,15 @@ public class BeanNamePointcutAtAspectTests {
 
 	private CounterAspect counterAspect;
 
-
 	@org.junit.jupiter.api.BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml",
+				getClass());
 
 		counterAspect = (CounterAspect) ctx.getBean("counterAspect");
 		testBean1 = (ITestBean) ctx.getBean("testBean1");
 		testBean3 = (ITestBean) ctx.getBean("testBean3");
 	}
-
 
 	@Test
 	public void testMatchingBeanName() {
@@ -94,7 +92,6 @@ public class BeanNamePointcutAtAspectTests {
 	}
 
 }
-
 
 @Aspect
 class CounterAspect {

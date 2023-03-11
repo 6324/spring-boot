@@ -44,11 +44,13 @@ import org.springframework.util.ReflectionUtils;
 /**
  * Utility methods for AOP support code.
  *
- * <p>Mainly for internal use within Spring's AOP support.
+ * <p>
+ * Mainly for internal use within Spring's AOP support.
  *
- * <p>See {@link org.springframework.aop.framework.AopProxyUtils} for a
- * collection of framework-specific AOP utility methods which depend
- * on internals of Spring's AOP framework implementation.
+ * <p>
+ * See {@link org.springframework.aop.framework.AopProxyUtils} for a collection of
+ * framework-specific AOP utility methods which depend on internals of Spring's AOP
+ * framework implementation.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -59,22 +61,23 @@ public abstract class AopUtils {
 
 	/**
 	 * Check whether the given object is a JDK dynamic proxy or a CGLIB proxy.
-	 * <p>This method additionally checks if the given object is an instance
-	 * of {@link SpringProxy}.
+	 * <p>
+	 * This method additionally checks if the given object is an instance of
+	 * {@link SpringProxy}.
 	 * @param object the object to check
 	 * @see #isJdkDynamicProxy
 	 * @see #isCglibProxy
 	 */
 	public static boolean isAopProxy(@Nullable Object object) {
-		return (object instanceof SpringProxy && (Proxy.isProxyClass(object.getClass()) ||
-				object.getClass().getName().contains(ClassUtils.CGLIB_CLASS_SEPARATOR)));
+		return (object instanceof SpringProxy && (Proxy.isProxyClass(object.getClass())
+				|| object.getClass().getName().contains(ClassUtils.CGLIB_CLASS_SEPARATOR)));
 	}
 
 	/**
 	 * Check whether the given object is a JDK dynamic proxy.
-	 * <p>This method goes beyond the implementation of
-	 * {@link Proxy#isProxyClass(Class)} by additionally checking if the
-	 * given object is an instance of {@link SpringProxy}.
+	 * <p>
+	 * This method goes beyond the implementation of {@link Proxy#isProxyClass(Class)} by
+	 * additionally checking if the given object is an instance of {@link SpringProxy}.
 	 * @param object the object to check
 	 * @see java.lang.reflect.Proxy#isProxyClass
 	 */
@@ -84,23 +87,25 @@ public abstract class AopUtils {
 
 	/**
 	 * Check whether the given object is a CGLIB proxy.
-	 * <p>This method goes beyond the implementation of
-	 * {@link ClassUtils#isCglibProxy(Object)} by additionally checking if
-	 * the given object is an instance of {@link SpringProxy}.
+	 * <p>
+	 * This method goes beyond the implementation of
+	 * {@link ClassUtils#isCglibProxy(Object)} by additionally checking if the given
+	 * object is an instance of {@link SpringProxy}.
 	 * @param object the object to check
 	 * @see ClassUtils#isCglibProxy(Object)
 	 */
 	public static boolean isCglibProxy(@Nullable Object object) {
-		return (object instanceof SpringProxy &&
-				object.getClass().getName().contains(ClassUtils.CGLIB_CLASS_SEPARATOR));
+		return (object instanceof SpringProxy
+				&& object.getClass().getName().contains(ClassUtils.CGLIB_CLASS_SEPARATOR));
 	}
 
 	/**
 	 * Determine the target class of the given bean instance which might be an AOP proxy.
-	 * <p>Returns the target class for an AOP proxy or the plain class otherwise.
+	 * <p>
+	 * Returns the target class for an AOP proxy or the plain class otherwise.
 	 * @param candidate the instance to check (might be an AOP proxy)
-	 * @return the target class (or the plain class of the given object as fallback;
-	 * never {@code null})
+	 * @return the target class (or the plain class of the given object as fallback; never
+	 * {@code null})
 	 * @see org.springframework.aop.TargetClassAware#getTargetClass()
 	 * @see org.springframework.aop.framework.AopProxyUtils#ultimateTargetClass(Object)
 	 */
@@ -117,9 +122,9 @@ public abstract class AopUtils {
 	}
 
 	/**
-	 * Select an invocable method on the target type: either the given method itself
-	 * if actually exposed on the target type, or otherwise a corresponding method
-	 * on one of the target type's interfaces or on the target type itself.
+	 * Select an invocable method on the target type: either the given method itself if
+	 * actually exposed on the target type, or otherwise a corresponding method on one of
+	 * the target type's interfaces or on the target type itself.
 	 * @param method the method to check
 	 * @param targetType the target type to search methods on (typically an AOP proxy)
 	 * @return a corresponding invocable method on the target type
@@ -133,11 +138,11 @@ public abstract class AopUtils {
 			return method;
 		}
 		Method methodToUse = MethodIntrospector.selectInvocableMethod(method, targetType);
-		if (Modifier.isPrivate(methodToUse.getModifiers()) && !Modifier.isStatic(methodToUse.getModifiers()) &&
-				SpringProxy.class.isAssignableFrom(targetType)) {
+		if (Modifier.isPrivate(methodToUse.getModifiers()) && !Modifier.isStatic(methodToUse.getModifiers())
+				&& SpringProxy.class.isAssignableFrom(targetType)) {
 			throw new IllegalStateException(String.format(
-					"Need to invoke method '%s' found on proxy for target class '%s' but cannot " +
-					"be delegated to target bean. Switch its visibility to package or protected.",
+					"Need to invoke method '%s' found on proxy for target class '%s' but cannot "
+							+ "be delegated to target bean. Switch its visibility to package or protected.",
 					method.getName(), method.getDeclaringClass().getSimpleName()));
 		}
 		return methodToUse;
@@ -172,22 +177,23 @@ public abstract class AopUtils {
 	 * @see java.lang.Object#finalize()
 	 */
 	public static boolean isFinalizeMethod(@Nullable Method method) {
-		return (method != null && method.getName().equals("finalize") &&
-				method.getParameterCount() == 0);
+		return (method != null && method.getName().equals("finalize") && method.getParameterCount() == 0);
 	}
 
 	/**
-	 * Given a method, which may come from an interface, and a target class used
-	 * in the current AOP invocation, find the corresponding target method if there
-	 * is one. E.g. the method may be {@code IFoo.bar()} and the target class
-	 * may be {@code DefaultFoo}. In this case, the method may be
-	 * {@code DefaultFoo.bar()}. This enables attributes on that method to be found.
-	 * <p><b>NOTE:</b> In contrast to {@link org.springframework.util.ClassUtils#getMostSpecificMethod},
-	 * this method resolves Java 5 bridge methods in order to retrieve attributes
-	 * from the <i>original</i> method definition.
+	 * Given a method, which may come from an interface, and a target class used in the
+	 * current AOP invocation, find the corresponding target method if there is one. E.g.
+	 * the method may be {@code IFoo.bar()} and the target class may be
+	 * {@code DefaultFoo}. In this case, the method may be {@code DefaultFoo.bar()}. This
+	 * enables attributes on that method to be found.
+	 * <p>
+	 * <b>NOTE:</b> In contrast to
+	 * {@link org.springframework.util.ClassUtils#getMostSpecificMethod}, this method
+	 * resolves Java 5 bridge methods in order to retrieve attributes from the
+	 * <i>original</i> method definition.
 	 * @param method the method to be invoked, which may come from an interface
-	 * @param targetClass the target class for the current invocation.
-	 * May be {@code null} or may not even implement the method.
+	 * @param targetClass the target class for the current invocation. May be {@code null}
+	 * or may not even implement the method.
 	 * @return the specific target method, or the original method if the
 	 * {@code targetClass} doesn't implement it or is {@code null}
 	 * @see org.springframework.util.ClassUtils#getMostSpecificMethod
@@ -195,14 +201,15 @@ public abstract class AopUtils {
 	public static Method getMostSpecificMethod(Method method, @Nullable Class<?> targetClass) {
 		Class<?> specificTargetClass = (targetClass != null ? ClassUtils.getUserClass(targetClass) : null);
 		Method resolvedMethod = ClassUtils.getMostSpecificMethod(method, specificTargetClass);
-		// If we are dealing with method with generic parameters, find the original method.
+		// If we are dealing with method with generic parameters, find the original
+		// method.
 		return BridgeMethodResolver.findBridgedMethod(resolvedMethod);
 	}
 
 	/**
 	 * Can the given pointcut apply at all on the given class?
-	 * <p>This is an important test as it can be used to optimize
-	 * out a pointcut for a class.
+	 * <p>
+	 * This is an important test as it can be used to optimize out a pointcut for a class.
 	 * @param pc the static or dynamic pointcut to check
 	 * @param targetClass the class to test
 	 * @return whether the pointcut can apply on any method
@@ -213,12 +220,12 @@ public abstract class AopUtils {
 
 	/**
 	 * Can the given pointcut apply at all on the given class?
-	 * <p>This is an important test as it can be used to optimize
-	 * out a pointcut for a class.
+	 * <p>
+	 * This is an important test as it can be used to optimize out a pointcut for a class.
 	 * @param pc the static or dynamic pointcut to check
 	 * @param targetClass the class to test
-	 * @param hasIntroductions whether or not the advisor chain
-	 * for this bean includes any introductions
+	 * @param hasIntroductions whether or not the advisor chain for this bean includes any
+	 * introductions
 	 * @return whether the pointcut can apply on any method
 	 */
 	public static boolean canApply(Pointcut pc, Class<?> targetClass, boolean hasIntroductions) {
@@ -247,9 +254,9 @@ public abstract class AopUtils {
 		for (Class<?> clazz : classes) {
 			Method[] methods = ReflectionUtils.getAllDeclaredMethods(clazz);
 			for (Method method : methods) {
-				if (introductionAwareMethodMatcher != null ?
-						introductionAwareMethodMatcher.matches(method, targetClass, hasIntroductions) :
-						methodMatcher.matches(method, targetClass)) {
+				if (introductionAwareMethodMatcher != null
+						? introductionAwareMethodMatcher.matches(method, targetClass, hasIntroductions)
+						: methodMatcher.matches(method, targetClass)) {
 					return true;
 				}
 			}
@@ -259,9 +266,8 @@ public abstract class AopUtils {
 	}
 
 	/**
-	 * Can the given advisor apply at all on the given class?
-	 * This is an important test as it can be used to optimize
-	 * out a advisor for a class.
+	 * Can the given advisor apply at all on the given class? This is an important test as
+	 * it can be used to optimize out a advisor for a class.
 	 * @param advisor the advisor to check
 	 * @param targetClass class we're testing
 	 * @return whether the pointcut can apply on any method
@@ -272,12 +278,14 @@ public abstract class AopUtils {
 
 	/**
 	 * Can the given advisor apply at all on the given class?
-	 * <p>This is an important test as it can be used to optimize out a advisor for a class.
-	 * This version also takes into account introductions (for IntroductionAwareMethodMatchers).
+	 * <p>
+	 * This is an important test as it can be used to optimize out a advisor for a class.
+	 * This version also takes into account introductions (for
+	 * IntroductionAwareMethodMatchers).
 	 * @param advisor the advisor to check
 	 * @param targetClass class we're testing
-	 * @param hasIntroductions whether or not the advisor chain for this bean includes
-	 * any introductions
+	 * @param hasIntroductions whether or not the advisor chain for this bean includes any
+	 * introductions
 	 * @return whether the pointcut can apply on any method
 	 */
 	public static boolean canApply(Advisor advisor, Class<?> targetClass, boolean hasIntroductions) {
@@ -295,12 +303,12 @@ public abstract class AopUtils {
 	}
 
 	/**
-	 * Determine the sublist of the {@code candidateAdvisors} list
-	 * that is applicable to the given class.
+	 * Determine the sublist of the {@code candidateAdvisors} list that is applicable to
+	 * the given class.
 	 * @param candidateAdvisors the Advisors to evaluate
 	 * @param clazz the target class
-	 * @return sublist of Advisors that can apply to an object of the given class
-	 * (may be the incoming List as-is)
+	 * @return sublist of Advisors that can apply to an object of the given class (may be
+	 * the incoming List as-is)
 	 */
 	public static List<Advisor> findAdvisorsThatCanApply(List<Advisor> candidateAdvisors, Class<?> clazz) {
 		if (candidateAdvisors.isEmpty()) {
@@ -332,7 +340,8 @@ public abstract class AopUtils {
 	 * @param args the arguments for the method
 	 * @return the invocation result, if any
 	 * @throws Throwable if thrown by the target method
-	 * @throws org.springframework.aop.AopInvocationException in case of a reflection error
+	 * @throws org.springframework.aop.AopInvocationException in case of a reflection
+	 * error
 	 */
 	@Nullable
 	public static Object invokeJoinpointUsingReflection(@Nullable Object target, Method method, Object[] args)
@@ -349,8 +358,8 @@ public abstract class AopUtils {
 			throw ex.getTargetException();
 		}
 		catch (IllegalArgumentException ex) {
-			throw new AopInvocationException("AOP configuration seems to be invalid: tried calling method [" +
-					method + "] on target [" + target + "]", ex);
+			throw new AopInvocationException("AOP configuration seems to be invalid: tried calling method [" + method
+					+ "] on target [" + target + "]", ex);
 		}
 		catch (IllegalAccessException ex) {
 			throw new AopInvocationException("Could not access method [" + method + "]", ex);

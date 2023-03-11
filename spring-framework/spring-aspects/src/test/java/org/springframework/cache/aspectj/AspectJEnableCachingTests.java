@@ -44,7 +44,6 @@ public class AspectJEnableCachingTests extends AbstractCacheAnnotationTests {
 		return new AnnotationConfigApplicationContext(EnableCachingConfig.class);
 	}
 
-
 	@Configuration
 	@EnableCaching(mode = AdviceMode.ASPECTJ)
 	static class EnableCachingConfig extends CachingConfigurerSupport {
@@ -86,6 +85,7 @@ public class AspectJEnableCachingTests extends AbstractCacheAnnotationTests {
 		public CacheManager customCacheManager() {
 			return CacheTestUtils.createSimpleCacheManager("testCache");
 		}
+
 	}
 
 }

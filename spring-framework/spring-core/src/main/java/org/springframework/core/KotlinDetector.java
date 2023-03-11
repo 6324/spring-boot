@@ -50,7 +50,6 @@ public abstract class KotlinDetector {
 		kotlinReflectPresent = ClassUtils.isPresent("kotlin.reflect.full.KClasses", classLoader);
 	}
 
-
 	/**
 	 * Determine whether Kotlin is present in general.
 	 */
@@ -67,8 +66,8 @@ public abstract class KotlinDetector {
 	}
 
 	/**
-	 * Determine whether the given {@code Class} is a Kotlin type
-	 * (with Kotlin metadata present on it).
+	 * Determine whether the given {@code Class} is a Kotlin type (with Kotlin metadata
+	 * present on it).
 	 */
 	public static boolean isKotlinType(Class<?> clazz) {
 		return (kotlinMetadata != null && clazz.getDeclaredAnnotation(kotlinMetadata) != null);

@@ -37,7 +37,6 @@ public class TestConnection implements Connection {
 
 	private int closeCount;
 
-
 	@Override
 	public Session createSession(boolean b, int i) throws JMSException {
 		return null;
@@ -92,25 +91,28 @@ public class TestConnection implements Connection {
 	}
 
 	@Override
-	public ConnectionConsumer createConnectionConsumer(Destination destination, String paramName, ServerSessionPool serverSessionPool, int i) throws JMSException {
+	public ConnectionConsumer createConnectionConsumer(Destination destination, String paramName,
+			ServerSessionPool serverSessionPool, int i) throws JMSException {
 		return null;
 	}
 
 	@Override
-	public ConnectionConsumer createDurableConnectionConsumer(Topic topic, String paramName, String paramName1, ServerSessionPool serverSessionPool, int i) throws JMSException {
+	public ConnectionConsumer createDurableConnectionConsumer(Topic topic, String paramName, String paramName1,
+			ServerSessionPool serverSessionPool, int i) throws JMSException {
 		return null;
 	}
 
 	@Override
-	public ConnectionConsumer createSharedConnectionConsumer(Topic topic, String subscriptionName, String messageSelector, ServerSessionPool sessionPool, int maxMessages) throws JMSException {
+	public ConnectionConsumer createSharedConnectionConsumer(Topic topic, String subscriptionName,
+			String messageSelector, ServerSessionPool sessionPool, int maxMessages) throws JMSException {
 		return null;
 	}
 
 	@Override
-	public ConnectionConsumer createSharedDurableConnectionConsumer(Topic topic, String subscriptionName, String messageSelector, ServerSessionPool sessionPool, int maxMessages) throws JMSException {
+	public ConnectionConsumer createSharedDurableConnectionConsumer(Topic topic, String subscriptionName,
+			String messageSelector, ServerSessionPool sessionPool, int maxMessages) throws JMSException {
 		return null;
 	}
-
 
 	public int getStartCount() {
 		return startCount;

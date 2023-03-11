@@ -60,13 +60,13 @@ public class AsyncExecutionTests {
 
 	private static int listenerConstructed = 0;
 
-
 	@Test
 	public void asyncMethods() throws Exception {
 		originalThreadName = Thread.currentThread().getName();
 		GenericApplicationContext context = new GenericApplicationContext();
 		context.registerBeanDefinition("asyncTest", new RootBeanDefinition(AsyncMethodBean.class));
-		context.registerBeanDefinition("autoProxyCreator", new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
+		context.registerBeanDefinition("autoProxyCreator",
+				new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
 		context.registerBeanDefinition("asyncAdvisor", new RootBeanDefinition(AsyncAnnotationAdvisor.class));
 		context.refresh();
 
@@ -80,25 +80,22 @@ public class AsyncExecutionTests {
 		CompletableFuture<String> completableFuture = asyncTest.returnSomethingCompletable(20);
 		assertThat(completableFuture.get()).isEqualTo("20");
 
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(() ->
-				asyncTest.returnSomething(0).get())
-			.withCauseInstanceOf(IllegalArgumentException.class);
+		assertThatExceptionOfType(ExecutionException.class).isThrownBy(() -> asyncTest.returnSomething(0).get())
+				.withCauseInstanceOf(IllegalArgumentException.class);
 
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(() ->
-				asyncTest.returnSomething(-1).get())
-			.withCauseInstanceOf(IOException.class);
+		assertThatExceptionOfType(ExecutionException.class).isThrownBy(() -> asyncTest.returnSomething(-1).get())
+				.withCauseInstanceOf(IOException.class);
 
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(() ->
-				asyncTest.returnSomethingListenable(0).get())
-			.withCauseInstanceOf(IllegalArgumentException.class);
+		assertThatExceptionOfType(ExecutionException.class)
+				.isThrownBy(() -> asyncTest.returnSomethingListenable(0).get())
+				.withCauseInstanceOf(IllegalArgumentException.class);
 
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(() ->
-				asyncTest.returnSomethingListenable(-1).get())
-			.withCauseInstanceOf(IOException.class);
+		assertThatExceptionOfType(ExecutionException.class)
+				.isThrownBy(() -> asyncTest.returnSomethingListenable(-1).get()).withCauseInstanceOf(IOException.class);
 
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(() ->
-				asyncTest.returnSomethingCompletable(0).get())
-			.withCauseInstanceOf(IllegalArgumentException.class);
+		assertThatExceptionOfType(ExecutionException.class)
+				.isThrownBy(() -> asyncTest.returnSomethingCompletable(0).get())
+				.withCauseInstanceOf(IllegalArgumentException.class);
 	}
 
 	@Test
@@ -106,7 +103,8 @@ public class AsyncExecutionTests {
 		originalThreadName = Thread.currentThread().getName();
 		GenericApplicationContext context = new GenericApplicationContext();
 		context.registerBeanDefinition("asyncTest", new RootBeanDefinition(SimpleAsyncMethodBean.class));
-		context.registerBeanDefinition("autoProxyCreator", new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
+		context.registerBeanDefinition("autoProxyCreator",
+				new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
 		context.registerBeanDefinition("asyncAdvisor", new RootBeanDefinition(AsyncAnnotationAdvisor.class));
 		context.refresh();
 
@@ -122,7 +120,8 @@ public class AsyncExecutionTests {
 		originalThreadName = Thread.currentThread().getName();
 		GenericApplicationContext context = new GenericApplicationContext();
 		context.registerBeanDefinition("asyncTest", new RootBeanDefinition(AsyncMethodWithQualifierBean.class));
-		context.registerBeanDefinition("autoProxyCreator", new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
+		context.registerBeanDefinition("autoProxyCreator",
+				new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
 		context.registerBeanDefinition("asyncAdvisor", new RootBeanDefinition(AsyncAnnotationAdvisor.class));
 		context.registerBeanDefinition("e0", new RootBeanDefinition(ThreadPoolTaskExecutor.class));
 		context.registerBeanDefinition("e1", new RootBeanDefinition(ThreadPoolTaskExecutor.class));
@@ -143,7 +142,8 @@ public class AsyncExecutionTests {
 		originalThreadName = Thread.currentThread().getName();
 		GenericApplicationContext context = new GenericApplicationContext();
 		context.registerBeanDefinition("asyncTest", new RootBeanDefinition(SimpleAsyncMethodWithQualifierBean.class));
-		context.registerBeanDefinition("autoProxyCreator", new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
+		context.registerBeanDefinition("autoProxyCreator",
+				new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
 		context.registerBeanDefinition("asyncAdvisor", new RootBeanDefinition(AsyncAnnotationAdvisor.class));
 		context.registerBeanDefinition("e0", new RootBeanDefinition(ThreadPoolTaskExecutor.class));
 		context.registerBeanDefinition("e1", new RootBeanDefinition(ThreadPoolTaskExecutor.class));
@@ -164,7 +164,8 @@ public class AsyncExecutionTests {
 		originalThreadName = Thread.currentThread().getName();
 		GenericApplicationContext context = new GenericApplicationContext();
 		context.registerBeanDefinition("asyncTest", new RootBeanDefinition(AsyncClassBean.class));
-		context.registerBeanDefinition("autoProxyCreator", new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
+		context.registerBeanDefinition("autoProxyCreator",
+				new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
 		context.registerBeanDefinition("asyncAdvisor", new RootBeanDefinition(AsyncAnnotationAdvisor.class));
 		context.refresh();
 
@@ -177,17 +178,16 @@ public class AsyncExecutionTests {
 		CompletableFuture<String> completableFuture = asyncTest.returnSomethingCompletable(20);
 		assertThat(completableFuture.get()).isEqualTo("20");
 
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(() ->
-				asyncTest.returnSomething(0).get())
-			.withCauseInstanceOf(IllegalArgumentException.class);
+		assertThatExceptionOfType(ExecutionException.class).isThrownBy(() -> asyncTest.returnSomething(0).get())
+				.withCauseInstanceOf(IllegalArgumentException.class);
 
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(() ->
-				asyncTest.returnSomethingListenable(0).get())
-			.withCauseInstanceOf(IllegalArgumentException.class);
+		assertThatExceptionOfType(ExecutionException.class)
+				.isThrownBy(() -> asyncTest.returnSomethingListenable(0).get())
+				.withCauseInstanceOf(IllegalArgumentException.class);
 
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(() ->
-				asyncTest.returnSomethingCompletable(0).get())
-			.withCauseInstanceOf(IllegalArgumentException.class);
+		assertThatExceptionOfType(ExecutionException.class)
+				.isThrownBy(() -> asyncTest.returnSomethingCompletable(0).get())
+				.withCauseInstanceOf(IllegalArgumentException.class);
 	}
 
 	@Test
@@ -195,7 +195,8 @@ public class AsyncExecutionTests {
 		originalThreadName = Thread.currentThread().getName();
 		GenericApplicationContext context = new GenericApplicationContext();
 		context.registerBeanDefinition("asyncTest", new RootBeanDefinition(AsyncClassBean.class));
-		context.registerBeanDefinition("asyncProcessor", new RootBeanDefinition(AsyncAnnotationBeanPostProcessor.class));
+		context.registerBeanDefinition("asyncProcessor",
+				new RootBeanDefinition(AsyncAnnotationBeanPostProcessor.class));
 		context.refresh();
 
 		AsyncClassBean asyncTest = context.getBean("asyncTest", AsyncClassBean.class);
@@ -209,7 +210,8 @@ public class AsyncExecutionTests {
 		originalThreadName = Thread.currentThread().getName();
 		GenericApplicationContext context = new GenericApplicationContext();
 		context.registerBeanDefinition("asyncTest", new RootBeanDefinition(AsyncClassBeanWithInterface.class));
-		context.registerBeanDefinition("autoProxyCreator", new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
+		context.registerBeanDefinition("autoProxyCreator",
+				new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
 		context.registerBeanDefinition("asyncAdvisor", new RootBeanDefinition(AsyncAnnotationAdvisor.class));
 		context.refresh();
 
@@ -224,7 +226,8 @@ public class AsyncExecutionTests {
 		originalThreadName = Thread.currentThread().getName();
 		GenericApplicationContext context = new GenericApplicationContext();
 		context.registerBeanDefinition("asyncTest", new RootBeanDefinition(AsyncClassBeanWithInterface.class));
-		context.registerBeanDefinition("asyncProcessor", new RootBeanDefinition(AsyncAnnotationBeanPostProcessor.class));
+		context.registerBeanDefinition("asyncProcessor",
+				new RootBeanDefinition(AsyncAnnotationBeanPostProcessor.class));
 		context.refresh();
 
 		RegularInterface asyncTest = context.getBean("asyncTest", RegularInterface.class);
@@ -238,7 +241,8 @@ public class AsyncExecutionTests {
 		originalThreadName = Thread.currentThread().getName();
 		GenericApplicationContext context = new GenericApplicationContext();
 		context.registerBeanDefinition("asyncTest", new RootBeanDefinition(AsyncInterfaceBean.class));
-		context.registerBeanDefinition("autoProxyCreator", new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
+		context.registerBeanDefinition("autoProxyCreator",
+				new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
 		context.registerBeanDefinition("asyncAdvisor", new RootBeanDefinition(AsyncAnnotationAdvisor.class));
 		context.refresh();
 
@@ -253,7 +257,8 @@ public class AsyncExecutionTests {
 		originalThreadName = Thread.currentThread().getName();
 		GenericApplicationContext context = new GenericApplicationContext();
 		context.registerBeanDefinition("asyncTest", new RootBeanDefinition(AsyncInterfaceBean.class));
-		context.registerBeanDefinition("asyncProcessor", new RootBeanDefinition(AsyncAnnotationBeanPostProcessor.class));
+		context.registerBeanDefinition("asyncProcessor",
+				new RootBeanDefinition(AsyncAnnotationBeanPostProcessor.class));
 		context.refresh();
 
 		AsyncInterface asyncTest = context.getBean("asyncTest", AsyncInterface.class);
@@ -267,7 +272,8 @@ public class AsyncExecutionTests {
 		originalThreadName = Thread.currentThread().getName();
 		GenericApplicationContext context = new GenericApplicationContext();
 		context.registerBeanDefinition("asyncTest", new RootBeanDefinition(DynamicAsyncInterfaceBean.class));
-		context.registerBeanDefinition("autoProxyCreator", new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
+		context.registerBeanDefinition("autoProxyCreator",
+				new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
 		context.registerBeanDefinition("asyncAdvisor", new RootBeanDefinition(AsyncAnnotationAdvisor.class));
 		context.refresh();
 
@@ -282,7 +288,8 @@ public class AsyncExecutionTests {
 		originalThreadName = Thread.currentThread().getName();
 		GenericApplicationContext context = new GenericApplicationContext();
 		context.registerBeanDefinition("asyncTest", new RootBeanDefinition(DynamicAsyncInterfaceBean.class));
-		context.registerBeanDefinition("asyncProcessor", new RootBeanDefinition(AsyncAnnotationBeanPostProcessor.class));
+		context.registerBeanDefinition("asyncProcessor",
+				new RootBeanDefinition(AsyncAnnotationBeanPostProcessor.class));
 		context.refresh();
 
 		AsyncInterface asyncTest = context.getBean("asyncTest", AsyncInterface.class);
@@ -296,7 +303,8 @@ public class AsyncExecutionTests {
 		originalThreadName = Thread.currentThread().getName();
 		GenericApplicationContext context = new GenericApplicationContext();
 		context.registerBeanDefinition("asyncTest", new RootBeanDefinition(AsyncMethodsInterfaceBean.class));
-		context.registerBeanDefinition("autoProxyCreator", new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
+		context.registerBeanDefinition("autoProxyCreator",
+				new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
 		context.registerBeanDefinition("asyncAdvisor", new RootBeanDefinition(AsyncAnnotationAdvisor.class));
 		context.refresh();
 
@@ -312,7 +320,8 @@ public class AsyncExecutionTests {
 		originalThreadName = Thread.currentThread().getName();
 		GenericApplicationContext context = new GenericApplicationContext();
 		context.registerBeanDefinition("asyncTest", new RootBeanDefinition(AsyncMethodsInterfaceBean.class));
-		context.registerBeanDefinition("asyncProcessor", new RootBeanDefinition(AsyncAnnotationBeanPostProcessor.class));
+		context.registerBeanDefinition("asyncProcessor",
+				new RootBeanDefinition(AsyncAnnotationBeanPostProcessor.class));
 		context.refresh();
 
 		AsyncMethodsInterface asyncTest = context.getBean("asyncTest", AsyncMethodsInterface.class);
@@ -327,7 +336,8 @@ public class AsyncExecutionTests {
 		originalThreadName = Thread.currentThread().getName();
 		GenericApplicationContext context = new GenericApplicationContext();
 		context.registerBeanDefinition("asyncTest", new RootBeanDefinition(DynamicAsyncMethodsInterfaceBean.class));
-		context.registerBeanDefinition("asyncProcessor", new RootBeanDefinition(AsyncAnnotationBeanPostProcessor.class));
+		context.registerBeanDefinition("asyncProcessor",
+				new RootBeanDefinition(AsyncAnnotationBeanPostProcessor.class));
 		context.refresh();
 
 		AsyncMethodsInterface asyncTest = context.getBean("asyncTest", AsyncMethodsInterface.class);
@@ -343,15 +353,14 @@ public class AsyncExecutionTests {
 		listenerCalled = 0;
 		GenericApplicationContext context = new GenericApplicationContext();
 		context.registerBeanDefinition("asyncTest", new RootBeanDefinition(AsyncMethodListener.class));
-		context.registerBeanDefinition("autoProxyCreator", new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
+		context.registerBeanDefinition("autoProxyCreator",
+				new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
 		context.registerBeanDefinition("asyncAdvisor", new RootBeanDefinition(AsyncAnnotationAdvisor.class));
 		// Act
 		context.refresh();
 		// Assert
-		Awaitility.await()
-					.atMost(1, TimeUnit.SECONDS)
-					.pollInterval(10, TimeUnit.MILLISECONDS)
-					.until(() -> listenerCalled == 1);
+		Awaitility.await().atMost(1, TimeUnit.SECONDS).pollInterval(10, TimeUnit.MILLISECONDS)
+				.until(() -> listenerCalled == 1);
 		context.close();
 	}
 
@@ -363,16 +372,15 @@ public class AsyncExecutionTests {
 		listenerConstructed = 0;
 		GenericApplicationContext context = new GenericApplicationContext();
 		context.registerBeanDefinition("asyncTest", new RootBeanDefinition(AsyncClassListener.class));
-		context.registerBeanDefinition("autoProxyCreator", new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
+		context.registerBeanDefinition("autoProxyCreator",
+				new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
 		context.registerBeanDefinition("asyncAdvisor", new RootBeanDefinition(AsyncAnnotationAdvisor.class));
 		// Act
 		context.refresh();
 		context.close();
 		// Assert
-		Awaitility.await()
-					.atMost(1, TimeUnit.SECONDS)
-					.pollInterval(10, TimeUnit.MILLISECONDS)
-					.until(() -> listenerCalled == 2);
+		Awaitility.await().atMost(1, TimeUnit.SECONDS).pollInterval(10, TimeUnit.MILLISECONDS)
+				.until(() -> listenerCalled == 2);
 		assertThat(listenerConstructed).isEqualTo(1);
 	}
 
@@ -386,19 +394,17 @@ public class AsyncExecutionTests {
 		RootBeanDefinition listenerDef = new RootBeanDefinition(AsyncClassListener.class);
 		listenerDef.setScope(BeanDefinition.SCOPE_PROTOTYPE);
 		context.registerBeanDefinition("asyncTest", listenerDef);
-		context.registerBeanDefinition("autoProxyCreator", new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
+		context.registerBeanDefinition("autoProxyCreator",
+				new RootBeanDefinition(DefaultAdvisorAutoProxyCreator.class));
 		context.registerBeanDefinition("asyncAdvisor", new RootBeanDefinition(AsyncAnnotationAdvisor.class));
 		// Act
 		context.refresh();
 		context.close();
 		// Assert
-		Awaitility.await()
-					.atMost(1, TimeUnit.SECONDS)
-					.pollInterval(10, TimeUnit.MILLISECONDS)
-					.until(() -> listenerCalled == 2);
+		Awaitility.await().atMost(1, TimeUnit.SECONDS).pollInterval(10, TimeUnit.MILLISECONDS)
+				.until(() -> listenerCalled == 2);
 		assertThat(listenerConstructed).isEqualTo(2);
 	}
-
 
 	public interface SimpleInterface {
 
@@ -409,8 +415,8 @@ public class AsyncExecutionTests {
 		Future<String> returnSomething(int i);
 
 		Future<String> returnSomething2(int i);
-	}
 
+	}
 
 	public static class AsyncMethodBean {
 
@@ -459,8 +465,8 @@ public class AsyncExecutionTests {
 			}
 			return CompletableFuture.completedFuture(Integer.toString(i));
 		}
-	}
 
+	}
 
 	public static class SimpleAsyncMethodBean extends AsyncMethodBean implements SimpleInterface {
 
@@ -468,8 +474,8 @@ public class AsyncExecutionTests {
 		public Future<String> returnSomething2(int i) {
 			throw new UnsupportedOperationException();
 		}
-	}
 
+	}
 
 	@Async("e0")
 	public static class AsyncMethodWithQualifierBean {
@@ -499,18 +505,19 @@ public class AsyncExecutionTests {
 			assertThat(Thread.currentThread().getName().startsWith("e0-")).isTrue();
 			return new AsyncResult<>(Integer.toString(i));
 		}
+
 	}
 
+	public static class SimpleAsyncMethodWithQualifierBean extends AsyncMethodWithQualifierBean
+			implements SimpleInterface {
 
-	public static class SimpleAsyncMethodWithQualifierBean extends AsyncMethodWithQualifierBean implements SimpleInterface {
 	}
-
 
 	@Async("e2")
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface MyAsync {
-	}
 
+	}
 
 	@Async
 	@SuppressWarnings("serial")
@@ -552,16 +559,16 @@ public class AsyncExecutionTests {
 		@Override
 		public void destroy() {
 		}
-	}
 
+	}
 
 	public interface RegularInterface {
 
 		void doSomething(int i);
 
 		Future<String> returnSomething(int i);
-	}
 
+	}
 
 	@Async
 	public static class AsyncClassBeanWithInterface implements RegularInterface {
@@ -578,8 +585,8 @@ public class AsyncExecutionTests {
 			assertThat(condition).isTrue();
 			return new AsyncResult<>(Integer.toString(i));
 		}
-	}
 
+	}
 
 	@Async
 	public interface AsyncInterface {
@@ -587,8 +594,8 @@ public class AsyncExecutionTests {
 		void doSomething(int i);
 
 		Future<String> returnSomething(int i);
-	}
 
+	}
 
 	public static class AsyncInterfaceBean implements AsyncInterface {
 
@@ -604,8 +611,8 @@ public class AsyncExecutionTests {
 			assertThat(condition).isTrue();
 			return new AsyncResult<>(Integer.toString(i));
 		}
-	}
 
+	}
 
 	public static class DynamicAsyncInterfaceBean implements FactoryBean<AsyncInterface> {
 
@@ -643,8 +650,8 @@ public class AsyncExecutionTests {
 		public boolean isSingleton() {
 			return true;
 		}
-	}
 
+	}
 
 	public interface AsyncMethodsInterface {
 
@@ -655,8 +662,8 @@ public class AsyncExecutionTests {
 
 		@Async
 		Future<String> returnSomething(int i);
-	}
 
+	}
 
 	public static class AsyncMethodsInterfaceBean implements AsyncMethodsInterface {
 
@@ -677,8 +684,8 @@ public class AsyncExecutionTests {
 			assertThat(condition).isTrue();
 			return new AsyncResult<>(Integer.toString(i));
 		}
-	}
 
+	}
 
 	public static class DynamicAsyncMethodsInterfaceBean implements FactoryBean<AsyncMethodsInterface> {
 
@@ -716,8 +723,8 @@ public class AsyncExecutionTests {
 		public boolean isSingleton() {
 			return true;
 		}
-	}
 
+	}
 
 	public static class AsyncMethodListener implements ApplicationListener<ApplicationEvent> {
 
@@ -728,8 +735,8 @@ public class AsyncExecutionTests {
 			boolean condition = !Thread.currentThread().getName().equals(originalThreadName);
 			assertThat(condition).isTrue();
 		}
-	}
 
+	}
 
 	@Async
 	public static class AsyncClassListener implements ApplicationListener<ApplicationEvent> {
@@ -744,6 +751,7 @@ public class AsyncExecutionTests {
 			boolean condition = !Thread.currentThread().getName().equals(originalThreadName);
 			assertThat(condition).isTrue();
 		}
+
 	}
 
 }

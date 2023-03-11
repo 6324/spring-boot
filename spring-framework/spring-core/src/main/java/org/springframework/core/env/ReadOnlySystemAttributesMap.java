@@ -27,7 +27,8 @@ import org.springframework.lang.Nullable;
  * Read-only {@code Map<String, String>} implementation that is backed by system
  * properties or environment variables.
  *
- * <p>Used by {@link AbstractApplicationContext} when a {@link SecurityManager} prohibits
+ * <p>
+ * Used by {@link AbstractApplicationContext} when a {@link SecurityManager} prohibits
  * access to {@link System#getProperties()} or {@link System#getenv()}. It is for this
  * reason that the implementations of {@link #keySet()}, {@link #entrySet()}, and
  * {@link #values()} always return empty even though {@link #get(Object)} may in fact
@@ -46,7 +47,7 @@ abstract class ReadOnlySystemAttributesMap implements Map<String, String> {
 
 	/**
 	 * Returns the value to which the specified key is mapped, or {@code null} if this map
- 	 * contains no mapping for the key.
+	 * contains no mapping for the key.
 	 * @param key the name of the system attribute to retrieve
 	 * @throws IllegalArgumentException if given key is non-String
 	 */
@@ -67,11 +68,12 @@ abstract class ReadOnlySystemAttributesMap implements Map<String, String> {
 
 	/**
 	 * Template method that returns the underlying system attribute.
-	 * <p>Implementations typically call {@link System#getProperty(String)} or {@link System#getenv(String)} here.
+	 * <p>
+	 * Implementations typically call {@link System#getProperty(String)} or
+	 * {@link System#getenv(String)} here.
 	 */
 	@Nullable
 	protected abstract String getSystemAttribute(String attributeName);
-
 
 	// Unsupported
 

@@ -25,9 +25,9 @@ import org.springframework.util.Assert;
 
 /**
  * {@link DestinationResolver} implementation that proxies a target DestinationResolver,
- * caching its {@link #resolveDestination} results. Such caching is particularly useful
- * if the destination resolving process is expensive (e.g. the destination has to be
- * resolved through an external system) and the resolution results are stable anyway.
+ * caching its {@link #resolveDestination} results. Such caching is particularly useful if
+ * the destination resolving process is expensive (e.g. the destination has to be resolved
+ * through an external system) and the resolution results are stable anyway.
  *
  * @author Agim Emruli
  * @author Juergen Hoeller
@@ -42,10 +42,10 @@ public class CachingDestinationResolverProxy<D> implements DestinationResolver<D
 	@Nullable
 	private DestinationResolver<D> targetDestinationResolver;
 
-
 	/**
-	 * Create a new CachingDestinationResolverProxy, setting the target DestinationResolver
-	 * through the {@link #setTargetDestinationResolver} bean property.
+	 * Create a new CachingDestinationResolverProxy, setting the target
+	 * DestinationResolver through the {@link #setTargetDestinationResolver} bean
+	 * property.
 	 */
 	public CachingDestinationResolverProxy() {
 	}
@@ -59,7 +59,6 @@ public class CachingDestinationResolverProxy<D> implements DestinationResolver<D
 		Assert.notNull(targetDestinationResolver, "Target DestinationResolver must not be null");
 		this.targetDestinationResolver = targetDestinationResolver;
 	}
-
 
 	/**
 	 * Set the target DestinationResolver to delegate to.
@@ -75,14 +74,13 @@ public class CachingDestinationResolverProxy<D> implements DestinationResolver<D
 		}
 	}
 
-
 	/**
 	 * Resolves and caches destinations if successfully resolved by the target
 	 * DestinationResolver implementation.
 	 * @param name the destination name to be resolved
 	 * @return the currently resolved destination or an already cached destination
-	 * @throws DestinationResolutionException if the target DestinationResolver
-	 * reports an error during destination resolution
+	 * @throws DestinationResolutionException if the target DestinationResolver reports an
+	 * error during destination resolution
 	 */
 	@Override
 	public D resolveDestination(String name) throws DestinationResolutionException {

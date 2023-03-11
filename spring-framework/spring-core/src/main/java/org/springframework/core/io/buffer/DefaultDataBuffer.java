@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2021 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,11 +31,12 @@ import org.springframework.util.ObjectUtils;
 
 /**
  * Default implementation of the {@link DataBuffer} interface that uses a
- * {@link ByteBuffer} internally. with separate read and write positions.
- * Constructed using the {@link DefaultDataBufferFactory}.
+ * {@link ByteBuffer} internally. with separate read and write positions. Constructed
+ * using the {@link DefaultDataBufferFactory}.
  *
- * <p>Inspired by Netty's {@code ByteBuf}. Introduced so that non-Netty runtimes
- * (i.e. Servlet) do not require Netty on the classpath.
+ * <p>
+ * Inspired by Netty's {@code ByteBuf}. Introduced so that non-Netty runtimes (i.e.
+ * Servlet) do not require Netty on the classpath.
  *
  * @author Arjen Poutsma
  * @author Juergen Hoeller
@@ -49,7 +50,6 @@ public class DefaultDataBuffer implements DataBuffer {
 
 	private static final int CAPACITY_THRESHOLD = 1024 * 1024 * 4;
 
-
 	private final DefaultDataBufferFactory dataBufferFactory;
 
 	private ByteBuffer byteBuffer;
@@ -59,7 +59,6 @@ public class DefaultDataBuffer implements DataBuffer {
 	private int readPosition;
 
 	private int writePosition;
-
 
 	private DefaultDataBuffer(DefaultDataBufferFactory dataBufferFactory, ByteBuffer byteBuffer) {
 		Assert.notNull(dataBufferFactory, "DefaultDataBufferFactory must not be null");
@@ -80,11 +79,10 @@ public class DefaultDataBuffer implements DataBuffer {
 		return new DefaultDataBuffer(dataBufferFactory, byteBuffer);
 	}
 
-
 	/**
-	 * Directly exposes the native {@code ByteBuffer} that this buffer is based
-	 * on also updating the {@code ByteBuffer's} position and limit to match
-	 * the current {@link #readPosition()} and {@link #readableByteCount()}.
+	 * Directly exposes the native {@code ByteBuffer} that this buffer is based on also
+	 * updating the {@code ByteBuffer's} position and limit to match the current
+	 * {@link #readPosition()} and {@link #readableByteCount()}.
 	 * @return the wrapped byte buffer
 	 */
 	public ByteBuffer getNativeBuffer() {
@@ -97,7 +95,6 @@ public class DefaultDataBuffer implements DataBuffer {
 		this.byteBuffer = byteBuffer;
 		this.capacity = byteBuffer.remaining();
 	}
-
 
 	@Override
 	public DefaultDataBufferFactory factory() {
@@ -153,8 +150,8 @@ public class DefaultDataBuffer implements DataBuffer {
 	@Override
 	public DefaultDataBuffer readPosition(int readPosition) {
 		assertIndex(readPosition >= 0, "'readPosition' %d must be >= 0", readPosition);
-		assertIndex(readPosition <= this.writePosition, "'readPosition' %d must be <= %d",
-				readPosition, this.writePosition);
+		assertIndex(readPosition <= this.writePosition, "'readPosition' %d must be <= %d", readPosition,
+				this.writePosition);
 		this.readPosition = readPosition;
 		return this;
 	}
@@ -166,10 +163,9 @@ public class DefaultDataBuffer implements DataBuffer {
 
 	@Override
 	public DefaultDataBuffer writePosition(int writePosition) {
-		assertIndex(writePosition >= this.readPosition, "'writePosition' %d must be >= %d",
-				writePosition, this.readPosition);
-		assertIndex(writePosition <= this.capacity, "'writePosition' %d must be <= %d",
-				writePosition, this.capacity);
+		assertIndex(writePosition >= this.readPosition, "'writePosition' %d must be >= %d", writePosition,
+				this.readPosition);
+		assertIndex(writePosition <= this.capacity, "'writePosition' %d must be <= %d", writePosition, this.capacity);
 		this.writePosition = writePosition;
 		return this;
 	}
@@ -241,8 +237,8 @@ public class DefaultDataBuffer implements DataBuffer {
 
 	@Override
 	public byte read() {
-		assertIndex(this.readPosition <= this.writePosition - 1, "readPosition %d must be <= %d",
-				this.readPosition, this.writePosition - 1);
+		assertIndex(this.readPosition <= this.writePosition - 1, "readPosition %d must be <= %d", this.readPosition,
+				this.writePosition - 1);
 		int pos = this.readPosition;
 		byte b = this.byteBuffer.get(pos);
 		this.readPosition = pos + 1;
@@ -260,8 +256,8 @@ public class DefaultDataBuffer implements DataBuffer {
 	public DefaultDataBuffer read(byte[] destination, int offset, int length) {
 		Assert.notNull(destination, "Byte array must not be null");
 		assertIndex(this.readPosition <= this.writePosition - length,
-				"readPosition %d and length %d should be smaller than writePosition %d",
-				this.readPosition, length, this.writePosition);
+				"readPosition %d and length %d should be smaller than writePosition %d", this.readPosition, length,
+				this.writePosition);
 
 		ByteBuffer tmp = this.byteBuffer.duplicate();
 		int limit = this.readPosition + length;
@@ -339,7 +335,8 @@ public class DefaultDataBuffer implements DataBuffer {
 		try {
 			buffer.position(index);
 			ByteBuffer slice = this.byteBuffer.slice();
-			// Explicit cast for compatibility with covariant return type on JDK 9's ByteBuffer
+			// Explicit cast for compatibility with covariant return type on JDK 9's
+			// ByteBuffer
 			slice.limit(length);
 			return new SlicedDefaultDataBuffer(slice, this.dataBufferFactory, length);
 		}
@@ -380,7 +377,6 @@ public class DefaultDataBuffer implements DataBuffer {
 	public OutputStream asOutputStream() {
 		return new DefaultDataBufferOutputStream();
 	}
-
 
 	@Override
 	public String toString(int index, int length, Charset charset) {
@@ -433,7 +429,6 @@ public class DefaultDataBuffer implements DataBuffer {
 		}
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -443,9 +438,8 @@ public class DefaultDataBuffer implements DataBuffer {
 			return false;
 		}
 		DefaultDataBuffer otherBuffer = (DefaultDataBuffer) other;
-		return (this.readPosition == otherBuffer.readPosition &&
-				this.writePosition == otherBuffer.writePosition &&
-				this.byteBuffer.equals(otherBuffer.byteBuffer));
+		return (this.readPosition == otherBuffer.readPosition && this.writePosition == otherBuffer.writePosition
+				&& this.byteBuffer.equals(otherBuffer.byteBuffer));
 	}
 
 	@Override
@@ -455,16 +449,15 @@ public class DefaultDataBuffer implements DataBuffer {
 
 	@Override
 	public String toString() {
-		return String.format("DefaultDataBuffer (r: %d, w: %d, c: %d)",
-				this.readPosition, this.writePosition, this.capacity);
+		return String.format("DefaultDataBuffer (r: %d, w: %d, c: %d)", this.readPosition, this.writePosition,
+				this.capacity);
 	}
-
 
 	private void checkIndex(int index, int length) {
 		assertIndex(index >= 0, "index %d must be >= 0", index);
-		assertIndex(length >= 0, "length %d must be >= 0", length);
+		assertIndex(length >= 0, "length %d must be >= 0", index);
 		assertIndex(index <= this.capacity, "index %d must be <= %d", index, this.capacity);
-		assertIndex(length <= this.capacity, "length %d must be <= %d", length, this.capacity);
+		assertIndex(length <= this.capacity, "length %d must be <= %d", index, this.capacity);
 	}
 
 	private void assertIndex(boolean expression, String format, Object... args) {
@@ -473,7 +466,6 @@ public class DefaultDataBuffer implements DataBuffer {
 			throw new IndexOutOfBoundsException(message);
 		}
 	}
-
 
 	private class DefaultDataBufferInputStream extends InputStream {
 
@@ -499,8 +491,8 @@ public class DefaultDataBuffer implements DataBuffer {
 				return -1;
 			}
 		}
-	}
 
+	}
 
 	private class DefaultDataBufferOutputStream extends OutputStream {
 
@@ -513,8 +505,8 @@ public class DefaultDataBuffer implements DataBuffer {
 		public void write(byte[] bytes, int off, int len) throws IOException {
 			DefaultDataBuffer.this.write(bytes, off, len);
 		}
-	}
 
+	}
 
 	private static class SlicedDefaultDataBuffer extends DefaultDataBuffer {
 
@@ -527,6 +519,7 @@ public class DefaultDataBuffer implements DataBuffer {
 		public DefaultDataBuffer capacity(int newCapacity) {
 			throw new UnsupportedOperationException("Changing the capacity of a sliced buffer is not supported");
 		}
+
 	}
 
 }

@@ -40,7 +40,6 @@ public class DataBufferEncoder extends AbstractEncoder<DataBuffer> {
 		super(MimeTypeUtils.ALL);
 	}
 
-
 	@Override
 	public boolean canEncode(ResolvableType elementType, @Nullable MimeType mimeType) {
 		Class<?> clazz = elementType.toClass();
@@ -48,9 +47,8 @@ public class DataBufferEncoder extends AbstractEncoder<DataBuffer> {
 	}
 
 	@Override
-	public Flux<DataBuffer> encode(Publisher<? extends DataBuffer> inputStream,
-			DataBufferFactory bufferFactory, ResolvableType elementType, @Nullable MimeType mimeType,
-			@Nullable Map<String, Object> hints) {
+	public Flux<DataBuffer> encode(Publisher<? extends DataBuffer> inputStream, DataBufferFactory bufferFactory,
+			ResolvableType elementType, @Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
 
 		Flux<DataBuffer> flux = Flux.from(inputStream);
 		if (logger.isDebugEnabled() && !Hints.isLoggingSuppressed(hints)) {
@@ -60,8 +58,8 @@ public class DataBufferEncoder extends AbstractEncoder<DataBuffer> {
 	}
 
 	@Override
-	public DataBuffer encodeValue(DataBuffer buffer, DataBufferFactory bufferFactory,
-			ResolvableType valueType, @Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
+	public DataBuffer encodeValue(DataBuffer buffer, DataBufferFactory bufferFactory, ResolvableType valueType,
+			@Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
 
 		if (logger.isDebugEnabled() && !Hints.isLoggingSuppressed(hints)) {
 			logValue(buffer, hints);

@@ -43,7 +43,6 @@ public abstract class AbstractHttpRequestTests {
 
 	protected ServerHttpAsyncRequestControl asyncControl;
 
-
 	@BeforeEach
 	public void setup() {
 		resetRequestAndResponse();

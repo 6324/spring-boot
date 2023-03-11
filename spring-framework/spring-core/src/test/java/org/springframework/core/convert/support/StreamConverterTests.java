@@ -44,7 +44,6 @@ class StreamConverterTests {
 
 	private final StreamConverter streamConverter = new StreamConverter(this.conversionService);
 
-
 	@BeforeEach
 	void setup() {
 		this.conversionService.addConverter(new CollectionToCollectionConverter(this.conversionService));
@@ -52,7 +51,6 @@ class StreamConverterTests {
 		this.conversionService.addConverter(new CollectionToArrayConverter(this.conversionService));
 		this.conversionService.addConverter(this.streamConverter);
 	}
-
 
 	@Test
 	void convertFromStreamToList() throws NoSuchFieldException {
@@ -109,9 +107,9 @@ class StreamConverterTests {
 	void convertFromStreamToArrayNoConverter() throws NoSuchFieldException {
 		Stream<Integer> stream = Arrays.asList(1, 2, 3).stream();
 		TypeDescriptor arrayOfLongs = new TypeDescriptor(Types.class.getField("arrayOfLongs"));
-		assertThatExceptionOfType(ConversionFailedException.class).isThrownBy(() ->
-				this.conversionService.convert(stream, arrayOfLongs))
-			.withCauseInstanceOf(ConverterNotFoundException.class);
+		assertThatExceptionOfType(ConversionFailedException.class)
+				.isThrownBy(() -> this.conversionService.convert(stream, arrayOfLongs))
+				.withCauseInstanceOf(ConverterNotFoundException.class);
 	}
 
 	@Test
@@ -133,7 +131,7 @@ class StreamConverterTests {
 	@Test
 	@SuppressWarnings("resource")
 	void convertFromArrayToStream() throws NoSuchFieldException {
-		Integer[] stream = new Integer[] {1, 0, 1};
+		Integer[] stream = new Integer[] { 1, 0, 1 };
 		this.conversionService.addConverter(new Converter<Integer, Boolean>() {
 			@Override
 			public Boolean convert(Integer source) {
@@ -170,19 +168,18 @@ class StreamConverterTests {
 
 	@Test
 	void doesNotMatchIfNoStream() throws NoSuchFieldException {
-		assertThat(this.streamConverter.matches(
-				new TypeDescriptor(Types.class.getField("listOfStrings")),
-				new TypeDescriptor(Types.class.getField("arrayOfLongs")))).as("Should not match non stream type").isFalse();
+		assertThat(this.streamConverter.matches(new TypeDescriptor(Types.class.getField("listOfStrings")),
+				new TypeDescriptor(Types.class.getField("arrayOfLongs")))).as("Should not match non stream type")
+						.isFalse();
 	}
 
 	@Test
 	void shouldFailToConvertIfNoStream() throws NoSuchFieldException {
 		TypeDescriptor sourceType = new TypeDescriptor(Types.class.getField("listOfStrings"));
 		TypeDescriptor targetType = new TypeDescriptor(Types.class.getField("arrayOfLongs"));
-		assertThatIllegalStateException().isThrownBy(() ->
-			this.streamConverter.convert(new Object(), sourceType, targetType));
+		assertThatIllegalStateException()
+				.isThrownBy(() -> this.streamConverter.convert(new Object(), sourceType, targetType));
 	}
-
 
 	@SuppressWarnings({ "rawtypes" })
 	static class Types {
@@ -198,6 +195,7 @@ class StreamConverterTests {
 		public Stream rawStream;
 
 		public List rawList;
+
 	}
 
 }

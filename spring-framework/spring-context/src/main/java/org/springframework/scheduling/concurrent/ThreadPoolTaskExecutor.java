@@ -42,33 +42,38 @@ import org.springframework.util.concurrent.ListenableFutureTask;
 
 /**
  * JavaBean that allows for configuring a {@link java.util.concurrent.ThreadPoolExecutor}
- * in bean style (through its "corePoolSize", "maxPoolSize", "keepAliveSeconds", "queueCapacity"
- * properties) and exposing it as a Spring {@link org.springframework.core.task.TaskExecutor}.
- * This class is also well suited for management and monitoring (e.g. through JMX),
- * providing several useful attributes: "corePoolSize", "maxPoolSize", "keepAliveSeconds"
- * (all supporting updates at runtime); "poolSize", "activeCount" (for introspection only).
+ * in bean style (through its "corePoolSize", "maxPoolSize", "keepAliveSeconds",
+ * "queueCapacity" properties) and exposing it as a Spring
+ * {@link org.springframework.core.task.TaskExecutor}. This class is also well suited for
+ * management and monitoring (e.g. through JMX), providing several useful attributes:
+ * "corePoolSize", "maxPoolSize", "keepAliveSeconds" (all supporting updates at runtime);
+ * "poolSize", "activeCount" (for introspection only).
  *
- * <p>The default configuration is a core pool size of 1, with unlimited max pool size
- * and unlimited queue capacity. This is roughly equivalent to
+ * <p>
+ * The default configuration is a core pool size of 1, with unlimited max pool size and
+ * unlimited queue capacity. This is roughly equivalent to
  * {@link java.util.concurrent.Executors#newSingleThreadExecutor()}, sharing a single
  * thread for all tasks. Setting {@link #setQueueCapacity "queueCapacity"} to 0 mimics
- * {@link java.util.concurrent.Executors#newCachedThreadPool()}, with immediate scaling
- * of threads in the pool to a potentially very high number. Consider also setting a
+ * {@link java.util.concurrent.Executors#newCachedThreadPool()}, with immediate scaling of
+ * threads in the pool to a potentially very high number. Consider also setting a
  * {@link #setMaxPoolSize "maxPoolSize"} at that point, as well as possibly a higher
- * {@link #setCorePoolSize "corePoolSize"} (see also the
- * {@link #setAllowCoreThreadTimeOut "allowCoreThreadTimeOut"} mode of scaling).
+ * {@link #setCorePoolSize "corePoolSize"} (see also the {@link #setAllowCoreThreadTimeOut
+ * "allowCoreThreadTimeOut"} mode of scaling).
  *
- * <p><b>NOTE:</b> This class implements Spring's
+ * <p>
+ * <b>NOTE:</b> This class implements Spring's
  * {@link org.springframework.core.task.TaskExecutor} interface as well as the
  * {@link java.util.concurrent.Executor} interface, with the former being the primary
  * interface, the other just serving as secondary convenience. For this reason, the
  * exception handling follows the TaskExecutor contract rather than the Executor contract,
- * in particular regarding the {@link org.springframework.core.task.TaskRejectedException}.
+ * in particular regarding the
+ * {@link org.springframework.core.task.TaskRejectedException}.
  *
- * <p>For an alternative, you may set up a ThreadPoolExecutor instance directly using
+ * <p>
+ * For an alternative, you may set up a ThreadPoolExecutor instance directly using
  * constructor injection, or use a factory method definition that points to the
- * {@link java.util.concurrent.Executors} class. To expose such a raw Executor as a
- * Spring {@link org.springframework.core.task.TaskExecutor}, simply wrap it with a
+ * {@link java.util.concurrent.Executors} class. To expose such a raw Executor as a Spring
+ * {@link org.springframework.core.task.TaskExecutor}, simply wrap it with a
  * {@link org.springframework.scheduling.concurrent.ConcurrentTaskExecutor} adapter.
  *
  * @author Juergen Hoeller
@@ -101,14 +106,13 @@ public class ThreadPoolTaskExecutor extends ExecutorConfigurationSupport
 	private ThreadPoolExecutor threadPoolExecutor;
 
 	// Runnable decorator to user-level FutureTask, if different
-	private final Map<Runnable, Object> decoratedTaskMap =
-			new ConcurrentReferenceHashMap<>(16, ConcurrentReferenceHashMap.ReferenceType.WEAK);
-
+	private final Map<Runnable, Object> decoratedTaskMap = new ConcurrentReferenceHashMap<>(16,
+			ConcurrentReferenceHashMap.ReferenceType.WEAK);
 
 	/**
-	 * Set the ThreadPoolExecutor's core pool size.
-	 * Default is 1.
-	 * <p><b>This setting can be modified at runtime, for example through JMX.</b>
+	 * Set the ThreadPoolExecutor's core pool size. Default is 1.
+	 * <p>
+	 * <b>This setting can be modified at runtime, for example through JMX.</b>
 	 */
 	public void setCorePoolSize(int corePoolSize) {
 		synchronized (this.poolSizeMonitor) {
@@ -129,9 +133,10 @@ public class ThreadPoolTaskExecutor extends ExecutorConfigurationSupport
 	}
 
 	/**
-	 * Set the ThreadPoolExecutor's maximum pool size.
-	 * Default is {@code Integer.MAX_VALUE}.
-	 * <p><b>This setting can be modified at runtime, for example through JMX.</b>
+	 * Set the ThreadPoolExecutor's maximum pool size. Default is
+	 * {@code Integer.MAX_VALUE}.
+	 * <p>
+	 * <b>This setting can be modified at runtime, for example through JMX.</b>
 	 */
 	public void setMaxPoolSize(int maxPoolSize) {
 		synchronized (this.poolSizeMonitor) {
@@ -152,9 +157,9 @@ public class ThreadPoolTaskExecutor extends ExecutorConfigurationSupport
 	}
 
 	/**
-	 * Set the ThreadPoolExecutor's keep-alive seconds.
-	 * Default is 60.
-	 * <p><b>This setting can be modified at runtime, for example through JMX.</b>
+	 * Set the ThreadPoolExecutor's keep-alive seconds. Default is 60.
+	 * <p>
+	 * <b>This setting can be modified at runtime, for example through JMX.</b>
 	 */
 	public void setKeepAliveSeconds(int keepAliveSeconds) {
 		synchronized (this.poolSizeMonitor) {
@@ -175,10 +180,11 @@ public class ThreadPoolTaskExecutor extends ExecutorConfigurationSupport
 	}
 
 	/**
-	 * Set the capacity for the ThreadPoolExecutor's BlockingQueue.
-	 * Default is {@code Integer.MAX_VALUE}.
-	 * <p>Any positive value will lead to a LinkedBlockingQueue instance;
-	 * any other value will lead to a SynchronousQueue instance.
+	 * Set the capacity for the ThreadPoolExecutor's BlockingQueue. Default is
+	 * {@code Integer.MAX_VALUE}.
+	 * <p>
+	 * Any positive value will lead to a LinkedBlockingQueue instance; any other value
+	 * will lead to a SynchronousQueue instance.
 	 * @see java.util.concurrent.LinkedBlockingQueue
 	 * @see java.util.concurrent.SynchronousQueue
 	 */
@@ -187,10 +193,11 @@ public class ThreadPoolTaskExecutor extends ExecutorConfigurationSupport
 	}
 
 	/**
-	 * Specify whether to allow core threads to time out. This enables dynamic
-	 * growing and shrinking even in combination with a non-zero queue (since
-	 * the max pool size will only grow once the queue is full).
-	 * <p>Default is "false".
+	 * Specify whether to allow core threads to time out. This enables dynamic growing and
+	 * shrinking even in combination with a non-zero queue (since the max pool size will
+	 * only grow once the queue is full).
+	 * <p>
+	 * Default is "false".
 	 * @see java.util.concurrent.ThreadPoolExecutor#allowCoreThreadTimeOut(boolean)
 	 */
 	public void setAllowCoreThreadTimeOut(boolean allowCoreThreadTimeOut) {
@@ -198,44 +205,45 @@ public class ThreadPoolTaskExecutor extends ExecutorConfigurationSupport
 	}
 
 	/**
-	 * Specify a custom {@link TaskDecorator} to be applied to any {@link Runnable}
-	 * about to be executed.
-	 * <p>Note that such a decorator is not necessarily being applied to the
-	 * user-supplied {@code Runnable}/{@code Callable} but rather to the actual
-	 * execution callback (which may be a wrapper around the user-supplied task).
-	 * <p>The primary use case is to set some execution context around the task's
-	 * invocation, or to provide some monitoring/statistics for task execution.
-	 * <p><b>NOTE:</b> Exception handling in {@code TaskDecorator} implementations
-	 * is limited to plain {@code Runnable} execution via {@code execute} calls.
-	 * In case of {@code #submit} calls, the exposed {@code Runnable} will be a
-	 * {@code FutureTask} which does not propagate any exceptions; you might
-	 * have to cast it and call {@code Future#get} to evaluate exceptions.
-	 * See the {@code ThreadPoolExecutor#afterExecute} javadoc for an example
-	 * of how to access exceptions in such a {@code Future} case.
+	 * Specify a custom {@link TaskDecorator} to be applied to any {@link Runnable} about
+	 * to be executed.
+	 * <p>
+	 * Note that such a decorator is not necessarily being applied to the user-supplied
+	 * {@code Runnable}/{@code Callable} but rather to the actual execution callback
+	 * (which may be a wrapper around the user-supplied task).
+	 * <p>
+	 * The primary use case is to set some execution context around the task's invocation,
+	 * or to provide some monitoring/statistics for task execution.
+	 * <p>
+	 * <b>NOTE:</b> Exception handling in {@code TaskDecorator} implementations is limited
+	 * to plain {@code Runnable} execution via {@code execute} calls. In case of
+	 * {@code #submit} calls, the exposed {@code Runnable} will be a {@code FutureTask}
+	 * which does not propagate any exceptions; you might have to cast it and call
+	 * {@code Future#get} to evaluate exceptions. See the
+	 * {@code ThreadPoolExecutor#afterExecute} javadoc for an example of how to access
+	 * exceptions in such a {@code Future} case.
 	 * @since 4.3
 	 */
 	public void setTaskDecorator(TaskDecorator taskDecorator) {
 		this.taskDecorator = taskDecorator;
 	}
 
-
 	/**
-	 * Note: This method exposes an {@link ExecutorService} to its base class
-	 * but stores the actual {@link ThreadPoolExecutor} handle internally.
-	 * Do not override this method for replacing the executor, rather just for
-	 * decorating its {@code ExecutorService} handle or storing custom state.
+	 * Note: This method exposes an {@link ExecutorService} to its base class but stores
+	 * the actual {@link ThreadPoolExecutor} handle internally. Do not override this
+	 * method for replacing the executor, rather just for decorating its
+	 * {@code ExecutorService} handle or storing custom state.
 	 */
 	@Override
-	protected ExecutorService initializeExecutor(
-			ThreadFactory threadFactory, RejectedExecutionHandler rejectedExecutionHandler) {
+	protected ExecutorService initializeExecutor(ThreadFactory threadFactory,
+			RejectedExecutionHandler rejectedExecutionHandler) {
 
 		BlockingQueue<Runnable> queue = createQueue(this.queueCapacity);
 
 		ThreadPoolExecutor executor;
 		if (this.taskDecorator != null) {
-			executor = new ThreadPoolExecutor(
-					this.corePoolSize, this.maxPoolSize, this.keepAliveSeconds, TimeUnit.SECONDS,
-					queue, threadFactory, rejectedExecutionHandler) {
+			executor = new ThreadPoolExecutor(this.corePoolSize, this.maxPoolSize, this.keepAliveSeconds,
+					TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler) {
 				@Override
 				public void execute(Runnable command) {
 					Runnable decorated = taskDecorator.decorate(command);
@@ -247,9 +255,8 @@ public class ThreadPoolTaskExecutor extends ExecutorConfigurationSupport
 			};
 		}
 		else {
-			executor = new ThreadPoolExecutor(
-					this.corePoolSize, this.maxPoolSize, this.keepAliveSeconds, TimeUnit.SECONDS,
-					queue, threadFactory, rejectedExecutionHandler);
+			executor = new ThreadPoolExecutor(this.corePoolSize, this.maxPoolSize, this.keepAliveSeconds,
+					TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);
 
 		}
 
@@ -263,8 +270,9 @@ public class ThreadPoolTaskExecutor extends ExecutorConfigurationSupport
 
 	/**
 	 * Create the BlockingQueue to use for the ThreadPoolExecutor.
-	 * <p>A LinkedBlockingQueue instance will be created for a positive
-	 * capacity value; a SynchronousQueue else.
+	 * <p>
+	 * A LinkedBlockingQueue instance will be created for a positive capacity value; a
+	 * SynchronousQueue else.
 	 * @param queueCapacity the specified queue capacity
 	 * @return the BlockingQueue instance
 	 * @see java.util.concurrent.LinkedBlockingQueue
@@ -282,7 +290,8 @@ public class ThreadPoolTaskExecutor extends ExecutorConfigurationSupport
 	/**
 	 * Return the underlying ThreadPoolExecutor for native access.
 	 * @return the underlying ThreadPoolExecutor (never {@code null})
-	 * @throws IllegalStateException if the ThreadPoolTaskExecutor hasn't been initialized yet
+	 * @throws IllegalStateException if the ThreadPoolTaskExecutor hasn't been initialized
+	 * yet
 	 */
 	public ThreadPoolExecutor getThreadPoolExecutor() throws IllegalStateException {
 		Assert.state(this.threadPoolExecutor != null, "ThreadPoolTaskExecutor not initialized");
@@ -312,7 +321,6 @@ public class ThreadPoolTaskExecutor extends ExecutorConfigurationSupport
 		}
 		return this.threadPoolExecutor.getActiveCount();
 	}
-
 
 	@Override
 	public void execute(Runnable task) {

@@ -33,13 +33,15 @@ import org.springframework.expression.spel.support.BooleanTypedValue;
  * @author Oliver Becker
  * @since 3.0
  */
-public class OperatorNot extends SpelNodeImpl {  // Not is a unary operator so does not extend BinaryOperator
+public class OperatorNot extends SpelNodeImpl {
+
+// Not is a unary operator so does not
+												// extend BinaryOperator
 
 	public OperatorNot(int startPos, int endPos, SpelNodeImpl operand) {
 		super(startPos, endPos, operand);
 		this.exitTypeDescriptor = "Z";
 	}
-
 
 	@Override
 	public BooleanTypedValue getValueInternal(ExpressionState state) throws EvaluationException {
@@ -73,9 +75,9 @@ public class OperatorNot extends SpelNodeImpl {  // Not is a unary operator so d
 		cf.unboxBooleanIfNecessary(mv);
 		Label elseTarget = new Label();
 		Label endOfIf = new Label();
-		mv.visitJumpInsn(IFNE,elseTarget);
+		mv.visitJumpInsn(IFNE, elseTarget);
 		mv.visitInsn(ICONST_1); // TRUE
-		mv.visitJumpInsn(GOTO,endOfIf);
+		mv.visitJumpInsn(GOTO, endOfIf);
 		mv.visitLabel(elseTarget);
 		mv.visitInsn(ICONST_0); // FALSE
 		mv.visitLabel(endOfIf);

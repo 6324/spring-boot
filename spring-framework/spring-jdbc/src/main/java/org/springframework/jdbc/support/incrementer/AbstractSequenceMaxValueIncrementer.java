@@ -29,8 +29,8 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.support.JdbcUtils;
 
 /**
- * Abstract base class for {@link DataFieldMaxValueIncrementer} implementations that use
- * a database sequence. Subclasses need to provide the database-specific SQL to use.
+ * Abstract base class for {@link DataFieldMaxValueIncrementer} implementations that use a
+ * database sequence. Subclasses need to provide the database-specific SQL to use.
  *
  * @author Juergen Hoeller
  * @since 26.02.2004
@@ -54,7 +54,6 @@ public abstract class AbstractSequenceMaxValueIncrementer extends AbstractDataFi
 	public AbstractSequenceMaxValueIncrementer(DataSource dataSource, String incrementerName) {
 		super(dataSource, incrementerName);
 	}
-
 
 	/**
 	 * Executes the SQL as specified by {@link #getSequenceQuery()}.
@@ -87,8 +86,9 @@ public abstract class AbstractSequenceMaxValueIncrementer extends AbstractDataFi
 
 	/**
 	 * Return the database-specific query to use for retrieving a sequence value.
-	 * <p>The provided SQL is supposed to result in a single row with a single
-	 * column that allows for extracting a {@code long} value.
+	 * <p>
+	 * The provided SQL is supposed to result in a single row with a single column that
+	 * allows for extracting a {@code long} value.
 	 */
 	protected abstract String getSequenceQuery();
 

@@ -65,20 +65,18 @@ public abstract class AbstractWebSocketIntegrationTests {
 	}
 
 	static Stream<Arguments> argumentsFactory() {
-		return Stream.of(
-				arguments(new JettyWebSocketTestServer(), new JettyWebSocketClient()),
+		return Stream.of(arguments(new JettyWebSocketTestServer(), new JettyWebSocketClient()),
 				arguments(new TomcatWebSocketTestServer(), new StandardWebSocketClient()),
 				arguments(new UndertowTestServer(), new StandardWebSocketClient()));
 	}
-
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.METHOD)
 	@ParameterizedTest(name = "[{index}] server [{0}], client [{1}]")
 	@MethodSource("argumentsFactory")
 	protected @interface ParameterizedWebSocketTest {
-	}
 
+	}
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
@@ -88,14 +86,14 @@ public abstract class AbstractWebSocketIntegrationTests {
 
 	protected AnnotationConfigWebApplicationContext wac;
 
-
-	protected void setup(WebSocketTestServer server, WebSocketClient webSocketClient, TestInfo testInfo) throws Exception {
+	protected void setup(WebSocketTestServer server, WebSocketClient webSocketClient, TestInfo testInfo)
+			throws Exception {
 		this.server = server;
 		this.webSocketClient = webSocketClient;
 
-		logger.debug("Setting up '" + testInfo.getTestMethod().get().getName() + "', client=" +
-				this.webSocketClient.getClass().getSimpleName() + ", server=" +
-				this.server.getClass().getSimpleName());
+		logger.debug("Setting up '" + testInfo.getTestMethod().get().getName() + "', client="
+				+ this.webSocketClient.getClass().getSimpleName() + ", server="
+				+ this.server.getClass().getSimpleName());
 
 		this.wac = new AnnotationConfigWebApplicationContext();
 		this.wac.register(getAnnotatedConfigClasses());
@@ -153,7 +151,6 @@ public abstract class AbstractWebSocketIntegrationTests {
 		return this.webSocketClient.doHandshake(clientHandler, getWsBaseUrl() + endpointPath);
 	}
 
-
 	static abstract class AbstractRequestUpgradeStrategyConfig {
 
 		@Bean
@@ -162,8 +159,8 @@ public abstract class AbstractWebSocketIntegrationTests {
 		}
 
 		public abstract RequestUpgradeStrategy requestUpgradeStrategy();
-	}
 
+	}
 
 	@Configuration
 	static class JettyUpgradeStrategyConfig extends AbstractRequestUpgradeStrategyConfig {
@@ -173,8 +170,8 @@ public abstract class AbstractWebSocketIntegrationTests {
 		public RequestUpgradeStrategy requestUpgradeStrategy() {
 			return new JettyRequestUpgradeStrategy();
 		}
-	}
 
+	}
 
 	@Configuration
 	static class TomcatUpgradeStrategyConfig extends AbstractRequestUpgradeStrategyConfig {
@@ -184,8 +181,8 @@ public abstract class AbstractWebSocketIntegrationTests {
 		public RequestUpgradeStrategy requestUpgradeStrategy() {
 			return new TomcatRequestUpgradeStrategy();
 		}
-	}
 
+	}
 
 	@Configuration
 	static class UndertowUpgradeStrategyConfig extends AbstractRequestUpgradeStrategyConfig {
@@ -195,6 +192,7 @@ public abstract class AbstractWebSocketIntegrationTests {
 		public RequestUpgradeStrategy requestUpgradeStrategy() {
 			return new UndertowRequestUpgradeStrategy();
 		}
+
 	}
 
 }

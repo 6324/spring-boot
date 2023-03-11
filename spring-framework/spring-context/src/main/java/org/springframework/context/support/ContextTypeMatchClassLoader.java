@@ -27,10 +27,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Special variant of an overriding ClassLoader, used for temporary type
- * matching in {@link AbstractApplicationContext}. Redefines classes from
- * a cached byte array for every {@code loadClass} call in order to
- * pick up recently loaded types in the parent ClassLoader.
+ * Special variant of an overriding ClassLoader, used for temporary type matching in
+ * {@link AbstractApplicationContext}. Redefines classes from a cached byte array for
+ * every {@code loadClass} call in order to pick up recently loaded types in the parent
+ * ClassLoader.
  *
  * @author Juergen Hoeller
  * @since 2.5
@@ -43,7 +43,6 @@ class ContextTypeMatchClassLoader extends DecoratingClassLoader implements Smart
 		ClassLoader.registerAsParallelCapable();
 	}
 
-
 	private static Method findLoadedClassMethod;
 
 	static {
@@ -51,14 +50,13 @@ class ContextTypeMatchClassLoader extends DecoratingClassLoader implements Smart
 			findLoadedClassMethod = ClassLoader.class.getDeclaredMethod("findLoadedClass", String.class);
 		}
 		catch (NoSuchMethodException ex) {
-			throw new IllegalStateException("Invalid [java.lang.ClassLoader] class: no 'findLoadedClass' method defined!");
+			throw new IllegalStateException(
+					"Invalid [java.lang.ClassLoader] class: no 'findLoadedClass' method defined!");
 		}
 	}
 
-
 	/** Cache for byte array per class name. */
 	private final Map<String, byte[]> bytesCache = new ConcurrentHashMap<>(256);
-
 
 	public ContextTypeMatchClassLoader(@Nullable ClassLoader parent) {
 		super(parent);
@@ -74,10 +72,9 @@ class ContextTypeMatchClassLoader extends DecoratingClassLoader implements Smart
 		return (clazz.getClassLoader() instanceof ContextOverridingClassLoader);
 	}
 
-
 	/**
-	 * ClassLoader to be created for each loaded class.
-	 * Caches class file content but redefines class for each call.
+	 * ClassLoader to be created for each loaded class. Caches class file content but
+	 * redefines class for each call.
 	 */
 	private class ContextOverridingClassLoader extends OverridingClassLoader {
 
@@ -115,6 +112,7 @@ class ContextTypeMatchClassLoader extends DecoratingClassLoader implements Smart
 			}
 			return defineClass(name, bytes, 0, bytes.length);
 		}
+
 	}
 
 }

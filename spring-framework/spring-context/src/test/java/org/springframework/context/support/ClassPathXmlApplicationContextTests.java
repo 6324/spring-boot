@@ -53,25 +53,42 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 public class ClassPathXmlApplicationContextTests {
 
 	private static final String PATH = "/org/springframework/context/support/";
-	private static final String RESOURCE_CONTEXT = PATH + "ClassPathXmlApplicationContextTests-resource.xml";
-	private static final String CONTEXT_WILDCARD = PATH + "test/context*.xml";
-	private static final String CONTEXT_A = "test/contextA.xml";
-	private static final String CONTEXT_B = "test/contextB.xml";
-	private static final String CONTEXT_C = "test/contextC.xml";
-	private static final String FQ_CONTEXT_A = PATH + CONTEXT_A;
-	private static final String FQ_CONTEXT_B = PATH + CONTEXT_B;
-	private static final String FQ_CONTEXT_C = PATH + CONTEXT_C;
-	private static final String SIMPLE_CONTEXT = "simpleContext.xml";
-	private static final String FQ_SIMPLE_CONTEXT = PATH + "simpleContext.xml";
-	private static final String FQ_ALIASED_CONTEXT_C = PATH + "test/aliased-contextC.xml";
-	private static final String INVALID_VALUE_TYPE_CONTEXT = PATH + "invalidValueType.xml";
-	private static final String CHILD_WITH_PROXY_CONTEXT = PATH + "childWithProxy.xml";
-	private static final String INVALID_CLASS_CONTEXT = "invalidClass.xml";
-	private static final String CLASS_WITH_PLACEHOLDER_CONTEXT = "classWithPlaceholder.xml";
-	private static final String ALIAS_THAT_OVERRIDES_PARENT_CONTEXT = PATH + "aliasThatOverridesParent.xml";
-	private static final String ALIAS_FOR_PARENT_CONTEXT = PATH + "aliasForParent.xml";
-	private static final String TEST_PROPERTIES = "test.properties";
 
+	private static final String RESOURCE_CONTEXT = PATH + "ClassPathXmlApplicationContextTests-resource.xml";
+
+	private static final String CONTEXT_WILDCARD = PATH + "test/context*.xml";
+
+	private static final String CONTEXT_A = "test/contextA.xml";
+
+	private static final String CONTEXT_B = "test/contextB.xml";
+
+	private static final String CONTEXT_C = "test/contextC.xml";
+
+	private static final String FQ_CONTEXT_A = PATH + CONTEXT_A;
+
+	private static final String FQ_CONTEXT_B = PATH + CONTEXT_B;
+
+	private static final String FQ_CONTEXT_C = PATH + CONTEXT_C;
+
+	private static final String SIMPLE_CONTEXT = "simpleContext.xml";
+
+	private static final String FQ_SIMPLE_CONTEXT = PATH + "simpleContext.xml";
+
+	private static final String FQ_ALIASED_CONTEXT_C = PATH + "test/aliased-contextC.xml";
+
+	private static final String INVALID_VALUE_TYPE_CONTEXT = PATH + "invalidValueType.xml";
+
+	private static final String CHILD_WITH_PROXY_CONTEXT = PATH + "childWithProxy.xml";
+
+	private static final String INVALID_CLASS_CONTEXT = "invalidClass.xml";
+
+	private static final String CLASS_WITH_PLACEHOLDER_CONTEXT = "classWithPlaceholder.xml";
+
+	private static final String ALIAS_THAT_OVERRIDES_PARENT_CONTEXT = PATH + "aliasThatOverridesParent.xml";
+
+	private static final String ALIAS_FOR_PARENT_CONTEXT = PATH + "aliasForParent.xml";
+
+	private static final String TEST_PROPERTIES = "test.properties";
 
 	@Test
 	public void testSingleConfigLocation() {
@@ -82,8 +99,8 @@ public class ClassPathXmlApplicationContextTests {
 
 	@Test
 	public void testMultipleConfigLocations() {
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
-				FQ_CONTEXT_B, FQ_CONTEXT_C, FQ_CONTEXT_A);
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(FQ_CONTEXT_B, FQ_CONTEXT_C,
+				FQ_CONTEXT_A);
 		assertThat(ctx.containsBean("service")).isTrue();
 		assertThat(ctx.containsBean("logicOne")).isTrue();
 		assertThat(ctx.containsBean("logicTwo")).isTrue();
@@ -125,8 +142,8 @@ public class ClassPathXmlApplicationContextTests {
 
 	@Test
 	public void testAliasWithPlaceholder() {
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
-				FQ_CONTEXT_B, FQ_ALIASED_CONTEXT_C, FQ_CONTEXT_A);
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(FQ_CONTEXT_B, FQ_ALIASED_CONTEXT_C,
+				FQ_CONTEXT_A);
 		assertThat(ctx.containsBean("service")).isTrue();
 		assertThat(ctx.containsBean("logicOne")).isTrue();
 		assertThat(ctx.containsBean("logicTwo")).isTrue();
@@ -136,23 +153,22 @@ public class ClassPathXmlApplicationContextTests {
 	@Test
 	public void testContextWithInvalidValueType() throws IOException {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-				new String[] {INVALID_VALUE_TYPE_CONTEXT}, false);
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(
-				context::refresh)
-			.satisfies(ex -> {
-				assertThat(ex.contains(TypeMismatchException.class)).isTrue();
-				assertThat(ex.toString()).contains("someMessageSource", "useCodeAsDefaultMessage");
-				checkExceptionFromInvalidValueType(ex);
-				checkExceptionFromInvalidValueType(new ExceptionInInitializerError(ex));
-				assertThat(context.isActive()).isFalse();
-			});
+				new String[] { INVALID_VALUE_TYPE_CONTEXT }, false);
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(context::refresh).satisfies(ex -> {
+			assertThat(ex.contains(TypeMismatchException.class)).isTrue();
+			assertThat(ex.toString()).contains("someMessageSource", "useCodeAsDefaultMessage");
+			checkExceptionFromInvalidValueType(ex);
+			checkExceptionFromInvalidValueType(new ExceptionInInitializerError(ex));
+			assertThat(context.isActive()).isFalse();
+		});
 	}
 
 	private void checkExceptionFromInvalidValueType(Throwable ex) {
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ex.printStackTrace(new PrintStream(baos));
-			String dump = FileCopyUtils.copyToString(new InputStreamReader(new ByteArrayInputStream(baos.toByteArray())));
+			String dump = FileCopyUtils
+					.copyToString(new InputStreamReader(new ByteArrayInputStream(baos.toByteArray())));
 			assertThat(dump.contains("someMessageSource")).isTrue();
 			assertThat(dump.contains("useCodeAsDefaultMessage")).isTrue();
 		}
@@ -165,15 +181,15 @@ public class ClassPathXmlApplicationContextTests {
 	public void testContextWithInvalidLazyClass() {
 		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(INVALID_CLASS_CONTEXT, getClass());
 		assertThat(ctx.containsBean("someMessageSource")).isTrue();
-		assertThatExceptionOfType(CannotLoadBeanClassException.class).isThrownBy(() ->
-				ctx.getBean("someMessageSource"))
-			.satisfies(ex -> assertThat(ex.contains(ClassNotFoundException.class)).isTrue());
+		assertThatExceptionOfType(CannotLoadBeanClassException.class).isThrownBy(() -> ctx.getBean("someMessageSource"))
+				.satisfies(ex -> assertThat(ex.contains(ClassNotFoundException.class)).isTrue());
 		ctx.close();
 	}
 
 	@Test
 	public void testContextWithClassNameThatContainsPlaceholder() {
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(CLASS_WITH_PLACEHOLDER_CONTEXT, getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(CLASS_WITH_PLACEHOLDER_CONTEXT,
+				getClass());
 		assertThat(ctx.containsBean("someMessageSource")).isTrue();
 		boolean condition = ctx.getBean("someMessageSource") instanceof StaticMessageSource;
 		assertThat(condition).isTrue();
@@ -183,7 +199,7 @@ public class ClassPathXmlApplicationContextTests {
 	@Test
 	public void testMultipleConfigLocationsWithClass() {
 		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
-				new String[] {CONTEXT_B, CONTEXT_C, CONTEXT_A}, getClass());
+				new String[] { CONTEXT_B, CONTEXT_C, CONTEXT_A }, getClass());
 		assertThat(ctx.containsBean("service")).isTrue();
 		assertThat(ctx.containsBean("logicOne")).isTrue();
 		assertThat(ctx.containsBean("logicTwo")).isTrue();
@@ -229,7 +245,7 @@ public class ClassPathXmlApplicationContextTests {
 	public void testChildWithProxy() throws Exception {
 		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(CONTEXT_WILDCARD);
 		ClassPathXmlApplicationContext child = new ClassPathXmlApplicationContext(
-				new String[] {CHILD_WITH_PROXY_CONTEXT}, ctx);
+				new String[] { CHILD_WITH_PROXY_CONTEXT }, ctx);
 		assertThat(AopUtils.isAopProxy(child.getBean("assemblerOne"))).isTrue();
 		assertThat(AopUtils.isAopProxy(child.getBean("assemblerTwo"))).isTrue();
 		ctx.close();
@@ -241,7 +257,7 @@ public class ClassPathXmlApplicationContextTests {
 		assertThat(ctx.containsBean("someMessageSource")).isTrue();
 
 		ClassPathXmlApplicationContext child = new ClassPathXmlApplicationContext(
-				new String[] {ALIAS_FOR_PARENT_CONTEXT}, ctx);
+				new String[] { ALIAS_FOR_PARENT_CONTEXT }, ctx);
 		assertThat(child.containsBean("someMessageSource")).isTrue();
 		assertThat(child.containsBean("yourMessageSource")).isTrue();
 		assertThat(child.containsBean("myMessageSource")).isTrue();
@@ -277,7 +293,7 @@ public class ClassPathXmlApplicationContextTests {
 		Object someMs = ctx.getBean("someMessageSource");
 
 		ClassPathXmlApplicationContext child = new ClassPathXmlApplicationContext(
-				new String[] {ALIAS_THAT_OVERRIDES_PARENT_CONTEXT}, ctx);
+				new String[] { ALIAS_THAT_OVERRIDES_PARENT_CONTEXT }, ctx);
 		Object myMs = child.getBean("myMessageSource");
 		Object someMs2 = child.getBean("someMessageSource");
 		assertThat(someMs2).isSameAs(myMs);
@@ -287,8 +303,8 @@ public class ClassPathXmlApplicationContextTests {
 
 	@Test
 	public void testAliasThatOverridesEarlierBean() {
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
-				FQ_SIMPLE_CONTEXT, ALIAS_THAT_OVERRIDES_PARENT_CONTEXT);
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(FQ_SIMPLE_CONTEXT,
+				ALIAS_THAT_OVERRIDES_PARENT_CONTEXT);
 		Object myMs = ctx.getBean("myMessageSource");
 		Object someMs2 = ctx.getBean("someMessageSource");
 		assertThat(someMs2).isSameAs(myMs);
@@ -305,7 +321,8 @@ public class ClassPathXmlApplicationContextTests {
 		beanNamesForType = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(ctx, StaticMessageSource.class);
 		assertThat(beanNamesForType.length).isEqualTo(1);
 		assertThat(beanNamesForType[0]).isEqualTo("myMessageSource");
-		beanNamesForType = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(ctx, StaticMessageSource.class, true, true);
+		beanNamesForType = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(ctx, StaticMessageSource.class, true,
+				true);
 		assertThat(beanNamesForType.length).isEqualTo(1);
 		assertThat(beanNamesForType[0]).isEqualTo("myMessageSource");
 

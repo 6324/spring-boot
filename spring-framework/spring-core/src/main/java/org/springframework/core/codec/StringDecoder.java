@@ -44,12 +44,12 @@ import org.springframework.util.MimeType;
 import org.springframework.util.MimeTypeUtils;
 
 /**
- * Decode from a data buffer stream to a {@code String} stream, either splitting
- * or aggregating incoming data chunks to realign along newlines delimiters
- * and produce a stream of strings. This is useful for streaming but is also
- * necessary to ensure that that multibyte characters can be decoded correctly,
- * avoiding split-character issues. The default delimiters used by default are
- * {@code \n} and {@code \r\n} but that can be customized.
+ * Decode from a data buffer stream to a {@code String} stream, either splitting or
+ * aggregating incoming data chunks to realign along newlines delimiters and produce a
+ * stream of strings. This is useful for streaming but is also necessary to ensure that
+ * that multibyte characters can be decoded correctly, avoiding split-character issues.
+ * The default delimiters used by default are {@code \n} and {@code \r\n} but that can be
+ * customized.
  *
  * @author Sebastien Deleuze
  * @author Brian Clozel
@@ -66,7 +66,6 @@ public final class StringDecoder extends AbstractDataBufferDecoder<String> {
 	/** The default delimiter strings to use, i.e. {@code \r\n} and {@code \n}. */
 	public static final List<String> DEFAULT_DELIMITERS = Arrays.asList("\r\n", "\n");
 
-
 	private final List<String> delimiters;
 
 	private final boolean stripDelimiter;
@@ -75,7 +74,6 @@ public final class StringDecoder extends AbstractDataBufferDecoder<String> {
 
 	private final ConcurrentMap<Charset, byte[][]> delimitersCache = new ConcurrentHashMap<>();
 
-
 	private StringDecoder(List<String> delimiters, boolean stripDelimiter, MimeType... mimeTypes) {
 		super(mimeTypes);
 		Assert.notEmpty(delimiters, "'delimiters' must not be empty");
@@ -83,10 +81,10 @@ public final class StringDecoder extends AbstractDataBufferDecoder<String> {
 		this.stripDelimiter = stripDelimiter;
 	}
 
-
 	/**
 	 * Set the default character set to fall back on if the MimeType does not specify any.
-	 * <p>By default this is {@code UTF-8}.
+	 * <p>
+	 * By default this is {@code UTF-8}.
 	 * @param defaultCharset the charset to fall back on
 	 * @since 5.2.9
 	 */
@@ -102,23 +100,21 @@ public final class StringDecoder extends AbstractDataBufferDecoder<String> {
 		return this.defaultCharset;
 	}
 
-
 	@Override
 	public boolean canDecode(ResolvableType elementType, @Nullable MimeType mimeType) {
 		return (elementType.resolve() == String.class && super.canDecode(elementType, mimeType));
 	}
 
 	@Override
-	public Flux<String> decode(Publisher<DataBuffer> input, ResolvableType elementType,
-			@Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
+	public Flux<String> decode(Publisher<DataBuffer> input, ResolvableType elementType, @Nullable MimeType mimeType,
+			@Nullable Map<String, Object> hints) {
 
 		byte[][] delimiterBytes = getDelimiterBytes(mimeType);
 
 		LimitedDataBufferList chunks = new LimitedDataBufferList(getMaxInMemorySize());
 		DataBufferUtils.Matcher matcher = DataBufferUtils.matcher(delimiterBytes);
 
-		return Flux.from(input)
-				.concatMapIterable(buffer -> processDataBuffer(buffer, matcher, chunks))
+		return Flux.from(input).concatMapIterable(buffer -> processDataBuffer(buffer, matcher, chunks))
 				.concatWith(Mono.defer(() -> {
 					if (chunks.isEmpty()) {
 						return Mono.empty();
@@ -126,8 +122,7 @@ public final class StringDecoder extends AbstractDataBufferDecoder<String> {
 					DataBuffer lastBuffer = chunks.get(0).factory().join(chunks);
 					chunks.clear();
 					return Mono.just(lastBuffer);
-				}))
-				.doOnTerminate(chunks::releaseAndClear)
+				})).doOnTerminate(chunks::releaseAndClear)
 				.doOnDiscard(PooledDataBuffer.class, PooledDataBuffer::release)
 				.map(buffer -> decode(buffer, elementType, mimeType, hints));
 	}
@@ -142,8 +137,8 @@ public final class StringDecoder extends AbstractDataBufferDecoder<String> {
 		});
 	}
 
-	private Collection<DataBuffer> processDataBuffer(
-			DataBuffer buffer, DataBufferUtils.Matcher matcher, LimitedDataBufferList chunks) {
+	private Collection<DataBuffer> processDataBuffer(DataBuffer buffer, DataBufferUtils.Matcher matcher,
+			LimitedDataBufferList chunks) {
 
 		try {
 			List<DataBuffer> result = null;
@@ -151,26 +146,23 @@ public final class StringDecoder extends AbstractDataBufferDecoder<String> {
 				int endIndex = matcher.match(buffer);
 				if (endIndex == -1) {
 					chunks.add(buffer);
-					DataBufferUtils.retain(buffer); // retain after add (may raise DataBufferLimitException)
+					DataBufferUtils.retain(buffer); // retain after add (may raise
+													// DataBufferLimitException)
 					break;
 				}
 				int startIndex = buffer.readPosition();
 				int length = (endIndex - startIndex + 1);
 				DataBuffer slice = buffer.retainedSlice(startIndex, length);
+				if (this.stripDelimiter) {
+					slice.writePosition(slice.writePosition() - matcher.delimiter().length);
+				}
 				result = (result != null ? result : new ArrayList<>());
 				if (chunks.isEmpty()) {
-					if (this.stripDelimiter) {
-						slice.writePosition(slice.writePosition() - matcher.delimiter().length);
-					}
 					result.add(slice);
 				}
 				else {
 					chunks.add(slice);
-					DataBuffer joined = buffer.factory().join(chunks);
-					if (this.stripDelimiter) {
-						joined.writePosition(joined.writePosition() - matcher.delimiter().length);
-					}
-					result.add(joined);
+					result.add(buffer.factory().join(chunks));
 					chunks.clear();
 				}
 				buffer.readPosition(endIndex + 1);
@@ -184,8 +176,8 @@ public final class StringDecoder extends AbstractDataBufferDecoder<String> {
 	}
 
 	@Override
-	public String decode(DataBuffer dataBuffer, ResolvableType elementType,
-			@Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
+	public String decode(DataBuffer dataBuffer, ResolvableType elementType, @Nullable MimeType mimeType,
+			@Nullable Map<String, Object> hints) {
 
 		Charset charset = getCharset(mimeType);
 		CharBuffer charBuffer = charset.decode(dataBuffer.asByteBuffer());
@@ -228,8 +220,7 @@ public final class StringDecoder extends AbstractDataBufferDecoder<String> {
 	/**
 	 * Create a {@code StringDecoder} for {@code "text/plain"}.
 	 * @param delimiters delimiter strings to use to split the input stream
-	 * @param stripDelimiter whether to remove delimiters from the resulting
-	 * input strings
+	 * @param stripDelimiter whether to remove delimiters from the resulting input strings
 	 */
 	public static StringDecoder textPlainOnly(List<String> delimiters, boolean stripDelimiter) {
 		return new StringDecoder(delimiters, stripDelimiter, new MimeType("text", "plain", DEFAULT_CHARSET));
@@ -256,12 +247,11 @@ public final class StringDecoder extends AbstractDataBufferDecoder<String> {
 	/**
 	 * Create a {@code StringDecoder} that supports all MIME types.
 	 * @param delimiters delimiter strings to use to split the input stream
-	 * @param stripDelimiter whether to remove delimiters from the resulting
-	 * input strings
+	 * @param stripDelimiter whether to remove delimiters from the resulting input strings
 	 */
 	public static StringDecoder allMimeTypes(List<String> delimiters, boolean stripDelimiter) {
-		return new StringDecoder(delimiters, stripDelimiter,
-				new MimeType("text", "plain", DEFAULT_CHARSET), MimeTypeUtils.ALL);
+		return new StringDecoder(delimiters, stripDelimiter, new MimeType("text", "plain", DEFAULT_CHARSET),
+				MimeTypeUtils.ALL);
 	}
 
 }

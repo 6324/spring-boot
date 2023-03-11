@@ -35,9 +35,9 @@ import org.springframework.util.Assert;
 
 /**
  * Extension of {@link AbstractEncoderMethodReturnValueHandler} that
- * {@link #handleEncodedContent handles} encoded content by wrapping data buffers
- * as RSocket payloads and by passing those to the {@link MonoProcessor}
- * from the {@link #RESPONSE_HEADER} header.
+ * {@link #handleEncodedContent handles} encoded content by wrapping data buffers as
+ * RSocket payloads and by passing those to the {@link MonoProcessor} from the
+ * {@link #RESPONSE_HEADER} header.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -45,21 +45,19 @@ import org.springframework.util.Assert;
 public class RSocketPayloadReturnValueHandler extends AbstractEncoderMethodReturnValueHandler {
 
 	/**
-	 * Message header name that is expected to have a {@link MonoProcessor}
-	 * which will receive the {@code Flux<Payload>} that represents the response.
+	 * Message header name that is expected to have a {@link MonoProcessor} which will
+	 * receive the {@code Flux<Payload>} that represents the response.
 	 */
 	public static final String RESPONSE_HEADER = "rsocketResponse";
-
 
 	public RSocketPayloadReturnValueHandler(List<Encoder<?>> encoders, ReactiveAdapterRegistry registry) {
 		super(encoders, registry);
 	}
 
-
 	@Override
 	@SuppressWarnings("unchecked")
-	protected Mono<Void> handleEncodedContent(
-			Flux<DataBuffer> encodedContent, MethodParameter returnType, Message<?> message) {
+	protected Mono<Void> handleEncodedContent(Flux<DataBuffer> encodedContent, MethodParameter returnType,
+			Message<?> message) {
 
 		MonoProcessor<Flux<Payload>> replyMono = getReplyMono(message);
 		Assert.notNull(replyMono, "Missing '" + RESPONSE_HEADER + "'");

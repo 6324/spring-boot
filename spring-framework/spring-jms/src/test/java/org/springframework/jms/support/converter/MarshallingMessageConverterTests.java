@@ -48,7 +48,6 @@ public class MarshallingMessageConverterTests {
 
 	private Session sessionMock;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		marshallerMock = mock(Marshaller.class);
@@ -56,7 +55,6 @@ public class MarshallingMessageConverterTests {
 		sessionMock = mock(Session.class);
 		converter = new MarshallingMessageConverter(marshallerMock, unmarshallerMock);
 	}
-
 
 	@Test
 	public void toBytesMessage() throws Exception {

@@ -33,7 +33,6 @@ public class NamedParameterJdbcDaoSupport extends JdbcDaoSupport {
 	@Nullable
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-
 	/**
 	 * Create a NamedParameterJdbcTemplate based on the configured JdbcTemplate.
 	 */

@@ -27,8 +27,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
 
 /**
- * Configurable bean class that exposes a specific JSR-303 Validator
- * through its original interface as well as through the Spring
+ * Configurable bean class that exposes a specific JSR-303 Validator through its original
+ * interface as well as through the Spring
  * {@link org.springframework.validation.Validator} interface.
  *
  * @author Juergen Hoeller
@@ -45,10 +45,10 @@ public class CustomValidatorBean extends SpringValidatorAdapter implements Valid
 	@Nullable
 	private TraversableResolver traversableResolver;
 
-
 	/**
 	 * Set the ValidatorFactory to obtain the target Validator from.
-	 * <p>Default is {@link javax.validation.Validation#buildDefaultValidatorFactory()}.
+	 * <p>
+	 * Default is {@link javax.validation.Validation#buildDefaultValidatorFactory()}.
 	 */
 	public void setValidatorFactory(ValidatorFactory validatorFactory) {
 		this.validatorFactory = validatorFactory;
@@ -67,7 +67,6 @@ public class CustomValidatorBean extends SpringValidatorAdapter implements Valid
 	public void setTraversableResolver(TraversableResolver traversableResolver) {
 		this.traversableResolver = traversableResolver;
 	}
-
 
 	@Override
 	public void afterPropertiesSet() {

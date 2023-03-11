@@ -25,9 +25,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.lang.Nullable;
 
 /**
- * Registry for custom {@link org.springframework.jdbc.support.SQLExceptionTranslator} instances associated with
- * specific databases allowing for overriding translation based on values contained in the configuration file
- * named "sql-error-codes.xml".
+ * Registry for custom {@link org.springframework.jdbc.support.SQLExceptionTranslator}
+ * instances associated with specific databases allowing for overriding translation based
+ * on values contained in the configuration file named "sql-error-codes.xml".
  *
  * @author Thomas Risberg
  * @since 3.1.1
@@ -42,7 +42,6 @@ public final class CustomSQLExceptionTranslatorRegistry {
 	 */
 	private static final CustomSQLExceptionTranslatorRegistry instance = new CustomSQLExceptionTranslatorRegistry();
 
-
 	/**
 	 * Return the singleton instance.
 	 */
@@ -50,22 +49,20 @@ public final class CustomSQLExceptionTranslatorRegistry {
 		return instance;
 	}
 
-
 	/**
-	 * Map registry to hold custom translators specific databases.
-	 * Key is the database product name as defined in the
+	 * Map registry to hold custom translators specific databases. Key is the database
+	 * product name as defined in the
 	 * {@link org.springframework.jdbc.support.SQLErrorCodesFactory}.
 	 */
 	private final Map<String, SQLExceptionTranslator> translatorMap = new HashMap<>();
 
-
 	/**
 	 * Create a new instance of the {@link CustomSQLExceptionTranslatorRegistry} class.
-	 * <p>Not public to enforce Singleton design pattern.
+	 * <p>
+	 * Not public to enforce Singleton design pattern.
 	 */
 	private CustomSQLExceptionTranslatorRegistry() {
 	}
-
 
 	/**
 	 * Register a new custom translator for the specified database name.
@@ -76,12 +73,12 @@ public final class CustomSQLExceptionTranslatorRegistry {
 		SQLExceptionTranslator replaced = this.translatorMap.put(dbName, translator);
 		if (logger.isDebugEnabled()) {
 			if (replaced != null) {
-				logger.debug("Replacing custom translator [" + replaced + "] for database '" + dbName +
-						"' with [" + translator + "]");
+				logger.debug("Replacing custom translator [" + replaced + "] for database '" + dbName + "' with ["
+						+ translator + "]");
 			}
 			else {
-				logger.debug("Adding custom translator of type [" + translator.getClass().getName() +
-						"] for database '" + dbName + "'");
+				logger.debug("Adding custom translator of type [" + translator.getClass().getName() + "] for database '"
+						+ dbName + "'");
 			}
 		}
 	}

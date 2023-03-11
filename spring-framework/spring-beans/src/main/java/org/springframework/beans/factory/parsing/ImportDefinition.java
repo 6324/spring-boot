@@ -38,7 +38,6 @@ public class ImportDefinition implements BeanMetadataElement {
 	@Nullable
 	private final Object source;
 
-
 	/**
 	 * Create a new ImportDefinition.
 	 * @param importedResource the location of the imported resource
@@ -67,7 +66,6 @@ public class ImportDefinition implements BeanMetadataElement {
 		this.actualResources = actualResources;
 		this.source = source;
 	}
-
 
 	/**
 	 * Return the location of the imported resource.

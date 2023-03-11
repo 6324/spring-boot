@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2021 the original author or authors.
+ * Copyright 2002-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,6 @@ import org.springframework.lang.Nullable;
  * ASM method visitor that creates {@link SimpleMethodMetadata}.
  *
  * @author Phillip Webb
- * @author Sam Brannen
  * @since 5.2
  */
 final class SimpleMethodMetadataReadingVisitor extends MethodVisitor {
@@ -55,9 +54,8 @@ final class SimpleMethodMetadataReadingVisitor extends MethodVisitor {
 	@Nullable
 	private Source source;
 
-
-	SimpleMethodMetadataReadingVisitor(@Nullable ClassLoader classLoader, String declaringClassName,
-			int access, String name, String descriptor, Consumer<SimpleMethodMetadata> consumer) {
+	SimpleMethodMetadataReadingVisitor(@Nullable ClassLoader classLoader, String declaringClassName, int access,
+			String name, String descriptor, Consumer<SimpleMethodMetadata> consumer) {
 
 		super(SpringAsmInfo.ASM_VERSION);
 		this.classLoader = classLoader;
@@ -68,12 +66,11 @@ final class SimpleMethodMetadataReadingVisitor extends MethodVisitor {
 		this.consumer = consumer;
 	}
 
-
 	@Override
 	@Nullable
 	public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-		return MergedAnnotationReadingVisitor.get(this.classLoader, this::getSource,
-				descriptor, visible, this.annotations::add);
+		return MergedAnnotationReadingVisitor.get(this.classLoader, this::getSource, descriptor, visible,
+				this.annotations::add);
 	}
 
 	@Override
@@ -81,8 +78,8 @@ final class SimpleMethodMetadataReadingVisitor extends MethodVisitor {
 		if (!this.annotations.isEmpty()) {
 			String returnTypeName = Type.getReturnType(this.descriptor).getClassName();
 			MergedAnnotations annotations = MergedAnnotations.of(this.annotations);
-			SimpleMethodMetadata metadata = new SimpleMethodMetadata(this.name,
-					this.access, this.declaringClassName, returnTypeName, annotations);
+			SimpleMethodMetadata metadata = new SimpleMethodMetadata(this.name, this.access, this.declaringClassName,
+					returnTypeName, annotations);
 			this.consumer.accept(metadata);
 		}
 	}
@@ -95,7 +92,6 @@ final class SimpleMethodMetadataReadingVisitor extends MethodVisitor {
 		}
 		return source;
 	}
-
 
 	/**
 	 * {@link MergedAnnotation} source.
@@ -135,8 +131,8 @@ final class SimpleMethodMetadataReadingVisitor extends MethodVisitor {
 				return false;
 			}
 			Source otherSource = (Source) other;
-			return (this.declaringClassName.equals(otherSource.declaringClassName) &&
-					this.name.equals(otherSource.name) && this.descriptor.equals(otherSource.descriptor));
+			return (this.declaringClassName.equals(otherSource.declaringClassName) && this.name.equals(otherSource.name)
+					&& this.descriptor.equals(otherSource.descriptor));
 		}
 
 		@Override
@@ -145,22 +141,20 @@ final class SimpleMethodMetadataReadingVisitor extends MethodVisitor {
 			if (value == null) {
 				StringBuilder builder = new StringBuilder();
 				builder.append(this.declaringClassName);
-				builder.append('.');
+				builder.append(".");
 				builder.append(this.name);
 				Type[] argumentTypes = Type.getArgumentTypes(this.descriptor);
-				builder.append('(');
-				for (int i = 0; i < argumentTypes.length; i++) {
-					if (i != 0) {
-						builder.append(',');
-					}
-					builder.append(argumentTypes[i].getClassName());
+				builder.append("(");
+				for (Type type : argumentTypes) {
+					builder.append(type.getClassName());
 				}
-				builder.append(')');
+				builder.append(")");
 				value = builder.toString();
 				this.toStringValue = value;
 			}
 			return value;
 		}
+
 	}
 
 }

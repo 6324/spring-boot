@@ -34,17 +34,19 @@ import org.springframework.util.PathMatcher;
 import org.springframework.util.StringUtils;
 
 /**
- * A default implementation of {@code UserDestinationResolver} that relies
- * on a {@link SimpUserRegistry} to find active sessions for a user.
+ * A default implementation of {@code UserDestinationResolver} that relies on a
+ * {@link SimpUserRegistry} to find active sessions for a user.
  *
- * <p>When a user attempts to subscribe, e.g. to "/user/queue/position-updates",
- * the "/user" prefix is removed and a unique suffix added based on the session
- * id, e.g. "/queue/position-updates-useri9oqdfzo" to ensure different users can
- * subscribe to the same logical destination without colliding.
+ * <p>
+ * When a user attempts to subscribe, e.g. to "/user/queue/position-updates", the "/user"
+ * prefix is removed and a unique suffix added based on the session id, e.g.
+ * "/queue/position-updates-useri9oqdfzo" to ensure different users can subscribe to the
+ * same logical destination without colliding.
  *
- * <p>When sending to a user, e.g. "/user/{username}/queue/position-updates", the
- * "/user/{username}" prefix is removed and a suffix based on active session id's
- * is added, e.g. "/queue/position-updates-useri9oqdfzo".
+ * <p>
+ * When sending to a user, e.g. "/user/{username}/queue/position-updates", the
+ * "/user/{username}" prefix is removed and a suffix based on active session id's is
+ * added, e.g. "/queue/position-updates-useri9oqdfzo".
  *
  * @author Rossen Stoyanchev
  * @author Brian Clozel
@@ -54,24 +56,21 @@ public class DefaultUserDestinationResolver implements UserDestinationResolver {
 
 	private static final Log logger = SimpLogging.forLogName(DefaultUserDestinationResolver.class);
 
-
 	private final SimpUserRegistry userRegistry;
 
 	private String prefix = "/user/";
 
 	private boolean removeLeadingSlash = false;
 
-
 	/**
-	 * Create an instance that will access user session id information through
-	 * the provided registry.
+	 * Create an instance that will access user session id information through the
+	 * provided registry.
 	 * @param userRegistry the registry, never {@code null}
 	 */
 	public DefaultUserDestinationResolver(SimpUserRegistry userRegistry) {
 		Assert.notNull(userRegistry, "SimpUserRegistry must not be null");
 		this.userRegistry = userRegistry;
 	}
-
 
 	/**
 	 * Return the configured {@link SimpUserRegistry}.
@@ -81,9 +80,10 @@ public class DefaultUserDestinationResolver implements UserDestinationResolver {
 	}
 
 	/**
-	 * The prefix used to identify user destinations. Any destinations that do not
-	 * start with the given prefix are not be resolved.
-	 * <p>The default prefix is "/user/".
+	 * The prefix used to identify user destinations. Any destinations that do not start
+	 * with the given prefix are not be resolved.
+	 * <p>
+	 * The default prefix is "/user/".
 	 * @param prefix the prefix to use
 	 */
 	public void setUserDestinationPrefix(String prefix) {
@@ -99,14 +99,15 @@ public class DefaultUserDestinationResolver implements UserDestinationResolver {
 	}
 
 	/**
-	 * Use this property to indicate whether the leading slash from translated
-	 * user destinations should be removed or not. This depends on the
-	 * destination prefixes the message broker is configured with.
-	 * <p>By default this is set to {@code false}, i.e.
-	 * "do not change the target destination", although
+	 * Use this property to indicate whether the leading slash from translated user
+	 * destinations should be removed or not. This depends on the destination prefixes the
+	 * message broker is configured with.
+	 * <p>
+	 * By default this is set to {@code false}, i.e. "do not change the target
+	 * destination", although
 	 * {@link org.springframework.messaging.simp.config.AbstractMessageBrokerConfiguration
-	 * AbstractMessageBrokerConfiguration} may change that to {@code true}
-	 * if the configured destinations do not have a leading slash.
+	 * AbstractMessageBrokerConfiguration} may change that to {@code true} if the
+	 * configured destinations do not have a leading slash.
 	 * @param remove whether to remove the leading slash
 	 * @since 4.3.14
 	 */
@@ -123,28 +124,27 @@ public class DefaultUserDestinationResolver implements UserDestinationResolver {
 	}
 
 	/**
-	 * Provide the {@code PathMatcher} in use for working with destinations
-	 * which in turn helps to determine whether the leading slash should be
-	 * kept in actual destinations after removing the
-	 * {@link #setUserDestinationPrefix userDestinationPrefix}.
-	 * <p>By default actual destinations have a leading slash, e.g.
-	 * {@code /queue/position-updates} which makes sense with brokers that
-	 * support destinations with slash as separator. When a {@code PathMatcher}
-	 * is provided that supports an alternative separator, then resulting
-	 * destinations won't have a leading slash, e.g. {@code
+	 * Provide the {@code PathMatcher} in use for working with destinations which in turn
+	 * helps to determine whether the leading slash should be kept in actual destinations
+	 * after removing the {@link #setUserDestinationPrefix userDestinationPrefix}.
+	 * <p>
+	 * By default actual destinations have a leading slash, e.g.
+	 * {@code /queue/position-updates} which makes sense with brokers that support
+	 * destinations with slash as separator. When a {@code PathMatcher} is provided that
+	 * supports an alternative separator, then resulting destinations won't have a leading
+	 * slash, e.g. {@code
 	 * jms.queue.position-updates}.
 	 * @param pathMatcher the PathMatcher used to work with destinations
 	 * @since 4.3
-	 * @deprecated as of 4.3.14 this property is no longer used and is replaced
-	 * by {@link #setRemoveLeadingSlash(boolean)} that indicates more explicitly
-	 * whether to keep the leading slash which may or may not be the case
-	 * regardless of how the {@code PathMatcher} is configured.
+	 * @deprecated as of 4.3.14 this property is no longer used and is replaced by
+	 * {@link #setRemoveLeadingSlash(boolean)} that indicates more explicitly whether to
+	 * keep the leading slash which may or may not be the case regardless of how the
+	 * {@code PathMatcher} is configured.
 	 */
 	@Deprecated
 	public void setPathMatcher(@Nullable PathMatcher pathMatcher) {
 		// Do nothing
 	}
-
 
 	@Override
 	@Nullable
@@ -158,8 +158,7 @@ public class DefaultUserDestinationResolver implements UserDestinationResolver {
 		Set<String> targetSet = new HashSet<>();
 		for (String sessionId : parseResult.getSessionIds()) {
 			String actualDestination = parseResult.getActualDestination();
-			String targetDestination = getTargetDestination(
-					sourceDestination, actualDestination, sessionId, user);
+			String targetDestination = getTargetDestination(sourceDestination, actualDestination, sessionId, user);
 			if (targetDestination != null) {
 				targetSet.add(targetDestination);
 			}
@@ -178,11 +177,11 @@ public class DefaultUserDestinationResolver implements UserDestinationResolver {
 		SimpMessageType messageType = SimpMessageHeaderAccessor.getMessageType(headers);
 		if (messageType != null) {
 			switch (messageType) {
-				case SUBSCRIBE:
-				case UNSUBSCRIBE:
-					return parseSubscriptionMessage(message, sourceDestination);
-				case MESSAGE:
-					return parseMessage(headers, sourceDestination);
+			case SUBSCRIBE:
+			case UNSUBSCRIBE:
+				return parseSubscriptionMessage(message, sourceDestination);
+			case MESSAGE:
+				return parseMessage(headers, sourceDestination);
 			}
 		}
 		return null;
@@ -259,8 +258,8 @@ public class DefaultUserDestinationResolver implements UserDestinationResolver {
 	}
 
 	/**
-	 * This method determines how to translate the source "user" destination to an
-	 * actual target destination for the given active user session.
+	 * This method determines how to translate the source "user" destination to an actual
+	 * target destination for the given active user session.
 	 * @param sourceDestination the source destination from the input message.
 	 * @param actualDestination a subset of the destination without any user prefix.
 	 * @param sessionId the id of an active user session, never {@code null}.
@@ -269,8 +268,8 @@ public class DefaultUserDestinationResolver implements UserDestinationResolver {
 	 */
 	@SuppressWarnings("unused")
 	@Nullable
-	protected String getTargetDestination(String sourceDestination, String actualDestination,
-			String sessionId, @Nullable String user) {
+	protected String getTargetDestination(String sourceDestination, String actualDestination, String sessionId,
+			@Nullable String user) {
 
 		return actualDestination + "-user" + sessionId;
 	}
@@ -279,7 +278,6 @@ public class DefaultUserDestinationResolver implements UserDestinationResolver {
 	public String toString() {
 		return "DefaultUserDestinationResolver[prefix=" + this.prefix + "]";
 	}
-
 
 	/**
 	 * A temporary placeholder for a parsed source "user" destination.
@@ -297,8 +295,8 @@ public class DefaultUserDestinationResolver implements UserDestinationResolver {
 		@Nullable
 		private final String user;
 
-		public ParseResult(String sourceDest, String actualDest, String subscribeDest,
-				Set<String> sessionIds, @Nullable String user) {
+		public ParseResult(String sourceDest, String actualDest, String subscribeDest, Set<String> sessionIds,
+				@Nullable String user) {
 
 			this.sourceDestination = sourceDest;
 			this.actualDestination = actualDest;
@@ -327,6 +325,7 @@ public class DefaultUserDestinationResolver implements UserDestinationResolver {
 		public String getUser() {
 			return this.user;
 		}
+
 	}
 
 }

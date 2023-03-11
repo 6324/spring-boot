@@ -26,8 +26,8 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.lang.Nullable;
 
 /**
- * Oracle-specific implementation for the {@link CallMetaDataProvider} interface.
- * This class is intended for internal use by the Simple JDBC classes.
+ * Oracle-specific implementation for the {@link CallMetaDataProvider} interface. This
+ * class is intended for internal use by the Simple JDBC classes.
  *
  * @author Thomas Risberg
  * @since 2.5
@@ -36,11 +36,9 @@ public class OracleCallMetaDataProvider extends GenericCallMetaDataProvider {
 
 	private static final String REF_CURSOR_NAME = "REF CURSOR";
 
-
 	public OracleCallMetaDataProvider(DatabaseMetaData databaseMetaData) throws SQLException {
 		super(databaseMetaData);
 	}
-
 
 	@Override
 	public boolean isReturnResultSetSupported() {

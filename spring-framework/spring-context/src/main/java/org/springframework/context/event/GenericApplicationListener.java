@@ -23,10 +23,11 @@ import org.springframework.core.ResolvableType;
 import org.springframework.lang.Nullable;
 
 /**
- * Extended variant of the standard {@link ApplicationListener} interface,
- * exposing further metadata such as the supported event and source type.
+ * Extended variant of the standard {@link ApplicationListener} interface, exposing
+ * further metadata such as the supported event and source type.
  *
- * <p>As of Spring Framework 4.2, this interface supersedes the Class-based
+ * <p>
+ * As of Spring Framework 4.2, this interface supersedes the Class-based
  * {@link SmartApplicationListener} with full handling of generic event types.
  *
  * @author Stephane Nicoll
@@ -44,7 +45,8 @@ public interface GenericApplicationListener extends ApplicationListener<Applicat
 
 	/**
 	 * Determine whether this listener actually supports the given source type.
-	 * <p>The default implementation always returns {@code true}.
+	 * <p>
+	 * The default implementation always returns {@code true}.
 	 * @param sourceType the source type, or {@code null} if no source
 	 */
 	default boolean supportsSourceType(@Nullable Class<?> sourceType) {
@@ -53,7 +55,8 @@ public interface GenericApplicationListener extends ApplicationListener<Applicat
 
 	/**
 	 * Determine this listener's order in a set of listeners for the same event.
-	 * <p>The default implementation returns {@link #LOWEST_PRECEDENCE}.
+	 * <p>
+	 * The default implementation returns {@link #LOWEST_PRECEDENCE}.
 	 */
 	@Override
 	default int getOrder() {

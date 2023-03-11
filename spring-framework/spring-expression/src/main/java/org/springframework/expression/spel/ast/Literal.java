@@ -35,12 +35,10 @@ public abstract class Literal extends SpelNodeImpl {
 	@Nullable
 	private final String originalValue;
 
-
 	public Literal(@Nullable String originalValue, int startPos, int endPos) {
 		super(startPos, endPos);
 		this.originalValue = originalValue;
 	}
-
 
 	@Nullable
 	public final String getOriginalValue() {
@@ -62,14 +60,12 @@ public abstract class Literal extends SpelNodeImpl {
 		return toString();
 	}
 
-
 	public abstract TypedValue getLiteralValue();
 
-
 	/**
-	 * Process the string form of a number, using the specified base if supplied
-	 * and return an appropriate literal to hold it. Any suffix to indicate a
-	 * long will be taken into account (either 'l' or 'L' is supported).
+	 * Process the string form of a number, using the specified base if supplied and
+	 * return an appropriate literal to hold it. Any suffix to indicate a long will be
+	 * taken into account (either 'l' or 'L' is supported).
 	 * @param numberToken the token holding the number as its payload (eg. 1234 or 0xCAFE)
 	 * @param radix the base of number
 	 * @return a subtype of Literal that can represent it
@@ -80,7 +76,8 @@ public abstract class Literal extends SpelNodeImpl {
 			return new IntLiteral(numberToken, startPos, endPos, value);
 		}
 		catch (NumberFormatException ex) {
-			throw new InternalParseException(new SpelParseException(startPos, ex, SpelMessage.NOT_AN_INTEGER, numberToken));
+			throw new InternalParseException(
+					new SpelParseException(startPos, ex, SpelMessage.NOT_AN_INTEGER, numberToken));
 		}
 	}
 

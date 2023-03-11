@@ -47,7 +47,6 @@ public class BeanWrapperTests extends AbstractPropertyAccessorTests {
 		return new BeanWrapperImpl(target);
 	}
 
-
 	@Test
 	public void setterDoesNotCallGetter() {
 		GetterBean target = new GetterBean();
@@ -86,13 +85,12 @@ public class BeanWrapperTests extends AbstractPropertyAccessorTests {
 		pvs.addPropertyValue(new PropertyValue("age", "foobar"));
 		pvs.addPropertyValue(new PropertyValue("name", newName));
 		pvs.addPropertyValue(new PropertyValue("touchy", invalidTouchy));
-		assertThatExceptionOfType(PropertyBatchUpdateException.class).isThrownBy(() ->
-				accessor.setPropertyValues(pvs))
-			.satisfies(ex -> {
-				assertThat(ex.getExceptionCount()).isEqualTo(2);
-				assertThat(ex.getPropertyAccessException("touchy").getPropertyChangeEvent()
-						.getNewValue()).isEqualTo(invalidTouchy);
-			});
+		assertThatExceptionOfType(PropertyBatchUpdateException.class).isThrownBy(() -> accessor.setPropertyValues(pvs))
+				.satisfies(ex -> {
+					assertThat(ex.getExceptionCount()).isEqualTo(2);
+					assertThat(ex.getPropertyAccessException("touchy").getPropertyChangeEvent().getNewValue())
+							.isEqualTo(invalidTouchy);
+				});
 		// Test validly set property matches
 		assertThat(target.getName().equals(newName)).as("Valid set property must stick").isTrue();
 		assertThat(target.getAge() == 0).as("Invalid set property must retain old value").isTrue();
@@ -102,12 +100,12 @@ public class BeanWrapperTests extends AbstractPropertyAccessorTests {
 	public void checkNotWritablePropertyHoldPossibleMatches() {
 		TestBean target = new TestBean();
 		BeanWrapper accessor = createAccessor(target);
-		assertThatExceptionOfType(NotWritablePropertyException.class).isThrownBy(() ->
-				accessor.setPropertyValue("ag", "foobar"))
-			.satisfies(ex -> assertThat(ex.getPossibleMatches()).containsExactly("age"));
+		assertThatExceptionOfType(NotWritablePropertyException.class)
+				.isThrownBy(() -> accessor.setPropertyValue("ag", "foobar"))
+				.satisfies(ex -> assertThat(ex.getPossibleMatches()).containsExactly("age"));
 	}
 
-	@Test  // Can't be shared; there is no such thing as a read-only field
+	@Test // Can't be shared; there is no such thing as a read-only field
 	public void setReadOnlyMapProperty() {
 		TypedReadOnlyMap map = new TypedReadOnlyMap(Collections.singletonMap("key", new TestBean()));
 		TypedReadOnlyMapClient target = new TypedReadOnlyMapClient();
@@ -142,7 +140,7 @@ public class BeanWrapperTests extends AbstractPropertyAccessorTests {
 	}
 
 	@Override
-	@Test  // Can't be shared: no type mismatch with a field
+	@Test // Can't be shared: no type mismatch with a field
 	public void setPropertyTypeMismatch() {
 		PropertyTypeMismatch target = new PropertyTypeMismatch();
 		BeanWrapper accessor = createAccessor(target);
@@ -247,11 +245,10 @@ public class BeanWrapperTests extends AbstractPropertyAccessorTests {
 	public void incompletelyQuotedKeyLeadsToPropertyException() {
 		TestBean target = new TestBean();
 		BeanWrapper accessor = createAccessor(target);
-		assertThatExceptionOfType(NotWritablePropertyException.class).isThrownBy(() ->
-				accessor.setPropertyValue("[']", "foobar"))
-			.satisfies(ex -> assertThat(ex.getPossibleMatches()).isNull());
+		assertThatExceptionOfType(NotWritablePropertyException.class)
+				.isThrownBy(() -> accessor.setPropertyValue("[']", "foobar"))
+				.satisfies(ex -> assertThat(ex.getPossibleMatches()).isNull());
 	}
-
 
 	private interface BaseProperty {
 
@@ -260,8 +257,8 @@ public class BeanWrapperTests extends AbstractPropertyAccessorTests {
 		}
 
 		String getName();
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private interface AliasedProperty extends BaseProperty {
@@ -271,8 +268,8 @@ public class BeanWrapperTests extends AbstractPropertyAccessorTests {
 		}
 
 		void setName(String name);
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class GetterBean implements AliasedProperty {
@@ -291,8 +288,8 @@ public class BeanWrapperTests extends AbstractPropertyAccessorTests {
 			}
 			return name;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class IntelliBean {
@@ -311,8 +308,8 @@ public class BeanWrapperTests extends AbstractPropertyAccessorTests {
 
 		public void setMyStringss(String string) {
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	public static class TypedReadOnlyMap extends ReadOnlyMap<String, TestBean> {
@@ -323,15 +320,15 @@ public class BeanWrapperTests extends AbstractPropertyAccessorTests {
 		public TypedReadOnlyMap(Map<? extends String, ? extends TestBean> map) {
 			super(map);
 		}
-	}
 
+	}
 
 	public static class TypedReadOnlyMapClient {
 
 		public void setMap(TypedReadOnlyMap map) {
 		}
-	}
 
+	}
 
 	public static class PropertyTypeMismatch {
 
@@ -344,8 +341,8 @@ public class BeanWrapperTests extends AbstractPropertyAccessorTests {
 		public Integer getObject() {
 			return (this.value != null ? this.value.length() : null);
 		}
-	}
 
+	}
 
 	public static class GetterWithOptional {
 
@@ -358,6 +355,7 @@ public class BeanWrapperTests extends AbstractPropertyAccessorTests {
 		public Optional<TestBean> getObject() {
 			return Optional.ofNullable(this.value);
 		}
+
 	}
 
 }

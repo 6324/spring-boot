@@ -51,7 +51,6 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 
 	private static final byte[] EMPTY_PAYLOAD = new byte[0];
 
-
 	@Nullable
 	private PathMatcher pathMatcher;
 
@@ -70,7 +69,6 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 	@Nullable
 	private MessageHeaderInitializer headerInitializer;
 
-
 	private SubscriptionRegistry subscriptionRegistry;
 
 	private final Map<String, SessionInfo> sessions = new ConcurrentHashMap<>();
@@ -78,12 +76,13 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 	@Nullable
 	private ScheduledFuture<?> heartbeatFuture;
 
-
 	/**
-	 * Create a SimpleBrokerMessageHandler instance with the given message channels
-	 * and destination prefixes.
-	 * @param clientInboundChannel the channel for receiving messages from clients (e.g. WebSocket clients)
-	 * @param clientOutboundChannel the channel for sending messages to clients (e.g. WebSocket clients)
+	 * Create a SimpleBrokerMessageHandler instance with the given message channels and
+	 * destination prefixes.
+	 * @param clientInboundChannel the channel for receiving messages from clients (e.g.
+	 * WebSocket clients)
+	 * @param clientOutboundChannel the channel for sending messages to clients (e.g.
+	 * WebSocket clients)
 	 * @param brokerChannel the channel for the application to send messages to the broker
 	 * @param destinationPrefixes prefixes to use to filter out messages
 	 */
@@ -94,13 +93,13 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 		this.subscriptionRegistry = new DefaultSubscriptionRegistry();
 	}
 
-
 	/**
 	 * Configure a custom SubscriptionRegistry to use for storing subscriptions.
-	 * <p><strong>Note</strong> that when a custom PathMatcher is configured via
+	 * <p>
+	 * <strong>Note</strong> that when a custom PathMatcher is configured via
 	 * {@link #setPathMatcher}, if the custom registry is not an instance of
-	 * {@link DefaultSubscriptionRegistry}, the provided PathMatcher is not used
-	 * and must be configured directly on the custom registry.
+	 * {@link DefaultSubscriptionRegistry}, the provided PathMatcher is not used and must
+	 * be configured directly on the custom registry.
 	 */
 	public void setSubscriptionRegistry(SubscriptionRegistry subscriptionRegistry) {
 		Assert.notNull(subscriptionRegistry, "SubscriptionRegistry must not be null");
@@ -117,7 +116,8 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 	/**
 	 * When configured, the given PathMatcher is passed down to the underlying
 	 * SubscriptionRegistry to use for matching destination to subscriptions.
-	 * <p>Default is a standard {@link org.springframework.util.AntPathMatcher}.
+	 * <p>
+	 * Default is a standard {@link org.springframework.util.AntPathMatcher}.
 	 * @since 4.1
 	 * @see #setSubscriptionRegistry
 	 * @see DefaultSubscriptionRegistry#setPathMatcher
@@ -135,10 +135,11 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 	}
 
 	/**
-	 * When configured, the specified cache limit is passed down to the
-	 * underlying SubscriptionRegistry, overriding any default there.
-	 * <p>With a standard {@link DefaultSubscriptionRegistry}, the default
-	 * cache limit is 1024.
+	 * When configured, the specified cache limit is passed down to the underlying
+	 * SubscriptionRegistry, overriding any default there.
+	 * <p>
+	 * With a standard {@link DefaultSubscriptionRegistry}, the default cache limit is
+	 * 1024.
 	 * @since 4.3.2
 	 * @see #setSubscriptionRegistry
 	 * @see DefaultSubscriptionRegistry#setCacheLimit
@@ -156,16 +157,17 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 	}
 
 	/**
-	 * Configure the name of a header that a subscription message can have for
-	 * the purpose of filtering messages matched to the subscription. The header
-	 * value is expected to be a Spring EL boolean expression to be applied to
-	 * the headers of messages matched to the subscription.
-	 * <p>For example:
-	 * <pre>
+	 * Configure the name of a header that a subscription message can have for the purpose
+	 * of filtering messages matched to the subscription. The header value is expected to
+	 * be a Spring EL boolean expression to be applied to the headers of messages matched
+	 * to the subscription.
+	 * <p>
+	 * For example: <pre>
 	 * headers.foo == 'bar'
 	 * </pre>
-	 * <p>By default this is set to "selector". You can set it to a different
-	 * name, or to {@code null} to turn off support for a selector header.
+	 * <p>
+	 * By default this is set to "selector". You can set it to a different name, or to
+	 * {@code null} to turn off support for a selector header.
 	 * @param selectorHeaderName the name to use for a selector header
 	 * @since 4.3.17
 	 * @see #setSubscriptionRegistry
@@ -183,16 +185,17 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 	}
 
 	/**
-	 * Configure the {@link org.springframework.scheduling.TaskScheduler} to
-	 * use for providing heartbeat support. Setting this property also sets the
+	 * Configure the {@link org.springframework.scheduling.TaskScheduler} to use for
+	 * providing heartbeat support. Setting this property also sets the
 	 * {@link #setHeartbeatValue heartbeatValue} to "10000, 10000".
-	 * <p>By default this is not set.
+	 * <p>
+	 * By default this is not set.
 	 * @since 4.2
 	 */
 	public void setTaskScheduler(@Nullable TaskScheduler taskScheduler) {
 		this.taskScheduler = taskScheduler;
 		if (taskScheduler != null && this.heartbeatValue == null) {
-			this.heartbeatValue = new long[] {10000, 10000};
+			this.heartbeatValue = new long[] { 10000, 10000 };
 		}
 	}
 
@@ -206,12 +209,12 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 	}
 
 	/**
-	 * Configure the value for the heart-beat settings. The first number
-	 * represents how often the server will write or send a heartbeat.
-	 * The second is how often the client should write. 0 means no heartbeats.
-	 * <p>By default this is set to "0, 0" unless the {@link #setTaskScheduler
-	 * taskScheduler} in which case the default becomes "10000,10000"
-	 * (in milliseconds).
+	 * Configure the value for the heart-beat settings. The first number represents how
+	 * often the server will write or send a heartbeat. The second is how often the client
+	 * should write. 0 means no heartbeats.
+	 * <p>
+	 * By default this is set to "0, 0" unless the {@link #setTaskScheduler taskScheduler}
+	 * in which case the default becomes "10000,10000" (in milliseconds).
 	 * @since 4.2
 	 */
 	public void setHeartbeatValue(@Nullable long[] heartbeat) {
@@ -231,9 +234,10 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 	}
 
 	/**
-	 * Configure a {@link MessageHeaderInitializer} to apply to the headers
-	 * of all messages sent to the client outbound channel.
-	 * <p>By default this property is not set.
+	 * Configure a {@link MessageHeaderInitializer} to apply to the headers of all
+	 * messages sent to the client outbound channel.
+	 * <p>
+	 * By default this property is not set.
 	 * @since 4.1
 	 */
 	public void setHeaderInitializer(@Nullable MessageHeaderInitializer headerInitializer) {
@@ -249,7 +253,6 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 		return this.headerInitializer;
 	}
 
-
 	@Override
 	public void startInternal() {
 		publishBrokerAvailableEvent();
@@ -260,8 +263,7 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 			}
 		}
 		else {
-			Assert.isTrue(getHeartbeatValue() == null ||
-					(getHeartbeatValue()[0] == 0 && getHeartbeatValue()[1] == 0),
+			Assert.isTrue(getHeartbeatValue() == null || (getHeartbeatValue()[0] == 0 && getHeartbeatValue()[1] == 0),
 					"Heartbeat values configured but no TaskScheduler provided");
 		}
 	}
@@ -325,7 +327,8 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 				}
 				connectAck.setHeader(SimpMessageHeaderAccessor.CONNECT_MESSAGE_HEADER, message);
 				connectAck.setHeader(SimpMessageHeaderAccessor.HEART_BEAT_HEADER, heartbeatOut);
-				Message<byte[]> messageOut = MessageBuilder.createMessage(EMPTY_PAYLOAD, connectAck.getMessageHeaders());
+				Message<byte[]> messageOut = MessageBuilder.createMessage(EMPTY_PAYLOAD,
+						connectAck.getMessageHeaders());
 				getClientOutboundChannel().send(messageOut);
 			}
 		}
@@ -357,7 +360,8 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 
 	private void logMessage(Message<?> message) {
 		if (logger.isDebugEnabled()) {
-			SimpMessageHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, SimpMessageHeaderAccessor.class);
+			SimpMessageHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message,
+					SimpMessageHeaderAccessor.class);
 			accessor = (accessor != null ? accessor : SimpMessageHeaderAccessor.wrap(message));
 			logger.debug("Processing " + accessor.getShortLogMessage(message.getPayload()));
 		}
@@ -386,7 +390,7 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 	}
 
 	protected void sendMessageToSubscribers(@Nullable String destination, Message<?> message) {
-		MultiValueMap<String,String> subscriptions = this.subscriptionRegistry.findSubscriptions(message);
+		MultiValueMap<String, String> subscriptions = this.subscriptionRegistry.findSubscriptions(message);
 		if (!subscriptions.isEmpty() && logger.isDebugEnabled()) {
 			logger.debug("Broadcasting to " + subscriptions.size() + " sessions.");
 		}
@@ -424,7 +428,6 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 		return "SimpleBrokerMessageHandler [" + this.subscriptionRegistry + "]";
 	}
 
-
 	private static class SessionInfo {
 
 		/* STOMP spec: receiver SHOULD take into account an error margin */
@@ -445,7 +448,6 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 
 		private volatile long lastWriteTime;
 
-
 		public SessionInfo(String sessionId, @Nullable Principal user, MessageChannel outboundChannel,
 				@Nullable long[] clientHeartbeat, @Nullable long[] serverHeartbeat) {
 
@@ -453,10 +455,10 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 			this.user = user;
 			this.clientOutboundChannel = outboundChannel;
 			if (clientHeartbeat != null && serverHeartbeat != null) {
-				this.readInterval = (clientHeartbeat[0] > 0 && serverHeartbeat[1] > 0 ?
-						Math.max(clientHeartbeat[0], serverHeartbeat[1]) * HEARTBEAT_MULTIPLIER : 0);
-				this.writeInterval = (clientHeartbeat[1] > 0 && serverHeartbeat[0] > 0 ?
-						Math.max(clientHeartbeat[1], serverHeartbeat[0]) : 0);
+				this.readInterval = (clientHeartbeat[0] > 0 && serverHeartbeat[1] > 0
+						? Math.max(clientHeartbeat[0], serverHeartbeat[1]) * HEARTBEAT_MULTIPLIER : 0);
+				this.writeInterval = (clientHeartbeat[1] > 0 && serverHeartbeat[0] > 0
+						? Math.max(clientHeartbeat[1], serverHeartbeat[0]) : 0);
 			}
 			else {
 				this.readInterval = 0;
@@ -501,8 +503,8 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 		public void setLastWriteTime(long lastWriteTime) {
 			this.lastWriteTime = lastWriteTime;
 		}
-	}
 
+	}
 
 	private class HeartbeatTask implements Runnable {
 
@@ -527,6 +529,7 @@ public class SimpleBrokerMessageHandler extends AbstractBrokerMessageHandler {
 				}
 			}
 		}
+
 	}
 
 }

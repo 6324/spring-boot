@@ -21,9 +21,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Metadata that indicates to expose a given bean property as a JMX attribute,
- * with additional descriptor properties that indicate that the attribute is a
- * metric. Only valid when used on a JavaBean getter.
+ * Metadata that indicates to expose a given bean property as a JMX attribute, with
+ * additional descriptor properties that indicate that the attribute is a metric. Only
+ * valid when used on a JavaBean getter.
  *
  * @author Jennifer Hickey
  * @since 3.0
@@ -46,7 +46,6 @@ public class ManagedMetric extends AbstractJmxAttribute {
 
 	@Nullable
 	private String unit;
-
 
 	/**
 	 * The category of this metric (ex. throughput, performance, utilization).

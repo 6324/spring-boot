@@ -26,8 +26,8 @@ import org.springframework.core.annotation.MergedAnnotations;
 import org.springframework.core.annotation.MergedAnnotations.SearchStrategy;
 
 /**
- * Interface that defines abstract access to the annotations of a specific
- * class, in a form that does not require that class to be loaded yet.
+ * Interface that defines abstract access to the annotations of a specific class, in a
+ * form that does not require that class to be loaded yet.
  *
  * @author Juergen Hoeller
  * @author Mark Fisher
@@ -41,22 +41,20 @@ import org.springframework.core.annotation.MergedAnnotations.SearchStrategy;
 public interface AnnotationMetadata extends ClassMetadata, AnnotatedTypeMetadata {
 
 	/**
-	 * Get the fully qualified class names of all annotation types that
-	 * are <em>present</em> on the underlying class.
+	 * Get the fully qualified class names of all annotation types that are
+	 * <em>present</em> on the underlying class.
 	 * @return the annotation type names
 	 */
 	default Set<String> getAnnotationTypes() {
-		return getAnnotations().stream()
-				.filter(MergedAnnotation::isDirectlyPresent)
-				.map(annotation -> annotation.getType().getName())
-				.collect(Collectors.toCollection(LinkedHashSet::new));
+		return getAnnotations().stream().filter(MergedAnnotation::isDirectlyPresent)
+				.map(annotation -> annotation.getType().getName()).collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 
 	/**
-	 * Get the fully qualified class names of all meta-annotation types that
-	 * are <em>present</em> on the given annotation type on the underlying class.
-	 * @param annotationName the fully qualified class name of the meta-annotation
-	 * type to look for
+	 * Get the fully qualified class names of all meta-annotation types that are
+	 * <em>present</em> on the given annotation type on the underlying class.
+	 * @param annotationName the fully qualified class name of the meta-annotation type to
+	 * look for
 	 * @return the meta-annotation type names, or an empty set if none found
 	 */
 	default Set<String> getMetaAnnotationTypes(String annotationName) {
@@ -70,10 +68,10 @@ public interface AnnotationMetadata extends ClassMetadata, AnnotatedTypeMetadata
 	}
 
 	/**
-	 * Determine whether an annotation of the given type is <em>present</em> on
-	 * the underlying class.
-	 * @param annotationName the fully qualified class name of the annotation
-	 * type to look for
+	 * Determine whether an annotation of the given type is <em>present</em> on the
+	 * underlying class.
+	 * @param annotationName the fully qualified class name of the annotation type to look
+	 * for
 	 * @return {@code true} if a matching annotation is present
 	 */
 	default boolean hasAnnotation(String annotationName) {
@@ -81,44 +79,43 @@ public interface AnnotationMetadata extends ClassMetadata, AnnotatedTypeMetadata
 	}
 
 	/**
-	 * Determine whether the underlying class has an annotation that is itself
-	 * annotated with the meta-annotation of the given type.
-	 * @param metaAnnotationName the fully qualified class name of the
-	 * meta-annotation type to look for
+	 * Determine whether the underlying class has an annotation that is itself annotated
+	 * with the meta-annotation of the given type.
+	 * @param metaAnnotationName the fully qualified class name of the meta-annotation
+	 * type to look for
 	 * @return {@code true} if a matching meta-annotation is present
 	 */
 	default boolean hasMetaAnnotation(String metaAnnotationName) {
-		return getAnnotations().get(metaAnnotationName,
-				MergedAnnotation::isMetaPresent).isPresent();
+		return getAnnotations().get(metaAnnotationName, MergedAnnotation::isMetaPresent).isPresent();
 	}
 
 	/**
-	 * Determine whether the underlying class has any methods that are
-	 * annotated (or meta-annotated) with the given annotation type.
-	 * @param annotationName the fully qualified class name of the annotation
-	 * type to look for
+	 * Determine whether the underlying class has any methods that are annotated (or
+	 * meta-annotated) with the given annotation type.
+	 * @param annotationName the fully qualified class name of the annotation type to look
+	 * for
 	 */
 	default boolean hasAnnotatedMethods(String annotationName) {
 		return !getAnnotatedMethods(annotationName).isEmpty();
 	}
 
 	/**
-	 * Retrieve the method metadata for all methods that are annotated
-	 * (or meta-annotated) with the given annotation type.
-	 * <p>For any returned method, {@link MethodMetadata#isAnnotated} will
-	 * return {@code true} for the given annotation type.
-	 * @param annotationName the fully qualified class name of the annotation
-	 * type to look for
+	 * Retrieve the method metadata for all methods that are annotated (or meta-annotated)
+	 * with the given annotation type.
+	 * <p>
+	 * For any returned method, {@link MethodMetadata#isAnnotated} will return
+	 * {@code true} for the given annotation type.
+	 * @param annotationName the fully qualified class name of the annotation type to look
+	 * for
 	 * @return a set of {@link MethodMetadata} for methods that have a matching
-	 * annotation. The return value will be an empty set if no methods match
-	 * the annotation type.
+	 * annotation. The return value will be an empty set if no methods match the
+	 * annotation type.
 	 */
 	Set<MethodMetadata> getAnnotatedMethods(String annotationName);
 
-
 	/**
-	 * Factory method to create a new {@link AnnotationMetadata} instance
-	 * for the given class using standard reflection.
+	 * Factory method to create a new {@link AnnotationMetadata} instance for the given
+	 * class using standard reflection.
 	 * @param type the class to introspect
 	 * @return a new {@link AnnotationMetadata} instance
 	 * @since 5.2

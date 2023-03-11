@@ -17,7 +17,6 @@
 package org.springframework.http.server.reactive;
 
 import java.util.AbstractSet;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -37,7 +36,6 @@ import org.springframework.util.MultiValueMap;
  * {@code MultiValueMap} implementation for wrapping Undertow HTTP headers.
  *
  * @author Brian Clozel
- * @author Sam Brannen
  * @since 5.1.1
  */
 class UndertowHeadersAdapter implements MultiValueMap<String, String> {
@@ -133,10 +131,7 @@ class UndertowHeadersAdapter implements MultiValueMap<String, String> {
 	@Nullable
 	public List<String> remove(Object key) {
 		if (key instanceof String) {
-			Collection<String> removed = this.headers.remove((String) key);
-			if (removed != null) {
-				return new ArrayList<>(removed);
-			}
+			this.headers.remove((String) key);
 		}
 		return null;
 	}

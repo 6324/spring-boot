@@ -18,7 +18,8 @@ package org.springframework.aop.framework;
 
 import org.springframework.stereotype.Component;
 
-@Component class Dependency {
+@Component
+class Dependency {
 
 	private int value = 0;
 
@@ -29,4 +30,5 @@ import org.springframework.stereotype.Component;
 	public int getValue() {
 		return value;
 	}
+
 }

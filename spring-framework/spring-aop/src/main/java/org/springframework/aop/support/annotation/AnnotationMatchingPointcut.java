@@ -26,9 +26,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Simple Pointcut that looks for a specific Java 5 annotation
- * being present on a {@link #forClassAnnotation class} or
- * {@link #forMethodAnnotation method}.
+ * Simple Pointcut that looks for a specific Java 5 annotation being present on a
+ * {@link #forClassAnnotation class} or {@link #forMethodAnnotation method}.
  *
  * @author Juergen Hoeller
  * @author Sam Brannen
@@ -42,7 +41,6 @@ public class AnnotationMatchingPointcut implements Pointcut {
 
 	private final MethodMatcher methodMatcher;
 
-
 	/**
 	 * Create a new AnnotationMatchingPointcut for the given annotation type.
 	 * @param classAnnotationType the annotation type to look for at the class level
@@ -54,8 +52,8 @@ public class AnnotationMatchingPointcut implements Pointcut {
 	/**
 	 * Create a new AnnotationMatchingPointcut for the given annotation type.
 	 * @param classAnnotationType the annotation type to look for at the class level
-	 * @param checkInherited whether to also check the superclasses and interfaces
-	 * as well as meta-annotations for the annotation type
+	 * @param checkInherited whether to also check the superclasses and interfaces as well
+	 * as meta-annotations for the annotation type
 	 * @see AnnotationClassFilter#AnnotationClassFilter(Class, boolean)
 	 */
 	public AnnotationMatchingPointcut(Class<? extends Annotation> classAnnotationType, boolean checkInherited) {
@@ -65,8 +63,8 @@ public class AnnotationMatchingPointcut implements Pointcut {
 
 	/**
 	 * Create a new AnnotationMatchingPointcut for the given annotation types.
-	 * @param classAnnotationType the annotation type to look for at the class level
-	 * (can be {@code null})
+	 * @param classAnnotationType the annotation type to look for at the class level (can
+	 * be {@code null})
 	 * @param methodAnnotationType the annotation type to look for at the method level
 	 * (can be {@code null})
 	 */
@@ -78,12 +76,12 @@ public class AnnotationMatchingPointcut implements Pointcut {
 
 	/**
 	 * Create a new AnnotationMatchingPointcut for the given annotation types.
-	 * @param classAnnotationType the annotation type to look for at the class level
-	 * (can be {@code null})
+	 * @param classAnnotationType the annotation type to look for at the class level (can
+	 * be {@code null})
 	 * @param methodAnnotationType the annotation type to look for at the method level
 	 * (can be {@code null})
-	 * @param checkInherited whether to also check the superclasses and interfaces
-	 * as well as meta-annotations for the annotation type
+	 * @param checkInherited whether to also check the superclasses and interfaces as well
+	 * as meta-annotations for the annotation type
 	 * @since 5.0
 	 * @see AnnotationClassFilter#AnnotationClassFilter(Class, boolean)
 	 * @see AnnotationMethodMatcher#AnnotationMethodMatcher(Class, boolean)
@@ -109,7 +107,6 @@ public class AnnotationMatchingPointcut implements Pointcut {
 		}
 	}
 
-
 	@Override
 	public ClassFilter getClassFilter() {
 		return this.classFilter;
@@ -129,8 +126,8 @@ public class AnnotationMatchingPointcut implements Pointcut {
 			return false;
 		}
 		AnnotationMatchingPointcut otherPointcut = (AnnotationMatchingPointcut) other;
-		return (this.classFilter.equals(otherPointcut.classFilter) &&
-				this.methodMatcher.equals(otherPointcut.methodMatcher));
+		return (this.classFilter.equals(otherPointcut.classFilter)
+				&& this.methodMatcher.equals(otherPointcut.methodMatcher));
 	}
 
 	@Override
@@ -144,8 +141,8 @@ public class AnnotationMatchingPointcut implements Pointcut {
 	}
 
 	/**
-	 * Factory method for an AnnotationMatchingPointcut that matches
-	 * for the specified annotation at the class level.
+	 * Factory method for an AnnotationMatchingPointcut that matches for the specified
+	 * annotation at the class level.
 	 * @param annotationType the annotation type to look for at the class level
 	 * @return the corresponding AnnotationMatchingPointcut
 	 */
@@ -155,8 +152,8 @@ public class AnnotationMatchingPointcut implements Pointcut {
 	}
 
 	/**
-	 * Factory method for an AnnotationMatchingPointcut that matches
-	 * for the specified annotation at the method level.
+	 * Factory method for an AnnotationMatchingPointcut that matches for the specified
+	 * annotation at the method level.
 	 * @param annotationType the annotation type to look for at the method level
 	 * @return the corresponding AnnotationMatchingPointcut
 	 */
@@ -165,10 +162,10 @@ public class AnnotationMatchingPointcut implements Pointcut {
 		return new AnnotationMatchingPointcut(null, annotationType);
 	}
 
-
 	/**
-	 * {@link ClassFilter} that delegates to {@link AnnotationUtils#isCandidateClass}
-	 * for filtering classes whose methods are not worth searching to begin with.
+	 * {@link ClassFilter} that delegates to {@link AnnotationUtils#isCandidateClass} for
+	 * filtering classes whose methods are not worth searching to begin with.
+	 *
 	 * @since 5.2
 	 */
 	private static class AnnotationCandidateClassFilter implements ClassFilter {

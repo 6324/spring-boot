@@ -23,14 +23,15 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Object to hold information and value for an individual bean property.
- * Using an object here, rather than just storing all properties in
- * a map keyed by property name, allows for more flexibility, and the
- * ability to handle indexed properties etc in an optimized way.
+ * Object to hold information and value for an individual bean property. Using an object
+ * here, rather than just storing all properties in a map keyed by property name, allows
+ * for more flexibility, and the ability to handle indexed properties etc in an optimized
+ * way.
  *
- * <p>Note that the value doesn't need to be the final required type:
- * A {@link BeanWrapper} implementation should handle any necessary conversion,
- * as this object doesn't know anything about the objects it will be applied to.
+ * <p>
+ * Note that the value doesn't need to be the final required type: A {@link BeanWrapper}
+ * implementation should handle any necessary conversion, as this object doesn't know
+ * anything about the objects it will be applied to.
  *
  * @author Rod Johnson
  * @author Rob Harrop
@@ -62,7 +63,6 @@ public class PropertyValue extends BeanMetadataAttributeAccessor implements Seri
 	@Nullable
 	transient volatile Object resolvedTokens;
 
-
 	/**
 	 * Create a new PropertyValue instance.
 	 * @param name the name of the property (never {@code null})
@@ -92,8 +92,8 @@ public class PropertyValue extends BeanMetadataAttributeAccessor implements Seri
 	}
 
 	/**
-	 * Constructor that exposes a new value for an original value holder.
-	 * The original holder will be exposed as source of the new holder.
+	 * Constructor that exposes a new value for an original value holder. The original
+	 * holder will be exposed as source of the new holder.
 	 * @param original the PropertyValue to link to (never {@code null})
 	 * @param newValue the new value to apply
 	 */
@@ -108,7 +108,6 @@ public class PropertyValue extends BeanMetadataAttributeAccessor implements Seri
 		copyAttributesFrom(original);
 	}
 
-
 	/**
 	 * Return the name of the property.
 	 */
@@ -118,9 +117,9 @@ public class PropertyValue extends BeanMetadataAttributeAccessor implements Seri
 
 	/**
 	 * Return the value of the property.
-	 * <p>Note that type conversion will <i>not</i> have occurred here.
-	 * It is the responsibility of the BeanWrapper implementation to
-	 * perform type conversion.
+	 * <p>
+	 * Note that type conversion will <i>not</i> have occurred here. It is the
+	 * responsibility of the BeanWrapper implementation to perform type conversion.
 	 */
 	@Nullable
 	public Object getValue() {
@@ -129,8 +128,8 @@ public class PropertyValue extends BeanMetadataAttributeAccessor implements Seri
 
 	/**
 	 * Return the original PropertyValue instance for this value holder.
-	 * @return the original PropertyValue (either a source of this
-	 * value holder or this value holder itself).
+	 * @return the original PropertyValue (either a source of this value holder or this
+	 * value holder itself).
 	 */
 	public PropertyValue getOriginalPropertyValue() {
 		PropertyValue original = this;
@@ -143,8 +142,8 @@ public class PropertyValue extends BeanMetadataAttributeAccessor implements Seri
 	}
 
 	/**
-	 * Set whether this is an optional value, that is, to be ignored
-	 * when no corresponding property exists on the target class.
+	 * Set whether this is an optional value, that is, to be ignored when no corresponding
+	 * property exists on the target class.
 	 * @since 3.0
 	 */
 	public void setOptional(boolean optional) {
@@ -152,8 +151,8 @@ public class PropertyValue extends BeanMetadataAttributeAccessor implements Seri
 	}
 
 	/**
-	 * Return whether this is an optional value, that is, to be ignored
-	 * when no corresponding property exists on the target class.
+	 * Return whether this is an optional value, that is, to be ignored when no
+	 * corresponding property exists on the target class.
 	 * @since 3.0
 	 */
 	public boolean isOptional() {
@@ -161,16 +160,15 @@ public class PropertyValue extends BeanMetadataAttributeAccessor implements Seri
 	}
 
 	/**
-	 * Return whether this holder contains a converted value already ({@code true}),
-	 * or whether the value still needs to be converted ({@code false}).
+	 * Return whether this holder contains a converted value already ({@code true}), or
+	 * whether the value still needs to be converted ({@code false}).
 	 */
 	public synchronized boolean isConverted() {
 		return this.converted;
 	}
 
 	/**
-	 * Set the converted value of this property value,
-	 * after processed type conversion.
+	 * Set the converted value of this property value, after processed type conversion.
 	 */
 	public synchronized void setConvertedValue(@Nullable Object value) {
 		this.converted = true;
@@ -178,14 +176,12 @@ public class PropertyValue extends BeanMetadataAttributeAccessor implements Seri
 	}
 
 	/**
-	 * Return the converted value of this property value,
-	 * after processed type conversion.
+	 * Return the converted value of this property value, after processed type conversion.
 	 */
 	@Nullable
 	public synchronized Object getConvertedValue() {
 		return this.convertedValue;
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {
@@ -196,9 +192,8 @@ public class PropertyValue extends BeanMetadataAttributeAccessor implements Seri
 			return false;
 		}
 		PropertyValue otherPv = (PropertyValue) other;
-		return (this.name.equals(otherPv.name) &&
-				ObjectUtils.nullSafeEquals(this.value, otherPv.value) &&
-				ObjectUtils.nullSafeEquals(getSource(), otherPv.getSource()));
+		return (this.name.equals(otherPv.name) && ObjectUtils.nullSafeEquals(this.value, otherPv.value)
+				&& ObjectUtils.nullSafeEquals(getSource(), otherPv.getSource()));
 	}
 
 	@Override

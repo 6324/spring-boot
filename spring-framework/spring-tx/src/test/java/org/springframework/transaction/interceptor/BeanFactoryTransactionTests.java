@@ -58,14 +58,12 @@ public class BeanFactoryTransactionTests {
 
 	private DefaultListableBeanFactory factory;
 
-
 	@BeforeEach
 	public void setUp() {
 		this.factory = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(this.factory).loadBeanDefinitions(
-				new ClassPathResource("transactionalBeanFactory.xml", getClass()));
+		new XmlBeanDefinitionReader(this.factory)
+				.loadBeanDefinitions(new ClassPathResource("transactionalBeanFactory.xml", getClass()));
 	}
-
 
 	@Test
 	public void testGetsAreNotTransactionalWithProxyFactory1() {
@@ -127,14 +125,18 @@ public class BeanFactoryTransactionTests {
 		assertThat(condition).as("testBean is a full proxy").isTrue();
 		boolean condition1 = testBean instanceof TransactionalProxy;
 		assertThat(condition1).isTrue();
-		InvocationCounterPointcut txnCounter = (InvocationCounterPointcut) factory.getBean("txnInvocationCounterPointcut");
-		InvocationCounterInterceptor preCounter = (InvocationCounterInterceptor) factory.getBean("preInvocationCounterInterceptor");
-		InvocationCounterInterceptor postCounter = (InvocationCounterInterceptor) factory.getBean("postInvocationCounterInterceptor");
+		InvocationCounterPointcut txnCounter = (InvocationCounterPointcut) factory
+				.getBean("txnInvocationCounterPointcut");
+		InvocationCounterInterceptor preCounter = (InvocationCounterInterceptor) factory
+				.getBean("preInvocationCounterInterceptor");
+		InvocationCounterInterceptor postCounter = (InvocationCounterInterceptor) factory
+				.getBean("postInvocationCounterInterceptor");
 		txnCounter.counter = 0;
 		preCounter.counter = 0;
 		postCounter.counter = 0;
 		doTestGetsAreNotTransactional(testBean);
-		// Can't assert it's equal to 4 as the pointcut may be optimized and only invoked once
+		// Can't assert it's equal to 4 as the pointcut may be optimized and only invoked
+		// once
 		assertThat(0 < txnCounter.counter && txnCounter.counter <= 4).isTrue();
 		assertThat(preCounter.counter).isEqualTo(4);
 		assertThat(postCounter.counter).isEqualTo(4);
@@ -154,6 +156,7 @@ public class BeanFactoryTransactionTests {
 		final TransactionStatus ts = mock(TransactionStatus.class);
 		ptm = new PlatformTransactionManager() {
 			private boolean invoked;
+
 			@Override
 			public TransactionStatus getTransaction(@Nullable TransactionDefinition def) throws TransactionException {
 				if (invoked) {
@@ -166,10 +169,12 @@ public class BeanFactoryTransactionTests {
 				}
 				return ts;
 			}
+
 			@Override
 			public void commit(TransactionStatus status) throws TransactionException {
 				assertThat(status == ts).isTrue();
 			}
+
 			@Override
 			public void rollback(TransactionStatus status) throws TransactionException {
 				throw new IllegalStateException("rollback should not get invoked");
@@ -195,9 +200,10 @@ public class BeanFactoryTransactionTests {
 	@Test
 	public void testNoTransactionAttributeSource() {
 		assertThatExceptionOfType(FatalBeanException.class).isThrownBy(() -> {
-				DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
-				new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource("noTransactionAttributeSource.xml", getClass()));
-				bf.getBean("noTransactionAttributeSource");
+			DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
+			new XmlBeanDefinitionReader(bf)
+					.loadBeanDefinitions(new ClassPathResource("noTransactionAttributeSource.xml", getClass()));
+			bf.getBean("noTransactionAttributeSource");
 		});
 	}
 
@@ -229,7 +235,6 @@ public class BeanFactoryTransactionTests {
 		assertThat(txMan.rollbacks).isEqualTo(0);
 	}
 
-
 	public static class InvocationCounterPointcut extends StaticMethodMatcherPointcut {
 
 		int counter = 0;
@@ -239,8 +244,8 @@ public class BeanFactoryTransactionTests {
 			counter++;
 			return true;
 		}
-	}
 
+	}
 
 	public static class InvocationCounterInterceptor implements MethodInterceptor {
 
@@ -251,6 +256,7 @@ public class BeanFactoryTransactionTests {
 			counter++;
 			return methodInvocation.proceed();
 		}
+
 	}
 
 }

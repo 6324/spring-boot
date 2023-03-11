@@ -203,7 +203,8 @@ public class GroovyScriptFactoryTests {
 	@Test
 	public void testStaticScriptWithInlineDefinedInstance() throws Exception {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("groovyContext.xml", getClass());
-		assertThat(Arrays.asList(ctx.getBeanNamesForType(Messenger.class)).contains("messengerInstanceInline")).isTrue();
+		assertThat(Arrays.asList(ctx.getBeanNamesForType(Messenger.class)).contains("messengerInstanceInline"))
+				.isTrue();
 		Messenger messenger = (Messenger) ctx.getBean("messengerInstanceInline");
 
 		assertThat(AopUtils.isAopProxy(messenger)).as("Shouldn't get proxy when refresh is disabled").isFalse();
@@ -218,7 +219,8 @@ public class GroovyScriptFactoryTests {
 	@Test
 	public void testStaticScriptWithInlineDefinedInstanceUsingJsr223() throws Exception {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("groovyContextWithJsr223.xml", getClass());
-		assertThat(Arrays.asList(ctx.getBeanNamesForType(Messenger.class)).contains("messengerInstanceInline")).isTrue();
+		assertThat(Arrays.asList(ctx.getBeanNamesForType(Messenger.class)).contains("messengerInstanceInline"))
+				.isTrue();
 		Messenger messenger = (Messenger) ctx.getBean("messengerInstanceInline");
 
 		assertThat(AopUtils.isAopProxy(messenger)).as("Shouldn't get proxy when refresh is disabled").isFalse();
@@ -276,9 +278,10 @@ public class GroovyScriptFactoryTests {
 
 	@Test
 	public void testScriptCompilationException() throws Exception {
-		assertThatExceptionOfType(NestedRuntimeException.class).isThrownBy(() ->
-				new ClassPathXmlApplicationContext("org/springframework/scripting/groovy/groovyBrokenContext.xml"))
-			.matches(ex -> ex.contains(ScriptCompilationException.class));
+		assertThatExceptionOfType(NestedRuntimeException.class)
+				.isThrownBy(() -> new ClassPathXmlApplicationContext(
+						"org/springframework/scripting/groovy/groovyBrokenContext.xml"))
+				.matches(ex -> ex.contains(ScriptCompilationException.class));
 	}
 
 	@Test
@@ -287,11 +290,10 @@ public class GroovyScriptFactoryTests {
 		String badScript = "class Foo { public Foo(String foo) {}}";
 		given(script.getScriptAsString()).willReturn(badScript);
 		given(script.suggestedClassName()).willReturn("someName");
-		GroovyScriptFactory factory = new GroovyScriptFactory(ScriptFactoryPostProcessor.INLINE_SCRIPT_PREFIX
-				+ badScript);
-		assertThatExceptionOfType(ScriptCompilationException.class).isThrownBy(() ->
-				factory.getScriptedObject(script))
-			.matches(ex -> ex.contains(NoSuchMethodException.class));
+		GroovyScriptFactory factory = new GroovyScriptFactory(
+				ScriptFactoryPostProcessor.INLINE_SCRIPT_PREFIX + badScript);
+		assertThatExceptionOfType(ScriptCompilationException.class).isThrownBy(() -> factory.getScriptedObject(script))
+				.matches(ex -> ex.contains(NoSuchMethodException.class));
 	}
 
 	@Test
@@ -300,7 +302,8 @@ public class GroovyScriptFactoryTests {
 		String badScript = "class Foo { protected Foo() {} \n String toString() { 'X' }}";
 		given(script.getScriptAsString()).willReturn(badScript);
 		given(script.suggestedClassName()).willReturn("someName");
-		GroovyScriptFactory factory = new GroovyScriptFactory(ScriptFactoryPostProcessor.INLINE_SCRIPT_PREFIX + badScript);
+		GroovyScriptFactory factory = new GroovyScriptFactory(
+				ScriptFactoryPostProcessor.INLINE_SCRIPT_PREFIX + badScript);
 		assertThat(factory.getScriptedObject(script).toString()).isEqualTo("X");
 	}
 
@@ -318,35 +321,35 @@ public class GroovyScriptFactoryTests {
 
 	@Test
 	public void testWithTwoClassesDefinedInTheOneGroovyFile_WrongClassFirst() throws Exception {
-		assertThatExceptionOfType(Exception.class).as("two classes defined in GroovyScriptFactory source, non-Messenger class defined first").isThrownBy(() -> {
-				ApplicationContext ctx = new ClassPathXmlApplicationContext("twoClassesWrongOneFirst.xml", getClass());
-				ctx.getBean("messenger", Messenger.class);
-		});
+		assertThatExceptionOfType(Exception.class)
+				.as("two classes defined in GroovyScriptFactory source, non-Messenger class defined first")
+				.isThrownBy(() -> {
+					ApplicationContext ctx = new ClassPathXmlApplicationContext("twoClassesWrongOneFirst.xml",
+							getClass());
+					ctx.getBean("messenger", Messenger.class);
+				});
 	}
 
 	@Test
 	public void testCtorWithNullScriptSourceLocator() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new GroovyScriptFactory(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new GroovyScriptFactory(null));
 	}
 
 	@Test
 	public void testCtorWithEmptyScriptSourceLocator() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new GroovyScriptFactory(""));
+		assertThatIllegalArgumentException().isThrownBy(() -> new GroovyScriptFactory(""));
 	}
 
 	@Test
 	public void testCtorWithWhitespacedScriptSourceLocator() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new GroovyScriptFactory("\n   "));
+		assertThatIllegalArgumentException().isThrownBy(() -> new GroovyScriptFactory("\n   "));
 	}
 
 	@Test
 	public void testWithInlineScriptWithLeadingWhitespace() throws Exception {
-		assertThatExceptionOfType(BeanCreationException.class).as("'inline:' prefix was preceded by whitespace").isThrownBy(() ->
-				new ClassPathXmlApplicationContext("lwspBadGroovyContext.xml", getClass()))
-			.matches(ex -> ex.contains(FileNotFoundException.class));
+		assertThatExceptionOfType(BeanCreationException.class).as("'inline:' prefix was preceded by whitespace")
+				.isThrownBy(() -> new ClassPathXmlApplicationContext("lwspBadGroovyContext.xml", getClass()))
+				.matches(ex -> ex.contains(FileNotFoundException.class));
 	}
 
 	@Test
@@ -363,8 +366,8 @@ public class GroovyScriptFactoryTests {
 	@Test
 	public void testGetScriptedObjectDoesChokeOnNullScriptSourceBeingPassedIn() throws Exception {
 		GroovyScriptFactory factory = new GroovyScriptFactory("a script source locator (doesn't matter here)");
-		assertThatNullPointerException().as("NullPointerException as per contract ('null' ScriptSource supplied)").isThrownBy(() ->
-				factory.getScriptedObject(null));
+		assertThatNullPointerException().as("NullPointerException as per contract ('null' ScriptSource supplied)")
+				.isThrownBy(() -> factory.getScriptedObject(null));
 	}
 
 	@Test
@@ -429,7 +432,7 @@ public class GroovyScriptFactoryTests {
 		assertThat(ctx.getBeansOfType(Messenger.class).values().contains(messenger)).isTrue();
 	}
 
-	@Test  // SPR-6268
+	@Test // SPR-6268
 	public void testRefreshableFromTagProxyTargetClass() throws Exception {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("groovy-with-xsd-proxy-target-class.xml",
 				getClass());
@@ -448,7 +451,7 @@ public class GroovyScriptFactoryTests {
 		assertThat(AnnotationUtils.findAnnotation(messenger.getClass(), Component.class)).isNotNull();
 	}
 
-	@Test  // SPR-6268
+	@Test // SPR-6268
 	public void testProxyTargetClassNotAllowedIfNotGroovy() throws Exception {
 		try {
 			new ClassPathXmlApplicationContext("groovy-with-xsd-proxy-target-class.xml", getClass());
@@ -463,8 +466,8 @@ public class GroovyScriptFactoryTests {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("groovy-with-xsd.xml", getClass());
 		Map<?, Messenger> beans = ctx.getBeansOfType(Messenger.class);
 		assertThat(beans.size()).isEqualTo(4);
-		assertThat(ctx.getBean(MyBytecodeProcessor.class).processed.contains(
-				"org.springframework.scripting.groovy.GroovyMessenger2")).isTrue();
+		assertThat(ctx.getBean(MyBytecodeProcessor.class).processed
+				.contains("org.springframework.scripting.groovy.GroovyMessenger2")).isTrue();
 	}
 
 	@Test
@@ -506,14 +509,15 @@ public class GroovyScriptFactoryTests {
 	@Test
 	public void testInlineJsr223FromTagWithInterface() throws Exception {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("groovy-with-xsd-jsr223.xml", getClass());
-		assertThat(Arrays.asList(ctx.getBeanNamesForType(Messenger.class)).contains("inlineMessengerWithInterface")).isTrue();
+		assertThat(Arrays.asList(ctx.getBeanNamesForType(Messenger.class)).contains("inlineMessengerWithInterface"))
+				.isTrue();
 		Messenger messenger = (Messenger) ctx.getBean("inlineMessengerWithInterface");
 		assertThat(AopUtils.isAopProxy(messenger)).isFalse();
 	}
 
 	/**
-	 * Tests the SPR-2098 bug whereby no more than 1 property element could be
-	 * passed to a scripted bean :(
+	 * Tests the SPR-2098 bug whereby no more than 1 property element could be passed to a
+	 * scripted bean :(
 	 */
 	@Test
 	public void testCanPassInMoreThanOneProperty() {
@@ -545,9 +549,7 @@ public class GroovyScriptFactoryTests {
 		// expect the exception we threw in the custom metaclass to show it got invoked
 		ApplicationContext ctx = new ClassPathXmlApplicationContext(xmlFile);
 		Calculator calc = (Calculator) ctx.getBean("delegatingCalculator");
-		assertThatIllegalStateException().isThrownBy(() ->
-				calc.add(1, 2))
-			.withMessage("Gotcha");
+		assertThatIllegalStateException().isThrownBy(() -> calc.add(1, 2)).withMessage("Gotcha");
 	}
 
 	@Test
@@ -574,7 +576,6 @@ public class GroovyScriptFactoryTests {
 		assertThat(result).isEqualTo("test");
 	}
 
-
 	public static class TestCustomizer implements GroovyObjectCustomizer {
 
 		@Override
@@ -593,6 +594,7 @@ public class GroovyScriptFactoryTests {
 			dmc.initialize();
 			goo.setMetaClass(dmc);
 		}
+
 	}
 
 }

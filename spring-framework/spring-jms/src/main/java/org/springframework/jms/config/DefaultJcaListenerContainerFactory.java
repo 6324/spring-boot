@@ -25,8 +25,8 @@ import org.springframework.jms.support.destination.DestinationResolver;
 import org.springframework.lang.Nullable;
 
 /**
- * A {@link JmsListenerContainerFactory} implementation to build a
- * JCA-based {@link JmsMessageEndpointManager}.
+ * A {@link JmsListenerContainerFactory} implementation to build a JCA-based
+ * {@link JmsMessageEndpointManager}.
  *
  * @author Stephane Nicoll
  * @since 4.1
@@ -48,7 +48,6 @@ public class DefaultJcaListenerContainerFactory extends JmsActivationSpecConfig
 
 	@Nullable
 	private Integer phase;
-
 
 	/**
 	 * @see JmsMessageEndpointManager#setResourceAdapter(ResourceAdapter)
@@ -85,13 +84,12 @@ public class DefaultJcaListenerContainerFactory extends JmsActivationSpecConfig
 		this.phase = phase;
 	}
 
-
 	@Override
 	public JmsMessageEndpointManager createListenerContainer(JmsListenerEndpoint endpoint) {
 		if (this.destinationResolver != null && this.activationSpecFactory != null) {
-			throw new IllegalStateException("Specify either 'activationSpecFactory' or " +
-					"'destinationResolver', not both. If you define a dedicated JmsActivationSpecFactory bean, " +
-					"specify the custom DestinationResolver there (if possible)");
+			throw new IllegalStateException("Specify either 'activationSpecFactory' or "
+					+ "'destinationResolver', not both. If you define a dedicated JmsActivationSpecFactory bean, "
+					+ "specify the custom DestinationResolver there (if possible)");
 		}
 
 		JmsMessageEndpointManager instance = createContainerInstance();

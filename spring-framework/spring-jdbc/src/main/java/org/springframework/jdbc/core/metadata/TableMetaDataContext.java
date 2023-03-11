@@ -38,8 +38,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Class to manage context meta-data used for the configuration
- * and execution of operations on a database table.
+ * Class to manage context meta-data used for the configuration and execution of
+ * operations on a database table.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -78,7 +78,6 @@ public class TableMetaDataContext {
 
 	// Are we using generated key columns
 	private boolean generatedKeyColumnsUsed = false;
-
 
 	/**
 	 * Set the name of the table for this context.
@@ -139,7 +138,6 @@ public class TableMetaDataContext {
 		return this.accessTableColumnMetaData;
 	}
 
-
 	/**
 	 * Specify whether we should override default for accessing synonyms.
 	 */
@@ -161,7 +159,6 @@ public class TableMetaDataContext {
 		return this.tableColumns;
 	}
 
-
 	/**
 	 * Process the current meta-data with the provided configuration options.
 	 * @param dataSource the DataSource being used
@@ -179,7 +176,8 @@ public class TableMetaDataContext {
 	}
 
 	/**
-	 * Compare columns created from meta-data with declared columns and return a reconciled list.
+	 * Compare columns created from meta-data with declared columns and return a
+	 * reconciled list.
 	 * @param declaredColumns declared column names
 	 * @param generatedKeyNames names of generated key columns
 	 */
@@ -209,10 +207,11 @@ public class TableMetaDataContext {
 	 */
 	public List<Object> matchInParameterValuesWithInsertColumns(SqlParameterSource parameterSource) {
 		List<Object> values = new ArrayList<>();
-		// For parameter source lookups we need to provide case-insensitive lookup support since the
+		// For parameter source lookups we need to provide case-insensitive lookup support
+		// since the
 		// database meta-data is not necessarily providing case-sensitive column names
-		Map<String, String> caseInsensitiveParameterNames =
-				SqlParameterSourceUtils.extractCaseInsensitiveParameterNames(parameterSource);
+		Map<String, String> caseInsensitiveParameterNames = SqlParameterSourceUtils
+				.extractCaseInsensitiveParameterNames(parameterSource);
 		for (String column : this.tableColumns) {
 			if (parameterSource.hasValue(column)) {
 				values.add(SqlParameterSourceUtils.getTypedValue(parameterSource, column));
@@ -229,8 +228,8 @@ public class TableMetaDataContext {
 					}
 					else {
 						if (caseInsensitiveParameterNames.containsKey(lowerCaseName)) {
-							values.add(SqlParameterSourceUtils.getTypedValue(
-									parameterSource, caseInsensitiveParameterNames.get(lowerCaseName)));
+							values.add(SqlParameterSourceUtils.getTypedValue(parameterSource,
+									caseInsensitiveParameterNames.get(lowerCaseName)));
 						}
 						else {
 							values.add(null);
@@ -266,7 +265,6 @@ public class TableMetaDataContext {
 		return values;
 	}
 
-
 	/**
 	 * Build the insert string based on configuration and meta-data information.
 	 * @return the insert string to be used
@@ -298,8 +296,8 @@ public class TableMetaDataContext {
 		if (columnCount < 1) {
 			if (this.generatedKeyColumnsUsed) {
 				if (logger.isDebugEnabled()) {
-					logger.debug("Unable to locate non-key columns for table '" +
-							getTableName() + "' so an empty insert statement is generated");
+					logger.debug("Unable to locate non-key columns for table '" + getTableName()
+							+ "' so an empty insert statement is generated");
 				}
 			}
 			else {
@@ -318,7 +316,8 @@ public class TableMetaDataContext {
 	}
 
 	/**
-	 * Build the array of {@link java.sql.Types} based on configuration and meta-data information.
+	 * Build the array of {@link java.sql.Types} based on configuration and meta-data
+	 * information.
 	 * @return the array of types to be used
 	 */
 	public int[] createInsertTypes() {
@@ -347,7 +346,6 @@ public class TableMetaDataContext {
 		return types;
 	}
 
-
 	/**
 	 * Does this database support the JDBC 3.0 feature of retrieving generated keys:
 	 * {@link java.sql.DatabaseMetaData#supportsGetGeneratedKeys()}?
@@ -357,8 +355,8 @@ public class TableMetaDataContext {
 	}
 
 	/**
-	 * Does this database support simple query to retrieve generated keys
-	 * when the JDBC 3.0 feature is not supported:
+	 * Does this database support simple query to retrieve generated keys when the JDBC
+	 * 3.0 feature is not supported:
 	 * {@link java.sql.DatabaseMetaData#supportsGetGeneratedKeys()}?
 	 */
 	public boolean isGetGeneratedKeysSimulated() {
@@ -366,8 +364,8 @@ public class TableMetaDataContext {
 	}
 
 	/**
-	 * Does this database support a simple query to retrieve generated keys
-	 * when the JDBC 3.0 feature is not supported:
+	 * Does this database support a simple query to retrieve generated keys when the JDBC
+	 * 3.0 feature is not supported:
 	 * {@link java.sql.DatabaseMetaData#supportsGetGeneratedKeys()}?
 	 * @deprecated as of 4.3.15, in favor of {@link #getSimpleQueryForGetGeneratedKey}
 	 */
@@ -378,8 +376,8 @@ public class TableMetaDataContext {
 	}
 
 	/**
-	 * Does this database support a simple query to retrieve generated keys
-	 * when the JDBC 3.0 feature is not supported:
+	 * Does this database support a simple query to retrieve generated keys when the JDBC
+	 * 3.0 feature is not supported:
 	 * {@link java.sql.DatabaseMetaData#supportsGetGeneratedKeys()}?
 	 */
 	@Nullable

@@ -23,8 +23,8 @@ import org.springframework.jdbc.core.InterruptibleBatchPreparedStatementSetter;
 
 /**
  * Abstract implementation of the {@link InterruptibleBatchPreparedStatementSetter}
- * interface, combining the check for available values and setting of those
- * into a single callback method {@link #setValuesIfAvailable}.
+ * interface, combining the check for available values and setting of those into a single
+ * callback method {@link #setValuesIfAvailable}.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -35,10 +35,9 @@ public abstract class AbstractInterruptibleBatchPreparedStatementSetter
 
 	private boolean exhausted;
 
-
 	/**
-	 * This implementation calls {@link #setValuesIfAvailable}
-	 * and sets this instance's exhaustion flag accordingly.
+	 * This implementation calls {@link #setValuesIfAvailable} and sets this instance's
+	 * exhaustion flag accordingly.
 	 */
 	@Override
 	public final void setValues(PreparedStatement ps, int i) throws SQLException {
@@ -54,25 +53,24 @@ public abstract class AbstractInterruptibleBatchPreparedStatementSetter
 	}
 
 	/**
-	 * This implementation returns {@code Integer.MAX_VALUE}.
-	 * Can be overridden in subclasses to lower the maximum batch size.
+	 * This implementation returns {@code Integer.MAX_VALUE}. Can be overridden in
+	 * subclasses to lower the maximum batch size.
 	 */
 	@Override
 	public int getBatchSize() {
 		return Integer.MAX_VALUE;
 	}
 
-
 	/**
-	 * Check for available values and set them on the given PreparedStatement.
-	 * If no values are available anymore, return {@code false}.
+	 * Check for available values and set them on the given PreparedStatement. If no
+	 * values are available anymore, return {@code false}.
 	 * @param ps the PreparedStatement we'll invoke setter methods on
 	 * @param i index of the statement we're issuing in the batch, starting from 0
-	 * @return whether there were values to apply (that is, whether the applied
-	 * parameters should be added to the batch and this method should be called
-	 * for a further iteration)
-	 * @throws SQLException if an SQLException is encountered
-	 * (i.e. there is no need to catch SQLException)
+	 * @return whether there were values to apply (that is, whether the applied parameters
+	 * should be added to the batch and this method should be called for a further
+	 * iteration)
+	 * @throws SQLException if an SQLException is encountered (i.e. there is no need to
+	 * catch SQLException)
 	 */
 	protected abstract boolean setValuesIfAvailable(PreparedStatement ps, int i) throws SQLException;
 

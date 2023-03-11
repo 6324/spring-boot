@@ -19,8 +19,8 @@ package org.springframework.jdbc.support.incrementer;
 import javax.sql.DataSource;
 
 /**
- * {@link DataFieldMaxValueIncrementer} that retrieves the next value
- * of a given SAP HANA sequence.
+ * {@link DataFieldMaxValueIncrementer} that retrieves the next value of a given SAP HANA
+ * sequence.
  *
  * @author Jonathan Bregler
  * @author Juergen Hoeller
@@ -44,7 +44,6 @@ public class HanaSequenceMaxValueIncrementer extends AbstractSequenceMaxValueInc
 	public HanaSequenceMaxValueIncrementer(DataSource dataSource, String incrementerName) {
 		super(dataSource, incrementerName);
 	}
-
 
 	@Override
 	protected String getSequenceQuery() {

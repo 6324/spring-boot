@@ -23,7 +23,9 @@ public class Assembler implements TestIF {
 
 	@SuppressWarnings("unused")
 	private Service service;
+
 	private Logic l;
+
 	private String name;
 
 	public void setService(Service service) {

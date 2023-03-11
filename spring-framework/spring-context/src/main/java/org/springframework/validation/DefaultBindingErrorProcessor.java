@@ -25,12 +25,14 @@ import org.springframework.util.StringUtils;
 /**
  * Default {@link BindingErrorProcessor} implementation.
  *
- * <p>Uses the "required" error code and the field name to resolve message codes
- * for a missing field error.
+ * <p>
+ * Uses the "required" error code and the field name to resolve message codes for a
+ * missing field error.
  *
- * <p>Creates a {@code FieldError} for each {@code PropertyAccessException}
- * given, using the {@code PropertyAccessException}'s error code ("typeMismatch",
- * "methodInvocation") for resolving message codes.
+ * <p>
+ * Creates a {@code FieldError} for each {@code PropertyAccessException} given, using the
+ * {@code PropertyAccessException}'s error code ("typeMismatch", "methodInvocation") for
+ * resolving message codes.
  *
  * @author Alef Arendsen
  * @author Juergen Hoeller
@@ -46,12 +48,10 @@ import org.springframework.util.StringUtils;
 public class DefaultBindingErrorProcessor implements BindingErrorProcessor {
 
 	/**
-	 * Error code that a missing field error (i.e. a required field not
-	 * found in the list of property values) will be registered with:
-	 * "required".
+	 * Error code that a missing field error (i.e. a required field not found in the list
+	 * of property values) will be registered with: "required".
 	 */
 	public static final String MISSING_FIELD_ERROR_CODE = "required";
-
 
 	@Override
 	public void processMissingFieldError(String missingField, BindingResult bindingResult) {
@@ -59,8 +59,8 @@ public class DefaultBindingErrorProcessor implements BindingErrorProcessor {
 		String fixedField = bindingResult.getNestedPath() + missingField;
 		String[] codes = bindingResult.resolveMessageCodes(MISSING_FIELD_ERROR_CODE, missingField);
 		Object[] arguments = getArgumentsForBindError(bindingResult.getObjectName(), fixedField);
-		FieldError error = new FieldError(bindingResult.getObjectName(), fixedField, "", true,
-				codes, arguments, "Field '" + fixedField + "' is required");
+		FieldError error = new FieldError(bindingResult.getObjectName(), fixedField, "", true, codes, arguments,
+				"Field '" + fixedField + "' is required");
 		bindingResult.addError(error);
 	}
 
@@ -75,17 +75,18 @@ public class DefaultBindingErrorProcessor implements BindingErrorProcessor {
 		if (ObjectUtils.isArray(rejectedValue)) {
 			rejectedValue = StringUtils.arrayToCommaDelimitedString(ObjectUtils.toObjectArray(rejectedValue));
 		}
-		FieldError error = new FieldError(bindingResult.getObjectName(), field, rejectedValue, true,
-				codes, arguments, ex.getLocalizedMessage());
+		FieldError error = new FieldError(bindingResult.getObjectName(), field, rejectedValue, true, codes, arguments,
+				ex.getLocalizedMessage());
 		error.wrap(ex);
 		bindingResult.addError(error);
 	}
 
 	/**
-	 * Return FieldError arguments for a binding error on the given field.
-	 * Invoked for each missing required field and each type mismatch.
-	 * <p>The default implementation returns a single argument indicating the field name
-	 * (of type DefaultMessageSourceResolvable, with "objectName.field" and "field" as codes).
+	 * Return FieldError arguments for a binding error on the given field. Invoked for
+	 * each missing required field and each type mismatch.
+	 * <p>
+	 * The default implementation returns a single argument indicating the field name (of
+	 * type DefaultMessageSourceResolvable, with "objectName.field" and "field" as codes).
 	 * @param objectName the name of the target object
 	 * @param field the field that caused the binding error
 	 * @return the Object array that represents the FieldError arguments
@@ -93,8 +94,8 @@ public class DefaultBindingErrorProcessor implements BindingErrorProcessor {
 	 * @see org.springframework.context.support.DefaultMessageSourceResolvable
 	 */
 	protected Object[] getArgumentsForBindError(String objectName, String field) {
-		String[] codes = new String[] {objectName + Errors.NESTED_PATH_SEPARATOR + field, field};
-		return new Object[] {new DefaultMessageSourceResolvable(codes, field)};
+		String[] codes = new String[] { objectName + Errors.NESTED_PATH_SEPARATOR + field, field };
+		return new Object[] { new DefaultMessageSourceResolvable(codes, field) };
 	}
 
 }

@@ -28,7 +28,8 @@ import org.springframework.util.Assert;
 /**
  * Simple {@link DataSourceLookup} implementation that relies on a map for doing lookups.
  *
- * <p>Useful for testing environments or applications that need to match arbitrary
+ * <p>
+ * Useful for testing environments or applications that need to match arbitrary
  * {@link String} names to target {@link DataSource} objects.
  *
  * @author Costin Leau
@@ -40,7 +41,6 @@ public class MapDataSourceLookup implements DataSourceLookup {
 
 	private final Map<String, DataSource> dataSources = new HashMap<>(4);
 
-
 	/**
 	 * Create a new instance of the {@link MapDataSourceLookup} class.
 	 */
@@ -49,8 +49,8 @@ public class MapDataSourceLookup implements DataSourceLookup {
 
 	/**
 	 * Create a new instance of the {@link MapDataSourceLookup} class.
-	 * @param dataSources the {@link Map} of {@link DataSource DataSources}; the keys
-	 * are {@link String Strings}, the values are actual {@link DataSource} instances.
+	 * @param dataSources the {@link Map} of {@link DataSource DataSources}; the keys are
+	 * {@link String Strings}, the values are actual {@link DataSource} instances.
 	 */
 	public MapDataSourceLookup(Map<String, DataSource> dataSources) {
 		setDataSources(dataSources);
@@ -58,19 +58,20 @@ public class MapDataSourceLookup implements DataSourceLookup {
 
 	/**
 	 * Create a new instance of the {@link MapDataSourceLookup} class.
-	 * @param dataSourceName the name under which the supplied {@link DataSource} is to be added
+	 * @param dataSourceName the name under which the supplied {@link DataSource} is to be
+	 * added
 	 * @param dataSource the {@link DataSource} to be added
 	 */
 	public MapDataSourceLookup(String dataSourceName, DataSource dataSource) {
 		addDataSource(dataSourceName, dataSource);
 	}
 
-
 	/**
-	 * Set the {@link Map} of {@link DataSource DataSources}; the keys
-	 * are {@link String Strings}, the values are actual {@link DataSource} instances.
-	 * <p>If the supplied {@link Map} is {@code null}, then this method
-	 * call effectively has no effect.
+	 * Set the {@link Map} of {@link DataSource DataSources}; the keys are {@link String
+	 * Strings}, the values are actual {@link DataSource} instances.
+	 * <p>
+	 * If the supplied {@link Map} is {@code null}, then this method call effectively has
+	 * no effect.
 	 * @param dataSources said {@link Map} of {@link DataSource DataSources}
 	 */
 	public void setDataSources(@Nullable Map<String, DataSource> dataSources) {
@@ -81,7 +82,9 @@ public class MapDataSourceLookup implements DataSourceLookup {
 
 	/**
 	 * Get the {@link Map} of {@link DataSource DataSources} maintained by this object.
-	 * <p>The returned {@link Map} is {@link Collections#unmodifiableMap(java.util.Map) unmodifiable}.
+	 * <p>
+	 * The returned {@link Map} is {@link Collections#unmodifiableMap(java.util.Map)
+	 * unmodifiable}.
 	 * @return said {@link Map} of {@link DataSource DataSources} (never {@code null})
 	 */
 	public Map<String, DataSource> getDataSources() {
@@ -91,7 +94,8 @@ public class MapDataSourceLookup implements DataSourceLookup {
 	/**
 	 * Add the supplied {@link DataSource} to the map of {@link DataSource DataSources}
 	 * maintained by this object.
-	 * @param dataSourceName the name under which the supplied {@link DataSource} is to be added
+	 * @param dataSourceName the name under which the supplied {@link DataSource} is to be
+	 * added
 	 * @param dataSource the {@link DataSource} to be so added
 	 */
 	public void addDataSource(String dataSourceName, DataSource dataSource) {
@@ -105,8 +109,7 @@ public class MapDataSourceLookup implements DataSourceLookup {
 		Assert.notNull(dataSourceName, "DataSource name must not be null");
 		DataSource dataSource = this.dataSources.get(dataSourceName);
 		if (dataSource == null) {
-			throw new DataSourceLookupFailureException(
-					"No DataSource with name '" + dataSourceName + "' registered");
+			throw new DataSourceLookupFailureException("No DataSource with name '" + dataSourceName + "' registered");
 		}
 		return dataSource;
 	}

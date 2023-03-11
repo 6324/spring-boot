@@ -49,10 +49,12 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 /**
  * A {@link HttpRequestHandler} for processing WebSocket handshake requests.
  *
- * <p>This is the main class to use when configuring a server WebSocket at a specific URL.
- * It is a very thin wrapper around a {@link WebSocketHandler} and a {@link HandshakeHandler},
- * also adapting the {@link HttpServletRequest} and {@link HttpServletResponse} to
- * {@link ServerHttpRequest} and {@link ServerHttpResponse}, respectively.
+ * <p>
+ * This is the main class to use when configuring a server WebSocket at a specific URL. It
+ * is a very thin wrapper around a {@link WebSocketHandler} and a
+ * {@link HandshakeHandler}, also adapting the {@link HttpServletRequest} and
+ * {@link HttpServletResponse} to {@link ServerHttpRequest} and
+ * {@link ServerHttpResponse}, respectively.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -69,7 +71,6 @@ public class WebSocketHttpRequestHandler implements HttpRequestHandler, Lifecycl
 
 	private volatile boolean running = false;
 
-
 	public WebSocketHttpRequestHandler(WebSocketHandler wsHandler) {
 		this(wsHandler, new DefaultHandshakeHandler());
 	}
@@ -83,14 +84,14 @@ public class WebSocketHttpRequestHandler implements HttpRequestHandler, Lifecycl
 
 	/**
 	 * Decorate the {@code WebSocketHandler} passed into the constructor.
-	 * <p>By default, {@link LoggingWebSocketHandlerDecorator} and
+	 * <p>
+	 * By default, {@link LoggingWebSocketHandlerDecorator} and
 	 * {@link ExceptionWebSocketHandlerDecorator} are added.
 	 * @since 5.2.2
 	 */
 	protected WebSocketHandler decorate(WebSocketHandler handler) {
 		return new ExceptionWebSocketHandlerDecorator(new LoggingWebSocketHandlerDecorator(handler));
 	}
-
 
 	/**
 	 * Return the WebSocketHandler.
@@ -130,7 +131,6 @@ public class WebSocketHttpRequestHandler implements HttpRequestHandler, Lifecycl
 		}
 	}
 
-
 	@Override
 	public void start() {
 		if (!isRunning()) {
@@ -155,7 +155,6 @@ public class WebSocketHttpRequestHandler implements HttpRequestHandler, Lifecycl
 	public boolean isRunning() {
 		return this.running;
 	}
-
 
 	@Override
 	public void handleRequest(HttpServletRequest servletRequest, HttpServletResponse servletResponse)

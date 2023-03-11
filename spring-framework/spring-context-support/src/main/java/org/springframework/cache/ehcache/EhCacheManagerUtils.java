@@ -27,14 +27,14 @@ import net.sf.ehcache.config.ConfigurationFactory;
 import org.springframework.core.io.Resource;
 
 /**
- * Convenient builder methods for EhCache 2.5+ {@link CacheManager} setup,
- * providing easy programmatic bootstrapping from a Spring-provided resource.
- * This is primarily intended for use within {@code @Bean} methods in a
- * Spring configuration class.
+ * Convenient builder methods for EhCache 2.5+ {@link CacheManager} setup, providing easy
+ * programmatic bootstrapping from a Spring-provided resource. This is primarily intended
+ * for use within {@code @Bean} methods in a Spring configuration class.
  *
- * <p>These methods are a simple alternative to custom {@link CacheManager} setup
- * code. For any advanced purposes, consider using {@link #parseConfiguration},
- * customizing the configuration object, and then calling the
+ * <p>
+ * These methods are a simple alternative to custom {@link CacheManager} setup code. For
+ * any advanced purposes, consider using {@link #parseConfiguration}, customizing the
+ * configuration object, and then calling the
  * {@link CacheManager#CacheManager(Configuration)} constructor.
  *
  * @author Juergen Hoeller
@@ -44,9 +44,11 @@ public abstract class EhCacheManagerUtils {
 
 	/**
 	 * Build an EhCache {@link CacheManager} from the default configuration.
-	 * <p>The CacheManager will be configured from "ehcache.xml" in the root of the class path
-	 * (that is, default EhCache initialization - as defined in the EhCache docs - will apply).
-	 * If no configuration file can be found, a fail-safe fallback configuration will be used.
+	 * <p>
+	 * The CacheManager will be configured from "ehcache.xml" in the root of the class
+	 * path (that is, default EhCache initialization - as defined in the EhCache docs -
+	 * will apply). If no configuration file can be found, a fail-safe fallback
+	 * configuration will be used.
 	 * @return the new EhCache CacheManager
 	 * @throws CacheException in case of configuration parsing failure
 	 */
@@ -56,9 +58,11 @@ public abstract class EhCacheManagerUtils {
 
 	/**
 	 * Build an EhCache {@link CacheManager} from the default configuration.
-	 * <p>The CacheManager will be configured from "ehcache.xml" in the root of the class path
-	 * (that is, default EhCache initialization - as defined in the EhCache docs - will apply).
-	 * If no configuration file can be found, a fail-safe fallback configuration will be used.
+	 * <p>
+	 * The CacheManager will be configured from "ehcache.xml" in the root of the class
+	 * path (that is, default EhCache initialization - as defined in the EhCache docs -
+	 * will apply). If no configuration file can be found, a fail-safe fallback
+	 * configuration will be used.
 	 * @param name the desired name of the cache manager
 	 * @return the new EhCache CacheManager
 	 * @throws CacheException in case of configuration parsing failure
@@ -93,8 +97,8 @@ public abstract class EhCacheManagerUtils {
 	}
 
 	/**
-	 * Parse EhCache configuration from the given resource, for further use with
-	 * custom {@link CacheManager} creation.
+	 * Parse EhCache configuration from the given resource, for further use with custom
+	 * {@link CacheManager} creation.
 	 * @param configLocation the location of the configuration file (as a Spring resource)
 	 * @return the EhCache Configuration handle
 	 * @throws CacheException in case of configuration parsing failure

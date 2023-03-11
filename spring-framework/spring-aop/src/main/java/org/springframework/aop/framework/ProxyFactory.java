@@ -23,9 +23,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 
 /**
- * Factory for AOP proxies for programmatic use, rather than via declarative
- * setup in a bean factory. This class provides a simple way of obtaining
- * and configuring AOP proxy instances in custom user code.
+ * Factory for AOP proxies for programmatic use, rather than via declarative setup in a
+ * bean factory. This class provides a simple way of obtaining and configuring AOP proxy
+ * instances in custom user code.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -43,7 +43,8 @@ public class ProxyFactory extends ProxyCreatorSupport {
 
 	/**
 	 * Create a new ProxyFactory.
-	 * <p>Will proxy all interfaces that the given target implements.
+	 * <p>
+	 * Will proxy all interfaces that the given target implements.
 	 * @param target the target object to be proxied
 	 */
 	public ProxyFactory(Object target) {
@@ -53,7 +54,8 @@ public class ProxyFactory extends ProxyCreatorSupport {
 
 	/**
 	 * Create a new ProxyFactory.
-	 * <p>No target, only interfaces. Must add interceptors.
+	 * <p>
+	 * No target, only interfaces. Must add interceptors.
 	 * @param proxyInterfaces the interfaces that the proxy should implement
 	 */
 	public ProxyFactory(Class<?>... proxyInterfaces) {
@@ -62,9 +64,10 @@ public class ProxyFactory extends ProxyCreatorSupport {
 
 	/**
 	 * Create a new ProxyFactory for the given interface and interceptor.
-	 * <p>Convenience method for creating a proxy for a single interceptor,
-	 * assuming that the interceptor handles all calls itself rather than
-	 * delegating to a target, like in the case of remoting proxies.
+	 * <p>
+	 * Convenience method for creating a proxy for a single interceptor, assuming that the
+	 * interceptor handles all calls itself rather than delegating to a target, like in
+	 * the case of remoting proxies.
 	 * @param proxyInterface the interface that the proxy should implement
 	 * @param interceptor the interceptor that the proxy should invoke
 	 */
@@ -74,8 +77,8 @@ public class ProxyFactory extends ProxyCreatorSupport {
 	}
 
 	/**
-	 * Create a ProxyFactory for the specified {@code TargetSource},
-	 * making the proxy implement the specified interface.
+	 * Create a ProxyFactory for the specified {@code TargetSource}, making the proxy
+	 * implement the specified interface.
 	 * @param proxyInterface the interface that the proxy should implement
 	 * @param targetSource the TargetSource that the proxy should invoke
 	 */
@@ -84,13 +87,14 @@ public class ProxyFactory extends ProxyCreatorSupport {
 		setTargetSource(targetSource);
 	}
 
-
 	/**
 	 * Create a new proxy according to the settings in this factory.
-	 * <p>Can be called repeatedly. Effect will vary if we've added
-	 * or removed interfaces. Can add and remove interceptors.
-	 * <p>Uses a default class loader: Usually, the thread context class loader
-	 * (if necessary for proxy creation).
+	 * <p>
+	 * Can be called repeatedly. Effect will vary if we've added or removed interfaces.
+	 * Can add and remove interceptors.
+	 * <p>
+	 * Uses a default class loader: Usually, the thread context class loader (if necessary
+	 * for proxy creation).
 	 * @return the proxy object
 	 */
 	public Object getProxy() {
@@ -99,23 +103,25 @@ public class ProxyFactory extends ProxyCreatorSupport {
 
 	/**
 	 * Create a new proxy according to the settings in this factory.
-	 * <p>Can be called repeatedly. Effect will vary if we've added
-	 * or removed interfaces. Can add and remove interceptors.
-	 * <p>Uses the given class loader (if necessary for proxy creation).
-	 * @param classLoader the class loader to create the proxy with
-	 * (or {@code null} for the low-level proxy facility's default)
+	 * <p>
+	 * Can be called repeatedly. Effect will vary if we've added or removed interfaces.
+	 * Can add and remove interceptors.
+	 * <p>
+	 * Uses the given class loader (if necessary for proxy creation).
+	 * @param classLoader the class loader to create the proxy with (or {@code null} for
+	 * the low-level proxy facility's default)
 	 * @return the proxy object
 	 */
 	public Object getProxy(@Nullable ClassLoader classLoader) {
 		return createAopProxy().getProxy(classLoader);
 	}
 
-
 	/**
 	 * Create a new proxy for the given interface and interceptor.
-	 * <p>Convenience method for creating a proxy for a single interceptor,
-	 * assuming that the interceptor handles all calls itself rather than
-	 * delegating to a target, like in the case of remoting proxies.
+	 * <p>
+	 * Convenience method for creating a proxy for a single interceptor, assuming that the
+	 * interceptor handles all calls itself rather than delegating to a target, like in
+	 * the case of remoting proxies.
 	 * @param proxyInterface the interface that the proxy should implement
 	 * @param interceptor the interceptor that the proxy should invoke
 	 * @return the proxy object
@@ -127,8 +133,8 @@ public class ProxyFactory extends ProxyCreatorSupport {
 	}
 
 	/**
-	 * Create a proxy for the specified {@code TargetSource},
-	 * implementing the specified interface.
+	 * Create a proxy for the specified {@code TargetSource}, implementing the specified
+	 * interface.
 	 * @param proxyInterface the interface that the proxy should implement
 	 * @param targetSource the TargetSource that the proxy should invoke
 	 * @return the proxy object
@@ -140,8 +146,8 @@ public class ProxyFactory extends ProxyCreatorSupport {
 	}
 
 	/**
-	 * Create a proxy for the specified {@code TargetSource} that extends
-	 * the target class of the {@code TargetSource}.
+	 * Create a proxy for the specified {@code TargetSource} that extends the target class
+	 * of the {@code TargetSource}.
 	 * @param targetSource the TargetSource that the proxy should invoke
 	 * @return the proxy object
 	 */

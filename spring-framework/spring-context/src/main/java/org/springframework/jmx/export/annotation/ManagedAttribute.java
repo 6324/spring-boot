@@ -23,11 +23,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Method-level annotation that indicates to expose a given bean property as a
- * JMX attribute, corresponding to the
+ * Method-level annotation that indicates to expose a given bean property as a JMX
+ * attribute, corresponding to the
  * {@link org.springframework.jmx.export.metadata.ManagedAttribute}.
  *
- * <p>Only valid when used on a JavaBean getter or setter.
+ * <p>
+ * Only valid when used on a JavaBean getter or setter.
  *
  * @author Rob Harrop
  * @since 1.2

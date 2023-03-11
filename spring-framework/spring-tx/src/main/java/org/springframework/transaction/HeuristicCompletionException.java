@@ -17,8 +17,8 @@
 package org.springframework.transaction;
 
 /**
- * Exception that represents a transaction failure caused by a heuristic
- * decision on the side of the transaction coordinator.
+ * Exception that represents a transaction failure caused by a heuristic decision on the
+ * side of the transaction coordinator.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -47,26 +47,23 @@ public class HeuristicCompletionException extends TransactionException {
 	 */
 	public static final int STATE_MIXED = 3;
 
-
 	public static String getStateString(int state) {
 		switch (state) {
-			case STATE_COMMITTED:
-				return "committed";
-			case STATE_ROLLED_BACK:
-				return "rolled back";
-			case STATE_MIXED:
-				return "mixed";
-			default:
-				return "unknown";
+		case STATE_COMMITTED:
+			return "committed";
+		case STATE_ROLLED_BACK:
+			return "rolled back";
+		case STATE_MIXED:
+			return "mixed";
+		default:
+			return "unknown";
 		}
 	}
-
 
 	/**
 	 * The outcome state of the transaction: have some or all resources been committed?
 	 */
 	private final int outcomeState;
-
 
 	/**
 	 * Constructor for HeuristicCompletionException.
@@ -79,8 +76,8 @@ public class HeuristicCompletionException extends TransactionException {
 	}
 
 	/**
-	 * Return the outcome state of the transaction state,
-	 * as one of the constants in this class.
+	 * Return the outcome state of the transaction state, as one of the constants in this
+	 * class.
 	 * @see #STATE_UNKNOWN
 	 * @see #STATE_COMMITTED
 	 * @see #STATE_ROLLED_BACK

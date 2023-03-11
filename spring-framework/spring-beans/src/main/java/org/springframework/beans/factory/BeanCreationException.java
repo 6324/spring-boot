@@ -26,8 +26,8 @@ import org.springframework.core.NestedRuntimeException;
 import org.springframework.lang.Nullable;
 
 /**
- * Exception thrown when a BeanFactory encounters an error when
- * attempting to create a bean from a bean definition.
+ * Exception thrown when a BeanFactory encounters an error when attempting to create a
+ * bean from a bean definition.
  *
  * @author Juergen Hoeller
  */
@@ -42,7 +42,6 @@ public class BeanCreationException extends FatalBeanException {
 
 	@Nullable
 	private List<Throwable> relatedCauses;
-
 
 	/**
 	 * Create a new BeanCreationException.
@@ -89,14 +88,14 @@ public class BeanCreationException extends FatalBeanException {
 
 	/**
 	 * Create a new BeanCreationException.
-	 * @param resourceDescription description of the resource
-	 * that the bean definition came from
+	 * @param resourceDescription description of the resource that the bean definition
+	 * came from
 	 * @param beanName the name of the bean requested
 	 * @param msg the detail message
 	 */
 	public BeanCreationException(@Nullable String resourceDescription, @Nullable String beanName, String msg) {
-		super("Error creating bean with name '" + beanName + "'" +
-				(resourceDescription != null ? " defined in " + resourceDescription : "") + ": " + msg);
+		super("Error creating bean with name '" + beanName + "'"
+				+ (resourceDescription != null ? " defined in " + resourceDescription : "") + ": " + msg);
 		this.resourceDescription = resourceDescription;
 		this.beanName = beanName;
 		this.relatedCauses = null;
@@ -104,8 +103,8 @@ public class BeanCreationException extends FatalBeanException {
 
 	/**
 	 * Create a new BeanCreationException.
-	 * @param resourceDescription description of the resource
-	 * that the bean definition came from
+	 * @param resourceDescription description of the resource that the bean definition
+	 * came from
 	 * @param beanName the name of the bean requested
 	 * @param msg the detail message
 	 * @param cause the root cause
@@ -115,10 +114,8 @@ public class BeanCreationException extends FatalBeanException {
 		initCause(cause);
 	}
 
-
 	/**
-	 * Return the description of the resource that the bean
-	 * definition came from, if any.
+	 * Return the description of the resource that the bean definition came from, if any.
 	 */
 	@Nullable
 	public String getResourceDescription() {
@@ -134,9 +131,8 @@ public class BeanCreationException extends FatalBeanException {
 	}
 
 	/**
-	 * Add a related cause to this bean creation exception,
-	 * not being a direct cause of the failure but having occurred
-	 * earlier in the creation of the same bean instance.
+	 * Add a related cause to this bean creation exception, not being a direct cause of
+	 * the failure but having occurred earlier in the creation of the same bean instance.
 	 * @param ex the related cause to add
 	 */
 	public void addRelatedCause(Throwable ex) {
@@ -157,7 +153,6 @@ public class BeanCreationException extends FatalBeanException {
 		}
 		return this.relatedCauses.toArray(new Throwable[0]);
 	}
-
 
 	@Override
 	public String toString() {
@@ -204,8 +199,8 @@ public class BeanCreationException extends FatalBeanException {
 		}
 		if (this.relatedCauses != null) {
 			for (Throwable relatedCause : this.relatedCauses) {
-				if (relatedCause instanceof NestedRuntimeException &&
-						((NestedRuntimeException) relatedCause).contains(exClass)) {
+				if (relatedCause instanceof NestedRuntimeException
+						&& ((NestedRuntimeException) relatedCause).contains(exClass)) {
 					return true;
 				}
 			}

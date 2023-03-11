@@ -58,8 +58,8 @@ public abstract class BindingResultUtils {
 	public static BindingResult getRequiredBindingResult(Map<?, ?> model, String name) {
 		BindingResult bindingResult = getBindingResult(model, name);
 		if (bindingResult == null) {
-			throw new IllegalStateException("No BindingResult attribute found for name '" + name +
-					"'- have you exposed the correct model?");
+			throw new IllegalStateException(
+					"No BindingResult attribute found for name '" + name + "'- have you exposed the correct model?");
 		}
 		return bindingResult;
 	}

@@ -45,8 +45,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.web.testfixture.method.ResolvableMethod.on;
 
 /**
- * Unit tests for {@link ResponseBodyResultHandler}.When adding a test also
- * consider whether the logic under test is in a parent class, then see:
+ * Unit tests for {@link ResponseBodyResultHandler}.When adding a test also consider
+ * whether the logic under test is in a parent class, then see:
  * <ul>
  * <li>{@code MessageWriterResultHandlerTests},
  * <li>{@code ContentNegotiatingResultHandlerSupportTests}
@@ -59,7 +59,6 @@ public class ResponseBodyResultHandlerTests {
 
 	private ResponseBodyResultHandler resultHandler;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		List<HttpMessageWriter<?>> writerList = new ArrayList<>(5);
@@ -71,7 +70,6 @@ public class ResponseBodyResultHandlerTests {
 		RequestedContentTypeResolver resolver = new RequestedContentTypeResolverBuilder().build();
 		this.resultHandler = new ResponseBodyResultHandler(writerList, resolver);
 	}
-
 
 	@Test
 	public void supports() {
@@ -119,13 +117,13 @@ public class ResponseBodyResultHandlerTests {
 		assertThat(this.resultHandler.getOrder()).isEqualTo(100);
 	}
 
-
-
 	@RestController
 	@SuppressWarnings("unused")
 	private static class TestRestController {
 
-		public Mono<Void> handleToMonoVoid() { return null;}
+		public Mono<Void> handleToMonoVoid() {
+			return null;
+		}
 
 		public String handleToString() {
 			return null;
@@ -142,8 +140,8 @@ public class ResponseBodyResultHandlerTests {
 		public Completable handleToCompletable() {
 			return null;
 		}
-	}
 
+	}
 
 	@Controller
 	@SuppressWarnings("unused")
@@ -157,6 +155,7 @@ public class ResponseBodyResultHandlerTests {
 		public String doWork() {
 			return null;
 		}
+
 	}
 
 }

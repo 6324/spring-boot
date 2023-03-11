@@ -110,9 +110,11 @@ public class DelegatingDataSourceTests {
 	}
 
 	public static interface ExampleWrapper {
+
 	}
 
-	private static class DelegatingDataSourceWithWrapper extends DelegatingDataSource
-			implements ExampleWrapper {
+	private static class DelegatingDataSourceWithWrapper extends DelegatingDataSource implements ExampleWrapper {
+
 	}
+
 }

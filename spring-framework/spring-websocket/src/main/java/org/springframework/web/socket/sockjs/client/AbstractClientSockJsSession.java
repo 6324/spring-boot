@@ -38,10 +38,10 @@ import org.springframework.web.socket.sockjs.frame.SockJsFrame;
 import org.springframework.web.socket.sockjs.frame.SockJsMessageCodec;
 
 /**
- * Base class for SockJS client implementations of {@link WebSocketSession}.
- * Provides processing of incoming SockJS message frames and delegates lifecycle
- * events and messages to the (application) {@link WebSocketHandler}.
- * Sub-classes implement actual send as well as disconnect logic.
+ * Base class for SockJS client implementations of {@link WebSocketSession}. Provides
+ * processing of incoming SockJS message frames and delegates lifecycle events and
+ * messages to the (application) {@link WebSocketHandler}. Sub-classes implement actual
+ * send as well as disconnect logic.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -65,7 +65,6 @@ public abstract class AbstractClientSockJsSession implements WebSocketSession {
 	@Nullable
 	private volatile CloseStatus closeStatus;
 
-
 	protected AbstractClientSockJsSession(TransportRequest request, WebSocketHandler handler,
 			SettableListenableFuture<WebSocketSession> connectFuture) {
 
@@ -76,7 +75,6 @@ public abstract class AbstractClientSockJsSession implements WebSocketSession {
 		this.webSocketHandler = handler;
 		this.connectFuture = connectFuture;
 	}
-
 
 	@Override
 	public String getId() {
@@ -112,10 +110,9 @@ public abstract class AbstractClientSockJsSession implements WebSocketSession {
 	}
 
 	/**
-	 * Return a timeout cleanup task to invoke if the SockJS sessions is not
-	 * fully established within the retransmission timeout period calculated in
-	 * {@code SockJsRequest} based on the duration of the initial SockJS "Info"
-	 * request.
+	 * Return a timeout cleanup task to invoke if the SockJS sessions is not fully
+	 * established within the retransmission timeout period calculated in
+	 * {@code SockJsRequest} based on the duration of the initial SockJS "Info" request.
 	 */
 	Runnable getTimeoutTask() {
 		return new Runnable() {
@@ -153,7 +150,8 @@ public abstract class AbstractClientSockJsSession implements WebSocketSession {
 
 		String payload = ((TextMessage) message).getPayload();
 		payload = getMessageCodec().encode(payload);
-		payload = payload.substring(1);  // the client-side doesn't need message framing (letter "a")
+		payload = payload.substring(1); // the client-side doesn't need message framing
+										// (letter "a")
 
 		TextMessage messageToSend = new TextMessage(payload);
 		if (logger.isTraceEnabled()) {
@@ -175,14 +173,13 @@ public abstract class AbstractClientSockJsSession implements WebSocketSession {
 			throw new IllegalArgumentException("Invalid close status: " + status);
 		}
 		if (logger.isDebugEnabled()) {
-			logger.debug("Closing session with " +  status + " in " + this);
+			logger.debug("Closing session with " + status + " in " + this);
 		}
 		closeInternal(status);
 	}
 
 	private boolean isUserSetStatus(@Nullable CloseStatus status) {
-		return (status != null && (status.getCode() == 1000 ||
-				(status.getCode() >= 3000 && status.getCode() <= 4999)));
+		return (status != null && (status.getCode() == 1000 || (status.getCode() >= 3000 && status.getCode() <= 4999)));
 	}
 
 	private void silentClose(CloseStatus status) {
@@ -218,19 +215,19 @@ public abstract class AbstractClientSockJsSession implements WebSocketSession {
 	public void handleFrame(String payload) {
 		SockJsFrame frame = new SockJsFrame(payload);
 		switch (frame.getType()) {
-			case OPEN:
-				handleOpenFrame();
-				break;
-			case HEARTBEAT:
-				if (logger.isTraceEnabled()) {
-					logger.trace("Received heartbeat in " + this);
-				}
-				break;
-			case MESSAGE:
-				handleMessageFrame(frame);
-				break;
-			case CLOSE:
-				handleCloseFrame(frame);
+		case OPEN:
+			handleOpenFrame();
+			break;
+		case HEARTBEAT:
+			if (logger.isTraceEnabled()) {
+				logger.trace("Received heartbeat in " + this);
+			}
+			break;
+		case MESSAGE:
+			handleMessageFrame(frame);
+			break;
+		case CLOSE:
+			handleCloseFrame(frame);
 		}
 	}
 
@@ -252,8 +249,8 @@ public abstract class AbstractClientSockJsSession implements WebSocketSession {
 		}
 		else {
 			if (logger.isDebugEnabled()) {
-				logger.debug("Open frame received in " + getId() + " but we're not connecting (current state " +
-						this.state + "). The server might have been restarted and lost track of the session.");
+				logger.debug("Open frame received in " + getId() + " but we're not connecting (current state "
+						+ this.state + "). The server might have been restarted and lost track of the session.");
 			}
 			silentClose(new CloseStatus(1006, "Server lost session"));
 		}
@@ -359,7 +356,10 @@ public abstract class AbstractClientSockJsSession implements WebSocketSession {
 		return getClass().getSimpleName() + "[id='" + getId() + ", url=" + getUri() + "]";
 	}
 
+	private enum State {
 
-	private enum State { NEW, OPEN, CLOSING, CLOSED }
+		NEW, OPEN, CLOSING, CLOSED
+
+	}
 
 }

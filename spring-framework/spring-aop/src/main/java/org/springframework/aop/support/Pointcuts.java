@@ -24,11 +24,12 @@ import org.springframework.aop.Pointcut;
 import org.springframework.util.Assert;
 
 /**
- * Pointcut constants for matching getters and setters,
- * and static methods useful for manipulating and evaluating pointcuts.
+ * Pointcut constants for matching getters and setters, and static methods useful for
+ * manipulating and evaluating pointcuts.
  *
- * <p>These methods are particularly useful for composing pointcuts
- * using the union and intersection methods.
+ * <p>
+ * These methods are particularly useful for composing pointcuts using the union and
+ * intersection methods.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -41,13 +42,12 @@ public abstract class Pointcuts {
 	/** Pointcut matching all bean property getters, in any class. */
 	public static final Pointcut GETTERS = GetterPointcut.INSTANCE;
 
-
 	/**
 	 * Match all methods that <b>either</b> (or both) of the given pointcuts matches.
 	 * @param pc1 the first Pointcut
 	 * @param pc2 the second Pointcut
-	 * @return a distinct Pointcut that matches all methods that either
-	 * of the given Pointcuts matches
+	 * @return a distinct Pointcut that matches all methods that either of the given
+	 * Pointcuts matches
 	 */
 	public static Pointcut union(Pointcut pc1, Pointcut pc2) {
 		return new ComposablePointcut(pc1).union(pc2);
@@ -57,8 +57,8 @@ public abstract class Pointcuts {
 	 * Match all methods that <b>both</b> the given pointcuts match.
 	 * @param pc1 the first Pointcut
 	 * @param pc2 the second Pointcut
-	 * @return a distinct Pointcut that matches all methods that both
-	 * of the given Pointcuts match
+	 * @return a distinct Pointcut that matches all methods that both of the given
+	 * Pointcuts match
 	 */
 	public static Pointcut intersection(Pointcut pc1, Pointcut pc2) {
 		return new ComposablePointcut(pc1).intersection(pc2);
@@ -88,7 +88,6 @@ public abstract class Pointcuts {
 		return false;
 	}
 
-
 	/**
 	 * Pointcut implementation that matches bean property setters.
 	 */
@@ -99,9 +98,8 @@ public abstract class Pointcuts {
 
 		@Override
 		public boolean matches(Method method, Class<?> targetClass) {
-			return (method.getName().startsWith("set") &&
-					method.getParameterCount() == 1 &&
-					method.getReturnType() == Void.TYPE);
+			return (method.getName().startsWith("set") && method.getParameterCount() == 1
+					&& method.getReturnType() == Void.TYPE);
 		}
 
 		private Object readResolve() {
@@ -112,8 +110,8 @@ public abstract class Pointcuts {
 		public String toString() {
 			return "Pointcuts.SETTERS";
 		}
-	}
 
+	}
 
 	/**
 	 * Pointcut implementation that matches bean property getters.
@@ -125,8 +123,7 @@ public abstract class Pointcuts {
 
 		@Override
 		public boolean matches(Method method, Class<?> targetClass) {
-			return (method.getName().startsWith("get") &&
-					method.getParameterCount() == 0);
+			return (method.getName().startsWith("get") && method.getParameterCount() == 0);
 		}
 
 		private Object readResolve() {
@@ -137,6 +134,7 @@ public abstract class Pointcuts {
 		public String toString() {
 			return "Pointcuts.GETTERS";
 		}
+
 	}
 
 }

@@ -63,16 +63,20 @@ abstract class DatabasePopulatorConfigUtils {
 			if (!execution.equals(executionAttr)) {
 				continue;
 			}
-			BeanDefinitionBuilder delegate = BeanDefinitionBuilder.genericBeanDefinition(ResourceDatabasePopulator.class);
+			BeanDefinitionBuilder delegate = BeanDefinitionBuilder
+					.genericBeanDefinition(ResourceDatabasePopulator.class);
 			delegate.addPropertyValue("ignoreFailedDrops", ignoreFailedDrops);
 			delegate.addPropertyValue("continueOnError", continueOnError);
 
-			// Use a factory bean for the resources so they can be given an order if a pattern is used
-			BeanDefinitionBuilder resourcesFactory = BeanDefinitionBuilder.genericBeanDefinition(SortedResourcesFactoryBean.class);
+			// Use a factory bean for the resources so they can be given an order if a
+			// pattern is used
+			BeanDefinitionBuilder resourcesFactory = BeanDefinitionBuilder
+					.genericBeanDefinition(SortedResourcesFactoryBean.class);
 			resourcesFactory.addConstructorArgValue(new TypedStringValue(scriptElement.getAttribute("location")));
 			delegate.addPropertyValue("scripts", resourcesFactory.getBeanDefinition());
 			if (StringUtils.hasLength(scriptElement.getAttribute("encoding"))) {
-				delegate.addPropertyValue("sqlScriptEncoding", new TypedStringValue(scriptElement.getAttribute("encoding")));
+				delegate.addPropertyValue("sqlScriptEncoding",
+						new TypedStringValue(scriptElement.getAttribute("encoding")));
 			}
 			String separator = getSeparator(element, scriptElement);
 			if (separator != null) {

@@ -32,7 +32,6 @@ public class MessagingException extends NestedRuntimeException {
 	@Nullable
 	private final Message<?> failedMessage;
 
-
 	public MessagingException(Message<?> message) {
 		super(null, null);
 		this.failedMessage = message;
@@ -63,7 +62,6 @@ public class MessagingException extends NestedRuntimeException {
 		this.failedMessage = message;
 	}
 
-
 	@Nullable
 	public Message<?> getFailedMessage() {
 		return this.failedMessage;
@@ -71,8 +69,7 @@ public class MessagingException extends NestedRuntimeException {
 
 	@Override
 	public String toString() {
-		return super.toString() + (this.failedMessage == null ? ""
-				: (", failedMessage=" + this.failedMessage));
+		return super.toString() + (this.failedMessage == null ? "" : (", failedMessage=" + this.failedMessage));
 	}
 
 }

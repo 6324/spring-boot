@@ -35,14 +35,12 @@ class ByteBufferConverterTests {
 
 	private GenericConversionService conversionService;
 
-
 	@BeforeEach
 	void setup() {
 		this.conversionService = new DefaultConversionService();
 		this.conversionService.addConverter(new ByteArrayToOtherTypeConverter());
 		this.conversionService.addConverter(new OtherTypeToByteArrayConverter());
 	}
-
 
 	@Test
 	void byteArrayToByteBuffer() throws Exception {
@@ -90,7 +88,6 @@ class ByteBufferConverterTests {
 		assertThat(convert.array()).isEqualTo(bytes);
 	}
 
-
 	private static class OtherType {
 
 		private byte[] bytes;
@@ -107,8 +104,8 @@ class ByteBufferConverterTests {
 		public OtherType convert(byte[] source) {
 			return new OtherType(source);
 		}
-	}
 
+	}
 
 	private static class OtherTypeToByteArrayConverter implements Converter<OtherType, byte[]> {
 

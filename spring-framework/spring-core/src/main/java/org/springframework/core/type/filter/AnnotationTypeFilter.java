@@ -26,15 +26,16 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 
 /**
- * A simple {@link TypeFilter} which matches classes with a given annotation,
- * checking inherited annotations as well.
+ * A simple {@link TypeFilter} which matches classes with a given annotation, checking
+ * inherited annotations as well.
  *
- * <p>By default, the matching logic mirrors that of
+ * <p>
+ * By default, the matching logic mirrors that of
  * {@link AnnotationUtils#getAnnotation(java.lang.reflect.AnnotatedElement, Class)},
- * supporting annotations that are <em>present</em> or <em>meta-present</em> for a
- * single level of meta-annotations. The search for meta-annotations my be disabled.
- * Similarly, the search for annotations on interfaces may optionally be enabled.
- * Consult the various constructors in this class for details.
+ * supporting annotations that are <em>present</em> or <em>meta-present</em> for a single
+ * level of meta-annotations. The search for meta-annotations my be disabled. Similarly,
+ * the search for annotations on interfaces may optionally be enabled. Consult the various
+ * constructors in this class for details.
  *
  * @author Mark Fisher
  * @author Ramnivas Laddad
@@ -48,13 +49,14 @@ public class AnnotationTypeFilter extends AbstractTypeHierarchyTraversingFilter 
 
 	private final boolean considerMetaAnnotations;
 
-
 	/**
 	 * Create a new {@code AnnotationTypeFilter} for the given annotation type.
-	 * <p>The filter will also match meta-annotations. To disable the
-	 * meta-annotation matching, use the constructor that accepts a
-	 * '{@code considerMetaAnnotations}' argument.
-	 * <p>The filter will not match interfaces.
+	 * <p>
+	 * The filter will also match meta-annotations. To disable the meta-annotation
+	 * matching, use the constructor that accepts a '{@code considerMetaAnnotations}'
+	 * argument.
+	 * <p>
+	 * The filter will not match interfaces.
 	 * @param annotationType the annotation type to match
 	 */
 	public AnnotationTypeFilter(Class<? extends Annotation> annotationType) {
@@ -63,7 +65,8 @@ public class AnnotationTypeFilter extends AbstractTypeHierarchyTraversingFilter 
 
 	/**
 	 * Create a new {@code AnnotationTypeFilter} for the given annotation type.
-	 * <p>The filter will not match interfaces.
+	 * <p>
+	 * The filter will not match interfaces.
 	 * @param annotationType the annotation type to match
 	 * @param considerMetaAnnotations whether to also match on meta-annotations
 	 */
@@ -77,8 +80,8 @@ public class AnnotationTypeFilter extends AbstractTypeHierarchyTraversingFilter 
 	 * @param considerMetaAnnotations whether to also match on meta-annotations
 	 * @param considerInterfaces whether to also match interfaces
 	 */
-	public AnnotationTypeFilter(
-			Class<? extends Annotation> annotationType, boolean considerMetaAnnotations, boolean considerInterfaces) {
+	public AnnotationTypeFilter(Class<? extends Annotation> annotationType, boolean considerMetaAnnotations,
+			boolean considerInterfaces) {
 
 		super(annotationType.isAnnotationPresent(Inherited.class), considerInterfaces);
 		this.annotationType = annotationType;
@@ -86,8 +89,7 @@ public class AnnotationTypeFilter extends AbstractTypeHierarchyTraversingFilter 
 	}
 
 	/**
-	 * Return the {@link Annotation} that this instance is using to filter
-	 * candidates.
+	 * Return the {@link Annotation} that this instance is using to filter candidates.
 	 * @since 5.0
 	 */
 	public final Class<? extends Annotation> getAnnotationType() {
@@ -97,8 +99,8 @@ public class AnnotationTypeFilter extends AbstractTypeHierarchyTraversingFilter 
 	@Override
 	protected boolean matchSelf(MetadataReader metadataReader) {
 		AnnotationMetadata metadata = metadataReader.getAnnotationMetadata();
-		return metadata.hasAnnotation(this.annotationType.getName()) ||
-				(this.considerMetaAnnotations && metadata.hasMetaAnnotation(this.annotationType.getName()));
+		return metadata.hasAnnotation(this.annotationType.getName())
+				|| (this.considerMetaAnnotations && metadata.hasMetaAnnotation(this.annotationType.getName()));
 	}
 
 	@Override
@@ -126,8 +128,8 @@ public class AnnotationTypeFilter extends AbstractTypeHierarchyTraversingFilter 
 			}
 			try {
 				Class<?> clazz = ClassUtils.forName(typeName, getClass().getClassLoader());
-				return ((this.considerMetaAnnotations ? AnnotationUtils.getAnnotation(clazz, this.annotationType) :
-						clazz.getAnnotation(this.annotationType)) != null);
+				return ((this.considerMetaAnnotations ? AnnotationUtils.getAnnotation(clazz, this.annotationType)
+						: clazz.getAnnotation(this.annotationType)) != null);
 			}
 			catch (Throwable ex) {
 				// Class not regularly loadable - can't determine a match that way.

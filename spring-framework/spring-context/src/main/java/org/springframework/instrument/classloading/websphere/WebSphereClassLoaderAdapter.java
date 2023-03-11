@@ -28,9 +28,9 @@ import java.util.List;
 import org.springframework.util.Assert;
 
 /**
- * Reflective wrapper around a WebSphere 7+ class loader. Used to
- * encapsulate the classloader-specific methods (discovered and
- * called through reflection) from the load-time weaver.
+ * Reflective wrapper around a WebSphere 7+ class loader. Used to encapsulate the
+ * classloader-specific methods (discovered and called through reflection) from the
+ * load-time weaver.
  *
  * @author Costin Leau
  * @author Juergen Hoeller
@@ -44,7 +44,6 @@ class WebSphereClassLoaderAdapter {
 
 	private static final String PLUGINS_FIELD = "preDefinePlugins";
 
-
 	private ClassLoader classLoader;
 
 	private Class<?> wsPreProcessorClass;
@@ -54,7 +53,6 @@ class WebSphereClassLoaderAdapter {
 	private Constructor<? extends ClassLoader> cloneConstructor;
 
 	private Field transformerList;
-
 
 	public WebSphereClassLoaderAdapter(ClassLoader classLoader) {
 		Class<?> wsCompoundClassLoaderClass;
@@ -70,7 +68,8 @@ class WebSphereClassLoaderAdapter {
 		}
 		catch (Throwable ex) {
 			throw new IllegalStateException(
-					"Could not initialize WebSphere LoadTimeWeaver because WebSphere API classes are not available", ex);
+					"Could not initialize WebSphere LoadTimeWeaver because WebSphere API classes are not available",
+					ex);
 		}
 
 		if (!wsCompoundClassLoaderClass.isInstance(classLoader)) {
@@ -79,7 +78,6 @@ class WebSphereClassLoaderAdapter {
 		}
 		this.classLoader = classLoader;
 	}
-
 
 	public ClassLoader getClassLoader() {
 		return this.classLoader;
@@ -90,7 +88,7 @@ class WebSphereClassLoaderAdapter {
 		try {
 			InvocationHandler adapter = new WebSphereClassPreDefinePlugin(transformer);
 			Object adapterInstance = Proxy.newProxyInstance(this.wsPreProcessorClass.getClassLoader(),
-					new Class<?>[] {this.wsPreProcessorClass}, adapter);
+					new Class<?>[] { this.wsPreProcessorClass }, adapter);
 			this.addPreDefinePlugin.invoke(this.classLoader, adapterInstance);
 		}
 		catch (InvocationTargetException ex) {

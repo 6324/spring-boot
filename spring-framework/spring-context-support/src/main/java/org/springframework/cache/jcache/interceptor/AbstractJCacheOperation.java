@@ -49,7 +49,6 @@ abstract class AbstractJCacheOperation<A extends Annotation> implements JCacheOp
 
 	protected final List<CacheParameterDetail> allParameterDetails;
 
-
 	/**
 	 * Construct a new {@code AbstractJCacheOperation}.
 	 * @param methodDetails the {@link CacheMethodDetails} related to the cached method
@@ -72,7 +71,6 @@ abstract class AbstractJCacheOperation<A extends Annotation> implements JCacheOp
 		}
 		return result;
 	}
-
 
 	@Override
 	public Method getMethod() {
@@ -107,8 +105,8 @@ abstract class AbstractJCacheOperation<A extends Annotation> implements JCacheOp
 	@Override
 	public CacheInvocationParameter[] getAllParameters(Object... values) {
 		if (this.allParameterDetails.size() != values.length) {
-			throw new IllegalStateException("Values mismatch, operation has " +
-					this.allParameterDetails.size() + " parameter(s) but got " + values.length + " value(s)");
+			throw new IllegalStateException("Values mismatch, operation has " + this.allParameterDetails.size()
+					+ " parameter(s) but got " + values.length + " value(s)");
 		}
 		List<CacheInvocationParameter> result = new ArrayList<>();
 		for (int i = 0; i < this.allParameterDetails.size(); i++) {
@@ -116,7 +114,6 @@ abstract class AbstractJCacheOperation<A extends Annotation> implements JCacheOp
 		}
 		return result.toArray(new CacheInvocationParameter[0]);
 	}
-
 
 	/**
 	 * Return the {@link ExceptionTypeFilter} to use to filter exceptions thrown while
@@ -129,12 +126,11 @@ abstract class AbstractJCacheOperation<A extends Annotation> implements JCacheOp
 	 * Convenience method for subclasses to create a specific {@code ExceptionTypeFilter}.
 	 * @see #getExceptionTypeFilter()
 	 */
-	protected ExceptionTypeFilter createExceptionTypeFilter(
-			Class<? extends Throwable>[] includes, Class<? extends Throwable>[] excludes) {
+	protected ExceptionTypeFilter createExceptionTypeFilter(Class<? extends Throwable>[] includes,
+			Class<? extends Throwable>[] excludes) {
 
 		return new ExceptionTypeFilter(Arrays.asList(includes), Arrays.asList(excludes), true);
 	}
-
 
 	@Override
 	public String toString() {
@@ -143,7 +139,8 @@ abstract class AbstractJCacheOperation<A extends Annotation> implements JCacheOp
 
 	/**
 	 * Return an identifying description for this caching operation.
-	 * <p>Available to subclasses, for inclusion in their {@code toString()} result.
+	 * <p>
+	 * Available to subclasses, for inclusion in their {@code toString()} result.
 	 */
 	protected StringBuilder getOperationDescription() {
 		StringBuilder result = new StringBuilder();
@@ -152,7 +149,6 @@ abstract class AbstractJCacheOperation<A extends Annotation> implements JCacheOp
 		result.append(this.methodDetails);
 		return result;
 	}
-
 
 	/**
 	 * Details for a single cache parameter.
@@ -203,8 +199,8 @@ abstract class AbstractJCacheOperation<A extends Annotation> implements JCacheOp
 		public CacheInvocationParameter toCacheInvocationParameter(Object value) {
 			return new CacheInvocationParameterImpl(this, value);
 		}
-	}
 
+	}
 
 	/**
 	 * A single cache invocation parameter.
@@ -239,6 +235,7 @@ abstract class AbstractJCacheOperation<A extends Annotation> implements JCacheOp
 		public int getParameterPosition() {
 			return this.detail.parameterPosition;
 		}
+
 	}
 
 }

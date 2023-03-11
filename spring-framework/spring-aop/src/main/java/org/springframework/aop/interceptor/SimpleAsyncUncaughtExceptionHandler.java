@@ -32,7 +32,6 @@ public class SimpleAsyncUncaughtExceptionHandler implements AsyncUncaughtExcepti
 
 	private static final Log logger = LogFactory.getLog(SimpleAsyncUncaughtExceptionHandler.class);
 
-
 	@Override
 	public void handleUncaughtException(Throwable ex, Method method, Object... params) {
 		if (logger.isErrorEnabled()) {

@@ -48,7 +48,9 @@ public class StandardScriptFactoryTests {
 	@Test
 	public void testRefreshableJsr223FromTagWithInterface() throws Exception {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("jsr223-with-xsd.xml", getClass());
-		assertThat(Arrays.asList(ctx.getBeanNamesForType(Messenger.class)).contains("refreshableMessengerWithInterface")).isTrue();
+		assertThat(
+				Arrays.asList(ctx.getBeanNamesForType(Messenger.class)).contains("refreshableMessengerWithInterface"))
+						.isTrue();
 		Messenger messenger = (Messenger) ctx.getBean("refreshableMessengerWithInterface");
 		assertThat(AopUtils.isAopProxy(messenger)).isTrue();
 		boolean condition = messenger instanceof Refreshable;
@@ -59,7 +61,8 @@ public class StandardScriptFactoryTests {
 	@Test
 	public void testInlineJsr223FromTagWithInterface() throws Exception {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("jsr223-with-xsd.xml", getClass());
-		assertThat(Arrays.asList(ctx.getBeanNamesForType(Messenger.class)).contains("inlineMessengerWithInterface")).isTrue();
+		assertThat(Arrays.asList(ctx.getBeanNamesForType(Messenger.class)).contains("inlineMessengerWithInterface"))
+				.isTrue();
 		Messenger messenger = (Messenger) ctx.getBean("inlineMessengerWithInterface");
 		assertThat(AopUtils.isAopProxy(messenger)).isFalse();
 		assertThat(messenger.getMessage()).isEqualTo("Hello World!");

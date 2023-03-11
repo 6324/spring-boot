@@ -44,22 +44,19 @@ class PublisherHandlerFunctionIntegrationTests extends AbstractRouterFunctionInt
 
 	private final RestTemplate restTemplate = new RestTemplate();
 
-
 	@Override
 	protected RouterFunction<?> routerFunction() {
 		PersonHandler personHandler = new PersonHandler();
-		return route(GET("/mono"), personHandler::mono)
-				.and(route(POST("/mono"), personHandler::postMono))
+		return route(GET("/mono"), personHandler::mono).and(route(POST("/mono"), personHandler::postMono))
 				.and(route(GET("/flux"), personHandler::flux));
 	}
-
 
 	@ParameterizedHttpServerTest
 	void mono(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		ResponseEntity<Person> result =
-				restTemplate.getForEntity("http://localhost:" + super.port + "/mono", Person.class);
+		ResponseEntity<Person> result = restTemplate.getForEntity("http://localhost:" + super.port + "/mono",
+				Person.class);
 
 		assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(result.getBody().getName()).isEqualTo("John");
@@ -69,9 +66,10 @@ class PublisherHandlerFunctionIntegrationTests extends AbstractRouterFunctionInt
 	void flux(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		ParameterizedTypeReference<List<Person>> reference = new ParameterizedTypeReference<List<Person>>() {};
-		ResponseEntity<List<Person>> result =
-				restTemplate.exchange("http://localhost:" + super.port + "/flux", HttpMethod.GET, null, reference);
+		ParameterizedTypeReference<List<Person>> reference = new ParameterizedTypeReference<List<Person>>() {
+		};
+		ResponseEntity<List<Person>> result = restTemplate.exchange("http://localhost:" + super.port + "/flux",
+				HttpMethod.GET, null, reference);
 
 		assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
 		List<Person> body = result.getBody();
@@ -93,7 +91,6 @@ class PublisherHandlerFunctionIntegrationTests extends AbstractRouterFunctionInt
 		assertThat(result.getBody().getName()).isEqualTo("Jack");
 	}
 
-
 	private static class PersonHandler {
 
 		public Mono<ServerResponse> mono(ServerRequest request) {
@@ -109,11 +106,10 @@ class PublisherHandlerFunctionIntegrationTests extends AbstractRouterFunctionInt
 		public Mono<ServerResponse> flux(ServerRequest request) {
 			Person person1 = new Person("John");
 			Person person2 = new Person("Jane");
-			return ServerResponse.ok().body(
-					fromPublisher(Flux.just(person1, person2), Person.class));
+			return ServerResponse.ok().body(fromPublisher(Flux.just(person1, person2), Person.class));
 		}
-	}
 
+	}
 
 	private static class Person {
 
@@ -157,6 +153,7 @@ class PublisherHandlerFunctionIntegrationTests extends AbstractRouterFunctionInt
 		public String toString() {
 			return "Person{" + "name='" + name + '\'' + '}';
 		}
+
 	}
 
 }

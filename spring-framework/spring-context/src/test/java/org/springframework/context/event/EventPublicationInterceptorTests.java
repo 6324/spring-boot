@@ -43,13 +43,11 @@ public class EventPublicationInterceptorTests {
 
 	private final ApplicationEventPublisher publisher = mock(ApplicationEventPublisher.class);
 
-
 	@Test
 	public void testWithNoApplicationEventClassSupplied() {
 		EventPublicationInterceptor interceptor = new EventPublicationInterceptor();
 		interceptor.setApplicationEventPublisher(this.publisher);
-		assertThatIllegalArgumentException().isThrownBy(
-				interceptor::afterPropertiesSet);
+		assertThatIllegalArgumentException().isThrownBy(interceptor::afterPropertiesSet);
 	}
 
 	@Test
@@ -57,8 +55,8 @@ public class EventPublicationInterceptorTests {
 		EventPublicationInterceptor interceptor = new EventPublicationInterceptor();
 		interceptor.setApplicationEventPublisher(this.publisher);
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-				interceptor.setApplicationEventClass(getClass());
-				interceptor.afterPropertiesSet();
+			interceptor.setApplicationEventClass(getClass());
+			interceptor.afterPropertiesSet();
 		});
 	}
 
@@ -67,8 +65,8 @@ public class EventPublicationInterceptorTests {
 		EventPublicationInterceptor interceptor = new EventPublicationInterceptor();
 		interceptor.setApplicationEventPublisher(this.publisher);
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-				interceptor.setApplicationEventClass(ApplicationEvent.class);
-				interceptor.afterPropertiesSet();
+			interceptor.setApplicationEventClass(ApplicationEvent.class);
+			interceptor.afterPropertiesSet();
 		});
 	}
 
@@ -77,8 +75,8 @@ public class EventPublicationInterceptorTests {
 		EventPublicationInterceptor interceptor = new EventPublicationInterceptor();
 		interceptor.setApplicationEventPublisher(this.publisher);
 		assertThatIllegalArgumentException().isThrownBy(() -> {
-				interceptor.setApplicationEventClass(TestEventWithNoValidOneArgObjectCtor.class);
-				interceptor.afterPropertiesSet();
+			interceptor.setApplicationEventClass(TestEventWithNoValidOneArgObjectCtor.class);
+			interceptor.afterPropertiesSet();
 		});
 	}
 
@@ -88,10 +86,12 @@ public class EventPublicationInterceptorTests {
 		final TestApplicationListener listener = new TestApplicationListener();
 
 		class TestContext extends StaticApplicationContext {
+
 			@Override
 			protected void onRefresh() throws BeansException {
 				addApplicationListener(listener);
 			}
+
 		}
 
 		StaticApplicationContext ctx = new TestContext();
@@ -102,14 +102,14 @@ public class EventPublicationInterceptorTests {
 		ctx.registerSingleton("otherListener", FactoryBeanTestListener.class);
 		ctx.refresh();
 
-		EventPublicationInterceptor interceptor =
-				(EventPublicationInterceptor) ctx.getBean("publisher");
+		EventPublicationInterceptor interceptor = (EventPublicationInterceptor) ctx.getBean("publisher");
 		ProxyFactory factory = new ProxyFactory(target);
 		factory.addAdvice(0, interceptor);
 
 		ITestBean testBean = (ITestBean) factory.getProxy();
 
-		// invoke any method on the advised proxy to see if the interceptor has been invoked
+		// invoke any method on the advised proxy to see if the interceptor has been
+		// invoked
 		testBean.getAge();
 
 		// two events: ContextRefreshedEvent and TestEvent
@@ -118,15 +118,14 @@ public class EventPublicationInterceptorTests {
 		assertThat(otherListener.getEventCount() == 2).as("Interceptor must have published 2 events").isTrue();
 	}
 
-
 	@SuppressWarnings("serial")
 	public static final class TestEventWithNoValidOneArgObjectCtor extends ApplicationEvent {
 
 		public TestEventWithNoValidOneArgObjectCtor() {
 			super("");
 		}
-	}
 
+	}
 
 	public static class FactoryBeanTestListener extends TestApplicationListener implements FactoryBean<Object> {
 
@@ -144,6 +143,7 @@ public class EventPublicationInterceptorTests {
 		public boolean isSingleton() {
 			return true;
 		}
+
 	}
 
 }

@@ -30,22 +30,20 @@ import javax.websocket.server.ServerEndpointConfig;
 import org.springframework.util.Assert;
 
 /**
- * Default implementation of {@link javax.websocket.server.ServerEndpointConfig}
- * for use in {@code RequestUpgradeStrategy} implementations.
+ * Default implementation of {@link javax.websocket.server.ServerEndpointConfig} for use
+ * in {@code RequestUpgradeStrategy} implementations.
  *
  * @author Violeta Georgieva
  * @author Rossen Stoyanchev
  * @since 5.0
  */
-class DefaultServerEndpointConfig extends ServerEndpointConfig.Configurator
-		implements ServerEndpointConfig {
+class DefaultServerEndpointConfig extends ServerEndpointConfig.Configurator implements ServerEndpointConfig {
 
 	private final String path;
 
 	private final Endpoint endpoint;
 
 	private List<String> protocols = new ArrayList<>();
-
 
 	/**
 	 * Constructor with a path and an {@code javax.websocket.Endpoint}.
@@ -58,7 +56,6 @@ class DefaultServerEndpointConfig extends ServerEndpointConfig.Configurator
 		this.path = path;
 		this.endpoint = endpoint;
 	}
-
 
 	@Override
 	public List<Class<? extends Encoder>> getEncoders() {

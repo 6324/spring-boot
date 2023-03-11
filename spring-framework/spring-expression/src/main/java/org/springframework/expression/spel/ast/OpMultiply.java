@@ -31,16 +31,21 @@ import org.springframework.util.NumberUtils;
 /**
  * Implements the {@code multiply} operator.
  *
- * <p>Conversions and promotions are handled as defined in
- * <a href="https://java.sun.com/docs/books/jls/third_edition/html/conversions.html">Section 5.6.2 of the
- * Java Language Specification</a>, with the addiction of {@code BigDecimal}/{@code BigInteger} management:
+ * <p>
+ * Conversions and promotions are handled as defined in <a href=
+ * "https://java.sun.com/docs/books/jls/third_edition/html/conversions.html">Section 5.6.2
+ * of the Java Language Specification</a>, with the addiction of
+ * {@code BigDecimal}/{@code BigInteger} management:
  *
- * <p>If any of the operands is of a reference type, unboxing conversion (Section 5.1.8)
- * is performed. Then:<br>
- * If either operand is of type {@code BigDecimal}, the other is converted to {@code BigDecimal}.<br>
+ * <p>
+ * If any of the operands is of a reference type, unboxing conversion (Section 5.1.8) is
+ * performed. Then:<br>
+ * If either operand is of type {@code BigDecimal}, the other is converted to
+ * {@code BigDecimal}.<br>
  * If either operand is of type double, the other is converted to double.<br>
  * Otherwise, if either operand is of type float, the other is converted to float.<br>
- * If either operand is of type {@code BigInteger}, the other is converted to {@code BigInteger}.<br>
+ * If either operand is of type {@code BigInteger}, the other is converted to
+ * {@code BigInteger}.<br>
  * Otherwise, if either operand is of type long, the other is converted to long.<br>
  * Otherwise, both operands are converted to type int.
  *
@@ -56,12 +61,12 @@ public class OpMultiply extends Operator {
 		super("*", startPos, endPos, operands);
 	}
 
-
 	/**
-	 * Implements the {@code multiply} operator directly here for certain types
-	 * of supported operands and otherwise delegates to any registered overloader
-	 * for types not supported here.
-	 * <p>Supported operand types:
+	 * Implements the {@code multiply} operator directly here for certain types of
+	 * supported operands and otherwise delegates to any registered overloader for types
+	 * not supported here.
+	 * <p>
+	 * Supported operand types:
 	 * <ul>
 	 * <li>numbers
 	 * <li>String and int ('abc' * 2 == 'abcabc')
@@ -148,21 +153,20 @@ public class OpMultiply extends Operator {
 			cf.exitCompilationScope();
 			CodeFlow.insertNumericUnboxOrPrimitiveTypeCoercion(mv, rightDesc, targetDesc);
 			switch (targetDesc) {
-				case 'I':
-					mv.visitInsn(IMUL);
-					break;
-				case 'J':
-					mv.visitInsn(LMUL);
-					break;
-				case 'F':
-					mv.visitInsn(FMUL);
-					break;
-				case 'D':
-					mv.visitInsn(DMUL);
-					break;
-				default:
-					throw new IllegalStateException(
-							"Unrecognized exit type descriptor: '" + this.exitTypeDescriptor + "'");
+			case 'I':
+				mv.visitInsn(IMUL);
+				break;
+			case 'J':
+				mv.visitInsn(LMUL);
+				break;
+			case 'F':
+				mv.visitInsn(FMUL);
+				break;
+			case 'D':
+				mv.visitInsn(DMUL);
+				break;
+			default:
+				throw new IllegalStateException("Unrecognized exit type descriptor: '" + this.exitTypeDescriptor + "'");
 			}
 		}
 		cf.pushDescriptor(this.exitTypeDescriptor);

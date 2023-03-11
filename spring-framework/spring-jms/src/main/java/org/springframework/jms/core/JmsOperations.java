@@ -26,15 +26,18 @@ import org.springframework.lang.Nullable;
 /**
  * Specifies a basic set of JMS operations.
  *
- * <p>Implemented by {@link JmsTemplate}. Not often used but a useful option
- * to enhance testability, as it can easily be mocked or stubbed.
+ * <p>
+ * Implemented by {@link JmsTemplate}. Not often used but a useful option to enhance
+ * testability, as it can easily be mocked or stubbed.
  *
- * <p>Provides {@code JmsTemplate's} {@code send(..)} and
- * {@code receive(..)} methods that mirror various JMS API methods.
- * See the JMS specification and javadocs for details on those methods.
+ * <p>
+ * Provides {@code JmsTemplate's} {@code send(..)} and {@code receive(..)} methods that
+ * mirror various JMS API methods. See the JMS specification and javadocs for details on
+ * those methods.
  *
- * <p>Provides also basic request reply operation using a temporary
- * queue to collect the reply.
+ * <p>
+ * Provides also basic request reply operation using a temporary queue to collect the
+ * reply.
  *
  * @author Mark Pollack
  * @author Juergen Hoeller
@@ -58,9 +61,9 @@ public interface JmsOperations {
 	<T> T execute(SessionCallback<T> action) throws JmsException;
 
 	/**
-	 * Send messages to the default JMS destination (or one specified
-	 * for each send operation). The callback gives access to the JMS Session
-	 * and MessageProducer in order to perform complex send operations.
+	 * Send messages to the default JMS destination (or one specified for each send
+	 * operation). The callback gives access to the JMS Session and MessageProducer in
+	 * order to perform complex send operations.
 	 * @param action callback object that exposes the session/producer pair
 	 * @return the result object from working with the session
 	 * @throws JmsException checked JMSException converted to unchecked
@@ -82,8 +85,8 @@ public interface JmsOperations {
 	/**
 	 * Send messages to a JMS destination. The callback gives access to the JMS Session
 	 * and MessageProducer in order to perform complex send operations.
-	 * @param destinationName the name of the destination to send messages to
-	 * (to be resolved to an actual destination by a DestinationResolver)
+	 * @param destinationName the name of the destination to send messages to (to be
+	 * resolved to an actual destination by a DestinationResolver)
 	 * @param action callback object that exposes the session/producer pair
 	 * @return the result object from working with the session
 	 * @throws JmsException checked JMSException converted to unchecked
@@ -91,22 +94,22 @@ public interface JmsOperations {
 	@Nullable
 	<T> T execute(String destinationName, ProducerCallback<T> action) throws JmsException;
 
-
-	//---------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------
 	// Convenience methods for sending messages
-	//---------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------
 
 	/**
 	 * Send a message to the default destination.
-	 * <p>This will only work with a default destination specified!
+	 * <p>
+	 * This will only work with a default destination specified!
 	 * @param messageCreator callback to create a message
 	 * @throws JmsException checked JMSException converted to unchecked
 	 */
 	void send(MessageCreator messageCreator) throws JmsException;
 
 	/**
-	 * Send a message to the specified destination.
-	 * The MessageCreator callback creates the message given a Session.
+	 * Send a message to the specified destination. The MessageCreator callback creates
+	 * the message given a Session.
 	 * @param destination the destination to send this message to
 	 * @param messageCreator callback to create a message
 	 * @throws JmsException checked JMSException converted to unchecked
@@ -114,32 +117,32 @@ public interface JmsOperations {
 	void send(Destination destination, MessageCreator messageCreator) throws JmsException;
 
 	/**
-	 * Send a message to the specified destination.
-	 * The MessageCreator callback creates the message given a Session.
-	 * @param destinationName the name of the destination to send this message to
-	 * (to be resolved to an actual destination by a DestinationResolver)
+	 * Send a message to the specified destination. The MessageCreator callback creates
+	 * the message given a Session.
+	 * @param destinationName the name of the destination to send this message to (to be
+	 * resolved to an actual destination by a DestinationResolver)
 	 * @param messageCreator callback to create a message
 	 * @throws JmsException checked JMSException converted to unchecked
 	 */
 	void send(String destinationName, MessageCreator messageCreator) throws JmsException;
 
-
-	//---------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------
 	// Convenience methods for sending auto-converted messages
-	//---------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------
 
 	/**
-	 * Send the given object to the default destination, converting the object
-	 * to a JMS message with a configured MessageConverter.
-	 * <p>This will only work with a default destination specified!
+	 * Send the given object to the default destination, converting the object to a JMS
+	 * message with a configured MessageConverter.
+	 * <p>
+	 * This will only work with a default destination specified!
 	 * @param message the object to convert to a message
 	 * @throws JmsException converted checked JMSException to unchecked
 	 */
 	void convertAndSend(Object message) throws JmsException;
 
 	/**
-	 * Send the given object to the specified destination, converting the object
-	 * to a JMS message with a configured MessageConverter.
+	 * Send the given object to the specified destination, converting the object to a JMS
+	 * message with a configured MessageConverter.
 	 * @param destination the destination to send this message to
 	 * @param message the object to convert to a message
 	 * @throws JmsException converted checked JMSException to unchecked
@@ -147,242 +150,268 @@ public interface JmsOperations {
 	void convertAndSend(Destination destination, Object message) throws JmsException;
 
 	/**
-	 * Send the given object to the specified destination, converting the object
-	 * to a JMS message with a configured MessageConverter.
-	 * @param destinationName the name of the destination to send this message to
-	 * (to be resolved to an actual destination by a DestinationResolver)
+	 * Send the given object to the specified destination, converting the object to a JMS
+	 * message with a configured MessageConverter.
+	 * @param destinationName the name of the destination to send this message to (to be
+	 * resolved to an actual destination by a DestinationResolver)
 	 * @param message the object to convert to a message
 	 * @throws JmsException checked JMSException converted to unchecked
 	 */
 	void convertAndSend(String destinationName, Object message) throws JmsException;
 
 	/**
-	 * Send the given object to the default destination, converting the object
-	 * to a JMS message with a configured MessageConverter. The MessagePostProcessor
-	 * callback allows for modification of the message after conversion.
-	 * <p>This will only work with a default destination specified!
+	 * Send the given object to the default destination, converting the object to a JMS
+	 * message with a configured MessageConverter. The MessagePostProcessor callback
+	 * allows for modification of the message after conversion.
+	 * <p>
+	 * This will only work with a default destination specified!
 	 * @param message the object to convert to a message
 	 * @param postProcessor the callback to modify the message
 	 * @throws JmsException checked JMSException converted to unchecked
 	 */
-	void convertAndSend(Object message, MessagePostProcessor postProcessor)
-		throws JmsException;
+	void convertAndSend(Object message, MessagePostProcessor postProcessor) throws JmsException;
 
 	/**
-	 * Send the given object to the specified destination, converting the object
-	 * to a JMS message with a configured MessageConverter. The MessagePostProcessor
-	 * callback allows for modification of the message after conversion.
+	 * Send the given object to the specified destination, converting the object to a JMS
+	 * message with a configured MessageConverter. The MessagePostProcessor callback
+	 * allows for modification of the message after conversion.
 	 * @param destination the destination to send this message to
 	 * @param message the object to convert to a message
 	 * @param postProcessor the callback to modify the message
 	 * @throws JmsException checked JMSException converted to unchecked
 	 */
 	void convertAndSend(Destination destination, Object message, MessagePostProcessor postProcessor)
-		throws JmsException;
+			throws JmsException;
 
 	/**
-	 * Send the given object to the specified destination, converting the object
-	 * to a JMS message with a configured MessageConverter. The MessagePostProcessor
-	 * callback allows for modification of the message after conversion.
-	 * @param destinationName the name of the destination to send this message to
-	 * (to be resolved to an actual destination by a DestinationResolver)
+	 * Send the given object to the specified destination, converting the object to a JMS
+	 * message with a configured MessageConverter. The MessagePostProcessor callback
+	 * allows for modification of the message after conversion.
+	 * @param destinationName the name of the destination to send this message to (to be
+	 * resolved to an actual destination by a DestinationResolver)
 	 * @param message the object to convert to a message.
 	 * @param postProcessor the callback to modify the message
 	 * @throws JmsException checked JMSException converted to unchecked
 	 */
-	void convertAndSend(String destinationName, Object message, MessagePostProcessor postProcessor)
-		throws JmsException;
+	void convertAndSend(String destinationName, Object message, MessagePostProcessor postProcessor) throws JmsException;
 
-
-	//---------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------
 	// Convenience methods for receiving messages
-	//---------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------
 
 	/**
-	 * Receive a message synchronously from the default destination, but only
-	 * wait up to a specified time for delivery.
-	 * <p>This method should be used carefully, since it will block the thread
-	 * until the message becomes available or until the timeout value is exceeded.
-	 * <p>This will only work with a default destination specified!
-	 * @return the message received by the consumer, or {@code null} if the timeout expires
+	 * Receive a message synchronously from the default destination, but only wait up to a
+	 * specified time for delivery.
+	 * <p>
+	 * This method should be used carefully, since it will block the thread until the
+	 * message becomes available or until the timeout value is exceeded.
+	 * <p>
+	 * This will only work with a default destination specified!
+	 * @return the message received by the consumer, or {@code null} if the timeout
+	 * expires
 	 * @throws JmsException checked JMSException converted to unchecked
 	 */
 	@Nullable
 	Message receive() throws JmsException;
 
 	/**
-	 * Receive a message synchronously from the specified destination, but only
-	 * wait up to a specified time for delivery.
-	 * <p>This method should be used carefully, since it will block the thread
-	 * until the message becomes available or until the timeout value is exceeded.
+	 * Receive a message synchronously from the specified destination, but only wait up to
+	 * a specified time for delivery.
+	 * <p>
+	 * This method should be used carefully, since it will block the thread until the
+	 * message becomes available or until the timeout value is exceeded.
 	 * @param destination the destination to receive a message from
-	 * @return the message received by the consumer, or {@code null} if the timeout expires
+	 * @return the message received by the consumer, or {@code null} if the timeout
+	 * expires
 	 * @throws JmsException checked JMSException converted to unchecked
 	 */
 	@Nullable
 	Message receive(Destination destination) throws JmsException;
 
 	/**
-	 * Receive a message synchronously from the specified destination, but only
-	 * wait up to a specified time for delivery.
-	 * <p>This method should be used carefully, since it will block the thread
-	 * until the message becomes available or until the timeout value is exceeded.
-	 * @param destinationName the name of the destination to send this message to
-	 * (to be resolved to an actual destination by a DestinationResolver)
-	 * @return the message received by the consumer, or {@code null} if the timeout expires
+	 * Receive a message synchronously from the specified destination, but only wait up to
+	 * a specified time for delivery.
+	 * <p>
+	 * This method should be used carefully, since it will block the thread until the
+	 * message becomes available or until the timeout value is exceeded.
+	 * @param destinationName the name of the destination to send this message to (to be
+	 * resolved to an actual destination by a DestinationResolver)
+	 * @return the message received by the consumer, or {@code null} if the timeout
+	 * expires
 	 * @throws JmsException checked JMSException converted to unchecked
 	 */
 	@Nullable
 	Message receive(String destinationName) throws JmsException;
 
 	/**
-	 * Receive a message synchronously from the default destination, but only
-	 * wait up to a specified time for delivery.
-	 * <p>This method should be used carefully, since it will block the thread
-	 * until the message becomes available or until the timeout value is exceeded.
-	 * <p>This will only work with a default destination specified!
-	 * @param messageSelector the JMS message selector expression (or {@code null} if none).
-	 * See the JMS specification for a detailed definition of selector expressions.
-	 * @return the message received by the consumer, or {@code null} if the timeout expires
+	 * Receive a message synchronously from the default destination, but only wait up to a
+	 * specified time for delivery.
+	 * <p>
+	 * This method should be used carefully, since it will block the thread until the
+	 * message becomes available or until the timeout value is exceeded.
+	 * <p>
+	 * This will only work with a default destination specified!
+	 * @param messageSelector the JMS message selector expression (or {@code null} if
+	 * none). See the JMS specification for a detailed definition of selector expressions.
+	 * @return the message received by the consumer, or {@code null} if the timeout
+	 * expires
 	 * @throws JmsException checked JMSException converted to unchecked
 	 */
 	@Nullable
 	Message receiveSelected(String messageSelector) throws JmsException;
 
 	/**
-	 * Receive a message synchronously from the specified destination, but only
-	 * wait up to a specified time for delivery.
-	 * <p>This method should be used carefully, since it will block the thread
-	 * until the message becomes available or until the timeout value is exceeded.
+	 * Receive a message synchronously from the specified destination, but only wait up to
+	 * a specified time for delivery.
+	 * <p>
+	 * This method should be used carefully, since it will block the thread until the
+	 * message becomes available or until the timeout value is exceeded.
 	 * @param destination the destination to receive a message from
-	 * @param messageSelector the JMS message selector expression (or {@code null} if none).
-	 * See the JMS specification for a detailed definition of selector expressions.
-	 * @return the message received by the consumer, or {@code null} if the timeout expires
+	 * @param messageSelector the JMS message selector expression (or {@code null} if
+	 * none). See the JMS specification for a detailed definition of selector expressions.
+	 * @return the message received by the consumer, or {@code null} if the timeout
+	 * expires
 	 * @throws JmsException checked JMSException converted to unchecked
 	 */
 	@Nullable
 	Message receiveSelected(Destination destination, String messageSelector) throws JmsException;
 
 	/**
-	 * Receive a message synchronously from the specified destination, but only
-	 * wait up to a specified time for delivery.
-	 * <p>This method should be used carefully, since it will block the thread
-	 * until the message becomes available or until the timeout value is exceeded.
-	 * @param destinationName the name of the destination to send this message to
-	 * (to be resolved to an actual destination by a DestinationResolver)
-	 * @param messageSelector the JMS message selector expression (or {@code null} if none).
-	 * See the JMS specification for a detailed definition of selector expressions.
-	 * @return the message received by the consumer, or {@code null} if the timeout expires
+	 * Receive a message synchronously from the specified destination, but only wait up to
+	 * a specified time for delivery.
+	 * <p>
+	 * This method should be used carefully, since it will block the thread until the
+	 * message becomes available or until the timeout value is exceeded.
+	 * @param destinationName the name of the destination to send this message to (to be
+	 * resolved to an actual destination by a DestinationResolver)
+	 * @param messageSelector the JMS message selector expression (or {@code null} if
+	 * none). See the JMS specification for a detailed definition of selector expressions.
+	 * @return the message received by the consumer, or {@code null} if the timeout
+	 * expires
 	 * @throws JmsException checked JMSException converted to unchecked
 	 */
 	@Nullable
 	Message receiveSelected(String destinationName, String messageSelector) throws JmsException;
 
-
-	//---------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------
 	// Convenience methods for receiving auto-converted messages
-	//---------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------
 
 	/**
-	 * Receive a message synchronously from the default destination, but only
-	 * wait up to a specified time for delivery. Convert the message into an
-	 * object with a configured MessageConverter.
-	 * <p>This method should be used carefully, since it will block the thread
-	 * until the message becomes available or until the timeout value is exceeded.
-	 * <p>This will only work with a default destination specified!
-	 * @return the message produced for the consumer or {@code null} if the timeout expires.
+	 * Receive a message synchronously from the default destination, but only wait up to a
+	 * specified time for delivery. Convert the message into an object with a configured
+	 * MessageConverter.
+	 * <p>
+	 * This method should be used carefully, since it will block the thread until the
+	 * message becomes available or until the timeout value is exceeded.
+	 * <p>
+	 * This will only work with a default destination specified!
+	 * @return the message produced for the consumer or {@code null} if the timeout
+	 * expires.
 	 * @throws JmsException checked JMSException converted to unchecked
 	 */
 	@Nullable
 	Object receiveAndConvert() throws JmsException;
 
 	/**
-	 * Receive a message synchronously from the specified destination, but only
-	 * wait up to a specified time for delivery. Convert the message into an
-	 * object with a configured MessageConverter.
-	 * <p>This method should be used carefully, since it will block the thread
-	 * until the message becomes available or until the timeout value is exceeded.
+	 * Receive a message synchronously from the specified destination, but only wait up to
+	 * a specified time for delivery. Convert the message into an object with a configured
+	 * MessageConverter.
+	 * <p>
+	 * This method should be used carefully, since it will block the thread until the
+	 * message becomes available or until the timeout value is exceeded.
 	 * @param destination the destination to receive a message from
-	 * @return the message produced for the consumer or {@code null} if the timeout expires.
+	 * @return the message produced for the consumer or {@code null} if the timeout
+	 * expires.
 	 * @throws JmsException checked JMSException converted to unchecked
 	 */
 	@Nullable
 	Object receiveAndConvert(Destination destination) throws JmsException;
 
 	/**
-	 * Receive a message synchronously from the specified destination, but only
-	 * wait up to a specified time for delivery. Convert the message into an
-	 * object with a configured MessageConverter.
-	 * <p>This method should be used carefully, since it will block the thread
-	 * until the message becomes available or until the timeout value is exceeded.
-	 * @param destinationName the name of the destination to send this message to
-	 * (to be resolved to an actual destination by a DestinationResolver)
-	 * @return the message produced for the consumer or {@code null} if the timeout expires.
+	 * Receive a message synchronously from the specified destination, but only wait up to
+	 * a specified time for delivery. Convert the message into an object with a configured
+	 * MessageConverter.
+	 * <p>
+	 * This method should be used carefully, since it will block the thread until the
+	 * message becomes available or until the timeout value is exceeded.
+	 * @param destinationName the name of the destination to send this message to (to be
+	 * resolved to an actual destination by a DestinationResolver)
+	 * @return the message produced for the consumer or {@code null} if the timeout
+	 * expires.
 	 * @throws JmsException checked JMSException converted to unchecked
 	 */
 	@Nullable
 	Object receiveAndConvert(String destinationName) throws JmsException;
 
 	/**
-	 * Receive a message synchronously from the default destination, but only
-	 * wait up to a specified time for delivery. Convert the message into an
-	 * object with a configured MessageConverter.
-	 * <p>This method should be used carefully, since it will block the thread
-	 * until the message becomes available or until the timeout value is exceeded.
-	 * <p>This will only work with a default destination specified!
-	 * @param messageSelector the JMS message selector expression (or {@code null} if none).
-	 * See the JMS specification for a detailed definition of selector expressions.
-	 * @return the message produced for the consumer or {@code null} if the timeout expires.
+	 * Receive a message synchronously from the default destination, but only wait up to a
+	 * specified time for delivery. Convert the message into an object with a configured
+	 * MessageConverter.
+	 * <p>
+	 * This method should be used carefully, since it will block the thread until the
+	 * message becomes available or until the timeout value is exceeded.
+	 * <p>
+	 * This will only work with a default destination specified!
+	 * @param messageSelector the JMS message selector expression (or {@code null} if
+	 * none). See the JMS specification for a detailed definition of selector expressions.
+	 * @return the message produced for the consumer or {@code null} if the timeout
+	 * expires.
 	 * @throws JmsException checked JMSException converted to unchecked
 	 */
 	@Nullable
 	Object receiveSelectedAndConvert(String messageSelector) throws JmsException;
 
 	/**
-	 * Receive a message synchronously from the specified destination, but only
-	 * wait up to a specified time for delivery. Convert the message into an
-	 * object with a configured MessageConverter.
-	 * <p>This method should be used carefully, since it will block the thread
-	 * until the message becomes available or until the timeout value is exceeded.
+	 * Receive a message synchronously from the specified destination, but only wait up to
+	 * a specified time for delivery. Convert the message into an object with a configured
+	 * MessageConverter.
+	 * <p>
+	 * This method should be used carefully, since it will block the thread until the
+	 * message becomes available or until the timeout value is exceeded.
 	 * @param destination the destination to receive a message from
-	 * @param messageSelector the JMS message selector expression (or {@code null} if none).
-	 * See the JMS specification for a detailed definition of selector expressions.
-	 * @return the message produced for the consumer or {@code null} if the timeout expires.
+	 * @param messageSelector the JMS message selector expression (or {@code null} if
+	 * none). See the JMS specification for a detailed definition of selector expressions.
+	 * @return the message produced for the consumer or {@code null} if the timeout
+	 * expires.
 	 * @throws JmsException checked JMSException converted to unchecked
 	 */
 	@Nullable
 	Object receiveSelectedAndConvert(Destination destination, String messageSelector) throws JmsException;
 
 	/**
-	 * Receive a message synchronously from the specified destination, but only
-	 * wait up to a specified time for delivery. Convert the message into an
-	 * object with a configured MessageConverter.
-	 * <p>This method should be used carefully, since it will block the thread
-	 * until the message becomes available or until the timeout value is exceeded.
-	 * @param destinationName the name of the destination to send this message to
-	 * (to be resolved to an actual destination by a DestinationResolver)
-	 * @param messageSelector the JMS message selector expression (or {@code null} if none).
-	 * See the JMS specification for a detailed definition of selector expressions.
-	 * @return the message produced for the consumer or {@code null} if the timeout expires.
+	 * Receive a message synchronously from the specified destination, but only wait up to
+	 * a specified time for delivery. Convert the message into an object with a configured
+	 * MessageConverter.
+	 * <p>
+	 * This method should be used carefully, since it will block the thread until the
+	 * message becomes available or until the timeout value is exceeded.
+	 * @param destinationName the name of the destination to send this message to (to be
+	 * resolved to an actual destination by a DestinationResolver)
+	 * @param messageSelector the JMS message selector expression (or {@code null} if
+	 * none). See the JMS specification for a detailed definition of selector expressions.
+	 * @return the message produced for the consumer or {@code null} if the timeout
+	 * expires.
 	 * @throws JmsException checked JMSException converted to unchecked
 	 */
 	@Nullable
 	Object receiveSelectedAndConvert(String destinationName, String messageSelector) throws JmsException;
 
-
-	//---------------------------------------------------------------------------------------
-	// Convenience methods for sending messages to and receiving the reply from a destination
-	//---------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------
+	// Convenience methods for sending messages to and receiving the reply from a
+	// destination
+	// ---------------------------------------------------------------------------------------
 
 	/**
 	 * Send a request message and receive the reply from a default destination. The
 	 * {@link MessageCreator} callback creates the message given a Session. A temporary
 	 * queue is created as part of this operation and is set in the {@code JMSReplyTO}
 	 * header of the message.
-	 * <p>This will only work with a default destination specified!
+	 * <p>
+	 * This will only work with a default destination specified!
 	 * @param messageCreator callback to create a request message
-	 * @return the reply, possibly {@code null} if the message could not be received,
-	 * for example due to a timeout
+	 * @return the reply, possibly {@code null} if the message could not be received, for
+	 * example due to a timeout
 	 * @throws JmsException checked JMSException converted to unchecked
 	 * @since 4.1
 	 */
@@ -396,8 +425,8 @@ public interface JmsOperations {
 	 * header of the message.
 	 * @param destination the destination to send this message to
 	 * @param messageCreator callback to create a message
-	 * @return the reply, possibly {@code null} if the message could not be received,
-	 * for example due to a timeout
+	 * @return the reply, possibly {@code null} if the message could not be received, for
+	 * example due to a timeout
 	 * @throws JmsException checked JMSException converted to unchecked
 	 * @since 4.1
 	 */
@@ -409,21 +438,20 @@ public interface JmsOperations {
 	 * {@link MessageCreator} callback creates the message given a Session. A temporary
 	 * queue is created as part of this operation and is set in the {@code JMSReplyTO}
 	 * header of the message.
-	 * @param destinationName the name of the destination to send this message to
-	 * (to be resolved to an actual destination by a DestinationResolver)
+	 * @param destinationName the name of the destination to send this message to (to be
+	 * resolved to an actual destination by a DestinationResolver)
 	 * @param messageCreator callback to create a message
-	 * @return the reply, possibly {@code null} if the message could not be received,
-	 * for example due to a timeout
+	 * @return the reply, possibly {@code null} if the message could not be received, for
+	 * example due to a timeout
 	 * @throws JmsException checked JMSException converted to unchecked
 	 * @since 4.1
 	 */
 	@Nullable
 	Message sendAndReceive(String destinationName, MessageCreator messageCreator) throws JmsException;
 
-
-	//---------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------
 	// Convenience methods for browsing messages
-	//---------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------
 
 	/**
 	 * Browse messages in the default JMS queue. The callback gives access to the JMS
@@ -436,8 +464,8 @@ public interface JmsOperations {
 	<T> T browse(BrowserCallback<T> action) throws JmsException;
 
 	/**
-	 * Browse messages in a JMS queue. The callback gives access to the JMS Session
-	 * and QueueBrowser in order to browse the queue and react to the contents.
+	 * Browse messages in a JMS queue. The callback gives access to the JMS Session and
+	 * QueueBrowser in order to browse the queue and react to the contents.
 	 * @param queue the queue to browse
 	 * @param action callback object that exposes the session/browser pair
 	 * @return the result object from working with the session
@@ -447,10 +475,10 @@ public interface JmsOperations {
 	<T> T browse(Queue queue, BrowserCallback<T> action) throws JmsException;
 
 	/**
-	 * Browse messages in a JMS queue. The callback gives access to the JMS Session
-	 * and QueueBrowser in order to browse the queue and react to the contents.
-	 * @param queueName the name of the queue to browse
-	 * (to be resolved to an actual destination by a DestinationResolver)
+	 * Browse messages in a JMS queue. The callback gives access to the JMS Session and
+	 * QueueBrowser in order to browse the queue and react to the contents.
+	 * @param queueName the name of the queue to browse (to be resolved to an actual
+	 * destination by a DestinationResolver)
 	 * @param action callback object that exposes the session/browser pair
 	 * @return the result object from working with the session
 	 * @throws JmsException checked JMSException converted to unchecked
@@ -461,8 +489,8 @@ public interface JmsOperations {
 	/**
 	 * Browse selected messages in a JMS queue. The callback gives access to the JMS
 	 * Session and QueueBrowser in order to browse the queue and react to the contents.
-	 * @param messageSelector the JMS message selector expression (or {@code null} if none).
-	 * See the JMS specification for a detailed definition of selector expressions.
+	 * @param messageSelector the JMS message selector expression (or {@code null} if
+	 * none). See the JMS specification for a detailed definition of selector expressions.
 	 * @param action callback object that exposes the session/browser pair
 	 * @return the result object from working with the session
 	 * @throws JmsException checked JMSException converted to unchecked
@@ -474,8 +502,8 @@ public interface JmsOperations {
 	 * Browse selected messages in a JMS queue. The callback gives access to the JMS
 	 * Session and QueueBrowser in order to browse the queue and react to the contents.
 	 * @param queue the queue to browse
-	 * @param messageSelector the JMS message selector expression (or {@code null} if none).
-	 * See the JMS specification for a detailed definition of selector expressions.
+	 * @param messageSelector the JMS message selector expression (or {@code null} if
+	 * none). See the JMS specification for a detailed definition of selector expressions.
 	 * @param action callback object that exposes the session/browser pair
 	 * @return the result object from working with the session
 	 * @throws JmsException checked JMSException converted to unchecked
@@ -486,10 +514,10 @@ public interface JmsOperations {
 	/**
 	 * Browse selected messages in a JMS queue. The callback gives access to the JMS
 	 * Session and QueueBrowser in order to browse the queue and react to the contents.
-	 * @param queueName the name of the queue to browse
-	 * (to be resolved to an actual destination by a DestinationResolver)
-	 * @param messageSelector the JMS message selector expression (or {@code null} if none).
-	 * See the JMS specification for a detailed definition of selector expressions.
+	 * @param queueName the name of the queue to browse (to be resolved to an actual
+	 * destination by a DestinationResolver)
+	 * @param messageSelector the JMS message selector expression (or {@code null} if
+	 * none). See the JMS specification for a detailed definition of selector expressions.
 	 * @param action callback object that exposes the session/browser pair
 	 * @return the result object from working with the session
 	 * @throws JmsException checked JMSException converted to unchecked

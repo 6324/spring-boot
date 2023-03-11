@@ -25,8 +25,8 @@ import org.springframework.core.ResolvableType;
 import org.springframework.lang.Nullable;
 
 /**
- * Simple factory for shared Map instances. Allows for central setup
- * of Maps via the "map" element in XML bean definitions.
+ * Simple factory for shared Map instances. Allows for central setup of Maps via the "map"
+ * element in XML bean definitions.
  *
  * @author Juergen Hoeller
  * @since 09.12.2003
@@ -42,7 +42,6 @@ public class MapFactoryBean extends AbstractFactoryBean<Map<Object, Object>> {
 	@Nullable
 	private Class<? extends Map> targetMapClass;
 
-
 	/**
 	 * Set the source Map, typically populated via XML "map" elements.
 	 */
@@ -51,9 +50,10 @@ public class MapFactoryBean extends AbstractFactoryBean<Map<Object, Object>> {
 	}
 
 	/**
-	 * Set the class to use for the target Map. Can be populated with a fully
-	 * qualified class name when defined in a Spring application context.
-	 * <p>Default is a linked HashMap, keeping the registration order.
+	 * Set the class to use for the target Map. Can be populated with a fully qualified
+	 * class name when defined in a Spring application context.
+	 * <p>
+	 * Default is a linked HashMap, keeping the registration order.
 	 * @see java.util.LinkedHashMap
 	 */
 	@SuppressWarnings("rawtypes")
@@ -66,7 +66,6 @@ public class MapFactoryBean extends AbstractFactoryBean<Map<Object, Object>> {
 		}
 		this.targetMapClass = targetMapClass;
 	}
-
 
 	@Override
 	@SuppressWarnings("rawtypes")

@@ -42,7 +42,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SuppressWarnings("rawtypes")
 class BridgeMethodResolverTests {
 
-	private static Method findMethodWithReturnType(String name, Class<?> returnType, Class<SettingsDaoImpl> targetType) {
+	private static Method findMethodWithReturnType(String name, Class<?> returnType,
+			Class<SettingsDaoImpl> targetType) {
 		Method[] methods = targetType.getMethods();
 		for (Method m : methods) {
 			if (m.getName().equals(name) && m.getReturnType().equals(returnType)) {
@@ -52,7 +53,6 @@ class BridgeMethodResolverTests {
 		return null;
 	}
 
-
 	@Test
 	void findBridgedMethod() throws Exception {
 		Method unbridged = MyFoo.class.getDeclaredMethod("someMethod", String.class, Object.class);
@@ -60,8 +60,10 @@ class BridgeMethodResolverTests {
 		assertThat(unbridged.isBridge()).isFalse();
 		assertThat(bridged.isBridge()).isTrue();
 
-		assertThat(BridgeMethodResolver.findBridgedMethod(unbridged)).as("Unbridged method not returned directly").isEqualTo(unbridged);
-		assertThat(BridgeMethodResolver.findBridgedMethod(bridged)).as("Incorrect bridged method returned").isEqualTo(unbridged);
+		assertThat(BridgeMethodResolver.findBridgedMethod(unbridged)).as("Unbridged method not returned directly")
+				.isEqualTo(unbridged);
+		assertThat(BridgeMethodResolver.findBridgedMethod(bridged)).as("Incorrect bridged method returned")
+				.isEqualTo(unbridged);
 	}
 
 	@Test
@@ -71,8 +73,10 @@ class BridgeMethodResolverTests {
 		assertThat(unbridged.isBridge()).isFalse();
 		assertThat(bridged.isBridge()).isTrue();
 
-		assertThat(BridgeMethodResolver.findBridgedMethod(unbridged)).as("Unbridged method not returned directly").isEqualTo(unbridged);
-		assertThat(BridgeMethodResolver.findBridgedMethod(bridged)).as("Incorrect bridged method returned").isEqualTo(unbridged);
+		assertThat(BridgeMethodResolver.findBridgedMethod(unbridged)).as("Unbridged method not returned directly")
+				.isEqualTo(unbridged);
+		assertThat(BridgeMethodResolver.findBridgedMethod(bridged)).as("Incorrect bridged method returned")
+				.isEqualTo(unbridged);
 	}
 
 	@Test
@@ -92,8 +96,10 @@ class BridgeMethodResolverTests {
 		Method other = MyBar.class.getDeclaredMethod("someMethod", Integer.class, Object.class);
 		Method bridge = MyBar.class.getDeclaredMethod("someMethod", Object.class, Object.class);
 
-		assertThat(BridgeMethodResolver.isBridgeMethodFor(bridge, bridged, MyBar.class)).as("Should be bridge method").isTrue();
-		assertThat(BridgeMethodResolver.isBridgeMethodFor(bridge, other, MyBar.class)).as("Should not be bridge method").isFalse();
+		assertThat(BridgeMethodResolver.isBridgeMethodFor(bridge, bridged, MyBar.class)).as("Should be bridge method")
+				.isTrue();
+		assertThat(BridgeMethodResolver.isBridgeMethodFor(bridge, other, MyBar.class)).as("Should not be bridge method")
+				.isFalse();
 	}
 
 	@Test
@@ -104,8 +110,10 @@ class BridgeMethodResolverTests {
 		Method stringFoo = MyBoo.class.getDeclaredMethod("foo", String.class);
 		Method integerFoo = MyBoo.class.getDeclaredMethod("foo", Integer.class);
 
-		assertThat(BridgeMethodResolver.findBridgedMethod(objectBridge)).as("foo(String) not resolved.").isEqualTo(stringFoo);
-		assertThat(BridgeMethodResolver.findBridgedMethod(serializableBridge)).as("foo(Integer) not resolved.").isEqualTo(integerFoo);
+		assertThat(BridgeMethodResolver.findBridgedMethod(objectBridge)).as("foo(String) not resolved.")
+				.isEqualTo(stringFoo);
+		assertThat(BridgeMethodResolver.findBridgedMethod(serializableBridge)).as("foo(Integer) not resolved.")
+				.isEqualTo(integerFoo);
 	}
 
 	@Test
@@ -190,8 +198,10 @@ class BridgeMethodResolverTests {
 		Method otherMethod = MessageBroadcasterImpl.class.getMethod("receive", NewMessageEvent.class);
 		assertThat(otherMethod.isBridge()).isFalse();
 
-		assertThat(BridgeMethodResolver.isBridgeMethodFor(bridgeMethod, otherMethod, MessageBroadcasterImpl.class)).as("Match identified incorrectly").isFalse();
-		assertThat(BridgeMethodResolver.isBridgeMethodFor(bridgeMethod, bridgedMethod, MessageBroadcasterImpl.class)).as("Match not found correctly").isTrue();
+		assertThat(BridgeMethodResolver.isBridgeMethodFor(bridgeMethod, otherMethod, MessageBroadcasterImpl.class))
+				.as("Match identified incorrectly").isFalse();
+		assertThat(BridgeMethodResolver.isBridgeMethodFor(bridgeMethod, bridgedMethod, MessageBroadcasterImpl.class))
+				.as("Match not found correctly").isTrue();
 
 		assertThat(BridgeMethodResolver.findBridgedMethod(bridgeMethod)).isEqualTo(bridgedMethod);
 	}
@@ -252,7 +262,7 @@ class BridgeMethodResolverTests {
 		Method bridgedMethod = MegaMessageProducerImpl.class.getDeclaredMethod("receive", MegaMessageEvent.class);
 		assertThat(bridgedMethod.isBridge()).isFalse();
 
-		Method bridgeMethod  = MegaMessageProducerImpl.class.getDeclaredMethod("receive", MegaEvent.class);
+		Method bridgeMethod = MegaMessageProducerImpl.class.getDeclaredMethod("receive", MegaEvent.class);
 		assertThat(bridgeMethod.isBridge()).isTrue();
 
 		assertThat(BridgeMethodResolver.findBridgedMethod(bridgeMethod)).isEqualTo(bridgedMethod);
@@ -271,12 +281,12 @@ class BridgeMethodResolverTests {
 
 	@Test
 	void spr3357() throws Exception {
-		Method bridgedMethod = ExtendsAbstractImplementsInterface.class.getDeclaredMethod(
-				"doSomething", DomainObjectExtendsSuper.class, Object.class);
+		Method bridgedMethod = ExtendsAbstractImplementsInterface.class.getDeclaredMethod("doSomething",
+				DomainObjectExtendsSuper.class, Object.class);
 		assertThat(bridgedMethod.isBridge()).isFalse();
 
-		Method bridgeMethod = ExtendsAbstractImplementsInterface.class.getDeclaredMethod(
-				"doSomething", DomainObjectSuper.class, Object.class);
+		Method bridgeMethod = ExtendsAbstractImplementsInterface.class.getDeclaredMethod("doSomething",
+				DomainObjectSuper.class, Object.class);
 		assertThat(bridgeMethod.isBridge()).isTrue();
 
 		assertThat(BridgeMethodResolver.findBridgedMethod(bridgeMethod)).isEqualTo(bridgedMethod);
@@ -284,12 +294,10 @@ class BridgeMethodResolverTests {
 
 	@Test
 	void spr3485() throws Exception {
-		Method bridgedMethod = DomainObject.class.getDeclaredMethod(
-				"method2", ParameterType.class, byte[].class);
+		Method bridgedMethod = DomainObject.class.getDeclaredMethod("method2", ParameterType.class, byte[].class);
 		assertThat(bridgedMethod.isBridge()).isFalse();
 
-		Method bridgeMethod = DomainObject.class.getDeclaredMethod(
-				"method2", Serializable.class, Object.class);
+		Method bridgeMethod = DomainObject.class.getDeclaredMethod("method2", Serializable.class, Object.class);
 		assertThat(bridgeMethod.isBridge()).isTrue();
 
 		assertThat(BridgeMethodResolver.findBridgedMethod(bridgeMethod)).isEqualTo(bridgedMethod);
@@ -304,32 +312,31 @@ class BridgeMethodResolverTests {
 		assertThat(bridgedMethod.getName()).isEqualTo("findBy");
 	}
 
-	@Test  // SPR-16103
+	@Test // SPR-16103
 	void testClassHierarchy() throws Exception {
 		doTestHierarchyResolution(FooClass.class);
 	}
 
-	@Test  // SPR-16103
+	@Test // SPR-16103
 	void testInterfaceHierarchy() throws Exception {
 		doTestHierarchyResolution(FooInterface.class);
 	}
 
 	private void doTestHierarchyResolution(Class<?> clazz) throws Exception {
-		for (Method method : clazz.getDeclaredMethods()){
+		for (Method method : clazz.getDeclaredMethods()) {
 			Method bridged = BridgeMethodResolver.findBridgedMethod(method);
 			Method expected = clazz.getMethod("test", FooEntity.class);
 			assertThat(bridged).isEqualTo(expected);
 		}
 	}
 
-
 	public interface Foo<T extends Serializable> {
 
 		void someMethod(T theArg, Object otherArg);
 
 		void someVarargMethod(T theArg, Object... otherArg);
-	}
 
+	}
 
 	public static class MyFoo implements Foo<String> {
 
@@ -343,8 +350,8 @@ class BridgeMethodResolverTests {
 		@Override
 		public void someVarargMethod(String theArg, Object... otherArgs) {
 		}
-	}
 
+	}
 
 	public static abstract class Bar<T> {
 
@@ -355,13 +362,12 @@ class BridgeMethodResolverTests {
 		}
 
 		abstract void someMethod(T theArg, Object otherArg);
-	}
 
+	}
 
 	public static abstract class InterBar<T> extends Bar<T> {
 
 	}
-
 
 	public static class MyBar extends InterBar<String> {
 
@@ -371,29 +377,29 @@ class BridgeMethodResolverTests {
 
 		public void someMethod(Integer theArg, Object otherArg) {
 		}
-	}
 
+	}
 
 	public interface Adder<T> {
 
 		void add(T item);
-	}
 
+	}
 
 	public static abstract class AbstractDateAdder implements Adder<Date> {
 
 		@Override
 		public abstract void add(Date date);
-	}
 
+	}
 
 	public static class DateAdder extends AbstractDateAdder {
 
 		@Override
 		public void add(Date date) {
 		}
-	}
 
+	}
 
 	public static class Enclosing<T> {
 
@@ -403,10 +409,12 @@ class BridgeMethodResolverTests {
 
 				void someMethod(S s, T t, R r) {
 				}
-			}
-		}
-	}
 
+			}
+
+		}
+
+	}
 
 	public static class ExtendsEnclosing extends Enclosing<String> {
 
@@ -418,18 +426,20 @@ class BridgeMethodResolverTests {
 				void someMethod(Integer s, String t, Long r) {
 					throw new UnsupportedOperationException();
 				}
-			}
-		}
-	}
 
+			}
+
+		}
+
+	}
 
 	public interface Boo<E, T extends Serializable> {
 
 		void foo(E e);
 
 		void foo(T t);
-	}
 
+	}
 
 	public static class MyBoo implements Boo<String, Integer> {
 
@@ -442,38 +452,38 @@ class BridgeMethodResolverTests {
 		public void foo(Integer t) {
 			throw new UnsupportedOperationException();
 		}
-	}
 
+	}
 
 	public interface Settings {
-	}
 
+	}
 
 	public interface ConcreteSettings extends Settings {
-	}
 
+	}
 
 	public interface Dao<T, S> {
 
 		T load();
 
 		S loadFromParent();
-	}
 
+	}
 
 	public interface SettingsDao<T extends Settings, S> extends Dao<T, S> {
 
 		@Override
 		T load();
-	}
 
+	}
 
 	public interface ConcreteSettingsDao extends SettingsDao<ConcreteSettings, String> {
 
 		@Override
 		String loadFromParent();
-	}
 
+	}
 
 	static abstract class AbstractDaoImpl<T, S> implements Dao<T, S> {
 
@@ -491,11 +501,10 @@ class BridgeMethodResolverTests {
 		public S loadFromParent() {
 			return otherObject;
 		}
+
 	}
 
-
-	static class SettingsDaoImpl extends AbstractDaoImpl<ConcreteSettings, String>
-			implements ConcreteSettingsDao {
+	static class SettingsDaoImpl extends AbstractDaoImpl<ConcreteSettings, String> implements ConcreteSettingsDao {
 
 		protected SettingsDaoImpl(ConcreteSettings object) {
 			super(object, "From Parent");
@@ -506,14 +515,14 @@ class BridgeMethodResolverTests {
 		public ConcreteSettings load() {
 			return super.object;
 		}
-	}
 
+	}
 
 	public interface Bounded<E> {
 
 		boolean boundedOperation(E e);
-	}
 
+	}
 
 	private static class AbstractBounded<E> implements Bounded<E> {
 
@@ -521,8 +530,8 @@ class BridgeMethodResolverTests {
 		public boolean boundedOperation(E myE) {
 			return true;
 		}
-	}
 
+	}
 
 	private static class SerializableBounded<E extends HashMap & Delayed> extends AbstractBounded<E> {
 
@@ -530,14 +539,14 @@ class BridgeMethodResolverTests {
 		public boolean boundedOperation(E myE) {
 			return false;
 		}
-	}
 
+	}
 
 	public interface GenericParameter<T> {
 
 		T getFor(Class<T> cls);
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class StringGenericParameter implements GenericParameter<String> {
@@ -550,8 +559,8 @@ class BridgeMethodResolverTests {
 		public String getFor(Integer integer) {
 			return "foo";
 		}
-	}
 
+	}
 
 	private static class StringList implements List<String> {
 
@@ -669,14 +678,14 @@ class BridgeMethodResolverTests {
 		public List<String> subList(int fromIndex, int toIndex) {
 			throw new UnsupportedOperationException();
 		}
-	}
 
+	}
 
 	public interface Event {
 
 		int getPriority();
-	}
 
+	}
 
 	public static class GenericEvent implements Event {
 
@@ -699,20 +708,20 @@ class BridgeMethodResolverTests {
 		 */
 		public GenericEvent() {
 		}
-	}
 
+	}
 
 	public interface UserInitiatedEvent {
-	}
 
+	}
 
 	public static abstract class BaseUserInitiatedEvent extends GenericEvent implements UserInitiatedEvent {
-	}
 
+	}
 
 	public static class MessageEvent extends BaseUserInitiatedEvent {
-	}
 
+	}
 
 	public interface Channel<E extends Event> {
 
@@ -721,12 +730,12 @@ class BridgeMethodResolverTests {
 		void subscribe(final Receiver<E> receiver, Class<E> event);
 
 		void unsubscribe(final Receiver<E> receiver, Class<E> event);
-	}
 
+	}
 
 	public interface Broadcaster {
-	}
 
+	}
 
 	public interface EventBroadcaster extends Broadcaster {
 
@@ -735,16 +744,16 @@ class BridgeMethodResolverTests {
 		void unsubscribe();
 
 		void setChannel(Channel<?> channel);
-	}
 
+	}
 
 	public static class GenericBroadcasterImpl implements Broadcaster {
+
 	}
 
-
-	@SuppressWarnings({"unused", "unchecked"})
-	public static abstract class GenericEventBroadcasterImpl<T extends Event>
-			extends GenericBroadcasterImpl implements EventBroadcaster {
+	@SuppressWarnings({ "unused", "unchecked" })
+	public static abstract class GenericEventBroadcasterImpl<T extends Event> extends GenericBroadcasterImpl
+			implements EventBroadcaster {
 
 		private Class<T>[] subscribingEvents;
 
@@ -752,7 +761,6 @@ class BridgeMethodResolverTests {
 
 		/**
 		 * Abstract method to retrieve instance of subclass
-		 *
 		 * @return receiver instance
 		 */
 		public abstract Receiver<T> getInstance();
@@ -778,38 +786,34 @@ class BridgeMethodResolverTests {
 
 		public GenericEventBroadcasterImpl(Class<? extends T>... events) {
 		}
-	}
 
+	}
 
 	public interface Receiver<E extends Event> {
 
 		void receive(E event);
-	}
 
+	}
 
 	public interface MessageBroadcaster extends Receiver<MessageEvent> {
 
 	}
 
-
 	public static class RemovedMessageEvent extends MessageEvent {
 
 	}
-
 
 	public static class NewMessageEvent extends MessageEvent {
 
 	}
 
-
 	public static class ModifiedMessageEvent extends MessageEvent {
 
 	}
 
-
-	@SuppressWarnings({"serial", "unchecked"})
+	@SuppressWarnings({ "serial", "unchecked" })
 	public static class MessageBroadcasterImpl extends GenericEventBroadcasterImpl<MessageEvent>
-			implements Serializable,  // implement an unrelated interface first (SPR-16288)
+			implements Serializable, // implement an unrelated interface first (SPR-16288)
 			MessageBroadcaster {
 
 		public MessageBroadcasterImpl() {
@@ -834,12 +838,12 @@ class BridgeMethodResolverTests {
 
 		public void receive(ModifiedMessageEvent event) {
 		}
+
 	}
 
-
-	//-----------------------------
+	// -----------------------------
 	// SPR-2454 Test Classes
-	//-----------------------------
+	// -----------------------------
 
 	public interface SimpleGenericRepository<T> {
 
@@ -854,18 +858,17 @@ class BridgeMethodResolverTests {
 		T saveOrUpdate(T entity);
 
 		void delete(Collection<T> entities);
-	}
 
+	}
 
 	public interface RepositoryRegistry {
 
 		<T> SimpleGenericRepository<T> getFor(Class<T> entityType);
+
 	}
 
-
 	@SuppressWarnings("unchecked")
-	public static class SettableRepositoryRegistry<R extends SimpleGenericRepository<?>>
-			implements RepositoryRegistry {
+	public static class SettableRepositoryRegistry<R extends SimpleGenericRepository<?>> implements RepositoryRegistry {
 
 		protected void injectInto(R rep) {
 		}
@@ -886,11 +889,10 @@ class BridgeMethodResolverTests {
 
 		public void afterPropertiesSet() throws Exception {
 		}
+
 	}
 
-
-	public interface ConvenientGenericRepository<T, ID extends Serializable>
-			extends SimpleGenericRepository<T> {
+	public interface ConvenientGenericRepository<T, ID extends Serializable> extends SimpleGenericRepository<T> {
 
 		T findById(ID id, boolean lock);
 
@@ -899,8 +901,8 @@ class BridgeMethodResolverTests {
 		void delete(ID id);
 
 		void delete(T entity);
-	}
 
+	}
 
 	public static class GenericHibernateRepository<T, ID extends Serializable>
 			implements ConvenientGenericRepository<T, ID> {
@@ -962,8 +964,8 @@ class BridgeMethodResolverTests {
 		@Override
 		public void delete(Collection<T> entities) {
 		}
-	}
 
+	}
 
 	public static class HibernateRepositoryRegistry
 			extends SettableRepositoryRegistry<GenericHibernateRepository<?, ?>> {
@@ -976,18 +978,18 @@ class BridgeMethodResolverTests {
 		public <T> GenericHibernateRepository<T, ?> getFor(Class<T> entityType) {
 			return null;
 		}
+
 	}
 
-
-	//-------------------
+	// -------------------
 	// SPR-2603 classes
-	//-------------------
+	// -------------------
 
 	public interface Homer<E> {
 
 		void foo(E e);
-	}
 
+	}
 
 	public static class MyHomer<T extends Bounded<T>, L extends T> implements Homer<L> {
 
@@ -995,28 +997,27 @@ class BridgeMethodResolverTests {
 		public void foo(L t) {
 			throw new UnsupportedOperationException();
 		}
+
 	}
 
-
-	public static class YourHomer<T extends AbstractBounded<T>, L extends T> extends
-			MyHomer<T, L> {
+	public static class YourHomer<T extends AbstractBounded<T>, L extends T> extends MyHomer<T, L> {
 
 		@Override
 		public void foo(L t) {
 			throw new UnsupportedOperationException();
 		}
-	}
 
+	}
 
 	public interface GenericDao<T> {
 
 		void saveOrUpdate(T t);
-	}
 
+	}
 
 	public interface ConvenienceGenericDao<T> extends GenericDao<T> {
-	}
 
+	}
 
 	public static class GenericSqlMapDao<T extends Serializable> implements ConvenienceGenericDao<T> {
 
@@ -1024,24 +1025,24 @@ class BridgeMethodResolverTests {
 		public void saveOrUpdate(T t) {
 			throw new UnsupportedOperationException();
 		}
-	}
 
+	}
 
 	public static class GenericSqlMapIntegerDao<T extends Number> extends GenericSqlMapDao<T> {
 
 		@Override
 		public void saveOrUpdate(T t) {
 		}
-	}
 
+	}
 
 	public static class Permission {
-	}
 
+	}
 
 	public static class User {
-	}
 
+	}
 
 	public interface UserDao {
 
@@ -1050,8 +1051,8 @@ class BridgeMethodResolverTests {
 
 		// @Transactional
 		void save(Permission perm);
-	}
 
+	}
 
 	public static abstract class AbstractDao<T> {
 
@@ -1060,8 +1061,8 @@ class BridgeMethodResolverTests {
 
 		public void saveVararg(T t, Object... args) {
 		}
-	}
 
+	}
 
 	public static class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
@@ -1072,26 +1073,25 @@ class BridgeMethodResolverTests {
 		@Override
 		public void saveVararg(User user, Object... args) {
 		}
-	}
 
+	}
 
 	public interface DaoInterface<T, P> {
 
 		T get(P id);
+
 	}
 
-
-	public static abstract class BusinessGenericDao<T, PK extends Serializable>
-			implements DaoInterface<T, PK> {
+	public static abstract class BusinessGenericDao<T, PK extends Serializable> implements DaoInterface<T, PK> {
 
 		public void save(T object) {
 		}
-	}
 
+	}
 
 	public static class Business<T> {
-	}
 
+	}
 
 	public static class BusinessDao extends BusinessGenericDao<Business<?>, Long> {
 
@@ -1107,42 +1107,42 @@ class BridgeMethodResolverTests {
 		public Business<?> get(String code) {
 			return null;
 		}
+
 	}
 
-
-	//-------------------
+	// -------------------
 	// SPR-3304 classes
-	//-------------------
+	// -------------------
 
 	private static class MegaEvent {
-	}
 
+	}
 
 	private static class MegaMessageEvent extends MegaEvent {
-	}
 
+	}
 
 	private static class NewMegaMessageEvent extends MegaEvent {
-	}
 
+	}
 
 	private static class ModifiedMegaMessageEvent extends MegaEvent {
-	}
 
+	}
 
 	public interface MegaReceiver<E extends MegaEvent> {
 
 		void receive(E event);
-	}
 
+	}
 
 	public interface MegaMessageProducer extends MegaReceiver<MegaMessageEvent> {
+
 	}
 
+	private static class Other<S, E> {
 
-	private static class Other<S,E> {
 	}
-
 
 	@SuppressWarnings("unused")
 	private static class MegaMessageProducerImpl extends Other<Long, String> implements MegaMessageProducer {
@@ -1159,29 +1159,30 @@ class BridgeMethodResolverTests {
 		public void receive(MegaMessageEvent event) {
 			throw new UnsupportedOperationException();
 		}
+
 	}
 
-
-	//-------------------
+	// -------------------
 	// SPR-3357 classes
-	//-------------------
+	// -------------------
 
 	private static class DomainObjectSuper {
-	}
 
+	}
 
 	private static class DomainObjectExtendsSuper extends DomainObjectSuper {
-	}
 
+	}
 
 	public interface IGenericInterface<D extends DomainObjectSuper> {
 
 		<T> void doSomething(final D domainObject, final T value);
+
 	}
 
-
 	@SuppressWarnings("unused")
-	private static abstract class AbstractImplementsInterface<D extends DomainObjectSuper> implements IGenericInterface<D> {
+	private static abstract class AbstractImplementsInterface<D extends DomainObjectSuper>
+			implements IGenericInterface<D> {
 
 		@Override
 		public <T> void doSomething(D domainObject, T value) {
@@ -1189,26 +1190,27 @@ class BridgeMethodResolverTests {
 
 		public void anotherBaseMethod() {
 		}
+
 	}
 
-
-	private static class ExtendsAbstractImplementsInterface extends AbstractImplementsInterface<DomainObjectExtendsSuper> {
+	private static class ExtendsAbstractImplementsInterface
+			extends AbstractImplementsInterface<DomainObjectExtendsSuper> {
 
 		@Override
 		public <T> void doSomething(DomainObjectExtendsSuper domainObject, T value) {
 			super.doSomething(domainObject, value);
 		}
+
 	}
 
-
-	//-------------------
+	// -------------------
 	// SPR-3485 classes
-	//-------------------
+	// -------------------
 
 	@SuppressWarnings("serial")
 	private static class ParameterType implements Serializable {
-	}
 
+	}
 
 	private static class AbstractDomainObject<P extends Serializable, R> {
 
@@ -1218,8 +1220,8 @@ class BridgeMethodResolverTests {
 
 		public void method2(P p, R r) {
 		}
-	}
 
+	}
 
 	private static class DomainObject extends AbstractDomainObject<ParameterType, byte[]> {
 
@@ -1232,35 +1234,35 @@ class BridgeMethodResolverTests {
 		public void method2(ParameterType p, byte[] r) {
 			super.method2(p, r);
 		}
+
 	}
 
-
-	//-------------------
+	// -------------------
 	// SPR-3534 classes
-	//-------------------
+	// -------------------
 
 	public interface SearchProvider<RETURN_TYPE, CONDITIONS_TYPE> {
 
 		Collection<RETURN_TYPE> findBy(CONDITIONS_TYPE conditions);
-	}
 
+	}
 
 	public static class SearchConditions {
-	}
 
+	}
 
 	public interface IExternalMessageProvider<S extends ExternalMessage, T extends ExternalMessageSearchConditions<?>>
 			extends SearchProvider<S, T> {
-	}
 
+	}
 
 	public static class ExternalMessage {
-	}
 
+	}
 
 	public static class ExternalMessageSearchConditions<T extends ExternalMessage> extends SearchConditions {
-	}
 
+	}
 
 	public static class ExternalMessageProvider<S extends ExternalMessage, T extends ExternalMessageSearchConditions<S>>
 			implements IExternalMessageProvider<S, T> {
@@ -1269,20 +1271,20 @@ class BridgeMethodResolverTests {
 		public Collection<S> findBy(T conditions) {
 			return null;
 		}
-	}
 
+	}
 
 	public static class EmailMessage extends ExternalMessage {
-	}
 
+	}
 
 	public static class EmailSearchConditions extends ExternalMessageSearchConditions<EmailMessage> {
-	}
 
+	}
 
 	public static class EmailMessageProvider extends ExternalMessageProvider<EmailMessage, EmailSearchConditions> {
-	}
 
+	}
 
 	public static class TestEmailProvider extends EmailMessageProvider {
 
@@ -1290,17 +1292,19 @@ class BridgeMethodResolverTests {
 		public Collection<EmailMessage> findBy(EmailSearchConditions conditions) {
 			return null;
 		}
+
 	}
 
-
-	//-------------------
+	// -------------------
 	// SPR-16103 classes
-	//-------------------
+	// -------------------
 
 	public static abstract class BaseEntity {
+
 	}
 
 	public static class FooEntity extends BaseEntity {
+
 	}
 
 	public static class BaseClass<T> {
@@ -1308,6 +1312,7 @@ class BridgeMethodResolverTests {
 		public <S extends T> S test(S T) {
 			return null;
 		}
+
 	}
 
 	public static class EntityClass<T extends BaseEntity> extends BaseClass<T> {
@@ -1316,6 +1321,7 @@ class BridgeMethodResolverTests {
 		public <S extends T> S test(S T) {
 			return null;
 		}
+
 	}
 
 	public static class FooClass extends EntityClass<FooEntity> {
@@ -1324,23 +1330,27 @@ class BridgeMethodResolverTests {
 		public <S extends FooEntity> S test(S T) {
 			return null;
 		}
+
 	}
 
 	public interface BaseInterface<T> {
 
 		<S extends T> S test(S T);
+
 	}
 
 	public interface EntityInterface<T extends BaseEntity> extends BaseInterface<T> {
 
 		@Override
 		<S extends T> S test(S T);
+
 	}
 
 	public interface FooInterface extends EntityInterface<FooEntity> {
 
 		@Override
 		<S extends FooEntity> S test(S T);
+
 	}
 
 }

@@ -35,7 +35,6 @@ public class LookupAnnotationTests {
 
 	private DefaultListableBeanFactory beanFactory;
 
-
 	@BeforeEach
 	public void setup() {
 		beanFactory = new DefaultListableBeanFactory();
@@ -48,7 +47,6 @@ public class LookupAnnotationTests {
 		tbd.setScope(BeanDefinition.SCOPE_PROTOTYPE);
 		beanFactory.registerBeanDefinition("testBean", tbd);
 	}
-
 
 	@Test
 	public void testWithoutConstructorArg() {
@@ -94,8 +92,8 @@ public class LookupAnnotationTests {
 	public void testWithThreeArgsShouldFail() {
 		AbstractBean bean = (AbstractBean) beanFactory.getBean("abstractBean");
 		assertThat(bean).isNotNull();
-		assertThatExceptionOfType(AbstractMethodError.class).as("TestBean has no three arg constructor").isThrownBy(() ->
-				bean.getThreeArguments("name", 1, 2));
+		assertThatExceptionOfType(AbstractMethodError.class).as("TestBean has no three arg constructor")
+				.isThrownBy(() -> bean.getThreeArguments("name", 1, 2));
 		assertThat(beanFactory.getBean(BeanConsumer.class).abstractBean).isSameAs(bean);
 	}
 
@@ -108,7 +106,7 @@ public class LookupAnnotationTests {
 		assertThat(beanFactory.getBean(BeanConsumer.class).abstractBean).isSameAs(bean);
 	}
 
-	@Test  // gh-25806
+	@Test // gh-25806
 	public void testWithNullBean() {
 		RootBeanDefinition tbd = new RootBeanDefinition(TestBean.class, () -> null);
 		tbd.setScope(BeanDefinition.SCOPE_PROTOTYPE);
@@ -121,14 +119,13 @@ public class LookupAnnotationTests {
 		assertThat(beanFactory.getBean(BeanConsumer.class).abstractBean).isSameAs(bean);
 	}
 
-
 	public static abstract class AbstractBean {
 
 		@Lookup("testBean")
 		public abstract TestBean get();
 
 		@Lookup
-		public abstract TestBean get(String name);  // overloaded
+		public abstract TestBean get(String name); // overloaded
 
 		@Lookup
 		public abstract TestBean getOneArgument(String name);
@@ -138,13 +135,14 @@ public class LookupAnnotationTests {
 
 		// no @Lookup annotation
 		public abstract TestBean getThreeArguments(String name, int age, int anotherArg);
-	}
 
+	}
 
 	public static class BeanConsumer {
 
 		@Autowired
 		AbstractBean abstractBean;
+
 	}
 
 }

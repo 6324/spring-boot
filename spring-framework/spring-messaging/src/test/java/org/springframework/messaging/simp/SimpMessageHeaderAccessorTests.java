@@ -34,7 +34,6 @@ import static org.mockito.Mockito.mock;
  */
 public class SimpMessageHeaderAccessorTests {
 
-
 	@Test
 	public void getShortLogMessage() {
 		assertThat(SimpMessageHeaderAccessor.create().getShortLogMessage("p"))
@@ -51,8 +50,8 @@ public class SimpMessageHeaderAccessorTests {
 		accessor.setSessionAttributes(Collections.<String, Object>singletonMap("key", "value"));
 
 		assertThat(accessor.getShortLogMessage("p"))
-				.isEqualTo(("MESSAGE destination=/destination subscriptionId=subscription " +
-						"session=session user=user attributes[1] payload=p"));
+				.isEqualTo(("MESSAGE destination=/destination subscriptionId=subscription "
+						+ "session=session user=user attributes[1] payload=p"));
 	}
 
 	@Test
@@ -66,9 +65,9 @@ public class SimpMessageHeaderAccessorTests {
 		accessor.setNativeHeader("nativeKey", "nativeValue");
 
 		assertThat(accessor.getDetailedLogMessage("p"))
-				.isEqualTo(("MESSAGE destination=/destination subscriptionId=subscription " +
-						"session=session user=user attributes={key=value} nativeHeaders=" +
-						"{nativeKey=[nativeValue]} payload=p"));
+				.isEqualTo(("MESSAGE destination=/destination subscriptionId=subscription "
+						+ "session=session user=user attributes={key=value} nativeHeaders="
+						+ "{nativeKey=[nativeValue]} payload=p"));
 	}
 
 	@Test
@@ -86,11 +85,9 @@ public class SimpMessageHeaderAccessorTests {
 		assertThat(userCallback.getUser()).isEqualTo(user2);
 	}
 
-
 	private static class UserCallback implements Consumer<Principal> {
 
 		private Principal user;
-
 
 		public Principal getUser() {
 			return this.user;
@@ -100,6 +97,7 @@ public class SimpMessageHeaderAccessorTests {
 		public void accept(Principal principal) {
 			this.user = principal;
 		}
+
 	}
 
 }

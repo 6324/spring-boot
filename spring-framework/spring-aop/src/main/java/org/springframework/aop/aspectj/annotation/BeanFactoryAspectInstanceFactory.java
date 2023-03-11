@@ -27,13 +27,14 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * {@link org.springframework.aop.aspectj.AspectInstanceFactory} implementation
- * backed by a Spring {@link org.springframework.beans.factory.BeanFactory}.
+ * {@link org.springframework.aop.aspectj.AspectInstanceFactory} implementation backed by
+ * a Spring {@link org.springframework.beans.factory.BeanFactory}.
  *
- * <p>Note that this may instantiate multiple times if using a prototype,
- * which probably won't give the semantics you expect.
- * Use a {@link LazySingletonAspectInstanceFactoryDecorator}
- * to wrap this to ensure only one new aspect comes back.
+ * <p>
+ * Note that this may instantiate multiple times if using a prototype, which probably
+ * won't give the semantics you expect. Use a
+ * {@link LazySingletonAspectInstanceFactoryDecorator} to wrap this to ensure only one new
+ * aspect comes back.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -50,11 +51,10 @@ public class BeanFactoryAspectInstanceFactory implements MetadataAwareAspectInst
 
 	private final AspectMetadata aspectMetadata;
 
-
 	/**
-	 * Create a BeanFactoryAspectInstanceFactory. AspectJ will be called to
-	 * introspect to create AJType metadata using the type returned for the
-	 * given bean name from the BeanFactory.
+	 * Create a BeanFactoryAspectInstanceFactory. AspectJ will be called to introspect to
+	 * create AJType metadata using the type returned for the given bean name from the
+	 * BeanFactory.
 	 * @param beanFactory the BeanFactory to obtain instance(s) from
 	 * @param name the name of the bean
 	 */
@@ -65,11 +65,12 @@ public class BeanFactoryAspectInstanceFactory implements MetadataAwareAspectInst
 	/**
 	 * Create a BeanFactoryAspectInstanceFactory, providing a type that AspectJ should
 	 * introspect to create AJType metadata. Use if the BeanFactory may consider the type
-	 * to be a subclass (as when using CGLIB), and the information should relate to a superclass.
+	 * to be a subclass (as when using CGLIB), and the information should relate to a
+	 * superclass.
 	 * @param beanFactory the BeanFactory to obtain instance(s) from
 	 * @param name the name of the bean
-	 * @param type the type that should be introspected by AspectJ
-	 * ({@code null} indicates resolution through {@link BeanFactory#getType} via the bean name)
+	 * @param type the type that should be introspected by AspectJ ({@code null} indicates
+	 * resolution through {@link BeanFactory#getType} via the bean name)
 	 */
 	public BeanFactoryAspectInstanceFactory(BeanFactory beanFactory, String name, @Nullable Class<?> type) {
 		Assert.notNull(beanFactory, "BeanFactory must not be null");
@@ -84,7 +85,6 @@ public class BeanFactoryAspectInstanceFactory implements MetadataAwareAspectInst
 		this.aspectMetadata = new AspectMetadata(resolvedType, name);
 	}
 
-
 	@Override
 	public Object getAspectInstance() {
 		return this.beanFactory.getBean(this.name);
@@ -93,9 +93,9 @@ public class BeanFactoryAspectInstanceFactory implements MetadataAwareAspectInst
 	@Override
 	@Nullable
 	public ClassLoader getAspectClassLoader() {
-		return (this.beanFactory instanceof ConfigurableBeanFactory ?
-				((ConfigurableBeanFactory) this.beanFactory).getBeanClassLoader() :
-				ClassUtils.getDefaultClassLoader());
+		return (this.beanFactory instanceof ConfigurableBeanFactory
+				? ((ConfigurableBeanFactory) this.beanFactory).getBeanClassLoader()
+				: ClassUtils.getDefaultClassLoader());
 	}
 
 	@Override
@@ -122,12 +122,10 @@ public class BeanFactoryAspectInstanceFactory implements MetadataAwareAspectInst
 	}
 
 	/**
-	 * Determine the order for this factory's target aspect, either
-	 * an instance-specific order expressed through implementing the
-	 * {@link org.springframework.core.Ordered} interface (only
-	 * checked for singleton beans), or an order expressed through the
-	 * {@link org.springframework.core.annotation.Order} annotation
-	 * at the class level.
+	 * Determine the order for this factory's target aspect, either an instance-specific
+	 * order expressed through implementing the {@link org.springframework.core.Ordered}
+	 * interface (only checked for singleton beans), or an order expressed through the
+	 * {@link org.springframework.core.annotation.Order} annotation at the class level.
 	 * @see org.springframework.core.Ordered
 	 * @see org.springframework.core.annotation.Order
 	 */
@@ -142,7 +140,6 @@ public class BeanFactoryAspectInstanceFactory implements MetadataAwareAspectInst
 		}
 		return Ordered.LOWEST_PRECEDENCE;
 	}
-
 
 	@Override
 	public String toString() {

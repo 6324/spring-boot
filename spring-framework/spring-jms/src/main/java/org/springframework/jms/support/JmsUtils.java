@@ -44,8 +44,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Generic utility methods for working with JMS. Mainly for internal use
- * within the framework, but also useful for custom JMS access code.
+ * Generic utility methods for working with JMS. Mainly for internal use within the
+ * framework, but also useful for custom JMS access code.
  *
  * @author Juergen Hoeller
  * @since 1.1
@@ -54,10 +54,9 @@ public abstract class JmsUtils {
 
 	private static final Log logger = LogFactory.getLog(JmsUtils.class);
 
-
 	/**
-	 * Close the given JMS Connection and ignore any thrown exception.
-	 * This is useful for typical {@code finally} blocks in manual JMS code.
+	 * Close the given JMS Connection and ignore any thrown exception. This is useful for
+	 * typical {@code finally} blocks in manual JMS code.
 	 * @param con the JMS Connection to close (may be {@code null})
 	 */
 	public static void closeConnection(@Nullable Connection con) {
@@ -65,8 +64,8 @@ public abstract class JmsUtils {
 	}
 
 	/**
-	 * Close the given JMS Connection and ignore any thrown exception.
-	 * This is useful for typical {@code finally} blocks in manual JMS code.
+	 * Close the given JMS Connection and ignore any thrown exception. This is useful for
+	 * typical {@code finally} blocks in manual JMS code.
 	 * @param con the JMS Connection to close (may be {@code null})
 	 * @param stop whether to call {@code stop()} before closing
 	 */
@@ -92,15 +91,16 @@ public abstract class JmsUtils {
 				logger.debug("Could not close JMS Connection", ex);
 			}
 			catch (Throwable ex) {
-				// We don't trust the JMS provider: It might throw RuntimeException or Error.
+				// We don't trust the JMS provider: It might throw RuntimeException or
+				// Error.
 				logger.debug("Unexpected exception on closing JMS Connection", ex);
 			}
 		}
 	}
 
 	/**
-	 * Close the given JMS Session and ignore any thrown exception.
-	 * This is useful for typical {@code finally} blocks in manual JMS code.
+	 * Close the given JMS Session and ignore any thrown exception. This is useful for
+	 * typical {@code finally} blocks in manual JMS code.
 	 * @param session the JMS Session to close (may be {@code null})
 	 */
 	public static void closeSession(@Nullable Session session) {
@@ -112,15 +112,16 @@ public abstract class JmsUtils {
 				logger.trace("Could not close JMS Session", ex);
 			}
 			catch (Throwable ex) {
-				// We don't trust the JMS provider: It might throw RuntimeException or Error.
+				// We don't trust the JMS provider: It might throw RuntimeException or
+				// Error.
 				logger.trace("Unexpected exception on closing JMS Session", ex);
 			}
 		}
 	}
 
 	/**
-	 * Close the given JMS MessageProducer and ignore any thrown exception.
-	 * This is useful for typical {@code finally} blocks in manual JMS code.
+	 * Close the given JMS MessageProducer and ignore any thrown exception. This is useful
+	 * for typical {@code finally} blocks in manual JMS code.
 	 * @param producer the JMS MessageProducer to close (may be {@code null})
 	 */
 	public static void closeMessageProducer(@Nullable MessageProducer producer) {
@@ -132,15 +133,16 @@ public abstract class JmsUtils {
 				logger.trace("Could not close JMS MessageProducer", ex);
 			}
 			catch (Throwable ex) {
-				// We don't trust the JMS provider: It might throw RuntimeException or Error.
+				// We don't trust the JMS provider: It might throw RuntimeException or
+				// Error.
 				logger.trace("Unexpected exception on closing JMS MessageProducer", ex);
 			}
 		}
 	}
 
 	/**
-	 * Close the given JMS MessageConsumer and ignore any thrown exception.
-	 * This is useful for typical {@code finally} blocks in manual JMS code.
+	 * Close the given JMS MessageConsumer and ignore any thrown exception. This is useful
+	 * for typical {@code finally} blocks in manual JMS code.
 	 * @param consumer the JMS MessageConsumer to close (may be {@code null})
 	 */
 	public static void closeMessageConsumer(@Nullable MessageConsumer consumer) {
@@ -155,7 +157,8 @@ public abstract class JmsUtils {
 				logger.trace("Could not close JMS MessageConsumer", ex);
 			}
 			catch (Throwable ex) {
-				// We don't trust the JMS provider: It might throw RuntimeException or Error.
+				// We don't trust the JMS provider: It might throw RuntimeException or
+				// Error.
 				logger.trace("Unexpected exception on closing JMS MessageConsumer", ex);
 			}
 			finally {
@@ -168,8 +171,8 @@ public abstract class JmsUtils {
 	}
 
 	/**
-	 * Close the given JMS QueueBrowser and ignore any thrown exception.
-	 * This is useful for typical {@code finally} blocks in manual JMS code.
+	 * Close the given JMS QueueBrowser and ignore any thrown exception. This is useful
+	 * for typical {@code finally} blocks in manual JMS code.
 	 * @param browser the JMS QueueBrowser to close (may be {@code null})
 	 */
 	public static void closeQueueBrowser(@Nullable QueueBrowser browser) {
@@ -181,15 +184,16 @@ public abstract class JmsUtils {
 				logger.trace("Could not close JMS QueueBrowser", ex);
 			}
 			catch (Throwable ex) {
-				// We don't trust the JMS provider: It might throw RuntimeException or Error.
+				// We don't trust the JMS provider: It might throw RuntimeException or
+				// Error.
 				logger.trace("Unexpected exception on closing JMS QueueBrowser", ex);
 			}
 		}
 	}
 
 	/**
-	 * Close the given JMS QueueRequestor and ignore any thrown exception.
-	 * This is useful for typical {@code finally} blocks in manual JMS code.
+	 * Close the given JMS QueueRequestor and ignore any thrown exception. This is useful
+	 * for typical {@code finally} blocks in manual JMS code.
 	 * @param requestor the JMS QueueRequestor to close (may be {@code null})
 	 */
 	public static void closeQueueRequestor(@Nullable QueueRequestor requestor) {
@@ -201,7 +205,8 @@ public abstract class JmsUtils {
 				logger.trace("Could not close JMS QueueRequestor", ex);
 			}
 			catch (Throwable ex) {
-				// We don't trust the JMS provider: It might throw RuntimeException or Error.
+				// We don't trust the JMS provider: It might throw RuntimeException or
+				// Error.
 				logger.trace("Unexpected exception on closing JMS QueueRequestor", ex);
 			}
 		}
@@ -238,8 +243,8 @@ public abstract class JmsUtils {
 	}
 
 	/**
-	 * Build a descriptive exception message for the given JMSException,
-	 * incorporating a linked exception's message if appropriate.
+	 * Build a descriptive exception message for the given JMSException, incorporating a
+	 * linked exception's message if appropriate.
 	 * @param ex the JMSException to build a message for
 	 * @return the descriptive message String
 	 * @see javax.jms.JMSException#getLinkedException()
@@ -263,7 +268,8 @@ public abstract class JmsUtils {
 
 	/**
 	 * Convert the specified checked {@link javax.jms.JMSException JMSException} to a
-	 * Spring runtime {@link org.springframework.jms.JmsException JmsException} equivalent.
+	 * Spring runtime {@link org.springframework.jms.JmsException JmsException}
+	 * equivalent.
 	 * @param ex the original checked JMSException to convert
 	 * @return the Spring runtime JmsException wrapping the given exception
 	 */

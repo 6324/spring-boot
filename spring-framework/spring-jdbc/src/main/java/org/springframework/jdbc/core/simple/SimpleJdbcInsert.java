@@ -27,20 +27,22 @@ import org.springframework.jdbc.support.KeyHolder;
 
 /**
  * A SimpleJdbcInsert is a multi-threaded, reusable object providing easy insert
- * capabilities for a table. It provides meta-data processing to simplify the code
- * needed to construct a basic insert statement. All you need to provide is the
- * name of the table and a Map containing the column names and the column values.
+ * capabilities for a table. It provides meta-data processing to simplify the code needed
+ * to construct a basic insert statement. All you need to provide is the name of the table
+ * and a Map containing the column names and the column values.
  *
- * <p>The meta-data processing is based on the DatabaseMetaData provided by the
- * JDBC driver. As long as the JDBC driver can provide the names of the columns
- * for a specified table than we can rely on this auto-detection feature. If that
- * is not the case, then the column names must be specified explicitly.
+ * <p>
+ * The meta-data processing is based on the DatabaseMetaData provided by the JDBC driver.
+ * As long as the JDBC driver can provide the names of the columns for a specified table
+ * than we can rely on this auto-detection feature. If that is not the case, then the
+ * column names must be specified explicitly.
  *
- * <p>The actual insert is being handled using Spring's {@link JdbcTemplate}.
+ * <p>
+ * The actual insert is being handled using Spring's {@link JdbcTemplate}.
  *
- * <p>Many of the configuration methods return the current instance of the
- * SimpleJdbcInsert to provide the ability to chain multiple ones together
- * in a "fluent" interface style.
+ * <p>
+ * Many of the configuration methods return the current instance of the SimpleJdbcInsert
+ * to provide the ability to chain multiple ones together in a "fluent" interface style.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -51,8 +53,8 @@ import org.springframework.jdbc.support.KeyHolder;
 public class SimpleJdbcInsert extends AbstractJdbcInsert implements SimpleJdbcInsertOperations {
 
 	/**
-	 * Constructor that takes one parameter with the JDBC DataSource to use when creating the
-	 * JdbcTemplate.
+	 * Constructor that takes one parameter with the JDBC DataSource to use when creating
+	 * the JdbcTemplate.
 	 * @param dataSource the {@code DataSource} to use
 	 * @see org.springframework.jdbc.core.JdbcTemplate#setDataSource
 	 */
@@ -68,7 +70,6 @@ public class SimpleJdbcInsert extends AbstractJdbcInsert implements SimpleJdbcIn
 	public SimpleJdbcInsert(JdbcTemplate jdbcTemplate) {
 		super(jdbcTemplate);
 	}
-
 
 	@Override
 	public SimpleJdbcInsert withTableName(String tableName) {

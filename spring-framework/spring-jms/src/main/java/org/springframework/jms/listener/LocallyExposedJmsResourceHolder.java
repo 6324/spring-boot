@@ -21,8 +21,8 @@ import javax.jms.Session;
 import org.springframework.jms.connection.JmsResourceHolder;
 
 /**
- * {@link JmsResourceHolder} marker subclass that indicates local exposure,
- * i.e. that does not indicate an externally managed transaction.
+ * {@link JmsResourceHolder} marker subclass that indicates local exposure, i.e. that does
+ * not indicate an externally managed transaction.
  *
  * @author Juergen Hoeller
  * @since 2.5.2

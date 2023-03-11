@@ -44,6 +44,7 @@ public class AsyncResultTests {
 			public void onSuccess(String result) {
 				values.add(result);
 			}
+
 			@Override
 			public void onFailure(Throwable ex) {
 				throw new AssertionError("Failure callback not expected: " + ex, ex);
@@ -65,18 +66,15 @@ public class AsyncResultTests {
 			public void onSuccess(String result) {
 				throw new AssertionError("Success callback not expected: " + result);
 			}
+
 			@Override
 			public void onFailure(Throwable ex) {
 				values.add(ex);
 			}
 		});
 		assertThat(values.iterator().next()).isSameAs(ex);
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(
-				future::get)
-			.withCause(ex);
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(
-				future.completable()::get)
-			.withCause(ex);
+		assertThatExceptionOfType(ExecutionException.class).isThrownBy(future::get).withCause(ex);
+		assertThatExceptionOfType(ExecutionException.class).isThrownBy(future.completable()::get).withCause(ex);
 	}
 
 	@Test
@@ -98,12 +96,8 @@ public class AsyncResultTests {
 		ListenableFuture<String> future = AsyncResult.forExecutionException(ex);
 		future.addCallback(result -> new AssertionError("Success callback not expected: " + result), values::add);
 		assertThat(values.iterator().next()).isSameAs(ex);
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(
-				future::get)
-			.withCause(ex);
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(
-				future.completable()::get)
-			.withCause(ex);
+		assertThatExceptionOfType(ExecutionException.class).isThrownBy(future::get).withCause(ex);
+		assertThatExceptionOfType(ExecutionException.class).isThrownBy(future.completable()::get).withCause(ex);
 	}
 
 }

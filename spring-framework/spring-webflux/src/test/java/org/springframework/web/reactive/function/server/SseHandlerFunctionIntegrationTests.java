@@ -41,7 +41,6 @@ class SseHandlerFunctionIntegrationTests extends AbstractRouterFunctionIntegrati
 
 	private WebClient webClient;
 
-
 	@Override
 	protected void startServer(HttpServer httpServer) throws Exception {
 		super.startServer(httpServer);
@@ -56,21 +55,14 @@ class SseHandlerFunctionIntegrationTests extends AbstractRouterFunctionIntegrati
 				.and(route(RequestPredicates.GET("/event"), sseHandler::sse));
 	}
 
-
 	@ParameterizedHttpServerTest
 	void sseAsString(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		Flux<String> result = this.webClient.get()
-				.uri("/string")
-				.accept(TEXT_EVENT_STREAM)
-				.retrieve()
+		Flux<String> result = this.webClient.get().uri("/string").accept(TEXT_EVENT_STREAM).retrieve()
 				.bodyToFlux(String.class);
 
-		StepVerifier.create(result)
-				.expectNext("foo 0")
-				.expectNext("foo 1")
-				.expectComplete()
+		StepVerifier.create(result).expectNext("foo 0").expectNext("foo 1").expectComplete()
 				.verify(Duration.ofSeconds(5L));
 	}
 
@@ -78,16 +70,10 @@ class SseHandlerFunctionIntegrationTests extends AbstractRouterFunctionIntegrati
 	void sseAsPerson(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		Flux<Person> result = this.webClient.get()
-				.uri("/person")
-				.accept(TEXT_EVENT_STREAM)
-				.retrieve()
+		Flux<Person> result = this.webClient.get().uri("/person").accept(TEXT_EVENT_STREAM).retrieve()
 				.bodyToFlux(Person.class);
 
-		StepVerifier.create(result)
-				.expectNext(new Person("foo 0"))
-				.expectNext(new Person("foo 1"))
-				.expectComplete()
+		StepVerifier.create(result).expectNext(new Person("foo 0")).expectNext(new Person("foo 1")).expectComplete()
 				.verify(Duration.ofSeconds(5L));
 	}
 
@@ -95,45 +81,36 @@ class SseHandlerFunctionIntegrationTests extends AbstractRouterFunctionIntegrati
 	void sseAsEvent(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		Flux<ServerSentEvent<String>> result = this.webClient.get()
-				.uri("/event")
-				.accept(TEXT_EVENT_STREAM)
-				.retrieve()
-				.bodyToFlux(new ParameterizedTypeReference<ServerSentEvent<String>>() {});
+		Flux<ServerSentEvent<String>> result = this.webClient.get().uri("/event").accept(TEXT_EVENT_STREAM).retrieve()
+				.bodyToFlux(new ParameterizedTypeReference<ServerSentEvent<String>>() {
+				});
 
-		StepVerifier.create(result)
-				.consumeNextWith( event -> {
-					assertThat(event.id()).isEqualTo("0");
-					assertThat(event.data()).isEqualTo("foo");
-					assertThat(event.comment()).isEqualTo("bar");
-					assertThat(event.event()).isNull();
-					assertThat(event.retry()).isNull();
-				})
-				.consumeNextWith( event -> {
-					assertThat(event.id()).isEqualTo("1");
-					assertThat(event.data()).isEqualTo("foo");
-					assertThat(event.comment()).isEqualTo("bar");
-					assertThat(event.event()).isNull();
-					assertThat(event.retry()).isNull();
-				})
-				.expectComplete()
-				.verify(Duration.ofSeconds(5L));
+		StepVerifier.create(result).consumeNextWith(event -> {
+			assertThat(event.id()).isEqualTo("0");
+			assertThat(event.data()).isEqualTo("foo");
+			assertThat(event.comment()).isEqualTo("bar");
+			assertThat(event.event()).isNull();
+			assertThat(event.retry()).isNull();
+		}).consumeNextWith(event -> {
+			assertThat(event.id()).isEqualTo("1");
+			assertThat(event.data()).isEqualTo("foo");
+			assertThat(event.comment()).isEqualTo("bar");
+			assertThat(event.event()).isNull();
+			assertThat(event.retry()).isNull();
+		}).expectComplete().verify(Duration.ofSeconds(5L));
 	}
-
 
 	private static class SseHandler {
 
 		private static final Flux<Long> INTERVAL = testInterval(Duration.ofMillis(100), 2);
 
 		Mono<ServerResponse> string(ServerRequest request) {
-			return ServerResponse.ok()
-					.contentType(MediaType.TEXT_EVENT_STREAM)
+			return ServerResponse.ok().contentType(MediaType.TEXT_EVENT_STREAM)
 					.body(INTERVAL.map(aLong -> "foo " + aLong), String.class);
 		}
 
 		Mono<ServerResponse> person(ServerRequest request) {
-			return ServerResponse.ok()
-					.contentType(MediaType.TEXT_EVENT_STREAM)
+			return ServerResponse.ok().contentType(MediaType.TEXT_EVENT_STREAM)
 					.body(INTERVAL.map(aLong -> new Person("foo " + aLong)), Person.class);
 		}
 
@@ -142,8 +119,8 @@ class SseHandlerFunctionIntegrationTests extends AbstractRouterFunctionIntegrati
 					.map(aLong -> ServerSentEvent.builder("foo").id("" + aLong).comment("bar").build());
 			return ServerResponse.ok().body(fromServerSentEvents(body));
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class Person {
@@ -186,6 +163,7 @@ class SseHandlerFunctionIntegrationTests extends AbstractRouterFunctionIntegrati
 		public String toString() {
 			return "Person{" + "name='" + name + '\'' + '}';
 		}
+
 	}
 
 }

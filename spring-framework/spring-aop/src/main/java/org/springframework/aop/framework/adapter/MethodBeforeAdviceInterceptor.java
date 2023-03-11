@@ -27,8 +27,9 @@ import org.springframework.util.Assert;
 
 /**
  * Interceptor to wrap a {@link MethodBeforeAdvice}.
- * <p>Used internally by the AOP framework; application developers should not
- * need to use this class directly.
+ * <p>
+ * Used internally by the AOP framework; application developers should not need to use
+ * this class directly.
  *
  * @author Rod Johnson
  * @see AfterReturningAdviceInterceptor
@@ -39,7 +40,6 @@ public class MethodBeforeAdviceInterceptor implements MethodInterceptor, BeforeA
 
 	private final MethodBeforeAdvice advice;
 
-
 	/**
 	 * Create a new MethodBeforeAdviceInterceptor for the given advice.
 	 * @param advice the MethodBeforeAdvice to wrap
@@ -48,7 +48,6 @@ public class MethodBeforeAdviceInterceptor implements MethodInterceptor, BeforeA
 		Assert.notNull(advice, "Advice must not be null");
 		this.advice = advice;
 	}
-
 
 	@Override
 	public Object invoke(MethodInvocation mi) throws Throwable {

@@ -33,12 +33,12 @@ import org.springframework.web.testfixture.http.server.reactive.bootstrap.HttpSe
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * {@code @RequestMapping} integration focusing on controller method parameters.
- * Also see:
+ * {@code @RequestMapping} integration focusing on controller method parameters. Also see:
  * <ul>
  * <li>{@link RequestMappingDataBindingIntegrationTests}
  * <li>{@link RequestMappingMessageConversionIntegrationTests}
  * </ul>
+ *
  * @author Rossen Stoyanchev
  */
 class ControllerInputIntegrationTests extends AbstractRequestMappingIntegrationTests {
@@ -51,7 +51,6 @@ class ControllerInputIntegrationTests extends AbstractRequestMappingIntegrationT
 		return wac;
 	}
 
-
 	@ParameterizedHttpServerTest
 	void handleWithParam(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
@@ -60,12 +59,13 @@ class ControllerInputIntegrationTests extends AbstractRequestMappingIntegrationT
 		assertThat(performGet("/param?name=George", new HttpHeaders(), String.class).getBody()).isEqualTo(expected);
 	}
 
-	@ParameterizedHttpServerTest  // SPR-15140
+	@ParameterizedHttpServerTest // SPR-15140
 	void handleWithEncodedParam(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
 		String expected = "Hello  + \u00e0!";
-		assertThat(performGet("/param?name=%20%2B+%C3%A0", new HttpHeaders(), String.class).getBody()).isEqualTo(expected);
+		assertThat(performGet("/param?name=%20%2B+%C3%A0", new HttpHeaders(), String.class).getBody())
+				.isEqualTo(expected);
 	}
 
 	@ParameterizedHttpServerTest
@@ -77,12 +77,11 @@ class ControllerInputIntegrationTests extends AbstractRequestMappingIntegrationT
 		assertThat(performGet(url, new HttpHeaders(), String.class).getBody()).isEqualTo(expected);
 	}
 
-
 	@Configuration
 	@EnableWebFlux
 	static class WebConfig {
-	}
 
+	}
 
 	@RestController
 	@SuppressWarnings("unused")
@@ -94,13 +93,12 @@ class ControllerInputIntegrationTests extends AbstractRequestMappingIntegrationT
 		}
 
 		@GetMapping("/{one}/{two}/{three}-{four}")
-		public String matrixVar(
-				@MatrixVariable int p,
-				@MatrixVariable(name = "q", pathVar = "two") int q2,
+		public String matrixVar(@MatrixVariable int p, @MatrixVariable(name = "q", pathVar = "two") int q2,
 				@MatrixVariable(name = "q", pathVar = "four") int q4) {
 
 			return "p=" + p + ", q2=" + q2 + ", q4=" + q4;
 		}
+
 	}
 
 }

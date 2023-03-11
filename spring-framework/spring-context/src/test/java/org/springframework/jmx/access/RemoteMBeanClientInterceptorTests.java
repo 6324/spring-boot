@@ -41,11 +41,9 @@ class RemoteMBeanClientInterceptorTests extends MBeanClientInterceptorTests {
 
 	private final String serviceUrl = "service:jmx:jmxmp://localhost:" + servicePort;
 
-
 	private JMXConnectorServer connectorServer;
 
 	private JMXConnector connector;
-
 
 	@Override
 	public void onSetUp() throws Exception {
@@ -55,8 +53,8 @@ class RemoteMBeanClientInterceptorTests extends MBeanClientInterceptorTests {
 			this.connectorServer.start();
 		}
 		catch (BindException ex) {
-			System.out.println("Skipping remote JMX tests because binding to local port ["
-					+ this.servicePort + "] failed: " + ex.getMessage());
+			System.out.println("Skipping remote JMX tests because binding to local port [" + this.servicePort
+					+ "] failed: " + ex.getMessage());
 			runTests = false;
 		}
 	}

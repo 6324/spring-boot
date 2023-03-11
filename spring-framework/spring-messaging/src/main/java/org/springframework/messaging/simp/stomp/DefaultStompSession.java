@@ -77,7 +77,6 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 		HEARTBEAT = MessageBuilder.createMessage(StompDecoder.HEARTBEAT_PAYLOAD, accessor.getMessageHeaders());
 	}
 
-
 	private final String sessionId;
 
 	private final StompSessionHandler sessionHandler;
@@ -94,7 +93,6 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 	private long receiptTimeLimit = TimeUnit.SECONDS.toMillis(15);
 
 	private volatile boolean autoReceiptEnabled;
-
 
 	@Nullable
 	private volatile TcpConnection<byte[]> connection;
@@ -113,7 +111,6 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 	/* Whether the client is willfully closing the connection */
 	private volatile boolean closing;
 
-
 	/**
 	 * Create a new session.
 	 * @param sessionHandler the application handler for the session
@@ -126,7 +123,6 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 		this.sessionHandler = sessionHandler;
 		this.connectHeaders = connectHeaders;
 	}
-
 
 	@Override
 	public String getSessionId() {
@@ -146,10 +142,11 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 	}
 
 	/**
-	 * Set the {@link MessageConverter} to use to convert the payload of incoming
-	 * and outgoing messages to and from {@code byte[]} based on object type, or
-	 * expected object type, and the "content-type" header.
-	 * <p>By default, {@link SimpleMessageConverter} is configured.
+	 * Set the {@link MessageConverter} to use to convert the payload of incoming and
+	 * outgoing messages to and from {@code byte[]} based on object type, or expected
+	 * object type, and the "content-type" header.
+	 * <p>
+	 * By default, {@link SimpleMessageConverter} is configured.
 	 * @param messageConverter the message converter to use
 	 */
 	public void setMessageConverter(MessageConverter messageConverter) {
@@ -181,7 +178,8 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 
 	/**
 	 * Configure the time in milliseconds before a receipt expires.
-	 * <p>By default set to 15,000 (15 seconds).
+	 * <p>
+	 * By default set to 15,000 (15 seconds).
 	 */
 	public void setReceiptTimeLimit(long receiptTimeLimit) {
 		Assert.isTrue(receiptTimeLimit > 0, "Receipt time limit must be larger than zero");
@@ -206,7 +204,6 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 	public boolean isAutoReceiptEnabled() {
 		return this.autoReceiptEnabled;
 	}
-
 
 	@Override
 	public boolean isConnected() {
@@ -263,9 +260,9 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 			message = (Message<byte[]>) getMessageConverter().toMessage(payload, accessor.getMessageHeaders());
 			accessor.updateStompHeadersFromSimpMessageHeaders();
 			if (message == null) {
-				throw new MessageConversionException("Unable to convert payload with type='" +
-						payload.getClass().getName() + "', contentType='" + accessor.getContentType() +
-						"', converter=[" + getMessageConverter() + "]");
+				throw new MessageConversionException(
+						"Unable to convert payload with type='" + payload.getClass().getName() + "', contentType='"
+								+ accessor.getContentType() + "', converter=[" + getMessageConverter() + "]");
 			}
 		}
 		return message;
@@ -376,7 +373,6 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 		}
 	}
 
-
 	// TcpConnectionHandler
 
 	@Override
@@ -424,8 +420,8 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 					invokeHandler(subscription.getHandler(), message, headers);
 				}
 				else if (logger.isDebugEnabled()) {
-					logger.debug("No handler for: " + accessor.getDetailedLogMessage(message.getPayload()) +
-							". Perhaps just unsubscribed?");
+					logger.debug("No handler for: " + accessor.getDetailedLogMessage(message.getPayload())
+							+ ". Perhaps just unsubscribed?");
 				}
 			}
 			else {
@@ -466,13 +462,13 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 		Type payloadType = handler.getPayloadType(headers);
 		Class<?> resolvedType = ResolvableType.forType(payloadType).resolve();
 		if (resolvedType == null) {
-			throw new MessageConversionException("Unresolvable payload type [" + payloadType +
-					"] from handler type [" + handler.getClass() + "]");
+			throw new MessageConversionException(
+					"Unresolvable payload type [" + payloadType + "] from handler type [" + handler.getClass() + "]");
 		}
 		Object object = getMessageConverter().fromMessage(message, resolvedType);
 		if (object == null) {
-			throw new MessageConversionException("No suitable converter for payload type [" + payloadType +
-					"] from handler type [" + handler.getClass() + "]");
+			throw new MessageConversionException("No suitable converter for payload type [" + payloadType
+					+ "] from handler type [" + handler.getClass() + "]");
 		}
 		handler.handleFrame(headers, object);
 	}
@@ -486,7 +482,7 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 		TcpConnection<byte[]> con = this.connection;
 		Assert.state(con != null, "No TcpConnection available");
 		if (connect[0] > 0 && connected[1] > 0) {
-			long interval = Math.max(connect[0],  connected[1]);
+			long interval = Math.max(connect[0], connected[1]);
 			con.onWriteInactivity(new WriteInactivityTask(), interval);
 		}
 		if (connect[1] > 0 && connected[0] > 0) {
@@ -498,7 +494,7 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 	@Override
 	public void handleFailure(Throwable ex) {
 		try {
-			this.sessionFuture.setException(ex);  // no-op if already set
+			this.sessionFuture.setException(ex); // no-op if already set
 			this.sessionHandler.handleTransportError(this, ex);
 		}
 		catch (Throwable ex2) {
@@ -531,7 +527,6 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 			}
 		}
 	}
-
 
 	private class ReceiptHandler implements Receiptable {
 
@@ -579,8 +574,7 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 		}
 
 		private void addTask(Runnable task, boolean successTask) {
-			Assert.notNull(this.receiptId,
-					"To track receipts, set autoReceiptEnabled=true or add 'receiptId' header");
+			Assert.notNull(this.receiptId, "To track receipts, set autoReceiptEnabled=true or add 'receiptId' header");
 			synchronized (this) {
 				if (this.result != null && this.result == successTask) {
 					invoke(Collections.singletonList(task));
@@ -628,8 +622,8 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 				}
 			}
 		}
-	}
 
+	}
 
 	private class DefaultSubscription extends ReceiptHandler implements Subscription {
 
@@ -677,12 +671,11 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 
 		@Override
 		public String toString() {
-			return "Subscription [id=" + getSubscriptionId() +
-					", destination='" + this.headers.getDestination() +
-					"', receiptId='" + getReceiptId() + "', handler=" + getHandler() + "]";
+			return "Subscription [id=" + getSubscriptionId() + ", destination='" + this.headers.getDestination()
+					+ "', receiptId='" + getReceiptId() + "', handler=" + getHandler() + "]";
 		}
-	}
 
+	}
 
 	private class WriteInactivityTask implements Runnable {
 
@@ -690,20 +683,20 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 		public void run() {
 			TcpConnection<byte[]> conn = connection;
 			if (conn != null) {
-				conn.send(HEARTBEAT).addCallback(
-						new ListenableFutureCallback<Void>() {
-							@Override
-							public void onSuccess(@Nullable Void result) {
-							}
-							@Override
-							public void onFailure(Throwable ex) {
-								handleFailure(ex);
-							}
-						});
+				conn.send(HEARTBEAT).addCallback(new ListenableFutureCallback<Void>() {
+					@Override
+					public void onSuccess(@Nullable Void result) {
+					}
+
+					@Override
+					public void onFailure(Throwable ex) {
+						handleFailure(ex);
+					}
+				});
 			}
 		}
-	}
 
+	}
 
 	private class ReadInactivityTask implements Runnable {
 
@@ -717,6 +710,7 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 			resetConnection();
 			handleFailure(new IllegalStateException(error));
 		}
+
 	}
 
 }

@@ -71,9 +71,8 @@ public class KotlinScriptTemplateTests {
 		assertThat(response.getBodyAsString().block()).isEqualTo("<html><body>\n<p>Hello Foo</p>\n</body></html>");
 	}
 
-
-	private MockServerHttpResponse render(String viewUrl, Map<String, Object> model,
-			Locale locale, Class<?> configuration) throws Exception {
+	private MockServerHttpResponse render(String viewUrl, Map<String, Object> model, Locale locale,
+			Class<?> configuration) throws Exception {
 
 		ScriptTemplateView view = createViewWithUrl(viewUrl, configuration);
 		MockServerHttpRequest request = MockServerHttpRequest.get("/").acceptLanguageAsLocales(locale).build();
@@ -94,7 +93,6 @@ public class KotlinScriptTemplateTests {
 		return view;
 	}
 
-
 	@Configuration
 	static class ScriptTemplatingConfiguration {
 
@@ -113,8 +111,8 @@ public class KotlinScriptTemplateTests {
 			messageSource.setBasename("org/springframework/web/reactive/result/view/script/messages");
 			return messageSource;
 		}
-	}
 
+	}
 
 	@Configuration
 	static class ScriptTemplatingConfigurationWithoutRenderFunction {
@@ -123,6 +121,7 @@ public class KotlinScriptTemplateTests {
 		public ScriptTemplateConfigurer kotlinScriptConfigurer() {
 			return new ScriptTemplateConfigurer("kotlin");
 		}
+
 	}
 
 }

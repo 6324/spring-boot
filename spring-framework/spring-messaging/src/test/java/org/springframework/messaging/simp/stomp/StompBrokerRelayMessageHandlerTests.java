@@ -59,18 +59,18 @@ class StompBrokerRelayMessageHandlerTests {
 
 	private StubTcpOperations tcpClient;
 
-
 	@BeforeEach
 	void setup() {
 
 		this.outboundChannel = new StubMessageChannel();
 
-		this.brokerRelay = new StompBrokerRelayMessageHandler(new StubMessageChannel(),
-				this.outboundChannel, new StubMessageChannel(), Arrays.asList("/topic")) {
+		this.brokerRelay = new StompBrokerRelayMessageHandler(new StubMessageChannel(), this.outboundChannel,
+				new StubMessageChannel(), Arrays.asList("/topic")) {
 
 			@Override
 			protected void startInternal() {
-				publishBrokerAvailableEvent(); // Force this, since we'll never actually connect
+				publishBrokerAvailableEvent(); // Force this, since we'll never actually
+												// connect
 				super.startInternal();
 			}
 		};
@@ -78,7 +78,6 @@ class StompBrokerRelayMessageHandlerTests {
 		this.tcpClient = new StubTcpOperations();
 		this.brokerRelay.setTcpClient(this.tcpClient);
 	}
-
 
 	@Test
 	void virtualHost() {
@@ -269,7 +268,6 @@ class StompBrokerRelayMessageHandlerTests {
 		return MessageBuilder.createMessage(new byte[0], accessor.getMessageHeaders());
 	}
 
-
 	private static ListenableFutureTask<Void> getVoidFuture() {
 		ListenableFutureTask<Void> futureTask = new ListenableFutureTask<>(new Callable<Void>() {
 			@Override
@@ -281,13 +279,11 @@ class StompBrokerRelayMessageHandlerTests {
 		return futureTask;
 	}
 
-
 	private static class StubTcpOperations implements TcpOperations<byte[]> {
 
 		private StubTcpConnection connection = new StubTcpConnection();
 
 		private TcpConnectionHandler<byte[]> connectionHandler;
-
 
 		public List<Message<byte[]>> getSentMessages() {
 			return this.connection.getMessages();
@@ -326,11 +322,9 @@ class StompBrokerRelayMessageHandlerTests {
 
 	}
 
-
 	private static class StubTcpConnection implements TcpConnection<byte[]> {
 
 		private final List<Message<byte[]>> messages = new ArrayList<>();
-
 
 		public List<Message<byte[]>> getMessages() {
 			return this.messages;
@@ -353,6 +347,7 @@ class StompBrokerRelayMessageHandlerTests {
 		@Override
 		public void close() {
 		}
+
 	}
 
 }

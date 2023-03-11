@@ -30,8 +30,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.MimeType;
 
 /**
- * Abstract base class for {@link org.springframework.core.codec.Encoder}
- * classes that can only deal with a single value.
+ * Abstract base class for {@link org.springframework.core.codec.Encoder} classes that can
+ * only deal with a single value.
  *
  * @author Arjen Poutsma
  * @since 5.0
@@ -39,18 +39,15 @@ import org.springframework.util.MimeType;
  */
 public abstract class AbstractSingleValueEncoder<T> extends AbstractEncoder<T> {
 
-
 	public AbstractSingleValueEncoder(MimeType... supportedMimeTypes) {
 		super(supportedMimeTypes);
 	}
-
 
 	@Override
 	public final Flux<DataBuffer> encode(Publisher<? extends T> inputStream, DataBufferFactory bufferFactory,
 			ResolvableType elementType, @Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
 
-		return Flux.from(inputStream)
-				.take(1)
+		return Flux.from(inputStream).take(1)
 				.concatMap(value -> encode(value, bufferFactory, elementType, mimeType, hints))
 				.doOnDiscard(PooledDataBuffer.class, DataBufferUtils::release);
 	}
@@ -64,7 +61,7 @@ public abstract class AbstractSingleValueEncoder<T> extends AbstractEncoder<T> {
 	 * @param hints additional information about how to do decode, optional
 	 * @return the output stream
 	 */
-	protected abstract Flux<DataBuffer> encode(T t, DataBufferFactory dataBufferFactory,
-			ResolvableType type, @Nullable MimeType mimeType, @Nullable Map<String, Object> hints);
+	protected abstract Flux<DataBuffer> encode(T t, DataBufferFactory dataBufferFactory, ResolvableType type,
+			@Nullable MimeType mimeType, @Nullable Map<String, Object> hints);
 
 }

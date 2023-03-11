@@ -29,8 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Stephane Nicoll
  */
-class TestableAsyncUncaughtExceptionHandler
-		implements AsyncUncaughtExceptionHandler {
+class TestableAsyncUncaughtExceptionHandler implements AsyncUncaughtExceptionHandler {
 
 	private final CountDownLatch latch = new CountDownLatch(1);
 
@@ -75,6 +74,7 @@ class TestableAsyncUncaughtExceptionHandler
 	}
 
 	private static final class UncaughtExceptionDescriptor {
+
 		private final Throwable ex;
 
 		private final Method method;
@@ -83,5 +83,7 @@ class TestableAsyncUncaughtExceptionHandler
 			this.ex = ex;
 			this.method = method;
 		}
+
 	}
+
 }

@@ -26,7 +26,6 @@ import org.springframework.core.env.Environment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * Tests covering the integration of the {@link Environment} into
  * {@link ApplicationContext} hierarchies.

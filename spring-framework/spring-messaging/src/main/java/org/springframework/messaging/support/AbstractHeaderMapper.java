@@ -40,25 +40,23 @@ public abstract class AbstractHeaderMapper<T> implements HeaderMapper<T> {
 
 	private String outboundPrefix = "";
 
-
 	/**
-	 * Specify a prefix to be appended to the message header name for any
-	 * user-defined property that is being mapped into the MessageHeaders.
-	 * The default is an empty String (no prefix).
+	 * Specify a prefix to be appended to the message header name for any user-defined
+	 * property that is being mapped into the MessageHeaders. The default is an empty
+	 * String (no prefix).
 	 */
 	public void setInboundPrefix(@Nullable String inboundPrefix) {
 		this.inboundPrefix = (inboundPrefix != null ? inboundPrefix : "");
 	}
 
 	/**
-	 * Specify a prefix to be appended to the protocol property name for any
-	 * user-defined message header that is being mapped into the protocol-specific
-	 * Message. The default is an empty String (no prefix).
+	 * Specify a prefix to be appended to the protocol property name for any user-defined
+	 * message header that is being mapped into the protocol-specific Message. The default
+	 * is an empty String (no prefix).
 	 */
 	public void setOutboundPrefix(@Nullable String outboundPrefix) {
 		this.outboundPrefix = (outboundPrefix != null ? outboundPrefix : "");
 	}
-
 
 	/**
 	 * Generate the name to use to set the header defined by the specified
@@ -87,8 +85,8 @@ public abstract class AbstractHeaderMapper<T> implements HeaderMapper<T> {
 	}
 
 	/**
-	 * Return the header value, or {@code null} if it does not exist
-	 * or does not match the requested {@code type}.
+	 * Return the header value, or {@code null} if it does not exist or does not match the
+	 * requested {@code type}.
 	 */
 	@Nullable
 	protected <V> V getHeaderIfAvailable(Map<String, Object> headers, String name, Class<V> type) {
@@ -98,8 +96,8 @@ public abstract class AbstractHeaderMapper<T> implements HeaderMapper<T> {
 		}
 		if (!type.isAssignableFrom(value.getClass())) {
 			if (logger.isDebugEnabled()) {
-				logger.debug("Skipping header '" + name + "': expected type [" + type + "], but got [" +
-						value.getClass() + "]");
+				logger.debug("Skipping header '" + name + "': expected type [" + type + "], but got ["
+						+ value.getClass() + "]");
 			}
 			return null;
 		}

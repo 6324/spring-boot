@@ -33,7 +33,6 @@ public abstract class AbstractSubscribableChannel extends AbstractMessageChannel
 
 	private final Set<MessageHandler> handlers = new CopyOnWriteArraySet<>();
 
-
 	public Set<MessageHandler> getSubscribers() {
 		return Collections.<MessageHandler>unmodifiableSet(this.handlers);
 	}

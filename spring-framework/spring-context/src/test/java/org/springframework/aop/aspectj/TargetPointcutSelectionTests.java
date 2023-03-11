@@ -27,7 +27,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests for target selection matching (see SPR-3783).
- * <p>Thanks to Tomasz Blachowicz for the bug report!
+ * <p>
+ * Thanks to Tomasz Blachowicz for the bug report!
  *
  * @author Ramnivas Laddad
  * @author Chris Beams
@@ -44,11 +45,10 @@ public class TargetPointcutSelectionTests {
 
 	public TestInterceptor testInterceptor;
 
-
 	@BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml",
+				getClass());
 		testImpl1 = (TestInterface) ctx.getBean("testImpl1");
 		testImpl2 = (TestInterface) ctx.getBean("testImpl2");
 		testAspectForTestImpl1 = (TestAspect) ctx.getBean("testAspectForTestImpl1");
@@ -60,12 +60,12 @@ public class TargetPointcutSelectionTests {
 		testInterceptor.count = 0;
 	}
 
-
 	@Test
 	public void targetSelectionForMatchedType() {
 		testImpl1.interfaceMethod();
 		assertThat(testAspectForTestImpl1.count).as("Should have been advised by POJO advice for impl").isEqualTo(1);
-		assertThat(testAspectForAbstractTestImpl.count).as("Should have been advised by POJO advice for base type").isEqualTo(1);
+		assertThat(testAspectForAbstractTestImpl.count).as("Should have been advised by POJO advice for base type")
+				.isEqualTo(1);
 		assertThat(testInterceptor.count).as("Should have been advised by advisor").isEqualTo(1);
 	}
 
@@ -73,34 +73,35 @@ public class TargetPointcutSelectionTests {
 	public void targetNonSelectionForMismatchedType() {
 		testImpl2.interfaceMethod();
 		assertThat(testAspectForTestImpl1.count).as("Shouldn't have been advised by POJO advice for impl").isEqualTo(0);
-		assertThat(testAspectForAbstractTestImpl.count).as("Should have been advised by POJO advice for base type").isEqualTo(1);
+		assertThat(testAspectForAbstractTestImpl.count).as("Should have been advised by POJO advice for base type")
+				.isEqualTo(1);
 		assertThat(testInterceptor.count).as("Shouldn't have been advised by advisor").isEqualTo(0);
 	}
-
 
 	public static interface TestInterface {
 
 		public void interfaceMethod();
+
 	}
 
-
 	// Reproducing bug requires that the class specified in target() pointcut doesn't
-	// include the advised method's implementation (instead a base class should include it)
+	// include the advised method's implementation (instead a base class should include
+	// it)
 	public static abstract class AbstractTestImpl implements TestInterface {
 
 		@Override
 		public void interfaceMethod() {
 		}
-	}
 
+	}
 
 	public static class TestImpl1 extends AbstractTestImpl {
-	}
 
+	}
 
 	public static class TestImpl2 extends AbstractTestImpl {
-	}
 
+	}
 
 	public static class TestAspect {
 
@@ -109,8 +110,8 @@ public class TargetPointcutSelectionTests {
 		public void increment() {
 			count++;
 		}
-	}
 
+	}
 
 	public static class TestInterceptor extends TestAspect implements MethodInterceptor {
 
@@ -119,6 +120,7 @@ public class TargetPointcutSelectionTests {
 			increment();
 			return mi.proceed();
 		}
+
 	}
 
 }

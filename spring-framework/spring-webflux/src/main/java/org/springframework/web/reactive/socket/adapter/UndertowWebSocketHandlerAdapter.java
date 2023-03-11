@@ -34,8 +34,8 @@ import org.springframework.web.reactive.socket.WebSocketMessage;
 import org.springframework.web.reactive.socket.WebSocketMessage.Type;
 
 /**
- * Undertow {@link WebSocketConnectionCallback} implementation that adapts and
- * delegates to a Spring {@link WebSocketHandler}.
+ * Undertow {@link WebSocketConnectionCallback} implementation that adapts and delegates
+ * to a Spring {@link WebSocketHandler}.
  *
  * @author Violeta Georgieva
  * @author Rossen Stoyanchev
@@ -45,12 +45,10 @@ public class UndertowWebSocketHandlerAdapter extends AbstractReceiveListener {
 
 	private final UndertowWebSocketSession session;
 
-
 	public UndertowWebSocketHandlerAdapter(UndertowWebSocketSession session) {
 		Assert.notNull(session, "UndertowWebSocketSession is required");
 		this.session = session;
 	}
-
 
 	@Override
 	protected void onFullTextMessage(WebSocketChannel channel, BufferedTextMessage message) {

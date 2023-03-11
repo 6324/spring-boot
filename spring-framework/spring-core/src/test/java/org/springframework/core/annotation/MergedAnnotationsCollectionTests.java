@@ -40,9 +40,8 @@ class MergedAnnotationsCollectionTests {
 
 	@Test
 	void ofWhenDirectAnnotationsIsNullThrowsException() {
-		assertThatIllegalArgumentException().isThrownBy(
-				() -> MergedAnnotationsCollection.of(null)).withMessage(
-						"Annotations must not be null");
+		assertThatIllegalArgumentException().isThrownBy(() -> MergedAnnotationsCollection.of(null))
+				.withMessage("Annotations must not be null");
 	}
 
 	@Test
@@ -55,9 +54,9 @@ class MergedAnnotationsCollectionTests {
 	void createWhenAnnotationIsNotDirectlyPresentThrowsException() {
 		MergedAnnotation<?> annotation = mock(MergedAnnotation.class);
 		given(annotation.isDirectlyPresent()).willReturn(false);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				MergedAnnotationsCollection.of(Collections.singleton(annotation)))
-			.withMessage("Annotation must be directly present");
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> MergedAnnotationsCollection.of(Collections.singleton(annotation)))
+				.withMessage("Annotation must be directly present");
 	}
 
 	@Test
@@ -65,9 +64,9 @@ class MergedAnnotationsCollectionTests {
 		MergedAnnotation<?> annotation = mock(MergedAnnotation.class);
 		given(annotation.isDirectlyPresent()).willReturn(true);
 		given(annotation.getAggregateIndex()).willReturn(1);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				MergedAnnotationsCollection.of(Collections.singleton(annotation)))
-			.withMessage("Annotation must have aggregate index of zero");
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> MergedAnnotationsCollection.of(Collections.singleton(annotation)))
+				.withMessage("Annotation must have aggregate index of zero");
 	}
 
 	@Test
@@ -77,8 +76,7 @@ class MergedAnnotationsCollectionTests {
 		for (MergedAnnotation<?> annotation : annotations) {
 			types.add(annotation.getType());
 		}
-		assertThat(types).containsExactly(Direct.class, Simple.class, Meta1.class,
-				Meta2.class, Meta11.class);
+		assertThat(types).containsExactly(Direct.class, Simple.class, Meta1.class, Meta2.class, Meta11.class);
 	}
 
 	@Test
@@ -87,8 +85,7 @@ class MergedAnnotationsCollectionTests {
 		Spliterator<MergedAnnotation<Annotation>> spliterator = annotations.spliterator();
 		List<Class<?>> types = new ArrayList<>();
 		spliterator.forEachRemaining(annotation -> types.add(annotation.getType()));
-		assertThat(types).containsExactly(Direct.class, Simple.class, Meta1.class,
-				Meta2.class, Meta11.class);
+		assertThat(types).containsExactly(Direct.class, Simple.class, Meta1.class, Meta2.class, Meta11.class);
 	}
 
 	@Test
@@ -96,8 +93,7 @@ class MergedAnnotationsCollectionTests {
 		MergedAnnotations annotations = getDirectAndSimple();
 		Spliterator<MergedAnnotation<Annotation>> spliterator = annotations.spliterator();
 		assertThat(spliterator.estimateSize()).isEqualTo(5);
-		spliterator.tryAdvance(
-				annotation -> assertThat(annotation.getType()).isEqualTo(Direct.class));
+		spliterator.tryAdvance(annotation -> assertThat(annotation.getType()).isEqualTo(Direct.class));
 		assertThat(spliterator.estimateSize()).isEqualTo(4);
 	}
 
@@ -147,10 +143,8 @@ class MergedAnnotationsCollectionTests {
 	@Test
 	void getReturnsAppropriateAnnotation() {
 		MergedAnnotations annotations = getMultiRoute1();
-		assertThat(annotations.get(MultiRouteTarget.class).getString(
-				MergedAnnotation.VALUE)).isEqualTo("12");
-		assertThat(annotations.get(MultiRouteTarget.class.getName()).getString(
-				MergedAnnotation.VALUE)).isEqualTo("12");
+		assertThat(annotations.get(MultiRouteTarget.class).getString(MergedAnnotation.VALUE)).isEqualTo("12");
+		assertThat(annotations.get(MultiRouteTarget.class.getName()).getString(MergedAnnotation.VALUE)).isEqualTo("12");
 	}
 
 	@Test
@@ -162,19 +156,17 @@ class MergedAnnotationsCollectionTests {
 	@Test
 	void getWithPredicateReturnsOnlyMatching() {
 		MergedAnnotations annotations = getMultiRoute1();
-		assertThat(annotations.get(MultiRouteTarget.class,
-				annotation -> annotation.getDistance() >= 3).getString(
-						MergedAnnotation.VALUE)).isEqualTo("111");
+		assertThat(annotations.get(MultiRouteTarget.class, annotation -> annotation.getDistance() >= 3)
+				.getString(MergedAnnotation.VALUE)).isEqualTo("111");
 	}
 
 	@Test
 	void getWithSelectorReturnsSelected() {
 		MergedAnnotations annotations = getMultiRoute1();
 		MergedAnnotationSelector<MultiRouteTarget> deepest = (existing,
-				candidate) -> candidate.getDistance() > existing.getDistance() ? candidate
-						: existing;
-		assertThat(annotations.get(MultiRouteTarget.class, null, deepest).getString(
-				MergedAnnotation.VALUE)).isEqualTo("111");
+				candidate) -> candidate.getDistance() > existing.getDistance() ? candidate : existing;
+		assertThat(annotations.get(MultiRouteTarget.class, null, deepest).getString(MergedAnnotation.VALUE))
+				.isEqualTo("111");
 	}
 
 	@Test
@@ -182,16 +174,15 @@ class MergedAnnotationsCollectionTests {
 		MergedAnnotations annotations = getDirectAndSimple();
 		List<Class<?>> types = new ArrayList<>();
 		annotations.stream().forEach(annotation -> types.add(annotation.getType()));
-		assertThat(types).containsExactly(Direct.class, Simple.class, Meta1.class,
-				Meta2.class, Meta11.class);
+		assertThat(types).containsExactly(Direct.class, Simple.class, Meta1.class, Meta2.class, Meta11.class);
 	}
 
 	@Test
 	void streamWithTypeStreamsInCorrectOrder() {
 		MergedAnnotations annotations = getMultiRoute1();
 		List<String> values = new ArrayList<>();
-		annotations.stream(MultiRouteTarget.class).forEach(
-				annotation -> values.add(annotation.getString(MergedAnnotation.VALUE)));
+		annotations.stream(MultiRouteTarget.class)
+				.forEach(annotation -> values.add(annotation.getString(MergedAnnotation.VALUE)));
 		assertThat(values).containsExactly("12", "111");
 	}
 
@@ -199,18 +190,15 @@ class MergedAnnotationsCollectionTests {
 	void getMetaWhenRootHasAttributeValuesShouldAliasAttributes() {
 		MergedAnnotation<Aliased> root = MergedAnnotation.of(null, null, Aliased.class,
 				Collections.singletonMap("testAlias", "test"));
-		MergedAnnotations annotations = MergedAnnotationsCollection.of(
-				Collections.singleton(root));
+		MergedAnnotations annotations = MergedAnnotationsCollection.of(Collections.singleton(root));
 		MergedAnnotation<AliasTarget> metaAnnotation = annotations.get(AliasTarget.class);
 		assertThat(metaAnnotation.getString("test")).isEqualTo("test");
 	}
 
 	@Test
 	void getMetaWhenRootHasNoAttributeValuesShouldAliasAttributes() {
-		MergedAnnotation<Aliased> root = MergedAnnotation.of(null, null, Aliased.class,
-				Collections.emptyMap());
-		MergedAnnotations annotations = MergedAnnotationsCollection.of(
-				Collections.singleton(root));
+		MergedAnnotation<Aliased> root = MergedAnnotation.of(null, null, Aliased.class, Collections.emptyMap());
+		MergedAnnotations annotations = MergedAnnotationsCollection.of(Collections.singleton(root));
 		MergedAnnotation<AliasTarget> metaAnnotation = annotations.get(AliasTarget.class);
 		assertThat(root.getString("testAlias")).isEqualTo("newdefault");
 		assertThat(metaAnnotation.getString("test")).isEqualTo("newdefault");
@@ -225,8 +213,7 @@ class MergedAnnotationsCollectionTests {
 
 	private MergedAnnotations getMultiRoute1() {
 		List<MergedAnnotation<?>> list = new ArrayList<>();
-		list.add(MergedAnnotation.of(null, null, MultiRoute1.class,
-				Collections.emptyMap()));
+		list.add(MergedAnnotation.of(null, null, MultiRoute1.class, Collections.emptyMap()));
 		return MergedAnnotationsCollection.of(list);
 	}
 

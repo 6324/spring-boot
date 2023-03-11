@@ -25,27 +25,28 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanWrapper;
 
 /**
- * Default implementation of the {@link JmsActivationSpecFactory} interface.
- * Supports the standard JMS properties as defined by the JCA 1.5 specification,
- * as well as Spring's extended "maxConcurrency" and "prefetchSize" settings
- * through autodetection of well-known vendor-specific provider properties.
+ * Default implementation of the {@link JmsActivationSpecFactory} interface. Supports the
+ * standard JMS properties as defined by the JCA 1.5 specification, as well as Spring's
+ * extended "maxConcurrency" and "prefetchSize" settings through autodetection of
+ * well-known vendor-specific provider properties.
  *
- * <p>An ActivationSpec factory is effectively dependent on the concrete
- * JMS provider, e.g. on ActiveMQ. This default implementation simply
- * guesses the ActivationSpec class name from the provider's class name
- * ("ActiveMQResourceAdapter" -> "ActiveMQActivationSpec" in the same package,
- * or "ActivationSpecImpl" in the same package as the ResourceAdapter class),
- * and populates the ActivationSpec properties as suggested by the
- * JCA 1.5 specification (Appendix B). Specify the 'activationSpecClass'
- * property explicitly if these default naming rules do not apply.
+ * <p>
+ * An ActivationSpec factory is effectively dependent on the concrete JMS provider, e.g.
+ * on ActiveMQ. This default implementation simply guesses the ActivationSpec class name
+ * from the provider's class name ("ActiveMQResourceAdapter" -> "ActiveMQActivationSpec"
+ * in the same package, or "ActivationSpecImpl" in the same package as the ResourceAdapter
+ * class), and populates the ActivationSpec properties as suggested by the JCA 1.5
+ * specification (Appendix B). Specify the 'activationSpecClass' property explicitly if
+ * these default naming rules do not apply.
  *
- * <p>Note: ActiveMQ, JORAM and WebSphere are supported in terms of extended
- * settings (through the detection of their bean property naming conventions).
- * The default ActivationSpec class detection rules may apply to other
- * JMS providers as well.
+ * <p>
+ * Note: ActiveMQ, JORAM and WebSphere are supported in terms of extended settings
+ * (through the detection of their bean property naming conventions). The default
+ * ActivationSpec class detection rules may apply to other JMS providers as well.
  *
- * <p>Thanks to Agim Emruli and Laurie Chan for pointing out WebSphere MQ
- * settings and contributing corresponding tests!
+ * <p>
+ * Thanks to Agim Emruli and Laurie Chan for pointing out WebSphere MQ settings and
+ * contributing corresponding tests!
  *
  * @author Juergen Hoeller
  * @since 2.5
@@ -61,16 +62,14 @@ public class DefaultJmsActivationSpecFactory extends StandardJmsActivationSpecFa
 
 	private static final String ACTIVATION_SPEC_IMPL_SUFFIX = "ActivationSpecImpl";
 
-
 	/** Logger available to subclasses. */
 	protected final Log logger = LogFactory.getLog(getClass());
 
-
 	/**
-	 * This implementation guesses the ActivationSpec class name from the
-	 * provider's class name: e.g. "ActiveMQResourceAdapter" ->
-	 * "ActiveMQActivationSpec" in the same package, or a class named
-	 * "ActivationSpecImpl" in the same package as the ResourceAdapter class.
+	 * This implementation guesses the ActivationSpec class name from the provider's class
+	 * name: e.g. "ActiveMQResourceAdapter" -> "ActiveMQActivationSpec" in the same
+	 * package, or a class named "ActivationSpecImpl" in the same package as the
+	 * ResourceAdapter class.
 	 */
 	@Override
 	protected Class<?> determineActivationSpecClass(ResourceAdapter adapter) {
@@ -78,8 +77,8 @@ public class DefaultJmsActivationSpecFactory extends StandardJmsActivationSpecFa
 
 		if (adapterClassName.endsWith(RESOURCE_ADAPTER_SUFFIX)) {
 			// e.g. ActiveMQ
-			String providerName =
-					adapterClassName.substring(0, adapterClassName.length() - RESOURCE_ADAPTER_SUFFIX.length());
+			String providerName = adapterClassName.substring(0,
+					adapterClassName.length() - RESOURCE_ADAPTER_SUFFIX.length());
 			String specClassName = providerName + ACTIVATION_SPEC_SUFFIX;
 			try {
 				return adapter.getClass().getClassLoader().loadClass(specClassName);
@@ -91,10 +90,10 @@ public class DefaultJmsActivationSpecFactory extends StandardJmsActivationSpecFa
 			}
 		}
 
-		else if (adapterClassName.endsWith(RESOURCE_ADAPTER_IMPL_SUFFIX)){
-			//e.g. WebSphere
-			String providerName =
-					adapterClassName.substring(0, adapterClassName.length() - RESOURCE_ADAPTER_IMPL_SUFFIX.length());
+		else if (adapterClassName.endsWith(RESOURCE_ADAPTER_IMPL_SUFFIX)) {
+			// e.g. WebSphere
+			String providerName = adapterClassName.substring(0,
+					adapterClassName.length() - RESOURCE_ADAPTER_IMPL_SUFFIX.length());
 			String specClassName = providerName + ACTIVATION_SPEC_IMPL_SUFFIX;
 			try {
 				return adapter.getClass().getClassLoader().loadClass(specClassName);
@@ -129,16 +128,15 @@ public class DefaultJmsActivationSpecFactory extends StandardJmsActivationSpecFa
 			}
 		}
 
-		throw new IllegalStateException("No ActivationSpec class defined - " +
-				"specify the 'activationSpecClass' property or override the 'determineActivationSpecClass' method");
+		throw new IllegalStateException("No ActivationSpec class defined - "
+				+ "specify the 'activationSpecClass' property or override the 'determineActivationSpecClass' method");
 	}
 
 	/**
-	 * This implementation supports Spring's extended "maxConcurrency"
-	 * and "prefetchSize" settings through detecting corresponding
-	 * ActivationSpec properties: "maxSessions"/"maxNumberOfWorks" and
-	 * "maxMessagesPerSessions"/"maxMessages", respectively
-	 * (following ActiveMQ's and JORAM's naming conventions).
+	 * This implementation supports Spring's extended "maxConcurrency" and "prefetchSize"
+	 * settings through detecting corresponding ActivationSpec properties:
+	 * "maxSessions"/"maxNumberOfWorks" and "maxMessagesPerSessions"/"maxMessages",
+	 * respectively (following ActiveMQ's and JORAM's naming conventions).
 	 */
 	@Override
 	protected void populateActivationSpecProperties(BeanWrapper bw, JmsActivationSpecConfig config) {
@@ -152,7 +150,7 @@ public class DefaultJmsActivationSpecFactory extends StandardJmsActivationSpecFa
 				// JORAM
 				bw.setPropertyValue("maxNumberOfWorks", Integer.toString(config.getMaxConcurrency()));
 			}
-			else if (bw.isWritableProperty("maxConcurrency")){
+			else if (bw.isWritableProperty("maxConcurrency")) {
 				// WebSphere
 				bw.setPropertyValue("maxConcurrency", Integer.toString(config.getMaxConcurrency()));
 			}
@@ -166,7 +164,7 @@ public class DefaultJmsActivationSpecFactory extends StandardJmsActivationSpecFa
 				// JORAM
 				bw.setPropertyValue("maxMessages", Integer.toString(config.getPrefetchSize()));
 			}
-			else if (bw.isWritableProperty("maxBatchSize")){
+			else if (bw.isWritableProperty("maxBatchSize")) {
 				// WebSphere
 				bw.setPropertyValue("maxBatchSize", Integer.toString(config.getPrefetchSize()));
 			}
@@ -174,9 +172,9 @@ public class DefaultJmsActivationSpecFactory extends StandardJmsActivationSpecFa
 	}
 
 	/**
-	 * This implementation maps {@code SESSION_TRANSACTED} onto an
-	 * ActivationSpec property named "useRAManagedTransaction", if available
-	 * (following ActiveMQ's naming conventions).
+	 * This implementation maps {@code SESSION_TRANSACTED} onto an ActivationSpec property
+	 * named "useRAManagedTransaction", if available (following ActiveMQ's naming
+	 * conventions).
 	 */
 	@Override
 	protected void applyAcknowledgeMode(BeanWrapper bw, int ackMode) {

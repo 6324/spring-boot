@@ -30,9 +30,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Abstract {@link javax.sql.DataSource} implementation that routes {@link #getConnection()}
- * calls to one of various target DataSources based on a lookup key. The latter is usually
- * (but not necessarily) determined through some thread-bound transaction context.
+ * Abstract {@link javax.sql.DataSource} implementation that routes
+ * {@link #getConnection()} calls to one of various target DataSources based on a lookup
+ * key. The latter is usually (but not necessarily) determined through some thread-bound
+ * transaction context.
  *
  * @author Juergen Hoeller
  * @since 2.0.1
@@ -58,15 +59,15 @@ public abstract class AbstractRoutingDataSource extends AbstractDataSource imple
 	@Nullable
 	private DataSource resolvedDefaultDataSource;
 
-
 	/**
-	 * Specify the map of target DataSources, with the lookup key as key.
-	 * The mapped value can either be a corresponding {@link javax.sql.DataSource}
-	 * instance or a data source name String (to be resolved via a
-	 * {@link #setDataSourceLookup DataSourceLookup}).
-	 * <p>The key can be of arbitrary type; this class implements the
-	 * generic lookup process only. The concrete key representation will
-	 * be handled by {@link #resolveSpecifiedLookupKey(Object)} and
+	 * Specify the map of target DataSources, with the lookup key as key. The mapped value
+	 * can either be a corresponding {@link javax.sql.DataSource} instance or a data
+	 * source name String (to be resolved via a {@link #setDataSourceLookup
+	 * DataSourceLookup}).
+	 * <p>
+	 * The key can be of arbitrary type; this class implements the generic lookup process
+	 * only. The concrete key representation will be handled by
+	 * {@link #resolveSpecifiedLookupKey(Object)} and
 	 * {@link #determineCurrentLookupKey()}.
 	 */
 	public void setTargetDataSources(Map<Object, Object> targetDataSources) {
@@ -75,10 +76,12 @@ public abstract class AbstractRoutingDataSource extends AbstractDataSource imple
 
 	/**
 	 * Specify the default target DataSource, if any.
-	 * <p>The mapped value can either be a corresponding {@link javax.sql.DataSource}
+	 * <p>
+	 * The mapped value can either be a corresponding {@link javax.sql.DataSource}
 	 * instance or a data source name String (to be resolved via a
 	 * {@link #setDataSourceLookup DataSourceLookup}).
-	 * <p>This DataSource will be used as target if none of the keyed
+	 * <p>
+	 * This DataSource will be used as target if none of the keyed
 	 * {@link #setTargetDataSources targetDataSources} match the
 	 * {@link #determineCurrentLookupKey()} current lookup key.
 	 */
@@ -87,14 +90,15 @@ public abstract class AbstractRoutingDataSource extends AbstractDataSource imple
 	}
 
 	/**
-	 * Specify whether to apply a lenient fallback to the default DataSource
-	 * if no specific DataSource could be found for the current lookup key.
-	 * <p>Default is "true", accepting lookup keys without a corresponding entry
-	 * in the target DataSource map - simply falling back to the default DataSource
-	 * in that case.
-	 * <p>Switch this flag to "false" if you would prefer the fallback to only apply
-	 * if the lookup key was {@code null}. Lookup keys without a DataSource
-	 * entry will then lead to an IllegalStateException.
+	 * Specify whether to apply a lenient fallback to the default DataSource if no
+	 * specific DataSource could be found for the current lookup key.
+	 * <p>
+	 * Default is "true", accepting lookup keys without a corresponding entry in the
+	 * target DataSource map - simply falling back to the default DataSource in that case.
+	 * <p>
+	 * Switch this flag to "false" if you would prefer the fallback to only apply if the
+	 * lookup key was {@code null}. Lookup keys without a DataSource entry will then lead
+	 * to an IllegalStateException.
 	 * @see #setTargetDataSources
 	 * @see #setDefaultTargetDataSource
 	 * @see #determineCurrentLookupKey()
@@ -104,15 +108,15 @@ public abstract class AbstractRoutingDataSource extends AbstractDataSource imple
 	}
 
 	/**
-	 * Set the DataSourceLookup implementation to use for resolving data source
-	 * name Strings in the {@link #setTargetDataSources targetDataSources} map.
-	 * <p>Default is a {@link JndiDataSourceLookup}, allowing the JNDI names
-	 * of application server DataSources to be specified directly.
+	 * Set the DataSourceLookup implementation to use for resolving data source name
+	 * Strings in the {@link #setTargetDataSources targetDataSources} map.
+	 * <p>
+	 * Default is a {@link JndiDataSourceLookup}, allowing the JNDI names of application
+	 * server DataSources to be specified directly.
 	 */
 	public void setDataSourceLookup(@Nullable DataSourceLookup dataSourceLookup) {
 		this.dataSourceLookup = (dataSourceLookup != null ? dataSourceLookup : new JndiDataSourceLookup());
 	}
-
 
 	@Override
 	public void afterPropertiesSet() {
@@ -132,10 +136,11 @@ public abstract class AbstractRoutingDataSource extends AbstractDataSource imple
 
 	/**
 	 * Resolve the given lookup key object, as specified in the
-	 * {@link #setTargetDataSources targetDataSources} map, into
-	 * the actual lookup key to be used for matching with the
-	 * {@link #determineCurrentLookupKey() current lookup key}.
-	 * <p>The default implementation simply returns the given key as-is.
+	 * {@link #setTargetDataSources targetDataSources} map, into the actual lookup key to
+	 * be used for matching with the {@link #determineCurrentLookupKey() current lookup
+	 * key}.
+	 * <p>
+	 * The default implementation simply returns the given key as-is.
 	 * @param lookupKey the lookup key object as specified by the user
 	 * @return the lookup key as needed for matching
 	 */
@@ -145,8 +150,9 @@ public abstract class AbstractRoutingDataSource extends AbstractDataSource imple
 
 	/**
 	 * Resolve the specified data source object into a DataSource instance.
-	 * <p>The default implementation handles DataSource instances and data source
-	 * names (to be resolved via a {@link #setDataSourceLookup DataSourceLookup}).
+	 * <p>
+	 * The default implementation handles DataSource instances and data source names (to
+	 * be resolved via a {@link #setDataSourceLookup DataSourceLookup}).
 	 * @param dataSource the data source value object as specified in the
 	 * {@link #setTargetDataSources targetDataSources} map
 	 * @return the resolved DataSource (never {@code null})
@@ -188,7 +194,6 @@ public abstract class AbstractRoutingDataSource extends AbstractDataSource imple
 		return this.resolvedDefaultDataSource;
 	}
 
-
 	@Override
 	public Connection getConnection() throws SQLException {
 		return determineTargetDataSource().getConnection();
@@ -215,9 +220,8 @@ public abstract class AbstractRoutingDataSource extends AbstractDataSource imple
 
 	/**
 	 * Retrieve the current target DataSource. Determines the
-	 * {@link #determineCurrentLookupKey() current lookup key}, performs
-	 * a lookup in the {@link #setTargetDataSources targetDataSources} map,
-	 * falls back to the specified
+	 * {@link #determineCurrentLookupKey() current lookup key}, performs a lookup in the
+	 * {@link #setTargetDataSources targetDataSources} map, falls back to the specified
 	 * {@link #setDefaultTargetDataSource default target DataSource} if necessary.
 	 * @see #determineCurrentLookupKey()
 	 */
@@ -235,11 +239,11 @@ public abstract class AbstractRoutingDataSource extends AbstractDataSource imple
 	}
 
 	/**
-	 * Determine the current lookup key. This will typically be
-	 * implemented to check a thread-bound transaction context.
-	 * <p>Allows for arbitrary keys. The returned key needs
-	 * to match the stored lookup key type, as resolved by the
-	 * {@link #resolveSpecifiedLookupKey} method.
+	 * Determine the current lookup key. This will typically be implemented to check a
+	 * thread-bound transaction context.
+	 * <p>
+	 * Allows for arbitrary keys. The returned key needs to match the stored lookup key
+	 * type, as resolved by the {@link #resolveSpecifiedLookupKey} method.
 	 */
 	@Nullable
 	protected abstract Object determineCurrentLookupKey();

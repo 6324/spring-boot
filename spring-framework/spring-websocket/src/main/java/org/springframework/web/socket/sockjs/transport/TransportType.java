@@ -46,7 +46,6 @@ public enum TransportType {
 
 	HTML_FILE("htmlfile", HttpMethod.GET, "cors", "jsessionid", "no_cache");
 
-
 	private static final Map<String, TransportType> TRANSPORT_TYPES;
 
 	static {
@@ -62,20 +61,17 @@ public enum TransportType {
 		return TRANSPORT_TYPES.get(value);
 	}
 
-
 	private final String value;
 
 	private final HttpMethod httpMethod;
 
 	private final List<String> headerHints;
 
-
 	TransportType(String value, HttpMethod httpMethod, String... headerHints) {
 		this.value = value;
 		this.httpMethod = httpMethod;
 		this.headerHints = Arrays.asList(headerHints);
 	}
-
 
 	public String value() {
 		return this.value;
@@ -100,7 +96,6 @@ public enum TransportType {
 	public boolean supportsOrigin() {
 		return this.headerHints.contains("cors") || this.headerHints.contains("origin");
 	}
-
 
 	@Override
 	public String toString() {

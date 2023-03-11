@@ -47,8 +47,8 @@ public class Spr12636Tests {
 
 	@Test
 	public void orderOnImplementation() {
-		this.context = new AnnotationConfigApplicationContext(
-				UserServiceTwo.class, UserServiceOne.class, UserServiceCollector.class);
+		this.context = new AnnotationConfigApplicationContext(UserServiceTwo.class, UserServiceOne.class,
+				UserServiceCollector.class);
 		UserServiceCollector bean = this.context.getBean(UserServiceCollector.class);
 		assertThat(bean.userServices.get(0)).isSameAs(context.getBean("serviceOne", UserService.class));
 		assertThat(bean.userServices.get(1)).isSameAs(context.getBean("serviceTwo", UserService.class));
@@ -57,8 +57,8 @@ public class Spr12636Tests {
 
 	@Test
 	public void orderOnImplementationWithProxy() {
-		this.context = new AnnotationConfigApplicationContext(
-				UserServiceTwo.class, UserServiceOne.class, UserServiceCollector.class, AsyncConfig.class);
+		this.context = new AnnotationConfigApplicationContext(UserServiceTwo.class, UserServiceOne.class,
+				UserServiceCollector.class, AsyncConfig.class);
 
 		// Validate those beans are indeed wrapped by a proxy
 		UserService serviceOne = this.context.getBean("serviceOne", UserService.class);
@@ -74,8 +74,8 @@ public class Spr12636Tests {
 	@Configuration
 	@EnableAsync
 	static class AsyncConfig {
-	}
 
+	}
 
 	@Component
 	static class UserServiceCollector {
@@ -86,11 +86,13 @@ public class Spr12636Tests {
 		UserServiceCollector(List<UserService> userServices) {
 			this.userServices = userServices;
 		}
+
 	}
 
 	interface UserService {
 
 		void doIt();
+
 	}
 
 	@Component("serviceOne")
@@ -102,6 +104,7 @@ public class Spr12636Tests {
 		public void doIt() {
 
 		}
+
 	}
 
 	@Component("serviceTwo")
@@ -113,5 +116,7 @@ public class Spr12636Tests {
 		public void doIt() {
 
 		}
+
 	}
+
 }

@@ -19,9 +19,9 @@ package org.springframework.dao;
 import org.springframework.lang.Nullable;
 
 /**
- * Exception thrown if certain expected data could not be retrieved, e.g.
- * when looking up specific data via a known identifier. This exception
- * will be thrown either by O/R mapping tools or by DAO implementations.
+ * Exception thrown if certain expected data could not be retrieved, e.g. when looking up
+ * specific data via a known identifier. This exception will be thrown either by O/R
+ * mapping tools or by DAO implementations.
  *
  * @author Juergen Hoeller
  * @since 13.10.2003

@@ -86,8 +86,8 @@ public abstract class AbstractAnnotationMetadataTests {
 
 	@Test
 	public void getEnclosingClassNameWhenHasEnclosingClassReturnsEnclosingClass() {
-		assertThat(get(TestClass.class).getEnclosingClassName()).isEqualTo(
-				AbstractAnnotationMetadataTests.class.getName());
+		assertThat(get(TestClass.class).getEnclosingClassName())
+				.isEqualTo(AbstractAnnotationMetadataTests.class.getName());
 	}
 
 	@Test
@@ -110,8 +110,10 @@ public abstract class AbstractAnnotationMetadataTests {
 
 	@Test
 	public void getInterfaceNamesWhenHasInterfacesReturnsNames() {
-		assertThat(get(TestSubclass.class).getInterfaceNames()).containsExactlyInAnyOrder(TestInterface.class.getName());
-		assertThat(get(TestSubInterface.class).getInterfaceNames()).containsExactlyInAnyOrder(TestInterface.class.getName());
+		assertThat(get(TestSubclass.class).getInterfaceNames())
+				.containsExactlyInAnyOrder(TestInterface.class.getName());
+		assertThat(get(TestSubInterface.class).getInterfaceNames())
+				.containsExactlyInAnyOrder(TestInterface.class.getName());
 	}
 
 	@Test
@@ -122,7 +124,7 @@ public abstract class AbstractAnnotationMetadataTests {
 	@Test
 	public void getMemberClassNamesWhenHasMemberClassesReturnsNames() {
 		assertThat(get(TestMemberClass.class).getMemberClassNames()).containsExactlyInAnyOrder(
-			TestMemberClassInnerClass.class.getName(), TestMemberClassInnerInterface.class.getName());
+				TestMemberClassInnerClass.class.getName(), TestMemberClassInnerInterface.class.getName());
 	}
 
 	@Test
@@ -133,9 +135,8 @@ public abstract class AbstractAnnotationMetadataTests {
 	@Test
 	public void getAnnotationsReturnsDirectAnnotations() {
 		assertThat(get(WithDirectAnnotations.class).getAnnotations().stream())
-			.filteredOn(MergedAnnotation::isDirectlyPresent)
-			.extracting(a -> a.getType().getName())
-			.containsExactlyInAnyOrder(DirectAnnotation1.class.getName(), DirectAnnotation2.class.getName());
+				.filteredOn(MergedAnnotation::isDirectlyPresent).extracting(a -> a.getType().getName())
+				.containsExactlyInAnyOrder(DirectAnnotation1.class.getName(), DirectAnnotation2.class.getName());
 	}
 
 	@Test
@@ -156,13 +157,13 @@ public abstract class AbstractAnnotationMetadataTests {
 	@Test
 	public void getAnnotationAttributesReturnsAttributes() {
 		assertThat(get(WithAnnotationAttributes.class).getAnnotationAttributes(AnnotationAttributes.class.getName()))
-			.containsOnly(entry("name", "test"), entry("size", 1));
+				.containsOnly(entry("name", "test"), entry("size", 1));
 	}
 
 	@Test
 	public void getAllAnnotationAttributesReturnsAllAttributes() {
-		MultiValueMap<String, Object> attributes =
-				get(WithMetaAnnotationAttributes.class).getAllAnnotationAttributes(AnnotationAttributes.class.getName());
+		MultiValueMap<String, Object> attributes = get(WithMetaAnnotationAttributes.class)
+				.getAllAnnotationAttributes(AnnotationAttributes.class.getName());
 		assertThat(attributes).containsOnlyKeys("name", "size");
 		assertThat(attributes.get("name")).containsExactlyInAnyOrder("m1", "m2");
 		assertThat(attributes.get("size")).containsExactlyInAnyOrder(1, 2);
@@ -171,15 +172,15 @@ public abstract class AbstractAnnotationMetadataTests {
 	@Test
 	public void getAnnotationTypesReturnsDirectAnnotations() {
 		AnnotationMetadata metadata = get(WithDirectAnnotations.class);
-		assertThat(metadata.getAnnotationTypes()).containsExactlyInAnyOrder(
-				DirectAnnotation1.class.getName(), DirectAnnotation2.class.getName());
+		assertThat(metadata.getAnnotationTypes()).containsExactlyInAnyOrder(DirectAnnotation1.class.getName(),
+				DirectAnnotation2.class.getName());
 	}
 
 	@Test
 	public void getMetaAnnotationTypesReturnsMetaAnnotations() {
 		AnnotationMetadata metadata = get(WithMetaAnnotations.class);
 		assertThat(metadata.getMetaAnnotationTypes(MetaAnnotationRoot.class.getName()))
-			.containsExactlyInAnyOrder(MetaAnnotation1.class.getName(), MetaAnnotation2.class.getName());
+				.containsExactlyInAnyOrder(MetaAnnotation1.class.getName(), MetaAnnotation2.class.getName());
 	}
 
 	@Test
@@ -233,71 +234,85 @@ public abstract class AbstractAnnotationMetadataTests {
 	@Test
 	public void getAnnotatedMethodsReturnsMatchingAnnotatedAndMetaAnnotatedMethods() {
 		assertThat(get(WithDirectAndMetaAnnotatedMethods.class).getAnnotatedMethods(MetaAnnotation2.class.getName()))
-			.extracting(MethodMetadata::getMethodName)
-			.containsExactlyInAnyOrder("direct", "meta");
+				.extracting(MethodMetadata::getMethodName).containsExactlyInAnyOrder("direct", "meta");
 	}
 
 	protected abstract AnnotationMetadata get(Class<?> source);
 
-
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface DirectAnnotation1 {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface DirectAnnotation2 {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@MetaAnnotation1
 	public @interface MetaAnnotationRoot {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@MetaAnnotation2
 	public @interface MetaAnnotation1 {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface MetaAnnotation2 {
+
 	}
 
 	public static class TestClass {
+
 	}
 
 	public static interface TestInterface {
+
 	}
 
 	public static interface TestSubInterface extends TestInterface {
+
 	}
 
 	public @interface TestAnnotation {
+
 	}
 
 	public static final class TestFinalClass {
+
 	}
 
 	public class TestNonStaticInnerClass {
+
 	}
 
 	public static class TestSubclass extends TestClass implements TestInterface {
+
 	}
 
 	@DirectAnnotation1
 	@DirectAnnotation2
 	public static class WithDirectAnnotations {
+
 	}
 
 	@MetaAnnotationRoot
 	public static class WithMetaAnnotations {
+
 	}
 
 	public static class TestMemberClass {
 
 		public static class TestMemberClassInnerClass {
+
 		}
 
 		interface TestMemberClassInnerInterface {
+
 		}
 
 	}
@@ -339,21 +354,25 @@ public abstract class AbstractAnnotationMetadataTests {
 
 	@AnnotationAttributes(name = "test", size = 1)
 	public static class WithAnnotationAttributes {
+
 	}
 
 	@MetaAnnotationAttributes1
 	@MetaAnnotationAttributes2
 	public static class WithMetaAnnotationAttributes {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@AnnotationAttributes(name = "m1", size = 1)
 	public @interface MetaAnnotationAttributes1 {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@AnnotationAttributes(name = "m2", size = 2)
 	public @interface MetaAnnotationAttributes2 {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)

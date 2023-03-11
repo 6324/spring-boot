@@ -29,11 +29,12 @@ import org.springframework.core.MethodClassKey;
 import org.springframework.lang.Nullable;
 
 /**
- * Abstract implementation of {@link JCacheOperationSource} that caches attributes
- * for methods and implements a fallback policy: 1. specific target method;
- * 2. declaring method.
+ * Abstract implementation of {@link JCacheOperationSource} that caches attributes for
+ * methods and implements a fallback policy: 1. specific target method; 2. declaring
+ * method.
  *
- * <p>This implementation caches attributes by method after they are first used.
+ * <p>
+ * This implementation caches attributes by method after they are first used.
  *
  * @author Stephane Nicoll
  * @author Juergen Hoeller
@@ -43,16 +44,14 @@ import org.springframework.lang.Nullable;
 public abstract class AbstractFallbackJCacheOperationSource implements JCacheOperationSource {
 
 	/**
-	 * Canonical value held in cache to indicate no caching attribute was
-	 * found for this method and we don't need to look again.
+	 * Canonical value held in cache to indicate no caching attribute was found for this
+	 * method and we don't need to look again.
 	 */
 	private static final Object NULL_CACHING_ATTRIBUTE = new Object();
-
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	private final Map<MethodClassKey, Object> cache = new ConcurrentHashMap<>(1024);
-
 
 	@Override
 	public JCacheOperation<?> getCacheOperation(Method method, @Nullable Class<?> targetClass) {
@@ -84,7 +83,8 @@ public abstract class AbstractFallbackJCacheOperationSource implements JCacheOpe
 			return null;
 		}
 
-		// The method may be on an interface, but we need attributes from the target class.
+		// The method may be on an interface, but we need attributes from the target
+		// class.
 		// If the target class is null, the method will be unchanged.
 		Method specificMethod = AopUtils.getMostSpecificMethod(method, targetClass);
 
@@ -103,21 +103,20 @@ public abstract class AbstractFallbackJCacheOperationSource implements JCacheOpe
 		return null;
 	}
 
-
 	/**
-	 * Subclasses need to implement this to return the caching operation
-	 * for the given method, if any.
+	 * Subclasses need to implement this to return the caching operation for the given
+	 * method, if any.
 	 * @param method the method to retrieve the operation for
 	 * @param targetType the target class
-	 * @return the cache operation associated with this method
-	 * (or {@code null} if none)
+	 * @return the cache operation associated with this method (or {@code null} if none)
 	 */
 	@Nullable
 	protected abstract JCacheOperation<?> findCacheOperation(Method method, @Nullable Class<?> targetType);
 
 	/**
 	 * Should only public methods be allowed to have caching semantics?
-	 * <p>The default implementation returns {@code false}.
+	 * <p>
+	 * The default implementation returns {@code false}.
 	 */
 	protected boolean allowPublicMethodsOnly() {
 		return false;

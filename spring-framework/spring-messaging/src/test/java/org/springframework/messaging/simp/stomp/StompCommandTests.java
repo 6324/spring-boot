@@ -32,20 +32,19 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class StompCommandTests {
 
-	private static final Collection<StompCommand> destinationRequired =
-			Arrays.asList(StompCommand.SEND, StompCommand.SUBSCRIBE, StompCommand.MESSAGE);
+	private static final Collection<StompCommand> destinationRequired = Arrays.asList(StompCommand.SEND,
+			StompCommand.SUBSCRIBE, StompCommand.MESSAGE);
 
-	private static final Collection<StompCommand> subscriptionIdRequired =
-			Arrays.asList(StompCommand.SUBSCRIBE, StompCommand.UNSUBSCRIBE, StompCommand.MESSAGE);
+	private static final Collection<StompCommand> subscriptionIdRequired = Arrays.asList(StompCommand.SUBSCRIBE,
+			StompCommand.UNSUBSCRIBE, StompCommand.MESSAGE);
 
-	private static final Collection<StompCommand> contentLengthRequired =
-			Arrays.asList(StompCommand.SEND, StompCommand.MESSAGE, StompCommand.ERROR);
+	private static final Collection<StompCommand> contentLengthRequired = Arrays.asList(StompCommand.SEND,
+			StompCommand.MESSAGE, StompCommand.ERROR);
 
-	private static final Collection<StompCommand> bodyAllowed =
-			Arrays.asList(StompCommand.SEND, StompCommand.MESSAGE, StompCommand.ERROR);
+	private static final Collection<StompCommand> bodyAllowed = Arrays.asList(StompCommand.SEND, StompCommand.MESSAGE,
+			StompCommand.ERROR);
 
-	private static final Map<StompCommand, SimpMessageType> messageTypes =
-			new EnumMap<>(StompCommand.class);
+	private static final Map<StompCommand, SimpMessageType> messageTypes = new EnumMap<>(StompCommand.class);
 
 	static {
 		messageTypes.put(StompCommand.STOMP, SimpMessageType.CONNECT);
@@ -56,7 +55,6 @@ public class StompCommandTests {
 		messageTypes.put(StompCommand.SEND, SimpMessageType.MESSAGE);
 		messageTypes.put(StompCommand.MESSAGE, SimpMessageType.MESSAGE);
 	}
-
 
 	@Test
 	public void getMessageType() throws Exception {

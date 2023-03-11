@@ -36,15 +36,16 @@ import org.springframework.web.util.pattern.PathPattern;
  * Abstract base class for URL-mapped
  * {@link org.springframework.web.reactive.HandlerMapping} implementations.
  *
- * <p>Supports direct matches, e.g. a registered "/test" matches "/test", and
- * various path pattern matches, e.g. a registered "/t*" pattern matches
- * both "/test" and "/team", "/test/*" matches all paths under "/test",
- * "/test/**" matches all paths below "/test". For details, see the
- * {@link org.springframework.web.util.pattern.PathPattern} javadoc.
+ * <p>
+ * Supports direct matches, e.g. a registered "/test" matches "/test", and various path
+ * pattern matches, e.g. a registered "/t*" pattern matches both "/test" and "/team",
+ * "/test/*" matches all paths under "/test", "/test/**" matches all paths below "/test".
+ * For details, see the {@link org.springframework.web.util.pattern.PathPattern} javadoc.
  *
- * <p>Will search all path patterns to find the most specific match for the
- * current request path. The most specific pattern is defined as the longest
- * path pattern with the fewest captured variables and wildcards.
+ * <p>
+ * Will search all path patterns to find the most specific match for the current request
+ * path. The most specific pattern is defined as the longest path pattern with the fewest
+ * captured variables and wildcards.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -57,30 +58,28 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping {
 
 	private final Map<PathPattern, Object> handlerMap = new LinkedHashMap<>();
 
-
 	/**
-	 * Set whether to lazily initialize handlers. Only applicable to
-	 * singleton handlers, as prototypes are always lazily initialized.
-	 * Default is "false", as eager initialization allows for more efficiency
-	 * through referencing the controller objects directly.
-	 * <p>If you want to allow your controllers to be lazily initialized,
-	 * make them "lazy-init" and set this flag to true. Just making them
-	 * "lazy-init" will not work, as they are initialized through the
-	 * references from the handler mapping in this case.
+	 * Set whether to lazily initialize handlers. Only applicable to singleton handlers,
+	 * as prototypes are always lazily initialized. Default is "false", as eager
+	 * initialization allows for more efficiency through referencing the controller
+	 * objects directly.
+	 * <p>
+	 * If you want to allow your controllers to be lazily initialized, make them
+	 * "lazy-init" and set this flag to true. Just making them "lazy-init" will not work,
+	 * as they are initialized through the references from the handler mapping in this
+	 * case.
 	 */
 	public void setLazyInitHandlers(boolean lazyInitHandlers) {
 		this.lazyInitHandlers = lazyInitHandlers;
 	}
 
 	/**
-	 * Return a read-only view of registered path patterns and handlers which may
-	 * may be an actual handler instance or the bean name of lazily initialized
-	 * handler.
+	 * Return a read-only view of registered path patterns and handlers which may may be
+	 * an actual handler instance or the bean name of lazily initialized handler.
 	 */
 	public final Map<PathPattern, Object> getHandlerMap() {
 		return Collections.unmodifiableMap(this.handlerMap);
 	}
-
 
 	@Override
 	public Mono<Object> getHandlerInternal(ServerWebExchange exchange) {
@@ -97,9 +96,10 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping {
 
 	/**
 	 * Look up a handler instance for the given URL lookup path.
-	 * <p>Supports direct matches, e.g. a registered "/test" matches "/test",
-	 * and various path pattern matches, e.g. a registered "/t*" matches
-	 * both "/test" and "/team". For details, see the PathPattern class.
+	 * <p>
+	 * Supports direct matches, e.g. a registered "/test" matches "/test", and various
+	 * path pattern matches, e.g. a registered "/t*" matches both "/test" and "/team". For
+	 * details, see the PathPattern class.
 	 * @param lookupPath the URL the handler is mapped to
 	 * @param exchange the current exchange
 	 * @return the associated handler instance, or {@code null} if not found
@@ -108,8 +108,7 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping {
 	@Nullable
 	protected Object lookupHandler(PathContainer lookupPath, ServerWebExchange exchange) throws Exception {
 
-		List<PathPattern> matches = this.handlerMap.keySet().stream()
-				.filter(key -> key.matches(lookupPath))
+		List<PathPattern> matches = this.handlerMap.keySet().stream().filter(key -> key.matches(lookupPath))
 				.collect(Collectors.toList());
 
 		if (matches.isEmpty()) {
@@ -148,8 +147,9 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping {
 
 	/**
 	 * Validate the given handler against the current request.
-	 * <p>The default implementation is empty. Can be overridden in subclasses,
-	 * for example to enforce specific preconditions expressed in URL mappings.
+	 * <p>
+	 * The default implementation is empty. Can be overridden in subclasses, for example
+	 * to enforce specific preconditions expressed in URL mappings.
 	 * @param handler the handler object to validate
 	 * @param exchange current exchange
 	 */
@@ -174,8 +174,8 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping {
 	/**
 	 * Register the specified handler for the given URL path.
 	 * @param urlPath the URL the bean should be mapped to
-	 * @param handler the handler instance or handler bean name String
-	 * (a bean name will automatically be resolved into the corresponding handler bean)
+	 * @param handler the handler instance or handler bean name String (a bean name will
+	 * automatically be resolved into the corresponding handler bean)
 	 * @throws BeansException if the handler couldn't be registered
 	 * @throws IllegalStateException if there is a conflicting handler registered
 	 */
@@ -190,9 +190,8 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping {
 		if (this.handlerMap.containsKey(pattern)) {
 			Object existingHandler = this.handlerMap.get(pattern);
 			if (existingHandler != null && existingHandler != resolvedHandler) {
-				throw new IllegalStateException(
-						"Cannot map " + getHandlerDescription(handler) + " to [" + urlPath + "]: " +
-						"there is already " + getHandlerDescription(existingHandler) + " mapped.");
+				throw new IllegalStateException("Cannot map " + getHandlerDescription(handler) + " to [" + urlPath
+						+ "]: " + "there is already " + getHandlerDescription(existingHandler) + " mapped.");
 			}
 		}
 
@@ -214,7 +213,6 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping {
 	private String getHandlerDescription(Object handler) {
 		return (handler instanceof String ? "'" + handler + "'" : handler.toString());
 	}
-
 
 	private static String prependLeadingSlash(String pattern) {
 		if (StringUtils.hasLength(pattern) && !pattern.startsWith("/")) {

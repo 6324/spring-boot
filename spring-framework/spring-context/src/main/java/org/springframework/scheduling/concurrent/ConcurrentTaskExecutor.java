@@ -36,22 +36,24 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.concurrent.ListenableFuture;
 
 /**
- * Adapter that takes a {@code java.util.concurrent.Executor} and exposes
- * a Spring {@link org.springframework.core.task.TaskExecutor} for it.
- * Also detects an extended {@code java.util.concurrent.ExecutorService}, adapting
- * the {@link org.springframework.core.task.AsyncTaskExecutor} interface accordingly.
+ * Adapter that takes a {@code java.util.concurrent.Executor} and exposes a Spring
+ * {@link org.springframework.core.task.TaskExecutor} for it. Also detects an extended
+ * {@code java.util.concurrent.ExecutorService}, adapting the
+ * {@link org.springframework.core.task.AsyncTaskExecutor} interface accordingly.
  *
- * <p>Autodetects a JSR-236 {@link javax.enterprise.concurrent.ManagedExecutorService}
- * in order to expose {@link javax.enterprise.concurrent.ManagedTask} adapters for it,
+ * <p>
+ * Autodetects a JSR-236 {@link javax.enterprise.concurrent.ManagedExecutorService} in
+ * order to expose {@link javax.enterprise.concurrent.ManagedTask} adapters for it,
  * exposing a long-running hint based on {@link SchedulingAwareRunnable} and an identity
  * name based on the given Runnable/Callable's {@code toString()}. For JSR-236 style
  * lookup in a Java EE 7 environment, consider using {@link DefaultManagedTaskExecutor}.
  *
- * <p>Note that there is a pre-built {@link ThreadPoolTaskExecutor} that allows
- * for defining a {@link java.util.concurrent.ThreadPoolExecutor} in bean style,
- * exposing it as a Spring {@link org.springframework.core.task.TaskExecutor} directly.
- * This is a convenient alternative to a raw ThreadPoolExecutor definition with
- * a separate definition of the present adapter class.
+ * <p>
+ * Note that there is a pre-built {@link ThreadPoolTaskExecutor} that allows for defining
+ * a {@link java.util.concurrent.ThreadPoolExecutor} in bean style, exposing it as a
+ * Spring {@link org.springframework.core.task.TaskExecutor} directly. This is a
+ * convenient alternative to a raw ThreadPoolExecutor definition with a separate
+ * definition of the present adapter class.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -69,8 +71,7 @@ public class ConcurrentTaskExecutor implements AsyncListenableTaskExecutor, Sche
 
 	static {
 		try {
-			managedExecutorServiceClass = ClassUtils.forName(
-					"javax.enterprise.concurrent.ManagedExecutorService",
+			managedExecutorServiceClass = ClassUtils.forName("javax.enterprise.concurrent.ManagedExecutorService",
 					ConcurrentTaskScheduler.class.getClassLoader());
 		}
 		catch (ClassNotFoundException ex) {
@@ -83,7 +84,6 @@ public class ConcurrentTaskExecutor implements AsyncListenableTaskExecutor, Sche
 
 	private TaskExecutorAdapter adaptedExecutor;
 
-
 	/**
 	 * Create a new ConcurrentTaskExecutor, using a single thread executor as default.
 	 * @see java.util.concurrent.Executors#newSingleThreadExecutor()
@@ -94,9 +94,11 @@ public class ConcurrentTaskExecutor implements AsyncListenableTaskExecutor, Sche
 	}
 
 	/**
-	 * Create a new ConcurrentTaskExecutor, using the given {@link java.util.concurrent.Executor}.
-	 * <p>Autodetects a JSR-236 {@link javax.enterprise.concurrent.ManagedExecutorService}
-	 * in order to expose {@link javax.enterprise.concurrent.ManagedTask} adapters for it.
+	 * Create a new ConcurrentTaskExecutor, using the given
+	 * {@link java.util.concurrent.Executor}.
+	 * <p>
+	 * Autodetects a JSR-236 {@link javax.enterprise.concurrent.ManagedExecutorService} in
+	 * order to expose {@link javax.enterprise.concurrent.ManagedTask} adapters for it.
 	 * @param executor the {@link java.util.concurrent.Executor} to delegate to
 	 */
 	public ConcurrentTaskExecutor(@Nullable Executor executor) {
@@ -104,11 +106,11 @@ public class ConcurrentTaskExecutor implements AsyncListenableTaskExecutor, Sche
 		this.adaptedExecutor = getAdaptedExecutor(this.concurrentExecutor);
 	}
 
-
 	/**
 	 * Specify the {@link java.util.concurrent.Executor} to delegate to.
-	 * <p>Autodetects a JSR-236 {@link javax.enterprise.concurrent.ManagedExecutorService}
-	 * in order to expose {@link javax.enterprise.concurrent.ManagedTask} adapters for it.
+	 * <p>
+	 * Autodetects a JSR-236 {@link javax.enterprise.concurrent.ManagedExecutorService} in
+	 * order to expose {@link javax.enterprise.concurrent.ManagedTask} adapters for it.
 	 */
 	public final void setConcurrentExecutor(@Nullable Executor executor) {
 		this.concurrentExecutor = (executor != null ? executor : Executors.newSingleThreadExecutor());
@@ -123,24 +125,26 @@ public class ConcurrentTaskExecutor implements AsyncListenableTaskExecutor, Sche
 	}
 
 	/**
-	 * Specify a custom {@link TaskDecorator} to be applied to any {@link Runnable}
-	 * about to be executed.
-	 * <p>Note that such a decorator is not necessarily being applied to the
-	 * user-supplied {@code Runnable}/{@code Callable} but rather to the actual
-	 * execution callback (which may be a wrapper around the user-supplied task).
-	 * <p>The primary use case is to set some execution context around the task's
-	 * invocation, or to provide some monitoring/statistics for task execution.
-	 * <p><b>NOTE:</b> Exception handling in {@code TaskDecorator} implementations
-	 * is limited to plain {@code Runnable} execution via {@code execute} calls.
-	 * In case of {@code #submit} calls, the exposed {@code Runnable} will be a
-	 * {@code FutureTask} which does not propagate any exceptions; you might
-	 * have to cast it and call {@code Future#get} to evaluate exceptions.
+	 * Specify a custom {@link TaskDecorator} to be applied to any {@link Runnable} about
+	 * to be executed.
+	 * <p>
+	 * Note that such a decorator is not necessarily being applied to the user-supplied
+	 * {@code Runnable}/{@code Callable} but rather to the actual execution callback
+	 * (which may be a wrapper around the user-supplied task).
+	 * <p>
+	 * The primary use case is to set some execution context around the task's invocation,
+	 * or to provide some monitoring/statistics for task execution.
+	 * <p>
+	 * <b>NOTE:</b> Exception handling in {@code TaskDecorator} implementations is limited
+	 * to plain {@code Runnable} execution via {@code execute} calls. In case of
+	 * {@code #submit} calls, the exposed {@code Runnable} will be a {@code FutureTask}
+	 * which does not propagate any exceptions; you might have to cast it and call
+	 * {@code Future#get} to evaluate exceptions.
 	 * @since 4.3
 	 */
 	public final void setTaskDecorator(TaskDecorator taskDecorator) {
 		this.adaptedExecutor.setTaskDecorator(taskDecorator);
 	}
-
 
 	@Override
 	public void execute(Runnable task) {
@@ -172,7 +176,6 @@ public class ConcurrentTaskExecutor implements AsyncListenableTaskExecutor, Sche
 		return this.adaptedExecutor.submitListenable(task);
 	}
 
-
 	private static TaskExecutorAdapter getAdaptedExecutor(Executor concurrentExecutor) {
 		if (managedExecutorServiceClass != null && managedExecutorServiceClass.isInstance(concurrentExecutor)) {
 			return new ManagedTaskExecutorAdapter(concurrentExecutor);
@@ -180,10 +183,9 @@ public class ConcurrentTaskExecutor implements AsyncListenableTaskExecutor, Sche
 		return new TaskExecutorAdapter(concurrentExecutor);
 	}
 
-
 	/**
-	 * TaskExecutorAdapter subclass that wraps all provided Runnables and Callables
-	 * with a JSR-236 ManagedTask, exposing a long-running hint based on
+	 * TaskExecutorAdapter subclass that wraps all provided Runnables and Callables with a
+	 * JSR-236 ManagedTask, exposing a long-running hint based on
 	 * {@link SchedulingAwareRunnable} and an identity name based on the task's
 	 * {@code toString()} representation.
 	 */
@@ -217,13 +219,13 @@ public class ConcurrentTaskExecutor implements AsyncListenableTaskExecutor, Sche
 		public <T> ListenableFuture<T> submitListenable(Callable<T> task) {
 			return super.submitListenable(ManagedTaskBuilder.buildManagedTask(task, task.toString()));
 		}
+
 	}
 
-
 	/**
-	 * Delegate that wraps a given Runnable/Callable  with a JSR-236 ManagedTask,
-	 * exposing a long-running hint based on {@link SchedulingAwareRunnable}
-	 * and a given identity name.
+	 * Delegate that wraps a given Runnable/Callable with a JSR-236 ManagedTask, exposing
+	 * a long-running hint based on {@link SchedulingAwareRunnable} and a given identity
+	 * name.
 	 */
 	protected static class ManagedTaskBuilder {
 
@@ -246,6 +248,7 @@ public class ConcurrentTaskExecutor implements AsyncListenableTaskExecutor, Sche
 			properties.put(ManagedTask.IDENTITY_NAME, identityName);
 			return ManagedExecutors.managedTask(task, properties, null);
 		}
+
 	}
 
 }

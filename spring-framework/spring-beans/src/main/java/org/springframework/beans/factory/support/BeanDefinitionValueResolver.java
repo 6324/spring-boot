@@ -46,13 +46,13 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Helper class for use in bean factory implementations,
- * resolving values contained in bean definition objects
- * into the actual values applied to the target bean instance.
+ * Helper class for use in bean factory implementations, resolving values contained in
+ * bean definition objects into the actual values applied to the target bean instance.
  *
- * <p>Operates on an {@link AbstractBeanFactory} and a plain
- * {@link org.springframework.beans.factory.config.BeanDefinition} object.
- * Used by {@link AbstractAutowireCapableBeanFactory}.
+ * <p>
+ * Operates on an {@link AbstractBeanFactory} and a plain
+ * {@link org.springframework.beans.factory.config.BeanDefinition} object. Used by
+ * {@link AbstractAutowireCapableBeanFactory}.
  *
  * @author Juergen Hoeller
  * @since 1.2
@@ -67,7 +67,6 @@ class BeanDefinitionValueResolver {
 	private final BeanDefinition beanDefinition;
 
 	private final TypeConverter typeConverter;
-
 
 	/**
 	 * Create a BeanDefinitionValueResolver for the given BeanFactory and BeanDefinition.
@@ -85,20 +84,19 @@ class BeanDefinitionValueResolver {
 		this.typeConverter = typeConverter;
 	}
 
-
 	/**
-	 * Given a PropertyValue, return a value, resolving any references to other
-	 * beans in the factory if necessary. The value could be:
-	 * <li>A BeanDefinition, which leads to the creation of a corresponding
-	 * new bean instance. Singleton flags and names of such "inner beans"
-	 * are always ignored: Inner beans are anonymous prototypes.
+	 * Given a PropertyValue, return a value, resolving any references to other beans in
+	 * the factory if necessary. The value could be:
+	 * <li>A BeanDefinition, which leads to the creation of a corresponding new bean
+	 * instance. Singleton flags and names of such "inner beans" are always ignored: Inner
+	 * beans are anonymous prototypes.
 	 * <li>A RuntimeBeanReference, which must be resolved.
 	 * <li>A ManagedList. This is a special collection that may contain
 	 * RuntimeBeanReferences or Collections that will need to be resolved.
-	 * <li>A ManagedSet. May also contain RuntimeBeanReferences or
-	 * Collections that will need to be resolved.
-	 * <li>A ManagedMap. In this case the value may be a RuntimeBeanReference
-	 * or Collection that will need to be resolved.
+	 * <li>A ManagedSet. May also contain RuntimeBeanReferences or Collections that will
+	 * need to be resolved.
+	 * <li>A ManagedMap. In this case the value may be a RuntimeBeanReference or
+	 * Collection that will need to be resolved.
 	 * <li>An ordinary object or {@code null}, in which case it's left alone.
 	 * @param argName the name of the argument that the value is defined for
 	 * @param value the value object to resolve
@@ -122,21 +120,22 @@ class BeanDefinitionValueResolver {
 			return refName;
 		}
 		else if (value instanceof BeanDefinitionHolder) {
-			// Resolve BeanDefinitionHolder: contains BeanDefinition with name and aliases.
+			// Resolve BeanDefinitionHolder: contains BeanDefinition with name and
+			// aliases.
 			BeanDefinitionHolder bdHolder = (BeanDefinitionHolder) value;
 			return resolveInnerBean(argName, bdHolder.getBeanName(), bdHolder.getBeanDefinition());
 		}
 		else if (value instanceof BeanDefinition) {
 			// Resolve plain BeanDefinition, without contained name: use dummy name.
 			BeanDefinition bd = (BeanDefinition) value;
-			String innerBeanName = "(inner bean)" + BeanFactoryUtils.GENERATED_BEAN_NAME_SEPARATOR +
-					ObjectUtils.getIdentityHexString(bd);
+			String innerBeanName = "(inner bean)" + BeanFactoryUtils.GENERATED_BEAN_NAME_SEPARATOR
+					+ ObjectUtils.getIdentityHexString(bd);
 			return resolveInnerBean(argName, innerBeanName, bd);
 		}
 		else if (value instanceof DependencyDescriptor) {
 			Set<String> autowiredBeanNames = new LinkedHashSet<>(4);
-			Object result = this.beanFactory.resolveDependency(
-					(DependencyDescriptor) value, this.beanName, autowiredBeanNames, this.typeConverter);
+			Object result = this.beanFactory.resolveDependency((DependencyDescriptor) value, this.beanName,
+					autowiredBeanNames, this.typeConverter);
 			for (String autowiredBeanName : autowiredBeanNames) {
 				if (this.beanFactory.containsBean(autowiredBeanName)) {
 					this.beanFactory.registerDependentBean(autowiredBeanName, this.beanName);
@@ -157,8 +156,7 @@ class BeanDefinitionValueResolver {
 					}
 					catch (Throwable ex) {
 						// Improve the message by showing the context.
-						throw new BeanCreationException(
-								this.beanDefinition.getResourceDescription(), this.beanName,
+						throw new BeanCreationException(this.beanDefinition.getResourceDescription(), this.beanName,
 								"Error resolving array type for " + argName, ex);
 					}
 				}
@@ -191,8 +189,7 @@ class BeanDefinitionValueResolver {
 					propValue = evaluate((TypedStringValue) propValue);
 				}
 				if (propKey == null || propValue == null) {
-					throw new BeanCreationException(
-							this.beanDefinition.getResourceDescription(), this.beanName,
+					throw new BeanCreationException(this.beanDefinition.getResourceDescription(), this.beanName,
 							"Error converting Properties key/value pair for " + argName + ": resolved to null");
 				}
 				copy.put(propKey, propValue);
@@ -214,8 +211,7 @@ class BeanDefinitionValueResolver {
 			}
 			catch (Throwable ex) {
 				// Improve the message by showing the context.
-				throw new BeanCreationException(
-						this.beanDefinition.getResourceDescription(), this.beanName,
+				throw new BeanCreationException(this.beanDefinition.getResourceDescription(), this.beanName,
 						"Error converting typed String value for " + argName, ex);
 			}
 		}
@@ -306,10 +302,9 @@ class BeanDefinitionValueResolver {
 			if (ref.isToParent()) {
 				BeanFactory parent = this.beanFactory.getParentBeanFactory();
 				if (parent == null) {
-					throw new BeanCreationException(
-							this.beanDefinition.getResourceDescription(), this.beanName,
-							"Cannot resolve reference to bean " + ref +
-									" in parent factory: no parent factory available");
+					throw new BeanCreationException(this.beanDefinition.getResourceDescription(), this.beanName,
+							"Cannot resolve reference to bean " + ref
+									+ " in parent factory: no parent factory available");
 				}
 				if (beanType != null) {
 					bean = parent.getBean(beanType);
@@ -337,8 +332,7 @@ class BeanDefinitionValueResolver {
 			return bean;
 		}
 		catch (BeansException ex) {
-			throw new BeanCreationException(
-					this.beanDefinition.getResourceDescription(), this.beanName,
+			throw new BeanCreationException(this.beanDefinition.getResourceDescription(), this.beanName,
 					"Cannot resolve reference to bean '" + ref.getBeanName() + "' while setting " + argName, ex);
 		}
 	}
@@ -374,8 +368,8 @@ class BeanDefinitionValueResolver {
 			Object innerBean = this.beanFactory.createBean(actualInnerBeanName, mbd, null);
 			if (innerBean instanceof FactoryBean) {
 				boolean synthetic = mbd.isSynthetic();
-				innerBean = this.beanFactory.getObjectFromFactoryBean(
-						(FactoryBean<?>) innerBean, actualInnerBeanName, !synthetic);
+				innerBean = this.beanFactory.getObjectFromFactoryBean((FactoryBean<?>) innerBean, actualInnerBeanName,
+						!synthetic);
 			}
 			if (innerBean instanceof NullBean) {
 				innerBean = null;
@@ -383,17 +377,18 @@ class BeanDefinitionValueResolver {
 			return innerBean;
 		}
 		catch (BeansException ex) {
-			throw new BeanCreationException(
-					this.beanDefinition.getResourceDescription(), this.beanName,
-					"Cannot create inner bean '" + innerBeanName + "' " +
-					(mbd != null && mbd.getBeanClassName() != null ? "of type [" + mbd.getBeanClassName() + "] " : "") +
-					"while setting " + argName, ex);
+			throw new BeanCreationException(this.beanDefinition.getResourceDescription(), this.beanName,
+					"Cannot create inner bean '" + innerBeanName + "' "
+							+ (mbd != null && mbd.getBeanClassName() != null
+									? "of type [" + mbd.getBeanClassName() + "] " : "")
+							+ "while setting " + argName,
+					ex);
 		}
 	}
 
 	/**
-	 * Checks the given bean name whether it is unique. If not already unique,
-	 * a counter is added, increasing the counter until the name is unique.
+	 * Checks the given bean name whether it is unique. If not already unique, a counter
+	 * is added, increasing the counter until the name is unique.
 	 * @param innerBeanName the original name for the inner bean
 	 * @return the adapted name for the inner bean
 	 */
@@ -456,7 +451,6 @@ class BeanDefinitionValueResolver {
 		return resolved;
 	}
 
-
 	/**
 	 * Holder class used for delayed toString building.
 	 */
@@ -473,9 +467,10 @@ class BeanDefinitionValueResolver {
 
 		@Override
 		public String toString() {
-			return this.argName + " with key " + BeanWrapper.PROPERTY_KEY_PREFIX +
-					this.key + BeanWrapper.PROPERTY_KEY_SUFFIX;
+			return this.argName + " with key " + BeanWrapper.PROPERTY_KEY_PREFIX + this.key
+					+ BeanWrapper.PROPERTY_KEY_SUFFIX;
 		}
+
 	}
 
 }

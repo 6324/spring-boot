@@ -23,12 +23,15 @@ public class CustomAnnotations {
 
 	@Retention(RetentionPolicy.RUNTIME)
 	private @interface PrivateAnnotation {
+
 		String value();
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@PrivateAnnotation("special")
 	public @interface SpecialAnnotation {
+
 	}
 
 }

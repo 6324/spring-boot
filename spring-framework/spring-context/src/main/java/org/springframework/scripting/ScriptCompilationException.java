@@ -31,7 +31,6 @@ public class ScriptCompilationException extends NestedRuntimeException {
 	@Nullable
 	private final ScriptSource scriptSource;
 
-
 	/**
 	 * Constructor for ScriptCompilationException.
 	 * @param msg the detail message
@@ -82,7 +81,6 @@ public class ScriptCompilationException extends NestedRuntimeException {
 		super("Could not compile " + scriptSource + ": " + msg, cause);
 		this.scriptSource = scriptSource;
 	}
-
 
 	/**
 	 * Return the source for the offending script.

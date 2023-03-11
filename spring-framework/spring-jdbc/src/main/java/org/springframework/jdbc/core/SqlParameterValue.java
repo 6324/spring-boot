@@ -19,14 +19,15 @@ package org.springframework.jdbc.core;
 import org.springframework.lang.Nullable;
 
 /**
- * Object to represent an SQL parameter value, including parameter meta-data
- * such as the SQL type and the scale for numeric values.
+ * Object to represent an SQL parameter value, including parameter meta-data such as the
+ * SQL type and the scale for numeric values.
  *
- * <p>Designed for use with {@link JdbcTemplate}'s operations that take an array of
- * argument values: Each such argument value may be a {@code SqlParameterValue},
- * indicating the SQL type (and optionally the scale) instead of letting the
- * template guess a default type. Note that this only applies to the operations with
- * a 'plain' argument array, not to the overloaded variants with an explicit type array.
+ * <p>
+ * Designed for use with {@link JdbcTemplate}'s operations that take an array of argument
+ * values: Each such argument value may be a {@code SqlParameterValue}, indicating the SQL
+ * type (and optionally the scale) instead of letting the template guess a default type.
+ * Note that this only applies to the operations with a 'plain' argument array, not to the
+ * overloaded variants with an explicit type array.
  *
  * @author Juergen Hoeller
  * @since 2.0.5
@@ -40,7 +41,6 @@ public class SqlParameterValue extends SqlParameter {
 
 	@Nullable
 	private final Object value;
-
 
 	/**
 	 * Create a new SqlParameterValue, supplying the SQL type.
@@ -66,8 +66,8 @@ public class SqlParameterValue extends SqlParameter {
 	/**
 	 * Create a new SqlParameterValue, supplying the SQL type.
 	 * @param sqlType the SQL type of the parameter according to {@code java.sql.Types}
-	 * @param scale the number of digits after the decimal point
-	 * (for DECIMAL and NUMERIC types)
+	 * @param scale the number of digits after the decimal point (for DECIMAL and NUMERIC
+	 * types)
 	 * @param value the value object
 	 */
 	public SqlParameterValue(int sqlType, int scale, @Nullable Object value) {
@@ -84,7 +84,6 @@ public class SqlParameterValue extends SqlParameter {
 		super(declaredParam);
 		this.value = value;
 	}
-
 
 	/**
 	 * Return the value object that this parameter value holds.

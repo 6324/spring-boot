@@ -44,14 +44,13 @@ public class CorsUrlHandlerMappingTests {
 
 	private CorsAwareHandler corsController = new CorsAwareHandler();
 
-
 	@BeforeEach
 	public void setup() {
-		this.handlerMapping = new AbstractUrlHandlerMapping() {};
+		this.handlerMapping = new AbstractUrlHandlerMapping() {
+		};
 		this.handlerMapping.registerHandler("/welcome.html", this.welcomeController);
 		this.handlerMapping.registerHandler("/cors.html", this.corsController);
 	}
-
 
 	@Test
 	public void actualRequestWithoutCorsConfigurationProvider() throws Exception {
@@ -81,7 +80,8 @@ public class CorsUrlHandlerMappingTests {
 
 		assertThat(actual).isNotNull();
 		assertThat(actual).isSameAs(this.corsController);
-		assertThat(exchange.getResponse().getHeaders().getFirst(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN)).isEqualTo("*");
+		assertThat(exchange.getResponse().getHeaders().getFirst(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN))
+				.isEqualTo("*");
 	}
 
 	@Test
@@ -92,7 +92,8 @@ public class CorsUrlHandlerMappingTests {
 
 		assertThat(actual).isNotNull();
 		assertThat(actual).isNotSameAs(this.corsController);
-		assertThat(exchange.getResponse().getHeaders().getFirst(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN)).isEqualTo("*");
+		assertThat(exchange.getResponse().getHeaders().getFirst(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN))
+				.isEqualTo("*");
 	}
 
 	@Test
@@ -107,7 +108,8 @@ public class CorsUrlHandlerMappingTests {
 
 		assertThat(actual).isNotNull();
 		assertThat(actual).isSameAs(this.welcomeController);
-		assertThat(exchange.getResponse().getHeaders().getFirst(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN)).isEqualTo("*");
+		assertThat(exchange.getResponse().getHeaders().getFirst(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN))
+				.isEqualTo("*");
 	}
 
 	@Test
@@ -122,7 +124,8 @@ public class CorsUrlHandlerMappingTests {
 
 		assertThat(actual).isNotNull();
 		assertThat(actual).isNotSameAs(this.welcomeController);
-		assertThat(exchange.getResponse().getHeaders().getFirst(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN)).isEqualTo("*");
+		assertThat(exchange.getResponse().getHeaders().getFirst(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN))
+				.isEqualTo("*");
 	}
 
 	@Test
@@ -135,10 +138,10 @@ public class CorsUrlHandlerMappingTests {
 
 		assertThat(actual).isNotNull();
 		assertThat(actual).isSameAs(this.welcomeController);
-		assertThat(exchange.getResponse().getHeaders()
-				.getFirst(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN)).isEqualTo("https://domain2.com");
-		assertThat(exchange.getResponse().getHeaders()
-				.getFirst(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS)).isEqualTo("true");
+		assertThat(exchange.getResponse().getHeaders().getFirst(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN))
+				.isEqualTo("https://domain2.com");
+		assertThat(exchange.getResponse().getHeaders().getFirst(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS))
+				.isEqualTo("true");
 	}
 
 	@Test
@@ -151,21 +154,17 @@ public class CorsUrlHandlerMappingTests {
 
 		assertThat(actual).isNotNull();
 		assertThat(actual).isNotSameAs(this.welcomeController);
-		assertThat(exchange.getResponse().getHeaders()
-				.getFirst(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN)).isEqualTo("https://domain2.com");
-		assertThat(exchange.getResponse().getHeaders()
-				.getFirst(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS)).isEqualTo("true");
+		assertThat(exchange.getResponse().getHeaders().getFirst(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN))
+				.isEqualTo("https://domain2.com");
+		assertThat(exchange.getResponse().getHeaders().getFirst(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS))
+				.isEqualTo("true");
 	}
-
 
 	private ServerWebExchange createExchange(HttpMethod method, String path, String origin) {
 
-		return MockServerWebExchange.from(MockServerHttpRequest
-				.method(method, "http://localhost" + path)
-				.header("Origin", origin)
-				.header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "GET"));
+		return MockServerWebExchange.from(MockServerHttpRequest.method(method, "http://localhost" + path)
+				.header("Origin", origin).header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "GET"));
 	}
-
 
 	private class CorsAwareHandler implements CorsConfigurationSource {
 
@@ -175,6 +174,7 @@ public class CorsUrlHandlerMappingTests {
 			config.addAllowedOrigin("*");
 			return config;
 		}
+
 	}
 
 	public class CustomCorsConfigurationSource implements CorsConfigurationSource {
@@ -186,6 +186,7 @@ public class CorsUrlHandlerMappingTests {
 			config.setAllowCredentials(true);
 			return config;
 		}
+
 	}
 
 }

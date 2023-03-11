@@ -32,7 +32,8 @@ import org.springframework.util.StringValueResolver;
 
 /**
  * Simple implementation of the {@link AliasRegistry} interface.
- * <p>Serves as base class for
+ * <p>
+ * Serves as base class for
  * {@link org.springframework.beans.factory.support.BeanDefinitionRegistry}
  * implementations.
  *
@@ -47,7 +48,6 @@ public class SimpleAliasRegistry implements AliasRegistry {
 
 	/** Map from alias to canonical name. */
 	private final Map<String, String> aliasMap = new ConcurrentHashMap<>(16);
-
 
 	@Override
 	public void registerAlias(String name, String alias) {
@@ -68,12 +68,12 @@ public class SimpleAliasRegistry implements AliasRegistry {
 						return;
 					}
 					if (!allowAliasOverriding()) {
-						throw new IllegalStateException("Cannot define alias '" + alias + "' for name '" +
-								name + "': It is already registered for name '" + registeredName + "'.");
+						throw new IllegalStateException("Cannot define alias '" + alias + "' for name '" + name
+								+ "': It is already registered for name '" + registeredName + "'.");
 					}
 					if (logger.isDebugEnabled()) {
-						logger.debug("Overriding alias '" + alias + "' definition for registered name '" +
-								registeredName + "' with new target name '" + name + "'");
+						logger.debug("Overriding alias '" + alias + "' definition for registered name '"
+								+ registeredName + "' with new target name '" + name + "'");
 					}
 				}
 				checkForAliasCircle(name, alias);
@@ -87,7 +87,8 @@ public class SimpleAliasRegistry implements AliasRegistry {
 
 	/**
 	 * Determine whether alias overriding is allowed.
-	 * <p>Default is {@code true}.
+	 * <p>
+	 * Default is {@code true}.
 	 */
 	protected boolean allowAliasOverriding() {
 		return true;
@@ -101,8 +102,8 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	 */
 	public boolean hasAlias(String name, String alias) {
 		String registeredName = this.aliasMap.get(alias);
-		return ObjectUtils.nullSafeEquals(registeredName, name) || (registeredName != null
-				&& hasAlias(name, registeredName));
+		return ObjectUtils.nullSafeEquals(registeredName, name)
+				|| (registeredName != null && hasAlias(name, registeredName));
 	}
 
 	@Override
@@ -144,10 +145,11 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
-	 * Resolve all alias target names and aliases registered in this
-	 * registry, applying the given {@link StringValueResolver} to them.
-	 * <p>The value resolver may for example resolve placeholders
-	 * in target bean names and even in alias names.
+	 * Resolve all alias target names and aliases registered in this registry, applying
+	 * the given {@link StringValueResolver} to them.
+	 * <p>
+	 * The value resolver may for example resolve placeholders in target bean names and
+	 * even in alias names.
 	 * @param valueResolver the StringValueResolver to apply
 	 */
 	public void resolveAliases(StringValueResolver valueResolver) {
@@ -168,10 +170,9 @@ public class SimpleAliasRegistry implements AliasRegistry {
 							this.aliasMap.remove(alias);
 							return;
 						}
-						throw new IllegalStateException(
-								"Cannot register resolved alias '" + resolvedAlias + "' (original: '" + alias +
-								"') for name '" + resolvedName + "': It is already registered for name '" +
-								registeredName + "'.");
+						throw new IllegalStateException("Cannot register resolved alias '" + resolvedAlias
+								+ "' (original: '" + alias + "') for name '" + resolvedName
+								+ "': It is already registered for name '" + registeredName + "'.");
 					}
 					checkForAliasCircle(resolvedName, resolvedAlias);
 					this.aliasMap.remove(alias);
@@ -185,9 +186,9 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
-	 * Check whether the given name points back to the given alias as an alias
-	 * in the other direction already, catching a circular reference upfront
-	 * and throwing a corresponding IllegalStateException.
+	 * Check whether the given name points back to the given alias as an alias in the
+	 * other direction already, catching a circular reference upfront and throwing a
+	 * corresponding IllegalStateException.
 	 * @param name the candidate name
 	 * @param alias the candidate alias
 	 * @see #registerAlias
@@ -195,9 +196,9 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	 */
 	protected void checkForAliasCircle(String name, String alias) {
 		if (hasAlias(alias, name)) {
-			throw new IllegalStateException("Cannot register alias '" + alias +
-					"' for name '" + name + "': Circular reference - '" +
-					name + "' is a direct or indirect alias for '" + alias + "' already");
+			throw new IllegalStateException(
+					"Cannot register alias '" + alias + "' for name '" + name + "': Circular reference - '" + name
+							+ "' is a direct or indirect alias for '" + alias + "' already");
 		}
 	}
 

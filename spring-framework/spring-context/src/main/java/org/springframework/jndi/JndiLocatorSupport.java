@@ -22,15 +22,15 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Convenient superclass for classes that can locate any number of JNDI objects.
- * Derives from JndiAccessor to inherit the "jndiTemplate" and "jndiEnvironment"
- * bean properties.
+ * Convenient superclass for classes that can locate any number of JNDI objects. Derives
+ * from JndiAccessor to inherit the "jndiTemplate" and "jndiEnvironment" bean properties.
  *
- * <p>JNDI names may or may not include the "java:comp/env/" prefix expected
- * by Java EE applications when accessing a locally mapped (ENC - Environmental
- * Naming Context) resource. If it doesn't, the "java:comp/env/" prefix will
- * be prepended if the "resourceRef" property is true (the default is
- * <strong>false</strong>) and no other scheme (e.g. "java:") is given.
+ * <p>
+ * JNDI names may or may not include the "java:comp/env/" prefix expected by Java EE
+ * applications when accessing a locally mapped (ENC - Environmental Naming Context)
+ * resource. If it doesn't, the "java:comp/env/" prefix will be prepended if the
+ * "resourceRef" property is true (the default is <strong>false</strong>) and no other
+ * scheme (e.g. "java:") is given.
  *
  * @author Juergen Hoeller
  * @since 1.1
@@ -43,15 +43,14 @@ public abstract class JndiLocatorSupport extends JndiAccessor {
 	/** JNDI prefix used in a Java EE container. */
 	public static final String CONTAINER_PREFIX = "java:comp/env/";
 
-
 	private boolean resourceRef = false;
-
 
 	/**
 	 * Set whether the lookup occurs in a Java EE container, i.e. if the prefix
-	 * "java:comp/env/" needs to be added if the JNDI name doesn't already
-	 * contain it. Default is "false".
-	 * <p>Note: Will only get applied if no other scheme (e.g. "java:") is given.
+	 * "java:comp/env/" needs to be added if the JNDI name doesn't already contain it.
+	 * Default is "false".
+	 * <p>
+	 * Note: Will only get applied if no other scheme (e.g. "java:") is given.
 	 */
 	public void setResourceRef(boolean resourceRef) {
 		this.resourceRef = resourceRef;
@@ -64,11 +63,11 @@ public abstract class JndiLocatorSupport extends JndiAccessor {
 		return this.resourceRef;
 	}
 
-
 	/**
 	 * Perform an actual JNDI lookup for the given name via the JndiTemplate.
-   * <p>If the name doesn't begin with "java:comp/env/", this prefix is added
-	 * if "resourceRef" is set to "true".
+	 * <p>
+	 * If the name doesn't begin with "java:comp/env/", this prefix is added if
+	 * "resourceRef" is set to "true".
 	 * @param jndiName the JNDI name to look up
 	 * @return the obtained object
 	 * @throws NamingException if the JNDI lookup failed
@@ -80,8 +79,9 @@ public abstract class JndiLocatorSupport extends JndiAccessor {
 
 	/**
 	 * Perform an actual JNDI lookup for the given name via the JndiTemplate.
-	 * <p>If the name doesn't begin with "java:comp/env/", this prefix is added
-	 * if "resourceRef" is set to "true".
+	 * <p>
+	 * If the name doesn't begin with "java:comp/env/", this prefix is added if
+	 * "resourceRef" is set to "true".
 	 * @param jndiName the JNDI name to look up
 	 * @param requiredType the required type of the object
 	 * @return the obtained object
@@ -99,8 +99,8 @@ public abstract class JndiLocatorSupport extends JndiAccessor {
 			if (!convertedName.equals(jndiName)) {
 				// Try fallback to originally specified name...
 				if (logger.isDebugEnabled()) {
-					logger.debug("Converted JNDI name [" + convertedName +
-							"] not found - trying original name [" + jndiName + "]. " + ex);
+					logger.debug("Converted JNDI name [" + convertedName + "] not found - trying original name ["
+							+ jndiName + "]. " + ex);
 				}
 				jndiObject = getJndiTemplate().lookup(jndiName, requiredType);
 			}
@@ -116,8 +116,9 @@ public abstract class JndiLocatorSupport extends JndiAccessor {
 
 	/**
 	 * Convert the given JNDI name into the actual JNDI name to use.
-	 * <p>The default implementation applies the "java:comp/env/" prefix if
-	 * "resourceRef" is "true" and no other scheme (e.g. "java:") is given.
+	 * <p>
+	 * The default implementation applies the "java:comp/env/" prefix if "resourceRef" is
+	 * "true" and no other scheme (e.g. "java:") is given.
 	 * @param jndiName the original JNDI name
 	 * @return the JNDI name to use
 	 * @see #CONTAINER_PREFIX

@@ -52,7 +52,6 @@ class PassThroughClob implements Clob {
 
 	private long contentLength;
 
-
 	public PassThroughClob(String content) {
 		this.content = content;
 		this.contentLength = content.length();
@@ -68,7 +67,6 @@ class PassThroughClob implements Clob {
 		this.contentLength = contentLength;
 	}
 
-
 	@Override
 	public long length() throws SQLException {
 		return this.contentLength;
@@ -83,8 +81,7 @@ class PassThroughClob implements Clob {
 			return this.characterStream;
 		}
 		else {
-			return new InputStreamReader(
-					(this.asciiStream != null ? this.asciiStream : StreamUtils.emptyInput()),
+			return new InputStreamReader((this.asciiStream != null ? this.asciiStream : StreamUtils.emptyInput()),
 					StandardCharsets.US_ASCII);
 		}
 	}
@@ -107,7 +104,6 @@ class PassThroughClob implements Clob {
 			throw new SQLException("Failed to read stream content: " + ex);
 		}
 	}
-
 
 	@Override
 	public Reader getCharacterStream(long pos, long length) throws SQLException {

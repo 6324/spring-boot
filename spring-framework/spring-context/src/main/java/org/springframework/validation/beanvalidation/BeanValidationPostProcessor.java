@@ -33,9 +33,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Simple {@link BeanPostProcessor} that checks JSR-303 constraint annotations
- * in Spring-managed beans, throwing an initialization exception in case of
- * constraint violations right before calling the bean's init method (if any).
+ * Simple {@link BeanPostProcessor} that checks JSR-303 constraint annotations in
+ * Spring-managed beans, throwing an initialization exception in case of constraint
+ * violations right before calling the bean's init method (if any).
  *
  * @author Juergen Hoeller
  * @since 3.0
@@ -47,19 +47,20 @@ public class BeanValidationPostProcessor implements BeanPostProcessor, Initializ
 
 	private boolean afterInitialization = false;
 
-
 	/**
 	 * Set the JSR-303 Validator to delegate to for validating beans.
-	 * <p>Default is the default ValidatorFactory's default Validator.
+	 * <p>
+	 * Default is the default ValidatorFactory's default Validator.
 	 */
 	public void setValidator(Validator validator) {
 		this.validator = validator;
 	}
 
 	/**
-	 * Set the JSR-303 ValidatorFactory to delegate to for validating beans,
-	 * using its default Validator.
-	 * <p>Default is the default ValidatorFactory's default Validator.
+	 * Set the JSR-303 ValidatorFactory to delegate to for validating beans, using its
+	 * default Validator.
+	 * <p>
+	 * Default is the default ValidatorFactory's default Validator.
 	 * @see javax.validation.ValidatorFactory#getValidator()
 	 */
 	public void setValidatorFactory(ValidatorFactory validatorFactory) {
@@ -67,11 +68,12 @@ public class BeanValidationPostProcessor implements BeanPostProcessor, Initializ
 	}
 
 	/**
-	 * Choose whether to perform validation after bean initialization
-	 * (i.e. after init methods) instead of before (which is the default).
-	 * <p>Default is "false" (before initialization). Switch this to "true"
-	 * (after initialization) if you would like to give init methods a chance
-	 * to populate constrained fields before they get validated.
+	 * Choose whether to perform validation after bean initialization (i.e. after init
+	 * methods) instead of before (which is the default).
+	 * <p>
+	 * Default is "false" (before initialization). Switch this to "true" (after
+	 * initialization) if you would like to give init methods a chance to populate
+	 * constrained fields before they get validated.
 	 */
 	public void setAfterInitialization(boolean afterInitialization) {
 		this.afterInitialization = afterInitialization;
@@ -83,7 +85,6 @@ public class BeanValidationPostProcessor implements BeanPostProcessor, Initializ
 			this.validator = Validation.buildDefaultValidatorFactory().getValidator();
 		}
 	}
-
 
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
@@ -100,7 +101,6 @@ public class BeanValidationPostProcessor implements BeanPostProcessor, Initializ
 		}
 		return bean;
 	}
-
 
 	/**
 	 * Perform validation of the given bean.

@@ -32,13 +32,13 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * An implementation of the {@link ObjectNamingStrategy} interface
- * that reads the {@code ObjectName} from the source-level metadata.
- * Falls back to the bean key (bean name) if no {@code ObjectName}
- * can be found in source-level metadata.
+ * An implementation of the {@link ObjectNamingStrategy} interface that reads the
+ * {@code ObjectName} from the source-level metadata. Falls back to the bean key (bean
+ * name) if no {@code ObjectName} can be found in source-level metadata.
  *
- * <p>Uses the {@link JmxAttributeSource} strategy interface, so that
- * metadata can be read using any supported implementation. Out of the box,
+ * <p>
+ * Uses the {@link JmxAttributeSource} strategy interface, so that metadata can be read
+ * using any supported implementation. Out of the box,
  * {@link org.springframework.jmx.export.annotation.AnnotationJmxAttributeSource}
  * introspects a well-defined set of Java 5 annotations that come with Spring.
  *
@@ -59,10 +59,9 @@ public class MetadataNamingStrategy implements ObjectNamingStrategy, Initializin
 	@Nullable
 	private String defaultDomain;
 
-
 	/**
-	 * Create a new {@code MetadataNamingStrategy} which needs to be
-	 * configured through the {@link #setAttributeSource} method.
+	 * Create a new {@code MetadataNamingStrategy} which needs to be configured through
+	 * the {@link #setAttributeSource} method.
 	 */
 	public MetadataNamingStrategy() {
 	}
@@ -77,10 +76,9 @@ public class MetadataNamingStrategy implements ObjectNamingStrategy, Initializin
 		this.attributeSource = attributeSource;
 	}
 
-
 	/**
-	 * Set the implementation of the {@code JmxAttributeSource} interface to use
-	 * when reading the source-level metadata.
+	 * Set the implementation of the {@code JmxAttributeSource} interface to use when
+	 * reading the source-level metadata.
 	 */
 	public void setAttributeSource(JmxAttributeSource attributeSource) {
 		Assert.notNull(attributeSource, "JmxAttributeSource must not be null");
@@ -88,11 +86,12 @@ public class MetadataNamingStrategy implements ObjectNamingStrategy, Initializin
 	}
 
 	/**
-	 * Specify the default domain to be used for generating ObjectNames
-	 * when no source-level metadata has been specified.
-	 * <p>The default is to use the domain specified in the bean name
-	 * (if the bean name follows the JMX ObjectName syntax); else,
-	 * the package name of the managed bean class.
+	 * Specify the default domain to be used for generating ObjectNames when no
+	 * source-level metadata has been specified.
+	 * <p>
+	 * The default is to use the domain specified in the bean name (if the bean name
+	 * follows the JMX ObjectName syntax); else, the package name of the managed bean
+	 * class.
 	 */
 	public void setDefaultDomain(String defaultDomain) {
 		this.defaultDomain = defaultDomain;
@@ -105,10 +104,9 @@ public class MetadataNamingStrategy implements ObjectNamingStrategy, Initializin
 		}
 	}
 
-
 	/**
-	 * Reads the {@code ObjectName} from the source-level metadata associated
-	 * with the managed resource's {@code Class}.
+	 * Reads the {@code ObjectName} from the source-level metadata associated with the
+	 * managed resource's {@code Class}.
 	 */
 	@Override
 	public ObjectName getObjectName(Object managedBean, @Nullable String beanKey) throws MalformedObjectNameException {

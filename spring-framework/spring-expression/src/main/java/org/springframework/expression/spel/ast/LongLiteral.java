@@ -30,13 +30,11 @@ public class LongLiteral extends Literal {
 
 	private final TypedValue value;
 
-
 	public LongLiteral(String payload, int startPos, int endPos, long value) {
 		super(payload, startPos, endPos);
 		this.value = new TypedValue(value);
 		this.exitTypeDescriptor = "J";
 	}
-
 
 	@Override
 	public TypedValue getLiteralValue() {

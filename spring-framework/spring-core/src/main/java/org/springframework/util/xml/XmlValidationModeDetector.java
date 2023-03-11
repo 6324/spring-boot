@@ -41,8 +41,8 @@ public class XmlValidationModeDetector {
 	public static final int VALIDATION_NONE = 0;
 
 	/**
-	 * Indicates that the validation mode should be auto-guessed, since we cannot find
-	 * a clear indication (probably choked on some special characters, or the like).
+	 * Indicates that the validation mode should be auto-guessed, since we cannot find a
+	 * clear indication (probably choked on some special characters, or the like).
 	 */
 	public static final int VALIDATION_AUTO = 1;
 
@@ -56,10 +56,9 @@ public class XmlValidationModeDetector {
 	 */
 	public static final int VALIDATION_XSD = 3;
 
-
 	/**
-	 * The token in a XML document that declares the DTD to use for validation
-	 * and thus that DTD validation is being used.
+	 * The token in a XML document that declares the DTD to use for validation and thus
+	 * that DTD validation is being used.
 	 */
 	private static final String DOCTYPE = "DOCTYPE";
 
@@ -73,16 +72,15 @@ public class XmlValidationModeDetector {
 	 */
 	private static final String END_COMMENT = "-->";
 
-
 	/**
 	 * Indicates whether or not the current parse position is inside an XML comment.
 	 */
 	private boolean inComment;
 
-
 	/**
-	 * Detect the validation mode for the XML document in the supplied {@link InputStream}.
-	 * Note that the supplied {@link InputStream} is closed by this method before returning.
+	 * Detect the validation mode for the XML document in the supplied
+	 * {@link InputStream}. Note that the supplied {@link InputStream} is closed by this
+	 * method before returning.
 	 * @param inputStream the InputStream to parse
 	 * @throws IOException in case of I/O failure
 	 * @see #VALIDATION_DTD
@@ -120,7 +118,6 @@ public class XmlValidationModeDetector {
 		}
 	}
 
-
 	/**
 	 * Does the content contain the DTD DOCTYPE declaration?
 	 */
@@ -129,23 +126,24 @@ public class XmlValidationModeDetector {
 	}
 
 	/**
-	 * Does the supplied content contain an XML opening tag. If the parse state is currently
-	 * in an XML comment then this method always returns false. It is expected that all comment
-	 * tokens will have consumed for the supplied content before passing the remainder to this method.
+	 * Does the supplied content contain an XML opening tag. If the parse state is
+	 * currently in an XML comment then this method always returns false. It is expected
+	 * that all comment tokens will have consumed for the supplied content before passing
+	 * the remainder to this method.
 	 */
 	private boolean hasOpeningTag(String content) {
 		if (this.inComment) {
 			return false;
 		}
 		int openTagIndex = content.indexOf('<');
-		return (openTagIndex > -1 && (content.length() > openTagIndex + 1) &&
-				Character.isLetter(content.charAt(openTagIndex + 1)));
+		return (openTagIndex > -1 && (content.length() > openTagIndex + 1)
+				&& Character.isLetter(content.charAt(openTagIndex + 1)));
 	}
 
 	/**
-	 * Consume all leading and trailing comments in the given String and return
-	 * the remaining content, which may be empty since the supplied content might
-	 * be all comment data.
+	 * Consume all leading and trailing comments in the given String and return the
+	 * remaining content, which may be empty since the supplied content might be all
+	 * comment data.
 	 */
 	@Nullable
 	private String consumeCommentTokens(String line) {
@@ -170,8 +168,8 @@ public class XmlValidationModeDetector {
 	}
 
 	/**
-	 * Consume the next comment token, update the "inComment" flag
-	 * and return the remaining content.
+	 * Consume the next comment token, update the "inComment" flag and return the
+	 * remaining content.
 	 */
 	@Nullable
 	private String consume(String line) {
@@ -192,13 +190,13 @@ public class XmlValidationModeDetector {
 	}
 
 	/**
-	 * Try to consume the supplied token against the supplied content and update the
-	 * in comment parse state to the supplied value. Returns the index into the content
-	 * which is after the token or -1 if the token is not found.
+	 * Try to consume the supplied token against the supplied content and update the in
+	 * comment parse state to the supplied value. Returns the index into the content which
+	 * is after the token or -1 if the token is not found.
 	 */
 	private int commentToken(String line, String token, boolean inCommentIfPresent) {
 		int index = line.indexOf(token);
-		if (index > - 1) {
+		if (index > -1) {
 			this.inComment = inCommentIfPresent;
 		}
 		return (index == -1 ? index : index + token.length());

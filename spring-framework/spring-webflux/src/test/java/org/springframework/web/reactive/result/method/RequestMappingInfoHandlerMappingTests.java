@@ -86,13 +86,11 @@ public class RequestMappingInfoHandlerMappingTests {
 
 	private TestRequestMappingInfoHandlerMapping handlerMapping;
 
-
 	@BeforeEach
 	public void setup() {
 		this.handlerMapping = new TestRequestMappingInfoHandlerMapping();
 		this.handlerMapping.registerHandler(new TestController());
 	}
-
 
 	@Test
 	public void getHandlerDirectMatch() {
@@ -142,18 +140,16 @@ public class RequestMappingInfoHandlerMappingTests {
 				ex -> assertThat(ex.getSupportedMethods()).isEqualTo(EnumSet.of(HttpMethod.GET, HttpMethod.HEAD)));
 	}
 
-	@Test  // SPR-9603
+	@Test // SPR-9603
 	public void getHandlerRequestMethodMatchFalsePositive() {
 		ServerWebExchange exchange = MockServerWebExchange.from(get("/users").accept(MediaType.APPLICATION_XML));
 		this.handlerMapping.registerHandler(new UserController());
 		Mono<Object> mono = this.handlerMapping.getHandler(exchange);
 
-		StepVerifier.create(mono)
-				.expectError(NotAcceptableStatusException.class)
-				.verify();
+		StepVerifier.create(mono).expectError(NotAcceptableStatusException.class).verify();
 	}
 
-	@Test  // SPR-8462
+	@Test // SPR-8462
 	public void getHandlerMediaTypeNotSupported() {
 		testHttpMediaTypeNotSupportedException("/person/1");
 		testHttpMediaTypeNotSupportedException("/person/1/");
@@ -166,18 +162,17 @@ public class RequestMappingInfoHandlerMappingTests {
 		ServerWebExchange exchange = MockServerWebExchange.from(request);
 		Mono<Object> mono = this.handlerMapping.getHandler(exchange);
 
-		assertError(mono, UnsupportedMediaTypeStatusException.class,
-				ex -> assertThat(ex.getMessage()).isEqualTo(("415 UNSUPPORTED_MEDIA_TYPE " +
-										"\"Invalid mime type \"bogus\": does not contain '/'\"")));
+		assertError(mono, UnsupportedMediaTypeStatusException.class, ex -> assertThat(ex.getMessage())
+				.isEqualTo(("415 UNSUPPORTED_MEDIA_TYPE " + "\"Invalid mime type \"bogus\": does not contain '/'\"")));
 	}
 
-	@Test  // SPR-8462
+	@Test // SPR-8462
 	public void getHandlerTestMediaTypeNotAcceptable() {
 		testMediaTypeNotAcceptable("/persons");
 		testMediaTypeNotAcceptable("/persons/");
 	}
 
-	@Test  // SPR-12854
+	@Test // SPR-12854
 	public void getHandlerTestRequestParamMismatch() {
 		ServerWebExchange exchange = MockServerWebExchange.from(get("/params"));
 		Mono<Object> mono = this.handlerMapping.getHandler(exchange);
@@ -209,7 +204,8 @@ public class RequestMappingInfoHandlerMappingTests {
 		exchange = MockServerWebExchange.from(get("/content").accept(MediaType.APPLICATION_JSON));
 		this.handlerMapping.getHandler(exchange).block();
 
-		assertThat(exchange.getAttributes().get(name)).as("Negated expression shouldn't be listed as producible type").isNull();
+		assertThat(exchange.getAttributes().get(name)).as("Negated expression shouldn't be listed as producible type")
+				.isNull();
 	}
 
 	@Test
@@ -228,7 +224,7 @@ public class RequestMappingInfoHandlerMappingTests {
 		assertThat(uriVariables.get("path2")).isEqualTo("2");
 	}
 
-	@Test  // SPR-9098
+	@Test // SPR-9098
 	public void handleMatchUriTemplateVariablesDecode() {
 		RequestMappingInfo key = paths("/{group}/{identifier}").build();
 		URI url = URI.create("/group/a%2Fb");
@@ -313,15 +309,12 @@ public class RequestMappingInfoHandlerMappingTests {
 		assertThat(uriVariables.get("cars")).isEqualTo("cars");
 	}
 
-
 	@SuppressWarnings("unchecked")
 	private <T> void assertError(Mono<Object> mono, final Class<T> exceptionClass, final Consumer<T> consumer) {
-		StepVerifier.create(mono)
-				.consumeErrorWith(error -> {
-					assertThat(error.getClass()).isEqualTo(exceptionClass);
-					consumer.accept((T) error);
-				})
-				.verify();
+		StepVerifier.create(mono).consumeErrorWith(error -> {
+			assertThat(error.getClass()).isEqualTo(exceptionClass);
+			consumer.accept((T) error);
+		}).verify();
 	}
 
 	private void testHttpMediaTypeNotSupportedException(String url) {
@@ -329,7 +322,9 @@ public class RequestMappingInfoHandlerMappingTests {
 		ServerWebExchange exchange = MockServerWebExchange.from(request);
 		Mono<Object> mono = this.handlerMapping.getHandler(exchange);
 
-		assertError(mono, UnsupportedMediaTypeStatusException.class, ex -> assertThat(ex.getSupportedMediaTypes()).as("Invalid supported consumable media types").isEqualTo(Collections.singletonList(new MediaType("application", "xml"))));
+		assertError(mono, UnsupportedMediaTypeStatusException.class,
+				ex -> assertThat(ex.getSupportedMediaTypes()).as("Invalid supported consumable media types")
+						.isEqualTo(Collections.singletonList(new MediaType("application", "xml"))));
 	}
 
 	private void testHttpOptions(String requestURI, Set<HttpMethod> allowedMethods) {
@@ -353,7 +348,9 @@ public class RequestMappingInfoHandlerMappingTests {
 		ServerWebExchange exchange = MockServerWebExchange.from(get(url).accept(MediaType.APPLICATION_JSON));
 		Mono<Object> mono = this.handlerMapping.getHandler(exchange);
 
-		assertError(mono, NotAcceptableStatusException.class, ex -> assertThat(ex.getSupportedMediaTypes()).as("Invalid supported producible media types").isEqualTo(Collections.singletonList(new MediaType("application", "xml"))));
+		assertError(mono, NotAcceptableStatusException.class,
+				ex -> assertThat(ex.getSupportedMediaTypes()).as("Invalid supported producible media types")
+						.isEqualTo(Collections.singletonList(new MediaType("application", "xml"))));
 	}
 
 	private void handleMatch(ServerWebExchange exchange, String pattern) {
@@ -369,10 +366,8 @@ public class RequestMappingInfoHandlerMappingTests {
 
 	@SuppressWarnings("unchecked")
 	private Map<String, String> getUriTemplateVariables(ServerWebExchange exchange) {
-		return (Map<String, String>) exchange.getAttributes()
-				.get(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+		return (Map<String, String>) exchange.getAttributes().get(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
 	}
-
 
 	@SuppressWarnings("unused")
 	@Controller
@@ -386,7 +381,7 @@ public class RequestMappingInfoHandlerMappingTests {
 		public void fooParam() {
 		}
 
-		@RequestMapping(path = "/ba*", method = {GET, HEAD})
+		@RequestMapping(path = "/ba*", method = { GET, HEAD })
 		public void bar() {
 		}
 
@@ -430,9 +425,10 @@ public class RequestMappingInfoHandlerMappingTests {
 			return headers;
 		}
 
-		public void dummy() { }
-	}
+		public void dummy() {
+		}
 
+	}
 
 	@SuppressWarnings("unused")
 	@Controller
@@ -445,8 +441,8 @@ public class RequestMappingInfoHandlerMappingTests {
 		@PutMapping(path = "/users")
 		public void saveUser() {
 		}
-	}
 
+	}
 
 	private static class TestRequestMappingInfoHandlerMapping extends RequestMappingInfoHandlerMapping {
 
@@ -465,15 +461,14 @@ public class RequestMappingInfoHandlerMappingTests {
 			if (annot != null) {
 				BuilderConfiguration options = new BuilderConfiguration();
 				options.setPatternParser(getPathPatternParser());
-				return paths(annot.value()).methods(annot.method())
-						.params(annot.params()).headers(annot.headers())
-						.consumes(annot.consumes()).produces(annot.produces())
-						.options(options).build();
+				return paths(annot.value()).methods(annot.method()).params(annot.params()).headers(annot.headers())
+						.consumes(annot.consumes()).produces(annot.produces()).options(options).build();
 			}
 			else {
 				return null;
 			}
 		}
+
 	}
 
 }

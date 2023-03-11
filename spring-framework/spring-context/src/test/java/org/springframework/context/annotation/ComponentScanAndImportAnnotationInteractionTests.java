@@ -36,7 +36,8 @@ public class ComponentScanAndImportAnnotationInteractionTests {
 		ctx.register(Config1.class);
 		ctx.register(Config2.class);
 		ctx.refresh(); // no conflicts found trying to register SimpleComponent
-		ctx.getBean(SimpleComponent.class); // succeeds -> there is only one bean of type SimpleComponent
+		ctx.getBean(SimpleComponent.class); // succeeds -> there is only one bean of type
+											// SimpleComponent
 	}
 
 	@Test
@@ -45,7 +46,8 @@ public class ComponentScanAndImportAnnotationInteractionTests {
 		ctx.registerBeanDefinition("config1", new RootBeanDefinition(Config1.class.getName()));
 		ctx.registerBeanDefinition("config2", new RootBeanDefinition(Config2.class.getName()));
 		ctx.refresh(); // no conflicts found trying to register SimpleComponent
-		ctx.getBean(SimpleComponent.class); // succeeds -> there is only one bean of type SimpleComponent
+		ctx.getBean(SimpleComponent.class); // succeeds -> there is only one bean of type
+											// SimpleComponent
 	}
 
 	@Test
@@ -80,25 +82,25 @@ public class ComponentScanAndImportAnnotationInteractionTests {
 		ctx.getBean(SimpleComponent.class);
 	}
 
-
 	@ComponentScan("org.springframework.context.annotation.componentscan.simple")
 	static final class Config1 {
-	}
 
+	}
 
 	@Import(org.springframework.context.annotation.componentscan.simple.SimpleComponent.class)
 	static final class Config2 {
-	}
 
+	}
 
 	@Import(ImportedConfig.class)
 	static final class Config3 {
-	}
 
+	}
 
 	@ComponentScan("org.springframework.context.annotation.componentscan.simple")
 	@ComponentScan("org.springframework.context.annotation.componentscan.importing")
 	public static final class ImportedConfig {
+
 	}
 
 }

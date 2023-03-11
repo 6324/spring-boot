@@ -31,13 +31,11 @@ public class IntLiteral extends Literal {
 
 	private final TypedValue value;
 
-
 	public IntLiteral(String payload, int startPos, int endPos, int value) {
 		super(payload, startPos, endPos);
 		this.value = new TypedValue(value);
 		this.exitTypeDescriptor = "I";
 	}
-
 
 	@Override
 	public TypedValue getLiteralValue() {

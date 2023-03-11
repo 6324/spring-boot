@@ -26,8 +26,8 @@ import org.springframework.expression.spel.standard.SpelExpression;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * These are tests for language features that are not yet considered 'live'. Either missing implementation or
- * documentation.
+ * These are tests for language features that are not yet considered 'live'. Either
+ * missing implementation or documentation.
  *
  * Where implementation is missing the tests are commented out.
  *
@@ -58,13 +58,15 @@ public class InProgressTests extends AbstractExpressionTests {
 	public void testProjection01() {
 		evaluate("listOfNumbersUpToTen.![#this<5?'y':'n']", "[y, y, y, y, n, n, n, n, n, n]", ArrayList.class);
 		// inline list creation not supported at the moment
-		// evaluate("{1,2,3,4,5,6,7,8,9,10}.!{#isEven(#this)}", "[n, y, n, y, n, y, n, y, n, y]", ArrayList.class);
+		// evaluate("{1,2,3,4,5,6,7,8,9,10}.!{#isEven(#this)}", "[n, y, n, y, n, y, n, y,
+		// n, y]", ArrayList.class);
 	}
 
 	@Test
 	public void testProjection02() {
 		// inline map creation not supported at the moment
-		// evaluate("#{'a':'y','b':'n','c':'y'}.![value=='y'?key:null].nonnull().sort()", "[a, c]", ArrayList.class);
+		// evaluate("#{'a':'y','b':'n','c':'y'}.![value=='y'?key:null].nonnull().sort()",
+		// "[a, c]", ArrayList.class);
 		evaluate("mapOfNumbersUpToTen.![key>5?value:null]",
 				"[null, null, null, null, null, six, seven, eight, nine, ten]", ArrayList.class);
 	}

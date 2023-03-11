@@ -34,7 +34,6 @@ import org.springframework.web.reactive.socket.adapter.TomcatWebSocketSession;
  */
 public class TomcatWebSocketClient extends StandardWebSocketClient {
 
-
 	public TomcatWebSocketClient() {
 		this(new WsWebSocketContainer());
 	}
@@ -43,12 +42,11 @@ public class TomcatWebSocketClient extends StandardWebSocketClient {
 		super(webSocketContainer);
 	}
 
-
 	@Override
-	protected StandardWebSocketSession createWebSocketSession(Session session,
-			HandshakeInfo info, MonoProcessor<Void> completion) {
+	protected StandardWebSocketSession createWebSocketSession(Session session, HandshakeInfo info,
+			MonoProcessor<Void> completion) {
 
-			return new TomcatWebSocketSession(session, info, bufferFactory(), completion);
+		return new TomcatWebSocketSession(session, info, bufferFactory(), completion);
 	}
 
 }

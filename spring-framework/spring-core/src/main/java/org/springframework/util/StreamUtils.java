@@ -36,7 +36,8 @@ import org.springframework.lang.Nullable;
  * similar to those defined in {@link FileCopyUtils} except that all affected streams are
  * left open when done. All copy methods use a block size of 4096 bytes.
  *
- * <p>Mainly for use within the framework, but also useful for application code.
+ * <p>
+ * Mainly for use within the framework, but also useful for application code.
  *
  * @author Juergen Hoeller
  * @author Phillip Webb
@@ -53,10 +54,10 @@ public abstract class StreamUtils {
 
 	private static final byte[] EMPTY_CONTENT = new byte[0];
 
-
 	/**
 	 * Copy the contents of the given InputStream into a new byte array.
-	 * <p>Leaves the stream open when done.
+	 * <p>
+	 * Leaves the stream open when done.
 	 * @param in the stream to copy from (may be {@code null} or empty)
 	 * @return the new byte array that has been copied to (possibly empty)
 	 * @throws IOException in case of I/O errors
@@ -73,7 +74,8 @@ public abstract class StreamUtils {
 
 	/**
 	 * Copy the contents of the given InputStream into a String.
-	 * <p>Leaves the stream open when done.
+	 * <p>
+	 * Leaves the stream open when done.
 	 * @param in the InputStream to copy from (may be {@code null} or empty)
 	 * @param charset the {@link Charset} to use to decode the bytes
 	 * @return the String that has been copied to (possibly empty)
@@ -96,7 +98,9 @@ public abstract class StreamUtils {
 
 	/**
 	 * Copy the contents of the given {@link ByteArrayOutputStream} into a {@link String}.
-	 * <p>This is a more effective equivalent of {@code new String(baos.toByteArray(), charset)}.
+	 * <p>
+	 * This is a more effective equivalent of
+	 * {@code new String(baos.toByteArray(), charset)}.
 	 * @param baos the {@code ByteArrayOutputStream} to be copied into a String
 	 * @param charset the {@link Charset} to use to decode the bytes
 	 * @return the String that has been copied to (possibly empty)
@@ -117,7 +121,8 @@ public abstract class StreamUtils {
 
 	/**
 	 * Copy the contents of the given byte array to the given OutputStream.
-	 * <p>Leaves the stream open when done.
+	 * <p>
+	 * Leaves the stream open when done.
 	 * @param in the byte array to copy from
 	 * @param out the OutputStream to copy to
 	 * @throws IOException in case of I/O errors
@@ -132,7 +137,8 @@ public abstract class StreamUtils {
 
 	/**
 	 * Copy the contents of the given String to the given OutputStream.
-	 * <p>Leaves the stream open when done.
+	 * <p>
+	 * Leaves the stream open when done.
 	 * @param in the String to copy from
 	 * @param charset the Charset
 	 * @param out the OutputStream to copy to
@@ -150,7 +156,8 @@ public abstract class StreamUtils {
 
 	/**
 	 * Copy the contents of the given InputStream to the given OutputStream.
-	 * <p>Leaves both streams open when done.
+	 * <p>
+	 * Leaves both streams open when done.
 	 * @param in the InputStream to copy from
 	 * @param out the OutputStream to copy to
 	 * @return the number of bytes copied
@@ -173,9 +180,11 @@ public abstract class StreamUtils {
 
 	/**
 	 * Copy a range of content of the given InputStream to the given OutputStream.
-	 * <p>If the specified range exceeds the length of the InputStream, this copies
-	 * up to the end of the stream and returns the actual number of copied bytes.
-	 * <p>Leaves both streams open when done.
+	 * <p>
+	 * If the specified range exceeds the length of the InputStream, this copies up to the
+	 * end of the stream and returns the actual number of copied bytes.
+	 * <p>
+	 * Leaves both streams open when done.
 	 * @param in the InputStream to copy from
 	 * @param out the OutputStream to copy to
 	 * @param start the position to start copying from
@@ -214,7 +223,8 @@ public abstract class StreamUtils {
 
 	/**
 	 * Drain the remaining content of the given InputStream.
-	 * <p>Leaves the InputStream open when done.
+	 * <p>
+	 * Leaves the InputStream open when done.
 	 * @param in the InputStream to drain
 	 * @return the number of bytes read
 	 * @throws IOException in case of I/O errors
@@ -262,7 +272,6 @@ public abstract class StreamUtils {
 		return new NonClosingOutputStream(out);
 	}
 
-
 	private static class NonClosingInputStream extends FilterInputStream {
 
 		public NonClosingInputStream(InputStream in) {
@@ -272,8 +281,8 @@ public abstract class StreamUtils {
 		@Override
 		public void close() throws IOException {
 		}
-	}
 
+	}
 
 	private static class NonClosingOutputStream extends FilterOutputStream {
 
@@ -290,6 +299,7 @@ public abstract class StreamUtils {
 		@Override
 		public void close() throws IOException {
 		}
+
 	}
 
 }

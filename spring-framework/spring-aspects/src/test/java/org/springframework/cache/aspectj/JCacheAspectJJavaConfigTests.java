@@ -41,7 +41,6 @@ public class JCacheAspectJJavaConfigTests extends AbstractJCacheAnnotationTests 
 		return new AnnotationConfigApplicationContext(EnableCachingConfig.class);
 	}
 
-
 	@Configuration
 	@EnableCaching(mode = AdviceMode.ASPECTJ)
 	public static class EnableCachingConfig {
@@ -49,11 +48,8 @@ public class JCacheAspectJJavaConfigTests extends AbstractJCacheAnnotationTests 
 		@Bean
 		public CacheManager cacheManager() {
 			SimpleCacheManager cm = new SimpleCacheManager();
-			cm.setCaches(Arrays.asList(
-					defaultCache(),
-					new ConcurrentMapCache("primary"),
-					new ConcurrentMapCache("secondary"),
-					new ConcurrentMapCache("exception")));
+			cm.setCaches(Arrays.asList(defaultCache(), new ConcurrentMapCache("primary"),
+					new ConcurrentMapCache("secondary"), new ConcurrentMapCache("exception")));
 			return cm;
 		}
 
@@ -66,6 +62,7 @@ public class JCacheAspectJJavaConfigTests extends AbstractJCacheAnnotationTests 
 		public Cache defaultCache() {
 			return new ConcurrentMapCache("default");
 		}
+
 	}
 
 }

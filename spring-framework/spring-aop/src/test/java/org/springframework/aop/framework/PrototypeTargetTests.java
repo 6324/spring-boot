@@ -36,7 +36,6 @@ public class PrototypeTargetTests {
 
 	private static final Resource CONTEXT = qualifiedResource(PrototypeTargetTests.class, "context.xml");
 
-
 	@Test
 	public void testPrototypeProxyWithPrototypeTarget() {
 		TestBeanImpl.constructionCount = 0;
@@ -65,12 +64,11 @@ public class PrototypeTargetTests {
 		assertThat(interceptor.invocationCount).isEqualTo(10);
 	}
 
-
 	public interface TestBean {
 
 		void doSomething();
-	}
 
+	}
 
 	public static class TestBeanImpl implements TestBean {
 
@@ -83,8 +81,8 @@ public class PrototypeTargetTests {
 		@Override
 		public void doSomething() {
 		}
-	}
 
+	}
 
 	public static class TestInterceptor implements MethodInterceptor {
 
@@ -95,6 +93,7 @@ public class PrototypeTargetTests {
 			invocationCount++;
 			return methodInvocation.proceed();
 		}
+
 	}
 
 }

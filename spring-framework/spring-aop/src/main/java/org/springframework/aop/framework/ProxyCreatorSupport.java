@@ -22,8 +22,8 @@ import java.util.List;
 import org.springframework.util.Assert;
 
 /**
- * Base class for proxy factories.
- * Provides convenient access to a configurable AopProxyFactory.
+ * Base class for proxy factories. Provides convenient access to a configurable
+ * AopProxyFactory.
  *
  * @author Juergen Hoeller
  * @since 2.0.3
@@ -38,7 +38,6 @@ public class ProxyCreatorSupport extends AdvisedSupport {
 
 	/** Set to true when the first AOP proxy has been created. */
 	private boolean active = false;
-
 
 	/**
 	 * Create a new ProxyCreatorSupport instance.
@@ -56,12 +55,12 @@ public class ProxyCreatorSupport extends AdvisedSupport {
 		this.aopProxyFactory = aopProxyFactory;
 	}
 
-
 	/**
-	 * Customize the AopProxyFactory, allowing different strategies
-	 * to be dropped in without changing the core framework.
-	 * <p>Default is {@link DefaultAopProxyFactory}, using dynamic JDK
-	 * proxies or CGLIB proxies based on the requirements.
+	 * Customize the AopProxyFactory, allowing different strategies to be dropped in
+	 * without changing the core framework.
+	 * <p>
+	 * Default is {@link DefaultAopProxyFactory}, using dynamic JDK proxies or CGLIB
+	 * proxies based on the requirements.
 	 */
 	public void setAopProxyFactory(AopProxyFactory aopProxyFactory) {
 		Assert.notNull(aopProxyFactory, "AopProxyFactory must not be null");
@@ -93,10 +92,9 @@ public class ProxyCreatorSupport extends AdvisedSupport {
 		this.listeners.remove(listener);
 	}
 
-
 	/**
-	 * Subclasses should call this to get a new AOP proxy. They should <b>not</b>
-	 * create an AOP proxy with {@code this} as an argument.
+	 * Subclasses should call this to get a new AOP proxy. They should <b>not</b> create
+	 * an AOP proxy with {@code this} as an argument.
 	 */
 	protected final synchronized AopProxy createAopProxy() {
 		if (!this.active) {

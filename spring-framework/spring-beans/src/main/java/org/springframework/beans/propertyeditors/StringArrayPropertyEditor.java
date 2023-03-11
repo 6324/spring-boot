@@ -25,8 +25,9 @@ import org.springframework.util.StringUtils;
 /**
  * Custom {@link java.beans.PropertyEditor} for String arrays.
  *
- * <p>Strings must be in CSV format, with a customizable separator.
- * By default values in the result are trimmed of whitespace.
+ * <p>
+ * Strings must be in CSV format, with a customizable separator. By default values in the
+ * result are trimmed of whitespace.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -41,7 +42,6 @@ public class StringArrayPropertyEditor extends PropertyEditorSupport {
 	 */
 	public static final String DEFAULT_SEPARATOR = ",";
 
-
 	private final String separator;
 
 	@Nullable
@@ -51,11 +51,11 @@ public class StringArrayPropertyEditor extends PropertyEditorSupport {
 
 	private final boolean trimValues;
 
-
 	/**
-	 * Create a new {@code StringArrayPropertyEditor} with the default separator
-	 * (a comma).
-	 * <p>An empty text (without elements) will be turned into an empty array.
+	 * Create a new {@code StringArrayPropertyEditor} with the default separator (a
+	 * comma).
+	 * <p>
+	 * An empty text (without elements) will be turned into an empty array.
 	 */
 	public StringArrayPropertyEditor() {
 		this(DEFAULT_SEPARATOR, null, false);
@@ -63,7 +63,8 @@ public class StringArrayPropertyEditor extends PropertyEditorSupport {
 
 	/**
 	 * Create a new {@code StringArrayPropertyEditor} with the given separator.
-	 * <p>An empty text (without elements) will be turned into an empty array.
+	 * <p>
+	 * An empty text (without elements) will be turned into an empty array.
 	 * @param separator the separator to use for splitting a {@link String}
 	 */
 	public StringArrayPropertyEditor(String separator) {
@@ -73,8 +74,8 @@ public class StringArrayPropertyEditor extends PropertyEditorSupport {
 	/**
 	 * Create a new {@code StringArrayPropertyEditor} with the given separator.
 	 * @param separator the separator to use for splitting a {@link String}
-	 * @param emptyArrayAsNull {@code true} if an empty String array
-	 * is to be transformed into {@code null}
+	 * @param emptyArrayAsNull {@code true} if an empty String array is to be transformed
+	 * into {@code null}
 	 */
 	public StringArrayPropertyEditor(String separator, boolean emptyArrayAsNull) {
 		this(separator, null, emptyArrayAsNull);
@@ -83,10 +84,10 @@ public class StringArrayPropertyEditor extends PropertyEditorSupport {
 	/**
 	 * Create a new {@code StringArrayPropertyEditor} with the given separator.
 	 * @param separator the separator to use for splitting a {@link String}
-	 * @param emptyArrayAsNull {@code true} if an empty String array
-	 * is to be transformed into {@code null}
-	 * @param trimValues {@code true} if the values in the parsed arrays
-	 * are to be trimmed of whitespace (default is true)
+	 * @param emptyArrayAsNull {@code true} if an empty String array is to be transformed
+	 * into {@code null}
+	 * @param trimValues {@code true} if the values in the parsed arrays are to be trimmed
+	 * of whitespace (default is true)
 	 */
 	public StringArrayPropertyEditor(String separator, boolean emptyArrayAsNull, boolean trimValues) {
 		this(separator, null, emptyArrayAsNull, trimValues);
@@ -95,11 +96,11 @@ public class StringArrayPropertyEditor extends PropertyEditorSupport {
 	/**
 	 * Create a new {@code StringArrayPropertyEditor} with the given separator.
 	 * @param separator the separator to use for splitting a {@link String}
-	 * @param charsToDelete a set of characters to delete, in addition to
-	 * trimming an input String. Useful for deleting unwanted line breaks:
-	 * e.g. "\r\n\f" will delete all new lines and line feeds in a String.
-	 * @param emptyArrayAsNull {@code true} if an empty String array
-	 * is to be transformed into {@code null}
+	 * @param charsToDelete a set of characters to delete, in addition to trimming an
+	 * input String. Useful for deleting unwanted line breaks: e.g. "\r\n\f" will delete
+	 * all new lines and line feeds in a String.
+	 * @param emptyArrayAsNull {@code true} if an empty String array is to be transformed
+	 * into {@code null}
 	 */
 	public StringArrayPropertyEditor(String separator, @Nullable String charsToDelete, boolean emptyArrayAsNull) {
 		this(separator, charsToDelete, emptyArrayAsNull, true);
@@ -108,16 +109,16 @@ public class StringArrayPropertyEditor extends PropertyEditorSupport {
 	/**
 	 * Create a new {@code StringArrayPropertyEditor} with the given separator.
 	 * @param separator the separator to use for splitting a {@link String}
-	 * @param charsToDelete a set of characters to delete, in addition to
-	 * trimming an input String. Useful for deleting unwanted line breaks:
-	 * e.g. "\r\n\f" will delete all new lines and line feeds in a String.
-	 * @param emptyArrayAsNull {@code true} if an empty String array
-	 * is to be transformed into {@code null}
-	 * @param trimValues {@code true} if the values in the parsed arrays
-	 * are to be trimmed of whitespace (default is true)
+	 * @param charsToDelete a set of characters to delete, in addition to trimming an
+	 * input String. Useful for deleting unwanted line breaks: e.g. "\r\n\f" will delete
+	 * all new lines and line feeds in a String.
+	 * @param emptyArrayAsNull {@code true} if an empty String array is to be transformed
+	 * into {@code null}
+	 * @param trimValues {@code true} if the values in the parsed arrays are to be trimmed
+	 * of whitespace (default is true)
 	 */
-	public StringArrayPropertyEditor(
-			String separator, @Nullable String charsToDelete, boolean emptyArrayAsNull, boolean trimValues) {
+	public StringArrayPropertyEditor(String separator, @Nullable String charsToDelete, boolean emptyArrayAsNull,
+			boolean trimValues) {
 
 		this.separator = separator;
 		this.charsToDelete = charsToDelete;

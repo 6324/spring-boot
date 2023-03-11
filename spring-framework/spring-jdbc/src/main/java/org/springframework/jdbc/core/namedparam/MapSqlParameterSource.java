@@ -29,12 +29,14 @@ import org.springframework.util.StringUtils;
 /**
  * {@link SqlParameterSource} implementation that holds a given Map of parameters.
  *
- * <p>This class is intended for passing in a simple Map of parameter values
- * to the methods of the {@link NamedParameterJdbcTemplate} class.
+ * <p>
+ * This class is intended for passing in a simple Map of parameter values to the methods
+ * of the {@link NamedParameterJdbcTemplate} class.
  *
- * <p>The {@code addValue} methods on this class will make adding several values
- * easier. The methods return a reference to the {@link MapSqlParameterSource}
- * itself, so you can chain several method calls together within a single statement.
+ * <p>
+ * The {@code addValue} methods on this class will make adding several values easier. The
+ * methods return a reference to the {@link MapSqlParameterSource} itself, so you can
+ * chain several method calls together within a single statement.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -48,18 +50,17 @@ public class MapSqlParameterSource extends AbstractSqlParameterSource {
 
 	private final Map<String, Object> values = new LinkedHashMap<>();
 
-
 	/**
-	 * Create an empty MapSqlParameterSource,
-	 * with values to be added via {@code addValue}.
+	 * Create an empty MapSqlParameterSource, with values to be added via
+	 * {@code addValue}.
 	 * @see #addValue(String, Object)
 	 */
 	public MapSqlParameterSource() {
 	}
 
 	/**
-	 * Create a new MapSqlParameterSource, with one value
-	 * comprised of the supplied arguments.
+	 * Create a new MapSqlParameterSource, with one value comprised of the supplied
+	 * arguments.
 	 * @param paramName the name of the parameter
 	 * @param value the value of the parameter
 	 * @see #addValue(String, Object)
@@ -76,13 +77,12 @@ public class MapSqlParameterSource extends AbstractSqlParameterSource {
 		addValues(values);
 	}
 
-
 	/**
 	 * Add a parameter to this parameter source.
 	 * @param paramName the name of the parameter
 	 * @param value the value of the parameter
-	 * @return a reference to this parameter source,
-	 * so it's possible to chain several calls together
+	 * @return a reference to this parameter source, so it's possible to chain several
+	 * calls together
 	 */
 	public MapSqlParameterSource addValue(String paramName, @Nullable Object value) {
 		Assert.notNull(paramName, "Parameter name must not be null");
@@ -98,8 +98,8 @@ public class MapSqlParameterSource extends AbstractSqlParameterSource {
 	 * @param paramName the name of the parameter
 	 * @param value the value of the parameter
 	 * @param sqlType the SQL type of the parameter
-	 * @return a reference to this parameter source,
-	 * so it's possible to chain several calls together
+	 * @return a reference to this parameter source, so it's possible to chain several
+	 * calls together
 	 */
 	public MapSqlParameterSource addValue(String paramName, @Nullable Object value, int sqlType) {
 		Assert.notNull(paramName, "Parameter name must not be null");
@@ -114,8 +114,8 @@ public class MapSqlParameterSource extends AbstractSqlParameterSource {
 	 * @param value the value of the parameter
 	 * @param sqlType the SQL type of the parameter
 	 * @param typeName the type name of the parameter
-	 * @return a reference to this parameter source,
-	 * so it's possible to chain several calls together
+	 * @return a reference to this parameter source, so it's possible to chain several
+	 * calls together
 	 */
 	public MapSqlParameterSource addValue(String paramName, @Nullable Object value, int sqlType, String typeName) {
 		Assert.notNull(paramName, "Parameter name must not be null");
@@ -128,8 +128,8 @@ public class MapSqlParameterSource extends AbstractSqlParameterSource {
 	/**
 	 * Add a Map of parameters to this parameter source.
 	 * @param values a Map holding existing parameter values (can be {@code null})
-	 * @return a reference to this parameter source,
-	 * so it's possible to chain several calls together
+	 * @return a reference to this parameter source, so it's possible to chain several
+	 * calls together
 	 */
 	public MapSqlParameterSource addValues(@Nullable Map<String, ?> values) {
 		if (values != null) {
@@ -149,7 +149,6 @@ public class MapSqlParameterSource extends AbstractSqlParameterSource {
 	public Map<String, Object> getValues() {
 		return Collections.unmodifiableMap(this.values);
 	}
-
 
 	@Override
 	public boolean hasValue(String paramName) {

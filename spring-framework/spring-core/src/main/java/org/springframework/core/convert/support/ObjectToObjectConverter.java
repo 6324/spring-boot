@@ -35,26 +35,26 @@ import org.springframework.util.ReflectionUtils;
 
 /**
  * Generic converter that uses conventions to convert a source object to a
- * {@code targetType} by delegating to a method on the source object or to
- * a static factory method or constructor on the {@code targetType}.
+ * {@code targetType} by delegating to a method on the source object or to a static
+ * factory method or constructor on the {@code targetType}.
  *
  * <h3>Conversion Algorithm</h3>
  * <ol>
- * <li>Invoke a non-static {@code to[targetType.simpleName]()} method on the
- * source object that has a return type equal to {@code targetType}, if such
- * a method exists. For example, {@code org.example.Bar Foo#toBar()} is a
- * method that follows this convention.
- * <li>Otherwise invoke a <em>static</em> {@code valueOf(sourceType)} or Java
- * 8 style <em>static</em> {@code of(sourceType)} or {@code from(sourceType)}
- * method on the {@code targetType}, if such a method exists.
- * <li>Otherwise invoke a constructor on the {@code targetType} that accepts
- * a single {@code sourceType} argument, if such a constructor exists.
+ * <li>Invoke a non-static {@code to[targetType.simpleName]()} method on the source object
+ * that has a return type equal to {@code targetType}, if such a method exists. For
+ * example, {@code org.example.Bar Foo#toBar()} is a method that follows this convention.
+ * <li>Otherwise invoke a <em>static</em> {@code valueOf(sourceType)} or Java 8 style
+ * <em>static</em> {@code of(sourceType)} or {@code from(sourceType)} method on the
+ * {@code targetType}, if such a method exists.
+ * <li>Otherwise invoke a constructor on the {@code targetType} that accepts a single
+ * {@code sourceType} argument, if such a constructor exists.
  * <li>Otherwise throw a {@link ConversionFailedException}.
  * </ol>
  *
- * <p><strong>Warning</strong>: this converter does <em>not</em> support the
- * {@link Object#toString()} method for converting from a {@code sourceType}
- * to {@code java.lang.String}. For {@code toString()} support, use
+ * <p>
+ * <strong>Warning</strong>: this converter does <em>not</em> support the
+ * {@link Object#toString()} method for converting from a {@code sourceType} to
+ * {@code java.lang.String}. For {@code toString()} support, use
  * {@link FallbackObjectToStringConverter} instead.
  *
  * @author Keith Donald
@@ -66,9 +66,7 @@ import org.springframework.util.ReflectionUtils;
 final class ObjectToObjectConverter implements ConditionalGenericConverter {
 
 	// Cache for the latest to-method resolved on a given Class
-	private static final Map<Class<?>, Member> conversionMemberCache =
-			new ConcurrentReferenceHashMap<>(32);
-
+	private static final Map<Class<?>, Member> conversionMemberCache = new ConcurrentReferenceHashMap<>(32);
 
 	@Override
 	public Set<ConvertiblePair> getConvertibleTypes() {
@@ -77,8 +75,8 @@ final class ObjectToObjectConverter implements ConditionalGenericConverter {
 
 	@Override
 	public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
-		return (sourceType.getType() != targetType.getType() &&
-				hasConversionMethodOrConstructor(targetType.getType(), sourceType.getType()));
+		return (sourceType.getType() != targetType.getType()
+				&& hasConversionMethodOrConstructor(targetType.getType(), sourceType.getType()));
 	}
 
 	@Override
@@ -115,15 +113,16 @@ final class ObjectToObjectConverter implements ConditionalGenericConverter {
 			throw new ConversionFailedException(sourceType, targetType, source, ex);
 		}
 
-		// If sourceClass is Number and targetClass is Integer, the following message should expand to:
-		// No toInteger() method exists on java.lang.Number, and no static valueOf/of/from(java.lang.Number)
+		// If sourceClass is Number and targetClass is Integer, the following message
+		// should expand to:
+		// No toInteger() method exists on java.lang.Number, and no static
+		// valueOf/of/from(java.lang.Number)
 		// method or Integer(java.lang.Number) constructor exists on java.lang.Integer.
-		throw new IllegalStateException(String.format("No to%3$s() method exists on %1$s, " +
-				"and no static valueOf/of/from(%1$s) method or %3$s(%1$s) constructor exists on %2$s.",
+		throw new IllegalStateException(String.format(
+				"No to%3$s() method exists on %1$s, "
+						+ "and no static valueOf/of/from(%1$s) method or %3$s(%1$s) constructor exists on %2$s.",
 				sourceClass.getName(), targetClass.getName(), targetClass.getSimpleName()));
 	}
-
-
 
 	static boolean hasConversionMethodOrConstructor(Class<?> targetClass, Class<?> sourceClass) {
 		return (getValidatedMember(targetClass, sourceClass) != null);
@@ -154,9 +153,9 @@ final class ObjectToObjectConverter implements ConditionalGenericConverter {
 	private static boolean isApplicable(Member member, Class<?> sourceClass) {
 		if (member instanceof Method) {
 			Method method = (Method) member;
-			return (!Modifier.isStatic(method.getModifiers()) ?
-					ClassUtils.isAssignable(method.getDeclaringClass(), sourceClass) :
-					method.getParameterTypes()[0] == sourceClass);
+			return (!Modifier.isStatic(method.getModifiers())
+					? ClassUtils.isAssignable(method.getDeclaringClass(), sourceClass)
+					: method.getParameterTypes()[0] == sourceClass);
 		}
 		else if (member instanceof Constructor) {
 			Constructor<?> ctor = (Constructor<?>) member;
@@ -175,8 +174,8 @@ final class ObjectToObjectConverter implements ConditionalGenericConverter {
 		}
 
 		Method method = ClassUtils.getMethodIfAvailable(sourceClass, "to" + targetClass.getSimpleName());
-		return (method != null && !Modifier.isStatic(method.getModifiers()) &&
-				ClassUtils.isAssignable(targetClass, method.getReturnType()) ? method : null);
+		return (method != null && !Modifier.isStatic(method.getModifiers())
+				&& ClassUtils.isAssignable(targetClass, method.getReturnType()) ? method : null);
 	}
 
 	@Nullable

@@ -53,27 +53,26 @@ public abstract class AbstractXhrTransport implements XhrTransport {
 		PRELUDE = new String(bytes, SockJsFrame.CHARSET);
 	}
 
-
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	private boolean xhrStreamingDisabled;
 
-
 	@Override
 	public List<TransportType> getTransportTypes() {
-		return (isXhrStreamingDisabled() ? Collections.singletonList(TransportType.XHR) :
-				Arrays.asList(TransportType.XHR_STREAMING, TransportType.XHR));
+		return (isXhrStreamingDisabled() ? Collections.singletonList(TransportType.XHR)
+				: Arrays.asList(TransportType.XHR_STREAMING, TransportType.XHR));
 	}
 
 	/**
-	 * An {@code XhrTransport} can support both the "xhr_streaming" and "xhr"
-	 * SockJS server transports. From a client perspective there is no
-	 * implementation difference.
-	 * <p>Typically an {@code XhrTransport} is used as "XHR streaming" first and
-	 * then, if that fails, as "XHR". In some cases however it may be helpful to
-	 * suppress XHR streaming so that only XHR is attempted.
-	 * <p>By default this property is set to {@code false} which means both
-	 * "XHR streaming" and "XHR" apply.
+	 * An {@code XhrTransport} can support both the "xhr_streaming" and "xhr" SockJS
+	 * server transports. From a client perspective there is no implementation difference.
+	 * <p>
+	 * Typically an {@code XhrTransport} is used as "XHR streaming" first and then, if
+	 * that fails, as "XHR". In some cases however it may be helpful to suppress XHR
+	 * streaming so that only XHR is attempted.
+	 * <p>
+	 * By default this property is set to {@code false} which means both "XHR streaming"
+	 * and "XHR" apply.
 	 */
 	public void setXhrStreamingDisabled(boolean disabled) {
 		this.xhrStreamingDisabled = disabled;
@@ -87,7 +86,6 @@ public abstract class AbstractXhrTransport implements XhrTransport {
 		return this.xhrStreamingDisabled;
 	}
 
-
 	// Transport methods
 
 	@Override
@@ -98,8 +96,8 @@ public abstract class AbstractXhrTransport implements XhrTransport {
 
 		URI receiveUrl = request.getTransportUrl();
 		if (logger.isDebugEnabled()) {
-			logger.debug("Starting XHR " +
-					(isXhrStreamingDisabled() ? "Polling" : "Streaming") + "session url=" + receiveUrl);
+			logger.debug("Starting XHR " + (isXhrStreamingDisabled() ? "Polling" : "Streaming") + "session url="
+					+ receiveUrl);
 		}
 
 		HttpHeaders handshakeHeaders = new HttpHeaders();
@@ -109,10 +107,9 @@ public abstract class AbstractXhrTransport implements XhrTransport {
 		return connectFuture;
 	}
 
-	protected abstract void connectInternal(TransportRequest request, WebSocketHandler handler,
-			URI receiveUrl, HttpHeaders handshakeHeaders, XhrClientSockJsSession session,
+	protected abstract void connectInternal(TransportRequest request, WebSocketHandler handler, URI receiveUrl,
+			HttpHeaders handshakeHeaders, XhrClientSockJsSession session,
 			SettableListenableFuture<WebSocketSession> connectFuture);
-
 
 	// InfoReceiver methods
 
@@ -141,7 +138,6 @@ public abstract class AbstractXhrTransport implements XhrTransport {
 
 	protected abstract ResponseEntity<String> executeInfoRequestInternal(URI infoUrl, HttpHeaders headers);
 
-
 	// XhrTransport methods
 
 	@Override
@@ -161,7 +157,7 @@ public abstract class AbstractXhrTransport implements XhrTransport {
 		}
 	}
 
-	protected abstract ResponseEntity<String> executeSendRequestInternal(
-			URI url, HttpHeaders headers, TextMessage message);
+	protected abstract ResponseEntity<String> executeSendRequestInternal(URI url, HttpHeaders headers,
+			TextMessage message);
 
 }

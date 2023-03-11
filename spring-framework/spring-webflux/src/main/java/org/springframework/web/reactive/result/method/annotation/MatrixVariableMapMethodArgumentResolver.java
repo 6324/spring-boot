@@ -38,13 +38,15 @@ import org.springframework.web.reactive.result.method.SyncHandlerMethodArgumentR
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * Resolves arguments of type {@link Map} annotated with {@link MatrixVariable @MatrixVariable}
- * where the annotation does not specify a name. In other words the purpose of this resolver
- * is to provide access to multiple matrix variables, either all or associated with a specific
- * path variable.
+ * Resolves arguments of type {@link Map} annotated with
+ * {@link MatrixVariable @MatrixVariable} where the annotation does not specify a name. In
+ * other words the purpose of this resolver is to provide access to multiple matrix
+ * variables, either all or associated with a specific path variable.
  *
- * <p>When a name is specified, an argument of type Map is considered to be a single attribute
- * with a Map value, and is resolved by {@link MatrixVariableMethodArgumentResolver} instead.
+ * <p>
+ * When a name is specified, an argument of type Map is considered to be a single
+ * attribute with a Map value, and is resolved by
+ * {@link MatrixVariableMethodArgumentResolver} instead.
  *
  * @author Rossen Stoyanchev
  * @since 5.0.1
@@ -57,7 +59,6 @@ public class MatrixVariableMapMethodArgumentResolver extends HandlerMethodArgume
 		super(registry);
 	}
 
-
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return checkAnnotatedParamNoReactiveWrapper(parameter, MatrixVariable.class,
@@ -69,8 +70,8 @@ public class MatrixVariableMapMethodArgumentResolver extends HandlerMethodArgume
 	public Object resolveArgumentValue(MethodParameter parameter, BindingContext bindingContext,
 			ServerWebExchange exchange) {
 
-		Map<String, MultiValueMap<String, String>> matrixVariables =
-				exchange.getAttribute(HandlerMapping.MATRIX_VARIABLES_ATTRIBUTE);
+		Map<String, MultiValueMap<String, String>> matrixVariables = exchange
+				.getAttribute(HandlerMapping.MATRIX_VARIABLES_ATTRIBUTE);
 
 		if (CollectionUtils.isEmpty(matrixVariables)) {
 			return Collections.emptyMap();

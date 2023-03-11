@@ -46,11 +46,9 @@ public class EncodedResourceResolverTests {
 
 	private static final Duration TIMEOUT = Duration.ofSeconds(5);
 
-
 	private ResourceResolverChain resolver;
 
 	private List<Resource> locations;
-
 
 	@BeforeEach
 	public void setup() {
@@ -71,12 +69,11 @@ public class EncodedResourceResolverTests {
 		this.locations.add(new ClassPathResource("testalternatepath/", getClass()));
 	}
 
-
 	@Test
 	public void resolveGzipped(GzippedFiles gzippedFiles) {
 
-		MockServerWebExchange exchange = MockServerWebExchange.from(
-				MockServerHttpRequest.get("").header("Accept-Encoding", "gzip"));
+		MockServerWebExchange exchange = MockServerWebExchange
+				.from(MockServerHttpRequest.get("").header("Accept-Encoding", "gzip"));
 
 		String file = "js/foo.js";
 		gzippedFiles.create(file);
@@ -95,8 +92,8 @@ public class EncodedResourceResolverTests {
 	@Test
 	public void resolveGzippedWithVersion(GzippedFiles gzippedFiles) {
 
-		MockServerWebExchange exchange = MockServerWebExchange.from(
-				MockServerHttpRequest.get("").header("Accept-Encoding", "gzip"));
+		MockServerWebExchange exchange = MockServerWebExchange
+				.from(MockServerHttpRequest.get("").header("Accept-Encoding", "gzip"));
 		gzippedFiles.create("foo.css");
 		String file = "foo-e36d2e05253c6c7085a91522ce43a0b4.css";
 		Resource actual = this.resolver.resolveResource(exchange, file, this.locations).block(TIMEOUT);
@@ -112,8 +109,8 @@ public class EncodedResourceResolverTests {
 
 		// 1. Resolve, and cache .gz variant
 
-		MockServerWebExchange exchange = MockServerWebExchange.from(
-				MockServerHttpRequest.get("").header("Accept-Encoding", "gzip"));
+		MockServerWebExchange exchange = MockServerWebExchange
+				.from(MockServerHttpRequest.get("").header("Accept-Encoding", "gzip"));
 
 		String file = "js/foo.js";
 		gzippedFiles.create(file);
@@ -135,7 +132,7 @@ public class EncodedResourceResolverTests {
 		assertThat(condition1).isFalse();
 	}
 
-	@Test  // SPR-13149
+	@Test // SPR-13149
 	public void resolveWithNullRequest() {
 
 		String file = "js/foo.js";

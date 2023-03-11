@@ -31,14 +31,15 @@ import org.springframework.web.reactive.accept.RequestedContentTypeResolver;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * {@code HandlerResultHandler} that handles return values from methods annotated
- * with {@code @ResponseBody} writing to the body of the request or response with
- * an {@link HttpMessageWriter}.
+ * {@code HandlerResultHandler} that handles return values from methods annotated with
+ * {@code @ResponseBody} writing to the body of the request or response with an
+ * {@link HttpMessageWriter}.
  *
- * <p>By default the order for this result handler is set to 100. As it detects
- * the presence of {@code @ResponseBody} it should be ordered after result
- * handlers that look for a specific return type. Note however that this handler
- * does recognize and explicitly ignores the {@code ResponseEntity} return type.
+ * <p>
+ * By default the order for this result handler is set to 100. As it detects the presence
+ * of {@code @ResponseBody} it should be ordered after result handlers that look for a
+ * specific return type. Note however that this handler does recognize and explicitly
+ * ignores the {@code ResponseEntity} return type.
  *
  * @author Rossen Stoyanchev
  * @author Stephane Maldini
@@ -63,20 +64,19 @@ public class ResponseBodyResultHandler extends AbstractMessageWriterResultHandle
 	 * @param resolver to determine the requested content type
 	 * @param registry for adaptation to reactive types
 	 */
-	public ResponseBodyResultHandler(List<HttpMessageWriter<?>> writers,
-			RequestedContentTypeResolver resolver, ReactiveAdapterRegistry registry) {
+	public ResponseBodyResultHandler(List<HttpMessageWriter<?>> writers, RequestedContentTypeResolver resolver,
+			ReactiveAdapterRegistry registry) {
 
 		super(writers, resolver, registry);
 		setOrder(100);
 	}
 
-
 	@Override
 	public boolean supports(HandlerResult result) {
 		MethodParameter returnType = result.getReturnTypeSource();
 		Class<?> containingClass = returnType.getContainingClass();
-		return (AnnotatedElementUtils.hasAnnotation(containingClass, ResponseBody.class) ||
-				returnType.hasMethodAnnotation(ResponseBody.class));
+		return (AnnotatedElementUtils.hasAnnotation(containingClass, ResponseBody.class)
+				|| returnType.hasMethodAnnotation(ResponseBody.class));
 	}
 
 	@Override

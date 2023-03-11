@@ -21,8 +21,8 @@ import java.beans.PropertyChangeEvent;
 import org.springframework.lang.Nullable;
 
 /**
- * Superclass for exceptions related to a property access,
- * such as type mismatch or invocation target exception.
+ * Superclass for exceptions related to a property access, such as type mismatch or
+ * invocation target exception.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -32,7 +32,6 @@ public abstract class PropertyAccessException extends BeansException {
 
 	@Nullable
 	private final PropertyChangeEvent propertyChangeEvent;
-
 
 	/**
 	 * Create a new PropertyAccessException.
@@ -55,11 +54,10 @@ public abstract class PropertyAccessException extends BeansException {
 		this.propertyChangeEvent = null;
 	}
 
-
 	/**
 	 * Return the PropertyChangeEvent that resulted in the problem.
-	 * <p>May be {@code null}; only available if an actual bean property
-	 * was affected.
+	 * <p>
+	 * May be {@code null}; only available if an actual bean property was affected.
 	 */
 	@Nullable
 	public PropertyChangeEvent getPropertyChangeEvent() {

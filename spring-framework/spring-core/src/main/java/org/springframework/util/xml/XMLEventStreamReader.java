@@ -34,8 +34,9 @@ import org.springframework.lang.Nullable;
 
 /**
  * Implementation of the {@link javax.xml.stream.XMLStreamReader} interface that wraps a
- * {@link XMLEventReader}. Useful because the StAX {@link javax.xml.stream.XMLInputFactory}
- * allows one to create a event reader from a stream reader, but not vice-versa.
+ * {@link XMLEventReader}. Useful because the StAX
+ * {@link javax.xml.stream.XMLInputFactory} allows one to create a event reader from a
+ * stream reader, but not vice-versa.
  *
  * @author Arjen Poutsma
  * @since 3.0
@@ -47,12 +48,10 @@ class XMLEventStreamReader extends AbstractXMLStreamReader {
 
 	private final XMLEventReader eventReader;
 
-
 	public XMLEventStreamReader(XMLEventReader eventReader) throws XMLStreamException {
 		this.eventReader = eventReader;
 		this.event = eventReader.nextEvent();
 	}
-
 
 	@Override
 	public QName getName() {
@@ -283,7 +282,6 @@ class XMLEventStreamReader extends AbstractXMLStreamReader {
 	public void close() throws XMLStreamException {
 		this.eventReader.close();
 	}
-
 
 	@SuppressWarnings("rawtypes")
 	private static int countIterator(Iterator iterator) {

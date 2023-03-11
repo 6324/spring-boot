@@ -25,15 +25,16 @@ import org.springframework.transaction.TransactionException;
  * Extension of the {@link org.springframework.transaction.PlatformTransactionManager}
  * interface, exposing a method for executing a given callback within a transaction.
  *
- * <p>Implementors of this interface automatically express a preference for
- * callbacks over programmatic {@code getTransaction}, {@code commit}
- * and {@code rollback} calls. Calling code may check whether a given
- * transaction manager implements this interface to choose to prepare a
- * callback instead of explicit transaction demarcation control.
+ * <p>
+ * Implementors of this interface automatically express a preference for callbacks over
+ * programmatic {@code getTransaction}, {@code commit} and {@code rollback} calls. Calling
+ * code may check whether a given transaction manager implements this interface to choose
+ * to prepare a callback instead of explicit transaction demarcation control.
  *
- * <p>Spring's {@link TransactionTemplate} and
- * {@link org.springframework.transaction.interceptor.TransactionInterceptor}
- * detect and use this PlatformTransactionManager variant automatically.
+ * <p>
+ * Spring's {@link TransactionTemplate} and
+ * {@link org.springframework.transaction.interceptor.TransactionInterceptor} detect and
+ * use this PlatformTransactionManager variant automatically.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -44,10 +45,11 @@ public interface CallbackPreferringPlatformTransactionManager extends PlatformTr
 
 	/**
 	 * Execute the action specified by the given callback object within a transaction.
-	 * <p>Allows for returning a result object created within the transaction, that is,
-	 * a domain object or a collection of domain objects. A RuntimeException thrown
-	 * by the callback is treated as a fatal exception that enforces a rollback.
-	 * Such an exception gets propagated to the caller of the template.
+	 * <p>
+	 * Allows for returning a result object created within the transaction, that is, a
+	 * domain object or a collection of domain objects. A RuntimeException thrown by the
+	 * callback is treated as a fatal exception that enforces a rollback. Such an
+	 * exception gets propagated to the caller of the template.
 	 * @param definition the definition for the transaction to wrap the callback in
 	 * @param callback the callback object that specifies the transactional action
 	 * @return a result object returned by the callback, or {@code null} if none

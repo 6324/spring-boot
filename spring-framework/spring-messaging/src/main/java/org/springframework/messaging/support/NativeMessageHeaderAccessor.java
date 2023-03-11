@@ -31,15 +31,16 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.ObjectUtils;
 
 /**
- * {@link MessageHeaderAccessor} sub-class that supports storage and access of
- * headers from an external source such as a message broker. Headers from the
- * external source are kept separate from other headers, in a sub-map under the
- * key {@link #NATIVE_HEADERS}. This allows separating processing headers from
- * headers that need to be sent to or received from the external source.
+ * {@link MessageHeaderAccessor} sub-class that supports storage and access of headers
+ * from an external source such as a message broker. Headers from the external source are
+ * kept separate from other headers, in a sub-map under the key {@link #NATIVE_HEADERS}.
+ * This allows separating processing headers from headers that need to be sent to or
+ * received from the external source.
  *
- * <p>This class is likely to be used through indirectly through a protocol
- * specific sub-class that also provide factory methods to translate
- * message headers to an from an external messaging source.
+ * <p>
+ * This class is likely to be used through indirectly through a protocol specific
+ * sub-class that also provide factory methods to translate message headers to an from an
+ * external messaging source.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -48,7 +49,6 @@ public class NativeMessageHeaderAccessor extends MessageHeaderAccessor {
 
 	/** The header name used to store native headers. */
 	public static final String NATIVE_HEADERS = "nativeHeaders";
-
 
 	/**
 	 * Protected constructor to create a new instance.
@@ -59,7 +59,8 @@ public class NativeMessageHeaderAccessor extends MessageHeaderAccessor {
 
 	/**
 	 * Protected constructor to create an instance with the given native headers.
-	 * @param nativeHeaders native headers to create the message with (may be {@code null})
+	 * @param nativeHeaders native headers to create the message with (may be
+	 * {@code null})
 	 */
 	protected NativeMessageHeaderAccessor(@Nullable Map<String, List<String>> nativeHeaders) {
 		if (!CollectionUtils.isEmpty(nativeHeaders)) {
@@ -82,7 +83,6 @@ public class NativeMessageHeaderAccessor extends MessageHeaderAccessor {
 			}
 		}
 	}
-
 
 	/**
 	 * Subclasses can use this method to access the "native" headers sub-map.
@@ -184,8 +184,9 @@ public class NativeMessageHeaderAccessor extends MessageHeaderAccessor {
 
 	/**
 	 * Set the specified native header value replacing existing values.
-	 * <p>In order for this to work, the accessor must be {@link #isMutable()
-	 * mutable}. See {@link MessageHeaderAccessor} for details.
+	 * <p>
+	 * In order for this to work, the accessor must be {@link #isMutable() mutable}. See
+	 * {@link MessageHeaderAccessor} for details.
 	 */
 	public void setNativeHeader(String name, @Nullable String value) {
 		Assert.state(isMutable(), "Already immutable");
@@ -235,8 +236,9 @@ public class NativeMessageHeaderAccessor extends MessageHeaderAccessor {
 
 	/**
 	 * Add the specified native header value to existing values.
-	 * <p>In order for this to work, the accessor must be {@link #isMutable()
-	 * mutable}. See {@link MessageHeaderAccessor} for details.
+	 * <p>
+	 * In order for this to work, the accessor must be {@link #isMutable() mutable}. See
+	 * {@link MessageHeaderAccessor} for details.
 	 * @param name the name of the header
 	 * @param value the header value to set
 	 */
@@ -268,8 +270,9 @@ public class NativeMessageHeaderAccessor extends MessageHeaderAccessor {
 
 	/**
 	 * Remove the specified native header value replacing existing values.
-	 * <p>In order for this to work, the accessor must be {@link #isMutable()
-	 * mutable}. See {@link MessageHeaderAccessor} for details.
+	 * <p>
+	 * In order for this to work, the accessor must be {@link #isMutable() mutable}. See
+	 * {@link MessageHeaderAccessor} for details.
 	 * @param headerName the name of the header
 	 * @return the associated values, or {@code null} if the header was not present
 	 */
@@ -283,10 +286,8 @@ public class NativeMessageHeaderAccessor extends MessageHeaderAccessor {
 		return nativeHeaders.remove(headerName);
 	}
 
-
 	/**
-	 * Return the first value for the specified native header,
-	 * or {@code null} if none.
+	 * Return the first value for the specified native header, or {@code null} if none.
 	 * @param headerName the name of the header
 	 * @param headers the headers map to introspect
 	 * @return the associated value, or {@code null} if none

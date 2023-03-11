@@ -32,7 +32,8 @@ import org.springframework.expression.TypeConverter;
 import org.springframework.lang.Nullable;
 
 /**
- * A constructor resolver that uses reflection to locate the constructor that should be invoked.
+ * A constructor resolver that uses reflection to locate the constructor that should be
+ * invoked.
  *
  * @author Andy Clement
  * @author Juergen Hoeller
@@ -43,10 +44,12 @@ public class ReflectiveConstructorResolver implements ConstructorResolver {
 	/**
 	 * Locate a constructor on the type. There are three kinds of match that might occur:
 	 * <ol>
-	 * <li>An exact match where the types of the arguments match the types of the constructor
-	 * <li>An in-exact match where the types we are looking for are subtypes of those defined on the constructor
-	 * <li>A match where we are able to convert the arguments into those expected by the constructor, according to the
-	 * registered type converter.
+	 * <li>An exact match where the types of the arguments match the types of the
+	 * constructor
+	 * <li>An in-exact match where the types we are looking for are subtypes of those
+	 * defined on the constructor
+	 * <li>A match where we are able to convert the arguments into those expected by the
+	 * constructor, according to the registered type converter.
 	 * </ol>
 	 */
 	@Override
@@ -77,12 +80,15 @@ public class ReflectiveConstructorResolver implements ConstructorResolver {
 				ReflectionHelper.ArgumentsMatchInfo matchInfo = null;
 				if (ctor.isVarArgs() && argumentTypes.size() >= paramCount - 1) {
 					// *sigh* complicated
-					// Basically.. we have to have all parameters match up until the varargs one, then the rest of what is
+					// Basically.. we have to have all parameters match up until the
+					// varargs one, then the rest of what is
 					// being provided should be
-					// the same type whilst the final argument to the method must be an array of that (oh, how easy...not) -
+					// the same type whilst the final argument to the method must be an
+					// array of that (oh, how easy...not) -
 					// or the final parameter
 					// we are supplied does match exactly (it is an array already).
-					matchInfo = ReflectionHelper.compareArgumentsVarargs(paramDescriptors, argumentTypes, typeConverter);
+					matchInfo = ReflectionHelper.compareArgumentsVarargs(paramDescriptors, argumentTypes,
+							typeConverter);
 				}
 				else if (paramCount == argumentTypes.size()) {
 					// worth a closer look

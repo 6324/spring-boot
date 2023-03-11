@@ -31,8 +31,8 @@ import org.springframework.messaging.handler.invocation.AbstractExceptionHandler
 /**
  * A sub-class of {@link AbstractExceptionHandlerMethodResolver} that looks for
  * {@link MessageExceptionHandler}-annotated methods in a given class. The actual
- * exception types handled are extracted either from the annotation, if present,
- * or from the method signature as a fallback option.
+ * exception types handled are extracted either from the annotation, if present, or from
+ * the method signature as a fallback option.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -50,8 +50,8 @@ public class AnnotationExceptionHandlerMethodResolver extends AbstractExceptionH
 
 	private static Map<Class<? extends Throwable>, Method> initExceptionMappings(Class<?> handlerType) {
 		Map<Method, MessageExceptionHandler> methods = MethodIntrospector.selectMethods(handlerType,
-				(MethodIntrospector.MetadataLookup<MessageExceptionHandler>) method ->
-						AnnotatedElementUtils.findMergedAnnotation(method, MessageExceptionHandler.class));
+				(MethodIntrospector.MetadataLookup<MessageExceptionHandler>) method -> AnnotatedElementUtils
+						.findMergedAnnotation(method, MessageExceptionHandler.class));
 
 		Map<Class<? extends Throwable>, Method> result = new HashMap<>();
 		for (Map.Entry<Method, MessageExceptionHandler> entry : methods.entrySet()) {
@@ -63,8 +63,8 @@ public class AnnotationExceptionHandlerMethodResolver extends AbstractExceptionH
 			for (Class<? extends Throwable> exceptionType : exceptionTypes) {
 				Method oldMethod = result.put(exceptionType, method);
 				if (oldMethod != null && !oldMethod.equals(method)) {
-					throw new IllegalStateException("Ambiguous @ExceptionHandler method mapped for [" +
-							exceptionType + "]: {" + oldMethod + ", " + method + "}");
+					throw new IllegalStateException("Ambiguous @ExceptionHandler method mapped for [" + exceptionType
+							+ "]: {" + oldMethod + ", " + method + "}");
 				}
 			}
 		}

@@ -28,11 +28,13 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.i18n.LocaleContextResolver;
 
 /**
- * Defines the strategies to be used for processing {@link HandlerFunction HandlerFunctions}.
+ * Defines the strategies to be used for processing {@link HandlerFunction
+ * HandlerFunctions}.
  *
- * <p>An instance of this class is immutable. Instances are typically created through the
- * mutable {@link Builder}: either through {@link #builder()} to set up default strategies,
- * or {@link #empty()} to start from scratch.
+ * <p>
+ * An instance of this class is immutable. Instances are typically created through the
+ * mutable {@link Builder}: either through {@link #builder()} to set up default
+ * strategies, or {@link #empty()} to start from scratch.
  *
  * @author Arjen Poutsma
  * @author Juergen Hoeller
@@ -43,13 +45,15 @@ import org.springframework.web.server.i18n.LocaleContextResolver;
 public interface HandlerStrategies {
 
 	/**
-	 * Return the {@link HttpMessageReader HttpMessageReaders} to be used for request body conversion.
+	 * Return the {@link HttpMessageReader HttpMessageReaders} to be used for request body
+	 * conversion.
 	 * @return the message readers
 	 */
 	List<HttpMessageReader<?>> messageReaders();
 
 	/**
-	 * Return the {@link HttpMessageWriter HttpMessageWriters} to be used for response body conversion.
+	 * Return the {@link HttpMessageWriter HttpMessageWriters} to be used for response
+	 * body conversion.
 	 * @return the message writers
 	 */
 	List<HttpMessageWriter<?>> messageWriters();
@@ -61,13 +65,15 @@ public interface HandlerStrategies {
 	List<ViewResolver> viewResolvers();
 
 	/**
-	 * Return the {@link WebFilter WebFilters} to be used for filtering the request and response.
+	 * Return the {@link WebFilter WebFilters} to be used for filtering the request and
+	 * response.
 	 * @return the web filters
 	 */
 	List<WebFilter> webFilters();
 
 	/**
-	 * Return the {@link WebExceptionHandler WebExceptionHandlers} to be used for handling exceptions.
+	 * Return the {@link WebExceptionHandler WebExceptionHandlers} to be used for handling
+	 * exceptions.
 	 * @return the exception handlers
 	 */
 	List<WebExceptionHandler> exceptionHandlers();
@@ -77,7 +83,6 @@ public interface HandlerStrategies {
 	 * @return the locale context resolver
 	 */
 	LocaleContextResolver localeContextResolver();
-
 
 	// Static builder methods
 
@@ -90,7 +95,8 @@ public interface HandlerStrategies {
 	}
 
 	/**
-	 * Return a mutable builder for a {@code HandlerStrategies} with default initialization.
+	 * Return a mutable builder for a {@code HandlerStrategies} with default
+	 * initialization.
 	 * @return the builder
 	 */
 	static Builder builder() {
@@ -106,7 +112,6 @@ public interface HandlerStrategies {
 	static Builder empty() {
 		return new DefaultHandlerStrategiesBuilder();
 	}
-
 
 	/**
 	 * A mutable builder for a {@link HandlerStrategies}.
@@ -153,6 +158,7 @@ public interface HandlerStrategies {
 		 * @return the built strategies
 		 */
 		HandlerStrategies build();
+
 	}
 
 }

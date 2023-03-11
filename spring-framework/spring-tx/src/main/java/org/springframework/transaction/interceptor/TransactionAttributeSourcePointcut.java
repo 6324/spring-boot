@@ -40,7 +40,6 @@ abstract class TransactionAttributeSourcePointcut extends StaticMethodMatcherPoi
 		setClassFilter(new TransactionAttributeSourceClassFilter());
 	}
 
-
 	@Override
 	public boolean matches(Method method, Class<?> targetClass) {
 		TransactionAttributeSource tas = getTransactionAttributeSource();
@@ -69,31 +68,30 @@ abstract class TransactionAttributeSourcePointcut extends StaticMethodMatcherPoi
 		return getClass().getName() + ": " + getTransactionAttributeSource();
 	}
 
-
 	/**
-	 * Obtain the underlying TransactionAttributeSource (may be {@code null}).
-	 * To be implemented by subclasses.
+	 * Obtain the underlying TransactionAttributeSource (may be {@code null}). To be
+	 * implemented by subclasses.
 	 */
 	@Nullable
 	protected abstract TransactionAttributeSource getTransactionAttributeSource();
 
-
 	/**
-	 * {@link ClassFilter} that delegates to {@link TransactionAttributeSource#isCandidateClass}
-	 * for filtering classes whose methods are not worth searching to begin with.
+	 * {@link ClassFilter} that delegates to
+	 * {@link TransactionAttributeSource#isCandidateClass} for filtering classes whose
+	 * methods are not worth searching to begin with.
 	 */
 	private class TransactionAttributeSourceClassFilter implements ClassFilter {
 
 		@Override
 		public boolean matches(Class<?> clazz) {
-			if (TransactionalProxy.class.isAssignableFrom(clazz) ||
-					TransactionManager.class.isAssignableFrom(clazz) ||
-					PersistenceExceptionTranslator.class.isAssignableFrom(clazz)) {
+			if (TransactionalProxy.class.isAssignableFrom(clazz) || TransactionManager.class.isAssignableFrom(clazz)
+					|| PersistenceExceptionTranslator.class.isAssignableFrom(clazz)) {
 				return false;
 			}
 			TransactionAttributeSource tas = getTransactionAttributeSource();
 			return (tas == null || tas.isCandidateClass(clazz));
 		}
+
 	}
 
 }

@@ -108,8 +108,8 @@ public class NativeMessageHeaderAccessorTests {
 		assertThat(actual.get("a")).isEqualTo("B");
 
 		@SuppressWarnings("unchecked")
-		Map<String, List<String>> actualNativeHeaders =
-				(Map<String, List<String>>) actual.get(NativeMessageHeaderAccessor.NATIVE_HEADERS);
+		Map<String, List<String>> actualNativeHeaders = (Map<String, List<String>>) actual
+				.get(NativeMessageHeaderAccessor.NATIVE_HEADERS);
 
 		assertThat(actualNativeHeaders).isNotNull();
 		assertThat(actualNativeHeaders.get("foo")).isEqualTo(Collections.singletonList("BAR"));
@@ -161,8 +161,7 @@ public class NativeMessageHeaderAccessorTests {
 		headerAccessor.setNativeHeader("foo", "bar");
 		headerAccessor.setImmutable();
 
-		assertThatIllegalStateException()
-				.isThrownBy(() -> headerAccessor.setNativeHeader("foo", "baz"))
+		assertThatIllegalStateException().isThrownBy(() -> headerAccessor.setNativeHeader("foo", "baz"))
 				.withMessageContaining("Already immutable");
 	}
 
@@ -211,8 +210,7 @@ public class NativeMessageHeaderAccessorTests {
 		headerAccessor.addNativeHeader("foo", "bar");
 		headerAccessor.setImmutable();
 
-		assertThatIllegalStateException()
-				.isThrownBy(() -> headerAccessor.addNativeHeader("foo", "baz"))
+		assertThatIllegalStateException().isThrownBy(() -> headerAccessor.addNativeHeader("foo", "baz"))
 				.withMessageContaining("Already immutable");
 	}
 
@@ -268,4 +266,5 @@ public class NativeMessageHeaderAccessorTests {
 		// Does not fail with ConcurrentModificationException
 		accessor.copyHeaders(accessor.getMessageHeaders());
 	}
+
 }

@@ -34,13 +34,13 @@ import org.springframework.util.Assert;
  * A {@link javax.jms.MessageListener} adapter that invokes a configurable
  * {@link InvocableHandlerMethod}.
  *
- * <p>Wraps the incoming {@link javax.jms.Message} to Spring's {@link Message}
- * abstraction, copying the JMS standard headers using a configurable
- * {@link JmsHeaderMapper}.
+ * <p>
+ * Wraps the incoming {@link javax.jms.Message} to Spring's {@link Message} abstraction,
+ * copying the JMS standard headers using a configurable {@link JmsHeaderMapper}.
  *
- * <p>The original {@link javax.jms.Message} and the {@link javax.jms.Session}
- * are provided as additional arguments so that these can be injected as
- * method arguments if necessary.
+ * <p>
+ * The original {@link javax.jms.Message} and the {@link javax.jms.Session} are provided
+ * as additional arguments so that these can be injected as method arguments if necessary.
  *
  * @author Stephane Nicoll
  * @since 4.1
@@ -53,10 +53,9 @@ public class MessagingMessageListenerAdapter extends AbstractAdaptableMessageLis
 	@Nullable
 	private InvocableHandlerMethod handlerMethod;
 
-
 	/**
-	 * Set the {@link InvocableHandlerMethod} to use to invoke the method
-	 * processing an incoming {@link javax.jms.Message}.
+	 * Set the {@link InvocableHandlerMethod} to use to invoke the method processing an
+	 * incoming {@link javax.jms.Message}.
 	 */
 	public void setHandlerMethod(InvocableHandlerMethod handlerMethod) {
 		this.handlerMethod = handlerMethod;
@@ -66,7 +65,6 @@ public class MessagingMessageListenerAdapter extends AbstractAdaptableMessageLis
 		Assert.state(this.handlerMethod != null, "No HandlerMethod set");
 		return this.handlerMethod;
 	}
-
 
 	@Override
 	public void onMessage(javax.jms.Message jmsMessage, @Nullable Session session) throws JMSException {
@@ -90,8 +88,8 @@ public class MessagingMessageListenerAdapter extends AbstractAdaptableMessageLis
 			return MessageBuilder.fromMessage((Message<?>) result)
 					.setHeader(AbstractMessageSendingTemplate.CONVERSION_HINT_HEADER, returnType).build();
 		}
-		return MessageBuilder.withPayload(result).setHeader(
-				AbstractMessageSendingTemplate.CONVERSION_HINT_HEADER, returnType).build();
+		return MessageBuilder.withPayload(result)
+				.setHeader(AbstractMessageSendingTemplate.CONVERSION_HINT_HEADER, returnType).build();
 	}
 
 	protected Message<?> toMessagingMessage(javax.jms.Message jmsMessage) {
@@ -104,8 +102,8 @@ public class MessagingMessageListenerAdapter extends AbstractAdaptableMessageLis
 	}
 
 	/**
-	 * Invoke the handler, wrapping any exception to a {@link ListenerExecutionFailedException}
-	 * with a dedicated error message.
+	 * Invoke the handler, wrapping any exception to a
+	 * {@link ListenerExecutionFailedException} with a dedicated error message.
 	 */
 	@Nullable
 	private Object invokeHandler(javax.jms.Message jmsMessage, @Nullable Session session, Message<?> message) {
@@ -118,17 +116,16 @@ public class MessagingMessageListenerAdapter extends AbstractAdaptableMessageLis
 					createMessagingErrorMessage("Listener method could not be invoked with incoming message"), ex);
 		}
 		catch (Exception ex) {
-			throw new ListenerExecutionFailedException("Listener method '" +
-					handlerMethod.getMethod().toGenericString() + "' threw exception", ex);
+			throw new ListenerExecutionFailedException(
+					"Listener method '" + handlerMethod.getMethod().toGenericString() + "' threw exception", ex);
 		}
 	}
 
 	private String createMessagingErrorMessage(String description) {
 		InvocableHandlerMethod handlerMethod = getHandlerMethod();
-		StringBuilder sb = new StringBuilder(description).append("\n")
-				.append("Endpoint handler details:\n")
-				.append("Method [").append(handlerMethod.getMethod()).append("]\n")
-				.append("Bean [").append(handlerMethod.getBean()).append("]\n");
+		StringBuilder sb = new StringBuilder(description).append("\n").append("Endpoint handler details:\n")
+				.append("Method [").append(handlerMethod.getMethod()).append("]\n").append("Bean [")
+				.append(handlerMethod.getBean()).append("]\n");
 		return sb.toString();
 	}
 

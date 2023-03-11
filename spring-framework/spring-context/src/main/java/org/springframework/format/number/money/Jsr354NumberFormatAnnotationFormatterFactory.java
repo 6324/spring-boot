@@ -39,8 +39,8 @@ import org.springframework.format.number.PercentStyleFormatter;
 import org.springframework.util.StringUtils;
 
 /**
- * Formats {@link javax.money.MonetaryAmount} fields annotated
- * with Spring's common {@link NumberFormat} annotation.
+ * Formats {@link javax.money.MonetaryAmount} fields annotated with Spring's common
+ * {@link NumberFormat} annotation.
  *
  * @author Juergen Hoeller
  * @since 4.2
@@ -50,7 +50,6 @@ public class Jsr354NumberFormatAnnotationFormatterFactory extends EmbeddedValueR
 		implements AnnotationFormatterFactory<NumberFormat> {
 
 	private static final String CURRENCY_CODE_PATTERN = "\u00A4\u00A4";
-
 
 	@Override
 	public Set<Class<?>> getFieldTypes() {
@@ -66,7 +65,6 @@ public class Jsr354NumberFormatAnnotationFormatterFactory extends EmbeddedValueR
 	public Parser<MonetaryAmount> getParser(NumberFormat annotation, Class<?> fieldType) {
 		return configureFormatterFrom(annotation);
 	}
-
 
 	private Formatter<MonetaryAmount> configureFormatterFrom(NumberFormat annotation) {
 		String pattern = resolveEmbeddedValue(annotation.pattern());
@@ -87,7 +85,6 @@ public class Jsr354NumberFormatAnnotationFormatterFactory extends EmbeddedValueR
 		}
 	}
 
-
 	private static class NumberDecoratingFormatter implements Formatter<MonetaryAmount> {
 
 		private final Formatter<Number> numberFormatter;
@@ -107,8 +104,8 @@ public class Jsr354NumberFormatAnnotationFormatterFactory extends EmbeddedValueR
 			Number numberValue = this.numberFormatter.parse(text, locale);
 			return Monetary.getDefaultAmountFactory().setNumber(numberValue).setCurrency(currencyUnit).create();
 		}
-	}
 
+	}
 
 	private static class PatternDecoratingFormatter implements Formatter<MonetaryAmount> {
 
@@ -159,6 +156,7 @@ public class Jsr354NumberFormatAnnotationFormatterFactory extends EmbeddedValueR
 				throw new IllegalArgumentException("Cannot determine currency for number value [" + text + "]", ex);
 			}
 		}
+
 	}
 
 }

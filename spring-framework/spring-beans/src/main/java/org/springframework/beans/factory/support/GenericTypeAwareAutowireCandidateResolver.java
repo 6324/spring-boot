@@ -31,11 +31,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 
 /**
- * Basic {@link AutowireCandidateResolver} that performs a full generic type
- * match with the candidate's type if the dependency is declared as a generic type
- * (e.g. Repository&lt;Customer&gt;).
+ * Basic {@link AutowireCandidateResolver} that performs a full generic type match with
+ * the candidate's type if the dependency is declared as a generic type (e.g.
+ * Repository&lt;Customer&gt;).
  *
- * <p>This is the base class for
+ * <p>
+ * This is the base class for
  * {@link org.springframework.beans.factory.annotation.QualifierAnnotationAutowireCandidateResolver},
  * providing an implementation all non-annotation-based resolution steps at this level.
  *
@@ -48,7 +49,6 @@ public class GenericTypeAwareAutowireCandidateResolver extends SimpleAutowireCan
 	@Nullable
 	private BeanFactory beanFactory;
 
-
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) {
 		this.beanFactory = beanFactory;
@@ -58,7 +58,6 @@ public class GenericTypeAwareAutowireCandidateResolver extends SimpleAutowireCan
 	protected final BeanFactory getBeanFactory() {
 		return this.beanFactory;
 	}
-
 
 	@Override
 	public boolean isAutowireCandidate(BeanDefinitionHolder bdHolder, DependencyDescriptor descriptor) {
@@ -76,7 +75,8 @@ public class GenericTypeAwareAutowireCandidateResolver extends SimpleAutowireCan
 	protected boolean checkGenericTypeMatch(BeanDefinitionHolder bdHolder, DependencyDescriptor descriptor) {
 		ResolvableType dependencyType = descriptor.getResolvableType();
 		if (dependencyType.getType() instanceof Class) {
-			// No generic type -> we know it's a Class type-match, so no need to check again.
+			// No generic type -> we know it's a Class type-match, so no need to check
+			// again.
 			return true;
 		}
 
@@ -128,11 +128,14 @@ public class GenericTypeAwareAutowireCandidateResolver extends SimpleAutowireCan
 		if (cacheType) {
 			rbd.targetType = targetType;
 		}
-		if (descriptor.fallbackMatchAllowed() &&
-				(targetType.hasUnresolvableGenerics() || targetType.resolve() == Properties.class)) {
-			// Fallback matches allow unresolvable generics, e.g. plain HashMap to Map<String,String>;
-			// and pragmatically also java.util.Properties to any Map (since despite formally being a
-			// Map<Object,Object>, java.util.Properties is usually perceived as a Map<String,String>).
+		if (descriptor.fallbackMatchAllowed()
+				&& (targetType.hasUnresolvableGenerics() || targetType.resolve() == Properties.class)) {
+			// Fallback matches allow unresolvable generics, e.g. plain HashMap to
+			// Map<String,String>;
+			// and pragmatically also java.util.Properties to any Map (since despite
+			// formally being a
+			// Map<Object,Object>, java.util.Properties is usually perceived as a
+			// Map<String,String>).
 			return true;
 		}
 		// Full check for complex generic type match...
@@ -168,20 +171,22 @@ public class GenericTypeAwareAutowireCandidateResolver extends SimpleAutowireCan
 		if (returnType != null) {
 			Class<?> resolvedClass = returnType.resolve();
 			if (resolvedClass != null && descriptor.getDependencyType().isAssignableFrom(resolvedClass)) {
-				// Only use factory method metadata if the return type is actually expressive enough
-				// for our dependency. Otherwise, the returned instance type may have matched instead
-				// in case of a singleton instance having been registered with the container already.
+				// Only use factory method metadata if the return type is actually
+				// expressive enough
+				// for our dependency. Otherwise, the returned instance type may have
+				// matched instead
+				// in case of a singleton instance having been registered with the
+				// container already.
 				return returnType;
 			}
 		}
 		return null;
 	}
 
-
 	/**
-	 * This implementation clones all instance fields through standard
-	 * {@link Cloneable} support, allowing for subsequent reconfiguration
-	 * of the cloned instance through a fresh {@link #setBeanFactory} call.
+	 * This implementation clones all instance fields through standard {@link Cloneable}
+	 * support, allowing for subsequent reconfiguration of the cloned instance through a
+	 * fresh {@link #setBeanFactory} call.
 	 * @see #clone()
 	 */
 	@Override

@@ -52,7 +52,6 @@ public class AspectJEnableCachingIsolatedTests {
 
 	private ConfigurableApplicationContext ctx;
 
-
 	private void load(Class<?>... config) {
 		this.ctx = new AnnotationConfigApplicationContext(config);
 	}
@@ -63,7 +62,6 @@ public class AspectJEnableCachingIsolatedTests {
 			this.ctx.close();
 		}
 	}
-
 
 	@Test
 	public void testKeyStrategy() {
@@ -78,7 +76,6 @@ public class AspectJEnableCachingIsolatedTests {
 		AnnotationCacheAspect aspect = this.ctx.getBean(AnnotationCacheAspect.class);
 		assertThat(aspect.getErrorHandler()).isSameAs(this.ctx.getBean("errorHandler", CacheErrorHandler.class));
 	}
-
 
 	// --- local tests -------
 
@@ -132,7 +129,8 @@ public class AspectJEnableCachingIsolatedTests {
 		AnnotationCacheAspect aspect = this.ctx.getBean(AnnotationCacheAspect.class);
 		assertThat(aspect.getCacheResolver()).isNotNull();
 		assertThat(aspect.getCacheResolver().getClass()).isEqualTo(SimpleCacheResolver.class);
-		assertThat(((SimpleCacheResolver) aspect.getCacheResolver()).getCacheManager()).isSameAs(this.ctx.getBean(CacheManager.class));
+		assertThat(((SimpleCacheResolver) aspect.getCacheResolver()).getCacheManager())
+				.isSameAs(this.ctx.getBean(CacheManager.class));
 	}
 
 	@Test
@@ -143,7 +141,6 @@ public class AspectJEnableCachingIsolatedTests {
 		assertThat(aspect.getCacheResolver()).isSameAs(this.ctx.getBean("cacheResolver"));
 		assertThat(aspect.getKeyGenerator()).isSameAs(this.ctx.getBean("keyGenerator"));
 	}
-
 
 	@Configuration
 	@EnableCaching(mode = AdviceMode.ASPECTJ)
@@ -186,14 +183,14 @@ public class AspectJEnableCachingIsolatedTests {
 		public CacheManager customCacheManager() {
 			return CacheTestUtils.createSimpleCacheManager("testCache");
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching(mode = AdviceMode.ASPECTJ)
 	static class EmptyConfig {
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching(mode = AdviceMode.ASPECTJ)
@@ -203,8 +200,8 @@ public class AspectJEnableCachingIsolatedTests {
 		public CacheManager cm1() {
 			return new NoOpCacheManager();
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching(mode = AdviceMode.ASPECTJ)
@@ -219,8 +216,8 @@ public class AspectJEnableCachingIsolatedTests {
 		public CacheManager cm2() {
 			return new NoOpCacheManager();
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching(mode = AdviceMode.ASPECTJ)
@@ -245,8 +242,8 @@ public class AspectJEnableCachingIsolatedTests {
 		public KeyGenerator keyGenerator() {
 			return null;
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching(mode = AdviceMode.ASPECTJ)
@@ -258,7 +255,6 @@ public class AspectJEnableCachingIsolatedTests {
 		}
 
 	}
-
 
 	@Configuration
 	@EnableCaching(mode = AdviceMode.ASPECTJ)
@@ -281,5 +277,7 @@ public class AspectJEnableCachingIsolatedTests {
 		public CacheResolver cacheResolver() {
 			return new NamedCacheResolver(cacheManager(), "foo");
 		}
+
 	}
+
 }

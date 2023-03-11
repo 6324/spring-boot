@@ -31,8 +31,9 @@ import org.springframework.util.StringUtils;
  * {@link PropertySource} instances. Necessary in cases where multiple property sources
  * share the same name, e.g. when multiple values are supplied to {@code @PropertySource}.
  *
- * <p>As of Spring 4.1.2, this class extends {@link EnumerablePropertySource} instead
- * of plain {@link PropertySource}, exposing {@link #getPropertyNames()} based on the
+ * <p>
+ * As of Spring 4.1.2, this class extends {@link EnumerablePropertySource} instead of
+ * plain {@link PropertySource}, exposing {@link #getPropertyNames()} based on the
  * accumulated property names from all contained sources (as far as possible).
  *
  * @author Chris Beams
@@ -44,7 +45,6 @@ public class CompositePropertySource extends EnumerablePropertySource<Object> {
 
 	private final Set<PropertySource<?>> propertySources = new LinkedHashSet<>();
 
-
 	/**
 	 * Create a new {@code CompositePropertySource}.
 	 * @param name the name of the property source
@@ -52,7 +52,6 @@ public class CompositePropertySource extends EnumerablePropertySource<Object> {
 	public CompositePropertySource(String name) {
 		super(name);
 	}
-
 
 	@Override
 	@Nullable
@@ -89,7 +88,6 @@ public class CompositePropertySource extends EnumerablePropertySource<Object> {
 		return StringUtils.toStringArray(names);
 	}
 
-
 	/**
 	 * Add the given {@link PropertySource} to the end of the chain.
 	 * @param propertySource the PropertySource to add
@@ -117,7 +115,6 @@ public class CompositePropertySource extends EnumerablePropertySource<Object> {
 	public Collection<PropertySource<?>> getPropertySources() {
 		return this.propertySources;
 	}
-
 
 	@Override
 	public String toString() {

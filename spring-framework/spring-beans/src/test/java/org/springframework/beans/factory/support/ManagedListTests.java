@@ -55,8 +55,7 @@ public class ManagedListTests {
 	@Test
 	public void mergeNotAllowedWhenMergeNotEnabled() {
 		ManagedList child = new ManagedList();
-		assertThatIllegalStateException().isThrownBy(() ->
-				child.merge(null));
+		assertThatIllegalStateException().isThrownBy(() -> child.merge(null));
 	}
 
 	@Test
@@ -64,8 +63,7 @@ public class ManagedListTests {
 		ManagedList child = new ManagedList();
 		child.add("one");
 		child.setMergeEnabled(true);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				child.merge("hello"));
+		assertThatIllegalArgumentException().isThrownBy(() -> child.merge("hello"));
 	}
 
 	@Test

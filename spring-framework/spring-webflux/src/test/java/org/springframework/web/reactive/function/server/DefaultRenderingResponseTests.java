@@ -59,9 +59,7 @@ public class DefaultRenderingResponseTests {
 	public void create() {
 		String name = "foo";
 		Mono<RenderingResponse> result = RenderingResponse.create(name).build();
-		StepVerifier.create(result)
-				.expectNextMatches(response -> name.equals(response.name()))
-				.expectComplete()
+		StepVerifier.create(result).expectNextMatches(response -> name.equals(response.name())).expectComplete()
 				.verify();
 	}
 
@@ -69,67 +67,50 @@ public class DefaultRenderingResponseTests {
 	public void headers() {
 		HttpHeaders headers = new HttpHeaders();
 		Mono<RenderingResponse> result = RenderingResponse.create("foo").headers(headers).build();
-		StepVerifier.create(result)
-				.expectNextMatches(response -> headers.equals(response.headers()))
-				.expectComplete()
+		StepVerifier.create(result).expectNextMatches(response -> headers.equals(response.headers())).expectComplete()
 				.verify();
 
 	}
 
 	@Test
 	public void modelAttribute() {
-		Mono<RenderingResponse> result = RenderingResponse.create("foo")
-				.modelAttribute("foo", "bar").build();
-		StepVerifier.create(result)
-				.expectNextMatches(response -> "bar".equals(response.model().get("foo")))
-				.expectComplete()
-				.verify();
+		Mono<RenderingResponse> result = RenderingResponse.create("foo").modelAttribute("foo", "bar").build();
+		StepVerifier.create(result).expectNextMatches(response -> "bar".equals(response.model().get("foo")))
+				.expectComplete().verify();
 	}
 
 	@Test
 	public void modelAttributeConventions() {
-		Mono<RenderingResponse> result = RenderingResponse.create("foo")
-				.modelAttribute("bar").build();
-		StepVerifier.create(result)
-				.expectNextMatches(response -> "bar".equals(response.model().get("string")))
-				.expectComplete()
-				.verify();
+		Mono<RenderingResponse> result = RenderingResponse.create("foo").modelAttribute("bar").build();
+		StepVerifier.create(result).expectNextMatches(response -> "bar".equals(response.model().get("string")))
+				.expectComplete().verify();
 	}
 
 	@Test
 	public void modelAttributes() {
 		Map<String, String> model = Collections.singletonMap("foo", "bar");
-		Mono<RenderingResponse> result = RenderingResponse.create("foo")
-				.modelAttributes(model).build();
-		StepVerifier.create(result)
-				.expectNextMatches(response -> "bar".equals(response.model().get("foo")))
-				.expectComplete()
-				.verify();
+		Mono<RenderingResponse> result = RenderingResponse.create("foo").modelAttributes(model).build();
+		StepVerifier.create(result).expectNextMatches(response -> "bar".equals(response.model().get("foo")))
+				.expectComplete().verify();
 	}
 
 	@Test
 	public void modelAttributesConventions() {
 		Set<String> model = Collections.singleton("bar");
-		Mono<RenderingResponse> result = RenderingResponse.create("foo")
-				.modelAttributes(model).build();
-		StepVerifier.create(result)
-				.expectNextMatches(response -> "bar".equals(response.model().get("string")))
-				.expectComplete()
-				.verify();
+		Mono<RenderingResponse> result = RenderingResponse.create("foo").modelAttributes(model).build();
+		StepVerifier.create(result).expectNextMatches(response -> "bar".equals(response.model().get("string")))
+				.expectComplete().verify();
 	}
 
 	@Test
 	public void cookies() {
 		MultiValueMap<String, ResponseCookie> newCookies = new LinkedMultiValueMap<>();
 		newCookies.add("name", ResponseCookie.from("name", "value").build());
-		Mono<RenderingResponse> result =
-				RenderingResponse.create("foo").cookies(cookies -> cookies.addAll(newCookies)).build();
-		StepVerifier.create(result)
-				.expectNextMatches(response -> newCookies.equals(response.cookies()))
-				.expectComplete()
-				.verify();
+		Mono<RenderingResponse> result = RenderingResponse.create("foo").cookies(cookies -> cookies.addAll(newCookies))
+				.build();
+		StepVerifier.create(result).expectNextMatches(response -> newCookies.equals(response.cookies()))
+				.expectComplete().verify();
 	}
-
 
 	@Test
 	public void render() {
@@ -149,10 +130,8 @@ public class DefaultRenderingResponseTests {
 		given(mockConfig.viewResolvers()).willReturn(viewResolvers);
 
 		StepVerifier.create(result)
-				.expectNextMatches(response -> "view".equals(response.name()) &&
-						model.equals(response.model()))
-				.expectComplete()
-				.verify();
+				.expectNextMatches(response -> "view".equals(response.name()) && model.equals(response.model()))
+				.expectComplete().verify();
 	}
 
 	@Test
@@ -170,18 +149,17 @@ public class DefaultRenderingResponseTests {
 		ServerResponse.Context context = mock(ServerResponse.Context.class);
 		given(context.viewResolvers()).willReturn(viewResolvers);
 
-		StepVerifier.create(result.flatMap(response -> response.writeTo(exchange, context)))
-				.verifyComplete();
+		StepVerifier.create(result.flatMap(response -> response.writeTo(exchange, context))).verifyComplete();
 
-		assertThat(exchange.getResponse().getHeaders().getContentType()).isEqualTo(ViewResolverSupport.DEFAULT_CONTENT_TYPE);
+		assertThat(exchange.getResponse().getHeaders().getContentType())
+				.isEqualTo(ViewResolverSupport.DEFAULT_CONTENT_TYPE);
 	}
-
 
 	private static class TestView extends AbstractView {
 
 		@Override
-		protected Mono<Void> renderInternal(Map<String, Object> renderAttributes,
-				MediaType contentType, ServerWebExchange exchange) {
+		protected Mono<Void> renderInternal(Map<String, Object> renderAttributes, MediaType contentType,
+				ServerWebExchange exchange) {
 
 			return Mono.empty();
 		}
@@ -191,23 +169,17 @@ public class DefaultRenderingResponseTests {
 	@Test
 	public void notModifiedEtag() {
 		String etag = "\"foo\"";
-		RenderingResponse responseMono = RenderingResponse.create("bar")
-				.header(HttpHeaders.ETAG, etag)
-				.build()
-				.block();
+		RenderingResponse responseMono = RenderingResponse.create("bar").header(HttpHeaders.ETAG, etag).build().block();
 
 		MockServerHttpRequest request = MockServerHttpRequest.get("https://example.com")
-				.header(HttpHeaders.IF_NONE_MATCH, etag)
-				.build();
+				.header(HttpHeaders.IF_NONE_MATCH, etag).build();
 		MockServerWebExchange exchange = MockServerWebExchange.from(request);
 
 		responseMono.writeTo(exchange, DefaultServerResponseBuilderTests.EMPTY_CONTEXT);
 
 		MockServerHttpResponse response = exchange.getResponse();
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
-		StepVerifier.create(response.getBody())
-				.expectError(IllegalStateException.class)
-				.verify();
+		StepVerifier.create(response.getBody()).expectError(IllegalStateException.class).verify();
 	}
 
 	@Test
@@ -217,23 +189,17 @@ public class DefaultRenderingResponseTests {
 
 		RenderingResponse responseMono = RenderingResponse.create("bar")
 				.header(HttpHeaders.LAST_MODIFIED, DateTimeFormatter.RFC_1123_DATE_TIME.format(oneMinuteBeforeNow))
-				.build()
-				.block();
+				.build().block();
 
 		MockServerHttpRequest request = MockServerHttpRequest.get("https://example.com")
-				.header(HttpHeaders.IF_MODIFIED_SINCE,
-						DateTimeFormatter.RFC_1123_DATE_TIME.format(now))
-				.build();
+				.header(HttpHeaders.IF_MODIFIED_SINCE, DateTimeFormatter.RFC_1123_DATE_TIME.format(now)).build();
 		MockServerWebExchange exchange = MockServerWebExchange.from(request);
 
 		responseMono.writeTo(exchange, DefaultServerResponseBuilderTests.EMPTY_CONTEXT);
 
 		MockServerHttpResponse response = exchange.getResponse();
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_MODIFIED);
-		StepVerifier.create(response.getBody())
-				.expectError(IllegalStateException.class)
-				.verify();
+		StepVerifier.create(response.getBody()).expectError(IllegalStateException.class).verify();
 	}
-
 
 }

@@ -24,11 +24,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.remoting.support.RemoteInvocation;
 
 /**
- * Interface for RMI invocation handlers instances on the server,
- * wrapping exported services. A client uses a stub implementing
- * this interface to access such a service.
+ * Interface for RMI invocation handlers instances on the server, wrapping exported
+ * services. A client uses a stub implementing this interface to access such a service.
  *
- * <p>This is an SPI interface, not to be used directly by applications.
+ * <p>
+ * This is an SPI interface, not to be used directly by applications.
  *
  * @author Juergen Hoeller
  * @since 14.05.2003
@@ -46,7 +46,8 @@ public interface RmiInvocationHandler extends Remote {
 
 	/**
 	 * Apply the given invocation to the target object.
-	 * <p>Called by
+	 * <p>
+	 * Called by
 	 * {@link RmiClientInterceptor#doInvoke(org.aopalliance.intercept.MethodInvocation, RmiInvocationHandler)}.
 	 * @param invocation object that encapsulates invocation parameters
 	 * @return the object returned from the invoked method, if any

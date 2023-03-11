@@ -41,7 +41,6 @@ public class AopNamespaceHandlerTests {
 
 	private ApplicationContext context;
 
-
 	@BeforeEach
 	public void setup() {
 		this.context = new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
@@ -50,7 +49,6 @@ public class AopNamespaceHandlerTests {
 	protected ITestBean getTestBean() {
 		return (ITestBean) this.context.getBean("testBean");
 	}
-
 
 	@Test
 	public void testIsProxy() throws Exception {
@@ -147,7 +145,6 @@ public class AopNamespaceHandlerTests {
 	}
 
 }
-
 
 class CountingAspectJAdvice {
 

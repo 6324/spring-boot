@@ -22,9 +22,10 @@ import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.socket.server.RequestUpgradeStrategy;
 
 /**
- * A default {@link org.springframework.web.socket.server.HandshakeHandler} implementation,
- * extending {@link AbstractHandshakeHandler} with Servlet-specific initialization support.
- * See {@link AbstractHandshakeHandler}'s javadoc for details on supported servers etc.
+ * A default {@link org.springframework.web.socket.server.HandshakeHandler}
+ * implementation, extending {@link AbstractHandshakeHandler} with Servlet-specific
+ * initialization support. See {@link AbstractHandshakeHandler}'s javadoc for details on
+ * supported servers etc.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -38,7 +39,6 @@ public class DefaultHandshakeHandler extends AbstractHandshakeHandler implements
 	public DefaultHandshakeHandler(RequestUpgradeStrategy requestUpgradeStrategy) {
 		super(requestUpgradeStrategy);
 	}
-
 
 	@Override
 	public void setServletContext(ServletContext servletContext) {

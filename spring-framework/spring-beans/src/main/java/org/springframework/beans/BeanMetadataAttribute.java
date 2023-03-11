@@ -21,8 +21,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Holder for a key-value style attribute that is part of a bean definition.
- * Keeps track of the definition source in addition to the key-value pair.
+ * Holder for a key-value style attribute that is part of a bean definition. Keeps track
+ * of the definition source in addition to the key-value pair.
  *
  * @author Juergen Hoeller
  * @since 2.5
@@ -37,7 +37,6 @@ public class BeanMetadataAttribute implements BeanMetadataElement {
 	@Nullable
 	private Object source;
 
-
 	/**
 	 * Create a new AttributeValue instance.
 	 * @param name the name of the attribute (never {@code null})
@@ -48,7 +47,6 @@ public class BeanMetadataAttribute implements BeanMetadataElement {
 		this.name = name;
 		this.value = value;
 	}
-
 
 	/**
 	 * Return the name of the attribute.
@@ -67,7 +65,8 @@ public class BeanMetadataAttribute implements BeanMetadataElement {
 
 	/**
 	 * Set the configuration source {@code Object} for this metadata element.
-	 * <p>The exact type of the object will depend on the configuration mechanism used.
+	 * <p>
+	 * The exact type of the object will depend on the configuration mechanism used.
 	 */
 	public void setSource(@Nullable Object source) {
 		this.source = source;
@@ -79,7 +78,6 @@ public class BeanMetadataAttribute implements BeanMetadataElement {
 		return this.source;
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -89,9 +87,8 @@ public class BeanMetadataAttribute implements BeanMetadataElement {
 			return false;
 		}
 		BeanMetadataAttribute otherMa = (BeanMetadataAttribute) other;
-		return (this.name.equals(otherMa.name) &&
-				ObjectUtils.nullSafeEquals(this.value, otherMa.value) &&
-				ObjectUtils.nullSafeEquals(this.source, otherMa.source));
+		return (this.name.equals(otherMa.name) && ObjectUtils.nullSafeEquals(this.value, otherMa.value)
+				&& ObjectUtils.nullSafeEquals(this.source, otherMa.source));
 	}
 
 	@Override

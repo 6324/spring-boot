@@ -24,8 +24,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
 /**
- * A Pointcut that matches if the underlying {@link JCacheOperationSource}
- * has an operation for a given method.
+ * A Pointcut that matches if the underlying {@link JCacheOperationSource} has an
+ * operation for a given method.
  *
  * @author Stephane Nicoll
  * @since 4.1
@@ -40,12 +40,11 @@ public abstract class JCacheOperationSourcePointcut extends StaticMethodMatcherP
 	}
 
 	/**
-	 * Obtain the underlying {@link JCacheOperationSource} (may be {@code null}).
-	 * To be implemented by subclasses.
+	 * Obtain the underlying {@link JCacheOperationSource} (may be {@code null}). To be
+	 * implemented by subclasses.
 	 */
 	@Nullable
 	protected abstract JCacheOperationSource getCacheOperationSource();
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {

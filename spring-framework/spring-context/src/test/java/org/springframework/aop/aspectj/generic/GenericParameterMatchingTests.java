@@ -28,8 +28,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Tests that pointcut matching is correct with generic method parameter.
- * See SPR-3904 for more details.
+ * Tests that pointcut matching is correct with generic method parameter. See SPR-3904 for
+ * more details.
  *
  * @author Ramnivas Laddad
  * @author Chris Beams
@@ -40,19 +40,17 @@ public class GenericParameterMatchingTests {
 
 	private GenericInterface<String> testBean;
 
-
 	@SuppressWarnings("unchecked")
 	@org.junit.jupiter.api.BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
+				getClass().getSimpleName() + "-context.xml", getClass());
 
 		counterAspect = (CounterAspect) ctx.getBean("counterAspect");
 		counterAspect.reset();
 
 		testBean = (GenericInterface<String>) ctx.getBean("testBean");
 	}
-
 
 	@Test
 	public void testGenericInterfaceGenericArgExecution() {
@@ -72,14 +70,13 @@ public class GenericParameterMatchingTests {
 		assertThat(counterAspect.genericInterfaceSubtypeGenericCollectionArgExecutionCount).isEqualTo(1);
 	}
 
-
 	static interface GenericInterface<T> {
 
 		public void save(T bean);
 
 		public void saveAll(Collection<T> beans);
-	}
 
+	}
 
 	static class GenericImpl<T> implements GenericInterface<T> {
 
@@ -90,14 +87,16 @@ public class GenericParameterMatchingTests {
 		@Override
 		public void saveAll(Collection<T> beans) {
 		}
-	}
 
+	}
 
 	@Aspect
 	static class CounterAspect {
 
 		int genericInterfaceGenericArgExecutionCount;
+
 		int genericInterfaceGenericCollectionArgExecutionCount;
+
 		int genericInterfaceSubtypeGenericCollectionArgExecutionCount;
 
 		public void reset() {
@@ -107,13 +106,16 @@ public class GenericParameterMatchingTests {
 		}
 
 		@Pointcut("execution(* org.springframework.aop.aspectj.generic.GenericParameterMatchingTests.GenericInterface.save(..))")
-		public void genericInterfaceGenericArgExecution() {}
+		public void genericInterfaceGenericArgExecution() {
+		}
 
 		@Pointcut("execution(* org.springframework.aop.aspectj.generic.GenericParameterMatchingTests.GenericInterface.saveAll(..))")
-		public void GenericInterfaceGenericCollectionArgExecution() {}
+		public void GenericInterfaceGenericCollectionArgExecution() {
+		}
 
 		@Pointcut("execution(* org.springframework.aop.aspectj.generic.GenericParameterMatchingTests.GenericInterface+.saveAll(..))")
-		public void genericInterfaceSubtypeGenericCollectionArgExecution() {}
+		public void genericInterfaceSubtypeGenericCollectionArgExecution() {
+		}
 
 		@Before("genericInterfaceGenericArgExecution()")
 		public void incrementGenericInterfaceGenericArgExecution() {
@@ -129,6 +131,7 @@ public class GenericParameterMatchingTests {
 		public void incrementGenericInterfaceSubtypeGenericCollectionArgExecution() {
 			genericInterfaceSubtypeGenericCollectionArgExecutionCount++;
 		}
+
 	}
 
 }

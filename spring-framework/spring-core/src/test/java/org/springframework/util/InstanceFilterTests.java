@@ -35,32 +35,28 @@ class InstanceFilterTests {
 
 	@Test
 	void includesFilter() {
-		InstanceFilter<String> filter = new InstanceFilter<>(
-				asList("First", "Second"), null, true);
+		InstanceFilter<String> filter = new InstanceFilter<>(asList("First", "Second"), null, true);
 		match(filter, "Second");
 		doNotMatch(filter, "foo");
 	}
 
 	@Test
 	void excludesFilter() {
-		InstanceFilter<String> filter = new InstanceFilter<>(
-				null, asList("First", "Second"), true);
+		InstanceFilter<String> filter = new InstanceFilter<>(null, asList("First", "Second"), true);
 		doNotMatch(filter, "Second");
 		match(filter, "foo");
 	}
 
 	@Test
 	void includesAndExcludesFilters() {
-		InstanceFilter<String> filter = new InstanceFilter<>(
-				asList("foo", "Bar"), asList("First", "Second"), true);
+		InstanceFilter<String> filter = new InstanceFilter<>(asList("foo", "Bar"), asList("First", "Second"), true);
 		doNotMatch(filter, "Second");
 		match(filter, "foo");
 	}
 
 	@Test
 	void includesAndExcludesFiltersConflict() {
-		InstanceFilter<String> filter = new InstanceFilter<>(
-				asList("First"), asList("First"), true);
+		InstanceFilter<String> filter = new InstanceFilter<>(asList("First"), asList("First"), true);
 		doNotMatch(filter, "First");
 	}
 

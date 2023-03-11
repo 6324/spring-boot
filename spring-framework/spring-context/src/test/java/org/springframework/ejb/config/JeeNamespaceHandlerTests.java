@@ -42,17 +42,15 @@ public class JeeNamespaceHandlerTests {
 
 	private ConfigurableListableBeanFactory beanFactory;
 
-
 	@BeforeEach
 	public void setup() {
 		GenericApplicationContext ctx = new GenericApplicationContext();
-		new XmlBeanDefinitionReader(ctx).loadBeanDefinitions(
-				new ClassPathResource("jeeNamespaceHandlerTests.xml", getClass()));
+		new XmlBeanDefinitionReader(ctx)
+				.loadBeanDefinitions(new ClassPathResource("jeeNamespaceHandlerTests.xml", getClass()));
 		ctx.refresh();
 		this.beanFactory = ctx.getBeanFactory();
 		this.beanFactory.getBeanNamesForType(ITestBean.class);
 	}
-
 
 	@Test
 	public void testSimpleDefinition() {
@@ -101,7 +99,8 @@ public class JeeNamespaceHandlerTests {
 	@Test
 	public void testSimpleRemoteSlsb() {
 		BeanDefinition beanDefinition = this.beanFactory.getMergedBeanDefinition("simpleRemoteEjb");
-		assertThat(beanDefinition.getBeanClassName()).isEqualTo(SimpleRemoteStatelessSessionProxyFactoryBean.class.getName());
+		assertThat(beanDefinition.getBeanClassName())
+				.isEqualTo(SimpleRemoteStatelessSessionProxyFactoryBean.class.getName());
 		assertPropertyValue(beanDefinition, "businessInterface", ITestBean.class.getName());
 		assertPropertyValue(beanDefinition, "jndiName", "ejb/MyRemoteBean");
 	}
@@ -121,7 +120,8 @@ public class JeeNamespaceHandlerTests {
 	@Test
 	public void testComplexRemoteSlsb() {
 		BeanDefinition beanDefinition = this.beanFactory.getMergedBeanDefinition("complexRemoteEjb");
-		assertThat(beanDefinition.getBeanClassName()).isEqualTo(SimpleRemoteStatelessSessionProxyFactoryBean.class.getName());
+		assertThat(beanDefinition.getBeanClassName())
+				.isEqualTo(SimpleRemoteStatelessSessionProxyFactoryBean.class.getName());
 		assertPropertyValue(beanDefinition, "businessInterface", ITestBean.class.getName());
 		assertPropertyValue(beanDefinition, "jndiName", "ejb/MyRemoteBean");
 		assertPropertyValue(beanDefinition, "cacheHome", "true");
@@ -144,7 +144,8 @@ public class JeeNamespaceHandlerTests {
 	}
 
 	private void assertPropertyValue(BeanDefinition beanDefinition, String propertyName, Object expectedValue) {
-		assertThat(beanDefinition.getPropertyValues().getPropertyValue(propertyName).getValue()).as("Property '" + propertyName + "' incorrect").isEqualTo(expectedValue);
+		assertThat(beanDefinition.getPropertyValues().getPropertyValue(propertyName).getValue())
+				.as("Property '" + propertyName + "' incorrect").isEqualTo(expectedValue);
 	}
 
 }

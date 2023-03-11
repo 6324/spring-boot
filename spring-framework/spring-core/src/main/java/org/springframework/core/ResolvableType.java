@@ -48,12 +48,12 @@ import org.springframework.util.StringUtils;
  * {@link #getGeneric(int...) generic parameters} along with the ability to ultimately
  * {@link #resolve() resolve} to a {@link java.lang.Class}.
  *
- * <p>{@code ResolvableTypes} may be obtained from {@link #forField(Field) fields},
+ * <p>
+ * {@code ResolvableTypes} may be obtained from {@link #forField(Field) fields},
  * {@link #forMethodParameter(Method, int) method parameters},
- * {@link #forMethodReturnType(Method) method returns} or
- * {@link #forClass(Class) classes}. Most methods on this class will themselves return
- * {@link ResolvableType ResolvableTypes}, allowing easy navigation. For example:
- * <pre class="code">
+ * {@link #forMethodReturnType(Method) method returns} or {@link #forClass(Class)
+ * classes}. Most methods on this class will themselves return {@link ResolvableType
+ * ResolvableTypes}, allowing easy navigation. For example: <pre class="code">
  * private HashMap&lt;Integer, List&lt;String&gt;&gt; myMap;
  *
  * public void example() {
@@ -84,16 +84,15 @@ import org.springframework.util.StringUtils;
 public class ResolvableType implements Serializable {
 
 	/**
-	 * {@code ResolvableType} returned when no value is available. {@code NONE} is used
-	 * in preference to {@code null} so that multiple method calls can be safely chained.
+	 * {@code ResolvableType} returned when no value is available. {@code NONE} is used in
+	 * preference to {@code null} so that multiple method calls can be safely chained.
 	 */
 	public static final ResolvableType NONE = new ResolvableType(EmptyType.INSTANCE, null, null, 0);
 
 	private static final ResolvableType[] EMPTY_TYPES_ARRAY = new ResolvableType[0];
 
-	private static final ConcurrentReferenceHashMap<ResolvableType, ResolvableType> cache =
-			new ConcurrentReferenceHashMap<>(256);
-
+	private static final ConcurrentReferenceHashMap<ResolvableType, ResolvableType> cache = new ConcurrentReferenceHashMap<>(
+			256);
 
 	/**
 	 * The underlying Java type being managed.
@@ -133,13 +132,12 @@ public class ResolvableType implements Serializable {
 	@Nullable
 	private volatile ResolvableType[] generics;
 
-
 	/**
-	 * Private constructor used to create a new {@link ResolvableType} for cache key purposes,
-	 * with no upfront resolution.
+	 * Private constructor used to create a new {@link ResolvableType} for cache key
+	 * purposes, with no upfront resolution.
 	 */
-	private ResolvableType(
-			Type type, @Nullable TypeProvider typeProvider, @Nullable VariableResolver variableResolver) {
+	private ResolvableType(Type type, @Nullable TypeProvider typeProvider,
+			@Nullable VariableResolver variableResolver) {
 
 		this.type = type;
 		this.typeProvider = typeProvider;
@@ -150,12 +148,12 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Private constructor used to create a new {@link ResolvableType} for cache value purposes,
-	 * with upfront resolution and a pre-calculated hash.
+	 * Private constructor used to create a new {@link ResolvableType} for cache value
+	 * purposes, with upfront resolution and a pre-calculated hash.
 	 * @since 4.2
 	 */
-	private ResolvableType(Type type, @Nullable TypeProvider typeProvider,
-			@Nullable VariableResolver variableResolver, @Nullable Integer hash) {
+	private ResolvableType(Type type, @Nullable TypeProvider typeProvider, @Nullable VariableResolver variableResolver,
+			@Nullable Integer hash) {
 
 		this.type = type;
 		this.typeProvider = typeProvider;
@@ -166,11 +164,11 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Private constructor used to create a new {@link ResolvableType} for uncached purposes,
-	 * with upfront resolution but lazily calculated hash.
+	 * Private constructor used to create a new {@link ResolvableType} for uncached
+	 * purposes, with upfront resolution but lazily calculated hash.
 	 */
-	private ResolvableType(Type type, @Nullable TypeProvider typeProvider,
-			@Nullable VariableResolver variableResolver, @Nullable ResolvableType componentType) {
+	private ResolvableType(Type type, @Nullable TypeProvider typeProvider, @Nullable VariableResolver variableResolver,
+			@Nullable ResolvableType componentType) {
 
 		this.type = type;
 		this.typeProvider = typeProvider;
@@ -181,8 +179,9 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Private constructor used to create a new {@link ResolvableType} on a {@link Class} basis.
-	 * Avoids all {@code instanceof} checks in order to create a straight {@link Class} wrapper.
+	 * Private constructor used to create a new {@link ResolvableType} on a {@link Class}
+	 * basis. Avoids all {@code instanceof} checks in order to create a straight
+	 * {@link Class} wrapper.
 	 * @since 4.2
 	 */
 	private ResolvableType(@Nullable Class<?> clazz) {
@@ -194,7 +193,6 @@ public class ResolvableType implements Serializable {
 		this.hash = null;
 	}
 
-
 	/**
 	 * Return the underling Java {@link Type} being managed.
 	 */
@@ -203,8 +201,8 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Return the underlying Java {@link Class} being managed, if available;
-	 * otherwise {@code null}.
+	 * Return the underlying Java {@link Class} being managed, if available; otherwise
+	 * {@code null}.
 	 */
 	@Nullable
 	public Class<?> getRawClass() {
@@ -253,8 +251,8 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Determine whether this {@code ResolvableType} is assignable from the
-	 * specified other type.
+	 * Determine whether this {@code ResolvableType} is assignable from the specified
+	 * other type.
 	 * @param other the type to be checked against (as a {@code Class})
 	 * @since 4.2
 	 * @see #isAssignableFrom(ResolvableType)
@@ -264,12 +262,13 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Determine whether this {@code ResolvableType} is assignable from the
-	 * specified other type.
-	 * <p>Attempts to follow the same rules as the Java compiler, considering
-	 * whether both the {@link #resolve() resolved} {@code Class} is
-	 * {@link Class#isAssignableFrom(Class) assignable from} the given type
-	 * as well as whether all {@link #getGenerics() generics} are assignable.
+	 * Determine whether this {@code ResolvableType} is assignable from the specified
+	 * other type.
+	 * <p>
+	 * Attempts to follow the same rules as the Java compiler, considering whether both
+	 * the {@link #resolve() resolved} {@code Class} is
+	 * {@link Class#isAssignableFrom(Class) assignable from} the given type as well as
+	 * whether all {@link #getGenerics() generics} are assignable.
 	 * @param other the type to be checked against (as a {@code ResolvableType})
 	 * @return {@code true} if the specified other type can be assigned to this
 	 * {@code ResolvableType}; {@code false} otherwise
@@ -301,8 +300,8 @@ public class ResolvableType implements Serializable {
 
 		// In the form X is assignable to <? extends Number>
 		if (typeBounds != null) {
-			return (ourBounds != null && ourBounds.isSameKind(typeBounds) &&
-					ourBounds.isAssignableFrom(typeBounds.getBounds()));
+			return (ourBounds != null && ourBounds.isSameKind(typeBounds)
+					&& ourBounds.isAssignableFrom(typeBounds.getBounds()));
 		}
 
 		// In the form <? extends Number> is assignable to X...
@@ -311,7 +310,8 @@ public class ResolvableType implements Serializable {
 		}
 
 		// Main assignability check about to follow
-		boolean exactMatch = (matchedBefore != null);  // We're checking nested generic variables now...
+		boolean exactMatch = (matchedBefore != null); // We're checking nested generic
+														// variables now...
 		boolean checkGenerics = true;
 		Class<?> ourResolved = null;
 		if (this.type instanceof TypeVariable) {
@@ -334,7 +334,8 @@ public class ResolvableType implements Serializable {
 				}
 			}
 			if (ourResolved == null) {
-				// Unresolved type variable, potentially nested -> never insist on exact match
+				// Unresolved type variable, potentially nested -> never insist on exact
+				// match
 				exactMatch = false;
 			}
 		}
@@ -378,8 +379,8 @@ public class ResolvableType implements Serializable {
 		if (this == NONE) {
 			return false;
 		}
-		return ((this.type instanceof Class && ((Class<?>) this.type).isArray()) ||
-				this.type instanceof GenericArrayType || resolveType().isArray());
+		return ((this.type instanceof Class && ((Class<?>) this.type).isArray())
+				|| this.type instanceof GenericArrayType || resolveType().isArray());
 	}
 
 	/**
@@ -406,8 +407,7 @@ public class ResolvableType implements Serializable {
 
 	/**
 	 * Convenience method to return this type as a resolvable {@link Collection} type.
-	 * Returns {@link #NONE} if this type does not implement or extend
-	 * {@link Collection}.
+	 * Returns {@link #NONE} if this type does not implement or extend {@link Collection}.
 	 * @see #as(Class)
 	 * @see #asMap()
 	 */
@@ -416,9 +416,8 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Convenience method to return this type as a resolvable {@link Map} type.
-	 * Returns {@link #NONE} if this type does not implement or extend
-	 * {@link Map}.
+	 * Convenience method to return this type as a resolvable {@link Map} type. Returns
+	 * {@link #NONE} if this type does not implement or extend {@link Map}.
 	 * @see #as(Class)
 	 * @see #asCollection()
 	 */
@@ -432,8 +431,8 @@ public class ResolvableType implements Serializable {
 	 * hierarchies to find a match, returning {@link #NONE} if this type does not
 	 * implement or extend the specified class.
 	 * @param type the required type (typically narrowed)
-	 * @return a {@link ResolvableType} representing this object as the specified
-	 * type, or {@link #NONE} if not resolvable as that type
+	 * @return a {@link ResolvableType} representing this object as the specified type, or
+	 * {@link #NONE} if not resolvable as that type
 	 * @see #asCollection()
 	 * @see #asMap()
 	 * @see #getSuperType()
@@ -457,9 +456,11 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Return a {@link ResolvableType} representing the direct supertype of this type.
-	 * If no supertype is available this method returns {@link #NONE}.
-	 * <p>Note: The resulting {@link ResolvableType} instance may not be {@link Serializable}.
+	 * Return a {@link ResolvableType} representing the direct supertype of this type. If
+	 * no supertype is available this method returns {@link #NONE}.
+	 * <p>
+	 * Note: The resulting {@link ResolvableType} instance may not be
+	 * {@link Serializable}.
 	 * @see #getInterfaces()
 	 */
 	public ResolvableType getSuperType() {
@@ -487,9 +488,11 @@ public class ResolvableType implements Serializable {
 
 	/**
 	 * Return a {@link ResolvableType} array representing the direct interfaces
-	 * implemented by this type. If this type does not implement any interfaces an
-	 * empty array is returned.
-	 * <p>Note: The resulting {@link ResolvableType} instances may not be {@link Serializable}.
+	 * implemented by this type. If this type does not implement any interfaces an empty
+	 * array is returned.
+	 * <p>
+	 * Note: The resulting {@link ResolvableType} instances may not be
+	 * {@link Serializable}.
 	 * @see #getSuperType()
 	 */
 	public ResolvableType[] getInterfaces() {
@@ -519,8 +522,8 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Return {@code true} if this type contains unresolvable generics only,
-	 * that is, no substitute for any of its declared type variables.
+	 * Return {@code true} if this type contains unresolvable generics only, that is, no
+	 * substitute for any of its declared type variables.
 	 */
 	boolean isEntirelyUnresolvable() {
 		if (this == NONE) {
@@ -536,11 +539,10 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Determine whether the underlying type has any unresolvable generics:
-	 * either through an unresolvable type variable on the type itself
-	 * or through implementing a generic interface in a raw fashion,
-	 * i.e. without substituting that interface's type variables.
-	 * The result will be {@code true} only in those two scenarios.
+	 * Determine whether the underlying type has any unresolvable generics: either through
+	 * an unresolvable type variable on the type itself or through implementing a generic
+	 * interface in a raw fashion, i.e. without substituting that interface's type
+	 * variables. The result will be {@code true} only in those two scenarios.
 	 */
 	public boolean hasUnresolvableGenerics() {
 		if (this == NONE) {
@@ -572,8 +574,8 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Determine whether the underlying type is a type variable that
-	 * cannot be resolved through the associated variable resolver.
+	 * Determine whether the underlying type is a type variable that cannot be resolved
+	 * through the associated variable resolver.
 	 */
 	private boolean isUnresolvableTypeVariable() {
 		if (this.type instanceof TypeVariable) {
@@ -590,8 +592,8 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Determine whether the underlying type represents a wildcard
-	 * without specific bounds (i.e., equal to {@code ? extends Object}).
+	 * Determine whether the underlying type represents a wildcard without specific bounds
+	 * (i.e., equal to {@code ? extends Object}).
 	 */
 	private boolean isWildcardWithoutBounds() {
 		if (this.type instanceof WildcardType) {
@@ -607,8 +609,8 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Return a {@link ResolvableType} for the specified nesting level.
-	 * See {@link #getNested(int, Map)} for details.
+	 * Return a {@link ResolvableType} for the specified nesting level. See
+	 * {@link #getNested(int, Map)} for details.
 	 * @param nestingLevel the nesting level
 	 * @return the {@link ResolvableType} type, or {@code #NONE}
 	 */
@@ -618,22 +620,26 @@ public class ResolvableType implements Serializable {
 
 	/**
 	 * Return a {@link ResolvableType} for the specified nesting level.
-	 * <p>The nesting level refers to the specific generic parameter that should be returned.
-	 * A nesting level of 1 indicates this type; 2 indicates the first nested generic;
-	 * 3 the second; and so on. For example, given {@code List<Set<Integer>>} level 1 refers
+	 * <p>
+	 * The nesting level refers to the specific generic parameter that should be returned.
+	 * A nesting level of 1 indicates this type; 2 indicates the first nested generic; 3
+	 * the second; and so on. For example, given {@code List<Set<Integer>>} level 1 refers
 	 * to the {@code List}, level 2 the {@code Set}, and level 3 the {@code Integer}.
-	 * <p>The {@code typeIndexesPerLevel} map can be used to reference a specific generic
-	 * for the given level. For example, an index of 0 would refer to a {@code Map} key;
+	 * <p>
+	 * The {@code typeIndexesPerLevel} map can be used to reference a specific generic for
+	 * the given level. For example, an index of 0 would refer to a {@code Map} key;
 	 * whereas, 1 would refer to the value. If the map does not contain a value for a
 	 * specific level the last generic will be used (e.g. a {@code Map} value).
-	 * <p>Nesting levels may also apply to array types; for example given
-	 * {@code String[]}, a nesting level of 2 refers to {@code String}.
-	 * <p>If a type does not {@link #hasGenerics() contain} generics the
+	 * <p>
+	 * Nesting levels may also apply to array types; for example given {@code String[]}, a
+	 * nesting level of 2 refers to {@code String}.
+	 * <p>
+	 * If a type does not {@link #hasGenerics() contain} generics the
 	 * {@link #getSuperType() supertype} hierarchy will be considered.
-	 * @param nestingLevel the required nesting level, indexed from 1 for the
-	 * current type, 2 for the first nested generic, 3 for the second and so on
-	 * @param typeIndexesPerLevel a map containing the generic index for a given
-	 * nesting level (may be {@code null})
+	 * @param nestingLevel the required nesting level, indexed from 1 for the current
+	 * type, 2 for the first nested generic, 3 for the second and so on
+	 * @param typeIndexesPerLevel a map containing the generic index for a given nesting
+	 * level (may be {@code null})
 	 * @return a {@link ResolvableType} for the nested level, or {@link #NONE}
 	 */
 	public ResolvableType getNested(int nestingLevel, @Nullable Map<Integer, Integer> typeIndexesPerLevel) {
@@ -656,16 +662,17 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Return a {@link ResolvableType} representing the generic parameter for the
-	 * given indexes. Indexes are zero based; for example given the type
+	 * Return a {@link ResolvableType} representing the generic parameter for the given
+	 * indexes. Indexes are zero based; for example given the type
 	 * {@code Map<Integer, List<String>>}, {@code getGeneric(0)} will access the
 	 * {@code Integer}. Nested generics can be accessed by specifying multiple indexes;
-	 * for example {@code getGeneric(1, 0)} will access the {@code String} from the
-	 * nested {@code List}. For convenience, if no indexes are specified the first
-	 * generic is returned.
-	 * <p>If no generic is available at the specified indexes {@link #NONE} is returned.
-	 * @param indexes the indexes that refer to the generic parameter
-	 * (may be omitted to return the first generic)
+	 * for example {@code getGeneric(1, 0)} will access the {@code String} from the nested
+	 * {@code List}. For convenience, if no indexes are specified the first generic is
+	 * returned.
+	 * <p>
+	 * If no generic is available at the specified indexes {@link #NONE} is returned.
+	 * @param indexes the indexes that refer to the generic parameter (may be omitted to
+	 * return the first generic)
 	 * @return a {@link ResolvableType} for the specified generic, or {@link #NONE}
 	 * @see #hasGenerics()
 	 * @see #getGenerics()
@@ -689,13 +696,13 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Return an array of {@link ResolvableType ResolvableTypes} representing the generic parameters of
-	 * this type. If no generics are available an empty array is returned. If you need to
-	 * access a specific generic consider using the {@link #getGeneric(int...)} method as
-	 * it allows access to nested generics and protects against
-	 * {@code IndexOutOfBoundsExceptions}.
-	 * @return an array of {@link ResolvableType ResolvableTypes} representing the generic parameters
-	 * (never {@code null})
+	 * Return an array of {@link ResolvableType ResolvableTypes} representing the generic
+	 * parameters of this type. If no generics are available an empty array is returned.
+	 * If you need to access a specific generic consider using the
+	 * {@link #getGeneric(int...)} method as it allows access to nested generics and
+	 * protects against {@code IndexOutOfBoundsExceptions}.
+	 * @return an array of {@link ResolvableType ResolvableTypes} representing the generic
+	 * parameters (never {@code null})
 	 * @see #hasGenerics()
 	 * @see #getGeneric(int...)
 	 * @see #resolveGeneric(int...)
@@ -730,10 +737,10 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Convenience method that will {@link #getGenerics() get} and
-	 * {@link #resolve() resolve} generic parameters.
-	 * @return an array of resolved generic parameters (the resulting array
-	 * will never be {@code null}, but it may contain {@code null} elements})
+	 * Convenience method that will {@link #getGenerics() get} and {@link #resolve()
+	 * resolve} generic parameters.
+	 * @return an array of resolved generic parameters (the resulting array will never be
+	 * {@code null}, but it may contain {@code null} elements})
 	 * @see #getGenerics()
 	 * @see #resolve()
 	 */
@@ -765,10 +772,10 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Convenience method that will {@link #getGeneric(int...) get} and
-	 * {@link #resolve() resolve} a specific generic parameters.
-	 * @param indexes the indexes that refer to the generic parameter
-	 * (may be omitted to return the first generic)
+	 * Convenience method that will {@link #getGeneric(int...) get} and {@link #resolve()
+	 * resolve} a specific generic parameters.
+	 * @param indexes the indexes that refer to the generic parameter (may be omitted to
+	 * return the first generic)
 	 * @return a resolved {@link Class} or {@code null}
 	 * @see #getGeneric(int...)
 	 * @see #resolve()
@@ -779,13 +786,14 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Resolve this type to a {@link java.lang.Class}, returning {@code null}
-	 * if the type cannot be resolved. This method will consider bounds of
-	 * {@link TypeVariable TypeVariables} and {@link WildcardType WildcardTypes} if
-	 * direct resolution fails; however, bounds of {@code Object.class} will be ignored.
-	 * <p>If this method returns a non-null {@code Class} and {@link #hasGenerics()}
-	 * returns {@code false}, the given type effectively wraps a plain {@code Class},
-	 * allowing for plain {@code Class} processing if desirable.
+	 * Resolve this type to a {@link java.lang.Class}, returning {@code null} if the type
+	 * cannot be resolved. This method will consider bounds of {@link TypeVariable
+	 * TypeVariables} and {@link WildcardType WildcardTypes} if direct resolution fails;
+	 * however, bounds of {@code Object.class} will be ignored.
+	 * <p>
+	 * If this method returns a non-null {@code Class} and {@link #hasGenerics()} returns
+	 * {@code false}, the given type effectively wraps a plain {@code Class}, allowing for
+	 * plain {@code Class} processing if desirable.
 	 * @return the resolved {@link Class}, or {@code null} if not resolvable
 	 * @see #resolve(Class)
 	 * @see #resolveGeneric(int...)
@@ -828,8 +836,9 @@ public class ResolvableType implements Serializable {
 
 	/**
 	 * Resolve this type by a single level, returning the resolved value or {@link #NONE}.
-	 * <p>Note: The returned {@link ResolvableType} should only be used as an intermediary
-	 * as it cannot be serialized.
+	 * <p>
+	 * Note: The returned {@link ResolvableType} should only be used as an intermediary as
+	 * it cannot be serialized.
 	 */
 	ResolvableType resolveType() {
 		if (this.type instanceof ParameterizedType) {
@@ -900,7 +909,6 @@ public class ResolvableType implements Serializable {
 		return null;
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -914,14 +922,13 @@ public class ResolvableType implements Serializable {
 		if (!ObjectUtils.nullSafeEquals(this.type, otherType.type)) {
 			return false;
 		}
-		if (this.typeProvider != otherType.typeProvider &&
-				(this.typeProvider == null || otherType.typeProvider == null ||
-				!ObjectUtils.nullSafeEquals(this.typeProvider.getType(), otherType.typeProvider.getType()))) {
+		if (this.typeProvider != otherType.typeProvider && (this.typeProvider == null || otherType.typeProvider == null
+				|| !ObjectUtils.nullSafeEquals(this.typeProvider.getType(), otherType.typeProvider.getType()))) {
 			return false;
 		}
-		if (this.variableResolver != otherType.variableResolver &&
-				(this.variableResolver == null || otherType.variableResolver == null ||
-				!ObjectUtils.nullSafeEquals(this.variableResolver.getSource(), otherType.variableResolver.getSource()))) {
+		if (this.variableResolver != otherType.variableResolver
+				&& (this.variableResolver == null || otherType.variableResolver == null || !ObjectUtils
+						.nullSafeEquals(this.variableResolver.getSource(), otherType.variableResolver.getSource()))) {
 			return false;
 		}
 		if (!ObjectUtils.nullSafeEquals(this.componentType, otherType.componentType)) {
@@ -968,8 +975,8 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Return a String representation of this type in its fully resolved form
-	 * (including any generic parameters).
+	 * Return a String representation of this type in its fully resolved form (including
+	 * any generic parameters).
 	 */
 	@Override
 	public String toString() {
@@ -993,15 +1000,14 @@ public class ResolvableType implements Serializable {
 		return this.resolved.getName();
 	}
 
-
 	// Factory methods
 
 	/**
-	 * Return a {@link ResolvableType} for the specified {@link Class},
-	 * using the full generic type information for assignability checks.
-	 * For example: {@code ResolvableType.forClass(MyArrayList.class)}.
-	 * @param clazz the class to introspect ({@code null} is semantically
-	 * equivalent to {@code Object.class} for typical use cases here)
+	 * Return a {@link ResolvableType} for the specified {@link Class}, using the full
+	 * generic type information for assignability checks. For example:
+	 * {@code ResolvableType.forClass(MyArrayList.class)}.
+	 * @param clazz the class to introspect ({@code null} is semantically equivalent to
+	 * {@code Object.class} for typical use cases here)
 	 * @return a {@link ResolvableType} for the specified class
 	 * @see #forClass(Class, Class)
 	 * @see #forClassWithGenerics(Class, Class...)
@@ -1011,12 +1017,12 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Return a {@link ResolvableType} for the specified {@link Class},
-	 * doing assignability checks against the raw class only (analogous to
-	 * {@link Class#isAssignableFrom}, which this serves as a wrapper for.
-	 * For example: {@code ResolvableType.forRawClass(List.class)}.
-	 * @param clazz the class to introspect ({@code null} is semantically
-	 * equivalent to {@code Object.class} for typical use cases here)
+	 * Return a {@link ResolvableType} for the specified {@link Class}, doing
+	 * assignability checks against the raw class only (analogous to
+	 * {@link Class#isAssignableFrom}, which this serves as a wrapper for. For example:
+	 * {@code ResolvableType.forRawClass(List.class)}.
+	 * @param clazz the class to introspect ({@code null} is semantically equivalent to
+	 * {@code Object.class} for typical use cases here)
 	 * @return a {@link ResolvableType} for the specified class
 	 * @since 4.2
 	 * @see #forClass(Class)
@@ -1028,10 +1034,12 @@ public class ResolvableType implements Serializable {
 			public ResolvableType[] getGenerics() {
 				return EMPTY_TYPES_ARRAY;
 			}
+
 			@Override
 			public boolean isAssignableFrom(Class<?> other) {
 				return (clazz == null || ClassUtils.isAssignable(clazz, other));
 			}
+
 			@Override
 			public boolean isAssignableFrom(ResolvableType other) {
 				Class<?> otherClass = other.resolve();
@@ -1041,13 +1049,13 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Return a {@link ResolvableType} for the specified base type
-	 * (interface or base class) with a given implementation class.
-	 * For example: {@code ResolvableType.forClass(List.class, MyArrayList.class)}.
+	 * Return a {@link ResolvableType} for the specified base type (interface or base
+	 * class) with a given implementation class. For example:
+	 * {@code ResolvableType.forClass(List.class, MyArrayList.class)}.
 	 * @param baseType the base type (must not be {@code null})
 	 * @param implementationClass the implementation class
-	 * @return a {@link ResolvableType} for the specified base type backed by the
-	 * given implementation class
+	 * @return a {@link ResolvableType} for the specified base type backed by the given
+	 * implementation class
 	 * @see #forClass(Class)
 	 * @see #forClassWithGenerics(Class, Class...)
 	 */
@@ -1058,7 +1066,8 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Return a {@link ResolvableType} for the specified {@link Class} with pre-declared generics.
+	 * Return a {@link ResolvableType} for the specified {@link Class} with pre-declared
+	 * generics.
 	 * @param clazz the class (or interface) to introspect
 	 * @param generics the generics of the class
 	 * @return a {@link ResolvableType} for the specific class and generics
@@ -1075,7 +1084,8 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Return a {@link ResolvableType} for the specified {@link Class} with pre-declared generics.
+	 * Return a {@link ResolvableType} for the specified {@link Class} with pre-declared
+	 * generics.
 	 * @param clazz the class (or interface) to introspect
 	 * @param generics the generics of the class
 	 * @return a {@link ResolvableType} for the specific class and generics
@@ -1101,8 +1111,8 @@ public class ResolvableType implements Serializable {
 	/**
 	 * Return a {@link ResolvableType} for the specified instance. The instance does not
 	 * convey generic information but if it implements {@link ResolvableTypeProvider} a
-	 * more precise {@link ResolvableType} can be used than the simple one based on
-	 * the {@link #forClass(Class) Class instance}.
+	 * more precise {@link ResolvableType} can be used than the simple one based on the
+	 * {@link #forClass(Class) Class instance}.
 	 * @param instance the instance
 	 * @return a {@link ResolvableType} for the specified instance
 	 * @since 4.2
@@ -1133,8 +1143,9 @@ public class ResolvableType implements Serializable {
 	/**
 	 * Return a {@link ResolvableType} for the specified {@link Field} with a given
 	 * implementation.
-	 * <p>Use this variant when the class that declares the field includes generic
-	 * parameter variables that are satisfied by the implementation class.
+	 * <p>
+	 * Use this variant when the class that declares the field includes generic parameter
+	 * variables that are satisfied by the implementation class.
 	 * @param field the source field
 	 * @param implementationClass the implementation class
 	 * @return a {@link ResolvableType} for the specified field
@@ -1149,8 +1160,9 @@ public class ResolvableType implements Serializable {
 	/**
 	 * Return a {@link ResolvableType} for the specified {@link Field} with a given
 	 * implementation.
-	 * <p>Use this variant when the class that declares the field includes generic
-	 * parameter variables that are satisfied by the implementation type.
+	 * <p>
+	 * Use this variant when the class that declares the field includes generic parameter
+	 * variables that are satisfied by the implementation type.
 	 * @param field the source field
 	 * @param implementationType the implementation type
 	 * @return a {@link ResolvableType} for the specified field
@@ -1164,8 +1176,8 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Return a {@link ResolvableType} for the specified {@link Field} with the
-	 * given nesting level.
+	 * Return a {@link ResolvableType} for the specified {@link Field} with the given
+	 * nesting level.
 	 * @param field the source field
 	 * @param nestingLevel the nesting level (1 for the outer level; 2 for a nested
 	 * generic type; etc)
@@ -1179,8 +1191,9 @@ public class ResolvableType implements Serializable {
 	/**
 	 * Return a {@link ResolvableType} for the specified {@link Field} with a given
 	 * implementation and the given nesting level.
-	 * <p>Use this variant when the class that declares the field includes generic
-	 * parameter variables that are satisfied by the implementation class.
+	 * <p>
+	 * Use this variant when the class that declares the field includes generic parameter
+	 * variables that are satisfied by the implementation class.
 	 * @param field the source field
 	 * @param nestingLevel the nesting level (1 for the outer level; 2 for a nested
 	 * generic type; etc)
@@ -1237,9 +1250,9 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Return a {@link ResolvableType} for the specified {@link Method} return type.
-	 * Use this variant when the class that declares the method includes generic
-	 * parameter variables that are satisfied by the implementation class.
+	 * Return a {@link ResolvableType} for the specified {@link Method} return type. Use
+	 * this variant when the class that declares the method includes generic parameter
+	 * variables that are satisfied by the implementation class.
 	 * @param method the source for the method return type
 	 * @param implementationClass the implementation class
 	 * @return a {@link ResolvableType} for the specified method return
@@ -1267,7 +1280,8 @@ public class ResolvableType implements Serializable {
 	/**
 	 * Return a {@link ResolvableType} for the specified {@link Method} parameter with a
 	 * given implementation. Use this variant when the class that declares the method
-	 * includes generic parameter variables that are satisfied by the implementation class.
+	 * includes generic parameter variables that are satisfied by the implementation
+	 * class.
 	 * @param method the source method (must not be {@code null})
 	 * @param parameterIndex the parameter index
 	 * @param implementationClass the implementation class
@@ -1304,11 +1318,11 @@ public class ResolvableType implements Serializable {
 			@Nullable ResolvableType implementationType) {
 
 		Assert.notNull(methodParameter, "MethodParameter must not be null");
-		implementationType = (implementationType != null ? implementationType :
-				forType(methodParameter.getContainingClass()));
+		implementationType = (implementationType != null ? implementationType
+				: forType(methodParameter.getContainingClass()));
 		ResolvableType owner = implementationType.as(methodParameter.getDeclaringClass());
-		return forType(null, new MethodParameterTypeProvider(methodParameter), owner.asVariableResolver()).
-				getNested(methodParameter.getNestingLevel(), methodParameter.typeIndexesPerLevel);
+		return forType(null, new MethodParameterTypeProvider(methodParameter), owner.asVariableResolver())
+				.getNested(methodParameter.getNestingLevel(), methodParameter.typeIndexesPerLevel);
 	}
 
 	/**
@@ -1325,9 +1339,9 @@ public class ResolvableType implements Serializable {
 	}
 
 	/**
-	 * Return a {@link ResolvableType} for the specified {@link MethodParameter} at
-	 * a specific nesting level, overriding the target type to resolve with a specific
-	 * given type.
+	 * Return a {@link ResolvableType} for the specified {@link MethodParameter} at a
+	 * specific nesting level, overriding the target type to resolve with a specific given
+	 * type.
 	 * @param methodParameter the source method parameter (must not be {@code null})
 	 * @param targetType the type to resolve (a part of the method parameter's type)
 	 * @param nestingLevel the nesting level to use
@@ -1335,12 +1349,12 @@ public class ResolvableType implements Serializable {
 	 * @since 5.2
 	 * @see #forMethodParameter(Method, int)
 	 */
-	static ResolvableType forMethodParameter(
-			MethodParameter methodParameter, @Nullable Type targetType, int nestingLevel) {
+	static ResolvableType forMethodParameter(MethodParameter methodParameter, @Nullable Type targetType,
+			int nestingLevel) {
 
 		ResolvableType owner = forType(methodParameter.getContainingClass()).as(methodParameter.getDeclaringClass());
-		return forType(targetType, new MethodParameterTypeProvider(methodParameter), owner.asVariableResolver()).
-				getNested(nestingLevel, methodParameter.typeIndexesPerLevel);
+		return forType(targetType, new MethodParameterTypeProvider(methodParameter), owner.asVariableResolver())
+				.getNested(nestingLevel, methodParameter.typeIndexesPerLevel);
 	}
 
 	/**
@@ -1356,7 +1370,9 @@ public class ResolvableType implements Serializable {
 
 	/**
 	 * Return a {@link ResolvableType} for the specified {@link Type}.
-	 * <p>Note: The resulting {@link ResolvableType} instance may not be {@link Serializable}.
+	 * <p>
+	 * Note: The resulting {@link ResolvableType} instance may not be
+	 * {@link Serializable}.
 	 * @param type the source type (potentially {@code null})
 	 * @return a {@link ResolvableType} for the specified {@link Type}
 	 * @see #forType(Type, ResolvableType)
@@ -1368,7 +1384,9 @@ public class ResolvableType implements Serializable {
 	/**
 	 * Return a {@link ResolvableType} for the specified {@link Type} backed by the given
 	 * owner type.
-	 * <p>Note: The resulting {@link ResolvableType} instance may not be {@link Serializable}.
+	 * <p>
+	 * Note: The resulting {@link ResolvableType} instance may not be
+	 * {@link Serializable}.
 	 * @param type the source type or {@code null}
 	 * @param owner the owner type used to resolve variables
 	 * @return a {@link ResolvableType} for the specified {@link Type} and owner
@@ -1382,12 +1400,15 @@ public class ResolvableType implements Serializable {
 		return forType(type, variableResolver);
 	}
 
-
 	/**
-	 * Return a {@link ResolvableType} for the specified {@link ParameterizedTypeReference}.
-	 * <p>Note: The resulting {@link ResolvableType} instance may not be {@link Serializable}.
+	 * Return a {@link ResolvableType} for the specified
+	 * {@link ParameterizedTypeReference}.
+	 * <p>
+	 * Note: The resulting {@link ResolvableType} instance may not be
+	 * {@link Serializable}.
 	 * @param typeReference the reference to obtain the source type from
-	 * @return a {@link ResolvableType} for the specified {@link ParameterizedTypeReference}
+	 * @return a {@link ResolvableType} for the specified
+	 * {@link ParameterizedTypeReference}
 	 * @since 4.3.12
 	 * @see #forType(Type)
 	 */
@@ -1400,7 +1421,8 @@ public class ResolvableType implements Serializable {
 	 * {@link VariableResolver}.
 	 * @param type the source type or {@code null}
 	 * @param variableResolver the variable resolver or {@code null}
-	 * @return a {@link ResolvableType} for the specified {@link Type} and {@link VariableResolver}
+	 * @return a {@link ResolvableType} for the specified {@link Type} and
+	 * {@link VariableResolver}
 	 */
 	static ResolvableType forType(@Nullable Type type, @Nullable VariableResolver variableResolver) {
 		return forType(type, null, variableResolver);
@@ -1412,10 +1434,11 @@ public class ResolvableType implements Serializable {
 	 * @param type the source type or {@code null}
 	 * @param typeProvider the type provider or {@code null}
 	 * @param variableResolver the variable resolver or {@code null}
-	 * @return a {@link ResolvableType} for the specified {@link Type} and {@link VariableResolver}
+	 * @return a {@link ResolvableType} for the specified {@link Type} and
+	 * {@link VariableResolver}
 	 */
-	static ResolvableType forType(
-			@Nullable Type type, @Nullable TypeProvider typeProvider, @Nullable VariableResolver variableResolver) {
+	static ResolvableType forType(@Nullable Type type, @Nullable TypeProvider typeProvider,
+			@Nullable VariableResolver variableResolver) {
 
 		if (type == null && typeProvider != null) {
 			type = SerializableTypeWrapper.forTypeProvider(typeProvider);
@@ -1430,10 +1453,12 @@ public class ResolvableType implements Serializable {
 			return new ResolvableType(type, typeProvider, variableResolver, (ResolvableType) null);
 		}
 
-		// Purge empty entries on access since we don't have a clean-up thread or the like.
+		// Purge empty entries on access since we don't have a clean-up thread or the
+		// like.
 		cache.purgeUnreferencedEntries();
 
-		// Check the cache - we may have a ResolvableType which has been resolved before...
+		// Check the cache - we may have a ResolvableType which has been resolved
+		// before...
 		ResolvableType resultType = new ResolvableType(type, typeProvider, variableResolver);
 		ResolvableType cachedType = cache.get(resultType);
 		if (cachedType == null) {
@@ -1453,7 +1478,6 @@ public class ResolvableType implements Serializable {
 		SerializableTypeWrapper.cache.clear();
 	}
 
-
 	/**
 	 * Strategy interface used to resolve {@link TypeVariable TypeVariables}.
 	 */
@@ -1471,8 +1495,8 @@ public class ResolvableType implements Serializable {
 		 */
 		@Nullable
 		ResolvableType resolveVariable(TypeVariable<?> variable);
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	private static class DefaultVariableResolver implements VariableResolver {
@@ -1493,8 +1517,8 @@ public class ResolvableType implements Serializable {
 		public Object getSource() {
 			return this.source;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	private static class TypeVariablesVariableResolver implements VariableResolver {
@@ -1525,8 +1549,8 @@ public class ResolvableType implements Serializable {
 		public Object getSource() {
 			return this.generics;
 		}
-	}
 
+	}
 
 	private static final class SyntheticParameterizedType implements ParameterizedType, Serializable {
 
@@ -1577,8 +1601,8 @@ public class ResolvableType implements Serializable {
 				return false;
 			}
 			ParameterizedType otherType = (ParameterizedType) other;
-			return (otherType.getOwnerType() == null && this.rawType.equals(otherType.getRawType()) &&
-					Arrays.equals(this.typeArguments, otherType.getActualTypeArguments()));
+			return (otherType.getOwnerType() == null && this.rawType.equals(otherType.getRawType())
+					&& Arrays.equals(this.typeArguments, otherType.getActualTypeArguments()));
 		}
 
 		@Override
@@ -1590,8 +1614,8 @@ public class ResolvableType implements Serializable {
 		public String toString() {
 			return getTypeName();
 		}
-	}
 
+	}
 
 	/**
 	 * Internal helper to handle bounds from {@link WildcardType WildcardTypes}.
@@ -1649,7 +1673,8 @@ public class ResolvableType implements Serializable {
 
 		/**
 		 * Get a {@link WildcardBounds} instance for the specified type, returning
-		 * {@code null} if the specified type cannot be resolved to a {@link WildcardType}.
+		 * {@code null} if the specified type cannot be resolved to a
+		 * {@link WildcardType}.
 		 * @param type the source type
 		 * @return a {@link WildcardBounds} instance or {@code null}
 		 */
@@ -1675,9 +1700,13 @@ public class ResolvableType implements Serializable {
 		/**
 		 * The various kinds of bounds.
 		 */
-		enum Kind {UPPER, LOWER}
-	}
+		enum Kind {
 
+			UPPER, LOWER
+
+		}
+
+	}
 
 	/**
 	 * Internal {@link Type} used to represent an empty value.
@@ -1690,6 +1719,7 @@ public class ResolvableType implements Serializable {
 		Object readResolve() {
 			return INSTANCE;
 		}
+
 	}
 
 }

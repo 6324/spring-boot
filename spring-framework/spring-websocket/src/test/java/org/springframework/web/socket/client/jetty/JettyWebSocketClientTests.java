@@ -42,6 +42,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests for {@link JettyWebSocketClient}.
+ *
  * @author Rossen Stoyanchev
  */
 public class JettyWebSocketClientTests {
@@ -53,7 +54,6 @@ public class JettyWebSocketClientTests {
 	private String wsUrl;
 
 	private WebSocketSession wsSession;
-
 
 	@BeforeEach
 	public void setup() throws Exception {
@@ -73,7 +73,6 @@ public class JettyWebSocketClientTests {
 		this.client.stop();
 		this.server.stop();
 	}
-
 
 	@Test
 	public void doHandshake() throws Exception {
@@ -100,11 +99,9 @@ public class JettyWebSocketClientTests {
 		assertThat(this.wsSession.getAcceptedProtocol()).isEqualTo("echo");
 	}
 
-
 	private static class TestJettyWebSocketServer {
 
 		private final Server server;
-
 
 		public TestJettyWebSocketServer(final WebSocketHandler webSocketHandler) {
 
@@ -141,6 +138,7 @@ public class JettyWebSocketClientTests {
 		public int getPort() {
 			return ((ServerConnector) this.server.getConnectors()[0]).getLocalPort();
 		}
+
 	}
 
 }

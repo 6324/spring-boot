@@ -33,8 +33,8 @@ public interface TcpConnection<P> extends Closeable {
 	/**
 	 * Send the given message.
 	 * @param message the message
-	 * @return a ListenableFuture that can be used to determine when and if the
-	 * message was successfully sent
+	 * @return a ListenableFuture that can be used to determine when and if the message
+	 * was successfully sent
 	 */
 	ListenableFuture<Void> send(Message<P> message);
 

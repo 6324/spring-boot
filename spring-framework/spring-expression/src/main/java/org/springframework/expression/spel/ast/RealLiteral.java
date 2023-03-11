@@ -30,13 +30,11 @@ public class RealLiteral extends Literal {
 
 	private final TypedValue value;
 
-
 	public RealLiteral(String payload, int startPos, int endPos, double value) {
 		super(payload, startPos, endPos);
 		this.value = new TypedValue(value);
 		this.exitTypeDescriptor = "D";
 	}
-
 
 	@Override
 	public TypedValue getLiteralValue() {
@@ -53,6 +51,5 @@ public class RealLiteral extends Literal {
 		mv.visitLdcInsn(this.value.getValue());
 		cf.pushDescriptor(this.exitTypeDescriptor);
 	}
-
 
 }

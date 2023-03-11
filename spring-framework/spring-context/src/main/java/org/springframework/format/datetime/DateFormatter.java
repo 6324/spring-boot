@@ -32,8 +32,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
 /**
- * A formatter for {@link java.util.Date} types.
- * Allows the configuration of an explicit date pattern and locale.
+ * A formatter for {@link java.util.Date} types. Allows the configuration of an explicit
+ * date pattern and locale.
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -55,7 +55,6 @@ public class DateFormatter implements Formatter<Date> {
 		ISO_PATTERNS = Collections.unmodifiableMap(formats);
 	}
 
-
 	@Nullable
 	private String pattern;
 
@@ -72,7 +71,6 @@ public class DateFormatter implements Formatter<Date> {
 
 	private boolean lenient = false;
 
-
 	/**
 	 * Create a new default DateFormatter.
 	 */
@@ -86,10 +84,10 @@ public class DateFormatter implements Formatter<Date> {
 		this.pattern = pattern;
 	}
 
-
 	/**
 	 * Set the pattern to use to format date values.
-	 * <p>If not specified, DateFormat's default style will be used.
+	 * <p>
+	 * If not specified, DateFormat's default style will be used.
 	 */
 	public void setPattern(String pattern) {
 		this.pattern = pattern;
@@ -106,7 +104,8 @@ public class DateFormatter implements Formatter<Date> {
 
 	/**
 	 * Set the style to use to format date values.
-	 * <p>If not specified, DateFormat's default style will be used.
+	 * <p>
+	 * If not specified, DateFormat's default style will be used.
 	 * @see DateFormat#DEFAULT
 	 * @see DateFormat#SHORT
 	 * @see DateFormat#MEDIUM
@@ -144,13 +143,13 @@ public class DateFormatter implements Formatter<Date> {
 
 	/**
 	 * Specify whether or not parsing is to be lenient. Default is false.
-	 * <p>With lenient parsing, the parser may allow inputs that do not precisely match the format.
-	 * With strict parsing, inputs must match the format exactly.
+	 * <p>
+	 * With lenient parsing, the parser may allow inputs that do not precisely match the
+	 * format. With strict parsing, inputs must match the format exactly.
 	 */
 	public void setLenient(boolean lenient) {
 		this.lenient = lenient;
 	}
-
 
 	@Override
 	public String print(Date date, Locale locale) {
@@ -161,7 +160,6 @@ public class DateFormatter implements Formatter<Date> {
 	public Date parse(String text, Locale locale) throws ParseException {
 		return getDateFormat(locale).parse(text);
 	}
-
 
 	protected DateFormat getDateFormat(Locale locale) {
 		DateFormat dateFormat = createDateFormat(locale);
@@ -206,11 +204,16 @@ public class DateFormatter implements Formatter<Date> {
 	private int getStylePatternForChar(int index) {
 		if (this.stylePattern != null && this.stylePattern.length() > index) {
 			switch (this.stylePattern.charAt(index)) {
-				case 'S': return DateFormat.SHORT;
-				case 'M': return DateFormat.MEDIUM;
-				case 'L': return DateFormat.LONG;
-				case 'F': return DateFormat.FULL;
-				case '-': return -1;
+			case 'S':
+				return DateFormat.SHORT;
+			case 'M':
+				return DateFormat.MEDIUM;
+			case 'L':
+				return DateFormat.LONG;
+			case 'F':
+				return DateFormat.FULL;
+			case '-':
+				return -1;
 			}
 		}
 		throw new IllegalStateException("Unsupported style pattern '" + this.stylePattern + "'");

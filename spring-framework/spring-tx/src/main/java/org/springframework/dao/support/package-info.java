@@ -1,6 +1,5 @@
 /**
- * Support classes for DAO implementations,
- * providing miscellaneous utility methods.
+ * Support classes for DAO implementations, providing miscellaneous utility methods.
  */
 @NonNullApi
 @NonNullFields

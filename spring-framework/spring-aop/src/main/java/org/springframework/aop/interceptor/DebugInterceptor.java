@@ -19,13 +19,14 @@ package org.springframework.aop.interceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
 /**
- * AOP Alliance {@code MethodInterceptor} that can be introduced in a chain
- * to display verbose information about intercepted invocations to the logger.
+ * AOP Alliance {@code MethodInterceptor} that can be introduced in a chain to display
+ * verbose information about intercepted invocations to the logger.
  *
- * <p>Logs full invocation details on method entry and method exit,
- * including invocation arguments and invocation count. This is only
- * intended for debugging purposes; use {@code SimpleTraceInterceptor}
- * or {@code CustomizableTraceInterceptor} for pure tracing purposes.
+ * <p>
+ * Logs full invocation details on method entry and method exit, including invocation
+ * arguments and invocation count. This is only intended for debugging purposes; use
+ * {@code SimpleTraceInterceptor} or {@code CustomizableTraceInterceptor} for pure tracing
+ * purposes.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -37,7 +38,6 @@ public class DebugInterceptor extends SimpleTraceInterceptor {
 
 	private volatile long count;
 
-
 	/**
 	 * Create a new DebugInterceptor with a static logger.
 	 */
@@ -45,15 +45,14 @@ public class DebugInterceptor extends SimpleTraceInterceptor {
 	}
 
 	/**
-	 * Create a new DebugInterceptor with dynamic or static logger,
-	 * according to the given flag.
+	 * Create a new DebugInterceptor with dynamic or static logger, according to the given
+	 * flag.
 	 * @param useDynamicLogger whether to use a dynamic logger or a static logger
 	 * @see #setUseDynamicLogger
 	 */
 	public DebugInterceptor(boolean useDynamicLogger) {
 		setUseDynamicLogger(useDynamicLogger);
 	}
-
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -67,7 +66,6 @@ public class DebugInterceptor extends SimpleTraceInterceptor {
 	protected String getInvocationDescription(MethodInvocation invocation) {
 		return invocation + "; count=" + this.count;
 	}
-
 
 	/**
 	 * Return the number of times this interceptor has been invoked.

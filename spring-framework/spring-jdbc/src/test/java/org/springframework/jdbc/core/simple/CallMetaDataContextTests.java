@@ -55,7 +55,6 @@ public class CallMetaDataContextTests {
 
 	private CallMetaDataContext context = new CallMetaDataContext();
 
-
 	@BeforeEach
 	public void setUp() throws Exception {
 		connection = mock(Connection.class);
@@ -69,7 +68,6 @@ public class CallMetaDataContextTests {
 	public void verifyClosed() throws Exception {
 		verify(connection).close();
 	}
-
 
 	@Test
 	public void testMatchParameterValuesAndSqlInOutParameters() throws Exception {

@@ -40,14 +40,16 @@ import org.springframework.web.socket.handler.BeanCreatingHandlerProvider;
  * Spring-based applications. A {@link ServerEndpointRegistration} bean is detected by
  * {@link ServerEndpointExporter} and registered with a Java WebSocket runtime at startup.
  *
- * <p>Class constructors accept a singleton {@link javax.websocket.Endpoint} instance
- * or an Endpoint specified by type {@link Class}. When specified by type, the endpoint
- * will be instantiated and initialized through the Spring ApplicationContext before
- * each client WebSocket connection.
+ * <p>
+ * Class constructors accept a singleton {@link javax.websocket.Endpoint} instance or an
+ * Endpoint specified by type {@link Class}. When specified by type, the endpoint will be
+ * instantiated and initialized through the Spring ApplicationContext before each client
+ * WebSocket connection.
  *
- * <p>This class also extends
- * {@link javax.websocket.server.ServerEndpointConfig.Configurator} to make it easier
- * to override methods for customizing the handshake process.
+ * <p>
+ * This class also extends
+ * {@link javax.websocket.server.ServerEndpointConfig.Configurator} to make it easier to
+ * override methods for customizing the handshake process.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -74,7 +76,6 @@ public class ServerEndpointRegistration extends ServerEndpointConfig.Configurato
 	private List<Class<? extends Decoder>> decoders = new ArrayList<>(0);
 
 	private final Map<String, Object> userProperties = new HashMap<>(4);
-
 
 	/**
 	 * Create a new {@link ServerEndpointRegistration} instance from an
@@ -103,7 +104,6 @@ public class ServerEndpointRegistration extends ServerEndpointConfig.Configurato
 		this.endpoint = null;
 		this.endpointProvider = new BeanCreatingHandlerProvider<>(endpointClass);
 	}
-
 
 	// ServerEndpointConfig implementation
 
@@ -184,7 +184,6 @@ public class ServerEndpointRegistration extends ServerEndpointConfig.Configurato
 		return this;
 	}
 
-
 	// ServerEndpointConfig.Configurator implementation
 
 	@SuppressWarnings("unchecked")
@@ -197,7 +196,6 @@ public class ServerEndpointRegistration extends ServerEndpointConfig.Configurato
 	public void modifyHandshake(ServerEndpointConfig sec, HandshakeRequest request, HandshakeResponse response) {
 		super.modifyHandshake(this, request, response);
 	}
-
 
 	// Remaining methods
 

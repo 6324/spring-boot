@@ -31,9 +31,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 /**
- * Spring's {@link KeyGenerator} implementation that either delegates to a standard JSR-107
- * {@link javax.cache.annotation.CacheKeyGenerator}, or wrap a standard {@link KeyGenerator}
- * so that only relevant parameters are handled.
+ * Spring's {@link KeyGenerator} implementation that either delegates to a standard
+ * JSR-107 {@link javax.cache.annotation.CacheKeyGenerator}, or wrap a standard
+ * {@link KeyGenerator} so that only relevant parameters are handled.
  *
  * @author Stephane Nicoll
  * @author Juergen Hoeller
@@ -49,10 +49,10 @@ class KeyGeneratorAdapter implements KeyGenerator {
 	@Nullable
 	private CacheKeyGenerator cacheKeyGenerator;
 
-
 	/**
-	 * Create an instance with the given {@link KeyGenerator} so that {@link javax.cache.annotation.CacheKey}
-	 * and {@link javax.cache.annotation.CacheValue} are handled according to the spec.
+	 * Create an instance with the given {@link KeyGenerator} so that
+	 * {@link javax.cache.annotation.CacheKey} and
+	 * {@link javax.cache.annotation.CacheValue} are handled according to the spec.
 	 */
 	public KeyGeneratorAdapter(JCacheOperationSource cacheOperationSource, KeyGenerator target) {
 		Assert.notNull(cacheOperationSource, "JCacheOperationSource must not be null");
@@ -62,7 +62,8 @@ class KeyGeneratorAdapter implements KeyGenerator {
 	}
 
 	/**
-	 * Create an instance used to wrap the specified {@link javax.cache.annotation.CacheKeyGenerator}.
+	 * Create an instance used to wrap the specified
+	 * {@link javax.cache.annotation.CacheKeyGenerator}.
 	 */
 	public KeyGeneratorAdapter(JCacheOperationSource cacheOperationSource, CacheKeyGenerator target) {
 		Assert.notNull(cacheOperationSource, "JCacheOperationSource must not be null");
@@ -70,7 +71,6 @@ class KeyGeneratorAdapter implements KeyGenerator {
 		this.cacheOperationSource = cacheOperationSource;
 		this.cacheKeyGenerator = target;
 	}
-
 
 	/**
 	 * Return the target key generator to use in the form of either a {@link KeyGenerator}
@@ -106,8 +106,8 @@ class KeyGeneratorAdapter implements KeyGenerator {
 		List<Object> parameters = new ArrayList<>();
 		for (CacheInvocationParameter param : context.getKeyParameters()) {
 			Object value = param.getValue();
-			if (param.getParameterPosition() == context.getAllParameters().length - 1 &&
-					context.getMethod().isVarArgs()) {
+			if (param.getParameterPosition() == context.getAllParameters().length - 1
+					&& context.getMethod().isVarArgs()) {
 				parameters.addAll(CollectionUtils.arrayToList(value));
 			}
 			else {
@@ -117,10 +117,9 @@ class KeyGeneratorAdapter implements KeyGenerator {
 		return keyGenerator.generate(context.getTarget(), context.getMethod(), parameters.toArray());
 	}
 
-
 	@SuppressWarnings("unchecked")
-	private CacheKeyInvocationContext<?> createCacheKeyInvocationContext(
-			Object target, JCacheOperation<?> operation, Object[] params) {
+	private CacheKeyInvocationContext<?> createCacheKeyInvocationContext(Object target, JCacheOperation<?> operation,
+			Object[] params) {
 
 		AbstractJCacheKeyOperation<Annotation> keyCacheOperation = (AbstractJCacheKeyOperation<Annotation>) operation;
 		return new DefaultCacheKeyInvocationContext<>(keyCacheOperation, target, params);

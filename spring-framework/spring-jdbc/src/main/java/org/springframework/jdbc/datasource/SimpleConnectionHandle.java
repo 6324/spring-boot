@@ -21,8 +21,8 @@ import java.sql.Connection;
 import org.springframework.util.Assert;
 
 /**
- * Simple implementation of the {@link ConnectionHandle} interface,
- * containing a given JDBC Connection.
+ * Simple implementation of the {@link ConnectionHandle} interface, containing a given
+ * JDBC Connection.
  *
  * @author Juergen Hoeller
  * @since 1.1
@@ -30,7 +30,6 @@ import org.springframework.util.Assert;
 public class SimpleConnectionHandle implements ConnectionHandle {
 
 	private final Connection connection;
-
 
 	/**
 	 * Create a new SimpleConnectionHandle for the given Connection.
@@ -48,7 +47,6 @@ public class SimpleConnectionHandle implements ConnectionHandle {
 	public Connection getConnection() {
 		return this.connection;
 	}
-
 
 	@Override
 	public String toString() {

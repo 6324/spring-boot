@@ -38,9 +38,8 @@ import org.springframework.util.function.SingletonSupplier;
 import org.springframework.util.function.SupplierUtils;
 
 /**
- * The default {@link JCacheOperationSource} implementation delegating
- * default operations to configurable services with sensible defaults
- * when not present.
+ * The default {@link JCacheOperationSource} implementation delegating default operations
+ * to configurable services with sensible defaults when not present.
  *
  * @author Stephane Nicoll
  * @author Juergen Hoeller
@@ -60,15 +59,15 @@ public class DefaultJCacheOperationSource extends AnnotationJCacheOperationSourc
 
 	private SingletonSupplier<KeyGenerator> keyGenerator;
 
-	private final SingletonSupplier<KeyGenerator> adaptedKeyGenerator =
-			SingletonSupplier.of(() -> new KeyGeneratorAdapter(this, getKeyGenerator()));
+	private final SingletonSupplier<KeyGenerator> adaptedKeyGenerator = SingletonSupplier
+			.of(() -> new KeyGeneratorAdapter(this, getKeyGenerator()));
 
 	@Nullable
 	private BeanFactory beanFactory;
 
-
 	/**
-	 * Construct a new {@code DefaultJCacheOperationSource} with the default key generator.
+	 * Construct a new {@code DefaultJCacheOperationSource} with the default key
+	 * generator.
 	 * @see SimpleKeyGenerator
 	 */
 	public DefaultJCacheOperationSource() {
@@ -77,13 +76,13 @@ public class DefaultJCacheOperationSource extends AnnotationJCacheOperationSourc
 
 	/**
 	 * Construct a new {@code DefaultJCacheOperationSource} with the given cache manager,
-	 * cache resolver and key generator suppliers, applying the corresponding default
-	 * if a supplier is not resolvable.
+	 * cache resolver and key generator suppliers, applying the corresponding default if a
+	 * supplier is not resolvable.
 	 * @since 5.1
 	 */
-	public DefaultJCacheOperationSource(
-			@Nullable Supplier<CacheManager> cacheManager, @Nullable Supplier<CacheResolver> cacheResolver,
-			@Nullable Supplier<CacheResolver> exceptionCacheResolver, @Nullable Supplier<KeyGenerator> keyGenerator) {
+	public DefaultJCacheOperationSource(@Nullable Supplier<CacheManager> cacheManager,
+			@Nullable Supplier<CacheResolver> cacheResolver, @Nullable Supplier<CacheResolver> exceptionCacheResolver,
+			@Nullable Supplier<KeyGenerator> keyGenerator) {
 
 		this.cacheManager = SingletonSupplier.ofNullable(cacheManager);
 		this.cacheResolver = SingletonSupplier.ofNullable(cacheResolver);
@@ -91,10 +90,9 @@ public class DefaultJCacheOperationSource extends AnnotationJCacheOperationSourc
 		this.keyGenerator = new SingletonSupplier<>(keyGenerator, SimpleKeyGenerator::new);
 	}
 
-
 	/**
-	 * Set the default {@link CacheManager} to use to lookup cache by name.
-	 * Only mandatory if the {@linkplain CacheResolver cache resolver} has not been set.
+	 * Set the default {@link CacheManager} to use to lookup cache by name. Only mandatory
+	 * if the {@linkplain CacheResolver cache resolver} has not been set.
 	 */
 	public void setCacheManager(@Nullable CacheManager cacheManager) {
 		this.cacheManager = SingletonSupplier.ofNullable(cacheManager);
@@ -125,8 +123,8 @@ public class DefaultJCacheOperationSource extends AnnotationJCacheOperationSourc
 	}
 
 	/**
-	 * Set the {@link CacheResolver} to resolve exception caches. If none is set, a default
-	 * implementation using the specified cache manager will be used.
+	 * Set the {@link CacheResolver} to resolve exception caches. If none is set, a
+	 * default implementation using the specified cache manager will be used.
 	 */
 	public void setExceptionCacheResolver(@Nullable CacheResolver exceptionCacheResolver) {
 		this.exceptionCacheResolver = SingletonSupplier.ofNullable(exceptionCacheResolver);
@@ -161,14 +159,13 @@ public class DefaultJCacheOperationSource extends AnnotationJCacheOperationSourc
 		this.beanFactory = beanFactory;
 	}
 
-
 	@Override
 	public void afterSingletonsInstantiated() {
-		// Make sure that the cache resolver is initialized. An exception cache resolver is only
+		// Make sure that the cache resolver is initialized. An exception cache resolver
+		// is only
 		// required if the exceptionCacheName attribute is set on an operation.
 		Assert.notNull(getDefaultCacheResolver(), "Cache resolver should have been initialized");
 	}
-
 
 	@Override
 	protected <T> T getBean(Class<T> type) {
@@ -177,8 +174,8 @@ public class DefaultJCacheOperationSource extends AnnotationJCacheOperationSourc
 			return this.beanFactory.getBean(type);
 		}
 		catch (NoUniqueBeanDefinitionException ex) {
-			throw new IllegalStateException("No unique [" + type.getName() + "] bean found in application context - " +
-					"mark one as primary, or declare a more specific implementation type for your cache", ex);
+			throw new IllegalStateException("No unique [" + type.getName() + "] bean found in application context - "
+					+ "mark one as primary, or declare a more specific implementation type for your cache", ex);
 		}
 		catch (NoSuchBeanDefinitionException ex) {
 			if (logger.isDebugEnabled()) {
@@ -195,12 +192,12 @@ public class DefaultJCacheOperationSource extends AnnotationJCacheOperationSourc
 				this.cacheManager = SingletonSupplier.of(this.beanFactory.getBean(CacheManager.class));
 			}
 			catch (NoUniqueBeanDefinitionException ex) {
-				throw new IllegalStateException("No unique bean of type CacheManager found. "+
-						"Mark one as primary or declare a specific CacheManager to use.");
+				throw new IllegalStateException("No unique bean of type CacheManager found. "
+						+ "Mark one as primary or declare a specific CacheManager to use.");
 			}
 			catch (NoSuchBeanDefinitionException ex) {
-				throw new IllegalStateException("No bean of type CacheManager found. Register a CacheManager "+
-						"bean or remove the @EnableCaching annotation from your configuration.");
+				throw new IllegalStateException("No bean of type CacheManager found. Register a CacheManager "
+						+ "bean or remove the @EnableCaching annotation from your configuration.");
 			}
 		}
 		return getCacheManager();
@@ -227,27 +224,31 @@ public class DefaultJCacheOperationSource extends AnnotationJCacheOperationSourc
 		return this.adaptedKeyGenerator.obtain();
 	}
 
-
 	/**
-	 * Only resolve the default exception cache resolver when an exception needs to be handled.
-	 * <p>A non-JSR-107 setup requires either a {@link CacheManager} or a {@link CacheResolver}.
-	 * If only the latter is specified, it is not possible to extract a default exception
-	 * {@code CacheResolver} from a custom {@code CacheResolver} implementation so we have to
-	 * fall back on the {@code CacheManager}.
-	 * <p>This gives this weird situation of a perfectly valid configuration that breaks all
-	 * the sudden because the JCache support is enabled. To avoid this we resolve the default
-	 * exception {@code CacheResolver} as late as possible to avoid such hard requirement
-	 * in other cases.
+	 * Only resolve the default exception cache resolver when an exception needs to be
+	 * handled.
+	 * <p>
+	 * A non-JSR-107 setup requires either a {@link CacheManager} or a
+	 * {@link CacheResolver}. If only the latter is specified, it is not possible to
+	 * extract a default exception {@code CacheResolver} from a custom
+	 * {@code CacheResolver} implementation so we have to fall back on the
+	 * {@code CacheManager}.
+	 * <p>
+	 * This gives this weird situation of a perfectly valid configuration that breaks all
+	 * the sudden because the JCache support is enabled. To avoid this we resolve the
+	 * default exception {@code CacheResolver} as late as possible to avoid such hard
+	 * requirement in other cases.
 	 */
 	class LazyCacheResolver implements CacheResolver {
 
-		private final SingletonSupplier<CacheResolver> cacheResolver =
-				SingletonSupplier.of(() -> new SimpleExceptionCacheResolver(getDefaultCacheManager()));
+		private final SingletonSupplier<CacheResolver> cacheResolver = SingletonSupplier
+				.of(() -> new SimpleExceptionCacheResolver(getDefaultCacheManager()));
 
 		@Override
 		public Collection<? extends Cache> resolveCaches(CacheOperationInvocationContext<?> context) {
 			return this.cacheResolver.obtain().resolveCaches(context);
 		}
+
 	}
 
 }

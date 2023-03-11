@@ -53,7 +53,6 @@ public class ProtobufMessageConverterTests {
 
 	private Message<String> messageJson;
 
-
 	@BeforeEach
 	public void setup() {
 		this.extensionRegistry = mock(ExtensionRegistry.class);
@@ -62,24 +61,17 @@ public class ProtobufMessageConverterTests {
 		this.message = MessageBuilder.withPayload(this.testMsg.toByteArray())
 				.setHeader(CONTENT_TYPE, ProtobufMessageConverter.PROTOBUF).build();
 		this.messageWithoutContentType = MessageBuilder.withPayload(this.testMsg.toByteArray()).build();
-		this.messageJson = MessageBuilder.withPayload(
-					"{\n" +
-					"  \"foo\": \"Foo\",\n" +
-					"  \"blah\": {\n" +
-					"    \"blah\": 123\n" +
-					"  }\n" +
-						"}")
-				.setHeader(CONTENT_TYPE, APPLICATION_JSON)
-				.build();
+		this.messageJson = MessageBuilder
+				.withPayload(
+						"{\n" + "  \"foo\": \"Foo\",\n" + "  \"blah\": {\n" + "    \"blah\": 123\n" + "  }\n" + "}")
+				.setHeader(CONTENT_TYPE, APPLICATION_JSON).build();
 	}
-
 
 	@Test
 	public void extensionRegistryNull() {
 		ProtobufMessageConverter converter = new ProtobufMessageConverter(null);
 		assertThat(converter.extensionRegistry).isNotNull();
 	}
-
 
 	@Test
 	public void canConvertFrom() {
@@ -95,7 +87,6 @@ public class ProtobufMessageConverterTests {
 		assertThat(converter.canConvertTo(testMsg, messageJson.getHeaders())).isTrue();
 	}
 
-
 	@Test
 	public void convertFrom() {
 		final Msg msg = (Msg) converter.fromMessage(message, Msg.class);
@@ -109,13 +100,11 @@ public class ProtobufMessageConverterTests {
 		assertThat(message.getPayload()).isEqualTo(this.message.getPayload());
 	}
 
-
 	@Test
-	public void convertFromNoContentType(){
+	public void convertFromNoContentType() {
 		Msg result = (Msg) converter.fromMessage(messageWithoutContentType, Msg.class);
 		assertThat(result).isEqualTo(testMsg);
 	}
-
 
 	@Test
 	public void defaultContentType() {
@@ -124,14 +113,13 @@ public class ProtobufMessageConverterTests {
 
 	@Test
 	public void testJsonWithGoogleProtobuf() {
-		this.converter = new ProtobufMessageConverter(
-				new ProtobufMessageConverter.ProtobufJavaUtilSupport(null, null),
+		this.converter = new ProtobufMessageConverter(new ProtobufMessageConverter.ProtobufJavaUtilSupport(null, null),
 				extensionRegistry);
 
 		final Map<String, Object> headers = new HashMap<>();
 		headers.put(CONTENT_TYPE, APPLICATION_JSON);
 
-		//convertTo
+		// convertTo
 		final Message<?> message = this.converter.toMessage(this.testMsg, new MessageHeaders(headers));
 		assertThat(message).isNotNull();
 		assertThat(message.getHeaders().get(CONTENT_TYPE)).isEqualTo(APPLICATION_JSON);
@@ -139,7 +127,7 @@ public class ProtobufMessageConverterTests {
 		assertThat(((String) message.getPayload()).isEmpty()).as("Body is empty").isFalse();
 		assertThat(((String) message.getPayload())).isEqualTo(this.messageJson.getPayload());
 
-		//convertFrom
+		// convertFrom
 		final Msg msg = (Msg) converter.fromMessage(message, Msg.class);
 		assertThat(msg).isEqualTo(this.testMsg);
 	}

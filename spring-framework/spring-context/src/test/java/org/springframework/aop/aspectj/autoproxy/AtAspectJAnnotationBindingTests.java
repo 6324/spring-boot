@@ -39,13 +39,11 @@ public class AtAspectJAnnotationBindingTests {
 
 	private ClassPathXmlApplicationContext ctx;
 
-
 	@BeforeEach
 	public void setup() {
 		ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
 		testBean = (AnnotatedTestBean) ctx.getBean("testBean");
 	}
-
 
 	@Test
 	public void testAnnotationBindingInAroundAdvice() {
@@ -66,7 +64,6 @@ public class AtAspectJAnnotationBindingTests {
 
 }
 
-
 @Aspect
 class AtAspectJAnnotationBindingTestAspect {
 
@@ -78,7 +75,6 @@ class AtAspectJAnnotationBindingTestAspect {
 	}
 
 }
-
 
 class ResourceArrayFactoryBean implements FactoryBean<Object> {
 

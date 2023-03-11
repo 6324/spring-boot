@@ -24,8 +24,9 @@ import org.springframework.util.ObjectUtils;
 /**
  * Spring's default {@code toString()} styler.
  *
- * <p>This class is used by {@link ToStringCreator} to style {@code toString()}
- * output in a consistent manner according to Spring conventions.
+ * <p>
+ * This class is used by {@link ToStringCreator} to style {@code toString()} output in a
+ * consistent manner according to Spring conventions.
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -34,7 +35,6 @@ import org.springframework.util.ObjectUtils;
 public class DefaultToStringStyler implements ToStringStyler {
 
 	private final ValueStyler valueStyler;
-
 
 	/**
 	 * Create a new DefaultToStringStyler.
@@ -51,7 +51,6 @@ public class DefaultToStringStyler implements ToStringStyler {
 	protected final ValueStyler getValueStyler() {
 		return this.valueStyler;
 	}
-
 
 	@Override
 	public void styleStart(StringBuilder buffer, Object obj) {

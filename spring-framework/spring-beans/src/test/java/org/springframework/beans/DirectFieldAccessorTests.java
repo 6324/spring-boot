@@ -36,7 +36,6 @@ public class DirectFieldAccessorTests extends AbstractPropertyAccessorTests {
 		return new DirectFieldAccessor(target);
 	}
 
-
 	@Test
 	public void withShadowedField() {
 		final StringBuilder sb = new StringBuilder();
@@ -44,6 +43,7 @@ public class DirectFieldAccessorTests extends AbstractPropertyAccessorTests {
 		TestBean target = new TestBean() {
 			@SuppressWarnings("unused")
 			StringBuilder name = sb;
+
 		};
 
 		DirectFieldAccessor dfa = createAccessor(target);

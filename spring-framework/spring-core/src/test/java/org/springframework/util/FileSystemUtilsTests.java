@@ -78,7 +78,6 @@ class FileSystemUtilsTests {
 		assertThat(src.exists()).isFalse();
 	}
 
-
 	@AfterEach
 	void tearDown() throws Exception {
 		File tmp = new File("./tmp");

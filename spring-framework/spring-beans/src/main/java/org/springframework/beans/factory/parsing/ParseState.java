@@ -21,11 +21,12 @@ import java.util.ArrayDeque;
 import org.springframework.lang.Nullable;
 
 /**
- * Simple {@link ArrayDeque}-based structure for tracking the logical position during
- * a parsing process. {@link Entry entries} are added to the ArrayDeque at each point
- * during the parse phase in a reader-specific manner.
+ * Simple {@link ArrayDeque}-based structure for tracking the logical position during a
+ * parsing process. {@link Entry entries} are added to the ArrayDeque at each point during
+ * the parse phase in a reader-specific manner.
  *
- * <p>Calling {@link #toString()} will render a tree-style view of the current logical
+ * <p>
+ * Calling {@link #toString()} will render a tree-style view of the current logical
  * position in the parse phase. This representation is intended for use in error messages.
  *
  * @author Rob Harrop
@@ -39,7 +40,6 @@ public final class ParseState {
 	 */
 	private final ArrayDeque<Entry> state;
 
-
 	/**
 	 * Create a new {@code ParseState} with an empty {@link ArrayDeque}.
 	 */
@@ -48,13 +48,12 @@ public final class ParseState {
 	}
 
 	/**
-	 * Create a new {@code ParseState} whose {@link ArrayDeque} is a clone
-	 * of the state in the passed-in {@code ParseState}.
+	 * Create a new {@code ParseState} whose {@link ArrayDeque} is a clone of the state in
+	 * the passed-in {@code ParseState}.
 	 */
 	private ParseState(ParseState other) {
 		this.state = other.state.clone();
 	}
-
 
 	/**
 	 * Add a new {@link Entry} to the {@link ArrayDeque}.
@@ -80,13 +79,12 @@ public final class ParseState {
 	}
 
 	/**
-	 * Create a new instance of {@link ParseState} which is an independent snapshot
-	 * of this instance.
+	 * Create a new instance of {@link ParseState} which is an independent snapshot of
+	 * this instance.
 	 */
 	public ParseState snapshot() {
 		return new ParseState(this);
 	}
-
 
 	/**
 	 * Returns a tree-style representation of the current {@code ParseState}.
@@ -109,11 +107,11 @@ public final class ParseState {
 		return sb.toString();
 	}
 
-
 	/**
 	 * Marker interface for entries into the {@link ParseState}.
 	 */
 	public interface Entry {
+
 	}
 
 }

@@ -19,10 +19,9 @@ package org.springframework.jdbc.datasource.embedded;
 import java.sql.Driver;
 
 /**
- * {@code ConnectionProperties} serves as a simple data container that allows
- * essential JDBC connection properties to be configured consistently,
- * independent of the actual {@link javax.sql.DataSource DataSource}
- * implementation.
+ * {@code ConnectionProperties} serves as a simple data container that allows essential
+ * JDBC connection properties to be configured consistently, independent of the actual
+ * {@link javax.sql.DataSource DataSource} implementation.
  *
  * @author Keith Donald
  * @author Sam Brannen

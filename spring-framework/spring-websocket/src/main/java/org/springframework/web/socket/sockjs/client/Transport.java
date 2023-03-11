@@ -32,9 +32,9 @@ import org.springframework.web.socket.sockjs.transport.TransportType;
 public interface Transport {
 
 	/**
-	 * Return the SockJS transport types that this transport can be used for.
-	 * In particular since from a client perspective there is no difference
-	 * between XHR and XHR streaming, an {@code XhrTransport} could do both.
+	 * Return the SockJS transport types that this transport can be used for. In
+	 * particular since from a client perspective there is no difference between XHR and
+	 * XHR streaming, an {@code XhrTransport} could do both.
 	 */
 	List<TransportType> getTransportTypes();
 

@@ -45,7 +45,6 @@ public class EnvironmentSecurityManagerIntegrationTests {
 
 	private Map<String, String> env;
 
-
 	@BeforeEach
 	public void setUp() {
 		originalSecurityManager = System.getSecurityManager();
@@ -58,7 +57,6 @@ public class EnvironmentSecurityManagerIntegrationTests {
 		env.remove(AbstractEnvironment.ACTIVE_PROFILES_PROPERTY_NAME);
 		System.setSecurityManager(originalSecurityManager);
 	}
-
 
 	@Test
 	public void securityManagerDisallowsAccessToSystemEnvironmentButAllowsAccessToIndividualKeys() {
@@ -96,9 +94,8 @@ public class EnvironmentSecurityManagerIntegrationTests {
 				// and as a result, any components marked with a non-default profile will
 				// be ignored.
 				if (("getenv." + AbstractEnvironment.ACTIVE_PROFILES_PROPERTY_NAME).equals(perm.getName())) {
-					throw new AccessControlException(
-							format("Accessing system environment variable [%s] is disallowed",
-									AbstractEnvironment.ACTIVE_PROFILES_PROPERTY_NAME));
+					throw new AccessControlException(format("Accessing system environment variable [%s] is disallowed",
+							AbstractEnvironment.ACTIVE_PROFILES_PROPERTY_NAME));
 				}
 			}
 		};
@@ -110,10 +107,10 @@ public class EnvironmentSecurityManagerIntegrationTests {
 		assertThat(bf.containsBean("c1")).isFalse();
 	}
 
-
 	@Component("c1")
 	@Profile("p1")
 	static class C1 {
+
 	}
 
 }

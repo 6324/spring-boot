@@ -25,7 +25,6 @@ import org.springframework.context.ApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * Tests changes introduced for SPR-8874, allowing beans of primitive types to be looked
  * up via getBean(Class), or to be injected using @Autowired or @Injected or @Resource.
@@ -63,23 +62,21 @@ public class PrimitiveBeanLookupAndAutowiringTests {
 
 	@Test
 	public void primitiveAutowiredInjection() {
-		ApplicationContext ctx =
-				new AnnotationConfigApplicationContext(Config.class, AutowiredComponent.class);
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class, AutowiredComponent.class);
 		assertThat(ctx.getBean(AutowiredComponent.class).b).isEqualTo(true);
 		assertThat(ctx.getBean(AutowiredComponent.class).i).isEqualTo(42);
 	}
 
 	@Test
 	public void primitiveResourceInjection() {
-		ApplicationContext ctx =
-				new AnnotationConfigApplicationContext(Config.class, ResourceComponent.class);
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(Config.class, ResourceComponent.class);
 		assertThat(ctx.getBean(ResourceComponent.class).b).isEqualTo(true);
 		assertThat(ctx.getBean(ResourceComponent.class).i).isEqualTo(42);
 	}
 
-
 	@Configuration
 	static class Config {
+
 		@Bean
 		public boolean b() {
 			return true;
@@ -89,17 +86,27 @@ public class PrimitiveBeanLookupAndAutowiringTests {
 		public int i() {
 			return 42;
 		}
-	}
 
+	}
 
 	static class AutowiredComponent {
-		@Autowired boolean b;
-		@Autowired int i;
-	}
 
+		@Autowired
+		boolean b;
+
+		@Autowired
+		int i;
+
+	}
 
 	static class ResourceComponent {
-		@Resource boolean b;
-		@Autowired int i;
+
+		@Resource
+		boolean b;
+
+		@Autowired
+		int i;
+
 	}
+
 }

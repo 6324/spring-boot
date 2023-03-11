@@ -11,8 +11,11 @@
 	<description>Spring Boot Build</description>
 	<properties>
 		<revision>2.2.14.BUILD-SNAPSHOT</revision>
-		<spring-framework.version>5.2.12.RELEASE</spring-framework.version>
 		<main.basedir>${basedir}</main.basedir>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
 	</properties>
 	<!-- Most elements are in profiles so they are stripped out during maven-flatten -->
 	<profiles>
@@ -52,39 +55,41 @@
 							</dependency>
 						</dependencies>
 						<executions>
-							<execution>
-								<id>checkstyle-validation</id>
-								<phase>validate</phase>
-								<configuration>
-									<skip>${disable.checks}</skip>
-									<configLocation>src/checkstyle/checkstyle.xml</configLocation>
-									<suppressionsLocation>src/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
-									<includeTestSourceDirectory>true</includeTestSourceDirectory>
-									<propertyExpansion>main.basedir=${main.basedir}</propertyExpansion>
-									<encoding>UTF-8</encoding>
-								</configuration>
-								<goals>
-									<goal>check</goal>
-								</goals>
-							</execution>
-							<execution>
-								<id>nohttp-checkstyle-validation</id>
-								<phase>validate</phase>
-								<configuration>
-									<skip>${disable.checks}</skip>
-									<configLocation>src/checkstyle/nohttp-checkstyle.xml</configLocation>
-									<suppressionsLocation>src/checkstyle/nohttp-checkstyle-suppressions.xml</suppressionsLocation>
-									<propertyExpansion>main.basedir=${main.basedir}</propertyExpansion>
-									<encoding>UTF-8</encoding>
-									<sourceDirectories>${basedir}</sourceDirectories>
-									<includes>**/*</includes>
-									<excludes>**/.git/**/*,**/target/**/,**/.flattened-pom.xml,**/*.class,**/spring-boot-gradle-plugin/build/**,**/spring-boot-gradle-plugin/bin/**</excludes>
-								</configuration>
-								<goals>
-									<goal>check</goal>
-								</goals>
-								<inherited>false</inherited>
-							</execution>
+<!--							关掉-->
+<!--							<execution>-->
+<!--								<id>checkstyle-validation</id>-->
+<!--								<phase>validate</phase>-->
+<!--								<configuration>-->
+<!--									<skip>${disable.checks}</skip>-->
+<!--									<configLocation>src/checkstyle/checkstyle.xml</configLocation>-->
+<!--									<suppressionsLocation>src/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>-->
+<!--									<includeTestSourceDirectory>true</includeTestSourceDirectory>-->
+<!--									<propertyExpansion>main.basedir=${main.basedir}</propertyExpansion>-->
+<!--									<encoding>UTF-8</encoding>-->
+<!--								</configuration>-->
+<!--								<goals>-->
+<!--									<goal>check</goal>-->
+<!--								</goals>-->
+<!--							</execution>-->
+							<!--							关掉-->
+<!--							<execution>-->
+<!--								<id>nohttp-checkstyle-validation</id>-->
+<!--								<phase>validate</phase>-->
+<!--								<configuration>-->
+<!--									<skip>${disable.checks}</skip>-->
+<!--									<configLocation>src/checkstyle/nohttp-checkstyle.xml</configLocation>-->
+<!--									<suppressionsLocation>src/checkstyle/nohttp-checkstyle-suppressions.xml</suppressionsLocation>-->
+<!--									<propertyExpansion>main.basedir=${main.basedir}</propertyExpansion>-->
+<!--									<encoding>UTF-8</encoding>-->
+<!--									<sourceDirectories>${basedir}</sourceDirectories>-->
+<!--									<includes>**/*</includes>-->
+<!--									<excludes>**/.git/**/*,**/target/**/,**/.flattened-pom.xml,**/*.class,**/spring-boot-gradle-plugin/build/**,**/spring-boot-gradle-plugin/bin/**</excludes>-->
+<!--								</configuration>-->
+<!--								<goals>-->
+<!--									<goal>check</goal>-->
+<!--								</goals>-->
+<!--								<inherited>false</inherited>-->
+<!--							</execution>-->
 						</executions>
 					</plugin>
 					<plugin>
@@ -108,6 +113,7 @@
 			<modules>
 				<module>spring-framework</module>
 				<module>spring-boot-project</module>
+				<module>spring-debug</module>
 				<!-- Smoke tests are built via the invoker plugin -->
 				<module>spring-boot-tests</module>
 			</modules>

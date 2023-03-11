@@ -131,14 +131,14 @@ public class SimpleMessageConverterTests {
 
 	@Test
 	public void testToMessageThrowsExceptionIfGivenNullObjectToConvert() throws Exception {
-		assertThatExceptionOfType(MessageConversionException.class).isThrownBy(() ->
-				new SimpleMessageConverter().toMessage(null, null));
+		assertThatExceptionOfType(MessageConversionException.class)
+				.isThrownBy(() -> new SimpleMessageConverter().toMessage(null, null));
 	}
 
 	@Test
 	public void testToMessageThrowsExceptionIfGivenIncompatibleObjectToConvert() throws Exception {
-		assertThatExceptionOfType(MessageConversionException.class).isThrownBy(() ->
-				new SimpleMessageConverter().toMessage(new Object(), null));
+		assertThatExceptionOfType(MessageConversionException.class)
+				.isThrownBy(() -> new SimpleMessageConverter().toMessage(new Object(), null));
 	}
 
 	@Test
@@ -170,8 +170,8 @@ public class SimpleMessageConverterTests {
 		content.put(1, "value1");
 
 		SimpleMessageConverter converter = new SimpleMessageConverter();
-		assertThatExceptionOfType(MessageConversionException.class).isThrownBy(() ->
-				converter.toMessage(content, session));
+		assertThatExceptionOfType(MessageConversionException.class)
+				.isThrownBy(() -> converter.toMessage(content, session));
 	}
 
 	@Test
@@ -184,8 +184,8 @@ public class SimpleMessageConverterTests {
 		content.put(null, "value1");
 
 		SimpleMessageConverter converter = new SimpleMessageConverter();
-		assertThatExceptionOfType(MessageConversionException.class).isThrownBy(() ->
-				converter.toMessage(content, session));
+		assertThatExceptionOfType(MessageConversionException.class)
+				.isThrownBy(() -> converter.toMessage(content, session));
 	}
 
 }

@@ -71,7 +71,6 @@ public class DefaultStompSessionTests {
 
 	private StompHeaders connectHeaders;
 
-
 	@Mock
 	private StompSessionHandler sessionHandler;
 
@@ -81,26 +80,23 @@ public class DefaultStompSessionTests {
 	@Captor
 	private ArgumentCaptor<Message<byte[]>> messageCaptor;
 
-
 	@BeforeEach
 	public void setUp() {
 		this.connectHeaders = new StompHeaders();
 		this.session = new DefaultStompSession(this.sessionHandler, this.connectHeaders);
-		this.session.setMessageConverter(
-				new CompositeMessageConverter(
-						Arrays.asList(new StringMessageConverter(), new ByteArrayMessageConverter())));
+		this.session.setMessageConverter(new CompositeMessageConverter(
+				Arrays.asList(new StringMessageConverter(), new ByteArrayMessageConverter())));
 
 		SettableListenableFuture<Void> future = new SettableListenableFuture<>();
 		future.set(null);
 		given(this.connection.send(this.messageCaptor.capture())).willReturn(future);
 	}
 
-
 	@Test
 	public void afterConnected() {
 		assertThat(this.session.isConnected()).isFalse();
 		this.connectHeaders.setHost("my-host");
-		this.connectHeaders.setHeartbeat(new long[] {11, 12});
+		this.connectHeaders.setHeartbeat(new long[] { 11, 12 });
 
 		this.session.afterConnected(this.connection);
 
@@ -110,7 +106,7 @@ public class DefaultStompSessionTests {
 		assertThat(accessor.getCommand()).isEqualTo(StompCommand.CONNECT);
 		assertThat(accessor.getHost()).isEqualTo("my-host");
 		assertThat(accessor.getAcceptVersion()).containsExactly("1.1", "1.2");
-		assertThat(accessor.getHeartbeat()).isEqualTo(new long[] {11, 12});
+		assertThat(accessor.getHeartbeat()).isEqualTo(new long[] { 11, 12 });
 	}
 
 	@Test // SPR-16844
@@ -139,7 +135,7 @@ public class DefaultStompSessionTests {
 		this.session.afterConnected(this.connection);
 		assertThat(this.session.isConnected()).isTrue();
 
-		this.connectHeaders.setHeartbeat(new long[] {10000, 10000});
+		this.connectHeaders.setHeartbeat(new long[] { 10000, 10000 });
 
 		StompHeaderAccessor accessor = StompHeaderAccessor.create(StompCommand.CONNECTED);
 		accessor.setVersion("1.2");
@@ -157,7 +153,7 @@ public class DefaultStompSessionTests {
 		this.session.afterConnected(this.connection);
 		assertThat(this.session.isConnected()).isTrue();
 
-		this.connectHeaders.setHeartbeat(new long[] {10000, 10000});
+		this.connectHeaders.setHeartbeat(new long[] { 10000, 10000 });
 
 		StompHeaderAccessor accessor = StompHeaderAccessor.create(StompCommand.CONNECTED);
 		accessor.setVersion("1.2");
@@ -179,7 +175,7 @@ public class DefaultStompSessionTests {
 		this.session.afterConnected(this.connection);
 		verify(this.connection).send(any());
 
-		this.connectHeaders.setHeartbeat(new long[] {10000, 10000});
+		this.connectHeaders.setHeartbeat(new long[] { 10000, 10000 });
 
 		StompHeaderAccessor accessor = StompHeaderAccessor.create(StompCommand.CONNECTED);
 		accessor.setVersion("1.2");
@@ -195,7 +191,7 @@ public class DefaultStompSessionTests {
 		this.session.afterConnected(this.connection);
 		verify(this.connection).send(any());
 
-		this.connectHeaders.setHeartbeat(new long[] {10000, 10000});
+		this.connectHeaders.setHeartbeat(new long[] { 10000, 10000 });
 
 		StompHeaderAccessor connected = StompHeaderAccessor.create(StompCommand.CONNECTED);
 		connected.setVersion("1.2");
@@ -215,7 +211,7 @@ public class DefaultStompSessionTests {
 
 		writeTask.run();
 		StompHeaderAccessor accessor = StompHeaderAccessor.createForHeartbeat();
-		Message<byte[]> message = MessageBuilder.createMessage(new byte[] {'\n'}, accessor.getMessageHeaders());
+		Message<byte[]> message = MessageBuilder.createMessage(new byte[] { '\n' }, accessor.getMessageHeaders());
 		verify(this.connection).send(eq(message));
 		verifyNoMoreInteractions(this.connection);
 
@@ -236,8 +232,8 @@ public class DefaultStompSessionTests {
 		StompHeaders stompHeaders = StompHeaders.readOnlyStompHeaders(accessor.getNativeHeaders());
 		given(this.sessionHandler.getPayloadType(stompHeaders)).willReturn(String.class);
 
-		this.session.handleMessage(MessageBuilder.createMessage(
-				payload.getBytes(StandardCharsets.UTF_8), accessor.getMessageHeaders()));
+		this.session.handleMessage(
+				MessageBuilder.createMessage(payload.getBytes(StandardCharsets.UTF_8), accessor.getMessageHeaders()));
 
 		verify(this.sessionHandler).getPayloadType(stompHeaders);
 		verify(this.sessionHandler).handleFrame(stompHeaders, payload);
@@ -270,8 +266,8 @@ public class DefaultStompSessionTests {
 		this.session.handleMessage(MessageBuilder.createMessage(payload, accessor.getMessageHeaders()));
 
 		verify(this.sessionHandler).getPayloadType(stompHeaders);
-		verify(this.sessionHandler).handleException(same(this.session), same(StompCommand.ERROR),
-				eq(stompHeaders), same(payload), any(MessageConversionException.class));
+		verify(this.sessionHandler).handleException(same(this.session), same(StompCommand.ERROR), eq(stompHeaders),
+				same(payload), any(MessageConversionException.class));
 		verifyNoMoreInteractions(this.sessionHandler);
 	}
 
@@ -294,8 +290,8 @@ public class DefaultStompSessionTests {
 		StompHeaders stompHeaders = StompHeaders.readOnlyStompHeaders(accessor.getNativeHeaders());
 		given(frameHandler.getPayloadType(stompHeaders)).willReturn(String.class);
 
-		this.session.handleMessage(MessageBuilder.createMessage(payload.getBytes(StandardCharsets.UTF_8),
-				accessor.getMessageHeaders()));
+		this.session.handleMessage(
+				MessageBuilder.createMessage(payload.getBytes(StandardCharsets.UTF_8), accessor.getMessageHeaders()));
 
 		verify(frameHandler).getPayloadType(stompHeaders);
 		verify(frameHandler).handleFrame(stompHeaders, payload);
@@ -327,8 +323,8 @@ public class DefaultStompSessionTests {
 		verify(frameHandler).getPayloadType(stompHeaders);
 		verifyNoMoreInteractions(frameHandler);
 
-		verify(this.sessionHandler).handleException(same(this.session), same(StompCommand.MESSAGE),
-				eq(stompHeaders), same(payload), any(MessageConversionException.class));
+		verify(this.sessionHandler).handleException(same(this.session), same(StompCommand.MESSAGE), eq(stompHeaders),
+				same(payload), any(MessageConversionException.class));
 		verifyNoMoreInteractions(this.sessionHandler);
 	}
 
@@ -425,8 +421,8 @@ public class DefaultStompSessionTests {
 		stompHeaders.setContentType(MimeTypeUtils.APPLICATION_JSON);
 		String payload = "{'foo':'bar'}";
 
-		assertThatExceptionOfType(MessageConversionException.class).isThrownBy(() ->
-				this.session.send(stompHeaders, payload));
+		assertThatExceptionOfType(MessageConversionException.class)
+				.isThrownBy(() -> this.session.send(stompHeaders, payload));
 	}
 
 	@Test
@@ -439,9 +435,9 @@ public class DefaultStompSessionTests {
 		future.setException(exception);
 
 		given(this.connection.send(any())).willReturn(future);
-		assertThatExceptionOfType(MessageDeliveryException.class).isThrownBy(() ->
-				this.session.send("/topic/foo", "sample payload".getBytes(StandardCharsets.UTF_8)))
-			.withCause(exception);
+		assertThatExceptionOfType(MessageDeliveryException.class)
+				.isThrownBy(() -> this.session.send("/topic/foo", "sample payload".getBytes(StandardCharsets.UTF_8)))
+				.withCause(exception);
 	}
 
 	@Test
@@ -523,7 +519,7 @@ public class DefaultStompSessionTests {
 		Subscription subscription = this.session.subscribe(subscribeHeaders, frameHandler);
 
 		StompHeaders unsubscribeHeaders = new StompHeaders();
-		unsubscribeHeaders.set(headerName,  subscription.getSubscriptionHeaders().getFirst(headerName));
+		unsubscribeHeaders.set(headerName, subscription.getSubscriptionHeaders().getFirst(headerName));
 		subscription.unsubscribe(unsubscribeHeaders);
 
 		Message<byte[]> message = this.messageCaptor.getValue();

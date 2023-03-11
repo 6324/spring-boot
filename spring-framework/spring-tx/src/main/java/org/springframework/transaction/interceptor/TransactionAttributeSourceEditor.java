@@ -24,22 +24,26 @@ import org.springframework.beans.propertyeditors.PropertiesEditor;
 import org.springframework.util.StringUtils;
 
 /**
- * Property editor that converts a String into a {@link TransactionAttributeSource}.
- * The transaction attribute string must be parseable by the
+ * Property editor that converts a String into a {@link TransactionAttributeSource}. The
+ * transaction attribute string must be parseable by the
  * {@link TransactionAttributeEditor} in this package.
  *
- * <p>Strings are in property syntax, with the form:<br>
+ * <p>
+ * Strings are in property syntax, with the form:<br>
  * {@code FQCN.methodName=&lt;transaction attribute string&gt;}
  *
- * <p>For example:<br>
+ * <p>
+ * For example:<br>
  * {@code com.mycompany.mycode.MyClass.myMethod=PROPAGATION_MANDATORY,ISOLATION_DEFAULT}
  *
- * <p><b>NOTE:</b> The specified class must be the one where the methods are
- * defined; in case of implementing an interface, the interface class name.
+ * <p>
+ * <b>NOTE:</b> The specified class must be the one where the methods are defined; in case
+ * of implementing an interface, the interface class name.
  *
- * <p>Note: Will register all overloaded methods for a given name.
- * Does not support explicit registration of certain overloaded methods.
- * Supports "xxx*" mappings, e.g. "notify*" for "notify" and "notifyAll".
+ * <p>
+ * Note: Will register all overloaded methods for a given name. Does not support explicit
+ * registration of certain overloaded methods. Supports "xxx*" mappings, e.g. "notify*"
+ * for "notify" and "notifyAll".
  *
  * @author Rod Johnson
  * @author Juergen Hoeller

@@ -44,13 +44,12 @@ public class CallParameterMetaData {
 
 	private final boolean nullable;
 
-
 	/**
 	 * Constructor taking all the properties except the function marker.
 	 */
 	@Deprecated
-	public CallParameterMetaData(
-			@Nullable String columnName, int columnType, int sqlType, @Nullable String typeName, boolean nullable) {
+	public CallParameterMetaData(@Nullable String columnName, int columnType, int sqlType, @Nullable String typeName,
+			boolean nullable) {
 
 		this(false, columnName, columnType, sqlType, typeName, nullable);
 	}
@@ -59,8 +58,8 @@ public class CallParameterMetaData {
 	 * Constructor taking all the properties including the function marker.
 	 * @since 5.2.9
 	 */
-	public CallParameterMetaData(boolean function, @Nullable String columnName, int columnType,
-			int sqlType, @Nullable String typeName, boolean nullable) {
+	public CallParameterMetaData(boolean function, @Nullable String columnName, int columnType, int sqlType,
+			@Nullable String typeName, boolean nullable) {
 
 		this.function = function;
 		this.parameterName = columnName;
@@ -69,7 +68,6 @@ public class CallParameterMetaData {
 		this.typeName = typeName;
 		this.nullable = nullable;
 	}
-
 
 	/**
 	 * Return whether this parameter is declared in a function.
@@ -95,16 +93,16 @@ public class CallParameterMetaData {
 	}
 
 	/**
-	 * Determine whether the declared parameter qualifies as a 'return' parameter
-	 * for our purposes: type {@link DatabaseMetaData#procedureColumnReturn} or
+	 * Determine whether the declared parameter qualifies as a 'return' parameter for our
+	 * purposes: type {@link DatabaseMetaData#procedureColumnReturn} or
 	 * {@link DatabaseMetaData#procedureColumnResult}, or in case of a function,
 	 * {@link DatabaseMetaData#functionReturn}.
 	 * @since 4.3.15
 	 */
 	public boolean isReturnParameter() {
-		return (this.function ? this.parameterType == DatabaseMetaData.functionReturn :
-				(this.parameterType == DatabaseMetaData.procedureColumnReturn ||
-						this.parameterType == DatabaseMetaData.procedureColumnResult));
+		return (this.function ? this.parameterType == DatabaseMetaData.functionReturn
+				: (this.parameterType == DatabaseMetaData.procedureColumnReturn
+						|| this.parameterType == DatabaseMetaData.procedureColumnResult));
 	}
 
 	/**

@@ -46,9 +46,12 @@ public class DuplicateConfigurationClassPostProcessorTests {
 
 	@Configuration
 	static class Config {
+
 		@Bean
 		public String string() {
 			return "bean";
 		}
+
 	}
+
 }

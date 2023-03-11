@@ -49,7 +49,6 @@ public class HttpMessageWriterView implements View {
 
 	private final boolean canWriteMap;
 
-
 	/**
 	 * Constructor with an {@code Encoder}.
 	 */
@@ -66,7 +65,6 @@ public class HttpMessageWriterView implements View {
 		this.canWriteMap = writer.canWrite(ResolvableType.forClass(Map.class), null);
 	}
 
-
 	/**
 	 * Return the configured message writer.
 	 */
@@ -76,8 +74,9 @@ public class HttpMessageWriterView implements View {
 
 	/**
 	 * {@inheritDoc}
-	 * <p>The implementation of this method for {@link HttpMessageWriterView}
-	 * delegates to {@link HttpMessageWriter#getWritableMediaTypes()}.
+	 * <p>
+	 * The implementation of this method for {@link HttpMessageWriterView} delegates to
+	 * {@link HttpMessageWriter#getWritableMediaTypes()}.
 	 */
 	@Override
 	public List<MediaType> getSupportedMediaTypes() {
@@ -85,15 +84,15 @@ public class HttpMessageWriterView implements View {
 	}
 
 	/**
-	 * Set the attributes in the model that should be rendered by this view.
-	 * When set, all other model attributes will be ignored. The matching
-	 * attributes are further narrowed with {@link HttpMessageWriter#canWrite}.
-	 * The matching attributes are processed as follows:
+	 * Set the attributes in the model that should be rendered by this view. When set, all
+	 * other model attributes will be ignored. The matching attributes are further
+	 * narrowed with {@link HttpMessageWriter#canWrite}. The matching attributes are
+	 * processed as follows:
 	 * <ul>
 	 * <li>0: nothing is written to the response body.
 	 * <li>1: the matching attribute is passed to the writer.
-	 * <li>2..N: if the writer supports {@link Map}, write all matches;
-	 * otherwise raise an {@link IllegalStateException}.
+	 * <li>2..N: if the writer supports {@link Map}, write all matches; otherwise raise an
+	 * {@link IllegalStateException}.
 	 * </ul>
 	 */
 	public void setModelKeys(@Nullable Set<String> modelKeys) {
@@ -110,11 +109,10 @@ public class HttpMessageWriterView implements View {
 		return this.modelKeys;
 	}
 
-
 	@Override
 	@SuppressWarnings("unchecked")
-	public Mono<Void> render(
-			@Nullable Map<String, ?> model, @Nullable MediaType contentType, ServerWebExchange exchange) {
+	public Mono<Void> render(@Nullable Map<String, ?> model, @Nullable MediaType contentType,
+			ServerWebExchange exchange) {
 
 		Object value = getObjectToRender(model);
 		return (value != null ? write(value, contentType, exchange) : exchange.getResponse().setComplete());
@@ -126,8 +124,7 @@ public class HttpMessageWriterView implements View {
 			return null;
 		}
 
-		Map<String, ?> result = model.entrySet().stream()
-				.filter(this::isMatch)
+		Map<String, ?> result = model.entrySet().stream().filter(this::isMatch)
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
 		if (result.isEmpty()) {
@@ -140,8 +137,8 @@ public class HttpMessageWriterView implements View {
 			return result;
 		}
 		else {
-			throw new IllegalStateException("Multiple matches found: " + result + " but " +
-					"Map rendering is not supported by " + getMessageWriter().getClass().getName());
+			throw new IllegalStateException("Multiple matches found: " + result + " but "
+					+ "Map rendering is not supported by " + getMessageWriter().getClass().getName());
 		}
 	}
 
@@ -160,8 +157,7 @@ public class HttpMessageWriterView implements View {
 	private <T> Mono<Void> write(T value, @Nullable MediaType contentType, ServerWebExchange exchange) {
 		Publisher<T> input = Mono.justOrEmpty(value);
 		ResolvableType elementType = ResolvableType.forClass(value.getClass());
-		return ((HttpMessageWriter<T>) this.writer).write(
-				input, elementType, contentType, exchange.getResponse(),
+		return ((HttpMessageWriter<T>) this.writer).write(input, elementType, contentType, exchange.getResponse(),
 				Hints.from(Hints.LOG_PREFIX_HINT, exchange.getLogPrefix()));
 	}
 

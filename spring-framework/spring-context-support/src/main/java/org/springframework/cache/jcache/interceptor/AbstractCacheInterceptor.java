@@ -45,16 +45,13 @@ abstract class AbstractCacheInterceptor<O extends AbstractJCacheOperation<A>, A 
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
-
 	protected AbstractCacheInterceptor(CacheErrorHandler errorHandler) {
 		super(errorHandler);
 	}
 
-
 	@Nullable
 	protected abstract Object invoke(CacheOperationInvocationContext<O> context, CacheOperationInvoker invoker)
 			throws Throwable;
-
 
 	/**
 	 * Resolve the cache to use.
@@ -72,7 +69,9 @@ abstract class AbstractCacheInterceptor<O extends AbstractJCacheOperation<A>, A 
 
 	/**
 	 * Convert the collection of caches in a single expected element.
-	 * <p>Throw an {@link IllegalStateException} if the collection holds more than one element
+	 * <p>
+	 * Throw an {@link IllegalStateException} if the collection holds more than one
+	 * element
 	 * @return the single element, or {@code null} if the collection is empty
 	 */
 	@Nullable
@@ -84,8 +83,8 @@ abstract class AbstractCacheInterceptor<O extends AbstractJCacheOperation<A>, A 
 			return caches.iterator().next();
 		}
 		else {
-			throw new IllegalStateException("Unsupported cache resolution result " + caches +
-					": JSR-107 only supports a single cache.");
+			throw new IllegalStateException(
+					"Unsupported cache resolution result " + caches + ": JSR-107 only supports a single cache.");
 		}
 	}
 

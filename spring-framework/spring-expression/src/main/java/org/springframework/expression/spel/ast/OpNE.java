@@ -37,7 +37,6 @@ public class OpNE extends Operator {
 		this.exitTypeDescriptor = "Z";
 	}
 
-
 	@Override
 	public BooleanTypedValue getValueInternal(ExpressionState state) throws EvaluationException {
 		Object leftValue = getLeftOperand().getValueInternal(state).getValue();
@@ -59,8 +58,8 @@ public class OpNE extends Operator {
 
 		String leftDesc = left.exitTypeDescriptor;
 		String rightDesc = right.exitTypeDescriptor;
-		DescriptorComparison dc = DescriptorComparison.checkNumericCompatibility(leftDesc,
-				rightDesc, this.leftActualDescriptor, this.rightActualDescriptor);
+		DescriptorComparison dc = DescriptorComparison.checkNumericCompatibility(leftDesc, rightDesc,
+				this.leftActualDescriptor, this.rightActualDescriptor);
 		return (!dc.areNumbers || dc.areCompatible);
 	}
 

@@ -38,7 +38,6 @@ public class BufferingStompDecoderTests {
 
 	private final StompDecoder STOMP_DECODER = new StompDecoder();
 
-
 	@Test
 	public void basic() throws InterruptedException {
 		BufferingStompDecoder stompDecoder = new BufferingStompDecoder(STOMP_DECODER, 128);
@@ -153,16 +152,16 @@ public class BufferingStompDecoderTests {
 		assertThat((int) stompDecoder.getExpectedContentLength()).isEqualTo(129);
 
 		String chunk2 = "\nPayload2a";
-		assertThatExceptionOfType(StompConversionException.class).isThrownBy(() ->
-				stompDecoder.decode(toByteBuffer(chunk2)));
+		assertThatExceptionOfType(StompConversionException.class)
+				.isThrownBy(() -> stompDecoder.decode(toByteBuffer(chunk2)));
 	}
 
 	@Test
 	public void bufferSizeLimit() {
 		BufferingStompDecoder stompDecoder = new BufferingStompDecoder(STOMP_DECODER, 10);
 		String payload = "SEND\na:alpha\n\nMessage body";
-		assertThatExceptionOfType(StompConversionException.class).isThrownBy(() ->
-				stompDecoder.decode(toByteBuffer(payload)));
+		assertThatExceptionOfType(StompConversionException.class)
+				.isThrownBy(() -> stompDecoder.decode(toByteBuffer(payload)));
 	}
 
 	@Test
@@ -189,16 +188,16 @@ public class BufferingStompDecoderTests {
 	public void invalidEscapeSequence() {
 		BufferingStompDecoder stompDecoder = new BufferingStompDecoder(STOMP_DECODER, 128);
 		String payload = "SEND\na:alpha\\x\\n\nMessage body\0";
-		assertThatExceptionOfType(StompConversionException.class).isThrownBy(() ->
-				stompDecoder.decode(toByteBuffer(payload)));
+		assertThatExceptionOfType(StompConversionException.class)
+				.isThrownBy(() -> stompDecoder.decode(toByteBuffer(payload)));
 	}
 
 	@Test
 	public void invalidEscapeSequenceWithSingleSlashAtEndOfHeaderValue() {
 		BufferingStompDecoder stompDecoder = new BufferingStompDecoder(STOMP_DECODER, 128);
 		String payload = "SEND\na:alpha\\\n\nMessage body\0";
-		assertThatExceptionOfType(StompConversionException.class).isThrownBy(() ->
-				stompDecoder.decode(toByteBuffer(payload)));
+		assertThatExceptionOfType(StompConversionException.class)
+				.isThrownBy(() -> stompDecoder.decode(toByteBuffer(payload)));
 	}
 
 	private ByteBuffer toByteBuffer(String chunk) {

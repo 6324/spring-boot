@@ -20,8 +20,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Tag collection class used to hold managed array elements, which may
- * include runtime bean references (to be resolved into bean objects).
+ * Tag collection class used to hold managed array elements, which may include runtime
+ * bean references (to be resolved into bean objects).
  *
  * @author Juergen Hoeller
  * @since 3.0
@@ -32,7 +32,6 @@ public class ManagedArray extends ManagedList<Object> {
 	/** Resolved element type for runtime creation of the target array. */
 	@Nullable
 	volatile Class<?> resolvedElementType;
-
 
 	/**
 	 * Create a new managed array placeholder.

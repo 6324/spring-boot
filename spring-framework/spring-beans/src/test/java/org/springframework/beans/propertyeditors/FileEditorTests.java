@@ -36,8 +36,8 @@ public class FileEditorTests {
 	@Test
 	public void testClasspathFileName() throws Exception {
 		PropertyEditor fileEditor = new FileEditor();
-		fileEditor.setAsText("classpath:" + ClassUtils.classPackageAsResourcePath(getClass()) + "/" +
-				ClassUtils.getShortName(getClass()) + ".class");
+		fileEditor.setAsText("classpath:" + ClassUtils.classPackageAsResourcePath(getClass()) + "/"
+				+ ClassUtils.getShortName(getClass()) + ".class");
 		Object value = fileEditor.getValue();
 		boolean condition = value instanceof File;
 		assertThat(condition).isTrue();
@@ -48,8 +48,8 @@ public class FileEditorTests {
 	@Test
 	public void testWithNonExistentResource() throws Exception {
 		PropertyEditor propertyEditor = new FileEditor();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				propertyEditor.setAsText("classpath:no_way_this_file_is_found.doc"));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> propertyEditor.setAsText("classpath:no_way_this_file_is_found.doc"));
 	}
 
 	@Test
@@ -79,8 +79,8 @@ public class FileEditorTests {
 	@Test
 	public void testUnqualifiedFileNameFound() throws Exception {
 		PropertyEditor fileEditor = new FileEditor();
-		String fileName = ClassUtils.classPackageAsResourcePath(getClass()) + "/" +
-				ClassUtils.getShortName(getClass()) + ".class";
+		String fileName = ClassUtils.classPackageAsResourcePath(getClass()) + "/" + ClassUtils.getShortName(getClass())
+				+ ".class";
 		fileEditor.setAsText(fileName);
 		Object value = fileEditor.getValue();
 		boolean condition = value instanceof File;
@@ -94,8 +94,8 @@ public class FileEditorTests {
 	@Test
 	public void testUnqualifiedFileNameNotFound() throws Exception {
 		PropertyEditor fileEditor = new FileEditor();
-		String fileName = ClassUtils.classPackageAsResourcePath(getClass()) + "/" +
-				ClassUtils.getShortName(getClass()) + ".clazz";
+		String fileName = ClassUtils.classPackageAsResourcePath(getClass()) + "/" + ClassUtils.getShortName(getClass())
+				+ ".clazz";
 		fileEditor.setAsText(fileName);
 		Object value = fileEditor.getValue();
 		boolean condition = value instanceof File;

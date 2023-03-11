@@ -20,8 +20,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link ResourceLoader} implementation that interprets plain resource paths
- * as relative to a given {@code java.lang.Class}.
+ * {@link ResourceLoader} implementation that interprets plain resource paths as relative
+ * to a given {@code java.lang.Class}.
  *
  * @author Juergen Hoeller
  * @since 3.0
@@ -31,7 +31,6 @@ import org.springframework.util.StringUtils;
 public class ClassRelativeResourceLoader extends DefaultResourceLoader {
 
 	private final Class<?> clazz;
-
 
 	/**
 	 * Create a new ClassRelativeResourceLoader for the given class.
@@ -48,10 +47,9 @@ public class ClassRelativeResourceLoader extends DefaultResourceLoader {
 		return new ClassRelativeContextResource(path, this.clazz);
 	}
 
-
 	/**
-	 * ClassPathResource that explicitly expresses a context-relative path
-	 * through implementing the ContextResource interface.
+	 * ClassPathResource that explicitly expresses a context-relative path through
+	 * implementing the ContextResource interface.
 	 */
 	private static class ClassRelativeContextResource extends ClassPathResource implements ContextResource {
 
@@ -72,6 +70,7 @@ public class ClassRelativeResourceLoader extends DefaultResourceLoader {
 			String pathToUse = StringUtils.applyRelativePath(getPath(), relativePath);
 			return new ClassRelativeContextResource(pathToUse, this.clazz);
 		}
+
 	}
 
 }

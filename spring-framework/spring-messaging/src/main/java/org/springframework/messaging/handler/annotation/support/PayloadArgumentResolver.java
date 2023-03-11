@@ -22,8 +22,8 @@ import org.springframework.validation.Validator;
 
 /**
  * A resolver to extract and convert the payload of a message using a
- * {@link MessageConverter}. It also validates the payload using a
- * {@link Validator} if the argument is annotated with a Validation annotation.
+ * {@link MessageConverter}. It also validates the payload using a {@link Validator} if
+ * the argument is annotated with a Validation annotation.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -60,13 +60,12 @@ public class PayloadArgumentResolver extends PayloadMethodArgumentResolver {
 	 * {@link MessageConverter} and {@link Validator}.
 	 * @param messageConverter the MessageConverter to use (required)
 	 * @param validator the Validator to use (optional)
-	 * @param useDefaultResolution if "true" (the default) this resolver supports
-	 * all parameters; if "false" then only arguments with the {@code @Payload}
-	 * annotation are supported.
+	 * @param useDefaultResolution if "true" (the default) this resolver supports all
+	 * parameters; if "false" then only arguments with the {@code @Payload} annotation are
+	 * supported.
 	 */
 	public PayloadArgumentResolver(MessageConverter messageConverter, @Nullable Validator validator,
 			boolean useDefaultResolution) {
-
 
 		super(messageConverter, validator, useDefaultResolution);
 	}

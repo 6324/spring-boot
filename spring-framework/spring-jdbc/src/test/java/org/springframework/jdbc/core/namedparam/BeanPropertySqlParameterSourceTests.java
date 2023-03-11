@@ -36,15 +36,13 @@ public class BeanPropertySqlParameterSourceTests {
 
 	@Test
 	public void withNullBeanPassedToCtor() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new BeanPropertySqlParameterSource(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new BeanPropertySqlParameterSource(null));
 	}
 
 	@Test
 	public void getValueWhereTheUnderlyingBeanHasNoSuchProperty() {
 		BeanPropertySqlParameterSource source = new BeanPropertySqlParameterSource(new TestBean());
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				source.getValue("thisPropertyDoesNotExist"));
+		assertThatIllegalArgumentException().isThrownBy(() -> source.getValue("thisPropertyDoesNotExist"));
 	}
 
 	@Test
@@ -77,8 +75,7 @@ public class BeanPropertySqlParameterSourceTests {
 	@Test
 	public void getValueWhereTheUnderlyingBeanPropertyIsNotReadable() {
 		BeanPropertySqlParameterSource source = new BeanPropertySqlParameterSource(new NoReadableProperties());
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				source.getValue("noOp"));
+		assertThatIllegalArgumentException().isThrownBy(() -> source.getValue("noOp"));
 	}
 
 	@Test
@@ -90,40 +87,31 @@ public class BeanPropertySqlParameterSourceTests {
 	@Test
 	public void toStringShowsParameterDetails() {
 		BeanPropertySqlParameterSource source = new BeanPropertySqlParameterSource(new TestBean("tb", 99));
-		assertThat(source.toString())
-			.startsWith("BeanPropertySqlParameterSource {")
-			.contains("name=tb (type:VARCHAR)")
-			.contains("age=99 (type:INTEGER)")
-			.endsWith("}");
+		assertThat(source.toString()).startsWith("BeanPropertySqlParameterSource {").contains("name=tb (type:VARCHAR)")
+				.contains("age=99 (type:INTEGER)").endsWith("}");
 	}
 
 	@Test
 	public void toStringShowsCustomSqlType() {
 		BeanPropertySqlParameterSource source = new BeanPropertySqlParameterSource(new TestBean("tb", 99));
 		source.registerSqlType("name", Integer.MAX_VALUE);
-		assertThat(source.toString())
-				.startsWith("BeanPropertySqlParameterSource {")
-				.contains("name=tb (type:" + Integer.MAX_VALUE + ")")
-				.contains("age=99 (type:INTEGER)")
-				.endsWith("}");
+		assertThat(source.toString()).startsWith("BeanPropertySqlParameterSource {")
+				.contains("name=tb (type:" + Integer.MAX_VALUE + ")").contains("age=99 (type:INTEGER)").endsWith("}");
 	}
 
 	@Test
 	public void toStringDoesNotShowTypeUnknown() {
 		BeanPropertySqlParameterSource source = new BeanPropertySqlParameterSource(new TestBean("tb", 99));
-		assertThat(source.toString())
-				.startsWith("BeanPropertySqlParameterSource {")
-				.contains("beanFactory=null")
-				.doesNotContain("beanFactory=null (type:")
-				.endsWith("}");
+		assertThat(source.toString()).startsWith("BeanPropertySqlParameterSource {").contains("beanFactory=null")
+				.doesNotContain("beanFactory=null (type:").endsWith("}");
 	}
-
 
 	@SuppressWarnings("unused")
 	private static final class NoReadableProperties {
 
 		public void setNoOp(String noOp) {
 		}
+
 	}
 
 }

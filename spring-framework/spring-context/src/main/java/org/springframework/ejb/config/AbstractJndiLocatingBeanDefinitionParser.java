@@ -29,9 +29,9 @@ import static org.springframework.beans.factory.xml.BeanDefinitionParserDelegate
 import static org.springframework.beans.factory.xml.BeanDefinitionParserDelegate.TRUE_VALUE;
 
 /**
- * Abstract base class for BeanDefinitionParsers which build
- * JNDI-locating beans, supporting an optional "jndiEnvironment"
- * bean property, populated from an "environment" XML sub-element.
+ * Abstract base class for BeanDefinitionParsers which build JNDI-locating beans,
+ * supporting an optional "jndiEnvironment" bean property, populated from an "environment"
+ * XML sub-element.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -46,12 +46,10 @@ abstract class AbstractJndiLocatingBeanDefinitionParser extends AbstractSimpleBe
 
 	public static final String JNDI_ENVIRONMENT = "jndiEnvironment";
 
-
 	@Override
 	protected boolean isEligibleAttribute(String attributeName) {
-		return (super.isEligibleAttribute(attributeName) &&
-				!ENVIRONMENT_REF.equals(attributeName) &&
-				!LAZY_INIT_ATTRIBUTE.equals(attributeName));
+		return (super.isEligibleAttribute(attributeName) && !ENVIRONMENT_REF.equals(attributeName)
+				&& !LAZY_INIT_ATTRIBUTE.equals(attributeName));
 	}
 
 	@Override
@@ -74,4 +72,5 @@ abstract class AbstractJndiLocatingBeanDefinitionParser extends AbstractSimpleBe
 			definitionBuilder.setLazyInit(TRUE_VALUE.equals(lazyInit));
 		}
 	}
+
 }

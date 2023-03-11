@@ -46,11 +46,12 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * A powerful {@link PropertyAccessor} that uses reflection to access properties
- * for reading and possibly also for writing on a target instance.
+ * A powerful {@link PropertyAccessor} that uses reflection to access properties for
+ * reading and possibly also for writing on a target instance.
  *
- * <p>A property can be referenced through a public getter method (when being read)
- * or a public setter method (when being written), and also as a public field.
+ * <p>
+ * A property can be referenced through a public getter method (when being read) or a
+ * public setter method (when being written), and also as a public field.
  *
  * @author Andy Clement
  * @author Juergen Hoeller
@@ -74,7 +75,6 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 		BOOLEAN_TYPES = Collections.unmodifiableSet(booleanTypes);
 	}
 
-
 	private final boolean allowWrite;
 
 	private final Map<PropertyCacheKey, InvokerPair> readerCache = new ConcurrentHashMap<>(64);
@@ -87,7 +87,6 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 
 	@Nullable
 	private volatile InvokerPair lastReadInvokerPair;
-
 
 	/**
 	 * Create a new property accessor for reading as well writing.
@@ -106,7 +105,6 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 	public ReflectivePropertyAccessor(boolean allowWrite) {
 		this.allowWrite = allowWrite;
 	}
-
 
 	/**
 	 * Returns {@code null} which means this is a general purpose accessor.
@@ -136,7 +134,8 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 		Method method = findGetterForProperty(name, type, target);
 		if (method != null) {
 			// Treat it like a property...
-			// The readerCache will only contain gettable properties (let's not worry about setters for now).
+			// The readerCache will only contain gettable properties (let's not worry
+			// about setters for now).
 			Property property = new Property(type, method, null);
 			TypeDescriptor typeDescriptor = new TypeDescriptor(property);
 			method = ClassUtils.getInterfaceMethodIfPossible(method);
@@ -179,7 +178,8 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 				method = findGetterForProperty(name, type, target);
 				if (method != null) {
 					// Treat it like a property...
-					// The readerCache will only contain gettable properties (let's not worry about setters for now).
+					// The readerCache will only contain gettable properties (let's not
+					// worry about setters for now).
 					Property property = new Property(type, method, null);
 					TypeDescriptor typeDescriptor = new TypeDescriptor(property);
 					method = ClassUtils.getInterfaceMethodIfPossible(method);
@@ -264,8 +264,8 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 			throws AccessException {
 
 		if (!this.allowWrite) {
-			throw new AccessException("PropertyAccessor for property '" + name +
-					"' on target [" + target + "] does not allow write operations");
+			throw new AccessException("PropertyAccessor for property '" + name + "' on target [" + target
+					+ "] does not allow write operations");
 		}
 
 		Assert.state(target != null, "Target must not be null");
@@ -275,8 +275,8 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 		TypeDescriptor typeDescriptor = getTypeDescriptor(context, target, name);
 		if (typeDescriptor != null) {
 			try {
-				possiblyConvertedNewValue = context.getTypeConverter().convertValue(
-						newValue, TypeDescriptor.forObject(newValue), typeDescriptor);
+				possiblyConvertedNewValue = context.getTypeConverter().convertValue(newValue,
+						TypeDescriptor.forObject(newValue), typeDescriptor);
 			}
 			catch (EvaluationException evaluationException) {
 				throw new AccessException("Type conversion failure", evaluationException);
@@ -343,7 +343,6 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 		return (lastReadInvoker != null ? lastReadInvoker.member : null);
 	}
 
-
 	@Nullable
 	private TypeDescriptor getTypeDescriptor(EvaluationContext context, Object target, String name) {
 		Class<?> type = (target instanceof Class ? (Class<?>) target : target.getClass());
@@ -390,11 +389,11 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 	 */
 	@Nullable
 	protected Method findGetterForProperty(String propertyName, Class<?> clazz, boolean mustBeStatic) {
-		Method method = findMethodForProperty(getPropertyMethodSuffixes(propertyName),
-				"get", clazz, mustBeStatic, 0, ANY_TYPES);
+		Method method = findMethodForProperty(getPropertyMethodSuffixes(propertyName), "get", clazz, mustBeStatic, 0,
+				ANY_TYPES);
 		if (method == null) {
-			method = findMethodForProperty(getPropertyMethodSuffixes(propertyName),
-					"is", clazz, mustBeStatic, 0, BOOLEAN_TYPES);
+			method = findMethodForProperty(getPropertyMethodSuffixes(propertyName), "is", clazz, mustBeStatic, 0,
+					BOOLEAN_TYPES);
 		}
 		return method;
 	}
@@ -404,21 +403,20 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 	 */
 	@Nullable
 	protected Method findSetterForProperty(String propertyName, Class<?> clazz, boolean mustBeStatic) {
-		return findMethodForProperty(getPropertyMethodSuffixes(propertyName),
-				"set", clazz, mustBeStatic, 1, ANY_TYPES);
+		return findMethodForProperty(getPropertyMethodSuffixes(propertyName), "set", clazz, mustBeStatic, 1, ANY_TYPES);
 	}
 
 	@Nullable
-	private Method findMethodForProperty(String[] methodSuffixes, String prefix, Class<?> clazz,
-			boolean mustBeStatic, int numberOfParams, Set<Class<?>> requiredReturnTypes) {
+	private Method findMethodForProperty(String[] methodSuffixes, String prefix, Class<?> clazz, boolean mustBeStatic,
+			int numberOfParams, Set<Class<?>> requiredReturnTypes) {
 
 		Method[] methods = getSortedMethods(clazz);
 		for (String methodSuffix : methodSuffixes) {
 			for (Method method : methods) {
-				if (isCandidateForProperty(method, clazz) && method.getName().equals(prefix + methodSuffix) &&
-						method.getParameterCount() == numberOfParams &&
-						(!mustBeStatic || Modifier.isStatic(method.getModifiers())) &&
-						(requiredReturnTypes.isEmpty() || requiredReturnTypes.contains(method.getReturnType()))) {
+				if (isCandidateForProperty(method, clazz) && method.getName().equals(prefix + methodSuffix)
+						&& method.getParameterCount() == numberOfParams
+						&& (!mustBeStatic || Modifier.isStatic(method.getModifiers()))
+						&& (requiredReturnTypes.isEmpty() || requiredReturnTypes.contains(method.getReturnType()))) {
 					return method;
 				}
 			}
@@ -438,9 +436,10 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 	}
 
 	/**
-	 * Determine whether the given {@code Method} is a candidate for property access
-	 * on an instance of the given target class.
-	 * <p>The default implementation considers any method as a candidate, even for
+	 * Determine whether the given {@code Method} is a candidate for property access on an
+	 * instance of the given target class.
+	 * <p>
+	 * The default implementation considers any method as a candidate, even for
 	 * non-user-declared properties on the {@link Object} base class.
 	 * @param method the Method to evaluate
 	 * @param targetClass the concrete target class that is being introspected
@@ -459,14 +458,14 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 	protected String[] getPropertyMethodSuffixes(String propertyName) {
 		String suffix = getPropertyMethodSuffix(propertyName);
 		if (suffix.length() > 0 && Character.isUpperCase(suffix.charAt(0))) {
-			return new String[] {suffix};
+			return new String[] { suffix };
 		}
-		return new String[] {suffix, StringUtils.capitalize(suffix)};
+		return new String[] { suffix, StringUtils.capitalize(suffix) };
 	}
 
 	/**
-	 * Return the method suffix for a given property name. The default implementation
-	 * uses JavaBean conventions.
+	 * Return the method suffix for a given property name. The default implementation uses
+	 * JavaBean conventions.
 	 */
 	protected String getPropertyMethodSuffix(String propertyName) {
 		if (propertyName.length() > 1 && Character.isUpperCase(propertyName.charAt(1))) {
@@ -514,13 +513,14 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 
 	/**
 	 * Attempt to create an optimized property accessor tailored for a property of a
-	 * particular name on a particular class. The general ReflectivePropertyAccessor
-	 * will always work but is not optimal due to the need to lookup which reflective
-	 * member (method/field) to use each time read() is called. This method will just
-	 * return the ReflectivePropertyAccessor instance if it is unable to build a more
-	 * optimal accessor.
-	 * <p>Note: An optimal accessor is currently only usable for read attempts.
-	 * Do not call this method if you need a read-write accessor.
+	 * particular name on a particular class. The general ReflectivePropertyAccessor will
+	 * always work but is not optimal due to the need to lookup which reflective member
+	 * (method/field) to use each time read() is called. This method will just return the
+	 * ReflectivePropertyAccessor instance if it is unable to build a more optimal
+	 * accessor.
+	 * <p>
+	 * Note: An optimal accessor is currently only usable for read attempts. Do not call
+	 * this method if you need a read-write accessor.
 	 * @see OptimalPropertyAccessor
 	 */
 	public PropertyAccessor createOptimalAccessor(EvaluationContext context, @Nullable Object target, String name) {
@@ -571,7 +571,6 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 		return this;
 	}
 
-
 	/**
 	 * Captures the member (method/field) to call reflectively to access a property value
 	 * and the type descriptor for the value returned by the reflective call.
@@ -586,8 +585,8 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 			this.member = member;
 			this.typeDescriptor = typeDescriptor;
 		}
-	}
 
+	}
 
 	private static final class PropertyCacheKey implements Comparable<PropertyCacheKey> {
 
@@ -612,8 +611,8 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 				return false;
 			}
 			PropertyCacheKey otherKey = (PropertyCacheKey) other;
-			return (this.clazz == otherKey.clazz && this.property.equals(otherKey.property) &&
-					this.targetIsClass == otherKey.targetIsClass);
+			return (this.clazz == otherKey.clazz && this.property.equals(otherKey.property)
+					&& this.targetIsClass == otherKey.targetIsClass);
 		}
 
 		@Override
@@ -623,8 +622,8 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 
 		@Override
 		public String toString() {
-			return "PropertyCacheKey [clazz=" + this.clazz.getName() + ", property=" + this.property +
-					", targetIsClass=" + this.targetIsClass + "]";
+			return "PropertyCacheKey [clazz=" + this.clazz.getName() + ", property=" + this.property
+					+ ", targetIsClass=" + this.targetIsClass + "]";
 		}
 
 		@Override
@@ -635,16 +634,16 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 			}
 			return result;
 		}
+
 	}
 
-
 	/**
-	 * An optimized form of a PropertyAccessor that will use reflection but only knows
-	 * how to access a particular property on a particular class. This is unlike the
-	 * general ReflectivePropertyResolver which manages a cache of methods/fields that
-	 * may be invoked to access different properties on different classes. This optimal
-	 * accessor exists because looking up the appropriate reflective object by class/name
-	 * on each read is not cheap.
+	 * An optimized form of a PropertyAccessor that will use reflection but only knows how
+	 * to access a particular property on a particular class. This is unlike the general
+	 * ReflectivePropertyResolver which manages a cache of methods/fields that may be
+	 * invoked to access different properties on different classes. This optimal accessor
+	 * exists because looking up the appropriate reflective object by class/name on each
+	 * read is not cheap.
 	 */
 	public static class OptimalPropertyAccessor implements CompilablePropertyAccessor {
 
@@ -729,8 +728,8 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 
 		@Override
 		public boolean isCompilable() {
-			return (Modifier.isPublic(this.member.getModifiers()) &&
-					Modifier.isPublic(this.member.getDeclaringClass().getModifiers()));
+			return (Modifier.isPublic(this.member.getModifiers())
+					&& Modifier.isPublic(this.member.getDeclaringClass().getModifiers()));
 		}
 
 		@Override
@@ -769,14 +768,15 @@ public class ReflectivePropertyAccessor implements PropertyAccessor {
 				Method method = (Method) this.member;
 				boolean isInterface = method.getDeclaringClass().isInterface();
 				int opcode = (isStatic ? INVOKESTATIC : isInterface ? INVOKEINTERFACE : INVOKEVIRTUAL);
-				mv.visitMethodInsn(opcode, classDesc, method.getName(),
-						CodeFlow.createSignatureDescriptor(method), isInterface);
+				mv.visitMethodInsn(opcode, classDesc, method.getName(), CodeFlow.createSignatureDescriptor(method),
+						isInterface);
 			}
 			else {
 				mv.visitFieldInsn((isStatic ? GETSTATIC : GETFIELD), classDesc, this.member.getName(),
 						CodeFlow.toJvmDescriptor(((Field) this.member).getType()));
 			}
 		}
+
 	}
 
 }

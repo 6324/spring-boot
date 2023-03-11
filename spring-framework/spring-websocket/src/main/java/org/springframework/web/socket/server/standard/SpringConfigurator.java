@@ -56,9 +56,7 @@ public class SpringConfigurator extends Configurator {
 
 	private static final Log logger = LogFactory.getLog(SpringConfigurator.class);
 
-	private static final Map<String, Map<Class<?>, String>> cache =
-			new ConcurrentHashMap<>();
-
+	private static final Map<String, Map<Class<?>, String>> cache = new ConcurrentHashMap<>();
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -117,8 +115,8 @@ public class SpringConfigurator extends Configurator {
 			else {
 				beanNamesByType.put(endpointClass, NO_VALUE);
 				if (names.length > 1) {
-					throw new IllegalStateException("Found multiple @ServerEndpoint's of type [" +
-							endpointClass.getName() + "]: bean names " + Arrays.asList(names));
+					throw new IllegalStateException("Found multiple @ServerEndpoint's of type ["
+							+ endpointClass.getName() + "]: bean names " + Arrays.asList(names));
 				}
 			}
 		}

@@ -68,8 +68,7 @@ public class JndiTemplateTests {
 			}
 		};
 
-		assertThatExceptionOfType(NameNotFoundException.class).isThrownBy(() ->
-				jt.lookup(name));
+		assertThatExceptionOfType(NameNotFoundException.class).isThrownBy(() -> jt.lookup(name));
 		verify(context).close();
 	}
 
@@ -86,8 +85,7 @@ public class JndiTemplateTests {
 			}
 		};
 
-		assertThatExceptionOfType(NameNotFoundException.class).isThrownBy(() ->
-				jt.lookup(name));
+		assertThatExceptionOfType(NameNotFoundException.class).isThrownBy(() -> jt.lookup(name));
 		verify(context).close();
 	}
 
@@ -105,8 +103,7 @@ public class JndiTemplateTests {
 			}
 		};
 
-		assertThatExceptionOfType(TypeMismatchNamingException.class).isThrownBy(() ->
-				jt.lookup(name, String.class));
+		assertThatExceptionOfType(TypeMismatchNamingException.class).isThrownBy(() -> jt.lookup(name, String.class));
 		verify(context).close();
 	}
 

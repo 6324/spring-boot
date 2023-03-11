@@ -45,7 +45,8 @@ import org.springframework.util.CollectionUtils;
  * any changes to it will be seen by other expressions or any code that chooses to ask
  * questions of the context.
  *
- * <p>It also acts as a place for to define common utility routines that the various AST
+ * <p>
+ * It also acts as a place for to define common utility routines that the various AST
  * nodes might need.
  *
  * @author Andy Clement
@@ -76,7 +77,6 @@ public class ExpressionState {
 	@Nullable
 	private ArrayDeque<TypedValue> scopeRootObjects;
 
-
 	public ExpressionState(EvaluationContext context) {
 		this(context, context.getRootObject(), new SpelParserConfiguration(false, false));
 	}
@@ -97,9 +97,9 @@ public class ExpressionState {
 		this.configuration = configuration;
 	}
 
-
 	/**
-	 * The active context object is what unqualified references to properties/etc are resolved against.
+	 * The active context object is what unqualified references to properties/etc are
+	 * resolved against.
 	 */
 	public TypedValue getActiveContextObject() {
 		if (CollectionUtils.isEmpty(this.contextObjects)) {
@@ -156,8 +156,8 @@ public class ExpressionState {
 	}
 
 	public Object convertValue(Object value, TypeDescriptor targetTypeDescriptor) throws EvaluationException {
-		Object result = this.relatedContext.getTypeConverter().convertValue(
-				value, TypeDescriptor.forObject(value), targetTypeDescriptor);
+		Object result = this.relatedContext.getTypeConverter().convertValue(value, TypeDescriptor.forObject(value),
+				targetTypeDescriptor);
 		if (result == null) {
 			throw new IllegalStateException("Null conversion result for value [" + value + "]");
 		}
@@ -171,8 +171,8 @@ public class ExpressionState {
 	@Nullable
 	public Object convertValue(TypedValue value, TypeDescriptor targetTypeDescriptor) throws EvaluationException {
 		Object val = value.getValue();
-		return this.relatedContext.getTypeConverter().convertValue(
-				val, TypeDescriptor.forObject(val), targetTypeDescriptor);
+		return this.relatedContext.getTypeConverter().convertValue(val, TypeDescriptor.forObject(val),
+				targetTypeDescriptor);
 	}
 
 	/*
@@ -236,8 +236,9 @@ public class ExpressionState {
 		}
 		else {
 			String leftType = (left == null ? "null" : left.getClass().getName());
-			String rightType = (right == null? "null" : right.getClass().getName());
-			throw new SpelEvaluationException(SpelMessage.OPERATOR_NOT_SUPPORTED_BETWEEN_TYPES, op, leftType, rightType);
+			String rightType = (right == null ? "null" : right.getClass().getName());
+			throw new SpelEvaluationException(SpelMessage.OPERATOR_NOT_SUPPORTED_BETWEEN_TYPES, op, leftType,
+					rightType);
 		}
 	}
 
@@ -253,13 +254,11 @@ public class ExpressionState {
 		return this.configuration;
 	}
 
-
 	/**
 	 * A new scope is entered when a function is called and it is used to hold the
-	 * parameters to the function call. If the names of the parameters clash with
-	 * those in a higher level scope, those in the higher level scope will not be
-	 * accessible whilst the function is executing. When the function returns,
-	 * the scope is exited.
+	 * parameters to the function call. If the names of the parameters clash with those in
+	 * a higher level scope, those in the higher level scope will not be accessible whilst
+	 * the function is executing. When the function returns, the scope is exited.
 	 */
 	private static class VariableScope {
 
@@ -275,7 +274,7 @@ public class ExpressionState {
 		}
 
 		public VariableScope(String name, Object value) {
-			this.vars.put(name,value);
+			this.vars.put(name, value);
 		}
 
 		public Object lookupVariable(String name) {
@@ -283,12 +282,13 @@ public class ExpressionState {
 		}
 
 		public void setVariable(String name, Object value) {
-			this.vars.put(name,value);
+			this.vars.put(name, value);
 		}
 
 		public boolean definesVariable(String name) {
 			return this.vars.containsKey(name);
 		}
+
 	}
 
 }

@@ -17,8 +17,8 @@
 package org.springframework.format;
 
 /**
- * Formats objects of type T.
- * A Formatter is both a Printer <i>and</i> a Parser for an object type.
+ * Formats objects of type T. A Formatter is both a Printer <i>and</i> a Parser for an
+ * object type.
  *
  * @author Keith Donald
  * @since 3.0

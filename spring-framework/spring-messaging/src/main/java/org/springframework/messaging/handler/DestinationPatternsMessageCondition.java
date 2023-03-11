@@ -35,30 +35,28 @@ import org.springframework.util.SimpleRouteMatcher;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link MessageCondition} to match the destination header of a Message
- * against one or more patterns through a {@link RouteMatcher}.
+ * {@link MessageCondition} to match the destination header of a Message against one or
+ * more patterns through a {@link RouteMatcher}.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
  */
-public class DestinationPatternsMessageCondition
-		extends AbstractMessageCondition<DestinationPatternsMessageCondition> {
+public class DestinationPatternsMessageCondition extends AbstractMessageCondition<DestinationPatternsMessageCondition> {
 
 	/**
 	 * The name of the "lookup destination" header.
 	 */
 	public static final String LOOKUP_DESTINATION_HEADER = "lookupDestination";
 
-
 	private final Set<String> patterns;
 
 	private final RouteMatcher routeMatcher;
 
-
 	/**
 	 * Constructor with patterns only. Creates and uses an instance of
 	 * {@link AntPathMatcher} with default settings.
-	 * <p>Non-empty patterns that don't start with "/" are prepended with "/".
+	 * <p>
+	 * Non-empty patterns that don't start with "/" are prepended with "/".
 	 * @param patterns the URL patterns to match to, or if 0 then always match
 	 */
 	public DestinationPatternsMessageCondition(String... patterns) {
@@ -101,8 +99,6 @@ public class DestinationPatternsMessageCondition
 		this.routeMatcher = routeMatcher;
 	}
 
-
-
 	public Set<String> getPatterns() {
 		return this.patterns;
 	}
@@ -117,13 +113,13 @@ public class DestinationPatternsMessageCondition
 		return " || ";
 	}
 
-
 	/**
-	 * Returns a new instance with URL patterns from the current instance ("this") and
-	 * the "other" instance as follows:
+	 * Returns a new instance with URL patterns from the current instance ("this") and the
+	 * "other" instance as follows:
 	 * <ul>
 	 * <li>If there are patterns in both instances, combine the patterns in "this" with
-	 * the patterns in "other" using {@link org.springframework.util.PathMatcher#combine(String, String)}.
+	 * the patterns in "other" using
+	 * {@link org.springframework.util.PathMatcher#combine(String, String)}.
 	 * <li>If only one instance has patterns, use them.
 	 * <li>If neither instance has patterns, use an empty String (i.e. "").
 	 * </ul>
@@ -151,13 +147,13 @@ public class DestinationPatternsMessageCondition
 	}
 
 	/**
-	 * Check if any of the patterns match the given Message destination and return an instance
-	 * that is guaranteed to contain matching patterns, sorted via
+	 * Check if any of the patterns match the given Message destination and return an
+	 * instance that is guaranteed to contain matching patterns, sorted via
 	 * {@link org.springframework.util.PathMatcher#getPatternComparator(String)}.
 	 * @param message the message to match to
-	 * @return the same instance if the condition contains no patterns;
-	 * or a new condition with sorted matching patterns;
-	 * or {@code null} either if a destination can not be extracted or there is no match
+	 * @return the same instance if the condition contains no patterns; or a new condition
+	 * with sorted matching patterns; or {@code null} either if a destination can not be
+	 * extracted or there is no match
 	 */
 	@Override
 	@Nullable
@@ -188,26 +184,27 @@ public class DestinationPatternsMessageCondition
 	}
 
 	private boolean matchPattern(String pattern, Object destination) {
-		return destination instanceof RouteMatcher.Route ?
-				this.routeMatcher.match(pattern, (RouteMatcher.Route) destination) :
-				((SimpleRouteMatcher) this.routeMatcher).getPathMatcher().match(pattern, (String) destination);
+		return destination instanceof RouteMatcher.Route
+				? this.routeMatcher.match(pattern, (RouteMatcher.Route) destination)
+				: ((SimpleRouteMatcher) this.routeMatcher).getPathMatcher().match(pattern, (String) destination);
 	}
 
 	private Comparator<String> getPatternComparator(Object destination) {
-		return destination instanceof RouteMatcher.Route ?
-			this.routeMatcher.getPatternComparator((RouteMatcher.Route) destination) :
-			((SimpleRouteMatcher) this.routeMatcher).getPathMatcher().getPatternComparator((String) destination);
+		return destination instanceof RouteMatcher.Route
+				? this.routeMatcher.getPatternComparator((RouteMatcher.Route) destination)
+				: ((SimpleRouteMatcher) this.routeMatcher).getPathMatcher().getPatternComparator((String) destination);
 	}
 
 	/**
-	 * Compare the two conditions based on the destination patterns they contain.
-	 * Patterns are compared one at a time, from top to bottom via
-	 * {@link org.springframework.util.PathMatcher#getPatternComparator(String)}.
-	 * If all compared patterns match equally, but one instance has more patterns,
-	 * it is considered a closer match.
-	 * <p>It is assumed that both instances have been obtained via
-	 * {@link #getMatchingCondition(Message)} to ensure they contain only patterns
-	 * that match the request and are sorted with the best matches on top.
+	 * Compare the two conditions based on the destination patterns they contain. Patterns
+	 * are compared one at a time, from top to bottom via
+	 * {@link org.springframework.util.PathMatcher#getPatternComparator(String)}. If all
+	 * compared patterns match equally, but one instance has more patterns, it is
+	 * considered a closer match.
+	 * <p>
+	 * It is assumed that both instances have been obtained via
+	 * {@link #getMatchingCondition(Message)} to ensure they contain only patterns that
+	 * match the request and are sorted with the best matches on top.
 	 */
 	@Override
 	public int compareTo(DestinationPatternsMessageCondition other, Message<?> message) {

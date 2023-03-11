@@ -24,8 +24,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Type-level annotation that indicates JMX notifications emitted by a bean,
- * containing multiple {@link ManagedNotification ManagedNotifications}.
+ * Type-level annotation that indicates JMX notifications emitted by a bean, containing
+ * multiple {@link ManagedNotification ManagedNotifications}.
  *
  * @author Rob Harrop
  * @since 2.0

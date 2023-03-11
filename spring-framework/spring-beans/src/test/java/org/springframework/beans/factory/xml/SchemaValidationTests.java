@@ -36,9 +36,9 @@ public class SchemaValidationTests {
 	public void withAutodetection() throws Exception {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);
-		assertThatExceptionOfType(BeansException.class).isThrownBy(() ->
-				reader.loadBeanDefinitions(new ClassPathResource("invalidPerSchema.xml", getClass())))
-			.withCauseInstanceOf(SAXParseException.class);
+		assertThatExceptionOfType(BeansException.class)
+				.isThrownBy(() -> reader.loadBeanDefinitions(new ClassPathResource("invalidPerSchema.xml", getClass())))
+				.withCauseInstanceOf(SAXParseException.class);
 	}
 
 	@Test
@@ -46,9 +46,9 @@ public class SchemaValidationTests {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);
 		reader.setValidationMode(XmlBeanDefinitionReader.VALIDATION_XSD);
-		assertThatExceptionOfType(BeansException.class).isThrownBy(() ->
-				reader.loadBeanDefinitions(new ClassPathResource("invalidPerSchema.xml", getClass())))
-			.withCauseInstanceOf(SAXParseException.class);
+		assertThatExceptionOfType(BeansException.class)
+				.isThrownBy(() -> reader.loadBeanDefinitions(new ClassPathResource("invalidPerSchema.xml", getClass())))
+				.withCauseInstanceOf(SAXParseException.class);
 	}
 
 	@Test

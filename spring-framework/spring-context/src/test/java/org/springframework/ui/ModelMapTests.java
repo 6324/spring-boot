@@ -99,14 +99,14 @@ public class ModelMapTests {
 
 	@Test
 	public void testOneArgCtorWithNull() {
-		//Null model arguments added without a name being explicitly supplied are not allowed
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ModelMap(null));
+		// Null model arguments added without a name being explicitly supplied are not
+		// allowed
+		assertThatIllegalArgumentException().isThrownBy(() -> new ModelMap(null));
 	}
 
 	@Test
 	public void testOneArgCtorWithCollection() throws Exception {
-		ModelMap model = new ModelMap(new String[]{"foo", "boing"});
+		ModelMap model = new ModelMap(new String[] { "foo", "boing" });
 		assertThat(model.size()).isEqualTo(1);
 		String[] strings = (String[]) model.get("stringList");
 		assertThat(strings).isNotNull();
@@ -124,15 +124,15 @@ public class ModelMapTests {
 
 	@Test
 	public void testAddObjectWithNull() throws Exception {
-		// Null model arguments added without a name being explicitly supplied are not allowed
+		// Null model arguments added without a name being explicitly supplied are not
+		// allowed
 		ModelMap model = new ModelMap();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				model.addAttribute(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> model.addAttribute(null));
 	}
 
 	@Test
 	public void testAddObjectWithEmptyArray() throws Exception {
-		ModelMap model = new ModelMap(new int[]{});
+		ModelMap model = new ModelMap(new int[] {});
 		assertThat(model.size()).isEqualTo(1);
 		int[] ints = (int[]) model.get("intList");
 		assertThat(ints).isNotNull();
@@ -155,13 +155,13 @@ public class ModelMapTests {
 
 	@Test
 	public void testAddAllObjectsWithSparseArrayList() throws Exception {
-		// Null model arguments added without a name being explicitly supplied are not allowed
+		// Null model arguments added without a name being explicitly supplied are not
+		// allowed
 		ModelMap model = new ModelMap();
 		ArrayList<String> list = new ArrayList<>();
 		list.add("bing");
 		list.add(null);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				model.addAllAttributes(list));
+		assertThatIllegalArgumentException().isThrownBy(() -> model.addAllAttributes(list));
 	}
 
 	@Test
@@ -278,9 +278,7 @@ public class ModelMapTests {
 	@Test
 	public void testRawJdkProxy() throws Exception {
 		ModelMap map = new ModelMap();
-		Object proxy = Proxy.newProxyInstance(
-				getClass().getClassLoader(),
-				new Class<?>[] {Map.class},
+		Object proxy = Proxy.newProxyInstance(getClass().getClassLoader(), new Class<?>[] { Map.class },
 				new InvocationHandler() {
 					@Override
 					public Object invoke(Object proxy, Method method, Object[] args) {
@@ -290,7 +288,6 @@ public class ModelMapTests {
 		map.addAttribute(proxy);
 		assertThat(map.get("map")).isSameAs(proxy);
 	}
-
 
 	public static class SomeInnerClass {
 
@@ -303,10 +300,11 @@ public class ModelMapTests {
 		public int hashCode() {
 			return SomeInnerClass.class.hashCode();
 		}
+
 	}
 
-
 	public static class UKInnerClass {
+
 	}
 
 }

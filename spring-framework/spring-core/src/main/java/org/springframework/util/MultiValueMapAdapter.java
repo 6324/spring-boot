@@ -42,11 +42,9 @@ class MultiValueMapAdapter<K, V> implements MultiValueMap<K, V>, Serializable {
 
 	private final Map<K, List<V>> targetMap;
 
-
 	MultiValueMapAdapter(Map<K, List<V>> targetMap) {
 		this.targetMap = targetMap;
 	}
-
 
 	// MultiValueMap implementation
 
@@ -98,7 +96,6 @@ class MultiValueMapAdapter<K, V> implements MultiValueMap<K, V>, Serializable {
 		});
 		return singleValueMap;
 	}
-
 
 	// Map implementation
 

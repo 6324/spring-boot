@@ -21,8 +21,8 @@ import javax.sql.DataSource;
 import org.springframework.util.Assert;
 
 /**
- * An implementation of the DataSourceLookup that simply wraps a
- * single given DataSource, returned for any data source name.
+ * An implementation of the DataSourceLookup that simply wraps a single given DataSource,
+ * returned for any data source name.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -30,7 +30,6 @@ import org.springframework.util.Assert;
 public class SingleDataSourceLookup implements DataSourceLookup {
 
 	private final DataSource dataSource;
-
 
 	/**
 	 * Create a new instance of the {@link SingleDataSourceLookup} class.
@@ -40,7 +39,6 @@ public class SingleDataSourceLookup implements DataSourceLookup {
 		Assert.notNull(dataSource, "DataSource must not be null");
 		this.dataSource = dataSource;
 	}
-
 
 	@Override
 	public DataSource getDataSource(String dataSourceName) {

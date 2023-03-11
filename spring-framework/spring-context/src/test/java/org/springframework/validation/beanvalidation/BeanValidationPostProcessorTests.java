@@ -45,9 +45,8 @@ public class BeanValidationPostProcessorTests {
 		ac.registerBeanDefinition("bvpp", new RootBeanDefinition(BeanValidationPostProcessor.class));
 		ac.registerBeanDefinition("capp", new RootBeanDefinition(CommonAnnotationBeanPostProcessor.class));
 		ac.registerBeanDefinition("bean", new RootBeanDefinition(NotNullConstrainedBean.class));
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(
-				ac::refresh)
-			.satisfies(ex -> assertThat(ex.getRootCause().getMessage()).contains("testBean").contains("invalid"));
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(ac::refresh)
+				.satisfies(ex -> assertThat(ex.getRootCause().getMessage()).contains("testBean").contains("invalid"));
 		ac.close();
 	}
 
@@ -97,9 +96,8 @@ public class BeanValidationPostProcessorTests {
 		bd.getPropertyValues().add("testBean", new TestBean());
 		bd.getPropertyValues().add("stringValue", "s");
 		ac.registerBeanDefinition("bean", bd);
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				ac.refresh())
-			.satisfies(ex -> assertThat(ex.getRootCause().getMessage()).contains("stringValue").contains("invalid"));
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> ac.refresh()).satisfies(
+				ex -> assertThat(ex.getRootCause().getMessage()).contains("stringValue").contains("invalid"));
 		ac.close();
 	}
 
@@ -114,7 +112,6 @@ public class BeanValidationPostProcessorTests {
 		ac.refresh();
 		ac.close();
 	}
-
 
 	public static class NotNullConstrainedBean {
 
@@ -144,8 +141,8 @@ public class BeanValidationPostProcessorTests {
 		public void init() {
 			assertThat(this.testBean).as("Shouldn't be here after constraint checking").isNotNull();
 		}
-	}
 
+	}
 
 	public static class AfterInitConstraintBean {
 
@@ -168,6 +165,7 @@ public class BeanValidationPostProcessorTests {
 		@Async
 		void asyncMethod() {
 		}
+
 	}
 
 }

@@ -40,7 +40,6 @@ class AnnotationAttributesTests {
 
 	private AnnotationAttributes attributes = new AnnotationAttributes();
 
-
 	@Test
 	void typeSafeAttributeAccess() {
 		AnnotationAttributes nestedAttributes = new AnnotationAttributes();
@@ -48,23 +47,24 @@ class AnnotationAttributesTests {
 		nestedAttributes.put("name", "algernon");
 
 		attributes.put("name", "dave");
-		attributes.put("names", new String[] {"dave", "frank", "hal"});
+		attributes.put("names", new String[] { "dave", "frank", "hal" });
 		attributes.put("bool1", true);
 		attributes.put("bool2", false);
 		attributes.put("color", Color.RED);
 		attributes.put("class", Integer.class);
-		attributes.put("classes", new Class<?>[] {Number.class, Short.class, Integer.class});
+		attributes.put("classes", new Class<?>[] { Number.class, Short.class, Integer.class });
 		attributes.put("number", 42);
 		attributes.put("anno", nestedAttributes);
-		attributes.put("annoArray", new AnnotationAttributes[] {nestedAttributes});
+		attributes.put("annoArray", new AnnotationAttributes[] { nestedAttributes });
 
 		assertThat(attributes.getString("name")).isEqualTo("dave");
-		assertThat(attributes.getStringArray("names")).isEqualTo(new String[] {"dave", "frank", "hal"});
+		assertThat(attributes.getStringArray("names")).isEqualTo(new String[] { "dave", "frank", "hal" });
 		assertThat(attributes.getBoolean("bool1")).isEqualTo(true);
 		assertThat(attributes.getBoolean("bool2")).isEqualTo(false);
 		assertThat(attributes.<Color>getEnum("color")).isEqualTo(Color.RED);
 		assertThat(attributes.getClass("class").equals(Integer.class)).isTrue();
-		assertThat(attributes.getClassArray("classes")).isEqualTo(new Class<?>[] {Number.class, Short.class, Integer.class});
+		assertThat(attributes.getClassArray("classes"))
+				.isEqualTo(new Class<?>[] { Number.class, Short.class, Integer.class });
 		assertThat(attributes.<Integer>getNumber("number")).isEqualTo(42);
 		assertThat(attributes.getAnnotation("anno").<Integer>getNumber("value")).isEqualTo(10);
 		assertThat(attributes.getAnnotationArray("annoArray")[0].getString("name")).isEqualTo("algernon");
@@ -74,19 +74,15 @@ class AnnotationAttributesTests {
 	@Test
 	void unresolvableClassWithClassNotFoundException() throws Exception {
 		attributes.put("unresolvableClass", new ClassNotFoundException("myclass"));
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> attributes.getClass("unresolvableClass"))
-			.withMessageContaining("myclass")
-			.withCauseInstanceOf(ClassNotFoundException.class);
+		assertThatIllegalArgumentException().isThrownBy(() -> attributes.getClass("unresolvableClass"))
+				.withMessageContaining("myclass").withCauseInstanceOf(ClassNotFoundException.class);
 	}
 
 	@Test
 	void unresolvableClassWithLinkageError() throws Exception {
 		attributes.put("unresolvableClass", new LinkageError("myclass"));
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> attributes.getClass("unresolvableClass"))
-			.withMessageContaining("myclass")
-			.withCauseInstanceOf(LinkageError.class);
+		assertThatIllegalArgumentException().isThrownBy(() -> attributes.getClass("unresolvableClass"))
+				.withMessageContaining("myclass").withCauseInstanceOf(LinkageError.class);
 	}
 
 	@Test
@@ -103,8 +99,8 @@ class AnnotationAttributesTests {
 		attributes.put("filters", filter);
 
 		// Get back arrays of single elements
-		assertThat(attributes.getStringArray("names")).isEqualTo(new String[] {"Dogbert"});
-		assertThat(attributes.getClassArray("classes")).isEqualTo(new Class<?>[] {Number.class});
+		assertThat(attributes.getStringArray("names")).isEqualTo(new String[] { "Dogbert" });
+		assertThat(attributes.getClassArray("classes")).isEqualTo(new Class<?>[] { Number.class });
 
 		AnnotationAttributes[] array = attributes.getAnnotationArray("nestedAttributes");
 		assertThat(array).isNotNull();
@@ -122,7 +118,7 @@ class AnnotationAttributesTests {
 		Filter filter = FilteredClass.class.getAnnotation(Filter.class);
 
 		attributes.put("filter", filter);
-		attributes.put("filters", new Filter[] {filter, filter});
+		attributes.put("filters", new Filter[] { filter, filter });
 
 		Filter retrievedFilter = attributes.getAnnotation("filter", Filter.class);
 		assertThat(retrievedFilter).isEqualTo(filter);
@@ -136,31 +132,27 @@ class AnnotationAttributesTests {
 
 	@Test
 	void getEnumWithNullAttributeName() {
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> attributes.getEnum(null))
-			.withMessageContaining("must not be null or empty");
+		assertThatIllegalArgumentException().isThrownBy(() -> attributes.getEnum(null))
+				.withMessageContaining("must not be null or empty");
 	}
 
 	@Test
 	void getEnumWithEmptyAttributeName() {
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> attributes.getEnum(""))
-			.withMessageContaining("must not be null or empty");
+		assertThatIllegalArgumentException().isThrownBy(() -> attributes.getEnum(""))
+				.withMessageContaining("must not be null or empty");
 	}
 
 	@Test
 	void getEnumWithUnknownAttributeName() {
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> attributes.getEnum("bogus"))
-			.withMessageContaining("Attribute 'bogus' not found");
+		assertThatIllegalArgumentException().isThrownBy(() -> attributes.getEnum("bogus"))
+				.withMessageContaining("Attribute 'bogus' not found");
 	}
 
 	@Test
 	void getEnumWithTypeMismatch() {
 		attributes.put("color", "RED");
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> attributes.getEnum("color"))
-			.withMessageContaining("Attribute 'color' is of type String, but Enum was expected");
+		assertThatIllegalArgumentException().isThrownBy(() -> attributes.getEnum("color"))
+				.withMessageContaining("Attribute 'color' is of type String, but Enum was expected");
 	}
 
 	@Test
@@ -189,7 +181,7 @@ class AnnotationAttributesTests {
 
 	@Test
 	void getAliasedStringArrayWithImplicitAliases() {
-		String[] value = new String[] {"test.xml"};
+		String[] value = new String[] { "test.xml" };
 		List<String> aliases = Arrays.asList("value", "location1", "location2", "location3", "xmlFile", "groovyScript");
 
 		attributes = new AnnotationAttributes(ImplicitAliasesContextConfig.class);
@@ -223,15 +215,14 @@ class AnnotationAttributesTests {
 		attributes = new AnnotationAttributes(ImplicitAliasesContextConfig.class);
 		AnnotationUtils.registerDefaultValues(attributes);
 		AnnotationUtils.postProcessAnnotationAttributes(null, attributes, false);
-		aliases.stream().forEach(alias -> assertThat(attributes.getStringArray(alias)).isEqualTo(new String[] {""}));
+		aliases.stream().forEach(alias -> assertThat(attributes.getStringArray(alias)).isEqualTo(new String[] { "" }));
 	}
-
 
 	enum Color {
 
 		RED, WHITE, BLUE
-	}
 
+	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface Filter {
@@ -243,11 +234,12 @@ class AnnotationAttributesTests {
 		Class<?>[] classes() default {};
 
 		String pattern();
-	}
 
+	}
 
 	@Filter(pattern = "foo")
 	static class FilteredClass {
+
 	}
 
 }

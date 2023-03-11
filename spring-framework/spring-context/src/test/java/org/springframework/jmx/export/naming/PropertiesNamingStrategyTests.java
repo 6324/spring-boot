@@ -26,7 +26,6 @@ public class PropertiesNamingStrategyTests extends AbstractNamingStrategyTests {
 
 	private static final String OBJECT_NAME = "bean:name=namingTest";
 
-
 	@Override
 	protected ObjectNamingStrategy getStrategy() throws Exception {
 		KeyNamingStrategy strat = new KeyNamingStrategy();

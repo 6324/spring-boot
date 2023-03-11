@@ -82,7 +82,6 @@ public class LocalEntityManagerFactoryBeanTests extends AbstractEntityManagerFac
 		lemfb.destroy();
 	}
 
-
 	protected static class DummyPersistenceProvider implements PersistenceProvider {
 
 		@Override
@@ -113,6 +112,7 @@ public class LocalEntityManagerFactoryBeanTests extends AbstractEntityManagerFac
 		public boolean generateSchema(String persistenceUnitName, Map map) {
 			throw new UnsupportedOperationException();
 		}
+
 	}
 
 }

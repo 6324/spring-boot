@@ -22,9 +22,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link PropertySource} that reads keys and values from a {@code Map} object.
- * The underlying map should not contain any {@code null} values in order to
- * comply with {@link #getProperty} and {@link #containsProperty} semantics.
+ * {@link PropertySource} that reads keys and values from a {@code Map} object. The
+ * underlying map should not contain any {@code null} values in order to comply with
+ * {@link #getProperty} and {@link #containsProperty} semantics.
  *
  * @author Chris Beams
  * @author Juergen Hoeller
@@ -42,7 +42,6 @@ public class MapPropertySource extends EnumerablePropertySource<Map<String, Obje
 	public MapPropertySource(String name, Map<String, Object> source) {
 		super(name, source);
 	}
-
 
 	@Override
 	@Nullable

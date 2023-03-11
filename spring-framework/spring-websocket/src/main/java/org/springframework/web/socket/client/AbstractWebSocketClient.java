@@ -58,13 +58,11 @@ public abstract class AbstractWebSocketClient implements WebSocketClient {
 		specialHeaders.add("upgrade");
 	}
 
-
 	protected final Log logger = LogFactory.getLog(getClass());
 
-
 	@Override
-	public ListenableFuture<WebSocketSession> doHandshake(WebSocketHandler webSocketHandler,
-			String uriTemplate, Object... uriVars) {
+	public ListenableFuture<WebSocketSession> doHandshake(WebSocketHandler webSocketHandler, String uriTemplate,
+			Object... uriVars) {
 
 		Assert.notNull(uriTemplate, "'uriTemplate' must not be null");
 		URI uri = UriComponentsBuilder.fromUriString(uriTemplate).buildAndExpand(uriVars).encode().toUri();
@@ -91,10 +89,9 @@ public abstract class AbstractWebSocketClient implements WebSocketClient {
 			});
 		}
 
-		List<String> subProtocols =
-				(headers != null ? headers.getSecWebSocketProtocol() : Collections.emptyList());
-		List<WebSocketExtension> extensions =
-				(headers != null ? headers.getSecWebSocketExtensions() : Collections.emptyList());
+		List<String> subProtocols = (headers != null ? headers.getSecWebSocketProtocol() : Collections.emptyList());
+		List<WebSocketExtension> extensions = (headers != null ? headers.getSecWebSocketExtensions()
+				: Collections.emptyList());
 
 		return doHandshakeInternal(webSocketHandler, headersToUse, uri, subProtocols, extensions,
 				Collections.emptyMap());

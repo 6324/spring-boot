@@ -53,9 +53,8 @@ import org.springframework.web.server.ServerWebExchange;
  */
 public class JettyRequestUpgradeStrategy implements RequestUpgradeStrategy, Lifecycle {
 
-	private static final ThreadLocal<WebSocketHandlerContainer> adapterHolder =
-			new NamedThreadLocal<>("JettyWebSocketHandlerAdapter");
-
+	private static final ThreadLocal<WebSocketHandlerContainer> adapterHolder = new NamedThreadLocal<>(
+			"JettyWebSocketHandlerAdapter");
 
 	@Nullable
 	private WebSocketPolicy webSocketPolicy;
@@ -69,7 +68,6 @@ public class JettyRequestUpgradeStrategy implements RequestUpgradeStrategy, Life
 	private volatile boolean running = false;
 
 	private final Object lifecycleMonitor = new Object();
-
 
 	/**
 	 * Configure a {@link WebSocketPolicy} to use to initialize
@@ -88,16 +86,15 @@ public class JettyRequestUpgradeStrategy implements RequestUpgradeStrategy, Life
 		return this.webSocketPolicy;
 	}
 
-
 	@Override
 	public void start() {
 		synchronized (this.lifecycleMonitor) {
 			ServletContext servletContext = this.servletContext;
 			if (!isRunning() && servletContext != null) {
 				try {
-					this.factory = (this.webSocketPolicy != null ?
-							new WebSocketServerFactory(servletContext, this.webSocketPolicy) :
-							new WebSocketServerFactory(servletContext));
+					this.factory = (this.webSocketPolicy != null
+							? new WebSocketServerFactory(servletContext, this.webSocketPolicy)
+							: new WebSocketServerFactory(servletContext));
 					this.factory.setCreator((request, response) -> {
 						WebSocketHandlerContainer container = adapterHolder.get();
 						String protocol = container.getProtocol();
@@ -138,10 +135,9 @@ public class JettyRequestUpgradeStrategy implements RequestUpgradeStrategy, Life
 		return this.running;
 	}
 
-
 	@Override
-	public Mono<Void> upgrade(ServerWebExchange exchange, WebSocketHandler handler,
-			@Nullable String subProtocol, Supplier<HandshakeInfo> handshakeInfoFactory) {
+	public Mono<Void> upgrade(ServerWebExchange exchange, WebSocketHandler handler, @Nullable String subProtocol,
+			Supplier<HandshakeInfo> handshakeInfoFactory) {
 
 		ServerHttpRequest request = exchange.getRequest();
 		ServerHttpResponse response = exchange.getResponse();
@@ -152,8 +148,8 @@ public class JettyRequestUpgradeStrategy implements RequestUpgradeStrategy, Life
 		HandshakeInfo handshakeInfo = handshakeInfoFactory.get();
 		DataBufferFactory factory = response.bufferFactory();
 
-		JettyWebSocketHandlerAdapter adapter = new JettyWebSocketHandlerAdapter(
-				handler, session -> new JettyWebSocketSession(session, handshakeInfo, factory));
+		JettyWebSocketHandlerAdapter adapter = new JettyWebSocketHandlerAdapter(handler,
+				session -> new JettyWebSocketSession(session, handshakeInfo, factory));
 
 		startLazily(servletRequest);
 
@@ -162,17 +158,16 @@ public class JettyRequestUpgradeStrategy implements RequestUpgradeStrategy, Life
 		Assert.isTrue(isUpgrade, "Not a WebSocket handshake");
 
 		// Trigger WebFlux preCommit actions and upgrade
-		return exchange.getResponse().setComplete()
-				.then(Mono.fromCallable(() -> {
-					try {
-						adapterHolder.set(new WebSocketHandlerContainer(adapter, subProtocol));
-						this.factory.acceptWebSocket(servletRequest, servletResponse);
-					}
-					finally {
-						adapterHolder.remove();
-					}
-					return null;
-				}));
+		return exchange.getResponse().setComplete().then(Mono.fromCallable(() -> {
+			try {
+				adapterHolder.set(new WebSocketHandlerContainer(adapter, subProtocol));
+				this.factory.acceptWebSocket(servletRequest, servletResponse);
+			}
+			finally {
+				adapterHolder.remove();
+			}
+			return null;
+		}));
 	}
 
 	private static HttpServletRequest getNativeRequest(ServerHttpRequest request) {
@@ -183,8 +178,7 @@ public class JettyRequestUpgradeStrategy implements RequestUpgradeStrategy, Life
 			return getNativeRequest(((ServerHttpRequestDecorator) request).getDelegate());
 		}
 		else {
-			throw new IllegalArgumentException(
-					"Couldn't find HttpServletRequest in " + request.getClass().getName());
+			throw new IllegalArgumentException("Couldn't find HttpServletRequest in " + request.getClass().getName());
 		}
 	}
 
@@ -196,8 +190,7 @@ public class JettyRequestUpgradeStrategy implements RequestUpgradeStrategy, Life
 			return getNativeResponse(((ServerHttpResponseDecorator) response).getDelegate());
 		}
 		else {
-			throw new IllegalArgumentException(
-					"Couldn't find HttpServletResponse in " + response.getClass().getName());
+			throw new IllegalArgumentException("Couldn't find HttpServletResponse in " + response.getClass().getName());
 		}
 	}
 
@@ -212,7 +205,6 @@ public class JettyRequestUpgradeStrategy implements RequestUpgradeStrategy, Life
 			}
 		}
 	}
-
 
 	private static class WebSocketHandlerContainer {
 
@@ -234,6 +226,7 @@ public class JettyRequestUpgradeStrategy implements RequestUpgradeStrategy, Life
 		public String getProtocol() {
 			return this.protocol;
 		}
+
 	}
 
 }

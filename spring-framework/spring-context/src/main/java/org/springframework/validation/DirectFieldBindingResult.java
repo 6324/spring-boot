@@ -21,11 +21,12 @@ import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.lang.Nullable;
 
 /**
- * Special implementation of the Errors and BindingResult interfaces,
- * supporting registration and evaluation of binding errors on value objects.
- * Performs direct field access instead of going through JavaBean getters.
+ * Special implementation of the Errors and BindingResult interfaces, supporting
+ * registration and evaluation of binding errors on value objects. Performs direct field
+ * access instead of going through JavaBean getters.
  *
- * <p>Since Spring 4.1 this implementation is able to traverse nested fields.
+ * <p>
+ * Since Spring 4.1 this implementation is able to traverse nested fields.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -44,7 +45,6 @@ public class DirectFieldBindingResult extends AbstractPropertyBindingResult {
 	@Nullable
 	private transient ConfigurablePropertyAccessor directFieldAccessor;
 
-
 	/**
 	 * Create a new DirectFieldBindingResult instance.
 	 * @param target the target object to bind onto
@@ -58,14 +58,14 @@ public class DirectFieldBindingResult extends AbstractPropertyBindingResult {
 	 * Create a new DirectFieldBindingResult instance.
 	 * @param target the target object to bind onto
 	 * @param objectName the name of the target object
-	 * @param autoGrowNestedPaths whether to "auto-grow" a nested path that contains a null value
+	 * @param autoGrowNestedPaths whether to "auto-grow" a nested path that contains a
+	 * null value
 	 */
 	public DirectFieldBindingResult(@Nullable Object target, String objectName, boolean autoGrowNestedPaths) {
 		super(objectName);
 		this.target = target;
 		this.autoGrowNestedPaths = autoGrowNestedPaths;
 	}
-
 
 	@Override
 	@Nullable
@@ -74,8 +74,8 @@ public class DirectFieldBindingResult extends AbstractPropertyBindingResult {
 	}
 
 	/**
-	 * Returns the DirectFieldAccessor that this instance uses.
-	 * Creates a new one if none existed before.
+	 * Returns the DirectFieldAccessor that this instance uses. Creates a new one if none
+	 * existed before.
 	 * @see #createDirectFieldAccessor()
 	 */
 	@Override

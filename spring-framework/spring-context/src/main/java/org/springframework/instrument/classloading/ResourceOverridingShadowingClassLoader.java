@@ -27,8 +27,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Subclass of ShadowingClassLoader that overrides attempts to
- * locate certain files.
+ * Subclass of ShadowingClassLoader that overrides attempts to locate certain files.
  *
  * @author Rod Johnson
  * @author Adrian Colyer
@@ -41,32 +40,30 @@ public class ResourceOverridingShadowingClassLoader extends ShadowingClassLoader
 		public boolean hasMoreElements() {
 			return false;
 		}
+
 		@Override
 		public URL nextElement() {
 			throw new UnsupportedOperationException("Should not be called. I am empty.");
 		}
 	};
 
-
 	/**
 	 * Key is asked for value: value is actual value.
 	 */
 	private Map<String, String> overrides = new HashMap<>();
 
-
 	/**
-	 * Create a new ResourceOverridingShadowingClassLoader,
-	 * decorating the given ClassLoader.
+	 * Create a new ResourceOverridingShadowingClassLoader, decorating the given
+	 * ClassLoader.
 	 * @param enclosingClassLoader the ClassLoader to decorate
 	 */
 	public ResourceOverridingShadowingClassLoader(ClassLoader enclosingClassLoader) {
 		super(enclosingClassLoader);
 	}
 
-
 	/**
-	 * Return the resource (if any) at the new path
-	 * on an attempt to locate a resource at the old path.
+	 * Return the resource (if any) at the new path on an attempt to locate a resource at
+	 * the old path.
 	 * @param oldPath the path requested
 	 * @param newPath the actual path to be looked up
 	 */
@@ -76,8 +73,8 @@ public class ResourceOverridingShadowingClassLoader extends ShadowingClassLoader
 
 	/**
 	 * Ensure that a resource with the given path is not found.
-	 * @param oldPath the path of the resource to hide even if
-	 * it exists in the parent ClassLoader
+	 * @param oldPath the path of the resource to hide even if it exists in the parent
+	 * ClassLoader
 	 */
 	public void suppress(String oldPath) {
 		this.overrides.put(oldPath, null);
@@ -91,7 +88,6 @@ public class ResourceOverridingShadowingClassLoader extends ShadowingClassLoader
 		Assert.notNull(other, "Other ClassLoader must not be null");
 		this.overrides.putAll(other.overrides);
 	}
-
 
 	@Override
 	public URL getResource(String requestedPath) {
@@ -120,8 +116,7 @@ public class ResourceOverridingShadowingClassLoader extends ShadowingClassLoader
 	public Enumeration<URL> getResources(String requestedPath) throws IOException {
 		if (this.overrides.containsKey(requestedPath)) {
 			String overriddenLocation = this.overrides.get(requestedPath);
-			return (overriddenLocation != null ?
-					super.getResources(overriddenLocation) : EMPTY_URL_ENUMERATION);
+			return (overriddenLocation != null ? super.getResources(overriddenLocation) : EMPTY_URL_ENUMERATION);
 		}
 		else {
 			return super.getResources(requestedPath);

@@ -38,7 +38,8 @@ public abstract class DatabasePopulatorUtils {
 	 * Execute the given {@link DatabasePopulator} against the given {@link DataSource}.
 	 * @param populator the {@code DatabasePopulator} to execute
 	 * @param dataSource the {@code DataSource} to execute against
-	 * @throws DataAccessException if an error occurs, specifically a {@link ScriptException}
+	 * @throws DataAccessException if an error occurs, specifically a
+	 * {@link ScriptException}
 	 */
 	public static void execute(DatabasePopulator populator, DataSource dataSource) throws DataAccessException {
 		Assert.notNull(populator, "DatabasePopulator must not be null");

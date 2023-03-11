@@ -32,8 +32,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.PatternMatchUtils;
 
 /**
- * Simple {@link TransactionAttributeSource} implementation that
- * allows attributes to be matched by registered name.
+ * Simple {@link TransactionAttributeSource} implementation that allows attributes to be
+ * matched by registered name.
  *
  * @author Juergen Hoeller
  * @since 21.08.2003
@@ -45,18 +45,18 @@ public class NameMatchTransactionAttributeSource implements TransactionAttribute
 
 	/**
 	 * Logger available to subclasses.
-	 * <p>Static for optimal serialization.
+	 * <p>
+	 * Static for optimal serialization.
 	 */
 	protected static final Log logger = LogFactory.getLog(NameMatchTransactionAttributeSource.class);
 
 	/** Keys are method names; values are TransactionAttributes. */
 	private Map<String, TransactionAttribute> nameMap = new HashMap<>();
 
-
 	/**
-	 * Set a name/attribute map, consisting of method names
-	 * (e.g. "myMethod") and TransactionAttribute instances
-	 * (or Strings to be converted to TransactionAttribute instances).
+	 * Set a name/attribute map, consisting of method names (e.g. "myMethod") and
+	 * TransactionAttribute instances (or Strings to be converted to TransactionAttribute
+	 * instances).
 	 * @see TransactionAttribute
 	 * @see TransactionAttributeEditor
 	 */
@@ -65,9 +65,9 @@ public class NameMatchTransactionAttributeSource implements TransactionAttribute
 	}
 
 	/**
-	 * Parses the given properties into a name/attribute map.
-	 * Expects method names as keys and String attributes definitions as values,
-	 * parsable into TransactionAttribute instances via TransactionAttributeEditor.
+	 * Parses the given properties into a name/attribute map. Expects method names as keys
+	 * and String attributes definitions as values, parsable into TransactionAttribute
+	 * instances via TransactionAttributeEditor.
 	 * @see #setNameMap
 	 * @see TransactionAttributeEditor
 	 */
@@ -85,8 +85,9 @@ public class NameMatchTransactionAttributeSource implements TransactionAttribute
 
 	/**
 	 * Add an attribute for a transactional method.
-	 * <p>Method names can be exact matches, or of the pattern "xxx*",
-	 * "*xxx" or "*xxx*" for matching multiple methods.
+	 * <p>
+	 * Method names can be exact matches, or of the pattern "xxx*", "*xxx" or "*xxx*" for
+	 * matching multiple methods.
 	 * @param methodName the name of the method
 	 * @param attr attribute associated with the method
 	 */
@@ -96,7 +97,6 @@ public class NameMatchTransactionAttributeSource implements TransactionAttribute
 		}
 		this.nameMap.put(methodName, attr);
 	}
-
 
 	@Override
 	@Nullable
@@ -113,8 +113,8 @@ public class NameMatchTransactionAttributeSource implements TransactionAttribute
 			// Look for most specific name match.
 			String bestNameMatch = null;
 			for (String mappedName : this.nameMap.keySet()) {
-				if (isMatch(methodName, mappedName) &&
-						(bestNameMatch == null || bestNameMatch.length() <= mappedName.length())) {
+				if (isMatch(methodName, mappedName)
+						&& (bestNameMatch == null || bestNameMatch.length() <= mappedName.length())) {
 					attr = this.nameMap.get(mappedName);
 					bestNameMatch = mappedName;
 				}
@@ -126,8 +126,9 @@ public class NameMatchTransactionAttributeSource implements TransactionAttribute
 
 	/**
 	 * Return if the given method name matches the mapped name.
-	 * <p>The default implementation checks for "xxx*", "*xxx" and "*xxx*" matches,
-	 * as well as direct equality. Can be overridden in subclasses.
+	 * <p>
+	 * The default implementation checks for "xxx*", "*xxx" and "*xxx*" matches, as well
+	 * as direct equality. Can be overridden in subclasses.
 	 * @param methodName the method name of the class
 	 * @param mappedName the name in the descriptor
 	 * @return if the names match
@@ -136,7 +137,6 @@ public class NameMatchTransactionAttributeSource implements TransactionAttribute
 	protected boolean isMatch(String methodName, String mappedName) {
 		return PatternMatchUtils.simpleMatch(mappedName, methodName);
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {

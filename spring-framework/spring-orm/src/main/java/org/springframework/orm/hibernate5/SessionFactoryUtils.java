@@ -70,11 +70,12 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Helper class featuring methods for Hibernate Session handling.
- * Also provides support for exception translation.
+ * Helper class featuring methods for Hibernate Session handling. Also provides support
+ * for exception translation.
  *
- * <p>Used internally by {@link HibernateTransactionManager}.
- * Can also be used directly in application code.
+ * <p>
+ * Used internally by {@link HibernateTransactionManager}. Can also be used directly in
+ * application code.
  *
  * @author Juergen Hoeller
  * @since 4.2
@@ -84,16 +85,14 @@ import org.springframework.util.ReflectionUtils;
 public abstract class SessionFactoryUtils {
 
 	/**
-	 * Order value for TransactionSynchronization objects that clean up Hibernate Sessions.
-	 * Returns {@code DataSourceUtils.CONNECTION_SYNCHRONIZATION_ORDER - 100}
-	 * to execute Session cleanup before JDBC Connection cleanup, if any.
+	 * Order value for TransactionSynchronization objects that clean up Hibernate
+	 * Sessions. Returns {@code DataSourceUtils.CONNECTION_SYNCHRONIZATION_ORDER - 100} to
+	 * execute Session cleanup before JDBC Connection cleanup, if any.
 	 * @see DataSourceUtils#CONNECTION_SYNCHRONIZATION_ORDER
 	 */
-	public static final int SESSION_SYNCHRONIZATION_ORDER =
-			DataSourceUtils.CONNECTION_SYNCHRONIZATION_ORDER - 100;
+	public static final int SESSION_SYNCHRONIZATION_ORDER = DataSourceUtils.CONNECTION_SYNCHRONIZATION_ORDER - 100;
 
 	static final Log logger = LogFactory.getLog(SessionFactoryUtils.class);
-
 
 	private static Method getFlushMode;
 
@@ -114,7 +113,6 @@ public abstract class SessionFactoryUtils {
 		// Check that it is the Hibernate FlushMode type, not JPA's...
 		Assert.state(FlushMode.class == getFlushMode.getReturnType(), "Could not find Hibernate getFlushMode method");
 	}
-
 
 	/**
 	 * Get the native Hibernate FlushMode, adapting between Hibernate 5.0/5.1 and 5.2+.
@@ -160,8 +158,8 @@ public abstract class SessionFactoryUtils {
 	}
 
 	/**
-	 * Perform actual closing of the Hibernate Session,
-	 * catching and logging any cleanup exceptions thrown.
+	 * Perform actual closing of the Hibernate Session, catching and logging any cleanup
+	 * exceptions thrown.
 	 * @param session the Hibernate Session to close (may be {@code null})
 	 * @see Session#close()
 	 */
@@ -212,8 +210,8 @@ public abstract class SessionFactoryUtils {
 	}
 
 	/**
-	 * Convert the given HibernateException to an appropriate exception
-	 * from the {@code org.springframework.dao} hierarchy.
+	 * Convert the given HibernateException to an appropriate exception from the
+	 * {@code org.springframework.dao} hierarchy.
 	 * @param ex the HibernateException that occurred
 	 * @return the corresponding DataAccessException instance
 	 * @see HibernateExceptionTranslator#convertHibernateAccessException
@@ -229,7 +227,8 @@ public abstract class SessionFactoryUtils {
 		}
 		if (ex instanceof QueryTimeoutException) {
 			QueryTimeoutException jdbcEx = (QueryTimeoutException) ex;
-			return new org.springframework.dao.QueryTimeoutException(ex.getMessage() + "; SQL [" + jdbcEx.getSQL() + "]", ex);
+			return new org.springframework.dao.QueryTimeoutException(
+					ex.getMessage() + "; SQL [" + jdbcEx.getSQL() + "]", ex);
 		}
 		if (ex instanceof LockAcquisitionException) {
 			LockAcquisitionException jdbcEx = (LockAcquisitionException) ex;
@@ -241,8 +240,8 @@ public abstract class SessionFactoryUtils {
 		}
 		if (ex instanceof ConstraintViolationException) {
 			ConstraintViolationException jdbcEx = (ConstraintViolationException) ex;
-			return new DataIntegrityViolationException(ex.getMessage()  + "; SQL [" + jdbcEx.getSQL() +
-					"]; constraint [" + jdbcEx.getConstraintName() + "]", ex);
+			return new DataIntegrityViolationException(ex.getMessage() + "; SQL [" + jdbcEx.getSQL() + "]; constraint ["
+					+ jdbcEx.getConstraintName() + "]", ex);
 		}
 		if (ex instanceof DataException) {
 			DataException jdbcEx = (DataException) ex;

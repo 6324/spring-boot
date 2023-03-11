@@ -30,4 +30,5 @@ public class ReplyFailureException extends JmsException {
 	public ReplyFailureException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
+
 }

@@ -43,29 +43,30 @@ import org.springframework.util.MethodInvoker;
 
 /**
  * {@link org.springframework.beans.factory.FactoryBean} that exposes a
- * {@link org.quartz.JobDetail} object which delegates job execution to a
- * specified (static or non-static) method. Avoids the need for implementing
- * a one-line Quartz Job that just invokes an existing service method on a
- * Spring-managed target bean.
+ * {@link org.quartz.JobDetail} object which delegates job execution to a specified
+ * (static or non-static) method. Avoids the need for implementing a one-line Quartz Job
+ * that just invokes an existing service method on a Spring-managed target bean.
  *
- * <p>Inherits common configuration properties from the {@link MethodInvoker}
- * base class, such as {@link #setTargetObject "targetObject"} and
- * {@link #setTargetMethod "targetMethod"}, adding support for lookup of the target
- * bean by name through the {@link #setTargetBeanName "targetBeanName"} property
- * (as alternative to specifying a "targetObject" directly, allowing for
- * non-singleton target objects).
+ * <p>
+ * Inherits common configuration properties from the {@link MethodInvoker} base class,
+ * such as {@link #setTargetObject "targetObject"} and {@link #setTargetMethod
+ * "targetMethod"}, adding support for lookup of the target bean by name through the
+ * {@link #setTargetBeanName "targetBeanName"} property (as alternative to specifying a
+ * "targetObject" directly, allowing for non-singleton target objects).
  *
- * <p>Supports both concurrently running jobs and non-currently running
- * jobs through the "concurrent" property. Jobs created by this
- * MethodInvokingJobDetailFactoryBean are by default volatile and durable
- * (according to Quartz terminology).
+ * <p>
+ * Supports both concurrently running jobs and non-currently running jobs through the
+ * "concurrent" property. Jobs created by this MethodInvokingJobDetailFactoryBean are by
+ * default volatile and durable (according to Quartz terminology).
  *
- * <p><b>NOTE: JobDetails created via this FactoryBean are <i>not</i>
- * serializable and thus not suitable for persistent job stores.</b>
- * You need to implement your own Quartz Job as a thin wrapper for each case
- * where you want a persistent job to delegate to a specific service method.
+ * <p>
+ * <b>NOTE: JobDetails created via this FactoryBean are <i>not</i> serializable and thus
+ * not suitable for persistent job stores.</b> You need to implement your own Quartz Job
+ * as a thin wrapper for each case where you want a persistent job to delegate to a
+ * specific service method.
  *
- * <p>Compatible with Quartz 2.1.4 and higher, as of Spring 4.1.
+ * <p>
+ * Compatible with Quartz 2.1.4 and higher, as of Spring 4.1.
  *
  * @author Juergen Hoeller
  * @author Alef Arendsen
@@ -100,10 +101,10 @@ public class MethodInvokingJobDetailFactoryBean extends ArgumentConvertingMethod
 	@Nullable
 	private JobDetail jobDetail;
 
-
 	/**
 	 * Set the name of the job.
-	 * <p>Default is the bean name of this FactoryBean.
+	 * <p>
+	 * Default is the bean name of this FactoryBean.
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -111,7 +112,8 @@ public class MethodInvokingJobDetailFactoryBean extends ArgumentConvertingMethod
 
 	/**
 	 * Set the group of the job.
-	 * <p>Default is the default group of the Scheduler.
+	 * <p>
+	 * Default is the default group of the Scheduler.
 	 * @see org.quartz.Scheduler#DEFAULT_GROUP
 	 */
 	public void setGroup(String group) {
@@ -119,13 +121,14 @@ public class MethodInvokingJobDetailFactoryBean extends ArgumentConvertingMethod
 	}
 
 	/**
-	 * Specify whether or not multiple jobs should be run in a concurrent fashion.
-	 * The behavior when one does not want concurrent jobs to be executed is
-	 * realized through adding the {@code @PersistJobDataAfterExecution} and
-	 * {@code @DisallowConcurrentExecution} markers.
-	 * More information on stateful versus stateless jobs can be found
-	 * <a href="https://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/tutorial-lesson-03.html">here</a>.
-	 * <p>The default setting is to run jobs concurrently.
+	 * Specify whether or not multiple jobs should be run in a concurrent fashion. The
+	 * behavior when one does not want concurrent jobs to be executed is realized through
+	 * adding the {@code @PersistJobDataAfterExecution} and
+	 * {@code @DisallowConcurrentExecution} markers. More information on stateful versus
+	 * stateless jobs can be found <a href=
+	 * "https://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/tutorial-lesson-03.html">here</a>.
+	 * <p>
+	 * The default setting is to run jobs concurrently.
 	 */
 	public void setConcurrent(boolean concurrent) {
 		this.concurrent = concurrent;
@@ -133,11 +136,12 @@ public class MethodInvokingJobDetailFactoryBean extends ArgumentConvertingMethod
 
 	/**
 	 * Set the name of the target bean in the Spring BeanFactory.
-	 * <p>This is an alternative to specifying {@link #setTargetObject "targetObject"},
-	 * allowing for non-singleton beans to be invoked. Note that specified
-	 * "targetObject" and {@link #setTargetClass "targetClass"} values will
-	 * override the corresponding effect of this "targetBeanName" setting
-	 * (i.e. statically pre-define the bean type or even the bean object).
+	 * <p>
+	 * This is an alternative to specifying {@link #setTargetObject "targetObject"},
+	 * allowing for non-singleton beans to be invoked. Note that specified "targetObject"
+	 * and {@link #setTargetClass "targetClass"} values will override the corresponding
+	 * effect of this "targetBeanName" setting (i.e. statically pre-define the bean type
+	 * or even the bean object).
 	 */
 	public void setTargetBeanName(String targetBeanName) {
 		this.targetBeanName = targetBeanName;
@@ -163,7 +167,6 @@ public class MethodInvokingJobDetailFactoryBean extends ArgumentConvertingMethod
 		return ClassUtils.forName(className, this.beanClassLoader);
 	}
 
-
 	@Override
 	public void afterPropertiesSet() throws ClassNotFoundException, NoSuchMethodException {
 		prepare();
@@ -188,12 +191,12 @@ public class MethodInvokingJobDetailFactoryBean extends ArgumentConvertingMethod
 
 	/**
 	 * Callback for post-processing the JobDetail to be exposed by this FactoryBean.
-	 * <p>The default implementation is empty. Can be overridden in subclasses.
+	 * <p>
+	 * The default implementation is empty. Can be overridden in subclasses.
 	 * @param jobDetail the JobDetail prepared by this FactoryBean
 	 */
 	protected void postProcessJobDetail(JobDetail jobDetail) {
 	}
-
 
 	/**
 	 * Overridden to support the {@link #setTargetBeanName "targetBeanName"} feature.
@@ -221,7 +224,6 @@ public class MethodInvokingJobDetailFactoryBean extends ArgumentConvertingMethod
 		return targetObject;
 	}
 
-
 	@Override
 	@Nullable
 	public JobDetail getObject() {
@@ -238,10 +240,9 @@ public class MethodInvokingJobDetailFactoryBean extends ArgumentConvertingMethod
 		return true;
 	}
 
-
 	/**
-	 * Quartz Job implementation that invokes a specified method.
-	 * Automatically applied by MethodInvokingJobDetailFactoryBean.
+	 * Quartz Job implementation that invokes a specified method. Automatically applied by
+	 * MethodInvokingJobDetailFactoryBean.
 	 */
 	public static class MethodInvokingJob extends QuartzJobBean {
 
@@ -281,13 +282,13 @@ public class MethodInvokingJobDetailFactoryBean extends ArgumentConvertingMethod
 				throw new JobMethodInvocationFailedException(this.methodInvoker, ex);
 			}
 		}
+
 	}
 
-
 	/**
-	 * Extension of the MethodInvokingJob, implementing the StatefulJob interface.
-	 * Quartz checks whether or not jobs are stateful and if so,
-	 * won't let jobs interfere with each other.
+	 * Extension of the MethodInvokingJob, implementing the StatefulJob interface. Quartz
+	 * checks whether or not jobs are stateful and if so, won't let jobs interfere with
+	 * each other.
 	 */
 	@PersistJobDataAfterExecution
 	@DisallowConcurrentExecution
@@ -295,6 +296,7 @@ public class MethodInvokingJobDetailFactoryBean extends ArgumentConvertingMethod
 
 		// No implementation, just an addition of the tag interface StatefulJob
 		// in order to allow stateful method invoking jobs.
+
 	}
 
 }

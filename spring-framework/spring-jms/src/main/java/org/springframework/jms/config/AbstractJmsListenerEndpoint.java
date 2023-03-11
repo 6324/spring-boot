@@ -49,7 +49,6 @@ public abstract class AbstractJmsListenerEndpoint implements JmsListenerEndpoint
 	@Nullable
 	private String concurrency;
 
-
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -91,7 +90,8 @@ public abstract class AbstractJmsListenerEndpoint implements JmsListenerEndpoint
 
 	/**
 	 * Set the JMS message selector expression.
-	 * <p>See the JMS specification for a detailed definition of selector expressions.
+	 * <p>
+	 * See the JMS specification for a detailed definition of selector expressions.
 	 */
 	public void setSelector(@Nullable String selector) {
 		this.selector = selector;
@@ -107,10 +107,12 @@ public abstract class AbstractJmsListenerEndpoint implements JmsListenerEndpoint
 
 	/**
 	 * Set a concurrency for the listener, if any.
-	 * <p>The concurrency limits can be a "lower-upper" String, e.g. "5-10", or a simple
+	 * <p>
+	 * The concurrency limits can be a "lower-upper" String, e.g. "5-10", or a simple
 	 * upper limit String, e.g. "10" (the lower limit will be 1 in this case).
-	 * <p>The underlying container may or may not support all features. For instance, it
-	 * may not be able to scale: in that case only the upper value is used.
+	 * <p>
+	 * The underlying container may or may not support all features. For instance, it may
+	 * not be able to scale: in that case only the upper value is used.
 	 */
 	public void setConcurrency(@Nullable String concurrency) {
 		this.concurrency = concurrency;
@@ -123,7 +125,6 @@ public abstract class AbstractJmsListenerEndpoint implements JmsListenerEndpoint
 	public String getConcurrency() {
 		return this.concurrency;
 	}
-
 
 	@Override
 	public void setupListenerContainer(MessageListenerContainer listenerContainer) {
@@ -163,20 +164,20 @@ public abstract class AbstractJmsListenerEndpoint implements JmsListenerEndpoint
 
 	/**
 	 * Return a description for this endpoint.
-	 * <p>Available to subclasses, for inclusion in their {@code toString()} result.
+	 * <p>
+	 * Available to subclasses, for inclusion in their {@code toString()} result.
 	 */
 	protected StringBuilder getEndpointDescription() {
 		StringBuilder result = new StringBuilder();
-		return result.append(getClass().getSimpleName()).append("[").append(this.id).append("] destination=").
-				append(this.destination).append("' | subscription='").append(this.subscription).
-				append(" | selector='").append(this.selector).append("'");
+		return result.append(getClass().getSimpleName()).append("[").append(this.id).append("] destination=")
+				.append(this.destination).append("' | subscription='").append(this.subscription).append(" | selector='")
+				.append(this.selector).append("'");
 	}
 
 	@Override
 	public String toString() {
 		return getEndpointDescription().toString();
 	}
-
 
 	/**
 	 * Inner class to avoid a hard dependency on the JCA API.
@@ -188,9 +189,9 @@ public abstract class AbstractJmsListenerEndpoint implements JmsListenerEndpoint
 				setupJcaMessageContainer((JmsMessageEndpointManager) listenerContainer);
 			}
 			else {
-				throw new IllegalArgumentException("Could not configure endpoint with the specified container '" +
-						listenerContainer + "' Only JMS (" + AbstractMessageListenerContainer.class.getName() +
-						" subclass) or JCA (" + JmsMessageEndpointManager.class.getName() + ") are supported.");
+				throw new IllegalArgumentException("Could not configure endpoint with the specified container '"
+						+ listenerContainer + "' Only JMS (" + AbstractMessageListenerContainer.class.getName()
+						+ " subclass) or JCA (" + JmsMessageEndpointManager.class.getName() + ") are supported.");
 			}
 		}
 
@@ -214,6 +215,7 @@ public abstract class AbstractJmsListenerEndpoint implements JmsListenerEndpoint
 			}
 			setupMessageListener(container);
 		}
+
 	}
 
 }

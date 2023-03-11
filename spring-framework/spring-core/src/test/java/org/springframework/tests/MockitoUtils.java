@@ -37,13 +37,14 @@ public abstract class MockitoUtils {
 	 * the preferred way test with mockito and should be avoided if possible.
 	 * @param expected the mock containing expected invocations
 	 * @param actual the mock containing actual invocations
-	 * @param argumentAdapters adapters that can be used to change argument values before they are compared
+	 * @param argumentAdapters adapters that can be used to change argument values before
+	 * they are compared
 	 */
 	public static <T> void verifySameInvocations(T expected, T actual, InvocationArgumentsAdapter... argumentAdapters) {
-		List<Invocation> expectedInvocations =
-				((InvocationContainerImpl) MockUtil.getMockHandler(expected).getInvocationContainer()).getInvocations();
-		List<Invocation> actualInvocations =
-				((InvocationContainerImpl) MockUtil.getMockHandler(actual).getInvocationContainer()).getInvocations();
+		List<Invocation> expectedInvocations = ((InvocationContainerImpl) MockUtil.getMockHandler(expected)
+				.getInvocationContainer()).getInvocations();
+		List<Invocation> actualInvocations = ((InvocationContainerImpl) MockUtil.getMockHandler(actual)
+				.getInvocationContainer()).getInvocations();
 		verifySameInvocations(expectedInvocations, actualInvocations, argumentAdapters);
 	}
 
@@ -65,14 +66,14 @@ public abstract class MockitoUtils {
 		assertThat(expectedArguments).isEqualTo(actualArguments);
 	}
 
-	private static Object[] getInvocationArguments(Invocation invocation, InvocationArgumentsAdapter... argumentAdapters) {
+	private static Object[] getInvocationArguments(Invocation invocation,
+			InvocationArgumentsAdapter... argumentAdapters) {
 		Object[] arguments = invocation.getArguments();
 		for (InvocationArgumentsAdapter adapter : argumentAdapters) {
 			arguments = adapter.adaptArguments(arguments);
 		}
 		return arguments;
 	}
-
 
 	/**
 	 * Adapter strategy that can be used to change invocation arguments.
@@ -85,6 +86,7 @@ public abstract class MockitoUtils {
 		 * @return updated or original arguments (never {@code null})
 		 */
 		Object[] adaptArguments(Object[] arguments);
+
 	}
 
 }

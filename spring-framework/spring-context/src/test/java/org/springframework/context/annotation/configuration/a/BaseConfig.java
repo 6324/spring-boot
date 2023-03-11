@@ -40,4 +40,5 @@ public abstract class BaseConfig {
 	public Bar workaroundBar() {
 		return protectedBar();
 	}
+
 }

@@ -43,8 +43,8 @@ import static org.mockito.Mockito.mock;
 public class OriginHandshakeInterceptorTests extends AbstractHttpRequestTests {
 
 	private final Map<String, Object> attributes = new HashMap<>();
-	private final WebSocketHandler wsHandler = mock(WebSocketHandler.class);
 
+	private final WebSocketHandler wsHandler = mock(WebSocketHandler.class);
 
 	@Test
 	public void invalidInput() {
@@ -72,7 +72,8 @@ public class OriginHandshakeInterceptorTests extends AbstractHttpRequestTests {
 	@Test
 	public void originListMatch() throws Exception {
 		this.servletRequest.addHeader(HttpHeaders.ORIGIN, "https://mydomain2.example");
-		List<String> allowed = Arrays.asList("https://mydomain1.example", "https://mydomain2.example", "http://mydomain3.example");
+		List<String> allowed = Arrays.asList("https://mydomain1.example", "https://mydomain2.example",
+				"http://mydomain3.example");
 		OriginHandshakeInterceptor interceptor = new OriginHandshakeInterceptor(allowed);
 		assertThat(interceptor.beforeHandshake(request, response, wsHandler, attributes)).isTrue();
 		assertThat(HttpStatus.FORBIDDEN.value()).isNotEqualTo(servletResponse.getStatus());
@@ -81,7 +82,8 @@ public class OriginHandshakeInterceptorTests extends AbstractHttpRequestTests {
 	@Test
 	public void originListNoMatch() throws Exception {
 		this.servletRequest.addHeader(HttpHeaders.ORIGIN, "http://www.mydomain4.example/");
-		List<String> allowed = Arrays.asList("https://mydomain1.example", "https://mydomain2.example", "http://mydomain3.example");
+		List<String> allowed = Arrays.asList("https://mydomain1.example", "https://mydomain2.example",
+				"http://mydomain3.example");
 		OriginHandshakeInterceptor interceptor = new OriginHandshakeInterceptor(allowed);
 		assertThat(interceptor.beforeHandshake(request, response, wsHandler, attributes)).isFalse();
 		assertThat(HttpStatus.FORBIDDEN.value()).isEqualTo(servletResponse.getStatus());
@@ -120,7 +122,8 @@ public class OriginHandshakeInterceptorTests extends AbstractHttpRequestTests {
 	public void sameOriginMatchWithAllowedOrigins() throws Exception {
 		this.servletRequest.addHeader(HttpHeaders.ORIGIN, "http://mydomain2.example");
 		this.servletRequest.setServerName("mydomain2.example");
-		OriginHandshakeInterceptor interceptor = new OriginHandshakeInterceptor(Arrays.asList("http://mydomain1.example"));
+		OriginHandshakeInterceptor interceptor = new OriginHandshakeInterceptor(
+				Arrays.asList("http://mydomain1.example"));
 		assertThat(interceptor.beforeHandshake(request, response, wsHandler, attributes)).isTrue();
 		assertThat(HttpStatus.FORBIDDEN.value()).isNotEqualTo(servletResponse.getStatus());
 	}

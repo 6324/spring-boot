@@ -46,7 +46,6 @@ public class ResourceEncoder extends AbstractSingleValueEncoder<Resource> {
 
 	private final int bufferSize;
 
-
 	public ResourceEncoder() {
 		this(DEFAULT_BUFFER_SIZE);
 	}
@@ -57,7 +56,6 @@ public class ResourceEncoder extends AbstractSingleValueEncoder<Resource> {
 		this.bufferSize = bufferSize;
 	}
 
-
 	@Override
 	public boolean canEncode(ResolvableType elementType, @Nullable MimeType mimeType) {
 		Class<?> clazz = elementType.toClass();
@@ -65,8 +63,8 @@ public class ResourceEncoder extends AbstractSingleValueEncoder<Resource> {
 	}
 
 	@Override
-	protected Flux<DataBuffer> encode(Resource resource, DataBufferFactory bufferFactory,
-			ResolvableType type, @Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
+	protected Flux<DataBuffer> encode(Resource resource, DataBufferFactory bufferFactory, ResolvableType type,
+			@Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
 
 		if (logger.isDebugEnabled() && !Hints.isLoggingSuppressed(hints)) {
 			String logPrefix = Hints.getLogPrefix(hints);

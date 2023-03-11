@@ -45,13 +45,11 @@ public class HeadersWrapperTests {
 
 	private ServerRequestWrapper.HeadersWrapper wrapper;
 
-
 	@BeforeEach
 	public void createWrapper() {
 		mockHeaders = mock(ServerRequest.Headers.class);
 		wrapper = new ServerRequestWrapper.HeadersWrapper(mockHeaders);
 	}
-
 
 	@Test
 	public void accept() {

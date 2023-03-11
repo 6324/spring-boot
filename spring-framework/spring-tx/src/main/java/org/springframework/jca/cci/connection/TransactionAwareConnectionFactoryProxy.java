@@ -28,36 +28,41 @@ import javax.resource.cci.ConnectionFactory;
 import org.springframework.lang.Nullable;
 
 /**
- * Proxy for a target CCI {@link javax.resource.cci.ConnectionFactory}, adding
- * awareness of Spring-managed transactions. Similar to a transactional JNDI
- * ConnectionFactory as provided by a Java EE server.
+ * Proxy for a target CCI {@link javax.resource.cci.ConnectionFactory}, adding awareness
+ * of Spring-managed transactions. Similar to a transactional JNDI ConnectionFactory as
+ * provided by a Java EE server.
  *
- * <p>Data access code that should remain unaware of Spring's data access support
- * can work with this proxy to seamlessly participate in Spring-managed transactions.
- * Note that the transaction manager, for example the {@link CciLocalTransactionManager},
- * still needs to work with underlying ConnectionFactory, <i>not</i> with this proxy.
+ * <p>
+ * Data access code that should remain unaware of Spring's data access support can work
+ * with this proxy to seamlessly participate in Spring-managed transactions. Note that the
+ * transaction manager, for example the {@link CciLocalTransactionManager}, still needs to
+ * work with underlying ConnectionFactory, <i>not</i> with this proxy.
  *
- * <p><b>Make sure that TransactionAwareConnectionFactoryProxy is the outermost
+ * <p>
+ * <b>Make sure that TransactionAwareConnectionFactoryProxy is the outermost
  * ConnectionFactory of a chain of ConnectionFactory proxies/adapters.</b>
- * TransactionAwareConnectionFactoryProxy can delegate either directly to the
- * target connection pool or to some intermediate proxy/adapter like
+ * TransactionAwareConnectionFactoryProxy can delegate either directly to the target
+ * connection pool or to some intermediate proxy/adapter like
  * {@link ConnectionSpecConnectionFactoryAdapter}.
  *
- * <p>Delegates to {@link ConnectionFactoryUtils} for automatically participating in
+ * <p>
+ * Delegates to {@link ConnectionFactoryUtils} for automatically participating in
  * thread-bound transactions, for example managed by {@link CciLocalTransactionManager}.
- * {@code getConnection} calls and {@code close} calls on returned Connections
- * will behave properly within a transaction, i.e. always operate on the transactional
- * Connection. If not within a transaction, normal ConnectionFactory behavior applies.
+ * {@code getConnection} calls and {@code close} calls on returned Connections will behave
+ * properly within a transaction, i.e. always operate on the transactional Connection. If
+ * not within a transaction, normal ConnectionFactory behavior applies.
  *
- * <p>This proxy allows data access code to work with the plain JCA CCI API and still
+ * <p>
+ * This proxy allows data access code to work with the plain JCA CCI API and still
  * participate in Spring-managed transactions, similar to CCI code in a Java EE/JTA
  * environment. However, if possible, use Spring's ConnectionFactoryUtils, CciTemplate or
- * CCI operation objects to get transaction participation even without a proxy for
- * the target ConnectionFactory, avoiding the need to define such a proxy in the first place.
+ * CCI operation objects to get transaction participation even without a proxy for the
+ * target ConnectionFactory, avoiding the need to define such a proxy in the first place.
  *
- * <p><b>NOTE:</b> This ConnectionFactory proxy needs to return wrapped Connections
- * in order to handle close calls properly. Therefore, the returned Connections cannot
- * be cast to a native CCI Connection type or to a connection pool implementation type.
+ * <p>
+ * <b>NOTE:</b> This ConnectionFactory proxy needs to return wrapped Connections in order
+ * to handle close calls properly. Therefore, the returned Connections cannot be cast to a
+ * native CCI Connection type or to a connection pool implementation type.
  *
  * @author Juergen Hoeller
  * @since 1.2
@@ -85,10 +90,9 @@ public class TransactionAwareConnectionFactoryProxy extends DelegatingConnection
 		afterPropertiesSet();
 	}
 
-
 	/**
-	 * Delegate to ConnectionFactoryUtils for automatically participating in Spring-managed
-	 * transactions. Throws the original ResourceException, if any.
+	 * Delegate to ConnectionFactoryUtils for automatically participating in
+	 * Spring-managed transactions. Throws the original ResourceException, if any.
 	 * @return a transactional Connection if any, a new one else
 	 * @see org.springframework.jca.cci.connection.ConnectionFactoryUtils#doGetConnection
 	 */
@@ -100,8 +104,8 @@ public class TransactionAwareConnectionFactoryProxy extends DelegatingConnection
 	}
 
 	/**
-	 * Wrap the given Connection with a proxy that delegates every method call to it
-	 * but delegates {@code close} calls to ConnectionFactoryUtils.
+	 * Wrap the given Connection with a proxy that delegates every method call to it but
+	 * delegates {@code close} calls to ConnectionFactoryUtils.
 	 * @param target the original Connection to wrap
 	 * @param cf the ConnectionFactory that the Connection came from
 	 * @return the wrapped Connection
@@ -109,16 +113,13 @@ public class TransactionAwareConnectionFactoryProxy extends DelegatingConnection
 	 * @see ConnectionFactoryUtils#doReleaseConnection
 	 */
 	protected Connection getTransactionAwareConnectionProxy(Connection target, ConnectionFactory cf) {
-		return (Connection) Proxy.newProxyInstance(
-				Connection.class.getClassLoader(),
-				new Class<?>[] {Connection.class},
-				new TransactionAwareInvocationHandler(target, cf));
+		return (Connection) Proxy.newProxyInstance(Connection.class.getClassLoader(),
+				new Class<?>[] { Connection.class }, new TransactionAwareInvocationHandler(target, cf));
 	}
 
-
 	/**
-	 * Invocation handler that delegates close calls on CCI Connections
-	 * to ConnectionFactoryUtils for being aware of thread-bound transactions.
+	 * Invocation handler that delegates close calls on CCI Connections to
+	 * ConnectionFactoryUtils for being aware of thread-bound transactions.
 	 */
 	private static class TransactionAwareInvocationHandler implements InvocationHandler {
 
@@ -164,6 +165,7 @@ public class TransactionAwareConnectionFactoryProxy extends DelegatingConnection
 				throw ex.getTargetException();
 			}
 		}
+
 	}
 
 }

@@ -25,16 +25,16 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.lang.Nullable;
 
 /**
- * AOP Alliance MethodInterceptor for declarative cache
- * management using the common Spring caching infrastructure
- * ({@link org.springframework.cache.Cache}).
+ * AOP Alliance MethodInterceptor for declarative cache management using the common Spring
+ * caching infrastructure ({@link org.springframework.cache.Cache}).
  *
- * <p>Derives from the {@link CacheAspectSupport} class which
- * contains the integration with Spring's underlying caching API.
- * CacheInterceptor simply calls the relevant superclass methods
- * in the correct order.
+ * <p>
+ * Derives from the {@link CacheAspectSupport} class which contains the integration with
+ * Spring's underlying caching API. CacheInterceptor simply calls the relevant superclass
+ * methods in the correct order.
  *
- * <p>CacheInterceptors are thread-safe.
+ * <p>
+ * CacheInterceptors are thread-safe.
  *
  * @author Costin Leau
  * @author Juergen Hoeller

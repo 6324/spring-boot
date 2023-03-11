@@ -47,10 +47,11 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * Initiates WebSocket requests to a WebSocket server programmatically
- * through the Jetty WebSocket API.
+ * Initiates WebSocket requests to a WebSocket server programmatically through the Jetty
+ * WebSocket API.
  *
- * <p>As of 4.1 this class implements {@link Lifecycle} rather than
+ * <p>
+ * As of 4.1 this class implements {@link Lifecycle} rather than
  * {@link org.springframework.context.SmartLifecycle}. Use
  * {@link org.springframework.web.socket.client.WebSocketConnectionManager
  * WebSocketConnectionManager} instead to auto-start a WebSocket connection.
@@ -64,7 +65,6 @@ public class JettyWebSocketClient extends AbstractWebSocketClient implements Lif
 
 	@Nullable
 	private AsyncListenableTaskExecutor taskExecutor = new SimpleAsyncTaskExecutor();
-
 
 	/**
 	 * Default constructor that creates an instance of
@@ -82,12 +82,12 @@ public class JettyWebSocketClient extends AbstractWebSocketClient implements Lif
 		this.client = client;
 	}
 
-
 	/**
-	 * Set an {@link AsyncListenableTaskExecutor} to use when opening connections.
-	 * If this property is set to {@code null}, calls to any of the
-	 * {@code doHandshake} methods will block until the connection is established.
-	 * <p>By default an instance of {@code SimpleAsyncTaskExecutor} is used.
+	 * Set an {@link AsyncListenableTaskExecutor} to use when opening connections. If this
+	 * property is set to {@code null}, calls to any of the {@code doHandshake} methods
+	 * will block until the connection is established.
+	 * <p>
+	 * By default an instance of {@code SimpleAsyncTaskExecutor} is used.
 	 */
 	public void setTaskExecutor(@Nullable AsyncListenableTaskExecutor taskExecutor) {
 		this.taskExecutor = taskExecutor;
@@ -100,7 +100,6 @@ public class JettyWebSocketClient extends AbstractWebSocketClient implements Lif
 	public AsyncListenableTaskExecutor getTaskExecutor() {
 		return this.taskExecutor;
 	}
-
 
 	@Override
 	public void start() {
@@ -127,19 +126,18 @@ public class JettyWebSocketClient extends AbstractWebSocketClient implements Lif
 		return this.client.isStarted();
 	}
 
-
 	@Override
-	public ListenableFuture<WebSocketSession> doHandshake(WebSocketHandler webSocketHandler,
-			String uriTemplate, Object... uriVars) {
+	public ListenableFuture<WebSocketSession> doHandshake(WebSocketHandler webSocketHandler, String uriTemplate,
+			Object... uriVars) {
 
 		UriComponents uriComponents = UriComponentsBuilder.fromUriString(uriTemplate).buildAndExpand(uriVars).encode();
 		return doHandshake(webSocketHandler, null, uriComponents.toUri());
 	}
 
 	@Override
-	public ListenableFuture<WebSocketSession> doHandshakeInternal(WebSocketHandler wsHandler,
-			HttpHeaders headers, final URI uri, List<String> protocols,
-			List<WebSocketExtension> extensions,  Map<String, Object> attributes) {
+	public ListenableFuture<WebSocketSession> doHandshakeInternal(WebSocketHandler wsHandler, HttpHeaders headers,
+			final URI uri, List<String> protocols, List<WebSocketExtension> extensions,
+			Map<String, Object> attributes) {
 
 		final ClientUpgradeRequest request = new ClientUpgradeRequest();
 		request.setSubProtocols(protocols);

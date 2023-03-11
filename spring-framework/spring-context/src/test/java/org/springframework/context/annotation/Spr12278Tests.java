@@ -47,18 +47,17 @@ public class Spr12278Tests {
 
 	@Test
 	public void componentTwoConstructorsNoHint() {
-		this.context = new AnnotationConfigApplicationContext(BaseConfiguration.class,
-				TwoConstructorsComponent.class);
+		this.context = new AnnotationConfigApplicationContext(BaseConfiguration.class, TwoConstructorsComponent.class);
 		assertThat(this.context.getBean(TwoConstructorsComponent.class).name).isEqualTo("fallback");
 	}
 
 	@Test
 	public void componentTwoSpecificConstructorsNoHint() {
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				new AnnotationConfigApplicationContext(BaseConfiguration.class, TwoSpecificConstructorsComponent.class))
-			.withMessageContaining(NoSuchMethodException.class.getName());
+		assertThatExceptionOfType(BeanCreationException.class)
+				.isThrownBy(() -> new AnnotationConfigApplicationContext(BaseConfiguration.class,
+						TwoSpecificConstructorsComponent.class))
+				.withMessageContaining(NoSuchMethodException.class.getName());
 	}
-
 
 	@Configuration
 	static class BaseConfiguration {
@@ -67,6 +66,7 @@ public class Spr12278Tests {
 		public String autowiredName() {
 			return "foo";
 		}
+
 	}
 
 	private static class SingleConstructorComponent {
@@ -91,6 +91,7 @@ public class Spr12278Tests {
 		public TwoConstructorsComponent() {
 			this("fallback");
 		}
+
 	}
 
 	private static class TwoSpecificConstructorsComponent {
@@ -104,6 +105,7 @@ public class Spr12278Tests {
 		public TwoSpecificConstructorsComponent(String name) {
 			this(Integer.valueOf(name));
 		}
+
 	}
 
 }

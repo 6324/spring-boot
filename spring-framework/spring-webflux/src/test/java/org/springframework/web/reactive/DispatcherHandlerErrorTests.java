@@ -54,18 +54,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 /**
- * Test the effect of exceptions at different stages of request processing by
- * checking the error signals on the completion publisher.
+ * Test the effect of exceptions at different stages of request processing by checking the
+ * error signals on the completion publisher.
  *
  * @author Rossen Stoyanchev
  */
-@SuppressWarnings({"ThrowableResultOfMethodCallIgnored", "ThrowableInstanceNeverThrown"})
+@SuppressWarnings({ "ThrowableResultOfMethodCallIgnored", "ThrowableInstanceNeverThrown" })
 public class DispatcherHandlerErrorTests {
 
 	private static final IllegalStateException EXCEPTION = new IllegalStateException("boo");
 
 	private DispatcherHandler dispatcherHandler;
-
 
 	@BeforeEach
 	public void setup() {
@@ -75,18 +74,15 @@ public class DispatcherHandlerErrorTests {
 		this.dispatcherHandler = new DispatcherHandler(ctx);
 	}
 
-
 	@Test
 	public void noHandler() {
 		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/does-not-exist"));
 		Mono<Void> mono = this.dispatcherHandler.handle(exchange);
 
-		StepVerifier.create(mono)
-				.consumeErrorWith(ex -> {
-					assertThat(ex).isInstanceOf(ResponseStatusException.class);
-					assertThat(ex.getMessage()).isEqualTo("404 NOT_FOUND \"No matching handler\"");
-				})
-				.verify();
+		StepVerifier.create(mono).consumeErrorWith(ex -> {
+			assertThat(ex).isInstanceOf(ResponseStatusException.class);
+			assertThat(ex.getMessage()).isEqualTo("404 NOT_FOUND \"No matching handler\"");
+		}).verify();
 
 		// SPR-17475
 		AtomicReference<Throwable> exceptionRef = new AtomicReference<>();
@@ -99,9 +95,7 @@ public class DispatcherHandlerErrorTests {
 		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/error-signal"));
 		Mono<Void> publisher = this.dispatcherHandler.handle(exchange);
 
-		StepVerifier.create(publisher)
-				.consumeErrorWith(error -> assertThat(error).isSameAs(EXCEPTION))
-				.verify();
+		StepVerifier.create(publisher).consumeErrorWith(error -> assertThat(error).isSameAs(EXCEPTION)).verify();
 	}
 
 	@Test
@@ -109,9 +103,7 @@ public class DispatcherHandlerErrorTests {
 		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/raise-exception"));
 		Mono<Void> publisher = this.dispatcherHandler.handle(exchange);
 
-		StepVerifier.create(publisher)
-				.consumeErrorWith(error -> assertThat(error).isSameAs(EXCEPTION))
-				.verify();
+		StepVerifier.create(publisher).consumeErrorWith(error -> assertThat(error).isSameAs(EXCEPTION)).verify();
 	}
 
 	@Test
@@ -119,36 +111,29 @@ public class DispatcherHandlerErrorTests {
 		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/unknown-return-type"));
 		Mono<Void> publisher = this.dispatcherHandler.handle(exchange);
 
-		StepVerifier.create(publisher)
-				.consumeErrorWith(error ->
-					assertThat(error)
-							.isInstanceOf(IllegalStateException.class)
-							.hasMessageStartingWith("No HandlerResultHandler"))
-				.verify();
+		StepVerifier.create(publisher).consumeErrorWith(error -> assertThat(error)
+				.isInstanceOf(IllegalStateException.class).hasMessageStartingWith("No HandlerResultHandler")).verify();
 	}
 
 	@Test
 	public void responseBodyMessageConversionError() {
-		ServerWebExchange exchange = MockServerWebExchange.from(
-				MockServerHttpRequest.post("/request-body").accept(APPLICATION_JSON).body("body"));
+		ServerWebExchange exchange = MockServerWebExchange
+				.from(MockServerHttpRequest.post("/request-body").accept(APPLICATION_JSON).body("body"));
 
 		Mono<Void> publisher = this.dispatcherHandler.handle(exchange);
 
 		StepVerifier.create(publisher)
-				.consumeErrorWith(error -> assertThat(error).isInstanceOf(NotAcceptableStatusException.class))
-				.verify();
+				.consumeErrorWith(error -> assertThat(error).isInstanceOf(NotAcceptableStatusException.class)).verify();
 	}
 
 	@Test
 	public void requestBodyError() {
-		ServerWebExchange exchange = MockServerWebExchange.from(
-				MockServerHttpRequest.post("/request-body").body(Mono.error(EXCEPTION)));
+		ServerWebExchange exchange = MockServerWebExchange
+				.from(MockServerHttpRequest.post("/request-body").body(Mono.error(EXCEPTION)));
 
 		Mono<Void> publisher = this.dispatcherHandler.handle(exchange);
 
-		StepVerifier.create(publisher)
-				.consumeErrorWith(error -> assertThat(error).isSameAs(EXCEPTION))
-				.verify();
+		StepVerifier.create(publisher).consumeErrorWith(error -> assertThat(error).isSameAs(EXCEPTION)).verify();
 	}
 
 	@Test
@@ -162,9 +147,8 @@ public class DispatcherHandlerErrorTests {
 		assertThat(exchange.getResponse().getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-
 	@Configuration
-	@SuppressWarnings({"unused", "WeakerAccess"})
+	@SuppressWarnings({ "unused", "WeakerAccess" })
 	static class TestConfig {
 
 		@Bean
@@ -179,8 +163,8 @@ public class DispatcherHandlerErrorTests {
 
 		@Bean
 		public ResponseBodyResultHandler resultHandler() {
-			return new ResponseBodyResultHandler(Collections.singletonList(
-					new EncoderHttpMessageWriter<>(CharSequenceEncoder.textPlainOnly())),
+			return new ResponseBodyResultHandler(
+					Collections.singletonList(new EncoderHttpMessageWriter<>(CharSequenceEncoder.textPlainOnly())),
 					new HeaderContentTypeResolver());
 		}
 
@@ -188,8 +172,8 @@ public class DispatcherHandlerErrorTests {
 		public TestController testController() {
 			return new TestController();
 		}
-	}
 
+	}
 
 	@Controller
 	@SuppressWarnings("unused")
@@ -216,12 +200,12 @@ public class DispatcherHandlerErrorTests {
 		public Publisher<String> requestBody(@RequestBody Publisher<String> body) {
 			return Mono.from(body).map(s -> "hello " + s);
 		}
-	}
 
+	}
 
 	private static class Foo {
-	}
 
+	}
 
 	private static class ServerError500ExceptionHandler implements WebExceptionHandler {
 
@@ -230,6 +214,7 @@ public class DispatcherHandlerErrorTests {
 			exchange.getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
 			return Mono.empty();
 		}
+
 	}
 
 }

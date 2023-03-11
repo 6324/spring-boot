@@ -28,12 +28,14 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Oracle-specific implementation of the {@link org.springframework.jdbc.core.metadata.TableMetaDataProvider}.
- * Supports a feature for including synonyms in the meta-data lookup. Also supports lookup of current schema
- * using the {@code sys_context}.
+ * Oracle-specific implementation of the
+ * {@link org.springframework.jdbc.core.metadata.TableMetaDataProvider}. Supports a
+ * feature for including synonyms in the meta-data lookup. Also supports lookup of current
+ * schema using the {@code sys_context}.
  *
- * <p>Thanks to Mike Youngstrom and Bruce Campbell for submitting the original suggestion for the Oracle
- * current schema lookup implementation.
+ * <p>
+ * Thanks to Mike Youngstrom and Bruce Campbell for submitting the original suggestion for
+ * the Oracle current schema lookup implementation.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -45,7 +47,6 @@ public class OracleTableMetaDataProvider extends GenericTableMetaDataProvider {
 
 	@Nullable
 	private final String defaultSchema;
-
 
 	/**
 	 * Constructor used to initialize with provided database meta-data.
@@ -60,14 +61,12 @@ public class OracleTableMetaDataProvider extends GenericTableMetaDataProvider {
 	 * @param databaseMetaData meta-data to be used
 	 * @param includeSynonyms whether to include synonyms
 	 */
-	public OracleTableMetaDataProvider(DatabaseMetaData databaseMetaData, boolean includeSynonyms)
-			throws SQLException {
+	public OracleTableMetaDataProvider(DatabaseMetaData databaseMetaData, boolean includeSynonyms) throws SQLException {
 
 		super(databaseMetaData);
 		this.includeSynonyms = includeSynonyms;
 		this.defaultSchema = lookupDefaultSchema(databaseMetaData);
 	}
-
 
 	/*
 	 * Oracle-based implementation for detecting the current schema.
@@ -108,11 +107,9 @@ public class OracleTableMetaDataProvider extends GenericTableMetaDataProvider {
 		return super.getDefaultSchema();
 	}
 
-
 	@Override
-	public void initializeWithTableColumnMetaData(DatabaseMetaData databaseMetaData,
-			@Nullable String catalogName, @Nullable String schemaName, @Nullable String tableName)
-			throws SQLException {
+	public void initializeWithTableColumnMetaData(DatabaseMetaData databaseMetaData, @Nullable String catalogName,
+			@Nullable String schemaName, @Nullable String tableName) throws SQLException {
 
 		if (!this.includeSynonyms) {
 			logger.debug("Defaulting to no synonyms in table meta-data lookup");

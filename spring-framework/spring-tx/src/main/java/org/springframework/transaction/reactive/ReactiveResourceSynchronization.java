@@ -19,8 +19,8 @@ package org.springframework.transaction.reactive;
 import reactor.core.publisher.Mono;
 
 /**
- * {@link TransactionSynchronization} implementation that manages a
- * resource object bound through {@link TransactionSynchronizationManager}.
+ * {@link TransactionSynchronization} implementation that manages a resource object bound
+ * through {@link TransactionSynchronizationManager}.
  *
  * @author Mark Paluch
  * @author Juergen Hoeller
@@ -38,22 +38,21 @@ public abstract class ReactiveResourceSynchronization<O, K> implements Transacti
 
 	private volatile boolean holderActive = true;
 
-
 	/**
 	 * Create a new ReactiveResourceSynchronization for the given holder.
 	 * @param resourceObject the resource object to manage
 	 * @param resourceKey the key to bind the resource object for
-	 * @param synchronizationManager the synchronization manager bound to the current transaction
+	 * @param synchronizationManager the synchronization manager bound to the current
+	 * transaction
 	 * @see TransactionSynchronizationManager#bindResource
 	 */
-	public ReactiveResourceSynchronization(
-			O resourceObject, K resourceKey, TransactionSynchronizationManager synchronizationManager) {
+	public ReactiveResourceSynchronization(O resourceObject, K resourceKey,
+			TransactionSynchronizationManager synchronizationManager) {
 
 		this.resourceObject = resourceObject;
 		this.resourceKey = resourceKey;
 		this.synchronizationManager = synchronizationManager;
 	}
-
 
 	@Override
 	public Mono<Void> suspend() {
@@ -124,23 +123,24 @@ public abstract class ReactiveResourceSynchronization<O, K> implements Transacti
 		});
 	}
 
-
 	/**
-	 * Return whether this holder should be unbound at completion
-	 * (or should rather be left bound to the thread after the transaction).
-	 * <p>The default implementation returns {@code true}.
+	 * Return whether this holder should be unbound at completion (or should rather be
+	 * left bound to the thread after the transaction).
+	 * <p>
+	 * The default implementation returns {@code true}.
 	 */
 	protected boolean shouldUnbindAtCompletion() {
 		return true;
 	}
 
 	/**
-	 * Return whether this holder's resource should be released before
-	 * transaction completion ({@code true}) or rather after
-	 * transaction completion ({@code false}).
-	 * <p>Note that resources will only be released when they are
-	 * unbound from the thread ({@link #shouldUnbindAtCompletion()}).
-	 * <p>The default implementation returns {@code true}.
+	 * Return whether this holder's resource should be released before transaction
+	 * completion ({@code true}) or rather after transaction completion ({@code false}).
+	 * <p>
+	 * Note that resources will only be released when they are unbound from the thread
+	 * ({@link #shouldUnbindAtCompletion()}).
+	 * <p>
+	 * The default implementation returns {@code true}.
 	 * @see #releaseResource
 	 */
 	protected boolean shouldReleaseBeforeCompletion() {
@@ -148,9 +148,10 @@ public abstract class ReactiveResourceSynchronization<O, K> implements Transacti
 	}
 
 	/**
-	 * Return whether this holder's resource should be released after
-	 * transaction completion ({@code true}).
-	 * <p>The default implementation returns {@code !shouldReleaseBeforeCompletion()},
+	 * Return whether this holder's resource should be released after transaction
+	 * completion ({@code true}).
+	 * <p>
+	 * The default implementation returns {@code !shouldReleaseBeforeCompletion()},
 	 * releasing after completion if no attempt was made before completion.
 	 * @see #releaseResource
 	 */
@@ -159,9 +160,8 @@ public abstract class ReactiveResourceSynchronization<O, K> implements Transacti
 	}
 
 	/**
-	 * After-commit callback for the given resource holder.
-	 * Only called when the resource hasn't been released yet
-	 * ({@link #shouldReleaseBeforeCompletion()}).
+	 * After-commit callback for the given resource holder. Only called when the resource
+	 * hasn't been released yet ({@link #shouldReleaseBeforeCompletion()}).
 	 * @param resourceHolder the resource holder to process
 	 */
 	protected Mono<Void> processResourceAfterCommit(O resourceHolder) {
@@ -181,8 +181,8 @@ public abstract class ReactiveResourceSynchronization<O, K> implements Transacti
 	 * Perform a cleanup on the given resource (which is left bound to the thread).
 	 * @param resourceHolder the resource holder to process
 	 * @param resourceKey the key that the resource object was bound for
-	 * @param committed whether the transaction has committed ({@code true})
-	 * or rolled back ({@code false})
+	 * @param committed whether the transaction has committed ({@code true}) or rolled
+	 * back ({@code false})
 	 */
 	protected Mono<Void> cleanupResource(O resourceHolder, K resourceKey, boolean committed) {
 		return Mono.empty();

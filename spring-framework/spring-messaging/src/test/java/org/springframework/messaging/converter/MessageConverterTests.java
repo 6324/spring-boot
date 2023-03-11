@@ -43,7 +43,6 @@ public class MessageConverterTests {
 
 	private TestMessageConverter converter = new TestMessageConverter();
 
-
 	@Test
 	public void supportsTargetClass() {
 		Message<String> message = MessageBuilder.withPayload("ABC").build();
@@ -54,16 +53,16 @@ public class MessageConverterTests {
 
 	@Test
 	public void supportsMimeType() {
-		Message<String> message = MessageBuilder.withPayload(
-				"ABC").setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.TEXT_PLAIN).build();
+		Message<String> message = MessageBuilder.withPayload("ABC")
+				.setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.TEXT_PLAIN).build();
 
 		assertThat(this.converter.fromMessage(message, String.class)).isEqualTo("success-from");
 	}
 
 	@Test
 	public void supportsMimeTypeNotSupported() {
-		Message<String> message = MessageBuilder.withPayload(
-				"ABC").setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON).build();
+		Message<String> message = MessageBuilder.withPayload("ABC")
+				.setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON).build();
 
 		assertThat(this.converter.fromMessage(message, String.class)).isNull();
 	}
@@ -76,8 +75,8 @@ public class MessageConverterTests {
 
 	@Test
 	public void supportsMimeTypeNoneConfigured() {
-		Message<String> message = MessageBuilder.withPayload(
-				"ABC").setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON).build();
+		Message<String> message = MessageBuilder.withPayload("ABC")
+				.setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON).build();
 		this.converter = new TestMessageConverter(new MimeType[0]);
 
 		assertThat(this.converter.fromMessage(message, String.class)).isEqualTo("success-from");
@@ -91,8 +90,8 @@ public class MessageConverterTests {
 		Message<String> message = MessageBuilder.withPayload("ABC").build();
 		assertThat(this.converter.canConvertFrom(message, String.class)).isFalse();
 
-		message = MessageBuilder.withPayload("ABC")
-				.setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.TEXT_PLAIN).build();
+		message = MessageBuilder.withPayload("ABC").setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.TEXT_PLAIN)
+				.build();
 		assertThat(this.converter.canConvertFrom(message, String.class)).isTrue();
 
 	}
@@ -138,7 +137,6 @@ public class MessageConverterTests {
 		assertThat(message.getHeaders().get(MessageHeaders.CONTENT_TYPE)).isEqualTo(MimeTypeUtils.TEXT_PLAIN);
 	}
 
-
 	private static class TestMessageConverter extends AbstractMessageConverter {
 
 		public TestMessageConverter() {
@@ -155,18 +153,19 @@ public class MessageConverterTests {
 		}
 
 		@Override
-		protected Object convertFromInternal(
-				Message<?> message, Class<?> targetClass, @Nullable Object conversionHint) {
+		protected Object convertFromInternal(Message<?> message, Class<?> targetClass,
+				@Nullable Object conversionHint) {
 
 			return "success-from";
 		}
 
 		@Override
-		protected Object convertToInternal(
-				Object payload, @Nullable MessageHeaders headers, @Nullable Object conversionHint) {
+		protected Object convertToInternal(Object payload, @Nullable MessageHeaders headers,
+				@Nullable Object conversionHint) {
 
 			return "success-to";
 		}
+
 	}
 
 }

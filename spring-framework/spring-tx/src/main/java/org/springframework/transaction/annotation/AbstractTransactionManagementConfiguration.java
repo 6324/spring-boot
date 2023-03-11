@@ -48,16 +48,16 @@ public abstract class AbstractTransactionManagementConfiguration implements Impo
 	protected AnnotationAttributes enableTx;
 
 	/**
-	 * Default transaction manager, as configured through a {@link TransactionManagementConfigurer}.
+	 * Default transaction manager, as configured through a
+	 * {@link TransactionManagementConfigurer}.
 	 */
 	@Nullable
 	protected TransactionManager txManager;
 
-
 	@Override
 	public void setImportMetadata(AnnotationMetadata importMetadata) {
-		this.enableTx = AnnotationAttributes.fromMap(
-				importMetadata.getAnnotationAttributes(EnableTransactionManagement.class.getName(), false));
+		this.enableTx = AnnotationAttributes
+				.fromMap(importMetadata.getAnnotationAttributes(EnableTransactionManagement.class.getName(), false));
 		if (this.enableTx == null) {
 			throw new IllegalArgumentException(
 					"@EnableTransactionManagement is not present on importing class " + importMetadata.getClassName());
@@ -75,7 +75,6 @@ public abstract class AbstractTransactionManagementConfiguration implements Impo
 		TransactionManagementConfigurer configurer = configurers.iterator().next();
 		this.txManager = configurer.annotationDrivenTransactionManager();
 	}
-
 
 	@Bean(name = TransactionManagementConfigUtils.TRANSACTIONAL_EVENT_LISTENER_FACTORY_BEAN_NAME)
 	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)

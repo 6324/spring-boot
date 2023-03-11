@@ -36,7 +36,7 @@ public class SimpleConstructorNamespaceHandlerTests {
 	public void simpleValue() throws Exception {
 		DefaultListableBeanFactory beanFactory = createFactory("simpleConstructorNamespaceHandlerTests.xml");
 		String name = "simple";
-		//		beanFactory.getBean("simple1", DummyBean.class);
+		// beanFactory.getBean("simple1", DummyBean.class);
 		DummyBean nameValue = beanFactory.getBean(name, DummyBean.class);
 		assertThat(nameValue.getValue()).isEqualTo("simple");
 	}
@@ -45,7 +45,7 @@ public class SimpleConstructorNamespaceHandlerTests {
 	public void simpleRef() throws Exception {
 		DefaultListableBeanFactory beanFactory = createFactory("simpleConstructorNamespaceHandlerTests.xml");
 		String name = "simple-ref";
-		//		beanFactory.getBean("name-value1", TestBean.class);
+		// beanFactory.getBean("name-value1", TestBean.class);
 		DummyBean nameValue = beanFactory.getBean(name, DummyBean.class);
 		assertThat(nameValue.getValue()).isEqualTo(beanFactory.getBean("name"));
 	}
@@ -54,7 +54,7 @@ public class SimpleConstructorNamespaceHandlerTests {
 	public void nameValue() throws Exception {
 		DefaultListableBeanFactory beanFactory = createFactory("simpleConstructorNamespaceHandlerTests.xml");
 		String name = "name-value";
-		//		beanFactory.getBean("name-value1", TestBean.class);
+		// beanFactory.getBean("name-value1", TestBean.class);
 		TestBean nameValue = beanFactory.getBean(name, TestBean.class);
 		assertThat(nameValue.getName()).isEqualTo(name);
 		assertThat(nameValue.getAge()).isEqualTo(10);
@@ -92,9 +92,9 @@ public class SimpleConstructorNamespaceHandlerTests {
 	@Test
 	public void ambiguousConstructor() throws Exception {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
-		assertThatExceptionOfType(BeanDefinitionStoreException.class).isThrownBy(() ->
-				new XmlBeanDefinitionReader(bf).loadBeanDefinitions(
-							new ClassPathResource("simpleConstructorNamespaceHandlerTestsWithErrors.xml", getClass())));
+		assertThatExceptionOfType(BeanDefinitionStoreException.class)
+				.isThrownBy(() -> new XmlBeanDefinitionReader(bf).loadBeanDefinitions(
+						new ClassPathResource("simpleConstructorNamespaceHandlerTestsWithErrors.xml", getClass())));
 	}
 
 	@Test
@@ -107,8 +107,8 @@ public class SimpleConstructorNamespaceHandlerTests {
 
 	private DefaultListableBeanFactory createFactory(String resourceName) {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(
-				new ClassPathResource(resourceName, getClass()));
+		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource(resourceName, getClass()));
 		return bf;
 	}
+
 }

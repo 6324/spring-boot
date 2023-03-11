@@ -27,8 +27,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 /**
- * A Pointcut that matches if the underlying {@link CacheOperationSource}
- * has an attribute for a given method.
+ * A Pointcut that matches if the underlying {@link CacheOperationSource} has an attribute
+ * for a given method.
  *
  * @author Costin Leau
  * @author Juergen Hoeller
@@ -40,7 +40,6 @@ abstract class CacheOperationSourcePointcut extends StaticMethodMatcherPointcut 
 	protected CacheOperationSourcePointcut() {
 		setClassFilter(new CacheOperationSourceClassFilter());
 	}
-
 
 	@Override
 	public boolean matches(Method method, Class<?> targetClass) {
@@ -70,14 +69,12 @@ abstract class CacheOperationSourcePointcut extends StaticMethodMatcherPointcut 
 		return getClass().getName() + ": " + getCacheOperationSource();
 	}
 
-
 	/**
-	 * Obtain the underlying {@link CacheOperationSource} (may be {@code null}).
-	 * To be implemented by subclasses.
+	 * Obtain the underlying {@link CacheOperationSource} (may be {@code null}). To be
+	 * implemented by subclasses.
 	 */
 	@Nullable
 	protected abstract CacheOperationSource getCacheOperationSource();
-
 
 	/**
 	 * {@link ClassFilter} that delegates to {@link CacheOperationSource#isCandidateClass}
@@ -93,6 +90,7 @@ abstract class CacheOperationSourcePointcut extends StaticMethodMatcherPointcut 
 			CacheOperationSource cas = getCacheOperationSource();
 			return (cas == null || cas.isCandidateClass(clazz));
 		}
+
 	}
 
 }

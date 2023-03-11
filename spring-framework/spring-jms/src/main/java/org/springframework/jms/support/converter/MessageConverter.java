@@ -23,8 +23,9 @@ import javax.jms.Session;
 /**
  * Strategy interface that specifies a converter between Java objects and JMS messages.
  *
- * <p>Check out {@link SimpleMessageConverter} for a default implementation,
- * converting between the 'standard' message payloads and JMS Message types.
+ * <p>
+ * Check out {@link SimpleMessageConverter} for a default implementation, converting
+ * between the 'standard' message payloads and JMS Message types.
  *
  * @author Mark Pollack
  * @author Juergen Hoeller
@@ -37,8 +38,8 @@ import javax.jms.Session;
 public interface MessageConverter {
 
 	/**
-	 * Convert a Java object to a JMS Message using the supplied session
-	 * to create the message object.
+	 * Convert a Java object to a JMS Message using the supplied session to create the
+	 * message object.
 	 * @param object the object to convert
 	 * @param session the Session to use for creating a JMS Message
 	 * @return the JMS Message

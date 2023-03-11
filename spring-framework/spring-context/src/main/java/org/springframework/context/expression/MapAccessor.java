@@ -28,8 +28,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * EL property accessor that knows how to traverse the keys
- * of a standard {@link java.util.Map}.
+ * EL property accessor that knows how to traverse the keys of a standard
+ * {@link java.util.Map}.
  *
  * @author Juergen Hoeller
  * @author Andy Clement
@@ -39,7 +39,7 @@ public class MapAccessor implements CompilablePropertyAccessor {
 
 	@Override
 	public Class<?>[] getSpecificTargetClasses() {
-		return new Class<?>[] {Map.class};
+		return new Class<?>[] { Map.class };
 	}
 
 	@Override
@@ -93,13 +93,12 @@ public class MapAccessor implements CompilablePropertyAccessor {
 			CodeFlow.insertCheckCast(mv, "Ljava/util/Map");
 		}
 		mv.visitLdcInsn(propertyName);
-		mv.visitMethodInsn(INVOKEINTERFACE, "java/util/Map", "get","(Ljava/lang/Object;)Ljava/lang/Object;",true);
+		mv.visitMethodInsn(INVOKEINTERFACE, "java/util/Map", "get", "(Ljava/lang/Object;)Ljava/lang/Object;", true);
 	}
 
-
 	/**
-	 * Exception thrown from {@code read} in order to reset a cached
-	 * PropertyAccessor, allowing other accessors to have a try.
+	 * Exception thrown from {@code read} in order to reset a cached PropertyAccessor,
+	 * allowing other accessors to have a try.
 	 */
 	@SuppressWarnings("serial")
 	private static class MapAccessException extends AccessException {
@@ -115,6 +114,7 @@ public class MapAccessor implements CompilablePropertyAccessor {
 		public String getMessage() {
 			return "Map does not contain a value for key '" + this.key + "'";
 		}
+
 	}
 
 }

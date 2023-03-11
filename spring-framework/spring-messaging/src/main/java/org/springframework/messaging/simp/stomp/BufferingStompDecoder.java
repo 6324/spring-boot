@@ -29,18 +29,18 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 /**
- * An extension of {@link org.springframework.messaging.simp.stomp.StompDecoder}
- * that buffers content remaining in the input ByteBuffer after the parent
- * class has read all (complete) STOMP frames from it. The remaining content
- * represents an incomplete STOMP frame. When called repeatedly with additional
- * data, the decode method returns one or more messages or, if there is not
- * enough data still, continues to buffer.
+ * An extension of {@link org.springframework.messaging.simp.stomp.StompDecoder} that
+ * buffers content remaining in the input ByteBuffer after the parent class has read all
+ * (complete) STOMP frames from it. The remaining content represents an incomplete STOMP
+ * frame. When called repeatedly with additional data, the decode method returns one or
+ * more messages or, if there is not enough data still, continues to buffer.
  *
- * <p>A single instance of this decoder can be invoked repeatedly to read all
- * messages from a single stream (e.g. WebSocket session) as long as decoding
- * does not fail. If there is an exception, StompDecoder instance should not
- * be used any more as its internal state is not guaranteed to be consistent.
- * It is expected that the underlying session is closed at that point.
+ * <p>
+ * A single instance of this decoder can be invoked repeatedly to read all messages from a
+ * single stream (e.g. WebSocket session) as long as decoding does not fail. If there is
+ * an exception, StompDecoder instance should not be used any more as its internal state
+ * is not guaranteed to be consistent. It is expected that the underlying session is
+ * closed at that point.
  *
  * @author Rossen Stoyanchev
  * @since 4.0.3
@@ -57,7 +57,6 @@ public class BufferingStompDecoder {
 	@Nullable
 	private volatile Integer expectedContentLength;
 
-
 	/**
 	 * Create a new {@code BufferingStompDecoder} wrapping the given {@code StompDecoder}.
 	 * @param stompDecoder the target decoder to wrap
@@ -69,7 +68,6 @@ public class BufferingStompDecoder {
 		this.stompDecoder = stompDecoder;
 		this.bufferSizeLimit = bufferSizeLimit;
 	}
-
 
 	/**
 	 * Return the wrapped {@link StompDecoder}.
@@ -85,17 +83,17 @@ public class BufferingStompDecoder {
 		return this.bufferSizeLimit;
 	}
 
-
 	/**
-	 * Decodes one or more STOMP frames from the given {@code ByteBuffer} into a
-	 * list of {@link Message Messages}.
-	 * <p>If there was enough data to parse a "content-length" header, then the
-	 * value is used to determine how much more data is needed before a new
-	 * attempt to decode is made.
-	 * <p>If there was not enough data to parse the "content-length", or if there
-	 * is "content-length" header, every subsequent call to decode attempts to
-	 * parse again with all available data. Therefore the presence of a "content-length"
-	 * header helps to optimize the decoding of large messages.
+	 * Decodes one or more STOMP frames from the given {@code ByteBuffer} into a list of
+	 * {@link Message Messages}.
+	 * <p>
+	 * If there was enough data to parse a "content-length" header, then the value is used
+	 * to determine how much more data is needed before a new attempt to decode is made.
+	 * <p>
+	 * If there was not enough data to parse the "content-length", or if there is
+	 * "content-length" header, every subsequent call to decode attempts to parse again
+	 * with all available data. Therefore the presence of a "content-length" header helps
+	 * to optimize the decoding of large messages.
 	 * @param newBuffer a buffer containing new data to decode
 	 * @return decoded messages or an empty list
 	 * @throws StompConversionException raised in case of decoding issues
@@ -141,13 +139,12 @@ public class BufferingStompDecoder {
 	private void checkBufferLimits() {
 		Integer contentLength = this.expectedContentLength;
 		if (contentLength != null && contentLength > this.bufferSizeLimit) {
-			throw new StompConversionException(
-					"STOMP 'content-length' header value " + this.expectedContentLength +
-					"  exceeds configured buffer size limit " + this.bufferSizeLimit);
+			throw new StompConversionException("STOMP 'content-length' header value " + this.expectedContentLength
+					+ "  exceeds configured buffer size limit " + this.bufferSizeLimit);
 		}
 		if (getBufferSize() > this.bufferSizeLimit) {
-			throw new StompConversionException("The configured STOMP buffer size limit of " +
-					this.bufferSizeLimit + " bytes has been exceeded");
+			throw new StompConversionException(
+					"The configured STOMP buffer size limit of " + this.bufferSizeLimit + " bytes has been exceeded");
 		}
 	}
 

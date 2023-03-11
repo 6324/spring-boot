@@ -55,7 +55,6 @@ public class BeanInfoTests {
 		assertThat(bean.getValue()).as("value not converted to null").isNull();
 	}
 
-
 	public static class ValueBean {
 
 		private Integer value;
@@ -67,8 +66,8 @@ public class BeanInfoTests {
 		public void setValue(Integer value) {
 			this.value = value;
 		}
-	}
 
+	}
 
 	public static class ValueBeanBeanInfo extends SimpleBeanInfo {
 
@@ -77,14 +76,14 @@ public class BeanInfoTests {
 			try {
 				PropertyDescriptor pd = new PropertyDescriptor("value", ValueBean.class);
 				pd.setPropertyEditorClass(MyNumberEditor.class);
-				return new PropertyDescriptor[] {pd};
+				return new PropertyDescriptor[] { pd };
 			}
 			catch (IntrospectionException ex) {
 				throw new FatalBeanException("Couldn't create PropertyDescriptor", ex);
 			}
 		}
-	}
 
+	}
 
 	public static class MyNumberEditor extends CustomNumberEditor {
 

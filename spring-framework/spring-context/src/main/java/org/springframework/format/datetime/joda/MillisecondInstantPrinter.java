@@ -32,7 +32,6 @@ public final class MillisecondInstantPrinter implements Printer<Long> {
 
 	private final DateTimeFormatter formatter;
 
-
 	/**
 	 * Create a new ReadableInstantPrinter.
 	 * @param formatter the Joda DateTimeFormatter instance
@@ -40,7 +39,6 @@ public final class MillisecondInstantPrinter implements Printer<Long> {
 	public MillisecondInstantPrinter(DateTimeFormatter formatter) {
 		this.formatter = formatter;
 	}
-
 
 	@Override
 	public String print(Long instant, Locale locale) {

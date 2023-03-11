@@ -40,8 +40,8 @@ public class SessionStatusMethodArgumentResolver implements SyncHandlerMethodArg
 
 	@Nullable
 	@Override
-	public Object resolveArgumentValue(
-			MethodParameter parameter, BindingContext bindingContext, ServerWebExchange exchange) {
+	public Object resolveArgumentValue(MethodParameter parameter, BindingContext bindingContext,
+			ServerWebExchange exchange) {
 
 		Assert.isInstanceOf(InitBinderBindingContext.class, bindingContext);
 		return ((InitBinderBindingContext) bindingContext).getSessionStatus();

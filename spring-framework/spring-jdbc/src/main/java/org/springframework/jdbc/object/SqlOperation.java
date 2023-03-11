@@ -25,10 +25,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Operation object representing an SQL-based operation such as a query or update,
- * as opposed to a stored procedure.
+ * Operation object representing an SQL-based operation such as a query or update, as
+ * opposed to a stored procedure.
  *
- * <p>Configures a {@link org.springframework.jdbc.core.PreparedStatementCreatorFactory}
+ * <p>
+ * Configures a {@link org.springframework.jdbc.core.PreparedStatementCreatorFactory}
  * based on the declared parameters.
  *
  * @author Rod Johnson
@@ -37,8 +38,8 @@ import org.springframework.util.Assert;
 public abstract class SqlOperation extends RdbmsOperation {
 
 	/**
-	 * Object enabling us to create PreparedStatementCreators efficiently,
-	 * based on this class's declared parameters.
+	 * Object enabling us to create PreparedStatementCreators efficiently, based on this
+	 * class's declared parameters.
 	 */
 	@Nullable
 	private PreparedStatementCreatorFactory preparedStatementFactory;
@@ -50,10 +51,9 @@ public abstract class SqlOperation extends RdbmsOperation {
 	/** Monitor for locking the cached representation of the parsed SQL statement. */
 	private final Object parsedSqlMonitor = new Object();
 
-
 	/**
-	 * Overridden method to configure the PreparedStatementCreatorFactory
-	 * based on our declared parameters.
+	 * Overridden method to configure the PreparedStatementCreatorFactory based on our
+	 * declared parameters.
 	 */
 	@Override
 	protected final void compileInternal() {
@@ -69,8 +69,8 @@ public abstract class SqlOperation extends RdbmsOperation {
 	}
 
 	/**
-	 * Hook method that subclasses may override to post-process compilation.
-	 * This implementation does nothing.
+	 * Hook method that subclasses may override to post-process compilation. This
+	 * implementation does nothing.
 	 * @see #compileInternal
 	 */
 	protected void onCompileInternal() {
@@ -78,7 +78,8 @@ public abstract class SqlOperation extends RdbmsOperation {
 
 	/**
 	 * Obtain a parsed representation of this operation's SQL statement.
-	 * <p>Typically used for named parameter parsing.
+	 * <p>
+	 * Typically used for named parameter parsing.
 	 */
 	protected ParsedSql getParsedSql() {
 		synchronized (this.parsedSqlMonitor) {
@@ -89,10 +90,8 @@ public abstract class SqlOperation extends RdbmsOperation {
 		}
 	}
 
-
 	/**
-	 * Return a PreparedStatementSetter to perform an operation
-	 * with the given parameters.
+	 * Return a PreparedStatementSetter to perform an operation with the given parameters.
 	 * @param params the parameter array (may be {@code null})
 	 */
 	protected final PreparedStatementSetter newPreparedStatementSetter(@Nullable Object[] params) {
@@ -101,8 +100,8 @@ public abstract class SqlOperation extends RdbmsOperation {
 	}
 
 	/**
-	 * Return a PreparedStatementCreator to perform an operation
-	 * with the given parameters.
+	 * Return a PreparedStatementCreator to perform an operation with the given
+	 * parameters.
 	 * @param params the parameter array (may be {@code null})
 	 */
 	protected final PreparedStatementCreator newPreparedStatementCreator(@Nullable Object[] params) {
@@ -111,10 +110,10 @@ public abstract class SqlOperation extends RdbmsOperation {
 	}
 
 	/**
-	 * Return a PreparedStatementCreator to perform an operation
-	 * with the given parameters.
-	 * @param sqlToUse the actual SQL statement to use (if different from
-	 * the factory's, for example because of named parameter expanding)
+	 * Return a PreparedStatementCreator to perform an operation with the given
+	 * parameters.
+	 * @param sqlToUse the actual SQL statement to use (if different from the factory's,
+	 * for example because of named parameter expanding)
 	 * @param params the parameter array (may be {@code null})
 	 */
 	protected final PreparedStatementCreator newPreparedStatementCreator(String sqlToUse, @Nullable Object[] params) {

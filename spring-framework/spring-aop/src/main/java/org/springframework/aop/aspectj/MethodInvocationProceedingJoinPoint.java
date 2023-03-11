@@ -33,15 +33,17 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * An implementation of the AspectJ {@link ProceedingJoinPoint} interface
- * wrapping an AOP Alliance {@link org.aopalliance.intercept.MethodInvocation}.
+ * An implementation of the AspectJ {@link ProceedingJoinPoint} interface wrapping an AOP
+ * Alliance {@link org.aopalliance.intercept.MethodInvocation}.
  *
- * <p><b>Note</b>: The {@code getThis()} method returns the current Spring AOP proxy.
- * The {@code getTarget()} method returns the current Spring AOP target (which may be
- * {@code null} if there is no target instance) as a plain POJO without any advice.
- * <b>If you want to call the object and have the advice take effect, use {@code getThis()}.</b>
- * A common example is casting the object to an introduced interface in the implementation of
- * an introduction. There is no such distinction between target and proxy in AspectJ itself.
+ * <p>
+ * <b>Note</b>: The {@code getThis()} method returns the current Spring AOP proxy. The
+ * {@code getTarget()} method returns the current Spring AOP target (which may be
+ * {@code null} if there is no target instance) as a plain POJO without any advice. <b>If
+ * you want to call the object and have the advice take effect, use {@code getThis()}.</b>
+ * A common example is casting the object to an introduced interface in the implementation
+ * of an introduction. There is no such distinction between target and proxy in AspectJ
+ * itself.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -66,17 +68,15 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint,
 	@Nullable
 	private SourceLocation sourceLocation;
 
-
 	/**
-	 * Create a new MethodInvocationProceedingJoinPoint, wrapping the given
-	 * Spring ProxyMethodInvocation object.
+	 * Create a new MethodInvocationProceedingJoinPoint, wrapping the given Spring
+	 * ProxyMethodInvocation object.
 	 * @param methodInvocation the Spring ProxyMethodInvocation object
 	 */
 	public MethodInvocationProceedingJoinPoint(ProxyMethodInvocation methodInvocation) {
 		Assert.notNull(methodInvocation, "MethodInvocation must not be null");
 		this.methodInvocation = methodInvocation;
 	}
-
 
 	@Override
 	public void set$AroundClosure(AroundClosure aroundClosure) {
@@ -92,9 +92,8 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint,
 	public Object proceed(Object[] arguments) throws Throwable {
 		Assert.notNull(arguments, "Argument array passed to proceed cannot be null");
 		if (arguments.length != this.methodInvocation.getArguments().length) {
-			throw new IllegalArgumentException("Expecting " +
-					this.methodInvocation.getArguments().length + " arguments to proceed, " +
-					"but was passed " + arguments.length + " arguments");
+			throw new IllegalArgumentException("Expecting " + this.methodInvocation.getArguments().length
+					+ " arguments to proceed, " + "but was passed " + arguments.length + " arguments");
 		}
 		this.methodInvocation.setArguments(arguments);
 		return this.methodInvocation.invocableClone(arguments).proceed();
@@ -171,7 +170,6 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint,
 	public String toString() {
 		return "execution(" + getSignature().toString() + ")";
 	}
-
 
 	/**
 	 * Lazily initialized MethodSignature.
@@ -296,8 +294,8 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint,
 				sb.append(useLongTypeName ? type.getName() : type.getSimpleName());
 			}
 		}
-	}
 
+	}
 
 	/**
 	 * Lazily initialized SourceLocation.
@@ -327,6 +325,7 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint,
 		public int getColumn() {
 			throw new UnsupportedOperationException();
 		}
+
 	}
 
 }

@@ -53,7 +53,8 @@ public class GenericApplicationListenerAdapterTests extends AbstractApplicationE
 
 	@Test
 	public void genericListenerStrictType() {
-		supportsEventType(true, StringEventListener.class, ResolvableType.forClassWithGenerics(GenericTestEvent.class, String.class));
+		supportsEventType(true, StringEventListener.class,
+				ResolvableType.forClassWithGenerics(GenericTestEvent.class, String.class));
 	}
 
 	@Test // Demonstrates we can't inject that event because the generic type is lost
@@ -65,8 +66,7 @@ public class GenericApplicationListenerAdapterTests extends AbstractApplicationE
 
 	@Test // But it works if we specify the type properly
 	public void genericListenerStrictTypeAndResolvableType() {
-		ResolvableType eventType = ResolvableType
-				.forClassWithGenerics(GenericTestEvent.class, String.class);
+		ResolvableType eventType = ResolvableType.forClassWithGenerics(GenericTestEvent.class, String.class);
 		supportsEventType(true, StringEventListener.class, eventType);
 	}
 
@@ -85,7 +85,8 @@ public class GenericApplicationListenerAdapterTests extends AbstractApplicationE
 
 	@Test
 	public void genericListenerStrictTypeNotMatching() {
-		supportsEventType(false, StringEventListener.class, ResolvableType.forClassWithGenerics(GenericTestEvent.class, Long.class));
+		supportsEventType(false, StringEventListener.class,
+				ResolvableType.forClassWithGenerics(GenericTestEvent.class, Long.class));
 	}
 
 	@Test
@@ -104,7 +105,8 @@ public class GenericApplicationListenerAdapterTests extends AbstractApplicationE
 
 	@Test
 	public void genericListenerStrictTypeSubClass() {
-		supportsEventType(false, ObjectEventListener.class, ResolvableType.forClassWithGenerics(GenericTestEvent.class, Long.class));
+		supportsEventType(false, ObjectEventListener.class,
+				ResolvableType.forClassWithGenerics(GenericTestEvent.class, Long.class));
 	}
 
 	@Test
@@ -125,7 +127,7 @@ public class GenericApplicationListenerAdapterTests extends AbstractApplicationE
 				ResolvableType.forClassWithGenerics(GenericTestEvent.class, String.class));
 	}
 
-	@Test  // Demonstrates we cant inject that event because the listener has a wildcard
+	@Test // Demonstrates we cant inject that event because the listener has a wildcard
 	public void genericListenerWildcardTypeTypeErasure() {
 		GenericTestEvent<String> stringEvent = createGenericTestEvent("test");
 		ResolvableType eventType = ResolvableType.forType(stringEvent.getClass());
@@ -138,21 +140,22 @@ public class GenericApplicationListenerAdapterTests extends AbstractApplicationE
 				ResolvableType.forClassWithGenerics(GenericTestEvent.class, String.class));
 	}
 
-	@Test  // Demonstrates we cant inject that event because the listener has a raw type
+	@Test // Demonstrates we cant inject that event because the listener has a raw type
 	public void genericListenerRawTypeTypeErasure() {
 		GenericTestEvent<String> stringEvent = createGenericTestEvent("test");
 		ResolvableType eventType = ResolvableType.forType(stringEvent.getClass());
 		supportsEventType(true, RawApplicationListener.class, eventType);
 	}
 
-
 	@SuppressWarnings("rawtypes")
-	private void supportsEventType(
-			boolean match, Class<? extends ApplicationListener> listenerType, ResolvableType eventType) {
+	private void supportsEventType(boolean match, Class<? extends ApplicationListener> listenerType,
+			ResolvableType eventType) {
 
 		ApplicationListener<?> listener = mock(listenerType);
 		GenericApplicationListenerAdapter adapter = new GenericApplicationListenerAdapter(listener);
-		assertThat(adapter.supportsEventType(eventType)).as("Wrong match for event '" + eventType + "' on " + listenerType.getClass().getName()).isEqualTo(match);
+		assertThat(adapter.supportsEventType(eventType))
+				.as("Wrong match for event '" + eventType + "' on " + listenerType.getClass().getName())
+				.isEqualTo(match);
 	}
 
 }

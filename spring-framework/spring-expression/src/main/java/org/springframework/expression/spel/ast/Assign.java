@@ -21,10 +21,11 @@ import org.springframework.expression.TypedValue;
 import org.springframework.expression.spel.ExpressionState;
 
 /**
- * Represents assignment. An alternative to calling {@code setValue}
- * for an expression which indicates an assign statement.
+ * Represents assignment. An alternative to calling {@code setValue} for an expression
+ * which indicates an assign statement.
  *
- * <p>Example: 'someNumberProperty=42'
+ * <p>
+ * Example: 'someNumberProperty=42'
  *
  * @author Andy Clement
  * @since 3.0
@@ -34,7 +35,6 @@ public class Assign extends SpelNodeImpl {
 	public Assign(int startPos, int endPos, SpelNodeImpl... operands) {
 		super(startPos, endPos, operands);
 	}
-
 
 	@Override
 	public TypedValue getValueInternal(ExpressionState state) throws EvaluationException {

@@ -40,7 +40,6 @@ public class SessionAttributeMethodArgumentResolver extends AbstractNamedValueAr
 		super(factory, registry);
 	}
 
-
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return parameter.hasParameterAnnotation(SessionAttribute.class);
@@ -55,8 +54,7 @@ public class SessionAttributeMethodArgumentResolver extends AbstractNamedValueAr
 
 	@Override
 	protected Mono<Object> resolveName(String name, MethodParameter parameter, ServerWebExchange exchange) {
-		return exchange.getSession()
-				.filter(session -> session.getAttribute(name) != null)
+		return exchange.getSession().filter(session -> session.getAttribute(name) != null)
 				.map(session -> session.getAttribute(name));
 	}
 

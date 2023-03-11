@@ -39,8 +39,8 @@ import org.springframework.util.Assert;
 
 /**
  * A default implementation of {@link SimpUserRegistry} that relies on
- * {@link AbstractSubProtocolEvent} application context events to keep
- * track of connected users and their subscriptions.
+ * {@link AbstractSubProtocolEvent} application context events to keep track of connected
+ * users and their subscriptions.
  *
  * @author Rossen Stoyanchev
  * @since 4.2
@@ -57,10 +57,10 @@ public class DefaultSimpUserRegistry implements SimpUserRegistry, SmartApplicati
 
 	private final Object sessionLock = new Object();
 
-
 	/**
 	 * Specify the order value for this registry.
-	 * <p>Default is {@link Ordered#LOWEST_PRECEDENCE}.
+	 * <p>
+	 * Default is {@link Ordered#LOWEST_PRECEDENCE}.
 	 * @since 5.0.8
 	 */
 	public void setOrder(int order) {
@@ -71,7 +71,6 @@ public class DefaultSimpUserRegistry implements SimpUserRegistry, SmartApplicati
 	public int getOrder() {
 		return this.order;
 	}
-
 
 	// SmartApplicationListener methods
 
@@ -147,7 +146,6 @@ public class DefaultSimpUserRegistry implements SimpUserRegistry, SmartApplicati
 		return true;
 	}
 
-
 	// SimpUserRegistry methods
 
 	@Override
@@ -179,12 +177,10 @@ public class DefaultSimpUserRegistry implements SimpUserRegistry, SmartApplicati
 		return result;
 	}
 
-
 	@Override
 	public String toString() {
 		return "users=" + this.users;
 	}
-
 
 	private static class LocalSimpUser implements SimpUser {
 
@@ -228,8 +224,7 @@ public class DefaultSimpUserRegistry implements SimpUserRegistry, SmartApplicati
 
 		@Override
 		public boolean equals(@Nullable Object other) {
-			return (this == other ||
-					(other instanceof SimpUser && getName().equals(((SimpUser) other).getName())));
+			return (this == other || (other instanceof SimpUser && getName().equals(((SimpUser) other).getName())));
 		}
 
 		@Override
@@ -241,8 +236,8 @@ public class DefaultSimpUserRegistry implements SimpUserRegistry, SmartApplicati
 		public String toString() {
 			return "name=" + getName() + ", sessions=" + this.userSessions;
 		}
-	}
 
+	}
 
 	private static class LocalSimpSession implements SimpSession {
 
@@ -284,8 +279,8 @@ public class DefaultSimpUserRegistry implements SimpUserRegistry, SmartApplicati
 
 		@Override
 		public boolean equals(@Nullable Object other) {
-			return (this == other ||
-					(other instanceof SimpSubscription && getId().equals(((SimpSubscription) other).getId())));
+			return (this == other
+					|| (other instanceof SimpSubscription && getId().equals(((SimpSubscription) other).getId())));
 		}
 
 		@Override
@@ -297,8 +292,8 @@ public class DefaultSimpUserRegistry implements SimpUserRegistry, SmartApplicati
 		public String toString() {
 			return "id=" + getId() + ", subscriptions=" + this.subscriptions;
 		}
-	}
 
+	}
 
 	private static class LocalSimpSubscription implements SimpSubscription {
 
@@ -341,8 +336,8 @@ public class DefaultSimpUserRegistry implements SimpUserRegistry, SmartApplicati
 				return false;
 			}
 			SimpSubscription otherSubscription = (SimpSubscription) other;
-			return (getId().equals(otherSubscription.getId()) &&
-					getSession().getId().equals(otherSubscription.getSession().getId()));
+			return (getId().equals(otherSubscription.getId())
+					&& getSession().getId().equals(otherSubscription.getSession().getId()));
 		}
 
 		@Override
@@ -354,6 +349,7 @@ public class DefaultSimpUserRegistry implements SimpUserRegistry, SmartApplicati
 		public String toString() {
 			return "destination=" + this.destination;
 		}
+
 	}
 
 }

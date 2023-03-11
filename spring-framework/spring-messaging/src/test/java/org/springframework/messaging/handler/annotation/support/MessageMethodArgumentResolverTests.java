@@ -50,16 +50,14 @@ public class MessageMethodArgumentResolverTests {
 
 	private Method method;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
-		this.method = MessageMethodArgumentResolverTests.class.getDeclaredMethod("handle",
-				Message.class, Message.class, Message.class, Message.class, ErrorMessage.class, Message.class);
+		this.method = MessageMethodArgumentResolverTests.class.getDeclaredMethod("handle", Message.class, Message.class,
+				Message.class, Message.class, ErrorMessage.class, Message.class);
 
 		this.converter = mock(MessageConverter.class);
 		this.resolver = new MessageMethodArgumentResolver(this.converter);
 	}
-
 
 	@Test
 	public void resolveWithPayloadTypeAsWildcard() throws Exception {
@@ -109,10 +107,9 @@ public class MessageMethodArgumentResolverTests {
 		MethodParameter parameter = new MethodParameter(this.method, 1);
 
 		assertThat(this.resolver.supportsParameter(parameter)).isTrue();
-		assertThatExceptionOfType(MessageConversionException.class).isThrownBy(() ->
-				this.resolver.resolveArgument(parameter, message))
-			.withMessageContaining(Integer.class.getName())
-			.withMessageContaining(String.class.getName());
+		assertThatExceptionOfType(MessageConversionException.class)
+				.isThrownBy(() -> this.resolver.resolveArgument(parameter, message))
+				.withMessageContaining(Integer.class.getName()).withMessageContaining(String.class.getName());
 	}
 
 	@Test
@@ -121,11 +118,10 @@ public class MessageMethodArgumentResolverTests {
 		MethodParameter parameter = new MethodParameter(this.method, 1);
 
 		assertThat(this.resolver.supportsParameter(parameter)).isTrue();
-		assertThatExceptionOfType(MessageConversionException.class).isThrownBy(() ->
-				this.resolver.resolveArgument(parameter, message))
-			.withMessageContaining("payload is empty")
-			.withMessageContaining(Integer.class.getName())
-			.withMessageContaining(String.class.getName());
+		assertThatExceptionOfType(MessageConversionException.class)
+				.isThrownBy(() -> this.resolver.resolveArgument(parameter, message))
+				.withMessageContaining("payload is empty").withMessageContaining(Integer.class.getName())
+				.withMessageContaining(String.class.getName());
 	}
 
 	@Test
@@ -143,10 +139,9 @@ public class MessageMethodArgumentResolverTests {
 		MethodParameter parameter = new MethodParameter(this.method, 3);
 
 		assertThat(this.resolver.supportsParameter(parameter)).isTrue();
-		assertThatExceptionOfType(MessageConversionException.class).isThrownBy(() ->
-				this.resolver.resolveArgument(parameter, message))
-			.withMessageContaining(Number.class.getName())
-			.withMessageContaining(Locale.class.getName());
+		assertThatExceptionOfType(MessageConversionException.class)
+				.isThrownBy(() -> this.resolver.resolveArgument(parameter, message))
+				.withMessageContaining(Number.class.getName()).withMessageContaining(Locale.class.getName());
 	}
 
 	@Test
@@ -174,10 +169,10 @@ public class MessageMethodArgumentResolverTests {
 		MethodParameter parameter = new MethodParameter(this.method, 4);
 
 		assertThat(this.resolver.supportsParameter(parameter)).isTrue();
-		assertThatExceptionOfType(MethodArgumentTypeMismatchException.class).isThrownBy(() ->
-				this.resolver.resolveArgument(parameter, message))
-			.withMessageContaining(ErrorMessage.class.getName())
-			.withMessageContaining(GenericMessage.class.getName());
+		assertThatExceptionOfType(MethodArgumentTypeMismatchException.class)
+				.isThrownBy(() -> this.resolver.resolveArgument(parameter, message))
+				.withMessageContaining(ErrorMessage.class.getName())
+				.withMessageContaining(GenericMessage.class.getName());
 	}
 
 	@Test
@@ -199,10 +194,9 @@ public class MessageMethodArgumentResolverTests {
 		MethodParameter parameter = new MethodParameter(this.method, 1);
 
 		assertThat(this.resolver.supportsParameter(parameter)).isTrue();
-		assertThatExceptionOfType(MessageConversionException.class).isThrownBy(() ->
-				this.resolver.resolveArgument(parameter, message))
-			.withMessageContaining(Integer.class.getName())
-			.withMessageContaining(String.class.getName());
+		assertThatExceptionOfType(MessageConversionException.class)
+				.isThrownBy(() -> this.resolver.resolveArgument(parameter, message))
+				.withMessageContaining(Integer.class.getName()).withMessageContaining(String.class.getName());
 	}
 
 	@Test
@@ -213,11 +207,10 @@ public class MessageMethodArgumentResolverTests {
 		MethodParameter parameter = new MethodParameter(this.method, 1);
 
 		assertThat(this.resolver.supportsParameter(parameter)).isTrue();
-		assertThatExceptionOfType(MessageConversionException.class).isThrownBy(() ->
-				this.resolver.resolveArgument(parameter, message))
-			.withMessageContaining("payload is empty")
-			.withMessageContaining(Integer.class.getName())
-			.withMessageContaining(String.class.getName());
+		assertThatExceptionOfType(MessageConversionException.class)
+				.isThrownBy(() -> this.resolver.resolveArgument(parameter, message))
+				.withMessageContaining("payload is empty").withMessageContaining(Integer.class.getName())
+				.withMessageContaining(String.class.getName());
 	}
 
 	@Test // SPR-16486
@@ -236,17 +229,10 @@ public class MessageMethodArgumentResolverTests {
 		assertThat(((Foo) outMessage.getPayload()).getFoo()).isEqualTo("bar");
 	}
 
-
 	@SuppressWarnings("unused")
-	private void handle(
-			Message<?> wildcardPayload,
-			Message<Integer> integerPayload,
-			Message<Number> numberPayload,
-			Message<? extends Number> anyNumberPayload,
-			ErrorMessage subClass,
-			Message<Foo> fooPayload) {
+	private void handle(Message<?> wildcardPayload, Message<Integer> integerPayload, Message<Number> numberPayload,
+			Message<? extends Number> anyNumberPayload, ErrorMessage subClass, Message<Foo> fooPayload) {
 	}
-
 
 	static class Foo {
 

@@ -23,9 +23,9 @@ import org.springframework.lang.Nullable;
 /**
  * Abstract class that adapts a {@link ListenableFuture} parameterized over S into a
  * {@code ListenableFuture} parameterized over T. All methods are delegated to the
- * adaptee, where {@link #get()}, {@link #get(long, java.util.concurrent.TimeUnit)},
- * and {@link ListenableFutureCallback#onSuccess(Object)} call {@link #adapt(Object)}
- * on the adaptee's result.
+ * adaptee, where {@link #get()}, {@link #get(long, java.util.concurrent.TimeUnit)}, and
+ * {@link ListenableFutureCallback#onSuccess(Object)} call {@link #adapt(Object)} on the
+ * adaptee's result.
  *
  * @author Arjen Poutsma
  * @since 4.0
@@ -41,7 +41,6 @@ public abstract class ListenableFutureAdapter<T, S> extends FutureAdapter<T, S> 
 	protected ListenableFutureAdapter(ListenableFuture<S> adaptee) {
 		super(adaptee);
 	}
-
 
 	@Override
 	public void addCallback(final ListenableFutureCallback<? super T> callback) {
@@ -71,6 +70,7 @@ public abstract class ListenableFutureAdapter<T, S> extends FutureAdapter<T, S> 
 				}
 				successCallback.onSuccess(adapted);
 			}
+
 			@Override
 			public void onFailure(Throwable ex) {
 				failureCallback.onFailure(ex);

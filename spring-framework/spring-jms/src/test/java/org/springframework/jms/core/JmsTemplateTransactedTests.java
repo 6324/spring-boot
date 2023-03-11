@@ -32,7 +32,6 @@ class JmsTemplateTransactedTests extends JmsTemplateTests {
 
 	private Session localSession;
 
-
 	@Override
 	@BeforeEach
 	void setupMocks() throws Exception {

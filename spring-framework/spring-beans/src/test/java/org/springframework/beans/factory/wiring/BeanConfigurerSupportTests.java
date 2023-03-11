@@ -38,8 +38,8 @@ public class BeanConfigurerSupportTests {
 
 	@Test
 	public void supplyIncompatibleBeanFactoryImplementation() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new StubBeanConfigurerSupport().setBeanFactory(mock(BeanFactory.class)));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> new StubBeanConfigurerSupport().setBeanFactory(mock(BeanFactory.class)));
 	}
 
 	@Test
@@ -65,7 +65,8 @@ public class BeanConfigurerSupportTests {
 	}
 
 	@Test
-	public void configureBeanReallyDoesDefaultToUsingTheFullyQualifiedClassNameOfTheSuppliedBeanInstance() throws Exception {
+	public void configureBeanReallyDoesDefaultToUsingTheFullyQualifiedClassNameOfTheSuppliedBeanInstance()
+			throws Exception {
 		TestBean beanInstance = new TestBean();
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(TestBean.class);
 		builder.addPropertyValue("name", "Harriet Wheeler");
@@ -77,7 +78,8 @@ public class BeanConfigurerSupportTests {
 		configurer.setBeanFactory(factory);
 		configurer.afterPropertiesSet();
 		configurer.configureBean(beanInstance);
-		assertThat(beanInstance.getName()).as("Bean is evidently not being configured (for some reason)").isEqualTo("Harriet Wheeler");
+		assertThat(beanInstance.getName()).as("Bean is evidently not being configured (for some reason)")
+				.isEqualTo("Harriet Wheeler");
 	}
 
 	@Test
@@ -91,13 +93,15 @@ public class BeanConfigurerSupportTests {
 		factory.registerBeanDefinition("spouse", builder.getBeanDefinition());
 
 		BeanWiringInfoResolver resolver = mock(BeanWiringInfoResolver.class);
-		given(resolver.resolveWiringInfo(beanInstance)).willReturn(new BeanWiringInfo(BeanWiringInfo.AUTOWIRE_BY_NAME, false));
+		given(resolver.resolveWiringInfo(beanInstance))
+				.willReturn(new BeanWiringInfo(BeanWiringInfo.AUTOWIRE_BY_NAME, false));
 
 		BeanConfigurerSupport configurer = new StubBeanConfigurerSupport();
 		configurer.setBeanFactory(factory);
 		configurer.setBeanWiringInfoResolver(resolver);
 		configurer.configureBean(beanInstance);
-		assertThat(beanInstance.getSpouse().getName()).as("Bean is evidently not being configured (for some reason)").isEqualTo("David Gavurin");
+		assertThat(beanInstance.getSpouse().getName()).as("Bean is evidently not being configured (for some reason)")
+				.isEqualTo("David Gavurin");
 	}
 
 	@Test
@@ -111,17 +115,19 @@ public class BeanConfigurerSupportTests {
 		factory.registerBeanDefinition("Mmm, I fancy a salad!", builder.getBeanDefinition());
 
 		BeanWiringInfoResolver resolver = mock(BeanWiringInfoResolver.class);
-		given(resolver.resolveWiringInfo(beanInstance)).willReturn(new BeanWiringInfo(BeanWiringInfo.AUTOWIRE_BY_TYPE, false));
+		given(resolver.resolveWiringInfo(beanInstance))
+				.willReturn(new BeanWiringInfo(BeanWiringInfo.AUTOWIRE_BY_TYPE, false));
 
 		BeanConfigurerSupport configurer = new StubBeanConfigurerSupport();
 		configurer.setBeanFactory(factory);
 		configurer.setBeanWiringInfoResolver(resolver);
 		configurer.configureBean(beanInstance);
-		assertThat(beanInstance.getSpouse().getName()).as("Bean is evidently not being configured (for some reason)").isEqualTo("David Gavurin");
+		assertThat(beanInstance.getSpouse().getName()).as("Bean is evidently not being configured (for some reason)")
+				.isEqualTo("David Gavurin");
 	}
 
-
 	private static class StubBeanConfigurerSupport extends BeanConfigurerSupport {
+
 	}
 
 }

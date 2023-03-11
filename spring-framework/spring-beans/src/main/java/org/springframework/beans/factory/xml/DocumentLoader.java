@@ -37,14 +37,13 @@ public interface DocumentLoader {
 	 * @param errorHandler used to report any errors during document loading
 	 * @param validationMode the type of validation
 	 * {@link org.springframework.util.xml.XmlValidationModeDetector#VALIDATION_DTD DTD}
-	 * or {@link org.springframework.util.xml.XmlValidationModeDetector#VALIDATION_XSD XSD})
+	 * or {@link org.springframework.util.xml.XmlValidationModeDetector#VALIDATION_XSD
+	 * XSD})
 	 * @param namespaceAware {@code true} if support for XML namespaces is to be provided
 	 * @return the loaded {@link Document document}
 	 * @throws Exception if an error occurs
 	 */
-	Document loadDocument(
-			InputSource inputSource, EntityResolver entityResolver,
-			ErrorHandler errorHandler, int validationMode, boolean namespaceAware)
-			throws Exception;
+	Document loadDocument(InputSource inputSource, EntityResolver entityResolver, ErrorHandler errorHandler,
+			int validationMode, boolean namespaceAware) throws Exception;
 
 }

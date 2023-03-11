@@ -32,10 +32,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Tests ensuring that after-returning advice for generic parameters bound to
- * the advice and the return type follow AspectJ semantics.
+ * Tests ensuring that after-returning advice for generic parameters bound to the advice
+ * and the return type follow AspectJ semantics.
  *
- * <p>See SPR-3628 for more details.
+ * <p>
+ * See SPR-3628 for more details.
  *
  * @author Ramnivas Laddad
  * @author Chris Beams
@@ -46,18 +47,16 @@ public class AfterReturningGenericTypeMatchingTests {
 
 	private CounterAspect counterAspect;
 
-
 	@BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
+				getClass().getSimpleName() + "-context.xml", getClass());
 
 		counterAspect = (CounterAspect) ctx.getBean("counterAspect");
 		counterAspect.reset();
 
 		testBean = (GenericReturnTypeVariationClass) ctx.getBean("testBean");
 	}
-
 
 	@Test
 	public void testReturnTypeExactMatching() {
@@ -102,7 +101,6 @@ public class AfterReturningGenericTypeMatchingTests {
 
 }
 
-
 class GenericReturnTypeVariationClass {
 
 	public Collection<String> getStrings() {
@@ -120,8 +118,8 @@ class GenericReturnTypeVariationClass {
 	public Collection<Employee> getEmployees() {
 		return new ArrayList<>();
 	}
-}
 
+}
 
 @Aspect
 class CounterAspect {
@@ -172,5 +170,5 @@ class CounterAspect {
 		getNumbersInvocationsCount = 0;
 		getTestBeanInvocationsCount = 0;
 	}
-}
 
+}

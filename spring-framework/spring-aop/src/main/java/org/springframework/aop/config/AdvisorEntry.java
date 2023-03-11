@@ -28,7 +28,6 @@ public class AdvisorEntry implements ParseState.Entry {
 
 	private final String name;
 
-
 	/**
 	 * Create a new {@code AdvisorEntry} instance.
 	 * @param name the bean name of the advisor
@@ -36,7 +35,6 @@ public class AdvisorEntry implements ParseState.Entry {
 	public AdvisorEntry(String name) {
 		this.name = name;
 	}
-
 
 	@Override
 	public String toString() {

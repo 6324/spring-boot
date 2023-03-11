@@ -24,6 +24,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 /**
  * Unit tests for {@link FixedVersionStrategy}.
+ *
  * @author Rossen Stoyanchev
  * @author Brian Clozel
  */
@@ -33,20 +34,16 @@ public class FixedVersionStrategyTests {
 
 	private static final String PATH = "js/foo.js";
 
-
 	private FixedVersionStrategy strategy;
-
 
 	@BeforeEach
 	public void setup() {
 		this.strategy = new FixedVersionStrategy(VERSION);
 	}
 
-
 	@Test
 	public void emptyPrefixVersion() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new FixedVersionStrategy("  "));
+		assertThatIllegalArgumentException().isThrownBy(() -> new FixedVersionStrategy("  "));
 	}
 
 	@Test
@@ -65,7 +62,7 @@ public class FixedVersionStrategyTests {
 		assertThat(this.strategy.addVersion("/" + PATH, VERSION)).isEqualTo((VERSION + "/" + PATH));
 	}
 
-	@Test  // SPR-13727
+	@Test // SPR-13727
 	public void addVersionRelativePath() {
 		String relativePath = "../" + PATH;
 		assertThat(this.strategy.addVersion(relativePath, VERSION)).isEqualTo(relativePath);

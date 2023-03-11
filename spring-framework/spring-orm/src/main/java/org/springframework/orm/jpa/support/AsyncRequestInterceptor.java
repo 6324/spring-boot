@@ -35,9 +35,8 @@ import org.springframework.web.context.request.async.DeferredResultProcessingInt
  * An interceptor with asynchronous web requests used in OpenSessionInViewFilter and
  * OpenSessionInViewInterceptor.
  *
- * Ensures the following:
- * 1) The session is bound/unbound when "callable processing" is started
- * 2) The session is closed if an async request times out or an error occurred
+ * Ensures the following: 1) The session is bound/unbound when "callable processing" is
+ * started 2) The session is closed if an async request times out or an error occurred
  *
  * @author Rossen Stoyanchev
  * @since 3.2.5
@@ -54,12 +53,10 @@ class AsyncRequestInterceptor implements CallableProcessingInterceptor, Deferred
 
 	private volatile boolean errorInProgress;
 
-
 	public AsyncRequestInterceptor(EntityManagerFactory emFactory, EntityManagerHolder emHolder) {
 		this.emFactory = emFactory;
 		this.emHolder = emHolder;
 	}
-
 
 	@Override
 	public <T> void preProcess(NativeWebRequest request, Callable<T> task) {
@@ -80,13 +77,13 @@ class AsyncRequestInterceptor implements CallableProcessingInterceptor, Deferred
 	@Override
 	public <T> Object handleTimeout(NativeWebRequest request, Callable<T> task) {
 		this.timeoutInProgress = true;
-		return RESULT_NONE;  // give other interceptors a chance to handle the timeout
+		return RESULT_NONE; // give other interceptors a chance to handle the timeout
 	}
 
 	@Override
 	public <T> Object handleError(NativeWebRequest request, Callable<T> task, Throwable t) {
 		this.errorInProgress = true;
-		return RESULT_NONE;  // give other interceptors a chance to handle the error
+		return RESULT_NONE; // give other interceptors a chance to handle the error
 	}
 
 	@Override
@@ -101,19 +98,18 @@ class AsyncRequestInterceptor implements CallableProcessingInterceptor, Deferred
 		}
 	}
 
-
 	// Implementation of DeferredResultProcessingInterceptor methods
 
 	@Override
 	public <T> boolean handleTimeout(NativeWebRequest request, DeferredResult<T> deferredResult) {
 		this.timeoutInProgress = true;
-		return true;  // give other interceptors a chance to handle the timeout
+		return true; // give other interceptors a chance to handle the timeout
 	}
 
 	@Override
 	public <T> boolean handleError(NativeWebRequest request, DeferredResult<T> deferredResult, Throwable t) {
 		this.errorInProgress = true;
-		return true;  // give other interceptors a chance to handle the error
+		return true; // give other interceptors a chance to handle the error
 	}
 
 	@Override

@@ -69,14 +69,14 @@ class MethodInvokerTests {
 		mi.prepare();
 		assertThat(mi.invoke()).isEqualTo("hello");
 
-		// Sanity check: check that argument conversion doesn't work with plain MethodInvoker
+		// Sanity check: check that argument conversion doesn't work with plain
+		// MethodInvoker
 		mi = new MethodInvoker();
 		mi.setTargetClass(TestClass1.class);
 		mi.setTargetMethod("supertypes2");
 		mi.setArguments(new ArrayList<>(), new ArrayList<>(), "hello", Boolean.TRUE);
 
-		assertThatExceptionOfType(NoSuchMethodException.class).isThrownBy(
-				mi::prepare);
+		assertThatExceptionOfType(NoSuchMethodException.class).isThrownBy(mi::prepare);
 	}
 
 	@Test
@@ -86,8 +86,7 @@ class MethodInvokerTests {
 		methodInvoker.setTargetMethod("greet");
 		methodInvoker.setArguments("no match");
 
-		assertThatExceptionOfType(NoSuchMethodException.class).isThrownBy(
-				methodInvoker::prepare);
+		assertThatExceptionOfType(NoSuchMethodException.class).isThrownBy(methodInvoker::prepare);
 	}
 
 	@Test
@@ -156,7 +155,6 @@ class MethodInvokerTests {
 		assertThat(greeting).isEqualTo("regular: whassup dude?");
 	}
 
-
 	public static class TestClass1 {
 
 		public static int _staticField1;
@@ -202,8 +200,8 @@ class MethodInvokerTests {
 		public static String supertypes2(Collection<?> c, List<?> l, String s, String s2) {
 			return s;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	public static class Greeter {
@@ -227,18 +225,18 @@ class MethodInvokerTests {
 		private String greet(Regular regular) {
 			return "regular: " + regular.getGreeting();
 		}
-	}
 
+	}
 
 	private interface Greetable {
 
 		String getGreeting();
-	}
 
+	}
 
 	private interface Person extends Greetable {
-	}
 
+	}
 
 	private static class Purchaser implements Greetable {
 
@@ -246,8 +244,8 @@ class MethodInvokerTests {
 		public String getGreeting() {
 			return "hello";
 		}
-	}
 
+	}
 
 	private static class Shopper extends Purchaser implements Person {
 
@@ -255,8 +253,8 @@ class MethodInvokerTests {
 		public String getGreeting() {
 			return "may I help you?";
 		}
-	}
 
+	}
 
 	private static class Salesman implements Person {
 
@@ -264,8 +262,8 @@ class MethodInvokerTests {
 		public String getGreeting() {
 			return "how are sales?";
 		}
-	}
 
+	}
 
 	private static class Customer extends Shopper {
 
@@ -273,8 +271,8 @@ class MethodInvokerTests {
 		public String getGreeting() {
 			return "good day";
 		}
-	}
 
+	}
 
 	private static class Regular extends Customer {
 
@@ -286,10 +284,10 @@ class MethodInvokerTests {
 
 		@Override
 		public String getGreeting() {
-			return "welcome back " + name ;
+			return "welcome back " + name;
 		}
-	}
 
+	}
 
 	private static class VIP extends Regular {
 
@@ -301,6 +299,7 @@ class MethodInvokerTests {
 		public String getGreeting() {
 			return "whassup dude?";
 		}
+
 	}
 
 }

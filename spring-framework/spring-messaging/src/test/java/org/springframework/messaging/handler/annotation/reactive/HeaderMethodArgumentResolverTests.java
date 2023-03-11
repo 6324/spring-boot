@@ -41,6 +41,7 @@ import static org.springframework.messaging.handler.annotation.MessagingPredicat
 
 /**
  * Test fixture for {@link HeaderMethodArgumentResolver} tests.
+ *
  * @author Rossen Stoyanchev
  */
 public class HeaderMethodArgumentResolverTests {
@@ -49,7 +50,6 @@ public class HeaderMethodArgumentResolverTests {
 
 	private final ResolvableMethod resolvable = ResolvableMethod.on(getClass()).named("handleMessage").build();
 
-
 	@BeforeEach
 	@SuppressWarnings("resource")
 	public void setup() {
@@ -57,7 +57,6 @@ public class HeaderMethodArgumentResolverTests {
 		context.refresh();
 		this.resolver = new HeaderMethodArgumentResolver(new DefaultConversionService(), context.getBeanFactory());
 	}
-
 
 	@Test
 	public void supportsParameter() {
@@ -72,7 +71,7 @@ public class HeaderMethodArgumentResolverTests {
 		assertThat(result).isEqualTo("foo");
 	}
 
-	@Test  // SPR-11326
+	@Test // SPR-11326
 	public void resolveArgumentNativeHeader() {
 		TestMessageHeaderAccessor headers = new TestMessageHeaderAccessor();
 		headers.setNativeHeader("param1", "foo");
@@ -87,18 +86,17 @@ public class HeaderMethodArgumentResolverTests {
 		headers.setNativeHeader("param1", "native-foo");
 		Message<byte[]> message = MessageBuilder.withPayload(new byte[0]).setHeaders(headers).build();
 
-		assertThat(this.<Object>resolveArgument(
-				this.resolvable.annot(headerPlain()).arg(), message)).isEqualTo("foo");
+		assertThat(this.<Object>resolveArgument(this.resolvable.annot(headerPlain()).arg(), message)).isEqualTo("foo");
 
-		assertThat(this.<Object>resolveArgument(
-				this.resolvable.annot(header("nativeHeaders.param1")).arg(), message)).isEqualTo("native-foo");
+		assertThat(this.<Object>resolveArgument(this.resolvable.annot(header("nativeHeaders.param1")).arg(), message))
+				.isEqualTo("native-foo");
 	}
 
 	@Test
 	public void resolveArgumentNotFound() {
 		Message<byte[]> message = MessageBuilder.withPayload(new byte[0]).build();
-		assertThatExceptionOfType(MessageHandlingException.class).isThrownBy(() ->
-				resolveArgument(this.resolvable.annot(headerPlain()).arg(), message));
+		assertThatExceptionOfType(MessageHandlingException.class)
+				.isThrownBy(() -> resolveArgument(this.resolvable.annot(headerPlain()).arg(), message));
 	}
 
 	@Test
@@ -152,29 +150,24 @@ public class HeaderMethodArgumentResolverTests {
 		assertThat(result).isEqualTo(Optional.empty());
 	}
 
-	@SuppressWarnings({"unchecked", "ConstantConditions"})
+	@SuppressWarnings({ "unchecked", "ConstantConditions" })
 	private <T> T resolveArgument(MethodParameter param, Message<?> message) {
 		return (T) this.resolver.resolveArgument(param, message).block(Duration.ofSeconds(5));
 	}
 
-
-	@SuppressWarnings({"unused", "OptionalUsedAsFieldOrParameterType"})
-	public void handleMessage(
-			@Header String param1,
-			@Header(name = "name", defaultValue = "bar") String param2,
+	@SuppressWarnings({ "unused", "OptionalUsedAsFieldOrParameterType" })
+	public void handleMessage(@Header String param1, @Header(name = "name", defaultValue = "bar") String param2,
 			@Header(name = "name", defaultValue = "#{systemProperties.systemProperty}") String param3,
-			@Header(name = "#{systemProperties.systemProperty}") String param4,
-			String param5,
-			@Header("foo") Optional<String> param6,
-			@Header("nativeHeaders.param1") String nativeHeaderParam1) {
+			@Header(name = "#{systemProperties.systemProperty}") String param4, String param5,
+			@Header("foo") Optional<String> param6, @Header("nativeHeaders.param1") String nativeHeaderParam1) {
 	}
-
 
 	public static class TestMessageHeaderAccessor extends NativeMessageHeaderAccessor {
 
 		TestMessageHeaderAccessor() {
 			super((Map<String, List<String>>) null);
 		}
+
 	}
 
 }

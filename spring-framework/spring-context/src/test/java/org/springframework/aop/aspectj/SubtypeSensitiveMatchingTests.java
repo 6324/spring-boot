@@ -38,16 +38,14 @@ public class SubtypeSensitiveMatchingTests {
 
 	private Bar bar;
 
-
 	@BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml",
+				getClass());
 		nonSerializableBean = (NonSerializableFoo) ctx.getBean("testClassA");
 		serializableBean = (SerializableFoo) ctx.getBean("testClassB");
 		bar = (Bar) ctx.getBean("testClassC");
 	}
-
 
 	@Test
 	public void testBeansAreProxiedOnStaticMatch() {
@@ -69,38 +67,47 @@ public class SubtypeSensitiveMatchingTests {
 
 }
 
+// strange looking interfaces are just to set up certain test conditions...
 
-//strange looking interfaces are just to set up certain test conditions...
+interface NonSerializableFoo {
 
-interface NonSerializableFoo { void foo(); }
+	void foo();
 
+}
 
-interface SerializableFoo extends Serializable { void foo(); }
+interface SerializableFoo extends Serializable {
 
+	void foo();
+
+}
 
 class SubtypeMatchingTestClassA implements NonSerializableFoo {
 
 	@Override
-	public void foo() {}
+	public void foo() {
+	}
 
 }
-
 
 @SuppressWarnings("serial")
 class SubtypeMatchingTestClassB implements SerializableFoo {
 
 	@Override
-	public void foo() {}
+	public void foo() {
+	}
 
 }
 
+interface Bar {
 
-interface Bar { void bar(Object o); }
+	void bar(Object o);
 
+}
 
 class SubtypeMatchingTestClassC implements Bar {
 
 	@Override
-	public void bar(Object o) {}
+	public void bar(Object o) {
+	}
 
 }

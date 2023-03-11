@@ -20,8 +20,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 /**
- * Region of a {@link Resource} implementation, materialized by a {@code position}
- * within the {@link Resource} and a byte {@code count} for the length of that region.
+ * Region of a {@link Resource} implementation, materialized by a {@code position} within
+ * the {@link Resource} and a byte {@code count} for the length of that region.
  *
  * @author Arjen Poutsma
  * @since 4.3
@@ -34,11 +34,10 @@ public class ResourceRegion {
 
 	private final long count;
 
-
 	/**
-	 * Create a new {@code ResourceRegion} from a given {@link Resource}.
-	 * This region of a resource is represented by a start {@code position}
-	 * and a byte {@code count} within the given {@code Resource}.
+	 * Create a new {@code ResourceRegion} from a given {@link Resource}. This region of a
+	 * resource is represented by a start {@code position} and a byte {@code count} within
+	 * the given {@code Resource}.
 	 * @param resource a Resource
 	 * @param position the start position of the region in that resource
 	 * @param count the byte count of the region in that resource
@@ -51,7 +50,6 @@ public class ResourceRegion {
 		this.position = position;
 		this.count = count;
 	}
-
 
 	/**
 	 * Return the underlying {@link Resource} for this {@code ResourceRegion}.

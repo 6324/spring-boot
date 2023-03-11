@@ -63,19 +63,17 @@ public class StompBrokerRelayRegistration extends AbstractBrokerRegistration {
 	@Nullable
 	private String userRegistryBroadcast;
 
-
 	/**
 	 * Create a new {@code StompBrokerRelayRegistration}.
 	 * @param clientInboundChannel the inbound channel
 	 * @param clientOutboundChannel the outbound channel
 	 * @param destinationPrefixes the destination prefixes
 	 */
-	public StompBrokerRelayRegistration(SubscribableChannel clientInboundChannel,
-			MessageChannel clientOutboundChannel, String[] destinationPrefixes) {
+	public StompBrokerRelayRegistration(SubscribableChannel clientInboundChannel, MessageChannel clientOutboundChannel,
+			String[] destinationPrefixes) {
 
 		super(clientInboundChannel, clientOutboundChannel, destinationPrefixes);
 	}
-
 
 	/**
 	 * Set the STOMP message broker host.
@@ -95,9 +93,10 @@ public class StompBrokerRelayRegistration extends AbstractBrokerRegistration {
 	}
 
 	/**
-	 * Set the login to use when creating connections to the STOMP broker on
-	 * behalf of connected clients.
-	 * <p>By default this is set to "guest".
+	 * Set the login to use when creating connections to the STOMP broker on behalf of
+	 * connected clients.
+	 * <p>
+	 * By default this is set to "guest".
 	 */
 	public StompBrokerRelayRegistration setClientLogin(String login) {
 		Assert.hasText(login, "clientLogin must not be empty");
@@ -106,9 +105,10 @@ public class StompBrokerRelayRegistration extends AbstractBrokerRegistration {
 	}
 
 	/**
-	 * Set the passcode to use when creating connections to the STOMP broker on
-	 * behalf of connected clients.
-	 * <p>By default this is set to "guest".
+	 * Set the passcode to use when creating connections to the STOMP broker on behalf of
+	 * connected clients.
+	 * <p>
+	 * By default this is set to "guest".
 	 */
 	public StompBrokerRelayRegistration setClientPasscode(String passcode) {
 		Assert.hasText(passcode, "clientPasscode must not be empty");
@@ -117,10 +117,11 @@ public class StompBrokerRelayRegistration extends AbstractBrokerRegistration {
 	}
 
 	/**
-	 * Set the login for the shared "system" connection used to send messages to
-	 * the STOMP broker from within the application, i.e. messages not associated
-	 * with a specific client session (e.g. REST/HTTP request handling method).
-	 * <p>By default this is set to "guest".
+	 * Set the login for the shared "system" connection used to send messages to the STOMP
+	 * broker from within the application, i.e. messages not associated with a specific
+	 * client session (e.g. REST/HTTP request handling method).
+	 * <p>
+	 * By default this is set to "guest".
 	 */
 	public StompBrokerRelayRegistration setSystemLogin(String login) {
 		Assert.hasText(login, "systemLogin must not be empty");
@@ -129,10 +130,11 @@ public class StompBrokerRelayRegistration extends AbstractBrokerRegistration {
 	}
 
 	/**
-	 * Set the passcode for the shared "system" connection used to send messages to
-	 * the STOMP broker from within the application, i.e. messages not associated
-	 * with a specific client session (e.g. REST/HTTP request handling method).
-	 * <p>By default this is set to "guest".
+	 * Set the passcode for the shared "system" connection used to send messages to the
+	 * STOMP broker from within the application, i.e. messages not associated with a
+	 * specific client session (e.g. REST/HTTP request handling method).
+	 * <p>
+	 * By default this is set to "guest".
 	 */
 	public StompBrokerRelayRegistration setSystemPasscode(String passcode) {
 		Assert.hasText(passcode, "systemPasscode must not be empty");
@@ -141,10 +143,11 @@ public class StompBrokerRelayRegistration extends AbstractBrokerRegistration {
 	}
 
 	/**
-	 * Set the interval, in milliseconds, at which the "system" relay session will,
-	 * in the absence of any other data being sent, send a heartbeat to the STOMP broker.
-	 * A value of zero will prevent heartbeats from being sent to the broker.
-	 * <p>The default value is 10000.
+	 * Set the interval, in milliseconds, at which the "system" relay session will, in the
+	 * absence of any other data being sent, send a heartbeat to the STOMP broker. A value
+	 * of zero will prevent heartbeats from being sent to the broker.
+	 * <p>
+	 * The default value is 10000.
 	 */
 	public StompBrokerRelayRegistration setSystemHeartbeatSendInterval(long systemHeartbeatSendInterval) {
 		this.systemHeartbeatSendInterval = systemHeartbeatSendInterval;
@@ -156,7 +159,8 @@ public class StompBrokerRelayRegistration extends AbstractBrokerRegistration {
 	 * expects, in the absence of any other data, to receive a heartbeat from the STOMP
 	 * broker. A value of zero will configure the relay session to expect not to receive
 	 * heartbeats from the broker.
-	 * <p>The default value is 10000.
+	 * <p>
+	 * The default value is 10000.
 	 */
 	public StompBrokerRelayRegistration setSystemHeartbeatReceiveInterval(long heartbeatReceiveInterval) {
 		this.systemHeartbeatReceiveInterval = heartbeatReceiveInterval;
@@ -169,7 +173,8 @@ public class StompBrokerRelayRegistration extends AbstractBrokerRegistration {
 	 * the STOMP broker. This may be useful for example in a cloud environment where the
 	 * actual host to which the TCP connection is established is different from the host
 	 * providing the cloud-based STOMP service.
-	 * <p>By default this property is not set.
+	 * <p>
+	 * By default this property is not set.
 	 */
 	public StompBrokerRelayRegistration setVirtualHost(String virtualHost) {
 		this.virtualHost = virtualHost;
@@ -178,10 +183,11 @@ public class StompBrokerRelayRegistration extends AbstractBrokerRegistration {
 
 	/**
 	 * Configure a TCP client for managing TCP connections to the STOMP broker.
-	 * <p>By default {@code ReactorNettyTcpClient} is used.
-	 * <p><strong>Note:</strong> when this property is used, any
-	 * {@link #setRelayHost(String) host} or {@link #setRelayPort(int) port}
-	 * specified are effectively ignored.
+	 * <p>
+	 * By default {@code ReactorNettyTcpClient} is used.
+	 * <p>
+	 * <strong>Note:</strong> when this property is used, any {@link #setRelayHost(String)
+	 * host} or {@link #setRelayPort(int) port} specified are effectively ignored.
 	 * @since 4.3.15
 	 */
 	public void setTcpClient(TcpOperations<byte[]> tcpClient) {
@@ -191,7 +197,8 @@ public class StompBrokerRelayRegistration extends AbstractBrokerRegistration {
 	/**
 	 * Configure whether the {@link StompBrokerRelayMessageHandler} should start
 	 * automatically when the Spring ApplicationContext is refreshed.
-	 * <p>The default setting is {@code true}.
+	 * <p>
+	 * The default setting is {@code true}.
 	 */
 	public StompBrokerRelayRegistration setAutoStartup(boolean autoStartup) {
 		this.autoStartup = autoStartup;
@@ -199,13 +206,13 @@ public class StompBrokerRelayRegistration extends AbstractBrokerRegistration {
 	}
 
 	/**
-	 * Set a destination to broadcast messages to user destinations that remain
-	 * unresolved because the user appears not to be connected. In a
-	 * multi-application server scenario this gives other application servers
-	 * a chance to try.
-	 * <p>By default this is not set.
-	 * @param destination the destination to broadcast unresolved messages to,
-	 * e.g. "/topic/unresolved-user-destination"
+	 * Set a destination to broadcast messages to user destinations that remain unresolved
+	 * because the user appears not to be connected. In a multi-application server
+	 * scenario this gives other application servers a chance to try.
+	 * <p>
+	 * By default this is not set.
+	 * @param destination the destination to broadcast unresolved messages to, e.g.
+	 * "/topic/unresolved-user-destination"
 	 */
 	public StompBrokerRelayRegistration setUserDestinationBroadcast(String destination) {
 		this.userDestinationBroadcast = destination;
@@ -218,13 +225,14 @@ public class StompBrokerRelayRegistration extends AbstractBrokerRegistration {
 	}
 
 	/**
-	 * Set a destination to broadcast the content of the local user registry to
-	 * and to listen for such broadcasts from other servers. In a multi-application
-	 * server scenarios this allows each server's user registry to be aware of
-	 * users connected to other servers.
-	 * <p>By default this is not set.
-	 * @param destination the destination for broadcasting user registry details,
-	 * e.g. "/topic/simp-user-registry".
+	 * Set a destination to broadcast the content of the local user registry to and to
+	 * listen for such broadcasts from other servers. In a multi-application server
+	 * scenarios this allows each server's user registry to be aware of users connected to
+	 * other servers.
+	 * <p>
+	 * By default this is not set.
+	 * @param destination the destination for broadcasting user registry details, e.g.
+	 * "/topic/simp-user-registry".
 	 */
 	public StompBrokerRelayRegistration setUserRegistryBroadcast(String destination) {
 		this.userRegistryBroadcast = destination;
@@ -236,12 +244,10 @@ public class StompBrokerRelayRegistration extends AbstractBrokerRegistration {
 		return this.userRegistryBroadcast;
 	}
 
-
 	@Override
 	protected StompBrokerRelayMessageHandler getMessageHandler(SubscribableChannel brokerChannel) {
-		StompBrokerRelayMessageHandler handler = new StompBrokerRelayMessageHandler(
-				getClientInboundChannel(), getClientOutboundChannel(),
-				brokerChannel, getDestinationPrefixes());
+		StompBrokerRelayMessageHandler handler = new StompBrokerRelayMessageHandler(getClientInboundChannel(),
+				getClientOutboundChannel(), brokerChannel, getDestinationPrefixes());
 
 		handler.setRelayHost(this.relayHost);
 		handler.setRelayPort(this.relayPort);

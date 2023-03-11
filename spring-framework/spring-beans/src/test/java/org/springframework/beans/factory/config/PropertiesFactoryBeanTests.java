@@ -35,7 +35,9 @@ import static org.springframework.core.testfixture.io.ResourceTestUtils.qualifie
 public class PropertiesFactoryBeanTests {
 
 	private static final Class<?> CLASS = PropertiesFactoryBeanTests.class;
+
 	private static final Resource TEST_PROPS = qualifiedResource(CLASS, "test.properties");
+
 	private static final Resource TEST_PROPS_XML = qualifiedResource(CLASS, "test.properties.xml");
 
 	@Test
@@ -98,7 +100,7 @@ public class PropertiesFactoryBeanTests {
 		props3.setProperty("spider", "man");
 		props3.setProperty("bat", "man");
 
-		pfb.setPropertiesArray(new Properties[] {props1, props2, props3});
+		pfb.setPropertiesArray(new Properties[] { props1, props2, props3 });
 		pfb.afterPropertiesSet();
 
 		Properties props = pfb.getObject();

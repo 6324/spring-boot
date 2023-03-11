@@ -27,11 +27,12 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * ClassFileTransformer-based weaver, allowing for a list of transformers to be
- * applied on a class byte array. Normally used inside class loaders.
+ * ClassFileTransformer-based weaver, allowing for a list of transformers to be applied on
+ * a class byte array. Normally used inside class loaders.
  *
- * <p>Note: This class is deliberately implemented for minimal external dependencies,
- * since it is included in weaver jars (to be deployed into application servers).
+ * <p>
+ * Note: This class is deliberately implemented for minimal external dependencies, since
+ * it is included in weaver jars (to be deployed into application servers).
  *
  * @author Rod Johnson
  * @author Costin Leau
@@ -45,7 +46,6 @@ public class WeavingTransformer {
 
 	private final List<ClassFileTransformer> transformers = new ArrayList<>();
 
-
 	/**
 	 * Create a new WeavingTransformer for the given class loader.
 	 * @param classLoader the ClassLoader to build a transformer for
@@ -53,7 +53,6 @@ public class WeavingTransformer {
 	public WeavingTransformer(@Nullable ClassLoader classLoader) {
 		this.classLoader = classLoader;
 	}
-
 
 	/**
 	 * Add a class file transformer to be applied by this weaver.
@@ -64,12 +63,12 @@ public class WeavingTransformer {
 		this.transformers.add(transformer);
 	}
 
-
 	/**
-	 * Apply transformation on a given class byte definition.
-	 * The method will always return a non-null byte array (if no transformation has taken place
-	 * the array content will be identical to the original one).
-	 * @param className the full qualified name of the class in dot format (i.e. some.package.SomeClass)
+	 * Apply transformation on a given class byte definition. The method will always
+	 * return a non-null byte array (if no transformation has taken place the array
+	 * content will be identical to the original one).
+	 * @param className the full qualified name of the class in dot format (i.e.
+	 * some.package.SomeClass)
 	 * @param bytes class byte definition
 	 * @return (possibly transformed) class byte definition
 	 */
@@ -79,16 +78,19 @@ public class WeavingTransformer {
 	}
 
 	/**
-	 * Apply transformation on a given class byte definition.
-	 * The method will always return a non-null byte array (if no transformation has taken place
-	 * the array content will be identical to the original one).
-	 * @param className the full qualified name of the class in dot format (i.e. some.package.SomeClass)
-	 * @param internalName class name internal name in / format (i.e. some/package/SomeClass)
+	 * Apply transformation on a given class byte definition. The method will always
+	 * return a non-null byte array (if no transformation has taken place the array
+	 * content will be identical to the original one).
+	 * @param className the full qualified name of the class in dot format (i.e.
+	 * some.package.SomeClass)
+	 * @param internalName class name internal name in / format (i.e.
+	 * some/package/SomeClass)
 	 * @param bytes class byte definition
 	 * @param pd protection domain to be used (can be null)
 	 * @return (possibly transformed) class byte definition
 	 */
-	public byte[] transformIfNecessary(String className, String internalName, byte[] bytes, @Nullable ProtectionDomain pd) {
+	public byte[] transformIfNecessary(String className, String internalName, byte[] bytes,
+			@Nullable ProtectionDomain pd) {
 		byte[] result = bytes;
 		for (ClassFileTransformer cft : this.transformers) {
 			try {

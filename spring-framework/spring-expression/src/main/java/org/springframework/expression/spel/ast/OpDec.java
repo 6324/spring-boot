@@ -28,7 +28,7 @@ import org.springframework.expression.spel.SpelMessage;
 import org.springframework.util.Assert;
 
 /**
- * Decrement operator.  Can be used in a prefix or postfix form. This will throw
+ * Decrement operator. Can be used in a prefix or postfix form. This will throw
  * appropriate exceptions if the operand in question does not support decrement.
  *
  * @author Andy Clement
@@ -38,8 +38,7 @@ import org.springframework.util.Assert;
  */
 public class OpDec extends Operator {
 
-	private final boolean postfix;  // false means prefix
-
+	private final boolean postfix; // false means prefix
 
 	public OpDec(int startPos, int endPos, boolean postfix, SpelNodeImpl... operands) {
 		super("--", startPos, endPos, operands);
@@ -47,15 +46,15 @@ public class OpDec extends Operator {
 		Assert.notEmpty(operands, "Operands must not be empty");
 	}
 
-
 	@Override
 	public TypedValue getValueInternal(ExpressionState state) throws EvaluationException {
 		SpelNodeImpl operand = getLeftOperand();
 
-		// The operand is going to be read and then assigned to, we don't want to evaluate it twice.
+		// The operand is going to be read and then assigned to, we don't want to evaluate
+		// it twice.
 		ValueRef lvalue = operand.getValueRef(state);
 
-		TypedValue operandTypedValue = lvalue.getValue();  //operand.getValueInternal(state);
+		TypedValue operandTypedValue = lvalue.getValue(); // operand.getValueInternal(state);
 		Object operandValue = operandTypedValue.getValue();
 		TypedValue returnValue = operandTypedValue;
 		TypedValue newValue = null;
@@ -63,7 +62,8 @@ public class OpDec extends Operator {
 		if (operandValue instanceof Number) {
 			Number op1 = (Number) operandValue;
 			if (op1 instanceof BigDecimal) {
-				newValue = new TypedValue(((BigDecimal) op1).subtract(BigDecimal.ONE), operandTypedValue.getTypeDescriptor());
+				newValue = new TypedValue(((BigDecimal) op1).subtract(BigDecimal.ONE),
+						operandTypedValue.getTypeDescriptor());
 			}
 			else if (op1 instanceof Double) {
 				newValue = new TypedValue(op1.doubleValue() - 1.0d, operandTypedValue.getTypeDescriptor());
@@ -72,7 +72,8 @@ public class OpDec extends Operator {
 				newValue = new TypedValue(op1.floatValue() - 1.0f, operandTypedValue.getTypeDescriptor());
 			}
 			else if (op1 instanceof BigInteger) {
-				newValue = new TypedValue(((BigInteger) op1).subtract(BigInteger.ONE), operandTypedValue.getTypeDescriptor());
+				newValue = new TypedValue(((BigInteger) op1).subtract(BigInteger.ONE),
+						operandTypedValue.getTypeDescriptor());
 			}
 			else if (op1 instanceof Long) {
 				newValue = new TypedValue(op1.longValue() - 1L, operandTypedValue.getTypeDescriptor());
@@ -99,8 +100,8 @@ public class OpDec extends Operator {
 			catch (SpelEvaluationException ex) {
 				if (ex.getMessageCode() == SpelMessage.OPERATOR_NOT_SUPPORTED_BETWEEN_TYPES) {
 					// This means the operand is not decrementable
-					throw new SpelEvaluationException(operand.getStartPosition(),
-							SpelMessage.OPERAND_NOT_DECREMENTABLE, operand.toStringAST());
+					throw new SpelEvaluationException(operand.getStartPosition(), SpelMessage.OPERAND_NOT_DECREMENTABLE,
+							operand.toStringAST());
 				}
 				else {
 					throw ex;
@@ -115,8 +116,7 @@ public class OpDec extends Operator {
 		catch (SpelEvaluationException see) {
 			// if unable to set the value the operand is not writable (e.g. 1-- )
 			if (see.getMessageCode() == SpelMessage.SETVALUE_NOT_SUPPORTED) {
-				throw new SpelEvaluationException(operand.getStartPosition(),
-						SpelMessage.OPERAND_NOT_DECREMENTABLE);
+				throw new SpelEvaluationException(operand.getStartPosition(), SpelMessage.OPERAND_NOT_DECREMENTABLE);
 			}
 			else {
 				throw see;

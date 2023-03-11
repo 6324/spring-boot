@@ -21,8 +21,8 @@ import org.hibernate.QueryException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
 
 /**
- * Hibernate-specific subclass of InvalidDataAccessResourceUsageException,
- * thrown on invalid HQL query syntax.
+ * Hibernate-specific subclass of InvalidDataAccessResourceUsageException, thrown on
+ * invalid HQL query syntax.
  *
  * @author Juergen Hoeller
  * @since 4.2

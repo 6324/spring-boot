@@ -25,9 +25,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 
 /**
- * Copy of the shared {@code AbstractCacheAnnotationTests}: necessary
- * due to issues with Gradle test fixtures and AspectJ configuration
- * in the Gradle build.
+ * Copy of the shared {@code AbstractCacheAnnotationTests}: necessary due to issues with
+ * Gradle test fixtures and AspectJ configuration in the Gradle build.
  *
  * @author Costin Leau
  * @author Phillip Webb
@@ -39,7 +38,6 @@ public class AnnotatedClassCacheableService implements CacheableService<Object> 
 	private final AtomicLong counter = new AtomicLong();
 
 	public static final AtomicLong nullInvocations = new AtomicLong();
-
 
 	@Override
 	public Object cache(Object arg1) {
@@ -126,7 +124,8 @@ public class AnnotatedClassCacheableService implements CacheableService<Object> 
 	}
 
 	@Override
-	@Cacheable(cacheNames = "testCache", key = "#root.methodName + #root.method.name + #root.targetClass + #root.target")
+	@Cacheable(cacheNames = "testCache",
+			key = "#root.methodName + #root.method.name + #root.targetClass + #root.target")
 	public Object rootVars(Object arg1) {
 		return this.counter.getAndIncrement();
 	}
@@ -209,19 +208,22 @@ public class AnnotatedClassCacheableService implements CacheableService<Object> 
 	}
 
 	@Override
-	@Caching(evict = { @CacheEvict("primary"), @CacheEvict(cacheNames = "secondary", key = "#a0"),  @CacheEvict(cacheNames = "primary", key = "#p0 + 'A'") })
+	@Caching(evict = { @CacheEvict("primary"), @CacheEvict(cacheNames = "secondary", key = "#a0"),
+			@CacheEvict(cacheNames = "primary", key = "#p0 + 'A'") })
 	public Object multiEvict(Object arg1) {
 		return this.counter.getAndIncrement();
 	}
 
 	@Override
-	@Caching(cacheable = { @Cacheable(cacheNames = "primary", key = "#root.methodName") }, evict = { @CacheEvict("secondary") })
+	@Caching(cacheable = { @Cacheable(cacheNames = "primary", key = "#root.methodName") },
+			evict = { @CacheEvict("secondary") })
 	public Object multiCacheAndEvict(Object arg1) {
 		return this.counter.getAndIncrement();
 	}
 
 	@Override
-	@Caching(cacheable = { @Cacheable(cacheNames = "primary", condition = "#a0 == 3") }, evict = { @CacheEvict("secondary") })
+	@Caching(cacheable = { @Cacheable(cacheNames = "primary", condition = "#a0 == 3") },
+			evict = { @CacheEvict("secondary") })
 	public Object multiConditionalCacheAndEvict(Object arg1) {
 		return this.counter.getAndIncrement();
 	}

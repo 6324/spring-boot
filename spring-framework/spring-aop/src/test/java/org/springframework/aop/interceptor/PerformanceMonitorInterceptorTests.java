@@ -70,8 +70,7 @@ public class PerformanceMonitorInterceptorTests {
 		Log log = mock(Log.class);
 
 		PerformanceMonitorInterceptor interceptor = new PerformanceMonitorInterceptor(true);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				interceptor.invokeUnderTrace(mi, log));
+		assertThatIllegalArgumentException().isThrownBy(() -> interceptor.invokeUnderTrace(mi, log));
 
 		verify(log).trace(anyString());
 	}

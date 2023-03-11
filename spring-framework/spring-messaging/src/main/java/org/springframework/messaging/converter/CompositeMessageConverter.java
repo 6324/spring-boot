@@ -26,11 +26,12 @@ import org.springframework.messaging.MessageHeaders;
 import org.springframework.util.Assert;
 
 /**
- * A {@link MessageConverter} that delegates to a list of registered converters
- * to be invoked until one of them returns a non-null result.
+ * A {@link MessageConverter} that delegates to a list of registered converters to be
+ * invoked until one of them returns a non-null result.
  *
- * <p>As of 4.2.1, this composite converter implements {@link SmartMessageConverter}
- * in order to support the delegation of conversion hints.
+ * <p>
+ * As of 4.2.1, this composite converter implements {@link SmartMessageConverter} in order
+ * to support the delegation of conversion hints.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -40,7 +41,6 @@ public class CompositeMessageConverter implements SmartMessageConverter {
 
 	private final List<MessageConverter> converters;
 
-
 	/**
 	 * Create an instance with the given converters.
 	 */
@@ -48,7 +48,6 @@ public class CompositeMessageConverter implements SmartMessageConverter {
 		Assert.notEmpty(converters, "Converters must not be empty");
 		this.converters = new ArrayList<>(converters);
 	}
-
 
 	@Override
 	@Nullable
@@ -66,9 +65,9 @@ public class CompositeMessageConverter implements SmartMessageConverter {
 	@Nullable
 	public Object fromMessage(Message<?> message, Class<?> targetClass, @Nullable Object conversionHint) {
 		for (MessageConverter converter : getConverters()) {
-			Object result = (converter instanceof SmartMessageConverter ?
-					((SmartMessageConverter) converter).fromMessage(message, targetClass, conversionHint) :
-					converter.fromMessage(message, targetClass));
+			Object result = (converter instanceof SmartMessageConverter
+					? ((SmartMessageConverter) converter).fromMessage(message, targetClass, conversionHint)
+					: converter.fromMessage(message, targetClass));
 			if (result != null) {
 				return result;
 			}
@@ -92,16 +91,15 @@ public class CompositeMessageConverter implements SmartMessageConverter {
 	@Nullable
 	public Message<?> toMessage(Object payload, @Nullable MessageHeaders headers, @Nullable Object conversionHint) {
 		for (MessageConverter converter : getConverters()) {
-			Message<?> result = (converter instanceof SmartMessageConverter ?
-					((SmartMessageConverter) converter).toMessage(payload, headers, conversionHint) :
-					converter.toMessage(payload, headers));
+			Message<?> result = (converter instanceof SmartMessageConverter
+					? ((SmartMessageConverter) converter).toMessage(payload, headers, conversionHint)
+					: converter.toMessage(payload, headers));
 			if (result != null) {
 				return result;
 			}
 		}
 		return null;
 	}
-
 
 	/**
 	 * Return the underlying list of delegate converters.

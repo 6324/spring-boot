@@ -43,18 +43,20 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.util.Assert;
 
 /**
- * Production implementation of the {@link JavaMailSender} interface,
- * supporting both JavaMail {@link MimeMessage MimeMessages} and Spring
- * {@link SimpleMailMessage SimpleMailMessages}. Can also be used as a
- * plain {@link org.springframework.mail.MailSender} implementation.
+ * Production implementation of the {@link JavaMailSender} interface, supporting both
+ * JavaMail {@link MimeMessage MimeMessages} and Spring {@link SimpleMailMessage
+ * SimpleMailMessages}. Can also be used as a plain
+ * {@link org.springframework.mail.MailSender} implementation.
  *
- * <p>Allows for defining all settings locally as bean properties.
- * Alternatively, a pre-configured JavaMail {@link javax.mail.Session} can be
- * specified, possibly pulled from an application server's JNDI environment.
+ * <p>
+ * Allows for defining all settings locally as bean properties. Alternatively, a
+ * pre-configured JavaMail {@link javax.mail.Session} can be specified, possibly pulled
+ * from an application server's JNDI environment.
  *
- * <p>Non-default properties in this object will always override the settings
- * in the JavaMail {@code Session}. Note that if overriding all values locally,
- * there is no added value in setting a pre-configured {@code Session}.
+ * <p>
+ * Non-default properties in this object will always override the settings in the JavaMail
+ * {@code Session}. Note that if overriding all values locally, there is no added value in
+ * setting a pre-configured {@code Session}.
  *
  * @author Dmitriy Kopylenko
  * @author Juergen Hoeller
@@ -77,7 +79,6 @@ public class JavaMailSenderImpl implements JavaMailSender {
 	public static final int DEFAULT_PORT = -1;
 
 	private static final String HEADER_MESSAGE_ID = "Message-ID";
-
 
 	private Properties javaMailProperties = new Properties();
 
@@ -104,11 +105,11 @@ public class JavaMailSenderImpl implements JavaMailSender {
 	@Nullable
 	private FileTypeMap defaultFileTypeMap;
 
-
 	/**
 	 * Create a new instance of the {@code JavaMailSenderImpl} class.
-	 * <p>Initializes the {@link #setDefaultFileTypeMap "defaultFileTypeMap"}
-	 * property with a default {@link ConfigurableMimeFileTypeMap}.
+	 * <p>
+	 * Initializes the {@link #setDefaultFileTypeMap "defaultFileTypeMap"} property with a
+	 * default {@link ConfigurableMimeFileTypeMap}.
 	 */
 	public JavaMailSenderImpl() {
 		ConfigurableMimeFileTypeMap fileTypeMap = new ConfigurableMimeFileTypeMap();
@@ -116,13 +117,13 @@ public class JavaMailSenderImpl implements JavaMailSender {
 		this.defaultFileTypeMap = fileTypeMap;
 	}
 
-
 	/**
 	 * Set JavaMail properties for the {@code Session}.
-	 * <p>A new {@code Session} will be created with those properties.
-	 * Use either this method or {@link #setSession}, but not both.
-	 * <p>Non-default properties in this instance will override given
-	 * JavaMail properties.
+	 * <p>
+	 * A new {@code Session} will be created with those properties. Use either this method
+	 * or {@link #setSession}, but not both.
+	 * <p>
+	 * Non-default properties in this instance will override given JavaMail properties.
 	 */
 	public void setJavaMailProperties(Properties javaMailProperties) {
 		this.javaMailProperties = javaMailProperties;
@@ -132,9 +133,10 @@ public class JavaMailSenderImpl implements JavaMailSender {
 	}
 
 	/**
-	 * Allow Map access to the JavaMail properties of this sender,
-	 * with the option to add or override specific entries.
-	 * <p>Useful for specifying entries directly, for example via
+	 * Allow Map access to the JavaMail properties of this sender, with the option to add
+	 * or override specific entries.
+	 * <p>
+	 * Useful for specifying entries directly, for example via
 	 * "javaMailProperties[mail.smtp.auth]".
 	 */
 	public Properties getJavaMailProperties() {
@@ -143,10 +145,12 @@ public class JavaMailSenderImpl implements JavaMailSender {
 
 	/**
 	 * Set the JavaMail {@code Session}, possibly pulled from JNDI.
-	 * <p>Default is a new {@code Session} without defaults, that is
-	 * completely configured via this instance's properties.
-	 * <p>If using a pre-configured {@code Session}, non-default properties
-	 * in this instance will override the settings in the {@code Session}.
+	 * <p>
+	 * Default is a new {@code Session} without defaults, that is completely configured
+	 * via this instance's properties.
+	 * <p>
+	 * If using a pre-configured {@code Session}, non-default properties in this instance
+	 * will override the settings in the {@code Session}.
 	 * @see #setJavaMailProperties
 	 */
 	public synchronized void setSession(Session session) {
@@ -155,8 +159,8 @@ public class JavaMailSenderImpl implements JavaMailSender {
 	}
 
 	/**
-	 * Return the JavaMail {@code Session},
-	 * lazily initializing it if hasn't been specified explicitly.
+	 * Return the JavaMail {@code Session}, lazily initializing it if hasn't been
+	 * specified explicitly.
 	 */
 	public synchronized Session getSession() {
 		if (this.session == null) {
@@ -182,7 +186,8 @@ public class JavaMailSenderImpl implements JavaMailSender {
 
 	/**
 	 * Set the mail server host, typically an SMTP host.
-	 * <p>Default is the default host of the underlying JavaMail Session.
+	 * <p>
+	 * Default is the default host of the underlying JavaMail Session.
 	 */
 	public void setHost(@Nullable String host) {
 		this.host = host;
@@ -198,9 +203,9 @@ public class JavaMailSenderImpl implements JavaMailSender {
 
 	/**
 	 * Set the mail server port.
-	 * <p>Default is {@link #DEFAULT_PORT}, letting JavaMail use the default
-	 * SMTP port (25).
-	*/
+	 * <p>
+	 * Default is {@link #DEFAULT_PORT}, letting JavaMail use the default SMTP port (25).
+	 */
 	public void setPort(int port) {
 		this.port = port;
 	}
@@ -214,11 +219,11 @@ public class JavaMailSenderImpl implements JavaMailSender {
 
 	/**
 	 * Set the username for the account at the mail host, if any.
-	 * <p>Note that the underlying JavaMail {@code Session} has to be
-	 * configured with the property {@code "mail.smtp.auth"} set to
-	 * {@code true}, else the specified username will not be sent to the
-	 * mail server by the JavaMail runtime. If you are not explicitly passing
-	 * in a {@code Session} to use, simply specify this setting via
+	 * <p>
+	 * Note that the underlying JavaMail {@code Session} has to be configured with the
+	 * property {@code "mail.smtp.auth"} set to {@code true}, else the specified username
+	 * will not be sent to the mail server by the JavaMail runtime. If you are not
+	 * explicitly passing in a {@code Session} to use, simply specify this setting via
 	 * {@link #setJavaMailProperties}.
 	 * @see #setSession
 	 * @see #setPassword
@@ -237,11 +242,11 @@ public class JavaMailSenderImpl implements JavaMailSender {
 
 	/**
 	 * Set the password for the account at the mail host, if any.
-	 * <p>Note that the underlying JavaMail {@code Session} has to be
-	 * configured with the property {@code "mail.smtp.auth"} set to
-	 * {@code true}, else the specified password will not be sent to the
-	 * mail server by the JavaMail runtime. If you are not explicitly passing
-	 * in a {@code Session} to use, simply specify this setting via
+	 * <p>
+	 * Note that the underlying JavaMail {@code Session} has to be configured with the
+	 * property {@code "mail.smtp.auth"} set to {@code true}, else the specified password
+	 * will not be sent to the mail server by the JavaMail runtime. If you are not
+	 * explicitly passing in a {@code Session} to use, simply specify this setting via
 	 * {@link #setJavaMailProperties}.
 	 * @see #setSession
 	 * @see #setUsername
@@ -259,17 +264,18 @@ public class JavaMailSenderImpl implements JavaMailSender {
 	}
 
 	/**
-	 * Set the default encoding to use for {@link MimeMessage MimeMessages}
-	 * created by this instance.
-	 * <p>Such an encoding will be auto-detected by {@link MimeMessageHelper}.
+	 * Set the default encoding to use for {@link MimeMessage MimeMessages} created by
+	 * this instance.
+	 * <p>
+	 * Such an encoding will be auto-detected by {@link MimeMessageHelper}.
 	 */
 	public void setDefaultEncoding(@Nullable String defaultEncoding) {
 		this.defaultEncoding = defaultEncoding;
 	}
 
 	/**
-	 * Return the default encoding for {@link MimeMessage MimeMessages},
-	 * or {@code null} if none.
+	 * Return the default encoding for {@link MimeMessage MimeMessages}, or {@code null}
+	 * if none.
 	 */
 	@Nullable
 	public String getDefaultEncoding() {
@@ -277,16 +283,18 @@ public class JavaMailSenderImpl implements JavaMailSender {
 	}
 
 	/**
-	 * Set the default Java Activation {@link FileTypeMap} to use for
-	 * {@link MimeMessage MimeMessages} created by this instance.
-	 * <p>A {@code FileTypeMap} specified here will be autodetected by
-	 * {@link MimeMessageHelper}, avoiding the need to specify the
-	 * {@code FileTypeMap} for each {@code MimeMessageHelper} instance.
-	 * <p>For example, you can specify a custom instance of Spring's
-	 * {@link ConfigurableMimeFileTypeMap} here. If not explicitly specified,
-	 * a default {@code ConfigurableMimeFileTypeMap} will be used, containing
-	 * an extended set of MIME type mappings (as defined by the
-	 * {@code mime.types} file contained in the Spring jar).
+	 * Set the default Java Activation {@link FileTypeMap} to use for {@link MimeMessage
+	 * MimeMessages} created by this instance.
+	 * <p>
+	 * A {@code FileTypeMap} specified here will be autodetected by
+	 * {@link MimeMessageHelper}, avoiding the need to specify the {@code FileTypeMap} for
+	 * each {@code MimeMessageHelper} instance.
+	 * <p>
+	 * For example, you can specify a custom instance of Spring's
+	 * {@link ConfigurableMimeFileTypeMap} here. If not explicitly specified, a default
+	 * {@code ConfigurableMimeFileTypeMap} will be used, containing an extended set of
+	 * MIME type mappings (as defined by the {@code mime.types} file contained in the
+	 * Spring jar).
 	 * @see MimeMessageHelper#setFileTypeMap
 	 */
 	public void setDefaultFileTypeMap(@Nullable FileTypeMap defaultFileTypeMap) {
@@ -294,22 +302,21 @@ public class JavaMailSenderImpl implements JavaMailSender {
 	}
 
 	/**
-	 * Return the default Java Activation {@link FileTypeMap} for
-	 * {@link MimeMessage MimeMessages}, or {@code null} if none.
+	 * Return the default Java Activation {@link FileTypeMap} for {@link MimeMessage
+	 * MimeMessages}, or {@code null} if none.
 	 */
 	@Nullable
 	public FileTypeMap getDefaultFileTypeMap() {
 		return this.defaultFileTypeMap;
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of MailSender
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	@Override
 	public void send(SimpleMailMessage simpleMessage) throws MailException {
-		send(new SimpleMailMessage[] {simpleMessage});
+		send(new SimpleMailMessage[] { simpleMessage });
 	}
 
 	@Override
@@ -323,16 +330,15 @@ public class JavaMailSenderImpl implements JavaMailSender {
 		doSend(mimeMessages.toArray(new MimeMessage[0]), simpleMessages);
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of JavaMailSender
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
-	 * This implementation creates a SmartMimeMessage, holding the specified
-	 * default encoding and default FileTypeMap. This special defaults-carrying
-	 * message will be autodetected by {@link MimeMessageHelper}, which will use
-	 * the carried encoding and FileTypeMap unless explicitly overridden.
+	 * This implementation creates a SmartMimeMessage, holding the specified default
+	 * encoding and default FileTypeMap. This special defaults-carrying message will be
+	 * autodetected by {@link MimeMessageHelper}, which will use the carried encoding and
+	 * FileTypeMap unless explicitly overridden.
 	 * @see #setDefaultEncoding
 	 * @see #setDefaultFileTypeMap
 	 */
@@ -353,7 +359,7 @@ public class JavaMailSenderImpl implements JavaMailSender {
 
 	@Override
 	public void send(MimeMessage mimeMessage) throws MailException {
-		send(new MimeMessage[] {mimeMessage});
+		send(new MimeMessage[] { mimeMessage });
 	}
 
 	@Override
@@ -363,7 +369,7 @@ public class JavaMailSenderImpl implements JavaMailSender {
 
 	@Override
 	public void send(MimeMessagePreparator mimeMessagePreparator) throws MailException {
-		send(new MimeMessagePreparator[] {mimeMessagePreparator});
+		send(new MimeMessagePreparator[] { mimeMessagePreparator });
 	}
 
 	@Override
@@ -389,8 +395,8 @@ public class JavaMailSenderImpl implements JavaMailSender {
 	}
 
 	/**
-	 * Validate that this instance can connect to the server that it is configured
-	 * for. Throws a {@link MessagingException} if the connection attempt failed.
+	 * Validate that this instance can connect to the server that it is configured for.
+	 * Throws a {@link MessagingException} if the connection attempt failed.
 	 */
 	public void testConnection() throws MessagingException {
 		Transport transport = null;
@@ -407,13 +413,13 @@ public class JavaMailSenderImpl implements JavaMailSender {
 	/**
 	 * Actually send the given array of MimeMessages via JavaMail.
 	 * @param mimeMessages the MimeMessage objects to send
-	 * @param originalMessages corresponding original message objects
-	 * that the MimeMessages have been created from (with same array
-	 * length and indices as the "mimeMessages" array), if any
-	 * @throws org.springframework.mail.MailAuthenticationException
-	 * in case of authentication failure
-	 * @throws org.springframework.mail.MailSendException
-	 * in case of failure when sending a message
+	 * @param originalMessages corresponding original message objects that the
+	 * MimeMessages have been created from (with same array length and indices as the
+	 * "mimeMessages" array), if any
+	 * @throws org.springframework.mail.MailAuthenticationException in case of
+	 * authentication failure
+	 * @throws org.springframework.mail.MailSendException in case of failure when sending
+	 * a message
 	 */
 	protected void doSend(MimeMessage[] mimeMessages, @Nullable Object[] originalMessages) throws MailException {
 		Map<Object, Exception> failedMessages = new LinkedHashMap<>();
@@ -493,8 +499,8 @@ public class JavaMailSenderImpl implements JavaMailSender {
 	}
 
 	/**
-	 * Obtain and connect a Transport from the underlying JavaMail Session,
-	 * passing in the specified host, port, username, and password.
+	 * Obtain and connect a Transport from the underlying JavaMail Session, passing in the
+	 * specified host, port, username, and password.
 	 * @return the connected Transport object
 	 * @throws MessagingException if the connect attempt failed
 	 * @since 4.1.2
@@ -507,9 +513,10 @@ public class JavaMailSenderImpl implements JavaMailSender {
 	protected Transport connectTransport() throws MessagingException {
 		String username = getUsername();
 		String password = getPassword();
-		if ("".equals(username)) {  // probably from a placeholder
+		if ("".equals(username)) { // probably from a placeholder
 			username = null;
-			if ("".equals(password)) {  // in conjunction with "" username, this means no password to use
+			if ("".equals(password)) { // in conjunction with "" username, this means no
+										// password to use
 				password = null;
 			}
 		}
@@ -520,15 +527,16 @@ public class JavaMailSenderImpl implements JavaMailSender {
 	}
 
 	/**
-	 * Obtain a Transport object from the given JavaMail Session,
-	 * using the configured protocol.
-	 * <p>Can be overridden in subclasses, e.g. to return a mock Transport object.
+	 * Obtain a Transport object from the given JavaMail Session, using the configured
+	 * protocol.
+	 * <p>
+	 * Can be overridden in subclasses, e.g. to return a mock Transport object.
 	 * @see javax.mail.Session#getTransport(String)
 	 * @see #getSession()
 	 * @see #getProtocol()
 	 */
 	protected Transport getTransport(Session session) throws NoSuchProviderException {
-		String protocol	= getProtocol();
+		String protocol = getProtocol();
 		if (protocol == null) {
 			protocol = session.getProperty("mail.transport.protocol");
 			if (protocol == null) {

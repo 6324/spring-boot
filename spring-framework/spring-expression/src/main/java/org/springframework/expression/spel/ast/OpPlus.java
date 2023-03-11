@@ -38,9 +38,10 @@ import org.springframework.util.NumberUtils;
  * <li>concatenate strings
  * </ul>
  *
- * <p>It can be used as a unary operator for numbers.
- * The standard promotions are performed when the operand types vary (double+int=double).
- * For other options it defers to the registered overloader.
+ * <p>
+ * It can be used as a unary operator for numbers. The standard promotions are performed
+ * when the operand types vary (double+int=double). For other options it defers to the
+ * registered overloader.
  *
  * @author Andy Clement
  * @author Juergen Hoeller
@@ -55,12 +56,11 @@ public class OpPlus extends Operator {
 		Assert.notEmpty(operands, "Operands must not be empty");
 	}
 
-
 	@Override
 	public TypedValue getValueInternal(ExpressionState state) throws EvaluationException {
 		SpelNodeImpl leftOp = getLeftOperand();
 
-		if (this.children.length < 2) {  // if only one operand, then this is unary plus
+		if (this.children.length < 2) { // if only one operand, then this is unary plus
 			Object operandOne = leftOp.getValueInternal(state).getValue();
 			if (operandOne instanceof Number) {
 				if (operandOne instanceof Double) {
@@ -141,7 +141,7 @@ public class OpPlus extends Operator {
 
 	@Override
 	public String toStringAST() {
-		if (this.children.length < 2) {  // unary plus
+		if (this.children.length < 2) { // unary plus
 			return "+" + getLeftOperand().toStringAST();
 		}
 		return super.toStringAST();
@@ -166,8 +166,8 @@ public class OpPlus extends Operator {
 		TypeConverter typeConverter = state.getEvaluationContext().getTypeConverter();
 		TypeDescriptor typeDescriptor = TypeDescriptor.valueOf(String.class);
 		if (typeConverter.canConvert(value.getTypeDescriptor(), typeDescriptor)) {
-			return String.valueOf(typeConverter.convertValue(value.getValue(),
-					value.getTypeDescriptor(), typeDescriptor));
+			return String
+					.valueOf(typeConverter.convertValue(value.getValue(), value.getTypeDescriptor(), typeDescriptor));
 		}
 		return String.valueOf(value.getValue());
 	}
@@ -186,23 +186,24 @@ public class OpPlus extends Operator {
 	}
 
 	/**
-	 * Walk through a possible tree of nodes that combine strings and append
-	 * them all to the same (on stack) StringBuilder.
+	 * Walk through a possible tree of nodes that combine strings and append them all to
+	 * the same (on stack) StringBuilder.
 	 */
 	private void walk(MethodVisitor mv, CodeFlow cf, @Nullable SpelNodeImpl operand) {
 		if (operand instanceof OpPlus) {
-			OpPlus plus = (OpPlus)operand;
+			OpPlus plus = (OpPlus) operand;
 			walk(mv, cf, plus.getLeftOperand());
 			walk(mv, cf, plus.getRightOperand());
 		}
 		else if (operand != null) {
 			cf.enterCompilationScope();
-			operand.generateCode(mv,cf);
+			operand.generateCode(mv, cf);
 			if (!"Ljava/lang/String".equals(cf.lastDescriptor())) {
 				mv.visitTypeInsn(CHECKCAST, "java/lang/String");
 			}
 			cf.exitCompilationScope();
-			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false);
+			mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append",
+					"(Ljava/lang/String;)Ljava/lang/StringBuilder;", false);
 		}
 	}
 
@@ -230,21 +231,21 @@ public class OpPlus extends Operator {
 				cf.exitCompilationScope();
 				CodeFlow.insertNumericUnboxOrPrimitiveTypeCoercion(mv, rightDesc, targetDesc);
 				switch (targetDesc) {
-					case 'I':
-						mv.visitInsn(IADD);
-						break;
-					case 'J':
-						mv.visitInsn(LADD);
-						break;
-					case 'F':
-						mv.visitInsn(FADD);
-						break;
-					case 'D':
-						mv.visitInsn(DADD);
-						break;
-					default:
-						throw new IllegalStateException(
-								"Unrecognized exit type descriptor: '" + this.exitTypeDescriptor + "'");
+				case 'I':
+					mv.visitInsn(IADD);
+					break;
+				case 'J':
+					mv.visitInsn(LADD);
+					break;
+				case 'F':
+					mv.visitInsn(FADD);
+					break;
+				case 'D':
+					mv.visitInsn(DADD);
+					break;
+				default:
+					throw new IllegalStateException(
+							"Unrecognized exit type descriptor: '" + this.exitTypeDescriptor + "'");
 				}
 			}
 		}

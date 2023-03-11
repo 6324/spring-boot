@@ -61,7 +61,6 @@ public class DateTimeFormattingTests {
 
 	private DataBinder binder;
 
-
 	@BeforeEach
 	public void setup() {
 		DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
@@ -89,7 +88,6 @@ public class DateTimeFormattingTests {
 		LocaleContextHolder.setLocale(null);
 		DateTimeContextHolder.setDateTimeContext(null);
 	}
-
 
 	@Test
 	public void testBindLocalDate() {
@@ -127,7 +125,7 @@ public class DateTimeFormattingTests {
 	@Test
 	public void testBindLocalDateArray() {
 		MutablePropertyValues propertyValues = new MutablePropertyValues();
-		propertyValues.add("localDate", new String[] {"10/31/09"});
+		propertyValues.add("localDate", new String[] { "10/31/09" });
 		binder.bind(propertyValues);
 		assertThat(binder.getBindingResult().getErrorCount()).isEqualTo(0);
 	}
@@ -354,7 +352,8 @@ public class DateTimeFormattingTests {
 		propertyValues.add("instant", "2009-10-31T12:00:00.000Z");
 		binder.bind(propertyValues);
 		assertThat(binder.getBindingResult().getErrorCount()).isEqualTo(0);
-		assertThat(binder.getBindingResult().getFieldValue("instant").toString().startsWith("2009-10-31T12:00")).isTrue();
+		assertThat(binder.getBindingResult().getFieldValue("instant").toString().startsWith("2009-10-31T12:00"))
+				.isTrue();
 	}
 
 	@Test
@@ -436,7 +435,6 @@ public class DateTimeFormattingTests {
 		assertThat(binder.getBindingResult().getErrorCount()).isEqualTo(0);
 		assertThat(binder.getBindingResult().getFieldValue("monthDay").toString().equals("--12-03")).isTrue();
 	}
-
 
 	public static class DateTimeBean {
 
@@ -622,6 +620,7 @@ public class DateTimeFormattingTests {
 		public List<DateTimeBean> getChildren() {
 			return children;
 		}
+
 	}
 
 }

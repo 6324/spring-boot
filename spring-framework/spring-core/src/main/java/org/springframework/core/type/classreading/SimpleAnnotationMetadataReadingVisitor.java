@@ -71,16 +71,14 @@ final class SimpleAnnotationMetadataReadingVisitor extends ClassVisitor {
 	@Nullable
 	private Source source;
 
-
 	SimpleAnnotationMetadataReadingVisitor(@Nullable ClassLoader classLoader) {
 		super(SpringAsmInfo.ASM_VERSION);
 		this.classLoader = classLoader;
 	}
 
-
 	@Override
-	public void visit(int version, int access, String name, String signature,
-			@Nullable String supername, String[] interfaces) {
+	public void visit(int version, int access, String name, String signature, @Nullable String supername,
+			String[] interfaces) {
 
 		this.className = toClassName(name);
 		this.access = access;
@@ -99,8 +97,7 @@ final class SimpleAnnotationMetadataReadingVisitor extends ClassVisitor {
 	}
 
 	@Override
-	public void visitInnerClass(String name, @Nullable String outerName, String innerName,
-			int access) {
+	public void visitInnerClass(String name, @Nullable String outerName, String innerName, int access) {
 		if (outerName != null) {
 			String className = toClassName(name);
 			String outerClassName = toClassName(outerName);
@@ -117,14 +114,14 @@ final class SimpleAnnotationMetadataReadingVisitor extends ClassVisitor {
 	@Override
 	@Nullable
 	public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-		return MergedAnnotationReadingVisitor.get(this.classLoader, this::getSource,
-				descriptor, visible, this.annotations::add);
+		return MergedAnnotationReadingVisitor.get(this.classLoader, this::getSource, descriptor, visible,
+				this.annotations::add);
 	}
 
 	@Override
 	@Nullable
-	public MethodVisitor visitMethod(
-			int access, String name, String descriptor, String signature, String[] exceptions) {
+	public MethodVisitor visitMethod(int access, String name, String descriptor, String signature,
+			String[] exceptions) {
 
 		// Skip bridge methods - we're only interested in original
 		// annotation-defining user methods. On JDK 8, we'd otherwise run into
@@ -132,8 +129,8 @@ final class SimpleAnnotationMetadataReadingVisitor extends ClassVisitor {
 		if (isBridge(access)) {
 			return null;
 		}
-		return new SimpleMethodMetadataReadingVisitor(this.classLoader, this.className,
-				access, name, descriptor, this.annotatedMethods::add);
+		return new SimpleMethodMetadataReadingVisitor(this.classLoader, this.className, access, name, descriptor,
+				this.annotatedMethods::add);
 	}
 
 	@Override
@@ -141,9 +138,9 @@ final class SimpleAnnotationMetadataReadingVisitor extends ClassVisitor {
 		String[] memberClassNames = StringUtils.toStringArray(this.memberClassNames);
 		MethodMetadata[] annotatedMethods = this.annotatedMethods.toArray(new MethodMetadata[0]);
 		MergedAnnotations annotations = MergedAnnotations.of(this.annotations);
-		this.metadata = new SimpleAnnotationMetadata(this.className, this.access,
-				this.enclosingClassName, this.superClassName, this.independentInnerClass,
-				this.interfaceNames, memberClassNames, annotatedMethods, annotations);
+		this.metadata = new SimpleAnnotationMetadata(this.className, this.access, this.enclosingClassName,
+				this.superClassName, this.independentInnerClass, this.interfaceNames, memberClassNames,
+				annotatedMethods, annotations);
 	}
 
 	public SimpleAnnotationMetadata getMetadata() {

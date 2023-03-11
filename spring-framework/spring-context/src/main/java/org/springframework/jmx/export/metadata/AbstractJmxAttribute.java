@@ -28,7 +28,6 @@ public abstract class AbstractJmxAttribute {
 
 	private int currencyTimeLimit = -1;
 
-
 	/**
 	 * Set a description for this attribute.
 	 */

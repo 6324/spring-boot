@@ -40,11 +40,9 @@ public class OperatorInstanceof extends Operator {
 	@Nullable
 	private Class<?> type;
 
-
 	public OperatorInstanceof(int startPos, int endPos, SpelNodeImpl... operands) {
 		super("instanceof", startPos, endPos, operands);
 	}
-
 
 	/**
 	 * Compare the left operand to see it is an instance of the type specified as the
@@ -69,15 +67,17 @@ public class OperatorInstanceof extends Operator {
 		}
 		Class<?> rightClass = (Class<?>) rightValue;
 		if (leftValue == null) {
-			result = BooleanTypedValue.FALSE;  // null is not an instanceof anything
+			result = BooleanTypedValue.FALSE; // null is not an instanceof anything
 		}
 		else {
 			result = BooleanTypedValue.forValue(rightClass.isAssignableFrom(leftValue.getClass()));
 		}
 		this.type = rightClass;
 		if (rightOperand instanceof TypeReference) {
-			// Can only generate bytecode where the right operand is a direct type reference,
-			// not if it is indirect (for example when right operand is a variable reference)
+			// Can only generate bytecode where the right operand is a direct type
+			// reference,
+			// not if it is indirect (for example when right operand is a variable
+			// reference)
 			this.exitTypeDescriptor = "Z";
 		}
 		return result;

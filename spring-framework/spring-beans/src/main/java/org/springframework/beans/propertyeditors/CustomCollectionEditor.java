@@ -30,12 +30,12 @@ import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Property editor for Collections, converting any source Collection
- * to a given target Collection type.
+ * Property editor for Collections, converting any source Collection to a given target
+ * Collection type.
  *
- * <p>By default registered for Set, SortedSet and List,
- * to automatically convert any given Collection to one of those
- * target types if the type does not match the target property.
+ * <p>
+ * By default registered for Set, SortedSet and List, to automatically convert any given
+ * Collection to one of those target types if the type does not match the target property.
  *
  * @author Juergen Hoeller
  * @since 1.1.3
@@ -51,12 +51,11 @@ public class CustomCollectionEditor extends PropertyEditorSupport {
 
 	private final boolean nullAsEmptyCollection;
 
-
 	/**
-	 * Create a new CustomCollectionEditor for the given target type,
-	 * keeping an incoming {@code null} as-is.
-	 * @param collectionType the target type, which needs to be a
-	 * sub-interface of Collection or a concrete Collection class
+	 * Create a new CustomCollectionEditor for the given target type, keeping an incoming
+	 * {@code null} as-is.
+	 * @param collectionType the target type, which needs to be a sub-interface of
+	 * Collection or a concrete Collection class
 	 * @see java.util.Collection
 	 * @see java.util.ArrayList
 	 * @see java.util.TreeSet
@@ -69,17 +68,18 @@ public class CustomCollectionEditor extends PropertyEditorSupport {
 
 	/**
 	 * Create a new CustomCollectionEditor for the given target type.
-	 * <p>If the incoming value is of the given type, it will be used as-is.
-	 * If it is a different Collection type or an array, it will be converted
-	 * to a default implementation of the given Collection type.
-	 * If the value is anything else, a target Collection with that single
-	 * value will be created.
-	 * <p>The default Collection implementations are: ArrayList for List,
-	 * TreeSet for SortedSet, and LinkedHashSet for Set.
-	 * @param collectionType the target type, which needs to be a
-	 * sub-interface of Collection or a concrete Collection class
-	 * @param nullAsEmptyCollection whether to convert an incoming {@code null}
-	 * value to an empty Collection (of the appropriate type)
+	 * <p>
+	 * If the incoming value is of the given type, it will be used as-is. If it is a
+	 * different Collection type or an array, it will be converted to a default
+	 * implementation of the given Collection type. If the value is anything else, a
+	 * target Collection with that single value will be created.
+	 * <p>
+	 * The default Collection implementations are: ArrayList for List, TreeSet for
+	 * SortedSet, and LinkedHashSet for Set.
+	 * @param collectionType the target type, which needs to be a sub-interface of
+	 * Collection or a concrete Collection class
+	 * @param nullAsEmptyCollection whether to convert an incoming {@code null} value to
+	 * an empty Collection (of the appropriate type)
 	 * @see java.util.Collection
 	 * @see java.util.ArrayList
 	 * @see java.util.TreeSet
@@ -95,7 +95,6 @@ public class CustomCollectionEditor extends PropertyEditorSupport {
 		this.collectionType = collectionType;
 		this.nullAsEmptyCollection = nullAsEmptyCollection;
 	}
-
 
 	/**
 	 * Convert the given text value to a Collection with a single element.
@@ -144,13 +143,13 @@ public class CustomCollectionEditor extends PropertyEditorSupport {
 	}
 
 	/**
-	 * Create a Collection of the given type, with the given
-	 * initial capacity (if supported by the Collection type).
+	 * Create a Collection of the given type, with the given initial capacity (if
+	 * supported by the Collection type).
 	 * @param collectionType a sub-interface of Collection
 	 * @param initialCapacity the initial capacity
 	 * @return the new Collection instance
 	 */
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected Collection<Object> createCollection(Class<? extends Collection> collectionType, int initialCapacity) {
 		if (!collectionType.isInterface()) {
 			try {
@@ -173,10 +172,11 @@ public class CustomCollectionEditor extends PropertyEditorSupport {
 	}
 
 	/**
-	 * Return whether to always create a new Collection,
-	 * even if the type of the passed-in Collection already matches.
-	 * <p>Default is "false"; can be overridden to enforce creation of a
-	 * new Collection, for example to convert elements in any case.
+	 * Return whether to always create a new Collection, even if the type of the passed-in
+	 * Collection already matches.
+	 * <p>
+	 * Default is "false"; can be overridden to enforce creation of a new Collection, for
+	 * example to convert elements in any case.
 	 * @see #convertElement
 	 */
 	protected boolean alwaysCreateNewCollection() {
@@ -184,15 +184,17 @@ public class CustomCollectionEditor extends PropertyEditorSupport {
 	}
 
 	/**
-	 * Hook to convert each encountered Collection/array element.
-	 * The default implementation simply returns the passed-in element as-is.
-	 * <p>Can be overridden to perform conversion of certain elements,
-	 * for example String to Integer if a String array comes in and
-	 * should be converted to a Set of Integer objects.
-	 * <p>Only called if actually creating a new Collection!
-	 * This is by default not the case if the type of the passed-in Collection
-	 * already matches. Override {@link #alwaysCreateNewCollection()} to
-	 * enforce creating a new Collection in every case.
+	 * Hook to convert each encountered Collection/array element. The default
+	 * implementation simply returns the passed-in element as-is.
+	 * <p>
+	 * Can be overridden to perform conversion of certain elements, for example String to
+	 * Integer if a String array comes in and should be converted to a Set of Integer
+	 * objects.
+	 * <p>
+	 * Only called if actually creating a new Collection! This is by default not the case
+	 * if the type of the passed-in Collection already matches. Override
+	 * {@link #alwaysCreateNewCollection()} to enforce creating a new Collection in every
+	 * case.
 	 * @param element the source element
 	 * @return the element to be used in the target Collection
 	 * @see #alwaysCreateNewCollection()
@@ -201,10 +203,9 @@ public class CustomCollectionEditor extends PropertyEditorSupport {
 		return element;
 	}
 
-
 	/**
-	 * This implementation returns {@code null} to indicate that
-	 * there is no appropriate text representation.
+	 * This implementation returns {@code null} to indicate that there is no appropriate
+	 * text representation.
 	 */
 	@Override
 	@Nullable

@@ -43,9 +43,7 @@ class TestGroupTests {
 
 	private static final String TEST_GROUPS_SYSTEM_PROPERTY = "testGroups";
 
-
 	private String originalTestGroups;
-
 
 	@BeforeEach
 	void trackOriginalTestGroups() {
@@ -78,9 +76,8 @@ class TestGroupTests {
 	@Test
 	void assumeGroupWithMatchingActiveTestGroup() {
 		setTestGroups(LONG_RUNNING);
-		assertThatCode(() -> assumeGroup(LONG_RUNNING))
-			.as("assumption should NOT have failed")
-			.doesNotThrowAnyException();
+		assertThatCode(() -> assumeGroup(LONG_RUNNING)).as("assumption should NOT have failed")
+				.doesNotThrowAnyException();
 	}
 
 	@Test
@@ -101,14 +98,12 @@ class TestGroupTests {
 		// Available groups include: [LONG_RUNNING,PERFORMANCE]
 
 		setTestGroups(testGroups);
-		assertThatIllegalStateException()
-			.isThrownBy(() -> assumeGroup(LONG_RUNNING))
-			.withMessageStartingWith("Failed to parse '" + TEST_GROUPS_SYSTEM_PROPERTY + "' system property: ")
-			.withCauseInstanceOf(IllegalArgumentException.class)
-			.satisfies(ex ->
-				assertThat(ex.getCause().getMessage()).isEqualTo(
-					"Unable to find test group 'bogus' when parsing testGroups value: '" + testGroups +
-					"'. Available groups include: [LONG_RUNNING,PERFORMANCE]"));
+		assertThatIllegalStateException().isThrownBy(() -> assumeGroup(LONG_RUNNING))
+				.withMessageStartingWith("Failed to parse '" + TEST_GROUPS_SYSTEM_PROPERTY + "' system property: ")
+				.withCauseInstanceOf(IllegalArgumentException.class)
+				.satisfies(ex -> assertThat(ex.getCause().getMessage())
+						.isEqualTo("Unable to find test group 'bogus' when parsing testGroups value: '" + testGroups
+								+ "'. Available groups include: [LONG_RUNNING,PERFORMANCE]"));
 	}
 
 	private void setTestGroups(TestGroup... testGroups) {
@@ -127,7 +122,7 @@ class TestGroupTests {
 	private static void assumeGroup(TestGroup group) {
 		Set<TestGroup> testGroups = TestGroup.loadTestGroups();
 		assumeTrue(testGroups.contains(group),
-			() -> "Requires inactive test group " + group + "; active test groups: " + testGroups);
+				() -> "Requires inactive test group " + group + "; active test groups: " + testGroups);
 	}
 
 }

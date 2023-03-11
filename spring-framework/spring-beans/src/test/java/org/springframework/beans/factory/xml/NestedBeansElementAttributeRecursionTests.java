@@ -25,8 +25,6 @@ import org.springframework.core.io.ClassPathResource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
-
 /**
  * Tests for propagating enclosing beans element defaults to nested beans elements.
  *
@@ -100,20 +98,19 @@ public class NestedBeansElementAttributeRecursionTests {
 
 		TestBean firstLevel = bf.getBean("firstLevelNestedTestBean", TestBean.class);
 		// merges all values
-		assertThat((Iterable<String>) firstLevel.getSomeList()).contains(
-				"charlie", "delta", "echo", "foxtrot");
+		assertThat((Iterable<String>) firstLevel.getSomeList()).contains("charlie", "delta", "echo", "foxtrot");
 
 		TestBean secondLevel = bf.getBean("secondLevelNestedTestBean", TestBean.class);
 		// merges all values
-		assertThat((Iterable<String>)secondLevel.getSomeList()).contains(
-				"charlie", "delta", "echo", "foxtrot", "golf", "hotel");
+		assertThat((Iterable<String>) secondLevel.getSomeList()).contains("charlie", "delta", "echo", "foxtrot", "golf",
+				"hotel");
 	}
 
 	@Test
 	public void defaultAutowireCandidates() {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(
-				new ClassPathResource("NestedBeansElementAttributeRecursionTests-autowire-candidates-context.xml", this.getClass()));
+		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource(
+				"NestedBeansElementAttributeRecursionTests-autowire-candidates-context.xml", this.getClass()));
 
 		assertAutowireCandidates(bf);
 	}
@@ -123,8 +120,8 @@ public class NestedBeansElementAttributeRecursionTests {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(bf);
 		xmlBeanDefinitionReader.setValidating(false);
-		xmlBeanDefinitionReader.loadBeanDefinitions(
-				new ClassPathResource("NestedBeansElementAttributeRecursionTests-autowire-candidates-context.xml", this.getClass()));
+		xmlBeanDefinitionReader.loadBeanDefinitions(new ClassPathResource(
+				"NestedBeansElementAttributeRecursionTests-autowire-candidates-context.xml", this.getClass()));
 
 		assertAutowireCandidates(bf);
 	}
@@ -152,8 +149,8 @@ public class NestedBeansElementAttributeRecursionTests {
 	@Test
 	public void initMethod() {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(
-				new ClassPathResource("NestedBeansElementAttributeRecursionTests-init-destroy-context.xml", this.getClass()));
+		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource(
+				"NestedBeansElementAttributeRecursionTests-init-destroy-context.xml", this.getClass()));
 
 		InitDestroyBean beanA = bf.getBean("beanA", InitDestroyBean.class);
 		InitDestroyBean beanB = bf.getBean("beanB", InitDestroyBean.class);
@@ -176,19 +173,41 @@ public class NestedBeansElementAttributeRecursionTests {
 }
 
 class InitDestroyBean {
+
 	boolean initMethod1Called;
+
 	boolean initMethod2Called;
+
 	boolean initMethod3Called;
 
 	boolean destroyMethod1Called;
+
 	boolean destroyMethod2Called;
+
 	boolean destroyMethod3Called;
 
-	void initMethod1() { this.initMethod1Called = true; }
-	void initMethod2() { this.initMethod2Called = true; }
-	void initMethod3() { this.initMethod3Called = true; }
+	void initMethod1() {
+		this.initMethod1Called = true;
+	}
 
-	void destroyMethod1() { this.destroyMethod1Called = true; }
-	void destroyMethod2() { this.destroyMethod2Called = true; }
-	void destroyMethod3() { this.destroyMethod3Called = true; }
+	void initMethod2() {
+		this.initMethod2Called = true;
+	}
+
+	void initMethod3() {
+		this.initMethod3Called = true;
+	}
+
+	void destroyMethod1() {
+		this.destroyMethod1Called = true;
+	}
+
+	void destroyMethod2() {
+		this.destroyMethod2Called = true;
+	}
+
+	void destroyMethod3() {
+		this.destroyMethod3Called = true;
+	}
+
 }

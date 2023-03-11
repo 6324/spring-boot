@@ -32,7 +32,6 @@ public class ArgumentResolverConfigurer {
 
 	private final List<HandlerMethodArgumentResolver> customResolvers = new ArrayList<>(8);
 
-
 	/**
 	 * Configure resolvers for custom controller method arguments.
 	 * @param resolver the resolver(s) to add
@@ -41,7 +40,6 @@ public class ArgumentResolverConfigurer {
 		Assert.notNull(resolver, "'resolvers' must not be null");
 		this.customResolvers.addAll(Arrays.asList(resolver));
 	}
-
 
 	List<HandlerMethodArgumentResolver> getCustomResolvers() {
 		return this.customResolvers;

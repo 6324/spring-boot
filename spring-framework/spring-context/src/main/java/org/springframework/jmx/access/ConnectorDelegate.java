@@ -44,16 +44,16 @@ class ConnectorDelegate {
 	@Nullable
 	private JMXConnector connector;
 
-
 	/**
-	 * Connects to the remote {@code MBeanServer} using the configured {@code JMXServiceURL}:
-	 * to the specified JMX service, or to a local MBeanServer if no service URL specified.
+	 * Connects to the remote {@code MBeanServer} using the configured
+	 * {@code JMXServiceURL}: to the specified JMX service, or to a local MBeanServer if
+	 * no service URL specified.
 	 * @param serviceUrl the JMX service URL to connect to (may be {@code null})
 	 * @param environment the JMX environment for the connector (may be {@code null})
 	 * @param agentId the local JMX MBeanServer's agent id (may be {@code null})
 	 */
-	public MBeanServerConnection connect(@Nullable JMXServiceURL serviceUrl, @Nullable Map<String, ?> environment, @Nullable String agentId)
-			throws MBeanServerNotFoundException {
+	public MBeanServerConnection connect(@Nullable JMXServiceURL serviceUrl, @Nullable Map<String, ?> environment,
+			@Nullable String agentId) throws MBeanServerNotFoundException {
 
 		if (serviceUrl != null) {
 			if (logger.isDebugEnabled()) {
@@ -64,7 +64,8 @@ class ConnectorDelegate {
 				return this.connector.getMBeanServerConnection();
 			}
 			catch (IOException ex) {
-				throw new MBeanServerNotFoundException("Could not connect to remote MBeanServer [" + serviceUrl + "]", ex);
+				throw new MBeanServerNotFoundException("Could not connect to remote MBeanServer [" + serviceUrl + "]",
+						ex);
 			}
 		}
 		else {

@@ -30,9 +30,8 @@ class SimpleAnnotationMetadataTests extends AbstractAnnotationMetadataTests {
 	@Override
 	protected AnnotationMetadata get(Class<?> source) {
 		try {
-			return new SimpleMetadataReaderFactory(
-					source.getClassLoader()).getMetadataReader(
-							source.getName()).getAnnotationMetadata();
+			return new SimpleMetadataReaderFactory(source.getClassLoader()).getMetadataReader(source.getName())
+					.getAnnotationMetadata();
 		}
 		catch (Exception ex) {
 			throw new IllegalStateException(ex);

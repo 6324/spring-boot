@@ -39,10 +39,11 @@ public class JmxUtilsAnnotationTests {
 		assertThat(JmxUtils.isMBean(FooX.class)).as("MXBean annotation not detected correctly").isTrue();
 	}
 
-
 	@MXBean(false)
 	public interface FooNotMXBean {
+
 		String getName();
+
 	}
 
 	public static class FooNotX implements FooNotMXBean {
@@ -51,11 +52,14 @@ public class JmxUtilsAnnotationTests {
 		public String getName() {
 			return "Rob Harrop";
 		}
+
 	}
 
 	@MXBean(true)
 	public interface FooIfc {
+
 		String getName();
+
 	}
 
 	public static class FooX implements FooIfc {
@@ -64,6 +68,7 @@ public class JmxUtilsAnnotationTests {
 		public String getName() {
 			return "Rob Harrop";
 		}
+
 	}
 
 }

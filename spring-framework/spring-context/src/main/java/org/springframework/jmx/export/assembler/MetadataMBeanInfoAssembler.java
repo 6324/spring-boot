@@ -41,13 +41,13 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Implementation of the {@link MBeanInfoAssembler} interface that reads
- * the management interface information from source level metadata.
+ * Implementation of the {@link MBeanInfoAssembler} interface that reads the management
+ * interface information from source level metadata.
  *
- * <p>Uses the {@link JmxAttributeSource} strategy interface, so that
- * metadata can be read using any supported implementation. Out of the box,
- * Spring provides an implementation based on annotations:
- * {@code AnnotationJmxAttributeSource}.
+ * <p>
+ * Uses the {@link JmxAttributeSource} strategy interface, so that metadata can be read
+ * using any supported implementation. Out of the box, Spring provides an implementation
+ * based on annotations: {@code AnnotationJmxAttributeSource}.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -62,10 +62,9 @@ public class MetadataMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssem
 	@Nullable
 	private JmxAttributeSource attributeSource;
 
-
 	/**
-	 * Create a new {@code MetadataMBeanInfoAssembler} which needs to be
-	 * configured through the {@link #setAttributeSource} method.
+	 * Create a new {@code MetadataMBeanInfoAssembler} which needs to be configured
+	 * through the {@link #setAttributeSource} method.
 	 */
 	public MetadataMBeanInfoAssembler() {
 	}
@@ -80,10 +79,9 @@ public class MetadataMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssem
 		this.attributeSource = attributeSource;
 	}
 
-
 	/**
-	 * Set the {@code JmxAttributeSource} implementation to use for
-	 * reading the metadata from the bean class.
+	 * Set the {@code JmxAttributeSource} implementation to use for reading the metadata
+	 * from the bean class.
 	 * @see org.springframework.jmx.export.annotation.AnnotationJmxAttributeSource
 	 */
 	public void setAttributeSource(JmxAttributeSource attributeSource) {
@@ -103,17 +101,15 @@ public class MetadataMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssem
 		return this.attributeSource;
 	}
 
-
 	/**
-	 * Throws an IllegalArgumentException if it encounters a JDK dynamic proxy.
-	 * Metadata can only be read from target classes and CGLIB proxies!
+	 * Throws an IllegalArgumentException if it encounters a JDK dynamic proxy. Metadata
+	 * can only be read from target classes and CGLIB proxies!
 	 */
 	@Override
 	protected void checkManagedBean(Object managedBean) throws IllegalArgumentException {
 		if (AopUtils.isJdkDynamicProxy(managedBean)) {
-			throw new IllegalArgumentException(
-					"MetadataMBeanInfoAssembler does not support JDK dynamic proxies - " +
-					"export the target beans directly or use CGLIB proxies instead");
+			throw new IllegalArgumentException("MetadataMBeanInfoAssembler does not support JDK dynamic proxies - "
+					+ "export the target beans directly or use CGLIB proxies instead");
 		}
 	}
 
@@ -184,10 +180,9 @@ public class MetadataMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssem
 		return (obtainAttributeSource().getManagedOperation(method) != null);
 	}
 
-
 	/**
-	 * Reads managed resource description from the source level metadata.
-	 * Returns an empty {@code String} if no description can be found.
+	 * Reads managed resource description from the source level metadata. Returns an empty
+	 * {@code String} if no description can be found.
 	 */
 	@Override
 	protected String getDescription(Object managedBean, String beanKey) {
@@ -196,19 +191,18 @@ public class MetadataMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssem
 	}
 
 	/**
-	 * Creates a description for the attribute corresponding to this property
-	 * descriptor. Attempts to create the description using metadata from either
-	 * the getter or setter attributes, otherwise uses the property name.
+	 * Creates a description for the attribute corresponding to this property descriptor.
+	 * Attempts to create the description using metadata from either the getter or setter
+	 * attributes, otherwise uses the property name.
 	 */
 	@Override
 	protected String getAttributeDescription(PropertyDescriptor propertyDescriptor, String beanKey) {
 		Method readMethod = propertyDescriptor.getReadMethod();
 		Method writeMethod = propertyDescriptor.getWriteMethod();
 
-		ManagedAttribute getter =
-				(readMethod != null ? obtainAttributeSource().getManagedAttribute(readMethod) : null);
-		ManagedAttribute setter =
-				(writeMethod != null ? obtainAttributeSource().getManagedAttribute(writeMethod) : null);
+		ManagedAttribute getter = (readMethod != null ? obtainAttributeSource().getManagedAttribute(readMethod) : null);
+		ManagedAttribute setter = (writeMethod != null ? obtainAttributeSource().getManagedAttribute(writeMethod)
+				: null);
 
 		if (getter != null && StringUtils.hasText(getter.getDescription())) {
 			return getter.getDescription();
@@ -226,8 +220,8 @@ public class MetadataMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssem
 	}
 
 	/**
-	 * Retrieves the description for the supplied {@code Method} from the
-	 * metadata. Uses the method name is no description is present in the metadata.
+	 * Retrieves the description for the supplied {@code Method} from the metadata. Uses
+	 * the method name is no description is present in the metadata.
 	 */
 	@Override
 	protected String getOperationDescription(Method method, String beanKey) {
@@ -254,8 +248,8 @@ public class MetadataMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssem
 
 	/**
 	 * Reads {@code MBeanParameterInfo} from the {@code ManagedOperationParameter}
-	 * attributes attached to a method. Returns an empty array of {@code MBeanParameterInfo}
-	 * if no attributes are found.
+	 * attributes attached to a method. Returns an empty array of
+	 * {@code MBeanParameterInfo} if no attributes are found.
 	 */
 	@Override
 	protected MBeanParameterInfo[] getOperationParameters(Method method, String beanKey) {
@@ -268,22 +262,22 @@ public class MetadataMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssem
 		Class<?>[] methodParameters = method.getParameterTypes();
 		for (int i = 0; i < params.length; i++) {
 			ManagedOperationParameter param = params[i];
-			parameterInfo[i] =
-					new MBeanParameterInfo(param.getName(), methodParameters[i].getName(), param.getDescription());
+			parameterInfo[i] = new MBeanParameterInfo(param.getName(), methodParameters[i].getName(),
+					param.getDescription());
 		}
 		return parameterInfo;
 	}
 
 	/**
-	 * Reads the {@link ManagedNotification} metadata from the {@code Class} of the managed resource
-	 * and generates and returns the corresponding {@link ModelMBeanNotificationInfo} metadata.
+	 * Reads the {@link ManagedNotification} metadata from the {@code Class} of the
+	 * managed resource and generates and returns the corresponding
+	 * {@link ModelMBeanNotificationInfo} metadata.
 	 */
 	@Override
 	protected ModelMBeanNotificationInfo[] getNotificationInfo(Object managedBean, String beanKey) {
-		ManagedNotification[] notificationAttributes =
-				obtainAttributeSource().getManagedNotifications(getClassToExpose(managedBean));
-		ModelMBeanNotificationInfo[] notificationInfos =
-				new ModelMBeanNotificationInfo[notificationAttributes.length];
+		ManagedNotification[] notificationAttributes = obtainAttributeSource()
+				.getManagedNotifications(getClassToExpose(managedBean));
+		ModelMBeanNotificationInfo[] notificationInfos = new ModelMBeanNotificationInfo[notificationAttributes.length];
 
 		for (int i = 0; i < notificationAttributes.length; i++) {
 			ManagedNotification attribute = notificationAttributes[i];
@@ -294,10 +288,10 @@ public class MetadataMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssem
 	}
 
 	/**
-	 * Adds descriptor fields from the {@code ManagedResource} attribute
-	 * to the MBean descriptor. Specifically, adds the {@code currencyTimeLimit},
-	 * {@code persistPolicy}, {@code persistPeriod}, {@code persistLocation}
-	 * and {@code persistName} descriptor fields if they are present in the metadata.
+	 * Adds descriptor fields from the {@code ManagedResource} attribute to the MBean
+	 * descriptor. Specifically, adds the {@code currencyTimeLimit},
+	 * {@code persistPolicy}, {@code persistPeriod}, {@code persistLocation} and
+	 * {@code persistName} descriptor fields if they are present in the metadata.
 	 */
 	@Override
 	protected void populateMBeanDescriptor(Descriptor desc, Object managedBean, String beanKey) {
@@ -331,12 +325,12 @@ public class MetadataMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssem
 	}
 
 	/**
-	 * Adds descriptor fields from the {@code ManagedAttribute} attribute or the {@code ManagedMetric} attribute
-	 * to the attribute descriptor.
+	 * Adds descriptor fields from the {@code ManagedAttribute} attribute or the
+	 * {@code ManagedMetric} attribute to the attribute descriptor.
 	 */
 	@Override
-	protected void populateAttributeDescriptor(
-			Descriptor desc, @Nullable Method getter, @Nullable Method setter, String beanKey) {
+	protected void populateAttributeDescriptor(Descriptor desc, @Nullable Method getter, @Nullable Method setter,
+			String beanKey) {
 
 		if (getter != null) {
 			ManagedMetric metric = obtainAttributeSource().getManagedMetric(getter);
@@ -348,8 +342,7 @@ public class MetadataMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssem
 
 		ManagedAttribute gma = (getter != null ? obtainAttributeSource().getManagedAttribute(getter) : null);
 		ManagedAttribute sma = (setter != null ? obtainAttributeSource().getManagedAttribute(setter) : null);
-		populateAttributeDescriptor(desc,
-				(gma != null ? gma : ManagedAttribute.EMPTY),
+		populateAttributeDescriptor(desc, (gma != null ? gma : ManagedAttribute.EMPTY),
 				(sma != null ? sma : ManagedAttribute.EMPTY));
 	}
 
@@ -395,9 +388,9 @@ public class MetadataMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssem
 	}
 
 	/**
-	 * Adds descriptor fields from the {@code ManagedAttribute} attribute
-	 * to the attribute descriptor. Specifically, adds the {@code currencyTimeLimit}
-	 * descriptor field if it is present in the metadata.
+	 * Adds descriptor fields from the {@code ManagedAttribute} attribute to the attribute
+	 * descriptor. Specifically, adds the {@code currencyTimeLimit} descriptor field if it
+	 * is present in the metadata.
 	 */
 	@Override
 	protected void populateOperationDescriptor(Descriptor desc, Method method, String beanKey) {
@@ -408,11 +401,11 @@ public class MetadataMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssem
 	}
 
 	/**
-	 * Determines which of two {@code int} values should be used as the value
-	 * for an attribute descriptor. In general, only the getter or the setter will
-	 * be have a non-negative value so we use that value. In the event that both values
-	 * are non-negative, we use the greater of the two. This method can be used to
-	 * resolve any {@code int} valued descriptor where there are two possible values.
+	 * Determines which of two {@code int} values should be used as the value for an
+	 * attribute descriptor. In general, only the getter or the setter will be have a
+	 * non-negative value so we use that value. In the event that both values are
+	 * non-negative, we use the greater of the two. This method can be used to resolve any
+	 * {@code int} valued descriptor where there are two possible values.
 	 * @param getter the int value associated with the getter for this attribute
 	 * @param setter the int associated with the setter for this attribute
 	 */
@@ -421,9 +414,9 @@ public class MetadataMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssem
 	}
 
 	/**
-	 * Locates the value of a descriptor based on values attached
-	 * to both the getter and setter methods. If both have values
-	 * supplied then the value attached to the getter is preferred.
+	 * Locates the value of a descriptor based on values attached to both the getter and
+	 * setter methods. If both have values supplied then the value attached to the getter
+	 * is preferred.
 	 * @param getter the Object value associated with the get method
 	 * @param setter the Object value associated with the set method
 	 * @return the appropriate Object to use as the value for the descriptor
@@ -434,10 +427,9 @@ public class MetadataMBeanInfoAssembler extends AbstractReflectiveMBeanInfoAssem
 	}
 
 	/**
-	 * Locates the value of a descriptor based on values attached
-	 * to both the getter and setter methods. If both have values
-	 * supplied then the value attached to the getter is preferred.
-	 * The supplied default value is used to check to see if the value
+	 * Locates the value of a descriptor based on values attached to both the getter and
+	 * setter methods. If both have values supplied then the value attached to the getter
+	 * is preferred. The supplied default value is used to check to see if the value
 	 * associated with the getter has changed from the default.
 	 * @param getter the String value associated with the get method
 	 * @param setter the String value associated with the set method

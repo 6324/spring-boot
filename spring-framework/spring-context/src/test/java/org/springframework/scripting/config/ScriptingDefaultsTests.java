@@ -35,19 +35,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SuppressWarnings("resource")
 public class ScriptingDefaultsTests {
 
-	private static final String CONFIG =
-		"org/springframework/scripting/config/scriptingDefaultsTests.xml";
+	private static final String CONFIG = "org/springframework/scripting/config/scriptingDefaultsTests.xml";
 
-	private static final String PROXY_CONFIG =
-		"org/springframework/scripting/config/scriptingDefaultsProxyTargetClassTests.xml";
-
+	private static final String PROXY_CONFIG = "org/springframework/scripting/config/scriptingDefaultsProxyTargetClassTests.xml";
 
 	@Test
 	public void defaultRefreshCheckDelay() throws Exception {
 		ApplicationContext context = new ClassPathXmlApplicationContext(CONFIG);
 		Advised advised = (Advised) context.getBean("testBean");
-		AbstractRefreshableTargetSource targetSource =
-				((AbstractRefreshableTargetSource) advised.getTargetSource());
+		AbstractRefreshableTargetSource targetSource = ((AbstractRefreshableTargetSource) advised.getTargetSource());
 		Field field = AbstractRefreshableTargetSource.class.getDeclaredField("refreshCheckDelay");
 		field.setAccessible(true);
 		long delay = ((Long) field.get(targetSource)).longValue();

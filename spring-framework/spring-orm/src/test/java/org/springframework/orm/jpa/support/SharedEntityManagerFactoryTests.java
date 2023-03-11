@@ -62,8 +62,7 @@ public class SharedEntityManagerFactoryTests {
 		boolean condition = proxy instanceof EntityManagerProxy;
 		assertThat(condition).isTrue();
 		EntityManagerProxy emProxy = (EntityManagerProxy) proxy;
-		assertThatIllegalStateException().as("outside of transaction").isThrownBy(
-				emProxy::getTargetEntityManager);
+		assertThatIllegalStateException().as("outside of transaction").isThrownBy(emProxy::getTargetEntityManager);
 
 		TransactionSynchronizationManager.bindResource(mockEmf, new EntityManagerHolder(mockEm));
 		try {

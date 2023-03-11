@@ -49,7 +49,6 @@ public abstract class CacheOperation implements BasicOperation {
 
 	private final String toString;
 
-
 	/**
 	 * Create a new {@link CacheOperation} instance from the given builder.
 	 * @since 4.3
@@ -64,7 +63,6 @@ public abstract class CacheOperation implements BasicOperation {
 		this.condition = b.condition;
 		this.toString = b.getOperationDescription().toString();
 	}
-
 
 	public String getName() {
 		return this.name;
@@ -95,7 +93,6 @@ public abstract class CacheOperation implements BasicOperation {
 		return this.condition;
 	}
 
-
 	/**
 	 * This implementation compares the {@code toString()} results.
 	 * @see #toString()
@@ -116,7 +113,8 @@ public abstract class CacheOperation implements BasicOperation {
 
 	/**
 	 * Return an identifying description for this cache operation.
-	 * <p>Returned value is produced by calling {@link Builder#getOperationDescription()}
+	 * <p>
+	 * Returned value is produced by calling {@link Builder#getOperationDescription()}
 	 * during object construction. This method is used in {@link #hashCode} and
 	 * {@link #equals}.
 	 * @see Builder#getOperationDescription()
@@ -126,9 +124,9 @@ public abstract class CacheOperation implements BasicOperation {
 		return this.toString;
 	}
 
-
 	/**
 	 * Base class for builders that can be used to create a {@link CacheOperation}.
+	 *
 	 * @since 4.3
 	 */
 	public abstract static class Builder {
@@ -212,7 +210,8 @@ public abstract class CacheOperation implements BasicOperation {
 
 		/**
 		 * Return an identifying description for this caching operation.
-		 * <p>Available to subclasses, for inclusion in their {@code toString()} result.
+		 * <p>
+		 * Available to subclasses, for inclusion in their {@code toString()} result.
 		 */
 		protected StringBuilder getOperationDescription() {
 			StringBuilder result = new StringBuilder(getClass().getSimpleName());
@@ -227,6 +226,7 @@ public abstract class CacheOperation implements BasicOperation {
 		}
 
 		public abstract CacheOperation build();
+
 	}
 
 }

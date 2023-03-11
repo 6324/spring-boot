@@ -19,9 +19,9 @@ package org.springframework.web.socket.sockjs;
 import org.springframework.lang.Nullable;
 
 /**
- * Indicates a serious failure that occurred in the SockJS implementation as opposed to
- * in user code (e.g. IOException while writing to the response). When this exception
- * is raised, the SockJS session is typically closed.
+ * Indicates a serious failure that occurred in the SockJS implementation as opposed to in
+ * user code (e.g. IOException while writing to the response). When this exception is
+ * raised, the SockJS session is typically closed.
  *
  * @author Rossen Stoyanchev
  * @since 4.0

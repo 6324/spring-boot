@@ -30,13 +30,14 @@ import org.springframework.core.convert.converter.ConverterRegistry;
 import org.springframework.format.datetime.DateFormatterRegistrar;
 
 /**
- * Installs lower-level type converters required to integrate
- * JSR-310 support into Spring's field formatting system.
+ * Installs lower-level type converters required to integrate JSR-310 support into
+ * Spring's field formatting system.
  *
- * <p>Note: {@link DateTimeFormatterRegistrar} installs these converters but
- * does not rely on them for its formatters. They are just being registered
- * for custom conversion scenarios between different JSR-310 value types
- * and also between {@link java.util.Calendar} and JSR-310 value types.
+ * <p>
+ * Note: {@link DateTimeFormatterRegistrar} installs these converters but does not rely on
+ * them for its formatters. They are just being registered for custom conversion scenarios
+ * between different JSR-310 value types and also between {@link java.util.Calendar} and
+ * JSR-310 value types.
  *
  * @author Juergen Hoeller
  * @since 4.0.1
@@ -45,7 +46,6 @@ final class DateTimeConverters {
 
 	private DateTimeConverters() {
 	}
-
 
 	/**
 	 * Install the converters into the converter registry.
@@ -86,15 +86,14 @@ final class DateTimeConverters {
 		}
 	}
 
-
 	private static class LocalDateTimeToLocalDateConverter implements Converter<LocalDateTime, LocalDate> {
 
 		@Override
 		public LocalDate convert(LocalDateTime source) {
 			return source.toLocalDate();
 		}
-	}
 
+	}
 
 	private static class LocalDateTimeToLocalTimeConverter implements Converter<LocalDateTime, LocalTime> {
 
@@ -102,8 +101,8 @@ final class DateTimeConverters {
 		public LocalTime convert(LocalDateTime source) {
 			return source.toLocalTime();
 		}
-	}
 
+	}
 
 	private static class ZonedDateTimeToLocalDateConverter implements Converter<ZonedDateTime, LocalDate> {
 
@@ -111,8 +110,8 @@ final class DateTimeConverters {
 		public LocalDate convert(ZonedDateTime source) {
 			return source.toLocalDate();
 		}
-	}
 
+	}
 
 	private static class ZonedDateTimeToLocalTimeConverter implements Converter<ZonedDateTime, LocalTime> {
 
@@ -120,8 +119,8 @@ final class DateTimeConverters {
 		public LocalTime convert(ZonedDateTime source) {
 			return source.toLocalTime();
 		}
-	}
 
+	}
 
 	private static class ZonedDateTimeToLocalDateTimeConverter implements Converter<ZonedDateTime, LocalDateTime> {
 
@@ -129,6 +128,7 @@ final class DateTimeConverters {
 		public LocalDateTime convert(ZonedDateTime source) {
 			return source.toLocalDateTime();
 		}
+
 	}
 
 	private static class ZonedDateTimeToOffsetDateTimeConverter implements Converter<ZonedDateTime, OffsetDateTime> {
@@ -137,8 +137,8 @@ final class DateTimeConverters {
 		public OffsetDateTime convert(ZonedDateTime source) {
 			return source.toOffsetDateTime();
 		}
-	}
 
+	}
 
 	private static class ZonedDateTimeToInstantConverter implements Converter<ZonedDateTime, Instant> {
 
@@ -146,8 +146,8 @@ final class DateTimeConverters {
 		public Instant convert(ZonedDateTime source) {
 			return source.toInstant();
 		}
-	}
 
+	}
 
 	private static class OffsetDateTimeToLocalDateConverter implements Converter<OffsetDateTime, LocalDate> {
 
@@ -155,8 +155,8 @@ final class DateTimeConverters {
 		public LocalDate convert(OffsetDateTime source) {
 			return source.toLocalDate();
 		}
-	}
 
+	}
 
 	private static class OffsetDateTimeToLocalTimeConverter implements Converter<OffsetDateTime, LocalTime> {
 
@@ -164,8 +164,8 @@ final class DateTimeConverters {
 		public LocalTime convert(OffsetDateTime source) {
 			return source.toLocalTime();
 		}
-	}
 
+	}
 
 	private static class OffsetDateTimeToLocalDateTimeConverter implements Converter<OffsetDateTime, LocalDateTime> {
 
@@ -173,8 +173,8 @@ final class DateTimeConverters {
 		public LocalDateTime convert(OffsetDateTime source) {
 			return source.toLocalDateTime();
 		}
-	}
 
+	}
 
 	private static class OffsetDateTimeToZonedDateTimeConverter implements Converter<OffsetDateTime, ZonedDateTime> {
 
@@ -182,8 +182,8 @@ final class DateTimeConverters {
 		public ZonedDateTime convert(OffsetDateTime source) {
 			return source.toZonedDateTime();
 		}
-	}
 
+	}
 
 	private static class OffsetDateTimeToInstantConverter implements Converter<OffsetDateTime, Instant> {
 
@@ -191,8 +191,8 @@ final class DateTimeConverters {
 		public Instant convert(OffsetDateTime source) {
 			return source.toInstant();
 		}
-	}
 
+	}
 
 	private static class CalendarToZonedDateTimeConverter implements Converter<Calendar, ZonedDateTime> {
 
@@ -200,8 +200,8 @@ final class DateTimeConverters {
 		public ZonedDateTime convert(Calendar source) {
 			return calendarToZonedDateTime(source);
 		}
-	}
 
+	}
 
 	private static class CalendarToOffsetDateTimeConverter implements Converter<Calendar, OffsetDateTime> {
 
@@ -209,8 +209,8 @@ final class DateTimeConverters {
 		public OffsetDateTime convert(Calendar source) {
 			return calendarToZonedDateTime(source).toOffsetDateTime();
 		}
-	}
 
+	}
 
 	private static class CalendarToLocalDateConverter implements Converter<Calendar, LocalDate> {
 
@@ -218,8 +218,8 @@ final class DateTimeConverters {
 		public LocalDate convert(Calendar source) {
 			return calendarToZonedDateTime(source).toLocalDate();
 		}
-	}
 
+	}
 
 	private static class CalendarToLocalTimeConverter implements Converter<Calendar, LocalTime> {
 
@@ -227,8 +227,8 @@ final class DateTimeConverters {
 		public LocalTime convert(Calendar source) {
 			return calendarToZonedDateTime(source).toLocalTime();
 		}
-	}
 
+	}
 
 	private static class CalendarToLocalDateTimeConverter implements Converter<Calendar, LocalDateTime> {
 
@@ -236,8 +236,8 @@ final class DateTimeConverters {
 		public LocalDateTime convert(Calendar source) {
 			return calendarToZonedDateTime(source).toLocalDateTime();
 		}
-	}
 
+	}
 
 	private static class CalendarToInstantConverter implements Converter<Calendar, Instant> {
 
@@ -245,8 +245,8 @@ final class DateTimeConverters {
 		public Instant convert(Calendar source) {
 			return calendarToZonedDateTime(source).toInstant();
 		}
-	}
 
+	}
 
 	private static class LongToInstantConverter implements Converter<Long, Instant> {
 
@@ -254,8 +254,8 @@ final class DateTimeConverters {
 		public Instant convert(Long source) {
 			return Instant.ofEpochMilli(source);
 		}
-	}
 
+	}
 
 	private static class InstantToLongConverter implements Converter<Instant, Long> {
 
@@ -263,6 +263,7 @@ final class DateTimeConverters {
 		public Long convert(Instant source) {
 			return source.toEpochMilli();
 		}
+
 	}
 
 }

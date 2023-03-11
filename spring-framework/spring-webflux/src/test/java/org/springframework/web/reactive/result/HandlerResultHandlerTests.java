@@ -49,7 +49,6 @@ public class HandlerResultHandlerTests {
 
 	private final TestResultHandler resultHandler = new TestResultHandler();
 
-
 	@Test
 	void usesContentTypeResolver() {
 		TestResultHandler resultHandler = new TestResultHandler(new FixedContentTypeResolver(IMAGE_GIF));
@@ -71,10 +70,10 @@ public class HandlerResultHandlerTests {
 		assertThat(actual).isEqualTo(IMAGE_GIF);
 	}
 
-	@Test  // SPR-9160
+	@Test // SPR-9160
 	void sortsByQuality() {
-		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/path")
-				.header("Accept", "text/plain; q=0.5, application/json"));
+		MockServerWebExchange exchange = MockServerWebExchange
+				.from(MockServerHttpRequest.get("/path").header("Accept", "text/plain; q=0.5, application/json"));
 
 		List<MediaType> mediaTypes = Arrays.asList(TEXT_PLAIN, APPLICATION_JSON);
 		MediaType actual = this.resultHandler.selectMediaType(exchange, () -> mediaTypes);
@@ -86,7 +85,8 @@ public class HandlerResultHandlerTests {
 	void charsetFromAcceptHeader() {
 		MediaType text8859 = MediaType.parseMediaType("text/plain;charset=ISO-8859-1");
 		MediaType textUtf8 = MediaType.parseMediaType("text/plain;charset=UTF-8");
-		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/path").accept(text8859));
+		MockServerWebExchange exchange = MockServerWebExchange
+				.from(MockServerHttpRequest.get("/path").accept(text8859));
 		MediaType actual = this.resultHandler.selectMediaType(exchange, () -> Collections.singletonList(textUtf8));
 
 		assertThat(actual).isEqualTo(text8859);
@@ -103,15 +103,14 @@ public class HandlerResultHandlerTests {
 
 	@Test
 	void removeQualityParameter() {
-		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/path")
-				.header("Accept", "text/plain; q=0.5"));
+		MockServerWebExchange exchange = MockServerWebExchange
+				.from(MockServerHttpRequest.get("/path").header("Accept", "text/plain; q=0.5"));
 
 		List<MediaType> mediaTypes = Arrays.asList(APPLICATION_JSON, TEXT_PLAIN);
 		MediaType actual = this.resultHandler.selectMediaType(exchange, () -> mediaTypes);
 
 		assertThat(actual).isEqualTo(TEXT_PLAIN);
 	}
-
 
 	@SuppressWarnings("WeakerAccess")
 	private static class TestResultHandler extends HandlerResultHandlerSupport {
@@ -123,6 +122,7 @@ public class HandlerResultHandlerTests {
 		public TestResultHandler(RequestedContentTypeResolver contentTypeResolver) {
 			super(contentTypeResolver, ReactiveAdapterRegistry.getSharedInstance());
 		}
+
 	}
 
 }

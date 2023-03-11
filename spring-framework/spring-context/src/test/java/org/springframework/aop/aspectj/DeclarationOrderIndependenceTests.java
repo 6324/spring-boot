@@ -37,15 +37,13 @@ public class DeclarationOrderIndependenceTests {
 
 	private TopsyTurvyTarget target;
 
-
 	@BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml",
+				getClass());
 		aspect = (TopsyTurvyAspect) ctx.getBean("topsyTurvyAspect");
 		target = (TopsyTurvyTarget) ctx.getBean("topsyTurvyTarget");
 	}
-
 
 	@Test
 	public void testTargetIsSerializable() {
@@ -83,7 +81,6 @@ public class DeclarationOrderIndependenceTests {
 		assertThat(collab.afterReturningFired).as("after returning advice fired").isTrue();
 	}
 
-
 	/** public visibility is required */
 	public static class BeanNameAwareMixin implements BeanNameAware {
 
@@ -100,17 +97,21 @@ public class DeclarationOrderIndependenceTests {
 	/** public visibility is required */
 	@SuppressWarnings("serial")
 	public static class SerializableMixin implements Serializable {
+
 	}
 
 }
 
-
 class TopsyTurvyAspect {
 
 	interface Collaborator {
+
 		void beforeAdviceFired();
+
 		void afterReturningAdviceFired();
+
 		void aroundAdviceFired();
+
 	}
 
 	private Collaborator collaborator;
@@ -132,16 +133,16 @@ class TopsyTurvyAspect {
 		this.collaborator.aroundAdviceFired();
 		return ret;
 	}
-}
 
+}
 
 interface TopsyTurvyTarget {
 
 	void doSomething();
 
 	int getX();
-}
 
+}
 
 class TopsyTurvyTargetImpl implements TopsyTurvyTarget {
 
@@ -156,13 +157,15 @@ class TopsyTurvyTargetImpl implements TopsyTurvyTarget {
 	public int getX() {
 		return x;
 	}
-}
 
+}
 
 class AspectCollaborator implements TopsyTurvyAspect.Collaborator {
 
 	public boolean afterReturningFired = false;
+
 	public boolean aroundFired = false;
+
 	public boolean beforeFired = false;
 
 	@Override
@@ -179,4 +182,5 @@ class AspectCollaborator implements TopsyTurvyAspect.Collaborator {
 	public void beforeAdviceFired() {
 		this.beforeFired = true;
 	}
+
 }

@@ -35,19 +35,21 @@ import org.springframework.util.Assert;
 
 /**
  * ----------------------
- * <p><strong>NOTE:</strong> This class was copied from
- * {@code org.springframework.http.server.reactive.ChannelSendOperator} and is
- * identical to it. It's used for the same purpose, i.e. the ability to switch to
- * alternate handling via annotated exception handler methods if the output
- * publisher starts with an error.
- * <p>----------------------<br>
+ * <p>
+ * <strong>NOTE:</strong> This class was copied from
+ * {@code org.springframework.http.server.reactive.ChannelSendOperator} and is identical
+ * to it. It's used for the same purpose, i.e. the ability to switch to alternate handling
+ * via annotated exception handler methods if the output publisher starts with an error.
+ * <p>
+ * ----------------------<br>
  *
- * <p>Given a write function that accepts a source {@code Publisher<T>} to write
- * with and returns {@code Publisher<Void>} for the result, this operator helps
- * to defer the invocation of the write function, until we know if the source
- * publisher will begin publishing without an error. If the first emission is
- * an error, the write function is bypassed, and the error is sent directly
- * through the result publisher. Otherwise the write function is invoked.
+ * <p>
+ * Given a write function that accepts a source {@code Publisher<T>} to write with and
+ * returns {@code Publisher<Void>} for the result, this operator helps to defer the
+ * invocation of the write function, until we know if the source publisher will begin
+ * publishing without an error. If the first emission is an error, the write function is
+ * bypassed, and the error is sent directly through the result publisher. Otherwise the
+ * write function is invoked.
  *
  * @author Rossen Stoyanchev
  * @author Stephane Maldini
@@ -60,12 +62,10 @@ class ChannelSendOperator<T> extends Mono<Void> implements Scannable {
 
 	private final Flux<T> source;
 
-
 	public ChannelSendOperator(Publisher<? extends T> source, Function<Publisher<T>, Publisher<Void>> writeFunction) {
 		this.source = Flux.from(source);
 		this.writeFunction = writeFunction;
 	}
-
 
 	@Override
 	@Nullable
@@ -85,48 +85,48 @@ class ChannelSendOperator<T> extends Mono<Void> implements Scannable {
 		this.source.subscribe(new WriteBarrier(actual));
 	}
 
-
 	private enum State {
 
 		/** No emissions from the upstream source yet. */
 		NEW,
 
 		/**
-		 * At least one signal of any kind has been received; we're ready to
-		 * call the write function and proceed with actual writing.
+		 * At least one signal of any kind has been received; we're ready to call the
+		 * write function and proceed with actual writing.
 		 */
 		FIRST_SIGNAL_RECEIVED,
 
 		/**
-		 * The write subscriber has subscribed and requested; we're going to
-		 * emit the cached signals.
+		 * The write subscriber has subscribed and requested; we're going to emit the
+		 * cached signals.
 		 */
 		EMITTING_CACHED_SIGNALS,
 
 		/**
-		 * The write subscriber has subscribed, and cached signals have been
-		 * emitted to it; we're ready to switch to a simple pass-through mode
-		 * for all remaining signals.
+		 * The write subscriber has subscribed, and cached signals have been emitted to
+		 * it; we're ready to switch to a simple pass-through mode for all remaining
+		 * signals.
 		 **/
 		READY_TO_WRITE
 
 	}
 
-
 	/**
-	 * A barrier inserted between the write source and the write subscriber
-	 * (i.e. the HTTP server adapter) that pre-fetches and waits for the first
-	 * signal before deciding whether to hook in to the write subscriber.
+	 * A barrier inserted between the write source and the write subscriber (i.e. the HTTP
+	 * server adapter) that pre-fetches and waits for the first signal before deciding
+	 * whether to hook in to the write subscriber.
 	 *
-	 * <p>Acts as:
+	 * <p>
+	 * Acts as:
 	 * <ul>
 	 * <li>Subscriber to the write source.
 	 * <li>Subscription to the write subscriber.
 	 * <li>Publisher to the write subscriber.
 	 * </ul>
 	 *
-	 * <p>Also uses {@link WriteCompletionBarrier} to communicate completion
-	 * and detect cancel signals from the completion subscriber.
+	 * <p>
+	 * Also uses {@link WriteCompletionBarrier} to communicate completion and detect
+	 * cancel signals from the completion subscriber.
 	 */
 	private class WriteBarrier implements CoreSubscriber<T>, Subscription, Publisher<T> {
 
@@ -158,11 +158,9 @@ class ChannelSendOperator<T> extends Mono<Void> implements Scannable {
 		@Nullable
 		private Subscriber<? super T> writeSubscriber;
 
-
 		WriteBarrier(CoreSubscriber<? super Void> completionSubscriber) {
 			this.writeCompletionBarrier = new WriteCompletionBarrier(completionSubscriber, this);
 		}
-
 
 		// Subscriber<T> methods (we're the subscriber to the write source)..
 
@@ -181,7 +179,7 @@ class ChannelSendOperator<T> extends Mono<Void> implements Scannable {
 				requiredWriteSubscriber().onNext(item);
 				return;
 			}
-			//FIXME revisit in case of reentrant sync deadlock
+			// FIXME revisit in case of reentrant sync deadlock
 			synchronized (this) {
 				if (this.state == State.READY_TO_WRITE) {
 					requiredWriteSubscriber().onNext(item);
@@ -267,7 +265,6 @@ class ChannelSendOperator<T> extends Mono<Void> implements Scannable {
 			return this.writeCompletionBarrier.currentContext();
 		}
 
-
 		// Subscription methods (we're the Subscription to the writeSubscriber)..
 
 		@Override
@@ -350,7 +347,6 @@ class ChannelSendOperator<T> extends Mono<Void> implements Scannable {
 			}
 		}
 
-
 		// Publisher<T> methods (we're the Publisher to the writeSubscriber)..
 
 		@Override
@@ -367,17 +363,18 @@ class ChannelSendOperator<T> extends Mono<Void> implements Scannable {
 				}
 			}
 		}
+
 	}
 
-
 	/**
-	 * We need an extra barrier between the WriteBarrier itself and the actual
-	 * completion subscriber.
+	 * We need an extra barrier between the WriteBarrier itself and the actual completion
+	 * subscriber.
 	 *
-	 * <p>The completionSubscriber is subscribed initially to the WriteBarrier.
-	 * Later after the first signal is received, we need one more subscriber
-	 * instance (per spec can only subscribe once) to subscribe to the write
-	 * function and switch to delegating completion signals from it.
+	 * <p>
+	 * The completionSubscriber is subscribed initially to the WriteBarrier. Later after
+	 * the first signal is received, we need one more subscriber instance (per spec can
+	 * only subscribe once) to subscribe to the write function and switch to delegating
+	 * completion signals from it.
 	 */
 	private class WriteCompletionBarrier implements CoreSubscriber<Void>, Subscription {
 
@@ -389,16 +386,14 @@ class ChannelSendOperator<T> extends Mono<Void> implements Scannable {
 		@Nullable
 		private Subscription subscription;
 
-
 		public WriteCompletionBarrier(CoreSubscriber<? super Void> subscriber, WriteBarrier writeBarrier) {
 			this.completionSubscriber = subscriber;
 			this.writeBarrier = writeBarrier;
 		}
 
-
 		/**
-		 * Connect the underlying completion subscriber to this barrier in order
-		 * to track cancel signals and pass them on to the write barrier.
+		 * Connect the underlying completion subscriber to this barrier in order to track
+		 * cancel signals and pass them on to the write barrier.
 		 */
 		public void connect() {
 			this.completionSubscriber.onSubscribe(this);
@@ -436,7 +431,6 @@ class ChannelSendOperator<T> extends Mono<Void> implements Scannable {
 			return this.completionSubscriber.currentContext();
 		}
 
-
 		@Override
 		public void request(long n) {
 			// Ignore: we don't produce data
@@ -450,6 +444,7 @@ class ChannelSendOperator<T> extends Mono<Void> implements Scannable {
 				subscription.cancel();
 			}
 		}
+
 	}
 
 }

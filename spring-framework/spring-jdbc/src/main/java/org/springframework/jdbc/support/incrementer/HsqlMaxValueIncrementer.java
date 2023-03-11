@@ -19,25 +19,29 @@ package org.springframework.jdbc.support.incrementer;
 import javax.sql.DataSource;
 
 /**
- * {@link DataFieldMaxValueIncrementer} that increments the maximum value of a given HSQL table
- * with the equivalent of an auto-increment column. Note: If you use this class, your HSQL
- * key column should <i>NOT</i> be auto-increment, as the sequence table does the job.
+ * {@link DataFieldMaxValueIncrementer} that increments the maximum value of a given HSQL
+ * table with the equivalent of an auto-increment column. Note: If you use this class,
+ * your HSQL key column should <i>NOT</i> be auto-increment, as the sequence table does
+ * the job.
  *
- * <p>The sequence is kept in a table. There should be one sequence table per
- * table that needs an auto-generated key.
+ * <p>
+ * The sequence is kept in a table. There should be one sequence table per table that
+ * needs an auto-generated key.
  *
- * <p>Example:
+ * <p>
+ * Example:
  *
  * <pre class="code">create table tab (id int not null primary key, text varchar(100));
  * create table tab_sequence (value identity);
  * insert into tab_sequence values(0);</pre>
  *
  * If "cacheSize" is set, the intermediate values are served without querying the
- * database. If the server or your application is stopped or crashes or a transaction
- * is rolled back, the unused values will never be served. The maximum hole size in
- * numbering is consequently the value of cacheSize.
+ * database. If the server or your application is stopped or crashes or a transaction is
+ * rolled back, the unused values will never be served. The maximum hole size in numbering
+ * is consequently the value of cacheSize.
  *
- * <p><b>NOTE:</b> HSQL now supports sequences and you should consider using them instead:
+ * <p>
+ * <b>NOTE:</b> HSQL now supports sequences and you should consider using them instead:
  * {@link HsqlSequenceMaxValueIncrementer}
  *
  * @author Jean-Pierre Pawlak
@@ -65,7 +69,6 @@ public class HsqlMaxValueIncrementer extends AbstractIdentityColumnMaxValueIncre
 	public HsqlMaxValueIncrementer(DataSource dataSource, String incrementerName, String columnName) {
 		super(dataSource, incrementerName, columnName);
 	}
-
 
 	@Override
 	protected String getIncrementStatement() {

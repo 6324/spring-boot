@@ -27,21 +27,47 @@ import org.springframework.util.StringUtils;
 /**
  * A data size, such as '12MB'.
  *
- * <p>This class models data size in terms of bytes and is immutable and thread-safe.
+ * <p>
+ * This class models data size in terms of bytes and is immutable and thread-safe.
  *
- * <p>The terms and units used in this class are based on
- * <a href="https://en.wikipedia.org/wiki/Binary_prefix">binary prefixes</a>
- * indicating multiplication by powers of 2. Consult the following table and
- * the Javadoc for {@link DataUnit} for details.
+ * <p>
+ * The terms and units used in this class are based on
+ * <a href="https://en.wikipedia.org/wiki/Binary_prefix">binary prefixes</a> indicating
+ * multiplication by powers of 2. Consult the following table and the Javadoc for
+ * {@link DataUnit} for details.
  *
  * <p>
  * <table border="1">
- * <tr><th>Term</th><th>Data Size</th><th>Size in Bytes</th></tr>
- * <tr><td>byte</td><td>1B</td><td>1</td></tr>
- * <tr><td>kilobyte</td><td>1KB</td><td>1,024</td></tr>
- * <tr><td>megabyte</td><td>1MB</td><td>1,048,576</td></tr>
- * <tr><td>gigabyte</td><td>1GB</td><td>1,073,741,824</td></tr>
- * <tr><td>terabyte</td><td>1TB</td><td>1,099,511,627,776</td></tr>
+ * <tr>
+ * <th>Term</th>
+ * <th>Data Size</th>
+ * <th>Size in Bytes</th>
+ * </tr>
+ * <tr>
+ * <td>byte</td>
+ * <td>1B</td>
+ * <td>1</td>
+ * </tr>
+ * <tr>
+ * <td>kilobyte</td>
+ * <td>1KB</td>
+ * <td>1,024</td>
+ * </tr>
+ * <tr>
+ * <td>megabyte</td>
+ * <td>1MB</td>
+ * <td>1,048,576</td>
+ * </tr>
+ * <tr>
+ * <td>gigabyte</td>
+ * <td>1GB</td>
+ * <td>1,073,741,824</td>
+ * </tr>
+ * <tr>
+ * <td>terabyte</td>
+ * <td>1TB</td>
+ * <td>1,099,511,627,776</td>
+ * </tr>
  * </table>
  *
  * @author Stephane Nicoll
@@ -77,14 +103,11 @@ public final class DataSize implements Comparable<DataSize>, Serializable {
 	 */
 	private static final long BYTES_PER_TB = BYTES_PER_GB * 1024;
 
-
 	private final long bytes;
-
 
 	private DataSize(long bytes) {
 		this.bytes = bytes;
 	}
-
 
 	/**
 	 * Obtain a {@link DataSize} representing the specified number of bytes.
@@ -133,8 +156,8 @@ public final class DataSize implements Comparable<DataSize>, Serializable {
 
 	/**
 	 * Obtain a {@link DataSize} representing an amount in the specified {@link DataUnit}.
-	 * @param amount the amount of the size, measured in terms of the unit,
-	 * positive or negative
+	 * @param amount the amount of the size, measured in terms of the unit, positive or
+	 * negative
 	 * @return a corresponding {@link DataSize}
 	 */
 	public static DataSize of(long amount, DataUnit unit) {
@@ -146,8 +169,7 @@ public final class DataSize implements Comparable<DataSize>, Serializable {
 	 * Obtain a {@link DataSize} from a text string such as {@code 12MB} using
 	 * {@link DataUnit#BYTES} if no unit is specified.
 	 * <p>
-	 * Examples:
-	 * <pre>
+	 * Examples: <pre>
 	 * "12KB" -- parses as "12 kilobytes"
 	 * "5MB"  -- parses as "5 megabytes"
 	 * "20"   -- parses as "20 bytes"
@@ -161,14 +183,13 @@ public final class DataSize implements Comparable<DataSize>, Serializable {
 	}
 
 	/**
-	 * Obtain a {@link DataSize} from a text string such as {@code 12MB} using
-	 * the specified default {@link DataUnit} if no unit is specified.
+	 * Obtain a {@link DataSize} from a text string such as {@code 12MB} using the
+	 * specified default {@link DataUnit} if no unit is specified.
 	 * <p>
 	 * The string starts with a number followed optionally by a unit matching one of the
 	 * supported {@linkplain DataUnit suffixes}.
 	 * <p>
-	 * Examples:
-	 * <pre>
+	 * Examples: <pre>
 	 * "12KB" -- parses as "12 kilobytes"
 	 * "5MB"  -- parses as "5 megabytes"
 	 * "20"   -- parses as "20 kilobytes" (where the {@code defaultUnit} is {@link DataUnit#KILOBYTES})
@@ -252,7 +273,6 @@ public final class DataSize implements Comparable<DataSize>, Serializable {
 	public String toString() {
 		return String.format("%dB", this.bytes);
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {

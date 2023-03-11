@@ -62,14 +62,12 @@ public class RequestBodyMethodArgumentResolverTests {
 
 	private ResolvableMethod testMethod = ResolvableMethod.on(getClass()).named("handle").build();
 
-
 	@BeforeEach
 	public void setup() {
 		List<HttpMessageReader<?>> readers = new ArrayList<>();
 		readers.add(new DecoderHttpMessageReader<>(StringDecoder.allMimeTypes()));
 		this.resolver = new RequestBodyMethodArgumentResolver(readers, ReactiveAdapterRegistry.getSharedInstance());
 	}
-
 
 	@Test
 	public void supports() {
@@ -94,8 +92,7 @@ public class RequestBodyMethodArgumentResolverTests {
 	@Test
 	public void emptyBodyWithString() {
 		MethodParameter param = this.testMethod.annot(requestBody()).arg(String.class);
-		assertThatExceptionOfType(ServerWebInputException.class).isThrownBy(() ->
-				resolveValueWithEmptyBody(param));
+		assertThatExceptionOfType(ServerWebInputException.class).isThrownBy(() -> resolveValueWithEmptyBody(param));
 	}
 
 	@Test
@@ -118,83 +115,58 @@ public class RequestBodyMethodArgumentResolverTests {
 	@SuppressWarnings("unchecked")
 	public void emptyBodyWithMono() {
 		MethodParameter param = this.testMethod.annot(requestBody()).arg(Mono.class, String.class);
-		StepVerifier.create((Mono<Void>) resolveValueWithEmptyBody(param))
-				.expectNextCount(0)
-				.expectError(ServerWebInputException.class)
-				.verify();
+		StepVerifier.create((Mono<Void>) resolveValueWithEmptyBody(param)).expectNextCount(0)
+				.expectError(ServerWebInputException.class).verify();
 
 		param = this.testMethod.annot(requestBody().notRequired()).arg(Mono.class, String.class);
-		StepVerifier.create((Mono<Void>) resolveValueWithEmptyBody(param))
-				.expectNextCount(0)
-				.expectComplete()
-				.verify();
+		StepVerifier.create((Mono<Void>) resolveValueWithEmptyBody(param)).expectNextCount(0).expectComplete().verify();
 	}
 
 	@Test
 	@SuppressWarnings("unchecked")
 	public void emptyBodyWithFlux() {
 		MethodParameter param = this.testMethod.annot(requestBody()).arg(Flux.class, String.class);
-		StepVerifier.create((Flux<Void>) resolveValueWithEmptyBody(param))
-				.expectNextCount(0)
-				.expectError(ServerWebInputException.class)
-				.verify();
+		StepVerifier.create((Flux<Void>) resolveValueWithEmptyBody(param)).expectNextCount(0)
+				.expectError(ServerWebInputException.class).verify();
 
 		param = this.testMethod.annot(requestBody().notRequired()).arg(Flux.class, String.class);
-		StepVerifier.create((Flux<Void>) resolveValueWithEmptyBody(param))
-				.expectNextCount(0)
-				.expectComplete()
-				.verify();
+		StepVerifier.create((Flux<Void>) resolveValueWithEmptyBody(param)).expectNextCount(0).expectComplete().verify();
 	}
 
 	@Test
 	public void emptyBodyWithSingle() {
 		MethodParameter param = this.testMethod.annot(requestBody()).arg(Single.class, String.class);
 		Single<String> single = resolveValueWithEmptyBody(param);
-		StepVerifier.create(RxReactiveStreams.toPublisher(single))
-				.expectNextCount(0)
-				.expectError(ServerWebInputException.class)
-				.verify();
+		StepVerifier.create(RxReactiveStreams.toPublisher(single)).expectNextCount(0)
+				.expectError(ServerWebInputException.class).verify();
 
 		param = this.testMethod.annot(requestBody().notRequired()).arg(Single.class, String.class);
 		single = resolveValueWithEmptyBody(param);
-		StepVerifier.create(RxReactiveStreams.toPublisher(single))
-				.expectNextCount(0)
-				.expectError(ServerWebInputException.class)
-				.verify();
+		StepVerifier.create(RxReactiveStreams.toPublisher(single)).expectNextCount(0)
+				.expectError(ServerWebInputException.class).verify();
 	}
 
 	@Test
 	public void emptyBodyWithMaybe() {
 		MethodParameter param = this.testMethod.annot(requestBody()).arg(Maybe.class, String.class);
 		Maybe<String> maybe = resolveValueWithEmptyBody(param);
-		StepVerifier.create(maybe.toFlowable())
-				.expectNextCount(0)
-				.expectError(ServerWebInputException.class)
-				.verify();
+		StepVerifier.create(maybe.toFlowable()).expectNextCount(0).expectError(ServerWebInputException.class).verify();
 
 		param = this.testMethod.annot(requestBody().notRequired()).arg(Maybe.class, String.class);
 		maybe = resolveValueWithEmptyBody(param);
-		StepVerifier.create(maybe.toFlowable())
-				.expectNextCount(0)
-				.expectComplete()
-				.verify();
+		StepVerifier.create(maybe.toFlowable()).expectNextCount(0).expectComplete().verify();
 	}
 
 	@Test
 	public void emptyBodyWithObservable() {
 		MethodParameter param = this.testMethod.annot(requestBody()).arg(Observable.class, String.class);
 		Observable<String> observable = resolveValueWithEmptyBody(param);
-		StepVerifier.create(RxReactiveStreams.toPublisher(observable))
-				.expectNextCount(0)
-				.expectError(ServerWebInputException.class)
-				.verify();
+		StepVerifier.create(RxReactiveStreams.toPublisher(observable)).expectNextCount(0)
+				.expectError(ServerWebInputException.class).verify();
 
 		param = this.testMethod.annot(requestBody().notRequired()).arg(Observable.class, String.class);
 		observable = resolveValueWithEmptyBody(param);
-		StepVerifier.create(RxReactiveStreams.toPublisher(observable))
-				.expectNextCount(0)
-				.expectComplete()
-				.verify();
+		StepVerifier.create(RxReactiveStreams.toPublisher(observable)).expectNextCount(0).expectComplete().verify();
 	}
 
 	@Test
@@ -221,9 +193,10 @@ public class RequestBodyMethodArgumentResolverTests {
 		Object value = result.block(Duration.ofSeconds(5));
 
 		assertThat(value).isNotNull();
-		assertThat(param.getParameterType().isAssignableFrom(value.getClass())).as("Unexpected return value type: " + value).isTrue();
+		assertThat(param.getParameterType().isAssignableFrom(value.getClass()))
+				.as("Unexpected return value type: " + value).isTrue();
 
-		//no inspection unchecked
+		// no inspection unchecked
 		return (T) value;
 	}
 
@@ -234,25 +207,19 @@ public class RequestBodyMethodArgumentResolverTests {
 		Object value = result.block(Duration.ofSeconds(5));
 
 		if (value != null) {
-			assertThat(param.getParameterType().isAssignableFrom(value.getClass())).as("Unexpected parameter type: " + value).isTrue();
+			assertThat(param.getParameterType().isAssignableFrom(value.getClass()))
+					.as("Unexpected parameter type: " + value).isTrue();
 		}
 
-		//no inspection unchecked
+		// no inspection unchecked
 		return (T) value;
 	}
 
-
 	@SuppressWarnings("unused")
-	void handle(
-			@RequestBody String string,
-			@RequestBody Mono<String> mono,
-			@RequestBody Flux<String> flux,
-			@RequestBody Single<String> single,
-			@RequestBody io.reactivex.Single<String> rxJava2Single,
-			@RequestBody Maybe<String> rxJava2Maybe,
-			@RequestBody Observable<String> obs,
-			@RequestBody io.reactivex.Observable<String> rxjava2Obs,
-			@RequestBody CompletableFuture<String> future,
+	void handle(@RequestBody String string, @RequestBody Mono<String> mono, @RequestBody Flux<String> flux,
+			@RequestBody Single<String> single, @RequestBody io.reactivex.Single<String> rxJava2Single,
+			@RequestBody Maybe<String> rxJava2Maybe, @RequestBody Observable<String> obs,
+			@RequestBody io.reactivex.Observable<String> rxjava2Obs, @RequestBody CompletableFuture<String> future,
 			@RequestBody(required = false) String stringNotRequired,
 			@RequestBody(required = false) Mono<String> monoNotRequired,
 			@RequestBody(required = false) Flux<String> fluxNotRequired,
@@ -262,7 +229,7 @@ public class RequestBodyMethodArgumentResolverTests {
 			@RequestBody(required = false) Observable<String> obsNotRequired,
 			@RequestBody(required = false) io.reactivex.Observable<String> rxjava2ObsNotRequired,
 			@RequestBody(required = false) CompletableFuture<String> futureNotRequired,
-			@RequestBody(required = false) Map<?, ?> mapNotRequired,
-			String notAnnotated) {}
+			@RequestBody(required = false) Map<?, ?> mapNotRequired, String notAnnotated) {
+	}
 
 }

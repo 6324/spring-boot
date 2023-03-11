@@ -36,12 +36,10 @@ public class BeanWrapperAutoGrowingTests {
 
 	private final BeanWrapperImpl wrapper = new BeanWrapperImpl(bean);
 
-
 	@BeforeEach
 	public void setup() {
 		wrapper.setAutoGrowNestedPaths(true);
 	}
-
 
 	@Test
 	public void getPropertyValueNullValueInNestedPath() {
@@ -56,8 +54,8 @@ public class BeanWrapperAutoGrowingTests {
 
 	@Test
 	public void getPropertyValueNullValueInNestedPathNoDefaultConstructor() {
-		assertThatExceptionOfType(NullValueInNestedPathException.class).isThrownBy(() ->
-				wrapper.getPropertyValue("nestedNoConstructor.prop"));
+		assertThatExceptionOfType(NullValueInNestedPathException.class)
+				.isThrownBy(() -> wrapper.getPropertyValue("nestedNoConstructor.prop"));
 	}
 
 	@Test
@@ -107,9 +105,7 @@ public class BeanWrapperAutoGrowingTests {
 		Bean newBean = new Bean();
 		newBean.setProp("enigma");
 		wrapper.setPropertyValue("multiArray[2][3]", newBean);
-		assertThat(bean.getMultiArray()[2][3])
-			.isInstanceOf(Bean.class)
-			.extracting(Bean::getProp).isEqualTo("enigma");
+		assertThat(bean.getMultiArray()[2][3]).isInstanceOf(Bean.class).extracting(Bean::getProp).isEqualTo("enigma");
 	}
 
 	@Test
@@ -117,9 +113,8 @@ public class BeanWrapperAutoGrowingTests {
 		Bean newBean = new Bean();
 		newBean.setProp("enigma");
 		wrapper.setPropertyValue("threeDimensionalArray[2][3][4]", newBean);
-		assertThat(bean.getThreeDimensionalArray()[2][3][4])
-			.isInstanceOf(Bean.class)
-			.extracting(Bean::getProp).isEqualTo("enigma");
+		assertThat(bean.getThreeDimensionalArray()[2][3][4]).isInstanceOf(Bean.class).extracting(Bean::getProp)
+				.isEqualTo("enigma");
 	}
 
 	@Test
@@ -153,9 +148,8 @@ public class BeanWrapperAutoGrowingTests {
 	@Test
 	public void getPropertyValueAutoGrowListFailsAgainstLimit() {
 		wrapper.setAutoGrowCollectionLimit(2);
-		assertThatExceptionOfType(InvalidPropertyException.class).isThrownBy(() ->
-				wrapper.getPropertyValue("list[4]"))
-			.withRootCauseInstanceOf(IndexOutOfBoundsException.class);
+		assertThatExceptionOfType(InvalidPropertyException.class).isThrownBy(() -> wrapper.getPropertyValue("list[4]"))
+				.withRootCauseInstanceOf(IndexOutOfBoundsException.class);
 	}
 
 	@Test
@@ -167,8 +161,8 @@ public class BeanWrapperAutoGrowingTests {
 
 	@Test
 	public void getPropertyValueAutoGrowListNotParameterized() {
-		assertThatExceptionOfType(InvalidPropertyException.class).isThrownBy(() ->
-				wrapper.getPropertyValue("listNotParameterized[0]"));
+		assertThatExceptionOfType(InvalidPropertyException.class)
+				.isThrownBy(() -> wrapper.getPropertyValue("listNotParameterized[0]"));
 	}
 
 	@Test
@@ -183,11 +177,9 @@ public class BeanWrapperAutoGrowingTests {
 		assertThat(bean.getMap().get("A").getNested()).isInstanceOf(Bean.class);
 	}
 
-
 	private static void assertNotNull(Object propertyValue) {
 		assertThat(propertyValue).isNotNull();
 	}
-
 
 	@SuppressWarnings("rawtypes")
 	public static class Bean {
@@ -291,13 +283,14 @@ public class BeanWrapperAutoGrowingTests {
 		public void setMap(Map<String, Bean> map) {
 			this.map = map;
 		}
-	}
 
+	}
 
 	public static class NestedNoDefaultConstructor {
 
 		private NestedNoDefaultConstructor() {
 		}
+
 	}
 
 }

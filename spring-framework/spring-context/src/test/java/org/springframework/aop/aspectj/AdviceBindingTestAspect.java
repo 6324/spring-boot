@@ -19,8 +19,8 @@ package org.springframework.aop.aspectj;
 import org.aspectj.lang.JoinPoint;
 
 /**
- * Aspect used as part of before advice binding tests and
- * serves as base class for a number of more specialized test aspects.
+ * Aspect used as part of before advice binding tests and serves as base class for a
+ * number of more specialized test aspects.
  *
  * @author Adrian Colyer
  * @author Chris Beams
@@ -29,11 +29,9 @@ class AdviceBindingTestAspect {
 
 	protected AdviceBindingCollaborator collaborator;
 
-
 	public void setCollaborator(AdviceBindingCollaborator aCollaborator) {
 		this.collaborator = aCollaborator;
 	}
-
 
 	// "advice" methods
 
@@ -46,7 +44,7 @@ class AdviceBindingTestAspect {
 	}
 
 	public void oneIntAndOneObject(int x, Object o) {
-		this.collaborator.oneIntAndOneObject(x,o);
+		this.collaborator.oneIntAndOneObject(x, o);
 	}
 
 	public void needsJoinPoint(JoinPoint tjp) {
@@ -57,10 +55,9 @@ class AdviceBindingTestAspect {
 		this.collaborator.needsJoinPointStaticPart(tjpsp.getSignature().getName());
 	}
 
-
 	/**
-	 * Collaborator interface that makes it easy to test this aspect is
-	 * working as expected through mocking.
+	 * Collaborator interface that makes it easy to test this aspect is working as
+	 * expected through mocking.
 	 */
 	public interface AdviceBindingCollaborator {
 
@@ -73,6 +70,7 @@ class AdviceBindingTestAspect {
 		void needsJoinPoint(String s);
 
 		void needsJoinPointStaticPart(String s);
+
 	}
 
 }

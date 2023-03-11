@@ -30,16 +30,16 @@ public class Spr16217Tests {
 	@Test
 	@Disabled("TODO")
 	public void baseConfigurationIsIncludedWhenFirstSuperclassReferenceIsSkippedInRegisterBeanPhase() {
-		try (AnnotationConfigApplicationContext context =
-					new AnnotationConfigApplicationContext(RegisterBeanPhaseImportingConfiguration.class)) {
+		try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
+				RegisterBeanPhaseImportingConfiguration.class)) {
 			context.getBean("someBean");
 		}
 	}
 
 	@Test
 	public void baseConfigurationIsIncludedWhenFirstSuperclassReferenceIsSkippedInParseConfigurationPhase() {
-		try (AnnotationConfigApplicationContext context =
-					new AnnotationConfigApplicationContext(ParseConfigurationPhaseImportingConfiguration.class)) {
+		try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
+				ParseConfigurationPhaseImportingConfiguration.class)) {
 			context.getBean("someBean");
 		}
 	}
@@ -58,7 +58,6 @@ public class Spr16217Tests {
 		}
 	}
 
-
 	public static class RegisterBeanPhaseCondition implements ConfigurationCondition {
 
 		@Override
@@ -70,8 +69,8 @@ public class Spr16217Tests {
 		public ConfigurationPhase getConfigurationPhase() {
 			return ConfigurationPhase.REGISTER_BEAN;
 		}
-	}
 
+	}
 
 	public static class ParseConfigurationPhaseCondition implements ConfigurationCondition {
 
@@ -84,23 +83,23 @@ public class Spr16217Tests {
 		public ConfigurationPhase getConfigurationPhase() {
 			return ConfigurationPhase.PARSE_CONFIGURATION;
 		}
+
 	}
 
-
-	@Import({RegisterBeanPhaseConditionConfiguration.class, BarConfiguration.class})
+	@Import({ RegisterBeanPhaseConditionConfiguration.class, BarConfiguration.class })
 	public static class RegisterBeanPhaseImportingConfiguration {
+
 	}
 
-
-	@Import({ParseConfigurationPhaseConditionConfiguration.class, BarConfiguration.class})
+	@Import({ ParseConfigurationPhaseConditionConfiguration.class, BarConfiguration.class })
 	public static class ParseConfigurationPhaseImportingConfiguration {
+
 	}
 
-
-	@Import({UnconditionalConfiguration.class, BarConfiguration.class})
+	@Import({ UnconditionalConfiguration.class, BarConfiguration.class })
 	public static class UnconditionalImportingConfiguration {
-	}
 
+	}
 
 	public static class BaseConfiguration {
 
@@ -108,24 +107,25 @@ public class Spr16217Tests {
 		public String someBean() {
 			return "foo";
 		}
-	}
 
+	}
 
 	@Conditional(RegisterBeanPhaseCondition.class)
 	public static class RegisterBeanPhaseConditionConfiguration extends BaseConfiguration {
-	}
 
+	}
 
 	@Conditional(ParseConfigurationPhaseCondition.class)
 	public static class ParseConfigurationPhaseConditionConfiguration extends BaseConfiguration {
-	}
 
+	}
 
 	public static class UnconditionalConfiguration extends BaseConfiguration {
+
 	}
 
-
 	public static class BarConfiguration extends BaseConfiguration {
+
 	}
 
 }

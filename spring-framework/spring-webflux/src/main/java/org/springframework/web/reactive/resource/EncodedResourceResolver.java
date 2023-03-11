@@ -39,17 +39,19 @@ import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * Resolver that delegates to the chain, and if a resource is found, it then
- * attempts to find an encoded (e.g. gzip, brotli) variant that is acceptable
- * based on the "Accept-Encoding" request header.
+ * Resolver that delegates to the chain, and if a resource is found, it then attempts to
+ * find an encoded (e.g. gzip, brotli) variant that is acceptable based on the
+ * "Accept-Encoding" request header.
  *
- * <p>The list of supported {@link #setContentCodings(List) contentCodings} can
- * be configured, in order of preference, and each coding must be associated
- * with {@link #setExtensions(Map) extensions}.
+ * <p>
+ * The list of supported {@link #setContentCodings(List) contentCodings} can be
+ * configured, in order of preference, and each coding must be associated with
+ * {@link #setExtensions(Map) extensions}.
  *
- * <p>Note that this resolver must be ordered ahead of a
- * {@link VersionResourceResolver} with a content-based, version strategy to
- * ensure the version calculation is not impacted by the encoding.
+ * <p>
+ * Note that this resolver must be ordered ahead of a {@link VersionResourceResolver} with
+ * a content-based, version strategy to ensure the version calculation is not impacted by
+ * the encoding.
  *
  * @author Rossen Stoyanchev
  * @since 5.1
@@ -61,29 +63,27 @@ public class EncodedResourceResolver extends AbstractResourceResolver {
 	 */
 	public static final List<String> DEFAULT_CODINGS = Arrays.asList("br", "gzip");
 
-
 	private final List<String> contentCodings = new ArrayList<>(DEFAULT_CODINGS);
 
 	private final Map<String, String> extensions = new LinkedHashMap<>();
-
 
 	public EncodedResourceResolver() {
 		this.extensions.put("gzip", ".gz");
 		this.extensions.put("br", ".br");
 	}
 
-
 	/**
-	 * Configure the supported content codings in order of preference. The first
-	 * coding that is present in the {@literal "Accept-Encoding"} header for a
-	 * given request, and that has a file present with the associated extension,
-	 * is used.
-	 * <p><strong>Note:</strong> Each coding must be associated with a file
-	 * extension via {@link #registerExtension} or {@link #setExtensions}. Also
-	 * customizations to the list of codings here should be matched by
-	 * customizations to the same list in {@link CachingResourceResolver} to
-	 * ensure encoded variants of a resource are cached under separate keys.
-	 * <p>By default this property is set to {@literal ["br", "gzip"]}.
+	 * Configure the supported content codings in order of preference. The first coding
+	 * that is present in the {@literal "Accept-Encoding"} header for a given request, and
+	 * that has a file present with the associated extension, is used.
+	 * <p>
+	 * <strong>Note:</strong> Each coding must be associated with a file extension via
+	 * {@link #registerExtension} or {@link #setExtensions}. Also customizations to the
+	 * list of codings here should be matched by customizations to the same list in
+	 * {@link CachingResourceResolver} to ensure encoded variants of a resource are cached
+	 * under separate keys.
+	 * <p>
+	 * By default this property is set to {@literal ["br", "gzip"]}.
 	 * @param codings one or more supported content codings
 	 */
 	public void setContentCodings(List<String> codings) {
@@ -100,9 +100,10 @@ public class EncodedResourceResolver extends AbstractResourceResolver {
 	}
 
 	/**
-	 * Configure mappings from content codings to file extensions. A dot "."
-	 * will be prepended in front of the extension value if not present.
-	 * <p>By default this is configured with {@literal ["br" -> ".br"]} and
+	 * Configure mappings from content codings to file extensions. A dot "." will be
+	 * prepended in front of the extension value if not present.
+	 * <p>
+	 * By default this is configured with {@literal ["br" -> ".br"]} and
 	 * {@literal ["gzip" -> ".gz"]}.
 	 * @param extensions the extensions to use.
 	 * @see #registerExtension(String, String)
@@ -127,10 +128,9 @@ public class EncodedResourceResolver extends AbstractResourceResolver {
 		this.extensions.put(coding, (extension.startsWith(".") ? extension : "." + extension));
 	}
 
-
 	@Override
-	protected Mono<Resource> resolveResourceInternal(@Nullable ServerWebExchange exchange,
-			String requestPath, List<? extends Resource> locations, ResourceResolverChain chain) {
+	protected Mono<Resource> resolveResourceInternal(@Nullable ServerWebExchange exchange, String requestPath,
+			List<? extends Resource> locations, ResourceResolverChain chain) {
 
 		return chain.resolveResource(exchange, requestPath, locations).map(resource -> {
 
@@ -153,8 +153,8 @@ public class EncodedResourceResolver extends AbstractResourceResolver {
 						}
 					}
 					catch (IOException ex) {
-						logger.trace(exchange.getLogPrefix() +
-								"No " + coding + " resource for [" + resource.getFilename() + "]", ex);
+						logger.trace(exchange.getLogPrefix() + "No " + coding + " resource for ["
+								+ resource.getFilename() + "]", ex);
 					}
 				}
 			}
@@ -179,12 +179,11 @@ public class EncodedResourceResolver extends AbstractResourceResolver {
 	}
 
 	@Override
-	protected Mono<String> resolveUrlPathInternal(String resourceUrlPath,
-			List<? extends Resource> locations, ResourceResolverChain chain) {
+	protected Mono<String> resolveUrlPathInternal(String resourceUrlPath, List<? extends Resource> locations,
+			ResourceResolverChain chain) {
 
 		return chain.resolveUrlPath(resourceUrlPath, locations);
 	}
-
 
 	/**
 	 * An encoded {@link HttpResource}.
@@ -282,6 +281,7 @@ public class EncodedResourceResolver extends AbstractResourceResolver {
 			headers.add(HttpHeaders.VARY, HttpHeaders.ACCEPT_ENCODING);
 			return headers;
 		}
+
 	}
 
 }

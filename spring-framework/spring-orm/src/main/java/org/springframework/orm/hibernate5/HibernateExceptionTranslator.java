@@ -28,15 +28,18 @@ import org.springframework.lang.Nullable;
 import org.springframework.orm.jpa.EntityManagerFactoryUtils;
 
 /**
- * {@link PersistenceExceptionTranslator} capable of translating {@link HibernateException}
- * instances to Spring's {@link DataAccessException} hierarchy. As of Spring 4.3.2 and
- * Hibernate 5.2, it also converts standard JPA {@link PersistenceException} instances.
+ * {@link PersistenceExceptionTranslator} capable of translating
+ * {@link HibernateException} instances to Spring's {@link DataAccessException} hierarchy.
+ * As of Spring 4.3.2 and Hibernate 5.2, it also converts standard JPA
+ * {@link PersistenceException} instances.
  *
- * <p>Extended by {@link LocalSessionFactoryBean}, so there is no need to declare this
+ * <p>
+ * Extended by {@link LocalSessionFactoryBean}, so there is no need to declare this
  * translator in addition to a {@code LocalSessionFactoryBean}.
  *
- * <p>When configuring the container with {@code @Configuration} classes, a {@code @Bean}
- * of this type must be registered manually.
+ * <p>
+ * When configuring the container with {@code @Configuration} classes, a {@code @Bean} of
+ * this type must be registered manually.
  *
  * @author Juergen Hoeller
  * @since 4.2
@@ -49,10 +52,10 @@ public class HibernateExceptionTranslator implements PersistenceExceptionTransla
 	@Nullable
 	private SQLExceptionTranslator jdbcExceptionTranslator;
 
-
 	/**
 	 * Set the JDBC exception translator for Hibernate exception translation purposes.
-	 * <p>Applied to any detected {@link java.sql.SQLException} root cause of a Hibernate
+	 * <p>
+	 * Applied to any detected {@link java.sql.SQLException} root cause of a Hibernate
 	 * {@link JDBCException}, overriding Hibernate's own {@code SQLException} translation
 	 * (which is based on a Hibernate Dialect for a specific target database).
 	 * @since 5.1
@@ -64,7 +67,6 @@ public class HibernateExceptionTranslator implements PersistenceExceptionTransla
 	public void setJdbcExceptionTranslator(SQLExceptionTranslator jdbcExceptionTranslator) {
 		this.jdbcExceptionTranslator = jdbcExceptionTranslator;
 	}
-
 
 	@Override
 	@Nullable
@@ -84,8 +86,9 @@ public class HibernateExceptionTranslator implements PersistenceExceptionTransla
 	/**
 	 * Convert the given HibernateException to an appropriate exception from the
 	 * {@code org.springframework.dao} hierarchy.
-	 * <p>Will automatically apply a specified SQLExceptionTranslator to a
-	 * Hibernate JDBCException, otherwise rely on Hibernate's default translation.
+	 * <p>
+	 * Will automatically apply a specified SQLExceptionTranslator to a Hibernate
+	 * JDBCException, otherwise rely on Hibernate's default translation.
 	 * @param ex the HibernateException that occurred
 	 * @return a corresponding DataAccessException
 	 * @see SessionFactoryUtils#convertHibernateAccessException

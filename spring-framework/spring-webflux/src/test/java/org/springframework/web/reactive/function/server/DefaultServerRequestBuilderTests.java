@@ -44,29 +44,21 @@ public class DefaultServerRequestBuilderTests {
 
 	private final DataBufferFactory dataBufferFactory = new DefaultDataBufferFactory();
 
-
 	@Test
 	public void from() {
-		MockServerHttpRequest request = MockServerHttpRequest.post("https://example.com")
-				.header("foo", "bar")
-				.build();
+		MockServerHttpRequest request = MockServerHttpRequest.post("https://example.com").header("foo", "bar").build();
 		MockServerWebExchange exchange = MockServerWebExchange.from(request);
 
-		ServerRequest other =
-				ServerRequest.create(exchange, HandlerStrategies.withDefaults().messageReaders());
+		ServerRequest other = ServerRequest.create(exchange, HandlerStrategies.withDefaults().messageReaders());
 		other.attributes().put("attr1", "value1");
 
-		Flux<DataBuffer> body = Flux.just("baz")
-				.map(s -> s.getBytes(StandardCharsets.UTF_8))
+		Flux<DataBuffer> body = Flux.just("baz").map(s -> s.getBytes(StandardCharsets.UTF_8))
 				.map(dataBufferFactory::wrap);
 
-		ServerRequest result = ServerRequest.from(other)
-				.method(HttpMethod.HEAD)
+		ServerRequest result = ServerRequest.from(other).method(HttpMethod.HEAD)
 				.headers(httpHeaders -> httpHeaders.set("foo", "baar"))
 				.cookies(cookies -> cookies.set("baz", ResponseCookie.from("baz", "quux").build()))
-				.attribute("attr2", "value2")
-				.attributes(attributes -> attributes.put("attr3", "value3"))
-				.body(body)
+				.attribute("attr2", "value2").attributes(attributes -> attributes.put("attr3", "value3")).body(body)
 				.build();
 
 		assertThat(result.method()).isEqualTo(HttpMethod.HEAD);
@@ -75,11 +67,10 @@ public class DefaultServerRequestBuilderTests {
 		assertThat(result.cookies()).hasSize(1);
 		assertThat(result.cookies().getFirst("baz").getValue()).isEqualTo("quux");
 		assertThat(result.attributes()).containsOnlyKeys(ServerWebExchange.LOG_ID_ATTRIBUTE, "attr1", "attr2", "attr3");
-		assertThat(result.attributes()).contains(entry("attr1", "value1"), entry("attr2", "value2"), entry("attr3", "value3"));
+		assertThat(result.attributes()).contains(entry("attr1", "value1"), entry("attr2", "value2"),
+				entry("attr3", "value3"));
 
-		StepVerifier.create(result.bodyToFlux(String.class))
-				.expectNext("baz")
-				.verifyComplete();
+		StepVerifier.create(result.bodyToFlux(String.class)).expectNext("baz").verifyComplete();
 	}
 
 }

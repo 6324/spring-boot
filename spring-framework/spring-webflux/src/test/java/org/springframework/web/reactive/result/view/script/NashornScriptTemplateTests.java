@@ -51,22 +51,23 @@ public class NashornScriptTemplateTests {
 		model.put("body", "This is the body");
 		String url = "org/springframework/web/reactive/result/view/script/nashorn/template.html";
 		MockServerHttpResponse response = render(url, model, ScriptTemplatingConfiguration.class);
-		assertThat(response.getBodyAsString().block()).isEqualTo("<html><head><title>Layout example</title></head><body><p>This is the body</p></body></html>");
+		assertThat(response.getBodyAsString().block()).isEqualTo(
+				"<html><head><title>Layout example</title></head><body><p>This is the body</p></body></html>");
 	}
 
-	@Test  // SPR-13453
+	@Test // SPR-13453
 	public void renderTemplateWithUrl() throws Exception {
 		String url = "org/springframework/web/reactive/result/view/script/nashorn/template.html";
 		Class<?> configClass = ScriptTemplatingWithUrlConfiguration.class;
 		MockServerHttpResponse response = render(url, null, configClass);
-		assertThat(response.getBodyAsString().block()).isEqualTo(("<html><head><title>Check url parameter</title></head><body><p>" + url + "</p></body></html>"));
+		assertThat(response.getBodyAsString().block()).isEqualTo(
+				("<html><head><title>Check url parameter</title></head><body><p>" + url + "</p></body></html>"));
 	}
 
 	@Test // gh-22754
 	public void subscribeWithoutDemand() throws Exception {
 		ZeroDemandResponse response = new ZeroDemandResponse();
-		ServerWebExchange exchange = new DefaultServerWebExchange(
-				MockServerHttpRequest.get("/path").build(), response,
+		ServerWebExchange exchange = new DefaultServerWebExchange(MockServerHttpRequest.get("/path").build(), response,
 				new DefaultWebSessionManager(), ServerCodecConfigurer.create(),
 				new AcceptHeaderLocaleContextResolver());
 
@@ -81,8 +82,8 @@ public class NashornScriptTemplateTests {
 		response.checkForLeaks();
 	}
 
-	private MockServerHttpResponse render(String viewUrl, Map<String, Object> model,
-			Class<?> configuration) throws Exception {
+	private MockServerHttpResponse render(String viewUrl, Map<String, Object> model, Class<?> configuration)
+			throws Exception {
 
 		ScriptTemplateView view = createViewWithUrl(viewUrl, configuration);
 		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
@@ -102,7 +103,6 @@ public class NashornScriptTemplateTests {
 		return view;
 	}
 
-
 	@Configuration
 	static class ScriptTemplatingConfiguration {
 
@@ -114,8 +114,8 @@ public class NashornScriptTemplateTests {
 			configurer.setRenderFunction("render");
 			return configurer;
 		}
-	}
 
+	}
 
 	@Configuration
 	static class ScriptTemplatingWithUrlConfiguration {
@@ -128,6 +128,7 @@ public class NashornScriptTemplateTests {
 			configurer.setRenderFunction("renderWithUrl");
 			return configurer;
 		}
+
 	}
 
 }

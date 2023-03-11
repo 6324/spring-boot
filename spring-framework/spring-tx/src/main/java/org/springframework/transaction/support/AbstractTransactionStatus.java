@@ -27,12 +27,14 @@ import org.springframework.transaction.TransactionUsageException;
  * Abstract base implementation of the
  * {@link org.springframework.transaction.TransactionStatus} interface.
  *
- * <p>Pre-implements the handling of local rollback-only and completed flags, and
- * delegation to an underlying {@link org.springframework.transaction.SavepointManager}.
- * Also offers the option of a holding a savepoint within the transaction.
+ * <p>
+ * Pre-implements the handling of local rollback-only and completed flags, and delegation
+ * to an underlying {@link org.springframework.transaction.SavepointManager}. Also offers
+ * the option of a holding a savepoint within the transaction.
  *
- * <p>Does not assume any specific internal transaction handling, such as an
- * underlying transaction object, and no transaction synchronization mechanism.
+ * <p>
+ * Does not assume any specific internal transaction handling, such as an underlying
+ * transaction object, and no transaction synchronization mechanism.
  *
  * @author Juergen Hoeller
  * @since 1.2.3
@@ -53,10 +55,9 @@ public abstract class AbstractTransactionStatus implements TransactionStatus {
 	@Nullable
 	private Object savepoint;
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of TransactionExecution
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	@Override
 	public void setRollbackOnly() {
@@ -64,8 +65,8 @@ public abstract class AbstractTransactionStatus implements TransactionStatus {
 	}
 
 	/**
-	 * Determine the rollback-only flag via checking both the local rollback-only flag
-	 * of this TransactionStatus and the global rollback-only flag of the underlying
+	 * Determine the rollback-only flag via checking both the local rollback-only flag of
+	 * this TransactionStatus and the global rollback-only flag of the underlying
 	 * transaction, if any.
 	 * @see #isLocalRollbackOnly()
 	 * @see #isGlobalRollbackOnly()
@@ -77,17 +78,19 @@ public abstract class AbstractTransactionStatus implements TransactionStatus {
 
 	/**
 	 * Determine the rollback-only flag via checking this TransactionStatus.
-	 * <p>Will only return "true" if the application called {@code setRollbackOnly}
-	 * on this TransactionStatus object.
+	 * <p>
+	 * Will only return "true" if the application called {@code setRollbackOnly} on this
+	 * TransactionStatus object.
 	 */
 	public boolean isLocalRollbackOnly() {
 		return this.rollbackOnly;
 	}
 
 	/**
-	 * Template method for determining the global rollback-only flag of the
-	 * underlying transaction, if any.
-	 * <p>This implementation always returns {@code false}.
+	 * Template method for determining the global rollback-only flag of the underlying
+	 * transaction, if any.
+	 * <p>
+	 * This implementation always returns {@code false}.
 	 */
 	public boolean isGlobalRollbackOnly() {
 		return false;
@@ -105,10 +108,9 @@ public abstract class AbstractTransactionStatus implements TransactionStatus {
 		return this.completed;
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Handling of current savepoint state
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	@Override
 	public boolean hasSavepoint() {
@@ -133,16 +135,16 @@ public abstract class AbstractTransactionStatus implements TransactionStatus {
 
 	/**
 	 * Create a savepoint and hold it for the transaction.
-	 * @throws org.springframework.transaction.NestedTransactionNotSupportedException
-	 * if the underlying transaction does not support savepoints
+	 * @throws org.springframework.transaction.NestedTransactionNotSupportedException if
+	 * the underlying transaction does not support savepoints
 	 */
 	public void createAndHoldSavepoint() throws TransactionException {
 		setSavepoint(getSavepointManager().createSavepoint());
 	}
 
 	/**
-	 * Roll back to the savepoint that is held for the transaction
-	 * and release the savepoint right afterwards.
+	 * Roll back to the savepoint that is held for the transaction and release the
+	 * savepoint right afterwards.
 	 */
 	public void rollbackToHeldSavepoint() throws TransactionException {
 		Object savepoint = getSavepoint();
@@ -168,14 +170,13 @@ public abstract class AbstractTransactionStatus implements TransactionStatus {
 		setSavepoint(null);
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of SavepointManager
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
-	 * This implementation delegates to a SavepointManager for the
-	 * underlying transaction, if possible.
+	 * This implementation delegates to a SavepointManager for the underlying transaction,
+	 * if possible.
 	 * @see #getSavepointManager()
 	 * @see SavepointManager#createSavepoint()
 	 */
@@ -185,8 +186,8 @@ public abstract class AbstractTransactionStatus implements TransactionStatus {
 	}
 
 	/**
-	 * This implementation delegates to a SavepointManager for the
-	 * underlying transaction, if possible.
+	 * This implementation delegates to a SavepointManager for the underlying transaction,
+	 * if possible.
 	 * @see #getSavepointManager()
 	 * @see SavepointManager#rollbackToSavepoint(Object)
 	 */
@@ -196,8 +197,8 @@ public abstract class AbstractTransactionStatus implements TransactionStatus {
 	}
 
 	/**
-	 * This implementation delegates to a SavepointManager for the
-	 * underlying transaction, if possible.
+	 * This implementation delegates to a SavepointManager for the underlying transaction,
+	 * if possible.
 	 * @see #getSavepointManager()
 	 * @see SavepointManager#releaseSavepoint(Object)
 	 */
@@ -208,18 +209,18 @@ public abstract class AbstractTransactionStatus implements TransactionStatus {
 
 	/**
 	 * Return a SavepointManager for the underlying transaction, if possible.
-	 * <p>Default implementation always throws a NestedTransactionNotSupportedException.
-	 * @throws org.springframework.transaction.NestedTransactionNotSupportedException
-	 * if the underlying transaction does not support savepoints
+	 * <p>
+	 * Default implementation always throws a NestedTransactionNotSupportedException.
+	 * @throws org.springframework.transaction.NestedTransactionNotSupportedException if
+	 * the underlying transaction does not support savepoints
 	 */
 	protected SavepointManager getSavepointManager() {
 		throw new NestedTransactionNotSupportedException("This transaction does not support savepoints");
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Flushing support
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
 	 * This implementations is empty, considering flush as a no-op.

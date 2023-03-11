@@ -62,19 +62,21 @@ import org.springframework.util.StringValueResolver;
 import org.springframework.validation.Validator;
 
 /**
- * Extension of {@link AbstractMethodMessageHandler} for reactive, non-blocking
- * handling of messages via {@link MessageMapping @MessageMapping} methods.
- * By default such methods are detected in {@code @Controller} Spring beans but
- * that can be changed via {@link #setHandlerPredicate(Predicate)}.
+ * Extension of {@link AbstractMethodMessageHandler} for reactive, non-blocking handling
+ * of messages via {@link MessageMapping @MessageMapping} methods. By default such methods
+ * are detected in {@code @Controller} Spring beans but that can be changed via
+ * {@link #setHandlerPredicate(Predicate)}.
  *
- * <p>Payloads for incoming messages are decoded through the configured
+ * <p>
+ * Payloads for incoming messages are decoded through the configured
  * {@link #setDecoders(List)} decoders, with the help of
  * {@link PayloadMethodArgumentResolver}.
  *
- * <p>There is no default handling for return values but
- * {@link #setReturnValueHandlerConfigurer} can be used to configure custom
- * return value handlers. Sub-classes may also override
- * {@link #initReturnValueHandlers()} to set up default return value handlers.
+ * <p>
+ * There is no default handling for return values but
+ * {@link #setReturnValueHandlerConfigurer} can be used to configure custom return value
+ * handlers. Sub-classes may also override {@link #initReturnValueHandlers()} to set up
+ * default return value handlers.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -96,11 +98,9 @@ public class MessageMappingMessageHandler extends AbstractMethodMessageHandler<C
 	@Nullable
 	private StringValueResolver valueResolver;
 
-
 	public MessageMappingMessageHandler() {
 		setHandlerPredicate(type -> AnnotatedElementUtils.hasAnnotation(type, Controller.class));
 	}
-
 
 	/**
 	 * Configure the decoders to use for incoming payloads.
@@ -135,20 +135,20 @@ public class MessageMappingMessageHandler extends AbstractMethodMessageHandler<C
 	}
 
 	/**
-	 * Set the {@code RouteMatcher} to use for mapping messages to handlers
-	 * based on the route patterns they're configured with.
-	 * <p>By default, {@link SimpleRouteMatcher} is used, backed by
-	 * {@link AntPathMatcher} with "." as separator. For greater
-	 * efficiency consider using the {@code PathPatternRouteMatcher} from
-	 * {@code spring-web} instead.
+	 * Set the {@code RouteMatcher} to use for mapping messages to handlers based on the
+	 * route patterns they're configured with.
+	 * <p>
+	 * By default, {@link SimpleRouteMatcher} is used, backed by {@link AntPathMatcher}
+	 * with "." as separator. For greater efficiency consider using the
+	 * {@code PathPatternRouteMatcher} from {@code spring-web} instead.
 	 */
 	public void setRouteMatcher(@Nullable RouteMatcher routeMatcher) {
 		this.routeMatcher = routeMatcher;
 	}
 
 	/**
-	 * Return the {@code RouteMatcher} used to map messages to handlers.
-	 * May be {@code null} before the component is initialized.
+	 * Return the {@code RouteMatcher} used to map messages to handlers. May be
+	 * {@code null} before the component is initialized.
 	 */
 	@Nullable
 	public RouteMatcher getRouteMatcher() {
@@ -168,9 +168,10 @@ public class MessageMappingMessageHandler extends AbstractMethodMessageHandler<C
 	}
 
 	/**
-	 * Configure a {@link ConversionService} to use for type conversion of
-	 * String based values, e.g. in destination variables or headers.
-	 * <p>By default {@link DefaultFormattingConversionService} is used.
+	 * Configure a {@link ConversionService} to use for type conversion of String based
+	 * values, e.g. in destination variables or headers.
+	 * <p>
+	 * By default {@link DefaultFormattingConversionService} is used.
 	 * @param conversionService the conversion service to use
 	 */
 	public void setConversionService(ConversionService conversionService) {
@@ -188,7 +189,6 @@ public class MessageMappingMessageHandler extends AbstractMethodMessageHandler<C
 	public void setEmbeddedValueResolver(StringValueResolver resolver) {
 		this.valueResolver = resolver;
 	}
-
 
 	@Override
 	public void afterPropertiesSet() {
@@ -208,8 +208,8 @@ public class MessageMappingMessageHandler extends AbstractMethodMessageHandler<C
 		List<HandlerMethodArgumentResolver> resolvers = new ArrayList<>();
 
 		ApplicationContext context = getApplicationContext();
-		ConfigurableBeanFactory beanFactory = (context instanceof ConfigurableApplicationContext ?
-				((ConfigurableApplicationContext) context).getBeanFactory() : null);
+		ConfigurableBeanFactory beanFactory = (context instanceof ConfigurableApplicationContext
+				? ((ConfigurableApplicationContext) context).getBeanFactory() : null);
 
 		// Annotation-based resolvers
 		resolvers.add(new HeaderMethodArgumentResolver(this.conversionService, beanFactory));
@@ -225,8 +225,8 @@ public class MessageMappingMessageHandler extends AbstractMethodMessageHandler<C
 		resolvers.addAll(getArgumentResolverConfigurer().getCustomResolvers());
 
 		// Catch-all
-		resolvers.add(new PayloadMethodArgumentResolver(
-				getDecoders(), this.validator, getReactiveAdapterRegistry(), true));
+		resolvers.add(
+				new PayloadMethodArgumentResolver(getDecoders(), this.validator, getReactiveAdapterRegistry(), true));
 
 		return resolvers;
 	}
@@ -235,7 +235,6 @@ public class MessageMappingMessageHandler extends AbstractMethodMessageHandler<C
 	protected List<? extends HandlerMethodReturnValueHandler> initReturnValueHandlers() {
 		return Collections.emptyList();
 	}
-
 
 	@Override
 	protected CompositeMessageCondition getMappingForMethod(Method method, Class<?> handlerType) {
@@ -261,8 +260,7 @@ public class MessageMappingMessageHandler extends AbstractMethodMessageHandler<C
 			return null;
 		}
 		String[] patterns = processDestinations(ann.value());
-		return new CompositeMessageCondition(
-				new DestinationPatternsMessageCondition(patterns, obtainRouteMatcher()));
+		return new CompositeMessageCondition(new DestinationPatternsMessageCondition(patterns, obtainRouteMatcher()));
 	}
 
 	/**
@@ -272,8 +270,7 @@ public class MessageMappingMessageHandler extends AbstractMethodMessageHandler<C
 	 */
 	protected String[] processDestinations(String[] destinations) {
 		if (this.valueResolver != null) {
-			destinations = Arrays.stream(destinations)
-					.map(s -> this.valueResolver.resolveStringValue(s))
+			destinations = Arrays.stream(destinations).map(s -> this.valueResolver.resolveStringValue(s))
 					.toArray(String[]::new);
 		}
 		return destinations;
@@ -312,8 +309,8 @@ public class MessageMappingMessageHandler extends AbstractMethodMessageHandler<C
 	}
 
 	@Override
-	protected Mono<Void> handleMatch(
-			CompositeMessageCondition mapping, HandlerMethod handlerMethod, Message<?> message) {
+	protected Mono<Void> handleMatch(CompositeMessageCondition mapping, HandlerMethod handlerMethod,
+			Message<?> message) {
 
 		Set<String> patterns = mapping.getCondition(DestinationPatternsMessageCondition.class).getPatterns();
 		if (!CollectionUtils.isEmpty(patterns)) {

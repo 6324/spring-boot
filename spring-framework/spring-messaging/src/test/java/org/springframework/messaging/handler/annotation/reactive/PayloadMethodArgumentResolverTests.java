@@ -49,7 +49,6 @@ import org.springframework.validation.annotation.Validated;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * Unit tests for {@link PayloadMethodArgumentResolver}.
  *
@@ -61,7 +60,6 @@ public class PayloadMethodArgumentResolverTests {
 
 	private final ResolvableMethod testMethod = ResolvableMethod.on(getClass()).named("handle").build();
 
-
 	@Test
 	public void supportsParameter() {
 
@@ -69,13 +67,15 @@ public class PayloadMethodArgumentResolverTests {
 		PayloadMethodArgumentResolver resolver = createResolver(null, useDefaultResolution);
 
 		assertThat(resolver.supportsParameter(this.testMethod.annotPresent(Payload.class).arg())).isTrue();
-		assertThat(resolver.supportsParameter(this.testMethod.annotNotPresent(Payload.class).arg(String.class))).isTrue();
+		assertThat(resolver.supportsParameter(this.testMethod.annotNotPresent(Payload.class).arg(String.class)))
+				.isTrue();
 
 		useDefaultResolution = false;
 		resolver = createResolver(null, useDefaultResolution);
 
 		assertThat(resolver.supportsParameter(this.testMethod.annotPresent(Payload.class).arg())).isTrue();
-		assertThat(resolver.supportsParameter(this.testMethod.annotNotPresent(Payload.class).arg(String.class))).isFalse();
+		assertThat(resolver.supportsParameter(this.testMethod.annotNotPresent(Payload.class).arg(String.class)))
+				.isFalse();
 	}
 
 	@Test
@@ -83,12 +83,10 @@ public class PayloadMethodArgumentResolverTests {
 		MethodParameter param = this.testMethod.arg(ResolvableType.forClassWithGenerics(Mono.class, String.class));
 		Mono<Object> mono = resolveValue(param, Mono.empty(), null);
 
-		StepVerifier.create(mono)
-				.consumeErrorWith(ex -> {
-					assertThat(ex.getClass()).isEqualTo(MethodArgumentResolutionException.class);
-					assertThat(ex.getMessage().contains("Payload content is missing")).as(ex.getMessage()).isTrue();
-				})
-				.verify();
+		StepVerifier.create(mono).consumeErrorWith(ex -> {
+			assertThat(ex.getClass()).isEqualTo(MethodArgumentResolutionException.class);
+			assertThat(ex.getMessage().contains("Payload content is missing")).as(ex.getMessage()).isTrue();
+		}).verify();
 	}
 
 	@Test
@@ -101,8 +99,8 @@ public class PayloadMethodArgumentResolverTests {
 	public void stringMono() {
 		String body = "foo";
 		MethodParameter param = this.testMethod.arg(ResolvableType.forClassWithGenerics(Mono.class, String.class));
-		Mono<Object> mono = resolveValue(param,
-				Mono.delay(Duration.ofMillis(10)).map(aLong -> toDataBuffer(body)), null);
+		Mono<Object> mono = resolveValue(param, Mono.delay(Duration.ofMillis(10)).map(aLong -> toDataBuffer(body)),
+				null);
 
 		assertThat(mono.block()).isEqualTo(body);
 	}
@@ -134,8 +132,7 @@ public class PayloadMethodArgumentResolverTests {
 		MethodParameter param = this.testMethod.arg(type);
 		Mono<Object> mono = resolveValue(param, Mono.just(toDataBuffer("12345")), validator);
 
-		StepVerifier.create(mono).expectNextCount(0)
-				.expectError(MethodArgumentNotValidException.class).verify();
+		StepVerifier.create(mono).expectNextCount(0).expectError(MethodArgumentNotValidException.class).verify();
 	}
 
 	@Test
@@ -146,17 +143,12 @@ public class PayloadMethodArgumentResolverTests {
 		Flux<DataBuffer> content = Flux.just(toDataBuffer("12345678"), toDataBuffer("12345"));
 		Flux<Object> flux = resolveValue(param, content, validator);
 
-		StepVerifier.create(flux)
-				.expectNext("12345678")
-				.expectError(MethodArgumentNotValidException.class)
-				.verify();
+		StepVerifier.create(flux).expectNext("12345678").expectError(MethodArgumentNotValidException.class).verify();
 	}
-
 
 	private DataBuffer toDataBuffer(String value) {
 		return new DefaultDataBufferFactory().wrap(value.getBytes(StandardCharsets.UTF_8));
 	}
-
 
 	@SuppressWarnings("unchecked")
 	@Nullable
@@ -170,7 +162,8 @@ public class PayloadMethodArgumentResolverTests {
 		Object value = result.block(Duration.ofSeconds(5));
 		if (value != null) {
 			Class<?> expectedType = param.getParameterType();
-			assertThat(expectedType.isAssignableFrom(value.getClass())).as("Unexpected return value type: " + value).isTrue();
+			assertThat(expectedType.isAssignableFrom(value.getClass())).as("Unexpected return value type: " + value)
+					.isTrue();
 		}
 		return (T) value;
 	}
@@ -180,18 +173,14 @@ public class PayloadMethodArgumentResolverTests {
 			this.decoders.add(StringDecoder.allMimeTypes());
 		}
 		List<StringDecoder> decoders = Collections.singletonList(StringDecoder.allMimeTypes());
-		return new PayloadMethodArgumentResolver(decoders, validator, null, useDefaultResolution) {};
+		return new PayloadMethodArgumentResolver(decoders, validator, null, useDefaultResolution) {
+		};
 	}
-
 
 	@SuppressWarnings("unused")
-	private void handle(
-			@Validated Mono<String> valueMono,
-			@Validated Flux<String> valueFlux,
-			@Payload(required = false) String optionalValue,
-			String value) {
+	private void handle(@Validated Mono<String> valueMono, @Validated Flux<String> valueFlux,
+			@Payload(required = false) String optionalValue, String value) {
 	}
-
 
 	private static class TestValidator implements Validator {
 
@@ -206,6 +195,7 @@ public class PayloadMethodArgumentResolverTests {
 				errors.reject("Invalid length");
 			}
 		}
+
 	}
 
 }

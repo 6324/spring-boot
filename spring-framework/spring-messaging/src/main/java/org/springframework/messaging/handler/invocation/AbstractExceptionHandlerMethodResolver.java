@@ -28,8 +28,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ConcurrentReferenceHashMap;
 
 /**
- * Cache exception handling method mappings and provide options to look up a method
- * that should handle an exception. If multiple methods match, they are sorted using
+ * Cache exception handling method mappings and provide options to look up a method that
+ * should handle an exception. If multiple methods match, they are sorted using
  * {@link ExceptionDepthComparator} and the top match is returned.
  *
  * @author Rossen Stoyanchev
@@ -42,7 +42,6 @@ public abstract class AbstractExceptionHandlerMethodResolver {
 
 	private final Map<Class<? extends Throwable>, Method> exceptionLookupCache = new ConcurrentReferenceHashMap<>(16);
 
-
 	/**
 	 * Protected constructor accepting exception-to-method mappings.
 	 */
@@ -53,8 +52,8 @@ public abstract class AbstractExceptionHandlerMethodResolver {
 
 	/**
 	 * Extract the exceptions this method handles.This implementation looks for
-	 * sub-classes of Throwable in the method signature.
-	 * The method is static to ensure safe use from sub-class constructors.
+	 * sub-classes of Throwable in the method signature. The method is static to ensure
+	 * safe use from sub-class constructors.
 	 */
 	@SuppressWarnings("unchecked")
 	protected static List<Class<? extends Throwable>> getExceptionsFromMethodSignature(Method method) {
@@ -70,7 +69,6 @@ public abstract class AbstractExceptionHandlerMethodResolver {
 		return result;
 	}
 
-
 	/**
 	 * Whether the contained type has any exception mappings.
 	 */
@@ -79,8 +77,8 @@ public abstract class AbstractExceptionHandlerMethodResolver {
 	}
 
 	/**
-	 * Find a {@link Method} to handle the given exception.
-	 * Use {@link ExceptionDepthComparator} if more than one match is found.
+	 * Find a {@link Method} to handle the given exception. Use
+	 * {@link ExceptionDepthComparator} if more than one match is found.
 	 * @param exception the exception
 	 * @return a Method to handle the exception, or {@code null} if none found
 	 */
@@ -97,8 +95,8 @@ public abstract class AbstractExceptionHandlerMethodResolver {
 	}
 
 	/**
-	 * Find a {@link Method} to handle the given exception type. This can be
-	 * useful if an {@link Exception} instance is not available (e.g. for tools).
+	 * Find a {@link Method} to handle the given exception type. This can be useful if an
+	 * {@link Exception} instance is not available (e.g. for tools).
 	 * @param exceptionType the exception type
 	 * @return a Method to handle the exception, or {@code null} if none found
 	 * @since 4.3.1
@@ -114,7 +112,8 @@ public abstract class AbstractExceptionHandlerMethodResolver {
 	}
 
 	/**
-	 * Return the {@link Method} mapped to the given exception type, or {@code null} if none.
+	 * Return the {@link Method} mapped to the given exception type, or {@code null} if
+	 * none.
 	 */
 	@Nullable
 	private Method getMappedMethod(Class<? extends Throwable> exceptionType) {

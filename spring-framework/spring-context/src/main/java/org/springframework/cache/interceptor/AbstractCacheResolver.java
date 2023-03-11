@@ -27,9 +27,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * A base {@link CacheResolver} implementation that requires the concrete
- * implementation to provide the collection of cache name(s) based on the
- * invocation context.
+ * A base {@link CacheResolver} implementation that requires the concrete implementation
+ * to provide the collection of cache name(s) based on the invocation context.
  *
  * @author Stephane Nicoll
  * @author Juergen Hoeller
@@ -39,7 +38,6 @@ public abstract class AbstractCacheResolver implements CacheResolver, Initializi
 
 	@Nullable
 	private CacheManager cacheManager;
-
 
 	/**
 	 * Construct a new {@code AbstractCacheResolver}.
@@ -55,7 +53,6 @@ public abstract class AbstractCacheResolver implements CacheResolver, Initializi
 	protected AbstractCacheResolver(CacheManager cacheManager) {
 		this.cacheManager = cacheManager;
 	}
-
 
 	/**
 	 * Set the {@link CacheManager} that this instance should use.
@@ -73,10 +70,9 @@ public abstract class AbstractCacheResolver implements CacheResolver, Initializi
 	}
 
 	@Override
-	public void afterPropertiesSet()  {
+	public void afterPropertiesSet() {
 		Assert.notNull(this.cacheManager, "CacheManager is required");
 	}
-
 
 	@Override
 	public Collection<? extends Cache> resolveCaches(CacheOperationInvocationContext<?> context) {
@@ -88,8 +84,8 @@ public abstract class AbstractCacheResolver implements CacheResolver, Initializi
 		for (String cacheName : cacheNames) {
 			Cache cache = getCacheManager().getCache(cacheName);
 			if (cache == null) {
-				throw new IllegalArgumentException("Cannot find cache named '" +
-						cacheName + "' for " + context.getOperation());
+				throw new IllegalArgumentException(
+						"Cannot find cache named '" + cacheName + "' for " + context.getOperation());
 			}
 			result.add(cache);
 		}
@@ -98,10 +94,12 @@ public abstract class AbstractCacheResolver implements CacheResolver, Initializi
 
 	/**
 	 * Provide the name of the cache(s) to resolve against the current cache manager.
-	 * <p>It is acceptable to return {@code null} to indicate that no cache could
-	 * be resolved for this invocation.
+	 * <p>
+	 * It is acceptable to return {@code null} to indicate that no cache could be resolved
+	 * for this invocation.
 	 * @param context the context of the particular invocation
-	 * @return the cache name(s) to resolve, or {@code null} if no cache should be resolved
+	 * @return the cache name(s) to resolve, or {@code null} if no cache should be
+	 * resolved
 	 */
 	@Nullable
 	protected abstract Collection<String> getCacheNames(CacheOperationInvocationContext<?> context);

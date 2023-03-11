@@ -26,8 +26,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Base implementation of the {@link TypeConverter} interface, using a package-private delegate.
- * Mainly serves as base class for {@link BeanWrapperImpl}.
+ * Base implementation of the {@link TypeConverter} interface, using a package-private
+ * delegate. Mainly serves as base class for {@link BeanWrapperImpl}.
  *
  * @author Juergen Hoeller
  * @since 3.2
@@ -38,10 +38,10 @@ public abstract class TypeConverterSupport extends PropertyEditorRegistrySupport
 	@Nullable
 	TypeConverterDelegate typeConverterDelegate;
 
-
 	@Override
 	@Nullable
-	public <T> T convertIfNecessary(@Nullable Object value, @Nullable Class<T> requiredType) throws TypeMismatchException {
+	public <T> T convertIfNecessary(@Nullable Object value, @Nullable Class<T> requiredType)
+			throws TypeMismatchException {
 		return convertIfNecessary(value, requiredType, TypeDescriptor.valueOf(requiredType));
 	}
 

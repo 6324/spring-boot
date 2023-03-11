@@ -1192,7 +1192,7 @@
 									<links>
 										<link>https://docs.oracle.com/javase/8/docs/api/</link>
 										<link>https://docs.oracle.com/javaee/7/api/</link>
-										<link>https://docs.spring.io/spring-framework/docs/${spring-framework.version}/javadoc-api/</link>
+										<link>https://docs.spring.io/spring-framework/docs/5.2.12.RELEASE/javadoc-api/</link>
 										<link>https://docs.spring.io/spring-security/site/docs/${spring-security.version}/api/</link>
 										<link>https://tomcat.apache.org/tomcat-9.0-doc/api/</link>
 										<link>https://www.thymeleaf.org/apidocs/thymeleaf/${thymeleaf.version}/</link>
@@ -1483,7 +1483,7 @@
 							<dependency>
 								<groupId>org.springframework</groupId>
 								<artifactId>spring-core</artifactId>
-								<version>${spring-framework.version}</version>
+								<version>5.2.12.RELEASE</version>
 							</dependency>
 						</dependencies>
 					</plugin>
@@ -1539,7 +1539,7 @@
 								<spring-data-neo4j-version>${flattenedpom.version.org.springframework.data.spring-data-neo4j}</spring-data-neo4j-version>
 								<spring-data-rest-version>${flattenedpom.version.org.springframework.data.spring-data-rest-core}</spring-data-rest-version>
 								<spring-data-solr-version>${flattenedpom.version.org.springframework.data.spring-data-solr}</spring-data-solr-version>
-								<spring-framework-version>${spring-framework.version}</spring-framework-version>
+								<spring-framework-version>5.2.12.RELEASE</spring-framework-version>
 								<spring-integration-version>${spring-integration.version}</spring-integration-version>
 								<spring-security-version>${spring-security.version}</spring-security-version>
 								<spring-webservices-version>${spring-ws.version}</spring-webservices-version>

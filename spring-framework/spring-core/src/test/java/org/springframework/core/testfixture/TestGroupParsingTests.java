@@ -60,11 +60,10 @@ class TestGroupParsingTests {
 
 	@Test
 	void parseMissing() {
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> TestGroup.parse("performance, missing"))
-			.withMessageContaining("Unable to find test group 'missing' when parsing " +
-					"testGroups value: 'performance, missing'. Available groups include: " +
-					"[LONG_RUNNING,PERFORMANCE]");
+		assertThatIllegalArgumentException().isThrownBy(() -> TestGroup.parse("performance, missing"))
+				.withMessageContaining("Unable to find test group 'missing' when parsing "
+						+ "testGroups value: 'performance, missing'. Available groups include: "
+						+ "[LONG_RUNNING,PERFORMANCE]");
 	}
 
 	@Test
@@ -81,11 +80,9 @@ class TestGroupParsingTests {
 
 	@Test
 	void parseAllExceptMissing() {
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> TestGroup.parse("all-missing"))
-			.withMessageContaining("Unable to find test group 'missing' when parsing " +
-					"testGroups value: 'all-missing'. Available groups include: " +
-					"[LONG_RUNNING,PERFORMANCE]");
+		assertThatIllegalArgumentException().isThrownBy(() -> TestGroup.parse("all-missing"))
+				.withMessageContaining("Unable to find test group 'missing' when parsing "
+						+ "testGroups value: 'all-missing'. Available groups include: " + "[LONG_RUNNING,PERFORMANCE]");
 	}
 
 }

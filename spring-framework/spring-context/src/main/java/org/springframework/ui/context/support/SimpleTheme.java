@@ -21,8 +21,8 @@ import org.springframework.ui.context.Theme;
 import org.springframework.util.Assert;
 
 /**
- * Default {@link Theme} implementation, wrapping a name and an
- * underlying {@link org.springframework.context.MessageSource}.
+ * Default {@link Theme} implementation, wrapping a name and an underlying
+ * {@link org.springframework.context.MessageSource}.
  *
  * @author Juergen Hoeller
  * @since 17.06.2003
@@ -32,7 +32,6 @@ public class SimpleTheme implements Theme {
 	private final String name;
 
 	private final MessageSource messageSource;
-
 
 	/**
 	 * Create a SimpleTheme.
@@ -45,7 +44,6 @@ public class SimpleTheme implements Theme {
 		this.name = name;
 		this.messageSource = messageSource;
 	}
-
 
 	@Override
 	public final String getName() {

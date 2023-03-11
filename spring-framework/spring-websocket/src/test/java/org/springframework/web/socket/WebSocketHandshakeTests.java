@@ -48,12 +48,12 @@ class WebSocketHandshakeTests extends AbstractWebSocketIntegrationTests {
 
 	@Override
 	protected Class<?>[] getAnnotatedConfigClasses() {
-		return new Class<?>[] {TestConfig.class};
+		return new Class<?>[] { TestConfig.class };
 	}
 
-
 	@ParameterizedWebSocketTest
-	void subProtocolNegotiation(WebSocketTestServer server, WebSocketClient webSocketClient, TestInfo testInfo) throws Exception {
+	void subProtocolNegotiation(WebSocketTestServer server, WebSocketClient webSocketClient, TestInfo testInfo)
+			throws Exception {
 		super.setup(server, webSocketClient, testInfo);
 
 		WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
@@ -64,12 +64,14 @@ class WebSocketHandshakeTests extends AbstractWebSocketIntegrationTests {
 		session.close();
 	}
 
-	@ParameterizedWebSocketTest  // SPR-12727
-	void unsolicitedPongWithEmptyPayload(WebSocketTestServer server, WebSocketClient webSocketClient, TestInfo testInfo) throws Exception {
+	@ParameterizedWebSocketTest // SPR-12727
+	void unsolicitedPongWithEmptyPayload(WebSocketTestServer server, WebSocketClient webSocketClient, TestInfo testInfo)
+			throws Exception {
 		super.setup(server, webSocketClient, testInfo);
 
 		String url = getWsBaseUrl() + "/ws";
-		WebSocketSession session = this.webSocketClient.doHandshake(new AbstractWebSocketHandler() {}, url).get();
+		WebSocketSession session = this.webSocketClient.doHandshake(new AbstractWebSocketHandler() {
+		}, url).get();
 
 		TestWebSocketHandler serverHandler = this.wac.getBean(TestWebSocketHandler.class);
 		serverHandler.setWaitMessageCount(1);
@@ -82,13 +84,13 @@ class WebSocketHandshakeTests extends AbstractWebSocketIntegrationTests {
 		assertThat(serverHandler.getReceivedMessages().get(0).getClass()).isEqualTo(PongMessage.class);
 	}
 
-
 	@Configuration
 	@EnableWebSocket
 	static class TestConfig implements WebSocketConfigurer {
 
 		@Autowired
-		private DefaultHandshakeHandler handshakeHandler;  // can't rely on classpath for server detection
+		private DefaultHandshakeHandler handshakeHandler; // can't rely on classpath for
+															// server detection
 
 		@Override
 		public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
@@ -143,6 +145,7 @@ class WebSocketHandshakeTests extends AbstractWebSocketIntegrationTests {
 		public void await() throws InterruptedException {
 			this.latch.await(5, TimeUnit.SECONDS);
 		}
+
 	}
 
 }

@@ -27,8 +27,8 @@ import io.netty.buffer.Unpooled;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of the {@code DataBufferFactory} interface based on a
- * Netty {@link ByteBufAllocator}.
+ * Implementation of the {@code DataBufferFactory} interface based on a Netty
+ * {@link ByteBufAllocator}.
  *
  * @author Arjen Poutsma
  * @author Juergen Hoeller
@@ -40,7 +40,6 @@ public class NettyDataBufferFactory implements DataBufferFactory {
 
 	private final ByteBufAllocator byteBufAllocator;
 
-
 	/**
 	 * Create a new {@code NettyDataBufferFactory} based on the given factory.
 	 * @param byteBufAllocator the factory to use
@@ -51,7 +50,6 @@ public class NettyDataBufferFactory implements DataBufferFactory {
 		Assert.notNull(byteBufAllocator, "ByteBufAllocator must not be null");
 		this.byteBufAllocator = byteBufAllocator;
 	}
-
 
 	/**
 	 * Return the {@code ByteBufAllocator} used by this factory.
@@ -96,7 +94,8 @@ public class NettyDataBufferFactory implements DataBufferFactory {
 
 	/**
 	 * {@inheritDoc}
-	 * <p>This implementation uses Netty's {@link CompositeByteBuf}.
+	 * <p>
+	 * This implementation uses Netty's {@link CompositeByteBuf}.
 	 */
 	@Override
 	public DataBuffer join(List<? extends DataBuffer> dataBuffers) {
@@ -115,8 +114,9 @@ public class NettyDataBufferFactory implements DataBufferFactory {
 
 	/**
 	 * Return the given Netty {@link DataBuffer} as a {@link ByteBuf}.
-	 * <p>Returns the {@linkplain NettyDataBuffer#getNativeBuffer() native buffer}
-	 * if {@code buffer} is a {@link NettyDataBuffer}; returns
+	 * <p>
+	 * Returns the {@linkplain NettyDataBuffer#getNativeBuffer() native buffer} if
+	 * {@code buffer} is a {@link NettyDataBuffer}; returns
 	 * {@link Unpooled#wrappedBuffer(ByteBuffer)} otherwise.
 	 * @param buffer the {@code DataBuffer} to return a {@code ByteBuf} for
 	 * @return the netty {@code ByteBuf}
@@ -129,7 +129,6 @@ public class NettyDataBufferFactory implements DataBufferFactory {
 			return Unpooled.wrappedBuffer(buffer.asByteBuffer());
 		}
 	}
-
 
 	@Override
 	public String toString() {

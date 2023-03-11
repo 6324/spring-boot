@@ -53,7 +53,6 @@ final class MetadataEncoder {
 
 	private static final Object NO_VALUE = new Object();
 
-
 	private final MimeType metadataMimeType;
 
 	private final RSocketStrategies strategies;
@@ -69,23 +68,20 @@ final class MetadataEncoder {
 
 	private boolean hasAsyncValues;
 
-
 	MetadataEncoder(MimeType metadataMimeType, RSocketStrategies strategies) {
 		Assert.notNull(metadataMimeType, "'metadataMimeType' is required");
 		Assert.notNull(strategies, "RSocketStrategies is required");
 		this.metadataMimeType = metadataMimeType;
 		this.strategies = strategies;
-		this.isComposite = this.metadataMimeType.toString().equals(
-				WellKnownMimeType.MESSAGE_RSOCKET_COMPOSITE_METADATA.getString());
-		this.allocator = bufferFactory() instanceof NettyDataBufferFactory ?
-				((NettyDataBufferFactory) bufferFactory()).getByteBufAllocator() : ByteBufAllocator.DEFAULT;
+		this.isComposite = this.metadataMimeType.toString()
+				.equals(WellKnownMimeType.MESSAGE_RSOCKET_COMPOSITE_METADATA.getString());
+		this.allocator = bufferFactory() instanceof NettyDataBufferFactory
+				? ((NettyDataBufferFactory) bufferFactory()).getByteBufAllocator() : ByteBufAllocator.DEFAULT;
 	}
-
 
 	private DataBufferFactory bufferFactory() {
 		return this.strategies.dataBufferFactory();
 	}
-
 
 	/**
 	 * Set the route to a remote handler as described in
@@ -123,8 +119,8 @@ final class MetadataEncoder {
 	}
 
 	/**
-	 * Add a metadata entry. If called more than once or in addition to route,
-	 * composite metadata must be in use.
+	 * Add a metadata entry. If called more than once or in addition to route, composite
+	 * metadata must be in use.
 	 */
 	public MetadataEncoder metadata(Object metadata, @Nullable MimeType mimeType) {
 		if (this.isComposite) {
@@ -135,8 +131,8 @@ final class MetadataEncoder {
 		}
 		else if (!this.metadataMimeType.equals(mimeType)) {
 			throw new IllegalArgumentException(
-					"Mime type is optional when not using composite metadata, but it was provided " +
-							"and does not match the connection metadata mime type '" + this.metadataMimeType + "'.");
+					"Mime type is optional when not using composite metadata, but it was provided "
+							+ "and does not match the connection metadata mime type '" + this.metadataMimeType + "'.");
 		}
 		ReactiveAdapter adapter = this.strategies.reactiveAdapterRegistry().getAdapter(metadata.getClass());
 		if (adapter != null) {
@@ -152,8 +148,8 @@ final class MetadataEncoder {
 	/**
 	 * Add route and/or metadata, both optional.
 	 */
-	public MetadataEncoder metadataAndOrRoute(@Nullable Map<Object, MimeType> metadata,
-			@Nullable String route, @Nullable Object[] vars) {
+	public MetadataEncoder metadataAndOrRoute(@Nullable Map<Object, MimeType> metadata, @Nullable String route,
+			@Nullable Object[] vars) {
 
 		if (route != null) {
 			this.route = expand(route, vars != null ? vars : new Object[0]);
@@ -167,15 +163,13 @@ final class MetadataEncoder {
 		return this;
 	}
 
-
 	/**
 	 * Encode the collected metadata entries to a {@code DataBuffer}.
 	 * @see PayloadUtils#createPayload(DataBuffer, DataBuffer)
 	 */
 	public Mono<DataBuffer> encode() {
-		return this.hasAsyncValues ?
-				resolveAsyncMetadata().map(this::encodeEntries) :
-				Mono.fromCallable(() -> encodeEntries(this.metadataEntries));
+		return this.hasAsyncValues ? resolveAsyncMetadata().map(this::encodeEntries)
+				: Mono.fromCallable(() -> encodeEntries(this.metadataEntries));
 	}
 
 	@SuppressWarnings("deprecation")
@@ -189,12 +183,12 @@ final class MetadataEncoder {
 				}
 				entries.forEach(entry -> {
 					Object value = entry.value();
-					io.rsocket.metadata.CompositeMetadataFlyweight.encodeAndAddMetadata(
-							composite, this.allocator, entry.mimeType().toString(),
+					io.rsocket.metadata.CompositeMetadataFlyweight.encodeAndAddMetadata(composite, this.allocator,
+							entry.mimeType().toString(),
 							value instanceof ByteBuf ? (ByteBuf) value : PayloadUtils.asByteBuf(encodeEntry(entry)));
 				});
 				return asDataBuffer(composite);
-				}
+			}
 			catch (Throwable ex) {
 				composite.release();
 				throw ex;
@@ -203,17 +197,15 @@ final class MetadataEncoder {
 		else if (this.route != null) {
 			Assert.isTrue(entries.isEmpty(), "Composite metadata required for route and other entries");
 			String routingMimeType = WellKnownMimeType.MESSAGE_RSOCKET_ROUTING.getString();
-			return this.metadataMimeType.toString().equals(routingMimeType) ?
-					asDataBuffer(encodeRoute()) :
-					encodeEntry(this.route, this.metadataMimeType);
+			return this.metadataMimeType.toString().equals(routingMimeType) ? asDataBuffer(encodeRoute())
+					: encodeEntry(this.route, this.metadataMimeType);
 		}
 		else {
 			Assert.isTrue(entries.size() == 1, "Composite metadata required for multiple entries");
 			MetadataEntry entry = entries.get(0);
 			if (!this.metadataMimeType.equals(entry.mimeType())) {
-				throw new IllegalArgumentException(
-						"Connection configured for metadata mime type " +
-								"'" + this.metadataMimeType + "', but actual is `" + entries + "`");
+				throw new IllegalArgumentException("Connection configured for metadata mime type " + "'"
+						+ this.metadataMimeType + "', but actual is `" + entries + "`");
 			}
 			return encodeEntry(entry);
 		}
@@ -221,8 +213,8 @@ final class MetadataEncoder {
 
 	@SuppressWarnings("deprecation")
 	private ByteBuf encodeRoute() {
-		return io.rsocket.metadata.TaggingMetadataFlyweight.createRoutingMetadata(
-				this.allocator, Collections.singletonList(this.route)).getContent();
+		return io.rsocket.metadata.TaggingMetadataFlyweight
+				.createRoutingMetadata(this.allocator, Collections.singletonList(this.route)).getContent();
 	}
 
 	private <T> DataBuffer encodeEntry(MetadataEntry entry) {
@@ -269,9 +261,9 @@ final class MetadataEncoder {
 		});
 	}
 
-
 	/**
 	 * Holder for the metadata value and mime type.
+	 *
 	 * @since 5.2.2
 	 */
 	private static class MetadataEntry {
@@ -292,6 +284,7 @@ final class MetadataEncoder {
 		public MimeType mimeType() {
 			return this.mimeType;
 		}
+
 	}
 
 }

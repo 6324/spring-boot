@@ -41,8 +41,7 @@ public class AspectProxyFactoryTests {
 	@Test
 	public void testWithNonAspect() {
 		AspectJProxyFactory proxyFactory = new AspectJProxyFactory(new TestBean());
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				proxyFactory.addAspect(TestBean.class));
+		assertThatIllegalArgumentException().isThrownBy(() -> proxyFactory.addAspect(TestBean.class));
 	}
 
 	@Test
@@ -78,8 +77,7 @@ public class AspectProxyFactoryTests {
 	@Test
 	public void testWithInstanceWithNonAspect() throws Exception {
 		AspectJProxyFactory pf = new AspectJProxyFactory();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				pf.addAspect(new TestBean()));
+		assertThatIllegalArgumentException().isThrownBy(() -> pf.addAspect(new TestBean()));
 	}
 
 	@Test
@@ -115,11 +113,10 @@ public class AspectProxyFactoryTests {
 	@Test
 	public void testWithNonSingletonAspectInstance() throws Exception {
 		AspectJProxyFactory pf = new AspectJProxyFactory();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				pf.addAspect(new PerThisAspect()));
+		assertThatIllegalArgumentException().isThrownBy(() -> pf.addAspect(new PerThisAspect()));
 	}
 
-	@Test  // SPR-13328
+	@Test // SPR-13328
 	@SuppressWarnings("unchecked")
 	public void testProxiedVarargsWithEnumArray() throws Exception {
 		AspectJProxyFactory proxyFactory = new AspectJProxyFactory(new TestBean());
@@ -128,7 +125,7 @@ public class AspectProxyFactoryTests {
 		assertThat(proxy.doWithVarargs(MyEnum.A, MyOtherEnum.C)).isTrue();
 	}
 
-	@Test  // SPR-13328
+	@Test // SPR-13328
 	@SuppressWarnings("unchecked")
 	public void testUnproxiedVarargsWithEnumArray() throws Exception {
 		AspectJProxyFactory proxyFactory = new AspectJProxyFactory(new TestBean());
@@ -137,15 +134,14 @@ public class AspectProxyFactoryTests {
 		assertThat(proxy.doWithVarargs(MyEnum.A, MyOtherEnum.C)).isTrue();
 	}
 
-
 	public interface ITestBean {
 
 		int getAge();
 
 		@SuppressWarnings("unchecked")
 		<V extends MyInterface> boolean doWithVarargs(V... args);
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	public static class TestBean implements ITestBean, Serializable {
@@ -166,24 +162,24 @@ public class AspectProxyFactoryTests {
 		public <V extends MyInterface> boolean doWithVarargs(V... args) {
 			return true;
 		}
-	}
 
+	}
 
 	public interface MyInterface {
-	}
 
+	}
 
 	public enum MyEnum implements MyInterface {
 
 		A, B;
-	}
 
+	}
 
 	public enum MyOtherEnum implements MyInterface {
 
 		C, D;
-	}
 
+	}
 
 	@Aspect
 	@SuppressWarnings("serial")
@@ -194,8 +190,8 @@ public class AspectProxyFactoryTests {
 			LogFactory.getLog(LoggingAspectOnVarargs.class).debug(Arrays.asList(pjp.getArgs()));
 			return pjp.proceed();
 		}
-	}
 
+	}
 
 	@Aspect
 	public static class LoggingAspectOnSetter {
@@ -205,9 +201,10 @@ public class AspectProxyFactoryTests {
 			LogFactory.getLog(LoggingAspectOnSetter.class).debug(Arrays.asList(pjp.getArgs()));
 			return pjp.proceed();
 		}
-	}
-}
 
+	}
+
+}
 
 @Aspect
 @SuppressWarnings("serial")

@@ -44,32 +44,34 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureTask;
 
 /**
- * {@link org.springframework.core.task.TaskExecutor} implementation
- * that delegates to a JCA 1.7 WorkManager, implementing the
- * {@link javax.resource.spi.work.WorkManager} interface.
+ * {@link org.springframework.core.task.TaskExecutor} implementation that delegates to a
+ * JCA 1.7 WorkManager, implementing the {@link javax.resource.spi.work.WorkManager}
+ * interface.
  *
- * <p>This is mainly intended for use within a JCA ResourceAdapter implementation,
- * but may also be used in a standalone environment, delegating to a locally
- * embedded WorkManager implementation (such as Geronimo's).
+ * <p>
+ * This is mainly intended for use within a JCA ResourceAdapter implementation, but may
+ * also be used in a standalone environment, delegating to a locally embedded WorkManager
+ * implementation (such as Geronimo's).
  *
- * <p>Also implements the JCA 1.7 WorkManager interface itself, delegating all
- * calls to the target WorkManager. Hence, a caller can choose whether it wants
- * to talk to this executor through the Spring TaskExecutor interface or the
- * WorkManager interface.
+ * <p>
+ * Also implements the JCA 1.7 WorkManager interface itself, delegating all calls to the
+ * target WorkManager. Hence, a caller can choose whether it wants to talk to this
+ * executor through the Spring TaskExecutor interface or the WorkManager interface.
  *
- * <p>This adapter is also capable of obtaining a JCA WorkManager from JNDI.
- * This is for example appropriate on the Geronimo application server, where
- * WorkManager GBeans (e.g. Geronimo's default "DefaultWorkManager" GBean)
- * can be linked into the Java EE environment through "gbean-ref" entries
- * in the {@code geronimo-web.xml} deployment descriptor.
+ * <p>
+ * This adapter is also capable of obtaining a JCA WorkManager from JNDI. This is for
+ * example appropriate on the Geronimo application server, where WorkManager GBeans (e.g.
+ * Geronimo's default "DefaultWorkManager" GBean) can be linked into the Java EE
+ * environment through "gbean-ref" entries in the {@code geronimo-web.xml} deployment
+ * descriptor.
  *
  * @author Juergen Hoeller
  * @since 2.0.3
  * @see #setWorkManager
  * @see javax.resource.spi.work.WorkManager#scheduleWork
  */
-public class WorkManagerTaskExecutor extends JndiLocatorSupport
-		implements AsyncListenableTaskExecutor, SchedulingTaskExecutor, WorkManager, BootstrapContextAware, InitializingBean {
+public class WorkManagerTaskExecutor extends JndiLocatorSupport implements AsyncListenableTaskExecutor,
+		SchedulingTaskExecutor, WorkManager, BootstrapContextAware, InitializingBean {
 
 	@Nullable
 	private WorkManager workManager;
@@ -87,7 +89,6 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 	@Nullable
 	private TaskDecorator taskDecorator;
 
-
 	/**
 	 * Create a new WorkManagerTaskExecutor, expecting bean-style configuration.
 	 * @see #setWorkManager
@@ -103,7 +104,6 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 		setWorkManager(workManager);
 	}
 
-
 	/**
 	 * Specify the JCA WorkManager instance to delegate to.
 	 */
@@ -114,9 +114,9 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 
 	/**
 	 * Set the JNDI name of the JCA WorkManager.
-	 * <p>This can either be a fully qualified JNDI name,
-	 * or the JNDI name relative to the current environment
-	 * naming context if "resourceRef" is set to "true".
+	 * <p>
+	 * This can either be a fully qualified JNDI name, or the JNDI name relative to the
+	 * current environment naming context if "resourceRef" is set to "true".
 	 * @see #setWorkManager
 	 * @see #setResourceRef
 	 */
@@ -125,8 +125,7 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 	}
 
 	/**
-	 * Specify the JCA BootstrapContext that contains the
-	 * WorkManager to delegate to.
+	 * Specify the JCA BootstrapContext that contains the WorkManager to delegate to.
 	 */
 	@Override
 	public void setBootstrapContext(BootstrapContext bootstrapContext) {
@@ -135,10 +134,10 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 	}
 
 	/**
-	 * Set whether to let {@link #execute} block until the work
-	 * has been actually started.
-	 * <p>Uses the JCA {@code startWork} operation underneath,
-	 * instead of the default {@code scheduleWork}.
+	 * Set whether to let {@link #execute} block until the work has been actually started.
+	 * <p>
+	 * Uses the JCA {@code startWork} operation underneath, instead of the default
+	 * {@code scheduleWork}.
 	 * @see javax.resource.spi.work.WorkManager#startWork
 	 * @see javax.resource.spi.work.WorkManager#scheduleWork
 	 */
@@ -147,10 +146,10 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 	}
 
 	/**
-	 * Set whether to let {@link #execute} block until the work
-	 * has been completed.
-	 * <p>Uses the JCA {@code doWork} operation underneath,
-	 * instead of the default {@code scheduleWork}.
+	 * Set whether to let {@link #execute} block until the work has been completed.
+	 * <p>
+	 * Uses the JCA {@code doWork} operation underneath, instead of the default
+	 * {@code scheduleWork}.
 	 * @see javax.resource.spi.work.WorkManager#doWork
 	 * @see javax.resource.spi.work.WorkManager#scheduleWork
 	 */
@@ -160,26 +159,30 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 
 	/**
 	 * Specify a JCA WorkListener to apply, if any.
-	 * <p>This shared WorkListener instance will be passed on to the
-	 * WorkManager by all {@link #execute} calls on this TaskExecutor.
+	 * <p>
+	 * This shared WorkListener instance will be passed on to the WorkManager by all
+	 * {@link #execute} calls on this TaskExecutor.
 	 */
 	public void setWorkListener(@Nullable WorkListener workListener) {
 		this.workListener = workListener;
 	}
 
 	/**
-	 * Specify a custom {@link TaskDecorator} to be applied to any {@link Runnable}
-	 * about to be executed.
-	 * <p>Note that such a decorator is not necessarily being applied to the
-	 * user-supplied {@code Runnable}/{@code Callable} but rather to the actual
-	 * execution callback (which may be a wrapper around the user-supplied task).
-	 * <p>The primary use case is to set some execution context around the task's
-	 * invocation, or to provide some monitoring/statistics for task execution.
-	 * <p><b>NOTE:</b> Exception handling in {@code TaskDecorator} implementations
-	 * is limited to plain {@code Runnable} execution via {@code execute} calls.
-	 * In case of {@code #submit} calls, the exposed {@code Runnable} will be a
-	 * {@code FutureTask} which does not propagate any exceptions; you might
-	 * have to cast it and call {@code Future#get} to evaluate exceptions.
+	 * Specify a custom {@link TaskDecorator} to be applied to any {@link Runnable} about
+	 * to be executed.
+	 * <p>
+	 * Note that such a decorator is not necessarily being applied to the user-supplied
+	 * {@code Runnable}/{@code Callable} but rather to the actual execution callback
+	 * (which may be a wrapper around the user-supplied task).
+	 * <p>
+	 * The primary use case is to set some execution context around the task's invocation,
+	 * or to provide some monitoring/statistics for task execution.
+	 * <p>
+	 * <b>NOTE:</b> Exception handling in {@code TaskDecorator} implementations is limited
+	 * to plain {@code Runnable} execution via {@code execute} calls. In case of
+	 * {@code #submit} calls, the exposed {@code Runnable} will be a {@code FutureTask}
+	 * which does not propagate any exceptions; you might have to cast it and call
+	 * {@code Future#get} to evaluate exceptions.
 	 * @since 4.3
 	 */
 	public void setTaskDecorator(TaskDecorator taskDecorator) {
@@ -199,10 +202,11 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 	}
 
 	/**
-	 * Obtain a default WorkManager to delegate to.
-	 * Called if no explicit WorkManager or WorkManager JNDI name has been specified.
-	 * <p>The default implementation returns a {@link SimpleTaskWorkManager}.
-	 * Can be overridden in subclasses.
+	 * Obtain a default WorkManager to delegate to. Called if no explicit WorkManager or
+	 * WorkManager JNDI name has been specified.
+	 * <p>
+	 * The default implementation returns a {@link SimpleTaskWorkManager}. Can be
+	 * overridden in subclasses.
 	 */
 	protected WorkManager getDefaultWorkManager() {
 		return new SimpleTaskWorkManager();
@@ -213,10 +217,9 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 		return this.workManager;
 	}
 
-
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	// Implementation of the Spring SchedulingTaskExecutor interface
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 	@Override
 	public void execute(Runnable task) {
@@ -293,10 +296,9 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 		return future;
 	}
 
-
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	// Implementation of the JCA WorkManager interface
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 	@Override
 	public void doWork(Work work) throws WorkException {

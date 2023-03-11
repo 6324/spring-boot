@@ -153,7 +153,8 @@ public class StompHeaderAccessorTests {
 		assertThat(actual.get(StompHeaderAccessor.STOMP_SUBSCRIPTION_HEADER).get(0)).isEqualTo("s1");
 		assertThat(actual.get(StompHeaderAccessor.STOMP_DESTINATION_HEADER).get(0)).isEqualTo("/d");
 		assertThat(actual.get(StompHeaderAccessor.STOMP_CONTENT_TYPE_HEADER).get(0)).isEqualTo("application/json");
-		assertThat(actual.get(StompHeaderAccessor.STOMP_MESSAGE_ID_HEADER).get(0)).as("message-id was not created").isNotNull();
+		assertThat(actual.get(StompHeaderAccessor.STOMP_MESSAGE_ID_HEADER).get(0)).as("message-id was not created")
+				.isNotNull();
 	}
 
 	@Test

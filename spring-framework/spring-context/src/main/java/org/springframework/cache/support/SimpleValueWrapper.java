@@ -31,7 +31,6 @@ public class SimpleValueWrapper implements ValueWrapper {
 	@Nullable
 	private final Object value;
 
-
 	/**
 	 * Create a new SimpleValueWrapper instance for exposing the given value.
 	 * @param value the value to expose (may be {@code null})
@@ -39,7 +38,6 @@ public class SimpleValueWrapper implements ValueWrapper {
 	public SimpleValueWrapper(@Nullable Object value) {
 		this.value = value;
 	}
-
 
 	/**
 	 * Simply returns the value as given at construction time.

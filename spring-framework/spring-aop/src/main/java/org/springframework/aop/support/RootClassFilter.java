@@ -32,12 +32,10 @@ public class RootClassFilter implements ClassFilter, Serializable {
 
 	private final Class<?> clazz;
 
-
 	public RootClassFilter(Class<?> clazz) {
 		Assert.notNull(clazz, "Class must not be null");
 		this.clazz = clazz;
 	}
-
 
 	@Override
 	public boolean matches(Class<?> candidate) {
@@ -46,8 +44,8 @@ public class RootClassFilter implements ClassFilter, Serializable {
 
 	@Override
 	public boolean equals(Object other) {
-		return (this == other || (other instanceof RootClassFilter &&
-				this.clazz.equals(((RootClassFilter) other).clazz)));
+		return (this == other
+				|| (other instanceof RootClassFilter && this.clazz.equals(((RootClassFilter) other).clazz)));
 	}
 
 	@Override

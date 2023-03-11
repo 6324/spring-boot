@@ -21,8 +21,8 @@ import javax.jms.JMSException;
 import org.springframework.jms.JmsException;
 
 /**
- * Exception thrown when a synchronized local transaction failed to complete
- * (after the main transaction has already completed).
+ * Exception thrown when a synchronized local transaction failed to complete (after the
+ * main transaction has already completed).
  *
  * @author Juergen Hoeller
  * @since 2.0

@@ -23,7 +23,8 @@ import org.springframework.lang.Nullable;
 /**
  * Spring's central cache manager SPI.
  *
- * <p>Allows for retrieving named {@link Cache} regions.
+ * <p>
+ * Allows for retrieving named {@link Cache} regions.
  *
  * @author Costin Leau
  * @author Sam Brannen
@@ -33,11 +34,12 @@ public interface CacheManager {
 
 	/**
 	 * Get the cache associated with the given name.
-	 * <p>Note that the cache may be lazily created at runtime if the
-	 * native provider supports it.
+	 * <p>
+	 * Note that the cache may be lazily created at runtime if the native provider
+	 * supports it.
 	 * @param name the cache identifier (must not be {@code null})
-	 * @return the associated cache, or {@code null} if such a cache
-	 * does not exist or could be not created
+	 * @return the associated cache, or {@code null} if such a cache does not exist or
+	 * could be not created
 	 */
 	@Nullable
 	Cache getCache(String name);

@@ -75,7 +75,6 @@ public class OpenEntityManagerInViewTests {
 
 	private final TestTaskExecutor taskExecutor = new TestTaskExecutor();
 
-
 	@BeforeEach
 	public void setUp() {
 		factory = mock(EntityManagerFactory.class);
@@ -412,7 +411,6 @@ public class OpenEntityManagerInViewTests {
 		wac.close();
 	}
 
-
 	@SuppressWarnings("serial")
 	private static class TestTaskExecutor extends SimpleAsyncTaskExecutor {
 
@@ -434,6 +432,7 @@ public class OpenEntityManagerInViewTests {
 		void await() throws InterruptedException {
 			this.latch.await(5, TimeUnit.SECONDS);
 		}
+
 	}
 
 }

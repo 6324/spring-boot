@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2021 the original author or authors.
+ * Copyright 2002-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,15 +26,14 @@ import org.springframework.web.util.pattern.PathPattern.MatchingContext;
  * literal path elements 'foo', 'bar' and 'goo'.
  *
  * @author Andy Clement
- * @since 5.0
  */
 class LiteralPathElement extends PathElement {
 
-	private final char[] text;
+	private char[] text;
 
-	private final int len;
+	private int len;
 
-	private final boolean caseSensitive;
+	private boolean caseSensitive;
 
 
 	public LiteralPathElement(int pos, char[] literalText, boolean caseSensitive, char separator) {
@@ -70,7 +69,7 @@ class LiteralPathElement extends PathElement {
 			return false;
 		}
 
-		char[] data = ((PathContainer.PathSegment) element).valueToMatchAsChars();
+		char[] data = ((PathContainer.PathSegment)element).valueToMatchAsChars();
 		if (this.caseSensitive) {
 			for (int i = 0; i < this.len; i++) {
 				if (data[i] != this.text[i]) {

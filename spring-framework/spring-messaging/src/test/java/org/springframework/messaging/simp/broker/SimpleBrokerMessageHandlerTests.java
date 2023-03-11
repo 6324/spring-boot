@@ -63,7 +63,6 @@ public class SimpleBrokerMessageHandlerTests {
 
 	private SimpleBrokerMessageHandler messageHandler;
 
-
 	@Mock
 	private SubscribableChannel clientInChannel;
 
@@ -79,13 +78,11 @@ public class SimpleBrokerMessageHandlerTests {
 	@Captor
 	ArgumentCaptor<Message<?>> messageCaptor;
 
-
 	@BeforeEach
 	public void setup() {
-		this.messageHandler = new SimpleBrokerMessageHandler(
-				this.clientInChannel, this.clientOutChannel, this.brokerChannel, Collections.emptyList());
+		this.messageHandler = new SimpleBrokerMessageHandler(this.clientInChannel, this.clientOutChannel,
+				this.brokerChannel, Collections.emptyList());
 	}
-
 
 	@Test
 	public void subscribePublish() {
@@ -140,7 +137,8 @@ public class SimpleBrokerMessageHandlerTests {
 		verify(this.clientOutChannel, times(4)).send(this.messageCaptor.capture());
 
 		Message<?> captured = this.messageCaptor.getAllValues().get(2);
-		assertThat(SimpMessageHeaderAccessor.getMessageType(captured.getHeaders())).isEqualTo(SimpMessageType.DISCONNECT_ACK);
+		assertThat(SimpMessageHeaderAccessor.getMessageType(captured.getHeaders()))
+				.isEqualTo(SimpMessageType.DISCONNECT_ACK);
 		assertThat(captured.getHeaders().get(SimpMessageHeaderAccessor.DISCONNECT_MESSAGE_HEADER)).isSameAs(message);
 		assertThat(SimpMessageHeaderAccessor.getSessionId(captured.getHeaders())).isEqualTo(sess1);
 		assertThat(SimpMessageHeaderAccessor.getUser(captured.getHeaders()).getName()).isEqualTo("joe");
@@ -158,10 +156,12 @@ public class SimpleBrokerMessageHandlerTests {
 		Message<?> connectAckMessage = this.messageCaptor.getValue();
 
 		SimpMessageHeaderAccessor connectAckHeaders = SimpMessageHeaderAccessor.wrap(connectAckMessage);
-		assertThat(connectAckHeaders.getHeader(SimpMessageHeaderAccessor.CONNECT_MESSAGE_HEADER)).isEqualTo(connectMessage);
+		assertThat(connectAckHeaders.getHeader(SimpMessageHeaderAccessor.CONNECT_MESSAGE_HEADER))
+				.isEqualTo(connectMessage);
 		assertThat(connectAckHeaders.getSessionId()).isEqualTo(id);
 		assertThat(connectAckHeaders.getUser().getName()).isEqualTo("joe");
-		assertThat(SimpMessageHeaderAccessor.getHeartbeat(connectAckHeaders.getMessageHeaders())).isEqualTo(new long[] {10000, 10000});
+		assertThat(SimpMessageHeaderAccessor.getHeartbeat(connectAckHeaders.getMessageHeaders()))
+				.isEqualTo(new long[] { 10000, 10000 });
 	}
 
 	@Test
@@ -170,14 +170,13 @@ public class SimpleBrokerMessageHandlerTests {
 		this.messageHandler.setTaskScheduler(this.taskScheduler);
 
 		assertThat(this.messageHandler.getHeartbeatValue()).isNotNull();
-		assertThat(this.messageHandler.getHeartbeatValue()).isEqualTo(new long[] {10000, 10000});
+		assertThat(this.messageHandler.getHeartbeatValue()).isEqualTo(new long[] { 10000, 10000 });
 	}
 
 	@Test
 	public void startWithHeartbeatValueWithoutTaskScheduler() {
-		this.messageHandler.setHeartbeatValue(new long[] {10000, 10000});
-		assertThatIllegalArgumentException().isThrownBy(
-				this.messageHandler::start);
+		this.messageHandler.setHeartbeatValue(new long[] { 10000, 10000 });
+		assertThatIllegalArgumentException().isThrownBy(this.messageHandler::start);
 	}
 
 	@Test
@@ -187,7 +186,7 @@ public class SimpleBrokerMessageHandlerTests {
 		given(this.taskScheduler.scheduleWithFixedDelay(any(Runnable.class), eq(15000L))).willReturn(future);
 
 		this.messageHandler.setTaskScheduler(this.taskScheduler);
-		this.messageHandler.setHeartbeatValue(new long[] {15000, 16000});
+		this.messageHandler.setHeartbeatValue(new long[] { 15000, 16000 });
 		this.messageHandler.start();
 
 		verify(this.taskScheduler).scheduleWithFixedDelay(any(Runnable.class), eq(15000L));
@@ -202,7 +201,7 @@ public class SimpleBrokerMessageHandlerTests {
 	@Test
 	public void startWithOneZeroHeartbeatValue() {
 		this.messageHandler.setTaskScheduler(this.taskScheduler);
-		this.messageHandler.setHeartbeatValue(new long[] {0, 10000});
+		this.messageHandler.setHeartbeatValue(new long[] { 0, 10000 });
 		this.messageHandler.start();
 
 		verify(this.taskScheduler).scheduleWithFixedDelay(any(Runnable.class), eq(10000L));
@@ -210,7 +209,7 @@ public class SimpleBrokerMessageHandlerTests {
 
 	@Test
 	public void readInactivity() throws Exception {
-		this.messageHandler.setHeartbeatValue(new long[] {0, 1});
+		this.messageHandler.setHeartbeatValue(new long[] { 0, 1 });
 		this.messageHandler.setTaskScheduler(this.taskScheduler);
 		this.messageHandler.start();
 
@@ -221,7 +220,7 @@ public class SimpleBrokerMessageHandlerTests {
 
 		String id = "sess1";
 		TestPrincipal user = new TestPrincipal("joe");
-		Message<String> connectMessage = createConnectMessage(id, user, new long[] {1, 0});
+		Message<String> connectMessage = createConnectMessage(id, user, new long[] { 1, 0 });
 		this.messageHandler.handleMessage(connectMessage);
 
 		Thread.sleep(10);
@@ -234,14 +233,15 @@ public class SimpleBrokerMessageHandlerTests {
 		MessageHeaders headers = messages.get(0).getHeaders();
 		assertThat(headers.get(SimpMessageHeaderAccessor.MESSAGE_TYPE_HEADER)).isEqualTo(SimpMessageType.CONNECT_ACK);
 		headers = messages.get(1).getHeaders();
-		assertThat(headers.get(SimpMessageHeaderAccessor.MESSAGE_TYPE_HEADER)).isEqualTo(SimpMessageType.DISCONNECT_ACK);
+		assertThat(headers.get(SimpMessageHeaderAccessor.MESSAGE_TYPE_HEADER))
+				.isEqualTo(SimpMessageType.DISCONNECT_ACK);
 		assertThat(headers.get(SimpMessageHeaderAccessor.SESSION_ID_HEADER)).isEqualTo(id);
 		assertThat(headers.get(SimpMessageHeaderAccessor.USER_HEADER)).isEqualTo(user);
 	}
 
 	@Test
 	public void writeInactivity() throws Exception {
-		this.messageHandler.setHeartbeatValue(new long[] {1, 0});
+		this.messageHandler.setHeartbeatValue(new long[] { 1, 0 });
 		this.messageHandler.setTaskScheduler(this.taskScheduler);
 		this.messageHandler.start();
 
@@ -252,7 +252,7 @@ public class SimpleBrokerMessageHandlerTests {
 
 		String id = "sess1";
 		TestPrincipal user = new TestPrincipal("joe");
-		Message<String> connectMessage = createConnectMessage(id, user, new long[] {0, 1});
+		Message<String> connectMessage = createConnectMessage(id, user, new long[] { 0, 1 });
 		this.messageHandler.handleMessage(connectMessage);
 
 		Thread.sleep(10);
@@ -272,7 +272,7 @@ public class SimpleBrokerMessageHandlerTests {
 
 	@Test
 	public void readWriteIntervalCalculation() throws Exception {
-		this.messageHandler.setHeartbeatValue(new long[] {1, 1});
+		this.messageHandler.setHeartbeatValue(new long[] { 1, 1 });
 		this.messageHandler.setTaskScheduler(this.taskScheduler);
 		this.messageHandler.start();
 
@@ -283,7 +283,7 @@ public class SimpleBrokerMessageHandlerTests {
 
 		String id = "sess1";
 		TestPrincipal user = new TestPrincipal("joe");
-		Message<String> connectMessage = createConnectMessage(id, user, new long[] {10000, 10000});
+		Message<String> connectMessage = createConnectMessage(id, user, new long[] { 10000, 10000 });
 		this.messageHandler.handleMessage(connectMessage);
 
 		Thread.sleep(10);
@@ -292,9 +292,9 @@ public class SimpleBrokerMessageHandlerTests {
 		verify(this.clientOutChannel, times(1)).send(this.messageCaptor.capture());
 		List<Message<?>> messages = this.messageCaptor.getAllValues();
 		assertThat(messages.size()).isEqualTo(1);
-		assertThat(messages.get(0).getHeaders().get(SimpMessageHeaderAccessor.MESSAGE_TYPE_HEADER)).isEqualTo(SimpMessageType.CONNECT_ACK);
+		assertThat(messages.get(0).getHeaders().get(SimpMessageHeaderAccessor.MESSAGE_TYPE_HEADER))
+				.isEqualTo(SimpMessageType.CONNECT_ACK);
 	}
-
 
 	private Message<String> startSession(String id) {
 		this.messageHandler.start();

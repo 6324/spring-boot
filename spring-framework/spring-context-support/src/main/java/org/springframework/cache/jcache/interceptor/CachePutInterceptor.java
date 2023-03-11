@@ -37,10 +37,8 @@ class CachePutInterceptor extends AbstractKeyCacheInterceptor<CachePutOperation,
 		super(errorHandler);
 	}
 
-
 	@Override
-	protected Object invoke(
-			CacheOperationInvocationContext<CachePutOperation> context, CacheOperationInvoker invoker) {
+	protected Object invoke(CacheOperationInvocationContext<CachePutOperation> context, CacheOperationInvoker invoker) {
 
 		CachePutOperation operation = context.getOperation();
 		CacheKeyInvocationContext<CachePut> invocationContext = createCacheKeyInvocationContext(context);

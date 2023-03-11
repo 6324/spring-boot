@@ -24,8 +24,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Simple ClassFilter that looks for a specific Java 5 annotation
- * being present on a class.
+ * Simple ClassFilter that looks for a specific Java 5 annotation being present on a
+ * class.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -36,7 +36,6 @@ public class AnnotationClassFilter implements ClassFilter {
 	private final Class<? extends Annotation> annotationType;
 
 	private final boolean checkInherited;
-
 
 	/**
 	 * Create a new AnnotationClassFilter for the given annotation type.
@@ -49,10 +48,10 @@ public class AnnotationClassFilter implements ClassFilter {
 	/**
 	 * Create a new AnnotationClassFilter for the given annotation type.
 	 * @param annotationType the annotation type to look for
-	 * @param checkInherited whether to also check the superclasses and
-	 * interfaces as well as meta-annotations for the annotation type
-	 * (i.e. whether to use {@link AnnotatedElementUtils#hasAnnotation}
-	 * semantics instead of standard Java {@link Class#isAnnotationPresent})
+	 * @param checkInherited whether to also check the superclasses and interfaces as well
+	 * as meta-annotations for the annotation type (i.e. whether to use
+	 * {@link AnnotatedElementUtils#hasAnnotation} semantics instead of standard Java
+	 * {@link Class#isAnnotationPresent})
 	 */
 	public AnnotationClassFilter(Class<? extends Annotation> annotationType, boolean checkInherited) {
 		Assert.notNull(annotationType, "Annotation type must not be null");
@@ -60,11 +59,10 @@ public class AnnotationClassFilter implements ClassFilter {
 		this.checkInherited = checkInherited;
 	}
 
-
 	@Override
 	public boolean matches(Class<?> clazz) {
-		return (this.checkInherited ? AnnotatedElementUtils.hasAnnotation(clazz, this.annotationType) :
-				clazz.isAnnotationPresent(this.annotationType));
+		return (this.checkInherited ? AnnotatedElementUtils.hasAnnotation(clazz, this.annotationType)
+				: clazz.isAnnotationPresent(this.annotationType));
 	}
 
 	@Override

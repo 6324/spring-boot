@@ -84,14 +84,12 @@ public abstract class AbstractHttpSockJsSession extends AbstractSockJsSession {
 
 	private boolean readyToSend;
 
-
-	public AbstractHttpSockJsSession(String id, SockJsServiceConfig config,
-			WebSocketHandler wsHandler, Map<String, Object> attributes) {
+	public AbstractHttpSockJsSession(String id, SockJsServiceConfig config, WebSocketHandler wsHandler,
+			Map<String, Object> attributes) {
 
 		super(id, config, wsHandler, attributes);
 		this.messageCache = new LinkedBlockingQueue<>(config.getHttpMessageCacheSize());
 	}
-
 
 	@Override
 	public URI getUri() {
@@ -126,9 +124,9 @@ public abstract class AbstractHttpSockJsSession extends AbstractSockJsSession {
 	}
 
 	/**
-	 * Unlike WebSocket where sub-protocol negotiation is part of the initial
-	 * handshake, in HTTP transports the same negotiation must be emulated and
-	 * the selected protocol set through this setter.
+	 * Unlike WebSocket where sub-protocol negotiation is part of the initial handshake,
+	 * in HTTP transports the same negotiation must be emulated and the selected protocol
+	 * set through this setter.
 	 * @param protocol the sub-protocol to set
 	 */
 	public void setAcceptedProtocol(@Nullable String protocol) {
@@ -146,14 +144,13 @@ public abstract class AbstractHttpSockJsSession extends AbstractSockJsSession {
 
 	/**
 	 * Return the SockJS buffer for messages stored transparently between polling
-	 * requests. If the polling request takes longer than 5 seconds, the session
-	 * is closed.
+	 * requests. If the polling request takes longer than 5 seconds, the session is
+	 * closed.
 	 * @see org.springframework.web.socket.sockjs.transport.TransportHandlingSockJsService
 	 */
 	protected Queue<String> getMessageCache() {
 		return this.messageCache;
 	}
-
 
 	@Override
 	public boolean isActive() {
@@ -186,15 +183,14 @@ public abstract class AbstractHttpSockJsSession extends AbstractSockJsSession {
 		return Collections.emptyList();
 	}
 
-
 	/**
-	 * Handle the first request for receiving messages on a SockJS HTTP transport
-	 * based session.
-	 * <p>Long polling-based transports (e.g. "xhr", "jsonp") complete the request
-	 * after writing the open frame. Streaming-based transports ("xhr_streaming",
-	 * "eventsource", and "htmlfile") leave the response open longer for further
-	 * streaming of message frames but will also close it eventually after some
-	 * amount of data has been sent.
+	 * Handle the first request for receiving messages on a SockJS HTTP transport based
+	 * session.
+	 * <p>
+	 * Long polling-based transports (e.g. "xhr", "jsonp") complete the request after
+	 * writing the open frame. Streaming-based transports ("xhr_streaming", "eventsource",
+	 * and "htmlfile") leave the response open longer for further streaming of message
+	 * frames but will also close it eventually after some amount of data has been sent.
 	 * @param request the current request
 	 * @param response the current response
 	 * @param frameFormat the transport-specific SocksJS frame format to use
@@ -226,7 +222,8 @@ public abstract class AbstractHttpSockJsSession extends AbstractSockJsSession {
 				this.asyncRequestControl = control;
 				control.start(-1);
 				disableShallowEtagHeaderFilter(request);
-				// Let "our" handler know before sending the open frame to the remote handler
+				// Let "our" handler know before sending the open frame to the remote
+				// handler
 				delegateConnectionEstablished();
 				handleRequestInternal(request, response, true);
 				// Request might have been reset (e.g. polling sessions do after writing)
@@ -240,13 +237,14 @@ public abstract class AbstractHttpSockJsSession extends AbstractSockJsSession {
 	}
 
 	/**
-	 * Handle all requests, except the first one, to receive messages on a SockJS
-	 * HTTP transport based session.
-	 * <p>Long polling-based transports (e.g. "xhr", "jsonp") complete the request
-	 * after writing any buffered message frames (or the next one). Streaming-based
-	 * transports ("xhr_streaming", "eventsource", and "htmlfile") leave the
-	 * response open longer for further streaming of message frames but will also
-	 * close it eventually after some amount of data has been sent.
+	 * Handle all requests, except the first one, to receive messages on a SockJS HTTP
+	 * transport based session.
+	 * <p>
+	 * Long polling-based transports (e.g. "xhr", "jsonp") complete the request after
+	 * writing any buffered message frames (or the next one). Streaming-based transports
+	 * ("xhr_streaming", "eventsource", and "htmlfile") leave the response open longer for
+	 * further streaming of message frames but will also close it eventually after some
+	 * amount of data has been sent.
 	 * @param request the current request
 	 * @param response the current response
 	 * @param frameFormat the transport-specific SocksJS frame format to use
@@ -315,12 +313,10 @@ public abstract class AbstractHttpSockJsSession extends AbstractSockJsSession {
 	}
 
 	/**
-	 * Called when the connection is active and ready to write to the response.
-	 * Subclasses should only call this method from a method where the
-	 * "responseLock" is acquired.
+	 * Called when the connection is active and ready to write to the response. Subclasses
+	 * should only call this method from a method where the "responseLock" is acquired.
 	 */
 	protected abstract void flushCache() throws SockJsTransportFailureException;
-
 
 	@Override
 	protected void disconnect(CloseStatus status) {

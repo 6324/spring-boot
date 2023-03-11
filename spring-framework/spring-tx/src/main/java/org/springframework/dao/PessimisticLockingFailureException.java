@@ -17,12 +17,12 @@
 package org.springframework.dao;
 
 /**
- * Exception thrown on a pessimistic locking violation.
- * Thrown by Spring's SQLException translation mechanism
- * if a corresponding database error is encountered.
+ * Exception thrown on a pessimistic locking violation. Thrown by Spring's SQLException
+ * translation mechanism if a corresponding database error is encountered.
  *
- * <p>Serves as superclass for more specific exceptions, like
- * CannotAcquireLockException and DeadlockLoserDataAccessException.
+ * <p>
+ * Serves as superclass for more specific exceptions, like CannotAcquireLockException and
+ * DeadlockLoserDataAccessException.
  *
  * @author Thomas Risberg
  * @since 1.2

@@ -40,8 +40,6 @@ public class DuplicatePostProcessingTests {
 		new AnnotationConfigApplicationContext(Config.class).getBean(ExampleBean.class);
 	}
 
-
-
 	static class Config {
 
 		@Bean
@@ -58,8 +56,8 @@ public class DuplicatePostProcessingTests {
 		public ExampleApplicationEventListener exampleApplicationEventListener() {
 			return new ExampleApplicationEventListener();
 		}
-	}
 
+	}
 
 	static class ExampleFactoryBean implements FactoryBean<ExampleBean> {
 
@@ -79,8 +77,8 @@ public class DuplicatePostProcessingTests {
 		public boolean isSingleton() {
 			return true;
 		}
-	}
 
+	}
 
 	static class ExampleBeanPostProcessor implements BeanPostProcessor, ApplicationContextAware {
 
@@ -103,8 +101,8 @@ public class DuplicatePostProcessingTests {
 		public void setApplicationContext(ApplicationContext applicationContext) {
 			this.applicationContext = applicationContext;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	static class ExampleApplicationEvent extends ApplicationEvent {
@@ -112,10 +110,11 @@ public class DuplicatePostProcessingTests {
 		public ExampleApplicationEvent(Object source) {
 			super(source);
 		}
+
 	}
 
-
-	static class ExampleApplicationEventListener implements ApplicationListener<ExampleApplicationEvent>, BeanFactoryAware {
+	static class ExampleApplicationEventListener
+			implements ApplicationListener<ExampleApplicationEvent>, BeanFactoryAware {
 
 		private BeanFactory beanFactory;
 
@@ -128,10 +127,11 @@ public class DuplicatePostProcessingTests {
 		public void setBeanFactory(BeanFactory beanFactory) {
 			this.beanFactory = beanFactory;
 		}
+
 	}
 
-
 	static class ExampleBean {
+
 	}
 
 }

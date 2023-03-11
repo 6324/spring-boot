@@ -49,7 +49,6 @@ class MethodParameterTests {
 
 	private MethodParameter intReturnType;
 
-
 	@BeforeEach
 	void setup() throws NoSuchMethodException {
 		method = getClass().getMethod("method", String.class, Long.TYPE);
@@ -57,7 +56,6 @@ class MethodParameterTests {
 		longParameter = new MethodParameter(method, 1);
 		intReturnType = new MethodParameter(method, -1);
 	}
-
 
 	@Test
 	void equals() throws NoSuchMethodException {
@@ -107,8 +105,7 @@ class MethodParameterTests {
 
 	@Test
 	void indexValidation() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new MethodParameter(method, 2));
+		assertThatIllegalArgumentException().isThrownBy(() -> new MethodParameter(method, 2));
 	}
 
 	@Test
@@ -116,10 +113,11 @@ class MethodParameterTests {
 		Constructor<?> constructor = NestedClass.class.getDeclaredConstructor(String.class);
 		MethodParameter methodParameter = MethodParameter.forExecutable(constructor, 0);
 		assertThat(methodParameter.getParameterType()).isEqualTo(String.class);
-		assertThat(methodParameter.getParameterAnnotation(Param.class)).as("Failed to find @Param annotation").isNotNull();
+		assertThat(methodParameter.getParameterAnnotation(Param.class)).as("Failed to find @Param annotation")
+				.isNotNull();
 	}
 
-	@Test  // SPR-16652
+	@Test // SPR-16652
 	void annotatedConstructorParameterInInnerClass() throws Exception {
 		Constructor<?> constructor = InnerClass.class.getConstructor(getClass(), String.class, Callable.class);
 
@@ -129,14 +127,15 @@ class MethodParameterTests {
 
 		methodParameter = MethodParameter.forExecutable(constructor, 1);
 		assertThat(methodParameter.getParameterType()).isEqualTo(String.class);
-		assertThat(methodParameter.getParameterAnnotation(Param.class)).as("Failed to find @Param annotation").isNotNull();
+		assertThat(methodParameter.getParameterAnnotation(Param.class)).as("Failed to find @Param annotation")
+				.isNotNull();
 
 		methodParameter = MethodParameter.forExecutable(constructor, 2);
 		assertThat(methodParameter.getParameterType()).isEqualTo(Callable.class);
 		assertThat(methodParameter.getParameterAnnotation(Param.class)).isNull();
 	}
 
-	@Test  // SPR-16734
+	@Test // SPR-16734
 	void genericConstructorParameterInInnerClass() throws Exception {
 		Constructor<?> constructor = InnerClass.class.getConstructor(getClass(), String.class, Callable.class);
 
@@ -150,7 +149,8 @@ class MethodParameterTests {
 
 		methodParameter = MethodParameter.forExecutable(constructor, 2);
 		assertThat(methodParameter.getParameterType()).isEqualTo(Callable.class);
-		assertThat(methodParameter.getGenericParameterType()).isEqualTo(ResolvableType.forClassWithGenerics(Callable.class, Integer.class).getType());
+		assertThat(methodParameter.getGenericParameterType())
+				.isEqualTo(ResolvableType.forClassWithGenerics(Callable.class, Integer.class).getType());
 	}
 
 	@Test
@@ -178,12 +178,9 @@ class MethodParameterTests {
 	@Test
 	void equalsAndHashCodeConsidersNesting() throws Exception {
 		Method method = ArrayList.class.getMethod("get", int.class);
-		MethodParameter m1 = MethodParameter.forExecutable(method, -1)
-				.withContainingClass(StringList.class);
-		MethodParameter m2 = MethodParameter.forExecutable(method, -1)
-				.withContainingClass(StringList.class);
-		MethodParameter m3 = MethodParameter.forExecutable(method, -1)
-				.withContainingClass(IntegerList.class);
+		MethodParameter m1 = MethodParameter.forExecutable(method, -1).withContainingClass(StringList.class);
+		MethodParameter m2 = MethodParameter.forExecutable(method, -1).withContainingClass(StringList.class);
+		MethodParameter m3 = MethodParameter.forExecutable(method, -1).withContainingClass(IntegerList.class);
 		MethodParameter m4 = MethodParameter.forExecutable(method, -1);
 		assertThat(m1).isEqualTo(m2).isNotEqualTo(m3).isNotEqualTo(m4);
 		assertThat(m1.hashCode()).isEqualTo(m2.hashCode());
@@ -246,6 +243,7 @@ class MethodParameterTests {
 
 		NestedClass(@Param String s) {
 		}
+
 	}
 
 	@SuppressWarnings("unused")
@@ -253,19 +251,23 @@ class MethodParameterTests {
 
 		public InnerClass(@Param String s, Callable<Integer> i) {
 		}
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.PARAMETER)
 	private @interface Param {
+
 	}
 
 	@SuppressWarnings("serial")
 	private static class StringList extends ArrayList<String> {
+
 	}
 
 	@SuppressWarnings("serial")
 	private static class IntegerList extends ArrayList<Integer> {
+
 	}
 
 }

@@ -57,13 +57,11 @@ public class XmlBeanCollectionTests {
 
 	private final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
-
 	@BeforeEach
 	public void loadBeans() {
-		new XmlBeanDefinitionReader(this.beanFactory).loadBeanDefinitions(
-				new ClassPathResource("collections.xml", getClass()));
+		new XmlBeanDefinitionReader(this.beanFactory)
+				.loadBeanDefinitions(new ClassPathResource("collections.xml", getClass()));
 	}
-
 
 	@Test
 	public void testCollectionFactoryDefaults() throws Exception {
@@ -88,7 +86,9 @@ public class XmlBeanCollectionTests {
 
 	@Test
 	public void testRefSubelement() throws Exception {
-		//assertTrue("5 beans in reftypes, not " + this.beanFactory.getBeanDefinitionCount(), this.beanFactory.getBeanDefinitionCount() == 5);
+		// assertTrue("5 beans in reftypes, not " +
+		// this.beanFactory.getBeanDefinitionCount(),
+		// this.beanFactory.getBeanDefinitionCount() == 5);
 		TestBean jen = (TestBean) this.beanFactory.getBean("jenny");
 		TestBean dave = (TestBean) this.beanFactory.getBean("david");
 		assertThat(jen.getSpouse() == dave).isTrue();
@@ -137,7 +137,8 @@ public class XmlBeanCollectionTests {
 
 		Object[] friends = rod.getFriends().toArray();
 		assertThat(friends.length == 2).isTrue();
-		assertThat(friends[0].toString().equals(jen.toString())).as("First friend must be jen, not " + friends[0]).isTrue();
+		assertThat(friends[0].toString().equals(jen.toString())).as("First friend must be jen, not " + friends[0])
+				.isTrue();
 		assertThat(friends[0] != jen).as("Jen not same instance").isTrue();
 		assertThat(friends[1].toString().equals(dave.toString())).isTrue();
 		assertThat(friends[1] != dave).as("Dave not same instance").isTrue();
@@ -146,7 +147,8 @@ public class XmlBeanCollectionTests {
 		TestBean rod2 = (TestBean) this.beanFactory.getBean("pRod");
 		Object[] friends2 = rod2.getFriends().toArray();
 		assertThat(friends2.length == 2).isTrue();
-		assertThat(friends2[0].toString().equals(jen.toString())).as("First friend must be jen, not " + friends2[0]).isTrue();
+		assertThat(friends2[0].toString().equals(jen.toString())).as("First friend must be jen, not " + friends2[0])
+				.isTrue();
 		assertThat(friends2[0] != friends[0]).as("Jen not same instance").isTrue();
 		assertThat(friends2[1].toString().equals(dave.toString())).isTrue();
 		assertThat(friends2[1] != friends[1]).as("Dave not same instance").isTrue();
@@ -176,10 +178,8 @@ public class XmlBeanCollectionTests {
 
 	@Test
 	public void testInvalidBeanNameReference() throws Exception {
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				this.beanFactory.getBean("jumble2"))
-			.withCauseInstanceOf(BeanDefinitionStoreException.class)
-			.withMessageContaining("rod2");
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> this.beanFactory.getBean("jumble2"))
+				.withCauseInstanceOf(BeanDefinitionStoreException.class).withMessageContaining("rod2");
 	}
 
 	@Test
@@ -249,7 +249,8 @@ public class XmlBeanCollectionTests {
 		assertThat(m).isNotNull();
 		assertThat(m.size() == 2).isTrue();
 		assertThat(m.get("fo").equals("bar")).isTrue();
-		assertThat(m.get("jen").equals(jenny)).as("Map element 'jenny' should be equal to jenny bean, not " + m.get("jen")).isTrue();
+		assertThat(m.get("jen").equals(jenny))
+				.as("Map element 'jenny' should be equal to jenny bean, not " + m.get("jen")).isTrue();
 
 		// Check nested list in list
 		l = (List) l.get(2);
@@ -263,7 +264,8 @@ public class XmlBeanCollectionTests {
 		assertThat(m).isNotNull();
 		assertThat(m.size() == 2).isTrue();
 		assertThat(m.get("foo").equals("bar")).isTrue();
-		assertThat(m.get("jenny").equals(jenny)).as("Map element 'jenny' should be equal to jenny bean, not " + m.get("jenny")).isTrue();
+		assertThat(m.get("jenny").equals(jenny))
+				.as("Map element 'jenny' should be equal to jenny bean, not " + m.get("jenny")).isTrue();
 	}
 
 	@Test
@@ -348,7 +350,7 @@ public class XmlBeanCollectionTests {
 	@Test
 	public void testClassList() throws Exception {
 		HasMap hasMap = (HasMap) this.beanFactory.getBean("classList");
-		assertThat(hasMap.getClassList().size()== 2).isTrue();
+		assertThat(hasMap.getClassList().size() == 2).isTrue();
 		assertThat(hasMap.getClassList().get(0).equals(String.class)).isTrue();
 		assertThat(hasMap.getClassList().get(1).equals(Exception.class)).isTrue();
 	}
@@ -446,7 +448,6 @@ public class XmlBeanCollectionTests {
 		assertThat(set.contains("TWO")).isTrue();
 	}
 
-
 	public static class MapAndSet {
 
 		private Object obj;
@@ -462,6 +463,7 @@ public class XmlBeanCollectionTests {
 		public Object getObject() {
 			return obj;
 		}
+
 	}
 
 }

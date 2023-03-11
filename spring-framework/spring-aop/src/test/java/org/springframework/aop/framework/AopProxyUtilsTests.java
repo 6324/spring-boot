@@ -128,8 +128,7 @@ public class AopProxyUtilsTests {
 	public void testProxiedUserInterfacesWithNoInterface() {
 		Object proxy = Proxy.newProxyInstance(getClass().getClassLoader(), new Class[0],
 				(proxy1, method, args) -> null);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				AopProxyUtils.proxiedUserInterfaces(proxy));
+		assertThatIllegalArgumentException().isThrownBy(() -> AopProxyUtils.proxiedUserInterfaces(proxy));
 	}
 
 }

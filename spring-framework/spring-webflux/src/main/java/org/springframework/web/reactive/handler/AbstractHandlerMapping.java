@@ -51,7 +51,6 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport
 
 	private static final WebHandler REQUEST_HANDLED_HANDLER = exchange -> Mono.empty();
 
-
 	private final PathPatternParser patternParser;
 
 	@Nullable
@@ -59,38 +58,37 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport
 
 	private CorsProcessor corsProcessor = new DefaultCorsProcessor();
 
-	private int order = Ordered.LOWEST_PRECEDENCE;  // default: same as non-Ordered
+	private int order = Ordered.LOWEST_PRECEDENCE; // default: same as non-Ordered
 
 	@Nullable
 	private String beanName;
-
 
 	public AbstractHandlerMapping() {
 		this.patternParser = new PathPatternParser();
 	}
 
-
 	/**
-	 * Shortcut method for setting the same property on the underlying pattern
-	 * parser in use. For more details see:
+	 * Shortcut method for setting the same property on the underlying pattern parser in
+	 * use. For more details see:
 	 * <ul>
 	 * <li>{@link #getPathPatternParser()} -- the underlying pattern parser
-	 * <li>{@link PathPatternParser#setCaseSensitive(boolean)} -- the case
-	 * sensitive slash option, including its default value.
+	 * <li>{@link PathPatternParser#setCaseSensitive(boolean)} -- the case sensitive slash
+	 * option, including its default value.
 	 * </ul>
-	 * <p><strong>Note:</strong> aside from
+	 * <p>
+	 * <strong>Note:</strong> aside from
 	 */
 	public void setUseCaseSensitiveMatch(boolean caseSensitiveMatch) {
 		this.patternParser.setCaseSensitive(caseSensitiveMatch);
 	}
 
 	/**
-	 * Shortcut method for setting the same property on the underlying pattern
-	 * parser in use. For more details see:
+	 * Shortcut method for setting the same property on the underlying pattern parser in
+	 * use. For more details see:
 	 * <ul>
 	 * <li>{@link #getPathPatternParser()} -- the underlying pattern parser
-	 * <li>{@link PathPatternParser#setMatchOptionalTrailingSeparator(boolean)} --
-	 * the trailing slash option, including its default value.
+	 * <li>{@link PathPatternParser#setMatchOptionalTrailingSeparator(boolean)} -- the
+	 * trailing slash option, including its default value.
 	 * </ul>
 	 */
 	public void setUseTrailingSlashMatch(boolean trailingSlashMatch) {
@@ -99,17 +97,16 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport
 
 	/**
 	 * Return the {@link PathPatternParser} instance that is used for
-	 * {@link #setCorsConfigurations(Map) CORS configuration checks}.
-	 * Sub-classes can also use this pattern parser for their own request
-	 * mapping purposes.
+	 * {@link #setCorsConfigurations(Map) CORS configuration checks}. Sub-classes can also
+	 * use this pattern parser for their own request mapping purposes.
 	 */
 	public PathPatternParser getPathPatternParser() {
 		return this.patternParser;
 	}
 
 	/**
-	 * Set the "global" CORS configurations based on URL patterns. By default the
-	 * first matching URL pattern is combined with handler-level CORS configuration if any.
+	 * Set the "global" CORS configurations based on URL patterns. By default the first
+	 * matching URL pattern is combined with handler-level CORS configuration if any.
 	 * @see #setCorsConfigurationSource(CorsConfigurationSource)
 	 */
 	public void setCorsConfigurations(Map<String, CorsConfiguration> corsConfigurations) {
@@ -138,7 +135,8 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport
 	/**
 	 * Configure a custom {@link CorsProcessor} to use to apply the matched
 	 * {@link CorsConfiguration} for a request.
-	 * <p>By default an instance of {@link DefaultCorsProcessor} is used.
+	 * <p>
+	 * By default an instance of {@link DefaultCorsProcessor} is used.
 	 */
 	public void setCorsProcessor(CorsProcessor corsProcessor) {
 		Assert.notNull(corsProcessor, "CorsProcessor must not be null");
@@ -154,7 +152,8 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport
 
 	/**
 	 * Specify the order value for this HandlerMapping bean.
-	 * <p>The default value is {@code Ordered.LOWEST_PRECEDENCE}, meaning non-ordered.
+	 * <p>
+	 * The default value is {@code Ordered.LOWEST_PRECEDENCE}, meaning non-ordered.
 	 * @see org.springframework.core.Ordered#getOrder()
 	 */
 	public void setOrder(int order) {
@@ -175,7 +174,6 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport
 		return this.beanName != null ? "'" + this.beanName + "'" : "<unknown>";
 	}
 
-
 	@Override
 	public Mono<Object> getHandler(ServerWebExchange exchange) {
 		return getHandlerInternal(exchange).map(handler -> {
@@ -184,7 +182,8 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport
 			}
 			ServerHttpRequest request = exchange.getRequest();
 			if (hasCorsConfigurationSource(handler) || CorsUtils.isPreFlightRequest(request)) {
-				CorsConfiguration config = (this.corsConfigurationSource != null ? this.corsConfigurationSource.getCorsConfiguration(exchange) : null);
+				CorsConfiguration config = (this.corsConfigurationSource != null
+						? this.corsConfigurationSource.getCorsConfiguration(exchange) : null);
 				CorsConfiguration handlerConfig = getCorsConfiguration(handler, exchange);
 				config = (config != null ? config.combine(handlerConfig) : handlerConfig);
 				if (!this.corsProcessor.process(config, exchange) || CorsUtils.isPreFlightRequest(request)) {
@@ -196,12 +195,13 @@ public abstract class AbstractHandlerMapping extends ApplicationObjectSupport
 	}
 
 	/**
-	 * Look up a handler for the given request, returning an empty {@code Mono}
-	 * if no specific one is found. This method is called by {@link #getHandler}.
-	 * <p>On CORS pre-flight requests this method should return a match not for
-	 * the pre-flight request but for the expected actual request based on the URL
-	 * path, the HTTP methods from the "Access-Control-Request-Method" header, and
-	 * the headers from the "Access-Control-Request-Headers" header.
+	 * Look up a handler for the given request, returning an empty {@code Mono} if no
+	 * specific one is found. This method is called by {@link #getHandler}.
+	 * <p>
+	 * On CORS pre-flight requests this method should return a match not for the
+	 * pre-flight request but for the expected actual request based on the URL path, the
+	 * HTTP methods from the "Access-Control-Request-Method" header, and the headers from
+	 * the "Access-Control-Request-Headers" header.
 	 * @param exchange current exchange
 	 * @return {@code Mono} for the matching handler, if any
 	 */

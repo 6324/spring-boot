@@ -32,10 +32,10 @@ import org.springframework.web.socket.handler.BeanCreatingHandlerProvider;
 
 /**
  * A WebSocket connection manager that is given a URI, a
- * {@link javax.websocket.ClientEndpoint}-annotated endpoint, connects to a
- * WebSocket server through the {@link #start()} and {@link #stop()} methods.
- * If {@link #setAutoStartup(boolean)} is set to {@code true} this will be
- * done automatically when the Spring ApplicationContext is refreshed.
+ * {@link javax.websocket.ClientEndpoint}-annotated endpoint, connects to a WebSocket
+ * server through the {@link #start()} and {@link #stop()} methods. If
+ * {@link #setAutoStartup(boolean)} is set to {@code true} this will be done automatically
+ * when the Spring ApplicationContext is refreshed.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -55,7 +55,6 @@ public class AnnotatedEndpointConnectionManager extends ConnectionManagerSupport
 	@Nullable
 	private volatile Session session;
 
-
 	public AnnotatedEndpointConnectionManager(Object endpoint, String uriTemplate, Object... uriVariables) {
 		super(uriTemplate, uriVariables);
 		this.endpoint = endpoint;
@@ -67,7 +66,6 @@ public class AnnotatedEndpointConnectionManager extends ConnectionManagerSupport
 		this.endpoint = null;
 		this.endpointProvider = new BeanCreatingHandlerProvider<>(endpointClass);
 	}
-
 
 	public void setWebSocketContainer(WebSocketContainer webSocketContainer) {
 		this.webSocketContainer = webSocketContainer;
@@ -85,8 +83,8 @@ public class AnnotatedEndpointConnectionManager extends ConnectionManagerSupport
 	}
 
 	/**
-	 * Set a {@link TaskExecutor} to use to open the connection.
-	 * By default {@link SimpleAsyncTaskExecutor} is used.
+	 * Set a {@link TaskExecutor} to use to open the connection. By default
+	 * {@link SimpleAsyncTaskExecutor} is used.
 	 */
 	public void setTaskExecutor(TaskExecutor taskExecutor) {
 		Assert.notNull(taskExecutor, "TaskExecutor must not be null");
@@ -99,7 +97,6 @@ public class AnnotatedEndpointConnectionManager extends ConnectionManagerSupport
 	public TaskExecutor getTaskExecutor() {
 		return this.taskExecutor;
 	}
-
 
 	@Override
 	protected void openConnection() {

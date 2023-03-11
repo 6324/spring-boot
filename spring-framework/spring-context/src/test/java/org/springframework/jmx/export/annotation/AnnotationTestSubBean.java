@@ -56,4 +56,5 @@ public class AnnotationTestSubBean extends AnnotationTestBean implements IAnnota
 	public int getExpensiveToCalculate() {
 		return Integer.MAX_VALUE;
 	}
+
 }

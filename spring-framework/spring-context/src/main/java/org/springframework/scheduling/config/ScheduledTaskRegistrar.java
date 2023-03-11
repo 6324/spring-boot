@@ -41,10 +41,11 @@ import org.springframework.util.CollectionUtils;
  * Helper bean for registering tasks with a {@link TaskScheduler}, typically using cron
  * expressions.
  *
- * <p>As of Spring 3.1, {@code ScheduledTaskRegistrar} has a more prominent user-facing
- * role when used in conjunction with the {@link
- * org.springframework.scheduling.annotation.EnableAsync @EnableAsync} annotation and its
- * {@link org.springframework.scheduling.annotation.SchedulingConfigurer
+ * <p>
+ * As of Spring 3.1, {@code ScheduledTaskRegistrar} has a more prominent user-facing role
+ * when used in conjunction with the
+ * {@link org.springframework.scheduling.annotation.EnableAsync @EnableAsync} annotation
+ * and its {@link org.springframework.scheduling.annotation.SchedulingConfigurer
  * SchedulingConfigurer} callback interface.
  *
  * @author Juergen Hoeller
@@ -59,15 +60,15 @@ public class ScheduledTaskRegistrar implements ScheduledTaskHolder, Initializing
 
 	/**
 	 * A special cron expression value that indicates a disabled trigger: {@value}.
-	 * <p>This is primarily meant for use with {@link #addCronTask(Runnable, String)}
-	 * when the value for the supplied {@code expression} is retrieved from an
-	 * external source &mdash; for example, from a property in the
+	 * <p>
+	 * This is primarily meant for use with {@link #addCronTask(Runnable, String)} when
+	 * the value for the supplied {@code expression} is retrieved from an external source
+	 * &mdash; for example, from a property in the
 	 * {@link org.springframework.core.env.Environment Environment}.
 	 * @since 5.2
 	 * @see org.springframework.scheduling.annotation.Scheduled#CRON_DISABLED
 	 */
 	public static final String CRON_DISABLED = "-";
-
 
 	@Nullable
 	private TaskScheduler taskScheduler;
@@ -90,7 +91,6 @@ public class ScheduledTaskRegistrar implements ScheduledTaskHolder, Initializing
 	private final Map<Task, ScheduledTask> unresolvedTasks = new HashMap<>(16);
 
 	private final Set<ScheduledTask> scheduledTasks = new LinkedHashSet<>(16);
-
 
 	/**
 	 * Set the {@link TaskScheduler} to register scheduled tasks with.
@@ -128,7 +128,6 @@ public class ScheduledTaskRegistrar implements ScheduledTaskHolder, Initializing
 		return this.taskScheduler;
 	}
 
-
 	/**
 	 * Specify triggered tasks as a Map of Runnables (the tasks) and Trigger objects
 	 * (typically custom implementations of the {@link Trigger} interface).
@@ -139,8 +138,8 @@ public class ScheduledTaskRegistrar implements ScheduledTaskHolder, Initializing
 	}
 
 	/**
-	 * Specify triggered tasks as a list of {@link TriggerTask} objects. Primarily used
-	 * by {@code <task:*>} namespace parsing.
+	 * Specify triggered tasks as a list of {@link TriggerTask} objects. Primarily used by
+	 * {@code <task:*>} namespace parsing.
 	 * @since 3.2
 	 * @see ScheduledTasksBeanDefinitionParser
 	 */
@@ -154,8 +153,7 @@ public class ScheduledTaskRegistrar implements ScheduledTaskHolder, Initializing
 	 * @since 4.2
 	 */
 	public List<TriggerTask> getTriggerTaskList() {
-		return (this.triggerTasks != null? Collections.unmodifiableList(this.triggerTasks) :
-				Collections.emptyList());
+		return (this.triggerTasks != null ? Collections.unmodifiableList(this.triggerTasks) : Collections.emptyList());
 	}
 
 	/**
@@ -183,8 +181,7 @@ public class ScheduledTaskRegistrar implements ScheduledTaskHolder, Initializing
 	 * @since 4.2
 	 */
 	public List<CronTask> getCronTaskList() {
-		return (this.cronTasks != null ? Collections.unmodifiableList(this.cronTasks) :
-				Collections.emptyList());
+		return (this.cronTasks != null ? Collections.unmodifiableList(this.cronTasks) : Collections.emptyList());
 	}
 
 	/**
@@ -212,8 +209,8 @@ public class ScheduledTaskRegistrar implements ScheduledTaskHolder, Initializing
 	 * @since 4.2
 	 */
 	public List<IntervalTask> getFixedRateTaskList() {
-		return (this.fixedRateTasks != null ? Collections.unmodifiableList(this.fixedRateTasks) :
-				Collections.emptyList());
+		return (this.fixedRateTasks != null ? Collections.unmodifiableList(this.fixedRateTasks)
+				: Collections.emptyList());
 	}
 
 	/**
@@ -241,10 +238,9 @@ public class ScheduledTaskRegistrar implements ScheduledTaskHolder, Initializing
 	 * @since 4.2
 	 */
 	public List<IntervalTask> getFixedDelayTaskList() {
-		return (this.fixedDelayTasks != null ? Collections.unmodifiableList(this.fixedDelayTasks) :
-				Collections.emptyList());
+		return (this.fixedDelayTasks != null ? Collections.unmodifiableList(this.fixedDelayTasks)
+				: Collections.emptyList());
 	}
-
 
 	/**
 	 * Add a Runnable task to be triggered per the given {@link Trigger}.
@@ -268,7 +264,8 @@ public class ScheduledTaskRegistrar implements ScheduledTaskHolder, Initializing
 
 	/**
 	 * Add a {@link Runnable} task to be triggered per the given cron {@code expression}.
-	 * <p>As of Spring Framework 5.2, this method will not register the task if the
+	 * <p>
+	 * As of Spring Framework 5.2, this method will not register the task if the
 	 * {@code expression} is equal to {@link #CRON_DISABLED}.
 	 */
 	public void addCronTask(Runnable task, String expression) {
@@ -328,18 +325,14 @@ public class ScheduledTaskRegistrar implements ScheduledTaskHolder, Initializing
 		this.fixedDelayTasks.add(task);
 	}
 
-
 	/**
 	 * Return whether this {@code ScheduledTaskRegistrar} has any tasks registered.
 	 * @since 3.2
 	 */
 	public boolean hasTasks() {
-		return (!CollectionUtils.isEmpty(this.triggerTasks) ||
-				!CollectionUtils.isEmpty(this.cronTasks) ||
-				!CollectionUtils.isEmpty(this.fixedRateTasks) ||
-				!CollectionUtils.isEmpty(this.fixedDelayTasks));
+		return (!CollectionUtils.isEmpty(this.triggerTasks) || !CollectionUtils.isEmpty(this.cronTasks)
+				|| !CollectionUtils.isEmpty(this.fixedRateTasks) || !CollectionUtils.isEmpty(this.fixedDelayTasks));
 	}
-
 
 	/**
 	 * Calls {@link #scheduleTasks()} at bean construction time.
@@ -387,10 +380,9 @@ public class ScheduledTaskRegistrar implements ScheduledTaskHolder, Initializing
 		}
 	}
 
-
 	/**
-	 * Schedule the specified trigger task, either right away if possible
-	 * or on initialization of the scheduler.
+	 * Schedule the specified trigger task, either right away if possible or on
+	 * initialization of the scheduler.
 	 * @return a handle to the scheduled task, allowing to cancel it
 	 * @since 4.3
 	 */
@@ -413,10 +405,10 @@ public class ScheduledTaskRegistrar implements ScheduledTaskHolder, Initializing
 	}
 
 	/**
-	 * Schedule the specified cron task, either right away if possible
-	 * or on initialization of the scheduler.
-	 * @return a handle to the scheduled task, allowing to cancel it
-	 * (or {@code null} if processing a previously registered task)
+	 * Schedule the specified cron task, either right away if possible or on
+	 * initialization of the scheduler.
+	 * @return a handle to the scheduled task, allowing to cancel it (or {@code null} if
+	 * processing a previously registered task)
 	 * @since 4.3
 	 */
 	@Nullable
@@ -438,26 +430,26 @@ public class ScheduledTaskRegistrar implements ScheduledTaskHolder, Initializing
 	}
 
 	/**
-	 * Schedule the specified fixed-rate task, either right away if possible
-	 * or on initialization of the scheduler.
-	 * @return a handle to the scheduled task, allowing to cancel it
-	 * (or {@code null} if processing a previously registered task)
+	 * Schedule the specified fixed-rate task, either right away if possible or on
+	 * initialization of the scheduler.
+	 * @return a handle to the scheduled task, allowing to cancel it (or {@code null} if
+	 * processing a previously registered task)
 	 * @since 4.3
 	 * @deprecated as of 5.0.2, in favor of {@link #scheduleFixedRateTask(FixedRateTask)}
 	 */
 	@Deprecated
 	@Nullable
 	public ScheduledTask scheduleFixedRateTask(IntervalTask task) {
-		FixedRateTask taskToUse = (task instanceof FixedRateTask ? (FixedRateTask) task :
-				new FixedRateTask(task.getRunnable(), task.getInterval(), task.getInitialDelay()));
+		FixedRateTask taskToUse = (task instanceof FixedRateTask ? (FixedRateTask) task
+				: new FixedRateTask(task.getRunnable(), task.getInterval(), task.getInitialDelay()));
 		return scheduleFixedRateTask(taskToUse);
 	}
 
 	/**
-	 * Schedule the specified fixed-rate task, either right away if possible
-	 * or on initialization of the scheduler.
-	 * @return a handle to the scheduled task, allowing to cancel it
-	 * (or {@code null} if processing a previously registered task)
+	 * Schedule the specified fixed-rate task, either right away if possible or on
+	 * initialization of the scheduler.
+	 * @return a handle to the scheduled task, allowing to cancel it (or {@code null} if
+	 * processing a previously registered task)
 	 * @since 5.0.2
 	 */
 	@Nullable
@@ -471,12 +463,11 @@ public class ScheduledTaskRegistrar implements ScheduledTaskHolder, Initializing
 		if (this.taskScheduler != null) {
 			if (task.getInitialDelay() > 0) {
 				Date startTime = new Date(System.currentTimeMillis() + task.getInitialDelay());
-				scheduledTask.future =
-						this.taskScheduler.scheduleAtFixedRate(task.getRunnable(), startTime, task.getInterval());
+				scheduledTask.future = this.taskScheduler.scheduleAtFixedRate(task.getRunnable(), startTime,
+						task.getInterval());
 			}
 			else {
-				scheduledTask.future =
-						this.taskScheduler.scheduleAtFixedRate(task.getRunnable(), task.getInterval());
+				scheduledTask.future = this.taskScheduler.scheduleAtFixedRate(task.getRunnable(), task.getInterval());
 			}
 		}
 		else {
@@ -487,26 +478,27 @@ public class ScheduledTaskRegistrar implements ScheduledTaskHolder, Initializing
 	}
 
 	/**
-	 * Schedule the specified fixed-delay task, either right away if possible
-	 * or on initialization of the scheduler.
-	 * @return a handle to the scheduled task, allowing to cancel it
-	 * (or {@code null} if processing a previously registered task)
+	 * Schedule the specified fixed-delay task, either right away if possible or on
+	 * initialization of the scheduler.
+	 * @return a handle to the scheduled task, allowing to cancel it (or {@code null} if
+	 * processing a previously registered task)
 	 * @since 4.3
-	 * @deprecated as of 5.0.2, in favor of {@link #scheduleFixedDelayTask(FixedDelayTask)}
+	 * @deprecated as of 5.0.2, in favor of
+	 * {@link #scheduleFixedDelayTask(FixedDelayTask)}
 	 */
 	@Deprecated
 	@Nullable
 	public ScheduledTask scheduleFixedDelayTask(IntervalTask task) {
-		FixedDelayTask taskToUse = (task instanceof FixedDelayTask ? (FixedDelayTask) task :
-				new FixedDelayTask(task.getRunnable(), task.getInterval(), task.getInitialDelay()));
+		FixedDelayTask taskToUse = (task instanceof FixedDelayTask ? (FixedDelayTask) task
+				: new FixedDelayTask(task.getRunnable(), task.getInterval(), task.getInitialDelay()));
 		return scheduleFixedDelayTask(taskToUse);
 	}
 
 	/**
-	 * Schedule the specified fixed-delay task, either right away if possible
-	 * or on initialization of the scheduler.
-	 * @return a handle to the scheduled task, allowing to cancel it
-	 * (or {@code null} if processing a previously registered task)
+	 * Schedule the specified fixed-delay task, either right away if possible or on
+	 * initialization of the scheduler.
+	 * @return a handle to the scheduled task, allowing to cancel it (or {@code null} if
+	 * processing a previously registered task)
 	 * @since 5.0.2
 	 */
 	@Nullable
@@ -520,12 +512,12 @@ public class ScheduledTaskRegistrar implements ScheduledTaskHolder, Initializing
 		if (this.taskScheduler != null) {
 			if (task.getInitialDelay() > 0) {
 				Date startTime = new Date(System.currentTimeMillis() + task.getInitialDelay());
-				scheduledTask.future =
-						this.taskScheduler.scheduleWithFixedDelay(task.getRunnable(), startTime, task.getInterval());
+				scheduledTask.future = this.taskScheduler.scheduleWithFixedDelay(task.getRunnable(), startTime,
+						task.getInterval());
 			}
 			else {
-				scheduledTask.future =
-						this.taskScheduler.scheduleWithFixedDelay(task.getRunnable(), task.getInterval());
+				scheduledTask.future = this.taskScheduler.scheduleWithFixedDelay(task.getRunnable(),
+						task.getInterval());
 			}
 		}
 		else {
@@ -534,7 +526,6 @@ public class ScheduledTaskRegistrar implements ScheduledTaskHolder, Initializing
 		}
 		return (newTask ? scheduledTask : null);
 	}
-
 
 	/**
 	 * Return all locally registered tasks that have been scheduled by this registrar.

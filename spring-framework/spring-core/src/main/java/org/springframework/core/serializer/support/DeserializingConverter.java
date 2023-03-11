@@ -25,8 +25,8 @@ import org.springframework.util.Assert;
 
 /**
  * A {@link Converter} that delegates to a
- * {@link org.springframework.core.serializer.Deserializer}
- * to convert data in a byte array to an object.
+ * {@link org.springframework.core.serializer.Deserializer} to convert data in a byte
+ * array to an object.
  *
  * @author Gary Russell
  * @author Mark Fisher
@@ -37,10 +37,10 @@ public class DeserializingConverter implements Converter<byte[], Object> {
 
 	private final Deserializer<Object> deserializer;
 
-
 	/**
-	 * Create a {@code DeserializingConverter} with default {@link java.io.ObjectInputStream}
-	 * configuration, using the "latest user-defined ClassLoader".
+	 * Create a {@code DeserializingConverter} with default
+	 * {@link java.io.ObjectInputStream} configuration, using the "latest user-defined
+	 * ClassLoader".
 	 * @see DefaultDeserializer#DefaultDeserializer()
 	 */
 	public DeserializingConverter() {
@@ -48,8 +48,8 @@ public class DeserializingConverter implements Converter<byte[], Object> {
 	}
 
 	/**
-	 * Create a {@code DeserializingConverter} for using an {@link java.io.ObjectInputStream}
-	 * with the given {@code ClassLoader}.
+	 * Create a {@code DeserializingConverter} for using an
+	 * {@link java.io.ObjectInputStream} with the given {@code ClassLoader}.
 	 * @since 4.2.1
 	 * @see DefaultDeserializer#DefaultDeserializer(ClassLoader)
 	 */
@@ -58,13 +58,13 @@ public class DeserializingConverter implements Converter<byte[], Object> {
 	}
 
 	/**
-	 * Create a {@code DeserializingConverter} that delegates to the provided {@link Deserializer}.
+	 * Create a {@code DeserializingConverter} that delegates to the provided
+	 * {@link Deserializer}.
 	 */
 	public DeserializingConverter(Deserializer<Object> deserializer) {
 		Assert.notNull(deserializer, "Deserializer must not be null");
 		this.deserializer = deserializer;
 	}
-
 
 	@Override
 	public Object convert(byte[] source) {
@@ -73,9 +73,10 @@ public class DeserializingConverter implements Converter<byte[], Object> {
 			return this.deserializer.deserialize(byteStream);
 		}
 		catch (Throwable ex) {
-			throw new SerializationFailedException("Failed to deserialize payload. " +
-					"Is the byte array a result of corresponding serialization for " +
-					this.deserializer.getClass().getSimpleName() + "?", ex);
+			throw new SerializationFailedException(
+					"Failed to deserialize payload. " + "Is the byte array a result of corresponding serialization for "
+							+ this.deserializer.getClass().getSimpleName() + "?",
+					ex);
 		}
 	}
 

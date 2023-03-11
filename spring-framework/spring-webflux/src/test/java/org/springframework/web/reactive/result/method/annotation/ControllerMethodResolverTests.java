@@ -60,7 +60,6 @@ public class ControllerMethodResolverTests {
 
 	private HandlerMethod handlerMethod;
 
-
 	@BeforeEach
 	public void setup() {
 		ArgumentResolverConfigurer resolvers = new ArgumentResolverConfigurer();
@@ -75,13 +74,12 @@ public class ControllerMethodResolverTests {
 		applicationContext.registerBean(TestControllerAdvice.class);
 		applicationContext.refresh();
 
-		this.methodResolver = new ControllerMethodResolver(
-				resolvers, ReactiveAdapterRegistry.getSharedInstance(), applicationContext, codecs.getReaders());
+		this.methodResolver = new ControllerMethodResolver(resolvers, ReactiveAdapterRegistry.getSharedInstance(),
+				applicationContext, codecs.getReaders());
 
 		Method method = ResolvableMethod.on(TestController.class).mockCall(TestController::handle).method();
 		this.handlerMethod = new HandlerMethod(new TestController(), method);
 	}
-
 
 	@Test
 	public void requestMappingArgumentResolvers() {
@@ -160,8 +158,7 @@ public class ControllerMethodResolverTests {
 
 	@Test
 	public void initBinderArgumentResolvers() {
-		List<SyncInvocableHandlerMethod> methods =
-				this.methodResolver.getInitBinderMethods(this.handlerMethod);
+		List<SyncInvocableHandlerMethod> methods = this.methodResolver.getInitBinderMethods(this.handlerMethod);
 
 		assertThat(methods.size()).as("Expected one each from Controller + ControllerAdvice").isEqualTo(2);
 		SyncInvocableHandlerMethod invocable = methods.get(0);
@@ -225,53 +222,56 @@ public class ControllerMethodResolverTests {
 
 	@Test
 	public void exceptionHandlerFromControllerAdvice() {
-		InvocableHandlerMethod invocable = this.methodResolver.getExceptionHandlerMethod(
-				new IllegalStateException("reason"), this.handlerMethod);
+		InvocableHandlerMethod invocable = this.methodResolver
+				.getExceptionHandlerMethod(new IllegalStateException("reason"), this.handlerMethod);
 
 		assertThat(invocable).isNotNull();
 		assertThat(invocable.getBeanType()).isEqualTo(TestControllerAdvice.class);
 	}
 
-
-	private static HandlerMethodArgumentResolver next(
-			List<? extends HandlerMethodArgumentResolver> resolvers, AtomicInteger index) {
+	private static HandlerMethodArgumentResolver next(List<? extends HandlerMethodArgumentResolver> resolvers,
+			AtomicInteger index) {
 
 		return resolvers.get(index.incrementAndGet());
 	}
-
 
 	@Controller
 	static class TestController {
 
 		@InitBinder
-		void initDataBinder() {}
+		void initDataBinder() {
+		}
 
 		@ModelAttribute
-		void initModel() {}
+		void initModel() {
+		}
 
 		@GetMapping
-		void handle() {}
+		void handle() {
+		}
 
 		@ExceptionHandler
-		void handleException(ResponseStatusException ex) {}
+		void handleException(ResponseStatusException ex) {
+		}
 
 	}
-
 
 	@ControllerAdvice
 	static class TestControllerAdvice {
 
 		@InitBinder
-		void initDataBinder() {}
+		void initDataBinder() {
+		}
 
 		@ModelAttribute
-		void initModel() {}
+		void initModel() {
+		}
 
 		@ExceptionHandler
-		void handleException(IllegalStateException ex) {}
+		void handleException(IllegalStateException ex) {
+		}
 
 	}
-
 
 	static class CustomArgumentResolver implements HandlerMethodArgumentResolver {
 
@@ -284,8 +284,8 @@ public class ControllerMethodResolverTests {
 		public Mono<Object> resolveArgument(MethodParameter p, BindingContext c, ServerWebExchange e) {
 			return null;
 		}
-	}
 
+	}
 
 	static class CustomSyncArgumentResolver extends CustomArgumentResolver
 			implements SyncHandlerMethodArgumentResolver {
@@ -294,6 +294,7 @@ public class ControllerMethodResolverTests {
 		public Object resolveArgumentValue(MethodParameter p, BindingContext c, ServerWebExchange e) {
 			return null;
 		}
+
 	}
 
 }

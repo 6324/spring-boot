@@ -47,9 +47,8 @@ public class TestHttpSockJsSession extends StreamingSockJsSession {
 
 	private String subProtocol;
 
-
-	public TestHttpSockJsSession(String sessionId, SockJsServiceConfig config,
-			WebSocketHandler wsHandler, Map<String, Object> attributes) {
+	public TestHttpSockJsSession(String sessionId, SockJsServiceConfig config, WebSocketHandler wsHandler,
+			Map<String, Object> attributes) {
 
 		super(sessionId, config, wsHandler, attributes);
 	}

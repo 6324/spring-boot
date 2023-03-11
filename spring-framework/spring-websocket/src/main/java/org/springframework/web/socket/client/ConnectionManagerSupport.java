@@ -48,12 +48,9 @@ public abstract class ConnectionManagerSupport implements SmartLifecycle {
 
 	private final Object lifecycleMonitor = new Object();
 
-
 	public ConnectionManagerSupport(String uriTemplate, Object... uriVariables) {
-		this.uri = UriComponentsBuilder.fromUriString(uriTemplate).buildAndExpand(
-				uriVariables).encode().toUri();
+		this.uri = UriComponentsBuilder.fromUriString(uriTemplate).buildAndExpand(uriVariables).encode().toUri();
 	}
-
 
 	protected URI getUri() {
 		return this.uri;
@@ -62,7 +59,8 @@ public abstract class ConnectionManagerSupport implements SmartLifecycle {
 	/**
 	 * Set whether to auto-connect to the remote endpoint after this connection manager
 	 * has been initialized and the Spring context has been refreshed.
-	 * <p>Default is "false".
+	 * <p>
+	 * Default is "false".
 	 */
 	public void setAutoStartup(boolean autoStartup) {
 		this.autoStartup = autoStartup;
@@ -97,7 +95,6 @@ public abstract class ConnectionManagerSupport implements SmartLifecycle {
 	public int getPhase() {
 		return this.phase;
 	}
-
 
 	/**
 	 * Start the WebSocket connection. If already connected, the method has no impact.
@@ -162,7 +159,6 @@ public abstract class ConnectionManagerSupport implements SmartLifecycle {
 	public boolean isRunning() {
 		return this.running;
 	}
-
 
 	protected abstract void openConnection();
 

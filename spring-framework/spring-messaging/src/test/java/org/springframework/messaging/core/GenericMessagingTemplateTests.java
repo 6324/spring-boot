@@ -60,7 +60,6 @@ public class GenericMessagingTemplateTests {
 
 	private ThreadPoolTaskExecutor executor;
 
-
 	@BeforeEach
 	public void setup() {
 		this.messageChannel = new StubMessageChannel();
@@ -81,13 +80,13 @@ public class GenericMessagingTemplateTests {
 		}).given(channel).send(any(Message.class), eq(30_000L));
 		Message<?> message = MessageBuilder.withPayload("request")
 				.setHeader(GenericMessagingTemplate.DEFAULT_SEND_TIMEOUT_HEADER, 30_000L)
-				.setHeader(GenericMessagingTemplate.DEFAULT_RECEIVE_TIMEOUT_HEADER, 1L)
-				.build();
+				.setHeader(GenericMessagingTemplate.DEFAULT_RECEIVE_TIMEOUT_HEADER, 1L).build();
 		this.template.send(channel, message);
 		verify(channel).send(any(Message.class), eq(30_000L));
 		assertThat(sent.get()).isNotNull();
 		assertThat(sent.get().getHeaders().containsKey(GenericMessagingTemplate.DEFAULT_SEND_TIMEOUT_HEADER)).isFalse();
-		assertThat(sent.get().getHeaders().containsKey(GenericMessagingTemplate.DEFAULT_RECEIVE_TIMEOUT_HEADER)).isFalse();
+		assertThat(sent.get().getHeaders().containsKey(GenericMessagingTemplate.DEFAULT_RECEIVE_TIMEOUT_HEADER))
+				.isFalse();
 	}
 
 	@Test
@@ -106,7 +105,8 @@ public class GenericMessagingTemplateTests {
 		verify(channel).send(any(Message.class), eq(30_000L));
 		assertThat(sent.get()).isNotNull();
 		assertThat(sent.get().getHeaders().containsKey(GenericMessagingTemplate.DEFAULT_SEND_TIMEOUT_HEADER)).isFalse();
-		assertThat(sent.get().getHeaders().containsKey(GenericMessagingTemplate.DEFAULT_RECEIVE_TIMEOUT_HEADER)).isFalse();
+		assertThat(sent.get().getHeaders().containsKey(GenericMessagingTemplate.DEFAULT_RECEIVE_TIMEOUT_HEADER))
+				.isFalse();
 	}
 
 	@Test
@@ -168,8 +168,7 @@ public class GenericMessagingTemplateTests {
 
 		Message<?> message = MessageBuilder.withPayload("request")
 				.setHeader(GenericMessagingTemplate.DEFAULT_SEND_TIMEOUT_HEADER, 30_000L)
-				.setHeader(GenericMessagingTemplate.DEFAULT_RECEIVE_TIMEOUT_HEADER, 1L)
-				.build();
+				.setHeader(GenericMessagingTemplate.DEFAULT_RECEIVE_TIMEOUT_HEADER, 1L).build();
 		assertThat(this.template.sendAndReceive(channel, message)).isNull();
 		assertThat(latch.await(10_000, TimeUnit.MILLISECONDS)).isTrue();
 
@@ -198,9 +197,7 @@ public class GenericMessagingTemplateTests {
 			return true;
 		}).given(channel).send(any(Message.class), anyLong());
 
-		Message<?> message = MessageBuilder.withPayload("request")
-				.setHeader("sto", 30_000L)
-				.setHeader("rto", 1L)
+		Message<?> message = MessageBuilder.withPayload("request").setHeader("sto", 30_000L).setHeader("rto", 1L)
 				.build();
 		assertThat(this.template.sendAndReceive(channel, message)).isNull();
 		assertThat(latch.await(10_000, TimeUnit.MILLISECONDS)).isTrue();
@@ -227,8 +224,7 @@ public class GenericMessagingTemplateTests {
 				String expected = "Reply message received but the receiving thread has exited due to a timeout";
 				String actual = ex.getMessage();
 				if (!expected.equals(actual)) {
-					failure.set(new IllegalStateException(
-							"Unexpected error: '" + actual + "'"));
+					failure.set(new IllegalStateException("Unexpected error: '" + actual + "'"));
 				}
 			}
 			finally {
@@ -253,13 +249,13 @@ public class GenericMessagingTemplateTests {
 		assertThat(accessor.isMutable()).isFalse();
 	}
 
-
 	private class TestDestinationResolver implements DestinationResolver<MessageChannel> {
 
 		@Override
 		public MessageChannel resolveDestination(String name) throws DestinationResolutionException {
 			return messageChannel;
 		}
+
 	}
 
 }

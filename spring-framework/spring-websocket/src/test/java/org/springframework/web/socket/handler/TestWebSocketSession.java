@@ -87,7 +87,6 @@ public class TestWebSocketSession implements WebSocketSession {
 		this.uri = uri;
 	}
 
-
 	@Override
 	public HttpHeaders getHandshakeHeaders() {
 		return this.headers;

@@ -28,9 +28,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
 /**
- * Converts a comma-delimited String to a Collection.
- * If the target collection element type is declared, only matches if
- * {@code String.class} can be converted to it.
+ * Converts a comma-delimited String to a Collection. If the target collection element
+ * type is declared, only matches if {@code String.class} can be converted to it.
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -40,11 +39,9 @@ final class StringToCollectionConverter implements ConditionalGenericConverter {
 
 	private final ConversionService conversionService;
 
-
 	public StringToCollectionConverter(ConversionService conversionService) {
 		this.conversionService = conversionService;
 	}
-
 
 	@Override
 	public Set<ConvertiblePair> getConvertibleTypes() {
@@ -53,8 +50,8 @@ final class StringToCollectionConverter implements ConditionalGenericConverter {
 
 	@Override
 	public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
-		return (targetType.getElementTypeDescriptor() == null ||
-				this.conversionService.canConvert(sourceType, targetType.getElementTypeDescriptor()));
+		return (targetType.getElementTypeDescriptor() == null
+				|| this.conversionService.canConvert(sourceType, targetType.getElementTypeDescriptor()));
 	}
 
 	@Override

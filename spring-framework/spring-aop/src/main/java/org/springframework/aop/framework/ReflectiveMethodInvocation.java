@@ -32,23 +32,25 @@ import org.springframework.lang.Nullable;
 
 /**
  * Spring's implementation of the AOP Alliance
- * {@link org.aopalliance.intercept.MethodInvocation} interface,
- * implementing the extended
+ * {@link org.aopalliance.intercept.MethodInvocation} interface, implementing the extended
  * {@link org.springframework.aop.ProxyMethodInvocation} interface.
  *
- * <p>Invokes the target object using reflection. Subclasses can override the
- * {@link #invokeJoinpoint()} method to change this behavior, so this is also
- * a useful base class for more specialized MethodInvocation implementations.
+ * <p>
+ * Invokes the target object using reflection. Subclasses can override the
+ * {@link #invokeJoinpoint()} method to change this behavior, so this is also a useful
+ * base class for more specialized MethodInvocation implementations.
  *
- * <p>It is possible to clone an invocation, to invoke {@link #proceed()}
- * repeatedly (once per clone), using the {@link #invocableClone()} method.
- * It is also possible to attach custom attributes to the invocation,
- * using the {@link #setUserAttribute} / {@link #getUserAttribute} methods.
+ * <p>
+ * It is possible to clone an invocation, to invoke {@link #proceed()} repeatedly (once
+ * per clone), using the {@link #invocableClone()} method. It is also possible to attach
+ * custom attributes to the invocation, using the {@link #setUserAttribute} /
+ * {@link #getUserAttribute} methods.
  *
- * <p><b>NOTE:</b> This class is considered internal and should not be
- * directly accessed. The sole reason for it being public is compatibility
- * with existing framework integrations (e.g. Pitchfork). For any other
- * purposes, use the {@link ProxyMethodInvocation} interface instead.
+ * <p>
+ * <b>NOTE:</b> This class is considered internal and should not be directly accessed. The
+ * sole reason for it being public is compatibility with existing framework integrations
+ * (e.g. Pitchfork). For any other purposes, use the {@link ProxyMethodInvocation}
+ * interface instead.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -80,17 +82,16 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 	private Map<String, Object> userAttributes;
 
 	/**
-	 * List of MethodInterceptor and InterceptorAndDynamicMethodMatcher
-	 * that need dynamic checks.
+	 * List of MethodInterceptor and InterceptorAndDynamicMethodMatcher that need dynamic
+	 * checks.
 	 */
 	protected final List<?> interceptorsAndDynamicMethodMatchers;
 
 	/**
-	 * Index from 0 of the current interceptor we're invoking.
-	 * -1 until we invoke: then the current interceptor.
+	 * Index from 0 of the current interceptor we're invoking. -1 until we invoke: then
+	 * the current interceptor.
 	 */
 	private int currentInterceptorIndex = -1;
-
 
 	/**
 	 * Construct a new ReflectiveMethodInvocation with the given arguments.
@@ -102,12 +103,12 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 	 * @param interceptorsAndDynamicMethodMatchers interceptors that should be applied,
 	 * along with any InterceptorAndDynamicMethodMatchers that need evaluation at runtime.
 	 * MethodMatchers included in this struct must already have been found to have matched
-	 * as far as was possibly statically. Passing an array might be about 10% faster,
-	 * but would complicate the code. And it would work only for static pointcuts.
+	 * as far as was possibly statically. Passing an array might be about 10% faster, but
+	 * would complicate the code. And it would work only for static pointcuts.
 	 */
-	protected ReflectiveMethodInvocation(
-			Object proxy, @Nullable Object target, Method method, @Nullable Object[] arguments,
-			@Nullable Class<?> targetClass, List<Object> interceptorsAndDynamicMethodMatchers) {
+	protected ReflectiveMethodInvocation(Object proxy, @Nullable Object target, Method method,
+			@Nullable Object[] arguments, @Nullable Class<?> targetClass,
+			List<Object> interceptorsAndDynamicMethodMatchers) {
 
 		this.proxy = proxy;
 		this.target = target;
@@ -116,7 +117,6 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 		this.arguments = AopProxyUtils.adaptArgumentsIfNecessary(method, arguments);
 		this.interceptorsAndDynamicMethodMatchers = interceptorsAndDynamicMethodMatchers;
 	}
-
 
 	@Override
 	public final Object getProxy() {
@@ -135,9 +135,8 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 	}
 
 	/**
-	 * Return the method invoked on the proxied interface.
-	 * May or may not correspond with a method invoked on an underlying
-	 * implementation of that interface.
+	 * Return the method invoked on the proxied interface. May or may not correspond with
+	 * a method invoked on an underlying implementation of that interface.
 	 */
 	@Override
 	public final Method getMethod() {
@@ -154,7 +153,6 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 		this.arguments = arguments;
 	}
 
-
 	@Override
 	@Nullable
 	public Object proceed() throws Throwable {
@@ -163,13 +161,12 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 			return invokeJoinpoint();
 		}
 
-		Object interceptorOrInterceptionAdvice =
-				this.interceptorsAndDynamicMethodMatchers.get(++this.currentInterceptorIndex);
+		Object interceptorOrInterceptionAdvice = this.interceptorsAndDynamicMethodMatchers
+				.get(++this.currentInterceptorIndex);
 		if (interceptorOrInterceptionAdvice instanceof InterceptorAndDynamicMethodMatcher) {
 			// Evaluate dynamic method matcher here: static part will already have
 			// been evaluated and found to match.
-			InterceptorAndDynamicMethodMatcher dm =
-					(InterceptorAndDynamicMethodMatcher) interceptorOrInterceptionAdvice;
+			InterceptorAndDynamicMethodMatcher dm = (InterceptorAndDynamicMethodMatcher) interceptorOrInterceptionAdvice;
 			Class<?> targetClass = (this.targetClass != null ? this.targetClass : this.method.getDeclaringClass());
 			if (dm.methodMatcher.matches(this.method, targetClass, this.arguments)) {
 				return dm.interceptor.invoke(this);
@@ -188,8 +185,8 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 	}
 
 	/**
-	 * Invoke the joinpoint using reflection.
-	 * Subclasses can override this to use custom invocation.
+	 * Invoke the joinpoint using reflection. Subclasses can override this to use custom
+	 * invocation.
 	 * @return the return value of the joinpoint
 	 * @throws Throwable if invoking the joinpoint resulted in an exception
 	 */
@@ -198,13 +195,13 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 		return AopUtils.invokeJoinpointUsingReflection(this.target, this.method, this.arguments);
 	}
 
-
 	/**
-	 * This implementation returns a shallow copy of this invocation object,
-	 * including an independent copy of the original arguments array.
-	 * <p>We want a shallow copy in this case: We want to use the same interceptor
-	 * chain and other object references, but we want an independent value for the
-	 * current interceptor index.
+	 * This implementation returns a shallow copy of this invocation object, including an
+	 * independent copy of the original arguments array.
+	 * <p>
+	 * We want a shallow copy in this case: We want to use the same interceptor chain and
+	 * other object references, but we want an independent value for the current
+	 * interceptor index.
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
@@ -218,11 +215,12 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 	}
 
 	/**
-	 * This implementation returns a shallow copy of this invocation object,
-	 * using the given arguments array for the clone.
-	 * <p>We want a shallow copy in this case: We want to use the same interceptor
-	 * chain and other object references, but we want an independent value for the
-	 * current interceptor index.
+	 * This implementation returns a shallow copy of this invocation object, using the
+	 * given arguments array for the clone.
+	 * <p>
+	 * We want a shallow copy in this case: We want to use the same interceptor chain and
+	 * other object references, but we want an independent value for the current
+	 * interceptor index.
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
@@ -240,11 +238,9 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 			return clone;
 		}
 		catch (CloneNotSupportedException ex) {
-			throw new IllegalStateException(
-					"Should be able to clone object of type [" + getClass() + "]: " + ex);
+			throw new IllegalStateException("Should be able to clone object of type [" + getClass() + "]: " + ex);
 		}
 	}
-
 
 	@Override
 	public void setUserAttribute(String key, @Nullable Object value) {
@@ -268,11 +264,11 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 	}
 
 	/**
-	 * Return user attributes associated with this invocation.
-	 * This method provides an invocation-bound alternative to a ThreadLocal.
-	 * <p>This map is initialized lazily and is not used in the AOP framework itself.
-	 * @return any user attributes associated with this invocation
-	 * (never {@code null})
+	 * Return user attributes associated with this invocation. This method provides an
+	 * invocation-bound alternative to a ThreadLocal.
+	 * <p>
+	 * This map is initialized lazily and is not used in the AOP framework itself.
+	 * @return any user attributes associated with this invocation (never {@code null})
 	 */
 	public Map<String, Object> getUserAttributes() {
 		if (this.userAttributes == null) {
@@ -280,7 +276,6 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
 		}
 		return this.userAttributes;
 	}
-
 
 	@Override
 	public String toString() {

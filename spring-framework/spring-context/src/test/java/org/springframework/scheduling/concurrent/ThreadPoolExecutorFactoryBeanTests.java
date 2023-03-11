@@ -44,7 +44,6 @@ public class ThreadPoolExecutorFactoryBeanTests {
 		context.close();
 	}
 
-
 	@Configuration
 	public static class ExecutorConfig {
 

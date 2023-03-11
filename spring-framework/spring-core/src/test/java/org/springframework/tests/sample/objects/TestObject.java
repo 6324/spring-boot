@@ -75,4 +75,5 @@ public class TestObject implements ITestObject, ITestInterface, Comparable<Objec
 			return 1;
 		}
 	}
+
 }

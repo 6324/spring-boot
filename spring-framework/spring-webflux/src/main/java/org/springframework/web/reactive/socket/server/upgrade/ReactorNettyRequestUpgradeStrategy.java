@@ -51,7 +51,6 @@ public class ReactorNettyRequestUpgradeStrategy implements RequestUpgradeStrateg
 	@Nullable
 	private Boolean handlePing;
 
-
 	/**
 	 * Create an instances with a default {@link WebsocketServerSpec.Builder}.
 	 * @since 5.2.6
@@ -60,10 +59,9 @@ public class ReactorNettyRequestUpgradeStrategy implements RequestUpgradeStrateg
 		this(WebsocketServerSpec::builder);
 	}
 
-
 	/**
-	 * Create an instance with a pre-configured {@link WebsocketServerSpec.Builder}
-	 * to use for WebSocket upgrades.
+	 * Create an instance with a pre-configured {@link WebsocketServerSpec.Builder} to use
+	 * for WebSocket upgrades.
 	 * @since 5.2.6
 	 */
 	public ReactorNettyRequestUpgradeStrategy(Supplier<WebsocketServerSpec.Builder> builderSupplier) {
@@ -71,12 +69,11 @@ public class ReactorNettyRequestUpgradeStrategy implements RequestUpgradeStrateg
 		this.specBuilderSupplier = builderSupplier;
 	}
 
-
 	/**
 	 * Build an instance of {@code WebsocketServerSpec} that reflects the current
-	 * configuration. This can be used to check the configured parameters except
-	 * for sub-protocols which depend on the {@link WebSocketHandler} that is used
-	 * for a given upgrade.
+	 * configuration. This can be used to check the configured parameters except for
+	 * sub-protocols which depend on the {@link WebSocketHandler} that is used for a given
+	 * upgrade.
 	 * @since 5.2.6
 	 */
 	public WebsocketServerSpec getWebsocketServerSpec() {
@@ -98,13 +95,15 @@ public class ReactorNettyRequestUpgradeStrategy implements RequestUpgradeStrateg
 	}
 
 	/**
-	 * Configure the maximum allowable frame payload length. Setting this value
-	 * to your application's requirement may reduce denial of service attacks
-	 * using long data frames.
-	 * <p>Corresponds to the argument with the same name in the constructor of
+	 * Configure the maximum allowable frame payload length. Setting this value to your
+	 * application's requirement may reduce denial of service attacks using long data
+	 * frames.
+	 * <p>
+	 * Corresponds to the argument with the same name in the constructor of
 	 * {@link io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory
 	 * WebSocketServerHandshakerFactory} in Netty.
-	 * <p>By default set to 65536 (64K).
+	 * <p>
+	 * By default set to 65536 (64K).
 	 * @param maxFramePayloadLength the max length for frames.
 	 * @since 5.1
 	 * @deprecated as of 5.2.6 in favor of providing a supplier of
@@ -127,12 +126,13 @@ public class ReactorNettyRequestUpgradeStrategy implements RequestUpgradeStrateg
 
 	/**
 	 * Configure whether to let ping frames through to be handled by the
-	 * {@link WebSocketHandler} given to the upgrade method. By default, Reactor
-	 * Netty automatically replies with pong frames in response to pings. This is
-	 * useful in a proxy for allowing ping and pong frames through.
-	 * <p>By default this is set to {@code false} in which case ping frames are
-	 * handled automatically by Reactor Netty. If set to {@code true}, ping
-	 * frames will be passed through to the {@link WebSocketHandler}.
+	 * {@link WebSocketHandler} given to the upgrade method. By default, Reactor Netty
+	 * automatically replies with pong frames in response to pings. This is useful in a
+	 * proxy for allowing ping and pong frames through.
+	 * <p>
+	 * By default this is set to {@code false} in which case ping frames are handled
+	 * automatically by Reactor Netty. If set to {@code true}, ping frames will be passed
+	 * through to the {@link WebSocketHandler}.
 	 * @param handlePing whether to let Ping frames through for handling
 	 * @since 5.2.4
 	 * @deprecated as of 5.2.6 in favor of providing a supplier of
@@ -153,10 +153,9 @@ public class ReactorNettyRequestUpgradeStrategy implements RequestUpgradeStrateg
 		return getWebsocketServerSpec().handlePing();
 	}
 
-
 	@Override
-	public Mono<Void> upgrade(ServerWebExchange exchange, WebSocketHandler handler,
-			@Nullable String subProtocol, Supplier<HandshakeInfo> handshakeInfoFactory) {
+	public Mono<Void> upgrade(ServerWebExchange exchange, WebSocketHandler handler, @Nullable String subProtocol,
+			Supplier<HandshakeInfo> handshakeInfoFactory) {
 
 		ServerHttpResponse response = exchange.getResponse();
 		HttpServerResponse reactorResponse = getNativeResponse(response);
@@ -165,16 +164,14 @@ public class ReactorNettyRequestUpgradeStrategy implements RequestUpgradeStrateg
 		URI uri = exchange.getRequest().getURI();
 
 		// Trigger WebFlux preCommit actions and upgrade
-		return response.setComplete()
-				.then(Mono.defer(() -> {
-					WebsocketServerSpec spec = buildSpec(subProtocol);
-					return reactorResponse.sendWebsocket((in, out) -> {
-						ReactorNettyWebSocketSession session =
-								new ReactorNettyWebSocketSession(
-										in, out, handshakeInfo, bufferFactory, spec.maxFramePayloadLength());
-						return handler.handle(session).checkpoint(uri + " [ReactorNettyRequestUpgradeStrategy]");
-					}, spec);
-				}));
+		return response.setComplete().then(Mono.defer(() -> {
+			WebsocketServerSpec spec = buildSpec(subProtocol);
+			return reactorResponse.sendWebsocket((in, out) -> {
+				ReactorNettyWebSocketSession session = new ReactorNettyWebSocketSession(in, out, handshakeInfo,
+						bufferFactory, spec.maxFramePayloadLength());
+				return handler.handle(session).checkpoint(uri + " [ReactorNettyRequestUpgradeStrategy]");
+			}, spec);
+		}));
 	}
 
 	private static HttpServerResponse getNativeResponse(ServerHttpResponse response) {
@@ -185,8 +182,7 @@ public class ReactorNettyRequestUpgradeStrategy implements RequestUpgradeStrateg
 			return getNativeResponse(((ServerHttpResponseDecorator) response).getDelegate());
 		}
 		else {
-			throw new IllegalArgumentException(
-					"Couldn't find native response in " + response.getClass().getName());
+			throw new IllegalArgumentException("Couldn't find native response in " + response.getClass().getName());
 		}
 	}
 

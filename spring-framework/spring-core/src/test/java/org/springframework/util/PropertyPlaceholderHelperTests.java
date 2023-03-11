@@ -104,8 +104,7 @@ class PropertyPlaceholderHelperTests {
 		props.setProperty("foo", "bar");
 
 		PropertyPlaceholderHelper helper = new PropertyPlaceholderHelper("${", "}", null, false);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				helper.replacePlaceholders(text, props));
+		assertThatIllegalArgumentException().isThrownBy(() -> helper.replacePlaceholders(text, props));
 	}
 
 }

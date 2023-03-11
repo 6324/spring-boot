@@ -36,6 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LookupMethodWrappedByCglibProxyTests {
 
 	private static final Class<?> CLASS = LookupMethodWrappedByCglibProxyTests.class;
+
 	private static final String CLASSNAME = CLASS.getSimpleName();
 
 	private static final String CONTEXT = CLASSNAME + "-context.xml";
@@ -82,7 +83,6 @@ public class LookupMethodWrappedByCglibProxyTests {
 
 }
 
-
 abstract class OverloadLookup {
 
 	public abstract ITestBean newTestBean();
@@ -90,5 +90,5 @@ abstract class OverloadLookup {
 	public String testMethod() {
 		return "foo";
 	}
-}
 
+}

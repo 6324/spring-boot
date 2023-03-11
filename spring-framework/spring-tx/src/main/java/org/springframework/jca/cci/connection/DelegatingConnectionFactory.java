@@ -30,12 +30,13 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * CCI {@link ConnectionFactory} implementation that delegates all calls
- * to a given target {@link ConnectionFactory}.
+ * CCI {@link ConnectionFactory} implementation that delegates all calls to a given target
+ * {@link ConnectionFactory}.
  *
- * <p>This class is meant to be subclassed, with subclasses overriding only
- * those methods (such as {@link #getConnection()}) that should not simply
- * delegate to the target {@link ConnectionFactory}.
+ * <p>
+ * This class is meant to be subclassed, with subclasses overriding only those methods
+ * (such as {@link #getConnection()}) that should not simply delegate to the target
+ * {@link ConnectionFactory}.
  *
  * @author Juergen Hoeller
  * @since 1.2
@@ -46,7 +47,6 @@ public class DelegatingConnectionFactory implements ConnectionFactory, Initializ
 
 	@Nullable
 	private ConnectionFactory targetConnectionFactory;
-
 
 	/**
 	 * Set the target ConnectionFactory that this ConnectionFactory should delegate to.
@@ -73,14 +73,12 @@ public class DelegatingConnectionFactory implements ConnectionFactory, Initializ
 		return connectionFactory;
 	}
 
-
 	@Override
 	public void afterPropertiesSet() {
 		if (getTargetConnectionFactory() == null) {
 			throw new IllegalArgumentException("Property 'targetConnectionFactory' is required");
 		}
 	}
-
 
 	@Override
 	public Connection getConnection() throws ResourceException {

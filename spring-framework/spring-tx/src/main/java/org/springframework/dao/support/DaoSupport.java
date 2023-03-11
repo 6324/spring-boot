@@ -25,8 +25,9 @@ import org.springframework.beans.factory.InitializingBean;
 /**
  * Generic base class for DAOs, defining template methods for DAO initialization.
  *
- * <p>Extended by Spring's specific DAO support classes, such as:
- * JdbcDaoSupport, JdoDaoSupport, etc.
+ * <p>
+ * Extended by Spring's specific DAO support classes, such as: JdbcDaoSupport,
+ * JdoDaoSupport, etc.
  *
  * @author Juergen Hoeller
  * @since 1.2.2
@@ -36,7 +37,6 @@ public abstract class DaoSupport implements InitializingBean {
 
 	/** Logger available to subclasses. */
 	protected final Log logger = LogFactory.getLog(getClass());
-
 
 	@Override
 	public final void afterPropertiesSet() throws IllegalArgumentException, BeanInitializationException {
@@ -54,17 +54,18 @@ public abstract class DaoSupport implements InitializingBean {
 
 	/**
 	 * Abstract subclasses must override this to check their configuration.
-	 * <p>Implementors should be marked as {@code final} if concrete subclasses
-	 * are not supposed to override this template method themselves.
+	 * <p>
+	 * Implementors should be marked as {@code final} if concrete subclasses are not
+	 * supposed to override this template method themselves.
 	 * @throws IllegalArgumentException in case of illegal configuration
 	 */
 	protected abstract void checkDaoConfig() throws IllegalArgumentException;
 
 	/**
-	 * Concrete subclasses can override this for custom initialization behavior.
-	 * Gets called after population of this instance's bean properties.
-	 * @throws Exception if DAO initialization fails
-	 * (will be rethrown as a BeanInitializationException)
+	 * Concrete subclasses can override this for custom initialization behavior. Gets
+	 * called after population of this instance's bean properties.
+	 * @throws Exception if DAO initialization fails (will be rethrown as a
+	 * BeanInitializationException)
 	 * @see org.springframework.beans.factory.BeanInitializationException
 	 */
 	protected void initDao() throws Exception {

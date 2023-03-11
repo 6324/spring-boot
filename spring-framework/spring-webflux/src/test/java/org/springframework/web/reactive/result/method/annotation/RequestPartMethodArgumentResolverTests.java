@@ -58,6 +58,7 @@ import static org.springframework.web.testfixture.method.MvcAnnotationPredicates
 
 /**
  * Unit tests for {@link RequestPartMethodArgumentResolver}.
+ *
  * @author Rossen Stoyanchev
  * @author Ilya Lukyanovich
  */
@@ -69,7 +70,6 @@ public class RequestPartMethodArgumentResolverTests {
 
 	private MultipartHttpMessageWriter writer;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		List<HttpMessageReader<?>> readers = ServerCodecConfigurer.create().getReaders();
@@ -79,7 +79,6 @@ public class RequestPartMethodArgumentResolverTests {
 		List<HttpMessageWriter<?>> writers = ClientCodecConfigurer.create().getWriters();
 		this.writer = new MultipartHttpMessageWriter(writers);
 	}
-
 
 	@Test
 	public void supportsParameter() {
@@ -107,7 +106,6 @@ public class RequestPartMethodArgumentResolverTests {
 		param = this.testMethod.annotNotPresent(RequestPart.class).arg(Person.class);
 		assertThat(this.resolver.supportsParameter(param)).isFalse();
 	}
-
 
 	@Test
 	public void person() {
@@ -291,7 +289,6 @@ public class RequestPartMethodArgumentResolverTests {
 		StepVerifier.create(result).verifyComplete();
 	}
 
-
 	@SuppressWarnings("unchecked")
 	private <T> T resolveArgument(MethodParameter param, MultipartBodyBuilder builder) {
 		ServerWebExchange exchange = createExchange(builder);
@@ -305,12 +302,11 @@ public class RequestPartMethodArgumentResolverTests {
 
 	private ServerWebExchange createExchange(MultipartBodyBuilder builder) {
 		MockClientHttpRequest clientRequest = new MockClientHttpRequest(HttpMethod.POST, "/");
-		this.writer.write(Mono.just(builder.build()), forClass(MultiValueMap.class),
-				MediaType.MULTIPART_FORM_DATA, clientRequest, Collections.emptyMap()).block();
+		this.writer.write(Mono.just(builder.build()), forClass(MultiValueMap.class), MediaType.MULTIPART_FORM_DATA,
+				clientRequest, Collections.emptyMap()).block();
 
 		MockServerHttpRequest serverRequest = MockServerHttpRequest.post("/")
-				.contentType(clientRequest.getHeaders().getContentType())
-				.body(clientRequest.getBody());
+				.contentType(clientRequest.getHeaders().getContentType()).body(clientRequest.getBody());
 
 		return MockServerWebExchange.from(serverRequest);
 	}
@@ -320,17 +316,11 @@ public class RequestPartMethodArgumentResolverTests {
 		return buffer.toString(UTF_8);
 	}
 
-
 	@SuppressWarnings("unused")
-	void handle(
-			@RequestPart("name") Person person,
-			@RequestPart("name") Mono<Person> personMono,
-			@RequestPart("name") Flux<Person> personFlux,
-			@RequestPart("name") List<Person> personList,
-			@RequestPart("name") Part part,
-			@RequestPart("name") Mono<Part> partMono,
-			@RequestPart("name") Flux<Part> partFlux,
-			@RequestPart("name") List<Part> partList,
+	void handle(@RequestPart("name") Person person, @RequestPart("name") Mono<Person> personMono,
+			@RequestPart("name") Flux<Person> personFlux, @RequestPart("name") List<Person> personList,
+			@RequestPart("name") Part part, @RequestPart("name") Mono<Part> partMono,
+			@RequestPart("name") Flux<Part> partFlux, @RequestPart("name") List<Part> partList,
 			@RequestPart(name = "anotherPart", required = false) Person anotherPerson,
 			@RequestPart(name = "name", required = false) Mono<Person> anotherPersonMono,
 			@RequestPart(name = "name", required = false) Flux<Person> anotherPersonFlux,
@@ -338,9 +328,8 @@ public class RequestPartMethodArgumentResolverTests {
 			@RequestPart(name = "anotherPart", required = false) Part anotherPart,
 			@RequestPart(name = "name", required = false) Mono<Part> anotherPartMono,
 			@RequestPart(name = "name", required = false) Flux<Part> anotherPartFlux,
-			@RequestPart(name = "name", required = false) List<Part> anotherPartList,
-			Person notAnnotated) {}
-
+			@RequestPart(name = "name", required = false) List<Part> anotherPartList, Person notAnnotated) {
+	}
 
 	private static class Person {
 
@@ -354,6 +343,7 @@ public class RequestPartMethodArgumentResolverTests {
 		public String getName() {
 			return name;
 		}
+
 	}
 
 }

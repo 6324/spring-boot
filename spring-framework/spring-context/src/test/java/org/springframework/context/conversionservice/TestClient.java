@@ -40,7 +40,6 @@ public class TestClient {
 
 	private Map<String, Resource> resourceMap;
 
-
 	public List<Bar> getBars() {
 		return bars;
 	}

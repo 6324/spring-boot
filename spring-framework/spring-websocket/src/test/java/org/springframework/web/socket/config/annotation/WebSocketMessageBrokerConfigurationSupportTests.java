@@ -88,7 +88,8 @@ public class WebSocketMessageBrokerConfigurationSupportTests {
 		SubProtocolWebSocketHandler webSocketHandler = config.getBean(SubProtocolWebSocketHandler.class);
 
 		List<ChannelInterceptor> interceptors = channel.getInterceptors();
-		assertThat(interceptors.get(interceptors.size() - 1).getClass()).isEqualTo(ImmutableMessageChannelInterceptor.class);
+		assertThat(interceptors.get(interceptors.size() - 1).getClass())
+				.isEqualTo(ImmutableMessageChannelInterceptor.class);
 
 		TestWebSocketSession session = new TestWebSocketSession("s1");
 		session.setOpen(true);
@@ -112,7 +113,8 @@ public class WebSocketMessageBrokerConfigurationSupportTests {
 		Set<MessageHandler> handlers = channel.getSubscribers();
 
 		List<ChannelInterceptor> interceptors = channel.getInterceptors();
-		assertThat(interceptors.get(interceptors.size() - 1).getClass()).isEqualTo(ImmutableMessageChannelInterceptor.class);
+		assertThat(interceptors.get(interceptors.size() - 1).getClass())
+				.isEqualTo(ImmutableMessageChannelInterceptor.class);
 
 		assertThat(handlers.size()).isEqualTo(1);
 		assertThat(handlers.contains(config.getBean(SubProtocolWebSocketHandler.class))).isTrue();
@@ -125,7 +127,8 @@ public class WebSocketMessageBrokerConfigurationSupportTests {
 		Set<MessageHandler> handlers = channel.getSubscribers();
 
 		List<ChannelInterceptor> interceptors = channel.getInterceptors();
-		assertThat(interceptors.get(interceptors.size() - 1).getClass()).isEqualTo(ImmutableMessageChannelInterceptor.class);
+		assertThat(interceptors.get(interceptors.size() - 1).getClass())
+				.isEqualTo(ImmutableMessageChannelInterceptor.class);
 
 		assertThat(handlers.size()).isEqualTo(2);
 		assertThat(handlers.contains(config.getBean(SimpleBrokerMessageHandler.class))).isTrue();
@@ -158,7 +161,7 @@ public class WebSocketMessageBrokerConfigurationSupportTests {
 
 		SimpleBrokerMessageHandler handler = config.getBean(SimpleBrokerMessageHandler.class);
 		assertThat(handler.getTaskScheduler()).isNotNull();
-		assertThat(handler.getHeartbeatValue()).isEqualTo(new long[] {15000, 15000});
+		assertThat(handler.getHeartbeatValue()).isEqualTo(new long[] { 15000, 15000 });
 	}
 
 	@Test
@@ -167,15 +170,16 @@ public class WebSocketMessageBrokerConfigurationSupportTests {
 		String name = "webSocketMessageBrokerStats";
 		WebSocketMessageBrokerStats stats = config.getBean(name, WebSocketMessageBrokerStats.class);
 		String actual = stats.toString();
-		String expected = "WebSocketSession\\[0 current WS\\(0\\)-HttpStream\\(0\\)-HttpPoll\\(0\\), " +
-				"0 total, 0 closed abnormally \\(0 connect failure, 0 send limit, 0 transport error\\)], " +
-				"stompSubProtocol\\[processed CONNECT\\(0\\)-CONNECTED\\(0\\)-DISCONNECT\\(0\\)], " +
-				"stompBrokerRelay\\[null], " +
-				"inboundChannel\\[pool size = \\d, active threads = \\d, queued tasks = \\d, completed tasks = \\d], " +
-				"outboundChannel\\[pool size = \\d, active threads = \\d, queued tasks = \\d, completed tasks = \\d], " +
-				"sockJsScheduler\\[pool size = \\d, active threads = \\d, queued tasks = \\d, completed tasks = \\d]";
+		String expected = "WebSocketSession\\[0 current WS\\(0\\)-HttpStream\\(0\\)-HttpPoll\\(0\\), "
+				+ "0 total, 0 closed abnormally \\(0 connect failure, 0 send limit, 0 transport error\\)], "
+				+ "stompSubProtocol\\[processed CONNECT\\(0\\)-CONNECTED\\(0\\)-DISCONNECT\\(0\\)], "
+				+ "stompBrokerRelay\\[null], "
+				+ "inboundChannel\\[pool size = \\d, active threads = \\d, queued tasks = \\d, completed tasks = \\d], "
+				+ "outboundChannel\\[pool size = \\d, active threads = \\d, queued tasks = \\d, completed tasks = \\d], "
+				+ "sockJsScheduler\\[pool size = \\d, active threads = \\d, queued tasks = \\d, completed tasks = \\d]";
 
-		assertThat(actual.matches(expected)).as("\nExpected: " + expected.replace("\\", "") + "\n  Actual: " + actual).isTrue();
+		assertThat(actual.matches(expected)).as("\nExpected: " + expected.replace("\\", "") + "\n  Actual: " + actual)
+				.isTrue();
 	}
 
 	@Test
@@ -193,14 +197,12 @@ public class WebSocketMessageBrokerConfigurationSupportTests {
 		assertThat(session.getAttributes().get("decorated")).isEqualTo(true);
 	}
 
-
 	private ApplicationContext createConfig(Class<?>... configClasses) {
 		AnnotationConfigApplicationContext config = new AnnotationConfigApplicationContext();
 		config.register(configClasses);
 		config.refresh();
 		return config;
 	}
-
 
 	@Controller
 	static class TestController {
@@ -215,6 +217,7 @@ public class WebSocketMessageBrokerConfigurationSupportTests {
 		public String handleMessage() {
 			return "bar";
 		}
+
 	}
 
 	@Configuration
@@ -240,10 +243,10 @@ public class WebSocketMessageBrokerConfigurationSupportTests {
 
 		@Override
 		public void configureMessageBroker(MessageBrokerRegistry registry) {
-			registry.enableSimpleBroker()
-					.setTaskScheduler(mock(TaskScheduler.class))
-					.setHeartbeatValue(new long[] {15000, 15000});
+			registry.enableSimpleBroker().setTaskScheduler(mock(TaskScheduler.class))
+					.setHeartbeatValue(new long[] { 15000, 15000 });
 		}
+
 	}
 
 	@Configuration
@@ -271,6 +274,7 @@ public class WebSocketMessageBrokerConfigurationSupportTests {
 			channel.setInterceptors(super.brokerChannel().getInterceptors());
 			return channel;
 		}
+
 	}
 
 	@Configuration
@@ -296,6 +300,7 @@ public class WebSocketMessageBrokerConfigurationSupportTests {
 				}
 			});
 		}
+
 	}
 
 	private static class TestChannel extends ExecutorSubscribableChannel {
@@ -307,6 +312,7 @@ public class WebSocketMessageBrokerConfigurationSupportTests {
 			this.messages.add(message);
 			return true;
 		}
+
 	}
 
 }

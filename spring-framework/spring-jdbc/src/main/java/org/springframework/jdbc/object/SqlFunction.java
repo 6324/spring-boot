@@ -26,23 +26,25 @@ import org.springframework.jdbc.core.SingleColumnRowMapper;
 import org.springframework.lang.Nullable;
 
 /**
- * SQL "function" wrapper for a query that returns a single row of results.
- * The default behavior is to return an int, but that can be overridden by
- * using the constructor with an extra return type parameter.
+ * SQL "function" wrapper for a query that returns a single row of results. The default
+ * behavior is to return an int, but that can be overridden by using the constructor with
+ * an extra return type parameter.
  *
- * <p>Intended to use to call SQL functions that return a single result using a
- * query like "select user()" or "select sysdate from dual". It is not intended
- * for calling more complex stored functions or for using a CallableStatement to
- * invoke a stored procedure or stored function. Use StoredProcedure or SqlCall
- * for this type of processing.
+ * <p>
+ * Intended to use to call SQL functions that return a single result using a query like
+ * "select user()" or "select sysdate from dual". It is not intended for calling more
+ * complex stored functions or for using a CallableStatement to invoke a stored procedure
+ * or stored function. Use StoredProcedure or SqlCall for this type of processing.
  *
- * <p>This is a concrete class, which there is often no need to subclass.
- * Code using this package can create an object of this type, declaring SQL
- * and parameters, and then invoke the appropriate {@code run} method
- * repeatedly to execute the function. Subclasses are only supposed to add
- * specialized {@code run} methods for specific parameter and return types.
+ * <p>
+ * This is a concrete class, which there is often no need to subclass. Code using this
+ * package can create an object of this type, declaring SQL and parameters, and then
+ * invoke the appropriate {@code run} method repeatedly to execute the function.
+ * Subclasses are only supposed to add specialized {@code run} methods for specific
+ * parameter and return types.
  *
- * <p>Like all RdbmsOperation objects, SqlFunction objects are thread-safe.
+ * <p>
+ * Like all RdbmsOperation objects, SqlFunction objects are thread-safe.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -54,11 +56,9 @@ public class SqlFunction<T> extends MappingSqlQuery<T> {
 
 	private final SingleColumnRowMapper<T> rowMapper = new SingleColumnRowMapper<>();
 
-
 	/**
-	 * Constructor to allow use as a JavaBean.
-	 * A DataSource, SQL and any parameters must be supplied before
-	 * invoking the {@code compile} method and using this object.
+	 * Constructor to allow use as a JavaBean. A DataSource, SQL and any parameters must
+	 * be supplied before invoking the {@code compile} method and using this object.
 	 * @see #setDataSource
 	 * @see #setSql
 	 * @see #compile
@@ -68,8 +68,8 @@ public class SqlFunction<T> extends MappingSqlQuery<T> {
 	}
 
 	/**
-	 * Create a new SqlFunction object with SQL, but without parameters.
-	 * Must add parameters or settle with none.
+	 * Create a new SqlFunction object with SQL, but without parameters. Must add
+	 * parameters or settle with none.
 	 * @param ds the DataSource to obtain connections from
 	 * @param sql the SQL to execute
 	 */
@@ -112,28 +112,25 @@ public class SqlFunction<T> extends MappingSqlQuery<T> {
 		setResultType(resultType);
 	}
 
-
 	/**
 	 * Specify the type that the result object is required to match.
-	 * <p>If not specified, the result value will be exposed as
-	 * returned by the JDBC driver.
+	 * <p>
+	 * If not specified, the result value will be exposed as returned by the JDBC driver.
 	 */
 	public void setResultType(Class<T> resultType) {
 		this.rowMapper.setRequiredType(resultType);
 	}
 
-
 	/**
-	 * This implementation of this method extracts a single value from the
-	 * single row returned by the function. If there are a different number
-	 * of rows returned, this is treated as an error.
+	 * This implementation of this method extracts a single value from the single row
+	 * returned by the function. If there are a different number of rows returned, this is
+	 * treated as an error.
 	 */
 	@Override
 	@Nullable
 	protected T mapRow(ResultSet rs, int rowNum) throws SQLException {
 		return this.rowMapper.mapRow(rs, rowNum);
 	}
-
 
 	/**
 	 * Convenient method to run the function without arguments.
@@ -149,14 +146,14 @@ public class SqlFunction<T> extends MappingSqlQuery<T> {
 	 * @return the value of the function
 	 */
 	public int run(int parameter) {
-		return run(new Object[] {parameter});
+		return run(new Object[] { parameter });
 	}
 
 	/**
-	 * Analogous to the SqlQuery.execute([]) method. This is a
-	 * generic method to execute a query, taken a number of arguments.
-	 * @param parameters array of parameters. These will be objects or
-	 * object wrapper types for primitives.
+	 * Analogous to the SqlQuery.execute([]) method. This is a generic method to execute a
+	 * query, taken a number of arguments.
+	 * @param parameters array of parameters. These will be objects or object wrapper
+	 * types for primitives.
 	 * @return the value of the function
 	 */
 	public int run(Object... parameters) {
@@ -168,8 +165,8 @@ public class SqlFunction<T> extends MappingSqlQuery<T> {
 	}
 
 	/**
-	 * Convenient method to run the function without arguments,
-	 * returning the value as an object.
+	 * Convenient method to run the function without arguments, returning the value as an
+	 * object.
 	 * @return the value of the function
 	 */
 	@Nullable
@@ -188,10 +185,10 @@ public class SqlFunction<T> extends MappingSqlQuery<T> {
 	}
 
 	/**
-	 * Analogous to the {@code SqlQuery.findObject(Object[])} method.
-	 * This is a generic method to execute a query, taken a number of arguments.
-	 * @param parameters array of parameters. These will be objects or
-	 * object wrapper types for primitives.
+	 * Analogous to the {@code SqlQuery.findObject(Object[])} method. This is a generic
+	 * method to execute a query, taken a number of arguments.
+	 * @param parameters array of parameters. These will be objects or object wrapper
+	 * types for primitives.
 	 * @return the value of the function, as an Object
 	 * @see #execute(Object[])
 	 */

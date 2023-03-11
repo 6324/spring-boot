@@ -32,20 +32,21 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.ServerWebInputException;
 
 /**
- * Resolver for method arguments annotated with @{@link RequestParam} from URI
- * query string parameters.
+ * Resolver for method arguments annotated with @{@link RequestParam} from URI query
+ * string parameters.
  *
- * <p>This resolver can also be created in default resolution mode in which
- * simple types (int, long, etc.) not annotated with @{@link RequestParam} are
- * also treated as request parameters with the parameter name derived from the
- * argument name.
+ * <p>
+ * This resolver can also be created in default resolution mode in which simple types
+ * (int, long, etc.) not annotated with @{@link RequestParam} are also treated as request
+ * parameters with the parameter name derived from the argument name.
  *
- * <p>If the method parameter type is {@link Map}, the name specified in the
- * annotation is used to resolve the request parameter String value. The value is
- * then converted to a {@link Map} via type conversion assuming a suitable
- * {@link Converter} has been registered. Or if a request parameter name is not
- * specified the {@link RequestParamMapMethodArgumentResolver} is used instead
- * to provide access to all request parameters in the form of a map.
+ * <p>
+ * If the method parameter type is {@link Map}, the name specified in the annotation is
+ * used to resolve the request parameter String value. The value is then converted to a
+ * {@link Map} via type conversion assuming a suitable {@link Converter} has been
+ * registered. Or if a request parameter name is not specified the
+ * {@link RequestParamMapMethodArgumentResolver} is used instead to provide access to all
+ * request parameters in the form of a map.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -55,25 +56,23 @@ public class RequestParamMethodArgumentResolver extends AbstractNamedValueSyncAr
 
 	private final boolean useDefaultResolution;
 
-
 	/**
 	 * Class constructor with a default resolution mode flag.
-	 * @param factory a bean factory used for resolving  ${...} placeholder
-	 * and #{...} SpEL expressions in default values, or {@code null} if default
-	 * values are not expected to contain expressions
+	 * @param factory a bean factory used for resolving ${...} placeholder and #{...} SpEL
+	 * expressions in default values, or {@code null} if default values are not expected
+	 * to contain expressions
 	 * @param registry for checking reactive type wrappers
-	 * @param useDefaultResolution in default resolution mode a method argument
-	 * that is a simple type, as defined in {@link BeanUtils#isSimpleProperty},
-	 * is treated as a request parameter even if it isn't annotated, the
-	 * request parameter name is derived from the method parameter name.
+	 * @param useDefaultResolution in default resolution mode a method argument that is a
+	 * simple type, as defined in {@link BeanUtils#isSimpleProperty}, is treated as a
+	 * request parameter even if it isn't annotated, the request parameter name is derived
+	 * from the method parameter name.
 	 */
-	public RequestParamMethodArgumentResolver(
-			@Nullable ConfigurableBeanFactory factory, ReactiveAdapterRegistry registry, boolean useDefaultResolution) {
+	public RequestParamMethodArgumentResolver(@Nullable ConfigurableBeanFactory factory,
+			ReactiveAdapterRegistry registry, boolean useDefaultResolution) {
 
 		super(factory, registry);
 		this.useDefaultResolution = useDefaultResolution;
 	}
-
 
 	@Override
 	public boolean supportsParameter(MethodParameter param) {
@@ -81,8 +80,8 @@ public class RequestParamMethodArgumentResolver extends AbstractNamedValueSyncAr
 			return true;
 		}
 		else if (this.useDefaultResolution) {
-			return checkParameterTypeNoReactiveWrapper(param, BeanUtils::isSimpleProperty) ||
-					BeanUtils.isSimpleProperty(param.nestedIfOptional().getNestedParameterType());
+			return checkParameterTypeNoReactiveWrapper(param, BeanUtils::isSimpleProperty)
+					|| BeanUtils.isSimpleProperty(param.nestedIfOptional().getNestedParameterType());
 		}
 		return false;
 	}
@@ -114,7 +113,6 @@ public class RequestParamMethodArgumentResolver extends AbstractNamedValueSyncAr
 		throw new ServerWebInputException(reason, parameter);
 	}
 
-
 	private static class RequestParamNamedValueInfo extends NamedValueInfo {
 
 		RequestParamNamedValueInfo() {
@@ -124,6 +122,7 @@ public class RequestParamMethodArgumentResolver extends AbstractNamedValueSyncAr
 		RequestParamNamedValueInfo(RequestParam annotation) {
 			super(annotation.name(), annotation.required(), annotation.defaultValue());
 		}
+
 	}
 
 }

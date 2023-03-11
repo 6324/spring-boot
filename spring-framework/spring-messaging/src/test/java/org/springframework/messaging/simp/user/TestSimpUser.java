@@ -30,11 +30,9 @@ public class TestSimpUser implements SimpUser {
 
 	private final Map<String, SimpSession> sessions = new HashMap<>();
 
-
 	public TestSimpUser(String name) {
 		this.name = name;
 	}
-
 
 	@Override
 	public String getName() {
@@ -62,7 +60,6 @@ public class TestSimpUser implements SimpUser {
 			this.sessions.put(session.getId(), session);
 		}
 	}
-
 
 	@Override
 	public boolean equals(Object other) {

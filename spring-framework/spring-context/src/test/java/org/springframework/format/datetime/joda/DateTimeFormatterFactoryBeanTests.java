@@ -22,10 +22,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
-
-
-
 /**
  * @author Phillip Webb
  * @author Sam Brannen
@@ -33,7 +29,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DateTimeFormatterFactoryBeanTests {
 
 	private final DateTimeFormatterFactoryBean factory = new DateTimeFormatterFactoryBean();
-
 
 	@Test
 	public void isSingleton() {

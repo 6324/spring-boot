@@ -24,11 +24,12 @@ import org.springframework.remoting.support.RemoteInvocation;
 import org.springframework.util.Assert;
 
 /**
- * Server-side implementation of {@link RmiInvocationHandler}. An instance
- * of this class exists for each remote object. Automatically created
- * by {@link RmiServiceExporter} for non-RMI service implementations.
+ * Server-side implementation of {@link RmiInvocationHandler}. An instance of this class
+ * exists for each remote object. Automatically created by {@link RmiServiceExporter} for
+ * non-RMI service implementations.
  *
- * <p>This is an SPI class, not to be used directly by applications.
+ * <p>
+ * This is an SPI class, not to be used directly by applications.
  *
  * @author Juergen Hoeller
  * @since 14.05.2003
@@ -39,7 +40,6 @@ class RmiInvocationWrapper implements RmiInvocationHandler {
 	private final Object wrappedObject;
 
 	private final RmiBasedExporter rmiExporter;
-
 
 	/**
 	 * Create a new RmiInvocationWrapper for the given object.
@@ -52,7 +52,6 @@ class RmiInvocationWrapper implements RmiInvocationHandler {
 		this.wrappedObject = wrappedObject;
 		this.rmiExporter = rmiExporter;
 	}
-
 
 	/**
 	 * Exposes the exporter's service interface, if any, as target interface.
@@ -67,12 +66,13 @@ class RmiInvocationWrapper implements RmiInvocationHandler {
 
 	/**
 	 * Delegates the actual invocation handling to the RMI exporter.
-	 * @see RmiBasedExporter#invoke(org.springframework.remoting.support.RemoteInvocation, Object)
+	 * @see RmiBasedExporter#invoke(org.springframework.remoting.support.RemoteInvocation,
+	 * Object)
 	 */
 	@Override
 	@Nullable
 	public Object invoke(RemoteInvocation invocation)
-		throws RemoteException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+			throws RemoteException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
 		return this.rmiExporter.invoke(invocation, this.wrappedObject);
 	}

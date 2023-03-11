@@ -20,8 +20,8 @@ import org.springframework.beans.testfixture.beans.FactoryMethods;
 import org.springframework.beans.testfixture.beans.TestBean;
 
 /**
- * Test class for Spring's ability to create objects using
- * static factory methods, rather than constructors.
+ * Test class for Spring's ability to create objects using static factory methods, rather
+ * than constructors.
  *
  * @author Rod Johnson
  */

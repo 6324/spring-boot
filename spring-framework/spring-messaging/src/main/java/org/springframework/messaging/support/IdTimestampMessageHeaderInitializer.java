@@ -21,8 +21,9 @@ import org.springframework.messaging.MessageHeaders;
 import org.springframework.util.IdGenerator;
 
 /**
- * A {@link org.springframework.messaging.support.MessageHeaderInitializer MessageHeaderInitializer}
- * to customize the strategy for ID and TIMESTAMP message header generation.
+ * A {@link org.springframework.messaging.support.MessageHeaderInitializer
+ * MessageHeaderInitializer} to customize the strategy for ID and TIMESTAMP message header
+ * generation.
  *
  * @author Rossen Stoyanchev
  * @since 4.1
@@ -31,19 +32,19 @@ public class IdTimestampMessageHeaderInitializer implements MessageHeaderInitial
 
 	private static final IdGenerator ID_VALUE_NONE_GENERATOR = () -> MessageHeaders.ID_VALUE_NONE;
 
-
 	@Nullable
 	private IdGenerator idGenerator;
 
 	private boolean enableTimestamp;
 
-
 	/**
 	 * Configure the IdGenerator strategy to initialize {@code MessageHeaderAccessor}
 	 * instances with.
-	 * <p>By default this property is set to {@code null} in which case the default
+	 * <p>
+	 * By default this property is set to {@code null} in which case the default
 	 * IdGenerator of {@link org.springframework.messaging.MessageHeaders} is used.
-	 * <p>To have no ids generated at all, see {@link #setDisableIdGeneration()}.
+	 * <p>
+	 * To have no ids generated at all, see {@link #setDisableIdGeneration()}.
 	 */
 	public void setIdGenerator(@Nullable IdGenerator idGenerator) {
 		this.idGenerator = idGenerator;
@@ -58,8 +59,8 @@ public class IdTimestampMessageHeaderInitializer implements MessageHeaderInitial
 	}
 
 	/**
-	 * A shortcut for calling {@link #setIdGenerator} with an id generation strategy
-	 * to disable id generation completely.
+	 * A shortcut for calling {@link #setIdGenerator} with an id generation strategy to
+	 * disable id generation completely.
 	 */
 	public void setDisableIdGeneration() {
 		this.idGenerator = ID_VALUE_NONE_GENERATOR;
@@ -69,7 +70,8 @@ public class IdTimestampMessageHeaderInitializer implements MessageHeaderInitial
 	 * Whether to enable the automatic addition of the
 	 * {@link org.springframework.messaging.MessageHeaders#TIMESTAMP} header on
 	 * {@code MessageHeaderAccessor} instances being initialized.
-	 * <p>By default this property is set to false.
+	 * <p>
+	 * By default this property is set to false.
 	 */
 	public void setEnableTimestamp(boolean enableTimestamp) {
 		this.enableTimestamp = enableTimestamp;
@@ -81,7 +83,6 @@ public class IdTimestampMessageHeaderInitializer implements MessageHeaderInitial
 	public boolean isEnableTimestamp() {
 		return this.enableTimestamp;
 	}
-
 
 	@Override
 	public void initHeaders(MessageHeaderAccessor headerAccessor) {

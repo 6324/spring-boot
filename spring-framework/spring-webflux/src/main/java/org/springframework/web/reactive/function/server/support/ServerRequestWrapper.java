@@ -48,10 +48,10 @@ import org.springframework.web.server.WebSession;
 import org.springframework.web.util.UriBuilder;
 
 /**
- * Implementation of the {@link ServerRequest} interface that can be subclassed
- * to adapt the request in a
- * {@link org.springframework.web.reactive.function.server.HandlerFilterFunction handler filter function}.
- * All methods default to calling through to the wrapped request.
+ * Implementation of the {@link ServerRequest} interface that can be subclassed to adapt
+ * the request in a
+ * {@link org.springframework.web.reactive.function.server.HandlerFilterFunction handler
+ * filter function}. All methods default to calling through to the wrapped request.
  *
  * @author Arjen Poutsma
  * @since 5.0
@@ -59,7 +59,6 @@ import org.springframework.web.util.UriBuilder;
 public class ServerRequestWrapper implements ServerRequest {
 
 	private final ServerRequest delegate;
-
 
 	/**
 	 * Create a new {@code ServerRequestWrapper} that wraps the given request.
@@ -69,7 +68,6 @@ public class ServerRequestWrapper implements ServerRequest {
 		Assert.notNull(delegate, "Delegate must not be null");
 		this.delegate = delegate;
 	}
-
 
 	/**
 	 * Return the wrapped request.
@@ -219,10 +217,11 @@ public class ServerRequestWrapper implements ServerRequest {
 	}
 
 	/**
-	 * Implementation of the {@code Headers} interface that can be subclassed
-	 * to adapt the headers in a
-	 * {@link org.springframework.web.reactive.function.server.HandlerFilterFunction handler filter function}.
-	 * All methods default to calling through to the wrapped headers.
+	 * Implementation of the {@code Headers} interface that can be subclassed to adapt the
+	 * headers in a
+	 * {@link org.springframework.web.reactive.function.server.HandlerFilterFunction
+	 * handler filter function}. All methods default to calling through to the wrapped
+	 * headers.
 	 */
 	public static class HeadersWrapper implements ServerRequest.Headers {
 
@@ -281,6 +280,7 @@ public class ServerRequestWrapper implements ServerRequest {
 		public HttpHeaders asHttpHeaders() {
 			return this.headers.asHttpHeaders();
 		}
+
 	}
 
 }

@@ -38,10 +38,10 @@ import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 /**
- * Implementation of the {@link ClientResponse} interface that can be subclassed
- * to adapt the request in a
- * {@link org.springframework.web.reactive.function.client.ExchangeFilterFunction exchange filter function}.
- * All methods default to calling through to the wrapped request.
+ * Implementation of the {@link ClientResponse} interface that can be subclassed to adapt
+ * the request in a
+ * {@link org.springframework.web.reactive.function.client.ExchangeFilterFunction exchange
+ * filter function}. All methods default to calling through to the wrapped request.
  *
  * @author Arjen Poutsma
  * @since 5.0.5
@@ -49,7 +49,6 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 public class ClientResponseWrapper implements ClientResponse {
 
 	private final ClientResponse delegate;
-
 
 	/**
 	 * Create a new {@code ClientResponseWrapper} that wraps the given response.
@@ -59,7 +58,6 @@ public class ClientResponseWrapper implements ClientResponse {
 		Assert.notNull(delegate, "Delegate is required");
 		this.delegate = delegate;
 	}
-
 
 	/**
 	 * Return the wrapped request.
@@ -159,15 +157,15 @@ public class ClientResponseWrapper implements ClientResponse {
 	}
 
 	/**
-	 * Implementation of the {@code Headers} interface that can be subclassed
-	  * to adapt the headers in a
-	  * {@link org.springframework.web.reactive.function.client.ExchangeFilterFunction exchange filter function}.
-	  * All methods default to calling through to the wrapped request.
+	 * Implementation of the {@code Headers} interface that can be subclassed to adapt the
+	 * headers in a
+	 * {@link org.springframework.web.reactive.function.client.ExchangeFilterFunction
+	 * exchange filter function}. All methods default to calling through to the wrapped
+	 * request.
 	 */
 	public static class HeadersWrapper implements ClientResponse.Headers {
 
 		private final Headers headers;
-
 
 		/**
 		 * Create a new {@code HeadersWrapper} that wraps the given request.
@@ -176,7 +174,6 @@ public class ClientResponseWrapper implements ClientResponse {
 		public HeadersWrapper(Headers headers) {
 			this.headers = headers;
 		}
-
 
 		@Override
 		public OptionalLong contentLength() {
@@ -197,6 +194,7 @@ public class ClientResponseWrapper implements ClientResponse {
 		public HttpHeaders asHttpHeaders() {
 			return this.headers.asHttpHeaders();
 		}
+
 	}
 
 }

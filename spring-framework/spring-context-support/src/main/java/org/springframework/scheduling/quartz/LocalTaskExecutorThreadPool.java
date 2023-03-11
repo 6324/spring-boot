@@ -28,8 +28,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Quartz {@link ThreadPool} adapter that delegates to a Spring-managed
- * {@link Executor} instance, specified on {@link SchedulerFactoryBean}.
+ * Quartz {@link ThreadPool} adapter that delegates to a Spring-managed {@link Executor}
+ * instance, specified on {@link SchedulerFactoryBean}.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -43,7 +43,6 @@ public class LocalTaskExecutorThreadPool implements ThreadPool {
 	@Nullable
 	private Executor taskExecutor;
 
-
 	@Override
 	public void setInstanceId(String schedInstId) {
 	}
@@ -52,14 +51,13 @@ public class LocalTaskExecutorThreadPool implements ThreadPool {
 	public void setInstanceName(String schedName) {
 	}
 
-
 	@Override
 	public void initialize() throws SchedulerConfigException {
 		// Absolutely needs thread-bound Executor to initialize.
 		this.taskExecutor = SchedulerFactoryBean.getConfigTimeTaskExecutor();
 		if (this.taskExecutor == null) {
-			throw new SchedulerConfigException("No local Executor found for configuration - " +
-					"'taskExecutor' property must be set on SchedulerFactoryBean");
+			throw new SchedulerConfigException("No local Executor found for configuration - "
+					+ "'taskExecutor' property must be set on SchedulerFactoryBean");
 		}
 	}
 
@@ -71,7 +69,6 @@ public class LocalTaskExecutorThreadPool implements ThreadPool {
 	public int getPoolSize() {
 		return -1;
 	}
-
 
 	@Override
 	public boolean runInThread(Runnable runnable) {

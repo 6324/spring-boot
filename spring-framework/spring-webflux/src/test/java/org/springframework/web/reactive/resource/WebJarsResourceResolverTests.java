@@ -47,7 +47,6 @@ public class WebJarsResourceResolverTests {
 
 	private static final Duration TIMEOUT = Duration.ofSeconds(1);
 
-
 	private List<Resource> locations;
 
 	private WebJarsResourceResolver resolver;
@@ -55,7 +54,6 @@ public class WebJarsResourceResolverTests {
 	private ResourceResolverChain chain;
 
 	private ServerWebExchange exchange;
-
 
 	@BeforeEach
 	public void setup() {
@@ -65,7 +63,6 @@ public class WebJarsResourceResolverTests {
 		this.chain = mock(ResourceResolverChain.class);
 		this.exchange = MockServerWebExchange.from(MockServerHttpRequest.get(""));
 	}
-
 
 	@Test
 	public void resolveUrlExisting() {
@@ -125,9 +122,7 @@ public class WebJarsResourceResolverTests {
 		String file = "foo/2.3/foo.txt";
 		given(this.chain.resolveResource(this.exchange, file, this.locations)).willReturn(Mono.just(expected));
 
-		Resource actual = this.resolver
-				.resolveResource(this.exchange, file, this.locations, this.chain)
-				.block(TIMEOUT);
+		Resource actual = this.resolver.resolveResource(this.exchange, file, this.locations, this.chain).block(TIMEOUT);
 
 		assertThat(actual).isEqualTo(expected);
 		verify(this.chain, times(1)).resolveResource(this.exchange, file, this.locations);
@@ -138,9 +133,7 @@ public class WebJarsResourceResolverTests {
 		String file = "something/something.js";
 		given(this.chain.resolveResource(this.exchange, file, this.locations)).willReturn(Mono.empty());
 
-		Resource actual = this.resolver
-				.resolveResource(this.exchange, file, this.locations, this.chain)
-				.block(TIMEOUT);
+		Resource actual = this.resolver.resolveResource(this.exchange, file, this.locations, this.chain).block(TIMEOUT);
 
 		assertThat(actual).isNull();
 		verify(this.chain, times(1)).resolveResource(this.exchange, file, this.locations);
@@ -156,13 +149,9 @@ public class WebJarsResourceResolverTests {
 
 		Resource expected = mock(Resource.class);
 		String expectedPath = "underscorejs/1.8.3/underscore.js";
-		given(this.chain.resolveResource(this.exchange, expectedPath, this.locations))
-				.willReturn(Mono.just(expected));
+		given(this.chain.resolveResource(this.exchange, expectedPath, this.locations)).willReturn(Mono.just(expected));
 
-
-		Resource actual = this.resolver
-				.resolveResource(this.exchange, file, this.locations, this.chain)
-				.block(TIMEOUT);
+		Resource actual = this.resolver.resolveResource(this.exchange, file, this.locations, this.chain).block(TIMEOUT);
 
 		assertThat(actual).isEqualTo(expected);
 		verify(this.chain, times(1)).resolveResource(this.exchange, file, this.locations);

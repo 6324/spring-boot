@@ -31,11 +31,11 @@ import org.springframework.expression.Expression;
 import org.springframework.lang.Nullable;
 
 /**
- * Utility class handling the SpEL expression parsing.
- * Meant to be used as a reusable, thread-safe component.
+ * Utility class handling the SpEL expression parsing. Meant to be used as a reusable,
+ * thread-safe component.
  *
- * <p>Performs internal caching for performance reasons
- * using {@link AnnotatedElementKey}.
+ * <p>
+ * Performs internal caching for performance reasons using {@link AnnotatedElementKey}.
  *
  * @author Costin Leau
  * @author Phillip Webb
@@ -60,13 +60,11 @@ class CacheOperationExpressionEvaluator extends CachedExpressionEvaluator {
 	 */
 	public static final String RESULT_VARIABLE = "result";
 
-
 	private final Map<ExpressionKey, Expression> keyCache = new ConcurrentHashMap<>(64);
 
 	private final Map<ExpressionKey, Expression> conditionCache = new ConcurrentHashMap<>(64);
 
 	private final Map<ExpressionKey, Expression> unlessCache = new ConcurrentHashMap<>(64);
-
 
 	/**
 	 * Create an {@link EvaluationContext}.
@@ -75,18 +73,17 @@ class CacheOperationExpressionEvaluator extends CachedExpressionEvaluator {
 	 * @param args the method arguments
 	 * @param target the target object
 	 * @param targetClass the target class
-	 * @param result the return value (can be {@code null}) or
-	 * {@link #NO_RESULT} if there is no return at this time
+	 * @param result the return value (can be {@code null}) or {@link #NO_RESULT} if there
+	 * is no return at this time
 	 * @return the evaluation context
 	 */
-	public EvaluationContext createEvaluationContext(Collection<? extends Cache> caches,
-			Method method, Object[] args, Object target, Class<?> targetClass, Method targetMethod,
-			@Nullable Object result, @Nullable BeanFactory beanFactory) {
+	public EvaluationContext createEvaluationContext(Collection<? extends Cache> caches, Method method, Object[] args,
+			Object target, Class<?> targetClass, Method targetMethod, @Nullable Object result,
+			@Nullable BeanFactory beanFactory) {
 
-		CacheExpressionRootObject rootObject = new CacheExpressionRootObject(
-				caches, method, args, target, targetClass);
-		CacheEvaluationContext evaluationContext = new CacheEvaluationContext(
-				rootObject, targetMethod, args, getParameterNameDiscoverer());
+		CacheExpressionRootObject rootObject = new CacheExpressionRootObject(caches, method, args, target, targetClass);
+		CacheEvaluationContext evaluationContext = new CacheEvaluationContext(rootObject, targetMethod, args,
+				getParameterNameDiscoverer());
 		if (result == RESULT_UNAVAILABLE) {
 			evaluationContext.addUnavailableVariable(RESULT_VARIABLE);
 		}
@@ -105,13 +102,13 @@ class CacheOperationExpressionEvaluator extends CachedExpressionEvaluator {
 	}
 
 	public boolean condition(String conditionExpression, AnnotatedElementKey methodKey, EvaluationContext evalContext) {
-		return (Boolean.TRUE.equals(getExpression(this.conditionCache, methodKey, conditionExpression).getValue(
-				evalContext, Boolean.class)));
+		return (Boolean.TRUE.equals(getExpression(this.conditionCache, methodKey, conditionExpression)
+				.getValue(evalContext, Boolean.class)));
 	}
 
 	public boolean unless(String unlessExpression, AnnotatedElementKey methodKey, EvaluationContext evalContext) {
-		return (Boolean.TRUE.equals(getExpression(this.unlessCache, methodKey, unlessExpression).getValue(
-				evalContext, Boolean.class)));
+		return (Boolean.TRUE.equals(
+				getExpression(this.unlessCache, methodKey, unlessExpression).getValue(evalContext, Boolean.class)));
 	}
 
 	/**

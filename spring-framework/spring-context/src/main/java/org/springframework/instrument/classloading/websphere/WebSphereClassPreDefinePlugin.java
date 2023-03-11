@@ -24,11 +24,11 @@ import java.security.CodeSource;
 import org.springframework.util.FileCopyUtils;
 
 /**
- * Adapter that implements WebSphere 7.0 ClassPreProcessPlugin interface,
- * delegating to a standard JDK {@link ClassFileTransformer} underneath.
+ * Adapter that implements WebSphere 7.0 ClassPreProcessPlugin interface, delegating to a
+ * standard JDK {@link ClassFileTransformer} underneath.
  *
- * <p>To avoid compile time checks again the vendor API, a dynamic proxy is
- * being used.
+ * <p>
+ * To avoid compile time checks again the vendor API, a dynamic proxy is being used.
  *
  * @author Costin Leau
  * @since 3.1
@@ -37,17 +37,17 @@ class WebSphereClassPreDefinePlugin implements InvocationHandler {
 
 	private final ClassFileTransformer transformer;
 
-
 	/**
 	 * Create a new {@link WebSphereClassPreDefinePlugin}.
-	 * @param transformer the {@link ClassFileTransformer} to be adapted
-	 * (must not be {@code null})
+	 * @param transformer the {@link ClassFileTransformer} to be adapted (must not be
+	 * {@code null})
 	 */
 	public WebSphereClassPreDefinePlugin(ClassFileTransformer transformer) {
 		this.transformer = transformer;
 		ClassLoader classLoader = transformer.getClass().getClassLoader();
 
-		// First force the full class loading of the weaver by invoking transformation on a dummy class
+		// First force the full class loading of the weaver by invoking transformation on
+		// a dummy class
 		try {
 			String dummyClass = Dummy.class.getName().replace('.', '/');
 			byte[] bytes = FileCopyUtils.copyToByteArray(classLoader.getResourceAsStream(dummyClass + ".class"));
@@ -57,7 +57,6 @@ class WebSphereClassPreDefinePlugin implements InvocationHandler {
 			throw new IllegalArgumentException("Cannot load transformer", ex);
 		}
 	}
-
 
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -82,8 +81,10 @@ class WebSphereClassPreDefinePlugin implements InvocationHandler {
 	protected byte[] transform(String className, byte[] classfileBuffer, CodeSource codeSource, ClassLoader classLoader)
 			throws Exception {
 
-		// NB: WebSphere passes className as "." without class while the transformer expects a VM "/" format
-		byte[] result = this.transformer.transform(classLoader, className.replace('.', '/'), null, null, classfileBuffer);
+		// NB: WebSphere passes className as "." without class while the transformer
+		// expects a VM "/" format
+		byte[] result = this.transformer.transform(classLoader, className.replace('.', '/'), null, null,
+				classfileBuffer);
 		return (result != null ? result : classfileBuffer);
 	}
 
@@ -92,8 +93,8 @@ class WebSphereClassPreDefinePlugin implements InvocationHandler {
 		return getClass().getName() + " for transformer: " + this.transformer;
 	}
 
-
 	private static class Dummy {
+
 	}
 
 }

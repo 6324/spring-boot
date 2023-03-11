@@ -41,11 +41,10 @@ class CacheResultInterceptor extends AbstractKeyCacheInterceptor<CacheResultOper
 		super(errorHandler);
 	}
 
-
 	@Override
 	@Nullable
-	protected Object invoke(
-			CacheOperationInvocationContext<CacheResultOperation> context, CacheOperationInvoker invoker) {
+	protected Object invoke(CacheOperationInvocationContext<CacheResultOperation> context,
+			CacheOperationInvoker invoker) {
 
 		CacheResultOperation operation = context.getOperation();
 		Object cacheKey = generateKey(context);
@@ -88,7 +87,8 @@ class CacheResultInterceptor extends AbstractKeyCacheInterceptor<CacheResultOper
 		}
 	}
 
-	protected void cacheException(@Nullable Cache exceptionCache, ExceptionTypeFilter filter, Object cacheKey, Throwable ex) {
+	protected void cacheException(@Nullable Cache exceptionCache, ExceptionTypeFilter filter, Object cacheKey,
+			Throwable ex) {
 		if (exceptionCache == null) {
 			return;
 		}
@@ -106,14 +106,15 @@ class CacheResultInterceptor extends AbstractKeyCacheInterceptor<CacheResultOper
 		return null;
 	}
 
-
 	/**
-	 * Rewrite the call stack of the specified {@code exception} so that it matches
-	 * the current call stack up to (included) the specified method invocation.
-	 * <p>Clone the specified exception. If the exception is not {@code serializable},
-	 * the original exception is returned. If no common ancestor can be found, returns
-	 * the original exception.
-	 * <p>Used to make sure that a cached exception has a valid invocation context.
+	 * Rewrite the call stack of the specified {@code exception} so that it matches the
+	 * current call stack up to (included) the specified method invocation.
+	 * <p>
+	 * Clone the specified exception. If the exception is not {@code serializable}, the
+	 * original exception is returned. If no common ancestor can be found, returns the
+	 * original exception.
+	 * <p>
+	 * Used to make sure that a cached exception has a valid invocation context.
 	 * @param exception the exception to merge with the current call stack
 	 * @param className the class name of the common ancestor
 	 * @param methodName the method name of the common ancestor
@@ -122,8 +123,8 @@ class CacheResultInterceptor extends AbstractKeyCacheInterceptor<CacheResultOper
 	 * {@code methodName} arguments, followed by stack trace elements of the specified
 	 * {@code exception} after the common ancestor.
 	 */
-	private static CacheOperationInvoker.ThrowableWrapper rewriteCallStack(
-			Throwable exception, String className, String methodName) {
+	private static CacheOperationInvoker.ThrowableWrapper rewriteCallStack(Throwable exception, String className,
+			String methodName) {
 
 		Throwable clone = cloneException(exception);
 		if (clone == null) {
@@ -136,7 +137,9 @@ class CacheResultInterceptor extends AbstractKeyCacheInterceptor<CacheResultOper
 		int index = findCommonAncestorIndex(callStack, className, methodName);
 		int cachedIndex = findCommonAncestorIndex(cachedCallStack, className, methodName);
 		if (index == -1 || cachedIndex == -1) {
-			return new CacheOperationInvoker.ThrowableWrapper(exception); // Cannot find common ancestor
+			return new CacheOperationInvoker.ThrowableWrapper(exception); // Cannot find
+																			// common
+																			// ancestor
 		}
 		StackTraceElement[] result = new StackTraceElement[cachedIndex + callStack.length - index];
 		System.arraycopy(cachedCallStack, 0, result, 0, cachedIndex);
@@ -153,7 +156,7 @@ class CacheResultInterceptor extends AbstractKeyCacheInterceptor<CacheResultOper
 			return (T) SerializationUtils.deserialize(SerializationUtils.serialize(exception));
 		}
 		catch (Exception ex) {
-			return null;  // exception parameter cannot be cloned
+			return null; // exception parameter cannot be cloned
 		}
 	}
 

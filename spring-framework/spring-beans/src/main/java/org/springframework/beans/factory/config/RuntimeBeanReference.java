@@ -20,8 +20,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Immutable placeholder class used for a property value object when it's
- * a reference to another bean in the factory, to be resolved at runtime.
+ * Immutable placeholder class used for a property value object when it's a reference to
+ * another bean in the factory, to be resolved at runtime.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -41,7 +41,6 @@ public class RuntimeBeanReference implements BeanReference {
 	@Nullable
 	private Object source;
 
-
 	/**
 	 * Create a new RuntimeBeanReference to the given bean name.
 	 * @param beanName name of the target bean
@@ -51,11 +50,11 @@ public class RuntimeBeanReference implements BeanReference {
 	}
 
 	/**
-	 * Create a new RuntimeBeanReference to the given bean name,
-	 * with the option to mark it as reference to a bean in the parent factory.
+	 * Create a new RuntimeBeanReference to the given bean name, with the option to mark
+	 * it as reference to a bean in the parent factory.
 	 * @param beanName name of the target bean
-	 * @param toParent whether this is an explicit reference to a bean in the
-	 * parent factory
+	 * @param toParent whether this is an explicit reference to a bean in the parent
+	 * factory
 	 */
 	public RuntimeBeanReference(String beanName, boolean toParent) {
 		Assert.hasText(beanName, "'beanName' must not be empty");
@@ -74,11 +73,11 @@ public class RuntimeBeanReference implements BeanReference {
 	}
 
 	/**
-	 * Create a new RuntimeBeanReference to a bean of the given type,
-	 * with the option to mark it as reference to a bean in the parent factory.
+	 * Create a new RuntimeBeanReference to a bean of the given type, with the option to
+	 * mark it as reference to a bean in the parent factory.
 	 * @param beanType type of the target bean
-	 * @param toParent whether this is an explicit reference to a bean in the
-	 * parent factory
+	 * @param toParent whether this is an explicit reference to a bean in the parent
+	 * factory
 	 * @since 5.2
 	 */
 	public RuntimeBeanReference(Class<?> beanType, boolean toParent) {
@@ -88,10 +87,9 @@ public class RuntimeBeanReference implements BeanReference {
 		this.toParent = toParent;
 	}
 
-
 	/**
-	 * Return the requested bean name, or the fully-qualified type name
-	 * in case of by-type resolution.
+	 * Return the requested bean name, or the fully-qualified type name in case of by-type
+	 * resolution.
 	 * @see #getBeanType()
 	 */
 	@Override
@@ -117,7 +115,8 @@ public class RuntimeBeanReference implements BeanReference {
 
 	/**
 	 * Set the configuration source {@code Object} for this metadata element.
-	 * <p>The exact type of the object will depend on the configuration mechanism used.
+	 * <p>
+	 * The exact type of the object will depend on the configuration mechanism used.
 	 */
 	public void setSource(@Nullable Object source) {
 		this.source = source;
@@ -129,7 +128,6 @@ public class RuntimeBeanReference implements BeanReference {
 		return this.source;
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -139,8 +137,8 @@ public class RuntimeBeanReference implements BeanReference {
 			return false;
 		}
 		RuntimeBeanReference that = (RuntimeBeanReference) other;
-		return (this.beanName.equals(that.beanName) && this.beanType == that.beanType &&
-				this.toParent == that.toParent);
+		return (this.beanName.equals(that.beanName) && this.beanType == that.beanType
+				&& this.toParent == that.toParent);
 	}
 
 	@Override

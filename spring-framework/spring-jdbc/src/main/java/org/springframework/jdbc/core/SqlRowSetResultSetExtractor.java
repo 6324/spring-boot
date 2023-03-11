@@ -30,7 +30,8 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
  * {@link ResultSetExtractor} implementation that returns a Spring {@link SqlRowSet}
  * representation for each given {@link ResultSet}.
  *
- * <p>The default implementation uses a standard JDBC CachedRowSet underneath.
+ * <p>
+ * The default implementation uses a standard JDBC CachedRowSet underneath.
  *
  * @author Juergen Hoeller
  * @since 1.2
@@ -52,18 +53,18 @@ public class SqlRowSetResultSetExtractor implements ResultSetExtractor<SqlRowSet
 		}
 	}
 
-
 	@Override
 	public SqlRowSet extractData(ResultSet rs) throws SQLException {
 		return createSqlRowSet(rs);
 	}
 
 	/**
-	 * Create a {@link SqlRowSet} that wraps the given {@link ResultSet},
-	 * representing its data in a disconnected fashion.
-	 * <p>This implementation creates a Spring {@link ResultSetWrappingSqlRowSet}
-	 * instance that wraps a standard JDBC {@link CachedRowSet} instance.
-	 * Can be overridden to use a different implementation.
+	 * Create a {@link SqlRowSet} that wraps the given {@link ResultSet}, representing its
+	 * data in a disconnected fashion.
+	 * <p>
+	 * This implementation creates a Spring {@link ResultSetWrappingSqlRowSet} instance
+	 * that wraps a standard JDBC {@link CachedRowSet} instance. Can be overridden to use
+	 * a different implementation.
 	 * @param rs the original ResultSet (connected)
 	 * @return the disconnected SqlRowSet
 	 * @throws SQLException if thrown by JDBC methods
@@ -77,9 +78,10 @@ public class SqlRowSetResultSetExtractor implements ResultSetExtractor<SqlRowSet
 	}
 
 	/**
-	 * Create a new {@link CachedRowSet} instance, to be populated by
-	 * the {@code createSqlRowSet} implementation.
-	 * <p>The default implementation uses JDBC 4.1's {@link RowSetFactory}.
+	 * Create a new {@link CachedRowSet} instance, to be populated by the
+	 * {@code createSqlRowSet} implementation.
+	 * <p>
+	 * The default implementation uses JDBC 4.1's {@link RowSetFactory}.
 	 * @return a new CachedRowSet instance
 	 * @throws SQLException if thrown by JDBC methods
 	 * @see #createSqlRowSet

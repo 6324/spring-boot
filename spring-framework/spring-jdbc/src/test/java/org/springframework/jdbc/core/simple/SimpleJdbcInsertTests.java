@@ -51,7 +51,6 @@ class SimpleJdbcInsertTests {
 
 	private final DataSource dataSource = mock(DataSource.class);
 
-
 	@BeforeEach
 	void setUp() throws Exception {
 		given(connection.getMetaData()).willReturn(databaseMetaData);
@@ -62,7 +61,6 @@ class SimpleJdbcInsertTests {
 	void verifyClosed() throws Exception {
 		verify(connection).close();
 	}
-
 
 	@Test
 	void noSuchTable() throws Exception {
@@ -78,13 +76,13 @@ class SimpleJdbcInsertTests {
 		SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("x");
 		// Shouldn't succeed in inserting into table which doesn't exist
 		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class)
-			.isThrownBy(() -> insert.execute(Collections.emptyMap()))
-			.withMessageStartingWith("Unable to locate columns for table 'x' so an insert statement can't be generated");
+				.isThrownBy(() -> insert.execute(Collections.emptyMap())).withMessageStartingWith(
+						"Unable to locate columns for table 'x' so an insert statement can't be generated");
 
 		verify(resultSet).close();
 	}
 
-	@Test  // gh-26486
+	@Test // gh-26486
 	void retrieveColumnNamesFromMetadata() throws Exception {
 		ResultSet tableResultSet = mock(ResultSet.class);
 		given(tableResultSet.next()).willReturn(true, false);
@@ -107,7 +105,7 @@ class SimpleJdbcInsertTests {
 		verify(tableResultSet).close();
 	}
 
-	@Test  // gh-26486
+	@Test // gh-26486
 	void exceptionThrownWhileRetrievingColumnNamesFromMetadata() throws Exception {
 		ResultSet tableResultSet = mock(ResultSet.class);
 		given(tableResultSet.next()).willReturn(true, false);
@@ -120,19 +118,18 @@ class SimpleJdbcInsertTests {
 		// true, true, false --> simulates processing of two columns
 		given(columnResultSet.next()).willReturn(true, true, false);
 		given(columnResultSet.getString("COLUMN_NAME"))
-			// Return a column name the first time.
-			.willReturn("col1")
-			// Second time, simulate an error while retrieving metadata.
-			.willThrow(new SQLException("error with col2"));
+				// Return a column name the first time.
+				.willReturn("col1")
+				// Second time, simulate an error while retrieving metadata.
+				.willThrow(new SQLException("error with col2"));
 		given(columnResultSet.getInt("DATA_TYPE")).willReturn(Types.VARCHAR);
 		given(columnResultSet.getBoolean("NULLABLE")).willReturn(false);
 
 		SimpleJdbcInsert insert = new SimpleJdbcInsert(dataSource).withTableName("me");
 
-		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class)
-			.isThrownBy(insert::compile)
-			.withMessage("Unable to locate columns for table 'me' so an insert statement can't be generated. " +
-						"Consider specifying explicit column names -- for example, via SimpleJdbcInsert#usingColumns().");
+		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(insert::compile)
+				.withMessage("Unable to locate columns for table 'me' so an insert statement can't be generated. "
+						+ "Consider specifying explicit column names -- for example, via SimpleJdbcInsert#usingColumns().");
 
 		verify(columnResultSet).close();
 		verify(tableResultSet).close();

@@ -27,8 +27,9 @@ import org.springframework.util.Assert;
 
 /**
  * Helper class that allows for accessing a Spring
- * {@link org.springframework.context.MessageSource} as a {@link java.util.ResourceBundle}.
- * Used for example to expose a Spring MessageSource to JSTL web views.
+ * {@link org.springframework.context.MessageSource} as a
+ * {@link java.util.ResourceBundle}. Used for example to expose a Spring MessageSource to
+ * JSTL web views.
  *
  * @author Juergen Hoeller
  * @since 27.02.2003
@@ -41,7 +42,6 @@ public class MessageSourceResourceBundle extends ResourceBundle {
 	private final MessageSource messageSource;
 
 	private final Locale locale;
-
 
 	/**
 	 * Create a new MessageSourceResourceBundle for the given MessageSource and Locale.
@@ -65,10 +65,9 @@ public class MessageSourceResourceBundle extends ResourceBundle {
 		setParent(parent);
 	}
 
-
 	/**
-	 * This implementation resolves the code in the MessageSource.
-	 * Returns {@code null} if the message could not be resolved.
+	 * This implementation resolves the code in the MessageSource. Returns {@code null} if
+	 * the message could not be resolved.
 	 */
 	@Override
 	@Nullable
@@ -82,10 +81,10 @@ public class MessageSourceResourceBundle extends ResourceBundle {
 	}
 
 	/**
-	 * This implementation checks whether the target MessageSource can resolve
-	 * a message for the given key, translating {@code NoSuchMessageException}
-	 * accordingly. In contrast to ResourceBundle's default implementation in
-	 * JDK 1.6, this does not rely on the capability to enumerate message keys.
+	 * This implementation checks whether the target MessageSource can resolve a message
+	 * for the given key, translating {@code NoSuchMessageException} accordingly. In
+	 * contrast to ResourceBundle's default implementation in JDK 1.6, this does not rely
+	 * on the capability to enumerate message keys.
 	 */
 	@Override
 	public boolean containsKey(String key) {
@@ -99,8 +98,8 @@ public class MessageSourceResourceBundle extends ResourceBundle {
 	}
 
 	/**
-	 * This implementation throws {@code UnsupportedOperationException},
-	 * as a MessageSource does not allow for enumerating the defined message codes.
+	 * This implementation throws {@code UnsupportedOperationException}, as a
+	 * MessageSource does not allow for enumerating the defined message codes.
 	 */
 	@Override
 	public Enumeration<String> getKeys() {
@@ -108,8 +107,8 @@ public class MessageSourceResourceBundle extends ResourceBundle {
 	}
 
 	/**
-	 * This implementation exposes the specified Locale for introspection
-	 * through the standard {@code ResourceBundle.getLocale()} method.
+	 * This implementation exposes the specified Locale for introspection through the
+	 * standard {@code ResourceBundle.getLocale()} method.
 	 */
 	@Override
 	public Locale getLocale() {

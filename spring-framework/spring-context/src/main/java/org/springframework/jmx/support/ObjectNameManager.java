@@ -34,13 +34,13 @@ public final class ObjectNameManager {
 	private ObjectNameManager() {
 	}
 
-
 	/**
 	 * Retrieve the {@code ObjectName} instance corresponding to the supplied name.
-	 * @param objectName the {@code ObjectName} in {@code ObjectName} or
-	 * {@code String} format
+	 * @param objectName the {@code ObjectName} in {@code ObjectName} or {@code String}
+	 * format
 	 * @return the {@code ObjectName} instance
-	 * @throws MalformedObjectNameException in case of an invalid object name specification
+	 * @throws MalformedObjectNameException in case of an invalid object name
+	 * specification
 	 * @see ObjectName#ObjectName(String)
 	 * @see ObjectName#getInstance(String)
 	 */
@@ -49,8 +49,8 @@ public final class ObjectNameManager {
 			return (ObjectName) objectName;
 		}
 		if (!(objectName instanceof String)) {
-			throw new MalformedObjectNameException("Invalid ObjectName value type [" +
-					objectName.getClass().getName() + "]: only ObjectName and String supported.");
+			throw new MalformedObjectNameException("Invalid ObjectName value type [" + objectName.getClass().getName()
+					+ "]: only ObjectName and String supported.");
 		}
 		return getInstance((String) objectName);
 	}
@@ -59,7 +59,8 @@ public final class ObjectNameManager {
 	 * Retrieve the {@code ObjectName} instance corresponding to the supplied name.
 	 * @param objectName the {@code ObjectName} in {@code String} format
 	 * @return the {@code ObjectName} instance
-	 * @throws MalformedObjectNameException in case of an invalid object name specification
+	 * @throws MalformedObjectNameException in case of an invalid object name
+	 * specification
 	 * @see ObjectName#ObjectName(String)
 	 * @see ObjectName#getInstance(String)
 	 */
@@ -68,13 +69,14 @@ public final class ObjectNameManager {
 	}
 
 	/**
-	 * Retrieve an {@code ObjectName} instance for the specified domain and a
-	 * single property with the supplied key and value.
+	 * Retrieve an {@code ObjectName} instance for the specified domain and a single
+	 * property with the supplied key and value.
 	 * @param domainName the domain name for the {@code ObjectName}
 	 * @param key the key for the single property in the {@code ObjectName}
 	 * @param value the value for the single property in the {@code ObjectName}
 	 * @return the {@code ObjectName} instance
-	 * @throws MalformedObjectNameException in case of an invalid object name specification
+	 * @throws MalformedObjectNameException in case of an invalid object name
+	 * specification
 	 * @see ObjectName#ObjectName(String, String, String)
 	 * @see ObjectName#getInstance(String, String, String)
 	 */
@@ -85,12 +87,13 @@ public final class ObjectNameManager {
 	}
 
 	/**
-	 * Retrieve an {@code ObjectName} instance with the specified domain name
-	 * and the supplied key/name properties.
+	 * Retrieve an {@code ObjectName} instance with the specified domain name and the
+	 * supplied key/name properties.
 	 * @param domainName the domain name for the {@code ObjectName}
 	 * @param properties the properties for the {@code ObjectName}
 	 * @return the {@code ObjectName} instance
-	 * @throws MalformedObjectNameException in case of an invalid object name specification
+	 * @throws MalformedObjectNameException in case of an invalid object name
+	 * specification
 	 * @see ObjectName#ObjectName(String, java.util.Hashtable)
 	 * @see ObjectName#getInstance(String, java.util.Hashtable)
 	 */

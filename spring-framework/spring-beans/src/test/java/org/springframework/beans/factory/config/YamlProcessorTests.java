@@ -42,8 +42,8 @@ import static org.assertj.core.api.Assertions.entry;
  */
 class YamlProcessorTests {
 
-	private final YamlProcessor processor = new YamlProcessor() {};
-
+	private final YamlProcessor processor = new YamlProcessor() {
+	};
 
 	@Test
 	void arrayConvertedToIndexedBeanReference() {
@@ -70,17 +70,15 @@ class YamlProcessorTests {
 	@Test
 	void badDocumentStart() {
 		setYaml("foo # a document\nbar: baz");
-		assertThatExceptionOfType(ParserException.class)
-			.isThrownBy(() -> this.processor.process((properties, map) -> {}))
-			.withMessageContaining("line 2, column 1");
+		assertThatExceptionOfType(ParserException.class).isThrownBy(() -> this.processor.process((properties, map) -> {
+		})).withMessageContaining("line 2, column 1");
 	}
 
 	@Test
 	void badResource() {
 		setYaml("foo: bar\ncd\nspam:\n  foo: baz");
-		assertThatExceptionOfType(ScannerException.class)
-			.isThrownBy(() -> this.processor.process((properties, map) -> {}))
-			.withMessageContaining("line 3, column 1");
+		assertThatExceptionOfType(ScannerException.class).isThrownBy(() -> this.processor.process((properties, map) -> {
+		})).withMessageContaining("line 3, column 1");
 	}
 
 	@Test
@@ -168,8 +166,8 @@ class YamlProcessorTests {
 		setYaml("value: !!java.net.URL [\"https://localhost:9000/\"]");
 
 		assertThatExceptionOfType(ConstructorException.class)
-			.isThrownBy(() -> this.processor.process((properties, map) -> {}))
-			.withMessageContaining("Unsupported type encountered in YAML document: java.net.URL");
+				.isThrownBy(() -> this.processor.process((properties, map) -> {
+				})).withMessageContaining("Unsupported type encountered in YAML document: java.net.URL");
 	}
 
 	private void setYaml(String yaml) {

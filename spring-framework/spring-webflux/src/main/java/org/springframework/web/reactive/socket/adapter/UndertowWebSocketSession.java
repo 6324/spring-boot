@@ -51,13 +51,12 @@ public class UndertowWebSocketSession extends AbstractListenerWebSocketSession<W
 		this(channel, info, factory, null);
 	}
 
-	public UndertowWebSocketSession(WebSocketChannel channel, HandshakeInfo info,
-			DataBufferFactory factory, @Nullable MonoProcessor<Void> completionMono) {
+	public UndertowWebSocketSession(WebSocketChannel channel, HandshakeInfo info, DataBufferFactory factory,
+			@Nullable MonoProcessor<Void> completionMono) {
 
 		super(channel, ObjectUtils.getIdentityHexString(channel), info, factory, completionMono);
 		suspendReceiving();
 	}
-
 
 	@Override
 	protected boolean canSuspendReceiving() {
@@ -109,7 +108,6 @@ public class UndertowWebSocketSession extends AbstractListenerWebSocketSession<W
 		return Mono.empty();
 	}
 
-
 	private final class SendProcessorCallback implements WebSocketCallback<Void> {
 
 		private final DataBuffer payload;
@@ -131,6 +129,7 @@ public class UndertowWebSocketSession extends AbstractListenerWebSocketSession<W
 			getSendProcessor().cancel();
 			getSendProcessor().onError(throwable);
 		}
+
 	}
 
 }

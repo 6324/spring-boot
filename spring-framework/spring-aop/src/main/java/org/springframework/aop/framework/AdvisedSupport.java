@@ -43,16 +43,17 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 
 /**
- * Base class for AOP proxy configuration managers.
- * These are not themselves AOP proxies, but subclasses of this class are
- * normally factories from which AOP proxy instances are obtained directly.
+ * Base class for AOP proxy configuration managers. These are not themselves AOP proxies,
+ * but subclasses of this class are normally factories from which AOP proxy instances are
+ * obtained directly.
  *
- * <p>This class frees subclasses of the housekeeping of Advices
- * and Advisors, but doesn't actually implement proxy creation
- * methods, which are provided by subclasses.
+ * <p>
+ * This class frees subclasses of the housekeeping of Advices and Advisors, but doesn't
+ * actually implement proxy creation methods, which are provided by subclasses.
  *
- * <p>This class is serializable; subclasses need not be.
- * This class is used to hold snapshots of proxies.
+ * <p>
+ * This class is serializable; subclasses need not be. This class is used to hold
+ * snapshots of proxies.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -63,13 +64,11 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	/** use serialVersionUID from Spring 2.0 for interoperability. */
 	private static final long serialVersionUID = 2651364800145442165L;
 
-
 	/**
-	 * Canonical TargetSource when there's no target, and behavior is
-	 * supplied by the advisors.
+	 * Canonical TargetSource when there's no target, and behavior is supplied by the
+	 * advisors.
 	 */
 	public static final TargetSource EMPTY_TARGET_SOURCE = EmptyTargetSource.INSTANCE;
-
 
 	/** Package-protected to allow direct access for efficiency. */
 	TargetSource targetSource = EMPTY_TARGET_SOURCE;
@@ -84,23 +83,22 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	private transient Map<MethodCacheKey, List<Object>> methodCache;
 
 	/**
-	 * Interfaces to be implemented by the proxy. Held in List to keep the order
-	 * of registration, to create JDK proxy with specified order of interfaces.
+	 * Interfaces to be implemented by the proxy. Held in List to keep the order of
+	 * registration, to create JDK proxy with specified order of interfaces.
 	 */
 	private List<Class<?>> interfaces = new ArrayList<>();
 
 	/**
-	 * List of Advisors. If an Advice is added, it will be wrapped
-	 * in an Advisor before being added to this List.
+	 * List of Advisors. If an Advice is added, it will be wrapped in an Advisor before
+	 * being added to this List.
 	 */
 	private List<Advisor> advisors = new ArrayList<>();
 
 	/**
-	 * Array updated on changes to the advisors list, which is easier
-	 * to manipulate internally.
+	 * Array updated on changes to the advisors list, which is easier to manipulate
+	 * internally.
 	 */
 	private Advisor[] advisorArray = new Advisor[0];
-
 
 	/**
 	 * No-arg constructor for use as a JavaBean.
@@ -118,10 +116,8 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		setInterfaces(interfaces);
 	}
 
-
 	/**
-	 * Set the given object as target.
-	 * Will create a SingletonTargetSource for the object.
+	 * Set the given object as target. Will create a SingletonTargetSource for the object.
 	 * @see #setTargetSource
 	 * @see org.springframework.aop.target.SingletonTargetSource
 	 */
@@ -140,15 +136,16 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	}
 
 	/**
-	 * Set a target class to be proxied, indicating that the proxy
-	 * should be castable to the given class.
-	 * <p>Internally, an {@link org.springframework.aop.target.EmptyTargetSource}
-	 * for the given target class will be used. The kind of proxy needed
-	 * will be determined on actual creation of the proxy.
-	 * <p>This is a replacement for setting a "targetSource" or "target",
-	 * for the case where we want a proxy based on a target class
-	 * (which can be an interface or a concrete class) without having
-	 * a fully capable TargetSource available.
+	 * Set a target class to be proxied, indicating that the proxy should be castable to
+	 * the given class.
+	 * <p>
+	 * Internally, an {@link org.springframework.aop.target.EmptyTargetSource} for the
+	 * given target class will be used. The kind of proxy needed will be determined on
+	 * actual creation of the proxy.
+	 * <p>
+	 * This is a replacement for setting a "targetSource" or "target", for the case where
+	 * we want a proxy based on a target class (which can be an interface or a concrete
+	 * class) without having a fully capable TargetSource available.
 	 * @see #setTargetSource
 	 * @see #setTarget
 	 */
@@ -174,7 +171,8 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 
 	/**
 	 * Set the advisor chain factory to use.
-	 * <p>Default is a {@link DefaultAdvisorChainFactory}.
+	 * <p>
+	 * Default is a {@link DefaultAdvisorChainFactory}.
 	 */
 	public void setAdvisorChainFactory(AdvisorChainFactory advisorChainFactory) {
 		Assert.notNull(advisorChainFactory, "AdvisorChainFactory must not be null");
@@ -187,7 +185,6 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	public AdvisorChainFactory getAdvisorChainFactory() {
 		return this.advisorChainFactory;
 	}
-
 
 	/**
 	 * Set the interfaces to be proxied.
@@ -217,10 +214,11 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 
 	/**
 	 * Remove a proxied interface.
-	 * <p>Does nothing if the given interface isn't proxied.
+	 * <p>
+	 * Does nothing if the given interface isn't proxied.
 	 * @param intf the interface to remove from the proxy
-	 * @return {@code true} if the interface was removed; {@code false}
-	 * if the interface was not found and hence could not be removed
+	 * @return {@code true} if the interface was removed; {@code false} if the interface
+	 * was not found and hence could not be removed
 	 */
 	public boolean removeInterface(Class<?> intf) {
 		return this.interfaces.remove(intf);
@@ -240,7 +238,6 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		}
 		return false;
 	}
-
 
 	@Override
 	public final Advisor[] getAdvisors() {
@@ -279,8 +276,8 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 			throw new AopConfigException("Cannot remove Advisor: Configuration is frozen.");
 		}
 		if (index < 0 || index > this.advisors.size() - 1) {
-			throw new AopConfigException("Advisor index " + index + " is out of bounds: " +
-					"This configuration only has " + this.advisors.size() + " advisors.");
+			throw new AopConfigException("Advisor index " + index + " is out of bounds: "
+					+ "This configuration only has " + this.advisors.size() + " advisors.");
 		}
 
 		Advisor advisor = this.advisors.remove(index);
@@ -376,13 +373,14 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 
 	/**
 	 * Allows uncontrolled access to the {@link List} of {@link Advisor Advisors}.
-	 * <p>Use with care, and remember to {@link #updateAdvisorArray() refresh the advisor array}
-	 * and {@link #adviceChanged() fire advice changed events} when making any modifications.
+	 * <p>
+	 * Use with care, and remember to {@link #updateAdvisorArray() refresh the advisor
+	 * array} and {@link #adviceChanged() fire advice changed events} when making any
+	 * modifications.
 	 */
 	protected final List<Advisor> getAdvisorsInternal() {
 		return this.advisors;
 	}
-
 
 	@Override
 	public void addAdvice(Advice advice) throws AopConfigException {
@@ -467,20 +465,19 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		return count;
 	}
 
-
 	/**
-	 * Determine a list of {@link org.aopalliance.intercept.MethodInterceptor} objects
-	 * for the given method, based on this configuration.
+	 * Determine a list of {@link org.aopalliance.intercept.MethodInterceptor} objects for
+	 * the given method, based on this configuration.
 	 * @param method the proxied method
 	 * @param targetClass the target class
-	 * @return a List of MethodInterceptors (may also include InterceptorAndDynamicMethodMatchers)
+	 * @return a List of MethodInterceptors (may also include
+	 * InterceptorAndDynamicMethodMatchers)
 	 */
 	public List<Object> getInterceptorsAndDynamicInterceptionAdvice(Method method, @Nullable Class<?> targetClass) {
 		MethodCacheKey cacheKey = new MethodCacheKey(method);
 		List<Object> cached = this.methodCache.get(cacheKey);
 		if (cached == null) {
-			cached = this.advisorChainFactory.getInterceptorsAndDynamicInterceptionAdvice(
-					this, method, targetClass);
+			cached = this.advisorChainFactory.getInterceptorsAndDynamicInterceptionAdvice(this, method, targetClass);
 			this.methodCache.put(cacheKey, cached);
 		}
 		return cached;
@@ -494,8 +491,8 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	}
 
 	/**
-	 * Call this method on a new instance created by the no-arg constructor
-	 * to create an independent copy of the configuration from the given object.
+	 * Call this method on a new instance created by the no-arg constructor to create an
+	 * independent copy of the configuration from the given object.
 	 * @param other the AdvisedSupport object to copy configuration from
 	 */
 	protected void copyConfigurationFrom(AdvisedSupport other) {
@@ -503,8 +500,8 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	}
 
 	/**
-	 * Copy the AOP configuration from the given AdvisedSupport object,
-	 * but allow substitution of a fresh TargetSource and a given interceptor chain.
+	 * Copy the AOP configuration from the given AdvisedSupport object, but allow
+	 * substitution of a fresh TargetSource and a given interceptor chain.
 	 * @param other the AdvisedSupport object to take proxy configuration from
 	 * @param targetSource the new TargetSource
 	 * @param advisors the Advisors for the chain
@@ -526,8 +523,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	}
 
 	/**
-	 * Build a configuration-only copy of this AdvisedSupport,
-	 * replacing the TargetSource.
+	 * Build a configuration-only copy of this AdvisedSupport, replacing the TargetSource.
 	 */
 	AdvisedSupport getConfigurationOnlyCopy() {
 		AdvisedSupport copy = new AdvisedSupport();
@@ -540,10 +536,9 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		return copy;
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Serialization support
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
 		// Rely on default serialization; just initialize state after deserialization.
@@ -552,7 +547,6 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		// Initialize transient fields.
 		this.methodCache = new ConcurrentHashMap<>(32);
 	}
-
 
 	@Override
 	public String toProxyConfigString() {
@@ -574,10 +568,9 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		return sb.toString();
 	}
 
-
 	/**
-	 * Simple wrapper class around a Method. Used as the key when
-	 * caching methods, for efficient equals and hashCode comparisons.
+	 * Simple wrapper class around a Method. Used as the key when caching methods, for
+	 * efficient equals and hashCode comparisons.
 	 */
 	private static final class MethodCacheKey implements Comparable<MethodCacheKey> {
 
@@ -592,8 +585,8 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 
 		@Override
 		public boolean equals(@Nullable Object other) {
-			return (this == other || (other instanceof MethodCacheKey &&
-					this.method == ((MethodCacheKey) other).method));
+			return (this == other
+					|| (other instanceof MethodCacheKey && this.method == ((MethodCacheKey) other).method));
 		}
 
 		@Override
@@ -614,6 +607,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 			}
 			return result;
 		}
+
 	}
 
 }

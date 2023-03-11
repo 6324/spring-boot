@@ -28,4 +28,5 @@ public class XmlRegObjectFactory {
 	public JAXBElement<Airplane> createAirplane(Airplane airplane) {
 		return new JAXBElement<>(new QName("brand-airplane"), Airplane.class, null, airplane);
 	}
+
 }

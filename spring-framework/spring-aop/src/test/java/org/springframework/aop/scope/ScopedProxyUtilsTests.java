@@ -52,16 +52,14 @@ class ScopedProxyUtilsTests {
 
 	@Test
 	void getOriginalBeanNameForNullTargetBean() {
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> ScopedProxyUtils.getOriginalBeanName(null))
-			.withMessage("bean name 'null' does not refer to the target of a scoped proxy");
+		assertThatIllegalArgumentException().isThrownBy(() -> ScopedProxyUtils.getOriginalBeanName(null))
+				.withMessage("bean name 'null' does not refer to the target of a scoped proxy");
 	}
 
 	@Test
 	void getOriginalBeanNameForNonScopedTarget() {
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> ScopedProxyUtils.getOriginalBeanName("myBean"))
-			.withMessage("bean name 'myBean' does not refer to the target of a scoped proxy");
+		assertThatIllegalArgumentException().isThrownBy(() -> ScopedProxyUtils.getOriginalBeanName("myBean"))
+				.withMessage("bean name 'myBean' does not refer to the target of a scoped proxy");
 	}
 
 }

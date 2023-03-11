@@ -42,7 +42,6 @@ class CacheResultOperation extends AbstractJCacheKeyOperation<CacheResult> {
 	@Nullable
 	private final String exceptionCacheName;
 
-
 	public CacheResultOperation(CacheMethodDetails<CacheResult> methodDetails, CacheResolver cacheResolver,
 			KeyGenerator keyGenerator, @Nullable CacheResolver exceptionCacheResolver) {
 
@@ -54,15 +53,14 @@ class CacheResultOperation extends AbstractJCacheKeyOperation<CacheResult> {
 		this.exceptionCacheName = (StringUtils.hasText(ann.exceptionCacheName()) ? ann.exceptionCacheName() : null);
 	}
 
-
 	@Override
 	public ExceptionTypeFilter getExceptionTypeFilter() {
 		return this.exceptionTypeFilter;
 	}
 
 	/**
-	 * Specify if the method should always be invoked regardless of a cache hit.
-	 * By default, the method is only invoked in case of a cache miss.
+	 * Specify if the method should always be invoked regardless of a cache hit. By
+	 * default, the method is only invoked in case of a cache miss.
 	 * @see javax.cache.annotation.CacheResult#skipGet()
 	 */
 	public boolean isAlwaysInvoked() {
@@ -70,8 +68,8 @@ class CacheResultOperation extends AbstractJCacheKeyOperation<CacheResult> {
 	}
 
 	/**
-	 * Return the {@link CacheResolver} instance to use to resolve the cache to
-	 * use for matching exceptions thrown by this operation.
+	 * Return the {@link CacheResolver} instance to use to resolve the cache to use for
+	 * matching exceptions thrown by this operation.
 	 */
 	@Nullable
 	public CacheResolver getExceptionCacheResolver() {
@@ -79,8 +77,8 @@ class CacheResultOperation extends AbstractJCacheKeyOperation<CacheResult> {
 	}
 
 	/**
-	 * Return the name of the cache to cache exceptions, or {@code null} if
-	 * caching exceptions should be disabled.
+	 * Return the name of the cache to cache exceptions, or {@code null} if caching
+	 * exceptions should be disabled.
 	 * @see javax.cache.annotation.CacheResult#exceptionCacheName()
 	 */
 	@Nullable

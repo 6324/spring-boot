@@ -45,9 +45,12 @@ class ConventionsTests {
 
 	@Test
 	void simpleObject() {
-		assertThat(Conventions.getVariableName(new TestObject())).as("Incorrect singular variable name").isEqualTo("testObject");
-		assertThat(Conventions.getVariableNameForParameter(getMethodParameter(TestObject.class))).as("Incorrect singular variable name").isEqualTo("testObject");
-		assertThat(Conventions.getVariableNameForReturnType(getMethodForReturnType(TestObject.class))).as("Incorrect singular variable name").isEqualTo("testObject");
+		assertThat(Conventions.getVariableName(new TestObject())).as("Incorrect singular variable name")
+				.isEqualTo("testObject");
+		assertThat(Conventions.getVariableNameForParameter(getMethodParameter(TestObject.class)))
+				.as("Incorrect singular variable name").isEqualTo("testObject");
+		assertThat(Conventions.getVariableNameForReturnType(getMethodForReturnType(TestObject.class)))
+				.as("Incorrect singular variable name").isEqualTo("testObject");
 	}
 
 	@Test
@@ -58,38 +61,49 @@ class ConventionsTests {
 
 	@Test
 	void list() {
-		assertThat(Conventions.getVariableName(Collections.singletonList(new TestObject()))).as("Incorrect plural List form").isEqualTo("testObjectList");
-		assertThat(Conventions.getVariableNameForParameter(getMethodParameter(List.class))).as("Incorrect plural List form").isEqualTo("testObjectList");
-		assertThat(Conventions.getVariableNameForReturnType(getMethodForReturnType(List.class))).as("Incorrect plural List form").isEqualTo("testObjectList");
+		assertThat(Conventions.getVariableName(Collections.singletonList(new TestObject())))
+				.as("Incorrect plural List form").isEqualTo("testObjectList");
+		assertThat(Conventions.getVariableNameForParameter(getMethodParameter(List.class)))
+				.as("Incorrect plural List form").isEqualTo("testObjectList");
+		assertThat(Conventions.getVariableNameForReturnType(getMethodForReturnType(List.class)))
+				.as("Incorrect plural List form").isEqualTo("testObjectList");
 	}
 
 	@Test
 	void emptyList() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				Conventions.getVariableName(new ArrayList<>()));
+		assertThatIllegalArgumentException().isThrownBy(() -> Conventions.getVariableName(new ArrayList<>()));
 	}
 
 	@Test
 	void set() {
-		assertThat(Conventions.getVariableName(Collections.singleton(new TestObject()))).as("Incorrect plural Set form").isEqualTo("testObjectList");
-		assertThat(Conventions.getVariableNameForParameter(getMethodParameter(Set.class))).as("Incorrect plural Set form").isEqualTo("testObjectList");
-		assertThat(Conventions.getVariableNameForReturnType(getMethodForReturnType(Set.class))).as("Incorrect plural Set form").isEqualTo("testObjectList");
+		assertThat(Conventions.getVariableName(Collections.singleton(new TestObject()))).as("Incorrect plural Set form")
+				.isEqualTo("testObjectList");
+		assertThat(Conventions.getVariableNameForParameter(getMethodParameter(Set.class)))
+				.as("Incorrect plural Set form").isEqualTo("testObjectList");
+		assertThat(Conventions.getVariableNameForReturnType(getMethodForReturnType(Set.class)))
+				.as("Incorrect plural Set form").isEqualTo("testObjectList");
 	}
 
 	@Test
 	void reactiveParameters() {
 		assertThat(Conventions.getVariableNameForParameter(getMethodParameter(Mono.class))).isEqualTo("testObjectMono");
 		assertThat(Conventions.getVariableNameForParameter(getMethodParameter(Flux.class))).isEqualTo("testObjectFlux");
-		assertThat(Conventions.getVariableNameForParameter(getMethodParameter(Single.class))).isEqualTo("testObjectSingle");
-		assertThat(Conventions.getVariableNameForParameter(getMethodParameter(Observable.class))).isEqualTo("testObjectObservable");
+		assertThat(Conventions.getVariableNameForParameter(getMethodParameter(Single.class)))
+				.isEqualTo("testObjectSingle");
+		assertThat(Conventions.getVariableNameForParameter(getMethodParameter(Observable.class)))
+				.isEqualTo("testObjectObservable");
 	}
 
 	@Test
 	void reactiveReturnTypes() {
-		assertThat(Conventions.getVariableNameForReturnType(getMethodForReturnType(Mono.class))).isEqualTo("testObjectMono");
-		assertThat(Conventions.getVariableNameForReturnType(getMethodForReturnType(Flux.class))).isEqualTo("testObjectFlux");
-		assertThat(Conventions.getVariableNameForReturnType(getMethodForReturnType(Single.class))).isEqualTo("testObjectSingle");
-		assertThat(Conventions.getVariableNameForReturnType(getMethodForReturnType(Observable.class))).isEqualTo("testObjectObservable");
+		assertThat(Conventions.getVariableNameForReturnType(getMethodForReturnType(Mono.class)))
+				.isEqualTo("testObjectMono");
+		assertThat(Conventions.getVariableNameForReturnType(getMethodForReturnType(Flux.class)))
+				.isEqualTo("testObjectFlux");
+		assertThat(Conventions.getVariableNameForReturnType(getMethodForReturnType(Single.class)))
+				.isEqualTo("testObjectSingle");
+		assertThat(Conventions.getVariableNameForReturnType(getMethodForReturnType(Observable.class)))
+				.isEqualTo("testObjectObservable");
 	}
 
 	@Test
@@ -107,10 +121,9 @@ class ConventionsTests {
 		assertThat(Conventions.getQualifiedAttributeName(cls, baseName)).isEqualTo(desiredResult);
 	}
 
-
 	private static MethodParameter getMethodParameter(Class<?> parameterType) {
 		Method method = ClassUtils.getMethod(TestBean.class, "handle", (Class<?>[]) null);
-		for (int i=0; i < method.getParameterCount(); i++) {
+		for (int i = 0; i < method.getParameterCount(); i++) {
 			if (parameterType.equals(method.getParameterTypes()[i])) {
 				return new MethodParameter(method, i);
 			}
@@ -119,35 +132,45 @@ class ConventionsTests {
 	}
 
 	private static Method getMethodForReturnType(Class<?> returnType) {
-		return Arrays.stream(TestBean.class.getMethods())
-				.filter(method -> method.getReturnType().equals(returnType))
+		return Arrays.stream(TestBean.class.getMethods()).filter(method -> method.getReturnType().equals(returnType))
 				.findFirst()
-				.orElseThrow(() ->
-						new IllegalArgumentException("Unique return type not found: " + returnType));
+				.orElseThrow(() -> new IllegalArgumentException("Unique return type not found: " + returnType));
 	}
-
 
 	@SuppressWarnings("unused")
 	private static class TestBean {
 
-		public void handle(TestObject to,
-				List<TestObject> toList, Set<TestObject> toSet,
-				Mono<TestObject> toMono, Flux<TestObject> toFlux,
-				Single<TestObject> toSingle, Observable<TestObject> toObservable) { }
+		public void handle(TestObject to, List<TestObject> toList, Set<TestObject> toSet, Mono<TestObject> toMono,
+				Flux<TestObject> toFlux, Single<TestObject> toSingle, Observable<TestObject> toObservable) {
+		}
 
-		public TestObject handleTo() { return null; }
+		public TestObject handleTo() {
+			return null;
+		}
 
-		public List<TestObject> handleToList() { return null; }
+		public List<TestObject> handleToList() {
+			return null;
+		}
 
-		public Set<TestObject> handleToSet() { return null; }
+		public Set<TestObject> handleToSet() {
+			return null;
+		}
 
-		public Mono<TestObject> handleToMono() { return null; }
+		public Mono<TestObject> handleToMono() {
+			return null;
+		}
 
-		public Flux<TestObject> handleToFlux() { return null; }
+		public Flux<TestObject> handleToFlux() {
+			return null;
+		}
 
-		public Single<TestObject> handleToSingle() { return null; }
+		public Single<TestObject> handleToSingle() {
+			return null;
+		}
 
-		public Observable<TestObject> handleToObservable() { return null; }
+		public Observable<TestObject> handleToObservable() {
+			return null;
+		}
 
 	}
 

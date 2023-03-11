@@ -29,8 +29,8 @@ import javax.jms.TopicPublisher;
 import org.springframework.lang.Nullable;
 
 /**
- * JMS MessageProducer decorator that adapts calls to a shared MessageProducer
- * instance underneath, managing QoS settings locally within the decorator.
+ * JMS MessageProducer decorator that adapts calls to a shared MessageProducer instance
+ * underneath, managing QoS settings locally within the decorator.
  *
  * @author Juergen Hoeller
  * @since 2.5.3
@@ -54,14 +54,12 @@ class CachedMessageProducer implements MessageProducer, QueueSender, TopicPublis
 
 	private long timeToLive;
 
-
 	public CachedMessageProducer(MessageProducer target) throws JMSException {
 		this.target = target;
 		this.deliveryMode = target.getDeliveryMode();
 		this.priority = target.getPriority();
 		this.timeToLive = target.getTimeToLive();
 	}
-
 
 	@Override
 	public void setDisableMessageID(boolean disableMessageID) throws JMSException {
@@ -163,7 +161,8 @@ class CachedMessageProducer implements MessageProducer, QueueSender, TopicPublis
 	}
 
 	@Override
-	public void send(Destination destination, Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
+	public void send(Destination destination, Message message, int deliveryMode, int priority, long timeToLive)
+			throws JMSException {
 		this.target.send(destination, message, deliveryMode, priority, timeToLive);
 	}
 
@@ -180,13 +179,14 @@ class CachedMessageProducer implements MessageProducer, QueueSender, TopicPublis
 	}
 
 	@Override
-	public void send(Destination destination, Message message, CompletionListener completionListener) throws JMSException {
+	public void send(Destination destination, Message message, CompletionListener completionListener)
+			throws JMSException {
 		this.target.send(destination, message, this.deliveryMode, this.priority, this.timeToLive, completionListener);
 	}
 
 	@Override
-	public void send(Destination destination, Message message, int deliveryMode, int priority,
-			long timeToLive, CompletionListener completionListener) throws JMSException {
+	public void send(Destination destination, Message message, int deliveryMode, int priority, long timeToLive,
+			CompletionListener completionListener) throws JMSException {
 
 		this.target.send(destination, message, deliveryMode, priority, timeToLive, completionListener);
 
@@ -198,7 +198,8 @@ class CachedMessageProducer implements MessageProducer, QueueSender, TopicPublis
 	}
 
 	@Override
-	public void send(Queue queue, Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
+	public void send(Queue queue, Message message, int deliveryMode, int priority, long timeToLive)
+			throws JMSException {
 		this.target.send(queue, message, deliveryMode, priority, timeToLive);
 	}
 
@@ -218,7 +219,8 @@ class CachedMessageProducer implements MessageProducer, QueueSender, TopicPublis
 	}
 
 	@Override
-	public void publish(Topic topic, Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
+	public void publish(Topic topic, Message message, int deliveryMode, int priority, long timeToLive)
+			throws JMSException {
 		this.target.send(topic, message, deliveryMode, priority, timeToLive);
 	}
 

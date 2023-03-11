@@ -38,11 +38,12 @@ import org.springframework.util.StreamUtils;
 /**
  * Decodes one or more STOMP frames contained in a {@link ByteBuffer}.
  *
- * <p>An attempt is made to read all complete STOMP frames from the buffer, which
- * could be zero, one, or more. If there is any left-over content, i.e. an incomplete
- * STOMP frame, at the end the buffer is reset to point to the beginning of the
- * partial content. The caller is then responsible for dealing with that
- * incomplete content by buffering until there is more input available.
+ * <p>
+ * An attempt is made to read all complete STOMP frames from the buffer, which could be
+ * zero, one, or more. If there is any left-over content, i.e. an incomplete STOMP frame,
+ * at the end the buffer is reset to point to the beginning of the partial content. The
+ * caller is then responsible for dealing with that incomplete content by buffering until
+ * there is more input available.
  *
  * @author Andy Wilkinson
  * @author Rossen Stoyanchev
@@ -50,13 +51,12 @@ import org.springframework.util.StreamUtils;
  */
 public class StompDecoder {
 
-	static final byte[] HEARTBEAT_PAYLOAD = new byte[] {'\n'};
+	static final byte[] HEARTBEAT_PAYLOAD = new byte[] { '\n' };
 
 	private static final Log logger = SimpLogging.forLogName(StompDecoder.class);
 
 	@Nullable
 	private MessageHeaderInitializer headerInitializer;
-
 
 	/**
 	 * Configure a {@link MessageHeaderInitializer} to apply to the headers of
@@ -74,12 +74,11 @@ public class StompDecoder {
 		return this.headerInitializer;
 	}
 
-
 	/**
-	 * Decodes one or more STOMP frames from the given {@code ByteBuffer} into a
-	 * list of {@link Message Messages}. If the input buffer contains partial STOMP frame
-	 * content, or additional content with a partial STOMP frame, the buffer is
-	 * reset and {@code null} is returned.
+	 * Decodes one or more STOMP frames from the given {@code ByteBuffer} into a list of
+	 * {@link Message Messages}. If the input buffer contains partial STOMP frame content,
+	 * or additional content with a partial STOMP frame, the buffer is reset and
+	 * {@code null} is returned.
 	 * @param byteBuffer the buffer to decode the STOMP frame from
 	 * @return the decoded messages, or an empty list if none
 	 * @throws StompConversionException raised in case of decoding issues
@@ -89,21 +88,24 @@ public class StompDecoder {
 	}
 
 	/**
-	 * Decodes one or more STOMP frames from the given {@code buffer} and returns
-	 * a list of {@link Message Messages}.
-	 * <p>If the given ByteBuffer contains only partial STOMP frame content and no
-	 * complete STOMP frames, an empty list is returned, and the buffer is reset to
-	 * to where it was.
-	 * <p>If the buffer contains one ore more STOMP frames, those are returned and
-	 * the buffer reset to point to the beginning of the unused partial content.
-	 * <p>The output partialMessageHeaders map is used to store successfully parsed
-	 * headers in case of partial content. The caller can then check if a
-	 * "content-length" header was read, which helps to determine how much more
-	 * content is needed before the next attempt to decode.
+	 * Decodes one or more STOMP frames from the given {@code buffer} and returns a list
+	 * of {@link Message Messages}.
+	 * <p>
+	 * If the given ByteBuffer contains only partial STOMP frame content and no complete
+	 * STOMP frames, an empty list is returned, and the buffer is reset to to where it
+	 * was.
+	 * <p>
+	 * If the buffer contains one ore more STOMP frames, those are returned and the buffer
+	 * reset to point to the beginning of the unused partial content.
+	 * <p>
+	 * The output partialMessageHeaders map is used to store successfully parsed headers
+	 * in case of partial content. The caller can then check if a "content-length" header
+	 * was read, which helps to determine how much more content is needed before the next
+	 * attempt to decode.
 	 * @param byteBuffer the buffer to decode the STOMP frame from
 	 * @param partialMessageHeaders an empty output map that will store the last
-	 * successfully parsed partialMessageHeaders in case of partial message content
-	 * in cases where the partial buffer ended with a partial STOMP frame
+	 * successfully parsed partialMessageHeaders in case of partial message content in
+	 * cases where the partial buffer ended with a partial STOMP frame
 	 * @return the decoded messages, or an empty list if none
 	 * @throws StompConversionException raised in case of decoding issues
 	 */
@@ -155,8 +157,8 @@ public class StompDecoder {
 				if (payload.length > 0) {
 					StompCommand stompCommand = headerAccessor.getCommand();
 					if (stompCommand != null && !stompCommand.isBodyAllowed()) {
-						throw new StompConversionException(stompCommand +
-								" shouldn't have a payload: length=" + payload.length + ", headers=" + headers);
+						throw new StompConversionException(stompCommand + " shouldn't have a payload: length="
+								+ payload.length + ", headers=" + headers);
 					}
 				}
 				headerAccessor.updateSimpMessageHeadersFromStompHeaders();
@@ -200,9 +202,8 @@ public class StompDecoder {
 	}
 
 	/**
-	 * Skip one ore more EOL characters at the start of the given ByteBuffer.
-	 * STOMP, section 2.1 says: "The NULL octet can be optionally followed by
-	 * multiple EOLs."
+	 * Skip one ore more EOL characters at the start of the given ByteBuffer. STOMP,
+	 * section 2.1 says: "The NULL octet can be optionally followed by multiple EOLs."
 	 */
 	protected void skipEol(ByteBuffer byteBuffer) {
 		while (true) {
@@ -236,8 +237,8 @@ public class StompDecoder {
 				int colonIndex = header.indexOf(':');
 				if (colonIndex <= 0) {
 					if (byteBuffer.remaining() > 0) {
-						throw new StompConversionException("Illegal header: '" + header +
-								"'. A header must be of the form <name>:[<value>].");
+						throw new StompConversionException(
+								"Illegal header: '" + header + "'. A header must be of the form <name>:[<value>].");
 					}
 				}
 				else {
@@ -260,12 +261,13 @@ public class StompDecoder {
 	}
 
 	/**
-	 * See STOMP Spec 1.2:
-	 * <a href="https://stomp.github.io/stomp-specification-1.2.html#Value_Encoding">"Value Encoding"</a>.
+	 * See STOMP Spec 1.2: <a href=
+	 * "https://stomp.github.io/stomp-specification-1.2.html#Value_Encoding">"Value
+	 * Encoding"</a>.
 	 */
 	private String unescape(String inString) {
 		StringBuilder sb = new StringBuilder(inString.length());
-		int pos = 0;  // position in the old string
+		int pos = 0; // position in the old string
 		int index = inString.indexOf('\\');
 
 		while (index >= 0) {
@@ -357,7 +359,8 @@ public class StompDecoder {
 					throw new StompConversionException("'\\r' must be followed by '\\n'");
 				}
 			}
-			// Explicit cast for compatibility with covariant return type on JDK 9's ByteBuffer
+			// Explicit cast for compatibility with covariant return type on JDK 9's
+			// ByteBuffer
 			((Buffer) byteBuffer).position(byteBuffer.position() - 1);
 		}
 		return false;

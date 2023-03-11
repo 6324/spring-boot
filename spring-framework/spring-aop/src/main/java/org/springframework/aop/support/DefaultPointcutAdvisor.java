@@ -26,9 +26,10 @@ import org.springframework.lang.Nullable;
 /**
  * Convenient Pointcut-driven Advisor implementation.
  *
- * <p>This is the most commonly used Advisor implementation. It can be used
- * with any pointcut and advice type, except for introductions. There is
- * normally no need to subclass this class, or to implement custom Advisors.
+ * <p>
+ * This is the most commonly used Advisor implementation. It can be used with any pointcut
+ * and advice type, except for introductions. There is normally no need to subclass this
+ * class, or to implement custom Advisors.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -40,18 +41,19 @@ public class DefaultPointcutAdvisor extends AbstractGenericPointcutAdvisor imple
 
 	private Pointcut pointcut = Pointcut.TRUE;
 
-
 	/**
 	 * Create an empty DefaultPointcutAdvisor.
-	 * <p>Advice must be set before use using setter methods.
-	 * Pointcut will normally be set also, but defaults to {@code Pointcut.TRUE}.
+	 * <p>
+	 * Advice must be set before use using setter methods. Pointcut will normally be set
+	 * also, but defaults to {@code Pointcut.TRUE}.
 	 */
 	public DefaultPointcutAdvisor() {
 	}
 
 	/**
 	 * Create a DefaultPointcutAdvisor that matches all methods.
-	 * <p>{@code Pointcut.TRUE} will be used as Pointcut.
+	 * <p>
+	 * {@code Pointcut.TRUE} will be used as Pointcut.
 	 * @param advice the Advice to use
 	 */
 	public DefaultPointcutAdvisor(Advice advice) {
@@ -68,10 +70,10 @@ public class DefaultPointcutAdvisor extends AbstractGenericPointcutAdvisor imple
 		setAdvice(advice);
 	}
 
-
 	/**
 	 * Specify the pointcut targeting the advice.
-	 * <p>Default is {@code Pointcut.TRUE}.
+	 * <p>
+	 * Default is {@code Pointcut.TRUE}.
 	 * @see #setAdvice
 	 */
 	public void setPointcut(@Nullable Pointcut pointcut) {
@@ -82,7 +84,6 @@ public class DefaultPointcutAdvisor extends AbstractGenericPointcutAdvisor imple
 	public Pointcut getPointcut() {
 		return this.pointcut;
 	}
-
 
 	@Override
 	public String toString() {

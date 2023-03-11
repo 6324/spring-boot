@@ -16,7 +16,6 @@
 
 package example.scannable;
 
-
 /**
  * @author Juergen Hoeller
  */

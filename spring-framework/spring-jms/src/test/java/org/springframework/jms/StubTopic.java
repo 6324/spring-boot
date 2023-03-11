@@ -27,9 +27,7 @@ public class StubTopic implements Topic {
 
 	public static final String DEFAULT_TOPIC_NAME = "banjo";
 
-
 	private String topicName = DEFAULT_TOPIC_NAME;
-
 
 	public StubTopic() {
 	}
@@ -37,7 +35,6 @@ public class StubTopic implements Topic {
 	public StubTopic(String topicName) {
 		this.topicName = topicName;
 	}
-
 
 	@Override
 	public String getTopicName() {

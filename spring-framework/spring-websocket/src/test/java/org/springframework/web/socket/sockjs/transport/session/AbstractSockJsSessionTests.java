@@ -39,7 +39,6 @@ public abstract class AbstractSockJsSessionTests<S extends AbstractSockJsSession
 
 	protected S session;
 
-
 	@BeforeEach
 	public void setUp() {
 		this.webSocketHandler = mock(WebSocketHandler.class);

@@ -38,7 +38,8 @@ public class SimpleConfigTests {
 		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getConfigLocations(), getClass());
 
 		FooService fooService = ctx.getBean("fooServiceImpl", FooService.class);
-		ServiceInvocationCounter serviceInvocationCounter = ctx.getBean("serviceInvocationCounter", ServiceInvocationCounter.class);
+		ServiceInvocationCounter serviceInvocationCounter = ctx.getBean("serviceInvocationCounter",
+				ServiceInvocationCounter.class);
 
 		String value = fooService.foo(1);
 		assertThat(value).isEqualTo("bar");
@@ -55,7 +56,7 @@ public class SimpleConfigTests {
 	}
 
 	public String[] getConfigLocations() {
-		return new String[] {"simpleConfigTests.xml"};
+		return new String[] { "simpleConfigTests.xml" };
 	}
 
 }

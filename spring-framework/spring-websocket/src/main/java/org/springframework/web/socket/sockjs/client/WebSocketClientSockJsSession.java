@@ -31,8 +31,8 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.adapter.NativeWebSocketSession;
 
 /**
- * An extension of {@link AbstractClientSockJsSession} wrapping and delegating
- * to an actual WebSocket session.
+ * An extension of {@link AbstractClientSockJsSession} wrapping and delegating to an
+ * actual WebSocket session.
  *
  * @author Rossen Stoyanchev
  * @since 4.1
@@ -42,13 +42,11 @@ public class WebSocketClientSockJsSession extends AbstractClientSockJsSession im
 	@Nullable
 	private WebSocketSession webSocketSession;
 
-
 	public WebSocketClientSockJsSession(TransportRequest request, WebSocketHandler handler,
 			SettableListenableFuture<WebSocketSession> connectFuture) {
 
 		super(request, handler, connectFuture);
 	}
-
 
 	@Override
 	public Object getNativeSession() {
@@ -60,7 +58,8 @@ public class WebSocketClientSockJsSession extends AbstractClientSockJsSession im
 	@Override
 	@Nullable
 	public <T> T getNativeSession(@Nullable Class<T> requiredType) {
-		return (requiredType == null || requiredType.isInstance(this.webSocketSession) ? (T) this.webSocketSession : null);
+		return (requiredType == null || requiredType.isInstance(this.webSocketSession) ? (T) this.webSocketSession
+				: null);
 	}
 
 	@Override

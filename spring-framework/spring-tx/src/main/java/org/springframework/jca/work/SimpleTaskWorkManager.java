@@ -37,24 +37,27 @@ import org.springframework.util.Assert;
 
 /**
  * Simple JCA 1.7 {@link javax.resource.spi.work.WorkManager} implementation that
- * delegates to a Spring {@link org.springframework.core.task.TaskExecutor}.
- * Provides simple task execution including start timeouts, but without support
- * for a JCA ExecutionContext (i.e. without support for imported transactions).
+ * delegates to a Spring {@link org.springframework.core.task.TaskExecutor}. Provides
+ * simple task execution including start timeouts, but without support for a JCA
+ * ExecutionContext (i.e. without support for imported transactions).
  *
- * <p>Uses a {@link org.springframework.core.task.SyncTaskExecutor} for {@link #doWork}
- * calls and a {@link org.springframework.core.task.SimpleAsyncTaskExecutor}
- * for {@link #startWork} and {@link #scheduleWork} calls, by default.
- * These default task executors can be overridden through configuration.
+ * <p>
+ * Uses a {@link org.springframework.core.task.SyncTaskExecutor} for {@link #doWork} calls
+ * and a {@link org.springframework.core.task.SimpleAsyncTaskExecutor} for
+ * {@link #startWork} and {@link #scheduleWork} calls, by default. These default task
+ * executors can be overridden through configuration.
  *
- * <p><b>NOTE: This WorkManager does not provide thread pooling by default!</b>
- * Specify a {@link org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor}
- * (or any other thread-pooling TaskExecutor) as "asyncTaskExecutor" in order to
- * achieve actual thread pooling.
+ * <p>
+ * <b>NOTE: This WorkManager does not provide thread pooling by default!</b> Specify a
+ * {@link org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor} (or any other
+ * thread-pooling TaskExecutor) as "asyncTaskExecutor" in order to achieve actual thread
+ * pooling.
  *
- * <p>This WorkManager automatically detects a specified
- * {@link org.springframework.core.task.AsyncTaskExecutor} implementation
- * and uses its extended timeout functionality where appropriate.
- * JCA WorkListeners are fully supported in any case.
+ * <p>
+ * This WorkManager automatically detects a specified
+ * {@link org.springframework.core.task.AsyncTaskExecutor} implementation and uses its
+ * extended timeout functionality where appropriate. JCA WorkListeners are fully supported
+ * in any case.
  *
  * @author Juergen Hoeller
  * @since 2.0.3
@@ -69,27 +72,27 @@ public class SimpleTaskWorkManager implements WorkManager {
 	@Nullable
 	private AsyncTaskExecutor asyncTaskExecutor = new SimpleAsyncTaskExecutor();
 
-
 	/**
-	 * Specify the TaskExecutor to use for <i>synchronous</i> work execution
-	 * (i.e. {@link #doWork} calls).
-	 * <p>Default is a {@link org.springframework.core.task.SyncTaskExecutor}.
+	 * Specify the TaskExecutor to use for <i>synchronous</i> work execution (i.e.
+	 * {@link #doWork} calls).
+	 * <p>
+	 * Default is a {@link org.springframework.core.task.SyncTaskExecutor}.
 	 */
 	public void setSyncTaskExecutor(TaskExecutor syncTaskExecutor) {
 		this.syncTaskExecutor = syncTaskExecutor;
 	}
 
 	/**
-	 * Specify the TaskExecutor to use for <i>asynchronous</i> work execution
-	 * (i.e. {@link #startWork} and {@link #scheduleWork} calls).
-	 * <p>This will typically (but not necessarily) be an
-	 * {@link org.springframework.core.task.AsyncTaskExecutor} implementation.
-	 * Default is a {@link org.springframework.core.task.SimpleAsyncTaskExecutor}.
+	 * Specify the TaskExecutor to use for <i>asynchronous</i> work execution (i.e.
+	 * {@link #startWork} and {@link #scheduleWork} calls).
+	 * <p>
+	 * This will typically (but not necessarily) be an
+	 * {@link org.springframework.core.task.AsyncTaskExecutor} implementation. Default is
+	 * a {@link org.springframework.core.task.SimpleAsyncTaskExecutor}.
 	 */
 	public void setAsyncTaskExecutor(AsyncTaskExecutor asyncTaskExecutor) {
 		this.asyncTaskExecutor = asyncTaskExecutor;
 	}
-
 
 	@Override
 	public void doWork(Work work) throws WorkException {
@@ -97,8 +100,8 @@ public class SimpleTaskWorkManager implements WorkManager {
 	}
 
 	@Override
-	public void doWork(Work work, long startTimeout, @Nullable ExecutionContext executionContext, @Nullable WorkListener workListener)
-			throws WorkException {
+	public void doWork(Work work, long startTimeout, @Nullable ExecutionContext executionContext,
+			@Nullable WorkListener workListener) throws WorkException {
 
 		Assert.state(this.syncTaskExecutor != null, "No 'syncTaskExecutor' set");
 		executeWork(this.syncTaskExecutor, work, startTimeout, false, executionContext, workListener);
@@ -110,8 +113,8 @@ public class SimpleTaskWorkManager implements WorkManager {
 	}
 
 	@Override
-	public long startWork(Work work, long startTimeout, @Nullable ExecutionContext executionContext, @Nullable WorkListener workListener)
-			throws WorkException {
+	public long startWork(Work work, long startTimeout, @Nullable ExecutionContext executionContext,
+			@Nullable WorkListener workListener) throws WorkException {
 
 		Assert.state(this.asyncTaskExecutor != null, "No 'asyncTaskExecutor' set");
 		return executeWork(this.asyncTaskExecutor, work, startTimeout, true, executionContext, workListener);
@@ -123,13 +126,12 @@ public class SimpleTaskWorkManager implements WorkManager {
 	}
 
 	@Override
-	public void scheduleWork(Work work, long startTimeout, @Nullable ExecutionContext executionContext, @Nullable WorkListener workListener)
-			throws WorkException {
+	public void scheduleWork(Work work, long startTimeout, @Nullable ExecutionContext executionContext,
+			@Nullable WorkListener workListener) throws WorkException {
 
 		Assert.state(this.asyncTaskExecutor != null, "No 'asyncTaskExecutor' set");
 		executeWork(this.asyncTaskExecutor, work, startTimeout, false, executionContext, workListener);
 	}
-
 
 	/**
 	 * Execute the given Work on the specified TaskExecutor.
@@ -139,15 +141,16 @@ public class SimpleTaskWorkManager implements WorkManager {
 	 * @param blockUntilStarted whether to block until the Work has started
 	 * @param executionContext the JCA ExecutionContext for the given Work
 	 * @param workListener the WorkListener to clal for the given Work
-	 * @return the time elapsed from Work acceptance until start of execution
-	 * (or -1 if not applicable or not known)
+	 * @return the time elapsed from Work acceptance until start of execution (or -1 if
+	 * not applicable or not known)
 	 * @throws WorkException if the TaskExecutor did not accept the Work
 	 */
 	protected long executeWork(TaskExecutor taskExecutor, Work work, long startTimeout, boolean blockUntilStarted,
 			@Nullable ExecutionContext executionContext, @Nullable WorkListener workListener) throws WorkException {
 
 		if (executionContext != null && executionContext.getXid() != null) {
-			throw new WorkException("SimpleTaskWorkManager does not supported imported XIDs: " + executionContext.getXid());
+			throw new WorkException(
+					"SimpleTaskWorkManager does not supported imported XIDs: " + executionContext.getXid());
 		}
 		WorkListener workListenerToUse = workListener;
 		if (workListenerToUse == null) {
@@ -204,10 +207,9 @@ public class SimpleTaskWorkManager implements WorkManager {
 		}
 	}
 
-
 	/**
-	 * Work adapter that supports start timeouts and WorkListener callbacks
-	 * for a given Work that it delegates to.
+	 * Work adapter that supports start timeouts and WorkListener callbacks for a given
+	 * Work that it delegates to.
 	 */
 	private static class DelegatingWorkAdapter implements Work {
 
@@ -252,6 +254,7 @@ public class SimpleTaskWorkManager implements WorkManager {
 		public void release() {
 			this.work.release();
 		}
+
 	}
 
 }

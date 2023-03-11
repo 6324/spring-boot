@@ -36,8 +36,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.xml.DomUtils;
 
 /**
- * {@link org.springframework.beans.factory.xml.BeanDefinitionParser
- * BeanDefinitionParser} for the {@code <tx:advice/>} tag.
+ * {@link org.springframework.beans.factory.xml.BeanDefinitionParser BeanDefinitionParser}
+ * for the {@code <tx:advice/>} tag.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -65,7 +65,6 @@ class TxAdviceBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
 	private static final String NO_ROLLBACK_FOR_ATTRIBUTE = "no-rollback-for";
 
-
 	@Override
 	protected Class<?> getBeanClass(Element element) {
 		return TransactionInterceptor.class;
@@ -77,8 +76,8 @@ class TxAdviceBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
 		List<Element> txAttributes = DomUtils.getChildElementsByTagName(element, ATTRIBUTES_ELEMENT);
 		if (txAttributes.size() > 1) {
-			parserContext.getReaderContext().error(
-					"Element <attributes> is allowed at most once inside element <advice>", element);
+			parserContext.getReaderContext()
+					.error("Element <attributes> is allowed at most once inside element <advice>", element);
 		}
 		else if (txAttributes.size() == 1) {
 			// Using attributes source.
@@ -88,15 +87,15 @@ class TxAdviceBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 		}
 		else {
 			// Assume annotations source.
-			builder.addPropertyValue("transactionAttributeSource",
-					new RootBeanDefinition("org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"));
+			builder.addPropertyValue("transactionAttributeSource", new RootBeanDefinition(
+					"org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"));
 		}
 	}
 
 	private RootBeanDefinition parseAttributeSource(Element attrEle, ParserContext parserContext) {
 		List<Element> methods = DomUtils.getChildElementsByTagName(attrEle, METHOD_ELEMENT);
-		ManagedMap<TypedStringValue, RuleBasedTransactionAttribute> transactionAttributeMap =
-				new ManagedMap<>(methods.size());
+		ManagedMap<TypedStringValue, RuleBasedTransactionAttribute> transactionAttributeMap = new ManagedMap<>(
+				methods.size());
 		transactionAttributeMap.setSource(parserContext.extractSource(attrEle));
 
 		for (Element methodEle : methods) {
@@ -120,7 +119,8 @@ class TxAdviceBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 					attribute.setTimeout(Integer.parseInt(timeout));
 				}
 				catch (NumberFormatException ex) {
-					parserContext.getReaderContext().error("Timeout must be an integer value: [" + timeout + "]", methodEle);
+					parserContext.getReaderContext().error("Timeout must be an integer value: [" + timeout + "]",
+							methodEle);
 				}
 			}
 			if (StringUtils.hasText(readOnly)) {
@@ -141,7 +141,8 @@ class TxAdviceBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 			transactionAttributeMap.put(nameHolder, attribute);
 		}
 
-		RootBeanDefinition attributeSourceDefinition = new RootBeanDefinition(NameMatchTransactionAttributeSource.class);
+		RootBeanDefinition attributeSourceDefinition = new RootBeanDefinition(
+				NameMatchTransactionAttributeSource.class);
 		attributeSourceDefinition.setSource(parserContext.extractSource(attrEle));
 		attributeSourceDefinition.getPropertyValues().add("nameMap", transactionAttributeMap);
 		return attributeSourceDefinition;

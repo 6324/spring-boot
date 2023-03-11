@@ -56,10 +56,9 @@ public class GlassFishRequestUpgradeStrategy extends AbstractTyrusRequestUpgrade
 		}
 	}
 
-
 	@Override
-	protected void handleSuccess(HttpServletRequest request, HttpServletResponse response,
-			UpgradeInfo upgradeInfo, TyrusUpgradeResponse upgradeResponse) throws IOException, ServletException {
+	protected void handleSuccess(HttpServletRequest request, HttpServletResponse response, UpgradeInfo upgradeInfo,
+			TyrusUpgradeResponse upgradeResponse) throws IOException, ServletException {
 
 		TyrusHttpUpgradeHandler handler = request.upgrade(TyrusHttpUpgradeHandler.class);
 		Writer servletWriter = newServletWriter(handler);

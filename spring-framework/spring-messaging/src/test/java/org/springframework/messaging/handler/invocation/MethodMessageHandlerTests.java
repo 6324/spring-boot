@@ -58,7 +58,6 @@ public class MethodMessageHandlerTests {
 
 	private TestController testController;
 
-
 	@BeforeEach
 	public void setup() {
 
@@ -75,8 +74,8 @@ public class MethodMessageHandlerTests {
 
 	@Test
 	public void duplicateMapping() {
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.messageHandler.registerHandler(new DuplicateMappingsController()));
+		assertThatIllegalStateException()
+				.isThrownBy(() -> this.messageHandler.registerHandler(new DuplicateMappingsController()));
 	}
 
 	@Test
@@ -135,7 +134,6 @@ public class MethodMessageHandlerTests {
 		return MessageBuilder.withPayload(new byte[0]).setHeader(DESTINATION_HEADER, destination).build();
 	}
 
-
 	@SuppressWarnings("unused")
 	private static class TestController {
 
@@ -175,16 +173,17 @@ public class MethodMessageHandlerTests {
 	@SuppressWarnings("unused")
 	private static class DuplicateMappingsController {
 
-		public void handlerFoo() { }
+		public void handlerFoo() {
+		}
 
-		public void handlerFoo(String arg) { }
+		public void handlerFoo(String arg) {
+		}
+
 	}
-
 
 	private static class TestMethodMessageHandler extends AbstractMethodMessageHandler<String> {
 
 		private PathMatcher pathMatcher = new AntPathMatcher();
-
 
 		public void registerHandler(Object handler) {
 			super.detectHandlerMethods(handler);
@@ -257,6 +256,7 @@ public class MethodMessageHandlerTests {
 		protected AbstractExceptionHandlerMethodResolver createExceptionHandlerMethodResolverFor(Class<?> beanType) {
 			return new TestExceptionResolver(beanType);
 		}
+
 	}
 
 }

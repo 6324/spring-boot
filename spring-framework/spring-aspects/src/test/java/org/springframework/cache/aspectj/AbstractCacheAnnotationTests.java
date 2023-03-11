@@ -38,11 +38,11 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIOException;
 
 /**
- * Copy of the shared {@code AbstractCacheAnnotationTests}: necessary
- * due to issues with Gradle test fixtures and AspectJ configuration
- * in the Gradle build.
+ * Copy of the shared {@code AbstractCacheAnnotationTests}: necessary due to issues with
+ * Gradle test fixtures and AspectJ configuration in the Gradle build.
  *
- * <p>Abstract cache annotation tests (containing several reusable methods).
+ * <p>
+ * Abstract cache annotation tests (containing several reusable methods).
  *
  * @author Costin Leau
  * @author Chris Beams
@@ -59,12 +59,10 @@ public abstract class AbstractCacheAnnotationTests {
 
 	protected CacheManager cm;
 
-
 	/**
 	 * @return a refreshed application context
 	 */
 	protected abstract ConfigurableApplicationContext getApplicationContext();
-
 
 	@BeforeEach
 	public void setup() {
@@ -83,7 +81,6 @@ public abstract class AbstractCacheAnnotationTests {
 			this.ctx.close();
 		}
 	}
-
 
 	protected void testCacheable(CacheableService<?> service) {
 		Object o1 = new Object();
@@ -369,28 +366,22 @@ public abstract class AbstractCacheAnnotationTests {
 
 	protected void testCheckedThrowable(CacheableService<?> service) {
 		String arg = UUID.randomUUID().toString();
-		assertThatIOException().isThrownBy(() ->
-				service.throwChecked(arg))
-			.withMessage(arg);
+		assertThatIOException().isThrownBy(() -> service.throwChecked(arg)).withMessage(arg);
 	}
 
 	protected void testUncheckedThrowable(CacheableService<?> service) {
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-				service.throwUnchecked(1L))
-			.withMessage("1");
+		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> service.throwUnchecked(1L))
+				.withMessage("1");
 	}
 
 	protected void testCheckedThrowableSync(CacheableService<?> service) {
 		String arg = UUID.randomUUID().toString();
-		assertThatIOException().isThrownBy(() ->
-				service.throwCheckedSync(arg))
-			.withMessage(arg);
+		assertThatIOException().isThrownBy(() -> service.throwCheckedSync(arg)).withMessage(arg);
 	}
 
 	protected void testUncheckedThrowableSync(CacheableService<?> service) {
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-				service.throwUncheckedSync(1L))
-			.withMessage("1");
+		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> service.throwUncheckedSync(1L))
+				.withMessage("1");
 	}
 
 	protected void testNullArg(CacheableService<?> service) {
@@ -452,7 +443,6 @@ public abstract class AbstractCacheAnnotationTests {
 	protected void testMultiEvict(CacheableService<?> service) {
 		Object o1 = new Object();
 		Object o2 = o1.toString() + "A";
-
 
 		Object r1 = service.multiCache(o1);
 		Object r2 = service.multiCache(o1);
@@ -727,8 +717,8 @@ public abstract class AbstractCacheAnnotationTests {
 	@Test
 	public void testUnknownCustomKeyGenerator() {
 		Object param = new Object();
-		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() ->
-				this.cs.unknownCustomKeyGenerator(param));
+		assertThatExceptionOfType(NoSuchBeanDefinitionException.class)
+				.isThrownBy(() -> this.cs.unknownCustomKeyGenerator(param));
 	}
 
 	@Test
@@ -745,8 +735,8 @@ public abstract class AbstractCacheAnnotationTests {
 	@Test
 	public void testUnknownCustomCacheManager() {
 		Object param = new Object();
-		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() ->
-				this.cs.unknownCustomCacheManager(param));
+		assertThatExceptionOfType(NoSuchBeanDefinitionException.class)
+				.isThrownBy(() -> this.cs.unknownCustomCacheManager(param));
 	}
 
 	@Test

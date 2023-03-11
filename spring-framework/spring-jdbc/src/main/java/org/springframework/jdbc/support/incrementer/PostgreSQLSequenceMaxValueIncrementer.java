@@ -19,13 +19,15 @@ package org.springframework.jdbc.support.incrementer;
 import javax.sql.DataSource;
 
 /**
- * {@link DataFieldMaxValueIncrementer} that retrieves the next value
- * of a given PostgreSQL sequence.
+ * {@link DataFieldMaxValueIncrementer} that retrieves the next value of a given
+ * PostgreSQL sequence.
  *
- * <p>Thanks to Tomislav Urban for the suggestion!
+ * <p>
+ * Thanks to Tomislav Urban for the suggestion!
  *
  * @author Juergen Hoeller
- * @deprecated in favor of the differently named {@link PostgresSequenceMaxValueIncrementer}
+ * @deprecated in favor of the differently named
+ * {@link PostgresSequenceMaxValueIncrementer}
  */
 @Deprecated
 public class PostgreSQLSequenceMaxValueIncrementer extends PostgresSequenceMaxValueIncrementer {

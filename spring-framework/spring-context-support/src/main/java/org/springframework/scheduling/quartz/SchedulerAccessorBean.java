@@ -31,7 +31,8 @@ import org.springframework.util.Assert;
  * Spring bean-style class for accessing a Quartz Scheduler, i.e. for registering jobs,
  * triggers and listeners on a given {@link org.quartz.Scheduler} instance.
  *
- * <p>Compatible with Quartz 2.1.4 and higher, as of Spring 4.1.
+ * <p>
+ * Compatible with Quartz 2.1.4 and higher, as of Spring 4.1.
  *
  * @author Juergen Hoeller
  * @since 2.5.6
@@ -49,16 +50,18 @@ public class SchedulerAccessorBean extends SchedulerAccessor implements BeanFact
 	@Nullable
 	private BeanFactory beanFactory;
 
-
 	/**
-	 * Specify the Quartz {@link Scheduler} to operate on via its scheduler name in the Spring
-	 * application context or also in the Quartz {@link org.quartz.impl.SchedulerRepository}.
-	 * <p>Schedulers can be registered in the repository through custom bootstrapping,
-	 * e.g. via the {@link org.quartz.impl.StdSchedulerFactory} or
-	 * {@link org.quartz.impl.DirectSchedulerFactory} factory classes.
-	 * However, in general, it's preferable to use Spring's {@link SchedulerFactoryBean}
-	 * which includes the job/trigger/listener capabilities of this accessor as well.
-	 * <p>If not specified, this accessor will try to retrieve a default {@link Scheduler}
+	 * Specify the Quartz {@link Scheduler} to operate on via its scheduler name in the
+	 * Spring application context or also in the Quartz
+	 * {@link org.quartz.impl.SchedulerRepository}.
+	 * <p>
+	 * Schedulers can be registered in the repository through custom bootstrapping, e.g.
+	 * via the {@link org.quartz.impl.StdSchedulerFactory} or
+	 * {@link org.quartz.impl.DirectSchedulerFactory} factory classes. However, in
+	 * general, it's preferable to use Spring's {@link SchedulerFactoryBean} which
+	 * includes the job/trigger/listener capabilities of this accessor as well.
+	 * <p>
+	 * If not specified, this accessor will try to retrieve a default {@link Scheduler}
 	 * bean from the containing application context.
 	 */
 	public void setSchedulerName(String schedulerName) {
@@ -67,7 +70,8 @@ public class SchedulerAccessorBean extends SchedulerAccessor implements BeanFact
 
 	/**
 	 * Specify the Quartz {@link Scheduler} instance to operate on.
-	 * <p>If not specified, this accessor will try to retrieve a default {@link Scheduler}
+	 * <p>
+	 * If not specified, this accessor will try to retrieve a default {@link Scheduler}
 	 * bean from the containing application context.
 	 */
 	public void setScheduler(Scheduler scheduler) {
@@ -87,7 +91,6 @@ public class SchedulerAccessorBean extends SchedulerAccessor implements BeanFact
 	public void setBeanFactory(BeanFactory beanFactory) {
 		this.beanFactory = beanFactory;
 	}
-
 
 	@Override
 	public void afterPropertiesSet() throws SchedulerException {

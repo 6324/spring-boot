@@ -34,10 +34,9 @@ class XmlValidationModeDetectorTests {
 
 	private final XmlValidationModeDetector xmlValidationModeDetector = new XmlValidationModeDetector();
 
-
 	@ParameterizedTest
 	@ValueSource(strings = { "dtdWithTrailingComment.xml", "dtdWithLeadingComment.xml", "dtdWithCommentOnNextLine.xml",
-		"dtdWithMultipleComments.xml" })
+			"dtdWithMultipleComments.xml" })
 	void dtdDetection(String fileName) throws Exception {
 		InputStream inputStream = getClass().getResourceAsStream(fileName);
 		assertThat(xmlValidationModeDetector.detectValidationMode(inputStream)).isEqualTo(VALIDATION_DTD);

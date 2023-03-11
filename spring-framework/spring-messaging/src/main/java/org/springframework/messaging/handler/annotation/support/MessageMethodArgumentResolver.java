@@ -31,10 +31,9 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@code HandlerMethodArgumentResolver} for {@link Message} method arguments.
- * Validates that the generic type of the payload matches to the message value
- * or otherwise applies {@link MessageConverter} to convert to the expected
- * payload type.
+ * {@code HandlerMethodArgumentResolver} for {@link Message} method arguments. Validates
+ * that the generic type of the payload matches to the message value or otherwise applies
+ * {@link MessageConverter} to convert to the expected payload type.
  *
  * @author Rossen Stoyanchev
  * @author Stephane Nicoll
@@ -45,7 +44,6 @@ public class MessageMethodArgumentResolver implements HandlerMethodArgumentResol
 
 	@Nullable
 	private final MessageConverter converter;
-
 
 	/**
 	 * Create a default resolver instance without message conversion.
@@ -63,7 +61,6 @@ public class MessageMethodArgumentResolver implements HandlerMethodArgumentResol
 		this.converter = converter;
 	}
 
-
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return Message.class.isAssignableFrom(parameter.getParameterType());
@@ -75,9 +72,10 @@ public class MessageMethodArgumentResolver implements HandlerMethodArgumentResol
 		Class<?> targetPayloadType = getPayloadType(parameter, message);
 
 		if (!targetMessageType.isAssignableFrom(message.getClass())) {
-			throw new MethodArgumentTypeMismatchException(message, parameter, "Actual message type '" +
-					ClassUtils.getDescriptiveType(message) + "' does not match expected type '" +
-					ClassUtils.getQualifiedName(targetMessageType) + "'");
+			throw new MethodArgumentTypeMismatchException(message, parameter,
+					"Actual message type '" + ClassUtils.getDescriptiveType(message)
+							+ "' does not match expected type '" + ClassUtils.getQualifiedName(targetMessageType)
+							+ "'");
 		}
 
 		Object payload = message.getPayload();
@@ -86,9 +84,10 @@ public class MessageMethodArgumentResolver implements HandlerMethodArgumentResol
 		}
 
 		if (isEmptyPayload(payload)) {
-			throw new MessageConversionException(message, "Cannot convert from actual payload type '" +
-					ClassUtils.getDescriptiveType(payload) + "' to expected payload type '" +
-					ClassUtils.getQualifiedName(targetPayloadType) + "' when payload is empty");
+			throw new MessageConversionException(message,
+					"Cannot convert from actual payload type '" + ClassUtils.getDescriptiveType(payload)
+							+ "' to expected payload type '" + ClassUtils.getQualifiedName(targetPayloadType)
+							+ "' when payload is empty");
 		}
 
 		payload = convertPayload(message, parameter, targetPayloadType);
@@ -97,11 +96,11 @@ public class MessageMethodArgumentResolver implements HandlerMethodArgumentResol
 
 	/**
 	 * Resolve the target class to convert the payload to.
-	 * <p>By default this is the generic type declared in the {@code Message}
-	 * method parameter but that can be overridden to select a more specific
-	 * target type after also taking into account the "Content-Type", e.g.
-	 * return {@code String} if target type is {@code Object} and
-	 * {@code "Content-Type:text/**"}.
+	 * <p>
+	 * By default this is the generic type declared in the {@code Message} method
+	 * parameter but that can be overridden to select a more specific target type after
+	 * also taking into account the "Content-Type", e.g. return {@code String} if target
+	 * type is {@code Object} and {@code "Content-Type:text/**"}.
 	 * @param parameter the target method parameter
 	 * @param message the message being processed
 	 * @return the target type to use
@@ -143,9 +142,10 @@ public class MessageMethodArgumentResolver implements HandlerMethodArgumentResol
 		}
 
 		if (result == null) {
-			throw new MessageConversionException(message, "No converter found from actual payload type '" +
-					ClassUtils.getDescriptiveType(message.getPayload()) + "' to expected payload type '" +
-					ClassUtils.getQualifiedName(targetPayloadType) + "'");
+			throw new MessageConversionException(message,
+					"No converter found from actual payload type '"
+							+ ClassUtils.getDescriptiveType(message.getPayload()) + "' to expected payload type '"
+							+ ClassUtils.getQualifiedName(targetPayloadType) + "'");
 		}
 		return result;
 	}

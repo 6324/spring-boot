@@ -38,28 +38,32 @@ import org.springframework.util.IdGenerator;
 /**
  * The headers for a {@link Message}.
  *
- * <p><b>IMPORTANT</b>: This class is immutable. Any mutating operation such as
+ * <p>
+ * <b>IMPORTANT</b>: This class is immutable. Any mutating operation such as
  * {@code put(..)}, {@code putAll(..)} and others will throw
  * {@link UnsupportedOperationException}.
- * <p>Subclasses do have access to the raw headers, however, via {@link #getRawHeaders()}.
+ * <p>
+ * Subclasses do have access to the raw headers, however, via {@link #getRawHeaders()}.
  *
- * <p>One way to create message headers is to use the
+ * <p>
+ * One way to create message headers is to use the
  * {@link org.springframework.messaging.support.MessageBuilder MessageBuilder}:
  * <pre class="code">
  * MessageBuilder.withPayload("foo").setHeader("key1", "value1").setHeader("key2", "value2");
  * </pre>
  *
- * A second option is to create {@link org.springframework.messaging.support.GenericMessage}
- * passing a payload as {@link Object} and headers as a {@link Map java.util.Map}:
- * <pre class="code">
+ * A second option is to create
+ * {@link org.springframework.messaging.support.GenericMessage} passing a payload as
+ * {@link Object} and headers as a {@link Map java.util.Map}: <pre class="code">
  * Map headers = new HashMap();
  * headers.put("key1", "value1");
  * headers.put("key2", "value2");
  * new GenericMessage("foo", headers);
  * </pre>
  *
- * A third option is to use {@link org.springframework.messaging.support.MessageHeaderAccessor}
- * or one of its subclasses to create specific categories of headers.
+ * A third option is to use
+ * {@link org.springframework.messaging.support.MessageHeaderAccessor} or one of its
+ * subclasses to create specific categories of headers.
  *
  * @author Arjen Poutsma
  * @author Mark Fisher
@@ -74,13 +78,12 @@ public class MessageHeaders implements Map<String, Object>, Serializable {
 	/**
 	 * UUID for none.
 	 */
-	public static final UUID ID_VALUE_NONE = new UUID(0,0);
+	public static final UUID ID_VALUE_NONE = new UUID(0, 0);
 
 	/**
-	 * The key for the Message ID. This is an automatically generated UUID and
-	 * should never be explicitly set in the header map <b>except</b> in the
-	 * case of Message deserialization where the serialized Message's generated
-	 * UUID is being restored.
+	 * The key for the Message ID. This is an automatically generated UUID and should
+	 * never be explicitly set in the header map <b>except</b> in the case of Message
+	 * deserialization where the serialized Message's generated UUID is being restored.
 	 */
 	public static final String ID = "id";
 
@@ -104,7 +107,6 @@ public class MessageHeaders implements Map<String, Object>, Serializable {
 	 */
 	public static final String ERROR_CHANNEL = "errorChannel";
 
-
 	private static final long serialVersionUID = 7035068984263400920L;
 
 	private static final Log logger = LogFactory.getLog(MessageHeaders.class);
@@ -114,9 +116,7 @@ public class MessageHeaders implements Map<String, Object>, Serializable {
 	@Nullable
 	private static volatile IdGenerator idGenerator;
 
-
 	private final Map<String, Object> headers;
-
 
 	/**
 	 * Construct a {@link MessageHeaders} with the given headers. An {@link #ID} and
@@ -158,8 +158,8 @@ public class MessageHeaders implements Map<String, Object>, Serializable {
 	}
 
 	/**
-	 * Copy constructor which allows for ignoring certain entries.
-	 * Used for serialization without non-serializable entries.
+	 * Copy constructor which allows for ignoring certain entries. Used for serialization
+	 * without non-serializable entries.
 	 * @param original the MessageHeaders to copy
 	 * @param keysToIgnore the keys of the entries to ignore
 	 */
@@ -171,7 +171,6 @@ public class MessageHeaders implements Map<String, Object>, Serializable {
 			}
 		});
 	}
-
 
 	protected Map<String, Object> getRawHeaders() {
 		return this.headers;
@@ -202,7 +201,6 @@ public class MessageHeaders implements Map<String, Object>, Serializable {
 		return get(ERROR_CHANNEL);
 	}
 
-
 	@SuppressWarnings("unchecked")
 	@Nullable
 	public <T> T get(Object key, Class<T> type) {
@@ -211,12 +209,11 @@ public class MessageHeaders implements Map<String, Object>, Serializable {
 			return null;
 		}
 		if (!type.isAssignableFrom(value.getClass())) {
-			throw new IllegalArgumentException("Incorrect type specified for header '" +
-					key + "'. Expected [" + type + "] but actual type is [" + value.getClass() + "]");
+			throw new IllegalArgumentException("Incorrect type specified for header '" + key + "'. Expected [" + type
+					+ "] but actual type is [" + value.getClass() + "]");
 		}
 		return (T) value;
 	}
-
 
 	// Delegating Map implementation
 
@@ -261,12 +258,11 @@ public class MessageHeaders implements Map<String, Object>, Serializable {
 		return Collections.unmodifiableCollection(this.headers.values());
 	}
 
-
 	// Unsupported Map operations
 
 	/**
-	 * Since MessageHeaders are immutable, the call to this method
-	 * will result in {@link UnsupportedOperationException}.
+	 * Since MessageHeaders are immutable, the call to this method will result in
+	 * {@link UnsupportedOperationException}.
 	 */
 	@Override
 	public Object put(String key, Object value) {
@@ -274,8 +270,8 @@ public class MessageHeaders implements Map<String, Object>, Serializable {
 	}
 
 	/**
-	 * Since MessageHeaders are immutable, the call to this method
-	 * will result in {@link UnsupportedOperationException}.
+	 * Since MessageHeaders are immutable, the call to this method will result in
+	 * {@link UnsupportedOperationException}.
 	 */
 	@Override
 	public void putAll(Map<? extends String, ? extends Object> map) {
@@ -283,8 +279,8 @@ public class MessageHeaders implements Map<String, Object>, Serializable {
 	}
 
 	/**
-	 * Since MessageHeaders are immutable, the call to this method
-	 * will result in {@link UnsupportedOperationException}.
+	 * Since MessageHeaders are immutable, the call to this method will result in
+	 * {@link UnsupportedOperationException}.
 	 */
 	@Override
 	public Object remove(Object key) {
@@ -292,14 +288,13 @@ public class MessageHeaders implements Map<String, Object>, Serializable {
 	}
 
 	/**
-	 * Since MessageHeaders are immutable, the call to this method
-	 * will result in {@link UnsupportedOperationException}.
+	 * Since MessageHeaders are immutable, the call to this method will result in
+	 * {@link UnsupportedOperationException}.
 	 */
 	@Override
 	public void clear() {
 		throw new UnsupportedOperationException("MessageHeaders is immutable");
 	}
-
 
 	// Serialization methods
 
@@ -312,7 +307,8 @@ public class MessageHeaders implements Map<String, Object>, Serializable {
 		});
 
 		if (keysToIgnore.isEmpty()) {
-			// All entries are serializable -> serialize the regular MessageHeaders instance
+			// All entries are serializable -> serialize the regular MessageHeaders
+			// instance
 			out.defaultWriteObject();
 		}
 		else {
@@ -328,13 +324,12 @@ public class MessageHeaders implements Map<String, Object>, Serializable {
 		in.defaultReadObject();
 	}
 
-
 	// equals, hashCode, toString
 
 	@Override
 	public boolean equals(@Nullable Object other) {
-		return (this == other ||
-				(other instanceof MessageHeaders && this.headers.equals(((MessageHeaders) other).headers)));
+		return (this == other
+				|| (other instanceof MessageHeaders && this.headers.equals(((MessageHeaders) other).headers)));
 	}
 
 	@Override

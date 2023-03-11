@@ -23,7 +23,6 @@ public class ExtendedPerson extends ConcretePerson {
 
 	private Object someField;
 
-
 	public Object getSomeField() {
 		return someField;
 	}

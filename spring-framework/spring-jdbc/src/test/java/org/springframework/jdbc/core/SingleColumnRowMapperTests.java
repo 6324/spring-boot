@@ -41,7 +41,7 @@ import static org.mockito.Mockito.mock;
  */
 public class SingleColumnRowMapperTests {
 
-	@Test  // SPR-16483
+	@Test // SPR-16483
 	public void useDefaultConversionService() throws SQLException {
 		Timestamp timestamp = new Timestamp(0);
 
@@ -51,8 +51,7 @@ public class SingleColumnRowMapperTests {
 		ResultSetMetaData metaData = mock(ResultSetMetaData.class);
 		given(metaData.getColumnCount()).willReturn(1);
 		given(resultSet.getMetaData()).willReturn(metaData);
-		given(resultSet.getObject(1, LocalDateTime.class))
-				.willThrow(new SQLFeatureNotSupportedException());
+		given(resultSet.getObject(1, LocalDateTime.class)).willThrow(new SQLFeatureNotSupportedException());
 		given(resultSet.getTimestamp(1)).willReturn(timestamp);
 
 		LocalDateTime actualLocalDateTime = rowMapper.mapRow(resultSet, 1);
@@ -60,22 +59,21 @@ public class SingleColumnRowMapperTests {
 		assertThat(actualLocalDateTime).isEqualTo(timestamp.toLocalDateTime());
 	}
 
-	@Test  // SPR-16483
+	@Test // SPR-16483
 	public void useCustomConversionService() throws SQLException {
 		Timestamp timestamp = new Timestamp(0);
 
 		DefaultConversionService myConversionService = new DefaultConversionService();
 		myConversionService.addConverter(Timestamp.class, MyLocalDateTime.class,
 				source -> new MyLocalDateTime(source.toLocalDateTime()));
-		SingleColumnRowMapper<MyLocalDateTime> rowMapper =
-				SingleColumnRowMapper.newInstance(MyLocalDateTime.class, myConversionService);
+		SingleColumnRowMapper<MyLocalDateTime> rowMapper = SingleColumnRowMapper.newInstance(MyLocalDateTime.class,
+				myConversionService);
 
 		ResultSet resultSet = mock(ResultSet.class);
 		ResultSetMetaData metaData = mock(ResultSetMetaData.class);
 		given(metaData.getColumnCount()).willReturn(1);
 		given(resultSet.getMetaData()).willReturn(metaData);
-		given(resultSet.getObject(1, MyLocalDateTime.class))
-				.willThrow(new SQLFeatureNotSupportedException());
+		given(resultSet.getObject(1, MyLocalDateTime.class)).willThrow(new SQLFeatureNotSupportedException());
 		given(resultSet.getObject(1)).willReturn(timestamp);
 
 		MyLocalDateTime actualMyLocalDateTime = rowMapper.mapRow(resultSet, 1);
@@ -86,20 +84,17 @@ public class SingleColumnRowMapperTests {
 
 	@Test // SPR-16483
 	public void doesNotUseConversionService() throws SQLException {
-		SingleColumnRowMapper<LocalDateTime> rowMapper =
-				SingleColumnRowMapper.newInstance(LocalDateTime.class, null);
+		SingleColumnRowMapper<LocalDateTime> rowMapper = SingleColumnRowMapper.newInstance(LocalDateTime.class, null);
 
 		ResultSet resultSet = mock(ResultSet.class);
 		ResultSetMetaData metaData = mock(ResultSetMetaData.class);
 		given(metaData.getColumnCount()).willReturn(1);
 		given(resultSet.getMetaData()).willReturn(metaData);
-		given(resultSet.getObject(1, LocalDateTime.class))
-				.willThrow(new SQLFeatureNotSupportedException());
+		given(resultSet.getObject(1, LocalDateTime.class)).willThrow(new SQLFeatureNotSupportedException());
 		given(resultSet.getTimestamp(1)).willReturn(new Timestamp(0));
-		assertThatExceptionOfType(TypeMismatchDataAccessException.class).isThrownBy(() ->
-				rowMapper.mapRow(resultSet, 1));
+		assertThatExceptionOfType(TypeMismatchDataAccessException.class)
+				.isThrownBy(() -> rowMapper.mapRow(resultSet, 1));
 	}
-
 
 	private static class MyLocalDateTime {
 
@@ -108,6 +103,7 @@ public class SingleColumnRowMapperTests {
 		public MyLocalDateTime(LocalDateTime value) {
 			this.value = value;
 		}
+
 	}
 
 }

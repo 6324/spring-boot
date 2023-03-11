@@ -37,10 +37,11 @@ import org.springframework.util.Assert;
  * {@link ConnectionHolder} with a JDBC {@code Connection}, and implements the
  * {@link SavepointManager} interface based on that {@code ConnectionHolder}.
  *
- * <p>Allows for programmatic management of JDBC {@link java.sql.Savepoint Savepoints}.
+ * <p>
+ * Allows for programmatic management of JDBC {@link java.sql.Savepoint Savepoints}.
  * Spring's {@link org.springframework.transaction.support.DefaultTransactionStatus}
- * automatically delegates to this, as it autodetects transaction objects which
- * implement the {@link SavepointManager} interface.
+ * automatically delegates to this, as it autodetects transaction objects which implement
+ * the {@link SavepointManager} interface.
  *
  * @author Juergen Hoeller
  * @since 1.1
@@ -49,7 +50,6 @@ import org.springframework.util.Assert;
 public abstract class JdbcTransactionObjectSupport implements SavepointManager, SmartTransactionObject {
 
 	private static final Log logger = LogFactory.getLog(JdbcTransactionObjectSupport.class);
-
 
 	@Nullable
 	private ConnectionHolder connectionHolder;
@@ -60,7 +60,6 @@ public abstract class JdbcTransactionObjectSupport implements SavepointManager, 
 	private boolean readOnly = false;
 
 	private boolean savepointAllowed = false;
-
 
 	/**
 	 * Set the ConnectionHolder for this transaction object.
@@ -100,8 +99,7 @@ public abstract class JdbcTransactionObjectSupport implements SavepointManager, 
 	}
 
 	/**
-	 * Set the read-only status of this transaction.
-	 * The default is {@code false}.
+	 * Set the read-only status of this transaction. The default is {@code false}.
 	 * @since 5.2.1
 	 */
 	public void setReadOnly(boolean readOnly) {
@@ -117,8 +115,8 @@ public abstract class JdbcTransactionObjectSupport implements SavepointManager, 
 	}
 
 	/**
-	 * Set whether savepoints are allowed within this transaction.
-	 * The default is {@code false}.
+	 * Set whether savepoints are allowed within this transaction. The default is
+	 * {@code false}.
 	 */
 	public void setSavepointAllowed(boolean savepointAllowed) {
 		this.savepointAllowed = savepointAllowed;
@@ -136,10 +134,9 @@ public abstract class JdbcTransactionObjectSupport implements SavepointManager, 
 		// no-op
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of SavepointManager
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
 	 * This implementation creates a JDBC 3.0 Savepoint and returns it.
@@ -197,8 +194,7 @@ public abstract class JdbcTransactionObjectSupport implements SavepointManager, 
 
 	protected ConnectionHolder getConnectionHolderForSavepoint() throws TransactionException {
 		if (!isSavepointAllowed()) {
-			throw new NestedTransactionNotSupportedException(
-					"Transaction manager does not allow nested transactions");
+			throw new NestedTransactionNotSupportedException("Transaction manager does not allow nested transactions");
 		}
 		if (!hasConnectionHolder()) {
 			throw new TransactionUsageException(

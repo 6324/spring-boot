@@ -73,39 +73,45 @@ class ExceptionDepthComparatorTests {
 
 	@Test
 	void highestDepthBeforeLowestDepth() throws Exception {
-		Class<? extends Throwable> foundClass = findClosestMatch(HighestDepthException.class, LowestDepthException.class);
+		Class<? extends Throwable> foundClass = findClosestMatch(HighestDepthException.class,
+				LowestDepthException.class);
 		assertThat(foundClass).isEqualTo(LowestDepthException.class);
 	}
 
 	@Test
 	void lowestDepthBeforeHighestDepth() throws Exception {
-		Class<? extends Throwable> foundClass = findClosestMatch(LowestDepthException.class, HighestDepthException.class);
+		Class<? extends Throwable> foundClass = findClosestMatch(LowestDepthException.class,
+				HighestDepthException.class);
 		assertThat(foundClass).isEqualTo(LowestDepthException.class);
 	}
 
-	private Class<? extends Throwable> findClosestMatch(
-			Class<? extends Throwable>... classes) {
+	private Class<? extends Throwable> findClosestMatch(Class<? extends Throwable>... classes) {
 		return ExceptionDepthComparator.findClosestMatch(Arrays.asList(classes), new TargetException());
 	}
 
 	@SuppressWarnings("serial")
 	public class HighestDepthException extends Throwable {
+
 	}
 
 	@SuppressWarnings("serial")
 	public class LowestDepthException extends HighestDepthException {
+
 	}
 
 	@SuppressWarnings("serial")
 	public class TargetException extends LowestDepthException {
+
 	}
 
 	@SuppressWarnings("serial")
 	public class SameDepthException extends LowestDepthException {
+
 	}
 
 	@SuppressWarnings("serial")
 	public class NoDepthException extends TargetException {
+
 	}
 
 }

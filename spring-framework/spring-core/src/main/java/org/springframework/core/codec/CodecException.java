@@ -20,8 +20,8 @@ import org.springframework.core.NestedRuntimeException;
 import org.springframework.lang.Nullable;
 
 /**
- * General error that indicates a problem while encoding and decoding to and
- * from an Object stream.
+ * General error that indicates a problem while encoding and decoding to and from an
+ * Object stream.
  *
  * @author Sebastien Deleuze
  * @author Rossen Stoyanchev

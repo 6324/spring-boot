@@ -45,12 +45,10 @@ public class Projection extends SpelNodeImpl {
 
 	private final boolean nullSafe;
 
-
 	public Projection(boolean nullSafe, int startPos, int endPos, SpelNodeImpl expression) {
 		super(startPos, endPos, expression);
 		this.nullSafe = nullSafe;
 	}
-
 
 	@Override
 	public TypedValue getValueInternal(ExpressionState state) throws EvaluationException {
@@ -84,12 +82,18 @@ public class Projection extends SpelNodeImpl {
 					state.exitScope();
 				}
 			}
-			return new ValueRef.TypedValueHolderValueRef(new TypedValue(result), this);  // TODO unable to build correct type descriptor
+			return new ValueRef.TypedValueHolderValueRef(new TypedValue(result), this); // TODO
+																						// unable
+																						// to
+																						// build
+																						// correct
+																						// type
+																						// descriptor
 		}
 
 		if (operand instanceof Iterable || operandIsArray) {
-			Iterable<?> data = (operand instanceof Iterable ?
-					(Iterable<?>) operand : Arrays.asList(ObjectUtils.toObjectArray(operand)));
+			Iterable<?> data = (operand instanceof Iterable ? (Iterable<?>) operand
+					: Arrays.asList(ObjectUtils.toObjectArray(operand)));
 
 			List<Object> result = new ArrayList<>();
 			Class<?> arrayElementType = null;
@@ -115,10 +119,10 @@ public class Projection extends SpelNodeImpl {
 				}
 				Object resultArray = Array.newInstance(arrayElementType, result.size());
 				System.arraycopy(result.toArray(), 0, resultArray, 0, result.size());
-				return new ValueRef.TypedValueHolderValueRef(new TypedValue(resultArray),this);
+				return new ValueRef.TypedValueHolderValueRef(new TypedValue(resultArray), this);
 			}
 
-			return new ValueRef.TypedValueHolderValueRef(new TypedValue(result),this);
+			return new ValueRef.TypedValueHolderValueRef(new TypedValue(result), this);
 		}
 
 		if (operand == null) {

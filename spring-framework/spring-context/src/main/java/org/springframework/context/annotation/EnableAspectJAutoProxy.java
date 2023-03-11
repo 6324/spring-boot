@@ -23,9 +23,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Enables support for handling components marked with AspectJ's {@code @Aspect} annotation,
- * similar to functionality found in Spring's {@code <aop:aspectj-autoproxy>} XML element.
- * To be used on @{@link Configuration} classes as follows:
+ * Enables support for handling components marked with AspectJ's {@code @Aspect}
+ * annotation, similar to functionality found in Spring's {@code <aop:aspectj-autoproxy>}
+ * XML element. To be used on @{@link Configuration} classes as follows:
  *
  * <pre class="code">
  * &#064;Configuration
@@ -66,8 +66,9 @@ import java.lang.annotation.Target;
  * will be properly processed and that {@code FooService} will be proxied mixing in the
  * advice that it contributes.
  *
- * <p>Users can control the type of proxy that gets created for {@code FooService} using
- * the {@link #proxyTargetClass()} attribute. The following enables CGLIB-style 'subclass'
+ * <p>
+ * Users can control the type of proxy that gets created for {@code FooService} using the
+ * {@link #proxyTargetClass()} attribute. The following enables CGLIB-style 'subclass'
  * proxies as opposed to the default interface-based JDK proxy approach.
  *
  * <pre class="code">
@@ -77,8 +78,9 @@ import java.lang.annotation.Target;
  *     // ...
  * }</pre>
  *
- * <p>Note that {@code @Aspect} beans may be component-scanned like any other.
- * Simply mark the aspect with both {@code @Aspect} and {@code @Component}:
+ * <p>
+ * Note that {@code @Aspect} beans may be component-scanned like any other. Simply mark
+ * the aspect with both {@code @Aspect} and {@code @Component}:
  *
  * <pre class="code">
  * package com.foo;
@@ -104,12 +106,13 @@ import java.lang.annotation.Target;
  * <b>Note: {@code @EnableAspectJAutoProxy} applies to its local application context only,
  * allowing for selective proxying of beans at different levels.</b> Please redeclare
  * {@code @EnableAspectJAutoProxy} in each individual context, e.g. the common root web
- * application context and any separate {@code DispatcherServlet} application contexts,
- * if you need to apply its behavior at multiple levels.
+ * application context and any separate {@code DispatcherServlet} application contexts, if
+ * you need to apply its behavior at multiple levels.
  *
- * <p>This feature requires the presence of {@code aspectjweaver} on the classpath.
- * While that dependency is optional for {@code spring-aop} in general, it is required
- * for {@code @EnableAspectJAutoProxy} and its underlying facilities.
+ * <p>
+ * This feature requires the presence of {@code aspectjweaver} on the classpath. While
+ * that dependency is optional for {@code spring-aop} in general, it is required for
+ * {@code @EnableAspectJAutoProxy} and its underlying facilities.
  *
  * @author Chris Beams
  * @author Juergen Hoeller
@@ -123,15 +126,16 @@ import java.lang.annotation.Target;
 public @interface EnableAspectJAutoProxy {
 
 	/**
-	 * Indicate whether subclass-based (CGLIB) proxies are to be created as opposed
-	 * to standard Java interface-based proxies. The default is {@code false}.
+	 * Indicate whether subclass-based (CGLIB) proxies are to be created as opposed to
+	 * standard Java interface-based proxies. The default is {@code false}.
 	 */
 	boolean proxyTargetClass() default false;
 
 	/**
-	 * Indicate that the proxy should be exposed by the AOP framework as a {@code ThreadLocal}
-	 * for retrieval via the {@link org.springframework.aop.framework.AopContext} class.
-	 * Off by default, i.e. no guarantees that {@code AopContext} access will work.
+	 * Indicate that the proxy should be exposed by the AOP framework as a
+	 * {@code ThreadLocal} for retrieval via the
+	 * {@link org.springframework.aop.framework.AopContext} class. Off by default, i.e. no
+	 * guarantees that {@code AopContext} access will work.
 	 * @since 4.3.1
 	 */
 	boolean exposeProxy() default false;

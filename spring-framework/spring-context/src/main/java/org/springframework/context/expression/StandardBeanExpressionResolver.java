@@ -38,12 +38,13 @@ import org.springframework.util.StringUtils;
 
 /**
  * Standard implementation of the
- * {@link org.springframework.beans.factory.config.BeanExpressionResolver}
- * interface, parsing and evaluating Spring EL using Spring's expression module.
+ * {@link org.springframework.beans.factory.config.BeanExpressionResolver} interface,
+ * parsing and evaluating Spring EL using Spring's expression module.
  *
- * <p>All beans in the containing {@code BeanFactory} are made available as
- * predefined variables with their common bean name, including standard context
- * beans such as "environment", "systemProperties" and "systemEnvironment".
+ * <p>
+ * All beans in the containing {@code BeanFactory} are made available as predefined
+ * variables with their common bean name, including standard context beans such as
+ * "environment", "systemProperties" and "systemEnvironment".
  *
  * @author Juergen Hoeller
  * @since 3.0
@@ -60,7 +61,6 @@ public class StandardBeanExpressionResolver implements BeanExpressionResolver {
 	/** Default expression suffix: "}". */
 	public static final String DEFAULT_EXPRESSION_SUFFIX = "}";
 
-
 	private String expressionPrefix = DEFAULT_EXPRESSION_PREFIX;
 
 	private String expressionSuffix = DEFAULT_EXPRESSION_SUFFIX;
@@ -76,16 +76,17 @@ public class StandardBeanExpressionResolver implements BeanExpressionResolver {
 		public boolean isTemplate() {
 			return true;
 		}
+
 		@Override
 		public String getExpressionPrefix() {
 			return expressionPrefix;
 		}
+
 		@Override
 		public String getExpressionSuffix() {
 			return expressionSuffix;
 		}
 	};
-
 
 	/**
 	 * Create a new {@code StandardBeanExpressionResolver} with default settings.
@@ -95,18 +96,16 @@ public class StandardBeanExpressionResolver implements BeanExpressionResolver {
 	}
 
 	/**
-	 * Create a new {@code StandardBeanExpressionResolver} with the given bean class loader,
-	 * using it as the basis for expression compilation.
+	 * Create a new {@code StandardBeanExpressionResolver} with the given bean class
+	 * loader, using it as the basis for expression compilation.
 	 * @param beanClassLoader the factory's bean class loader
 	 */
 	public StandardBeanExpressionResolver(@Nullable ClassLoader beanClassLoader) {
 		this.expressionParser = new SpelExpressionParser(new SpelParserConfiguration(null, beanClassLoader));
 	}
 
-
 	/**
-	 * Set the prefix that an expression string starts with.
-	 * The default is "#{".
+	 * Set the prefix that an expression string starts with. The default is "#{".
 	 * @see #DEFAULT_EXPRESSION_PREFIX
 	 */
 	public void setExpressionPrefix(String expressionPrefix) {
@@ -115,8 +114,7 @@ public class StandardBeanExpressionResolver implements BeanExpressionResolver {
 	}
 
 	/**
-	 * Set the suffix that an expression string ends with.
-	 * The default is "}".
+	 * Set the suffix that an expression string ends with. The default is "}".
 	 * @see #DEFAULT_EXPRESSION_SUFFIX
 	 */
 	public void setExpressionSuffix(String expressionSuffix) {
@@ -126,14 +124,15 @@ public class StandardBeanExpressionResolver implements BeanExpressionResolver {
 
 	/**
 	 * Specify the EL parser to use for expression parsing.
-	 * <p>Default is a {@link org.springframework.expression.spel.standard.SpelExpressionParser},
+	 * <p>
+	 * Default is a
+	 * {@link org.springframework.expression.spel.standard.SpelExpressionParser},
 	 * compatible with standard Unified EL style expression syntax.
 	 */
 	public void setExpressionParser(ExpressionParser expressionParser) {
 		Assert.notNull(expressionParser, "ExpressionParser must not be null");
 		this.expressionParser = expressionParser;
 	}
-
 
 	@Override
 	@Nullable
@@ -172,7 +171,8 @@ public class StandardBeanExpressionResolver implements BeanExpressionResolver {
 
 	/**
 	 * Template method for customizing the expression evaluation context.
-	 * <p>The default implementation is empty.
+	 * <p>
+	 * The default implementation is empty.
 	 */
 	protected void customizeEvaluationContext(StandardEvaluationContext evalContext) {
 	}

@@ -95,8 +95,10 @@ class JmxUtilsTests {
 	void simpleMBeanThroughInheritance() throws Exception {
 		Bar bar = new Bar();
 		Abc abc = new Abc();
-		assertThat(JmxUtils.isMBean(bar.getClass())).as("Simple MBean (through inheritance) not detected correctly").isTrue();
-		assertThat(JmxUtils.isMBean(abc.getClass())).as("Simple MBean (through 2 levels of inheritance) not detected correctly").isTrue();
+		assertThat(JmxUtils.isMBean(bar.getClass())).as("Simple MBean (through inheritance) not detected correctly")
+				.isTrue();
+		assertThat(JmxUtils.isMBean(abc.getClass()))
+				.as("Simple MBean (through 2 levels of inheritance) not detected correctly").isTrue();
 	}
 
 	@Test
@@ -121,9 +123,12 @@ class JmxUtilsTests {
 
 		String typeProperty = "type";
 
-		assertThat(uniqueName.getDomain()).as("Domain of transformed name is incorrect").isEqualTo(objectName.getDomain());
-		assertThat(uniqueName.getKeyProperty("type")).as("Type key is incorrect").isEqualTo(objectName.getKeyProperty(typeProperty));
-		assertThat(uniqueName.getKeyProperty(JmxUtils.IDENTITY_OBJECT_NAME_KEY)).as("Identity key is incorrect").isEqualTo(ObjectUtils.getIdentityHexString(managedResource));
+		assertThat(uniqueName.getDomain()).as("Domain of transformed name is incorrect")
+				.isEqualTo(objectName.getDomain());
+		assertThat(uniqueName.getKeyProperty("type")).as("Type key is incorrect")
+				.isEqualTo(objectName.getKeyProperty(typeProperty));
+		assertThat(uniqueName.getKeyProperty(JmxUtils.IDENTITY_OBJECT_NAME_KEY)).as("Identity key is incorrect")
+				.isEqualTo(ObjectUtils.getIdentityHexString(managedResource));
 	}
 
 	@Test
@@ -139,7 +144,6 @@ class JmxUtilsTests {
 		}
 	}
 
-
 	public static class AttributeTestBean {
 
 		private String name;
@@ -151,8 +155,8 @@ class JmxUtilsTests {
 		public void setName(String name) {
 			this.name = name;
 		}
-	}
 
+	}
 
 	public static class StandardMBeanImpl extends StandardMBean implements IJmxTestBean {
 
@@ -191,14 +195,14 @@ class JmxUtilsTests {
 		@Override
 		public void dontExposeMe() {
 		}
-	}
 
+	}
 
 	public interface FooMBean {
 
 		String getName();
-	}
 
+	}
 
 	public static class Foo implements FooMBean {
 
@@ -206,14 +210,14 @@ class JmxUtilsTests {
 		public String getName() {
 			return "Rob Harrop";
 		}
-	}
 
+	}
 
 	public interface FooMXBean {
 
 		String getName();
-	}
 
+	}
 
 	public static class FooX implements FooMXBean {
 
@@ -221,34 +225,35 @@ class JmxUtilsTests {
 		public String getName() {
 			return "Rob Harrop";
 		}
-	}
 
+	}
 
 	public static class Bar extends Foo {
-	}
 
+	}
 
 	public static class Abc extends Bar {
-	}
 
+	}
 
 	private interface JmxInterfaceMBean {
-	}
 
+	}
 
 	private interface JmxInterface extends JmxInterfaceMBean {
-	}
 
+	}
 
 	private interface SpecializedJmxInterface extends JmxInterface {
-	}
 
+	}
 
 	private interface JmxClassMBean {
+
 	}
 
-
 	private static class JmxClass implements JmxClassMBean {
+
 	}
 
 }

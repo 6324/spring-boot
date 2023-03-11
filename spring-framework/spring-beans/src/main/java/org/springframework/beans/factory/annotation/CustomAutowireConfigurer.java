@@ -30,8 +30,8 @@ import org.springframework.util.ClassUtils;
 
 /**
  * A {@link org.springframework.beans.factory.config.BeanFactoryPostProcessor}
- * implementation that allows for convenient registration of custom autowire
- * qualifier types.
+ * implementation that allows for convenient registration of custom autowire qualifier
+ * types.
  *
  * <pre class="code">
  * &lt;bean id="customAutowireConfigurer" class="org.springframework.beans.factory.annotation.CustomAutowireConfigurer"&gt;
@@ -49,14 +49,13 @@ import org.springframework.util.ClassUtils;
  */
 public class CustomAutowireConfigurer implements BeanFactoryPostProcessor, BeanClassLoaderAware, Ordered {
 
-	private int order = Ordered.LOWEST_PRECEDENCE;  // default: same as non-Ordered
+	private int order = Ordered.LOWEST_PRECEDENCE; // default: same as non-Ordered
 
 	@Nullable
 	private Set<?> customQualifierTypes;
 
 	@Nullable
 	private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
-
 
 	public void setOrder(int order) {
 		this.order = order;
@@ -73,19 +72,18 @@ public class CustomAutowireConfigurer implements BeanFactoryPostProcessor, BeanC
 	}
 
 	/**
-	 * Register custom qualifier annotation types to be considered
-	 * when autowiring beans. Each element of the provided set may
-	 * be either a Class instance or a String representation of the
-	 * fully-qualified class name of the custom annotation.
-	 * <p>Note that any annotation that is itself annotated with Spring's
-	 * {@link org.springframework.beans.factory.annotation.Qualifier}
-	 * does not require explicit registration.
+	 * Register custom qualifier annotation types to be considered when autowiring beans.
+	 * Each element of the provided set may be either a Class instance or a String
+	 * representation of the fully-qualified class name of the custom annotation.
+	 * <p>
+	 * Note that any annotation that is itself annotated with Spring's
+	 * {@link org.springframework.beans.factory.annotation.Qualifier} does not require
+	 * explicit registration.
 	 * @param customQualifierTypes the custom types to register
 	 */
 	public void setCustomQualifierTypes(Set<?> customQualifierTypes) {
 		this.customQualifierTypes = customQualifierTypes;
 	}
-
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -99,8 +97,8 @@ public class CustomAutowireConfigurer implements BeanFactoryPostProcessor, BeanC
 			if (!(dlbf.getAutowireCandidateResolver() instanceof QualifierAnnotationAutowireCandidateResolver)) {
 				dlbf.setAutowireCandidateResolver(new QualifierAnnotationAutowireCandidateResolver());
 			}
-			QualifierAnnotationAutowireCandidateResolver resolver =
-					(QualifierAnnotationAutowireCandidateResolver) dlbf.getAutowireCandidateResolver();
+			QualifierAnnotationAutowireCandidateResolver resolver = (QualifierAnnotationAutowireCandidateResolver) dlbf
+					.getAutowireCandidateResolver();
 			for (Object value : this.customQualifierTypes) {
 				Class<? extends Annotation> customType = null;
 				if (value instanceof Class) {
@@ -108,7 +106,8 @@ public class CustomAutowireConfigurer implements BeanFactoryPostProcessor, BeanC
 				}
 				else if (value instanceof String) {
 					String className = (String) value;
-					customType = (Class<? extends Annotation>) ClassUtils.resolveClassName(className, this.beanClassLoader);
+					customType = (Class<? extends Annotation>) ClassUtils.resolveClassName(className,
+							this.beanClassLoader);
 				}
 				else {
 					throw new IllegalArgumentException(

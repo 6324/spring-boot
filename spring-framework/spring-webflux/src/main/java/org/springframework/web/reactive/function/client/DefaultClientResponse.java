@@ -66,9 +66,8 @@ class DefaultClientResponse implements ClientResponse {
 
 	private final Supplier<HttpRequest> requestSupplier;
 
-
-	public DefaultClientResponse(ClientHttpResponse response, ExchangeStrategies strategies,
-			String logPrefix, String requestDescription, Supplier<HttpRequest> requestSupplier) {
+	public DefaultClientResponse(ClientHttpResponse response, ExchangeStrategies strategies, String logPrefix,
+			String requestDescription, Supplier<HttpRequest> requestSupplier) {
 
 		this.response = response;
 		this.strategies = strategies;
@@ -77,7 +76,6 @@ class DefaultClientResponse implements ClientResponse {
 		this.requestDescription = requestDescription;
 		this.requestSupplier = requestSupplier;
 	}
-
 
 	@Override
 	public ExchangeStrategies strategies() {
@@ -187,33 +185,20 @@ class DefaultClientResponse implements ClientResponse {
 
 	@Override
 	public Mono<WebClientResponseException> createException() {
-		return bodyToMono(byte[].class)
-				.defaultIfEmpty(new byte[0])
-				.map(bodyBytes -> {
-					HttpRequest request = this.requestSupplier.get();
-					Charset charset = headers().contentType()
-							.map(MimeType::getCharset)
-							.orElse(StandardCharsets.ISO_8859_1);
-					int statusCode = rawStatusCode();
-					HttpStatus httpStatus = HttpStatus.resolve(statusCode);
-					if (httpStatus != null) {
-						return WebClientResponseException.create(
-								statusCode,
-								httpStatus.getReasonPhrase(),
-								headers().asHttpHeaders(),
-								bodyBytes,
-								charset,
-								request);
-					}
-					else {
-						return new UnknownHttpStatusCodeException(
-								statusCode,
-								headers().asHttpHeaders(),
-								bodyBytes,
-								charset,
-								request);
-					}
-				});
+		return bodyToMono(byte[].class).defaultIfEmpty(new byte[0]).map(bodyBytes -> {
+			HttpRequest request = this.requestSupplier.get();
+			Charset charset = headers().contentType().map(MimeType::getCharset).orElse(StandardCharsets.ISO_8859_1);
+			int statusCode = rawStatusCode();
+			HttpStatus httpStatus = HttpStatus.resolve(statusCode);
+			if (httpStatus != null) {
+				return WebClientResponseException.create(statusCode, httpStatus.getReasonPhrase(),
+						headers().asHttpHeaders(), bodyBytes, charset, request);
+			}
+			else {
+				return new UnknownHttpStatusCodeException(statusCode, headers().asHttpHeaders(), bodyBytes, charset,
+						request);
+			}
+		});
 	}
 
 	@Override
@@ -256,6 +241,7 @@ class DefaultClientResponse implements ClientResponse {
 		private OptionalLong toOptionalLong(long value) {
 			return (value != -1 ? OptionalLong.of(value) : OptionalLong.empty());
 		}
+
 	}
 
 }

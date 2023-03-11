@@ -44,11 +44,9 @@ public abstract class AbstractDecoder<T> implements Decoder<T> {
 
 	protected Log logger = LogFactory.getLog(getClass());
 
-
 	protected AbstractDecoder(MimeType... supportedMimeTypes) {
 		this.decodableMimeTypes = Arrays.asList(supportedMimeTypes);
 	}
-
 
 	/**
 	 * Set an alternative logger to use than the one based on the class name.
@@ -66,7 +64,6 @@ public abstract class AbstractDecoder<T> implements Decoder<T> {
 	public Log getLogger() {
 		return logger;
 	}
-
 
 	@Override
 	public List<MimeType> getDecodableMimeTypes() {

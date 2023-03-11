@@ -33,7 +33,6 @@ public class StompReactorNettyCodec extends AbstractNioBufferReactorNettyCodec<b
 
 	private final StompEncoder encoder;
 
-
 	public StompReactorNettyCodec() {
 		this(new StompDecoder());
 	}
@@ -46,7 +45,6 @@ public class StompReactorNettyCodec extends AbstractNioBufferReactorNettyCodec<b
 		this.decoder = decoder;
 		this.encoder = encoder;
 	}
-
 
 	@Override
 	protected List<Message<byte[]>> decodeInternal(ByteBuffer nioBuffer) {

@@ -64,22 +64,13 @@ public class HandshakeWebSocketServiceTests {
 		assertThat(info).isNotNull();
 
 		Map<String, Object> attributes = info.getAttributes();
-		assertThat(attributes)
-				.hasSize(3)
-				.containsEntry("a1", "v1")
-				.containsEntry("a3", "v3")
-				.containsEntry("a5", "v5");
+		assertThat(attributes).hasSize(3).containsEntry("a1", "v1").containsEntry("a3", "v3").containsEntry("a5", "v5");
 	}
 
 	private MockServerHttpRequest initHandshakeRequest() {
-		return MockServerHttpRequest.get("/")
-					.header("upgrade", "websocket")
-					.header("connection", "upgrade")
-					.header("Sec-WebSocket-Key", "dGhlIHNhbXBsZSBub25jZQ==")
-					.header("Sec-WebSocket-Version", "13")
-					.build();
+		return MockServerHttpRequest.get("/").header("upgrade", "websocket").header("connection", "upgrade")
+				.header("Sec-WebSocket-Key", "dGhlIHNhbXBsZSBub25jZQ==").header("Sec-WebSocket-Version", "13").build();
 	}
-
 
 	private static class TestRequestUpgradeStrategy implements RequestUpgradeStrategy {
 
@@ -87,11 +78,12 @@ public class HandshakeWebSocketServiceTests {
 
 		@Override
 		public Mono<Void> upgrade(ServerWebExchange exchange, WebSocketHandler webSocketHandler,
-				@Nullable  String subProtocol, Supplier<HandshakeInfo> handshakeInfoFactory) {
+				@Nullable String subProtocol, Supplier<HandshakeInfo> handshakeInfoFactory) {
 
 			this.handshakeInfo = handshakeInfoFactory.get();
 			return Mono.empty();
 		}
+
 	}
 
 }

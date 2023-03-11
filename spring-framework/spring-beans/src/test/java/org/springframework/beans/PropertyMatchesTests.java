@@ -20,11 +20,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
-
-
-
-
 /**
  * Tests for {@link PropertyMatches}.
  *
@@ -124,7 +119,6 @@ public class PropertyMatchesTests {
 		assertThat(msg).contains("counter3");
 	}
 
-
 	@SuppressWarnings("unused")
 	private static class SampleBeanProperties {
 
@@ -177,8 +171,8 @@ public class PropertyMatchesTests {
 		public void setCounter3(int counter3) {
 			this.counter3 = counter3;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class SampleFieldProperties {

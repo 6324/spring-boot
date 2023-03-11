@@ -33,29 +33,24 @@ public class DefaultScopedObjectTests {
 
 	private static final String GOOD_BEAN_NAME = "foo";
 
-
 	@Test
 	public void testCtorWithNullBeanFactory() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-			new DefaultScopedObject(null, GOOD_BEAN_NAME));
+		assertThatIllegalArgumentException().isThrownBy(() -> new DefaultScopedObject(null, GOOD_BEAN_NAME));
 	}
 
 	@Test
 	public void testCtorWithNullTargetBeanName() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				testBadTargetBeanName(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> testBadTargetBeanName(null));
 	}
 
 	@Test
 	public void testCtorWithEmptyTargetBeanName() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				testBadTargetBeanName(""));
+		assertThatIllegalArgumentException().isThrownBy(() -> testBadTargetBeanName(""));
 	}
 
 	@Test
 	public void testCtorWithJustWhitespacedTargetBeanName() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				testBadTargetBeanName("   "));
+		assertThatIllegalArgumentException().isThrownBy(() -> testBadTargetBeanName("   "));
 	}
 
 	private static void testBadTargetBeanName(final String badTargetBeanName) {

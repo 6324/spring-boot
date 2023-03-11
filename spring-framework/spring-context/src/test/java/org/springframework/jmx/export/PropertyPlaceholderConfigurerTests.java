@@ -55,4 +55,3 @@ class PropertyPlaceholderConfigurerTests extends AbstractJmxTests {
 	}
 
 }
-

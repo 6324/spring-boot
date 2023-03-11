@@ -33,8 +33,8 @@ import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.util.Assert;
 
 /**
- * Submit messages to an {@link ExecutorSubscribableChannel}, one at a time.
- * The channel must have been configured with {@link #configureOutboundChannel}.
+ * Submit messages to an {@link ExecutorSubscribableChannel}, one at a time. The channel
+ * must have been configured with {@link #configureOutboundChannel}.
  *
  * @author Rossen Stoyanchev
  * @since 5.1
@@ -42,7 +42,6 @@ import org.springframework.util.Assert;
 class OrderedMessageSender implements MessageChannel {
 
 	static final String COMPLETION_TASK_HEADER = "simpSendCompletionTask";
-
 
 	private final MessageChannel channel;
 
@@ -52,12 +51,10 @@ class OrderedMessageSender implements MessageChannel {
 
 	private final AtomicBoolean sendInProgress = new AtomicBoolean(false);
 
-
 	public OrderedMessageSender(MessageChannel channel, Log logger) {
 		this.channel = channel;
 		this.logger = logger;
 	}
-
 
 	@Override
 	public boolean send(Message<?> message) {
@@ -113,13 +110,12 @@ class OrderedMessageSender implements MessageChannel {
 		accessor.setHeader(COMPLETION_TASK_HEADER, (Runnable) this::sendNextMessage);
 	}
 
-
 	/**
-	 * Install or remove an {@link ExecutorChannelInterceptor} that invokes a
-	 * completion task once the message is handled.
+	 * Install or remove an {@link ExecutorChannelInterceptor} that invokes a completion
+	 * task once the message is handled.
 	 * @param channel the channel to configure
-	 * @param preservePublishOrder whether preserve order is on or off based on
-	 * which an interceptor is either added or removed.
+	 * @param preservePublishOrder whether preserve order is on or off based on which an
+	 * interceptor is either added or removed.
 	 */
 	static void configureOutboundChannel(MessageChannel channel, boolean preservePublishOrder) {
 		if (preservePublishOrder) {
@@ -132,25 +128,24 @@ class OrderedMessageSender implements MessageChannel {
 		}
 		else if (channel instanceof ExecutorSubscribableChannel) {
 			ExecutorSubscribableChannel execChannel = (ExecutorSubscribableChannel) channel;
-			execChannel.getInterceptors().stream().filter(i -> i instanceof CallbackInterceptor)
-					.findFirst()
+			execChannel.getInterceptors().stream().filter(i -> i instanceof CallbackInterceptor).findFirst()
 					.map(execChannel::removeInterceptor);
 
 		}
 	}
 
-
 	private static class CallbackInterceptor implements ExecutorChannelInterceptor {
 
 		@Override
-		public void afterMessageHandled(
-				Message<?> msg, MessageChannel ch, MessageHandler handler, @Nullable Exception ex) {
+		public void afterMessageHandled(Message<?> msg, MessageChannel ch, MessageHandler handler,
+				@Nullable Exception ex) {
 
 			Runnable task = (Runnable) msg.getHeaders().get(OrderedMessageSender.COMPLETION_TASK_HEADER);
 			if (task != null) {
 				task.run();
 			}
 		}
+
 	}
 
 }

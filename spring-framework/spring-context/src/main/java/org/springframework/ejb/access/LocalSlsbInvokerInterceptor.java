@@ -29,21 +29,23 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.lang.Nullable;
 
 /**
- * Invoker for a local Stateless Session Bean.
- * Designed for EJB 2.x, but works for EJB 3 Session Beans as well.
+ * Invoker for a local Stateless Session Bean. Designed for EJB 2.x, but works for EJB 3
+ * Session Beans as well.
  *
- * <p>Caches the home object, since a local EJB home can never go stale.
- * See {@link org.springframework.jndi.JndiObjectLocator} for info on
- * how to specify the JNDI location of the target EJB.
+ * <p>
+ * Caches the home object, since a local EJB home can never go stale. See
+ * {@link org.springframework.jndi.JndiObjectLocator} for info on how to specify the JNDI
+ * location of the target EJB.
  *
- * <p>In a bean container, this class is normally best used as a singleton. However,
- * if that bean container pre-instantiates singletons (as do the XML ApplicationContext
- * variants) you may have a problem if the bean container is loaded before the EJB
- * container loads the target EJB. That is because by default the JNDI lookup will be
- * performed in the init method of this class and cached, but the EJB will not have been
- * bound at the target location yet. The best solution is to set the lookupHomeOnStartup
- * property to false, in which case the home will be fetched on first access to the EJB.
- * (This flag is only true by default for backwards compatibility reasons).
+ * <p>
+ * In a bean container, this class is normally best used as a singleton. However, if that
+ * bean container pre-instantiates singletons (as do the XML ApplicationContext variants)
+ * you may have a problem if the bean container is loaded before the EJB container loads
+ * the target EJB. That is because by default the JNDI lookup will be performed in the
+ * init method of this class and cached, but the EJB will not have been bound at the
+ * target location yet. The best solution is to set the lookupHomeOnStartup property to
+ * false, in which case the home will be fetched on first access to the EJB. (This flag is
+ * only true by default for backwards compatibility reasons).
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -54,13 +56,13 @@ public class LocalSlsbInvokerInterceptor extends AbstractSlsbInvokerInterceptor 
 
 	private volatile boolean homeAsComponent = false;
 
-
 	/**
-	 * This implementation "creates" a new EJB instance for each invocation.
-	 * Can be overridden for custom invocation strategies.
-	 * <p>Alternatively, override {@link #getSessionBeanInstance} and
-	 * {@link #releaseSessionBeanInstance} to change EJB instance creation,
-	 * for example to hold a single shared EJB instance.
+	 * This implementation "creates" a new EJB instance for each invocation. Can be
+	 * overridden for custom invocation strategies.
+	 * <p>
+	 * Alternatively, override {@link #getSessionBeanInstance} and
+	 * {@link #releaseSessionBeanInstance} to change EJB instance creation, for example to
+	 * hold a single shared EJB instance.
 	 */
 	@Override
 	@Nullable
@@ -95,8 +97,8 @@ public class LocalSlsbInvokerInterceptor extends AbstractSlsbInvokerInterceptor 
 			throw new EjbAccessException("Failed to locate local EJB [" + getJndiName() + "]", ex);
 		}
 		catch (IllegalAccessException ex) {
-			throw new EjbAccessException("Could not access method [" + invocation.getMethod().getName() +
-				"] of local EJB [" + getJndiName() + "]", ex);
+			throw new EjbAccessException("Could not access method [" + invocation.getMethod().getName()
+					+ "] of local EJB [" + getJndiName() + "]", ex);
 		}
 		finally {
 			if (ejb instanceof EJBLocalObject) {
@@ -122,8 +124,8 @@ public class LocalSlsbInvokerInterceptor extends AbstractSlsbInvokerInterceptor 
 	}
 
 	/**
-	 * Return an EJB instance to delegate the call to.
-	 * Default implementation delegates to newSessionBeanInstance.
+	 * Return an EJB instance to delegate the call to. Default implementation delegates to
+	 * newSessionBeanInstance.
 	 * @throws NamingException if thrown by JNDI
 	 * @throws InvocationTargetException if thrown by the create method
 	 * @see #newSessionBeanInstance
@@ -133,8 +135,8 @@ public class LocalSlsbInvokerInterceptor extends AbstractSlsbInvokerInterceptor 
 	}
 
 	/**
-	 * Release the given EJB instance.
-	 * Default implementation delegates to removeSessionBeanInstance.
+	 * Release the given EJB instance. Default implementation delegates to
+	 * removeSessionBeanInstance.
 	 * @param ejb the EJB instance to release
 	 * @see #removeSessionBeanInstance
 	 */
@@ -143,8 +145,8 @@ public class LocalSlsbInvokerInterceptor extends AbstractSlsbInvokerInterceptor 
 	}
 
 	/**
-	 * Return a new instance of the stateless session bean.
-	 * Can be overridden to change the algorithm.
+	 * Return a new instance of the stateless session bean. Can be overridden to change
+	 * the algorithm.
 	 * @throws NamingException if thrown by JNDI
 	 * @throws InvocationTargetException if thrown by the create method
 	 * @see #create

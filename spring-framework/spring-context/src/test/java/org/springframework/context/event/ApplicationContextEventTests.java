@@ -73,10 +73,9 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 
 	@Test
 	public void multicastSimpleEvent() {
-		multicastEvent(true, ApplicationListener.class,
-				new ContextRefreshedEvent(new StaticApplicationContext()), null);
-		multicastEvent(true, ApplicationListener.class,
-				new ContextClosedEvent(new StaticApplicationContext()), null);
+		multicastEvent(true, ApplicationListener.class, new ContextRefreshedEvent(new StaticApplicationContext()),
+				null);
+		multicastEvent(true, ApplicationListener.class, new ContextClosedEvent(new StaticApplicationContext()), null);
 	}
 
 	@Test
@@ -117,10 +116,10 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 		multicastEvent(false, StringEventListener.class, new SmartGenericTestEvent<>(this, 123L), null);
 	}
 
-	private void multicastEvent(boolean match, Class<?> listenerType, ApplicationEvent event, ResolvableType eventType) {
+	private void multicastEvent(boolean match, Class<?> listenerType, ApplicationEvent event,
+			ResolvableType eventType) {
 		@SuppressWarnings("unchecked")
-		ApplicationListener<ApplicationEvent> listener =
-				(ApplicationListener<ApplicationEvent>) mock(listenerType);
+		ApplicationListener<ApplicationEvent> listener = (ApplicationListener<ApplicationEvent>) mock(listenerType);
 		SimpleApplicationEventMulticaster smc = new SimpleApplicationEventMulticaster();
 		smc.addApplicationListener(listener);
 
@@ -165,9 +164,8 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 
 		RuntimeException thrown = new RuntimeException();
 		willThrow(thrown).given(listener).onApplicationEvent(evt);
-		assertThatExceptionOfType(RuntimeException.class).isThrownBy(() ->
-				smc.multicastEvent(evt))
-			.satisfies(ex -> assertThat(ex).isSameAs(thrown));
+		assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> smc.multicastEvent(evt))
+				.satisfies(ex -> assertThat(ex).isSameAs(thrown));
 	}
 
 	@Test
@@ -217,8 +215,10 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 	public void proxiedListeners() {
 		MyOrderedListener1 listener1 = new MyOrderedListener1();
 		MyOrderedListener2 listener2 = new MyOrderedListener2(listener1);
-		ApplicationListener<ApplicationEvent> proxy1 = (ApplicationListener<ApplicationEvent>) new ProxyFactory(listener1).getProxy();
-		ApplicationListener<ApplicationEvent> proxy2 = (ApplicationListener<ApplicationEvent>) new ProxyFactory(listener2).getProxy();
+		ApplicationListener<ApplicationEvent> proxy1 = (ApplicationListener<ApplicationEvent>) new ProxyFactory(
+				listener1).getProxy();
+		ApplicationListener<ApplicationEvent> proxy2 = (ApplicationListener<ApplicationEvent>) new ProxyFactory(
+				listener2).getProxy();
 
 		SimpleApplicationEventMulticaster smc = new SimpleApplicationEventMulticaster();
 		smc.addApplicationListener(proxy1);
@@ -234,8 +234,10 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 	public void proxiedListenersMixedWithTargetListeners() {
 		MyOrderedListener1 listener1 = new MyOrderedListener1();
 		MyOrderedListener2 listener2 = new MyOrderedListener2(listener1);
-		ApplicationListener<ApplicationEvent> proxy1 = (ApplicationListener<ApplicationEvent>) new ProxyFactory(listener1).getProxy();
-		ApplicationListener<ApplicationEvent> proxy2 = (ApplicationListener<ApplicationEvent>) new ProxyFactory(listener2).getProxy();
+		ApplicationListener<ApplicationEvent> proxy1 = (ApplicationListener<ApplicationEvent>) new ProxyFactory(
+				listener1).getProxy();
+		ApplicationListener<ApplicationEvent> proxy2 = (ApplicationListener<ApplicationEvent>) new ProxyFactory(
+				listener2).getProxy();
 
 		SimpleApplicationEventMulticaster smc = new SimpleApplicationEventMulticaster();
 		smc.addApplicationListener(listener1);
@@ -475,8 +477,8 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 		StaticApplicationContext context = new StaticApplicationContext();
 		SimpleApplicationEventMulticaster multicaster = new SimpleApplicationEventMulticaster();
 		multicaster.setErrorHandler(ReflectionUtils::rethrowRuntimeException);
-		context.getBeanFactory().registerSingleton(
-				StaticApplicationContext.APPLICATION_EVENT_MULTICASTER_BEAN_NAME, multicaster);
+		context.getBeanFactory().registerSingleton(StaticApplicationContext.APPLICATION_EVENT_MULTICASTER_BEAN_NAME,
+				multicaster);
 		ApplicationListener<MyEvent> listener = seenEvents::add;
 		context.addApplicationListener(listener);
 		context.refresh();
@@ -496,8 +498,9 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 	@Test
 	public void lambdaAsListenerWithJava8StyleClassCastMessage() {
 		StaticApplicationContext context = new StaticApplicationContext();
-		ApplicationListener<ApplicationEvent> listener =
-				event -> { throw new ClassCastException(event.getClass().getName()); };
+		ApplicationListener<ApplicationEvent> listener = event -> {
+			throw new ClassCastException(event.getClass().getName());
+		};
 		context.addApplicationListener(listener);
 		context.refresh();
 
@@ -508,8 +511,9 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 	@Test
 	public void lambdaAsListenerWithJava9StyleClassCastMessage() {
 		StaticApplicationContext context = new StaticApplicationContext();
-		ApplicationListener<ApplicationEvent> listener =
-				event -> { throw new ClassCastException("spring.context/" + event.getClass().getName()); };
+		ApplicationListener<ApplicationEvent> listener = event -> {
+			throw new ClassCastException("spring.context/" + event.getClass().getName());
+		};
 		context.addApplicationListener(listener);
 		context.refresh();
 
@@ -562,15 +566,14 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 		context.close();
 	}
 
-
 	@SuppressWarnings("serial")
 	public static class MyEvent extends ApplicationEvent {
 
 		public MyEvent(Object source) {
 			super(source);
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	public static class MyOtherEvent extends ApplicationEvent {
@@ -578,8 +581,8 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 		public MyOtherEvent(Object source) {
 			super(source);
 		}
-	}
 
+	}
 
 	public static class MyOrderedListener1 implements ApplicationListener<ApplicationEvent>, Ordered {
 
@@ -594,12 +597,12 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 		public int getOrder() {
 			return 0;
 		}
-	}
 
+	}
 
 	public interface MyOrderedListenerIfc<E extends ApplicationEvent> extends ApplicationListener<E>, Ordered {
-	}
 
+	}
 
 	public static abstract class MyOrderedListenerBase implements MyOrderedListenerIfc<MyEvent> {
 
@@ -607,8 +610,8 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 		public int getOrder() {
 			return 1;
 		}
-	}
 
+	}
 
 	public static class MyOrderedListener2 extends MyOrderedListenerBase {
 
@@ -622,8 +625,8 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 		public void onApplicationEvent(MyEvent event) {
 			assertThat(this.otherListener.seenEvents.contains(event)).isTrue();
 		}
-	}
 
+	}
 
 	@SuppressWarnings("rawtypes")
 	public static class MyPayloadListener implements ApplicationListener<PayloadApplicationEvent> {
@@ -634,8 +637,8 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 		public void onApplicationEvent(PayloadApplicationEvent event) {
 			this.seenPayloads.add(event.getPayload());
 		}
-	}
 
+	}
 
 	public static class MyNonSingletonListener implements ApplicationListener<ApplicationEvent> {
 
@@ -645,8 +648,8 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 		public void onApplicationEvent(ApplicationEvent event) {
 			seenEvents.add(event);
 		}
-	}
 
+	}
 
 	@Order(5)
 	public static class MyOrderedListener3 implements ApplicationListener<ApplicationEvent> {
@@ -659,7 +662,6 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 		}
 
 	}
-
 
 	@Order(50)
 	public static class MyOrderedListener4 implements ApplicationListener<MyEvent> {
@@ -674,8 +676,8 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 		public void onApplicationEvent(MyEvent event) {
 			assertThat(this.otherListener.seenEvents.contains(event)).isTrue();
 		}
-	}
 
+	}
 
 	public static class EventPublishingBeanPostProcessor implements BeanPostProcessor, ApplicationContextAware {
 
@@ -696,8 +698,8 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 		public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 			return bean;
 		}
-	}
 
+	}
 
 	public static class EventPublishingInitMethod implements ApplicationEventPublisherAware, InitializingBean {
 
@@ -712,8 +714,8 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 		public void afterPropertiesSet() throws Exception {
 			this.publisher.publishEvent(new MyEvent(this));
 		}
-	}
 
+	}
 
 	public static class AsyncEventPublishingInitMethod implements ApplicationEventPublisherAware, InitializingBean {
 
@@ -730,6 +732,7 @@ public class ApplicationContextEventTests extends AbstractApplicationEventListen
 			thread.start();
 			thread.join();
 		}
+
 	}
 
 }

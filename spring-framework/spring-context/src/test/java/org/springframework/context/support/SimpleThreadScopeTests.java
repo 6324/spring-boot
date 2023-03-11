@@ -32,9 +32,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class SimpleThreadScopeTests {
 
-	private final ApplicationContext applicationContext =
-			new ClassPathXmlApplicationContext("simpleThreadScopeTests.xml", getClass());
-
+	private final ApplicationContext applicationContext = new ClassPathXmlApplicationContext(
+			"simpleThreadScopeTests.xml", getClass());
 
 	@Test
 	void getFromScope() throws Exception {
@@ -50,16 +49,16 @@ class SimpleThreadScopeTests {
 	void getMultipleInstances() throws Exception {
 		// Arrange
 		TestBean[] beans = new TestBean[2];
-		Thread thread1 = new Thread(() -> beans[0] = applicationContext.getBean("removeNodeStatusScreen", TestBean.class));
-		Thread thread2 = new Thread(() -> beans[1] = applicationContext.getBean("removeNodeStatusScreen", TestBean.class));
+		Thread thread1 = new Thread(
+				() -> beans[0] = applicationContext.getBean("removeNodeStatusScreen", TestBean.class));
+		Thread thread2 = new Thread(
+				() -> beans[1] = applicationContext.getBean("removeNodeStatusScreen", TestBean.class));
 		// Act
 		thread1.start();
 		thread2.start();
 		// Assert
-		Awaitility.await()
-					.atMost(500, TimeUnit.MILLISECONDS)
-					.pollInterval(10, TimeUnit.MILLISECONDS)
-					.until(() -> (beans[0] != null) && (beans[1] != null));
+		Awaitility.await().atMost(500, TimeUnit.MILLISECONDS).pollInterval(10, TimeUnit.MILLISECONDS)
+				.until(() -> (beans[0] != null) && (beans[1] != null));
 		assertThat(beans[1]).isNotSameAs(beans[0]);
 	}
 

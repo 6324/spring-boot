@@ -21,8 +21,8 @@ import java.io.Serializable;
 import org.springframework.lang.Nullable;
 
 /**
- * Abstract superclass for expression pointcuts,
- * offering location and expression properties.
+ * Abstract superclass for expression pointcuts, offering location and expression
+ * properties.
  *
  * @author Rod Johnson
  * @author Rob Harrop
@@ -39,7 +39,6 @@ public abstract class AbstractExpressionPointcut implements ExpressionPointcut, 
 	@Nullable
 	private String expression;
 
-
 	/**
 	 * Set the location for debugging.
 	 */
@@ -48,10 +47,10 @@ public abstract class AbstractExpressionPointcut implements ExpressionPointcut, 
 	}
 
 	/**
-	 * Return location information about the pointcut expression
-	 * if available. This is useful in debugging.
-	 * @return location information as a human-readable String,
-	 * or {@code null} if none is available
+	 * Return location information about the pointcut expression if available. This is
+	 * useful in debugging.
+	 * @return location information as a human-readable String, or {@code null} if none is
+	 * available
 	 */
 	@Nullable
 	public String getLocation() {
@@ -75,9 +74,10 @@ public abstract class AbstractExpressionPointcut implements ExpressionPointcut, 
 	}
 
 	/**
-	 * Called when a new pointcut expression is set.
-	 * The expression should be parsed at this point if possible.
-	 * <p>This implementation is empty.
+	 * Called when a new pointcut expression is set. The expression should be parsed at
+	 * this point if possible.
+	 * <p>
+	 * This implementation is empty.
 	 * @param expression the expression to set
 	 * @throws IllegalArgumentException if the expression is invalid
 	 * @see #setExpression

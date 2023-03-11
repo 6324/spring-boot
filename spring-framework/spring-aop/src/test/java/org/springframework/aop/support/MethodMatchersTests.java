@@ -43,14 +43,12 @@ public class MethodMatchersTests {
 
 	private final Method IOTHER_ABSQUATULATE;
 
-
 	public MethodMatchersTests() throws Exception {
 		EXCEPTION_GETMESSAGE = Exception.class.getMethod("getMessage");
 		ITESTBEAN_GETAGE = ITestBean.class.getMethod("getAge");
 		ITESTBEAN_SETAGE = ITestBean.class.getMethod("setAge", int.class);
 		IOTHER_ABSQUATULATE = IOther.class.getMethod("absquatulate");
 	}
-
 
 	@Test
 	public void testDefaultMatchesAll() throws Exception {
@@ -75,7 +73,6 @@ public class MethodMatchersTests {
 		assertThat(defaultMm.matches(ITESTBEAN_SETAGE, TestBean.class)).isFalse();
 	}
 
-
 	@Test
 	public void testDynamicAndStaticMethodMatcherIntersection() throws Exception {
 		MethodMatcher mm1 = MethodMatcher.TRUE;
@@ -88,7 +85,8 @@ public class MethodMatchersTests {
 		intersection = MethodMatchers.intersection(intersection, new TestDynamicMethodMatcherWhichDoesNotMatch());
 		assertThat(intersection.isRuntime()).as("Intersection is a dynamic matcher").isTrue();
 		assertThat(intersection.matches(ITESTBEAN_SETAGE, TestBean.class)).as("2Matched setAge method").isTrue();
-		assertThat(intersection.matches(ITESTBEAN_SETAGE, TestBean.class, 5)).as("3 - not Matched setAge method").isFalse();
+		assertThat(intersection.matches(ITESTBEAN_SETAGE, TestBean.class, 5)).as("3 - not Matched setAge method")
+				.isFalse();
 	}
 
 	@Test
@@ -100,17 +98,18 @@ public class MethodMatchersTests {
 		assertThat(union.isRuntime()).as("Union is a static matcher").isFalse();
 		assertThat(union.matches(ITESTBEAN_SETAGE, TestBean.class)).as("Matched setAge method").isTrue();
 		assertThat(union.matches(ITESTBEAN_GETAGE, TestBean.class)).as("Matched getAge method").isTrue();
-		assertThat(union.matches(IOTHER_ABSQUATULATE, TestBean.class)).as("Didn't matched absquatulate method").isFalse();
+		assertThat(union.matches(IOTHER_ABSQUATULATE, TestBean.class)).as("Didn't matched absquatulate method")
+				.isFalse();
 	}
 
 	@Test
 	public void testUnionEquals() {
 		MethodMatcher first = MethodMatchers.union(MethodMatcher.TRUE, MethodMatcher.TRUE);
-		MethodMatcher second = new ComposablePointcut(MethodMatcher.TRUE).union(new ComposablePointcut(MethodMatcher.TRUE)).getMethodMatcher();
+		MethodMatcher second = new ComposablePointcut(MethodMatcher.TRUE)
+				.union(new ComposablePointcut(MethodMatcher.TRUE)).getMethodMatcher();
 		assertThat(first.equals(second)).isTrue();
 		assertThat(second.equals(first)).isTrue();
 	}
-
 
 	public static class StartsWithMatcher extends StaticMethodMatcher {
 
@@ -124,8 +123,8 @@ public class MethodMatchersTests {
 		public boolean matches(Method m, @Nullable Class<?> targetClass) {
 			return m.getName().startsWith(prefix);
 		}
-	}
 
+	}
 
 	private static class TestDynamicMethodMatcherWhichMatches extends DynamicMethodMatcher {
 
@@ -133,8 +132,8 @@ public class MethodMatchersTests {
 		public boolean matches(Method m, @Nullable Class<?> targetClass, Object... args) {
 			return true;
 		}
-	}
 
+	}
 
 	private static class TestDynamicMethodMatcherWhichDoesNotMatch extends DynamicMethodMatcher {
 
@@ -142,6 +141,7 @@ public class MethodMatchersTests {
 		public boolean matches(Method m, @Nullable Class<?> targetClass, Object... args) {
 			return false;
 		}
+
 	}
 
 }

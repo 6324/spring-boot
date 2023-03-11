@@ -83,11 +83,11 @@ public class CacheReproTests {
 
 		String key = "1";
 		Object result = bean.getSimple("1");
-		verify(cache, times(1)).get(key);  // first call: cache miss
+		verify(cache, times(1)).get(key); // first call: cache miss
 
 		Object cachedResult = bean.getSimple("1");
 		assertThat(cachedResult).isSameAs(result);
-		verify(cache, times(2)).get(key);  // second call: cache hit
+		verify(cache, times(2)).get(key); // second call: cache hit
 
 		context.close();
 	}
@@ -100,11 +100,11 @@ public class CacheReproTests {
 
 		String key = "1";
 		Object result = bean.getNeverCache("1");
-		verify(cache, times(0)).get(key);  // no cache hit at all, caching disabled
+		verify(cache, times(0)).get(key); // no cache hit at all, caching disabled
 
 		Object cachedResult = bean.getNeverCache("1");
 		assertThat(cachedResult).isNotSameAs(result);
-		verify(cache, times(0)).get(key);  // caching disabled
+		verify(cache, times(0)).get(key); // caching disabled
 
 		context.close();
 	}
@@ -116,7 +116,7 @@ public class CacheReproTests {
 		Spr13081Service bean = context.getBean(Spr13081Service.class);
 
 		assertThat(cacheResolver.getCache("foo").get("foo")).isNull();
-		Object result = bean.getSimple("foo");  // cache name = id
+		Object result = bean.getSimple("foo"); // cache name = id
 		assertThat(cacheResolver.getCache("foo").get("foo").get()).isEqualTo(result);
 	}
 
@@ -125,9 +125,8 @@ public class CacheReproTests {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Spr13081Config.class);
 		Spr13081Service bean = context.getBean(Spr13081Service.class);
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				bean.getSimple(null))
-			.withMessageContaining(MyCacheResolver.class.getName());
+		assertThatIllegalStateException().isThrownBy(() -> bean.getSimple(null))
+				.withMessageContaining(MyCacheResolver.class.getName());
 	}
 
 	@Test
@@ -188,7 +187,6 @@ public class CacheReproTests {
 		assertThat(cache.get("tb1").get()).isSameAs(tb);
 	}
 
-
 	@Configuration
 	@EnableCaching
 	public static class Spr11124Config {
@@ -202,16 +200,16 @@ public class CacheReproTests {
 		public Spr11124Service service() {
 			return new Spr11124ServiceImpl();
 		}
-	}
 
+	}
 
 	public interface Spr11124Service {
 
 		List<String> single(int id);
 
 		List<String> multiple(int id);
-	}
 
+	}
 
 	public static class Spr11124ServiceImpl implements Spr11124Service {
 
@@ -228,9 +226,8 @@ public class CacheReproTests {
 		}
 
 		@Override
-		@Caching(cacheable = {
-				@Cacheable(cacheNames = "bigCache", unless = "#result.size() < 4"),
-				@Cacheable(cacheNames = "smallCache", unless = "#result.size() > 3")})
+		@Caching(cacheable = { @Cacheable(cacheNames = "bigCache", unless = "#result.size() < 4"),
+				@Cacheable(cacheNames = "smallCache", unless = "#result.size() > 3") })
 		public List<String> multiple(int id) {
 			if (this.multipleCount > 0) {
 				throw new AssertionError("Called too many times");
@@ -238,8 +235,8 @@ public class CacheReproTests {
 			this.multipleCount++;
 			return Collections.emptyList();
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching
@@ -254,8 +251,8 @@ public class CacheReproTests {
 		public Spr11249Service service() {
 			return new Spr11249Service();
 		}
-	}
 
+	}
 
 	public static class Spr11249Service {
 
@@ -263,8 +260,8 @@ public class CacheReproTests {
 		public Object doSomething(String name, int... values) {
 			return new Object();
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching
@@ -287,8 +284,8 @@ public class CacheReproTests {
 		public Spr11592Service service() {
 			return new Spr11592Service();
 		}
-	}
 
+	}
 
 	public static class Spr11592Service {
 
@@ -301,8 +298,8 @@ public class CacheReproTests {
 		public Object getNeverCache(String key) {
 			return new Object();
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching
@@ -318,8 +315,8 @@ public class CacheReproTests {
 		public Spr13081Service service() {
 			return new Spr13081Service();
 		}
-	}
 
+	}
 
 	public static class MyCacheResolver extends AbstractCacheResolver {
 
@@ -340,8 +337,8 @@ public class CacheReproTests {
 		public Cache getCache(String name) {
 			return getCacheManager().getCache(name);
 		}
-	}
 
+	}
 
 	public static class Spr13081Service {
 
@@ -349,8 +346,8 @@ public class CacheReproTests {
 		public Object getSimple(String cacheName) {
 			return new Object();
 		}
-	}
 
+	}
 
 	public static class Spr14230Service {
 
@@ -363,8 +360,8 @@ public class CacheReproTests {
 		public TestBean insertItem(TestBean item) {
 			return item;
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching
@@ -379,8 +376,8 @@ public class CacheReproTests {
 		public Spr14230Service service() {
 			return new Spr14230Service();
 		}
-	}
 
+	}
 
 	public static class Spr14853Service {
 
@@ -393,8 +390,8 @@ public class CacheReproTests {
 		public TestBean insertItem(TestBean item) {
 			return item;
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching
@@ -409,8 +406,8 @@ public class CacheReproTests {
 		public Spr14853Service service() {
 			return new Spr14853Service();
 		}
-	}
 
+	}
 
 	public interface Spr15271Interface {
 
@@ -419,8 +416,8 @@ public class CacheReproTests {
 
 		@CachePut(cacheNames = "itemCache", key = "#item.name")
 		TestBean insertItem(TestBean item);
-	}
 
+	}
 
 	public static class Spr15271Service implements Spr15271Interface {
 
@@ -433,8 +430,8 @@ public class CacheReproTests {
 		public TestBean insertItem(TestBean item) {
 			return item;
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching
@@ -449,8 +446,8 @@ public class CacheReproTests {
 		public Spr15271Interface service() {
 			return new Spr15271Service();
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching(proxyTargetClass = true)
@@ -465,6 +462,7 @@ public class CacheReproTests {
 		public Spr15271Interface service() {
 			return new Spr15271Service();
 		}
+
 	}
 
 }

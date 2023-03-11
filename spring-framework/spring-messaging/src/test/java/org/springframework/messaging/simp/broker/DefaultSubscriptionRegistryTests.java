@@ -43,7 +43,6 @@ public class DefaultSubscriptionRegistryTests {
 
 	private final DefaultSubscriptionRegistry registry = new DefaultSubscriptionRegistry();
 
-
 	@Test
 	public void registerSubscriptionInvalidInput() {
 		String sessId = "sess01";
@@ -130,7 +129,7 @@ public class DefaultSubscriptionRegistryTests {
 		assertThat(actual.get(sessId)).isEqualTo(Collections.singletonList(subsId));
 	}
 
-	@Test  // SPR-11657
+	@Test // SPR-11657
 	public void registerSubscriptionsWithSimpleAndPatternDestinations() {
 		String sess1 = "sess01";
 		String sess2 = "sess02";
@@ -198,7 +197,7 @@ public class DefaultSubscriptionRegistryTests {
 		assertThat(actual.size()).isEqualTo(0);
 	}
 
-	@Test  // SPR-11755
+	@Test // SPR-11755
 	public void registerAndUnregisterMultipleDestinations() {
 		String sess1 = "sess01";
 		String sess2 = "sess02";
@@ -305,7 +304,7 @@ public class DefaultSubscriptionRegistryTests {
 		assertThat(actual.get(sessionId)).isEqualTo(Collections.singletonList(subscriptionId));
 	}
 
-	@Test  // SPR-11931
+	@Test // SPR-11931
 	public void registerSubscriptionTwiceAndUnregister() {
 		this.registry.registerSubscription(subscribeMessage("sess01", "subs01", "/foo"));
 		this.registry.registerSubscription(subscribeMessage("sess01", "subs02", "/foo"));
@@ -386,7 +385,7 @@ public class DefaultSubscriptionRegistryTests {
 		assertThat(actual.size()).as("Expected no elements " + actual).isEqualTo(0);
 	}
 
-	@Test  // SPR-12665
+	@Test // SPR-12665
 	public void findSubscriptionsReturnsMapSafeToIterate() throws Exception {
 		this.registry.registerSubscription(subscribeMessage("sess1", "1", "/foo"));
 		this.registry.registerSubscription(subscribeMessage("sess2", "1", "/foo"));
@@ -404,7 +403,7 @@ public class DefaultSubscriptionRegistryTests {
 		// no ConcurrentModificationException
 	}
 
-	@Test  // SPR-13185
+	@Test // SPR-13185
 	public void findSubscriptionsReturnsMapSafeToIterateIncludingValues() throws Exception {
 		this.registry.registerSubscription(subscribeMessage("sess1", "1", "/foo"));
 		this.registry.registerSubscription(subscribeMessage("sess1", "2", "/foo"));

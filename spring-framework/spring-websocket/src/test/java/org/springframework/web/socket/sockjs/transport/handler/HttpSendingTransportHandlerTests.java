@@ -40,14 +40,13 @@ import static org.mockito.Mockito.verify;
  *
  * @author Rossen Stoyanchev
  */
-public class HttpSendingTransportHandlerTests  extends AbstractHttpRequestTests {
+public class HttpSendingTransportHandlerTests extends AbstractHttpRequestTests {
 
 	private WebSocketHandler webSocketHandler;
 
 	private StubSockJsServiceConfig sockJsConfig;
 
 	private TaskScheduler taskScheduler;
-
 
 	@Override
 	@BeforeEach
@@ -63,7 +62,6 @@ public class HttpSendingTransportHandlerTests  extends AbstractHttpRequestTests 
 		setRequest("POST", "/");
 	}
 
-
 	@Test
 	public void handleRequestXhr() throws Exception {
 		XhrPollingTransportHandler transportHandler = new XhrPollingTransportHandler();
@@ -72,9 +70,11 @@ public class HttpSendingTransportHandlerTests  extends AbstractHttpRequestTests 
 		AbstractSockJsSession session = transportHandler.createSession("1", this.webSocketHandler, null);
 		transportHandler.handleRequest(this.request, this.response, this.webSocketHandler, session);
 
-		assertThat(this.response.getHeaders().getContentType().toString()).isEqualTo("application/javascript;charset=UTF-8");
+		assertThat(this.response.getHeaders().getContentType().toString())
+				.isEqualTo("application/javascript;charset=UTF-8");
 		assertThat(this.servletResponse.getContentAsString()).isEqualTo("o\n");
-		assertThat(this.servletRequest.isAsyncStarted()).as("Polling request should complete after open frame").isFalse();
+		assertThat(this.servletRequest.isAsyncStarted()).as("Polling request should complete after open frame")
+				.isFalse();
 		verify(this.webSocketHandler).afterConnectionEstablished(session);
 
 		resetRequestAndResponse();
@@ -98,7 +98,8 @@ public class HttpSendingTransportHandlerTests  extends AbstractHttpRequestTests 
 
 		transportHandler.handleRequest(this.request, this.response, this.webSocketHandler, session);
 
-		assertThat(this.response.getHeaders().getContentType().toString()).isEqualTo("application/javascript;charset=UTF-8");
+		assertThat(this.response.getHeaders().getContentType().toString())
+				.isEqualTo("application/javascript;charset=UTF-8");
 		assertThat(this.servletRequest.isAsyncStarted()).as("Streaming request not started").isTrue();
 		verify(this.webSocketHandler).afterConnectionEstablished(session);
 	}

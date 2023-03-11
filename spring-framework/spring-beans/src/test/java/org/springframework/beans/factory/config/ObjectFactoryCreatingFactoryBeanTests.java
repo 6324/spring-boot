@@ -46,12 +46,11 @@ public class ObjectFactoryCreatingFactoryBeanTests {
 
 	private DefaultListableBeanFactory beanFactory;
 
-
 	@BeforeEach
 	public void setup() {
 		this.beanFactory = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(this.beanFactory).loadBeanDefinitions(
-				qualifiedResource(ObjectFactoryCreatingFactoryBeanTests.class, "context.xml"));
+		new XmlBeanDefinitionReader(this.beanFactory)
+				.loadBeanDefinitions(qualifiedResource(ObjectFactoryCreatingFactoryBeanTests.class, "context.xml"));
 		this.beanFactory.setSerializationId("test");
 	}
 
@@ -59,7 +58,6 @@ public class ObjectFactoryCreatingFactoryBeanTests {
 	public void close() {
 		this.beanFactory.setSerializationId(null);
 	}
-
 
 	@Test
 	public void testFactoryOperation() {
@@ -126,34 +124,32 @@ public class ObjectFactoryCreatingFactoryBeanTests {
 
 	@Test
 	public void testWhenTargetBeanNameIsNull() throws Exception {
-		assertThatIllegalArgumentException().as(
-				"'targetBeanName' property not set").isThrownBy(
-						new ObjectFactoryCreatingFactoryBean()::afterPropertiesSet);
+		assertThatIllegalArgumentException().as("'targetBeanName' property not set")
+				.isThrownBy(new ObjectFactoryCreatingFactoryBean()::afterPropertiesSet);
 	}
 
 	@Test
 	public void testWhenTargetBeanNameIsEmptyString() throws Exception {
 		ObjectFactoryCreatingFactoryBean factory = new ObjectFactoryCreatingFactoryBean();
 		factory.setTargetBeanName("");
-		assertThatIllegalArgumentException().as(
-				"'targetBeanName' property set to (invalid) empty string").isThrownBy(
-						factory::afterPropertiesSet);
+		assertThatIllegalArgumentException().as("'targetBeanName' property set to (invalid) empty string")
+				.isThrownBy(factory::afterPropertiesSet);
 	}
 
 	@Test
 	public void testWhenTargetBeanNameIsWhitespacedString() throws Exception {
 		ObjectFactoryCreatingFactoryBean factory = new ObjectFactoryCreatingFactoryBean();
 		factory.setTargetBeanName("  \t");
-		assertThatIllegalArgumentException().as(
-				"'targetBeanName' property set to (invalid) only-whitespace string").isThrownBy(
-						factory::afterPropertiesSet);
+		assertThatIllegalArgumentException().as("'targetBeanName' property set to (invalid) only-whitespace string")
+				.isThrownBy(factory::afterPropertiesSet);
 	}
 
 	@Test
 	public void testEnsureOFBFBReportsThatItActuallyCreatesObjectFactoryInstances() {
-		assertThat(new ObjectFactoryCreatingFactoryBean().getObjectType()).as("Must be reporting that it creates ObjectFactory instances (as per class contract).").isEqualTo(ObjectFactory.class);
+		assertThat(new ObjectFactoryCreatingFactoryBean().getObjectType())
+				.as("Must be reporting that it creates ObjectFactory instances (as per class contract).")
+				.isEqualTo(ObjectFactory.class);
 	}
-
 
 	public static class FactoryTestBean {
 
@@ -166,8 +162,8 @@ public class ObjectFactoryCreatingFactoryBeanTests {
 		public void setObjectFactory(ObjectFactory<?> objectFactory) {
 			this.objectFactory = objectFactory;
 		}
-	}
 
+	}
 
 	public static class ProviderTestBean {
 
@@ -180,6 +176,7 @@ public class ObjectFactoryCreatingFactoryBeanTests {
 		public void setProvider(Provider<?> provider) {
 			this.provider = provider;
 		}
+
 	}
 
 }

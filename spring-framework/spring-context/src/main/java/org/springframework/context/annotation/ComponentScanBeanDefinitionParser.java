@@ -76,7 +76,6 @@ public class ComponentScanBeanDefinitionParser implements BeanDefinitionParser {
 
 	private static final String FILTER_EXPRESSION_ATTRIBUTE = "expression";
 
-
 	@Override
 	@Nullable
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
@@ -112,14 +111,16 @@ public class ComponentScanBeanDefinitionParser implements BeanDefinitionParser {
 			parseBeanNameGenerator(element, scanner);
 		}
 		catch (Exception ex) {
-			parserContext.getReaderContext().error(ex.getMessage(), parserContext.extractSource(element), ex.getCause());
+			parserContext.getReaderContext().error(ex.getMessage(), parserContext.extractSource(element),
+					ex.getCause());
 		}
 
 		try {
 			parseScope(element, scanner);
 		}
 		catch (Exception ex) {
-			parserContext.getReaderContext().error(ex.getMessage(), parserContext.extractSource(element), ex.getCause());
+			parserContext.getReaderContext().error(ex.getMessage(), parserContext.extractSource(element),
+					ex.getCause());
 		}
 
 		parseTypeFilters(element, scanner, parserContext);
@@ -132,8 +133,8 @@ public class ComponentScanBeanDefinitionParser implements BeanDefinitionParser {
 				readerContext.getEnvironment(), readerContext.getResourceLoader());
 	}
 
-	protected void registerComponents(
-			XmlReaderContext readerContext, Set<BeanDefinitionHolder> beanDefinitions, Element element) {
+	protected void registerComponents(XmlReaderContext readerContext, Set<BeanDefinitionHolder> beanDefinitions,
+			Element element) {
 
 		Object source = readerContext.extractSource(element);
 		CompositeComponentDefinition compositeDef = new CompositeComponentDefinition(element.getTagName(), source);
@@ -148,8 +149,8 @@ public class ComponentScanBeanDefinitionParser implements BeanDefinitionParser {
 			annotationConfig = Boolean.parseBoolean(element.getAttribute(ANNOTATION_CONFIG_ATTRIBUTE));
 		}
 		if (annotationConfig) {
-			Set<BeanDefinitionHolder> processorDefinitions =
-					AnnotationConfigUtils.registerAnnotationConfigProcessors(readerContext.getRegistry(), source);
+			Set<BeanDefinitionHolder> processorDefinitions = AnnotationConfigUtils
+					.registerAnnotationConfigProcessors(readerContext.getRegistry(), source);
 			for (BeanDefinitionHolder processorDefinition : processorDefinitions) {
 				compositeDef.addNestedComponent(new BeanComponentDefinition(processorDefinition));
 			}
@@ -197,7 +198,8 @@ public class ComponentScanBeanDefinitionParser implements BeanDefinitionParser {
 		}
 	}
 
-	protected void parseTypeFilters(Element element, ClassPathBeanDefinitionScanner scanner, ParserContext parserContext) {
+	protected void parseTypeFilters(Element element, ClassPathBeanDefinitionScanner scanner,
+			ParserContext parserContext) {
 		// Parse exclude and include filter elements.
 		ClassLoader classLoader = scanner.getResourceLoader().getClassLoader();
 		NodeList nodeList = element.getChildNodes();
@@ -216,12 +218,12 @@ public class ComponentScanBeanDefinitionParser implements BeanDefinitionParser {
 					}
 				}
 				catch (ClassNotFoundException ex) {
-					parserContext.getReaderContext().warning(
-							"Ignoring non-present type filter class: " + ex, parserContext.extractSource(element));
+					parserContext.getReaderContext().warning("Ignoring non-present type filter class: " + ex,
+							parserContext.extractSource(element));
 				}
 				catch (Exception ex) {
-					parserContext.getReaderContext().error(
-							ex.getMessage(), parserContext.extractSource(element), ex.getCause());
+					parserContext.getReaderContext().error(ex.getMessage(), parserContext.extractSource(element),
+							ex.getCause());
 				}
 			}
 		}
@@ -260,20 +262,20 @@ public class ComponentScanBeanDefinitionParser implements BeanDefinitionParser {
 	}
 
 	@SuppressWarnings("unchecked")
-	private Object instantiateUserDefinedStrategy(
-			String className, Class<?> strategyType, @Nullable ClassLoader classLoader) {
+	private Object instantiateUserDefinedStrategy(String className, Class<?> strategyType,
+			@Nullable ClassLoader classLoader) {
 
 		Object result;
 		try {
 			result = ReflectionUtils.accessibleConstructor(ClassUtils.forName(className, classLoader)).newInstance();
 		}
 		catch (ClassNotFoundException ex) {
-			throw new IllegalArgumentException("Class [" + className + "] for strategy [" +
-					strategyType.getName() + "] not found", ex);
+			throw new IllegalArgumentException(
+					"Class [" + className + "] for strategy [" + strategyType.getName() + "] not found", ex);
 		}
 		catch (Throwable ex) {
-			throw new IllegalArgumentException("Unable to instantiate class [" + className + "] for strategy [" +
-					strategyType.getName() + "]: a zero-argument constructor is required", ex);
+			throw new IllegalArgumentException("Unable to instantiate class [" + className + "] for strategy ["
+					+ strategyType.getName() + "]: a zero-argument constructor is required", ex);
 		}
 
 		if (!strategyType.isAssignableFrom(result.getClass())) {

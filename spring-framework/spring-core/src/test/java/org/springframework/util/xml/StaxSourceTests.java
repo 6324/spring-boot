@@ -108,4 +108,5 @@ class StaxSourceTests {
 		transformer.transform(source, new DOMResult(result));
 		assertThat(XmlContent.of(result)).as("Invalid result").isSimilarTo(expected);
 	}
+
 }

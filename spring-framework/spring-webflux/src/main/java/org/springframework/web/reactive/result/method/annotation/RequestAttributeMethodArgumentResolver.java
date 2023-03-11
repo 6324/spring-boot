@@ -40,9 +40,9 @@ public class RequestAttributeMethodArgumentResolver extends AbstractNamedValueSy
 
 	/**
 	 * Create a new {@link RequestAttributeMethodArgumentResolver} instance.
-	 * @param factory a bean factory to use for resolving {@code ${...}}
-	 * placeholder and {@code #{...}} SpEL expressions in default values;
-	 * or {@code null} if default values are not expected to have expressions
+	 * @param factory a bean factory to use for resolving {@code ${...}} placeholder and
+	 * {@code #{...}} SpEL expressions in default values; or {@code null} if default
+	 * values are not expected to have expressions
 	 * @param registry for checking reactive type wrappers
 	 */
 	public RequestAttributeMethodArgumentResolver(@Nullable ConfigurableBeanFactory factory,
@@ -51,12 +51,10 @@ public class RequestAttributeMethodArgumentResolver extends AbstractNamedValueSy
 		super(factory, registry);
 	}
 
-
 	@Override
 	public boolean supportsParameter(MethodParameter param) {
 		return param.hasParameterAnnotation(RequestAttribute.class);
 	}
-
 
 	@Override
 	protected NamedValueInfo createNamedValueInfo(MethodParameter parameter) {
@@ -71,18 +69,16 @@ public class RequestAttributeMethodArgumentResolver extends AbstractNamedValueSy
 		ReactiveAdapter toAdapter = getAdapterRegistry().getAdapter(parameter.getParameterType());
 		if (toAdapter != null) {
 			if (value == null) {
-				Assert.isTrue(toAdapter.supportsEmpty(),
-						() -> "No request attribute '" + name + "' and target type " +
-								parameter.getGenericParameterType() + " doesn't support empty values.");
+				Assert.isTrue(toAdapter.supportsEmpty(), () -> "No request attribute '" + name + "' and target type "
+						+ parameter.getGenericParameterType() + " doesn't support empty values.");
 				return toAdapter.fromPublisher(Mono.empty());
 			}
 			if (parameter.getParameterType().isAssignableFrom(value.getClass())) {
 				return value;
 			}
 			ReactiveAdapter fromAdapter = getAdapterRegistry().getAdapter(value.getClass());
-			Assert.isTrue(fromAdapter != null,
-					() -> getClass().getSimpleName() + " doesn't support " +
-							"reactive type wrapper: " + parameter.getGenericParameterType());
+			Assert.isTrue(fromAdapter != null, () -> getClass().getSimpleName() + " doesn't support "
+					+ "reactive type wrapper: " + parameter.getGenericParameterType());
 			return toAdapter.fromPublisher(fromAdapter.toPublisher(value));
 		}
 		return value;

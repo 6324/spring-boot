@@ -42,12 +42,10 @@ public abstract class HandlerMethodArgumentResolverSupport implements HandlerMet
 
 	private final ReactiveAdapterRegistry adapterRegistry;
 
-
 	protected HandlerMethodArgumentResolverSupport(ReactiveAdapterRegistry adapterRegistry) {
 		Assert.notNull(adapterRegistry, "ReactiveAdapterRegistry is required");
 		this.adapterRegistry = adapterRegistry;
 	}
-
 
 	/**
 	 * Return the configured {@link ReactiveAdapterRegistry}.
@@ -56,10 +54,9 @@ public abstract class HandlerMethodArgumentResolverSupport implements HandlerMet
 		return this.adapterRegistry;
 	}
 
-
 	/**
-	 * Evaluate the {@code Predicate} on the method parameter type or on
-	 * the generic type within a reactive type wrapper.
+	 * Evaluate the {@code Predicate} on the method parameter type or on the generic type
+	 * within a reactive type wrapper.
 	 */
 	protected boolean checkParameterType(MethodParameter parameter, Predicate<Class<?>> predicate) {
 		Class<?> type = parameter.getParameterType();
@@ -80,8 +77,8 @@ public abstract class HandlerMethodArgumentResolverSupport implements HandlerMet
 
 	/**
 	 * Evaluate the {@code Predicate} on the method parameter type but raise an
-	 * {@code IllegalStateException} if the same matches the generic type
-	 * within a reactive type wrapper.
+	 * {@code IllegalStateException} if the same matches the generic type within a
+	 * reactive type wrapper.
 	 */
 	protected boolean checkParameterTypeNoReactiveWrapper(MethodParameter parameter, Predicate<Class<?>> predicate) {
 		Class<?> type = parameter.getParameterType();
@@ -100,18 +97,18 @@ public abstract class HandlerMethodArgumentResolverSupport implements HandlerMet
 	}
 
 	private IllegalStateException buildReactiveWrapperException(MethodParameter parameter) {
-		return new IllegalStateException(getClass().getSimpleName() +
-				" does not support reactive type wrapper: " + parameter.getGenericParameterType());
+		return new IllegalStateException(getClass().getSimpleName() + " does not support reactive type wrapper: "
+				+ parameter.getGenericParameterType());
 	}
 
 	/**
-	 * Evaluate the {@code Predicate} on the method parameter type if it has the
-	 * given annotation, nesting within {@link java.util.Optional} if necessary,
-	 * but raise an {@code IllegalStateException} if the same matches the generic
-	 * type within a reactive type wrapper.
+	 * Evaluate the {@code Predicate} on the method parameter type if it has the given
+	 * annotation, nesting within {@link java.util.Optional} if necessary, but raise an
+	 * {@code IllegalStateException} if the same matches the generic type within a
+	 * reactive type wrapper.
 	 */
-	protected <A extends Annotation> boolean checkAnnotatedParamNoReactiveWrapper(
-			MethodParameter parameter, Class<A> annotationType, BiPredicate<A, Class<?>> typePredicate) {
+	protected <A extends Annotation> boolean checkAnnotatedParamNoReactiveWrapper(MethodParameter parameter,
+			Class<A> annotationType, BiPredicate<A, Class<?>> typePredicate) {
 
 		A annotation = parameter.getParameterAnnotation(annotationType);
 		if (annotation == null) {

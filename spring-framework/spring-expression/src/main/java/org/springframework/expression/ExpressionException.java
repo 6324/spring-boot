@@ -31,8 +31,7 @@ public class ExpressionException extends RuntimeException {
 	@Nullable
 	protected final String expressionString;
 
-	protected int position;  // -1 if not known; should be known in all reasonable cases
-
+	protected int position; // -1 if not known; should be known in all reasonable cases
 
 	/**
 	 * Construct a new expression exception.
@@ -101,7 +100,6 @@ public class ExpressionException extends RuntimeException {
 		this.position = position;
 	}
 
-
 	/**
 	 * Return the expression string.
 	 */
@@ -118,8 +116,8 @@ public class ExpressionException extends RuntimeException {
 	}
 
 	/**
-	 * Return the exception message.
-	 * As of Spring 4.0, this method returns the same result as {@link #toDetailedString()}.
+	 * Return the exception message. As of Spring 4.0, this method returns the same result
+	 * as {@link #toDetailedString()}.
 	 * @see #getSimpleMessage()
 	 * @see java.lang.Throwable#getMessage()
 	 */
@@ -129,8 +127,8 @@ public class ExpressionException extends RuntimeException {
 	}
 
 	/**
-	 * Return a detailed description of this exception, including the expression
-	 * String and position (if available) as well as the actual exception message.
+	 * Return a detailed description of this exception, including the expression String
+	 * and position (if available) as well as the actual exception message.
 	 */
 	public String toDetailedString() {
 		if (this.expressionString != null) {
@@ -152,8 +150,8 @@ public class ExpressionException extends RuntimeException {
 	}
 
 	/**
-	 * Return the exception simple message without including the expression
-	 * that caused the failure.
+	 * Return the exception simple message without including the expression that caused
+	 * the failure.
 	 * @since 4.0
 	 */
 	public String getSimpleMessage() {

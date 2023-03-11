@@ -45,38 +45,33 @@ class MimeTypeTests {
 
 	@Test
 	void slashInSubtype() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new MimeType("text", "/"));
+		assertThatIllegalArgumentException().isThrownBy(() -> new MimeType("text", "/"));
 	}
 
 	@Test
 	void valueOfNoSubtype() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				MimeType.valueOf("audio"));
+		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() -> MimeType.valueOf("audio"));
 	}
 
 	@Test
 	void valueOfNoSubtypeSlash() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				MimeType.valueOf("audio/"));
+		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() -> MimeType.valueOf("audio/"));
 	}
 
 	@Test
 	void valueOfIllegalType() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				MimeType.valueOf("audio(/basic"));
+		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() -> MimeType.valueOf("audio(/basic"));
 	}
 
 	@Test
 	void valueOfIllegalSubtype() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				MimeType.valueOf("audio/basic)"));
+		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() -> MimeType.valueOf("audio/basic)"));
 	}
 
 	@Test
 	void valueOfIllegalCharset() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				MimeType.valueOf("text/html; charset=foo-bar"));
+		assertThatExceptionOfType(InvalidMimeTypeException.class)
+				.isThrownBy(() -> MimeType.valueOf("text/html; charset=foo-bar"));
 	}
 
 	@Test
@@ -192,89 +187,89 @@ class MimeTypeTests {
 
 	@Test
 	void parseMimeTypeNoSubtype() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				MimeTypeUtils.parseMimeType("audio"));
+		assertThatExceptionOfType(InvalidMimeTypeException.class)
+				.isThrownBy(() -> MimeTypeUtils.parseMimeType("audio"));
 	}
 
 	@Test
 	void parseMimeTypeNoSubtypeSlash() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				MimeTypeUtils.parseMimeType("audio/"));
+		assertThatExceptionOfType(InvalidMimeTypeException.class)
+				.isThrownBy(() -> MimeTypeUtils.parseMimeType("audio/"));
 	}
 
 	@Test
 	void parseMimeTypeTypeRange() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				MimeTypeUtils.parseMimeType("*/json"));
+		assertThatExceptionOfType(InvalidMimeTypeException.class)
+				.isThrownBy(() -> MimeTypeUtils.parseMimeType("*/json"));
 	}
 
 	@Test
 	void parseMimeTypeIllegalType() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				MimeTypeUtils.parseMimeType("audio(/basic"));
+		assertThatExceptionOfType(InvalidMimeTypeException.class)
+				.isThrownBy(() -> MimeTypeUtils.parseMimeType("audio(/basic"));
 	}
 
 	@Test
 	void parseMimeTypeIllegalSubtype() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				MimeTypeUtils.parseMimeType("audio/basic)"));
+		assertThatExceptionOfType(InvalidMimeTypeException.class)
+				.isThrownBy(() -> MimeTypeUtils.parseMimeType("audio/basic)"));
 	}
 
 	@Test
 	void parseMimeTypeMissingTypeAndSubtype() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				MimeTypeUtils.parseMimeType("     ;a=b"));
+		assertThatExceptionOfType(InvalidMimeTypeException.class)
+				.isThrownBy(() -> MimeTypeUtils.parseMimeType("     ;a=b"));
 	}
 
 	@Test
 	void parseMimeTypeEmptyParameterAttribute() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				MimeTypeUtils.parseMimeType("audio/*;=value"));
+		assertThatExceptionOfType(InvalidMimeTypeException.class)
+				.isThrownBy(() -> MimeTypeUtils.parseMimeType("audio/*;=value"));
 	}
 
 	@Test
 	void parseMimeTypeEmptyParameterValue() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				MimeTypeUtils.parseMimeType("audio/*;attr="));
+		assertThatExceptionOfType(InvalidMimeTypeException.class)
+				.isThrownBy(() -> MimeTypeUtils.parseMimeType("audio/*;attr="));
 	}
 
 	@Test
 	void parseMimeTypeIllegalParameterAttribute() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				MimeTypeUtils.parseMimeType("audio/*;attr<=value"));
+		assertThatExceptionOfType(InvalidMimeTypeException.class)
+				.isThrownBy(() -> MimeTypeUtils.parseMimeType("audio/*;attr<=value"));
 	}
 
 	@Test
 	void parseMimeTypeIllegalParameterValue() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				MimeTypeUtils.parseMimeType("audio/*;attr=v>alue"));
+		assertThatExceptionOfType(InvalidMimeTypeException.class)
+				.isThrownBy(() -> MimeTypeUtils.parseMimeType("audio/*;attr=v>alue"));
 	}
 
 	@Test
 	void parseMimeTypeIllegalCharset() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				MimeTypeUtils.parseMimeType("text/html; charset=foo-bar"));
+		assertThatExceptionOfType(InvalidMimeTypeException.class)
+				.isThrownBy(() -> MimeTypeUtils.parseMimeType("text/html; charset=foo-bar"));
 	}
 
-	@Test  // SPR-8917
+	@Test // SPR-8917
 	void parseMimeTypeQuotedParameterValue() {
 		MimeType mimeType = MimeTypeUtils.parseMimeType("audio/*;attr=\"v>alue\"");
 		assertThat(mimeType.getParameter("attr")).isEqualTo("\"v>alue\"");
 	}
 
-	@Test  // SPR-8917
+	@Test // SPR-8917
 	void parseMimeTypeSingleQuotedParameterValue() {
 		MimeType mimeType = MimeTypeUtils.parseMimeType("audio/*;attr='v>alue'");
 		assertThat(mimeType.getParameter("attr")).isEqualTo("'v>alue'");
 	}
 
-	@Test  // SPR-16630
+	@Test // SPR-16630
 	void parseMimeTypeWithSpacesAroundEquals() {
 		MimeType mimeType = MimeTypeUtils.parseMimeType("multipart/x-mixed-replace;boundary = --myboundary");
 		assertThat(mimeType.getParameter("boundary")).isEqualTo("--myboundary");
 	}
 
-	@Test  // SPR-16630
+	@Test // SPR-16630
 	void parseMimeTypeWithSpacesAroundEqualsAndQuotedValue() {
 		MimeType mimeType = MimeTypeUtils.parseMimeType("text/plain; foo = \" bar \" ");
 		assertThat(mimeType.getParameter("foo")).isEqualTo("\" bar \"");
@@ -282,14 +277,13 @@ class MimeTypeTests {
 
 	@Test
 	void parseMimeTypeIllegalQuotedParameterValue() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				MimeTypeUtils.parseMimeType("audio/*;attr=\""));
+		assertThatExceptionOfType(InvalidMimeTypeException.class)
+				.isThrownBy(() -> MimeTypeUtils.parseMimeType("audio/*;attr=\""));
 	}
 
 	@Test
 	void parseMimeTypeNull() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				MimeTypeUtils.parseMimeType(null));
+		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() -> MimeTypeUtils.parseMimeType(null));
 	}
 
 	@Test
@@ -304,14 +298,14 @@ class MimeTypeTests {
 		assertThat(mimeTypes.size()).as("Invalid amount of mime types").isEqualTo(0);
 	}
 
-	@Test  // gh-23241
+	@Test // gh-23241
 	void parseMimeTypesWithTrailingComma() {
 		List<MimeType> mimeTypes = MimeTypeUtils.parseMimeTypes("text/plain, text/html,");
 		assertThat(mimeTypes).as("No mime types returned").isNotNull();
 		assertThat(mimeTypes.size()).as("Incorrect number of mime types").isEqualTo(2);
 	}
 
-	@Test  // SPR-17459
+	@Test // SPR-17459
 	void parseMimeTypesWithQuotedParameters() {
 		testWithQuotedParameters("foo/bar;param=\",\"");
 		testWithQuotedParameters("foo/bar;param=\"s,a,\"");
@@ -383,7 +377,7 @@ class MimeTypeTests {
 		assertThat(m2.compareTo(m1) != 0).as("Invalid comparison result").isTrue();
 	}
 
-	@Test  // SPR-13157
+	@Test // SPR-13157
 	void equalsIsCaseInsensitiveForCharsets() {
 		MimeType m1 = new MimeType("text", "plain", singletonMap("charset", "UTF-8"));
 		MimeType m2 = new MimeType("text", "plain", singletonMap("charset", "utf-8"));
@@ -393,7 +387,7 @@ class MimeTypeTests {
 		assertThat(m2.compareTo(m1)).isEqualTo(0);
 	}
 
-	@Test  // gh-26127
+	@Test // gh-26127
 	void serialize() throws Exception {
 		MimeType original = new MimeType("text", "plain", StandardCharsets.UTF_8);
 		MimeType deserialized = (MimeType) SerializationTestUtils.serializeAndDeserialize(original);

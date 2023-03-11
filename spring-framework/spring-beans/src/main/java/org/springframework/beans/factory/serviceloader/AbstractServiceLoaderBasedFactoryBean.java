@@ -25,8 +25,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * Abstract base class for FactoryBeans operating on the
- * JDK 1.6 {@link java.util.ServiceLoader} facility.
+ * Abstract base class for FactoryBeans operating on the JDK 1.6
+ * {@link java.util.ServiceLoader} facility.
  *
  * @author Juergen Hoeller
  * @since 2.5
@@ -40,7 +40,6 @@ public abstract class AbstractServiceLoaderBasedFactoryBean extends AbstractFact
 
 	@Nullable
 	private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
-
 
 	/**
 	 * Specify the desired service type (typically the service's public API).
@@ -62,7 +61,6 @@ public abstract class AbstractServiceLoaderBasedFactoryBean extends AbstractFact
 		this.beanClassLoader = beanClassLoader;
 	}
 
-
 	/**
 	 * Delegates to {@link #getObjectToExpose(java.util.ServiceLoader)}.
 	 * @return the object to expose
@@ -75,7 +73,8 @@ public abstract class AbstractServiceLoaderBasedFactoryBean extends AbstractFact
 
 	/**
 	 * Determine the actual object to expose for the given ServiceLoader.
-	 * <p>Left to concrete subclasses.
+	 * <p>
+	 * Left to concrete subclasses.
 	 * @param serviceLoader the ServiceLoader for the configured service class
 	 * @return the object to expose
 	 */

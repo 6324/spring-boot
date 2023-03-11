@@ -46,7 +46,6 @@ public class GroovyScriptEvaluator implements ScriptEvaluator, BeanClassLoaderAw
 
 	private CompilerConfiguration compilerConfiguration = new CompilerConfiguration();
 
-
 	/**
 	 * Construct a new GroovyScriptEvaluator.
 	 */
@@ -61,15 +60,14 @@ public class GroovyScriptEvaluator implements ScriptEvaluator, BeanClassLoaderAw
 		this.classLoader = classLoader;
 	}
 
-
 	/**
 	 * Set a custom compiler configuration for this evaluator.
 	 * @since 4.3.3
 	 * @see #setCompilationCustomizers
 	 */
 	public void setCompilerConfiguration(@Nullable CompilerConfiguration compilerConfiguration) {
-		this.compilerConfiguration =
-				(compilerConfiguration != null ? compilerConfiguration : new CompilerConfiguration());
+		this.compilerConfiguration = (compilerConfiguration != null ? compilerConfiguration
+				: new CompilerConfiguration());
 	}
 
 	/**
@@ -82,8 +80,10 @@ public class GroovyScriptEvaluator implements ScriptEvaluator, BeanClassLoaderAw
 	}
 
 	/**
-	 * Set one or more customizers to be applied to this evaluator's compiler configuration.
-	 * <p>Note that this modifies the shared compiler configuration held by this evaluator.
+	 * Set one or more customizers to be applied to this evaluator's compiler
+	 * configuration.
+	 * <p>
+	 * Note that this modifies the shared compiler configuration held by this evaluator.
 	 * @since 4.3.3
 	 * @see #setCompilerConfiguration
 	 */
@@ -96,7 +96,6 @@ public class GroovyScriptEvaluator implements ScriptEvaluator, BeanClassLoaderAw
 		this.classLoader = classLoader;
 	}
 
-
 	@Override
 	@Nullable
 	public Object evaluate(ScriptSource script) {
@@ -106,11 +105,10 @@ public class GroovyScriptEvaluator implements ScriptEvaluator, BeanClassLoaderAw
 	@Override
 	@Nullable
 	public Object evaluate(ScriptSource script, @Nullable Map<String, Object> arguments) {
-		GroovyShell groovyShell = new GroovyShell(
-				this.classLoader, new Binding(arguments), this.compilerConfiguration);
+		GroovyShell groovyShell = new GroovyShell(this.classLoader, new Binding(arguments), this.compilerConfiguration);
 		try {
-			String filename = (script instanceof ResourceScriptSource ?
-					((ResourceScriptSource) script).getResource().getFilename() : null);
+			String filename = (script instanceof ResourceScriptSource
+					? ((ResourceScriptSource) script).getResource().getFilename() : null);
 			if (filename != null) {
 				return groovyShell.evaluate(script.getScriptAsString(), filename);
 			}

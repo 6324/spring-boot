@@ -25,8 +25,8 @@ import org.springframework.jdbc.core.SqlParameterValue;
 import org.springframework.lang.Nullable;
 
 /**
- * Class that provides helper methods for the use of {@link SqlParameterSource},
- * in particular with {@link NamedParameterJdbcTemplate}.
+ * Class that provides helper methods for the use of {@link SqlParameterSource}, in
+ * particular with {@link NamedParameterJdbcTemplate}.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -35,9 +35,9 @@ import org.springframework.lang.Nullable;
 public abstract class SqlParameterSourceUtils {
 
 	/**
-	 * Create an array of {@link SqlParameterSource} objects populated with data
-	 * from the values passed in (either a {@link Map} or a bean object).
-	 * This will define what is included in a batch operation.
+	 * Create an array of {@link SqlParameterSource} objects populated with data from the
+	 * values passed in (either a {@link Map} or a bean object). This will define what is
+	 * included in a batch operation.
 	 * @param candidates object array of objects containing the values to be used
 	 * @return an array of {@link SqlParameterSource}
 	 * @see MapSqlParameterSource
@@ -49,9 +49,9 @@ public abstract class SqlParameterSourceUtils {
 	}
 
 	/**
-	 * Create an array of {@link SqlParameterSource} objects populated with data
-	 * from the values passed in (either a {@link Map} or a bean object).
-	 * This will define what is included in a batch operation.
+	 * Create an array of {@link SqlParameterSource} objects populated with data from the
+	 * values passed in (either a {@link Map} or a bean object). This will define what is
+	 * included in a batch operation.
 	 * @param candidates collection of objects containing the values to be used
 	 * @return an array of {@link SqlParameterSource}
 	 * @since 5.0.2
@@ -64,8 +64,8 @@ public abstract class SqlParameterSourceUtils {
 		SqlParameterSource[] batch = new SqlParameterSource[candidates.size()];
 		int i = 0;
 		for (Object candidate : candidates) {
-			batch[i] = (candidate instanceof Map ? new MapSqlParameterSource((Map<String, ?>) candidate) :
-					new BeanPropertySqlParameterSource(candidate));
+			batch[i] = (candidate instanceof Map ? new MapSqlParameterSource((Map<String, ?>) candidate)
+					: new BeanPropertySqlParameterSource(candidate));
 			i++;
 		}
 		return batch;

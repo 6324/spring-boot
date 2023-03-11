@@ -40,7 +40,6 @@ public class ReflectiveConstructorExecutor implements ConstructorExecutor {
 	@Nullable
 	private final Integer varargsPosition;
 
-
 	public ReflectiveConstructorExecutor(Constructor<?> ctor) {
 		this.ctor = ctor;
 		if (ctor.isVarArgs()) {
@@ -54,11 +53,10 @@ public class ReflectiveConstructorExecutor implements ConstructorExecutor {
 	@Override
 	public TypedValue execute(EvaluationContext context, Object... arguments) throws AccessException {
 		try {
-			ReflectionHelper.convertArguments(
-					context.getTypeConverter(), arguments, this.ctor, this.varargsPosition);
+			ReflectionHelper.convertArguments(context.getTypeConverter(), arguments, this.ctor, this.varargsPosition);
 			if (this.ctor.isVarArgs()) {
-				arguments = ReflectionHelper.setupArgumentsForVarargsInvocation(
-						this.ctor.getParameterTypes(), arguments);
+				arguments = ReflectionHelper.setupArgumentsForVarargsInvocation(this.ctor.getParameterTypes(),
+						arguments);
 			}
 			ReflectionUtils.makeAccessible(this.ctor);
 			return new TypedValue(this.ctor.newInstance(arguments));

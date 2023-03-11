@@ -24,12 +24,12 @@ import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.lang.Nullable;
 
 /**
- * Common configuration object for activating a JMS message endpoint.
- * Gets converted into a provider-specific JCA 1.5 ActivationSpec
- * object for activating the endpoint.
+ * Common configuration object for activating a JMS message endpoint. Gets converted into
+ * a provider-specific JCA 1.5 ActivationSpec object for activating the endpoint.
  *
- * <p>Typically used in combination with {@link JmsMessageEndpointManager},
- * but not tied to it.
+ * <p>
+ * Typically used in combination with {@link JmsMessageEndpointManager}, but not tied to
+ * it.
  *
  * @author Juergen Hoeller
  * @author Stephane Nicoll
@@ -42,7 +42,6 @@ public class JmsActivationSpecConfig {
 
 	/** Constants instance for {@code javax.jms.Session}. */
 	private static final Constants sessionConstants = new Constants(Session.class);
-
 
 	@Nullable
 	private String destinationName;
@@ -76,7 +75,6 @@ public class JmsActivationSpecConfig {
 
 	@Nullable
 	private MessageConverter messageConverter;
-
 
 	public void setDestinationName(@Nullable String destinationName) {
 		this.destinationName = destinationName;
@@ -177,12 +175,13 @@ public class JmsActivationSpecConfig {
 	}
 
 	/**
-	 * Set the JMS acknowledgement mode by the name of the corresponding constant
-	 * in the JMS {@link Session} interface, e.g. "CLIENT_ACKNOWLEDGE".
-	 * <p>Note that JCA resource adapters generally only support auto and dups-ok
-	 * (see Spring's {@link StandardJmsActivationSpecFactory}). ActiveMQ also
-	 * supports "SESSION_TRANSACTED" in the form of RA-managed transactions
-	 * (automatically translated by Spring's {@link DefaultJmsActivationSpecFactory}.
+	 * Set the JMS acknowledgement mode by the name of the corresponding constant in the
+	 * JMS {@link Session} interface, e.g. "CLIENT_ACKNOWLEDGE".
+	 * <p>
+	 * Note that JCA resource adapters generally only support auto and dups-ok (see
+	 * Spring's {@link StandardJmsActivationSpecFactory}). ActiveMQ also supports
+	 * "SESSION_TRANSACTED" in the form of RA-managed transactions (automatically
+	 * translated by Spring's {@link DefaultJmsActivationSpecFactory}.
 	 * @param constantName the name of the {@link Session} acknowledge mode constant
 	 * @see javax.jms.Session#AUTO_ACKNOWLEDGE
 	 * @see javax.jms.Session#CLIENT_ACKNOWLEDGE
@@ -216,11 +215,13 @@ public class JmsActivationSpecConfig {
 	/**
 	 * Specify concurrency limits via a "lower-upper" String, e.g. "5-10", or a simple
 	 * upper limit String, e.g. "10".
-	 * <p>JCA listener containers will always scale from zero to the given upper limit.
-	 * A specified lower limit will effectively be ignored.
-	 * <p>This property is primarily supported for configuration compatibility with
-	 * {@link org.springframework.jms.listener.DefaultMessageListenerContainer}.
-	 * For this activation config, generally use {@link #setMaxConcurrency} instead.
+	 * <p>
+	 * JCA listener containers will always scale from zero to the given upper limit. A
+	 * specified lower limit will effectively be ignored.
+	 * <p>
+	 * This property is primarily supported for configuration compatibility with
+	 * {@link org.springframework.jms.listener.DefaultMessageListenerContainer}. For this
+	 * activation config, generally use {@link #setMaxConcurrency} instead.
 	 */
 	public void setConcurrency(String concurrency) {
 		try {
@@ -233,16 +234,16 @@ public class JmsActivationSpecConfig {
 			}
 		}
 		catch (NumberFormatException ex) {
-			throw new IllegalArgumentException("Invalid concurrency value [" + concurrency + "]: only " +
-					"single maximum integer (e.g. \"5\") and minimum-maximum combo (e.g. \"3-5\") supported. " +
-					"Note that JmsActivationSpecConfig will effectively ignore the minimum value and " +
-					"scale from zero up to the number of consumers according to the maximum value.");
+			throw new IllegalArgumentException("Invalid concurrency value [" + concurrency + "]: only "
+					+ "single maximum integer (e.g. \"5\") and minimum-maximum combo (e.g. \"3-5\") supported. "
+					+ "Note that JmsActivationSpecConfig will effectively ignore the minimum value and "
+					+ "scale from zero up to the number of consumers according to the maximum value.");
 		}
 	}
 
 	/**
-	 * Specify the maximum number of consumers/sessions to use, effectively
-	 * controlling the number of concurrent invocations on the target listener.
+	 * Specify the maximum number of consumers/sessions to use, effectively controlling
+	 * the number of concurrent invocations on the target listener.
 	 */
 	public void setMaxConcurrency(int maxConcurrency) {
 		this.maxConcurrency = maxConcurrency;
@@ -256,8 +257,8 @@ public class JmsActivationSpecConfig {
 	}
 
 	/**
-	 * Specify the maximum number of messages to load into a session
-	 * (a kind of batch size).
+	 * Specify the maximum number of messages to load into a session (a kind of batch
+	 * size).
 	 */
 	public void setPrefetchSize(int prefetchSize) {
 		this.prefetchSize = prefetchSize;

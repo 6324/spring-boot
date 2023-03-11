@@ -31,7 +31,6 @@ import org.springframework.context.annotation.configuration.spr9031.scanpackage.
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * Unit tests cornering bug SPR-9031.
  *
@@ -66,18 +65,25 @@ public class Spr9031Tests {
 
 	@Configuration
 	@Import(LowLevelConfig.class)
-	static class HighLevelConfig {}
+	static class HighLevelConfig {
+
+	}
 
 	@Configuration
-	@ComponentScan(
-			basePackages = "org.springframework.context.annotation.configuration.spr9031.scanpackage",
+	@ComponentScan(basePackages = "org.springframework.context.annotation.configuration.spr9031.scanpackage",
 			includeFilters = { @Filter(MarkerAnnotation.class) })
 	static class LowLevelConfig {
+
 		// fails to wire when LowLevelConfig is processed with ASM because nested @Filter
 		// annotation is not parsed
-		@Autowired Spr9031Component scanned;
+		@Autowired
+		Spr9031Component scanned;
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
-	public @interface MarkerAnnotation {}
+	public @interface MarkerAnnotation {
+
+	}
+
 }

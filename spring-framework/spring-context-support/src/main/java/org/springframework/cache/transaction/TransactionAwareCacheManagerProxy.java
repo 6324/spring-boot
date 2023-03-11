@@ -25,11 +25,13 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Proxy for a target {@link CacheManager}, exposing transaction-aware {@link Cache} objects
- * which synchronize their {@link Cache#put} operations with Spring-managed transactions
- * (through Spring's {@link org.springframework.transaction.support.TransactionSynchronizationManager},
- * performing the actual cache put operation only in the after-commit phase of a successful transaction.
- * If no transaction is active, {@link Cache#put} operations will be performed immediately, as usual.
+ * Proxy for a target {@link CacheManager}, exposing transaction-aware {@link Cache}
+ * objects which synchronize their {@link Cache#put} operations with Spring-managed
+ * transactions (through Spring's
+ * {@link org.springframework.transaction.support.TransactionSynchronizationManager},
+ * performing the actual cache put operation only in the after-commit phase of a
+ * successful transaction. If no transaction is active, {@link Cache#put} operations will
+ * be performed immediately, as usual.
  *
  * @author Juergen Hoeller
  * @since 3.2
@@ -41,7 +43,6 @@ public class TransactionAwareCacheManagerProxy implements CacheManager, Initiali
 
 	@Nullable
 	private CacheManager targetCacheManager;
-
 
 	/**
 	 * Create a new TransactionAwareCacheManagerProxy, setting the target CacheManager
@@ -59,7 +60,6 @@ public class TransactionAwareCacheManagerProxy implements CacheManager, Initiali
 		this.targetCacheManager = targetCacheManager;
 	}
 
-
 	/**
 	 * Set the target CacheManager to proxy.
 	 */
@@ -73,7 +73,6 @@ public class TransactionAwareCacheManagerProxy implements CacheManager, Initiali
 			throw new IllegalArgumentException("Property 'targetCacheManager' is required");
 		}
 	}
-
 
 	@Override
 	@Nullable

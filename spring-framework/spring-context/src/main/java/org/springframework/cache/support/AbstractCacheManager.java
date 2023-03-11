@@ -29,8 +29,8 @@ import org.springframework.cache.CacheManager;
 import org.springframework.lang.Nullable;
 
 /**
- * Abstract base class implementing the common {@link CacheManager} methods.
- * Useful for 'static' environments where the backing caches do not change.
+ * Abstract base class implementing the common {@link CacheManager} methods. Useful for
+ * 'static' environments where the backing caches do not change.
  *
  * @author Costin Leau
  * @author Juergen Hoeller
@@ -43,7 +43,6 @@ public abstract class AbstractCacheManager implements CacheManager, Initializing
 
 	private volatile Set<String> cacheNames = Collections.emptySet();
 
-
 	// Early cache initialization on startup
 
 	@Override
@@ -53,8 +52,9 @@ public abstract class AbstractCacheManager implements CacheManager, Initializing
 
 	/**
 	 * Initialize the static configuration of caches.
-	 * <p>Triggered on startup through {@link #afterPropertiesSet()};
-	 * can also be called to re-initialize at runtime.
+	 * <p>
+	 * Triggered on startup through {@link #afterPropertiesSet()}; can also be called to
+	 * re-initialize at runtime.
 	 * @since 4.2.2
 	 * @see #loadCaches()
 	 */
@@ -76,11 +76,11 @@ public abstract class AbstractCacheManager implements CacheManager, Initializing
 
 	/**
 	 * Load the initial caches for this cache manager.
-	 * <p>Called by {@link #afterPropertiesSet()} on startup.
-	 * The returned collection may be empty but must not be {@code null}.
+	 * <p>
+	 * Called by {@link #afterPropertiesSet()} on startup. The returned collection may be
+	 * empty but must not be {@code null}.
 	 */
 	protected abstract Collection<? extends Cache> loadCaches();
-
 
 	// Lazy cache initialization on access
 
@@ -114,13 +114,12 @@ public abstract class AbstractCacheManager implements CacheManager, Initializing
 		return this.cacheNames;
 	}
 
-
 	// Common cache initialization delegates for subclasses
 
 	/**
-	 * Check for a registered cache of the given name.
-	 * In contrast to {@link #getCache(String)}, this method does not trigger
-	 * the lazy creation of missing caches via {@link #getMissingCache(String)}.
+	 * Check for a registered cache of the given name. In contrast to
+	 * {@link #getCache(String)}, this method does not trigger the lazy creation of
+	 * missing caches via {@link #getMissingCache(String)}.
 	 * @param name the cache identifier (must not be {@code null})
 	 * @return the associated Cache instance, or {@code null} if none found
 	 * @since 4.1
@@ -149,9 +148,10 @@ public abstract class AbstractCacheManager implements CacheManager, Initializing
 
 	/**
 	 * Update the exposed {@link #cacheNames} set with the given name.
-	 * <p>This will always be called within a full {@link #cacheMap} lock
-	 * and effectively behaves like a {@code CopyOnWriteArraySet} with
-	 * preserved order but exposed as an unmodifiable reference.
+	 * <p>
+	 * This will always be called within a full {@link #cacheMap} lock and effectively
+	 * behaves like a {@code CopyOnWriteArraySet} with preserved order but exposed as an
+	 * unmodifiable reference.
 	 * @param name the name of the cache to be added
 	 */
 	private void updateCacheNames(String name) {
@@ -161,26 +161,26 @@ public abstract class AbstractCacheManager implements CacheManager, Initializing
 		this.cacheNames = Collections.unmodifiableSet(cacheNames);
 	}
 
-
 	// Overridable template methods for cache initialization
 
 	/**
 	 * Decorate the given Cache object if necessary.
 	 * @param cache the Cache object to be added to this CacheManager
-	 * @return the decorated Cache object to be used instead,
-	 * or simply the passed-in Cache object by default
+	 * @return the decorated Cache object to be used instead, or simply the passed-in
+	 * Cache object by default
 	 */
 	protected Cache decorateCache(Cache cache) {
 		return cache;
 	}
 
 	/**
-	 * Return a missing cache with the specified {@code name}, or {@code null} if
-	 * such a cache does not exist or could not be created on demand.
-	 * <p>Caches may be lazily created at runtime if the native provider supports it.
-	 * If a lookup by name does not yield any result, an {@code AbstractCacheManager}
-	 * subclass gets a chance to register such a cache at runtime. The returned cache
-	 * will be automatically added to this cache manager.
+	 * Return a missing cache with the specified {@code name}, or {@code null} if such a
+	 * cache does not exist or could not be created on demand.
+	 * <p>
+	 * Caches may be lazily created at runtime if the native provider supports it. If a
+	 * lookup by name does not yield any result, an {@code AbstractCacheManager} subclass
+	 * gets a chance to register such a cache at runtime. The returned cache will be
+	 * automatically added to this cache manager.
 	 * @param name the name of the cache to retrieve
 	 * @return the missing cache, or {@code null} if no such cache exists or could be
 	 * created on demand

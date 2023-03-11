@@ -32,7 +32,6 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
  * Unit tests for request and reply operations in {@link AbstractMessagingTemplate}.
  *
  * @author Rossen Stoyanchev
- *
  * @see MessageReceivingTemplateTests
  */
 public class MessageRequestReplyTemplateTests {
@@ -43,14 +42,12 @@ public class MessageRequestReplyTemplateTests {
 
 	private Map<String, Object> headers;
 
-
 	@BeforeEach
 	public void setup() {
 		this.template = new TestMessagingTemplate();
 		this.postProcessor = new TestMessagePostProcessor();
 		this.headers = Collections.<String, Object>singletonMap("key", "value");
 	}
-
 
 	@Test
 	public void sendAndReceive() {
@@ -67,8 +64,8 @@ public class MessageRequestReplyTemplateTests {
 
 	@Test
 	public void sendAndReceiveMissingDestination() {
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.template.sendAndReceive(new GenericMessage<Object>("request")));
+		assertThatIllegalStateException()
+				.isThrownBy(() -> this.template.sendAndReceive(new GenericMessage<Object>("request")));
 	}
 
 	@Test
@@ -147,8 +144,8 @@ public class MessageRequestReplyTemplateTests {
 	public void convertAndSendToDestinationWithHeadersAndPostProcessor() {
 		Message<?> responseMessage = new GenericMessage<Object>("response");
 		this.template.setReceiveMessage(responseMessage);
-		String response = this.template.convertSendAndReceive("somewhere", "request", this.headers,
-				String.class, this.postProcessor);
+		String response = this.template.convertSendAndReceive("somewhere", "request", this.headers, String.class,
+				this.postProcessor);
 
 		assertThat(this.template.destination).isEqualTo("somewhere");
 		assertThat(this.template.requestMessage.getHeaders().get("key")).isEqualTo("value");
@@ -157,7 +154,6 @@ public class MessageRequestReplyTemplateTests {
 		assertThat(this.template.requestMessage).isSameAs(this.postProcessor.getMessage());
 	}
 
-
 	private static class TestMessagingTemplate extends AbstractMessagingTemplate<String> {
 
 		private String destination;
@@ -165,7 +161,6 @@ public class MessageRequestReplyTemplateTests {
 		private Message<?> requestMessage;
 
 		private Message<?> receiveMessage;
-
 
 		private void setReceiveMessage(Message<?> receiveMessage) {
 			this.receiveMessage = receiveMessage;
@@ -187,6 +182,7 @@ public class MessageRequestReplyTemplateTests {
 			this.requestMessage = requestMessage;
 			return this.receiveMessage;
 		}
+
 	}
 
 }

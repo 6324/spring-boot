@@ -25,7 +25,8 @@ import org.springframework.messaging.handler.invocation.HandlerMethodArgumentRes
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 
 /**
- * Resolver for arguments of type {@link Principal}, including {@code Optional<Principal>}.
+ * Resolver for arguments of type {@link Principal}, including
+ * {@code Optional<Principal>}.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -40,7 +41,7 @@ public class PrincipalMethodArgumentResolver implements HandlerMethodArgumentRes
 	}
 
 	@Override
-	public Object resolveArgument(MethodParameter parameter, Message<?> message){
+	public Object resolveArgument(MethodParameter parameter, Message<?> message) {
 		Principal user = SimpMessageHeaderAccessor.getUser(message.getHeaders());
 		return parameter.isOptional() ? Optional.ofNullable(user) : user;
 	}

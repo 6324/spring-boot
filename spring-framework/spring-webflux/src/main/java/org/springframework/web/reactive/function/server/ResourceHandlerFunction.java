@@ -41,41 +41,32 @@ import org.springframework.web.reactive.function.BodyInserters;
  */
 class ResourceHandlerFunction implements HandlerFunction<ServerResponse> {
 
-	private static final Set<HttpMethod> SUPPORTED_METHODS =
-			EnumSet.of(HttpMethod.GET, HttpMethod.HEAD, HttpMethod.OPTIONS);
-
+	private static final Set<HttpMethod> SUPPORTED_METHODS = EnumSet.of(HttpMethod.GET, HttpMethod.HEAD,
+			HttpMethod.OPTIONS);
 
 	private final Resource resource;
-
 
 	public ResourceHandlerFunction(Resource resource) {
 		this.resource = resource;
 	}
-
 
 	@Override
 	public Mono<ServerResponse> handle(ServerRequest request) {
 		HttpMethod method = request.method();
 		if (method != null) {
 			switch (method) {
-				case GET:
-					return EntityResponse.fromObject(this.resource).build()
-							.map(response -> response);
-				case HEAD:
-					Resource headResource = new HeadMethodResource(this.resource);
-					return EntityResponse.fromObject(headResource).build()
-							.map(response -> response);
-				case OPTIONS:
-					return ServerResponse.ok()
-							.allow(SUPPORTED_METHODS)
-							.body(BodyInserters.empty());
+			case GET:
+				return EntityResponse.fromObject(this.resource).build().map(response -> response);
+			case HEAD:
+				Resource headResource = new HeadMethodResource(this.resource);
+				return EntityResponse.fromObject(headResource).build().map(response -> response);
+			case OPTIONS:
+				return ServerResponse.ok().allow(SUPPORTED_METHODS).body(BodyInserters.empty());
 			}
 		}
-		return ServerResponse.status(HttpStatus.METHOD_NOT_ALLOWED)
-				.allow(SUPPORTED_METHODS)
+		return ServerResponse.status(HttpStatus.METHOD_NOT_ALLOWED).allow(SUPPORTED_METHODS)
 				.body(BodyInserters.empty());
 	}
-
 
 	private static class HeadMethodResource implements Resource {
 
@@ -139,6 +130,7 @@ class ResourceHandlerFunction implements HandlerFunction<ServerResponse> {
 		public String getDescription() {
 			return this.delegate.getDescription();
 		}
+
 	}
 
 }

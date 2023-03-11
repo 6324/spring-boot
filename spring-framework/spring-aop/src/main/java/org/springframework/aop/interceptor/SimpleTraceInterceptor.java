@@ -20,12 +20,12 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
 
 /**
- * Simple AOP Alliance {@code MethodInterceptor} that can be introduced
- * in a chain to display verbose trace information about intercepted method
- * invocations, with method entry and method exit info.
+ * Simple AOP Alliance {@code MethodInterceptor} that can be introduced in a chain to
+ * display verbose trace information about intercepted method invocations, with method
+ * entry and method exit info.
  *
- * <p>Consider using {@code CustomizableTraceInterceptor} for more
- * advanced needs.
+ * <p>
+ * Consider using {@code CustomizableTraceInterceptor} for more advanced needs.
  *
  * @author Dmitriy Kopylenko
  * @author Juergen Hoeller
@@ -42,15 +42,14 @@ public class SimpleTraceInterceptor extends AbstractTraceInterceptor {
 	}
 
 	/**
-	 * Create a new SimpleTraceInterceptor with dynamic or static logger,
-	 * according to the given flag.
+	 * Create a new SimpleTraceInterceptor with dynamic or static logger, according to the
+	 * given flag.
 	 * @param useDynamicLogger whether to use a dynamic logger or a static logger
 	 * @see #setUseDynamicLogger
 	 */
 	public SimpleTraceInterceptor(boolean useDynamicLogger) {
 		setUseDynamicLogger(useDynamicLogger);
 	}
-
 
 	@Override
 	protected Object invokeUnderTrace(MethodInvocation invocation, Log logger) throws Throwable {

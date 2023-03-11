@@ -30,12 +30,14 @@ import org.springframework.util.Assert;
 /**
  * Convenient super class for CCI-based data access objects.
  *
- * <p>Requires a {@link javax.resource.cci.ConnectionFactory} to be set,
- * providing a {@link org.springframework.jca.cci.core.CciTemplate} based
- * on it to subclasses through the {@link #getCciTemplate()} method.
+ * <p>
+ * Requires a {@link javax.resource.cci.ConnectionFactory} to be set, providing a
+ * {@link org.springframework.jca.cci.core.CciTemplate} based on it to subclasses through
+ * the {@link #getCciTemplate()} method.
  *
- * <p>This base class is mainly intended for CciTemplate usage but can
- * also be used when working with a Connection directly or when using
+ * <p>
+ * This base class is mainly intended for CciTemplate usage but can also be used when
+ * working with a Connection directly or when using
  * {@code org.springframework.jca.cci.object} classes.
  *
  * @author Thierry Templier
@@ -50,7 +52,6 @@ public abstract class CciDaoSupport extends DaoSupport {
 	@Nullable
 	private CciTemplate cciTemplate;
 
-
 	/**
 	 * Set the ConnectionFactory to be used by this DAO.
 	 */
@@ -61,10 +62,11 @@ public abstract class CciDaoSupport extends DaoSupport {
 	}
 
 	/**
-	 * Create a CciTemplate for the given ConnectionFactory.
-	 * Only invoked if populating the DAO with a ConnectionFactory reference!
-	 * <p>Can be overridden in subclasses to provide a CciTemplate instance
-	 * with different configuration, or a custom CciTemplate subclass.
+	 * Create a CciTemplate for the given ConnectionFactory. Only invoked if populating
+	 * the DAO with a ConnectionFactory reference!
+	 * <p>
+	 * Can be overridden in subclasses to provide a CciTemplate instance with different
+	 * configuration, or a custom CciTemplate subclass.
 	 * @param connectionFactory the CCI ConnectionFactory to create a CciTemplate for
 	 * @return the new CciTemplate instance
 	 * @see #setConnectionFactory(javax.resource.cci.ConnectionFactory)
@@ -82,16 +84,16 @@ public abstract class CciDaoSupport extends DaoSupport {
 	}
 
 	/**
-	 * Set the CciTemplate for this DAO explicitly,
-	 * as an alternative to specifying a ConnectionFactory.
+	 * Set the CciTemplate for this DAO explicitly, as an alternative to specifying a
+	 * ConnectionFactory.
 	 */
 	public final void setCciTemplate(CciTemplate cciTemplate) {
 		this.cciTemplate = cciTemplate;
 	}
 
 	/**
-	 * Return the CciTemplate for this DAO,
-	 * pre-initialized with the ConnectionFactory or set explicitly.
+	 * Return the CciTemplate for this DAO, pre-initialized with the ConnectionFactory or
+	 * set explicitly.
 	 */
 	@Nullable
 	public final CciTemplate getCciTemplate() {
@@ -105,13 +107,12 @@ public abstract class CciDaoSupport extends DaoSupport {
 		}
 	}
 
-
 	/**
-	 * Obtain a CciTemplate derived from the main template instance,
-	 * inheriting the ConnectionFactory and other settings but
-	 * overriding the ConnectionSpec used for obtaining Connections.
-	 * @param connectionSpec the CCI ConnectionSpec that the returned
-	 * template instance is supposed to obtain Connections for
+	 * Obtain a CciTemplate derived from the main template instance, inheriting the
+	 * ConnectionFactory and other settings but overriding the ConnectionSpec used for
+	 * obtaining Connections.
+	 * @param connectionSpec the CCI ConnectionSpec that the returned template instance is
+	 * supposed to obtain Connections for
 	 * @return the derived template instance
 	 * @see org.springframework.jca.cci.core.CciTemplate#getDerivedTemplate(javax.resource.cci.ConnectionSpec)
 	 */
@@ -124,8 +125,8 @@ public abstract class CciDaoSupport extends DaoSupport {
 	/**
 	 * Get a CCI Connection, either from the current transaction or a new one.
 	 * @return the CCI Connection
-	 * @throws org.springframework.jca.cci.CannotGetCciConnectionException
-	 * if the attempt to get a Connection failed
+	 * @throws org.springframework.jca.cci.CannotGetCciConnectionException if the attempt
+	 * to get a Connection failed
 	 * @see org.springframework.jca.cci.connection.ConnectionFactoryUtils#getConnection(javax.resource.cci.ConnectionFactory)
 	 */
 	protected final Connection getConnection() throws CannotGetCciConnectionException {
@@ -135,8 +136,8 @@ public abstract class CciDaoSupport extends DaoSupport {
 	}
 
 	/**
-	 * Close the given CCI Connection, created via this bean's ConnectionFactory,
-	 * if it isn't bound to the thread.
+	 * Close the given CCI Connection, created via this bean's ConnectionFactory, if it
+	 * isn't bound to the thread.
 	 * @param con the Connection to close
 	 * @see org.springframework.jca.cci.connection.ConnectionFactoryUtils#releaseConnection
 	 */

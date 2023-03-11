@@ -43,7 +43,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Tests for auto proxy creation by advisor recognition.
  *
  * @see org.springframework.aop.framework.autoproxy.AdvisorAutoProxyCreatorIntegrationTests
- *
  * @author Rod Johnson
  * @author Dave Syer
  * @author Chris Beams
@@ -52,14 +51,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AdvisorAutoProxyCreatorTests {
 
 	private static final Class<?> CLASS = AdvisorAutoProxyCreatorTests.class;
+
 	private static final String CLASSNAME = CLASS.getSimpleName();
 
 	private static final String DEFAULT_CONTEXT = CLASSNAME + "-context.xml";
-	private static final String COMMON_INTERCEPTORS_CONTEXT = CLASSNAME + "-common-interceptors.xml";
-	private static final String CUSTOM_TARGETSOURCE_CONTEXT = CLASSNAME + "-custom-targetsource.xml";
-	private static final String QUICK_TARGETSOURCE_CONTEXT = CLASSNAME + "-quick-targetsource.xml";
-	private static final String OPTIMIZED_CONTEXT = CLASSNAME + "-optimized.xml";
 
+	private static final String COMMON_INTERCEPTORS_CONTEXT = CLASSNAME + "-common-interceptors.xml";
+
+	private static final String CUSTOM_TARGETSOURCE_CONTEXT = CLASSNAME + "-custom-targetsource.xml";
+
+	private static final String QUICK_TARGETSOURCE_CONTEXT = CLASSNAME + "-quick-targetsource.xml";
+
+	private static final String OPTIMIZED_CONTEXT = CLASSNAME + "-optimized.xml";
 
 	/**
 	 * Return a bean factory with attributes and EnterpriseServices configured.
@@ -68,11 +71,9 @@ public class AdvisorAutoProxyCreatorTests {
 		return new ClassPathXmlApplicationContext(DEFAULT_CONTEXT, CLASS);
 	}
 
-
 	/**
-	 * Check that we can provide a common interceptor that will
-	 * appear in the chain before "specific" interceptors,
-	 * which are sourced from matching advisors
+	 * Check that we can provide a common interceptor that will appear in the chain before
+	 * "specific" interceptors, which are sourced from matching advisors
 	 */
 	@Test
 	public void testCommonInterceptorAndAdvisor() throws Exception {
@@ -116,8 +117,8 @@ public class AdvisorAutoProxyCreatorTests {
 	}
 
 	/**
-	 * We have custom TargetSourceCreators but there's no match, and
-	 * hence no proxying, for this bean
+	 * We have custom TargetSourceCreators but there's no match, and hence no proxying,
+	 * for this bean
 	 */
 	@Test
 	public void testCustomTargetSourceNoMatch() throws Exception {
@@ -162,8 +163,7 @@ public class AdvisorAutoProxyCreatorTests {
 
 	@Test
 	public void testQuickTargetSourceCreator() throws Exception {
-		ClassPathXmlApplicationContext bf =
-				new ClassPathXmlApplicationContext(QUICK_TARGETSOURCE_CONTEXT, CLASS);
+		ClassPathXmlApplicationContext bf = new ClassPathXmlApplicationContext(QUICK_TARGETSOURCE_CONTEXT, CLASS);
 		ITestBean test = (ITestBean) bf.getBean("test");
 		assertThat(AopUtils.isAopProxy(test)).isFalse();
 		assertThat(test.getName()).isEqualTo("Rod");
@@ -200,7 +200,6 @@ public class AdvisorAutoProxyCreatorTests {
 		// Check that references survived pooling
 		assertThat(test.getSpouse().getName()).isEqualTo("Kerry");
 
-
 		ITestBean test2 = (ITestBean) bf.getBean("!test");
 		assertThat(test == test2).as("Prototypes cannot be the same object").isFalse();
 		assertThat(test2.getName()).isEqualTo("Rod");
@@ -225,12 +224,11 @@ public class AdvisorAutoProxyCreatorTests {
 
 }
 
-
 class SelectivePrototypeTargetSourceCreator extends AbstractBeanFactoryBasedTargetSourceCreator {
 
 	@Override
-	protected AbstractBeanFactoryBasedTargetSource createBeanFactoryBasedTargetSource(
-			Class<?> beanClass, String beanName) {
+	protected AbstractBeanFactoryBasedTargetSource createBeanFactoryBasedTargetSource(Class<?> beanClass,
+			String beanName) {
 		if (!beanName.startsWith("prototype")) {
 			return null;
 		}
@@ -238,4 +236,3 @@ class SelectivePrototypeTargetSourceCreator extends AbstractBeanFactoryBasedTarg
 	}
 
 }
-

@@ -25,8 +25,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Helper class for loading a localized resource,
- * specified through name, extension and current locale.
+ * Helper class for loading a localized resource, specified through name, extension and
+ * current locale.
  *
  * @author Juergen Hoeller
  * @since 1.2.5
@@ -36,11 +36,9 @@ public class LocalizedResourceHelper {
 	/** The default separator to use in-between file name parts: an underscore. */
 	public static final String DEFAULT_SEPARATOR = "_";
 
-
 	private final ResourceLoader resourceLoader;
 
 	private String separator = DEFAULT_SEPARATOR;
-
 
 	/**
 	 * Create a new LocalizedResourceHelper with a DefaultResourceLoader.
@@ -60,27 +58,27 @@ public class LocalizedResourceHelper {
 	}
 
 	/**
-	 * Set the separator to use in-between file name parts.
-	 * Default is an underscore ("_").
+	 * Set the separator to use in-between file name parts. Default is an underscore
+	 * ("_").
 	 */
 	public void setSeparator(@Nullable String separator) {
 		this.separator = (separator != null ? separator : DEFAULT_SEPARATOR);
 	}
 
-
 	/**
-	 * Find the most specific localized resource for the given name,
-	 * extension and locale:
-	 * <p>The file will be searched with locations in the following order,
-	 * similar to {@code java.util.ResourceBundle}'s search order:
+	 * Find the most specific localized resource for the given name, extension and locale:
+	 * <p>
+	 * The file will be searched with locations in the following order, similar to
+	 * {@code java.util.ResourceBundle}'s search order:
 	 * <ul>
 	 * <li>[name]_[language]_[country]_[variant][extension]
 	 * <li>[name]_[language]_[country][extension]
 	 * <li>[name]_[language][extension]
 	 * <li>[name][extension]
 	 * </ul>
-	 * <p>If none of the specific files can be found, a resource
-	 * descriptor for the default location will be returned.
+	 * <p>
+	 * If none of the specific files can be found, a resource descriptor for the default
+	 * location will be returned.
 	 * @param name the name of the file, without localization part nor extension
 	 * @param extension the file extension (e.g. ".xls")
 	 * @param locale the current locale (may be {@code null})
@@ -100,8 +98,8 @@ public class LocalizedResourceHelper {
 
 			// Check for file with language, country and variant localization.
 			if (variant.length() > 0) {
-				String location =
-						name + this.separator + lang + this.separator + country + this.separator + variant + extension;
+				String location = name + this.separator + lang + this.separator + country + this.separator + variant
+						+ extension;
 				resource = this.resourceLoader.getResource(location);
 			}
 

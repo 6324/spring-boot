@@ -16,16 +16,19 @@
 
 package org.springframework.objenesis;
 
-import org.springframework.core.SpringProperties;
+
 import org.springframework.objenesis.instantiator.ObjectInstantiator;
+
+import org.springframework.core.SpringProperties;
+
 import org.springframework.objenesis.strategy.InstantiatorStrategy;
 import org.springframework.objenesis.strategy.StdInstantiatorStrategy;
 import org.springframework.util.ConcurrentReferenceHashMap;
 
 /**
- * Spring-specific variant of {@link ObjenesisStd} / {@link ObjenesisBase},
- * providing a cache based on {@code Class} keys instead of class names,
- * and allowing for selective use of the cache.
+ * Spring-specific variant of {@link ObjenesisStd} / {@link ObjenesisBase}, providing a
+ * cache based on {@code Class} keys instead of class names, and allowing for selective
+ * use of the cache.
  *
  * @author Juergen Hoeller
  * @since 4.2
@@ -35,34 +38,31 @@ import org.springframework.util.ConcurrentReferenceHashMap;
 public class SpringObjenesis implements Objenesis {
 
 	/**
-	 * System property that instructs Spring to ignore Objenesis, not even attempting
-	 * to use it. Setting this flag to "true" is equivalent to letting Spring find
-	 * out that Objenesis isn't working at runtime, triggering the fallback code path
-	 * immediately: Most importantly, this means that all CGLIB AOP proxies will be
-	 * created through regular instantiation via a default constructor.
+	 * System property that instructs Spring to ignore Objenesis, not even attempting to
+	 * use it. Setting this flag to "true" is equivalent to letting Spring find out that
+	 * Objenesis isn't working at runtime, triggering the fallback code path immediately:
+	 * Most importantly, this means that all CGLIB AOP proxies will be created through
+	 * regular instantiation via a default constructor.
 	 */
 	public static final String IGNORE_OBJENESIS_PROPERTY_NAME = "spring.objenesis.ignore";
 
-
 	private final InstantiatorStrategy strategy;
 
-	private final ConcurrentReferenceHashMap<Class<?>, ObjectInstantiator<?>> cache =
-			new ConcurrentReferenceHashMap<>();
+	private final ConcurrentReferenceHashMap<Class<?>, ObjectInstantiator<?>> cache = new ConcurrentReferenceHashMap<>();
 
 	private volatile Boolean worthTrying;
 
-
 	/**
-	 * Create a new {@code SpringObjenesis} instance with the
-	 * standard instantiator strategy.
+	 * Create a new {@code SpringObjenesis} instance with the standard instantiator
+	 * strategy.
 	 */
 	public SpringObjenesis() {
 		this(null);
 	}
 
 	/**
-	 * Create a new {@code SpringObjenesis} instance with the
-	 * given standard instantiator strategy.
+	 * Create a new {@code SpringObjenesis} instance with the given standard instantiator
+	 * strategy.
 	 * @param strategy the instantiator strategy to use
 	 */
 	public SpringObjenesis(InstantiatorStrategy strategy) {
@@ -74,13 +74,13 @@ public class SpringObjenesis implements Objenesis {
 		}
 	}
 
-
 	/**
-	 * Return whether this Objenesis instance is worth trying for instance creation,
-	 * i.e. whether it hasn't been used yet or is known to work.
-	 * <p>If the configured Objenesis instantiator strategy has been identified to not
-	 * work on the current JVM at all or if the "spring.objenesis.ignore" property has
-	 * been set to "true", this method returns {@code false}.
+	 * Return whether this Objenesis instance is worth trying for instance creation, i.e.
+	 * whether it hasn't been used yet or is known to work.
+	 * <p>
+	 * If the configured Objenesis instantiator strategy has been identified to not work
+	 * on the current JVM at all or if the "spring.objenesis.ignore" property has been set
+	 * to "true", this method returns {@code false}.
 	 */
 	public boolean isWorthTrying() {
 		return (this.worthTrying != Boolean.FALSE);
@@ -89,9 +89,8 @@ public class SpringObjenesis implements Objenesis {
 	/**
 	 * Create a new instance of the given class via Objenesis.
 	 * @param clazz the class to create an instance of
-	 * @param useCache whether to use the instantiator cache
-	 * (typically {@code true} but can be set to {@code false}
-	 * e.g. for reloadable classes)
+	 * @param useCache whether to use the instantiator cache (typically {@code true} but
+	 * can be set to {@code false} e.g. for reloadable classes)
 	 * @return the new instance (never {@code null})
 	 * @throws ObjenesisException if instance creation failed
 	 */
@@ -132,9 +131,12 @@ public class SpringObjenesis implements Objenesis {
 			if (currentWorthTrying == null) {
 				Throwable cause = ex.getCause();
 				if (cause instanceof ClassNotFoundException || cause instanceof IllegalAccessException) {
-					// Indicates that the chosen instantiation strategy does not work on the given JVM.
-					// Typically a failure to initialize the default SunReflectionFactoryInstantiator.
-					// Let's assume that any subsequent attempts to use Objenesis will fail as well...
+					// Indicates that the chosen instantiation strategy does not work on
+					// the given JVM.
+					// Typically a failure to initialize the default
+					// SunReflectionFactoryInstantiator.
+					// Let's assume that any subsequent attempts to use Objenesis will
+					// fail as well...
 					this.worthTrying = Boolean.FALSE;
 				}
 			}

@@ -110,24 +110,28 @@ class AnnotationAwareOrderComparatorTests {
 		assertThat(list.get(3)).isNull();
 	}
 
-
 	@Order(1)
 	private static class A {
+
 	}
 
 	@Order(2)
 	private static class B {
+
 	}
 
 	private static class C extends A {
+
 	}
 
 	@Priority(1)
 	private static class A2 {
+
 	}
 
 	@Priority(2)
 	private static class B2 {
+
 	}
 
 }

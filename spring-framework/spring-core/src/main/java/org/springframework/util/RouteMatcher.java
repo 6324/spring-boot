@@ -24,10 +24,10 @@ import org.springframework.lang.Nullable;
 /**
  * Contract for matching routes to patterns.
  *
- * <p>Equivalent to {@link PathMatcher}, but enables use of parsed representations
- * of routes and patterns for efficiency reasons in scenarios where routes from
- * incoming messages are continuously matched against a large number of message
- * handler patterns.
+ * <p>
+ * Equivalent to {@link PathMatcher}, but enables use of parsed representations of routes
+ * and patterns for efficiency reasons in scenarios where routes from incoming messages
+ * are continuously matched against a large number of message handler patterns.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -43,9 +43,9 @@ public interface RouteMatcher {
 	Route parseRoute(String routeValue);
 
 	/**
-	 * Whether the given {@code route} contains pattern syntax which requires
-	 * the {@link #match(String, Route)} method, or if it is a regular String
-	 * that could be compared directly to others.
+	 * Whether the given {@code route} contains pattern syntax which requires the
+	 * {@link #match(String, Route)} method, or if it is a regular String that could be
+	 * compared directly to others.
 	 * @param route the route to check
 	 * @return {@code true} if the given {@code route} represents a pattern
 	 */
@@ -78,24 +78,24 @@ public interface RouteMatcher {
 	Map<String, String> matchAndExtract(String pattern, Route route);
 
 	/**
-	 * Given a route, return a {@link Comparator} suitable for sorting patterns
-	 * in order of explicitness for that route, so that more specific patterns
-	 * come before more generic ones.
+	 * Given a route, return a {@link Comparator} suitable for sorting patterns in order
+	 * of explicitness for that route, so that more specific patterns come before more
+	 * generic ones.
 	 * @param route the full path to use for comparison
 	 * @return a comparator capable of sorting patterns in order of explicitness
 	 */
 	Comparator<String> getPatternComparator(Route route);
 
-
 	/**
 	 * A parsed representation of a route.
- 	 */
+	 */
 	interface Route {
 
 		/**
 		 * The original route value.
 		 */
 		String value();
+
 	}
 
 }

@@ -35,19 +35,22 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 class SimpleNamespaceContextTests {
 
 	private final String unboundPrefix = "unbound";
+
 	private final String prefix = "prefix";
+
 	private final String namespaceUri = "https://Namespace-name-URI";
+
 	private final String additionalNamespaceUri = "https://Additional-namespace-name-URI";
+
 	private final String unboundNamespaceUri = "https://Unbound-namespace-name-URI";
+
 	private final String defaultNamespaceUri = "https://Default-namespace-name-URI";
 
 	private final SimpleNamespaceContext context = new SimpleNamespaceContext();
 
-
 	@Test
 	void getNamespaceURI_withNull() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				context.getNamespaceURI(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> context.getNamespaceURI(null));
 	}
 
 	@Test
@@ -61,27 +64,22 @@ class SimpleNamespaceContextTests {
 				.as("Always returns \"http://www.w3.org/XML/1998/namespace\" for \"xml\"")
 				.isEqualTo(XMLConstants.XML_NS_URI);
 
-		assertThat(context.getNamespaceURI(unboundPrefix))
-				.as("Returns \"\" for an unbound prefix")
+		assertThat(context.getNamespaceURI(unboundPrefix)).as("Returns \"\" for an unbound prefix")
 				.isEqualTo(XMLConstants.NULL_NS_URI);
 		context.bindNamespaceUri(prefix, namespaceUri);
-		assertThat(context.getNamespaceURI(prefix))
-				.as("Returns the bound namespace URI for a bound prefix")
+		assertThat(context.getNamespaceURI(prefix)).as("Returns the bound namespace URI for a bound prefix")
 				.isEqualTo(namespaceUri);
 
 		assertThat(context.getNamespaceURI(XMLConstants.DEFAULT_NS_PREFIX))
-				.as("By default returns URI \"\" for the default namespace prefix")
-				.isEqualTo(XMLConstants.NULL_NS_URI);
+				.as("By default returns URI \"\" for the default namespace prefix").isEqualTo(XMLConstants.NULL_NS_URI);
 		context.bindDefaultNamespaceUri(defaultNamespaceUri);
 		assertThat(context.getNamespaceURI(XMLConstants.DEFAULT_NS_PREFIX))
-				.as("Returns the set URI for the default namespace prefix")
-				.isEqualTo(defaultNamespaceUri);
+				.as("Returns the set URI for the default namespace prefix").isEqualTo(defaultNamespaceUri);
 	}
 
 	@Test
 	void getPrefix_withNull() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				context.getPrefix(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> context.getPrefix(null));
 	}
 
 	@Test
@@ -96,23 +94,20 @@ class SimpleNamespaceContextTests {
 		assertThat(context.getPrefix(unboundNamespaceUri)).as("Returns null for an unbound namespace URI").isNull();
 		context.bindNamespaceUri("prefix1", namespaceUri);
 		context.bindNamespaceUri("prefix2", namespaceUri);
-		assertThat(context.getPrefix(namespaceUri))
-				.as("Returns a prefix for a bound namespace URI")
+		assertThat(context.getPrefix(namespaceUri)).as("Returns a prefix for a bound namespace URI")
 				.matches(prefix -> "prefix1".equals(prefix) || "prefix2".equals(prefix));
 	}
 
 	@Test
 	void getPrefixes_withNull() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				context.getPrefixes(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> context.getPrefixes(null));
 	}
 
 	@Test
 	void getPrefixes_IteratorIsNotModifiable() throws Exception {
 		context.bindNamespaceUri(prefix, namespaceUri);
 		Iterator<String> iterator = context.getPrefixes(namespaceUri);
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(
-				iterator::remove);
+		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(iterator::remove);
 	}
 
 	@Test
@@ -125,8 +120,7 @@ class SimpleNamespaceContextTests {
 				.containsExactly(XMLConstants.XML_NS_PREFIX);
 
 		assertThat(context.getPrefixes("unbound Namespace URI").hasNext())
-				.as("Returns empty iterator for unbound prefix")
-				.isFalse();
+				.as("Returns empty iterator for unbound prefix").isFalse();
 		context.bindNamespaceUri("prefix1", namespaceUri);
 		context.bindNamespaceUri("prefix2", namespaceUri);
 		assertThat(getItemSet(context.getPrefixes(namespaceUri)))
@@ -136,24 +130,20 @@ class SimpleNamespaceContextTests {
 
 	@Test
 	void bindNamespaceUri_withNullNamespaceUri() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				context.bindNamespaceUri("prefix", null));
+		assertThatIllegalArgumentException().isThrownBy(() -> context.bindNamespaceUri("prefix", null));
 	}
 
 	@Test
 	void bindNamespaceUri_withNullPrefix() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				context.bindNamespaceUri(null, namespaceUri));
+		assertThatIllegalArgumentException().isThrownBy(() -> context.bindNamespaceUri(null, namespaceUri));
 	}
 
 	@Test
 	void bindNamespaceUri() {
 		context.bindNamespaceUri(prefix, namespaceUri);
-		assertThat(context.getNamespaceURI(prefix))
-				.as("The Namespace URI was bound to the prefix")
+		assertThat(context.getNamespaceURI(prefix)).as("The Namespace URI was bound to the prefix")
 				.isEqualTo(namespaceUri);
-		assertThat(getItemSet(context.getPrefixes(namespaceUri)))
-				.as("The prefix was bound to the namespace URI")
+		assertThat(getItemSet(context.getPrefixes(namespaceUri))).as("The prefix was bound to the namespace URI")
 				.contains(prefix);
 	}
 
@@ -162,8 +152,7 @@ class SimpleNamespaceContextTests {
 		context.bindNamespaceUri("prefix1", namespaceUri);
 		context.bindNamespaceUri("prefix2", namespaceUri);
 		context.bindNamespaceUri("prefix3", additionalNamespaceUri);
-		assertThat(getItemSet(context.getBoundPrefixes()))
-				.as("Returns all bound prefixes")
+		assertThat(getItemSet(context.getBoundPrefixes())).as("Returns all bound prefixes")
 				.containsExactlyInAnyOrder("prefix1", "prefix2", "prefix3");
 	}
 
@@ -183,20 +172,24 @@ class SimpleNamespaceContextTests {
 
 		context.bindNamespaceUri(prefix, namespaceUri);
 		context.removeBinding(prefix);
-		assertThat(context.getNamespaceURI(prefix)).as("Returns default namespace URI for removed prefix").isEqualTo(XMLConstants.NULL_NS_URI);
-		assertThat(context.getPrefix(namespaceUri)).as("#getPrefix returns null when all prefixes for a namespace URI were removed").isNull();
-		assertThat(context.getPrefixes(namespaceUri).hasNext()).as("#getPrefixes returns an empty iterator when all prefixes for a namespace URI were removed").isFalse();
+		assertThat(context.getNamespaceURI(prefix)).as("Returns default namespace URI for removed prefix")
+				.isEqualTo(XMLConstants.NULL_NS_URI);
+		assertThat(context.getPrefix(namespaceUri))
+				.as("#getPrefix returns null when all prefixes for a namespace URI were removed").isNull();
+		assertThat(context.getPrefixes(namespaceUri).hasNext())
+				.as("#getPrefixes returns an empty iterator when all prefixes for a namespace URI were removed")
+				.isFalse();
 
 		context.bindNamespaceUri("prefix1", additionalNamespaceUri);
 		context.bindNamespaceUri("prefix2", additionalNamespaceUri);
 		context.removeBinding("prefix1");
 		assertThat(context.getNamespaceURI("prefix1")).as("Prefix was unbound").isEqualTo(XMLConstants.NULL_NS_URI);
-		assertThat(context.getPrefix(additionalNamespaceUri)).as("#getPrefix returns a bound prefix after removal of another prefix for the same namespace URI").isEqualTo("prefix2");
-		assertThat(getItemSet(context.getPrefixes(additionalNamespaceUri)))
-				.as("Prefix was removed from namespace URI")
+		assertThat(context.getPrefix(additionalNamespaceUri))
+				.as("#getPrefix returns a bound prefix after removal of another prefix for the same namespace URI")
+				.isEqualTo("prefix2");
+		assertThat(getItemSet(context.getPrefixes(additionalNamespaceUri))).as("Prefix was removed from namespace URI")
 				.containsExactly("prefix2");
 	}
-
 
 	private Set<String> getItemSet(Iterator<String> iterator) {
 		Set<String> itemSet = new LinkedHashSet<>();

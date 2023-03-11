@@ -34,7 +34,6 @@ public class MethodArgumentResolutionException extends MessagingException {
 
 	private final MethodParameter parameter;
 
-
 	/**
 	 * Create a new instance providing the invalid {@code MethodParameter}.
 	 */
@@ -44,8 +43,8 @@ public class MethodArgumentResolutionException extends MessagingException {
 	}
 
 	/**
-	 * Create a new instance providing the invalid {@code MethodParameter} and
-	 * a prepared description.
+	 * Create a new instance providing the invalid {@code MethodParameter} and a prepared
+	 * description.
 	 */
 	public MethodArgumentResolutionException(Message<?> message, MethodParameter parameter, String description) {
 		super(message, getMethodParameterMessage(parameter) + ": " + description);
@@ -53,16 +52,15 @@ public class MethodArgumentResolutionException extends MessagingException {
 	}
 
 	/**
-	 * Create a new instance providing the invalid {@code MethodParameter},
-	 * prepared description, and a cause.
+	 * Create a new instance providing the invalid {@code MethodParameter}, prepared
+	 * description, and a cause.
 	 */
-	public MethodArgumentResolutionException(
-			Message<?> message, MethodParameter parameter, String description, @Nullable Throwable cause) {
+	public MethodArgumentResolutionException(Message<?> message, MethodParameter parameter, String description,
+			@Nullable Throwable cause) {
 
 		super(message, getMethodParameterMessage(parameter) + ": " + description, cause);
 		this.parameter = parameter;
 	}
-
 
 	/**
 	 * Return the MethodParameter that was rejected.
@@ -71,10 +69,9 @@ public class MethodArgumentResolutionException extends MessagingException {
 		return this.parameter;
 	}
 
-
 	private static String getMethodParameterMessage(MethodParameter parameter) {
-		return "Could not resolve method parameter at index " + parameter.getParameterIndex() +
-				" in " + parameter.getExecutable().toGenericString();
+		return "Could not resolve method parameter at index " + parameter.getParameterIndex() + " in "
+				+ parameter.getExecutable().toGenericString();
 	}
 
 }

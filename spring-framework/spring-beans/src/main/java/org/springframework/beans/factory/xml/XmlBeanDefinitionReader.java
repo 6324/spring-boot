@@ -52,17 +52,18 @@ import org.springframework.util.xml.SimpleSaxErrorHandler;
 import org.springframework.util.xml.XmlValidationModeDetector;
 
 /**
- * Bean definition reader for XML bean definitions.
- * Delegates the actual XML document reading to an implementation
- * of the {@link BeanDefinitionDocumentReader} interface.
+ * Bean definition reader for XML bean definitions. Delegates the actual XML document
+ * reading to an implementation of the {@link BeanDefinitionDocumentReader} interface.
  *
- * <p>Typically applied to a
- * {@link org.springframework.beans.factory.support.DefaultListableBeanFactory}
- * or a {@link org.springframework.context.support.GenericApplicationContext}.
+ * <p>
+ * Typically applied to a
+ * {@link org.springframework.beans.factory.support.DefaultListableBeanFactory} or a
+ * {@link org.springframework.context.support.GenericApplicationContext}.
  *
- * <p>This class loads a DOM document and applies the BeanDefinitionDocumentReader to it.
- * The document reader will register each bean definition with the given bean factory,
- * talking to the latter's implementation of the
+ * <p>
+ * This class loads a DOM document and applies the BeanDefinitionDocumentReader to it. The
+ * document reader will register each bean definition with the given bean factory, talking
+ * to the latter's implementation of the
  * {@link org.springframework.beans.factory.support.BeanDefinitionRegistry} interface.
  *
  * @author Juergen Hoeller
@@ -98,7 +99,6 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 */
 	public static final int VALIDATION_XSD = XmlValidationModeDetector.VALIDATION_XSD;
 
-
 	/** Constants instance for this class. */
 	private static final Constants constants = new Constants(XmlBeanDefinitionReader.class);
 
@@ -106,8 +106,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	private boolean namespaceAware = false;
 
-	private Class<? extends BeanDefinitionDocumentReader> documentReaderClass =
-			DefaultBeanDefinitionDocumentReader.class;
+	private Class<? extends BeanDefinitionDocumentReader> documentReaderClass = DefaultBeanDefinitionDocumentReader.class;
 
 	private ProblemReporter problemReporter = new FailFastProblemReporter();
 
@@ -127,29 +126,28 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	private final XmlValidationModeDetector validationModeDetector = new XmlValidationModeDetector();
 
-	private final ThreadLocal<Set<EncodedResource>> resourcesCurrentlyBeingLoaded =
-			new NamedThreadLocal<Set<EncodedResource>>("XML bean definition resources currently being loaded"){
-				@Override
-				protected Set<EncodedResource> initialValue() {
-					return new HashSet<>(4);
-				}
-			};
-
+	private final ThreadLocal<Set<EncodedResource>> resourcesCurrentlyBeingLoaded = new NamedThreadLocal<Set<EncodedResource>>(
+			"XML bean definition resources currently being loaded") {
+		@Override
+		protected Set<EncodedResource> initialValue() {
+			return new HashSet<>(4);
+		}
+	};
 
 	/**
 	 * Create new XmlBeanDefinitionReader for the given bean factory.
-	 * @param registry the BeanFactory to load bean definitions into,
-	 * in the form of a BeanDefinitionRegistry
+	 * @param registry the BeanFactory to load bean definitions into, in the form of a
+	 * BeanDefinitionRegistry
 	 */
 	public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
 		super(registry);
 	}
 
-
 	/**
 	 * Set whether to use XML validation. Default is {@code true}.
-	 * <p>This method switches namespace awareness on if validation is turned off,
-	 * in order to still process schema namespaces properly in such a scenario.
+	 * <p>
+	 * This method switches namespace awareness on if validation is turned off, in order
+	 * to still process schema namespaces properly in such a scenario.
 	 * @see #setValidationMode
 	 * @see #setNamespaceAware
 	 */
@@ -168,9 +166,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Set the validation mode to use. Defaults to {@link #VALIDATION_AUTO}.
-	 * <p>Note that this only activates or deactivates validation itself.
-	 * If you are switching validation off for schema files, you might need to
-	 * activate schema namespace support explicitly: see {@link #setNamespaceAware}.
+	 * <p>
+	 * Note that this only activates or deactivates validation itself. If you are
+	 * switching validation off for schema files, you might need to activate schema
+	 * namespace support explicitly: see {@link #setNamespaceAware}.
 	 */
 	public void setValidationMode(int validationMode) {
 		this.validationMode = validationMode;
@@ -184,11 +183,12 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	}
 
 	/**
-	 * Set whether or not the XML parser should be XML namespace aware.
-	 * Default is "false".
-	 * <p>This is typically not needed when schema validation is active.
-	 * However, without validation, this has to be switched to "true"
-	 * in order to properly process schema namespaces.
+	 * Set whether or not the XML parser should be XML namespace aware. Default is
+	 * "false".
+	 * <p>
+	 * This is typically not needed when schema validation is active. However, without
+	 * validation, this has to be switched to "true" in order to properly process schema
+	 * namespaces.
 	 */
 	public void setNamespaceAware(boolean namespaceAware) {
 		this.namespaceAware = namespaceAware;
@@ -202,10 +202,13 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	}
 
 	/**
-	 * Specify which {@link org.springframework.beans.factory.parsing.ProblemReporter} to use.
-	 * <p>The default implementation is {@link org.springframework.beans.factory.parsing.FailFastProblemReporter}
-	 * which exhibits fail fast behaviour. External tools can provide an alternative implementation
-	 * that collates errors and warnings for display in the tool UI.
+	 * Specify which {@link org.springframework.beans.factory.parsing.ProblemReporter} to
+	 * use.
+	 * <p>
+	 * The default implementation is
+	 * {@link org.springframework.beans.factory.parsing.FailFastProblemReporter} which
+	 * exhibits fail fast behaviour. External tools can provide an alternative
+	 * implementation that collates errors and warnings for display in the tool UI.
 	 */
 	public void setProblemReporter(@Nullable ProblemReporter problemReporter) {
 		this.problemReporter = (problemReporter != null ? problemReporter : new FailFastProblemReporter());
@@ -213,9 +216,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Specify which {@link ReaderEventListener} to use.
-	 * <p>The default implementation is EmptyReaderEventListener which discards every event notification.
-	 * External tools can provide an alternative implementation to monitor the components being
-	 * registered in the BeanFactory.
+	 * <p>
+	 * The default implementation is EmptyReaderEventListener which discards every event
+	 * notification. External tools can provide an alternative implementation to monitor
+	 * the components being registered in the BeanFactory.
 	 */
 	public void setEventListener(@Nullable ReaderEventListener eventListener) {
 		this.eventListener = (eventListener != null ? eventListener : new EmptyReaderEventListener());
@@ -223,9 +227,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Specify the {@link SourceExtractor} to use.
-	 * <p>The default implementation is {@link NullSourceExtractor} which simply returns {@code null}
-	 * as the source object. This means that - during normal runtime execution -
-	 * no additional source metadata is attached to the bean configuration metadata.
+	 * <p>
+	 * The default implementation is {@link NullSourceExtractor} which simply returns
+	 * {@code null} as the source object. This means that - during normal runtime
+	 * execution - no additional source metadata is attached to the bean configuration
+	 * metadata.
 	 */
 	public void setSourceExtractor(@Nullable SourceExtractor sourceExtractor) {
 		this.sourceExtractor = (sourceExtractor != null ? sourceExtractor : new NullSourceExtractor());
@@ -233,7 +239,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Specify the {@link NamespaceHandlerResolver} to use.
-	 * <p>If none is specified, a default instance will be created through
+	 * <p>
+	 * If none is specified, a default instance will be created through
 	 * {@link #createDefaultNamespaceHandlerResolver()}.
 	 */
 	public void setNamespaceHandlerResolver(@Nullable NamespaceHandlerResolver namespaceHandlerResolver) {
@@ -242,8 +249,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Specify the {@link DocumentLoader} to use.
-	 * <p>The default implementation is {@link DefaultDocumentLoader}
-	 * which loads {@link Document} instances using JAXP.
+	 * <p>
+	 * The default implementation is {@link DefaultDocumentLoader} which loads
+	 * {@link Document} instances using JAXP.
 	 */
 	public void setDocumentLoader(@Nullable DocumentLoader documentLoader) {
 		this.documentLoader = (documentLoader != null ? documentLoader : new DefaultDocumentLoader());
@@ -251,16 +259,16 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Set a SAX entity resolver to be used for parsing.
-	 * <p>By default, {@link ResourceEntityResolver} will be used. Can be overridden
-	 * for custom entity resolution, for example relative to some specific base path.
+	 * <p>
+	 * By default, {@link ResourceEntityResolver} will be used. Can be overridden for
+	 * custom entity resolution, for example relative to some specific base path.
 	 */
 	public void setEntityResolver(@Nullable EntityResolver entityResolver) {
 		this.entityResolver = entityResolver;
 	}
 
 	/**
-	 * Return the EntityResolver to use, building a default resolver
-	 * if none specified.
+	 * Return the EntityResolver to use, building a default resolver if none specified.
 	 */
 	protected EntityResolver getEntityResolver() {
 		if (this.entityResolver == null) {
@@ -277,11 +285,12 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	}
 
 	/**
-	 * Set an implementation of the {@code org.xml.sax.ErrorHandler}
-	 * interface for custom handling of XML parsing errors and warnings.
-	 * <p>If not set, a default SimpleSaxErrorHandler is used that simply
-	 * logs warnings using the logger instance of the view class,
-	 * and rethrows errors to discontinue the XML transformation.
+	 * Set an implementation of the {@code org.xml.sax.ErrorHandler} interface for custom
+	 * handling of XML parsing errors and warnings.
+	 * <p>
+	 * If not set, a default SimpleSaxErrorHandler is used that simply logs warnings using
+	 * the logger instance of the view class, and rethrows errors to discontinue the XML
+	 * transformation.
 	 * @see SimpleSaxErrorHandler
 	 */
 	public void setErrorHandler(ErrorHandler errorHandler) {
@@ -289,15 +298,16 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	}
 
 	/**
-	 * Specify the {@link BeanDefinitionDocumentReader} implementation to use,
-	 * responsible for the actual reading of the XML bean definition document.
-	 * <p>The default is {@link DefaultBeanDefinitionDocumentReader}.
-	 * @param documentReaderClass the desired BeanDefinitionDocumentReader implementation class
+	 * Specify the {@link BeanDefinitionDocumentReader} implementation to use, responsible
+	 * for the actual reading of the XML bean definition document.
+	 * <p>
+	 * The default is {@link DefaultBeanDefinitionDocumentReader}.
+	 * @param documentReaderClass the desired BeanDefinitionDocumentReader implementation
+	 * class
 	 */
 	public void setDocumentReaderClass(Class<? extends BeanDefinitionDocumentReader> documentReaderClass) {
 		this.documentReaderClass = documentReaderClass;
 	}
-
 
 	/**
 	 * Load bean definitions from the specified XML file.
@@ -312,8 +322,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	/**
 	 * Load bean definitions from the specified XML file.
-	 * @param encodedResource the resource descriptor for the XML file,
-	 * allowing to specify an encoding to use for parsing the file
+	 * @param encodedResource the resource descriptor for the XML file, allowing to
+	 * specify an encoding to use for parsing the file
 	 * @return the number of bean definitions found
 	 * @throws BeanDefinitionStoreException in case of loading or parsing errors
 	 */
@@ -362,8 +372,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	/**
 	 * Load bean definitions from the specified XML file.
 	 * @param inputSource the SAX InputSource to read from
-	 * @param resourceDescription a description of the resource
-	 * (can be {@code null} or empty)
+	 * @param resourceDescription a description of the resource (can be {@code null} or
+	 * empty)
 	 * @return the number of bean definitions found
 	 * @throws BeanDefinitionStoreException in case of loading or parsing errors
 	 */
@@ -372,7 +382,6 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 		return doLoadBeanDefinitions(inputSource, new DescriptiveResource(resourceDescription));
 	}
-
 
 	/**
 	 * Actually load bean definitions from the specified XML file.
@@ -434,11 +443,12 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	}
 
 	/**
-	 * Determine the validation mode for the specified {@link Resource}.
-	 * If no explicit validation mode has been configured, then the validation
-	 * mode gets {@link #detectValidationMode detected} from the given resource.
-	 * <p>Override this method if you would like full control over the validation
-	 * mode, even when something other than {@link #VALIDATION_AUTO} was set.
+	 * Determine the validation mode for the specified {@link Resource}. If no explicit
+	 * validation mode has been configured, then the validation mode gets
+	 * {@link #detectValidationMode detected} from the given resource.
+	 * <p>
+	 * Override this method if you would like full control over the validation mode, even
+	 * when something other than {@link #VALIDATION_AUTO} was set.
 	 * @see #detectValidationMode
 	 */
 	protected int getValidationModeForResource(Resource resource) {
@@ -457,19 +467,19 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	}
 
 	/**
-	 * Detect which kind of validation to perform on the XML file identified
-	 * by the supplied {@link Resource}. If the file has a {@code DOCTYPE}
-	 * definition then DTD validation is used otherwise XSD validation is assumed.
-	 * <p>Override this method if you would like to customize resolution
-	 * of the {@link #VALIDATION_AUTO} mode.
+	 * Detect which kind of validation to perform on the XML file identified by the
+	 * supplied {@link Resource}. If the file has a {@code DOCTYPE} definition then DTD
+	 * validation is used otherwise XSD validation is assumed.
+	 * <p>
+	 * Override this method if you would like to customize resolution of the
+	 * {@link #VALIDATION_AUTO} mode.
 	 */
 	protected int detectValidationMode(Resource resource) {
 		if (resource.isOpen()) {
-			throw new BeanDefinitionStoreException(
-					"Passed-in Resource [" + resource + "] contains an open stream: " +
-					"cannot determine validation mode automatically. Either pass in a Resource " +
-					"that is able to create fresh streams, or explicitly specify the validationMode " +
-					"on your XmlBeanDefinitionReader instance.");
+			throw new BeanDefinitionStoreException("Passed-in Resource [" + resource + "] contains an open stream: "
+					+ "cannot determine validation mode automatically. Either pass in a Resource "
+					+ "that is able to create fresh streams, or explicitly specify the validationMode "
+					+ "on your XmlBeanDefinitionReader instance.");
 		}
 
 		InputStream inputStream;
@@ -478,24 +488,26 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 		}
 		catch (IOException ex) {
 			throw new BeanDefinitionStoreException(
-					"Unable to determine validation mode for [" + resource + "]: cannot open InputStream. " +
-					"Did you attempt to load directly from a SAX InputSource without specifying the " +
-					"validationMode on your XmlBeanDefinitionReader instance?", ex);
+					"Unable to determine validation mode for [" + resource + "]: cannot open InputStream. "
+							+ "Did you attempt to load directly from a SAX InputSource without specifying the "
+							+ "validationMode on your XmlBeanDefinitionReader instance?",
+					ex);
 		}
 
 		try {
 			return this.validationModeDetector.detectValidationMode(inputStream);
 		}
 		catch (IOException ex) {
-			throw new BeanDefinitionStoreException("Unable to determine validation mode for [" +
-					resource + "]: an error occurred whilst reading from the InputStream.", ex);
+			throw new BeanDefinitionStoreException("Unable to determine validation mode for [" + resource
+					+ "]: an error occurred whilst reading from the InputStream.", ex);
 		}
 	}
 
 	/**
-	 * Register the bean definitions contained in the given DOM document.
-	 * Called by {@code loadBeanDefinitions}.
-	 * <p>Creates a new instance of the parser class and invokes
+	 * Register the bean definitions contained in the given DOM document. Called by
+	 * {@code loadBeanDefinitions}.
+	 * <p>
+	 * Creates a new instance of the parser class and invokes
 	 * {@code registerBeanDefinitions} on it.
 	 * @param doc the DOM document
 	 * @param resource the resource descriptor (for context information)
@@ -513,9 +525,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	}
 
 	/**
-	 * Create the {@link BeanDefinitionDocumentReader} to use for actually
-	 * reading bean definitions from an XML document.
-	 * <p>The default implementation instantiates the specified "documentReaderClass".
+	 * Create the {@link BeanDefinitionDocumentReader} to use for actually reading bean
+	 * definitions from an XML document.
+	 * <p>
+	 * The default implementation instantiates the specified "documentReaderClass".
 	 * @see #setDocumentReaderClass
 	 */
 	protected BeanDefinitionDocumentReader createBeanDefinitionDocumentReader() {
@@ -526,8 +539,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * Create the {@link XmlReaderContext} to pass over to the document reader.
 	 */
 	public XmlReaderContext createReaderContext(Resource resource) {
-		return new XmlReaderContext(resource, this.problemReporter, this.eventListener,
-				this.sourceExtractor, this, getNamespaceHandlerResolver());
+		return new XmlReaderContext(resource, this.problemReporter, this.eventListener, this.sourceExtractor, this,
+				getNamespaceHandlerResolver());
 	}
 
 	/**
@@ -542,8 +555,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	}
 
 	/**
-	 * Create the default implementation of {@link NamespaceHandlerResolver} used if none is specified.
-	 * <p>The default implementation returns an instance of {@link DefaultNamespaceHandlerResolver}.
+	 * Create the default implementation of {@link NamespaceHandlerResolver} used if none
+	 * is specified.
+	 * <p>
+	 * The default implementation returns an instance of
+	 * {@link DefaultNamespaceHandlerResolver}.
 	 * @see DefaultNamespaceHandlerResolver#DefaultNamespaceHandlerResolver(ClassLoader)
 	 */
 	protected NamespaceHandlerResolver createDefaultNamespaceHandlerResolver() {

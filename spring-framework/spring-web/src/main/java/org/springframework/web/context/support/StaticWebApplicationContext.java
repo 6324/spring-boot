@@ -55,7 +55,7 @@ import org.springframework.web.context.ServletContextAware;
  * @author Juergen Hoeller
  * @see org.springframework.ui.context.ThemeSource
  */
-public class StaticWebApplicationContext extends StaticApplicationContext
+public abstract class StaticWebApplicationContext extends StaticApplicationContext
 		implements ConfigurableWebApplicationContext, ThemeSource {
 
 	@Nullable

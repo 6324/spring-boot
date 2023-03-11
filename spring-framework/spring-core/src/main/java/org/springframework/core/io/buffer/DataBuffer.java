@@ -31,25 +31,25 @@ import org.springframework.util.Assert;
 /**
  * Basic abstraction over byte buffers.
  *
- * <p>{@code DataBuffer}s has a separate {@linkplain #readPosition() read} and
- * {@linkplain #writePosition() write} position, as opposed to {@code ByteBuffer}'s
- * single {@linkplain ByteBuffer#position() position}. As such, the {@code DataBuffer}
- * does not require a {@linkplain ByteBuffer#flip() flip} to read after writing. In general,
- * the following invariant holds for the read and write positions, and the capacity:
+ * <p>
+ * {@code DataBuffer}s has a separate {@linkplain #readPosition() read} and
+ * {@linkplain #writePosition() write} position, as opposed to {@code ByteBuffer}'s single
+ * {@linkplain ByteBuffer#position() position}. As such, the {@code DataBuffer} does not
+ * require a {@linkplain ByteBuffer#flip() flip} to read after writing. In general, the
+ * following invariant holds for the read and write positions, and the capacity:
  *
- * <blockquote>
- *     <tt>0</tt> <tt>&lt;=</tt>
- *     <i>readPosition</i> <tt>&lt;=</tt>
- *     <i>writePosition</i> <tt>&lt;=</tt>
- *     <i>capacity</i>
- * </blockquote>
+ * <blockquote> <tt>0</tt> <tt>&lt;=</tt> <i>readPosition</i> <tt>&lt;=</tt>
+ * <i>writePosition</i> <tt>&lt;=</tt> <i>capacity</i> </blockquote>
  *
- * <p>The {@linkplain #capacity() capacity} of a {@code DataBuffer} is expanded on demand,
+ * <p>
+ * The {@linkplain #capacity() capacity} of a {@code DataBuffer} is expanded on demand,
  * similar to {@code StringBuilder}.
  *
- * <p>The main purpose of the {@code DataBuffer} abstraction is to provide a convenient wrapper
- * around {@link ByteBuffer} which is similar to Netty's {@link io.netty.buffer.ByteBuf} but
- * can also be used on non-Netty platforms (i.e. Servlet containers).
+ * <p>
+ * The main purpose of the {@code DataBuffer} abstraction is to provide a convenient
+ * wrapper around {@link ByteBuffer} which is similar to Netty's
+ * {@link io.netty.buffer.ByteBuf} but can also be used on non-Netty platforms (i.e.
+ * Servlet containers).
  *
  * @author Arjen Poutsma
  * @author Brian Clozel
@@ -65,22 +65,20 @@ public interface DataBuffer {
 	DataBufferFactory factory();
 
 	/**
-	 * Return the index of the first byte in this buffer that matches
-	 * the given predicate.
+	 * Return the index of the first byte in this buffer that matches the given predicate.
 	 * @param predicate the predicate to match
 	 * @param fromIndex the index to start the search from
-	 * @return the index of the first byte that matches {@code predicate};
-	 * or {@code -1} if none match
+	 * @return the index of the first byte that matches {@code predicate}; or {@code -1}
+	 * if none match
 	 */
 	int indexOf(IntPredicate predicate, int fromIndex);
 
 	/**
-	 * Return the index of the last byte in this buffer that matches
-	 * the given predicate.
+	 * Return the index of the last byte in this buffer that matches the given predicate.
 	 * @param predicate the predicate to match
 	 * @param fromIndex the index to start the search from
-	 * @return the index of the last byte that matches {@code predicate};
-	 * or {@code -1} if none match
+	 * @return the index of the last byte that matches {@code predicate}; or {@code -1} if
+	 * none match
 	 */
 	int lastIndexOf(IntPredicate predicate, int fromIndex);
 
@@ -106,18 +104,19 @@ public interface DataBuffer {
 
 	/**
 	 * Set the number of bytes that this buffer can contain.
-	 * <p>If the new capacity is lower than the current capacity, the contents
-	 * of this buffer will be truncated. If the new capacity is higher than
-	 * the current capacity, it will be expanded.
+	 * <p>
+	 * If the new capacity is lower than the current capacity, the contents of this buffer
+	 * will be truncated. If the new capacity is higher than the current capacity, it will
+	 * be expanded.
 	 * @param capacity the new capacity
 	 * @return this buffer
 	 */
 	DataBuffer capacity(int capacity);
 
 	/**
-	 * Ensure that the current buffer has enough {@link #writableByteCount()}
-	 * to write the amount of data given as an argument. If not, the missing
-	 * capacity will be added to the buffer.
+	 * Ensure that the current buffer has enough {@link #writableByteCount()} to write the
+	 * amount of data given as an argument. If not, the missing capacity will be added to
+	 * the buffer.
 	 * @param capacity the writable capacity to check for
 	 * @return this buffer
 	 * @since 5.1.4
@@ -137,8 +136,8 @@ public interface DataBuffer {
 	 * Set the position from which this buffer will read.
 	 * @param readPosition the new read position
 	 * @return this buffer
-	 * @throws IndexOutOfBoundsException if {@code readPosition} is smaller than 0
-	 * or greater than {@link #writePosition()}
+	 * @throws IndexOutOfBoundsException if {@code readPosition} is smaller than 0 or
+	 * greater than {@link #writePosition()}
 	 * @since 5.0.1
 	 */
 	DataBuffer readPosition(int readPosition);
@@ -236,8 +235,8 @@ public interface DataBuffer {
 	DataBuffer write(ByteBuffer... buffers);
 
 	/**
-	 * Write the given {@code CharSequence} using the given {@code Charset},
-	 * starting at the current writing position.
+	 * Write the given {@code CharSequence} using the given {@code Charset}, starting at
+	 * the current writing position.
 	 * @param charSequence the char sequence to write into this buffer
 	 * @param charset the charset to encode the char sequence with
 	 * @return this buffer
@@ -247,16 +246,14 @@ public interface DataBuffer {
 		Assert.notNull(charSequence, "CharSequence must not be null");
 		Assert.notNull(charset, "Charset must not be null");
 		if (charSequence.length() != 0) {
-			CharsetEncoder charsetEncoder = charset.newEncoder()
-					.onMalformedInput(CodingErrorAction.REPLACE)
+			CharsetEncoder charsetEncoder = charset.newEncoder().onMalformedInput(CodingErrorAction.REPLACE)
 					.onUnmappableCharacter(CodingErrorAction.REPLACE);
 			CharBuffer inBuffer = CharBuffer.wrap(charSequence);
 			int estimatedSize = (int) (inBuffer.remaining() * charsetEncoder.averageBytesPerChar());
-			ByteBuffer outBuffer = ensureCapacity(estimatedSize)
-					.asByteBuffer(writePosition(), writableByteCount());
+			ByteBuffer outBuffer = ensureCapacity(estimatedSize).asByteBuffer(writePosition(), writableByteCount());
 			while (true) {
-				CoderResult cr = (inBuffer.hasRemaining() ?
-						charsetEncoder.encode(inBuffer, outBuffer, true) : CoderResult.UNDERFLOW);
+				CoderResult cr = (inBuffer.hasRemaining() ? charsetEncoder.encode(inBuffer, outBuffer, true)
+						: CoderResult.UNDERFLOW);
 				if (cr.isUnderflow()) {
 					cr = charsetEncoder.flush(outBuffer);
 				}
@@ -276,11 +273,12 @@ public interface DataBuffer {
 	}
 
 	/**
-	 * Create a new {@code DataBuffer} whose contents is a shared subsequence of this
-	 * data buffer's content.  Data between this data buffer and the returned buffer is
-	 * shared; though changes in the returned buffer's position will not be reflected
-	 * in the reading nor writing position of this data buffer.
-	 * <p><strong>Note</strong> that this method will <strong>not</strong> call
+	 * Create a new {@code DataBuffer} whose contents is a shared subsequence of this data
+	 * buffer's content. Data between this data buffer and the returned buffer is shared;
+	 * though changes in the returned buffer's position will not be reflected in the
+	 * reading nor writing position of this data buffer.
+	 * <p>
+	 * <strong>Note</strong> that this method will <strong>not</strong> call
 	 * {@link DataBufferUtils#retain(DataBuffer)} on the resulting slice: the reference
 	 * count will not be increased.
 	 * @param index the index at which to start the slice
@@ -290,13 +288,14 @@ public interface DataBuffer {
 	DataBuffer slice(int index, int length);
 
 	/**
-	 * Create a new {@code DataBuffer} whose contents is a shared, retained subsequence of this
-	 * data buffer's content.  Data between this data buffer and the returned buffer is
-	 * shared; though changes in the returned buffer's position will not be reflected
+	 * Create a new {@code DataBuffer} whose contents is a shared, retained subsequence of
+	 * this data buffer's content. Data between this data buffer and the returned buffer
+	 * is shared; though changes in the returned buffer's position will not be reflected
 	 * in the reading nor writing position of this data buffer.
-	 * <p><strong>Note</strong> that unlike {@link #slice(int, int)}, this method
-	 * <strong>will</strong> call {@link DataBufferUtils#retain(DataBuffer)} (or equivalent) on the
-	 * resulting slice.
+	 * <p>
+	 * <strong>Note</strong> that unlike {@link #slice(int, int)}, this method
+	 * <strong>will</strong> call {@link DataBufferUtils#retain(DataBuffer)} (or
+	 * equivalent) on the resulting slice.
 	 * @param index the index at which to start the slice
 	 * @param length the length of the slice
 	 * @return the specified, retained slice of this data buffer
@@ -308,9 +307,9 @@ public interface DataBuffer {
 
 	/**
 	 * Expose this buffer's bytes as a {@link ByteBuffer}. Data between this
-	 * {@code DataBuffer} and the returned {@code ByteBuffer} is shared; though
-	 * changes in the returned buffer's {@linkplain ByteBuffer#position() position}
-	 * will not be reflected in the reading nor writing position of this data buffer.
+	 * {@code DataBuffer} and the returned {@code ByteBuffer} is shared; though changes in
+	 * the returned buffer's {@linkplain ByteBuffer#position() position} will not be
+	 * reflected in the reading nor writing position of this data buffer.
 	 * @return this data buffer as a byte buffer
 	 */
 	ByteBuffer asByteBuffer();
@@ -318,8 +317,8 @@ public interface DataBuffer {
 	/**
 	 * Expose a subsequence of this buffer's bytes as a {@link ByteBuffer}. Data between
 	 * this {@code DataBuffer} and the returned {@code ByteBuffer} is shared; though
-	 * changes in the returned buffer's {@linkplain ByteBuffer#position() position}
-	 * will not be reflected in the reading nor writing position of this data buffer.
+	 * changes in the returned buffer's {@linkplain ByteBuffer#position() position} will
+	 * not be reflected in the reading nor writing position of this data buffer.
 	 * @param index the index at which to start the byte buffer
 	 * @param length the length of the returned byte buffer
 	 * @return this data buffer as a byte buffer
@@ -328,18 +327,18 @@ public interface DataBuffer {
 	ByteBuffer asByteBuffer(int index, int length);
 
 	/**
-	 * Expose this buffer's data as an {@link InputStream}. Both data and read position are
-	 * shared between the returned stream and this data buffer. The underlying buffer will
-	 * <strong>not</strong> be {@linkplain DataBufferUtils#release(DataBuffer) released}
-	 * when the input stream is {@linkplain InputStream#close() closed}.
+	 * Expose this buffer's data as an {@link InputStream}. Both data and read position
+	 * are shared between the returned stream and this data buffer. The underlying buffer
+	 * will <strong>not</strong> be {@linkplain DataBufferUtils#release(DataBuffer)
+	 * released} when the input stream is {@linkplain InputStream#close() closed}.
 	 * @return this data buffer as an input stream
 	 * @see #asInputStream(boolean)
 	 */
 	InputStream asInputStream();
 
 	/**
-	 * Expose this buffer's data as an {@link InputStream}. Both data and read position are
-	 * shared between the returned stream and this data buffer.
+	 * Expose this buffer's data as an {@link InputStream}. Both data and read position
+	 * are shared between the returned stream and this data buffer.
 	 * @param releaseOnClose whether the underlying buffer will be
 	 * {@linkplain DataBufferUtils#release(DataBuffer) released} when the input stream is
 	 * {@linkplain InputStream#close() closed}.
@@ -349,15 +348,16 @@ public interface DataBuffer {
 	InputStream asInputStream(boolean releaseOnClose);
 
 	/**
-	 * Expose this buffer's data as an {@link OutputStream}. Both data and write position are
-	 * shared between the returned stream and this data buffer.
+	 * Expose this buffer's data as an {@link OutputStream}. Both data and write position
+	 * are shared between the returned stream and this data buffer.
 	 * @return this data buffer as an output stream
 	 */
 	OutputStream asOutputStream();
 
 	/**
-	 * Return this buffer's data a String using the specified charset. Default implementation
-	 * delegates to {@code toString(readPosition(), readableByteCount(), charset)}.
+	 * Return this buffer's data a String using the specified charset. Default
+	 * implementation delegates to
+	 * {@code toString(readPosition(), readableByteCount(), charset)}.
 	 * @param charset the character set to use
 	 * @return a string representation of all this buffers data
 	 * @since 5.2

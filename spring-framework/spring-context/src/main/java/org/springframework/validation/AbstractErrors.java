@@ -28,9 +28,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
 /**
- * Abstract implementation of the {@link Errors} interface. Provides common
- * access to evaluated errors; however, does not define concrete management
- * of {@link ObjectError ObjectErrors} and {@link FieldError FieldErrors}.
+ * Abstract implementation of the {@link Errors} interface. Provides common access to
+ * evaluated errors; however, does not define concrete management of {@link ObjectError
+ * ObjectErrors} and {@link FieldError FieldErrors}.
  *
  * @author Juergen Hoeller
  * @author Rossen Stoyanchev
@@ -42,7 +42,6 @@ public abstract class AbstractErrors implements Errors, Serializable {
 	private String nestedPath = "";
 
 	private final Deque<String> nestedPathStack = new ArrayDeque<>();
-
 
 	@Override
 	public void setNestedPath(@Nullable String nestedPath) {
@@ -73,8 +72,7 @@ public abstract class AbstractErrors implements Errors, Serializable {
 	}
 
 	/**
-	 * Actually set the nested path.
-	 * Delegated to by setNestedPath and pushNestedPath.
+	 * Actually set the nested path. Delegated to by setNestedPath and pushNestedPath.
 	 */
 	protected void doSetNestedPath(@Nullable String nestedPath) {
 		if (nestedPath == null) {
@@ -88,8 +86,8 @@ public abstract class AbstractErrors implements Errors, Serializable {
 	}
 
 	/**
-	 * Transform the given field into its full path,
-	 * regarding the nested path of this instance.
+	 * Transform the given field into its full path, regarding the nested path of this
+	 * instance.
 	 */
 	protected String fixedField(@Nullable String field) {
 		if (StringUtils.hasLength(field)) {
@@ -97,21 +95,21 @@ public abstract class AbstractErrors implements Errors, Serializable {
 		}
 		else {
 			String path = getNestedPath();
-			return (path.endsWith(Errors.NESTED_PATH_SEPARATOR) ?
-					path.substring(0, path.length() - NESTED_PATH_SEPARATOR.length()) : path);
+			return (path.endsWith(Errors.NESTED_PATH_SEPARATOR)
+					? path.substring(0, path.length() - NESTED_PATH_SEPARATOR.length()) : path);
 		}
 	}
 
 	/**
 	 * Determine the canonical field name for the given field.
-	 * <p>The default implementation simply returns the field name as-is.
+	 * <p>
+	 * The default implementation simply returns the field name as-is.
 	 * @param field the original field name
 	 * @return the canonical field name
 	 */
 	protected String canonicalFieldName(String field) {
 		return field;
 	}
-
 
 	@Override
 	public void reject(String errorCode) {
@@ -132,7 +130,6 @@ public abstract class AbstractErrors implements Errors, Serializable {
 	public void rejectValue(@Nullable String field, String errorCode, String defaultMessage) {
 		rejectValue(field, errorCode, null, defaultMessage);
 	}
-
 
 	@Override
 	public boolean hasErrors() {
@@ -233,12 +230,12 @@ public abstract class AbstractErrors implements Errors, Serializable {
 		if (field.equals(fieldError.getField())) {
 			return true;
 		}
-		// Optimization: use charAt and regionMatches instead of endsWith and startsWith (SPR-11304)
+		// Optimization: use charAt and regionMatches instead of endsWith and startsWith
+		// (SPR-11304)
 		int endIndex = field.length() - 1;
-		return (endIndex >= 0 && field.charAt(endIndex) == '*' &&
-				(endIndex == 0 || field.regionMatches(0, fieldError.getField(), 0, endIndex)));
+		return (endIndex >= 0 && field.charAt(endIndex) == '*'
+				&& (endIndex == 0 || field.regionMatches(0, fieldError.getField(), 0, endIndex)));
 	}
-
 
 	@Override
 	public String toString() {

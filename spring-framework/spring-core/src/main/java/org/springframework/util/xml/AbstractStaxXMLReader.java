@@ -52,7 +52,6 @@ abstract class AbstractStaxXMLReader extends AbstractXMLReader {
 
 	private static final String IS_STANDALONE_FEATURE_NAME = "http://xml.org/sax/features/is-standalone";
 
-
 	private boolean namespacesFeature = true;
 
 	private boolean namespacePrefixesFeature = false;
@@ -62,23 +61,22 @@ abstract class AbstractStaxXMLReader extends AbstractXMLReader {
 
 	private final Map<String, String> namespaces = new LinkedHashMap<>();
 
-
 	@Override
 	public boolean getFeature(String name) throws SAXNotRecognizedException, SAXNotSupportedException {
 		switch (name) {
-			case NAMESPACES_FEATURE_NAME:
-				return this.namespacesFeature;
-			case NAMESPACE_PREFIXES_FEATURE_NAME:
-				return this.namespacePrefixesFeature;
-			case IS_STANDALONE_FEATURE_NAME:
-				if (this.isStandalone != null) {
-					return this.isStandalone;
-				}
-				else {
-					throw new SAXNotSupportedException("startDocument() callback not completed yet");
-				}
-			default:
-				return super.getFeature(name);
+		case NAMESPACES_FEATURE_NAME:
+			return this.namespacesFeature;
+		case NAMESPACE_PREFIXES_FEATURE_NAME:
+			return this.namespacePrefixesFeature;
+		case IS_STANDALONE_FEATURE_NAME:
+			if (this.isStandalone != null) {
+				return this.isStandalone;
+			}
+			else {
+				throw new SAXNotSupportedException("startDocument() callback not completed yet");
+			}
+		default:
+			return super.getFeature(name);
 		}
 	}
 
@@ -100,23 +98,25 @@ abstract class AbstractStaxXMLReader extends AbstractXMLReader {
 	}
 
 	/**
-	 * Indicates whether the SAX feature {@code http://xml.org/sax/features/namespaces} is turned on.
+	 * Indicates whether the SAX feature {@code http://xml.org/sax/features/namespaces} is
+	 * turned on.
 	 */
 	protected boolean hasNamespacesFeature() {
 		return this.namespacesFeature;
 	}
 
 	/**
-	 * Indicates whether the SAX feature {@code http://xml.org/sax/features/namespaces-prefixes} is turned on.
+	 * Indicates whether the SAX feature
+	 * {@code http://xml.org/sax/features/namespaces-prefixes} is turned on.
 	 */
 	protected boolean hasNamespacePrefixesFeature() {
 		return this.namespacePrefixesFeature;
 	}
 
 	/**
-	 * Convert a {@code QName} to a qualified name, as used by DOM and SAX.
-	 * The returned string has a format of {@code prefix:localName} if the
-	 * prefix is set, or just {@code localName} if not.
+	 * Convert a {@code QName} to a qualified name, as used by DOM and SAX. The returned
+	 * string has a format of {@code prefix:localName} if the prefix is set, or just
+	 * {@code localName} if not.
 	 * @param qName the {@code QName}
 	 * @return the qualified name
 	 */
@@ -130,12 +130,13 @@ abstract class AbstractStaxXMLReader extends AbstractXMLReader {
 		}
 	}
 
-
 	/**
 	 * Parse the StAX XML reader passed at construction-time.
-	 * <p><b>NOTE:</b>: The given {@code InputSource} is not read, but ignored.
+	 * <p>
+	 * <b>NOTE:</b>: The given {@code InputSource} is not read, but ignored.
 	 * @param ignored is ignored
-	 * @throws SAXException a SAX exception, possibly wrapping a {@code XMLStreamException}
+	 * @throws SAXException a SAX exception, possibly wrapping a
+	 * {@code XMLStreamException}
 	 */
 	@Override
 	public final void parse(InputSource ignored) throws SAXException {
@@ -144,9 +145,11 @@ abstract class AbstractStaxXMLReader extends AbstractXMLReader {
 
 	/**
 	 * Parse the StAX XML reader passed at construction-time.
-	 * <p><b>NOTE:</b>: The given system identifier is not read, but ignored.
+	 * <p>
+	 * <b>NOTE:</b>: The given system identifier is not read, but ignored.
 	 * @param ignored is ignored
-	 * @throws SAXException a SAX exception, possibly wrapping a {@code XMLStreamException}
+	 * @throws SAXException a SAX exception, possibly wrapping a
+	 * {@code XMLStreamException}
 	 */
 	@Override
 	public final void parse(String ignored) throws SAXException {
@@ -177,7 +180,6 @@ abstract class AbstractStaxXMLReader extends AbstractXMLReader {
 	 */
 	protected abstract void parseInternal() throws SAXException, XMLStreamException;
 
-
 	/**
 	 * Start the prefix mapping for the given prefix.
 	 * @see org.xml.sax.ContentHandler#startPrefixMapping(String, String)
@@ -205,9 +207,10 @@ abstract class AbstractStaxXMLReader extends AbstractXMLReader {
 		}
 	}
 
-
 	/**
-	 * Implementation of the {@code Locator} interface based on a given StAX {@code Location}.
+	 * Implementation of the {@code Locator} interface based on a given StAX
+	 * {@code Location}.
+	 *
 	 * @see Locator
 	 * @see Location
 	 */
@@ -238,6 +241,7 @@ abstract class AbstractStaxXMLReader extends AbstractXMLReader {
 		public int getColumnNumber() {
 			return this.location.getColumnNumber();
 		}
+
 	}
 
 }

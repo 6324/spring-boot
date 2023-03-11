@@ -34,8 +34,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
 /**
- * A generic implementation of the {@link CallMetaDataProvider} interface.
- * This class can be extended to provide database specific behavior.
+ * A generic implementation of the {@link CallMetaDataProvider} interface. This class can
+ * be extended to provide database specific behavior.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -46,7 +46,6 @@ public class GenericCallMetaDataProvider implements CallMetaDataProvider {
 
 	/** Logger available to subclasses. */
 	protected static final Log logger = LogFactory.getLog(CallMetaDataProvider.class);
-
 
 	private final String userName;
 
@@ -62,7 +61,6 @@ public class GenericCallMetaDataProvider implements CallMetaDataProvider {
 
 	private final List<CallParameterMetaData> callParameterMetaData = new ArrayList<>();
 
-
 	/**
 	 * Constructor used to initialize with provided database meta-data.
 	 * @param databaseMetaData meta-data to be used
@@ -70,7 +68,6 @@ public class GenericCallMetaDataProvider implements CallMetaDataProvider {
 	protected GenericCallMetaDataProvider(DatabaseMetaData databaseMetaData) throws SQLException {
 		this.userName = databaseMetaData.getUserName();
 	}
-
 
 	@Override
 	public void initializeWithMetaData(DatabaseMetaData databaseMetaData) throws SQLException {
@@ -113,7 +110,7 @@ public class GenericCallMetaDataProvider implements CallMetaDataProvider {
 			@Nullable String schemaName, @Nullable String procedureName) throws SQLException {
 
 		this.procedureColumnMetaDataUsed = true;
-		processProcedureColumns(databaseMetaData, catalogName, schemaName,  procedureName);
+		processProcedureColumns(databaseMetaData, catalogName, schemaName, procedureName);
 	}
 
 	@Override
@@ -256,7 +253,6 @@ public class GenericCallMetaDataProvider implements CallMetaDataProvider {
 		return this.procedureColumnMetaDataUsed;
 	}
 
-
 	/**
 	 * Specify whether the database supports the use of catalog name in procedure calls.
 	 */
@@ -315,40 +311,40 @@ public class GenericCallMetaDataProvider implements CallMetaDataProvider {
 		return this.storesLowerCaseIdentifiers;
 	}
 
-
 	/**
 	 * Process the procedure column meta-data.
 	 */
-	private void processProcedureColumns(DatabaseMetaData databaseMetaData,
-			@Nullable String catalogName, @Nullable String schemaName, @Nullable String procedureName) {
+	private void processProcedureColumns(DatabaseMetaData databaseMetaData, @Nullable String catalogName,
+			@Nullable String schemaName, @Nullable String procedureName) {
 
 		String metaDataCatalogName = metaDataCatalogNameToUse(catalogName);
 		String metaDataSchemaName = metaDataSchemaNameToUse(schemaName);
 		String metaDataProcedureName = procedureNameToUse(procedureName);
 		if (logger.isDebugEnabled()) {
-			logger.debug("Retrieving meta-data for " + metaDataCatalogName + '/' +
-					metaDataSchemaName + '/' + metaDataProcedureName);
+			logger.debug("Retrieving meta-data for " + metaDataCatalogName + '/' + metaDataSchemaName + '/'
+					+ metaDataProcedureName);
 		}
 
 		try {
 			List<String> found = new ArrayList<>();
 			boolean function = false;
 
-			try (ResultSet procedures = databaseMetaData.getProcedures(
-					metaDataCatalogName, metaDataSchemaName, metaDataProcedureName)) {
+			try (ResultSet procedures = databaseMetaData.getProcedures(metaDataCatalogName, metaDataSchemaName,
+					metaDataProcedureName)) {
 				while (procedures.next()) {
-					found.add(procedures.getString("PROCEDURE_CAT") + '.' + procedures.getString("PROCEDURE_SCHEM") +
-							'.' + procedures.getString("PROCEDURE_NAME"));
+					found.add(procedures.getString("PROCEDURE_CAT") + '.' + procedures.getString("PROCEDURE_SCHEM")
+							+ '.' + procedures.getString("PROCEDURE_NAME"));
 				}
 			}
 
 			if (found.isEmpty()) {
-				// Functions not exposed as procedures anymore on PostgreSQL driver 42.2.11
-				try (ResultSet functions = databaseMetaData.getFunctions(
-						metaDataCatalogName, metaDataSchemaName, metaDataProcedureName)) {
+				// Functions not exposed as procedures anymore on PostgreSQL driver
+				// 42.2.11
+				try (ResultSet functions = databaseMetaData.getFunctions(metaDataCatalogName, metaDataSchemaName,
+						metaDataProcedureName)) {
 					while (functions.next()) {
-						found.add(functions.getString("FUNCTION_CAT") + '.' + functions.getString("FUNCTION_SCHEM") +
-								'.' + functions.getString("FUNCTION_NAME"));
+						found.add(functions.getString("FUNCTION_CAT") + '.' + functions.getString("FUNCTION_SCHEM")
+								+ '.' + functions.getString("FUNCTION_NAME"));
 						function = true;
 					}
 				}
@@ -356,58 +352,61 @@ public class GenericCallMetaDataProvider implements CallMetaDataProvider {
 
 			if (found.size() > 1) {
 				throw new InvalidDataAccessApiUsageException(
-						"Unable to determine the correct call signature - multiple signatures for '" +
-						metaDataProcedureName + "': found " + found + " " + (function ? "functions" : "procedures"));
+						"Unable to determine the correct call signature - multiple signatures for '"
+								+ metaDataProcedureName + "': found " + found + " "
+								+ (function ? "functions" : "procedures"));
 			}
 			else if (found.isEmpty()) {
-				if (metaDataProcedureName != null && metaDataProcedureName.contains(".") &&
-						!StringUtils.hasText(metaDataCatalogName)) {
+				if (metaDataProcedureName != null && metaDataProcedureName.contains(".")
+						&& !StringUtils.hasText(metaDataCatalogName)) {
 					String packageName = metaDataProcedureName.substring(0, metaDataProcedureName.indexOf('.'));
 					throw new InvalidDataAccessApiUsageException(
-							"Unable to determine the correct call signature for '" + metaDataProcedureName +
-							"' - package name should be specified separately using '.withCatalogName(\"" +
-							packageName + "\")'");
+							"Unable to determine the correct call signature for '" + metaDataProcedureName
+									+ "' - package name should be specified separately using '.withCatalogName(\""
+									+ packageName + "\")'");
 				}
 				else if ("Oracle".equals(databaseMetaData.getDatabaseProductName())) {
 					if (logger.isDebugEnabled()) {
-						logger.debug("Oracle JDBC driver did not return procedure/function/signature for '" +
-								metaDataProcedureName + "' - assuming a non-exposed synonym");
+						logger.debug("Oracle JDBC driver did not return procedure/function/signature for '"
+								+ metaDataProcedureName + "' - assuming a non-exposed synonym");
 					}
 				}
 				else {
-					throw new InvalidDataAccessApiUsageException(
-							"Unable to determine the correct call signature - no " +
-							"procedure/function/signature for '" + metaDataProcedureName + "'");
+					throw new InvalidDataAccessApiUsageException("Unable to determine the correct call signature - no "
+							+ "procedure/function/signature for '" + metaDataProcedureName + "'");
 				}
 			}
 
 			if (logger.isDebugEnabled()) {
-				logger.debug("Retrieving column meta-data for " + (function ? "function" : "procedure") + ' ' +
-						metaDataCatalogName + '/' + metaDataSchemaName + '/' + metaDataProcedureName);
+				logger.debug("Retrieving column meta-data for " + (function ? "function" : "procedure") + ' '
+						+ metaDataCatalogName + '/' + metaDataSchemaName + '/' + metaDataProcedureName);
 			}
-			try (ResultSet columns = function ?
-					databaseMetaData.getFunctionColumns(metaDataCatalogName, metaDataSchemaName, metaDataProcedureName, null) :
-					databaseMetaData.getProcedureColumns(metaDataCatalogName, metaDataSchemaName, metaDataProcedureName, null)) {
+			try (ResultSet columns = function
+					? databaseMetaData.getFunctionColumns(metaDataCatalogName, metaDataSchemaName,
+							metaDataProcedureName, null)
+					: databaseMetaData.getProcedureColumns(metaDataCatalogName, metaDataSchemaName,
+							metaDataProcedureName, null)) {
 				while (columns.next()) {
 					String columnName = columns.getString("COLUMN_NAME");
 					int columnType = columns.getInt("COLUMN_TYPE");
 					if (columnName == null && isInOrOutColumn(columnType, function)) {
 						if (logger.isDebugEnabled()) {
-							logger.debug("Skipping meta-data for: " + columnType + " " + columns.getInt("DATA_TYPE") +
-									" " + columns.getString("TYPE_NAME") + " " + columns.getInt("NULLABLE") +
-									" (probably a member of a collection)");
+							logger.debug("Skipping meta-data for: " + columnType + " " + columns.getInt("DATA_TYPE")
+									+ " " + columns.getString("TYPE_NAME") + " " + columns.getInt("NULLABLE")
+									+ " (probably a member of a collection)");
 						}
 					}
 					else {
-						int nullable = (function ? DatabaseMetaData.functionNullable : DatabaseMetaData.procedureNullable);
+						int nullable = (function ? DatabaseMetaData.functionNullable
+								: DatabaseMetaData.procedureNullable);
 						CallParameterMetaData meta = new CallParameterMetaData(function, columnName, columnType,
 								columns.getInt("DATA_TYPE"), columns.getString("TYPE_NAME"),
 								columns.getInt("NULLABLE") == nullable);
 						this.callParameterMetaData.add(meta);
 						if (logger.isDebugEnabled()) {
-							logger.debug("Retrieved meta-data: " + meta.getParameterName() + " " +
-									meta.getParameterType() + " " + meta.getSqlType() + " " +
-									meta.getTypeName() + " " + meta.isNullable());
+							logger.debug("Retrieved meta-data: " + meta.getParameterName() + " "
+									+ meta.getParameterType() + " " + meta.getSqlType() + " " + meta.getTypeName() + " "
+									+ meta.isNullable());
 						}
 					}
 				}
@@ -415,8 +414,8 @@ public class GenericCallMetaDataProvider implements CallMetaDataProvider {
 		}
 		catch (SQLException ex) {
 			if (logger.isWarnEnabled()) {
-				logger.warn("Error while retrieving meta-data for procedure columns. " +
-						"Consider declaring explicit parameters -- for example, via SimpleJdbcCall#addDeclaredParameter().",
+				logger.warn("Error while retrieving meta-data for procedure columns. "
+						+ "Consider declaring explicit parameters -- for example, via SimpleJdbcCall#addDeclaredParameter().",
 						ex);
 			}
 			// Although we could invoke `this.callParameterMetaData.clear()` so that
@@ -429,14 +428,14 @@ public class GenericCallMetaDataProvider implements CallMetaDataProvider {
 
 	private static boolean isInOrOutColumn(int columnType, boolean function) {
 		if (function) {
-			return (columnType == DatabaseMetaData.functionColumnIn ||
-					columnType == DatabaseMetaData.functionColumnInOut ||
-					columnType == DatabaseMetaData.functionColumnOut);
+			return (columnType == DatabaseMetaData.functionColumnIn
+					|| columnType == DatabaseMetaData.functionColumnInOut
+					|| columnType == DatabaseMetaData.functionColumnOut);
 		}
 		else {
-			return (columnType == DatabaseMetaData.procedureColumnIn ||
-					columnType == DatabaseMetaData.procedureColumnInOut ||
-					columnType == DatabaseMetaData.procedureColumnOut);
+			return (columnType == DatabaseMetaData.procedureColumnIn
+					|| columnType == DatabaseMetaData.procedureColumnInOut
+					|| columnType == DatabaseMetaData.procedureColumnOut);
 		}
 	}
 

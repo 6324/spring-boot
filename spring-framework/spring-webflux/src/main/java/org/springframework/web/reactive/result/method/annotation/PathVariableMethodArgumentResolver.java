@@ -36,16 +36,17 @@ import org.springframework.web.server.ServerWebExchange;
 /**
  * Resolves method arguments annotated with @{@link PathVariable}.
  *
- * <p>An @{@link PathVariable} is a named value that gets resolved from a URI
- * template variable. It is always required and does not have a default value
- * to fall back on. See the base class
+ * <p>
+ * An @{@link PathVariable} is a named value that gets resolved from a URI template
+ * variable. It is always required and does not have a default value to fall back on. See
+ * the base class
  * {@link org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver}
  * for more information on how named values are processed.
  *
- * <p>If the method parameter type is {@link Map}, the name specified in the
- * annotation is used to resolve the URI variable String value. The value is
- * then converted to a {@link Map} via type conversion, assuming a suitable
- * {@link Converter}.
+ * <p>
+ * If the method parameter type is {@link Map}, the name specified in the annotation is
+ * used to resolve the URI variable String value. The value is then converted to a
+ * {@link Map} via type conversion, assuming a suitable {@link Converter}.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -56,9 +57,9 @@ public class PathVariableMethodArgumentResolver extends AbstractNamedValueSyncAr
 
 	/**
 	 * Create a new {@link PathVariableMethodArgumentResolver}.
-	 * @param factory a bean factory to use for resolving {@code ${...}}
-	 * placeholder and {@code #{...}} SpEL expressions in default values;
-	 * or {@code null} if default values are not expected to contain expressions
+	 * @param factory a bean factory to use for resolving {@code ${...}} placeholder and
+	 * {@code #{...}} SpEL expressions in default values; or {@code null} if default
+	 * values are not expected to contain expressions
 	 * @param registry for checking reactive type wrappers
 	 */
 	public PathVariableMethodArgumentResolver(@Nullable ConfigurableBeanFactory factory,
@@ -66,7 +67,6 @@ public class PathVariableMethodArgumentResolver extends AbstractNamedValueSyncAr
 
 		super(factory, registry);
 	}
-
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -96,18 +96,18 @@ public class PathVariableMethodArgumentResolver extends AbstractNamedValueSyncAr
 	}
 
 	@Override
-	protected void handleResolvedValue(
-			@Nullable Object arg, String name, MethodParameter parameter, Model model, ServerWebExchange exchange) {
+	protected void handleResolvedValue(@Nullable Object arg, String name, MethodParameter parameter, Model model,
+			ServerWebExchange exchange) {
 
 		// TODO: View.PATH_VARIABLES ?
 	}
-
 
 	private static class PathVariableNamedValueInfo extends NamedValueInfo {
 
 		public PathVariableNamedValueInfo(PathVariable annotation) {
 			super(annotation.name(), annotation.required(), ValueConstants.DEFAULT_NONE);
 		}
+
 	}
 
 }

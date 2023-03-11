@@ -30,7 +30,6 @@ public class StubMessageChannel implements SubscribableChannel {
 
 	private final List<MessageHandler> handlers = new ArrayList<>();
 
-
 	public List<Message<byte[]>> getMessages() {
 		return this.messages;
 	}
@@ -60,4 +59,5 @@ public class StubMessageChannel implements SubscribableChannel {
 		this.handlers.remove(handler);
 		return true;
 	}
+
 }

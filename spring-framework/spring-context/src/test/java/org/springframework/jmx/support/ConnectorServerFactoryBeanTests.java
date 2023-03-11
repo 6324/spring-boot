@@ -49,7 +49,6 @@ class ConnectorServerFactoryBeanTests extends AbstractMBeanServerTests {
 
 	private final String serviceUrl = "service:jmx:jmxmp://localhost:" + SocketUtils.findAvailableTcpPort();
 
-
 	@Test
 	void startupWithLocatedServer() throws Exception {
 		ConnectorServerFactoryBean bean = new ConnectorServerFactoryBean();
@@ -103,8 +102,8 @@ class ConnectorServerFactoryBeanTests extends AbstractMBeanServerTests {
 		bean.afterPropertiesSet();
 		try {
 			// Try to get the connector bean.
-			assertThatExceptionOfType(InstanceNotFoundException.class).isThrownBy(() ->
-				getServer().getObjectInstance(ObjectName.getInstance(OBJECT_NAME)));
+			assertThatExceptionOfType(InstanceNotFoundException.class)
+					.isThrownBy(() -> getServer().getObjectInstance(ObjectName.getInstance(OBJECT_NAME)));
 		}
 		finally {
 			bean.destroy();
@@ -123,7 +122,8 @@ class ConnectorServerFactoryBeanTests extends AbstractMBeanServerTests {
 		assertThat(connection).as("MBeanServerConnection should not be null").isNotNull();
 
 		// Test for MBean server equality.
-		assertThat(connection.getMBeanCount()).as("Registered MBean count should be the same").isEqualTo(hostedServer.getMBeanCount());
+		assertThat(connection.getMBeanCount()).as("Registered MBean count should be the same")
+				.isEqualTo(hostedServer.getMBeanCount());
 	}
 
 }

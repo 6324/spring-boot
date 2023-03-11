@@ -26,12 +26,13 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.lang.Nullable;
 
 /**
- * Reusable RDBMS query in which concrete subclasses must implement
- * the abstract updateRow(ResultSet, int, context) method to update each
- * row of the JDBC ResultSet and optionally map contents into an object.
+ * Reusable RDBMS query in which concrete subclasses must implement the abstract
+ * updateRow(ResultSet, int, context) method to update each row of the JDBC ResultSet and
+ * optionally map contents into an object.
  *
- * <p>Subclasses can be constructed providing SQL, parameter types
- * and a DataSource. SQL will often vary between subclasses.
+ * <p>
+ * Subclasses can be constructed providing SQL, parameter types and a DataSource. SQL will
+ * often vary between subclasses.
  *
  * @author Thomas Risberg
  * @param <T> the result type
@@ -56,7 +57,6 @@ public abstract class UpdatableSqlQuery<T> extends SqlQuery<T> {
 		setUpdatableResults(true);
 	}
 
-
 	/**
 	 * Implementation of the superclass template method. This invokes the subclass's
 	 * implementation of the {@code updateRow()} method.
@@ -67,26 +67,23 @@ public abstract class UpdatableSqlQuery<T> extends SqlQuery<T> {
 	}
 
 	/**
-	 * Subclasses must implement this method to update each row of the
-	 * ResultSet and optionally create object of the result type.
+	 * Subclasses must implement this method to update each row of the ResultSet and
+	 * optionally create object of the result type.
 	 * @param rs the ResultSet we're working through
 	 * @param rowNum row number (from 0) we're up to
-	 * @param context passed to the execute() method.
-	 * It can be {@code null} if no contextual information is need.  If you
-	 * need to pass in data for each row, you can pass in a HashMap with
-	 * the primary key of the row being the key for the HashMap.  That way
-	 * it is easy to locate the updates for each row
+	 * @param context passed to the execute() method. It can be {@code null} if no
+	 * contextual information is need. If you need to pass in data for each row, you can
+	 * pass in a HashMap with the primary key of the row being the key for the HashMap.
+	 * That way it is easy to locate the updates for each row
 	 * @return an object of the result type
-	 * @throws SQLException if there's an error updateing data.
-	 * Subclasses can simply not catch SQLExceptions, relying on the
-	 * framework to clean up.
+	 * @throws SQLException if there's an error updateing data. Subclasses can simply not
+	 * catch SQLExceptions, relying on the framework to clean up.
 	 */
 	protected abstract T updateRow(ResultSet rs, int rowNum, @Nullable Map<?, ?> context) throws SQLException;
 
-
 	/**
-	 * Implementation of RowMapper that calls the enclosing
-	 * class's {@code updateRow()} method for each row.
+	 * Implementation of RowMapper that calls the enclosing class's {@code updateRow()}
+	 * method for each row.
 	 */
 	protected class RowMapperImpl implements RowMapper<T> {
 
@@ -103,6 +100,7 @@ public abstract class UpdatableSqlQuery<T> extends SqlQuery<T> {
 			rs.updateRow();
 			return result;
 		}
+
 	}
 
 }

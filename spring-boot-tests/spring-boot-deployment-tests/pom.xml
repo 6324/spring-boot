@@ -14,6 +14,9 @@
 	<properties>
 		<main.basedir>${basedir}/../..</main.basedir>
 		<java.version>1.8</java.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
 		<cargo.timeout>1200000</cargo.timeout>
 		<cargo.container.download-dir>${settings.localRepository}/.cache/cargo/installs</cargo.container.download-dir>
 	</properties>

@@ -36,8 +36,7 @@ import org.springframework.web.socket.CloseStatus;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Test fixture for
- * {@link DefaultSimpUserRegistry}
+ * Test fixture for {@link DefaultSimpUserRegistry}
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -171,7 +170,6 @@ public class DefaultSimpUserRegistryTests {
 		SimpUser simpUser = registry.getUser("joe");
 		assertThat(simpUser.getSession(null)).isNull();
 	}
-
 
 	private Message<byte[]> createMessage(SimpMessageType type, String sessionId) {
 		return createMessage(type, sessionId, null, null);

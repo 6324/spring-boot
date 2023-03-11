@@ -49,11 +49,13 @@ import org.springframework.util.MimeType;
  * Base class for a return value handler that encodes return values to
  * {@code Flux<DataBuffer>} through the configured {@link Encoder}s.
  *
- * <p>Subclasses must implement the abstract method
- * {@link #handleEncodedContent} to handle the resulting encoded content.
+ * <p>
+ * Subclasses must implement the abstract method {@link #handleEncodedContent} to handle
+ * the resulting encoded content.
  *
- * <p>This handler should be ordered last since its {@link #supportsReturnType}
- * returns {@code true} for any method parameter type.
+ * <p>
+ * This handler should be ordered last since its {@link #supportsReturnType} returns
+ * {@code true} for any method parameter type.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -66,7 +68,6 @@ public abstract class AbstractEncoderMethodReturnValueHandler implements Handler
 
 	private static final String COROUTINES_FLOW_CLASS_NAME = "kotlinx.coroutines.flow.Flow";
 
-
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	private final List<Encoder<?>> encoders;
@@ -75,14 +76,12 @@ public abstract class AbstractEncoderMethodReturnValueHandler implements Handler
 
 	private DataBufferFactory defaultBufferFactory = new DefaultDataBufferFactory();
 
-
 	protected AbstractEncoderMethodReturnValueHandler(List<Encoder<?>> encoders, ReactiveAdapterRegistry registry) {
 		Assert.notEmpty(encoders, "At least one Encoder is required");
 		Assert.notNull(registry, "ReactiveAdapterRegistry is required");
 		this.encoders = Collections.unmodifiableList(encoders);
 		this.adapterRegistry = registry;
 	}
-
 
 	/**
 	 * The configured encoders.
@@ -98,7 +97,6 @@ public abstract class AbstractEncoderMethodReturnValueHandler implements Handler
 		return this.adapterRegistry;
 	}
 
-
 	@Override
 	public boolean supportsReturnType(MethodParameter returnType) {
 		// We could check canEncode but we're probably last in order anyway
@@ -106,8 +104,7 @@ public abstract class AbstractEncoderMethodReturnValueHandler implements Handler
 	}
 
 	@Override
-	public Mono<Void> handleReturnValue(
-			@Nullable Object returnValue, MethodParameter returnType, Message<?> message) {
+	public Mono<Void> handleReturnValue(@Nullable Object returnValue, MethodParameter returnType, Message<?> message) {
 
 		if (returnValue == null) {
 			return handleNoContent(returnType, message);
@@ -117,17 +114,16 @@ public abstract class AbstractEncoderMethodReturnValueHandler implements Handler
 				.getOrDefault(HandlerMethodReturnValueHandler.DATA_BUFFER_FACTORY_HEADER, this.defaultBufferFactory);
 
 		MimeType mimeType = (MimeType) message.getHeaders().get(MessageHeaders.CONTENT_TYPE);
-		Flux<DataBuffer> encodedContent = encodeContent(
-				returnValue, returnType, bufferFactory, mimeType, Collections.emptyMap());
+		Flux<DataBuffer> encodedContent = encodeContent(returnValue, returnType, bufferFactory, mimeType,
+				Collections.emptyMap());
 
-		return new ChannelSendOperator<>(encodedContent, publisher ->
-				handleEncodedContent(Flux.from(publisher), returnType, message));
+		return new ChannelSendOperator<>(encodedContent,
+				publisher -> handleEncodedContent(Flux.from(publisher), returnType, message));
 	}
 
 	@SuppressWarnings("unchecked")
-	private Flux<DataBuffer> encodeContent(
-			@Nullable Object content, MethodParameter returnType, DataBufferFactory bufferFactory,
-			@Nullable MimeType mimeType, Map<String, Object> hints) {
+	private Flux<DataBuffer> encodeContent(@Nullable Object content, MethodParameter returnType,
+			DataBufferFactory bufferFactory, @Nullable MimeType mimeType, Map<String, Object> hints) {
 
 		ResolvableType returnValueType = ResolvableType.forMethodParameter(returnType);
 		ReactiveAdapter adapter = getAdapterRegistry().getAdapter(returnValueType.resolve(), content);
@@ -136,17 +132,17 @@ public abstract class AbstractEncoderMethodReturnValueHandler implements Handler
 		ResolvableType elementType;
 		if (adapter != null) {
 			publisher = adapter.toPublisher(content);
-			boolean isUnwrapped = KotlinDetector.isKotlinReflectPresent() &&
-					KotlinDetector.isKotlinType(returnType.getContainingClass()) &&
-					KotlinDelegate.isSuspend(returnType.getMethod()) &&
-					!COROUTINES_FLOW_CLASS_NAME.equals(returnValueType.toClass().getName());
+			boolean isUnwrapped = KotlinDetector.isKotlinReflectPresent()
+					&& KotlinDetector.isKotlinType(returnType.getContainingClass())
+					&& KotlinDelegate.isSuspend(returnType.getMethod())
+					&& !COROUTINES_FLOW_CLASS_NAME.equals(returnValueType.toClass().getName());
 			ResolvableType genericType = isUnwrapped ? returnValueType : returnValueType.getGeneric();
 			elementType = getElementType(adapter, genericType);
 		}
 		else {
 			publisher = Mono.justOrEmpty(content);
-			elementType = (returnValueType.toClass() == Object.class && content != null ?
-					ResolvableType.forInstance(content) : returnValueType);
+			elementType = (returnValueType.toClass() == Object.class && content != null
+					? ResolvableType.forInstance(content) : returnValueType);
 		}
 
 		if (elementType.resolve() == void.class || elementType.resolve() == Void.class) {
@@ -154,8 +150,8 @@ public abstract class AbstractEncoderMethodReturnValueHandler implements Handler
 		}
 
 		Encoder<?> encoder = getEncoder(elementType, mimeType);
-		return Flux.from(publisher).map(value ->
-				encodeValue(value, elementType, encoder, bufferFactory, mimeType, hints));
+		return Flux.from(publisher)
+				.map(value -> encodeValue(value, elementType, encoder, bufferFactory, mimeType, hints));
 	}
 
 	private ResolvableType getElementType(ReactiveAdapter adapter, ResolvableType type) {
@@ -182,10 +178,8 @@ public abstract class AbstractEncoderMethodReturnValueHandler implements Handler
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T> DataBuffer encodeValue(
-			Object element, ResolvableType elementType, @Nullable Encoder<T> encoder,
-			DataBufferFactory bufferFactory, @Nullable MimeType mimeType,
-			@Nullable Map<String, Object> hints) {
+	private <T> DataBuffer encodeValue(Object element, ResolvableType elementType, @Nullable Encoder<T> encoder,
+			DataBufferFactory bufferFactory, @Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
 
 		if (encoder == null) {
 			encoder = getEncoder(ResolvableType.forInstance(element), mimeType);
@@ -198,27 +192,26 @@ public abstract class AbstractEncoderMethodReturnValueHandler implements Handler
 	}
 
 	/**
-	 * Subclasses implement this method to handle encoded values in some way
-	 * such as creating and sending messages.
-	 * @param encodedContent the encoded content; each {@code DataBuffer}
-	 * represents the fully-aggregated, encoded content for one value
-	 * (i.e. payload) returned from the HandlerMethod.
+	 * Subclasses implement this method to handle encoded values in some way such as
+	 * creating and sending messages.
+	 * @param encodedContent the encoded content; each {@code DataBuffer} represents the
+	 * fully-aggregated, encoded content for one value (i.e. payload) returned from the
+	 * HandlerMethod.
 	 * @param returnType return type of the handler method that produced the data
 	 * @param message the input message handled by the handler method
 	 * @return completion {@code Mono<Void>} for the handling
 	 */
-	protected abstract Mono<Void> handleEncodedContent(
-			Flux<DataBuffer> encodedContent, MethodParameter returnType, Message<?> message);
+	protected abstract Mono<Void> handleEncodedContent(Flux<DataBuffer> encodedContent, MethodParameter returnType,
+			Message<?> message);
 
 	/**
-	 * Invoked for a {@code null} return value, which could mean a void method
-	 * or method returning an async type parameterized by void.
+	 * Invoked for a {@code null} return value, which could mean a void method or method
+	 * returning an async type parameterized by void.
 	 * @param returnType return type of the handler method that produced the data
 	 * @param message the input message handled by the handler method
 	 * @return completion {@code Mono<Void>} for the handling
 	 */
 	protected abstract Mono<Void> handleNoContent(MethodParameter returnType, Message<?> message);
-
 
 	/**
 	 * Inner class to avoid a hard dependency on Kotlin at runtime.
@@ -232,6 +225,7 @@ public abstract class AbstractEncoderMethodReturnValueHandler implements Handler
 			KFunction<?> function = ReflectJvmMapping.getKotlinFunction(method);
 			return (function != null && function.isSuspend());
 		}
+
 	}
 
 }

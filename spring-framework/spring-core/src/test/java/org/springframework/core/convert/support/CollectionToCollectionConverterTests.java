@@ -52,12 +52,10 @@ class CollectionToCollectionConverterTests {
 
 	private GenericConversionService conversionService = new GenericConversionService();
 
-
 	@BeforeEach
 	void setUp() {
 		conversionService.addConverter(new CollectionToCollectionConverter(conversionService));
 	}
-
 
 	@Test
 	void scalarList() throws Exception {
@@ -142,7 +140,8 @@ class CollectionToCollectionConverterTests {
 		TypeDescriptor sourceType = TypeDescriptor.forObject(list);
 		TypeDescriptor targetType = new TypeDescriptor(getClass().getField("objectToCollection"));
 		assertThat(conversionService.canConvert(sourceType, targetType)).isTrue();
-		List<List<List<Integer>>> result = (List<List<List<Integer>>>) conversionService.convert(list, sourceType, targetType);
+		List<List<List<Integer>>> result = (List<List<List<Integer>>>) conversionService.convert(list, sourceType,
+				targetType);
 		assertThat(result.get(0).get(0).get(0)).isEqualTo((Integer) 9);
 		assertThat(result.get(0).get(1).get(0)).isEqualTo((Integer) 12);
 		assertThat(result.get(1).get(0).get(0)).isEqualTo((Integer) 37);
@@ -162,7 +161,8 @@ class CollectionToCollectionConverterTests {
 		TypeDescriptor sourceType = TypeDescriptor.forObject(list);
 		TypeDescriptor targetType = new TypeDescriptor(getClass().getField("objectToCollection"));
 		assertThat(conversionService.canConvert(sourceType, targetType)).isTrue();
-		List<List<List<Integer>>> result = (List<List<List<Integer>>>) conversionService.convert(list, sourceType, targetType);
+		List<List<List<Integer>>> result = (List<List<List<Integer>>>) conversionService.convert(list, sourceType,
+				targetType);
 		assertThat(result.get(0).get(0).get(0)).isEqualTo((Integer) 9);
 		assertThat(result.get(0).get(0).get(1)).isEqualTo((Integer) 12);
 		assertThat(result.get(1).get(0).get(0)).isEqualTo((Integer) 37);
@@ -192,8 +192,8 @@ class CollectionToCollectionConverterTests {
 
 	@SuppressWarnings("rawtypes")
 	private void testCollectionConversionToArrayList(Collection<String> aSource) {
-		Object myConverted = (new CollectionToCollectionConverter(new GenericConversionService())).convert(
-				aSource, TypeDescriptor.forObject(aSource), TypeDescriptor.forObject(new ArrayList()));
+		Object myConverted = (new CollectionToCollectionConverter(new GenericConversionService())).convert(aSource,
+				TypeDescriptor.forObject(aSource), TypeDescriptor.forObject(new ArrayList()));
 		boolean condition = myConverted instanceof ArrayList<?>;
 		assertThat(condition).isTrue();
 		assertThat(((ArrayList<?>) myConverted).size()).isEqualTo(aSource.size());
@@ -213,7 +213,9 @@ class CollectionToCollectionConverterTests {
 		resources.add(new FileSystemResource("test"));
 		resources.add(new TestResource());
 		TypeDescriptor sourceType = TypeDescriptor.forObject(resources);
-		assertThat(conversionService.convert(resources, sourceType, new TypeDescriptor(getClass().getField("resources")))).isSameAs(resources);
+		assertThat(
+				conversionService.convert(resources, sourceType, new TypeDescriptor(getClass().getField("resources"))))
+						.isSameAs(resources);
 	}
 
 	@Test
@@ -224,7 +226,9 @@ class CollectionToCollectionConverterTests {
 		resources.add(new FileSystemResource("test"));
 		resources.add(new TestResource());
 		TypeDescriptor sourceType = TypeDescriptor.forObject(resources);
-		assertThat(conversionService.convert(resources, sourceType, new TypeDescriptor(getClass().getField("resources")))).isSameAs(resources);
+		assertThat(
+				conversionService.convert(resources, sourceType, new TypeDescriptor(getClass().getField("resources"))))
+						.isSameAs(resources);
 	}
 
 	@Test
@@ -233,7 +237,9 @@ class CollectionToCollectionConverterTests {
 		resources.add(null);
 		resources.add(null);
 		TypeDescriptor sourceType = TypeDescriptor.forObject(resources);
-		assertThat(conversionService.convert(resources, sourceType, new TypeDescriptor(getClass().getField("resources")))).isSameAs(resources);
+		assertThat(
+				conversionService.convert(resources, sourceType, new TypeDescriptor(getClass().getField("resources"))))
+						.isSameAs(resources);
 	}
 
 	@Test
@@ -242,8 +248,8 @@ class CollectionToCollectionConverterTests {
 		resources.add(null);
 		resources.add(null);
 		TypeDescriptor sourceType = new TypeDescriptor(getClass().getField("strings"));
-		assertThatExceptionOfType(ConverterNotFoundException.class).isThrownBy(() ->
-				conversionService.convert(resources, sourceType, new TypeDescriptor(getClass().getField("resources"))));
+		assertThatExceptionOfType(ConverterNotFoundException.class).isThrownBy(() -> conversionService
+				.convert(resources, sourceType, new TypeDescriptor(getClass().getField("resources"))));
 	}
 
 	@Test
@@ -252,8 +258,8 @@ class CollectionToCollectionConverterTests {
 		resources.add(new ClassPathResource("test"));
 		resources.add(3);
 		TypeDescriptor sourceType = TypeDescriptor.forObject(resources);
-		assertThatExceptionOfType(ConversionFailedException.class).isThrownBy(() ->
-				conversionService.convert(resources, sourceType, new TypeDescriptor(getClass().getField("resources"))));
+		assertThatExceptionOfType(ConversionFailedException.class).isThrownBy(() -> conversionService.convert(resources,
+				sourceType, new TypeDescriptor(getClass().getField("resources"))));
 	}
 
 	@Test
@@ -262,9 +268,9 @@ class CollectionToCollectionConverterTests {
 		List<String> list = new ArrayList<>();
 		list.add("A");
 		list.add("C");
-		assertThat(conversionService.convert(list, TypeDescriptor.forObject(list), new TypeDescriptor(getClass().getField("enumSet")))).isEqualTo(EnumSet.of(MyEnum.A, MyEnum.C));
+		assertThat(conversionService.convert(list, TypeDescriptor.forObject(list),
+				new TypeDescriptor(getClass().getField("enumSet")))).isEqualTo(EnumSet.of(MyEnum.A, MyEnum.C));
 	}
-
 
 	public ArrayList<Integer> scalarListTarget;
 
@@ -283,7 +289,6 @@ class CollectionToCollectionConverterTests {
 	public List<Resource> resources;
 
 	public EnumSet<MyEnum> enumSet;
-
 
 	public static abstract class BaseResource implements Resource {
 
@@ -351,13 +356,17 @@ class CollectionToCollectionConverterTests {
 		public String getDescription() {
 			return null;
 		}
-	}
 
+	}
 
 	public static class TestResource extends BaseResource {
+
 	}
 
+	public enum MyEnum {
 
-	public enum MyEnum {A, B, C}
+		A, B, C
+
+	}
 
 }

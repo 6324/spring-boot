@@ -19,13 +19,14 @@ package org.springframework.transaction.support;
 import org.springframework.core.Ordered;
 
 /**
- * Simple {@link TransactionSynchronization} adapter containing empty
- * method implementations, for easier overriding of single methods.
+ * Simple {@link TransactionSynchronization} adapter containing empty method
+ * implementations, for easier overriding of single methods.
  *
- * <p>Also implements the {@link Ordered} interface to enable the execution
- * order of synchronizations to be controlled declaratively. The default
- * {@link #getOrder() order} is {@link Ordered#LOWEST_PRECEDENCE}, indicating
- * late execution; return a lower value for earlier execution.
+ * <p>
+ * Also implements the {@link Ordered} interface to enable the execution order of
+ * synchronizations to be controlled declaratively. The default {@link #getOrder() order}
+ * is {@link Ordered#LOWEST_PRECEDENCE}, indicating late execution; return a lower value
+ * for earlier execution.
  *
  * @author Juergen Hoeller
  * @since 22.01.2004

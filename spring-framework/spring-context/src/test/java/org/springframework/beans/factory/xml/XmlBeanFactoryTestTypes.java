@@ -43,8 +43,8 @@ import org.springframework.beans.testfixture.beans.factory.DummyFactory;
  * @author Chris Beams
  */
 final class XmlBeanFactoryTestTypes {
-}
 
+}
 
 /**
  * Simple bean used to check constructor dependency checking.
@@ -82,7 +82,7 @@ class ConstructorDependenciesBean implements Serializable {
 		this.spouse2 = spouse2;
 	}
 
-	@ConstructorProperties({"spouse", "otherSpouse", "myAge"})
+	@ConstructorProperties({ "spouse", "otherSpouse", "myAge" })
 	public ConstructorDependenciesBean(TestBean spouse1, TestBean spouse2, int age) {
 		this.spouse1 = spouse1;
 		this.spouse2 = spouse2;
@@ -122,8 +122,8 @@ class ConstructorDependenciesBean implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-}
 
+}
 
 class SimpleConstructorArgBean {
 
@@ -149,14 +149,12 @@ class SimpleConstructorArgBean {
 	public String getName() {
 		return name;
 	}
+
 }
 
-
 /**
- * Bean testing the ability to use both lookup method overrides
- * and constructor injection.
- * There is also a property ("setterString") to be set via
- * Setter Injection.
+ * Bean testing the ability to use both lookup method overrides and constructor injection.
+ * There is also a property ("setterString") to be set via Setter Injection.
  *
  * @author Rod Johnson
  */
@@ -183,8 +181,8 @@ abstract class ConstructorInjectedOverrides {
 	public void setSetterString(String setterString) {
 		this.setterString = setterString;
 	}
-}
 
+}
 
 /**
  * Simple bean used to check constructor dependency checking.
@@ -196,6 +194,7 @@ abstract class ConstructorInjectedOverrides {
 class DerivedConstructorDependenciesBean extends ConstructorDependenciesBean {
 
 	boolean initialized;
+
 	boolean destroyed;
 
 	DerivedConstructorDependenciesBean(TestBean spouse1, TestBean spouse2, IndexedTestBean other) {
@@ -206,11 +205,13 @@ class DerivedConstructorDependenciesBean extends ConstructorDependenciesBean {
 		super(spouse1, null, other);
 	}
 
-	protected DerivedConstructorDependenciesBean(TestBean spouse1, TestBean spouse2, IndexedTestBean other, int age, int otherAge) {
+	protected DerivedConstructorDependenciesBean(TestBean spouse1, TestBean spouse2, IndexedTestBean other, int age,
+			int otherAge) {
 		super(spouse1, spouse2, other);
 	}
 
-	public DerivedConstructorDependenciesBean(TestBean spouse1, TestBean spouse2, IndexedTestBean other, int age, String name) {
+	public DerivedConstructorDependenciesBean(TestBean spouse1, TestBean spouse2, IndexedTestBean other, int age,
+			String name) {
 		super(spouse1, spouse2, other);
 		setAge(age);
 		setName(name);
@@ -223,8 +224,8 @@ class DerivedConstructorDependenciesBean extends ConstructorDependenciesBean {
 	private void destroy() {
 		this.destroyed = true;
 	}
-}
 
+}
 
 /**
  * @author Rod Johnson
@@ -232,8 +233,8 @@ class DerivedConstructorDependenciesBean extends ConstructorDependenciesBean {
 interface DummyBo {
 
 	void something();
-}
 
+}
 
 /**
  * @author Rod Johnson
@@ -249,15 +250,15 @@ class DummyBoImpl implements DummyBo {
 	@Override
 	public void something() {
 	}
-}
 
+}
 
 /**
  * @author Rod Johnson
  */
 class DummyDao {
-}
 
+}
 
 /**
  * @author Juergen Hoeller
@@ -301,11 +302,12 @@ class DummyReferencer {
 	public TestBean getTestBean2() {
 		return testBean2;
 	}
-}
 
+}
 
 /**
  * Fixed method replacer for String return types
+ *
  * @author Rod Johnson
  */
 class FixedMethodReplacer implements MethodReplacer {
@@ -316,8 +318,8 @@ class FixedMethodReplacer implements MethodReplacer {
 	public Object reimplement(Object obj, Method method, Object[] args) throws Throwable {
 		return VALUE;
 	}
-}
 
+}
 
 /**
  * @author Chris Beams
@@ -337,8 +339,8 @@ class MapAndSet {
 	public Object getObject() {
 		return obj;
 	}
-}
 
+}
 
 /**
  * @author Rod Johnson
@@ -348,12 +350,12 @@ class MethodReplaceCandidate {
 	public String replaceMe(String echo) {
 		return echo;
 	}
+
 }
 
-
 /**
- * Bean that exposes a simple property that can be set
- * to a mix of references and individual values.
+ * Bean that exposes a simple property that can be set to a mix of references and
+ * individual values.
  */
 class MixedCollectionBean {
 
@@ -366,8 +368,8 @@ class MixedCollectionBean {
 	public Collection<?> getJumble() {
 		return jumble;
 	}
-}
 
+}
 
 /**
  * @author Juergen Hoeller
@@ -377,8 +379,8 @@ interface OverrideInterface {
 	TestBean getPrototypeDependency();
 
 	TestBean getPrototypeDependency(Object someParam);
-}
 
+}
 
 /**
  * @author Rod Johnson
@@ -409,8 +411,8 @@ abstract class OverrideOneMethod extends MethodReplaceCandidate implements Overr
 	}
 
 	/**
-	 * Another overloaded form of replaceMe, not getting replaced.
-	 * Must not cause errors when the other replaceMe methods get replaced.
+	 * Another overloaded form of replaceMe, not getting replaced. Must not cause errors
+	 * when the other replaceMe methods get replaced.
 	 */
 	public String replaceMe(int someParam) {
 		return "replaceMe:" + someParam;
@@ -418,14 +420,14 @@ abstract class OverrideOneMethod extends MethodReplaceCandidate implements Overr
 
 	@Override
 	public String replaceMe(String someParam) {
-		return "replaceMe:"  + someParam;
+		return "replaceMe:" + someParam;
 	}
+
 }
 
-
 /**
- * Subclass of OverrideOneMethod, to check that overriding is
- * supported for inherited methods.
+ * Subclass of OverrideOneMethod, to check that overriding is supported for inherited
+ * methods.
  *
  * @author Rod Johnson
  */
@@ -435,8 +437,8 @@ abstract class OverrideOneMethodSubclass extends OverrideOneMethod {
 		// This implementation does nothing!
 		// It's not overloaded
 	}
-}
 
+}
 
 /**
  * Simple test of BeanFactory initialization and lifecycle callbacks.
@@ -497,13 +499,16 @@ class ProtectedLifecycleBean implements BeanNameAware, BeanFactoryAware, Initial
 	@Override
 	public void afterPropertiesSet() {
 		if (this.owningFactory == null) {
-			throw new RuntimeException("Factory didn't call setBeanFactory before afterPropertiesSet on lifecycle bean");
+			throw new RuntimeException(
+					"Factory didn't call setBeanFactory before afterPropertiesSet on lifecycle bean");
 		}
 		if (!this.postProcessedBeforeInit) {
-			throw new RuntimeException("Factory didn't call postProcessBeforeInit before afterPropertiesSet on lifecycle bean");
+			throw new RuntimeException(
+					"Factory didn't call postProcessBeforeInit before afterPropertiesSet on lifecycle bean");
 		}
 		if (this.initedViaDeclaredInitMethod) {
-			throw new RuntimeException("Factory initialized via declared init method before initializing via afterPropertiesSet");
+			throw new RuntimeException(
+					"Factory initialized via declared init method before initializing via afterPropertiesSet");
 		}
 		if (this.inited) {
 			throw new RuntimeException("Factory called afterPropertiesSet twice");
@@ -536,12 +541,12 @@ class ProtectedLifecycleBean implements BeanNameAware, BeanFactoryAware, Initial
 	}
 
 	/**
-	 * Dummy business method that will fail unless the factory
-	 * managed the bean's lifecycle correctly
+	 * Dummy business method that will fail unless the factory managed the bean's
+	 * lifecycle correctly
 	 */
 	public void businessMethod() {
-		if (!this.inited || (this.initMethodDeclared && !this.initedViaDeclaredInitMethod) ||
-				!this.postProcessedAfterInit) {
+		if (!this.inited || (this.initMethodDeclared && !this.initedViaDeclaredInitMethod)
+				|| !this.postProcessedAfterInit) {
 			throw new RuntimeException("Factory didn't initialize lifecycle object correctly");
 		}
 	}
@@ -557,7 +562,6 @@ class ProtectedLifecycleBean implements BeanNameAware, BeanFactoryAware, Initial
 	public boolean isDestroyed() {
 		return destroyed;
 	}
-
 
 	public static class PostProcessor implements BeanPostProcessor {
 
@@ -576,9 +580,10 @@ class ProtectedLifecycleBean implements BeanNameAware, BeanFactoryAware, Initial
 			}
 			return bean;
 		}
-	}
-}
 
+	}
+
+}
 
 /**
  * @author Rod Johnson
@@ -591,8 +596,8 @@ class ReverseMethodReplacer implements MethodReplacer, Serializable {
 		String s = (String) args[0];
 		return new StringBuffer(s).reverse().toString();
 	}
-}
 
+}
 
 /**
  * @author Rod Johnson
@@ -600,9 +605,9 @@ class ReverseMethodReplacer implements MethodReplacer, Serializable {
 @SuppressWarnings("serial")
 abstract class SerializableMethodReplacerCandidate extends MethodReplaceCandidate implements Serializable {
 
-	//public abstract Point getPoint();
-}
+	// public abstract Point getPoint();
 
+}
 
 /**
  * @author Juergen Hoeller
@@ -636,4 +641,5 @@ class SingleSimpleTypeConstructorBean {
 	public String getTestString() {
 		return testString;
 	}
+
 }

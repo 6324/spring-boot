@@ -25,19 +25,20 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * An adapter for a target JDBC {@link javax.sql.DataSource}, applying the specified
- * user credentials to every standard {@code getConnection()} call, implicitly
- * invoking {@code getConnection(username, password)} on the target.
- * All other methods simply delegate to the corresponding methods of the
- * target DataSource.
+ * An adapter for a target JDBC {@link javax.sql.DataSource}, applying the specified user
+ * credentials to every standard {@code getConnection()} call, implicitly invoking
+ * {@code getConnection(username, password)} on the target. All other methods simply
+ * delegate to the corresponding methods of the target DataSource.
  *
- * <p>Can be used to proxy a target JNDI DataSource that does not have user
- * credentials configured. Client code can work with this DataSource as usual,
- * using the standard {@code getConnection()} call.
+ * <p>
+ * Can be used to proxy a target JNDI DataSource that does not have user credentials
+ * configured. Client code can work with this DataSource as usual, using the standard
+ * {@code getConnection()} call.
  *
- * <p>In the following example, client code can simply transparently work with
- * the preconfigured "myDataSource", implicitly accessing "myTargetDataSource"
- * with the specified user credentials.
+ * <p>
+ * In the following example, client code can simply transparently work with the
+ * preconfigured "myDataSource", implicitly accessing "myTargetDataSource" with the
+ * specified user credentials.
  *
  * <pre class="code">
  * &lt;bean id="myTargetDataSource" class="org.springframework.jndi.JndiObjectFactoryBean"&gt;
@@ -50,11 +51,11 @@ import org.springframework.util.StringUtils;
  *   &lt;property name="password" value="mypassword"/&gt;
  * &lt;/bean></pre>
  *
- * <p>If the "username" is empty, this proxy will simply delegate to the
- * standard {@code getConnection()} method of the target DataSource.
- * This can be used to keep a UserCredentialsDataSourceAdapter bean definition
- * just for the <i>option</i> of implicitly passing in user credentials if
- * the particular target DataSource requires it.
+ * <p>
+ * If the "username" is empty, this proxy will simply delegate to the standard
+ * {@code getConnection()} method of the target DataSource. This can be used to keep a
+ * UserCredentialsDataSourceAdapter bean definition just for the <i>option</i> of
+ * implicitly passing in user credentials if the particular target DataSource requires it.
  *
  * @author Juergen Hoeller
  * @since 1.0.2
@@ -74,14 +75,14 @@ public class UserCredentialsDataSourceAdapter extends DelegatingDataSource {
 	@Nullable
 	private String schema;
 
-	private final ThreadLocal<JdbcUserCredentials> threadBoundCredentials =
-			new NamedThreadLocal<>("Current JDBC user credentials");
-
+	private final ThreadLocal<JdbcUserCredentials> threadBoundCredentials = new NamedThreadLocal<>(
+			"Current JDBC user credentials");
 
 	/**
 	 * Set the default username that this adapter should use for retrieving Connections.
-	 * <p>Default is no specific user. Note that an explicitly specified username
-	 * will always override any username/password specified at the DataSource level.
+	 * <p>
+	 * Default is no specific user. Note that an explicitly specified username will always
+	 * override any username/password specified at the DataSource level.
 	 * @see #setPassword
 	 * @see #setCredentialsForCurrentThread(String, String)
 	 * @see #getConnection(String, String)
@@ -91,9 +92,11 @@ public class UserCredentialsDataSourceAdapter extends DelegatingDataSource {
 	}
 
 	/**
-	 * Set the default user's password that this adapter should use for retrieving Connections.
-	 * <p>Default is no specific password. Note that an explicitly specified username
-	 * will always override any username/password specified at the DataSource level.
+	 * Set the default user's password that this adapter should use for retrieving
+	 * Connections.
+	 * <p>
+	 * Default is no specific password. Note that an explicitly specified username will
+	 * always override any username/password specified at the DataSource level.
 	 * @see #setUsername
 	 * @see #setCredentialsForCurrentThread(String, String)
 	 * @see #getConnection(String, String)
@@ -120,13 +123,13 @@ public class UserCredentialsDataSourceAdapter extends DelegatingDataSource {
 		this.schema = schema;
 	}
 
-
 	/**
-	 * Set user credententials for this proxy and the current thread.
-	 * The given username and password will be applied to all subsequent
-	 * {@code getConnection()} calls on this DataSource proxy.
-	 * <p>This will override any statically specified user credentials,
-	 * that is, values of the "username" and "password" bean properties.
+	 * Set user credententials for this proxy and the current thread. The given username
+	 * and password will be applied to all subsequent {@code getConnection()} calls on
+	 * this DataSource proxy.
+	 * <p>
+	 * This will override any statically specified user credentials, that is, values of
+	 * the "username" and "password" bean properties.
 	 * @param username the username to apply
 	 * @param password the password to apply
 	 * @see #removeCredentialsFromCurrentThread
@@ -136,29 +139,29 @@ public class UserCredentialsDataSourceAdapter extends DelegatingDataSource {
 	}
 
 	/**
-	 * Remove any user credentials for this proxy from the current thread.
-	 * Statically specified user credentials apply again afterwards.
+	 * Remove any user credentials for this proxy from the current thread. Statically
+	 * specified user credentials apply again afterwards.
 	 * @see #setCredentialsForCurrentThread
 	 */
 	public void removeCredentialsFromCurrentThread() {
 		this.threadBoundCredentials.remove();
 	}
 
-
 	/**
-	 * Determine whether there are currently thread-bound credentials,
-	 * using them if available, falling back to the statically specified
-	 * username and password (i.e. values of the bean properties) otherwise.
-	 * <p>Delegates to {@link #doGetConnection(String, String)} with the
-	 * determined credentials as parameters.
+	 * Determine whether there are currently thread-bound credentials, using them if
+	 * available, falling back to the statically specified username and password (i.e.
+	 * values of the bean properties) otherwise.
+	 * <p>
+	 * Delegates to {@link #doGetConnection(String, String)} with the determined
+	 * credentials as parameters.
 	 * @see #doGetConnection
 	 */
 	@Override
 	public Connection getConnection() throws SQLException {
 		JdbcUserCredentials threadCredentials = this.threadBoundCredentials.get();
-		Connection con = (threadCredentials != null ?
-				doGetConnection(threadCredentials.username, threadCredentials.password) :
-				doGetConnection(this.username, this.password));
+		Connection con = (threadCredentials != null
+				? doGetConnection(threadCredentials.username, threadCredentials.password)
+				: doGetConnection(this.username, this.password));
 
 		if (this.catalog != null) {
 			con.setCatalog(this.catalog);
@@ -170,8 +173,8 @@ public class UserCredentialsDataSourceAdapter extends DelegatingDataSource {
 	}
 
 	/**
-	 * Simply delegates to {@link #doGetConnection(String, String)},
-	 * keeping the given user credentials as-is.
+	 * Simply delegates to {@link #doGetConnection(String, String)}, keeping the given
+	 * user credentials as-is.
 	 */
 	@Override
 	public Connection getConnection(String username, String password) throws SQLException {
@@ -180,8 +183,8 @@ public class UserCredentialsDataSourceAdapter extends DelegatingDataSource {
 
 	/**
 	 * This implementation delegates to the {@code getConnection(username, password)}
-	 * method of the target DataSource, passing in the specified user credentials.
-	 * If the specified username is empty, it will simply delegate to the standard
+	 * method of the target DataSource, passing in the specified user credentials. If the
+	 * specified username is empty, it will simply delegate to the standard
 	 * {@code getConnection()} method of the target DataSource.
 	 * @param username the username to use
 	 * @param password the password to use
@@ -198,7 +201,6 @@ public class UserCredentialsDataSourceAdapter extends DelegatingDataSource {
 			return getTargetDataSource().getConnection();
 		}
 	}
-
 
 	/**
 	 * Inner class used as ThreadLocal value.
@@ -218,6 +220,7 @@ public class UserCredentialsDataSourceAdapter extends DelegatingDataSource {
 		public String toString() {
 			return "JdbcUserCredentials[username='" + this.username + "',password='" + this.password + "']";
 		}
+
 	}
 
 }

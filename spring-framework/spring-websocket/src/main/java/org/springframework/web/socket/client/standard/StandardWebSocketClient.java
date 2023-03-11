@@ -61,16 +61,15 @@ public class StandardWebSocketClient extends AbstractWebSocketClient {
 
 	private final WebSocketContainer webSocketContainer;
 
-	private final Map<String,Object> userProperties = new HashMap<>();
+	private final Map<String, Object> userProperties = new HashMap<>();
 
 	@Nullable
 	private AsyncListenableTaskExecutor taskExecutor = new SimpleAsyncTaskExecutor();
 
-
 	/**
-	 * Default constructor that calls {@code ContainerProvider.getWebSocketContainer()}
-	 * to obtain a (new) {@link WebSocketContainer} instance. Also see constructor
-	 * accepting existing {@code WebSocketContainer} instance.
+	 * Default constructor that calls {@code ContainerProvider.getWebSocketContainer()} to
+	 * obtain a (new) {@link WebSocketContainer} instance. Also see constructor accepting
+	 * existing {@code WebSocketContainer} instance.
 	 */
 	public StandardWebSocketClient() {
 		this.webSocketContainer = ContainerProvider.getWebSocketContainer();
@@ -78,21 +77,20 @@ public class StandardWebSocketClient extends AbstractWebSocketClient {
 
 	/**
 	 * Constructor accepting an existing {@link WebSocketContainer} instance.
-	 * <p>For XML configuration, see {@link WebSocketContainerFactoryBean}. For Java
-	 * configuration, use {@code ContainerProvider.getWebSocketContainer()} to obtain
-	 * the {@code WebSocketContainer} instance.
+	 * <p>
+	 * For XML configuration, see {@link WebSocketContainerFactoryBean}. For Java
+	 * configuration, use {@code ContainerProvider.getWebSocketContainer()} to obtain the
+	 * {@code WebSocketContainer} instance.
 	 */
 	public StandardWebSocketClient(WebSocketContainer webSocketContainer) {
 		Assert.notNull(webSocketContainer, "WebSocketContainer must not be null");
 		this.webSocketContainer = webSocketContainer;
 	}
 
-
 	/**
-	 * The standard Java WebSocket API allows passing "user properties" to the
-	 * server via {@link ClientEndpointConfig#getUserProperties() userProperties}.
-	 * Use this property to configure one or more properties to be passed on
-	 * every handshake.
+	 * The standard Java WebSocket API allows passing "user properties" to the server via
+	 * {@link ClientEndpointConfig#getUserProperties() userProperties}. Use this property
+	 * to configure one or more properties to be passed on every handshake.
 	 */
 	public void setUserProperties(@Nullable Map<String, Object> userProperties) {
 		if (userProperties != null) {
@@ -108,10 +106,11 @@ public class StandardWebSocketClient extends AbstractWebSocketClient {
 	}
 
 	/**
-	 * Set an {@link AsyncListenableTaskExecutor} to use when opening connections.
-	 * If this property is set to {@code null}, calls to any of the
-	 * {@code doHandshake} methods will block until the connection is established.
-	 * <p>By default, an instance of {@code SimpleAsyncTaskExecutor} is used.
+	 * Set an {@link AsyncListenableTaskExecutor} to use when opening connections. If this
+	 * property is set to {@code null}, calls to any of the {@code doHandshake} methods
+	 * will block until the connection is established.
+	 * <p>
+	 * By default, an instance of {@code SimpleAsyncTaskExecutor} is used.
 	 */
 	public void setTaskExecutor(@Nullable AsyncListenableTaskExecutor taskExecutor) {
 		this.taskExecutor = taskExecutor;
@@ -125,22 +124,20 @@ public class StandardWebSocketClient extends AbstractWebSocketClient {
 		return this.taskExecutor;
 	}
 
-
 	@Override
 	protected ListenableFuture<WebSocketSession> doHandshakeInternal(WebSocketHandler webSocketHandler,
-			HttpHeaders headers, final URI uri, List<String> protocols,
-			List<WebSocketExtension> extensions, Map<String, Object> attributes) {
+			HttpHeaders headers, final URI uri, List<String> protocols, List<WebSocketExtension> extensions,
+			Map<String, Object> attributes) {
 
 		int port = getPort(uri);
 		InetSocketAddress localAddress = new InetSocketAddress(getLocalHost(), port);
 		InetSocketAddress remoteAddress = new InetSocketAddress(uri.getHost(), port);
 
-		final StandardWebSocketSession session = new StandardWebSocketSession(headers,
-				attributes, localAddress, remoteAddress);
+		final StandardWebSocketSession session = new StandardWebSocketSession(headers, attributes, localAddress,
+				remoteAddress);
 
 		final ClientEndpointConfig endpointConfig = ClientEndpointConfig.Builder.create()
-				.configurator(new StandardWebSocketClientConfigurator(headers))
-				.preferredSubprotocols(protocols)
+				.configurator(new StandardWebSocketClientConfigurator(headers)).preferredSubprotocols(protocols)
 				.extensions(adaptExtensions(extensions)).build();
 
 		endpointConfig.getUserProperties().putAll(getUserProperties());
@@ -187,7 +184,6 @@ public class StandardWebSocketClient extends AbstractWebSocketClient {
 		return uri.getPort();
 	}
 
-
 	private class StandardWebSocketClientConfigurator extends Configurator {
 
 		private final HttpHeaders headers;
@@ -203,12 +199,14 @@ public class StandardWebSocketClient extends AbstractWebSocketClient {
 				logger.trace("Handshake request headers: " + requestHeaders);
 			}
 		}
+
 		@Override
 		public void afterResponse(HandshakeResponse response) {
 			if (logger.isTraceEnabled()) {
 				logger.trace("Handshake response headers: " + response.getHeaders());
 			}
 		}
+
 	}
 
 }

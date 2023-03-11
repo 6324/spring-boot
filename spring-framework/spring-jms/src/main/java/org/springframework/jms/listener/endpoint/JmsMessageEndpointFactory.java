@@ -27,18 +27,18 @@ import org.springframework.util.Assert;
 
 /**
  * JMS-specific implementation of the JCA 1.7
- * {@link javax.resource.spi.endpoint.MessageEndpointFactory} interface,
- * providing transaction management capabilities for a JMS listener object
- * (e.g. a {@link javax.jms.MessageListener} object).
+ * {@link javax.resource.spi.endpoint.MessageEndpointFactory} interface, providing
+ * transaction management capabilities for a JMS listener object (e.g. a
+ * {@link javax.jms.MessageListener} object).
  *
- * <p>Uses a static endpoint implementation, simply wrapping the
- * specified message listener object and exposing all of its implemented
- * interfaces on the endpoint instance.
+ * <p>
+ * Uses a static endpoint implementation, simply wrapping the specified message listener
+ * object and exposing all of its implemented interfaces on the endpoint instance.
  *
- * <p>Typically used with Spring's {@link JmsMessageEndpointManager},
- * but not tied to it. As a consequence, this endpoint factory could
- * also be used with programmatic endpoint management on a native
- * {@link javax.resource.spi.ResourceAdapter} instance.
+ * <p>
+ * Typically used with Spring's {@link JmsMessageEndpointManager}, but not tied to it. As
+ * a consequence, this endpoint factory could also be used with programmatic endpoint
+ * management on a native {@link javax.resource.spi.ResourceAdapter} instance.
  *
  * @author Juergen Hoeller
  * @author Stephane Nicoll
@@ -47,11 +47,10 @@ import org.springframework.util.Assert;
  * @see #setTransactionManager
  * @see JmsMessageEndpointManager
  */
-public class JmsMessageEndpointFactory extends AbstractMessageEndpointFactory  {
+public class JmsMessageEndpointFactory extends AbstractMessageEndpointFactory {
 
 	@Nullable
 	private MessageListener messageListener;
-
 
 	/**
 	 * Set the JMS MessageListener for this endpoint.
@@ -75,7 +74,6 @@ public class JmsMessageEndpointFactory extends AbstractMessageEndpointFactory  {
 	protected AbstractMessageEndpoint createEndpointInternal() throws UnavailableException {
 		return new JmsMessageEndpoint();
 	}
-
 
 	/**
 	 * Private inner class that implements the concrete JMS message endpoint.
@@ -120,16 +118,17 @@ public class JmsMessageEndpointFactory extends AbstractMessageEndpointFactory  {
 		protected ClassLoader getEndpointClassLoader() {
 			return getMessageListener().getClass().getClassLoader();
 		}
+
 	}
 
-
 	/**
-	 * Internal exception thrown when a ResourceException has been encountered
-	 * during the endpoint invocation.
-	 * <p>Will only be used if the ResourceAdapter does not invoke the
-	 * endpoint's {@code beforeDelivery} and {@code afterDelivery}
-	 * directly, leaving it up to the concrete endpoint to apply those -
-	 * and to handle any ResourceExceptions thrown from them.
+	 * Internal exception thrown when a ResourceException has been encountered during the
+	 * endpoint invocation.
+	 * <p>
+	 * Will only be used if the ResourceAdapter does not invoke the endpoint's
+	 * {@code beforeDelivery} and {@code afterDelivery} directly, leaving it up to the
+	 * concrete endpoint to apply those - and to handle any ResourceExceptions thrown from
+	 * them.
 	 */
 	@SuppressWarnings("serial")
 	public static class JmsResourceException extends RuntimeException {
@@ -137,6 +136,7 @@ public class JmsMessageEndpointFactory extends AbstractMessageEndpointFactory  {
 		public JmsResourceException(ResourceException cause) {
 			super(cause);
 		}
+
 	}
 
 }

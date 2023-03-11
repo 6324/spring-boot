@@ -56,7 +56,6 @@ public class StandardWebSocketSession extends AbstractListenerWebSocketSession<S
 		super(session, session.getId(), info, factory, completionMono);
 	}
 
-
 	@Override
 	protected boolean canSuspendReceiving() {
 		return false;
@@ -107,7 +106,6 @@ public class StandardWebSocketSession extends AbstractListenerWebSocketSession<S
 		}
 		return Mono.empty();
 	}
-
 
 	private final class SendProcessorCallback implements SendHandler {
 

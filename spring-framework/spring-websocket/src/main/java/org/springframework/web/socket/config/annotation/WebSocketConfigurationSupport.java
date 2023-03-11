@@ -37,7 +37,6 @@ public class WebSocketConfigurationSupport {
 	@Nullable
 	private TaskScheduler scheduler;
 
-
 	@Bean
 	public HandlerMapping webSocketHandlerMapping() {
 		ServletWebSocketHandlerRegistry registry = initHandlerRegistry();
@@ -62,8 +61,7 @@ public class WebSocketConfigurationSupport {
 
 	/**
 	 * The default TaskScheduler to use if none is registered explicitly via
-	 * {@link SockJsServiceRegistration#setTaskScheduler}:
-	 * <pre class="code">
+	 * {@link SockJsServiceRegistration#setTaskScheduler}: <pre class="code">
 	 * &#064;Configuration
 	 * &#064;EnableWebSocket
 	 * public class WebSocketConfig implements WebSocketConfigurer {

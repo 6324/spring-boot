@@ -34,7 +34,8 @@ public class LazyInitMBeanTests {
 
 	@Test
 	public void invokeOnLazyInitBean() throws Exception {
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("org/springframework/jmx/export/lazyInit.xml");
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
+				"org/springframework/jmx/export/lazyInit.xml");
 		assertThat(ctx.getBeanFactory().containsSingleton("testBean")).isFalse();
 		assertThat(ctx.getBeanFactory().containsSingleton("testBean2")).isFalse();
 		try {

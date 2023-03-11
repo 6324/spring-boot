@@ -31,8 +31,7 @@ class ClassMetadataReadingVisitorMemberClassTests extends AbstractClassMetadataM
 	@Override
 	public ClassMetadata getClassMetadataFor(Class<?> clazz) {
 		try {
-			MetadataReader reader =
-				new SimpleMetadataReaderFactory().getMetadataReader(clazz.getName());
+			MetadataReader reader = new SimpleMetadataReaderFactory().getMetadataReader(clazz.getName());
 			return reader.getAnnotationMetadata();
 		}
 		catch (IOException ex) {

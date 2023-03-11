@@ -36,7 +36,8 @@ public class XmlBeanDefinitionStoreException extends BeanDefinitionStoreExceptio
 
 	/**
 	 * Create a new XmlBeanDefinitionStoreException.
-	 * @param resourceDescription description of the resource that the bean definition came from
+	 * @param resourceDescription description of the resource that the bean definition
+	 * came from
 	 * @param msg the detail message (used as exception message as-is)
 	 * @param cause the SAXException (typically a SAXParseException) root cause
 	 * @see org.xml.sax.SAXParseException

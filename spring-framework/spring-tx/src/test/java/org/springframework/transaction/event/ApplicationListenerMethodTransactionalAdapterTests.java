@@ -64,14 +64,15 @@ public class ApplicationListenerMethodTransactionalAdapterTests {
 
 	private void assertPhase(Method method, TransactionPhase expected) {
 		assertThat(method).as("Method must not be null").isNotNull();
-		TransactionalEventListener annotation =
-				AnnotatedElementUtils.findMergedAnnotation(method, TransactionalEventListener.class);
+		TransactionalEventListener annotation = AnnotatedElementUtils.findMergedAnnotation(method,
+				TransactionalEventListener.class);
 		assertThat(annotation.phase()).as("Wrong phase for '" + method + "'").isEqualTo(expected);
 	}
 
 	private void supportsEventType(boolean match, Method method, ResolvableType eventType) {
 		ApplicationListenerMethodAdapter adapter = createTestInstance(method);
-		assertThat(adapter.supportsEventType(eventType)).as("Wrong match for event '" + eventType + "' on " + method).isEqualTo(match);
+		assertThat(adapter.supportsEventType(eventType)).as("Wrong match for event '" + eventType + "' on " + method)
+				.isEqualTo(match);
 	}
 
 	private ApplicationListenerMethodTransactionalAdapter createTestInstance(Method m) {
@@ -81,7 +82,6 @@ public class ApplicationListenerMethodTransactionalAdapterTests {
 	private ResolvableType createGenericEventType(Class<?> payloadType) {
 		return ResolvableType.forClassWithGenerics(PayloadApplicationEvent.class, payloadType);
 	}
-
 
 	static class SampleEvents {
 
@@ -93,7 +93,7 @@ public class ApplicationListenerMethodTransactionalAdapterTests {
 		public void phaseSet(String data) {
 		}
 
-		@TransactionalEventListener(classes = {String.class, Integer.class},
+		@TransactionalEventListener(classes = { String.class, Integer.class },
 				phase = TransactionPhase.AFTER_COMPLETION)
 		public void phaseAndClassesSet() {
 		}
@@ -101,6 +101,7 @@ public class ApplicationListenerMethodTransactionalAdapterTests {
 		@TransactionalEventListener(String.class)
 		public void valueSet() {
 		}
+
 	}
 
 }

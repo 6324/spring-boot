@@ -43,14 +43,12 @@ public class ThreadPoolTaskSchedulerTests extends AbstractSchedulingTaskExecutor
 
 	private final ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
 
-
 	@Override
 	protected AsyncListenableTaskExecutor buildExecutor() {
 		scheduler.setThreadNamePrefix(THREAD_NAME_PREFIX);
 		scheduler.afterPropertiesSet();
 		return scheduler;
 	}
-
 
 	@Test
 	public void executeFailingRunnableWithErrorHandler() {
@@ -100,8 +98,7 @@ public class ThreadPoolTaskSchedulerTests extends AbstractSchedulingTaskExecutor
 	public void scheduleOneTimeFailingTaskWithoutErrorHandler() throws Exception {
 		TestTask task = new TestTask(0);
 		Future<?> future = scheduler.schedule(task, new Date());
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(() ->
-				future.get(1000, TimeUnit.MILLISECONDS));
+		assertThatExceptionOfType(ExecutionException.class).isThrownBy(() -> future.get(1000, TimeUnit.MILLISECONDS));
 		assertThat(future.isDone()).isTrue();
 	}
 
@@ -134,7 +131,6 @@ public class ThreadPoolTaskSchedulerTests extends AbstractSchedulingTaskExecutor
 		}
 	}
 
-
 	private void assertThreadNamePrefix(TestTask task) {
 		assertThat(task.lastThread.getName().substring(0, THREAD_NAME_PREFIX.length())).isEqualTo(THREAD_NAME_PREFIX);
 	}
@@ -156,7 +152,6 @@ public class ThreadPoolTaskSchedulerTests extends AbstractSchedulingTaskExecutor
 		}
 		assertThat(latch.getCount()).as("latch did not count down,").isEqualTo(0);
 	}
-
 
 	private static class TestTask implements Runnable {
 
@@ -181,8 +176,8 @@ public class ThreadPoolTaskSchedulerTests extends AbstractSchedulingTaskExecutor
 			}
 			latch.countDown();
 		}
-	}
 
+	}
 
 	private static class TestCallable implements Callable<String> {
 
@@ -201,8 +196,8 @@ public class ThreadPoolTaskSchedulerTests extends AbstractSchedulingTaskExecutor
 			}
 			return Thread.currentThread().getName();
 		}
-	}
 
+	}
 
 	private static class TestErrorHandler implements ErrorHandler {
 
@@ -219,8 +214,8 @@ public class ThreadPoolTaskSchedulerTests extends AbstractSchedulingTaskExecutor
 			this.lastError = t;
 			this.latch.countDown();
 		}
-	}
 
+	}
 
 	private static class TestTrigger implements Trigger {
 
@@ -239,6 +234,7 @@ public class ThreadPoolTaskSchedulerTests extends AbstractSchedulingTaskExecutor
 			}
 			return new Date();
 		}
+
 	}
 
 }

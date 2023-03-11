@@ -44,13 +44,11 @@ public class ResultSetWrappingRowSetTests {
 
 	private ResultSetWrappingSqlRowSet rowSet;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		resultSet = mock(ResultSet.class);
 		rowSet = new ResultSetWrappingSqlRowSet(resultSet);
 	}
-
 
 	@Test
 	public void testGetBigDecimalInt() throws Exception {
@@ -215,9 +213,9 @@ public class ResultSetWrappingRowSetTests {
 			given(rsetMethod.invoke(resultSet, arg)).willReturn(ret).willThrow(new SQLException("test"));
 		}
 		rowsetMethod.invoke(rowSet, arg);
-		assertThatExceptionOfType(InvocationTargetException.class).isThrownBy(() ->
-				rowsetMethod.invoke(rowSet, arg)).
-			satisfies(ex -> assertThat(ex.getTargetException()).isExactlyInstanceOf(InvalidResultSetAccessException.class));
+		assertThatExceptionOfType(InvocationTargetException.class).isThrownBy(() -> rowsetMethod.invoke(rowSet, arg))
+				.satisfies(ex -> assertThat(ex.getTargetException())
+						.isExactlyInstanceOf(InvalidResultSetAccessException.class));
 	}
 
 }

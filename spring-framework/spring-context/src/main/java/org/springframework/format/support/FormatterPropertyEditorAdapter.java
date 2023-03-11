@@ -34,9 +34,9 @@ public class FormatterPropertyEditorAdapter extends PropertyEditorSupport {
 
 	private final Formatter<Object> formatter;
 
-
 	/**
-	 * Create a new {@code FormatterPropertyEditorAdapter} for the given {@link Formatter}.
+	 * Create a new {@code FormatterPropertyEditorAdapter} for the given
+	 * {@link Formatter}.
 	 * @param formatter the {@link Formatter} to wrap
 	 */
 	@SuppressWarnings("unchecked")
@@ -44,7 +44,6 @@ public class FormatterPropertyEditorAdapter extends PropertyEditorSupport {
 		Assert.notNull(formatter, "Formatter must not be null");
 		this.formatter = (Formatter<Object>) formatter;
 	}
-
 
 	/**
 	 * Determine the {@link Formatter}-declared field type.
@@ -56,7 +55,6 @@ public class FormatterPropertyEditorAdapter extends PropertyEditorSupport {
 	public Class<?> getFieldType() {
 		return FormattingConversionService.getFieldType(this.formatter);
 	}
-
 
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException {

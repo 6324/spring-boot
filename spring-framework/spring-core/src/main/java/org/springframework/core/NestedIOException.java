@@ -21,14 +21,16 @@ import java.io.IOException;
 import org.springframework.lang.Nullable;
 
 /**
- * Subclass of {@link IOException} that properly handles a root cause,
- * exposing the root cause just like NestedChecked/RuntimeException does.
+ * Subclass of {@link IOException} that properly handles a root cause, exposing the root
+ * cause just like NestedChecked/RuntimeException does.
  *
- * <p>Proper root cause handling has not been added to standard IOException before
- * Java 6, which is why we need to do it ourselves for Java 5 compatibility purposes.
+ * <p>
+ * Proper root cause handling has not been added to standard IOException before Java 6,
+ * which is why we need to do it ourselves for Java 5 compatibility purposes.
  *
- * <p>The similarity between this class and the NestedChecked/RuntimeException
- * class is unavoidable, as this class needs to derive from IOException.
+ * <p>
+ * The similarity between this class and the NestedChecked/RuntimeException class is
+ * unavoidable, as this class needs to derive from IOException.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -46,7 +48,6 @@ public class NestedIOException extends IOException {
 		NestedExceptionUtils.class.getName();
 	}
 
-
 	/**
 	 * Construct a {@code NestedIOException} with the specified detail message.
 	 * @param msg the detail message
@@ -56,8 +57,8 @@ public class NestedIOException extends IOException {
 	}
 
 	/**
-	 * Construct a {@code NestedIOException} with the specified detail message
-	 * and nested exception.
+	 * Construct a {@code NestedIOException} with the specified detail message and nested
+	 * exception.
 	 * @param msg the detail message
 	 * @param cause the nested exception
 	 */
@@ -65,10 +66,9 @@ public class NestedIOException extends IOException {
 		super(msg, cause);
 	}
 
-
 	/**
-	 * Return the detail message, including the message from the nested exception
-	 * if there is one.
+	 * Return the detail message, including the message from the nested exception if there
+	 * is one.
 	 */
 	@Override
 	@Nullable

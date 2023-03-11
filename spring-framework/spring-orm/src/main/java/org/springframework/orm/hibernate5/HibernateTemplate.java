@@ -52,24 +52,27 @@ import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Helper class that simplifies Hibernate data access code. Automatically
- * converts HibernateExceptions into DataAccessExceptions, following the
+ * Helper class that simplifies Hibernate data access code. Automatically converts
+ * HibernateExceptions into DataAccessExceptions, following the
  * {@code org.springframework.dao} exception hierarchy.
  *
- * <p>The central method is {@code execute}, supporting Hibernate access code
- * implementing the {@link HibernateCallback} interface. It provides Hibernate Session
- * handling such that neither the HibernateCallback implementation nor the calling
- * code needs to explicitly care about retrieving/closing Hibernate Sessions,
- * or handling Session lifecycle exceptions. For typical single step actions,
- * there are various convenience methods (find, load, saveOrUpdate, delete).
+ * <p>
+ * The central method is {@code execute}, supporting Hibernate access code implementing
+ * the {@link HibernateCallback} interface. It provides Hibernate Session handling such
+ * that neither the HibernateCallback implementation nor the calling code needs to
+ * explicitly care about retrieving/closing Hibernate Sessions, or handling Session
+ * lifecycle exceptions. For typical single step actions, there are various convenience
+ * methods (find, load, saveOrUpdate, delete).
  *
- * <p>Can be used within a service implementation via direct instantiation
- * with a SessionFactory reference, or get prepared in an application context
- * and given to services as bean reference. Note: The SessionFactory should
- * always be configured as bean in the application context, in the first case
- * given to the service directly, in the second case to the prepared template.
+ * <p>
+ * Can be used within a service implementation via direct instantiation with a
+ * SessionFactory reference, or get prepared in an application context and given to
+ * services as bean reference. Note: The SessionFactory should always be configured as
+ * bean in the application context, in the first case given to the service directly, in
+ * the second case to the prepared template.
  *
- * <p><b>NOTE: Hibernate access code can also be coded against the native Hibernate
+ * <p>
+ * <b>NOTE: Hibernate access code can also be coded against the native Hibernate
  * {@link Session}. Hence, for newly started projects, consider adopting the standard
  * Hibernate style of coding against {@link SessionFactory#getCurrentSession()}.
  * Alternatively, use {@link #execute(HibernateCallback)} with Java 8 lambda code blocks
@@ -106,7 +109,6 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 		}
 	}
 
-
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	@Nullable
@@ -128,7 +130,6 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 	private int maxResults = 0;
 
-
 	/**
 	 * Create a new HibernateTemplate instance.
 	 */
@@ -144,18 +145,16 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 		afterPropertiesSet();
 	}
 
-
 	/**
-	 * Set the Hibernate SessionFactory that should be used to create
-	 * Hibernate Sessions.
+	 * Set the Hibernate SessionFactory that should be used to create Hibernate Sessions.
 	 */
-	public void setSessionFactory(@Nullable  SessionFactory sessionFactory) {
+	public void setSessionFactory(@Nullable SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
 	/**
-	 * Return the Hibernate SessionFactory that should be used to create
-	 * Hibernate Sessions.
+	 * Return the Hibernate SessionFactory that should be used to create Hibernate
+	 * Sessions.
 	 */
 	@Nullable
 	public SessionFactory getSessionFactory() {
@@ -175,16 +174,17 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Set one or more names of Hibernate filters to be activated for all
-	 * Sessions that this accessor works with.
-	 * <p>Each of those filters will be enabled at the beginning of each
-	 * operation and correspondingly disabled at the end of the operation.
-	 * This will work for newly opened Sessions as well as for existing
-	 * Sessions (for example, within a transaction).
+	 * Set one or more names of Hibernate filters to be activated for all Sessions that
+	 * this accessor works with.
+	 * <p>
+	 * Each of those filters will be enabled at the beginning of each operation and
+	 * correspondingly disabled at the end of the operation. This will work for newly
+	 * opened Sessions as well as for existing Sessions (for example, within a
+	 * transaction).
 	 * @see #enableFilters(Session)
 	 * @see Session#enableFilter(String)
 	 */
-	public void setFilterNames(@Nullable  String... filterNames) {
+	public void setFilterNames(@Nullable String... filterNames) {
 		this.filterNames = filterNames;
 	}
 
@@ -197,11 +197,10 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Set whether to expose the native Hibernate Session to
-	 * HibernateCallback code.
-	 * <p>Default is "false": a Session proxy will be returned, suppressing
-	 * {@code close} calls and automatically applying query cache
-	 * settings and transaction timeouts.
+	 * Set whether to expose the native Hibernate Session to HibernateCallback code.
+	 * <p>
+	 * Default is "false": a Session proxy will be returned, suppressing {@code close}
+	 * calls and automatically applying query cache settings and transaction timeouts.
 	 * @see HibernateCallback
 	 * @see Session
 	 * @see #setCacheQueries
@@ -214,19 +213,20 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Return whether to expose the native Hibernate Session to
-	 * HibernateCallback code, or rather a Session proxy.
+	 * Return whether to expose the native Hibernate Session to HibernateCallback code, or
+	 * rather a Session proxy.
 	 */
 	public boolean isExposeNativeSession() {
 		return this.exposeNativeSession;
 	}
 
 	/**
-	 * Set whether to check that the Hibernate Session is not in read-only mode
-	 * in case of write operations (save/update/delete).
-	 * <p>Default is "true", for fail-fast behavior when attempting write operations
-	 * within a read-only transaction. Turn this off to allow save/update/delete
-	 * on a Session with flush mode MANUAL.
+	 * Set whether to check that the Hibernate Session is not in read-only mode in case of
+	 * write operations (save/update/delete).
+	 * <p>
+	 * Default is "true", for fail-fast behavior when attempting write operations within a
+	 * read-only transaction. Turn this off to allow save/update/delete on a Session with
+	 * flush mode MANUAL.
 	 * @see #checkWriteOperationAllowed
 	 * @see org.springframework.transaction.TransactionDefinition#isReadOnly
 	 */
@@ -235,8 +235,8 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Return whether to check that the Hibernate Session is not in read-only
-	 * mode in case of write operations (save/update/delete).
+	 * Return whether to check that the Hibernate Session is not in read-only mode in case
+	 * of write operations (save/update/delete).
 	 */
 	public boolean isCheckWriteOperations() {
 		return this.checkWriteOperations;
@@ -244,11 +244,12 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 	/**
 	 * Set whether to cache all queries executed by this template.
-	 * <p>If this is "true", all Query and Criteria objects created by
-	 * this template will be marked as cacheable (including all
-	 * queries through find methods).
-	 * <p>To specify the query region to be used for queries cached
-	 * by this template, set the "queryCacheRegion" property.
+	 * <p>
+	 * If this is "true", all Query and Criteria objects created by this template will be
+	 * marked as cacheable (including all queries through find methods).
+	 * <p>
+	 * To specify the query region to be used for queries cached by this template, set the
+	 * "queryCacheRegion" property.
 	 * @see #setQueryCacheRegion
 	 * @see org.hibernate.Query#setCacheable
 	 * @see Criteria#setCacheable
@@ -266,10 +267,12 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 	/**
 	 * Set the name of the cache region for queries executed by this template.
-	 * <p>If this is specified, it will be applied to all Query and Criteria objects
-	 * created by this template (including all queries through find methods).
-	 * <p>The cache region will not take effect unless queries created by this
-	 * template are configured to be cached via the "cacheQueries" property.
+	 * <p>
+	 * If this is specified, it will be applied to all Query and Criteria objects created
+	 * by this template (including all queries through find methods).
+	 * <p>
+	 * The cache region will not take effect unless queries created by this template are
+	 * configured to be cached via the "cacheQueries" property.
 	 * @see #setCacheQueries
 	 * @see org.hibernate.Query#setCacheRegion
 	 * @see Criteria#setCacheRegion
@@ -289,9 +292,10 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	/**
 	 * Set the fetch size for this HibernateTemplate. This is important for processing
 	 * large result sets: Setting this higher than the default value will increase
-	 * processing speed at the cost of memory consumption; setting this lower can
-	 * avoid transferring row data that will never be read by the application.
-	 * <p>Default is 0, indicating to use the JDBC driver's default.
+	 * processing speed at the cost of memory consumption; setting this lower can avoid
+	 * transferring row data that will never be read by the application.
+	 * <p>
+	 * Default is 0, indicating to use the JDBC driver's default.
 	 */
 	public void setFetchSize(int fetchSize) {
 		this.fetchSize = fetchSize;
@@ -305,12 +309,13 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Set the maximum number of rows for this HibernateTemplate. This is important
-	 * for processing subsets of large result sets, avoiding to read and hold
-	 * the entire result set in the database or in the JDBC driver if we're
-	 * never interested in the entire result in the first place (for example,
-	 * when performing searches that might return a large number of matches).
-	 * <p>Default is 0, indicating to use the JDBC driver's default.
+	 * Set the maximum number of rows for this HibernateTemplate. This is important for
+	 * processing subsets of large result sets, avoiding to read and hold the entire
+	 * result set in the database or in the JDBC driver if we're never interested in the
+	 * entire result in the first place (for example, when performing searches that might
+	 * return a large number of matches).
+	 * <p>
+	 * Default is 0, indicating to use the JDBC driver's default.
 	 */
 	public void setMaxResults(int maxResults) {
 		this.maxResults = maxResults;
@@ -330,7 +335,6 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 		}
 	}
 
-
 	@Override
 	@Nullable
 	public <T> T execute(HibernateCallback<T> action) throws DataAccessException {
@@ -338,10 +342,11 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Execute the action specified by the given action object within a
-	 * native {@link Session}.
-	 * <p>This execute variant overrides the template-wide
-	 * {@link #isExposeNativeSession() "exposeNativeSession"} setting.
+	 * Execute the action specified by the given action object within a native
+	 * {@link Session}.
+	 * <p>
+	 * This execute variant overrides the template-wide {@link #isExposeNativeSession()
+	 * "exposeNativeSession"} setting.
 	 * @param action callback object that specifies the Hibernate action
 	 * @return a result object returned by the action, or {@code null}
 	 * @throws DataAccessException in case of Hibernate errors
@@ -354,8 +359,8 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	/**
 	 * Execute the action specified by the given action object within a Session.
 	 * @param action callback object that specifies the Hibernate action
-	 * @param enforceNativeSession whether to enforce exposure of the native
-	 * Hibernate Session to callback code
+	 * @param enforceNativeSession whether to enforce exposure of the native Hibernate
+	 * Session to callback code
 	 * @return a result object returned by the action, or {@code null}
 	 * @throws DataAccessException in case of Hibernate errors
 	 */
@@ -380,8 +385,8 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 		try {
 			enableFilters(session);
-			Session sessionToExpose =
-					(enforceNativeSession || isExposeNativeSession() ? session : createSessionProxy(session));
+			Session sessionToExpose = (enforceNativeSession || isExposeNativeSession() ? session
+					: createSessionProxy(session));
 			return action.doInHibernate(sessionToExpose);
 		}
 		catch (HibernateException ex) {
@@ -408,8 +413,8 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	/**
-	 * Create a close-suppressing proxy for the given Hibernate Session.
-	 * The proxy also prepares returned Query and Criteria objects.
+	 * Create a close-suppressing proxy for the given Hibernate Session. The proxy also
+	 * prepares returned Query and Criteria objects.
 	 * @param session the Hibernate Session to create a proxy for
 	 * @return the Session proxy
 	 * @see Session#close()
@@ -417,8 +422,7 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	 * @see #prepareCriteria
 	 */
 	protected Session createSessionProxy(Session session) {
-		return (Session) Proxy.newProxyInstance(
-				session.getClass().getClassLoader(), new Class<?>[] {Session.class},
+		return (Session) Proxy.newProxyInstance(session.getClass().getClassLoader(), new Class<?>[] { Session.class },
 				new CloseSuppressingInvocationHandler(session));
 	}
 
@@ -452,10 +456,9 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 		}
 	}
 
-
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	// Convenience methods for loading individual objects
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 	@Override
 	@Nullable
@@ -538,7 +541,7 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	@Override
-	@SuppressWarnings({"unchecked", "deprecation"})
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	public <T> List<T> loadAll(final Class<T> entityClass) throws DataAccessException {
 		return nonNull(executeWithNativeSession((HibernateCallback<List<T>>) session -> {
 			Criteria criteria = session.createCriteria(entityClass);
@@ -549,7 +552,7 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	@Override
-	@SuppressWarnings({"deprecation"})
+	@SuppressWarnings({ "deprecation" })
 	public void load(final Object entity, final Serializable id) throws DataAccessException {
 		executeWithNativeSession(session -> {
 			session.load(entity, id);
@@ -610,10 +613,9 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 		return filter;
 	}
 
-
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	// Convenience methods for storing individual objects
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 	@Override
 	public void lock(final Object entity, final LockMode lockMode) throws DataAccessException {
@@ -624,8 +626,7 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	@Override
-	public void lock(final String entityName, final Object entity, final LockMode lockMode)
-			throws DataAccessException {
+	public void lock(final String entityName, final Object entity, final LockMode lockMode) throws DataAccessException {
 
 		executeWithNativeSession(session -> {
 			session.buildLockRequest(new LockOptions(lockMode)).lock(entityName, entity);
@@ -704,8 +705,7 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	@Override
-	public void replicate(final Object entity, final ReplicationMode replicationMode)
-			throws DataAccessException {
+	public void replicate(final Object entity, final ReplicationMode replicationMode) throws DataAccessException {
 
 		executeWithNativeSession(session -> {
 			checkWriteOperationAllowed(session);
@@ -824,10 +824,9 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 		});
 	}
 
-
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	// Convenience finder methods for detached criteria
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 	@Override
 	public List<?> findByCriteria(DetachedCriteria criteria) throws DataAccessException {
@@ -869,15 +868,14 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	@Override
-	@SuppressWarnings({"unchecked", "deprecation"})
-	public <T> List<T> findByExample(
-			@Nullable final String entityName, final T exampleEntity, final int firstResult, final int maxResults)
-			throws DataAccessException {
+	@SuppressWarnings({ "unchecked", "deprecation" })
+	public <T> List<T> findByExample(@Nullable final String entityName, final T exampleEntity, final int firstResult,
+			final int maxResults) throws DataAccessException {
 
 		Assert.notNull(exampleEntity, "Example entity must not be null");
 		return nonNull(executeWithNativeSession((HibernateCallback<List<T>>) session -> {
-			Criteria executableCriteria = (entityName != null ?
-					session.createCriteria(entityName) : session.createCriteria(exampleEntity.getClass()));
+			Criteria executableCriteria = (entityName != null ? session.createCriteria(entityName)
+					: session.createCriteria(exampleEntity.getClass()));
 			executableCriteria.add(Example.create(exampleEntity));
 			prepareCriteria(executableCriteria);
 			if (firstResult >= 0) {
@@ -890,14 +888,13 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 		}));
 	}
 
-
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	// Convenience finder methods for HQL strings
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 	@Deprecated
 	@Override
-	@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
+	@SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })
 	public List<?> find(final String queryString, @Nullable final Object... values) throws DataAccessException {
 		return nonNull(executeWithNativeSession((HibernateCallback<List<?>>) session -> {
 			org.hibernate.Query queryObject = queryObject(
@@ -914,15 +911,14 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 	@Deprecated
 	@Override
-	public List<?> findByNamedParam(String queryString, String paramName, Object value)
-			throws DataAccessException {
+	public List<?> findByNamedParam(String queryString, String paramName, Object value) throws DataAccessException {
 
-		return findByNamedParam(queryString, new String[] {paramName}, new Object[] {value});
+		return findByNamedParam(queryString, new String[] { paramName }, new Object[] { value });
 	}
 
 	@Deprecated
 	@Override
-	@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
+	@SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })
 	public List<?> findByNamedParam(final String queryString, final String[] paramNames, final Object[] values)
 			throws DataAccessException {
 
@@ -942,9 +938,8 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 	@Deprecated
 	@Override
-	@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
-	public List<?> findByValueBean(final String queryString, final Object valueBean)
-			throws DataAccessException {
+	@SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })
+	public List<?> findByValueBean(final String queryString, final Object valueBean) throws DataAccessException {
 
 		return nonNull(executeWithNativeSession((HibernateCallback<List<?>>) session -> {
 			org.hibernate.Query queryObject = queryObject(
@@ -955,15 +950,15 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 		}));
 	}
 
-
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	// Convenience finder methods for named queries
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 	@Deprecated
 	@Override
-	@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
-	public List<?> findByNamedQuery(final String queryName, @Nullable final Object... values) throws DataAccessException {
+	@SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })
+	public List<?> findByNamedQuery(final String queryName, @Nullable final Object... values)
+			throws DataAccessException {
 		return nonNull(executeWithNativeSession((HibernateCallback<List<?>>) session -> {
 			org.hibernate.Query queryObject = queryObject(
 					ReflectionUtils.invokeMethod(getNamedQueryMethod, session, queryName));
@@ -982,22 +977,21 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	public List<?> findByNamedQueryAndNamedParam(String queryName, String paramName, Object value)
 			throws DataAccessException {
 
-		return findByNamedQueryAndNamedParam(queryName, new String[] {paramName}, new Object[] {value});
+		return findByNamedQueryAndNamedParam(queryName, new String[] { paramName }, new Object[] { value });
 	}
 
 	@Deprecated
 	@Override
-	@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
-	public List<?> findByNamedQueryAndNamedParam(
-			final String queryName, @Nullable final String[] paramNames, @Nullable final Object[] values)
-			throws DataAccessException {
+	@SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })
+	public List<?> findByNamedQueryAndNamedParam(final String queryName, @Nullable final String[] paramNames,
+			@Nullable final Object[] values) throws DataAccessException {
 
 		if (values != null && (paramNames == null || paramNames.length != values.length)) {
 			throw new IllegalArgumentException("Length of paramNames array must match length of values array");
 		}
 		return nonNull(executeWithNativeSession((HibernateCallback<List<?>>) session -> {
-			org.hibernate.Query queryObject = (org.hibernate.Query)
-					nonNull(ReflectionUtils.invokeMethod(getNamedQueryMethod, session, queryName));
+			org.hibernate.Query queryObject = (org.hibernate.Query) nonNull(
+					ReflectionUtils.invokeMethod(getNamedQueryMethod, session, queryName));
 			prepareQuery(queryObject);
 			if (values != null) {
 				for (int i = 0; i < values.length; i++) {
@@ -1010,7 +1004,7 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 	@Deprecated
 	@Override
-	@SuppressWarnings({"rawtypes", "unchecked", "deprecation"})
+	@SuppressWarnings({ "rawtypes", "unchecked", "deprecation" })
 	public List<?> findByNamedQueryAndValueBean(final String queryName, final Object valueBean)
 			throws DataAccessException {
 
@@ -1023,14 +1017,13 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 		}));
 	}
 
-
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	// Convenience query methods for iteration and bulk updates/deletes
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 	@Deprecated
 	@Override
-	@SuppressWarnings({"rawtypes", "deprecation"})
+	@SuppressWarnings({ "rawtypes", "deprecation" })
 	public Iterator<?> iterate(final String queryString, @Nullable final Object... values) throws DataAccessException {
 		return nonNull(executeWithNativeSession((HibernateCallback<Iterator<?>>) session -> {
 			org.hibernate.Query queryObject = queryObject(
@@ -1058,7 +1051,7 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 
 	@Deprecated
 	@Override
-	@SuppressWarnings({"rawtypes", "deprecation"})
+	@SuppressWarnings({ "rawtypes", "deprecation" })
 	public int bulkUpdate(final String queryString, @Nullable final Object... values) throws DataAccessException {
 		Integer result = executeWithNativeSession(session -> {
 			org.hibernate.Query queryObject = queryObject(
@@ -1075,15 +1068,15 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 		return result;
 	}
 
-
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	// Helper methods used by the operations above
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 	/**
 	 * Check whether write operations are allowed on the given Session.
-	 * <p>Default implementation throws an InvalidDataAccessApiUsageException in
-	 * case of {@code FlushMode.MANUAL}. Can be overridden in subclasses.
+	 * <p>
+	 * Default implementation throws an InvalidDataAccessApiUsageException in case of
+	 * {@code FlushMode.MANUAL}. Can be overridden in subclasses.
 	 * @param session current Hibernate Session
 	 * @throws InvalidDataAccessApiUsageException if write operations are not allowed
 	 * @see #setCheckWriteOperations
@@ -1093,14 +1086,14 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	protected void checkWriteOperationAllowed(Session session) throws InvalidDataAccessApiUsageException {
 		if (isCheckWriteOperations() && SessionFactoryUtils.getFlushMode(session).lessThan(FlushMode.COMMIT)) {
 			throw new InvalidDataAccessApiUsageException(
-					"Write operations are not allowed in read-only mode (FlushMode.MANUAL): "+
-					"Turn your Session into FlushMode.COMMIT/AUTO or remove 'readOnly' marker from transaction definition.");
+					"Write operations are not allowed in read-only mode (FlushMode.MANUAL): "
+							+ "Turn your Session into FlushMode.COMMIT/AUTO or remove 'readOnly' marker from transaction definition.");
 		}
 	}
 
 	/**
-	 * Prepare the given Criteria object, applying cache settings and/or
-	 * a transaction timeout.
+	 * Prepare the given Criteria object, applying cache settings and/or a transaction
+	 * timeout.
 	 * @param criteria the Criteria object to prepare
 	 * @see #setCacheQueries
 	 * @see #setQueryCacheRegion
@@ -1119,21 +1112,21 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 			criteria.setMaxResults(getMaxResults());
 		}
 
-		ResourceHolderSupport sessionHolder =
-				(ResourceHolderSupport) TransactionSynchronizationManager.getResource(obtainSessionFactory());
+		ResourceHolderSupport sessionHolder = (ResourceHolderSupport) TransactionSynchronizationManager
+				.getResource(obtainSessionFactory());
 		if (sessionHolder != null && sessionHolder.hasTimeout()) {
 			criteria.setTimeout(sessionHolder.getTimeToLiveInSeconds());
 		}
 	}
 
 	/**
-	 * Prepare the given Query object, applying cache settings and/or
-	 * a transaction timeout.
+	 * Prepare the given Query object, applying cache settings and/or a transaction
+	 * timeout.
 	 * @param queryObject the Query object to prepare
 	 * @see #setCacheQueries
 	 * @see #setQueryCacheRegion
 	 */
-	@SuppressWarnings({"rawtypes", "deprecation"})
+	@SuppressWarnings({ "rawtypes", "deprecation" })
 	protected void prepareQuery(org.hibernate.Query queryObject) {
 		if (isCacheQueries()) {
 			queryObject.setCacheable(true);
@@ -1148,8 +1141,8 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 			queryObject.setMaxResults(getMaxResults());
 		}
 
-		ResourceHolderSupport sessionHolder =
-				(ResourceHolderSupport) TransactionSynchronizationManager.getResource(obtainSessionFactory());
+		ResourceHolderSupport sessionHolder = (ResourceHolderSupport) TransactionSynchronizationManager
+				.getResource(obtainSessionFactory());
 		if (sessionHolder != null && sessionHolder.hasTimeout()) {
 			queryObject.setTimeout(sessionHolder.getTimeToLiveInSeconds());
 		}
@@ -1163,7 +1156,7 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	 * @throws HibernateException if thrown by the Query object
 	 */
 	@Deprecated
-	@SuppressWarnings({"rawtypes", "deprecation"})
+	@SuppressWarnings({ "rawtypes", "deprecation" })
 	protected void applyNamedParameterToQuery(org.hibernate.Query queryObject, String paramName, Object value)
 			throws HibernateException {
 
@@ -1179,7 +1172,7 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 	}
 
 	@Deprecated
-	@SuppressWarnings({"rawtypes", "deprecation"})
+	@SuppressWarnings({ "rawtypes", "deprecation" })
 	private static org.hibernate.Query queryObject(@Nullable Object result) {
 		Assert.state(result != null, "No Hibernate Query");
 		return (org.hibernate.Query) result;
@@ -1190,10 +1183,10 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 		return result;
 	}
 
-
 	/**
-	 * Invocation handler that suppresses close calls on Hibernate Sessions.
-	 * Also prepares returned Query and Criteria objects.
+	 * Invocation handler that suppresses close calls on Hibernate Sessions. Also prepares
+	 * returned Query and Criteria objects.
+	 *
 	 * @see Session#close
 	 */
 	private class CloseSuppressingInvocationHandler implements InvocationHandler {
@@ -1205,7 +1198,7 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 		}
 
 		@Override
-		@SuppressWarnings({"rawtypes", "deprecation"})
+		@SuppressWarnings({ "rawtypes", "deprecation" })
 		@Nullable
 		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 			// Invocation on Session interface coming in...
@@ -1242,6 +1235,7 @@ public class HibernateTemplate implements HibernateOperations, InitializingBean 
 				throw ex.getTargetException();
 			}
 		}
+
 	}
 
 }

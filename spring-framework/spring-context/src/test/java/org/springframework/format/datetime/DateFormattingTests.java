@@ -49,7 +49,6 @@ public class DateFormattingTests {
 
 	private DataBinder binder;
 
-
 	@BeforeEach
 	void setup() {
 		DateFormatterRegistrar registrar = new DateFormatterRegistrar();
@@ -73,7 +72,6 @@ public class DateFormattingTests {
 	void tearDown() {
 		LocaleContextHolder.setLocale(null);
 	}
-
 
 	@Test
 	void testBindLong() {
@@ -114,7 +112,7 @@ public class DateFormattingTests {
 	@Test
 	void testBindDateArray() {
 		MutablePropertyValues propertyValues = new MutablePropertyValues();
-		propertyValues.add("dateAnnotated", new String[]{"10/31/09 12:00 PM"});
+		propertyValues.add("dateAnnotated", new String[] { "10/31/09 12:00 PM" });
 		binder.bind(propertyValues);
 		assertThat(binder.getBindingResult().getErrorCount()).isEqualTo(0);
 	}
@@ -131,7 +129,8 @@ public class DateFormattingTests {
 	@Test
 	@Disabled
 	void testBindDateAnnotatedWithFallbackError() {
-		// TODO This currently passes because of the Date(String) constructor fallback is used
+		// TODO This currently passes because of the Date(String) constructor fallback is
+		// used
 		MutablePropertyValues propertyValues = new MutablePropertyValues();
 		propertyValues.add("dateAnnotated", "Oct 031, 2009");
 		binder.bind(propertyValues);
@@ -209,7 +208,8 @@ public class DateFormattingTests {
 	@Test
 	void dateToStringWithoutGlobalFormat() {
 		Date date = new Date();
-		Object actual = this.conversionService.convert(date, TypeDescriptor.valueOf(Date.class), TypeDescriptor.valueOf(String.class));
+		Object actual = this.conversionService.convert(date, TypeDescriptor.valueOf(Date.class),
+				TypeDescriptor.valueOf(String.class));
 		String expected = date.toString();
 		assertThat(actual).isEqualTo(expected);
 	}
@@ -220,12 +220,13 @@ public class DateFormattingTests {
 		registrar.setFormatter(new DateFormatter());
 		setup(registrar);
 		Date date = new Date();
-		Object actual = this.conversionService.convert(date, TypeDescriptor.valueOf(Date.class), TypeDescriptor.valueOf(String.class));
+		Object actual = this.conversionService.convert(date, TypeDescriptor.valueOf(Date.class),
+				TypeDescriptor.valueOf(String.class));
 		String expected = new DateFormatter().print(date, Locale.US);
 		assertThat(actual).isEqualTo(expected);
 	}
 
-	@Test  // SPR-10105
+	@Test // SPR-10105
 	@SuppressWarnings("deprecation")
 	void stringToDateWithoutGlobalFormat() {
 		String string = "Sat, 12 Aug 1995 13:30:00 GM";
@@ -233,7 +234,7 @@ public class DateFormattingTests {
 		assertThat(date).isEqualTo(new Date(string));
 	}
 
-	@Test  // SPR-10105
+	@Test // SPR-10105
 	void stringToDateWithGlobalFormat() {
 		DateFormatterRegistrar registrar = new DateFormatterRegistrar();
 		DateFormatter dateFormatter = new DateFormatter();
@@ -246,7 +247,6 @@ public class DateFormattingTests {
 		assertThat(date).isNotNull();
 	}
 
-
 	@SuppressWarnings("unused")
 	private static class SimpleDateBean {
 
@@ -254,22 +254,22 @@ public class DateFormattingTests {
 
 		private Long millisAnnotated;
 
-		@DateTimeFormat(style="S-")
+		@DateTimeFormat(style = "S-")
 		private Calendar calendarAnnotated;
 
-		@DateTimeFormat(style="S-")
+		@DateTimeFormat(style = "S-")
 		private Date dateAnnotated;
 
-		@DateTimeFormat(pattern="M/d/yy h:mm")
+		@DateTimeFormat(pattern = "M/d/yy h:mm")
 		private Date dateAnnotatedPattern;
 
-		@DateTimeFormat(iso=ISO.DATE)
+		@DateTimeFormat(iso = ISO.DATE)
 		private Date isoDate;
 
-		@DateTimeFormat(iso=ISO.TIME)
+		@DateTimeFormat(iso = ISO.TIME)
 		private Date isoTime;
 
-		@DateTimeFormat(iso=ISO.DATE_TIME)
+		@DateTimeFormat(iso = ISO.DATE_TIME)
 		private Date isoDateTime;
 
 		private final List<SimpleDateBean> children = new ArrayList<>();
@@ -282,12 +282,12 @@ public class DateFormattingTests {
 			this.millis = millis;
 		}
 
-		@DateTimeFormat(style="S-")
+		@DateTimeFormat(style = "S-")
 		public Long getMillisAnnotated() {
 			return millisAnnotated;
 		}
 
-		public void setMillisAnnotated(@DateTimeFormat(style="S-") Long millisAnnotated) {
+		public void setMillisAnnotated(@DateTimeFormat(style = "S-") Long millisAnnotated) {
 			this.millisAnnotated = millisAnnotated;
 		}
 
@@ -342,6 +342,7 @@ public class DateFormattingTests {
 		public List<SimpleDateBean> getChildren() {
 			return children;
 		}
+
 	}
 
 }

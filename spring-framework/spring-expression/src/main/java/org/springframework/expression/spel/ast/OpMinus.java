@@ -32,13 +32,14 @@ import org.springframework.util.NumberUtils;
  * The minus operator supports:
  * <ul>
  * <li>subtraction of numbers
- * <li>subtraction of an int from a string of one character
- * (effectively decreasing that character), so 'd'-3='a'
+ * <li>subtraction of an int from a string of one character (effectively decreasing that
+ * character), so 'd'-3='a'
  * </ul>
  *
- * <p>It can be used as a unary operator for numbers.
- * The standard promotions are performed when the operand types vary (double-int=double).
- * For other options it defers to the registered overloader.
+ * <p>
+ * It can be used as a unary operator for numbers. The standard promotions are performed
+ * when the operand types vary (double-int=double). For other options it defers to the
+ * registered overloader.
  *
  * @author Andy Clement
  * @author Juergen Hoeller
@@ -51,12 +52,11 @@ public class OpMinus extends Operator {
 		super("-", startPos, endPos, operands);
 	}
 
-
 	@Override
 	public TypedValue getValueInternal(ExpressionState state) throws EvaluationException {
 		SpelNodeImpl leftOp = getLeftOperand();
 
-		if (this.children.length < 2) {  // if only one operand, then this is unary minus
+		if (this.children.length < 2) { // if only one operand, then this is unary minus
 			Object operand = leftOp.getValueInternal(state).getValue();
 			if (operand instanceof Number) {
 				if (operand instanceof BigDecimal) {
@@ -146,7 +146,7 @@ public class OpMinus extends Operator {
 
 	@Override
 	public String toStringAST() {
-		if (this.children.length < 2) {  // unary minus
+		if (this.children.length < 2) { // unary minus
 			return "-" + getLeftOperand().toStringAST();
 		}
 		return super.toStringAST();
@@ -188,40 +188,38 @@ public class OpMinus extends Operator {
 			cf.exitCompilationScope();
 			CodeFlow.insertNumericUnboxOrPrimitiveTypeCoercion(mv, rightDesc, targetDesc);
 			switch (targetDesc) {
-				case 'I':
-					mv.visitInsn(ISUB);
-					break;
-				case 'J':
-					mv.visitInsn(LSUB);
-					break;
-				case 'F':
-					mv.visitInsn(FSUB);
-					break;
-				case 'D':
-					mv.visitInsn(DSUB);
-					break;
-				default:
-					throw new IllegalStateException(
-							"Unrecognized exit type descriptor: '" + this.exitTypeDescriptor + "'");
+			case 'I':
+				mv.visitInsn(ISUB);
+				break;
+			case 'J':
+				mv.visitInsn(LSUB);
+				break;
+			case 'F':
+				mv.visitInsn(FSUB);
+				break;
+			case 'D':
+				mv.visitInsn(DSUB);
+				break;
+			default:
+				throw new IllegalStateException("Unrecognized exit type descriptor: '" + this.exitTypeDescriptor + "'");
 			}
 		}
 		else {
 			switch (targetDesc) {
-				case 'I':
-					mv.visitInsn(INEG);
-					break;
-				case 'J':
-					mv.visitInsn(LNEG);
-					break;
-				case 'F':
-					mv.visitInsn(FNEG);
-					break;
-				case 'D':
-					mv.visitInsn(DNEG);
-					break;
-				default:
-					throw new IllegalStateException(
-							"Unrecognized exit type descriptor: '" + this.exitTypeDescriptor + "'");
+			case 'I':
+				mv.visitInsn(INEG);
+				break;
+			case 'J':
+				mv.visitInsn(LNEG);
+				break;
+			case 'F':
+				mv.visitInsn(FNEG);
+				break;
+			case 'D':
+				mv.visitInsn(DNEG);
+				break;
+			default:
+				throw new IllegalStateException("Unrecognized exit type descriptor: '" + this.exitTypeDescriptor + "'");
 			}
 		}
 		cf.pushDescriptor(this.exitTypeDescriptor);

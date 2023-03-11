@@ -28,8 +28,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * Converts a comma-delimited String to an Array.
- * Only matches if String.class can be converted to the target array element type.
+ * Converts a comma-delimited String to an Array. Only matches if String.class can be
+ * converted to the target array element type.
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -39,11 +39,9 @@ final class StringToArrayConverter implements ConditionalGenericConverter {
 
 	private final ConversionService conversionService;
 
-
 	public StringToArrayConverter(ConversionService conversionService) {
 		this.conversionService = conversionService;
 	}
-
 
 	@Override
 	public Set<ConvertiblePair> getConvertibleTypes() {

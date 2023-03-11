@@ -37,8 +37,10 @@ class AssignableTypeFilterTests {
 		String classUnderTest = "example.type.AssignableTypeFilterTestsTypes$TestNonInheritingClass";
 		MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(classUnderTest);
 
-		AssignableTypeFilter matchingFilter = new AssignableTypeFilter(example.type.AssignableTypeFilterTestsTypes.TestNonInheritingClass.class);
-		AssignableTypeFilter notMatchingFilter = new AssignableTypeFilter(example.type.AssignableTypeFilterTestsTypes.TestInterface.class);
+		AssignableTypeFilter matchingFilter = new AssignableTypeFilter(
+				example.type.AssignableTypeFilterTestsTypes.TestNonInheritingClass.class);
+		AssignableTypeFilter notMatchingFilter = new AssignableTypeFilter(
+				example.type.AssignableTypeFilterTestsTypes.TestInterface.class);
 		assertThat(notMatchingFilter.match(metadataReader, metadataReaderFactory)).isFalse();
 		assertThat(matchingFilter.match(metadataReader, metadataReaderFactory)).isTrue();
 	}
@@ -49,7 +51,8 @@ class AssignableTypeFilterTests {
 		String classUnderTest = "example.type.AssignableTypeFilterTestsTypes$TestInterfaceImpl";
 		MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(classUnderTest);
 
-		AssignableTypeFilter filter = new AssignableTypeFilter(example.type.AssignableTypeFilterTestsTypes.TestInterface.class);
+		AssignableTypeFilter filter = new AssignableTypeFilter(
+				example.type.AssignableTypeFilterTestsTypes.TestInterface.class);
 		assertThat(filter.match(metadataReader, metadataReaderFactory)).isTrue();
 		ClassloadingAssertions.assertClassNotLoaded(classUnderTest);
 	}
@@ -60,7 +63,8 @@ class AssignableTypeFilterTests {
 		String classUnderTest = "example.type.AssignableTypeFilterTestsTypes$SomeDaoLikeImpl";
 		MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(classUnderTest);
 
-		AssignableTypeFilter filter = new AssignableTypeFilter(example.type.AssignableTypeFilterTestsTypes.SimpleJdbcDaoSupport.class);
+		AssignableTypeFilter filter = new AssignableTypeFilter(
+				example.type.AssignableTypeFilterTestsTypes.SimpleJdbcDaoSupport.class);
 		assertThat(filter.match(metadataReader, metadataReaderFactory)).isTrue();
 		ClassloadingAssertions.assertClassNotLoaded(classUnderTest);
 	}
@@ -71,7 +75,8 @@ class AssignableTypeFilterTests {
 		String classUnderTest = "example.type.AssignableTypeFilterTestsTypes$SomeDaoLikeImpl";
 		MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(classUnderTest);
 
-		AssignableTypeFilter filter = new AssignableTypeFilter(example.type.AssignableTypeFilterTestsTypes.JdbcDaoSupport.class);
+		AssignableTypeFilter filter = new AssignableTypeFilter(
+				example.type.AssignableTypeFilterTestsTypes.JdbcDaoSupport.class);
 		assertThat(filter.match(metadataReader, metadataReaderFactory)).isTrue();
 		ClassloadingAssertions.assertClassNotLoaded(classUnderTest);
 	}

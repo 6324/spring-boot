@@ -28,9 +28,10 @@ import org.springframework.util.ReflectionUtils;
 /**
  * Utility methods for decorating tasks with error handling.
  *
- * <p><b>NOTE:</b> This class is intended for internal use by Spring's scheduler
- * implementations. It is only public so that it may be accessed from impl classes
- * within other packages. It is <i>not</i> intended for general use.
+ * <p>
+ * <b>NOTE:</b> This class is intended for internal use by Spring's scheduler
+ * implementations. It is only public so that it may be accessed from impl classes within
+ * other packages. It is <i>not</i> intended for general use.
  *
  * @author Mark Fisher
  * @author Juergen Hoeller
@@ -39,29 +40,28 @@ import org.springframework.util.ReflectionUtils;
 public abstract class TaskUtils {
 
 	/**
-	 * An ErrorHandler strategy that will log the Exception but perform
-	 * no further handling. This will suppress the error so that
-	 * subsequent executions of the task will not be prevented.
+	 * An ErrorHandler strategy that will log the Exception but perform no further
+	 * handling. This will suppress the error so that subsequent executions of the task
+	 * will not be prevented.
 	 */
 	public static final ErrorHandler LOG_AND_SUPPRESS_ERROR_HANDLER = new LoggingErrorHandler();
 
 	/**
-	 * An ErrorHandler strategy that will log at error level and then
-	 * re-throw the Exception. Note: this will typically prevent subsequent
-	 * execution of a scheduled task.
+	 * An ErrorHandler strategy that will log at error level and then re-throw the
+	 * Exception. Note: this will typically prevent subsequent execution of a scheduled
+	 * task.
 	 */
 	public static final ErrorHandler LOG_AND_PROPAGATE_ERROR_HANDLER = new PropagatingErrorHandler();
 
-
 	/**
-	 * Decorate the task for error handling. If the provided {@link ErrorHandler}
-	 * is not {@code null}, it will be used. Otherwise, repeating tasks will have
-	 * errors suppressed by default whereas one-shot tasks will have errors
-	 * propagated by default since those errors may be expected through the
-	 * returned {@link Future}. In both cases, the errors will be logged.
+	 * Decorate the task for error handling. If the provided {@link ErrorHandler} is not
+	 * {@code null}, it will be used. Otherwise, repeating tasks will have errors
+	 * suppressed by default whereas one-shot tasks will have errors propagated by default
+	 * since those errors may be expected through the returned {@link Future}. In both
+	 * cases, the errors will be logged.
 	 */
-	public static DelegatingErrorHandlingRunnable decorateTaskWithErrorHandler(
-			Runnable task, @Nullable ErrorHandler errorHandler, boolean isRepeatingTask) {
+	public static DelegatingErrorHandlingRunnable decorateTaskWithErrorHandler(Runnable task,
+			@Nullable ErrorHandler errorHandler, boolean isRepeatingTask) {
 
 		if (task instanceof DelegatingErrorHandlingRunnable) {
 			return (DelegatingErrorHandlingRunnable) task;
@@ -71,20 +71,19 @@ public abstract class TaskUtils {
 	}
 
 	/**
-	 * Return the default {@link ErrorHandler} implementation based on the boolean
-	 * value indicating whether the task will be repeating or not. For repeating tasks
-	 * it will suppress errors, but for one-time tasks it will propagate. In both
-	 * cases, the error will be logged.
+	 * Return the default {@link ErrorHandler} implementation based on the boolean value
+	 * indicating whether the task will be repeating or not. For repeating tasks it will
+	 * suppress errors, but for one-time tasks it will propagate. In both cases, the error
+	 * will be logged.
 	 */
 	public static ErrorHandler getDefaultErrorHandler(boolean isRepeatingTask) {
 		return (isRepeatingTask ? LOG_AND_SUPPRESS_ERROR_HANDLER : LOG_AND_PROPAGATE_ERROR_HANDLER);
 	}
 
-
 	/**
-	 * An {@link ErrorHandler} implementation that logs the Throwable at error
- 	 * level. It does not perform any additional error handling. This can be
- 	 * useful when suppression of errors is the intended behavior.
+	 * An {@link ErrorHandler} implementation that logs the Throwable at error level. It
+	 * does not perform any additional error handling. This can be useful when suppression
+	 * of errors is the intended behavior.
 	 */
 	private static class LoggingErrorHandler implements ErrorHandler {
 
@@ -94,12 +93,12 @@ public abstract class TaskUtils {
 		public void handleError(Throwable t) {
 			logger.error("Unexpected error occurred in scheduled task", t);
 		}
+
 	}
 
-
 	/**
-	 * An {@link ErrorHandler} implementation that logs the Throwable at error
-	 * level and then propagates it.
+	 * An {@link ErrorHandler} implementation that logs the Throwable at error level and
+	 * then propagates it.
 	 */
 	private static class PropagatingErrorHandler extends LoggingErrorHandler {
 
@@ -108,6 +107,7 @@ public abstract class TaskUtils {
 			super.handleError(t);
 			ReflectionUtils.rethrowRuntimeException(t);
 		}
+
 	}
 
 }

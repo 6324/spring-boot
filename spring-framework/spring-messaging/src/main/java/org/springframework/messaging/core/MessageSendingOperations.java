@@ -47,16 +47,16 @@ public interface MessageSendingOperations<D> {
 
 	/**
 	 * Convert the given Object to serialized form, possibly using a
-	 * {@link org.springframework.messaging.converter.MessageConverter},
-	 * wrap it as a message and send it to a default destination.
+	 * {@link org.springframework.messaging.converter.MessageConverter}, wrap it as a
+	 * message and send it to a default destination.
 	 * @param payload the Object to use as payload
 	 */
 	void convertAndSend(Object payload) throws MessagingException;
 
 	/**
 	 * Convert the given Object to serialized form, possibly using a
-	 * {@link org.springframework.messaging.converter.MessageConverter},
-	 * wrap it as a message and send it to the given destination.
+	 * {@link org.springframework.messaging.converter.MessageConverter}, wrap it as a
+	 * message and send it to the given destination.
 	 * @param destination the target destination
 	 * @param payload the Object to use as payload
 	 */
@@ -64,9 +64,8 @@ public interface MessageSendingOperations<D> {
 
 	/**
 	 * Convert the given Object to serialized form, possibly using a
-	 * {@link org.springframework.messaging.converter.MessageConverter},
-	 * wrap it as a message with the given headers and send it to
-	 * the given destination.
+	 * {@link org.springframework.messaging.converter.MessageConverter}, wrap it as a
+	 * message with the given headers and send it to the given destination.
 	 * @param destination the target destination
 	 * @param payload the Object to use as payload
 	 * @param headers the headers for the message to send
@@ -75,9 +74,9 @@ public interface MessageSendingOperations<D> {
 
 	/**
 	 * Convert the given Object to serialized form, possibly using a
-	 * {@link org.springframework.messaging.converter.MessageConverter},
-	 * wrap it as a message, apply the given post processor, and send
-	 * the resulting message to a default destination.
+	 * {@link org.springframework.messaging.converter.MessageConverter}, wrap it as a
+	 * message, apply the given post processor, and send the resulting message to a
+	 * default destination.
 	 * @param payload the Object to use as payload
 	 * @param postProcessor the post processor to apply to the message
 	 */
@@ -85,9 +84,9 @@ public interface MessageSendingOperations<D> {
 
 	/**
 	 * Convert the given Object to serialized form, possibly using a
-	 * {@link org.springframework.messaging.converter.MessageConverter},
-	 * wrap it as a message, apply the given post processor, and send
-	 * the resulting message to the given destination.
+	 * {@link org.springframework.messaging.converter.MessageConverter}, wrap it as a
+	 * message, apply the given post processor, and send the resulting message to the
+	 * given destination.
 	 * @param destination the target destination
 	 * @param payload the Object to use as payload
 	 * @param postProcessor the post processor to apply to the message
@@ -96,9 +95,9 @@ public interface MessageSendingOperations<D> {
 
 	/**
 	 * Convert the given Object to serialized form, possibly using a
-	 * {@link org.springframework.messaging.converter.MessageConverter},
-	 * wrap it as a message with the given headers, apply the given post processor,
-	 * and send the resulting message to the given destination.
+	 * {@link org.springframework.messaging.converter.MessageConverter}, wrap it as a
+	 * message with the given headers, apply the given post processor, and send the
+	 * resulting message to the given destination.
 	 * @param destination the target destination
 	 * @param payload the Object to use as payload
 	 * @param headers the headers for the message to send

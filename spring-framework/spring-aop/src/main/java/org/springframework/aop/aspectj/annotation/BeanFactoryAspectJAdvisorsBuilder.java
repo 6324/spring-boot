@@ -31,8 +31,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Helper for retrieving @AspectJ beans from a BeanFactory and building
- * Spring Advisors based on them, for use with auto-proxying.
+ * Helper for retrieving @AspectJ beans from a BeanFactory and building Spring Advisors
+ * based on them, for use with auto-proxying.
  *
  * @author Juergen Hoeller
  * @since 2.0.2
@@ -50,7 +50,6 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 	private final Map<String, List<Advisor>> advisorsCache = new ConcurrentHashMap<>();
 
 	private final Map<String, MetadataAwareAspectInstanceFactory> aspectFactoryCache = new ConcurrentHashMap<>();
-
 
 	/**
 	 * Create a new BeanFactoryAspectJAdvisorsBuilder for the given BeanFactory.
@@ -72,11 +71,11 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 		this.advisorFactory = advisorFactory;
 	}
 
-
 	/**
-	 * Look for AspectJ-annotated aspect beans in the current bean factory,
-	 * and return to a list of Spring AOP Advisors representing them.
-	 * <p>Creates a Spring Advisor for each AspectJ advice method.
+	 * Look for AspectJ-annotated aspect beans in the current bean factory, and return to
+	 * a list of Spring AOP Advisors representing them.
+	 * <p>
+	 * Creates a Spring Advisor for each AspectJ advice method.
 	 * @return the list of {@link org.springframework.aop.Advisor} beans
 	 * @see #isEligibleBean
 	 */
@@ -89,14 +88,16 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 				if (aspectNames == null) {
 					List<Advisor> advisors = new ArrayList<>();
 					aspectNames = new ArrayList<>();
-					String[] beanNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
-							this.beanFactory, Object.class, true, false);
+					String[] beanNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(this.beanFactory,
+							Object.class, true, false);
 					for (String beanName : beanNames) {
 						if (!isEligibleBean(beanName)) {
 							continue;
 						}
-						// We must be careful not to instantiate beans eagerly as in this case they
-						// would be cached by the Spring container but would not have been weaved.
+						// We must be careful not to instantiate beans eagerly as in this
+						// case they
+						// would be cached by the Spring container but would not have been
+						// weaved.
 						Class<?> beanType = this.beanFactory.getType(beanName, false);
 						if (beanType == null) {
 							continue;
@@ -105,8 +106,8 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 							aspectNames.add(beanName);
 							AspectMetadata amd = new AspectMetadata(beanType, beanName);
 							if (amd.getAjType().getPerClause().getKind() == PerClauseKind.SINGLETON) {
-								MetadataAwareAspectInstanceFactory factory =
-										new BeanFactoryAspectInstanceFactory(this.beanFactory, beanName);
+								MetadataAwareAspectInstanceFactory factory = new BeanFactoryAspectInstanceFactory(
+										this.beanFactory, beanName);
 								List<Advisor> classAdvisors = this.advisorFactory.getAdvisors(factory);
 								if (this.beanFactory.isSingleton(beanName)) {
 									this.advisorsCache.put(beanName, classAdvisors);
@@ -119,11 +120,11 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 							else {
 								// Per target or per this.
 								if (this.beanFactory.isSingleton(beanName)) {
-									throw new IllegalArgumentException("Bean with name '" + beanName +
-											"' is a singleton, but aspect instantiation model is not singleton");
+									throw new IllegalArgumentException("Bean with name '" + beanName
+											+ "' is a singleton, but aspect instantiation model is not singleton");
 								}
-								MetadataAwareAspectInstanceFactory factory =
-										new PrototypeAspectInstanceFactory(this.beanFactory, beanName);
+								MetadataAwareAspectInstanceFactory factory = new PrototypeAspectInstanceFactory(
+										this.beanFactory, beanName);
 								this.aspectFactoryCache.put(beanName, factory);
 								advisors.addAll(this.advisorFactory.getAdvisors(factory));
 							}

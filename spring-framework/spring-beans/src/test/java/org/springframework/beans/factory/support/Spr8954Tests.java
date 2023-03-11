@@ -28,7 +28,6 @@ import org.springframework.beans.factory.config.InstantiationAwareBeanPostProces
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * Unit tests for SPR-8954, in which a custom {@link InstantiationAwareBeanPostProcessor}
  * forces the predicted type of a FactoryBean, effectively preventing retrieval of the
@@ -94,7 +93,6 @@ public class Spr8954Tests {
 		assertThat(beans.keySet()).contains("&foo");
 	}
 
-
 	static class FooFactoryBean implements FactoryBean<Foo>, AnInterface {
 
 		@Override
@@ -111,18 +109,23 @@ public class Spr8954Tests {
 		public boolean isSingleton() {
 			return true;
 		}
+
 	}
 
 	interface AnInterface {
+
 	}
 
 	static class Foo {
+
 	}
 
 	interface PredictedType {
+
 	}
 
 	static class PredictedTypeImpl implements PredictedType {
+
 	}
 
 	static class PredictingBPP extends InstantiationAwareBeanPostProcessorAdapter {
@@ -131,6 +134,7 @@ public class Spr8954Tests {
 		public Class<?> predictBeanType(Class<?> beanClass, String beanName) {
 			return FactoryBean.class.isAssignableFrom(beanClass) ? PredictedType.class : null;
 		}
+
 	}
 
 }

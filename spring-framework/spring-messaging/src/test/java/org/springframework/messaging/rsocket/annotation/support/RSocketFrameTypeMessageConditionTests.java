@@ -31,13 +31,13 @@ import static org.springframework.messaging.rsocket.annotation.support.RSocketFr
 
 /**
  * Unit tests for {@link RSocketFrameTypeMessageCondition}.
+ *
  * @author Rossen Stoyanchev
  */
 public class RSocketFrameTypeMessageConditionTests {
 
-	private static final RSocketFrameTypeMessageCondition FNF_RR_CONDITION =
-			new RSocketFrameTypeMessageCondition(FrameType.REQUEST_FNF, FrameType.REQUEST_RESPONSE);
-
+	private static final RSocketFrameTypeMessageCondition FNF_RR_CONDITION = new RSocketFrameTypeMessageCondition(
+			FrameType.REQUEST_FNF, FrameType.REQUEST_RESPONSE);
 
 	@Test
 	public void getMatchingCondition() {
@@ -59,8 +59,8 @@ public class RSocketFrameTypeMessageConditionTests {
 	@Test
 	public void combine() {
 
-		assertThat(EMPTY_CONDITION.combine(CONNECT_CONDITION).getFrameTypes())
-				.containsExactly(FrameType.SETUP, FrameType.METADATA_PUSH);
+		assertThat(EMPTY_CONDITION.combine(CONNECT_CONDITION).getFrameTypes()).containsExactly(FrameType.SETUP,
+				FrameType.METADATA_PUSH);
 
 		assertThat(EMPTY_CONDITION.combine(new RSocketFrameTypeMessageCondition(FrameType.REQUEST_FNF)).getFrameTypes())
 				.containsExactly(FrameType.REQUEST_FNF);

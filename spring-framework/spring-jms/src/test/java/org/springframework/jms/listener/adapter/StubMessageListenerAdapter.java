@@ -25,11 +25,9 @@ public class StubMessageListenerAdapter extends MessageListenerAdapter {
 
 	private boolean wasCalled;
 
-
 	public boolean wasCalled() {
 		return this.wasCalled;
 	}
-
 
 	public void handleMessage(String message) {
 		this.wasCalled = true;

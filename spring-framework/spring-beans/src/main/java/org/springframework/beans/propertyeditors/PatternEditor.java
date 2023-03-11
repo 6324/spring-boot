@@ -34,7 +34,6 @@ public class PatternEditor extends PropertyEditorSupport {
 
 	private final int flags;
 
-
 	/**
 	 * Create a new PatternEditor with default settings.
 	 */
@@ -55,7 +54,6 @@ public class PatternEditor extends PropertyEditorSupport {
 	public PatternEditor(int flags) {
 		this.flags = flags;
 	}
-
 
 	@Override
 	public void setAsText(@Nullable String text) {

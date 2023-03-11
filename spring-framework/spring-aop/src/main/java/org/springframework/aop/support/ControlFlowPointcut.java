@@ -28,9 +28,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Pointcut and method matcher for use in simple <b>cflow</b>-style pointcut.
- * Note that evaluating such pointcuts is 10-15 times slower than evaluating
- * normal pointcuts, but they are useful in some cases.
+ * Pointcut and method matcher for use in simple <b>cflow</b>-style pointcut. Note that
+ * evaluating such pointcuts is 10-15 times slower than evaluating normal pointcuts, but
+ * they are useful in some cases.
  *
  * @author Rod Johnson
  * @author Rob Harrop
@@ -47,7 +47,6 @@ public class ControlFlowPointcut implements Pointcut, ClassFilter, MethodMatcher
 
 	private final AtomicInteger evaluations = new AtomicInteger(0);
 
-
 	/**
 	 * Construct a new pointcut that matches all control flows below that class.
 	 * @param clazz the clazz
@@ -57,9 +56,8 @@ public class ControlFlowPointcut implements Pointcut, ClassFilter, MethodMatcher
 	}
 
 	/**
-	 * Construct a new pointcut that matches all calls below the given method
-	 * in the given class. If no method name is given, matches all control flows
-	 * below the given class.
+	 * Construct a new pointcut that matches all calls below the given method in the given
+	 * class. If no method name is given, matches all control flows below the given class.
 	 * @param clazz the clazz
 	 * @param methodName the name of the method (may be {@code null})
 	 */
@@ -68,7 +66,6 @@ public class ControlFlowPointcut implements Pointcut, ClassFilter, MethodMatcher
 		this.clazz = clazz;
 		this.methodName = methodName;
 	}
-
 
 	/**
 	 * Subclasses can override this for greater filtering (and performance).
@@ -96,8 +93,8 @@ public class ControlFlowPointcut implements Pointcut, ClassFilter, MethodMatcher
 		this.evaluations.incrementAndGet();
 
 		for (StackTraceElement element : new Throwable().getStackTrace()) {
-			if (element.getClassName().equals(this.clazz.getName()) &&
-					(this.methodName == null || element.getMethodName().equals(this.methodName))) {
+			if (element.getClassName().equals(this.clazz.getName())
+					&& (this.methodName == null || element.getMethodName().equals(this.methodName))) {
 				return true;
 			}
 		}
@@ -111,7 +108,6 @@ public class ControlFlowPointcut implements Pointcut, ClassFilter, MethodMatcher
 		return this.evaluations.get();
 	}
 
-
 	@Override
 	public ClassFilter getClassFilter() {
 		return this;
@@ -121,7 +117,6 @@ public class ControlFlowPointcut implements Pointcut, ClassFilter, MethodMatcher
 	public MethodMatcher getMethodMatcher() {
 		return this;
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {

@@ -35,12 +35,13 @@ import org.springframework.util.ClassUtils;
  * {@link org.springframework.transaction.interceptor.TransactionAttributeSource}
  * interface for working with transaction metadata in JDK 1.5+ annotation format.
  *
- * <p>This class reads Spring's JDK 1.5+ {@link Transactional} annotation and
- * exposes corresponding transaction attributes to Spring's transaction infrastructure.
- * Also supports JTA 1.2's {@link javax.transaction.Transactional} and EJB3's
- * {@link javax.ejb.TransactionAttribute} annotation (if present).
- * This class may also serve as base class for a custom TransactionAttributeSource,
- * or get customized through {@link TransactionAnnotationParser} strategies.
+ * <p>
+ * This class reads Spring's JDK 1.5+ {@link Transactional} annotation and exposes
+ * corresponding transaction attributes to Spring's transaction infrastructure. Also
+ * supports JTA 1.2's {@link javax.transaction.Transactional} and EJB3's
+ * {@link javax.ejb.TransactionAttribute} annotation (if present). This class may also
+ * serve as base class for a custom TransactionAttributeSource, or get customized through
+ * {@link TransactionAnnotationParser} strategies.
  *
  * @author Colin Sampaleanu
  * @author Juergen Hoeller
@@ -70,24 +71,22 @@ public class AnnotationTransactionAttributeSource extends AbstractFallbackTransa
 
 	private final Set<TransactionAnnotationParser> annotationParsers;
 
-
 	/**
-	 * Create a default AnnotationTransactionAttributeSource, supporting
-	 * public methods that carry the {@code Transactional} annotation
-	 * or the EJB3 {@link javax.ejb.TransactionAttribute} annotation.
+	 * Create a default AnnotationTransactionAttributeSource, supporting public methods
+	 * that carry the {@code Transactional} annotation or the EJB3
+	 * {@link javax.ejb.TransactionAttribute} annotation.
 	 */
 	public AnnotationTransactionAttributeSource() {
 		this(true);
 	}
 
 	/**
-	 * Create a custom AnnotationTransactionAttributeSource, supporting
-	 * public methods that carry the {@code Transactional} annotation
-	 * or the EJB3 {@link javax.ejb.TransactionAttribute} annotation.
-	 * @param publicMethodsOnly whether to support public methods that carry
-	 * the {@code Transactional} annotation only (typically for use
-	 * with proxy-based AOP), or protected/private methods as well
-	 * (typically used with AspectJ class weaving)
+	 * Create a custom AnnotationTransactionAttributeSource, supporting public methods
+	 * that carry the {@code Transactional} annotation or the EJB3
+	 * {@link javax.ejb.TransactionAttribute} annotation.
+	 * @param publicMethodsOnly whether to support public methods that carry the
+	 * {@code Transactional} annotation only (typically for use with proxy-based AOP), or
+	 * protected/private methods as well (typically used with AspectJ class weaving)
 	 */
 	public AnnotationTransactionAttributeSource(boolean publicMethodsOnly) {
 		this.publicMethodsOnly = publicMethodsOnly;
@@ -136,7 +135,6 @@ public class AnnotationTransactionAttributeSource extends AbstractFallbackTransa
 		this.annotationParsers = annotationParsers;
 	}
 
-
 	@Override
 	public boolean isCandidateClass(Class<?> targetClass) {
 		for (TransactionAnnotationParser parser : this.annotationParsers) {
@@ -161,11 +159,12 @@ public class AnnotationTransactionAttributeSource extends AbstractFallbackTransa
 
 	/**
 	 * Determine the transaction attribute for the given method or class.
-	 * <p>This implementation delegates to configured
-	 * {@link TransactionAnnotationParser TransactionAnnotationParsers}
-	 * for parsing known annotations into Spring's metadata attribute class.
-	 * Returns {@code null} if it's not transactional.
-	 * <p>Can be overridden to support custom annotations that carry transaction metadata.
+	 * <p>
+	 * This implementation delegates to configured {@link TransactionAnnotationParser
+	 * TransactionAnnotationParsers} for parsing known annotations into Spring's metadata
+	 * attribute class. Returns {@code null} if it's not transactional.
+	 * <p>
+	 * Can be overridden to support custom annotations that carry transaction metadata.
 	 * @param element the annotated method or class
 	 * @return the configured transaction attribute, or {@code null} if none was found
 	 */
@@ -188,7 +187,6 @@ public class AnnotationTransactionAttributeSource extends AbstractFallbackTransa
 		return this.publicMethodsOnly;
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -198,8 +196,8 @@ public class AnnotationTransactionAttributeSource extends AbstractFallbackTransa
 			return false;
 		}
 		AnnotationTransactionAttributeSource otherTas = (AnnotationTransactionAttributeSource) other;
-		return (this.annotationParsers.equals(otherTas.annotationParsers) &&
-				this.publicMethodsOnly == otherTas.publicMethodsOnly);
+		return (this.annotationParsers.equals(otherTas.annotationParsers)
+				&& this.publicMethodsOnly == otherTas.publicMethodsOnly);
 	}
 
 	@Override

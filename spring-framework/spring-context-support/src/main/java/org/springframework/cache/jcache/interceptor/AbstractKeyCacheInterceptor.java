@@ -40,7 +40,6 @@ abstract class AbstractKeyCacheInterceptor<O extends AbstractJCacheKeyOperation<
 		super(errorHandler);
 	}
 
-
 	/**
 	 * Generate a key for the specified invocation.
 	 * @param context the context of the invocation

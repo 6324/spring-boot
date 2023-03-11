@@ -75,20 +75,18 @@ class TransformerUtilsTests {
 
 	@Test
 	void enableIndentingWithNullTransformer() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				TransformerUtils.enableIndenting(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> TransformerUtils.enableIndenting(null));
 	}
 
 	@Test
 	void disableIndentingWithNullTransformer() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				TransformerUtils.disableIndenting(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> TransformerUtils.disableIndenting(null));
 	}
 
 	@Test
 	void enableIndentingWithNegativeIndentAmount() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				TransformerUtils.enableIndenting(new StubTransformer(), -21938));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> TransformerUtils.enableIndenting(new StubTransformer(), -21938));
 	}
 
 	@Test
@@ -159,6 +157,7 @@ class TransformerUtilsTests {
 		public ErrorListener getErrorListener() {
 			throw new UnsupportedOperationException();
 		}
+
 	}
 
 }

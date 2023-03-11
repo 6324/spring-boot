@@ -38,8 +38,8 @@ import org.springframework.context.annotation.Configuration;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Tests corner case of using {@link Cacheable} and  {@link CachePut} on the
- * same operation.
+ * Tests corner case of using {@link Cacheable} and {@link CachePut} on the same
+ * operation.
  *
  * @author Stephane Nicoll
  */
@@ -96,12 +96,18 @@ public class CachePutEvaluationTests {
 		// CachePut forced a method call
 		Long anotherValue = this.service.getAndPut(key);
 		assertThat(anotherValue).isNotSameAs(value);
-		// NOTE: while you might expect the main key to have been updated, it hasn't. @Cacheable operations
-		// are only processed in case of a cache miss. This is why combining @Cacheable with @CachePut
-		// is a very bad idea. We could refine the condition now that we can figure out if we are going
-		// to invoke the method anyway but that brings a whole new set of potential regressions.
-		//assertEquals("Wrong value for @Cacheable key", anotherValue, cache.get(key).get());
-		assertThat(this.cache.get(anotherValue + 100).get()).as("Wrong value for @CachePut key").isEqualTo(anotherValue);
+		// NOTE: while you might expect the main key to have been updated, it hasn't.
+		// @Cacheable operations
+		// are only processed in case of a cache miss. This is why combining @Cacheable
+		// with @CachePut
+		// is a very bad idea. We could refine the condition now that we can figure out if
+		// we are going
+		// to invoke the method anyway but that brings a whole new set of potential
+		// regressions.
+		// assertEquals("Wrong value for @Cacheable key", anotherValue,
+		// cache.get(key).get());
+		assertThat(this.cache.get(anotherValue + 100).get()).as("Wrong value for @CachePut key")
+				.isEqualTo(anotherValue);
 	}
 
 	@Configuration
@@ -123,10 +129,12 @@ public class CachePutEvaluationTests {
 
 	@CacheConfig(cacheNames = "test")
 	public static class SimpleService {
+
 		private AtomicLong counter = new AtomicLong();
 
 		/**
-		 * Represent a mutual exclusion use case. The boolean flag exclude one of the two operation.
+		 * Represent a mutual exclusion use case. The boolean flag exclude one of the two
+		 * operation.
 		 */
 		@Cacheable(condition = "#p1", key = "#p0")
 		@CachePut(condition = "!#p1", key = "#p0")
@@ -135,13 +143,16 @@ public class CachePutEvaluationTests {
 		}
 
 		/**
-		 * Represent an invalid use case. If the result of the operation is non null, then we put
-		 * the value with a different key. This forces the method to be executed every time.
+		 * Represent an invalid use case. If the result of the operation is non null, then
+		 * we put the value with a different key. This forces the method to be executed
+		 * every time.
 		 */
 		@Cacheable
 		@CachePut(key = "#result + 100", condition = "#result != null")
 		public Long getAndPut(long id) {
 			return this.counter.getAndIncrement();
 		}
+
 	}
+
 }

@@ -48,19 +48,18 @@ public class WebSocketConnectionManager extends ConnectionManagerSupport {
 
 	private WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
 
-
-	public WebSocketConnectionManager(WebSocketClient client,
-			WebSocketHandler webSocketHandler, String uriTemplate, Object... uriVariables) {
+	public WebSocketConnectionManager(WebSocketClient client, WebSocketHandler webSocketHandler, String uriTemplate,
+			Object... uriVariables) {
 
 		super(uriTemplate, uriVariables);
 		this.client = client;
 		this.webSocketHandler = decorateWebSocketHandler(webSocketHandler);
 	}
 
-
 	/**
 	 * Decorate the WebSocketHandler provided to the class constructor.
-	 * <p>By default {@link LoggingWebSocketHandlerDecorator} is added.
+	 * <p>
+	 * By default {@link LoggingWebSocketHandlerDecorator} is added.
 	 */
 	protected WebSocketHandler decorateWebSocketHandler(WebSocketHandler handler) {
 		return new LoggingWebSocketHandlerDecorator(handler);
@@ -113,7 +112,6 @@ public class WebSocketConnectionManager extends ConnectionManagerSupport {
 		return this.headers;
 	}
 
-
 	@Override
 	public void startInternal() {
 		if (this.client instanceof Lifecycle && !((Lifecycle) this.client).isRunning()) {
@@ -136,8 +134,8 @@ public class WebSocketConnectionManager extends ConnectionManagerSupport {
 			logger.info("Connecting to WebSocket at " + getUri());
 		}
 
-		ListenableFuture<WebSocketSession> future =
-				this.client.doHandshake(this.webSocketHandler, this.headers, getUri());
+		ListenableFuture<WebSocketSession> future = this.client.doHandshake(this.webSocketHandler, this.headers,
+				getUri());
 
 		future.addCallback(new ListenableFutureCallback<WebSocketSession>() {
 			@Override
@@ -145,6 +143,7 @@ public class WebSocketConnectionManager extends ConnectionManagerSupport {
 				webSocketSession = result;
 				logger.info("Successfully connected");
 			}
+
 			@Override
 			public void onFailure(Throwable ex) {
 				logger.error("Failed to connect", ex);

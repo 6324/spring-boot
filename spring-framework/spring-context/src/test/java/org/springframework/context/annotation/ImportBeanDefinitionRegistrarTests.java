@@ -37,7 +37,6 @@ import org.springframework.core.type.AnnotationMetadata;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * Integration tests for {@link ImportBeanDefinitionRegistrar}.
  *
@@ -57,22 +56,21 @@ public class ImportBeanDefinitionRegistrarTests {
 		assertThat(SampleRegistrar.environment).isEqualTo(context.getEnvironment());
 	}
 
-
 	@Sample
 	@Configuration
 	static class Config {
-	}
 
+	}
 
 	@Target(ElementType.TYPE)
 	@Retention(RetentionPolicy.RUNTIME)
 	@Import(SampleRegistrar.class)
 	public @interface Sample {
+
 	}
 
-
-	private static class SampleRegistrar implements ImportBeanDefinitionRegistrar,
-			BeanClassLoaderAware, ResourceLoaderAware, BeanFactoryAware, EnvironmentAware {
+	private static class SampleRegistrar implements ImportBeanDefinitionRegistrar, BeanClassLoaderAware,
+			ResourceLoaderAware, BeanFactoryAware, EnvironmentAware {
 
 		static ClassLoader classLoader;
 		static ResourceLoader resourceLoader;
@@ -103,6 +101,7 @@ public class ImportBeanDefinitionRegistrarTests {
 		public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata,
 				BeanDefinitionRegistry registry) {
 		}
+
 	}
 
 }

@@ -45,7 +45,6 @@ public class DefaultUserDestinationResolverTests {
 
 	private SimpUserRegistry registry;
 
-
 	@BeforeEach
 	public void setup() {
 		TestSimpUser simpUser = new TestSimpUser("joe");

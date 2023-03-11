@@ -73,8 +73,8 @@ import static org.springframework.core.testfixture.TestGroup.PERFORMANCE;
 
 /**
  * Abstract base class for integration tests using the
- * {@link org.springframework.web.socket.sockjs.client.SockJsClient SockJsClient}
- * against actual SockJS server endpoints.
+ * {@link org.springframework.web.socket.sockjs.client.SockJsClient SockJsClient} against
+ * actual SockJS server endpoints.
  *
  * @author Rossen Stoyanchev
  * @author Sam Brannen
@@ -83,7 +83,6 @@ import static org.springframework.core.testfixture.TestGroup.PERFORMANCE;
 public abstract class AbstractSockJsIntegrationTests {
 
 	protected Log logger = LogFactory.getLog(getClass());
-
 
 	private SockJsClient sockJsClient;
 
@@ -94,7 +93,6 @@ public abstract class AbstractSockJsIntegrationTests {
 	private TestFilter testFilter;
 
 	private String baseUrl;
-
 
 	@BeforeEach
 	public void setup(TestInfo testInfo) throws Exception {
@@ -214,8 +212,8 @@ public abstract class AbstractSockJsIntegrationTests {
 		this.testFilter.sendErrorMap.put("/info", 500);
 		CountDownLatch latch = new CountDownLatch(1);
 		initSockJsClient(createWebSocketTransport());
-		this.sockJsClient.doHandshake(handler, this.baseUrl + "/echo").addCallback(
-				new ListenableFutureCallback<WebSocketSession>() {
+		this.sockJsClient.doHandshake(handler, this.baseUrl + "/echo")
+				.addCallback(new ListenableFutureCallback<WebSocketSession>() {
 					@Override
 					public void onSuccess(WebSocketSession result) {
 					}
@@ -224,8 +222,7 @@ public abstract class AbstractSockJsIntegrationTests {
 					public void onFailure(Throwable ex) {
 						latch.countDown();
 					}
-				}
-		);
+				});
 		assertThat(latch.await(5000, TimeUnit.MILLISECONDS)).isTrue();
 	}
 
@@ -258,7 +255,6 @@ public abstract class AbstractSockJsIntegrationTests {
 		clientSession.close();
 	}
 
-
 	private void testEcho(int messageCount, Transport transport, WebSocketHttpHeaders headers) throws Exception {
 		List<TextMessage> messages = new ArrayList<>();
 		for (int i = 0; i < messageCount; i++) {
@@ -279,8 +275,7 @@ public abstract class AbstractSockJsIntegrationTests {
 		session.close();
 	}
 
-	private void testReceiveOneMessage(Transport transport, WebSocketHttpHeaders headers)
-			throws Exception {
+	private void testReceiveOneMessage(Transport transport, WebSocketHttpHeaders headers) throws Exception {
 
 		TestClientHandler clientHandler = new TestClientHandler();
 		initSockJsClient(transport);
@@ -297,7 +292,7 @@ public abstract class AbstractSockJsIntegrationTests {
 
 	private static void awaitEvent(BooleanSupplier condition, long timeToWait, String description) {
 		long timeToSleep = 200;
-		for (int i = 0 ; i < Math.floor(timeToWait / timeToSleep); i++) {
+		for (int i = 0; i < Math.floor(timeToWait / timeToSleep); i++) {
 			if (condition.getAsBoolean()) {
 				return;
 			}
@@ -310,7 +305,6 @@ public abstract class AbstractSockJsIntegrationTests {
 		}
 		throw new IllegalStateException("Timed out waiting for " + description);
 	}
-
 
 	@Configuration
 	@EnableWebSocket
@@ -330,6 +324,7 @@ public abstract class AbstractSockJsIntegrationTests {
 		public TestServerHandler testServerHandler() {
 			return new TestServerHandler();
 		}
+
 	}
 
 	private static class TestClientHandler extends TextWebSocketHandler {
@@ -339,7 +334,6 @@ public abstract class AbstractSockJsIntegrationTests {
 		private volatile WebSocketSession session;
 
 		private volatile Throwable transportError;
-
 
 		@Override
 		public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -373,6 +367,7 @@ public abstract class AbstractSockJsIntegrationTests {
 				fail("Timed out waiting for [" + expected + "]");
 			}
 		}
+
 	}
 
 	private static class EchoHandler extends TextWebSocketHandler {
@@ -381,6 +376,7 @@ public abstract class AbstractSockJsIntegrationTests {
 		protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 			session.sendMessage(message);
 		}
+
 	}
 
 	private static class TestServerHandler extends TextWebSocketHandler {
@@ -396,6 +392,7 @@ public abstract class AbstractSockJsIntegrationTests {
 			awaitEvent(() -> this.session != null, timeToWait, " session");
 			return this.session;
 		}
+
 	}
 
 	private static class TestFilter implements Filter {
@@ -405,7 +402,6 @@ public abstract class AbstractSockJsIntegrationTests {
 		private final Map<String, Long> sleepDelayMap = new HashMap<>();
 
 		private final Map<String, Integer> sendErrorMap = new HashMap<>();
-
 
 		@Override
 		public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -443,6 +439,7 @@ public abstract class AbstractSockJsIntegrationTests {
 		@Override
 		public void destroy() {
 		}
+
 	}
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2021 the original author or authors.
+ * Copyright 2002-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,7 +65,7 @@ public class ResourceHandlerRegistryTests {
 
 
 	@BeforeEach
-	public void setup() {
+	public void setUp() {
 		GenericWebApplicationContext appContext = new GenericWebApplicationContext();
 		appContext.refresh();
 
@@ -77,14 +77,8 @@ public class ResourceHandlerRegistryTests {
 		this.response = new MockHttpServletResponse();
 	}
 
-	private ResourceHttpRequestHandler getHandler(String pathPattern) {
-		SimpleUrlHandlerMapping hm = (SimpleUrlHandlerMapping) this.registry.getHandlerMapping();
-		return (ResourceHttpRequestHandler) hm.getUrlMap().get(pathPattern);
-	}
-
-
 	@Test
-	public void noResourceHandlers() {
+	public void noResourceHandlers() throws Exception {
 		this.registry = new ResourceHandlerRegistry(new GenericWebApplicationContext(), new MockServletContext());
 		assertThat((Object) this.registry.getHandlerMapping()).isNull();
 	}
@@ -133,7 +127,7 @@ public class ResourceHandlerRegistryTests {
 	}
 
 	@Test
-	public void resourceChain() {
+	public void resourceChain() throws Exception {
 		ResourceResolver mockResolver = Mockito.mock(ResourceResolver.class);
 		ResourceTransformer mockTransformer = Mockito.mock(ResourceTransformer.class);
 		this.registration.resourceChain(true).addResolver(mockResolver).addTransformer(mockTransformer);
@@ -155,7 +149,7 @@ public class ResourceHandlerRegistryTests {
 	}
 
 	@Test
-	public void resourceChainWithoutCaching() {
+	public void resourceChainWithoutCaching() throws Exception {
 		this.registration.resourceChain(false);
 
 		ResourceHttpRequestHandler handler = getHandler("/resources/**");
@@ -169,7 +163,7 @@ public class ResourceHandlerRegistryTests {
 	}
 
 	@Test
-	public void resourceChainWithVersionResolver() {
+	public void resourceChainWithVersionResolver() throws Exception {
 		VersionResourceResolver versionResolver = new VersionResourceResolver()
 				.addFixedVersionStrategy("fixed", "/**/*.js")
 				.addContentVersionStrategy("/**");
@@ -193,7 +187,7 @@ public class ResourceHandlerRegistryTests {
 	}
 
 	@Test
-	public void resourceChainWithOverrides() {
+	public void resourceChainWithOverrides() throws Exception {
 		CachingResourceResolver cachingResolver = Mockito.mock(CachingResourceResolver.class);
 		VersionResourceResolver versionResolver = Mockito.mock(VersionResourceResolver.class);
 		WebJarsResourceResolver webjarsResolver = Mockito.mock(WebJarsResourceResolver.class);
@@ -228,7 +222,7 @@ public class ResourceHandlerRegistryTests {
 	}
 
 	@Test
-	public void urlResourceWithCharset()  {
+	public void urlResourceWithCharset() throws Exception {
 		this.registration.addResourceLocations("[charset=ISO-8859-1]file:///tmp");
 		this.registration.resourceChain(true);
 
@@ -242,6 +236,11 @@ public class ResourceHandlerRegistryTests {
 		Map<Resource, Charset> locationCharsets = resolver.getLocationCharsets();
 		assertThat(locationCharsets.size()).isEqualTo(1);
 		assertThat(locationCharsets.values().iterator().next()).isEqualTo(StandardCharsets.ISO_8859_1);
+	}
+
+	private ResourceHttpRequestHandler getHandler(String pathPattern) {
+		SimpleUrlHandlerMapping hm = (SimpleUrlHandlerMapping) this.registry.getHandlerMapping();
+		return (ResourceHttpRequestHandler) hm.getUrlMap().get(pathPattern);
 	}
 
 }

@@ -81,7 +81,8 @@ public class CacheErrorHandlerTests {
 	public void getAndPutFail() {
 		UnsupportedOperationException exception = new UnsupportedOperationException("Test exception on get");
 		willThrow(exception).given(this.cache).get(0L);
-		willThrow(exception).given(this.cache).put(0L, 0L); // Update of the cache will fail as well
+		willThrow(exception).given(this.cache).put(0L, 0L); // Update of the cache will
+															// fail as well
 
 		Object counter = this.simpleService.get(0L);
 
@@ -99,9 +100,8 @@ public class CacheErrorHandlerTests {
 
 		this.cacheInterceptor.setErrorHandler(new SimpleCacheErrorHandler());
 
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-				this.simpleService.get(0L))
-			.withMessage("Test exception on get");
+		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> this.simpleService.get(0L))
+				.withMessage("Test exception on get");
 	}
 
 	@Test
@@ -120,9 +120,8 @@ public class CacheErrorHandlerTests {
 
 		this.cacheInterceptor.setErrorHandler(new SimpleCacheErrorHandler());
 
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-				this.simpleService.put(0L))
-			.withMessage("Test exception on put");
+		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> this.simpleService.put(0L))
+				.withMessage("Test exception on put");
 	}
 
 	@Test
@@ -141,9 +140,8 @@ public class CacheErrorHandlerTests {
 
 		this.cacheInterceptor.setErrorHandler(new SimpleCacheErrorHandler());
 
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-				this.simpleService.evict(0L))
-			.withMessage("Test exception on evict");
+		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> this.simpleService.evict(0L))
+				.withMessage("Test exception on evict");
 	}
 
 	@Test
@@ -162,11 +160,9 @@ public class CacheErrorHandlerTests {
 
 		this.cacheInterceptor.setErrorHandler(new SimpleCacheErrorHandler());
 
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-				this.simpleService.clear())
-			.withMessage("Test exception on clear");
+		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> this.simpleService.clear())
+				.withMessage("Test exception on clear");
 	}
-
 
 	@Configuration
 	@EnableCaching
@@ -202,6 +198,7 @@ public class CacheErrorHandlerTests {
 
 	@CacheConfig(cacheNames = "test")
 	public static class SimpleService {
+
 		private AtomicLong counter = new AtomicLong();
 
 		@Cacheable
@@ -221,6 +218,7 @@ public class CacheErrorHandlerTests {
 		@CacheEvict(allEntries = true)
 		public void clear() {
 		}
+
 	}
 
 }

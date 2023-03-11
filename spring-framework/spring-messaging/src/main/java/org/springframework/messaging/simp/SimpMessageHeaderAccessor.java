@@ -35,8 +35,9 @@ import org.springframework.util.CollectionUtils;
  * across protocols such as a destination, message type (e.g. publish, subscribe, etc),
  * session id, and others.
  *
- * <p>Use one of the static factory method in this class, then call getters and setters,
- * and at the end if necessary call {@link #toMap()} to obtain the updated headers.
+ * <p>
+ * Use one of the static factory method in this class, then call getters and setters, and
+ * at the end if necessary call {@link #toMap()} to obtain the updated headers.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -71,27 +72,24 @@ public class SimpMessageHeaderAccessor extends NativeMessageHeaderAccessor {
 
 	public static final String HEART_BEAT_HEADER = "simpHeartbeat";
 
-
 	/**
-	 * A header for internal use with "user" destinations where we need to
-	 * restore the destination prior to sending messages to clients.
+	 * A header for internal use with "user" destinations where we need to restore the
+	 * destination prior to sending messages to clients.
 	 */
 	public static final String ORIGINAL_DESTINATION = "simpOrigDestination";
 
 	/**
-	 * A header that indicates to the broker that the sender will ignore errors.
-	 * The header is simply checked for presence or absence.
+	 * A header that indicates to the broker that the sender will ignore errors. The
+	 * header is simply checked for presence or absence.
 	 */
 	public static final String IGNORE_ERROR = "simpIgnoreError";
-
 
 	@Nullable
 	private Consumer<Principal> userCallback;
 
-
 	/**
-	 * A constructor for creating new message headers.
-	 * This constructor is protected. See factory methods in this and sub-classes.
+	 * A constructor for creating new message headers. This constructor is protected. See
+	 * factory methods in this and sub-classes.
 	 */
 	protected SimpMessageHeaderAccessor(SimpMessageType messageType,
 			@Nullable Map<String, List<String>> externalSourceHeaders) {
@@ -110,7 +108,6 @@ public class SimpMessageHeaderAccessor extends NativeMessageHeaderAccessor {
 		super(message);
 		headerInitializer.initHeaders(this);
 	}
-
 
 	@Override
 	protected MessageHeaderAccessor createAccessor(Message<?> message) {
@@ -190,9 +187,9 @@ public class SimpMessageHeaderAccessor extends NativeMessageHeaderAccessor {
 	}
 
 	/**
-	 * Provide a callback to be invoked if and when {@link #setUser(Principal)}
-	 * is called. This is used internally on the inbound channel to detect
-	 * token-based authentications through an interceptor.
+	 * Provide a callback to be invoked if and when {@link #setUser(Principal)} is called.
+	 * This is used internally on the inbound channel to detect token-based
+	 * authentications through an interceptor.
 	 * @param callback the callback to invoke
 	 * @since 5.1.9
 	 */
@@ -251,12 +248,11 @@ public class SimpMessageHeaderAccessor extends NativeMessageHeaderAccessor {
 		return sb;
 	}
 
-
 	// Static factory methods and accessors
 
 	/**
-	 * Create an instance with
-	 * {@link org.springframework.messaging.simp.SimpMessageType} {@code MESSAGE}.
+	 * Create an instance with {@link org.springframework.messaging.simp.SimpMessageType}
+	 * {@code MESSAGE}.
 	 */
 	public static SimpMessageHeaderAccessor create() {
 		return new SimpMessageHeaderAccessor(SimpMessageType.MESSAGE, null);

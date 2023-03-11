@@ -25,11 +25,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Simple implementation of {@link org.springframework.context.MessageSource}
- * which allows messages to be registered programmatically.
- * This MessageSource supports basic internationalization.
+ * Simple implementation of {@link org.springframework.context.MessageSource} which allows
+ * messages to be registered programmatically. This MessageSource supports basic
+ * internationalization.
  *
- * <p>Intended for testing rather than for use in production systems.
+ * <p>
+ * Intended for testing rather than for use in production systems.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -37,7 +38,6 @@ import org.springframework.util.Assert;
 public class StaticMessageSource extends AbstractMessageSource {
 
 	private final Map<String, Map<Locale, MessageHolder>> messageMap = new HashMap<>();
-
 
 	@Override
 	@Nullable
@@ -85,8 +85,8 @@ public class StaticMessageSource extends AbstractMessageSource {
 
 	/**
 	 * Associate the given message values with the given keys as codes.
-	 * @param messages the messages to register, with messages codes
-	 * as keys and message texts as values
+	 * @param messages the messages to register, with messages codes as keys and message
+	 * texts as values
 	 * @param locale the locale that the messages should be found within
 	 */
 	public void addMessages(Map<String, String> messages, Locale locale) {
@@ -94,12 +94,10 @@ public class StaticMessageSource extends AbstractMessageSource {
 		messages.forEach((code, msg) -> addMessage(code, locale, msg));
 	}
 
-
 	@Override
 	public String toString() {
 		return getClass().getName() + ": " + this.messageMap;
 	}
-
 
 	private class MessageHolder {
 
@@ -132,6 +130,7 @@ public class StaticMessageSource extends AbstractMessageSource {
 		public String toString() {
 			return this.message;
 		}
+
 	}
 
 }

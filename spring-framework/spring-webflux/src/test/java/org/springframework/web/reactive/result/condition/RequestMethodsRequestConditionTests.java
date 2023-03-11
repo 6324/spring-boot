@@ -122,7 +122,6 @@ public class RequestMethodsRequestConditionTests {
 		assertThat(result.getContent().size()).isEqualTo(2);
 	}
 
-
 	private void testMatch(RequestMethodsRequestCondition condition, RequestMethod method) throws Exception {
 		ServerWebExchange exchange = getExchange(method.name());
 		RequestMethodsRequestCondition actual = condition.getMatchingCondition(exchange);

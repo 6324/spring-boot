@@ -20,10 +20,10 @@ import org.springframework.beans.factory.Aware;
 import org.springframework.core.type.AnnotationMetadata;
 
 /**
- * Interface to be implemented by any @{@link Configuration} class that wishes
- * to be injected with the {@link AnnotationMetadata} of the @{@code Configuration}
- * class that imported it. Useful in conjunction with annotations that
- * use @{@link Import} as a meta-annotation.
+ * Interface to be implemented by any @{@link Configuration} class that wishes to be
+ * injected with the {@link AnnotationMetadata} of the @{@code Configuration} class that
+ * imported it. Useful in conjunction with annotations that use @{@link Import} as a
+ * meta-annotation.
  *
  * @author Chris Beams
  * @since 3.1

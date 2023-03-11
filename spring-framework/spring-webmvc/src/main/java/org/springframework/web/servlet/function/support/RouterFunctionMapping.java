@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2021 the original author or authors.
+ * Copyright 2002-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,6 +59,7 @@ public class RouterFunctionMapping extends AbstractHandlerMapping implements Ini
 	private boolean detectHandlerFunctionsInAncestorContexts = false;
 
 
+
 	/**
 	 * Create an empty {@code RouterFunctionMapping}.
 	 * <p>If this constructor is used, this mapping will detect all
@@ -75,7 +76,6 @@ public class RouterFunctionMapping extends AbstractHandlerMapping implements Ini
 	public RouterFunctionMapping(RouterFunction<?> routerFunction) {
 		this.routerFunction = routerFunction;
 	}
-
 
 	/**
 	 * Set the router function to map to.
@@ -97,10 +97,6 @@ public class RouterFunctionMapping extends AbstractHandlerMapping implements Ini
 		return this.routerFunction;
 	}
 
-	/**
-	 * Set the message body converters to use.
-	 * <p>These converters are used to convert from and to HTTP requests and responses.
-	 */
 	public void setMessageConverters(List<HttpMessageConverter<?>> messageConverters) {
 		this.messageConverters = messageConverters;
 	}
@@ -116,7 +112,6 @@ public class RouterFunctionMapping extends AbstractHandlerMapping implements Ini
 	public void setDetectHandlerFunctionsInAncestorContexts(boolean detectHandlerFunctionsInAncestorContexts) {
 		this.detectHandlerFunctionsInAncestorContexts = detectHandlerFunctionsInAncestorContexts;
 	}
-
 
 	@Override
 	public void afterPropertiesSet() throws Exception {

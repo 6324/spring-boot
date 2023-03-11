@@ -30,9 +30,10 @@ import org.springframework.util.StringUtils;
 /**
  * Parser for the &lt;context:mbean-export/&gt; element.
  *
- * <p>Registers an instance of
- * {@link org.springframework.jmx.export.annotation.AnnotationMBeanExporter}
- * within the context.
+ * <p>
+ * Registers an instance of
+ * {@link org.springframework.jmx.export.annotation.AnnotationMBeanExporter} within the
+ * context.
  *
  * @author Juergen Hoeller
  * @author Mark Fisher
@@ -52,7 +53,6 @@ class MBeanExportBeanDefinitionParser extends AbstractBeanDefinitionParser {
 	private static final String REGISTRATION_IGNORE_EXISTING = "ignoreExisting";
 
 	private static final String REGISTRATION_REPLACE_EXISTING = "replaceExisting";
-
 
 	@Override
 	protected String resolveId(Element element, AbstractBeanDefinition definition, ParserContext parserContext) {

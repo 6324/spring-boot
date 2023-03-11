@@ -36,8 +36,8 @@ import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.util.Assert;
 
 /**
- * A messaging template that resolves destinations names to {@link MessageChannel}'s
- * to send and receive messages from.
+ * A messaging template that resolves destinations names to {@link MessageChannel}'s to
+ * send and receive messages from.
  *
  * @author Mark Fisher
  * @author Rossen Stoyanchev
@@ -67,10 +67,9 @@ public class GenericMessagingTemplate extends AbstractDestinationResolvingMessag
 
 	private volatile boolean throwExceptionOnLateReply = false;
 
-
 	/**
-	 * Configure the default timeout value to use for send operations.
-	 * May be overridden for individual messages.
+	 * Configure the default timeout value to use for send operations. May be overridden
+	 * for individual messages.
 	 * @param sendTimeout the send timeout in milliseconds
 	 * @see #setSendTimeoutHeader(String)
 	 */
@@ -86,9 +85,8 @@ public class GenericMessagingTemplate extends AbstractDestinationResolvingMessag
 	}
 
 	/**
-	 * Configure the default timeout value to use for receive operations.
-	 * May be overridden for individual messages when using sendAndReceive
-	 * operations.
+	 * Configure the default timeout value to use for receive operations. May be
+	 * overridden for individual messages when using sendAndReceive operations.
 	 * @param receiveTimeout the receive timeout in milliseconds
 	 * @see #setReceiveTimeoutHeader(String)
 	 */
@@ -104,9 +102,10 @@ public class GenericMessagingTemplate extends AbstractDestinationResolvingMessag
 	}
 
 	/**
-	 * Set the name of the header used to determine the send timeout (if present).
-	 * Default {@value #DEFAULT_SEND_TIMEOUT_HEADER}.
-	 * <p>The header is removed before sending the message to avoid propagation.
+	 * Set the name of the header used to determine the send timeout (if present). Default
+	 * {@value #DEFAULT_SEND_TIMEOUT_HEADER}.
+	 * <p>
+	 * The header is removed before sending the message to avoid propagation.
 	 * @since 5.0
 	 */
 	public void setSendTimeoutHeader(String sendTimeoutHeader) {
@@ -123,9 +122,9 @@ public class GenericMessagingTemplate extends AbstractDestinationResolvingMessag
 	}
 
 	/**
-	 * Set the name of the header used to determine the send timeout (if present).
-	 * Default {@value #DEFAULT_RECEIVE_TIMEOUT_HEADER}.
-	 * The header is removed before sending the message to avoid propagation.
+	 * Set the name of the header used to determine the send timeout (if present). Default
+	 * {@value #DEFAULT_RECEIVE_TIMEOUT_HEADER}. The header is removed before sending the
+	 * message to avoid propagation.
 	 * @since 5.0
 	 */
 	public void setReceiveTimeoutHeader(String receiveTimeoutHeader) {
@@ -142,13 +141,14 @@ public class GenericMessagingTemplate extends AbstractDestinationResolvingMessag
 	}
 
 	/**
-	 * Whether the thread sending a reply should have an exception raised if the
-	 * receiving thread isn't going to receive the reply either because it timed out,
-	 * or because it already received a reply, or because it got an exception while
-	 * sending the request message.
-	 * <p>The default value is {@code false} in which case only a WARN message is logged.
-	 * If set to {@code true} a {@link MessageDeliveryException} is raised in addition
-	 * to the log message.
+	 * Whether the thread sending a reply should have an exception raised if the receiving
+	 * thread isn't going to receive the reply either because it timed out, or because it
+	 * already received a reply, or because it got an exception while sending the request
+	 * message.
+	 * <p>
+	 * The default value is {@code false} in which case only a WARN message is logged. If
+	 * set to {@code true} a {@link MessageDeliveryException} is raised in addition to the
+	 * log message.
 	 * @param throwExceptionOnLateReply whether to throw an exception or not
 	 */
 	public void setThrowExceptionOnLateReply(boolean throwExceptionOnLateReply) {
@@ -159,7 +159,6 @@ public class GenericMessagingTemplate extends AbstractDestinationResolvingMessag
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		setDestinationResolver(new BeanFactoryMessageChannelDestinationResolver(beanFactory));
 	}
-
 
 	@Override
 	protected final void doSend(MessageChannel channel, Message<?> message) {
@@ -178,10 +177,8 @@ public class GenericMessagingTemplate extends AbstractDestinationResolvingMessag
 		}
 		else if (message.getHeaders().containsKey(this.sendTimeoutHeader)
 				|| message.getHeaders().containsKey(this.receiveTimeoutHeader)) {
-			messageToSend = MessageBuilder.fromMessage(message)
-					.setHeader(this.sendTimeoutHeader, null)
-					.setHeader(this.receiveTimeoutHeader, null)
-					.build();
+			messageToSend = MessageBuilder.fromMessage(message).setHeader(this.sendTimeoutHeader, null)
+					.setHeader(this.receiveTimeoutHeader, null).build();
 		}
 
 		boolean sent = (timeout >= 0 ? channel.send(messageToSend, timeout) : channel.send(messageToSend));
@@ -203,8 +200,8 @@ public class GenericMessagingTemplate extends AbstractDestinationResolvingMessag
 		Assert.notNull(channel, "MessageChannel is required");
 		Assert.state(channel instanceof PollableChannel, "A PollableChannel is required to receive messages");
 
-		Message<?> message = (timeout >= 0 ?
-				((PollableChannel) channel).receive(timeout) : ((PollableChannel) channel).receive());
+		Message<?> message = (timeout >= 0 ? ((PollableChannel) channel).receive(timeout)
+				: ((PollableChannel) channel).receive());
 
 		if (message == null && logger.isTraceEnabled()) {
 			logger.trace("Failed to receive message from channel '" + channel + "' within timeout: " + timeout);
@@ -225,8 +222,7 @@ public class GenericMessagingTemplate extends AbstractDestinationResolvingMessag
 
 		TemporaryReplyChannel tempReplyChannel = new TemporaryReplyChannel(this.throwExceptionOnLateReply);
 		requestMessage = MessageBuilder.fromMessage(requestMessage).setReplyChannel(tempReplyChannel)
-				.setHeader(this.sendTimeoutHeader, null)
-				.setHeader(this.receiveTimeoutHeader, null)
+				.setHeader(this.sendTimeoutHeader, null).setHeader(this.receiveTimeoutHeader, null)
 				.setErrorChannel(tempReplyChannel).build();
 
 		try {
@@ -241,8 +237,7 @@ public class GenericMessagingTemplate extends AbstractDestinationResolvingMessag
 		if (replyMessage != null) {
 			replyMessage = MessageBuilder.fromMessage(replyMessage)
 					.setHeader(MessageHeaders.REPLY_CHANNEL, originalReplyChannelHeader)
-					.setHeader(MessageHeaders.ERROR_CHANNEL, originalErrorChannelHeader)
-					.build();
+					.setHeader(MessageHeaders.ERROR_CHANNEL, originalErrorChannelHeader).build();
 		}
 
 		return replyMessage;
@@ -270,7 +265,6 @@ public class GenericMessagingTemplate extends AbstractDestinationResolvingMessag
 			return null;
 		}
 	}
-
 
 	/**
 	 * A temporary channel for receiving a single reply message.
@@ -348,8 +342,8 @@ public class GenericMessagingTemplate extends AbstractDestinationResolvingMessag
 				errorDescription = "Reply message received but the receiving thread has already received a reply";
 			}
 			else if (this.hasSendFailed) {
-				errorDescription = "Reply message received but the receiving thread has exited due to " +
-						"an exception while sending the request message";
+				errorDescription = "Reply message received but the receiving thread has exited due to "
+						+ "an exception while sending the request message";
 			}
 
 			if (errorDescription != null) {
@@ -363,6 +357,7 @@ public class GenericMessagingTemplate extends AbstractDestinationResolvingMessag
 
 			return true;
 		}
+
 	}
 
 }

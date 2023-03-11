@@ -31,11 +31,12 @@ import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.lang.Nullable;
 
 /**
- * Bean that checks if a database has already started up. To be referenced
- * via "depends-on" from beans that depend on database startup, like a Hibernate
+ * Bean that checks if a database has already started up. To be referenced via
+ * "depends-on" from beans that depend on database startup, like a Hibernate
  * SessionFactory or custom data access objects that access a DataSource directly.
  *
- * <p>Useful to defer application initialization until a database has started up.
+ * <p>
+ * Useful to defer application initialization until a database has started up.
  * Particularly appropriate for waiting on a slowly starting Oracle database.
  *
  * @author Juergen Hoeller
@@ -53,7 +54,6 @@ public class DatabaseStartupValidator implements InitializingBean {
 	 */
 	public static final int DEFAULT_TIMEOUT = 60;
 
-
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	@Nullable
@@ -65,7 +65,6 @@ public class DatabaseStartupValidator implements InitializingBean {
 	private int interval = DEFAULT_INTERVAL;
 
 	private int timeout = DEFAULT_TIMEOUT;
-
 
 	/**
 	 * Set the DataSource to validate.
@@ -82,26 +81,25 @@ public class DatabaseStartupValidator implements InitializingBean {
 	}
 
 	/**
-	 * Set the interval between validation runs (in seconds).
-	 * Default is {@value #DEFAULT_INTERVAL}.
+	 * Set the interval between validation runs (in seconds). Default is
+	 * {@value #DEFAULT_INTERVAL}.
 	 */
 	public void setInterval(int interval) {
 		this.interval = interval;
 	}
 
 	/**
-	 * Set the timeout (in seconds) after which a fatal exception
-	 * will be thrown. Default is {@value #DEFAULT_TIMEOUT}.
+	 * Set the timeout (in seconds) after which a fatal exception will be thrown. Default
+	 * is {@value #DEFAULT_TIMEOUT}.
 	 */
 	public void setTimeout(int timeout) {
 		this.timeout = timeout;
 	}
 
-
 	/**
-	 * Check whether the validation query can be executed on a Connection
-	 * from the specified DataSource, with the specified interval between
-	 * checks, until the specified timeout.
+	 * Check whether the validation query can be executed on a Connection from the
+	 * specified DataSource, with the specified interval between checks, until the
+	 * specified timeout.
 	 */
 	@Override
 	public void afterPropertiesSet() {
@@ -124,8 +122,8 @@ public class DatabaseStartupValidator implements InitializingBean {
 				try {
 					con = this.dataSource.getConnection();
 					if (con == null) {
-						throw new CannotGetJdbcConnectionException("Failed to execute validation query: " +
-								"DataSource returned null from getConnection(): " + this.dataSource);
+						throw new CannotGetJdbcConnectionException("Failed to execute validation query: "
+								+ "DataSource returned null from getConnection(): " + this.dataSource);
 					}
 					stmt = con.createStatement();
 					stmt.execute(this.validationQuery);
@@ -139,8 +137,8 @@ public class DatabaseStartupValidator implements InitializingBean {
 					if (logger.isInfoEnabled()) {
 						float rest = ((float) (deadLine - System.currentTimeMillis())) / 1000;
 						if (rest > this.interval) {
-							logger.info("Database has not started up yet - retrying in " + this.interval +
-									" seconds (timeout in " + rest + " seconds)");
+							logger.info("Database has not started up yet - retrying in " + this.interval
+									+ " seconds (timeout in " + rest + " seconds)");
 						}
 					}
 				}

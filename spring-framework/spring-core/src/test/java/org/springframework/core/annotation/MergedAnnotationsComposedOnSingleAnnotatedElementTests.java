@@ -57,17 +57,14 @@ class MergedAnnotationsComposedOnSingleAnnotatedElementTests {
 
 	@Test
 	void inheritedStrategyMultipleNoninheritedComposedAnnotationsOnClass() {
-		MergedAnnotations annotations = MergedAnnotations.from(
-				MultipleNoninheritedComposedCachesClass.class,
+		MergedAnnotations annotations = MergedAnnotations.from(MultipleNoninheritedComposedCachesClass.class,
 				SearchStrategy.INHERITED_ANNOTATIONS);
-		assertThat(stream(annotations, "value")).containsExactly("noninheritedCache1",
-				"noninheritedCache2");
+		assertThat(stream(annotations, "value")).containsExactly("noninheritedCache1", "noninheritedCache2");
 	}
 
 	@Test
 	void inheritedStrategyMultipleNoninheritedComposedAnnotationsOnSuperclass() {
-		MergedAnnotations annotations = MergedAnnotations.from(
-				SubMultipleNoninheritedComposedCachesClass.class,
+		MergedAnnotations annotations = MergedAnnotations.from(SubMultipleNoninheritedComposedCachesClass.class,
 				SearchStrategy.INHERITED_ANNOTATIONS);
 		assertThat(annotations.stream(Cacheable.class)).isEmpty();
 	}
@@ -79,27 +76,23 @@ class MergedAnnotationsComposedOnSingleAnnotatedElementTests {
 
 	@Test
 	void inheritedStrategyMultipleComposedAnnotationsOnInterface() {
-		MergedAnnotations annotations = MergedAnnotations.from(
-				MultipleComposedCachesOnInterfaceClass.class,
+		MergedAnnotations annotations = MergedAnnotations.from(MultipleComposedCachesOnInterfaceClass.class,
 				SearchStrategy.INHERITED_ANNOTATIONS);
 		assertThat(annotations.stream(Cacheable.class)).isEmpty();
 	}
 
 	@Test
 	void inheritedStrategyMultipleComposedAnnotationsOnMethod() throws Exception {
-		assertInheritedStrategyBehavior(
-				getClass().getDeclaredMethod("multipleComposedCachesMethod"));
+		assertInheritedStrategyBehavior(getClass().getDeclaredMethod("multipleComposedCachesMethod"));
 	}
 
 	@Test
 	void inheritedStrategyComposedPlusLocalAnnotationsOnMethod() throws Exception {
-		assertInheritedStrategyBehavior(
-				getClass().getDeclaredMethod("composedPlusLocalCachesMethod"));
+		assertInheritedStrategyBehavior(getClass().getDeclaredMethod("composedPlusLocalCachesMethod"));
 	}
 
 	private void assertInheritedStrategyBehavior(AnnotatedElement element) {
-		MergedAnnotations annotations = MergedAnnotations.from(element,
-				SearchStrategy.INHERITED_ANNOTATIONS);
+		MergedAnnotations annotations = MergedAnnotations.from(element, SearchStrategy.INHERITED_ANNOTATIONS);
 		assertThat(stream(annotations, "key")).containsExactly("fooKey", "barKey");
 		assertThat(stream(annotations, "value")).containsExactly("fooCache", "barCache");
 	}
@@ -116,19 +109,16 @@ class MergedAnnotationsComposedOnSingleAnnotatedElementTests {
 
 	@Test
 	void typeHierarchyStrategyMultipleNoninheritedComposedAnnotationsOnClass() {
-		MergedAnnotations annotations = MergedAnnotations.from(
-				MultipleNoninheritedComposedCachesClass.class, SearchStrategy.TYPE_HIERARCHY);
-		assertThat(stream(annotations, "value")).containsExactly("noninheritedCache1",
-				"noninheritedCache2");
+		MergedAnnotations annotations = MergedAnnotations.from(MultipleNoninheritedComposedCachesClass.class,
+				SearchStrategy.TYPE_HIERARCHY);
+		assertThat(stream(annotations, "value")).containsExactly("noninheritedCache1", "noninheritedCache2");
 	}
 
 	@Test
 	void typeHierarchyStrategyMultipleNoninheritedComposedAnnotationsOnSuperclass() {
-		MergedAnnotations annotations = MergedAnnotations.from(
-				SubMultipleNoninheritedComposedCachesClass.class,
+		MergedAnnotations annotations = MergedAnnotations.from(SubMultipleNoninheritedComposedCachesClass.class,
 				SearchStrategy.TYPE_HIERARCHY);
-		assertThat(stream(annotations, "value")).containsExactly("noninheritedCache1",
-				"noninheritedCache2");
+		assertThat(stream(annotations, "value")).containsExactly("noninheritedCache1", "noninheritedCache2");
 	}
 
 	@Test
@@ -143,32 +133,26 @@ class MergedAnnotationsComposedOnSingleAnnotatedElementTests {
 
 	@Test
 	void typeHierarchyStrategyComposedCacheOnInterfaceAndLocalCacheOnClass() {
-		assertTypeHierarchyStrategyBehavior(
-				ComposedCacheOnInterfaceAndLocalCacheClass.class);
+		assertTypeHierarchyStrategyBehavior(ComposedCacheOnInterfaceAndLocalCacheClass.class);
 	}
 
 	@Test
 	void typeHierarchyStrategyMultipleComposedAnnotationsOnMethod() throws Exception {
-		assertTypeHierarchyStrategyBehavior(
-				getClass().getDeclaredMethod("multipleComposedCachesMethod"));
+		assertTypeHierarchyStrategyBehavior(getClass().getDeclaredMethod("multipleComposedCachesMethod"));
 	}
 
 	@Test
-	void typeHierarchyStrategyComposedPlusLocalAnnotationsOnMethod()
-			throws Exception {
-		assertTypeHierarchyStrategyBehavior(
-				getClass().getDeclaredMethod("composedPlusLocalCachesMethod"));
+	void typeHierarchyStrategyComposedPlusLocalAnnotationsOnMethod() throws Exception {
+		assertTypeHierarchyStrategyBehavior(getClass().getDeclaredMethod("composedPlusLocalCachesMethod"));
 	}
 
 	@Test
-	void typeHierarchyStrategyMultipleComposedAnnotationsOnBridgeMethod()
-			throws Exception {
+	void typeHierarchyStrategyMultipleComposedAnnotationsOnBridgeMethod() throws Exception {
 		assertTypeHierarchyStrategyBehavior(getBridgeMethod());
 	}
 
 	private void assertTypeHierarchyStrategyBehavior(AnnotatedElement element) {
-		MergedAnnotations annotations = MergedAnnotations.from(element,
-				SearchStrategy.TYPE_HIERARCHY);
+		MergedAnnotations annotations = MergedAnnotations.from(element, SearchStrategy.TYPE_HIERARCHY);
 		assertThat(stream(annotations, "key")).containsExactly("fooKey", "barKey");
 		assertThat(stream(annotations, "value")).containsExactly("fooCache", "barCache");
 	}
@@ -180,16 +164,13 @@ class MergedAnnotationsComposedOnSingleAnnotatedElementTests {
 				methods.add(method);
 			}
 		});
-		Method bridgeMethod = methods.get(0).getReturnType().equals(Object.class)
-				? methods.get(0)
-				: methods.get(1);
+		Method bridgeMethod = methods.get(0).getReturnType().equals(Object.class) ? methods.get(0) : methods.get(1);
 		assertThat(bridgeMethod.isBridge()).isTrue();
 		return bridgeMethod;
 	}
 
 	private Stream<String> stream(MergedAnnotations annotations, String attributeName) {
-		return annotations.stream(Cacheable.class).map(
-				annotation -> annotation.getString(attributeName));
+		return annotations.stream(Cacheable.class).map(annotation -> annotation.getString(attributeName));
 	}
 
 	// @formatter:off

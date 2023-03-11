@@ -27,9 +27,9 @@ import org.springframework.core.serializer.Serializer;
 import org.springframework.util.Assert;
 
 /**
- * A convenient delegate with pre-arranged configuration state for common
- * serialization needs. Implements {@link Serializer} and {@link Deserializer}
- * itself, so can also be passed into such more specific callback methods.
+ * A convenient delegate with pre-arranged configuration state for common serialization
+ * needs. Implements {@link Serializer} and {@link Deserializer} itself, so can also be
+ * passed into such more specific callback methods.
  *
  * @author Juergen Hoeller
  * @since 4.3
@@ -40,10 +40,9 @@ public class SerializationDelegate implements Serializer<Object>, Deserializer<O
 
 	private final Deserializer<Object> deserializer;
 
-
 	/**
-	 * Create a {@code SerializationDelegate} with a default serializer/deserializer
-	 * for the given {@code ClassLoader}.
+	 * Create a {@code SerializationDelegate} with a default serializer/deserializer for
+	 * the given {@code ClassLoader}.
 	 * @see DefaultDeserializer
 	 * @see DefaultDeserializer#DefaultDeserializer(ClassLoader)
 	 */
@@ -63,7 +62,6 @@ public class SerializationDelegate implements Serializer<Object>, Deserializer<O
 		this.serializer = serializer;
 		this.deserializer = deserializer;
 	}
-
 
 	@Override
 	public void serialize(Object object, OutputStream outputStream) throws IOException {

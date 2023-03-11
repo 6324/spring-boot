@@ -50,14 +50,12 @@ public class EnableCachingIntegrationTests {
 
 	private ConfigurableApplicationContext context;
 
-
 	@AfterEach
 	public void closeContext() {
 		if (this.context != null) {
 			this.context.close();
 		}
 	}
-
 
 	@Test
 	public void fooServiceWithInterface() {
@@ -122,7 +120,6 @@ public class EnableCachingIntegrationTests {
 		return this.context.getBean(CacheManager.class).getCache("testCache");
 	}
 
-
 	@Configuration
 	static class SharedConfig extends CachingConfigurerSupport {
 
@@ -131,8 +128,8 @@ public class EnableCachingIntegrationTests {
 		public CacheManager cacheManager() {
 			return CacheTestUtils.createSimpleCacheManager("testCache");
 		}
-	}
 
+	}
 
 	@Configuration
 	@Import(SharedConfig.class)
@@ -143,8 +140,8 @@ public class EnableCachingIntegrationTests {
 		public FooService fooService() {
 			return new FooServiceImpl();
 		}
-	}
 
+	}
 
 	@Configuration
 	@Import(SharedConfig.class)
@@ -155,16 +152,16 @@ public class EnableCachingIntegrationTests {
 		public FooService fooService() {
 			return new FooServiceImpl();
 		}
-	}
 
+	}
 
 	interface FooService {
 
 		Object getSimple(Object key);
 
 		Object getWithCondition(Object key);
-	}
 
+	}
 
 	@CacheConfig(cacheNames = "testCache")
 	static class FooServiceImpl implements FooService {
@@ -182,8 +179,8 @@ public class EnableCachingIntegrationTests {
 		public Object getWithCondition(Object key) {
 			return this.counter.getAndIncrement();
 		}
-	}
 
+	}
 
 	@Configuration
 	@Import(FooConfig.class)
@@ -197,7 +194,6 @@ public class EnableCachingIntegrationTests {
 		public Bar bar() {
 			return new Bar(Boolean.valueOf(env.getProperty("bar.enabled")));
 		}
-
 
 		static class Bar {
 
@@ -213,7 +209,9 @@ public class EnableCachingIntegrationTests {
 				this.count++;
 				return this.enabled;
 			}
+
 		}
+
 	}
 
 }

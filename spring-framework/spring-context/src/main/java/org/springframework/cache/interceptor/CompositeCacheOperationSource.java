@@ -25,8 +25,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Composite {@link CacheOperationSource} implementation that iterates
- * over a given array of {@code CacheOperationSource} instances.
+ * Composite {@link CacheOperationSource} implementation that iterates over a given array
+ * of {@code CacheOperationSource} instances.
  *
  * @author Costin Leau
  * @author Juergen Hoeller
@@ -36,7 +36,6 @@ import org.springframework.util.Assert;
 public class CompositeCacheOperationSource implements CacheOperationSource, Serializable {
 
 	private final CacheOperationSource[] cacheOperationSources;
-
 
 	/**
 	 * Create a new CompositeCacheOperationSource for the given sources.
@@ -54,7 +53,6 @@ public class CompositeCacheOperationSource implements CacheOperationSource, Seri
 	public final CacheOperationSource[] getCacheOperationSources() {
 		return this.cacheOperationSources;
 	}
-
 
 	@Override
 	public boolean isCandidateClass(Class<?> targetClass) {

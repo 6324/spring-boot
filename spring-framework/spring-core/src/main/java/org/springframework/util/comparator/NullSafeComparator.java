@@ -22,8 +22,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * A Comparator that will safely compare nulls to be lower or higher than
- * other objects. Can decorate a given Comparator or work on Comparables.
+ * A Comparator that will safely compare nulls to be lower or higher than other objects.
+ * Can decorate a given Comparator or work on Comparables.
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -34,36 +34,35 @@ import org.springframework.util.Assert;
 public class NullSafeComparator<T> implements Comparator<T> {
 
 	/**
-	 * A shared default instance of this comparator, treating nulls lower
-	 * than non-null objects.
+	 * A shared default instance of this comparator, treating nulls lower than non-null
+	 * objects.
 	 * @see Comparators#nullsLow()
 	 */
 	@SuppressWarnings("rawtypes")
 	public static final NullSafeComparator NULLS_LOW = new NullSafeComparator<>(true);
 
 	/**
-	 * A shared default instance of this comparator, treating nulls higher
-	 * than non-null objects.
+	 * A shared default instance of this comparator, treating nulls higher than non-null
+	 * objects.
 	 * @see Comparators#nullsHigh()
 	 */
 	@SuppressWarnings("rawtypes")
 	public static final NullSafeComparator NULLS_HIGH = new NullSafeComparator<>(false);
 
-
 	private final Comparator<T> nonNullComparator;
 
 	private final boolean nullsLow;
 
-
 	/**
-	 * Create a NullSafeComparator that sorts {@code null} based on
-	 * the provided flag, working on Comparables.
-	 * <p>When comparing two non-null objects, their Comparable implementation
-	 * will be used: this means that non-null elements (that this Comparator
-	 * will be applied to) need to implement Comparable.
-	 * <p>As a convenience, you can use the default shared instances:
-	 * {@code NullSafeComparator.NULLS_LOW} and
-	 * {@code NullSafeComparator.NULLS_HIGH}.
+	 * Create a NullSafeComparator that sorts {@code null} based on the provided flag,
+	 * working on Comparables.
+	 * <p>
+	 * When comparing two non-null objects, their Comparable implementation will be used:
+	 * this means that non-null elements (that this Comparator will be applied to) need to
+	 * implement Comparable.
+	 * <p>
+	 * As a convenience, you can use the default shared instances:
+	 * {@code NullSafeComparator.NULLS_LOW} and {@code NullSafeComparator.NULLS_HIGH}.
 	 * @param nullsLow whether to treat nulls lower or higher than non-null objects
 	 * @see Comparable
 	 * @see #NULLS_LOW
@@ -76,10 +75,11 @@ public class NullSafeComparator<T> implements Comparator<T> {
 	}
 
 	/**
-	 * Create a NullSafeComparator that sorts {@code null} based on the
-	 * provided flag, decorating the given Comparator.
-	 * <p>When comparing two non-null objects, the specified Comparator will be used.
-	 * The given underlying Comparator must be able to handle the elements that this
+	 * Create a NullSafeComparator that sorts {@code null} based on the provided flag,
+	 * decorating the given Comparator.
+	 * <p>
+	 * When comparing two non-null objects, the specified Comparator will be used. The
+	 * given underlying Comparator must be able to handle the elements that this
 	 * Comparator will be applied to.
 	 * @param comparator the comparator to use when comparing two non-null objects
 	 * @param nullsLow whether to treat nulls lower or higher than non-null objects
@@ -89,7 +89,6 @@ public class NullSafeComparator<T> implements Comparator<T> {
 		this.nonNullComparator = comparator;
 		this.nullsLow = nullsLow;
 	}
-
 
 	@Override
 	public int compare(@Nullable T o1, @Nullable T o2) {
@@ -104,7 +103,6 @@ public class NullSafeComparator<T> implements Comparator<T> {
 		}
 		return this.nonNullComparator.compare(o1, o2);
 	}
-
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -126,8 +124,8 @@ public class NullSafeComparator<T> implements Comparator<T> {
 
 	@Override
 	public String toString() {
-		return "NullSafeComparator: non-null comparator [" + this.nonNullComparator + "]; " +
-				(this.nullsLow ? "nulls low" : "nulls high");
+		return "NullSafeComparator: non-null comparator [" + this.nonNullComparator + "]; "
+				+ (this.nullsLow ? "nulls low" : "nulls high");
 	}
 
 }

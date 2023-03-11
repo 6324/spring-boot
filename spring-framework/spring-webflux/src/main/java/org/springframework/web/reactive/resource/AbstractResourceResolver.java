@@ -36,7 +36,6 @@ public abstract class AbstractResourceResolver implements ResourceResolver {
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
-
 	@Override
 	public Mono<Resource> resolveResource(@Nullable ServerWebExchange exchange, String requestPath,
 			List<? extends Resource> locations, ResourceResolverChain chain) {
@@ -51,11 +50,10 @@ public abstract class AbstractResourceResolver implements ResourceResolver {
 		return resolveUrlPathInternal(resourceUrlPath, locations, chain);
 	}
 
-
-	protected abstract Mono<Resource> resolveResourceInternal(@Nullable ServerWebExchange exchange,
-			String requestPath, List<? extends Resource> locations, ResourceResolverChain chain);
-
-	protected abstract Mono<String> resolveUrlPathInternal(String resourceUrlPath,
+	protected abstract Mono<Resource> resolveResourceInternal(@Nullable ServerWebExchange exchange, String requestPath,
 			List<? extends Resource> locations, ResourceResolverChain chain);
+
+	protected abstract Mono<String> resolveUrlPathInternal(String resourceUrlPath, List<? extends Resource> locations,
+			ResourceResolverChain chain);
 
 }

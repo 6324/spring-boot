@@ -137,13 +137,15 @@ public class ConfigurationClassWithConditionTests {
 
 	@Test
 	public void conditionOnOverriddenMethodHonored() {
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConfigWithBeanSkipped.class);
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
+				ConfigWithBeanSkipped.class);
 		assertThat(context.getBeansOfType(ExampleBean.class).size()).isEqualTo(0);
 	}
 
 	@Test
 	public void noConditionOnOverriddenMethodHonored() {
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConfigWithBeanReactivated.class);
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
+				ConfigWithBeanReactivated.class);
 		Map<String, ExampleBean> beans = context.getBeansOfType(ExampleBean.class);
 		assertThat(beans.size()).isEqualTo(1);
 		assertThat(beans.keySet().iterator().next()).isEqualTo("baz");
@@ -151,12 +153,12 @@ public class ConfigurationClassWithConditionTests {
 
 	@Test
 	public void configWithAlternativeBeans() {
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ConfigWithAlternativeBeans.class);
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
+				ConfigWithAlternativeBeans.class);
 		Map<String, ExampleBean> beans = context.getBeansOfType(ExampleBean.class);
 		assertThat(beans.size()).isEqualTo(1);
 		assertThat(beans.keySet().iterator().next()).isEqualTo("baz");
 	}
-
 
 	@Configuration
 	static class BeanOneConfiguration {
@@ -165,6 +167,7 @@ public class ConfigurationClassWithConditionTests {
 		public ExampleBean bean1() {
 			return new ExampleBean();
 		}
+
 	}
 
 	@Configuration
@@ -175,6 +178,7 @@ public class ConfigurationClassWithConditionTests {
 		public ExampleBean bean2() {
 			return new ExampleBean();
 		}
+
 	}
 
 	@Configuration
@@ -185,6 +189,7 @@ public class ConfigurationClassWithConditionTests {
 		public ExampleBean bean3() {
 			return new ExampleBean();
 		}
+
 	}
 
 	@Configuration
@@ -195,6 +200,7 @@ public class ConfigurationClassWithConditionTests {
 		public ExampleBean bean() {
 			return new ExampleBean();
 		}
+
 	}
 
 	@Conditional(MetaConditionalFilter.class)
@@ -203,19 +209,22 @@ public class ConfigurationClassWithConditionTests {
 	public @interface MetaConditional {
 
 		String value();
+
 	}
 
 	@Conditional(NeverCondition.class)
 	@Retention(RetentionPolicy.RUNTIME)
-	@Target({ElementType.TYPE, ElementType.METHOD})
+	@Target({ ElementType.TYPE, ElementType.METHOD })
 	public @interface Never {
+
 	}
 
 	@Conditional(AlwaysCondition.class)
 	@Never
 	@Retention(RetentionPolicy.RUNTIME)
-	@Target({ElementType.TYPE, ElementType.METHOD})
+	@Target({ ElementType.TYPE, ElementType.METHOD })
 	public @interface MetaNever {
+
 	}
 
 	static class NoBeanOneCondition implements Condition {
@@ -224,6 +233,7 @@ public class ConfigurationClassWithConditionTests {
 		public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
 			return !context.getBeanFactory().containsBeanDefinition("bean1");
 		}
+
 	}
 
 	static class HasBeanOneCondition implements ConfigurationCondition {
@@ -237,16 +247,19 @@ public class ConfigurationClassWithConditionTests {
 		public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
 			return context.getBeanFactory().containsBeanDefinition("bean1");
 		}
+
 	}
 
 	static class MetaConditionalFilter implements Condition {
 
 		@Override
 		public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-			AnnotationAttributes attributes = AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(MetaConditional.class.getName()));
+			AnnotationAttributes attributes = AnnotationAttributes
+					.fromMap(metadata.getAnnotationAttributes(MetaConditional.class.getName()));
 			assertThat(attributes.getString("value")).isEqualTo("test");
 			return true;
 		}
+
 	}
 
 	static class NeverCondition implements Condition {
@@ -255,6 +268,7 @@ public class ConfigurationClassWithConditionTests {
 		public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
 			return false;
 		}
+
 	}
 
 	static class AlwaysCondition implements Condition {
@@ -263,6 +277,7 @@ public class ConfigurationClassWithConditionTests {
 		public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
 			return true;
 		}
+
 	}
 
 	@Component
@@ -273,6 +288,7 @@ public class ConfigurationClassWithConditionTests {
 		public ExampleBean bean1() {
 			return new ExampleBean();
 		}
+
 	}
 
 	@Configuration
@@ -283,42 +299,50 @@ public class ConfigurationClassWithConditionTests {
 		public ExampleBean bean1() {
 			return new ExampleBean();
 		}
+
 	}
 
 	@Configuration
 	@Never
-	@Import({ConfigurationNotCreated.class, RegistrarNotCreated.class, ImportSelectorNotCreated.class})
+	@Import({ ConfigurationNotCreated.class, RegistrarNotCreated.class, ImportSelectorNotCreated.class })
 	static class ImportsNotCreated {
 
 		static {
-			if (true) throw new RuntimeException();
+			if (true)
+				throw new RuntimeException();
 		}
+
 	}
 
 	@Configuration
 	static class ConfigurationNotCreated {
 
 		static {
-			if (true) throw new RuntimeException();
+			if (true)
+				throw new RuntimeException();
 		}
+
 	}
 
 	static class RegistrarNotCreated implements ImportBeanDefinitionRegistrar {
 
 		static {
-			if (true) throw new RuntimeException();
+			if (true)
+				throw new RuntimeException();
 		}
 
 		@Override
 		public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata,
 				BeanDefinitionRegistry registry) {
 		}
+
 	}
 
 	static class ImportSelectorNotCreated implements ImportSelector {
 
 		static {
-			if (true) throw new RuntimeException();
+			if (true)
+				throw new RuntimeException();
 		}
 
 		@Override
@@ -329,6 +353,7 @@ public class ConfigurationClassWithConditionTests {
 	}
 
 	static class ExampleBean {
+
 	}
 
 	@Configuration
@@ -338,6 +363,7 @@ public class ConfigurationClassWithConditionTests {
 		public ExampleBean baz() {
 			return new ExampleBean();
 		}
+
 	}
 
 	static class ConfigWithBeanSkipped extends ConfigWithBeanActive {
@@ -348,6 +374,7 @@ public class ConfigurationClassWithConditionTests {
 		public ExampleBean baz() {
 			return new ExampleBean();
 		}
+
 	}
 
 	static class ConfigWithBeanReactivated extends ConfigWithBeanSkipped {
@@ -357,6 +384,7 @@ public class ConfigurationClassWithConditionTests {
 		public ExampleBean baz() {
 			return new ExampleBean();
 		}
+
 	}
 
 	@Configuration
@@ -373,6 +401,7 @@ public class ConfigurationClassWithConditionTests {
 		public ExampleBean baz2() {
 			return new ExampleBean();
 		}
+
 	}
 
 }

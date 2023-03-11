@@ -26,8 +26,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Descriptive {@link org.springframework.core.io.Resource} wrapper for
- * a {@link org.springframework.beans.factory.config.BeanDefinition}.
+ * Descriptive {@link org.springframework.core.io.Resource} wrapper for a
+ * {@link org.springframework.beans.factory.config.BeanDefinition}.
  *
  * @author Juergen Hoeller
  * @since 2.5.2
@@ -36,7 +36,6 @@ import org.springframework.util.Assert;
 class BeanDefinitionResource extends AbstractResource {
 
 	private final BeanDefinition beanDefinition;
-
 
 	/**
 	 * Create a new BeanDefinitionResource.
@@ -54,7 +53,6 @@ class BeanDefinitionResource extends AbstractResource {
 		return this.beanDefinition;
 	}
 
-
 	@Override
 	public boolean exists() {
 		return false;
@@ -67,8 +65,7 @@ class BeanDefinitionResource extends AbstractResource {
 
 	@Override
 	public InputStream getInputStream() throws IOException {
-		throw new FileNotFoundException(
-				"Resource cannot be opened because it points to " + getDescription());
+		throw new FileNotFoundException("Resource cannot be opened because it points to " + getDescription());
 	}
 
 	@Override
@@ -76,14 +73,13 @@ class BeanDefinitionResource extends AbstractResource {
 		return "BeanDefinition defined in " + this.beanDefinition.getResourceDescription();
 	}
 
-
 	/**
 	 * This implementation compares the underlying BeanDefinition.
 	 */
 	@Override
 	public boolean equals(@Nullable Object other) {
-		return (this == other || (other instanceof BeanDefinitionResource &&
-				((BeanDefinitionResource) other).beanDefinition.equals(this.beanDefinition)));
+		return (this == other || (other instanceof BeanDefinitionResource
+				&& ((BeanDefinitionResource) other).beanDefinition.equals(this.beanDefinition)));
 	}
 
 	/**

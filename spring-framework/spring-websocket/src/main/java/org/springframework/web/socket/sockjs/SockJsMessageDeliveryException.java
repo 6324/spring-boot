@@ -24,7 +24,8 @@ import java.util.List;
  * WebSocketHandler either because the handler failed or because the connection got
  * closed.
  *
- * <p>The SockJS session is not automatically closed after this exception.
+ * <p>
+ * The SockJS session is not automatically closed after this exception.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -34,15 +35,14 @@ public class SockJsMessageDeliveryException extends SockJsException {
 
 	private final List<String> undeliveredMessages;
 
-
 	public SockJsMessageDeliveryException(String sessionId, List<String> undeliveredMessages, Throwable cause) {
 		super("Failed to deliver message(s) " + undeliveredMessages + " for session " + sessionId, sessionId, cause);
 		this.undeliveredMessages = undeliveredMessages;
 	}
 
 	public SockJsMessageDeliveryException(String sessionId, List<String> undeliveredMessages, String message) {
-		super("Failed to deliver message(s) " + undeliveredMessages + " for session "
-				+ sessionId + ": " + message, sessionId, null);
+		super("Failed to deliver message(s) " + undeliveredMessages + " for session " + sessionId + ": " + message,
+				sessionId, null);
 		this.undeliveredMessages = undeliveredMessages;
 	}
 

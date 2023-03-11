@@ -33,15 +33,13 @@ public class AnnotationPointcutTests {
 
 	private AnnotatedTestBean testBean;
 
-
 	@BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
+				getClass().getSimpleName() + "-context.xml", getClass());
 
 		testBean = (AnnotatedTestBean) ctx.getBean("testBean");
 	}
-
 
 	@Test
 	public void testAnnotationBindingInAroundAdvice() {
@@ -55,11 +53,11 @@ public class AnnotationPointcutTests {
 
 }
 
-
 class TestMethodInterceptor implements MethodInterceptor {
 
 	@Override
 	public Object invoke(MethodInvocation methodInvocation) throws Throwable {
 		return "this value";
 	}
+
 }

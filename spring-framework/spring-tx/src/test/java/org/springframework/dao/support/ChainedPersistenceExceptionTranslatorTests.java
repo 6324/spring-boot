@@ -33,7 +33,8 @@ public class ChainedPersistenceExceptionTranslatorTests {
 	@Test
 	public void empty() {
 		ChainedPersistenceExceptionTranslator pet = new ChainedPersistenceExceptionTranslator();
-		//MapPersistenceExceptionTranslator mpet = new MapPersistenceExceptionTranslator();
+		// MapPersistenceExceptionTranslator mpet = new
+		// MapPersistenceExceptionTranslator();
 		RuntimeException in = new RuntimeException("in");
 		assertThat(DataAccessUtils.translateIfNecessary(in, pet)).isSameAs(in);
 	}
@@ -55,12 +56,14 @@ public class ChainedPersistenceExceptionTranslatorTests {
 		MapPersistenceExceptionTranslator mpet2 = new MapPersistenceExceptionTranslator();
 		mpet2.addTranslation(in1, out2);
 		chainedPet1.addDelegate(mpet2);
-		assertThat(DataAccessUtils.translateIfNecessary(in1, chainedPet1)).as("Should still translate the same due to ordering").isSameAs(out1);
+		assertThat(DataAccessUtils.translateIfNecessary(in1, chainedPet1))
+				.as("Should still translate the same due to ordering").isSameAs(out1);
 
 		ChainedPersistenceExceptionTranslator chainedPet2 = new ChainedPersistenceExceptionTranslator();
 		chainedPet2.addDelegate(mpet2);
 		chainedPet2.addDelegate(mpet1);
-		assertThat(DataAccessUtils.translateIfNecessary(in1, chainedPet2)).as("Should translate differently due to ordering").isSameAs(out2);
+		assertThat(DataAccessUtils.translateIfNecessary(in1, chainedPet2))
+				.as("Should translate differently due to ordering").isSameAs(out2);
 
 		RuntimeException in2 = new RuntimeException("in2");
 		OptimisticLockingFailureException out3 = new OptimisticLockingFailureException("out2");

@@ -25,12 +25,13 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Models a simple mail message, including data such as the from, to, cc, subject,
- * and text fields.
+ * Models a simple mail message, including data such as the from, to, cc, subject, and
+ * text fields.
  *
- * <p>Consider {@code JavaMailSender} and JavaMail {@code MimeMessages} for creating
- * more sophisticated messages, for example messages with attachments, special
- * character encodings, or personal names that accompany mail addresses.
+ * <p>
+ * Consider {@code JavaMailSender} and JavaMail {@code MimeMessages} for creating more
+ * sophisticated messages, for example messages with attachments, special character
+ * encodings, or personal names that accompany mail addresses.
  *
  * @author Dmitriy Kopylenko
  * @author Juergen Hoeller
@@ -68,7 +69,6 @@ public class SimpleMailMessage implements MailMessage, Serializable {
 	@Nullable
 	private String text;
 
-
 	/**
 	 * Create a new {@code SimpleMailMessage}.
 	 */
@@ -76,8 +76,8 @@ public class SimpleMailMessage implements MailMessage, Serializable {
 	}
 
 	/**
-	 * Copy constructor for creating a new {@code SimpleMailMessage} from the state
-	 * of an existing {@code SimpleMailMessage} instance.
+	 * Copy constructor for creating a new {@code SimpleMailMessage} from the state of an
+	 * existing {@code SimpleMailMessage} instance.
 	 */
 	public SimpleMailMessage(SimpleMailMessage original) {
 		Assert.notNull(original, "'original' message argument must not be null");
@@ -90,7 +90,6 @@ public class SimpleMailMessage implements MailMessage, Serializable {
 		this.subject = original.getSubject();
 		this.text = original.getText();
 	}
-
 
 	@Override
 	public void setFrom(String from) {
@@ -114,7 +113,7 @@ public class SimpleMailMessage implements MailMessage, Serializable {
 
 	@Override
 	public void setTo(String to) {
-		this.to = new String[] {to};
+		this.to = new String[] { to };
 	}
 
 	@Override
@@ -129,7 +128,7 @@ public class SimpleMailMessage implements MailMessage, Serializable {
 
 	@Override
 	public void setCc(String cc) {
-		this.cc = new String[] {cc};
+		this.cc = new String[] { cc };
 	}
 
 	@Override
@@ -144,7 +143,7 @@ public class SimpleMailMessage implements MailMessage, Serializable {
 
 	@Override
 	public void setBcc(String bcc) {
-		this.bcc = new String[] {bcc};
+		this.bcc = new String[] { bcc };
 	}
 
 	@Override
@@ -187,7 +186,6 @@ public class SimpleMailMessage implements MailMessage, Serializable {
 		return this.text;
 	}
 
-
 	/**
 	 * Copy the contents of this message to the given target message.
 	 * @param target the {@code MailMessage} to copy to
@@ -220,7 +218,6 @@ public class SimpleMailMessage implements MailMessage, Serializable {
 		}
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -230,14 +227,14 @@ public class SimpleMailMessage implements MailMessage, Serializable {
 			return false;
 		}
 		SimpleMailMessage otherMessage = (SimpleMailMessage) other;
-		return (ObjectUtils.nullSafeEquals(this.from, otherMessage.from) &&
-				ObjectUtils.nullSafeEquals(this.replyTo, otherMessage.replyTo) &&
-				ObjectUtils.nullSafeEquals(this.to, otherMessage.to) &&
-				ObjectUtils.nullSafeEquals(this.cc, otherMessage.cc) &&
-				ObjectUtils.nullSafeEquals(this.bcc, otherMessage.bcc) &&
-				ObjectUtils.nullSafeEquals(this.sentDate, otherMessage.sentDate) &&
-				ObjectUtils.nullSafeEquals(this.subject, otherMessage.subject) &&
-				ObjectUtils.nullSafeEquals(this.text, otherMessage.text));
+		return (ObjectUtils.nullSafeEquals(this.from, otherMessage.from)
+				&& ObjectUtils.nullSafeEquals(this.replyTo, otherMessage.replyTo)
+				&& ObjectUtils.nullSafeEquals(this.to, otherMessage.to)
+				&& ObjectUtils.nullSafeEquals(this.cc, otherMessage.cc)
+				&& ObjectUtils.nullSafeEquals(this.bcc, otherMessage.bcc)
+				&& ObjectUtils.nullSafeEquals(this.sentDate, otherMessage.sentDate)
+				&& ObjectUtils.nullSafeEquals(this.subject, otherMessage.subject)
+				&& ObjectUtils.nullSafeEquals(this.text, otherMessage.text));
 	}
 
 	@Override
@@ -265,7 +262,6 @@ public class SimpleMailMessage implements MailMessage, Serializable {
 		sb.append("text=").append(this.text);
 		return sb.toString();
 	}
-
 
 	@Nullable
 	private static String[] copyOrNull(@Nullable String[] state) {

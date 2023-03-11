@@ -55,7 +55,6 @@ class TypeUtilsTests {
 
 	public static List<? extends Number>[] openArray;
 
-
 	@Test
 	void withClasses() {
 		assertThat(TypeUtils.isAssignable(Object.class, Object.class)).isTrue();
@@ -101,7 +100,9 @@ class TypeUtilsTests {
 		Type stringType = getClass().getField("string").getGenericType();
 
 		Type openWildcard = openObjectsType.getActualTypeArguments()[0]; // '?'
-		Type openNumbersWildcard = openNumbersType.getActualTypeArguments()[0]; // '? extends number'
+		Type openNumbersWildcard = openNumbersType.getActualTypeArguments()[0]; // '?
+																				// extends
+																				// number'
 
 		assertThat(TypeUtils.isAssignable(openWildcard, objectType)).isTrue();
 		assertThat(TypeUtils.isAssignable(openNumbersWildcard, numberType)).isTrue();

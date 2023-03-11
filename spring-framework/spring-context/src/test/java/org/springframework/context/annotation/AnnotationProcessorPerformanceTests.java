@@ -53,7 +53,6 @@ public class AnnotationProcessorPerformanceTests {
 
 	private static final Log factoryLog = LogFactory.getLog(DefaultListableBeanFactory.class);
 
-
 	@BeforeAll
 	public static void commonAssumptions() {
 		Assume.notLogging(factoryLog);
@@ -129,12 +128,8 @@ public class AnnotationProcessorPerformanceTests {
 
 		// "fast enough" is of course relative, but we're using 6 seconds with the hope
 		// that these tests typically pass on the CI server.
-		Awaitility.await()
-			.atMost(6, TimeUnit.SECONDS)
-			.pollInterval(100, TimeUnit.MILLISECONDS)
-			.untilTrue(done);
+		Awaitility.await().atMost(6, TimeUnit.SECONDS).pollInterval(100, TimeUnit.MILLISECONDS).untilTrue(done);
 	}
-
 
 	private static class ResourceAnnotatedTestBean extends TestBean {
 
@@ -145,6 +140,7 @@ public class AnnotationProcessorPerformanceTests {
 		public void setSpouse(ITestBean spouse) {
 			super.setSpouse(spouse);
 		}
+
 	}
 
 	private static class AutowiredAnnotatedTestBean extends TestBean {
@@ -156,6 +152,7 @@ public class AnnotationProcessorPerformanceTests {
 		public void setSpouse(ITestBean spouse) {
 			super.setSpouse(spouse);
 		}
+
 	}
 
 }

@@ -31,7 +31,6 @@ public class Person {
 
 	private BigDecimal balance;
 
-
 	public String getName() {
 		return name;
 	}

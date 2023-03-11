@@ -40,7 +40,6 @@ public class JamonPerformanceMonitorInterceptorTests {
 
 	private final Log log = mock(Log.class);
 
-
 	@BeforeEach
 	public void setUp() {
 		MonitorFactory.reset();
@@ -51,7 +50,6 @@ public class JamonPerformanceMonitorInterceptorTests {
 		MonitorFactory.reset();
 	}
 
-
 	@Test
 	public void testInvokeUnderTraceWithNormalProcessing() throws Throwable {
 		given(mi.getMethod()).willReturn(String.class.getMethod("toString"));
@@ -59,7 +57,8 @@ public class JamonPerformanceMonitorInterceptorTests {
 		interceptor.invokeUnderTrace(mi, log);
 
 		assertThat(MonitorFactory.getNumRows() > 0).as("jamon must track the method being invoked").isTrue();
-		assertThat(MonitorFactory.getReport().contains("toString")).as("The jamon report must contain the toString method that was invoked").isTrue();
+		assertThat(MonitorFactory.getReport().contains("toString"))
+				.as("The jamon report must contain the toString method that was invoked").isTrue();
 	}
 
 	@Test
@@ -67,13 +66,16 @@ public class JamonPerformanceMonitorInterceptorTests {
 		given(mi.getMethod()).willReturn(String.class.getMethod("toString"));
 		given(mi.proceed()).willThrow(new IllegalArgumentException());
 
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				interceptor.invokeUnderTrace(mi, log));
+		assertThatIllegalArgumentException().isThrownBy(() -> interceptor.invokeUnderTrace(mi, log));
 
-		assertThat(MonitorFactory.getNumRows()).as("Monitors must exist for the method invocation and 2 exceptions").isEqualTo(3);
-		assertThat(MonitorFactory.getReport().contains("toString")).as("The jamon report must contain the toString method that was invoked").isTrue();
-		assertThat(MonitorFactory.getReport().contains(MonitorFactory.EXCEPTIONS_LABEL)).as("The jamon report must contain the generic exception: " + MonitorFactory.EXCEPTIONS_LABEL).isTrue();
-		assertThat(MonitorFactory.getReport().contains("IllegalArgumentException")).as("The jamon report must contain the specific exception: IllegalArgumentException'").isTrue();
+		assertThat(MonitorFactory.getNumRows()).as("Monitors must exist for the method invocation and 2 exceptions")
+				.isEqualTo(3);
+		assertThat(MonitorFactory.getReport().contains("toString"))
+				.as("The jamon report must contain the toString method that was invoked").isTrue();
+		assertThat(MonitorFactory.getReport().contains(MonitorFactory.EXCEPTIONS_LABEL))
+				.as("The jamon report must contain the generic exception: " + MonitorFactory.EXCEPTIONS_LABEL).isTrue();
+		assertThat(MonitorFactory.getReport().contains("IllegalArgumentException"))
+				.as("The jamon report must contain the specific exception: IllegalArgumentException'").isTrue();
 	}
 
 }

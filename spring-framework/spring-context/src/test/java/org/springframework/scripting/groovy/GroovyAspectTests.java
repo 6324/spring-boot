@@ -39,29 +39,29 @@ public class GroovyAspectTests {
 
 	private final GroovyScriptFactory scriptFactory = new GroovyScriptFactory("GroovyServiceImpl.grv");
 
-
 	@Test
 	public void manualGroovyBeanWithUnconditionalPointcut() throws Exception {
-		TestService target = (TestService) scriptFactory.getScriptedObject(new ResourceScriptSource(
-				new ClassPathResource("GroovyServiceImpl.grv", getClass())));
+		TestService target = (TestService) scriptFactory.getScriptedObject(
+				new ResourceScriptSource(new ClassPathResource("GroovyServiceImpl.grv", getClass())));
 
 		testAdvice(new DefaultPointcutAdvisor(logAdvice), logAdvice, target, "GroovyServiceImpl");
 	}
 
 	@Test
 	public void manualGroovyBeanWithStaticPointcut() throws Exception {
-		TestService target = (TestService) scriptFactory.getScriptedObject(new ResourceScriptSource(
-				new ClassPathResource("GroovyServiceImpl.grv", getClass())));
+		TestService target = (TestService) scriptFactory.getScriptedObject(
+				new ResourceScriptSource(new ClassPathResource("GroovyServiceImpl.grv", getClass())));
 
 		AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
-		pointcut.setExpression(String.format("execution(* %s.TestService+.*(..))", ClassUtils.getPackageName(getClass())));
+		pointcut.setExpression(
+				String.format("execution(* %s.TestService+.*(..))", ClassUtils.getPackageName(getClass())));
 		testAdvice(new DefaultPointcutAdvisor(pointcut, logAdvice), logAdvice, target, "GroovyServiceImpl", true);
 	}
 
 	@Test
 	public void manualGroovyBeanWithDynamicPointcut() throws Exception {
-		TestService target = (TestService) scriptFactory.getScriptedObject(new ResourceScriptSource(
-				new ClassPathResource("GroovyServiceImpl.grv", getClass())));
+		TestService target = (TestService) scriptFactory.getScriptedObject(
+				new ResourceScriptSource(new ClassPathResource("GroovyServiceImpl.grv", getClass())));
 
 		AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
 		pointcut.setExpression(String.format("@within(%s.Log)", ClassUtils.getPackageName(getClass())));
@@ -70,8 +70,8 @@ public class GroovyAspectTests {
 
 	@Test
 	public void manualGroovyBeanWithDynamicPointcutProxyTargetClass() throws Exception {
-		TestService target = (TestService) scriptFactory.getScriptedObject(new ResourceScriptSource(
-				new ClassPathResource("GroovyServiceImpl.grv", getClass())));
+		TestService target = (TestService) scriptFactory.getScriptedObject(
+				new ResourceScriptSource(new ClassPathResource("GroovyServiceImpl.grv", getClass())));
 
 		AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
 		pointcut.setExpression(String.format("@within(%s.Log)", ClassUtils.getPackageName(getClass())));
@@ -95,9 +95,7 @@ public class GroovyAspectTests {
 		TestService bean = (TestService) factory.getProxy();
 
 		assertThat(logAdvice.getCountThrows()).isEqualTo(0);
-		assertThatExceptionOfType(TestException.class).isThrownBy(
-				bean::sayHello)
-			.withMessage(message);
+		assertThatExceptionOfType(TestException.class).isThrownBy(bean::sayHello).withMessage(message);
 		assertThat(logAdvice.getCountThrows()).isEqualTo(1);
 	}
 

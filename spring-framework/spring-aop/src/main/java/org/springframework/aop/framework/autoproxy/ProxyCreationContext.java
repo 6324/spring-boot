@@ -20,8 +20,8 @@ import org.springframework.core.NamedThreadLocal;
 import org.springframework.lang.Nullable;
 
 /**
- * Holder for the current proxy creation context, as exposed by auto-proxy creators
- * such as {@link AbstractAdvisorAutoProxyCreator}.
+ * Holder for the current proxy creation context, as exposed by auto-proxy creators such
+ * as {@link AbstractAdvisorAutoProxyCreator}.
  *
  * @author Juergen Hoeller
  * @author Ramnivas Laddad
@@ -30,13 +30,11 @@ import org.springframework.lang.Nullable;
 public final class ProxyCreationContext {
 
 	/** ThreadLocal holding the current proxied bean name during Advisor matching. */
-	private static final ThreadLocal<String> currentProxiedBeanName =
-			new NamedThreadLocal<>("Name of currently proxied bean");
-
+	private static final ThreadLocal<String> currentProxiedBeanName = new NamedThreadLocal<>(
+			"Name of currently proxied bean");
 
 	private ProxyCreationContext() {
 	}
-
 
 	/**
 	 * Return the name of the currently proxied bean instance.

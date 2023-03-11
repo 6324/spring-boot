@@ -47,7 +47,6 @@ public class ContainerManagedEntityManagerIntegrationTests extends AbstractEntit
 	@Autowired
 	private AbstractEntityManagerFactoryBean entityManagerFactoryBean;
 
-
 	@Test
 	public void testExceptionTranslationWithDialectFoundOnIntroducedEntityManagerInfo() throws Exception {
 		doTestExceptionTranslationWithDialectFound(((EntityManagerFactoryInfo) entityManagerFactory).getJpaDialect());
@@ -78,21 +77,19 @@ public class ContainerManagedEntityManagerIntegrationTests extends AbstractEntit
 		assertThat(people.isEmpty()).isTrue();
 
 		assertThat(em.isOpen()).as("Should be open to start with").isTrue();
-		assertThatIllegalStateException().as("Close should not work on container managed EM").isThrownBy(
-				em::close);
+		assertThatIllegalStateException().as("Close should not work on container managed EM").isThrownBy(em::close);
 		assertThat(em.isOpen()).isTrue();
 	}
 
 	// This would be legal, at least if not actually _starting_ a tx
 	@Test
 	public void testEntityManagerProxyRejectsProgrammaticTxManagement() {
-		assertThatIllegalStateException().isThrownBy(
-				createContainerManagedEntityManager()::getTransaction);
+		assertThatIllegalStateException().isThrownBy(createContainerManagedEntityManager()::getTransaction);
 	}
 
 	/*
-	 * See comments in spec on EntityManager.joinTransaction().
-	 * We take the view that this is a valid no op.
+	 * See comments in spec on EntityManager.joinTransaction(). We take the view that this
+	 * is a valid no op.
 	 */
 	@Test
 	public void testContainerEntityManagerProxyAllowsJoinTransactionInTransaction() {
@@ -102,8 +99,8 @@ public class ContainerManagedEntityManagerIntegrationTests extends AbstractEntit
 	@Test
 	public void testContainerEntityManagerProxyRejectsJoinTransactionWithoutTransaction() {
 		endTransaction();
-		assertThatExceptionOfType(TransactionRequiredException.class).isThrownBy(
-				createContainerManagedEntityManager()::joinTransaction);
+		assertThatExceptionOfType(TransactionRequiredException.class)
+				.isThrownBy(createContainerManagedEntityManager()::joinTransaction);
 	}
 
 	@Test
@@ -130,16 +127,16 @@ public class ContainerManagedEntityManagerIntegrationTests extends AbstractEntit
 		doInstantiateAndSave(em);
 		endTransaction();
 
-		//assertFalse(em.getTransaction().isActive());
+		// assertFalse(em.getTransaction().isActive());
 
 		startNewTransaction();
 		// Call any method: should cause automatic tx invocation
 		assertThat(em.contains(new Person())).isFalse();
-		//assertTrue(em.getTransaction().isActive());
+		// assertTrue(em.getTransaction().isActive());
 
 		doInstantiateAndSave(em);
 		setComplete();
-		endTransaction();	// Should rollback
+		endTransaction(); // Should rollback
 		assertThat(countRowsInTable(em, "person")).as("Tx must have committed back").isEqualTo(1);
 
 		// Now clean up the database
@@ -150,7 +147,7 @@ public class ContainerManagedEntityManagerIntegrationTests extends AbstractEntit
 	public void testRollbackOccurs() {
 		EntityManager em = createContainerManagedEntityManager();
 		doInstantiateAndSave(em);
-		endTransaction();	// Should rollback
+		endTransaction(); // Should rollback
 		assertThat(countRowsInTable(em, "person")).as("Tx must have been rolled back").isEqualTo(0);
 	}
 
@@ -159,7 +156,7 @@ public class ContainerManagedEntityManagerIntegrationTests extends AbstractEntit
 		EntityManager em = createContainerManagedEntityManager();
 		doInstantiateAndSave(em);
 		setComplete();
-		endTransaction();	// Should rollback
+		endTransaction(); // Should rollback
 		assertThat(countRowsInTable(em, "person")).as("Tx must have committed back").isEqualTo(1);
 
 		// Now clean up the database

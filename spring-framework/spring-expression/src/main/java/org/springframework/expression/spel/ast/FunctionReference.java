@@ -37,12 +37,13 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * A function reference is of the form "#someFunction(a,b,c)". Functions may be defined
- * in the context prior to the expression being evaluated. Functions may also be static
- * Java methods, registered in the context prior to invocation of the expression.
+ * A function reference is of the form "#someFunction(a,b,c)". Functions may be defined in
+ * the context prior to the expression being evaluated. Functions may also be static Java
+ * methods, registered in the context prior to invocation of the expression.
  *
- * <p>Functions are very simplistic. The arguments are not part of the definition
- * (right now), so the names must be unique.
+ * <p>
+ * Functions are very simplistic. The arguments are not part of the definition (right
+ * now), so the names must be unique.
  *
  * @author Andy Clement
  * @author Juergen Hoeller
@@ -57,12 +58,10 @@ public class FunctionReference extends SpelNodeImpl {
 	@Nullable
 	private volatile Method method;
 
-
 	public FunctionReference(String functionName, int startPos, int endPos, SpelNodeImpl... arguments) {
 		super(startPos, endPos, arguments);
 		this.name = functionName;
 	}
-
 
 	@Override
 	public TypedValue getValueInternal(ExpressionState state) throws EvaluationException {
@@ -72,8 +71,8 @@ public class FunctionReference extends SpelNodeImpl {
 		}
 		if (!(value.getValue() instanceof Method)) {
 			// Possibly a static Java method registered as a function
-			throw new SpelEvaluationException(
-					SpelMessage.FUNCTION_REFERENCE_CANNOT_BE_INVOKED, this.name, value.getClass());
+			throw new SpelEvaluationException(SpelMessage.FUNCTION_REFERENCE_CANNOT_BE_INVOKED, this.name,
+					value.getClass());
 		}
 
 		try {
@@ -103,16 +102,16 @@ public class FunctionReference extends SpelNodeImpl {
 			}
 		}
 		if (!Modifier.isStatic(method.getModifiers())) {
-			throw new SpelEvaluationException(getStartPosition(),
-					SpelMessage.FUNCTION_MUST_BE_STATIC, ClassUtils.getQualifiedMethodName(method), this.name);
+			throw new SpelEvaluationException(getStartPosition(), SpelMessage.FUNCTION_MUST_BE_STATIC,
+					ClassUtils.getQualifiedMethodName(method), this.name);
 		}
 
 		// Convert arguments if necessary and remap them for varargs if required
 		TypeConverter converter = state.getEvaluationContext().getTypeConverter();
 		boolean argumentConversionOccurred = ReflectionHelper.convertAllArguments(converter, functionArgs, method);
 		if (method.isVarArgs()) {
-			functionArgs = ReflectionHelper.setupArgumentsForVarargsInvocation(
-					method.getParameterTypes(), functionArgs);
+			functionArgs = ReflectionHelper.setupArgumentsForVarargsInvocation(method.getParameterTypes(),
+					functionArgs);
 		}
 		boolean compilable = false;
 
@@ -148,7 +147,8 @@ public class FunctionReference extends SpelNodeImpl {
 	}
 
 	/**
-	 * Compute the arguments to the function, they are the children of this expression node.
+	 * Compute the arguments to the function, they are the children of this expression
+	 * node.
 	 * @return an array of argument values for the function call
 	 */
 	private Object[] getArguments(ExpressionState state) throws EvaluationException {
@@ -167,8 +167,8 @@ public class FunctionReference extends SpelNodeImpl {
 			return false;
 		}
 		int methodModifiers = method.getModifiers();
-		if (!Modifier.isStatic(methodModifiers) || !Modifier.isPublic(methodModifiers) ||
-				!Modifier.isPublic(method.getDeclaringClass().getModifiers())) {
+		if (!Modifier.isStatic(methodModifiers) || !Modifier.isPublic(methodModifiers)
+				|| !Modifier.isPublic(method.getDeclaringClass().getModifiers())) {
 			return false;
 		}
 		for (SpelNodeImpl child : this.children) {
@@ -185,8 +185,8 @@ public class FunctionReference extends SpelNodeImpl {
 		Assert.state(method != null, "No method handle");
 		String classDesc = method.getDeclaringClass().getName().replace('.', '/');
 		generateCodeForArguments(mv, cf, method, this.children);
-		mv.visitMethodInsn(INVOKESTATIC, classDesc, method.getName(),
-				CodeFlow.createSignatureDescriptor(method), false);
+		mv.visitMethodInsn(INVOKESTATIC, classDesc, method.getName(), CodeFlow.createSignatureDescriptor(method),
+				false);
 		cf.pushDescriptor(this.exitTypeDescriptor);
 	}
 

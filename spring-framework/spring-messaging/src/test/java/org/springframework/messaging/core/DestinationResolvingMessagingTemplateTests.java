@@ -46,7 +46,6 @@ public class DestinationResolvingMessagingTemplateTests {
 
 	private TestMessagePostProcessor postProcessor;
 
-
 	@BeforeEach
 	public void setup() {
 
@@ -63,7 +62,6 @@ public class DestinationResolvingMessagingTemplateTests {
 		this.postProcessor = new TestMessagePostProcessor();
 	}
 
-
 	@Test
 	public void send() {
 		Message<?> message = new GenericMessage<Object>("payload");
@@ -76,8 +74,8 @@ public class DestinationResolvingMessagingTemplateTests {
 	@Test
 	public void sendNoDestinationResolver() {
 		TestDestinationResolvingMessagingTemplate template = new TestDestinationResolvingMessagingTemplate();
-		assertThatIllegalStateException().isThrownBy(() ->
-				template.send("myChannel", new GenericMessage<Object>("payload")));
+		assertThatIllegalStateException()
+				.isThrownBy(() -> template.send("myChannel", new GenericMessage<Object>("payload")));
 	}
 
 	@Test
@@ -195,8 +193,8 @@ public class DestinationResolvingMessagingTemplateTests {
 	public void convertSendAndReceiveWithHeadersAndPostProcessor() {
 		Message<?> responseMessage = new GenericMessage<Object>("response");
 		this.template.setReceiveMessage(responseMessage);
-		String actual = this.template.convertSendAndReceive("myChannel", "request", this.headers,
-				String.class, this.postProcessor);
+		String actual = this.template.convertSendAndReceive("myChannel", "request", this.headers, String.class,
+				this.postProcessor);
 
 		assertThat(this.template.message.getHeaders().get("key")).isEqualTo("value");
 		assertThat(this.template.message.getPayload()).isEqualTo("request");
@@ -204,7 +202,6 @@ public class DestinationResolvingMessagingTemplateTests {
 		assertThat(actual).isSameAs("response");
 		assertThat(this.template.messageChannel).isSameAs(this.myChannel);
 	}
-
 
 	private static class TestDestinationResolvingMessagingTemplate
 			extends AbstractDestinationResolvingMessagingTemplate<MessageChannel> {
@@ -214,7 +211,6 @@ public class DestinationResolvingMessagingTemplateTests {
 		private Message<?> message;
 
 		private Message<?> receiveMessage;
-
 
 		private void setReceiveMessage(Message<?> receiveMessage) {
 			this.receiveMessage = receiveMessage;
@@ -238,6 +234,7 @@ public class DestinationResolvingMessagingTemplateTests {
 			this.messageChannel = channel;
 			return this.receiveMessage;
 		}
+
 	}
 
 }
@@ -245,7 +242,6 @@ public class DestinationResolvingMessagingTemplateTests {
 class TestMessageChannelDestinationResolver implements DestinationResolver<MessageChannel> {
 
 	private final Map<String, MessageChannel> channels = new HashMap<>();
-
 
 	public void registerMessageChannel(String name, MessageChannel channel) {
 		this.channels.put(name, channel);
@@ -255,4 +251,5 @@ class TestMessageChannelDestinationResolver implements DestinationResolver<Messa
 	public MessageChannel resolveDestination(String name) throws DestinationResolutionException {
 		return this.channels.get(name);
 	}
+
 }

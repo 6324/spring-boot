@@ -48,22 +48,20 @@ import org.springframework.web.reactive.socket.adapter.StandardWebSocketSession;
  * @author Violeta Georgieva
  * @author Rossen Stoyanchev
  * @since 5.0
- * @see <a href="https://www.jcp.org/en/jsr/detail?id=356">https://www.jcp.org/en/jsr/detail?id=356</a>
+ * @see <a href=
+ * "https://www.jcp.org/en/jsr/detail?id=356">https://www.jcp.org/en/jsr/detail?id=356</a>
  */
 public class StandardWebSocketClient implements WebSocketClient {
 
 	private static final Log logger = LogFactory.getLog(StandardWebSocketClient.class);
 
-
 	private final DataBufferFactory bufferFactory = new DefaultDataBufferFactory();
 
 	private final WebSocketContainer webSocketContainer;
 
-
 	/**
-	 * Default constructor that calls
-	 * {@code ContainerProvider.getWebSocketContainer()} to obtain a (new)
-	 * {@link WebSocketContainer} instance.
+	 * Default constructor that calls {@code ContainerProvider.getWebSocketContainer()} to
+	 * obtain a (new) {@link WebSocketContainer} instance.
 	 */
 	public StandardWebSocketClient() {
 		this(ContainerProvider.getWebSocketContainer());
@@ -77,14 +75,12 @@ public class StandardWebSocketClient implements WebSocketClient {
 		this.webSocketContainer = webSocketContainer;
 	}
 
-
 	/**
 	 * Return the configured {@link WebSocketContainer} to use.
 	 */
 	public WebSocketContainer getWebSocketContainer() {
 		return this.webSocketContainer;
 	}
-
 
 	@Override
 	public Mono<Void> execute(URI url, WebSocketHandler handler) {
@@ -98,26 +94,24 @@ public class StandardWebSocketClient implements WebSocketClient {
 
 	private Mono<Void> executeInternal(URI url, HttpHeaders requestHeaders, WebSocketHandler handler) {
 		MonoProcessor<Void> completionMono = MonoProcessor.create();
-		return Mono.fromCallable(
-				() -> {
-					if (logger.isDebugEnabled()) {
-						logger.debug("Connecting to " + url);
-					}
-					List<String> protocols = handler.getSubProtocols();
-					DefaultConfigurator configurator = new DefaultConfigurator(requestHeaders);
-					Endpoint endpoint = createEndpoint(url, handler, completionMono, configurator);
-					ClientEndpointConfig config = createEndpointConfig(configurator, protocols);
-					return this.webSocketContainer.connectToServer(endpoint, config, url);
-				})
-				.subscribeOn(Schedulers.boundedElastic()) // connectToServer is blocking
+		return Mono.fromCallable(() -> {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Connecting to " + url);
+			}
+			List<String> protocols = handler.getSubProtocols();
+			DefaultConfigurator configurator = new DefaultConfigurator(requestHeaders);
+			Endpoint endpoint = createEndpoint(url, handler, completionMono, configurator);
+			ClientEndpointConfig config = createEndpointConfig(configurator, protocols);
+			return this.webSocketContainer.connectToServer(endpoint, config, url);
+		}).subscribeOn(Schedulers.boundedElastic()) // connectToServer is blocking
 				.then(completionMono);
 	}
 
 	private StandardWebSocketHandlerAdapter createEndpoint(URI url, WebSocketHandler handler,
 			MonoProcessor<Void> completion, DefaultConfigurator configurator) {
 
-		return new StandardWebSocketHandlerAdapter(handler, session ->
-				createWebSocketSession(session, createHandshakeInfo(url, configurator), completion));
+		return new StandardWebSocketHandlerAdapter(handler,
+				session -> createWebSocketSession(session, createHandshakeInfo(url, configurator), completion));
 	}
 
 	private HandshakeInfo createHandshakeInfo(URI url, DefaultConfigurator configurator) {
@@ -133,16 +127,13 @@ public class StandardWebSocketClient implements WebSocketClient {
 	}
 
 	private ClientEndpointConfig createEndpointConfig(Configurator configurator, List<String> subProtocols) {
-		return ClientEndpointConfig.Builder.create()
-				.configurator(configurator)
-				.preferredSubprotocols(subProtocols)
+		return ClientEndpointConfig.Builder.create().configurator(configurator).preferredSubprotocols(subProtocols)
 				.build();
 	}
 
 	protected DataBufferFactory bufferFactory() {
 		return this.bufferFactory;
 	}
-
 
 	private static final class DefaultConfigurator extends Configurator {
 
@@ -167,6 +158,7 @@ public class StandardWebSocketClient implements WebSocketClient {
 		public void afterResponse(HandshakeResponse response) {
 			response.getHeaders().forEach(this.responseHeaders::put);
 		}
+
 	}
 
 }

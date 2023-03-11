@@ -70,7 +70,6 @@ class ApplicationContextExpressionTests {
 
 	private static final Log factoryLog = LogFactory.getLog(DefaultListableBeanFactory.class);
 
-
 	@Test
 	@SuppressWarnings("deprecation")
 	void genericApplicationContext() throws Exception {
@@ -82,13 +81,16 @@ class ApplicationContextExpressionTests {
 			public Object get(String name, ObjectFactory<?> objectFactory) {
 				return objectFactory.getObject();
 			}
+
 			@Override
 			public Object remove(String name) {
 				return null;
 			}
+
 			@Override
 			public void registerDestructionCallback(String name, Runnable callback) {
 			}
+
 			@Override
 			public Object resolveContextualObject(String key) {
 				if (key.equals("mySpecialAttr")) {
@@ -98,6 +100,7 @@ class ApplicationContextExpressionTests {
 					return null;
 				}
 			}
+
 			@Override
 			public String getConversationId() {
 				return null;
@@ -106,8 +109,7 @@ class ApplicationContextExpressionTests {
 
 		ac.getBeanFactory().setConversionService(new DefaultConversionService());
 
-		org.springframework.beans.factory.config.PropertyPlaceholderConfigurer ppc =
-				new org.springframework.beans.factory.config.PropertyPlaceholderConfigurer();
+		org.springframework.beans.factory.config.PropertyPlaceholderConfigurer ppc = new org.springframework.beans.factory.config.PropertyPlaceholderConfigurer();
 		Properties placeholders = new Properties();
 		placeholders.setProperty("code", "123");
 		ppc.setProperties(placeholders);
@@ -274,7 +276,8 @@ class ApplicationContextExpressionTests {
 			System.getProperties().remove("country");
 			System.getProperties().remove("name");
 		}
-		assertThat(sw.getTotalTimeMillis() < 6000).as("Prototype creation took too long: " + sw.getTotalTimeMillis()).isTrue();
+		assertThat(sw.getTotalTimeMillis() < 6000).as("Prototype creation took too long: " + sw.getTotalTimeMillis())
+				.isTrue();
 		ac.close();
 	}
 
@@ -296,6 +299,7 @@ class ApplicationContextExpressionTests {
 				public void checkPropertiesAccess() {
 					throw new AccessControlException("Not Allowed");
 				}
+
 				@Override
 				public void checkPermission(Permission perm) {
 					// allow everything else
@@ -333,29 +337,33 @@ class ApplicationContextExpressionTests {
 	@Test
 	void resourceInjection() throws IOException {
 		System.setProperty("logfile", "do_not_delete_me.txt");
-		try (AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(ResourceInjectionBean.class)) {
+		try (AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(
+				ResourceInjectionBean.class)) {
 			ResourceInjectionBean resourceInjectionBean = ac.getBean(ResourceInjectionBean.class);
 			Resource resource = new ClassPathResource("do_not_delete_me.txt");
 			assertThat(resourceInjectionBean.resource).isEqualTo(resource);
 			assertThat(resourceInjectionBean.url).isEqualTo(resource.getURL());
 			assertThat(resourceInjectionBean.uri).isEqualTo(resource.getURI());
 			assertThat(resourceInjectionBean.file).isEqualTo(resource.getFile());
-			assertThat(FileCopyUtils.copyToByteArray(resourceInjectionBean.inputStream)).isEqualTo(FileCopyUtils.copyToByteArray(resource.getInputStream()));
-			assertThat(FileCopyUtils.copyToString(resourceInjectionBean.reader)).isEqualTo(FileCopyUtils.copyToString(new EncodedResource(resource).getReader()));
+			assertThat(FileCopyUtils.copyToByteArray(resourceInjectionBean.inputStream))
+					.isEqualTo(FileCopyUtils.copyToByteArray(resource.getInputStream()));
+			assertThat(FileCopyUtils.copyToString(resourceInjectionBean.reader))
+					.isEqualTo(FileCopyUtils.copyToString(new EncodedResource(resource).getReader()));
 		}
 		finally {
 			System.getProperties().remove("logfile");
 		}
 	}
 
-
 	@SuppressWarnings("serial")
 	public static class ValueTestBean implements Serializable {
 
-		@Autowired @Value("XXX#{tb0.name}YYY#{mySpecialAttr}ZZZ")
+		@Autowired
+		@Value("XXX#{tb0.name}YYY#{mySpecialAttr}ZZZ")
 		public String name;
 
-		@Autowired @Value("#{mySpecialAttr}")
+		@Autowired
+		@Value("#{mySpecialAttr}")
 		public int age;
 
 		@Value("#{mySpecialAttr}")
@@ -376,10 +384,11 @@ class ApplicationContextExpressionTests {
 		@Value("${codeX:#{null}}")
 		private transient Optional<String> optionalValue3;
 
-		@Autowired @Qualifier("original")
+		@Autowired
+		@Qualifier("original")
 		public transient TestBean tb;
-	}
 
+	}
 
 	public static class ConstructorValueTestBean {
 
@@ -392,18 +401,16 @@ class ApplicationContextExpressionTests {
 		public TestBean tb;
 
 		@Autowired
-		public ConstructorValueTestBean(
-				@Value("XXX#{tb0.name}YYY#{mySpecialAttr}ZZZ") String name,
-				@Value("#{mySpecialAttr}") int age,
-				@Qualifier("original") TestBean tb,
+		public ConstructorValueTestBean(@Value("XXX#{tb0.name}YYY#{mySpecialAttr}ZZZ") String name,
+				@Value("#{mySpecialAttr}") int age, @Qualifier("original") TestBean tb,
 				@Value("${code} #{systemProperties.country}") String country) {
 			this.name = name;
 			this.age = age;
 			this.country = country;
 			this.tb = tb;
 		}
-	}
 
+	}
 
 	public static class MethodValueTestBean {
 
@@ -416,18 +423,16 @@ class ApplicationContextExpressionTests {
 		public TestBean tb;
 
 		@Autowired
-		public void configure(
-				@Qualifier("original") TestBean tb,
-				@Value("XXX#{tb0.name}YYY#{mySpecialAttr}ZZZ") String name,
-				@Value("#{mySpecialAttr}") int age,
+		public void configure(@Qualifier("original") TestBean tb,
+				@Value("XXX#{tb0.name}YYY#{mySpecialAttr}ZZZ") String name, @Value("#{mySpecialAttr}") int age,
 				@Value("${code} #{systemProperties.country}") String country) {
 			this.name = name;
 			this.age = age;
 			this.country = country;
 			this.tb = tb;
 		}
-	}
 
+	}
 
 	public static class PropertyValueTestBean {
 
@@ -454,12 +459,13 @@ class ApplicationContextExpressionTests {
 			this.country = country;
 		}
 
-		@Autowired @Qualifier("original")
+		@Autowired
+		@Qualifier("original")
 		public void setTb(TestBean tb) {
 			this.tb = tb;
 		}
-	}
 
+	}
 
 	public static class PrototypeTestBean {
 
@@ -493,8 +499,8 @@ class ApplicationContextExpressionTests {
 		public String getCountry2() {
 			return country2;
 		}
-	}
 
+	}
 
 	public static class ResourceInjectionBean {
 
@@ -515,6 +521,7 @@ class ApplicationContextExpressionTests {
 
 		@Value("classpath:#{systemProperties.logfile}")
 		Reader reader;
+
 	}
 
 }

@@ -42,10 +42,8 @@ public class RequestPredicateAttributesTests {
 		webExchange.getAttributes().put("exchange", "bar");
 
 		this.request = new DefaultServerRequest(webExchange,
-				Collections.singletonList(
-						new DecoderHttpMessageReader<>(StringDecoder.allMimeTypes())));
+				Collections.singletonList(new DecoderHttpMessageReader<>(StringDecoder.allMimeTypes())));
 	}
-
 
 	@Test
 	public void negateSucceed() {
@@ -181,7 +179,6 @@ public class RequestPredicateAttributesTests {
 		assertThat(this.request.attributes().containsKey("quux")).isFalse();
 	}
 
-
 	private static class AddAttributePredicate implements RequestPredicate {
 
 		private boolean result;
@@ -201,6 +198,7 @@ public class RequestPredicateAttributesTests {
 			request.attributes().put(key, value);
 			return this.result;
 		}
+
 	}
 
 }

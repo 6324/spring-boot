@@ -37,14 +37,12 @@ import org.springframework.util.Assert;
 public class DestinationVariableMethodArgumentResolver extends AbstractNamedValueMethodArgumentResolver {
 
 	/** The name of the header used to for template variables. */
-	public static final String DESTINATION_TEMPLATE_VARIABLES_HEADER =
-			DestinationVariableMethodArgumentResolver.class.getSimpleName() + ".templateVariables";
-
+	public static final String DESTINATION_TEMPLATE_VARIABLES_HEADER = DestinationVariableMethodArgumentResolver.class
+			.getSimpleName() + ".templateVariables";
 
 	public DestinationVariableMethodArgumentResolver(ConversionService conversionService) {
 		super(conversionService, null);
 	}
-
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -69,16 +67,16 @@ public class DestinationVariableMethodArgumentResolver extends AbstractNamedValu
 
 	@Override
 	protected void handleMissingValue(String name, MethodParameter parameter, Message<?> message) {
-		throw new MessageHandlingException(message, "Missing path template variable '" + name + "' " +
-				"for method parameter type [" + parameter.getParameterType() + "]");
+		throw new MessageHandlingException(message, "Missing path template variable '" + name + "' "
+				+ "for method parameter type [" + parameter.getParameterType() + "]");
 	}
-
 
 	private static final class DestinationVariableNamedValueInfo extends NamedValueInfo {
 
 		private DestinationVariableNamedValueInfo(DestinationVariable annotation) {
 			super(annotation.value(), true, ValueConstants.DEFAULT_NONE);
 		}
+
 	}
 
 }

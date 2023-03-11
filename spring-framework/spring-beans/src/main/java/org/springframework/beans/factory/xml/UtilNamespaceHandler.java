@@ -44,7 +44,6 @@ public class UtilNamespaceHandler extends NamespaceHandlerSupport {
 
 	private static final String SCOPE_ATTRIBUTE = "scope";
 
-
 	@Override
 	public void init() {
 		registerBeanDefinitionParser("constant", new ConstantBeanDefinitionParser());
@@ -54,7 +53,6 @@ public class UtilNamespaceHandler extends NamespaceHandlerSupport {
 		registerBeanDefinitionParser("map", new MapBeanDefinitionParser());
 		registerBeanDefinitionParser("properties", new PropertiesBeanDefinitionParser());
 	}
-
 
 	private static class ConstantBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
 
@@ -71,8 +69,8 @@ public class UtilNamespaceHandler extends NamespaceHandlerSupport {
 			}
 			return id;
 		}
-	}
 
+	}
 
 	private static class PropertyPathBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
@@ -90,8 +88,8 @@ public class UtilNamespaceHandler extends NamespaceHandlerSupport {
 			}
 			int dotIndex = path.indexOf('.');
 			if (dotIndex == -1) {
-				parserContext.getReaderContext().error(
-						"Attribute 'path' must follow pattern 'beanName.propertyName'", element);
+				parserContext.getReaderContext().error("Attribute 'path' must follow pattern 'beanName.propertyName'",
+						element);
 				return;
 			}
 			String beanName = path.substring(0, dotIndex);
@@ -108,8 +106,8 @@ public class UtilNamespaceHandler extends NamespaceHandlerSupport {
 			}
 			return id;
 		}
-	}
 
+	}
 
 	private static class ListBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
@@ -120,7 +118,8 @@ public class UtilNamespaceHandler extends NamespaceHandlerSupport {
 
 		@Override
 		protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
-			List<Object> parsedList = parserContext.getDelegate().parseListElement(element, builder.getRawBeanDefinition());
+			List<Object> parsedList = parserContext.getDelegate().parseListElement(element,
+					builder.getRawBeanDefinition());
 			builder.addPropertyValue("sourceList", parsedList);
 
 			String listClass = element.getAttribute("list-class");
@@ -133,8 +132,8 @@ public class UtilNamespaceHandler extends NamespaceHandlerSupport {
 				builder.setScope(scope);
 			}
 		}
-	}
 
+	}
 
 	private static class SetBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
@@ -145,7 +144,8 @@ public class UtilNamespaceHandler extends NamespaceHandlerSupport {
 
 		@Override
 		protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
-			Set<Object> parsedSet = parserContext.getDelegate().parseSetElement(element, builder.getRawBeanDefinition());
+			Set<Object> parsedSet = parserContext.getDelegate().parseSetElement(element,
+					builder.getRawBeanDefinition());
 			builder.addPropertyValue("sourceSet", parsedSet);
 
 			String setClass = element.getAttribute("set-class");
@@ -158,8 +158,8 @@ public class UtilNamespaceHandler extends NamespaceHandlerSupport {
 				builder.setScope(scope);
 			}
 		}
-	}
 
+	}
 
 	private static class MapBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
@@ -170,7 +170,8 @@ public class UtilNamespaceHandler extends NamespaceHandlerSupport {
 
 		@Override
 		protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
-			Map<Object, Object> parsedMap = parserContext.getDelegate().parseMapElement(element, builder.getRawBeanDefinition());
+			Map<Object, Object> parsedMap = parserContext.getDelegate().parseMapElement(element,
+					builder.getRawBeanDefinition());
 			builder.addPropertyValue("sourceMap", parsedMap);
 
 			String mapClass = element.getAttribute("map-class");
@@ -183,8 +184,8 @@ public class UtilNamespaceHandler extends NamespaceHandlerSupport {
 				builder.setScope(scope);
 			}
 		}
-	}
 
+	}
 
 	private static class PropertiesBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
@@ -208,14 +209,14 @@ public class UtilNamespaceHandler extends NamespaceHandlerSupport {
 			builder.addPropertyValue("ignoreResourceNotFound",
 					Boolean.valueOf(element.getAttribute("ignore-resource-not-found")));
 
-			builder.addPropertyValue("localOverride",
-					Boolean.valueOf(element.getAttribute("local-override")));
+			builder.addPropertyValue("localOverride", Boolean.valueOf(element.getAttribute("local-override")));
 
 			String scope = element.getAttribute(SCOPE_ATTRIBUTE);
 			if (StringUtils.hasLength(scope)) {
 				builder.setScope(scope);
 			}
 		}
+
 	}
 
 }

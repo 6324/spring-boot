@@ -28,10 +28,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * {@link org.springframework.cache.CacheManager} implementation
- * backed by a JCache {@link CacheManager javax.cache.CacheManager}.
+ * {@link org.springframework.cache.CacheManager} implementation backed by a JCache
+ * {@link CacheManager javax.cache.CacheManager}.
  *
- * <p>Note: This class has been updated for JCache 1.0, as of Spring 4.0.
+ * <p>
+ * Note: This class has been updated for JCache 1.0, as of Spring 4.0.
  *
  * @author Juergen Hoeller
  * @author Stephane Nicoll
@@ -45,11 +46,11 @@ public class JCacheCacheManager extends AbstractTransactionSupportingCacheManage
 
 	private boolean allowNullValues = true;
 
-
 	/**
 	 * Create a new {@code JCacheCacheManager} without a backing JCache
 	 * {@link CacheManager javax.cache.CacheManager}.
-	 * <p>The backing JCache {@code javax.cache.CacheManager} can be set via the
+	 * <p>
+	 * The backing JCache {@code javax.cache.CacheManager} can be set via the
 	 * {@link #setCacheManager} bean property.
 	 */
 	public JCacheCacheManager() {
@@ -63,7 +64,6 @@ public class JCacheCacheManager extends AbstractTransactionSupportingCacheManage
 	public JCacheCacheManager(CacheManager cacheManager) {
 		this.cacheManager = cacheManager;
 	}
-
 
 	/**
 	 * Set the backing JCache {@link CacheManager javax.cache.CacheManager}.
@@ -81,18 +81,19 @@ public class JCacheCacheManager extends AbstractTransactionSupportingCacheManage
 	}
 
 	/**
-	 * Specify whether to accept and convert {@code null} values for all caches
-	 * in this cache manager.
-	 * <p>Default is "true", despite JSR-107 itself not supporting {@code null} values.
-	 * An internal holder object will be used to store user-level {@code null}s.
+	 * Specify whether to accept and convert {@code null} values for all caches in this
+	 * cache manager.
+	 * <p>
+	 * Default is "true", despite JSR-107 itself not supporting {@code null} values. An
+	 * internal holder object will be used to store user-level {@code null}s.
 	 */
 	public void setAllowNullValues(boolean allowNullValues) {
 		this.allowNullValues = allowNullValues;
 	}
 
 	/**
-	 * Return whether this cache manager accepts and converts {@code null} values
-	 * for all of its caches.
+	 * Return whether this cache manager accepts and converts {@code null} values for all
+	 * of its caches.
 	 */
 	public boolean isAllowNullValues() {
 		return this.allowNullValues;
@@ -105,7 +106,6 @@ public class JCacheCacheManager extends AbstractTransactionSupportingCacheManage
 		}
 		super.afterPropertiesSet();
 	}
-
 
 	@Override
 	protected Collection<Cache> loadCaches() {

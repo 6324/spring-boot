@@ -53,7 +53,6 @@ public class MessageSendingTemplateTests {
 
 	private Map<String, Object> headers;
 
-
 	@BeforeEach
 	public void setup() {
 		this.template = new TestMessageSendingTemplate();
@@ -84,8 +83,7 @@ public class MessageSendingTemplateTests {
 	@Test
 	public void sendMissingDestination() {
 		Message<?> message = new GenericMessage<Object>("payload");
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.template.send(message));
+		assertThatIllegalStateException().isThrownBy(() -> this.template.send(message));
 	}
 
 	@Test
@@ -108,7 +106,8 @@ public class MessageSendingTemplateTests {
 
 		assertThat(this.template.destination).isEqualTo("home");
 		assertThat(this.template.message).isNotNull();
-		assertThat(this.template.message.getHeaders().size()).as("expected 'id' and 'timestamp' headers only").isEqualTo(2);
+		assertThat(this.template.message.getHeaders().size()).as("expected 'id' and 'timestamp' headers only")
+				.isEqualTo(2);
 		assertThat(this.template.message.getPayload()).isEqualTo("payload");
 	}
 
@@ -118,7 +117,8 @@ public class MessageSendingTemplateTests {
 
 		assertThat(this.template.destination).isEqualTo("somewhere");
 		assertThat(this.template.message).isNotNull();
-		assertThat(this.template.message.getHeaders().size()).as("expected 'id' and 'timestamp' headers only").isEqualTo(2);
+		assertThat(this.template.message.getHeaders().size()).as("expected 'id' and 'timestamp' headers only")
+				.isEqualTo(2);
 		assertThat(this.template.message.getPayload()).isEqualTo("payload");
 	}
 
@@ -144,7 +144,8 @@ public class MessageSendingTemplateTests {
 
 		MessageHeaders actual = this.template.message.getHeaders();
 		assertThat(actual).isSameAs(messageHeaders);
-		assertThat(actual.get(MessageHeaders.CONTENT_TYPE)).isEqualTo(new MimeType("text", "plain", StandardCharsets.UTF_8));
+		assertThat(actual.get(MessageHeaders.CONTENT_TYPE))
+				.isEqualTo(new MimeType("text", "plain", StandardCharsets.UTF_8));
 		assertThat(actual.get("foo")).isEqualTo("bar");
 	}
 
@@ -155,7 +156,8 @@ public class MessageSendingTemplateTests {
 
 		assertThat(this.template.destination).isEqualTo("home");
 		assertThat(this.template.message).isNotNull();
-		assertThat(this.template.message.getHeaders().size()).as("expected 'id' and 'timestamp' headers only").isEqualTo(2);
+		assertThat(this.template.message.getHeaders().size()).as("expected 'id' and 'timestamp' headers only")
+				.isEqualTo(2);
 		assertThat(this.template.message.getPayload()).isEqualTo("payload");
 
 		assertThat(this.postProcessor.getMessage()).isNotNull();
@@ -168,7 +170,8 @@ public class MessageSendingTemplateTests {
 
 		assertThat(this.template.destination).isEqualTo("somewhere");
 		assertThat(this.template.message).isNotNull();
-		assertThat(this.template.message.getHeaders().size()).as("expected 'id' and 'timestamp' headers only").isEqualTo(2);
+		assertThat(this.template.message.getHeaders().size()).as("expected 'id' and 'timestamp' headers only")
+				.isEqualTo(2);
 		assertThat(this.template.message.getPayload()).isEqualTo("payload");
 
 		assertThat(this.postProcessor.getMessage()).isNotNull();
@@ -183,10 +186,9 @@ public class MessageSendingTemplateTests {
 		this.template.setMessageConverter(converter);
 
 		this.headers.put(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_XML);
-		assertThatExceptionOfType(MessageConversionException.class).isThrownBy(() ->
-				this.template.convertAndSend("home", "payload", new MessageHeaders(this.headers)));
+		assertThatExceptionOfType(MessageConversionException.class)
+				.isThrownBy(() -> this.template.convertAndSend("home", "payload", new MessageHeaders(this.headers)));
 	}
-
 
 	private static class TestMessageSendingTemplate extends AbstractMessageSendingTemplate<String> {
 
@@ -199,6 +201,7 @@ public class MessageSendingTemplateTests {
 			this.destination = destination;
 			this.message = message;
 		}
+
 	}
 
 }
@@ -206,7 +209,6 @@ public class MessageSendingTemplateTests {
 class TestMessagePostProcessor implements MessagePostProcessor {
 
 	private Message<?> message;
-
 
 	Message<?> getMessage() {
 		return this.message;
@@ -217,4 +219,5 @@ class TestMessagePostProcessor implements MessagePostProcessor {
 		this.message = message;
 		return message;
 	}
+
 }

@@ -53,7 +53,8 @@ public class RuleBasedTransactionAttributeTests {
 	public void testRuleForRollbackOnChecked() {
 		List<RollbackRuleAttribute> list = new LinkedList<>();
 		list.add(new RollbackRuleAttribute(IOException.class.getName()));
-		RuleBasedTransactionAttribute rta = new RuleBasedTransactionAttribute(TransactionDefinition.PROPAGATION_REQUIRED, list);
+		RuleBasedTransactionAttribute rta = new RuleBasedTransactionAttribute(
+				TransactionDefinition.PROPAGATION_REQUIRED, list);
 
 		assertThat(rta.rollbackOn(new RuntimeException())).isTrue();
 		assertThat(rta.rollbackOn(new MyRuntimeException(""))).isTrue();
@@ -67,7 +68,8 @@ public class RuleBasedTransactionAttributeTests {
 		List<RollbackRuleAttribute> list = new LinkedList<>();
 		list.add(new NoRollbackRuleAttribute(MyRuntimeException.class.getName()));
 		list.add(new RollbackRuleAttribute(IOException.class.getName()));
-		RuleBasedTransactionAttribute rta = new RuleBasedTransactionAttribute(TransactionDefinition.PROPAGATION_REQUIRED, list);
+		RuleBasedTransactionAttribute rta = new RuleBasedTransactionAttribute(
+				TransactionDefinition.PROPAGATION_REQUIRED, list);
 
 		assertThat(rta.rollbackOn(new RuntimeException())).isTrue();
 		// Check default behaviour is overridden
@@ -81,14 +83,16 @@ public class RuleBasedTransactionAttributeTests {
 	public void testRuleForSelectiveRollbackOnCheckedWithString() {
 		List<RollbackRuleAttribute> l = new LinkedList<>();
 		l.add(new RollbackRuleAttribute(java.rmi.RemoteException.class.getName()));
-		RuleBasedTransactionAttribute rta = new RuleBasedTransactionAttribute(TransactionDefinition.PROPAGATION_REQUIRED, l);
+		RuleBasedTransactionAttribute rta = new RuleBasedTransactionAttribute(
+				TransactionDefinition.PROPAGATION_REQUIRED, l);
 		doTestRuleForSelectiveRollbackOnChecked(rta);
 	}
 
 	@Test
 	public void testRuleForSelectiveRollbackOnCheckedWithClass() {
 		List<RollbackRuleAttribute> l = Collections.singletonList(new RollbackRuleAttribute(RemoteException.class));
-		RuleBasedTransactionAttribute rta = new RuleBasedTransactionAttribute(TransactionDefinition.PROPAGATION_REQUIRED, l);
+		RuleBasedTransactionAttribute rta = new RuleBasedTransactionAttribute(
+				TransactionDefinition.PROPAGATION_REQUIRED, l);
 		doTestRuleForSelectiveRollbackOnChecked(rta);
 	}
 
@@ -101,8 +105,8 @@ public class RuleBasedTransactionAttributeTests {
 	}
 
 	/**
-	 * Check that a rule can cause commit on a IOException
-	 * when Exception prompts a rollback.
+	 * Check that a rule can cause commit on a IOException when Exception prompts a
+	 * rollback.
 	 */
 	@Test
 	public void testRuleForCommitOnSubclassOfChecked() {
@@ -111,7 +115,8 @@ public class RuleBasedTransactionAttributeTests {
 		// a FQN: otherwise it will match everything!
 		list.add(new RollbackRuleAttribute("java.lang.Exception"));
 		list.add(new NoRollbackRuleAttribute("IOException"));
-		RuleBasedTransactionAttribute rta = new RuleBasedTransactionAttribute(TransactionDefinition.PROPAGATION_REQUIRED, list);
+		RuleBasedTransactionAttribute rta = new RuleBasedTransactionAttribute(
+				TransactionDefinition.PROPAGATION_REQUIRED, list);
 
 		assertThat(rta.rollbackOn(new RuntimeException())).isTrue();
 		assertThat(rta.rollbackOn(new Exception())).isTrue();
@@ -123,7 +128,8 @@ public class RuleBasedTransactionAttributeTests {
 	public void testRollbackNever() {
 		List<RollbackRuleAttribute> list = new LinkedList<>();
 		list.add(new NoRollbackRuleAttribute("Throwable"));
-		RuleBasedTransactionAttribute rta = new RuleBasedTransactionAttribute(TransactionDefinition.PROPAGATION_REQUIRED, list);
+		RuleBasedTransactionAttribute rta = new RuleBasedTransactionAttribute(
+				TransactionDefinition.PROPAGATION_REQUIRED, list);
 
 		assertThat(rta.rollbackOn(new Throwable())).isFalse();
 		assertThat(rta.rollbackOn(new RuntimeException())).isFalse();
@@ -136,7 +142,8 @@ public class RuleBasedTransactionAttributeTests {
 	public void testToStringMatchesEditor() {
 		List<RollbackRuleAttribute> list = new LinkedList<>();
 		list.add(new NoRollbackRuleAttribute("Throwable"));
-		RuleBasedTransactionAttribute rta = new RuleBasedTransactionAttribute(TransactionDefinition.PROPAGATION_REQUIRED, list);
+		RuleBasedTransactionAttribute rta = new RuleBasedTransactionAttribute(
+				TransactionDefinition.PROPAGATION_REQUIRED, list);
 
 		TransactionAttributeEditor tae = new TransactionAttributeEditor();
 		tae.setAsText(rta.toString());
@@ -150,25 +157,29 @@ public class RuleBasedTransactionAttributeTests {
 	}
 
 	/**
-	 * See <a href="https://forum.springframework.org/showthread.php?t=41350">this forum post</a>.
+	 * See <a href="https://forum.springframework.org/showthread.php?t=41350">this forum
+	 * post</a>.
 	 */
 	@Test
 	public void testConflictingRulesToDetermineExactContract() {
 		List<RollbackRuleAttribute> list = new LinkedList<>();
 		list.add(new NoRollbackRuleAttribute(MyBusinessWarningException.class));
 		list.add(new RollbackRuleAttribute(MyBusinessException.class));
-		RuleBasedTransactionAttribute rta = new RuleBasedTransactionAttribute(TransactionDefinition.PROPAGATION_REQUIRED, list);
+		RuleBasedTransactionAttribute rta = new RuleBasedTransactionAttribute(
+				TransactionDefinition.PROPAGATION_REQUIRED, list);
 
 		assertThat(rta.rollbackOn(new MyBusinessException())).isTrue();
 		assertThat(rta.rollbackOn(new MyBusinessWarningException())).isFalse();
 	}
 
+	@SuppressWarnings("serial")
+	private static class MyBusinessException extends Exception {
+
+	}
 
 	@SuppressWarnings("serial")
-	private static class MyBusinessException extends Exception {}
+	private static final class MyBusinessWarningException extends MyBusinessException {
 
-
-	@SuppressWarnings("serial")
-	private static final class MyBusinessWarningException extends MyBusinessException {}
+	}
 
 }

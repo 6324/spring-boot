@@ -21,8 +21,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.function.SingletonSupplier;
 
 /**
- * A base component for invoking {@link Cache} operations and using a
- * configurable {@link CacheErrorHandler} when an exception occurs.
+ * A base component for invoking {@link Cache} operations and using a configurable
+ * {@link CacheErrorHandler} when an exception occurs.
  *
  * @author Stephane Nicoll
  * @author Juergen Hoeller
@@ -33,7 +33,6 @@ public abstract class AbstractCacheInvoker {
 
 	protected SingletonSupplier<CacheErrorHandler> errorHandler;
 
-
 	protected AbstractCacheInvoker() {
 		this.errorHandler = SingletonSupplier.of(SimpleCacheErrorHandler::new);
 	}
@@ -42,11 +41,10 @@ public abstract class AbstractCacheInvoker {
 		this.errorHandler = SingletonSupplier.of(errorHandler);
 	}
 
-
 	/**
-	 * Set the {@link CacheErrorHandler} instance to use to handle errors
-	 * thrown by the cache provider. By default, a {@link SimpleCacheErrorHandler}
-	 * is used who throws any exception as is.
+	 * Set the {@link CacheErrorHandler} instance to use to handle errors thrown by the
+	 * cache provider. By default, a {@link SimpleCacheErrorHandler} is used who throws
+	 * any exception as is.
 	 */
 	public void setErrorHandler(CacheErrorHandler errorHandler) {
 		this.errorHandler = SingletonSupplier.of(errorHandler);
@@ -59,12 +57,10 @@ public abstract class AbstractCacheInvoker {
 		return this.errorHandler.obtain();
 	}
 
-
 	/**
-	 * Execute {@link Cache#get(Object)} on the specified {@link Cache} and
-	 * invoke the error handler if an exception occurs. Return {@code null}
-	 * if the handler does not throw any exception, which simulates a cache
-	 * miss in case of error.
+	 * Execute {@link Cache#get(Object)} on the specified {@link Cache} and invoke the
+	 * error handler if an exception occurs. Return {@code null} if the handler does not
+	 * throw any exception, which simulates a cache miss in case of error.
 	 * @see Cache#get(Object)
 	 */
 	@Nullable
@@ -74,13 +70,13 @@ public abstract class AbstractCacheInvoker {
 		}
 		catch (RuntimeException ex) {
 			getErrorHandler().handleCacheGetError(ex, cache, key);
-			return null;  // If the exception is handled, return a cache miss
+			return null; // If the exception is handled, return a cache miss
 		}
 	}
 
 	/**
-	 * Execute {@link Cache#put(Object, Object)} on the specified {@link Cache}
-	 * and invoke the error handler if an exception occurs.
+	 * Execute {@link Cache#put(Object, Object)} on the specified {@link Cache} and invoke
+	 * the error handler if an exception occurs.
 	 */
 	protected void doPut(Cache cache, Object key, @Nullable Object result) {
 		try {
@@ -110,8 +106,8 @@ public abstract class AbstractCacheInvoker {
 	}
 
 	/**
-	 * Execute {@link Cache#clear()} on the specified {@link Cache} and
-	 * invoke the error handler if an exception occurs.
+	 * Execute {@link Cache#clear()} on the specified {@link Cache} and invoke the error
+	 * handler if an exception occurs.
 	 */
 	protected void doClear(Cache cache, boolean immediate) {
 		try {

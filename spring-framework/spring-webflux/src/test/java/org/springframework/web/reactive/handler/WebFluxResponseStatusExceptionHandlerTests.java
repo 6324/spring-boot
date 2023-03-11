@@ -40,7 +40,6 @@ public class WebFluxResponseStatusExceptionHandlerTests extends AbstractResponse
 		return new WebFluxResponseStatusExceptionHandler();
 	}
 
-
 	@Test
 	public void handleAnnotatedException() {
 		Throwable ex = new CustomException();
@@ -55,10 +54,10 @@ public class WebFluxResponseStatusExceptionHandlerTests extends AbstractResponse
 		assertThat(this.exchange.getResponse().getStatusCode()).isEqualTo(HttpStatus.I_AM_A_TEAPOT);
 	}
 
-
 	@SuppressWarnings("serial")
 	@ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
 	private static class CustomException extends Exception {
+
 	}
 
 }

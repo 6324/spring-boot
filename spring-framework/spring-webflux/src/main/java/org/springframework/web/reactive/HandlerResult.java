@@ -46,7 +46,6 @@ public class HandlerResult {
 	@Nullable
 	private Function<Throwable, Mono<HandlerResult>> exceptionHandler;
 
-
 	/**
 	 * Create a new {@code HandlerResult}.
 	 * @param handler the handler that handled the request
@@ -75,7 +74,6 @@ public class HandlerResult {
 		this.bindingContext = (context != null ? context : new BindingContext());
 	}
 
-
 	/**
 	 * Return the handler that handled the request.
 	 */
@@ -92,18 +90,18 @@ public class HandlerResult {
 	}
 
 	/**
-	 * Return the type of the value returned from the handler -- e.g. the return
-	 * type declared on a controller method's signature. Also see
-	 * {@link #getReturnTypeSource()} to obtain the underlying
-	 * {@link MethodParameter} for the return type.
+	 * Return the type of the value returned from the handler -- e.g. the return type
+	 * declared on a controller method's signature. Also see
+	 * {@link #getReturnTypeSource()} to obtain the underlying {@link MethodParameter} for
+	 * the return type.
 	 */
 	public ResolvableType getReturnType() {
 		return this.returnType;
 	}
 
 	/**
-	 * Return the {@link MethodParameter} from which {@link #getReturnType()
-	 * returnType} was created.
+	 * Return the {@link MethodParameter} from which {@link #getReturnType() returnType}
+	 * was created.
 	 */
 	public MethodParameter getReturnTypeSource() {
 		return (MethodParameter) this.returnType.getSource();
@@ -125,9 +123,9 @@ public class HandlerResult {
 	}
 
 	/**
-	 * Configure an exception handler that may be used to produce an alternative
-	 * result when result handling fails. Especially for an async return value
-	 * errors may occur after the invocation of the handler.
+	 * Configure an exception handler that may be used to produce an alternative result
+	 * when result handling fails. Especially for an async return value errors may occur
+	 * after the invocation of the handler.
 	 * @param function the error handler
 	 * @return the current instance
 	 */

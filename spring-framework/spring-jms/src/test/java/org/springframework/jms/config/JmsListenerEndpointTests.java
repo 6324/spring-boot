@@ -95,8 +95,7 @@ public class JmsListenerEndpointTests {
 		DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
 		SimpleJmsListenerEndpoint endpoint = new SimpleJmsListenerEndpoint();
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				endpoint.setupListenerContainer(container));
+		assertThatIllegalStateException().isThrownBy(() -> endpoint.setupListenerContainer(container));
 	}
 
 	@Test
@@ -105,8 +104,7 @@ public class JmsListenerEndpointTests {
 		SimpleJmsListenerEndpoint endpoint = new SimpleJmsListenerEndpoint();
 		endpoint.setMessageListener(new MessageListenerAdapter());
 
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				endpoint.setupListenerContainer(container));
+		assertThatIllegalArgumentException().isThrownBy(() -> endpoint.setupListenerContainer(container));
 	}
 
 }

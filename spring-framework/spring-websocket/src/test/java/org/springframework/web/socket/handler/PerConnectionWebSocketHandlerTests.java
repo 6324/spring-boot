@@ -32,7 +32,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class PerConnectionWebSocketHandlerTests {
 
-
 	@Test
 	public void afterConnectionEstablished() throws Exception {
 
@@ -56,13 +55,11 @@ public class PerConnectionWebSocketHandlerTests {
 		assertThat(EchoHandler.destroyCount).isEqualTo(1);
 	}
 
-
 	public static class EchoHandler extends AbstractWebSocketHandler implements DisposableBean {
 
 		private static int initCount;
 
 		private static int destroyCount;
-
 
 		public EchoHandler() {
 			initCount++;
@@ -77,6 +74,7 @@ public class PerConnectionWebSocketHandlerTests {
 			initCount = 0;
 			destroyCount = 0;
 		}
+
 	}
 
 }

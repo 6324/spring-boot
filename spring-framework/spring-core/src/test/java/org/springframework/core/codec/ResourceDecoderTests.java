@@ -44,7 +44,6 @@ class ResourceDecoderTests extends AbstractDecoderTests<ResourceDecoder> {
 
 	private final byte[] barBytes = "bar".getBytes(StandardCharsets.UTF_8);
 
-
 	ResourceDecoderTests() {
 		super(new ResourceDecoder());
 	}
@@ -55,69 +54,57 @@ class ResourceDecoderTests extends AbstractDecoderTests<ResourceDecoder> {
 		assertThat(this.decoder.canDecode(forClass(InputStreamResource.class), MimeTypeUtils.TEXT_PLAIN)).isTrue();
 		assertThat(this.decoder.canDecode(forClass(ByteArrayResource.class), MimeTypeUtils.TEXT_PLAIN)).isTrue();
 		assertThat(this.decoder.canDecode(forClass(Resource.class), MimeTypeUtils.TEXT_PLAIN)).isTrue();
-		assertThat(this.decoder.canDecode(forClass(InputStreamResource.class), MimeTypeUtils.APPLICATION_JSON)).isTrue();
+		assertThat(this.decoder.canDecode(forClass(InputStreamResource.class), MimeTypeUtils.APPLICATION_JSON))
+				.isTrue();
 		assertThat(this.decoder.canDecode(forClass(Object.class), MimeTypeUtils.APPLICATION_JSON)).isFalse();
 	}
-
 
 	@Override
 	@Test
 	public void decode() {
 		Flux<DataBuffer> input = Flux.concat(dataBuffer(this.fooBytes), dataBuffer(this.barBytes));
 
-		testDecodeAll(input, Resource.class, step -> step
-				.consumeNextWith(resource -> {
-					try {
-						byte[] bytes = StreamUtils.copyToByteArray(resource.getInputStream());
-						assertThat(new String(bytes)).isEqualTo("foobar");
-					}
-					catch (IOException ex) {
-						throw new AssertionError(ex.getMessage(), ex);
-					}
-				})
-				.expectComplete()
-				.verify());
+		testDecodeAll(input, Resource.class, step -> step.consumeNextWith(resource -> {
+			try {
+				byte[] bytes = StreamUtils.copyToByteArray(resource.getInputStream());
+				assertThat(new String(bytes)).isEqualTo("foobar");
+			}
+			catch (IOException ex) {
+				throw new AssertionError(ex.getMessage(), ex);
+			}
+		}).expectComplete().verify());
 	}
 
 	@Override
 	@Test
 	public void decodeToMono() {
 		Flux<DataBuffer> input = Flux.concat(dataBuffer(this.fooBytes), dataBuffer(this.barBytes));
-		testDecodeToMonoAll(input, ResolvableType.forClass(Resource.class),
-				step -> step
-						.consumeNextWith(value -> {
-							Resource resource = (Resource) value;
-							try {
-								byte[] bytes = StreamUtils.copyToByteArray(resource.getInputStream());
-								assertThat(new String(bytes)).isEqualTo("foobar");
-								assertThat(resource.getFilename()).isEqualTo("testFile");
-							}
-							catch (IOException ex) {
-								throw new AssertionError(ex.getMessage(), ex);
-							}
-						})
-						.expectComplete()
-						.verify(),
-				null,
-				Collections.singletonMap(ResourceDecoder.FILENAME_HINT, "testFile"));
+		testDecodeToMonoAll(input, ResolvableType.forClass(Resource.class), step -> step.consumeNextWith(value -> {
+			Resource resource = (Resource) value;
+			try {
+				byte[] bytes = StreamUtils.copyToByteArray(resource.getInputStream());
+				assertThat(new String(bytes)).isEqualTo("foobar");
+				assertThat(resource.getFilename()).isEqualTo("testFile");
+			}
+			catch (IOException ex) {
+				throw new AssertionError(ex.getMessage(), ex);
+			}
+		}).expectComplete().verify(), null, Collections.singletonMap(ResourceDecoder.FILENAME_HINT, "testFile"));
 	}
 
 	@Test
 	public void decodeInputStreamResource() {
 		Flux<DataBuffer> input = Flux.concat(dataBuffer(this.fooBytes), dataBuffer(this.barBytes));
-		testDecodeAll(input, InputStreamResource.class, step -> step
-				.consumeNextWith(resource -> {
-					try {
-						byte[] bytes = StreamUtils.copyToByteArray(resource.getInputStream());
-						assertThat(new String(bytes)).isEqualTo("foobar");
-						assertThat(resource.contentLength()).isEqualTo(fooBytes.length + barBytes.length);
-					}
-					catch (IOException ex) {
-						throw new AssertionError(ex.getMessage(), ex);
-					}
-				})
-				.expectComplete()
-				.verify());
+		testDecodeAll(input, InputStreamResource.class, step -> step.consumeNextWith(resource -> {
+			try {
+				byte[] bytes = StreamUtils.copyToByteArray(resource.getInputStream());
+				assertThat(new String(bytes)).isEqualTo("foobar");
+				assertThat(resource.contentLength()).isEqualTo(fooBytes.length + barBytes.length);
+			}
+			catch (IOException ex) {
+				throw new AssertionError(ex.getMessage(), ex);
+			}
+		}).expectComplete().verify());
 	}
 
 }

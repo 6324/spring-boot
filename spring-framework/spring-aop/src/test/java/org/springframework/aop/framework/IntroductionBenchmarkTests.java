@@ -39,17 +39,20 @@ public class IntroductionBenchmarkTests {
 	/** Increase this if you want meaningful results! */
 	private static final int INVOCATIONS = 100000;
 
-
 	@SuppressWarnings("serial")
 	public static class SimpleCounterIntroduction extends DelegatingIntroductionInterceptor implements Counter {
+
 		@Override
 		public int getCount() {
 			return EXPECTED_COMPARE;
 		}
+
 	}
 
 	public static interface Counter {
+
 		int getCount();
+
 	}
 
 	@Test
@@ -84,4 +87,5 @@ public class IntroductionBenchmarkTests {
 
 		System.out.println(sw.prettyPrint());
 	}
+
 }

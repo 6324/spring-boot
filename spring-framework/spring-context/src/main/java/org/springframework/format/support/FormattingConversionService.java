@@ -43,8 +43,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.StringValueResolver;
 
 /**
- * A {@link org.springframework.core.convert.ConversionService} implementation
- * designed to be configured as a {@link FormatterRegistry}.
+ * A {@link org.springframework.core.convert.ConversionService} implementation designed to
+ * be configured as a {@link FormatterRegistry}.
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -60,12 +60,10 @@ public class FormattingConversionService extends GenericConversionService
 
 	private final Map<AnnotationConverterKey, GenericConverter> cachedParsers = new ConcurrentHashMap<>(64);
 
-
 	@Override
 	public void setEmbeddedValueResolver(StringValueResolver resolver) {
 		this.embeddedValueResolver = resolver;
 	}
-
 
 	@Override
 	public void addPrinter(Printer<?> printer) {
@@ -97,10 +95,12 @@ public class FormattingConversionService extends GenericConversionService
 	}
 
 	@Override
-	public void addFormatterForFieldAnnotation(AnnotationFormatterFactory<? extends Annotation> annotationFormatterFactory) {
+	public void addFormatterForFieldAnnotation(
+			AnnotationFormatterFactory<? extends Annotation> annotationFormatterFactory) {
 		Class<? extends Annotation> annotationType = getAnnotationType(annotationFormatterFactory);
 		if (this.embeddedValueResolver != null && annotationFormatterFactory instanceof EmbeddedValueResolverAware) {
-			((EmbeddedValueResolverAware) annotationFormatterFactory).setEmbeddedValueResolver(this.embeddedValueResolver);
+			((EmbeddedValueResolverAware) annotationFormatterFactory)
+					.setEmbeddedValueResolver(this.embeddedValueResolver);
 		}
 		Set<Class<?>> fieldTypes = annotationFormatterFactory.getFieldTypes();
 		for (Class<?> fieldType : fieldTypes) {
@@ -109,7 +109,6 @@ public class FormattingConversionService extends GenericConversionService
 		}
 	}
 
-
 	static Class<?> getFieldType(Formatter<?> formatter) {
 		return getFieldType(formatter, Formatter.class);
 	}
@@ -117,27 +116,27 @@ public class FormattingConversionService extends GenericConversionService
 	private static <T> Class<?> getFieldType(T instance, Class<T> genericInterface) {
 		Class<?> fieldType = GenericTypeResolver.resolveTypeArgument(instance.getClass(), genericInterface);
 		if (fieldType == null && instance instanceof DecoratingProxy) {
-			fieldType = GenericTypeResolver.resolveTypeArgument(
-					((DecoratingProxy) instance).getDecoratedClass(), genericInterface);
+			fieldType = GenericTypeResolver.resolveTypeArgument(((DecoratingProxy) instance).getDecoratedClass(),
+					genericInterface);
 		}
-		Assert.notNull(fieldType, () -> "Unable to extract the parameterized field type from " +
-					ClassUtils.getShortName(genericInterface) + " [" + instance.getClass().getName() +
-					"]; does the class parameterize the <T> generic type?");
+		Assert.notNull(fieldType,
+				() -> "Unable to extract the parameterized field type from " + ClassUtils.getShortName(genericInterface)
+						+ " [" + instance.getClass().getName()
+						+ "]; does the class parameterize the <T> generic type?");
 		return fieldType;
 	}
 
 	@SuppressWarnings("unchecked")
 	static Class<? extends Annotation> getAnnotationType(AnnotationFormatterFactory<? extends Annotation> factory) {
-		Class<? extends Annotation> annotationType = (Class<? extends Annotation>)
-				GenericTypeResolver.resolveTypeArgument(factory.getClass(), AnnotationFormatterFactory.class);
+		Class<? extends Annotation> annotationType = (Class<? extends Annotation>) GenericTypeResolver
+				.resolveTypeArgument(factory.getClass(), AnnotationFormatterFactory.class);
 		if (annotationType == null) {
-			throw new IllegalArgumentException("Unable to extract parameterized Annotation type argument from " +
-					"AnnotationFormatterFactory [" + factory.getClass().getName() +
-					"]; does the factory parameterize the <A extends Annotation> generic type?");
+			throw new IllegalArgumentException("Unable to extract parameterized Annotation type argument from "
+					+ "AnnotationFormatterFactory [" + factory.getClass().getName()
+					+ "]; does the factory parameterize the <A extends Annotation> generic type?");
 		}
 		return annotationType;
 	}
-
 
 	private static class PrinterConverter implements GenericConverter {
 
@@ -183,8 +182,8 @@ public class FormattingConversionService extends GenericConversionService
 		public String toString() {
 			return (this.fieldType.getName() + " -> " + String.class.getName() + " : " + this.printer);
 		}
-	}
 
+	}
 
 	private static class ParserConverter implements GenericConverter {
 
@@ -233,8 +232,8 @@ public class FormattingConversionService extends GenericConversionService
 		public String toString() {
 			return (String.class.getName() + " -> " + this.fieldType.getName() + ": " + this.parser);
 		}
-	}
 
+	}
 
 	private class AnnotationPrinterConverter implements ConditionalGenericConverter {
 
@@ -275,8 +274,8 @@ public class FormattingConversionService extends GenericConversionService
 			AnnotationConverterKey converterKey = new AnnotationConverterKey(ann, sourceType.getObjectType());
 			GenericConverter converter = cachedPrinters.get(converterKey);
 			if (converter == null) {
-				Printer<?> printer = this.annotationFormatterFactory.getPrinter(
-						converterKey.getAnnotation(), converterKey.getFieldType());
+				Printer<?> printer = this.annotationFormatterFactory.getPrinter(converterKey.getAnnotation(),
+						converterKey.getFieldType());
 				converter = new PrinterConverter(this.fieldType, printer, FormattingConversionService.this);
 				cachedPrinters.put(converterKey, converter);
 			}
@@ -285,11 +284,11 @@ public class FormattingConversionService extends GenericConversionService
 
 		@Override
 		public String toString() {
-			return ("@" + this.annotationType.getName() + " " + this.fieldType.getName() + " -> " +
-					String.class.getName() + ": " + this.annotationFormatterFactory);
+			return ("@" + this.annotationType.getName() + " " + this.fieldType.getName() + " -> "
+					+ String.class.getName() + ": " + this.annotationFormatterFactory);
 		}
-	}
 
+	}
 
 	private class AnnotationParserConverter implements ConditionalGenericConverter {
 
@@ -330,8 +329,8 @@ public class FormattingConversionService extends GenericConversionService
 			AnnotationConverterKey converterKey = new AnnotationConverterKey(ann, targetType.getObjectType());
 			GenericConverter converter = cachedParsers.get(converterKey);
 			if (converter == null) {
-				Parser<?> parser = this.annotationFormatterFactory.getParser(
-						converterKey.getAnnotation(), converterKey.getFieldType());
+				Parser<?> parser = this.annotationFormatterFactory.getParser(converterKey.getAnnotation(),
+						converterKey.getFieldType());
 				converter = new ParserConverter(this.fieldType, parser, FormattingConversionService.this);
 				cachedParsers.put(converterKey, converter);
 			}
@@ -340,11 +339,11 @@ public class FormattingConversionService extends GenericConversionService
 
 		@Override
 		public String toString() {
-			return (String.class.getName() + " -> @" + this.annotationType.getName() + " " +
-					this.fieldType.getName() + ": " + this.annotationFormatterFactory);
+			return (String.class.getName() + " -> @" + this.annotationType.getName() + " " + this.fieldType.getName()
+					+ ": " + this.annotationFormatterFactory);
 		}
-	}
 
+	}
 
 	private static class AnnotationConverterKey {
 
@@ -381,6 +380,7 @@ public class FormattingConversionService extends GenericConversionService
 		public int hashCode() {
 			return (this.fieldType.hashCode() * 29 + this.annotation.hashCode());
 		}
+
 	}
 
 }

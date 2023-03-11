@@ -58,48 +58,42 @@ public class SharedEntityManagerCreatorTests {
 	public void transactionRequiredExceptionOnJoinTransaction() {
 		EntityManagerFactory emf = mock(EntityManagerFactory.class);
 		EntityManager em = SharedEntityManagerCreator.createSharedEntityManager(emf);
-		assertThatExceptionOfType(TransactionRequiredException.class).isThrownBy(
-				em::joinTransaction);
+		assertThatExceptionOfType(TransactionRequiredException.class).isThrownBy(em::joinTransaction);
 	}
 
 	@Test
 	public void transactionRequiredExceptionOnFlush() {
 		EntityManagerFactory emf = mock(EntityManagerFactory.class);
 		EntityManager em = SharedEntityManagerCreator.createSharedEntityManager(emf);
-		assertThatExceptionOfType(TransactionRequiredException.class).isThrownBy(
-				em::flush);
+		assertThatExceptionOfType(TransactionRequiredException.class).isThrownBy(em::flush);
 	}
 
 	@Test
 	public void transactionRequiredExceptionOnPersist() {
 		EntityManagerFactory emf = mock(EntityManagerFactory.class);
 		EntityManager em = SharedEntityManagerCreator.createSharedEntityManager(emf);
-		assertThatExceptionOfType(TransactionRequiredException.class).isThrownBy(() ->
-				em.persist(new Object()));
+		assertThatExceptionOfType(TransactionRequiredException.class).isThrownBy(() -> em.persist(new Object()));
 	}
 
 	@Test
 	public void transactionRequiredExceptionOnMerge() {
 		EntityManagerFactory emf = mock(EntityManagerFactory.class);
 		EntityManager em = SharedEntityManagerCreator.createSharedEntityManager(emf);
-		assertThatExceptionOfType(TransactionRequiredException.class).isThrownBy(() ->
-				em.merge(new Object()));
+		assertThatExceptionOfType(TransactionRequiredException.class).isThrownBy(() -> em.merge(new Object()));
 	}
 
 	@Test
 	public void transactionRequiredExceptionOnRemove() {
 		EntityManagerFactory emf = mock(EntityManagerFactory.class);
 		EntityManager em = SharedEntityManagerCreator.createSharedEntityManager(emf);
-		assertThatExceptionOfType(TransactionRequiredException.class).isThrownBy(() ->
-				em.remove(new Object()));
+		assertThatExceptionOfType(TransactionRequiredException.class).isThrownBy(() -> em.remove(new Object()));
 	}
 
 	@Test
 	public void transactionRequiredExceptionOnRefresh() {
 		EntityManagerFactory emf = mock(EntityManagerFactory.class);
 		EntityManager em = SharedEntityManagerCreator.createSharedEntityManager(emf);
-		assertThatExceptionOfType(TransactionRequiredException.class).isThrownBy(() ->
-				em.refresh(new Object()));
+		assertThatExceptionOfType(TransactionRequiredException.class).isThrownBy(() -> em.refresh(new Object()));
 	}
 
 	@Test
@@ -184,8 +178,7 @@ public class SharedEntityManagerCreatorTests {
 		spq.registerStoredProcedureParameter(2, Object.class, ParameterMode.INOUT);
 		spq.execute();
 		assertThat(spq.getOutputParameterValue(0)).isEqualTo("y");
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				spq.getOutputParameterValue(1));
+		assertThatIllegalArgumentException().isThrownBy(() -> spq.getOutputParameterValue(1));
 		assertThat(spq.getOutputParameterValue(2)).isEqualTo("z");
 
 		verify(query).registerStoredProcedureParameter(0, String.class, ParameterMode.OUT);
@@ -215,8 +208,7 @@ public class SharedEntityManagerCreatorTests {
 		spq.registerStoredProcedureParameter("c", Object.class, ParameterMode.INOUT);
 		spq.execute();
 		assertThat(spq.getOutputParameterValue("a")).isEqualTo("y");
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				spq.getOutputParameterValue("b"));
+		assertThatIllegalArgumentException().isThrownBy(() -> spq.getOutputParameterValue("b"));
 		assertThat(spq.getOutputParameterValue("c")).isEqualTo("z");
 
 		verify(query).registerStoredProcedureParameter("a", String.class, ParameterMode.OUT);

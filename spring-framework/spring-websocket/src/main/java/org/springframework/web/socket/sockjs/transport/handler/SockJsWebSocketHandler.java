@@ -37,7 +37,8 @@ import org.springframework.web.socket.sockjs.transport.session.WebSocketServerSo
  * SockJS heartbeat messages, and delegates lifecycle events and messages to a target
  * {@link WebSocketHandler}.
  *
- * <p>Methods in this class allow exceptions from the wrapped {@link WebSocketHandler} to
+ * <p>
+ * Methods in this class allow exceptions from the wrapped {@link WebSocketHandler} to
  * propagate. However, any exceptions resulting from SockJS message handling (e.g. while
  * sending SockJS frames or heartbeat messages) are caught and treated as transport
  * errors, i.e. routed to the
@@ -57,7 +58,6 @@ public class SockJsWebSocketHandler extends TextWebSocketHandler implements SubP
 
 	private final AtomicInteger sessionCount = new AtomicInteger(0);
 
-
 	public SockJsWebSocketHandler(SockJsServiceConfig serviceConfig, WebSocketHandler webSocketHandler,
 			WebSocketServerSockJsSession sockJsSession) {
 
@@ -69,8 +69,8 @@ public class SockJsWebSocketHandler extends TextWebSocketHandler implements SubP
 		this.sockJsSession = sockJsSession;
 
 		webSocketHandler = WebSocketHandlerDecorator.unwrap(webSocketHandler);
-		this.subProtocols = ((webSocketHandler instanceof SubProtocolCapable) ?
-				new ArrayList<>(((SubProtocolCapable) webSocketHandler).getSubProtocols()) : Collections.emptyList());
+		this.subProtocols = ((webSocketHandler instanceof SubProtocolCapable)
+				? new ArrayList<>(((SubProtocolCapable) webSocketHandler).getSubProtocols()) : Collections.emptyList());
 	}
 
 	@Override

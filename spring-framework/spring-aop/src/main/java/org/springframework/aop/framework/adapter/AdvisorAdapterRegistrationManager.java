@@ -21,11 +21,13 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 
 /**
  * BeanPostProcessor that registers {@link AdvisorAdapter} beans in the BeanFactory with
- * an {@link AdvisorAdapterRegistry} (by default the {@link GlobalAdvisorAdapterRegistry}).
+ * an {@link AdvisorAdapterRegistry} (by default the
+ * {@link GlobalAdvisorAdapterRegistry}).
  *
- * <p>The only requirement for it to work is that it needs to be defined
- * in application context along with "non-native" Spring AdvisorAdapters
- * that need to be "recognized" by Spring's AOP framework.
+ * <p>
+ * The only requirement for it to work is that it needs to be defined in application
+ * context along with "non-native" Spring AdvisorAdapters that need to be "recognized" by
+ * Spring's AOP framework.
  *
  * @author Dmitriy Kopylenko
  * @author Juergen Hoeller
@@ -37,16 +39,14 @@ public class AdvisorAdapterRegistrationManager implements BeanPostProcessor {
 
 	private AdvisorAdapterRegistry advisorAdapterRegistry = GlobalAdvisorAdapterRegistry.getInstance();
 
-
 	/**
-	 * Specify the AdvisorAdapterRegistry to register AdvisorAdapter beans with.
-	 * Default is the global AdvisorAdapterRegistry.
+	 * Specify the AdvisorAdapterRegistry to register AdvisorAdapter beans with. Default
+	 * is the global AdvisorAdapterRegistry.
 	 * @see GlobalAdvisorAdapterRegistry
 	 */
 	public void setAdvisorAdapterRegistry(AdvisorAdapterRegistry advisorAdapterRegistry) {
 		this.advisorAdapterRegistry = advisorAdapterRegistry;
 	}
-
 
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
@@ -55,7 +55,7 @@ public class AdvisorAdapterRegistrationManager implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		if (bean instanceof AdvisorAdapter){
+		if (bean instanceof AdvisorAdapter) {
 			this.advisorAdapterRegistry.registerAdvisorAdapter((AdvisorAdapter) bean);
 		}
 		return bean;

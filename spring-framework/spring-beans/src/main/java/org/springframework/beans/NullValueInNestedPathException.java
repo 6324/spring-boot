@@ -17,11 +17,12 @@
 package org.springframework.beans;
 
 /**
- * Exception thrown when navigation of a valid nested property
- * path encounters a NullPointerException.
+ * Exception thrown when navigation of a valid nested property path encounters a
+ * NullPointerException.
  *
- * <p>For example, navigating "spouse.age" could fail because the
- * spouse property of the target object has a null value.
+ * <p>
+ * For example, navigating "spouse.age" could fail because the spouse property of the
+ * target object has a null value.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller

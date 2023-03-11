@@ -28,12 +28,13 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * JDBC {@link javax.sql.DataSource} implementation that delegates all calls
- * to a given target {@link javax.sql.DataSource}.
+ * JDBC {@link javax.sql.DataSource} implementation that delegates all calls to a given
+ * target {@link javax.sql.DataSource}.
  *
- * <p>This class is meant to be subclassed, with subclasses overriding only
- * those methods (such as {@link #getConnection()}) that should not simply
- * delegate to the target DataSource.
+ * <p>
+ * This class is meant to be subclassed, with subclasses overriding only those methods
+ * (such as {@link #getConnection()}) that should not simply delegate to the target
+ * DataSource.
  *
  * @author Juergen Hoeller
  * @since 1.1
@@ -43,7 +44,6 @@ public class DelegatingDataSource implements DataSource, InitializingBean {
 
 	@Nullable
 	private DataSource targetDataSource;
-
 
 	/**
 	 * Create a new DelegatingDataSource.
@@ -59,7 +59,6 @@ public class DelegatingDataSource implements DataSource, InitializingBean {
 	public DelegatingDataSource(DataSource targetDataSource) {
 		setTargetDataSource(targetDataSource);
 	}
-
 
 	/**
 	 * Set the target DataSource that this DataSource should delegate to.
@@ -93,7 +92,6 @@ public class DelegatingDataSource implements DataSource, InitializingBean {
 		}
 	}
 
-
 	@Override
 	public Connection getConnection() throws SQLException {
 		return obtainTargetDataSource().getConnection();
@@ -124,10 +122,9 @@ public class DelegatingDataSource implements DataSource, InitializingBean {
 		obtainTargetDataSource().setLoginTimeout(seconds);
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of JDBC 4.0's Wrapper interface
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -143,10 +140,9 @@ public class DelegatingDataSource implements DataSource, InitializingBean {
 		return (iface.isInstance(this) || obtainTargetDataSource().isWrapperFor(iface));
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of JDBC 4.1's getParentLogger method
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	@Override
 	public Logger getParentLogger() {

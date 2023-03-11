@@ -28,20 +28,18 @@ import org.springframework.web.reactive.socket.HandshakeInfo;
 import org.springframework.web.reactive.socket.WebSocketSession;
 
 /**
- * Spring {@link WebSocketSession} adapter for Tomcat's
- * {@link javax.websocket.Session}.
+ * Spring {@link WebSocketSession} adapter for Tomcat's {@link javax.websocket.Session}.
  *
  * @author Violeta Georgieva
  * @since 5.0
  */
 public class TomcatWebSocketSession extends StandardWebSocketSession {
 
-	private static final AtomicIntegerFieldUpdater<TomcatWebSocketSession> SUSPENDED =
-			AtomicIntegerFieldUpdater.newUpdater(TomcatWebSocketSession.class, "suspended");
+	private static final AtomicIntegerFieldUpdater<TomcatWebSocketSession> SUSPENDED = AtomicIntegerFieldUpdater
+			.newUpdater(TomcatWebSocketSession.class, "suspended");
 
 	@SuppressWarnings("unused")
 	private volatile int suspended;
-
 
 	public TomcatWebSocketSession(Session session, HandshakeInfo info, DataBufferFactory factory) {
 		super(session, info, factory);
@@ -53,7 +51,6 @@ public class TomcatWebSocketSession extends StandardWebSocketSession {
 		super(session, info, factory, completionMono);
 		suspendReceiving();
 	}
-
 
 	@Override
 	protected boolean canSuspendReceiving() {

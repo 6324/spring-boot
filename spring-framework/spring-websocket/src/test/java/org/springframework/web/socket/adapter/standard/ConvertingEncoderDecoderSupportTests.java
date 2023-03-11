@@ -43,11 +43,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
-
-
-
 /**
- * Test for {@link org.springframework.web.socket.adapter.standard.ConvertingEncoderDecoderSupport}.
+ * Test for
+ * {@link org.springframework.web.socket.adapter.standard.ConvertingEncoderDecoderSupport}.
  *
  * @author Phillip Webb
  */
@@ -57,11 +55,9 @@ public class ConvertingEncoderDecoderSupportTests {
 
 	private static final ByteBuffer CONVERTED_BYTES = ByteBuffer.wrap("~test".getBytes());
 
-
 	private WebApplicationContext applicationContext;
 
 	private MyType myType = new MyType("test");
-
 
 	@BeforeEach
 	public void setup() {
@@ -89,23 +85,20 @@ public class ConvertingEncoderDecoderSupportTests {
 	@Test
 	public void encodeToTextCannotConvert() throws Exception {
 		setup(NoConvertersConfig.class);
-		assertThatExceptionOfType(EncodeException.class).isThrownBy(() ->
-				new MyTextEncoder().encode(myType))
-			.withCauseInstanceOf(ConverterNotFoundException.class);
+		assertThatExceptionOfType(EncodeException.class).isThrownBy(() -> new MyTextEncoder().encode(myType))
+				.withCauseInstanceOf(ConverterNotFoundException.class);
 	}
 
 	@Test
 	public void encodeToBinary() throws Exception {
-		assertThat(new MyBinaryEncoder().encode(myType).array())
-				.isEqualTo(CONVERTED_BYTES.array());
+		assertThat(new MyBinaryEncoder().encode(myType).array()).isEqualTo(CONVERTED_BYTES.array());
 	}
 
 	@Test
 	public void encodeToBinaryCannotConvert() throws Exception {
 		setup(NoConvertersConfig.class);
-		assertThatExceptionOfType(EncodeException.class).isThrownBy(() ->
-				new MyBinaryEncoder().encode(myType))
-			.withCauseInstanceOf(ConverterNotFoundException.class);
+		assertThatExceptionOfType(EncodeException.class).isThrownBy(() -> new MyBinaryEncoder().encode(myType))
+				.withCauseInstanceOf(ConverterNotFoundException.class);
 	}
 
 	@Test
@@ -120,9 +113,8 @@ public class ConvertingEncoderDecoderSupportTests {
 		setup(NoConvertersConfig.class);
 		Decoder.Text<MyType> decoder = new MyTextDecoder();
 		assertThat(decoder.willDecode(CONVERTED_TEXT)).isFalse();
-		assertThatExceptionOfType(DecodeException.class).isThrownBy(() ->
-				decoder.decode(CONVERTED_TEXT))
-			.withCauseInstanceOf(ConverterNotFoundException.class);
+		assertThatExceptionOfType(DecodeException.class).isThrownBy(() -> decoder.decode(CONVERTED_TEXT))
+				.withCauseInstanceOf(ConverterNotFoundException.class);
 	}
 
 	@Test
@@ -137,9 +129,8 @@ public class ConvertingEncoderDecoderSupportTests {
 		setup(NoConvertersConfig.class);
 		Decoder.Binary<MyType> decoder = new MyBinaryDecoder();
 		assertThat(decoder.willDecode(CONVERTED_BYTES)).isFalse();
-		assertThatExceptionOfType(DecodeException.class).isThrownBy(() ->
-				decoder.decode(CONVERTED_BYTES))
-			.withCauseInstanceOf(ConverterNotFoundException.class);
+		assertThatExceptionOfType(DecodeException.class).isThrownBy(() -> decoder.decode(CONVERTED_BYTES))
+				.withCauseInstanceOf(ConverterNotFoundException.class);
 	}
 
 	@Test
@@ -168,9 +159,8 @@ public class ConvertingEncoderDecoderSupportTests {
 		ContextLoaderTestUtils.setCurrentWebApplicationContext(null);
 		WithAutowire encoder = new WithAutowire();
 		encoder.init(null);
-		assertThatIllegalStateException().isThrownBy(() ->
-				encoder.encode(myType))
-			.withMessageContaining("Unable to locate the Spring ApplicationContext");
+		assertThatIllegalStateException().isThrownBy(() -> encoder.encode(myType))
+				.withMessageContaining("Unable to locate the Spring ApplicationContext");
 	}
 
 	@Test
@@ -178,9 +168,8 @@ public class ConvertingEncoderDecoderSupportTests {
 		setup(NoConfig.class);
 		MyBinaryEncoder encoder = new MyBinaryEncoder();
 		encoder.init(null);
-		assertThatIllegalStateException().isThrownBy(() ->
-				encoder.encode(myType))
-			.withMessageContaining("Unable to find ConversionService");
+		assertThatIllegalStateException().isThrownBy(() -> encoder.encode(myType))
+				.withMessageContaining("Unable to find ConversionService");
 	}
 
 	@Configuration
@@ -208,11 +197,10 @@ public class ConvertingEncoderDecoderSupportTests {
 
 	}
 
-
 	@Configuration
 	public static class NoConfig {
-	}
 
+	}
 
 	public static class MyType {
 
@@ -235,76 +223,74 @@ public class ConvertingEncoderDecoderSupportTests {
 		@Override
 		public boolean equals(Object obj) {
 			if (obj instanceof MyType) {
-				return ((MyType)obj).value.equals(value);
+				return ((MyType) obj).value.equals(value);
 			}
 			return false;
 		}
+
 	}
 
-
 	private static class MyTypeToStringConverter implements Converter<MyType, String> {
+
 		@Override
 		public String convert(MyType source) {
 			return "_" + source.toString();
 		}
+
 	}
 
-
 	private static class MyTypeToBytesConverter implements Converter<MyType, byte[]> {
+
 		@Override
 		public byte[] convert(MyType source) {
 			return ("~" + source.toString()).getBytes();
 		}
+
 	}
 
-
 	private static class StringToMyTypeConverter implements Converter<String, MyType> {
+
 		@Override
 		public MyType convert(String source) {
 			return new MyType(source.substring(1));
 		}
+
 	}
 
-
 	private static class BytesToMyTypeConverter implements Converter<byte[], MyType> {
+
 		@Override
 		public MyType convert(byte[] source) {
 			return new MyType(new String(source).substring(1));
 		}
+
 	}
 
+	public static class MyTextEncoder extends ConvertingEncoderDecoderSupport.TextEncoder<MyType> {
 
-	public static class MyTextEncoder extends
-			ConvertingEncoderDecoderSupport.TextEncoder<MyType> {
 	}
 
+	public static class MyBinaryEncoder extends ConvertingEncoderDecoderSupport.BinaryEncoder<MyType> {
 
-	public static class MyBinaryEncoder extends
-			ConvertingEncoderDecoderSupport.BinaryEncoder<MyType> {
 	}
 
+	public static class MyTextDecoder extends ConvertingEncoderDecoderSupport.TextDecoder<MyType> {
 
-	public static class MyTextDecoder extends
-			ConvertingEncoderDecoderSupport.TextDecoder<MyType> {
 	}
 
+	public static class MyBinaryDecoder extends ConvertingEncoderDecoderSupport.BinaryDecoder<MyType> {
 
-	public static class MyBinaryDecoder extends
-			ConvertingEncoderDecoderSupport.BinaryDecoder<MyType> {
 	}
 
+	public static class MyTextEncoderDecoder extends ConvertingEncoderDecoderSupport<MyType, String>
+			implements Encoder.Text<MyType>, Decoder.Text<MyType> {
 
-	public static class MyTextEncoderDecoder extends
-			ConvertingEncoderDecoderSupport<MyType, String> implements Encoder.Text<MyType>,
-			Decoder.Text<MyType> {
 	}
 
+	public static class MyBinaryEncoderDecoder extends ConvertingEncoderDecoderSupport<MyType, ByteBuffer>
+			implements Encoder.Binary<MyType>, Decoder.Binary<MyType> {
 
-	public static class MyBinaryEncoderDecoder extends
-			ConvertingEncoderDecoderSupport<MyType, ByteBuffer> implements Encoder.Binary<MyType>,
-			Decoder.Binary<MyType> {
 	}
-
 
 	public static class WithAutowire extends ConvertingEncoderDecoderSupport.TextDecoder<MyType> {
 

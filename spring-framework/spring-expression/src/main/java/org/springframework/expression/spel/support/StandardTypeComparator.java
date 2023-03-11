@@ -26,8 +26,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.NumberUtils;
 
 /**
- * A basic {@link TypeComparator} implementation: supports comparison of
- * {@link Number} types as well as types implementing {@link Comparable}.
+ * A basic {@link TypeComparator} implementation: supports comparison of {@link Number}
+ * types as well as types implementing {@link Comparable}.
  *
  * @author Andy Clement
  * @author Juergen Hoeller
@@ -58,7 +58,7 @@ public class StandardTypeComparator implements TypeComparator {
 			return (right == null ? 0 : -1);
 		}
 		else if (right == null) {
-			return 1;  // left cannot be null at this point
+			return 1; // left cannot be null at this point
 		}
 
 		// Basic number comparisons

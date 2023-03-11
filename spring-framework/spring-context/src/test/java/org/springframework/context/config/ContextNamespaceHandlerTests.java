@@ -46,7 +46,6 @@ public class ContextNamespaceHandlerTests {
 		System.getProperties().remove("foo");
 	}
 
-
 	@Test
 	public void propertyPlaceholder() {
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext(
@@ -93,8 +92,7 @@ public class ContextNamespaceHandlerTests {
 
 	@Test
 	public void propertyPlaceholderLocationWithSystemPropertyForOneLocation() {
-		System.setProperty("properties",
-				"classpath*:/org/springframework/context/config/test-*.properties");
+		System.setProperty("properties", "classpath*:/org/springframework/context/config/test-*.properties");
 		try {
 			ApplicationContext applicationContext = new ClassPathXmlApplicationContext(
 					"contextNamespaceHandlerTests-location-placeholder.xml", getClass());
@@ -110,9 +108,9 @@ public class ContextNamespaceHandlerTests {
 	@Test
 	public void propertyPlaceholderLocationWithSystemPropertyForMultipleLocations() {
 		System.setProperty("properties",
-				"classpath*:/org/springframework/context/config/test-*.properties," +
-				"classpath*:/org/springframework/context/config/empty-*.properties," +
-				"classpath*:/org/springframework/context/config/missing-*.properties");
+				"classpath*:/org/springframework/context/config/test-*.properties,"
+						+ "classpath*:/org/springframework/context/config/empty-*.properties,"
+						+ "classpath*:/org/springframework/context/config/missing-*.properties");
 		try {
 			ApplicationContext applicationContext = new ClassPathXmlApplicationContext(
 					"contextNamespaceHandlerTests-location-placeholder.xml", getClass());
@@ -127,11 +125,11 @@ public class ContextNamespaceHandlerTests {
 
 	@Test
 	public void propertyPlaceholderLocationWithSystemPropertyMissing() {
-		assertThatExceptionOfType(FatalBeanException.class).isThrownBy(() ->
-				new ClassPathXmlApplicationContext("contextNamespaceHandlerTests-location-placeholder.xml", getClass()))
-			.satisfies(ex -> assertThat(ex.getRootCause())
-					.isInstanceOf(IllegalArgumentException.class)
-					.hasMessage("Could not resolve placeholder 'foo' in value \"${foo}\""));
+		assertThatExceptionOfType(FatalBeanException.class)
+				.isThrownBy(() -> new ClassPathXmlApplicationContext(
+						"contextNamespaceHandlerTests-location-placeholder.xml", getClass()))
+				.satisfies(ex -> assertThat(ex.getRootCause()).isInstanceOf(IllegalArgumentException.class)
+						.hasMessage("Could not resolve placeholder 'foo' in value \"${foo}\""));
 	}
 
 	@Test

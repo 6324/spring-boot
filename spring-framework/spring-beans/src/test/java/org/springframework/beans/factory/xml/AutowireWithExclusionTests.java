@@ -169,8 +169,7 @@ public class AutowireWithExclusionTests {
 
 	private DefaultListableBeanFactory getBeanFactory(String configPath) {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(
-				new ClassPathResource(configPath, getClass()));
+		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource(configPath, getClass()));
 		return bf;
 	}
 

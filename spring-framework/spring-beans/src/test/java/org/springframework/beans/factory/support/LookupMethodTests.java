@@ -34,14 +34,12 @@ public class LookupMethodTests {
 
 	private DefaultListableBeanFactory beanFactory;
 
-
 	@BeforeEach
 	public void setUp() {
 		beanFactory = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
 		reader.loadBeanDefinitions(new ClassPathResource("lookupMethodTests.xml", getClass()));
 	}
-
 
 	@Test
 	public void testWithoutConstructorArg() {
@@ -83,8 +81,8 @@ public class LookupMethodTests {
 	public void testWithThreeArgsShouldFail() {
 		AbstractBean bean = (AbstractBean) beanFactory.getBean("abstractBean");
 		assertThat(bean).isNotNull();
-		assertThatExceptionOfType(AbstractMethodError.class).as("does not have a three arg constructor").isThrownBy(() ->
-			bean.getThreeArguments("name", 1, 2));
+		assertThatExceptionOfType(AbstractMethodError.class).as("does not have a three arg constructor")
+				.isThrownBy(() -> bean.getThreeArguments("name", 1, 2));
 	}
 
 	@Test
@@ -97,18 +95,18 @@ public class LookupMethodTests {
 		assertThat(expected.isJedi()).isTrue();
 	}
 
-
 	public static abstract class AbstractBean {
 
 		public abstract TestBean get();
 
-		public abstract TestBean get(String name);  // overloaded
+		public abstract TestBean get(String name); // overloaded
 
 		public abstract TestBean getOneArgument(String name);
 
 		public abstract TestBean getTwoArguments(String name, int age);
 
 		public abstract TestBean getThreeArguments(String name, int age, int anotherArg);
+
 	}
 
 }

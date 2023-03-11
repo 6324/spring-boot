@@ -56,7 +56,7 @@ public class SingleConnectionFactoryTests {
 		con2.start();
 		con2.stop();
 		con2.close();
-		scf.destroy();  // should trigger actual close
+		scf.destroy(); // should trigger actual close
 
 		verify(con, times(2)).start();
 		verify(con, times(2)).stop();
@@ -77,7 +77,7 @@ public class SingleConnectionFactoryTests {
 		con2.start();
 		con2.stop();
 		con2.close();
-		scf.destroy();  // should trigger actual close
+		scf.destroy(); // should trigger actual close
 
 		verify(con, times(2)).start();
 		verify(con, times(2)).stop();
@@ -98,7 +98,7 @@ public class SingleConnectionFactoryTests {
 		con2.start();
 		con2.stop();
 		con2.close();
-		scf.destroy();  // should trigger actual close
+		scf.destroy(); // should trigger actual close
 
 		verify(con, times(2)).start();
 		verify(con, times(2)).stop();
@@ -120,7 +120,7 @@ public class SingleConnectionFactoryTests {
 		con2.start();
 		con1.close();
 		con2.close();
-		scf.destroy();  // should trigger actual close
+		scf.destroy(); // should trigger actual close
 
 		verify(con).start();
 		verify(con).stop();
@@ -142,7 +142,7 @@ public class SingleConnectionFactoryTests {
 		con2.start();
 		con1.close();
 		con2.close();
-		scf.destroy();  // should trigger actual close
+		scf.destroy(); // should trigger actual close
 
 		verify(con).start();
 		verify(con).stop();
@@ -164,7 +164,7 @@ public class SingleConnectionFactoryTests {
 		con2.start();
 		con1.close();
 		con2.close();
-		scf.destroy();  // should trigger actual close
+		scf.destroy(); // should trigger actual close
 
 		verify(con).start();
 		verify(con).stop();
@@ -186,7 +186,7 @@ public class SingleConnectionFactoryTests {
 		con2.start();
 		con1.close();
 		con2.close();
-		scf.destroy();  // should trigger actual close
+		scf.destroy(); // should trigger actual close
 
 		verify(con).start();
 		verify(con).stop();
@@ -208,7 +208,7 @@ public class SingleConnectionFactoryTests {
 		con2.start();
 		con1.close();
 		con2.close();
-		scf.destroy();  // should trigger actual close
+		scf.destroy(); // should trigger actual close
 
 		verify(con).start();
 		verify(con).stop();
@@ -262,7 +262,7 @@ public class SingleConnectionFactoryTests {
 		con2.start();
 		con1.close();
 		con2.close();
-		scf.destroy();  // should trigger actual close
+		scf.destroy(); // should trigger actual close
 
 		verify(con).setClientID("myId");
 		verify(con).start();
@@ -291,7 +291,7 @@ public class SingleConnectionFactoryTests {
 		con2.start();
 		con2.stop();
 		con2.close();
-		scf.destroy();  // should trigger actual close
+		scf.destroy(); // should trigger actual close
 
 		verify(con).setExceptionListener(listener);
 		verify(con, times(2)).start();
@@ -313,7 +313,7 @@ public class SingleConnectionFactoryTests {
 		con.getExceptionListener().onException(new JMSException(""));
 		Connection con2 = scf.createConnection();
 		con2.start();
-		scf.destroy();  // should trigger actual close
+		scf.destroy(); // should trigger actual close
 
 		assertThat(con.getStartCount()).isEqualTo(2);
 		assertThat(con.getCloseCount()).isEqualTo(2);
@@ -335,7 +335,7 @@ public class SingleConnectionFactoryTests {
 		con.getExceptionListener().onException(new JMSException(""));
 		Connection con2 = scf.createConnection();
 		con2.start();
-		scf.destroy();  // should trigger actual close
+		scf.destroy(); // should trigger actual close
 
 		assertThat(con.getStartCount()).isEqualTo(2);
 		assertThat(con.getCloseCount()).isEqualTo(2);
@@ -371,7 +371,7 @@ public class SingleConnectionFactoryTests {
 		con.getExceptionListener().onException(new JMSException(""));
 		con1.close();
 		con.getExceptionListener().onException(new JMSException(""));
-		scf.destroy();  // should trigger actual close
+		scf.destroy(); // should trigger actual close
 
 		assertThat(con.getStartCount()).isEqualTo(0);
 		assertThat(con.getCloseCount()).isEqualTo(1);
@@ -405,7 +405,7 @@ public class SingleConnectionFactoryTests {
 		con1.getMetaData();
 		con.getExceptionListener().onException(new JMSException(""));
 		con1.close();
-		scf.destroy();  // should trigger actual close
+		scf.destroy(); // should trigger actual close
 
 		assertThat(con.getStartCount()).isEqualTo(2);
 		assertThat(con.getCloseCount()).isEqualTo(2);
@@ -431,7 +431,7 @@ public class SingleConnectionFactoryTests {
 		Connection con1 = scf.createConnection();
 		Session session1 = con1.createSession(true, Session.AUTO_ACKNOWLEDGE);
 		session1.getTransacted();
-		session1.close();  // should lead to rollback
+		session1.close(); // should lead to rollback
 		session1 = con1.createSession(false, Session.CLIENT_ACKNOWLEDGE);
 		session1.close();
 		con1.start();
@@ -444,7 +444,7 @@ public class SingleConnectionFactoryTests {
 		con2.start();
 		con1.close();
 		con2.close();
-		scf.destroy();  // should trigger actual close
+		scf.destroy(); // should trigger actual close
 
 		verify(txSession).commit();
 		verify(txSession).close();
@@ -480,11 +480,11 @@ public class SingleConnectionFactoryTests {
 		session2.close();
 		session2 = con2.createSession(true, Session.AUTO_ACKNOWLEDGE);
 		session2.getTransacted();
-		session2.close();  // should lead to rollback
+		session2.close(); // should lead to rollback
 		con2.start();
 		con1.close();
 		con2.close();
-		scf.destroy();  // should trigger actual close
+		scf.destroy(); // should trigger actual close
 
 		verify(txSession).rollback();
 		verify(txSession).close();
@@ -511,7 +511,7 @@ public class SingleConnectionFactoryTests {
 		Connection con1 = scf.createTopicConnection();
 		Session session1 = con1.createSession(true, Session.AUTO_ACKNOWLEDGE);
 		session1.getTransacted();
-		session1.close();  // should lead to rollback
+		session1.close(); // should lead to rollback
 		session1 = con1.createSession(false, Session.CLIENT_ACKNOWLEDGE);
 		session1.close();
 		con1.start();
@@ -524,7 +524,7 @@ public class SingleConnectionFactoryTests {
 		con2.start();
 		con1.close();
 		con2.close();
-		scf.destroy();  // should trigger actual close
+		scf.destroy(); // should trigger actual close
 
 		verify(txSession).close();
 		verify(nonTxSession).close();

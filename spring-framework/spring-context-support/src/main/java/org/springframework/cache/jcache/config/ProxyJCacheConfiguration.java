@@ -28,7 +28,8 @@ import org.springframework.context.annotation.Role;
  * {@code @Configuration} class that registers the Spring infrastructure beans necessary
  * to enable proxy-based annotation-driven JSR-107 cache management.
  *
- * <p>Can safely be used alongside Spring's caching support.
+ * <p>
+ * Can safely be used alongside Spring's caching support.
  *
  * @author Stephane Nicoll
  * @author Juergen Hoeller
@@ -43,8 +44,7 @@ public class ProxyJCacheConfiguration extends AbstractJCacheConfiguration {
 	@Bean(name = CacheManagementConfigUtils.JCACHE_ADVISOR_BEAN_NAME)
 	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 	public BeanFactoryJCacheOperationSourceAdvisor cacheAdvisor() {
-		BeanFactoryJCacheOperationSourceAdvisor advisor =
-				new BeanFactoryJCacheOperationSourceAdvisor();
+		BeanFactoryJCacheOperationSourceAdvisor advisor = new BeanFactoryJCacheOperationSourceAdvisor();
 		advisor.setCacheOperationSource(cacheOperationSource());
 		advisor.setAdvice(cacheInterceptor());
 		if (this.enableCaching != null) {

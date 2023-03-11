@@ -27,9 +27,9 @@ import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * A {@link ResourceTransformer} that checks a {@link Cache} to see if a
- * previously transformed resource exists in the cache and returns it if found,
- * or otherwise delegates to the resolver chain and caches the result.
+ * A {@link ResourceTransformer} that checks a {@link Cache} to see if a previously
+ * transformed resource exists in the cache and returns it if found, or otherwise
+ * delegates to the resolver chain and caches the result.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -39,7 +39,6 @@ public class CachingResourceTransformer implements ResourceTransformer {
 	private static final Log logger = LogFactory.getLog(CachingResourceTransformer.class);
 
 	private final Cache cache;
-
 
 	public CachingResourceTransformer(Cache cache) {
 		Assert.notNull(cache, "Cache is required");
@@ -54,14 +53,12 @@ public class CachingResourceTransformer implements ResourceTransformer {
 		this.cache = cache;
 	}
 
-
 	/**
 	 * Return the configured {@code Cache}.
 	 */
 	public Cache getCache() {
 		return this.cache;
 	}
-
 
 	@Override
 	public Mono<Resource> transform(ServerWebExchange exchange, Resource resource,

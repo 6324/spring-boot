@@ -47,7 +47,6 @@ public class MockUOWManager implements UOWManager {
 
 	private final List<Synchronization> synchronizations = new LinkedList<>();
 
-
 	@Override
 	public void runUnderUOW(int type, boolean join, UOWAction action) throws UOWActionException, UOWException {
 		this.type = type;

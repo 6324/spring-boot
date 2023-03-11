@@ -38,9 +38,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 /**
- * ASM class visitor which looks for the class name and implemented types as
- * well as for the annotations defined on the class, exposing them through
- * the {@link org.springframework.core.type.AnnotationMetadata} interface.
+ * ASM class visitor which looks for the class name and implemented types as well as for
+ * the annotations defined on the class, exposing them through the
+ * {@link org.springframework.core.type.AnnotationMetadata} interface.
  *
  * @author Juergen Hoeller
  * @author Mark Fisher
@@ -49,9 +49,8 @@ import org.springframework.util.MultiValueMap;
  * @author Sam Brannen
  * @since 2.5
  * @deprecated As of Spring Framework 5.2, this class has been replaced by
- * {@link SimpleAnnotationMetadataReadingVisitor} for internal use within the
- * framework, but there is no public replacement for
- * {@code AnnotationMetadataReadingVisitor}.
+ * {@link SimpleAnnotationMetadataReadingVisitor} for internal use within the framework,
+ * but there is no public replacement for {@code AnnotationMetadataReadingVisitor}.
  */
 @Deprecated
 public class AnnotationMetadataReadingVisitor extends ClassMetadataReadingVisitor implements AnnotationMetadata {
@@ -64,19 +63,17 @@ public class AnnotationMetadataReadingVisitor extends ClassMetadataReadingVisito
 	protected final Map<String, Set<String>> metaAnnotationMap = new LinkedHashMap<>(4);
 
 	/**
-	 * Declared as a {@link LinkedMultiValueMap} instead of a {@link MultiValueMap}
-	 * to ensure that the hierarchical ordering of the entries is preserved.
+	 * Declared as a {@link LinkedMultiValueMap} instead of a {@link MultiValueMap} to
+	 * ensure that the hierarchical ordering of the entries is preserved.
 	 * @see AnnotationReadingVisitorUtils#getMergedAnnotationAttributes
 	 */
 	protected final LinkedMultiValueMap<String, AnnotationAttributes> attributesMap = new LinkedMultiValueMap<>(4);
 
 	protected final Set<MethodMetadata> methodMetadataSet = new LinkedHashSet<>(4);
 
-
 	public AnnotationMetadataReadingVisitor(@Nullable ClassLoader classLoader) {
 		this.classLoader = classLoader;
 	}
-
 
 	@Override
 	public MergedAnnotations getAnnotations() {
@@ -85,13 +82,15 @@ public class AnnotationMetadataReadingVisitor extends ClassMetadataReadingVisito
 
 	@Override
 	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-		// Skip bridge methods - we're only interested in original annotation-defining user methods.
-		// On JDK 8, we'd otherwise run into double detection of the same annotated method...
+		// Skip bridge methods - we're only interested in original annotation-defining
+		// user methods.
+		// On JDK 8, we'd otherwise run into double detection of the same annotated
+		// method...
 		if ((access & Opcodes.ACC_BRIDGE) != 0) {
 			return super.visitMethod(access, name, desc, signature, exceptions);
 		}
-		return new MethodMetadataReadingVisitor(name, access, getClassName(),
-				Type.getReturnType(desc).getClassName(), this.classLoader, this.methodMetadataSet);
+		return new MethodMetadataReadingVisitor(name, access, getClassName(), Type.getReturnType(desc).getClassName(),
+				this.classLoader, this.methodMetadataSet);
 	}
 
 	@Override
@@ -105,10 +104,9 @@ public class AnnotationMetadataReadingVisitor extends ClassMetadataReadingVisito
 			return null;
 		}
 		this.annotationSet.add(className);
-		return new AnnotationAttributesReadingVisitor(
-				className, this.attributesMap, this.metaAnnotationMap, this.classLoader);
+		return new AnnotationAttributesReadingVisitor(className, this.attributesMap, this.metaAnnotationMap,
+				this.classLoader);
 	}
-
 
 	@Override
 	public Set<String> getAnnotationTypes() {
@@ -137,8 +135,8 @@ public class AnnotationMetadataReadingVisitor extends ClassMetadataReadingVisito
 
 	@Override
 	public boolean isAnnotated(String annotationName) {
-		return (!AnnotationUtils.isInJavaLangAnnotationPackage(annotationName) &&
-				this.attributesMap.containsKey(annotationName));
+		return (!AnnotationUtils.isInJavaLangAnnotationPackage(annotationName)
+				&& this.attributesMap.containsKey(annotationName));
 	}
 
 	@Override
@@ -149,18 +147,19 @@ public class AnnotationMetadataReadingVisitor extends ClassMetadataReadingVisito
 	@Override
 	@Nullable
 	public AnnotationAttributes getAnnotationAttributes(String annotationName, boolean classValuesAsString) {
-		AnnotationAttributes raw = AnnotationReadingVisitorUtils.getMergedAnnotationAttributes(
-				this.attributesMap, this.metaAnnotationMap, annotationName);
+		AnnotationAttributes raw = AnnotationReadingVisitorUtils.getMergedAnnotationAttributes(this.attributesMap,
+				this.metaAnnotationMap, annotationName);
 		if (raw == null) {
 			return null;
 		}
-		return AnnotationReadingVisitorUtils.convertClassValues(
-				"class '" + getClassName() + "'", this.classLoader, raw, classValuesAsString);
+		return AnnotationReadingVisitorUtils.convertClassValues("class '" + getClassName() + "'", this.classLoader, raw,
+				classValuesAsString);
 	}
 
 	@Override
 	@Nullable
-	public MultiValueMap<String, Object> getAllAnnotationAttributes(String annotationName, boolean classValuesAsString) {
+	public MultiValueMap<String, Object> getAllAnnotationAttributes(String annotationName,
+			boolean classValuesAsString) {
 		MultiValueMap<String, Object> allAttributes = new LinkedMultiValueMap<>();
 		List<AnnotationAttributes> attributes = this.attributesMap.get(annotationName);
 		if (attributes == null) {
@@ -168,8 +167,8 @@ public class AnnotationMetadataReadingVisitor extends ClassMetadataReadingVisito
 		}
 		String annotatedElement = "class '" + getClassName() + "'";
 		for (AnnotationAttributes raw : attributes) {
-			for (Map.Entry<String, Object> entry : AnnotationReadingVisitorUtils.convertClassValues(
-					annotatedElement, this.classLoader, raw, classValuesAsString).entrySet()) {
+			for (Map.Entry<String, Object> entry : AnnotationReadingVisitorUtils
+					.convertClassValues(annotatedElement, this.classLoader, raw, classValuesAsString).entrySet()) {
 				allAttributes.add(entry.getKey(), entry.getValue());
 			}
 		}

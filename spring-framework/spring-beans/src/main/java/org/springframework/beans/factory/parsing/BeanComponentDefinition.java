@@ -40,7 +40,6 @@ public class BeanComponentDefinition extends BeanDefinitionHolder implements Com
 
 	private BeanReference[] beanReferences;
 
-
 	/**
 	 * Create a new BeanComponentDefinition for the given bean.
 	 * @param beanDefinition the BeanDefinition
@@ -62,8 +61,8 @@ public class BeanComponentDefinition extends BeanDefinitionHolder implements Com
 
 	/**
 	 * Create a new BeanComponentDefinition for the given bean.
-	 * @param beanDefinitionHolder the BeanDefinitionHolder encapsulating
-	 * the bean definition as well as the name of the bean
+	 * @param beanDefinitionHolder the BeanDefinitionHolder encapsulating the bean
+	 * definition as well as the name of the bean
 	 */
 	public BeanComponentDefinition(BeanDefinitionHolder beanDefinitionHolder) {
 		super(beanDefinitionHolder);
@@ -87,7 +86,6 @@ public class BeanComponentDefinition extends BeanDefinitionHolder implements Com
 		this.beanReferences = references.toArray(new BeanReference[0]);
 	}
 
-
 	@Override
 	public String getName() {
 		return getBeanName();
@@ -100,7 +98,7 @@ public class BeanComponentDefinition extends BeanDefinitionHolder implements Com
 
 	@Override
 	public BeanDefinition[] getBeanDefinitions() {
-		return new BeanDefinition[] {getBeanDefinition()};
+		return new BeanDefinition[] { getBeanDefinition() };
 	}
 
 	@Override
@@ -112,7 +110,6 @@ public class BeanComponentDefinition extends BeanDefinitionHolder implements Com
 	public BeanReference[] getBeanReferences() {
 		return this.beanReferences;
 	}
-
 
 	/**
 	 * This implementation returns this ComponentDefinition's description.

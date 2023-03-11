@@ -29,11 +29,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * RdbmsOperation using a JdbcTemplate and representing an SQL-based
- * call such as a stored procedure or a stored function.
+ * RdbmsOperation using a JdbcTemplate and representing an SQL-based call such as a stored
+ * procedure or a stored function.
  *
- * <p>Configures a CallableStatementCreatorFactory based on the declared
- * parameters.
+ * <p>
+ * Configures a CallableStatementCreatorFactory based on the declared parameters.
  *
  * @author Rod Johnson
  * @author Thomas Risberg
@@ -42,37 +42,35 @@ import org.springframework.util.Assert;
 public abstract class SqlCall extends RdbmsOperation {
 
 	/**
-	 * Flag used to indicate that this call is for a function and to
-	 * use the {? = call get_invoice_count(?)} syntax.
+	 * Flag used to indicate that this call is for a function and to use the {? = call
+	 * get_invoice_count(?)} syntax.
 	 */
 	private boolean function = false;
 
 	/**
-	 * Flag used to indicate that the sql for this call should be used exactly as
-	 * it is defined. No need to add the escape syntax and parameter place holders.
+	 * Flag used to indicate that the sql for this call should be used exactly as it is
+	 * defined. No need to add the escape syntax and parameter place holders.
 	 */
 	private boolean sqlReadyForUse = false;
 
 	/**
-	 * Call string as defined in java.sql.CallableStatement.
-	 * String of form {call add_invoice(?, ?, ?)} or {? = call get_invoice_count(?)}
-	 * if isFunction is set to true. Updated after each parameter is added.
+	 * Call string as defined in java.sql.CallableStatement. String of form {call
+	 * add_invoice(?, ?, ?)} or {? = call get_invoice_count(?)} if isFunction is set to
+	 * true. Updated after each parameter is added.
 	 */
 	@Nullable
 	private String callString;
 
 	/**
-	 * Object enabling us to create CallableStatementCreators
-	 * efficiently, based on this class's declared parameters.
+	 * Object enabling us to create CallableStatementCreators efficiently, based on this
+	 * class's declared parameters.
 	 */
 	@Nullable
 	private CallableStatementCreatorFactory callableStatementFactory;
 
-
 	/**
-	 * Constructor to allow use as a JavaBean.
-	 * A DataSource, SQL and any parameters must be supplied before
-	 * invoking the {@code compile} method and using this object.
+	 * Constructor to allow use as a JavaBean. A DataSource, SQL and any parameters must
+	 * be supplied before invoking the {@code compile} method and using this object.
 	 * @see #setDataSource
 	 * @see #setSql
 	 * @see #compile
@@ -81,8 +79,8 @@ public abstract class SqlCall extends RdbmsOperation {
 	}
 
 	/**
-	 * Create a new SqlCall object with SQL, but without parameters.
-	 * Must add parameters or settle with none.
+	 * Create a new SqlCall object with SQL, but without parameters. Must add parameters
+	 * or settle with none.
 	 * @param ds the DataSource to obtain connections from
 	 * @param sql the SQL to execute
 	 */
@@ -90,7 +88,6 @@ public abstract class SqlCall extends RdbmsOperation {
 		setDataSource(ds);
 		setSql(sql);
 	}
-
 
 	/**
 	 * Set whether this call is for a function.
@@ -120,10 +117,9 @@ public abstract class SqlCall extends RdbmsOperation {
 		return this.sqlReadyForUse;
 	}
 
-
 	/**
-	 * Overridden method to configure the CallableStatementCreatorFactory
-	 * based on our declared parameters.
+	 * Overridden method to configure the CallableStatementCreatorFactory based on our
+	 * declared parameters.
 	 * @see RdbmsOperation#compileInternal()
 	 */
 	@Override
@@ -168,8 +164,8 @@ public abstract class SqlCall extends RdbmsOperation {
 	}
 
 	/**
-	 * Hook method that subclasses may override to react to compilation.
-	 * This implementation does nothing.
+	 * Hook method that subclasses may override to react to compilation. This
+	 * implementation does nothing.
 	 */
 	protected void onCompileInternal() {
 	}
@@ -183,8 +179,7 @@ public abstract class SqlCall extends RdbmsOperation {
 	}
 
 	/**
-	 * Return a CallableStatementCreator to perform an operation
-	 * with this parameters.
+	 * Return a CallableStatementCreator to perform an operation with this parameters.
 	 * @param inParams parameters. May be {@code null}.
 	 */
 	protected CallableStatementCreator newCallableStatementCreator(@Nullable Map<String, ?> inParams) {
@@ -193,8 +188,8 @@ public abstract class SqlCall extends RdbmsOperation {
 	}
 
 	/**
-	 * Return a CallableStatementCreator to perform an operation
-	 * with the parameters returned from this ParameterMapper.
+	 * Return a CallableStatementCreator to perform an operation with the parameters
+	 * returned from this ParameterMapper.
 	 * @param inParamMapper parametermapper. May not be {@code null}.
 	 */
 	protected CallableStatementCreator newCallableStatementCreator(ParameterMapper inParamMapper) {

@@ -52,10 +52,9 @@ public interface ParserContext {
 	 */
 	String getExpressionSuffix();
 
-
 	/**
-	 * The default ParserContext implementation that enables template expression
-	 * parsing mode. The expression prefix is "#{" and the expression suffix is "}".
+	 * The default ParserContext implementation that enables template expression parsing
+	 * mode. The expression prefix is "#{" and the expression suffix is "}".
 	 * @see #isTemplate()
 	 */
 	ParserContext TEMPLATE_EXPRESSION = new ParserContext() {

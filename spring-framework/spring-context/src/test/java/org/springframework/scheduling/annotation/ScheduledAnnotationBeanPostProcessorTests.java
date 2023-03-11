@@ -72,12 +72,10 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 
 	private final StaticApplicationContext context = new StaticApplicationContext();
 
-
 	@AfterEach
 	public void closeContextAfterTest() {
 		context.close();
 	}
-
 
 	@Test
 	public void fixedDelayTask() {
@@ -91,11 +89,11 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		assertThat(postProcessor.getScheduledTasks().size()).isEqualTo(1);
 
 		Object target = context.getBean("target");
-		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar)
-				new DirectFieldAccessor(postProcessor).getPropertyValue("registrar");
+		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar) new DirectFieldAccessor(postProcessor)
+				.getPropertyValue("registrar");
 		@SuppressWarnings("unchecked")
-		List<IntervalTask> fixedDelayTasks = (List<IntervalTask>)
-				new DirectFieldAccessor(registrar).getPropertyValue("fixedDelayTasks");
+		List<IntervalTask> fixedDelayTasks = (List<IntervalTask>) new DirectFieldAccessor(registrar)
+				.getPropertyValue("fixedDelayTasks");
 		assertThat(fixedDelayTasks.size()).isEqualTo(1);
 		IntervalTask task = fixedDelayTasks.get(0);
 		ScheduledMethodRunnable runnable = (ScheduledMethodRunnable) task.getRunnable();
@@ -119,11 +117,11 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		assertThat(postProcessor.getScheduledTasks().size()).isEqualTo(1);
 
 		Object target = context.getBean("target");
-		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar)
-				new DirectFieldAccessor(postProcessor).getPropertyValue("registrar");
+		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar) new DirectFieldAccessor(postProcessor)
+				.getPropertyValue("registrar");
 		@SuppressWarnings("unchecked")
-		List<IntervalTask> fixedRateTasks = (List<IntervalTask>)
-				new DirectFieldAccessor(registrar).getPropertyValue("fixedRateTasks");
+		List<IntervalTask> fixedRateTasks = (List<IntervalTask>) new DirectFieldAccessor(registrar)
+				.getPropertyValue("fixedRateTasks");
 		assertThat(fixedRateTasks.size()).isEqualTo(1);
 		IntervalTask task = fixedRateTasks.get(0);
 		ScheduledMethodRunnable runnable = (ScheduledMethodRunnable) task.getRunnable();
@@ -147,11 +145,11 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		assertThat(postProcessor.getScheduledTasks().size()).isEqualTo(1);
 
 		Object target = context.getBean("target");
-		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar)
-				new DirectFieldAccessor(postProcessor).getPropertyValue("registrar");
+		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar) new DirectFieldAccessor(postProcessor)
+				.getPropertyValue("registrar");
 		@SuppressWarnings("unchecked")
-		List<IntervalTask> fixedRateTasks = (List<IntervalTask>)
-				new DirectFieldAccessor(registrar).getPropertyValue("fixedRateTasks");
+		List<IntervalTask> fixedRateTasks = (List<IntervalTask>) new DirectFieldAccessor(registrar)
+				.getPropertyValue("fixedRateTasks");
 		assertThat(fixedRateTasks.size()).isEqualTo(1);
 		IntervalTask task = fixedRateTasks.get(0);
 		ScheduledMethodRunnable runnable = (ScheduledMethodRunnable) task.getRunnable();
@@ -166,14 +164,16 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 	@Test
 	public void severalFixedRatesWithRepeatedScheduledAnnotation() {
 		BeanDefinition processorDefinition = new RootBeanDefinition(ScheduledAnnotationBeanPostProcessor.class);
-		BeanDefinition targetDefinition = new RootBeanDefinition(SeveralFixedRatesWithRepeatedScheduledAnnotationTestBean.class);
+		BeanDefinition targetDefinition = new RootBeanDefinition(
+				SeveralFixedRatesWithRepeatedScheduledAnnotationTestBean.class);
 		severalFixedRates(context, processorDefinition, targetDefinition);
 	}
 
 	@Test
 	public void severalFixedRatesWithSchedulesContainerAnnotation() {
 		BeanDefinition processorDefinition = new RootBeanDefinition(ScheduledAnnotationBeanPostProcessor.class);
-		BeanDefinition targetDefinition = new RootBeanDefinition(SeveralFixedRatesWithSchedulesContainerAnnotationTestBean.class);
+		BeanDefinition targetDefinition = new RootBeanDefinition(
+				SeveralFixedRatesWithSchedulesContainerAnnotationTestBean.class);
 		severalFixedRates(context, processorDefinition, targetDefinition);
 	}
 
@@ -194,13 +194,14 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 	@Test
 	public void severalFixedRatesAgainstNestedCglibProxy() {
 		BeanDefinition processorDefinition = new RootBeanDefinition(ScheduledAnnotationBeanPostProcessor.class);
-		BeanDefinition targetDefinition = new RootBeanDefinition(SeveralFixedRatesWithRepeatedScheduledAnnotationTestBean.class);
+		BeanDefinition targetDefinition = new RootBeanDefinition(
+				SeveralFixedRatesWithRepeatedScheduledAnnotationTestBean.class);
 		targetDefinition.setFactoryMethodName("nestedProxy");
 		severalFixedRates(context, processorDefinition, targetDefinition);
 	}
 
-	private void severalFixedRates(StaticApplicationContext context,
-			BeanDefinition processorDefinition, BeanDefinition targetDefinition) {
+	private void severalFixedRates(StaticApplicationContext context, BeanDefinition processorDefinition,
+			BeanDefinition targetDefinition) {
 
 		context.registerBeanDefinition("postProcessor", processorDefinition);
 		context.registerBeanDefinition("target", targetDefinition);
@@ -210,11 +211,11 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		assertThat(postProcessor.getScheduledTasks().size()).isEqualTo(2);
 
 		Object target = context.getBean("target");
-		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar)
-				new DirectFieldAccessor(postProcessor).getPropertyValue("registrar");
+		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar) new DirectFieldAccessor(postProcessor)
+				.getPropertyValue("registrar");
 		@SuppressWarnings("unchecked")
-		List<IntervalTask> fixedRateTasks = (List<IntervalTask>)
-				new DirectFieldAccessor(registrar).getPropertyValue("fixedRateTasks");
+		List<IntervalTask> fixedRateTasks = (List<IntervalTask>) new DirectFieldAccessor(registrar)
+				.getPropertyValue("fixedRateTasks");
 		assertThat(fixedRateTasks.size()).isEqualTo(2);
 		IntervalTask task1 = fixedRateTasks.get(0);
 		ScheduledMethodRunnable runnable1 = (ScheduledMethodRunnable) task1.getRunnable();
@@ -246,11 +247,10 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		assertThat(postProcessor.getScheduledTasks().size()).isEqualTo(1);
 
 		Object target = context.getBean("target");
-		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar)
-				new DirectFieldAccessor(postProcessor).getPropertyValue("registrar");
+		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar) new DirectFieldAccessor(postProcessor)
+				.getPropertyValue("registrar");
 		@SuppressWarnings("unchecked")
-		List<CronTask> cronTasks = (List<CronTask>)
-				new DirectFieldAccessor(registrar).getPropertyValue("cronTasks");
+		List<CronTask> cronTasks = (List<CronTask>) new DirectFieldAccessor(registrar).getPropertyValue("cronTasks");
 		assertThat(cronTasks.size()).isEqualTo(1);
 		CronTask task = cronTasks.get(0);
 		ScheduledMethodRunnable runnable = (ScheduledMethodRunnable) task.getRunnable();
@@ -273,11 +273,10 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		assertThat(postProcessor.getScheduledTasks().size()).isEqualTo(1);
 
 		Object target = context.getBean("target");
-		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar)
-				new DirectFieldAccessor(postProcessor).getPropertyValue("registrar");
+		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar) new DirectFieldAccessor(postProcessor)
+				.getPropertyValue("registrar");
 		@SuppressWarnings("unchecked")
-		List<CronTask> cronTasks = (List<CronTask>)
-				new DirectFieldAccessor(registrar).getPropertyValue("cronTasks");
+		List<CronTask> cronTasks = (List<CronTask>) new DirectFieldAccessor(registrar).getPropertyValue("cronTasks");
 		assertThat(cronTasks.size()).isEqualTo(1);
 		CronTask task = cronTasks.get(0);
 		ScheduledMethodRunnable runnable = (ScheduledMethodRunnable) task.getRunnable();
@@ -293,15 +292,15 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		CronTrigger cronTrigger = (CronTrigger) trigger;
 		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+10"));
 		cal.clear();
-		cal.set(2013, 3, 15, 4, 0);  // 15-04-2013 4:00 GMT+10
+		cal.set(2013, 3, 15, 4, 0); // 15-04-2013 4:00 GMT+10
 		Date lastScheduledExecutionTime = cal.getTime();
 		Date lastActualExecutionTime = cal.getTime();
-		cal.add(Calendar.MINUTE, 30);  // 4:30
+		cal.add(Calendar.MINUTE, 30); // 4:30
 		Date lastCompletionTime = cal.getTime();
-		TriggerContext triggerContext = new SimpleTriggerContext(
-				lastScheduledExecutionTime, lastActualExecutionTime, lastCompletionTime);
+		TriggerContext triggerContext = new SimpleTriggerContext(lastScheduledExecutionTime, lastActualExecutionTime,
+				lastCompletionTime);
 		cal.add(Calendar.MINUTE, 30);
-		cal.add(Calendar.HOUR_OF_DAY, 1);  // 6:00
+		cal.add(Calendar.HOUR_OF_DAY, 1); // 6:00
 		Date nextExecutionTime = cronTrigger.nextExecutionTime(triggerContext);
 		// assert that 6:00 is next execution time
 		assertThat(nextExecutionTime).isEqualTo(cal.getTime());
@@ -313,8 +312,7 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		BeanDefinition targetDefinition = new RootBeanDefinition(CronWithInvalidTimezoneTestBean.class);
 		context.registerBeanDefinition("postProcessor", processorDefinition);
 		context.registerBeanDefinition("target", targetDefinition);
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(
-				context::refresh);
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(context::refresh);
 	}
 
 	@Test
@@ -325,25 +323,24 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		context.registerBeanDefinition("methodValidation", validationDefinition);
 		context.registerBeanDefinition("postProcessor", processorDefinition);
 		context.registerBeanDefinition("target", targetDefinition);
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(
-				context::refresh);
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(context::refresh);
 	}
 
 	@Test
 	public void cronTaskWithScopedProxy() {
 		BeanDefinition processorDefinition = new RootBeanDefinition(ScheduledAnnotationBeanPostProcessor.class);
 		context.registerBeanDefinition("postProcessor", processorDefinition);
-		new AnnotatedBeanDefinitionReader(context).register(ProxiedCronTestBean.class, ProxiedCronTestBeanDependent.class);
+		new AnnotatedBeanDefinitionReader(context).register(ProxiedCronTestBean.class,
+				ProxiedCronTestBeanDependent.class);
 		context.refresh();
 
 		ScheduledTaskHolder postProcessor = context.getBean("postProcessor", ScheduledTaskHolder.class);
 		assertThat(postProcessor.getScheduledTasks().size()).isEqualTo(1);
 
-		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar)
-				new DirectFieldAccessor(postProcessor).getPropertyValue("registrar");
+		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar) new DirectFieldAccessor(postProcessor)
+				.getPropertyValue("registrar");
 		@SuppressWarnings("unchecked")
-		List<CronTask> cronTasks = (List<CronTask>)
-				new DirectFieldAccessor(registrar).getPropertyValue("cronTasks");
+		List<CronTask> cronTasks = (List<CronTask>) new DirectFieldAccessor(registrar).getPropertyValue("cronTasks");
 		assertThat(cronTasks.size()).isEqualTo(1);
 		CronTask task = cronTasks.get(0);
 		ScheduledMethodRunnable runnable = (ScheduledMethodRunnable) task.getRunnable();
@@ -366,11 +363,11 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		assertThat(postProcessor.getScheduledTasks().size()).isEqualTo(1);
 
 		Object target = context.getBean("target");
-		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar)
-				new DirectFieldAccessor(postProcessor).getPropertyValue("registrar");
+		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar) new DirectFieldAccessor(postProcessor)
+				.getPropertyValue("registrar");
 		@SuppressWarnings("unchecked")
-		List<IntervalTask> fixedRateTasks = (List<IntervalTask>)
-				new DirectFieldAccessor(registrar).getPropertyValue("fixedRateTasks");
+		List<IntervalTask> fixedRateTasks = (List<IntervalTask>) new DirectFieldAccessor(registrar)
+				.getPropertyValue("fixedRateTasks");
 		assertThat(fixedRateTasks.size()).isEqualTo(1);
 		IntervalTask task = fixedRateTasks.get(0);
 		ScheduledMethodRunnable runnable = (ScheduledMethodRunnable) task.getRunnable();
@@ -393,11 +390,11 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		assertThat(postProcessor.getScheduledTasks().size()).isEqualTo(1);
 
 		Object target = context.getBean("target");
-		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar)
-				new DirectFieldAccessor(postProcessor).getPropertyValue("registrar");
+		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar) new DirectFieldAccessor(postProcessor)
+				.getPropertyValue("registrar");
 		@SuppressWarnings("unchecked")
-		List<IntervalTask> fixedRateTasks = (List<IntervalTask>)
-				new DirectFieldAccessor(registrar).getPropertyValue("fixedRateTasks");
+		List<IntervalTask> fixedRateTasks = (List<IntervalTask>) new DirectFieldAccessor(registrar)
+				.getPropertyValue("fixedRateTasks");
 		assertThat(fixedRateTasks.size()).isEqualTo(1);
 		IntervalTask task = fixedRateTasks.get(0);
 		ScheduledMethodRunnable runnable = (ScheduledMethodRunnable) task.getRunnable();
@@ -421,11 +418,10 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		assertThat(postProcessor.getScheduledTasks().size()).isEqualTo(1);
 
 		Object target = context.getBean("target");
-		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar)
-				new DirectFieldAccessor(postProcessor).getPropertyValue("registrar");
+		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar) new DirectFieldAccessor(postProcessor)
+				.getPropertyValue("registrar");
 		@SuppressWarnings("unchecked")
-		List<CronTask> cronTasks = (List<CronTask>)
-				new DirectFieldAccessor(registrar).getPropertyValue("cronTasks");
+		List<CronTask> cronTasks = (List<CronTask>) new DirectFieldAccessor(registrar).getPropertyValue("cronTasks");
 		assertThat(cronTasks.size()).isEqualTo(1);
 		CronTask task = cronTasks.get(0);
 		ScheduledMethodRunnable runnable = (ScheduledMethodRunnable) task.getRunnable();
@@ -454,11 +450,10 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		assertThat(postProcessor.getScheduledTasks().size()).isEqualTo(1);
 
 		Object target = context.getBean("target");
-		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar)
-				new DirectFieldAccessor(postProcessor).getPropertyValue("registrar");
+		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar) new DirectFieldAccessor(postProcessor)
+				.getPropertyValue("registrar");
 		@SuppressWarnings("unchecked")
-		List<CronTask> cronTasks = (List<CronTask>)
-				new DirectFieldAccessor(registrar).getPropertyValue("cronTasks");
+		List<CronTask> cronTasks = (List<CronTask>) new DirectFieldAccessor(registrar).getPropertyValue("cronTasks");
 		assertThat(cronTasks.size()).isEqualTo(1);
 		CronTask task = cronTasks.get(0);
 		ScheduledMethodRunnable runnable = (ScheduledMethodRunnable) task.getRunnable();
@@ -514,11 +509,11 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		assertThat(postProcessor.getScheduledTasks().size()).isEqualTo(1);
 
 		Object target = context.getBean("target");
-		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar)
-				new DirectFieldAccessor(postProcessor).getPropertyValue("registrar");
+		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar) new DirectFieldAccessor(postProcessor)
+				.getPropertyValue("registrar");
 		@SuppressWarnings("unchecked")
-		List<IntervalTask> fixedDelayTasks = (List<IntervalTask>)
-				new DirectFieldAccessor(registrar).getPropertyValue("fixedDelayTasks");
+		List<IntervalTask> fixedDelayTasks = (List<IntervalTask>) new DirectFieldAccessor(registrar)
+				.getPropertyValue("fixedDelayTasks");
 		assertThat(fixedDelayTasks.size()).isEqualTo(1);
 		IntervalTask task = fixedDelayTasks.get(0);
 		ScheduledMethodRunnable runnable = (ScheduledMethodRunnable) task.getRunnable();
@@ -557,11 +552,11 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		assertThat(postProcessor.getScheduledTasks().size()).isEqualTo(1);
 
 		Object target = context.getBean("target");
-		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar)
-				new DirectFieldAccessor(postProcessor).getPropertyValue("registrar");
+		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar) new DirectFieldAccessor(postProcessor)
+				.getPropertyValue("registrar");
 		@SuppressWarnings("unchecked")
-		List<IntervalTask> fixedRateTasks = (List<IntervalTask>)
-				new DirectFieldAccessor(registrar).getPropertyValue("fixedRateTasks");
+		List<IntervalTask> fixedRateTasks = (List<IntervalTask>) new DirectFieldAccessor(registrar)
+				.getPropertyValue("fixedRateTasks");
 		assertThat(fixedRateTasks.size()).isEqualTo(1);
 		IntervalTask task = fixedRateTasks.get(0);
 		ScheduledMethodRunnable runnable = (ScheduledMethodRunnable) task.getRunnable();
@@ -589,11 +584,10 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		assertThat(postProcessor.getScheduledTasks().size()).isEqualTo(1);
 
 		Object target = context.getBean("target");
-		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar)
-				new DirectFieldAccessor(postProcessor).getPropertyValue("registrar");
+		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar) new DirectFieldAccessor(postProcessor)
+				.getPropertyValue("registrar");
 		@SuppressWarnings("unchecked")
-		List<CronTask> cronTasks = (List<CronTask>)
-				new DirectFieldAccessor(registrar).getPropertyValue("cronTasks");
+		List<CronTask> cronTasks = (List<CronTask>) new DirectFieldAccessor(registrar).getPropertyValue("cronTasks");
 		assertThat(cronTasks.size()).isEqualTo(1);
 		CronTask task = cronTasks.get(0);
 		ScheduledMethodRunnable runnable = (ScheduledMethodRunnable) task.getRunnable();
@@ -622,11 +616,10 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		assertThat(postProcessor.getScheduledTasks().size()).isEqualTo(1);
 
 		Object target = context.getBean("target");
-		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar)
-				new DirectFieldAccessor(postProcessor).getPropertyValue("registrar");
+		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar) new DirectFieldAccessor(postProcessor)
+				.getPropertyValue("registrar");
 		@SuppressWarnings("unchecked")
-		List<CronTask> cronTasks = (List<CronTask>)
-				new DirectFieldAccessor(registrar).getPropertyValue("cronTasks");
+		List<CronTask> cronTasks = (List<CronTask>) new DirectFieldAccessor(registrar).getPropertyValue("cronTasks");
 		assertThat(cronTasks.size()).isEqualTo(1);
 		CronTask task = cronTasks.get(0);
 		ScheduledMethodRunnable runnable = (ScheduledMethodRunnable) task.getRunnable();
@@ -649,11 +642,10 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		assertThat(postProcessor.getScheduledTasks().size()).isEqualTo(1);
 
 		Object target = context.getBean("target");
-		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar)
-				new DirectFieldAccessor(postProcessor).getPropertyValue("registrar");
+		ScheduledTaskRegistrar registrar = (ScheduledTaskRegistrar) new DirectFieldAccessor(postProcessor)
+				.getPropertyValue("registrar");
 		@SuppressWarnings("unchecked")
-		List<CronTask> cronTasks = (List<CronTask>)
-				new DirectFieldAccessor(registrar).getPropertyValue("cronTasks");
+		List<CronTask> cronTasks = (List<CronTask>) new DirectFieldAccessor(registrar).getPropertyValue("cronTasks");
 		assertThat(cronTasks.size()).isEqualTo(1);
 		CronTask task = cronTasks.get(0);
 		ScheduledMethodRunnable runnable = (ScheduledMethodRunnable) task.getRunnable();
@@ -670,8 +662,7 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		BeanDefinition targetDefinition = new RootBeanDefinition(EmptyAnnotationTestBean.class);
 		context.registerBeanDefinition("postProcessor", processorDefinition);
 		context.registerBeanDefinition("target", targetDefinition);
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(
-				context::refresh);
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(context::refresh);
 	}
 
 	@Test
@@ -680,8 +671,7 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		BeanDefinition targetDefinition = new RootBeanDefinition(InvalidCronTestBean.class);
 		context.registerBeanDefinition("postProcessor", processorDefinition);
 		context.registerBeanDefinition("target", targetDefinition);
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(
-				context::refresh);
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(context::refresh);
 	}
 
 	@Test
@@ -690,42 +680,40 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		BeanDefinition targetDefinition = new RootBeanDefinition(NonEmptyParamListTestBean.class);
 		context.registerBeanDefinition("postProcessor", processorDefinition);
 		context.registerBeanDefinition("target", targetDefinition);
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(
-				context::refresh);
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(context::refresh);
 	}
-
 
 	static class FixedDelayTestBean {
 
 		@Scheduled(fixedDelay = 5000)
 		public void fixedDelay() {
 		}
-	}
 
+	}
 
 	static class FixedRateTestBean {
 
 		@Scheduled(fixedRate = 3000)
 		public void fixedRate() {
 		}
-	}
 
+	}
 
 	static class FixedRateWithInitialDelayTestBean {
 
 		@Scheduled(fixedRate = 3000, initialDelay = 1000)
 		public void fixedRate() {
 		}
-	}
 
+	}
 
 	static class SeveralFixedRatesWithSchedulesContainerAnnotationTestBean {
 
-		@Schedules({@Scheduled(fixedRate = 4000), @Scheduled(fixedRate = 4000, initialDelay = 2000)})
+		@Schedules({ @Scheduled(fixedRate = 4000), @Scheduled(fixedRate = 4000, initialDelay = 2000) })
 		public void fixedRate() {
 		}
-	}
 
+	}
 
 	static class SeveralFixedRatesWithRepeatedScheduledAnnotationTestBean {
 
@@ -741,8 +729,8 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 			pf2.setProxyTargetClass(true);
 			return (SeveralFixedRatesWithRepeatedScheduledAnnotationTestBean) pf2.getProxy();
 		}
-	}
 
+	}
 
 	static class FixedRatesBaseBean {
 
@@ -750,12 +738,12 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		@Scheduled(fixedRate = 4000, initialDelay = 2000)
 		public void fixedRate() {
 		}
-	}
 
+	}
 
 	static class FixedRatesSubBean extends FixedRatesBaseBean {
-	}
 
+	}
 
 	interface FixedRatesDefaultMethod {
 
@@ -763,12 +751,12 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		@Scheduled(fixedRate = 4000, initialDelay = 2000)
 		default void fixedRate() {
 		}
-	}
 
+	}
 
 	static class FixedRatesDefaultBean implements FixedRatesDefaultMethod {
-	}
 
+	}
 
 	@Validated
 	static class CronTestBean {
@@ -777,8 +765,8 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		private void cron() throws IOException {
 			throw new IOException("no no no");
 		}
-	}
 
+	}
 
 	static class CronWithTimezoneTestBean {
 
@@ -786,8 +774,8 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		protected void cron() throws IOException {
 			throw new IOException("no no no");
 		}
-	}
 
+	}
 
 	static class CronWithInvalidTimezoneTestBean {
 
@@ -795,8 +783,8 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		public void cron() throws IOException {
 			throw new IOException("no no no");
 		}
-	}
 
+	}
 
 	@Component("target")
 	@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -806,15 +794,15 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		public void cron() throws IOException {
 			throw new IOException("no no no");
 		}
-	}
 
+	}
 
 	static class ProxiedCronTestBeanDependent {
 
 		public ProxiedCronTestBeanDependent(ProxiedCronTestBean testBean) {
 		}
-	}
 
+	}
 
 	static class NonVoidReturnTypeTestBean {
 
@@ -822,43 +810,45 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 		public String cron() {
 			return "oops";
 		}
-	}
 
+	}
 
 	static class EmptyAnnotationTestBean {
 
 		@Scheduled
 		public void invalid() {
 		}
-	}
 
+	}
 
 	static class InvalidCronTestBean {
 
 		@Scheduled(cron = "abc")
 		public void invalid() {
 		}
-	}
 
+	}
 
 	static class NonEmptyParamListTestBean {
 
 		@Scheduled(fixedRate = 3000)
 		public void invalid(String oops) {
 		}
-	}
 
+	}
 
 	@Scheduled(fixedRate = 5000)
 	@Target(ElementType.METHOD)
 	@Retention(RetentionPolicy.RUNTIME)
 	private @interface EveryFiveSeconds {
+
 	}
 
 	@Scheduled(cron = "0 0 * * * ?")
 	@Target(ElementType.METHOD)
 	@Retention(RetentionPolicy.RUNTIME)
 	private @interface Hourly {
+
 	}
 
 	@Scheduled(initialDelay = 1000)
@@ -870,77 +860,78 @@ public class ScheduledAnnotationBeanPostProcessorTests {
 
 		@AliasFor(annotation = Scheduled.class)
 		long fixedRate() default -1;
-	}
 
+	}
 
 	static class MetaAnnotationFixedRateTestBean {
 
 		@EveryFiveSeconds
 		public void checkForUpdates() {
 		}
-	}
 
+	}
 
 	static class ComposedAnnotationFixedRateTestBean {
 
 		@WaitASec(fixedRate = 5000)
 		public void checkForUpdates() {
 		}
-	}
 
+	}
 
 	static class MetaAnnotationCronTestBean {
 
 		@Hourly
 		public void generateReport() {
 		}
-	}
 
+	}
 
 	static class PropertyPlaceholderWithCronTestBean {
 
 		@Scheduled(cron = "${schedules.businessHours}")
 		public void x() {
 		}
-	}
 
+	}
 
 	static class PropertyPlaceholderWithFixedDelayTestBean {
 
 		@Scheduled(fixedDelayString = "${fixedDelay}", initialDelayString = "${initialDelay}")
 		public void fixedDelay() {
 		}
-	}
 
+	}
 
 	static class PropertyPlaceholderWithFixedRateTestBean {
 
 		@Scheduled(fixedRateString = "${fixedRate}", initialDelayString = "${initialDelay}")
 		public void fixedRate() {
 		}
-	}
 
+	}
 
 	static class ExpressionWithCronTestBean {
 
 		@Scheduled(cron = "#{schedules.businessHours}")
 		public void x() {
 		}
-	}
 
+	}
 
 	@Scheduled(cron = "${schedules.businessHours}")
 	@Target(ElementType.METHOD)
 	@Retention(RetentionPolicy.RUNTIME)
 	private @interface BusinessHours {
-	}
 
+	}
 
 	static class PropertyPlaceholderMetaAnnotationTestBean {
 
 		@BusinessHours
 		public void y() {
 		}
+
 	}
 
 }

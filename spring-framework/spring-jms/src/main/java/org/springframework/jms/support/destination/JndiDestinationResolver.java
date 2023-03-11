@@ -31,20 +31,22 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * {@link DestinationResolver} implementation which interprets destination names
- * as JNDI locations (with a configurable fallback strategy).
+ * {@link DestinationResolver} implementation which interprets destination names as JNDI
+ * locations (with a configurable fallback strategy).
  *
- * <p>Allows for customizing the JNDI environment if necessary, for example
- * specifying appropriate JNDI environment properties.
+ * <p>
+ * Allows for customizing the JNDI environment if necessary, for example specifying
+ * appropriate JNDI environment properties.
  *
- * <p>Dynamic queues and topics get cached by destination name. As a consequence,
- * you need to use unique destination names across both queues and topics.
- * Caching can be turned off through the {@link #setCache "cache"} flag.
+ * <p>
+ * Dynamic queues and topics get cached by destination name. As a consequence, you need to
+ * use unique destination names across both queues and topics. Caching can be turned off
+ * through the {@link #setCache "cache"} flag.
  *
- * <p>Note that the fallback to resolution of dynamic destinations
- * is turned <i>off</i> by default. Switch the
- * {@link #setFallbackToDynamicDestination "fallbackToDynamicDestination"}
- * flag on to enable this functionality.
+ * <p>
+ * Note that the fallback to resolution of dynamic destinations is turned <i>off</i> by
+ * default. Switch the {@link #setFallbackToDynamicDestination
+ * "fallbackToDynamicDestination"} flag on to enable this functionality.
  *
  * @author Mark Pollack
  * @author Juergen Hoeller
@@ -64,24 +66,26 @@ public class JndiDestinationResolver extends JndiLocatorSupport implements Cachi
 
 	private final Map<String, Destination> destinationCache = new ConcurrentHashMap<>(16);
 
-
 	/**
 	 * Set whether to cache resolved destinations. Default is "true".
-	 * <p>This flag can be turned off to re-lookup a destination for each operation,
-	 * which allows for hot restarting of destinations. This is mainly useful
-	 * during development.
-	 * <p>Note that dynamic queues and topics get cached by destination name.
-	 * As a consequence, you need to use unique destination names across both
-	 * queues and topics.
+	 * <p>
+	 * This flag can be turned off to re-lookup a destination for each operation, which
+	 * allows for hot restarting of destinations. This is mainly useful during
+	 * development.
+	 * <p>
+	 * Note that dynamic queues and topics get cached by destination name. As a
+	 * consequence, you need to use unique destination names across both queues and
+	 * topics.
 	 */
 	public void setCache(boolean cache) {
 		this.cache = cache;
 	}
 
 	/**
-	 * Set whether this resolver is supposed to create dynamic destinations
-	 * if the destination name is not found in JNDI. Default is "false".
-	 * <p>Turn this flag on to enable transparent fallback to dynamic destinations.
+	 * Set whether this resolver is supposed to create dynamic destinations if the
+	 * destination name is not found in JNDI. Default is "false".
+	 * <p>
+	 * Turn this flag on to enable transparent fallback to dynamic destinations.
 	 * @see #setDynamicDestinationResolver
 	 */
 	public void setFallbackToDynamicDestination(boolean fallbackToDynamicDestination) {
@@ -91,14 +95,14 @@ public class JndiDestinationResolver extends JndiLocatorSupport implements Cachi
 	/**
 	 * Set the {@link DestinationResolver} to use when falling back to dynamic
 	 * destinations.
-	 * <p>The default is Spring's standard {@link DynamicDestinationResolver}.
+	 * <p>
+	 * The default is Spring's standard {@link DynamicDestinationResolver}.
 	 * @see #setFallbackToDynamicDestination
 	 * @see DynamicDestinationResolver
 	 */
 	public void setDynamicDestinationResolver(DestinationResolver dynamicDestinationResolver) {
 		this.dynamicDestinationResolver = dynamicDestinationResolver;
 	}
-
 
 	@Override
 	public Destination resolveDestinationName(@Nullable Session session, String destinationName, boolean pubSubDomain)
@@ -119,11 +123,12 @@ public class JndiDestinationResolver extends JndiLocatorSupport implements Cachi
 					logger.debug("Destination [" + destinationName + "] not found in JNDI", ex);
 				}
 				if (this.fallbackToDynamicDestination) {
-					dest = this.dynamicDestinationResolver.resolveDestinationName(session, destinationName, pubSubDomain);
+					dest = this.dynamicDestinationResolver.resolveDestinationName(session, destinationName,
+							pubSubDomain);
 				}
 				else {
-					throw new DestinationResolutionException(
-							"Destination [" + destinationName + "] not found in JNDI", ex);
+					throw new DestinationResolutionException("Destination [" + destinationName + "] not found in JNDI",
+							ex);
 				}
 			}
 			if (this.cache) {
@@ -134,12 +139,12 @@ public class JndiDestinationResolver extends JndiLocatorSupport implements Cachi
 	}
 
 	/**
-	 * Validate the given Destination object, checking whether it matches
-	 * the expected type.
+	 * Validate the given Destination object, checking whether it matches the expected
+	 * type.
 	 * @param destination the Destination object to validate
 	 * @param destinationName the name of the destination
-	 * @param pubSubDomain {@code true} if a Topic is expected,
-	 * {@code false} in case of a Queue
+	 * @param pubSubDomain {@code true} if a Topic is expected, {@code false} in case of a
+	 * Queue
 	 */
 	protected void validateDestination(Destination destination, String destinationName, boolean pubSubDomain) {
 		Class<?> targetClass = Queue.class;
@@ -151,7 +156,6 @@ public class JndiDestinationResolver extends JndiLocatorSupport implements Cachi
 					"Destination [" + destinationName + "] is not of expected type [" + targetClass.getName() + "]");
 		}
 	}
-
 
 	@Override
 	public void removeFromCache(String destinationName) {

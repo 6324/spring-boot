@@ -34,12 +34,13 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.FileCopyUtils;
 
 /**
- * {@link LobCreator} implementation based on temporary LOBs,
- * using JDBC 4.0's {@link java.sql.Connection#createBlob()} /
- * {@link java.sql.Connection#createClob()} mechanism.
+ * {@link LobCreator} implementation based on temporary LOBs, using JDBC 4.0's
+ * {@link java.sql.Connection#createBlob()} / {@link java.sql.Connection#createClob()}
+ * mechanism.
  *
- * <p>Used by DefaultLobHandler's {@link DefaultLobHandler#setCreateTemporaryLob} mode.
- * Can also be used directly to reuse the tracking and freeing of temporary LOBs.
+ * <p>
+ * Used by DefaultLobHandler's {@link DefaultLobHandler#setCreateTemporaryLob} mode. Can
+ * also be used directly to reuse the tracking and freeing of temporary LOBs.
  *
  * @author Juergen Hoeller
  * @since 3.2.2
@@ -55,10 +56,8 @@ public class TemporaryLobCreator implements LobCreator {
 
 	private final Set<Clob> temporaryClobs = new LinkedHashSet<>(1);
 
-
 	@Override
-	public void setBlobAsBytes(PreparedStatement ps, int paramIndex, @Nullable byte[] content)
-			throws SQLException {
+	public void setBlobAsBytes(PreparedStatement ps, int paramIndex, @Nullable byte[] content) throws SQLException {
 
 		if (content != null) {
 			Blob blob = ps.getConnection().createBlob();
@@ -71,15 +70,14 @@ public class TemporaryLobCreator implements LobCreator {
 		}
 
 		if (logger.isDebugEnabled()) {
-			logger.debug(content != null ? "Copied bytes into temporary BLOB with length " + content.length :
-					"Set BLOB to null");
+			logger.debug(content != null ? "Copied bytes into temporary BLOB with length " + content.length
+					: "Set BLOB to null");
 		}
 	}
 
 	@Override
-	public void setBlobAsBinaryStream(
-			PreparedStatement ps, int paramIndex, @Nullable InputStream binaryStream, int contentLength)
-			throws SQLException {
+	public void setBlobAsBinaryStream(PreparedStatement ps, int paramIndex, @Nullable InputStream binaryStream,
+			int contentLength) throws SQLException {
 
 		if (binaryStream != null) {
 			Blob blob = ps.getConnection().createBlob();
@@ -97,15 +95,13 @@ public class TemporaryLobCreator implements LobCreator {
 		}
 
 		if (logger.isDebugEnabled()) {
-			logger.debug(binaryStream != null ?
-					"Copied binary stream into temporary BLOB with length " + contentLength :
-					"Set BLOB to null");
+			logger.debug(binaryStream != null ? "Copied binary stream into temporary BLOB with length " + contentLength
+					: "Set BLOB to null");
 		}
 	}
 
 	@Override
-	public void setClobAsString(PreparedStatement ps, int paramIndex, @Nullable String content)
-			throws SQLException {
+	public void setClobAsString(PreparedStatement ps, int paramIndex, @Nullable String content) throws SQLException {
 
 		if (content != null) {
 			Clob clob = ps.getConnection().createClob();
@@ -118,15 +114,14 @@ public class TemporaryLobCreator implements LobCreator {
 		}
 
 		if (logger.isDebugEnabled()) {
-			logger.debug(content != null ? "Copied string into temporary CLOB with length " + content.length() :
-					"Set CLOB to null");
+			logger.debug(content != null ? "Copied string into temporary CLOB with length " + content.length()
+					: "Set CLOB to null");
 		}
 	}
 
 	@Override
-	public void setClobAsAsciiStream(
-			PreparedStatement ps, int paramIndex, @Nullable InputStream asciiStream, int contentLength)
-			throws SQLException {
+	public void setClobAsAsciiStream(PreparedStatement ps, int paramIndex, @Nullable InputStream asciiStream,
+			int contentLength) throws SQLException {
 
 		if (asciiStream != null) {
 			Clob clob = ps.getConnection().createClob();
@@ -144,16 +139,14 @@ public class TemporaryLobCreator implements LobCreator {
 		}
 
 		if (logger.isDebugEnabled()) {
-			logger.debug(asciiStream != null ?
-					"Copied ASCII stream into temporary CLOB with length " + contentLength :
-					"Set CLOB to null");
+			logger.debug(asciiStream != null ? "Copied ASCII stream into temporary CLOB with length " + contentLength
+					: "Set CLOB to null");
 		}
 	}
 
 	@Override
-	public void setClobAsCharacterStream(
-			PreparedStatement ps, int paramIndex, @Nullable Reader characterStream, int contentLength)
-			throws SQLException {
+	public void setClobAsCharacterStream(PreparedStatement ps, int paramIndex, @Nullable Reader characterStream,
+			int contentLength) throws SQLException {
 
 		if (characterStream != null) {
 			Clob clob = ps.getConnection().createClob();
@@ -171,9 +164,8 @@ public class TemporaryLobCreator implements LobCreator {
 		}
 
 		if (logger.isDebugEnabled()) {
-			logger.debug(characterStream != null ?
-					"Copied character stream into temporary CLOB with length " + contentLength :
-					"Set CLOB to null");
+			logger.debug(characterStream != null
+					? "Copied character stream into temporary CLOB with length " + contentLength : "Set CLOB to null");
 		}
 	}
 

@@ -41,8 +41,8 @@ import org.springframework.util.ClassUtils;
 /**
  * Utility class that allows for convenient registration of common
  * {@link org.springframework.beans.factory.config.BeanPostProcessor} and
- * {@link org.springframework.beans.factory.config.BeanFactoryPostProcessor}
- * definitions for annotation-based configuration. Also registers a common
+ * {@link org.springframework.beans.factory.config.BeanFactoryPostProcessor} definitions
+ * for annotation-based configuration. Also registers a common
  * {@link org.springframework.beans.factory.support.AutowireCandidateResolver}.
  *
  * @author Mark Fisher
@@ -62,8 +62,7 @@ public abstract class AnnotationConfigUtils {
 	/**
 	 * The bean name of the internally managed Configuration annotation processor.
 	 */
-	public static final String CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME =
-			"org.springframework.context.annotation.internalConfigurationAnnotationProcessor";
+	public static final String CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME = "org.springframework.context.annotation.internalConfigurationAnnotationProcessor";
 
 	/**
 	 * The bean name of the internally managed BeanNameGenerator for use when processing
@@ -73,49 +72,41 @@ public abstract class AnnotationConfigUtils {
 	 * {@link ConfigurationClassPostProcessor}.
 	 * @since 3.1.1
 	 */
-	public static final String CONFIGURATION_BEAN_NAME_GENERATOR =
-			"org.springframework.context.annotation.internalConfigurationBeanNameGenerator";
+	public static final String CONFIGURATION_BEAN_NAME_GENERATOR = "org.springframework.context.annotation.internalConfigurationBeanNameGenerator";
 
 	/**
 	 * The bean name of the internally managed Autowired annotation processor.
 	 */
-	public static final String AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME =
-			"org.springframework.context.annotation.internalAutowiredAnnotationProcessor";
+	public static final String AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME = "org.springframework.context.annotation.internalAutowiredAnnotationProcessor";
 
 	/**
 	 * The bean name of the internally managed Required annotation processor.
 	 * @deprecated as of 5.1, since no Required processor is registered by default anymore
 	 */
 	@Deprecated
-	public static final String REQUIRED_ANNOTATION_PROCESSOR_BEAN_NAME =
-			"org.springframework.context.annotation.internalRequiredAnnotationProcessor";
+	public static final String REQUIRED_ANNOTATION_PROCESSOR_BEAN_NAME = "org.springframework.context.annotation.internalRequiredAnnotationProcessor";
 
 	/**
 	 * The bean name of the internally managed JSR-250 annotation processor.
 	 */
-	public static final String COMMON_ANNOTATION_PROCESSOR_BEAN_NAME =
-			"org.springframework.context.annotation.internalCommonAnnotationProcessor";
+	public static final String COMMON_ANNOTATION_PROCESSOR_BEAN_NAME = "org.springframework.context.annotation.internalCommonAnnotationProcessor";
 
 	/**
 	 * The bean name of the internally managed JPA annotation processor.
 	 */
-	public static final String PERSISTENCE_ANNOTATION_PROCESSOR_BEAN_NAME =
-			"org.springframework.context.annotation.internalPersistenceAnnotationProcessor";
+	public static final String PERSISTENCE_ANNOTATION_PROCESSOR_BEAN_NAME = "org.springframework.context.annotation.internalPersistenceAnnotationProcessor";
 
-	private static final String PERSISTENCE_ANNOTATION_PROCESSOR_CLASS_NAME =
-			"org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor";
+	private static final String PERSISTENCE_ANNOTATION_PROCESSOR_CLASS_NAME = "org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor";
 
 	/**
 	 * The bean name of the internally managed @EventListener annotation processor.
 	 */
-	public static final String EVENT_LISTENER_PROCESSOR_BEAN_NAME =
-			"org.springframework.context.event.internalEventListenerProcessor";
+	public static final String EVENT_LISTENER_PROCESSOR_BEAN_NAME = "org.springframework.context.event.internalEventListenerProcessor";
 
 	/**
 	 * The bean name of the internally managed EventListenerFactory.
 	 */
-	public static final String EVENT_LISTENER_FACTORY_BEAN_NAME =
-			"org.springframework.context.event.internalEventListenerFactory";
+	public static final String EVENT_LISTENER_FACTORY_BEAN_NAME = "org.springframework.context.event.internalEventListenerFactory";
 
 	private static final boolean jsr250Present;
 
@@ -124,10 +115,9 @@ public abstract class AnnotationConfigUtils {
 	static {
 		ClassLoader classLoader = AnnotationConfigUtils.class.getClassLoader();
 		jsr250Present = ClassUtils.isPresent("javax.annotation.Resource", classLoader);
-		jpaPresent = ClassUtils.isPresent("javax.persistence.EntityManagerFactory", classLoader) &&
-				ClassUtils.isPresent(PERSISTENCE_ANNOTATION_PROCESSOR_CLASS_NAME, classLoader);
+		jpaPresent = ClassUtils.isPresent("javax.persistence.EntityManagerFactory", classLoader)
+				&& ClassUtils.isPresent(PERSISTENCE_ANNOTATION_PROCESSOR_CLASS_NAME, classLoader);
 	}
-
 
 	/**
 	 * Register all relevant annotation post processors in the given registry.
@@ -140,13 +130,13 @@ public abstract class AnnotationConfigUtils {
 	/**
 	 * Register all relevant annotation post processors in the given registry.
 	 * @param registry the registry to operate on
-	 * @param source the configuration source element (already extracted)
-	 * that this registration was triggered from. May be {@code null}.
-	 * @return a Set of BeanDefinitionHolders, containing all bean definitions
-	 * that have actually been registered by this call
+	 * @param source the configuration source element (already extracted) that this
+	 * registration was triggered from. May be {@code null}.
+	 * @return a Set of BeanDefinitionHolders, containing all bean definitions that have
+	 * actually been registered by this call
 	 */
-	public static Set<BeanDefinitionHolder> registerAnnotationConfigProcessors(
-			BeanDefinitionRegistry registry, @Nullable Object source) {
+	public static Set<BeanDefinitionHolder> registerAnnotationConfigProcessors(BeanDefinitionRegistry registry,
+			@Nullable Object source) {
 
 		DefaultListableBeanFactory beanFactory = unwrapDefaultListableBeanFactory(registry);
 		if (beanFactory != null) {
@@ -172,14 +162,16 @@ public abstract class AnnotationConfigUtils {
 			beanDefs.add(registerPostProcessor(registry, def, AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
 
-		// Check for JSR-250 support, and if present add the CommonAnnotationBeanPostProcessor.
+		// Check for JSR-250 support, and if present add the
+		// CommonAnnotationBeanPostProcessor.
 		if (jsr250Present && !registry.containsBeanDefinition(COMMON_ANNOTATION_PROCESSOR_BEAN_NAME)) {
 			RootBeanDefinition def = new RootBeanDefinition(CommonAnnotationBeanPostProcessor.class);
 			def.setSource(source);
 			beanDefs.add(registerPostProcessor(registry, def, COMMON_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
 
-		// Check for JPA support, and if present add the PersistenceAnnotationBeanPostProcessor.
+		// Check for JPA support, and if present add the
+		// PersistenceAnnotationBeanPostProcessor.
 		if (jpaPresent && !registry.containsBeanDefinition(PERSISTENCE_ANNOTATION_PROCESSOR_BEAN_NAME)) {
 			RootBeanDefinition def = new RootBeanDefinition();
 			try {
@@ -209,8 +201,8 @@ public abstract class AnnotationConfigUtils {
 		return beanDefs;
 	}
 
-	private static BeanDefinitionHolder registerPostProcessor(
-			BeanDefinitionRegistry registry, RootBeanDefinition definition, String beanName) {
+	private static BeanDefinitionHolder registerPostProcessor(BeanDefinitionRegistry registry,
+			RootBeanDefinition definition, String beanName) {
 
 		definition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 		registry.registerBeanDefinition(beanName, definition);
@@ -264,8 +256,8 @@ public abstract class AnnotationConfigUtils {
 		}
 	}
 
-	static BeanDefinitionHolder applyScopedProxyMode(
-			ScopeMetadata metadata, BeanDefinitionHolder definition, BeanDefinitionRegistry registry) {
+	static BeanDefinitionHolder applyScopedProxyMode(ScopeMetadata metadata, BeanDefinitionHolder definition,
+			BeanDefinitionRegistry registry) {
 
 		ScopedProxyMode scopedProxyMode = metadata.getScopedProxyMode();
 		if (scopedProxyMode.equals(ScopedProxyMode.NO)) {
@@ -285,15 +277,15 @@ public abstract class AnnotationConfigUtils {
 		return AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(annotationClassName, false));
 	}
 
-	static Set<AnnotationAttributes> attributesForRepeatable(AnnotationMetadata metadata,
-			Class<?> containerClass, Class<?> annotationClass) {
+	static Set<AnnotationAttributes> attributesForRepeatable(AnnotationMetadata metadata, Class<?> containerClass,
+			Class<?> annotationClass) {
 
 		return attributesForRepeatable(metadata, containerClass.getName(), annotationClass.getName());
 	}
 
 	@SuppressWarnings("unchecked")
-	static Set<AnnotationAttributes> attributesForRepeatable(
-			AnnotationMetadata metadata, String containerClassName, String annotationClassName) {
+	static Set<AnnotationAttributes> attributesForRepeatable(AnnotationMetadata metadata, String containerClassName,
+			String annotationClassName) {
 
 		Set<AnnotationAttributes> result = new LinkedHashSet<>();
 
@@ -312,8 +304,8 @@ public abstract class AnnotationConfigUtils {
 		return Collections.unmodifiableSet(result);
 	}
 
-	private static void addAttributesIfNotNull(
-			Set<AnnotationAttributes> result, @Nullable Map<String, Object> attributes) {
+	private static void addAttributesIfNotNull(Set<AnnotationAttributes> result,
+			@Nullable Map<String, Object> attributes) {
 
 		if (attributes != null) {
 			result.add(AnnotationAttributes.fromMap(attributes));

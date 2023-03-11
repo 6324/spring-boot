@@ -31,8 +31,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Helper for retrieving standard Spring Advisors from a BeanFactory,
- * for use with auto-proxying.
+ * Helper for retrieving standard Spring Advisors from a BeanFactory, for use with
+ * auto-proxying.
  *
  * @author Juergen Hoeller
  * @since 2.0.2
@@ -47,7 +47,6 @@ public class BeanFactoryAdvisorRetrievalHelper {
 	@Nullable
 	private volatile String[] cachedAdvisorBeanNames;
 
-
 	/**
 	 * Create a new BeanFactoryAdvisorRetrievalHelper for the given BeanFactory.
 	 * @param beanFactory the ListableBeanFactory to scan
@@ -57,10 +56,9 @@ public class BeanFactoryAdvisorRetrievalHelper {
 		this.beanFactory = beanFactory;
 	}
 
-
 	/**
-	 * Find all eligible Advisor beans in the current bean factory,
-	 * ignoring FactoryBeans and excluding beans that are currently in creation.
+	 * Find all eligible Advisor beans in the current bean factory, ignoring FactoryBeans
+	 * and excluding beans that are currently in creation.
 	 * @return the list of {@link org.springframework.aop.Advisor} beans
 	 * @see #isEligibleBean
 	 */
@@ -70,8 +68,8 @@ public class BeanFactoryAdvisorRetrievalHelper {
 		if (advisorNames == null) {
 			// Do not initialize FactoryBeans here: We need to leave all regular beans
 			// uninitialized to let the auto-proxy creator apply to them!
-			advisorNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
-					this.beanFactory, Advisor.class, true, false);
+			advisorNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(this.beanFactory, Advisor.class, true,
+					false);
 			this.cachedAdvisorBeanNames = advisorNames;
 		}
 		if (advisorNames.length == 0) {
@@ -97,11 +95,13 @@ public class BeanFactoryAdvisorRetrievalHelper {
 							String bceBeanName = bce.getBeanName();
 							if (bceBeanName != null && this.beanFactory.isCurrentlyInCreation(bceBeanName)) {
 								if (logger.isTraceEnabled()) {
-									logger.trace("Skipping advisor '" + name +
-											"' with dependency on currently created bean: " + ex.getMessage());
+									logger.trace("Skipping advisor '" + name
+											+ "' with dependency on currently created bean: " + ex.getMessage());
 								}
-								// Ignore: indicates a reference back to the bean we're trying to advise.
-								// We want to find advisors other than the currently created bean itself.
+								// Ignore: indicates a reference back to the bean we're
+								// trying to advise.
+								// We want to find advisors other than the currently
+								// created bean itself.
 								continue;
 							}
 						}
@@ -115,7 +115,8 @@ public class BeanFactoryAdvisorRetrievalHelper {
 
 	/**
 	 * Determine whether the aspect bean with the given name is eligible.
-	 * <p>The default implementation always returns {@code true}.
+	 * <p>
+	 * The default implementation always returns {@code true}.
 	 * @param beanName the name of the aspect bean
 	 * @return whether the bean is eligible
 	 */

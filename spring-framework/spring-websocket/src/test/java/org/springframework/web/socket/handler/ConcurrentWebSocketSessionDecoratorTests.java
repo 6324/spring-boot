@@ -35,6 +35,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * Unit tests for {@link ConcurrentWebSocketSessionDecorator}.
+ *
  * @author Rossen Stoyanchev
  */
 @SuppressWarnings("resource")
@@ -46,8 +47,7 @@ public class ConcurrentWebSocketSessionDecoratorTests {
 		TestWebSocketSession session = new TestWebSocketSession();
 		session.setOpen(true);
 
-		ConcurrentWebSocketSessionDecorator decorator =
-				new ConcurrentWebSocketSessionDecorator(session, 1000, 1024);
+		ConcurrentWebSocketSessionDecorator decorator = new ConcurrentWebSocketSessionDecorator(session, 1000, 1024);
 
 		TextMessage textMessage = new TextMessage("payload");
 		decorator.sendMessage(textMessage);
@@ -66,8 +66,8 @@ public class ConcurrentWebSocketSessionDecoratorTests {
 		BlockingSession session = new BlockingSession();
 		session.setOpen(true);
 
-		ConcurrentWebSocketSessionDecorator decorator =
-				new ConcurrentWebSocketSessionDecorator(session, 10 * 1000, 1024);
+		ConcurrentWebSocketSessionDecorator decorator = new ConcurrentWebSocketSessionDecorator(session, 10 * 1000,
+				1024);
 
 		sendBlockingMessage(decorator);
 
@@ -91,8 +91,7 @@ public class ConcurrentWebSocketSessionDecoratorTests {
 		session.setId("123");
 		session.setOpen(true);
 
-		ConcurrentWebSocketSessionDecorator decorator =
-				new ConcurrentWebSocketSessionDecorator(session, 100, 1024);
+		ConcurrentWebSocketSessionDecorator decorator = new ConcurrentWebSocketSessionDecorator(session, 100, 1024);
 
 		sendBlockingMessage(decorator);
 
@@ -100,10 +99,9 @@ public class ConcurrentWebSocketSessionDecoratorTests {
 		Thread.sleep(200);
 
 		TextMessage payload = new TextMessage("payload");
-		assertThatExceptionOfType(SessionLimitExceededException.class).isThrownBy(() ->
-				decorator.sendMessage(payload))
-			.withMessageMatching("Send time [\\d]+ \\(ms\\) for session '123' exceeded the allowed limit 100")
-			.satisfies(ex -> assertThat(ex.getStatus()).isEqualTo(CloseStatus.SESSION_NOT_RELIABLE));
+		assertThatExceptionOfType(SessionLimitExceededException.class).isThrownBy(() -> decorator.sendMessage(payload))
+				.withMessageMatching("Send time [\\d]+ \\(ms\\) for session '123' exceeded the allowed limit 100")
+				.satisfies(ex -> assertThat(ex.getStatus()).isEqualTo(CloseStatus.SESSION_NOT_RELIABLE));
 	}
 
 	@Test
@@ -113,8 +111,8 @@ public class ConcurrentWebSocketSessionDecoratorTests {
 		session.setId("123");
 		session.setOpen(true);
 
-		ConcurrentWebSocketSessionDecorator decorator =
-				new ConcurrentWebSocketSessionDecorator(session, 10*1000, 1024);
+		ConcurrentWebSocketSessionDecorator decorator = new ConcurrentWebSocketSessionDecorator(session, 10 * 1000,
+				1024);
 
 		sendBlockingMessage(decorator);
 
@@ -125,10 +123,9 @@ public class ConcurrentWebSocketSessionDecoratorTests {
 		assertThat(decorator.getBufferSize()).isEqualTo(1023);
 		assertThat(session.isOpen()).isTrue();
 
-		assertThatExceptionOfType(SessionLimitExceededException.class).isThrownBy(() ->
-				decorator.sendMessage(message))
-			.withMessageMatching("Buffer size [\\d]+ bytes for session '123' exceeds the allowed limit 1024")
-			.satisfies(ex -> assertThat(ex.getStatus()).isEqualTo(CloseStatus.SESSION_NOT_RELIABLE));
+		assertThatExceptionOfType(SessionLimitExceededException.class).isThrownBy(() -> decorator.sendMessage(message))
+				.withMessageMatching("Buffer size [\\d]+ bytes for session '123' exceeds the allowed limit 1024")
+				.satisfies(ex -> assertThat(ex.getStatus()).isEqualTo(CloseStatus.SESSION_NOT_RELIABLE));
 	}
 
 	@Test // SPR-17140
@@ -138,8 +135,8 @@ public class ConcurrentWebSocketSessionDecoratorTests {
 		session.setId("123");
 		session.setOpen(true);
 
-		ConcurrentWebSocketSessionDecorator decorator =
-				new ConcurrentWebSocketSessionDecorator(session, 10*1000, 1024, OverflowStrategy.DROP);
+		ConcurrentWebSocketSessionDecorator decorator = new ConcurrentWebSocketSessionDecorator(session, 10 * 1000,
+				1024, OverflowStrategy.DROP);
 
 		sendBlockingMessage(decorator);
 
@@ -179,8 +176,8 @@ public class ConcurrentWebSocketSessionDecoratorTests {
 		int sendTimeLimit = 100;
 		int bufferSizeLimit = 1024;
 
-		ConcurrentWebSocketSessionDecorator decorator =
-				new ConcurrentWebSocketSessionDecorator(session, sendTimeLimit, bufferSizeLimit);
+		ConcurrentWebSocketSessionDecorator decorator = new ConcurrentWebSocketSessionDecorator(session, sendTimeLimit,
+				bufferSizeLimit);
 
 		Executors.newSingleThreadExecutor().submit((Runnable) () -> {
 			TextMessage message = new TextMessage("slow message");
@@ -199,7 +196,8 @@ public class ConcurrentWebSocketSessionDecoratorTests {
 
 		decorator.close(CloseStatus.PROTOCOL_ERROR);
 
-		assertThat(session.getCloseStatus()).as("CloseStatus should have changed to SESSION_NOT_RELIABLE").isEqualTo(CloseStatus.SESSION_NOT_RELIABLE);
+		assertThat(session.getCloseStatus()).as("CloseStatus should have changed to SESSION_NOT_RELIABLE")
+				.isEqualTo(CloseStatus.SESSION_NOT_RELIABLE);
 	}
 
 	private void sendBlockingMessage(ConcurrentWebSocketSessionDecorator session) throws InterruptedException {
@@ -217,14 +215,11 @@ public class ConcurrentWebSocketSessionDecoratorTests {
 		assertThat(sentMessageLatch.await(5, TimeUnit.SECONDS)).isTrue();
 	}
 
-
-
 	private static class BlockingSession extends TestWebSocketSession {
 
 		private final AtomicReference<CountDownLatch> nextMessageLatch = new AtomicReference<>();
 
 		private final AtomicReference<CountDownLatch> releaseLatch = new AtomicReference<>();
-
 
 		public CountDownLatch getSentMessageLatch() {
 			this.nextMessageLatch.set(new CountDownLatch(1));

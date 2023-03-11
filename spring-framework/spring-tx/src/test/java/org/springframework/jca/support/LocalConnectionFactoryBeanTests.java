@@ -37,8 +37,7 @@ public class LocalConnectionFactoryBeanTests {
 
 	@Test
 	public void testManagedConnectionFactoryIsRequired() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(
-				new LocalConnectionFactoryBean()::afterPropertiesSet);
+		assertThatIllegalArgumentException().isThrownBy(new LocalConnectionFactoryBean()::afterPropertiesSet);
 	}
 
 	@Test

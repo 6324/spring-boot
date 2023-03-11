@@ -86,6 +86,7 @@ public class CachedExpressionEvaluatorTests {
 			SpelExpressionParser parser = new SpelExpressionParser();
 			return spy(parser);
 		}
+
 	}
 
 }

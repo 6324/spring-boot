@@ -24,9 +24,10 @@ import org.springframework.lang.Nullable;
  * Expressions are executed in an evaluation context. It is in this context that
  * references are resolved when encountered during expression evaluation.
  *
- * <p>There is a default implementation of this EvaluationContext interface:
- * {@link org.springframework.expression.spel.support.StandardEvaluationContext}
- * which can be extended, rather than having to implement everything manually.
+ * <p>
+ * There is a default implementation of this EvaluationContext interface:
+ * {@link org.springframework.expression.spel.support.StandardEvaluationContext} which can
+ * be extended, rather than having to implement everything manually.
  *
  * @author Andy Clement
  * @author Juergen Hoeller
@@ -36,8 +37,8 @@ public interface EvaluationContext {
 
 	/**
 	 * Return the default root context object against which unqualified
-	 * properties/methods/etc should be resolved. This can be overridden
-	 * when evaluating an expression.
+	 * properties/methods/etc should be resolved. This can be overridden when evaluating
+	 * an expression.
 	 */
 	TypedValue getRootObject();
 
@@ -63,13 +64,14 @@ public interface EvaluationContext {
 	BeanResolver getBeanResolver();
 
 	/**
-	 * Return a type locator that can be used to find types, either by short or
-	 * fully qualified name.
+	 * Return a type locator that can be used to find types, either by short or fully
+	 * qualified name.
 	 */
 	TypeLocator getTypeLocator();
 
 	/**
-	 * Return a type converter that can convert (or coerce) a value from one type to another.
+	 * Return a type converter that can convert (or coerce) a value from one type to
+	 * another.
 	 */
 	TypeConverter getTypeConverter();
 
@@ -79,8 +81,8 @@ public interface EvaluationContext {
 	TypeComparator getTypeComparator();
 
 	/**
-	 * Return an operator overloader that may support mathematical operations
-	 * between more than the standard set of types.
+	 * Return an operator overloader that may support mathematical operations between more
+	 * than the standard set of types.
 	 */
 	OperatorOverloader getOperatorOverloader();
 

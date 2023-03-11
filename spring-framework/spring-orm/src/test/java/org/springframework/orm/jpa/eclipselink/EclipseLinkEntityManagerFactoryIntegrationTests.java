@@ -29,12 +29,14 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Juergen Hoeller
  */
-public class EclipseLinkEntityManagerFactoryIntegrationTests extends AbstractContainerEntityManagerFactoryIntegrationTests {
+public class EclipseLinkEntityManagerFactoryIntegrationTests
+		extends AbstractContainerEntityManagerFactoryIntegrationTests {
 
 	@Test
 	public void testCanCastNativeEntityManagerFactoryToEclipseLinkEntityManagerFactoryImpl() {
 		EntityManagerFactoryInfo emfi = (EntityManagerFactoryInfo) entityManagerFactory;
-		assertThat(emfi.getNativeEntityManagerFactory().getClass().getName().endsWith("EntityManagerFactoryImpl")).isTrue();
+		assertThat(emfi.getNativeEntityManagerFactory().getClass().getName().endsWith("EntityManagerFactoryImpl"))
+				.isTrue();
 	}
 
 	@Test

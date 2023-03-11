@@ -65,7 +65,6 @@ public class EndpointConnectionManager extends ConnectionManagerSupport implemen
 	@Nullable
 	private volatile Session session;
 
-
 	public EndpointConnectionManager(Endpoint endpoint, String uriTemplate, Object... uriVariables) {
 		super(uriTemplate, uriVariables);
 		Assert.notNull(endpoint, "endpoint must not be null");
@@ -79,7 +78,6 @@ public class EndpointConnectionManager extends ConnectionManagerSupport implemen
 		this.endpoint = null;
 		this.endpointProvider = new BeanCreatingHandlerProvider<>(endpointClass);
 	}
-
 
 	public void setSupportedProtocols(String... protocols) {
 		this.configBuilder.preferredSubprotocols(Arrays.asList(protocols));
@@ -117,8 +115,8 @@ public class EndpointConnectionManager extends ConnectionManagerSupport implemen
 	}
 
 	/**
-	 * Set a {@link TaskExecutor} to use to open connections.
-	 * By default {@link SimpleAsyncTaskExecutor} is used.
+	 * Set a {@link TaskExecutor} to use to open connections. By default
+	 * {@link SimpleAsyncTaskExecutor} is used.
 	 */
 	public void setTaskExecutor(TaskExecutor taskExecutor) {
 		Assert.notNull(taskExecutor, "TaskExecutor must not be null");
@@ -131,7 +129,6 @@ public class EndpointConnectionManager extends ConnectionManagerSupport implemen
 	public TaskExecutor getTaskExecutor() {
 		return this.taskExecutor;
 	}
-
 
 	@Override
 	protected void openConnection() {

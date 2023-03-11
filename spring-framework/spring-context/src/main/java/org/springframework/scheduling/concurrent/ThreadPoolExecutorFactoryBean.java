@@ -37,26 +37,29 @@ import org.springframework.lang.Nullable;
  * "queueCapacity" properties) and exposing it as a bean reference of its native
  * {@link java.util.concurrent.ExecutorService} type.
  *
- * <p>The default configuration is a core pool size of 1, with unlimited max pool size
- * and unlimited queue capacity. This is roughly equivalent to
+ * <p>
+ * The default configuration is a core pool size of 1, with unlimited max pool size and
+ * unlimited queue capacity. This is roughly equivalent to
  * {@link java.util.concurrent.Executors#newSingleThreadExecutor()}, sharing a single
  * thread for all tasks. Setting {@link #setQueueCapacity "queueCapacity"} to 0 mimics
- * {@link java.util.concurrent.Executors#newCachedThreadPool()}, with immediate scaling
- * of threads in the pool to a potentially very high number. Consider also setting a
+ * {@link java.util.concurrent.Executors#newCachedThreadPool()}, with immediate scaling of
+ * threads in the pool to a potentially very high number. Consider also setting a
  * {@link #setMaxPoolSize "maxPoolSize"} at that point, as well as possibly a higher
- * {@link #setCorePoolSize "corePoolSize"} (see also the
- * {@link #setAllowCoreThreadTimeOut "allowCoreThreadTimeOut"} mode of scaling).
+ * {@link #setCorePoolSize "corePoolSize"} (see also the {@link #setAllowCoreThreadTimeOut
+ * "allowCoreThreadTimeOut"} mode of scaling).
  *
- * <p>For an alternative, you may set up a {@link ThreadPoolExecutor} instance directly
- * using constructor injection, or use a factory method definition that points to the
- * {@link java.util.concurrent.Executors} class.
- * <b>This is strongly recommended in particular for common {@code @Bean} methods in
- * configuration classes, where this {@code FactoryBean} variant would force you to
- * return the {@code FactoryBean} type instead of the actual {@code Executor} type.</b>
+ * <p>
+ * For an alternative, you may set up a {@link ThreadPoolExecutor} instance directly using
+ * constructor injection, or use a factory method definition that points to the
+ * {@link java.util.concurrent.Executors} class. <b>This is strongly recommended in
+ * particular for common {@code @Bean} methods in configuration classes, where this
+ * {@code FactoryBean} variant would force you to return the {@code FactoryBean} type
+ * instead of the actual {@code Executor} type.</b>
  *
- * <p>If you need a timing-based {@link java.util.concurrent.ScheduledExecutorService}
+ * <p>
+ * If you need a timing-based {@link java.util.concurrent.ScheduledExecutorService}
  * instead, consider {@link ScheduledExecutorFactoryBean}.
-
+ *
  * @author Juergen Hoeller
  * @since 3.0
  * @see java.util.concurrent.ExecutorService
@@ -82,36 +85,34 @@ public class ThreadPoolExecutorFactoryBean extends ExecutorConfigurationSupport
 	@Nullable
 	private ExecutorService exposedExecutor;
 
-
 	/**
-	 * Set the ThreadPoolExecutor's core pool size.
-	 * Default is 1.
+	 * Set the ThreadPoolExecutor's core pool size. Default is 1.
 	 */
 	public void setCorePoolSize(int corePoolSize) {
 		this.corePoolSize = corePoolSize;
 	}
 
 	/**
-	 * Set the ThreadPoolExecutor's maximum pool size.
-	 * Default is {@code Integer.MAX_VALUE}.
+	 * Set the ThreadPoolExecutor's maximum pool size. Default is
+	 * {@code Integer.MAX_VALUE}.
 	 */
 	public void setMaxPoolSize(int maxPoolSize) {
 		this.maxPoolSize = maxPoolSize;
 	}
 
 	/**
-	 * Set the ThreadPoolExecutor's keep-alive seconds.
-	 * Default is 60.
+	 * Set the ThreadPoolExecutor's keep-alive seconds. Default is 60.
 	 */
 	public void setKeepAliveSeconds(int keepAliveSeconds) {
 		this.keepAliveSeconds = keepAliveSeconds;
 	}
 
 	/**
-	 * Specify whether to allow core threads to time out. This enables dynamic
-	 * growing and shrinking even in combination with a non-zero queue (since
-	 * the max pool size will only grow once the queue is full).
-	 * <p>Default is "false".
+	 * Specify whether to allow core threads to time out. This enables dynamic growing and
+	 * shrinking even in combination with a non-zero queue (since the max pool size will
+	 * only grow once the queue is full).
+	 * <p>
+	 * Default is "false".
 	 * @see java.util.concurrent.ThreadPoolExecutor#allowCoreThreadTimeOut(boolean)
 	 */
 	public void setAllowCoreThreadTimeOut(boolean allowCoreThreadTimeOut) {
@@ -119,10 +120,11 @@ public class ThreadPoolExecutorFactoryBean extends ExecutorConfigurationSupport
 	}
 
 	/**
-	 * Set the capacity for the ThreadPoolExecutor's BlockingQueue.
-	 * Default is {@code Integer.MAX_VALUE}.
-	 * <p>Any positive value will lead to a LinkedBlockingQueue instance;
-	 * any other value will lead to a SynchronousQueue instance.
+	 * Set the capacity for the ThreadPoolExecutor's BlockingQueue. Default is
+	 * {@code Integer.MAX_VALUE}.
+	 * <p>
+	 * Any positive value will lead to a LinkedBlockingQueue instance; any other value
+	 * will lead to a SynchronousQueue instance.
 	 * @see java.util.concurrent.LinkedBlockingQueue
 	 * @see java.util.concurrent.SynchronousQueue
 	 */
@@ -131,40 +133,40 @@ public class ThreadPoolExecutorFactoryBean extends ExecutorConfigurationSupport
 	}
 
 	/**
-	 * Specify whether this FactoryBean should expose an unconfigurable
-	 * decorator for the created executor.
-	 * <p>Default is "false", exposing the raw executor as bean reference.
-	 * Switch this flag to "true" to strictly prevent clients from
-	 * modifying the executor's configuration.
+	 * Specify whether this FactoryBean should expose an unconfigurable decorator for the
+	 * created executor.
+	 * <p>
+	 * Default is "false", exposing the raw executor as bean reference. Switch this flag
+	 * to "true" to strictly prevent clients from modifying the executor's configuration.
 	 * @see java.util.concurrent.Executors#unconfigurableExecutorService
 	 */
 	public void setExposeUnconfigurableExecutor(boolean exposeUnconfigurableExecutor) {
 		this.exposeUnconfigurableExecutor = exposeUnconfigurableExecutor;
 	}
 
-
 	@Override
-	protected ExecutorService initializeExecutor(
-			ThreadFactory threadFactory, RejectedExecutionHandler rejectedExecutionHandler) {
+	protected ExecutorService initializeExecutor(ThreadFactory threadFactory,
+			RejectedExecutionHandler rejectedExecutionHandler) {
 
 		BlockingQueue<Runnable> queue = createQueue(this.queueCapacity);
-		ThreadPoolExecutor executor  = createExecutor(this.corePoolSize, this.maxPoolSize,
-				this.keepAliveSeconds, queue, threadFactory, rejectedExecutionHandler);
+		ThreadPoolExecutor executor = createExecutor(this.corePoolSize, this.maxPoolSize, this.keepAliveSeconds, queue,
+				threadFactory, rejectedExecutionHandler);
 		if (this.allowCoreThreadTimeOut) {
 			executor.allowCoreThreadTimeOut(true);
 		}
 
 		// Wrap executor with an unconfigurable decorator.
-		this.exposedExecutor = (this.exposeUnconfigurableExecutor ?
-				Executors.unconfigurableExecutorService(executor) : executor);
+		this.exposedExecutor = (this.exposeUnconfigurableExecutor ? Executors.unconfigurableExecutorService(executor)
+				: executor);
 
 		return executor;
 	}
 
 	/**
 	 * Create a new instance of {@link ThreadPoolExecutor} or a subclass thereof.
-	 * <p>The default implementation creates a standard {@link ThreadPoolExecutor}.
-	 * Can be overridden to provide custom {@link ThreadPoolExecutor} subclasses.
+	 * <p>
+	 * The default implementation creates a standard {@link ThreadPoolExecutor}. Can be
+	 * overridden to provide custom {@link ThreadPoolExecutor} subclasses.
 	 * @param corePoolSize the specified core pool size
 	 * @param maxPoolSize the specified maximum pool size
 	 * @param keepAliveSeconds the specified keep-alive time in seconds
@@ -174,18 +176,19 @@ public class ThreadPoolExecutorFactoryBean extends ExecutorConfigurationSupport
 	 * @return a new ThreadPoolExecutor instance
 	 * @see #afterPropertiesSet()
 	 */
-	protected ThreadPoolExecutor createExecutor(
-			int corePoolSize, int maxPoolSize, int keepAliveSeconds, BlockingQueue<Runnable> queue,
-			ThreadFactory threadFactory, RejectedExecutionHandler rejectedExecutionHandler) {
+	protected ThreadPoolExecutor createExecutor(int corePoolSize, int maxPoolSize, int keepAliveSeconds,
+			BlockingQueue<Runnable> queue, ThreadFactory threadFactory,
+			RejectedExecutionHandler rejectedExecutionHandler) {
 
-		return new ThreadPoolExecutor(corePoolSize, maxPoolSize,
-				keepAliveSeconds, TimeUnit.SECONDS, queue, threadFactory, rejectedExecutionHandler);
+		return new ThreadPoolExecutor(corePoolSize, maxPoolSize, keepAliveSeconds, TimeUnit.SECONDS, queue,
+				threadFactory, rejectedExecutionHandler);
 	}
 
 	/**
 	 * Create the BlockingQueue to use for the ThreadPoolExecutor.
-	 * <p>A LinkedBlockingQueue instance will be created for a positive
-	 * capacity value; a SynchronousQueue else.
+	 * <p>
+	 * A LinkedBlockingQueue instance will be created for a positive capacity value; a
+	 * SynchronousQueue else.
 	 * @param queueCapacity the specified queue capacity
 	 * @return the BlockingQueue instance
 	 * @see java.util.concurrent.LinkedBlockingQueue
@@ -199,7 +202,6 @@ public class ThreadPoolExecutorFactoryBean extends ExecutorConfigurationSupport
 			return new SynchronousQueue<>();
 		}
 	}
-
 
 	@Override
 	@Nullable

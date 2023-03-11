@@ -16,7 +16,6 @@
 
 package test.aop;
 
-
 /**
  * Simple interface to use for mixins
  *
@@ -30,4 +29,5 @@ public interface Lockable {
 	void unlock();
 
 	boolean locked();
+
 }

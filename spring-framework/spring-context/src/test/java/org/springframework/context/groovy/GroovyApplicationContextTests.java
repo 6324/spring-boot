@@ -72,8 +72,9 @@ public class GroovyApplicationContextTests {
 
 	@Test
 	public void testConfigFileParsingError() {
-		assertThatExceptionOfType(BeanDefinitionParsingException.class).isThrownBy(() ->
-				new GenericGroovyApplicationContext("org/springframework/context/groovy/applicationContext-error.groovy"));
+		assertThatExceptionOfType(BeanDefinitionParsingException.class)
+				.isThrownBy(() -> new GenericGroovyApplicationContext(
+						"org/springframework/context/groovy/applicationContext-error.groovy"));
 	}
 
 }

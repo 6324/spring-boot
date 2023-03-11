@@ -25,10 +25,10 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * {@link LoadTimeWeaver} implementation for WebLogic's instrumentable
- * ClassLoader.
+ * {@link LoadTimeWeaver} implementation for WebLogic's instrumentable ClassLoader.
  *
- * <p><b>NOTE:</b> Requires BEA WebLogic version 10 or higher.
+ * <p>
+ * <b>NOTE:</b> Requires BEA WebLogic version 10 or higher.
  *
  * @author Costin Leau
  * @author Juergen Hoeller
@@ -38,10 +38,9 @@ public class WebLogicLoadTimeWeaver implements LoadTimeWeaver {
 
 	private final WebLogicClassLoaderAdapter classLoader;
 
-
 	/**
-	 * Creates a new instance of the {@link WebLogicLoadTimeWeaver} class using
-	 * the default {@link ClassLoader class loader}.
+	 * Creates a new instance of the {@link WebLogicLoadTimeWeaver} class using the
+	 * default {@link ClassLoader class loader}.
 	 * @see org.springframework.util.ClassUtils#getDefaultClassLoader()
 	 */
 	public WebLogicLoadTimeWeaver() {
@@ -49,15 +48,14 @@ public class WebLogicLoadTimeWeaver implements LoadTimeWeaver {
 	}
 
 	/**
-	 * Creates a new instance of the {@link WebLogicLoadTimeWeaver} class using
-	 * the supplied {@link ClassLoader}.
+	 * Creates a new instance of the {@link WebLogicLoadTimeWeaver} class using the
+	 * supplied {@link ClassLoader}.
 	 * @param classLoader the {@code ClassLoader} to delegate to for weaving
 	 */
 	public WebLogicLoadTimeWeaver(@Nullable ClassLoader classLoader) {
 		Assert.notNull(classLoader, "ClassLoader must not be null");
 		this.classLoader = new WebLogicClassLoaderAdapter(classLoader);
 	}
-
 
 	@Override
 	public void addTransformer(ClassFileTransformer transformer) {
@@ -71,8 +69,7 @@ public class WebLogicLoadTimeWeaver implements LoadTimeWeaver {
 
 	@Override
 	public ClassLoader getThrowawayClassLoader() {
-		return new OverridingClassLoader(this.classLoader.getClassLoader(),
-				this.classLoader.getThrowawayClassLoader());
+		return new OverridingClassLoader(this.classLoader.getClassLoader(), this.classLoader.getThrowawayClassLoader());
 	}
 
 }

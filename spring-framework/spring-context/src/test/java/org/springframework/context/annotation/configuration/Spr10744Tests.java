@@ -27,9 +27,6 @@ import org.springframework.context.annotation.ScopedProxyMode;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
-
-
 /**
  * @author Phillip Webb
  */
@@ -38,7 +35,6 @@ public class Spr10744Tests {
 	private static int createCount = 0;
 
 	private static int scopeCount = 0;
-
 
 	@Test
 	public void testSpr10744() throws Exception {
@@ -66,7 +62,6 @@ public class Spr10744Tests {
 		context.close();
 	}
 
-
 	private static class MyTestScope implements org.springframework.beans.factory.config.Scope {
 
 		@Override
@@ -93,8 +88,8 @@ public class Spr10744Tests {
 		public String getConversationId() {
 			return null;
 		}
-	}
 
+	}
 
 	static class Foo {
 
@@ -105,8 +100,8 @@ public class Spr10744Tests {
 		public String getMessage() {
 			return "Hello";
 		}
-	}
 
+	}
 
 	@Configuration
 	static class MyConfiguration {
@@ -115,18 +110,19 @@ public class Spr10744Tests {
 		public Foo foo() {
 			return new Foo();
 		}
-	}
 
+	}
 
 	@Configuration
 	static class MyTestConfiguration extends MyConfiguration {
 
 		@Bean
-		@Scope(value = "myTestScope",  proxyMode = ScopedProxyMode.TARGET_CLASS)
+		@Scope(value = "myTestScope", proxyMode = ScopedProxyMode.TARGET_CLASS)
 		@Override
 		public Foo foo() {
 			return new Foo();
 		}
+
 	}
 
 }

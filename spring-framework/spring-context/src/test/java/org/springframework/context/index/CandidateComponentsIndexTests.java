@@ -37,8 +37,8 @@ public class CandidateComponentsIndexTests {
 		CandidateComponentsIndex index = new CandidateComponentsIndex(
 				Collections.singletonList(createSampleProperties()));
 		Set<String> actual = index.getCandidateTypes("com.example.service", "service");
-		assertThat(actual).contains("com.example.service.One",
-				"com.example.service.sub.Two", "com.example.service.Three");
+		assertThat(actual).contains("com.example.service.One", "com.example.service.sub.Two",
+				"com.example.service.Three");
 	}
 
 	@Test
@@ -67,13 +67,10 @@ public class CandidateComponentsIndexTests {
 
 	@Test
 	public void mergeCandidateStereotypes() {
-		CandidateComponentsIndex index = new CandidateComponentsIndex(Arrays.asList(
-				createProperties("com.example.Foo", "service"),
-				createProperties("com.example.Foo", "entity")));
-		assertThat(index.getCandidateTypes("com.example", "service"))
-				.contains("com.example.Foo");
-		assertThat(index.getCandidateTypes("com.example", "entity"))
-				.contains("com.example.Foo");
+		CandidateComponentsIndex index = new CandidateComponentsIndex(Arrays
+				.asList(createProperties("com.example.Foo", "service"), createProperties("com.example.Foo", "entity")));
+		assertThat(index.getCandidateTypes("com.example", "service")).contains("com.example.Foo");
+		assertThat(index.getCandidateTypes("com.example", "entity")).contains("com.example.Foo");
 	}
 
 	private static Properties createProperties(String key, String stereotypes) {

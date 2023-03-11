@@ -20,8 +20,8 @@ import org.springframework.scheduling.Trigger;
 import org.springframework.util.Assert;
 
 /**
- * {@link Task} implementation defining a {@code Runnable} to be executed
- * according to a given {@link Trigger}.
+ * {@link Task} implementation defining a {@code Runnable} to be executed according to a
+ * given {@link Trigger}.
  *
  * @author Chris Beams
  * @since 3.2
@@ -31,7 +31,6 @@ import org.springframework.util.Assert;
 public class TriggerTask extends Task {
 
 	private final Trigger trigger;
-
 
 	/**
 	 * Create a new {@link TriggerTask}.
@@ -43,7 +42,6 @@ public class TriggerTask extends Task {
 		Assert.notNull(trigger, "Trigger must not be null");
 		this.trigger = trigger;
 	}
-
 
 	/**
 	 * Return the associated trigger.

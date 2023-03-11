@@ -49,26 +49,19 @@ import static org.mockito.Mockito.verify;
  */
 public class SqlUpdateTests {
 
-	private static final String UPDATE =
-			"update seat_status set booking_id = null";
+	private static final String UPDATE = "update seat_status set booking_id = null";
 
-	private static final String UPDATE_INT =
-			"update seat_status set booking_id = null where performance_id = ?";
+	private static final String UPDATE_INT = "update seat_status set booking_id = null where performance_id = ?";
 
-	private static final String UPDATE_INT_INT =
-			"update seat_status set booking_id = null where performance_id = ? and price_band_id = ?";
+	private static final String UPDATE_INT_INT = "update seat_status set booking_id = null where performance_id = ? and price_band_id = ?";
 
-	private static final String UPDATE_NAMED_PARAMETERS =
-			"update seat_status set booking_id = null where performance_id = :perfId and price_band_id = :priceId";
+	private static final String UPDATE_NAMED_PARAMETERS = "update seat_status set booking_id = null where performance_id = :perfId and price_band_id = :priceId";
 
-	private static final String UPDATE_STRING =
-			"update seat_status set booking_id = null where name = ?";
+	private static final String UPDATE_STRING = "update seat_status set booking_id = null where name = ?";
 
-	private static final String UPDATE_OBJECTS =
-			"update seat_status set booking_id = null where performance_id = ? and price_band_id = ? and name = ? and confirmed = ?";
+	private static final String UPDATE_OBJECTS = "update seat_status set booking_id = null where performance_id = ? and price_band_id = ? and name = ? and confirmed = ?";
 
-	private static final String INSERT_GENERATE_KEYS =
-			"insert into show (name) values(?)";
+	private static final String INSERT_GENERATE_KEYS = "insert into show (name) values(?)";
 
 	private DataSource dataSource;
 
@@ -79,7 +72,6 @@ public class SqlUpdateTests {
 	private ResultSet resultSet;
 
 	private ResultSetMetaData resultSetMetaData;
-
 
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -96,7 +88,6 @@ public class SqlUpdateTests {
 		verify(preparedStatement).close();
 		verify(connection).close();
 	}
-
 
 	@Test
 	public void testUpdate() throws SQLException {
@@ -144,12 +135,12 @@ public class SqlUpdateTests {
 		doTestNamedParameterUpdate(true);
 	}
 
-	private void doTestNamedParameterUpdate(final boolean namedDeclarations)
-			throws SQLException {
+	private void doTestNamedParameterUpdate(final boolean namedDeclarations) throws SQLException {
 		given(preparedStatement.executeUpdate()).willReturn(1);
 		given(connection.prepareStatement(UPDATE_INT_INT)).willReturn(preparedStatement);
 
 		class NamedParameterUpdater extends SqlUpdate {
+
 			public NamedParameterUpdater() {
 				setSql(UPDATE_NAMED_PARAMETERS);
 				setDataSource(dataSource);
@@ -170,6 +161,7 @@ public class SqlUpdateTests {
 				params.put("priceId", type);
 				return updateByNamedParam(params);
 			}
+
 		}
 
 		NamedParameterUpdater pc = new NamedParameterUpdater();
@@ -215,9 +207,8 @@ public class SqlUpdateTests {
 		given(resultSet.getObject(1)).willReturn(11);
 		given(preparedStatement.executeUpdate()).willReturn(1);
 		given(preparedStatement.getGeneratedKeys()).willReturn(resultSet);
-		given(connection.prepareStatement(INSERT_GENERATE_KEYS,
-				PreparedStatement.RETURN_GENERATED_KEYS)
-			).willReturn(preparedStatement);
+		given(connection.prepareStatement(INSERT_GENERATE_KEYS, PreparedStatement.RETURN_GENERATED_KEYS))
+				.willReturn(preparedStatement);
 
 		GeneratedKeysUpdater pc = new GeneratedKeysUpdater();
 		KeyHolder generatedKeyHolder = new GeneratedKeyHolder();
@@ -274,8 +265,7 @@ public class SqlUpdateTests {
 
 		MaxRowsUpdater pc = new MaxRowsUpdater();
 
-		assertThatExceptionOfType(JdbcUpdateAffectedIncorrectNumberOfRowsException.class).isThrownBy(
-				pc::run);
+		assertThatExceptionOfType(JdbcUpdateAffectedIncorrectNumberOfRowsException.class).isThrownBy(pc::run);
 	}
 
 	@Test
@@ -294,8 +284,7 @@ public class SqlUpdateTests {
 		given(preparedStatement.executeUpdate()).willReturn(2);
 		given(connection.prepareStatement(UPDATE)).willReturn(preparedStatement);
 		RequiredRowsUpdater pc = new RequiredRowsUpdater();
-		assertThatExceptionOfType(JdbcUpdateAffectedIncorrectNumberOfRowsException.class).isThrownBy(
-				pc::run);
+		assertThatExceptionOfType(JdbcUpdateAffectedIncorrectNumberOfRowsException.class).isThrownBy(pc::run);
 	}
 
 	private class Updater extends SqlUpdate {
@@ -309,8 +298,8 @@ public class SqlUpdateTests {
 		public int run() {
 			return update();
 		}
-	}
 
+	}
 
 	private class IntUpdater extends SqlUpdate {
 
@@ -324,8 +313,8 @@ public class SqlUpdateTests {
 		public int run(int performanceId) {
 			return update(performanceId);
 		}
-	}
 
+	}
 
 	private class IntIntUpdater extends SqlUpdate {
 
@@ -340,8 +329,8 @@ public class SqlUpdateTests {
 		public int run(int performanceId, int type) {
 			return update(performanceId, type);
 		}
-	}
 
+	}
 
 	private class StringUpdater extends SqlUpdate {
 
@@ -355,8 +344,8 @@ public class SqlUpdateTests {
 		public int run(String name) {
 			return update(name);
 		}
-	}
 
+	}
 
 	private class MixedUpdater extends SqlUpdate {
 
@@ -373,8 +362,8 @@ public class SqlUpdateTests {
 		public int run(int performanceId, int type, String name, boolean confirmed) {
 			return update(performanceId, type, name, confirmed);
 		}
-	}
 
+	}
 
 	private class GeneratedKeysUpdater extends SqlUpdate {
 
@@ -387,24 +376,23 @@ public class SqlUpdateTests {
 		}
 
 		public int run(String name, KeyHolder generatedKeyHolder) {
-			return update(new Object[] {name}, generatedKeyHolder);
+			return update(new Object[] { name }, generatedKeyHolder);
 		}
-	}
 
+	}
 
 	private class ConstructorUpdater extends SqlUpdate {
 
 		public ConstructorUpdater() {
-			super(dataSource, UPDATE_OBJECTS,
-					new int[] {Types.NUMERIC, Types.NUMERIC, Types.VARCHAR, Types.BOOLEAN });
+			super(dataSource, UPDATE_OBJECTS, new int[] { Types.NUMERIC, Types.NUMERIC, Types.VARCHAR, Types.BOOLEAN });
 			compile();
 		}
 
 		public int run(int performanceId, int type, String name, boolean confirmed) {
 			return update(performanceId, type, name, confirmed);
 		}
-	}
 
+	}
 
 	private class MaxRowsUpdater extends SqlUpdate {
 
@@ -418,8 +406,8 @@ public class SqlUpdateTests {
 		public int run() {
 			return update();
 		}
-	}
 
+	}
 
 	private class RequiredRowsUpdater extends SqlUpdate {
 
@@ -433,6 +421,7 @@ public class SqlUpdateTests {
 		public int run() {
 			return update();
 		}
+
 	}
 
 }

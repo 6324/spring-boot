@@ -51,11 +51,9 @@ public class ReactorNettyTcpStompClientTests {
 
 	private static final Log logger = LogFactory.getLog(ReactorNettyTcpStompClientTests.class);
 
-
 	private BrokerService activeMQBroker;
 
 	private ReactorNettyTcpStompClient client;
-
 
 	@BeforeEach
 	public void setup(TestInfo testInfo) throws Exception {
@@ -125,12 +123,11 @@ public class ReactorNettyTcpStompClientTests {
 		producerFuture.get().disconnect();
 	}
 
-
 	private static class LoggingSessionHandler extends StompSessionHandlerAdapter {
 
 		@Override
-		public void handleException(StompSession session, StompCommand command,
-				StompHeaders headers, byte[] payload, Throwable ex) {
+		public void handleException(StompSession session, StompCommand command, StompHeaders headers, byte[] payload,
+				Throwable ex) {
 
 			logger.error(command + " " + headers, ex);
 		}
@@ -144,8 +141,8 @@ public class ReactorNettyTcpStompClientTests {
 		public void handleTransportError(StompSession session, Throwable exception) {
 			logger.error(exception);
 		}
-	}
 
+	}
 
 	private static class ConsumingHandler extends LoggingSessionHandler {
 
@@ -174,6 +171,7 @@ public class ReactorNettyTcpStompClientTests {
 					public Type getPayloadType(StompHeaders headers) {
 						return String.class;
 					}
+
 					@Override
 					public void handleFrame(StompHeaders headers, @Nullable Object payload) {
 						received.add((String) payload);
@@ -203,8 +201,8 @@ public class ReactorNettyTcpStompClientTests {
 			}
 			return true;
 		}
-	}
 
+	}
 
 	private static class ProducingHandler extends LoggingSessionHandler {
 
@@ -224,6 +222,7 @@ public class ReactorNettyTcpStompClientTests {
 				session.send(this.topics.get(i), this.payloads.get(i));
 			}
 		}
+
 	}
 
 }

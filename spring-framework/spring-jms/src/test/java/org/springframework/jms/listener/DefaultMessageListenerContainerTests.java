@@ -82,7 +82,7 @@ public class DefaultMessageListenerContainerTests {
 	public void recoverResetBackOff() {
 		BackOff backOff = mock(BackOff.class);
 		BackOffExecution execution = mock(BackOffExecution.class);
-		given(execution.nextBackOff()).willReturn(50L, 50L, 50L);  // 3 attempts max
+		given(execution.nextBackOff()).willReturn(50L, 50L, 50L); // 3 attempts max
 		given(backOff.start()).willReturn(execution);
 
 		DefaultMessageListenerContainer container = createContainer(createRecoverableContainerFactory(1));
@@ -92,7 +92,8 @@ public class DefaultMessageListenerContainerTests {
 
 		assertThat(container.isRunning()).isEqualTo(true);
 		verify(backOff).start();
-		verify(execution, times(1)).nextBackOff();  // only on attempt as the second one lead to a recovery
+		verify(execution, times(1)).nextBackOff(); // only on attempt as the second one
+													// lead to a recovery
 	}
 
 	@Test
@@ -106,7 +107,6 @@ public class DefaultMessageListenerContainerTests {
 		runnable2.waitForCompletion();
 	}
 
-
 	private DefaultMessageListenerContainer createRunningContainer() {
 		DefaultMessageListenerContainer container = createContainer(createSuccessfulConnectionFactory());
 		container.afterPropertiesSet();
@@ -115,7 +115,8 @@ public class DefaultMessageListenerContainerTests {
 	}
 
 	private DefaultMessageListenerContainer createContainer(ConnectionFactory connectionFactory) {
-		Destination destination = new Destination() {};
+		Destination destination = new Destination() {
+		};
 
 		DefaultMessageListenerContainer container = new DefaultMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
@@ -133,7 +134,7 @@ public class DefaultMessageListenerContainerTests {
 			return connectionFactory;
 		}
 		catch (JMSException ex) {
-			throw new IllegalStateException(ex);  // never happen
+			throw new IllegalStateException(ex); // never happen
 		}
 	}
 
@@ -142,6 +143,7 @@ public class DefaultMessageListenerContainerTests {
 			ConnectionFactory connectionFactory = mock(ConnectionFactory.class);
 			given(connectionFactory.createConnection()).will(new Answer<Object>() {
 				int currentAttempts = 0;
+
 				@Override
 				public Object answer(InvocationOnMock invocation) throws Throwable {
 					currentAttempts++;
@@ -156,7 +158,7 @@ public class DefaultMessageListenerContainerTests {
 			return connectionFactory;
 		}
 		catch (JMSException ex) {
-			throw new IllegalStateException(ex);  // never happen
+			throw new IllegalStateException(ex); // never happen
 		}
 	}
 
@@ -167,10 +169,9 @@ public class DefaultMessageListenerContainerTests {
 			return connectionFactory;
 		}
 		catch (JMSException ex) {
-			throw new IllegalStateException(ex);  // never happen
+			throw new IllegalStateException(ex); // never happen
 		}
 	}
-
 
 	private static class TestRunnable implements Runnable {
 
@@ -185,6 +186,7 @@ public class DefaultMessageListenerContainerTests {
 			this.countDownLatch.await(2, TimeUnit.SECONDS);
 			assertThat(this.countDownLatch.getCount()).as("callback was not invoked").isEqualTo(0);
 		}
+
 	}
 
 }

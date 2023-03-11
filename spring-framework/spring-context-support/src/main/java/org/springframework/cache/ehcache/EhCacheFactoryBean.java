@@ -43,15 +43,19 @@ import org.springframework.lang.Nullable;
  * (or a decorator that implements the {@link net.sf.ehcache.Ehcache} interface),
  * representing a cache region within an EhCache {@link net.sf.ehcache.CacheManager}.
  *
- * <p>If the specified named cache is not configured in the cache configuration descriptor,
+ * <p>
+ * If the specified named cache is not configured in the cache configuration descriptor,
  * this FactoryBean will construct an instance of a Cache with the provided name and the
  * specified cache properties and add it to the CacheManager for later retrieval. If some
- * or all properties are not set at configuration time, this FactoryBean will use defaults.
+ * or all properties are not set at configuration time, this FactoryBean will use
+ * defaults.
  *
- * <p>Note: If the named Cache instance is found, the properties will be ignored and the
+ * <p>
+ * Note: If the named Cache instance is found, the properties will be ignored and the
  * Cache instance will be retrieved from the CacheManager.
  *
- * <p>Note: As of Spring 5.0, Spring's EhCache support requires EhCache 2.10 or higher.
+ * <p>
+ * Note: As of Spring 5.0, Spring's EhCache support requires EhCache 2.10 or higher.
  *
  * @author Juergen Hoeller
  * @author Dmitriy Kopylenko
@@ -60,7 +64,8 @@ import org.springframework.lang.Nullable;
  * @see EhCacheManagerFactoryBean
  * @see net.sf.ehcache.Cache
  */
-public class EhCacheFactoryBean extends CacheConfiguration implements FactoryBean<Ehcache>, BeanNameAware, InitializingBean {
+public class EhCacheFactoryBean extends CacheConfiguration
+		implements FactoryBean<Ehcache>, BeanNameAware, InitializingBean {
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
@@ -86,7 +91,6 @@ public class EhCacheFactoryBean extends CacheConfiguration implements FactoryBea
 	@Nullable
 	private Ehcache cache;
 
-
 	public EhCacheFactoryBean() {
 		setMaxEntriesLocalHeap(10000);
 		setMaxEntriesLocalDisk(10000000);
@@ -94,15 +98,16 @@ public class EhCacheFactoryBean extends CacheConfiguration implements FactoryBea
 		setTimeToIdleSeconds(120);
 	}
 
-
 	/**
-	 * Set a CacheManager from which to retrieve a named Cache instance.
-	 * By default, {@code CacheManager.getInstance()} will be called.
-	 * <p>Note that in particular for persistent caches, it is advisable to
-	 * properly handle the shutdown of the CacheManager: Set up a separate
-	 * EhCacheManagerFactoryBean and pass a reference to this bean property.
-	 * <p>A separate EhCacheManagerFactoryBean is also necessary for loading
-	 * EhCache configuration from a non-default config location.
+	 * Set a CacheManager from which to retrieve a named Cache instance. By default,
+	 * {@code CacheManager.getInstance()} will be called.
+	 * <p>
+	 * Note that in particular for persistent caches, it is advisable to properly handle
+	 * the shutdown of the CacheManager: Set up a separate EhCacheManagerFactoryBean and
+	 * pass a reference to this bean property.
+	 * <p>
+	 * A separate EhCacheManagerFactoryBean is also necessary for loading EhCache
+	 * configuration from a non-default config location.
 	 * @see EhCacheManagerFactoryBean
 	 * @see net.sf.ehcache.CacheManager#getInstance
 	 */
@@ -111,8 +116,8 @@ public class EhCacheFactoryBean extends CacheConfiguration implements FactoryBea
 	}
 
 	/**
-	 * Set a name for which to retrieve or create a cache instance.
-	 * Default is the bean name of this EhCacheFactoryBean.
+	 * Set a name for which to retrieve or create a cache instance. Default is the bean
+	 * name of this EhCacheFactoryBean.
 	 */
 	public void setCacheName(String cacheName) {
 		setName(cacheName);
@@ -143,10 +148,11 @@ public class EhCacheFactoryBean extends CacheConfiguration implements FactoryBea
 	}
 
 	/**
-	 * Set whether to use a blocking cache that lets read attempts block
-	 * until the requested element is created.
-	 * <p>If you intend to build a self-populating blocking cache,
-	 * consider specifying a {@link #setCacheEntryFactory CacheEntryFactory}.
+	 * Set whether to use a blocking cache that lets read attempts block until the
+	 * requested element is created.
+	 * <p>
+	 * If you intend to build a self-populating blocking cache, consider specifying a
+	 * {@link #setCacheEntryFactory CacheEntryFactory}.
 	 * @see net.sf.ehcache.constructs.blocking.BlockingCache
 	 * @see #setCacheEntryFactory
 	 */
@@ -155,15 +161,17 @@ public class EhCacheFactoryBean extends CacheConfiguration implements FactoryBea
 	}
 
 	/**
-	 * Set an EhCache {@link net.sf.ehcache.constructs.blocking.CacheEntryFactory}
-	 * to use for a self-populating cache. If such a factory is specified,
-	 * the cache will be decorated with EhCache's
+	 * Set an EhCache {@link net.sf.ehcache.constructs.blocking.CacheEntryFactory} to use
+	 * for a self-populating cache. If such a factory is specified, the cache will be
+	 * decorated with EhCache's
 	 * {@link net.sf.ehcache.constructs.blocking.SelfPopulatingCache}.
-	 * <p>The specified factory can be of type
-	 * {@link net.sf.ehcache.constructs.blocking.UpdatingCacheEntryFactory},
-	 * which will lead to the use of an
+	 * <p>
+	 * The specified factory can be of type
+	 * {@link net.sf.ehcache.constructs.blocking.UpdatingCacheEntryFactory}, which will
+	 * lead to the use of an
 	 * {@link net.sf.ehcache.constructs.blocking.UpdatingSelfPopulatingCache}.
-	 * <p>Note: Any such self-populating cache is automatically a blocking cache.
+	 * <p>
+	 * Note: Any such self-populating cache is automatically a blocking cache.
 	 * @see net.sf.ehcache.constructs.blocking.SelfPopulatingCache
 	 * @see net.sf.ehcache.constructs.blocking.UpdatingSelfPopulatingCache
 	 * @see net.sf.ehcache.constructs.blocking.UpdatingCacheEntryFactory
@@ -173,16 +181,16 @@ public class EhCacheFactoryBean extends CacheConfiguration implements FactoryBea
 	}
 
 	/**
-	 * Set an EhCache {@link net.sf.ehcache.bootstrap.BootstrapCacheLoader}
-	 * for this cache, if any.
+	 * Set an EhCache {@link net.sf.ehcache.bootstrap.BootstrapCacheLoader} for this
+	 * cache, if any.
 	 */
 	public void setBootstrapCacheLoader(BootstrapCacheLoader bootstrapCacheLoader) {
 		this.bootstrapCacheLoader = bootstrapCacheLoader;
 	}
 
 	/**
-	 * Specify EhCache {@link net.sf.ehcache.event.CacheEventListener cache event listeners}
-	 * to registered with this cache.
+	 * Specify EhCache {@link net.sf.ehcache.event.CacheEventListener cache event
+	 * listeners} to registered with this cache.
 	 */
 	public void setCacheEventListeners(Set<CacheEventListener> cacheEventListeners) {
 		this.cacheEventListeners = cacheEventListeners;
@@ -200,7 +208,6 @@ public class EhCacheFactoryBean extends CacheConfiguration implements FactoryBea
 	public void setBeanName(String name) {
 		this.beanName = name;
 	}
-
 
 	@Override
 	public void afterPropertiesSet() throws CacheException {
@@ -222,7 +229,8 @@ public class EhCacheFactoryBean extends CacheConfiguration implements FactoryBea
 		}
 
 		synchronized (this.cacheManager) {
-			// Fetch cache region: If none with the given name exists, create one on the fly.
+			// Fetch cache region: If none with the given name exists, create one on the
+			// fly.
 			Ehcache rawCache;
 			boolean cacheExists = this.cacheManager.cacheExists(cacheName);
 
@@ -273,7 +281,8 @@ public class EhCacheFactoryBean extends CacheConfiguration implements FactoryBea
 	/**
 	 * Decorate the given Cache, if necessary.
 	 * @param cache the raw Cache object, based on the configuration of this FactoryBean
-	 * @return the (potentially decorated) cache object to be registered with the CacheManager
+	 * @return the (potentially decorated) cache object to be registered with the
+	 * CacheManager
 	 */
 	protected Ehcache decorateCache(Ehcache cache) {
 		if (this.cacheEntryFactory != null) {
@@ -289,7 +298,6 @@ public class EhCacheFactoryBean extends CacheConfiguration implements FactoryBea
 		}
 		return cache;
 	}
-
 
 	@Override
 	@Nullable

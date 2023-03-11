@@ -97,7 +97,8 @@ public class LocaleContextHolderTests {
 		boolean condition1 = LocaleContextHolder.getLocaleContext() instanceof TimeZoneAwareLocaleContext;
 		assertThat(condition1).isTrue();
 		assertThat(LocaleContextHolder.getLocaleContext().getLocale()).isNull();
-		assertThat(((TimeZoneAwareLocaleContext) LocaleContextHolder.getLocaleContext()).getTimeZone()).isEqualTo(TimeZone.getTimeZone("GMT+1"));
+		assertThat(((TimeZoneAwareLocaleContext) LocaleContextHolder.getLocaleContext()).getTimeZone())
+				.isEqualTo(TimeZone.getTimeZone("GMT+1"));
 
 		LocaleContextHolder.setTimeZone(TimeZone.getTimeZone("GMT+2"));
 		assertThat(LocaleContextHolder.getLocale()).isEqualTo(Locale.getDefault());
@@ -105,7 +106,8 @@ public class LocaleContextHolderTests {
 		boolean condition = LocaleContextHolder.getLocaleContext() instanceof TimeZoneAwareLocaleContext;
 		assertThat(condition).isTrue();
 		assertThat(LocaleContextHolder.getLocaleContext().getLocale()).isNull();
-		assertThat(((TimeZoneAwareLocaleContext) LocaleContextHolder.getLocaleContext()).getTimeZone()).isEqualTo(TimeZone.getTimeZone("GMT+2"));
+		assertThat(((TimeZoneAwareLocaleContext) LocaleContextHolder.getLocaleContext()).getTimeZone())
+				.isEqualTo(TimeZone.getTimeZone("GMT+2"));
 
 		LocaleContextHolder.setTimeZone(null);
 		assertThat(LocaleContextHolder.getLocaleContext()).isNull();
@@ -133,7 +135,8 @@ public class LocaleContextHolderTests {
 		boolean condition3 = LocaleContextHolder.getLocaleContext() instanceof TimeZoneAwareLocaleContext;
 		assertThat(condition3).isTrue();
 		assertThat(LocaleContextHolder.getLocaleContext().getLocale()).isEqualTo(Locale.GERMANY);
-		assertThat(((TimeZoneAwareLocaleContext) LocaleContextHolder.getLocaleContext()).getTimeZone()).isEqualTo(TimeZone.getTimeZone("GMT+1"));
+		assertThat(((TimeZoneAwareLocaleContext) LocaleContextHolder.getLocaleContext()).getTimeZone())
+				.isEqualTo(TimeZone.getTimeZone("GMT+1"));
 
 		LocaleContextHolder.setLocale(Locale.GERMAN);
 		assertThat(LocaleContextHolder.getLocale()).isEqualTo(Locale.GERMAN);
@@ -141,7 +144,8 @@ public class LocaleContextHolderTests {
 		boolean condition2 = LocaleContextHolder.getLocaleContext() instanceof TimeZoneAwareLocaleContext;
 		assertThat(condition2).isTrue();
 		assertThat(LocaleContextHolder.getLocaleContext().getLocale()).isEqualTo(Locale.GERMAN);
-		assertThat(((TimeZoneAwareLocaleContext) LocaleContextHolder.getLocaleContext()).getTimeZone()).isEqualTo(TimeZone.getTimeZone("GMT+1"));
+		assertThat(((TimeZoneAwareLocaleContext) LocaleContextHolder.getLocaleContext()).getTimeZone())
+				.isEqualTo(TimeZone.getTimeZone("GMT+1"));
 
 		LocaleContextHolder.setTimeZone(null);
 		assertThat(LocaleContextHolder.getLocale()).isEqualTo(Locale.GERMAN);
@@ -156,7 +160,8 @@ public class LocaleContextHolderTests {
 		boolean condition1 = LocaleContextHolder.getLocaleContext() instanceof TimeZoneAwareLocaleContext;
 		assertThat(condition1).isTrue();
 		assertThat(LocaleContextHolder.getLocaleContext().getLocale()).isEqualTo(Locale.GERMAN);
-		assertThat(((TimeZoneAwareLocaleContext) LocaleContextHolder.getLocaleContext()).getTimeZone()).isEqualTo(TimeZone.getTimeZone("GMT+2"));
+		assertThat(((TimeZoneAwareLocaleContext) LocaleContextHolder.getLocaleContext()).getTimeZone())
+				.isEqualTo(TimeZone.getTimeZone("GMT+2"));
 
 		LocaleContextHolder.setLocale(null);
 		assertThat(LocaleContextHolder.getLocale()).isEqualTo(Locale.getDefault());
@@ -164,7 +169,8 @@ public class LocaleContextHolderTests {
 		boolean condition = LocaleContextHolder.getLocaleContext() instanceof TimeZoneAwareLocaleContext;
 		assertThat(condition).isTrue();
 		assertThat(LocaleContextHolder.getLocaleContext().getLocale()).isNull();
-		assertThat(((TimeZoneAwareLocaleContext) LocaleContextHolder.getLocaleContext()).getTimeZone()).isEqualTo(TimeZone.getTimeZone("GMT+2"));
+		assertThat(((TimeZoneAwareLocaleContext) LocaleContextHolder.getLocaleContext()).getTimeZone())
+				.isEqualTo(TimeZone.getTimeZone("GMT+2"));
 
 		LocaleContextHolder.setTimeZone(null);
 		assertThat(LocaleContextHolder.getLocale()).isEqualTo(Locale.getDefault());

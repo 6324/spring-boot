@@ -57,29 +57,19 @@ public class HtmlFileTransportHandler extends AbstractHttpSendingTransportHandle
 	// https://code.google.com/p/browsersec/wiki/Part2#Survey_of_content_sniffing_behaviors
 	private static final int MINIMUM_PARTIAL_HTML_CONTENT_LENGTH = 1024;
 
-
 	static {
-		StringBuilder sb = new StringBuilder(
-				"<!doctype html>\n" +
-				"<html><head>\n" +
-				"  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\n" +
-				"  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n" +
-				"</head><body><h2>Don't panic!</h2>\n" +
-				"  <script>\n" +
-				"    document.domain = document.domain;\n" +
-				"    var c = parent.%s;\n" +
-				"    c.start();\n" +
-				"    function p(d) {c.message(d);};\n" +
-				"    window.onload = function() {c.stop();};\n" +
-				"  </script>"
-				);
+		StringBuilder sb = new StringBuilder("<!doctype html>\n" + "<html><head>\n"
+				+ "  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\n"
+				+ "  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n"
+				+ "</head><body><h2>Don't panic!</h2>\n" + "  <script>\n" + "    document.domain = document.domain;\n"
+				+ "    var c = parent.%s;\n" + "    c.start();\n" + "    function p(d) {c.message(d);};\n"
+				+ "    window.onload = function() {c.stop();};\n" + "  </script>");
 
 		while (sb.length() < MINIMUM_PARTIAL_HTML_CONTENT_LENGTH) {
 			sb.append(" ");
 		}
 		PARTIAL_HTML_CONTENT = sb.toString();
 	}
-
 
 	@Override
 	public TransportType getTransportType() {
@@ -97,8 +87,8 @@ public class HtmlFileTransportHandler extends AbstractHttpSendingTransportHandle
 	}
 
 	@Override
-	public StreamingSockJsSession createSession(
-			String sessionId, WebSocketHandler handler, Map<String, Object> attributes) {
+	public StreamingSockJsSession createSession(String sessionId, WebSocketHandler handler,
+			Map<String, Object> attributes) {
 
 		return new HtmlFileStreamingSockJsSession(sessionId, getServiceConfig(), handler, attributes);
 	}
@@ -133,11 +123,10 @@ public class HtmlFileTransportHandler extends AbstractHttpSendingTransportHandle
 		};
 	}
 
-
 	private class HtmlFileStreamingSockJsSession extends StreamingSockJsSession {
 
-		public HtmlFileStreamingSockJsSession(String sessionId, SockJsServiceConfig config,
-				WebSocketHandler wsHandler, Map<String, Object> attributes) {
+		public HtmlFileStreamingSockJsSession(String sessionId, SockJsServiceConfig config, WebSocketHandler wsHandler,
+				Map<String, Object> attributes) {
 
 			super(sessionId, config, wsHandler, attributes);
 		}
@@ -149,6 +138,7 @@ public class HtmlFileTransportHandler extends AbstractHttpSendingTransportHandle
 			String html = String.format(PARTIAL_HTML_CONTENT, callback);
 			return html.getBytes(StandardCharsets.UTF_8);
 		}
+
 	}
 
 }

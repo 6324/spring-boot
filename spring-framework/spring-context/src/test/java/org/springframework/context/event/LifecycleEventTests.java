@@ -66,7 +66,6 @@ public class LifecycleEventTests {
 		assertThat(listener.getApplicationContext()).isSameAs(context);
 	}
 
-
 	private static class LifecycleListener implements ApplicationListener<ApplicationEvent> {
 
 		private ApplicationContext context;
@@ -98,8 +97,8 @@ public class LifecycleEventTests {
 		public int getStoppedCount() {
 			return this.stoppedCount;
 		}
-	}
 
+	}
 
 	private static class LifecycleTestBean implements Lifecycle {
 
@@ -119,6 +118,7 @@ public class LifecycleEventTests {
 		public void stop() {
 			this.running = false;
 		}
+
 	}
 
 }

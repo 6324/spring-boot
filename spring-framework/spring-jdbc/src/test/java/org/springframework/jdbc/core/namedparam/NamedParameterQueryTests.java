@@ -61,7 +61,6 @@ public class NamedParameterQueryTests {
 
 	private NamedParameterJdbcTemplate template;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		connection = mock(Connection.class);
@@ -84,7 +83,6 @@ public class NamedParameterQueryTests {
 		verify(connection).close();
 	}
 
-
 	@Test
 	public void testQueryForListWithParamMap() throws Exception {
 		given(resultSet.getMetaData()).willReturn(resultSetMetaData);
@@ -93,8 +91,7 @@ public class NamedParameterQueryTests {
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("id", 3);
-		List<Map<String, Object>> li = template.queryForList(
-				"SELECT AGE FROM CUSTMR WHERE ID < :id", params);
+		List<Map<String, Object>> li = template.queryForList("SELECT AGE FROM CUSTMR WHERE ID < :id", params);
 
 		assertThat(li.size()).as("All rows returned").isEqualTo(2);
 		assertThat(((Integer) li.get(0).get("age")).intValue()).as("First row is Integer").isEqualTo(11);
@@ -110,8 +107,7 @@ public class NamedParameterQueryTests {
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("id", 3);
-		List<Map<String, Object>> li = template.queryForList(
-				"SELECT AGE FROM CUSTMR WHERE ID < :id", params);
+		List<Map<String, Object>> li = template.queryForList("SELECT AGE FROM CUSTMR WHERE ID < :id", params);
 
 		assertThat(li.size()).as("All rows returned").isEqualTo(0);
 		verify(connection).prepareStatement("SELECT AGE FROM CUSTMR WHERE ID < ?");
@@ -126,8 +122,7 @@ public class NamedParameterQueryTests {
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("id", 3);
-		List<Map<String, Object>> li = template.queryForList(
-				"SELECT AGE FROM CUSTMR WHERE ID < :id", params);
+		List<Map<String, Object>> li = template.queryForList("SELECT AGE FROM CUSTMR WHERE ID < :id", params);
 
 		assertThat(li.size()).as("All rows returned").isEqualTo(1);
 		assertThat(((Integer) li.get(0).get("age")).intValue()).as("First row is Integer").isEqualTo(11);
@@ -136,16 +131,14 @@ public class NamedParameterQueryTests {
 	}
 
 	@Test
-	public void testQueryForListWithParamMapAndIntegerElementAndSingleRowAndColumn()
-			throws Exception {
+	public void testQueryForListWithParamMapAndIntegerElementAndSingleRowAndColumn() throws Exception {
 		given(resultSet.getMetaData()).willReturn(resultSetMetaData);
 		given(resultSet.next()).willReturn(true, false);
 		given(resultSet.getInt(1)).willReturn(11);
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("id", 3);
-		List<Integer> li = template.queryForList("SELECT AGE FROM CUSTMR WHERE ID < :id",
-				params, Integer.class);
+		List<Integer> li = template.queryForList("SELECT AGE FROM CUSTMR WHERE ID < :id", params, Integer.class);
 
 		assertThat(li.size()).as("All rows returned").isEqualTo(1);
 		assertThat(li.get(0).intValue()).as("First row is Integer").isEqualTo(11);
@@ -175,8 +168,7 @@ public class NamedParameterQueryTests {
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("id", 3);
-		Object o = template.queryForObject("SELECT AGE FROM CUSTMR WHERE ID = :id",
-				params, new RowMapper<Object>() {
+		Object o = template.queryForObject("SELECT AGE FROM CUSTMR WHERE ID = :id", params, new RowMapper<Object>() {
 			@Override
 			public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
 				return rs.getInt(1);
@@ -197,8 +189,7 @@ public class NamedParameterQueryTests {
 
 		Map<String, Object> params = new HashMap<>();
 		params.put("id", 3);
-		Object o = template.queryForObject("SELECT AGE FROM CUSTMR WHERE ID = :id",
-				params, Integer.class);
+		Object o = template.queryForObject("SELECT AGE FROM CUSTMR WHERE ID = :id", params, Integer.class);
 
 		boolean condition = o instanceof Integer;
 		assertThat(condition).as("Correct result type").isTrue();
@@ -214,8 +205,7 @@ public class NamedParameterQueryTests {
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("id", 3);
-		Object o = template.queryForObject("SELECT AGE FROM CUSTMR WHERE ID = :id",
-				params, Integer.class);
+		Object o = template.queryForObject("SELECT AGE FROM CUSTMR WHERE ID = :id", params, Integer.class);
 
 		boolean condition = o instanceof Integer;
 		assertThat(condition).as("Correct result type").isTrue();
@@ -249,17 +239,15 @@ public class NamedParameterQueryTests {
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		List<Object[]> l1 = new ArrayList<>();
-		l1.add(new Object[] {3, "Rod"});
-		l1.add(new Object[] {4, "Juergen"});
+		l1.add(new Object[] { 3, "Rod" });
+		l1.add(new Object[] { 4, "Juergen" });
 		params.addValue("multiExpressionList", l1);
-		Object o = template.queryForObject(
-				"SELECT AGE FROM CUSTMR WHERE (ID, NAME) IN (:multiExpressionList)",
-				params, Integer.class);
+		Object o = template.queryForObject("SELECT AGE FROM CUSTMR WHERE (ID, NAME) IN (:multiExpressionList)", params,
+				Integer.class);
 
 		boolean condition = o instanceof Integer;
 		assertThat(condition).as("Correct result type").isTrue();
-		verify(connection).prepareStatement(
-				"SELECT AGE FROM CUSTMR WHERE (ID, NAME) IN ((?, ?), (?, ?))");
+		verify(connection).prepareStatement("SELECT AGE FROM CUSTMR WHERE (ID, NAME) IN ((?, ?), (?, ?))");
 		verify(preparedStatement).setObject(1, 3);
 	}
 
@@ -307,7 +295,6 @@ public class NamedParameterQueryTests {
 		verify(preparedStatement).setObject(2, 5);
 	}
 
-
 	static class ParameterBean {
 
 		private final int id;
@@ -319,8 +306,8 @@ public class NamedParameterQueryTests {
 		public int getId() {
 			return id;
 		}
-	}
 
+	}
 
 	static class ParameterCollectionBean {
 
@@ -333,6 +320,7 @@ public class NamedParameterQueryTests {
 		public Collection<Integer> getIds() {
 			return ids;
 		}
+
 	}
 
 }

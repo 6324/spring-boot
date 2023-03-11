@@ -27,8 +27,8 @@ import org.springframework.core.Ordered;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Test for SPR-3522. Arguments changed on a call to proceed should be
- * visible to advice further down the invocation chain.
+ * Test for SPR-3522. Arguments changed on a call to proceed should be visible to advice
+ * further down the invocation chain.
  *
  * @author Adrian Colyer
  * @author Chris Beams
@@ -41,16 +41,14 @@ public class ProceedTests {
 
 	private ProceedTestingAspect secondTestAspect;
 
-
 	@BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml",
+				getClass());
 		testBean = (SimpleBean) ctx.getBean("testBean");
 		firstTestAspect = (ProceedTestingAspect) ctx.getBean("firstTestAspect");
 		secondTestAspect = (ProceedTestingAspect) ctx.getBean("secondTestAspect");
 	}
-
 
 	@Test
 	public void testSimpleProceedWithChangedArgs() {
@@ -68,39 +66,50 @@ public class ProceedTests {
 	public void testProceedWithArgsInSameAspect() {
 		this.testBean.setMyFloat(1.0F);
 		assertThat(this.testBean.getMyFloat() > 1.9F).as("value changed in around advice").isTrue();
-		assertThat(this.firstTestAspect.getLastBeforeFloatValue() > 1.9F).as("changed value visible to next advice in chain").isTrue();
+		assertThat(this.firstTestAspect.getLastBeforeFloatValue() > 1.9F)
+				.as("changed value visible to next advice in chain").isTrue();
 	}
 
 	@Test
 	public void testProceedWithArgsAcrossAspects() {
 		this.testBean.setSex("male");
 		assertThat(this.testBean.getSex()).as("value changed in around advice").isEqualTo("MALE");
-		assertThat(this.secondTestAspect.getLastBeforeStringValue()).as("changed value visible to next before advice in chain").isEqualTo("MALE");
-		assertThat(this.secondTestAspect.getLastAroundStringValue()).as("changed value visible to next around advice in chain").isEqualTo("MALE");
+		assertThat(this.secondTestAspect.getLastBeforeStringValue())
+				.as("changed value visible to next before advice in chain").isEqualTo("MALE");
+		assertThat(this.secondTestAspect.getLastAroundStringValue())
+				.as("changed value visible to next around advice in chain").isEqualTo("MALE");
 	}
 
-
 }
-
 
 interface SimpleBean {
 
 	void setName(String name);
-	String getName();
-	void setAge(int age);
-	int getAge();
-	void setMyFloat(float f);
-	float getMyFloat();
-	void setSex(String sex);
-	String getSex();
-}
 
+	String getName();
+
+	void setAge(int age);
+
+	int getAge();
+
+	void setMyFloat(float f);
+
+	float getMyFloat();
+
+	void setSex(String sex);
+
+	String getSex();
+
+}
 
 class SimpleBeanImpl implements SimpleBean {
 
 	private int age;
+
 	private float aFloat;
+
 	private String name;
+
 	private String sex;
 
 	@Override
@@ -142,22 +151,30 @@ class SimpleBeanImpl implements SimpleBean {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-}
 
+}
 
 class ProceedTestingAspect implements Ordered {
 
 	private String lastBeforeStringValue;
+
 	private String lastAroundStringValue;
+
 	private float lastBeforeFloatValue;
+
 	private int order;
 
-	public void setOrder(int order) { this.order = order; }
+	public void setOrder(int order) {
+		this.order = order;
+	}
+
 	@Override
-	public int getOrder() { return this.order; }
+	public int getOrder() {
+		return this.order;
+	}
 
 	public Object capitalize(ProceedingJoinPoint pjp, String value) throws Throwable {
-		return pjp.proceed(new Object[] {value.toUpperCase()});
+		return pjp.proceed(new Object[] { value.toUpperCase() });
 	}
 
 	public Object doubleOrQuits(ProceedingJoinPoint pjp) throws Throwable {
@@ -168,15 +185,13 @@ class ProceedTestingAspect implements Ordered {
 
 	public Object addOne(ProceedingJoinPoint pjp, Float value) throws Throwable {
 		float fv = value.floatValue();
-		return pjp.proceed(new Object[] {new Float(fv + 1.0F)});
+		return pjp.proceed(new Object[] { new Float(fv + 1.0F) });
 	}
 
 	public void captureStringArgument(JoinPoint tjp, String arg) {
 		if (!tjp.getArgs()[0].equals(arg)) {
 			throw new IllegalStateException(
-					"argument is '" + arg + "', " +
-					"but args array has '" + tjp.getArgs()[0] + "'"
-					);
+					"argument is '" + arg + "', " + "but args array has '" + tjp.getArgs()[0] + "'");
 		}
 		this.lastBeforeStringValue = arg;
 	}
@@ -184,8 +199,7 @@ class ProceedTestingAspect implements Ordered {
 	public Object captureStringArgumentInAround(ProceedingJoinPoint pjp, String arg) throws Throwable {
 		if (!pjp.getArgs()[0].equals(arg)) {
 			throw new IllegalStateException(
-					"argument is '" + arg + "', " +
-					"but args array has '" + pjp.getArgs()[0] + "'");
+					"argument is '" + arg + "', " + "but args array has '" + pjp.getArgs()[0] + "'");
 		}
 		this.lastAroundStringValue = arg;
 		return pjp.proceed();
@@ -194,10 +208,7 @@ class ProceedTestingAspect implements Ordered {
 	public void captureFloatArgument(JoinPoint tjp, float arg) {
 		float tjpArg = ((Float) tjp.getArgs()[0]).floatValue();
 		if (Math.abs(tjpArg - arg) > 0.000001) {
-			throw new IllegalStateException(
-					"argument is '" + arg + "', " +
-					"but args array has '" + tjpArg + "'"
-					);
+			throw new IllegalStateException("argument is '" + arg + "', " + "but args array has '" + tjpArg + "'");
 		}
 		this.lastBeforeFloatValue = arg;
 	}
@@ -213,5 +224,5 @@ class ProceedTestingAspect implements Ordered {
 	public float getLastBeforeFloatValue() {
 		return this.lastBeforeFloatValue;
 	}
-}
 
+}

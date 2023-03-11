@@ -106,8 +106,7 @@ class ExponentialBackOffTests {
 	@Test
 	void invalidInterval() {
 		ExponentialBackOff backOff = new ExponentialBackOff();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				backOff.setMultiplier(0.9));
+		assertThatIllegalArgumentException().isThrownBy(() -> backOff.setMultiplier(0.9));
 	}
 
 	@Test

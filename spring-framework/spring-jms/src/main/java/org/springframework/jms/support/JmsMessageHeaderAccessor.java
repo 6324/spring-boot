@@ -26,8 +26,8 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.NativeMessageHeaderAccessor;
 
 /**
- * A {@link org.springframework.messaging.support.MessageHeaderAccessor}
- * implementation giving access to JMS-specific headers.
+ * A {@link org.springframework.messaging.support.MessageHeaderAccessor} implementation
+ * giving access to JMS-specific headers.
  *
  * @author Stephane Nicoll
  * @since 4.1
@@ -41,7 +41,6 @@ public class JmsMessageHeaderAccessor extends NativeMessageHeaderAccessor {
 	protected JmsMessageHeaderAccessor(Message<?> message) {
 		super(message);
 	}
-
 
 	/**
 	 * Return the {@link JmsHeaders#CORRELATION_ID correlationId}.
@@ -133,7 +132,6 @@ public class JmsMessageHeaderAccessor extends NativeMessageHeaderAccessor {
 	public Long getTimestamp() {
 		return (Long) getHeader(JmsHeaders.TIMESTAMP);
 	}
-
 
 	// Static factory method
 

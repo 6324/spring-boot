@@ -95,9 +95,8 @@ public class EnableAsyncTests {
 	public void properExceptionForExistingProxyDependencyMismatch() {
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
 		ctx.register(AsyncConfig.class, AsyncBeanWithInterface.class, AsyncBeanUser.class);
-		assertThatExceptionOfType(UnsatisfiedDependencyException.class).isThrownBy(
-				ctx::refresh)
-			.withCauseInstanceOf(BeanNotOfRequiredTypeException.class);
+		assertThatExceptionOfType(UnsatisfiedDependencyException.class).isThrownBy(ctx::refresh)
+				.withCauseInstanceOf(BeanNotOfRequiredTypeException.class);
 		ctx.close();
 	}
 
@@ -105,9 +104,8 @@ public class EnableAsyncTests {
 	public void properExceptionForResolvedProxyDependencyMismatch() {
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
 		ctx.register(AsyncConfig.class, AsyncBeanUser.class, AsyncBeanWithInterface.class);
-		assertThatExceptionOfType(UnsatisfiedDependencyException.class).isThrownBy(
-				ctx::refresh)
-			.withCauseInstanceOf(BeanNotOfRequiredTypeException.class);
+		assertThatExceptionOfType(UnsatisfiedDependencyException.class).isThrownBy(ctx::refresh)
+				.withCauseInstanceOf(BeanNotOfRequiredTypeException.class);
 		ctx.close();
 	}
 
@@ -182,8 +180,7 @@ public class EnableAsyncTests {
 		@SuppressWarnings("resource")
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
 		ctx.register(AspectJAsyncAnnotationConfig.class);
-		assertThatExceptionOfType(BeanDefinitionStoreException.class).isThrownBy(
-				ctx::refresh);
+		assertThatExceptionOfType(BeanDefinitionStoreException.class).isThrownBy(ctx::refresh);
 	}
 
 	@Test
@@ -196,10 +193,8 @@ public class EnableAsyncTests {
 		// Act
 		asyncBean.work();
 		// Assert
-		Awaitility.await()
-					.atMost(500, TimeUnit.MILLISECONDS)
-					.pollInterval(10, TimeUnit.MILLISECONDS)
-					.until(() -> asyncBean.getThreadOfExecution() != null);
+		Awaitility.await().atMost(500, TimeUnit.MILLISECONDS).pollInterval(10, TimeUnit.MILLISECONDS)
+				.until(() -> asyncBean.getThreadOfExecution() != null);
 		assertThat(asyncBean.getThreadOfExecution().getName()).startsWith("Custom-");
 		ctx.close();
 	}
@@ -214,10 +209,8 @@ public class EnableAsyncTests {
 		// Act
 		asyncBean.work();
 		// Assert
-		Awaitility.await()
-					.atMost(500, TimeUnit.MILLISECONDS)
-					.pollInterval(10, TimeUnit.MILLISECONDS)
-					.until(() -> asyncBean.getThreadOfExecution() != null);
+		Awaitility.await().atMost(500, TimeUnit.MILLISECONDS).pollInterval(10, TimeUnit.MILLISECONDS)
+				.until(() -> asyncBean.getThreadOfExecution() != null);
 		assertThat(asyncBean.getThreadOfExecution().getName()).startsWith("Custom-");
 		ctx.close();
 	}
@@ -230,16 +223,14 @@ public class EnableAsyncTests {
 		ctx.refresh();
 		AsyncBean asyncBean = ctx.getBean(AsyncBean.class);
 		Method method = ReflectionUtils.findMethod(AsyncBean.class, "fail");
-		TestableAsyncUncaughtExceptionHandler exceptionHandler =
-				(TestableAsyncUncaughtExceptionHandler) ctx.getBean("exceptionHandler");
+		TestableAsyncUncaughtExceptionHandler exceptionHandler = (TestableAsyncUncaughtExceptionHandler) ctx
+				.getBean("exceptionHandler");
 		assertThat(exceptionHandler.isCalled()).as("handler should not have been called yet").isFalse();
 		// Act
 		asyncBean.fail();
 		// Assert
-		Awaitility.await()
-					.atMost(500, TimeUnit.MILLISECONDS)
-					.pollInterval(10, TimeUnit.MILLISECONDS)
-					.untilAsserted(() -> exceptionHandler.assertCalledWith(method, UnsupportedOperationException.class));
+		Awaitility.await().atMost(500, TimeUnit.MILLISECONDS).pollInterval(10, TimeUnit.MILLISECONDS)
+				.untilAsserted(() -> exceptionHandler.assertCalledWith(method, UnsupportedOperationException.class));
 		ctx.close();
 	}
 
@@ -253,10 +244,8 @@ public class EnableAsyncTests {
 		// Act
 		asyncBean.work();
 		// Assert
-		Awaitility.await()
-					.atMost(500, TimeUnit.MILLISECONDS)
-					.pollInterval(10, TimeUnit.MILLISECONDS)
-					.until(() -> asyncBean.getThreadOfExecution() != null);
+		Awaitility.await().atMost(500, TimeUnit.MILLISECONDS).pollInterval(10, TimeUnit.MILLISECONDS)
+				.until(() -> asyncBean.getThreadOfExecution() != null);
 		assertThat(asyncBean.getThreadOfExecution().getName()).startsWith("Post-");
 		ctx.close();
 	}
@@ -268,21 +257,19 @@ public class EnableAsyncTests {
 		ctx.register(CustomExecutorBeanConfig.class, ExecutorPostProcessor.class);
 		ctx.refresh();
 		AsyncBean asyncBean = ctx.getBean(AsyncBean.class);
-		TestableAsyncUncaughtExceptionHandler exceptionHandler =
-				(TestableAsyncUncaughtExceptionHandler) ctx.getBean("exceptionHandler");
+		TestableAsyncUncaughtExceptionHandler exceptionHandler = (TestableAsyncUncaughtExceptionHandler) ctx
+				.getBean("exceptionHandler");
 		assertThat(exceptionHandler.isCalled()).as("handler should not have been called yet").isFalse();
 		Method method = ReflectionUtils.findMethod(AsyncBean.class, "fail");
 		// Act
 		asyncBean.fail();
 		// Assert
-		Awaitility.await()
-					.atMost(500, TimeUnit.MILLISECONDS)
-					.pollInterval(10, TimeUnit.MILLISECONDS)
-					.untilAsserted(() -> exceptionHandler.assertCalledWith(method, UnsupportedOperationException.class));
+		Awaitility.await().atMost(500, TimeUnit.MILLISECONDS).pollInterval(10, TimeUnit.MILLISECONDS)
+				.untilAsserted(() -> exceptionHandler.assertCalledWith(method, UnsupportedOperationException.class));
 		ctx.close();
 	}
 
-	@Test  // SPR-14949
+	@Test // SPR-14949
 	public void findOnInterfaceWithInterfaceProxy() {
 		// Arrange
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(Spr14949ConfigA.class);
@@ -290,15 +277,13 @@ public class EnableAsyncTests {
 		// Act
 		asyncBean.work();
 		// Assert
-		Awaitility.await()
-					.atMost(500, TimeUnit.MILLISECONDS)
-					.pollInterval(10, TimeUnit.MILLISECONDS)
-					.until(() -> asyncBean.getThreadOfExecution() != null);
+		Awaitility.await().atMost(500, TimeUnit.MILLISECONDS).pollInterval(10, TimeUnit.MILLISECONDS)
+				.until(() -> asyncBean.getThreadOfExecution() != null);
 		assertThat(asyncBean.getThreadOfExecution().getName()).startsWith("Custom-");
 		ctx.close();
 	}
 
-	@Test  // SPR-14949
+	@Test // SPR-14949
 	public void findOnInterfaceWithCglibProxy() {
 		// Arrange
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(Spr14949ConfigB.class);
@@ -306,10 +291,8 @@ public class EnableAsyncTests {
 		// Act
 		asyncBean.work();
 		// Assert
-		Awaitility.await()
-					.atMost(500, TimeUnit.MILLISECONDS)
-					.pollInterval(10, TimeUnit.MILLISECONDS)
-					.until(() -> asyncBean.getThreadOfExecution() != null);
+		Awaitility.await().atMost(500, TimeUnit.MILLISECONDS).pollInterval(10, TimeUnit.MILLISECONDS)
+				.until(() -> asyncBean.getThreadOfExecution() != null);
 		assertThat(asyncBean.getThreadOfExecution().getName()).startsWith("Custom-");
 		ctx.close();
 	}
@@ -317,11 +300,10 @@ public class EnableAsyncTests {
 	@Test
 	@SuppressWarnings("resource")
 	public void exceptionThrownWithBeanNotOfRequiredTypeRootCause() {
-		assertThatExceptionOfType(Throwable.class).isThrownBy(() ->
-				new AnnotationConfigApplicationContext(JdkProxyConfiguration.class))
-			.withCauseInstanceOf(BeanNotOfRequiredTypeException.class);
+		assertThatExceptionOfType(Throwable.class)
+				.isThrownBy(() -> new AnnotationConfigApplicationContext(JdkProxyConfiguration.class))
+				.withCauseInstanceOf(BeanNotOfRequiredTypeException.class);
 	}
-
 
 	static class AsyncBeanWithExecutorQualifiedByName {
 
@@ -344,8 +326,8 @@ public class EnableAsyncTests {
 		public Future<Thread> work3() {
 			return new AsyncResult<>(Thread.currentThread());
 		}
-	}
 
+	}
 
 	static class AsyncBean {
 
@@ -364,8 +346,8 @@ public class EnableAsyncTests {
 		public Thread getThreadOfExecution() {
 			return threadOfExecution;
 		}
-	}
 
+	}
 
 	@Component("asyncBean")
 	static class AsyncBeanWithInterface extends AsyncBean implements Runnable {
@@ -373,8 +355,8 @@ public class EnableAsyncTests {
 		@Override
 		public void run() {
 		}
-	}
 
+	}
 
 	static class AsyncBeanUser {
 
@@ -387,27 +369,27 @@ public class EnableAsyncTests {
 		public AsyncBean getAsyncBean() {
 			return asyncBean;
 		}
-	}
 
+	}
 
 	@EnableAsync(annotation = CustomAsync.class)
 	static class CustomAsyncAnnotationConfig {
-	}
 
+	}
 
 	@Target(ElementType.METHOD)
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface CustomAsync {
-	}
 
+	}
 
 	static class CustomAsyncBean {
 
 		@CustomAsync
 		public void work() {
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableAsync(order = Ordered.HIGHEST_PRECEDENCE)
@@ -417,8 +399,8 @@ public class EnableAsyncTests {
 		public AsyncBean asyncBean() {
 			return new AsyncBean();
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableAsync(mode = AdviceMode.ASPECTJ)
@@ -428,8 +410,8 @@ public class EnableAsyncTests {
 		public AsyncBean asyncBean() {
 			return new AsyncBean();
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableAsync
@@ -439,8 +421,8 @@ public class EnableAsyncTests {
 		public AsyncBean asyncBean() {
 			return new AsyncBean();
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableAsync
@@ -451,8 +433,8 @@ public class EnableAsyncTests {
 		public AsyncBean asyncBean() {
 			return Mockito.mock(AsyncBean.class);
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableAsync
@@ -473,8 +455,8 @@ public class EnableAsyncTests {
 		public Executor otherExecutor() {
 			return new ThreadPoolTaskExecutor();
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableAsync
@@ -489,8 +471,8 @@ public class EnableAsyncTests {
 		public Executor taskExecutor() {
 			return Executors.newSingleThreadExecutor(new CustomizableThreadFactory("Custom-"));
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableAsync
@@ -518,8 +500,8 @@ public class EnableAsyncTests {
 		public AsyncUncaughtExceptionHandler exceptionHandler() {
 			return new TestableAsyncUncaughtExceptionHandler();
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableAsync
@@ -552,8 +534,8 @@ public class EnableAsyncTests {
 		public AsyncUncaughtExceptionHandler exceptionHandler() {
 			return new TestableAsyncUncaughtExceptionHandler();
 		}
-	}
 
+	}
 
 	public static class ExecutorPostProcessor implements BeanPostProcessor {
 
@@ -565,8 +547,8 @@ public class EnableAsyncTests {
 			}
 			return bean;
 		}
-	}
 
+	}
 
 	public interface AsyncInterface {
 
@@ -574,8 +556,8 @@ public class EnableAsyncTests {
 		void work();
 
 		Thread getThreadOfExecution();
-	}
 
+	}
 
 	public static class AsyncService implements AsyncInterface {
 
@@ -590,8 +572,8 @@ public class EnableAsyncTests {
 		public Thread getThreadOfExecution() {
 			return threadOfExecution;
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableAsync
@@ -614,8 +596,8 @@ public class EnableAsyncTests {
 		public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
 			return null;
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableAsync(proxyTargetClass = true)
@@ -638,8 +620,8 @@ public class EnableAsyncTests {
 		public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
 			return null;
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableAsync
@@ -650,8 +632,8 @@ public class EnableAsyncTests {
 		public AsyncBeanWithInterface asyncBean() {
 			return new AsyncBeanWithInterface();
 		}
-	}
 
+	}
 
 	@Configuration
 	static class UserConfiguration {
@@ -660,6 +642,7 @@ public class EnableAsyncTests {
 		public AsyncBeanUser user(AsyncBeanWithInterface bean) {
 			return new AsyncBeanUser(bean);
 		}
+
 	}
 
 }

@@ -37,7 +37,6 @@ class DefaultValueStylerTests {
 
 	private final DefaultValueStyler styler = new DefaultValueStyler();
 
-
 	@Test
 	void styleBasics() throws NoSuchMethodException {
 		assertThat(styler.style(null)).isEqualTo("[null]");

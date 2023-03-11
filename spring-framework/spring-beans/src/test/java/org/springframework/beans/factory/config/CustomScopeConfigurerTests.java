@@ -41,7 +41,6 @@ public class CustomScopeConfigurerTests {
 
 	private final ConfigurableListableBeanFactory factory = new DefaultListableBeanFactory();
 
-
 	@Test
 	public void testWithNoScopes() {
 		CustomScopeConfigurer figurer = new CustomScopeConfigurer();
@@ -87,29 +86,26 @@ public class CustomScopeConfigurerTests {
 		scopes.put(FOO_SCOPE, null);
 		CustomScopeConfigurer figurer = new CustomScopeConfigurer();
 		figurer.setScopes(scopes);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				figurer.postProcessBeanFactory(factory));
+		assertThatIllegalArgumentException().isThrownBy(() -> figurer.postProcessBeanFactory(factory));
 	}
 
 	@Test
 	public void testWhereScopeMapHasNonScopeInstanceInEntrySet() {
 		Map<String, Object> scopes = new HashMap<>();
-		scopes.put(FOO_SCOPE, this);  // <-- not a valid value...
+		scopes.put(FOO_SCOPE, this); // <-- not a valid value...
 		CustomScopeConfigurer figurer = new CustomScopeConfigurer();
 		figurer.setScopes(scopes);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				figurer.postProcessBeanFactory(factory));
+		assertThatIllegalArgumentException().isThrownBy(() -> figurer.postProcessBeanFactory(factory));
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void testWhereScopeMapHasNonStringTypedScopeNameInKeySet() {
 		Map scopes = new HashMap();
-		scopes.put(this, new NoOpScope());  // <-- not a valid value (the key)...
+		scopes.put(this, new NoOpScope()); // <-- not a valid value (the key)...
 		CustomScopeConfigurer figurer = new CustomScopeConfigurer();
 		figurer.setScopes(scopes);
-		assertThatExceptionOfType(ClassCastException.class).isThrownBy(() ->
-				figurer.postProcessBeanFactory(factory));
+		assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> figurer.postProcessBeanFactory(factory));
 	}
 
 }

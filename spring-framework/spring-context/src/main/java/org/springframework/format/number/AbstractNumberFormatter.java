@@ -24,8 +24,8 @@ import java.util.Locale;
 import org.springframework.format.Formatter;
 
 /**
- * Abstract formatter for Numbers,
- * providing a {@link #getNumberFormat(java.util.Locale)} template method.
+ * Abstract formatter for Numbers, providing a {@link #getNumberFormat(java.util.Locale)}
+ * template method.
  *
  * @author Juergen Hoeller
  * @author Keith Donald
@@ -35,16 +35,15 @@ public abstract class AbstractNumberFormatter implements Formatter<Number> {
 
 	private boolean lenient = false;
 
-
 	/**
 	 * Specify whether or not parsing is to be lenient. Default is false.
-	 * <p>With lenient parsing, the parser may allow inputs that do not precisely match the format.
-	 * With strict parsing, inputs must match the format exactly.
+	 * <p>
+	 * With lenient parsing, the parser may allow inputs that do not precisely match the
+	 * format. With strict parsing, inputs must match the format exactly.
 	 */
 	public void setLenient(boolean lenient) {
 		this.lenient = lenient;
 	}
-
 
 	@Override
 	public String print(Number number, Locale locale) {

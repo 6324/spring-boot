@@ -56,7 +56,6 @@ class RequestMappingExceptionHandlingIntegrationTests extends AbstractRequestMap
 		return wac;
 	}
 
-
 	@ParameterizedHttpServerTest
 	void thrownException(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
@@ -85,42 +84,41 @@ class RequestMappingExceptionHandlingIntegrationTests extends AbstractRequestMap
 		doTest("/mono-error", "Recovered from error: Argument");
 	}
 
-	@ParameterizedHttpServerTest  // SPR-16051
+	@ParameterizedHttpServerTest // SPR-16051
 	void exceptionAfterSeveralItems(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		assertThatExceptionOfType(Throwable.class).isThrownBy(() ->
-				performGet("/SPR-16051", new HttpHeaders(), String.class).getBody())
-			.withMessageStartingWith("Error while extracting response");
+		assertThatExceptionOfType(Throwable.class)
+				.isThrownBy(() -> performGet("/SPR-16051", new HttpHeaders(), String.class).getBody())
+				.withMessageStartingWith("Error while extracting response");
 	}
 
-	@ParameterizedHttpServerTest  // SPR-16318
+	@ParameterizedHttpServerTest // SPR-16318
 	void exceptionFromMethodWithProducesCondition(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Accept", "text/plain, application/problem+json");
-		assertThatExceptionOfType(HttpStatusCodeException.class).isThrownBy(() ->
-				performGet("/SPR-16318", headers, String.class).getBody())
-			.satisfies(ex -> {
-				assertThat(ex.getRawStatusCode()).isEqualTo(500);
-				assertThat(ex.getResponseHeaders().getContentType().toString()).isEqualTo("application/problem+json");
-				assertThat(ex.getResponseBodyAsString()).isEqualTo("{\"reason\":\"error\"}");
-			});
+		assertThatExceptionOfType(HttpStatusCodeException.class)
+				.isThrownBy(() -> performGet("/SPR-16318", headers, String.class).getBody()).satisfies(ex -> {
+					assertThat(ex.getRawStatusCode()).isEqualTo(500);
+					assertThat(ex.getResponseHeaders().getContentType().toString())
+							.isEqualTo("application/problem+json");
+					assertThat(ex.getResponseBodyAsString()).isEqualTo("{\"reason\":\"error\"}");
+				});
 	}
 
 	private void doTest(String url, String expected) throws Exception {
 		assertThat(performGet(url, new HttpHeaders(), String.class).getBody()).isEqualTo(expected);
 	}
 
-
 	@Configuration
 	@EnableWebFlux
 	@ComponentScan(resourcePattern = "**/RequestMappingExceptionHandlingIntegrationTests$*.class")
-	@SuppressWarnings({"unused", "WeakerAccess"})
+	@SuppressWarnings({ "unused", "WeakerAccess" })
 	static class WebConfig {
-	}
 
+	}
 
 	@RestController
 	@SuppressWarnings("unused")
@@ -148,13 +146,12 @@ class RequestMappingExceptionHandlingIntegrationTests extends AbstractRequestMap
 
 		@GetMapping("/SPR-16051")
 		public Flux<String> errors() {
-			return Flux.range(1, 10000)
-					.map(i -> {
-						if (i == 1000) {
-							throw new RuntimeException("Random error");
-						}
-						return i + ". foo bar";
-					});
+			return Flux.range(1, 10000).map(i -> {
+				if (i == 1000) {
+					throw new RuntimeException("Random error");
+				}
+				return i + ". foo bar";
+			});
 		}
 
 		@GetMapping(path = "/SPR-16318", produces = "text/plain")
@@ -181,11 +178,12 @@ class RequestMappingExceptionHandlingIntegrationTests extends AbstractRequestMap
 		public ResponseEntity<Map<String, String>> handle(Spr16318Exception ex) {
 			return ResponseEntity.status(500).body(Collections.singletonMap("reason", "error"));
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	private static class Spr16318Exception extends Exception {
+
 	}
 
 }

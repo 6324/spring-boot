@@ -29,8 +29,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.condition.JRE.JAVA_8;
 
 /**
- * NOTE: These tests fail under Eclipse/IDEA because JiBX binding does
- * not occur by default. The Gradle build should succeed, however.
+ * NOTE: These tests fail under Eclipse/IDEA because JiBX binding does not occur by
+ * default. The Gradle build should succeed, however.
  *
  * @author Arjen Poutsma
  * @author Sam Brannen
@@ -39,10 +39,8 @@ import static org.junit.jupiter.api.condition.JRE.JAVA_8;
 @EnabledOnJre(JAVA_8) // JiBX compiler is currently not compatible with JDK 9
 public class JibxUnmarshallerTests extends AbstractUnmarshallerTests<JibxMarshaller> {
 
-	protected static final String INPUT_STRING_WITH_SPECIAL_CHARACTERS =
-			"<tns:flights xmlns:tns=\"http://samples.springframework.org/flight\">" +
-					"<tns:flight><tns:airline>Air Libert\u00e9</tns:airline><tns:number>42</tns:number></tns:flight></tns:flights>";
-
+	protected static final String INPUT_STRING_WITH_SPECIAL_CHARACTERS = "<tns:flights xmlns:tns=\"http://samples.springframework.org/flight\">"
+			+ "<tns:flight><tns:airline>Air Libert\u00e9</tns:airline><tns:number>42</tns:number></tns:flight></tns:flights>";
 
 	@Override
 	protected JibxMarshaller createUnmarshaller() throws Exception {
@@ -67,7 +65,6 @@ public class JibxUnmarshallerTests extends AbstractUnmarshallerTests<JibxMarshal
 		assertThat(flight.getNumber()).as("Number is invalid").isEqualTo(42L);
 	}
 
-
 	@Test
 	@Override
 	public void unmarshalPartialStaxSourceXmlStreamReader() throws Exception {
@@ -79,11 +76,12 @@ public class JibxUnmarshallerTests extends AbstractUnmarshallerTests<JibxMarshal
 		String encoding = "ISO-8859-1";
 		unmarshaller.setEncoding(encoding);
 
-		StreamSource source = new StreamSource(new ByteArrayInputStream(INPUT_STRING_WITH_SPECIAL_CHARACTERS.getBytes(encoding)));
+		StreamSource source = new StreamSource(
+				new ByteArrayInputStream(INPUT_STRING_WITH_SPECIAL_CHARACTERS.getBytes(encoding)));
 		Object flights = unmarshaller.unmarshal(source);
 		testFlights(flights);
 
-		FlightType flight = ((Flights)flights).getFlight(0);
+		FlightType flight = ((Flights) flights).getFlight(0);
 		assertThat(flight.getAirline()).as("Airline is invalid").isEqualTo("Air Libert\u00e9");
 	}
 

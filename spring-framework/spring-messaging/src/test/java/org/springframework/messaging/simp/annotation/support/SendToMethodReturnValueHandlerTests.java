@@ -77,7 +77,6 @@ public class SendToMethodReturnValueHandlerTests {
 
 	private static final String PAYLOAD = "payload";
 
-
 	@Mock
 	private MessageChannel messageChannel;
 
@@ -91,20 +90,35 @@ public class SendToMethodReturnValueHandlerTests {
 	private SendToMethodReturnValueHandler jsonHandler;
 
 	private MethodParameter noAnnotationsReturnType = param("handleNoAnnotations");
+
 	private MethodParameter sendToReturnType = param("handleAndSendTo");
+
 	private MethodParameter sendToDefaultDestReturnType = param("handleAndSendToDefaultDest");
+
 	private MethodParameter sendToWithPlaceholdersReturnType = param("handleAndSendToWithPlaceholders");
+
 	private MethodParameter sendToUserReturnType = param("handleAndSendToUser");
+
 	private MethodParameter sendToUserInSessionReturnType = param("handleAndSendToUserInSession");
+
 	private MethodParameter sendToSendToUserReturnType = param("handleAndSendToAndSendToUser");
+
 	private MethodParameter sendToUserDefaultDestReturnType = param("handleAndSendToUserDefaultDest");
+
 	private MethodParameter sendToUserInSessionDefaultDestReturnType = param("handleAndSendToUserDefaultDestInSession");
+
 	private MethodParameter jsonViewReturnType = param("handleAndSendToJsonView");
+
 	private MethodParameter defaultNoAnnotation = param(SendToTestBean.class, "handleNoAnnotation");
+
 	private MethodParameter defaultEmptyAnnotation = param(SendToTestBean.class, "handleAndSendToDefaultDest");
+
 	private MethodParameter defaultOverrideAnnotation = param(SendToTestBean.class, "handleAndSendToOverride");
+
 	private MethodParameter userDefaultNoAnnotation = param(SendToUserTestBean.class, "handleNoAnnotation");
+
 	private MethodParameter userDefaultEmptyAnnotation = param(SendToUserTestBean.class, "handleAndSendToDefaultDest");
+
 	private MethodParameter userDefaultOverrideAnnotation = param(SendToUserTestBean.class, "handleAndSendToOverride");
 
 	private MethodParameter param(String methodName) {
@@ -119,7 +133,6 @@ public class SendToMethodReturnValueHandlerTests {
 			throw new IllegalArgumentException("No such method", ex);
 		}
 	}
-
 
 	@BeforeEach
 	public void setup() throws Exception {
@@ -293,9 +306,7 @@ public class SendToMethodReturnValueHandlerTests {
 		assertResponse(parameter, sessionId, 1, "/dest4");
 	}
 
-
-	private void assertResponse(MethodParameter methodParameter, String sessionId,
-			int index, String destination) {
+	private void assertResponse(MethodParameter methodParameter, String sessionId, int index, String destination) {
 
 		SimpMessageHeaderAccessor accessor = getCapturedAccessor(index);
 		assertThat(accessor.getSessionId()).isEqualTo(sessionId);
@@ -331,13 +342,14 @@ public class SendToMethodReturnValueHandlerTests {
 		verify(messagingTemplate).convertAndSend(eq("/topic/dest"), eq(PAYLOAD), captor.capture());
 
 		MessageHeaders headers = captor.getValue();
-		SimpMessageHeaderAccessor accessor =
-				MessageHeaderAccessor.getAccessor(headers, SimpMessageHeaderAccessor.class);
+		SimpMessageHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(headers,
+				SimpMessageHeaderAccessor.class);
 		assertThat(accessor).isNotNull();
 		assertThat(accessor.isMutable()).isTrue();
 		assertThat(accessor.getSessionId()).isEqualTo("sess1");
 		assertThat(accessor.getSubscriptionId()).as("Subscription id should not be copied").isNull();
-		assertThat(accessor.getHeader(SimpMessagingTemplate.CONVERSION_HINT_HEADER)).isEqualTo(this.noAnnotationsReturnType);
+		assertThat(accessor.getHeader(SimpMessagingTemplate.CONVERSION_HINT_HEADER))
+				.isEqualTo(this.noAnnotationsReturnType);
 	}
 
 	@Test
@@ -394,7 +406,7 @@ public class SendToMethodReturnValueHandlerTests {
 		assertThat(accessor.getDestination()).isEqualTo("/dest2");
 	}
 
-	@Test  // SPR-12170
+	@Test // SPR-12170
 	public void sendToWithDestinationPlaceholders() throws Exception {
 		given(this.messageChannel.send(any(Message.class))).willReturn(true);
 
@@ -432,14 +444,16 @@ public class SendToMethodReturnValueHandlerTests {
 		assertThat(accessor.getContentType()).isEqualTo(MIME_TYPE);
 		assertThat(accessor.getDestination()).isEqualTo(("/user/" + user.getName() + "/dest1"));
 		assertThat(accessor.getSubscriptionId()).as("Subscription id should not be copied").isNull();
-		assertThat(accessor.getHeader(SimpMessagingTemplate.CONVERSION_HINT_HEADER)).isEqualTo(this.sendToUserInSessionReturnType);
+		assertThat(accessor.getHeader(SimpMessagingTemplate.CONVERSION_HINT_HEADER))
+				.isEqualTo(this.sendToUserInSessionReturnType);
 
 		accessor = getCapturedAccessor(1);
 		assertThat(accessor.getSessionId()).isEqualTo(sessionId);
 		assertThat(accessor.getDestination()).isEqualTo(("/user/" + user.getName() + "/dest2"));
 		assertThat(accessor.getContentType()).isEqualTo(MIME_TYPE);
 		assertThat(accessor.getSubscriptionId()).as("Subscription id should not be copied").isNull();
-		assertThat(accessor.getHeader(SimpMessagingTemplate.CONVERSION_HINT_HEADER)).isEqualTo(this.sendToUserInSessionReturnType);
+		assertThat(accessor.getHeader(SimpMessagingTemplate.CONVERSION_HINT_HEADER))
+				.isEqualTo(this.sendToUserInSessionReturnType);
 	}
 
 	@Test
@@ -507,7 +521,8 @@ public class SendToMethodReturnValueHandlerTests {
 		assertThat(accessor.getDestination()).isEqualTo(("/user/" + user.getName() + "/queue/dest"));
 		assertThat(accessor.getContentType()).isEqualTo(MIME_TYPE);
 		assertThat(accessor.getSubscriptionId()).as("Subscription id should not be copied").isNull();
-		assertThat(accessor.getHeader(SimpMessagingTemplate.CONVERSION_HINT_HEADER)).isEqualTo(this.sendToUserInSessionDefaultDestReturnType);
+		assertThat(accessor.getHeader(SimpMessagingTemplate.CONVERSION_HINT_HEADER))
+				.isEqualTo(this.sendToUserInSessionDefaultDestReturnType);
 	}
 
 	@Test
@@ -545,7 +560,6 @@ public class SendToMethodReturnValueHandlerTests {
 		assertThat(bytes).isEqualTo("{\"withView1\":\"with\"}");
 	}
 
-
 	private Message<?> createMessage(String sessId, String subsId, String destPrefix, String dest, Principal user) {
 		SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create();
 		headerAccessor.setSessionId(sessId);
@@ -565,7 +579,6 @@ public class SendToMethodReturnValueHandlerTests {
 		return MessageHeaderAccessor.getAccessor(message, SimpMessageHeaderAccessor.class);
 	}
 
-
 	@SuppressWarnings("unused")
 	String handleNoAnnotations() {
 		return PAYLOAD;
@@ -577,7 +590,7 @@ public class SendToMethodReturnValueHandlerTests {
 		return PAYLOAD;
 	}
 
-	@SendTo({"/dest1", "/dest2"})
+	@SendTo({ "/dest1", "/dest2" })
 	@SuppressWarnings("unused")
 	String handleAndSendTo() {
 		return PAYLOAD;
@@ -601,7 +614,7 @@ public class SendToMethodReturnValueHandlerTests {
 		return PAYLOAD;
 	}
 
-	@SendToUser({"/dest1", "/dest2"})
+	@SendToUser({ "/dest1", "/dest2" })
 	@SuppressWarnings("unused")
 	String handleAndSendToUser() {
 		return PAYLOAD;
@@ -613,8 +626,8 @@ public class SendToMethodReturnValueHandlerTests {
 		return PAYLOAD;
 	}
 
-	@SendTo({"/dest1", "/dest2"})
-	@SendToUser({"/dest1", "/dest2"})
+	@SendTo({ "/dest1", "/dest2" })
+	@SendToUser({ "/dest1", "/dest2" })
 	@SuppressWarnings("unused")
 	String handleAndSendToAndSendToUser() {
 		return PAYLOAD;
@@ -630,7 +643,6 @@ public class SendToMethodReturnValueHandlerTests {
 		return payload;
 	}
 
-
 	private static class TestUser implements Principal {
 
 		@Override
@@ -642,8 +654,8 @@ public class SendToMethodReturnValueHandlerTests {
 		public boolean implies(Subject subject) {
 			return false;
 		}
-	}
 
+	}
 
 	private static class UniqueUser extends TestUser implements DestinationUserNameProvider {
 
@@ -651,8 +663,8 @@ public class SendToMethodReturnValueHandlerTests {
 		public String getDestinationUserName() {
 			return "Me myself and I";
 		}
-	}
 
+	}
 
 	@SendTo
 	@Retention(RetentionPolicy.RUNTIME)
@@ -660,8 +672,8 @@ public class SendToMethodReturnValueHandlerTests {
 
 		@AliasFor(annotation = SendTo.class, attribute = "value")
 		String[] dest();
-	}
 
+	}
 
 	@SendToUser
 	@Retention(RetentionPolicy.RUNTIME)
@@ -669,10 +681,11 @@ public class SendToMethodReturnValueHandlerTests {
 
 		@AliasFor(annotation = SendToUser.class, attribute = "destinations")
 		String[] dest();
+
 	}
 
-
-	@MySendTo(dest = "/dest-default") @SuppressWarnings("unused")
+	@MySendTo(dest = "/dest-default")
+	@SuppressWarnings("unused")
 	private static class SendToTestBean {
 
 		String handleNoAnnotation() {
@@ -684,14 +697,15 @@ public class SendToMethodReturnValueHandlerTests {
 			return PAYLOAD;
 		}
 
-		@MySendTo(dest = {"/dest3", "/dest4"})
+		@MySendTo(dest = { "/dest3", "/dest4" })
 		String handleAndSendToOverride() {
 			return PAYLOAD;
 		}
+
 	}
 
-
-	@MySendToUser(dest = "/dest-default") @SuppressWarnings("unused")
+	@MySendToUser(dest = "/dest-default")
+	@SuppressWarnings("unused")
 	private static class SendToUserTestBean {
 
 		String handleNoAnnotation() {
@@ -703,14 +717,15 @@ public class SendToMethodReturnValueHandlerTests {
 			return PAYLOAD;
 		}
 
-		@MySendToUser(dest = {"/dest3", "/dest4"})
+		@MySendToUser(dest = { "/dest3", "/dest4" })
 		String handleAndSendToOverride() {
 			return PAYLOAD;
 		}
+
 	}
 
-
-	@MySendToUser(dest = "/dest-default") @SuppressWarnings("unused")
+	@MySendToUser(dest = "/dest-default")
+	@SuppressWarnings("unused")
 	private static class SendToUserWithSendToOverrideTestBean {
 
 		@SendTo
@@ -718,17 +733,20 @@ public class SendToMethodReturnValueHandlerTests {
 			return PAYLOAD;
 		}
 
-		@MySendTo(dest = {"/dest3", "/dest4"})
+		@MySendTo(dest = { "/dest3", "/dest4" })
 		String handleAndSendToOverride() {
 			return PAYLOAD;
 		}
+
 	}
 
+	private interface MyJacksonView1 {
 
-	private interface MyJacksonView1 {}
+	}
 
-	private interface MyJacksonView2 {}
+	private interface MyJacksonView2 {
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class JacksonViewBean {
@@ -764,6 +782,7 @@ public class SendToMethodReturnValueHandlerTests {
 		void setWithoutView(String withoutView) {
 			this.withoutView = withoutView;
 		}
+
 	}
 
 }

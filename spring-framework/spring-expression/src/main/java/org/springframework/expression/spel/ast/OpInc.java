@@ -38,15 +38,13 @@ import org.springframework.util.Assert;
  */
 public class OpInc extends Operator {
 
-	private final boolean postfix;  // false means prefix
-
+	private final boolean postfix; // false means prefix
 
 	public OpInc(int startPos, int endPos, boolean postfix, SpelNodeImpl... operands) {
 		super("++", startPos, endPos, operands);
 		this.postfix = postfix;
 		Assert.notEmpty(operands, "Operands must not be empty");
 	}
-
 
 	@Override
 	public TypedValue getValueInternal(ExpressionState state) throws EvaluationException {
@@ -97,8 +95,8 @@ public class OpInc extends Operator {
 			catch (SpelEvaluationException ex) {
 				if (ex.getMessageCode() == SpelMessage.OPERATOR_NOT_SUPPORTED_BETWEEN_TYPES) {
 					// This means the operand is not incrementable
-					throw new SpelEvaluationException(operand.getStartPosition(),
-							SpelMessage.OPERAND_NOT_INCREMENTABLE, operand.toStringAST());
+					throw new SpelEvaluationException(operand.getStartPosition(), SpelMessage.OPERAND_NOT_INCREMENTABLE,
+							operand.toStringAST());
 				}
 				throw ex;
 			}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2021 the original author or authors.
+ * Copyright 2002-2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package org.springframework.web.method.annotation;
 
 import java.beans.ConstructorProperties;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -40,7 +39,6 @@ import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
-import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -73,7 +71,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
  * @author Sebastien Deleuze
- * @author Vladislav Kisel
  * @since 3.1
  */
 public class ModelAttributeMethodProcessor implements HandlerMethodArgumentResolver, HandlerMethodReturnValueHandler {
@@ -278,14 +275,6 @@ public class ModelAttributeMethodProcessor implements HandlerMethodArgumentResol
 			String paramName = paramNames[i];
 			Class<?> paramType = paramTypes[i];
 			Object value = webRequest.getParameterValues(paramName);
-
-			// Since WebRequest#getParameter exposes a single-value parameter as an array
-			// with a single element, we unwrap the single value in such cases, analogous
-			// to WebExchangeDataBinder.addBindValue(Map<String, Object>, String, List<?>).
-			if (ObjectUtils.isArray(value) && Array.getLength(value) == 1) {
-				value = Array.get(value, 0);
-			}
-
 			if (value == null) {
 				if (fieldDefaultPrefix != null) {
 					value = webRequest.getParameter(fieldDefaultPrefix + paramName);
@@ -296,7 +285,6 @@ public class ModelAttributeMethodProcessor implements HandlerMethodArgumentResol
 					}
 				}
 			}
-
 			try {
 				MethodParameter methodParam = new FieldAwareConstructorParameter(ctor, i, paramName);
 				if (value == null && methodParam.isOptional()) {

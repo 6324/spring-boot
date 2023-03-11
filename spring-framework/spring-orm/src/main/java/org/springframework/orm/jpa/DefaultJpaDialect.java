@@ -30,13 +30,15 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionException;
 
 /**
- * Default implementation of the {@link JpaDialect} interface.
- * Used as default dialect by {@link JpaTransactionManager}.
+ * Default implementation of the {@link JpaDialect} interface. Used as default dialect by
+ * {@link JpaTransactionManager}.
  *
- * <p>Simply begins a standard JPA transaction in {@link #beginTransaction} and
- * performs standard exception translation through {@link EntityManagerFactoryUtils}.
+ * <p>
+ * Simply begins a standard JPA transaction in {@link #beginTransaction} and performs
+ * standard exception translation through {@link EntityManagerFactoryUtils}.
  *
- * <p><b>NOTE: Spring's JPA support requires JPA 2.1 or higher, as of Spring 5.0.</b>
+ * <p>
+ * <b>NOTE: Spring's JPA support requires JPA 2.1 or higher, as of Spring 5.0.</b>
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -46,13 +48,13 @@ import org.springframework.transaction.TransactionException;
 public class DefaultJpaDialect implements JpaDialect, Serializable {
 
 	/**
-	 * This implementation invokes the standard JPA {@code Transaction.begin}
-	 * method. Throws an InvalidIsolationLevelException if a non-default isolation
-	 * level is set.
-	 * <p>This implementation does not return any transaction data Object, since there
-	 * is no state to be kept for a standard JPA transaction. Hence, subclasses do not
-	 * have to care about the return value ({@code null}) of this implementation
-	 * and are free to return their own transaction data Object.
+	 * This implementation invokes the standard JPA {@code Transaction.begin} method.
+	 * Throws an InvalidIsolationLevelException if a non-default isolation level is set.
+	 * <p>
+	 * This implementation does not return any transaction data Object, since there is no
+	 * state to be kept for a standard JPA transaction. Hence, subclasses do not have to
+	 * care about the return value ({@code null}) of this implementation and are free to
+	 * return their own transaction data Object.
 	 * @see javax.persistence.EntityTransaction#begin
 	 * @see org.springframework.transaction.InvalidIsolationLevelException
 	 * @see #cleanupTransaction
@@ -63,9 +65,9 @@ public class DefaultJpaDialect implements JpaDialect, Serializable {
 			throws PersistenceException, SQLException, TransactionException {
 
 		if (definition.getIsolationLevel() != TransactionDefinition.ISOLATION_DEFAULT) {
-			throw new InvalidIsolationLevelException(getClass().getSimpleName() +
-					" does not support custom isolation levels due to limitations in standard JPA. " +
-					"Specific arrangements may be implemented in custom JpaDialect variants.");
+			throw new InvalidIsolationLevelException(getClass().getSimpleName()
+					+ " does not support custom isolation levels due to limitations in standard JPA. "
+					+ "Specific arrangements may be implemented in custom JpaDialect variants.");
 		}
 		entityManager.getTransaction().begin();
 		return null;
@@ -89,8 +91,8 @@ public class DefaultJpaDialect implements JpaDialect, Serializable {
 	}
 
 	/**
-	 * This implementation always returns {@code null},
-	 * indicating that no JDBC Connection can be provided.
+	 * This implementation always returns {@code null}, indicating that no JDBC Connection
+	 * can be provided.
 	 */
 	@Override
 	@Nullable
@@ -101,10 +103,11 @@ public class DefaultJpaDialect implements JpaDialect, Serializable {
 	}
 
 	/**
-	 * This implementation does nothing, assuming that the Connection
-	 * will implicitly be closed with the EntityManager.
-	 * <p>If the JPA implementation returns a Connection handle that it expects
-	 * the application to close after use, the dialect implementation needs to invoke
+	 * This implementation does nothing, assuming that the Connection will implicitly be
+	 * closed with the EntityManager.
+	 * <p>
+	 * If the JPA implementation returns a Connection handle that it expects the
+	 * application to close after use, the dialect implementation needs to invoke
 	 * {@code Connection.close()} (or some other method with similar effect) here.
 	 * @see java.sql.Connection#close()
 	 */
@@ -113,10 +116,9 @@ public class DefaultJpaDialect implements JpaDialect, Serializable {
 			throws PersistenceException, SQLException {
 	}
 
-
-	//-----------------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------
 	// Hook for exception translation (used by JpaTransactionManager)
-	//-----------------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------
 
 	/**
 	 * This implementation delegates to EntityManagerFactoryUtils.

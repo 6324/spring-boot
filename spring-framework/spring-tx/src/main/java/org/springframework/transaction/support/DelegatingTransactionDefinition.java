@@ -25,8 +25,8 @@ import org.springframework.util.Assert;
 /**
  * {@link TransactionDefinition} implementation that delegates all calls to a given target
  * {@link TransactionDefinition} instance. Abstract because it is meant to be subclassed,
- * with subclasses overriding specific methods that are not supposed to simply delegate
- * to the target instance.
+ * with subclasses overriding specific methods that are not supposed to simply delegate to
+ * the target instance.
  *
  * @author Juergen Hoeller
  * @since 3.0
@@ -36,7 +36,6 @@ public abstract class DelegatingTransactionDefinition implements TransactionDefi
 
 	private final TransactionDefinition targetDefinition;
 
-
 	/**
 	 * Create a DelegatingTransactionAttribute for the given target attribute.
 	 * @param targetDefinition the target TransactionAttribute to delegate to
@@ -45,7 +44,6 @@ public abstract class DelegatingTransactionDefinition implements TransactionDefi
 		Assert.notNull(targetDefinition, "Target definition must not be null");
 		this.targetDefinition = targetDefinition;
 	}
-
 
 	@Override
 	public int getPropagationBehavior() {
@@ -72,7 +70,6 @@ public abstract class DelegatingTransactionDefinition implements TransactionDefi
 	public String getName() {
 		return this.targetDefinition.getName();
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {

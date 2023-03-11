@@ -66,13 +66,13 @@ import org.springframework.web.testfixture.http.server.reactive.bootstrap.Undert
 
 /**
  * Base class for WebSocket integration tests. Sub-classes must implement
- * {@link #getWebConfigClass()} to return Spring config class with (server-side)
- * handler mappings to {@code WebSocketHandler}'s.
+ * {@link #getWebConfigClass()} to return Spring config class with (server-side) handler
+ * mappings to {@code WebSocketHandler}'s.
  *
  * @author Rossen Stoyanchev
  * @author Sam Brannen
  */
-@SuppressWarnings({"unused", "WeakerAccess"})
+@SuppressWarnings({ "unused", "WeakerAccess" })
 abstract class AbstractWebSocketIntegrationTests {
 
 	private static final File TMP_DIR = new File(System.getProperty("java.io.tmpdir"));
@@ -82,16 +82,14 @@ abstract class AbstractWebSocketIntegrationTests {
 	@ParameterizedTest(name = "[{index}] client[{0}], server[{1}]")
 	@MethodSource("arguments")
 	@interface ParameterizedWebSocketTest {
+
 	}
 
 	static Stream<Object[]> arguments() throws IOException {
 
-		WebSocketClient[] clients = new WebSocketClient[] {
-				new TomcatWebSocketClient(),
-				new JettyWebSocketClient(),
+		WebSocketClient[] clients = new WebSocketClient[] { new TomcatWebSocketClient(), new JettyWebSocketClient(),
 				new ReactorNettyWebSocketClient(),
-				new UndertowWebSocketClient(Xnio.getInstance().createWorker(OptionMap.EMPTY))
-		};
+				new UndertowWebSocketClient(Xnio.getInstance().createWorker(OptionMap.EMPTY)) };
 
 		Map<HttpServer, Class<?>> servers = new LinkedHashMap<>();
 		servers.put(new TomcatHttpServer(TMP_DIR.getAbsolutePath(), WsContextListener.class), TomcatConfig.class);
@@ -101,18 +99,13 @@ abstract class AbstractWebSocketIntegrationTests {
 
 		// Try each client once against each server..
 
-		Flux<WebSocketClient> f1 = Flux.fromArray(clients)
-				.concatMap(c -> Mono.just(c).repeat(servers.size() - 1));
+		Flux<WebSocketClient> f1 = Flux.fromArray(clients).concatMap(c -> Mono.just(c).repeat(servers.size() - 1));
 
-		Flux<Map.Entry<HttpServer, Class<?>>> f2 = Flux.fromIterable(servers.entrySet())
-				.repeat(clients.length - 1)
+		Flux<Map.Entry<HttpServer, Class<?>>> f2 = Flux.fromIterable(servers.entrySet()).repeat(clients.length - 1)
 				.share();
 
-		return Flux.zip(f1, f2.map(Map.Entry::getKey), f2.map(Map.Entry::getValue))
-				.map(Tuple3::toArray)
-				.toStream();
+		return Flux.zip(f1, f2.map(Map.Entry::getKey), f2.map(Map.Entry::getValue)).map(Tuple3::toArray).toStream();
 	}
-
 
 	protected WebSocketClient client;
 
@@ -121,7 +114,6 @@ abstract class AbstractWebSocketIntegrationTests {
 	protected Class<?> serverConfigClass;
 
 	protected int port;
-
 
 	protected void startServer(WebSocketClient client, HttpServer server, Class<?> serverConfigClass) throws Exception {
 		this.client = client;
@@ -148,10 +140,9 @@ abstract class AbstractWebSocketIntegrationTests {
 		this.server.stop();
 	}
 
-
 	private HttpHandler createHttpHandler() {
-		ApplicationContext context = new AnnotationConfigApplicationContext(
-				DispatcherConfig.class, this.serverConfigClass, getWebConfigClass());
+		ApplicationContext context = new AnnotationConfigApplicationContext(DispatcherConfig.class,
+				this.serverConfigClass, getWebConfigClass());
 		return WebHttpHandlerBuilder.applicationContext(context).build();
 	}
 
@@ -161,7 +152,6 @@ abstract class AbstractWebSocketIntegrationTests {
 
 	protected abstract Class<?> getWebConfigClass();
 
-
 	@Configuration
 	static class DispatcherConfig {
 
@@ -169,8 +159,8 @@ abstract class AbstractWebSocketIntegrationTests {
 		public DispatcherHandler webHandler() {
 			return new DispatcherHandler();
 		}
-	}
 
+	}
 
 	static abstract class AbstractHandlerAdapterConfig {
 
@@ -185,8 +175,8 @@ abstract class AbstractWebSocketIntegrationTests {
 		}
 
 		protected abstract RequestUpgradeStrategy getUpgradeStrategy();
-	}
 
+	}
 
 	@Configuration
 	static class ReactorNettyConfig extends AbstractHandlerAdapterConfig {
@@ -195,8 +185,8 @@ abstract class AbstractWebSocketIntegrationTests {
 		protected RequestUpgradeStrategy getUpgradeStrategy() {
 			return new ReactorNettyRequestUpgradeStrategy();
 		}
-	}
 
+	}
 
 	@Configuration
 	static class TomcatConfig extends AbstractHandlerAdapterConfig {
@@ -205,8 +195,8 @@ abstract class AbstractWebSocketIntegrationTests {
 		protected RequestUpgradeStrategy getUpgradeStrategy() {
 			return new TomcatRequestUpgradeStrategy();
 		}
-	}
 
+	}
 
 	@Configuration
 	static class UndertowConfig extends AbstractHandlerAdapterConfig {
@@ -215,8 +205,8 @@ abstract class AbstractWebSocketIntegrationTests {
 		protected RequestUpgradeStrategy getUpgradeStrategy() {
 			return new UndertowRequestUpgradeStrategy();
 		}
-	}
 
+	}
 
 	@Configuration
 	static class JettyConfig extends AbstractHandlerAdapterConfig {
@@ -225,6 +215,7 @@ abstract class AbstractWebSocketIntegrationTests {
 		protected RequestUpgradeStrategy getUpgradeStrategy() {
 			return new JettyRequestUpgradeStrategy();
 		}
+
 	}
 
 }

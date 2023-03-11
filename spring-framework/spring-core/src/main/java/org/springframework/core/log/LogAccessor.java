@@ -22,9 +22,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * A convenient accessor for Commons Logging, providing not only
- * {@code CharSequence} based log methods but also {@code Supplier}
- * based variants for use with Java 8 lambda expressions.
+ * A convenient accessor for Commons Logging, providing not only {@code CharSequence}
+ * based log methods but also {@code Supplier} based variants for use with Java 8 lambda
+ * expressions.
  *
  * @author Juergen Hoeller
  * @since 5.2
@@ -32,7 +32,6 @@ import org.apache.commons.logging.LogFactory;
 public class LogAccessor {
 
 	private final Log log;
-
 
 	/**
 	 * Create a new accessor for the given Commons Log.
@@ -59,14 +58,12 @@ public class LogAccessor {
 		this.log = LogFactory.getLog(logCategory);
 	}
 
-
 	/**
 	 * Return the target Commons Log.
 	 */
 	public final Log getLog() {
 		return this.log;
 	}
-
 
 	// Log level checks
 
@@ -111,7 +108,6 @@ public class LogAccessor {
 	public boolean isTraceEnabled() {
 		return this.log.isTraceEnabled();
 	}
-
 
 	// Plain log methods
 
@@ -216,7 +212,6 @@ public class LogAccessor {
 	public void trace(Throwable cause, CharSequence message) {
 		this.log.trace(message, cause);
 	}
-
 
 	// Supplier-based log methods
 

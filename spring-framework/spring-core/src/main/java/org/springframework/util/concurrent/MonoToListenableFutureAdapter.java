@@ -39,15 +39,10 @@ public class MonoToListenableFutureAdapter<T> implements ListenableFuture<T> {
 
 	private final ListenableFutureCallbackRegistry<T> registry = new ListenableFutureCallbackRegistry<>();
 
-
 	public MonoToListenableFutureAdapter(Mono<T> mono) {
 		Assert.notNull(mono, "Mono must not be null");
-		this.processor = mono
-				.doOnSuccess(this.registry::success)
-				.doOnError(this.registry::failure)
-				.toProcessor();
+		this.processor = mono.doOnSuccess(this.registry::success).doOnError(this.registry::failure).toProcessor();
 	}
-
 
 	@Override
 	@Nullable

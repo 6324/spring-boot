@@ -20,11 +20,12 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.lang.Nullable;
 
 /**
- * Interface that encapsulates configuration methods for a PropertyAccessor.
- * Also extends the PropertyEditorRegistry interface, which defines methods
- * for PropertyEditor management.
+ * Interface that encapsulates configuration methods for a PropertyAccessor. Also extends
+ * the PropertyEditorRegistry interface, which defines methods for PropertyEditor
+ * management.
  *
- * <p>Serves as base interface for {@link BeanWrapper}.
+ * <p>
+ * Serves as base interface for {@link BeanWrapper}.
  *
  * @author Juergen Hoeller
  * @author Stephane Nicoll
@@ -34,8 +35,8 @@ import org.springframework.lang.Nullable;
 public interface ConfigurablePropertyAccessor extends PropertyAccessor, PropertyEditorRegistry, TypeConverter {
 
 	/**
-	 * Specify a Spring 3.0 ConversionService to use for converting
-	 * property values, as an alternative to JavaBeans PropertyEditors.
+	 * Specify a Spring 3.0 ConversionService to use for converting property values, as an
+	 * alternative to JavaBeans PropertyEditors.
 	 */
 	void setConversionService(@Nullable ConversionService conversionService);
 
@@ -46,24 +47,26 @@ public interface ConfigurablePropertyAccessor extends PropertyAccessor, Property
 	ConversionService getConversionService();
 
 	/**
-	 * Set whether to extract the old property value when applying a
-	 * property editor to a new value for a property.
+	 * Set whether to extract the old property value when applying a property editor to a
+	 * new value for a property.
 	 */
 	void setExtractOldValueForEditor(boolean extractOldValueForEditor);
 
 	/**
-	 * Return whether to extract the old property value when applying a
-	 * property editor to a new value for a property.
+	 * Return whether to extract the old property value when applying a property editor to
+	 * a new value for a property.
 	 */
 	boolean isExtractOldValueForEditor();
 
 	/**
-	 * Set whether this instance should attempt to "auto-grow" a
-	 * nested path that contains a {@code null} value.
-	 * <p>If {@code true}, a {@code null} path location will be populated
-	 * with a default object value and traversed instead of resulting in a
+	 * Set whether this instance should attempt to "auto-grow" a nested path that contains
+	 * a {@code null} value.
+	 * <p>
+	 * If {@code true}, a {@code null} path location will be populated with a default
+	 * object value and traversed instead of resulting in a
 	 * {@link NullValueInNestedPathException}.
-	 * <p>Default is {@code false} on a plain PropertyAccessor instance.
+	 * <p>
+	 * Default is {@code false} on a plain PropertyAccessor instance.
 	 */
 	void setAutoGrowNestedPaths(boolean autoGrowNestedPaths);
 

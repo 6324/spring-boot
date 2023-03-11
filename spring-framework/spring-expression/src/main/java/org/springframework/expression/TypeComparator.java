@@ -40,10 +40,10 @@ public interface TypeComparator {
 	 * Compare two given objects.
 	 * @param firstObject the first object
 	 * @param secondObject the second object
-	 * @return 0 if they are equal, a negative integer if the first is smaller than
-	 * the second, or a positive integer if the first is larger than the second
-	 * @throws EvaluationException if a problem occurs during comparison
-	 * (or if they are not comparable in the first place)
+	 * @return 0 if they are equal, a negative integer if the first is smaller than the
+	 * second, or a positive integer if the first is larger than the second
+	 * @throws EvaluationException if a problem occurs during comparison (or if they are
+	 * not comparable in the first place)
 	 * @see Comparable#compareTo
 	 */
 	int compare(@Nullable Object firstObject, @Nullable Object secondObject) throws EvaluationException;

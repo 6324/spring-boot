@@ -37,7 +37,6 @@ public interface ResourceTransformer {
 	 * @param transformerChain the chain of remaining transformers to delegate to
 	 * @return the transformed resource (never empty)
 	 */
-	Mono<Resource> transform(ServerWebExchange exchange, Resource resource,
-			ResourceTransformerChain transformerChain);
+	Mono<Resource> transform(ServerWebExchange exchange, Resource resource, ResourceTransformerChain transformerChain);
 
 }

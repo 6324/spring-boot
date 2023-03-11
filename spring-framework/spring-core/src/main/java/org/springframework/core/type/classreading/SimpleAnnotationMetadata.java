@@ -58,7 +58,6 @@ final class SimpleAnnotationMetadata implements AnnotationMetadata {
 	@Nullable
 	private Set<String> annotationTypes;
 
-
 	SimpleAnnotationMetadata(String className, int access, @Nullable String enclosingClassName,
 			@Nullable String superClassName, boolean independentInnerClass, String[] interfaceNames,
 			String[] memberClassNames, MethodMetadata[] annotatedMethods, MergedAnnotations annotations) {
@@ -130,8 +129,7 @@ final class SimpleAnnotationMetadata implements AnnotationMetadata {
 	public Set<String> getAnnotationTypes() {
 		Set<String> annotationTypes = this.annotationTypes;
 		if (annotationTypes == null) {
-			annotationTypes = Collections.unmodifiableSet(
-					AnnotationMetadata.super.getAnnotationTypes());
+			annotationTypes = Collections.unmodifiableSet(AnnotationMetadata.super.getAnnotationTypes());
 			this.annotationTypes = annotationTypes;
 		}
 		return annotationTypes;

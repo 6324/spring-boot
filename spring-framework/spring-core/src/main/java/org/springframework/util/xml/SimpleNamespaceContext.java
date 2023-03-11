@@ -30,9 +30,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Simple {@code javax.xml.namespace.NamespaceContext} implementation.
- * Follows the standard {@code NamespaceContext} contract, and is loadable
- * via a {@code java.util.Map} or {@code java.util.Properties} object
+ * Simple {@code javax.xml.namespace.NamespaceContext} implementation. Follows the
+ * standard {@code NamespaceContext} contract, and is loadable via a {@code java.util.Map}
+ * or {@code java.util.Properties} object
  *
  * @author Arjen Poutsma
  * @author Juergen Hoeller
@@ -45,7 +45,6 @@ public class SimpleNamespaceContext implements NamespaceContext {
 	private final Map<String, Set<String>> namespaceUriToPrefixes = new HashMap<>();
 
 	private String defaultNamespaceUri = "";
-
 
 	@Override
 	public String getNamespaceURI(String prefix) {
@@ -90,14 +89,13 @@ public class SimpleNamespaceContext implements NamespaceContext {
 		}
 		else {
 			Set<String> prefixes = this.namespaceUriToPrefixes.get(namespaceUri);
-			return (prefixes != null ?  Collections.unmodifiableSet(prefixes) : Collections.emptySet());
+			return (prefixes != null ? Collections.unmodifiableSet(prefixes) : Collections.emptySet());
 		}
 	}
 
-
 	/**
-	 * Set the bindings for this namespace context.
-	 * The supplied map must consist of string key value pairs.
+	 * Set the bindings for this namespace context. The supplied map must consist of
+	 * string key value pairs.
 	 */
 	public void setBindings(Map<String, String> bindings) {
 		bindings.forEach(this::bindNamespaceUri);
@@ -124,8 +122,8 @@ public class SimpleNamespaceContext implements NamespaceContext {
 		}
 		else {
 			this.prefixToNamespaceUri.put(prefix, namespaceUri);
-			Set<String> prefixes =
-					this.namespaceUriToPrefixes.computeIfAbsent(namespaceUri, k -> new LinkedHashSet<>());
+			Set<String> prefixes = this.namespaceUriToPrefixes.computeIfAbsent(namespaceUri,
+					k -> new LinkedHashSet<>());
 			prefixes.add(prefix);
 		}
 	}

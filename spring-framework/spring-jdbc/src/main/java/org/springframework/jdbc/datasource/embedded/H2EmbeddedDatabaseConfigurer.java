@@ -24,7 +24,8 @@ import org.springframework.util.ClassUtils;
 /**
  * {@link EmbeddedDatabaseConfigurer} for an H2 embedded database instance.
  *
- * <p>Call {@link #getInstance()} to get the singleton instance of this class.
+ * <p>
+ * Call {@link #getInstance()} to get the singleton instance of this class.
  *
  * @author Oliver Gierke
  * @author Juergen Hoeller
@@ -38,7 +39,6 @@ final class H2EmbeddedDatabaseConfigurer extends AbstractEmbeddedDatabaseConfigu
 
 	private final Class<? extends Driver> driverClass;
 
-
 	/**
 	 * Get the singleton {@code H2EmbeddedDatabaseConfigurer} instance.
 	 * @return the configurer instance
@@ -47,12 +47,11 @@ final class H2EmbeddedDatabaseConfigurer extends AbstractEmbeddedDatabaseConfigu
 	@SuppressWarnings("unchecked")
 	public static synchronized H2EmbeddedDatabaseConfigurer getInstance() throws ClassNotFoundException {
 		if (instance == null) {
-			instance = new H2EmbeddedDatabaseConfigurer( (Class<? extends Driver>)
-					ClassUtils.forName("org.h2.Driver", H2EmbeddedDatabaseConfigurer.class.getClassLoader()));
+			instance = new H2EmbeddedDatabaseConfigurer((Class<? extends Driver>) ClassUtils.forName("org.h2.Driver",
+					H2EmbeddedDatabaseConfigurer.class.getClassLoader()));
 		}
 		return instance;
 	}
-
 
 	private H2EmbeddedDatabaseConfigurer(Class<? extends Driver> driverClass) {
 		this.driverClass = driverClass;

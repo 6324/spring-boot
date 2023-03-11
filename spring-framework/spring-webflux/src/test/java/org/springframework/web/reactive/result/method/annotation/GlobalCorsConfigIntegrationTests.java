@@ -39,8 +39,8 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  *
- * Integration tests with {@code @RequestMapping} handler methods and global
- * CORS configuration.
+ * Integration tests with {@code @RequestMapping} handler methods and global CORS
+ * configuration.
  *
  * @author Sebastien Deleuze
  * @author Rossen Stoyanchev
@@ -49,7 +49,6 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 class GlobalCorsConfigIntegrationTests extends AbstractRequestMappingIntegrationTests {
 
 	private final HttpHeaders headers = new HttpHeaders();
-
 
 	@Override
 	protected void startServer(HttpServer httpServer) throws Exception {
@@ -68,7 +67,6 @@ class GlobalCorsConfigIntegrationTests extends AbstractRequestMappingIntegration
 		return new RestTemplate(new HttpComponentsClientHttpRequestFactory());
 	}
 
-
 	@ParameterizedHttpServerTest
 	void actualRequestWithCorsEnabled(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
@@ -83,9 +81,9 @@ class GlobalCorsConfigIntegrationTests extends AbstractRequestMappingIntegration
 	void actualRequestWithCorsRejected(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		assertThatExceptionOfType(HttpClientErrorException.class).isThrownBy(() ->
-				performGet("/cors-restricted", this.headers, String.class))
-			.satisfies(ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN));
+		assertThatExceptionOfType(HttpClientErrorException.class)
+				.isThrownBy(() -> performGet("/cors-restricted", this.headers, String.class))
+				.satisfies(ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN));
 	}
 
 	@ParameterizedHttpServerTest
@@ -116,8 +114,8 @@ class GlobalCorsConfigIntegrationTests extends AbstractRequestMappingIntegration
 		ResponseEntity<String> entity = performOptions("/cors", this.headers, String.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(entity.getHeaders().getAccessControlAllowOrigin()).isEqualTo("*");
-		assertThat(entity.getHeaders().getAccessControlAllowMethods())
-				.containsExactly(HttpMethod.GET, HttpMethod.HEAD, HttpMethod.POST);
+		assertThat(entity.getHeaders().getAccessControlAllowMethods()).containsExactly(HttpMethod.GET, HttpMethod.HEAD,
+				HttpMethod.POST);
 	}
 
 	@ParameterizedHttpServerTest
@@ -125,9 +123,9 @@ class GlobalCorsConfigIntegrationTests extends AbstractRequestMappingIntegration
 		startServer(httpServer);
 
 		this.headers.add(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "GET");
-		assertThatExceptionOfType(HttpClientErrorException.class).isThrownBy(() ->
-				performOptions("/cors-restricted", this.headers, String.class))
-			.satisfies(ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN));
+		assertThatExceptionOfType(HttpClientErrorException.class)
+				.isThrownBy(() -> performOptions("/cors-restricted", this.headers, String.class))
+				.satisfies(ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN));
 	}
 
 	@ParameterizedHttpServerTest
@@ -135,9 +133,9 @@ class GlobalCorsConfigIntegrationTests extends AbstractRequestMappingIntegration
 		startServer(httpServer);
 
 		this.headers.add(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "GET");
-		assertThatExceptionOfType(HttpClientErrorException.class).isThrownBy(() ->
-				performOptions("/welcome", this.headers, String.class))
-			.satisfies(ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN));
+		assertThatExceptionOfType(HttpClientErrorException.class)
+				.isThrownBy(() -> performOptions("/welcome", this.headers, String.class))
+				.satisfies(ex -> assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN));
 	}
 
 	@ParameterizedHttpServerTest
@@ -149,8 +147,7 @@ class GlobalCorsConfigIntegrationTests extends AbstractRequestMappingIntegration
 		ResponseEntity<String> entity = performOptions("/cors-restricted", this.headers, String.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(entity.getHeaders().getAccessControlAllowOrigin()).isEqualTo("https://foo");
-		assertThat(entity.getHeaders().getAccessControlAllowMethods())
-				.containsExactly(HttpMethod.GET, HttpMethod.POST);
+		assertThat(entity.getHeaders().getAccessControlAllowMethods()).containsExactly(HttpMethod.GET, HttpMethod.POST);
 	}
 
 	@ParameterizedHttpServerTest
@@ -161,32 +158,28 @@ class GlobalCorsConfigIntegrationTests extends AbstractRequestMappingIntegration
 		ResponseEntity<String> entity = performOptions("/ambiguous", this.headers, String.class);
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(entity.getHeaders().getAccessControlAllowOrigin()).isEqualTo("http://localhost:9000");
-		assertThat(entity.getHeaders().getAccessControlAllowMethods())
-				.containsExactly(HttpMethod.GET);
+		assertThat(entity.getHeaders().getAccessControlAllowMethods()).containsExactly(HttpMethod.GET);
 		assertThat(entity.getHeaders().getAccessControlAllowCredentials()).isEqualTo(true);
-		assertThat(entity.getHeaders().get(HttpHeaders.VARY))
-				.containsExactly(HttpHeaders.ORIGIN, HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD,
-						HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS);
+		assertThat(entity.getHeaders().get(HttpHeaders.VARY)).containsExactly(HttpHeaders.ORIGIN,
+				HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS);
 	}
-
 
 	@Configuration
 	@ComponentScan(resourcePattern = "**/GlobalCorsConfigIntegrationTests*.class")
-	@SuppressWarnings({"unused", "WeakerAccess"})
+	@SuppressWarnings({ "unused", "WeakerAccess" })
 	static class WebConfig extends WebFluxConfigurationSupport {
 
 		@Override
 		protected void addCorsMappings(CorsRegistry registry) {
-			registry.addMapping("/cors-restricted")
-					.allowedOrigins("https://foo")
-					.allowedMethods("GET", "POST");
+			registry.addMapping("/cors-restricted").allowedOrigins("https://foo").allowedMethods("GET", "POST");
 			registry.addMapping("/cors");
-			registry.addMapping("/ambiguous")
-					.allowedMethods("GET", "POST");
+			registry.addMapping("/ambiguous").allowedMethods("GET", "POST");
 		}
+
 	}
 
-	@RestController @SuppressWarnings("unused")
+	@RestController
+	@SuppressWarnings("unused")
 	static class TestController {
 
 		@GetMapping("/welcome")
@@ -213,6 +206,7 @@ class GlobalCorsConfigIntegrationTests extends AbstractRequestMappingIntegration
 		public String ambiguous2() {
 			return "<p>ambiguous</p>";
 		}
+
 	}
 
 }

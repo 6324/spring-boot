@@ -59,7 +59,6 @@ public class CacheResolverCustomizationTests {
 
 	private SimpleService simpleService;
 
-
 	@BeforeEach
 	public void setup() {
 		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
@@ -67,7 +66,6 @@ public class CacheResolverCustomizationTests {
 		this.anotherCacheManager = context.getBean("anotherCacheManager", CacheManager.class);
 		this.simpleService = context.getBean(SimpleService.class);
 	}
-
 
 	@Test
 	public void noCustomization() {
@@ -134,18 +132,16 @@ public class CacheResolverCustomizationTests {
 	@Test
 	public void noCacheResolved() {
 		Method method = ReflectionUtils.findMethod(SimpleService.class, "noCacheResolved", Object.class);
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.simpleService.noCacheResolved(new Object()))
-			.withMessageContaining(method.toString());
+		assertThatIllegalStateException().isThrownBy(() -> this.simpleService.noCacheResolved(new Object()))
+				.withMessageContaining(method.toString());
 	}
 
 	@Test
 	public void unknownCacheResolver() {
-		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() ->
-				this.simpleService.unknownCacheResolver(new Object()))
-			.satisfies(ex -> assertThat(ex.getBeanName()).isEqualTo("unknownCacheResolver"));
+		assertThatExceptionOfType(NoSuchBeanDefinitionException.class)
+				.isThrownBy(() -> this.simpleService.unknownCacheResolver(new Object()))
+				.satisfies(ex -> assertThat(ex.getBeanName()).isEqualTo("unknownCacheResolver"));
 	}
-
 
 	@Configuration
 	@EnableCaching
@@ -194,8 +190,8 @@ public class CacheResolverCustomizationTests {
 		public SimpleService simpleService() {
 			return new SimpleService();
 		}
-	}
 
+	}
 
 	@CacheConfig(cacheNames = "default")
 	static class SimpleService {
@@ -227,7 +223,8 @@ public class CacheResolverCustomizationTests {
 			return this.counter.getAndIncrement();
 		}
 
-		@Cacheable(cacheResolver = "nullCacheResolver") // No cache resolved for the operation
+		@Cacheable(cacheResolver = "nullCacheResolver") // No cache resolved for the
+														// operation
 		public Object noCacheResolved(Object key) {
 			return this.counter.getAndIncrement();
 		}
@@ -236,13 +233,14 @@ public class CacheResolverCustomizationTests {
 		public Object unknownCacheResolver(Object key) {
 			return this.counter.getAndIncrement();
 		}
+
 	}
 
-
 	/**
-	 * Example of {@link CacheResolver} that resolve the caches at
-	 * runtime (i.e. based on method invocation parameters).
-	 * <p>Expects the second argument to hold the name of the cache to use
+	 * Example of {@link CacheResolver} that resolve the caches at runtime (i.e. based on
+	 * method invocation parameters).
+	 * <p>
+	 * Expects the second argument to hold the name of the cache to use
 	 */
 	private static class RuntimeCacheResolver extends AbstractCacheResolver {
 
@@ -256,8 +254,8 @@ public class CacheResolverCustomizationTests {
 			String cacheName = (String) context.getArgs()[1];
 			return Collections.singleton(cacheName);
 		}
-	}
 
+	}
 
 	private static class NullCacheResolver extends AbstractCacheResolver {
 
@@ -270,6 +268,7 @@ public class CacheResolverCustomizationTests {
 		protected Collection<String> getCacheNames(CacheOperationInvocationContext<?> context) {
 			return null;
 		}
+
 	}
 
 }

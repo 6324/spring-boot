@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2022 the original author or authors.
+ * Copyright 2002-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,11 +32,12 @@ import org.springframework.util.StringUtils;
 
 /**
  * A description of a JavaBeans Property that allows us to avoid a dependency on
- * {@code java.beans.PropertyDescriptor}. The {@code java.beans} package
- * is not available in a number of environments (e.g. Android, Java ME), so this is
- * desirable for portability of Spring's core conversion facility.
+ * {@code java.beans.PropertyDescriptor}. The {@code java.beans} package is not available
+ * in a number of environments (e.g. Android, Java ME), so this is desirable for
+ * portability of Spring's core conversion facility.
  *
- * <p>Used to build a {@link TypeDescriptor} from a property location. The built
+ * <p>
+ * Used to build a {@link TypeDescriptor} from a property location. The built
  * {@code TypeDescriptor} can then be used to convert from/to the property type.
  *
  * @author Keith Donald
@@ -47,7 +48,7 @@ import org.springframework.util.StringUtils;
  */
 public final class Property {
 
-	private static final Map<Property, Annotation[]> annotationCache = new ConcurrentReferenceHashMap<>();
+	private static Map<Property, Annotation[]> annotationCache = new ConcurrentReferenceHashMap<>();
 
 	private final Class<?> objectType;
 
@@ -64,13 +65,12 @@ public final class Property {
 	@Nullable
 	private Annotation[] annotations;
 
-
 	public Property(Class<?> objectType, @Nullable Method readMethod, @Nullable Method writeMethod) {
 		this(objectType, readMethod, writeMethod, null);
 	}
 
-	public Property(
-			Class<?> objectType, @Nullable Method readMethod, @Nullable Method writeMethod, @Nullable String name) {
+	public Property(Class<?> objectType, @Nullable Method readMethod, @Nullable Method writeMethod,
+			@Nullable String name) {
 
 		this.objectType = objectType;
 		this.readMethod = readMethod;
@@ -79,9 +79,9 @@ public final class Property {
 		this.name = (name != null ? name : resolveName());
 	}
 
-
 	/**
-	 * The object declaring this property, either directly or in a superclass the object extends.
+	 * The object declaring this property, either directly or in a superclass the object
+	 * extends.
 	 */
 	public Class<?> getObjectType() {
 		return this.objectType;
@@ -117,8 +117,7 @@ public final class Property {
 		return this.writeMethod;
 	}
 
-
-	// Package private
+	// package private
 
 	MethodParameter getMethodParameter() {
 		return this.methodParameter;
@@ -131,8 +130,7 @@ public final class Property {
 		return this.annotations;
 	}
 
-
-	// Internal helpers
+	// internal helpers
 
 	private String resolveName() {
 		if (this.readMethod != null) {
@@ -210,8 +208,8 @@ public final class Property {
 		return annotations;
 	}
 
-	private void addAnnotationsToMap(
-			Map<Class<? extends Annotation>, Annotation> annotationMap, @Nullable AnnotatedElement object) {
+	private void addAnnotationsToMap(Map<Class<? extends Annotation>, Annotation> annotationMap,
+			@Nullable AnnotatedElement object) {
 
 		if (object != null) {
 			for (Annotation annotation : object.getAnnotations()) {
@@ -254,7 +252,6 @@ public final class Property {
 		}
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -264,10 +261,10 @@ public final class Property {
 			return false;
 		}
 		Property otherProperty = (Property) other;
-		return (ObjectUtils.nullSafeEquals(this.objectType, otherProperty.objectType) &&
-				ObjectUtils.nullSafeEquals(this.name, otherProperty.name) &&
-				ObjectUtils.nullSafeEquals(this.readMethod, otherProperty.readMethod) &&
-				ObjectUtils.nullSafeEquals(this.writeMethod, otherProperty.writeMethod));
+		return (ObjectUtils.nullSafeEquals(this.objectType, otherProperty.objectType)
+				&& ObjectUtils.nullSafeEquals(this.name, otherProperty.name)
+				&& ObjectUtils.nullSafeEquals(this.readMethod, otherProperty.readMethod)
+				&& ObjectUtils.nullSafeEquals(this.writeMethod, otherProperty.writeMethod));
 	}
 
 	@Override

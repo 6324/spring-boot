@@ -29,7 +29,8 @@ import org.springframework.expression.spel.standard.SpelExpression;
 public class SpelUtilities {
 
 	/**
-	 * Output an indented representation of the expression syntax tree to the specified output stream.
+	 * Output an indented representation of the expression syntax tree to the specified
+	 * output stream.
 	 * @param printStream the output stream to print into
 	 * @param expression the expression to be displayed
 	 */

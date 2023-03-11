@@ -73,7 +73,6 @@ public class StompBrokerRelayMessageHandlerIntegrationTests {
 
 	private int port;
 
-
 	@BeforeEach
 	public void setup(TestInfo testInfo) throws Exception {
 		logger.debug("Setting up before '" + testInfo.getTestMethod().get().getName() + "'");
@@ -136,7 +135,6 @@ public class StompBrokerRelayMessageHandlerIntegrationTests {
 		logger.debug("Broker stopped");
 	}
 
-
 	@Test
 	public void publishSubscribe() throws Exception {
 		logger.debug("Starting test publishSubscribe()");
@@ -152,7 +150,8 @@ public class StompBrokerRelayMessageHandlerIntegrationTests {
 		this.relay.handleMessage(conn2.message);
 		this.responseHandler.expectMessages(conn1, conn2);
 
-		MessageExchange subscribe = MessageExchangeBuilder.subscribeWithReceipt(sess1, subs1, destination, "r1").build();
+		MessageExchange subscribe = MessageExchangeBuilder.subscribeWithReceipt(sess1, subs1, destination, "r1")
+				.build();
 		this.relay.handleMessage(subscribe.message);
 		this.responseHandler.expectMessages(subscribe);
 
@@ -169,8 +168,8 @@ public class StompBrokerRelayMessageHandlerIntegrationTests {
 		this.eventPublisher.expectBrokerAvailabilityEvent(false);
 
 		StompHeaderAccessor headers = StompHeaderAccessor.create(StompCommand.SEND);
-		assertThatExceptionOfType(MessageDeliveryException.class).isThrownBy(() ->
-				this.relay.handleMessage(MessageBuilder.createMessage("test".getBytes(), headers.getMessageHeaders())));
+		assertThatExceptionOfType(MessageDeliveryException.class).isThrownBy(() -> this.relay
+				.handleMessage(MessageBuilder.createMessage("test".getBytes(), headers.getMessageHeaders())));
 	}
 
 	@Test
@@ -207,7 +206,8 @@ public class StompBrokerRelayMessageHandlerIntegrationTests {
 
 		String subs1 = "subs1";
 		String destination = "/topic/test";
-		MessageExchange subscribe = MessageExchangeBuilder.subscribeWithReceipt(sess1, subs1, destination, "r1").build();
+		MessageExchange subscribe = MessageExchangeBuilder.subscribeWithReceipt(sess1, subs1, destination, "r1")
+				.build();
 		this.relay.handleMessage(subscribe.message);
 		this.responseHandler.expectMessages(subscribe);
 
@@ -235,7 +235,6 @@ public class StompBrokerRelayMessageHandlerIntegrationTests {
 		this.responseHandler.expectMessages(disconnect);
 	}
 
-
 	private static class TestEventPublisher implements ApplicationEventPublisher {
 
 		private final BlockingQueue<BrokerAvailabilityEvent> eventQueue = new LinkedBlockingQueue<>();
@@ -255,11 +254,12 @@ public class StompBrokerRelayMessageHandlerIntegrationTests {
 
 		public void expectBrokerAvailabilityEvent(boolean isBrokerAvailable) throws InterruptedException {
 			BrokerAvailabilityEvent event = this.eventQueue.poll(20000, TimeUnit.MILLISECONDS);
-			assertThat(event).as("Times out waiting for BrokerAvailabilityEvent[" + isBrokerAvailable + "]").isNotNull();
+			assertThat(event).as("Times out waiting for BrokerAvailabilityEvent[" + isBrokerAvailable + "]")
+					.isNotNull();
 			assertThat(event.isBrokerAvailable()).isEqualTo(isBrokerAvailable);
 		}
-	}
 
+	}
 
 	private static class TestMessageHandler implements MessageHandler {
 
@@ -277,9 +277,11 @@ public class StompBrokerRelayMessageHandlerIntegrationTests {
 			List<MessageExchange> expectedMessages = new ArrayList<>(Arrays.asList(messageExchanges));
 			while (expectedMessages.size() > 0) {
 				Message<?> message = this.queue.poll(10000, TimeUnit.MILLISECONDS);
-				assertThat(message).as("Timed out waiting for messages, expected [" + expectedMessages + "]").isNotNull();
+				assertThat(message).as("Timed out waiting for messages, expected [" + expectedMessages + "]")
+						.isNotNull();
 				MessageExchange match = findMatch(expectedMessages, message);
-				assertThat(match).as("Unexpected message=" + message + ", expected [" + expectedMessages + "]").isNotNull();
+				assertThat(match).as("Unexpected message=" + message + ", expected [" + expectedMessages + "]")
+						.isNotNull();
 				expectedMessages.remove(match);
 			}
 		}
@@ -292,11 +294,12 @@ public class StompBrokerRelayMessageHandlerIntegrationTests {
 			}
 			return null;
 		}
+
 	}
 
-
 	/**
-	 * Holds a message as well as expected and actual messages matched against expectations.
+	 * Holds a message as well as expected and actual messages matched against
+	 * expectations.
 	 */
 	private static class MessageExchange {
 
@@ -313,7 +316,7 @@ public class StompBrokerRelayMessageHandlerIntegrationTests {
 		}
 
 		public boolean matchMessage(Message<?> message) {
-			for (int i = 0 ; i < this.expected.length; i++) {
+			for (int i = 0; i < this.expected.length; i++) {
 				if (this.expected[i].match(message)) {
 					this.actual[i] = message;
 					return true;
@@ -324,12 +327,12 @@ public class StompBrokerRelayMessageHandlerIntegrationTests {
 
 		@Override
 		public String toString() {
-			return "Forwarded message:\n" + this.message + "\n" +
-					"Should receive back:\n" + Arrays.toString(this.expected) + "\n" +
-					"Actually received:\n" + Arrays.toString(this.actual) + "\n";
+			return "Forwarded message:\n" + this.message + "\n" + "Should receive back:\n"
+					+ Arrays.toString(this.expected) + "\n" + "Actually received:\n" + Arrays.toString(this.actual)
+					+ "\n";
 		}
-	}
 
+	}
 
 	private static class MessageExchangeBuilder {
 
@@ -427,14 +430,14 @@ public class StompBrokerRelayMessageHandlerIntegrationTests {
 		public MessageExchange build() {
 			return new MessageExchange(this.message, this.expected.toArray(new MessageMatcher[this.expected.size()]));
 		}
-	}
 
+	}
 
 	private interface MessageMatcher {
 
 		boolean match(Message<?> message);
-	}
 
+	}
 
 	private static class StompFrameMessageMatcher implements MessageMatcher {
 
@@ -462,10 +465,10 @@ public class StompBrokerRelayMessageHandlerIntegrationTests {
 
 		@Override
 		public String toString() {
-			return "command=" + this.command  + ", session=\"" + this.sessionId + "\"";
+			return "command=" + this.command + ", session=\"" + this.sessionId + "\"";
 		}
-	}
 
+	}
 
 	private static class StompReceiptFrameMessageMatcher extends StompFrameMessageMatcher {
 
@@ -485,8 +488,8 @@ public class StompBrokerRelayMessageHandlerIntegrationTests {
 		public String toString() {
 			return super.toString() + ", receiptId=\"" + this.receiptId + "\"";
 		}
-	}
 
+	}
 
 	private static class StompMessageFrameMessageMatcher extends StompFrameMessageMatcher {
 
@@ -496,7 +499,8 @@ public class StompBrokerRelayMessageHandlerIntegrationTests {
 
 		private final Object payload;
 
-		public StompMessageFrameMessageMatcher(String sessionId, String subscriptionId, String destination, Object payload) {
+		public StompMessageFrameMessageMatcher(String sessionId, String subscriptionId, String destination,
+				Object payload) {
 			super(StompCommand.MESSAGE, sessionId);
 			this.subscriptionId = subscriptionId;
 			this.destination = destination;
@@ -505,8 +509,8 @@ public class StompBrokerRelayMessageHandlerIntegrationTests {
 
 		@Override
 		protected boolean matchInternal(StompHeaderAccessor headers, Object payload) {
-			if (!this.subscriptionId.equals(headers.getSubscriptionId()) ||
-					!this.destination.equals(headers.getDestination())) {
+			if (!this.subscriptionId.equals(headers.getSubscriptionId())
+					|| !this.destination.equals(headers.getDestination())) {
 
 				return false;
 			}
@@ -520,22 +524,23 @@ public class StompBrokerRelayMessageHandlerIntegrationTests {
 
 		@Override
 		public String toString() {
-			return super.toString() + ", subscriptionId=\"" + this.subscriptionId
-					+ "\", destination=\"" + this.destination + "\", payload=\"" + getPayloadAsText() + "\"";
+			return super.toString() + ", subscriptionId=\"" + this.subscriptionId + "\", destination=\""
+					+ this.destination + "\", payload=\"" + getPayloadAsText() + "\"";
 		}
 
 		protected String getPayloadAsText() {
-			return (this.payload instanceof byte[]) ?
-					new String((byte[]) this.payload, StandardCharsets.UTF_8) : this.payload.toString();
+			return (this.payload instanceof byte[]) ? new String((byte[]) this.payload, StandardCharsets.UTF_8)
+					: this.payload.toString();
 		}
-	}
 
+	}
 
 	private static class StompConnectedFrameMessageMatcher extends StompFrameMessageMatcher {
 
 		public StompConnectedFrameMessageMatcher(String sessionId) {
 			super(StompCommand.CONNECTED, sessionId);
 		}
+
 	}
 
 }

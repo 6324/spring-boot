@@ -39,7 +39,6 @@ public class JndiDestinationResolverTests {
 
 	private static final Destination DESTINATION = new StubTopic();
 
-
 	@Test
 	public void testHitsCacheSecondTimeThrough() throws Exception {
 
@@ -56,8 +55,7 @@ public class JndiDestinationResolverTests {
 
 		Session session = mock(Session.class);
 
-		CountingCannedJndiDestinationResolver resolver
-				= new CountingCannedJndiDestinationResolver();
+		CountingCannedJndiDestinationResolver resolver = new CountingCannedJndiDestinationResolver();
 		resolver.setCache(false);
 		Destination destination = resolver.resolveDestinationName(session, DESTINATION_NAME, true);
 		assertThat(destination).isNotNull();
@@ -75,8 +73,7 @@ public class JndiDestinationResolverTests {
 		Session session = mock(Session.class);
 
 		DestinationResolver dynamicResolver = mock(DestinationResolver.class);
-		given(dynamicResolver.resolveDestinationName(session, DESTINATION_NAME,
-				true)).willReturn(DESTINATION);
+		given(dynamicResolver.resolveDestinationName(session, DESTINATION_NAME, true)).willReturn(DESTINATION);
 
 		JndiDestinationResolver resolver = new JndiDestinationResolver() {
 			@Override
@@ -105,10 +102,9 @@ public class JndiDestinationResolverTests {
 		};
 		resolver.setDynamicDestinationResolver(dynamicResolver);
 
-		assertThatExceptionOfType(DestinationResolutionException.class).isThrownBy(() ->
-				resolver.resolveDestinationName(session, DESTINATION_NAME, true));
+		assertThatExceptionOfType(DestinationResolutionException.class)
+				.isThrownBy(() -> resolver.resolveDestinationName(session, DESTINATION_NAME, true));
 	}
-
 
 	private static class OneTimeLookupJndiDestinationResolver extends JndiDestinationResolver {
 
@@ -121,6 +117,7 @@ public class JndiDestinationResolverTests {
 			called = true;
 			return requiredType.cast(DESTINATION);
 		}
+
 	}
 
 	private static class CountingCannedJndiDestinationResolver extends JndiDestinationResolver {
@@ -136,5 +133,7 @@ public class JndiDestinationResolverTests {
 			++this.callCount;
 			return requiredType.cast(DESTINATION);
 		}
+
 	}
+
 }

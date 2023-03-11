@@ -77,8 +77,8 @@ public class FactoryMethodTests {
 		DefaultListableBeanFactory xbf = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(xbf);
 		reader.loadBeanDefinitions(new ClassPathResource("factory-methods.xml", getClass()));
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				xbf.getBean("defaultTestBeanWithInvalidDestroyMethod"));
+		assertThatExceptionOfType(BeanCreationException.class)
+				.isThrownBy(() -> xbf.getBean("defaultTestBeanWithInvalidDestroyMethod"));
 	}
 
 	@Test
@@ -88,8 +88,7 @@ public class FactoryMethodTests {
 		reader.loadBeanDefinitions(new ClassPathResource("factory-methods.xml", getClass()));
 
 		assertThat(xbf.getBean("null").toString()).isEqualTo("null");
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				xbf.getBean("nullWithProperty"));
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> xbf.getBean("nullWithProperty"));
 	}
 
 	@Test
@@ -239,8 +238,8 @@ public class FactoryMethodTests {
 		DefaultListableBeanFactory xbf = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(xbf);
 		reader.loadBeanDefinitions(new ClassPathResource("factory-methods.xml", getClass()));
-		assertThatExceptionOfType(BeanCreationException.class).as("No static method matched").isThrownBy(() ->
-				xbf.getBean("noMatchPrototype"));
+		assertThatExceptionOfType(BeanCreationException.class).as("No static method matched")
+				.isThrownBy(() -> xbf.getBean("noMatchPrototype"));
 	}
 
 	@Test
@@ -248,9 +247,8 @@ public class FactoryMethodTests {
 		DefaultListableBeanFactory xbf = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(xbf);
 		reader.loadBeanDefinitions(new ClassPathResource("factory-methods.xml", getClass()));
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				xbf.getBean("invalidPrototype"))
-			.withMessageContaining("nonExisting(TestBean)");
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> xbf.getBean("invalidPrototype"))
+				.withMessageContaining("nonExisting(TestBean)");
 	}
 
 	@Test
@@ -258,9 +256,9 @@ public class FactoryMethodTests {
 		DefaultListableBeanFactory xbf = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(xbf);
 		reader.loadBeanDefinitions(new ClassPathResource("factory-methods.xml", getClass()));
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				xbf.getBean("invalidPrototype", new TestBean()))
-			.withMessageContaining("nonExisting(TestBean)");
+		assertThatExceptionOfType(BeanCreationException.class)
+				.isThrownBy(() -> xbf.getBean("invalidPrototype", new TestBean()))
+				.withMessageContaining("nonExisting(TestBean)");
 	}
 
 	@Test
@@ -363,8 +361,8 @@ public class FactoryMethodTests {
 		assertThat(session.getProperty("mail.smtp.user")).isEqualTo("someuser");
 		assertThat(session.getProperty("mail.smtp.password")).isEqualTo("somepw");
 	}
-}
 
+}
 
 class MailSession {
 
@@ -386,4 +384,5 @@ class MailSession {
 	public Object getProperty(String key) {
 		return this.props.get(key);
 	}
+
 }

@@ -21,9 +21,9 @@ import org.springframework.expression.EvaluationException;
 import org.springframework.lang.Nullable;
 
 /**
- * Base superclass for compiled expressions. Each generated compiled expression class
- * will extend this class and implement the {@link #getValue} method. It is not intended
- * to be subclassed by user code.
+ * Base superclass for compiled expressions. Each generated compiled expression class will
+ * extend this class and implement the {@link #getValue} method. It is not intended to be
+ * subclassed by user code.
  *
  * @author Andy Clement
  * @since 4.1

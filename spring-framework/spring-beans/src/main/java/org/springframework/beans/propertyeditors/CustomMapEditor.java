@@ -27,8 +27,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Property editor for Maps, converting any source Map
- * to a given target Map type.
+ * Property editor for Maps, converting any source Map to a given target Map type.
  *
  * @author Juergen Hoeller
  * @since 2.0.1
@@ -42,12 +41,11 @@ public class CustomMapEditor extends PropertyEditorSupport {
 
 	private final boolean nullAsEmptyMap;
 
-
 	/**
-	 * Create a new CustomMapEditor for the given target type,
-	 * keeping an incoming {@code null} as-is.
-	 * @param mapType the target type, which needs to be a
-	 * sub-interface of Map or a concrete Map class
+	 * Create a new CustomMapEditor for the given target type, keeping an incoming
+	 * {@code null} as-is.
+	 * @param mapType the target type, which needs to be a sub-interface of Map or a
+	 * concrete Map class
 	 * @see java.util.Map
 	 * @see java.util.HashMap
 	 * @see java.util.TreeMap
@@ -60,17 +58,18 @@ public class CustomMapEditor extends PropertyEditorSupport {
 
 	/**
 	 * Create a new CustomMapEditor for the given target type.
-	 * <p>If the incoming value is of the given type, it will be used as-is.
-	 * If it is a different Map type or an array, it will be converted
-	 * to a default implementation of the given Map type.
-	 * If the value is anything else, a target Map with that single
+	 * <p>
+	 * If the incoming value is of the given type, it will be used as-is. If it is a
+	 * different Map type or an array, it will be converted to a default implementation of
+	 * the given Map type. If the value is anything else, a target Map with that single
 	 * value will be created.
-	 * <p>The default Map implementations are: TreeMap for SortedMap,
-	 * and LinkedHashMap for Map.
-	 * @param mapType the target type, which needs to be a
-	 * sub-interface of Map or a concrete Map class
-	 * @param nullAsEmptyMap ap whether to convert an incoming {@code null}
-	 * value to an empty Map (of the appropriate type)
+	 * <p>
+	 * The default Map implementations are: TreeMap for SortedMap, and LinkedHashMap for
+	 * Map.
+	 * @param mapType the target type, which needs to be a sub-interface of Map or a
+	 * concrete Map class
+	 * @param nullAsEmptyMap ap whether to convert an incoming {@code null} value to an
+	 * empty Map (of the appropriate type)
 	 * @see java.util.Map
 	 * @see java.util.TreeMap
 	 * @see java.util.LinkedHashMap
@@ -85,7 +84,6 @@ public class CustomMapEditor extends PropertyEditorSupport {
 		this.mapType = mapType;
 		this.nullAsEmptyMap = nullAsEmptyMap;
 	}
-
 
 	/**
 	 * Convert the given text value to a Map with a single element.
@@ -120,21 +118,20 @@ public class CustomMapEditor extends PropertyEditorSupport {
 	}
 
 	/**
-	 * Create a Map of the given type, with the given
-	 * initial capacity (if supported by the Map type).
+	 * Create a Map of the given type, with the given initial capacity (if supported by
+	 * the Map type).
 	 * @param mapType a sub-interface of Map
 	 * @param initialCapacity the initial capacity
 	 * @return the new Map instance
 	 */
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected Map<Object, Object> createMap(Class<? extends Map> mapType, int initialCapacity) {
 		if (!mapType.isInterface()) {
 			try {
 				return ReflectionUtils.accessibleConstructor(mapType).newInstance();
 			}
 			catch (Throwable ex) {
-				throw new IllegalArgumentException(
-						"Could not instantiate map class: " + mapType.getName(), ex);
+				throw new IllegalArgumentException("Could not instantiate map class: " + mapType.getName(), ex);
 			}
 		}
 		else if (SortedMap.class == mapType) {
@@ -146,10 +143,11 @@ public class CustomMapEditor extends PropertyEditorSupport {
 	}
 
 	/**
-	 * Return whether to always create a new Map,
-	 * even if the type of the passed-in Map already matches.
-	 * <p>Default is "false"; can be overridden to enforce creation of a
-	 * new Map, for example to convert elements in any case.
+	 * Return whether to always create a new Map, even if the type of the passed-in Map
+	 * already matches.
+	 * <p>
+	 * Default is "false"; can be overridden to enforce creation of a new Map, for example
+	 * to convert elements in any case.
 	 * @see #convertKey
 	 * @see #convertValue
 	 */
@@ -158,14 +156,15 @@ public class CustomMapEditor extends PropertyEditorSupport {
 	}
 
 	/**
-	 * Hook to convert each encountered Map key.
-	 * The default implementation simply returns the passed-in key as-is.
-	 * <p>Can be overridden to perform conversion of certain keys,
-	 * for example from String to Integer.
-	 * <p>Only called if actually creating a new Map!
-	 * This is by default not the case if the type of the passed-in Map
-	 * already matches. Override {@link #alwaysCreateNewMap()} to
-	 * enforce creating a new Map in every case.
+	 * Hook to convert each encountered Map key. The default implementation simply returns
+	 * the passed-in key as-is.
+	 * <p>
+	 * Can be overridden to perform conversion of certain keys, for example from String to
+	 * Integer.
+	 * <p>
+	 * Only called if actually creating a new Map! This is by default not the case if the
+	 * type of the passed-in Map already matches. Override {@link #alwaysCreateNewMap()}
+	 * to enforce creating a new Map in every case.
 	 * @param key the source key
 	 * @return the key to be used in the target Map
 	 * @see #alwaysCreateNewMap
@@ -175,14 +174,15 @@ public class CustomMapEditor extends PropertyEditorSupport {
 	}
 
 	/**
-	 * Hook to convert each encountered Map value.
-	 * The default implementation simply returns the passed-in value as-is.
-	 * <p>Can be overridden to perform conversion of certain values,
-	 * for example from String to Integer.
-	 * <p>Only called if actually creating a new Map!
-	 * This is by default not the case if the type of the passed-in Map
-	 * already matches. Override {@link #alwaysCreateNewMap()} to
-	 * enforce creating a new Map in every case.
+	 * Hook to convert each encountered Map value. The default implementation simply
+	 * returns the passed-in value as-is.
+	 * <p>
+	 * Can be overridden to perform conversion of certain values, for example from String
+	 * to Integer.
+	 * <p>
+	 * Only called if actually creating a new Map! This is by default not the case if the
+	 * type of the passed-in Map already matches. Override {@link #alwaysCreateNewMap()}
+	 * to enforce creating a new Map in every case.
 	 * @param value the source value
 	 * @return the value to be used in the target Map
 	 * @see #alwaysCreateNewMap
@@ -191,10 +191,9 @@ public class CustomMapEditor extends PropertyEditorSupport {
 		return value;
 	}
 
-
 	/**
-	 * This implementation returns {@code null} to indicate that
-	 * there is no appropriate text representation.
+	 * This implementation returns {@code null} to indicate that there is no appropriate
+	 * text representation.
 	 */
 	@Override
 	@Nullable

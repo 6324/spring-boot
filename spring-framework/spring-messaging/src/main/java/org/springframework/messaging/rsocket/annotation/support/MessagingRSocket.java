@@ -49,11 +49,10 @@ import org.springframework.util.MimeType;
 import org.springframework.util.RouteMatcher;
 
 /**
- * Responder {@link RSocket} that wraps the payload and metadata of incoming
- * requests as a {@link Message} and then delegates to the configured
- * {@link RSocketMessageHandler} to handle it. The response, if applicable, is
- * obtained from the {@link RSocketPayloadReturnValueHandler#RESPONSE_HEADER
- * "rsocketResponse"} header.
+ * Responder {@link RSocket} that wraps the payload and metadata of incoming requests as a
+ * {@link Message} and then delegates to the configured {@link RSocketMessageHandler} to
+ * handle it. The response, if applicable, is obtained from the
+ * {@link RSocketPayloadReturnValueHandler#RESPONSE_HEADER "rsocketResponse"} header.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -73,7 +72,6 @@ class MessagingRSocket implements RSocket {
 	private final RSocketRequester requester;
 
 	private final RSocketStrategies strategies;
-
 
 	MessagingRSocket(MimeType dataMimeType, MimeType metadataMimeType, MetadataExtractor metadataExtractor,
 			RSocketRequester requester, ReactiveMessageHandler messageHandler, RouteMatcher routeMatcher,
@@ -96,10 +94,9 @@ class MessagingRSocket implements RSocket {
 		this.strategies = strategies;
 	}
 
-
 	/**
-	 * Wrap the {@link ConnectionSetupPayload} with a {@link Message} and
-	 * delegate to {@link #handle(Payload, FrameType)} for handling.
+	 * Wrap the {@link ConnectionSetupPayload} with a {@link Message} and delegate to
+	 * {@link #handle(Payload, FrameType)} for handling.
 	 * @param payload the connection payload
 	 * @return completion handle for success or error
 	 */
@@ -109,7 +106,6 @@ class MessagingRSocket implements RSocket {
 		payload.retain();
 		return handle(payload, FrameType.SETUP);
 	}
-
 
 	@Override
 	public Mono<Void> fireAndForget(Payload payload) {
@@ -128,12 +124,11 @@ class MessagingRSocket implements RSocket {
 
 	@Override
 	public Flux<Payload> requestChannel(Publisher<Payload> payloads) {
-		return Flux.from(payloads)
-				.switchOnFirst((signal, innerFlux) -> {
-					Payload firstPayload = signal.get();
-					return firstPayload == null ? innerFlux :
-							handleAndReply(firstPayload, FrameType.REQUEST_CHANNEL, innerFlux);
-				});
+		return Flux.from(payloads).switchOnFirst((signal, innerFlux) -> {
+			Payload firstPayload = signal.get();
+			return firstPayload == null ? innerFlux
+					: handleAndReply(firstPayload, FrameType.REQUEST_CHANNEL, innerFlux);
+		});
 	}
 
 	@Override
@@ -142,23 +137,20 @@ class MessagingRSocket implements RSocket {
 		return handle(payload, FrameType.METADATA_PUSH);
 	}
 
-
 	private Mono<Void> handle(Payload payload, FrameType frameType) {
 		MessageHeaders headers = createHeaders(payload, frameType, null);
 		DataBuffer dataBuffer = retainDataAndReleasePayload(payload);
 		int refCount = refCount(dataBuffer);
 		Message<?> message = MessageBuilder.createMessage(dataBuffer, headers);
-		return Mono.defer(() -> this.messageHandler.handleMessage(message))
-				.doFinally(s -> {
-					if (refCount(dataBuffer) == refCount) {
-						DataBufferUtils.release(dataBuffer);
-					}
-				});
+		return Mono.defer(() -> this.messageHandler.handleMessage(message)).doFinally(s -> {
+			if (refCount(dataBuffer) == refCount) {
+				DataBufferUtils.release(dataBuffer);
+			}
+		});
 	}
 
 	private int refCount(DataBuffer dataBuffer) {
-		return dataBuffer instanceof NettyDataBuffer ?
-				((NettyDataBuffer) dataBuffer).getNativeBuffer().refCnt() : 1;
+		return dataBuffer instanceof NettyDataBuffer ? ((NettyDataBuffer) dataBuffer).getNativeBuffer().refCnt() : 1;
 	}
 
 	private Flux<Payload> handleAndReply(Payload firstPayload, FrameType frameType, Flux<Payload> payloads) {
@@ -169,24 +161,21 @@ class MessagingRSocket implements RSocket {
 		Flux<DataBuffer> buffers = payloads.map(this::retainDataAndReleasePayload).doOnSubscribe(s -> read.set(true));
 		Message<Flux<DataBuffer>> message = MessageBuilder.createMessage(buffers, headers);
 
-		return Mono.defer(() -> this.messageHandler.handleMessage(message))
-				.doFinally(s -> {
-					// Subscription should have happened by now due to ChannelSendOperator
-					if (!read.get()) {
-						firstPayload.release();
-					}
-				})
-				.thenMany(Flux.defer(() -> replyMono.isTerminated() ?
-						replyMono.flatMapMany(Function.identity()) :
-						Mono.error(new IllegalStateException("Something went wrong: reply Mono not set"))));
+		return Mono.defer(() -> this.messageHandler.handleMessage(message)).doFinally(s -> {
+			// Subscription should have happened by now due to ChannelSendOperator
+			if (!read.get()) {
+				firstPayload.release();
+			}
+		}).thenMany(
+				Flux.defer(() -> replyMono.isTerminated() ? replyMono.flatMapMany(Function.identity())
+						: Mono.error(new IllegalStateException("Something went wrong: reply Mono not set"))));
 	}
 
 	private DataBuffer retainDataAndReleasePayload(Payload payload) {
 		return PayloadUtils.retainDataAndReleasePayload(payload, this.strategies.dataBufferFactory());
 	}
 
-	private MessageHeaders createHeaders(Payload payload, FrameType frameType,
-			@Nullable MonoProcessor<?> replyMono) {
+	private MessageHeaders createHeaders(Payload payload, FrameType frameType, @Nullable MonoProcessor<?> replyMono) {
 
 		MessageHeaderAccessor headers = new MessageHeaderAccessor();
 		headers.setLeaveMutable(true);

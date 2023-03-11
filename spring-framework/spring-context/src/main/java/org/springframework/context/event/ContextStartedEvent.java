@@ -31,8 +31,8 @@ public class ContextStartedEvent extends ApplicationContextEvent {
 
 	/**
 	 * Create a new ContextStartedEvent.
-	 * @param source the {@code ApplicationContext} that has been started
-	 * (must not be {@code null})
+	 * @param source the {@code ApplicationContext} that has been started (must not be
+	 * {@code null})
 	 */
 	public ContextStartedEvent(ApplicationContext source) {
 		super(source);

@@ -31,8 +31,9 @@ public class MBeanTestUtils {
 
 	/**
 	 * Resets MBeanServerFactory and ManagementFactory to a known consistent state.
-	 * <p>This involves releasing all currently registered MBeanServers and resetting
-	 * the platformMBeanServer to null.
+	 * <p>
+	 * This involves releasing all currently registered MBeanServers and resetting the
+	 * platformMBeanServer to null.
 	 */
 	public static synchronized void resetMBeanServers() throws Exception {
 		for (MBeanServer server : MBeanServerFactory.findMBeanServer(null)) {

@@ -35,8 +35,8 @@ public class AnnotationLazyInitMBeanTests {
 
 	@Test
 	public void lazyNaming() throws Exception {
-		ConfigurableApplicationContext ctx =
-				new ClassPathXmlApplicationContext("org/springframework/jmx/export/annotation/lazyNaming.xml");
+		ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext(
+				"org/springframework/jmx/export/annotation/lazyNaming.xml");
 		try {
 			MBeanServer server = (MBeanServer) ctx.getBean("server");
 			ObjectName oname = ObjectNameManager.getInstance("bean:name=testBean4");
@@ -52,8 +52,8 @@ public class AnnotationLazyInitMBeanTests {
 	@Test
 	public void lazyAssembling() throws Exception {
 		System.setProperty("domain", "bean");
-		ConfigurableApplicationContext ctx =
-				new ClassPathXmlApplicationContext("org/springframework/jmx/export/annotation/lazyAssembling.xml");
+		ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext(
+				"org/springframework/jmx/export/annotation/lazyAssembling.xml");
 		try {
 			MBeanServer server = (MBeanServer) ctx.getBean("server");
 
@@ -85,8 +85,8 @@ public class AnnotationLazyInitMBeanTests {
 
 	@Test
 	public void componentScan() throws Exception {
-		ConfigurableApplicationContext ctx =
-				new ClassPathXmlApplicationContext("org/springframework/jmx/export/annotation/componentScan.xml");
+		ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext(
+				"org/springframework/jmx/export/annotation/componentScan.xml");
 		try {
 			MBeanServer server = (MBeanServer) ctx.getBean("server");
 			ObjectName oname = ObjectNameManager.getInstance("bean:name=testBean4");

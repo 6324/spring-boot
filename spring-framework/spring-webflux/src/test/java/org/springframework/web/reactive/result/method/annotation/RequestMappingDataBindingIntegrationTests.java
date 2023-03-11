@@ -60,13 +60,12 @@ class RequestMappingDataBindingIntegrationTests extends AbstractRequestMappingIn
 		return wac;
 	}
 
-
 	@ParameterizedHttpServerTest
 	void handleDateParam(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		assertThat(performPost("/date-param?date=2016-10-31&date-pattern=YYYY-mm-dd",
-				new HttpHeaders(), null, String.class).getBody()).isEqualTo("Processed date!");
+		assertThat(performPost("/date-param?date=2016-10-31&date-pattern=YYYY-mm-dd", new HttpHeaders(), null,
+				String.class).getBody()).isEqualTo("Processed date!");
 	}
 
 	@ParameterizedHttpServerTest
@@ -77,26 +76,24 @@ class RequestMappingDataBindingIntegrationTests extends AbstractRequestMappingIn
 		formData.add("name", "George");
 		formData.add("age", "5");
 
-		assertThat(performPost("/foos/1", MediaType.APPLICATION_FORM_URLENCODED, formData,
-				MediaType.TEXT_PLAIN, String.class).getBody()).isEqualTo("Processed form: Foo[id=1, name='George', age=5]");
+		assertThat(performPost("/foos/1", MediaType.APPLICATION_FORM_URLENCODED, formData, MediaType.TEXT_PLAIN,
+				String.class).getBody()).isEqualTo("Processed form: Foo[id=1, name='George', age=5]");
 	}
-
 
 	@Configuration
 	@EnableWebFlux
 	@ComponentScan(resourcePattern = "**/RequestMappingDataBindingIntegrationTests*.class")
-	@SuppressWarnings({"unused", "WeakerAccess"})
+	@SuppressWarnings({ "unused", "WeakerAccess" })
 	static class WebConfig {
+
 	}
 
-
 	@RestController
-	@SuppressWarnings({"unused", "OptionalUsedAsFieldOrParameterType"})
+	@SuppressWarnings({ "unused", "OptionalUsedAsFieldOrParameterType" })
 	private static class TestController {
 
 		@InitBinder
-		public void initBinder(WebDataBinder binder,
-				@RequestParam("date-pattern") Optional<String> optionalPattern) {
+		public void initBinder(WebDataBinder binder, @RequestParam("date-pattern") Optional<String> optionalPattern) {
 
 			optionalPattern.ifPresent(pattern -> {
 				CustomDateEditor dateEditor = new CustomDateEditor(new SimpleDateFormat(pattern), false);
@@ -116,11 +113,10 @@ class RequestMappingDataBindingIntegrationTests extends AbstractRequestMappingIn
 
 		@PostMapping("/foos/{id}")
 		public String handleForm(@ModelAttribute Foo foo, Errors errors) {
-			return (errors.hasErrors() ?
-					"Form not processed" : "Processed form: " + foo);
+			return (errors.hasErrors() ? "Form not processed" : "Processed form: " + foo);
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class Foo {
@@ -159,6 +155,7 @@ class RequestMappingDataBindingIntegrationTests extends AbstractRequestMappingIn
 		public String toString() {
 			return "Foo[id=" + this.id + ", name='" + this.name + "', age=" + this.age + "]";
 		}
+
 	}
 
 }

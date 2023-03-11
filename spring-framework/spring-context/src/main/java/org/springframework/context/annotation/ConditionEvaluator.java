@@ -49,21 +49,20 @@ class ConditionEvaluator {
 
 	private final ConditionContextImpl context;
 
-
 	/**
 	 * Create a new {@link ConditionEvaluator} instance.
 	 */
-	public ConditionEvaluator(@Nullable BeanDefinitionRegistry registry,
-			@Nullable Environment environment, @Nullable ResourceLoader resourceLoader) {
+	public ConditionEvaluator(@Nullable BeanDefinitionRegistry registry, @Nullable Environment environment,
+			@Nullable ResourceLoader resourceLoader) {
 
 		this.context = new ConditionContextImpl(registry, environment, resourceLoader);
 	}
 
-
 	/**
 	 * Determine if an item should be skipped based on {@code @Conditional} annotations.
 	 * The {@link ConfigurationPhase} will be deduced from the type of item (i.e. a
-	 * {@code @Configuration} class will be {@link ConfigurationPhase#PARSE_CONFIGURATION})
+	 * {@code @Configuration} class will be
+	 * {@link ConfigurationPhase#PARSE_CONFIGURATION})
 	 * @param metadata the meta data
 	 * @return if the item should be skipped
 	 */
@@ -83,8 +82,8 @@ class ConditionEvaluator {
 		}
 
 		if (phase == null) {
-			if (metadata instanceof AnnotationMetadata &&
-					ConfigurationClassUtils.isConfigurationCandidate((AnnotationMetadata) metadata)) {
+			if (metadata instanceof AnnotationMetadata
+					&& ConfigurationClassUtils.isConfigurationCandidate((AnnotationMetadata) metadata)) {
 				return shouldSkip(metadata, ConfigurationPhase.PARSE_CONFIGURATION);
 			}
 			return shouldSkip(metadata, ConfigurationPhase.REGISTER_BEAN);
@@ -115,7 +114,8 @@ class ConditionEvaluator {
 
 	@SuppressWarnings("unchecked")
 	private List<String[]> getConditionClasses(AnnotatedTypeMetadata metadata) {
-		MultiValueMap<String, Object> attributes = metadata.getAllAnnotationAttributes(Conditional.class.getName(), true);
+		MultiValueMap<String, Object> attributes = metadata.getAllAnnotationAttributes(Conditional.class.getName(),
+				true);
 		Object values = (attributes != null ? attributes.get("value") : null);
 		return (List<String[]>) (values != null ? values : Collections.emptyList());
 	}
@@ -124,7 +124,6 @@ class ConditionEvaluator {
 		Class<?> conditionClass = ClassUtils.resolveClassName(conditionClassName, classloader);
 		return (Condition) BeanUtils.instantiateClass(conditionClass);
 	}
-
 
 	/**
 	 * Implementation of a {@link ConditionContext}.
@@ -144,8 +143,8 @@ class ConditionEvaluator {
 		@Nullable
 		private final ClassLoader classLoader;
 
-		public ConditionContextImpl(@Nullable BeanDefinitionRegistry registry,
-				@Nullable Environment environment, @Nullable ResourceLoader resourceLoader) {
+		public ConditionContextImpl(@Nullable BeanDefinitionRegistry registry, @Nullable Environment environment,
+				@Nullable ResourceLoader resourceLoader) {
 
 			this.registry = registry;
 			this.beanFactory = deduceBeanFactory(registry);
@@ -222,6 +221,7 @@ class ConditionEvaluator {
 		public ClassLoader getClassLoader() {
 			return this.classLoader;
 		}
+
 	}
 
 }

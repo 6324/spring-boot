@@ -35,16 +35,15 @@ public class ReaderEditorTests {
 
 	@Test
 	public void testCtorWithNullResourceEditor() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ReaderEditor(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new ReaderEditor(null));
 	}
 
 	@Test
 	public void testSunnyDay() throws Exception {
 		Reader reader = null;
 		try {
-			String resource = "classpath:" + ClassUtils.classPackageAsResourcePath(getClass()) +
-					"/" + ClassUtils.getShortName(getClass()) + ".class";
+			String resource = "classpath:" + ClassUtils.classPackageAsResourcePath(getClass()) + "/"
+					+ ClassUtils.getShortName(getClass()) + ".class";
 			ReaderEditor editor = new ReaderEditor();
 			editor.setAsText(resource);
 			Object value = editor.getValue();
@@ -65,15 +64,14 @@ public class ReaderEditorTests {
 	public void testWhenResourceDoesNotExist() throws Exception {
 		String resource = "classpath:bingo!";
 		ReaderEditor editor = new ReaderEditor();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				editor.setAsText(resource));
+		assertThatIllegalArgumentException().isThrownBy(() -> editor.setAsText(resource));
 	}
 
 	@Test
 	public void testGetAsTextReturnsNullByDefault() throws Exception {
 		assertThat(new ReaderEditor().getAsText()).isNull();
-		String resource = "classpath:" + ClassUtils.classPackageAsResourcePath(getClass()) +
-				"/" + ClassUtils.getShortName(getClass()) + ".class";
+		String resource = "classpath:" + ClassUtils.classPackageAsResourcePath(getClass()) + "/"
+				+ ClassUtils.getShortName(getClass()) + ".class";
 		ReaderEditor editor = new ReaderEditor();
 		editor.setAsText(resource);
 		assertThat(editor.getAsText()).isNull();

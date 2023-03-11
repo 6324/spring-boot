@@ -45,14 +45,11 @@ class MethodMetadataReadingVisitorTests extends AbstractMethodMetadataTests {
 			ClassLoader classLoader = source.getClassLoader();
 			String className = source.getName();
 			String resourcePath = ResourceLoader.CLASSPATH_URL_PREFIX
-					+ ClassUtils.convertClassNameToResourcePath(className)
-					+ ClassUtils.CLASS_FILE_SUFFIX;
+					+ ClassUtils.convertClassNameToResourcePath(className) + ClassUtils.CLASS_FILE_SUFFIX;
 			Resource resource = new DefaultResourceLoader().getResource(resourcePath);
-			try (InputStream inputStream = new BufferedInputStream(
-					resource.getInputStream())) {
+			try (InputStream inputStream = new BufferedInputStream(resource.getInputStream())) {
 				ClassReader classReader = new ClassReader(inputStream);
-				AnnotationMetadataReadingVisitor metadata = new AnnotationMetadataReadingVisitor(
-						classLoader);
+				AnnotationMetadataReadingVisitor metadata = new AnnotationMetadataReadingVisitor(classLoader);
 				classReader.accept(metadata, ClassReader.SKIP_DEBUG);
 				return metadata;
 			}
@@ -65,8 +62,8 @@ class MethodMetadataReadingVisitorTests extends AbstractMethodMetadataTests {
 	@Override
 	@Test
 	public void getAnnotationsReturnsDirectAnnotations() {
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(
-				super::getAnnotationsReturnsDirectAnnotations);
+		assertThatExceptionOfType(UnsupportedOperationException.class)
+				.isThrownBy(super::getAnnotationsReturnsDirectAnnotations);
 	}
 
 }

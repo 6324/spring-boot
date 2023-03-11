@@ -126,7 +126,8 @@ public class DefinitionMetadataEqualsHashCodeTests {
 		assertThat(equal.hashCode()).as("Hash code for equal instances should match").isEqualTo(master.hashCode());
 
 		assertThat(notEqual).as("Should not be equal").isNotEqualTo(master);
-		assertThat(notEqual.hashCode()).as("Hash code for non-equal instances should not match").isNotEqualTo(master.hashCode());
+		assertThat(notEqual.hashCode()).as("Hash code for non-equal instances should not match")
+				.isNotEqualTo(master.hashCode());
 
 		assertThat(subclass).as("Subclass should be equal").isEqualTo(master);
 		assertThat(subclass.hashCode()).as("Hash code for subclass should match").isEqualTo(master.hashCode());

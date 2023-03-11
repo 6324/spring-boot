@@ -21,8 +21,8 @@ import java.io.IOException;
 import org.springframework.core.io.Resource;
 
 /**
- * Factory interface for {@link MetadataReader} instances.
- * Allows for caching a MetadataReader per original resource.
+ * Factory interface for {@link MetadataReader} instances. Allows for caching a
+ * MetadataReader per original resource.
  *
  * @author Juergen Hoeller
  * @since 2.5

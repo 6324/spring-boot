@@ -28,8 +28,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 
 /**
- * An {@link org.springframework.http.HttpHeaders} variant that adds support for
- * the HTTP headers defined by the WebSocket specification RFC 6455.
+ * An {@link org.springframework.http.HttpHeaders} variant that adds support for the HTTP
+ * headers defined by the WebSocket specification RFC 6455.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -48,9 +48,7 @@ public class WebSocketHttpHeaders extends HttpHeaders {
 
 	private static final long serialVersionUID = -6644521016187828916L;
 
-
 	private final HttpHeaders headers;
-
 
 	/**
 	 * Create a new instance.
@@ -60,8 +58,8 @@ public class WebSocketHttpHeaders extends HttpHeaders {
 	}
 
 	/**
-	 * Create an instance that wraps the given pre-existing HttpHeaders and also
-	 * propagate all changes to it.
+	 * Create an instance that wraps the given pre-existing HttpHeaders and also propagate
+	 * all changes to it.
 	 * @param headers the HTTP headers to wrap
 	 */
 	public WebSocketHttpHeaders(HttpHeaders headers) {
@@ -70,14 +68,14 @@ public class WebSocketHttpHeaders extends HttpHeaders {
 
 	/**
 	 * Returns {@code WebSocketHttpHeaders} object that can only be read, not written to.
-	 * @deprecated as of 5.1.16, in favor of calling {@link #WebSocketHttpHeaders(HttpHeaders)}
-	 * with a read-only wrapper from {@link HttpHeaders#readOnlyHttpHeaders(HttpHeaders)}
+	 * @deprecated as of 5.1.16, in favor of calling
+	 * {@link #WebSocketHttpHeaders(HttpHeaders)} with a read-only wrapper from
+	 * {@link HttpHeaders#readOnlyHttpHeaders(HttpHeaders)}
 	 */
 	@Deprecated
 	public static WebSocketHttpHeaders readOnlyWebSocketHttpHeaders(WebSocketHttpHeaders headers) {
 		return new WebSocketHttpHeaders(HttpHeaders.readOnlyHttpHeaders(headers));
 	}
-
 
 	/**
 	 * Sets the (new) value of the {@code Sec-WebSocket-Accept} header.
@@ -193,7 +191,6 @@ public class WebSocketHttpHeaders extends HttpHeaders {
 		return getFirst(SEC_WEBSOCKET_VERSION);
 	}
 
-
 	// Single string methods
 
 	/**
@@ -209,7 +206,7 @@ public class WebSocketHttpHeaders extends HttpHeaders {
 
 	/**
 	 * Add the given, single header value under the given name.
-	 * @param headerName  the header name
+	 * @param headerName the header name
 	 * @param headerValue the header value
 	 * @throws UnsupportedOperationException if adding headers is not supported
 	 * @see #put(String, List)
@@ -222,7 +219,7 @@ public class WebSocketHttpHeaders extends HttpHeaders {
 
 	/**
 	 * Set the given, single header value under the given name.
-	 * @param headerName  the header name
+	 * @param headerName the header name
 	 * @param headerValue the header value
 	 * @throws UnsupportedOperationException if adding headers is not supported
 	 * @see #put(String, List)
@@ -304,7 +301,6 @@ public class WebSocketHttpHeaders extends HttpHeaders {
 	public Set<Entry<String, List<String>>> entrySet() {
 		return this.headers.entrySet();
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {

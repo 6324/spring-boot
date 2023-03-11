@@ -63,8 +63,8 @@ import org.springframework.web.socket.sockjs.transport.handler.XhrStreamingTrans
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Test fixture for HandlersBeanDefinitionParser.
- * See test configuration files websocket-config-handlers-*.xml.
+ * Test fixture for HandlersBeanDefinitionParser. See test configuration files
+ * websocket-config-handlers-*.xml.
  *
  * @author Brian Clozel
  * @author Rossen Stoyanchev
@@ -72,7 +72,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class HandlersBeanDefinitionParserTests {
 
 	private final GenericWebApplicationContext appContext = new GenericWebApplicationContext();
-
 
 	@Test
 	public void webSocketHandlers() {
@@ -136,8 +135,8 @@ public class HandlersBeanDefinitionParserTests {
 		boolean condition1 = handshakeHandler instanceof TestHandshakeHandler;
 		assertThat(condition1).isTrue();
 		List<HandshakeInterceptor> interceptors = handler.getHandshakeInterceptors();
-		assertThat(interceptors).extracting("class")
-				.containsExactlyInAnyOrder(FooTestInterceptor.class, BarTestInterceptor.class, OriginHandshakeInterceptor.class);
+		assertThat(interceptors).extracting("class").containsExactlyInAnyOrder(FooTestInterceptor.class,
+				BarTestInterceptor.class, OriginHandshakeInterceptor.class);
 
 		handler = (WebSocketHttpRequestHandler) urlHandlerMapping.getUrlMap().get("/test");
 		assertThat(handler).isNotNull();
@@ -147,8 +146,8 @@ public class HandlersBeanDefinitionParserTests {
 		boolean condition = handshakeHandler instanceof TestHandshakeHandler;
 		assertThat(condition).isTrue();
 		interceptors = handler.getHandshakeInterceptors();
-		assertThat(interceptors).extracting("class")
-				.containsExactlyInAnyOrder(FooTestInterceptor.class, BarTestInterceptor.class, OriginHandshakeInterceptor.class);
+		assertThat(interceptors).extracting("class").containsExactlyInAnyOrder(FooTestInterceptor.class,
+				BarTestInterceptor.class, OriginHandshakeInterceptor.class);
 	}
 
 	@Test
@@ -177,21 +176,16 @@ public class HandlersBeanDefinitionParserTests {
 		assertThat(defaultSockJsService.shouldSuppressCors()).isFalse();
 
 		Map<TransportType, TransportHandler> handlerMap = defaultSockJsService.getTransportHandlers();
-		assertThat(handlerMap.values()).extracting("class")
-				.containsExactlyInAnyOrder(
-						XhrPollingTransportHandler.class,
-						XhrReceivingTransportHandler.class,
-						XhrStreamingTransportHandler.class,
-						EventSourceTransportHandler.class,
-						HtmlFileTransportHandler.class,
-						WebSocketTransportHandler.class);
+		assertThat(handlerMap.values()).extracting("class").containsExactlyInAnyOrder(XhrPollingTransportHandler.class,
+				XhrReceivingTransportHandler.class, XhrStreamingTransportHandler.class,
+				EventSourceTransportHandler.class, HtmlFileTransportHandler.class, WebSocketTransportHandler.class);
 
 		WebSocketTransportHandler handler = (WebSocketTransportHandler) handlerMap.get(TransportType.WEBSOCKET);
 		assertThat(handler.getHandshakeHandler().getClass()).isEqualTo(TestHandshakeHandler.class);
 
 		List<HandshakeInterceptor> interceptors = defaultSockJsService.getHandshakeInterceptors();
-		assertThat(interceptors).extracting("class")
-				.containsExactlyInAnyOrder(FooTestInterceptor.class, BarTestInterceptor.class, OriginHandshakeInterceptor.class);
+		assertThat(interceptors).extracting("class").containsExactlyInAnyOrder(FooTestInterceptor.class,
+				BarTestInterceptor.class, OriginHandshakeInterceptor.class);
 	}
 
 	@Test
@@ -230,7 +224,6 @@ public class HandlersBeanDefinitionParserTests {
 		assertThat(transportService.getAllowedOrigins().contains("https://mydomain2.example")).isTrue();
 	}
 
-
 	private void loadBeanDefinitions(String fileName) {
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(this.appContext);
 		ClassPathResource resource = new ClassPathResource(fileName, HandlersBeanDefinitionParserTests.class);
@@ -244,8 +237,8 @@ public class HandlersBeanDefinitionParserTests {
 		}
 		assertThat(handlerClass.isInstance(handler)).isTrue();
 	}
-}
 
+}
 
 class TestWebSocketHandler implements WebSocketHandler {
 
@@ -269,47 +262,47 @@ class TestWebSocketHandler implements WebSocketHandler {
 	public boolean supportsPartialMessages() {
 		return false;
 	}
-}
 
+}
 
 class FooWebSocketHandler extends TestWebSocketHandler {
-}
 
+}
 
 class TestHandshakeHandler implements HandshakeHandler {
 
 	@Override
-	public boolean doHandshake(ServerHttpRequest request, ServerHttpResponse response,
-			WebSocketHandler wsHandler, Map<String, Object> attributes) {
+	public boolean doHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
+			Map<String, Object> attributes) {
 
 		return false;
 	}
-}
 
+}
 
 class TestChannelInterceptor implements ChannelInterceptor {
-}
 
+}
 
 class FooTestInterceptor implements HandshakeInterceptor {
 
 	@Override
-	public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
-			WebSocketHandler wsHandler, Map<String, Object> attributes) {
+	public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
+			Map<String, Object> attributes) {
 
 		return false;
 	}
 
 	@Override
-	public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response,
-			WebSocketHandler wsHandler, Exception exception) {
+	public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
+			Exception exception) {
 	}
-}
 
+}
 
 class BarTestInterceptor extends FooTestInterceptor {
-}
 
+}
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
 class TestTaskScheduler implements TaskScheduler {
@@ -343,8 +336,8 @@ class TestTaskScheduler implements TaskScheduler {
 	public ScheduledFuture scheduleWithFixedDelay(Runnable task, long delay) {
 		return null;
 	}
-}
 
+}
 
 class TestMessageCodec implements SockJsMessageCodec {
 
@@ -362,4 +355,5 @@ class TestMessageCodec implements SockJsMessageCodec {
 	public String[] decodeInputStream(InputStream content) throws IOException {
 		return new String[0];
 	}
+
 }

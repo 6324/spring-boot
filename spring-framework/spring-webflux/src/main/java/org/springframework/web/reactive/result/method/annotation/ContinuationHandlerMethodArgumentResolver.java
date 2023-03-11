@@ -37,7 +37,9 @@ public class ContinuationHandlerMethodArgumentResolver implements HandlerMethodA
 	}
 
 	@Override
-	public Mono<Object> resolveArgument(MethodParameter parameter, BindingContext bindingContext, ServerWebExchange exchange) {
+	public Mono<Object> resolveArgument(MethodParameter parameter, BindingContext bindingContext,
+			ServerWebExchange exchange) {
 		return Mono.empty();
 	}
+
 }

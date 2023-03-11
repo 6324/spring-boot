@@ -28,20 +28,22 @@ import org.springframework.util.Assert;
  * Convenient implementation of the
  * {@link org.springframework.aop.IntroductionInterceptor} interface.
  *
- * <p>Subclasses merely need to extend this class and implement the interfaces
- * to be introduced themselves. In this case the delegate is the subclass
- * instance itself. Alternatively a separate delegate may implement the
- * interface, and be set via the delegate bean property.
+ * <p>
+ * Subclasses merely need to extend this class and implement the interfaces to be
+ * introduced themselves. In this case the delegate is the subclass instance itself.
+ * Alternatively a separate delegate may implement the interface, and be set via the
+ * delegate bean property.
  *
- * <p>Delegates or subclasses may implement any number of interfaces.
- * All interfaces except IntroductionInterceptor are picked up from
- * the subclass or delegate by default.
+ * <p>
+ * Delegates or subclasses may implement any number of interfaces. All interfaces except
+ * IntroductionInterceptor are picked up from the subclass or delegate by default.
  *
- * <p>The {@code suppressInterface} method can be used to suppress interfaces
- * implemented by the delegate but which should not be introduced to the owning
- * AOP proxy.
+ * <p>
+ * The {@code suppressInterface} method can be used to suppress interfaces implemented by
+ * the delegate but which should not be introduced to the owning AOP proxy.
  *
- * <p>An instance of this class is serializable if the delegate is.
+ * <p>
+ * An instance of this class is serializable if the delegate is.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -50,20 +52,18 @@ import org.springframework.util.Assert;
  * @see DelegatePerTargetObjectIntroductionInterceptor
  */
 @SuppressWarnings("serial")
-public class DelegatingIntroductionInterceptor extends IntroductionInfoSupport
-		implements IntroductionInterceptor {
+public class DelegatingIntroductionInterceptor extends IntroductionInfoSupport implements IntroductionInterceptor {
 
 	/**
-	 * Object that actually implements the interfaces.
-	 * May be "this" if a subclass implements the introduced interfaces.
+	 * Object that actually implements the interfaces. May be "this" if a subclass
+	 * implements the introduced interfaces.
 	 */
 	@Nullable
 	private Object delegate;
 
-
 	/**
-	 * Construct a new DelegatingIntroductionInterceptor, providing
-	 * a delegate that implements the interfaces to be introduced.
+	 * Construct a new DelegatingIntroductionInterceptor, providing a delegate that
+	 * implements the interfaces to be introduced.
 	 * @param delegate the delegate that implements the introduced interfaces
 	 */
 	public DelegatingIntroductionInterceptor(Object delegate) {
@@ -71,18 +71,16 @@ public class DelegatingIntroductionInterceptor extends IntroductionInfoSupport
 	}
 
 	/**
-	 * Construct a new DelegatingIntroductionInterceptor.
-	 * The delegate will be the subclass, which must implement
-	 * additional interfaces.
+	 * Construct a new DelegatingIntroductionInterceptor. The delegate will be the
+	 * subclass, which must implement additional interfaces.
 	 */
 	protected DelegatingIntroductionInterceptor() {
 		init(this);
 	}
 
-
 	/**
-	 * Both constructors use this init method, as it is impossible to pass
-	 * a "this" reference from one constructor to another.
+	 * Both constructors use this init method, as it is impossible to pass a "this"
+	 * reference from one constructor to another.
 	 * @param delegate the delegate object
 	 */
 	private void init(Object delegate) {
@@ -95,11 +93,10 @@ public class DelegatingIntroductionInterceptor extends IntroductionInfoSupport
 		suppressInterface(DynamicIntroductionAdvice.class);
 	}
 
-
 	/**
-	 * Subclasses may need to override this if they want to perform custom
-	 * behaviour in around advice. However, subclasses should invoke this
-	 * method, which handles introduced interfaces and forwarding to the target.
+	 * Subclasses may need to override this if they want to perform custom behaviour in
+	 * around advice. However, subclasses should invoke this method, which handles
+	 * introduced interfaces and forwarding to the target.
 	 */
 	@Override
 	@Nullable
@@ -126,9 +123,9 @@ public class DelegatingIntroductionInterceptor extends IntroductionInfoSupport
 
 	/**
 	 * Proceed with the supplied {@link org.aopalliance.intercept.MethodInterceptor}.
-	 * Subclasses can override this method to intercept method invocations on the
-	 * target object which is useful when an introduction needs to monitor the object
-	 * that it is introduced into. This method is <strong>never</strong> called for
+	 * Subclasses can override this method to intercept method invocations on the target
+	 * object which is useful when an introduction needs to monitor the object that it is
+	 * introduced into. This method is <strong>never</strong> called for
 	 * {@link MethodInvocation MethodInvocations} on the introduced interfaces.
 	 */
 	protected Object doProceed(MethodInvocation mi) throws Throwable {

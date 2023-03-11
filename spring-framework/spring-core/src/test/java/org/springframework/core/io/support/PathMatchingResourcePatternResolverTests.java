@@ -44,31 +44,28 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
  */
 class PathMatchingResourcePatternResolverTests {
 
-	private static final String[] CLASSES_IN_CORE_IO_SUPPORT =
-			new String[] {"EncodedResource.class", "LocalizedResourceHelper.class",
-					"PathMatchingResourcePatternResolver.class", "PropertiesLoaderSupport.class",
-					"PropertiesLoaderUtils.class", "ResourceArrayPropertyEditor.class",
-					"ResourcePatternResolver.class", "ResourcePatternUtils.class"};
+	private static final String[] CLASSES_IN_CORE_IO_SUPPORT = new String[] { "EncodedResource.class",
+			"LocalizedResourceHelper.class", "PathMatchingResourcePatternResolver.class",
+			"PropertiesLoaderSupport.class", "PropertiesLoaderUtils.class", "ResourceArrayPropertyEditor.class",
+			"ResourcePatternResolver.class", "ResourcePatternUtils.class" };
 
-	private static final String[] TEST_CLASSES_IN_CORE_IO_SUPPORT =
-			new String[] {"PathMatchingResourcePatternResolverTests.class"};
+	private static final String[] TEST_CLASSES_IN_CORE_IO_SUPPORT = new String[] {
+			"PathMatchingResourcePatternResolverTests.class" };
 
-	private static final String[] CLASSES_IN_REACTOR_UTIL_ANNOTATIONS =
-			new String[] {"NonNull.class", "NonNullApi.class", "Nullable.class"};
+	private static final String[] CLASSES_IN_REACTOR_UTIL_ANNOTATIONS = new String[] { "NonNull.class",
+			"NonNullApi.class", "Nullable.class" };
 
 	private PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
-
 	@Test
 	void invalidPrefixWithPatternElementInIt() throws IOException {
-		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(() ->
-				resolver.getResources("xx**:**/*.xy"));
+		assertThatExceptionOfType(FileNotFoundException.class).isThrownBy(() -> resolver.getResources("xx**:**/*.xy"));
 	}
 
 	@Test
 	void singleResourceOnFileSystem() throws IOException {
-		Resource[] resources =
-				resolver.getResources("org/springframework/core/io/support/PathMatchingResourcePatternResolverTests.class");
+		Resource[] resources = resolver
+				.getResources("org/springframework/core/io/support/PathMatchingResourcePatternResolverTests.class");
 		assertThat(resources.length).isEqualTo(1);
 		assertProtocolAndFilenames(resources, "file", "PathMatchingResourcePatternResolverTests.class");
 	}
@@ -101,7 +98,7 @@ class PathMatchingResourcePatternResolverTests {
 	void getResourcesOnFileSystemContainingHashtagsInTheirFileNames() throws IOException {
 		Resource[] resources = resolver.getResources("classpath*:org/springframework/core/io/**/resource#test*.txt");
 		assertThat(resources).extracting(Resource::getFile).extracting(File::getName)
-			.containsExactlyInAnyOrder("resource#test1.txt", "resource#test2.txt");
+				.containsExactlyInAnyOrder("resource#test1.txt", "resource#test2.txt");
 	}
 
 	@Test
@@ -129,27 +126,29 @@ class PathMatchingResourcePatternResolverTests {
 		assertThat(found).as("Could not find aspectj_1_5_0.dtd in the root of the aspectjweaver jar").isTrue();
 	}
 
-
 	private void assertProtocolAndFilenames(Resource[] resources, String protocol, String... filenames)
 			throws IOException {
 
-		// Uncomment the following if you encounter problems with matching against the file system
+		// Uncomment the following if you encounter problems with matching against the
+		// file system
 		// It shows file locations.
-//		String[] actualNames = new String[resources.length];
-//		for (int i = 0; i < resources.length; i++) {
-//			actualNames[i] = resources[i].getFilename();
-//		}
-//		List sortedActualNames = new LinkedList(Arrays.asList(actualNames));
-//		List expectedNames = new LinkedList(Arrays.asList(fileNames));
-//		Collections.sort(sortedActualNames);
-//		Collections.sort(expectedNames);
-//
-//		System.out.println("-----------");
-//		System.out.println("Expected: " + StringUtils.collectionToCommaDelimitedString(expectedNames));
-//		System.out.println("Actual: " + StringUtils.collectionToCommaDelimitedString(sortedActualNames));
-//		for (int i = 0; i < resources.length; i++) {
-//			System.out.println(resources[i]);
-//		}
+		// String[] actualNames = new String[resources.length];
+		// for (int i = 0; i < resources.length; i++) {
+		// actualNames[i] = resources[i].getFilename();
+		// }
+		// List sortedActualNames = new LinkedList(Arrays.asList(actualNames));
+		// List expectedNames = new LinkedList(Arrays.asList(fileNames));
+		// Collections.sort(sortedActualNames);
+		// Collections.sort(expectedNames);
+		//
+		// System.out.println("-----------");
+		// System.out.println("Expected: " +
+		// StringUtils.collectionToCommaDelimitedString(expectedNames));
+		// System.out.println("Actual: " +
+		// StringUtils.collectionToCommaDelimitedString(sortedActualNames));
+		// for (int i = 0; i < resources.length; i++) {
+		// System.out.println(resources[i]);
+		// }
 
 		assertThat(resources.length).as("Correct number of files found").isEqualTo(filenames.length);
 		for (Resource resource : resources) {
@@ -161,7 +160,8 @@ class PathMatchingResourcePatternResolverTests {
 
 	private void assertFilenameIn(Resource resource, String... filenames) {
 		String filename = resource.getFilename();
-		assertThat(Arrays.stream(filenames).anyMatch(filename::endsWith)).as(resource + " does not have a filename that matches any of the specified names").isTrue();
+		assertThat(Arrays.stream(filenames).anyMatch(filename::endsWith))
+				.as(resource + " does not have a filename that matches any of the specified names").isTrue();
 	}
 
 }

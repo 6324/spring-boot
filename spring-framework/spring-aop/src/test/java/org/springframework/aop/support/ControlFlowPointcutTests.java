@@ -57,11 +57,10 @@ public class ControlFlowPointcutTests {
 	}
 
 	/**
-	 * Check that we can use a cflow pointcut only in conjunction with
-	 * a static pointcut: e.g. all setter methods that are invoked under
-	 * a particular class. This greatly reduces the number of calls
-	 * to the cflow pointcut, meaning that it's not so prohibitively
-	 * expensive.
+	 * Check that we can use a cflow pointcut only in conjunction with a static pointcut:
+	 * e.g. all setter methods that are invoked under a particular class. This greatly
+	 * reduces the number of calls to the cflow pointcut, meaning that it's not so
+	 * prohibitively expensive.
 	 */
 	@Test
 	public void testSelectiveApplication() {
@@ -93,31 +92,39 @@ public class ControlFlowPointcutTests {
 	@Test
 	public void testEqualsAndHashCode() throws Exception {
 		assertThat(new ControlFlowPointcut(One.class)).isEqualTo(new ControlFlowPointcut(One.class));
-		assertThat(new ControlFlowPointcut(One.class, "getAge")).isEqualTo(new ControlFlowPointcut(One.class, "getAge"));
+		assertThat(new ControlFlowPointcut(One.class, "getAge"))
+				.isEqualTo(new ControlFlowPointcut(One.class, "getAge"));
 		assertThat(new ControlFlowPointcut(One.class, "getAge").equals(new ControlFlowPointcut(One.class))).isFalse();
-		assertThat(new ControlFlowPointcut(One.class).hashCode()).isEqualTo(new ControlFlowPointcut(One.class).hashCode());
-		assertThat(new ControlFlowPointcut(One.class, "getAge").hashCode()).isEqualTo(new ControlFlowPointcut(One.class, "getAge").hashCode());
-		assertThat(new ControlFlowPointcut(One.class, "getAge").hashCode() == new ControlFlowPointcut(One.class).hashCode()).isFalse();
+		assertThat(new ControlFlowPointcut(One.class).hashCode())
+				.isEqualTo(new ControlFlowPointcut(One.class).hashCode());
+		assertThat(new ControlFlowPointcut(One.class, "getAge").hashCode())
+				.isEqualTo(new ControlFlowPointcut(One.class, "getAge").hashCode());
+		assertThat(new ControlFlowPointcut(One.class, "getAge").hashCode() == new ControlFlowPointcut(One.class)
+				.hashCode()).isFalse();
 	}
 
 	@Test
 	public void testToString() {
-		assertThat(new ControlFlowPointcut(One.class).toString())
-			.isEqualTo(ControlFlowPointcut.class.getName() + ": class = " + One.class.getName() + "; methodName = null");
-		assertThat(new ControlFlowPointcut(One.class, "getAge").toString())
-			.isEqualTo(ControlFlowPointcut.class.getName() + ": class = " + One.class.getName() + "; methodName = getAge");
+		assertThat(new ControlFlowPointcut(One.class).toString()).isEqualTo(
+				ControlFlowPointcut.class.getName() + ": class = " + One.class.getName() + "; methodName = null");
+		assertThat(new ControlFlowPointcut(One.class, "getAge").toString()).isEqualTo(
+				ControlFlowPointcut.class.getName() + ": class = " + One.class.getName() + "; methodName = getAge");
 	}
 
 	public class One {
+
 		int getAge(ITestBean proxied) {
 			return proxied.getAge();
 		}
+
 		int nomatch(ITestBean proxied) {
 			return proxied.getAge();
 		}
+
 		void set(ITestBean proxied) {
 			proxied.setAge(5);
 		}
+
 	}
 
 }

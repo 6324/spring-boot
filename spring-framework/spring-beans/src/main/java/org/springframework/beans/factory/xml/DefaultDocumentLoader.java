@@ -33,13 +33,15 @@ import org.springframework.util.xml.XmlValidationModeDetector;
 /**
  * Spring's default {@link DocumentLoader} implementation.
  *
- * <p>Simply loads {@link Document documents} using the standard JAXP-configured
- * XML parser. If you want to change the {@link DocumentBuilder} that is used to
- * load documents, then one strategy is to define a corresponding Java system property
- * when starting your JVM. For example, to use the Oracle {@link DocumentBuilder},
- * you might start your application like as follows:
+ * <p>
+ * Simply loads {@link Document documents} using the standard JAXP-configured XML parser.
+ * If you want to change the {@link DocumentBuilder} that is used to load documents, then
+ * one strategy is to define a corresponding Java system property when starting your JVM.
+ * For example, to use the Oracle {@link DocumentBuilder}, you might start your
+ * application like as follows:
  *
- * <pre code="class">java -Djavax.xml.parsers.DocumentBuilderFactory=oracle.xml.jaxp.JXDocumentBuilderFactory MyMainClass</pre>
+ * <pre code=
+ * "class">java -Djavax.xml.parsers.DocumentBuilderFactory=oracle.xml.jaxp.JXDocumentBuilderFactory MyMainClass</pre>
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -57,17 +59,15 @@ public class DefaultDocumentLoader implements DocumentLoader {
 	 */
 	private static final String XSD_SCHEMA_LANGUAGE = "http://www.w3.org/2001/XMLSchema";
 
-
 	private static final Log logger = LogFactory.getLog(DefaultDocumentLoader.class);
 
-
 	/**
-	 * Load the {@link Document} at the supplied {@link InputSource} using the standard JAXP-configured
-	 * XML parser.
+	 * Load the {@link Document} at the supplied {@link InputSource} using the standard
+	 * JAXP-configured XML parser.
 	 */
 	@Override
-	public Document loadDocument(InputSource inputSource, EntityResolver entityResolver,
-			ErrorHandler errorHandler, int validationMode, boolean namespaceAware) throws Exception {
+	public Document loadDocument(InputSource inputSource, EntityResolver entityResolver, ErrorHandler errorHandler,
+			int validationMode, boolean namespaceAware) throws Exception {
 
 		DocumentBuilderFactory factory = createDocumentBuilderFactory(validationMode, namespaceAware);
 		if (logger.isTraceEnabled()) {
@@ -79,11 +79,14 @@ public class DefaultDocumentLoader implements DocumentLoader {
 
 	/**
 	 * Create the {@link DocumentBuilderFactory} instance.
-	 * @param validationMode the type of validation: {@link XmlValidationModeDetector#VALIDATION_DTD DTD}
-	 * or {@link XmlValidationModeDetector#VALIDATION_XSD XSD})
-	 * @param namespaceAware whether the returned factory is to provide support for XML namespaces
+	 * @param validationMode the type of validation:
+	 * {@link XmlValidationModeDetector#VALIDATION_DTD DTD} or
+	 * {@link XmlValidationModeDetector#VALIDATION_XSD XSD})
+	 * @param namespaceAware whether the returned factory is to provide support for XML
+	 * namespaces
 	 * @return the JAXP DocumentBuilderFactory
-	 * @throws ParserConfigurationException if we failed to build a proper DocumentBuilderFactory
+	 * @throws ParserConfigurationException if we failed to build a proper
+	 * DocumentBuilderFactory
 	 */
 	protected DocumentBuilderFactory createDocumentBuilderFactory(int validationMode, boolean namespaceAware)
 			throws ParserConfigurationException {
@@ -101,9 +104,9 @@ public class DefaultDocumentLoader implements DocumentLoader {
 				}
 				catch (IllegalArgumentException ex) {
 					ParserConfigurationException pcex = new ParserConfigurationException(
-							"Unable to validate using XSD: Your JAXP provider [" + factory +
-							"] does not support XML Schema. Are you running on Java 1.4 with Apache Crimson? " +
-							"Upgrade to Apache Xerces (or Java 1.5) for full XSD support.");
+							"Unable to validate using XSD: Your JAXP provider [" + factory
+									+ "] does not support XML Schema. Are you running on Java 1.4 with Apache Crimson? "
+									+ "Upgrade to Apache Xerces (or Java 1.5) for full XSD support.");
 					pcex.initCause(ex);
 					throw pcex;
 				}
@@ -114,11 +117,11 @@ public class DefaultDocumentLoader implements DocumentLoader {
 	}
 
 	/**
-	 * Create a JAXP DocumentBuilder that this bean definition reader
-	 * will use for parsing XML documents. Can be overridden in subclasses,
-	 * adding further initialization of the builder.
-	 * @param factory the JAXP DocumentBuilderFactory that the DocumentBuilder
-	 * should be created with
+	 * Create a JAXP DocumentBuilder that this bean definition reader will use for parsing
+	 * XML documents. Can be overridden in subclasses, adding further initialization of
+	 * the builder.
+	 * @param factory the JAXP DocumentBuilderFactory that the DocumentBuilder should be
+	 * created with
 	 * @param entityResolver the SAX EntityResolver to use
 	 * @param errorHandler the SAX ErrorHandler to use
 	 * @return the JAXP DocumentBuilder

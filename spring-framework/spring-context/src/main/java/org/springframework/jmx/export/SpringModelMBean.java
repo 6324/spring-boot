@@ -30,8 +30,8 @@ import javax.management.modelmbean.RequiredModelMBean;
 
 /**
  * Extension of the {@link RequiredModelMBean} class that ensures the
- * {@link Thread#getContextClassLoader() thread context ClassLoader} is switched
- * for the managed resource's {@link ClassLoader} before any invocations occur.
+ * {@link Thread#getContextClassLoader() thread context ClassLoader} is switched for the
+ * managed resource's {@link ClassLoader} before any invocations occur.
  *
  * @author Rob Harrop
  * @since 2.0
@@ -40,11 +40,10 @@ import javax.management.modelmbean.RequiredModelMBean;
 public class SpringModelMBean extends RequiredModelMBean {
 
 	/**
-	 * Stores the {@link ClassLoader} to use for invocations. Defaults
-	 * to the current thread {@link ClassLoader}.
+	 * Stores the {@link ClassLoader} to use for invocations. Defaults to the current
+	 * thread {@link ClassLoader}.
 	 */
 	private ClassLoader managedResourceClassLoader = Thread.currentThread().getContextClassLoader();
-
 
 	/**
 	 * Construct a new SpringModelMBean instance with an empty {@link ModelMBeanInfo}.
@@ -62,7 +61,6 @@ public class SpringModelMBean extends RequiredModelMBean {
 		super(mbi);
 	}
 
-
 	/**
 	 * Sets managed resource to expose and stores its {@link ClassLoader}.
 	 */
@@ -74,15 +72,13 @@ public class SpringModelMBean extends RequiredModelMBean {
 		super.setManagedResource(managedResource, managedResourceType);
 	}
 
-
 	/**
 	 * Switches the {@link Thread#getContextClassLoader() context ClassLoader} for the
 	 * managed resources {@link ClassLoader} before allowing the invocation to occur.
 	 * @see javax.management.modelmbean.ModelMBean#invoke
 	 */
 	@Override
-	public Object invoke(String opName, Object[] opArgs, String[] sig)
-			throws MBeanException, ReflectionException {
+	public Object invoke(String opName, Object[] opArgs, String[] sig) throws MBeanException, ReflectionException {
 
 		ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
 		try {
@@ -100,8 +96,7 @@ public class SpringModelMBean extends RequiredModelMBean {
 	 * @see javax.management.modelmbean.ModelMBean#getAttribute
 	 */
 	@Override
-	public Object getAttribute(String attrName)
-			throws AttributeNotFoundException, MBeanException, ReflectionException {
+	public Object getAttribute(String attrName) throws AttributeNotFoundException, MBeanException, ReflectionException {
 
 		ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
 		try {

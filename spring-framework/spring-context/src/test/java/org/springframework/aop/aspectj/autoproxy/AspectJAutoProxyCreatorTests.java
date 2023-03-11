@@ -75,7 +75,6 @@ public class AspectJAutoProxyCreatorTests {
 
 	private static final Log factoryLog = LogFactory.getLog(DefaultListableBeanFactory.class);
 
-
 	@Test
 	public void testAspectsAreApplied() {
 		ClassPathXmlApplicationContext bf = newContext("aspects.xml");
@@ -163,8 +162,8 @@ public class AspectJAutoProxyCreatorTests {
 
 		GenericApplicationContext ac = new GenericApplicationContext();
 
-		new XmlBeanDefinitionReader(ac).loadBeanDefinitions(new ClassPathResource(qName("aspectsPlusAdvisor.xml"),
-				getClass()));
+		new XmlBeanDefinitionReader(ac)
+				.loadBeanDefinitions(new ClassPathResource(qName("aspectsPlusAdvisor.xml"), getClass()));
 		for (int i = 0; i < 10000; i++) {
 			ac.registerBeanDefinition("singleton" + i, new RootBeanDefinition(NestedTestBean.class));
 		}
@@ -189,12 +188,12 @@ public class AspectJAutoProxyCreatorTests {
 				.addPropertyValue(new PropertyValue("age", 34));
 		childAc.registerBeanDefinition("adrian2", bd);
 		// Register the advisor auto proxy creator with subclass
-		childAc.registerBeanDefinition(AnnotationAwareAspectJAutoProxyCreator.class.getName(), new RootBeanDefinition(
-				AnnotationAwareAspectJAutoProxyCreator.class));
+		childAc.registerBeanDefinition(AnnotationAwareAspectJAutoProxyCreator.class.getName(),
+				new RootBeanDefinition(AnnotationAwareAspectJAutoProxyCreator.class));
 		childAc.refresh();
 
 		ITestBean beanFromChildContextThatShouldBeWeaved = (ITestBean) childAc.getBean("adrian2");
-		//testAspectsAndAdvisorAreApplied(childAc, (ITestBean) ac.getBean("adrian"));
+		// testAspectsAndAdvisorAreApplied(childAc, (ITestBean) ac.getBean("adrian"));
 		doTestAspectsAndAdvisorAreApplied(childAc, beanFromChildContextThatShouldBeWeaved);
 	}
 
@@ -250,7 +249,8 @@ public class AspectJAutoProxyCreatorTests {
 		// Fire aspect
 
 		AspectMetadata am = new AspectMetadata(PerTargetAspect.class, "someBean");
-		assertThat(am.getPerClausePointcut().getMethodMatcher().matches(TestBean.class.getMethod("getSpouse"), null)).isTrue();
+		assertThat(am.getPerClausePointcut().getMethodMatcher().matches(TestBean.class.getMethod("getSpouse"), null))
+				.isTrue();
 
 		adrian1.getSpouse();
 
@@ -258,7 +258,7 @@ public class AspectJAutoProxyCreatorTests {
 		adrian1.setAge(11);
 		assertThat(adrian1.getAge()).as("Any int setter increments").isEqualTo(2);
 		adrian1.setName("Adrian");
-		//assertEquals("Any other setter does not increment", 2, adrian1.getAge());
+		// assertEquals("Any other setter does not increment", 2, adrian1.getAge());
 
 		ITestBean adrian2 = (ITestBean) bf.getBean("adrian");
 		assertThat(adrian2).isNotSameAs(adrian1);
@@ -319,8 +319,9 @@ public class AspectJAutoProxyCreatorTests {
 		ITestBean adrian1 = (ITestBean) bf.getBean("adrian");
 		adrian1.getAge();
 		AdviceUsingThisJoinPoint aspectInstance = (AdviceUsingThisJoinPoint) bf.getBean("aspect");
-		//(AdviceUsingThisJoinPoint) Aspects.aspectOf(AdviceUsingThisJoinPoint.class);
-		//assertEquals("method-execution(int TestBean.getAge())",aspectInstance.getLastMethodEntered());
+		// (AdviceUsingThisJoinPoint) Aspects.aspectOf(AdviceUsingThisJoinPoint.class);
+		// assertEquals("method-execution(int
+		// TestBean.getAge())",aspectInstance.getLastMethodEntered());
 		assertThat(aspectInstance.getLastMethodEntered().indexOf("TestBean.getAge())") != 0).isTrue();
 	}
 
@@ -372,17 +373,17 @@ public class AspectJAutoProxyCreatorTests {
 		assertThat(tb.getAge()).isEqualTo(68);
 	}
 
-
 	/**
-	 * Returns a new {@link ClassPathXmlApplicationContext} for the file ending in <var>fileSuffix</var>.
+	 * Returns a new {@link ClassPathXmlApplicationContext} for the file ending in
+	 * <var>fileSuffix</var>.
 	 */
 	private ClassPathXmlApplicationContext newContext(String fileSuffix) {
 		return new ClassPathXmlApplicationContext(qName(fileSuffix), getClass());
 	}
 
 	/**
-	 * Returns the relatively qualified name for <var>fileSuffix</var>.
-	 * e.g. for a fileSuffix='foo.xml', this method will return
+	 * Returns the relatively qualified name for <var>fileSuffix</var>. e.g. for a
+	 * fileSuffix='foo.xml', this method will return
 	 * 'AspectJAutoProxyCreatorTests-foo.xml'
 	 */
 	private String qName(String fileSuffix) {
@@ -391,8 +392,9 @@ public class AspectJAutoProxyCreatorTests {
 
 	private void assertStopWatchTimeLimit(final StopWatch sw, final long maxTimeMillis) {
 		long totalTimeMillis = sw.getTotalTimeMillis();
-		assertThat(totalTimeMillis < maxTimeMillis).as("'" + sw.getLastTaskName() + "' took too long: expected less than<" + maxTimeMillis +
-				"> ms, actual<" + totalTimeMillis + "> ms.").isTrue();
+		assertThat(totalTimeMillis < maxTimeMillis).as("'" + sw.getLastTaskName()
+				+ "' took too long: expected less than<" + maxTimeMillis + "> ms, actual<" + totalTimeMillis + "> ms.")
+				.isTrue();
 	}
 
 }
@@ -422,6 +424,7 @@ class PerTargetAspect implements Ordered {
 	public void setOrder(int order) {
 		this.order = order;
 	}
+
 }
 
 @Aspect
@@ -441,6 +444,7 @@ class AdviceUsingThisJoinPoint {
 	public void entryTrace(JoinPoint jp) {
 		this.lastEntry = jp.toString();
 	}
+
 }
 
 @Aspect
@@ -450,6 +454,7 @@ class DummyAspect {
 	public Object test(ProceedingJoinPoint pjp) throws Throwable {
 		return pjp.proceed();
 	}
+
 }
 
 @Aspect
@@ -490,6 +495,7 @@ class IncreaseReturnValue {
 		int result = (Integer) pjp.proceed();
 		return result + 3;
 	}
+
 }
 
 @Aspect
@@ -513,10 +519,12 @@ class MultiplyReturnValue {
 		int result = (Integer) pjp.proceed();
 		return result * this.multiple;
 	}
+
 }
 
 @Retention(RetentionPolicy.RUNTIME)
 @interface Marker {
+
 }
 
 @Aspect
@@ -540,6 +548,7 @@ class MultiplyReturnValueForMarker {
 		int result = (Integer) pjp.proceed();
 		return result * this.multiple;
 	}
+
 }
 
 interface IMarkerTestBean extends ITestBean {
@@ -547,6 +556,7 @@ interface IMarkerTestBean extends ITestBean {
 	@Marker
 	@Override
 	int getAge();
+
 }
 
 class MarkerTestBean extends TestBean implements IMarkerTestBean {
@@ -556,6 +566,7 @@ class MarkerTestBean extends TestBean implements IMarkerTestBean {
 	public int getAge() {
 		return super.getAge();
 	}
+
 }
 
 @Aspect
@@ -609,6 +620,7 @@ class RetryAspect {
 	public int getRollbackCalls() {
 		return this.rollbackCalls;
 	}
+
 }
 
 @SuppressWarnings("serial")
@@ -621,6 +633,7 @@ class RetryableException extends NestedRuntimeException {
 	public RetryableException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
+
 }
 
 class UnreliableBean {

@@ -55,7 +55,6 @@ public class ClassPathBeanDefinitionScannerTests {
 
 	private static final String BASE_PACKAGE = "example.scannable";
 
-
 	@Test
 	public void testSimpleScanWithDefaultFiltersAndPostProcessors() {
 		GenericApplicationContext context = new GenericApplicationContext();
@@ -207,10 +206,8 @@ public class ClassPathBeanDefinitionScannerTests {
 		ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(context);
 		scanner.setIncludeAnnotationConfig(false);
 		scanner.scan("org.springframework.context.annotation3");
-		assertThatIllegalStateException().isThrownBy(() ->
-				scanner.scan(BASE_PACKAGE))
-			.withMessageContaining("stubFooDao")
-			.withMessageContaining(StubFooDao.class.getName());
+		assertThatIllegalStateException().isThrownBy(() -> scanner.scan(BASE_PACKAGE))
+				.withMessageContaining("stubFooDao").withMessageContaining(StubFooDao.class.getName());
 	}
 
 	@Test
@@ -267,11 +264,9 @@ public class ClassPathBeanDefinitionScannerTests {
 		ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(context);
 		scanner.setIncludeAnnotationConfig(false);
 		scanner.scan("org.springframework.context.annotation2");
-		assertThatIllegalStateException().isThrownBy(() ->
-				scanner.scan(BASE_PACKAGE))
-			.withMessageContaining("myNamedDao")
-			.withMessageContaining(NamedStubDao.class.getName())
-			.withMessageContaining(NamedStubDao2.class.getName());
+		assertThatIllegalStateException().isThrownBy(() -> scanner.scan(BASE_PACKAGE))
+				.withMessageContaining("myNamedDao").withMessageContaining(NamedStubDao.class.getName())
+				.withMessageContaining(NamedStubDao2.class.getName());
 	}
 
 	@Test
@@ -521,11 +516,10 @@ public class ClassPathBeanDefinitionScannerTests {
 		scanner.setAutowireCandidatePatterns("*NoSuchDao");
 		scanner.scan(BASE_PACKAGE);
 		context.refresh();
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				context.getBean("fooService"))
-			.satisfies(ex -> assertThat(ex.getMostSpecificCause()).isInstanceOf(NoSuchBeanDefinitionException.class));
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> context.getBean("fooService"))
+				.satisfies(
+						ex -> assertThat(ex.getMostSpecificCause()).isInstanceOf(NoSuchBeanDefinitionException.class));
 	}
-
 
 	private static class TestBeanNameGenerator extends AnnotationBeanNameGenerator {
 
@@ -534,11 +528,12 @@ public class ClassPathBeanDefinitionScannerTests {
 			String beanName = super.generateBeanName(definition, registry);
 			return beanName.replace("Impl", "");
 		}
-	}
 
+	}
 
 	@Component("toBeIgnored")
 	public class NonStaticInnerClass {
+
 	}
 
 }

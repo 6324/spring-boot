@@ -58,9 +58,8 @@ public class JtaTransactionAspectsTests {
 	public void matchingRollbackOnApplied() throws Throwable {
 		assertThat(this.txManager.begun).isEqualTo(0);
 		InterruptedException test = new InterruptedException();
-		assertThatExceptionOfType(InterruptedException.class).isThrownBy(() ->
-				new JtaAnnotationPublicAnnotatedMember().echo(test))
-			.isSameAs(test);
+		assertThatExceptionOfType(InterruptedException.class)
+				.isThrownBy(() -> new JtaAnnotationPublicAnnotatedMember().echo(test)).isSameAs(test);
 		assertThat(this.txManager.rollbacks).isEqualTo(1);
 		assertThat(this.txManager.commits).isEqualTo(0);
 	}
@@ -69,9 +68,7 @@ public class JtaTransactionAspectsTests {
 	public void nonMatchingRollbackOnApplied() throws Throwable {
 		assertThat(this.txManager.begun).isEqualTo(0);
 		IOException test = new IOException();
-		assertThatIOException().isThrownBy(() ->
-				new JtaAnnotationPublicAnnotatedMember().echo(test))
-			.isSameAs(test);
+		assertThatIOException().isThrownBy(() -> new JtaAnnotationPublicAnnotatedMember().echo(test)).isSameAs(test);
 		assertThat(this.txManager.commits).isEqualTo(1);
 		assertThat(this.txManager.rollbacks).isEqualTo(0);
 	}
@@ -111,7 +108,6 @@ public class JtaTransactionAspectsTests {
 		assertThat(this.txManager.begun).isEqualTo(0);
 	}
 
-
 	public static class JtaAnnotationPublicAnnotatedMember {
 
 		@Transactional(rollbackOn = InterruptedException.class)
@@ -123,7 +119,6 @@ public class JtaTransactionAspectsTests {
 
 	}
 
-
 	protected static class JtaAnnotationProtectedAnnotatedMember {
 
 		public void doSomething() {
@@ -133,8 +128,8 @@ public class JtaTransactionAspectsTests {
 		@Transactional
 		protected void doInTransaction() {
 		}
-	}
 
+	}
 
 	protected static class JtaAnnotationPrivateAnnotatedMember {
 
@@ -145,8 +140,8 @@ public class JtaTransactionAspectsTests {
 		@Transactional
 		private void doInTransaction() {
 		}
-	}
 
+	}
 
 	@Configuration
 	protected static class Config {
@@ -162,6 +157,7 @@ public class JtaTransactionAspectsTests {
 			aspect.setTransactionManager(transactionManager());
 			return aspect;
 		}
+
 	}
 
 }

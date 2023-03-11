@@ -22,4 +22,5 @@ import org.springframework.stereotype.Component;
 @Component
 @MyScope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class CustomScopeAnnotationBean {
+
 }

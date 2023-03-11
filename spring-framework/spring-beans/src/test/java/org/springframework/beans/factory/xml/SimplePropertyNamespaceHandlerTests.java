@@ -37,8 +37,8 @@ public class SimplePropertyNamespaceHandlerTests {
 	@Test
 	public void simpleBeanConfigured() throws Exception {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(beanFactory).loadBeanDefinitions(
-				new ClassPathResource("simplePropertyNamespaceHandlerTests.xml", getClass()));
+		new XmlBeanDefinitionReader(beanFactory)
+				.loadBeanDefinitions(new ClassPathResource("simplePropertyNamespaceHandlerTests.xml", getClass()));
 		ITestBean rob = (TestBean) beanFactory.getBean("rob");
 		ITestBean sally = (TestBean) beanFactory.getBean("sally");
 		assertThat(rob.getName()).isEqualTo("Rob Harrop");
@@ -49,8 +49,8 @@ public class SimplePropertyNamespaceHandlerTests {
 	@Test
 	public void innerBeanConfigured() throws Exception {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(beanFactory).loadBeanDefinitions(
-				new ClassPathResource("simplePropertyNamespaceHandlerTests.xml", getClass()));
+		new XmlBeanDefinitionReader(beanFactory)
+				.loadBeanDefinitions(new ClassPathResource("simplePropertyNamespaceHandlerTests.xml", getClass()));
 		TestBean sally = (TestBean) beanFactory.getBean("sally2");
 		ITestBean rob = sally.getSpouse();
 		assertThat(rob.getName()).isEqualTo("Rob Harrop");
@@ -61,16 +61,16 @@ public class SimplePropertyNamespaceHandlerTests {
 	@Test
 	public void withPropertyDefinedTwice() throws Exception {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-		assertThatExceptionOfType(BeanDefinitionStoreException.class).isThrownBy(() ->
-				new XmlBeanDefinitionReader(beanFactory).loadBeanDefinitions(
-							new ClassPathResource("simplePropertyNamespaceHandlerTestsWithErrors.xml", getClass())));
+		assertThatExceptionOfType(BeanDefinitionStoreException.class)
+				.isThrownBy(() -> new XmlBeanDefinitionReader(beanFactory).loadBeanDefinitions(
+						new ClassPathResource("simplePropertyNamespaceHandlerTestsWithErrors.xml", getClass())));
 	}
 
 	@Test
 	public void propertyWithNameEndingInRef() throws Exception {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(beanFactory).loadBeanDefinitions(
-				new ClassPathResource("simplePropertyNamespaceHandlerTests.xml", getClass()));
+		new XmlBeanDefinitionReader(beanFactory)
+				.loadBeanDefinitions(new ClassPathResource("simplePropertyNamespaceHandlerTests.xml", getClass()));
 		ITestBean sally = (TestBean) beanFactory.getBean("derivedSally");
 		assertThat(sally.getSpouse().getName()).isEqualTo("r");
 	}

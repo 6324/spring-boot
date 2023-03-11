@@ -17,8 +17,8 @@
 package org.springframework.dao;
 
 /**
- * Data access exception thrown when a result was not of the expected size,
- * for example when expecting a single row but getting 0 or more than 1 rows.
+ * Data access exception thrown when a result was not of the expected size, for example
+ * when expecting a single row but getting 0 or more than 1 rows.
  *
  * @author Juergen Hoeller
  * @author Chris Beams
@@ -31,7 +31,6 @@ public class IncorrectResultSizeDataAccessException extends DataRetrievalFailure
 	private final int expectedSize;
 
 	private final int actualSize;
-
 
 	/**
 	 * Constructor for IncorrectResultSizeDataAccessException.
@@ -101,7 +100,6 @@ public class IncorrectResultSizeDataAccessException extends DataRetrievalFailure
 		this.expectedSize = expectedSize;
 		this.actualSize = actualSize;
 	}
-
 
 	/**
 	 * Return the expected result size.

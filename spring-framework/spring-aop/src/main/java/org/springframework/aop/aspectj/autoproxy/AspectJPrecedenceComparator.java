@@ -27,22 +27,23 @@ import org.springframework.util.Assert;
 /**
  * Orders AspectJ advice/advisors by precedence (<i>not</i> invocation order).
  *
- * <p>Given two pieces of advice, {@code A} and {@code B}:
+ * <p>
+ * Given two pieces of advice, {@code A} and {@code B}:
  * <ul>
- * <li>If {@code A} and {@code B} are defined in different aspects, then the advice
- * in the aspect with the lowest order value has the highest precedence.</li>
- * <li>If {@code A} and {@code B} are defined in the same aspect, if one of
- * {@code A} or {@code B} is a form of <em>after</em> advice, then the advice declared
- * last in the aspect has the highest precedence. If neither {@code A} nor {@code B}
- * is a form of <em>after</em> advice, then the advice declared first in the aspect
- * has the highest precedence.</li>
+ * <li>If {@code A} and {@code B} are defined in different aspects, then the advice in the
+ * aspect with the lowest order value has the highest precedence.</li>
+ * <li>If {@code A} and {@code B} are defined in the same aspect, if one of {@code A} or
+ * {@code B} is a form of <em>after</em> advice, then the advice declared last in the
+ * aspect has the highest precedence. If neither {@code A} nor {@code B} is a form of
+ * <em>after</em> advice, then the advice declared first in the aspect has the highest
+ * precedence.</li>
  * </ul>
  *
- * <p>Important: This comparator is used with AspectJ's
- * {@link org.aspectj.util.PartialOrder PartialOrder} sorting utility. Thus, unlike
- * a normal {@link Comparator}, a return value of {@code 0} from this comparator
- * means we don't care about the ordering, not that the two elements must be sorted
- * identically.
+ * <p>
+ * Important: This comparator is used with AspectJ's {@link org.aspectj.util.PartialOrder
+ * PartialOrder} sorting utility. Thus, unlike a normal {@link Comparator}, a return value
+ * of {@code 0} from this comparator means we don't care about the ordering, not that the
+ * two elements must be sorted identically.
  *
  * @author Adrian Colyer
  * @author Juergen Hoeller
@@ -56,9 +57,7 @@ class AspectJPrecedenceComparator implements Comparator<Advisor> {
 
 	private static final int LOWER_PRECEDENCE = 1;
 
-
 	private final Comparator<? super Advisor> advisorComparator;
-
 
 	/**
 	 * Create a default {@code AspectJPrecedenceComparator}.
@@ -77,7 +76,6 @@ class AspectJPrecedenceComparator implements Comparator<Advisor> {
 		this.advisorComparator = advisorComparator;
 	}
 
-
 	@Override
 	public int compare(Advisor o1, Advisor o2) {
 		int advisorPrecedence = this.advisorComparator.compare(o1, o2);
@@ -88,8 +86,8 @@ class AspectJPrecedenceComparator implements Comparator<Advisor> {
 	}
 
 	private int comparePrecedenceWithinAspect(Advisor advisor1, Advisor advisor2) {
-		boolean oneOrOtherIsAfterAdvice =
-				(AspectJAopUtils.isAfterAdvice(advisor1) || AspectJAopUtils.isAfterAdvice(advisor2));
+		boolean oneOrOtherIsAfterAdvice = (AspectJAopUtils.isAfterAdvice(advisor1)
+				|| AspectJAopUtils.isAfterAdvice(advisor2));
 		int adviceDeclarationOrderDelta = getAspectDeclarationOrder(advisor1) - getAspectDeclarationOrder(advisor2);
 
 		if (oneOrOtherIsAfterAdvice) {
@@ -123,13 +121,13 @@ class AspectJPrecedenceComparator implements Comparator<Advisor> {
 	}
 
 	private boolean declaredInSameAspect(Advisor advisor1, Advisor advisor2) {
-		return (hasAspectName(advisor1) && hasAspectName(advisor2) &&
-				getAspectName(advisor1).equals(getAspectName(advisor2)));
+		return (hasAspectName(advisor1) && hasAspectName(advisor2)
+				&& getAspectName(advisor1).equals(getAspectName(advisor2)));
 	}
 
 	private boolean hasAspectName(Advisor advisor) {
-		return (advisor instanceof AspectJPrecedenceInformation ||
-				advisor.getAdvice() instanceof AspectJPrecedenceInformation);
+		return (advisor instanceof AspectJPrecedenceInformation
+				|| advisor.getAdvice() instanceof AspectJPrecedenceInformation);
 	}
 
 	// pre-condition is that hasAspectName returned true

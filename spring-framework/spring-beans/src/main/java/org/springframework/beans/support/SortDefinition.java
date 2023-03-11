@@ -25,8 +25,8 @@ package org.springframework.beans.support;
 public interface SortDefinition {
 
 	/**
-	 * Return the name of the bean property to compare.
-	 * Can also be a nested bean property path.
+	 * Return the name of the bean property to compare. Can also be a nested bean property
+	 * path.
 	 */
 	String getProperty();
 

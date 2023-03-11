@@ -41,7 +41,6 @@ public class AnnotationTransactionInterceptorTests {
 
 	private final TransactionInterceptor ti = new TransactionInterceptor(this.ptm, this.source);
 
-
 	@Test
 	public void classLevelOnly() {
 		ProxyFactory proxyFactory = new ProxyFactory();
@@ -134,13 +133,11 @@ public class AnnotationTransactionInterceptorTests {
 
 		TestWithExceptions proxy = (TestWithExceptions) proxyFactory.getProxy();
 
-		assertThatIllegalStateException().isThrownBy(
-				proxy::doSomethingErroneous)
-			.satisfies(ex -> assertGetTransactionAndRollbackCount(1));
+		assertThatIllegalStateException().isThrownBy(proxy::doSomethingErroneous)
+				.satisfies(ex -> assertGetTransactionAndRollbackCount(1));
 
-		assertThatIllegalArgumentException().isThrownBy(
-				proxy::doSomethingElseErroneous)
-			.satisfies(ex -> assertGetTransactionAndRollbackCount(2));
+		assertThatIllegalArgumentException().isThrownBy(proxy::doSomethingElseErroneous)
+				.satisfies(ex -> assertGetTransactionAndRollbackCount(2));
 	}
 
 	@Test
@@ -151,9 +148,8 @@ public class AnnotationTransactionInterceptorTests {
 
 		TestWithExceptions proxy = (TestWithExceptions) proxyFactory.getProxy();
 
-		assertThatExceptionOfType(Exception.class).isThrownBy(
-				proxy::doSomethingElseWithCheckedException)
-			.satisfies(ex -> assertGetTransactionAndCommitCount(1));
+		assertThatExceptionOfType(Exception.class).isThrownBy(proxy::doSomethingElseWithCheckedException)
+				.satisfies(ex -> assertGetTransactionAndCommitCount(1));
 	}
 
 	@Test
@@ -164,9 +160,8 @@ public class AnnotationTransactionInterceptorTests {
 
 		TestWithExceptions proxy = (TestWithExceptions) proxyFactory.getProxy();
 
-		assertThatExceptionOfType(Exception.class).isThrownBy(
-				proxy::doSomethingElseWithCheckedExceptionAndRollbackRule)
-			.satisfies(ex -> assertGetTransactionAndRollbackCount(1));
+		assertThatExceptionOfType(Exception.class).isThrownBy(proxy::doSomethingElseWithCheckedExceptionAndRollbackRule)
+				.satisfies(ex -> assertGetTransactionAndRollbackCount(1));
 	}
 
 	@Test
@@ -342,7 +337,6 @@ public class AnnotationTransactionInterceptorTests {
 		assertThat(this.ptm.rollbacks).isEqualTo(expectedCount);
 	}
 
-
 	@Transactional
 	public static class TestClassLevelOnly {
 
@@ -355,8 +349,8 @@ public class AnnotationTransactionInterceptorTests {
 			assertThat(TransactionSynchronizationManager.isActualTransactionActive()).isTrue();
 			assertThat(TransactionSynchronizationManager.isCurrentTransactionReadOnly()).isFalse();
 		}
-	}
 
+	}
 
 	@Transactional
 	public static class TestWithSingleMethodOverride {
@@ -376,8 +370,8 @@ public class AnnotationTransactionInterceptorTests {
 			assertThat(TransactionSynchronizationManager.isActualTransactionActive()).isTrue();
 			assertThat(TransactionSynchronizationManager.isCurrentTransactionReadOnly()).isFalse();
 		}
-	}
 
+	}
 
 	@Transactional(readOnly = true)
 	public static class TestWithSingleMethodOverrideInverted {
@@ -397,8 +391,8 @@ public class AnnotationTransactionInterceptorTests {
 			assertThat(TransactionSynchronizationManager.isActualTransactionActive()).isTrue();
 			assertThat(TransactionSynchronizationManager.isCurrentTransactionReadOnly()).isTrue();
 		}
-	}
 
+	}
 
 	@Transactional
 	public static class TestWithMultiMethodOverride {
@@ -419,8 +413,8 @@ public class AnnotationTransactionInterceptorTests {
 			assertThat(TransactionSynchronizationManager.isActualTransactionActive()).isTrue();
 			assertThat(TransactionSynchronizationManager.isCurrentTransactionReadOnly()).isFalse();
 		}
-	}
 
+	}
 
 	@Transactional
 	public static class TestWithExceptions {
@@ -450,8 +444,8 @@ public class AnnotationTransactionInterceptorTests {
 			assertThat(TransactionSynchronizationManager.isCurrentTransactionReadOnly()).isFalse();
 			throw new Exception();
 		}
-	}
 
+	}
 
 	@Transactional
 	public static class TestWithVavrTry {
@@ -480,14 +474,14 @@ public class AnnotationTransactionInterceptorTests {
 			assertThat(TransactionSynchronizationManager.isCurrentTransactionReadOnly()).isFalse();
 			return Try.failure(new Exception());
 		}
-	}
 
+	}
 
 	public interface BaseInterface {
 
 		void doSomething();
-	}
 
+	}
 
 	@Transactional
 	public interface TestWithInterface extends BaseInterface {
@@ -499,8 +493,8 @@ public class AnnotationTransactionInterceptorTests {
 			assertThat(TransactionSynchronizationManager.isActualTransactionActive()).isTrue();
 			assertThat(TransactionSynchronizationManager.isCurrentTransactionReadOnly()).isFalse();
 		}
-	}
 
+	}
 
 	public static class TestWithInterfaceImpl implements TestWithInterface {
 
@@ -515,8 +509,8 @@ public class AnnotationTransactionInterceptorTests {
 			assertThat(TransactionSynchronizationManager.isActualTransactionActive()).isTrue();
 			assertThat(TransactionSynchronizationManager.isCurrentTransactionReadOnly()).isTrue();
 		}
-	}
 
+	}
 
 	public interface SomeService {
 
@@ -527,8 +521,8 @@ public class AnnotationTransactionInterceptorTests {
 
 		@Transactional(readOnly = true)
 		void fooBar();
-	}
 
+	}
 
 	public static class SomeServiceImpl implements SomeService {
 
@@ -545,14 +539,14 @@ public class AnnotationTransactionInterceptorTests {
 		@Transactional(readOnly = false)
 		public void fooBar() {
 		}
-	}
 
+	}
 
 	public interface OtherService {
 
 		void foo();
-	}
 
+	}
 
 	@Transactional
 	public static class OtherServiceImpl implements OtherService {
@@ -560,6 +554,7 @@ public class AnnotationTransactionInterceptorTests {
 		@Override
 		public void foo() {
 		}
+
 	}
 
 }

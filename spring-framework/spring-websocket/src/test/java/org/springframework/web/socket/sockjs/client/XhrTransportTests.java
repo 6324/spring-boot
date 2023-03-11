@@ -57,8 +57,8 @@ public class XhrTransportTests {
 	public void infoResponseError() throws Exception {
 		TestXhrTransport transport = new TestXhrTransport();
 		transport.infoResponseToReturn = new ResponseEntity<>("body", HttpStatus.BAD_REQUEST);
-		assertThatExceptionOfType(HttpServerErrorException.class).isThrownBy(() ->
-				transport.executeInfoRequest(new URI("https://example.com/info"), null));
+		assertThatExceptionOfType(HttpServerErrorException.class)
+				.isThrownBy(() -> transport.executeInfoRequest(new URI("https://example.com/info"), null));
 	}
 
 	@Test
@@ -80,8 +80,8 @@ public class XhrTransportTests {
 		TestXhrTransport transport = new TestXhrTransport();
 		transport.sendMessageResponseToReturn = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		URI url = new URI("https://example.com");
-		assertThatExceptionOfType(HttpServerErrorException.class).isThrownBy(() ->
-				transport.executeSendRequest(url, new HttpHeaders(), new TextMessage("payload")));
+		assertThatExceptionOfType(HttpServerErrorException.class)
+				.isThrownBy(() -> transport.executeSendRequest(url, new HttpHeaders(), new TextMessage("payload")));
 	}
 
 	@Test
@@ -114,7 +114,6 @@ public class XhrTransportTests {
 		assertThat(transport.actualSession.isDisconnected()).isTrue();
 	}
 
-
 	private static class TestXhrTransport extends AbstractXhrTransport {
 
 		private ResponseEntity<String> infoResponseToReturn;
@@ -126,7 +125,6 @@ public class XhrTransportTests {
 		private HttpHeaders actualHandshakeHeaders;
 
 		private XhrClientSockJsSession actualSession;
-
 
 		@Override
 		protected ResponseEntity<String> executeInfoRequestInternal(URI infoUrl, HttpHeaders headers) {
@@ -147,6 +145,7 @@ public class XhrTransportTests {
 			this.actualHandshakeHeaders = handshakeHeaders;
 			this.actualSession = session;
 		}
+
 	}
 
 }

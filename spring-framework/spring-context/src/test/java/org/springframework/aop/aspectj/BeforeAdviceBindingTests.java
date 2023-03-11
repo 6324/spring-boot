@@ -45,11 +45,10 @@ public class BeforeAdviceBindingTests {
 
 	private TestBean testBeanTarget;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml",
+				getClass());
 
 		testBeanProxy = (ITestBean) ctx.getBean("testBean");
 		assertThat(AopUtils.isAopProxy(testBeanProxy)).isTrue();
@@ -62,7 +61,6 @@ public class BeforeAdviceBindingTests {
 		mockCollaborator = mock(AdviceBindingCollaborator.class);
 		beforeAdviceAspect.setCollaborator(mockCollaborator);
 	}
-
 
 	@Test
 	public void testOneIntArg() {
@@ -79,7 +77,7 @@ public class BeforeAdviceBindingTests {
 	@Test
 	public void testOneIntAndOneObjectArgs() {
 		testBeanProxy.setAge(5);
-		verify(mockCollaborator).oneIntAndOneObject(5,this.testBeanTarget);
+		verify(mockCollaborator).oneIntAndOneObject(5, this.testBeanTarget);
 	}
 
 	@Test
@@ -94,9 +92,7 @@ public class BeforeAdviceBindingTests {
 		verify(mockCollaborator).needsJoinPointStaticPart("getAge");
 	}
 
-
 }
-
 
 class AuthenticationLogger {
 
@@ -107,7 +103,9 @@ class AuthenticationLogger {
 }
 
 class SecurityManager {
+
 	public boolean authenticate(String username, String password) {
 		return false;
 	}
+
 }

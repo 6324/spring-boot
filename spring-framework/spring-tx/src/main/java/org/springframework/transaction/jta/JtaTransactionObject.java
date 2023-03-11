@@ -25,10 +25,11 @@ import org.springframework.transaction.support.SmartTransactionObject;
 import org.springframework.transaction.support.TransactionSynchronizationUtils;
 
 /**
- * JTA transaction object, representing a {@link javax.transaction.UserTransaction}.
- * Used as transaction object by Spring's {@link JtaTransactionManager}.
+ * JTA transaction object, representing a {@link javax.transaction.UserTransaction}. Used
+ * as transaction object by Spring's {@link JtaTransactionManager}.
  *
- * <p>Note: This is an SPI class, not intended to be used by applications.
+ * <p>
+ * Note: This is an SPI class, not intended to be used by applications.
  *
  * @author Juergen Hoeller
  * @since 1.1
@@ -41,11 +42,10 @@ public class JtaTransactionObject implements SmartTransactionObject {
 
 	boolean resetTransactionTimeout = false;
 
-
 	/**
 	 * Create a new JtaTransactionObject for the given JTA UserTransaction.
-	 * @param userTransaction the JTA UserTransaction for the current transaction
-	 * (either a shared object or retrieved through a fresh per-transaction lookup)
+	 * @param userTransaction the JTA UserTransaction for the current transaction (either
+	 * a shared object or retrieved through a fresh per-transaction lookup)
 	 */
 	public JtaTransactionObject(UserTransaction userTransaction) {
 		this.userTransaction = userTransaction;
@@ -57,7 +57,6 @@ public class JtaTransactionObject implements SmartTransactionObject {
 	public final UserTransaction getUserTransaction() {
 		return this.userTransaction;
 	}
-
 
 	/**
 	 * This implementation checks the UserTransaction's rollback-only flag.
@@ -74,8 +73,8 @@ public class JtaTransactionObject implements SmartTransactionObject {
 	}
 
 	/**
-	 * This implementation triggers flush callbacks,
-	 * assuming that they will flush all affected ORM sessions.
+	 * This implementation triggers flush callbacks, assuming that they will flush all
+	 * affected ORM sessions.
 	 * @see org.springframework.transaction.support.TransactionSynchronization#flush()
 	 */
 	@Override

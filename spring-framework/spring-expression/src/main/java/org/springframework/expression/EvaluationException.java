@@ -39,7 +39,7 @@ public class EvaluationException extends ExpressionException {
 	 * @param cause the underlying cause of this exception
 	 */
 	public EvaluationException(String message, Throwable cause) {
-		super(message,cause);
+		super(message, cause);
 	}
 
 	/**

@@ -30,11 +30,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link SqlParameterSource} implementation that obtains parameter values
- * from bean properties of a given JavaBean object. The names of the bean
- * properties have to match the parameter names.
+ * {@link SqlParameterSource} implementation that obtains parameter values from bean
+ * properties of a given JavaBean object. The names of the bean properties have to match
+ * the parameter names.
  *
- * <p>Uses a Spring BeanWrapper for bean property access underneath.
+ * <p>
+ * Uses a Spring BeanWrapper for bean property access underneath.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -49,7 +50,6 @@ public class BeanPropertySqlParameterSource extends AbstractSqlParameterSource {
 	@Nullable
 	private String[] propertyNames;
 
-
 	/**
 	 * Create a new BeanPropertySqlParameterSource for the given bean.
 	 * @param object the bean instance to wrap
@@ -57,7 +57,6 @@ public class BeanPropertySqlParameterSource extends AbstractSqlParameterSource {
 	public BeanPropertySqlParameterSource(Object object) {
 		this.beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(object);
 	}
-
 
 	@Override
 	public boolean hasValue(String paramName) {
@@ -96,8 +95,8 @@ public class BeanPropertySqlParameterSource extends AbstractSqlParameterSource {
 	}
 
 	/**
-	 * Provide access to the property names of the wrapped bean.
-	 * Uses support provided in the {@link PropertyAccessor} interface.
+	 * Provide access to the property names of the wrapped bean. Uses support provided in
+	 * the {@link PropertyAccessor} interface.
 	 * @return an array containing all the known property names
 	 */
 	public String[] getReadablePropertyNames() {

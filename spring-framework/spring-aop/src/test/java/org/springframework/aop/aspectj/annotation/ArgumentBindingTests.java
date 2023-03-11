@@ -48,8 +48,8 @@ public class ArgumentBindingTests {
 		proxyFactory.addAspect(NamedPointcutWithArgs.class);
 
 		ITestBean proxiedTestBean = proxyFactory.getProxy();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				proxiedTestBean.setName("Supercalifragalisticexpialidocious"));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> proxiedTestBean.setName("Supercalifragalisticexpialidocious"));
 	}
 
 	@Test
@@ -59,33 +59,29 @@ public class ArgumentBindingTests {
 		proxyFactory.addAspect(PointcutWithAnnotationArgument.class);
 
 		ITransactionalBean proxiedTestBean = proxyFactory.getProxy();
-		assertThatIllegalStateException().isThrownBy(
-				proxiedTestBean::doInTransaction);
+		assertThatIllegalStateException().isThrownBy(proxiedTestBean::doInTransaction);
 	}
 
 	@Test
 	public void testParameterNameDiscoverWithReferencePointcut() throws Exception {
-		AspectJAdviceParameterNameDiscoverer discoverer =
-				new AspectJAdviceParameterNameDiscoverer("somepc(formal) && set(* *)");
+		AspectJAdviceParameterNameDiscoverer discoverer = new AspectJAdviceParameterNameDiscoverer(
+				"somepc(formal) && set(* *)");
 		discoverer.setRaiseExceptions(true);
-		Method methodUsedForParameterTypeDiscovery =
-				getClass().getMethod("methodWithOneParam", String.class);
+		Method methodUsedForParameterTypeDiscovery = getClass().getMethod("methodWithOneParam", String.class);
 		String[] pnames = discoverer.getParameterNames(methodUsedForParameterTypeDiscovery);
 		assertThat(pnames.length).as("one parameter name").isEqualTo(1);
 		assertThat(pnames[0]).isEqualTo("formal");
 	}
 
-
 	public void methodWithOneParam(String aParam) {
 	}
-
 
 	public interface ITransactionalBean {
 
 		@Transactional
 		void doInTransaction();
-	}
 
+	}
 
 	public static class TransactionalBean implements ITransactionalBean {
 
@@ -93,17 +89,19 @@ public class ArgumentBindingTests {
 		@Transactional
 		public void doInTransaction() {
 		}
+
 	}
 
 }
 
 /**
- * Represents Spring's Transactional annotation without actually introducing the dependency
+ * Represents Spring's Transactional annotation without actually introducing the
+ * dependency
  */
 @Retention(RetentionPolicy.RUNTIME)
 @interface Transactional {
-}
 
+}
 
 @Aspect
 class PointcutWithAnnotationArgument {
@@ -116,12 +114,12 @@ class PointcutWithAnnotationArgument {
 
 }
 
-
 @Aspect
 class NamedPointcutWithArgs {
 
 	@Pointcut("execution(* *(..)) && args(s,..)")
-	public void pointcutWithArgs(String s) {}
+	public void pointcutWithArgs(String s) {
+	}
 
 	@Around("pointcutWithArgs(aString)")
 	public Object doAround(ProceedingJoinPoint pjp, String aString) throws Throwable {

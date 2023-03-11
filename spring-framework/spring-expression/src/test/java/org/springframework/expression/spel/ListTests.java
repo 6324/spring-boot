@@ -41,7 +41,6 @@ public class ListTests extends AbstractExpressionTests {
 	// rather than ArrayList
 	Class<?> unmodifiableClass = Collections.unmodifiableList(new ArrayList<>()).getClass();
 
-
 	@Test
 	public void testInlineListCreation01() {
 		evaluate("{1, 2, 3, 4, 5}", "[1, 2, 3, 4, 5]", unmodifiableClass);
@@ -118,13 +117,13 @@ public class ListTests extends AbstractExpressionTests {
 	@Test
 	public void testRelOperatorsBetween04() {
 		evaluate("new java.math.BigDecimal('1') between {new java.math.BigDecimal('1'),new java.math.BigDecimal('5')}",
-			"true", Boolean.class);
+				"true", Boolean.class);
 		evaluate("new java.math.BigDecimal('3') between {new java.math.BigDecimal('1'),new java.math.BigDecimal('5')}",
-			"true", Boolean.class);
+				"true", Boolean.class);
 		evaluate("new java.math.BigDecimal('5') between {new java.math.BigDecimal('1'),new java.math.BigDecimal('5')}",
-			"true", Boolean.class);
+				"true", Boolean.class);
 		evaluate("new java.math.BigDecimal('8') between {new java.math.BigDecimal('1'),new java.math.BigDecimal('5')}",
-			"false", Boolean.class);
+				"false", Boolean.class);
 	}
 
 	@Test
@@ -160,7 +159,8 @@ public class ListTests extends AbstractExpressionTests {
 	@Test
 	public void testInlineListWriting() {
 		// list should be unmodifiable
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-				evaluate("{1, 2, 3, 4, 5}[0]=6", "[1, 2, 3, 4, 5]", unmodifiableClass));
+		assertThatExceptionOfType(UnsupportedOperationException.class)
+				.isThrownBy(() -> evaluate("{1, 2, 3, 4, 5}[0]=6", "[1, 2, 3, 4, 5]", unmodifiableClass));
 	}
+
 }

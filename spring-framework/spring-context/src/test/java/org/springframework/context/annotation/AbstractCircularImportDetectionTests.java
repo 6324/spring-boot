@@ -35,7 +35,6 @@ public abstract class AbstractCircularImportDetectionTests {
 
 	protected abstract String loadAsConfigurationSource(Class<?> clazz) throws Exception;
 
-
 	@Test
 	public void simpleCircularImportIsDetected() throws Exception {
 		boolean threw = false;
@@ -43,9 +42,10 @@ public abstract class AbstractCircularImportDetectionTests {
 			newParser().parse(loadAsConfigurationSource(A.class), "A");
 		}
 		catch (BeanDefinitionParsingException ex) {
-			assertThat(ex.getMessage().contains(
-							"Illegal attempt by @Configuration class 'AbstractCircularImportDetectionTests.B' " +
-							"to import class 'AbstractCircularImportDetectionTests.A'")).as("Wrong message. Got: " + ex.getMessage()).isTrue();
+			assertThat(ex.getMessage()
+					.contains("Illegal attempt by @Configuration class 'AbstractCircularImportDetectionTests.B' "
+							+ "to import class 'AbstractCircularImportDetectionTests.A'"))
+									.as("Wrong message. Got: " + ex.getMessage()).isTrue();
 			threw = true;
 		}
 		assertThat(threw).isTrue();
@@ -58,14 +58,14 @@ public abstract class AbstractCircularImportDetectionTests {
 			newParser().parse(loadAsConfigurationSource(X.class), "X");
 		}
 		catch (BeanDefinitionParsingException ex) {
-			assertThat(ex.getMessage().contains(
-							"Illegal attempt by @Configuration class 'AbstractCircularImportDetectionTests.Z2' " +
-							"to import class 'AbstractCircularImportDetectionTests.Z'")).as("Wrong message. Got: " + ex.getMessage()).isTrue();
+			assertThat(ex.getMessage()
+					.contains("Illegal attempt by @Configuration class 'AbstractCircularImportDetectionTests.Z2' "
+							+ "to import class 'AbstractCircularImportDetectionTests.Z'"))
+									.as("Wrong message. Got: " + ex.getMessage()).isTrue();
 			threw = true;
 		}
 		assertThat(threw).isTrue();
 	}
-
 
 	@Configuration
 	@Import(B.class)
@@ -75,8 +75,8 @@ public abstract class AbstractCircularImportDetectionTests {
 		TestBean b1() {
 			return new TestBean();
 		}
-	}
 
+	}
 
 	@Configuration
 	@Import(A.class)
@@ -86,19 +86,19 @@ public abstract class AbstractCircularImportDetectionTests {
 		TestBean b2() {
 			return new TestBean();
 		}
+
 	}
 
-
 	@Configuration
-	@Import({Y.class, Z.class})
+	@Import({ Y.class, Z.class })
 	class X {
 
 		@Bean
 		TestBean x() {
 			return new TestBean();
 		}
-	}
 
+	}
 
 	@Configuration
 	class Y {
@@ -107,19 +107,19 @@ public abstract class AbstractCircularImportDetectionTests {
 		TestBean y() {
 			return new TestBean();
 		}
+
 	}
 
-
 	@Configuration
-	@Import({Z1.class, Z2.class})
+	@Import({ Z1.class, Z2.class })
 	class Z {
 
 		@Bean
 		TestBean z() {
 			return new TestBean();
 		}
-	}
 
+	}
 
 	@Configuration
 	class Z1 {
@@ -128,8 +128,8 @@ public abstract class AbstractCircularImportDetectionTests {
 		TestBean z1() {
 			return new TestBean();
 		}
-	}
 
+	}
 
 	@Configuration
 	@Import(Z.class)
@@ -139,6 +139,7 @@ public abstract class AbstractCircularImportDetectionTests {
 		TestBean z2() {
 			return new TestBean();
 		}
+
 	}
 
 }

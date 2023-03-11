@@ -19,8 +19,8 @@ package org.springframework.messaging.simp.stomp;
 import org.springframework.lang.Nullable;
 
 /**
- * Represents a STOMP session with operations to send messages,
- * create subscriptions and receive messages on those subscriptions.
+ * Represents a STOMP session with operations to send messages, create subscriptions and
+ * receive messages on those subscriptions.
  *
  * @author Rossen Stoyanchev
  * @since 4.2
@@ -38,13 +38,13 @@ public interface StompSession {
 	boolean isConnected();
 
 	/**
-	 * When enabled, a receipt header is automatically added to future
-	 * {@code send} and {@code subscribe} operations on this session, which
-	 * causes the server to return a RECEIPT. An application can then use
-	 * the {@link StompSession.Receiptable Receiptable} returned from the
-	 * operation to track the receipt.
-	 * <p>A receipt header can also be added manually through the overloaded
-	 * methods that accept {@code StompHeaders}.
+	 * When enabled, a receipt header is automatically added to future {@code send} and
+	 * {@code subscribe} operations on this session, which causes the server to return a
+	 * RECEIPT. An application can then use the {@link StompSession.Receiptable
+	 * Receiptable} returned from the operation to track the receipt.
+	 * <p>
+	 * A receipt header can also be added manually through the overloaded methods that
+	 * accept {@code StompHeaders}.
 	 */
 	void setAutoReceipt(boolean enabled);
 
@@ -60,10 +60,10 @@ public interface StompSession {
 
 	/**
 	 * An overloaded version of {@link #send(String, Object)} with full
-	 * {@link StompHeaders} instead of just a destination. The headers must
-	 * contain a destination and may also have other headers such as
-	 * "content-type" or custom headers for the broker to propagate to
-	 * subscribers, or broker-specific, non-standard headers.
+	 * {@link StompHeaders} instead of just a destination. The headers must contain a
+	 * destination and may also have other headers such as "content-type" or custom
+	 * headers for the broker to propagate to subscribers, or broker-specific,
+	 * non-standard headers.
 	 * @param headers the message headers
 	 * @param payload the message payload
 	 * @return a Receiptable for tracking receipts
@@ -71,8 +71,8 @@ public interface StompSession {
 	Receiptable send(StompHeaders headers, Object payload);
 
 	/**
-	 * Subscribe to the given destination by sending a SUBSCRIBE frame and handle
-	 * received messages with the specified {@link StompFrameHandler}.
+	 * Subscribe to the given destination by sending a SUBSCRIBE frame and handle received
+	 * messages with the specified {@link StompFrameHandler}.
 	 * @param destination the destination to subscribe to
 	 * @param handler the handler for received messages
 	 * @return a handle to use to unsubscribe and/or track receipts
@@ -80,8 +80,8 @@ public interface StompSession {
 	Subscription subscribe(String destination, StompFrameHandler handler);
 
 	/**
-	 * An overloaded version of {@link #subscribe(String, StompFrameHandler)}
-	 * with full {@link StompHeaders} instead of just a destination.
+	 * An overloaded version of {@link #subscribe(String, StompFrameHandler)} with full
+	 * {@link StompHeaders} instead of just a destination.
 	 * @param headers the headers for the subscribe message frame
 	 * @param handler the handler for received messages
 	 * @return a handle to use to unsubscribe and/or track receipts
@@ -89,11 +89,12 @@ public interface StompSession {
 	Subscription subscribe(StompHeaders headers, StompFrameHandler handler);
 
 	/**
-	 * Send an acknowledgement whether a message was consumed or not resulting
-	 * in an ACK or NACK frame respectively.
-	 * <p><strong>Note:</strong> to use this when subscribing you must set the
-	 * {@link StompHeaders#setAck(String) ack} header to "client" or
-	 * "client-individual" in order ot use this.
+	 * Send an acknowledgement whether a message was consumed or not resulting in an ACK
+	 * or NACK frame respectively.
+	 * <p>
+	 * <strong>Note:</strong> to use this when subscribing you must set the
+	 * {@link StompHeaders#setAck(String) ack} header to "client" or "client-individual"
+	 * in order ot use this.
 	 * @param messageId the id of the message
 	 * @param consumed whether the message was consumed or not
 	 * @return a Receiptable for tracking receipts
@@ -102,8 +103,8 @@ public interface StompSession {
 	Receiptable acknowledge(String messageId, boolean consumed);
 
 	/**
-	 * An overloaded version of {@link #acknowledge(String, boolean)} with
-	 * full {@link StompHeaders} instead of just a {@code messageId}.
+	 * An overloaded version of {@link #acknowledge(String, boolean)} with full
+	 * {@link StompHeaders} instead of just a {@code messageId}.
 	 * @param headers the headers for the ACK or NACK message frame
 	 * @param consumed whether the message was consumed or not
 	 * @return a Receiptable for tracking receipts
@@ -123,16 +124,16 @@ public interface StompSession {
 	 */
 	void disconnect(StompHeaders headers);
 
-
 	/**
 	 * A handle to use to track receipts.
+	 *
 	 * @see #setAutoReceipt(boolean)
 	 */
 	interface Receiptable {
 
 		/**
-		 * Return the receipt id, or {@code null} if the STOMP frame for which
-		 * the handle was returned did not have a "receipt" header.
+		 * Return the receipt id, or {@code null} if the STOMP frame for which the handle
+		 * was returned did not have a "receipt" header.
 		 */
 		@Nullable
 		String getReceiptId();
@@ -149,8 +150,8 @@ public interface StompSession {
 		 * @see org.springframework.messaging.simp.stomp.StompClientSupport#setReceiptTimeLimit(long)
 		 */
 		void addReceiptLostTask(Runnable runnable);
-	}
 
+	}
 
 	/**
 	 * A handle to use to unsubscribe or to track a receipt.
@@ -175,13 +176,15 @@ public interface StompSession {
 		void unsubscribe();
 
 		/**
-		 * Alternative to {@link #unsubscribe()} with additional custom headers
-		 * to send to the server.
-		 * <p><strong>Note:</strong> There is no need to set the subscription id.
+		 * Alternative to {@link #unsubscribe()} with additional custom headers to send to
+		 * the server.
+		 * <p>
+		 * <strong>Note:</strong> There is no need to set the subscription id.
 		 * @param headers the custom headers, if any
 		 * @since 5.0
 		 */
 		void unsubscribe(@Nullable StompHeaders headers);
+
 	}
 
 }

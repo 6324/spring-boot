@@ -59,7 +59,6 @@ class RequestMappingViewResolutionIntegrationTests extends AbstractRequestMappin
 		return wac;
 	}
 
-
 	@ParameterizedHttpServerTest
 	void html(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
@@ -80,7 +79,7 @@ class RequestMappingViewResolutionIntegrationTests extends AbstractRequestMappin
 		assertThat(response.getBody()).isNull();
 	}
 
-	@ParameterizedHttpServerTest  // SPR-15291
+	@ParameterizedHttpServerTest // SPR-15291
 	void redirect(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
@@ -100,11 +99,10 @@ class RequestMappingViewResolutionIntegrationTests extends AbstractRequestMappin
 		assertThat(response.getHeaders().getLocation().toString()).isEqualTo("/");
 	}
 
-
 	@Configuration
 	@EnableWebFlux
 	@ComponentScan(resourcePattern = "**/RequestMappingViewResolutionIntegrationTests$*.class")
-	@SuppressWarnings({"unused", "WeakerAccess"})
+	@SuppressWarnings({ "unused", "WeakerAccess" })
 	static class WebConfig implements WebFluxConfigurer {
 
 		@Override
@@ -119,11 +117,11 @@ class RequestMappingViewResolutionIntegrationTests extends AbstractRequestMappin
 			configurer.setTemplateLoaderPath("classpath*:org/springframework/web/reactive/view/freemarker/");
 			return configurer;
 		}
+
 	}
 
-
 	@Controller
-	@SuppressWarnings({"unused", "OptionalUsedAsFieldOrParameterType"})
+	@SuppressWarnings({ "unused", "OptionalUsedAsFieldOrParameterType" })
 	private static class TestController {
 
 		@GetMapping("/html")
@@ -139,6 +137,7 @@ class RequestMappingViewResolutionIntegrationTests extends AbstractRequestMappin
 		public String redirect() {
 			return "redirect:/";
 		}
+
 	}
 
 }

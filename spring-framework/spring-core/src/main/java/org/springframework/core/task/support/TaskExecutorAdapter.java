@@ -32,10 +32,10 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureTask;
 
 /**
- * Adapter that takes a JDK {@code java.util.concurrent.Executor} and
- * exposes a Spring {@link org.springframework.core.task.TaskExecutor} for it.
- * Also detects an extended {@code java.util.concurrent.ExecutorService}, adapting
- * the {@link org.springframework.core.task.AsyncTaskExecutor} interface accordingly.
+ * Adapter that takes a JDK {@code java.util.concurrent.Executor} and exposes a Spring
+ * {@link org.springframework.core.task.TaskExecutor} for it. Also detects an extended
+ * {@code java.util.concurrent.ExecutorService}, adapting the
+ * {@link org.springframework.core.task.AsyncTaskExecutor} interface accordingly.
  *
  * @author Juergen Hoeller
  * @since 3.0
@@ -50,10 +50,8 @@ public class TaskExecutorAdapter implements AsyncListenableTaskExecutor {
 	@Nullable
 	private TaskDecorator taskDecorator;
 
-
 	/**
-	 * Create a new TaskExecutorAdapter,
-	 * using the given JDK concurrent executor.
+	 * Create a new TaskExecutorAdapter, using the given JDK concurrent executor.
 	 * @param concurrentExecutor the JDK concurrent executor to delegate to
 	 */
 	public TaskExecutorAdapter(Executor concurrentExecutor) {
@@ -61,26 +59,27 @@ public class TaskExecutorAdapter implements AsyncListenableTaskExecutor {
 		this.concurrentExecutor = concurrentExecutor;
 	}
 
-
 	/**
-	 * Specify a custom {@link TaskDecorator} to be applied to any {@link Runnable}
-	 * about to be executed.
-	 * <p>Note that such a decorator is not necessarily being applied to the
-	 * user-supplied {@code Runnable}/{@code Callable} but rather to the actual
-	 * execution callback (which may be a wrapper around the user-supplied task).
-	 * <p>The primary use case is to set some execution context around the task's
-	 * invocation, or to provide some monitoring/statistics for task execution.
-	 * <p><b>NOTE:</b> Exception handling in {@code TaskDecorator} implementations
-	 * is limited to plain {@code Runnable} execution via {@code execute} calls.
-	 * In case of {@code #submit} calls, the exposed {@code Runnable} will be a
-	 * {@code FutureTask} which does not propagate any exceptions; you might
-	 * have to cast it and call {@code Future#get} to evaluate exceptions.
+	 * Specify a custom {@link TaskDecorator} to be applied to any {@link Runnable} about
+	 * to be executed.
+	 * <p>
+	 * Note that such a decorator is not necessarily being applied to the user-supplied
+	 * {@code Runnable}/{@code Callable} but rather to the actual execution callback
+	 * (which may be a wrapper around the user-supplied task).
+	 * <p>
+	 * The primary use case is to set some execution context around the task's invocation,
+	 * or to provide some monitoring/statistics for task execution.
+	 * <p>
+	 * <b>NOTE:</b> Exception handling in {@code TaskDecorator} implementations is limited
+	 * to plain {@code Runnable} execution via {@code execute} calls. In case of
+	 * {@code #submit} calls, the exposed {@code Runnable} will be a {@code FutureTask}
+	 * which does not propagate any exceptions; you might have to cast it and call
+	 * {@code Future#get} to evaluate exceptions.
 	 * @since 4.3
 	 */
 	public final void setTaskDecorator(TaskDecorator taskDecorator) {
 		this.taskDecorator = taskDecorator;
 	}
-
 
 	/**
 	 * Delegates to the specified JDK concurrent executor.
@@ -92,8 +91,8 @@ public class TaskExecutorAdapter implements AsyncListenableTaskExecutor {
 			doExecute(this.concurrentExecutor, this.taskDecorator, task);
 		}
 		catch (RejectedExecutionException ex) {
-			throw new TaskRejectedException(
-					"Executor [" + this.concurrentExecutor + "] did not accept task: " + task, ex);
+			throw new TaskRejectedException("Executor [" + this.concurrentExecutor + "] did not accept task: " + task,
+					ex);
 		}
 	}
 
@@ -115,8 +114,8 @@ public class TaskExecutorAdapter implements AsyncListenableTaskExecutor {
 			}
 		}
 		catch (RejectedExecutionException ex) {
-			throw new TaskRejectedException(
-					"Executor [" + this.concurrentExecutor + "] did not accept task: " + task, ex);
+			throw new TaskRejectedException("Executor [" + this.concurrentExecutor + "] did not accept task: " + task,
+					ex);
 		}
 	}
 
@@ -133,8 +132,8 @@ public class TaskExecutorAdapter implements AsyncListenableTaskExecutor {
 			}
 		}
 		catch (RejectedExecutionException ex) {
-			throw new TaskRejectedException(
-					"Executor [" + this.concurrentExecutor + "] did not accept task: " + task, ex);
+			throw new TaskRejectedException("Executor [" + this.concurrentExecutor + "] did not accept task: " + task,
+					ex);
 		}
 	}
 
@@ -146,8 +145,8 @@ public class TaskExecutorAdapter implements AsyncListenableTaskExecutor {
 			return future;
 		}
 		catch (RejectedExecutionException ex) {
-			throw new TaskRejectedException(
-					"Executor [" + this.concurrentExecutor + "] did not accept task: " + task, ex);
+			throw new TaskRejectedException("Executor [" + this.concurrentExecutor + "] did not accept task: " + task,
+					ex);
 		}
 	}
 
@@ -159,15 +158,14 @@ public class TaskExecutorAdapter implements AsyncListenableTaskExecutor {
 			return future;
 		}
 		catch (RejectedExecutionException ex) {
-			throw new TaskRejectedException(
-					"Executor [" + this.concurrentExecutor + "] did not accept task: " + task, ex);
+			throw new TaskRejectedException("Executor [" + this.concurrentExecutor + "] did not accept task: " + task,
+					ex);
 		}
 	}
 
-
 	/**
-	 * Actually execute the given {@code Runnable} (which may be a user-supplied task
-	 * or a wrapper around a user-supplied task) with the given executor.
+	 * Actually execute the given {@code Runnable} (which may be a user-supplied task or a
+	 * wrapper around a user-supplied task) with the given executor.
 	 * @param concurrentExecutor the underlying JDK concurrent executor to delegate to
 	 * @param taskDecorator the specified decorator to be applied, if any
 	 * @param runnable the runnable to execute
@@ -175,7 +173,7 @@ public class TaskExecutorAdapter implements AsyncListenableTaskExecutor {
 	 * @since 4.3
 	 */
 	protected void doExecute(Executor concurrentExecutor, @Nullable TaskDecorator taskDecorator, Runnable runnable)
-			throws RejectedExecutionException{
+			throws RejectedExecutionException {
 
 		concurrentExecutor.execute(taskDecorator != null ? taskDecorator.decorate(runnable) : runnable);
 	}

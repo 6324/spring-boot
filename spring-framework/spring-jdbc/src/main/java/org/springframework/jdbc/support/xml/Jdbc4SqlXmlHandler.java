@@ -35,10 +35,9 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.lang.Nullable;
 
 /**
- * Default implementation of the {@link SqlXmlHandler} interface.
- * Provides database-specific implementations for storing and
- * retrieving XML documents to and from fields in a database,
- * relying on the JDBC 4.0 {@code java.sql.SQLXML} facility.
+ * Default implementation of the {@link SqlXmlHandler} interface. Provides
+ * database-specific implementations for storing and retrieving XML documents to and from
+ * fields in a database, relying on the JDBC 4.0 {@code java.sql.SQLXML} facility.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -49,9 +48,9 @@ import org.springframework.lang.Nullable;
  */
 public class Jdbc4SqlXmlHandler implements SqlXmlHandler {
 
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	// Convenience methods for accessing XML content
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 	@Override
 	@Nullable
@@ -119,10 +118,9 @@ public class Jdbc4SqlXmlHandler implements SqlXmlHandler {
 		return (sourceClass != null ? xmlObject.getSource(sourceClass) : xmlObject.getSource(DOMSource.class));
 	}
 
-
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	// Convenience methods for building XML content
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 	@Override
 	public SqlXmlValue newSqlXmlValue(final String value) {
@@ -174,7 +172,6 @@ public class Jdbc4SqlXmlHandler implements SqlXmlHandler {
 		};
 	}
 
-
 	/**
 	 * Internal base class for {@link SqlXmlValue} implementations.
 	 */
@@ -208,6 +205,7 @@ public class Jdbc4SqlXmlHandler implements SqlXmlHandler {
 		}
 
 		protected abstract void provideXml(SQLXML xmlObject) throws SQLException, IOException;
+
 	}
 
 }

@@ -40,11 +40,9 @@ public abstract class AbstractEncoder<T> implements Encoder<T> {
 
 	protected Log logger = LogFactory.getLog(getClass());
 
-
 	protected AbstractEncoder(MimeType... supportedMimeTypes) {
 		this.encodableMimeTypes = Arrays.asList(supportedMimeTypes);
 	}
-
 
 	/**
 	 * Set an alternative logger to use than the one based on the class name.
@@ -62,7 +60,6 @@ public abstract class AbstractEncoder<T> implements Encoder<T> {
 	public Log getLogger() {
 		return logger;
 	}
-
 
 	@Override
 	public List<MimeType> getEncodableMimeTypes() {

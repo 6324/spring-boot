@@ -44,14 +44,12 @@ public abstract class AbstractMethodMetadataTests {
 
 	@Test
 	public void getDeclaringClassReturnsDeclaringClass() {
-		assertThat(getTagged(WithMethod.class).getDeclaringClassName()).isEqualTo(
-				WithMethod.class.getName());
+		assertThat(getTagged(WithMethod.class).getDeclaringClassName()).isEqualTo(WithMethod.class.getName());
 	}
 
 	@Test
 	public void getReturnTypeReturnsReturnType() {
-		assertThat(getTagged(WithMethod.class).getReturnTypeName()).isEqualTo(
-				String.class.getName());
+		assertThat(getTagged(WithMethod.class).getReturnTypeName()).isEqualTo(String.class.getName());
 	}
 
 	@Test
@@ -99,43 +97,37 @@ public abstract class AbstractMethodMetadataTests {
 	@Test
 	public void getAnnotationsReturnsDirectAnnotations() {
 		MethodMetadata metadata = getTagged(WithDirectAnnotation.class);
-		assertThat(metadata.getAnnotations().stream().filter(
-				MergedAnnotation::isDirectlyPresent).map(
-						a -> a.getType().getName())).containsExactlyInAnyOrder(
-								Tag.class.getName(),
-								DirectAnnotation.class.getName());
+		assertThat(metadata.getAnnotations().stream().filter(MergedAnnotation::isDirectlyPresent)
+				.map(a -> a.getType().getName())).containsExactlyInAnyOrder(Tag.class.getName(),
+						DirectAnnotation.class.getName());
 	}
 
 	@Test
 	public void isAnnotatedWhenMatchesDirectAnnotationReturnsTrue() {
-		assertThat(getTagged(WithDirectAnnotation.class).isAnnotated(
-				DirectAnnotation.class.getName())).isTrue();
+		assertThat(getTagged(WithDirectAnnotation.class).isAnnotated(DirectAnnotation.class.getName())).isTrue();
 	}
 
 	@Test
 	public void isAnnotatedWhenMatchesMetaAnnotationReturnsTrue() {
-		assertThat(getTagged(WithMetaAnnotation.class).isAnnotated(
-				DirectAnnotation.class.getName())).isTrue();
+		assertThat(getTagged(WithMetaAnnotation.class).isAnnotated(DirectAnnotation.class.getName())).isTrue();
 	}
 
 	@Test
 	public void isAnnotatedWhenDoesNotMatchDirectOrMetaAnnotationReturnsFalse() {
-		assertThat(getTagged(WithMethod.class).isAnnotated(
-				DirectAnnotation.class.getName())).isFalse();
+		assertThat(getTagged(WithMethod.class).isAnnotated(DirectAnnotation.class.getName())).isFalse();
 	}
 
 	@Test
 	public void getAnnotationAttributesReturnsAttributes() {
-		assertThat(getTagged(WithAnnotationAttributes.class).getAnnotationAttributes(
-				AnnotationAttributes.class.getName())).containsOnly(entry("name", "test"),
-						entry("size", 1));
+		assertThat(
+				getTagged(WithAnnotationAttributes.class).getAnnotationAttributes(AnnotationAttributes.class.getName()))
+						.containsOnly(entry("name", "test"), entry("size", 1));
 	}
 
 	@Test
 	public void getAllAnnotationAttributesReturnsAllAttributes() {
-		MultiValueMap<String, Object> attributes = getTagged(
-				WithMetaAnnotationAttributes.class).getAllAnnotationAttributes(
-						AnnotationAttributes.class.getName());
+		MultiValueMap<String, Object> attributes = getTagged(WithMetaAnnotationAttributes.class)
+				.getAllAnnotationAttributes(AnnotationAttributes.class.getName());
 		assertThat(attributes).containsOnlyKeys("name", "size");
 		assertThat(attributes.get("name")).containsExactlyInAnyOrder("m1", "m2");
 		assertThat(attributes.get("size")).containsExactlyInAnyOrder(1, 2);

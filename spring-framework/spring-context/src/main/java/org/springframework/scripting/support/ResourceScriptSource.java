@@ -31,12 +31,11 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link org.springframework.scripting.ScriptSource} implementation
- * based on Spring's {@link org.springframework.core.io.Resource}
- * abstraction. Loads the script text from the underlying Resource's
- * {@link org.springframework.core.io.Resource#getFile() File} or
- * {@link org.springframework.core.io.Resource#getInputStream() InputStream},
- * and tracks the last-modified timestamp of the file (if possible).
+ * {@link org.springframework.scripting.ScriptSource} implementation based on Spring's
+ * {@link org.springframework.core.io.Resource} abstraction. Loads the script text from
+ * the underlying Resource's {@link org.springframework.core.io.Resource#getFile() File}
+ * or {@link org.springframework.core.io.Resource#getInputStream() InputStream}, and
+ * tracks the last-modified timestamp of the file (if possible).
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -56,7 +55,6 @@ public class ResourceScriptSource implements ScriptSource {
 
 	private final Object lastModifiedMonitor = new Object();
 
-
 	/**
 	 * Create a new ResourceScriptSource for the given resource.
 	 * @param resource the EncodedResource to load the script from
@@ -75,10 +73,8 @@ public class ResourceScriptSource implements ScriptSource {
 		this.resource = new EncodedResource(resource, "UTF-8");
 	}
 
-
 	/**
-	 * Return the {@link org.springframework.core.io.Resource} to load the
-	 * script from.
+	 * Return the {@link org.springframework.core.io.Resource} to load the script from.
 	 */
 	public final Resource getResource() {
 		return this.resource.getResource();
@@ -86,13 +82,13 @@ public class ResourceScriptSource implements ScriptSource {
 
 	/**
 	 * Set the encoding used for reading the script resource.
-	 * <p>The default value for regular Resources is "UTF-8".
-	 * A {@code null} value implies the platform default.
+	 * <p>
+	 * The default value for regular Resources is "UTF-8". A {@code null} value implies
+	 * the platform default.
 	 */
 	public void setEncoding(@Nullable String encoding) {
 		this.resource = new EncodedResource(this.resource.getResource(), encoding);
 	}
-
 
 	@Override
 	public String getScriptAsString() throws IOException {
@@ -120,8 +116,8 @@ public class ResourceScriptSource implements ScriptSource {
 		}
 		catch (IOException ex) {
 			if (logger.isDebugEnabled()) {
-				logger.debug(getResource() + " could not be resolved in the file system - " +
-						"current timestamp not available for script modification check", ex);
+				logger.debug(getResource() + " could not be resolved in the file system - "
+						+ "current timestamp not available for script modification check", ex);
 			}
 			return 0;
 		}

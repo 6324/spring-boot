@@ -45,14 +45,12 @@ public class TxNamespaceHandlerTests {
 
 	private Method setAgeMethod;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		this.context = new ClassPathXmlApplicationContext("txNamespaceHandlerTests.xml", getClass());
 		this.getAgeMethod = ITestBean.class.getMethod("getAge");
 		this.setAgeMethod = ITestBean.class.getMethod("setAge", int.class);
 	}
-
 
 	@Test
 	public void isProxy() {
@@ -77,8 +75,8 @@ public class TxNamespaceHandlerTests {
 		assertThat(ptm.begun).as("Should not have started another transaction").isEqualTo(1);
 
 		// try with exceptional
-		assertThatExceptionOfType(Throwable.class).isThrownBy(() ->
-				testBean.exceptional(new IllegalArgumentException("foo")));
+		assertThatExceptionOfType(Throwable.class)
+				.isThrownBy(() -> testBean.exceptional(new IllegalArgumentException("foo")));
 		assertThat(ptm.begun).as("Should have another started transaction").isEqualTo(2);
 		assertThat(ptm.rollbacks).as("Should have 1 rolled back transaction").isEqualTo(1);
 	}
@@ -87,7 +85,7 @@ public class TxNamespaceHandlerTests {
 	public void rollbackRules() {
 		TransactionInterceptor txInterceptor = (TransactionInterceptor) context.getBean("txRollbackAdvice");
 		TransactionAttributeSource txAttrSource = txInterceptor.getTransactionAttributeSource();
-		TransactionAttribute txAttr = txAttrSource.getTransactionAttribute(getAgeMethod,ITestBean.class);
+		TransactionAttribute txAttr = txAttrSource.getTransactionAttribute(getAgeMethod, ITestBean.class);
 		assertThat(txAttr.rollbackOn(new Exception())).as("should be configured to rollback on Exception").isTrue();
 
 		txAttr = txAttrSource.getTransactionAttribute(setAgeMethod, ITestBean.class);

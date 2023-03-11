@@ -25,14 +25,16 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
 /**
- * A method-based {@link org.springframework.expression.EvaluationContext} that
- * provides explicit support for method-based invocations.
+ * A method-based {@link org.springframework.expression.EvaluationContext} that provides
+ * explicit support for method-based invocations.
  *
- * <p>Expose the actual method arguments using the following aliases:
+ * <p>
+ * Expose the actual method arguments using the following aliases:
  * <ol>
  * <li>pX where X is the index of the argument (p0 for the first argument)</li>
  * <li>aX where X is the index of the argument (a1 for the second argument)</li>
- * <li>the name of the parameter as discovered by a configurable {@link ParameterNameDiscoverer}</li>
+ * <li>the name of the parameter as discovered by a configurable
+ * {@link ParameterNameDiscoverer}</li>
  * </ol>
  *
  * @author Stephane Nicoll
@@ -49,7 +51,6 @@ public class MethodBasedEvaluationContext extends StandardEvaluationContext {
 
 	private boolean argumentsLoaded = false;
 
-
 	public MethodBasedEvaluationContext(Object rootObject, Method method, Object[] arguments,
 			ParameterNameDiscoverer parameterNameDiscoverer) {
 
@@ -58,7 +59,6 @@ public class MethodBasedEvaluationContext extends StandardEvaluationContext {
 		this.arguments = arguments;
 		this.parameterNameDiscoverer = parameterNameDiscoverer;
 	}
-
 
 	@Override
 	@Nullable

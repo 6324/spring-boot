@@ -27,8 +27,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Shared utility class used to evaluate and cache SpEL expressions that
- * are defined on {@link java.lang.reflect.AnnotatedElement}.
+ * Shared utility class used to evaluate and cache SpEL expressions that are defined on
+ * {@link java.lang.reflect.AnnotatedElement}.
  *
  * @author Stephane Nicoll
  * @since 4.2
@@ -39,7 +39,6 @@ public abstract class CachedExpressionEvaluator {
 	private final SpelExpressionParser parser;
 
 	private final ParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
-
 
 	/**
 	 * Create a new instance with the specified {@link SpelExpressionParser}.
@@ -56,7 +55,6 @@ public abstract class CachedExpressionEvaluator {
 		this(new SpelExpressionParser());
 	}
 
-
 	/**
 	 * Return the {@link SpelExpressionParser} to use.
 	 */
@@ -72,16 +70,16 @@ public abstract class CachedExpressionEvaluator {
 		return this.parameterNameDiscoverer;
 	}
 
-
 	/**
 	 * Return the {@link Expression} for the specified SpEL value
-	 * <p>Parse the expression if it hasn't been already.
+	 * <p>
+	 * Parse the expression if it hasn't been already.
 	 * @param cache the cache to use
 	 * @param elementKey the element on which the expression is defined
 	 * @param expression the expression to parse
 	 */
-	protected Expression getExpression(Map<ExpressionKey, Expression> cache,
-			AnnotatedElementKey elementKey, String expression) {
+	protected Expression getExpression(Map<ExpressionKey, Expression> cache, AnnotatedElementKey elementKey,
+			String expression) {
 
 		ExpressionKey expressionKey = createKey(elementKey, expression);
 		Expression expr = cache.get(expressionKey);
@@ -95,7 +93,6 @@ public abstract class CachedExpressionEvaluator {
 	private ExpressionKey createKey(AnnotatedElementKey elementKey, String expression) {
 		return new ExpressionKey(elementKey, expression);
 	}
-
 
 	/**
 	 * An expression key.
@@ -122,8 +119,8 @@ public abstract class CachedExpressionEvaluator {
 				return false;
 			}
 			ExpressionKey otherKey = (ExpressionKey) other;
-			return (this.element.equals(otherKey.element) &&
-					ObjectUtils.nullSafeEquals(this.expression, otherKey.expression));
+			return (this.element.equals(otherKey.element)
+					&& ObjectUtils.nullSafeEquals(this.expression, otherKey.expression));
 		}
 
 		@Override
@@ -144,6 +141,7 @@ public abstract class CachedExpressionEvaluator {
 			}
 			return result;
 		}
+
 	}
 
 }

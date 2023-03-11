@@ -36,14 +36,17 @@ import org.springframework.util.Assert;
  * A Spring {@link FactoryBean} for creating a Quartz {@link org.quartz.SimpleTrigger}
  * instance, supporting bean-style usage for trigger configuration.
  *
- * <p>{@code SimpleTrigger(Impl)} itself is already a JavaBean but lacks sensible defaults.
+ * <p>
+ * {@code SimpleTrigger(Impl)} itself is already a JavaBean but lacks sensible defaults.
  * This class uses the Spring bean name as job name, the Quartz default group ("DEFAULT")
- * as job group, the current time as start time, and indefinite repetition, if not specified.
+ * as job group, the current time as start time, and indefinite repetition, if not
+ * specified.
  *
- * <p>This class will also register the trigger with the job name and group of
- * a given {@link org.quartz.JobDetail}. This allows {@link SchedulerFactoryBean}
- * to automatically register a trigger for the corresponding JobDetail,
- * instead of registering the JobDetail separately.
+ * <p>
+ * This class will also register the trigger with the job name and group of a given
+ * {@link org.quartz.JobDetail}. This allows {@link SchedulerFactoryBean} to automatically
+ * register a trigger for the corresponding JobDetail, instead of registering the
+ * JobDetail separately.
  *
  * @author Juergen Hoeller
  * @since 3.1
@@ -58,7 +61,6 @@ public class SimpleTriggerFactoryBean implements FactoryBean<SimpleTrigger>, Bea
 
 	/** Constants for the SimpleTrigger class. */
 	private static final Constants constants = new Constants(SimpleTrigger.class);
-
 
 	@Nullable
 	private String name;
@@ -92,7 +94,6 @@ public class SimpleTriggerFactoryBean implements FactoryBean<SimpleTrigger>, Bea
 
 	@Nullable
 	private SimpleTrigger simpleTrigger;
-
 
 	/**
 	 * Specify the trigger's name.
@@ -132,10 +133,11 @@ public class SimpleTriggerFactoryBean implements FactoryBean<SimpleTrigger>, Bea
 
 	/**
 	 * Register objects in the JobDataMap via a given Map.
-	 * <p>These objects will be available to this Trigger only,
-	 * in contrast to objects in the JobDetail's data map.
-	 * @param jobDataAsMap a Map with String keys and any objects as values
-	 * (for example Spring-managed beans)
+	 * <p>
+	 * These objects will be available to this Trigger only, in contrast to objects in the
+	 * JobDetail's data map.
+	 * @param jobDataAsMap a Map with String keys and any objects as values (for example
+	 * Spring-managed beans)
 	 */
 	public void setJobDataAsMap(Map<String, ?> jobDataAsMap) {
 		this.jobDataMap.putAll(jobDataAsMap);
@@ -143,8 +145,9 @@ public class SimpleTriggerFactoryBean implements FactoryBean<SimpleTrigger>, Bea
 
 	/**
 	 * Set a specific start time for the trigger.
-	 * <p>Note that a dynamically computed {@link #setStartDelay} specification
-	 * overrides a static timestamp set here.
+	 * <p>
+	 * Note that a dynamically computed {@link #setStartDelay} specification overrides a
+	 * static timestamp set here.
 	 */
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
@@ -152,8 +155,9 @@ public class SimpleTriggerFactoryBean implements FactoryBean<SimpleTrigger>, Bea
 
 	/**
 	 * Set the start delay in milliseconds.
-	 * <p>The start delay is added to the current system time (when the bean starts)
-	 * to control the start time of the trigger.
+	 * <p>
+	 * The start delay is added to the current system time (when the bean starts) to
+	 * control the start time of the trigger.
 	 * @see #setStartTime
 	 */
 	public void setStartDelay(long startDelay) {
@@ -170,7 +174,8 @@ public class SimpleTriggerFactoryBean implements FactoryBean<SimpleTrigger>, Bea
 
 	/**
 	 * Specify the number of times this trigger is supposed to fire.
-	 * <p>Default is to repeat indefinitely.
+	 * <p>
+	 * Default is to repeat indefinitely.
 	 */
 	public void setRepeatCount(int repeatCount) {
 		this.repeatCount = repeatCount;
@@ -191,9 +196,9 @@ public class SimpleTriggerFactoryBean implements FactoryBean<SimpleTrigger>, Bea
 	}
 
 	/**
-	 * Set the misfire instruction via the name of the corresponding
-	 * constant in the {@link org.quartz.SimpleTrigger} class.
-	 * Default is {@code MISFIRE_INSTRUCTION_SMART_POLICY}.
+	 * Set the misfire instruction via the name of the corresponding constant in the
+	 * {@link org.quartz.SimpleTrigger} class. Default is
+	 * {@code MISFIRE_INSTRUCTION_SMART_POLICY}.
 	 * @see org.quartz.SimpleTrigger#MISFIRE_INSTRUCTION_FIRE_NOW
 	 * @see org.quartz.SimpleTrigger#MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_EXISTING_COUNT
 	 * @see org.quartz.SimpleTrigger#MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT
@@ -216,7 +221,6 @@ public class SimpleTriggerFactoryBean implements FactoryBean<SimpleTrigger>, Bea
 	public void setBeanName(String beanName) {
 		this.beanName = beanName;
 	}
-
 
 	@Override
 	public void afterPropertiesSet() {
@@ -248,7 +252,6 @@ public class SimpleTriggerFactoryBean implements FactoryBean<SimpleTrigger>, Bea
 		sti.setDescription(this.description);
 		this.simpleTrigger = sti;
 	}
-
 
 	@Override
 	@Nullable

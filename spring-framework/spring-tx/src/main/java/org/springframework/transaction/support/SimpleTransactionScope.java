@@ -28,11 +28,13 @@ import org.springframework.lang.Nullable;
  * A simple transaction-backed {@link Scope} implementation, delegating to
  * {@link TransactionSynchronizationManager}'s resource binding mechanism.
  *
- * <p><b>NOTE:</b> Like {@link org.springframework.context.support.SimpleThreadScope},
- * this transaction scope is not registered by default in common contexts. Instead,
- * you need to explicitly assign it to a scope key in your setup, either through
+ * <p>
+ * <b>NOTE:</b> Like {@link org.springframework.context.support.SimpleThreadScope}, this
+ * transaction scope is not registered by default in common contexts. Instead, you need to
+ * explicitly assign it to a scope key in your setup, either through
  * {@link org.springframework.beans.factory.config.ConfigurableBeanFactory#registerScope}
- * or through a {@link org.springframework.beans.factory.config.CustomScopeConfigurer} bean.
+ * or through a {@link org.springframework.beans.factory.config.CustomScopeConfigurer}
+ * bean.
  *
  * @author Juergen Hoeller
  * @since 4.2
@@ -93,7 +95,6 @@ public class SimpleTransactionScope implements Scope {
 		return TransactionSynchronizationManager.getCurrentTransactionName();
 	}
 
-
 	/**
 	 * Holder for scoped objects.
 	 */
@@ -102,8 +103,8 @@ public class SimpleTransactionScope implements Scope {
 		final Map<String, Object> scopedInstances = new HashMap<>();
 
 		final Map<String, Runnable> destructionCallbacks = new LinkedHashMap<>();
-	}
 
+	}
 
 	private class CleanupSynchronization extends TransactionSynchronizationAdapter {
 
@@ -132,6 +133,7 @@ public class SimpleTransactionScope implements Scope {
 			this.scopedObjects.destructionCallbacks.clear();
 			this.scopedObjects.scopedInstances.clear();
 		}
+
 	}
 
 }

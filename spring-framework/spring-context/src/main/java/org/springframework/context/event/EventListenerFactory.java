@@ -21,8 +21,8 @@ import java.lang.reflect.Method;
 import org.springframework.context.ApplicationListener;
 
 /**
- * Strategy interface for creating {@link ApplicationListener} for methods
- * annotated with {@link EventListener}.
+ * Strategy interface for creating {@link ApplicationListener} for methods annotated with
+ * {@link EventListener}.
  *
  * @author Stephane Nicoll
  * @since 4.2

@@ -26,25 +26,27 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
- * An adapter for a target {@link javax.sql.DataSource}, applying the current
- * Spring transaction's isolation level (and potentially specified user credentials)
- * to every {@code getConnection} call. Also applies the read-only flag,
- * if specified.
+ * An adapter for a target {@link javax.sql.DataSource}, applying the current Spring
+ * transaction's isolation level (and potentially specified user credentials) to every
+ * {@code getConnection} call. Also applies the read-only flag, if specified.
  *
- * <p>Can be used to proxy a target JNDI DataSource that does not have the
- * desired isolation level (and user credentials) configured. Client code
- * can work with this DataSource as usual, not worrying about such settings.
+ * <p>
+ * Can be used to proxy a target JNDI DataSource that does not have the desired isolation
+ * level (and user credentials) configured. Client code can work with this DataSource as
+ * usual, not worrying about such settings.
  *
- * <p>Inherits the capability to apply specific user credentials from its superclass
- * {@link UserCredentialsDataSourceAdapter}; see the latter's javadoc for details
- * on that functionality (e.g. {@link #setCredentialsForCurrentThread}).
+ * <p>
+ * Inherits the capability to apply specific user credentials from its superclass
+ * {@link UserCredentialsDataSourceAdapter}; see the latter's javadoc for details on that
+ * functionality (e.g. {@link #setCredentialsForCurrentThread}).
  *
- * <p><b>WARNING:</b> This adapter simply calls
+ * <p>
+ * <b>WARNING:</b> This adapter simply calls
  * {@link java.sql.Connection#setTransactionIsolation} and/or
- * {@link java.sql.Connection#setReadOnly} for every Connection obtained from it.
- * It does, however, <i>not</i> reset those settings; it rather expects the target
- * DataSource to perform such resetting as part of its connection pool handling.
- * <b>Make sure that the target DataSource properly cleans up such transaction state.</b>
+ * {@link java.sql.Connection#setReadOnly} for every Connection obtained from it. It does,
+ * however, <i>not</i> reset those settings; it rather expects the target DataSource to
+ * perform such resetting as part of its connection pool handling. <b>Make sure that the
+ * target DataSource properly cleans up such transaction state.</b>
  *
  * @author Juergen Hoeller
  * @since 2.0.3
@@ -61,14 +63,14 @@ public class IsolationLevelDataSourceAdapter extends UserCredentialsDataSourceAd
 	@Nullable
 	private Integer isolationLevel;
 
-
 	/**
-	 * Set the default isolation level by the name of the corresponding constant
-	 * in {@link org.springframework.transaction.TransactionDefinition}, e.g.
+	 * Set the default isolation level by the name of the corresponding constant in
+	 * {@link org.springframework.transaction.TransactionDefinition}, e.g.
 	 * "ISOLATION_SERIALIZABLE".
-	 * <p>If not specified, the target DataSource's default will be used.
-	 * Note that a transaction-specific isolation value will always override
-	 * any isolation setting specified at the DataSource level.
+	 * <p>
+	 * If not specified, the target DataSource's default will be used. Note that a
+	 * transaction-specific isolation value will always override any isolation setting
+	 * specified at the DataSource level.
 	 * @param constantName name of the constant
 	 * @see org.springframework.transaction.TransactionDefinition#ISOLATION_READ_UNCOMMITTED
 	 * @see org.springframework.transaction.TransactionDefinition#ISOLATION_READ_COMMITTED
@@ -84,13 +86,13 @@ public class IsolationLevelDataSourceAdapter extends UserCredentialsDataSourceAd
 	}
 
 	/**
-	 * Specify the default isolation level to use for Connection retrieval,
-	 * according to the JDBC {@link java.sql.Connection} constants
-	 * (equivalent to the corresponding Spring
-	 * {@link org.springframework.transaction.TransactionDefinition} constants).
-	 * <p>If not specified, the target DataSource's default will be used.
-	 * Note that a transaction-specific isolation value will always override
-	 * any isolation setting specified at the DataSource level.
+	 * Specify the default isolation level to use for Connection retrieval, according to
+	 * the JDBC {@link java.sql.Connection} constants (equivalent to the corresponding
+	 * Spring {@link org.springframework.transaction.TransactionDefinition} constants).
+	 * <p>
+	 * If not specified, the target DataSource's default will be used. Note that a
+	 * transaction-specific isolation value will always override any isolation setting
+	 * specified at the DataSource level.
 	 * @see java.sql.Connection#TRANSACTION_READ_UNCOMMITTED
 	 * @see java.sql.Connection#TRANSACTION_READ_COMMITTED
 	 * @see java.sql.Connection#TRANSACTION_REPEATABLE_READ
@@ -110,18 +112,16 @@ public class IsolationLevelDataSourceAdapter extends UserCredentialsDataSourceAd
 	}
 
 	/**
-	 * Return the statically specified isolation level,
-	 * or {@code null} if none.
+	 * Return the statically specified isolation level, or {@code null} if none.
 	 */
 	@Nullable
 	protected Integer getIsolationLevel() {
 		return this.isolationLevel;
 	}
 
-
 	/**
-	 * Applies the current isolation level value and read-only flag
-	 * to the returned Connection.
+	 * Applies the current isolation level value and read-only flag to the returned
+	 * Connection.
 	 * @see #getCurrentIsolationLevel()
 	 * @see #getCurrentReadOnlyFlag()
 	 */
@@ -140,8 +140,8 @@ public class IsolationLevelDataSourceAdapter extends UserCredentialsDataSourceAd
 	}
 
 	/**
-	 * Determine the current isolation level: either the transaction's
-	 * isolation level or a statically defined isolation level.
+	 * Determine the current isolation level: either the transaction's isolation level or
+	 * a statically defined isolation level.
 	 * @return the current isolation level, or {@code null} if none
 	 * @see org.springframework.transaction.support.TransactionSynchronizationManager#getCurrentTransactionIsolationLevel()
 	 * @see #setIsolationLevel
@@ -156,8 +156,7 @@ public class IsolationLevelDataSourceAdapter extends UserCredentialsDataSourceAd
 	}
 
 	/**
-	 * Determine the current read-only flag: by default,
-	 * the transaction's read-only hint.
+	 * Determine the current read-only flag: by default, the transaction's read-only hint.
 	 * @return whether there is a read-only hint for the current scope
 	 * @see org.springframework.transaction.support.TransactionSynchronizationManager#isCurrentTransactionReadOnly()
 	 */

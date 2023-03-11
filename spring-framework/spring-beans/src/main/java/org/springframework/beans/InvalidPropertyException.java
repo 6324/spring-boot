@@ -19,8 +19,8 @@ package org.springframework.beans;
 import org.springframework.lang.Nullable;
 
 /**
- * Exception thrown when referring to an invalid bean property.
- * Carries the offending bean class and property name.
+ * Exception thrown when referring to an invalid bean property. Carries the offending bean
+ * class and property name.
  *
  * @author Juergen Hoeller
  * @since 1.0.2
@@ -31,7 +31,6 @@ public class InvalidPropertyException extends FatalBeanException {
 	private final Class<?> beanClass;
 
 	private final String propertyName;
-
 
 	/**
 	 * Create a new InvalidPropertyException.

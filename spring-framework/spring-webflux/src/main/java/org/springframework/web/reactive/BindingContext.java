@@ -25,14 +25,16 @@ import org.springframework.web.server.ServerErrorException;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * Context to assist with binding request data onto Objects and provide access
- * to a shared {@link Model} with controller-specific attributes.
+ * Context to assist with binding request data onto Objects and provide access to a shared
+ * {@link Model} with controller-specific attributes.
  *
- * <p>Provides  methods to create a {@link WebExchangeDataBinder} for a specific
- * target, command Object to apply data binding and validation to, or without a
- * target Object for simple type conversion from request values.
+ * <p>
+ * Provides methods to create a {@link WebExchangeDataBinder} for a specific target,
+ * command Object to apply data binding and validation to, or without a target Object for
+ * simple type conversion from request values.
  *
- * <p>Container for the default model for the request.
+ * <p>
+ * Container for the default model for the request.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -43,7 +45,6 @@ public class BindingContext {
 	private final WebBindingInitializer initializer;
 
 	private final Model model = new BindingAwareConcurrentModel();
-
 
 	/**
 	 * Create a new {@code BindingContext}.
@@ -60,7 +61,6 @@ public class BindingContext {
 		this.initializer = initializer;
 	}
 
-
 	/**
 	 * Return the default model.
 	 */
@@ -68,10 +68,9 @@ public class BindingContext {
 		return this.model;
 	}
 
-
 	/**
-	 * Create a {@link WebExchangeDataBinder} to apply data binding and
-	 * validation with on the target, command object.
+	 * Create a {@link WebExchangeDataBinder} to apply data binding and validation with on
+	 * the target, command object.
 	 * @param exchange the current exchange
 	 * @param target the object to create a data binder for
 	 * @param name the name of the target object
@@ -95,8 +94,8 @@ public class BindingContext {
 	}
 
 	/**
-	 * Create a {@link WebExchangeDataBinder} without a target object for type
-	 * conversion of request values to simple types.
+	 * Create a {@link WebExchangeDataBinder} without a target object for type conversion
+	 * of request values to simple types.
 	 * @param exchange the current exchange
 	 * @param name the name of the target object
 	 * @return the created data binder

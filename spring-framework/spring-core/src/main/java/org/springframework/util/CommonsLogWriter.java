@@ -32,7 +32,6 @@ public class CommonsLogWriter extends Writer {
 
 	private final StringBuilder buffer = new StringBuilder();
 
-
 	/**
 	 * Create a new CommonsLogWriter for the given Commons Logging logger.
 	 * @param logger the Commons Logging logger to write to
@@ -41,7 +40,6 @@ public class CommonsLogWriter extends Writer {
 		Assert.notNull(logger, "Logger must not be null");
 		this.logger = logger;
 	}
-
 
 	public void write(char ch) {
 		if (ch == '\n' && this.buffer.length() > 0) {

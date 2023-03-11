@@ -22,8 +22,8 @@ import org.springframework.core.env.PropertySource;
 import org.springframework.lang.Nullable;
 
 /**
- * The default implementation for {@link PropertySourceFactory},
- * wrapping every resource in a {@link ResourcePropertySource}.
+ * The default implementation for {@link PropertySourceFactory}, wrapping every resource
+ * in a {@link ResourcePropertySource}.
  *
  * @author Juergen Hoeller
  * @since 4.3

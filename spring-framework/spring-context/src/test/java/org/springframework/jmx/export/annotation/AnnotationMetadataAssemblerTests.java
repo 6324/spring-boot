@@ -36,7 +36,6 @@ public class AnnotationMetadataAssemblerTests extends AbstractMetadataAssemblerT
 
 	private static final String OBJECT_NAME = "bean:name=testBean4";
 
-
 	@Test
 	public void testAttributeFromInterface() throws Exception {
 		ModelMBeanInfo inf = getMBeanInfoFromAssembler();
@@ -78,9 +77,9 @@ public class AnnotationMetadataAssemblerTests extends AbstractMetadataAssemblerT
 
 		ModelMBeanAttributeInfo attr2 = inf.getAttribute("CacheEntries");
 		assertThat(attr2).as("cacheEntries attribute not exposed").isNotNull();
-		assertThat(attr2.getDescriptor().getFieldValue("metricType")).as("Metric Type should be COUNTER").isEqualTo("COUNTER");
+		assertThat(attr2.getDescriptor().getFieldValue("metricType")).as("Metric Type should be COUNTER")
+				.isEqualTo("COUNTER");
 	}
-
 
 	@Override
 	protected JmxAttributeSource getAttributeSource() {
@@ -111,4 +110,5 @@ public class AnnotationMetadataAssemblerTests extends AbstractMetadataAssemblerT
 	protected int getExpectedOperationCount() {
 		return super.getExpectedOperationCount() + 4;
 	}
+
 }

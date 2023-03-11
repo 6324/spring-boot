@@ -26,9 +26,9 @@ import org.springframework.util.StringUtils;
 
 /**
  * Mutable transaction context that encapsulates transactional synchronizations and
- * resources in the scope of a single transaction. Transaction context is typically
- * held by an outer {@link TransactionContextHolder} or referenced directly within
- * from the subscriber context.
+ * resources in the scope of a single transaction. Transaction context is typically held
+ * by an outer {@link TransactionContextHolder} or referenced directly within from the
+ * subscriber context.
  *
  * @author Mark Paluch
  * @author Juergen Hoeller
@@ -55,7 +55,6 @@ public class TransactionContext {
 
 	private volatile boolean actualTransactionActive;
 
-
 	TransactionContext() {
 		this(null);
 	}
@@ -63,7 +62,6 @@ public class TransactionContext {
 	TransactionContext(@Nullable TransactionContext parent) {
 		this.parent = parent;
 	}
-
 
 	@Nullable
 	public TransactionContext getParent() {
@@ -127,7 +125,6 @@ public class TransactionContext {
 	public boolean isActualTransactionActive() {
 		return this.actualTransactionActive;
 	}
-
 
 	public void clear() {
 		this.synchronizations = null;

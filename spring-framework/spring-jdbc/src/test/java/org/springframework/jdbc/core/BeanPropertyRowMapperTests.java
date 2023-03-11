@@ -38,11 +38,11 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 public class BeanPropertyRowMapperTests extends AbstractRowMapperTests {
 
 	@Test
-	@SuppressWarnings({"unchecked", "rawtypes"})
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void testOverridingDifferentClassDefinedForMapping() {
 		BeanPropertyRowMapper mapper = new BeanPropertyRowMapper(Person.class);
-		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(() ->
-				mapper.setMappedClass(Long.class));
+		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class)
+				.isThrownBy(() -> mapper.setMappedClass(Long.class));
 	}
 
 	@Test
@@ -54,8 +54,7 @@ public class BeanPropertyRowMapperTests extends AbstractRowMapperTests {
 	@Test
 	public void testStaticQueryWithRowMapper() throws Exception {
 		Mock mock = new Mock();
-		List<Person> result = mock.getJdbcTemplate().query(
-				"select name, age, birth_date, balance from people",
+		List<Person> result = mock.getJdbcTemplate().query("select name, age, birth_date, balance from people",
 				new BeanPropertyRowMapper<>(Person.class));
 		assertThat(result.size()).isEqualTo(1);
 		verifyPerson(result.get(0));
@@ -65,8 +64,7 @@ public class BeanPropertyRowMapperTests extends AbstractRowMapperTests {
 	@Test
 	public void testMappingWithInheritance() throws Exception {
 		Mock mock = new Mock();
-		List<ConcretePerson> result = mock.getJdbcTemplate().query(
-				"select name, age, birth_date, balance from people",
+		List<ConcretePerson> result = mock.getJdbcTemplate().query("select name, age, birth_date, balance from people",
 				new BeanPropertyRowMapper<>(ConcretePerson.class));
 		assertThat(result.size()).isEqualTo(1);
 		verifyPerson(result.get(0));
@@ -76,8 +74,7 @@ public class BeanPropertyRowMapperTests extends AbstractRowMapperTests {
 	@Test
 	public void testMappingWithNoUnpopulatedFieldsFound() throws Exception {
 		Mock mock = new Mock();
-		List<ConcretePerson> result = mock.getJdbcTemplate().query(
-				"select name, age, birth_date, balance from people",
+		List<ConcretePerson> result = mock.getJdbcTemplate().query("select name, age, birth_date, balance from people",
 				new BeanPropertyRowMapper<>(ConcretePerson.class, true));
 		assertThat(result.size()).isEqualTo(1);
 		verifyPerson(result.get(0));
@@ -87,8 +84,7 @@ public class BeanPropertyRowMapperTests extends AbstractRowMapperTests {
 	@Test
 	public void testMappingWithUnpopulatedFieldsNotChecked() throws Exception {
 		Mock mock = new Mock();
-		List<ExtendedPerson> result = mock.getJdbcTemplate().query(
-				"select name, age, birth_date, balance from people",
+		List<ExtendedPerson> result = mock.getJdbcTemplate().query("select name, age, birth_date, balance from people",
 				new BeanPropertyRowMapper<>(ExtendedPerson.class));
 		assertThat(result.size()).isEqualTo(1);
 		ExtendedPerson bean = result.get(0);
@@ -99,8 +95,8 @@ public class BeanPropertyRowMapperTests extends AbstractRowMapperTests {
 	@Test
 	public void testMappingWithUnpopulatedFieldsNotAccepted() throws Exception {
 		Mock mock = new Mock();
-		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(() ->
-				mock.getJdbcTemplate().query("select name, age, birth_date, balance from people",
+		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class)
+				.isThrownBy(() -> mock.getJdbcTemplate().query("select name, age, birth_date, balance from people",
 						new BeanPropertyRowMapper<>(ExtendedPerson.class, true)));
 	}
 
@@ -108,8 +104,8 @@ public class BeanPropertyRowMapperTests extends AbstractRowMapperTests {
 	public void testMappingNullValue() throws Exception {
 		BeanPropertyRowMapper<Person> mapper = new BeanPropertyRowMapper<>(Person.class);
 		Mock mock = new Mock(MockType.TWO);
-		assertThatExceptionOfType(TypeMismatchException.class).isThrownBy(() ->
-				mock.getJdbcTemplate().query("select name, null as age, birth_date, balance from people", mapper));
+		assertThatExceptionOfType(TypeMismatchException.class).isThrownBy(() -> mock.getJdbcTemplate()
+				.query("select name, null as age, birth_date, balance from people", mapper));
 	}
 
 	@Test

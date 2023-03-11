@@ -35,28 +35,25 @@ public class CustomCollectionEditorTests {
 
 	@Test
 	public void testCtorWithNullCollectionType() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new CustomCollectionEditor(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new CustomCollectionEditor(null));
 	}
 
 	@Test
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void testCtorWithNonCollectionType() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new CustomCollectionEditor((Class) String.class));
+		assertThatIllegalArgumentException().isThrownBy(() -> new CustomCollectionEditor((Class) String.class));
 	}
 
 	@Test
 	public void testWithCollectionTypeThatDoesNotExposeAPublicNoArgCtor() throws Exception {
 		CustomCollectionEditor editor = new CustomCollectionEditor(CollectionTypeWithNoNoArgCtor.class);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				editor.setValue("1"));
+		assertThatIllegalArgumentException().isThrownBy(() -> editor.setValue("1"));
 	}
 
 	@Test
 	public void testSunnyDaySetValue() throws Exception {
 		CustomCollectionEditor editor = new CustomCollectionEditor(ArrayList.class);
-		editor.setValue(new int[] {0, 1, 2});
+		editor.setValue(new int[] { 0, 1, 2 });
 		Object value = editor.getValue();
 		assertThat(value).isNotNull();
 		boolean condition = value instanceof ArrayList;
@@ -91,11 +88,12 @@ public class CustomCollectionEditorTests {
 		assertThat(list.get(0)).isEqualTo("0, 1, 2");
 	}
 
-
 	@SuppressWarnings({ "serial", "unused" })
 	private static final class CollectionTypeWithNoNoArgCtor extends ArrayList<Object> {
+
 		public CollectionTypeWithNoNoArgCtor(String anArg) {
 		}
+
 	}
 
 }

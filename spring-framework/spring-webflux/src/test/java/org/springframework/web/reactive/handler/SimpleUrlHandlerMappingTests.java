@@ -105,7 +105,7 @@ public class SimpleUrlHandlerMappingTests {
 		if (bean != null) {
 			assertThat(actual).isNotNull();
 			assertThat(actual).isSameAs(bean);
-			//noinspection OptionalGetWithoutIsPresent
+			// noinspection OptionalGetWithoutIsPresent
 			PathContainer path = exchange.getAttribute(PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 			assertThat(path).isNotNull();
 			assertThat(path.value()).isEqualTo(pathWithinMapping);
@@ -115,11 +115,11 @@ public class SimpleUrlHandlerMappingTests {
 		}
 	}
 
-
 	@Configuration
 	static class WebConfig {
 
-		@Bean @SuppressWarnings("unused")
+		@Bean
+		@SuppressWarnings("unused")
 		public SimpleUrlHandlerMapping handlerMapping() {
 			SimpleUrlHandlerMapping hm = new SimpleUrlHandlerMapping();
 			hm.registerHandler("/welcome*", otherController());
@@ -138,6 +138,7 @@ public class SimpleUrlHandlerMappingTests {
 		public Object otherController() {
 			return new Object();
 		}
+
 	}
 
 }

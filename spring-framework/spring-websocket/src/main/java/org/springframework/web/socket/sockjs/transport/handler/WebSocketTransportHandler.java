@@ -42,7 +42,8 @@ import org.springframework.web.socket.sockjs.transport.session.WebSocketServerSo
  * WebSocket-based {@link TransportHandler}. Uses {@link SockJsWebSocketHandler} and
  * {@link WebSocketServerSockJsSession} to add SockJS processing.
  *
- * <p>Also implements {@link HandshakeHandler} to support raw WebSocket communication at
+ * <p>
+ * Also implements {@link HandshakeHandler} to support raw WebSocket communication at
  * SockJS URL "/websocket".
  *
  * @author Rossen Stoyanchev
@@ -55,12 +56,10 @@ public class WebSocketTransportHandler extends AbstractTransportHandler
 
 	private volatile boolean running;
 
-
 	public WebSocketTransportHandler(HandshakeHandler handshakeHandler) {
 		Assert.notNull(handshakeHandler, "HandshakeHandler must not be null");
 		this.handshakeHandler = handshakeHandler;
 	}
-
 
 	@Override
 	public TransportType getTransportType() {
@@ -77,7 +76,6 @@ public class WebSocketTransportHandler extends AbstractTransportHandler
 			((ServletContextAware) this.handshakeHandler).setServletContext(servletContext);
 		}
 	}
-
 
 	@Override
 	public void start() {
@@ -104,7 +102,6 @@ public class WebSocketTransportHandler extends AbstractTransportHandler
 		return this.running;
 	}
 
-
 	@Override
 	public boolean checkSessionType(SockJsSession session) {
 		return (session instanceof WebSocketServerSockJsSession);
@@ -116,8 +113,8 @@ public class WebSocketTransportHandler extends AbstractTransportHandler
 	}
 
 	@Override
-	public void handleRequest(ServerHttpRequest request, ServerHttpResponse response,
-			WebSocketHandler wsHandler, SockJsSession wsSession) throws SockJsException {
+	public void handleRequest(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
+			SockJsSession wsSession) throws SockJsException {
 
 		WebSocketServerSockJsSession sockJsSession = (WebSocketServerSockJsSession) wsSession;
 		try {
@@ -131,9 +128,10 @@ public class WebSocketTransportHandler extends AbstractTransportHandler
 	}
 
 	@Override
-	public boolean doHandshake(ServerHttpRequest request, ServerHttpResponse response,
-			WebSocketHandler handler, Map<String, Object> attributes) throws HandshakeFailureException {
+	public boolean doHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler handler,
+			Map<String, Object> attributes) throws HandshakeFailureException {
 
 		return this.handshakeHandler.doHandshake(request, response, handler, attributes);
 	}
+
 }

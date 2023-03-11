@@ -22,11 +22,11 @@ import org.springframework.jdbc.InvalidResultSetAccessException;
  * Metadata interface for Spring's {@link SqlRowSet}, analogous to JDBC's
  * {@link java.sql.ResultSetMetaData}.
  *
- * <p>The main difference to the standard JDBC ResultSetMetaData is that a
- * {@link java.sql.SQLException} is never thrown here. This allows
- * SqlRowSetMetaData to be used without having to deal with checked exceptions.
- * SqlRowSetMetaData will throw Spring's {@link InvalidResultSetAccessException}
- * instead (when appropriate).
+ * <p>
+ * The main difference to the standard JDBC ResultSetMetaData is that a
+ * {@link java.sql.SQLException} is never thrown here. This allows SqlRowSetMetaData to be
+ * used without having to deal with checked exceptions. SqlRowSetMetaData will throw
+ * Spring's {@link InvalidResultSetAccessException} instead (when appropriate).
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -38,8 +38,8 @@ import org.springframework.jdbc.InvalidResultSetAccessException;
 public interface SqlRowSetMetaData {
 
 	/**
-	 * Retrieve the catalog name of the table that served as the source for the
-	 * specified column.
+	 * Retrieve the catalog name of the table that served as the source for the specified
+	 * column.
 	 * @param columnIndex the index of the column
 	 * @return the catalog name
 	 * @see java.sql.ResultSetMetaData#getCatalogName(int)
@@ -125,8 +125,8 @@ public interface SqlRowSetMetaData {
 	int getScale(int columnIndex) throws InvalidResultSetAccessException;
 
 	/**
-	 * Retrieve the schema name of the table that served as the source for the
-	 * specified column.
+	 * Retrieve the schema name of the table that served as the source for the specified
+	 * column.
 	 * @param columnIndex the index of the column
 	 * @return the schema name
 	 * @see java.sql.ResultSetMetaData#getSchemaName(int)
@@ -134,8 +134,7 @@ public interface SqlRowSetMetaData {
 	String getSchemaName(int columnIndex) throws InvalidResultSetAccessException;
 
 	/**
-	 * Retrieve the name of the table that served as the source for the
-	 * specified column.
+	 * Retrieve the name of the table that served as the source for the specified column.
 	 * @param columnIndex the index of the column
 	 * @return the name of the table
 	 * @see java.sql.ResultSetMetaData#getTableName(int)

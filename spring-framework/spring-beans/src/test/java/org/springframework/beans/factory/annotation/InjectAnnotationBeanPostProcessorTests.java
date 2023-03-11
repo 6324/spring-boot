@@ -50,7 +50,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
- * Unit tests for {@link org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor}
+ * Unit tests for
+ * {@link org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor}
  * processing the JSR-330 {@link javax.inject.Inject} annotation.
  *
  * @author Juergen Hoeller
@@ -61,7 +62,6 @@ public class InjectAnnotationBeanPostProcessorTests {
 	private DefaultListableBeanFactory bf;
 
 	private AutowiredAnnotationBeanPostProcessor bpp;
-
 
 	@BeforeEach
 	public void setup() {
@@ -77,7 +77,6 @@ public class InjectAnnotationBeanPostProcessorTests {
 	public void close() {
 		bf.destroySingletons();
 	}
-
 
 	@Test
 	public void testIncompleteBeanDefinition() {
@@ -214,7 +213,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		NestedTestBean ntb2 = new NestedTestBean();
 		bf.registerSingleton("nestedTestBean2", ntb2);
 
-		ConstructorsCollectionResourceInjectionBean bean = (ConstructorsCollectionResourceInjectionBean) bf.getBean("annotatedBean");
+		ConstructorsCollectionResourceInjectionBean bean = (ConstructorsCollectionResourceInjectionBean) bf
+				.getBean("annotatedBean");
 		assertThat(bean.getTestBean3()).isNull();
 		assertThat(bean.getTestBean4()).isSameAs(tb);
 		assertThat(bean.getNestedTestBeans().size()).isEqualTo(2);
@@ -309,8 +309,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		bf.registerBeanDefinition("annotatedBean", new RootBeanDefinition(MapMethodInjectionBean.class));
 		bf.registerBeanDefinition("testBean1", new RootBeanDefinition(TestBean.class));
 		bf.registerBeanDefinition("testBean2", new RootBeanDefinition(TestBean.class));
-		assertThatExceptionOfType(BeanCreationException.class).as("should have failed, more than one bean of type").isThrownBy(() ->
-				bf.getBean("annotatedBean"));
+		assertThatExceptionOfType(BeanCreationException.class).as("should have failed, more than one bean of type")
+				.isThrownBy(() -> bf.getBean("annotatedBean"));
 	}
 
 	@Test
@@ -331,30 +331,35 @@ public class InjectAnnotationBeanPostProcessorTests {
 
 	@Test
 	public void testObjectFactoryInjection() {
-		bf.registerBeanDefinition("annotatedBean", new RootBeanDefinition(ObjectFactoryQualifierFieldInjectionBean.class));
+		bf.registerBeanDefinition("annotatedBean",
+				new RootBeanDefinition(ObjectFactoryQualifierFieldInjectionBean.class));
 		RootBeanDefinition bd = new RootBeanDefinition(TestBean.class);
 		bd.addQualifier(new AutowireCandidateQualifier(Qualifier.class, "testBean"));
 		bf.registerBeanDefinition("testBean", bd);
 		bf.registerBeanDefinition("testBean2", new RootBeanDefinition(TestBean.class));
 
-		ObjectFactoryQualifierFieldInjectionBean bean = (ObjectFactoryQualifierFieldInjectionBean) bf.getBean("annotatedBean");
+		ObjectFactoryQualifierFieldInjectionBean bean = (ObjectFactoryQualifierFieldInjectionBean) bf
+				.getBean("annotatedBean");
 		assertThat(bean.getTestBean()).isSameAs(bf.getBean("testBean"));
 	}
 
 	@Test
 	public void testObjectFactoryQualifierInjection() {
-		bf.registerBeanDefinition("annotatedBean", new RootBeanDefinition(ObjectFactoryQualifierFieldInjectionBean.class));
+		bf.registerBeanDefinition("annotatedBean",
+				new RootBeanDefinition(ObjectFactoryQualifierFieldInjectionBean.class));
 		RootBeanDefinition bd = new RootBeanDefinition(TestBean.class);
 		bd.addQualifier(new AutowireCandidateQualifier(Qualifier.class, "testBean"));
 		bf.registerBeanDefinition("testBean", bd);
 
-		ObjectFactoryQualifierFieldInjectionBean bean = (ObjectFactoryQualifierFieldInjectionBean) bf.getBean("annotatedBean");
+		ObjectFactoryQualifierFieldInjectionBean bean = (ObjectFactoryQualifierFieldInjectionBean) bf
+				.getBean("annotatedBean");
 		assertThat(bean.getTestBean()).isSameAs(bf.getBean("testBean"));
 	}
 
 	@Test
 	public void testObjectFactoryFieldInjectionIntoPrototypeBean() {
-		RootBeanDefinition annotatedBeanDefinition = new RootBeanDefinition(ObjectFactoryQualifierFieldInjectionBean.class);
+		RootBeanDefinition annotatedBeanDefinition = new RootBeanDefinition(
+				ObjectFactoryQualifierFieldInjectionBean.class);
 		annotatedBeanDefinition.setScope(BeanDefinition.SCOPE_PROTOTYPE);
 		bf.registerBeanDefinition("annotatedBean", annotatedBeanDefinition);
 		RootBeanDefinition bd = new RootBeanDefinition(TestBean.class);
@@ -362,16 +367,19 @@ public class InjectAnnotationBeanPostProcessorTests {
 		bf.registerBeanDefinition("testBean", bd);
 		bf.registerBeanDefinition("testBean2", new RootBeanDefinition(TestBean.class));
 
-		ObjectFactoryQualifierFieldInjectionBean bean = (ObjectFactoryQualifierFieldInjectionBean) bf.getBean("annotatedBean");
+		ObjectFactoryQualifierFieldInjectionBean bean = (ObjectFactoryQualifierFieldInjectionBean) bf
+				.getBean("annotatedBean");
 		assertThat(bean.getTestBean()).isSameAs(bf.getBean("testBean"));
-		ObjectFactoryQualifierFieldInjectionBean anotherBean = (ObjectFactoryQualifierFieldInjectionBean) bf.getBean("annotatedBean");
+		ObjectFactoryQualifierFieldInjectionBean anotherBean = (ObjectFactoryQualifierFieldInjectionBean) bf
+				.getBean("annotatedBean");
 		assertThat(bean).isNotSameAs(anotherBean);
 		assertThat(bean.getTestBean()).isSameAs(bf.getBean("testBean"));
 	}
 
 	@Test
 	public void testObjectFactoryMethodInjectionIntoPrototypeBean() {
-		RootBeanDefinition annotatedBeanDefinition = new RootBeanDefinition(ObjectFactoryQualifierMethodInjectionBean.class);
+		RootBeanDefinition annotatedBeanDefinition = new RootBeanDefinition(
+				ObjectFactoryQualifierMethodInjectionBean.class);
 		annotatedBeanDefinition.setScope(BeanDefinition.SCOPE_PROTOTYPE);
 		bf.registerBeanDefinition("annotatedBean", annotatedBeanDefinition);
 		RootBeanDefinition bd = new RootBeanDefinition(TestBean.class);
@@ -379,9 +387,11 @@ public class InjectAnnotationBeanPostProcessorTests {
 		bf.registerBeanDefinition("testBean", bd);
 		bf.registerBeanDefinition("testBean2", new RootBeanDefinition(TestBean.class));
 
-		ObjectFactoryQualifierMethodInjectionBean bean = (ObjectFactoryQualifierMethodInjectionBean) bf.getBean("annotatedBean");
+		ObjectFactoryQualifierMethodInjectionBean bean = (ObjectFactoryQualifierMethodInjectionBean) bf
+				.getBean("annotatedBean");
 		assertThat(bean.getTestBean()).isSameAs(bf.getBean("testBean"));
-		ObjectFactoryQualifierMethodInjectionBean anotherBean = (ObjectFactoryQualifierMethodInjectionBean) bf.getBean("annotatedBean");
+		ObjectFactoryQualifierMethodInjectionBean anotherBean = (ObjectFactoryQualifierMethodInjectionBean) bf
+				.getBean("annotatedBean");
 		assertThat(bean).isNotSameAs(anotherBean);
 		assertThat(bean.getTestBean()).isSameAs(bf.getBean("testBean"));
 	}
@@ -459,8 +469,9 @@ public class InjectAnnotationBeanPostProcessorTests {
 	}
 
 	/**
-	 * Verifies that a dependency on a {@link org.springframework.beans.factory.FactoryBean}
-	 * can be autowired via {@link org.springframework.beans.factory.annotation.Autowired @Inject},
+	 * Verifies that a dependency on a
+	 * {@link org.springframework.beans.factory.FactoryBean} can be autowired via
+	 * {@link org.springframework.beans.factory.annotation.Autowired @Inject},
 	 * specifically addressing SPR-4040.
 	 */
 	@Test
@@ -473,7 +484,9 @@ public class InjectAnnotationBeanPostProcessorTests {
 
 		assertThat(factoryBean).as("The singleton StringFactoryBean should have been registered.").isNotNull();
 		assertThat(bean).as("The factoryBeanDependentBean should have been registered.").isNotNull();
-		assertThat(bean.getFactoryBean()).as("The FactoryBeanDependentBean should have been autowired 'by type' with the StringFactoryBean.").isEqualTo(factoryBean);
+		assertThat(bean.getFactoryBean())
+				.as("The FactoryBeanDependentBean should have been autowired 'by type' with the StringFactoryBean.")
+				.isEqualTo(factoryBean);
 	}
 
 	@Test
@@ -605,7 +618,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		bf.registerBeanDefinition("annotatedBean", new RootBeanDefinition(ProviderOfOptionalMethodInjectionBean.class));
 		bf.registerBeanDefinition("testBean", new RootBeanDefinition(TestBean.class));
 
-		ProviderOfOptionalMethodInjectionBean bean = (ProviderOfOptionalMethodInjectionBean) bf.getBean("annotatedBean");
+		ProviderOfOptionalMethodInjectionBean bean = (ProviderOfOptionalMethodInjectionBean) bf
+				.getBean("annotatedBean");
 		assertThat(bean.getTestBean().isPresent()).isTrue();
 		assertThat(bean.getTestBean().get()).isSameAs(bf.getBean("testBean"));
 	}
@@ -614,7 +628,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 	public void testProviderOfOptionalMethodInjectionWithBeanNotAvailable() {
 		bf.registerBeanDefinition("annotatedBean", new RootBeanDefinition(ProviderOfOptionalMethodInjectionBean.class));
 
-		ProviderOfOptionalMethodInjectionBean bean = (ProviderOfOptionalMethodInjectionBean) bf.getBean("annotatedBean");
+		ProviderOfOptionalMethodInjectionBean bean = (ProviderOfOptionalMethodInjectionBean) bf
+				.getBean("annotatedBean");
 		assertThat(bean.getTestBean().isPresent()).isFalse();
 	}
 
@@ -624,7 +639,6 @@ public class InjectAnnotationBeanPostProcessorTests {
 
 		assertThat(bf.getBean("annotatedBean")).isNotNull();
 	}
-
 
 	public static class ResourceInjectionBean {
 
@@ -648,8 +662,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public TestBean getTestBean2() {
 			return this.testBean2;
 		}
-	}
 
+	}
 
 	public static class ExtendedResourceInjectionBean<T> extends ResourceInjectionBean {
 
@@ -699,12 +713,12 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public BeanFactory getBeanFactory() {
 			return this.beanFactory;
 		}
-	}
 
+	}
 
 	public static class TypedExtendedResourceInjectionBean extends ExtendedResourceInjectionBean<NestedTestBean> {
-	}
 
+	}
 
 	public static class OptionalResourceInjectionBean extends ResourceInjectionBean {
 
@@ -748,8 +762,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public NestedTestBean[] getNestedTestBeans() {
 			return this.nestedTestBeans;
 		}
-	}
 
+	}
 
 	public static class OptionalCollectionResourceInjectionBean extends ResourceInjectionBean {
 
@@ -774,7 +788,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		}
 
 		@Inject
-		private void inject(ITestBean testBean4, List<NestedTestBean> nestedTestBeans, IndexedTestBean indexedTestBean) {
+		private void inject(ITestBean testBean4, List<NestedTestBean> nestedTestBeans,
+				IndexedTestBean indexedTestBean) {
 			this.testBean4 = testBean4;
 			this.indexedTestBean = indexedTestBean;
 			this.nestedTestBeans = nestedTestBeans;
@@ -800,8 +815,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public List<NestedTestBean> getNestedTestBeans() {
 			return this.nestedTestBeans;
 		}
-	}
 
+	}
 
 	public static class ConstructorResourceInjectionBean extends ResourceInjectionBean {
 
@@ -813,7 +828,6 @@ public class InjectAnnotationBeanPostProcessorTests {
 		private NestedTestBean nestedTestBean;
 
 		private ConfigurableListableBeanFactory beanFactory;
-
 
 		public ConstructorResourceInjectionBean() {
 			throw new UnsupportedOperationException();
@@ -835,7 +849,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 			throw new UnsupportedOperationException();
 		}
 
-		public ConstructorResourceInjectionBean(ITestBean testBean3, ITestBean testBean4, NestedTestBean nestedTestBean) {
+		public ConstructorResourceInjectionBean(ITestBean testBean3, ITestBean testBean4,
+				NestedTestBean nestedTestBean) {
 			throw new UnsupportedOperationException();
 		}
 
@@ -860,8 +875,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public ConfigurableListableBeanFactory getBeanFactory() {
 			return this.beanFactory;
 		}
-	}
 
+	}
 
 	public static class ConstructorsResourceInjectionBean {
 
@@ -888,7 +903,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 			throw new UnsupportedOperationException();
 		}
 
-		public ConstructorsResourceInjectionBean(ITestBean testBean3, ITestBean testBean4, NestedTestBean nestedTestBean) {
+		public ConstructorsResourceInjectionBean(ITestBean testBean3, ITestBean testBean4,
+				NestedTestBean nestedTestBean) {
 			throw new UnsupportedOperationException();
 		}
 
@@ -903,8 +919,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public NestedTestBean[] getNestedTestBeans() {
 			return this.nestedTestBeans;
 		}
-	}
 
+	}
 
 	public static class ConstructorsCollectionResourceInjectionBean {
 
@@ -947,8 +963,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public List<NestedTestBean> getNestedTestBeans() {
 			return this.nestedTestBeans;
 		}
-	}
 
+	}
 
 	public static class MapConstructorInjectionBean {
 
@@ -962,8 +978,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public Map<String, TestBean> getTestBeanMap() {
 			return this.testBeanMap;
 		}
-	}
 
+	}
 
 	public static class MapFieldInjectionBean {
 
@@ -973,8 +989,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public Map<String, TestBean> getTestBeanMap() {
 			return this.testBeanMap;
 		}
-	}
 
+	}
 
 	public static class MapMethodInjectionBean {
 
@@ -995,8 +1011,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public Map<String, TestBean> getTestBeanMap() {
 			return this.testBeanMap;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	public static class ObjectFactoryFieldInjectionBean implements Serializable {
@@ -1007,8 +1023,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public TestBean getTestBean() {
 			return this.testBeanFactory.get();
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	public static class ObjectFactoryMethodInjectionBean implements Serializable {
@@ -1023,8 +1039,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public TestBean getTestBean() {
 			return this.testBeanFactory.get();
 		}
-	}
 
+	}
 
 	public static class ObjectFactoryQualifierFieldInjectionBean {
 
@@ -1035,8 +1051,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public TestBean getTestBean() {
 			return (TestBean) this.testBeanFactory.get();
 		}
-	}
 
+	}
 
 	public static class ObjectFactoryQualifierMethodInjectionBean {
 
@@ -1051,8 +1067,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public TestBean getTestBean() {
 			return (TestBean) this.testBeanFactory.get();
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	public static class ObjectFactoryListFieldInjectionBean implements Serializable {
@@ -1067,8 +1083,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public TestBean getTestBean() {
 			return this.testBeanFactory.get().get(0);
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	public static class ObjectFactoryListMethodInjectionBean implements Serializable {
@@ -1083,8 +1099,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public TestBean getTestBean() {
 			return this.testBeanFactory.get().get(0);
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	public static class ObjectFactoryMapFieldInjectionBean implements Serializable {
@@ -1099,8 +1115,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public TestBean getTestBean() {
 			return this.testBeanFactory.get().values().iterator().next();
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	public static class ObjectFactoryMapMethodInjectionBean implements Serializable {
@@ -1115,8 +1131,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public TestBean getTestBean() {
 			return this.testBeanFactory.get().values().iterator().next();
 		}
-	}
 
+	}
 
 	/**
 	 * Bean with a dependency on a {@link org.springframework.beans.factory.FactoryBean}.
@@ -1129,8 +1145,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public final FactoryBean<?> getFactoryBean() {
 			return this.factoryBean;
 		}
-	}
 
+	}
 
 	public static class StringFactoryBean implements FactoryBean<String> {
 
@@ -1148,23 +1164,25 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public boolean isSingleton() {
 			return true;
 		}
+
 	}
 
-
 	@Retention(RetentionPolicy.RUNTIME)
-	public @interface Nullable {}
+	public @interface Nullable {
 
+	}
 
 	public static class NullableFieldInjectionBean {
 
-		@Inject @Nullable
+		@Inject
+		@Nullable
 		private TestBean testBean;
 
 		public TestBean getTestBean() {
 			return this.testBean;
 		}
-	}
 
+	}
 
 	public static class NullableMethodInjectionBean {
 
@@ -1178,8 +1196,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public TestBean getTestBean() {
 			return this.testBean;
 		}
-	}
 
+	}
 
 	public static class OptionalFieldInjectionBean {
 
@@ -1189,8 +1207,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public Optional<TestBean> getTestBean() {
 			return this.testBean;
 		}
-	}
 
+	}
 
 	public static class OptionalMethodInjectionBean {
 
@@ -1204,8 +1222,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public Optional<TestBean> getTestBean() {
 			return this.testBean;
 		}
-	}
 
+	}
 
 	public static class OptionalListFieldInjectionBean {
 
@@ -1215,8 +1233,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public Optional<List<TestBean>> getTestBean() {
 			return this.testBean;
 		}
-	}
 
+	}
 
 	public static class OptionalListMethodInjectionBean {
 
@@ -1230,8 +1248,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public Optional<List<TestBean>> getTestBean() {
 			return this.testBean;
 		}
-	}
 
+	}
 
 	public static class ProviderOfOptionalFieldInjectionBean {
 
@@ -1241,8 +1259,8 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public Optional<TestBean> getTestBean() {
 			return this.testBean.get();
 		}
-	}
 
+	}
 
 	public static class ProviderOfOptionalMethodInjectionBean {
 
@@ -1256,14 +1274,15 @@ public class InjectAnnotationBeanPostProcessorTests {
 		public Optional<TestBean> getTestBean() {
 			return this.testBean.get();
 		}
-	}
 
+	}
 
 	public static class AnnotatedDefaultConstructorBean {
 
 		@Inject
 		public AnnotatedDefaultConstructorBean() {
 		}
+
 	}
 
 }

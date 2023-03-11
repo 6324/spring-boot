@@ -36,8 +36,9 @@ import org.springframework.lang.Nullable;
 /**
  * Type filter that uses AspectJ type pattern for matching.
  *
- * <p>A critical implementation details of this type filter is that it does not
- * load the class being examined to match with a type pattern.
+ * <p>
+ * A critical implementation details of this type filter is that it does not load the
+ * class being examined to match with a type pattern.
  *
  * @author Ramnivas Laddad
  * @author Juergen Hoeller
@@ -49,7 +50,6 @@ public class AspectJTypeFilter implements TypeFilter {
 
 	private final TypePattern typePattern;
 
-
 	public AspectJTypeFilter(String typePatternExpression, @Nullable ClassLoader classLoader) {
 		this.world = new BcelWorld(classLoader, IMessageHandler.THROW, null);
 		this.world.setBehaveInJava5Way(true);
@@ -59,7 +59,6 @@ public class AspectJTypeFilter implements TypeFilter {
 		IScope scope = new SimpleScope(this.world, new FormalBinding[0]);
 		this.typePattern = typePattern.resolveBindings(scope, Bindings.NONE, false, false);
 	}
-
 
 	@Override
 	public boolean match(MetadataReader metadataReader, MetadataReaderFactory metadataReaderFactory)

@@ -45,8 +45,8 @@ import org.springframework.web.server.ServerWebExchange;
 
 /**
  * Supports the invocation of
- * {@link org.springframework.web.bind.annotation.RequestMapping @RequestMapping}
- * handler methods.
+ * {@link org.springframework.web.bind.annotation.RequestMapping @RequestMapping} handler
+ * methods.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -54,7 +54,6 @@ import org.springframework.web.server.ServerWebExchange;
 public class RequestMappingHandlerAdapter implements HandlerAdapter, ApplicationContextAware, InitializingBean {
 
 	private static final Log logger = LogFactory.getLog(RequestMappingHandlerAdapter.class);
-
 
 	private List<HttpMessageReader<?>> messageReaders = Collections.emptyList();
 
@@ -76,10 +75,10 @@ public class RequestMappingHandlerAdapter implements HandlerAdapter, Application
 	@Nullable
 	private ModelInitializer modelInitializer;
 
-
 	/**
 	 * Configure HTTP message readers to de-serialize the request body with.
-	 * <p>By default this is set to {@link ServerCodecConfigurer}'s readers with defaults.
+	 * <p>
+	 * By default this is set to {@link ServerCodecConfigurer}'s readers with defaults.
 	 */
 	public void setMessageReaders(List<HttpMessageReader<?>> messageReaders) {
 		Assert.notNull(messageReaders, "'messageReaders' must not be null");
@@ -94,8 +93,8 @@ public class RequestMappingHandlerAdapter implements HandlerAdapter, Application
 	}
 
 	/**
-	 * Provide a WebBindingInitializer with "global" initialization to apply
-	 * to every DataBinder instance.
+	 * Provide a WebBindingInitializer with "global" initialization to apply to every
+	 * DataBinder instance.
 	 */
 	public void setWebBindingInitializer(@Nullable WebBindingInitializer webBindingInitializer) {
 		this.webBindingInitializer = webBindingInitializer;
@@ -126,8 +125,9 @@ public class RequestMappingHandlerAdapter implements HandlerAdapter, Application
 
 	/**
 	 * Configure the registry for adapting various reactive types.
-	 * <p>By default this is an instance of {@link ReactiveAdapterRegistry} with
-	 * default settings.
+	 * <p>
+	 * By default this is an instance of {@link ReactiveAdapterRegistry} with default
+	 * settings.
 	 */
 	public void setReactiveAdapterRegistry(@Nullable ReactiveAdapterRegistry registry) {
 		this.reactiveAdapterRegistry = registry;
@@ -142,9 +142,9 @@ public class RequestMappingHandlerAdapter implements HandlerAdapter, Application
 	}
 
 	/**
-	 * A {@link ConfigurableApplicationContext} is expected for resolving
-	 * expressions in method argument default values as well as for
-	 * detecting {@code @ControllerAdvice} beans.
+	 * A {@link ConfigurableApplicationContext} is expected for resolving expressions in
+	 * method argument default values as well as for detecting {@code @ControllerAdvice}
+	 * beans.
 	 */
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) {
@@ -152,7 +152,6 @@ public class RequestMappingHandlerAdapter implements HandlerAdapter, Application
 			this.applicationContext = (ConfigurableApplicationContext) applicationContext;
 		}
 	}
-
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -175,7 +174,6 @@ public class RequestMappingHandlerAdapter implements HandlerAdapter, Application
 		this.modelInitializer = new ModelInitializer(this.methodResolver, this.reactiveAdapterRegistry);
 	}
 
-
 	@Override
 	public boolean supports(Object handler) {
 		return handler instanceof HandlerMethod;
@@ -186,20 +184,18 @@ public class RequestMappingHandlerAdapter implements HandlerAdapter, Application
 		HandlerMethod handlerMethod = (HandlerMethod) handler;
 		Assert.state(this.methodResolver != null && this.modelInitializer != null, "Not initialized");
 
-		InitBinderBindingContext bindingContext = new InitBinderBindingContext(
-				getWebBindingInitializer(), this.methodResolver.getInitBinderMethods(handlerMethod));
+		InitBinderBindingContext bindingContext = new InitBinderBindingContext(getWebBindingInitializer(),
+				this.methodResolver.getInitBinderMethods(handlerMethod));
 
 		InvocableHandlerMethod invocableMethod = this.methodResolver.getRequestMappingMethod(handlerMethod);
 
-		Function<Throwable, Mono<HandlerResult>> exceptionHandler =
-				ex -> handleException(ex, handlerMethod, bindingContext, exchange);
+		Function<Throwable, Mono<HandlerResult>> exceptionHandler = ex -> handleException(ex, handlerMethod,
+				bindingContext, exchange);
 
-		return this.modelInitializer
-				.initModel(handlerMethod, bindingContext, exchange)
+		return this.modelInitializer.initModel(handlerMethod, bindingContext, exchange)
 				.then(Mono.defer(() -> invocableMethod.invoke(exchange, bindingContext)))
 				.doOnNext(result -> result.setExceptionHandler(exceptionHandler))
-				.doOnNext(result -> bindingContext.saveModel())
-				.onErrorResume(exceptionHandler);
+				.doOnNext(result -> bindingContext.saveModel()).onErrorResume(exceptionHandler);
 	}
 
 	private Mono<HandlerResult> handleException(Throwable exception, HandlerMethod handlerMethod,

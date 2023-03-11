@@ -63,7 +63,6 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 
 	private final Set<String> requiredProperties = new LinkedHashSet<>();
 
-
 	@Override
 	public ConfigurableConversionService getConversionService() {
 		// Need to provide an independent DefaultConversionService, not the
@@ -89,7 +88,8 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 
 	/**
 	 * Set the prefix that placeholders replaced by this resolver must begin with.
-	 * <p>The default is "${".
+	 * <p>
+	 * The default is "${".
 	 * @see org.springframework.util.SystemPropertyUtils#PLACEHOLDER_PREFIX
 	 */
 	@Override
@@ -100,7 +100,8 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 
 	/**
 	 * Set the suffix that placeholders replaced by this resolver must end with.
-	 * <p>The default is "}".
+	 * <p>
+	 * The default is "}".
 	 * @see org.springframework.util.SystemPropertyUtils#PLACEHOLDER_SUFFIX
 	 */
 	@Override
@@ -110,10 +111,11 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 	}
 
 	/**
-	 * Specify the separating character between the placeholders replaced by this
-	 * resolver and their associated default value, or {@code null} if no such
-	 * special character should be processed as a value separator.
-	 * <p>The default is ":".
+	 * Specify the separating character between the placeholders replaced by this resolver
+	 * and their associated default value, or {@code null} if no such special character
+	 * should be processed as a value separator.
+	 * <p>
+	 * The default is ":".
 	 * @see org.springframework.util.SystemPropertyUtils#VALUE_SEPARATOR
 	 */
 	@Override
@@ -127,7 +129,8 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 	 * resolution, i.e. that an exception will be thrown. A {@code true} value indicates
 	 * that unresolvable nested placeholders should be passed through in their unresolved
 	 * ${...} form.
-	 * <p>The default is {@code false}.
+	 * <p>
+	 * The default is {@code false}.
 	 * @since 3.2
 	 */
 	@Override
@@ -214,11 +217,12 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 	 * Resolve placeholders within the given string, deferring to the value of
 	 * {@link #setIgnoreUnresolvableNestedPlaceholders} to determine whether any
 	 * unresolvable placeholders should raise an exception or be ignored.
-	 * <p>Invoked from {@link #getProperty} and its variants, implicitly resolving
-	 * nested placeholders. In contrast, {@link #resolvePlaceholders} and
-	 * {@link #resolveRequiredPlaceholders} do <i>not</i> delegate
-	 * to this method but rather perform their own handling of unresolvable
-	 * placeholders, as specified by each of those methods.
+	 * <p>
+	 * Invoked from {@link #getProperty} and its variants, implicitly resolving nested
+	 * placeholders. In contrast, {@link #resolvePlaceholders} and
+	 * {@link #resolveRequiredPlaceholders} do <i>not</i> delegate to this method but
+	 * rather perform their own handling of unresolvable placeholders, as specified by
+	 * each of those methods.
 	 * @since 3.2
 	 * @see #setIgnoreUnresolvableNestedPlaceholders
 	 */
@@ -226,13 +230,13 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 		if (value.isEmpty()) {
 			return value;
 		}
-		return (this.ignoreUnresolvableNestedPlaceholders ?
-				resolvePlaceholders(value) : resolveRequiredPlaceholders(value));
+		return (this.ignoreUnresolvableNestedPlaceholders ? resolvePlaceholders(value)
+				: resolveRequiredPlaceholders(value));
 	}
 
 	private PropertyPlaceholderHelper createPlaceholderHelper(boolean ignoreUnresolvablePlaceholders) {
-		return new PropertyPlaceholderHelper(this.placeholderPrefix, this.placeholderSuffix,
-				this.valueSeparator, ignoreUnresolvablePlaceholders);
+		return new PropertyPlaceholderHelper(this.placeholderPrefix, this.placeholderSuffix, this.valueSeparator,
+				ignoreUnresolvablePlaceholders);
 	}
 
 	private String doResolvePlaceholders(String text, PropertyPlaceholderHelper helper) {
@@ -243,8 +247,7 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 	 * Convert the given value to the specified target type, if necessary.
 	 * @param value the original property value
 	 * @param targetType the specified target type for property retrieval
-	 * @return the converted value, or the original value if no conversion
-	 * is necessary
+	 * @return the converted value, or the original value if no conversion is necessary
 	 * @since 4.3.5
 	 */
 	@SuppressWarnings("unchecked")
@@ -265,10 +268,9 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 		return conversionServiceToUse.convert(value, targetType);
 	}
 
-
 	/**
-	 * Retrieve the specified property as a raw String,
-	 * i.e. without resolution of nested placeholders.
+	 * Retrieve the specified property as a raw String, i.e. without resolution of nested
+	 * placeholders.
 	 * @param key the property name to resolve
 	 * @return the property value or {@code null} if none found
 	 */

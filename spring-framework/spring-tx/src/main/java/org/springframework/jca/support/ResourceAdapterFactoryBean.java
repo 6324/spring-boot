@@ -29,16 +29,16 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
 
 /**
- * {@link org.springframework.beans.factory.FactoryBean} that bootstraps
- * the specified JCA 1.7 {@link javax.resource.spi.ResourceAdapter},
- * starting it with a local {@link javax.resource.spi.BootstrapContext}
- * and exposing it for bean references. It will also stop the ResourceAdapter
- * on context shutdown. This corresponds to 'non-managed' bootstrap in a
- * local environment, according to the JCA 1.7 specification.
+ * {@link org.springframework.beans.factory.FactoryBean} that bootstraps the specified JCA
+ * 1.7 {@link javax.resource.spi.ResourceAdapter}, starting it with a local
+ * {@link javax.resource.spi.BootstrapContext} and exposing it for bean references. It
+ * will also stop the ResourceAdapter on context shutdown. This corresponds to
+ * 'non-managed' bootstrap in a local environment, according to the JCA 1.7 specification.
  *
- * <p>This is essentially an adapter for bean-style bootstrapping of a
- * JCA ResourceAdapter, allowing the BootstrapContext or its elements
- * (such as the JCA WorkManager) to be specified through bean properties.
+ * <p>
+ * This is essentially an adapter for bean-style bootstrapping of a JCA ResourceAdapter,
+ * allowing the BootstrapContext or its elements (such as the JCA WorkManager) to be
+ * specified through bean properties.
  *
  * @author Juergen Hoeller
  * @since 2.0.3
@@ -62,12 +62,12 @@ public class ResourceAdapterFactoryBean implements FactoryBean<ResourceAdapter>,
 	@Nullable
 	private XATerminator xaTerminator;
 
-
 	/**
-	 * Specify the target JCA ResourceAdapter as class, to be instantiated
-	 * with its default configuration.
-	 * <p>Alternatively, specify a pre-configured ResourceAdapter instance
-	 * through the "resourceAdapter" property.
+	 * Specify the target JCA ResourceAdapter as class, to be instantiated with its
+	 * default configuration.
+	 * <p>
+	 * Alternatively, specify a pre-configured ResourceAdapter instance through the
+	 * "resourceAdapter" property.
 	 * @see #setResourceAdapter
 	 */
 	public void setResourceAdapterClass(Class<? extends ResourceAdapter> resourceAdapterClass) {
@@ -75,10 +75,10 @@ public class ResourceAdapterFactoryBean implements FactoryBean<ResourceAdapter>,
 	}
 
 	/**
-	 * Specify the target JCA ResourceAdapter, passed in as configured instance
-	 * which hasn't been started yet. This will typically happen as an
-	 * inner bean definition, configuring the ResourceAdapter instance
-	 * through its vendor-specific bean properties.
+	 * Specify the target JCA ResourceAdapter, passed in as configured instance which
+	 * hasn't been started yet. This will typically happen as an inner bean definition,
+	 * configuring the ResourceAdapter instance through its vendor-specific bean
+	 * properties.
 	 */
 	public void setResourceAdapter(ResourceAdapter resourceAdapter) {
 		this.resourceAdapter = resourceAdapter;
@@ -86,8 +86,9 @@ public class ResourceAdapterFactoryBean implements FactoryBean<ResourceAdapter>,
 
 	/**
 	 * Specify the JCA BootstrapContext to use for starting the ResourceAdapter.
-	 * <p>Alternatively, you can specify the individual parts (such as the
-	 * JCA WorkManager) as individual references.
+	 * <p>
+	 * Alternatively, you can specify the individual parts (such as the JCA WorkManager)
+	 * as individual references.
 	 * @see #setWorkManager
 	 * @see #setXaTerminator
 	 */
@@ -111,7 +112,6 @@ public class ResourceAdapterFactoryBean implements FactoryBean<ResourceAdapter>,
 		this.xaTerminator = xaTerminator;
 	}
 
-
 	/**
 	 * Builds the BootstrapContext and starts the ResourceAdapter with it.
 	 * @see javax.resource.spi.ResourceAdapter#start(javax.resource.spi.BootstrapContext)
@@ -126,7 +126,6 @@ public class ResourceAdapterFactoryBean implements FactoryBean<ResourceAdapter>,
 		}
 		this.resourceAdapter.start(this.bootstrapContext);
 	}
-
 
 	@Override
 	@Nullable
@@ -143,7 +142,6 @@ public class ResourceAdapterFactoryBean implements FactoryBean<ResourceAdapter>,
 	public boolean isSingleton() {
 		return true;
 	}
-
 
 	/**
 	 * Stops the ResourceAdapter.

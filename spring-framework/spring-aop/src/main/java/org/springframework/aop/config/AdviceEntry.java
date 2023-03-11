@@ -28,7 +28,6 @@ public class AdviceEntry implements ParseState.Entry {
 
 	private final String kind;
 
-
 	/**
 	 * Create a new {@code AdviceEntry} instance.
 	 * @param kind the kind of advice represented by this entry (before, after, around)
@@ -36,7 +35,6 @@ public class AdviceEntry implements ParseState.Entry {
 	public AdviceEntry(String kind) {
 		this.kind = kind;
 	}
-
 
 	@Override
 	public String toString() {

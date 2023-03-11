@@ -46,8 +46,9 @@ import org.springframework.lang.Nullable;
  * {@link SQLExceptionTranslator} implementation which analyzes the specific
  * {@link java.sql.SQLException} subclass thrown by the JDBC driver.
  *
- * <p>Falls back to a standard {@link SQLStateSQLExceptionTranslator} if the JDBC
- * driver does not actually expose JDBC 4 compliant {@code SQLException} subclasses.
+ * <p>
+ * Falls back to a standard {@link SQLStateSQLExceptionTranslator} if the JDBC driver does
+ * not actually expose JDBC 4 compliant {@code SQLException} subclasses.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller

@@ -27,8 +27,8 @@ import org.springframework.aop.Advisor;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 
 /**
- * Default implementation of the {@link AdvisorAdapterRegistry} interface.
- * Supports {@link org.aopalliance.intercept.MethodInterceptor},
+ * Default implementation of the {@link AdvisorAdapterRegistry} interface. Supports
+ * {@link org.aopalliance.intercept.MethodInterceptor},
  * {@link org.springframework.aop.MethodBeforeAdvice},
  * {@link org.springframework.aop.AfterReturningAdvice},
  * {@link org.springframework.aop.ThrowsAdvice}.
@@ -42,7 +42,6 @@ public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry, Se
 
 	private final List<AdvisorAdapter> adapters = new ArrayList<>(3);
 
-
 	/**
 	 * Create a new DefaultAdvisorAdapterRegistry, registering well-known adapters.
 	 */
@@ -51,7 +50,6 @@ public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry, Se
 		registerAdvisorAdapter(new AfterReturningAdviceAdapter());
 		registerAdvisorAdapter(new ThrowsAdviceAdapter());
 	}
-
 
 	@Override
 	public Advisor wrap(Object adviceObject) throws UnknownAdviceTypeException {

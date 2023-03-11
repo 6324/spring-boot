@@ -32,7 +32,8 @@ import java.lang.annotation.Target;
  */
 @Deprecated
 @Retention(RetentionPolicy.CLASS)
-@Target({ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE})
+@Target({ ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE })
 @Documented
 public @interface UsesSunHttpServer {
+
 }

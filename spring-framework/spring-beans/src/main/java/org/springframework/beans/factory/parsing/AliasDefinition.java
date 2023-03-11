@@ -36,7 +36,6 @@ public class AliasDefinition implements BeanMetadataElement {
 	@Nullable
 	private final Object source;
 
-
 	/**
 	 * Create a new AliasDefinition.
 	 * @param beanName the canonical name of the bean
@@ -59,7 +58,6 @@ public class AliasDefinition implements BeanMetadataElement {
 		this.alias = alias;
 		this.source = source;
 	}
-
 
 	/**
 	 * Return the canonical name of the bean.

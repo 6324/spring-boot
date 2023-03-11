@@ -64,7 +64,7 @@ public class ConversionServiceFactoryBeanTests {
 		converters.add(new ConverterFactory<String, Bar>() {
 			@Override
 			public <T extends Bar> Converter<String, T> getConverter(Class<T> targetType) {
-				return new Converter<String, T> () {
+				return new Converter<String, T>() {
 					@SuppressWarnings("unchecked")
 					@Override
 					public T convert(String source) {
@@ -78,6 +78,7 @@ public class ConversionServiceFactoryBeanTests {
 			public Set<ConvertiblePair> getConvertibleTypes() {
 				return Collections.singleton(new ConvertiblePair(String.class, Baz.class));
 			}
+
 			@Override
 			@Nullable
 			public Object convert(@Nullable Object source, TypeDescriptor sourceType, TypeDescriptor targetType) {
@@ -99,8 +100,7 @@ public class ConversionServiceFactoryBeanTests {
 		Set<Object> converters = new HashSet<>();
 		converters.add("bogus");
 		factory.setConverters(converters);
-		assertThatIllegalArgumentException().isThrownBy(
-				factory::afterPropertiesSet);
+		assertThatIllegalArgumentException().isThrownBy(factory::afterPropertiesSet);
 	}
 
 	@Test
@@ -110,7 +110,8 @@ public class ConversionServiceFactoryBeanTests {
 
 	@Test
 	public void conversionServiceInApplicationContextWithResourceOverriding() {
-		doTestConversionServiceInApplicationContext("conversionServiceWithResourceOverriding.xml", FileSystemResource.class);
+		doTestConversionServiceInApplicationContext("conversionServiceWithResourceOverriding.xml",
+				FileSystemResource.class);
 	}
 
 	private void doTestConversionServiceInApplicationContext(String fileName, Class<?> resourceClass) {
@@ -126,14 +127,16 @@ public class ConversionServiceFactoryBeanTests {
 		assertThat(resourceClass.isInstance(tb.getResourceArrayMap().get("key1")[0])).isTrue();
 	}
 
-
 	public static class Foo {
+
 	}
 
 	public static class Bar {
+
 	}
 
 	public static class Baz {
+
 	}
 
 	public static class ComplexConstructorArgument {
@@ -143,6 +146,7 @@ public class ConversionServiceFactoryBeanTests {
 			assertThat(map.keySet().iterator().next()).isInstanceOf(String.class);
 			assertThat(map.values().iterator().next()).isInstanceOf(Class.class);
 		}
+
 	}
 
 }

@@ -53,7 +53,6 @@ public class StandardScriptEvaluator implements ScriptEvaluator, BeanClassLoader
 	@Nullable
 	private volatile ScriptEngineManager scriptEngineManager;
 
-
 	/**
 	 * Construct a new {@code StandardScriptEvaluator}.
 	 */
@@ -78,12 +77,12 @@ public class StandardScriptEvaluator implements ScriptEvaluator, BeanClassLoader
 		this.scriptEngineManager = scriptEngineManager;
 	}
 
-
 	/**
 	 * Set the name of the language meant for evaluating the scripts (e.g. "Groovy").
-	 * <p>This is effectively an alias for {@link #setEngineName "engineName"},
-	 * potentially (but not yet) providing common abbreviations for certain languages
-	 * beyond what the JSR-223 script engine factory exposes.
+	 * <p>
+	 * This is effectively an alias for {@link #setEngineName "engineName"}, potentially
+	 * (but not yet) providing common abbreviations for certain languages beyond what the
+	 * JSR-223 script engine factory exposes.
 	 * @see #setEngineName
 	 */
 	public void setLanguage(String language) {
@@ -91,8 +90,8 @@ public class StandardScriptEvaluator implements ScriptEvaluator, BeanClassLoader
 	}
 
 	/**
-	 * Set the name of the script engine for evaluating the scripts (e.g. "Groovy"),
-	 * as exposed by the JSR-223 script engine factory.
+	 * Set the name of the script engine for evaluating the scripts (e.g. "Groovy"), as
+	 * exposed by the JSR-223 script engine factory.
 	 * @since 4.2.2
 	 * @see #setLanguage
 	 */
@@ -101,8 +100,8 @@ public class StandardScriptEvaluator implements ScriptEvaluator, BeanClassLoader
 	}
 
 	/**
-	 * Set the globally scoped bindings on the underlying script engine manager,
-	 * shared by all scripts, as an alternative to script argument bindings.
+	 * Set the globally scoped bindings on the underlying script engine manager, shared by
+	 * all scripts, as an alternative to script argument bindings.
 	 * @since 4.2.2
 	 * @see #evaluate(ScriptSource, Map)
 	 * @see javax.script.ScriptEngineManager#setBindings(Bindings)
@@ -129,7 +128,6 @@ public class StandardScriptEvaluator implements ScriptEvaluator, BeanClassLoader
 			}
 		}
 	}
-
 
 	@Override
 	@Nullable

@@ -45,7 +45,6 @@ public class NumberFormattingTests {
 
 	private DataBinder binder;
 
-
 	@BeforeEach
 	public void setUp() {
 		DefaultConversionService.addDefaultConverters(conversionService);
@@ -71,7 +70,6 @@ public class NumberFormattingTests {
 	public void tearDown() {
 		LocaleContextHolder.setLocale(null);
 	}
-
 
 	@Test
 	public void testDefaultNumberFormatting() {
@@ -175,7 +173,6 @@ public class NumberFormattingTests {
 		assertThat(binder.getBindingResult().getFieldValue("patternList2")).isEqualTo("1,25.00,2,35.00");
 	}
 
-
 	@SuppressWarnings("unused")
 	private static class TestBean {
 
@@ -265,6 +262,7 @@ public class NumberFormattingTests {
 		public void setPatternList2(List<BigDecimal> patternList2) {
 			this.patternList2 = patternList2;
 		}
+
 	}
 
 }

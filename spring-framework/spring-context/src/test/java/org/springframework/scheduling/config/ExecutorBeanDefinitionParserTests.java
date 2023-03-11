@@ -42,13 +42,11 @@ public class ExecutorBeanDefinitionParserTests {
 
 	private ApplicationContext context;
 
-
 	@BeforeEach
 	public void setup() {
-		this.context = new ClassPathXmlApplicationContext(
-				"executorContext.xml", ExecutorBeanDefinitionParserTests.class);
+		this.context = new ClassPathXmlApplicationContext("executorContext.xml",
+				ExecutorBeanDefinitionParserTests.class);
 	}
-
 
 	@Test
 	public void defaultExecutor() throws Exception {
@@ -78,8 +76,8 @@ public class ExecutorBeanDefinitionParserTests {
 
 	@Test
 	public void invalidPoolSize() {
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				this.context.getBean("invalidPoolSize"));
+		assertThatExceptionOfType(BeanCreationException.class)
+				.isThrownBy(() -> this.context.getBean("invalidPoolSize"));
 	}
 
 	@Test
@@ -129,8 +127,8 @@ public class ExecutorBeanDefinitionParserTests {
 
 	@Test
 	public void propertyPlaceholderWithInvalidPoolSize() {
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				this.context.getBean("propertyPlaceholderWithInvalidPoolSize"));
+		assertThatExceptionOfType(BeanCreationException.class)
+				.isThrownBy(() -> this.context.getBean("propertyPlaceholderWithInvalidPoolSize"));
 	}
 
 	@Test
@@ -145,7 +143,6 @@ public class ExecutorBeanDefinitionParserTests {
 		assertThat(this.context.isTypeMatch("default", TaskExecutor.class)).isTrue();
 		assertThat(this.context.isTypeMatch("default", ThreadPoolTaskExecutor.class)).isTrue();
 	}
-
 
 	private int getCorePoolSize(Object executor) {
 		return (Integer) new DirectFieldAccessor(executor).getPropertyValue("corePoolSize");

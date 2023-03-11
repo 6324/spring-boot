@@ -52,16 +52,17 @@ import org.springframework.web.server.ServerWebExchange;
 /**
  * Resolve {@code @ModelAttribute} annotated method arguments.
  *
- * <p>Model attributes are sourced from the model, or created using a default
- * constructor and then added to the model. Once created the attribute is
- * populated via data binding to the request (form data, query params).
- * Validation also may be applied if the argument is annotated with
- * {@code @javax.validation.Valid} or Spring's own
+ * <p>
+ * Model attributes are sourced from the model, or created using a default constructor and
+ * then added to the model. Once created the attribute is populated via data binding to
+ * the request (form data, query params). Validation also may be applied if the argument
+ * is annotated with {@code @javax.validation.Valid} or Spring's own
  * {@code @org.springframework.validation.annotation.Validated}.
  *
- * <p>When this handler is created with {@code useDefaultResolution=true}
- * any non-simple type argument and return value is regarded as a model
- * attribute with or without the presence of an {@code @ModelAttribute}.
+ * <p>
+ * When this handler is created with {@code useDefaultResolution=true} any non-simple type
+ * argument and return value is regarded as a model attribute with or without the presence
+ * of an {@code @ModelAttribute}.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -74,21 +75,18 @@ public class ModelAttributeMethodArgumentResolver extends HandlerMethodArgumentR
 
 	private final boolean useDefaultResolution;
 
-
 	/**
 	 * Class constructor with a default resolution mode flag.
 	 * @param adapterRegistry for adapting to other reactive types from and to Mono
-	 * @param useDefaultResolution if "true", non-simple method arguments and
-	 * return values are considered model attributes with or without a
-	 * {@code @ModelAttribute} annotation present.
+	 * @param useDefaultResolution if "true", non-simple method arguments and return
+	 * values are considered model attributes with or without a {@code @ModelAttribute}
+	 * annotation present.
 	 */
-	public ModelAttributeMethodArgumentResolver(ReactiveAdapterRegistry adapterRegistry,
-			boolean useDefaultResolution) {
+	public ModelAttributeMethodArgumentResolver(ReactiveAdapterRegistry adapterRegistry, boolean useDefaultResolution) {
 
 		super(adapterRegistry);
 		this.useDefaultResolution = useDefaultResolution;
 	}
-
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -102,17 +100,15 @@ public class ModelAttributeMethodArgumentResolver extends HandlerMethodArgumentR
 	}
 
 	@Override
-	public Mono<Object> resolveArgument(
-			MethodParameter parameter, BindingContext context, ServerWebExchange exchange) {
+	public Mono<Object> resolveArgument(MethodParameter parameter, BindingContext context, ServerWebExchange exchange) {
 
 		ResolvableType type = ResolvableType.forMethodParameter(parameter);
 		Class<?> resolvedType = type.resolve();
 		ReactiveAdapter adapter = (resolvedType != null ? getAdapterRegistry().getAdapter(resolvedType) : null);
 		ResolvableType valueType = (adapter != null ? type.getGeneric() : type);
 
-		Assert.state(adapter == null || !adapter.isMultiValue(),
-				() -> getClass().getSimpleName() + " does not support multi-value reactive type wrapper: " +
-						parameter.getGenericParameterType());
+		Assert.state(adapter == null || !adapter.isMultiValue(), () -> getClass().getSimpleName()
+				+ " does not support multi-value reactive type wrapper: " + parameter.getGenericParameterType());
 
 		String name = ModelInitializer.getNameForParameter(parameter);
 		Mono<?> valueMono = prepareAttributeMono(name, valueType, context, exchange);
@@ -124,19 +120,17 @@ public class ModelAttributeMethodArgumentResolver extends HandlerMethodArgumentR
 		return valueMono.flatMap(value -> {
 			WebExchangeDataBinder binder = context.createDataBinder(exchange, value, name);
 			return (bindingDisabled(parameter) ? Mono.empty() : bindRequestParameters(binder, exchange))
-					.doOnError(bindingResultMono::onError)
-					.doOnSuccess(aVoid -> {
+					.doOnError(bindingResultMono::onError).doOnSuccess(aVoid -> {
 						validateIfApplicable(binder, parameter);
 						BindingResult errors = binder.getBindingResult();
 						model.put(BindingResult.MODEL_KEY_PREFIX + name, errors);
 						model.put(name, value);
 						bindingResultMono.onNext(errors);
-					})
-					.then(Mono.fromCallable(() -> {
+					}).then(Mono.fromCallable(() -> {
 						BindingResult errors = binder.getBindingResult();
 						if (adapter != null) {
-							return adapter.fromPublisher(errors.hasErrors() ?
-									Mono.error(new WebExchangeBindException(parameter, errors)) : valueMono);
+							return adapter.fromPublisher(errors.hasErrors()
+									? Mono.error(new WebExchangeBindException(parameter, errors)) : valueMono);
 						}
 						else {
 							if (errors.hasErrors() && !hasErrorsArgument(parameter)) {
@@ -168,8 +162,8 @@ public class ModelAttributeMethodArgumentResolver extends HandlerMethodArgumentR
 		return binder.bind(exchange);
 	}
 
-	private Mono<?> prepareAttributeMono(String attributeName, ResolvableType attributeType,
-			BindingContext context, ServerWebExchange exchange) {
+	private Mono<?> prepareAttributeMono(String attributeName, ResolvableType attributeType, BindingContext context,
+			ServerWebExchange exchange) {
 
 		Object attribute = context.getModel().asMap().get(attributeName);
 
@@ -193,29 +187,25 @@ public class ModelAttributeMethodArgumentResolver extends HandlerMethodArgumentR
 
 	@Nullable
 	private Object findAndRemoveReactiveAttribute(Model model, String attributeName) {
-		return model.asMap().entrySet().stream()
-				.filter(entry -> {
-					if (!entry.getKey().startsWith(attributeName)) {
-						return false;
-					}
-					ReactiveAdapter adapter = getAdapterRegistry().getAdapter(null, entry.getValue());
-					if (adapter == null) {
-						return false;
-					}
-					String name = attributeName + ClassUtils.getShortName(adapter.getReactiveType());
-					return entry.getKey().equals(name);
-				})
-				.findFirst()
-				.map(entry -> {
-					// Remove since we will be re-inserting the resolved attribute value
-					model.asMap().remove(entry.getKey());
-					return entry.getValue();
-				})
-				.orElse(null);
+		return model.asMap().entrySet().stream().filter(entry -> {
+			if (!entry.getKey().startsWith(attributeName)) {
+				return false;
+			}
+			ReactiveAdapter adapter = getAdapterRegistry().getAdapter(null, entry.getValue());
+			if (adapter == null) {
+				return false;
+			}
+			String name = attributeName + ClassUtils.getShortName(adapter.getReactiveType());
+			return entry.getKey().equals(name);
+		}).findFirst().map(entry -> {
+			// Remove since we will be re-inserting the resolved attribute value
+			model.asMap().remove(entry.getKey());
+			return entry.getValue();
+		}).orElse(null);
 	}
 
-	private Mono<?> createAttribute(
-			String attributeName, Class<?> clazz, BindingContext context, ServerWebExchange exchange) {
+	private Mono<?> createAttribute(String attributeName, Class<?> clazz, BindingContext context,
+			ServerWebExchange exchange) {
 
 		Constructor<?> ctor = BeanUtils.findPrimaryConstructor(clazz);
 		if (ctor == null) {
@@ -235,15 +225,16 @@ public class ModelAttributeMethodArgumentResolver extends HandlerMethodArgumentR
 		return constructAttribute(ctor, attributeName, context, exchange);
 	}
 
-	private Mono<?> constructAttribute(Constructor<?> ctor, String attributeName,
-			BindingContext context, ServerWebExchange exchange) {
+	private Mono<?> constructAttribute(Constructor<?> ctor, String attributeName, BindingContext context,
+			ServerWebExchange exchange) {
 
 		if (ctor.getParameterCount() == 0) {
 			// A single default constructor -> clearly a standard JavaBeans arrangement.
 			return Mono.just(BeanUtils.instantiateClass(ctor));
 		}
 
-		// A single data class constructor -> resolve constructor arguments from request parameters.
+		// A single data class constructor -> resolve constructor arguments from request
+		// parameters.
 		return WebExchangeDataBinder.extractValuesToBind(exchange).map(bindValues -> {
 			ConstructorProperties cp = ctor.getAnnotation(ConstructorProperties.class);
 			String[] paramNames = (cp != null ? cp.value() : parameterNameDiscoverer.getParameterNames(ctor));
@@ -294,7 +285,7 @@ public class ModelAttributeMethodArgumentResolver extends HandlerMethodArgumentR
 			if (validatedAnn != null || ann.annotationType().getSimpleName().startsWith("Valid")) {
 				Object hints = (validatedAnn != null ? validatedAnn.value() : AnnotationUtils.getValue(ann));
 				if (hints != null) {
-					Object[] validationHints = (hints instanceof Object[] ? (Object[]) hints : new Object[] {hints});
+					Object[] validationHints = (hints instanceof Object[] ? (Object[]) hints : new Object[] { hints });
 					binder.validate(validationHints);
 				}
 				else {

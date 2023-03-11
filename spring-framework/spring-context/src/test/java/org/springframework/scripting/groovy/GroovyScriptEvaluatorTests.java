@@ -45,7 +45,8 @@ public class GroovyScriptEvaluatorTests {
 	@Test
 	public void testGroovyScriptFromFile() {
 		ScriptEvaluator evaluator = new GroovyScriptEvaluator();
-		Object result = evaluator.evaluate(new ResourceScriptSource(new ClassPathResource("simple.groovy", getClass())));
+		Object result = evaluator
+				.evaluate(new ResourceScriptSource(new ClassPathResource("simple.groovy", getClass())));
 		assertThat(result).isEqualTo(6);
 	}
 
@@ -90,7 +91,8 @@ public class GroovyScriptEvaluatorTests {
 	@Test
 	public void testGroovyScriptFromFileUsingJsr223() {
 		ScriptEvaluator evaluator = new StandardScriptEvaluator();
-		Object result = evaluator.evaluate(new ResourceScriptSource(new ClassPathResource("simple.groovy", getClass())));
+		Object result = evaluator
+				.evaluate(new ResourceScriptSource(new ClassPathResource("simple.groovy", getClass())));
 		assertThat(result).isEqualTo(6);
 	}
 

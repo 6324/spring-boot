@@ -54,7 +54,6 @@ public class NumberFormatAnnotationFormatterFactory extends EmbeddedValueResolut
 		return configureFormatterFrom(annotation);
 	}
 
-
 	private Formatter<Number> configureFormatterFrom(NumberFormat annotation) {
 		String pattern = resolveEmbeddedValue(annotation.pattern());
 		if (StringUtils.hasLength(pattern)) {

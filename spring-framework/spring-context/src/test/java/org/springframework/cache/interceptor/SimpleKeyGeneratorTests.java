@@ -33,7 +33,6 @@ public class SimpleKeyGeneratorTests {
 
 	private final SimpleKeyGenerator generator = new SimpleKeyGenerator();
 
-
 	@Test
 	public void noValues() {
 		Object k1 = generateKey(new Object[] {});
@@ -93,9 +92,9 @@ public class SimpleKeyGeneratorTests {
 
 	@Test
 	public void plainArray() {
-		Object k1 = generateKey(new Object[] { new String[]{"a", "b"} });
-		Object k2 = generateKey(new Object[] { new String[]{"a", "b"} });
-		Object k3 = generateKey(new Object[] { new String[]{"b", "a"} });
+		Object k1 = generateKey(new Object[] { new String[] { "a", "b" } });
+		Object k2 = generateKey(new Object[] { new String[] { "a", "b" } });
+		Object k3 = generateKey(new Object[] { new String[] { "b", "a" } });
 		assertThat(k1.hashCode()).isEqualTo(k2.hashCode());
 		assertThat(k1.hashCode()).isNotEqualTo(k3.hashCode());
 		assertThat(k1).isEqualTo(k2);
@@ -104,9 +103,9 @@ public class SimpleKeyGeneratorTests {
 
 	@Test
 	public void arrayWithExtraParameter() {
-		Object k1 = generateKey(new Object[] { new String[]{"a", "b"}, "c" });
-		Object k2 = generateKey(new Object[] { new String[]{"a", "b"}, "c" });
-		Object k3 = generateKey(new Object[] { new String[]{"b", "a"}, "c" });
+		Object k1 = generateKey(new Object[] { new String[] { "a", "b" }, "c" });
+		Object k2 = generateKey(new Object[] { new String[] { "a", "b" }, "c" });
+		Object k3 = generateKey(new Object[] { new String[] { "b", "a" }, "c" });
 		assertThat(k1.hashCode()).isEqualTo(k2.hashCode());
 		assertThat(k1.hashCode()).isNotEqualTo(k3.hashCode());
 		assertThat(k1).isEqualTo(k2);
@@ -123,7 +122,6 @@ public class SimpleKeyGeneratorTests {
 		assertThat(k1).isEqualTo(k2);
 		assertThat(k1).isNotEqualTo(k3);
 	}
-
 
 	private Object generateKey(Object[] arguments) {
 		return this.generator.generate(null, null, arguments);

@@ -60,14 +60,12 @@ public class ResourceHandlerRegistryTests {
 
 	private ResourceHandlerRegistration registration;
 
-
 	@BeforeEach
 	public void setup() {
 		this.registry = new ResourceHandlerRegistry(new GenericApplicationContext());
 		this.registration = this.registry.addResourceHandler("/resources/**");
 		this.registration.addResourceLocations("classpath:org/springframework/web/reactive/config/");
 	}
-
 
 	@Test
 	public void noResourceHandlers() {
@@ -86,8 +84,7 @@ public class ResourceHandlerRegistryTests {
 
 		StepVerifier.create(exchange.getResponse().getBody())
 				.consumeNextWith(buf -> assertThat(buf.toString(UTF_8)).isEqualTo("test stylesheet content"))
-				.expectComplete()
-				.verify();
+				.expectComplete().verify();
 	}
 
 	@Test
@@ -101,7 +98,7 @@ public class ResourceHandlerRegistryTests {
 
 	@Test
 	public void order() {
-		assertThat(this.registry.getHandlerMapping().getOrder()).isEqualTo(Integer.MAX_VALUE -1);
+		assertThat(this.registry.getHandlerMapping().getOrder()).isEqualTo(Integer.MAX_VALUE - 1);
 
 		this.registry.setOrder(0);
 		assertThat(this.registry.getHandlerMapping().getOrder()).isEqualTo(0);
@@ -156,8 +153,7 @@ public class ResourceHandlerRegistryTests {
 	@Test
 	public void resourceChainWithVersionResolver() {
 		VersionResourceResolver versionResolver = new VersionResourceResolver()
-				.addFixedVersionStrategy("fixed", "/**/*.js")
-				.addContentVersionStrategy("/**");
+				.addFixedVersionStrategy("fixed", "/**/*.js").addContentVersionStrategy("/**");
 
 		this.registration.resourceChain(true).addResolver(versionResolver)
 				.addTransformer(new AppCacheManifestTransformer());
@@ -187,15 +183,10 @@ public class ResourceHandlerRegistryTests {
 		AppCacheManifestTransformer appCacheTransformer = Mockito.mock(AppCacheManifestTransformer.class);
 		CssLinkResourceTransformer cssLinkTransformer = new CssLinkResourceTransformer();
 
-		this.registration.setCacheControl(CacheControl.maxAge(3600, TimeUnit.MILLISECONDS))
-				.resourceChain(false)
-					.addResolver(cachingResolver)
-					.addResolver(versionResolver)
-					.addResolver(webjarsResolver)
-					.addResolver(pathResourceResolver)
-					.addTransformer(cachingTransformer)
-					.addTransformer(appCacheTransformer)
-					.addTransformer(cssLinkTransformer);
+		this.registration.setCacheControl(CacheControl.maxAge(3600, TimeUnit.MILLISECONDS)).resourceChain(false)
+				.addResolver(cachingResolver).addResolver(versionResolver).addResolver(webjarsResolver)
+				.addResolver(pathResourceResolver).addTransformer(cachingTransformer)
+				.addTransformer(appCacheTransformer).addTransformer(cssLinkTransformer);
 
 		ResourceWebHandler handler = getHandler("/resources/**");
 		List<ResourceResolver> resolvers = handler.getResourceResolvers();
@@ -211,7 +202,6 @@ public class ResourceHandlerRegistryTests {
 		assertThat(transformers.get(1)).isSameAs(appCacheTransformer);
 		assertThat(transformers.get(2)).isSameAs(cssLinkTransformer);
 	}
-
 
 	private ResourceWebHandler getHandler(String pathPattern) {
 		SimpleUrlHandlerMapping mapping = (SimpleUrlHandlerMapping) this.registry.getHandlerMapping();

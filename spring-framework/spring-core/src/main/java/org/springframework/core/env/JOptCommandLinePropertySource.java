@@ -48,7 +48,8 @@ import org.springframework.util.StringUtils;
  *
  * See {@link CommandLinePropertySource} for complete general usage examples.
  *
- * <p>Requires JOpt Simple version 4.3 or higher. Tested against JOpt up until 5.0.
+ * <p>
+ * Requires JOpt Simple version 4.3 or higher. Tested against JOpt up until 5.0.
  *
  * @author Chris Beams
  * @author Juergen Hoeller
@@ -61,8 +62,8 @@ import org.springframework.util.StringUtils;
 public class JOptCommandLinePropertySource extends CommandLinePropertySource<OptionSet> {
 
 	/**
-	 * Create a new {@code JOptCommandLinePropertySource} having the default name
-	 * and backed by the given {@code OptionSet}.
+	 * Create a new {@code JOptCommandLinePropertySource} having the default name and
+	 * backed by the given {@code OptionSet}.
 	 * @see CommandLinePropertySource#COMMAND_LINE_PROPERTY_SOURCE_NAME
 	 * @see CommandLinePropertySource#CommandLinePropertySource(Object)
 	 */
@@ -71,13 +72,12 @@ public class JOptCommandLinePropertySource extends CommandLinePropertySource<Opt
 	}
 
 	/**
-	 * Create a new {@code JOptCommandLinePropertySource} having the given name
-	 * and backed by the given {@code OptionSet}.
+	 * Create a new {@code JOptCommandLinePropertySource} having the given name and backed
+	 * by the given {@code OptionSet}.
 	 */
 	public JOptCommandLinePropertySource(String name, OptionSet options) {
 		super(name, options);
 	}
-
 
 	@Override
 	protected boolean containsOption(String name) {
@@ -118,8 +118,7 @@ public class JOptCommandLinePropertySource extends CommandLinePropertySource<Opt
 		for (Object argValue : argValues) {
 			stringArgValues.add(argValue.toString());
 		}
-		return (stringArgValues.isEmpty() ? Collections.emptyList() :
-				Collections.unmodifiableList(stringArgValues));
+		return (stringArgValues.isEmpty() ? Collections.emptyList() : Collections.unmodifiableList(stringArgValues));
 	}
 
 }

@@ -42,16 +42,17 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * This class encapsulates some AspectJ internal knowledge that should be
- * pushed back into the AspectJ project in a future release.
+ * This class encapsulates some AspectJ internal knowledge that should be pushed back into
+ * the AspectJ project in a future release.
  *
- * <p>It relies on implementation specific knowledge in AspectJ to break
- * encapsulation and do something AspectJ was not designed to do: query
- * the types of runtime tests that will be performed. The code here should
- * migrate to {@code ShadowMatch.getVariablesInvolvedInRuntimeTest()}
- * or some similar operation.
+ * <p>
+ * It relies on implementation specific knowledge in AspectJ to break encapsulation and do
+ * something AspectJ was not designed to do: query the types of runtime tests that will be
+ * performed. The code here should migrate to
+ * {@code ShadowMatch.getVariablesInvolvedInRuntimeTest()} or some similar operation.
  *
- * <p>See <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=151593">Bug 151593</a>
+ * <p>
+ * See <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=151593">Bug 151593</a>
  *
  * @author Adrian Colyer
  * @author Ramnivas Laddad
@@ -65,7 +66,6 @@ class RuntimeTestWalker {
 
 	private static final Field myClassField;
 
-
 	static {
 		try {
 			residualTestField = ShadowMatchImpl.class.getDeclaredField("residualTest");
@@ -73,15 +73,13 @@ class RuntimeTestWalker {
 			myClassField = ReflectionBasedReferenceTypeDelegate.class.getDeclaredField("myClass");
 		}
 		catch (NoSuchFieldException ex) {
-			throw new IllegalStateException("The version of aspectjtools.jar / aspectjweaver.jar " +
-					"on the classpath is incompatible with this version of Spring: " + ex);
+			throw new IllegalStateException("The version of aspectjtools.jar / aspectjweaver.jar "
+					+ "on the classpath is incompatible with this version of Spring: " + ex);
 		}
 	}
 
-
 	@Nullable
 	private final Test runtimeTest;
-
 
 	public RuntimeTestWalker(ShadowMatch shadowMatch) {
 		try {
@@ -93,33 +91,35 @@ class RuntimeTestWalker {
 		}
 	}
 
-
 	/**
-	 * If the test uses any of the this, target, at_this, at_target, and at_annotation vars,
-	 * then it tests subtype sensitive vars.
+	 * If the test uses any of the this, target, at_this, at_target, and at_annotation
+	 * vars, then it tests subtype sensitive vars.
 	 */
 	public boolean testsSubtypeSensitiveVars() {
-		return (this.runtimeTest != null &&
-				new SubtypeSensitiveVarTypeTestVisitor().testsSubtypeSensitiveVars(this.runtimeTest));
+		return (this.runtimeTest != null
+				&& new SubtypeSensitiveVarTypeTestVisitor().testsSubtypeSensitiveVars(this.runtimeTest));
 	}
 
 	public boolean testThisInstanceOfResidue(Class<?> thisClass) {
-		return (this.runtimeTest != null &&
-				new ThisInstanceOfResidueTestVisitor(thisClass).thisInstanceOfMatches(this.runtimeTest));
+		return (this.runtimeTest != null
+				&& new ThisInstanceOfResidueTestVisitor(thisClass).thisInstanceOfMatches(this.runtimeTest));
 	}
 
 	public boolean testTargetInstanceOfResidue(Class<?> targetClass) {
-		return (this.runtimeTest != null &&
-				new TargetInstanceOfResidueTestVisitor(targetClass).targetInstanceOfMatches(this.runtimeTest));
+		return (this.runtimeTest != null
+				&& new TargetInstanceOfResidueTestVisitor(targetClass).targetInstanceOfMatches(this.runtimeTest));
 	}
-
 
 	private static class TestVisitorAdapter implements ITestVisitor {
 
 		protected static final int THIS_VAR = 0;
+
 		protected static final int TARGET_VAR = 1;
+
 		protected static final int AT_THIS_VAR = 3;
+
 		protected static final int AT_TARGET_VAR = 4;
+
 		protected static final int AT_ANNOTATION_VAR = 8;
 
 		@Override
@@ -172,8 +172,8 @@ class RuntimeTestWalker {
 				throw new IllegalStateException(ex);
 			}
 		}
-	}
 
+	}
 
 	private abstract static class InstanceOfResidueTestVisitor extends TestVisitorAdapter {
 
@@ -215,7 +215,8 @@ class RuntimeTestWalker {
 				}
 			}
 			try {
-				// Don't use ResolvedType.isAssignableFrom() as it won't be aware of (Spring) mixins
+				// Don't use ResolvedType.isAssignableFrom() as it won't be aware of
+				// (Spring) mixins
 				if (typeClass == null) {
 					typeClass = ClassUtils.forName(type.getName(), this.matchClass.getClassLoader());
 				}
@@ -225,8 +226,8 @@ class RuntimeTestWalker {
 				this.matches = false;
 			}
 		}
-	}
 
+	}
 
 	/**
 	 * Check if residue of target(TYPE) kind. See SPR-3783 for more details.
@@ -240,8 +241,8 @@ class RuntimeTestWalker {
 		public boolean targetInstanceOfMatches(Test test) {
 			return instanceOfMatches(test);
 		}
-	}
 
+	}
 
 	/**
 	 * Check if residue of this(TYPE) kind. See SPR-2979 for more details.
@@ -252,12 +253,13 @@ class RuntimeTestWalker {
 			super(thisClass, true, THIS_VAR);
 		}
 
-		// TODO: Optimization: Process only if this() specifies a type and not an identifier.
+		// TODO: Optimization: Process only if this() specifies a type and not an
+		// identifier.
 		public boolean thisInstanceOfMatches(Test test) {
 			return instanceOfMatches(test);
 		}
-	}
 
+	}
 
 	private static class SubtypeSensitiveVarTypeTestVisitor extends TestVisitorAdapter {
 
@@ -285,13 +287,15 @@ class RuntimeTestWalker {
 
 		@Override
 		public void visit(HasAnnotation hasAnn) {
-			// If you thought things were bad before, now we sink to new levels of horror...
+			// If you thought things were bad before, now we sink to new levels of
+			// horror...
 			ReflectionVar v = (ReflectionVar) hasAnn.getVar();
 			int varType = getVarType(v);
 			if (varType == AT_THIS_VAR || varType == AT_TARGET_VAR || varType == AT_ANNOTATION_VAR) {
 				this.testsSubtypeSensitiveVars = true;
 			}
 		}
+
 	}
 
 }

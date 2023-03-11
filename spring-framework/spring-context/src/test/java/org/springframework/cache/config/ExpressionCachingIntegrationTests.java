@@ -33,11 +33,11 @@ import org.springframework.context.annotation.Configuration;
  */
 public class ExpressionCachingIntegrationTests {
 
-	@Test  // SPR-11692
+	@Test // SPR-11692
 	@SuppressWarnings("unchecked")
 	public void expressionIsCacheBasedOnActualMethod() {
-		ConfigurableApplicationContext context =
-				new AnnotationConfigApplicationContext(SharedConfig.class, Spr11692Config.class);
+		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(SharedConfig.class,
+				Spr11692Config.class);
 
 		BaseDao<User> userDao = (BaseDao<User>) context.getBean("userDao");
 		BaseDao<Order> orderDao = (BaseDao<Order>) context.getBean("orderDao");
@@ -47,7 +47,6 @@ public class ExpressionCachingIntegrationTests {
 
 		context.close();
 	}
-
 
 	@Configuration
 	static class Spr11692Config {
@@ -61,14 +60,14 @@ public class ExpressionCachingIntegrationTests {
 		public BaseDao<Order> orderDao() {
 			return new OrderDaoImpl();
 		}
-	}
 
+	}
 
 	private interface BaseDao<T> {
 
 		T persist(T t);
-	}
 
+	}
 
 	private static class UserDaoImpl implements BaseDao<User> {
 
@@ -77,8 +76,8 @@ public class ExpressionCachingIntegrationTests {
 		public User persist(User user) {
 			return user;
 		}
-	}
 
+	}
 
 	private static class OrderDaoImpl implements BaseDao<Order> {
 
@@ -87,8 +86,8 @@ public class ExpressionCachingIntegrationTests {
 		public Order persist(Order order) {
 			return order;
 		}
-	}
 
+	}
 
 	private static class User {
 
@@ -102,8 +101,8 @@ public class ExpressionCachingIntegrationTests {
 		public String getId() {
 			return this.id;
 		}
-	}
 
+	}
 
 	private static class Order {
 
@@ -117,8 +116,8 @@ public class ExpressionCachingIntegrationTests {
 		public String getId() {
 			return this.id;
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableCaching
@@ -129,6 +128,7 @@ public class ExpressionCachingIntegrationTests {
 		public CacheManager cacheManager() {
 			return new ConcurrentMapCacheManager();
 		}
+
 	}
 
 }

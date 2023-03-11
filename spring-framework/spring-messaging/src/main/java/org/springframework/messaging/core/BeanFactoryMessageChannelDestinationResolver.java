@@ -24,9 +24,9 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.util.Assert;
 
 /**
- * An implementation of {@link DestinationResolver} that interprets a destination
- * name as the bean name of a {@link MessageChannel} and looks up the bean in
- * the configured {@link BeanFactory}.
+ * An implementation of {@link DestinationResolver} that interprets a destination name as
+ * the bean name of a {@link MessageChannel} and looks up the bean in the configured
+ * {@link BeanFactory}.
  *
  * @author Mark Fisher
  * @since 4.0
@@ -37,11 +37,10 @@ public class BeanFactoryMessageChannelDestinationResolver
 	@Nullable
 	private BeanFactory beanFactory;
 
-
 	/**
-	 * A default constructor that can be used when the resolver itself is configured
-	 * as a Spring bean and will have the {@code BeanFactory} injected as a result
-	 * of ing having implemented {@link BeanFactoryAware}.
+	 * A default constructor that can be used when the resolver itself is configured as a
+	 * Spring bean and will have the {@code BeanFactory} injected as a result of ing
+	 * having implemented {@link BeanFactoryAware}.
 	 */
 	public BeanFactoryMessageChannelDestinationResolver() {
 	}
@@ -56,12 +55,10 @@ public class BeanFactoryMessageChannelDestinationResolver
 		this.beanFactory = beanFactory;
 	}
 
-
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) {
 		this.beanFactory = beanFactory;
 	}
-
 
 	@Override
 	public MessageChannel resolveDestination(String name) {
@@ -70,8 +67,7 @@ public class BeanFactoryMessageChannelDestinationResolver
 			return this.beanFactory.getBean(name, MessageChannel.class);
 		}
 		catch (BeansException ex) {
-			throw new DestinationResolutionException(
-					"Failed to find MessageChannel bean with name '" + name + "'", ex);
+			throw new DestinationResolutionException("Failed to find MessageChannel bean with name '" + name + "'", ex);
 		}
 	}
 

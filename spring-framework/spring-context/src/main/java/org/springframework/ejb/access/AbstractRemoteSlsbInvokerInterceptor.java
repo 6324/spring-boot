@@ -32,11 +32,12 @@ import org.springframework.remoting.RemoteLookupFailureException;
 import org.springframework.remoting.rmi.RmiClientInterceptorUtils;
 
 /**
- * Base class for interceptors proxying remote Stateless Session Beans.
- * Designed for EJB 2.x, but works for EJB 3 Session Beans as well.
+ * Base class for interceptors proxying remote Stateless Session Beans. Designed for EJB
+ * 2.x, but works for EJB 3 Session Beans as well.
  *
- * <p>Such an interceptor must be the last interceptor in the advice chain.
- * In this case, there is no target object.
+ * <p>
+ * Such an interceptor must be the last interceptor in the advice chain. In this case,
+ * there is no target object.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -47,15 +48,12 @@ public abstract class AbstractRemoteSlsbInvokerInterceptor extends AbstractSlsbI
 
 	private volatile boolean homeAsComponent = false;
 
-
-
 	/**
-	 * Set whether to refresh the EJB home on connect failure.
-	 * Default is "false".
-	 * <p>Can be turned on to allow for hot restart of the EJB server.
-	 * If a cached EJB home throws an RMI exception that indicates a
-	 * remote connect failure, a fresh home will be fetched and the
-	 * invocation will be retried.
+	 * Set whether to refresh the EJB home on connect failure. Default is "false".
+	 * <p>
+	 * Can be turned on to allow for hot restart of the EJB server. If a cached EJB home
+	 * throws an RMI exception that indicates a remote connect failure, a fresh home will
+	 * be fetched and the invocation will be retried.
 	 * @see java.rmi.ConnectException
 	 * @see java.rmi.ConnectIOException
 	 * @see java.rmi.NoSuchObjectException
@@ -68,7 +66,6 @@ public abstract class AbstractRemoteSlsbInvokerInterceptor extends AbstractSlsbI
 	protected boolean isHomeRefreshable() {
 		return this.refreshHomeOnConnectFailure;
 	}
-
 
 	/**
 	 * Check for EJB3-style home object that serves as EJB component directly.
@@ -86,11 +83,11 @@ public abstract class AbstractRemoteSlsbInvokerInterceptor extends AbstractSlsbI
 		return super.getCreateMethod(home);
 	}
 
-
 	/**
 	 * Fetches an EJB home object and delegates to {@code doInvoke}.
-	 * <p>If configured to refresh on connect failure, it will call
-	 * {@link #refreshAndRetry} on corresponding RMI exceptions.
+	 * <p>
+	 * If configured to refresh on connect failure, it will call {@link #refreshAndRetry}
+	 * on corresponding RMI exceptions.
 	 * @see #getHome
 	 * @see #doInvoke
 	 * @see #refreshAndRetry
@@ -116,7 +113,8 @@ public abstract class AbstractRemoteSlsbInvokerInterceptor extends AbstractSlsbI
 
 	/**
 	 * Determine whether the given RMI exception indicates a connect failure.
-	 * <p>The default implementation delegates to RmiClientInterceptorUtils.
+	 * <p>
+	 * The default implementation delegates to RmiClientInterceptorUtils.
 	 * @param ex the RMI exception to check
 	 * @return whether the exception should be treated as connect failure
 	 * @see org.springframework.remoting.rmi.RmiClientInterceptorUtils#isConnectFailure
@@ -142,8 +140,8 @@ public abstract class AbstractRemoteSlsbInvokerInterceptor extends AbstractSlsbI
 	}
 
 	/**
-	 * Refresh the EJB home object and retry the given invocation.
-	 * Called by invoke on connect failure.
+	 * Refresh the EJB home object and retry the given invocation. Called by invoke on
+	 * connect failure.
 	 * @param invocation the AOP method invocation
 	 * @return the invocation result, if any
 	 * @throws Throwable in case of invocation failure
@@ -160,10 +158,9 @@ public abstract class AbstractRemoteSlsbInvokerInterceptor extends AbstractSlsbI
 		return doInvoke(invocation);
 	}
 
-
 	/**
-	 * Perform the given invocation on the current EJB home.
-	 * Template method to be implemented by subclasses.
+	 * Perform the given invocation on the current EJB home. Template method to be
+	 * implemented by subclasses.
 	 * @param invocation the AOP method invocation
 	 * @return the invocation result, if any
 	 * @throws Throwable in case of invocation failure
@@ -173,11 +170,11 @@ public abstract class AbstractRemoteSlsbInvokerInterceptor extends AbstractSlsbI
 	@Nullable
 	protected abstract Object doInvoke(MethodInvocation invocation) throws Throwable;
 
-
 	/**
-	 * Return a new instance of the stateless session bean.
-	 * To be invoked by concrete remote SLSB invoker subclasses.
-	 * <p>Can be overridden to change the algorithm.
+	 * Return a new instance of the stateless session bean. To be invoked by concrete
+	 * remote SLSB invoker subclasses.
+	 * <p>
+	 * Can be overridden to change the algorithm.
 	 * @throws NamingException if thrown by JNDI
 	 * @throws InvocationTargetException if thrown by the create method
 	 * @see #create
@@ -194,8 +191,8 @@ public abstract class AbstractRemoteSlsbInvokerInterceptor extends AbstractSlsbI
 	}
 
 	/**
-	 * Remove the given EJB instance.
-	 * To be invoked by concrete remote SLSB invoker subclasses.
+	 * Remove the given EJB instance. To be invoked by concrete remote SLSB invoker
+	 * subclasses.
 	 * @param ejb the EJB instance to remove
 	 * @see javax.ejb.EJBObject#remove
 	 */

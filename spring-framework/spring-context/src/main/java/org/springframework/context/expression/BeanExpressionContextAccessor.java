@@ -25,8 +25,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * EL property accessor that knows how to traverse the beans and contextual objects
- * of a Spring {@link org.springframework.beans.factory.config.BeanExpressionContext}.
+ * EL property accessor that knows how to traverse the beans and contextual objects of a
+ * Spring {@link org.springframework.beans.factory.config.BeanExpressionContext}.
  *
  * @author Juergen Hoeller
  * @author Andy Clement
@@ -59,7 +59,7 @@ public class BeanExpressionContextAccessor implements PropertyAccessor {
 
 	@Override
 	public Class<?>[] getSpecificTargetClasses() {
-		return new Class<?>[] {BeanExpressionContext.class};
+		return new Class<?>[] { BeanExpressionContext.class };
 	}
 
 }

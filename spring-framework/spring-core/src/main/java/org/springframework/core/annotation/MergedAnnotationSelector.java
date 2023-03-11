@@ -19,8 +19,7 @@ package org.springframework.core.annotation;
 import java.lang.annotation.Annotation;
 
 /**
- * Strategy interface used to select between two {@link MergedAnnotation}
- * instances.
+ * Strategy interface used to select between two {@link MergedAnnotation} instances.
  *
  * @author Phillip Webb
  * @since 5.2
@@ -31,8 +30,8 @@ import java.lang.annotation.Annotation;
 public interface MergedAnnotationSelector<A extends Annotation> {
 
 	/**
-	 * Determine if the existing annotation is known to be the best
-	 * candidate and any subsequent selections may be skipped.
+	 * Determine if the existing annotation is known to be the best candidate and any
+	 * subsequent selections may be skipped.
 	 * @param annotation the annotation to check
 	 * @return {@code true} if the annotation is known to be the best candidate
 	 */

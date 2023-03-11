@@ -30,8 +30,8 @@ import org.springframework.web.socket.sockjs.transport.TransportType;
 import org.springframework.web.socket.sockjs.transport.session.StreamingSockJsSession;
 
 /**
- * A TransportHandler for sending messages via Server-Sent Events:
- * <a href="https://dev.w3.org/html5/eventsource/">https://dev.w3.org/html5/eventsource/</a>.
+ * A TransportHandler for sending messages via Server-Sent Events: <a href=
+ * "https://dev.w3.org/html5/eventsource/">https://dev.w3.org/html5/eventsource/</a>.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -54,8 +54,8 @@ public class EventSourceTransportHandler extends AbstractHttpSendingTransportHan
 	}
 
 	@Override
-	public StreamingSockJsSession createSession(
-			String sessionId, WebSocketHandler handler, Map<String, Object> attributes) {
+	public StreamingSockJsSession createSession(String sessionId, WebSocketHandler handler,
+			Map<String, Object> attributes) {
 
 		return new EventSourceStreamingSockJsSession(sessionId, getServiceConfig(), handler, attributes);
 	}
@@ -64,7 +64,6 @@ public class EventSourceTransportHandler extends AbstractHttpSendingTransportHan
 	protected SockJsFrameFormat getFrameFormat(ServerHttpRequest request) {
 		return new DefaultSockJsFrameFormat("data: %s\r\n\r\n");
 	}
-
 
 	private static class EventSourceStreamingSockJsSession extends StreamingSockJsSession {
 
@@ -76,8 +75,9 @@ public class EventSourceTransportHandler extends AbstractHttpSendingTransportHan
 
 		@Override
 		protected byte[] getPrelude(ServerHttpRequest request) {
-			return new byte[] {'\r', '\n'};
+			return new byte[] { '\r', '\n' };
 		}
+
 	}
 
 }

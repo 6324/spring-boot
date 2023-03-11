@@ -55,26 +55,22 @@ public class JmsResponseTests {
 
 	@Test
 	public void createWithNulResponse() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				JmsResponse.forQueue(null, "myQueue"));
+		assertThatIllegalArgumentException().isThrownBy(() -> JmsResponse.forQueue(null, "myQueue"));
 	}
 
 	@Test
 	public void createWithNullQueueName() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				JmsResponse.forQueue("foo", null));
+		assertThatIllegalArgumentException().isThrownBy(() -> JmsResponse.forQueue("foo", null));
 	}
 
 	@Test
 	public void createWithNullTopicName() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				JmsResponse.forTopic("foo", null));
+		assertThatIllegalArgumentException().isThrownBy(() -> JmsResponse.forTopic("foo", null));
 	}
 
 	@Test
 	public void createWithNulDestination() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				JmsResponse.forDestination("foo", null));
+		assertThatIllegalArgumentException().isThrownBy(() -> JmsResponse.forDestination("foo", null));
 	}
 
 }

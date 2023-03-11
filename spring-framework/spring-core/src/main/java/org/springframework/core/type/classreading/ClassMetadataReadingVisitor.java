@@ -32,9 +32,8 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * ASM class visitor which looks only for the class name and implemented types,
- * exposing them through the {@link org.springframework.core.type.ClassMetadata}
- * interface.
+ * ASM class visitor which looks only for the class name and implemented types, exposing
+ * them through the {@link org.springframework.core.type.ClassMetadata} interface.
  *
  * @author Rod Johnson
  * @author Costin Leau
@@ -42,9 +41,9 @@ import org.springframework.util.StringUtils;
  * @author Ramnivas Laddad
  * @author Chris Beams
  * @since 2.5
- * @deprecated As of Spring Framework 5.2, this class and related classes in this
- * package have been replaced by {@link SimpleAnnotationMetadataReadingVisitor}
- * and related classes for internal use within the framework.
+ * @deprecated As of Spring Framework 5.2, this class and related classes in this package
+ * have been replaced by {@link SimpleAnnotationMetadataReadingVisitor} and related
+ * classes for internal use within the framework.
  */
 @Deprecated
 class ClassMetadataReadingVisitor extends ClassVisitor implements ClassMetadata {
@@ -71,15 +70,13 @@ class ClassMetadataReadingVisitor extends ClassVisitor implements ClassMetadata 
 
 	private Set<String> memberClassNames = new LinkedHashSet<>(4);
 
-
 	public ClassMetadataReadingVisitor() {
 		super(SpringAsmInfo.ASM_VERSION);
 	}
 
-
 	@Override
-	public void visit(
-			int version, int access, String name, String signature, @Nullable String supername, String[] interfaces) {
+	public void visit(int version, int access, String name, String signature, @Nullable String supername,
+			String[] interfaces) {
 
 		this.className = ClassUtils.convertResourcePathToClassName(name);
 		this.isInterface = ((access & Opcodes.ACC_INTERFACE) != 0);
@@ -149,7 +146,6 @@ class ClassMetadataReadingVisitor extends ClassVisitor implements ClassMetadata 
 		// no-op
 	}
 
-
 	@Override
 	public String getClassName() {
 		return this.className;
@@ -207,7 +203,6 @@ class ClassMetadataReadingVisitor extends ClassVisitor implements ClassMetadata 
 		return StringUtils.toStringArray(this.memberClassNames);
 	}
 
-
 	private static class EmptyAnnotationVisitor extends AnnotationVisitor {
 
 		public EmptyAnnotationVisitor() {
@@ -223,22 +218,23 @@ class ClassMetadataReadingVisitor extends ClassVisitor implements ClassMetadata 
 		public AnnotationVisitor visitArray(String name) {
 			return this;
 		}
-	}
 
+	}
 
 	private static class EmptyMethodVisitor extends MethodVisitor {
 
 		public EmptyMethodVisitor() {
 			super(SpringAsmInfo.ASM_VERSION);
 		}
-	}
 
+	}
 
 	private static class EmptyFieldVisitor extends FieldVisitor {
 
 		public EmptyFieldVisitor() {
 			super(SpringAsmInfo.ASM_VERSION);
 		}
+
 	}
 
 }

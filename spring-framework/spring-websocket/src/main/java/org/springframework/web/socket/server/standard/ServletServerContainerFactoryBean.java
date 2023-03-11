@@ -33,12 +33,13 @@ import org.springframework.web.context.ServletContextAware;
  * FactoryBean and using its setters allows for configuring the {@code ServerContainer}
  * through Spring configuration.
  *
- * <p>This is useful even if the {@code ServerContainer} is not injected into any other
- * bean within the Spring application context. For example, an application can configure
- * a {@link org.springframework.web.socket.server.support.DefaultHandshakeHandler},
- * a {@link org.springframework.web.socket.sockjs.SockJsService}, or
- * {@link ServerEndpointExporter}, and separately declare this FactoryBean in order
- * to customize the properties of the (one and only) {@code ServerContainer} instance.
+ * <p>
+ * This is useful even if the {@code ServerContainer} is not injected into any other bean
+ * within the Spring application context. For example, an application can configure a
+ * {@link org.springframework.web.socket.server.support.DefaultHandshakeHandler}, a
+ * {@link org.springframework.web.socket.sockjs.SockJsService}, or
+ * {@link ServerEndpointExporter}, and separately declare this FactoryBean in order to
+ * customize the properties of the (one and only) {@code ServerContainer} instance.
  *
  * @author Rossen Stoyanchev
  * @author Sam Brannen
@@ -64,7 +65,6 @@ public class ServletServerContainerFactoryBean
 
 	@Nullable
 	private ServerContainer serverContainer;
-
 
 	public void setAsyncSendTimeout(Long timeoutInMillis) {
 		this.asyncSendTimeout = timeoutInMillis;
@@ -107,13 +107,12 @@ public class ServletServerContainerFactoryBean
 		this.servletContext = servletContext;
 	}
 
-
 	@Override
 	public void afterPropertiesSet() {
 		Assert.state(this.servletContext != null,
 				"A ServletContext is required to access the javax.websocket.server.ServerContainer instance");
-		this.serverContainer = (ServerContainer) this.servletContext.getAttribute(
-				"javax.websocket.server.ServerContainer");
+		this.serverContainer = (ServerContainer) this.servletContext
+				.getAttribute("javax.websocket.server.ServerContainer");
 		Assert.state(this.serverContainer != null,
 				"Attribute 'javax.websocket.server.ServerContainer' not found in ServletContext");
 
@@ -130,7 +129,6 @@ public class ServletServerContainerFactoryBean
 			this.serverContainer.setDefaultMaxBinaryMessageBufferSize(this.maxBinaryMessageBufferSize);
 		}
 	}
-
 
 	@Override
 	@Nullable

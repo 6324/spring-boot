@@ -25,10 +25,11 @@ import org.springframework.util.Assert;
  * A {@link java.util.function.Supplier} decorator that caches a singleton result and
  * makes it available from {@link #get()} (nullable) and {@link #obtain()} (null-safe).
  *
- * <p>A {@code SingletonSupplier} can be constructed via {@code of} factory methods
- * or via constructors that provide a default supplier as a fallback. This is
- * particularly useful for method reference suppliers, falling back to a default
- * supplier for a method that returned {@code null} and caching the result.
+ * <p>
+ * A {@code SingletonSupplier} can be constructed via {@code of} factory methods or via
+ * constructors that provide a default supplier as a fallback. This is particularly useful
+ * for method reference suppliers, falling back to a default supplier for a method that
+ * returned {@code null} and caching the result.
  *
  * @author Juergen Hoeller
  * @since 5.1
@@ -45,10 +46,9 @@ public class SingletonSupplier<T> implements Supplier<T> {
 	@Nullable
 	private volatile T singletonInstance;
 
-
 	/**
-	 * Build a {@code SingletonSupplier} with the given singleton instance
-	 * and a default supplier for the case when the instance is {@code null}.
+	 * Build a {@code SingletonSupplier} with the given singleton instance and a default
+	 * supplier for the case when the instance is {@code null}.
 	 * @param instance the singleton instance (potentially {@code null})
 	 * @param defaultSupplier the default supplier as a fallback
 	 */
@@ -59,8 +59,8 @@ public class SingletonSupplier<T> implements Supplier<T> {
 	}
 
 	/**
-	 * Build a {@code SingletonSupplier} with the given instance supplier
-	 * and a default supplier for the case when the instance is {@code null}.
+	 * Build a {@code SingletonSupplier} with the given instance supplier and a default
+	 * supplier for the case when the instance is {@code null}.
 	 * @param instanceSupplier the immediate instance supplier
 	 * @param defaultSupplier the default supplier as a fallback
 	 */
@@ -79,7 +79,6 @@ public class SingletonSupplier<T> implements Supplier<T> {
 		this.defaultSupplier = null;
 		this.singletonInstance = singletonInstance;
 	}
-
 
 	/**
 	 * Get the shared singleton instance for this supplier.
@@ -117,7 +116,6 @@ public class SingletonSupplier<T> implements Supplier<T> {
 		return instance;
 	}
 
-
 	/**
 	 * Build a {@code SingletonSupplier} with the given singleton instance.
 	 * @param instance the singleton instance (never {@code null})
@@ -149,7 +147,8 @@ public class SingletonSupplier<T> implements Supplier<T> {
 	/**
 	 * Build a {@code SingletonSupplier} with the given supplier.
 	 * @param supplier the instance supplier (potentially {@code null})
-	 * @return the singleton supplier, or {@code null} if the instance supplier was {@code null}
+	 * @return the singleton supplier, or {@code null} if the instance supplier was
+	 * {@code null}
 	 */
 	@Nullable
 	public static <T> SingletonSupplier<T> ofNullable(@Nullable Supplier<T> supplier) {

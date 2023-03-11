@@ -22,8 +22,8 @@ import java.sql.SQLException;
 import org.springframework.lang.Nullable;
 
 /**
- * Sybase specific implementation for the {@link CallMetaDataProvider} interface.
- * This class is intended for internal use by the Simple JDBC classes.
+ * Sybase specific implementation for the {@link CallMetaDataProvider} interface. This
+ * class is intended for internal use by the Simple JDBC classes.
  *
  * @author Thomas Risberg
  * @since 2.5
@@ -34,11 +34,9 @@ public class SybaseCallMetaDataProvider extends GenericCallMetaDataProvider {
 
 	private static final String RETURN_VALUE_NAME = "RETURN_VALUE";
 
-
 	public SybaseCallMetaDataProvider(DatabaseMetaData databaseMetaData) throws SQLException {
 		super(databaseMetaData);
 	}
-
 
 	@Override
 	@Nullable
@@ -56,8 +54,7 @@ public class SybaseCallMetaDataProvider extends GenericCallMetaDataProvider {
 
 	@Override
 	public boolean byPassReturnParameter(String parameterName) {
-		return (RETURN_VALUE_NAME.equals(parameterName) ||
-				RETURN_VALUE_NAME.equals(parameterNameToUse(parameterName)));
+		return (RETURN_VALUE_NAME.equals(parameterName) || RETURN_VALUE_NAME.equals(parameterNameToUse(parameterName)));
 	}
 
 }

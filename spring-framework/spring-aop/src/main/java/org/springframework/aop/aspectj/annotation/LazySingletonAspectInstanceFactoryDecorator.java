@@ -22,7 +22,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Decorator to cause a {@link MetadataAwareAspectInstanceFactory} to instantiate only once.
+ * Decorator to cause a {@link MetadataAwareAspectInstanceFactory} to instantiate only
+ * once.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -36,7 +37,6 @@ public class LazySingletonAspectInstanceFactoryDecorator implements MetadataAwar
 	@Nullable
 	private volatile Object materialized;
 
-
 	/**
 	 * Create a new lazily initializing decorator for the given AspectInstanceFactory.
 	 * @param maaif the MetadataAwareAspectInstanceFactory to decorate
@@ -45,7 +45,6 @@ public class LazySingletonAspectInstanceFactoryDecorator implements MetadataAwar
 		Assert.notNull(maaif, "AspectInstanceFactory must not be null");
 		this.maaif = maaif;
 	}
-
 
 	@Override
 	public Object getAspectInstance() {
@@ -94,7 +93,6 @@ public class LazySingletonAspectInstanceFactoryDecorator implements MetadataAwar
 	public int getOrder() {
 		return this.maaif.getOrder();
 	}
-
 
 	@Override
 	public String toString() {

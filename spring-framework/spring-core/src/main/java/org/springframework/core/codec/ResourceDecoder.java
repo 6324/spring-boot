@@ -41,19 +41,19 @@ import org.springframework.util.MimeTypeUtils;
  */
 public class ResourceDecoder extends AbstractDataBufferDecoder<Resource> {
 
-	/** Name of hint with a filename for the resource(e.g. from "Content-Disposition" HTTP header). */
+	/**
+	 * Name of hint with a filename for the resource(e.g. from "Content-Disposition" HTTP
+	 * header).
+	 */
 	public static String FILENAME_HINT = ResourceDecoder.class.getName() + ".filename";
-
 
 	public ResourceDecoder() {
 		super(MimeTypeUtils.ALL);
 	}
 
-
 	@Override
 	public boolean canDecode(ResolvableType elementType, @Nullable MimeType mimeType) {
-		return (Resource.class.isAssignableFrom(elementType.toClass()) &&
-				super.canDecode(elementType, mimeType));
+		return (Resource.class.isAssignableFrom(elementType.toClass()) && super.canDecode(elementType, mimeType));
 	}
 
 	@Override
@@ -64,8 +64,8 @@ public class ResourceDecoder extends AbstractDataBufferDecoder<Resource> {
 	}
 
 	@Override
-	public Resource decode(DataBuffer dataBuffer, ResolvableType elementType,
-			@Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
+	public Resource decode(DataBuffer dataBuffer, ResolvableType elementType, @Nullable MimeType mimeType,
+			@Nullable Map<String, Object> hints) {
 
 		byte[] bytes = new byte[dataBuffer.readableByteCount()];
 		dataBuffer.read(bytes);
@@ -83,6 +83,7 @@ public class ResourceDecoder extends AbstractDataBufferDecoder<Resource> {
 				public String getFilename() {
 					return filename;
 				}
+
 				@Override
 				public long contentLength() {
 					return bytes.length;

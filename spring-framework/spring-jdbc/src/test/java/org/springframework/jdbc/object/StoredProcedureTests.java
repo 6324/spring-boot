@@ -69,7 +69,9 @@ import static org.mockito.Mockito.verify;
 public class StoredProcedureTests {
 
 	private DataSource dataSource;
+
 	private Connection connection;
+
 	private CallableStatement callableStatement;
 
 	private boolean verifyClosedAfter = true;
@@ -93,15 +95,12 @@ public class StoredProcedureTests {
 
 	@Test
 	public void testNoSuchStoredProcedure() throws Exception {
-		SQLException sqlException = new SQLException(
-				"Syntax error or access violation exception", "42000");
+		SQLException sqlException = new SQLException("Syntax error or access violation exception", "42000");
 		given(callableStatement.execute()).willThrow(sqlException);
-		given(connection.prepareCall("{call " + NoSuchStoredProcedure.SQL + "()}")).willReturn(
-				callableStatement);
+		given(connection.prepareCall("{call " + NoSuchStoredProcedure.SQL + "()}")).willReturn(callableStatement);
 
 		NoSuchStoredProcedure sproc = new NoSuchStoredProcedure(dataSource);
-		assertThatExceptionOfType(BadSqlGrammarException.class).isThrownBy(
-				sproc::execute);
+		assertThatExceptionOfType(BadSqlGrammarException.class).isThrownBy(sproc::execute);
 	}
 
 	private void testAddInvoice(final int amount, final int custid) throws Exception {
@@ -110,8 +109,7 @@ public class StoredProcedureTests {
 		assertThat(id).isEqualTo(4);
 	}
 
-	private void testAddInvoiceUsingObjectArray(final int amount, final int custid)
-			throws Exception {
+	private void testAddInvoiceUsingObjectArray(final int amount, final int custid) throws Exception {
 		AddInvoiceUsingObjectArray adder = new AddInvoiceUsingObjectArray(dataSource);
 		int id = adder.execute(amount, custid);
 		assertThat(id).isEqualTo(5);
@@ -122,8 +120,7 @@ public class StoredProcedureTests {
 		given(callableStatement.execute()).willReturn(false);
 		given(callableStatement.getUpdateCount()).willReturn(-1);
 		given(callableStatement.getObject(3)).willReturn(4);
-		given(connection.prepareCall("{call " + AddInvoice.SQL + "(?, ?, ?)}")
-				).willReturn(callableStatement);
+		given(connection.prepareCall("{call " + AddInvoice.SQL + "(?, ?, ?)}")).willReturn(callableStatement);
 		testAddInvoice(1106, 3);
 		verify(callableStatement).setObject(1, 1106, Types.INTEGER);
 		verify(callableStatement).setObject(2, 3, Types.INTEGER);
@@ -135,8 +132,7 @@ public class StoredProcedureTests {
 		given(callableStatement.execute()).willReturn(false);
 		given(callableStatement.getUpdateCount()).willReturn(-1);
 		given(callableStatement.getObject(3)).willReturn(5);
-		given(connection.prepareCall("{call " + AddInvoice.SQL + "(?, ?, ?)}")
-				).willReturn(callableStatement);
+		given(connection.prepareCall("{call " + AddInvoice.SQL + "(?, ?, ?)}")).willReturn(callableStatement);
 		testAddInvoiceUsingObjectArray(1106, 4);
 		verify(callableStatement).setObject(1, 1106, Types.INTEGER);
 		verify(callableStatement).setObject(2, 4, Types.INTEGER);
@@ -148,8 +144,7 @@ public class StoredProcedureTests {
 		given(callableStatement.execute()).willReturn(false);
 		given(callableStatement.getUpdateCount()).willReturn(-1);
 		given(callableStatement.getObject(3)).willReturn(4);
-		given(connection.prepareCall("{call " + AddInvoice.SQL + "(?, ?, ?)}")
-				).willReturn(callableStatement);
+		given(connection.prepareCall("{call " + AddInvoice.SQL + "(?, ?, ?)}")).willReturn(callableStatement);
 		TransactionSynchronizationManager.bindResource(dataSource, new ConnectionHolder(connection));
 		try {
 			testAddInvoice(1106, 3);
@@ -169,24 +164,24 @@ public class StoredProcedureTests {
 	 * mechanism.
 	 */
 	@Test
-	public void testStoredProcedureConfiguredViaJdbcTemplateWithCustomExceptionTranslator()
-			throws Exception {
+	public void testStoredProcedureConfiguredViaJdbcTemplateWithCustomExceptionTranslator() throws Exception {
 		given(callableStatement.execute()).willReturn(false);
 		given(callableStatement.getUpdateCount()).willReturn(-1);
 		given(callableStatement.getObject(2)).willReturn(5);
-		given(connection.prepareCall("{call " + StoredProcedureConfiguredViaJdbcTemplate.SQL + "(?, ?)}")
-				).willReturn(callableStatement);
+		given(connection.prepareCall("{call " + StoredProcedureConfiguredViaJdbcTemplate.SQL + "(?, ?)}"))
+				.willReturn(callableStatement);
 
 		class TestJdbcTemplate extends JdbcTemplate {
 
 			int calls;
 
 			@Override
-			public Map<String, Object> call(CallableStatementCreator csc,
-					List<SqlParameter> declaredParameters) throws DataAccessException {
+			public Map<String, Object> call(CallableStatementCreator csc, List<SqlParameter> declaredParameters)
+					throws DataAccessException {
 				calls++;
 				return super.call(csc, declaredParameters);
 			}
+
 		}
 		TestJdbcTemplate t = new TestJdbcTemplate();
 		t.setDataSource(dataSource);
@@ -210,8 +205,8 @@ public class StoredProcedureTests {
 		given(callableStatement.execute()).willReturn(false);
 		given(callableStatement.getUpdateCount()).willReturn(-1);
 		given(callableStatement.getObject(2)).willReturn(4);
-		given(connection.prepareCall("{call " + StoredProcedureConfiguredViaJdbcTemplate.SQL + "(?, ?)}")
-				).willReturn(callableStatement);
+		given(connection.prepareCall("{call " + StoredProcedureConfiguredViaJdbcTemplate.SQL + "(?, ?)}"))
+				.willReturn(callableStatement);
 		JdbcTemplate t = new JdbcTemplate();
 		t.setDataSource(dataSource);
 		StoredProcedureConfiguredViaJdbcTemplate sp = new StoredProcedureConfiguredViaJdbcTemplate(t);
@@ -234,28 +229,25 @@ public class StoredProcedureTests {
 	public void testUnnamedParameter() throws Exception {
 		this.verifyClosedAfter = false;
 		// Shouldn't succeed in creating stored procedure with unnamed parameter
-		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(() ->
-		new UnnamedParameterStoredProcedure(dataSource));
+		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class)
+				.isThrownBy(() -> new UnnamedParameterStoredProcedure(dataSource));
 	}
 
 	@Test
 	public void testMissingParameter() throws Exception {
 		this.verifyClosedAfter = false;
 		MissingParameterStoredProcedure mp = new MissingParameterStoredProcedure(dataSource);
-		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(
-				mp::execute);
+		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(mp::execute);
 	}
 
 	@Test
 	public void testStoredProcedureExceptionTranslator() throws Exception {
-		SQLException sqlException = new SQLException(
-				"Syntax error or access violation exception", "42000");
+		SQLException sqlException = new SQLException("Syntax error or access violation exception", "42000");
 		given(callableStatement.execute()).willThrow(sqlException);
-		given(connection.prepareCall("{call " + StoredProcedureExceptionTranslator.SQL + "()}")
-				).willReturn(callableStatement);
+		given(connection.prepareCall("{call " + StoredProcedureExceptionTranslator.SQL + "()}"))
+				.willReturn(callableStatement);
 		StoredProcedureExceptionTranslator sproc = new StoredProcedureExceptionTranslator(dataSource);
-		assertThatExceptionOfType(CustomDataException.class).isThrownBy(
-				sproc::execute);
+		assertThatExceptionOfType(CustomDataException.class).isThrownBy(sproc::execute);
 	}
 
 	@Test
@@ -266,8 +258,8 @@ public class StoredProcedureTests {
 		given(callableStatement.getUpdateCount()).willReturn(-1);
 		given(callableStatement.getResultSet()).willReturn(resultSet);
 		given(callableStatement.getUpdateCount()).willReturn(-1);
-		given(connection.prepareCall("{call " + StoredProcedureWithResultSet.SQL + "()}")
-				).willReturn(callableStatement);
+		given(connection.prepareCall("{call " + StoredProcedureWithResultSet.SQL + "()}"))
+				.willReturn(callableStatement);
 		StoredProcedureWithResultSet sproc = new StoredProcedureWithResultSet(dataSource);
 		sproc.execute();
 		assertThat(sproc.getCount()).isEqualTo(2);
@@ -285,8 +277,8 @@ public class StoredProcedureTests {
 		given(callableStatement.getResultSet()).willReturn(resultSet);
 		given(callableStatement.getMoreResults()).willReturn(false);
 		given(callableStatement.getUpdateCount()).willReturn(-1);
-		given(connection.prepareCall("{call " + StoredProcedureWithResultSetMapped.SQL + "()}")
-				).willReturn(callableStatement);
+		given(connection.prepareCall("{call " + StoredProcedureWithResultSetMapped.SQL + "()}"))
+				.willReturn(callableStatement);
 		StoredProcedureWithResultSetMapped sproc = new StoredProcedureWithResultSetMapped(dataSource);
 		Map<String, Object> res = sproc.execute();
 		List<String> rs = (List<String>) res.get("rs");
@@ -319,8 +311,8 @@ public class StoredProcedureTests {
 		given(callableStatement.getResultSet()).willReturn(resultSet1, resultSet2);
 		given(callableStatement.getMoreResults()).willReturn(true, false, false);
 		given(callableStatement.getUpdateCount()).willReturn(-1, -1, 0, -1);
-		given(connection.prepareCall("{call " + StoredProcedureWithResultSetMapped.SQL + "()}")
-				).willReturn(callableStatement);
+		given(connection.prepareCall("{call " + StoredProcedureWithResultSetMapped.SQL + "()}"))
+				.willReturn(callableStatement);
 
 		StoredProcedureWithResultSetMapped sproc = new StoredProcedureWithResultSetMapped(dataSource);
 		Map<String, Object> res = sproc.execute();
@@ -351,12 +343,11 @@ public class StoredProcedureTests {
 	public void testStoredProcedureSkippingResultsProcessing() throws Exception {
 		given(callableStatement.execute()).willReturn(true);
 		given(callableStatement.getUpdateCount()).willReturn(-1);
-		given(connection.prepareCall("{call " + StoredProcedureWithResultSetMapped.SQL + "()}")
-				).willReturn(callableStatement);
+		given(connection.prepareCall("{call " + StoredProcedureWithResultSetMapped.SQL + "()}"))
+				.willReturn(callableStatement);
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		jdbcTemplate.setSkipResultsProcessing(true);
-		StoredProcedureWithResultSetMapped sproc = new StoredProcedureWithResultSetMapped(
-				jdbcTemplate);
+		StoredProcedureWithResultSetMapped sproc = new StoredProcedureWithResultSetMapped(jdbcTemplate);
 		Map<String, Object> res = sproc.execute();
 		assertThat(res.size()).as("incorrect number of returns").isEqualTo(0);
 	}
@@ -372,13 +363,12 @@ public class StoredProcedureTests {
 		given(callableStatement.getResultSet()).willReturn(resultSet);
 		given(callableStatement.getMoreResults()).willReturn(true, false);
 		given(callableStatement.getUpdateCount()).willReturn(-1, -1);
-		given(connection.prepareCall("{call " + StoredProcedureWithResultSetMapped.SQL + "()}")
-				).willReturn(callableStatement);
+		given(connection.prepareCall("{call " + StoredProcedureWithResultSetMapped.SQL + "()}"))
+				.willReturn(callableStatement);
 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 		jdbcTemplate.setSkipUndeclaredResults(true);
-		StoredProcedureWithResultSetMapped sproc = new StoredProcedureWithResultSetMapped(
-				jdbcTemplate);
+		StoredProcedureWithResultSetMapped sproc = new StoredProcedureWithResultSetMapped(jdbcTemplate);
 		Map<String, Object> res = sproc.execute();
 
 		assertThat(res.size()).as("incorrect number of returns").isEqualTo(1);
@@ -394,8 +384,8 @@ public class StoredProcedureTests {
 		given(callableStatement.execute()).willReturn(false);
 		given(callableStatement.getUpdateCount()).willReturn(-1);
 		given(callableStatement.getObject(2)).willReturn("OK");
-		given(connection.prepareCall("{call " + ParameterMapperStoredProcedure.SQL + "(?, ?)}")
-				).willReturn(callableStatement);
+		given(connection.prepareCall("{call " + ParameterMapperStoredProcedure.SQL + "(?, ?)}"))
+				.willReturn(callableStatement);
 
 		ParameterMapperStoredProcedure pmsp = new ParameterMapperStoredProcedure(dataSource);
 		Map<String, Object> out = pmsp.executeTest();
@@ -411,8 +401,8 @@ public class StoredProcedureTests {
 		given(callableStatement.execute()).willReturn(false);
 		given(callableStatement.getUpdateCount()).willReturn(-1);
 		given(callableStatement.getObject(2)).willReturn("OK");
-		given(connection.prepareCall("{call " + SqlTypeValueStoredProcedure.SQL + "(?, ?)}")
-				).willReturn(callableStatement);
+		given(connection.prepareCall("{call " + SqlTypeValueStoredProcedure.SQL + "(?, ?)}"))
+				.willReturn(callableStatement);
 
 		SqlTypeValueStoredProcedure stvsp = new SqlTypeValueStoredProcedure(dataSource);
 		Map<String, Object> out = stvsp.executeTest(testVal);
@@ -426,8 +416,8 @@ public class StoredProcedureTests {
 		given(callableStatement.execute()).willReturn(false);
 		given(callableStatement.getUpdateCount()).willReturn(-1);
 		given(callableStatement.getObject(1)).willReturn(new BigDecimal("12345.6789"));
-		given(connection.prepareCall("{call " + NumericWithScaleStoredProcedure.SQL + "(?)}")
-				).willReturn(callableStatement);
+		given(connection.prepareCall("{call " + NumericWithScaleStoredProcedure.SQL + "(?)}"))
+				.willReturn(callableStatement);
 		NumericWithScaleStoredProcedure nwssp = new NumericWithScaleStoredProcedure(dataSource);
 		Map<String, Object> out = nwssp.executeTest();
 		assertThat(out.get("out")).isEqualTo(new BigDecimal("12345.6789"));
@@ -452,6 +442,7 @@ public class StoredProcedureTests {
 			Map<String, Object> out = execute(in);
 			return ((Number) out.get("intOut")).intValue();
 		}
+
 	}
 
 	private static class AddInvoice extends StoredProcedure {
@@ -474,6 +465,7 @@ public class StoredProcedureTests {
 			Map<String, Object> out = execute(in);
 			return ((Number) out.get("newid")).intValue();
 		}
+
 	}
 
 	private static class AddInvoiceUsingObjectArray extends StoredProcedure {
@@ -493,6 +485,7 @@ public class StoredProcedureTests {
 			Map<String, Object> out = execute(new Object[] { amount, custid });
 			return ((Number) out.get("newid")).intValue();
 		}
+
 	}
 
 	private static class NullArg extends StoredProcedure {
@@ -511,6 +504,7 @@ public class StoredProcedureTests {
 			in.put("ptest", s);
 			execute(in);
 		}
+
 	}
 
 	private static class NoSuchStoredProcedure extends StoredProcedure {
@@ -526,6 +520,7 @@ public class StoredProcedureTests {
 		public void execute() {
 			execute(new HashMap<>());
 		}
+
 	}
 
 	private static class UnnamedParameterStoredProcedure extends StoredProcedure {
@@ -550,6 +545,7 @@ public class StoredProcedureTests {
 		public void execute() {
 			execute(new HashMap<>());
 		}
+
 	}
 
 	private static class StoredProcedureWithResultSet extends StoredProcedure {
@@ -572,6 +568,7 @@ public class StoredProcedureTests {
 		public int getCount() {
 			return this.handler.getCount();
 		}
+
 	}
 
 	private static class StoredProcedureWithResultSetMapped extends StoredProcedure {
@@ -602,7 +599,9 @@ public class StoredProcedureTests {
 			public String mapRow(ResultSet rs, int rowNum) throws SQLException {
 				return rs.getString(2);
 			}
+
 		}
+
 	}
 
 	private static class ParameterMapperStoredProcedure extends StoredProcedure {
@@ -633,7 +632,9 @@ public class StoredProcedureTests {
 				inParms.put("in", testValue);
 				return inParms;
 			}
+
 		}
+
 	}
 
 	private static class SqlTypeValueStoredProcedure extends StoredProcedure {
@@ -661,6 +662,7 @@ public class StoredProcedureTests {
 			});
 			return execute(in);
 		}
+
 	}
 
 	private static class NumericWithScaleStoredProcedure extends StoredProcedure {
@@ -677,6 +679,7 @@ public class StoredProcedureTests {
 		public Map<String, Object> executeTest() {
 			return execute(new HashMap<>());
 		}
+
 	}
 
 	private static class StoredProcedureExceptionTranslator extends StoredProcedure {
@@ -698,6 +701,7 @@ public class StoredProcedureTests {
 		public void execute() {
 			execute(new HashMap<>());
 		}
+
 	}
 
 	@SuppressWarnings("serial")
@@ -710,6 +714,7 @@ public class StoredProcedureTests {
 		public CustomDataException(String s, Throwable ex) {
 			super(s, ex);
 		}
+
 	}
 
 }

@@ -32,7 +32,6 @@ public class CronTask extends TriggerTask {
 
 	private final String expression;
 
-
 	/**
 	 * Create a new {@code CronTask}.
 	 * @param runnable the underlying task to execute
@@ -51,7 +50,6 @@ public class CronTask extends TriggerTask {
 		super(runnable, cronTrigger);
 		this.expression = cronTrigger.getExpression();
 	}
-
 
 	/**
 	 * Return the cron expression defining when the task should be executed.

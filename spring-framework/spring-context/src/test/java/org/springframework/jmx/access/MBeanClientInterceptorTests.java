@@ -93,7 +93,8 @@ class MBeanClientInterceptorTests extends AbstractMBeanServerTests {
 	void proxyClassIsDifferent() throws Exception {
 		assumeTrue(runTests);
 		IJmxTestBean proxy = getProxy();
-		assertThat(proxy.getClass()).as("The proxy class should be different than the base class").isNotSameAs(IJmxTestBean.class);
+		assertThat(proxy.getClass()).as("The proxy class should be different than the base class")
+				.isNotSameAs(IJmxTestBean.class);
 	}
 
 	@Test
@@ -231,7 +232,6 @@ class MBeanClientInterceptorTests extends AbstractMBeanServerTests {
 		assertThat(proxy.getThreadInfo(Thread.currentThread().getId()).getStackTrace()).isNotNull();
 	}
 
-
 	private static class ProxyTestAssembler extends AbstractReflectiveMBeanInfoAssembler {
 
 		@Override
@@ -281,6 +281,7 @@ class MBeanClientInterceptorTests extends AbstractMBeanServerTests {
 		@SuppressWarnings({ "unused", "rawtypes" })
 		protected void populateMBeanDescriptor(Descriptor mbeanDescriptor, String beanKey, Class beanClass) {
 		}
+
 	}
 
 }

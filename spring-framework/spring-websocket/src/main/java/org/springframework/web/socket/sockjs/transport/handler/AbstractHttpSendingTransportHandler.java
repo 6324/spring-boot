@@ -50,10 +50,9 @@ public abstract class AbstractHttpSendingTransportHandler extends AbstractTransp
 	 */
 	private static final Pattern CALLBACK_PARAM_PATTERN = Pattern.compile("[0-9A-Za-z_.]*");
 
-
 	@Override
-	public final void handleRequest(ServerHttpRequest request, ServerHttpResponse response,
-			WebSocketHandler wsHandler, SockJsSession wsSession) throws SockJsException {
+	public final void handleRequest(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
+			SockJsSession wsSession) throws SockJsException {
 
 		AbstractHttpSockJsSession sockJsSession = (AbstractHttpSockJsSession) wsSession;
 
@@ -107,11 +106,9 @@ public abstract class AbstractHttpSendingTransportHandler extends AbstractTransp
 		}
 	}
 
-
 	protected abstract MediaType getContentType();
 
 	protected abstract SockJsFrameFormat getFrameFormat(ServerHttpRequest request);
-
 
 	@Nullable
 	protected final String getCallbackParam(ServerHttpRequest request) {

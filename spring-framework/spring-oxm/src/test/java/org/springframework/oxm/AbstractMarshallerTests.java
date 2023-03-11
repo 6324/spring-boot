@@ -47,9 +47,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public abstract class AbstractMarshallerTests<M extends Marshaller> {
 
-	protected static final String EXPECTED_STRING =
-			"<tns:flights xmlns:tns=\"http://samples.springframework.org/flight\">" +
-					"<tns:flight><tns:number>42</tns:number></tns:flight></tns:flights>";
+	protected static final String EXPECTED_STRING = "<tns:flights xmlns:tns=\"http://samples.springframework.org/flight\">"
+			+ "<tns:flight><tns:number>42</tns:number></tns:flight></tns:flights>";
 
 	protected M marshaller;
 
@@ -168,4 +167,5 @@ public abstract class AbstractMarshallerTests<M extends Marshaller> {
 		marshaller.marshal(flights, result);
 		assertThat(XmlContent.from(writer)).isSimilarToIgnoringWhitespace(EXPECTED_STRING);
 	}
+
 }

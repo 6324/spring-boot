@@ -36,9 +36,10 @@ public class AopNamespaceHandlerArgNamesTests {
 
 	@Test
 	public void testArgNamesError() {
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-error.xml", getClass()))
-			.matches(ex -> ex.contains(IllegalArgumentException.class));
+		assertThatExceptionOfType(BeanCreationException.class)
+				.isThrownBy(
+						() -> new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-error.xml", getClass()))
+				.matches(ex -> ex.contains(IllegalArgumentException.class));
 	}
 
 }

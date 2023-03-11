@@ -41,7 +41,6 @@ public class OpGE extends Operator {
 		this.exitTypeDescriptor = "Z";
 	}
 
-
 	@Override
 	public BooleanTypedValue getValueInternal(ExpressionState state) throws EvaluationException {
 		Object left = getLeftOperand().getValueInternal(state).getValue();

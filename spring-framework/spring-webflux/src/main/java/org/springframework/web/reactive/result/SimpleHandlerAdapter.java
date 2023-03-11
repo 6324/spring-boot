@@ -25,8 +25,8 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebHandler;
 
 /**
- * {@link HandlerAdapter} that allows using the plain {@link WebHandler} contract
- * with the generic {@link DispatcherHandler}.
+ * {@link HandlerAdapter} that allows using the plain {@link WebHandler} contract with the
+ * generic {@link DispatcherHandler}.
  *
  * @author Rossen Stoyanchev
  * @author Sebastien Deleuze

@@ -28,7 +28,6 @@ import org.springframework.context.annotation.Configuration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * Ensures that @Configuration is supported properly as a meta-annotation.
  *
@@ -47,9 +46,9 @@ public class ConfigurationMetaAnnotationTests {
 		assertThat(b).isSameAs(a.getSpouse());
 	}
 
-
 	@TestConfiguration("customName")
 	static class Config {
+
 		@Bean
 		public TestBean a() {
 			TestBean a = new TestBean();
@@ -61,12 +60,15 @@ public class ConfigurationMetaAnnotationTests {
 		public TestBean b() {
 			return new TestBean();
 		}
-	}
 
+	}
 
 	@Configuration
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface TestConfiguration {
+
 		String value() default "";
+
 	}
+
 }

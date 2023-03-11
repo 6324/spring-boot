@@ -25,7 +25,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * @author Chris Beams
  * @see ExtendedBeanInfoTests
@@ -36,37 +35,40 @@ public class SimplePropertyDescriptorTests {
 	public void toStringOutput() throws IntrospectionException, SecurityException, NoSuchMethodException {
 		{
 			Object pd = new ExtendedBeanInfo.SimplePropertyDescriptor("foo", null, null);
-			assertThat(pd.toString()).contains(
-					"PropertyDescriptor[name=foo, propertyType=null, readMethod=null");
+			assertThat(pd.toString()).contains("PropertyDescriptor[name=foo, propertyType=null, readMethod=null");
 		}
 		{
 			class C {
+
 				@SuppressWarnings("unused")
-				public Object setFoo(String foo) { return null; }
+				public Object setFoo(String foo) {
+					return null;
+				}
+
 			}
 			Method m = C.class.getMethod("setFoo", String.class);
 			Object pd = new ExtendedBeanInfo.SimplePropertyDescriptor("foo", null, m);
-			assertThat(pd.toString()).contains(
-					"PropertyDescriptor[name=foo",
-					"propertyType=class java.lang.String",
+			assertThat(pd.toString()).contains("PropertyDescriptor[name=foo", "propertyType=class java.lang.String",
 					"readMethod=null, writeMethod=public java.lang.Object");
 		}
 		{
 			Object pd = new ExtendedBeanInfo.SimpleIndexedPropertyDescriptor("foo", null, null, null, null);
-			assertThat(pd.toString()).contains(
-					"PropertyDescriptor[name=foo, propertyType=null, indexedPropertyType=null");
+			assertThat(pd.toString())
+					.contains("PropertyDescriptor[name=foo, propertyType=null, indexedPropertyType=null");
 		}
 		{
 			class C {
+
 				@SuppressWarnings("unused")
-				public Object setFoo(int i, String foo) { return null; }
+				public Object setFoo(int i, String foo) {
+					return null;
+				}
+
 			}
 			Method m = C.class.getMethod("setFoo", int.class, String.class);
 			Object pd = new ExtendedBeanInfo.SimpleIndexedPropertyDescriptor("foo", null, null, null, m);
-			assertThat(pd.toString()).contains(
-					"PropertyDescriptor[name=foo, propertyType=null",
-					"indexedPropertyType=class java.lang.String",
-					"indexedWriteMethod=public java.lang.Object");
+			assertThat(pd.toString()).contains("PropertyDescriptor[name=foo, propertyType=null",
+					"indexedPropertyType=class java.lang.String", "indexedWriteMethod=public java.lang.Object");
 		}
 	}
 
@@ -81,8 +83,15 @@ public class SimplePropertyDescriptorTests {
 
 		@SuppressWarnings("unused")
 		class C {
-			public Object setFoo(String foo) { return null; }
-			public String getFoo() { return null; }
+
+			public Object setFoo(String foo) {
+				return null;
+			}
+
+			public String getFoo() {
+				return null;
+			}
+
 		}
 		Method wm1 = C.class.getMethod("setFoo", String.class);
 		Object pd3 = new ExtendedBeanInfo.SimplePropertyDescriptor("foo", null, wm1);
@@ -118,8 +127,15 @@ public class SimplePropertyDescriptorTests {
 
 		@SuppressWarnings("unused")
 		class C {
-			public Object setFoo(int i, String foo) { return null; }
-			public String getFoo(int i) { return null; }
+
+			public Object setFoo(int i, String foo) {
+				return null;
+			}
+
+			public String getFoo(int i) {
+				return null;
+			}
+
 		}
 		Method wm1 = C.class.getMethod("setFoo", int.class, String.class);
 		Object pd3 = new ExtendedBeanInfo.SimpleIndexedPropertyDescriptor("foo", null, null, null, wm1);

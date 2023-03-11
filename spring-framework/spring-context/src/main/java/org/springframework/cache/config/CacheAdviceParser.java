@@ -41,8 +41,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.xml.DomUtils;
 
 /**
- * {@link org.springframework.beans.factory.xml.BeanDefinitionParser
- * BeanDefinitionParser} for the {@code <tx:advice/>} tag.
+ * {@link org.springframework.beans.factory.xml.BeanDefinitionParser BeanDefinitionParser}
+ * for the {@code <tx:advice/>} tag.
  *
  * @author Costin Leau
  * @author Phillip Webb
@@ -59,7 +59,6 @@ class CacheAdviceParser extends AbstractSingleBeanDefinitionParser {
 	private static final String METHOD_ATTRIBUTE = "method";
 
 	private static final String DEFS_ELEMENT = "caching";
-
 
 	@Override
 	protected Class<?> getBeanClass(Element element) {
@@ -108,8 +107,8 @@ class CacheAdviceParser extends AbstractSingleBeanDefinitionParser {
 			String name = prop.merge(opElement, parserContext.getReaderContext());
 			TypedStringValue nameHolder = new TypedStringValue(name);
 			nameHolder.setSource(parserContext.extractSource(opElement));
-			CacheableOperation.Builder builder = prop.merge(opElement,
-					parserContext.getReaderContext(), new CacheableOperation.Builder());
+			CacheableOperation.Builder builder = prop.merge(opElement, parserContext.getReaderContext(),
+					new CacheableOperation.Builder());
 			builder.setUnless(getAttributeValue(opElement, "unless", ""));
 			builder.setSync(Boolean.parseBoolean(getAttributeValue(opElement, "sync", "false")));
 
@@ -123,8 +122,8 @@ class CacheAdviceParser extends AbstractSingleBeanDefinitionParser {
 			String name = prop.merge(opElement, parserContext.getReaderContext());
 			TypedStringValue nameHolder = new TypedStringValue(name);
 			nameHolder.setSource(parserContext.extractSource(opElement));
-			CacheEvictOperation.Builder builder = prop.merge(opElement,
-					parserContext.getReaderContext(), new CacheEvictOperation.Builder());
+			CacheEvictOperation.Builder builder = prop.merge(opElement, parserContext.getReaderContext(),
+					new CacheEvictOperation.Builder());
 
 			String wide = opElement.getAttribute("all-entries");
 			if (StringUtils.hasText(wide)) {
@@ -146,8 +145,8 @@ class CacheAdviceParser extends AbstractSingleBeanDefinitionParser {
 			String name = prop.merge(opElement, parserContext.getReaderContext());
 			TypedStringValue nameHolder = new TypedStringValue(name);
 			nameHolder.setSource(parserContext.extractSource(opElement));
-			CachePutOperation.Builder builder = prop.merge(opElement,
-					parserContext.getReaderContext(), new CachePutOperation.Builder());
+			CachePutOperation.Builder builder = prop.merge(opElement, parserContext.getReaderContext(),
+					new CachePutOperation.Builder());
 			builder.setUnless(getAttributeValue(opElement, "unless", ""));
 
 			Collection<CacheOperation> col = cacheOpMap.computeIfAbsent(nameHolder, k -> new ArrayList<>(2));
@@ -160,7 +159,6 @@ class CacheAdviceParser extends AbstractSingleBeanDefinitionParser {
 		return attributeSourceDefinition;
 	}
 
-
 	private static String getAttributeValue(Element element, String attributeName, String defaultValue) {
 		String attribute = element.getAttribute(attributeName);
 		if (StringUtils.hasText(attribute)) {
@@ -168,7 +166,6 @@ class CacheAdviceParser extends AbstractSingleBeanDefinitionParser {
 		}
 		return defaultValue;
 	}
-
 
 	/**
 	 * Simple, reusable class used for overriding defaults.
@@ -222,10 +219,10 @@ class CacheAdviceParser extends AbstractSingleBeanDefinitionParser {
 			builder.setCondition(getAttributeValue(element, "condition", this.condition));
 
 			if (StringUtils.hasText(builder.getKey()) && StringUtils.hasText(builder.getKeyGenerator())) {
-				throw new IllegalStateException("Invalid cache advice configuration on '" +
-						element.toString() + "'. Both 'key' and 'keyGenerator' attributes have been set. " +
-						"These attributes are mutually exclusive: either set the SpEL expression used to" +
-						"compute the key at runtime or set the name of the KeyGenerator bean to use.");
+				throw new IllegalStateException("Invalid cache advice configuration on '" + element.toString()
+						+ "'. Both 'key' and 'keyGenerator' attributes have been set. "
+						+ "These attributes are mutually exclusive: either set the SpEL expression used to"
+						+ "compute the key at runtime or set the name of the KeyGenerator bean to use.");
 			}
 
 			return builder;
@@ -243,6 +240,7 @@ class CacheAdviceParser extends AbstractSingleBeanDefinitionParser {
 			readerCtx.error("No method specified for " + element.getNodeName(), element);
 			return null;
 		}
+
 	}
 
 }

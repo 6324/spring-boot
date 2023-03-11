@@ -20,8 +20,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Exception thrown when a general transaction system error is encountered,
- * like on commit or rollback.
+ * Exception thrown when a general transaction system error is encountered, like on commit
+ * or rollback.
  *
  * @author Juergen Hoeller
  * @since 24.03.2003
@@ -31,7 +31,6 @@ public class TransactionSystemException extends TransactionException {
 
 	@Nullable
 	private Throwable applicationException;
-
 
 	/**
 	 * Constructor for TransactionSystemException.
@@ -50,10 +49,10 @@ public class TransactionSystemException extends TransactionException {
 		super(msg, cause);
 	}
 
-
 	/**
 	 * Set an application exception that was thrown before this transaction exception,
-	 * preserving the original exception despite the overriding TransactionSystemException.
+	 * preserving the original exception despite the overriding
+	 * TransactionSystemException.
 	 * @param ex the application exception
 	 * @throws IllegalStateException if this TransactionSystemException already holds an
 	 * application exception
@@ -78,7 +77,8 @@ public class TransactionSystemException extends TransactionException {
 
 	/**
 	 * Return the exception that was the first to be thrown within the failed transaction:
-	 * i.e. the application exception, if any, or the TransactionSystemException's own cause.
+	 * i.e. the application exception, if any, or the TransactionSystemException's own
+	 * cause.
 	 * @return the original exception, or {@code null} if there was none
 	 */
 	@Nullable

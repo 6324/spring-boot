@@ -86,7 +86,6 @@ public class SimpAnnotationMethodMessageHandlerTests {
 
 	private static final String TEST_INVALID_VALUE = "invalidValue";
 
-
 	@Mock
 	private SubscribableChannel channel;
 
@@ -100,7 +99,6 @@ public class SimpAnnotationMethodMessageHandlerTests {
 
 	private TestController testController = new TestController();
 
-
 	@BeforeEach
 	public void setup() {
 		SimpMessagingTemplate brokerTemplate = new SimpMessagingTemplate(this.channel);
@@ -111,7 +109,6 @@ public class SimpAnnotationMethodMessageHandlerTests {
 		this.messageHandler.setValidator(new StringTestValidator(TEST_INVALID_VALUE));
 		this.messageHandler.afterPropertiesSet();
 	}
-
 
 	@Test
 	@SuppressWarnings("unchecked")
@@ -387,7 +384,6 @@ public class SimpAnnotationMethodMessageHandlerTests {
 		assertThat(this.testController.method).isEqualTo("placeholder");
 	}
 
-
 	private Message<?> createMessage(String destination) {
 		return createMessage(destination, null);
 	}
@@ -409,7 +405,6 @@ public class SimpAnnotationMethodMessageHandlerTests {
 		return MessageBuilder.withPayload(new byte[0]).setHeaders(accessor).build();
 	}
 
-
 	private static class TestSimpAnnotationMethodMessageHandler extends SimpAnnotationMethodMessageHandler {
 
 		public TestSimpAnnotationMethodMessageHandler(SimpMessageSendingOperations brokerTemplate,
@@ -421,8 +416,8 @@ public class SimpAnnotationMethodMessageHandlerTests {
 		public void registerHandler(Object handler) {
 			super.detectHandlerMethods(handler);
 		}
-	}
 
+	}
 
 	@Controller
 	@MessageMapping("/pre")
@@ -440,7 +435,8 @@ public class SimpAnnotationMethodMessageHandlerTests {
 		}
 
 		@MessageMapping("/optionalHeaders")
-		public void optionalHeaders(@Header(name="foo", required=false) String foo1, @Header("foo") Optional<String> foo2) {
+		public void optionalHeaders(@Header(name = "foo", required = false) String foo1,
+				@Header("foo") Optional<String> foo2) {
 			this.method = "optionalHeaders";
 			this.arguments.put("foo1", foo1);
 			this.arguments.put("foo2", (foo2.isPresent() ? foo2.get() : null));
@@ -519,8 +515,8 @@ public class SimpAnnotationMethodMessageHandlerTests {
 		public void placeholder() {
 			this.method = "placeholder";
 		}
-	}
 
+	}
 
 	@Controller
 	@MessageMapping("pre")
@@ -532,8 +528,8 @@ public class SimpAnnotationMethodMessageHandlerTests {
 		public void handleFoo() {
 			this.method = "handleFoo";
 		}
-	}
 
+	}
 
 	@Controller
 	@MessageMapping("listenable-future")
@@ -561,8 +557,8 @@ public class SimpAnnotationMethodMessageHandlerTests {
 		public void handleValidationException() {
 			this.exceptionCaught = true;
 		}
-	}
 
+	}
 
 	@Controller
 	private static class CompletableFutureController {
@@ -581,6 +577,7 @@ public class SimpAnnotationMethodMessageHandlerTests {
 		public void handleValidationException() {
 			this.exceptionCaught = true;
 		}
+
 	}
 
 	@Controller
@@ -608,8 +605,8 @@ public class SimpAnnotationMethodMessageHandlerTests {
 		public void handleValidationException() {
 			this.exceptionCaught = true;
 		}
-	}
 
+	}
 
 	private static class StringTestValidator implements Validator {
 
@@ -628,9 +625,10 @@ public class SimpAnnotationMethodMessageHandlerTests {
 		public void validate(@Nullable Object target, Errors errors) {
 			String value = (String) target;
 			if (invalidValue.equals(value)) {
-				errors.reject("invalid value '"+invalidValue+"'");
+				errors.reject("invalid value '" + invalidValue + "'");
 			}
 		}
+
 	}
 
 }

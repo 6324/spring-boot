@@ -38,11 +38,10 @@ import static org.mockito.Mockito.mock;
  */
 public class WebSessionMethodArgumentResolverTests {
 
-	private final WebSessionMethodArgumentResolver resolver =
-			new WebSessionMethodArgumentResolver(ReactiveAdapterRegistry.getSharedInstance());
+	private final WebSessionMethodArgumentResolver resolver = new WebSessionMethodArgumentResolver(
+			ReactiveAdapterRegistry.getSharedInstance());
 
 	private ResolvableMethod testMethod = ResolvableMethod.on(getClass()).named("handle").build();
-
 
 	@Test
 	public void supportsParameter() {
@@ -50,7 +49,6 @@ public class WebSessionMethodArgumentResolverTests {
 		assertThat(this.resolver.supportsParameter(this.testMethod.arg(Mono.class, WebSession.class))).isTrue();
 		assertThat(this.resolver.supportsParameter(this.testMethod.arg(Single.class, WebSession.class))).isTrue();
 	}
-
 
 	@Test
 	public void resolverArgument() {
@@ -77,12 +75,8 @@ public class WebSessionMethodArgumentResolverTests {
 		assertThat(((Single<?>) actual).blockingGet()).isSameAs(session);
 	}
 
-
 	@SuppressWarnings("unused")
-	void handle(
-			WebSession user,
-			Mono<WebSession> userMono,
-			Single<WebSession> singleUser) {
+	void handle(WebSession user, Mono<WebSession> userMono, Single<WebSession> singleUser) {
 	}
 
 }

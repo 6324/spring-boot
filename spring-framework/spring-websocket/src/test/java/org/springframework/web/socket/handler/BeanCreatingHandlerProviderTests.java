@@ -35,12 +35,11 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
  */
 public class BeanCreatingHandlerProviderTests {
 
-
 	@Test
 	public void getHandlerSimpleInstantiation() {
 
-		BeanCreatingHandlerProvider<SimpleEchoHandler> provider =
-				new BeanCreatingHandlerProvider<>(SimpleEchoHandler.class);
+		BeanCreatingHandlerProvider<SimpleEchoHandler> provider = new BeanCreatingHandlerProvider<>(
+				SimpleEchoHandler.class);
 
 		assertThat(provider.getHandler()).isNotNull();
 	}
@@ -51,8 +50,7 @@ public class BeanCreatingHandlerProviderTests {
 		@SuppressWarnings("resource")
 		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 
-		BeanCreatingHandlerProvider<EchoHandler> provider =
-				new BeanCreatingHandlerProvider<>(EchoHandler.class);
+		BeanCreatingHandlerProvider<EchoHandler> provider = new BeanCreatingHandlerProvider<>(EchoHandler.class);
 		provider.setBeanFactory(context.getBeanFactory());
 
 		assertThat(provider.getHandler()).isNotNull();
@@ -61,13 +59,10 @@ public class BeanCreatingHandlerProviderTests {
 	@Test
 	public void getHandlerNoBeanFactory() {
 
-		BeanCreatingHandlerProvider<EchoHandler> provider =
-				new BeanCreatingHandlerProvider<>(EchoHandler.class);
+		BeanCreatingHandlerProvider<EchoHandler> provider = new BeanCreatingHandlerProvider<>(EchoHandler.class);
 
-		assertThatExceptionOfType(BeanInstantiationException.class).isThrownBy(
-				provider::getHandler);
+		assertThatExceptionOfType(BeanInstantiationException.class).isThrownBy(provider::getHandler);
 	}
-
 
 	@Configuration
 	static class Config {
@@ -76,9 +71,11 @@ public class BeanCreatingHandlerProviderTests {
 		public EchoService echoService() {
 			return new EchoService();
 		}
+
 	}
 
 	public static class SimpleEchoHandler {
+
 	}
 
 	private static class EchoHandler {
@@ -90,8 +87,11 @@ public class BeanCreatingHandlerProviderTests {
 		public EchoHandler(EchoService service) {
 			this.service = service;
 		}
+
 	}
 
-	private static class EchoService {	}
+	private static class EchoService {
+
+	}
 
 }

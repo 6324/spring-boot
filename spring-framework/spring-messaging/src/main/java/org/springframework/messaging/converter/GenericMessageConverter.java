@@ -26,11 +26,11 @@ import org.springframework.util.ClassUtils;
 
 /**
  * An extension of the {@link SimpleMessageConverter} that uses a
- * {@link ConversionService} to convert the payload of the message
- * to the requested type.
+ * {@link ConversionService} to convert the payload of the message to the requested type.
  *
- * <p>Return {@code null} if the conversion service cannot convert
- * from the payload type to the requested type.
+ * <p>
+ * Return {@code null} if the conversion service cannot convert from the payload type to
+ * the requested type.
  *
  * @author Stephane Nicoll
  * @since 4.1
@@ -39,7 +39,6 @@ import org.springframework.util.ClassUtils;
 public class GenericMessageConverter extends SimpleMessageConverter {
 
 	private final ConversionService conversionService;
-
 
 	/**
 	 * Create a new instance with a default {@link ConversionService}.
@@ -56,7 +55,6 @@ public class GenericMessageConverter extends SimpleMessageConverter {
 		this.conversionService = conversionService;
 	}
 
-
 	@Override
 	@Nullable
 	public Object fromMessage(Message<?> message, Class<?> targetClass) {
@@ -66,8 +64,8 @@ public class GenericMessageConverter extends SimpleMessageConverter {
 				return this.conversionService.convert(payload, targetClass);
 			}
 			catch (ConversionException ex) {
-				throw new MessageConversionException(message, "Failed to convert message payload '" +
-						payload + "' to '" + targetClass.getName() + "'", ex);
+				throw new MessageConversionException(message,
+						"Failed to convert message payload '" + payload + "' to '" + targetClass.getName() + "'", ex);
 			}
 		}
 		return (ClassUtils.isAssignableValue(targetClass, payload) ? payload : null);

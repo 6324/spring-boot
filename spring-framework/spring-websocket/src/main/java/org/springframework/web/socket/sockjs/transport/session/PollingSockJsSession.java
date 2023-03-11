@@ -35,16 +35,15 @@ import org.springframework.web.socket.sockjs.transport.SockJsServiceConfig;
  */
 public class PollingSockJsSession extends AbstractHttpSockJsSession {
 
-	public PollingSockJsSession(String sessionId, SockJsServiceConfig config,
-			WebSocketHandler wsHandler, Map<String, Object> attributes) {
+	public PollingSockJsSession(String sessionId, SockJsServiceConfig config, WebSocketHandler wsHandler,
+			Map<String, Object> attributes) {
 
 		super(sessionId, config, wsHandler, attributes);
 	}
 
-
 	@Override
-	protected void handleRequestInternal(ServerHttpRequest request, ServerHttpResponse response,
-			boolean initialRequest) throws IOException {
+	protected void handleRequestInternal(ServerHttpRequest request, ServerHttpResponse response, boolean initialRequest)
+			throws IOException {
 
 		if (initialRequest) {
 			writeFrame(SockJsFrame.openFrame());

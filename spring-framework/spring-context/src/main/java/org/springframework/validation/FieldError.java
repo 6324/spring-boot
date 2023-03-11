@@ -21,11 +21,11 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Encapsulates a field error, that is, a reason for rejecting a specific
- * field value.
+ * Encapsulates a field error, that is, a reason for rejecting a specific field value.
  *
- * <p>See the {@link DefaultMessageCodesResolver} javadoc for details on
- * how a message code list is built for a {@code FieldError}.
+ * <p>
+ * See the {@link DefaultMessageCodesResolver} javadoc for details on how a message code
+ * list is built for a {@code FieldError}.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -42,7 +42,6 @@ public class FieldError extends ObjectError {
 
 	private final boolean bindingFailure;
 
-
 	/**
 	 * Create a new FieldError instance.
 	 * @param objectName the name of the affected object
@@ -58,8 +57,8 @@ public class FieldError extends ObjectError {
 	 * @param objectName the name of the affected object
 	 * @param field the affected field of the object
 	 * @param rejectedValue the rejected field value
-	 * @param bindingFailure whether this error represents a binding failure
-	 * (like a type mismatch); else, it is a validation failure
+	 * @param bindingFailure whether this error represents a binding failure (like a type
+	 * mismatch); else, it is a validation failure
 	 * @param codes the codes to be used to resolve this message
 	 * @param arguments the array of arguments to be used to resolve this message
 	 * @param defaultMessage the default message to be used to resolve this message
@@ -73,7 +72,6 @@ public class FieldError extends ObjectError {
 		this.rejectedValue = rejectedValue;
 		this.bindingFailure = bindingFailure;
 	}
-
 
 	/**
 	 * Return the affected field of the object.
@@ -91,13 +89,12 @@ public class FieldError extends ObjectError {
 	}
 
 	/**
-	 * Return whether this error represents a binding failure
-	 * (like a type mismatch); otherwise it is a validation failure.
+	 * Return whether this error represents a binding failure (like a type mismatch);
+	 * otherwise it is a validation failure.
 	 */
 	public boolean isBindingFailure() {
 		return this.bindingFailure;
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {
@@ -108,9 +105,9 @@ public class FieldError extends ObjectError {
 			return false;
 		}
 		FieldError otherError = (FieldError) other;
-		return (getField().equals(otherError.getField()) &&
-				ObjectUtils.nullSafeEquals(getRejectedValue(), otherError.getRejectedValue()) &&
-				isBindingFailure() == otherError.isBindingFailure());
+		return (getField().equals(otherError.getField())
+				&& ObjectUtils.nullSafeEquals(getRejectedValue(), otherError.getRejectedValue())
+				&& isBindingFailure() == otherError.isBindingFailure());
 	}
 
 	@Override
@@ -124,9 +121,8 @@ public class FieldError extends ObjectError {
 
 	@Override
 	public String toString() {
-		return "Field error in object '" + getObjectName() + "' on field '" + this.field +
-				"': rejected value [" + ObjectUtils.nullSafeToString(this.rejectedValue) + "]; " +
-				resolvableToString();
+		return "Field error in object '" + getObjectName() + "' on field '" + this.field + "': rejected value ["
+				+ ObjectUtils.nullSafeToString(this.rejectedValue) + "]; " + resolvableToString();
 	}
 
 }

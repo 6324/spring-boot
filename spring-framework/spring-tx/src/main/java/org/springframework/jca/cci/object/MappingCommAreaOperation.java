@@ -28,8 +28,8 @@ import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.jca.cci.core.support.CommAreaRecord;
 
 /**
- * EIS operation object for access to COMMAREA records.
- * Subclass of the generic MappingRecordOperation class.
+ * EIS operation object for access to COMMAREA records. Subclass of the generic
+ * MappingRecordOperation class.
  *
  * @author Thierry Templier
  * @since 1.2
@@ -53,7 +53,6 @@ public abstract class MappingCommAreaOperation extends MappingRecordOperation {
 		super(connectionFactory, interactionSpec);
 	}
 
-
 	@Override
 	protected final Record createInputRecord(RecordFactory recordFactory, Object inObject) {
 		try {
@@ -74,7 +73,6 @@ public abstract class MappingCommAreaOperation extends MappingRecordOperation {
 			throw new DataRetrievalFailureException("I/O exception during bytes conversion", ex);
 		}
 	}
-
 
 	/**
 	 * Method used to convert an object into COMMAREA bytes.

@@ -49,19 +49,17 @@ import static org.springframework.core.testfixture.TestGroup.PERFORMANCE;
 @EnabledForTestGroups(PERFORMANCE)
 public class AnnotationAsyncExecutionAspectTests {
 
-	private static final long WAIT_TIME = 1000; //milliseconds
+	private static final long WAIT_TIME = 1000; // milliseconds
 
 	private final AsyncUncaughtExceptionHandler defaultExceptionHandler = new SimpleAsyncUncaughtExceptionHandler();
 
 	private CountingExecutor executor;
-
 
 	@BeforeEach
 	public void setUp() {
 		executor = new CountingExecutor();
 		AnnotationAsyncExecutionAspect.aspectOf().setExecutor(executor);
 	}
-
 
 	@Test
 	public void asyncMethodGetsRoutedAsynchronously() {
@@ -74,10 +72,12 @@ public class AnnotationAsyncExecutionAspectTests {
 	}
 
 	@Test
-	public void asyncMethodReturningFutureGetsRoutedAsynchronouslyAndReturnsAFuture() throws InterruptedException, ExecutionException {
+	public void asyncMethodReturningFutureGetsRoutedAsynchronouslyAndReturnsAFuture()
+			throws InterruptedException, ExecutionException {
 		ClassWithoutAsyncAnnotation obj = new ClassWithoutAsyncAnnotation();
 		Future<Integer> future = obj.incrementReturningAFuture();
-		// No need to executor.waitForCompletion() as future.get() will have the same effect
+		// No need to executor.waitForCompletion() as future.get() will have the same
+		// effect
 		assertThat(future.get().intValue()).isEqualTo(5);
 		assertThat(obj.counter).isEqualTo(1);
 		assertThat(executor.submitStartCounter).isEqualTo(1);
@@ -104,7 +104,8 @@ public class AnnotationAsyncExecutionAspectTests {
 	}
 
 	@Test
-	public void methodReturningFutureInAsyncClassGetsRoutedAsynchronouslyAndReturnsAFuture() throws InterruptedException, ExecutionException {
+	public void methodReturningFutureInAsyncClassGetsRoutedAsynchronouslyAndReturnsAFuture()
+			throws InterruptedException, ExecutionException {
 		ClassWithAsyncAnnotation obj = new ClassWithAsyncAnnotation();
 		Future<Integer> future = obj.incrementReturningAFuture();
 		assertThat(future.get().intValue()).isEqualTo(5);
@@ -114,15 +115,12 @@ public class AnnotationAsyncExecutionAspectTests {
 	}
 
 	/*
-	@Test
-	public void methodReturningNonVoidNonFutureInAsyncClassGetsRoutedSynchronously() {
-		ClassWithAsyncAnnotation obj = new ClassWithAsyncAnnotation();
-		int returnValue = obj.return5();
-		assertEquals(5, returnValue);
-		assertEquals(0, executor.submitStartCounter);
-		assertEquals(0, executor.submitCompleteCounter);
-	}
-	*/
+	 * @Test public void
+	 * methodReturningNonVoidNonFutureInAsyncClassGetsRoutedSynchronously() {
+	 * ClassWithAsyncAnnotation obj = new ClassWithAsyncAnnotation(); int returnValue =
+	 * obj.return5(); assertEquals(5, returnValue); assertEquals(0,
+	 * executor.submitStartCounter); assertEquals(0, executor.submitCompleteCounter); }
+	 */
 
 	@Test
 	public void qualifiedAsyncMethodsAreRoutedToCorrectExecutor() throws InterruptedException, ExecutionException {
@@ -177,7 +175,6 @@ public class AnnotationAsyncExecutionAspectTests {
 		}
 	}
 
-
 	@SuppressWarnings("serial")
 	private static class CountingExecutor extends SimpleAsyncTaskExecutor {
 
@@ -204,14 +201,15 @@ public class AnnotationAsyncExecutionAspectTests {
 				throw new AssertionError("Didn't finish the async job in " + WAIT_TIME + " milliseconds");
 			}
 		}
-	}
 
+	}
 
 	static class ClassWithoutAsyncAnnotation {
 
 		int counter;
 
-		@Async public void incrementAsync() {
+		@Async
+		public void incrementAsync() {
 			counter++;
 		}
 
@@ -219,7 +217,8 @@ public class AnnotationAsyncExecutionAspectTests {
 			counter++;
 		}
 
-		@Async public Future<Integer> incrementReturningAFuture() {
+		@Async
+		public Future<Integer> incrementReturningAFuture() {
 			counter++;
 			return new AsyncResult<Integer>(5);
 		}
@@ -231,11 +230,11 @@ public class AnnotationAsyncExecutionAspectTests {
 		 * error message due to the 'declare error' statement in
 		 * {@link AnnotationAsyncExecutionAspect}.
 		 */
-//		@Async public int getInt() {
-//			return 0;
-//		}
-	}
+		// @Async public int getInt() {
+		// return 0;
+		// }
 
+	}
 
 	@Async
 	static class ClassWithAsyncAnnotation {
@@ -249,17 +248,15 @@ public class AnnotationAsyncExecutionAspectTests {
 		// Manually check that there is a warning from the 'declare warning' statement in
 		// AnnotationAsyncExecutionAspect
 		/*
-		public int return5() {
-			return 5;
-		}
-		*/
+		 * public int return5() { return 5; }
+		 */
 
 		public Future<Integer> incrementReturningAFuture() {
 			counter++;
 			return new AsyncResult<Integer>(5);
 		}
-	}
 
+	}
 
 	static class ClassWithQualifiedAsyncMethods {
 
@@ -277,8 +274,8 @@ public class AnnotationAsyncExecutionAspectTests {
 		public CompletableFuture<Thread> e1OtherWork() {
 			return CompletableFuture.completedFuture(Thread.currentThread());
 		}
-	}
 
+	}
 
 	static class ClassWithException {
 
@@ -286,6 +283,7 @@ public class AnnotationAsyncExecutionAspectTests {
 		public void failWithVoid() {
 			throw new UnsupportedOperationException("failWithVoid");
 		}
+
 	}
 
 }

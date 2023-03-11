@@ -19,8 +19,8 @@ package org.springframework.messaging.support;
 import java.util.List;
 
 /**
- * A {@link org.springframework.messaging.MessageChannel MessageChannel} that
- * maintains a list {@link org.springframework.messaging.support.ChannelInterceptor
+ * A {@link org.springframework.messaging.MessageChannel MessageChannel} that maintains a
+ * list {@link org.springframework.messaging.support.ChannelInterceptor
  * ChannelInterceptors} and allows interception of message sending.
  *
  * @author Rossen Stoyanchev

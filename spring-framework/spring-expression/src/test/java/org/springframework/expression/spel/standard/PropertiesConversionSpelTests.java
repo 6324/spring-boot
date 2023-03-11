@@ -88,18 +88,18 @@ public class PropertiesConversionSpelTests {
 		assertThat(result).isEqualTo("1null3");
 	}
 
-
 	private static class TestBean {
 
 		@SuppressWarnings("unused")
 		public String foo(Properties props) {
 			return props.getProperty("x") + props.getProperty("y") + props.getProperty("z");
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	private static class CustomMap extends HashMap<String, Object> {
+
 	}
 
 }

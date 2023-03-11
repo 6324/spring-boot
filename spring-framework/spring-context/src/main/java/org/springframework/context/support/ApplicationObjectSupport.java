@@ -27,20 +27,21 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Convenient superclass for application objects that want to be aware of
- * the application context, e.g. for custom lookup of collaborating beans
- * or for context-specific resource access. It saves the application
- * context reference and provides an initialization callback method.
- * Furthermore, it offers numerous convenience methods for message lookup.
+ * Convenient superclass for application objects that want to be aware of the application
+ * context, e.g. for custom lookup of collaborating beans or for context-specific resource
+ * access. It saves the application context reference and provides an initialization
+ * callback method. Furthermore, it offers numerous convenience methods for message
+ * lookup.
  *
- * <p>There is no requirement to subclass this class: It just makes things
- * a little easier if you need access to the context, e.g. for access to
- * file resources or to the message source. Note that many application
- * objects do not need to be aware of the application context at all,
- * as they can receive collaborating beans via bean references.
+ * <p>
+ * There is no requirement to subclass this class: It just makes things a little easier if
+ * you need access to the context, e.g. for access to file resources or to the message
+ * source. Note that many application objects do not need to be aware of the application
+ * context at all, as they can receive collaborating beans via bean references.
  *
- * <p>Many framework classes are derived from this class, particularly
- * within the web support.
+ * <p>
+ * Many framework classes are derived from this class, particularly within the web
+ * support.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -58,7 +59,6 @@ public abstract class ApplicationObjectSupport implements ApplicationContextAwar
 	/** MessageSourceAccessor for easy message access. */
 	@Nullable
 	private MessageSourceAccessor messageSourceAccessor;
-
 
 	@Override
 	public final void setApplicationContext(@Nullable ApplicationContext context) throws BeansException {
@@ -81,16 +81,17 @@ public abstract class ApplicationObjectSupport implements ApplicationContextAwar
 			// Ignore reinitialization if same context passed in.
 			if (this.applicationContext != context) {
 				throw new ApplicationContextException(
-						"Cannot reinitialize with different application context: current one is [" +
-						this.applicationContext + "], passed-in one is [" + context + "]");
+						"Cannot reinitialize with different application context: current one is ["
+								+ this.applicationContext + "], passed-in one is [" + context + "]");
 			}
 		}
 	}
 
 	/**
 	 * Determine whether this application object needs to run in an ApplicationContext.
-	 * <p>Default is "false". Can be overridden to enforce running in a context
-	 * (i.e. to throw IllegalStateException on accessors if outside a context).
+	 * <p>
+	 * Default is "false". Can be overridden to enforce running in a context (i.e. to
+	 * throw IllegalStateException on accessors if outside a context).
 	 * @see #getApplicationContext
 	 * @see #getMessageSourceAccessor
 	 */
@@ -100,8 +101,8 @@ public abstract class ApplicationObjectSupport implements ApplicationContextAwar
 
 	/**
 	 * Determine the context class that any context passed to
-	 * {@code setApplicationContext} must be an instance of.
-	 * Can be overridden in subclasses.
+	 * {@code setApplicationContext} must be an instance of. Can be overridden in
+	 * subclasses.
 	 * @see #setApplicationContext
 	 */
 	protected Class<?> requiredContextClass() {
@@ -109,11 +110,13 @@ public abstract class ApplicationObjectSupport implements ApplicationContextAwar
 	}
 
 	/**
-	 * Subclasses can override this for custom initialization behavior.
-	 * Gets called by {@code setApplicationContext} after setting the context instance.
-	 * <p>Note: Does <i>not</i> get called on re-initialization of the context
-	 * but rather just on first initialization of this object's context reference.
-	 * <p>The default implementation calls the overloaded {@link #initApplicationContext()}
+	 * Subclasses can override this for custom initialization behavior. Gets called by
+	 * {@code setApplicationContext} after setting the context instance.
+	 * <p>
+	 * Note: Does <i>not</i> get called on re-initialization of the context but rather
+	 * just on first initialization of this object's context reference.
+	 * <p>
+	 * The default implementation calls the overloaded {@link #initApplicationContext()}
 	 * method without ApplicationContext reference.
 	 * @param context the containing ApplicationContext
 	 * @throws ApplicationContextException in case of initialization errors
@@ -126,7 +129,8 @@ public abstract class ApplicationObjectSupport implements ApplicationContextAwar
 
 	/**
 	 * Subclasses can override this for custom initialization behavior.
-	 * <p>The default implementation is empty. Called by
+	 * <p>
+	 * The default implementation is empty. Called by
 	 * {@link #initApplicationContext(org.springframework.context.ApplicationContext)}.
 	 * @throws ApplicationContextException in case of initialization errors
 	 * @throws BeansException if thrown by ApplicationContext methods
@@ -134,7 +138,6 @@ public abstract class ApplicationObjectSupport implements ApplicationContextAwar
 	 */
 	protected void initApplicationContext() throws BeansException {
 	}
-
 
 	/**
 	 * Return the ApplicationContext that this object is associated with.
@@ -162,8 +165,8 @@ public abstract class ApplicationObjectSupport implements ApplicationContextAwar
 	}
 
 	/**
-	 * Return a MessageSourceAccessor for the application context
-	 * used by this object, for easy message access.
+	 * Return a MessageSourceAccessor for the application context used by this object, for
+	 * easy message access.
 	 * @throws IllegalStateException if not running in an ApplicationContext
 	 */
 	@Nullable

@@ -27,22 +27,24 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Editor for {@code java.io.File}, to directly populate a File property
- * from a Spring resource location.
+ * Editor for {@code java.io.File}, to directly populate a File property from a Spring
+ * resource location.
  *
- * <p>Supports Spring-style URL notation: any fully qualified standard URL
- * ("file:", "http:", etc) and Spring's special "classpath:" pseudo-URL.
+ * <p>
+ * Supports Spring-style URL notation: any fully qualified standard URL ("file:", "http:",
+ * etc) and Spring's special "classpath:" pseudo-URL.
  *
- * <p><b>NOTE:</b> The behavior of this editor has changed in Spring 2.0.
- * Previously, it created a File instance directly from a filename.
- * As of Spring 2.0, it takes a standard Spring resource location as input;
- * this is consistent with URLEditor and InputStreamEditor now.
+ * <p>
+ * <b>NOTE:</b> The behavior of this editor has changed in Spring 2.0. Previously, it
+ * created a File instance directly from a filename. As of Spring 2.0, it takes a standard
+ * Spring resource location as input; this is consistent with URLEditor and
+ * InputStreamEditor now.
  *
- * <p><b>NOTE:</b> In Spring 2.5 the following modification was made.
- * If a file name is specified without a URL prefix or without an absolute path
- * then we try to locate the file using standard ResourceLoader semantics.
- * If the file was not found, then a File instance is created assuming the file
- * name refers to a relative file location.
+ * <p>
+ * <b>NOTE:</b> In Spring 2.5 the following modification was made. If a file name is
+ * specified without a URL prefix or without an absolute path then we try to locate the
+ * file using standard ResourceLoader semantics. If the file was not found, then a File
+ * instance is created assuming the file name refers to a relative file location.
  *
  * @author Juergen Hoeller
  * @author Thomas Risberg
@@ -56,7 +58,6 @@ import org.springframework.util.StringUtils;
 public class FileEditor extends PropertyEditorSupport {
 
 	private final ResourceEditor resourceEditor;
-
 
 	/**
 	 * Create a new FileEditor, using a default ResourceEditor underneath.
@@ -73,7 +74,6 @@ public class FileEditor extends PropertyEditorSupport {
 		Assert.notNull(resourceEditor, "ResourceEditor must not be null");
 		this.resourceEditor = resourceEditor;
 	}
-
 
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException {
@@ -103,8 +103,7 @@ public class FileEditor extends PropertyEditorSupport {
 				setValue(resource.getFile());
 			}
 			catch (IOException ex) {
-				throw new IllegalArgumentException(
-						"Could not retrieve file for " + resource + ": " + ex.getMessage());
+				throw new IllegalArgumentException("Could not retrieve file for " + resource + ": " + ex.getMessage());
 			}
 		}
 		else {

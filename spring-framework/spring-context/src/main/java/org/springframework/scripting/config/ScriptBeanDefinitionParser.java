@@ -36,17 +36,19 @@ import org.springframework.util.xml.DomUtils;
 
 /**
  * BeanDefinitionParser implementation for the '{@code <lang:groovy/>}',
- * '{@code <lang:std/>}' and '{@code <lang:bsh/>}' tags.
- * Allows for objects written using dynamic languages to be easily exposed with
- * the {@link org.springframework.beans.factory.BeanFactory}.
+ * '{@code <lang:std/>}' and '{@code <lang:bsh/>}' tags. Allows for objects written using
+ * dynamic languages to be easily exposed with the
+ * {@link org.springframework.beans.factory.BeanFactory}.
  *
- * <p>The script for each object can be specified either as a reference to the
- * resource containing it (using the '{@code script-source}' attribute) or inline
- * in the XML configuration itself (using the '{@code inline-script}' attribute.
+ * <p>
+ * The script for each object can be specified either as a reference to the resource
+ * containing it (using the '{@code script-source}' attribute) or inline in the XML
+ * configuration itself (using the '{@code inline-script}' attribute.
  *
- * <p>By default, dynamic objects created with these tags are <strong>not</strong>
- * refreshable. To enable refreshing, specify the refresh check delay for each
- * object (in milliseconds) using the '{@code refresh-check-delay}' attribute.
+ * <p>
+ * By default, dynamic objects created with these tags are <strong>not</strong>
+ * refreshable. To enable refreshing, specify the refresh check delay for each object (in
+ * milliseconds) using the '{@code refresh-check-delay}' attribute.
  *
  * @author Rob Harrop
  * @author Rod Johnson
@@ -80,23 +82,20 @@ class ScriptBeanDefinitionParser extends AbstractBeanDefinitionParser {
 
 	private static final String CUSTOMIZER_REF_ATTRIBUTE = "customizer-ref";
 
-
 	/**
-	 * The {@link org.springframework.scripting.ScriptFactory} class that this
-	 * parser instance will create bean definitions for.
+	 * The {@link org.springframework.scripting.ScriptFactory} class that this parser
+	 * instance will create bean definitions for.
 	 */
 	private final String scriptFactoryClassName;
 
-
 	/**
-	 * Create a new instance of this parser, creating bean definitions for the
-	 * supplied {@link org.springframework.scripting.ScriptFactory} class.
+	 * Create a new instance of this parser, creating bean definitions for the supplied
+	 * {@link org.springframework.scripting.ScriptFactory} class.
 	 * @param scriptFactoryClassName the ScriptFactory class to operate on
 	 */
 	public ScriptBeanDefinitionParser(String scriptFactoryClassName) {
 		this.scriptFactoryClassName = scriptFactoryClassName;
 	}
-
 
 	/**
 	 * Parses the dynamic object element and returns the resulting bean definition.
@@ -145,8 +144,8 @@ class ScriptBeanDefinitionParser extends AbstractBeanDefinitionParser {
 		// Parse depends-on list of bean names.
 		String dependsOn = element.getAttribute(DEPENDS_ON_ATTRIBUTE);
 		if (StringUtils.hasLength(dependsOn)) {
-			bd.setDependsOn(StringUtils.tokenizeToStringArray(
-					dependsOn, BeanDefinitionParserDelegate.MULTI_VALUE_ATTRIBUTE_DELIMITERS));
+			bd.setDependsOn(StringUtils.tokenizeToStringArray(dependsOn,
+					BeanDefinitionParserDelegate.MULTI_VALUE_ATTRIBUTE_DELIMITERS));
 		}
 
 		// Retrieve the defaults for bean definitions within this parser context
@@ -189,8 +188,8 @@ class ScriptBeanDefinitionParser extends AbstractBeanDefinitionParser {
 		}
 		cav.addIndexedArgumentValue(constructorArgNum++, value);
 		if (element.hasAttribute(SCRIPT_INTERFACES_ATTRIBUTE)) {
-			cav.addIndexedArgumentValue(
-					constructorArgNum++, element.getAttribute(SCRIPT_INTERFACES_ATTRIBUTE), "java.lang.Class[]");
+			cav.addIndexedArgumentValue(constructorArgNum++, element.getAttribute(SCRIPT_INTERFACES_ATTRIBUTE),
+					"java.lang.Class[]");
 		}
 
 		// This is used for Groovy. It's a bean reference to a customizer bean.
@@ -211,8 +210,8 @@ class ScriptBeanDefinitionParser extends AbstractBeanDefinitionParser {
 	}
 
 	/**
-	 * Resolves the script source from either the '{@code script-source}' attribute or
-	 * the '{@code inline-script}' element. Logs and {@link XmlReaderContext#error} and
+	 * Resolves the script source from either the '{@code script-source}' attribute or the
+	 * '{@code inline-script}' element. Logs and {@link XmlReaderContext#error} and
 	 * returns {@code null} if neither or both of these values are specified.
 	 */
 	@Nullable

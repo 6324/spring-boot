@@ -27,8 +27,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * A wrapper class for access to attributes associated with a SiMP session
- * (e.g. WebSocket session).
+ * A wrapper class for access to attributes associated with a SiMP session (e.g. WebSocket
+ * session).
  *
  * @author Rossen Stoyanchev
  * @since 4.1
@@ -42,16 +42,14 @@ public class SimpAttributes {
 	public static final String SESSION_COMPLETED_NAME = SimpAttributes.class.getName() + ".COMPLETED";
 
 	/** Prefix for the name of session attributes used to store destruction callbacks. */
-	public static final String DESTRUCTION_CALLBACK_NAME_PREFIX =
-			SimpAttributes.class.getName() + ".DESTRUCTION_CALLBACK.";
+	public static final String DESTRUCTION_CALLBACK_NAME_PREFIX = SimpAttributes.class.getName()
+			+ ".DESTRUCTION_CALLBACK.";
 
 	private static final Log logger = SimpLogging.forLogName(SimpAttributes.class);
-
 
 	private final String sessionId;
 
 	private final Map<String, Object> attributes;
-
 
 	/**
 	 * Constructor wrapping the given session attributes map.
@@ -64,7 +62,6 @@ public class SimpAttributes {
 		this.sessionId = sessionId;
 		this.attributes = attributes;
 	}
-
 
 	/**
 	 * Return the value for the attribute of the given name, if any.
@@ -87,10 +84,11 @@ public class SimpAttributes {
 
 	/**
 	 * Remove the attribute of the given name, if it exists.
-	 * <p>Also removes the registered destruction callback for the specified
-	 * attribute, if any. However it <i>does not</i> execute the callback.
-	 * It is assumed the removed object will continue to be used and destroyed
-	 * independently at the appropriate time.
+	 * <p>
+	 * Also removes the registered destruction callback for the specified attribute, if
+	 * any. However it <i>does not</i> execute the callback. It is assumed the removed
+	 * object will continue to be used and destroyed independently at the appropriate
+	 * time.
 	 * @param name the name of the attribute
 	 */
 	public void removeAttribute(String name) {
@@ -107,8 +105,8 @@ public class SimpAttributes {
 	}
 
 	/**
-	 * Register a callback to execute on destruction of the specified attribute.
-	 * The callback is executed when the session is closed.
+	 * Register a callback to execute on destruction of the specified attribute. The
+	 * callback is executed when the session is closed.
 	 * @param name the name of the attribute to register the callback for
 	 * @param callback the destruction callback to be executed
 	 */
@@ -179,10 +177,9 @@ public class SimpAttributes {
 		});
 	}
 
-
 	/**
-	 * Extract the SiMP session attributes from the given message and
-	 * wrap them in a {@link SimpAttributes} instance.
+	 * Extract the SiMP session attributes from the given message and wrap them in a
+	 * {@link SimpAttributes} instance.
 	 * @param message the message to extract session attributes from
 	 */
 	public static SimpAttributes fromMessage(Message<?> message) {

@@ -30,17 +30,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link RequestContext}.
+ *
  * @author Rossen Stoyanchev
  */
 public class RequestContextTests {
 
-	private final MockServerWebExchange exchange =
-			MockServerWebExchange.from(MockServerHttpRequest.get("/foo/path").contextPath("/foo"));
+	private final MockServerWebExchange exchange = MockServerWebExchange
+			.from(MockServerHttpRequest.get("/foo/path").contextPath("/foo"));
 
 	private GenericApplicationContext applicationContext;
 
 	private Map<String, Object> model = new HashMap<>();
-
 
 	@BeforeEach
 	public void init() {

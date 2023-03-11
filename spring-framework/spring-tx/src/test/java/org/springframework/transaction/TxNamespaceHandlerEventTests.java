@@ -28,7 +28,6 @@ import org.springframework.core.io.ClassPathResource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * @author Torsten Juergeleit
  * @author Juergen Hoeller
@@ -38,7 +37,6 @@ public class TxNamespaceHandlerEventTests {
 	private DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
 	private CollectingReaderEventListener eventListener = new CollectingReaderEventListener();
-
 
 	@BeforeEach
 	public void setUp() throws Exception {

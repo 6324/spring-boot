@@ -20,9 +20,9 @@ import org.springframework.beans.factory.parsing.DefaultsDefinition;
 import org.springframework.lang.Nullable;
 
 /**
- * Simple JavaBean that holds the defaults specified at the {@code <beans>}
- * level in a standard Spring XML bean definition document:
- * {@code default-lazy-init}, {@code default-autowire}, etc.
+ * Simple JavaBean that holds the defaults specified at the {@code <beans>} level in a
+ * standard Spring XML bean definition document: {@code default-lazy-init},
+ * {@code default-autowire}, etc.
  *
  * @author Juergen Hoeller
  * @since 2.0.2
@@ -49,7 +49,6 @@ public class DocumentDefaultsDefinition implements DefaultsDefinition {
 
 	@Nullable
 	private Object source;
-
 
 	/**
 	 * Set the default lazy-init flag for the document that's currently parsed.
@@ -97,16 +96,16 @@ public class DocumentDefaultsDefinition implements DefaultsDefinition {
 	}
 
 	/**
-	 * Set the default autowire-candidate pattern for the document that's currently parsed.
-	 * Also accepts a comma-separated list of patterns.
+	 * Set the default autowire-candidate pattern for the document that's currently
+	 * parsed. Also accepts a comma-separated list of patterns.
 	 */
 	public void setAutowireCandidates(@Nullable String autowireCandidates) {
 		this.autowireCandidates = autowireCandidates;
 	}
 
 	/**
-	 * Return the default autowire-candidate pattern for the document that's currently parsed.
-	 * May also return a comma-separated list of patterns.
+	 * Return the default autowire-candidate pattern for the document that's currently
+	 * parsed. May also return a comma-separated list of patterns.
 	 */
 	@Nullable
 	public String getAutowireCandidates() {
@@ -145,7 +144,8 @@ public class DocumentDefaultsDefinition implements DefaultsDefinition {
 
 	/**
 	 * Set the configuration source {@code Object} for this metadata element.
-	 * <p>The exact type of the object will depend on the configuration mechanism used.
+	 * <p>
+	 * The exact type of the object will depend on the configuration mechanism used.
 	 */
 	public void setSource(@Nullable Object source) {
 		this.source = source;

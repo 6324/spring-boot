@@ -84,7 +84,6 @@ class DefaultServerRequestBuilder implements ServerRequest.Builder {
 
 	private Flux<DataBuffer> body = Flux.empty();
 
-
 	DefaultServerRequestBuilder(ServerRequest other) {
 		Assert.notNull(other, "ServerRequest must not be null");
 		this.messageReaders = other.messageReaders();
@@ -95,7 +94,6 @@ class DefaultServerRequestBuilder implements ServerRequest.Builder {
 		this.cookies.addAll(other.cookies());
 		this.attributes.putAll(other.attributes());
 	}
-
 
 	@Override
 	public ServerRequest.Builder method(HttpMethod method) {
@@ -152,11 +150,10 @@ class DefaultServerRequestBuilder implements ServerRequest.Builder {
 		Assert.notNull(body, "Body must not be null");
 		releaseBody();
 		DataBufferFactory dataBufferFactory = new DefaultDataBufferFactory();
-		this.body = Flux.just(body).
-				map(s -> {
-					byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
-					return dataBufferFactory.wrap(bytes);
-				});
+		this.body = Flux.just(body).map(s -> {
+			byte[] bytes = body.getBytes(StandardCharsets.UTF_8);
+			return dataBufferFactory.wrap(bytes);
+		});
 		return this;
 	}
 
@@ -180,11 +177,10 @@ class DefaultServerRequestBuilder implements ServerRequest.Builder {
 	public ServerRequest build() {
 		ServerHttpRequest serverHttpRequest = new BuiltServerHttpRequest(this.exchange.getRequest().getId(),
 				this.methodName, this.uri, this.headers, this.cookies, this.body);
-		ServerWebExchange exchange = new DelegatingServerWebExchange(
-				serverHttpRequest, this.attributes, this.exchange, this.messageReaders);
+		ServerWebExchange exchange = new DelegatingServerWebExchange(serverHttpRequest, this.attributes, this.exchange,
+				this.messageReaders);
 		return new DefaultServerRequest(exchange, this.messageReaders);
 	}
-
 
 	private static class BuiltServerHttpRequest implements ServerHttpRequest {
 
@@ -283,22 +279,22 @@ class DefaultServerRequestBuilder implements ServerRequest.Builder {
 		public Flux<DataBuffer> getBody() {
 			return this.body;
 		}
-	}
 
+	}
 
 	private static class DelegatingServerWebExchange implements ServerWebExchange {
 
-		private static final ResolvableType FORM_DATA_TYPE =
-				ResolvableType.forClassWithGenerics(MultiValueMap.class, String.class, String.class);
+		private static final ResolvableType FORM_DATA_TYPE = ResolvableType.forClassWithGenerics(MultiValueMap.class,
+				String.class, String.class);
 
-		private static final ResolvableType MULTIPART_DATA_TYPE = ResolvableType.forClassWithGenerics(
-				MultiValueMap.class, String.class, Part.class);
+		private static final ResolvableType MULTIPART_DATA_TYPE = ResolvableType
+				.forClassWithGenerics(MultiValueMap.class, String.class, Part.class);
 
-		private static final Mono<MultiValueMap<String, String>> EMPTY_FORM_DATA =
-				Mono.just(CollectionUtils.unmodifiableMultiValueMap(new LinkedMultiValueMap<String, String>(0))).cache();
+		private static final Mono<MultiValueMap<String, String>> EMPTY_FORM_DATA = Mono
+				.just(CollectionUtils.unmodifiableMultiValueMap(new LinkedMultiValueMap<String, String>(0))).cache();
 
-		private static final Mono<MultiValueMap<String, Part>> EMPTY_MULTIPART_DATA =
-				Mono.just(CollectionUtils.unmodifiableMultiValueMap(new LinkedMultiValueMap<String, Part>(0))).cache();
+		private static final Mono<MultiValueMap<String, Part>> EMPTY_MULTIPART_DATA = Mono
+				.just(CollectionUtils.unmodifiableMultiValueMap(new LinkedMultiValueMap<String, Part>(0))).cache();
 
 		private final ServerHttpRequest request;
 
@@ -331,9 +327,8 @@ class DefaultServerRequestBuilder implements ServerRequest.Builder {
 							.filter(reader -> reader.canRead(FORM_DATA_TYPE, MediaType.APPLICATION_FORM_URLENCODED))
 							.findFirst()
 							.orElseThrow(() -> new IllegalStateException("No form data HttpMessageReader.")))
-							.readMono(FORM_DATA_TYPE, request, Hints.none())
-							.switchIfEmpty(EMPTY_FORM_DATA)
-							.cache();
+									.readMono(FORM_DATA_TYPE, request, Hints.none()).switchIfEmpty(EMPTY_FORM_DATA)
+									.cache();
 				}
 			}
 			catch (InvalidMediaTypeException ex) {
@@ -353,9 +348,8 @@ class DefaultServerRequestBuilder implements ServerRequest.Builder {
 							.filter(reader -> reader.canRead(MULTIPART_DATA_TYPE, MediaType.MULTIPART_FORM_DATA))
 							.findFirst()
 							.orElseThrow(() -> new IllegalStateException("No multipart HttpMessageReader.")))
-							.readMono(MULTIPART_DATA_TYPE, request, Hints.none())
-							.switchIfEmpty(EMPTY_MULTIPART_DATA)
-							.cache();
+									.readMono(MULTIPART_DATA_TYPE, request, Hints.none())
+									.switchIfEmpty(EMPTY_MULTIPART_DATA).cache();
 				}
 			}
 			catch (InvalidMediaTypeException ex) {
@@ -446,6 +440,7 @@ class DefaultServerRequestBuilder implements ServerRequest.Builder {
 		public String getLogPrefix() {
 			return this.delegate.getLogPrefix();
 		}
+
 	}
 
 }

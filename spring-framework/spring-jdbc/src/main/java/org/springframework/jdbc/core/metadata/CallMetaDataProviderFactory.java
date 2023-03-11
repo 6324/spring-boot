@@ -29,8 +29,8 @@ import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.jdbc.support.MetaDataAccessException;
 
 /**
- * Factory used to create a {@link CallMetaDataProvider} implementation
- * based on the type of database being used.
+ * Factory used to create a {@link CallMetaDataProvider} implementation based on the type
+ * of database being used.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -39,33 +39,17 @@ import org.springframework.jdbc.support.MetaDataAccessException;
 public final class CallMetaDataProviderFactory {
 
 	/** List of supported database products for procedure calls. */
-	public static final List<String> supportedDatabaseProductsForProcedures = Arrays.asList(
-			"Apache Derby",
-			"DB2",
-			"Informix Dynamic Server",
-			"MariaDB",
-			"Microsoft SQL Server",
-			"MySQL",
-			"Oracle",
-			"PostgreSQL",
-			"Sybase"
-		);
+	public static final List<String> supportedDatabaseProductsForProcedures = Arrays.asList("Apache Derby", "DB2",
+			"Informix Dynamic Server", "MariaDB", "Microsoft SQL Server", "MySQL", "Oracle", "PostgreSQL", "Sybase");
 
 	/** List of supported database products for function calls. */
-	public static final List<String> supportedDatabaseProductsForFunctions = Arrays.asList(
-			"MariaDB",
-			"Microsoft SQL Server",
-			"MySQL",
-			"Oracle",
-			"PostgreSQL"
-		);
+	public static final List<String> supportedDatabaseProductsForFunctions = Arrays.asList("MariaDB",
+			"Microsoft SQL Server", "MySQL", "Oracle", "PostgreSQL");
 
 	private static final Log logger = LogFactory.getLog(CallMetaDataProviderFactory.class);
 
-
 	private CallMetaDataProviderFactory() {
 	}
-
 
 	/**
 	 * Create a {@link CallMetaDataProvider} based on the database meta-data.
@@ -73,7 +57,8 @@ public final class CallMetaDataProviderFactory {
 	 * @param context the class that holds configuration and meta-data
 	 * @return instance of the CallMetaDataProvider implementation to be used
 	 */
-	public static CallMetaDataProvider createMetaDataProvider(DataSource dataSource, final CallMetaDataContext context) {
+	public static CallMetaDataProvider createMetaDataProvider(DataSource dataSource,
+			final CallMetaDataContext context) {
 		try {
 			return JdbcUtils.extractDatabaseMetaData(dataSource, databaseMetaData -> {
 				String databaseProductName = JdbcUtils.commonDatabaseName(databaseMetaData.getDatabaseProductName());
@@ -81,8 +66,9 @@ public final class CallMetaDataProviderFactory {
 				if (context.isFunction()) {
 					if (!supportedDatabaseProductsForFunctions.contains(databaseProductName)) {
 						if (logger.isInfoEnabled()) {
-							logger.info(databaseProductName + " is not one of the databases fully supported for function calls " +
-									"-- supported are: " + supportedDatabaseProductsForFunctions);
+							logger.info(databaseProductName
+									+ " is not one of the databases fully supported for function calls "
+									+ "-- supported are: " + supportedDatabaseProductsForFunctions);
 						}
 						if (accessProcedureColumnMetaData) {
 							logger.info("Metadata processing disabled - you must specify all parameters explicitly");
@@ -93,8 +79,9 @@ public final class CallMetaDataProviderFactory {
 				else {
 					if (!supportedDatabaseProductsForProcedures.contains(databaseProductName)) {
 						if (logger.isInfoEnabled()) {
-							logger.info(databaseProductName + " is not one of the databases fully supported for procedure calls " +
-									"-- supported are: " + supportedDatabaseProductsForProcedures);
+							logger.info(databaseProductName
+									+ " is not one of the databases fully supported for procedure calls "
+									+ "-- supported are: " + supportedDatabaseProductsForProcedures);
 						}
 						if (accessProcedureColumnMetaData) {
 							logger.info("Metadata processing disabled - you must specify all parameters explicitly");
@@ -134,8 +121,8 @@ public final class CallMetaDataProviderFactory {
 				}
 				provider.initializeWithMetaData(databaseMetaData);
 				if (accessProcedureColumnMetaData) {
-					provider.initializeWithProcedureColumnMetaData(databaseMetaData,
-							context.getCatalogName(), context.getSchemaName(), context.getProcedureName());
+					provider.initializeWithProcedureColumnMetaData(databaseMetaData, context.getCatalogName(),
+							context.getSchemaName(), context.getProcedureName());
 				}
 				return provider;
 			});

@@ -56,10 +56,11 @@ import org.springframework.web.socket.server.HandshakeFailureException;
 import static org.glassfish.tyrus.spi.WebSocketEngine.UpgradeStatus.SUCCESS;
 
 /**
- * A base class for {@code RequestUpgradeStrategy} implementations on top of
- * JSR-356 based servers which include Tyrus as their WebSocket engine.
+ * A base class for {@code RequestUpgradeStrategy} implementations on top of JSR-356 based
+ * servers which include Tyrus as their WebSocket engine.
  *
- * <p>Works with Tyrus 1.11 (WebLogic 12.2.1) and Tyrus 1.12 (GlassFish 4.1.1).
+ * <p>
+ * Works with Tyrus 1.11 (WebLogic 12.2.1) and Tyrus 1.12 (GlassFish 4.1.1).
  *
  * @author Rossen Stoyanchev
  * @author Brian Clozel
@@ -106,9 +107,7 @@ public abstract class AbstractTyrusRequestUpgradeStrategy extends AbstractStanda
 		throw new IllegalStateException("No compatible Tyrus version found");
 	}
 
-
 	private final ComponentProviderService componentProvider = ComponentProviderService.create();
-
 
 	@Override
 	public String[] getSupportedVersions() {
@@ -178,13 +177,9 @@ public abstract class AbstractTyrusRequestUpgradeStrategy extends AbstractStanda
 	}
 
 	private RequestContext createRequestContext(HttpServletRequest request, String endpointPath, HttpHeaders headers) {
-		RequestContext context =
-				RequestContext.Builder.create()
-						.requestURI(URI.create(endpointPath))
-						.userPrincipal(request.getUserPrincipal())
-						.secure(request.isSecure())
-						.remoteAddr(request.getRemoteAddr())
-						.build();
+		RequestContext context = RequestContext.Builder.create().requestURI(URI.create(endpointPath))
+				.userPrincipal(request.getUserPrincipal()).secure(request.isSecure())
+				.remoteAddr(request.getRemoteAddr()).build();
 		headers.forEach((header, value) -> context.getHeaders().put(header, value));
 		return context;
 	}
@@ -209,12 +204,12 @@ public abstract class AbstractTyrusRequestUpgradeStrategy extends AbstractStanda
 		try {
 			if (constructorWithBooleanArgument) {
 				// Tyrus 1.11+
-				return constructor.newInstance(registration.getEndpoint(), registration, provider, container,
-						"/", registration.getConfigurator(), sessionListener, clusterContext, null, Boolean.TRUE);
+				return constructor.newInstance(registration.getEndpoint(), registration, provider, container, "/",
+						registration.getConfigurator(), sessionListener, clusterContext, null, Boolean.TRUE);
 			}
 			else {
-				return constructor.newInstance(registration.getEndpoint(), registration, provider, container,
-						"/", registration.getConfigurator(), sessionListener, clusterContext, null);
+				return constructor.newInstance(registration.getEndpoint(), registration, provider, container, "/",
+						registration.getConfigurator(), sessionListener, clusterContext, null);
 			}
 		}
 		catch (Exception ex) {
@@ -239,7 +234,6 @@ public abstract class AbstractTyrusRequestUpgradeStrategy extends AbstractStanda
 			throw new HandshakeFailureException("Failed to unregister " + endpoint, ex);
 		}
 	}
-
 
 	protected abstract void handleSuccess(HttpServletRequest request, HttpServletResponse response,
 			UpgradeInfo upgradeInfo, TyrusUpgradeResponse upgradeResponse) throws IOException, ServletException;

@@ -29,4 +29,5 @@ import java.lang.annotation.RetentionPolicy;
 @interface NonPublicAnnotation {
 
 	int value() default -1;
+
 }

@@ -29,7 +29,6 @@ public abstract class AbstractPerson {
 
 	private Date birth_date;
 
-
 	public String getName() {
 		return name;
 	}

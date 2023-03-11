@@ -48,7 +48,6 @@ final class DefaultRSocketRequester implements RSocketRequester {
 
 	private static final Map<String, Object> EMPTY_HINTS = Collections.emptyMap();
 
-
 	private final RSocket rsocket;
 
 	private final MimeType dataMimeType;
@@ -59,9 +58,7 @@ final class DefaultRSocketRequester implements RSocketRequester {
 
 	private final Mono<DataBuffer> emptyBufferMono;
 
-
-	DefaultRSocketRequester(
-			RSocket rsocket, MimeType dataMimeType, MimeType metadataMimeType,
+	DefaultRSocketRequester(RSocket rsocket, MimeType dataMimeType, MimeType metadataMimeType,
 			RSocketStrategies strategies) {
 
 		Assert.notNull(rsocket, "RSocket is required");
@@ -75,7 +72,6 @@ final class DefaultRSocketRequester implements RSocketRequester {
 		this.strategies = strategies;
 		this.emptyBufferMono = Mono.just(this.strategies.dataBufferFactory().wrap(new byte[0]));
 	}
-
 
 	@Override
 	public RSocket rsocket() {
@@ -102,7 +98,6 @@ final class DefaultRSocketRequester implements RSocketRequester {
 		return new DefaultRequestSpec(metadata, mimeType);
 	}
 
-
 	private static boolean isVoid(ResolvableType elementType) {
 		return (Void.class.equals(elementType.resolve()) || void.class.equals(elementType.resolve()));
 	}
@@ -110,7 +105,6 @@ final class DefaultRSocketRequester implements RSocketRequester {
 	private DataBufferFactory bufferFactory() {
 		return this.strategies.dataBufferFactory();
 	}
-
 
 	private class DefaultRequestSpec implements RequestSpec {
 
@@ -122,7 +116,6 @@ final class DefaultRSocketRequester implements RSocketRequester {
 		@Nullable
 		private Flux<Payload> payloadFlux;
 
-
 		public DefaultRequestSpec(String route, Object... vars) {
 			this.metadataEncoder.route(route, vars);
 		}
@@ -130,7 +123,6 @@ final class DefaultRSocketRequester implements RSocketRequester {
 		public DefaultRequestSpec(Object metadata, @Nullable MimeType mimeType) {
 			this.metadataEncoder.metadata(metadata, mimeType);
 		}
-
 
 		@Override
 		public RequestSpec metadata(Object metadata, MimeType mimeType) {
@@ -198,12 +190,11 @@ final class DefaultRSocketRequester implements RSocketRequester {
 				return;
 			}
 
-			Encoder<?> encoder = elementType != ResolvableType.NONE && !Object.class.equals(elementType.resolve()) ?
-					strategies.encoder(elementType, dataMimeType) : null;
+			Encoder<?> encoder = elementType != ResolvableType.NONE && !Object.class.equals(elementType.resolve())
+					? strategies.encoder(elementType, dataMimeType) : null;
 
 			if (adapter != null && !adapter.isMultiValue()) {
-				Mono<DataBuffer> data = Mono.from(publisher)
-						.map(value -> encodeData(value, elementType, encoder))
+				Mono<DataBuffer> data = Mono.from(publisher).map(value -> encodeData(value, elementType, encoder))
 						.switchIfEmpty(emptyBufferMono);
 				this.payloadMono = firstPayload(data);
 				this.payloadFlux = null;
@@ -211,10 +202,8 @@ final class DefaultRSocketRequester implements RSocketRequester {
 			}
 
 			this.payloadMono = null;
-			this.payloadFlux = Flux.from(publisher)
-					.map(value -> encodeData(value, elementType, encoder))
-					.switchIfEmpty(emptyBufferMono)
-					.switchOnFirst((signal, inner) -> {
+			this.payloadFlux = Flux.from(publisher).map(value -> encodeData(value, elementType, encoder))
+					.switchIfEmpty(emptyBufferMono).switchOnFirst((signal, inner) -> {
 						DataBuffer data = signal.get();
 						if (data != null) {
 							return firstPayload(Mono.fromCallable(() -> data))
@@ -223,8 +212,7 @@ final class DefaultRSocketRequester implements RSocketRequester {
 						else {
 							return inner.map(PayloadUtils::createPayload);
 						}
-					})
-					.doOnDiscard(Payload.class, Payload::release);
+					}).doOnDiscard(Payload.class, Payload::release);
 		}
 
 		@SuppressWarnings("unchecked")
@@ -233,8 +221,7 @@ final class DefaultRSocketRequester implements RSocketRequester {
 				elementType = ResolvableType.forInstance(value);
 				encoder = strategies.encoder(elementType, dataMimeType);
 			}
-			return ((Encoder<T>) encoder).encodeValue(
-					value, bufferFactory(), elementType, dataMimeType, EMPTY_HINTS);
+			return ((Encoder<T>) encoder).encodeValue(value, bufferFactory(), elementType, dataMimeType, EMPTY_HINTS);
 		}
 
 		/**
@@ -289,17 +276,16 @@ final class DefaultRSocketRequester implements RSocketRequester {
 		@SuppressWarnings("unchecked")
 		private <T> Flux<T> retrieveFlux(ResolvableType elementType) {
 
-			Flux<Payload> payloadFlux = (this.payloadFlux != null ?
-					rsocket.requestChannel(this.payloadFlux) :
-					getPayloadMono().flatMapMany(rsocket::requestStream));
+			Flux<Payload> payloadFlux = (this.payloadFlux != null ? rsocket.requestChannel(this.payloadFlux)
+					: getPayloadMono().flatMapMany(rsocket::requestStream));
 
 			if (isVoid(elementType)) {
 				return payloadFlux.thenMany(Flux.empty());
 			}
 
 			Decoder<?> decoder = strategies.decoder(elementType, dataMimeType);
-			return payloadFlux.map(this::retainDataAndReleasePayload).map(dataBuffer ->
-					(T) decoder.decode(dataBuffer, elementType, dataMimeType, EMPTY_HINTS));
+			return payloadFlux.map(this::retainDataAndReleasePayload)
+					.map(dataBuffer -> (T) decoder.decode(dataBuffer, elementType, dataMimeType, EMPTY_HINTS));
 		}
 
 		private Mono<Payload> getPayloadMono() {
@@ -310,5 +296,7 @@ final class DefaultRSocketRequester implements RSocketRequester {
 		private DataBuffer retainDataAndReleasePayload(Payload payload) {
 			return PayloadUtils.retainDataAndReleasePayload(payload, bufferFactory());
 		}
+
 	}
+
 }

@@ -22,11 +22,12 @@ import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.lang.Nullable;
 
 /**
- * Exception thrown when a ResultSet has been accessed in an invalid fashion.
- * Such exceptions always have a {@code java.sql.SQLException} root cause.
+ * Exception thrown when a ResultSet has been accessed in an invalid fashion. Such
+ * exceptions always have a {@code java.sql.SQLException} root cause.
  *
- * <p>This typically happens when an invalid ResultSet column index or name
- * has been specified. Also thrown by disconnected SqlRowSets.
+ * <p>
+ * This typically happens when an invalid ResultSet column index or name has been
+ * specified. Also thrown by disconnected SqlRowSets.
  *
  * @author Juergen Hoeller
  * @since 1.2
@@ -38,7 +39,6 @@ public class InvalidResultSetAccessException extends InvalidDataAccessResourceUs
 
 	@Nullable
 	private final String sql;
-
 
 	/**
 	 * Constructor for InvalidResultSetAccessException.
@@ -59,7 +59,6 @@ public class InvalidResultSetAccessException extends InvalidDataAccessResourceUs
 		super(ex.getMessage(), ex);
 		this.sql = null;
 	}
-
 
 	/**
 	 * Return the wrapped SQLException.

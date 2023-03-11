@@ -26,8 +26,8 @@ import org.springframework.core.convert.converter.ConditionalGenericConverter;
 import org.springframework.lang.Nullable;
 
 /**
- * Converts an array to an Object by returning the first array element
- * after converting it to the desired target type.
+ * Converts an array to an Object by returning the first array element after converting it
+ * to the desired target type.
  *
  * @author Keith Donald
  * @since 3.0
@@ -36,11 +36,9 @@ final class ArrayToObjectConverter implements ConditionalGenericConverter {
 
 	private final ConversionService conversionService;
 
-
 	public ArrayToObjectConverter(ConversionService conversionService) {
 		this.conversionService = conversionService;
 	}
-
 
 	@Override
 	public Set<ConvertiblePair> getConvertibleTypes() {
@@ -49,7 +47,8 @@ final class ArrayToObjectConverter implements ConditionalGenericConverter {
 
 	@Override
 	public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
-		return ConversionUtils.canConvertElements(sourceType.getElementTypeDescriptor(), targetType, this.conversionService);
+		return ConversionUtils.canConvertElements(sourceType.getElementTypeDescriptor(), targetType,
+				this.conversionService);
 	}
 
 	@Override

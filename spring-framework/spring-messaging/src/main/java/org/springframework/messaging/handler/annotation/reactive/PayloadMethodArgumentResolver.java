@@ -57,18 +57,20 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * A resolver to extract and decode the payload of a message using a
- * {@link Decoder}, where the payload is expected to be a {@link Publisher} of
- * {@link DataBuffer DataBuffer}.
+ * A resolver to extract and decode the payload of a message using a {@link Decoder},
+ * where the payload is expected to be a {@link Publisher} of {@link DataBuffer
+ * DataBuffer}.
  *
- * <p>Validation is applied if the method argument is annotated with
+ * <p>
+ * Validation is applied if the method argument is annotated with
  * {@code @javax.validation.Valid} or
- * {@link org.springframework.validation.annotation.Validated}. Validation
- * failure results in an {@link MethodArgumentNotValidException}.
+ * {@link org.springframework.validation.annotation.Validated}. Validation failure results
+ * in an {@link MethodArgumentNotValidException}.
  *
- * <p>This resolver should be ordered last if {@link #useDefaultResolution} is
- * set to {@code true} since in that case it supports all types and does not
- * require the presence of {@link Payload}.
+ * <p>
+ * This resolver should be ordered last if {@link #useDefaultResolution} is set to
+ * {@code true} since in that case it supports all types and does not require the presence
+ * of {@link Payload}.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -76,7 +78,6 @@ import org.springframework.validation.annotation.Validated;
 public class PayloadMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
 	protected final Log logger = LogFactory.getLog(getClass());
-
 
 	private final List<Decoder<?>> decoders;
 
@@ -87,7 +88,6 @@ public class PayloadMethodArgumentResolver implements HandlerMethodArgumentResol
 
 	private final boolean useDefaultResolution;
 
-
 	public PayloadMethodArgumentResolver(List<? extends Decoder<?>> decoders, @Nullable Validator validator,
 			@Nullable ReactiveAdapterRegistry registry, boolean useDefaultResolution) {
 
@@ -97,7 +97,6 @@ public class PayloadMethodArgumentResolver implements HandlerMethodArgumentResol
 		this.adapterRegistry = registry != null ? registry : ReactiveAdapterRegistry.getSharedInstance();
 		this.useDefaultResolution = useDefaultResolution;
 	}
-
 
 	/**
 	 * Return a read-only list of the configured decoders.
@@ -122,30 +121,27 @@ public class PayloadMethodArgumentResolver implements HandlerMethodArgumentResol
 	}
 
 	/**
-	 * Whether this resolver is configured to use default resolution, i.e.
-	 * works for any argument type regardless of whether {@code @Payload} is
-	 * present or not.
+	 * Whether this resolver is configured to use default resolution, i.e. works for any
+	 * argument type regardless of whether {@code @Payload} is present or not.
 	 */
 	public boolean isUseDefaultResolution() {
 		return this.useDefaultResolution;
 	}
-
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return parameter.hasParameterAnnotation(Payload.class) || this.useDefaultResolution;
 	}
 
-
 	/**
 	 * Decode the content of the given message payload through a compatible
 	 * {@link Decoder}.
 	 *
-	 * <p>Validation is applied if the method argument is annotated with
+	 * <p>
+	 * Validation is applied if the method argument is annotated with
 	 * {@code @javax.validation.Valid} or
-	 * {@link org.springframework.validation.annotation.Validated}. Validation
-	 * failure results in an {@link MethodArgumentNotValidException}.
-	 *
+	 * {@link org.springframework.validation.annotation.Validated}. Validation failure
+	 * results in an {@link MethodArgumentNotValidException}.
 	 * @param parameter the target method argument that we are decoding to
 	 * @param message the message from which the content was extracted
 	 * @return a Mono with the result of argument resolution
@@ -186,8 +182,8 @@ public class PayloadMethodArgumentResolver implements HandlerMethodArgumentResol
 		return Flux.error(getUnexpectedPayloadError(message, parameter, payload.getClass().getName()));
 	}
 
-	private MethodArgumentResolutionException getUnexpectedPayloadError(
-			Message<?> message, MethodParameter parameter, String actualType) {
+	private MethodArgumentResolutionException getUnexpectedPayloadError(Message<?> message, MethodParameter parameter,
+			String actualType) {
 
 		return new MethodArgumentResolutionException(message, parameter,
 				"Expected DataBuffer or Publisher<DataBuffer> for the Message payload, actual: " + actualType);
@@ -195,8 +191,8 @@ public class PayloadMethodArgumentResolver implements HandlerMethodArgumentResol
 
 	/**
 	 * Return the mime type for the content. By default this method checks the
-	 * {@link MessageHeaders#CONTENT_TYPE} header expecting to find a
-	 * {@link MimeType} value or a String to parse to a {@link MimeType}.
+	 * {@link MessageHeaders#CONTENT_TYPE} header expecting to find a {@link MimeType}
+	 * value or a String to parse to a {@link MimeType}.
 	 * @param message the input message
 	 */
 	@Nullable
@@ -216,8 +212,8 @@ public class PayloadMethodArgumentResolver implements HandlerMethodArgumentResol
 		}
 	}
 
-	private Mono<Object> decodeContent(MethodParameter parameter, Message<?> message,
-			boolean isContentRequired, Flux<DataBuffer> content, MimeType mimeType) {
+	private Mono<Object> decodeContent(MethodParameter parameter, Message<?> message, boolean isContentRequired,
+			Flux<DataBuffer> content, MimeType mimeType) {
 
 		ResolvableType targetType = ResolvableType.forMethodParameter(parameter);
 		Class<?> resolvedType = targetType.resolve();
@@ -231,8 +227,7 @@ public class PayloadMethodArgumentResolver implements HandlerMethodArgumentResol
 		for (Decoder<?> decoder : this.decoders) {
 			if (decoder.canDecode(elementType, mimeType)) {
 				if (adapter != null && adapter.isMultiValue()) {
-					Flux<?> flux = content
-							.map(buffer -> decoder.decode(buffer, elementType, mimeType, hints))
+					Flux<?> flux = content.map(buffer -> decoder.decode(buffer, elementType, mimeType, hints))
 							.onErrorResume(ex -> Flux.error(handleReadError(parameter, message, ex)));
 					if (isContentRequired) {
 						flux = flux.switchIfEmpty(Flux.error(() -> handleMissingBody(parameter, message)));
@@ -244,8 +239,7 @@ public class PayloadMethodArgumentResolver implements HandlerMethodArgumentResol
 				}
 				else {
 					// Single-value (with or without reactive type wrapper)
-					Mono<?> mono = content.next()
-							.map(buffer -> decoder.decode(buffer, elementType, mimeType, hints))
+					Mono<?> mono = content.next().map(buffer -> decoder.decode(buffer, elementType, mimeType, hints))
 							.onErrorResume(ex -> Mono.error(handleReadError(parameter, message, ex)));
 					if (isContentRequired) {
 						mono = mono.switchIfEmpty(Mono.error(() -> handleMissingBody(parameter, message)));
@@ -258,13 +252,13 @@ public class PayloadMethodArgumentResolver implements HandlerMethodArgumentResol
 			}
 		}
 
-		return Mono.error(new MethodArgumentResolutionException(
-				message, parameter, "Cannot decode to [" + targetType + "]" + message));
+		return Mono.error(new MethodArgumentResolutionException(message, parameter,
+				"Cannot decode to [" + targetType + "]" + message));
 	}
 
 	private Throwable handleReadError(MethodParameter parameter, Message<?> message, Throwable ex) {
-		return ex instanceof DecodingException ?
-				new MethodArgumentResolutionException(message, parameter, "Failed to read HTTP message", ex) : ex;
+		return ex instanceof DecodingException
+				? new MethodArgumentResolutionException(message, parameter, "Failed to read HTTP message", ex) : ex;
 	}
 
 	private MethodArgumentResolutionException handleMissingBody(MethodParameter param, Message<?> message) {
@@ -281,7 +275,7 @@ public class PayloadMethodArgumentResolver implements HandlerMethodArgumentResol
 			Validated validatedAnn = AnnotationUtils.getAnnotation(ann, Validated.class);
 			if (validatedAnn != null || ann.annotationType().getSimpleName().startsWith("Valid")) {
 				Object hints = (validatedAnn != null ? validatedAnn.value() : AnnotationUtils.getValue(ann));
-				Object[] validationHints = (hints instanceof Object[] ? (Object[]) hints : new Object[] {hints});
+				Object[] validationHints = (hints instanceof Object[] ? (Object[]) hints : new Object[] { hints });
 				String name = Conventions.getVariableNameForParameter(parameter);
 				return target -> {
 					BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(target, name);

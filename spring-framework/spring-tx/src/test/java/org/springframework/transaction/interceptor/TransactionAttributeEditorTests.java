@@ -16,7 +16,6 @@
 
 package org.springframework.transaction.interceptor;
 
-
 import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
@@ -68,8 +67,7 @@ public class TransactionAttributeEditorTests {
 	public void testInvalidPropagationCodeOnly() {
 		TransactionAttributeEditor pe = new TransactionAttributeEditor();
 		// should have failed with bogus propagation code
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				pe.setAsText("XXPROPAGATION_REQUIRED"));
+		assertThatIllegalArgumentException().isThrownBy(() -> pe.setAsText("XXPROPAGATION_REQUIRED"));
 	}
 
 	@Test
@@ -86,8 +84,8 @@ public class TransactionAttributeEditorTests {
 	public void testValidPropagationAndIsolationCodesAndInvalidRollbackRule() {
 		TransactionAttributeEditor pe = new TransactionAttributeEditor();
 		// should fail with bogus rollback rule
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				pe.setAsText("PROPAGATION_REQUIRED,ISOLATION_READ_UNCOMMITTED,XXX"));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> pe.setAsText("PROPAGATION_REQUIRED,ISOLATION_READ_UNCOMMITTED,XXX"));
 	}
 
 	@Test

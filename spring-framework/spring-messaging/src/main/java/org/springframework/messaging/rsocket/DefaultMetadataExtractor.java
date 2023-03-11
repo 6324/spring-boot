@@ -40,11 +40,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.MimeType;
 
 /**
- * Default {@link MetadataExtractor} implementation that relies on
- * {@link Decoder}s to deserialize the content of metadata entries.
- * <p>By default only {@code "message/x.rsocket.routing.v0""} is extracted and
- * saved under {@link MetadataExtractor#ROUTE_KEY}. Use {@code metadataToExtract}
- * methods to specify other metadata mime types of interest to extract.
+ * Default {@link MetadataExtractor} implementation that relies on {@link Decoder}s to
+ * deserialize the content of metadata entries.
+ * <p>
+ * By default only {@code "message/x.rsocket.routing.v0""} is extracted and saved under
+ * {@link MetadataExtractor#ROUTE_KEY}. Use {@code metadataToExtract} methods to specify
+ * other metadata mime types of interest to extract.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -54,7 +55,6 @@ public class DefaultMetadataExtractor implements MetadataExtractor, MetadataExtr
 	private final List<Decoder<?>> decoders;
 
 	private final Map<String, EntryExtractor<?>> registrations = new HashMap<>();
-
 
 	/**
 	 * Constructor with decoders for de-serializing metadata entries.
@@ -70,7 +70,6 @@ public class DefaultMetadataExtractor implements MetadataExtractor, MetadataExtr
 		this.decoders = Collections.unmodifiableList(new ArrayList<>(decoders));
 	}
 
-
 	/**
 	 * Return a read-only list with the configured decoders.
 	 */
@@ -79,22 +78,22 @@ public class DefaultMetadataExtractor implements MetadataExtractor, MetadataExtr
 	}
 
 	@Override
-	public <T> void metadataToExtract(
-			MimeType mimeType, Class<T> targetType, BiConsumer<T, Map<String, Object>> mapper) {
+	public <T> void metadataToExtract(MimeType mimeType, Class<T> targetType,
+			BiConsumer<T, Map<String, Object>> mapper) {
 
 		registerMetadata(mimeType, ResolvableType.forClass(targetType), mapper);
 	}
 
 	@Override
-	public <T> void metadataToExtract(
-			MimeType mimeType, ParameterizedTypeReference<T> type, BiConsumer<T, Map<String, Object>> mapper) {
+	public <T> void metadataToExtract(MimeType mimeType, ParameterizedTypeReference<T> type,
+			BiConsumer<T, Map<String, Object>> mapper) {
 
 		registerMetadata(mimeType, ResolvableType.forType(type), mapper);
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T> void registerMetadata(
-			MimeType mimeType, ResolvableType targetType, BiConsumer<T, Map<String, Object>> mapper) {
+	private <T> void registerMetadata(MimeType mimeType, ResolvableType targetType,
+			BiConsumer<T, Map<String, Object>> mapper) {
 
 		for (Decoder<?> decoder : this.decoders) {
 			if (decoder.canDecode(targetType, mimeType)) {
@@ -105,7 +104,6 @@ public class DefaultMetadataExtractor implements MetadataExtractor, MetadataExtr
 		}
 		throw new IllegalArgumentException("No decoder for " + mimeType + " and " + targetType);
 	}
-
 
 	@Override
 	public Map<String, Object> extract(Payload payload, MimeType metadataMimeType) {
@@ -138,13 +136,11 @@ public class DefaultMetadataExtractor implements MetadataExtractor, MetadataExtr
 		}
 	}
 
-
 	private static class EntryExtractor<T> {
 
 		// We only need this to wrap ByteBufs
-		private final static NettyDataBufferFactory bufferFactory =
-				new NettyDataBufferFactory(ByteBufAllocator.DEFAULT);
-
+		private final static NettyDataBufferFactory bufferFactory = new NettyDataBufferFactory(
+				ByteBufAllocator.DEFAULT);
 
 		private final Decoder<T> decoder;
 
@@ -153,7 +149,6 @@ public class DefaultMetadataExtractor implements MetadataExtractor, MetadataExtr
 		private final ResolvableType targetType;
 
 		private final BiConsumer<T, Map<String, Object>> accumulator;
-
 
 		EntryExtractor(Decoder<T> decoder, MimeType mimeType, ResolvableType targetType,
 				BiConsumer<T, Map<String, Object>> accumulator) {
@@ -164,18 +159,17 @@ public class DefaultMetadataExtractor implements MetadataExtractor, MetadataExtr
 			this.accumulator = accumulator;
 		}
 
-
 		public void extract(ByteBuf content, Map<String, Object> result) {
 			NettyDataBuffer dataBuffer = bufferFactory.wrap(content.retain());
 			T value = this.decoder.decode(dataBuffer, this.targetType, this.mimeType, Collections.emptyMap());
 			this.accumulator.accept(value, result);
 		}
 
-
 		@Override
 		public String toString() {
 			return "mimeType=" + this.mimeType + ", targetType=" + this.targetType;
 		}
+
 	}
 
 }

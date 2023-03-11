@@ -34,14 +34,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 /**
- * Unit tests for {@link org.springframework.messaging.simp.broker.AbstractBrokerMessageHandler}.
+ * Unit tests for
+ * {@link org.springframework.messaging.simp.broker.AbstractBrokerMessageHandler}.
  *
  * @author Rossen Stoyanchev
  */
 public class BrokerMessageHandlerTests {
 
 	private final TestBrokerMessageHandler handler = new TestBrokerMessageHandler();
-
 
 	@Test
 	public void startShouldUpdateIsRunning() {
@@ -115,14 +115,12 @@ public class BrokerMessageHandlerTests {
 		assertThat(this.handler.availabilityEvents).isEqualTo(Arrays.asList(true, false));
 	}
 
-
 	private static class TestBrokerMessageHandler extends AbstractBrokerMessageHandler
 			implements ApplicationEventPublisher {
 
 		private final List<Message<?>> messages = new ArrayList<>();
 
 		private final List<Boolean> availabilityEvents = new ArrayList<>();
-
 
 		private TestBrokerMessageHandler() {
 			super(mock(SubscribableChannel.class), mock(MessageChannel.class), mock(SubscribableChannel.class));
@@ -145,6 +143,7 @@ public class BrokerMessageHandlerTests {
 				this.availabilityEvents.add(((BrokerAvailabilityEvent) event).isBrokerAvailable());
 			}
 		}
+
 	}
 
 }

@@ -22,9 +22,9 @@ import org.springframework.jca.StubActivationSpec;
 
 /**
  * StubActivationSpec which implements all required and optional properties (see
- * specification Appendix B.2) except the destination attribute. Because this
- * can be a string but also an {@link Destination} object, which is configured
- * as an administrated object.
+ * specification Appendix B.2) except the destination attribute. Because this can be a
+ * string but also an {@link Destination} object, which is configured as an administrated
+ * object.
  *
  * @author Agim Emruli
  */
@@ -41,7 +41,6 @@ public class StubJmsActivationSpec extends StubActivationSpec {
 	private String messageSelector;
 
 	private String acknowledgeMode;
-
 
 	public String getDestinationType() {
 		return destinationType;

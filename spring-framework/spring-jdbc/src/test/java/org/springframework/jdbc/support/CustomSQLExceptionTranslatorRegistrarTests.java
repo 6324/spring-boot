@@ -46,11 +46,13 @@ public class CustomSQLExceptionTranslatorRegistrarTests {
 
 		DataAccessException exFor4200 = sext.doTranslate("", "", new SQLException("Ouch", "42000", 42000));
 		assertThat(exFor4200).as("Should have been translated").isNotNull();
-		assertThat(BadSqlGrammarException.class.isAssignableFrom(exFor4200.getClass())).as("Should have been instance of BadSqlGrammarException").isTrue();
+		assertThat(BadSqlGrammarException.class.isAssignableFrom(exFor4200.getClass()))
+				.as("Should have been instance of BadSqlGrammarException").isTrue();
 
 		DataAccessException exFor2 = sext.doTranslate("", "", new SQLException("Ouch", "42000", 2));
 		assertThat(exFor2).as("Should have been translated").isNotNull();
-		assertThat(TransientDataAccessResourceException.class.isAssignableFrom(exFor2.getClass())).as("Should have been instance of TransientDataAccessResourceException").isTrue();
+		assertThat(TransientDataAccessResourceException.class.isAssignableFrom(exFor2.getClass()))
+				.as("Should have been instance of TransientDataAccessResourceException").isTrue();
 
 		DataAccessException exFor3 = sext.doTranslate("", "", new SQLException("Ouch", "42000", 3));
 		assertThat(exFor3).as("Should not have been translated").isNull();

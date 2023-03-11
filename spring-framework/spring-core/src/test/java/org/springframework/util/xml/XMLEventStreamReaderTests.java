@@ -37,9 +37,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class XMLEventStreamReaderTests {
 
-	private static final String XML =
-			"<?pi content?><root xmlns='namespace'><prefix:child xmlns:prefix='namespace2'>content</prefix:child></root>"
-			;
+	private static final String XML = "<?pi content?><root xmlns='namespace'><prefix:child xmlns:prefix='namespace2'>content</prefix:child></root>";
 
 	private XMLEventStreamReader streamReader;
 
@@ -63,8 +61,8 @@ class XMLEventStreamReaderTests {
 		StAXSource source = new StAXSource(streamReader);
 		StringWriter writer = new StringWriter();
 		transformer.transform(source, new StreamResult(writer));
-		Predicate<Node> nodeFilter = n ->
-				n.getNodeType() != Node.DOCUMENT_TYPE_NODE && n.getNodeType() != Node.PROCESSING_INSTRUCTION_NODE;
+		Predicate<Node> nodeFilter = n -> n.getNodeType() != Node.DOCUMENT_TYPE_NODE
+				&& n.getNodeType() != Node.PROCESSING_INSTRUCTION_NODE;
 		assertThat(XmlContent.from(writer)).isSimilarTo(XML, nodeFilter);
 	}
 

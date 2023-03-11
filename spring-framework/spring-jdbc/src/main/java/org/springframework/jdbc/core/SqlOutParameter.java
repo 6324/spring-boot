@@ -21,10 +21,11 @@ import java.sql.ResultSet;
 import org.springframework.lang.Nullable;
 
 /**
- * Subclass of {@link SqlParameter} to represent an output parameter.
- * No additional properties: instanceof will be used to check for such types.
+ * Subclass of {@link SqlParameter} to represent an output parameter. No additional
+ * properties: instanceof will be used to check for such types.
  *
- * <p>Output parameters - like all stored procedure parameters - must have names.
+ * <p>
+ * Output parameters - like all stored procedure parameters - must have names.
  *
  * @author Rod Johnson
  * @author Thomas Risberg
@@ -36,7 +37,6 @@ public class SqlOutParameter extends ResultSetSupportingSqlParameter {
 
 	@Nullable
 	private SqlReturnType sqlReturnType;
-
 
 	/**
 	 * Create a new SqlOutParameter.
@@ -51,8 +51,8 @@ public class SqlOutParameter extends ResultSetSupportingSqlParameter {
 	 * Create a new SqlOutParameter.
 	 * @param name the name of the parameter, as used in input and output maps
 	 * @param sqlType the parameter SQL type according to {@code java.sql.Types}
-	 * @param scale the number of digits after the decimal point
-	 * (for DECIMAL and NUMERIC types)
+	 * @param scale the number of digits after the decimal point (for DECIMAL and NUMERIC
+	 * types)
 	 */
 	public SqlOutParameter(String name, int sqlType, int scale) {
 		super(name, sqlType, scale);
@@ -109,7 +109,6 @@ public class SqlOutParameter extends ResultSetSupportingSqlParameter {
 	public SqlOutParameter(String name, int sqlType, RowMapper<?> rm) {
 		super(name, sqlType, rm);
 	}
-
 
 	/**
 	 * Return the custom return type, if any.

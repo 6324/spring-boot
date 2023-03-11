@@ -35,16 +35,15 @@ public class LocaleContextMessageInterpolator implements MessageInterpolator {
 
 	private final MessageInterpolator targetInterpolator;
 
-
 	/**
-	 * Create a new LocaleContextMessageInterpolator, wrapping the given target interpolator.
+	 * Create a new LocaleContextMessageInterpolator, wrapping the given target
+	 * interpolator.
 	 * @param targetInterpolator the target MessageInterpolator to wrap
 	 */
 	public LocaleContextMessageInterpolator(MessageInterpolator targetInterpolator) {
 		Assert.notNull(targetInterpolator, "Target MessageInterpolator must not be null");
 		this.targetInterpolator = targetInterpolator;
 	}
-
 
 	@Override
 	public String interpolate(String message, Context context) {

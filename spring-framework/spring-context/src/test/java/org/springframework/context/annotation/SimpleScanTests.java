@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SimpleScanTests {
 
 	protected String[] getConfigLocations() {
-		return new String[] {"simpleScanTests.xml"};
+		return new String[] { "simpleScanTests.xml" };
 	}
 
 	@Test
@@ -40,7 +40,8 @@ public class SimpleScanTests {
 		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getConfigLocations(), getClass());
 
 		FooService fooService = (FooService) ctx.getBean("fooServiceImpl");
-		ServiceInvocationCounter serviceInvocationCounter = (ServiceInvocationCounter) ctx.getBean("serviceInvocationCounter");
+		ServiceInvocationCounter serviceInvocationCounter = (ServiceInvocationCounter) ctx
+				.getBean("serviceInvocationCounter");
 
 		assertThat(serviceInvocationCounter.getCount()).isEqualTo(0);
 

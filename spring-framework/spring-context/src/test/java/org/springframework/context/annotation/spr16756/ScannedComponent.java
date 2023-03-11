@@ -31,12 +31,11 @@ public class ScannedComponent {
 		return state.anyMethod();
 	}
 
-
 	public interface State {
 
 		String anyMethod();
-	}
 
+	}
 
 	@Component
 	@Scope(proxyMode = ScopedProxyMode.INTERFACES, value = "prototype")
@@ -46,6 +45,7 @@ public class ScannedComponent {
 		public String anyMethod() {
 			return "anyMethod called";
 		}
+
 	}
 
 }

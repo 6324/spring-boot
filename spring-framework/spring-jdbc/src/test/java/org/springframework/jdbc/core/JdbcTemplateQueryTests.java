@@ -63,7 +63,6 @@ public class JdbcTemplateQueryTests {
 
 	private JdbcTemplate template;
 
-
 	@BeforeEach
 	public void setUp() throws Exception {
 		this.connection = mock(Connection.class);
@@ -82,7 +81,6 @@ public class JdbcTemplateQueryTests {
 		given(this.preparedStatement.executeQuery()).willReturn(this.resultSet);
 		given(this.statement.executeQuery(anyString())).willReturn(this.resultSet);
 	}
-
 
 	@Test
 	public void testQueryForList() throws Exception {
@@ -147,8 +145,8 @@ public class JdbcTemplateQueryTests {
 		String sql = "select pass from t_account where first_name='Alef'";
 		given(this.resultSet.next()).willReturn(true, true, false);
 		given(this.resultSet.getString(1)).willReturn("pass");
-		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class).isThrownBy(() ->
-				this.template.queryForObject(sql, String.class));
+		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class)
+				.isThrownBy(() -> this.template.queryForObject(sql, String.class));
 		verify(this.resultSet).close();
 		verify(this.statement).close();
 	}

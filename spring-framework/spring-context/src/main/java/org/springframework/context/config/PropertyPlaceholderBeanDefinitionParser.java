@@ -37,7 +37,6 @@ class PropertyPlaceholderBeanDefinitionParser extends AbstractPropertyLoadingBea
 
 	private static final String SYSTEM_PROPERTIES_MODE_DEFAULT = "ENVIRONMENT";
 
-
 	@Override
 	@SuppressWarnings("deprecation")
 	protected Class<?> getBeanClass(Element element) {
@@ -50,8 +49,10 @@ class PropertyPlaceholderBeanDefinitionParser extends AbstractPropertyLoadingBea
 		}
 
 		// The user has explicitly specified a value for system-properties-mode: revert to
-		// PropertyPlaceholderConfigurer to ensure backward compatibility with 3.0 and earlier.
-		// This is deprecated; to be removed along with PropertyPlaceholderConfigurer itself.
+		// PropertyPlaceholderConfigurer to ensure backward compatibility with 3.0 and
+		// earlier.
+		// This is deprecated; to be removed along with PropertyPlaceholderConfigurer
+		// itself.
 		return org.springframework.beans.factory.config.PropertyPlaceholderConfigurer.class;
 	}
 
@@ -63,8 +64,8 @@ class PropertyPlaceholderBeanDefinitionParser extends AbstractPropertyLoadingBea
 				Boolean.valueOf(element.getAttribute("ignore-unresolvable")));
 
 		String systemPropertiesModeName = element.getAttribute(SYSTEM_PROPERTIES_MODE_ATTRIBUTE);
-		if (StringUtils.hasLength(systemPropertiesModeName) &&
-				!systemPropertiesModeName.equals(SYSTEM_PROPERTIES_MODE_DEFAULT)) {
+		if (StringUtils.hasLength(systemPropertiesModeName)
+				&& !systemPropertiesModeName.equals(SYSTEM_PROPERTIES_MODE_DEFAULT)) {
 			builder.addPropertyValue("systemPropertiesModeName", "SYSTEM_PROPERTIES_MODE_" + systemPropertiesModeName);
 		}
 

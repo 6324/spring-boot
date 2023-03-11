@@ -34,15 +34,13 @@ public class MapDataSourceLookupTests {
 
 	private static final String DATA_SOURCE_NAME = "dataSource";
 
-
 	@Test
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void getDataSourcesReturnsUnmodifiableMap() throws Exception {
 		MapDataSourceLookup lookup = new MapDataSourceLookup();
 		Map dataSources = lookup.getDataSources();
 
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-				dataSources.put("", ""));
+		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> dataSources.put("", ""));
 	}
 
 	@Test
@@ -53,7 +51,9 @@ public class MapDataSourceLookupTests {
 		MapDataSourceLookup lookup = new MapDataSourceLookup();
 		lookup.setDataSources(dataSources);
 		DataSource dataSource = lookup.getDataSource(DATA_SOURCE_NAME);
-		assertThat(dataSource).as("A DataSourceLookup implementation must *never* return null from getDataSource(): this one obviously (and incorrectly) is").isNotNull();
+		assertThat(dataSource).as(
+				"A DataSourceLookup implementation must *never* return null from getDataSource(): this one obviously (and incorrectly) is")
+				.isNotNull();
 		assertThat(dataSource).isSameAs(expectedDataSource);
 	}
 
@@ -64,9 +64,12 @@ public class MapDataSourceLookupTests {
 		dataSources.put(DATA_SOURCE_NAME, expectedDataSource);
 		MapDataSourceLookup lookup = new MapDataSourceLookup();
 		lookup.setDataSources(dataSources);
-		lookup.setDataSources(null); // must be idempotent (i.e. the following lookup must still work);
+		lookup.setDataSources(null); // must be idempotent (i.e. the following lookup must
+										// still work);
 		DataSource dataSource = lookup.getDataSource(DATA_SOURCE_NAME);
-		assertThat(dataSource).as("A DataSourceLookup implementation must *never* return null from getDataSource(): this one obviously (and incorrectly) is").isNotNull();
+		assertThat(dataSource).as(
+				"A DataSourceLookup implementation must *never* return null from getDataSource(): this one obviously (and incorrectly) is")
+				.isNotNull();
 		assertThat(dataSource).isSameAs(expectedDataSource);
 	}
 
@@ -78,9 +81,12 @@ public class MapDataSourceLookupTests {
 		dataSources.put(DATA_SOURCE_NAME, overridenDataSource);
 		MapDataSourceLookup lookup = new MapDataSourceLookup();
 		lookup.setDataSources(dataSources);
-		lookup.addDataSource(DATA_SOURCE_NAME, expectedDataSource); // must override existing entry
+		lookup.addDataSource(DATA_SOURCE_NAME, expectedDataSource); // must override
+																	// existing entry
 		DataSource dataSource = lookup.getDataSource(DATA_SOURCE_NAME);
-		assertThat(dataSource).as("A DataSourceLookup implementation must *never* return null from getDataSource(): this one obviously (and incorrectly) is").isNotNull();
+		assertThat(dataSource).as(
+				"A DataSourceLookup implementation must *never* return null from getDataSource(): this one obviously (and incorrectly) is")
+				.isNotNull();
 		assertThat(dataSource).isSameAs(expectedDataSource);
 	}
 
@@ -91,16 +97,15 @@ public class MapDataSourceLookupTests {
 		dataSources.put(DATA_SOURCE_NAME, new Object());
 		MapDataSourceLookup lookup = new MapDataSourceLookup(dataSources);
 
-		assertThatExceptionOfType(ClassCastException.class).isThrownBy(() ->
-				lookup.getDataSource(DATA_SOURCE_NAME));
+		assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> lookup.getDataSource(DATA_SOURCE_NAME));
 	}
 
 	@Test
 	public void getDataSourceWhereSuppliedMapHasNoEntryForSpecifiedKey() throws Exception {
 		MapDataSourceLookup lookup = new MapDataSourceLookup();
 
-		assertThatExceptionOfType(DataSourceLookupFailureException.class).isThrownBy(() ->
-				lookup.getDataSource(DATA_SOURCE_NAME));
+		assertThatExceptionOfType(DataSourceLookupFailureException.class)
+				.isThrownBy(() -> lookup.getDataSource(DATA_SOURCE_NAME));
 	}
 
 }

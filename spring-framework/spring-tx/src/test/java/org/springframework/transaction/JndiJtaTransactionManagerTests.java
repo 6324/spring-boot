@@ -115,7 +115,6 @@ public class JndiJtaTransactionManagerTests {
 		assertThat(condition).isTrue();
 		assertThat(TransactionSynchronizationManager.isCurrentTransactionReadOnly()).isFalse();
 
-
 		if (defaultUt) {
 			verify(ut).begin();
 			verify(ut).commit();
@@ -215,8 +214,8 @@ public class JndiJtaTransactionManagerTests {
 	}
 
 	/**
-	 * Prevent any side-effects due to this test modifying ThreadLocals that might
-	 * affect subsequent tests when all tests are run in the same JVM, as with Eclipse.
+	 * Prevent any side-effects due to this test modifying ThreadLocals that might affect
+	 * subsequent tests when all tests are run in the same JVM, as with Eclipse.
 	 */
 	@AfterEach
 	public void tearDown() {

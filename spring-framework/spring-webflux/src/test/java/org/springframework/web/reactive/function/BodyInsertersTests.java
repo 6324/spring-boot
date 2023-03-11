@@ -81,7 +81,6 @@ public class BodyInsertersTests {
 
 	private Map<String, Object> hints;
 
-
 	@BeforeEach
 	public void createContext() {
 		final List<HttpMessageWriter<?>> messageWriters = new ArrayList<>();
@@ -101,10 +100,12 @@ public class BodyInsertersTests {
 			public List<HttpMessageWriter<?>> messageWriters() {
 				return messageWriters;
 			}
+
 			@Override
 			public Optional<ServerHttpRequest> serverRequest() {
 				return Optional.empty();
 			}
+
 			@Override
 			public Map<String, Object> hints() {
 				return hints;
@@ -112,7 +113,6 @@ public class BodyInsertersTests {
 		};
 		this.hints = new HashMap<>();
 	}
-
 
 	@Test
 	public void ofString() {
@@ -122,13 +122,10 @@ public class BodyInsertersTests {
 		MockServerHttpResponse response = new MockServerHttpResponse();
 		Mono<Void> result = inserter.insert(response, this.context);
 		StepVerifier.create(result).expectComplete().verify();
-		StepVerifier.create(response.getBody())
-				.consumeNextWith(buf -> {
-					String actual = buf.toString(UTF_8);
-					assertThat(actual).isEqualTo("foo");
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(response.getBody()).consumeNextWith(buf -> {
+			String actual = buf.toString(UTF_8);
+			assertThat(actual).isEqualTo("foo");
+		}).expectComplete().verify();
 	}
 
 	@Test
@@ -139,10 +136,8 @@ public class BodyInsertersTests {
 		Mono<Void> result = inserter.insert(response, this.context);
 		StepVerifier.create(result).expectComplete().verify();
 
-		StepVerifier.create(response.getBodyAsString())
-				.expectNext("{\"username\":\"foo\",\"password\":\"bar\"}")
-				.expectComplete()
-				.verify();
+		StepVerifier.create(response.getBodyAsString()).expectNext("{\"username\":\"foo\",\"password\":\"bar\"}")
+				.expectComplete().verify();
 	}
 
 	@Test
@@ -154,10 +149,7 @@ public class BodyInsertersTests {
 		Mono<Void> result = inserter.insert(response, this.context);
 		StepVerifier.create(result).expectComplete().verify();
 
-		StepVerifier.create(response.getBodyAsString())
-				.expectNext("{\"username\":\"foo\"}")
-				.expectComplete()
-				.verify();
+		StepVerifier.create(response.getBodyAsString()).expectNext("{\"username\":\"foo\"}").expectComplete().verify();
 	}
 
 	@Test
@@ -168,10 +160,8 @@ public class BodyInsertersTests {
 		MockServerHttpResponse response = new MockServerHttpResponse();
 		Mono<Void> result = inserter.insert(response, this.context);
 		StepVerifier.create(result).expectComplete().verify();
-		StepVerifier.create(response.getBodyAsString())
-				.expectNext("{\"username\":\"foo\",\"password\":\"bar\"}")
-				.expectComplete()
-				.verify();
+		StepVerifier.create(response.getBodyAsString()).expectNext("{\"username\":\"foo\",\"password\":\"bar\"}")
+				.expectComplete().verify();
 	}
 
 	@Test
@@ -182,13 +172,10 @@ public class BodyInsertersTests {
 		MockServerHttpResponse response = new MockServerHttpResponse();
 		Mono<Void> result = inserter.insert(response, this.context);
 		StepVerifier.create(result).expectComplete().verify();
-		StepVerifier.create(response.getBody())
-				.consumeNextWith(buf -> {
-					String actual = buf.toString(UTF_8);
-					assertThat(actual).isEqualTo("foo");
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(response.getBody()).consumeNextWith(buf -> {
+			String actual = buf.toString(UTF_8);
+			assertThat(actual).isEqualTo("foo");
+		}).expectComplete().verify();
 	}
 
 	@Test
@@ -199,27 +186,23 @@ public class BodyInsertersTests {
 		MockServerHttpResponse response = new MockServerHttpResponse();
 		Mono<Void> result = inserter.insert(response, this.context);
 		StepVerifier.create(result).expectComplete().verify();
-		StepVerifier.create(response.getBodyAsString())
-				.expectNext("{\"username\":\"foo\",\"password\":\"bar\"}")
-				.expectComplete()
-				.verify();
+		StepVerifier.create(response.getBodyAsString()).expectNext("{\"username\":\"foo\",\"password\":\"bar\"}")
+				.expectComplete().verify();
 	}
 
 	@Test
 	public void ofPublisher() {
 		Flux<String> body = Flux.just("foo");
-		BodyInserter<Flux<String>, ReactiveHttpOutputMessage> inserter = BodyInserters.fromPublisher(body, String.class);
+		BodyInserter<Flux<String>, ReactiveHttpOutputMessage> inserter = BodyInserters.fromPublisher(body,
+				String.class);
 
 		MockServerHttpResponse response = new MockServerHttpResponse();
 		Mono<Void> result = inserter.insert(response, this.context);
 		StepVerifier.create(result).expectComplete().verify();
-		StepVerifier.create(response.getBody())
-				.consumeNextWith(buf -> {
-					String actual = buf.toString(UTF_8);
-					assertThat(actual).isEqualTo("foo");
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(response.getBody()).consumeNextWith(buf -> {
+			String actual = buf.toString(UTF_8);
+			assertThat(actual).isEqualTo("foo");
+		}).expectComplete().verify();
 	}
 
 	@Test
@@ -232,15 +215,12 @@ public class BodyInsertersTests {
 
 		byte[] expectedBytes = Files.readAllBytes(resource.getFile().toPath());
 
-		StepVerifier.create(response.getBody())
-				.consumeNextWith(dataBuffer -> {
-					byte[] resultBytes = new byte[dataBuffer.readableByteCount()];
-					dataBuffer.read(resultBytes);
-					DataBufferUtils.release(dataBuffer);
-					assertThat(resultBytes).isEqualTo(expectedBytes);
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(response.getBody()).consumeNextWith(dataBuffer -> {
+			byte[] resultBytes = new byte[dataBuffer.readableByteCount()];
+			dataBuffer.read(resultBytes);
+			DataBufferUtils.release(dataBuffer);
+			assertThat(resultBytes).isEqualTo(expectedBytes);
+		}).expectComplete().verify();
 	}
 
 	@Test // gh-24366
@@ -255,15 +235,12 @@ public class BodyInsertersTests {
 		byte[] expectedBytes = Files.readAllBytes(resource.getFile().toPath());
 
 		assertThat(request.getHeaders().getContentType()).isEqualTo(MediaType.TEXT_MARKDOWN);
-		StepVerifier.create(request.getBody())
-				.consumeNextWith(dataBuffer -> {
-					byte[] resultBytes = new byte[dataBuffer.readableByteCount()];
-					dataBuffer.read(resultBytes);
-					DataBufferUtils.release(dataBuffer);
-					assertThat(resultBytes).isEqualTo(expectedBytes);
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(request.getBody()).consumeNextWith(dataBuffer -> {
+			byte[] resultBytes = new byte[dataBuffer.readableByteCount()];
+			dataBuffer.read(resultBytes);
+			DataBufferUtils.release(dataBuffer);
+			assertThat(resultBytes).isEqualTo(expectedBytes);
+		}).expectComplete().verify();
 	}
 
 	@Test
@@ -272,8 +249,7 @@ public class BodyInsertersTests {
 		Resource body = new ClassPathResource("response.txt", getClass());
 		BodyInserter<Resource, ReactiveHttpOutputMessage> inserter = BodyInserters.fromResource(body);
 
-		MockServerHttpRequest request = MockServerHttpRequest.get("/foo")
-				.range(HttpRange.createByteRange(rangeStart))
+		MockServerHttpRequest request = MockServerHttpRequest.get("/foo").range(HttpRange.createByteRange(rangeStart))
 				.build();
 		MockServerHttpResponse response = new MockServerHttpResponse();
 		Mono<Void> result = inserter.insert(response, new BodyInserter.Context() {
@@ -298,23 +274,20 @@ public class BodyInsertersTests {
 		byte[] expectedBytes = new byte[allBytes.length - rangeStart];
 		System.arraycopy(allBytes, rangeStart, expectedBytes, 0, expectedBytes.length);
 
-		StepVerifier.create(response.getBody())
-				.consumeNextWith(dataBuffer -> {
-					byte[] resultBytes = new byte[dataBuffer.readableByteCount()];
-					dataBuffer.read(resultBytes);
-					DataBufferUtils.release(dataBuffer);
-					assertThat(resultBytes).isEqualTo(expectedBytes);
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(response.getBody()).consumeNextWith(dataBuffer -> {
+			byte[] resultBytes = new byte[dataBuffer.readableByteCount()];
+			dataBuffer.read(resultBytes);
+			DataBufferUtils.release(dataBuffer);
+			assertThat(resultBytes).isEqualTo(expectedBytes);
+		}).expectComplete().verify();
 	}
 
 	@Test
 	public void ofServerSentEventFlux() {
 		ServerSentEvent<String> event = ServerSentEvent.builder("foo").build();
 		Flux<ServerSentEvent<String>> body = Flux.just(event);
-		BodyInserter<Flux<ServerSentEvent<String>>, ServerHttpResponse> inserter =
-				BodyInserters.fromServerSentEvents(body);
+		BodyInserter<Flux<ServerSentEvent<String>>, ServerHttpResponse> inserter = BodyInserters
+				.fromServerSentEvents(body);
 
 		MockServerHttpResponse response = new MockServerHttpResponse();
 		Mono<Void> result = inserter.insert(response, this.context);
@@ -329,46 +302,39 @@ public class BodyInsertersTests {
 		body.add("name 2", "value 2+2");
 		body.add("name 3", null);
 
-		BodyInserter<MultiValueMap<String, String>, ClientHttpRequest>
-				inserter = BodyInserters.fromFormData(body);
+		BodyInserter<MultiValueMap<String, String>, ClientHttpRequest> inserter = BodyInserters.fromFormData(body);
 
 		MockClientHttpRequest request = new MockClientHttpRequest(HttpMethod.GET, URI.create("https://example.com"));
 		Mono<Void> result = inserter.insert(request, this.context);
 		StepVerifier.create(result).expectComplete().verify();
 
-		StepVerifier.create(request.getBody())
-				.consumeNextWith(dataBuffer -> {
-					byte[] resultBytes = new byte[dataBuffer.readableByteCount()];
-					dataBuffer.read(resultBytes);
-					DataBufferUtils.release(dataBuffer);
-					assertThat(resultBytes).isEqualTo("name+1=value+1&name+2=value+2%2B1&name+2=value+2%2B2&name+3".getBytes(StandardCharsets.UTF_8));
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(request.getBody()).consumeNextWith(dataBuffer -> {
+			byte[] resultBytes = new byte[dataBuffer.readableByteCount()];
+			dataBuffer.read(resultBytes);
+			DataBufferUtils.release(dataBuffer);
+			assertThat(resultBytes).isEqualTo(
+					"name+1=value+1&name+2=value+2%2B1&name+2=value+2%2B2&name+3".getBytes(StandardCharsets.UTF_8));
+		}).expectComplete().verify();
 
 	}
 
 	@Test
 	public void fromFormDataWith() {
-		BodyInserter<MultiValueMap<String, String>, ClientHttpRequest>
-				inserter = BodyInserters.fromFormData("name 1", "value 1")
-				.with("name 2", "value 2+1")
-				.with("name 2", "value 2+2")
+		BodyInserter<MultiValueMap<String, String>, ClientHttpRequest> inserter = BodyInserters
+				.fromFormData("name 1", "value 1").with("name 2", "value 2+1").with("name 2", "value 2+2")
 				.with("name 3", null);
 
 		MockClientHttpRequest request = new MockClientHttpRequest(HttpMethod.GET, URI.create("https://example.com"));
 		Mono<Void> result = inserter.insert(request, this.context);
 		StepVerifier.create(result).expectComplete().verify();
 
-		StepVerifier.create(request.getBody())
-				.consumeNextWith(dataBuffer -> {
-					byte[] resultBytes = new byte[dataBuffer.readableByteCount()];
-					dataBuffer.read(resultBytes);
-					DataBufferUtils.release(dataBuffer);
-					assertThat(resultBytes).isEqualTo("name+1=value+1&name+2=value+2%2B1&name+2=value+2%2B2&name+3".getBytes(StandardCharsets.UTF_8));
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(request.getBody()).consumeNextWith(dataBuffer -> {
+			byte[] resultBytes = new byte[dataBuffer.readableByteCount()];
+			dataBuffer.read(resultBytes);
+			DataBufferUtils.release(dataBuffer);
+			assertThat(resultBytes).isEqualTo(
+					"name+1=value+1&name+2=value+2%2B1&name+2=value+2%2B2&name+3".getBytes(StandardCharsets.UTF_8));
+		}).expectComplete().verify();
 
 	}
 
@@ -377,10 +343,8 @@ public class BodyInsertersTests {
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 		map.set("name 3", "value 3");
 
-		BodyInserters.FormInserter<Object> inserter =
-				BodyInserters.fromMultipartData("name 1", "value 1")
-						.withPublisher("name 2", Flux.just("foo", "bar", "baz"), String.class)
-						.with(map);
+		BodyInserters.FormInserter<Object> inserter = BodyInserters.fromMultipartData("name 1", "value 1")
+				.withPublisher("name 2", Flux.just("foo", "bar", "baz"), String.class).with(map);
 
 		MockClientHttpRequest request = new MockClientHttpRequest(HttpMethod.GET, URI.create("https://example.com"));
 		Mono<Void> result = inserter.insert(request, this.context);
@@ -388,7 +352,7 @@ public class BodyInsertersTests {
 
 	}
 
-	@Test  // SPR-16350
+	@Test // SPR-16350
 	public void fromMultipartDataWithMultipleValues() {
 		MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
 		map.put("name", Arrays.asList("value1", "value2"));
@@ -398,32 +362,22 @@ public class BodyInsertersTests {
 		Mono<Void> result = inserter.insert(request, this.context);
 		StepVerifier.create(result).expectComplete().verify();
 
-		StepVerifier.create(DataBufferUtils.join(request.getBody()))
-				.consumeNextWith(dataBuffer -> {
-					byte[] resultBytes = new byte[dataBuffer.readableByteCount()];
-					dataBuffer.read(resultBytes);
-					DataBufferUtils.release(dataBuffer);
-					String content = new String(resultBytes, StandardCharsets.UTF_8);
-					assertThat(content).contains("Content-Disposition: form-data; name=\"name\"\r\n" +
-							"Content-Type: text/plain;charset=UTF-8\r\n" +
-							"Content-Length: 6\r\n" +
-							"\r\n" +
-							"value1");
-					assertThat(content).contains("Content-Disposition: form-data; name=\"name\"\r\n" +
-							"Content-Type: text/plain;charset=UTF-8\r\n" +
-							"Content-Length: 6\r\n" +
-							"\r\n" +
-							"value2");
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(DataBufferUtils.join(request.getBody())).consumeNextWith(dataBuffer -> {
+			byte[] resultBytes = new byte[dataBuffer.readableByteCount()];
+			dataBuffer.read(resultBytes);
+			DataBufferUtils.release(dataBuffer);
+			String content = new String(resultBytes, StandardCharsets.UTF_8);
+			assertThat(content).contains("Content-Disposition: form-data; name=\"name\"\r\n"
+					+ "Content-Type: text/plain;charset=UTF-8\r\n" + "Content-Length: 6\r\n" + "\r\n" + "value1");
+			assertThat(content).contains("Content-Disposition: form-data; name=\"name\"\r\n"
+					+ "Content-Type: text/plain;charset=UTF-8\r\n" + "Content-Length: 6\r\n" + "\r\n" + "value2");
+		}).expectComplete().verify();
 	}
 
 	@Test
 	public void ofDataBuffers() {
 		DefaultDataBufferFactory factory = new DefaultDataBufferFactory();
-		DefaultDataBuffer dataBuffer =
-				factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
+		DefaultDataBuffer dataBuffer = factory.wrap(ByteBuffer.wrap("foo".getBytes(StandardCharsets.UTF_8)));
 		Flux<DataBuffer> body = Flux.just(dataBuffer);
 
 		BodyInserter<Flux<DataBuffer>, ReactiveHttpOutputMessage> inserter = BodyInserters.fromDataBuffers(body);
@@ -432,15 +386,12 @@ public class BodyInsertersTests {
 		Mono<Void> result = inserter.insert(response, this.context);
 		StepVerifier.create(result).expectComplete().verify();
 
-		StepVerifier.create(response.getBody())
-				.expectNext(dataBuffer)
-				.expectComplete()
-				.verify();
+		StepVerifier.create(response.getBody()).expectNext(dataBuffer).expectComplete().verify();
 	}
 
+	interface SafeToSerialize {
 
-	interface SafeToSerialize {}
-
+	}
 
 	@SuppressWarnings("unused")
 	private static class User {
@@ -473,6 +424,7 @@ public class BodyInsertersTests {
 		public void setPassword(String password) {
 			this.password = password;
 		}
+
 	}
 
 }

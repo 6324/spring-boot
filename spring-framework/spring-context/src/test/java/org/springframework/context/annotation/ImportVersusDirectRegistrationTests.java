@@ -33,8 +33,8 @@ public class ImportVersusDirectRegistrationTests {
 		try (AnnotationConfigApplicationContext directRegistration = new AnnotationConfigApplicationContext()) {
 			directRegistration.register(AccidentalLiteConfiguration.class);
 			directRegistration.refresh();
-			assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() ->
-					directRegistration.getBean(Thing.class));
+			assertThatExceptionOfType(NoSuchBeanDefinitionException.class)
+					.isThrownBy(() -> directRegistration.getBean(Thing.class));
 		}
 	}
 
@@ -44,8 +44,8 @@ public class ImportVersusDirectRegistrationTests {
 			directRegistration.registerBeanDefinition("config",
 					new RootBeanDefinition(AccidentalLiteConfiguration.class.getName()));
 			directRegistration.refresh();
-			assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() ->
-					directRegistration.getBean(Thing.class));
+			assertThatExceptionOfType(NoSuchBeanDefinitionException.class)
+					.isThrownBy(() -> directRegistration.getBean(Thing.class));
 		}
 	}
 
@@ -54,18 +54,17 @@ public class ImportVersusDirectRegistrationTests {
 		try (AnnotationConfigApplicationContext viaImport = new AnnotationConfigApplicationContext()) {
 			viaImport.register(Importer.class);
 			viaImport.refresh();
-			assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() ->
-					viaImport.getBean(Thing.class));
+			assertThatExceptionOfType(NoSuchBeanDefinitionException.class)
+					.isThrownBy(() -> viaImport.getBean(Thing.class));
 		}
 	}
 
 }
 
-
 @Import(AccidentalLiteConfiguration.class)
 class Importer {
-}
 
+}
 
 class AccidentalLiteConfiguration {
 
@@ -76,9 +75,11 @@ class AccidentalLiteConfiguration {
 		public Thing thing() {
 			return new Thing();
 		}
+
 	}
+
 }
 
-
 class Thing {
+
 }

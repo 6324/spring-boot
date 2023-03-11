@@ -45,14 +45,16 @@ public class Spr15275Tests {
 
 	@Test
 	public void testWithAbstractFactoryBeanForInterface() {
-		ApplicationContext context = new AnnotationConfigApplicationContext(ConfigWithAbstractFactoryBeanForInterface.class);
+		ApplicationContext context = new AnnotationConfigApplicationContext(
+				ConfigWithAbstractFactoryBeanForInterface.class);
 		assertThat(context.getBean(Bar.class).foo.toString()).isEqualTo("x");
 		assertThat(context.getBean(Bar.class).foo).isSameAs(context.getBean(FooInterface.class));
 	}
 
 	@Test
 	public void testWithAbstractFactoryBeanAsReturnType() {
-		ApplicationContext context = new AnnotationConfigApplicationContext(ConfigWithAbstractFactoryBeanAsReturnType.class);
+		ApplicationContext context = new AnnotationConfigApplicationContext(
+				ConfigWithAbstractFactoryBeanAsReturnType.class);
 		assertThat(context.getBean(Bar.class).foo.toString()).isEqualTo("x");
 		assertThat(context.getBean(Bar.class).foo).isSameAs(context.getBean(FooInterface.class));
 	}
@@ -66,12 +68,13 @@ public class Spr15275Tests {
 
 	@Test
 	public void testWithFinalFactoryBeanAsReturnType() {
-		ApplicationContext context = new AnnotationConfigApplicationContext(ConfigWithFinalFactoryBeanAsReturnType.class);
+		ApplicationContext context = new AnnotationConfigApplicationContext(
+				ConfigWithFinalFactoryBeanAsReturnType.class);
 		assertThat(context.getBean(Bar.class).foo.toString()).isEqualTo("x");
-		// not same due to fallback to raw FinalFactoryBean instance with repeated getObject() invocations
+		// not same due to fallback to raw FinalFactoryBean instance with repeated
+		// getObject() invocations
 		assertThat(context.getBean(Bar.class).foo).isNotSameAs(context.getBean(FooInterface.class));
 	}
-
 
 	@Configuration
 	protected static class ConfigWithFactoryBean {
@@ -83,6 +86,7 @@ public class Spr15275Tests {
 				public Foo getObject() {
 					return new Foo("x");
 				}
+
 				@Override
 				public Class<?> getObjectType() {
 					return Foo.class;
@@ -95,8 +99,8 @@ public class Spr15275Tests {
 			assertThat(foo().isSingleton()).isTrue();
 			return new Bar(foo().getObject());
 		}
-	}
 
+	}
 
 	@Configuration
 	protected static class ConfigWithAbstractFactoryBean {
@@ -108,6 +112,7 @@ public class Spr15275Tests {
 				public Foo createInstance() {
 					return new Foo("x");
 				}
+
 				@Override
 				public Class<?> getObjectType() {
 					return Foo.class;
@@ -120,8 +125,8 @@ public class Spr15275Tests {
 			assertThat(foo().isSingleton()).isTrue();
 			return new Bar(foo().getObject());
 		}
-	}
 
+	}
 
 	@Configuration
 	protected static class ConfigWithAbstractFactoryBeanForInterface {
@@ -133,6 +138,7 @@ public class Spr15275Tests {
 				public FooInterface createInstance() {
 					return new Foo("x");
 				}
+
 				@Override
 				public Class<?> getObjectType() {
 					return FooInterface.class;
@@ -145,8 +151,8 @@ public class Spr15275Tests {
 			assertThat(foo().isSingleton()).isTrue();
 			return new Bar(foo().getObject());
 		}
-	}
 
+	}
 
 	@Configuration
 	protected static class ConfigWithAbstractFactoryBeanAsReturnType {
@@ -158,6 +164,7 @@ public class Spr15275Tests {
 				public FooInterface createInstance() {
 					return new Foo("x");
 				}
+
 				@Override
 				public Class<?> getObjectType() {
 					return Foo.class;
@@ -170,8 +177,8 @@ public class Spr15275Tests {
 			assertThat(foo().isSingleton()).isTrue();
 			return new Bar(foo().getObject());
 		}
-	}
 
+	}
 
 	@Configuration
 	protected static class ConfigWithFinalFactoryBean {
@@ -186,8 +193,8 @@ public class Spr15275Tests {
 			assertThat(foo().isSingleton()).isTrue();
 			return new Bar(foo().getObject());
 		}
-	}
 
+	}
 
 	@Configuration
 	protected static class ConfigWithFinalFactoryBeanAsReturnType {
@@ -202,8 +209,8 @@ public class Spr15275Tests {
 			assertThat(foo().isSingleton()).isTrue();
 			return new Bar(foo().getObject());
 		}
-	}
 
+	}
 
 	private static final class FinalFactoryBean implements FactoryBean<FooInterface> {
 
@@ -216,12 +223,12 @@ public class Spr15275Tests {
 		public Class<?> getObjectType() {
 			return FooInterface.class;
 		}
-	}
 
+	}
 
 	protected interface FooInterface {
-	}
 
+	}
 
 	protected static class Foo implements FooInterface {
 
@@ -235,8 +242,8 @@ public class Spr15275Tests {
 		public String toString() {
 			return this.value;
 		}
-	}
 
+	}
 
 	protected static class Bar {
 
@@ -245,6 +252,7 @@ public class Spr15275Tests {
 		public Bar(FooInterface foo) {
 			this.foo = foo;
 		}
+
 	}
 
 }

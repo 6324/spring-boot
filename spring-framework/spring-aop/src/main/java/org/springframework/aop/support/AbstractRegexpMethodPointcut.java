@@ -29,18 +29,19 @@ import org.springframework.util.StringUtils;
 /**
  * Abstract base regular expression pointcut bean. JavaBean properties are:
  * <ul>
- * <li>pattern: regular expression for the fully-qualified method names to match.
- * The exact regexp syntax will depend on the subclass (e.g. Perl5 regular expressions)
- * <li>patterns: alternative property taking a String array of patterns.
- * The result will be the union of these patterns.
+ * <li>pattern: regular expression for the fully-qualified method names to match. The
+ * exact regexp syntax will depend on the subclass (e.g. Perl5 regular expressions)
+ * <li>patterns: alternative property taking a String array of patterns. The result will
+ * be the union of these patterns.
  * </ul>
  *
- * <p>Note: the regular expressions must be a match. For example,
- * {@code .*get.*} will match com.mycom.Foo.getBar().
- * {@code get.*} will not.
+ * <p>
+ * Note: the regular expressions must be a match. For example, {@code .*get.*} will match
+ * com.mycom.Foo.getBar(). {@code get.*} will not.
  *
- * <p>This base class is serializable. Subclasses should declare all fields transient;
- * the {@link #initPatternRepresentation} method will be invoked again on deserialization.
+ * <p>
+ * This base class is serializable. Subclasses should declare all fields transient; the
+ * {@link #initPatternRepresentation} method will be invoked again on deserialization.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -49,8 +50,7 @@ import org.springframework.util.StringUtils;
  * @see JdkRegexpMethodPointcut
  */
 @SuppressWarnings("serial")
-public abstract class AbstractRegexpMethodPointcut extends StaticMethodMatcherPointcut
-		implements Serializable {
+public abstract class AbstractRegexpMethodPointcut extends StaticMethodMatcherPointcut implements Serializable {
 
 	/**
 	 * Regular expressions to match.
@@ -62,10 +62,9 @@ public abstract class AbstractRegexpMethodPointcut extends StaticMethodMatcherPo
 	 */
 	private String[] excludedPatterns = new String[0];
 
-
 	/**
-	 * Convenience method when we have only a single pattern.
-	 * Use either this method or {@link #setPatterns}, not both.
+	 * Convenience method when we have only a single pattern. Use either this method or
+	 * {@link #setPatterns}, not both.
 	 * @see #setPatterns
 	 */
 	public void setPattern(String pattern) {
@@ -73,8 +72,8 @@ public abstract class AbstractRegexpMethodPointcut extends StaticMethodMatcherPo
 	}
 
 	/**
-	 * Set the regular expressions defining methods to match.
-	 * Matching will be the union of all these; if any match, the pointcut matches.
+	 * Set the regular expressions defining methods to match. Matching will be the union
+	 * of all these; if any match, the pointcut matches.
 	 * @see #setPattern
 	 */
 	public void setPatterns(String... patterns) {
@@ -94,8 +93,8 @@ public abstract class AbstractRegexpMethodPointcut extends StaticMethodMatcherPo
 	}
 
 	/**
-	 * Convenience method when we have only a single exclusion pattern.
-	 * Use either this method or {@link #setExcludedPatterns}, not both.
+	 * Convenience method when we have only a single exclusion pattern. Use either this
+	 * method or {@link #setExcludedPatterns}, not both.
 	 * @see #setExcludedPatterns
 	 */
 	public void setExcludedPattern(String excludedPattern) {
@@ -103,8 +102,8 @@ public abstract class AbstractRegexpMethodPointcut extends StaticMethodMatcherPo
 	}
 
 	/**
-	 * Set the regular expressions defining methods to match for exclusion.
-	 * Matching will be the union of all these; if any match, the pointcut matches.
+	 * Set the regular expressions defining methods to match for exclusion. Matching will
+	 * be the union of all these; if any match, the pointcut matches.
 	 * @see #setExcludedPattern
 	 */
 	public void setExcludedPatterns(String... excludedPatterns) {
@@ -123,17 +122,15 @@ public abstract class AbstractRegexpMethodPointcut extends StaticMethodMatcherPo
 		return this.excludedPatterns;
 	}
 
-
 	/**
-	 * Try to match the regular expression against the fully qualified name
-	 * of the target class as well as against the method's declaring class,
-	 * plus the name of the method.
+	 * Try to match the regular expression against the fully qualified name of the target
+	 * class as well as against the method's declaring class, plus the name of the method.
 	 */
 	@Override
 	public boolean matches(Method method, Class<?> targetClass) {
-		return (matchesPattern(ClassUtils.getQualifiedMethodName(method, targetClass)) ||
-				(targetClass != method.getDeclaringClass() &&
-						matchesPattern(ClassUtils.getQualifiedMethodName(method, method.getDeclaringClass()))));
+		return (matchesPattern(ClassUtils.getQualifiedMethodName(method, targetClass))
+				|| (targetClass != method.getDeclaringClass()
+						&& matchesPattern(ClassUtils.getQualifiedMethodName(method, method.getDeclaringClass()))));
 	}
 
 	/**
@@ -157,22 +154,23 @@ public abstract class AbstractRegexpMethodPointcut extends StaticMethodMatcherPo
 		return false;
 	}
 
-
 	/**
-	 * Subclasses must implement this to initialize regexp pointcuts.
-	 * Can be invoked multiple times.
-	 * <p>This method will be invoked from the {@link #setPatterns} method,
-	 * and also on deserialization.
+	 * Subclasses must implement this to initialize regexp pointcuts. Can be invoked
+	 * multiple times.
+	 * <p>
+	 * This method will be invoked from the {@link #setPatterns} method, and also on
+	 * deserialization.
 	 * @param patterns the patterns to initialize
 	 * @throws IllegalArgumentException in case of an invalid pattern
 	 */
 	protected abstract void initPatternRepresentation(String[] patterns) throws IllegalArgumentException;
 
 	/**
-	 * Subclasses must implement this to initialize regexp pointcuts.
-	 * Can be invoked multiple times.
-	 * <p>This method will be invoked from the {@link #setExcludedPatterns} method,
-	 * and also on deserialization.
+	 * Subclasses must implement this to initialize regexp pointcuts. Can be invoked
+	 * multiple times.
+	 * <p>
+	 * This method will be invoked from the {@link #setExcludedPatterns} method, and also
+	 * on deserialization.
 	 * @param patterns the patterns to initialize
 	 * @throws IllegalArgumentException in case of an invalid pattern
 	 */
@@ -194,7 +192,6 @@ public abstract class AbstractRegexpMethodPointcut extends StaticMethodMatcherPo
 	 */
 	protected abstract boolean matchesExclusion(String pattern, int patternIndex);
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -204,8 +201,8 @@ public abstract class AbstractRegexpMethodPointcut extends StaticMethodMatcherPo
 			return false;
 		}
 		AbstractRegexpMethodPointcut otherPointcut = (AbstractRegexpMethodPointcut) other;
-		return (Arrays.equals(this.patterns, otherPointcut.patterns) &&
-				Arrays.equals(this.excludedPatterns, otherPointcut.excludedPatterns));
+		return (Arrays.equals(this.patterns, otherPointcut.patterns)
+				&& Arrays.equals(this.excludedPatterns, otherPointcut.excludedPatterns));
 	}
 
 	@Override
@@ -222,8 +219,8 @@ public abstract class AbstractRegexpMethodPointcut extends StaticMethodMatcherPo
 
 	@Override
 	public String toString() {
-		return getClass().getName() + ": patterns " + ObjectUtils.nullSafeToString(this.patterns) +
-				", excluded patterns " + ObjectUtils.nullSafeToString(this.excludedPatterns);
+		return getClass().getName() + ": patterns " + ObjectUtils.nullSafeToString(this.patterns)
+				+ ", excluded patterns " + ObjectUtils.nullSafeToString(this.excludedPatterns);
 	}
 
 }

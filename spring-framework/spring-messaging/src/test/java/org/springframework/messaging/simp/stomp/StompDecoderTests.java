@@ -38,7 +38,6 @@ public class StompDecoderTests {
 
 	private final StompDecoder decoder = new StompDecoder();
 
-
 	@Test
 	public void decodeFrameWithCrLfEols() {
 		Message<byte[]> frame = decode("DISCONNECT\r\n\r\n\0");
@@ -161,8 +160,8 @@ public class StompDecoderTests {
 
 	@Test
 	public void decodeFrameBodyNotAllowed() {
-		assertThatExceptionOfType(StompConversionException.class).isThrownBy(() ->
-				decode("CONNECT\naccept-version:1.2\n\nThe body of the message\0"));
+		assertThatExceptionOfType(StompConversionException.class)
+				.isThrownBy(() -> decode("CONNECT\naccept-version:1.2\n\nThe body of the message\0"));
 	}
 
 	@Test // gh-23713
@@ -237,14 +236,14 @@ public class StompDecoderTests {
 
 	@Test
 	public void decodeFrameWithInvalidContentType() {
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				assertIncompleteDecode("SEND\ncontent-type:text/plain;charset=U\n\nThe body\0"));
+		assertThatExceptionOfType(InvalidMimeTypeException.class)
+				.isThrownBy(() -> assertIncompleteDecode("SEND\ncontent-type:text/plain;charset=U\n\nThe body\0"));
 	}
 
 	@Test
 	public void decodeFrameWithIncorrectTerminator() {
-		assertThatExceptionOfType(StompConversionException.class).isThrownBy(() ->
-				decode("SEND\ncontent-length:23\n\nThe body of the message*"));
+		assertThatExceptionOfType(StompConversionException.class)
+				.isThrownBy(() -> decode("SEND\ncontent-length:23\n\nThe body of the message*"));
 	}
 
 	@Test

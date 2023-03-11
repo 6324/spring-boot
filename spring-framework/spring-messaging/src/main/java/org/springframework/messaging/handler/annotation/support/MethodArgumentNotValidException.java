@@ -24,8 +24,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
 /**
- * Exception to be thrown when a method argument fails validation perhaps as a
- * result of {@code @Valid} style validation, or perhaps because it is required.
+ * Exception to be thrown when a method argument fails validation perhaps as a result of
+ * {@code @Valid} style validation, or perhaps because it is required.
  *
  * @author Brian Clozel
  * @author Rossen Stoyanchev
@@ -36,7 +36,6 @@ public class MethodArgumentNotValidException extends MethodArgumentResolutionExc
 
 	@Nullable
 	private final BindingResult bindingResult;
-
 
 	/**
 	 * Create a new instance with the invalid {@code MethodParameter}.
@@ -55,16 +54,14 @@ public class MethodArgumentNotValidException extends MethodArgumentResolutionExc
 		this.bindingResult = bindingResult;
 	}
 
-
 	/**
-	 * Return the BindingResult if the failure is validation-related,
-	 * or {@code null} if none.
+	 * Return the BindingResult if the failure is validation-related, or {@code null} if
+	 * none.
 	 */
 	@Nullable
 	public final BindingResult getBindingResult() {
 		return this.bindingResult;
 	}
-
 
 	private static String getValidationErrorMessage(BindingResult bindingResult) {
 		StringBuilder sb = new StringBuilder();

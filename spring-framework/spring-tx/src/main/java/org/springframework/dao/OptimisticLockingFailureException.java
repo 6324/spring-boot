@@ -21,9 +21,10 @@ import org.springframework.lang.Nullable;
 /**
  * Exception thrown on an optimistic locking violation.
  *
- * <p>This exception will be thrown either by O/R mapping tools
- * or by custom DAO implementations. Optimistic locking failure
- * is typically <i>not</i> detected by the database itself.
+ * <p>
+ * This exception will be thrown either by O/R mapping tools or by custom DAO
+ * implementations. Optimistic locking failure is typically <i>not</i> detected by the
+ * database itself.
  *
  * @author Rod Johnson
  * @see PessimisticLockingFailureException

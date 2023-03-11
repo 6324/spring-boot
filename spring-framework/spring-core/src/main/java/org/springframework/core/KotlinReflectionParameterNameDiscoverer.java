@@ -28,8 +28,8 @@ import kotlin.reflect.jvm.ReflectJvmMapping;
 import org.springframework.lang.Nullable;
 
 /**
- * {@link ParameterNameDiscoverer} implementation which uses Kotlin's reflection facilities
- * for introspecting parameter names.
+ * {@link ParameterNameDiscoverer} implementation which uses Kotlin's reflection
+ * facilities for introspecting parameter names.
  *
  * Compared to {@link StandardReflectionParameterNameDiscoverer}, it allows in addition to
  * determine interface parameter names without requiring Java 8 -parameters compiler flag.
@@ -73,17 +73,21 @@ public class KotlinReflectionParameterNameDiscoverer implements ParameterNameDis
 
 	@Nullable
 	private String[] getParameterNames(List<KParameter> parameters) {
-		List<KParameter> filteredParameters = parameters
-				.stream()
-				// Extension receivers of extension methods must be included as they appear as normal method parameters in Java
-				.filter(p -> KParameter.Kind.VALUE.equals(p.getKind()) || KParameter.Kind.EXTENSION_RECEIVER.equals(p.getKind()))
+		List<KParameter> filteredParameters = parameters.stream()
+				// Extension receivers of extension methods must be included as they
+				// appear as normal method parameters in Java
+				.filter(p -> KParameter.Kind.VALUE.equals(p.getKind())
+						|| KParameter.Kind.EXTENSION_RECEIVER.equals(p.getKind()))
 				.collect(Collectors.toList());
 		String[] parameterNames = new String[filteredParameters.size()];
 		for (int i = 0; i < filteredParameters.size(); i++) {
 			KParameter parameter = filteredParameters.get(i);
-			// extension receivers are not explicitly named, but require a name for Java interoperability
-			// $receiver is not a valid Kotlin identifier, but valid in Java, so it can be used here
-			String name = KParameter.Kind.EXTENSION_RECEIVER.equals(parameter.getKind())  ? "$receiver" : parameter.getName();
+			// extension receivers are not explicitly named, but require a name for Java
+			// interoperability
+			// $receiver is not a valid Kotlin identifier, but valid in Java, so it can be
+			// used here
+			String name = KParameter.Kind.EXTENSION_RECEIVER.equals(parameter.getKind()) ? "$receiver"
+					: parameter.getName();
 			if (name == null) {
 				return null;
 			}

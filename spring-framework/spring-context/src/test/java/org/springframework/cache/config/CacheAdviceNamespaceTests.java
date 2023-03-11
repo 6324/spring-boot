@@ -33,8 +33,7 @@ public class CacheAdviceNamespaceTests extends AbstractCacheAnnotationTests {
 
 	@Override
 	protected ConfigurableApplicationContext getApplicationContext() {
-		return new GenericXmlApplicationContext(
-				"/org/springframework/cache/config/cache-advice.xml");
+		return new GenericXmlApplicationContext("/org/springframework/cache/config/cache-advice.xml");
 	}
 
 	@Test

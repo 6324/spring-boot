@@ -55,10 +55,8 @@ public abstract class EntityManagerFactoryAccessor implements BeanFactoryAware {
 
 	private final Map<String, Object> jpaPropertyMap = new HashMap<>();
 
-
 	/**
-	 * Set the JPA EntityManagerFactory that should be used to create
-	 * EntityManagers.
+	 * Set the JPA EntityManagerFactory that should be used to create EntityManagers.
 	 * @see javax.persistence.EntityManagerFactory#createEntityManager()
 	 * @see javax.persistence.EntityManagerFactory#createEntityManager(java.util.Map)
 	 */
@@ -67,8 +65,7 @@ public abstract class EntityManagerFactoryAccessor implements BeanFactoryAware {
 	}
 
 	/**
-	 * Return the JPA EntityManagerFactory that should be used to create
-	 * EntityManagers.
+	 * Return the JPA EntityManagerFactory that should be used to create EntityManagers.
 	 */
 	@Nullable
 	public EntityManagerFactory getEntityManagerFactory() {
@@ -89,7 +86,8 @@ public abstract class EntityManagerFactoryAccessor implements BeanFactoryAware {
 
 	/**
 	 * Set the name of the persistence unit to access the EntityManagerFactory for.
-	 * <p>This is an alternative to specifying the EntityManagerFactory by direct reference,
+	 * <p>
+	 * This is an alternative to specifying the EntityManagerFactory by direct reference,
 	 * resolving it by its persistence unit name instead. If no EntityManagerFactory and
 	 * no persistence unit name have been specified, a default EntityManagerFactory will
 	 * be retrieved through finding a single unique bean of type EntityManagerFactory.
@@ -100,7 +98,8 @@ public abstract class EntityManagerFactoryAccessor implements BeanFactoryAware {
 	}
 
 	/**
-	 * Return the name of the persistence unit to access the EntityManagerFactory for, if any.
+	 * Return the name of the persistence unit to access the EntityManagerFactory for, if
+	 * any.
 	 */
 	@Nullable
 	public String getPersistenceUnitName() {
@@ -110,8 +109,9 @@ public abstract class EntityManagerFactoryAccessor implements BeanFactoryAware {
 	/**
 	 * Specify JPA properties, to be passed into
 	 * {@code EntityManagerFactory.createEntityManager(Map)} (if any).
-	 * <p>Can be populated with a String "value" (parsed via PropertiesEditor)
-	 * or a "props" element in XML bean definitions.
+	 * <p>
+	 * Can be populated with a String "value" (parsed via PropertiesEditor) or a "props"
+	 * element in XML bean definitions.
 	 * @see javax.persistence.EntityManagerFactory#createEntityManager(java.util.Map)
 	 */
 	public void setJpaProperties(Properties jpaProperties) {
@@ -121,7 +121,8 @@ public abstract class EntityManagerFactoryAccessor implements BeanFactoryAware {
 	/**
 	 * Specify JPA properties as a Map, to be passed into
 	 * {@code EntityManagerFactory.createEntityManager(Map)} (if any).
-	 * <p>Can be populated with a "map" or "props" element in XML bean definitions.
+	 * <p>
+	 * Can be populated with a "map" or "props" element in XML bean definitions.
 	 * @see javax.persistence.EntityManagerFactory#createEntityManager(java.util.Map)
 	 */
 	public void setJpaPropertyMap(@Nullable Map<String, Object> jpaProperties) {
@@ -131,9 +132,10 @@ public abstract class EntityManagerFactoryAccessor implements BeanFactoryAware {
 	}
 
 	/**
-	 * Allow Map access to the JPA properties to be passed to the persistence
-	 * provider, with the option to add or override specific entries.
-	 * <p>Useful for specifying entries directly, for example via "jpaPropertyMap[myKey]".
+	 * Allow Map access to the JPA properties to be passed to the persistence provider,
+	 * with the option to add or override specific entries.
+	 * <p>
+	 * Useful for specifying entries directly, for example via "jpaPropertyMap[myKey]".
 	 */
 	public Map<String, Object> getJpaPropertyMap() {
 		return this.jpaPropertyMap;
@@ -148,20 +150,21 @@ public abstract class EntityManagerFactoryAccessor implements BeanFactoryAware {
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		if (getEntityManagerFactory() == null) {
 			if (!(beanFactory instanceof ListableBeanFactory)) {
-				throw new IllegalStateException("Cannot retrieve EntityManagerFactory by persistence unit name " +
-						"in a non-listable BeanFactory: " + beanFactory);
+				throw new IllegalStateException("Cannot retrieve EntityManagerFactory by persistence unit name "
+						+ "in a non-listable BeanFactory: " + beanFactory);
 			}
 			ListableBeanFactory lbf = (ListableBeanFactory) beanFactory;
 			setEntityManagerFactory(EntityManagerFactoryUtils.findEntityManagerFactory(lbf, getPersistenceUnitName()));
 		}
 	}
 
-
 	/**
 	 * Obtain a new EntityManager from this accessor's EntityManagerFactory.
-	 * <p>Can be overridden in subclasses to create specific EntityManager variants.
+	 * <p>
+	 * Can be overridden in subclasses to create specific EntityManager variants.
 	 * @return a new EntityManager
-	 * @throws IllegalStateException if this accessor is not configured with an EntityManagerFactory
+	 * @throws IllegalStateException if this accessor is not configured with an
+	 * EntityManagerFactory
 	 * @see javax.persistence.EntityManagerFactory#createEntityManager()
 	 * @see javax.persistence.EntityManagerFactory#createEntityManager(java.util.Map)
 	 */
@@ -172,14 +175,17 @@ public abstract class EntityManagerFactoryAccessor implements BeanFactoryAware {
 	}
 
 	/**
-	 * Obtain the transactional EntityManager for this accessor's EntityManagerFactory, if any.
+	 * Obtain the transactional EntityManager for this accessor's EntityManagerFactory, if
+	 * any.
 	 * @return the transactional EntityManager, or {@code null} if none
-	 * @throws IllegalStateException if this accessor is not configured with an EntityManagerFactory
+	 * @throws IllegalStateException if this accessor is not configured with an
+	 * EntityManagerFactory
 	 * @see EntityManagerFactoryUtils#getTransactionalEntityManager(javax.persistence.EntityManagerFactory)
-	 * @see EntityManagerFactoryUtils#getTransactionalEntityManager(javax.persistence.EntityManagerFactory, java.util.Map)
+	 * @see EntityManagerFactoryUtils#getTransactionalEntityManager(javax.persistence.EntityManagerFactory,
+	 * java.util.Map)
 	 */
 	@Nullable
-	protected EntityManager getTransactionalEntityManager() throws IllegalStateException{
+	protected EntityManager getTransactionalEntityManager() throws IllegalStateException {
 		EntityManagerFactory emf = obtainEntityManagerFactory();
 		return EntityManagerFactoryUtils.getTransactionalEntityManager(emf, getJpaPropertyMap());
 	}

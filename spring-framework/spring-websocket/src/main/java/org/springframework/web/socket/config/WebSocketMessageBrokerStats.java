@@ -37,17 +37,19 @@ import org.springframework.web.socket.messaging.SubProtocolHandler;
 import org.springframework.web.socket.messaging.SubProtocolWebSocketHandler;
 
 /**
- * A central class for aggregating information about internal state and counters
- * from key infrastructure components of the setup that comes with
+ * A central class for aggregating information about internal state and counters from key
+ * infrastructure components of the setup that comes with
  * {@code @EnableWebSocketMessageBroker} for Java config and
  * {@code <websocket:message-broker>} for XML.
  *
- * <p>By default aggregated information is logged every 30 minutes at INFO level.
- * The frequency of logging can be changed via {@link #setLoggingPeriod(long)}.
+ * <p>
+ * By default aggregated information is logged every 30 minutes at INFO level. The
+ * frequency of logging can be changed via {@link #setLoggingPeriod(long)}.
  *
- * <p>This class is declared as a Spring bean by the above configuration with the
- * name "webSocketMessageBrokerStats" and can be easily exported to JMX, e.g. with
- * the {@link org.springframework.jmx.export.MBeanExporter MBeanExporter}.
+ * <p>
+ * This class is declared as a Spring bean by the above configuration with the name
+ * "webSocketMessageBrokerStats" and can be easily exported to JMX, e.g. with the
+ * {@link org.springframework.jmx.export.MBeanExporter MBeanExporter}.
  *
  * @author Rossen Stoyanchev
  * @author Sam Brannen
@@ -56,7 +58,6 @@ import org.springframework.web.socket.messaging.SubProtocolWebSocketHandler;
 public class WebSocketMessageBrokerStats {
 
 	private static final Log logger = LogFactory.getLog(WebSocketMessageBrokerStats.class);
-
 
 	@Nullable
 	private SubProtocolWebSocketHandler webSocketHandler;
@@ -80,7 +81,6 @@ public class WebSocketMessageBrokerStats {
 	private ScheduledFuture<?> loggingTask;
 
 	private long loggingPeriod = TimeUnit.MINUTES.toMillis(30);
-
 
 	public void setSubProtocolWebSocketHandler(SubProtocolWebSocketHandler webSocketHandler) {
 		this.webSocketHandler = webSocketHandler;
@@ -132,9 +132,10 @@ public class WebSocketMessageBrokerStats {
 	}
 
 	/**
-	 * Set the frequency for logging information at INFO level in milliseconds.
-	 * If set 0 or less than 0, the logging task is cancelled.
-	 * <p>By default this property is set to 30 minutes (30 * 60 * 1000).
+	 * Set the frequency for logging information at INFO level in milliseconds. If set 0
+	 * or less than 0, the logging task is cancelled.
+	 * <p>
+	 * By default this property is set to 30 minutes (30 * 60 * 1000).
 	 */
 	public void setLoggingPeriod(long period) {
 		if (this.loggingTask != null) {
@@ -194,8 +195,8 @@ public class WebSocketMessageBrokerStats {
 			return "null";
 		}
 		if (this.sockJsTaskScheduler instanceof ThreadPoolTaskScheduler) {
-			return getExecutorStatsInfo(((ThreadPoolTaskScheduler) this.sockJsTaskScheduler)
-					.getScheduledThreadPoolExecutor());
+			return getExecutorStatsInfo(
+					((ThreadPoolTaskScheduler) this.sockJsTaskScheduler).getScheduledThreadPoolExecutor());
 		}
 		return "unknown";
 	}
@@ -226,12 +227,11 @@ public class WebSocketMessageBrokerStats {
 
 	@Override
 	public String toString() {
-		return "WebSocketSession[" + getWebSocketSessionStatsInfo() + "]" +
-				", stompSubProtocol[" + getStompSubProtocolStatsInfo() + "]" +
-				", stompBrokerRelay[" + getStompBrokerRelayStatsInfo() + "]" +
-				", inboundChannel[" + getClientInboundExecutorStatsInfo() + "]" +
-				", outboundChannel[" + getClientOutboundExecutorStatsInfo() + "]" +
-				", sockJsScheduler[" + getSockJsTaskSchedulerStatsInfo() + "]";
+		return "WebSocketSession[" + getWebSocketSessionStatsInfo() + "]" + ", stompSubProtocol["
+				+ getStompSubProtocolStatsInfo() + "]" + ", stompBrokerRelay[" + getStompBrokerRelayStatsInfo() + "]"
+				+ ", inboundChannel[" + getClientInboundExecutorStatsInfo() + "]" + ", outboundChannel["
+				+ getClientOutboundExecutorStatsInfo() + "]" + ", sockJsScheduler[" + getSockJsTaskSchedulerStatsInfo()
+				+ "]";
 	}
 
 }

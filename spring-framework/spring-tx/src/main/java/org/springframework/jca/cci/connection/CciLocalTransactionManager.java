@@ -35,24 +35,26 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.util.Assert;
 
 /**
- * {@link org.springframework.transaction.PlatformTransactionManager} implementation
- * that manages local transactions for a single CCI ConnectionFactory.
- * Binds a CCI Connection from the specified ConnectionFactory to the thread,
- * potentially allowing for one thread-bound Connection per ConnectionFactory.
+ * {@link org.springframework.transaction.PlatformTransactionManager} implementation that
+ * manages local transactions for a single CCI ConnectionFactory. Binds a CCI Connection
+ * from the specified ConnectionFactory to the thread, potentially allowing for one
+ * thread-bound Connection per ConnectionFactory.
  *
- * <p>Application code is required to retrieve the CCI Connection via
+ * <p>
+ * Application code is required to retrieve the CCI Connection via
  * {@link ConnectionFactoryUtils#getConnection(ConnectionFactory)} instead of a standard
  * Java EE-style {@link ConnectionFactory#getConnection()} call. Spring classes such as
- * {@link org.springframework.jca.cci.core.CciTemplate} use this strategy implicitly.
- * If not used in combination with this transaction manager, the
+ * {@link org.springframework.jca.cci.core.CciTemplate} use this strategy implicitly. If
+ * not used in combination with this transaction manager, the
  * {@link ConnectionFactoryUtils} lookup strategy behaves exactly like the native
  * DataSource lookup; it can thus be used in a portable fashion.
  *
- * <p>Alternatively, you can allow application code to work with the standard
- * Java EE lookup pattern {@link ConnectionFactory#getConnection()}, for example
- * for legacy code that is not aware of Spring at all. In that case, define a
- * {@link TransactionAwareConnectionFactoryProxy} for your target ConnectionFactory,
- * which will automatically participate in Spring-managed transactions.
+ * <p>
+ * Alternatively, you can allow application code to work with the standard Java EE lookup
+ * pattern {@link ConnectionFactory#getConnection()}, for example for legacy code that is
+ * not aware of Spring at all. In that case, define a
+ * {@link TransactionAwareConnectionFactoryProxy} for your target ConnectionFactory, which
+ * will automatically participate in Spring-managed transactions.
  *
  * @author Thierry Templier
  * @author Juergen Hoeller
@@ -69,10 +71,9 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 	@Nullable
 	private ConnectionFactory connectionFactory;
 
-
 	/**
-	 * Create a new CciLocalTransactionManager instance.
-	 * A ConnectionFactory has to be set to be able to use it.
+	 * Create a new CciLocalTransactionManager instance. A ConnectionFactory has to be set
+	 * to be able to use it.
 	 * @see #setConnectionFactory
 	 */
 	public CciLocalTransactionManager() {
@@ -87,16 +88,17 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 		afterPropertiesSet();
 	}
 
-
 	/**
-	 * Set the CCI ConnectionFactory that this instance should manage local
-	 * transactions for.
+	 * Set the CCI ConnectionFactory that this instance should manage local transactions
+	 * for.
 	 */
 	public void setConnectionFactory(@Nullable ConnectionFactory cf) {
 		if (cf instanceof TransactionAwareConnectionFactoryProxy) {
-			// If we got a TransactionAwareConnectionFactoryProxy, we need to perform transactions
+			// If we got a TransactionAwareConnectionFactoryProxy, we need to perform
+			// transactions
 			// for its underlying target ConnectionFactory, else JMS access code won't see
-			// properly exposed transactions (i.e. transactions for the target ConnectionFactory).
+			// properly exposed transactions (i.e. transactions for the target
+			// ConnectionFactory).
 			this.connectionFactory = ((TransactionAwareConnectionFactoryProxy) cf).getTargetConnectionFactory();
 		}
 		else {
@@ -105,8 +107,7 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 	}
 
 	/**
-	 * Return the CCI ConnectionFactory that this instance manages local
-	 * transactions for.
+	 * Return the CCI ConnectionFactory that this instance manages local transactions for.
 	 */
 	@Nullable
 	public ConnectionFactory getConnectionFactory() {
@@ -126,7 +127,6 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 		}
 	}
 
-
 	@Override
 	public Object getResourceFactory() {
 		return obtainConnectionFactory();
@@ -135,8 +135,8 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 	@Override
 	protected Object doGetTransaction() {
 		CciLocalTransactionObject txObject = new CciLocalTransactionObject();
-		ConnectionHolder conHolder =
-				(ConnectionHolder) TransactionSynchronizationManager.getResource(obtainConnectionFactory());
+		ConnectionHolder conHolder = (ConnectionHolder) TransactionSynchronizationManager
+				.getResource(obtainConnectionFactory());
 		txObject.setConnectionHolder(conHolder);
 		return txObject;
 	}
@@ -244,8 +244,8 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 	protected void doSetRollbackOnly(DefaultTransactionStatus status) {
 		CciLocalTransactionObject txObject = (CciLocalTransactionObject) status.getTransaction();
 		if (status.isDebug()) {
-			logger.debug("Setting CCI local transaction [" + txObject.getConnectionHolder().getConnection() +
-					"] rollback-only");
+			logger.debug("Setting CCI local transaction [" + txObject.getConnectionHolder().getConnection()
+					+ "] rollback-only");
 		}
 		txObject.getConnectionHolder().setRollbackOnly();
 	}
@@ -266,10 +266,10 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 		ConnectionFactoryUtils.releaseConnection(con, connectionFactory);
 	}
 
-
 	/**
-	 * CCI local transaction object, representing a ConnectionHolder.
-	 * Used as transaction object by CciLocalTransactionManager.
+	 * CCI local transaction object, representing a ConnectionHolder. Used as transaction
+	 * object by CciLocalTransactionManager.
+	 *
 	 * @see ConnectionHolder
 	 */
 	private static class CciLocalTransactionObject {
@@ -289,6 +289,7 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 		public boolean hasConnectionHolder() {
 			return (this.connectionHolder != null);
 		}
+
 	}
 
 }

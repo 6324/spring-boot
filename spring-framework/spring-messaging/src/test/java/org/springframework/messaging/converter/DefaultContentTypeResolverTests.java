@@ -32,14 +32,14 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 /**
- * Test fixture for {@link org.springframework.messaging.converter.DefaultContentTypeResolver}.
+ * Test fixture for
+ * {@link org.springframework.messaging.converter.DefaultContentTypeResolver}.
  *
  * @author Rossen Stoyanchev
  */
 public class DefaultContentTypeResolverTests {
 
 	private DefaultContentTypeResolver resolver;
-
 
 	@BeforeEach
 	public void setup() {
@@ -69,8 +69,7 @@ public class DefaultContentTypeResolverTests {
 		Map<String, Object> map = new HashMap<>();
 		map.put(MessageHeaders.CONTENT_TYPE, "invalidContentType");
 		MessageHeaders headers = new MessageHeaders(map);
-		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() ->
-				this.resolver.resolve(headers));
+		assertThatExceptionOfType(InvalidMimeTypeException.class).isThrownBy(() -> this.resolver.resolve(headers));
 	}
 
 	@Test
@@ -78,8 +77,7 @@ public class DefaultContentTypeResolverTests {
 		Map<String, Object> map = new HashMap<>();
 		map.put(MessageHeaders.CONTENT_TYPE, 1);
 		MessageHeaders headers = new MessageHeaders(map);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.resolver.resolve(headers));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.resolver.resolve(headers));
 	}
 
 	@Test

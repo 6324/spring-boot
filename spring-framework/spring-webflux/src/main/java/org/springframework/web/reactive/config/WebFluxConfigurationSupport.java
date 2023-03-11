@@ -73,7 +73,8 @@ import org.springframework.web.server.i18n.LocaleContextResolver;
 /**
  * The main class for Spring WebFlux configuration.
  *
- * <p>Import directly or extend and override protected methods to customize.
+ * <p>
+ * Import directly or extend and override protected methods to customize.
  *
  * @author Rossen Stoyanchev
  * @author Brian Clozel
@@ -93,14 +94,13 @@ public class WebFluxConfigurationSupport implements ApplicationContextAware {
 	@Nullable
 	private ApplicationContext applicationContext;
 
-
 	@Override
 	public void setApplicationContext(@Nullable ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
 		if (applicationContext != null) {
-				Assert.state(!applicationContext.containsBean("mvcContentNegotiationManager"),
-						"The Java/XML config for Spring MVC and Spring WebFlux cannot both be enabled, " +
-						"e.g. via @EnableWebMvc and @EnableWebFlux, in the same application.");
+			Assert.state(!applicationContext.containsBean("mvcContentNegotiationManager"),
+					"The Java/XML config for Spring MVC and Spring WebFlux cannot both be enabled, "
+							+ "e.g. via @EnableWebMvc and @EnableWebFlux, in the same application.");
 		}
 	}
 
@@ -108,7 +108,6 @@ public class WebFluxConfigurationSupport implements ApplicationContextAware {
 	public final ApplicationContext getApplicationContext() {
 		return this.applicationContext;
 	}
-
 
 	@Bean
 	public DispatcherHandler webHandler() {
@@ -168,8 +167,8 @@ public class WebFluxConfigurationSupport implements ApplicationContextAware {
 	}
 
 	/**
-	 * Callback for building the global CORS configuration. This method is final.
-	 * Use {@link #addCorsMappings(CorsRegistry)} to customize the CORS conifg.
+	 * Callback for building the global CORS configuration. This method is final. Use
+	 * {@link #addCorsMappings(CorsRegistry)} to customize the CORS conifg.
 	 */
 	protected final Map<String, CorsConfiguration> getCorsConfigurations() {
 		if (this.corsConfigurations == null) {
@@ -188,8 +187,8 @@ public class WebFluxConfigurationSupport implements ApplicationContextAware {
 	}
 
 	/**
-	 * Callback for building the {@link PathMatchConfigurer}. This method is
-	 * final, use {@link #configurePathMatching} to customize path matching.
+	 * Callback for building the {@link PathMatchConfigurer}. This method is final, use
+	 * {@link #configurePathMatching} to customize path matching.
 	 */
 	protected final PathMatchConfigurer getPathMatchConfigurer() {
 		if (this.pathMatchConfigurer == null) {
@@ -208,7 +207,7 @@ public class WebFluxConfigurationSupport implements ApplicationContextAware {
 	@Bean
 	public RouterFunctionMapping routerFunctionMapping(ServerCodecConfigurer serverCodecConfigurer) {
 		RouterFunctionMapping mapping = createRouterFunctionMapping();
-		mapping.setOrder(-1);  // go before RequestMappingHandlerMapping
+		mapping.setOrder(-1); // go before RequestMappingHandlerMapping
 		mapping.setMessageReaders(serverCodecConfigurer.getReaders());
 		mapping.setCorsConfigurations(getCorsConfigurations());
 
@@ -223,9 +222,8 @@ public class WebFluxConfigurationSupport implements ApplicationContextAware {
 	}
 
 	/**
-	 * Return a handler mapping ordered at Integer.MAX_VALUE-1 with mapped
-	 * resource handlers. To configure resource handling, override
-	 * {@link #addResourceHandlers}.
+	 * Return a handler mapping ordered at Integer.MAX_VALUE-1 with mapped resource
+	 * handlers. To configure resource handling, override {@link #addResourceHandlers}.
 	 */
 	@Bean
 	public HandlerMapping resourceHandlerMapping(ResourceUrlProvider resourceUrlProvider) {
@@ -301,8 +299,9 @@ public class WebFluxConfigurationSupport implements ApplicationContextAware {
 
 	/**
 	 * Return the configurer for HTTP message readers and writers.
-	 * <p>Use {@link #configureHttpMessageCodecs(ServerCodecConfigurer)} to
-	 * configure the readers and writers.
+	 * <p>
+	 * Use {@link #configureHttpMessageCodecs(ServerCodecConfigurer)} to configure the
+	 * readers and writers.
 	 */
 	@Bean
 	public ServerCodecConfigurer serverCodecConfigurer() {
@@ -330,8 +329,8 @@ public class WebFluxConfigurationSupport implements ApplicationContextAware {
 	}
 
 	/**
-	 * Return the {@link ConfigurableWebBindingInitializer} to use for
-	 * initializing all {@link WebDataBinder} instances.
+	 * Return the {@link ConfigurableWebBindingInitializer} to use for initializing all
+	 * {@link WebDataBinder} instances.
 	 */
 	protected ConfigurableWebBindingInitializer getConfigurableWebBindingInitializer(
 			FormattingConversionService webFluxConversionService, Validator webFluxValidator) {
@@ -348,7 +347,8 @@ public class WebFluxConfigurationSupport implements ApplicationContextAware {
 
 	/**
 	 * Return a {@link FormattingConversionService} for use with annotated controllers.
-	 * <p>See {@link #addFormatters} as an alternative to overriding this method.
+	 * <p>
+	 * See {@link #addFormatters} as an alternative to overriding this method.
 	 */
 	@Bean
 	public FormattingConversionService webFluxConversionService() {
@@ -376,10 +376,11 @@ public class WebFluxConfigurationSupport implements ApplicationContextAware {
 	/**
 	 * Return a global {@link Validator} instance for example for validating
 	 * {@code @RequestBody} method arguments.
-	 * <p>Delegates to {@link #getValidator()} first. If that returns {@code null}
-	 * checks the classpath for the presence of a JSR-303 implementations
-	 * before creating a {@code OptionalValidatorFactoryBean}. If a JSR-303
-	 * implementation is not available, a "no-op" {@link Validator} is returned.
+	 * <p>
+	 * Delegates to {@link #getValidator()} first. If that returns {@code null} checks the
+	 * classpath for the presence of a JSR-303 implementations before creating a
+	 * {@code OptionalValidatorFactoryBean}. If a JSR-303 implementation is not available,
+	 * a "no-op" {@link Validator} is returned.
 	 */
 	@Bean
 	public Validator webFluxValidator() {
@@ -435,8 +436,8 @@ public class WebFluxConfigurationSupport implements ApplicationContextAware {
 			ServerCodecConfigurer serverCodecConfigurer,
 			@Qualifier("webFluxContentTypeResolver") RequestedContentTypeResolver contentTypeResolver) {
 
-		return new ResponseEntityResultHandler(serverCodecConfigurer.getWriters(),
-				contentTypeResolver, reactiveAdapterRegistry);
+		return new ResponseEntityResultHandler(serverCodecConfigurer.getWriters(), contentTypeResolver,
+				reactiveAdapterRegistry);
 	}
 
 	@Bean
@@ -445,8 +446,8 @@ public class WebFluxConfigurationSupport implements ApplicationContextAware {
 			ServerCodecConfigurer serverCodecConfigurer,
 			@Qualifier("webFluxContentTypeResolver") RequestedContentTypeResolver contentTypeResolver) {
 
-		return new ResponseBodyResultHandler(serverCodecConfigurer.getWriters(),
-				contentTypeResolver, reactiveAdapterRegistry);
+		return new ResponseBodyResultHandler(serverCodecConfigurer.getWriters(), contentTypeResolver,
+				reactiveAdapterRegistry);
 	}
 
 	@Bean
@@ -456,8 +457,8 @@ public class WebFluxConfigurationSupport implements ApplicationContextAware {
 
 		ViewResolverRegistry registry = getViewResolverRegistry();
 		List<ViewResolver> resolvers = registry.getViewResolvers();
-		ViewResolutionResultHandler handler = new ViewResolutionResultHandler(
-				resolvers, contentTypeResolver, reactiveAdapterRegistry);
+		ViewResolutionResultHandler handler = new ViewResolutionResultHandler(resolvers, contentTypeResolver,
+				reactiveAdapterRegistry);
 		handler.setDefaultViews(registry.getDefaultViews());
 		handler.setOrder(registry.getOrder());
 		return handler;
@@ -473,8 +474,8 @@ public class WebFluxConfigurationSupport implements ApplicationContextAware {
 	}
 
 	/**
-	 * Callback for building the {@link ViewResolverRegistry}. This method is final,
-	 * use {@link #configureViewResolvers} to customize view resolvers.
+	 * Callback for building the {@link ViewResolverRegistry}. This method is final, use
+	 * {@link #configureViewResolvers} to customize view resolvers.
 	 */
 	protected final ViewResolverRegistry getViewResolverRegistry() {
 		if (this.viewResolverRegistry == null) {
@@ -491,15 +492,14 @@ public class WebFluxConfigurationSupport implements ApplicationContextAware {
 	protected void configureViewResolvers(ViewResolverRegistry registry) {
 	}
 
-
 	private static final class EmptyHandlerMapping extends AbstractHandlerMapping {
 
 		@Override
 		public Mono<Object> getHandlerInternal(ServerWebExchange exchange) {
 			return Mono.empty();
 		}
-	}
 
+	}
 
 	private static final class NoOpValidator implements Validator {
 
@@ -511,6 +511,7 @@ public class WebFluxConfigurationSupport implements ApplicationContextAware {
 		@Override
 		public void validate(@Nullable Object target, Errors errors) {
 		}
+
 	}
 
 }

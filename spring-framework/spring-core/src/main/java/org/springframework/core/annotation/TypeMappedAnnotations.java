@@ -32,8 +32,8 @@ import java.util.stream.StreamSupport;
 import org.springframework.lang.Nullable;
 
 /**
- * {@link MergedAnnotations} implementation that searches for and adapts
- * annotations and meta-annotations using {@link AnnotationTypeMappings}.
+ * {@link MergedAnnotations} implementation that searches for and adapts annotations and
+ * meta-annotations using {@link AnnotationTypeMappings}.
  *
  * @author Phillip Webb
  * @since 5.2
@@ -43,9 +43,8 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 	/**
 	 * Shared instance that can be used when there are no annotations.
 	 */
-	static final MergedAnnotations NONE = new TypeMappedAnnotations(
-			null, new Annotation[0], RepeatableContainers.none(), AnnotationFilter.ALL);
-
+	static final MergedAnnotations NONE = new TypeMappedAnnotations(null, new Annotation[0],
+			RepeatableContainers.none(), AnnotationFilter.ALL);
 
 	@Nullable
 	private final Object source;
@@ -65,7 +64,6 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 
 	@Nullable
 	private volatile List<Aggregate> aggregates;
-
 
 	private TypeMappedAnnotations(AnnotatedElement element, SearchStrategy searchStrategy,
 			RepeatableContainers repeatableContainers, AnnotationFilter annotationFilter) {
@@ -89,14 +87,13 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 		this.annotationFilter = annotationFilter;
 	}
 
-
 	@Override
 	public <A extends Annotation> boolean isPresent(Class<A> annotationType) {
 		if (this.annotationFilter.matches(annotationType)) {
 			return false;
 		}
-		return Boolean.TRUE.equals(scan(annotationType,
-				IsPresent.get(this.repeatableContainers, this.annotationFilter, false)));
+		return Boolean.TRUE
+				.equals(scan(annotationType, IsPresent.get(this.repeatableContainers, this.annotationFilter, false)));
 	}
 
 	@Override
@@ -104,8 +101,8 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 		if (this.annotationFilter.matches(annotationType)) {
 			return false;
 		}
-		return Boolean.TRUE.equals(scan(annotationType,
-				IsPresent.get(this.repeatableContainers, this.annotationFilter, false)));
+		return Boolean.TRUE
+				.equals(scan(annotationType, IsPresent.get(this.repeatableContainers, this.annotationFilter, false)));
 	}
 
 	@Override
@@ -113,8 +110,8 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 		if (this.annotationFilter.matches(annotationType)) {
 			return false;
 		}
-		return Boolean.TRUE.equals(scan(annotationType,
-				IsPresent.get(this.repeatableContainers, this.annotationFilter, true)));
+		return Boolean.TRUE
+				.equals(scan(annotationType, IsPresent.get(this.repeatableContainers, this.annotationFilter, true)));
 	}
 
 	@Override
@@ -122,8 +119,8 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 		if (this.annotationFilter.matches(annotationType)) {
 			return false;
 		}
-		return Boolean.TRUE.equals(scan(annotationType,
-				IsPresent.get(this.repeatableContainers, this.annotationFilter, true)));
+		return Boolean.TRUE
+				.equals(scan(annotationType, IsPresent.get(this.repeatableContainers, this.annotationFilter, true)));
 	}
 
 	@Override
@@ -244,7 +241,6 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 		return null;
 	}
 
-
 	static MergedAnnotations from(AnnotatedElement element, SearchStrategy searchStrategy,
 			RepeatableContainers repeatableContainers, AnnotationFilter annotationFilter) {
 
@@ -263,24 +259,23 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 		return new TypeMappedAnnotations(source, annotations, repeatableContainers, annotationFilter);
 	}
 
-	private static boolean isMappingForType(AnnotationTypeMapping mapping,
-			AnnotationFilter annotationFilter, @Nullable Object requiredType) {
+	private static boolean isMappingForType(AnnotationTypeMapping mapping, AnnotationFilter annotationFilter,
+			@Nullable Object requiredType) {
 
 		Class<? extends Annotation> actualType = mapping.getAnnotationType();
-		return (!annotationFilter.matches(actualType) &&
-				(requiredType == null || actualType == requiredType || actualType.getName().equals(requiredType)));
+		return (!annotationFilter.matches(actualType)
+				&& (requiredType == null || actualType == requiredType || actualType.getName().equals(requiredType)));
 	}
 
-
 	/**
-	 * {@link AnnotationsProcessor} used to detect if an annotation is directly
-	 * present or meta-present.
+	 * {@link AnnotationsProcessor} used to detect if an annotation is directly present or
+	 * meta-present.
 	 */
 	private static final class IsPresent implements AnnotationsProcessor<Object, Boolean> {
 
 		/**
-		 * Shared instances that save us needing to create a new processor for
-		 * the common combinations.
+		 * Shared instances that save us needing to create a new processor for the common
+		 * combinations.
 		 */
 		private static final IsPresent[] SHARED;
 		static {
@@ -297,8 +292,8 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 
 		private final boolean directOnly;
 
-		private IsPresent(RepeatableContainers repeatableContainers,
-				AnnotationFilter annotationFilter, boolean directOnly) {
+		private IsPresent(RepeatableContainers repeatableContainers, AnnotationFilter annotationFilter,
+				boolean directOnly) {
 
 			this.repeatableContainers = repeatableContainers;
 			this.annotationFilter = annotationFilter;
@@ -307,8 +302,8 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 
 		@Override
 		@Nullable
-		public Boolean doWithAnnotations(Object requiredType, int aggregateIndex,
-				@Nullable Object source, Annotation[] annotations) {
+		public Boolean doWithAnnotations(Object requiredType, int aggregateIndex, @Nullable Object source,
+				Annotation[] annotations) {
 
 			for (Annotation annotation : annotations) {
 				if (annotation != null) {
@@ -317,11 +312,11 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 						if (type == requiredType || type.getName().equals(requiredType)) {
 							return Boolean.TRUE;
 						}
-						Annotation[] repeatedAnnotations =
-								this.repeatableContainers.findRepeatedAnnotations(annotation);
+						Annotation[] repeatedAnnotations = this.repeatableContainers
+								.findRepeatedAnnotations(annotation);
 						if (repeatedAnnotations != null) {
-							Boolean result = doWithAnnotations(
-									requiredType, aggregateIndex, source, repeatedAnnotations);
+							Boolean result = doWithAnnotations(requiredType, aggregateIndex, source,
+									repeatedAnnotations);
 							if (result != null) {
 								return result;
 							}
@@ -341,8 +336,8 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 			return null;
 		}
 
-		static IsPresent get(RepeatableContainers repeatableContainers,
-				AnnotationFilter annotationFilter, boolean directOnly) {
+		static IsPresent get(RepeatableContainers repeatableContainers, AnnotationFilter annotationFilter,
+				boolean directOnly) {
 
 			// Use a single shared instance for common combinations
 			if (annotationFilter == AnnotationFilter.PLAIN) {
@@ -355,8 +350,8 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 			}
 			return new IsPresent(repeatableContainers, annotationFilter, directOnly);
 		}
-	}
 
+	}
 
 	/**
 	 * {@link AnnotationsProcessor} that finds a single {@link MergedAnnotation}.
@@ -390,8 +385,8 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 
 		@Override
 		@Nullable
-		public MergedAnnotation<A> doWithAnnotations(Object type, int aggregateIndex,
-				@Nullable Object source, Annotation[] annotations) {
+		public MergedAnnotation<A> doWithAnnotations(Object type, int aggregateIndex, @Nullable Object source,
+				Annotation[] annotations) {
 
 			for (Annotation annotation : annotations) {
 				if (annotation != null && !annotationFilter.matches(annotation)) {
@@ -405,20 +400,20 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 		}
 
 		@Nullable
-		private MergedAnnotation<A> process(
-				Object type, int aggregateIndex, @Nullable Object source, Annotation annotation) {
+		private MergedAnnotation<A> process(Object type, int aggregateIndex, @Nullable Object source,
+				Annotation annotation) {
 
 			Annotation[] repeatedAnnotations = repeatableContainers.findRepeatedAnnotations(annotation);
 			if (repeatedAnnotations != null) {
 				return doWithAnnotations(type, aggregateIndex, source, repeatedAnnotations);
 			}
-			AnnotationTypeMappings mappings = AnnotationTypeMappings.forAnnotationType(
-					annotation.annotationType(), repeatableContainers, annotationFilter);
+			AnnotationTypeMappings mappings = AnnotationTypeMappings.forAnnotationType(annotation.annotationType(),
+					repeatableContainers, annotationFilter);
 			for (int i = 0; i < mappings.size(); i++) {
 				AnnotationTypeMapping mapping = mappings.get(i);
 				if (isMappingForType(mapping, annotationFilter, this.requiredType)) {
-					MergedAnnotation<A> candidate = TypeMappedAnnotation.createIfPossible(
-							mapping, source, annotation, aggregateIndex, IntrospectionFailureLogger.INFO);
+					MergedAnnotation<A> candidate = TypeMappedAnnotation.createIfPossible(mapping, source, annotation,
+							aggregateIndex, IntrospectionFailureLogger.INFO);
 					if (candidate != null && (this.predicate == null || this.predicate.test(candidate))) {
 						if (this.selector.isBestCandidate(candidate)) {
 							return candidate;
@@ -440,8 +435,8 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 		public MergedAnnotation<A> finish(@Nullable MergedAnnotation<A> result) {
 			return (result != null ? result : this.result);
 		}
-	}
 
+	}
 
 	/**
 	 * {@link AnnotationsProcessor} that collects {@link Aggregate} instances.
@@ -452,8 +447,8 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 
 		@Override
 		@Nullable
-		public List<Aggregate> doWithAnnotations(Object criteria, int aggregateIndex,
-				@Nullable Object source, Annotation[] annotations) {
+		public List<Aggregate> doWithAnnotations(Object criteria, int aggregateIndex, @Nullable Object source,
+				Annotation[] annotations) {
 
 			this.aggregates.add(createAggregate(aggregateIndex, source, annotations));
 			return null;
@@ -488,8 +483,8 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 		public List<Aggregate> finish(@Nullable List<Aggregate> processResult) {
 			return this.aggregates;
 		}
-	}
 
+	}
 
 	private static class Aggregate {
 
@@ -527,19 +522,18 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 		}
 
 		@Nullable
-		<A extends Annotation> MergedAnnotation<A> createMergedAnnotationIfPossible(
-				int annotationIndex, int mappingIndex, IntrospectionFailureLogger logger) {
+		<A extends Annotation> MergedAnnotation<A> createMergedAnnotationIfPossible(int annotationIndex,
+				int mappingIndex, IntrospectionFailureLogger logger) {
 
-			return TypeMappedAnnotation.createIfPossible(
-					this.mappings[annotationIndex].get(mappingIndex), this.source,
+			return TypeMappedAnnotation.createIfPossible(this.mappings[annotationIndex].get(mappingIndex), this.source,
 					this.annotations.get(annotationIndex), this.aggregateIndex, logger);
 		}
+
 	}
 
-
 	/**
-	 * {@link Spliterator} used to consume merged annotations from the
-	 * aggregates in distance fist order.
+	 * {@link Spliterator} used to consume merged annotations from the aggregates in
+	 * distance fist order.
 	 */
 	private class AggregatesSpliterator<A extends Annotation> implements Spliterator<MergedAnnotation<A>> {
 
@@ -589,8 +583,8 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 				}
 			}
 			if (annotationResult != -1) {
-				MergedAnnotation<A> mergedAnnotation = aggregate.createMergedAnnotationIfPossible(
-						annotationResult, this.mappingCursors[annotationResult],
+				MergedAnnotation<A> mergedAnnotation = aggregate.createMergedAnnotationIfPossible(annotationResult,
+						this.mappingCursors[annotationResult],
 						this.requiredType != null ? IntrospectionFailureLogger.INFO : IntrospectionFailureLogger.DEBUG);
 				this.mappingCursors[annotationResult]++;
 				if (mergedAnnotation == null) {
@@ -628,8 +622,7 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 		@Override
 		public long estimateSize() {
 			int size = 0;
-			for (int aggregateIndex = this.aggregateCursor;
-					aggregateIndex < this.aggregates.size(); aggregateIndex++) {
+			for (int aggregateIndex = this.aggregateCursor; aggregateIndex < this.aggregates.size(); aggregateIndex++) {
 				Aggregate aggregate = this.aggregates.get(aggregateIndex);
 				for (int annotationIndex = 0; annotationIndex < aggregate.size(); annotationIndex++) {
 					AnnotationTypeMappings mappings = aggregate.getMappings(annotationIndex);
@@ -647,6 +640,7 @@ final class TypeMappedAnnotations implements MergedAnnotations {
 		public int characteristics() {
 			return NONNULL | IMMUTABLE;
 		}
+
 	}
 
 }

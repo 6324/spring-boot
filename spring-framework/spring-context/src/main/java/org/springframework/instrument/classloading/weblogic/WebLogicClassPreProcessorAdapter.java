@@ -25,11 +25,11 @@ import java.util.Hashtable;
 import org.springframework.lang.Nullable;
 
 /**
- * Adapter that implements WebLogic ClassPreProcessor interface, delegating to a
- * standard JDK {@link ClassFileTransformer} underneath.
+ * Adapter that implements WebLogic ClassPreProcessor interface, delegating to a standard
+ * JDK {@link ClassFileTransformer} underneath.
  *
- * <p>To avoid compile time checks again the vendor API, a dynamic proxy is
- * being used.
+ * <p>
+ * To avoid compile time checks again the vendor API, a dynamic proxy is being used.
  *
  * @author Costin Leau
  * @author Juergen Hoeller
@@ -41,7 +41,6 @@ class WebLogicClassPreProcessorAdapter implements InvocationHandler {
 
 	private final ClassLoader loader;
 
-
 	/**
 	 * Construct a new {@link WebLogicClassPreProcessorAdapter}.
 	 */
@@ -49,7 +48,6 @@ class WebLogicClassPreProcessorAdapter implements InvocationHandler {
 		this.transformer = transformer;
 		this.loader = loader;
 	}
-
 
 	@Override
 	@Nullable

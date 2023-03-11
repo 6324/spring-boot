@@ -24,13 +24,13 @@ import org.springframework.util.ReflectionUtils;
 
 /**
  * Sub-class for {@link AbstractExceptionHandlerMethodResolver} for testing.
+ *
  * @author Rossen Stoyanchev
  */
 public class TestExceptionResolver extends AbstractExceptionHandlerMethodResolver {
 
-	private final static ReflectionUtils.MethodFilter EXCEPTION_HANDLER_METHOD_FILTER =
-			method -> method.getName().matches("handle[\\w]*Exception");
-
+	private final static ReflectionUtils.MethodFilter EXCEPTION_HANDLER_METHOD_FILTER = method -> method.getName()
+			.matches("handle[\\w]*Exception");
 
 	public TestExceptionResolver(Class<?> handlerType) {
 		super(initExceptionMappings(handlerType));

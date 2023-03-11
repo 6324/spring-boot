@@ -38,7 +38,8 @@ public class StubResourceAdapter implements ResourceAdapter {
 	}
 
 	@Override
-	public void endpointActivation(MessageEndpointFactory messageEndpointFactory, ActivationSpec activationSpec) throws ResourceException {
+	public void endpointActivation(MessageEndpointFactory messageEndpointFactory, ActivationSpec activationSpec)
+			throws ResourceException {
 	}
 
 	@Override

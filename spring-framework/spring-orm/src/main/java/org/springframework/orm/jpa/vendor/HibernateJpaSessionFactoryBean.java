@@ -29,20 +29,23 @@ import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Simple {@code FactoryBean} that exposes the underlying {@link SessionFactory}
- * behind a Hibernate-backed JPA {@link EntityManagerFactory}.
+ * Simple {@code FactoryBean} that exposes the underlying {@link SessionFactory} behind a
+ * Hibernate-backed JPA {@link EntityManagerFactory}.
  *
- * <p>Primarily available for resolving a SessionFactory by JPA persistence unit name
- * via the {@link #setPersistenceUnitName "persistenceUnitName"} bean property.
+ * <p>
+ * Primarily available for resolving a SessionFactory by JPA persistence unit name via the
+ * {@link #setPersistenceUnitName "persistenceUnitName"} bean property.
  *
- * <p>Note that, for straightforward cases, you could also simply declare a factory method:
+ * <p>
+ * Note that, for straightforward cases, you could also simply declare a factory method:
  *
  * <pre class="code">
  * &lt;bean id="sessionFactory" factory-bean="entityManagerFactory" factory-method="getSessionFactory"/&gt;
  * </pre>
  *
- * <p>And as of JPA 2.1, {@link EntityManagerFactory#unwrap} provides a nice approach as well,
- * in particular within configuration class arrangements:
+ * <p>
+ * And as of JPA 2.1, {@link EntityManagerFactory#unwrap} provides a nice approach as
+ * well, in particular within configuration class arrangements:
  *
  * <pre class="code">
  * &#064;Bean
@@ -51,20 +54,23 @@ import org.springframework.util.ReflectionUtils;
  * }
  * </pre>
  *
- * Please note: Since Hibernate 5.2 changed its {@code SessionFactory} interface to extend JPA's
- * {@code EntityManagerFactory}, you may get conflicts when injecting by type, with both the
- * original factory and your custom {@code SessionFactory} matching {@code EntityManagerFactory}.
- * An explicit qualifier for the original factory (as indicated above) is recommended here.
+ * Please note: Since Hibernate 5.2 changed its {@code SessionFactory} interface to extend
+ * JPA's {@code EntityManagerFactory}, you may get conflicts when injecting by type, with
+ * both the original factory and your custom {@code SessionFactory} matching
+ * {@code EntityManagerFactory}. An explicit qualifier for the original factory (as
+ * indicated above) is recommended here.
  *
  * @author Juergen Hoeller
  * @since 3.1
  * @see #setPersistenceUnitName
  * @see #setEntityManagerFactory
- * @deprecated as of Spring Framework 4.3.12 against Hibernate 5.2, in favor of a custom solution
- * based on {@link EntityManagerFactory#unwrap} with explicit qualifiers and/or primary markers
+ * @deprecated as of Spring Framework 4.3.12 against Hibernate 5.2, in favor of a custom
+ * solution based on {@link EntityManagerFactory#unwrap} with explicit qualifiers and/or
+ * primary markers
  */
 @Deprecated
-public class HibernateJpaSessionFactoryBean extends EntityManagerFactoryAccessor implements FactoryBean<SessionFactory> {
+public class HibernateJpaSessionFactoryBean extends EntityManagerFactoryAccessor
+		implements FactoryBean<SessionFactory> {
 
 	@Override
 	@Nullable

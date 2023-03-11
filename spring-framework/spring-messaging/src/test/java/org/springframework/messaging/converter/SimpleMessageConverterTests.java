@@ -27,15 +27,13 @@ import org.springframework.messaging.support.MessageHeaderAccessor;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Unit tests for
- * {@link org.springframework.messaging.converter.SimpleMessageConverter}.
+ * Unit tests for {@link org.springframework.messaging.converter.SimpleMessageConverter}.
  *
  * @author Rossen Stoyanchev
  */
 public class SimpleMessageConverterTests {
 
 	private final SimpleMessageConverter converter = new SimpleMessageConverter();
-
 
 	@Test
 	public void toMessageWithPayloadAndHeaders() {
@@ -59,4 +57,5 @@ public class SimpleMessageConverterTests {
 		assertThat(message.getHeaders()).isSameAs(headers);
 		assertThat(message.getHeaders().get("foo")).isEqualTo("bar");
 	}
+
 }

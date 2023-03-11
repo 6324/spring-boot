@@ -23,7 +23,6 @@ public class ReflectiveAssemblerTests extends AbstractJmxAssemblerTests {
 
 	protected static final String OBJECT_NAME = "bean:name=testBean1";
 
-
 	@Override
 	protected String getObjectName() {
 		return OBJECT_NAME;

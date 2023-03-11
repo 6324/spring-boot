@@ -23,8 +23,8 @@ import java.util.Locale;
 import org.springframework.format.Formatter;
 
 /**
- * {@link Formatter} implementation for a JSR-310 {@link YearMonth},
- * following JSR-310's parsing rules for a YearMonth.
+ * {@link Formatter} implementation for a JSR-310 {@link YearMonth}, following JSR-310's
+ * parsing rules for a YearMonth.
  *
  * @author Juergen Hoeller
  * @since 4.2.4

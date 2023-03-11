@@ -43,7 +43,6 @@ public class QualifierAnnotationAutowireBeanFactoryTests {
 
 	private static final String MARK = "mark";
 
-
 	@Test
 	public void testAutowireCandidateDefaultWithIrrelevantDescriptor() throws Exception {
 		DefaultListableBeanFactory lbf = new DefaultListableBeanFactory();
@@ -54,8 +53,9 @@ public class QualifierAnnotationAutowireBeanFactoryTests {
 		assertThat(lbf.isAutowireCandidate(JUERGEN, null)).isTrue();
 		assertThat(lbf.isAutowireCandidate(JUERGEN,
 				new DependencyDescriptor(Person.class.getDeclaredField("name"), false))).isTrue();
-		assertThat(lbf.isAutowireCandidate(JUERGEN,
-				new DependencyDescriptor(Person.class.getDeclaredField("name"), true))).isTrue();
+		assertThat(
+				lbf.isAutowireCandidate(JUERGEN, new DependencyDescriptor(Person.class.getDeclaredField("name"), true)))
+						.isTrue();
 	}
 
 	@Test
@@ -69,8 +69,9 @@ public class QualifierAnnotationAutowireBeanFactoryTests {
 		assertThat(lbf.isAutowireCandidate(JUERGEN, null)).isFalse();
 		assertThat(lbf.isAutowireCandidate(JUERGEN,
 				new DependencyDescriptor(Person.class.getDeclaredField("name"), false))).isFalse();
-		assertThat(lbf.isAutowireCandidate(JUERGEN,
-				new DependencyDescriptor(Person.class.getDeclaredField("name"), true))).isFalse();
+		assertThat(
+				lbf.isAutowireCandidate(JUERGEN, new DependencyDescriptor(Person.class.getDeclaredField("name"), true)))
+						.isFalse();
 	}
 
 	@Disabled
@@ -168,10 +169,10 @@ public class QualifierAnnotationAutowireBeanFactoryTests {
 		cavs2.addGenericArgumentValue(MARK);
 		RootBeanDefinition person2 = new RootBeanDefinition(Person.class, cavs2, null);
 		lbf.registerBeanDefinition(MARK, person2);
-		MethodParameter qualifiedParam =
-				new MethodParameter(QualifiedTestBean.class.getDeclaredMethod("autowireQualified", Person.class), 0);
-		MethodParameter nonqualifiedParam =
-				new MethodParameter(QualifiedTestBean.class.getDeclaredMethod("autowireNonqualified", Person.class), 0);
+		MethodParameter qualifiedParam = new MethodParameter(
+				QualifiedTestBean.class.getDeclaredMethod("autowireQualified", Person.class), 0);
+		MethodParameter nonqualifiedParam = new MethodParameter(
+				QualifiedTestBean.class.getDeclaredMethod("autowireNonqualified", Person.class), 0);
 		DependencyDescriptor qualifiedDescriptor = new DependencyDescriptor(qualifiedParam, false);
 		DependencyDescriptor nonqualifiedDescriptor = new DependencyDescriptor(nonqualifiedParam, false);
 		qualifiedParam.initParameterNameDiscovery(new LocalVariableTableParameterNameDiscoverer());
@@ -200,12 +201,10 @@ public class QualifierAnnotationAutowireBeanFactoryTests {
 		person2.addQualifier(new AutowireCandidateQualifier(TestQualifier.class));
 		lbf.registerBeanDefinition(MARK, person2);
 		DependencyDescriptor qualifiedDescriptor = new DependencyDescriptor(
-				new MethodParameter(QualifiedTestBean.class.getDeclaredConstructor(Person.class), 0),
-				false);
+				new MethodParameter(QualifiedTestBean.class.getDeclaredConstructor(Person.class), 0), false);
 		assertThat(lbf.isAutowireCandidate(JUERGEN, qualifiedDescriptor)).isTrue();
 		assertThat(lbf.isAutowireCandidate(MARK, qualifiedDescriptor)).isTrue();
 	}
-
 
 	@SuppressWarnings("unused")
 	private static class QualifiedTestBean {
@@ -223,8 +222,8 @@ public class QualifierAnnotationAutowireBeanFactoryTests {
 
 		public void autowireNonqualified(Person tpb) {
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class Person {
@@ -238,13 +237,14 @@ public class QualifierAnnotationAutowireBeanFactoryTests {
 		public String getName() {
 			return this.name;
 		}
+
 	}
 
-
-	@Target({ElementType.FIELD, ElementType.PARAMETER})
+	@Target({ ElementType.FIELD, ElementType.PARAMETER })
 	@Retention(RetentionPolicy.RUNTIME)
 	@Qualifier
 	private @interface TestQualifier {
+
 	}
 
 }

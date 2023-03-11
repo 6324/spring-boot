@@ -43,7 +43,6 @@ public class UrlBasedViewResolverTests {
 
 	private final UrlBasedViewResolver resolver = new UrlBasedViewResolver();
 
-
 	@BeforeEach
 	public void setup() {
 		StaticApplicationContext context = new StaticApplicationContext();
@@ -53,43 +52,35 @@ public class UrlBasedViewResolverTests {
 
 	@Test
 	public void urlBasedViewResolverOverridesCustomRequestContextAttributeWithNonNullValue() throws Exception {
-		assertThat(new TestView().getRequestContextAttribute())
-			.as("requestContextAttribute when instantiated directly")
-			.isEqualTo("testRequestContext");
+		assertThat(new TestView().getRequestContextAttribute()).as("requestContextAttribute when instantiated directly")
+				.isEqualTo("testRequestContext");
 
 		this.resolver.setViewClass(TestView.class);
 		this.resolver.setRequestContextAttribute("viewResolverRequestContext");
 
 		Mono<View> mono = this.resolver.resolveViewName("example", Locale.getDefault());
-		StepVerifier.create(mono)
-				.consumeNextWith(view -> {
-					assertThat(view).isInstanceOf(TestView.class);
-					assertThat(((TestView) view).getRequestContextAttribute())
-						.as("requestContextAttribute when instantiated dynamically by UrlBasedViewResolver")
-						.isEqualTo("viewResolverRequestContext");
-				})
-				.expectComplete()
-				.verify(Duration.ZERO);
+		StepVerifier.create(mono).consumeNextWith(view -> {
+			assertThat(view).isInstanceOf(TestView.class);
+			assertThat(((TestView) view).getRequestContextAttribute())
+					.as("requestContextAttribute when instantiated dynamically by UrlBasedViewResolver")
+					.isEqualTo("viewResolverRequestContext");
+		}).expectComplete().verify(Duration.ZERO);
 	}
 
 	@Test
 	public void urlBasedViewResolverDoesNotOverrideCustomRequestContextAttributeWithNull() throws Exception {
-		assertThat(new TestView().getRequestContextAttribute())
-			.as("requestContextAttribute when instantiated directly")
-			.isEqualTo("testRequestContext");
+		assertThat(new TestView().getRequestContextAttribute()).as("requestContextAttribute when instantiated directly")
+				.isEqualTo("testRequestContext");
 
 		this.resolver.setViewClass(TestView.class);
 
 		Mono<View> mono = this.resolver.resolveViewName("example", Locale.getDefault());
-		StepVerifier.create(mono)
-				.consumeNextWith(view -> {
-					assertThat(view).isInstanceOf(TestView.class);
-					assertThat(((TestView) view).getRequestContextAttribute())
-						.as("requestContextAttribute when instantiated dynamically by UrlBasedViewResolver")
-						.isEqualTo("testRequestContext");
-				})
-				.expectComplete()
-				.verify(Duration.ZERO);
+		StepVerifier.create(mono).consumeNextWith(view -> {
+			assertThat(view).isInstanceOf(TestView.class);
+			assertThat(((TestView) view).getRequestContextAttribute())
+					.as("requestContextAttribute when instantiated dynamically by UrlBasedViewResolver")
+					.isEqualTo("testRequestContext");
+		}).expectComplete().verify(Duration.ZERO);
 	}
 
 	@Test
@@ -108,15 +99,12 @@ public class UrlBasedViewResolverTests {
 	public void redirectView() throws Exception {
 		Mono<View> mono = this.resolver.resolveViewName("redirect:foo", Locale.US);
 
-		StepVerifier.create(mono)
-				.consumeNextWith(view -> {
-					assertThat(view.getClass()).isEqualTo(RedirectView.class);
-					RedirectView redirectView = (RedirectView) view;
-					assertThat(redirectView.getUrl()).isEqualTo("foo");
-					assertThat(redirectView.getStatusCode()).isEqualTo(HttpStatus.SEE_OTHER);
-				})
-				.expectComplete()
-				.verify(Duration.ZERO);
+		StepVerifier.create(mono).consumeNextWith(view -> {
+			assertThat(view.getClass()).isEqualTo(RedirectView.class);
+			RedirectView redirectView = (RedirectView) view;
+			assertThat(redirectView.getUrl()).isEqualTo("foo");
+			assertThat(redirectView.getStatusCode()).isEqualTo(HttpStatus.SEE_OTHER);
+		}).expectComplete().verify(Duration.ZERO);
 	}
 
 	@Test
@@ -124,17 +112,13 @@ public class UrlBasedViewResolverTests {
 		this.resolver.setRedirectViewProvider(url -> new RedirectView(url, HttpStatus.FOUND));
 		Mono<View> mono = this.resolver.resolveViewName("redirect:foo", Locale.US);
 
-		StepVerifier.create(mono)
-				.consumeNextWith(view -> {
-					assertThat(view.getClass()).isEqualTo(RedirectView.class);
-					RedirectView redirectView = (RedirectView) view;
-					assertThat(redirectView.getUrl()).isEqualTo("foo");
-					assertThat(redirectView.getStatusCode()).isEqualTo(HttpStatus.FOUND);
-				})
-				.expectComplete()
-				.verify(Duration.ZERO);
+		StepVerifier.create(mono).consumeNextWith(view -> {
+			assertThat(view.getClass()).isEqualTo(RedirectView.class);
+			RedirectView redirectView = (RedirectView) view;
+			assertThat(redirectView.getUrl()).isEqualTo("foo");
+			assertThat(redirectView.getStatusCode()).isEqualTo(HttpStatus.FOUND);
+		}).expectComplete().verify(Duration.ZERO);
 	}
-
 
 	private static class TestView extends AbstractUrlBasedView {
 
@@ -153,6 +137,7 @@ public class UrlBasedViewResolverTests {
 
 			return Mono.empty();
 		}
+
 	}
 
 }

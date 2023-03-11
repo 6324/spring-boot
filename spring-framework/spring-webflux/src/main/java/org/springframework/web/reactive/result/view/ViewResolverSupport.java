@@ -39,22 +39,18 @@ public abstract class ViewResolverSupport implements Ordered {
 	 */
 	public static final MediaType DEFAULT_CONTENT_TYPE = MediaType.parseMediaType("text/html;charset=UTF-8");
 
-
 	private List<MediaType> mediaTypes = new ArrayList<>(4);
 
 	private Charset defaultCharset = StandardCharsets.UTF_8;
 
 	private int order = Ordered.LOWEST_PRECEDENCE;
 
-
 	public ViewResolverSupport() {
 		this.mediaTypes.add(DEFAULT_CONTENT_TYPE);
 	}
 
-
 	/**
-	 * Set the supported media types for this view.
-	 * Default is "text/html;charset=UTF-8".
+	 * Set the supported media types for this view. Default is "text/html;charset=UTF-8".
 	 */
 	public void setSupportedMediaTypes(List<MediaType> supportedMediaTypes) {
 		Assert.notEmpty(supportedMediaTypes, "MediaType List must not be empty");
@@ -80,8 +76,8 @@ public abstract class ViewResolverSupport implements Ordered {
 	}
 
 	/**
-	 * Return the default charset, used when the
-	 * {@linkplain #setSupportedMediaTypes(List) content type} does not contain one.
+	 * Return the default charset, used when the {@linkplain #setSupportedMediaTypes(List)
+	 * content type} does not contain one.
 	 */
 	public Charset getDefaultCharset() {
 		return this.defaultCharset;
@@ -89,7 +85,8 @@ public abstract class ViewResolverSupport implements Ordered {
 
 	/**
 	 * Specify the order value for this ViewResolver bean.
-	 * <p>The default value is {@code Ordered.LOWEST_PRECEDENCE}, meaning non-ordered.
+	 * <p>
+	 * The default value is {@code Ordered.LOWEST_PRECEDENCE}, meaning non-ordered.
 	 * @see org.springframework.core.Ordered#getOrder()
 	 */
 	public void setOrder(int order) {

@@ -54,42 +54,44 @@ import static org.mockito.Mockito.verify;
  * @author Thomas Risberg
  * @author Juergen Hoeller
  */
-public class SqlQueryTests  {
+public class SqlQueryTests {
 
-	//FIXME inline?
-	private static final String SELECT_ID =
-			"select id from custmr";
-	private static final String SELECT_ID_WHERE =
-			"select id from custmr where forename = ? and id = ?";
-	private static final String SELECT_FORENAME =
-			"select forename from custmr";
-	private static final String SELECT_FORENAME_EMPTY =
-			"select forename from custmr WHERE 1 = 2";
-	private static final String SELECT_ID_FORENAME_WHERE =
-			"select id, forename from prefix:custmr where forename = ?";
-	private static final String SELECT_ID_FORENAME_NAMED_PARAMETERS =
-			"select id, forename from custmr where id = :id and country = :country";
-	private static final String SELECT_ID_FORENAME_NAMED_PARAMETERS_PARSED =
-			"select id, forename from custmr where id = ? and country = ?";
-	private static final String SELECT_ID_FORENAME_WHERE_ID_IN_LIST_1 =
-			"select id, forename from custmr where id in (?, ?)";
-	private static final String SELECT_ID_FORENAME_WHERE_ID_IN_LIST_2 =
-			"select id, forename from custmr where id in (:ids)";
-	private static final String SELECT_ID_FORENAME_WHERE_ID_REUSED_1 =
-			"select id, forename from custmr where id = ? or id = ?)";
-	private static final String SELECT_ID_FORENAME_WHERE_ID_REUSED_2 =
-			"select id, forename from custmr where id = :id1 or id = :id1)";
-	private static final String SELECT_ID_FORENAME_WHERE_ID =
-			"select id, forename from custmr where id <= ?";
+	// FIXME inline?
+	private static final String SELECT_ID = "select id from custmr";
 
-	private static final String[] COLUMN_NAMES = new String[] {"id", "forename"};
-	private static final int[] COLUMN_TYPES = new int[] {Types.INTEGER, Types.VARCHAR};
+	private static final String SELECT_ID_WHERE = "select id from custmr where forename = ? and id = ?";
+
+	private static final String SELECT_FORENAME = "select forename from custmr";
+
+	private static final String SELECT_FORENAME_EMPTY = "select forename from custmr WHERE 1 = 2";
+
+	private static final String SELECT_ID_FORENAME_WHERE = "select id, forename from prefix:custmr where forename = ?";
+
+	private static final String SELECT_ID_FORENAME_NAMED_PARAMETERS = "select id, forename from custmr where id = :id and country = :country";
+
+	private static final String SELECT_ID_FORENAME_NAMED_PARAMETERS_PARSED = "select id, forename from custmr where id = ? and country = ?";
+
+	private static final String SELECT_ID_FORENAME_WHERE_ID_IN_LIST_1 = "select id, forename from custmr where id in (?, ?)";
+
+	private static final String SELECT_ID_FORENAME_WHERE_ID_IN_LIST_2 = "select id, forename from custmr where id in (:ids)";
+
+	private static final String SELECT_ID_FORENAME_WHERE_ID_REUSED_1 = "select id, forename from custmr where id = ? or id = ?)";
+
+	private static final String SELECT_ID_FORENAME_WHERE_ID_REUSED_2 = "select id, forename from custmr where id = :id1 or id = :id1)";
+
+	private static final String SELECT_ID_FORENAME_WHERE_ID = "select id, forename from custmr where id <= ?";
+
+	private static final String[] COLUMN_NAMES = new String[] { "id", "forename" };
+
+	private static final int[] COLUMN_TYPES = new int[] { Types.INTEGER, Types.VARCHAR };
 
 	private Connection connection;
-	private DataSource dataSource;
-	private PreparedStatement preparedStatement;
-	private ResultSet resultSet;
 
+	private DataSource dataSource;
+
+	private PreparedStatement preparedStatement;
+
+	private ResultSet resultSet;
 
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -109,7 +111,7 @@ public class SqlQueryTests  {
 
 		SqlQuery<Integer> query = new MappingSqlQueryWithParameters<Integer>() {
 			@Override
-			protected Integer mapRow(ResultSet rs, int rownum, @Nullable Object[] params, @Nullable Map<? ,?> context)
+			protected Integer mapRow(ResultSet rs, int rownum, @Nullable Object[] params, @Nullable Map<?, ?> context)
 					throws SQLException {
 				assertThat(params == null).as("params were null").isTrue();
 				assertThat(context == null).as("context was null").isTrue();
@@ -141,8 +143,7 @@ public class SqlQueryTests  {
 		query.declareParameter(new SqlParameter(COLUMN_NAMES[1], COLUMN_TYPES[1]));
 		query.compile();
 
-		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(
-				query::execute);
+		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(query::execute);
 	}
 
 	@Test
@@ -159,8 +160,8 @@ public class SqlQueryTests  {
 		query.declareParameter(new SqlParameter(COLUMN_NAMES[1], COLUMN_TYPES[1]));
 		query.compile();
 
-		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(() ->
-				query.executeByNamedParam(Collections.singletonMap(COLUMN_NAMES[0], "value")));
+		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class)
+				.isThrownBy(() -> query.executeByNamedParam(Collections.singletonMap(COLUMN_NAMES[0], "value")));
 	}
 
 	@Test
@@ -216,6 +217,7 @@ public class SqlQueryTests  {
 			public Customer findCustomer(int id, int otherNum) {
 				return findObject(id, otherNum);
 			}
+
 		}
 
 		CustomerQuery query = new CustomerQuery(dataSource);
@@ -256,6 +258,7 @@ public class SqlQueryTests  {
 			public Customer findCustomer(String id) {
 				return findObject(id);
 			}
+
 		}
 
 		CustomerQuery query = new CustomerQuery(dataSource);
@@ -302,6 +305,7 @@ public class SqlQueryTests  {
 			public Customer findCustomer(int id, String name) {
 				return findObject(new Object[] { id, name });
 			}
+
 		}
 
 		CustomerQuery query = new CustomerQuery(dataSource);
@@ -349,11 +353,12 @@ public class SqlQueryTests  {
 			public Customer findCustomer(String id) {
 				return findObject(id);
 			}
+
 		}
 
 		CustomerQuery query = new CustomerQuery(dataSource);
-		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class).isThrownBy(() ->
-				query.findCustomer("rod"));
+		assertThatExceptionOfType(IncorrectResultSizeDataAccessException.class)
+				.isThrownBy(() -> query.findCustomer("rod"));
 		verify(preparedStatement).setString(1, "rod");
 		verify(connection).prepareStatement(SELECT_ID_FORENAME_WHERE);
 		verify(resultSet).close();
@@ -383,6 +388,7 @@ public class SqlQueryTests  {
 				cust.setForename(rs.getString(COLUMN_NAMES[1]));
 				return cust;
 			}
+
 		}
 
 		CustomerQuery query = new CustomerQuery(dataSource);
@@ -419,6 +425,7 @@ public class SqlQueryTests  {
 				cust.setForename(rs.getString(COLUMN_NAMES[1]));
 				return cust;
 			}
+
 		}
 
 		CustomerQuery query = new CustomerQuery(dataSource);
@@ -439,9 +446,8 @@ public class SqlQueryTests  {
 		given(resultSet.getInt("id")).willReturn(1);
 		given(resultSet.getString("forename")).willReturn("rod");
 
-		given(connection.prepareStatement(SELECT_ID_FORENAME_WHERE,
-				ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)
-			).willReturn(preparedStatement);
+		given(connection.prepareStatement(SELECT_ID_FORENAME_WHERE, ResultSet.TYPE_SCROLL_SENSITIVE,
+				ResultSet.CONCUR_READ_ONLY)).willReturn(preparedStatement);
 
 		class CustomerQuery extends MappingSqlQuery<Customer> {
 
@@ -463,6 +469,7 @@ public class SqlQueryTests  {
 			public Customer findCustomer(int id) {
 				return findObject(id);
 			}
+
 		}
 
 		CustomerQuery query = new CustomerQuery(dataSource);
@@ -476,8 +483,7 @@ public class SqlQueryTests  {
 	}
 
 	@Test
-	public void testUnnamedParameterDeclarationWithNamedParameterQuery()
-			throws SQLException {
+	public void testUnnamedParameterDeclarationWithNamedParameterQuery() throws SQLException {
 		class CustomerQuery extends MappingSqlQuery<Customer> {
 
 			public CustomerQuery(DataSource ds) {
@@ -500,34 +506,31 @@ public class SqlQueryTests  {
 				params.put("id", id);
 				return executeByNamedParam(params).get(0);
 			}
+
 		}
 
-		// Query should not succeed since parameter declaration did not specify parameter name
+		// Query should not succeed since parameter declaration did not specify parameter
+		// name
 		CustomerQuery query = new CustomerQuery(dataSource);
-		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(() ->
-				query.findCustomer(1));
+		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(() -> query.findCustomer(1));
 	}
 
 	@Test
-	public void testNamedParameterCustomerQueryWithUnnamedDeclarations()
-			throws SQLException {
+	public void testNamedParameterCustomerQueryWithUnnamedDeclarations() throws SQLException {
 		doTestNamedParameterCustomerQuery(false);
 	}
 
 	@Test
-	public void testNamedParameterCustomerQueryWithNamedDeclarations()
-			throws SQLException {
+	public void testNamedParameterCustomerQueryWithNamedDeclarations() throws SQLException {
 		doTestNamedParameterCustomerQuery(true);
 	}
 
-	private void doTestNamedParameterCustomerQuery(final boolean namedDeclarations)
-			throws SQLException {
+	private void doTestNamedParameterCustomerQuery(final boolean namedDeclarations) throws SQLException {
 		given(resultSet.next()).willReturn(true, false);
 		given(resultSet.getInt("id")).willReturn(1);
 		given(resultSet.getString("forename")).willReturn("rod");
-		given(connection.prepareStatement(SELECT_ID_FORENAME_NAMED_PARAMETERS_PARSED,
-				ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)
-			).willReturn(preparedStatement);
+		given(connection.prepareStatement(SELECT_ID_FORENAME_NAMED_PARAMETERS_PARSED, ResultSet.TYPE_SCROLL_SENSITIVE,
+				ResultSet.CONCUR_READ_ONLY)).willReturn(preparedStatement);
 
 		class CustomerQuery extends MappingSqlQuery<Customer> {
 
@@ -559,6 +562,7 @@ public class SqlQueryTests  {
 				params.put("country", country);
 				return executeByNamedParam(params).get(0);
 			}
+
 		}
 
 		CustomerQuery query = new CustomerQuery(dataSource);
@@ -578,9 +582,8 @@ public class SqlQueryTests  {
 		given(resultSet.getInt("id")).willReturn(1, 2);
 		given(resultSet.getString("forename")).willReturn("rod", "juergen");
 
-		given(connection.prepareStatement(SELECT_ID_FORENAME_WHERE_ID_IN_LIST_1,
-				ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)
-			).willReturn(preparedStatement);
+		given(connection.prepareStatement(SELECT_ID_FORENAME_WHERE_ID_IN_LIST_1, ResultSet.TYPE_SCROLL_SENSITIVE,
+				ResultSet.CONCUR_READ_ONLY)).willReturn(preparedStatement);
 
 		class CustomerQuery extends MappingSqlQuery<Customer> {
 
@@ -604,6 +607,7 @@ public class SqlQueryTests  {
 				params.put("ids", ids);
 				return executeByNamedParam(params);
 			}
+
 		}
 
 		CustomerQuery query = new CustomerQuery(dataSource);
@@ -616,7 +620,8 @@ public class SqlQueryTests  {
 		assertThat(1).as("First customer id was assigned correctly").isEqualTo(cust.get(0).getId());
 		assertThat("rod").as("First customer forename was assigned correctly").isEqualTo(cust.get(0).getForename());
 		assertThat(2).as("Second customer id was assigned correctly").isEqualTo(cust.get(1).getId());
-		assertThat("juergen").as("Second customer forename was assigned correctly").isEqualTo(cust.get(1).getForename());
+		assertThat("juergen").as("Second customer forename was assigned correctly")
+				.isEqualTo(cust.get(1).getForename());
 		verify(preparedStatement).setObject(1, 1, Types.NUMERIC);
 		verify(preparedStatement).setObject(2, 2, Types.NUMERIC);
 		verify(resultSet).close();
@@ -630,9 +635,8 @@ public class SqlQueryTests  {
 		given(resultSet.getInt("id")).willReturn(1, 2);
 		given(resultSet.getString("forename")).willReturn("rod", "juergen");
 
-		given(connection.prepareStatement(SELECT_ID_FORENAME_WHERE_ID_REUSED_1,
-				ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)).willReturn(preparedStatement)
-;
+		given(connection.prepareStatement(SELECT_ID_FORENAME_WHERE_ID_REUSED_1, ResultSet.TYPE_SCROLL_SENSITIVE,
+				ResultSet.CONCUR_READ_ONLY)).willReturn(preparedStatement);
 
 		class CustomerQuery extends MappingSqlQuery<Customer> {
 
@@ -656,6 +660,7 @@ public class SqlQueryTests  {
 				params.put("id1", id);
 				return executeByNamedParam(params);
 			}
+
 		}
 
 		CustomerQuery query = new CustomerQuery(dataSource);
@@ -665,7 +670,8 @@ public class SqlQueryTests  {
 		assertThat(1).as("First customer id was assigned correctly").isEqualTo(cust.get(0).getId());
 		assertThat("rod").as("First customer forename was assigned correctly").isEqualTo(cust.get(0).getForename());
 		assertThat(2).as("Second customer id was assigned correctly").isEqualTo(cust.get(1).getId());
-		assertThat("juergen").as("Second customer forename was assigned correctly").isEqualTo(cust.get(1).getForename());
+		assertThat("juergen").as("Second customer forename was assigned correctly")
+				.isEqualTo(cust.get(1).getForename());
 
 		verify(preparedStatement).setObject(1, 1, Types.NUMERIC);
 		verify(preparedStatement).setObject(2, 1, Types.NUMERIC);
@@ -675,11 +681,9 @@ public class SqlQueryTests  {
 	}
 
 	@Test
-	public void testNamedParameterUsingInvalidQuestionMarkPlaceHolders()
-			throws SQLException {
-		given(
-		connection.prepareStatement(SELECT_ID_FORENAME_WHERE_ID_REUSED_1,
-				ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)).willReturn(preparedStatement);
+	public void testNamedParameterUsingInvalidQuestionMarkPlaceHolders() throws SQLException {
+		given(connection.prepareStatement(SELECT_ID_FORENAME_WHERE_ID_REUSED_1, ResultSet.TYPE_SCROLL_SENSITIVE,
+				ResultSet.CONCUR_READ_ONLY)).willReturn(preparedStatement);
 
 		class CustomerQuery extends MappingSqlQuery<Customer> {
 
@@ -703,20 +707,19 @@ public class SqlQueryTests  {
 				params.put("id1", id1);
 				return executeByNamedParam(params);
 			}
+
 		}
 
 		CustomerQuery query = new CustomerQuery(dataSource);
-		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(() ->
-				query.findCustomers(1));
+		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(() -> query.findCustomers(1));
 	}
 
 	@Test
 	public void testUpdateCustomers() throws SQLException {
 		given(resultSet.next()).willReturn(true, true, false);
 		given(resultSet.getInt("id")).willReturn(1, 2);
-		given(connection.prepareStatement(SELECT_ID_FORENAME_WHERE_ID,
-				ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)
-			).willReturn(preparedStatement);
+		given(connection.prepareStatement(SELECT_ID_FORENAME_WHERE_ID, ResultSet.TYPE_FORWARD_ONLY,
+				ResultSet.CONCUR_UPDATABLE)).willReturn(preparedStatement);
 
 		class CustomerUpdateQuery extends UpdatableSqlQuery<Customer> {
 
@@ -727,11 +730,11 @@ public class SqlQueryTests  {
 			}
 
 			@Override
-			protected Customer updateRow(ResultSet rs, int rownum, @Nullable Map<? ,?> context)
-					throws SQLException {
+			protected Customer updateRow(ResultSet rs, int rownum, @Nullable Map<?, ?> context) throws SQLException {
 				rs.updateString(2, "" + context.get(rs.getInt(COLUMN_NAMES[0])));
 				return null;
 			}
+
 		}
 
 		CustomerUpdateQuery query = new CustomerUpdateQuery(dataSource);
@@ -763,6 +766,7 @@ public class SqlQueryTests  {
 		public String[] run() {
 			return StringUtils.toStringArray(execute());
 		}
+
 	}
 
 }

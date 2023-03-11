@@ -32,14 +32,13 @@ class Token {
 	@Nullable
 	String data;
 
-	int startPos;  // index of first character
+	int startPos; // index of first character
 
-	int endPos;  // index of char after the last character
-
+	int endPos; // index of char after the last character
 
 	/**
-	 * Constructor for use when there is no particular data for the token
-	 * (e.g. TRUE or '+')
+	 * Constructor for use when there is no particular data for the token (e.g. TRUE or
+	 * '+')
 	 * @param startPos the exact start
 	 * @param endPos the index to the last character
 	 */
@@ -54,7 +53,6 @@ class Token {
 		this.data = new String(tokenData);
 	}
 
-
 	public TokenKind getKind() {
 		return this.kind;
 	}
@@ -64,8 +62,8 @@ class Token {
 	}
 
 	public boolean isNumericRelationalOperator() {
-		return (this.kind == TokenKind.GT || this.kind == TokenKind.GE || this.kind == TokenKind.LT ||
-				this.kind == TokenKind.LE || this.kind==TokenKind.EQ || this.kind==TokenKind.NE);
+		return (this.kind == TokenKind.GT || this.kind == TokenKind.GE || this.kind == TokenKind.LT
+				|| this.kind == TokenKind.LE || this.kind == TokenKind.EQ || this.kind == TokenKind.NE);
 	}
 
 	public String stringValue() {
@@ -83,7 +81,6 @@ class Token {
 	public Token asBetweenToken() {
 		return new Token(TokenKind.BETWEEN, this.startPos, this.endPos);
 	}
-
 
 	@Override
 	public String toString() {

@@ -31,14 +31,12 @@ public class SharedPointcutWithArgsMismatchTests {
 
 	private ToBeAdvised toBeAdvised;
 
-
 	@BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml",
+				getClass());
 		toBeAdvised = (ToBeAdvised) ctx.getBean("toBeAdvised");
 	}
-
 
 	@Test
 	public void testMismatchedArgBinding() {
@@ -47,14 +45,13 @@ public class SharedPointcutWithArgsMismatchTests {
 
 }
 
-
 class ToBeAdvised {
 
 	public void foo(String s) {
 		System.out.println(s);
 	}
-}
 
+}
 
 class MyAspect {
 
@@ -65,4 +62,5 @@ class MyAspect {
 	public void doBefore(String x) {
 		System.out.println(x);
 	}
+
 }

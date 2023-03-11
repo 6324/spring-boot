@@ -32,7 +32,6 @@ public class IntervalTask extends Task {
 
 	private final long initialDelay;
 
-
 	/**
 	 * Create a new {@code IntervalTask}.
 	 * @param runnable the underlying task to execute
@@ -53,7 +52,6 @@ public class IntervalTask extends Task {
 	public IntervalTask(Runnable runnable, long interval) {
 		this(runnable, interval, 0);
 	}
-
 
 	/**
 	 * Return how often in milliseconds the task should be executed.

@@ -26,7 +26,8 @@ import org.springframework.core.convert.converter.ConditionalGenericConverter;
 import org.springframework.lang.Nullable;
 
 /**
- * Converts a Collection to an Object by returning the first collection element after converting it to the desired targetType.
+ * Converts a Collection to an Object by returning the first collection element after
+ * converting it to the desired targetType.
  *
  * @author Keith Donald
  * @since 3.0
@@ -46,7 +47,8 @@ final class CollectionToObjectConverter implements ConditionalGenericConverter {
 
 	@Override
 	public boolean matches(TypeDescriptor sourceType, TypeDescriptor targetType) {
-		return ConversionUtils.canConvertElements(sourceType.getElementTypeDescriptor(), targetType, this.conversionService);
+		return ConversionUtils.canConvertElements(sourceType.getElementTypeDescriptor(), targetType,
+				this.conversionService);
 	}
 
 	@Override

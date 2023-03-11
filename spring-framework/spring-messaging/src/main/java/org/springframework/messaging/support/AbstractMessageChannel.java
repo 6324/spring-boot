@@ -46,11 +46,9 @@ public abstract class AbstractMessageChannel implements MessageChannel, Intercep
 
 	private final List<ChannelInterceptor> interceptors = new ArrayList<>(5);
 
-
 	public AbstractMessageChannel() {
 		this.beanName = getClass().getSimpleName() + "@" + ObjectUtils.getIdentityHexString(this);
 	}
-
 
 	/**
 	 * Set an alternative logger to use than the one based on the class name.
@@ -83,7 +81,6 @@ public abstract class AbstractMessageChannel implements MessageChannel, Intercep
 	public String getBeanName() {
 		return this.beanName;
 	}
-
 
 	@Override
 	public void setInterceptors(List<ChannelInterceptor> interceptors) {
@@ -119,7 +116,6 @@ public abstract class AbstractMessageChannel implements MessageChannel, Intercep
 		return this.interceptors.remove(index);
 	}
 
-
 	@Override
 	public final boolean send(Message<?> message) {
 		return send(message, INDEFINITE_TIMEOUT);
@@ -146,11 +142,11 @@ public abstract class AbstractMessageChannel implements MessageChannel, Intercep
 			if (ex instanceof MessagingException) {
 				throw (MessagingException) ex;
 			}
-			throw new MessageDeliveryException(messageToUse,"Failed to send message to " + this, ex);
+			throw new MessageDeliveryException(messageToUse, "Failed to send message to " + this, ex);
 		}
 		catch (Throwable err) {
-			MessageDeliveryException ex2 =
-					new MessageDeliveryException(messageToUse, "Failed to send message to " + this, err);
+			MessageDeliveryException ex2 = new MessageDeliveryException(messageToUse,
+					"Failed to send message to " + this, err);
 			chain.triggerAfterSendCompletion(messageToUse, this, sent, ex2);
 			throw ex2;
 		}
@@ -158,12 +154,10 @@ public abstract class AbstractMessageChannel implements MessageChannel, Intercep
 
 	protected abstract boolean sendInternal(Message<?> message, long timeout);
 
-
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + "[" + this.beanName + "]";
 	}
-
 
 	/**
 	 * Assists with the invocation of the configured channel interceptors.
@@ -199,8 +193,8 @@ public abstract class AbstractMessageChannel implements MessageChannel, Intercep
 			}
 		}
 
-		public void triggerAfterSendCompletion(Message<?> message, MessageChannel channel,
-				boolean sent, @Nullable Exception ex) {
+		public void triggerAfterSendCompletion(Message<?> message, MessageChannel channel, boolean sent,
+				@Nullable Exception ex) {
 
 			for (int i = this.sendInterceptorIndex; i >= 0; i--) {
 				ChannelInterceptor interceptor = interceptors.get(i);
@@ -236,8 +230,8 @@ public abstract class AbstractMessageChannel implements MessageChannel, Intercep
 			return messageToUse;
 		}
 
-		public void triggerAfterReceiveCompletion(
-				@Nullable Message<?> message, MessageChannel channel, @Nullable Exception ex) {
+		public void triggerAfterReceiveCompletion(@Nullable Message<?> message, MessageChannel channel,
+				@Nullable Exception ex) {
 
 			for (int i = this.receiveInterceptorIndex; i >= 0; i--) {
 				ChannelInterceptor interceptor = interceptors.get(i);
@@ -251,6 +245,7 @@ public abstract class AbstractMessageChannel implements MessageChannel, Intercep
 				}
 			}
 		}
+
 	}
 
 }

@@ -40,30 +40,26 @@ class ProfilesTests {
 
 	@Test
 	void ofWhenNullThrowsException() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				Profiles.of((String[]) null))
-			.withMessageContaining("Must specify at least one profile");
+		assertThatIllegalArgumentException().isThrownBy(() -> Profiles.of((String[]) null))
+				.withMessageContaining("Must specify at least one profile");
 	}
 
 	@Test
 	void ofWhenEmptyThrowsException() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				Profiles.of())
-			.withMessageContaining("Must specify at least one profile");
+		assertThatIllegalArgumentException().isThrownBy(() -> Profiles.of())
+				.withMessageContaining("Must specify at least one profile");
 	}
 
 	@Test
 	void ofNullElement() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				Profiles.of((String) null))
-			.withMessageContaining("must contain text");
+		assertThatIllegalArgumentException().isThrownBy(() -> Profiles.of((String) null))
+				.withMessageContaining("must contain text");
 	}
 
 	@Test
 	void ofEmptyElement() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				Profiles.of("  "))
-			.withMessageContaining("must contain text");
+		assertThatIllegalArgumentException().isThrownBy(() -> Profiles.of("  "))
+				.withMessageContaining("must contain text");
 	}
 
 	@Test
@@ -289,10 +285,13 @@ class ProfilesTests {
 	@Test
 	void sensibleToString() {
 		assertThat(Profiles.of("spring")).hasToString("spring");
-		assertThat(Profiles.of("(spring & framework) | (spring & java)")).hasToString("(spring & framework) | (spring & java)");
+		assertThat(Profiles.of("(spring & framework) | (spring & java)"))
+				.hasToString("(spring & framework) | (spring & java)");
 		assertThat(Profiles.of("(spring&framework)|(spring&java)")).hasToString("(spring&framework)|(spring&java)");
-		assertThat(Profiles.of("spring & framework", "java | kotlin")).hasToString("spring & framework or java | kotlin");
-		assertThat(Profiles.of("java | kotlin", "spring & framework")).hasToString("java | kotlin or spring & framework");
+		assertThat(Profiles.of("spring & framework", "java | kotlin"))
+				.hasToString("spring & framework or java | kotlin");
+		assertThat(Profiles.of("java | kotlin", "spring & framework"))
+				.hasToString("java | kotlin or spring & framework");
 	}
 
 	@Test
@@ -352,11 +351,8 @@ class ProfilesTests {
 		assertThat(profiles1.hashCode()).isNotEqualTo(profiles2.hashCode());
 	}
 
-
 	private static void assertMalformed(Supplier<Profiles> supplier) {
-		assertThatIllegalArgumentException().isThrownBy(
-				supplier::get)
-			.withMessageContaining("Malformed");
+		assertThatIllegalArgumentException().isThrownBy(supplier::get).withMessageContaining("Malformed");
 	}
 
 	private static Predicate<String> activeProfiles(String... profiles) {

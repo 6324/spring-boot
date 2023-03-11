@@ -42,22 +42,13 @@ public class ToStringVisitorTests {
 	public void nested() {
 		HandlerFunction<ServerResponse> handler = new SimpleHandlerFunction();
 		RouterFunction<ServerResponse> routerFunction = route()
-				.path("/foo", builder ->
-					builder.path("/bar", () -> route()
-							.GET("/baz", handler)
-							.build())
-				)
-				.build();
+				.path("/foo", builder -> builder.path("/bar", () -> route().GET("/baz", handler).build())).build();
 
 		ToStringVisitor visitor = new ToStringVisitor();
 		routerFunction.accept(visitor);
 		String result = visitor.toString();
 
-		String expected = "/foo => {\n" +
-				" /bar => {\n" +
-				"  (GET && /baz) -> \n" +
-				" }\n" +
-				"}";
+		String expected = "/foo => {\n" + " /bar => {\n" + "  (GET && /baz) -> \n" + " }\n" + "}";
 		assertThat(result).isEqualTo(expected);
 	}
 
@@ -71,7 +62,8 @@ public class ToStringVisitorTests {
 		testPredicate(pathExtension("foo"), "*.foo");
 
 		testPredicate(contentType(MediaType.APPLICATION_JSON), "Content-Type: application/json");
-		testPredicate(contentType(MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN), "Content-Type: [application/json, text/plain]");
+		testPredicate(contentType(MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN),
+				"Content-Type: [application/json, text/plain]");
 
 		testPredicate(accept(MediaType.APPLICATION_JSON), "Accept: application/json");
 
@@ -83,9 +75,8 @@ public class ToStringVisitorTests {
 
 		testPredicate(method(HttpMethod.GET).negate(), "!(GET)");
 
-		testPredicate(GET("/foo")
-				.or(contentType(MediaType.TEXT_PLAIN))
-				.and(accept(MediaType.APPLICATION_JSON).negate()),
+		testPredicate(
+				GET("/foo").or(contentType(MediaType.TEXT_PLAIN)).and(accept(MediaType.APPLICATION_JSON).negate()),
 				"(((GET && /foo) || Content-Type: text/plain) && !(Accept: application/json))");
 	}
 
@@ -96,7 +87,6 @@ public class ToStringVisitorTests {
 
 		assertThat(result).isEqualTo(expected);
 	}
-
 
 	private static class SimpleHandlerFunction implements HandlerFunction<ServerResponse> {
 
@@ -109,6 +99,7 @@ public class ToStringVisitorTests {
 		public String toString() {
 			return "";
 		}
+
 	}
 
 }

@@ -31,8 +31,7 @@ class InvalidHttpMethodIntegrationTests extends AbstractRouterFunctionIntegratio
 
 	@Override
 	protected RouterFunction<?> routerFunction() {
-		return RouterFunctions.route(RequestPredicates.GET("/"),
-				request -> ServerResponse.ok().bodyValue("FOO"))
+		return RouterFunctions.route(RequestPredicates.GET("/"), request -> ServerResponse.ok().bodyValue("FOO"))
 				.andRoute(RequestPredicates.all(), request -> ServerResponse.ok().bodyValue("BAR"));
 	}
 
@@ -42,10 +41,7 @@ class InvalidHttpMethodIntegrationTests extends AbstractRouterFunctionIntegratio
 
 		OkHttpClient client = new OkHttpClient();
 
-		Request request = new Request.Builder()
-				.method("BAZ", null)
-				.url("http://localhost:" + port + "/")
-				.build();
+		Request request = new Request.Builder().method("BAZ", null).url("http://localhost:" + port + "/").build();
 
 		try (Response response = client.newCall(request).execute()) {
 			assertThat(response.body().string()).isEqualTo("BAR");

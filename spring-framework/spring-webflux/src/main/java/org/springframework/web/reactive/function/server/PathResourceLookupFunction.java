@@ -45,14 +45,12 @@ class PathResourceLookupFunction implements Function<ServerRequest, Mono<Resourc
 
 	private final Resource location;
 
-
 	public PathResourceLookupFunction(String pattern, Resource location) {
 		Assert.hasLength(pattern, "'pattern' must not be empty");
 		Assert.notNull(location, "'location' must not be null");
 		this.pattern = PathPatternParser.defaultInstance.parse(pattern);
 		this.location = location;
 	}
-
 
 	@Override
 	public Mono<Resource> apply(ServerRequest request) {
@@ -150,7 +148,6 @@ class PathResourceLookupFunction implements Function<ServerRequest, Mono<Resourc
 		}
 		return true;
 	}
-
 
 	@Override
 	public String toString() {

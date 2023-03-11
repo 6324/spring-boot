@@ -51,11 +51,9 @@ public class JettyWebSocketHandlerAdapter {
 
 	private static final Log logger = LogFactory.getLog(JettyWebSocketHandlerAdapter.class);
 
-
 	private final WebSocketHandler webSocketHandler;
 
 	private final JettyWebSocketSession wsSession;
-
 
 	public JettyWebSocketHandlerAdapter(WebSocketHandler webSocketHandler, JettyWebSocketSession wsSession) {
 		Assert.notNull(webSocketHandler, "WebSocketHandler must not be null");
@@ -63,7 +61,6 @@ public class JettyWebSocketHandlerAdapter {
 		this.webSocketHandler = webSocketHandler;
 		this.wsSession = wsSession;
 	}
-
 
 	@OnWebSocketConnect
 	public void onWebSocketConnect(Session session) {

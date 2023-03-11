@@ -29,8 +29,8 @@ import org.springframework.lang.Nullable;
 
 /**
  * Convert an Object to {@code java.util.Optional<T>} if necessary using the
- * {@code ConversionService} to convert the source Object to the generic type
- * of Optional when known.
+ * {@code ConversionService} to convert the source Object to the generic type of Optional
+ * when known.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -40,11 +40,9 @@ final class ObjectToOptionalConverter implements ConditionalGenericConverter {
 
 	private final ConversionService conversionService;
 
-
 	public ObjectToOptionalConverter(ConversionService conversionService) {
 		this.conversionService = conversionService;
 	}
-
 
 	@Override
 	public Set<ConvertiblePair> getConvertibleTypes() {
@@ -75,8 +73,8 @@ final class ObjectToOptionalConverter implements ConditionalGenericConverter {
 		}
 		else if (targetType.getResolvableType().hasGenerics()) {
 			Object target = this.conversionService.convert(source, sourceType, new GenericTypeDescriptor(targetType));
-			if (target == null || (target.getClass().isArray() && Array.getLength(target) == 0) ||
-						(target instanceof Collection && ((Collection<?>) target).isEmpty())) {
+			if (target == null || (target.getClass().isArray() && Array.getLength(target) == 0)
+					|| (target instanceof Collection && ((Collection<?>) target).isEmpty())) {
 				return Optional.empty();
 			}
 			return Optional.of(target);
@@ -86,13 +84,13 @@ final class ObjectToOptionalConverter implements ConditionalGenericConverter {
 		}
 	}
 
-
 	@SuppressWarnings("serial")
 	private static class GenericTypeDescriptor extends TypeDescriptor {
 
 		public GenericTypeDescriptor(TypeDescriptor typeDescriptor) {
 			super(typeDescriptor.getResolvableType().getGeneric(), null, typeDescriptor.getAnnotations());
 		}
+
 	}
 
 }

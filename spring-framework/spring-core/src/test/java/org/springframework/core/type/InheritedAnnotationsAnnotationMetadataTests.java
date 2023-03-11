@@ -48,7 +48,6 @@ class InheritedAnnotationsAnnotationMetadataTests {
 
 	private final AnnotationMetadata asmMetadata;
 
-
 	InheritedAnnotationsAnnotationMetadataTests() throws Exception {
 		MetadataReaderFactory metadataReaderFactory = new SimpleMetadataReaderFactory();
 		MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(AnnotatedSubclass.class.getName());
@@ -57,12 +56,10 @@ class InheritedAnnotationsAnnotationMetadataTests {
 
 	@Test
 	void getAnnotationTypes() {
-		assertThat(standardMetadata.getAnnotationTypes()).containsExactlyInAnyOrder(
-			NamedAnnotation3.class.getName(),
-			InheritedComposedAnnotation.class.getName());
+		assertThat(standardMetadata.getAnnotationTypes()).containsExactlyInAnyOrder(NamedAnnotation3.class.getName(),
+				InheritedComposedAnnotation.class.getName());
 
-		assertThat(asmMetadata.getAnnotationTypes()).containsExactly(
-			NamedAnnotation3.class.getName());
+		assertThat(asmMetadata.getAnnotationTypes()).containsExactly(NamedAnnotation3.class.getName());
 	}
 
 	@Test
@@ -81,11 +78,8 @@ class InheritedAnnotationsAnnotationMetadataTests {
 		Set<String> metaAnnotationTypes;
 
 		metaAnnotationTypes = standardMetadata.getMetaAnnotationTypes(InheritedComposedAnnotation.class.getName());
-		assertThat(metaAnnotationTypes).containsExactlyInAnyOrder(
-			MetaAnnotation.class.getName(),
-			NamedAnnotation1.class.getName(),
-			NamedAnnotation2.class.getName(),
-			NamedAnnotation3.class.getName());
+		assertThat(metaAnnotationTypes).containsExactlyInAnyOrder(MetaAnnotation.class.getName(),
+				NamedAnnotation1.class.getName(), NamedAnnotation2.class.getName(), NamedAnnotation3.class.getName());
 
 		metaAnnotationTypes = asmMetadata.getMetaAnnotationTypes(InheritedComposedAnnotation.class.getName());
 		assertThat(metaAnnotationTypes).isEmpty();
@@ -144,10 +138,10 @@ class InheritedAnnotationsAnnotationMetadataTests {
 		assertThat(annotationAttributes).isNull();
 	}
 
-
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.ANNOTATION_TYPE)
 	@interface MetaAnnotation {
+
 	}
 
 	@MetaAnnotation
@@ -155,18 +149,21 @@ class InheritedAnnotationsAnnotationMetadataTests {
 	@interface NamedAnnotation1 {
 
 		String name() default "";
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface NamedAnnotation2 {
 
 		String name() default "";
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface NamedAnnotation3 {
 
 		String name() default "";
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
@@ -175,14 +172,17 @@ class InheritedAnnotationsAnnotationMetadataTests {
 	@NamedAnnotation3(name = "name 3")
 	@Inherited
 	@interface InheritedComposedAnnotation {
+
 	}
 
 	@InheritedComposedAnnotation
 	private static class AnnotatedClass {
+
 	}
 
 	@NamedAnnotation3(name = "local")
 	private static class AnnotatedSubclass extends AnnotatedClass {
+
 	}
 
 }

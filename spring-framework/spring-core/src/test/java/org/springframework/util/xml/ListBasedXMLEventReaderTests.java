@@ -49,7 +49,6 @@ class ListBasedXMLEventReaderTests {
 
 	private final XMLOutputFactory outputFactory = XMLOutputFactory.newFactory();
 
-
 	@Test
 	void standard() throws Exception {
 		String xml = "<foo><bar>baz</bar></foo>";
@@ -88,9 +87,8 @@ class ListBasedXMLEventReaderTests {
 
 		assertThat(reader.nextEvent().getEventType()).isEqualTo(START_DOCUMENT);
 
-		assertThatExceptionOfType(XMLStreamException.class).isThrownBy(
-				reader::getElementText)
-			.withMessageStartingWith("Not at START_ELEMENT");
+		assertThatExceptionOfType(XMLStreamException.class).isThrownBy(reader::getElementText)
+				.withMessageStartingWith("Not at START_ELEMENT");
 	}
 
 	private List<XMLEvent> readEvents(String xml) throws XMLStreamException {

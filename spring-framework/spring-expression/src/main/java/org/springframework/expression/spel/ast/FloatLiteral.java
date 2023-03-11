@@ -31,13 +31,11 @@ public class FloatLiteral extends Literal {
 
 	private final TypedValue value;
 
-
 	public FloatLiteral(String payload, int startPos, int endPos, float value) {
 		super(payload, startPos, endPos);
 		this.value = new TypedValue(value);
 		this.exitTypeDescriptor = "F";
 	}
-
 
 	@Override
 	public TypedValue getLiteralValue() {

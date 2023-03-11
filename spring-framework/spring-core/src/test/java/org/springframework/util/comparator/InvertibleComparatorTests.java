@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-
 /**
  * Tests for {@link InvertibleComparator}.
  *
@@ -36,17 +35,14 @@ class InvertibleComparatorTests {
 
 	private final Comparator<Integer> comparator = new ComparableComparator<>();
 
-
 	@Test
 	void shouldNeedComparator() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new InvertibleComparator<>(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new InvertibleComparator<>(null));
 	}
 
 	@Test
 	void shouldNeedComparatorWithAscending() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new InvertibleComparator<>(null, true));
+		assertThatIllegalArgumentException().isThrownBy(() -> new InvertibleComparator<>(null, true));
 	}
 
 	@Test

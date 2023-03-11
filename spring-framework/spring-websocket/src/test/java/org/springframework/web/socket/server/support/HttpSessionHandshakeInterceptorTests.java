@@ -38,8 +38,8 @@ import static org.mockito.Mockito.mock;
 public class HttpSessionHandshakeInterceptorTests extends AbstractHttpRequestTests {
 
 	private final Map<String, Object> attributes = new HashMap<>();
-	private final WebSocketHandler wsHandler = mock(WebSocketHandler.class);
 
+	private final WebSocketHandler wsHandler = mock(WebSocketHandler.class);
 
 	@Test
 	public void defaultConstructor() throws Exception {
@@ -83,7 +83,6 @@ public class HttpSessionHandshakeInterceptorTests extends AbstractHttpRequestTes
 		assertThat(attributes.size()).isEqualTo(1);
 		assertThat(attributes.get("foo")).isEqualTo("bar");
 	}
-
 
 	@Test
 	public void doNotCopyAttributes() throws Exception {

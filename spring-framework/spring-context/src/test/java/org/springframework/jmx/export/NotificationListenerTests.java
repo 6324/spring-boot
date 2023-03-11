@@ -46,7 +46,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
  */
 public class NotificationListenerTests extends AbstractMBeanServerTests {
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void testRegisterNotificationListenerForMBean() throws Exception {
 		ObjectName objectName = ObjectName.getInstance("spring:name=Test");
@@ -122,11 +122,12 @@ public class NotificationListenerTests extends AbstractMBeanServerTests {
 
 		// update the attribute
 		String attributeName = "Name";
-		server.setAttribute(ObjectNameManager.getInstance("spring:name=Test"), new Attribute(attributeName,
-				"Rob Harrop"));
+		server.setAttribute(ObjectNameManager.getInstance("spring:name=Test"),
+				new Attribute(attributeName, "Rob Harrop"));
 
 		assertThat(listener.getCount(attributeName)).as("Listener not notified").isEqualTo(1);
-		assertThat(listener.getLastHandback(attributeName)).as("Handback object not transmitted correctly").isEqualTo(handback);
+		assertThat(listener.getLastHandback(attributeName)).as("Handback object not transmitted correctly")
+				.isEqualTo(handback);
 	}
 
 	@Test
@@ -200,8 +201,8 @@ public class NotificationListenerTests extends AbstractMBeanServerTests {
 
 	@Test
 	public void testCreationWithNoNotificationListenerSet() {
-		assertThatIllegalArgumentException().as("no NotificationListener supplied").isThrownBy(
-				new NotificationListenerBean()::afterPropertiesSet);
+		assertThatIllegalArgumentException().as("no NotificationListener supplied")
+				.isThrownBy(new NotificationListenerBean()::afterPropertiesSet);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -268,7 +269,8 @@ public class NotificationListenerTests extends AbstractMBeanServerTests {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
-	public void testRegisterNotificationListenerWithBeanNameBeforeObjectNameMappedToSameBeanInstance() throws Exception {
+	public void testRegisterNotificationListenerWithBeanNameBeforeObjectNameMappedToSameBeanInstance()
+			throws Exception {
 		String beanName = "testBean";
 		ObjectName objectName = ObjectName.getInstance("spring:name=Test");
 
@@ -300,7 +302,8 @@ public class NotificationListenerTests extends AbstractMBeanServerTests {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
-	public void testRegisterNotificationListenerWithObjectNameBeforeBeanNameMappedToSameBeanInstance() throws Exception {
+	public void testRegisterNotificationListenerWithObjectNameBeforeBeanNameMappedToSameBeanInstance()
+			throws Exception {
 		String beanName = "testBean";
 		ObjectName objectName = ObjectName.getInstance("spring:name=Test");
 
@@ -428,7 +431,7 @@ public class NotificationListenerTests extends AbstractMBeanServerTests {
 		NotificationListenerRegistrar registrar = new NotificationListenerRegistrar();
 		registrar.setServer(server);
 		registrar.setNotificationListener(listener);
-		//registrar.setMappedObjectNames(new Object[] {objectName, objectName2});
+		// registrar.setMappedObjectNames(new Object[] {objectName, objectName2});
 		registrar.setMappedObjectNames("spring:name=Test", "spring:name=Test2");
 		registrar.afterPropertiesSet();
 
@@ -444,8 +447,7 @@ public class NotificationListenerTests extends AbstractMBeanServerTests {
 		assertThat(listener.getCount(attributeName)).as("Listener notified after destruction").isEqualTo(1);
 	}
 
-
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static class CountingAttributeChangeNotificationListener implements NotificationListener {
 
 		private Map attributeCounts = new HashMap();
@@ -480,8 +482,8 @@ public class NotificationListenerTests extends AbstractMBeanServerTests {
 		public Object getLastHandback(String attributeName) {
 			return this.attributeHandbacks.get(attributeName);
 		}
-	}
 
+	}
 
 	public static class SelfNamingTestBean implements SelfNaming {
 
@@ -505,6 +507,7 @@ public class NotificationListenerTests extends AbstractMBeanServerTests {
 		public int getAge() {
 			return this.age;
 		}
+
 	}
 
 }

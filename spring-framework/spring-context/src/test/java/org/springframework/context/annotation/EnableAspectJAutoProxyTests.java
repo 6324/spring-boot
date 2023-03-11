@@ -83,8 +83,8 @@ public class EnableAspectJAutoProxyTests {
 
 	@Test
 	public void withAnnotationOnArgumentAndJdkProxy() {
-		ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(
-				ConfigWithJdkProxy.class, SampleService.class, LoggingAspect.class);
+		ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(ConfigWithJdkProxy.class,
+				SampleService.class, LoggingAspect.class);
 
 		SampleService sampleService = ctx.getBean(SampleService.class);
 		sampleService.execute(new SampleDto());
@@ -95,8 +95,8 @@ public class EnableAspectJAutoProxyTests {
 
 	@Test
 	public void withAnnotationOnArgumentAndCglibProxy() {
-		ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(
-				ConfigWithCglibProxy.class, SampleService.class, LoggingAspect.class);
+		ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(ConfigWithCglibProxy.class,
+				SampleService.class, LoggingAspect.class);
 
 		SampleService sampleService = ctx.getBean(SampleService.class);
 		sampleService.execute(new SampleDto());
@@ -105,18 +105,17 @@ public class EnableAspectJAutoProxyTests {
 		sampleService.execute((SampleInputBean) null);
 	}
 
-
 	@ComponentScan("example.scannable")
 	@EnableAspectJAutoProxy
 	static class ConfigWithJdkProxy {
-	}
 
+	}
 
 	@ComponentScan("example.scannable")
 	@EnableAspectJAutoProxy(proxyTargetClass = true)
 	static class ConfigWithCglibProxy {
-	}
 
+	}
 
 	@ComponentScan("example.scannable")
 	@EnableAspectJAutoProxy(exposeProxy = true)
@@ -130,28 +129,29 @@ public class EnableAspectJAutoProxyTests {
 					assertThat(AopContext.currentProxy()).isNotNull();
 					return super.foo(id);
 				}
+
 				@Override
 				protected FooDao fooDao() {
 					return context.getBean(FooDao.class);
 				}
 			};
 		}
-	}
 
+	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface Loggable {
-	}
 
+	}
 
 	@Loggable
 	public static class SampleDto {
-	}
 
+	}
 
 	public static class SampleInputBean {
-	}
 
+	}
 
 	public static class SampleService {
 
@@ -162,8 +162,8 @@ public class EnableAspectJAutoProxyTests {
 		// Matched method on {@link LoggingAspect}
 		public void execute(SampleDto dto) {
 		}
-	}
 
+	}
 
 	@Aspect
 	public static class LoggingAspect {
@@ -171,6 +171,7 @@ public class EnableAspectJAutoProxyTests {
 		@Before("@args(org.springframework.context.annotation.EnableAspectJAutoProxyTests.Loggable))")
 		public void loggingBeginByAtArgs() {
 		}
+
 	}
 
 }

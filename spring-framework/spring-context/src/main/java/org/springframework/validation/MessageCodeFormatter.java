@@ -29,8 +29,8 @@ import org.springframework.lang.Nullable;
 public interface MessageCodeFormatter {
 
 	/**
-	 * Build and return a message code consisting of the given fields,
-	 * usually delimited by {@link DefaultMessageCodesResolver#CODE_SEPARATOR}.
+	 * Build and return a message code consisting of the given fields, usually delimited
+	 * by {@link DefaultMessageCodesResolver#CODE_SEPARATOR}.
 	 * @param errorCode e.g.: "typeMismatch"
 	 * @param objectName e.g.: "user"
 	 * @param field e.g. "age"

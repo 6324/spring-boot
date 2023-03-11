@@ -45,12 +45,10 @@ public class HandshakeInterceptorChain {
 
 	private int interceptorIndex = -1;
 
-
 	public HandshakeInterceptorChain(@Nullable List<HandshakeInterceptor> interceptors, WebSocketHandler wsHandler) {
 		this.interceptors = (interceptors != null ? interceptors : Collections.emptyList());
 		this.wsHandler = wsHandler;
 	}
-
 
 	public boolean applyBeforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
 			Map<String, Object> attributes) throws Exception {
@@ -69,8 +67,8 @@ public class HandshakeInterceptorChain {
 		return true;
 	}
 
-	public void applyAfterHandshake(
-			ServerHttpRequest request, ServerHttpResponse response, @Nullable Exception failure) {
+	public void applyAfterHandshake(ServerHttpRequest request, ServerHttpResponse response,
+			@Nullable Exception failure) {
 
 		for (int i = this.interceptorIndex; i >= 0; i--) {
 			HandshakeInterceptor interceptor = this.interceptors.get(i);

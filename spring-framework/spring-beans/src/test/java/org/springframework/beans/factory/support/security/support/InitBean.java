@@ -26,4 +26,5 @@ public class InitBean implements InitializingBean {
 	public void afterPropertiesSet() throws Exception {
 		System.getProperties();
 	}
+
 }

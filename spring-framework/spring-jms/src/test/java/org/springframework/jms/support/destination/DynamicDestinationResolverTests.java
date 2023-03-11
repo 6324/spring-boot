@@ -40,7 +40,6 @@ public class DynamicDestinationResolverTests {
 
 	private static final String DESTINATION_NAME = "foo";
 
-
 	@Test
 	public void resolveWithPubSubTopicSession() throws Exception {
 		Topic expectedDestination = new StubTopic();
@@ -73,7 +72,8 @@ public class DynamicDestinationResolverTests {
 		testResolveDestination(session, expectedDestination, false);
 	}
 
-	private static void testResolveDestination(Session session, Destination expectedDestination, boolean isPubSub) throws JMSException {
+	private static void testResolveDestination(Session session, Destination expectedDestination, boolean isPubSub)
+			throws JMSException {
 		DynamicDestinationResolver resolver = new DynamicDestinationResolver();
 		Destination destination = resolver.resolveDestinationName(session, DESTINATION_NAME, isPubSub);
 		assertThat(destination).isNotNull();

@@ -50,8 +50,8 @@ import org.springframework.web.socket.server.HandshakeFailureException;
 import org.springframework.web.socket.server.RequestUpgradeStrategy;
 
 /**
- * A base class for {@link RequestUpgradeStrategy} implementations that build
- * on the standard WebSocket API for Java (JSR-356).
+ * A base class for {@link RequestUpgradeStrategy} implementations that build on the
+ * standard WebSocket API for Java (JSR-356).
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -63,13 +63,12 @@ public abstract class AbstractStandardUpgradeStrategy implements RequestUpgradeS
 	@Nullable
 	private volatile List<WebSocketExtension> extensions;
 
-
 	protected ServerContainer getContainer(HttpServletRequest request) {
 		ServletContext servletContext = request.getServletContext();
 		String attrName = "javax.websocket.server.ServerContainer";
 		ServerContainer container = (ServerContainer) servletContext.getAttribute(attrName);
-		Assert.notNull(container, "No 'javax.websocket.server.ServerContainer' ServletContext attribute. " +
-				"Are you running in a Servlet container that supports JSR-356?");
+		Assert.notNull(container, "No 'javax.websocket.server.ServerContainer' ServletContext attribute. "
+				+ "Are you running in a Servlet container that supports JSR-356?");
 		return container;
 	}
 
@@ -82,7 +81,6 @@ public abstract class AbstractStandardUpgradeStrategy implements RequestUpgradeS
 		Assert.isInstanceOf(ServletServerHttpResponse.class, response, "ServletServerHttpResponse required");
 		return ((ServletServerHttpResponse) response).getServletResponse();
 	}
-
 
 	@Override
 	public List<WebSocketExtension> getSupportedExtensions(ServerHttpRequest request) {
@@ -103,12 +101,10 @@ public abstract class AbstractStandardUpgradeStrategy implements RequestUpgradeS
 		return result;
 	}
 
-
 	@Override
-	public void upgrade(ServerHttpRequest request, ServerHttpResponse response,
-			@Nullable String selectedProtocol, List<WebSocketExtension> selectedExtensions,
-			@Nullable Principal user, WebSocketHandler wsHandler, Map<String, Object> attrs)
-			throws HandshakeFailureException {
+	public void upgrade(ServerHttpRequest request, ServerHttpResponse response, @Nullable String selectedProtocol,
+			List<WebSocketExtension> selectedExtensions, @Nullable Principal user, WebSocketHandler wsHandler,
+			Map<String, Object> attrs) throws HandshakeFailureException {
 
 		HttpHeaders headers = request.getHeaders();
 		InetSocketAddress localAddr = null;

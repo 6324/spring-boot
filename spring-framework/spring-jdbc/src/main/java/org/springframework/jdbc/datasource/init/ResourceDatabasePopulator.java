@@ -30,15 +30,15 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * Populates, initializes, or cleans up a database using SQL scripts defined in
- * external resources.
+ * Populates, initializes, or cleans up a database using SQL scripts defined in external
+ * resources.
  *
  * <ul>
  * <li>Call {@link #addScript} to add a single SQL script location.
  * <li>Call {@link #addScripts} to add multiple SQL script locations.
  * <li>Consult the setter methods in this class for further configuration options.
- * <li>Call {@link #populate} or {@link #execute} to initialize or clean up the
- * database using the configured scripts.
+ * <li>Call {@link #populate} or {@link #execute} to initialize or clean up the database
+ * using the configured scripts.
  * </ul>
  *
  * @author Keith Donald
@@ -72,7 +72,6 @@ public class ResourceDatabasePopulator implements DatabasePopulator {
 
 	private boolean ignoreFailedDrops = false;
 
-
 	/**
 	 * Construct a new {@code ResourceDatabasePopulator} with default settings.
 	 * @since 4.0.3
@@ -81,10 +80,10 @@ public class ResourceDatabasePopulator implements DatabasePopulator {
 	}
 
 	/**
-	 * Construct a new {@code ResourceDatabasePopulator} with default settings
-	 * for the supplied scripts.
-	 * @param scripts the scripts to execute to initialize or clean up the database
-	 * (never {@code null})
+	 * Construct a new {@code ResourceDatabasePopulator} with default settings for the
+	 * supplied scripts.
+	 * @param scripts the scripts to execute to initialize or clean up the database (never
+	 * {@code null})
 	 * @since 4.0.3
 	 */
 	public ResourceDatabasePopulator(Resource... scripts) {
@@ -93,14 +92,14 @@ public class ResourceDatabasePopulator implements DatabasePopulator {
 
 	/**
 	 * Construct a new {@code ResourceDatabasePopulator} with the supplied values.
-	 * @param continueOnError flag to indicate that all failures in SQL should be
-	 * logged but not cause a failure
-	 * @param ignoreFailedDrops flag to indicate that a failed SQL {@code DROP}
-	 * statement can be ignored
-	 * @param sqlScriptEncoding the encoding for the supplied SQL scripts
-	 * (may be {@code null} or <em>empty</em> to indicate platform encoding)
-	 * @param scripts the scripts to execute to initialize or clean up the database
-	 * (never {@code null})
+	 * @param continueOnError flag to indicate that all failures in SQL should be logged
+	 * but not cause a failure
+	 * @param ignoreFailedDrops flag to indicate that a failed SQL {@code DROP} statement
+	 * can be ignored
+	 * @param sqlScriptEncoding the encoding for the supplied SQL scripts (may be
+	 * {@code null} or <em>empty</em> to indicate platform encoding)
+	 * @param scripts the scripts to execute to initialize or clean up the database (never
+	 * {@code null})
 	 * @since 4.0.3
 	 */
 	public ResourceDatabasePopulator(boolean continueOnError, boolean ignoreFailedDrops,
@@ -111,7 +110,6 @@ public class ResourceDatabasePopulator implements DatabasePopulator {
 		setSqlScriptEncoding(sqlScriptEncoding);
 		setScripts(scripts);
 	}
-
 
 	/**
 	 * Add a script to execute to initialize or clean up the database.
@@ -132,8 +130,8 @@ public class ResourceDatabasePopulator implements DatabasePopulator {
 	}
 
 	/**
-	 * Set the scripts to execute to initialize or clean up the database,
-	 * replacing any previously added scripts.
+	 * Set the scripts to execute to initialize or clean up the database, replacing any
+	 * previously added scripts.
 	 * @param scripts the scripts to execute (never {@code null})
 	 */
 	public void setScripts(Resource... scripts) {
@@ -148,10 +146,10 @@ public class ResourceDatabasePopulator implements DatabasePopulator {
 	}
 
 	/**
-	 * Specify the encoding for the configured SQL scripts,
-	 * if different from the platform encoding.
-	 * @param sqlScriptEncoding the encoding used in scripts
-	 * (may be {@code null} or empty to indicate platform encoding)
+	 * Specify the encoding for the configured SQL scripts, if different from the platform
+	 * encoding.
+	 * @param sqlScriptEncoding the encoding used in scripts (may be {@code null} or empty
+	 * to indicate platform encoding)
 	 * @see #addScript(Resource)
 	 */
 	public void setSqlScriptEncoding(@Nullable String sqlScriptEncoding) {
@@ -160,9 +158,10 @@ public class ResourceDatabasePopulator implements DatabasePopulator {
 
 	/**
 	 * Specify the statement separator, if a custom one.
-	 * <p>Defaults to {@code ";"} if not specified and falls back to {@code "\n"}
-	 * as a last resort; may be set to {@link ScriptUtils#EOF_STATEMENT_SEPARATOR}
-	 * to signal that each script contains a single statement without a separator.
+	 * <p>
+	 * Defaults to {@code ";"} if not specified and falls back to {@code "\n"} as a last
+	 * resort; may be set to {@link ScriptUtils#EOF_STATEMENT_SEPARATOR} to signal that
+	 * each script contains a single statement without a separator.
 	 * @param separator the script statement separator
 	 */
 	public void setSeparator(String separator) {
@@ -171,7 +170,8 @@ public class ResourceDatabasePopulator implements DatabasePopulator {
 
 	/**
 	 * Set the prefix that identifies single-line comments within the SQL scripts.
-	 * <p>Defaults to {@code "--"}.
+	 * <p>
+	 * Defaults to {@code "--"}.
 	 * @param commentPrefix the prefix for single-line comments
 	 * @see #setCommentPrefixes(String...)
 	 */
@@ -182,7 +182,8 @@ public class ResourceDatabasePopulator implements DatabasePopulator {
 
 	/**
 	 * Set the prefixes that identify single-line comments within the SQL scripts.
-	 * <p>Defaults to {@code ["--"]}.
+	 * <p>
+	 * Defaults to {@code ["--"]}.
 	 * @param commentPrefixes the prefixes for single-line comments
 	 * @since 5.2
 	 */
@@ -193,11 +194,11 @@ public class ResourceDatabasePopulator implements DatabasePopulator {
 	}
 
 	/**
-	 * Set the start delimiter that identifies block comments within the SQL
-	 * scripts.
-	 * <p>Defaults to {@code "/*"}.
-	 * @param blockCommentStartDelimiter the start delimiter for block comments
-	 * (never {@code null} or empty)
+	 * Set the start delimiter that identifies block comments within the SQL scripts.
+	 * <p>
+	 * Defaults to {@code "/*"}.
+	 * @param blockCommentStartDelimiter the start delimiter for block comments (never
+	 * {@code null} or empty)
 	 * @since 4.0.3
 	 * @see #setBlockCommentEndDelimiter
 	 */
@@ -207,11 +208,11 @@ public class ResourceDatabasePopulator implements DatabasePopulator {
 	}
 
 	/**
-	 * Set the end delimiter that identifies block comments within the SQL
-	 * scripts.
-	 * <p>Defaults to <code>"*&#47;"</code>.
-	 * @param blockCommentEndDelimiter the end delimiter for block comments
-	 * (never {@code null} or empty)
+	 * Set the end delimiter that identifies block comments within the SQL scripts.
+	 * <p>
+	 * Defaults to <code>"*&#47;"</code>.
+	 * @param blockCommentEndDelimiter the end delimiter for block comments (never
+	 * {@code null} or empty)
 	 * @since 4.0.3
 	 * @see #setBlockCommentStartDelimiter
 	 */
@@ -222,7 +223,8 @@ public class ResourceDatabasePopulator implements DatabasePopulator {
 
 	/**
 	 * Flag to indicate that all failures in SQL should be logged but not cause a failure.
-	 * <p>Defaults to {@code false}.
+	 * <p>
+	 * Defaults to {@code false}.
 	 * @param continueOnError {@code true} if script execution should continue on error
 	 */
 	public void setContinueOnError(boolean continueOnError) {
@@ -231,16 +233,17 @@ public class ResourceDatabasePopulator implements DatabasePopulator {
 
 	/**
 	 * Flag to indicate that a failed SQL {@code DROP} statement can be ignored.
-	 * <p>This is useful for a non-embedded database whose SQL dialect does not
-	 * support an {@code IF EXISTS} clause in a {@code DROP} statement.
-	 * <p>The default is {@code false} so that if the populator runs accidentally, it will
+	 * <p>
+	 * This is useful for a non-embedded database whose SQL dialect does not support an
+	 * {@code IF EXISTS} clause in a {@code DROP} statement.
+	 * <p>
+	 * The default is {@code false} so that if the populator runs accidentally, it will
 	 * fail fast if a script starts with a {@code DROP} statement.
 	 * @param ignoreFailedDrops {@code true} if failed drop statements should be ignored
 	 */
 	public void setIgnoreFailedDrops(boolean ignoreFailedDrops) {
 		this.ignoreFailedDrops = ignoreFailedDrops;
 	}
-
 
 	/**
 	 * {@inheritDoc}
@@ -252,14 +255,16 @@ public class ResourceDatabasePopulator implements DatabasePopulator {
 		for (Resource script : this.scripts) {
 			EncodedResource encodedScript = new EncodedResource(script, this.sqlScriptEncoding);
 			ScriptUtils.executeSqlScript(connection, encodedScript, this.continueOnError, this.ignoreFailedDrops,
-					this.commentPrefixes, this.separator, this.blockCommentStartDelimiter, this.blockCommentEndDelimiter);
+					this.commentPrefixes, this.separator, this.blockCommentStartDelimiter,
+					this.blockCommentEndDelimiter);
 		}
 	}
 
 	/**
 	 * Execute this {@code ResourceDatabasePopulator} against the given
 	 * {@link DataSource}.
-	 * <p>Delegates to {@link DatabasePopulatorUtils#execute}.
+	 * <p>
+	 * Delegates to {@link DatabasePopulatorUtils#execute}.
 	 * @param dataSource the {@code DataSource} to execute against (never {@code null})
 	 * @throws ScriptException if an error occurs
 	 * @since 4.1

@@ -36,21 +36,25 @@ import org.springframework.util.StringUtils;
 
 /**
  * Base implementation for
- * {@link org.springframework.beans.factory.xml.BeanDefinitionDecorator BeanDefinitionDecorators}
- * wishing to add an {@link org.aopalliance.intercept.MethodInterceptor interceptor}
- * to the resulting bean.
+ * {@link org.springframework.beans.factory.xml.BeanDefinitionDecorator
+ * BeanDefinitionDecorators} wishing to add an
+ * {@link org.aopalliance.intercept.MethodInterceptor interceptor} to the resulting bean.
  *
- * <p>This base class controls the creation of the {@link ProxyFactoryBean} bean definition
- * and wraps the original as an inner-bean definition for the {@code target} property
- * of {@link ProxyFactoryBean}.
+ * <p>
+ * This base class controls the creation of the {@link ProxyFactoryBean} bean definition
+ * and wraps the original as an inner-bean definition for the {@code target} property of
+ * {@link ProxyFactoryBean}.
  *
- * <p>Chaining is correctly handled, ensuring that only one {@link ProxyFactoryBean} definition
- * is created. If a previous {@link org.springframework.beans.factory.xml.BeanDefinitionDecorator}
- * already created the {@link org.springframework.aop.framework.ProxyFactoryBean} then the
- * interceptor is simply added to the existing definition.
+ * <p>
+ * Chaining is correctly handled, ensuring that only one {@link ProxyFactoryBean}
+ * definition is created. If a previous
+ * {@link org.springframework.beans.factory.xml.BeanDefinitionDecorator} already created
+ * the {@link org.springframework.aop.framework.ProxyFactoryBean} then the interceptor is
+ * simply added to the existing definition.
  *
- * <p>Subclasses have only to create the {@code BeanDefinition} to the interceptor that
- * they wish to add.
+ * <p>
+ * Subclasses have only to create the {@code BeanDefinition} to the interceptor that they
+ * wish to add.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -60,7 +64,8 @@ import org.springframework.util.StringUtils;
 public abstract class AbstractInterceptorDrivenBeanDefinitionDecorator implements BeanDefinitionDecorator {
 
 	@Override
-	public final BeanDefinitionHolder decorate(Node node, BeanDefinitionHolder definitionHolder, ParserContext parserContext) {
+	public final BeanDefinitionHolder decorate(Node node, BeanDefinitionHolder definitionHolder,
+			ParserContext parserContext) {
 		BeanDefinitionRegistry registry = parserContext.getRegistry();
 
 		// get the root bean name - will be the name of the generated proxy factory bean
@@ -73,8 +78,8 @@ public abstract class AbstractInterceptorDrivenBeanDefinitionDecorator implement
 
 		// generate name and register the interceptor
 		String interceptorName = existingBeanName + '.' + getInterceptorNameSuffix(interceptorDefinition);
-		BeanDefinitionReaderUtils.registerBeanDefinition(
-				new BeanDefinitionHolder(interceptorDefinition, interceptorName), registry);
+		BeanDefinitionReaderUtils
+				.registerBeanDefinition(new BeanDefinitionHolder(interceptorDefinition, interceptorName), registry);
 
 		BeanDefinitionHolder result = definitionHolder;
 
@@ -117,13 +122,13 @@ public abstract class AbstractInterceptorDrivenBeanDefinitionDecorator implement
 
 	protected String getInterceptorNameSuffix(BeanDefinition interceptorDefinition) {
 		String beanClassName = interceptorDefinition.getBeanClassName();
-		return (StringUtils.hasLength(beanClassName) ?
-				StringUtils.uncapitalize(ClassUtils.getShortName(beanClassName)) : "");
+		return (StringUtils.hasLength(beanClassName) ? StringUtils.uncapitalize(ClassUtils.getShortName(beanClassName))
+				: "");
 	}
 
 	/**
-	 * Subclasses should implement this method to return the {@code BeanDefinition}
-	 * for the interceptor they wish to apply to the bean being decorated.
+	 * Subclasses should implement this method to return the {@code BeanDefinition} for
+	 * the interceptor they wish to apply to the bean being decorated.
 	 */
 	protected abstract BeanDefinition createInterceptorDefinition(Node node);
 

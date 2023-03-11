@@ -57,7 +57,6 @@ public class JmsListenerContainerFactoryTests {
 
 	private final TransactionManager transactionManager = mock(TransactionManager.class);
 
-
 	@Test
 	public void createSimpleContainer() {
 		SimpleJmsListenerContainerFactory factory = new SimpleJmsListenerContainerFactory();
@@ -125,8 +124,7 @@ public class JmsListenerContainerFactoryTests {
 
 		SimpleJmsListenerEndpoint endpoint = new SimpleJmsListenerEndpoint();
 		endpoint.setMessageListener(new MessageListenerAdapter());
-		assertThatIllegalStateException().isThrownBy(() ->
-				factory.createListenerContainer(endpoint));
+		assertThatIllegalStateException().isThrownBy(() -> factory.createListenerContainer(endpoint));
 	}
 
 	@Test
@@ -159,7 +157,6 @@ public class JmsListenerContainerFactoryTests {
 		assertThat(container.getConcurrentConsumers()).isEqualTo(4);
 		assertThat(container.getMaxConcurrentConsumers()).isEqualTo(6);
 	}
-
 
 	private void setDefaultJmsConfig(AbstractJmsListenerContainerFactory<?> factory) {
 		factory.setConnectionFactory(this.connectionFactory);

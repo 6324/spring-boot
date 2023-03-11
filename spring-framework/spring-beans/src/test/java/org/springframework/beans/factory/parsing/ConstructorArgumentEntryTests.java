@@ -30,8 +30,7 @@ public class ConstructorArgumentEntryTests {
 
 	@Test
 	public void testCtorBailsOnNegativeCtorIndexArgument() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ConstructorArgumentEntry(-1));
+		assertThatIllegalArgumentException().isThrownBy(() -> new ConstructorArgumentEntry(-1));
 	}
 
 }

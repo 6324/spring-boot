@@ -83,7 +83,6 @@ public class WebSocketStompClientTests {
 
 	private SettableListenableFuture<WebSocketSession> handshakeFuture;
 
-
 	@BeforeEach
 	public void setUp() throws Exception {
 		WebSocketClient webSocketClient = mock(WebSocketClient.class);
@@ -96,7 +95,6 @@ public class WebSocketStompClientTests {
 		given(webSocketClient.doHandshake(this.webSocketHandlerCaptor.capture(), any(), any(URI.class)))
 				.willReturn(this.handshakeFuture);
 	}
-
 
 	@Test
 	public void webSocketHandshakeFailure() throws Exception {
@@ -129,7 +127,7 @@ public class WebSocketStompClientTests {
 	}
 
 	@Test
-	@SuppressWarnings({"unchecked", "rawtypes"})
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void handleWebSocketMessage() throws Exception {
 		String text = "SEND\na:alpha\n\nMessage payload\0";
 		connect().handleMessage(this.webSocketSession, new TextMessage(text));
@@ -147,7 +145,7 @@ public class WebSocketStompClientTests {
 	}
 
 	@Test
-	@SuppressWarnings({"unchecked", "rawtypes"})
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void handleWebSocketMessageSplitAcrossTwoMessage() throws Exception {
 		WebSocketHandler webSocketHandler = connect();
 
@@ -172,7 +170,7 @@ public class WebSocketStompClientTests {
 	}
 
 	@Test
-	@SuppressWarnings({"unchecked", "rawtypes"})
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void handleWebSocketMessageBinary() throws Exception {
 		String text = "SEND\na:alpha\n\nMessage payload\0";
 		connect().handleMessage(this.webSocketSession, new BinaryMessage(text.getBytes(StandardCharsets.UTF_8)));
@@ -223,34 +221,34 @@ public class WebSocketStompClientTests {
 		verify(this.webSocketSession).sendMessage(binaryMessageCaptor.capture());
 		BinaryMessage binaryMessage = binaryMessageCaptor.getValue();
 		assertThat(binaryMessage).isNotNull();
-		assertThat(new String(binaryMessage.getPayload().array(), StandardCharsets.UTF_8)).isEqualTo("SEND\ndestination:/b\ncontent-type:application/octet-stream\ncontent-length:7\n\npayload\0");
+		assertThat(new String(binaryMessage.getPayload().array(), StandardCharsets.UTF_8)).isEqualTo(
+				"SEND\ndestination:/b\ncontent-type:application/octet-stream\ncontent-length:7\n\npayload\0");
 	}
 
 	@Test
 	public void heartbeatDefaultValue() throws Exception {
 		WebSocketStompClient stompClient = new WebSocketStompClient(mock(WebSocketClient.class));
-		assertThat(stompClient.getDefaultHeartbeat()).isEqualTo(new long[] {0, 0});
+		assertThat(stompClient.getDefaultHeartbeat()).isEqualTo(new long[] { 0, 0 });
 
 		StompHeaders connectHeaders = stompClient.processConnectHeaders(null);
-		assertThat(connectHeaders.getHeartbeat()).isEqualTo(new long[] {0, 0});
+		assertThat(connectHeaders.getHeartbeat()).isEqualTo(new long[] { 0, 0 });
 	}
 
 	@Test
 	public void heartbeatDefaultValueWithScheduler() throws Exception {
 		WebSocketStompClient stompClient = new WebSocketStompClient(mock(WebSocketClient.class));
 		stompClient.setTaskScheduler(mock(TaskScheduler.class));
-		assertThat(stompClient.getDefaultHeartbeat()).isEqualTo(new long[] {10000, 10000});
+		assertThat(stompClient.getDefaultHeartbeat()).isEqualTo(new long[] { 10000, 10000 });
 
 		StompHeaders connectHeaders = stompClient.processConnectHeaders(null);
-		assertThat(connectHeaders.getHeartbeat()).isEqualTo(new long[] {10000, 10000});
+		assertThat(connectHeaders.getHeartbeat()).isEqualTo(new long[] { 10000, 10000 });
 	}
 
 	@Test
 	public void heartbeatDefaultValueSetWithoutScheduler() throws Exception {
 		WebSocketStompClient stompClient = new WebSocketStompClient(mock(WebSocketClient.class));
-		stompClient.setDefaultHeartbeat(new long[] {5, 5});
-		assertThatIllegalStateException().isThrownBy(() ->
-				stompClient.processConnectHeaders(null));
+		stompClient.setDefaultHeartbeat(new long[] { 5, 5 });
+		assertThatIllegalStateException().isThrownBy(() -> stompClient.processConnectHeaders(null));
 	}
 
 	@Test
@@ -290,7 +288,7 @@ public class WebSocketStompClientTests {
 	}
 
 	@Test
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void cancelInactivityTasks() throws Exception {
 		TcpConnection<byte[]> tcpConnection = getTcpConnection();
 
@@ -305,7 +303,6 @@ public class WebSocketStompClientTests {
 		verify(future, times(2)).cancel(true);
 		verifyNoMoreInteractions(future);
 	}
-
 
 	private WebSocketHandler connect() {
 		this.stompClient.connect("/foo", mock(StompSessionHandler.class));
@@ -332,7 +329,7 @@ public class WebSocketStompClientTests {
 			throws InterruptedException {
 
 		ArgumentCaptor<Runnable> inactivityTaskCaptor = ArgumentCaptor.forClass(Runnable.class);
-		verify(this.taskScheduler).scheduleWithFixedDelay(inactivityTaskCaptor.capture(), eq(delay/2));
+		verify(this.taskScheduler).scheduleWithFixedDelay(inactivityTaskCaptor.capture(), eq(delay / 2));
 		verifyNoMoreInteractions(this.taskScheduler);
 
 		if (sleepTime > 0) {
@@ -351,7 +348,6 @@ public class WebSocketStompClientTests {
 		}
 	}
 
-
 	private static class TestWebSocketStompClient extends WebSocketStompClient {
 
 		private ConnectionHandlingStompSession stompSession;
@@ -368,6 +364,7 @@ public class WebSocketStompClientTests {
 		protected ConnectionHandlingStompSession createSession(StompHeaders headers, StompSessionHandler handler) {
 			return this.stompSession;
 		}
+
 	}
 
 }

@@ -42,7 +42,6 @@ public class YamlMapFactoryBeanTests {
 
 	private final YamlMapFactoryBean factory = new YamlMapFactoryBean();
 
-
 	@Test
 	public void testSetIgnoreResourceNotFound() {
 		this.factory.setResolutionMethod(YamlMapFactoryBean.ResolutionMethod.OVERRIDE_AND_IGNORE);
@@ -53,8 +52,8 @@ public class YamlMapFactoryBeanTests {
 	@Test
 	public void testSetBarfOnResourceNotFound() {
 		assertThatIllegalStateException().isThrownBy(() -> {
-				this.factory.setResources(new FileSystemResource("non-exsitent-file.yml"));
-				this.factory.getObject().size();
+			this.factory.setResources(new FileSystemResource("non-exsitent-file.yml"));
+			this.factory.getObject().size();
 		});
 	}
 
@@ -82,6 +81,7 @@ public class YamlMapFactoryBeanTests {
 			public String getDescription() {
 				return "non-existent";
 			}
+
 			@Override
 			public InputStream getInputStream() throws IOException {
 				throw new IOException("planned");
@@ -126,8 +126,7 @@ public class YamlMapFactoryBeanTests {
 	@Test
 	public void testDuplicateKey() {
 		this.factory.setResources(new ByteArrayResource("mymap:\n  foo: bar\nmymap:\n  bar: foo".getBytes()));
-		assertThatExceptionOfType(DuplicateKeyException.class).isThrownBy(() ->
-				this.factory.getObject().get("mymap"));
+		assertThatExceptionOfType(DuplicateKeyException.class).isThrownBy(() -> this.factory.getObject().get("mymap"));
 	}
 
 }

@@ -58,8 +58,8 @@ public class DefaultLifecycleProcessorTests {
 		Object contextLifecycleProcessor = new DirectFieldAccessor(context).getPropertyValue("lifecycleProcessor");
 		assertThat(contextLifecycleProcessor).isNotNull();
 		assertThat(contextLifecycleProcessor).isSameAs(bean);
-		assertThat(new DirectFieldAccessor(contextLifecycleProcessor).getPropertyValue(
-				"timeoutPerShutdownPhase")).isEqualTo(1000L);
+		assertThat(new DirectFieldAccessor(contextLifecycleProcessor).getPropertyValue("timeoutPerShutdownPhase"))
+				.isEqualTo(1000L);
 	}
 
 	@Test
@@ -563,12 +563,9 @@ public class DefaultLifecycleProcessorTests {
 		assertThat(getPhase(stoppedBeans.get(4))).isEqualTo(Integer.MIN_VALUE);
 	}
 
-
 	private static int getPhase(Lifecycle lifecycle) {
-		return (lifecycle instanceof SmartLifecycle) ?
-				((SmartLifecycle) lifecycle).getPhase() : 0;
+		return (lifecycle instanceof SmartLifecycle) ? ((SmartLifecycle) lifecycle).getPhase() : 0;
 	}
-
 
 	private static class TestLifecycleBean implements Lifecycle {
 
@@ -578,7 +575,6 @@ public class DefaultLifecycleProcessorTests {
 
 		private volatile boolean running;
 
-
 		static TestLifecycleBean forStartupTests(CopyOnWriteArrayList<Lifecycle> startedBeans) {
 			return new TestLifecycleBean(startedBeans, null);
 		}
@@ -587,7 +583,8 @@ public class DefaultLifecycleProcessorTests {
 			return new TestLifecycleBean(null, stoppedBeans);
 		}
 
-		private TestLifecycleBean(CopyOnWriteArrayList<Lifecycle> startedBeans,  CopyOnWriteArrayList<Lifecycle> stoppedBeans) {
+		private TestLifecycleBean(CopyOnWriteArrayList<Lifecycle> startedBeans,
+				CopyOnWriteArrayList<Lifecycle> stoppedBeans) {
 			this.startedBeans = startedBeans;
 			this.stoppedBeans = stoppedBeans;
 		}
@@ -612,8 +609,8 @@ public class DefaultLifecycleProcessorTests {
 			}
 			this.running = false;
 		}
-	}
 
+	}
 
 	private static class TestSmartLifecycleBean extends TestLifecycleBean implements SmartLifecycle {
 
@@ -627,11 +624,13 @@ public class DefaultLifecycleProcessorTests {
 			return new TestSmartLifecycleBean(phase, 0, startedBeans, null);
 		}
 
-		static TestSmartLifecycleBean forShutdownTests(int phase, int shutdownDelay, CopyOnWriteArrayList<Lifecycle> stoppedBeans) {
+		static TestSmartLifecycleBean forShutdownTests(int phase, int shutdownDelay,
+				CopyOnWriteArrayList<Lifecycle> stoppedBeans) {
 			return new TestSmartLifecycleBean(phase, shutdownDelay, null, stoppedBeans);
 		}
 
-		private TestSmartLifecycleBean(int phase, int shutdownDelay, CopyOnWriteArrayList<Lifecycle> startedBeans, CopyOnWriteArrayList<Lifecycle> stoppedBeans) {
+		private TestSmartLifecycleBean(int phase, int shutdownDelay, CopyOnWriteArrayList<Lifecycle> startedBeans,
+				CopyOnWriteArrayList<Lifecycle> stoppedBeans) {
 			super(startedBeans, stoppedBeans);
 			this.phase = phase;
 			this.shutdownDelay = shutdownDelay;
@@ -669,8 +668,8 @@ public class DefaultLifecycleProcessorTests {
 				}
 			}).start();
 		}
-	}
 
+	}
 
 	public static class DummySmartLifecycleBean implements SmartLifecycle {
 
@@ -706,8 +705,8 @@ public class DefaultLifecycleProcessorTests {
 		public int getPhase() {
 			return 0;
 		}
-	}
 
+	}
 
 	public static class DummySmartLifecycleFactoryBean implements FactoryBean<Object>, SmartLifecycle {
 
@@ -760,6 +759,7 @@ public class DefaultLifecycleProcessorTests {
 		public int getPhase() {
 			return 0;
 		}
+
 	}
 
 }

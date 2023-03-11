@@ -33,7 +33,6 @@ public class NullLiteral extends Literal {
 		this.exitTypeDescriptor = "Ljava/lang/Object";
 	}
 
-
 	@Override
 	public TypedValue getLiteralValue() {
 		return TypedValue.NULL;

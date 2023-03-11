@@ -22,8 +22,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
 
 /**
- * Abstract base class for URL-based views. Provides a consistent way of
- * holding the URL that a View wraps, in the form of a "url" bean property.
+ * Abstract base class for URL-based views. Provides a consistent way of holding the URL
+ * that a View wraps, in the form of a "url" bean property.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -32,7 +32,6 @@ public abstract class AbstractUrlBasedView extends AbstractView implements Initi
 
 	@Nullable
 	private String url;
-
 
 	/**
 	 * Constructor for use as a bean.
@@ -47,10 +46,9 @@ public abstract class AbstractUrlBasedView extends AbstractView implements Initi
 		this.url = url;
 	}
 
-
 	/**
-	 * Set the URL of the resource that this view wraps.
-	 * The URL must be appropriate for the concrete View implementation.
+	 * Set the URL of the resource that this view wraps. The URL must be appropriate for
+	 * the concrete View implementation.
 	 */
 	public void setUrl(@Nullable String url) {
 		this.url = url;
@@ -64,7 +62,6 @@ public abstract class AbstractUrlBasedView extends AbstractView implements Initi
 		return this.url;
 	}
 
-
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if (getUrl() == null) {
@@ -75,12 +72,11 @@ public abstract class AbstractUrlBasedView extends AbstractView implements Initi
 	/**
 	 * Check whether the resource for the configured URL actually exists.
 	 * @param locale the desired Locale that we're looking for
-	 * @return {@code false} if the resource exists
-	 * {@code false} if we know that it does not exist
+	 * @return {@code false} if the resource exists {@code false} if we know that it does
+	 * not exist
 	 * @throws Exception if the resource exists but is invalid (e.g. could not be parsed)
 	 */
 	public abstract boolean checkResourceExists(Locale locale) throws Exception;
-
 
 	@Override
 	public String toString() {

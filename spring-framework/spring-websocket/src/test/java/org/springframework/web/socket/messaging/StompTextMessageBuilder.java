@@ -36,7 +36,6 @@ public class StompTextMessageBuilder {
 
 	private String body;
 
-
 	private StompTextMessageBuilder(StompCommand command) {
 		this.command = command;
 	}

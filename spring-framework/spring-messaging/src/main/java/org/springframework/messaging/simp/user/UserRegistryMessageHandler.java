@@ -33,11 +33,11 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.util.Assert;
 
 /**
- * {@code MessageHandler} that handles user registry broadcasts from other
- * application servers and periodically broadcasts the content of the local
- * user registry.
+ * {@code MessageHandler} that handles user registry broadcasts from other application
+ * servers and periodically broadcasts the content of the local user registry.
  *
- * <p>The aggregated information is maintained in a {@link MultiServerUserRegistry}.
+ * <p>
+ * The aggregated information is maintained in a {@link MultiServerUserRegistry}.
  *
  * @author Rossen Stoyanchev
  * @since 4.2
@@ -59,7 +59,6 @@ public class UserRegistryMessageHandler implements MessageHandler, ApplicationLi
 
 	private long registryExpirationPeriod = TimeUnit.SECONDS.toMillis(20);
 
-
 	/**
 	 * Constructor.
 	 * @param userRegistry the registry with local and remote user registry information
@@ -67,8 +66,8 @@ public class UserRegistryMessageHandler implements MessageHandler, ApplicationLi
 	 * @param broadcastDestination the destination to broadcast to
 	 * @param scheduler the task scheduler to use
 	 */
-	public UserRegistryMessageHandler(MultiServerUserRegistry userRegistry,
-			SimpMessagingTemplate brokerTemplate, String broadcastDestination, TaskScheduler scheduler) {
+	public UserRegistryMessageHandler(MultiServerUserRegistry userRegistry, SimpMessagingTemplate brokerTemplate,
+			String broadcastDestination, TaskScheduler scheduler) {
 
 		Assert.notNull(userRegistry, "'userRegistry' is required");
 		Assert.notNull(brokerTemplate, "'brokerTemplate' is required");
@@ -81,7 +80,6 @@ public class UserRegistryMessageHandler implements MessageHandler, ApplicationLi
 		this.scheduler = scheduler;
 	}
 
-
 	/**
 	 * Return the configured destination for broadcasting UserRegistry information.
 	 */
@@ -90,9 +88,10 @@ public class UserRegistryMessageHandler implements MessageHandler, ApplicationLi
 	}
 
 	/**
-	 * Configure the amount of time (in milliseconds) before a remote user
-	 * registry snapshot is considered expired.
-	 * <p>By default this is set to 20 seconds (value of 20000).
+	 * Configure the amount of time (in milliseconds) before a remote user registry
+	 * snapshot is considered expired.
+	 * <p>
+	 * By default this is set to 20 seconds (value of 20000).
 	 * @param milliseconds the expiration period in milliseconds
 	 */
 	@SuppressWarnings("unused")
@@ -107,7 +106,6 @@ public class UserRegistryMessageHandler implements MessageHandler, ApplicationLi
 		return this.registryExpirationPeriod;
 	}
 
-
 	@Override
 	public void onApplicationEvent(BrokerAvailabilityEvent event) {
 		if (event.isBrokerAvailable()) {
@@ -116,7 +114,7 @@ public class UserRegistryMessageHandler implements MessageHandler, ApplicationLi
 		}
 		else {
 			ScheduledFuture<?> future = this.scheduledFuture;
-			if (future != null ){
+			if (future != null) {
 				future.cancel(true);
 				this.scheduledFuture = null;
 			}
@@ -128,7 +126,6 @@ public class UserRegistryMessageHandler implements MessageHandler, ApplicationLi
 		MessageConverter converter = this.brokerTemplate.getMessageConverter();
 		this.userRegistry.addRemoteRegistryDto(message, converter, getRegistryExpirationPeriod());
 	}
-
 
 	private class UserRegistryTask implements Runnable {
 
@@ -145,6 +142,7 @@ public class UserRegistryMessageHandler implements MessageHandler, ApplicationLi
 				userRegistry.purgeExpiredRegistries();
 			}
 		}
+
 	}
 
 }

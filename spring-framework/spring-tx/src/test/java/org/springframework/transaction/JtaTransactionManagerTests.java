@@ -124,8 +124,7 @@ public class JtaTransactionManagerTests {
 	@Test
 	public void jtaTransactionManagerWithCommitAndSynchronizationNever() throws Exception {
 		UserTransaction ut = mock(UserTransaction.class);
-		given(ut.getStatus()).willReturn(
-		Status.STATUS_NO_TRANSACTION, Status.STATUS_ACTIVE, Status.STATUS_ACTIVE);
+		given(ut.getStatus()).willReturn(Status.STATUS_NO_TRANSACTION, Status.STATUS_ACTIVE, Status.STATUS_ACTIVE);
 
 		JtaTransactionManager ptm = newJtaTransactionManager(ut);
 		TransactionTemplate tt = new TransactionTemplate(ptm);
@@ -270,15 +269,14 @@ public class JtaTransactionManagerTests {
 		JtaTransactionManager ptm = newJtaTransactionManager(ut);
 		TransactionTemplate tt = new TransactionTemplate(ptm);
 		assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isFalse();
-		assertThatIllegalStateException().isThrownBy(() ->
-			tt.execute(new TransactionCallbackWithoutResult() {
-				@Override
-				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isTrue();
-					TransactionSynchronizationManager.registerSynchronization(synch);
-					throw new IllegalStateException("I want a rollback");
-				}
-			}));
+		assertThatIllegalStateException().isThrownBy(() -> tt.execute(new TransactionCallbackWithoutResult() {
+			@Override
+			protected void doInTransactionWithoutResult(TransactionStatus status) {
+				assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isTrue();
+				TransactionSynchronizationManager.registerSynchronization(synch);
+				throw new IllegalStateException("I want a rollback");
+			}
+		}));
 		assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isFalse();
 
 		verify(ut).setRollbackOnly();
@@ -297,14 +295,14 @@ public class JtaTransactionManagerTests {
 		JtaTransactionManager ptm = newJtaTransactionManager(ut);
 		TransactionTemplate tt = new TransactionTemplate(ptm);
 		assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isFalse();
-		assertThatExceptionOfType(OptimisticLockingFailureException.class).isThrownBy(() ->
-			tt.execute(new TransactionCallbackWithoutResult() {
-				@Override
-				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isTrue();
-					TransactionSynchronizationManager.registerSynchronization(synch);
-				}
-			}));
+		assertThatExceptionOfType(OptimisticLockingFailureException.class)
+				.isThrownBy(() -> tt.execute(new TransactionCallbackWithoutResult() {
+					@Override
+					protected void doInTransactionWithoutResult(TransactionStatus status) {
+						assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isTrue();
+						TransactionSynchronizationManager.registerSynchronization(synch);
+					}
+				}));
 		assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isFalse();
 
 		verify(ut).setRollbackOnly();
@@ -348,15 +346,14 @@ public class JtaTransactionManagerTests {
 		ptm.setGlobalRollbackOnParticipationFailure(false);
 		TransactionTemplate tt = new TransactionTemplate(ptm);
 		assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isFalse();
-		assertThatIllegalStateException().isThrownBy(() ->
-			tt.execute(new TransactionCallbackWithoutResult() {
-				@Override
-				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isTrue();
-					TransactionSynchronizationManager.registerSynchronization(synch);
-					throw new IllegalStateException("I want a rollback");
-				}
-			}));
+		assertThatIllegalStateException().isThrownBy(() -> tt.execute(new TransactionCallbackWithoutResult() {
+			@Override
+			protected void doInTransactionWithoutResult(TransactionStatus status) {
+				assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isTrue();
+				TransactionSynchronizationManager.registerSynchronization(synch);
+				throw new IllegalStateException("I want a rollback");
+			}
+		}));
 		assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isFalse();
 
 		verify(synch).beforeCompletion();
@@ -568,9 +565,8 @@ public class JtaTransactionManagerTests {
 		UserTransaction ut = mock(UserTransaction.class);
 		TransactionManager tm = mock(TransactionManager.class);
 		Transaction tx = mock(Transaction.class);
-		given(ut.getStatus()).willReturn(Status.STATUS_NO_TRANSACTION,
-				Status.STATUS_ACTIVE, Status.STATUS_ACTIVE, Status.STATUS_ACTIVE,
-				Status.STATUS_ACTIVE, Status.STATUS_ACTIVE);
+		given(ut.getStatus()).willReturn(Status.STATUS_NO_TRANSACTION, Status.STATUS_ACTIVE, Status.STATUS_ACTIVE,
+				Status.STATUS_ACTIVE, Status.STATUS_ACTIVE, Status.STATUS_ACTIVE);
 		given(tm.suspend()).willReturn(tx);
 
 		final JtaTransactionManager ptm = newJtaTransactionManager(ut, tm);
@@ -614,8 +610,8 @@ public class JtaTransactionManagerTests {
 	@Test
 	public void jtaTransactionManagerWithPropagationRequiresNewWithinSupports() throws Exception {
 		UserTransaction ut = mock(UserTransaction.class);
-		given(ut.getStatus()).willReturn(Status.STATUS_NO_TRANSACTION,
-				Status.STATUS_NO_TRANSACTION, Status.STATUS_ACTIVE, Status.STATUS_ACTIVE);
+		given(ut.getStatus()).willReturn(Status.STATUS_NO_TRANSACTION, Status.STATUS_NO_TRANSACTION,
+				Status.STATUS_ACTIVE, Status.STATUS_ACTIVE);
 
 		final JtaTransactionManager ptm = newJtaTransactionManager(ut);
 		TransactionTemplate tt = new TransactionTemplate(ptm);
@@ -687,13 +683,13 @@ public class JtaTransactionManagerTests {
 		TransactionTemplate tt = new TransactionTemplate(ptm);
 		tt.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
 		assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isFalse();
-		assertThatExceptionOfType(TransactionSystemException.class).isThrownBy(() ->
-			tt.execute(new TransactionCallbackWithoutResult() {
-				@Override
-				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isTrue();
-				}
-			}));
+		assertThatExceptionOfType(TransactionSystemException.class)
+				.isThrownBy(() -> tt.execute(new TransactionCallbackWithoutResult() {
+					@Override
+					protected void doInTransactionWithoutResult(TransactionStatus status) {
+						assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isTrue();
+					}
+				}));
 		assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isFalse();
 	}
 
@@ -710,13 +706,13 @@ public class JtaTransactionManagerTests {
 		TransactionTemplate tt = new TransactionTemplate(ptm);
 		tt.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
 		assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isFalse();
-		assertThatExceptionOfType(CannotCreateTransactionException.class).isThrownBy(() ->
-		tt.execute(new TransactionCallbackWithoutResult() {
-				@Override
-				protected void doInTransactionWithoutResult(TransactionStatus status) {
-					assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isTrue();
-				}
-			}));
+		assertThatExceptionOfType(CannotCreateTransactionException.class)
+				.isThrownBy(() -> tt.execute(new TransactionCallbackWithoutResult() {
+					@Override
+					protected void doInTransactionWithoutResult(TransactionStatus status) {
+						assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isTrue();
+					}
+				}));
 		assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isFalse();
 		verify(tm).resume(tx);
 	}
@@ -754,12 +750,12 @@ public class JtaTransactionManagerTests {
 		TransactionTemplate tt = new TransactionTemplate(ptm);
 		tt.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
 		assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isFalse();
-		assertThatExceptionOfType(TransactionSuspensionNotSupportedException.class).isThrownBy(() ->
-			tt.execute(new TransactionCallbackWithoutResult() {
-				@Override
-				protected void doInTransactionWithoutResult(TransactionStatus status) {
-				}
-			}));
+		assertThatExceptionOfType(TransactionSuspensionNotSupportedException.class)
+				.isThrownBy(() -> tt.execute(new TransactionCallbackWithoutResult() {
+					@Override
+					protected void doInTransactionWithoutResult(TransactionStatus status) {
+					}
+				}));
 		assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isFalse();
 	}
 
@@ -876,8 +872,7 @@ public class JtaTransactionManagerTests {
 	@Test
 	public void jtaTransactionManagerWithRollbackExceptionOnCommit() throws Exception {
 		UserTransaction ut = mock(UserTransaction.class);
-		given(ut.getStatus()).willReturn(Status.STATUS_NO_TRANSACTION,
-				Status.STATUS_ACTIVE, Status.STATUS_ACTIVE);
+		given(ut.getStatus()).willReturn(Status.STATUS_NO_TRANSACTION, Status.STATUS_ACTIVE, Status.STATUS_ACTIVE);
 		willThrow(new RollbackException("unexpected rollback")).given(ut).commit();
 
 		assertThatExceptionOfType(UnexpectedRollbackException.class).isThrownBy(() -> {
@@ -890,7 +885,8 @@ public class JtaTransactionManagerTests {
 					TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
 						@Override
 						public void afterCompletion(int status) {
-							assertThat(status == TransactionSynchronization.STATUS_ROLLED_BACK).as("Correct completion status").isTrue();
+							assertThat(status == TransactionSynchronization.STATUS_ROLLED_BACK)
+									.as("Correct completion status").isTrue();
 						}
 					});
 				}
@@ -912,9 +908,8 @@ public class JtaTransactionManagerTests {
 
 	private void doTestJtaTransactionManagerWithNoExceptionOnGlobalRollbackOnly(boolean failEarly) throws Exception {
 		UserTransaction ut = mock(UserTransaction.class);
-		given(ut.getStatus()).willReturn(Status.STATUS_NO_TRANSACTION,
-				Status.STATUS_MARKED_ROLLBACK, Status.STATUS_MARKED_ROLLBACK,
-				Status.STATUS_MARKED_ROLLBACK);
+		given(ut.getStatus()).willReturn(Status.STATUS_NO_TRANSACTION, Status.STATUS_MARKED_ROLLBACK,
+				Status.STATUS_MARKED_ROLLBACK, Status.STATUS_MARKED_ROLLBACK);
 
 		JtaTransactionManager tm = newJtaTransactionManager(ut);
 		if (failEarly) {
@@ -934,7 +929,8 @@ public class JtaTransactionManagerTests {
 					TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
 						@Override
 						public void afterCompletion(int status) {
-							assertThat(status == TransactionSynchronization.STATUS_ROLLED_BACK).as("Correct completion status").isTrue();
+							assertThat(status == TransactionSynchronization.STATUS_ROLLED_BACK)
+									.as("Correct completion status").isTrue();
 						}
 					});
 				}
@@ -965,8 +961,7 @@ public class JtaTransactionManagerTests {
 	@Test
 	public void jtaTransactionManagerWithHeuristicMixedExceptionOnCommit() throws Exception {
 		UserTransaction ut = mock(UserTransaction.class);
-		given(ut.getStatus()).willReturn(Status.STATUS_NO_TRANSACTION,
-				Status.STATUS_ACTIVE, Status.STATUS_ACTIVE);
+		given(ut.getStatus()).willReturn(Status.STATUS_NO_TRANSACTION, Status.STATUS_ACTIVE, Status.STATUS_ACTIVE);
 		willThrow(new HeuristicMixedException("heuristic exception")).given(ut).commit();
 
 		assertThatExceptionOfType(HeuristicCompletionException.class).isThrownBy(() -> {
@@ -979,7 +974,8 @@ public class JtaTransactionManagerTests {
 					TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
 						@Override
 						public void afterCompletion(int status) {
-							assertThat(status == TransactionSynchronization.STATUS_UNKNOWN).as("Correct completion status").isTrue();
+							assertThat(status == TransactionSynchronization.STATUS_UNKNOWN)
+									.as("Correct completion status").isTrue();
 						}
 					});
 				}
@@ -992,8 +988,7 @@ public class JtaTransactionManagerTests {
 	@Test
 	public void jtaTransactionManagerWithHeuristicRollbackExceptionOnCommit() throws Exception {
 		UserTransaction ut = mock(UserTransaction.class);
-		given(ut.getStatus()).willReturn(Status.STATUS_NO_TRANSACTION,
-				Status.STATUS_ACTIVE, Status.STATUS_ACTIVE);
+		given(ut.getStatus()).willReturn(Status.STATUS_NO_TRANSACTION, Status.STATUS_ACTIVE, Status.STATUS_ACTIVE);
 		willThrow(new HeuristicRollbackException("heuristic exception")).given(ut).commit();
 
 		assertThatExceptionOfType(HeuristicCompletionException.class).isThrownBy(() -> {
@@ -1006,7 +1001,8 @@ public class JtaTransactionManagerTests {
 					TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
 						@Override
 						public void afterCompletion(int status) {
-							assertThat(status == TransactionSynchronization.STATUS_UNKNOWN).as("Correct completion status").isTrue();
+							assertThat(status == TransactionSynchronization.STATUS_UNKNOWN)
+									.as("Correct completion status").isTrue();
 						}
 					});
 				}
@@ -1019,8 +1015,7 @@ public class JtaTransactionManagerTests {
 	@Test
 	public void jtaTransactionManagerWithSystemExceptionOnCommit() throws Exception {
 		UserTransaction ut = mock(UserTransaction.class);
-		given(ut.getStatus()).willReturn(Status.STATUS_NO_TRANSACTION,
-				Status.STATUS_ACTIVE, Status.STATUS_ACTIVE);
+		given(ut.getStatus()).willReturn(Status.STATUS_NO_TRANSACTION, Status.STATUS_ACTIVE, Status.STATUS_ACTIVE);
 		willThrow(new SystemException("system exception")).given(ut).commit();
 
 		assertThatExceptionOfType(TransactionSystemException.class).isThrownBy(() -> {
@@ -1033,7 +1028,8 @@ public class JtaTransactionManagerTests {
 					TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
 						@Override
 						public void afterCompletion(int status) {
-							assertThat(status == TransactionSynchronization.STATUS_UNKNOWN).as("Correct completion status").isTrue();
+							assertThat(status == TransactionSynchronization.STATUS_UNKNOWN)
+									.as("Correct completion status").isTrue();
 						}
 					});
 				}
@@ -1058,7 +1054,8 @@ public class JtaTransactionManagerTests {
 					TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
 						@Override
 						public void afterCompletion(int status) {
-							assertThat(status == TransactionSynchronization.STATUS_UNKNOWN).as("Correct completion status").isTrue();
+							assertThat(status == TransactionSynchronization.STATUS_UNKNOWN)
+									.as("Correct completion status").isTrue();
 						}
 					});
 					status.setRollbackOnly();
@@ -1103,7 +1100,8 @@ public class JtaTransactionManagerTests {
 					TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
 						@Override
 						public void afterCompletion(int status) {
-							assertThat(status == TransactionSynchronization.STATUS_UNKNOWN).as("Correct completion status").isTrue();
+							assertThat(status == TransactionSynchronization.STATUS_UNKNOWN)
+									.as("Correct completion status").isTrue();
 						}
 					});
 				}
@@ -1114,8 +1112,7 @@ public class JtaTransactionManagerTests {
 	@Test
 	public void jtaTransactionManagerWithDoubleCommit() throws Exception {
 		UserTransaction ut = mock(UserTransaction.class);
-		given(ut.getStatus()).willReturn(Status.STATUS_NO_TRANSACTION,
-				Status.STATUS_ACTIVE, Status.STATUS_ACTIVE);
+		given(ut.getStatus()).willReturn(Status.STATUS_NO_TRANSACTION, Status.STATUS_ACTIVE, Status.STATUS_ACTIVE);
 
 		JtaTransactionManager ptm = newJtaTransactionManager(ut);
 		assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isFalse();
@@ -1125,8 +1122,7 @@ public class JtaTransactionManagerTests {
 		ptm.commit(status);
 		assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isFalse();
 		// second commit attempt
-		assertThatExceptionOfType(IllegalTransactionStateException.class).isThrownBy(() ->
-				ptm.commit(status));
+		assertThatExceptionOfType(IllegalTransactionStateException.class).isThrownBy(() -> ptm.commit(status));
 		verify(ut).begin();
 		verify(ut).commit();
 	}
@@ -1144,8 +1140,7 @@ public class JtaTransactionManagerTests {
 		ptm.rollback(status);
 		assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isFalse();
 		// second rollback attempt
-		assertThatExceptionOfType(IllegalTransactionStateException.class).isThrownBy(() ->
-				ptm.rollback(status));
+		assertThatExceptionOfType(IllegalTransactionStateException.class).isThrownBy(() -> ptm.rollback(status));
 
 		verify(ut).begin();
 		verify(ut).rollback();
@@ -1164,13 +1159,11 @@ public class JtaTransactionManagerTests {
 		ptm.rollback(status);
 		assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isFalse();
 		// second: commit attempt
-		assertThatExceptionOfType(IllegalTransactionStateException.class).isThrownBy(() ->
-				ptm.commit(status));
+		assertThatExceptionOfType(IllegalTransactionStateException.class).isThrownBy(() -> ptm.commit(status));
 
 		verify(ut).begin();
 		verify(ut).rollback();
 	}
-
 
 	protected JtaTransactionManager newJtaTransactionManager(UserTransaction ut) {
 		return new JtaTransactionManager(ut);
@@ -1184,10 +1177,9 @@ public class JtaTransactionManagerTests {
 		return new JtaTransactionManager(ut, tm);
 	}
 
-
 	/**
-	 * Prevent any side-effects due to this test modifying ThreadLocals that might
-	 * affect subsequent tests when all tests are run in the same JVM, as with Eclipse.
+	 * Prevent any side-effects due to this test modifying ThreadLocals that might affect
+	 * subsequent tests when all tests are run in the same JVM, as with Eclipse.
 	 */
 	@AfterEach
 	public void tearDown() {

@@ -21,7 +21,8 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * Strategy interface for executing a {@link RemoteInvocation} on a target object.
  *
- * <p>Used by {@link org.springframework.remoting.rmi.RmiServiceExporter} (for RMI invokers)
+ * <p>
+ * Used by {@link org.springframework.remoting.rmi.RmiServiceExporter} (for RMI invokers)
  * and by {@link org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter}.
  *
  * @author Juergen Hoeller
@@ -33,8 +34,8 @@ import java.lang.reflect.InvocationTargetException;
 public interface RemoteInvocationExecutor {
 
 	/**
-	 * Perform this invocation on the given target object.
-	 * Typically called when a RemoteInvocation is received on the server.
+	 * Perform this invocation on the given target object. Typically called when a
+	 * RemoteInvocation is received on the server.
 	 * @param invocation the RemoteInvocation
 	 * @param targetObject the target object to apply the invocation to
 	 * @return the invocation result

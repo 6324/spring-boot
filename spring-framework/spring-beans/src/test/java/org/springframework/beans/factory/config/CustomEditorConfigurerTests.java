@@ -49,13 +49,12 @@ public class CustomEditorConfigurerTests {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
 		CustomEditorConfigurer cec = new CustomEditorConfigurer();
 		final DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN);
-		cec.setPropertyEditorRegistrars(new PropertyEditorRegistrar[] {
-				new PropertyEditorRegistrar() {
-					@Override
-					public void registerCustomEditors(PropertyEditorRegistry registry) {
-						registry.registerCustomEditor(Date.class, new CustomDateEditor(df, true));
-					}
-				}});
+		cec.setPropertyEditorRegistrars(new PropertyEditorRegistrar[] { new PropertyEditorRegistrar() {
+			@Override
+			public void registerCustomEditors(PropertyEditorRegistry registry) {
+				registry.registerCustomEditor(Date.class, new CustomDateEditor(df, true));
+			}
+		} });
 		cec.postProcessBeanFactory(bf);
 
 		MutablePropertyValues pvs = new MutablePropertyValues();
@@ -115,21 +114,21 @@ public class CustomEditorConfigurerTests {
 		assertThat(tb.getStringArray()[0]).isEqualTo("test");
 	}
 
-
 	public static class MyDateEditor extends CustomDateEditor {
 
 		public MyDateEditor() {
 			super(DateFormat.getDateInstance(DateFormat.SHORT, Locale.GERMAN), true);
 		}
-	}
 
+	}
 
 	public static class MyTestEditor extends PropertyEditorSupport {
 
 		@Override
 		public void setAsText(String text) {
-			setValue(new String[] {"test"});
+			setValue(new String[] { "test" });
 		}
+
 	}
 
 }

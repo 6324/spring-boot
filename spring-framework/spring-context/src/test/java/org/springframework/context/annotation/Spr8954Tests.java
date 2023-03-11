@@ -29,14 +29,13 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * Unit tests for SPR-8954, in which a custom {@link InstantiationAwareBeanPostProcessor}
  * forces the predicted type of a FactoryBean, effectively preventing retrieval of the
  * bean from calls to #getBeansOfType(FactoryBean.class). The implementation of
- * {@link AbstractBeanFactory#isFactoryBean(String, RootBeanDefinition)} now ensures
- * that not only the predicted bean type is considered, but also the original bean
- * definition's beanClass.
+ * {@link AbstractBeanFactory#isFactoryBean(String, RootBeanDefinition)} now ensures that
+ * not only the predicted bean type is considered, but also the original bean definition's
+ * beanClass.
  *
  * @author Chris Beams
  * @author Oliver Gierke
@@ -85,14 +84,14 @@ public class Spr8954Tests {
 		assertThat("&foo").isEqualTo(aiBeans.keySet().iterator().next());
 	}
 
-
 	static class FooConfig {
 
-		@Bean FooFactoryBean foo() {
+		@Bean
+		FooFactoryBean foo() {
 			return new FooFactoryBean();
 		}
-	}
 
+	}
 
 	static class FooFactoryBean implements FactoryBean<Foo>, AnInterface {
 
@@ -110,20 +109,20 @@ public class Spr8954Tests {
 		public boolean isSingleton() {
 			return true;
 		}
-	}
 
+	}
 
 	interface AnInterface {
-	}
 
+	}
 
 	static class Foo {
-	}
 
+	}
 
 	interface PredictedType {
-	}
 
+	}
 
 	static class PredictingBPP extends InstantiationAwareBeanPostProcessorAdapter {
 
@@ -136,6 +135,7 @@ public class Spr8954Tests {
 		public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) {
 			return pvs;
 		}
+
 	}
 
 }

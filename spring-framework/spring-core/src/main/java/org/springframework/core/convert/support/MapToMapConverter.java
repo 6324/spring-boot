@@ -31,10 +31,11 @@ import org.springframework.lang.Nullable;
 /**
  * Converts a Map to another Map.
  *
- * <p>First, creates a new Map of the requested targetType with a size equal to the
- * size of the source Map. Then copies each element in the source map to the target map.
- * Will perform a conversion from the source maps's parameterized K,V types to the target
- * map's parameterized types K,V if necessary.
+ * <p>
+ * First, creates a new Map of the requested targetType with a size equal to the size of
+ * the source Map. Then copies each element in the source map to the target map. Will
+ * perform a conversion from the source maps's parameterized K,V types to the target map's
+ * parameterized types K,V if necessary.
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -44,11 +45,9 @@ final class MapToMapConverter implements ConditionalGenericConverter {
 
 	private final ConversionService conversionService;
 
-
 	public MapToMapConverter(ConversionService conversionService) {
 		this.conversionService = conversionService;
 	}
-
 
 	@Override
 	public Set<ConvertiblePair> getConvertibleTypes() {
@@ -101,7 +100,6 @@ final class MapToMapConverter implements ConditionalGenericConverter {
 		return targetMap;
 	}
 
-
 	// internal helpers
 
 	private boolean canConvertKey(TypeDescriptor sourceType, TypeDescriptor targetType) {
@@ -127,9 +125,9 @@ final class MapToMapConverter implements ConditionalGenericConverter {
 		if (targetType == null) {
 			return sourceValue;
 		}
-		return this.conversionService.convert(sourceValue, sourceType.getMapValueTypeDescriptor(sourceValue), targetType);
+		return this.conversionService.convert(sourceValue, sourceType.getMapValueTypeDescriptor(sourceValue),
+				targetType);
 	}
-
 
 	private static class MapEntry {
 
@@ -147,6 +145,7 @@ final class MapToMapConverter implements ConditionalGenericConverter {
 		public void addToMap(Map<Object, Object> map) {
 			map.put(this.key, this.value);
 		}
+
 	}
 
 }

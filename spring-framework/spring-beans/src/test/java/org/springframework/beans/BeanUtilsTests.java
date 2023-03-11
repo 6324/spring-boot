@@ -60,47 +60,47 @@ class BeanUtilsTests {
 
 	@Test
 	void testInstantiateClassGivenInterface() {
-		assertThatExceptionOfType(FatalBeanException.class).isThrownBy(() ->
-				BeanUtils.instantiateClass(List.class));
+		assertThatExceptionOfType(FatalBeanException.class).isThrownBy(() -> BeanUtils.instantiateClass(List.class));
 	}
 
 	@Test
 	void testInstantiateClassGivenClassWithoutDefaultConstructor() {
-		assertThatExceptionOfType(FatalBeanException.class).isThrownBy(() ->
-				BeanUtils.instantiateClass(CustomDateEditor.class));
+		assertThatExceptionOfType(FatalBeanException.class)
+				.isThrownBy(() -> BeanUtils.instantiateClass(CustomDateEditor.class));
 	}
 
-	@Test  // gh-22531
+	@Test // gh-22531
 	void testInstantiateClassWithOptionalNullableType() throws NoSuchMethodException {
-		Constructor<BeanWithNullableTypes> ctor = BeanWithNullableTypes.class.getDeclaredConstructor(
-				Integer.class, Boolean.class, String.class);
+		Constructor<BeanWithNullableTypes> ctor = BeanWithNullableTypes.class.getDeclaredConstructor(Integer.class,
+				Boolean.class, String.class);
 		BeanWithNullableTypes bean = BeanUtils.instantiateClass(ctor, null, null, "foo");
 		assertThat(bean.getCounter()).isNull();
 		assertThat(bean.isFlag()).isNull();
 		assertThat(bean.getValue()).isEqualTo("foo");
 	}
 
-	@Test  // gh-22531
+	@Test // gh-22531
 	void instantiateClassWithFewerArgsThanParameters() throws NoSuchMethodException {
 		Constructor<BeanWithPrimitiveTypes> constructor = getBeanWithPrimitiveTypesConstructor();
 
-		assertThatExceptionOfType(BeanInstantiationException.class).isThrownBy(() ->
-				BeanUtils.instantiateClass(constructor, null, null, "foo"));
+		assertThatExceptionOfType(BeanInstantiationException.class)
+				.isThrownBy(() -> BeanUtils.instantiateClass(constructor, null, null, "foo"));
 	}
 
-	@Test  // gh-22531
+	@Test // gh-22531
 	void instantiateClassWithMoreArgsThanParameters() throws NoSuchMethodException {
 		Constructor<BeanWithPrimitiveTypes> constructor = getBeanWithPrimitiveTypesConstructor();
 
-		assertThatExceptionOfType(BeanInstantiationException.class).isThrownBy(() ->
-				BeanUtils.instantiateClass(constructor, null, null, null, null, null, null, null, null, "foo", null));
+		assertThatExceptionOfType(BeanInstantiationException.class).isThrownBy(() -> BeanUtils
+				.instantiateClass(constructor, null, null, null, null, null, null, null, null, "foo", null));
 	}
 
-	@Test  // gh-22531, gh-27390
+	@Test // gh-22531, gh-27390
 	void instantiateClassWithOptionalPrimitiveTypes() throws NoSuchMethodException {
 		Constructor<BeanWithPrimitiveTypes> constructor = getBeanWithPrimitiveTypesConstructor();
 
-		BeanWithPrimitiveTypes bean = BeanUtils.instantiateClass(constructor, null, null, null, null, null, null, null, null, "foo");
+		BeanWithPrimitiveTypes bean = BeanUtils.instantiateClass(constructor, null, null, null, null, null, null, null,
+				null, "foo");
 
 		assertSoftly(softly -> {
 			softly.assertThat(bean.isFlag()).isFalse();
@@ -122,7 +122,8 @@ class BeanUtilsTests {
 
 	@Test
 	void testInstantiatePrivateClassWithPrivateConstructor() throws NoSuchMethodException {
-		Constructor<PrivateBeanWithPrivateConstructor> ctor = PrivateBeanWithPrivateConstructor.class.getDeclaredConstructor();
+		Constructor<PrivateBeanWithPrivateConstructor> ctor = PrivateBeanWithPrivateConstructor.class
+				.getDeclaredConstructor();
 		BeanUtils.instantiateClass(ctor);
 	}
 
@@ -265,14 +266,14 @@ class BeanUtilsTests {
 
 	@Test
 	void testResolveInvalidSignatureEndParen() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				BeanUtils.resolveSignature("doSomething(", MethodSignatureBean.class));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> BeanUtils.resolveSignature("doSomething(", MethodSignatureBean.class));
 	}
 
 	@Test
 	void testResolveInvalidSignatureStartParen() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				BeanUtils.resolveSignature("doSomething)", MethodSignatureBean.class));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> BeanUtils.resolveSignature("doSomething)", MethodSignatureBean.class));
 	}
 
 	@Test
@@ -300,7 +301,8 @@ class BeanUtilsTests {
 
 		// resolve with two args
 		desiredMethod = MethodSignatureBean.class.getMethod("overloaded", String.class, BeanFactory.class);
-		assertSignatureEquals(desiredMethod, "overloaded(java.lang.String, org.springframework.beans.factory.BeanFactory)");
+		assertSignatureEquals(desiredMethod,
+				"overloaded(java.lang.String, org.springframework.beans.factory.BeanFactory)");
 	}
 
 	@Test
@@ -320,48 +322,51 @@ class BeanUtilsTests {
 		assertThat(keyDescr.getPropertyType()).isEqualTo(String.class);
 		for (PropertyDescriptor propertyDescriptor : descrs) {
 			if (propertyDescriptor.getName().equals(keyDescr.getName())) {
-				assertThat(propertyDescriptor.getPropertyType()).as(propertyDescriptor.getName() + " has unexpected type").isEqualTo(keyDescr.getPropertyType());
+				assertThat(propertyDescriptor.getPropertyType())
+						.as(propertyDescriptor.getName() + " has unexpected type")
+						.isEqualTo(keyDescr.getPropertyType());
 			}
 		}
 	}
 
 	@ParameterizedTest
-	@ValueSource(classes = {
-		boolean.class, char.class, byte.class, short.class, int.class, long.class, float.class, double.class,
-		Boolean.class, Character.class, Byte.class, Short.class, Integer.class, Long.class, Float.class, Double.class,
-		DayOfWeek.class, String.class, LocalDateTime.class, Date.class, URI.class, URL.class, Locale.class, Class.class
-	})
+	@ValueSource(classes = { boolean.class, char.class, byte.class, short.class, int.class, long.class, float.class,
+			double.class, Boolean.class, Character.class, Byte.class, Short.class, Integer.class, Long.class,
+			Float.class, Double.class, DayOfWeek.class, String.class, LocalDateTime.class, Date.class, URI.class,
+			URL.class, Locale.class, Class.class })
 	void isSimpleValueType(Class<?> type) {
-		assertThat(BeanUtils.isSimpleValueType(type)).as("Type [" + type.getName() + "] should be a simple value type").isTrue();
+		assertThat(BeanUtils.isSimpleValueType(type)).as("Type [" + type.getName() + "] should be a simple value type")
+				.isTrue();
 	}
 
 	@ParameterizedTest
 	@ValueSource(classes = { int[].class, Object.class, List.class, void.class, Void.class })
 	void isNotSimpleValueType(Class<?> type) {
-		assertThat(BeanUtils.isSimpleValueType(type)).as("Type [" + type.getName() + "] should not be a simple value type").isFalse();
+		assertThat(BeanUtils.isSimpleValueType(type))
+				.as("Type [" + type.getName() + "] should not be a simple value type").isFalse();
 	}
 
 	@ParameterizedTest
-	@ValueSource(classes = {
-		boolean.class, char.class, byte.class, short.class, int.class, long.class, float.class, double.class,
-		Boolean.class, Character.class, Byte.class, Short.class, Integer.class, Long.class, Float.class, Double.class,
-		DayOfWeek.class, String.class, LocalDateTime.class, Date.class, URI.class, URL.class, Locale.class, Class.class,
-		boolean[].class, Boolean[].class, LocalDateTime[].class, Date[].class
-	})
+	@ValueSource(classes = { boolean.class, char.class, byte.class, short.class, int.class, long.class, float.class,
+			double.class, Boolean.class, Character.class, Byte.class, Short.class, Integer.class, Long.class,
+			Float.class, Double.class, DayOfWeek.class, String.class, LocalDateTime.class, Date.class, URI.class,
+			URL.class, Locale.class, Class.class, boolean[].class, Boolean[].class, LocalDateTime[].class,
+			Date[].class })
 	void isSimpleProperty(Class<?> type) {
-		assertThat(BeanUtils.isSimpleProperty(type)).as("Type [" + type.getName() + "] should be a simple property").isTrue();
+		assertThat(BeanUtils.isSimpleProperty(type)).as("Type [" + type.getName() + "] should be a simple property")
+				.isTrue();
 	}
 
 	@ParameterizedTest
 	@ValueSource(classes = { Object.class, List.class, void.class, Void.class })
 	void isNotSimpleProperty(Class<?> type) {
-		assertThat(BeanUtils.isSimpleProperty(type)).as("Type [" + type.getName() + "] should not be a simple property").isFalse();
+		assertThat(BeanUtils.isSimpleProperty(type)).as("Type [" + type.getName() + "] should not be a simple property")
+				.isFalse();
 	}
 
 	private void assertSignatureEquals(Method desiredMethod, String signature) {
 		assertThat(BeanUtils.resolveSignature(signature, MethodSignatureBean.class)).isEqualTo(desiredMethod);
 	}
-
 
 	@SuppressWarnings("unused")
 	private static class NameAndSpecialProperty {
@@ -385,8 +390,8 @@ class BeanUtilsTests {
 		public int getSpecialProperty() {
 			return specialProperty;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class InvalidProperty {
@@ -430,8 +435,8 @@ class BeanUtilsTests {
 		public boolean getFlag2() {
 			return this.flag2;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class ContainerBean {
@@ -445,8 +450,8 @@ class BeanUtilsTests {
 		public void setContainedBeans(ContainedBean[] containedBeans) {
 			this.containedBeans = containedBeans;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class ContainedBean {
@@ -460,8 +465,8 @@ class BeanUtilsTests {
 		public void setName(String name) {
 			this.name = name;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class MethodSignatureBean {
@@ -486,8 +491,8 @@ class BeanUtilsTests {
 
 		public void doSomethingWithAMultiDimensionalArray(String[][] strings) {
 		}
-	}
 
+	}
 
 	private interface MapEntry<K, V> {
 
@@ -498,8 +503,8 @@ class BeanUtilsTests {
 		V getValue();
 
 		void setValue(V value);
-	}
 
+	}
 
 	private static class Bean implements MapEntry<String, String> {
 
@@ -526,6 +531,7 @@ class BeanUtilsTests {
 		public void setValue(String aValue) {
 			value = aValue;
 		}
+
 	}
 
 	private static class BeanWithNullableTypes {
@@ -556,20 +562,28 @@ class BeanUtilsTests {
 		public String getValue() {
 			return value;
 		}
+
 	}
 
 	private static class BeanWithPrimitiveTypes {
 
 		private boolean flag;
-		private byte byteCount;
-		private short shortCount;
-		private int intCount;
-		private long longCount;
-		private float floatCount;
-		private double doubleCount;
-		private char character;
-		private String text;
 
+		private byte byteCount;
+
+		private short shortCount;
+
+		private int intCount;
+
+		private long longCount;
+
+		private float floatCount;
+
+		private double doubleCount;
+
+		private char character;
+
+		private String text;
 
 		@SuppressWarnings("unused")
 		public BeanWithPrimitiveTypes(boolean flag, byte byteCount, short shortCount, int intCount, long longCount,
@@ -628,6 +642,7 @@ class BeanUtilsTests {
 
 		private PrivateBeanWithPrivateConstructor() {
 		}
+
 	}
 
 }

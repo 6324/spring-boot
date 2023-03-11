@@ -61,7 +61,6 @@ public class JmsInvokerTests {
 
 	private Queue mockQueue;
 
-
 	@BeforeEach
 	public void setUpMocks() throws Exception {
 		mockConnectionFactory = mock(QueueConnectionFactory.class);
@@ -72,7 +71,6 @@ public class JmsInvokerTests {
 		given(mockConnectionFactory.createConnection()).willReturn(mockConnection);
 		given(mockConnection.createSession(false, Session.AUTO_ACKNOWLEDGE)).willReturn(mockSession);
 	}
-
 
 	@Test
 	public void testJmsInvokerProxyFactoryBeanAndServiceExporter() throws Throwable {
@@ -89,7 +87,8 @@ public class JmsInvokerTests {
 	public void receiveTimeoutExpired() {
 		JmsInvokerProxyFactoryBean pfb = new JmsInvokerProxyFactoryBean() {
 			@Override
-			protected Message doExecuteRequest(Session session, Queue queue, Message requestMessage) throws JMSException {
+			protected Message doExecuteRequest(Session session, Queue queue, Message requestMessage)
+					throws JMSException {
 				return null; // faking no message received
 			}
 		};
@@ -100,10 +99,8 @@ public class JmsInvokerTests {
 		pfb.afterPropertiesSet();
 		ITestBean proxy = (ITestBean) pfb.getObject();
 
-		assertThatExceptionOfType(RemoteTimeoutException.class).isThrownBy(() ->
-				proxy.getAge())
-			.withMessageContaining("1500 ms")
-			.withMessageContaining("getAge");
+		assertThatExceptionOfType(RemoteTimeoutException.class).isThrownBy(() -> proxy.getAge())
+				.withMessageContaining("1500 ms").withMessageContaining("getAge");
 	}
 
 	private void doTestJmsInvokerProxyFactoryBeanAndServiceExporter(boolean dynamicQueue) throws Throwable {
@@ -117,7 +114,8 @@ public class JmsInvokerTests {
 
 		JmsInvokerProxyFactoryBean pfb = new JmsInvokerProxyFactoryBean() {
 			@Override
-			protected Message doExecuteRequest(Session session, Queue queue, Message requestMessage) throws JMSException {
+			protected Message doExecuteRequest(Session session, Queue queue, Message requestMessage)
+					throws JMSException {
 				Session mockExporterSession = mock(Session.class);
 				ResponseStoringProducer mockProducer = new ResponseStoringProducer();
 				given(mockExporterSession.createProducer(requestMessage.getJMSReplyTo())).willReturn(mockProducer);
@@ -143,14 +141,12 @@ public class JmsInvokerTests {
 		assertThat(proxy.getAge()).isEqualTo(99);
 		proxy.setAge(50);
 		assertThat(proxy.getAge()).isEqualTo(50);
-		proxy.setStringArray(new String[] {"str1", "str2"});
-		assertThat(Arrays.equals(new String[] {"str1", "str2"}, proxy.getStringArray())).isTrue();
-		assertThatIllegalStateException().isThrownBy(() ->
-			proxy.exceptional(new IllegalStateException()));
-		assertThatExceptionOfType(IllegalAccessException.class).isThrownBy(() ->
-				proxy.exceptional(new IllegalAccessException()));
+		proxy.setStringArray(new String[] { "str1", "str2" });
+		assertThat(Arrays.equals(new String[] { "str1", "str2" }, proxy.getStringArray())).isTrue();
+		assertThatIllegalStateException().isThrownBy(() -> proxy.exceptional(new IllegalStateException()));
+		assertThatExceptionOfType(IllegalAccessException.class)
+				.isThrownBy(() -> proxy.exceptional(new IllegalAccessException()));
 	}
-
 
 	private static class ResponseStoringProducer implements MessageProducer {
 
@@ -244,18 +240,21 @@ public class JmsInvokerTests {
 		}
 
 		@Override
-		public void send(Message message, int deliveryMode, int priority, long timeToLive, CompletionListener completionListener) throws JMSException {
+		public void send(Message message, int deliveryMode, int priority, long timeToLive,
+				CompletionListener completionListener) throws JMSException {
 		}
 
 		@Override
-		public void send(Destination destination, Message message, CompletionListener completionListener) throws JMSException {
+		public void send(Destination destination, Message message, CompletionListener completionListener)
+				throws JMSException {
 		}
 
 		@Override
-		public void send(Destination destination, Message message, int deliveryMode, int priority, long timeToLive, CompletionListener completionListener) throws JMSException {
+		public void send(Destination destination, Message message, int deliveryMode, int priority, long timeToLive,
+				CompletionListener completionListener) throws JMSException {
 		}
+
 	}
-
 
 	private static class MockObjectMessage implements ObjectMessage {
 
@@ -498,8 +497,8 @@ public class JmsInvokerTests {
 		@Override
 		public void clearBody() throws JMSException {
 		}
-	}
 
+	}
 
 	private static class MockSimpleMessageConverter extends SimpleMessageConverter {
 
@@ -507,6 +506,7 @@ public class JmsInvokerTests {
 		public Message toMessage(Object object, Session session) throws JMSException, MessageConversionException {
 			return new MockObjectMessage((Serializable) object);
 		}
+
 	}
 
 }

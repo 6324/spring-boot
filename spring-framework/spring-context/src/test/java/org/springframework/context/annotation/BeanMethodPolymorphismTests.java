@@ -28,8 +28,7 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Tests regarding overloading and overriding of bean methods.
- * Related to SPR-6618.
+ * Tests regarding overloading and overriding of bean methods. Related to SPR-6618.
  *
  * @author Chris Beams
  * @author Phillip Webb
@@ -154,9 +153,9 @@ public class BeanMethodPolymorphismTests {
 	}
 
 	/**
-	 * When inheritance is not involved, it is still possible to override a bean method from
-	 * the container's point of view. This is not strictly 'overloading' of a method per se,
-	 * so it's referred to here as 'shadowing' to distinguish the difference.
+	 * When inheritance is not involved, it is still possible to override a bean method
+	 * from the container's point of view. This is not strictly 'overloading' of a method
+	 * per se, so it's referred to here as 'shadowing' to distinguish the difference.
 	 */
 	@Test
 	public void beanMethodShadowing() {
@@ -174,7 +173,6 @@ public class BeanMethodPolymorphismTests {
 		ctx.getBean("testBean", TestBean.class);
 	}
 
-
 	@Configuration
 	static class BaseConfig {
 
@@ -182,18 +180,19 @@ public class BeanMethodPolymorphismTests {
 		public TestBean testBean() {
 			return new TestBean();
 		}
-	}
 
+	}
 
 	@Configuration
 	static class Config extends BaseConfig {
-	}
 
+	}
 
 	@Configuration
 	static class OverridingConfig extends BaseConfig {
 
-		@Bean @Lazy
+		@Bean
+		@Lazy
 		@Override
 		public TestBean testBean() {
 			return new TestBean() {
@@ -203,17 +202,18 @@ public class BeanMethodPolymorphismTests {
 				}
 			};
 		}
-	}
 
+	}
 
 	static class ExtendedTestBean extends TestBean {
-	}
 
+	}
 
 	@Configuration
 	static class NarrowedOverridingConfig extends BaseConfig {
 
-		@Bean @Lazy
+		@Bean
+		@Lazy
 		@Override
 		public ExtendedTestBean testBean() {
 			return new ExtendedTestBean() {
@@ -223,8 +223,8 @@ public class BeanMethodPolymorphismTests {
 				}
 			};
 		}
-	}
 
+	}
 
 	@Configuration
 	static class ConfigWithOverloading {
@@ -238,23 +238,25 @@ public class BeanMethodPolymorphismTests {
 		String aString(Integer dependency) {
 			return "overloaded" + dependency;
 		}
-	}
 
+	}
 
 	@Configuration
 	static class ConfigWithOverloadingAndAdditionalMetadata {
 
-		@Bean @Lazy
+		@Bean
+		@Lazy
 		String aString() {
 			return "regular";
 		}
 
-		@Bean @Lazy
+		@Bean
+		@Lazy
 		String aString(Integer dependency) {
 			return "overloaded" + dependency;
 		}
-	}
 
+	}
 
 	@Configuration
 	static class SuperConfig {
@@ -263,8 +265,8 @@ public class BeanMethodPolymorphismTests {
 		String aString() {
 			return "super";
 		}
-	}
 
+	}
 
 	@Configuration
 	static class SubConfig extends SuperConfig {
@@ -274,12 +276,13 @@ public class BeanMethodPolymorphismTests {
 			return 5;
 		}
 
-		@Bean @Lazy
+		@Bean
+		@Lazy
 		String aString(Integer dependency) {
 			return "overloaded" + dependency;
 		}
-	}
 
+	}
 
 	@Configuration
 	static class SubConfigWithList extends SuperConfig {
@@ -289,12 +292,13 @@ public class BeanMethodPolymorphismTests {
 			return 5;
 		}
 
-		@Bean @Lazy
+		@Bean
+		@Lazy
 		String aString(List<Integer> dependency) {
 			return "overloaded" + dependency.get(0);
 		}
-	}
 
+	}
 
 	@Configuration
 	@Import(SubConfig.class)
@@ -304,8 +308,8 @@ public class BeanMethodPolymorphismTests {
 		String aString() {
 			return "shadow";
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	public static class TestAdvisor extends DefaultPointcutAdvisor {
@@ -313,6 +317,7 @@ public class BeanMethodPolymorphismTests {
 		public TestAdvisor() {
 			super(new SimpleTraceInterceptor());
 		}
+
 	}
 
 }

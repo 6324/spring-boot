@@ -62,7 +62,6 @@ public class ConcurrentBeanFactoryTests {
 		}
 	}
 
-
 	private static final Log logger = LogFactory.getLog(ConcurrentBeanFactoryTests.class);
 
 	private BeanFactory factory;
@@ -71,20 +70,17 @@ public class ConcurrentBeanFactoryTests {
 
 	private Throwable ex;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(factory).loadBeanDefinitions(
-				qualifiedResource(ConcurrentBeanFactoryTests.class, "context.xml"));
+		new XmlBeanDefinitionReader(factory)
+				.loadBeanDefinitions(qualifiedResource(ConcurrentBeanFactoryTests.class, "context.xml"));
 
-		factory.addPropertyEditorRegistrar(
-				registry -> registry.registerCustomEditor(Date.class,
-						new CustomDateEditor((DateFormat) DATE_FORMAT.clone(), false)));
+		factory.addPropertyEditorRegistrar(registry -> registry.registerCustomEditor(Date.class,
+				new CustomDateEditor((DateFormat) DATE_FORMAT.clone(), false)));
 
 		this.factory = factory;
 	}
-
 
 	@Test
 	public void testSingleThread() {
@@ -129,7 +125,6 @@ public class ConcurrentBeanFactoryTests {
 		assertThat(b2.getDate()).isEqualTo(DATE_2);
 	}
 
-
 	private class TestRun extends Thread {
 
 		@Override
@@ -149,8 +144,8 @@ public class ConcurrentBeanFactoryTests {
 				}
 			}
 		}
-	}
 
+	}
 
 	public static class ConcurrentBean {
 
@@ -163,6 +158,7 @@ public class ConcurrentBeanFactoryTests {
 		public void setDate(Date date) {
 			this.date = date;
 		}
+
 	}
 
 }

@@ -35,8 +35,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * The common supertype of all AST nodes in a parsed Spring Expression Language
- * format expression.
+ * The common supertype of all AST nodes in a parsed Spring Expression Language format
+ * expression.
  *
  * @author Andy Clement
  * @author Juergen Hoeller
@@ -45,7 +45,6 @@ import org.springframework.util.ObjectUtils;
 public abstract class SpelNodeImpl implements SpelNode, Opcodes {
 
 	private static final SpelNodeImpl[] NO_CHILDREN = new SpelNodeImpl[0];
-
 
 	private final int startPos;
 
@@ -57,17 +56,16 @@ public abstract class SpelNodeImpl implements SpelNode, Opcodes {
 	private SpelNodeImpl parent;
 
 	/**
-	 * Indicates the type descriptor for the result of this expression node.
-	 * This is set as soon as it is known. For a literal node it is known immediately.
-	 * For a property access or method invocation it is known after one evaluation of
-	 * that node.
-	 * <p>The descriptor is like the bytecode form but is slightly easier to work with.
-	 * It does not include the trailing semicolon (for non array reference types).
-	 * Some examples: Ljava/lang/String, I, [I
-     */
+	 * Indicates the type descriptor for the result of this expression node. This is set
+	 * as soon as it is known. For a literal node it is known immediately. For a property
+	 * access or method invocation it is known after one evaluation of that node.
+	 * <p>
+	 * The descriptor is like the bytecode form but is slightly easier to work with. It
+	 * does not include the trailing semicolon (for non array reference types). Some
+	 * examples: Ljava/lang/String, I, [I
+	 */
 	@Nullable
 	protected volatile String exitTypeDescriptor;
-
 
 	public SpelNodeImpl(int startPos, int endPos, SpelNodeImpl... operands) {
 		this.startPos = startPos;
@@ -81,10 +79,9 @@ public abstract class SpelNodeImpl implements SpelNode, Opcodes {
 		}
 	}
 
-
 	/**
-     * Return {@code true} if the next child is one of the specified classes.
-     */
+	 * Return {@code true} if the next child is one of the specified classes.
+	 */
 	protected boolean nextChildIs(Class<?>... classes) {
 		if (this.parent != null) {
 			SpelNodeImpl[] peers = this.parent.children;
@@ -158,9 +155,9 @@ public abstract class SpelNodeImpl implements SpelNode, Opcodes {
 	}
 
 	/**
-	 * Check whether a node can be compiled to bytecode. The reasoning in each node may
-	 * be different but will typically involve checking whether the exit type descriptor
-	 * of the node is known and any relevant child nodes are compilable.
+	 * Check whether a node can be compiled to bytecode. The reasoning in each node may be
+	 * different but will typically involve checking whether the exit type descriptor of
+	 * the node is known and any relevant child nodes are compilable.
 	 * @return {@code true} if this node can be compiled to bytecode
 	 */
 	public boolean isCompilable() {
@@ -175,7 +172,7 @@ public abstract class SpelNodeImpl implements SpelNode, Opcodes {
 	 * @param cf a context object with info about what is on the stack
 	 */
 	public void generateCode(MethodVisitor mv, CodeFlow cf) {
-		throw new IllegalStateException(getClass().getName() +" has no generateCode(..) method");
+		throw new IllegalStateException(getClass().getName() + " has no generateCode(..) method");
 	}
 
 	@Nullable
@@ -185,7 +182,8 @@ public abstract class SpelNodeImpl implements SpelNode, Opcodes {
 
 	@Nullable
 	protected final <T> T getValue(ExpressionState state, Class<T> desiredReturnType) throws EvaluationException {
-		return ExpressionUtils.convertTypedValue(state.getEvaluationContext(), getValueInternal(state), desiredReturnType);
+		return ExpressionUtils.convertTypedValue(state.getEvaluationContext(), getValueInternal(state),
+				desiredReturnType);
 	}
 
 	protected ValueRef getValueRef(ExpressionState state) throws EvaluationException {
@@ -194,17 +192,17 @@ public abstract class SpelNodeImpl implements SpelNode, Opcodes {
 
 	public abstract TypedValue getValueInternal(ExpressionState expressionState) throws EvaluationException;
 
-
 	/**
 	 * Generate code that handles building the argument values for the specified method.
-	 * This method will take account of whether the invoked method is a varargs method
-	 * and if it is then the argument values will be appropriately packaged into an array.
+	 * This method will take account of whether the invoked method is a varargs method and
+	 * if it is then the argument values will be appropriately packaged into an array.
 	 * @param mv the method visitor where code should be generated
 	 * @param cf the current codeflow
 	 * @param member the method or constructor for which arguments are being setup
 	 * @param arguments the expression nodes for the expression supplied argument values
 	 */
-	protected static void generateCodeForArguments(MethodVisitor mv, CodeFlow cf, Member member, SpelNodeImpl[] arguments) {
+	protected static void generateCodeForArguments(MethodVisitor mv, CodeFlow cf, Member member,
+			SpelNodeImpl[] arguments) {
 		String[] paramDescriptors = null;
 		boolean isVarargs = false;
 		if (member instanceof Constructor) {
@@ -213,12 +211,13 @@ public abstract class SpelNodeImpl implements SpelNode, Opcodes {
 			isVarargs = ctor.isVarArgs();
 		}
 		else { // Method
-			Method method = (Method)member;
+			Method method = (Method) member;
 			paramDescriptors = CodeFlow.toDescriptors(method.getParameterTypes());
 			isVarargs = method.isVarArgs();
 		}
 		if (isVarargs) {
-			// The final parameter may or may not need packaging into an array, or nothing may
+			// The final parameter may or may not need packaging into an array, or nothing
+			// may
 			// have been passed to satisfy the varargs and so something needs to be built.
 			int p = 0; // Current supplied argument being processed
 			int childCount = arguments.length;
@@ -230,13 +229,15 @@ public abstract class SpelNodeImpl implements SpelNode, Opcodes {
 
 			SpelNodeImpl lastChild = (childCount == 0 ? null : arguments[childCount - 1]);
 			String arrayType = paramDescriptors[paramDescriptors.length - 1];
-			// Determine if the final passed argument is already suitably packaged in array
+			// Determine if the final passed argument is already suitably packaged in
+			// array
 			// form to be passed to the method
 			if (lastChild != null && arrayType.equals(lastChild.getExitDescriptor())) {
 				generateCodeForArgument(mv, cf, lastChild, paramDescriptors[p]);
 			}
 			else {
-				arrayType = arrayType.substring(1); // trim the leading '[', may leave other '['
+				arrayType = arrayType.substring(1); // trim the leading '[', may leave
+													// other '['
 				// build array big enough to hold remaining arguments
 				CodeFlow.insertNewArrayCode(mv, childCount - p, arrayType);
 				// Package up the remaining arguments into the array
@@ -252,17 +253,19 @@ public abstract class SpelNodeImpl implements SpelNode, Opcodes {
 			}
 		}
 		else {
-			for (int i = 0; i < paramDescriptors.length;i++) {
+			for (int i = 0; i < paramDescriptors.length; i++) {
 				generateCodeForArgument(mv, cf, arguments[i], paramDescriptors[i]);
 			}
 		}
 	}
 
 	/**
-	 * Ask an argument to generate its bytecode and then follow it up
-	 * with any boxing/unboxing/checkcasting to ensure it matches the expected parameter descriptor.
+	 * Ask an argument to generate its bytecode and then follow it up with any
+	 * boxing/unboxing/checkcasting to ensure it matches the expected parameter
+	 * descriptor.
 	 */
-	protected static void generateCodeForArgument(MethodVisitor mv, CodeFlow cf, SpelNodeImpl argument, String paramDesc) {
+	protected static void generateCodeForArgument(MethodVisitor mv, CodeFlow cf, SpelNodeImpl argument,
+			String paramDesc) {
 		cf.enterCompilationScope();
 		argument.generateCode(mv, cf);
 		String lastDesc = cf.lastDescriptor();
@@ -276,7 +279,8 @@ public abstract class SpelNodeImpl implements SpelNode, Opcodes {
 			CodeFlow.insertUnboxInsns(mv, paramDesc.charAt(0), lastDesc);
 		}
 		else if (!paramDesc.equals(lastDesc)) {
-			// This would be unnecessary in the case of subtyping (e.g. method takes Number but Integer passed in)
+			// This would be unnecessary in the case of subtyping (e.g. method takes
+			// Number but Integer passed in)
 			CodeFlow.insertCheckCast(mv, paramDesc);
 		}
 		cf.exitCompilationScope();

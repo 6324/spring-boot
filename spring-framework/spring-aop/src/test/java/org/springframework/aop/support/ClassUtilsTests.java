@@ -41,4 +41,5 @@ public class ClassUtilsTests {
 		String className = ClassUtils.getShortName(proxy.getClass());
 		assertThat(className).as("Class name did not match").isEqualTo("TestBean");
 	}
+
 }

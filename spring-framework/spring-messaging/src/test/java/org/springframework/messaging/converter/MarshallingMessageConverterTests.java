@@ -44,7 +44,6 @@ public class MarshallingMessageConverterTests {
 
 	private MarshallingMessageConverter converter;
 
-
 	@BeforeEach
 	public void createMarshaller() throws Exception {
 		Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
@@ -53,7 +52,6 @@ public class MarshallingMessageConverterTests {
 
 		this.converter = new MarshallingMessageConverter(marshaller);
 	}
-
 
 	@Test
 	public void fromMessage() throws Exception {
@@ -69,16 +67,16 @@ public class MarshallingMessageConverterTests {
 	public void fromMessageInvalidXml() throws Exception {
 		String payload = "<myBean><name>Foo</name><myBean>";
 		Message<?> message = MessageBuilder.withPayload(payload.getBytes(StandardCharsets.UTF_8)).build();
-		assertThatExceptionOfType(MessageConversionException.class).isThrownBy(() ->
-				this.converter.fromMessage(message, MyBean.class));
+		assertThatExceptionOfType(MessageConversionException.class)
+				.isThrownBy(() -> this.converter.fromMessage(message, MyBean.class));
 	}
 
 	@Test
 	public void fromMessageValidXmlWithUnknownProperty() throws IOException {
 		String payload = "<myBean><age>42</age><myBean>";
 		Message<?> message = MessageBuilder.withPayload(payload.getBytes(StandardCharsets.UTF_8)).build();
-		assertThatExceptionOfType(MessageConversionException.class).isThrownBy(() ->
-				this.converter.fromMessage(message, MyBean.class));
+		assertThatExceptionOfType(MessageConversionException.class)
+				.isThrownBy(() -> this.converter.fromMessage(message, MyBean.class));
 	}
 
 	@Test
@@ -94,7 +92,6 @@ public class MarshallingMessageConverterTests {
 		assertThat(XmlContent.of(actual)).isSimilarTo("<myBean><name>Foo</name></myBean>", ev);
 	}
 
-
 	@XmlRootElement
 	public static class MyBean {
 
@@ -107,6 +104,7 @@ public class MarshallingMessageConverterTests {
 		public void setName(String name) {
 			this.name = name;
 		}
+
 	}
 
 }

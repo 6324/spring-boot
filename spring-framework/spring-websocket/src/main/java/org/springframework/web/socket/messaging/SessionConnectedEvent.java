@@ -22,8 +22,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.messaging.Message;
 
 /**
- * A connected event represents the server response to a client's connect request.
- * See {@link org.springframework.web.socket.messaging.SessionConnectEvent}.
+ * A connected event represents the server response to a client's connect request. See
+ * {@link org.springframework.web.socket.messaging.SessionConnectEvent}.
  *
  * @author Rossen Stoyanchev
  * @since 4.0.3

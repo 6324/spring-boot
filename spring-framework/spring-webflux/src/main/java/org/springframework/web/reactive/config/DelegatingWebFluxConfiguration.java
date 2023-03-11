@@ -29,10 +29,10 @@ import org.springframework.web.reactive.accept.RequestedContentTypeResolverBuild
 import org.springframework.web.reactive.result.method.annotation.ArgumentResolverConfigurer;
 
 /**
- * A subclass of {@code WebFluxConfigurationSupport} that detects and delegates
- * to all beans of type {@link WebFluxConfigurer} allowing them to customize the
- * configuration provided by {@code WebFluxConfigurationSupport}. This is the
- * class actually imported by {@link EnableWebFlux @EnableWebFlux}.
+ * A subclass of {@code WebFluxConfigurationSupport} that detects and delegates to all
+ * beans of type {@link WebFluxConfigurer} allowing them to customize the configuration
+ * provided by {@code WebFluxConfigurationSupport}. This is the class actually imported by
+ * {@link EnableWebFlux @EnableWebFlux}.
  *
  * @author Brian Clozel
  * @since 5.0
@@ -42,14 +42,12 @@ public class DelegatingWebFluxConfiguration extends WebFluxConfigurationSupport 
 
 	private final WebFluxConfigurerComposite configurers = new WebFluxConfigurerComposite();
 
-
 	@Autowired(required = false)
 	public void setConfigurers(List<WebFluxConfigurer> configurers) {
 		if (!CollectionUtils.isEmpty(configurers)) {
 			this.configurers.addWebFluxConfigurers(configurers);
 		}
 	}
-
 
 	@Override
 	protected void configureContentTypeResolver(RequestedContentTypeResolverBuilder builder) {

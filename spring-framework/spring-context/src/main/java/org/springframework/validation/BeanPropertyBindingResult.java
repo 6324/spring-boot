@@ -24,15 +24,14 @@ import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.lang.Nullable;
 
 /**
- * Default implementation of the {@link Errors} and {@link BindingResult}
- * interfaces, for the registration and evaluation of binding errors on
- * JavaBean objects.
+ * Default implementation of the {@link Errors} and {@link BindingResult} interfaces, for
+ * the registration and evaluation of binding errors on JavaBean objects.
  *
- * <p>Performs standard JavaBean property access, also supporting nested
- * properties. Normally, application code will work with the
- * {@code Errors} interface or the {@code BindingResult} interface.
- * A {@link DataBinder} returns its {@code BindingResult} via
- * {@link DataBinder#getBindingResult()}.
+ * <p>
+ * Performs standard JavaBean property access, also supporting nested properties.
+ * Normally, application code will work with the {@code Errors} interface or the
+ * {@code BindingResult} interface. A {@link DataBinder} returns its {@code BindingResult}
+ * via {@link DataBinder#getBindingResult()}.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -53,7 +52,6 @@ public class BeanPropertyBindingResult extends AbstractPropertyBindingResult imp
 	@Nullable
 	private transient BeanWrapper beanWrapper;
 
-
 	/**
 	 * Creates a new instance of the {@link BeanPropertyBindingResult} class.
 	 * @param target the target bean to bind onto
@@ -67,18 +65,18 @@ public class BeanPropertyBindingResult extends AbstractPropertyBindingResult imp
 	 * Creates a new instance of the {@link BeanPropertyBindingResult} class.
 	 * @param target the target bean to bind onto
 	 * @param objectName the name of the target object
-	 * @param autoGrowNestedPaths whether to "auto-grow" a nested path that contains a null value
+	 * @param autoGrowNestedPaths whether to "auto-grow" a nested path that contains a
+	 * null value
 	 * @param autoGrowCollectionLimit the limit for array and collection auto-growing
 	 */
-	public BeanPropertyBindingResult(@Nullable Object target, String objectName,
-			boolean autoGrowNestedPaths, int autoGrowCollectionLimit) {
+	public BeanPropertyBindingResult(@Nullable Object target, String objectName, boolean autoGrowNestedPaths,
+			int autoGrowCollectionLimit) {
 
 		super(objectName);
 		this.target = target;
 		this.autoGrowNestedPaths = autoGrowNestedPaths;
 		this.autoGrowCollectionLimit = autoGrowCollectionLimit;
 	}
-
 
 	@Override
 	@Nullable
@@ -87,8 +85,8 @@ public class BeanPropertyBindingResult extends AbstractPropertyBindingResult imp
 	}
 
 	/**
-	 * Returns the {@link BeanWrapper} that this instance uses.
-	 * Creates a new one if none existed before.
+	 * Returns the {@link BeanWrapper} that this instance uses. Creates a new one if none
+	 * existed before.
 	 * @see #createBeanWrapper()
 	 */
 	@Override

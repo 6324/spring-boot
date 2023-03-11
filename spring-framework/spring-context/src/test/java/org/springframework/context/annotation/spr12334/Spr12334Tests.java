@@ -41,29 +41,29 @@ public class Spr12334Tests {
 		context.getBean(TestConfiguration.class);
 	}
 
-
 	@Import(TestImport.class)
 	public @interface AnotherImport {
-	}
 
+	}
 
 	@Configuration
 	@AnotherImport
 	public static class TestConfiguration {
-	}
 
+	}
 
 	public static class TestImport implements ImportBeanDefinitionRegistrar {
 
 		private static boolean scanned = false;
 
 		@Override
-		public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry)  {
+		public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
 			if (scanned) {
 				throw new IllegalStateException("Already scanned");
 			}
 			scanned = true;
 		}
+
 	}
 
 }

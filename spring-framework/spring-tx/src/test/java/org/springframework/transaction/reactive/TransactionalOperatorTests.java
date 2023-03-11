@@ -36,14 +36,10 @@ public class TransactionalOperatorTests {
 
 	ReactiveTestTransactionManager tm = new ReactiveTestTransactionManager(false, true);
 
-
 	@Test
 	public void commitWithMono() {
 		TransactionalOperator operator = TransactionalOperator.create(tm, new DefaultTransactionDefinition());
-		Mono.just(true).as(operator::transactional)
-				.as(StepVerifier::create)
-				.expectNext(true)
-				.verifyComplete();
+		Mono.just(true).as(operator::transactional).as(StepVerifier::create).expectNext(true).verifyComplete();
 		assertThat(tm.commit).isTrue();
 		assertThat(tm.rollback).isFalse();
 	}
@@ -52,10 +48,8 @@ public class TransactionalOperatorTests {
 	public void monoSubscriptionNotCancelled() {
 		AtomicBoolean cancelled = new AtomicBoolean();
 		TransactionalOperator operator = TransactionalOperator.create(tm, new DefaultTransactionDefinition());
-		Mono.just(true).doOnCancel(() -> cancelled.set(true)).as(operator::transactional)
-				.as(StepVerifier::create)
-				.expectNext(true)
-				.verifyComplete();
+		Mono.just(true).doOnCancel(() -> cancelled.set(true)).as(operator::transactional).as(StepVerifier::create)
+				.expectNext(true).verifyComplete();
 		assertThat(tm.commit).isTrue();
 		assertThat(tm.rollback).isFalse();
 		assertThat(cancelled).isFalse();
@@ -66,10 +60,7 @@ public class TransactionalOperatorTests {
 		AtomicBoolean cancelled = new AtomicBoolean();
 		TransactionalOperator operator = TransactionalOperator.create(tm, new DefaultTransactionDefinition());
 		Mono.create(sink -> sink.onCancel(() -> cancelled.set(true))).as(operator::transactional)
-				.as(StepVerifier::create)
-				.thenAwait()
-				.thenCancel()
-				.verify();
+				.as(StepVerifier::create).thenAwait().thenCancel().verify();
 		assertThat(tm.commit).isTrue();
 		assertThat(tm.rollback).isFalse();
 		assertThat(cancelled).isTrue();
@@ -80,10 +71,7 @@ public class TransactionalOperatorTests {
 		AtomicBoolean cancelled = new AtomicBoolean();
 		TransactionalOperator operator = TransactionalOperator.create(tm, new DefaultTransactionDefinition());
 		Flux.create(sink -> sink.onCancel(() -> cancelled.set(true))).as(operator::transactional)
-				.as(StepVerifier::create)
-				.thenAwait()
-				.thenCancel()
-				.verify();
+				.as(StepVerifier::create).thenAwait().thenCancel().verify();
 		assertThat(tm.commit).isTrue();
 		assertThat(tm.rollback).isFalse();
 		assertThat(cancelled).isTrue();
@@ -92,8 +80,7 @@ public class TransactionalOperatorTests {
 	@Test
 	public void rollbackWithMono() {
 		TransactionalOperator operator = TransactionalOperator.create(tm, new DefaultTransactionDefinition());
-		Mono.error(new IllegalStateException()).as(operator::transactional)
-				.as(StepVerifier::create)
+		Mono.error(new IllegalStateException()).as(operator::transactional).as(StepVerifier::create)
 				.verifyError(IllegalStateException.class);
 		assertThat(tm.commit).isFalse();
 		assertThat(tm.rollback).isTrue();
@@ -102,10 +89,7 @@ public class TransactionalOperatorTests {
 	@Test
 	public void commitWithFlux() {
 		TransactionalOperator operator = TransactionalOperator.create(tm, new DefaultTransactionDefinition());
-		Flux.just(1, 2, 3, 4).as(operator::transactional)
-				.as(StepVerifier::create)
-				.expectNextCount(4)
-				.verifyComplete();
+		Flux.just(1, 2, 3, 4).as(operator::transactional).as(StepVerifier::create).expectNextCount(4).verifyComplete();
 		assertThat(tm.commit).isTrue();
 		assertThat(tm.rollback).isFalse();
 	}
@@ -113,8 +97,7 @@ public class TransactionalOperatorTests {
 	@Test
 	public void rollbackWithFlux() {
 		TransactionalOperator operator = TransactionalOperator.create(tm, new DefaultTransactionDefinition());
-		Flux.error(new IllegalStateException()).as(operator::transactional)
-				.as(StepVerifier::create)
+		Flux.error(new IllegalStateException()).as(operator::transactional).as(StepVerifier::create)
 				.verifyError(IllegalStateException.class);
 		assertThat(tm.commit).isFalse();
 		assertThat(tm.rollback).isTrue();

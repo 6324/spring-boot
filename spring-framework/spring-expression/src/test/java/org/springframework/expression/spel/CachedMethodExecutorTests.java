@@ -37,7 +37,6 @@ public class CachedMethodExecutorTests {
 
 	private final StandardEvaluationContext context = new StandardEvaluationContext(new RootObject());
 
-
 	@Test
 	public void testCachedExecutionForParameters() {
 		Expression expression = this.parser.parseExpression("echo(#var)");
@@ -63,12 +62,12 @@ public class CachedMethodExecutorTests {
 		assertThat(expression.getValue(this.context)).isEqualTo(expected);
 	}
 
-
 	public static class BaseObject {
 
 		public String echo(String value) {
 			return "String: " + value;
 		}
+
 	}
 
 	public static class RootObject extends BaseObject {
@@ -76,6 +75,7 @@ public class CachedMethodExecutorTests {
 		public String echo(int value) {
 			return "int: " + value;
 		}
+
 	}
 
 }

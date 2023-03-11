@@ -33,7 +33,6 @@ public class ReactorNettyTcpStompClient extends StompClientSupport {
 
 	private final TcpOperations<byte[]> tcpClient;
 
-
 	/**
 	 * Create an instance with host "127.0.0.1" and port 61613.
 	 */
@@ -65,10 +64,9 @@ public class ReactorNettyTcpStompClient extends StompClientSupport {
 		return client;
 	}
 
-
 	/**
-	 * Connect and notify the given {@link StompSessionHandler} when connected
-	 * on the STOMP level.
+	 * Connect and notify the given {@link StompSessionHandler} when connected on the
+	 * STOMP level.
 	 * @param handler the handler for the STOMP session
 	 * @return a ListenableFuture for access to the session when ready for use
 	 */
@@ -77,8 +75,8 @@ public class ReactorNettyTcpStompClient extends StompClientSupport {
 	}
 
 	/**
-	 * An overloaded version of {@link #connect(StompSessionHandler)} that
-	 * accepts headers to use for the STOMP CONNECT frame.
+	 * An overloaded version of {@link #connect(StompSessionHandler)} that accepts headers
+	 * to use for the STOMP CONNECT frame.
 	 * @param connectHeaders headers to add to the CONNECT frame
 	 * @param handler the handler for the STOMP session
 	 * @return a ListenableFuture for access to the session when ready for use
@@ -100,4 +98,5 @@ public class ReactorNettyTcpStompClient extends StompClientSupport {
 	public String toString() {
 		return "ReactorNettyTcpStompClient[" + this.tcpClient + "]";
 	}
+
 }

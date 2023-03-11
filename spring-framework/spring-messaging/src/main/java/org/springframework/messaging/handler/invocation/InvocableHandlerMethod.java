@@ -32,8 +32,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Extension of {@link HandlerMethod} that invokes the underlying method with
- * argument values resolved from the current HTTP request through a list of
+ * Extension of {@link HandlerMethod} that invokes the underlying method with argument
+ * values resolved from the current HTTP request through a list of
  * {@link HandlerMethodArgumentResolver}.
  *
  * @author Rossen Stoyanchev
@@ -44,11 +44,9 @@ public class InvocableHandlerMethod extends HandlerMethod {
 
 	private static final Object[] EMPTY_ARGS = new Object[0];
 
-
 	private HandlerMethodArgumentResolverComposite resolvers = new HandlerMethodArgumentResolverComposite();
 
 	private ParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
-
 
 	/**
 	 * Create an instance from a {@code HandlerMethod}.
@@ -65,7 +63,8 @@ public class InvocableHandlerMethod extends HandlerMethod {
 	}
 
 	/**
-	 * Construct a new handler method with the given bean instance, method name and parameters.
+	 * Construct a new handler method with the given bean instance, method name and
+	 * parameters.
 	 * @param bean the object bean
 	 * @param methodName the method name
 	 * @param parameterTypes the method parameter types
@@ -77,37 +76,39 @@ public class InvocableHandlerMethod extends HandlerMethod {
 		super(bean, methodName, parameterTypes);
 	}
 
-
 	/**
-	 * Set {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers} to use to use for resolving method argument values.
+	 * Set {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers} to use to
+	 * use for resolving method argument values.
 	 */
 	public void setMessageMethodArgumentResolvers(HandlerMethodArgumentResolverComposite argumentResolvers) {
 		this.resolvers = argumentResolvers;
 	}
 
 	/**
-	 * Set the ParameterNameDiscoverer for resolving parameter names when needed
-	 * (e.g. default request attribute name).
-	 * <p>Default is a {@link org.springframework.core.DefaultParameterNameDiscoverer}.
+	 * Set the ParameterNameDiscoverer for resolving parameter names when needed (e.g.
+	 * default request attribute name).
+	 * <p>
+	 * Default is a {@link org.springframework.core.DefaultParameterNameDiscoverer}.
 	 */
 	public void setParameterNameDiscoverer(ParameterNameDiscoverer parameterNameDiscoverer) {
 		this.parameterNameDiscoverer = parameterNameDiscoverer;
 	}
 
-
 	/**
-	 * Invoke the method after resolving its argument values in the context of the given message.
-	 * <p>Argument values are commonly resolved through
-	 * {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}.
-	 * The {@code providedArgs} parameter however may supply argument values to be used directly,
-	 * i.e. without argument resolution.
-	 * <p>Delegates to {@link #getMethodArgumentValues} and calls {@link #doInvoke} with the
+	 * Invoke the method after resolving its argument values in the context of the given
+	 * message.
+	 * <p>
+	 * Argument values are commonly resolved through {@link HandlerMethodArgumentResolver
+	 * HandlerMethodArgumentResolvers}. The {@code providedArgs} parameter however may
+	 * supply argument values to be used directly, i.e. without argument resolution.
+	 * <p>
+	 * Delegates to {@link #getMethodArgumentValues} and calls {@link #doInvoke} with the
 	 * resolved arguments.
 	 * @param message the current message being processed
 	 * @param providedArgs "given" arguments matched by type, not resolved
 	 * @return the raw value returned by the invoked method
-	 * @throws Exception raised if no suitable argument resolver can be found,
-	 * or if the method raised an exception
+	 * @throws Exception raised if no suitable argument resolver can be found, or if the
+	 * method raised an exception
 	 * @see #getMethodArgumentValues
 	 * @see #doInvoke
 	 */
@@ -123,7 +124,8 @@ public class InvocableHandlerMethod extends HandlerMethod {
 	/**
 	 * Get the method argument values for the current message, checking the provided
 	 * argument values and falling back to the configured argument resolvers.
-	 * <p>The resulting array will be passed into {@link #doInvoke}.
+	 * <p>
+	 * The resulting array will be passed into {@link #doInvoke}.
 	 * @since 5.1.2
 	 */
 	protected Object[] getMethodArgumentValues(Message<?> message, Object... providedArgs) throws Exception {
@@ -141,14 +143,15 @@ public class InvocableHandlerMethod extends HandlerMethod {
 				continue;
 			}
 			if (!this.resolvers.supportsParameter(parameter)) {
-				throw new MethodArgumentResolutionException(
-						message, parameter, formatArgumentError(parameter, "No suitable resolver"));
+				throw new MethodArgumentResolutionException(message, parameter,
+						formatArgumentError(parameter, "No suitable resolver"));
 			}
 			try {
 				args[i] = this.resolvers.resolveArgument(parameter, message);
 			}
 			catch (Exception ex) {
-				// Leave stack trace for later, exception may actually be resolved and handled...
+				// Leave stack trace for later, exception may actually be resolved and
+				// handled...
 				if (logger.isDebugEnabled()) {
 					String exMsg = ex.getMessage();
 					if (exMsg != null && !exMsg.contains(parameter.getExecutable().toGenericString())) {
@@ -197,7 +200,6 @@ public class InvocableHandlerMethod extends HandlerMethod {
 		return new AsyncResultMethodParameter(returnValue);
 	}
 
-
 	private class AsyncResultMethodParameter extends HandlerMethodParameter {
 
 		@Nullable
@@ -237,6 +239,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
 		public AsyncResultMethodParameter clone() {
 			return new AsyncResultMethodParameter(this);
 		}
+
 	}
 
 }

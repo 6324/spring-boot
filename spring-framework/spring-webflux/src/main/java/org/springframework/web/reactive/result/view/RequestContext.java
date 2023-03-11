@@ -40,15 +40,17 @@ import org.springframework.web.util.HtmlUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * Context holder for request-specific state, like the {@link MessageSource} to
- * use, current locale, binding errors, etc. Provides easy access to localized
- * messages and Errors instances.
+ * Context holder for request-specific state, like the {@link MessageSource} to use,
+ * current locale, binding errors, etc. Provides easy access to localized messages and
+ * Errors instances.
  *
- * <p>Suitable for exposition to views, and usage within FreeMarker templates
- * and tag libraries.
+ * <p>
+ * Suitable for exposition to views, and usage within FreeMarker templates and tag
+ * libraries.
  *
- * <p>Can be instantiated manually or automatically exposed to views as a model
- * attribute via AbstractView's "requestContextAttribute" property.
+ * <p>
+ * Can be instantiated manually or automatically exposed to views as a model attribute via
+ * AbstractView's "requestContextAttribute" property.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -74,7 +76,6 @@ public class RequestContext {
 	@Nullable
 	private RequestDataValueProcessor dataValueProcessor;
 
-
 	public RequestContext(ServerWebExchange exchange, Map<String, Object> model, MessageSource messageSource) {
 		this(exchange, model, messageSource, null);
 	}
@@ -92,14 +93,13 @@ public class RequestContext {
 		LocaleContext localeContext = exchange.getLocaleContext();
 		Locale locale = localeContext.getLocale();
 		this.locale = (locale != null ? locale : Locale.getDefault());
-		TimeZone timeZone = (localeContext instanceof TimeZoneAwareLocaleContext ?
-				((TimeZoneAwareLocaleContext) localeContext).getTimeZone() : null);
+		TimeZone timeZone = (localeContext instanceof TimeZoneAwareLocaleContext
+				? ((TimeZoneAwareLocaleContext) localeContext).getTimeZone() : null);
 		this.timeZone = (timeZone != null ? timeZone : TimeZone.getDefault());
 
-		this.defaultHtmlEscape = null;  // TODO
+		this.defaultHtmlEscape = null; // TODO
 		this.dataValueProcessor = dataValueProcessor;
 	}
-
 
 	protected final ServerWebExchange getExchange() {
 		return this.exchange;
@@ -151,17 +151,18 @@ public class RequestContext {
 	}
 
 	/**
-	 * (De)activate default HTML escaping for messages and errors, for the scope
-	 * of this RequestContext.
-	 * <p>TODO: currently no application-wide setting ...
+	 * (De)activate default HTML escaping for messages and errors, for the scope of this
+	 * RequestContext.
+	 * <p>
+	 * TODO: currently no application-wide setting ...
 	 */
 	public void setDefaultHtmlEscape(boolean defaultHtmlEscape) {
 		this.defaultHtmlEscape = defaultHtmlEscape;
 	}
 
 	/**
-	 * Is default HTML escaping active? Falls back to {@code false} in case of
-	 * no explicit default given.
+	 * Is default HTML escaping active? Falls back to {@code false} in case of no explicit
+	 * default given.
 	 */
 	public boolean isDefaultHtmlEscape() {
 		return (this.defaultHtmlEscape != null && this.defaultHtmlEscape.booleanValue());
@@ -178,8 +179,8 @@ public class RequestContext {
 	}
 
 	/**
-	 * Return the {@link RequestDataValueProcessor} instance to apply to in form
-	 * tag libraries and to redirect URLs.
+	 * Return the {@link RequestDataValueProcessor} instance to apply to in form tag
+	 * libraries and to redirect URLs.
 	 */
 	@Nullable
 	public RequestDataValueProcessor getRequestDataValueProcessor() {
@@ -187,9 +188,10 @@ public class RequestContext {
 	}
 
 	/**
-	 * Return the context path of the current web application. This is
-	 * useful for building links to other resources within the application.
-	 * <p>Delegates to {@link ServerHttpRequest#getPath()}.
+	 * Return the context path of the current web application. This is useful for building
+	 * links to other resources within the application.
+	 * <p>
+	 * Delegates to {@link ServerHttpRequest#getPath()}.
 	 */
 	public String getContextPath() {
 		return this.exchange.getRequest().getPath().contextPath().value();
@@ -198,8 +200,8 @@ public class RequestContext {
 	/**
 	 * Return a context-aware URl for the given relative URL.
 	 * @param relativeUrl the relative URL part
-	 * @return a URL that points back to the current web application with an
-	 * absolute path also URL-encoded accordingly
+	 * @return a URL that points back to the current web application with an absolute path
+	 * also URL-encoded accordingly
 	 */
 	public String getContextUrl(String relativeUrl) {
 		String url = StringUtils.applyRelativePath(getContextPath() + "/", relativeUrl);
@@ -207,14 +209,14 @@ public class RequestContext {
 	}
 
 	/**
-	 * Return a context-aware URl for the given relative URL with placeholders --
-	 * named keys with braces {@code {}}. For example, send in a relative URL
-	 * {@code foo/{bar}?spam={spam}} and a parameter map {@code {bar=baz,spam=nuts}}
-	 * and the result will be {@code [contextpath]/foo/baz?spam=nuts}.
+	 * Return a context-aware URl for the given relative URL with placeholders -- named
+	 * keys with braces {@code {}}. For example, send in a relative URL
+	 * {@code foo/{bar}?spam={spam}} and a parameter map {@code {bar=baz,spam=nuts}} and
+	 * the result will be {@code [contextpath]/foo/baz?spam=nuts}.
 	 * @param relativeUrl the relative URL part
 	 * @param params a map of parameters to insert as placeholders in the url
-	 * @return a URL that points back to the current web application with an
-	 * absolute path also URL-encoded accordingly
+	 * @return a URL that points back to the current web application with an absolute path
+	 * also URL-encoded accordingly
 	 */
 	public String getContextUrl(String relativeUrl, Map<String, ?> params) {
 		String url = StringUtils.applyRelativePath(getContextPath() + "/", relativeUrl);
@@ -223,17 +225,16 @@ public class RequestContext {
 	}
 
 	/**
-	 * Return the request path of the request. This is useful as HTML form
-	 * action target, also in combination with the original query string.
+	 * Return the request path of the request. This is useful as HTML form action target,
+	 * also in combination with the original query string.
 	 */
 	public String getRequestPath() {
 		return this.exchange.getRequest().getURI().getPath();
 	}
 
 	/**
-	 * Return the query string of the current request. This is useful for
-	 * building an HTML form action target in combination with the original
-	 * request path.
+	 * Return the query string of the current request. This is useful for building an HTML
+	 * form action target in combination with the original request path.
 	 */
 	public String getQueryString() {
 		return this.exchange.getRequest().getURI().getQuery();
@@ -333,7 +334,8 @@ public class RequestContext {
 	}
 
 	/**
-	 * Retrieve the given MessageSourceResolvable (e.g. an ObjectError instance), using the "defaultHtmlEscape" setting.
+	 * Retrieve the given MessageSourceResolvable (e.g. an ObjectError instance), using
+	 * the "defaultHtmlEscape" setting.
 	 * @param resolvable the MessageSourceResolvable
 	 * @return the message
 	 * @throws org.springframework.context.NoSuchMessageException if not found
@@ -401,8 +403,8 @@ public class RequestContext {
 	}
 
 	/**
-	 * Retrieve the model object for the given model name, either from the model
-	 * or from the request attributes.
+	 * Retrieve the model object for the given model name, either from the model or from
+	 * the request attributes.
 	 * @param modelName the name of the model object
 	 * @return the model object
 	 */
@@ -417,10 +419,10 @@ public class RequestContext {
 	}
 
 	/**
-	 * Create a BindStatus for the given bind object using the
-	 * "defaultHtmlEscape" setting.
-	 * @param path the bean and property path for which values and errors will
-	 * be resolved (e.g. "person.age")
+	 * Create a BindStatus for the given bind object using the "defaultHtmlEscape"
+	 * setting.
+	 * @param path the bean and property path for which values and errors will be resolved
+	 * (e.g. "person.age")
 	 * @return the new BindStatus instance
 	 * @throws IllegalStateException if no corresponding Errors object found
 	 */
@@ -429,10 +431,10 @@ public class RequestContext {
 	}
 
 	/**
-	 * Create a BindStatus for the given bind object, using the
-	 * "defaultHtmlEscape" setting.
-	 * @param path the bean and property path for which values and errors will
-	 * be resolved (e.g. "person.age")
+	 * Create a BindStatus for the given bind object, using the "defaultHtmlEscape"
+	 * setting.
+	 * @param path the bean and property path for which values and errors will be resolved
+	 * (e.g. "person.age")
 	 * @param htmlEscape create a BindStatus with automatic HTML escaping?
 	 * @return the new BindStatus instance
 	 * @throws IllegalStateException if no corresponding Errors object found

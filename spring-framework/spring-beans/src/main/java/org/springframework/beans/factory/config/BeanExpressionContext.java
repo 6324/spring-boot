@@ -32,7 +32,6 @@ public class BeanExpressionContext {
 	@Nullable
 	private final Scope scope;
 
-
 	public BeanExpressionContext(ConfigurableBeanFactory beanFactory, @Nullable Scope scope) {
 		Assert.notNull(beanFactory, "BeanFactory must not be null");
 		this.beanFactory = beanFactory;
@@ -48,10 +47,9 @@ public class BeanExpressionContext {
 		return this.scope;
 	}
 
-
 	public boolean containsObject(String key) {
-		return (this.beanFactory.containsBean(key) ||
-				(this.scope != null && this.scope.resolveContextualObject(key) != null));
+		return (this.beanFactory.containsBean(key)
+				|| (this.scope != null && this.scope.resolveContextualObject(key) != null));
 	}
 
 	@Nullable
@@ -66,7 +64,6 @@ public class BeanExpressionContext {
 			return null;
 		}
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {

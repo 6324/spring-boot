@@ -24,8 +24,8 @@ import org.springframework.stereotype.Component;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Tests ensuring that nested static @Configuration classes are automatically detected
- * and registered without the need for explicit registration or @Import. See SPR-8186.
+ * Tests ensuring that nested static @Configuration classes are automatically detected and
+ * registered without the need for explicit registration or @Import. See SPR-8186.
  *
  * @author Chris Beams
  * @author Juergen Hoeller
@@ -87,7 +87,8 @@ public class NestedConfigurationClassTests {
 		ctx.getBean(L0ConfigLight.L1ConfigLight.class);
 		ctx.getBean("l1Bean");
 
-		assertThat(ctx.getBeanFactory().containsSingleton(L0ConfigLight.L1ConfigLight.L2ConfigLight.class.getName())).isFalse();
+		assertThat(ctx.getBeanFactory().containsSingleton(L0ConfigLight.L1ConfigLight.L2ConfigLight.class.getName()))
+				.isFalse();
 		ctx.getBean(L0ConfigLight.L1ConfigLight.L2ConfigLight.class);
 		ctx.getBean("l2Bean");
 
@@ -221,7 +222,6 @@ public class NestedConfigurationClassTests {
 		assertThat(l2i2.toString()).isNotEqualTo(l2i1.toString());
 	}
 
-
 	@Configuration
 	@Lazy
 	static class L0Config {
@@ -266,10 +266,12 @@ public class NestedConfigurationClassTests {
 				public TestBean overrideBean() {
 					return new TestBean("override-l2");
 				}
-			}
-		}
-	}
 
+			}
+
+		}
+
+	}
 
 	@Component
 	@Lazy
@@ -315,10 +317,12 @@ public class NestedConfigurationClassTests {
 				public TestBean overrideBean() {
 					return new TestBean("override-l2");
 				}
-			}
-		}
-	}
 
+			}
+
+		}
+
+	}
 
 	@Configuration
 	@Scope("prototype")
@@ -337,8 +341,8 @@ public class NestedConfigurationClassTests {
 			tb.getFriends().add(this);
 			return tb;
 		}
-	}
 
+	}
 
 	@Configuration
 	@Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -357,18 +361,18 @@ public class NestedConfigurationClassTests {
 			tb.getFriends().add(this);
 			return tb;
 		}
-	}
 
+	}
 
 	@Import(S1Config.class)
 	static class S1Importer {
-	}
 
+	}
 
 	@Import(S1ConfigWithProxy.class)
 	static class S1ImporterWithProxy {
-	}
 
+	}
 
 	@Component
 	@Lazy
@@ -381,10 +385,12 @@ public class NestedConfigurationClassTests {
 			@Component
 			@Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
 			protected static class L2ConfigEmpty {
-			}
-		}
-	}
 
+			}
+
+		}
+
+	}
 
 	static class L0ConfigBase {
 
@@ -395,14 +401,17 @@ public class NestedConfigurationClassTests {
 			@Component
 			@Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
 			protected static class L2ConfigEmpty {
-			}
-		}
-	}
 
+			}
+
+		}
+
+	}
 
 	@Component
 	@Lazy
 	static class L0ConfigConcrete extends L0ConfigBase {
+
 	}
 
 }

@@ -30,10 +30,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Helper class that aggregates a {@link javax.management.NotificationListener},
- * a {@link javax.management.NotificationFilter}, and an arbitrary handback
- * object, as well as the names of MBeans from which the listener wishes
- * to receive {@link javax.management.Notification Notifications}.
+ * Helper class that aggregates a {@link javax.management.NotificationListener}, a
+ * {@link javax.management.NotificationFilter}, and an arbitrary handback object, as well
+ * as the names of MBeans from which the listener wishes to receive
+ * {@link javax.management.Notification Notifications}.
  *
  * @author Juergen Hoeller
  * @since 2.5.2
@@ -54,7 +54,6 @@ public class NotificationListenerHolder {
 	@Nullable
 	protected Set<Object> mappedObjectNames;
 
-
 	/**
 	 * Set the {@link javax.management.NotificationListener}.
 	 */
@@ -71,18 +70,20 @@ public class NotificationListenerHolder {
 	}
 
 	/**
-	 * Set the {@link javax.management.NotificationFilter} associated
-	 * with the encapsulated {@link #getNotificationFilter() NotificationFilter}.
-	 * <p>May be {@code null}.
+	 * Set the {@link javax.management.NotificationFilter} associated with the
+	 * encapsulated {@link #getNotificationFilter() NotificationFilter}.
+	 * <p>
+	 * May be {@code null}.
 	 */
 	public void setNotificationFilter(@Nullable NotificationFilter notificationFilter) {
 		this.notificationFilter = notificationFilter;
 	}
 
 	/**
-	 * Return the {@link javax.management.NotificationFilter} associated
-	 * with the encapsulated {@link #getNotificationListener() NotificationListener}.
-	 * <p>May be {@code null}.
+	 * Return the {@link javax.management.NotificationFilter} associated with the
+	 * encapsulated {@link #getNotificationListener() NotificationListener}.
+	 * <p>
+	 * May be {@code null}.
 	 */
 	@Nullable
 	public NotificationFilter getNotificationFilter() {
@@ -91,10 +92,11 @@ public class NotificationListenerHolder {
 
 	/**
 	 * Set the (arbitrary) object that will be 'handed back' as-is by an
-	 * {@link javax.management.NotificationBroadcaster} when notifying
-	 * any {@link javax.management.NotificationListener}.
+	 * {@link javax.management.NotificationBroadcaster} when notifying any
+	 * {@link javax.management.NotificationListener}.
 	 * @param handback the handback object (can be {@code null})
-	 * @see javax.management.NotificationListener#handleNotification(javax.management.Notification, Object)
+	 * @see javax.management.NotificationListener#handleNotification(javax.management.Notification,
+	 * Object)
 	 */
 	public void setHandback(@Nullable Object handback) {
 		this.handback = handback;
@@ -102,10 +104,11 @@ public class NotificationListenerHolder {
 
 	/**
 	 * Return the (arbitrary) object that will be 'handed back' as-is by an
-	 * {@link javax.management.NotificationBroadcaster} when notifying
-	 * any {@link javax.management.NotificationListener}.
+	 * {@link javax.management.NotificationBroadcaster} when notifying any
+	 * {@link javax.management.NotificationListener}.
 	 * @return the handback object (may be {@code null})
-	 * @see javax.management.NotificationListener#handleNotification(javax.management.Notification, Object)
+	 * @see javax.management.NotificationListener#handleNotification(javax.management.Notification,
+	 * Object)
 	 */
 	@Nullable
 	public Object getHandback() {
@@ -113,21 +116,21 @@ public class NotificationListenerHolder {
 	}
 
 	/**
-	 * Set the {@link javax.management.ObjectName}-style name of the single MBean
-	 * that the encapsulated {@link #getNotificationFilter() NotificationFilter}
-	 * will be registered with to listen for {@link javax.management.Notification Notifications}.
-	 * Can be specified as {@code ObjectName} instance or as {@code String}.
+	 * Set the {@link javax.management.ObjectName}-style name of the single MBean that the
+	 * encapsulated {@link #getNotificationFilter() NotificationFilter} will be registered
+	 * with to listen for {@link javax.management.Notification Notifications}. Can be
+	 * specified as {@code ObjectName} instance or as {@code String}.
 	 * @see #setMappedObjectNames
 	 */
 	public void setMappedObjectName(@Nullable Object mappedObjectName) {
-		this.mappedObjectNames = (mappedObjectName != null ?
-				new LinkedHashSet<>(Collections.singleton(mappedObjectName)) : null);
+		this.mappedObjectNames = (mappedObjectName != null
+				? new LinkedHashSet<>(Collections.singleton(mappedObjectName)) : null);
 	}
 
 	/**
-	 * Set an array of {@link javax.management.ObjectName}-style names of the MBeans
-	 * that the encapsulated {@link #getNotificationFilter() NotificationFilter}
-	 * will be registered with to listen for {@link javax.management.Notification Notifications}.
+	 * Set an array of {@link javax.management.ObjectName}-style names of the MBeans that
+	 * the encapsulated {@link #getNotificationFilter() NotificationFilter} will be
+	 * registered with to listen for {@link javax.management.Notification Notifications}.
 	 * Can be specified as {@code ObjectName} instances or as {@code String}s.
 	 * @see #setMappedObjectName
 	 */
@@ -137,8 +140,8 @@ public class NotificationListenerHolder {
 
 	/**
 	 * Return the list of {@link javax.management.ObjectName} String representations for
-	 * which the encapsulated {@link #getNotificationFilter() NotificationFilter} will
-	 * be registered as a listener for {@link javax.management.Notification Notifications}.
+	 * which the encapsulated {@link #getNotificationFilter() NotificationFilter} will be
+	 * registered as a listener for {@link javax.management.Notification Notifications}.
 	 * @throws MalformedObjectNameException if an {@code ObjectName} is malformed
 	 */
 	@Nullable
@@ -155,7 +158,6 @@ public class NotificationListenerHolder {
 		return resolved;
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -165,10 +167,10 @@ public class NotificationListenerHolder {
 			return false;
 		}
 		NotificationListenerHolder otherNlh = (NotificationListenerHolder) other;
-		return (ObjectUtils.nullSafeEquals(this.notificationListener, otherNlh.notificationListener) &&
-				ObjectUtils.nullSafeEquals(this.notificationFilter, otherNlh.notificationFilter) &&
-				ObjectUtils.nullSafeEquals(this.handback, otherNlh.handback) &&
-				ObjectUtils.nullSafeEquals(this.mappedObjectNames, otherNlh.mappedObjectNames));
+		return (ObjectUtils.nullSafeEquals(this.notificationListener, otherNlh.notificationListener)
+				&& ObjectUtils.nullSafeEquals(this.notificationFilter, otherNlh.notificationFilter)
+				&& ObjectUtils.nullSafeEquals(this.handback, otherNlh.handback)
+				&& ObjectUtils.nullSafeEquals(this.mappedObjectNames, otherNlh.mappedObjectNames));
 	}
 
 	@Override

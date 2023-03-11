@@ -26,16 +26,18 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Extension of the {@link org.springframework.beans.factory.support.GenericBeanDefinition}
- * class, based on an ASM ClassReader, with support for annotation metadata exposed
- * through the {@link AnnotatedBeanDefinition} interface.
+ * Extension of the
+ * {@link org.springframework.beans.factory.support.GenericBeanDefinition} class, based on
+ * an ASM ClassReader, with support for annotation metadata exposed through the
+ * {@link AnnotatedBeanDefinition} interface.
  *
- * <p>This class does <i>not</i> load the bean {@code Class} early.
- * It rather retrieves all relevant metadata from the ".class" file itself,
- * parsed with the ASM ClassReader. It is functionally equivalent to
+ * <p>
+ * This class does <i>not</i> load the bean {@code Class} early. It rather retrieves all
+ * relevant metadata from the ".class" file itself, parsed with the ASM ClassReader. It is
+ * functionally equivalent to
  * {@link AnnotatedGenericBeanDefinition#AnnotatedGenericBeanDefinition(AnnotationMetadata)}
- * but distinguishes by type beans that have been <em>scanned</em> vs those that have
- * been otherwise registered or detected by other means.
+ * but distinguishes by type beans that have been <em>scanned</em> vs those that have been
+ * otherwise registered or detected by other means.
  *
  * @author Juergen Hoeller
  * @author Chris Beams
@@ -50,10 +52,9 @@ public class ScannedGenericBeanDefinition extends GenericBeanDefinition implemen
 
 	private final AnnotationMetadata metadata;
 
-
 	/**
-	 * Create a new ScannedGenericBeanDefinition for the class that the
-	 * given MetadataReader describes.
+	 * Create a new ScannedGenericBeanDefinition for the class that the given
+	 * MetadataReader describes.
 	 * @param metadataReader the MetadataReader for the scanned target class
 	 */
 	public ScannedGenericBeanDefinition(MetadataReader metadataReader) {
@@ -62,7 +63,6 @@ public class ScannedGenericBeanDefinition extends GenericBeanDefinition implemen
 		setBeanClassName(this.metadata.getClassName());
 		setResource(metadataReader.getResource());
 	}
-
 
 	@Override
 	public final AnnotationMetadata getMetadata() {

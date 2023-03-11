@@ -25,8 +25,8 @@ import org.springframework.aop.Advisor;
 import org.springframework.aop.AfterReturningAdvice;
 
 /**
- * Adapter to enable {@link org.springframework.aop.AfterReturningAdvice}
- * to be used in the Spring AOP framework.
+ * Adapter to enable {@link org.springframework.aop.AfterReturningAdvice} to be used in
+ * the Spring AOP framework.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller

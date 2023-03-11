@@ -47,7 +47,6 @@ abstract class AbstractStaxHandler implements ContentHandler, LexicalHandler {
 
 	private boolean inCData;
 
-
 	@Override
 	public final void startDocument() throws SAXException {
 		removeAllNamespaceMappings();
@@ -124,8 +123,7 @@ abstract class AbstractStaxHandler implements ContentHandler, LexicalHandler {
 			ignorableWhitespaceInternal(new String(ch, start, length));
 		}
 		catch (XMLStreamException ex) {
-			throw new SAXException(
-					"Could not handle ignorableWhitespace:" + ex.getMessage(), ex);
+			throw new SAXException("Could not handle ignorableWhitespace:" + ex.getMessage(), ex);
 		}
 	}
 
@@ -226,10 +224,9 @@ abstract class AbstractStaxHandler implements ContentHandler, LexicalHandler {
 	protected boolean isNamespaceDeclaration(QName qName) {
 		String prefix = qName.getPrefix();
 		String localPart = qName.getLocalPart();
-		return (XMLConstants.XMLNS_ATTRIBUTE.equals(localPart) && prefix.isEmpty()) ||
-				(XMLConstants.XMLNS_ATTRIBUTE.equals(prefix) && !localPart.isEmpty());
+		return (XMLConstants.XMLNS_ATTRIBUTE.equals(localPart) && prefix.isEmpty())
+				|| (XMLConstants.XMLNS_ATTRIBUTE.equals(prefix) && !localPart.isEmpty());
 	}
-
 
 	private Map<String, String> currentNamespaceMapping() {
 		return this.namespaceMappings.get(this.namespaceMappings.size() - 1);
@@ -247,7 +244,6 @@ abstract class AbstractStaxHandler implements ContentHandler, LexicalHandler {
 		this.namespaceMappings.clear();
 	}
 
-
 	protected abstract void startDocumentInternal() throws XMLStreamException;
 
 	protected abstract void endDocumentInternal() throws XMLStreamException;
@@ -264,8 +260,7 @@ abstract class AbstractStaxHandler implements ContentHandler, LexicalHandler {
 
 	protected abstract void ignorableWhitespaceInternal(String data) throws XMLStreamException;
 
-	protected abstract void processingInstructionInternal(String target, String data)
-			throws XMLStreamException;
+	protected abstract void processingInstructionInternal(String target, String data) throws XMLStreamException;
 
 	protected abstract void skippedEntityInternal(String name) throws XMLStreamException;
 

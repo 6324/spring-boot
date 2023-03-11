@@ -35,7 +35,6 @@ public final class LocalDateTimeParser implements Parser<LocalDateTime> {
 
 	private final DateTimeFormatter formatter;
 
-
 	/**
 	 * Create a new DateTimeParser.
 	 * @param formatter the Joda DateTimeFormatter instance
@@ -43,7 +42,6 @@ public final class LocalDateTimeParser implements Parser<LocalDateTime> {
 	public LocalDateTimeParser(DateTimeFormatter formatter) {
 		this.formatter = formatter;
 	}
-
 
 	@Override
 	public LocalDateTime parse(String text, Locale locale) throws ParseException {

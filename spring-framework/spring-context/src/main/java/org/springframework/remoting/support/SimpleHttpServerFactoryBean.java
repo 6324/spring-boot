@@ -35,14 +35,15 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
- * {@link org.springframework.beans.factory.FactoryBean} that creates a simple
- * HTTP server, based on the HTTP server that is included in Sun's JRE 1.6.
- * Starts the HTTP server on initialization and stops it on destruction.
- * Exposes the resulting {@link com.sun.net.httpserver.HttpServer} object.
+ * {@link org.springframework.beans.factory.FactoryBean} that creates a simple HTTP
+ * server, based on the HTTP server that is included in Sun's JRE 1.6. Starts the HTTP
+ * server on initialization and stops it on destruction. Exposes the resulting
+ * {@link com.sun.net.httpserver.HttpServer} object.
  *
- * <p>Allows for registering {@link com.sun.net.httpserver.HttpHandler HttpHandlers}
- * for specific {@link #setContexts context paths}. Alternatively,
- * register such context-specific handlers programmatically on the
+ * <p>
+ * Allows for registering {@link com.sun.net.httpserver.HttpHandler HttpHandlers} for
+ * specific {@link #setContexts context paths}. Alternatively, register such
+ * context-specific handlers programmatically on the
  * {@link com.sun.net.httpserver.HttpServer} itself.
  *
  * @author Juergen Hoeller
@@ -76,7 +77,6 @@ public class SimpleHttpServerFactoryBean implements FactoryBean<HttpServer>, Ini
 
 	private HttpServer server;
 
-
 	/**
 	 * Specify the HTTP server's port. Default is 8080.
 	 */
@@ -85,24 +85,24 @@ public class SimpleHttpServerFactoryBean implements FactoryBean<HttpServer>, Ini
 	}
 
 	/**
-	 * Specify the HTTP server's hostname to bind to. Default is localhost;
-	 * can be overridden with a specific network address to bind to.
+	 * Specify the HTTP server's hostname to bind to. Default is localhost; can be
+	 * overridden with a specific network address to bind to.
 	 */
 	public void setHostname(String hostname) {
 		this.hostname = hostname;
 	}
 
 	/**
-	 * Specify the HTTP server's TCP backlog. Default is -1,
-	 * indicating the system's default value.
+	 * Specify the HTTP server's TCP backlog. Default is -1, indicating the system's
+	 * default value.
 	 */
 	public void setBacklog(int backlog) {
 		this.backlog = backlog;
 	}
 
 	/**
-	 * Specify the number of seconds to wait until HTTP exchanges have
-	 * completed when shutting down the HTTP server. Default is 0.
+	 * Specify the number of seconds to wait until HTTP exchanges have completed when
+	 * shutting down the HTTP server. Default is 0.
 	 */
 	public void setShutdownDelay(int shutdownDelay) {
 		this.shutdownDelay = shutdownDelay;
@@ -117,10 +117,9 @@ public class SimpleHttpServerFactoryBean implements FactoryBean<HttpServer>, Ini
 	}
 
 	/**
-	 * Register {@link com.sun.net.httpserver.HttpHandler HttpHandlers}
-	 * for specific context paths.
-	 * @param contexts a Map with context paths as keys and HttpHandler
-	 * objects as values
+	 * Register {@link com.sun.net.httpserver.HttpHandler HttpHandlers} for specific
+	 * context paths.
+	 * @param contexts a Map with context paths as keys and HttpHandler objects as values
 	 * @see org.springframework.remoting.httpinvoker.SimpleHttpInvokerServiceExporter
 	 * @see org.springframework.remoting.caucho.SimpleHessianServiceExporter
 	 */
@@ -129,26 +128,25 @@ public class SimpleHttpServerFactoryBean implements FactoryBean<HttpServer>, Ini
 	}
 
 	/**
-	 * Register common {@link com.sun.net.httpserver.Filter Filters} to be
-	 * applied to all locally registered {@link #setContexts contexts}.
+	 * Register common {@link com.sun.net.httpserver.Filter Filters} to be applied to all
+	 * locally registered {@link #setContexts contexts}.
 	 */
 	public void setFilters(List<Filter> filters) {
 		this.filters = filters;
 	}
 
 	/**
-	 * Register a common {@link com.sun.net.httpserver.Authenticator} to be
-	 * applied to all locally registered {@link #setContexts contexts}.
+	 * Register a common {@link com.sun.net.httpserver.Authenticator} to be applied to all
+	 * locally registered {@link #setContexts contexts}.
 	 */
 	public void setAuthenticator(Authenticator authenticator) {
 		this.authenticator = authenticator;
 	}
 
-
 	@Override
 	public void afterPropertiesSet() throws IOException {
-		InetSocketAddress address = (this.hostname != null ?
-				new InetSocketAddress(this.hostname, this.port) : new InetSocketAddress(this.port));
+		InetSocketAddress address = (this.hostname != null ? new InetSocketAddress(this.hostname, this.port)
+				: new InetSocketAddress(this.port));
 		this.server = HttpServer.create(address, this.backlog);
 		if (this.executor != null) {
 			this.server.setExecutor(this.executor);

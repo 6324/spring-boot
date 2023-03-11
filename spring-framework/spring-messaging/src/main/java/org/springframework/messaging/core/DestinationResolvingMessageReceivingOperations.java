@@ -40,8 +40,8 @@ public interface DestinationResolvingMessageReceivingOperations<D> extends Messa
 	Message<?> receive(String destinationName) throws MessagingException;
 
 	/**
-	 * Resolve the given destination name, receive a message from it,
-	 * convert the payload to the specified target type.
+	 * Resolve the given destination name, receive a message from it, convert the payload
+	 * to the specified target type.
 	 * @param destinationName the destination name to resolve
 	 * @param targetClass the target class for the converted payload
 	 */

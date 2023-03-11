@@ -54,12 +54,10 @@ public class WebSocketTransport implements Transport, Lifecycle {
 
 	private volatile boolean running = false;
 
-
 	public WebSocketTransport(WebSocketClient webSocketClient) {
 		Assert.notNull(webSocketClient, "WebSocketClient is required");
 		this.webSocketClient = webSocketClient;
 	}
-
 
 	/**
 	 * Return the configured {@code WebSocketClient}.
@@ -85,12 +83,13 @@ public class WebSocketTransport implements Transport, Lifecycle {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Starting WebSocket session on " + url);
 		}
-		this.webSocketClient.doHandshake(handler, headers, url).addCallback(
-				new ListenableFutureCallback<WebSocketSession>() {
+		this.webSocketClient.doHandshake(handler, headers, url)
+				.addCallback(new ListenableFutureCallback<WebSocketSession>() {
 					@Override
 					public void onSuccess(@Nullable WebSocketSession webSocketSession) {
 						// WebSocket session ready, SockJS Session not yet
 					}
+
 					@Override
 					public void onFailure(Throwable ex) {
 						future.setException(ex);
@@ -98,7 +97,6 @@ public class WebSocketTransport implements Transport, Lifecycle {
 				});
 		return future;
 	}
-
 
 	@Override
 	public void start() {
@@ -134,12 +132,10 @@ public class WebSocketTransport implements Transport, Lifecycle {
 		}
 	}
 
-
 	@Override
 	public String toString() {
 		return "WebSocketTransport[client=" + this.webSocketClient + "]";
 	}
-
 
 	private static class ClientSockJsWebSocketHandler extends TextWebSocketHandler {
 
@@ -172,6 +168,7 @@ public class WebSocketTransport implements Transport, Lifecycle {
 		public void afterConnectionClosed(WebSocketSession webSocketSession, CloseStatus status) throws Exception {
 			this.sockJsSession.afterTransportClosed(status);
 		}
+
 	}
 
 }

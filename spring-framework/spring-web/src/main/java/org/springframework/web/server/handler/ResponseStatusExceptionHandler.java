@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2021 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import reactor.core.publisher.Mono;
 
-import org.springframework.core.log.LogFormatUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -71,7 +70,7 @@ public class ResponseStatusExceptionHandler implements WebExceptionHandler {
 		// Mirrors AbstractHandlerExceptionResolver in spring-webmvc...
 		String logPrefix = exchange.getLogPrefix();
 		if (this.warnLogger != null && this.warnLogger.isWarnEnabled()) {
-			this.warnLogger.warn(logPrefix + formatError(ex, exchange.getRequest()));
+			this.warnLogger.warn(logPrefix + formatError(ex, exchange.getRequest()), ex);
 		}
 		else if (logger.isDebugEnabled()) {
 			logger.debug(logPrefix + formatError(ex, exchange.getRequest()));
@@ -82,10 +81,9 @@ public class ResponseStatusExceptionHandler implements WebExceptionHandler {
 
 
 	private String formatError(Throwable ex, ServerHttpRequest request) {
-		String className = ex.getClass().getSimpleName();
-		String message = LogFormatUtils.formatValue(ex.getMessage(), -1, true);
+		String reason = ex.getClass().getSimpleName() + ": " + ex.getMessage();
 		String path = request.getURI().getRawPath();
-		return "Resolved [" + className + ": " + message + "] for HTTP " + request.getMethod() + " " + path;
+		return "Resolved [" + reason + "] for HTTP " + request.getMethod() + " " + path;
 	}
 
 	private boolean updateResponse(ServerHttpResponse response, Throwable ex) {

@@ -37,13 +37,14 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * Adapter for live beans view exposure, building a snapshot of current beans
- * and their dependencies from either a local {@code ApplicationContext} (with a
- * local {@code LiveBeansView} bean definition) or all registered ApplicationContexts
- * (driven by the {@value #MBEAN_DOMAIN_PROPERTY_NAME} environment property).
+ * Adapter for live beans view exposure, building a snapshot of current beans and their
+ * dependencies from either a local {@code ApplicationContext} (with a local
+ * {@code LiveBeansView} bean definition) or all registered ApplicationContexts (driven by
+ * the {@value #MBEAN_DOMAIN_PROPERTY_NAME} environment property).
  *
- * <p>Note: This feature is still in beta and primarily designed for use with
- * Spring Tool Suite 3.1 and higher.
+ * <p>
+ * Note: This feature is still in beta and primarily designed for use with Spring Tool
+ * Suite 3.1 and higher.
  *
  * @author Juergen Hoeller
  * @author Stephane Nicoll
@@ -67,7 +68,6 @@ public class LiveBeansView implements LiveBeansViewMBean, ApplicationContextAwar
 
 	@Nullable
 	private static String applicationName;
-
 
 	static void registerApplicationContext(ConfigurableApplicationContext applicationContext) {
 		String mbeanDomain = applicationContext.getEnvironment().getProperty(MBEAN_DOMAIN_PROPERTY_NAME);
@@ -109,10 +109,8 @@ public class LiveBeansView implements LiveBeansViewMBean, ApplicationContextAwar
 		}
 	}
 
-
 	@Nullable
 	private ConfigurableApplicationContext applicationContext;
-
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) {
@@ -121,11 +119,10 @@ public class LiveBeansView implements LiveBeansViewMBean, ApplicationContextAwar
 		this.applicationContext = (ConfigurableApplicationContext) applicationContext;
 	}
 
-
 	/**
-	 * Generate a JSON snapshot of current beans and their dependencies,
-	 * finding all active ApplicationContexts through {@link #findApplicationContexts()},
-	 * then delegating to {@link #generateJson(java.util.Set)}.
+	 * Generate a JSON snapshot of current beans and their dependencies, finding all
+	 * active ApplicationContexts through {@link #findApplicationContexts()}, then
+	 * delegating to {@link #generateJson(java.util.Set)}.
 	 */
 	@Override
 	public String getSnapshotAsJson() {
@@ -141,7 +138,8 @@ public class LiveBeansView implements LiveBeansViewMBean, ApplicationContextAwar
 
 	/**
 	 * Find all applicable ApplicationContexts for the current application.
-	 * <p>Called if no specific ApplicationContext has been set for this LiveBeansView.
+	 * <p>
+	 * Called if no specific ApplicationContext has been set for this LiveBeansView.
 	 * @return the set of ApplicationContexts
 	 */
 	protected Set<ConfigurableApplicationContext> findApplicationContexts() {
@@ -152,12 +150,13 @@ public class LiveBeansView implements LiveBeansViewMBean, ApplicationContextAwar
 
 	/**
 	 * Actually generate a JSON snapshot of the beans in the given ApplicationContexts.
-	 * <p>This implementation doesn't use any JSON parsing libraries in order to avoid
+	 * <p>
+	 * This implementation doesn't use any JSON parsing libraries in order to avoid
 	 * third-party library dependencies. It produces an array of context description
 	 * objects, each containing a context and parent attribute as well as a beans
-	 * attribute with nested bean description objects. Each bean object contains a
-	 * bean, scope, type and resource attribute, as well as a dependencies attribute
-	 * with a nested array of bean names that the present bean depends on.
+	 * attribute with nested bean description objects. Each bean object contains a bean,
+	 * scope, type and resource attribute, as well as a dependencies attribute with a
+	 * nested array of bean names that the present bean depends on.
 	 * @param contexts the set of ApplicationContexts
 	 * @return the JSON document
 	 */
@@ -216,21 +215,21 @@ public class LiveBeansView implements LiveBeansViewMBean, ApplicationContextAwar
 	}
 
 	/**
-	 * Determine whether the specified bean is eligible for inclusion in the
-	 * LiveBeansView JSON snapshot.
+	 * Determine whether the specified bean is eligible for inclusion in the LiveBeansView
+	 * JSON snapshot.
 	 * @param beanName the name of the bean
 	 * @param bd the corresponding bean definition
 	 * @param bf the containing bean factory
 	 * @return {@code true} if the bean is to be included; {@code false} otherwise
 	 */
 	protected boolean isBeanEligible(String beanName, BeanDefinition bd, ConfigurableBeanFactory bf) {
-		return (bd.getRole() != BeanDefinition.ROLE_INFRASTRUCTURE &&
-				(!bd.isLazyInit() || bf.containsSingleton(beanName)));
+		return (bd.getRole() != BeanDefinition.ROLE_INFRASTRUCTURE
+				&& (!bd.isLazyInit() || bf.containsSingleton(beanName)));
 	}
 
 	/**
-	 * Determine a resource description for the given bean definition and
-	 * apply basic JSON escaping (backslashes, double quotes) to it.
+	 * Determine a resource description for the given bean definition and apply basic JSON
+	 * escaping (backslashes, double quotes) to it.
 	 * @param bd the bean definition to build the resource description for
 	 * @return the JSON-escaped resource description
 	 */

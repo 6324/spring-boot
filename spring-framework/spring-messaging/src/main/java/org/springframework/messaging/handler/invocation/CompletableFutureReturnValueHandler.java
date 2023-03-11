@@ -24,8 +24,8 @@ import org.springframework.util.concurrent.CompletableToListenableFutureAdapter;
 import org.springframework.util.concurrent.ListenableFuture;
 
 /**
- * Support for {@link CompletableFuture} (and as of 4.3.7 also {@link CompletionStage})
- * as a return value type.
+ * Support for {@link CompletableFuture} (and as of 4.3.7 also {@link CompletionStage}) as
+ * a return value type.
  *
  * @author Sebastien Deleuze
  * @author Juergen Hoeller

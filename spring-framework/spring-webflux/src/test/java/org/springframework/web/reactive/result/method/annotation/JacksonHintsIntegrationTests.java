@@ -52,7 +52,6 @@ class JacksonHintsIntegrationTests extends AbstractRequestMappingIntegrationTest
 		return wac;
 	}
 
-
 	@ParameterizedHttpServerTest
 	void jsonViewResponse(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
@@ -66,15 +65,17 @@ class JacksonHintsIntegrationTests extends AbstractRequestMappingIntegrationTest
 		startServer(httpServer);
 
 		String expected = "{\"withView1\":\"with\"}";
-		assertThat(performGet("/response/mono", MediaType.APPLICATION_JSON, String.class).getBody()).isEqualTo(expected);
+		assertThat(performGet("/response/mono", MediaType.APPLICATION_JSON, String.class).getBody())
+				.isEqualTo(expected);
 	}
 
-	@ParameterizedHttpServerTest  // SPR-16098
+	@ParameterizedHttpServerTest // SPR-16098
 	void jsonViewWithMonoResponseEntity(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
 		String expected = "{\"withView1\":\"with\"}";
-		assertThat(performGet("/response/entity", MediaType.APPLICATION_JSON, String.class).getBody()).isEqualTo(expected);
+		assertThat(performGet("/response/entity", MediaType.APPLICATION_JSON, String.class).getBody())
+				.isEqualTo(expected);
 	}
 
 	@ParameterizedHttpServerTest
@@ -82,7 +83,8 @@ class JacksonHintsIntegrationTests extends AbstractRequestMappingIntegrationTest
 		startServer(httpServer);
 
 		String expected = "[{\"withView1\":\"with\"},{\"withView1\":\"with\"}]";
-		assertThat(performGet("/response/flux", MediaType.APPLICATION_JSON, String.class).getBody()).isEqualTo(expected);
+		assertThat(performGet("/response/flux", MediaType.APPLICATION_JSON, String.class).getBody())
+				.isEqualTo(expected);
 	}
 
 	@ParameterizedHttpServerTest
@@ -91,7 +93,8 @@ class JacksonHintsIntegrationTests extends AbstractRequestMappingIntegrationTest
 
 		String expected = "{\"withView1\":\"with\",\"withView2\":null,\"withoutView\":null}";
 		assertThat(performPost("/request/raw", MediaType.APPLICATION_JSON,
-				new JacksonViewBean("with", "with", "without"), MediaType.APPLICATION_JSON, String.class).getBody()).isEqualTo(expected);
+				new JacksonViewBean("with", "with", "without"), MediaType.APPLICATION_JSON, String.class).getBody())
+						.isEqualTo(expected);
 	}
 
 	@ParameterizedHttpServerTest
@@ -100,26 +103,26 @@ class JacksonHintsIntegrationTests extends AbstractRequestMappingIntegrationTest
 
 		String expected = "{\"withView1\":\"with\",\"withView2\":null,\"withoutView\":null}";
 		assertThat(performPost("/request/mono", MediaType.APPLICATION_JSON,
-				new JacksonViewBean("with", "with", "without"), MediaType.APPLICATION_JSON, String.class).getBody()).isEqualTo(expected);
+				new JacksonViewBean("with", "with", "without"), MediaType.APPLICATION_JSON, String.class).getBody())
+						.isEqualTo(expected);
 	}
 
-	@ParameterizedHttpServerTest  // SPR-16098
+	@ParameterizedHttpServerTest // SPR-16098
 	void jsonViewWithEntityMonoRequest(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
 		String expected = "{\"withView1\":\"with\",\"withView2\":null,\"withoutView\":null}";
 		assertThat(performPost("/request/entity/mono", MediaType.APPLICATION_JSON,
-				new JacksonViewBean("with", "with", "without"),
-				MediaType.APPLICATION_JSON, String.class).getBody()).isEqualTo(expected);
+				new JacksonViewBean("with", "with", "without"), MediaType.APPLICATION_JSON, String.class).getBody())
+						.isEqualTo(expected);
 	}
 
-	@ParameterizedHttpServerTest  // SPR-16098
+	@ParameterizedHttpServerTest // SPR-16098
 	void jsonViewWithEntityFluxRequest(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		String expected = "[" +
-				"{\"withView1\":\"with\",\"withView2\":null,\"withoutView\":null}," +
-				"{\"withView1\":\"with\",\"withView2\":null,\"withoutView\":null}]";
+		String expected = "[" + "{\"withView1\":\"with\",\"withView2\":null,\"withoutView\":null},"
+				+ "{\"withView1\":\"with\",\"withView2\":null,\"withoutView\":null}]";
 		assertThat(performPost("/request/entity/flux", MediaType.APPLICATION_JSON,
 				Arrays.asList(new JacksonViewBean("with", "with", "without"),
 						new JacksonViewBean("with", "with", "without")),
@@ -130,24 +133,21 @@ class JacksonHintsIntegrationTests extends AbstractRequestMappingIntegrationTest
 	void jsonViewWithFluxRequest(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		String expected = "[" +
-				"{\"withView1\":\"with\",\"withView2\":null,\"withoutView\":null}," +
-				"{\"withView1\":\"with\",\"withView2\":null,\"withoutView\":null}]";
-		List<JacksonViewBean> beans = Arrays.asList(
-				new JacksonViewBean("with", "with", "without"),
+		String expected = "[" + "{\"withView1\":\"with\",\"withView2\":null,\"withoutView\":null},"
+				+ "{\"withView1\":\"with\",\"withView2\":null,\"withoutView\":null}]";
+		List<JacksonViewBean> beans = Arrays.asList(new JacksonViewBean("with", "with", "without"),
 				new JacksonViewBean("with", "with", "without"));
-		assertThat(performPost("/request/flux", MediaType.APPLICATION_JSON, beans,
-				MediaType.APPLICATION_JSON, String.class).getBody()).isEqualTo(expected);
+		assertThat(performPost("/request/flux", MediaType.APPLICATION_JSON, beans, MediaType.APPLICATION_JSON,
+				String.class).getBody()).isEqualTo(expected);
 	}
-
 
 	@Configuration
 	@ComponentScan(resourcePattern = "**/JacksonHintsIntegrationTests*.class")
 	@EnableWebFlux
-	@SuppressWarnings({"unused", "WeakerAccess"})
+	@SuppressWarnings({ "unused", "WeakerAccess" })
 	static class WebConfig {
-	}
 
+	}
 
 	@RestController
 	@SuppressWarnings("unused")
@@ -174,7 +174,8 @@ class JacksonHintsIntegrationTests extends AbstractRequestMappingIntegrationTest
 		@GetMapping("/response/flux")
 		@JsonView(MyJacksonView1.class)
 		public Flux<JacksonViewBean> fluxResponse() {
-			return Flux.just(new JacksonViewBean("with", "with", "without"), new JacksonViewBean("with", "with", "without"));
+			return Flux.just(new JacksonViewBean("with", "with", "without"),
+					new JacksonViewBean("with", "with", "without"));
 		}
 
 		@PostMapping("/request/raw")
@@ -183,31 +184,38 @@ class JacksonHintsIntegrationTests extends AbstractRequestMappingIntegrationTest
 		}
 
 		@PostMapping("/request/mono")
-		public Mono<JacksonViewBean> monoRequest(@JsonView(MyJacksonView1.class) @RequestBody Mono<JacksonViewBean> mono) {
+		public Mono<JacksonViewBean> monoRequest(
+				@JsonView(MyJacksonView1.class) @RequestBody Mono<JacksonViewBean> mono) {
 			return mono;
 		}
 
 		@PostMapping("/request/entity/mono")
-		public Mono<JacksonViewBean> entityMonoRequest(@JsonView(MyJacksonView1.class) HttpEntity<Mono<JacksonViewBean>> entityMono) {
+		public Mono<JacksonViewBean> entityMonoRequest(
+				@JsonView(MyJacksonView1.class) HttpEntity<Mono<JacksonViewBean>> entityMono) {
 			return entityMono.getBody();
 		}
 
 		@PostMapping("/request/entity/flux")
-		public Flux<JacksonViewBean> entityFluxRequest(@JsonView(MyJacksonView1.class) HttpEntity<Flux<JacksonViewBean>> entityFlux) {
+		public Flux<JacksonViewBean> entityFluxRequest(
+				@JsonView(MyJacksonView1.class) HttpEntity<Flux<JacksonViewBean>> entityFlux) {
 			return entityFlux.getBody();
 		}
 
 		@PostMapping("/request/flux")
-		public Flux<JacksonViewBean> fluxRequest(@JsonView(MyJacksonView1.class) @RequestBody Flux<JacksonViewBean> flux) {
+		public Flux<JacksonViewBean> fluxRequest(
+				@JsonView(MyJacksonView1.class) @RequestBody Flux<JacksonViewBean> flux) {
 			return flux;
 		}
 
 	}
 
-	private interface MyJacksonView1 {}
+	private interface MyJacksonView1 {
 
-	private interface MyJacksonView2 {}
+	}
 
+	private interface MyJacksonView2 {
+
+	}
 
 	@SuppressWarnings("unused")
 	private static class JacksonViewBean {
@@ -219,7 +227,6 @@ class JacksonHintsIntegrationTests extends AbstractRequestMappingIntegrationTest
 		private String withView2;
 
 		private String withoutView;
-
 
 		public JacksonViewBean() {
 		}
@@ -253,6 +260,7 @@ class JacksonHintsIntegrationTests extends AbstractRequestMappingIntegrationTest
 		public void setWithoutView(String withoutView) {
 			this.withoutView = withoutView;
 		}
+
 	}
 
 }

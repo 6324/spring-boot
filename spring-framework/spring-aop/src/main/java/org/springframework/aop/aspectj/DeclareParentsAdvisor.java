@@ -26,8 +26,8 @@ import org.springframework.aop.support.DelegatePerTargetObjectIntroductionInterc
 import org.springframework.aop.support.DelegatingIntroductionInterceptor;
 
 /**
- * Introduction advisor delegating to the given object.
- * Implements AspectJ annotation-style behavior for the DeclareParents annotation.
+ * Introduction advisor delegating to the given object. Implements AspectJ
+ * annotation-style behavior for the DeclareParents annotation.
  *
  * @author Rod Johnson
  * @author Ramnivas Laddad
@@ -40,7 +40,6 @@ public class DeclareParentsAdvisor implements IntroductionAdvisor {
 	private final Class<?> introducedInterface;
 
 	private final ClassFilter typePatternClassFilter;
-
 
 	/**
 	 * Create a new advisor for this DeclareParents field.
@@ -64,8 +63,9 @@ public class DeclareParentsAdvisor implements IntroductionAdvisor {
 	}
 
 	/**
-	 * Private constructor to share common code between impl-based delegate and reference-based delegate
-	 * (cannot use method such as init() to share common code, due the use of final fields).
+	 * Private constructor to share common code between impl-based delegate and
+	 * reference-based delegate (cannot use method such as init() to share common code,
+	 * due the use of final fields).
 	 * @param interfaceType static field defining the introduction
 	 * @param typePattern type pattern the introduction is restricted to
 	 * @param interceptor the delegation advice as {@link IntroductionInterceptor}
@@ -79,7 +79,6 @@ public class DeclareParentsAdvisor implements IntroductionAdvisor {
 		ClassFilter exclusion = (clazz -> !this.introducedInterface.isAssignableFrom(clazz));
 		this.typePatternClassFilter = ClassFilters.intersection(typePatternFilter, exclusion);
 	}
-
 
 	@Override
 	public ClassFilter getClassFilter() {
@@ -103,7 +102,7 @@ public class DeclareParentsAdvisor implements IntroductionAdvisor {
 
 	@Override
 	public Class<?>[] getInterfaces() {
-		return new Class<?>[] {this.introducedInterface};
+		return new Class<?>[] { this.introducedInterface };
 	}
 
 }

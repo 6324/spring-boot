@@ -95,7 +95,6 @@ class ContextPathIntegrationTests {
 		}
 	}
 
-
 	@EnableWebFlux
 	@Configuration
 	static class WebAppConfig {
@@ -104,8 +103,8 @@ class ContextPathIntegrationTests {
 		TestController testController() {
 			return new TestController();
 		}
-	}
 
+	}
 
 	@RestController
 	static class TestController {
@@ -114,6 +113,7 @@ class ContextPathIntegrationTests {
 		String handle(ServerHttpRequest request) {
 			return "Tested in " + request.getPath().contextPath().value();
 		}
+
 	}
 
 }

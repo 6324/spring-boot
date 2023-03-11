@@ -47,7 +47,6 @@ public class ComponentScanParserTests {
 		return new ClassPathXmlApplicationContext(path, getClass());
 	}
 
-
 	@Test
 	public void aspectjTypeFilter() {
 		ClassPathXmlApplicationContext context = loadContext("aspectjTypeFilterTests.xml");
@@ -101,7 +100,8 @@ public class ComponentScanParserTests {
 
 	@Test
 	public void customAnnotationUsedForBothComponentScanAndQualifier() {
-		ClassPathXmlApplicationContext context = loadContext("customAnnotationUsedForBothComponentScanAndQualifierTests.xml");
+		ClassPathXmlApplicationContext context = loadContext(
+				"customAnnotationUsedForBothComponentScanAndQualifierTests.xml");
 		KustomAnnotationAutowiredBean testBean = (KustomAnnotationAutowiredBean) context.getBean("testBean");
 		assertThat(testBean.getDependency()).isNotNull();
 		context.close();
@@ -135,7 +135,7 @@ public class ComponentScanParserTests {
 		}
 		{ // ensure the same works for AbstractRefreshableApplicationContext impls too
 			ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(new String[] { xmlLocation },
-				false);
+					false);
 			context.getEnvironment().setActiveProfiles(ProfileAnnotatedComponent.PROFILE_NAME);
 			context.refresh();
 			assertThat(context.containsBean(ProfileAnnotatedComponent.BEAN_NAME)).isTrue();
@@ -143,16 +143,15 @@ public class ComponentScanParserTests {
 		}
 	}
 
-
-	@Target({ElementType.TYPE, ElementType.FIELD})
+	@Target({ ElementType.TYPE, ElementType.FIELD })
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface CustomAnnotation {
+
 	}
 
-
 	/**
-	 * Intentionally spelling "custom" with a "k" since there are numerous
-	 * classes in this package named *Custom*.
+	 * Intentionally spelling "custom" with a "k" since there are numerous classes in this
+	 * package named *Custom*.
 	 */
 	public static class KustomAnnotationAutowiredBean {
 
@@ -163,28 +162,29 @@ public class ComponentScanParserTests {
 		public KustomAnnotationDependencyBean getDependency() {
 			return this.dependency;
 		}
+
 	}
 
-
 	/**
-	 * Intentionally spelling "custom" with a "k" since there are numerous
-	 * classes in this package named *Custom*.
+	 * Intentionally spelling "custom" with a "k" since there are numerous classes in this
+	 * package named *Custom*.
 	 */
 	@CustomAnnotation
 	public static class KustomAnnotationDependencyBean {
-	}
 
+	}
 
 	public static class CustomTypeFilter implements TypeFilter {
 
 		/**
-		 * Intentionally spelling "custom" with a "k" since there are numerous
-		 * classes in this package named *Custom*.
+		 * Intentionally spelling "custom" with a "k" since there are numerous classes in
+		 * this package named *Custom*.
 		 */
 		@Override
 		public boolean match(MetadataReader metadataReader, MetadataReaderFactory metadataReaderFactory) {
 			return metadataReader.getClassMetadata().getClassName().contains("Kustom");
 		}
+
 	}
 
 }

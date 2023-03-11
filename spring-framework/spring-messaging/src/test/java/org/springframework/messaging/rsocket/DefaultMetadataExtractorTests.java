@@ -46,21 +46,19 @@ import static org.springframework.util.MimeTypeUtils.TEXT_HTML;
 import static org.springframework.util.MimeTypeUtils.TEXT_PLAIN;
 import static org.springframework.util.MimeTypeUtils.TEXT_XML;
 
-
 /**
  * Unit tests for {@link DefaultMetadataExtractor}.
+ *
  * @author Rossen Stoyanchev
  */
 public class DefaultMetadataExtractorTests {
 
-	private static MimeType COMPOSITE_METADATA =
-			MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_COMPOSITE_METADATA.getString());
-
+	private static MimeType COMPOSITE_METADATA = MimeTypeUtils
+			.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_COMPOSITE_METADATA.getString());
 
 	private RSocketStrategies strategies;
 
 	private DefaultMetadataExtractor extractor;
-
 
 	@BeforeEach
 	public void setUp() {
@@ -75,14 +73,10 @@ public class DefaultMetadataExtractorTests {
 		((LeakAwareNettyDataBufferFactory) bufferFactory).checkForLeaks(Duration.ofSeconds(5));
 	}
 
-
 	@Test
 	public void compositeMetadataWithDefaultSettings() {
-		MetadataEncoder metadataEncoder = new MetadataEncoder(COMPOSITE_METADATA, this.strategies)
-				.route("toA")
-				.metadata("text data", TEXT_PLAIN)
-				.metadata("html data", TEXT_HTML)
-				.metadata("xml data", TEXT_XML);
+		MetadataEncoder metadataEncoder = new MetadataEncoder(COMPOSITE_METADATA, this.strategies).route("toA")
+				.metadata("text data", TEXT_PLAIN).metadata("html data", TEXT_HTML).metadata("xml data", TEXT_XML);
 
 		DataBuffer metadata = metadataEncoder.encode().block();
 		Payload payload = createPayload(metadata);
@@ -98,22 +92,16 @@ public class DefaultMetadataExtractorTests {
 		this.extractor.metadataToExtract(TEXT_HTML, String.class, "html-entry");
 		this.extractor.metadataToExtract(TEXT_XML, String.class, "xml-entry");
 
-		MetadataEncoder metadataEncoder = new MetadataEncoder(COMPOSITE_METADATA, this.strategies)
-				.route("toA")
-				.metadata("text data", TEXT_PLAIN)
-				.metadata("html data", TEXT_HTML)
-				.metadata("xml data", TEXT_XML);
+		MetadataEncoder metadataEncoder = new MetadataEncoder(COMPOSITE_METADATA, this.strategies).route("toA")
+				.metadata("text data", TEXT_PLAIN).metadata("html data", TEXT_HTML).metadata("xml data", TEXT_XML);
 
 		DataBuffer metadata = metadataEncoder.encode().block();
 		Payload payload = createPayload(metadata);
 		Map<String, Object> result = this.extractor.extract(payload, COMPOSITE_METADATA);
 		payload.release();
 
-		assertThat(result).hasSize(4)
-				.containsEntry(ROUTE_KEY, "toA")
-				.containsEntry("text-entry", "text data")
-				.containsEntry("html-entry", "html data")
-				.containsEntry("xml-entry", "xml data");
+		assertThat(result).hasSize(4).containsEntry(ROUTE_KEY, "toA").containsEntry("text-entry", "text data")
+				.containsEntry("html-entry", "html data").containsEntry("xml-entry", "xml data");
 	}
 
 	@Test
@@ -156,9 +144,7 @@ public class DefaultMetadataExtractorTests {
 		Map<String, Object> result = this.extractor.extract(payload, TEXT_PLAIN);
 		payload.release();
 
-		assertThat(result).hasSize(2)
-				.containsEntry(ROUTE_KEY, "toA")
-				.containsEntry("entry1", "text data");
+		assertThat(result).hasSize(2).containsEntry(ROUTE_KEY, "toA").containsEntry("entry1", "text data");
 	}
 
 	@Test
@@ -181,24 +167,21 @@ public class DefaultMetadataExtractorTests {
 
 	@Test
 	public void noDecoder() {
-		DefaultMetadataExtractor extractor =
-				new DefaultMetadataExtractor(Collections.singletonList(new ByteArrayDecoder())
-		);
+		DefaultMetadataExtractor extractor = new DefaultMetadataExtractor(
+				Collections.singletonList(new ByteArrayDecoder()));
 
 		assertThatIllegalArgumentException()
 				.isThrownBy(() -> extractor.metadataToExtract(TEXT_PLAIN, String.class, "key"))
 				.withMessage("No decoder for text/plain and java.lang.String");
 	}
 
-
 	private Payload createPayload(DataBuffer metadata) {
 		return PayloadUtils.createPayload(this.strategies.dataBufferFactory().allocateBuffer(), metadata);
 	}
 
-
 	/**
-	 * Like StringDecoder but consumes the reader index in order to prove that
-	 * extraction uses a slice and can be read twice.
+	 * Like StringDecoder but consumes the reader index in order to prove that extraction
+	 * uses a slice and can be read twice.
 	 */
 	private static class TestDecoder extends AbstractDataBufferDecoder<String> {
 
@@ -207,13 +190,15 @@ public class DefaultMetadataExtractorTests {
 		}
 
 		@Override
-		public String decode(DataBuffer dataBuffer, ResolvableType elementType,
-				@Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
+		public String decode(DataBuffer dataBuffer, ResolvableType elementType, @Nullable MimeType mimeType,
+				@Nullable Map<String, Object> hints) {
 
 			byte[] bytes = new byte[dataBuffer.readableByteCount()];
 			dataBuffer.read(bytes);
 			DataBufferUtils.release(dataBuffer);
 			return new String(bytes, StandardCharsets.UTF_8);
 		}
+
 	}
+
 }

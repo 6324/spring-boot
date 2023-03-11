@@ -22,8 +22,8 @@ import java.sql.SQLException;
 import org.springframework.lang.Nullable;
 
 /**
- * Derby specific implementation for the {@link CallMetaDataProvider} interface.
- * This class is intended for internal use by the Simple JDBC classes.
+ * Derby specific implementation for the {@link CallMetaDataProvider} interface. This
+ * class is intended for internal use by the Simple JDBC classes.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -34,7 +34,6 @@ public class DerbyCallMetaDataProvider extends GenericCallMetaDataProvider {
 	public DerbyCallMetaDataProvider(DatabaseMetaData databaseMetaData) throws SQLException {
 		super(databaseMetaData);
 	}
-
 
 	@Override
 	@Nullable

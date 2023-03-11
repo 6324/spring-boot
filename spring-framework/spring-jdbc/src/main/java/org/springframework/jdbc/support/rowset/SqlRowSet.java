@@ -31,12 +31,14 @@ import org.springframework.lang.Nullable;
  * Mirror interface for {@link javax.sql.RowSet}, representing a disconnected variant of
  * {@link java.sql.ResultSet} data.
  *
- * <p>The main difference to the standard JDBC RowSet is that a {@link java.sql.SQLException}
+ * <p>
+ * The main difference to the standard JDBC RowSet is that a {@link java.sql.SQLException}
  * is never thrown here. This allows an SqlRowSet to be used without having to deal with
- * checked exceptions. An SqlRowSet will throw Spring's {@link InvalidResultSetAccessException}
- * instead (when appropriate).
+ * checked exceptions. An SqlRowSet will throw Spring's
+ * {@link InvalidResultSetAccessException} instead (when appropriate).
  *
- * <p>Note: This interface extends the {@code java.io.Serializable} marker interface.
+ * <p>
+ * Note: This interface extends the {@code java.io.Serializable} marker interface.
  * Implementations, which typically hold disconnected data, are encouraged to be actually
  * serializable (as far as possible).
  *
@@ -51,8 +53,8 @@ import org.springframework.lang.Nullable;
 public interface SqlRowSet extends Serializable {
 
 	/**
-	 * Retrieve the meta-data, i.e. number, types and properties
-	 * for the columns of this row set.
+	 * Retrieve the meta-data, i.e. number, types and properties for the columns of this
+	 * row set.
 	 * @return a corresponding SqlRowSetMetaData instance
 	 * @see java.sql.ResultSet#getMetaData()
 	 */
@@ -66,11 +68,11 @@ public interface SqlRowSet extends Serializable {
 	 */
 	int findColumn(String columnLabel) throws InvalidResultSetAccessException;
 
-
 	// RowSet methods for extracting data values
 
 	/**
-	 * Retrieve the value of the indicated column in the current row as a BigDecimal object.
+	 * Retrieve the value of the indicated column in the current row as a BigDecimal
+	 * object.
 	 * @param columnIndex the column index
 	 * @return an BigDecimal object representing the column value
 	 * @see java.sql.ResultSet#getBigDecimal(int)
@@ -79,7 +81,8 @@ public interface SqlRowSet extends Serializable {
 	BigDecimal getBigDecimal(int columnIndex) throws InvalidResultSetAccessException;
 
 	/**
-	 * Retrieve the value of the indicated column in the current row as a BigDecimal object.
+	 * Retrieve the value of the indicated column in the current row as a BigDecimal
+	 * object.
 	 * @param columnLabel the column label
 	 * @return an BigDecimal object representing the column value
 	 * @see java.sql.ResultSet#getBigDecimal(String)
@@ -222,8 +225,8 @@ public interface SqlRowSet extends Serializable {
 	long getLong(String columnLabel) throws InvalidResultSetAccessException;
 
 	/**
-	 * Retrieve the value of the indicated column in the current row as a String
-	 * (for NCHAR, NVARCHAR, LONGNVARCHAR columns).
+	 * Retrieve the value of the indicated column in the current row as a String (for
+	 * NCHAR, NVARCHAR, LONGNVARCHAR columns).
 	 * @param columnIndex the column index
 	 * @return a String representing the column value
 	 * @since 4.1.3
@@ -233,8 +236,8 @@ public interface SqlRowSet extends Serializable {
 	String getNString(int columnIndex) throws InvalidResultSetAccessException;
 
 	/**
-	 * Retrieve the value of the indicated column in the current row as a String
-	 * (for NCHAR, NVARCHAR, LONGNVARCHAR columns).
+	 * Retrieve the value of the indicated column in the current row as a String (for
+	 * NCHAR, NVARCHAR, LONGNVARCHAR columns).
 	 * @param columnLabel the column label
 	 * @return a String representing the column value
 	 * @since 4.1.3
@@ -269,7 +272,7 @@ public interface SqlRowSet extends Serializable {
 	 * @see java.sql.ResultSet#getObject(int, Map)
 	 */
 	@Nullable
-	Object getObject(int columnIndex,  Map<String, Class<?>> map) throws InvalidResultSetAccessException;
+	Object getObject(int columnIndex, Map<String, Class<?>> map) throws InvalidResultSetAccessException;
 
 	/**
 	 * Retrieve the value of the indicated column in the current row as an Object.
@@ -279,7 +282,7 @@ public interface SqlRowSet extends Serializable {
 	 * @see java.sql.ResultSet#getObject(String, Map)
 	 */
 	@Nullable
-	Object getObject(String columnLabel,  Map<String, Class<?>> map) throws InvalidResultSetAccessException;
+	Object getObject(String columnLabel, Map<String, Class<?>> map) throws InvalidResultSetAccessException;
 
 	/**
 	 * Retrieve the value of the indicated column in the current row as an Object.
@@ -376,7 +379,8 @@ public interface SqlRowSet extends Serializable {
 	Time getTime(String columnLabel, Calendar cal) throws InvalidResultSetAccessException;
 
 	/**
-	 * Retrieve the value of the indicated column in the current row as a Timestamp object.
+	 * Retrieve the value of the indicated column in the current row as a Timestamp
+	 * object.
 	 * @param columnIndex the column index
 	 * @return a Timestamp object representing the column value
 	 * @see java.sql.ResultSet#getTimestamp(int)
@@ -385,7 +389,8 @@ public interface SqlRowSet extends Serializable {
 	Timestamp getTimestamp(int columnIndex) throws InvalidResultSetAccessException;
 
 	/**
-	 * Retrieve the value of the indicated column in the current row as a Timestamp object.
+	 * Retrieve the value of the indicated column in the current row as a Timestamp
+	 * object.
 	 * @param columnLabel the column label
 	 * @return a Timestamp object representing the column value
 	 * @see java.sql.ResultSet#getTimestamp(String)
@@ -394,7 +399,8 @@ public interface SqlRowSet extends Serializable {
 	Timestamp getTimestamp(String columnLabel) throws InvalidResultSetAccessException;
 
 	/**
-	 * Retrieve the value of the indicated column in the current row as a Timestamp object.
+	 * Retrieve the value of the indicated column in the current row as a Timestamp
+	 * object.
 	 * @param columnIndex the column index
 	 * @param cal the Calendar to use in constructing the Date
 	 * @return a Timestamp object representing the column value
@@ -404,7 +410,8 @@ public interface SqlRowSet extends Serializable {
 	Timestamp getTimestamp(int columnIndex, Calendar cal) throws InvalidResultSetAccessException;
 
 	/**
-	 * Retrieve the value of the indicated column in the current row as a Timestamp object.
+	 * Retrieve the value of the indicated column in the current row as a Timestamp
+	 * object.
 	 * @param columnLabel the column label
 	 * @param cal the Calendar to use in constructing the Date
 	 * @return a Timestamp object representing the column value
@@ -412,7 +419,6 @@ public interface SqlRowSet extends Serializable {
 	 */
 	@Nullable
 	Timestamp getTimestamp(String columnLabel, Calendar cal) throws InvalidResultSetAccessException;
-
 
 	// RowSet navigation methods
 
@@ -487,14 +493,16 @@ public interface SqlRowSet extends Serializable {
 
 	/**
 	 * Move the cursor to the next row.
-	 * @return {@code true} if the new row is valid, {@code false} if there are no more rows
+	 * @return {@code true} if the new row is valid, {@code false} if there are no more
+	 * rows
 	 * @see java.sql.ResultSet#next()
 	 */
 	boolean next() throws InvalidResultSetAccessException;
 
 	/**
 	 * Move the cursor to the previous row.
-	 * @return {@code true} if the new row is valid, {@code false} if it is off the row set
+	 * @return {@code true} if the new row is valid, {@code false} if it is off the row
+	 * set
 	 * @see java.sql.ResultSet#previous()
 	 */
 	boolean previous() throws InvalidResultSetAccessException;
@@ -508,10 +516,11 @@ public interface SqlRowSet extends Serializable {
 
 	/**
 	 * Report whether the last column read had a value of SQL {@code NULL}.
-	 * <p>Note that you must first call one of the getter methods and then
-	 * call the {@code wasNull()} method.
-	 * @return {@code true} if the most recent column retrieved was
-	 * SQL {@code NULL}, {@code false} otherwise
+	 * <p>
+	 * Note that you must first call one of the getter methods and then call the
+	 * {@code wasNull()} method.
+	 * @return {@code true} if the most recent column retrieved was SQL {@code NULL},
+	 * {@code false} otherwise
 	 * @see java.sql.ResultSet#wasNull()
 	 */
 	boolean wasNull() throws InvalidResultSetAccessException;

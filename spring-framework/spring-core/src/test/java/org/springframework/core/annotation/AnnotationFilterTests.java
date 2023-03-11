@@ -35,9 +35,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class AnnotationFilterTests {
 
-	private static final AnnotationFilter FILTER = annotationType ->
-			ObjectUtils.nullSafeEquals(annotationType, TestAnnotation.class.getName());
-
+	private static final AnnotationFilter FILTER = annotationType -> ObjectUtils.nullSafeEquals(annotationType,
+			TestAnnotation.class.getName());
 
 	@Test
 	void matchesAnnotationWhenMatchReturnsTrue() {
@@ -106,21 +105,24 @@ class AnnotationFilterTests {
 		assertThat(AnnotationFilter.NONE.matches(TestAnnotation.class)).isFalse();
 	}
 
-
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface TestAnnotation {
+
 	}
 
 	@TestAnnotation
 	static class WithTestAnnotation {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface OtherAnnotation {
+
 	}
 
 	@OtherAnnotation
 	static class WithOtherAnnotation {
+
 	}
 
 }

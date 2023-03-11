@@ -33,8 +33,8 @@ public class AspectJAutoProxyCreatorAndLazyInitTargetSourceTests {
 
 	@Test
 	public void testAdrian() {
-		ClassPathXmlApplicationContext ctx =
-			new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
+				getClass().getSimpleName() + "-context.xml", getClass());
 
 		ITestBean adrian = (ITestBean) ctx.getBean("adrian");
 		assertThat(LazyTestBean.instantiations).isEqualTo(0);
@@ -45,7 +45,6 @@ public class AspectJAutoProxyCreatorAndLazyInitTargetSourceTests {
 	}
 
 }
-
 
 class LazyTestBean extends TestBean {
 

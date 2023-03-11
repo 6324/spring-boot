@@ -22,8 +22,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ErrorHandler;
 
 /**
- * Runnable wrapper that catches any exception or error thrown from its
- * delegate Runnable and allows an {@link ErrorHandler} to handle it.
+ * Runnable wrapper that catches any exception or error thrown from its delegate Runnable
+ * and allows an {@link ErrorHandler} to handle it.
  *
  * @author Juergen Hoeller
  * @author Mark Fisher
@@ -34,7 +34,6 @@ public class DelegatingErrorHandlingRunnable implements Runnable {
 	private final Runnable delegate;
 
 	private final ErrorHandler errorHandler;
-
 
 	/**
 	 * Create a new DelegatingErrorHandlingRunnable.

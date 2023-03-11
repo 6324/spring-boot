@@ -67,7 +67,6 @@ public class MessagingMessageListenerAdapterTests {
 
 	private final SampleBean sample = new SampleBean();
 
-
 	@BeforeEach
 	public void setup() {
 		initializeFactory(factory);
@@ -75,12 +74,10 @@ public class MessagingMessageListenerAdapterTests {
 
 	@Test
 	public void buildMessageWithStandardMessage() throws JMSException {
-		Destination replyTo = new Destination() {};
-		Message<String> result = MessageBuilder.withPayload("Response")
-				.setHeader("foo", "bar")
-				.setHeader(JmsHeaders.TYPE, "msg_type")
-				.setHeader(JmsHeaders.REPLY_TO, replyTo)
-				.build();
+		Destination replyTo = new Destination() {
+		};
+		Message<String> result = MessageBuilder.withPayload("Response").setHeader("foo", "bar")
+				.setHeader(JmsHeaders.TYPE, "msg_type").setHeader(JmsHeaders.REPLY_TO, replyTo).build();
 
 		Session session = mock(Session.class);
 		given(session.createTextMessage("Response")).willReturn(new StubTextMessage("Response"));
@@ -100,10 +97,10 @@ public class MessagingMessageListenerAdapterTests {
 		javax.jms.Message message = new StubTextMessage("foo");
 		Session session = mock(Session.class);
 		MessagingMessageListenerAdapter listener = getSimpleInstance("fail", String.class);
-		assertThatExceptionOfType(ListenerExecutionFailedException.class).isThrownBy(() ->
-				listener.onMessage(message, session))
-			.withCauseExactlyInstanceOf(IllegalArgumentException.class)
-			.satisfies(ex -> assertThat(ex.getCause().getMessage()).isEqualTo("Expected test exception"));
+		assertThatExceptionOfType(ListenerExecutionFailedException.class)
+				.isThrownBy(() -> listener.onMessage(message, session))
+				.withCauseExactlyInstanceOf(IllegalArgumentException.class)
+				.satisfies(ex -> assertThat(ex.getCause().getMessage()).isEqualTo("Expected test exception"));
 	}
 
 	@Test
@@ -112,9 +109,9 @@ public class MessagingMessageListenerAdapterTests {
 		Session session = mock(Session.class);
 		MessagingMessageListenerAdapter listener = getSimpleInstance("wrongParam", Integer.class);
 
-		assertThatExceptionOfType(ListenerExecutionFailedException.class).isThrownBy(() ->
-				listener.onMessage(message, session))
-			.withCauseExactlyInstanceOf(MessageConversionException.class);
+		assertThatExceptionOfType(ListenerExecutionFailedException.class)
+				.isThrownBy(() -> listener.onMessage(message, session))
+				.withCauseExactlyInstanceOf(MessageConversionException.class);
 	}
 
 	@Test
@@ -138,9 +135,7 @@ public class MessagingMessageListenerAdapterTests {
 		Message<?> message = listener.toMessagingMessage(jmsMessage);
 
 		// Triggers headers resolution
-		assertThatIllegalArgumentException().isThrownBy(
-				message::getHeaders)
-			.withMessageContaining("Header failure");
+		assertThatIllegalArgumentException().isThrownBy(message::getHeaders).withMessageContaining("Header failure");
 	}
 
 	@Test
@@ -265,7 +260,8 @@ public class MessagingMessageListenerAdapterTests {
 		given(session.createTextMessage("Response")).willReturn(responseMessage);
 		given(session.createProducer(sharedReplyDestination)).willReturn(messageProducer);
 
-		MessagingMessageListenerAdapter listener = getPayloadInstance("Response", "replyPayloadToDestination", Message.class);
+		MessagingMessageListenerAdapter listener = getPayloadInstance("Response", "replyPayloadToDestination",
+				Message.class);
 		listener.onMessage(mock(javax.jms.Message.class), session);
 
 		verify(session, times(0)).createQueue(anyString());
@@ -284,8 +280,8 @@ public class MessagingMessageListenerAdapterTests {
 		given(session.createTextMessage("Response")).willReturn(responseMessage);
 		given(session.createProducer(replyDestination)).willReturn(messageProducer);
 
-		MessagingMessageListenerAdapter listener =
-				getPayloadInstance("Response", "replyPayloadNoDestination", Message.class);
+		MessagingMessageListenerAdapter listener = getPayloadInstance("Response", "replyPayloadNoDestination",
+				Message.class);
 		listener.setDefaultResponseDestination(replyDestination);
 		listener.onMessage(mock(javax.jms.Message.class), session);
 
@@ -304,15 +300,13 @@ public class MessagingMessageListenerAdapterTests {
 
 	@Test
 	public void replyJacksonMessageAndJsonView() throws JMSException {
-		TextMessage reply = testReplyWithJackson("replyJacksonMessageAndJsonView",
-				"{\"name\":\"Response\"}");
+		TextMessage reply = testReplyWithJackson("replyJacksonMessageAndJsonView", "{\"name\":\"Response\"}");
 		verify(reply).setObjectProperty("foo", "bar");
 	}
 
 	@Test
 	public void replyJacksonPojoAndJsonView() throws JMSException {
-		TextMessage reply = testReplyWithJackson("replyJacksonPojoAndJsonView",
-				"{\"name\":\"Response\"}");
+		TextMessage reply = testReplyWithJackson("replyJacksonPojoAndJsonView", "{\"name\":\"Response\"}");
 		verify(reply, never()).setObjectProperty("foo", "bar");
 	}
 
@@ -339,7 +333,6 @@ public class MessagingMessageListenerAdapterTests {
 		return responseMessage;
 	}
 
-
 	protected MessagingMessageListenerAdapter getSimpleInstance(String methodName, Class... parameterTypes) {
 		Method m = ReflectionUtils.findMethod(SampleBean.class, methodName, parameterTypes);
 		return createInstance(m);
@@ -351,8 +344,8 @@ public class MessagingMessageListenerAdapterTests {
 		return adapter;
 	}
 
-	protected MessagingMessageListenerAdapter getPayloadInstance(final Object payload,
-			String methodName, Class... parameterTypes) {
+	protected MessagingMessageListenerAdapter getPayloadInstance(final Object payload, String methodName,
+			Class... parameterTypes) {
 
 		Method method = ReflectionUtils.findMethod(SampleBean.class, methodName, parameterTypes);
 		MessagingMessageListenerAdapter adapter = new MessagingMessageListenerAdapter() {
@@ -370,7 +363,6 @@ public class MessagingMessageListenerAdapterTests {
 		factory.afterPropertiesSet();
 	}
 
-
 	@SuppressWarnings("unused")
 	private static class SampleBean {
 
@@ -381,9 +373,7 @@ public class MessagingMessageListenerAdapterTests {
 		}
 
 		public Message<String> echo(Message<String> input) {
-			return MessageBuilder.withPayload(input.getPayload())
-					.setHeader(JmsHeaders.TYPE, "reply")
-					.build();
+			return MessageBuilder.withPayload(input.getPayload()).setHeader(JmsHeaders.TYPE, "reply").build();
 		}
 
 		public JmsResponse<String> replyPayloadToQueue(Message<String> input) {
@@ -403,14 +393,12 @@ public class MessagingMessageListenerAdapterTests {
 		}
 
 		public Message<SampleResponse> replyJackson(Message<String> input) {
-			return MessageBuilder.withPayload(createSampleResponse(input.getPayload()))
-					.setHeader("foo", "bar").build();
+			return MessageBuilder.withPayload(createSampleResponse(input.getPayload())).setHeader("foo", "bar").build();
 		}
 
 		@JsonView(Summary.class)
 		public Message<SampleResponse> replyJacksonMessageAndJsonView(Message<String> input) {
-			return MessageBuilder.withPayload(createSampleResponse(input.getPayload()))
-					.setHeader("foo", "bar").build();
+			return MessageBuilder.withPayload(createSampleResponse(input.getPayload())).setHeader("foo", "bar").build();
 		}
 
 		@JsonView(Summary.class)
@@ -429,10 +417,16 @@ public class MessagingMessageListenerAdapterTests {
 		public void wrongParam(Integer i) {
 			throw new IllegalArgumentException("Should not have been called");
 		}
+
 	}
 
-	interface Summary {};
-	interface Full extends Summary {};
+	interface Summary {
+
+	};
+
+	interface Full extends Summary {
+
+	};
 
 	private static class SampleResponse {
 
@@ -475,6 +469,7 @@ public class MessagingMessageListenerAdapterTests {
 		public void setDescription(String description) {
 			this.description = description;
 		}
+
 	}
 
 }

@@ -44,9 +44,12 @@ public class AopNamespaceHandlerEventTests {
 
 	private static final Class<?> CLASS = AopNamespaceHandlerEventTests.class;
 
-	private static final Resource CONTEXT =  qualifiedResource(CLASS, "context.xml");
-	private static final Resource POINTCUT_EVENTS_CONTEXT =  qualifiedResource(CLASS, "pointcutEvents.xml");
+	private static final Resource CONTEXT = qualifiedResource(CLASS, "context.xml");
+
+	private static final Resource POINTCUT_EVENTS_CONTEXT = qualifiedResource(CLASS, "pointcutEvents.xml");
+
 	private static final Resource POINTCUT_REF_CONTEXT = qualifiedResource(CLASS, "pointcutRefEvents.xml");
+
 	private static final Resource DIRECT_POINTCUT_EVENTS_CONTEXT = qualifiedResource(CLASS, "directPointcutEvents.xml");
 
 	private CollectingReaderEventListener eventListener = new CollectingReaderEventListener();
@@ -55,13 +58,11 @@ public class AopNamespaceHandlerEventTests {
 
 	private XmlBeanDefinitionReader reader;
 
-
 	@BeforeEach
 	public void setup() {
 		this.reader = new XmlBeanDefinitionReader(this.beanFactory);
 		this.reader.setEventListener(this.eventListener);
 	}
-
 
 	@Test
 	public void testPointcutEvents() {

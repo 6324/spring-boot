@@ -33,8 +33,8 @@ public interface MessageReceivingOperations<D> {
 
 	/**
 	 * Receive a message from a default destination.
-	 * @return the received message, possibly {@code null} if the message could not
-	 * be received, for example due to a timeout
+	 * @return the received message, possibly {@code null} if the message could not be
+	 * received, for example due to a timeout
 	 */
 	@Nullable
 	Message<?> receive() throws MessagingException;
@@ -42,8 +42,8 @@ public interface MessageReceivingOperations<D> {
 	/**
 	 * Receive a message from the given destination.
 	 * @param destination the target destination
-	 * @return the received message, possibly {@code null} if the message could not
-	 * be received, for example due to a timeout
+	 * @return the received message, possibly {@code null} if the message could not be
+	 * received, for example due to a timeout
 	 */
 	@Nullable
 	Message<?> receive(D destination) throws MessagingException;
@@ -52,8 +52,8 @@ public interface MessageReceivingOperations<D> {
 	 * Receive a message from a default destination and convert its payload to the
 	 * specified target class.
 	 * @param targetClass the target class to convert the payload to
-	 * @return the converted payload of the reply message, possibly {@code null} if
-	 * the message could not be received, for example due to a timeout
+	 * @return the converted payload of the reply message, possibly {@code null} if the
+	 * message could not be received, for example due to a timeout
 	 */
 	@Nullable
 	<T> T receiveAndConvert(Class<T> targetClass) throws MessagingException;
@@ -63,8 +63,8 @@ public interface MessageReceivingOperations<D> {
 	 * specified target class.
 	 * @param destination the target destination
 	 * @param targetClass the target class to convert the payload to
-	 * @return the converted payload of the reply message, possibly {@code null} if
-	 * the message could not be received, for example due to a timeout
+	 * @return the converted payload of the reply message, possibly {@code null} if the
+	 * message could not be received, for example due to a timeout
 	 */
 	@Nullable
 	<T> T receiveAndConvert(D destination, Class<T> targetClass) throws MessagingException;

@@ -61,13 +61,11 @@ public class WebSocketServerSockJsSession extends AbstractSockJsSession implemen
 
 	private volatile boolean disconnected;
 
-
-	public WebSocketServerSockJsSession(String id, SockJsServiceConfig config,
-			WebSocketHandler handler, @Nullable Map<String, Object> attributes) {
+	public WebSocketServerSockJsSession(String id, SockJsServiceConfig config, WebSocketHandler handler,
+			@Nullable Map<String, Object> attributes) {
 
 		super(id, config, handler, attributes);
 	}
-
 
 	@Override
 	@Nullable
@@ -139,23 +137,23 @@ public class WebSocketServerSockJsSession extends AbstractSockJsSession implemen
 	@Override
 	public Object getNativeSession() {
 		Assert.state(this.webSocketSession != null, "WebSocketSession not yet initialized");
-		return (this.webSocketSession instanceof NativeWebSocketSession ?
-				((NativeWebSocketSession) this.webSocketSession).getNativeSession() : this.webSocketSession);
+		return (this.webSocketSession instanceof NativeWebSocketSession
+				? ((NativeWebSocketSession) this.webSocketSession).getNativeSession() : this.webSocketSession);
 	}
 
 	@Override
 	@Nullable
 	public <T> T getNativeSession(@Nullable Class<T> requiredType) {
-		return (this.webSocketSession instanceof NativeWebSocketSession ?
-				((NativeWebSocketSession) this.webSocketSession).getNativeSession(requiredType) : null);
+		return (this.webSocketSession instanceof NativeWebSocketSession
+				? ((NativeWebSocketSession) this.webSocketSession).getNativeSession(requiredType) : null);
 	}
-
 
 	public void initializeDelegateSession(WebSocketSession session) {
 		synchronized (this.initSessionLock) {
 			this.webSocketSession = session;
 			try {
-				// Let "our" handler know before sending the open frame to the remote handler
+				// Let "our" handler know before sending the open frame to the remote
+				// handler
 				delegateConnectionEstablished();
 				this.webSocketSession.sendMessage(new TextMessage(SockJsFrame.openFrame().getContent()));
 

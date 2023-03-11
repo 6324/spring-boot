@@ -45,8 +45,8 @@ import org.springframework.web.server.NotAcceptableStatusException;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * Abstract base class for result handlers that handle return values by writing
- * to the response with {@link HttpMessageWriter}.
+ * Abstract base class for result handlers that handle return values by writing to the
+ * response with {@link HttpMessageWriter}.
  *
  * @author Rossen Stoyanchev
  * @author Sebastien Deleuze
@@ -57,7 +57,6 @@ public abstract class AbstractMessageWriterResultHandler extends HandlerResultHa
 	private static final String COROUTINES_FLOW_CLASS_NAME = "kotlinx.coroutines.flow.Flow";
 
 	private final List<HttpMessageWriter<?>> messageWriters;
-
 
 	/**
 	 * Constructor with {@link HttpMessageWriter HttpMessageWriters} and a
@@ -86,14 +85,12 @@ public abstract class AbstractMessageWriterResultHandler extends HandlerResultHa
 		this.messageWriters = messageWriters;
 	}
 
-
 	/**
 	 * Return the configured message converters.
 	 */
 	public List<HttpMessageWriter<?>> getMessageWriters() {
 		return this.messageWriters;
 	}
-
 
 	/**
 	 * Write a given body to the response with {@link HttpMessageWriter}.
@@ -118,7 +115,7 @@ public abstract class AbstractMessageWriterResultHandler extends HandlerResultHa
 	 * @return indicates completion or error
 	 * @since 5.0.2
 	 */
-	@SuppressWarnings({"unchecked", "rawtypes", "ConstantConditions"})
+	@SuppressWarnings({ "unchecked", "rawtypes", "ConstantConditions" })
 	protected Mono<Void> writeBody(@Nullable Object body, MethodParameter bodyParameter,
 			@Nullable MethodParameter actualParam, ServerWebExchange exchange) {
 
@@ -131,10 +128,10 @@ public abstract class AbstractMessageWriterResultHandler extends HandlerResultHa
 		ResolvableType actualElementType;
 		if (adapter != null) {
 			publisher = adapter.toPublisher(body);
-			boolean isUnwrapped = KotlinDetector.isKotlinReflectPresent() &&
-					KotlinDetector.isKotlinType(bodyParameter.getContainingClass()) &&
-					KotlinDelegate.isSuspend(bodyParameter.getMethod()) &&
-					!COROUTINES_FLOW_CLASS_NAME.equals(bodyType.toClass().getName());
+			boolean isUnwrapped = KotlinDetector.isKotlinReflectPresent()
+					&& KotlinDetector.isKotlinType(bodyParameter.getContainingClass())
+					&& KotlinDelegate.isSuspend(bodyParameter.getMethod())
+					&& !COROUTINES_FLOW_CLASS_NAME.equals(bodyType.toClass().getName());
 			ResolvableType genericType = isUnwrapped ? bodyType : bodyType.getGeneric();
 			elementType = getElementType(adapter, genericType);
 			actualElementType = elementType;
@@ -153,13 +150,12 @@ public abstract class AbstractMessageWriterResultHandler extends HandlerResultHa
 		if (bestMediaType != null) {
 			String logPrefix = exchange.getLogPrefix();
 			if (logger.isDebugEnabled()) {
-				logger.debug(logPrefix +
-						(publisher instanceof Mono ? "0..1" : "0..N") + " [" + elementType + "]");
+				logger.debug(logPrefix + (publisher instanceof Mono ? "0..1" : "0..N") + " [" + elementType + "]");
 			}
 			for (HttpMessageWriter<?> writer : getMessageWriters()) {
 				if (writer.canWrite(actualElementType, bestMediaType)) {
-					return writer.write((Publisher) publisher, actualType, elementType,
-							bestMediaType, exchange.getRequest(), exchange.getResponse(),
+					return writer.write((Publisher) publisher, actualType, elementType, bestMediaType,
+							exchange.getRequest(), exchange.getResponse(),
 							Hints.from(Hints.LOG_PREFIX_HINT, logPrefix));
 				}
 			}
@@ -203,7 +199,6 @@ public abstract class AbstractMessageWriterResultHandler extends HandlerResultHa
 		return writableMediaTypes;
 	}
 
-
 	/**
 	 * Inner class to avoid a hard dependency on Kotlin at runtime.
 	 */
@@ -213,6 +208,7 @@ public abstract class AbstractMessageWriterResultHandler extends HandlerResultHa
 			KFunction<?> function = ReflectJvmMapping.getKotlinFunction(method);
 			return function != null && function.isSuspend();
 		}
+
 	}
 
 }

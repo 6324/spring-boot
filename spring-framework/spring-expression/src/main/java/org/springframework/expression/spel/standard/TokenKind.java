@@ -122,11 +122,9 @@ enum TokenKind {
 
 	DEC("--");
 
-
 	final char[] tokenChars;
 
-	private final boolean hasPayload;  // is there more to this token than simply the kind
-
+	private final boolean hasPayload; // is there more to this token than simply the kind
 
 	private TokenKind(String tokenString) {
 		this.tokenChars = tokenString.toCharArray();
@@ -137,10 +135,9 @@ enum TokenKind {
 		this("");
 	}
 
-
 	@Override
 	public String toString() {
-		return (name() + (this.tokenChars.length !=0 ? "(" + new String(this.tokenChars) +")" : ""));
+		return (name() + (this.tokenChars.length != 0 ? "(" + new String(this.tokenChars) + ")" : ""));
 	}
 
 	public boolean hasPayload() {

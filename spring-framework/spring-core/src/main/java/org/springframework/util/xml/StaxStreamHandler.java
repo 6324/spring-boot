@@ -29,8 +29,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.ext.LexicalHandler;
 
 /**
- * SAX {@link org.xml.sax.ContentHandler} and {@link LexicalHandler}
- * that writes to an {@link XMLStreamWriter}.
+ * SAX {@link org.xml.sax.ContentHandler} and {@link LexicalHandler} that writes to an
+ * {@link XMLStreamWriter}.
  *
  * @author Arjen Poutsma
  * @since 4.0.3
@@ -39,11 +39,9 @@ class StaxStreamHandler extends AbstractStaxHandler {
 
 	private final XMLStreamWriter streamWriter;
 
-
 	public StaxStreamHandler(XMLStreamWriter streamWriter) {
 		this.streamWriter = streamWriter;
 	}
-
 
 	@Override
 	protected void startDocumentInternal() throws XMLStreamException {
@@ -56,8 +54,8 @@ class StaxStreamHandler extends AbstractStaxHandler {
 	}
 
 	@Override
-	protected void startElementInternal(QName name, Attributes attributes,
-			Map<String, String> namespaceMapping) throws XMLStreamException {
+	protected void startElementInternal(QName name, Attributes attributes, Map<String, String> namespaceMapping)
+			throws XMLStreamException {
 
 		this.streamWriter.writeStartElement(name.getPrefix(), name.getLocalPart(), name.getNamespaceURI());
 

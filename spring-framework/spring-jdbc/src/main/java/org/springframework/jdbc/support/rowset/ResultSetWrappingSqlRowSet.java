@@ -36,24 +36,28 @@ import org.springframework.lang.Nullable;
  * {@link java.sql.ResultSet}, catching any {@link SQLException SQLExceptions} and
  * translating them to a corresponding Spring {@link InvalidResultSetAccessException}.
  *
- * <p>The passed-in ResultSet should already be disconnected if the SqlRowSet is supposed
- * to be usable in a disconnected fashion. This means that you will usually pass in a
+ * <p>
+ * The passed-in ResultSet should already be disconnected if the SqlRowSet is supposed to
+ * be usable in a disconnected fashion. This means that you will usually pass in a
  * {@code javax.sql.rowset.CachedRowSet}, which implements the ResultSet interface.
  *
- * <p>Note: Since JDBC 4.0, it has been clarified that any methods using a String to identify
- * the column should be using the column label. The column label is assigned using the ALIAS
- * keyword in the SQL query string. When the query doesn't use an ALIAS, the default label is
- * the column name. Most JDBC ResultSet implementations follow this new pattern but there are
- * exceptions such as the {@code com.sun.rowset.CachedRowSetImpl} class which only uses
- * the column name, ignoring any column labels. As of Spring 3.0.5, ResultSetWrappingSqlRowSet
- * will translate column labels to the correct column index to provide better support for the
- * {@code com.sun.rowset.CachedRowSetImpl} which is the default implementation used by
- * {@link org.springframework.jdbc.core.JdbcTemplate} when working with RowSets.
+ * <p>
+ * Note: Since JDBC 4.0, it has been clarified that any methods using a String to identify
+ * the column should be using the column label. The column label is assigned using the
+ * ALIAS keyword in the SQL query string. When the query doesn't use an ALIAS, the default
+ * label is the column name. Most JDBC ResultSet implementations follow this new pattern
+ * but there are exceptions such as the {@code com.sun.rowset.CachedRowSetImpl} class
+ * which only uses the column name, ignoring any column labels. As of Spring 3.0.5,
+ * ResultSetWrappingSqlRowSet will translate column labels to the correct column index to
+ * provide better support for the {@code com.sun.rowset.CachedRowSetImpl} which is the
+ * default implementation used by {@link org.springframework.jdbc.core.JdbcTemplate} when
+ * working with RowSets.
  *
- * <p>Note: This class implements the {@code java.io.Serializable} marker interface
- * through the SqlRowSet interface, but is only actually serializable if the disconnected
- * ResultSet/RowSet contained in it is serializable. Most CachedRowSet implementations
- * are actually serializable, so this should usually work out.
+ * <p>
+ * Note: This class implements the {@code java.io.Serializable} marker interface through
+ * the SqlRowSet interface, but is only actually serializable if the disconnected
+ * ResultSet/RowSet contained in it is serializable. Most CachedRowSet implementations are
+ * actually serializable, so this should usually work out.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -67,20 +71,17 @@ public class ResultSetWrappingSqlRowSet implements SqlRowSet {
 	/** use serialVersionUID from Spring 1.2 for interoperability. */
 	private static final long serialVersionUID = -4688694393146734764L;
 
-
 	private final ResultSet resultSet;
 
 	private final SqlRowSetMetaData rowSetMetaData;
 
 	private final Map<String, Integer> columnLabelMap;
 
-
 	/**
 	 * Create a new ResultSetWrappingSqlRowSet for the given ResultSet.
-	 * @param resultSet a disconnected ResultSet to wrap
-	 * (usually a {@code javax.sql.rowset.CachedRowSet})
-	 * @throws InvalidResultSetAccessException if extracting
-	 * the ResultSetMetaData failed
+	 * @param resultSet a disconnected ResultSet to wrap (usually a
+	 * {@code javax.sql.rowset.CachedRowSet})
+	 * @throws InvalidResultSetAccessException if extracting the ResultSetMetaData failed
 	 * @see javax.sql.rowset.CachedRowSet
 	 * @see java.sql.ResultSet#getMetaData
 	 * @see ResultSetWrappingSqlRowSetMetaData
@@ -117,10 +118,8 @@ public class ResultSetWrappingSqlRowSet implements SqlRowSet {
 
 	}
 
-
 	/**
-	 * Return the underlying ResultSet
-	 * (usually a {@code javax.sql.rowset.CachedRowSet}).
+	 * Return the underlying ResultSet (usually a {@code javax.sql.rowset.CachedRowSet}).
 	 * @see javax.sql.rowset.CachedRowSet
 	 */
 	public final ResultSet getResultSet() {
@@ -153,7 +152,6 @@ public class ResultSetWrappingSqlRowSet implements SqlRowSet {
 			}
 		}
 	}
-
 
 	// RowSet methods for extracting data values
 
@@ -579,7 +577,6 @@ public class ResultSetWrappingSqlRowSet implements SqlRowSet {
 	public Timestamp getTimestamp(String columnLabel, Calendar cal) throws InvalidResultSetAccessException {
 		return getTimestamp(findColumn(columnLabel), cal);
 	}
-
 
 	// RowSet navigation methods
 

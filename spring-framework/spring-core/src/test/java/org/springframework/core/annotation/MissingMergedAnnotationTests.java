@@ -39,7 +39,6 @@ class MissingMergedAnnotationTests {
 
 	private final MergedAnnotation<?> missing = MissingMergedAnnotation.getInstance();
 
-
 	@Test
 	void getTypeThrowsNoSuchElementException() {
 		assertThatNoSuchElementException().isThrownBy(this.missing::getType);
@@ -92,62 +91,52 @@ class MissingMergedAnnotationTests {
 
 	@Test
 	void hasNonDefaultValueThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.hasNonDefaultValue("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.hasNonDefaultValue("value"));
 	}
 
 	@Test
 	void hasDefaultValueThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.hasDefaultValue("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.hasDefaultValue("value"));
 	}
 
 	@Test
 	void getByteThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getByte("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getByte("value"));
 	}
 
 	@Test
 	void getByteArrayThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getByteArray("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getByteArray("value"));
 	}
 
 	@Test
 	void getBooleanThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getBoolean("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getBoolean("value"));
 	}
 
 	@Test
 	void getBooleanArrayThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getBooleanArray("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getBooleanArray("value"));
 	}
 
 	@Test
 	void getCharThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getChar("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getChar("value"));
 	}
 
 	@Test
 	void getCharArrayThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getCharArray("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getCharArray("value"));
 	}
 
 	@Test
 	void getShortThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getShort("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getShort("value"));
 	}
 
 	@Test
 	void getShortArrayThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getShortArray("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getShortArray("value"));
 	}
 
 	@Test
@@ -157,92 +146,78 @@ class MissingMergedAnnotationTests {
 
 	@Test
 	void getIntArrayThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getIntArray("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getIntArray("value"));
 	}
 
 	@Test
 	void getLongThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getLong("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getLong("value"));
 	}
 
 	@Test
 	void getLongArrayThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getLongArray("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getLongArray("value"));
 	}
 
 	@Test
 	void getDoubleThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getDouble("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getDouble("value"));
 	}
 
 	@Test
 	void getDoubleArrayThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getDoubleArray("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getDoubleArray("value"));
 	}
 
 	@Test
 	void getFloatThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getFloat("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getFloat("value"));
 	}
 
 	@Test
 	void getFloatArrayThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getFloatArray("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getFloatArray("value"));
 	}
 
 	@Test
 	void getStringThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getString("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getString("value"));
 	}
 
 	@Test
 	void getStringArrayThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getStringArray("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getStringArray("value"));
 	}
 
 	@Test
 	void getClassThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getClass("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getClass("value"));
 	}
 
 	@Test
 	void getClassArrayThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getClassArray("value"));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getClassArray("value"));
 	}
 
 	@Test
 	void getEnumThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getEnum("value", TestEnum.class));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getEnum("value", TestEnum.class));
 	}
 
 	@Test
 	void getEnumArrayThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getEnumArray("value", TestEnum.class));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getEnumArray("value", TestEnum.class));
 	}
 
 	@Test
 	void getAnnotationThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getAnnotation("value", TestAnnotation.class));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.getAnnotation("value", TestAnnotation.class));
 	}
 
 	@Test
 	void getAnnotationArrayThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.getAnnotationArray("value", TestAnnotation.class));
+		assertThatNoSuchElementException()
+				.isThrownBy(() -> this.missing.getAnnotationArray("value", TestAnnotation.class));
 	}
 
 	@Test
@@ -262,8 +237,7 @@ class MissingMergedAnnotationTests {
 
 	@Test
 	void synthesizeWithPredicateWhenPredicateMatchesThrowsNoSuchElementException() {
-		assertThatNoSuchElementException().isThrownBy(
-				() -> this.missing.synthesize(annotation -> true));
+		assertThatNoSuchElementException().isThrownBy(() -> this.missing.synthesize(annotation -> true));
 	}
 
 	@Test
@@ -291,23 +265,23 @@ class MissingMergedAnnotationTests {
 
 	@Test
 	void asMapWithFactoryReturnsNewMapFromFactory() {
-		Map<String, Object> map = this.missing.asMap(annotation->new ConcurrentReferenceHashMap<>());
+		Map<String, Object> map = this.missing.asMap(annotation -> new ConcurrentReferenceHashMap<>());
 		assertThat(map).isInstanceOf(ConcurrentReferenceHashMap.class);
 	}
-
 
 	private static ThrowableTypeAssert<NoSuchElementException> assertThatNoSuchElementException() {
 		return assertThatExceptionOfType(NoSuchElementException.class);
 	}
 
-
 	private enum TestEnum {
-		ONE, TWO, THREE
-	}
 
+		ONE, TWO, THREE
+
+	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	private @interface TestAnnotation {
+
 	}
 
 }

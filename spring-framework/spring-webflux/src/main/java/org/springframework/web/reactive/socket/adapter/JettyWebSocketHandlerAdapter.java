@@ -40,8 +40,8 @@ import org.springframework.web.reactive.socket.WebSocketMessage.Type;
 import org.springframework.web.reactive.socket.WebSocketSession;
 
 /**
- * Jetty {@link WebSocket @WebSocket} handler that delegates events to a
- * reactive {@link WebSocketHandler} and its session.
+ * Jetty {@link WebSocket @WebSocket} handler that delegates events to a reactive
+ * {@link WebSocketHandler} and its session.
  *
  * @author Violeta Georgieva
  * @author Rossen Stoyanchev
@@ -52,14 +52,12 @@ public class JettyWebSocketHandlerAdapter {
 
 	private static final ByteBuffer EMPTY_PAYLOAD = ByteBuffer.wrap(new byte[0]);
 
-
 	private final WebSocketHandler delegateHandler;
 
 	private final Function<Session, JettyWebSocketSession> sessionFactory;
 
 	@Nullable
 	private JettyWebSocketSession delegateSession;
-
 
 	public JettyWebSocketHandlerAdapter(WebSocketHandler handler,
 			Function<Session, JettyWebSocketSession> sessionFactory) {
@@ -69,7 +67,6 @@ public class JettyWebSocketHandlerAdapter {
 		this.delegateHandler = handler;
 		this.sessionFactory = sessionFactory;
 	}
-
 
 	@OnWebSocketConnect
 	public void onWebSocketConnect(Session session) {

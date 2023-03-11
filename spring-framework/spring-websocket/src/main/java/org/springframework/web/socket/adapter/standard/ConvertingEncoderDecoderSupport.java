@@ -42,26 +42,30 @@ import org.springframework.web.context.ContextLoader;
  * and/or {@link javax.websocket.Decoder}. It provides encode and decode method
  * implementations that delegate to a Spring {@link ConversionService}.
  *
- * <p>By default, this class looks up a {@link ConversionService} registered in the
- * {@link #getApplicationContext() active ApplicationContext} under
- * the name {@code 'webSocketConversionService'}. This works fine for both client
- * and server endpoints, in a Servlet container environment. If not running in a
- * Servlet container, subclasses will need to override the
- * {@link #getConversionService()} method to provide an alternative lookup strategy.
+ * <p>
+ * By default, this class looks up a {@link ConversionService} registered in the
+ * {@link #getApplicationContext() active ApplicationContext} under the name
+ * {@code 'webSocketConversionService'}. This works fine for both client and server
+ * endpoints, in a Servlet container environment. If not running in a Servlet container,
+ * subclasses will need to override the {@link #getConversionService()} method to provide
+ * an alternative lookup strategy.
  *
- * <p>Subclasses can extend this class and should also implement one or
- * both of {@link javax.websocket.Encoder} and {@link javax.websocket.Decoder}.
- * For convenience {@link ConvertingEncoderDecoderSupport.BinaryEncoder},
+ * <p>
+ * Subclasses can extend this class and should also implement one or both of
+ * {@link javax.websocket.Encoder} and {@link javax.websocket.Decoder}. For convenience
+ * {@link ConvertingEncoderDecoderSupport.BinaryEncoder},
  * {@link ConvertingEncoderDecoderSupport.BinaryDecoder},
  * {@link ConvertingEncoderDecoderSupport.TextEncoder} and
  * {@link ConvertingEncoderDecoderSupport.TextDecoder} subclasses are provided.
  *
- * <p>Since JSR-356 only allows Encoder/Decoder to be registered by type, instances
- * of this class are therefore managed by the WebSocket runtime, and do not need to
- * be registered as Spring Beans. They can, however, by injected with Spring-managed
- * dependencies via {@link Autowired @Autowire}.
+ * <p>
+ * Since JSR-356 only allows Encoder/Decoder to be registered by type, instances of this
+ * class are therefore managed by the WebSocket runtime, and do not need to be registered
+ * as Spring Beans. They can, however, by injected with Spring-managed dependencies via
+ * {@link Autowired @Autowire}.
  *
- * <p>Converters to convert between the {@link #getType() type} and {@code String} or
+ * <p>
+ * Converters to convert between the {@link #getType() type} and {@code String} or
  * {@code ByteBuffer} should be registered.
  *
  * @author Phillip Webb
@@ -77,7 +81,6 @@ public abstract class ConvertingEncoderDecoderSupport<T, M> {
 
 	private static final String CONVERSION_SERVICE_BEAN_NAME = "webSocketConversionService";
 
-
 	/**
 	 * Called to initialize the encoder/decoder.
 	 * @see javax.websocket.Encoder#init(EndpointConfig)
@@ -86,8 +89,8 @@ public abstract class ConvertingEncoderDecoderSupport<T, M> {
 	public void init(EndpointConfig config) {
 		ApplicationContext applicationContext = getApplicationContext();
 		if (applicationContext instanceof ConfigurableApplicationContext) {
-			ConfigurableListableBeanFactory beanFactory =
-					((ConfigurableApplicationContext) applicationContext).getBeanFactory();
+			ConfigurableListableBeanFactory beanFactory = ((ConfigurableApplicationContext) applicationContext)
+					.getBeanFactory();
 			beanFactory.autowireBean(this);
 		}
 	}
@@ -113,17 +116,17 @@ public abstract class ConvertingEncoderDecoderSupport<T, M> {
 			return applicationContext.getBean(CONVERSION_SERVICE_BEAN_NAME, ConversionService.class);
 		}
 		catch (BeansException ex) {
-			throw new IllegalStateException("Unable to find ConversionService: please configure a '" +
-					CONVERSION_SERVICE_BEAN_NAME + "' or override the getConversionService() method", ex);
+			throw new IllegalStateException("Unable to find ConversionService: please configure a '"
+					+ CONVERSION_SERVICE_BEAN_NAME + "' or override the getConversionService() method", ex);
 		}
 	}
 
 	/**
-	 * Returns the active {@link ApplicationContext}. Be default this method obtains
-	 * the context via {@link ContextLoader#getCurrentWebApplicationContext()}, which
-	 * finds the ApplicationContext loaded via {@link ContextLoader} typically in a
-	 * Servlet container environment. When not running in a Servlet container and
-	 * not using {@link ContextLoader}, this method should be overridden.
+	 * Returns the active {@link ApplicationContext}. Be default this method obtains the
+	 * context via {@link ContextLoader#getCurrentWebApplicationContext()}, which finds
+	 * the ApplicationContext loaded via {@link ContextLoader} typically in a Servlet
+	 * container environment. When not running in a Servlet container and not using
+	 * {@link ContextLoader}, this method should be overridden.
 	 * @return the {@link ApplicationContext} or {@code null}
 	 */
 	@Nullable
@@ -132,26 +135,27 @@ public abstract class ConvertingEncoderDecoderSupport<T, M> {
 	}
 
 	/**
-	 * Returns the type being converted. By default the type is resolved using
-	 * the generic arguments of the class.
+	 * Returns the type being converted. By default the type is resolved using the generic
+	 * arguments of the class.
 	 */
 	protected TypeDescriptor getType() {
 		return TypeDescriptor.valueOf(resolveTypeArguments()[0]);
 	}
 
 	/**
-	 * Returns the websocket message type. By default the type is resolved using
-	 * the generic arguments of the class.
+	 * Returns the websocket message type. By default the type is resolved using the
+	 * generic arguments of the class.
 	 */
 	protected TypeDescriptor getMessageType() {
 		return TypeDescriptor.valueOf(resolveTypeArguments()[1]);
 	}
 
 	private Class<?>[] resolveTypeArguments() {
-		Class<?>[] resolved = GenericTypeResolver.resolveTypeArguments(getClass(), ConvertingEncoderDecoderSupport.class);
+		Class<?>[] resolved = GenericTypeResolver.resolveTypeArguments(getClass(),
+				ConvertingEncoderDecoderSupport.class);
 		if (resolved == null) {
-			throw new IllegalStateException("ConvertingEncoderDecoderSupport's generic types T and M " +
-					"need to be substituted in subclass: " + getClass());
+			throw new IllegalStateException("ConvertingEncoderDecoderSupport's generic types T and M "
+					+ "need to be substituted in subclass: " + getClass());
 		}
 		return resolved;
 	}
@@ -206,45 +210,52 @@ public abstract class ConvertingEncoderDecoderSupport<T, M> {
 		}
 	}
 
-
 	/**
-	 * A binary {@link javax.websocket.Encoder.Binary javax.websocket.Encoder} that delegates
-	 * to Spring's conversion service. See {@link ConvertingEncoderDecoderSupport} for details.
+	 * A binary {@link javax.websocket.Encoder.Binary javax.websocket.Encoder} that
+	 * delegates to Spring's conversion service. See
+	 * {@link ConvertingEncoderDecoderSupport} for details.
+	 *
 	 * @param <T> the type that this Encoder can convert to
 	 */
 	public abstract static class BinaryEncoder<T> extends ConvertingEncoderDecoderSupport<T, ByteBuffer>
 			implements Encoder.Binary<T> {
+
 	}
 
-
 	/**
-	 * A binary {@link javax.websocket.Encoder.Binary javax.websocket.Encoder} that delegates
-	 * to Spring's conversion service. See {@link ConvertingEncoderDecoderSupport} for details.
+	 * A binary {@link javax.websocket.Encoder.Binary javax.websocket.Encoder} that
+	 * delegates to Spring's conversion service. See
+	 * {@link ConvertingEncoderDecoderSupport} for details.
+	 *
 	 * @param <T> the type that this Decoder can convert from
 	 */
 	public abstract static class BinaryDecoder<T> extends ConvertingEncoderDecoderSupport<T, ByteBuffer>
 			implements Decoder.Binary<T> {
-	}
 
+	}
 
 	/**
 	 * A text {@link javax.websocket.Encoder.Text javax.websocket.Encoder} that delegates
 	 * to Spring's conversion service. See {@link ConvertingEncoderDecoderSupport} for
 	 * details.
+	 *
 	 * @param <T> the type that this Encoder can convert to
 	 */
 	public abstract static class TextEncoder<T> extends ConvertingEncoderDecoderSupport<T, String>
 			implements Encoder.Text<T> {
-	}
 
+	}
 
 	/**
 	 * A Text {@link javax.websocket.Encoder.Text javax.websocket.Encoder} that delegates
-	 * to Spring's conversion service. See {@link ConvertingEncoderDecoderSupport} for details.
+	 * to Spring's conversion service. See {@link ConvertingEncoderDecoderSupport} for
+	 * details.
+	 *
 	 * @param <T> the type that this Decoder can convert from
 	 */
 	public abstract static class TextDecoder<T> extends ConvertingEncoderDecoderSupport<T, String>
 			implements Decoder.Text<T> {
+
 	}
 
 }

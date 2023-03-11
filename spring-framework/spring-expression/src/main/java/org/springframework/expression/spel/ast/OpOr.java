@@ -41,7 +41,6 @@ public class OpOr extends Operator {
 		this.exitTypeDescriptor = "Z";
 	}
 
-
 	@Override
 	public BooleanTypedValue getValueInternal(ExpressionState state) throws EvaluationException {
 		if (getBooleanValue(state, getLeftOperand())) {
@@ -73,14 +72,14 @@ public class OpOr extends Operator {
 	public boolean isCompilable() {
 		SpelNodeImpl left = getLeftOperand();
 		SpelNodeImpl right = getRightOperand();
-		return (left.isCompilable() && right.isCompilable() &&
-				CodeFlow.isBooleanCompatible(left.exitTypeDescriptor) &&
-				CodeFlow.isBooleanCompatible(right.exitTypeDescriptor));
+		return (left.isCompilable() && right.isCompilable() && CodeFlow.isBooleanCompatible(left.exitTypeDescriptor)
+				&& CodeFlow.isBooleanCompatible(right.exitTypeDescriptor));
 	}
 
 	@Override
 	public void generateCode(MethodVisitor mv, CodeFlow cf) {
-		// pseudo: if (leftOperandValue) { result=true; } else { result=rightOperandValue; }
+		// pseudo: if (leftOperandValue) { result=true; } else { result=rightOperandValue;
+		// }
 		Label elseTarget = new Label();
 		Label endOfIf = new Label();
 		cf.enterCompilationScope();
@@ -89,7 +88,7 @@ public class OpOr extends Operator {
 		cf.exitCompilationScope();
 		mv.visitJumpInsn(IFEQ, elseTarget);
 		mv.visitLdcInsn(1); // TRUE
-		mv.visitJumpInsn(GOTO,endOfIf);
+		mv.visitJumpInsn(GOTO, endOfIf);
 		mv.visitLabel(elseTarget);
 		cf.enterCompilationScope();
 		getRightOperand().generateCode(mv, cf);

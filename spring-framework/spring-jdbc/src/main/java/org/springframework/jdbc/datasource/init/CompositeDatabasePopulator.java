@@ -37,7 +37,6 @@ public class CompositeDatabasePopulator implements DatabasePopulator {
 
 	private final List<DatabasePopulator> populators = new ArrayList<>(4);
 
-
 	/**
 	 * Create an empty {@code CompositeDatabasePopulator}.
 	 * @see #setPopulators
@@ -64,7 +63,6 @@ public class CompositeDatabasePopulator implements DatabasePopulator {
 		this.populators.addAll(Arrays.asList(populators));
 	}
 
-
 	/**
 	 * Specify one or more populators to delegate to.
 	 */
@@ -79,7 +77,6 @@ public class CompositeDatabasePopulator implements DatabasePopulator {
 	public void addPopulators(DatabasePopulator... populators) {
 		this.populators.addAll(Arrays.asList(populators));
 	}
-
 
 	@Override
 	public void populate(Connection connection) throws SQLException, ScriptException {

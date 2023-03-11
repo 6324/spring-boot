@@ -24,16 +24,17 @@ import org.springframework.jdbc.core.SqlTypeValue;
 import org.springframework.lang.Nullable;
 
 /**
- * Abstract implementation of the SqlTypeValue interface, for convenient
- * creation of type values that are supposed to be passed into the
- * {@code PreparedStatement.setObject} method. The {@code createTypeValue}
- * callback method has access to the underlying Connection, if that should
- * be needed to create any database-specific objects.
+ * Abstract implementation of the SqlTypeValue interface, for convenient creation of type
+ * values that are supposed to be passed into the {@code PreparedStatement.setObject}
+ * method. The {@code createTypeValue} callback method has access to the underlying
+ * Connection, if that should be needed to create any database-specific objects.
  *
- * <p>A usage example from a StoredProcedure (compare this to the plain
- * SqlTypeValue version in the superclass javadoc):
+ * <p>
+ * A usage example from a StoredProcedure (compare this to the plain SqlTypeValue version
+ * in the superclass javadoc):
  *
- * <pre class="code">proc.declareParameter(new SqlParameter("myarray", Types.ARRAY, "NUMBERS"));
+ * <pre class=
+ * "code">proc.declareParameter(new SqlParameter("myarray", Types.ARRAY, "NUMBERS"));
  * ...
  *
  * Map&lt;String, Object&gt; in = new HashMap&lt;String, Object&gt;();
@@ -72,8 +73,8 @@ public abstract class AbstractSqlTypeValue implements SqlTypeValue {
 	 * @param sqlType the SQL type of the parameter we are setting
 	 * @param typeName the type name of the parameter
 	 * @return the type value
-	 * @throws SQLException if an SQLException is encountered setting
-	 * parameter values (that is, there's no need to catch SQLException)
+	 * @throws SQLException if an SQLException is encountered setting parameter values
+	 * (that is, there's no need to catch SQLException)
 	 * @see java.sql.PreparedStatement#setObject(int, Object, int)
 	 */
 	protected abstract Object createTypeValue(Connection con, int sqlType, @Nullable String typeName)

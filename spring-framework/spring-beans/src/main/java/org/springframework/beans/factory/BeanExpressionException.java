@@ -36,8 +36,7 @@ public class BeanExpressionException extends FatalBeanException {
 	}
 
 	/**
-	 * Create a new BeanExpressionException with the specified message
-	 * and root cause.
+	 * Create a new BeanExpressionException with the specified message and root cause.
 	 * @param msg the detail message
 	 * @param cause the root cause
 	 */

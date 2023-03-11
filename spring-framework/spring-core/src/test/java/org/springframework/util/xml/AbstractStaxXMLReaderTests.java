@@ -62,16 +62,14 @@ abstract class AbstractStaxXMLReaderTests {
 
 	private ContentHandler standardContentHandler;
 
-
 	@BeforeEach
-	@SuppressWarnings("deprecation")  // on JDK 9
+	@SuppressWarnings("deprecation") // on JDK 9
 	void setUp() throws Exception {
 		inputFactory = XMLInputFactory.newInstance();
 		standardReader = org.xml.sax.helpers.XMLReaderFactory.createXMLReader();
 		standardContentHandler = mockContentHandler();
 		standardReader.setContentHandler(standardContentHandler);
 	}
-
 
 	@Test
 	void contentHandlerNamespacesNoPrefixes() throws Exception {
@@ -127,8 +125,7 @@ abstract class AbstractStaxXMLReaderTests {
 
 		Transformer transformer = TransformerFactory.newInstance().newTransformer();
 
-		AbstractStaxXMLReader staxXmlReader = createStaxXmlReader(
-				new ByteArrayInputStream(xml.getBytes("UTF-8")));
+		AbstractStaxXMLReader staxXmlReader = createStaxXmlReader(new ByteArrayInputStream(xml.getBytes("UTF-8")));
 
 		SAXSource source = new SAXSource(staxXmlReader, new InputSource());
 		DOMResult result = new DOMResult();
@@ -154,8 +151,8 @@ abstract class AbstractStaxXMLReaderTests {
 		inputFactory.setProperty("javax.xml.stream.isSupportingExternalEntities", Boolean.FALSE);
 
 		LexicalHandler actualLexicalHandler = mockLexicalHandler();
-		willAnswer(invocation -> invocation.getArguments()[0] = "element").
-				given(actualLexicalHandler).startDTD(anyString(), anyString(), anyString());
+		willAnswer(invocation -> invocation.getArguments()[0] = "element").given(actualLexicalHandler)
+				.startDTD(anyString(), anyString(), anyString());
 		AbstractStaxXMLReader staxXmlReader = createStaxXmlReader(testLexicalHandlerXml.getInputStream());
 		staxXmlReader.setProperty("http://xml.org/sax/properties/lexical-handler", actualLexicalHandler);
 		staxXmlReader.parse(new InputSource());
@@ -163,7 +160,6 @@ abstract class AbstractStaxXMLReaderTests {
 		// TODO: broken comparison since Mockito 2.2 upgrade
 		// verifyIdenticalInvocations(expectedLexicalHandler, actualLexicalHandler);
 	}
-
 
 	private LexicalHandler mockLexicalHandler() throws Exception {
 		LexicalHandler lexicalHandler = mock(LexicalHandler.class);
@@ -178,7 +174,8 @@ abstract class AbstractStaxXMLReaderTests {
 	protected final ContentHandler mockContentHandler() throws Exception {
 		ContentHandler contentHandler = mock(ContentHandler.class);
 		willAnswer(new CopyCharsAnswer()).given(contentHandler).characters(any(char[].class), anyInt(), anyInt());
-		willAnswer(new CopyCharsAnswer()).given(contentHandler).ignorableWhitespace(any(char[].class), anyInt(), anyInt());
+		willAnswer(new CopyCharsAnswer()).given(contentHandler).ignorableWhitespace(any(char[].class), anyInt(),
+				anyInt());
 		willAnswer(new Answer<Object>() {
 			@Override
 			public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -190,12 +187,11 @@ abstract class AbstractStaxXMLReaderTests {
 	}
 
 	protected <T> void verifyIdenticalInvocations(T expected, T actual) {
-		MockitoUtils.verifySameInvocations(expected, actual,
-				new SkipLocatorArgumentsAdapter(), new CharArrayToStringAdapter(), new PartialAttributesAdapter());
+		MockitoUtils.verifySameInvocations(expected, actual, new SkipLocatorArgumentsAdapter(),
+				new CharArrayToStringAdapter(), new PartialAttributesAdapter());
 	}
 
 	protected abstract AbstractStaxXMLReader createStaxXmlReader(InputStream inputStream) throws XMLStreamException;
-
 
 	private static class SkipLocatorArgumentsAdapter implements InvocationArgumentsAdapter {
 
@@ -208,21 +204,22 @@ abstract class AbstractStaxXMLReaderTests {
 			}
 			return arguments;
 		}
-	}
 
+	}
 
 	private static class CharArrayToStringAdapter implements InvocationArgumentsAdapter {
 
 		@Override
 		public Object[] adaptArguments(Object[] arguments) {
-			if (arguments.length == 3 && arguments[0] instanceof char[]
-					&& arguments[1] instanceof Integer && arguments[2] instanceof Integer) {
-				return new Object[] {new String((char[]) arguments[0], (Integer) arguments[1], (Integer) arguments[2])};
+			if (arguments.length == 3 && arguments[0] instanceof char[] && arguments[1] instanceof Integer
+					&& arguments[2] instanceof Integer) {
+				return new Object[] {
+						new String((char[]) arguments[0], (Integer) arguments[1], (Integer) arguments[2]) };
 			}
 			return arguments;
 		}
-	}
 
+	}
 
 	private static class PartialAttributesAdapter implements InvocationArgumentsAdapter {
 
@@ -235,8 +232,8 @@ abstract class AbstractStaxXMLReaderTests {
 			}
 			return arguments;
 		}
-	}
 
+	}
 
 	private static class CopyCharsAnswer implements Answer<Object> {
 
@@ -248,8 +245,8 @@ abstract class AbstractStaxXMLReaderTests {
 			invocation.getArguments()[0] = copy;
 			return null;
 		}
-	}
 
+	}
 
 	private static class PartialAttributes {
 
@@ -268,8 +265,7 @@ abstract class AbstractStaxXMLReaderTests {
 			for (int i = 0; i < other.getLength(); i++) {
 				boolean found = false;
 				for (int j = 0; j < attributes.getLength(); j++) {
-					if (other.getURI(i).equals(attributes.getURI(j))
-							&& other.getQName(i).equals(attributes.getQName(j))
+					if (other.getURI(i).equals(attributes.getURI(j)) && other.getQName(i).equals(attributes.getQName(j))
 							&& other.getType(i).equals(attributes.getType(j))
 							&& other.getValue(i).equals(attributes.getValue(j))) {
 						found = true;
@@ -287,6 +283,7 @@ abstract class AbstractStaxXMLReaderTests {
 		public int hashCode() {
 			return 1;
 		}
+
 	}
 
 }

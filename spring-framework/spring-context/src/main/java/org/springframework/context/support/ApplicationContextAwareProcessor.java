@@ -36,16 +36,17 @@ import org.springframework.util.StringValueResolver;
 /**
  * {@link BeanPostProcessor} implementation that supplies the {@code ApplicationContext},
  * {@link org.springframework.core.env.Environment Environment}, or
- * {@link StringValueResolver} for the {@code ApplicationContext} to beans that
- * implement the {@link EnvironmentAware}, {@link EmbeddedValueResolverAware},
+ * {@link StringValueResolver} for the {@code ApplicationContext} to beans that implement
+ * the {@link EnvironmentAware}, {@link EmbeddedValueResolverAware},
  * {@link ResourceLoaderAware}, {@link ApplicationEventPublisherAware},
  * {@link MessageSourceAware}, and/or {@link ApplicationContextAware} interfaces.
  *
- * <p>Implemented interfaces are satisfied in the order in which they are
- * mentioned above.
+ * <p>
+ * Implemented interfaces are satisfied in the order in which they are mentioned above.
  *
- * <p>Application contexts will automatically register this with their
- * underlying bean factory. Applications do not use this directly.
+ * <p>
+ * Application contexts will automatically register this with their underlying bean
+ * factory. Applications do not use this directly.
  *
  * @author Juergen Hoeller
  * @author Costin Leau
@@ -65,7 +66,6 @@ class ApplicationContextAwareProcessor implements BeanPostProcessor {
 
 	private final StringValueResolver embeddedValueResolver;
 
-
 	/**
 	 * Create a new ApplicationContextAwareProcessor for the given context.
 	 */
@@ -74,13 +74,12 @@ class ApplicationContextAwareProcessor implements BeanPostProcessor {
 		this.embeddedValueResolver = new EmbeddedValueResolver(applicationContext.getBeanFactory());
 	}
 
-
 	@Override
 	@Nullable
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		if (!(bean instanceof EnvironmentAware || bean instanceof EmbeddedValueResolverAware ||
-				bean instanceof ResourceLoaderAware || bean instanceof ApplicationEventPublisherAware ||
-				bean instanceof MessageSourceAware || bean instanceof ApplicationContextAware)){
+		if (!(bean instanceof EnvironmentAware || bean instanceof EmbeddedValueResolverAware
+				|| bean instanceof ResourceLoaderAware || bean instanceof ApplicationEventPublisherAware
+				|| bean instanceof MessageSourceAware || bean instanceof ApplicationContextAware)) {
 			return bean;
 		}
 

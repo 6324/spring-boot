@@ -59,7 +59,7 @@ public class StaticApplicationContextMulticasterTests extends AbstractApplicatio
 		parent.registerSingleton(StaticApplicationContext.APPLICATION_EVENT_MULTICASTER_BEAN_NAME,
 				TestApplicationEventMulticaster.class, null);
 		parent.refresh();
-		parent.addApplicationListener(parentListener) ;
+		parent.addApplicationListener(parentListener);
 
 		parent.getStaticMessageSource().addMessage("code1", Locale.getDefault(), "message1");
 
@@ -92,7 +92,6 @@ public class StaticApplicationContextMulticasterTests extends AbstractApplicatio
 		assertThat(TestApplicationEventMulticaster.counter).isEqualTo(1);
 	}
 
-
 	public static class TestApplicationEventMulticaster extends SimpleApplicationEventMulticaster {
 
 		private static int counter = 0;
@@ -102,6 +101,7 @@ public class StaticApplicationContextMulticasterTests extends AbstractApplicatio
 			super.multicastEvent(event, eventType);
 			counter++;
 		}
+
 	}
 
 }

@@ -23,6 +23,7 @@ import org.aspectj.lang.annotation.Before;
 
 @Aspect
 public class TwoAdviceAspect {
+
 	private int totalCalls;
 
 	@Around("execution(* getAge())")
@@ -34,4 +35,5 @@ public class TwoAdviceAspect {
 	public void countSet(int newAge) throws Exception {
 		++totalCalls;
 	}
+
 }

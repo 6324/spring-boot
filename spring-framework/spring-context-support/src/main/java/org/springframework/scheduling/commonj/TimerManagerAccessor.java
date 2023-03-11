@@ -49,13 +49,13 @@ public abstract class TimerManagerAccessor extends JndiLocatorSupport
 
 	private boolean shared = false;
 
-
 	/**
 	 * Specify the CommonJ TimerManager to delegate to.
-	 * <p>Note that the given TimerManager's lifecycle will be managed
-	 * by this FactoryBean.
-	 * <p>Alternatively (and typically), you can specify the JNDI name
-	 * of the target TimerManager.
+	 * <p>
+	 * Note that the given TimerManager's lifecycle will be managed by this FactoryBean.
+	 * <p>
+	 * Alternatively (and typically), you can specify the JNDI name of the target
+	 * TimerManager.
 	 * @see #setTimerManagerName
 	 */
 	public void setTimerManager(TimerManager timerManager) {
@@ -64,8 +64,9 @@ public abstract class TimerManagerAccessor extends JndiLocatorSupport
 
 	/**
 	 * Set the JNDI name of the CommonJ TimerManager.
-	 * <p>This can either be a fully qualified JNDI name, or the JNDI name relative
-	 * to the current environment naming context if "resourceRef" is set to "true".
+	 * <p>
+	 * This can either be a fully qualified JNDI name, or the JNDI name relative to the
+	 * current environment naming context if "resourceRef" is set to "true".
 	 * @see #setTimerManager
 	 * @see #setResourceRef
 	 */
@@ -74,24 +75,27 @@ public abstract class TimerManagerAccessor extends JndiLocatorSupport
 	}
 
 	/**
-	 * Specify whether the TimerManager obtained by this FactoryBean
-	 * is a shared instance ("true") or an independent instance ("false").
-	 * The lifecycle of the former is supposed to be managed by the application
-	 * server, while the lifecycle of the latter is up to the application.
-	 * <p>Default is "false", i.e. managing an independent TimerManager instance.
-	 * This is what the CommonJ specification suggests that application servers
-	 * are supposed to offer via JNDI lookups, typically declared as a
-	 * {@code resource-ref} of type {@code commonj.timers.TimerManager}
-	 * in {@code web.xml}, with {@code res-sharing-scope} set to 'Unshareable'.
-	 * <p>Switch this flag to "true" if you are obtaining a shared TimerManager,
-	 * typically through specifying the JNDI location of a TimerManager that
-	 * has been explicitly declared as 'Shareable'. Note that WebLogic's
-	 * cluster-aware Job Scheduler is a shared TimerManager too.
-	 * <p>The sole difference between this FactoryBean being in shared or
-	 * non-shared mode is that it will only attempt to suspend / resume / stop
-	 * the underlying TimerManager in case of an independent (non-shared) instance.
-	 * This only affects the {@link org.springframework.context.Lifecycle} support
-	 * as well as application context shutdown.
+	 * Specify whether the TimerManager obtained by this FactoryBean is a shared instance
+	 * ("true") or an independent instance ("false"). The lifecycle of the former is
+	 * supposed to be managed by the application server, while the lifecycle of the latter
+	 * is up to the application.
+	 * <p>
+	 * Default is "false", i.e. managing an independent TimerManager instance. This is
+	 * what the CommonJ specification suggests that application servers are supposed to
+	 * offer via JNDI lookups, typically declared as a {@code resource-ref} of type
+	 * {@code commonj.timers.TimerManager} in {@code web.xml}, with
+	 * {@code res-sharing-scope} set to 'Unshareable'.
+	 * <p>
+	 * Switch this flag to "true" if you are obtaining a shared TimerManager, typically
+	 * through specifying the JNDI location of a TimerManager that has been explicitly
+	 * declared as 'Shareable'. Note that WebLogic's cluster-aware Job Scheduler is a
+	 * shared TimerManager too.
+	 * <p>
+	 * The sole difference between this FactoryBean being in shared or non-shared mode is
+	 * that it will only attempt to suspend / resume / stop the underlying TimerManager in
+	 * case of an independent (non-shared) instance. This only affects the
+	 * {@link org.springframework.context.Lifecycle} support as well as application
+	 * context shutdown.
 	 * @see #stop()
 	 * @see #start()
 	 * @see #destroy()
@@ -100,7 +104,6 @@ public abstract class TimerManagerAccessor extends JndiLocatorSupport
 	public void setShared(boolean shared) {
 		this.shared = shared;
 	}
-
 
 	@Override
 	public void afterPropertiesSet() throws NamingException {
@@ -132,10 +135,9 @@ public abstract class TimerManagerAccessor extends JndiLocatorSupport
 		return this.timerManager;
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of Lifecycle interface
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
 	 * Resumes the underlying TimerManager (if not shared).
@@ -160,8 +162,8 @@ public abstract class TimerManagerAccessor extends JndiLocatorSupport
 	}
 
 	/**
-	 * Considers the underlying TimerManager as running if it is
-	 * neither suspending nor stopping.
+	 * Considers the underlying TimerManager as running if it is neither suspending nor
+	 * stopping.
 	 * @see commonj.timers.TimerManager#isSuspending()
 	 * @see commonj.timers.TimerManager#isStopping()
 	 */
@@ -171,10 +173,9 @@ public abstract class TimerManagerAccessor extends JndiLocatorSupport
 		return (!tm.isSuspending() && !tm.isStopping());
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of DisposableBean interface
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
 	 * Stops the underlying TimerManager (if not shared).

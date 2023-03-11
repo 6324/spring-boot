@@ -23,9 +23,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.util.Assert;
 
 /**
- * Base implementation of {@link DataFieldMaxValueIncrementer} that delegates
- * to a single {@link #getNextKey} template method that returns a {@code long}.
- * Uses longs for String values, padding with zeroes if required.
+ * Base implementation of {@link DataFieldMaxValueIncrementer} that delegates to a single
+ * {@link #getNextKey} template method that returns a {@code long}. Uses longs for String
+ * values, padding with zeroes if required.
  *
  * @author Dmitriy Kopylenko
  * @author Juergen Hoeller
@@ -41,7 +41,6 @@ public abstract class AbstractDataFieldMaxValueIncrementer implements DataFieldM
 
 	/** The length to which a string result should be pre-pended with zeroes. */
 	protected int paddingLength = 0;
-
 
 	/**
 	 * Default constructor for bean property style usage.
@@ -62,7 +61,6 @@ public abstract class AbstractDataFieldMaxValueIncrementer implements DataFieldM
 		this.dataSource = dataSource;
 		this.incrementerName = incrementerName;
 	}
-
 
 	/**
 	 * Set the data source to retrieve the value from.
@@ -93,8 +91,8 @@ public abstract class AbstractDataFieldMaxValueIncrementer implements DataFieldM
 	}
 
 	/**
-	 * Set the padding length, i.e. the length to which a string result
-	 * should be pre-pended with zeroes.
+	 * Set the padding length, i.e. the length to which a string result should be
+	 * pre-pended with zeroes.
 	 */
 	public void setPaddingLength(int paddingLength) {
 		this.paddingLength = paddingLength;
@@ -116,7 +114,6 @@ public abstract class AbstractDataFieldMaxValueIncrementer implements DataFieldM
 			throw new IllegalArgumentException("Property 'incrementerName' is required");
 		}
 	}
-
 
 	@Override
 	public int nextIntValue() throws DataAccessException {
@@ -143,11 +140,10 @@ public abstract class AbstractDataFieldMaxValueIncrementer implements DataFieldM
 		return s;
 	}
 
-
 	/**
 	 * Determine the next key to use, as a long.
-	 * @return the key to use as a long. It will eventually be converted later
-	 * in another format by the public concrete methods of this class.
+	 * @return the key to use as a long. It will eventually be converted later in another
+	 * format by the public concrete methods of this class.
 	 */
 	protected abstract long getNextKey();
 

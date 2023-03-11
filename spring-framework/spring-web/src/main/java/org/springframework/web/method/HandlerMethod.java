@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2022 the original author or authors.
+ * Copyright 2002-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -536,21 +536,21 @@ public class HandlerMethod {
 	private class ReturnValueMethodParameter extends HandlerMethodParameter {
 
 		@Nullable
-		private final Class<?> returnValueType;
+		private final Object returnValue;
 
 		public ReturnValueMethodParameter(@Nullable Object returnValue) {
 			super(-1);
-			this.returnValueType = (returnValue != null ? returnValue.getClass() : null);
+			this.returnValue = returnValue;
 		}
 
 		protected ReturnValueMethodParameter(ReturnValueMethodParameter original) {
 			super(original);
-			this.returnValueType = original.returnValueType;
+			this.returnValue = original.returnValue;
 		}
 
 		@Override
 		public Class<?> getParameterType() {
-			return (this.returnValueType != null ? this.returnValueType : super.getParameterType());
+			return (this.returnValue != null ? this.returnValue.getClass() : super.getParameterType());
 		}
 
 		@Override

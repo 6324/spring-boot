@@ -19,8 +19,8 @@ package org.springframework.jdbc.support.xml;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 /**
- * Exception thrown when the underlying implementation does not support the
- * requested feature of the API.
+ * Exception thrown when the underlying implementation does not support the requested
+ * feature of the API.
  *
  * @author Thomas Risberg
  * @since 2.5.5
@@ -44,4 +44,5 @@ public class SqlXmlFeatureNotImplementedException extends InvalidDataAccessApiUs
 	public SqlXmlFeatureNotImplementedException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
+
 }

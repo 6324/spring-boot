@@ -24,11 +24,11 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Very simple implementation of TransactionAttributeSource which will always return
- * the same TransactionAttribute for all methods fed to it. The TransactionAttribute
- * may be specified, but will otherwise default to PROPAGATION_REQUIRED. This may be
- * used in the cases where you want to use the same transaction attribute with all
- * methods being handled by a transaction interceptor.
+ * Very simple implementation of TransactionAttributeSource which will always return the
+ * same TransactionAttribute for all methods fed to it. The TransactionAttribute may be
+ * specified, but will otherwise default to PROPAGATION_REQUIRED. This may be used in the
+ * cases where you want to use the same transaction attribute with all methods being
+ * handled by a transaction interceptor.
  *
  * @author Colin Sampaleanu
  * @since 15.10.2003
@@ -40,10 +40,9 @@ public class MatchAlwaysTransactionAttributeSource implements TransactionAttribu
 
 	private TransactionAttribute transactionAttribute = new DefaultTransactionAttribute();
 
-
 	/**
-	 * Allows a transaction attribute to be specified, using the String form, for
-	 * example, "PROPAGATION_REQUIRED".
+	 * Allows a transaction attribute to be specified, using the String form, for example,
+	 * "PROPAGATION_REQUIRED".
 	 * @param transactionAttribute the String form of the transactionAttribute to use.
 	 * @see org.springframework.transaction.interceptor.TransactionAttributeEditor
 	 */
@@ -51,13 +50,11 @@ public class MatchAlwaysTransactionAttributeSource implements TransactionAttribu
 		this.transactionAttribute = transactionAttribute;
 	}
 
-
 	@Override
 	@Nullable
 	public TransactionAttribute getTransactionAttribute(Method method, @Nullable Class<?> targetClass) {
 		return (ClassUtils.isUserLevelMethod(method) ? this.transactionAttribute : null);
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {

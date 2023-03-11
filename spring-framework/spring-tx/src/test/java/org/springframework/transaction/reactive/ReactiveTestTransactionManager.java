@@ -46,12 +46,10 @@ class ReactiveTestTransactionManager extends AbstractReactiveTransactionManager 
 
 	protected boolean cleanup = false;
 
-
 	ReactiveTestTransactionManager(boolean existingTransaction, boolean canCreateTransaction) {
 		this.existingTransaction = existingTransaction;
 		this.canCreateTransaction = canCreateTransaction;
 	}
-
 
 	@Override
 	protected Object doGetTransaction(TransactionSynchronizationManager synchronizationManager) {
@@ -64,7 +62,8 @@ class ReactiveTestTransactionManager extends AbstractReactiveTransactionManager 
 	}
 
 	@Override
-	protected Mono<Void> doBegin(TransactionSynchronizationManager synchronizationManager, Object transaction, TransactionDefinition definition) {
+	protected Mono<Void> doBegin(TransactionSynchronizationManager synchronizationManager, Object transaction,
+			TransactionDefinition definition) {
 		if (!TRANSACTION.equals(transaction)) {
 			return Mono.error(new IllegalArgumentException("Not the same transaction object"));
 		}
@@ -75,7 +74,8 @@ class ReactiveTestTransactionManager extends AbstractReactiveTransactionManager 
 	}
 
 	@Override
-	protected Mono<Void> doCommit(TransactionSynchronizationManager synchronizationManager, GenericReactiveTransaction status) {
+	protected Mono<Void> doCommit(TransactionSynchronizationManager synchronizationManager,
+			GenericReactiveTransaction status) {
 		if (!TRANSACTION.equals(status.getTransaction())) {
 			return Mono.error(new IllegalArgumentException("Not the same transaction object"));
 		}
@@ -83,7 +83,8 @@ class ReactiveTestTransactionManager extends AbstractReactiveTransactionManager 
 	}
 
 	@Override
-	protected Mono<Void> doRollback(TransactionSynchronizationManager synchronizationManager, GenericReactiveTransaction status) {
+	protected Mono<Void> doRollback(TransactionSynchronizationManager synchronizationManager,
+			GenericReactiveTransaction status) {
 		if (!TRANSACTION.equals(status.getTransaction())) {
 			return Mono.error(new IllegalArgumentException("Not the same transaction object"));
 		}
@@ -91,7 +92,8 @@ class ReactiveTestTransactionManager extends AbstractReactiveTransactionManager 
 	}
 
 	@Override
-	protected Mono<Void> doSetRollbackOnly(TransactionSynchronizationManager synchronizationManager, GenericReactiveTransaction status) {
+	protected Mono<Void> doSetRollbackOnly(TransactionSynchronizationManager synchronizationManager,
+			GenericReactiveTransaction status) {
 		if (!TRANSACTION.equals(status.getTransaction())) {
 			return Mono.error(new IllegalArgumentException("Not the same transaction object"));
 		}
@@ -99,7 +101,9 @@ class ReactiveTestTransactionManager extends AbstractReactiveTransactionManager 
 	}
 
 	@Override
-	protected Mono<Void> doCleanupAfterCompletion(TransactionSynchronizationManager synchronizationManager, Object transaction) {
+	protected Mono<Void> doCleanupAfterCompletion(TransactionSynchronizationManager synchronizationManager,
+			Object transaction) {
 		return Mono.fromRunnable(() -> this.cleanup = true);
 	}
+
 }

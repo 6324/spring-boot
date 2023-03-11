@@ -25,8 +25,8 @@ import org.springframework.core.ResolvableType;
 import org.springframework.lang.Nullable;
 
 /**
- * Simple factory for shared Set instances. Allows for central setup
- * of Sets via the "set" element in XML bean definitions.
+ * Simple factory for shared Set instances. Allows for central setup of Sets via the "set"
+ * element in XML bean definitions.
  *
  * @author Juergen Hoeller
  * @since 09.12.2003
@@ -42,7 +42,6 @@ public class SetFactoryBean extends AbstractFactoryBean<Set<Object>> {
 	@Nullable
 	private Class<? extends Set> targetSetClass;
 
-
 	/**
 	 * Set the source Set, typically populated via XML "set" elements.
 	 */
@@ -51,9 +50,10 @@ public class SetFactoryBean extends AbstractFactoryBean<Set<Object>> {
 	}
 
 	/**
-	 * Set the class to use for the target Set. Can be populated with a fully
-	 * qualified class name when defined in a Spring application context.
-	 * <p>Default is a linked HashSet, keeping the registration order.
+	 * Set the class to use for the target Set. Can be populated with a fully qualified
+	 * class name when defined in a Spring application context.
+	 * <p>
+	 * Default is a linked HashSet, keeping the registration order.
 	 * @see java.util.LinkedHashSet
 	 */
 	@SuppressWarnings("rawtypes")
@@ -66,7 +66,6 @@ public class SetFactoryBean extends AbstractFactoryBean<Set<Object>> {
 		}
 		this.targetSetClass = targetSetClass;
 	}
-
 
 	@Override
 	@SuppressWarnings("rawtypes")

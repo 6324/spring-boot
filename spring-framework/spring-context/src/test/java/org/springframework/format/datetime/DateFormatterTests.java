@@ -33,9 +33,6 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
-
-
-
 /**
  * Tests for {@link DateFormatter}.
  *
@@ -45,7 +42,6 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 public class DateFormatterTests {
 
 	private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
-
 
 	@Test
 	public void shouldPrintAndParseDefault() throws Exception {
@@ -112,8 +108,7 @@ public class DateFormatterTests {
 		formatter.setIso(ISO.DATE);
 		Date date = getDate(2009, Calendar.JUNE, 1, 14, 23, 5, 3);
 		assertThat(formatter.print(date, Locale.US)).isEqualTo("2009-06-01");
-		assertThat(formatter.parse("2009-6-01", Locale.US))
-				.isEqualTo(getDate(2009, Calendar.JUNE, 1));
+		assertThat(formatter.parse("2009-6-01", Locale.US)).isEqualTo(getDate(2009, Calendar.JUNE, 1));
 	}
 
 	@Test
@@ -163,21 +158,16 @@ public class DateFormatterTests {
 		formatter.setStylePattern(style);
 		DateTimeFormatter jodaFormatter = DateTimeFormat.forStyle(style).withLocale(locale).withZone(DateTimeZone.UTC);
 		String jodaPrinted = jodaFormatter.print(date.getTime());
-		assertThat(formatter.print(date, locale))
-				.as("Unable to print style pattern " + style)
-				.isEqualTo(jodaPrinted);
-		assertThat(formatter.parse(jodaPrinted, locale))
-				.as("Unable to parse style pattern " + style)
-				.isEqualTo(date);
+		assertThat(formatter.print(date, locale)).as("Unable to print style pattern " + style).isEqualTo(jodaPrinted);
+		assertThat(formatter.parse(jodaPrinted, locale)).as("Unable to parse style pattern " + style).isEqualTo(date);
 	}
 
 	@Test
 	public void shouldThrowOnUnsupportedStylePattern() throws Exception {
 		DateFormatter formatter = new DateFormatter();
 		formatter.setStylePattern("OO");
-		assertThatIllegalStateException().isThrownBy(() ->
-				formatter.parse("2009", Locale.US))
-			.withMessageContaining("Unsupported style pattern 'OO'");
+		assertThatIllegalStateException().isThrownBy(() -> formatter.parse("2009", Locale.US))
+				.withMessageContaining("Unsupported style pattern 'OO'");
 	}
 
 	@Test
@@ -201,7 +191,6 @@ public class DateFormatterTests {
 		formatter.setStylePattern("");
 		assertThat(formatter.print(date, Locale.US)).as("uses style").isEqualTo("6/1/09");
 	}
-
 
 	private Date getDate(int year, int month, int dayOfMonth) {
 		return getDate(year, month, dayOfMonth, 0, 0, 0, 0);

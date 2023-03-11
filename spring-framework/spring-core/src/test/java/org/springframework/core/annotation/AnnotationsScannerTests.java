@@ -95,15 +95,15 @@ class AnnotationsScannerTests {
 	@Test
 	void inheritedAnnotationsStrategyOnClassWhenMultipleAnnotationsScansAnnotations() {
 		Class<?> source = WithMultipleAnnotations.class;
-		assertThat(scan(source, SearchStrategy.INHERITED_ANNOTATIONS)).containsExactly(
-				"0:TestAnnotation1", "0:TestAnnotation2");
+		assertThat(scan(source, SearchStrategy.INHERITED_ANNOTATIONS)).containsExactly("0:TestAnnotation1",
+				"0:TestAnnotation2");
 	}
 
 	@Test
 	void inheritedAnnotationsStrategyOnClassWhenHasSuperclassScansOnlyInherited() {
 		Class<?> source = WithSingleSuperclass.class;
-		assertThat(scan(source, SearchStrategy.INHERITED_ANNOTATIONS)).containsExactly(
-				"0:TestAnnotation1", "1:TestInheritedAnnotation2");
+		assertThat(scan(source, SearchStrategy.INHERITED_ANNOTATIONS)).containsExactly("0:TestAnnotation1",
+				"1:TestInheritedAnnotation2");
 	}
 
 	@Test
@@ -115,16 +115,15 @@ class AnnotationsScannerTests {
 	@Test
 	void inheritedAnnotationsStrategyOnClassHierarchyScansInCorrectOrder() {
 		Class<?> source = WithHierarchy.class;
-		assertThat(scan(source, SearchStrategy.INHERITED_ANNOTATIONS)).containsExactly(
-				"0:TestAnnotation1", "1:TestInheritedAnnotation2", "2:TestInheritedAnnotation3");
+		assertThat(scan(source, SearchStrategy.INHERITED_ANNOTATIONS)).containsExactly("0:TestAnnotation1",
+				"1:TestInheritedAnnotation2", "2:TestInheritedAnnotation3");
 	}
 
 	@Test
 	void inheritedAnnotationsStrategyOnClassWhenHasAnnotationOnBothClassesIncudesOnlyOne() {
 		Class<?> source = WithSingleSuperclassAndDoubleInherited.class;
-		assertThat(Arrays.stream(source.getAnnotations()).map(
-				Annotation::annotationType).map(Class::getName)).containsExactly(
-						TestInheritedAnnotation2.class.getName());
+		assertThat(Arrays.stream(source.getAnnotations()).map(Annotation::annotationType).map(Class::getName))
+				.containsExactly(TestInheritedAnnotation2.class.getName());
 		assertThat(scan(source, SearchStrategy.INHERITED_ANNOTATIONS)).containsExactly("0:TestInheritedAnnotation2");
 	}
 
@@ -149,8 +148,8 @@ class AnnotationsScannerTests {
 	@Test
 	void superclassStrategyOnClassWhenHasSuperclassScansSuperclass() {
 		Class<?> source = WithSingleSuperclass.class;
-		assertThat(scan(source, SearchStrategy.SUPERCLASS)).containsExactly(
-				"0:TestAnnotation1", "1:TestAnnotation2", "1:TestInheritedAnnotation2");
+		assertThat(scan(source, SearchStrategy.SUPERCLASS)).containsExactly("0:TestAnnotation1", "1:TestAnnotation2",
+				"1:TestInheritedAnnotation2");
 	}
 
 	@Test
@@ -162,9 +161,8 @@ class AnnotationsScannerTests {
 	@Test
 	void superclassStrategyOnClassHierarchyScansInCorrectOrder() {
 		Class<?> source = WithHierarchy.class;
-		assertThat(scan(source, SearchStrategy.SUPERCLASS)).containsExactly(
-				"0:TestAnnotation1", "1:TestAnnotation2", "1:TestInheritedAnnotation2",
-				"2:TestAnnotation3", "2:TestInheritedAnnotation3");
+		assertThat(scan(source, SearchStrategy.SUPERCLASS)).containsExactly("0:TestAnnotation1", "1:TestAnnotation2",
+				"1:TestInheritedAnnotation2", "2:TestAnnotation3", "2:TestInheritedAnnotation3");
 	}
 
 	@Test
@@ -182,31 +180,30 @@ class AnnotationsScannerTests {
 	@Test
 	void typeHierarchyStrategyOnClassWhenMultipleAnnotationsScansAnnotations() {
 		Class<?> source = WithMultipleAnnotations.class;
-		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly(
-				"0:TestAnnotation1", "0:TestAnnotation2");
+		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly("0:TestAnnotation1",
+				"0:TestAnnotation2");
 	}
 
 	@Test
 	void typeHierarchyStrategyOnClassWhenHasSuperclassScansSuperclass() {
 		Class<?> source = WithSingleSuperclass.class;
-		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly(
-				"0:TestAnnotation1", "1:TestAnnotation2", "1:TestInheritedAnnotation2");
+		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly("0:TestAnnotation1",
+				"1:TestAnnotation2", "1:TestInheritedAnnotation2");
 	}
 
 	@Test
 	void typeHierarchyStrategyOnClassWhenHasInterfaceDoesNotIncludeInterfaces() {
 		Class<?> source = WithSingleInterface.class;
-		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly(
-				"0:TestAnnotation1", "1:TestAnnotation2", "1:TestInheritedAnnotation2");
+		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly("0:TestAnnotation1",
+				"1:TestAnnotation2", "1:TestInheritedAnnotation2");
 	}
 
 	@Test
 	void typeHierarchyStrategyOnClassHierarchyScansInCorrectOrder() {
 		Class<?> source = WithHierarchy.class;
-		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly(
-				"0:TestAnnotation1", "1:TestAnnotation5", "1:TestInheritedAnnotation5",
-				"2:TestAnnotation6", "3:TestAnnotation2", "3:TestInheritedAnnotation2",
-				"4:TestAnnotation3", "4:TestInheritedAnnotation3", "5:TestAnnotation4");
+		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly("0:TestAnnotation1",
+				"1:TestAnnotation5", "1:TestInheritedAnnotation5", "2:TestAnnotation6", "3:TestAnnotation2",
+				"3:TestInheritedAnnotation2", "4:TestAnnotation3", "4:TestInheritedAnnotation3", "5:TestAnnotation4");
 	}
 
 	@Test
@@ -224,8 +221,7 @@ class AnnotationsScannerTests {
 	@Test
 	void directStrategyOnMethodWhenMultipleAnnotationsScansAnnotations() {
 		Method source = methodFrom(WithMultipleAnnotations.class);
-		assertThat(scan(source, SearchStrategy.DIRECT)).containsExactly(
-				"0:TestAnnotation1", "0:TestAnnotation2");
+		assertThat(scan(source, SearchStrategy.DIRECT)).containsExactly("0:TestAnnotation1", "0:TestAnnotation2");
 	}
 
 	@Test
@@ -261,8 +257,8 @@ class AnnotationsScannerTests {
 	@Test
 	void inheritedAnnotationsStrategyOnMethodWhenMultipleAnnotationsScansAnnotations() {
 		Method source = methodFrom(WithMultipleAnnotations.class);
-		assertThat(scan(source, SearchStrategy.INHERITED_ANNOTATIONS)).containsExactly(
-				"0:TestAnnotation1", "0:TestAnnotation2");
+		assertThat(scan(source, SearchStrategy.INHERITED_ANNOTATIONS)).containsExactly("0:TestAnnotation1",
+				"0:TestAnnotation2");
 	}
 
 	@Test
@@ -298,15 +294,14 @@ class AnnotationsScannerTests {
 	@Test
 	void superclassStrategyOnMethodWhenMultipleAnnotationsScansAnnotations() {
 		Method source = methodFrom(WithMultipleAnnotations.class);
-		assertThat(scan(source, SearchStrategy.SUPERCLASS)).containsExactly(
-				"0:TestAnnotation1", "0:TestAnnotation2");
+		assertThat(scan(source, SearchStrategy.SUPERCLASS)).containsExactly("0:TestAnnotation1", "0:TestAnnotation2");
 	}
 
 	@Test
 	void superclassStrategyOnMethodWhenHasSuperclassScansSuperclass() {
 		Method source = methodFrom(WithSingleSuperclass.class);
-		assertThat(scan(source, SearchStrategy.SUPERCLASS)).containsExactly(
-				"0:TestAnnotation1", "1:TestAnnotation2", "1:TestInheritedAnnotation2");
+		assertThat(scan(source, SearchStrategy.SUPERCLASS)).containsExactly("0:TestAnnotation1", "1:TestAnnotation2",
+				"1:TestInheritedAnnotation2");
 	}
 
 	@Test
@@ -318,9 +313,8 @@ class AnnotationsScannerTests {
 	@Test
 	void superclassStrategyOnMethodHierarchyScansInCorrectOrder() {
 		Method source = methodFrom(WithHierarchy.class);
-		assertThat(scan(source, SearchStrategy.SUPERCLASS)).containsExactly(
-				"0:TestAnnotation1", "1:TestAnnotation2", "1:TestInheritedAnnotation2",
-				"2:TestAnnotation3");
+		assertThat(scan(source, SearchStrategy.SUPERCLASS)).containsExactly("0:TestAnnotation1", "1:TestAnnotation2",
+				"1:TestInheritedAnnotation2", "2:TestAnnotation3");
 	}
 
 	@Test
@@ -338,47 +332,46 @@ class AnnotationsScannerTests {
 	@Test
 	void typeHierarchyStrategyOnMethodWhenMultipleAnnotationsScansAnnotations() {
 		Method source = methodFrom(WithMultipleAnnotations.class);
-		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly(
-				"0:TestAnnotation1", "0:TestAnnotation2");
+		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly("0:TestAnnotation1",
+				"0:TestAnnotation2");
 	}
 
 	@Test
 	void typeHierarchyStrategyOnMethodWhenHasSuperclassScansSuperclass() {
 		Method source = methodFrom(WithSingleSuperclass.class);
-		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly(
-				"0:TestAnnotation1", "1:TestAnnotation2", "1:TestInheritedAnnotation2");
+		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly("0:TestAnnotation1",
+				"1:TestAnnotation2", "1:TestInheritedAnnotation2");
 	}
 
 	@Test
 	void typeHierarchyStrategyOnMethodWhenHasInterfaceDoesNotIncludeInterfaces() {
 		Method source = methodFrom(WithSingleInterface.class);
-		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly(
-				"0:TestAnnotation1", "1:TestAnnotation2", "1:TestInheritedAnnotation2");
+		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly("0:TestAnnotation1",
+				"1:TestAnnotation2", "1:TestInheritedAnnotation2");
 	}
 
 	@Test
 	void typeHierarchyStrategyOnMethodHierarchyScansInCorrectOrder() {
 		Method source = methodFrom(WithHierarchy.class);
-		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly(
-				"0:TestAnnotation1", "1:TestAnnotation5", "1:TestInheritedAnnotation5",
-				"2:TestAnnotation6", "3:TestAnnotation2", "3:TestInheritedAnnotation2",
-				"4:TestAnnotation3", "5:TestAnnotation4");
+		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly("0:TestAnnotation1",
+				"1:TestAnnotation5", "1:TestInheritedAnnotation5", "2:TestAnnotation6", "3:TestAnnotation2",
+				"3:TestInheritedAnnotation2", "4:TestAnnotation3", "5:TestAnnotation4");
 	}
 
 	@Test
 	void typeHierarchyStrategyOnBridgeMethodScansAnnotations() throws Exception {
 		Method source = BridgedMethod.class.getDeclaredMethod("method", Object.class);
 		assertThat(source.isBridge()).isTrue();
-		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly(
-				"0:TestAnnotation1", "1:TestAnnotation2");
+		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly("0:TestAnnotation1",
+				"1:TestAnnotation2");
 	}
 
 	@Test
 	void typeHierarchyStrategyOnBridgedMethodScansAnnotations() throws Exception {
 		Method source = BridgedMethod.class.getDeclaredMethod("method", String.class);
 		assertThat(source.isBridge()).isFalse();
-		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly(
-				"0:TestAnnotation1", "1:TestAnnotation2");
+		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly("0:TestAnnotation1",
+				"1:TestAnnotation2");
 	}
 
 	@Test
@@ -410,8 +403,8 @@ class AnnotationsScannerTests {
 	@Test
 	void typeHierarchyStrategyOnMethodWithGenericParameterOverrideScansAnnotations() {
 		Method source = ReflectionUtils.findMethod(GenericOverride.class, "method", String.class);
-		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly(
-				"0:TestAnnotation1", "1:TestAnnotation2");
+		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY)).containsExactly("0:TestAnnotation1",
+				"1:TestAnnotation2");
 	}
 
 	@Test
@@ -423,30 +416,29 @@ class AnnotationsScannerTests {
 	@Test
 	void typeHierarchyWithEnclosedStrategyOnEnclosedStaticClassScansAnnotations() {
 		Class<?> source = AnnotationEnclosingClassSample.EnclosedStatic.EnclosedStaticStatic.class;
-		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY_AND_ENCLOSING_CLASSES))
-				.containsExactly("0:EnclosedThree", "1:EnclosedTwo", "2:EnclosedOne");
+		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY_AND_ENCLOSING_CLASSES)).containsExactly("0:EnclosedThree",
+				"1:EnclosedTwo", "2:EnclosedOne");
 	}
 
 	@Test
 	void typeHierarchyWithEnclosedStrategyOnEnclosedInnerClassScansAnnotations() {
 		Class<?> source = AnnotationEnclosingClassSample.EnclosedInner.EnclosedInnerInner.class;
-		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY_AND_ENCLOSING_CLASSES))
-				.containsExactly("0:EnclosedThree", "1:EnclosedTwo", "2:EnclosedOne");
+		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY_AND_ENCLOSING_CLASSES)).containsExactly("0:EnclosedThree",
+				"1:EnclosedTwo", "2:EnclosedOne");
 	}
 
 	@Test
 	void typeHierarchyWithEnclosedStrategyOnMethodHierarchyUsesTypeHierarchyScan() {
 		Method source = methodFrom(WithHierarchy.class);
 		assertThat(scan(source, SearchStrategy.TYPE_HIERARCHY_AND_ENCLOSING_CLASSES)).containsExactly(
-				"0:TestAnnotation1", "1:TestAnnotation5", "1:TestInheritedAnnotation5",
-				"2:TestAnnotation6", "3:TestAnnotation2", "3:TestInheritedAnnotation2",
-				"4:TestAnnotation3", "5:TestAnnotation4");
+				"0:TestAnnotation1", "1:TestAnnotation5", "1:TestInheritedAnnotation5", "2:TestAnnotation6",
+				"3:TestAnnotation2", "3:TestInheritedAnnotation2", "4:TestAnnotation3", "5:TestAnnotation4");
 	}
 
 	@Test
 	void scanWhenProcessorReturnsFromDoWithAggregateExitsEarly() {
-		String result = AnnotationsScanner.scan(this, WithSingleSuperclass.class,
-				SearchStrategy.TYPE_HIERARCHY, new AnnotationsProcessor<Object, String>() {
+		String result = AnnotationsScanner.scan(this, WithSingleSuperclass.class, SearchStrategy.TYPE_HIERARCHY,
+				new AnnotationsProcessor<Object, String>() {
 
 					@Override
 					@Nullable
@@ -456,8 +448,8 @@ class AnnotationsScannerTests {
 
 					@Override
 					@Nullable
-					public String doWithAnnotations(Object context, int aggregateIndex,
-							Object source, Annotation[] annotations) {
+					public String doWithAnnotations(Object context, int aggregateIndex, Object source,
+							Annotation[] annotations) {
 						throw new IllegalStateException("Should not call");
 					}
 
@@ -468,8 +460,7 @@ class AnnotationsScannerTests {
 	@Test
 	void scanWhenProcessorReturnsFromDoWithAnnotationsExitsEarly() {
 		List<Integer> indexes = new ArrayList<>();
-		String result = AnnotationsScanner.scan(this, WithSingleSuperclass.class,
-				SearchStrategy.TYPE_HIERARCHY,
+		String result = AnnotationsScanner.scan(this, WithSingleSuperclass.class, SearchStrategy.TYPE_HIERARCHY,
 				(context, aggregateIndex, source, annotations) -> {
 					indexes.add(aggregateIndex);
 					return "";
@@ -480,13 +471,13 @@ class AnnotationsScannerTests {
 
 	@Test
 	void scanWhenProcessorHasFinishMethodUsesFinishResult() {
-		String result = AnnotationsScanner.scan(this, WithSingleSuperclass.class,
-				SearchStrategy.TYPE_HIERARCHY, new AnnotationsProcessor<Object, String>() {
+		String result = AnnotationsScanner.scan(this, WithSingleSuperclass.class, SearchStrategy.TYPE_HIERARCHY,
+				new AnnotationsProcessor<Object, String>() {
 
 					@Override
 					@Nullable
-					public String doWithAnnotations(Object context, int aggregateIndex,
-							Object source, Annotation[] annotations) {
+					public String doWithAnnotations(Object context, int aggregateIndex, Object source,
+							Annotation[] annotations) {
 						return "K";
 					}
 
@@ -500,94 +491,103 @@ class AnnotationsScannerTests {
 		assertThat(result).isEqualTo("OK");
 	}
 
-
 	private Method methodFrom(Class<?> type) {
 		return ReflectionUtils.findMethod(type, "method");
 	}
 
 	private Stream<String> scan(AnnotatedElement element, SearchStrategy searchStrategy) {
 		List<String> results = new ArrayList<>();
-		AnnotationsScanner.scan(this, element, searchStrategy,
-				(criteria, aggregateIndex, source, annotations) -> {
-					trackIndexedAnnotations(aggregateIndex, annotations, results);
-					return null; // continue searching
-				});
+		AnnotationsScanner.scan(this, element, searchStrategy, (criteria, aggregateIndex, source, annotations) -> {
+			trackIndexedAnnotations(aggregateIndex, annotations, results);
+			return null; // continue searching
+		});
 		return results.stream();
 	}
 
 	private void trackIndexedAnnotations(int aggregateIndex, Annotation[] annotations, List<String> results) {
-		Arrays.stream(annotations)
-			.filter(Objects::nonNull)
-			.map(annotation -> indexedName(aggregateIndex, annotation))
-			.forEach(results::add);
+		Arrays.stream(annotations).filter(Objects::nonNull).map(annotation -> indexedName(aggregateIndex, annotation))
+				.forEach(results::add);
 	}
 
 	private String indexedName(int aggregateIndex, Annotation annotation) {
 		return aggregateIndex + ":" + annotation.annotationType().getSimpleName();
 	}
 
-
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface TestAnnotation1 {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface TestAnnotation2 {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface TestAnnotation3 {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface TestAnnotation4 {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface TestAnnotation5 {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface TestAnnotation6 {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Inherited
 	@interface TestInheritedAnnotation1 {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Inherited
 	@interface TestInheritedAnnotation2 {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Inherited
 	@interface TestInheritedAnnotation3 {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Inherited
 	@interface TestInheritedAnnotation4 {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Inherited
 	@interface TestInheritedAnnotation5 {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface OnSuperClass {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface OnInterface {
+
 	}
 
 	static class WithNoAnnotations {
 
 		public void method() {
 		}
+
 	}
 
 	@TestAnnotation1
@@ -596,6 +596,7 @@ class AnnotationsScannerTests {
 		@TestAnnotation1
 		public void method() {
 		}
+
 	}
 
 	@TestAnnotation1
@@ -606,6 +607,7 @@ class AnnotationsScannerTests {
 		@TestAnnotation2
 		public void method() {
 		}
+
 	}
 
 	@TestAnnotation2
@@ -616,6 +618,7 @@ class AnnotationsScannerTests {
 		@TestInheritedAnnotation2
 		public void method() {
 		}
+
 	}
 
 	@TestAnnotation1
@@ -625,6 +628,7 @@ class AnnotationsScannerTests {
 		@TestAnnotation1
 		public void method() {
 		}
+
 	}
 
 	@TestInheritedAnnotation2
@@ -634,6 +638,7 @@ class AnnotationsScannerTests {
 		@TestAnnotation1
 		public void method() {
 		}
+
 	}
 
 	@TestAnnotation1
@@ -643,6 +648,7 @@ class AnnotationsScannerTests {
 		@TestAnnotation1
 		public void method() {
 		}
+
 	}
 
 	@TestAnnotation2
@@ -652,6 +658,7 @@ class AnnotationsScannerTests {
 		@TestAnnotation2
 		@TestInheritedAnnotation2
 		void method();
+
 	}
 
 	@TestAnnotation1
@@ -661,6 +668,7 @@ class AnnotationsScannerTests {
 		@TestAnnotation1
 		public void method() {
 		}
+
 	}
 
 	@TestAnnotation2
@@ -672,6 +680,7 @@ class AnnotationsScannerTests {
 		@TestInheritedAnnotation2
 		public void method() {
 		}
+
 	}
 
 	@TestAnnotation3
@@ -682,6 +691,7 @@ class AnnotationsScannerTests {
 		@TestAnnotation3
 		public void method() {
 		}
+
 	}
 
 	@TestAnnotation4
@@ -689,6 +699,7 @@ class AnnotationsScannerTests {
 
 		@TestAnnotation4
 		void method();
+
 	}
 
 	@TestAnnotation5
@@ -699,6 +710,7 @@ class AnnotationsScannerTests {
 		@TestAnnotation5
 		@TestInheritedAnnotation5
 		void method();
+
 	}
 
 	@TestAnnotation6
@@ -706,6 +718,7 @@ class AnnotationsScannerTests {
 
 		@TestAnnotation6
 		void method();
+
 	}
 
 	static class BridgedMethod implements BridgeMethod<String> {
@@ -714,12 +727,14 @@ class AnnotationsScannerTests {
 		@TestAnnotation1
 		public void method(String arg) {
 		}
+
 	}
 
 	interface BridgeMethod<T> {
 
 		@TestAnnotation2
 		void method(T arg);
+
 	}
 
 	static class Ignorable implements IgnorableOverrideInterface1, IgnorableOverrideInterface2 {
@@ -728,18 +743,21 @@ class AnnotationsScannerTests {
 		@TestAnnotation1
 		public void method() {
 		}
+
 	}
 
 	interface IgnorableOverrideInterface1 {
 
 		@Nullable
 		void method();
+
 	}
 
 	interface IgnorableOverrideInterface2 {
 
 		@Nullable
 		void method();
+
 	}
 
 	static abstract class MultipleMethods implements MultipleMethodsInterface {
@@ -747,6 +765,7 @@ class AnnotationsScannerTests {
 		@TestAnnotation1
 		public void method() {
 		}
+
 	}
 
 	interface MultipleMethodsInterface {
@@ -756,6 +775,7 @@ class AnnotationsScannerTests {
 
 		@TestAnnotation2
 		void method1();
+
 	}
 
 	static class GenericOverride implements GenericOverrideInterface<String> {
@@ -764,12 +784,14 @@ class AnnotationsScannerTests {
 		@TestAnnotation1
 		public void method(String argument) {
 		}
+
 	}
 
 	interface GenericOverrideInterface<T extends CharSequence> {
 
 		@TestAnnotation2
 		void method(T argument);
+
 	}
 
 	static abstract class GenericNonOverride implements GenericNonOverrideInterface<String> {
@@ -777,12 +799,14 @@ class AnnotationsScannerTests {
 		@TestAnnotation1
 		public void method(StringBuilder argument) {
 		}
+
 	}
 
 	interface GenericNonOverrideInterface<T extends CharSequence> {
 
 		@TestAnnotation2
 		void method(T argument);
+
 	}
 
 }

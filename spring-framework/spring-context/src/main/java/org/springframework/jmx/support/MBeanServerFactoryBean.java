@@ -30,15 +30,15 @@ import org.springframework.lang.Nullable;
 
 /**
  * {@link FactoryBean} that obtains a {@link javax.management.MBeanServer} reference
- * through the standard JMX 1.2 {@link javax.management.MBeanServerFactory}
- * API.
+ * through the standard JMX 1.2 {@link javax.management.MBeanServerFactory} API.
  *
- * <p>Exposes the {@code MBeanServer} for bean references.
+ * <p>
+ * Exposes the {@code MBeanServer} for bean references.
  *
- * <p>By default, {@code MBeanServerFactoryBean} will always create
- * a new {@code MBeanServer} even if one is already running. To have
- * the {@code MBeanServerFactoryBean} attempt to locate a running
- * {@code MBeanServer} first, set the value of the
+ * <p>
+ * By default, {@code MBeanServerFactoryBean} will always create a new {@code MBeanServer}
+ * even if one is already running. To have the {@code MBeanServerFactoryBean} attempt to
+ * locate a running {@code MBeanServer} first, set the value of the
  * "locateExistingServerIfPossible" property to "true".
  *
  * @author Rob Harrop
@@ -72,11 +72,11 @@ public class MBeanServerFactoryBean implements FactoryBean<MBeanServer>, Initial
 
 	private boolean newlyRegistered = false;
 
-
 	/**
-	 * Set whether or not the {@code MBeanServerFactoryBean} should attempt
-	 * to locate a running {@code MBeanServer} before creating one.
-	 * <p>Default is {@code false}.
+	 * Set whether or not the {@code MBeanServerFactoryBean} should attempt to locate a
+	 * running {@code MBeanServer} before creating one.
+	 * <p>
+	 * Default is {@code false}.
 	 */
 	public void setLocateExistingServerIfPossible(boolean locateExistingServerIfPossible) {
 		this.locateExistingServerIfPossible = locateExistingServerIfPossible;
@@ -84,12 +84,13 @@ public class MBeanServerFactoryBean implements FactoryBean<MBeanServer>, Initial
 
 	/**
 	 * Set the agent id of the {@code MBeanServer} to locate.
-	 * <p>Default is none. If specified, this will result in an
-	 * automatic attempt being made to locate the attendant MBeanServer,
-	 * and (importantly) if said MBeanServer cannot be located no
-	 * attempt will be made to create a new MBeanServer (and an
+	 * <p>
+	 * Default is none. If specified, this will result in an automatic attempt being made
+	 * to locate the attendant MBeanServer, and (importantly) if said MBeanServer cannot
+	 * be located no attempt will be made to create a new MBeanServer (and an
 	 * MBeanServerNotFoundException will be thrown at resolution time).
-	 * <p>Specifying the empty String indicates the platform MBeanServer.
+	 * <p>
+	 * Specifying the empty String indicates the platform MBeanServer.
 	 * @see javax.management.MBeanServerFactory#findMBeanServer(String)
 	 */
 	public void setAgentId(String agentId) {
@@ -97,10 +98,11 @@ public class MBeanServerFactoryBean implements FactoryBean<MBeanServer>, Initial
 	}
 
 	/**
-	 * Set the default domain to be used by the {@code MBeanServer},
-	 * to be passed to {@code MBeanServerFactory.createMBeanServer()}
-	 * or {@code MBeanServerFactory.findMBeanServer()}.
-	 * <p>Default is none.
+	 * Set the default domain to be used by the {@code MBeanServer}, to be passed to
+	 * {@code MBeanServerFactory.createMBeanServer()} or
+	 * {@code MBeanServerFactory.findMBeanServer()}.
+	 * <p>
+	 * Default is none.
 	 * @see javax.management.MBeanServerFactory#createMBeanServer(String)
 	 * @see javax.management.MBeanServerFactory#findMBeanServer(String)
 	 */
@@ -112,14 +114,14 @@ public class MBeanServerFactoryBean implements FactoryBean<MBeanServer>, Initial
 	 * Set whether to register the {@code MBeanServer} with the
 	 * {@code MBeanServerFactory}, making it available through
 	 * {@code MBeanServerFactory.findMBeanServer()}.
-	 * <p>Default is {@code true}.
+	 * <p>
+	 * Default is {@code true}.
 	 * @see javax.management.MBeanServerFactory#createMBeanServer
 	 * @see javax.management.MBeanServerFactory#findMBeanServer
 	 */
 	public void setRegisterWithFactory(boolean registerWithFactory) {
 		this.registerWithFactory = registerWithFactory;
 	}
-
 
 	/**
 	 * Creates the {@code MBeanServer} instance.
@@ -149,16 +151,16 @@ public class MBeanServerFactoryBean implements FactoryBean<MBeanServer>, Initial
 	}
 
 	/**
-	 * Attempt to locate an existing {@code MBeanServer}.
-	 * Called if {@code locateExistingServerIfPossible} is set to {@code true}.
-	 * <p>The default implementation attempts to find an {@code MBeanServer} using
-	 * a standard lookup. Subclasses may override to add additional location logic.
-	 * @param agentId the agent identifier of the MBeanServer to retrieve.
-	 * If this parameter is {@code null}, all registered MBeanServers are
-	 * considered.
+	 * Attempt to locate an existing {@code MBeanServer}. Called if
+	 * {@code locateExistingServerIfPossible} is set to {@code true}.
+	 * <p>
+	 * The default implementation attempts to find an {@code MBeanServer} using a standard
+	 * lookup. Subclasses may override to add additional location logic.
+	 * @param agentId the agent identifier of the MBeanServer to retrieve. If this
+	 * parameter is {@code null}, all registered MBeanServers are considered.
 	 * @return the {@code MBeanServer} if found
-	 * @throws org.springframework.jmx.MBeanServerNotFoundException
-	 * if no {@code MBeanServer} could be found
+	 * @throws org.springframework.jmx.MBeanServerNotFoundException if no
+	 * {@code MBeanServer} could be found
 	 * @see #setLocateExistingServerIfPossible
 	 * @see JmxUtils#locateMBeanServer(String)
 	 * @see javax.management.MBeanServerFactory#findMBeanServer(String)
@@ -171,8 +173,8 @@ public class MBeanServerFactoryBean implements FactoryBean<MBeanServer>, Initial
 	 * Create a new {@code MBeanServer} instance and register it with the
 	 * {@code MBeanServerFactory}, if desired.
 	 * @param defaultDomain the default domain, or {@code null} if none
-	 * @param registerWithFactory whether to register the {@code MBeanServer}
-	 * with the {@code MBeanServerFactory}
+	 * @param registerWithFactory whether to register the {@code MBeanServer} with the
+	 * {@code MBeanServerFactory}
 	 * @see javax.management.MBeanServerFactory#createMBeanServer
 	 * @see javax.management.MBeanServerFactory#newMBeanServer
 	 */
@@ -184,7 +186,6 @@ public class MBeanServerFactoryBean implements FactoryBean<MBeanServer>, Initial
 			return MBeanServerFactory.newMBeanServer(defaultDomain);
 		}
 	}
-
 
 	@Override
 	@Nullable
@@ -201,7 +202,6 @@ public class MBeanServerFactoryBean implements FactoryBean<MBeanServer>, Initial
 	public boolean isSingleton() {
 		return true;
 	}
-
 
 	/**
 	 * Unregisters the {@code MBeanServer} instance, if necessary.

@@ -44,7 +44,6 @@ final class LogAdapter {
 
 	private static final String SLF4J_API = "org.slf4j.Logger";
 
-
 	private static final LogApi logApi;
 
 	static {
@@ -74,10 +73,8 @@ final class LogAdapter {
 		}
 	}
 
-
 	private LogAdapter() {
 	}
-
 
 	/**
 	 * Create an actual {@link Log} instance for the selected API.
@@ -85,20 +82,20 @@ final class LogAdapter {
 	 */
 	public static Log createLog(String name) {
 		switch (logApi) {
-			case LOG4J:
-				return Log4jAdapter.createLog(name);
-			case SLF4J_LAL:
-				return Slf4jAdapter.createLocationAwareLog(name);
-			case SLF4J:
-				return Slf4jAdapter.createLog(name);
-			default:
-				// Defensively use lazy-initializing adapter class here as well since the
-				// java.logging module is not present by default on JDK 9. We are requiring
-				// its presence if neither Log4j nor SLF4J is available; however, in the
-				// case of Log4j or SLF4J, we are trying to prevent early initialization
-				// of the JavaUtilLog adapter - e.g. by a JVM in debug mode - when eagerly
-				// trying to parse the bytecode for all the cases of this switch clause.
-				return JavaUtilAdapter.createLog(name);
+		case LOG4J:
+			return Log4jAdapter.createLog(name);
+		case SLF4J_LAL:
+			return Slf4jAdapter.createLocationAwareLog(name);
+		case SLF4J:
+			return Slf4jAdapter.createLog(name);
+		default:
+			// Defensively use lazy-initializing adapter class here as well since the
+			// java.logging module is not present by default on JDK 9. We are requiring
+			// its presence if neither Log4j nor SLF4J is available; however, in the
+			// case of Log4j or SLF4J, we are trying to prevent early initialization
+			// of the JavaUtilLog adapter - e.g. by a JVM in debug mode - when eagerly
+			// trying to parse the bytecode for all the cases of this switch clause.
+			return JavaUtilAdapter.createLog(name);
 		}
 	}
 
@@ -112,54 +109,57 @@ final class LogAdapter {
 		}
 	}
 
+	private enum LogApi {
 
-	private enum LogApi {LOG4J, SLF4J_LAL, SLF4J, JUL}
+		LOG4J, SLF4J_LAL, SLF4J, JUL
 
+	}
 
 	private static class Log4jAdapter {
 
 		public static Log createLog(String name) {
 			return new Log4jLog(name);
 		}
-	}
 
+	}
 
 	private static class Slf4jAdapter {
 
 		public static Log createLocationAwareLog(String name) {
 			Logger logger = LoggerFactory.getLogger(name);
-			return (logger instanceof LocationAwareLogger ?
-					new Slf4jLocationAwareLog((LocationAwareLogger) logger) : new Slf4jLog<>(logger));
+			return (logger instanceof LocationAwareLogger ? new Slf4jLocationAwareLog((LocationAwareLogger) logger)
+					: new Slf4jLog<>(logger));
 		}
 
 		public static Log createLog(String name) {
 			return new Slf4jLog<>(LoggerFactory.getLogger(name));
 		}
-	}
 
+	}
 
 	private static class JavaUtilAdapter {
 
 		public static Log createLog(String name) {
 			return new JavaUtilLog(name);
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	private static class Log4jLog implements Log, Serializable {
 
 		private static final String FQCN = Log4jLog.class.getName();
 
-		private static final LoggerContext loggerContext =
-				LogManager.getContext(Log4jLog.class.getClassLoader(), false);
+		private static final LoggerContext loggerContext = LogManager.getContext(Log4jLog.class.getClassLoader(),
+				false);
 
 		private final ExtendedLogger logger;
 
 		public Log4jLog(String name) {
 			LoggerContext context = loggerContext;
 			if (context == null) {
-				// Circular call in early-init scenario -> static field not initialized yet
+				// Circular call in early-init scenario -> static field not initialized
+				// yet
 				context = LogManager.getContext(Log4jLog.class.getClassLoader(), false);
 			}
 			this.logger = context.getLogger(name);
@@ -270,8 +270,8 @@ final class LogAdapter {
 				this.logger.logIfEnabled(FQCN, level, null, message, exception);
 			}
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	private static class Slf4jLog<T extends Logger> implements Log, Serializable {
@@ -398,8 +398,8 @@ final class LogAdapter {
 		protected Object readResolve() {
 			return Slf4jAdapter.createLog(this.name);
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	private static class Slf4jLocationAwareLog extends Slf4jLog<LocationAwareLogger> implements Serializable {
@@ -494,8 +494,8 @@ final class LogAdapter {
 		protected Object readResolve() {
 			return Slf4jAdapter.createLocationAwareLog(this.name);
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	private static class JavaUtilLog implements Log, Serializable {
@@ -619,8 +619,8 @@ final class LogAdapter {
 		protected Object readResolve() {
 			return new JavaUtilLog(this.name);
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	private static class LocationResolvingLogRecord extends LogRecord {
@@ -681,7 +681,7 @@ final class LogAdapter {
 			setSourceMethodName(sourceMethodName);
 		}
 
-		@SuppressWarnings("deprecation")  // setMillis is deprecated in JDK 9
+		@SuppressWarnings("deprecation") // setMillis is deprecated in JDK 9
 		protected Object writeReplace() {
 			LogRecord serialized = new LogRecord(getLevel(), getMessage());
 			serialized.setLoggerName(getLoggerName());
@@ -696,6 +696,7 @@ final class LogAdapter {
 			serialized.setThrown(getThrown());
 			return serialized;
 		}
+
 	}
 
 }

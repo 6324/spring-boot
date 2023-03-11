@@ -42,55 +42,48 @@ public class CandidateComponentsIndexLoaderTests {
 
 	@Test
 	public void loadIndexSeveralMatches() {
-		CandidateComponentsIndex index = CandidateComponentsIndexLoader.loadIndex(
-				CandidateComponentsTestClassLoader.index(getClass().getClassLoader(),
-						new ClassPathResource("spring.components", getClass())));
+		CandidateComponentsIndex index = CandidateComponentsIndexLoader.loadIndex(CandidateComponentsTestClassLoader
+				.index(getClass().getClassLoader(), new ClassPathResource("spring.components", getClass())));
 		Set<String> components = index.getCandidateTypes("org.springframework", "foo");
-		assertThat(components).contains(
-				"org.springframework.context.index.Sample1",
+		assertThat(components).contains("org.springframework.context.index.Sample1",
 				"org.springframework.context.index.Sample2");
 	}
 
 	@Test
 	public void loadIndexSingleMatch() {
-		CandidateComponentsIndex index = CandidateComponentsIndexLoader.loadIndex(
-				CandidateComponentsTestClassLoader.index(getClass().getClassLoader(),
-						new ClassPathResource("spring.components", getClass())));
+		CandidateComponentsIndex index = CandidateComponentsIndexLoader.loadIndex(CandidateComponentsTestClassLoader
+				.index(getClass().getClassLoader(), new ClassPathResource("spring.components", getClass())));
 		Set<String> components = index.getCandidateTypes("org.springframework", "biz");
-		assertThat(components).contains(
-				"org.springframework.context.index.Sample3");
+		assertThat(components).contains("org.springframework.context.index.Sample3");
 	}
 
 	@Test
 	public void loadIndexNoMatch() {
-		CandidateComponentsIndex index = CandidateComponentsIndexLoader.loadIndex(
-				CandidateComponentsTestClassLoader.index(getClass().getClassLoader(),
-						new ClassPathResource("spring.components", getClass())));
+		CandidateComponentsIndex index = CandidateComponentsIndexLoader.loadIndex(CandidateComponentsTestClassLoader
+				.index(getClass().getClassLoader(), new ClassPathResource("spring.components", getClass())));
 		Set<String> components = index.getCandidateTypes("org.springframework", "none");
 		assertThat(components).isEmpty();
 	}
 
 	@Test
 	public void loadIndexNoPackage() {
-		CandidateComponentsIndex index = CandidateComponentsIndexLoader.loadIndex(
-				CandidateComponentsTestClassLoader.index(getClass().getClassLoader(),
-						new ClassPathResource("spring.components", getClass())));
+		CandidateComponentsIndex index = CandidateComponentsIndexLoader.loadIndex(CandidateComponentsTestClassLoader
+				.index(getClass().getClassLoader(), new ClassPathResource("spring.components", getClass())));
 		Set<String> components = index.getCandidateTypes("com.example", "foo");
 		assertThat(components).isEmpty();
 	}
 
 	@Test
 	public void loadIndexNoSpringComponentsResource() {
-		CandidateComponentsIndex index = CandidateComponentsIndexLoader.loadIndex(
-				CandidateComponentsTestClassLoader.disableIndex(getClass().getClassLoader()));
+		CandidateComponentsIndex index = CandidateComponentsIndexLoader
+				.loadIndex(CandidateComponentsTestClassLoader.disableIndex(getClass().getClassLoader()));
 		assertThat(index).isNull();
 	}
 
 	@Test
 	public void loadIndexNoEntry() {
-		CandidateComponentsIndex index = CandidateComponentsIndexLoader.loadIndex(
-				CandidateComponentsTestClassLoader.index(getClass().getClassLoader(),
-						new ClassPathResource("empty-spring.components", getClass())));
+		CandidateComponentsIndex index = CandidateComponentsIndexLoader.loadIndex(CandidateComponentsTestClassLoader
+				.index(getClass().getClassLoader(), new ClassPathResource("empty-spring.components", getClass())));
 		assertThat(index).isNull();
 	}
 
@@ -98,9 +91,10 @@ public class CandidateComponentsIndexLoaderTests {
 	public void loadIndexWithException() {
 		final IOException cause = new IOException("test exception");
 		assertThatIllegalStateException().isThrownBy(() -> {
-				CandidateComponentsTestClassLoader classLoader = new CandidateComponentsTestClassLoader(getClass().getClassLoader(), cause);
-				CandidateComponentsIndexLoader.loadIndex(classLoader);
-			}).withMessageContaining("Unable to load indexes").withCause(cause);
+			CandidateComponentsTestClassLoader classLoader = new CandidateComponentsTestClassLoader(
+					getClass().getClassLoader(), cause);
+			CandidateComponentsIndexLoader.loadIndex(classLoader);
+		}).withMessageContaining("Unable to load indexes").withCause(cause);
 	}
 
 }

@@ -30,20 +30,22 @@ import org.springframework.cache.CacheManager;
 import org.springframework.lang.Nullable;
 
 /**
- * Composite {@link CacheManager} implementation that iterates over
- * a given collection of delegate {@link CacheManager} instances.
+ * Composite {@link CacheManager} implementation that iterates over a given collection of
+ * delegate {@link CacheManager} instances.
  *
- * <p>Allows {@link NoOpCacheManager} to be automatically added to the end of
- * the list for handling cache declarations without a backing store. Otherwise,
- * any custom {@link CacheManager} may play that role of the last delegate as
- * well, lazily creating cache regions for any requested name.
+ * <p>
+ * Allows {@link NoOpCacheManager} to be automatically added to the end of the list for
+ * handling cache declarations without a backing store. Otherwise, any custom
+ * {@link CacheManager} may play that role of the last delegate as well, lazily creating
+ * cache regions for any requested name.
  *
- * <p>Note: Regular CacheManagers that this composite manager delegates to need
- * to return {@code null} from {@link #getCache(String)} if they are unaware of
- * the specified cache name, allowing for iteration to the next delegate in line.
- * However, most {@link CacheManager} implementations fall back to lazy creation
- * of named caches once requested; check out the specific configuration details
- * for a 'static' mode with fixed cache names, if available.
+ * <p>
+ * Note: Regular CacheManagers that this composite manager delegates to need to return
+ * {@code null} from {@link #getCache(String)} if they are unaware of the specified cache
+ * name, allowing for iteration to the next delegate in line. However, most
+ * {@link CacheManager} implementations fall back to lazy creation of named caches once
+ * requested; check out the specific configuration details for a 'static' mode with fixed
+ * cache names, if available.
  *
  * @author Costin Leau
  * @author Juergen Hoeller
@@ -57,10 +59,9 @@ public class CompositeCacheManager implements CacheManager, InitializingBean {
 
 	private boolean fallbackToNoOpCache = false;
 
-
 	/**
-	 * Construct an empty CompositeCacheManager, with delegate CacheManagers to
-	 * be added via the {@link #setCacheManagers "cacheManagers"} property.
+	 * Construct an empty CompositeCacheManager, with delegate CacheManagers to be added
+	 * via the {@link #setCacheManagers "cacheManagers"} property.
 	 */
 	public CompositeCacheManager() {
 	}
@@ -73,7 +74,6 @@ public class CompositeCacheManager implements CacheManager, InitializingBean {
 		setCacheManagers(Arrays.asList(cacheManagers));
 	}
 
-
 	/**
 	 * Specify the CacheManagers to delegate to.
 	 */
@@ -82,9 +82,10 @@ public class CompositeCacheManager implements CacheManager, InitializingBean {
 	}
 
 	/**
-	 * Indicate whether a {@link NoOpCacheManager} should be added at the end of the delegate list.
-	 * In this case, any {@code getCache} requests not handled by the configured CacheManagers will
-	 * be automatically handled by the {@link NoOpCacheManager} (and hence never return {@code null}).
+	 * Indicate whether a {@link NoOpCacheManager} should be added at the end of the
+	 * delegate list. In this case, any {@code getCache} requests not handled by the
+	 * configured CacheManagers will be automatically handled by the
+	 * {@link NoOpCacheManager} (and hence never return {@code null}).
 	 */
 	public void setFallbackToNoOpCache(boolean fallbackToNoOpCache) {
 		this.fallbackToNoOpCache = fallbackToNoOpCache;
@@ -96,7 +97,6 @@ public class CompositeCacheManager implements CacheManager, InitializingBean {
 			this.cacheManagers.add(new NoOpCacheManager());
 		}
 	}
-
 
 	@Override
 	@Nullable

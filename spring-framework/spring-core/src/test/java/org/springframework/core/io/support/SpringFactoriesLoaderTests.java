@@ -45,18 +45,17 @@ class SpringFactoriesLoaderTests {
 
 	@Test
 	void loadPackagePrivateFactory() {
-		List<DummyPackagePrivateFactory> factories =
-				SpringFactoriesLoader.loadFactories(DummyPackagePrivateFactory.class, null);
+		List<DummyPackagePrivateFactory> factories = SpringFactoriesLoader
+				.loadFactories(DummyPackagePrivateFactory.class, null);
 		assertThat(factories.size()).isEqualTo(1);
 		assertThat(Modifier.isPublic(factories.get(0).getClass().getModifiers())).isFalse();
 	}
 
 	@Test
 	void attemptToLoadFactoryOfIncompatibleType() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				SpringFactoriesLoader.loadFactories(String.class, null))
-			.withMessageContaining("Unable to instantiate factory class "
-					+ "[org.springframework.core.io.support.MyDummyFactory1] for factory type [java.lang.String]");
+		assertThatIllegalArgumentException().isThrownBy(() -> SpringFactoriesLoader.loadFactories(String.class, null))
+				.withMessageContaining("Unable to instantiate factory class "
+						+ "[org.springframework.core.io.support.MyDummyFactory1] for factory type [java.lang.String]");
 	}
 
 }

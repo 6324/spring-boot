@@ -59,7 +59,6 @@ public interface EntityResponse<T> extends ServerResponse {
 	 */
 	BodyInserter<T, ? super ServerHttpResponse> inserter();
 
-
 	// Static builder methods
 
 	/**
@@ -80,8 +79,7 @@ public interface EntityResponse<T> extends ServerResponse {
 	 * @since 5.2
 	 */
 	static <T> Builder<T> fromProducer(T producer, Class<?> elementClass) {
-		return new DefaultEntityResponseBuilder<>(producer,
-				BodyInserters.fromProducer(producer, elementClass));
+		return new DefaultEntityResponseBuilder<>(producer, BodyInserters.fromProducer(producer, elementClass));
 	}
 
 	/**
@@ -92,8 +90,7 @@ public interface EntityResponse<T> extends ServerResponse {
 	 * @since 5.2
 	 */
 	static <T> Builder<T> fromProducer(T producer, ParameterizedTypeReference<?> typeReference) {
-		return new DefaultEntityResponseBuilder<>(producer,
-				BodyInserters.fromProducer(producer, typeReference));
+		return new DefaultEntityResponseBuilder<>(producer, BodyInserters.fromProducer(producer, typeReference));
 	}
 
 	/**
@@ -105,8 +102,7 @@ public interface EntityResponse<T> extends ServerResponse {
 	 * @return the created builder
 	 */
 	static <T, P extends Publisher<T>> Builder<P> fromPublisher(P publisher, Class<T> elementClass) {
-		return new DefaultEntityResponseBuilder<>(publisher,
-				BodyInserters.fromPublisher(publisher, elementClass));
+		return new DefaultEntityResponseBuilder<>(publisher, BodyInserters.fromPublisher(publisher, elementClass));
 	}
 
 	/**
@@ -120,10 +116,8 @@ public interface EntityResponse<T> extends ServerResponse {
 	static <T, P extends Publisher<T>> Builder<P> fromPublisher(P publisher,
 			ParameterizedTypeReference<T> typeReference) {
 
-		return new DefaultEntityResponseBuilder<>(publisher,
-				BodyInserters.fromPublisher(publisher, typeReference));
+		return new DefaultEntityResponseBuilder<>(publisher, BodyInserters.fromPublisher(publisher, typeReference));
 	}
-
 
 	/**
 	 * Defines a builder for {@code EntityResponse}.
@@ -134,7 +128,7 @@ public interface EntityResponse<T> extends ServerResponse {
 
 		/**
 		 * Add the given header value(s) under the given name.
-		 * @param headerName   the header name
+		 * @param headerName the header name
 		 * @param headerValues the header value(s)
 		 * @return this builder
 		 * @see HttpHeaders#add(String, String)
@@ -172,19 +166,19 @@ public interface EntityResponse<T> extends ServerResponse {
 		Builder<T> cookie(ResponseCookie cookie);
 
 		/**
-		 * Manipulate this response's cookies with the given consumer. The
-		 * cookies provided to the consumer are "live", so that the consumer can be used to
+		 * Manipulate this response's cookies with the given consumer. The cookies
+		 * provided to the consumer are "live", so that the consumer can be used to
 		 * {@linkplain MultiValueMap#set(Object, Object) overwrite} existing cookies,
-		 * {@linkplain MultiValueMap#remove(Object) remove} cookies, or use any of the other
-		 * {@link MultiValueMap} methods.
+		 * {@linkplain MultiValueMap#remove(Object) remove} cookies, or use any of the
+		 * other {@link MultiValueMap} methods.
 		 * @param cookiesConsumer a function that consumes the cookies
 		 * @return this builder
 		 */
 		Builder<T> cookies(Consumer<MultiValueMap<String, ResponseCookie>> cookiesConsumer);
 
 		/**
-		 * Set the set of allowed {@link HttpMethod HTTP methods}, as specified
-		 * by the {@code Allow} header.
+		 * Set the set of allowed {@link HttpMethod HTTP methods}, as specified by the
+		 * {@code Allow} header.
 		 * @param allowedMethods the allowed methods
 		 * @return this builder
 		 * @see HttpHeaders#setAllow(Set)
@@ -192,8 +186,8 @@ public interface EntityResponse<T> extends ServerResponse {
 		Builder<T> allow(HttpMethod... allowedMethods);
 
 		/**
-		 * Set the set of allowed {@link HttpMethod HTTP methods}, as specified
-		 * by the {@code Allow} header.
+		 * Set the set of allowed {@link HttpMethod HTTP methods}, as specified by the
+		 * {@code Allow} header.
 		 * @param allowedMethods the allowed methods
 		 * @return this builder
 		 * @see HttpHeaders#setAllow(Set)
@@ -211,8 +205,9 @@ public interface EntityResponse<T> extends ServerResponse {
 		/**
 		 * Set the time the resource was last changed, as specified by the
 		 * {@code Last-Modified} header.
-		 * <p>The date should be specified as the number of milliseconds since
-		 * January 1, 1970 GMT.
+		 * <p>
+		 * The date should be specified as the number of milliseconds since January 1,
+		 * 1970 GMT.
 		 * @param lastModified the last modified date
 		 * @return this builder
 		 * @see HttpHeaders#setLastModified(long)
@@ -222,8 +217,9 @@ public interface EntityResponse<T> extends ServerResponse {
 		/**
 		 * Set the time the resource was last changed, as specified by the
 		 * {@code Last-Modified} header.
-		 * <p>The date should be specified as the number of milliseconds since
-		 * January 1, 1970 GMT.
+		 * <p>
+		 * The date should be specified as the number of milliseconds since January 1,
+		 * 1970 GMT.
 		 * @param lastModified the last modified date
 		 * @return this builder
 		 * @since 5.1.4
@@ -242,28 +238,30 @@ public interface EntityResponse<T> extends ServerResponse {
 		/**
 		 * Set the caching directives for the resource, as specified by the HTTP 1.1
 		 * {@code Cache-Control} header.
-		 * <p>A {@code CacheControl} instance can be built like
+		 * <p>
+		 * A {@code CacheControl} instance can be built like
 		 * {@code CacheControl.maxAge(3600).cachePublic().noTransform()}.
 		 * @param cacheControl a builder for cache-related HTTP response headers
 		 * @return this builder
-		 * @see <a href="https://tools.ietf.org/html/rfc7234#section-5.2">RFC-7234 Section 5.2</a>
+		 * @see <a href="https://tools.ietf.org/html/rfc7234#section-5.2">RFC-7234 Section
+		 * 5.2</a>
 		 */
 		Builder<T> cacheControl(CacheControl cacheControl);
 
 		/**
-		 * Configure one or more request header names (e.g. "Accept-Language") to
-		 * add to the "Vary" response header to inform clients that the response is
-		 * subject to content negotiation and variances based on the value of the
-		 * given request headers. The configured request header names are added only
-		 * if not already present in the response "Vary" header.
+		 * Configure one or more request header names (e.g. "Accept-Language") to add to
+		 * the "Vary" response header to inform clients that the response is subject to
+		 * content negotiation and variances based on the value of the given request
+		 * headers. The configured request header names are added only if not already
+		 * present in the response "Vary" header.
 		 * @param requestHeaders request header names
 		 * @return this builder
 		 */
 		Builder<T> varyBy(String... requestHeaders);
 
 		/**
-		 * Set the length of the body in bytes, as specified by the
-		 * {@code Content-Length} header.
+		 * Set the length of the body in bytes, as specified by the {@code Content-Length}
+		 * header.
 		 * @param contentLength the content length
 		 * @return this builder
 		 * @see HttpHeaders#setContentLength(long)
@@ -300,6 +298,7 @@ public interface EntityResponse<T> extends ServerResponse {
 		 * @return the built response
 		 */
 		Mono<EntityResponse<T>> build();
+
 	}
 
 }

@@ -28,20 +28,19 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 /**
- * Abstract base class for implementations of {@link SubscriptionRegistry} that
- * looks up information in messages but delegates to abstract methods for the
- * actual storage and retrieval.
+ * Abstract base class for implementations of {@link SubscriptionRegistry} that looks up
+ * information in messages but delegates to abstract methods for the actual storage and
+ * retrieval.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
  */
 public abstract class AbstractSubscriptionRegistry implements SubscriptionRegistry {
 
-	private static final MultiValueMap<String, String> EMPTY_MAP =
-			CollectionUtils.unmodifiableMultiValueMap(new LinkedMultiValueMap<>());
+	private static final MultiValueMap<String, String> EMPTY_MAP = CollectionUtils
+			.unmodifiableMultiValueMap(new LinkedMultiValueMap<>());
 
 	protected final Log logger = SimpLogging.forLogName(getClass());
-
 
 	@Override
 	public final void registerSubscription(Message<?> message) {
@@ -127,14 +126,11 @@ public abstract class AbstractSubscriptionRegistry implements SubscriptionRegist
 		return findSubscriptionsInternal(destination, message);
 	}
 
+	protected abstract void addSubscriptionInternal(String sessionId, String subscriptionId, String destination,
+			Message<?> message);
 
-	protected abstract void addSubscriptionInternal(
-			String sessionId, String subscriptionId, String destination, Message<?> message);
+	protected abstract void removeSubscriptionInternal(String sessionId, String subscriptionId, Message<?> message);
 
-	protected abstract void removeSubscriptionInternal(
-			String sessionId, String subscriptionId, Message<?> message);
-
-	protected abstract MultiValueMap<String, String> findSubscriptionsInternal(
-			String destination, Message<?> message);
+	protected abstract MultiValueMap<String, String> findSubscriptionsInternal(String destination, Message<?> message);
 
 }

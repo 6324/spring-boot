@@ -23,19 +23,22 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 /**
  * {@code NamespaceHandler} for the {@code aop} namespace.
  *
- * <p>Provides a {@link org.springframework.beans.factory.xml.BeanDefinitionParser} for the
- * {@code <aop:config>} tag. A {@code config} tag can include nested
- * {@code pointcut}, {@code advisor} and {@code aspect} tags.
+ * <p>
+ * Provides a {@link org.springframework.beans.factory.xml.BeanDefinitionParser} for the
+ * {@code <aop:config>} tag. A {@code config} tag can include nested {@code pointcut},
+ * {@code advisor} and {@code aspect} tags.
  *
- * <p>The {@code pointcut} tag allows for creation of named
- * {@link AspectJExpressionPointcut} beans using a simple syntax:
- * <pre class="code">
+ * <p>
+ * The {@code pointcut} tag allows for creation of named {@link AspectJExpressionPointcut}
+ * beans using a simple syntax: <pre class="code">
  * &lt;aop:pointcut id=&quot;getNameCalls&quot; expression=&quot;execution(* *..ITestBean.getName(..))&quot;/&gt;
  * </pre>
  *
- * <p>Using the {@code advisor} tag you can configure an {@link org.springframework.aop.Advisor}
- * and have it applied to all relevant beans in you {@link org.springframework.beans.factory.BeanFactory}
- * automatically. The {@code advisor} tag supports both in-line and referenced
+ * <p>
+ * Using the {@code advisor} tag you can configure an
+ * {@link org.springframework.aop.Advisor} and have it applied to all relevant beans in
+ * you {@link org.springframework.beans.factory.BeanFactory} automatically. The
+ * {@code advisor} tag supports both in-line and referenced
  * {@link org.springframework.aop.Pointcut Pointcuts}:
  *
  * <pre class="code">
@@ -56,8 +59,8 @@ public class AopNamespaceHandler extends NamespaceHandlerSupport {
 
 	/**
 	 * Register the {@link BeanDefinitionParser BeanDefinitionParsers} for the
-	 * '{@code config}', '{@code spring-configured}', '{@code aspectj-autoproxy}'
-	 * and '{@code scoped-proxy}' tags.
+	 * '{@code config}', '{@code spring-configured}', '{@code aspectj-autoproxy}' and
+	 * '{@code scoped-proxy}' tags.
 	 */
 	@Override
 	public void init() {

@@ -29,9 +29,9 @@ import org.springframework.web.server.ServerWebInputException;
 /**
  * Resolve method arguments annotated with {@code @CookieValue}.
  *
- * <p>An {@code @CookieValue} is a named value that is resolved from a cookie.
- * It has a required flag and a default value to fall back on when the cookie
- * does not exist.
+ * <p>
+ * An {@code @CookieValue} is a named value that is resolved from a cookie. It has a
+ * required flag and a default value to fall back on when the cookie does not exist.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -40,9 +40,9 @@ public class CookieValueMethodArgumentResolver extends AbstractNamedValueSyncArg
 
 	/**
 	 * Create a new {@link CookieValueMethodArgumentResolver} instance.
-	 * @param factory a bean factory to use for resolving {@code ${...}}
-	 * placeholder and {@code #{...}} SpEL expressions in default values;
-	 * or {@code null} if default values are not expected to contain expressions
+	 * @param factory a bean factory to use for resolving {@code ${...}} placeholder and
+	 * {@code #{...}} SpEL expressions in default values; or {@code null} if default
+	 * values are not expected to contain expressions
 	 * @param registry for checking reactive type wrappers
 	 */
 	public CookieValueMethodArgumentResolver(@Nullable ConfigurableBeanFactory factory,
@@ -50,7 +50,6 @@ public class CookieValueMethodArgumentResolver extends AbstractNamedValueSyncArg
 
 		super(factory, registry);
 	}
-
 
 	@Override
 	public boolean supportsParameter(MethodParameter param) {
@@ -81,12 +80,12 @@ public class CookieValueMethodArgumentResolver extends AbstractNamedValueSyncArg
 		throw new ServerWebInputException(reason, parameter);
 	}
 
-
 	private static final class CookieValueNamedValueInfo extends NamedValueInfo {
 
 		private CookieValueNamedValueInfo(CookieValue annotation) {
 			super(annotation.name(), annotation.required(), annotation.defaultValue());
 		}
+
 	}
 
 }

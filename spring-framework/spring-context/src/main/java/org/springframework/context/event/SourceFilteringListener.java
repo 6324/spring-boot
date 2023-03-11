@@ -23,11 +23,12 @@ import org.springframework.core.ResolvableType;
 import org.springframework.lang.Nullable;
 
 /**
- * {@link org.springframework.context.ApplicationListener} decorator that filters
- * events from a specified event source, invoking its delegate listener for
- * matching {@link org.springframework.context.ApplicationEvent} objects only.
+ * {@link org.springframework.context.ApplicationListener} decorator that filters events
+ * from a specified event source, invoking its delegate listener for matching
+ * {@link org.springframework.context.ApplicationEvent} objects only.
  *
- * <p>Can also be used as base class, overriding the {@link #onApplicationEventInternal}
+ * <p>
+ * Can also be used as base class, overriding the {@link #onApplicationEventInternal}
  * method instead of specifying a delegate listener.
  *
  * @author Juergen Hoeller
@@ -41,31 +42,29 @@ public class SourceFilteringListener implements GenericApplicationListener, Smar
 	@Nullable
 	private GenericApplicationListener delegate;
 
-
 	/**
 	 * Create a SourceFilteringListener for the given event source.
-	 * @param source the event source that this listener filters for,
-	 * only processing events from this source
-	 * @param delegate the delegate listener to invoke with event
-	 * from the specified source
+	 * @param source the event source that this listener filters for, only processing
+	 * events from this source
+	 * @param delegate the delegate listener to invoke with event from the specified
+	 * source
 	 */
 	public SourceFilteringListener(Object source, ApplicationListener<?> delegate) {
 		this.source = source;
-		this.delegate = (delegate instanceof GenericApplicationListener ?
-				(GenericApplicationListener) delegate : new GenericApplicationListenerAdapter(delegate));
+		this.delegate = (delegate instanceof GenericApplicationListener ? (GenericApplicationListener) delegate
+				: new GenericApplicationListenerAdapter(delegate));
 	}
 
 	/**
-	 * Create a SourceFilteringListener for the given event source,
-	 * expecting subclasses to override the {@link #onApplicationEventInternal}
-	 * method (instead of specifying a delegate listener).
-	 * @param source the event source that this listener filters for,
-	 * only processing events from this source
+	 * Create a SourceFilteringListener for the given event source, expecting subclasses
+	 * to override the {@link #onApplicationEventInternal} method (instead of specifying a
+	 * delegate listener).
+	 * @param source the event source that this listener filters for, only processing
+	 * events from this source
 	 */
 	protected SourceFilteringListener(Object source) {
 		this.source = source;
 	}
-
 
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
@@ -94,11 +93,11 @@ public class SourceFilteringListener implements GenericApplicationListener, Smar
 		return (this.delegate != null ? this.delegate.getOrder() : Ordered.LOWEST_PRECEDENCE);
 	}
 
-
 	/**
-	 * Actually process the event, after having filtered according to the
-	 * desired event source already.
-	 * <p>The default implementation invokes the specified delegate, if any.
+	 * Actually process the event, after having filtered according to the desired event
+	 * source already.
+	 * <p>
+	 * The default implementation invokes the specified delegate, if any.
 	 * @param event the event to process (matching the specified source)
 	 */
 	protected void onApplicationEventInternal(ApplicationEvent event) {

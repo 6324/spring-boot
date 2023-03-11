@@ -33,11 +33,12 @@ import org.springframework.util.ClassUtils;
 
 /**
  * Spring's base implementation of the JPA
- * {@link javax.persistence.spi.PersistenceUnitInfo} interface,
- * used to bootstrap an {@code EntityManagerFactory} in a container.
+ * {@link javax.persistence.spi.PersistenceUnitInfo} interface, used to bootstrap an
+ * {@code EntityManagerFactory} in a container.
  *
- * <p>This implementation is largely a JavaBean, offering mutators
- * for all standard {@code PersistenceUnitInfo} properties.
+ * <p>
+ * This implementation is largely a JavaBean, offering mutators for all standard
+ * {@code PersistenceUnitInfo} properties.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -85,7 +86,6 @@ public class MutablePersistenceUnitInfo implements SmartPersistenceUnitInfo {
 	@Nullable
 	private String persistenceProviderPackageName;
 
-
 	public void setPersistenceUnitName(@Nullable String persistenceUnitName) {
 		this.persistenceUnitName = persistenceUnitName;
 	}
@@ -116,8 +116,8 @@ public class MutablePersistenceUnitInfo implements SmartPersistenceUnitInfo {
 			return this.transactionType;
 		}
 		else {
-			return (this.jtaDataSource != null ?
-					PersistenceUnitTransactionType.JTA : PersistenceUnitTransactionType.RESOURCE_LOCAL);
+			return (this.jtaDataSource != null ? PersistenceUnitTransactionType.JTA
+					: PersistenceUnitTransactionType.RESOURCE_LOCAL);
 		}
 	}
 
@@ -185,9 +185,10 @@ public class MutablePersistenceUnitInfo implements SmartPersistenceUnitInfo {
 
 	/**
 	 * Add a managed package to the persistence provider's metadata.
-	 * <p>Note: This refers to annotated {@code package-info.java} files. It does
-	 * <i>not</i> trigger entity scanning in the specified package; this is
-	 * rather the job of {@link DefaultPersistenceUnitManager#setPackagesToScan}.
+	 * <p>
+	 * Note: This refers to annotated {@code package-info.java} files. It does <i>not</i>
+	 * trigger entity scanning in the specified package; this is rather the job of
+	 * {@link DefaultPersistenceUnitManager#setPackagesToScan}.
 	 * @since 4.1
 	 * @see SmartPersistenceUnitInfo#getManagedPackages()
 	 * @see #addManagedClassName
@@ -261,7 +262,6 @@ public class MutablePersistenceUnitInfo implements SmartPersistenceUnitInfo {
 		return this.persistenceProviderPackageName;
 	}
 
-
 	/**
 	 * This implementation returns the default ClassLoader.
 	 * @see org.springframework.util.ClassUtils#getDefaultClassLoader()
@@ -288,11 +288,10 @@ public class MutablePersistenceUnitInfo implements SmartPersistenceUnitInfo {
 		throw new UnsupportedOperationException("getNewTempClassLoader not supported");
 	}
 
-
 	@Override
 	public String toString() {
-		return "PersistenceUnitInfo: name '" + this.persistenceUnitName +
-				"', root URL [" + this.persistenceUnitRootUrl + "]";
+		return "PersistenceUnitInfo: name '" + this.persistenceUnitName + "', root URL [" + this.persistenceUnitRootUrl
+				+ "]";
 	}
 
 }

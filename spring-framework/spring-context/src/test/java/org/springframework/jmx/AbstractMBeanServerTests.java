@@ -40,13 +40,16 @@ import org.springframework.util.MBeanTestUtils;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * <p>If you run into the <em>"Unsupported protocol: jmxmp"</em> error, you will need to
- * download the <a href="https://www.oracle.com/technetwork/java/javase/tech/download-jsp-141676.html">JMX
+ * <p>
+ * If you run into the <em>"Unsupported protocol: jmxmp"</em> error, you will need to
+ * download the <a href=
+ * "https://www.oracle.com/technetwork/java/javase/tech/download-jsp-141676.html">JMX
  * Remote API 1.0.1_04 Reference Implementation</a> from Oracle and extract
  * {@code jmxremote_optional.jar} into your classpath, for example in the {@code lib/ext}
  * folder of your JVM.
  *
- * <p>See also:
+ * <p>
+ * See also:
  * <ul>
  * <li><a href="https://jira.spring.io/browse/SPR-8093">SPR-8093</a></li>
  * <li><a href="https://issuetracker.springsource.com/browse/EBR-349">EBR-349</a></li>
@@ -62,7 +65,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public abstract class AbstractMBeanServerTests {
 
 	protected MBeanServer server;
-
 
 	@BeforeEach
 	public final void setUp() throws Exception {
@@ -128,8 +130,8 @@ public abstract class AbstractMBeanServerTests {
 		assertThat(getServer().isRegistered(objectName)).as(message).isFalse();
 	}
 
-
-	static class BindExceptionHandler implements TestExecutionExceptionHandler, LifecycleMethodExecutionExceptionHandler {
+	static class BindExceptionHandler
+			implements TestExecutionExceptionHandler, LifecycleMethodExecutionExceptionHandler {
 
 		@Override
 		public void handleTestExecutionException(ExtensionContext context, Throwable throwable) throws Throwable {
@@ -153,11 +155,11 @@ public abstract class AbstractMBeanServerTests {
 			if (throwable instanceof BindException) {
 				throw new TestAbortedException("Failed to bind to MBeanServer", throwable);
 			}
-			// Else rethrow to conform to the contracts of TestExecutionExceptionHandler and LifecycleMethodExecutionExceptionHandler
+			// Else rethrow to conform to the contracts of TestExecutionExceptionHandler
+			// and LifecycleMethodExecutionExceptionHandler
 			throw throwable;
 		}
 
 	}
 
 }
-

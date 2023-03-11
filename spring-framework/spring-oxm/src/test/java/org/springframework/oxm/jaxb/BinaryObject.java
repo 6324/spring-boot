@@ -54,4 +54,5 @@ public class BinaryObject {
 	public DataHandler getSwaDataHandler() {
 		return swaDataHandler;
 	}
+
 }

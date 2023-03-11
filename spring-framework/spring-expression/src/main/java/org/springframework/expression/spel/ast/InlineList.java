@@ -38,21 +38,20 @@ import org.springframework.util.Assert;
  */
 public class InlineList extends SpelNodeImpl {
 
-	// If the list is purely literals, it is a constant value and can be computed and cached
+	// If the list is purely literals, it is a constant value and can be computed and
+	// cached
 	@Nullable
-	private TypedValue constant;  // TODO must be immutable list
-
+	private TypedValue constant; // TODO must be immutable list
 
 	public InlineList(int startPos, int endPos, SpelNodeImpl... args) {
 		super(startPos, endPos, args);
 		checkIfConstant();
 	}
 
-
 	/**
-	 * If all the components of the list are constants, or lists that themselves contain constants, then a constant list
-	 * can be built to represent this node. This will speed up later getValue calls and reduce the amount of garbage
-	 * created.
+	 * If all the components of the list are constants, or lists that themselves contain
+	 * constants, then a constant list can be built to represent this node. This will
+	 * speed up later getValue calls and reduce the amount of garbage created.
 	 */
 	private void checkIfConstant() {
 		boolean isConstant = true;
@@ -104,7 +103,8 @@ public class InlineList extends SpelNodeImpl {
 	@Override
 	public String toStringAST() {
 		StringJoiner sj = new StringJoiner(",", "{", "}");
-		// String ast matches input string, not the 'toString()' of the resultant collection, which would use []
+		// String ast matches input string, not the 'toString()' of the resultant
+		// collection, which would use []
 		int count = getChildCount();
 		for (int c = 0; c < count; c++) {
 			sj.add(getChild(c).toStringAST());
@@ -136,17 +136,18 @@ public class InlineList extends SpelNodeImpl {
 		final String constantFieldName = "inlineList$" + codeflow.nextFieldId();
 		final String className = codeflow.getClassName();
 
-		codeflow.registerNewField((cw, cflow) ->
-				cw.visitField(ACC_PRIVATE | ACC_STATIC | ACC_FINAL, constantFieldName, "Ljava/util/List;", null, null));
+		codeflow.registerNewField((cw, cflow) -> cw.visitField(ACC_PRIVATE | ACC_STATIC | ACC_FINAL, constantFieldName,
+				"Ljava/util/List;", null, null));
 
-		codeflow.registerNewClinit((mVisitor, cflow) ->
-				generateClinitCode(className, constantFieldName, mVisitor, cflow, false));
+		codeflow.registerNewClinit(
+				(mVisitor, cflow) -> generateClinitCode(className, constantFieldName, mVisitor, cflow, false));
 
 		mv.visitFieldInsn(GETSTATIC, className, constantFieldName, "Ljava/util/List;");
 		codeflow.pushDescriptor("Ljava/util/List");
 	}
 
-	void generateClinitCode(String clazzname, String constantFieldName, MethodVisitor mv, CodeFlow codeflow, boolean nested) {
+	void generateClinitCode(String clazzname, String constantFieldName, MethodVisitor mv, CodeFlow codeflow,
+			boolean nested) {
 		mv.visitTypeInsn(NEW, "java/util/ArrayList");
 		mv.visitInsn(DUP);
 		mv.visitMethodInsn(INVOKESPECIAL, "java/util/ArrayList", "<init>", "()V", false);
@@ -162,10 +163,11 @@ public class InlineList extends SpelNodeImpl {
 				mv.visitInsn(DUP);
 			}
 			// The children might be further lists if they are not constants. In this
-			// situation do not call back into generateCode() because it will register another clinit adder.
+			// situation do not call back into generateCode() because it will register
+			// another clinit adder.
 			// Instead, directly build the list here:
 			if (this.children[c] instanceof InlineList) {
-				((InlineList)this.children[c]).generateClinitCode(clazzname, constantFieldName, mv, codeflow, true);
+				((InlineList) this.children[c]).generateClinitCode(clazzname, constantFieldName, mv, codeflow, true);
 			}
 			else {
 				this.children[c].generateCode(mv, codeflow);

@@ -21,8 +21,8 @@ import java.io.IOException;
 import org.springframework.lang.Nullable;
 
 /**
- * Interface that defines the source of a script.
- * Tracks whether the underlying script has been modified.
+ * Interface that defines the source of a script. Tracks whether the underlying script has
+ * been modified.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -38,9 +38,9 @@ public interface ScriptSource {
 	String getScriptAsString() throws IOException;
 
 	/**
-	 * Indicate whether the underlying script data has been modified since
-	 * the last time {@link #getScriptAsString()} was called.
-	 * Returns {@code true} if the script has not been read yet.
+	 * Indicate whether the underlying script data has been modified since the last time
+	 * {@link #getScriptAsString()} was called. Returns {@code true} if the script has not
+	 * been read yet.
 	 * @return whether the script data has been modified
 	 */
 	boolean isModified();

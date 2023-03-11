@@ -35,8 +35,8 @@ import org.springframework.core.type.AnnotationMetadata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Test for {@link AbstractBeanFactory} type inference from
- * {@link FactoryBean FactoryBeans} defined in the configuration.
+ * Test for {@link AbstractBeanFactory} type inference from {@link FactoryBean
+ * FactoryBeans} defined in the configuration.
  *
  * @author Phillip Webb
  */
@@ -109,13 +109,11 @@ public class ConfigurationWithFactoryBeanBeanEarlyDeductionTests {
 	}
 
 	private void assertPostFreeze(Class<?> configurationClass) {
-		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
-				configurationClass);
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(configurationClass);
 		assertContainsMyBeanName(context);
 	}
 
-	private void assertPreFreeze(Class<?> configurationClass,
-			BeanFactoryPostProcessor... postProcessors) {
+	private void assertPreFreeze(Class<?> configurationClass, BeanFactoryPostProcessor... postProcessors) {
 		NameCollectingBeanFactoryPostProcessor postProcessor = new NameCollectingBeanFactoryPostProcessor();
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 		try {
@@ -138,14 +136,12 @@ public class ConfigurationWithFactoryBeanBeanEarlyDeductionTests {
 		assertThat(names).containsExactly("myBean");
 	}
 
-	private static class NameCollectingBeanFactoryPostProcessor
-			implements BeanFactoryPostProcessor {
+	private static class NameCollectingBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
 		private String[] names;
 
 		@Override
-		public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
-				throws BeansException {
+		public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 			this.names = beanFactory.getBeanNamesForType(MyBean.class, true, false);
 		}
 
@@ -194,9 +190,10 @@ public class ConfigurationWithFactoryBeanBeanEarlyDeductionTests {
 	static class AttributeClassRegistrar implements ImportBeanDefinitionRegistrar {
 
 		@Override
-		public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-			BeanDefinition definition = BeanDefinitionBuilder.genericBeanDefinition(
-					RawWithAbstractObjectTypeFactoryBean.class).getBeanDefinition();
+		public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata,
+				BeanDefinitionRegistry registry) {
+			BeanDefinition definition = BeanDefinitionBuilder
+					.genericBeanDefinition(RawWithAbstractObjectTypeFactoryBean.class).getBeanDefinition();
 			definition.setAttribute(FactoryBean.OBJECT_TYPE_ATTRIBUTE, MyBean.class);
 			registry.registerBeanDefinition("myBean", definition);
 		}
@@ -204,9 +201,11 @@ public class ConfigurationWithFactoryBeanBeanEarlyDeductionTests {
 	}
 
 	abstract static class AbstractMyBean {
+
 	}
 
 	static class MyBean extends AbstractMyBean {
+
 	}
 
 	static class TestFactoryBean<T> implements FactoryBean<T> {

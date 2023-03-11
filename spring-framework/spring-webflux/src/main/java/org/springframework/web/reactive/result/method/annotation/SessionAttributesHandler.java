@@ -28,9 +28,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.server.WebSession;
 
 /**
- * Package-private class to assist {@link ModelInitializer} with managing model
- * attributes in the {@link WebSession} based on model attribute names and types
- * declared va {@link SessionAttributes @SessionAttributes}.
+ * Package-private class to assist {@link ModelInitializer} with managing model attributes
+ * in the {@link WebSession} based on model attribute names and types declared va
+ * {@link SessionAttributes @SessionAttributes}.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -43,11 +43,10 @@ class SessionAttributesHandler {
 
 	private final Set<String> knownAttributeNames = Collections.newSetFromMap(new ConcurrentHashMap<>(4));
 
-
 	/**
-	 * Create a new session attributes handler. Session attribute names and types
-	 * are extracted from the {@code @SessionAttributes} annotation, if present,
-	 * on the given type.
+	 * Create a new session attributes handler. Session attribute names and types are
+	 * extracted from the {@code @SessionAttributes} annotation, if present, on the given
+	 * type.
 	 * @param handlerType the controller type
 	 */
 	public SessionAttributesHandler(Class<?> handlerType) {
@@ -59,21 +58,21 @@ class SessionAttributesHandler {
 		this.knownAttributeNames.addAll(this.attributeNames);
 	}
 
-
 	/**
-	 * Whether the controller represented by this instance has declared any
-	 * session attributes through an {@link SessionAttributes} annotation.
+	 * Whether the controller represented by this instance has declared any session
+	 * attributes through an {@link SessionAttributes} annotation.
 	 */
 	public boolean hasSessionAttributes() {
 		return (!this.attributeNames.isEmpty() || !this.attributeTypes.isEmpty());
 	}
 
 	/**
-	 * Whether the attribute name or type match the names and types specified
-	 * via {@code @SessionAttributes} on the underlying controller.
-	 * <p>Attributes successfully resolved through this method are "remembered"
-	 * and subsequently used in {@link #retrieveAttributes(WebSession)}
-	 * and also {@link #cleanupAttributes(WebSession)}.
+	 * Whether the attribute name or type match the names and types specified via
+	 * {@code @SessionAttributes} on the underlying controller.
+	 * <p>
+	 * Attributes successfully resolved through this method are "remembered" and
+	 * subsequently used in {@link #retrieveAttributes(WebSession)} and also
+	 * {@link #cleanupAttributes(WebSession)}.
 	 * @param attributeName the attribute name to check
 	 * @param attributeType the type for the attribute
 	 */
@@ -89,9 +88,9 @@ class SessionAttributesHandler {
 	}
 
 	/**
-	 * Retrieve "known" attributes from the session, i.e. attributes listed
-	 * by name in {@code @SessionAttributes} or attributes previously stored
-	 * in the model that matched by type.
+	 * Retrieve "known" attributes from the session, i.e. attributes listed by name in
+	 * {@code @SessionAttributes} or attributes previously stored in the model that
+	 * matched by type.
 	 * @param session the current session
 	 * @return a map with handler session attributes, possibly empty
 	 */
@@ -107,8 +106,8 @@ class SessionAttributesHandler {
 	}
 
 	/**
-	 * Store a subset of the given attributes in the session. Attributes not
-	 * declared as session attributes via {@code @SessionAttributes} are ignored.
+	 * Store a subset of the given attributes in the session. Attributes not declared as
+	 * session attributes via {@code @SessionAttributes} are ignored.
 	 * @param session the current session
 	 * @param attributes candidate attributes for session storage
 	 */
@@ -121,9 +120,9 @@ class SessionAttributesHandler {
 	}
 
 	/**
-	 * Remove "known" attributes from the session, i.e. attributes listed
-	 * by name in {@code @SessionAttributes} or attributes previously stored
-	 * in the model that matched by type.
+	 * Remove "known" attributes from the session, i.e. attributes listed by name in
+	 * {@code @SessionAttributes} or attributes previously stored in the model that
+	 * matched by type.
 	 * @param session the current session
 	 */
 	public void cleanupAttributes(WebSession session) {

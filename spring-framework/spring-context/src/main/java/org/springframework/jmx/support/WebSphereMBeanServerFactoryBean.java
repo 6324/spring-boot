@@ -28,18 +28,21 @@ import org.springframework.lang.Nullable;
 
 /**
  * {@link FactoryBean} that obtains a WebSphere {@link javax.management.MBeanServer}
- * reference through WebSphere's proprietary {@code AdminServiceFactory} API,
- * available on WebSphere 5.1 and higher.
+ * reference through WebSphere's proprietary {@code AdminServiceFactory} API, available on
+ * WebSphere 5.1 and higher.
  *
- * <p>Exposes the {@code MBeanServer} for bean references.
+ * <p>
+ * Exposes the {@code MBeanServer} for bean references.
  *
- * <p>This {@code FactoryBean} is a direct alternative to {@link MBeanServerFactoryBean},
+ * <p>
+ * This {@code FactoryBean} is a direct alternative to {@link MBeanServerFactoryBean},
  * which uses standard JMX 1.2 API to access the platform's {@link MBeanServer}.
  *
- * <p>See the javadocs for WebSphere's
- * <a href="https://www.ibm.com/support/knowledgecenter/SSEQTJ_9.0.0/com.ibm.websphere.javadoc.doc/web/apidocs/com/ibm/websphere/management/AdminServiceFactory.html">{@code AdminServiceFactory}</a>
- * and
- * <a href="https://www.ibm.com/support/knowledgecenter/SSEQTJ_9.0.0/com.ibm.websphere.javadoc.doc/web/apidocs/com/ibm/websphere/management/MBeanFactory.html">{@code MBeanFactory}</a>.
+ * <p>
+ * See the javadocs for WebSphere's <a href=
+ * "https://www.ibm.com/support/knowledgecenter/SSEQTJ_9.0.0/com.ibm.websphere.javadoc.doc/web/apidocs/com/ibm/websphere/management/AdminServiceFactory.html">{@code AdminServiceFactory}</a>
+ * and <a href=
+ * "https://www.ibm.com/support/knowledgecenter/SSEQTJ_9.0.0/com.ibm.websphere.javadoc.doc/web/apidocs/com/ibm/websphere/management/MBeanFactory.html">{@code MBeanFactory}</a>.
  *
  * @author Juergen Hoeller
  * @author Rob Harrop
@@ -55,10 +58,8 @@ public class WebSphereMBeanServerFactoryBean implements FactoryBean<MBeanServer>
 
 	private static final String GET_MBEAN_SERVER_METHOD = "getMBeanServer";
 
-
 	@Nullable
 	private MBeanServer mbeanServer;
-
 
 	@Override
 	public void afterPropertiesSet() throws MBeanServerNotFoundException {
@@ -77,14 +78,14 @@ public class WebSphereMBeanServerFactoryBean implements FactoryBean<MBeanServer>
 		}
 		catch (InvocationTargetException ex) {
 			throw new MBeanServerNotFoundException(
-					"WebSphere's AdminServiceFactory.getMBeanFactory/getMBeanServer method failed", ex.getTargetException());
+					"WebSphere's AdminServiceFactory.getMBeanFactory/getMBeanServer method failed",
+					ex.getTargetException());
 		}
 		catch (Exception ex) {
 			throw new MBeanServerNotFoundException(
 					"Could not access WebSphere's AdminServiceFactory.getMBeanFactory/getMBeanServer method", ex);
 		}
 	}
-
 
 	@Override
 	@Nullable

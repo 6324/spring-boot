@@ -28,7 +28,6 @@ public class PointcutEntry implements ParseState.Entry {
 
 	private final String name;
 
-
 	/**
 	 * Create a new {@code PointcutEntry} instance.
 	 * @param name the bean name of the pointcut
@@ -36,7 +35,6 @@ public class PointcutEntry implements ParseState.Entry {
 	public PointcutEntry(String name) {
 		this.name = name;
 	}
-
 
 	@Override
 	public String toString() {

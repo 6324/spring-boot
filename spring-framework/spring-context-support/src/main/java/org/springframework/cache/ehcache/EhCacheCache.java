@@ -40,7 +40,6 @@ public class EhCacheCache implements Cache {
 
 	private final Ehcache cache;
 
-
 	/**
 	 * Create an {@link EhCacheCache} instance.
 	 * @param ehcache the backing Ehcache instance
@@ -54,7 +53,6 @@ public class EhCacheCache implements Cache {
 		}
 		this.cache = ehcache;
 	}
-
 
 	@Override
 	public final String getName() {
@@ -80,8 +78,7 @@ public class EhCacheCache implements Cache {
 		Element element = this.cache.get(key);
 		Object value = (element != null ? element.getObjectValue() : null);
 		if (value != null && type != null && !type.isInstance(value)) {
-			throw new IllegalStateException(
-					"Cached value is not of required type [" + type.getName() + "]: " + value);
+			throw new IllegalStateException("Cached value is not of required type [" + type.getName() + "]: " + value);
 		}
 		return (T) value;
 	}
@@ -97,7 +94,7 @@ public class EhCacheCache implements Cache {
 		else {
 			this.cache.acquireWriteLockOnKey(key);
 			try {
-				element = lookup(key);  // one more attempt with the write lock
+				element = lookup(key); // one more attempt with the write lock
 				if (element != null) {
 					return (T) element.getObjectValue();
 				}
@@ -156,7 +153,6 @@ public class EhCacheCache implements Cache {
 		this.cache.removeAll();
 		return notEmpty;
 	}
-
 
 	@Nullable
 	private Element lookup(Object key) {

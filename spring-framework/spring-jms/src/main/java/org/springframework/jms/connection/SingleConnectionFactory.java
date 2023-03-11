@@ -46,36 +46,41 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * A JMS ConnectionFactory adapter that returns the same Connection
- * from all {@link #createConnection()} calls, and ignores calls to
- * {@link javax.jms.Connection#close()}. According to the JMS Connection
- * model, this is perfectly thread-safe (in contrast to e.g. JDBC). The
- * shared Connection can be automatically recovered in case of an Exception.
+ * A JMS ConnectionFactory adapter that returns the same Connection from all
+ * {@link #createConnection()} calls, and ignores calls to
+ * {@link javax.jms.Connection#close()}. According to the JMS Connection model, this is
+ * perfectly thread-safe (in contrast to e.g. JDBC). The shared Connection can be
+ * automatically recovered in case of an Exception.
  *
- * <p>You can either pass in a specific JMS Connection directly or let this
- * factory lazily create a Connection via a given target ConnectionFactory.
- * This factory generally works with JMS 1.1 as well as the JMS 1.0.2 API.
+ * <p>
+ * You can either pass in a specific JMS Connection directly or let this factory lazily
+ * create a Connection via a given target ConnectionFactory. This factory generally works
+ * with JMS 1.1 as well as the JMS 1.0.2 API.
  *
- * <p>Note that when using the JMS 1.0.2 API, this ConnectionFactory will switch
- * into queue/topic mode according to the JMS API methods used at runtime:
- * {@code createQueueConnection} and {@code createTopicConnection} will
- * lead to queue/topic mode, respectively; generic {@code createConnection}
- * calls will lead to a JMS 1.1 connection which is able to serve both modes.
+ * <p>
+ * Note that when using the JMS 1.0.2 API, this ConnectionFactory will switch into
+ * queue/topic mode according to the JMS API methods used at runtime:
+ * {@code createQueueConnection} and {@code createTopicConnection} will lead to
+ * queue/topic mode, respectively; generic {@code createConnection} calls will lead to a
+ * JMS 1.1 connection which is able to serve both modes.
  *
- * <p>As of Spring Framework 5, this class supports JMS 2.0 {@code JMSContext}
- * calls and therefore requires the JMS 2.0 API to be present at runtime.
- * It may nevertheless run against a JMS 1.1 driver (bound to the JMS 2.0 API)
- * as long as no actual JMS 2.0 calls are triggered by the application's setup.
+ * <p>
+ * As of Spring Framework 5, this class supports JMS 2.0 {@code JMSContext} calls and
+ * therefore requires the JMS 2.0 API to be present at runtime. It may nevertheless run
+ * against a JMS 1.1 driver (bound to the JMS 2.0 API) as long as no actual JMS 2.0 calls
+ * are triggered by the application's setup.
  *
- * <p>Useful for testing and standalone environments in order to keep using the
- * same Connection for multiple {@link org.springframework.jms.core.JmsTemplate}
- * calls, without having a pooling ConnectionFactory underneath. This may span
- * any number of transactions, even concurrently executing transactions.
+ * <p>
+ * Useful for testing and standalone environments in order to keep using the same
+ * Connection for multiple {@link org.springframework.jms.core.JmsTemplate} calls, without
+ * having a pooling ConnectionFactory underneath. This may span any number of
+ * transactions, even concurrently executing transactions.
  *
- * <p>Note that Spring's message listener containers support the use of
- * a shared Connection within each listener container instance. Using
- * SingleConnectionFactory in combination only really makes sense for
- * sharing a single JMS Connection <i>across multiple listener containers</i>.
+ * <p>
+ * Note that Spring's message listener containers support the use of a shared Connection
+ * within each listener container instance. Using SingleConnectionFactory in combination
+ * only really makes sense for sharing a single JMS Connection <i>across multiple listener
+ * containers</i>.
  *
  * @author Juergen Hoeller
  * @author Mark Pollack
@@ -84,8 +89,8 @@ import org.springframework.util.ClassUtils;
  * @see org.springframework.jms.listener.SimpleMessageListenerContainer
  * @see org.springframework.jms.listener.DefaultMessageListenerContainer#setCacheLevel
  */
-public class SingleConnectionFactory implements ConnectionFactory, QueueConnectionFactory,
-		TopicConnectionFactory, ExceptionListener, InitializingBean, DisposableBean {
+public class SingleConnectionFactory implements ConnectionFactory, QueueConnectionFactory, TopicConnectionFactory,
+		ExceptionListener, InitializingBean, DisposableBean {
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
@@ -118,7 +123,6 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 	/** Synchronization monitor for the shared Connection. */
 	private final Object connectionMonitor = new Object();
 
-
 	/**
 	 * Create a new SingleConnectionFactory for bean-style usage.
 	 * @see #setTargetConnectionFactory
@@ -136,8 +140,8 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 	}
 
 	/**
-	 * Create a new SingleConnectionFactory that always returns a single Connection
-	 * that it will lazily create via the given target ConnectionFactory.
+	 * Create a new SingleConnectionFactory that always returns a single Connection that
+	 * it will lazily create via the given target ConnectionFactory.
 	 * @param targetConnectionFactory the target ConnectionFactory
 	 */
 	public SingleConnectionFactory(ConnectionFactory targetConnectionFactory) {
@@ -145,18 +149,17 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 		this.targetConnectionFactory = targetConnectionFactory;
 	}
 
-
 	/**
-	 * Set the target ConnectionFactory which will be used to lazily
-	 * create a single Connection.
+	 * Set the target ConnectionFactory which will be used to lazily create a single
+	 * Connection.
 	 */
 	public void setTargetConnectionFactory(@Nullable ConnectionFactory targetConnectionFactory) {
 		this.targetConnectionFactory = targetConnectionFactory;
 	}
 
 	/**
-	 * Return the target ConnectionFactory which will be used to lazily
-	 * create a single Connection, if any.
+	 * Return the target ConnectionFactory which will be used to lazily create a single
+	 * Connection, if any.
 	 */
 	@Nullable
 	public ConnectionFactory getTargetConnectionFactory() {
@@ -164,11 +167,12 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 	}
 
 	/**
-	 * Specify a JMS client ID for the single Connection created and exposed
-	 * by this ConnectionFactory.
-	 * <p>Note that client IDs need to be unique among all active Connections
-	 * of the underlying JMS provider. Furthermore, a client ID can only be
-	 * assigned if the original ConnectionFactory hasn't already assigned one.
+	 * Specify a JMS client ID for the single Connection created and exposed by this
+	 * ConnectionFactory.
+	 * <p>
+	 * Note that client IDs need to be unique among all active Connections of the
+	 * underlying JMS provider. Furthermore, a client ID can only be assigned if the
+	 * original ConnectionFactory hasn't already assigned one.
 	 * @see javax.jms.Connection#setClientID
 	 * @see #setTargetConnectionFactory
 	 */
@@ -177,8 +181,8 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 	}
 
 	/**
-	 * Return a JMS client ID for the single Connection created and exposed
-	 * by this ConnectionFactory, if any.
+	 * Return a JMS client ID for the single Connection created and exposed by this
+	 * ConnectionFactory, if any.
 	 */
 	@Nullable
 	protected String getClientId() {
@@ -186,8 +190,8 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 	}
 
 	/**
-	 * Specify an JMS ExceptionListener implementation that should be
-	 * registered with the single Connection created by this factory.
+	 * Specify an JMS ExceptionListener implementation that should be registered with the
+	 * single Connection created by this factory.
 	 * @see #setReconnectOnException
 	 */
 	public void setExceptionListener(@Nullable ExceptionListener exceptionListener) {
@@ -195,8 +199,8 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 	}
 
 	/**
-	 * Return the JMS ExceptionListener implementation that should be registered
-	 * with the single Connection created by this factory, if any.
+	 * Return the JMS ExceptionListener implementation that should be registered with the
+	 * single Connection created by this factory, if any.
 	 */
 	@Nullable
 	protected ExceptionListener getExceptionListener() {
@@ -206,12 +210,13 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 	/**
 	 * Specify whether the single Connection should be reset (to be subsequently renewed)
 	 * when a JMSException is reported by the underlying Connection.
-	 * <p>Default is "false". Switch this to "true" to automatically trigger
-	 * recovery based on your JMS provider's exception notifications.
-	 * <p>Internally, this will lead to a special JMS ExceptionListener
-	 * (this SingleConnectionFactory itself) being registered with the
-	 * underlying Connection. This can also be combined with a
-	 * user-specified ExceptionListener, if desired.
+	 * <p>
+	 * Default is "false". Switch this to "true" to automatically trigger recovery based
+	 * on your JMS provider's exception notifications.
+	 * <p>
+	 * Internally, this will lead to a special JMS ExceptionListener (this
+	 * SingleConnectionFactory itself) being registered with the underlying Connection.
+	 * This can also be combined with a user-specified ExceptionListener, if desired.
 	 * @see #setExceptionListener
 	 */
 	public void setReconnectOnException(boolean reconnectOnException) {
@@ -219,8 +224,8 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 	}
 
 	/**
-	 * Return whether the single Connection should be renewed when
-	 * a JMSException is reported by the underlying Connection.
+	 * Return whether the single Connection should be renewed when a JMSException is
+	 * reported by the underlying Connection.
 	 */
 	protected boolean isReconnectOnException() {
 		return this.reconnectOnException;
@@ -235,7 +240,6 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 			throw new IllegalArgumentException("Target Connection or ConnectionFactory is required");
 		}
 	}
-
 
 	@Override
 	public Connection createConnection() throws JMSException {
@@ -314,7 +318,6 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 		return target;
 	}
 
-
 	/**
 	 * Obtain an initialized shared Connection.
 	 * @return the Connection (never {@code null})
@@ -332,8 +335,9 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 
 	/**
 	 * Initialize the underlying shared Connection.
-	 * <p>Closes and reinitializes the Connection if an underlying
-	 * Connection is present already.
+	 * <p>
+	 * Closes and reinitializes the Connection if an underlying Connection is present
+	 * already.
 	 * @throws javax.jms.JMSException if thrown by JMS API methods
 	 * @see #prepareConnection
 	 */
@@ -368,10 +372,11 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 	}
 
 	/**
-	 * Close the underlying shared connection.
-	 * The provider of this ConnectionFactory needs to care for proper shutdown.
-	 * <p>As this bean implements DisposableBean, a bean factory will
-	 * automatically invoke this on destruction of its cached singletons.
+	 * Close the underlying shared connection. The provider of this ConnectionFactory
+	 * needs to care for proper shutdown.
+	 * <p>
+	 * As this bean implements DisposableBean, a bean factory will automatically invoke
+	 * this on destruction of its cached singletons.
 	 * @see #resetConnection()
 	 */
 	@Override
@@ -412,8 +417,9 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 
 	/**
 	 * Prepare the given Connection before it is exposed.
-	 * <p>The default implementation applies ExceptionListener and client id.
-	 * Can be overridden in subclasses.
+	 * <p>
+	 * The default implementation applies ExceptionListener and client id. Can be
+	 * overridden in subclasses.
 	 * @param con the Connection to prepare
 	 * @throws JMSException if thrown by JMS API methods
 	 * @see #setExceptionListener
@@ -442,15 +448,16 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 
 	/**
 	 * Template method for obtaining a (potentially cached) Session.
-	 * <p>The default implementation always returns {@code null}.
-	 * Subclasses may override this for exposing specific Session handles,
-	 * possibly delegating to {@link #createSession} for the creation of raw
-	 * Session objects that will then get wrapped and returned from here.
+	 * <p>
+	 * The default implementation always returns {@code null}. Subclasses may override
+	 * this for exposing specific Session handles, possibly delegating to
+	 * {@link #createSession} for the creation of raw Session objects that will then get
+	 * wrapped and returned from here.
 	 * @param con the JMS Connection to operate on
-	 * @param mode the Session acknowledgement mode
-	 * ({@code Session.TRANSACTED} or one of the common modes)
-	 * @return the Session to use, or {@code null} to indicate
-	 * creation of a raw standard Session
+	 * @param mode the Session acknowledgement mode ({@code Session.TRANSACTED} or one of
+	 * the common modes)
+	 * @return the Session to use, or {@code null} to indicate creation of a raw standard
+	 * Session
 	 * @throws JMSException if thrown by the JMS API
 	 */
 	@Nullable
@@ -459,11 +466,11 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 	}
 
 	/**
-	 * Create a default Session for this ConnectionFactory,
-	 * adapting to JMS 1.0.2 style queue/topic mode if necessary.
+	 * Create a default Session for this ConnectionFactory, adapting to JMS 1.0.2 style
+	 * queue/topic mode if necessary.
 	 * @param con the JMS Connection to operate on
-	 * @param mode the Session acknowledgement mode
-	 * ({@code Session.TRANSACTED} or one of the common modes)
+	 * @param mode the Session acknowledgement mode ({@code Session.TRANSACTED} or one of
+	 * the common modes)
 	 * @return the newly created Session
 	 * @throws JMSException if thrown by the JMS API
 	 */
@@ -510,10 +517,10 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 	}
 
 	/**
-	 * Wrap the given Connection with a proxy that delegates every method call to it
-	 * but suppresses close calls. This is useful for allowing application code to
-	 * handle a special framework Connection just like an ordinary Connection from a
-	 * JMS ConnectionFactory.
+	 * Wrap the given Connection with a proxy that delegates every method call to it but
+	 * suppresses close calls. This is useful for allowing application code to handle a
+	 * special framework Connection just like an ordinary Connection from a JMS
+	 * ConnectionFactory.
 	 * @param target the original Connection to wrap
 	 * @return the wrapped Connection
 	 */
@@ -526,10 +533,9 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 		if (target instanceof TopicConnection) {
 			classes.add(TopicConnection.class);
 		}
-		return (Connection) Proxy.newProxyInstance(Connection.class.getClassLoader(),
-				ClassUtils.toClassArray(classes), new SharedConnectionInvocationHandler());
+		return (Connection) Proxy.newProxyInstance(Connection.class.getClassLoader(), ClassUtils.toClassArray(classes),
+				new SharedConnectionInvocationHandler());
 	}
-
 
 	/**
 	 * Invocation handler for a cached JMS Connection proxy.
@@ -553,8 +559,8 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 					return false;
 				}
 				InvocationHandler otherHandler = Proxy.getInvocationHandler(other);
-				return (otherHandler instanceof SharedConnectionInvocationHandler &&
-						factory() == ((SharedConnectionInvocationHandler) otherHandler).factory());
+				return (otherHandler instanceof SharedConnectionInvocationHandler
+						&& factory() == ((SharedConnectionInvocationHandler) otherHandler).factory());
 			}
 			else if (method.getName().equals("hashCode")) {
 				// Use hashCode of containing SingleConnectionFactory.
@@ -571,8 +577,8 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 				}
 				else {
 					throw new javax.jms.IllegalStateException(
-							"setClientID call not supported on proxy for shared Connection. " +
-							"Set the 'clientId' property on the SingleConnectionFactory instead.");
+							"setClientID call not supported on proxy for shared Connection. "
+									+ "Set the 'clientId' property on the SingleConnectionFactory instead.");
 				}
 			}
 			else if (method.getName().equals("setExceptionListener") && args != null) {
@@ -593,10 +599,10 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 					}
 					else {
 						throw new javax.jms.IllegalStateException(
-								"setExceptionListener call not supported on proxy for shared Connection. " +
-								"Set the 'exceptionListener' property on the SingleConnectionFactory instead. " +
-								"Alternatively, activate SingleConnectionFactory's 'reconnectOnException' feature, " +
-								"which will allow for registering further ExceptionListeners to the recovery chain.");
+								"setExceptionListener call not supported on proxy for shared Connection. "
+										+ "Set the 'exceptionListener' property on the SingleConnectionFactory instead. "
+										+ "Alternatively, activate SingleConnectionFactory's 'reconnectOnException' feature, "
+										+ "which will allow for registering further ExceptionListeners to the recovery chain.");
 					}
 				}
 			}
@@ -630,8 +636,8 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 				}
 				return null;
 			}
-			else if (method.getName().equals("createSession") || method.getName().equals("createQueueSession") ||
-					method.getName().equals("createTopicSession")) {
+			else if (method.getName().equals("createSession") || method.getName().equals("createQueueSession")
+					|| method.getName().equals("createTopicSession")) {
 				// Default: JMS 2.0 createSession() method
 				Integer mode = Session.AUTO_ACKNOWLEDGE;
 				if (args != null) {
@@ -698,12 +704,12 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 		private SingleConnectionFactory factory() {
 			return SingleConnectionFactory.this;
 		}
+
 	}
 
-
 	/**
-	 * Internal aggregated ExceptionListener for handling the internal
-	 * recovery listener in combination with user-specified listeners.
+	 * Internal aggregated ExceptionListener for handling the internal recovery listener
+	 * in combination with user-specified listeners.
 	 */
 	private class AggregatedExceptionListener implements ExceptionListener {
 
@@ -711,7 +717,8 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 
 		@Override
 		public void onException(JMSException ex) {
-			// Iterate over temporary copy in order to avoid ConcurrentModificationException,
+			// Iterate over temporary copy in order to avoid
+			// ConcurrentModificationException,
 			// since listener invocations may in turn trigger registration of listeners...
 			Set<ExceptionListener> copy;
 			synchronized (connectionMonitor) {
@@ -721,6 +728,7 @@ public class SingleConnectionFactory implements ConnectionFactory, QueueConnecti
 				listener.onException(ex);
 			}
 		}
+
 	}
 
 }

@@ -53,14 +53,12 @@ public class EnableMBeanExportConfigurationTests {
 
 	private AnnotationConfigApplicationContext ctx;
 
-
 	@AfterEach
 	public void closeContext() {
 		if (this.ctx != null) {
 			this.ctx.close();
 		}
 	}
-
 
 	@Test
 	public void testLazyNaming() throws Exception {
@@ -81,19 +79,18 @@ public class EnableMBeanExportConfigurationTests {
 	@Test
 	@SuppressWarnings("resource")
 	public void testPackagePrivateExtensionCantBeExposed() {
-		assertThatExceptionOfType(InvalidMetadataException.class).isThrownBy(() ->
-				new AnnotationConfigApplicationContext(PackagePrivateConfiguration.class))
-			.withMessageContaining(PackagePrivateTestBean.class.getName())
-			.withMessageContaining("must be public");
+		assertThatExceptionOfType(InvalidMetadataException.class)
+				.isThrownBy(() -> new AnnotationConfigApplicationContext(PackagePrivateConfiguration.class))
+				.withMessageContaining(PackagePrivateTestBean.class.getName()).withMessageContaining("must be public");
 	}
 
 	@Test
 	@SuppressWarnings("resource")
 	public void testPackagePrivateImplementationCantBeExposed() {
-		assertThatExceptionOfType(InvalidMetadataException.class).isThrownBy(() ->
-				new AnnotationConfigApplicationContext(PackagePrivateInterfaceImplementationConfiguration.class))
-			.withMessageContaining(PackagePrivateAnnotationTestBean.class.getName())
-			.withMessageContaining("must be public");
+		assertThatExceptionOfType(InvalidMetadataException.class).isThrownBy(
+				() -> new AnnotationConfigApplicationContext(PackagePrivateInterfaceImplementationConfiguration.class))
+				.withMessageContaining(PackagePrivateAnnotationTestBean.class.getName())
+				.withMessageContaining("must be public");
 	}
 
 	@Test
@@ -140,7 +137,7 @@ public class EnableMBeanExportConfigurationTests {
 
 	private void validateAnnotationTestBean() throws Exception {
 		MBeanServer server = (MBeanServer) this.ctx.getBean("server");
-		validateMBeanAttribute(server,"bean:name=testBean4", "TEST");
+		validateMBeanAttribute(server, "bean:name=testBean4", "TEST");
 	}
 
 	private void validateMBeanAttribute(MBeanServer server, String objectName, String expected) throws Exception {
@@ -149,7 +146,6 @@ public class EnableMBeanExportConfigurationTests {
 		String name = (String) server.getAttribute(oname, "Name");
 		assertThat(name).as("Invalid name returned").isEqualTo(expected);
 	}
-
 
 	@Configuration
 	@EnableMBeanExport(server = "server")
@@ -168,6 +164,7 @@ public class EnableMBeanExportConfigurationTests {
 			bean.setAge(100);
 			return bean;
 		}
+
 	}
 
 	@Configuration
@@ -188,8 +185,8 @@ public class EnableMBeanExportConfigurationTests {
 			bean.setAge(100);
 			return bean;
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableMBeanExport(server = "${serverName}")
@@ -208,11 +205,11 @@ public class EnableMBeanExportConfigurationTests {
 			bean.setAge(100);
 			return bean;
 		}
+
 	}
 
-
 	@Configuration
-	@EnableMBeanExport(server="server", registration=RegistrationPolicy.REPLACE_EXISTING)
+	@EnableMBeanExport(server = "server", registration = RegistrationPolicy.REPLACE_EXISTING)
 	static class LazyAssemblingConfiguration {
 
 		@Bean
@@ -234,13 +231,13 @@ public class EnableMBeanExportConfigurationTests {
 			return new AnnotationTestBeanFactory();
 		}
 
-		@Bean(name="spring:mbean=true")
+		@Bean(name = "spring:mbean=true")
 		@Lazy
 		public TestDynamicMBean dynamic() {
 			return new TestDynamicMBean();
 		}
 
-		@Bean(name="spring:mbean=another")
+		@Bean(name = "spring:mbean=another")
 		@Lazy
 		public MBeanExporterTests.Person person() {
 			MBeanExporterTests.Person person = new MBeanExporterTests.Person();
@@ -253,8 +250,8 @@ public class EnableMBeanExportConfigurationTests {
 		public Object notLoadable() throws Exception {
 			return Class.forName("does.not.exist").newInstance();
 		}
-	}
 
+	}
 
 	@Configuration
 	@ComponentScan(excludeFilters = @ComponentScan.Filter(Configuration.class))
@@ -265,6 +262,7 @@ public class EnableMBeanExportConfigurationTests {
 		public MBeanServerFactoryBean server() {
 			return new MBeanServerFactoryBean();
 		}
+
 	}
 
 	@Configuration
@@ -280,6 +278,7 @@ public class EnableMBeanExportConfigurationTests {
 		public PackagePrivateTestBean testBean() {
 			return new PackagePrivateTestBean();
 		}
+
 	}
 
 	@ManagedResource(objectName = "bean:name=packagePrivate")
@@ -296,8 +295,8 @@ public class EnableMBeanExportConfigurationTests {
 		public void setName(String name) {
 			this.name = name;
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableMBeanExport(server = "server")
@@ -314,6 +313,7 @@ public class EnableMBeanExportConfigurationTests {
 			bean.setName("TEST");
 			return bean;
 		}
+
 	}
 
 	private static class PackagePrivateTestBeanExtension extends AnnotationTestBean {
@@ -333,6 +333,7 @@ public class EnableMBeanExportConfigurationTests {
 		public PackagePrivateAnnotationTestBean testBean() {
 			return new PackagePrivateAnnotationTestBean();
 		}
+
 	}
 
 	private static class PackagePrivateAnnotationTestBean implements AnotherAnnotationTestBean {
@@ -357,6 +358,7 @@ public class EnableMBeanExportConfigurationTests {
 		public int getCacheEntries() {
 			return 0;
 		}
+
 	}
 
 }

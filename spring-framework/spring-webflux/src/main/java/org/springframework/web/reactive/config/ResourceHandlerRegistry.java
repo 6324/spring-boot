@@ -34,21 +34,21 @@ import org.springframework.web.reactive.resource.ResourceWebHandler;
 import org.springframework.web.server.WebHandler;
 
 /**
- * Stores registrations of resource handlers for serving static resources such
- * as images, css files and others through Spring WebFlux including setting cache
- * headers optimized for efficient loading in a web browser. Resources can be
- * served out of locations under web application root, from the classpath, and
- * others.
+ * Stores registrations of resource handlers for serving static resources such as images,
+ * css files and others through Spring WebFlux including setting cache headers optimized
+ * for efficient loading in a web browser. Resources can be served out of locations under
+ * web application root, from the classpath, and others.
  *
- * <p>To create a resource handler, use {@link #addResourceHandler(String...)}
- * providing the URL path patterns for which the handler should be invoked to
- * serve static resources (e.g. {@code "/resources/**"}).
+ * <p>
+ * To create a resource handler, use {@link #addResourceHandler(String...)} providing the
+ * URL path patterns for which the handler should be invoked to serve static resources
+ * (e.g. {@code "/resources/**"}).
  *
- * <p>Then use additional methods on the returned
- * {@link ResourceHandlerRegistration} to add one or more locations from which
- * to serve static content from (e.g. {{@code "/"},
- * {@code "classpath:/META-INF/public-web-resources/"}}) or to specify a cache
- * period for served resources.
+ * <p>
+ * Then use additional methods on the returned {@link ResourceHandlerRegistration} to add
+ * one or more locations from which to serve static content from (e.g. {{@code "/"},
+ * {@code "classpath:/META-INF/public-web-resources/"}}) or to specify a cache period for
+ * served resources.
  *
  * @author Rossen Stoyanchev
  * @author Brian Clozel
@@ -65,10 +65,9 @@ public class ResourceHandlerRegistry {
 	@Nullable
 	private ResourceUrlProvider resourceUrlProvider;
 
-
 	/**
-	 * Create a new resource handler registry for the given resource loader
-	 * (typically an application context).
+	 * Create a new resource handler registry for the given resource loader (typically an
+	 * application context).
 	 * @param resourceLoader the resource loader to use
 	 */
 	public ResourceHandlerRegistry(ResourceLoader resourceLoader) {
@@ -85,17 +84,16 @@ public class ResourceHandlerRegistry {
 		this.resourceUrlProvider = resourceUrlProvider;
 	}
 
-
-
 	/**
-	 * Add a resource handler for serving static resources based on the specified
-	 * URL path patterns. The handler will be invoked for every incoming request
-	 * that matches to one of the specified path patterns.
-	 * <p>Patterns like {@code "/static/**"} or {@code "/css/{filename:\\w+\\.css}"}
-	 * are allowed. See {@link org.springframework.web.util.pattern.PathPattern}
-	 * for more details on the syntax.
-	 * @return a {@link ResourceHandlerRegistration} to use to further configure
-	 * the registered resource handler
+	 * Add a resource handler for serving static resources based on the specified URL path
+	 * patterns. The handler will be invoked for every incoming request that matches to
+	 * one of the specified path patterns.
+	 * <p>
+	 * Patterns like {@code "/static/**"} or {@code "/css/{filename:\\w+\\.css}"} are
+	 * allowed. See {@link org.springframework.web.util.pattern.PathPattern} for more
+	 * details on the syntax.
+	 * @return a {@link ResourceHandlerRegistration} to use to further configure the
+	 * registered resource handler
 	 */
 	public ResourceHandlerRegistration addResourceHandler(String... patterns) {
 		ResourceHandlerRegistration registration = new ResourceHandlerRegistration(this.resourceLoader, patterns);
@@ -118,7 +116,8 @@ public class ResourceHandlerRegistry {
 	/**
 	 * Specify the order to use for resource handling relative to other
 	 * {@code HandlerMapping}s configured in the Spring configuration.
-	 * <p>The default value used is {@code Integer.MAX_VALUE-1}.
+	 * <p>
+	 * The default value used is {@code Integer.MAX_VALUE-1}.
 	 */
 	public ResourceHandlerRegistry setOrder(int order) {
 		this.order = order;

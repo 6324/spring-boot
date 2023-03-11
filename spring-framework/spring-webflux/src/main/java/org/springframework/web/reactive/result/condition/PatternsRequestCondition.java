@@ -33,8 +33,8 @@ import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPatternParser;
 
 /**
- * A logical disjunction (' || ') request condition that matches a request
- * against a set of URL path patterns.
+ * A logical disjunction (' || ') request condition that matches a request against a set
+ * of URL path patterns.
  *
  * @author Rossen Stoyanchev
  * @author Brian Clozel
@@ -42,16 +42,15 @@ import org.springframework.web.util.pattern.PathPatternParser;
  */
 public final class PatternsRequestCondition extends AbstractRequestCondition<PatternsRequestCondition> {
 
-	private static final SortedSet<PathPattern> EMPTY_PATH_PATTERN =
-			new TreeSet<>(Collections.singleton(PathPatternParser.defaultInstance.parse("")));
-
+	private static final SortedSet<PathPattern> EMPTY_PATH_PATTERN = new TreeSet<>(
+			Collections.singleton(PathPatternParser.defaultInstance.parse("")));
 
 	private final SortedSet<PathPattern> patterns;
 
-
 	/**
 	 * Creates a new instance with the given URL patterns.
-	 * @param patterns 0 or more URL patterns; if 0 the condition will match to every request.
+	 * @param patterns 0 or more URL patterns; if 0 the condition will match to every
+	 * request.
 	 */
 	public PatternsRequestCondition(PathPattern... patterns) {
 		this(ObjectUtils.isEmpty(patterns) ? Collections.emptyList() : Arrays.asList(patterns));
@@ -68,7 +67,6 @@ public final class PatternsRequestCondition extends AbstractRequestCondition<Pat
 		this.patterns = patterns;
 	}
 
-
 	public Set<PathPattern> getPatterns() {
 		return this.patterns;
 	}
@@ -84,8 +82,8 @@ public final class PatternsRequestCondition extends AbstractRequestCondition<Pat
 	}
 
 	/**
-	 * Returns a new instance with URL patterns from the current instance ("this") and
-	 * the "other" instance as follows:
+	 * Returns a new instance with URL patterns from the current instance ("this") and the
+	 * "other" instance as follows:
 	 * <ul>
 	 * <li>If there are patterns in both instances, combine the patterns in "this" with
 	 * the patterns in "other" using {@link PathPattern#combine(PathPattern)}.
@@ -120,12 +118,11 @@ public final class PatternsRequestCondition extends AbstractRequestCondition<Pat
 	}
 
 	/**
-	 * Checks if any of the patterns match the given request and returns an instance
-	 * that is guaranteed to contain matching patterns, sorted.
+	 * Checks if any of the patterns match the given request and returns an instance that
+	 * is guaranteed to contain matching patterns, sorted.
 	 * @param exchange the current exchange
-	 * @return the same instance if the condition contains no patterns;
-	 * or a new condition with sorted matching patterns;
-	 * or {@code null} if no patterns match.
+	 * @return the same instance if the condition contains no patterns; or a new condition
+	 * with sorted matching patterns; or {@code null} if no patterns match.
 	 */
 	@Override
 	@Nullable
@@ -148,14 +145,13 @@ public final class PatternsRequestCondition extends AbstractRequestCondition<Pat
 	}
 
 	/**
-	 * Compare the two conditions based on the URL patterns they contain.
-	 * Patterns are compared one at a time, from top to bottom. If all compared
-	 * patterns match equally, but one instance has more patterns, it is
-	 * considered a closer match.
-	 * <p>It is assumed that both instances have been obtained via
-	 * {@link #getMatchingCondition(ServerWebExchange)} to ensure they
-	 * contain only patterns that match the request and are sorted with
-	 * the best matches on top.
+	 * Compare the two conditions based on the URL patterns they contain. Patterns are
+	 * compared one at a time, from top to bottom. If all compared patterns match equally,
+	 * but one instance has more patterns, it is considered a closer match.
+	 * <p>
+	 * It is assumed that both instances have been obtained via
+	 * {@link #getMatchingCondition(ServerWebExchange)} to ensure they contain only
+	 * patterns that match the request and are sorted with the best matches on top.
 	 */
 	@Override
 	public int compareTo(PatternsRequestCondition other, ServerWebExchange exchange) {

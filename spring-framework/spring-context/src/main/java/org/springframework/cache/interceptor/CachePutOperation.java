@@ -31,7 +31,6 @@ public class CachePutOperation extends CacheOperation {
 	@Nullable
 	private final String unless;
 
-
 	/**
 	 * Create a new {@link CachePutOperation} instance from the given builder.
 	 * @since 4.3
@@ -41,15 +40,14 @@ public class CachePutOperation extends CacheOperation {
 		this.unless = b.unless;
 	}
 
-
 	@Nullable
 	public String getUnless() {
 		return this.unless;
 	}
 
-
 	/**
 	 * A builder that can be used to create a {@link CachePutOperation}.
+	 *
 	 * @since 4.3
 	 */
 	public static class Builder extends CacheOperation.Builder {
@@ -74,6 +72,7 @@ public class CachePutOperation extends CacheOperation {
 		public CachePutOperation build() {
 			return new CachePutOperation(this);
 		}
+
 	}
 
 }

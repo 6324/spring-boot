@@ -41,7 +41,6 @@ public class SimpleBeanFactoryAwareAspectInstanceFactory implements AspectInstan
 	@Nullable
 	private BeanFactory beanFactory;
 
-
 	/**
 	 * Set the name of the aspect bean. This is the bean that is returned when calling
 	 * {@link #getAspectInstance()}.
@@ -55,7 +54,6 @@ public class SimpleBeanFactoryAwareAspectInstanceFactory implements AspectInstan
 		this.beanFactory = beanFactory;
 		Assert.notNull(this.aspectBeanName, "'aspectBeanName' is required");
 	}
-
 
 	/**
 	 * Look up the aspect bean from the {@link BeanFactory} and returns it.
@@ -81,9 +79,8 @@ public class SimpleBeanFactoryAwareAspectInstanceFactory implements AspectInstan
 
 	@Override
 	public int getOrder() {
-		if (this.beanFactory != null && this.aspectBeanName != null &&
-				this.beanFactory.isSingleton(this.aspectBeanName) &&
-				this.beanFactory.isTypeMatch(this.aspectBeanName, Ordered.class)) {
+		if (this.beanFactory != null && this.aspectBeanName != null && this.beanFactory.isSingleton(this.aspectBeanName)
+				&& this.beanFactory.isTypeMatch(this.aspectBeanName, Ordered.class)) {
 			return ((Ordered) this.beanFactory.getBean(this.aspectBeanName)).getOrder();
 		}
 		return Ordered.LOWEST_PRECEDENCE;

@@ -44,12 +44,11 @@ class ByteBufferEncoderTests extends AbstractEncoderTests<ByteBufferEncoder> {
 	@Override
 	@Test
 	public void canEncode() {
-		assertThat(this.encoder.canEncode(ResolvableType.forClass(ByteBuffer.class),
-				MimeTypeUtils.TEXT_PLAIN)).isTrue();
-		assertThat(this.encoder.canEncode(ResolvableType.forClass(Integer.class),
-				MimeTypeUtils.TEXT_PLAIN)).isFalse();
-		assertThat(this.encoder.canEncode(ResolvableType.forClass(ByteBuffer.class),
-				MimeTypeUtils.APPLICATION_JSON)).isTrue();
+		assertThat(this.encoder.canEncode(ResolvableType.forClass(ByteBuffer.class), MimeTypeUtils.TEXT_PLAIN))
+				.isTrue();
+		assertThat(this.encoder.canEncode(ResolvableType.forClass(Integer.class), MimeTypeUtils.TEXT_PLAIN)).isFalse();
+		assertThat(this.encoder.canEncode(ResolvableType.forClass(ByteBuffer.class), MimeTypeUtils.APPLICATION_JSON))
+				.isTrue();
 
 		// SPR-15464
 		assertThat(this.encoder.canEncode(ResolvableType.NONE, null)).isFalse();
@@ -58,13 +57,10 @@ class ByteBufferEncoderTests extends AbstractEncoderTests<ByteBufferEncoder> {
 	@Override
 	@Test
 	public void encode() {
-		Flux<ByteBuffer> input = Flux.just(this.fooBytes, this.barBytes)
-				.map(ByteBuffer::wrap);
+		Flux<ByteBuffer> input = Flux.just(this.fooBytes, this.barBytes).map(ByteBuffer::wrap);
 
-		testEncodeAll(input, ByteBuffer.class, step -> step
-				.consumeNextWith(expectBytes(this.fooBytes))
-				.consumeNextWith(expectBytes(this.barBytes))
-				.verifyComplete());
+		testEncodeAll(input, ByteBuffer.class, step -> step.consumeNextWith(expectBytes(this.fooBytes))
+				.consumeNextWith(expectBytes(this.barBytes)).verifyComplete());
 	}
 
 }

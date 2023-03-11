@@ -29,8 +29,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 /**
- * Superclass for unit tests for EntityManagerFactory-creating beans.
- * Note: Subclasses must set expectations on the mock EntityManagerFactory.
+ * Superclass for unit tests for EntityManagerFactory-creating beans. Note: Subclasses
+ * must set expectations on the mock EntityManagerFactory.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -64,7 +64,6 @@ public abstract class AbstractEntityManagerFactoryBeanTests {
 		assertThat(mockEmf).isSameAs(emfi.getNativeEntityManagerFactory());
 	}
 
-
 	protected static class DummyEntityManagerFactoryBean extends AbstractEntityManagerFactoryBean {
 
 		private static final long serialVersionUID = 1L;
@@ -89,6 +88,7 @@ public abstract class AbstractEntityManagerFactoryBeanTests {
 		public String getPersistenceUnitName() {
 			return "test";
 		}
+
 	}
 
 }

@@ -42,11 +42,10 @@ public class MessagingMessageConverterTests {
 
 	private final MessagingMessageConverter converter = new MessagingMessageConverter();
 
-
 	@Test
 	public void onlyHandlesMessage() throws JMSException {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.converter.toMessage(new Object(), mock(Session.class)));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> this.converter.toMessage(new Object(), mock(Session.class)));
 	}
 
 	@Test
@@ -69,7 +68,6 @@ public class MessagingMessageConverterTests {
 		assertThat(msg.getPayload()).isEqualTo(1224L);
 	}
 
-
 	static class TestMessageConverter extends SimpleMessageConverter {
 
 		private boolean called;
@@ -83,6 +81,7 @@ public class MessagingMessageConverterTests {
 			TextMessage textMessage = (TextMessage) message;
 			return Long.parseLong(textMessage.getText());
 		}
+
 	}
 
 }

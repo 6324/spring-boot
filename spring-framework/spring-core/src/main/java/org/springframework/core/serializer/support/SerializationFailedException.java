@@ -21,8 +21,8 @@ import org.springframework.core.NestedRuntimeException;
 /**
  * Wrapper for the native IOException (or similar) when a
  * {@link org.springframework.core.serializer.Serializer} or
- * {@link org.springframework.core.serializer.Deserializer} failed.
- * Thrown by {@link SerializingConverter} and {@link DeserializingConverter}.
+ * {@link org.springframework.core.serializer.Deserializer} failed. Thrown by
+ * {@link SerializingConverter} and {@link DeserializingConverter}.
  *
  * @author Gary Russell
  * @author Juergen Hoeller
@@ -40,8 +40,8 @@ public class SerializationFailedException extends NestedRuntimeException {
 	}
 
 	/**
-	 * Construct a {@code SerializationException} with the specified detail message
-	 * and nested exception.
+	 * Construct a {@code SerializationException} with the specified detail message and
+	 * nested exception.
 	 * @param message the detail message
 	 * @param cause the nested exception
 	 */

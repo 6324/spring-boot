@@ -24,10 +24,10 @@ import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 
 /**
- * An extension of {@link SimpleUrlHandlerMapping} that is also a
- * {@link SmartLifecycle} container and propagates start and stop calls to any
- * handlers that implement {@link Lifecycle}. The handlers are typically expected
- * to be {@code WebSocketHttpRequestHandler} or {@code SockJsHttpRequestHandler}.
+ * An extension of {@link SimpleUrlHandlerMapping} that is also a {@link SmartLifecycle}
+ * container and propagates start and stop calls to any handlers that implement
+ * {@link Lifecycle}. The handlers are typically expected to be
+ * {@code WebSocketHttpRequestHandler} or {@code SockJsHttpRequestHandler}.
  *
  * @author Rossen Stoyanchev
  * @since 4.2
@@ -35,7 +35,6 @@ import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 public class WebSocketHandlerMapping extends SimpleUrlHandlerMapping implements SmartLifecycle {
 
 	private volatile boolean running = false;
-
 
 	@Override
 	protected void initServletContext(ServletContext servletContext) {
@@ -45,7 +44,6 @@ public class WebSocketHandlerMapping extends SimpleUrlHandlerMapping implements 
 			}
 		}
 	}
-
 
 	@Override
 	public void start() {

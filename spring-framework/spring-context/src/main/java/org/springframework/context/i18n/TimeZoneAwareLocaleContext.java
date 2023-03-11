@@ -23,9 +23,10 @@ import org.springframework.lang.Nullable;
 /**
  * Extension of {@link LocaleContext}, adding awareness of the current time zone.
  *
- * <p>Having this variant of LocaleContext set to {@link LocaleContextHolder} means
- * that some TimeZone-aware infrastructure has been configured, even if it may not
- * be able to produce a non-null TimeZone at the moment.
+ * <p>
+ * Having this variant of LocaleContext set to {@link LocaleContextHolder} means that some
+ * TimeZone-aware infrastructure has been configured, even if it may not be able to
+ * produce a non-null TimeZone at the moment.
  *
  * @author Juergen Hoeller
  * @author Nicholas Williams

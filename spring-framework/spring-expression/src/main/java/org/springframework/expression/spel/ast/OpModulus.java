@@ -42,7 +42,6 @@ public class OpModulus extends Operator {
 		super("%", startPos, endPos, operands);
 	}
 
-
 	@Override
 	public TypedValue getValueInternal(ExpressionState state) throws EvaluationException {
 		Object leftOperand = getLeftOperand().getValueInternal(state).getValue();
@@ -115,21 +114,20 @@ public class OpModulus extends Operator {
 			cf.exitCompilationScope();
 			CodeFlow.insertNumericUnboxOrPrimitiveTypeCoercion(mv, rightDesc, targetDesc);
 			switch (targetDesc) {
-				case 'I':
-					mv.visitInsn(IREM);
-					break;
-				case 'J':
-					mv.visitInsn(LREM);
-					break;
-				case 'F':
-					mv.visitInsn(FREM);
-					break;
-				case 'D':
-					mv.visitInsn(DREM);
-					break;
-				default:
-					throw new IllegalStateException(
-							"Unrecognized exit type descriptor: '" + this.exitTypeDescriptor + "'");
+			case 'I':
+				mv.visitInsn(IREM);
+				break;
+			case 'J':
+				mv.visitInsn(LREM);
+				break;
+			case 'F':
+				mv.visitInsn(FREM);
+				break;
+			case 'D':
+				mv.visitInsn(DREM);
+				break;
+			default:
+				throw new IllegalStateException("Unrecognized exit type descriptor: '" + this.exitTypeDescriptor + "'");
 			}
 		}
 		cf.pushDescriptor(this.exitTypeDescriptor);

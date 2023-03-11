@@ -43,24 +43,28 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureTask;
 
 /**
- * TaskExecutor implementation that delegates to a CommonJ WorkManager,
- * implementing the {@link commonj.work.WorkManager} interface,
- * which either needs to be specified as reference or through the JNDI name.
+ * TaskExecutor implementation that delegates to a CommonJ WorkManager, implementing the
+ * {@link commonj.work.WorkManager} interface, which either needs to be specified as
+ * reference or through the JNDI name.
  *
- * <p><b>This is the central convenience class for setting up a
- * CommonJ WorkManager in a Spring context.</b>
+ * <p>
+ * <b>This is the central convenience class for setting up a CommonJ WorkManager in a
+ * Spring context.</b>
  *
- * <p>Also implements the CommonJ WorkManager interface itself, delegating all
- * calls to the target WorkManager. Hence, a caller can choose whether it wants
- * to talk to this executor through the Spring TaskExecutor interface or the
- * CommonJ WorkManager interface.
+ * <p>
+ * Also implements the CommonJ WorkManager interface itself, delegating all calls to the
+ * target WorkManager. Hence, a caller can choose whether it wants to talk to this
+ * executor through the Spring TaskExecutor interface or the CommonJ WorkManager
+ * interface.
  *
- * <p>The CommonJ WorkManager will usually be retrieved from the application
- * server's JNDI environment, as defined in the server's management console.
+ * <p>
+ * The CommonJ WorkManager will usually be retrieved from the application server's JNDI
+ * environment, as defined in the server's management console.
  *
- * <p>Note: On EE 7/8 compliant versions of WebLogic and WebSphere, a
- * {@link org.springframework.scheduling.concurrent.DefaultManagedTaskExecutor}
- * should be preferred, following JSR-236 support in Java EE 7/8.
+ * <p>
+ * Note: On EE 7/8 compliant versions of WebLogic and WebSphere, a
+ * {@link org.springframework.scheduling.concurrent.DefaultManagedTaskExecutor} should be
+ * preferred, following JSR-236 support in Java EE 7/8.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -83,10 +87,10 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 	@Nullable
 	private TaskDecorator taskDecorator;
 
-
 	/**
 	 * Specify the CommonJ WorkManager to delegate to.
-	 * <p>Alternatively, you can also specify the JNDI name of the target WorkManager.
+	 * <p>
+	 * Alternatively, you can also specify the JNDI name of the target WorkManager.
 	 * @see #setWorkManagerName
 	 */
 	public void setWorkManager(WorkManager workManager) {
@@ -95,8 +99,9 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 
 	/**
 	 * Set the JNDI name of the CommonJ WorkManager.
-	 * <p>This can either be a fully qualified JNDI name, or the JNDI name relative
-	 * to the current environment naming context if "resourceRef" is set to "true".
+	 * <p>
+	 * This can either be a fully qualified JNDI name, or the JNDI name relative to the
+	 * current environment naming context if "resourceRef" is set to "true".
 	 * @see #setWorkManager
 	 * @see #setResourceRef
 	 */
@@ -106,26 +111,30 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 
 	/**
 	 * Specify a CommonJ WorkListener to apply, if any.
-	 * <p>This shared WorkListener instance will be passed on to the
-	 * WorkManager by all {@link #execute} calls on this TaskExecutor.
+	 * <p>
+	 * This shared WorkListener instance will be passed on to the WorkManager by all
+	 * {@link #execute} calls on this TaskExecutor.
 	 */
 	public void setWorkListener(WorkListener workListener) {
 		this.workListener = workListener;
 	}
 
 	/**
-	 * Specify a custom {@link TaskDecorator} to be applied to any {@link Runnable}
-	 * about to be executed.
-	 * <p>Note that such a decorator is not necessarily being applied to the
-	 * user-supplied {@code Runnable}/{@code Callable} but rather to the actual
-	 * execution callback (which may be a wrapper around the user-supplied task).
-	 * <p>The primary use case is to set some execution context around the task's
-	 * invocation, or to provide some monitoring/statistics for task execution.
-	 * <p><b>NOTE:</b> Exception handling in {@code TaskDecorator} implementations
-	 * is limited to plain {@code Runnable} execution via {@code execute} calls.
-	 * In case of {@code #submit} calls, the exposed {@code Runnable} will be a
-	 * {@code FutureTask} which does not propagate any exceptions; you might
-	 * have to cast it and call {@code Future#get} to evaluate exceptions.
+	 * Specify a custom {@link TaskDecorator} to be applied to any {@link Runnable} about
+	 * to be executed.
+	 * <p>
+	 * Note that such a decorator is not necessarily being applied to the user-supplied
+	 * {@code Runnable}/{@code Callable} but rather to the actual execution callback
+	 * (which may be a wrapper around the user-supplied task).
+	 * <p>
+	 * The primary use case is to set some execution context around the task's invocation,
+	 * or to provide some monitoring/statistics for task execution.
+	 * <p>
+	 * <b>NOTE:</b> Exception handling in {@code TaskDecorator} implementations is limited
+	 * to plain {@code Runnable} execution via {@code execute} calls. In case of
+	 * {@code #submit} calls, the exposed {@code Runnable} will be a {@code FutureTask}
+	 * which does not propagate any exceptions; you might have to cast it and call
+	 * {@code Future#get} to evaluate exceptions.
 	 * @since 4.3
 	 */
 	public void setTaskDecorator(TaskDecorator taskDecorator) {
@@ -147,10 +156,9 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 		return this.workManager;
 	}
 
-
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	// Implementation of the Spring SchedulingTaskExecutor interface
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 	@Override
 	public void execute(Runnable task) {
@@ -204,10 +212,9 @@ public class WorkManagerTaskExecutor extends JndiLocatorSupport
 		return future;
 	}
 
-
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 	// Implementation of the CommonJ WorkManager interface
-	//-------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
 
 	@Override
 	public WorkItem schedule(Work work) throws WorkException, IllegalArgumentException {

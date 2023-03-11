@@ -36,12 +36,11 @@ public class BridgeMethodAutowiringTests {
 		assertThat(ctx.getBean(UserServiceImpl.class).object).isNotNull();
 	}
 
-
 	static abstract class GenericServiceImpl<D> {
 
 		public abstract void setObject(D object);
-	}
 
+	}
 
 	public static class UserServiceImpl extends GenericServiceImpl<Foo> {
 
@@ -56,11 +55,12 @@ public class BridgeMethodAutowiringTests {
 			}
 			this.object = object;
 		}
-	}
 
+	}
 
 	@Component("userObject")
 	public static class Foo {
+
 	}
 
 }

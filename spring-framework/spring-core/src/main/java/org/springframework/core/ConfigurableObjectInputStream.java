@@ -26,8 +26,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 
 /**
- * Special ObjectInputStream subclass that resolves class names
- * against a specific ClassLoader. Serves as base class for
+ * Special ObjectInputStream subclass that resolves class names against a specific
+ * ClassLoader. Serves as base class for
  * {@link org.springframework.remoting.rmi.CodebaseAwareObjectInputStream}.
  *
  * @author Juergen Hoeller
@@ -40,9 +40,9 @@ public class ConfigurableObjectInputStream extends ObjectInputStream {
 
 	private final boolean acceptProxyClasses;
 
-
 	/**
-	 * Create a new ConfigurableObjectInputStream for the given InputStream and ClassLoader.
+	 * Create a new ConfigurableObjectInputStream for the given InputStream and
+	 * ClassLoader.
 	 * @param in the InputStream to read from
 	 * @param classLoader the ClassLoader to use for loading local classes
 	 * @see java.io.ObjectInputStream#ObjectInputStream(java.io.InputStream)
@@ -52,21 +52,21 @@ public class ConfigurableObjectInputStream extends ObjectInputStream {
 	}
 
 	/**
-	 * Create a new ConfigurableObjectInputStream for the given InputStream and ClassLoader.
+	 * Create a new ConfigurableObjectInputStream for the given InputStream and
+	 * ClassLoader.
 	 * @param in the InputStream to read from
 	 * @param classLoader the ClassLoader to use for loading local classes
-	 * @param acceptProxyClasses whether to accept deserialization of proxy classes
-	 * (may be deactivated as a security measure)
+	 * @param acceptProxyClasses whether to accept deserialization of proxy classes (may
+	 * be deactivated as a security measure)
 	 * @see java.io.ObjectInputStream#ObjectInputStream(java.io.InputStream)
 	 */
-	public ConfigurableObjectInputStream(
-			InputStream in, @Nullable ClassLoader classLoader, boolean acceptProxyClasses) throws IOException {
+	public ConfigurableObjectInputStream(InputStream in, @Nullable ClassLoader classLoader, boolean acceptProxyClasses)
+			throws IOException {
 
 		super(in);
 		this.classLoader = classLoader;
 		this.acceptProxyClasses = acceptProxyClasses;
 	}
-
 
 	@Override
 	protected Class<?> resolveClass(ObjectStreamClass classDesc) throws IOException, ClassNotFoundException {
@@ -123,26 +123,27 @@ public class ConfigurableObjectInputStream extends ObjectInputStream {
 		}
 	}
 
-
 	/**
 	 * Resolve the given class name against a fallback class loader.
-	 * <p>The default implementation simply rethrows the original exception,
-	 * since there is no fallback available.
+	 * <p>
+	 * The default implementation simply rethrows the original exception, since there is
+	 * no fallback available.
 	 * @param className the class name to resolve
 	 * @param ex the original exception thrown when attempting to load the class
 	 * @return the newly resolved class (never {@code null})
 	 */
 	protected Class<?> resolveFallbackIfPossible(String className, ClassNotFoundException ex)
-			throws IOException, ClassNotFoundException{
+			throws IOException, ClassNotFoundException {
 
 		throw ex;
 	}
 
 	/**
-	 * Return the fallback ClassLoader to use when no ClassLoader was specified
-	 * and ObjectInputStream's own default class loader failed.
-	 * <p>The default implementation simply returns {@code null}, indicating
-	 * that no specific fallback is available.
+	 * Return the fallback ClassLoader to use when no ClassLoader was specified and
+	 * ObjectInputStream's own default class loader failed.
+	 * <p>
+	 * The default implementation simply returns {@code null}, indicating that no specific
+	 * fallback is available.
 	 */
 	@Nullable
 	protected ClassLoader getFallbackClassLoader() throws IOException {

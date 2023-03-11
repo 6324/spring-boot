@@ -49,7 +49,6 @@ public class DefaultTransportRequestTests {
 
 	private static final Jackson2SockJsMessageCodec CODEC = new Jackson2SockJsMessageCodec();
 
-
 	private SettableListenableFuture<WebSocketSession> connectFuture;
 
 	private ListenableFutureCallback<WebSocketSession> connectCallback;
@@ -57,7 +56,6 @@ public class DefaultTransportRequestTests {
 	private TestTransport webSocketTransport;
 
 	private TestTransport xhrTransport;
-
 
 	@SuppressWarnings("unchecked")
 	@BeforeEach
@@ -68,7 +66,6 @@ public class DefaultTransportRequestTests {
 		this.webSocketTransport = new TestTransport("WebSocketTestTransport");
 		this.xhrTransport = new TestTransport("XhrTestTransport");
 	}
-
 
 	@Test
 	public void connect() throws Exception {
@@ -94,9 +91,8 @@ public class DefaultTransportRequestTests {
 		// Transport error => no more fallback
 		this.xhrTransport.getConnectCallback().onFailure(new IOException("Fake exception 2"));
 		assertThat(this.connectFuture.isDone()).isTrue();
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(
-				this.connectFuture::get)
-			.withMessageContaining("Fake exception 2");
+		assertThatExceptionOfType(ExecutionException.class).isThrownBy(this.connectFuture::get)
+				.withMessageContaining("Fake exception 2");
 	}
 
 	@Test

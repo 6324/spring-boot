@@ -24,10 +24,11 @@ import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.util.Assert;
 
 /**
- * A {@link ScopeMetadataResolver} implementation that by default checks for
- * the presence of Spring's {@link Scope @Scope} annotation on the bean class.
+ * A {@link ScopeMetadataResolver} implementation that by default checks for the presence
+ * of Spring's {@link Scope @Scope} annotation on the bean class.
  *
- * <p>The exact type of annotation that is checked for is configurable via
+ * <p>
+ * The exact type of annotation that is checked for is configurable via
  * {@link #setScopeAnnotationType(Class)}.
  *
  * @author Mark Fisher
@@ -42,7 +43,6 @@ public class AnnotationScopeMetadataResolver implements ScopeMetadataResolver {
 
 	protected Class<? extends Annotation> scopeAnnotationType = Scope.class;
 
-
 	/**
 	 * Construct a new {@code AnnotationScopeMetadataResolver}.
 	 * @see #AnnotationScopeMetadataResolver(ScopedProxyMode)
@@ -53,15 +53,14 @@ public class AnnotationScopeMetadataResolver implements ScopeMetadataResolver {
 	}
 
 	/**
-	 * Construct a new {@code AnnotationScopeMetadataResolver} using the
-	 * supplied default {@link ScopedProxyMode}.
+	 * Construct a new {@code AnnotationScopeMetadataResolver} using the supplied default
+	 * {@link ScopedProxyMode}.
 	 * @param defaultProxyMode the default scoped-proxy mode
 	 */
 	public AnnotationScopeMetadataResolver(ScopedProxyMode defaultProxyMode) {
 		Assert.notNull(defaultProxyMode, "'defaultProxyMode' must not be null");
 		this.defaultProxyMode = defaultProxyMode;
 	}
-
 
 	/**
 	 * Set the type of annotation that is checked for by this
@@ -73,14 +72,13 @@ public class AnnotationScopeMetadataResolver implements ScopeMetadataResolver {
 		this.scopeAnnotationType = scopeAnnotationType;
 	}
 
-
 	@Override
 	public ScopeMetadata resolveScopeMetadata(BeanDefinition definition) {
 		ScopeMetadata metadata = new ScopeMetadata();
 		if (definition instanceof AnnotatedBeanDefinition) {
 			AnnotatedBeanDefinition annDef = (AnnotatedBeanDefinition) definition;
-			AnnotationAttributes attributes = AnnotationConfigUtils.attributesFor(
-					annDef.getMetadata(), this.scopeAnnotationType);
+			AnnotationAttributes attributes = AnnotationConfigUtils.attributesFor(annDef.getMetadata(),
+					this.scopeAnnotationType);
 			if (attributes != null) {
 				metadata.setScopeName(attributes.getString("value"));
 				ScopedProxyMode proxyMode = attributes.getEnum("proxyMode");

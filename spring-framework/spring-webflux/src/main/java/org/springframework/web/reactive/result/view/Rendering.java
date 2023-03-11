@@ -26,17 +26,18 @@ import org.springframework.ui.Model;
 
 /**
  * Public API for HTML rendering. Supported as a return value in Spring WebFlux
- * controllers. Comparable to the use of {@code ModelAndView} as a return value
- * in Spring MVC controllers.
+ * controllers. Comparable to the use of {@code ModelAndView} as a return value in Spring
+ * MVC controllers.
  *
- * <p>Controllers typically return a {@link String} view name and rely on the
- * "implicit" model which can also be injected into the controller method.
- * Or controllers may return model attribute(s) and rely on a default view name
- * being selected based on the request path.
+ * <p>
+ * Controllers typically return a {@link String} view name and rely on the "implicit"
+ * model which can also be injected into the controller method. Or controllers may return
+ * model attribute(s) and rely on a default view name being selected based on the request
+ * path.
  *
- * <p>{@link Rendering} can be used to combine a view name with model attributes,
- * set the HTTP status or headers, and for other more advanced options around
- * redirect scenarios.
+ * <p>
+ * {@link Rendering} can be used to combine a view name with model attributes, set the
+ * HTTP status or headers, and for other more advanced options around redirect scenarios.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -65,7 +66,6 @@ public interface Rendering {
 	 */
 	HttpHeaders headers();
 
-
 	/**
 	 * Create a new builder for response rendering based on the given view name.
 	 * @param name the view name to be resolved to a {@link View}
@@ -83,7 +83,6 @@ public interface Rendering {
 	static RedirectBuilder redirectTo(String url) {
 		return new DefaultRenderingBuilder(new RedirectView(url));
 	}
-
 
 	/**
 	 * Defines a builder for {@link Rendering}.
@@ -137,8 +136,8 @@ public interface Rendering {
 		 * Builder the {@link Rendering} instance.
 		 */
 		Rendering build();
-	}
 
+	}
 
 	/**
 	 * Extends {@link Builder} with extra options for redirect scenarios.
@@ -146,22 +145,25 @@ public interface Rendering {
 	interface RedirectBuilder extends Builder<RedirectBuilder> {
 
 		/**
-		 * Whether to the provided redirect URL should be prepended with the
-		 * application context path (if any).
-		 * <p>By default this is set to {@code true}.
+		 * Whether to the provided redirect URL should be prepended with the application
+		 * context path (if any).
+		 * <p>
+		 * By default this is set to {@code true}.
 		 *
 		 * @see RedirectView#setContextRelative(boolean)
 		 */
 		RedirectBuilder contextRelative(boolean contextRelative);
 
 		/**
-		 * Whether to append the query string of the current URL to the target
-		 * redirect URL or not.
-		 * <p>By default this is set to {@code false}.
+		 * Whether to append the query string of the current URL to the target redirect
+		 * URL or not.
+		 * <p>
+		 * By default this is set to {@code false}.
 		 *
 		 * @see RedirectView#setPropagateQuery(boolean)
 		 */
 		RedirectBuilder propagateQuery(boolean propagate);
+
 	}
 
 }

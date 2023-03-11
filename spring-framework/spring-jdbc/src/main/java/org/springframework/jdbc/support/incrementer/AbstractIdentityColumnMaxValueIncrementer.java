@@ -29,8 +29,8 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.support.JdbcUtils;
 
 /**
- * Abstract base class for {@link DataFieldMaxValueIncrementer} implementations
- * which are based on identity columns in a sequence-like table.
+ * Abstract base class for {@link DataFieldMaxValueIncrementer} implementations which are
+ * based on identity columns in a sequence-like table.
  *
  * @author Juergen Hoeller
  * @author Thomas Risberg
@@ -46,7 +46,6 @@ public abstract class AbstractIdentityColumnMaxValueIncrementer extends Abstract
 	/** The next id to serve from the value cache. */
 	private int nextValueIndex = -1;
 
-
 	/**
 	 * Default constructor for bean property style usage.
 	 * @see #setDataSource
@@ -59,7 +58,6 @@ public abstract class AbstractIdentityColumnMaxValueIncrementer extends Abstract
 	public AbstractIdentityColumnMaxValueIncrementer(DataSource dataSource, String incrementerName, String columnName) {
 		super(dataSource, incrementerName, columnName);
 	}
-
 
 	/**
 	 * Specify whether to delete the entire range below the current maximum key value
@@ -79,15 +77,14 @@ public abstract class AbstractIdentityColumnMaxValueIncrementer extends Abstract
 		return this.deleteSpecificValues;
 	}
 
-
 	@Override
 	protected synchronized long getNextKey() throws DataAccessException {
 		if (this.nextValueIndex < 0 || this.nextValueIndex >= getCacheSize()) {
 			/*
-			* Need to use straight JDBC code because we need to make sure that the insert and select
-			* are performed on the same connection (otherwise we can't be sure that @@identity
-			* returns the correct value)
-			*/
+			 * Need to use straight JDBC code because we need to make sure that the insert
+			 * and select are performed on the same connection (otherwise we can't be sure
+			 * that @@identity returns the correct value)
+			 */
 			Connection con = DataSourceUtils.getConnection(getDataSource());
 			Statement stmt = null;
 			try {
@@ -121,7 +118,6 @@ public abstract class AbstractIdentityColumnMaxValueIncrementer extends Abstract
 		return this.valueCache[this.nextValueIndex++];
 	}
 
-
 	/**
 	 * Statement to use to increment the "sequence" value.
 	 * @return the SQL statement to use
@@ -136,12 +132,13 @@ public abstract class AbstractIdentityColumnMaxValueIncrementer extends Abstract
 
 	/**
 	 * Statement to use to clean up "sequence" values.
-	 * <p>The default implementation either deletes the entire range below
-	 * the current maximum value, or the specifically generated values
-	 * (starting with the lowest minus 1, just preserving the maximum value)
-	 * - according to the {@link #isDeleteSpecificValues()} setting.
-	 * @param values the currently generated key values
-	 * (the number of values corresponds to {@link #getCacheSize()})
+	 * <p>
+	 * The default implementation either deletes the entire range below the current
+	 * maximum value, or the specifically generated values (starting with the lowest minus
+	 * 1, just preserving the maximum value) - according to the
+	 * {@link #isDeleteSpecificValues()} setting.
+	 * @param values the currently generated key values (the number of values corresponds
+	 * to {@link #getCacheSize()})
 	 * @return the SQL statement to use
 	 */
 	protected String getDeleteStatement(long[] values) {

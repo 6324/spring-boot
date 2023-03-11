@@ -42,7 +42,6 @@ public class ConcurrencyThrottleInterceptorTests {
 
 	public static final int NR_OF_ITERATIONS = 1000;
 
-
 	@Test
 	public void testSerializable() throws Exception {
 		DerivedTestBean tb = new DerivedTestBean();
@@ -56,8 +55,8 @@ public class ConcurrencyThrottleInterceptorTests {
 
 		ITestBean serializedProxy = (ITestBean) SerializationTestUtils.serializeAndDeserialize(proxy);
 		Advised advised = (Advised) serializedProxy;
-		ConcurrencyThrottleInterceptor serializedCti =
-				(ConcurrencyThrottleInterceptor) advised.getAdvisors()[0].getAdvice();
+		ConcurrencyThrottleInterceptor serializedCti = (ConcurrencyThrottleInterceptor) advised.getAdvisors()[0]
+				.getAdvice();
 		assertThat(serializedCti.getConcurrencyLimit()).isEqualTo(cti.getConcurrencyLimit());
 		serializedProxy.getAge();
 	}
@@ -108,10 +107,10 @@ public class ConcurrencyThrottleInterceptorTests {
 		}
 	}
 
-
 	private static class ConcurrencyThread extends Thread {
 
 		private ITestBean proxy;
+
 		private Throwable ex;
 
 		public ConcurrencyThread(ITestBean proxy, Throwable ex) {
@@ -155,6 +154,7 @@ public class ConcurrencyThrottleInterceptorTests {
 			}
 			logger.debug("finished");
 		}
+
 	}
 
 }

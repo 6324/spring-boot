@@ -31,7 +31,6 @@ public class EmbeddedDatabaseFactoryTests {
 
 	private EmbeddedDatabaseFactory factory = new EmbeddedDatabaseFactory();
 
-
 	@Test
 	public void testGetDataSource() {
 		StubDatabasePopulator populator = new StubDatabasePopulator();
@@ -41,7 +40,6 @@ public class EmbeddedDatabaseFactoryTests {
 		db.shutdown();
 	}
 
-
 	private static class StubDatabasePopulator implements DatabasePopulator {
 
 		private boolean populateCalled;
@@ -50,6 +48,7 @@ public class EmbeddedDatabaseFactoryTests {
 		public void populate(Connection connection) {
 			this.populateCalled = true;
 		}
+
 	}
 
 }

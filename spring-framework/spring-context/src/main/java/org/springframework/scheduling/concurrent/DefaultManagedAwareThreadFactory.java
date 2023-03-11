@@ -34,14 +34,16 @@ import org.springframework.lang.Nullable;
  * for JSR-236's "java:comp/DefaultManagedThreadFactory" in a Java EE 7 environment,
  * falling back to the local {@link CustomizableThreadFactory} setup if not found.
  *
- * <p>This is a convenient way to use managed threads when running in a Java EE 7
- * environment, simply using regular local threads otherwise - without conditional
- * setup (i.e. without profiles).
+ * <p>
+ * This is a convenient way to use managed threads when running in a Java EE 7
+ * environment, simply using regular local threads otherwise - without conditional setup
+ * (i.e. without profiles).
  *
- * <p>Note: This class is not strictly JSR-236 based; it can work with any regular
- * {@link java.util.concurrent.ThreadFactory} that can be found in JNDI. Therefore,
- * the default JNDI name "java:comp/DefaultManagedThreadFactory" can be customized
- * through the {@link #setJndiName "jndiName"} bean property.
+ * <p>
+ * Note: This class is not strictly JSR-236 based; it can work with any regular
+ * {@link java.util.concurrent.ThreadFactory} that can be found in JNDI. Therefore, the
+ * default JNDI name "java:comp/DefaultManagedThreadFactory" can be customized through the
+ * {@link #setJndiName "jndiName"} bean property.
  *
  * @author Juergen Hoeller
  * @since 4.0
@@ -58,7 +60,6 @@ public class DefaultManagedAwareThreadFactory extends CustomizableThreadFactory 
 
 	@Nullable
 	private ThreadFactory threadFactory;
-
 
 	/**
 	 * Set the JNDI template to use for JNDI lookups.
@@ -78,8 +79,8 @@ public class DefaultManagedAwareThreadFactory extends CustomizableThreadFactory 
 
 	/**
 	 * Set whether the lookup occurs in a Java EE container, i.e. if the prefix
-	 * "java:comp/env/" needs to be added if the JNDI name doesn't already
-	 * contain it. PersistenceAnnotationBeanPostProcessor's default is "true".
+	 * "java:comp/env/" needs to be added if the JNDI name doesn't already contain it.
+	 * PersistenceAnnotationBeanPostProcessor's default is "true".
 	 * @see org.springframework.jndi.JndiLocatorSupport#setResourceRef
 	 */
 	public void setResourceRef(boolean resourceRef) {
@@ -87,10 +88,11 @@ public class DefaultManagedAwareThreadFactory extends CustomizableThreadFactory 
 	}
 
 	/**
-	 * Specify a JNDI name of the {@link java.util.concurrent.ThreadFactory} to delegate to,
-	 * replacing the default JNDI name "java:comp/DefaultManagedThreadFactory".
-	 * <p>This can either be a fully qualified JNDI name, or the JNDI name relative
-	 * to the current environment naming context if "resourceRef" is set to "true".
+	 * Specify a JNDI name of the {@link java.util.concurrent.ThreadFactory} to delegate
+	 * to, replacing the default JNDI name "java:comp/DefaultManagedThreadFactory".
+	 * <p>
+	 * This can either be a fully qualified JNDI name, or the JNDI name relative to the
+	 * current environment naming context if "resourceRef" is set to "true".
 	 * @see #setResourceRef
 	 */
 	public void setJndiName(String jndiName) {
@@ -107,12 +109,11 @@ public class DefaultManagedAwareThreadFactory extends CustomizableThreadFactory 
 				if (logger.isTraceEnabled()) {
 					logger.trace("Failed to retrieve [" + this.jndiName + "] from JNDI", ex);
 				}
-				logger.info("Could not find default managed thread factory in JNDI - " +
-						"proceeding with default local thread factory");
+				logger.info("Could not find default managed thread factory in JNDI - "
+						+ "proceeding with default local thread factory");
 			}
 		}
 	}
-
 
 	@Override
 	public Thread newThread(Runnable runnable) {

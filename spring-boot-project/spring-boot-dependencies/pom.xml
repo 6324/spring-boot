@@ -2889,7 +2889,7 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-framework-bom</artifactId>
-				<version>${spring-framework.version}</version>
+				<version>5.2.12.RELEASE</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>

@@ -29,10 +29,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Abstract base class for {@link BindingResult} implementations that work with
- * Spring's {@link org.springframework.beans.PropertyAccessor} mechanism.
- * Pre-implements field access through delegation to the corresponding
- * PropertyAccessor methods.
+ * Abstract base class for {@link BindingResult} implementations that work with Spring's
+ * {@link org.springframework.beans.PropertyAccessor} mechanism. Pre-implements field
+ * access through delegation to the corresponding PropertyAccessor methods.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -46,7 +45,6 @@ public abstract class AbstractPropertyBindingResult extends AbstractBindingResul
 	@Nullable
 	private transient ConversionService conversionService;
 
-
 	/**
 	 * Create a new AbstractPropertyBindingResult instance.
 	 * @param objectName the name of the target object
@@ -55,7 +53,6 @@ public abstract class AbstractPropertyBindingResult extends AbstractBindingResul
 	protected AbstractPropertyBindingResult(String objectName) {
 		super(objectName);
 	}
-
 
 	public void initConversion(ConversionService conversionService) {
 		Assert.notNull(conversionService, "ConversionService must not be null");
@@ -90,8 +87,8 @@ public abstract class AbstractPropertyBindingResult extends AbstractBindingResul
 	@Override
 	@Nullable
 	public Class<?> getFieldType(@Nullable String field) {
-		return (getTarget() != null ? getPropertyAccessor().getPropertyType(fixedField(field)) :
-				super.getFieldType(field));
+		return (getTarget() != null ? getPropertyAccessor().getPropertyType(fixedField(field))
+				: super.getFieldType(field));
 	}
 
 	/**
@@ -149,8 +146,8 @@ public abstract class AbstractPropertyBindingResult extends AbstractBindingResul
 	}
 
 	/**
-	 * This implementation exposes a PropertyEditor adapter for a Formatter,
-	 * if applicable.
+	 * This implementation exposes a PropertyEditor adapter for a Formatter, if
+	 * applicable.
 	 */
 	@Override
 	@Nullable
@@ -178,14 +175,13 @@ public abstract class AbstractPropertyBindingResult extends AbstractBindingResul
 		return editor;
 	}
 
-
 	/**
-	 * Provide the PropertyAccessor to work with, according to the
-	 * concrete strategy of access.
-	 * <p>Note that a PropertyAccessor used by a BindingResult should
-	 * always have its "extractOldValueForEditor" flag set to "true"
-	 * by default, since this is typically possible without side effects
-	 * for model objects that serve as data binding target.
+	 * Provide the PropertyAccessor to work with, according to the concrete strategy of
+	 * access.
+	 * <p>
+	 * Note that a PropertyAccessor used by a BindingResult should always have its
+	 * "extractOldValueForEditor" flag set to "true" by default, since this is typically
+	 * possible without side effects for model objects that serve as data binding target.
 	 * @see ConfigurablePropertyAccessor#setExtractOldValueForEditor
 	 */
 	public abstract ConfigurablePropertyAccessor getPropertyAccessor();

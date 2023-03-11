@@ -20,8 +20,8 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * A simple {@link IdGenerator} that starts at 1, increments up to
- * {@link Long#MAX_VALUE}, and then rolls over.
+ * A simple {@link IdGenerator} that starts at 1, increments up to {@link Long#MAX_VALUE},
+ * and then rolls over.
  *
  * @author Rossen Stoyanchev
  * @since 4.1.5
@@ -29,7 +29,6 @@ import java.util.concurrent.atomic.AtomicLong;
 public class SimpleIdGenerator implements IdGenerator {
 
 	private final AtomicLong leastSigBits = new AtomicLong(0);
-
 
 	@Override
 	public UUID generateId() {

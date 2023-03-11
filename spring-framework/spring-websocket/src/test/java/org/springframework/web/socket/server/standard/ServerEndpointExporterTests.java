@@ -50,7 +50,6 @@ public class ServerEndpointExporterTests {
 
 	private ServerEndpointExporter exporter;
 
-
 	@BeforeEach
 	public void setup() {
 		this.serverContainer = mock(ServerContainer.class);
@@ -65,7 +64,6 @@ public class ServerEndpointExporterTests {
 
 		this.exporter = new ServerEndpointExporter();
 	}
-
 
 	@Test
 	public void addAnnotatedEndpointClasses() throws Exception {
@@ -139,24 +137,23 @@ public class ServerEndpointExporterTests {
 		verify(this.serverContainer).addEndpoint(endpointRegistration);
 	}
 
-
 	private static class DummyEndpoint extends Endpoint {
 
 		@Override
 		public void onOpen(Session session, EndpointConfig config) {
 		}
-	}
 
+	}
 
 	@ServerEndpoint("/path")
 	private static class AnnotatedDummyEndpoint {
-	}
 
+	}
 
 	@ServerEndpoint("/path")
 	private static class AnnotatedDummyEndpointBean {
-	}
 
+	}
 
 	@Configuration
 	static class Config {
@@ -165,6 +162,7 @@ public class ServerEndpointExporterTests {
 		public AnnotatedDummyEndpointBean annotatedEndpoint1() {
 			return new AnnotatedDummyEndpointBean();
 		}
+
 	}
 
 }

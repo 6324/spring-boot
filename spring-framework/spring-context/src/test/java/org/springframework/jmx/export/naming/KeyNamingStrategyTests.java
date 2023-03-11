@@ -23,7 +23,6 @@ public class KeyNamingStrategyTests extends AbstractNamingStrategyTests {
 
 	private static final String OBJECT_NAME = "spring:name=test";
 
-
 	@Override
 	protected ObjectNamingStrategy getStrategy() throws Exception {
 		return new KeyNamingStrategy();

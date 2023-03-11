@@ -67,7 +67,6 @@ public class DefaultSockJsServiceTests extends AbstractHttpRequestTests {
 
 	private static final String sessionUrlPrefix = "/server1/" + sessionId + "/";
 
-
 	@Mock
 	private SessionCreatingTransportHandler xhrHandler;
 
@@ -87,7 +86,6 @@ public class DefaultSockJsServiceTests extends AbstractHttpRequestTests {
 
 	private TransportHandlingSockJsService service;
 
-
 	@Override
 	@BeforeEach
 	public void setup() {
@@ -103,7 +101,6 @@ public class DefaultSockJsServiceTests extends AbstractHttpRequestTests {
 
 		this.service = new TransportHandlingSockJsService(this.taskScheduler, this.xhrHandler, this.xhrSendHandler);
 	}
-
 
 	@Test
 	public void defaultTransportHandlers() {
@@ -132,14 +129,13 @@ public class DefaultSockJsServiceTests extends AbstractHttpRequestTests {
 
 	@Test
 	public void invalidAllowedOrigins() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.service.setAllowedOrigins(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.service.setAllowedOrigins(null));
 	}
 
 	@Test
 	public void customizedTransportHandlerList() {
-		TransportHandlingSockJsService service = new TransportHandlingSockJsService(
-				mock(TaskScheduler.class), new XhrPollingTransportHandler(), new XhrReceivingTransportHandler());
+		TransportHandlingSockJsService service = new TransportHandlingSockJsService(mock(TaskScheduler.class),
+				new XhrPollingTransportHandler(), new XhrReceivingTransportHandler());
 		Map<TransportType, TransportHandler> actualHandlers = service.getTransportHandlers();
 
 		assertThat(actualHandlers.size()).isEqualTo(2);
@@ -155,12 +151,13 @@ public class DefaultSockJsServiceTests extends AbstractHttpRequestTests {
 		verify(this.xhrHandler).handleRequest(this.request, this.response, this.wsHandler, this.session);
 		verify(taskScheduler).scheduleAtFixedRate(any(Runnable.class), eq(service.getDisconnectDelay()));
 
-		assertThat(this.response.getHeaders().getCacheControl()).isEqualTo("no-store, no-cache, must-revalidate, max-age=0");
+		assertThat(this.response.getHeaders().getCacheControl())
+				.isEqualTo("no-store, no-cache, must-revalidate, max-age=0");
 		assertThat(this.servletResponse.getHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN)).isNull();
 		assertThat(this.servletResponse.getHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS)).isNull();
 	}
 
-	@Test  // SPR-12226
+	@Test // SPR-12226
 	public void handleTransportRequestXhrAllowedOriginsMatch() throws Exception {
 		String sockJsPath = sessionUrlPrefix + "xhr";
 		setRequest("POST", sockJsPrefix + sockJsPath);
@@ -171,7 +168,7 @@ public class DefaultSockJsServiceTests extends AbstractHttpRequestTests {
 		assertThat(this.servletResponse.getStatus()).isEqualTo(200);
 	}
 
-	@Test  // SPR-12226
+	@Test // SPR-12226
 	public void handleTransportRequestXhrAllowedOriginsNoMatch() throws Exception {
 		String sockJsPath = sessionUrlPrefix + "xhr";
 		setRequest("POST", sockJsPrefix + sockJsPath);
@@ -182,7 +179,7 @@ public class DefaultSockJsServiceTests extends AbstractHttpRequestTests {
 		assertThat(this.servletResponse.getStatus()).isEqualTo(403);
 	}
 
-	@Test  // SPR-13464
+	@Test // SPR-13464
 	public void handleTransportRequestXhrSameOrigin() throws Exception {
 		String sockJsPath = sessionUrlPrefix + "xhr";
 		setRequest("POST", sockJsPrefix + sockJsPath);
@@ -194,7 +191,7 @@ public class DefaultSockJsServiceTests extends AbstractHttpRequestTests {
 		assertThat(this.servletResponse.getStatus()).isEqualTo(200);
 	}
 
-	@Test  // SPR-13545
+	@Test // SPR-13545
 	public void handleInvalidTransportType() throws Exception {
 		String sockJsPath = sessionUrlPrefix + "invalid";
 		setRequest("POST", sockJsPrefix + sockJsPath);
@@ -281,8 +278,8 @@ public class DefaultSockJsServiceTests extends AbstractHttpRequestTests {
 
 	@Test
 	public void handleTransportRequestWebsocket() throws Exception {
-		TransportHandlingSockJsService wsService = new TransportHandlingSockJsService(
-				this.taskScheduler, this.wsTransportHandler);
+		TransportHandlingSockJsService wsService = new TransportHandlingSockJsService(this.taskScheduler,
+				this.wsTransportHandler);
 		String sockJsPath = "/websocket";
 		setRequest("GET", sockJsPrefix + sockJsPath);
 		wsService.handleRequest(this.request, this.response, sockJsPath, this.wsHandler);
@@ -327,11 +324,12 @@ public class DefaultSockJsServiceTests extends AbstractHttpRequestTests {
 		assertThat(this.servletResponse.getHeader("X-Frame-Options")).isNull();
 	}
 
-
 	interface SessionCreatingTransportHandler extends TransportHandler, SockJsSessionFactory {
+
 	}
 
 	interface HandshakeTransportHandler extends TransportHandler, HandshakeHandler {
+
 	}
 
 }

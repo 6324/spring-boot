@@ -29,7 +29,6 @@ public class CacheEvictOperation extends CacheOperation {
 
 	private final boolean beforeInvocation;
 
-
 	/**
 	 * Create a new {@link CacheEvictOperation} instance from the given builder.
 	 * @since 4.3
@@ -40,7 +39,6 @@ public class CacheEvictOperation extends CacheOperation {
 		this.beforeInvocation = b.beforeInvocation;
 	}
 
-
 	public boolean isCacheWide() {
 		return this.cacheWide;
 	}
@@ -49,9 +47,9 @@ public class CacheEvictOperation extends CacheOperation {
 		return this.beforeInvocation;
 	}
 
-
 	/**
 	 * A builder that can be used to create a {@link CacheEvictOperation}.
+	 *
 	 * @since 4.3
 	 */
 	public static class Builder extends CacheOperation.Builder {
@@ -82,6 +80,7 @@ public class CacheEvictOperation extends CacheOperation {
 		public CacheEvictOperation build() {
 			return new CacheEvictOperation(this);
 		}
+
 	}
 
 }

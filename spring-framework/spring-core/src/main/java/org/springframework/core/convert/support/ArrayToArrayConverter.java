@@ -28,9 +28,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Converts an array to another array. First adapts the source array to a List,
- * then delegates to {@link CollectionToArrayConverter} to perform the target
- * array conversion.
+ * Converts an array to another array. First adapts the source array to a List, then
+ * delegates to {@link CollectionToArrayConverter} to perform the target array conversion.
  *
  * @author Keith Donald
  * @author Phillip Webb
@@ -42,12 +41,10 @@ final class ArrayToArrayConverter implements ConditionalGenericConverter {
 
 	private final ConversionService conversionService;
 
-
 	public ArrayToArrayConverter(ConversionService conversionService) {
 		this.helperConverter = new CollectionToArrayConverter(conversionService);
 		this.conversionService = conversionService;
 	}
-
 
 	@Override
 	public Set<ConvertiblePair> getConvertibleTypes() {
@@ -64,9 +61,8 @@ final class ArrayToArrayConverter implements ConditionalGenericConverter {
 	public Object convert(@Nullable Object source, TypeDescriptor sourceType, TypeDescriptor targetType) {
 		if (this.conversionService instanceof GenericConversionService) {
 			TypeDescriptor targetElement = targetType.getElementTypeDescriptor();
-			if (targetElement != null &&
-					((GenericConversionService) this.conversionService).canBypassConvert(
-							sourceType.getElementTypeDescriptor(), targetElement)) {
+			if (targetElement != null && ((GenericConversionService) this.conversionService)
+					.canBypassConvert(sourceType.getElementTypeDescriptor(), targetElement)) {
 				return source;
 			}
 		}

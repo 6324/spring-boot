@@ -45,30 +45,38 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link RowMapper} implementation that converts a row into a new instance
- * of the specified mapped target class. The mapped target class must be a
- * top-level class and it must have a default or no-arg constructor.
+ * {@link RowMapper} implementation that converts a row into a new instance of the
+ * specified mapped target class. The mapped target class must be a top-level class and it
+ * must have a default or no-arg constructor.
  *
- * <p>Column values are mapped based on matching the column name as obtained from result set
- * meta-data to public setters for the corresponding properties. The names are matched either
- * directly or by transforming a name separating the parts with underscores to the same name
- * using "camel" case.
+ * <p>
+ * Column values are mapped based on matching the column name as obtained from result set
+ * meta-data to public setters for the corresponding properties. The names are matched
+ * either directly or by transforming a name separating the parts with underscores to the
+ * same name using "camel" case.
  *
- * <p>Mapping is provided for fields in the target class for many common types, e.g.:
- * String, boolean, Boolean, byte, Byte, short, Short, int, Integer, long, Long,
- * float, Float, double, Double, BigDecimal, {@code java.util.Date}, etc.
+ * <p>
+ * Mapping is provided for fields in the target class for many common types, e.g.: String,
+ * boolean, Boolean, byte, Byte, short, Short, int, Integer, long, Long, float, Float,
+ * double, Double, BigDecimal, {@code java.util.Date}, etc.
  *
- * <p>To facilitate mapping between columns and fields that don't have matching names,
- * try using column aliases in the SQL statement like "select fname as first_name from customer".
+ * <p>
+ * To facilitate mapping between columns and fields that don't have matching names, try
+ * using column aliases in the SQL statement like "select fname as first_name from
+ * customer".
  *
- * <p>For 'null' values read from the database, we will attempt to call the setter, but in the case of
- * Java primitives, this causes a TypeMismatchException. This class can be configured (using the
- * primitivesDefaultedForNullValue property) to trap this exception and use the primitives default value.
- * Be aware that if you use the values from the generated bean to update the database the primitive value
- * will have been set to the primitive's default value instead of null.
+ * <p>
+ * For 'null' values read from the database, we will attempt to call the setter, but in
+ * the case of Java primitives, this causes a TypeMismatchException. This class can be
+ * configured (using the primitivesDefaultedForNullValue property) to trap this exception
+ * and use the primitives default value. Be aware that if you use the values from the
+ * generated bean to update the database the primitive value will have been set to the
+ * primitive's default value instead of null.
  *
- * <p>Please note that this class is designed to provide convenience rather than high performance.
- * For best performance, consider using a custom {@link RowMapper} implementation.
+ * <p>
+ * Please note that this class is designed to provide convenience rather than high
+ * performance. For best performance, consider using a custom {@link RowMapper}
+ * implementation.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -102,7 +110,6 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 	@Nullable
 	private Set<String> mappedProperties;
 
-
 	/**
 	 * Create a new {@code BeanPropertyRowMapper} for bean-style configuration.
 	 * @see #setMappedClass
@@ -112,8 +119,8 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 	}
 
 	/**
-	 * Create a new {@code BeanPropertyRowMapper}, accepting unpopulated
-	 * properties in the target bean.
+	 * Create a new {@code BeanPropertyRowMapper}, accepting unpopulated properties in the
+	 * target bean.
 	 * @param mappedClass the class that each row should be mapped to
 	 */
 	public BeanPropertyRowMapper(Class<T> mappedClass) {
@@ -123,14 +130,13 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 	/**
 	 * Create a new {@code BeanPropertyRowMapper}.
 	 * @param mappedClass the class that each row should be mapped to
-	 * @param checkFullyPopulated whether we're strictly validating that
-	 * all bean properties have been mapped from corresponding database fields
+	 * @param checkFullyPopulated whether we're strictly validating that all bean
+	 * properties have been mapped from corresponding database fields
 	 */
 	public BeanPropertyRowMapper(Class<T> mappedClass, boolean checkFullyPopulated) {
 		initialize(mappedClass);
 		this.checkFullyPopulated = checkFullyPopulated;
 	}
-
 
 	/**
 	 * Set the class that each row should be mapped to.
@@ -141,8 +147,8 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 		}
 		else {
 			if (this.mappedClass != mappedClass) {
-				throw new InvalidDataAccessApiUsageException("The mapped class can not be reassigned to map to " +
-						mappedClass + " since it is already providing mapping for " + this.mappedClass);
+				throw new InvalidDataAccessApiUsageException("The mapped class can not be reassigned to map to "
+						+ mappedClass + " since it is already providing mapping for " + this.mappedClass);
 			}
 		}
 	}
@@ -158,15 +164,16 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 	/**
 	 * Set whether we're strictly validating that all bean properties have been mapped
 	 * from corresponding database fields.
-	 * <p>Default is {@code false}, accepting unpopulated properties in the target bean.
+	 * <p>
+	 * Default is {@code false}, accepting unpopulated properties in the target bean.
 	 */
 	public void setCheckFullyPopulated(boolean checkFullyPopulated) {
 		this.checkFullyPopulated = checkFullyPopulated;
 	}
 
 	/**
-	 * Return whether we're strictly validating that all bean properties have been
-	 * mapped from corresponding database fields.
+	 * Return whether we're strictly validating that all bean properties have been mapped
+	 * from corresponding database fields.
 	 */
 	public boolean isCheckFullyPopulated() {
 		return this.checkFullyPopulated;
@@ -175,7 +182,9 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 	/**
 	 * Set whether we're defaulting Java primitives in the case of mapping a null value
 	 * from corresponding database fields.
-	 * <p>Default is {@code false}, throwing an exception when nulls are mapped to Java primitives.
+	 * <p>
+	 * Default is {@code false}, throwing an exception when nulls are mapped to Java
+	 * primitives.
 	 */
 	public void setPrimitivesDefaultedForNullValue(boolean primitivesDefaultedForNullValue) {
 		this.primitivesDefaultedForNullValue = primitivesDefaultedForNullValue;
@@ -190,10 +199,11 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 	}
 
 	/**
-	 * Set a {@link ConversionService} for binding JDBC values to bean properties,
-	 * or {@code null} for none.
-	 * <p>Default is a {@link DefaultConversionService}, as of Spring 4.3. This
-	 * provides support for {@code java.time} conversion and other special types.
+	 * Set a {@link ConversionService} for binding JDBC values to bean properties, or
+	 * {@code null} for none.
+	 * <p>
+	 * Default is a {@link DefaultConversionService}, as of Spring 4.3. This provides
+	 * support for {@code java.time} conversion and other special types.
 	 * @since 4.3
 	 * @see #initBeanWrapper(BeanWrapper)
 	 */
@@ -202,15 +212,14 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 	}
 
 	/**
-	 * Return a {@link ConversionService} for binding JDBC values to bean properties,
-	 * or {@code null} if none.
+	 * Return a {@link ConversionService} for binding JDBC values to bean properties, or
+	 * {@code null} if none.
 	 * @since 4.3
 	 */
 	@Nullable
 	public ConversionService getConversionService() {
 		return this.conversionService;
 	}
-
 
 	/**
 	 * Initialize the mapping meta-data for the given class.
@@ -235,8 +244,8 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 	}
 
 	/**
-	 * Convert a name in camelCase to an underscored name in lower case.
-	 * Any upper case letters are converted to lower case with a preceding underscore.
+	 * Convert a name in camelCase to an underscored name in lower case. Any upper case
+	 * letters are converted to lower case with a preceding underscore.
 	 * @param name the original name
 	 * @return the converted name
 	 * @since 4.2
@@ -263,8 +272,8 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 	}
 
 	/**
-	 * Convert the given name to lower case.
-	 * By default, conversions will happen within the US locale.
+	 * Convert the given name to lower case. By default, conversions will happen within
+	 * the US locale.
 	 * @param name the original name
 	 * @return the converted name
 	 * @since 4.2
@@ -273,10 +282,10 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 		return name.toLowerCase(Locale.US);
 	}
 
-
 	/**
 	 * Extract the values for all columns in the current row.
-	 * <p>Utilizes public setters and result set meta-data.
+	 * <p>
+	 * Utilizes public setters and result set meta-data.
 	 * @see java.sql.ResultSetMetaData
 	 */
 	@Override
@@ -298,8 +307,8 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 				try {
 					Object value = getColumnValue(rs, index, pd);
 					if (rowNumber == 0 && logger.isDebugEnabled()) {
-						logger.debug("Mapping column '" + column + "' to property '" + pd.getName() +
-								"' of type '" + ClassUtils.getQualifiedName(pd.getPropertyType()) + "'");
+						logger.debug("Mapping column '" + column + "' to property '" + pd.getName() + "' of type '"
+								+ ClassUtils.getQualifiedName(pd.getPropertyType()) + "'");
 					}
 					try {
 						bw.setPropertyValue(pd.getName(), value);
@@ -307,11 +316,10 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 					catch (TypeMismatchException ex) {
 						if (value == null && this.primitivesDefaultedForNullValue) {
 							if (logger.isDebugEnabled()) {
-								logger.debug("Intercepted TypeMismatchException for row " + rowNumber +
-										" and column '" + column + "' with null value when setting property '" +
-										pd.getName() + "' of type '" +
-										ClassUtils.getQualifiedName(pd.getPropertyType()) +
-										"' on object: " + mappedObject, ex);
+								logger.debug("Intercepted TypeMismatchException for row " + rowNumber + " and column '"
+										+ column + "' with null value when setting property '" + pd.getName()
+										+ "' of type '" + ClassUtils.getQualifiedName(pd.getPropertyType())
+										+ "' on object: " + mappedObject, ex);
 							}
 						}
 						else {
@@ -336,18 +344,19 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 		}
 
 		if (populatedProperties != null && !populatedProperties.equals(this.mappedProperties)) {
-			throw new InvalidDataAccessApiUsageException("Given ResultSet does not contain all fields " +
-					"necessary to populate object of " + this.mappedClass + ": " + this.mappedProperties);
+			throw new InvalidDataAccessApiUsageException("Given ResultSet does not contain all fields "
+					+ "necessary to populate object of " + this.mappedClass + ": " + this.mappedProperties);
 		}
 
 		return mappedObject;
 	}
 
 	/**
-	 * Initialize the given BeanWrapper to be used for row mapping.
-	 * To be called for each row.
-	 * <p>The default implementation applies the configured {@link ConversionService},
-	 * if any. Can be overridden in subclasses.
+	 * Initialize the given BeanWrapper to be used for row mapping. To be called for each
+	 * row.
+	 * <p>
+	 * The default implementation applies the configured {@link ConversionService}, if
+	 * any. Can be overridden in subclasses.
 	 * @param bw the BeanWrapper to initialize
 	 * @see #getConversionService()
 	 * @see BeanWrapper#setConversionService
@@ -361,22 +370,23 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 
 	/**
 	 * Retrieve a JDBC object value for the specified column.
-	 * <p>The default implementation calls
-	 * {@link JdbcUtils#getResultSetValue(java.sql.ResultSet, int, Class)}.
-	 * Subclasses may override this to check specific value types upfront,
-	 * or to post-process values return from {@code getResultSetValue}.
+	 * <p>
+	 * The default implementation calls
+	 * {@link JdbcUtils#getResultSetValue(java.sql.ResultSet, int, Class)}. Subclasses may
+	 * override this to check specific value types upfront, or to post-process values
+	 * return from {@code getResultSetValue}.
 	 * @param rs is the ResultSet holding the data
 	 * @param index is the column index
 	 * @param pd the bean property that each result object is expected to match
 	 * @return the Object value
 	 * @throws SQLException in case of extraction failure
-	 * @see org.springframework.jdbc.support.JdbcUtils#getResultSetValue(java.sql.ResultSet, int, Class)
+	 * @see org.springframework.jdbc.support.JdbcUtils#getResultSetValue(java.sql.ResultSet,
+	 * int, Class)
 	 */
 	@Nullable
 	protected Object getColumnValue(ResultSet rs, int index, PropertyDescriptor pd) throws SQLException {
 		return JdbcUtils.getResultSetValue(rs, index, pd.getPropertyType());
 	}
-
 
 	/**
 	 * Static factory method to create a new {@code BeanPropertyRowMapper}.
@@ -390,14 +400,14 @@ public class BeanPropertyRowMapper<T> implements RowMapper<T> {
 	/**
 	 * Static factory method to create a new {@code BeanPropertyRowMapper}.
 	 * @param mappedClass the class that each row should be mapped to
-	 * @param conversionService the {@link ConversionService} for binding
-	 * JDBC values to bean properties, or {@code null} for none
+	 * @param conversionService the {@link ConversionService} for binding JDBC values to
+	 * bean properties, or {@code null} for none
 	 * @since 5.2.3
 	 * @see #newInstance(Class)
 	 * @see #setConversionService
 	 */
-	public static <T> BeanPropertyRowMapper<T> newInstance(
-			Class<T> mappedClass, @Nullable ConversionService conversionService) {
+	public static <T> BeanPropertyRowMapper<T> newInstance(Class<T> mappedClass,
+			@Nullable ConversionService conversionService) {
 
 		BeanPropertyRowMapper<T> rowMapper = newInstance(mappedClass);
 		rowMapper.setConversionService(conversionService);

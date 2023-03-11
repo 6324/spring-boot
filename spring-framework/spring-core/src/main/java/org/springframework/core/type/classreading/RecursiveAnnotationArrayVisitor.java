@@ -33,9 +33,9 @@ import org.springframework.util.ObjectUtils;
  * @author Chris Beams
  * @author Juergen Hoeller
  * @since 3.1.1
- * @deprecated As of Spring Framework 5.2, this class and related classes in this
- * package have been replaced by {@link SimpleAnnotationMetadataReadingVisitor}
- * and related classes for internal use within the framework.
+ * @deprecated As of Spring Framework 5.2, this class and related classes in this package
+ * have been replaced by {@link SimpleAnnotationMetadataReadingVisitor} and related
+ * classes for internal use within the framework.
  */
 @Deprecated
 class RecursiveAnnotationArrayVisitor extends AbstractRecursiveAnnotationVisitor {
@@ -44,14 +44,12 @@ class RecursiveAnnotationArrayVisitor extends AbstractRecursiveAnnotationVisitor
 
 	private final List<AnnotationAttributes> allNestedAttributes = new ArrayList<>();
 
-
-	public RecursiveAnnotationArrayVisitor(
-			String attributeName, AnnotationAttributes attributes, @Nullable ClassLoader classLoader) {
+	public RecursiveAnnotationArrayVisitor(String attributeName, AnnotationAttributes attributes,
+			@Nullable ClassLoader classLoader) {
 
 		super(classLoader, attributes);
 		this.attributeName = attributeName;
 	}
-
 
 	@Override
 	public void visit(String attributeName, Object attributeValue) {
@@ -101,7 +99,8 @@ class RecursiveAnnotationArrayVisitor extends AbstractRecursiveAnnotationVisitor
 					}
 				}
 				catch (NoSuchMethodException ex) {
-					// Corresponding attribute method not found: cannot expose empty array.
+					// Corresponding attribute method not found: cannot expose empty
+					// array.
 				}
 			}
 		}

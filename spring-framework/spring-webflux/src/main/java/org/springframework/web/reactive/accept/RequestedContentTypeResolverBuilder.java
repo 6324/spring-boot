@@ -29,16 +29,18 @@ import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 
 /**
- * Builder for a composite {@link RequestedContentTypeResolver} that delegates
- * to other resolvers each implementing a different strategy to determine the
- * requested content type -- e.g. Accept header, query parameter, or other.
+ * Builder for a composite {@link RequestedContentTypeResolver} that delegates to other
+ * resolvers each implementing a different strategy to determine the requested content
+ * type -- e.g. Accept header, query parameter, or other.
  *
- * <p>Use builder methods to add resolvers in the desired order. For a given
- * request he first resolver to return a list that is not empty and does not
- * consist of just {@link MediaType#ALL}, will be used.
+ * <p>
+ * Use builder methods to add resolvers in the desired order. For a given request he first
+ * resolver to return a list that is not empty and does not consist of just
+ * {@link MediaType#ALL}, will be used.
  *
- * <p>By default, if no resolvers are explicitly configured, the builder will
- * add {@link HeaderContentTypeResolver}.
+ * <p>
+ * By default, if no resolvers are explicitly configured, the builder will add
+ * {@link HeaderContentTypeResolver}.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -47,10 +49,9 @@ public class RequestedContentTypeResolverBuilder {
 
 	private final List<Supplier<RequestedContentTypeResolver>> candidates = new ArrayList<>();
 
-
 	/**
-	 * Add a resolver to get the requested content type from a query parameter.
-	 * By default the query parameter name is {@code "format"}.
+	 * Add a resolver to get the requested content type from a query parameter. By default
+	 * the query parameter name is {@code "format"}.
 	 */
 	public ParameterResolverConfigurer parameterResolver() {
 		ParameterResolverConfigurer parameterBuilder = new ParameterResolverConfigurer();
@@ -59,8 +60,7 @@ public class RequestedContentTypeResolverBuilder {
 	}
 
 	/**
-	 * Add resolver to get the requested content type from the
-	 * {@literal "Accept"} header.
+	 * Add resolver to get the requested content type from the {@literal "Accept"} header.
 	 */
 	public void headerResolver() {
 		this.candidates.add(HeaderContentTypeResolver::new);
@@ -83,13 +83,13 @@ public class RequestedContentTypeResolverBuilder {
 	}
 
 	/**
-	 * Build a {@link RequestedContentTypeResolver} that delegates to the list
-	 * of resolvers configured through this builder.
+	 * Build a {@link RequestedContentTypeResolver} that delegates to the list of
+	 * resolvers configured through this builder.
 	 */
 	public RequestedContentTypeResolver build() {
-		List<RequestedContentTypeResolver> resolvers = (!this.candidates.isEmpty() ?
-				this.candidates.stream().map(Supplier::get).collect(Collectors.toList()) :
-				Collections.singletonList(new HeaderContentTypeResolver()));
+		List<RequestedContentTypeResolver> resolvers = (!this.candidates.isEmpty()
+				? this.candidates.stream().map(Supplier::get).collect(Collectors.toList())
+				: Collections.singletonList(new HeaderContentTypeResolver()));
 
 		return exchange -> {
 			for (RequestedContentTypeResolver resolver : resolvers) {
@@ -103,7 +103,6 @@ public class RequestedContentTypeResolverBuilder {
 		};
 	}
 
-
 	/**
 	 * Helper to create and configure {@link ParameterContentTypeResolver}.
 	 */
@@ -115,8 +114,8 @@ public class RequestedContentTypeResolverBuilder {
 		private String parameterName;
 
 		/**
-		 * Configure a mapping between a lookup key (extracted from a query
-		 * parameter value) and a corresponding {@code MediaType}.
+		 * Configure a mapping between a lookup key (extracted from a query parameter
+		 * value) and a corresponding {@code MediaType}.
 		 * @param key the lookup key
 		 * @param mediaType the MediaType for that key
 		 */
@@ -136,7 +135,8 @@ public class RequestedContentTypeResolverBuilder {
 
 		/**
 		 * Set the name of the parameter to use to determine requested media types.
-		 * <p>By default this is set to {@literal "format"}.
+		 * <p>
+		 * By default this is set to {@literal "format"}.
 		 */
 		public ParameterResolverConfigurer parameterName(String parameterName) {
 			this.parameterName = parameterName;
@@ -153,6 +153,7 @@ public class RequestedContentTypeResolverBuilder {
 			}
 			return resolver;
 		}
+
 	}
 
 }

@@ -61,9 +61,8 @@ public class WebMvcStompWebSocketEndpointRegistration implements StompWebSocketE
 	@Nullable
 	private SockJsServiceRegistration registration;
 
-
-	public WebMvcStompWebSocketEndpointRegistration(
-			String[] paths, WebSocketHandler webSocketHandler, TaskScheduler sockJsTaskScheduler) {
+	public WebMvcStompWebSocketEndpointRegistration(String[] paths, WebSocketHandler webSocketHandler,
+			TaskScheduler sockJsTaskScheduler) {
 
 		Assert.notEmpty(paths, "No paths specified");
 		Assert.notNull(webSocketHandler, "WebSocketHandler must not be null");
@@ -72,7 +71,6 @@ public class WebMvcStompWebSocketEndpointRegistration implements StompWebSocketE
 		this.webSocketHandler = webSocketHandler;
 		this.sockJsTaskScheduler = sockJsTaskScheduler;
 	}
-
 
 	@Override
 	public StompWebSocketEndpointRegistration setHandshakeHandler(HandshakeHandler handshakeHandler) {

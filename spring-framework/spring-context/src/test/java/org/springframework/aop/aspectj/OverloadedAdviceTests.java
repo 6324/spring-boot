@@ -40,7 +40,8 @@ public class OverloadedAdviceTests {
 			Throwable cause = ex.getRootCause();
 			boolean condition = cause instanceof IllegalArgumentException;
 			assertThat(condition).as("Should be IllegalArgumentException").isTrue();
-			assertThat(cause.getMessage().contains("invalidAbsoluteTypeName")).as("invalidAbsoluteTypeName should be detected by AJ").isTrue();
+			assertThat(cause.getMessage().contains("invalidAbsoluteTypeName"))
+					.as("invalidAbsoluteTypeName should be detected by AJ").isTrue();
 		}
 	}
 
@@ -53,12 +54,12 @@ public class OverloadedAdviceTests {
 			Throwable cause = ex.getRootCause();
 			boolean condition = cause instanceof IllegalArgumentException;
 			assertThat(condition).as("Should be IllegalArgumentException").isTrue();
-			assertThat(cause.getMessage().contains("Cannot resolve method 'myBeforeAdvice' to a unique method")).as("Cannot resolve method 'myBeforeAdvice' to a unique method").isTrue();
+			assertThat(cause.getMessage().contains("Cannot resolve method 'myBeforeAdvice' to a unique method"))
+					.as("Cannot resolve method 'myBeforeAdvice' to a unique method").isTrue();
 		}
 	}
 
 }
-
 
 class OverloadedAdviceTestAspect {
 
@@ -69,5 +70,5 @@ class OverloadedAdviceTestAspect {
 	public void myBeforeAdvice(int age) {
 		// no-op
 	}
-}
 
+}

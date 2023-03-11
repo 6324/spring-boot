@@ -55,7 +55,8 @@ import org.springframework.web.socket.sockjs.transport.session.StreamingSockJsSe
  * messages to a {@link SubProtocolHandler} along with a {@link MessageChannel} to which
  * the sub-protocol handler can send messages from WebSocket clients to the application.
  *
- * <p>Also an implementation of {@link MessageHandler} that finds the WebSocket session
+ * <p>
+ * Also an implementation of {@link MessageHandler} that finds the WebSocket session
  * associated with the {@link Message} and passes it, along with the message, to the
  * sub-protocol handler to send messages from the application back to the client.
  *
@@ -71,16 +72,13 @@ public class SubProtocolWebSocketHandler
 	/** The default value for {@link #setTimeToFirstMessage(int) timeToFirstMessage}. */
 	private static final int DEFAULT_TIME_TO_FIRST_MESSAGE = 60 * 1000;
 
-
 	private final Log logger = LogFactory.getLog(SubProtocolWebSocketHandler.class);
-
 
 	private final MessageChannel clientInboundChannel;
 
 	private final SubscribableChannel clientOutboundChannel;
 
-	private final Map<String, SubProtocolHandler> protocolHandlerLookup =
-			new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+	private final Map<String, SubProtocolHandler> protocolHandlerLookup = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
 	private final Set<SubProtocolHandler> protocolHandlers = new LinkedHashSet<>();
 
@@ -105,9 +103,9 @@ public class SubProtocolWebSocketHandler
 
 	private final Object lifecycleMonitor = new Object();
 
-
 	/**
-	 * Create a new {@code SubProtocolWebSocketHandler} for the given inbound and outbound channels.
+	 * Create a new {@code SubProtocolWebSocketHandler} for the given inbound and outbound
+	 * channels.
 	 * @param clientInboundChannel the inbound {@code MessageChannel}
 	 * @param clientOutboundChannel the outbound {@code MessageChannel}
 	 */
@@ -117,7 +115,6 @@ public class SubProtocolWebSocketHandler
 		this.clientInboundChannel = clientInboundChannel;
 		this.clientOutboundChannel = clientOutboundChannel;
 	}
-
 
 	/**
 	 * Configure one or more handlers to use depending on the sub-protocol requested by
@@ -150,8 +147,8 @@ public class SubProtocolWebSocketHandler
 		for (String protocol : protocols) {
 			SubProtocolHandler replaced = this.protocolHandlerLookup.put(protocol, handler);
 			if (replaced != null && replaced != handler) {
-				throw new IllegalStateException("Cannot map " + handler +
-						" to protocol '" + protocol + "': already mapped to " + replaced + ".");
+				throw new IllegalStateException("Cannot map " + handler + " to protocol '" + protocol
+						+ "': already mapped to " + replaced + ".");
 			}
 		}
 		this.protocolHandlers.add(handler);
@@ -223,13 +220,15 @@ public class SubProtocolWebSocketHandler
 	}
 
 	/**
-	 * Set the maximum time allowed in milliseconds after the WebSocket connection
-	 * is established and before the first sub-protocol message is received.
-	 * <p>This handler is for WebSocket connections that use a sub-protocol.
-	 * Therefore, we expect the client to send at least one sub-protocol message
-	 * in the beginning, or else we assume the connection isn't doing well, e.g.
-	 * proxy issue, slow network, and can be closed.
-	 * <p>By default this is set to {@code 60,000} (1 minute).
+	 * Set the maximum time allowed in milliseconds after the WebSocket connection is
+	 * established and before the first sub-protocol message is received.
+	 * <p>
+	 * This handler is for WebSocket connections that use a sub-protocol. Therefore, we
+	 * expect the client to send at least one sub-protocol message in the beginning, or
+	 * else we assume the connection isn't doing well, e.g. proxy issue, slow network, and
+	 * can be closed.
+	 * <p>
+	 * By default this is set to {@code 60,000} (1 minute).
 	 * @param timeToFirstMessage the maximum time allowed in milliseconds
 	 * @since 5.1
 	 * @see #checkSessions()
@@ -239,8 +238,8 @@ public class SubProtocolWebSocketHandler
 	}
 
 	/**
-	 * Return the maximum time allowed after the WebSocket connection is
-	 * established and before the first sub-protocol message.
+	 * Return the maximum time allowed after the WebSocket connection is established and
+	 * before the first sub-protocol message.
 	 * @since 5.1
 	 */
 	public int getTimeToFirstMessage() {
@@ -248,8 +247,8 @@ public class SubProtocolWebSocketHandler
 	}
 
 	/**
-	 * Return a String describing internal state and counters.
-	 * Effectively {@code toString()} on {@link #getStats() getStats()}.
+	 * Return a String describing internal state and counters. Effectively
+	 * {@code toString()} on {@link #getStats() getStats()}.
 	 */
 	public String getStatsInfo() {
 		return this.stats.toString();
@@ -262,8 +261,6 @@ public class SubProtocolWebSocketHandler
 	public Stats getStats() {
 		return this.stats;
 	}
-
-
 
 	@Override
 	public final void start() {
@@ -307,7 +304,6 @@ public class SubProtocolWebSocketHandler
 	public final boolean isRunning() {
 		return this.running;
 	}
-
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -374,7 +370,8 @@ public class SubProtocolWebSocketHandler
 					logger.warn("Terminating '" + session + "': " + ex.getMessage());
 				}
 				this.stats.incrementLimitExceededCount();
-				clearSession(session, ex.getStatus()); // clear first, session may be unresponsive
+				clearSession(session, ex.getStatus()); // clear first, session may be
+														// unresponsive
 				session.close(ex.getStatus());
 			}
 			catch (Exception secondException) {
@@ -404,14 +401,15 @@ public class SubProtocolWebSocketHandler
 		return false;
 	}
 
-
 	/**
 	 * Decorate the given {@link WebSocketSession}, if desired.
-	 * <p>The default implementation builds a {@link ConcurrentWebSocketSessionDecorator}
+	 * <p>
+	 * The default implementation builds a {@link ConcurrentWebSocketSessionDecorator}
 	 * with the configured {@link #getSendTimeLimit() send-time limit} and
 	 * {@link #getSendBufferSizeLimit() buffer-size limit}.
 	 * @param session the original {@code WebSocketSession}
-	 * @return the decorated {@code WebSocketSession}, or potentially the given session as-is
+	 * @return the decorated {@code WebSocketSession}, or potentially the given session
+	 * as-is
 	 * @since 4.3.13
 	 */
 	protected WebSocketSession decorateSession(WebSocketSession session) {
@@ -429,8 +427,8 @@ public class SubProtocolWebSocketHandler
 		}
 		catch (Exception ex) {
 			// Shouldn't happen
-			logger.error("Failed to obtain session.getAcceptedProtocol(): " +
-					"will use the default protocol handler (if configured).", ex);
+			logger.error("Failed to obtain session.getAcceptedProtocol(): "
+					+ "will use the default protocol handler (if configured).", ex);
 		}
 
 		SubProtocolHandler handler;
@@ -449,8 +447,8 @@ public class SubProtocolWebSocketHandler
 				handler = this.protocolHandlers.iterator().next();
 			}
 			else {
-				throw new IllegalStateException("Multiple protocol handlers configured and " +
-						"no protocol was negotiated. Consider configuring a default SubProtocolHandler.");
+				throw new IllegalStateException("Multiple protocol handlers configured and "
+						+ "no protocol was negotiated. Consider configuring a default SubProtocolHandler.");
 			}
 		}
 		return handler;
@@ -474,12 +472,12 @@ public class SubProtocolWebSocketHandler
 	}
 
 	/**
-	 * When a session is connected through a higher-level protocol it has a chance
-	 * to use heartbeat management to shut down sessions that are too slow to send
-	 * or receive messages. However, after a WebSocketSession is established and
-	 * before the higher level protocol is fully connected there is a possibility for
-	 * sessions to hang. This method checks and closes any sessions that have been
-	 * connected for more than 60 seconds without having received a single message.
+	 * When a session is connected through a higher-level protocol it has a chance to use
+	 * heartbeat management to shut down sessions that are too slow to send or receive
+	 * messages. However, after a WebSocketSession is established and before the higher
+	 * level protocol is fully connected there is a possibility for sessions to hang. This
+	 * method checks and closes any sessions that have been connected for more than 60
+	 * seconds without having received a single message.
 	 */
 	private void checkSessions() {
 		long currentTime = System.currentTimeMillis();
@@ -499,8 +497,8 @@ public class SubProtocolWebSocketHandler
 					}
 					WebSocketSession session = holder.getSession();
 					if (logger.isInfoEnabled()) {
-						logger.info("No messages received after " + timeSinceCreated + " ms. " +
-								"Closing " + holder.getSession() + ".");
+						logger.info("No messages received after " + timeSinceCreated + " ms. " + "Closing "
+								+ holder.getSession() + ".");
 					}
 					try {
 						this.stats.incrementNoMessagesReceivedCount();
@@ -530,12 +528,10 @@ public class SubProtocolWebSocketHandler
 		findProtocolHandler(session).afterSessionEnded(session, closeStatus, this.clientInboundChannel);
 	}
 
-
 	@Override
 	public String toString() {
 		return "SubProtocolWebSocketHandler" + this.protocolHandlers;
 	}
-
 
 	private static class WebSocketSessionHolder {
 
@@ -568,14 +564,15 @@ public class SubProtocolWebSocketHandler
 
 		@Override
 		public String toString() {
-			return "WebSocketSessionHolder[session=" + this.session + ", createTime=" +
-					this.createTime + ", hasHandledMessages=" + this.hasHandledMessages + "]";
+			return "WebSocketSessionHolder[session=" + this.session + ", createTime=" + this.createTime
+					+ ", hasHandledMessages=" + this.hasHandledMessages + "]";
 		}
-	}
 
+	}
 
 	/**
 	 * Contract for access to session counters.
+	 *
 	 * @since 5.2
 	 */
 	public interface Stats {
@@ -593,8 +590,8 @@ public class SubProtocolWebSocketHandler
 		int getNoMessagesReceivedSessions();
 
 		int getTransportErrorSessions();
-	}
 
+	}
 
 	private class DefaultStats implements Stats {
 
@@ -682,16 +679,13 @@ public class SubProtocolWebSocketHandler
 
 		@Override
 		public String toString() {
-			return SubProtocolWebSocketHandler.this.sessions.size() +
-					" current WS(" + this.webSocket.get() +
-					")-HttpStream(" + this.httpStreaming.get() +
-					")-HttpPoll(" + this.httpPolling.get() + "), " +
-					this.total.get() + " total, " +
-					(this.limitExceeded.get() + this.noMessagesReceived.get()) + " closed abnormally (" +
-					this.noMessagesReceived.get() + " connect failure, " +
-					this.limitExceeded.get() + " send limit, " +
-					this.transportError.get() + " transport error)";
+			return SubProtocolWebSocketHandler.this.sessions.size() + " current WS(" + this.webSocket.get()
+					+ ")-HttpStream(" + this.httpStreaming.get() + ")-HttpPoll(" + this.httpPolling.get() + "), "
+					+ this.total.get() + " total, " + (this.limitExceeded.get() + this.noMessagesReceived.get())
+					+ " closed abnormally (" + this.noMessagesReceived.get() + " connect failure, "
+					+ this.limitExceeded.get() + " send limit, " + this.transportError.get() + " transport error)";
 		}
+
 	}
 
 }

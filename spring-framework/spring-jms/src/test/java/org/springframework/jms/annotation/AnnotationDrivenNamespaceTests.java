@@ -39,16 +39,16 @@ class AnnotationDrivenNamespaceTests extends AbstractJmsAnnotationDrivenTests {
 	@Override
 	@Test
 	void sampleConfiguration() {
-		ApplicationContext context = new ClassPathXmlApplicationContext(
-				"annotation-driven-sample-config.xml", getClass());
+		ApplicationContext context = new ClassPathXmlApplicationContext("annotation-driven-sample-config.xml",
+				getClass());
 		testSampleConfiguration(context);
 	}
 
 	@Override
 	@Test
 	void fullConfiguration() {
-		ApplicationContext context = new ClassPathXmlApplicationContext(
-				"annotation-driven-full-config.xml", getClass());
+		ApplicationContext context = new ClassPathXmlApplicationContext("annotation-driven-full-config.xml",
+				getClass());
 		testFullConfiguration(context);
 	}
 
@@ -63,8 +63,8 @@ class AnnotationDrivenNamespaceTests extends AbstractJmsAnnotationDrivenTests {
 	@Override
 	@Test
 	void customConfiguration() {
-		ApplicationContext context = new ClassPathXmlApplicationContext(
-				"annotation-driven-custom-registry.xml", getClass());
+		ApplicationContext context = new ClassPathXmlApplicationContext("annotation-driven-custom-registry.xml",
+				getClass());
 		testCustomConfiguration(context);
 	}
 
@@ -90,27 +90,26 @@ class AnnotationDrivenNamespaceTests extends AbstractJmsAnnotationDrivenTests {
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"annotation-driven-custom-handler-method-factory.xml", getClass());
 
-		assertThatExceptionOfType(ListenerExecutionFailedException.class).isThrownBy(() ->
-				testJmsHandlerMethodFactoryConfiguration(context))
-			.withCauseInstanceOf(MethodArgumentNotValidException.class);
+		assertThatExceptionOfType(ListenerExecutionFailedException.class)
+				.isThrownBy(() -> testJmsHandlerMethodFactoryConfiguration(context))
+				.withCauseInstanceOf(MethodArgumentNotValidException.class);
 	}
 
 	@Override
 	@Test
 	void jmsListenerIsRepeatable() {
-		ApplicationContext context = new ClassPathXmlApplicationContext(
-				"annotation-driven-jms-listener-repeatable.xml", getClass());
+		ApplicationContext context = new ClassPathXmlApplicationContext("annotation-driven-jms-listener-repeatable.xml",
+				getClass());
 		testJmsListenerRepeatable(context);
 	}
 
 	@Override
 	@Test
 	void jmsListeners() {
-		ApplicationContext context = new ClassPathXmlApplicationContext(
-				"annotation-driven-jms-listeners.xml", getClass());
+		ApplicationContext context = new ClassPathXmlApplicationContext("annotation-driven-jms-listeners.xml",
+				getClass());
 		testJmsListenerRepeatable(context);
 	}
-
 
 	static class CustomJmsListenerConfigurer implements JmsListenerConfigurer {
 
@@ -128,6 +127,7 @@ class AnnotationDrivenNamespaceTests extends AbstractJmsAnnotationDrivenTests {
 		public void setMessageListener(MessageListener messageListener) {
 			this.messageListener = messageListener;
 		}
+
 	}
 
 }

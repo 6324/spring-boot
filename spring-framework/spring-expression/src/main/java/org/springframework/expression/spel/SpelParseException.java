@@ -35,7 +35,6 @@ public class SpelParseException extends ParseException {
 
 	private final Object[] inserts;
 
-
 	public SpelParseException(@Nullable String expressionString, int position, SpelMessage message, Object... inserts) {
 		super(expressionString, position, message.formatMessage(inserts));
 		this.message = message;
@@ -53,7 +52,6 @@ public class SpelParseException extends ParseException {
 		this.message = message;
 		this.inserts = inserts;
 	}
-
 
 	/**
 	 * Return the message code.

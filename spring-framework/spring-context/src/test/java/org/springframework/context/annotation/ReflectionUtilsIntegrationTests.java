@@ -25,8 +25,8 @@ import org.springframework.util.ReflectionUtils;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Tests ReflectionUtils methods as used against CGLIB-generated classes created
- * by ConfigurationClassEnhancer.
+ * Tests ReflectionUtils methods as used against CGLIB-generated classes created by
+ * ConfigurationClassEnhancer.
  *
  * @author Chris Beams
  * @since 3.1
@@ -52,20 +52,22 @@ public class ReflectionUtilsIntegrationTests {
 		}
 	}
 
-
 	@Configuration
 	static abstract class Parent {
-		public abstract Number m1();
-	}
 
+		public abstract Number m1();
+
+	}
 
 	@Configuration
 	static class Leaf extends Parent {
+
 		@Override
 		@Bean
 		public Integer m1() {
 			return 42;
 		}
+
 	}
 
 }

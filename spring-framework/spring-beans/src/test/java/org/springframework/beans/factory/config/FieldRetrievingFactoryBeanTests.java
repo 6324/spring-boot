@@ -123,18 +123,18 @@ public class FieldRetrievingFactoryBeanTests {
 	@Test
 	public void testBeanNameSyntaxWithBeanFactory() throws Exception {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(
-				qualifiedResource(FieldRetrievingFactoryBeanTests.class, "context.xml"));
+		new XmlBeanDefinitionReader(bf)
+				.loadBeanDefinitions(qualifiedResource(FieldRetrievingFactoryBeanTests.class, "context.xml"));
 
 		TestBean testBean = (TestBean) bf.getBean("testBean");
 		assertThat(testBean.getSomeIntegerArray()[0]).isEqualTo(Connection.TRANSACTION_SERIALIZABLE);
 		assertThat(testBean.getSomeIntegerArray()[1]).isEqualTo(Connection.TRANSACTION_SERIALIZABLE);
 	}
 
-
 	private static class PublicFieldHolder {
 
 		public String publicField = "test";
+
 	}
 
 }

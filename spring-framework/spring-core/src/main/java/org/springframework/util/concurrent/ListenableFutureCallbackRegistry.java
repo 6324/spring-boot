@@ -23,10 +23,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Helper class for {@link ListenableFuture} implementations that maintains a
- * of success and failure callbacks and helps to notify them.
+ * Helper class for {@link ListenableFuture} implementations that maintains a of success
+ * and failure callbacks and helps to notify them.
  *
- * <p>Inspired by {@code com.google.common.util.concurrent.ExecutionList}.
+ * <p>
+ * Inspired by {@code com.google.common.util.concurrent.ExecutionList}.
  *
  * @author Arjen Poutsma
  * @author Sebastien Deleuze
@@ -47,7 +48,6 @@ public class ListenableFutureCallbackRegistry<T> {
 
 	private final Object mutex = new Object();
 
-
 	/**
 	 * Add the given callback to this registry.
 	 * @param callback the callback to add
@@ -56,16 +56,16 @@ public class ListenableFutureCallbackRegistry<T> {
 		Assert.notNull(callback, "'callback' must not be null");
 		synchronized (this.mutex) {
 			switch (this.state) {
-				case NEW:
-					this.successCallbacks.add(callback);
-					this.failureCallbacks.add(callback);
-					break;
-				case SUCCESS:
-					notifySuccess(callback);
-					break;
-				case FAILURE:
-					notifyFailure(callback);
-					break;
+			case NEW:
+				this.successCallbacks.add(callback);
+				this.failureCallbacks.add(callback);
+				break;
+			case SUCCESS:
+				notifySuccess(callback);
+				break;
+			case FAILURE:
+				notifyFailure(callback);
+				break;
 			}
 		}
 	}
@@ -99,12 +99,12 @@ public class ListenableFutureCallbackRegistry<T> {
 		Assert.notNull(callback, "'callback' must not be null");
 		synchronized (this.mutex) {
 			switch (this.state) {
-				case NEW:
-					this.successCallbacks.add(callback);
-					break;
-				case SUCCESS:
-					notifySuccess(callback);
-					break;
+			case NEW:
+				this.successCallbacks.add(callback);
+				break;
+			case SUCCESS:
+				notifySuccess(callback);
+				break;
 			}
 		}
 	}
@@ -118,19 +118,19 @@ public class ListenableFutureCallbackRegistry<T> {
 		Assert.notNull(callback, "'callback' must not be null");
 		synchronized (this.mutex) {
 			switch (this.state) {
-				case NEW:
-					this.failureCallbacks.add(callback);
-					break;
-				case FAILURE:
-					notifyFailure(callback);
-					break;
+			case NEW:
+				this.failureCallbacks.add(callback);
+				break;
+			case FAILURE:
+				notifyFailure(callback);
+				break;
 			}
 		}
 	}
 
 	/**
-	 * Trigger a {@link ListenableFutureCallback#onSuccess(Object)} call on all
-	 * added callbacks with the given result.
+	 * Trigger a {@link ListenableFutureCallback#onSuccess(Object)} call on all added
+	 * callbacks with the given result.
 	 * @param result the result to trigger the callbacks with
 	 */
 	public void success(@Nullable T result) {
@@ -145,8 +145,8 @@ public class ListenableFutureCallbackRegistry<T> {
 	}
 
 	/**
-	 * Trigger a {@link ListenableFutureCallback#onFailure(Throwable)} call on all
-	 * added callbacks with the given {@code Throwable}.
+	 * Trigger a {@link ListenableFutureCallback#onFailure(Throwable)} call on all added
+	 * callbacks with the given {@code Throwable}.
 	 * @param ex the exception to trigger the callbacks with
 	 */
 	public void failure(Throwable ex) {
@@ -160,7 +160,10 @@ public class ListenableFutureCallbackRegistry<T> {
 		}
 	}
 
+	private enum State {
 
-	private enum State {NEW, SUCCESS, FAILURE}
+		NEW, SUCCESS, FAILURE
+
+	}
 
 }

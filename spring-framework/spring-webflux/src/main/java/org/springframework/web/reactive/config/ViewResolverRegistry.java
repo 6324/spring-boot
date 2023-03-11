@@ -36,12 +36,12 @@ import org.springframework.web.reactive.result.view.script.ScriptTemplateConfigu
 import org.springframework.web.reactive.result.view.script.ScriptTemplateViewResolver;
 
 /**
- * Assist with the configuration of a chain of {@link ViewResolver}'s supporting
- * different template mechanisms.
+ * Assist with the configuration of a chain of {@link ViewResolver}'s supporting different
+ * template mechanisms.
  *
- * <p>In addition, you can also configure {@link #defaultViews(View...)
- * defaultViews} for rendering according to the requested content type, e.g.
- * JSON, XML, etc.
+ * <p>
+ * In addition, you can also configure {@link #defaultViews(View...) defaultViews} for
+ * rendering according to the requested content type, e.g. JSON, XML, etc.
  *
  * @author Rossen Stoyanchev
  * @author Sebastien Deleuze
@@ -59,23 +59,22 @@ public class ViewResolverRegistry {
 	@Nullable
 	private Integer order;
 
-
 	public ViewResolverRegistry(@Nullable ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
 	}
 
-
 	/**
 	 * Register a {@code FreeMarkerViewResolver} with a ".ftl" suffix.
-	 * <p><strong>Note</strong> that you must also configure FreeMarker by
-	 * adding a {@link FreeMarkerConfigurer} bean.
+	 * <p>
+	 * <strong>Note</strong> that you must also configure FreeMarker by adding a
+	 * {@link FreeMarkerConfigurer} bean.
 	 */
 	public UrlBasedViewResolverRegistration freeMarker() {
 		if (!checkBeanOfType(FreeMarkerConfigurer.class)) {
-			throw new BeanInitializationException("In addition to a FreeMarker view resolver " +
-					"there must also be a single FreeMarkerConfig bean in this web application context " +
-					"(or its parent): FreeMarkerConfigurer is the usual implementation. " +
-					"This bean may be given any name.");
+			throw new BeanInitializationException("In addition to a FreeMarker view resolver "
+					+ "there must also be a single FreeMarkerConfig bean in this web application context "
+					+ "(or its parent): FreeMarkerConfigurer is the usual implementation. "
+					+ "This bean may be given any name.");
 		}
 		FreeMarkerRegistration registration = new FreeMarkerRegistration();
 		UrlBasedViewResolver resolver = registration.getViewResolver();
@@ -87,17 +86,19 @@ public class ViewResolverRegistry {
 	}
 
 	/**
-	 * Register a script template view resolver with an empty default view name prefix and suffix.
-	 * <p><strong>Note</strong> that you must also configure script templating by
-	 * adding a {@link ScriptTemplateConfigurer} bean.
+	 * Register a script template view resolver with an empty default view name prefix and
+	 * suffix.
+	 * <p>
+	 * <strong>Note</strong> that you must also configure script templating by adding a
+	 * {@link ScriptTemplateConfigurer} bean.
 	 * @since 5.0.4
 	 */
 	public UrlBasedViewResolverRegistration scriptTemplate() {
 		if (!checkBeanOfType(ScriptTemplateConfigurer.class)) {
-			throw new BeanInitializationException("In addition to a script template view resolver " +
-					"there must also be a single ScriptTemplateConfig bean in this web application context " +
-					"(or its parent): ScriptTemplateConfigurer is the usual implementation. " +
-					"This bean may be given any name.");
+			throw new BeanInitializationException("In addition to a script template view resolver "
+					+ "there must also be a single ScriptTemplateConfig bean in this web application context "
+					+ "(or its parent): ScriptTemplateConfigurer is the usual implementation. "
+					+ "This bean may be given any name.");
 		}
 		ScriptRegistration registration = new ScriptRegistration();
 		UrlBasedViewResolver resolver = registration.getViewResolver();
@@ -109,21 +110,21 @@ public class ViewResolverRegistry {
 	}
 
 	/**
-	 * Register a {@link ViewResolver} bean instance. This may be useful to
-	 * configure a 3rd party resolver implementation or as an alternative to
-	 * other registration methods in this class when they don't expose some
-	 * more advanced property that needs to be set.
+	 * Register a {@link ViewResolver} bean instance. This may be useful to configure a
+	 * 3rd party resolver implementation or as an alternative to other registration
+	 * methods in this class when they don't expose some more advanced property that needs
+	 * to be set.
 	 */
 	public void viewResolver(ViewResolver viewResolver) {
 		this.viewResolvers.add(viewResolver);
 	}
 
 	/**
-	 * Set default views associated with any view name and selected based on the
-	 * best match for the requested content type.
-	 * <p>Use {@link HttpMessageWriterView
-	 * HttpMessageWriterView} to adapt and use any existing
-	 * {@code HttpMessageWriter} (e.g. JSON, XML) as a {@code View}.
+	 * Set default views associated with any view name and selected based on the best
+	 * match for the requested content type.
+	 * <p>
+	 * Use {@link HttpMessageWriterView HttpMessageWriterView} to adapt and use any
+	 * existing {@code HttpMessageWriter} (e.g. JSON, XML) as a {@code View}.
 	 */
 	public void defaultViews(View... defaultViews) {
 		this.defaultViews.addAll(Arrays.asList(defaultViews));
@@ -140,18 +141,17 @@ public class ViewResolverRegistry {
 	 * Set the order for the
 	 * {@link org.springframework.web.reactive.result.view.ViewResolutionResultHandler
 	 * ViewResolutionResultHandler}.
-	 * <p>By default this property is not set, which means the result handler is
-	 * ordered at {@link Ordered#LOWEST_PRECEDENCE}.
+	 * <p>
+	 * By default this property is not set, which means the result handler is ordered at
+	 * {@link Ordered#LOWEST_PRECEDENCE}.
 	 */
 	public void order(int order) {
 		this.order = order;
 	}
 
-
 	private boolean checkBeanOfType(Class<?> beanType) {
-		return (this.applicationContext == null ||
-				!ObjectUtils.isEmpty(BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
-						this.applicationContext, beanType, false, false)));
+		return (this.applicationContext == null || !ObjectUtils.isEmpty(
+				BeanFactoryUtils.beanNamesForTypeIncludingAncestors(this.applicationContext, beanType, false, false)));
 	}
 
 	protected int getOrder() {
@@ -166,13 +166,13 @@ public class ViewResolverRegistry {
 		return this.defaultViews;
 	}
 
-
 	private static class FreeMarkerRegistration extends UrlBasedViewResolverRegistration {
 
 		public FreeMarkerRegistration() {
 			super(new FreeMarkerViewResolver());
 			getViewResolver().setSuffix(".ftl");
 		}
+
 	}
 
 	private static class ScriptRegistration extends UrlBasedViewResolverRegistration {
@@ -181,6 +181,7 @@ public class ViewResolverRegistry {
 			super(new ScriptTemplateViewResolver());
 			getViewResolver();
 		}
+
 	}
 
 }

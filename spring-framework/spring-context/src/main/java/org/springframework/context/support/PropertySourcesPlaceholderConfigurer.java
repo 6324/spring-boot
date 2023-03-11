@@ -36,23 +36,27 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringValueResolver;
 
 /**
- * Specialization of {@link PlaceholderConfigurerSupport} that resolves ${...} placeholders
- * within bean definition property values and {@code @Value} annotations against the current
- * Spring {@link Environment} and its set of {@link PropertySources}.
+ * Specialization of {@link PlaceholderConfigurerSupport} that resolves ${...}
+ * placeholders within bean definition property values and {@code @Value} annotations
+ * against the current Spring {@link Environment} and its set of {@link PropertySources}.
  *
- * <p>This class is designed as a general replacement for {@code PropertyPlaceholderConfigurer}.
- * It is used by default to support the {@code property-placeholder} element in working against
- * the spring-context-3.1 or higher XSD; whereas, spring-context versions &lt;= 3.0 default to
- * {@code PropertyPlaceholderConfigurer} to ensure backward compatibility. See the spring-context
- * XSD documentation for complete details.
+ * <p>
+ * This class is designed as a general replacement for
+ * {@code PropertyPlaceholderConfigurer}. It is used by default to support the
+ * {@code property-placeholder} element in working against the spring-context-3.1 or
+ * higher XSD; whereas, spring-context versions &lt;= 3.0 default to
+ * {@code PropertyPlaceholderConfigurer} to ensure backward compatibility. See the
+ * spring-context XSD documentation for complete details.
  *
- * <p>Any local properties (e.g. those added via {@link #setProperties}, {@link #setLocations}
- * et al.) are added as a {@code PropertySource}. Search precedence of local properties is
- * based on the value of the {@link #setLocalOverride localOverride} property, which is by
- * default {@code false} meaning that local properties are to be searched last, after all
- * environment property sources.
+ * <p>
+ * Any local properties (e.g. those added via {@link #setProperties},
+ * {@link #setLocations} et al.) are added as a {@code PropertySource}. Search precedence
+ * of local properties is based on the value of the {@link #setLocalOverride
+ * localOverride} property, which is by default {@code false} meaning that local
+ * properties are to be searched last, after all environment property sources.
  *
- * <p>See {@link org.springframework.core.env.ConfigurableEnvironment} and related javadocs
+ * <p>
+ * See {@link org.springframework.core.env.ConfigurableEnvironment} and related javadocs
  * for details on manipulating environment property sources.
  *
  * @author Chris Beams
@@ -76,7 +80,6 @@ public class PropertySourcesPlaceholderConfigurer extends PlaceholderConfigurerS
 	 */
 	public static final String ENVIRONMENT_PROPERTIES_PROPERTY_SOURCE_NAME = "environmentProperties";
 
-
 	@Nullable
 	private MutablePropertySources propertySources;
 
@@ -86,11 +89,11 @@ public class PropertySourcesPlaceholderConfigurer extends PlaceholderConfigurerS
 	@Nullable
 	private Environment environment;
 
-
 	/**
 	 * Customize the set of {@link PropertySources} to be used by this configurer.
-	 * <p>Setting this property indicates that environment property sources and
-	 * local properties should be ignored.
+	 * <p>
+	 * Setting this property indicates that environment property sources and local
+	 * properties should be ignored.
 	 * @see #postProcessBeanFactory
 	 */
 	public void setPropertySources(PropertySources propertySources) {
@@ -98,8 +101,8 @@ public class PropertySourcesPlaceholderConfigurer extends PlaceholderConfigurerS
 	}
 
 	/**
-	 * {@code PropertySources} from the given {@link Environment}
-	 * will be searched when replacing ${...} placeholders.
+	 * {@code PropertySources} from the given {@link Environment} will be searched when
+	 * replacing ${...} placeholders.
 	 * @see #setPropertySources
 	 * @see #postProcessBeanFactory
 	 */
@@ -108,21 +111,24 @@ public class PropertySourcesPlaceholderConfigurer extends PlaceholderConfigurerS
 		this.environment = environment;
 	}
 
-
 	/**
-	 * Processing occurs by replacing ${...} placeholders in bean definitions by resolving each
-	 * against this configurer's set of {@link PropertySources}, which includes:
+	 * Processing occurs by replacing ${...} placeholders in bean definitions by resolving
+	 * each against this configurer's set of {@link PropertySources}, which includes:
 	 * <ul>
-	 * <li>all {@linkplain org.springframework.core.env.ConfigurableEnvironment#getPropertySources
-	 * environment property sources}, if an {@code Environment} {@linkplain #setEnvironment is present}
-	 * <li>{@linkplain #mergeProperties merged local properties}, if {@linkplain #setLocation any}
-	 * {@linkplain #setLocations have} {@linkplain #setProperties been}
-	 * {@linkplain #setPropertiesArray specified}
+	 * <li>all
+	 * {@linkplain org.springframework.core.env.ConfigurableEnvironment#getPropertySources
+	 * environment property sources}, if an {@code Environment}
+	 * {@linkplain #setEnvironment is present}
+	 * <li>{@linkplain #mergeProperties merged local properties}, if
+	 * {@linkplain #setLocation any} {@linkplain #setLocations have}
+	 * {@linkplain #setProperties been} {@linkplain #setPropertiesArray specified}
 	 * <li>any property sources set by calling {@link #setPropertySources}
 	 * </ul>
-	 * <p>If {@link #setPropertySources} is called, <strong>environment and local properties will be
-	 * ignored</strong>. This method is designed to give the user fine-grained control over property
-	 * sources, and once set, the configurer makes no assumptions about adding additional sources.
+	 * <p>
+	 * If {@link #setPropertySources} is called, <strong>environment and local properties
+	 * will be ignored</strong>. This method is designed to give the user fine-grained
+	 * control over property sources, and once set, the configurer makes no assumptions
+	 * about adding additional sources.
 	 */
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
@@ -130,18 +136,17 @@ public class PropertySourcesPlaceholderConfigurer extends PlaceholderConfigurerS
 			this.propertySources = new MutablePropertySources();
 			if (this.environment != null) {
 				this.propertySources.addLast(
-					new PropertySource<Environment>(ENVIRONMENT_PROPERTIES_PROPERTY_SOURCE_NAME, this.environment) {
-						@Override
-						@Nullable
-						public String getProperty(String key) {
-							return this.source.getProperty(key);
-						}
-					}
-				);
+						new PropertySource<Environment>(ENVIRONMENT_PROPERTIES_PROPERTY_SOURCE_NAME, this.environment) {
+							@Override
+							@Nullable
+							public String getProperty(String key) {
+								return this.source.getProperty(key);
+							}
+						});
 			}
 			try {
-				PropertySource<?> localPropertySource =
-						new PropertiesPropertySource(LOCAL_PROPERTIES_PROPERTY_SOURCE_NAME, mergeProperties());
+				PropertySource<?> localPropertySource = new PropertiesPropertySource(
+						LOCAL_PROPERTIES_PROPERTY_SOURCE_NAME, mergeProperties());
 				if (this.localOverride) {
 					this.propertySources.addFirst(localPropertySource);
 				}
@@ -159,8 +164,8 @@ public class PropertySourcesPlaceholderConfigurer extends PlaceholderConfigurerS
 	}
 
 	/**
-	 * Visit each bean definition in the given bean factory and attempt to replace ${...} property
-	 * placeholders with values from the given properties.
+	 * Visit each bean definition in the given bean factory and attempt to replace ${...}
+	 * property placeholders with values from the given properties.
 	 */
 	protected void processProperties(ConfigurableListableBeanFactory beanFactoryToProcess,
 			final ConfigurablePropertyResolver propertyResolver) throws BeansException {
@@ -170,9 +175,8 @@ public class PropertySourcesPlaceholderConfigurer extends PlaceholderConfigurerS
 		propertyResolver.setValueSeparator(this.valueSeparator);
 
 		StringValueResolver valueResolver = strVal -> {
-			String resolved = (this.ignoreUnresolvablePlaceholders ?
-					propertyResolver.resolvePlaceholders(strVal) :
-					propertyResolver.resolveRequiredPlaceholders(strVal));
+			String resolved = (this.ignoreUnresolvablePlaceholders ? propertyResolver.resolvePlaceholders(strVal)
+					: propertyResolver.resolveRequiredPlaceholders(strVal));
 			if (this.trimValues) {
 				resolved = resolved.trim();
 			}

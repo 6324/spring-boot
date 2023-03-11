@@ -19,8 +19,8 @@ package org.springframework.core.convert;
 import org.springframework.lang.Nullable;
 
 /**
- * Exception to be thrown when a suitable converter could not be found
- * in a given conversion service.
+ * Exception to be thrown when a suitable converter could not be found in a given
+ * conversion service.
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -34,7 +34,6 @@ public class ConverterNotFoundException extends ConversionException {
 
 	private final TypeDescriptor targetType;
 
-
 	/**
 	 * Create a new conversion executor not found exception.
 	 * @param sourceType the source type requested to convert from
@@ -45,7 +44,6 @@ public class ConverterNotFoundException extends ConversionException {
 		this.sourceType = sourceType;
 		this.targetType = targetType;
 	}
-
 
 	/**
 	 * Return the source type that was requested to convert from.

@@ -47,23 +47,25 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ConcurrentReferenceHashMap;
 
 /**
- * Delegate for creating a variety of {@link javax.persistence.EntityManager}
- * proxies that follow the JPA spec's semantics for "extended" EntityManagers.
+ * Delegate for creating a variety of {@link javax.persistence.EntityManager} proxies that
+ * follow the JPA spec's semantics for "extended" EntityManagers.
  *
- * <p>Supports several different variants of "extended" EntityManagers:
- * in particular, an "application-managed extended EntityManager", as defined
- * by {@link javax.persistence.EntityManagerFactory#createEntityManager()},
- * as well as a "container-managed extended EntityManager", as defined by
+ * <p>
+ * Supports several different variants of "extended" EntityManagers: in particular, an
+ * "application-managed extended EntityManager", as defined by
+ * {@link javax.persistence.EntityManagerFactory#createEntityManager()}, as well as a
+ * "container-managed extended EntityManager", as defined by
  * {@link javax.persistence.PersistenceContextType#EXTENDED}.
  *
- * <p>The original difference between "application-managed" and "container-managed"
- * was the need for explicit joining of an externally managed transaction through
- * the {@link EntityManager#joinTransaction()} method in the "application" case
- * versus the automatic joining on each user-level EntityManager operation in the
- * "container" case. As of JPA 2.1, both join modes are available with both kinds of
- * EntityManagers, so the difference between "application-" and "container-managed"
- * is now primarily in the join mode default and in the restricted lifecycle of a
- * container-managed EntityManager (i.e. tied to the object that it is injected into).
+ * <p>
+ * The original difference between "application-managed" and "container-managed" was the
+ * need for explicit joining of an externally managed transaction through the
+ * {@link EntityManager#joinTransaction()} method in the "application" case versus the
+ * automatic joining on each user-level EntityManager operation in the "container" case.
+ * As of JPA 2.1, both join modes are available with both kinds of EntityManagers, so the
+ * difference between "application-" and "container-managed" is now primarily in the join
+ * mode default and in the restricted lifecycle of a container-managed EntityManager (i.e.
+ * tied to the object that it is injected into).
  *
  * @author Juergen Hoeller
  * @author Rod Johnson
@@ -78,17 +80,16 @@ public abstract class ExtendedEntityManagerCreator {
 
 	private static final Map<Class<?>, Class<?>[]> cachedEntityManagerInterfaces = new ConcurrentReferenceHashMap<>(4);
 
-
 	/**
 	 * Create an application-managed extended EntityManager proxy.
 	 * @param rawEntityManager the raw EntityManager to decorate
-	 * @param emfInfo the EntityManagerFactoryInfo to obtain the JpaDialect
-	 * and PersistenceUnitInfo from
-	 * @return an application-managed EntityManager that can join transactions
-	 * but does not participate in them automatically
+	 * @param emfInfo the EntityManagerFactoryInfo to obtain the JpaDialect and
+	 * PersistenceUnitInfo from
+	 * @return an application-managed EntityManager that can join transactions but does
+	 * not participate in them automatically
 	 */
-	public static EntityManager createApplicationManagedEntityManager(
-			EntityManager rawEntityManager, EntityManagerFactoryInfo emfInfo) {
+	public static EntityManager createApplicationManagedEntityManager(EntityManager rawEntityManager,
+			EntityManagerFactoryInfo emfInfo) {
 
 		return createProxy(rawEntityManager, emfInfo, false, false);
 	}
@@ -96,16 +97,16 @@ public abstract class ExtendedEntityManagerCreator {
 	/**
 	 * Create an application-managed extended EntityManager proxy.
 	 * @param rawEntityManager the raw EntityManager to decorate
-	 * @param emfInfo the EntityManagerFactoryInfo to obtain the JpaDialect
-	 * and PersistenceUnitInfo from
+	 * @param emfInfo the EntityManagerFactoryInfo to obtain the JpaDialect and
+	 * PersistenceUnitInfo from
 	 * @param synchronizedWithTransaction whether to automatically join ongoing
 	 * transactions (according to the JPA 2.1 SynchronizationType rules)
-	 * @return an application-managed EntityManager that can join transactions
-	 * but does not participate in them automatically
+	 * @return an application-managed EntityManager that can join transactions but does
+	 * not participate in them automatically
 	 * @since 4.0
 	 */
-	public static EntityManager createApplicationManagedEntityManager(
-			EntityManager rawEntityManager, EntityManagerFactoryInfo emfInfo, boolean synchronizedWithTransaction) {
+	public static EntityManager createApplicationManagedEntityManager(EntityManager rawEntityManager,
+			EntityManagerFactoryInfo emfInfo, boolean synchronizedWithTransaction) {
 
 		return createProxy(rawEntityManager, emfInfo, false, synchronizedWithTransaction);
 	}
@@ -113,24 +114,24 @@ public abstract class ExtendedEntityManagerCreator {
 	/**
 	 * Create a container-managed extended EntityManager proxy.
 	 * @param rawEntityManager the raw EntityManager to decorate
-	 * @param emfInfo the EntityManagerFactoryInfo to obtain the JpaDialect
-	 * and PersistenceUnitInfo from
-	 * @return a container-managed EntityManager that will automatically participate
-	 * in any managed transaction
+	 * @param emfInfo the EntityManagerFactoryInfo to obtain the JpaDialect and
+	 * PersistenceUnitInfo from
+	 * @return a container-managed EntityManager that will automatically participate in
+	 * any managed transaction
 	 */
-	public static EntityManager createContainerManagedEntityManager(
-			EntityManager rawEntityManager, EntityManagerFactoryInfo emfInfo) {
+	public static EntityManager createContainerManagedEntityManager(EntityManager rawEntityManager,
+			EntityManagerFactoryInfo emfInfo) {
 
 		return createProxy(rawEntityManager, emfInfo, true, true);
 	}
 
 	/**
 	 * Create a container-managed extended EntityManager proxy.
-	 * @param emf the EntityManagerFactory to create the EntityManager with.
-	 * If this implements the EntityManagerFactoryInfo interface, the corresponding
-	 * JpaDialect and PersistenceUnitInfo will be detected accordingly.
-	 * @return a container-managed EntityManager that will automatically participate
-	 * in any managed transaction
+	 * @param emf the EntityManagerFactory to create the EntityManager with. If this
+	 * implements the EntityManagerFactoryInfo interface, the corresponding JpaDialect and
+	 * PersistenceUnitInfo will be detected accordingly.
+	 * @return a container-managed EntityManager that will automatically participate in
+	 * any managed transaction
 	 * @see javax.persistence.EntityManagerFactory#createEntityManager()
 	 */
 	public static EntityManager createContainerManagedEntityManager(EntityManagerFactory emf) {
@@ -139,24 +140,25 @@ public abstract class ExtendedEntityManagerCreator {
 
 	/**
 	 * Create a container-managed extended EntityManager proxy.
-	 * @param emf the EntityManagerFactory to create the EntityManager with.
-	 * If this implements the EntityManagerFactoryInfo interface, the corresponding
-	 * JpaDialect and PersistenceUnitInfo will be detected accordingly.
+	 * @param emf the EntityManagerFactory to create the EntityManager with. If this
+	 * implements the EntityManagerFactoryInfo interface, the corresponding JpaDialect and
+	 * PersistenceUnitInfo will be detected accordingly.
 	 * @param properties the properties to be passed into the {@code createEntityManager}
 	 * call (may be {@code null})
-	 * @return a container-managed EntityManager that will automatically participate
-	 * in any managed transaction
+	 * @return a container-managed EntityManager that will automatically participate in
+	 * any managed transaction
 	 * @see javax.persistence.EntityManagerFactory#createEntityManager(java.util.Map)
 	 */
-	public static EntityManager createContainerManagedEntityManager(EntityManagerFactory emf, @Nullable Map<?, ?> properties) {
+	public static EntityManager createContainerManagedEntityManager(EntityManagerFactory emf,
+			@Nullable Map<?, ?> properties) {
 		return createContainerManagedEntityManager(emf, properties, true);
 	}
 
 	/**
 	 * Create a container-managed extended EntityManager proxy.
-	 * @param emf the EntityManagerFactory to create the EntityManager with.
-	 * If this implements the EntityManagerFactoryInfo interface, the corresponding
-	 * JpaDialect and PersistenceUnitInfo will be detected accordingly.
+	 * @param emf the EntityManagerFactory to create the EntityManager with. If this
+	 * implements the EntityManagerFactoryInfo interface, the corresponding JpaDialect and
+	 * PersistenceUnitInfo will be detected accordingly.
 	 * @param properties the properties to be passed into the {@code createEntityManager}
 	 * call (may be {@code null})
 	 * @param synchronizedWithTransaction whether to automatically join ongoing
@@ -166,66 +168,64 @@ public abstract class ExtendedEntityManagerCreator {
 	 * @since 4.0
 	 * @see javax.persistence.EntityManagerFactory#createEntityManager(java.util.Map)
 	 */
-	public static EntityManager createContainerManagedEntityManager(
-			EntityManagerFactory emf, @Nullable Map<?, ?> properties, boolean synchronizedWithTransaction) {
+	public static EntityManager createContainerManagedEntityManager(EntityManagerFactory emf,
+			@Nullable Map<?, ?> properties, boolean synchronizedWithTransaction) {
 
 		Assert.notNull(emf, "EntityManagerFactory must not be null");
 		if (emf instanceof EntityManagerFactoryInfo) {
 			EntityManagerFactoryInfo emfInfo = (EntityManagerFactoryInfo) emf;
 			EntityManagerFactory nativeEmf = emfInfo.getNativeEntityManagerFactory();
-			EntityManager rawEntityManager = (!CollectionUtils.isEmpty(properties) ?
-					nativeEmf.createEntityManager(properties) : nativeEmf.createEntityManager());
+			EntityManager rawEntityManager = (!CollectionUtils.isEmpty(properties)
+					? nativeEmf.createEntityManager(properties) : nativeEmf.createEntityManager());
 			return createProxy(rawEntityManager, emfInfo, true, synchronizedWithTransaction);
 		}
 		else {
-			EntityManager rawEntityManager = (!CollectionUtils.isEmpty(properties) ?
-					emf.createEntityManager(properties) : emf.createEntityManager());
+			EntityManager rawEntityManager = (!CollectionUtils.isEmpty(properties) ? emf.createEntityManager(properties)
+					: emf.createEntityManager());
 			return createProxy(rawEntityManager, null, null, null, null, true, synchronizedWithTransaction);
 		}
 	}
 
-
 	/**
 	 * Actually create the EntityManager proxy.
 	 * @param rawEntityManager raw EntityManager
-	 * @param emfInfo the EntityManagerFactoryInfo to obtain the JpaDialect
-	 * and PersistenceUnitInfo from
-	 * @param containerManaged whether to follow container-managed EntityManager
-	 * or application-managed EntityManager semantics
+	 * @param emfInfo the EntityManagerFactoryInfo to obtain the JpaDialect and
+	 * PersistenceUnitInfo from
+	 * @param containerManaged whether to follow container-managed EntityManager or
+	 * application-managed EntityManager semantics
 	 * @param synchronizedWithTransaction whether to automatically join ongoing
 	 * transactions (according to the JPA 2.1 SynchronizationType rules)
 	 * @return the EntityManager proxy
 	 */
-	private static EntityManager createProxy(EntityManager rawEntityManager,
-			EntityManagerFactoryInfo emfInfo, boolean containerManaged, boolean synchronizedWithTransaction) {
+	private static EntityManager createProxy(EntityManager rawEntityManager, EntityManagerFactoryInfo emfInfo,
+			boolean containerManaged, boolean synchronizedWithTransaction) {
 
 		Assert.notNull(emfInfo, "EntityManagerFactoryInfo must not be null");
 		JpaDialect jpaDialect = emfInfo.getJpaDialect();
 		PersistenceUnitInfo pui = emfInfo.getPersistenceUnitInfo();
 		Boolean jta = (pui != null ? pui.getTransactionType() == PersistenceUnitTransactionType.JTA : null);
-		return createProxy(rawEntityManager, emfInfo.getEntityManagerInterface(),
-				emfInfo.getBeanClassLoader(), jpaDialect, jta, containerManaged, synchronizedWithTransaction);
+		return createProxy(rawEntityManager, emfInfo.getEntityManagerInterface(), emfInfo.getBeanClassLoader(),
+				jpaDialect, jta, containerManaged, synchronizedWithTransaction);
 	}
 
 	/**
 	 * Actually create the EntityManager proxy.
 	 * @param rawEm raw EntityManager
-	 * @param emIfc the (potentially vendor-specific) EntityManager
-	 * interface to proxy, or {@code null} for default detection of all interfaces
+	 * @param emIfc the (potentially vendor-specific) EntityManager interface to proxy, or
+	 * {@code null} for default detection of all interfaces
 	 * @param cl the ClassLoader to use for proxy creation (maybe {@code null})
 	 * @param exceptionTranslator the PersistenceException translator to use
-	 * @param jta whether to create a JTA-aware EntityManager
-	 * (or {@code null} if not known in advance)
-	 * @param containerManaged whether to follow container-managed EntityManager
-	 * or application-managed EntityManager semantics
+	 * @param jta whether to create a JTA-aware EntityManager (or {@code null} if not
+	 * known in advance)
+	 * @param containerManaged whether to follow container-managed EntityManager or
+	 * application-managed EntityManager semantics
 	 * @param synchronizedWithTransaction whether to automatically join ongoing
 	 * transactions (according to the JPA 2.1 SynchronizationType rules)
 	 * @return the EntityManager proxy
 	 */
-	private static EntityManager createProxy(
-			EntityManager rawEm, @Nullable Class<? extends EntityManager> emIfc, @Nullable ClassLoader cl,
-			@Nullable PersistenceExceptionTranslator exceptionTranslator, @Nullable Boolean jta,
-			boolean containerManaged, boolean synchronizedWithTransaction) {
+	private static EntityManager createProxy(EntityManager rawEm, @Nullable Class<? extends EntityManager> emIfc,
+			@Nullable ClassLoader cl, @Nullable PersistenceExceptionTranslator exceptionTranslator,
+			@Nullable Boolean jta, boolean containerManaged, boolean synchronizedWithTransaction) {
 
 		Assert.notNull(rawEm, "EntityManager must not be null");
 		Class<?>[] interfaces;
@@ -247,12 +247,10 @@ public abstract class ExtendedEntityManagerCreator {
 		}
 
 		return (EntityManager) Proxy.newProxyInstance(
-				(cl != null ? cl : ExtendedEntityManagerCreator.class.getClassLoader()),
-				interfaces,
-				new ExtendedEntityManagerInvocationHandler(
-						rawEm, exceptionTranslator, jta, containerManaged, synchronizedWithTransaction));
+				(cl != null ? cl : ExtendedEntityManagerCreator.class.getClassLoader()), interfaces,
+				new ExtendedEntityManagerInvocationHandler(rawEm, exceptionTranslator, jta, containerManaged,
+						synchronizedWithTransaction));
 	}
-
 
 	/**
 	 * InvocationHandler for extended EntityManagers as defined in the JPA spec.
@@ -331,10 +329,11 @@ public abstract class ExtendedEntityManagerCreator {
 				if (this.containerManaged) {
 					throw new IllegalStateException("Invalid usage: Cannot close a container-managed EntityManager");
 				}
-				ExtendedEntityManagerSynchronization synch = (ExtendedEntityManagerSynchronization)
-						TransactionSynchronizationManager.getResource(this.target);
+				ExtendedEntityManagerSynchronization synch = (ExtendedEntityManagerSynchronization) TransactionSynchronizationManager
+						.getResource(this.target);
 				if (synch != null) {
-					// Local transaction joined - don't actually call close() before transaction completion
+					// Local transaction joined - don't actually call close() before
+					// transaction completion
 					synch.closeOnCompletion = true;
 					return null;
 				}
@@ -356,7 +355,8 @@ public abstract class ExtendedEntityManagerCreator {
 				}
 			}
 
-			// Do automatic joining if required. Excludes toString, equals, hashCode calls.
+			// Do automatic joining if required. Excludes toString, equals, hashCode
+			// calls.
 			if (this.synchronizedWithTransaction && method.getDeclaringClass().isInterface()) {
 				doJoinTransaction(false);
 			}
@@ -372,8 +372,8 @@ public abstract class ExtendedEntityManagerCreator {
 
 		/**
 		 * Join an existing transaction, if not already joined.
-		 * @param enforce whether to enforce the transaction
-		 * (i.e. whether failure to join is considered fatal)
+		 * @param enforce whether to enforce the transaction (i.e. whether failure to join
+		 * is considered fatal)
 		 */
 		private void doJoinTransaction(boolean enforce) {
 			if (this.jta) {
@@ -393,8 +393,8 @@ public abstract class ExtendedEntityManagerCreator {
 			}
 			else {
 				if (TransactionSynchronizationManager.isSynchronizationActive()) {
-					if (!TransactionSynchronizationManager.hasResource(this.target) &&
-							!this.target.getTransaction().isActive()) {
+					if (!TransactionSynchronizationManager.hasResource(this.target)
+							&& !this.target.getTransaction().isActive()) {
 						enlistInCurrentTransaction();
 					}
 					logger.debug("Joined local transaction");
@@ -415,28 +415,28 @@ public abstract class ExtendedEntityManagerCreator {
 		 */
 		private void enlistInCurrentTransaction() {
 			// Resource local transaction, need to acquire the EntityTransaction,
-			// start a transaction now and enlist a synchronization for commit or rollback later.
+			// start a transaction now and enlist a synchronization for commit or rollback
+			// later.
 			EntityTransaction et = this.target.getTransaction();
 			et.begin();
 			if (logger.isDebugEnabled()) {
-				logger.debug("Starting resource-local transaction on application-managed " +
-						"EntityManager [" + this.target + "]");
+				logger.debug("Starting resource-local transaction on application-managed " + "EntityManager ["
+						+ this.target + "]");
 			}
-			ExtendedEntityManagerSynchronization extendedEntityManagerSynchronization =
-					new ExtendedEntityManagerSynchronization(this.target, this.exceptionTranslator);
+			ExtendedEntityManagerSynchronization extendedEntityManagerSynchronization = new ExtendedEntityManagerSynchronization(
+					this.target, this.exceptionTranslator);
 			TransactionSynchronizationManager.bindResource(this.target, extendedEntityManagerSynchronization);
 			TransactionSynchronizationManager.registerSynchronization(extendedEntityManagerSynchronization);
 		}
+
 	}
 
-
 	/**
-	 * TransactionSynchronization enlisting an extended EntityManager
-	 * with a current Spring transaction.
+	 * TransactionSynchronization enlisting an extended EntityManager with a current
+	 * Spring transaction.
 	 */
 	private static class ExtendedEntityManagerSynchronization
-			extends ResourceHolderSynchronization<EntityManagerHolder, EntityManager>
-			implements Ordered {
+			extends ResourceHolderSynchronization<EntityManagerHolder, EntityManager> implements Ordered {
 
 		private final EntityManager entityManager;
 
@@ -445,8 +445,8 @@ public abstract class ExtendedEntityManagerCreator {
 
 		public volatile boolean closeOnCompletion = false;
 
-		public ExtendedEntityManagerSynchronization(
-				EntityManager em, @Nullable PersistenceExceptionTranslator exceptionTranslator) {
+		public ExtendedEntityManagerSynchronization(EntityManager em,
+				@Nullable PersistenceExceptionTranslator exceptionTranslator) {
 
 			super(new EntityManagerHolder(em), em);
 			this.entityManager = em;
@@ -507,11 +507,12 @@ public abstract class ExtendedEntityManagerCreator {
 		}
 
 		private RuntimeException convertException(RuntimeException ex) {
-			DataAccessException dae = (this.exceptionTranslator != null) ?
-					this.exceptionTranslator.translateExceptionIfPossible(ex) :
-					EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(ex);
+			DataAccessException dae = (this.exceptionTranslator != null)
+					? this.exceptionTranslator.translateExceptionIfPossible(ex)
+					: EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(ex);
 			return (dae != null ? dae : ex);
 		}
+
 	}
 
 }

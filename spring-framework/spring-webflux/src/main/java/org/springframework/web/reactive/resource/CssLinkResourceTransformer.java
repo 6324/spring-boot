@@ -42,15 +42,16 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * A {@link ResourceTransformer} implementation that modifies links in a CSS
- * file to match the public URL paths that should be exposed to clients (e.g.
- * with an MD5 content-based hash inserted in the URL).
+ * A {@link ResourceTransformer} implementation that modifies links in a CSS file to match
+ * the public URL paths that should be exposed to clients (e.g. with an MD5 content-based
+ * hash inserted in the URL).
  *
- * <p>The implementation looks for links in CSS {@code @import} statements and
- * also inside CSS {@code url()} functions. All links are then passed through the
- * {@link ResourceResolverChain} and resolved relative to the location of the
- * containing CSS file. If successfully resolved, the link is modified, otherwise
- * the original link is preserved.
+ * <p>
+ * The implementation looks for links in CSS {@code @import} statements and also inside
+ * CSS {@code url()} functions. All links are then passed through the
+ * {@link ResourceResolverChain} and resolved relative to the location of the containing
+ * CSS file. If successfully resolved, the link is modified, otherwise the original link
+ * is preserved.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -63,38 +64,33 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 
 	private final List<LinkParser> linkParsers = new ArrayList<>(2);
 
-
 	public CssLinkResourceTransformer() {
 		this.linkParsers.add(new ImportLinkParser());
 		this.linkParsers.add(new UrlFunctionLinkParser());
 	}
-
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public Mono<Resource> transform(ServerWebExchange exchange, Resource inputResource,
 			ResourceTransformerChain transformerChain) {
 
-		return transformerChain.transform(exchange, inputResource)
-				.flatMap(outputResource -> {
-					String filename = outputResource.getFilename();
-					if (!"css".equals(StringUtils.getFilenameExtension(filename)) ||
-							inputResource instanceof EncodedResourceResolver.EncodedResource ||
-							inputResource instanceof GzipResourceResolver.GzippedResource) {
-						return Mono.just(outputResource);
-					}
+		return transformerChain.transform(exchange, inputResource).flatMap(outputResource -> {
+			String filename = outputResource.getFilename();
+			if (!"css".equals(StringUtils.getFilenameExtension(filename))
+					|| inputResource instanceof EncodedResourceResolver.EncodedResource
+					|| inputResource instanceof GzipResourceResolver.GzippedResource) {
+				return Mono.just(outputResource);
+			}
 
-					DataBufferFactory bufferFactory = exchange.getResponse().bufferFactory();
-					Flux<DataBuffer> flux = DataBufferUtils
-							.read(outputResource, bufferFactory, StreamUtils.BUFFER_SIZE);
-					return DataBufferUtils.join(flux)
-							.flatMap(dataBuffer -> {
-								CharBuffer charBuffer = DEFAULT_CHARSET.decode(dataBuffer.asByteBuffer());
-								DataBufferUtils.release(dataBuffer);
-								String cssContent = charBuffer.toString();
-								return transformContent(cssContent, outputResource, transformerChain, exchange);
-							});
-				});
+			DataBufferFactory bufferFactory = exchange.getResponse().bufferFactory();
+			Flux<DataBuffer> flux = DataBufferUtils.read(outputResource, bufferFactory, StreamUtils.BUFFER_SIZE);
+			return DataBufferUtils.join(flux).flatMap(dataBuffer -> {
+				CharBuffer charBuffer = DEFAULT_CHARSET.decode(dataBuffer.asByteBuffer());
+				DataBufferUtils.release(dataBuffer);
+				String cssContent = charBuffer.toString();
+				return transformContent(cssContent, outputResource, transformerChain, exchange);
+			});
+		});
 	}
 
 	private Mono<? extends Resource> transformContent(String cssContent, Resource resource,
@@ -105,25 +101,22 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 			return Mono.just(resource);
 		}
 
-		return Flux.fromIterable(contentChunkInfos)
-				.concatMap(contentChunkInfo -> {
-					String contentChunk = contentChunkInfo.getContent(cssContent);
-					if (contentChunkInfo.isLink() && !hasScheme(contentChunk)) {
-						String link = toAbsolutePath(contentChunk, exchange);
-						return resolveUrlPath(link, exchange, resource, chain).defaultIfEmpty(contentChunk);
-					}
-					else {
-						return Mono.just(contentChunk);
-					}
-				})
-				.reduce(new StringWriter(), (writer, chunk) -> {
-					writer.write(chunk);
-					return writer;
-				})
-				.map(writer -> {
-					byte[] newContent = writer.toString().getBytes(DEFAULT_CHARSET);
-					return new TransformedResource(resource, newContent);
-				});
+		return Flux.fromIterable(contentChunkInfos).concatMap(contentChunkInfo -> {
+			String contentChunk = contentChunkInfo.getContent(cssContent);
+			if (contentChunkInfo.isLink() && !hasScheme(contentChunk)) {
+				String link = toAbsolutePath(contentChunk, exchange);
+				return resolveUrlPath(link, exchange, resource, chain).defaultIfEmpty(contentChunk);
+			}
+			else {
+				return Mono.just(contentChunk);
+			}
+		}).reduce(new StringWriter(), (writer, chunk) -> {
+			writer.write(chunk);
+			return writer;
+		}).map(writer -> {
+			byte[] newContent = writer.toString().getBytes(DEFAULT_CHARSET);
+			return new TransformedResource(resource, newContent);
+		});
 	}
 
 	private List<ContentChunkInfo> parseContent(String cssContent) {
@@ -150,7 +143,6 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 		return (schemeIndex > 0 && !link.substring(0, schemeIndex).contains("/")) || link.indexOf("//") == 0;
 	}
 
-
 	/**
 	 * Extract content chunks that represent links.
 	 */
@@ -160,7 +152,6 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 		void parse(String cssContent, SortedSet<ContentChunkInfo> result);
 
 	}
-
 
 	/**
 	 * Abstract base class for {@link LinkParser} implementations.
@@ -202,14 +193,12 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 		}
 
 		/**
-		 * Invoked after a keyword match, after whitespace has been removed, and when
-		 * the next char is neither a single nor double quote.
+		 * Invoked after a keyword match, after whitespace has been removed, and when the
+		 * next char is neither a single nor double quote.
 		 */
-		protected abstract int extractUnquotedLink(int position, String content,
-				Set<ContentChunkInfo> linksToAdd);
+		protected abstract int extractUnquotedLink(int position, String content, Set<ContentChunkInfo> linksToAdd);
 
 	}
-
 
 	private static class ImportLinkParser extends AbstractLinkParser {
 
@@ -228,8 +217,8 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 			}
 			return position;
 		}
-	}
 
+	}
 
 	private static class UrlFunctionLinkParser extends AbstractLinkParser {
 
@@ -243,8 +232,8 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 			// A url() function without unquoted
 			return extractLink(position - 1, ')', content, result);
 		}
-	}
 
+	}
 
 	private static class ContentChunkInfo implements Comparable<ContentChunkInfo> {
 
@@ -254,13 +243,11 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 
 		private final boolean isLink;
 
-
 		ContentChunkInfo(int start, int end, boolean isLink) {
 			this.start = start;
 			this.end = end;
 			this.isLink = isLink;
 		}
-
 
 		public int getStart() {
 			return this.start;
@@ -299,6 +286,7 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 		public int hashCode() {
 			return this.start * 31 + this.end;
 		}
+
 	}
 
 }

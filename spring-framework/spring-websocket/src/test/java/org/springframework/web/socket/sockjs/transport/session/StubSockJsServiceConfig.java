@@ -37,7 +37,6 @@ public class StubSockJsServiceConfig implements SockJsServiceConfig {
 
 	private int httpMessageCacheSize = 100;
 
-
 	@Override
 	public int getStreamBytesLimit() {
 		return this.streamBytesLimit;

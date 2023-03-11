@@ -32,8 +32,7 @@ import java.util.SortedSet;
 import org.springframework.lang.Nullable;
 
 /**
- * Miscellaneous collection utility methods.
- * Mainly for internal use within the framework.
+ * Miscellaneous collection utility methods. Mainly for internal use within the framework.
  *
  * @author Juergen Hoeller
  * @author Rob Harrop
@@ -43,8 +42,8 @@ import org.springframework.lang.Nullable;
 public abstract class CollectionUtils {
 
 	/**
-	 * Return {@code true} if the supplied Collection is {@code null} or empty.
-	 * Otherwise, return {@code false}.
+	 * Return {@code true} if the supplied Collection is {@code null} or empty. Otherwise,
+	 * return {@code false}.
 	 * @param collection the Collection to check
 	 * @return whether the given Collection is empty
 	 */
@@ -53,8 +52,8 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Return {@code true} if the supplied Map is {@code null} or empty.
-	 * Otherwise, return {@code false}.
+	 * Return {@code true} if the supplied Map is {@code null} or empty. Otherwise, return
+	 * {@code false}.
 	 * @param map the Map to check
 	 * @return whether the given Map is empty
 	 */
@@ -63,12 +62,14 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Convert the supplied array into a List. A primitive array gets converted
-	 * into a List of the appropriate wrapper type.
-	 * <p><b>NOTE:</b> Generally prefer the standard {@link Arrays#asList} method.
-	 * This {@code arrayToList} method is just meant to deal with an incoming Object
-	 * value that might be an {@code Object[]} or a primitive array at runtime.
-	 * <p>A {@code null} source value will be converted to an empty List.
+	 * Convert the supplied array into a List. A primitive array gets converted into a
+	 * List of the appropriate wrapper type.
+	 * <p>
+	 * <b>NOTE:</b> Generally prefer the standard {@link Arrays#asList} method. This
+	 * {@code arrayToList} method is just meant to deal with an incoming Object value that
+	 * might be an {@code Object[]} or a primitive array at runtime.
+	 * <p>
+	 * A {@code null} source value will be converted to an empty List.
 	 * @param source the (potentially primitive) array
 	 * @return the converted List result
 	 * @see ObjectUtils#toObjectArray(Object)
@@ -93,10 +94,11 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Merge the given Properties instance into the given Map,
-	 * copying all properties (key-value pairs) over.
-	 * <p>Uses {@code Properties.propertyNames()} to even catch
-	 * default properties linked into the original Properties instance.
+	 * Merge the given Properties instance into the given Map, copying all properties
+	 * (key-value pairs) over.
+	 * <p>
+	 * Uses {@code Properties.propertyNames()} to even catch default properties linked
+	 * into the original Properties instance.
 	 * @param props the Properties instance to merge (may be {@code null})
 	 * @param map the target Map to merge the properties into
 	 */
@@ -114,7 +116,6 @@ public abstract class CollectionUtils {
 			}
 		}
 	}
-
 
 	/**
 	 * Check whether the given Iterator contains the given element.
@@ -154,8 +155,9 @@ public abstract class CollectionUtils {
 
 	/**
 	 * Check whether the given Collection contains the given element instance.
-	 * <p>Enforces the given instance to be present, rather than returning
-	 * {@code true} for an equal element as well.
+	 * <p>
+	 * Enforces the given instance to be present, rather than returning {@code true} for
+	 * an equal element as well.
 	 * @param collection the Collection to check
 	 * @param element the element to look for
 	 * @return {@code true} if found, {@code false} otherwise
@@ -172,8 +174,8 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Return {@code true} if any element in '{@code candidates}' is
-	 * contained in '{@code source}'; otherwise returns {@code false}.
+	 * Return {@code true} if any element in '{@code candidates}' is contained in
+	 * '{@code source}'; otherwise returns {@code false}.
 	 * @param source the source Collection
 	 * @param candidates the candidates to search for
 	 * @return whether any of the candidates has been found
@@ -185,8 +187,8 @@ public abstract class CollectionUtils {
 	/**
 	 * Return the first element in '{@code candidates}' that is contained in
 	 * '{@code source}'. If no element in '{@code candidates}' is present in
-	 * '{@code source}' returns {@code null}. Iteration order is
-	 * {@link Collection} implementation specific.
+	 * '{@code source}' returns {@code null}. Iteration order is {@link Collection}
+	 * implementation specific.
 	 * @param source the source Collection
 	 * @param candidates the candidates to search for
 	 * @return the first present object, or {@code null} if not found
@@ -209,8 +211,8 @@ public abstract class CollectionUtils {
 	 * Find a single value of the given type in the given Collection.
 	 * @param collection the Collection to search
 	 * @param type the type to look for
-	 * @return a value of the given type found if there is a clear match,
-	 * or {@code null} if none or more than one such value found
+	 * @return a value of the given type found if there is a clear match, or {@code null}
+	 * if none or more than one such value found
 	 */
 	@SuppressWarnings("unchecked")
 	@Nullable
@@ -232,13 +234,13 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Find a single value of one of the given types in the given Collection:
-	 * searching the Collection for a value of the first type, then
-	 * searching for a value of the second type, etc.
+	 * Find a single value of one of the given types in the given Collection: searching
+	 * the Collection for a value of the first type, then searching for a value of the
+	 * second type, etc.
 	 * @param collection the collection to search
 	 * @param types the types to look for, in prioritized order
-	 * @return a value of one of the given types found if there is a clear match,
-	 * or {@code null} if none or more than one such value found
+	 * @return a value of one of the given types found if there is a clear match, or
+	 * {@code null} if none or more than one such value found
 	 */
 	@Nullable
 	public static Object findValueOfType(Collection<?> collection, Class<?>[] types) {
@@ -257,8 +259,8 @@ public abstract class CollectionUtils {
 	/**
 	 * Determine whether the given Collection only contains a single unique object.
 	 * @param collection the Collection to check
-	 * @return {@code true} if the collection contains a single reference or
-	 * multiple references to the same instance, {@code false} otherwise
+	 * @return {@code true} if the collection contains a single reference or multiple
+	 * references to the same instance, {@code false} otherwise
 	 */
 	public static boolean hasUniqueObject(Collection<?> collection) {
 		if (isEmpty(collection)) {
@@ -281,8 +283,8 @@ public abstract class CollectionUtils {
 	/**
 	 * Find the common element type of the given Collection, if any.
 	 * @param collection the Collection to check
-	 * @return the common element type, or {@code null} if no clear
-	 * common type has been found (or the collection was empty)
+	 * @return the common element type, or {@code null} if no clear common type has been
+	 * found (or the collection was empty)
 	 */
 	@Nullable
 	public static Class<?> findCommonElementType(Collection<?> collection) {
@@ -304,8 +306,8 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Retrieve the first element of the given Set, using {@link SortedSet#first()}
-	 * or otherwise using the iterator.
+	 * Retrieve the first element of the given Set, using {@link SortedSet#first()} or
+	 * otherwise using the iterator.
 	 * @param set the Set to check (may be {@code null} or empty)
 	 * @return the first element, or {@code null} if none
 	 * @since 5.2.3
@@ -345,8 +347,8 @@ public abstract class CollectionUtils {
 	}
 
 	/**
-	 * Retrieve the last element of the given Set, using {@link SortedSet#last()}
-	 * or otherwise iterating over all elements (assuming a linked set).
+	 * Retrieve the last element of the given Set, using {@link SortedSet#last()} or
+	 * otherwise iterating over all elements (assuming a linked set).
 	 * @param set the Set to check (may be {@code null} or empty)
 	 * @return the last element, or {@code null} if none
 	 * @since 5.0.3
@@ -439,7 +441,6 @@ public abstract class CollectionUtils {
 		return toMultiValueMap(unmodifiableMap);
 	}
 
-
 	/**
 	 * Iterator wrapping an Enumeration.
 	 */
@@ -465,7 +466,7 @@ public abstract class CollectionUtils {
 		public void remove() throws UnsupportedOperationException {
 			throw new UnsupportedOperationException("Not supported");
 		}
-	}
 
+	}
 
 }

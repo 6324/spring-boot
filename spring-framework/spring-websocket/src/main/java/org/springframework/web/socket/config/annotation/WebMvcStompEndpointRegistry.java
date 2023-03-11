@@ -61,7 +61,6 @@ public class WebMvcStompEndpointRegistry implements StompEndpointRegistry {
 
 	private final List<WebMvcStompWebSocketEndpointRegistration> registrations = new ArrayList<>();
 
-
 	public WebMvcStompEndpointRegistry(WebSocketHandler webSocketHandler,
 			WebSocketTransportRegistration transportRegistration, TaskScheduler defaultSockJsTaskScheduler) {
 
@@ -97,21 +96,21 @@ public class WebMvcStompEndpointRegistry implements StompEndpointRegistry {
 		return (SubProtocolWebSocketHandler) actual;
 	}
 
-
 	@Override
 	public StompWebSocketEndpointRegistration addEndpoint(String... paths) {
 		this.subProtocolWebSocketHandler.addProtocolHandler(this.stompHandler);
-		WebMvcStompWebSocketEndpointRegistration registration =
-				new WebMvcStompWebSocketEndpointRegistration(paths, this.webSocketHandler, this.sockJsScheduler);
+		WebMvcStompWebSocketEndpointRegistration registration = new WebMvcStompWebSocketEndpointRegistration(paths,
+				this.webSocketHandler, this.sockJsScheduler);
 		this.registrations.add(registration);
 		return registration;
 	}
 
 	/**
 	 * Set the order for the resulting
-	 * {@link org.springframework.web.servlet.HandlerMapping}
-	 * relative to other handler mappings configured in Spring MVC.
-	 * <p>The default value is 1.
+	 * {@link org.springframework.web.servlet.HandlerMapping} relative to other handler
+	 * mappings configured in Spring MVC.
+	 * <p>
+	 * The default value is 1.
 	 */
 	@Override
 	public void setOrder(int order) {
@@ -123,8 +122,8 @@ public class WebMvcStompEndpointRegistry implements StompEndpointRegistry {
 	}
 
 	/**
-	 * Set the UrlPathHelper to configure on the {@code HandlerMapping}
-	 * used to map handshake requests.
+	 * Set the UrlPathHelper to configure on the {@code HandlerMapping} used to map
+	 * handshake requests.
 	 */
 	@Override
 	public void setUrlPathHelper(@Nullable UrlPathHelper urlPathHelper) {

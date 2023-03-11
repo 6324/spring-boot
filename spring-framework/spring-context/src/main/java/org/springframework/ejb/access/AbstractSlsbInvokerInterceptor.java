@@ -32,15 +32,15 @@ import org.springframework.lang.Nullable;
  * Base class for AOP interceptors invoking local or remote Stateless Session Beans.
  * Designed for EJB 2.x, but works for EJB 3 Session Beans as well.
  *
- * <p>Such an interceptor must be the last interceptor in the advice chain.
- * In this case, there is no direct target object: The call is handled in a
- * special way, getting executed on an EJB instance retrieved via an EJB home.
+ * <p>
+ * Such an interceptor must be the last interceptor in the advice chain. In this case,
+ * there is no direct target object: The call is handled in a special way, getting
+ * executed on an EJB instance retrieved via an EJB home.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
  */
-public abstract class AbstractSlsbInvokerInterceptor extends JndiObjectLocator
-		implements MethodInterceptor {
+public abstract class AbstractSlsbInvokerInterceptor extends JndiObjectLocator implements MethodInterceptor {
 
 	private boolean lookupHomeOnStartup = true;
 
@@ -49,8 +49,8 @@ public abstract class AbstractSlsbInvokerInterceptor extends JndiObjectLocator
 	private boolean exposeAccessContext = false;
 
 	/**
-	 * The EJB's home object, potentially cached.
-	 * The type must be Object as it could be either EJBHome or EJBLocalHome.
+	 * The EJB's home object, potentially cached. The type must be Object as it could be
+	 * either EJBHome or EJBLocalHome.
 	 */
 	@Nullable
 	private Object cachedHome;
@@ -63,12 +63,11 @@ public abstract class AbstractSlsbInvokerInterceptor extends JndiObjectLocator
 
 	private final Object homeMonitor = new Object();
 
-
 	/**
-	 * Set whether to look up the EJB home object on startup.
-	 * Default is "true".
-	 * <p>Can be turned off to allow for late start of the EJB server.
-	 * In this case, the EJB home object will be fetched on first access.
+	 * Set whether to look up the EJB home object on startup. Default is "true".
+	 * <p>
+	 * Can be turned off to allow for late start of the EJB server. In this case, the EJB
+	 * home object will be fetched on first access.
 	 * @see #setCacheHome
 	 */
 	public void setLookupHomeOnStartup(boolean lookupHomeOnStartup) {
@@ -76,10 +75,11 @@ public abstract class AbstractSlsbInvokerInterceptor extends JndiObjectLocator
 	}
 
 	/**
-	 * Set whether to cache the EJB home object once it has been located.
-	 * Default is "true".
-	 * <p>Can be turned off to allow for hot restart of the EJB server.
-	 * In this case, the EJB home object will be fetched for each invocation.
+	 * Set whether to cache the EJB home object once it has been located. Default is
+	 * "true".
+	 * <p>
+	 * Can be turned off to allow for hot restart of the EJB server. In this case, the EJB
+	 * home object will be fetched for each invocation.
 	 * @see #setLookupHomeOnStartup
 	 */
 	public void setCacheHome(boolean cacheHome) {
@@ -89,15 +89,15 @@ public abstract class AbstractSlsbInvokerInterceptor extends JndiObjectLocator
 	/**
 	 * Set whether to expose the JNDI environment context for all access to the target
 	 * EJB, i.e. for all method invocations on the exposed object reference.
-	 * <p>Default is "false", i.e. to only expose the JNDI context for object lookup.
-	 * Switch this flag to "true" in order to expose the JNDI environment (including
-	 * the authorization context) for each EJB invocation, as needed by WebLogic
-	 * for EJBs with authorization requirements.
+	 * <p>
+	 * Default is "false", i.e. to only expose the JNDI context for object lookup. Switch
+	 * this flag to "true" in order to expose the JNDI environment (including the
+	 * authorization context) for each EJB invocation, as needed by WebLogic for EJBs with
+	 * authorization requirements.
 	 */
 	public void setExposeAccessContext(boolean exposeAccessContext) {
 		this.exposeAccessContext = exposeAccessContext;
 	}
-
 
 	/**
 	 * Fetches EJB home on startup, if necessary.
@@ -114,8 +114,8 @@ public abstract class AbstractSlsbInvokerInterceptor extends JndiObjectLocator
 	}
 
 	/**
-	 * Refresh the cached home object, if applicable.
-	 * Also caches the create method on the home object.
+	 * Refresh the cached home object, if applicable. Also caches the create method on the
+	 * home object.
 	 * @throws NamingException if thrown by the JNDI lookup
 	 * @see #lookup
 	 * @see #getCreateMethod
@@ -149,11 +149,13 @@ public abstract class AbstractSlsbInvokerInterceptor extends JndiObjectLocator
 
 	/**
 	 * Return the EJB home object to use. Called for each invocation.
-	 * <p>Default implementation returns the home created on initialization,
-	 * if any; else, it invokes lookup to get a new proxy for each invocation.
-	 * <p>Can be overridden in subclasses, for example to cache a home object
-	 * for a given amount of time before recreating it, or to test the home
-	 * object whether it is still alive.
+	 * <p>
+	 * Default implementation returns the home created on initialization, if any; else, it
+	 * invokes lookup to get a new proxy for each invocation.
+	 * <p>
+	 * Can be overridden in subclasses, for example to cache a home object for a given
+	 * amount of time before recreating it, or to test the home object whether it is still
+	 * alive.
 	 * @return the EJB home object to use for an invocation
 	 * @throws NamingException if proxy creation failed
 	 * @see #lookup
@@ -175,13 +177,12 @@ public abstract class AbstractSlsbInvokerInterceptor extends JndiObjectLocator
 	}
 
 	/**
-	 * Return whether the cached EJB home object is potentially
-	 * subject to on-demand refreshing. Default is "false".
+	 * Return whether the cached EJB home object is potentially subject to on-demand
+	 * refreshing. Default is "false".
 	 */
 	protected boolean isHomeRefreshable() {
 		return false;
 	}
-
 
 	/**
 	 * Prepares the thread context if necessary, and delegates to
@@ -200,16 +201,14 @@ public abstract class AbstractSlsbInvokerInterceptor extends JndiObjectLocator
 	}
 
 	/**
-	 * Perform the given invocation on the current EJB home,
-	 * within the thread context being prepared accordingly.
-	 * Template method to be implemented by subclasses.
+	 * Perform the given invocation on the current EJB home, within the thread context
+	 * being prepared accordingly. Template method to be implemented by subclasses.
 	 * @param invocation the AOP method invocation
 	 * @return the invocation result, if any
 	 * @throws Throwable in case of invocation failure
 	 */
 	@Nullable
 	protected abstract Object invokeInContext(MethodInvocation invocation) throws Throwable;
-
 
 	/**
 	 * Invokes the {@code create()} method on the cached EJB home object.

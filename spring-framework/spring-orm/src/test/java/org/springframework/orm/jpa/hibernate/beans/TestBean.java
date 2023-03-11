@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 public abstract class TestBean {
+
 	private BeanSource source;
 
 	private String name;
@@ -46,4 +47,5 @@ public abstract class TestBean {
 	public ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
+
 }

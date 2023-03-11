@@ -25,7 +25,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Common delegate methods for Spring's internal {@link PropertyDescriptor} implementations.
+ * Common delegate methods for Spring's internal {@link PropertyDescriptor}
+ * implementations.
  *
  * @author Chris Beams
  * @author Juergen Hoeller
@@ -141,8 +142,8 @@ abstract class PropertyDescriptorUtils {
 					// Proceed with read method's property type
 				}
 				else {
-					throw new IntrospectionException("Type mismatch between indexed read and write methods: " +
-							indexedReadMethod + " - " + indexedWriteMethod);
+					throw new IntrospectionException("Type mismatch between indexed read and write methods: "
+							+ indexedReadMethod + " - " + indexedWriteMethod);
 				}
 			}
 			else {
@@ -150,27 +151,27 @@ abstract class PropertyDescriptorUtils {
 			}
 		}
 
-		if (propertyType != null && (!propertyType.isArray() ||
-				propertyType.getComponentType() != indexedPropertyType)) {
-			throw new IntrospectionException("Type mismatch between indexed and non-indexed methods: " +
-					indexedReadMethod + " - " + indexedWriteMethod);
+		if (propertyType != null
+				&& (!propertyType.isArray() || propertyType.getComponentType() != indexedPropertyType)) {
+			throw new IntrospectionException("Type mismatch between indexed and non-indexed methods: "
+					+ indexedReadMethod + " - " + indexedWriteMethod);
 		}
 
 		return indexedPropertyType;
 	}
 
 	/**
-	 * Compare the given {@code PropertyDescriptors} and return {@code true} if
-	 * they are equivalent, i.e. their read method, write method, property type,
-	 * property editor and flags are equivalent.
+	 * Compare the given {@code PropertyDescriptors} and return {@code true} if they are
+	 * equivalent, i.e. their read method, write method, property type, property editor
+	 * and flags are equivalent.
 	 * @see java.beans.PropertyDescriptor#equals(Object)
 	 */
 	public static boolean equals(PropertyDescriptor pd, PropertyDescriptor otherPd) {
-		return (ObjectUtils.nullSafeEquals(pd.getReadMethod(), otherPd.getReadMethod()) &&
-				ObjectUtils.nullSafeEquals(pd.getWriteMethod(), otherPd.getWriteMethod()) &&
-				ObjectUtils.nullSafeEquals(pd.getPropertyType(), otherPd.getPropertyType()) &&
-				ObjectUtils.nullSafeEquals(pd.getPropertyEditorClass(), otherPd.getPropertyEditorClass()) &&
-				pd.isBound() == otherPd.isBound() && pd.isConstrained() == otherPd.isConstrained());
+		return (ObjectUtils.nullSafeEquals(pd.getReadMethod(), otherPd.getReadMethod())
+				&& ObjectUtils.nullSafeEquals(pd.getWriteMethod(), otherPd.getWriteMethod())
+				&& ObjectUtils.nullSafeEquals(pd.getPropertyType(), otherPd.getPropertyType())
+				&& ObjectUtils.nullSafeEquals(pd.getPropertyEditorClass(), otherPd.getPropertyEditorClass())
+				&& pd.isBound() == otherPd.isBound() && pd.isConstrained() == otherPd.isConstrained());
 	}
 
 }

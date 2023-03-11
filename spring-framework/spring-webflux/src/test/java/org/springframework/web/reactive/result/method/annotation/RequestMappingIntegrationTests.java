@@ -42,8 +42,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Integration tests with {@code @RequestMapping} handler methods.
  *
- * <p>Before adding tests here consider if they are a better fit for any of the
- * other {@code RequestMapping*IntegrationTests}.
+ * <p>
+ * Before adding tests here consider if they are a better fit for any of the other
+ * {@code RequestMapping*IntegrationTests}.
  *
  * @author Rossen Stoyanchev
  * @author Stephane Maldini
@@ -58,7 +59,6 @@ class RequestMappingIntegrationTests extends AbstractRequestMappingIntegrationTe
 		wac.refresh();
 		return wac;
 	}
-
 
 	@ParameterizedHttpServerTest
 	void httpHead(HttpServer httpServer) throws Exception {
@@ -79,10 +79,8 @@ class RequestMappingIntegrationTests extends AbstractRequestMappingIntegrationTe
 		// One integration test to verify triggering of Forwarded header support.
 		// More fine-grained tests in ForwardedHeaderTransformerTests.
 
-		RequestEntity<Void> request = RequestEntity
-				.get(URI.create("http://localhost:" + this.port + "/uri"))
-				.header("Forwarded", "host=84.198.58.199;proto=https")
-				.build();
+		RequestEntity<Void> request = RequestEntity.get(URI.create("http://localhost:" + this.port + "/uri"))
+				.header("Forwarded", "host=84.198.58.199;proto=https").build();
 		ResponseEntity<String> entity = getRestTemplate().exchange(request, String.class);
 		assertThat(entity.getBody()).isEqualTo("https://84.198.58.199/uri");
 	}
@@ -91,16 +89,15 @@ class RequestMappingIntegrationTests extends AbstractRequestMappingIntegrationTe
 	void stream(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		String[] expected = {"0", "1", "2", "3", "4"};
+		String[] expected = { "0", "1", "2", "3", "4" };
 		assertThat(performGet("/stream", new HttpHeaders(), String[].class).getBody()).isEqualTo(expected);
 	}
-
 
 	@Configuration
 	@EnableWebFlux
 	static class WebConfig {
-	}
 
+	}
 
 	@RestController
 	@SuppressWarnings("unused")
@@ -126,8 +123,8 @@ class RequestMappingIntegrationTests extends AbstractRequestMappingIntegrationTe
 		public Publisher<Long> stream() {
 			return testInterval(Duration.ofMillis(50), 5);
 		}
-	}
 
+	}
 
 	@Configuration
 	static class LocalConfig {
@@ -136,6 +133,7 @@ class RequestMappingIntegrationTests extends AbstractRequestMappingIntegrationTe
 		public ForwardedHeaderTransformer forwardedHeaderTransformer() {
 			return new ForwardedHeaderTransformer();
 		}
+
 	}
 
 }

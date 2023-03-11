@@ -36,10 +36,9 @@ public class ManagedNotification {
 	@Nullable
 	private String description;
 
-
 	/**
-	 * Set a single notification type, or a list of notification types
-	 * as comma-delimited String.
+	 * Set a single notification type, or a list of notification types as comma-delimited
+	 * String.
 	 */
 	public void setNotificationType(String notificationType) {
 		this.notificationTypes = StringUtils.commaDelimitedListToStringArray(notificationType);

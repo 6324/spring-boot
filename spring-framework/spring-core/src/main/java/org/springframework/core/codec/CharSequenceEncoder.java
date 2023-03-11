@@ -51,14 +51,11 @@ public final class CharSequenceEncoder extends AbstractEncoder<CharSequence> {
 	 */
 	public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
-	private final ConcurrentMap<Charset, Float> charsetToMaxBytesPerChar =
-			new ConcurrentHashMap<>(3);
-
+	private final ConcurrentMap<Charset, Float> charsetToMaxBytesPerChar = new ConcurrentHashMap<>(3);
 
 	private CharSequenceEncoder(MimeType... mimeTypes) {
 		super(mimeTypes);
 	}
-
 
 	@Override
 	public boolean canEncode(ResolvableType elementType, @Nullable MimeType mimeType) {
@@ -67,17 +64,16 @@ public final class CharSequenceEncoder extends AbstractEncoder<CharSequence> {
 	}
 
 	@Override
-	public Flux<DataBuffer> encode(Publisher<? extends CharSequence> inputStream,
-			DataBufferFactory bufferFactory, ResolvableType elementType,
-			@Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
+	public Flux<DataBuffer> encode(Publisher<? extends CharSequence> inputStream, DataBufferFactory bufferFactory,
+			ResolvableType elementType, @Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
 
-		return Flux.from(inputStream).map(charSequence ->
-				encodeValue(charSequence, bufferFactory, elementType, mimeType, hints));
+		return Flux.from(inputStream)
+				.map(charSequence -> encodeValue(charSequence, bufferFactory, elementType, mimeType, hints));
 	}
 
 	@Override
-	public DataBuffer encodeValue(CharSequence charSequence, DataBufferFactory bufferFactory,
-			ResolvableType valueType, @Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
+	public DataBuffer encodeValue(CharSequence charSequence, DataBufferFactory bufferFactory, ResolvableType valueType,
+			@Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
 
 		if (!Hints.isLoggingSuppressed(hints)) {
 			LogFormatUtils.traceDebug(logger, traceOn -> {
@@ -105,8 +101,8 @@ public final class CharSequenceEncoder extends AbstractEncoder<CharSequence> {
 	}
 
 	int calculateCapacity(CharSequence sequence, Charset charset) {
-		float maxBytesPerChar = this.charsetToMaxBytesPerChar
-				.computeIfAbsent(charset, cs -> cs.newEncoder().maxBytesPerChar());
+		float maxBytesPerChar = this.charsetToMaxBytesPerChar.computeIfAbsent(charset,
+				cs -> cs.newEncoder().maxBytesPerChar());
 		float maxBytesForSequence = sequence.length() * maxBytesPerChar;
 		return (int) Math.ceil(maxBytesForSequence);
 	}
@@ -119,7 +115,6 @@ public final class CharSequenceEncoder extends AbstractEncoder<CharSequence> {
 			return DEFAULT_CHARSET;
 		}
 	}
-
 
 	/**
 	 * Create a {@code CharSequenceEncoder} that supports only "text/plain".

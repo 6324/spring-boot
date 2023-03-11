@@ -37,20 +37,21 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * An "RDBMS operation" is a multi-threaded, reusable object representing a query,
- * update, or stored procedure call. An RDBMS operation is <b>not</b> a command,
- * as a command is not reusable. However, execute methods may take commands as
- * arguments. Subclasses should be JavaBeans, allowing easy configuration.
+ * An "RDBMS operation" is a multi-threaded, reusable object representing a query, update,
+ * or stored procedure call. An RDBMS operation is <b>not</b> a command, as a command is
+ * not reusable. However, execute methods may take commands as arguments. Subclasses
+ * should be JavaBeans, allowing easy configuration.
  *
- * <p>This class and subclasses throw runtime exceptions, defined in the
+ * <p>
+ * This class and subclasses throw runtime exceptions, defined in the
  * {@code org.springframework.dao} package (and as thrown by the
- * {@code org.springframework.jdbc.core} package, which the classes
- * in this package use under the hood to perform raw JDBC operations).
+ * {@code org.springframework.jdbc.core} package, which the classes in this package use
+ * under the hood to perform raw JDBC operations).
  *
- * <p>Subclasses should set SQL and add parameters before invoking the
- * {@link #compile()} method. The order in which parameters are added is
- * significant. The appropriate {@code execute} or {@code update}
- * method can then be invoked.
+ * <p>
+ * Subclasses should set SQL and add parameters before invoking the {@link #compile()}
+ * method. The order in which parameters are added is significant. The appropriate
+ * {@code execute} or {@code update} method can then be invoked.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -82,12 +83,11 @@ public abstract class RdbmsOperation implements InitializingBean {
 	private final List<SqlParameter> declaredParameters = new LinkedList<>();
 
 	/**
-	 * Has this operation been compiled? Compilation means at
-	 * least checking that a DataSource and sql have been provided,
-	 * but subclasses may also implement their own custom validation.
+	 * Has this operation been compiled? Compilation means at least checking that a
+	 * DataSource and sql have been provided, but subclasses may also implement their own
+	 * custom validation.
 	 */
 	private volatile boolean compiled;
-
 
 	/**
 	 * An alternative to the more commonly used {@link #setDataSource} when you want to
@@ -115,11 +115,12 @@ public abstract class RdbmsOperation implements InitializingBean {
 	}
 
 	/**
-	 * Set the fetch size for this RDBMS operation. This is important for processing
-	 * large result sets: Setting this higher than the default value will increase
-	 * processing speed at the cost of memory consumption; setting this lower can
-	 * avoid transferring row data that will never be read by the application.
-	 * <p>Default is -1, indicating to use the driver's default.
+	 * Set the fetch size for this RDBMS operation. This is important for processing large
+	 * result sets: Setting this higher than the default value will increase processing
+	 * speed at the cost of memory consumption; setting this lower can avoid transferring
+	 * row data that will never be read by the application.
+	 * <p>
+	 * Default is -1, indicating to use the driver's default.
 	 * @see org.springframework.jdbc.core.JdbcTemplate#setFetchSize
 	 */
 	public void setFetchSize(int fetchSize) {
@@ -127,10 +128,11 @@ public abstract class RdbmsOperation implements InitializingBean {
 	}
 
 	/**
-	 * Set the maximum number of rows for this RDBMS operation. This is important
-	 * for processing subsets of large result sets, avoiding to read and hold
-	 * the entire result set in the database or in the JDBC driver.
-	 * <p>Default is -1, indicating to use the driver's default.
+	 * Set the maximum number of rows for this RDBMS operation. This is important for
+	 * processing subsets of large result sets, avoiding to read and hold the entire
+	 * result set in the database or in the JDBC driver.
+	 * <p>
+	 * Default is -1, indicating to use the driver's default.
 	 * @see org.springframework.jdbc.core.JdbcTemplate#setMaxRows
 	 */
 	public void setMaxRows(int maxRows) {
@@ -139,10 +141,12 @@ public abstract class RdbmsOperation implements InitializingBean {
 
 	/**
 	 * Set the query timeout for statements that this RDBMS operation executes.
-	 * <p>Default is -1, indicating to use the JDBC driver's default.
-	 * <p>Note: Any timeout specified here will be overridden by the remaining
-	 * transaction timeout when executing within a transaction that has a
-	 * timeout specified at the transaction level.
+	 * <p>
+	 * Default is -1, indicating to use the JDBC driver's default.
+	 * <p>
+	 * Note: Any timeout specified here will be overridden by the remaining transaction
+	 * timeout when executing within a transaction that has a timeout specified at the
+	 * transaction level.
 	 */
 	public void setQueryTimeout(int queryTimeout) {
 		this.jdbcTemplate.setQueryTimeout(queryTimeout);
@@ -168,8 +172,7 @@ public abstract class RdbmsOperation implements InitializingBean {
 	}
 
 	/**
-	 * Set whether to use statements that are capable of returning
-	 * updatable ResultSets.
+	 * Set whether to use statements that are capable of returning updatable ResultSets.
 	 * @see java.sql.Connection#prepareStatement(String, int, int)
 	 */
 	public void setUpdatableResults(boolean updatableResults) {
@@ -188,8 +191,7 @@ public abstract class RdbmsOperation implements InitializingBean {
 	}
 
 	/**
-	 * Set whether prepared statements should be capable of returning
-	 * auto-generated keys.
+	 * Set whether prepared statements should be capable of returning auto-generated keys.
 	 * @see java.sql.Connection#prepareStatement(String, int)
 	 */
 	public void setReturnGeneratedKeys(boolean returnGeneratedKeys) {
@@ -201,8 +203,7 @@ public abstract class RdbmsOperation implements InitializingBean {
 	}
 
 	/**
-	 * Return whether statements should be capable of returning
-	 * auto-generated keys.
+	 * Return whether statements should be capable of returning auto-generated keys.
 	 */
 	public boolean isReturnGeneratedKeys() {
 		return this.returnGeneratedKeys;
@@ -256,12 +257,12 @@ public abstract class RdbmsOperation implements InitializingBean {
 	}
 
 	/**
-	 * Add anonymous parameters, specifying only their SQL types
-	 * as defined in the {@code java.sql.Types} class.
-	 * <p>Parameter ordering is significant. This method is an alternative
-	 * to the {@link #declareParameter} method, which should normally be preferred.
-	 * @param types array of SQL types as defined in the
-	 * {@code java.sql.Types} class
+	 * Add anonymous parameters, specifying only their SQL types as defined in the
+	 * {@code java.sql.Types} class.
+	 * <p>
+	 * Parameter ordering is significant. This method is an alternative to the
+	 * {@link #declareParameter} method, which should normally be preferred.
+	 * @param types array of SQL types as defined in the {@code java.sql.Types} class
 	 * @throws InvalidDataAccessApiUsageException if the operation is already compiled
 	 */
 	public void setTypes(@Nullable int[] types) throws InvalidDataAccessApiUsageException {
@@ -277,10 +278,11 @@ public abstract class RdbmsOperation implements InitializingBean {
 
 	/**
 	 * Declare a parameter for this operation.
-	 * <p>The order in which this method is called is significant when using
-	 * positional parameters. It is not significant when using named parameters
-	 * with named SqlParameter objects here; it remains significant when using
-	 * named parameters in combination with unnamed SqlParameter objects here.
+	 * <p>
+	 * The order in which this method is called is significant when using positional
+	 * parameters. It is not significant when using named parameters with named
+	 * SqlParameter objects here; it remains significant when using named parameters in
+	 * combination with unnamed SqlParameter objects here.
 	 * @param param the SqlParameter to add. This will specify SQL type and (optionally)
 	 * the parameter's name. Note that you typically use the {@link SqlParameter} class
 	 * itself here, not any of its subclasses.
@@ -295,9 +297,9 @@ public abstract class RdbmsOperation implements InitializingBean {
 	}
 
 	/**
-	 * Add one or more declared parameters. Used for configuring this operation
-	 * when used in a bean factory.  Each parameter will specify SQL type and (optionally)
-	 * the parameter's name.
+	 * Add one or more declared parameters. Used for configuring this operation when used
+	 * in a bean factory. Each parameter will specify SQL type and (optionally) the
+	 * parameter's name.
 	 * @param parameters an array containing the declared {@link SqlParameter} objects
 	 * @see #declaredParameters
 	 */
@@ -310,8 +312,8 @@ public abstract class RdbmsOperation implements InitializingBean {
 				this.declaredParameters.add(parameters[i]);
 			}
 			else {
-				throw new InvalidDataAccessApiUsageException("Cannot add parameter at index " + i + " from " +
-						Arrays.asList(parameters) + " since it is 'null'");
+				throw new InvalidDataAccessApiUsageException("Cannot add parameter at index " + i + " from "
+						+ Arrays.asList(parameters) + " since it is 'null'");
 			}
 		}
 	}
@@ -323,7 +325,6 @@ public abstract class RdbmsOperation implements InitializingBean {
 		return this.declaredParameters;
 	}
 
-
 	/**
 	 * Ensures compilation if used in a bean factory.
 	 */
@@ -333,10 +334,9 @@ public abstract class RdbmsOperation implements InitializingBean {
 	}
 
 	/**
-	 * Compile this query.
-	 * Ignores subsequent attempts to compile.
-	 * @throws InvalidDataAccessApiUsageException if the object hasn't
-	 * been correctly initialized, for example if no DataSource has been provided
+	 * Compile this query. Ignores subsequent attempts to compile.
+	 * @throws InvalidDataAccessApiUsageException if the object hasn't been correctly
+	 * initialized, for example if no DataSource has been provided
 	 */
 	public final void compile() throws InvalidDataAccessApiUsageException {
 		if (!isCompiled()) {
@@ -361,9 +361,9 @@ public abstract class RdbmsOperation implements InitializingBean {
 	}
 
 	/**
-	 * Is this operation "compiled"? Compilation, as in JDO,
-	 * means that the operation is fully configured, and ready to use.
-	 * The exact meaning of compilation will vary between subclasses.
+	 * Is this operation "compiled"? Compilation, as in JDO, means that the operation is
+	 * fully configured, and ready to use. The exact meaning of compilation will vary
+	 * between subclasses.
 	 * @return whether this operation is compiled and ready to use
 	 */
 	public boolean isCompiled() {
@@ -371,9 +371,10 @@ public abstract class RdbmsOperation implements InitializingBean {
 	}
 
 	/**
-	 * Check whether this operation has been compiled already;
-	 * lazily compile it if not already compiled.
-	 * <p>Automatically called by {@code validateParameters}.
+	 * Check whether this operation has been compiled already; lazily compile it if not
+	 * already compiled.
+	 * <p>
+	 * Automatically called by {@code validateParameters}.
 	 * @see #validateParameters
 	 */
 	protected void checkCompiled() {
@@ -385,8 +386,8 @@ public abstract class RdbmsOperation implements InitializingBean {
 
 	/**
 	 * Validate the parameters passed to an execute method based on declared parameters.
-	 * Subclasses should invoke this method before every {@code executeQuery()}
-	 * or {@code update()} method.
+	 * Subclasses should invoke this method before every {@code executeQuery()} or
+	 * {@code update()} method.
 	 * @param parameters the parameters supplied (may be {@code null})
 	 * @throws InvalidDataAccessApiUsageException if the parameters are invalid
 	 */
@@ -395,8 +396,8 @@ public abstract class RdbmsOperation implements InitializingBean {
 		int declaredInParameters = 0;
 		for (SqlParameter param : this.declaredParameters) {
 			if (param.isInputValueProvided()) {
-				if (!supportsLobParameters() &&
-						(param.getSqlType() == Types.BLOB || param.getSqlType() == Types.CLOB)) {
+				if (!supportsLobParameters()
+						&& (param.getSqlType() == Types.BLOB || param.getSqlType() == Types.CLOB)) {
 					throw new InvalidDataAccessApiUsageException(
 							"BLOB or CLOB parameters are not allowed for this kind of operation");
 				}
@@ -407,26 +408,27 @@ public abstract class RdbmsOperation implements InitializingBean {
 	}
 
 	/**
-	 * Validate the named parameters passed to an execute method based on declared parameters.
-	 * Subclasses should invoke this method before every {@code executeQuery()} or
-	 * {@code update()} method.
+	 * Validate the named parameters passed to an execute method based on declared
+	 * parameters. Subclasses should invoke this method before every
+	 * {@code executeQuery()} or {@code update()} method.
 	 * @param parameters parameter Map supplied (may be {@code null})
 	 * @throws InvalidDataAccessApiUsageException if the parameters are invalid
 	 */
-	protected void validateNamedParameters(@Nullable Map<String, ?> parameters) throws InvalidDataAccessApiUsageException {
+	protected void validateNamedParameters(@Nullable Map<String, ?> parameters)
+			throws InvalidDataAccessApiUsageException {
 		checkCompiled();
-		Map<String, ?> paramsToUse = (parameters != null ? parameters : Collections.<String, Object> emptyMap());
+		Map<String, ?> paramsToUse = (parameters != null ? parameters : Collections.<String, Object>emptyMap());
 		int declaredInParameters = 0;
 		for (SqlParameter param : this.declaredParameters) {
 			if (param.isInputValueProvided()) {
-				if (!supportsLobParameters() &&
-						(param.getSqlType() == Types.BLOB || param.getSqlType() == Types.CLOB)) {
+				if (!supportsLobParameters()
+						&& (param.getSqlType() == Types.BLOB || param.getSqlType() == Types.CLOB)) {
 					throw new InvalidDataAccessApiUsageException(
 							"BLOB or CLOB parameters are not allowed for this kind of operation");
 				}
 				if (param.getName() != null && !paramsToUse.containsKey(param.getName())) {
-					throw new InvalidDataAccessApiUsageException("The parameter named '" + param.getName() +
-							"' was not among the parameters supplied: " + paramsToUse.keySet());
+					throw new InvalidDataAccessApiUsageException("The parameter named '" + param.getName()
+							+ "' was not among the parameters supplied: " + paramsToUse.keySet());
 				}
 				declaredInParameters++;
 			}
@@ -441,37 +443,39 @@ public abstract class RdbmsOperation implements InitializingBean {
 	 */
 	private void validateParameterCount(int suppliedParamCount, int declaredInParamCount) {
 		if (suppliedParamCount < declaredInParamCount) {
-			throw new InvalidDataAccessApiUsageException(suppliedParamCount + " parameters were supplied, but " +
-					declaredInParamCount + " in parameters were declared in class [" + getClass().getName() + "]");
+			throw new InvalidDataAccessApiUsageException(suppliedParamCount + " parameters were supplied, but "
+					+ declaredInParamCount + " in parameters were declared in class [" + getClass().getName() + "]");
 		}
 		if (suppliedParamCount > this.declaredParameters.size() && !allowsUnusedParameters()) {
-			throw new InvalidDataAccessApiUsageException(suppliedParamCount + " parameters were supplied, but " +
-					declaredInParamCount + " parameters were declared in class [" + getClass().getName() + "]");
+			throw new InvalidDataAccessApiUsageException(suppliedParamCount + " parameters were supplied, but "
+					+ declaredInParamCount + " parameters were declared in class [" + getClass().getName() + "]");
 		}
 	}
-
 
 	/**
 	 * Subclasses must implement this template method to perform their own compilation.
 	 * Invoked after this base class's compilation is complete.
-	 * <p>Subclasses can assume that SQL and a DataSource have been supplied.
-	 * @throws InvalidDataAccessApiUsageException if the subclass hasn't been
-	 * properly configured
+	 * <p>
+	 * Subclasses can assume that SQL and a DataSource have been supplied.
+	 * @throws InvalidDataAccessApiUsageException if the subclass hasn't been properly
+	 * configured
 	 */
 	protected abstract void compileInternal() throws InvalidDataAccessApiUsageException;
 
 	/**
 	 * Return whether BLOB/CLOB parameters are supported for this kind of operation.
-	 * <p>The default is {@code true}.
+	 * <p>
+	 * The default is {@code true}.
 	 */
 	protected boolean supportsLobParameters() {
 		return true;
 	}
 
 	/**
-	 * Return whether this operation accepts additional parameters that are
-	 * given but not actually used. Applies in particular to parameter Maps.
-	 * <p>The default is {@code false}.
+	 * Return whether this operation accepts additional parameters that are given but not
+	 * actually used. Applies in particular to parameter Maps.
+	 * <p>
+	 * The default is {@code false}.
 	 * @see StoredProcedure
 	 */
 	protected boolean allowsUnusedParameters() {

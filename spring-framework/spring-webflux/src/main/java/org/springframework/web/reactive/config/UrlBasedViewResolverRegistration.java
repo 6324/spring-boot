@@ -29,12 +29,10 @@ public class UrlBasedViewResolverRegistration {
 
 	private final UrlBasedViewResolver viewResolver;
 
-
 	public UrlBasedViewResolverRegistration(UrlBasedViewResolver viewResolver) {
 		Assert.notNull(viewResolver, "ViewResolver must not be null");
 		this.viewResolver = viewResolver;
 	}
-
 
 	/**
 	 * Set the prefix that gets prepended to view names when building a URL.
@@ -64,9 +62,9 @@ public class UrlBasedViewResolverRegistration {
 	}
 
 	/**
-	 * Set the view names (or name patterns) that can be handled by this view
-	 * resolver. View names can contain simple wildcards such that 'my*', '*Report'
-	 * and '*Repo*' will all match the view name 'myReport'.
+	 * Set the view names (or name patterns) that can be handled by this view resolver.
+	 * View names can contain simple wildcards such that 'my*', '*Report' and '*Repo*'
+	 * will all match the view name 'myReport'.
 	 * @see UrlBasedViewResolver#setViewNames
 	 */
 	public UrlBasedViewResolverRegistration viewNames(String... viewNames) {

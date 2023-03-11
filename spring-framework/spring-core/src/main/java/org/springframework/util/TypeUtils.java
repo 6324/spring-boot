@@ -24,8 +24,8 @@ import java.lang.reflect.WildcardType;
 import org.springframework.lang.Nullable;
 
 /**
- * Utility to work with Java 5 generic type parameters.
- * Mainly for internal use within the framework.
+ * Utility to work with Java 5 generic type parameters. Mainly for internal use within the
+ * framework.
  *
  * @author Ramnivas Laddad
  * @author Juergen Hoeller
@@ -35,8 +35,8 @@ import org.springframework.lang.Nullable;
 public abstract class TypeUtils {
 
 	/**
-	 * Check if the right-hand side type may be assigned to the left-hand side
-	 * type following the Java generics rules.
+	 * Check if the right-hand side type may be assigned to the left-hand side type
+	 * following the Java generics rules.
 	 * @param lhsType the target type
 	 * @param rhsType the value type that should be assigned to the target type
 	 * @return true if rhs is assignable to lhs
@@ -73,7 +73,8 @@ public abstract class TypeUtils {
 			}
 		}
 
-		// parameterized types are only assignable to other parameterized types and class types
+		// parameterized types are only assignable to other parameterized types and class
+		// types
 		if (lhsType instanceof ParameterizedType) {
 			if (rhsType instanceof Class) {
 				Type lhsRaw = ((ParameterizedType) lhsType).getRawType();
@@ -127,8 +128,8 @@ public abstract class TypeUtils {
 			Type lhsArg = lhsTypeArguments[i];
 			Type rhsArg = rhsTypeArguments[i];
 
-			if (!lhsArg.equals(rhsArg) &&
-					!(lhsArg instanceof WildcardType && isAssignable((WildcardType) lhsArg, rhsArg))) {
+			if (!lhsArg.equals(rhsArg)
+					&& !(lhsArg instanceof WildcardType && isAssignable((WildcardType) lhsArg, rhsArg))) {
 				return false;
 			}
 		}

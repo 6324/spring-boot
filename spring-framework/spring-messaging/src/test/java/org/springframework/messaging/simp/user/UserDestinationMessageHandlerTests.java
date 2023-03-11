@@ -50,8 +50,8 @@ class UserDestinationMessageHandlerTests {
 
 	private final SubscribableChannel brokerChannel = mock(SubscribableChannel.class);
 
-	private final UserDestinationMessageHandler handler = new UserDestinationMessageHandler(new StubMessageChannel(), this.brokerChannel, new DefaultUserDestinationResolver(this.registry));
-
+	private final UserDestinationMessageHandler handler = new UserDestinationMessageHandler(new StubMessageChannel(),
+			this.brokerChannel, new DefaultUserDestinationResolver(this.registry));
 
 	@Test
 	@SuppressWarnings("rawtypes")
@@ -182,7 +182,6 @@ class UserDestinationMessageHandlerTests {
 		this.handler.handleMessage(createWith(SimpMessageType.CONNECT, "joe", "123", "user/joe/queue/foo"));
 		verifyNoInteractions(this.brokerChannel);
 	}
-
 
 	private Message<?> createWith(SimpMessageType type, String user, String sessionId, String destination) {
 		SimpMessageHeaderAccessor headers = SimpMessageHeaderAccessor.create(type);

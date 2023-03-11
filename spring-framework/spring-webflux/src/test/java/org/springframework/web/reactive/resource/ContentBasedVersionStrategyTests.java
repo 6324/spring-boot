@@ -30,13 +30,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link ContentVersionStrategy}.
+ *
  * @author Rossen Stoyanchev
  * @author Brian Clozel
  */
 public class ContentBasedVersionStrategyTests {
 
 	private ContentVersionStrategy strategy = new ContentVersionStrategy();
-
 
 	@BeforeEach
 	public void setup() {
@@ -58,7 +58,8 @@ public class ContentBasedVersionStrategyTests {
 		String hash = "7fbe76cdac6093784895bb4989203e5a";
 		String path = "font-awesome/css/font-awesome.min%s%s.css";
 
-		assertThat(this.strategy.removeVersion(String.format(path, "-", hash), hash)).isEqualTo(String.format(path, "", ""));
+		assertThat(this.strategy.removeVersion(String.format(path, "-", hash), hash))
+				.isEqualTo(String.format(path, "", ""));
 	}
 
 	@Test

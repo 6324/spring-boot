@@ -34,15 +34,14 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 /**
- * {@code ObjectNamingStrategy} implementation that builds
- * {@code ObjectName} instances from the key used in the
- * "beans" map passed to {@code MBeanExporter}.
+ * {@code ObjectNamingStrategy} implementation that builds {@code ObjectName} instances
+ * from the key used in the "beans" map passed to {@code MBeanExporter}.
  *
- * <p>Can also check object name mappings, given as {@code Properties}
- * or as {@code mappingLocations} of properties files. The key used
- * to look up is the key used in {@code MBeanExporter}'s "beans" map.
- * If no mapping is found for a given key, the key itself is used to
- * build an {@code ObjectName}.
+ * <p>
+ * Can also check object name mappings, given as {@code Properties} or as
+ * {@code mappingLocations} of properties files. The key used to look up is the key used
+ * in {@code MBeanExporter}'s "beans" map. If no mapping is found for a given key, the key
+ * itself is used to build an {@code ObjectName}.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -66,51 +65,46 @@ public class KeyNamingStrategy implements ObjectNamingStrategy, InitializingBean
 	private Properties mappings;
 
 	/**
-	 * Stores the {@code Resource}s containing properties that should be loaded
-	 * into the final merged set of {@code Properties} used for {@code ObjectName}
-	 * resolution.
+	 * Stores the {@code Resource}s containing properties that should be loaded into the
+	 * final merged set of {@code Properties} used for {@code ObjectName} resolution.
 	 */
 	@Nullable
 	private Resource[] mappingLocations;
 
 	/**
-	 * Stores the result of merging the {@code mappings} {@code Properties}
-	 * with the properties stored in the resources defined by {@code mappingLocations}.
+	 * Stores the result of merging the {@code mappings} {@code Properties} with the
+	 * properties stored in the resources defined by {@code mappingLocations}.
 	 */
 	@Nullable
 	private Properties mergedMappings;
 
-
 	/**
-	 * Set local properties, containing object name mappings, e.g. via
-	 * the "props" tag in XML bean definitions. These can be considered
-	 * defaults, to be overridden by properties loaded from files.
+	 * Set local properties, containing object name mappings, e.g. via the "props" tag in
+	 * XML bean definitions. These can be considered defaults, to be overridden by
+	 * properties loaded from files.
 	 */
 	public void setMappings(Properties mappings) {
 		this.mappings = mappings;
 	}
 
 	/**
-	 * Set a location of a properties file to be loaded,
-	 * containing object name mappings.
+	 * Set a location of a properties file to be loaded, containing object name mappings.
 	 */
 	public void setMappingLocation(Resource location) {
-		this.mappingLocations = new Resource[] {location};
+		this.mappingLocations = new Resource[] { location };
 	}
 
 	/**
-	 * Set location of properties files to be loaded,
-	 * containing object name mappings.
+	 * Set location of properties files to be loaded, containing object name mappings.
 	 */
 	public void setMappingLocations(Resource... mappingLocations) {
 		this.mappingLocations = mappingLocations;
 	}
 
-
 	/**
 	 * Merges the {@code Properties} configured in the {@code mappings} and
-	 * {@code mappingLocations} into the final {@code Properties} instance
-	 * used for {@code ObjectName} resolution.
+	 * {@code mappingLocations} into the final {@code Properties} instance used for
+	 * {@code ObjectName} resolution.
 	 */
 	@Override
 	public void afterPropertiesSet() throws IOException {
@@ -127,10 +121,9 @@ public class KeyNamingStrategy implements ObjectNamingStrategy, InitializingBean
 		}
 	}
 
-
 	/**
-	 * Attempts to retrieve the {@code ObjectName} via the given key, trying to
-	 * find a mapped value in the mappings first.
+	 * Attempts to retrieve the {@code ObjectName} via the given key, trying to find a
+	 * mapped value in the mappings first.
 	 */
 	@Override
 	public ObjectName getObjectName(Object managedBean, @Nullable String beanKey) throws MalformedObjectNameException {

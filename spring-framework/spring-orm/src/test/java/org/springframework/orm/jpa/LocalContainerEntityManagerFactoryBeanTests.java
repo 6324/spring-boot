@@ -62,7 +62,6 @@ public class LocalContainerEntityManagerFactoryBeanTests extends AbstractEntityM
 
 	private static PersistenceUnitInfo actualPui;
 
-
 	@Test
 	public void testValidPersistenceUnit() throws Exception {
 		parseValidPersistenceUnit();
@@ -192,8 +191,7 @@ public class LocalContainerEntityManagerFactoryBeanTests extends AbstractEntityM
 		em.joinTransaction();
 		assertThat(em.contains(testEntity)).isFalse();
 
-		assertThatExceptionOfType(OptimisticLockingFailureException.class).isThrownBy(() ->
-				jpatm.commit(txStatus));
+		assertThatExceptionOfType(OptimisticLockingFailureException.class).isThrownBy(() -> jpatm.commit(txStatus));
 
 		cefb.destroy();
 
@@ -243,19 +241,19 @@ public class LocalContainerEntityManagerFactoryBeanTests extends AbstractEntityM
 
 	public LocalContainerEntityManagerFactoryBean parseValidPersistenceUnit() throws Exception {
 		LocalContainerEntityManagerFactoryBean emfb = createEntityManagerFactoryBean(
-				"org/springframework/orm/jpa/domain/persistence.xml", null,
-				"Person");
+				"org/springframework/orm/jpa/domain/persistence.xml", null, "Person");
 		return emfb;
 	}
 
 	@Test
 	public void testInvalidPersistenceUnitName() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				createEntityManagerFactoryBean("org/springframework/orm/jpa/domain/persistence.xml", null, "call me Bob"));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> createEntityManagerFactoryBean("org/springframework/orm/jpa/domain/persistence.xml",
+						null, "call me Bob"));
 	}
 
-	protected LocalContainerEntityManagerFactoryBean createEntityManagerFactoryBean(
-			String persistenceXml, Properties props, String entityManagerName) throws Exception {
+	protected LocalContainerEntityManagerFactoryBean createEntityManagerFactoryBean(String persistenceXml,
+			Properties props, String entityManagerName) throws Exception {
 
 		// This will be set by DummyPersistenceProvider
 		actualPui = null;
@@ -276,12 +274,12 @@ public class LocalContainerEntityManagerFactoryBeanTests extends AbstractEntityM
 		if (props != null) {
 			assertThat((Object) actualProps).isEqualTo(props);
 		}
-		//checkInvariants(containerEmfb);
+		// checkInvariants(containerEmfb);
 
 		return containerEmfb;
 
-		//containerEmfb.destroy();
-		//emfMc.verify();
+		// containerEmfb.destroy();
+		// emfMc.verify();
 	}
 
 	@Test
@@ -292,10 +290,8 @@ public class LocalContainerEntityManagerFactoryBeanTests extends AbstractEntityM
 		containerEmfb.setPersistenceUnitName(entityManagerName);
 		containerEmfb.setPersistenceProviderClass(DummyContainerPersistenceProvider.class);
 
-		assertThatIllegalArgumentException().isThrownBy(
-				containerEmfb::afterPropertiesSet);
+		assertThatIllegalArgumentException().isThrownBy(containerEmfb::afterPropertiesSet);
 	}
-
 
 	private static class DummyContainerPersistenceProvider implements PersistenceProvider {
 
@@ -327,8 +323,8 @@ public class LocalContainerEntityManagerFactoryBeanTests extends AbstractEntityM
 		public boolean generateSchema(String persistenceUnitName, Map map) {
 			throw new UnsupportedOperationException();
 		}
-	}
 
+	}
 
 	private static class NoOpEntityTransaction implements EntityTransaction {
 
@@ -358,6 +354,7 @@ public class LocalContainerEntityManagerFactoryBeanTests extends AbstractEntityM
 		public boolean isActive() {
 			return false;
 		}
+
 	}
 
 }

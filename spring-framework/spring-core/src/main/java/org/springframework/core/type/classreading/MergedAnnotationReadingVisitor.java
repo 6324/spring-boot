@@ -34,8 +34,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 
 /**
- * {@link AnnotationVisitor} that can be used to construct a
- * {@link MergedAnnotation}.
+ * {@link AnnotationVisitor} that can be used to construct a {@link MergedAnnotation}.
  *
  * @author Phillip Webb
  * @since 5.2
@@ -55,7 +54,6 @@ class MergedAnnotationReadingVisitor<A extends Annotation> extends AnnotationVis
 
 	private final Map<String, Object> attributes = new LinkedHashMap<>(4);
 
-
 	public MergedAnnotationReadingVisitor(@Nullable ClassLoader classLoader, @Nullable Object source,
 			Class<A> annotationType, Consumer<MergedAnnotation<A>> consumer) {
 
@@ -65,7 +63,6 @@ class MergedAnnotationReadingVisitor<A extends Annotation> extends AnnotationVis
 		this.annotationType = annotationType;
 		this.consumer = consumer;
 	}
-
 
 	@Override
 	public void visit(String name, Object value) {
@@ -93,8 +90,8 @@ class MergedAnnotationReadingVisitor<A extends Annotation> extends AnnotationVis
 
 	@Override
 	public void visitEnd() {
-		MergedAnnotation<A> annotation = MergedAnnotation.of(
-				this.classLoader, this.source, this.annotationType, this.attributes);
+		MergedAnnotation<A> annotation = MergedAnnotation.of(this.classLoader, this.source, this.annotationType,
+				this.attributes);
 		this.consumer.accept(annotation);
 	}
 
@@ -107,8 +104,8 @@ class MergedAnnotationReadingVisitor<A extends Annotation> extends AnnotationVis
 
 	@SuppressWarnings("unchecked")
 	@Nullable
-	private <T extends Annotation> AnnotationVisitor visitAnnotation(
-			String descriptor, Consumer<MergedAnnotation<T>> consumer) {
+	private <T extends Annotation> AnnotationVisitor visitAnnotation(String descriptor,
+			Consumer<MergedAnnotation<T>> consumer) {
 
 		String className = Type.getType(descriptor).getClassName();
 		if (AnnotationFilter.PLAIN.matches(className)) {
@@ -142,7 +139,6 @@ class MergedAnnotationReadingVisitor<A extends Annotation> extends AnnotationVis
 			return null;
 		}
 	}
-
 
 	/**
 	 * {@link AnnotationVisitor} to deal with array attributes.
@@ -194,6 +190,7 @@ class MergedAnnotationReadingVisitor<A extends Annotation> extends AnnotationVis
 			}
 			return firstElement.getClass();
 		}
+
 	}
 
 }

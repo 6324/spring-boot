@@ -37,13 +37,11 @@ public abstract class StreamingSockJsSession extends AbstractHttpSockJsSession {
 
 	private int byteCount;
 
-
-	public StreamingSockJsSession(String sessionId, SockJsServiceConfig config,
-			WebSocketHandler wsHandler, Map<String, Object> attributes) {
+	public StreamingSockJsSession(String sessionId, SockJsServiceConfig config, WebSocketHandler wsHandler,
+			Map<String, Object> attributes) {
 
 		super(sessionId, config, wsHandler, attributes);
 	}
-
 
 	/**
 	 * Get the prelude to write to the response before any other data.
@@ -51,10 +49,9 @@ public abstract class StreamingSockJsSession extends AbstractHttpSockJsSession {
 	 */
 	protected abstract byte[] getPrelude(ServerHttpRequest request);
 
-
 	@Override
-	protected void handleRequestInternal(ServerHttpRequest request, ServerHttpResponse response,
-			boolean initialRequest) throws IOException {
+	protected void handleRequestInternal(ServerHttpRequest request, ServerHttpResponse response, boolean initialRequest)
+			throws IOException {
 
 		byte[] prelude = getPrelude(request);
 		response.getBody().write(prelude);
@@ -76,8 +73,8 @@ public abstract class StreamingSockJsSession extends AbstractHttpSockJsSession {
 
 			this.byteCount += (frame.getContentBytes().length + 1);
 			if (logger.isTraceEnabled()) {
-				logger.trace(this.byteCount + " bytes written so far, " +
-						getMessageCache().size() + " more messages not flushed");
+				logger.trace(this.byteCount + " bytes written so far, " + getMessageCache().size()
+						+ " more messages not flushed");
 			}
 			if (this.byteCount >= getSockJsServiceConfig().getStreamBytesLimit()) {
 				logger.trace("Streamed bytes limit reached, recycling current request");

@@ -27,13 +27,15 @@ import org.springframework.util.Assert;
 
 /**
  * One-way PropertyEditor which can convert from a text String to a
- * {@code java.io.Reader}, interpreting the given String as a Spring
- * resource location (e.g. a URL String).
+ * {@code java.io.Reader}, interpreting the given String as a Spring resource location
+ * (e.g. a URL String).
  *
- * <p>Supports Spring-style URL notation: any fully qualified standard URL
- * ("file:", "http:", etc.) and Spring's special "classpath:" pseudo-URL.
+ * <p>
+ * Supports Spring-style URL notation: any fully qualified standard URL ("file:", "http:",
+ * etc.) and Spring's special "classpath:" pseudo-URL.
  *
- * <p>Note that such readers usually do not get closed by Spring itself!
+ * <p>
+ * Note that such readers usually do not get closed by Spring itself!
  *
  * @author Juergen Hoeller
  * @since 4.2
@@ -45,7 +47,6 @@ import org.springframework.util.Assert;
 public class ReaderEditor extends PropertyEditorSupport {
 
 	private final ResourceEditor resourceEditor;
-
 
 	/**
 	 * Create a new ReaderEditor, using the default ResourceEditor underneath.
@@ -63,7 +64,6 @@ public class ReaderEditor extends PropertyEditorSupport {
 		this.resourceEditor = resourceEditor;
 	}
 
-
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException {
 		this.resourceEditor.setAsText(text);
@@ -77,8 +77,8 @@ public class ReaderEditor extends PropertyEditorSupport {
 	}
 
 	/**
-	 * This implementation returns {@code null} to indicate that
-	 * there is no appropriate text representation.
+	 * This implementation returns {@code null} to indicate that there is no appropriate
+	 * text representation.
 	 */
 	@Override
 	@Nullable

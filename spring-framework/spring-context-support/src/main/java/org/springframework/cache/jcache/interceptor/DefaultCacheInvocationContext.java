@@ -27,9 +27,9 @@ import javax.cache.annotation.CacheInvocationParameter;
 import org.springframework.cache.interceptor.CacheOperationInvocationContext;
 
 /**
- * The default {@link CacheOperationInvocationContext} implementation used
- * by all interceptors. Also implements {@link CacheInvocationContext} to
- * act as a proper bridge when calling JSR-107 {@link javax.cache.annotation.CacheResolver}
+ * The default {@link CacheOperationInvocationContext} implementation used by all
+ * interceptors. Also implements {@link CacheInvocationContext} to act as a proper bridge
+ * when calling JSR-107 {@link javax.cache.annotation.CacheResolver}
  *
  * @author Stephane Nicoll
  * @since 4.1
@@ -46,14 +46,12 @@ class DefaultCacheInvocationContext<A extends Annotation>
 
 	private final CacheInvocationParameter[] allParameters;
 
-
 	public DefaultCacheInvocationContext(JCacheOperation<A> operation, Object target, Object[] args) {
 		this.operation = operation;
 		this.target = target;
 		this.args = args;
 		this.allParameters = operation.getAllParameters(args);
 	}
-
 
 	@Override
 	public JCacheOperation<A> getOperation() {
@@ -99,7 +97,6 @@ class DefaultCacheInvocationContext<A extends Annotation>
 	public <T> T unwrap(Class<T> cls) {
 		throw new IllegalArgumentException("Cannot unwrap to " + cls);
 	}
-
 
 	@Override
 	public String toString() {

@@ -44,14 +44,12 @@ public class BeanNameAutoProxyCreatorTests {
 
 	private BeanFactory beanFactory;
 
-
 	@BeforeEach
 	public void setup() {
 		// Note that we need an ApplicationContext, not just a BeanFactory,
 		// for post-processing and hence auto-proxying to work.
 		beanFactory = new ClassPathXmlApplicationContext(getClass().getSimpleName() + "-context.xml", getClass());
 	}
-
 
 	@Test
 	public void testNoProxy() {
@@ -105,8 +103,8 @@ public class BeanNameAutoProxyCreatorTests {
 		// Can still mod second object
 		tb2.setAge(12);
 		// But can't mod first
-		assertThatExceptionOfType(LockedException.class).as("mixin should have locked this object").isThrownBy(() ->
-				tb.setAge(6));
+		assertThatExceptionOfType(LockedException.class).as("mixin should have locked this object")
+				.isThrownBy(() -> tb.setAge(6));
 	}
 
 	@Test
@@ -139,8 +137,8 @@ public class BeanNameAutoProxyCreatorTests {
 		// Can still mod second object
 		tb2.setAge(12);
 		// But can't mod first
-		assertThatExceptionOfType(LockedException.class).as("mixin should have locked this object").isThrownBy(() ->
-				tb.setAge(6));
+		assertThatExceptionOfType(LockedException.class).as("mixin should have locked this object")
+				.isThrownBy(() -> tb.setAge(6));
 	}
 
 	@Test
@@ -160,11 +158,10 @@ public class BeanNameAutoProxyCreatorTests {
 	@Test
 	public void testWithFrozenProxy() {
 		ITestBean testBean = (ITestBean) beanFactory.getBean("frozenBean");
-		assertThat(((Advised)testBean).isFrozen()).isTrue();
+		assertThat(((Advised) testBean).isFrozen()).isTrue();
 	}
 
-
-	private void jdkAssertions(ITestBean tb, int nopInterceptorCount)  {
+	private void jdkAssertions(ITestBean tb, int nopInterceptorCount) {
 		NopInterceptor nop = (NopInterceptor) beanFactory.getBean("nopInterceptor");
 		assertThat(nop.getCount()).isEqualTo(0);
 		assertThat(AopUtils.isJdkDynamicProxy(tb)).isTrue();
@@ -191,7 +188,6 @@ public class BeanNameAutoProxyCreatorTests {
 	}
 
 }
-
 
 class CreatesTestBean implements FactoryBean<Object> {
 

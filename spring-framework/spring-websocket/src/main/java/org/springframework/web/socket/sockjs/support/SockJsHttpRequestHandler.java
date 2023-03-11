@@ -52,14 +52,14 @@ import org.springframework.web.socket.sockjs.SockJsService;
 public class SockJsHttpRequestHandler
 		implements HttpRequestHandler, CorsConfigurationSource, Lifecycle, ServletContextAware {
 
-	// No logging: HTTP transports too verbose and we don't know enough to log anything of value
+	// No logging: HTTP transports too verbose and we don't know enough to log anything of
+	// value
 
 	private final SockJsService sockJsService;
 
 	private final WebSocketHandler webSocketHandler;
 
 	private volatile boolean running = false;
-
 
 	/**
 	 * Create a new SockJsHttpRequestHandler.
@@ -70,10 +70,9 @@ public class SockJsHttpRequestHandler
 		Assert.notNull(sockJsService, "SockJsService must not be null");
 		Assert.notNull(webSocketHandler, "WebSocketHandler must not be null");
 		this.sockJsService = sockJsService;
-		this.webSocketHandler =
-				new ExceptionWebSocketHandlerDecorator(new LoggingWebSocketHandlerDecorator(webSocketHandler));
+		this.webSocketHandler = new ExceptionWebSocketHandlerDecorator(
+				new LoggingWebSocketHandlerDecorator(webSocketHandler));
 	}
-
 
 	/**
 	 * Return the {@link SockJsService}.
@@ -95,7 +94,6 @@ public class SockJsHttpRequestHandler
 			((ServletContextAware) this.sockJsService).setServletContext(servletContext);
 		}
 	}
-
 
 	@Override
 	public void start() {
@@ -121,7 +119,6 @@ public class SockJsHttpRequestHandler
 	public boolean isRunning() {
 		return this.running;
 	}
-
 
 	@Override
 	public void handleRequest(HttpServletRequest servletRequest, HttpServletResponse servletResponse)

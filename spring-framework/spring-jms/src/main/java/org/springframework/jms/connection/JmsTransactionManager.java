@@ -37,51 +37,56 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.util.Assert;
 
 /**
- * {@link org.springframework.transaction.PlatformTransactionManager} implementation
- * for a single JMS {@link javax.jms.ConnectionFactory}. Binds a JMS
- * Connection/Session pair from the specified ConnectionFactory to the thread,
- * potentially allowing for one thread-bound Session per ConnectionFactory.
+ * {@link org.springframework.transaction.PlatformTransactionManager} implementation for a
+ * single JMS {@link javax.jms.ConnectionFactory}. Binds a JMS Connection/Session pair
+ * from the specified ConnectionFactory to the thread, potentially allowing for one
+ * thread-bound Session per ConnectionFactory.
  *
- * <p>This local strategy is an alternative to executing JMS operations within
- * JTA transactions. Its advantage is that it is able to work in any environment,
- * for example a standalone application or a test suite, with any message broker
- * as target. However, this strategy is <i>not</i> able to provide XA transactions,
- * for example in order to share transactions between messaging and database access.
- * A full JTA/XA setup is required for XA transactions, typically using Spring's
+ * <p>
+ * This local strategy is an alternative to executing JMS operations within JTA
+ * transactions. Its advantage is that it is able to work in any environment, for example
+ * a standalone application or a test suite, with any message broker as target. However,
+ * this strategy is <i>not</i> able to provide XA transactions, for example in order to
+ * share transactions between messaging and database access. A full JTA/XA setup is
+ * required for XA transactions, typically using Spring's
  * {@link org.springframework.transaction.jta.JtaTransactionManager} as strategy.
  *
- * <p>Application code is required to retrieve the transactional JMS Session via
- * {@link ConnectionFactoryUtils#getTransactionalSession} instead of a standard
- * Java EE-style {@link ConnectionFactory#createConnection()} call with subsequent
- * Session creation. Spring's {@link org.springframework.jms.core.JmsTemplate}
- * will autodetect a thread-bound Session and automatically participate in it.
+ * <p>
+ * Application code is required to retrieve the transactional JMS Session via
+ * {@link ConnectionFactoryUtils#getTransactionalSession} instead of a standard Java
+ * EE-style {@link ConnectionFactory#createConnection()} call with subsequent Session
+ * creation. Spring's {@link org.springframework.jms.core.JmsTemplate} will autodetect a
+ * thread-bound Session and automatically participate in it.
  *
- * <p>Alternatively, you can allow application code to work with the standard
- * Java EE-style lookup pattern on a ConnectionFactory, for example for legacy code
- * that is not aware of Spring at all. In that case, define a
- * {@link TransactionAwareConnectionFactoryProxy} for your target ConnectionFactory,
- * which will automatically participate in Spring-managed transactions.
+ * <p>
+ * Alternatively, you can allow application code to work with the standard Java EE-style
+ * lookup pattern on a ConnectionFactory, for example for legacy code that is not aware of
+ * Spring at all. In that case, define a {@link TransactionAwareConnectionFactoryProxy}
+ * for your target ConnectionFactory, which will automatically participate in
+ * Spring-managed transactions.
  *
- * <p><b>The use of {@link CachingConnectionFactory} as a target for this
- * transaction manager is strongly recommended.</b> CachingConnectionFactory
- * uses a single JMS Connection for all JMS access in order to avoid the overhead
- * of repeated Connection creation, as well as maintaining a cache of Sessions.
- * Each transaction will then share the same JMS Connection, while still using
- * its own individual JMS Session.
+ * <p>
+ * <b>The use of {@link CachingConnectionFactory} as a target for this transaction manager
+ * is strongly recommended.</b> CachingConnectionFactory uses a single JMS Connection for
+ * all JMS access in order to avoid the overhead of repeated Connection creation, as well
+ * as maintaining a cache of Sessions. Each transaction will then share the same JMS
+ * Connection, while still using its own individual JMS Session.
  *
- * <p>The use of a <i>raw</i> target ConnectionFactory would not only be inefficient
- * because of the lack of resource reuse. It might also lead to strange effects
- * when your JMS driver doesn't accept {@code MessageProducer.close()} calls
- * and/or {@code MessageConsumer.close()} calls before {@code Session.commit()},
- * with the latter supposed to commit all the messages that have been sent through the
- * producer handle and received through the consumer handle. As a safe general solution,
- * always pass in a {@link CachingConnectionFactory} into this transaction manager's
+ * <p>
+ * The use of a <i>raw</i> target ConnectionFactory would not only be inefficient because
+ * of the lack of resource reuse. It might also lead to strange effects when your JMS
+ * driver doesn't accept {@code MessageProducer.close()} calls and/or
+ * {@code MessageConsumer.close()} calls before {@code Session.commit()}, with the latter
+ * supposed to commit all the messages that have been sent through the producer handle and
+ * received through the consumer handle. As a safe general solution, always pass in a
+ * {@link CachingConnectionFactory} into this transaction manager's
  * {@link #setConnectionFactory "connectionFactory"} property.
  *
- * <p>Transaction synchronization is turned off by default, as this manager might
- * be used alongside a datastore-based Spring transaction manager such as the
- * JDBC {@link org.springframework.jdbc.datasource.DataSourceTransactionManager},
- * which has stronger needs for synchronization.
+ * <p>
+ * Transaction synchronization is turned off by default, as this manager might be used
+ * alongside a datastore-based Spring transaction manager such as the JDBC
+ * {@link org.springframework.jdbc.datasource.DataSourceTransactionManager}, which has
+ * stronger needs for synchronization.
  *
  * @author Juergen Hoeller
  * @since 1.1
@@ -98,16 +103,17 @@ public class JmsTransactionManager extends AbstractPlatformTransactionManager
 
 	private boolean lazyResourceRetrieval = false;
 
-
 	/**
 	 * Create a new JmsTransactionManager for bean-style usage.
-	 * <p>Note: The ConnectionFactory has to be set before using the instance.
-	 * This constructor can be used to prepare a JmsTemplate via a BeanFactory,
-	 * typically setting the ConnectionFactory via setConnectionFactory.
-	 * <p>Turns off transaction synchronization by default, as this manager might
-	 * be used alongside a datastore-based Spring transaction manager like
-	 * DataSourceTransactionManager, which has stronger needs for synchronization.
-	 * Only one manager is allowed to drive synchronization at any point of time.
+	 * <p>
+	 * Note: The ConnectionFactory has to be set before using the instance. This
+	 * constructor can be used to prepare a JmsTemplate via a BeanFactory, typically
+	 * setting the ConnectionFactory via setConnectionFactory.
+	 * <p>
+	 * Turns off transaction synchronization by default, as this manager might be used
+	 * alongside a datastore-based Spring transaction manager like
+	 * DataSourceTransactionManager, which has stronger needs for synchronization. Only
+	 * one manager is allowed to drive synchronization at any point of time.
 	 * @see #setConnectionFactory
 	 * @see #setTransactionSynchronization
 	 */
@@ -125,15 +131,16 @@ public class JmsTransactionManager extends AbstractPlatformTransactionManager
 		afterPropertiesSet();
 	}
 
-
 	/**
 	 * Set the JMS ConnectionFactory that this instance should manage transactions for.
 	 */
 	public void setConnectionFactory(@Nullable ConnectionFactory cf) {
 		if (cf instanceof TransactionAwareConnectionFactoryProxy) {
-			// If we got a TransactionAwareConnectionFactoryProxy, we need to perform transactions
+			// If we got a TransactionAwareConnectionFactoryProxy, we need to perform
+			// transactions
 			// for its underlying target ConnectionFactory, else JMS access code won't see
-			// properly exposed transactions (i.e. transactions for the target ConnectionFactory).
+			// properly exposed transactions (i.e. transactions for the target
+			// ConnectionFactory).
 			this.connectionFactory = ((TransactionAwareConnectionFactoryProxy) cf).getTargetConnectionFactory();
 		}
 		else {
@@ -162,10 +169,9 @@ public class JmsTransactionManager extends AbstractPlatformTransactionManager
 	}
 
 	/**
-	 * Specify whether this transaction manager should lazily retrieve a JMS
-	 * Connection and Session on access within a transaction ({@code true}).
-	 * By default, it will eagerly create a JMS Connection and Session at
-	 * transaction begin ({@code false}).
+	 * Specify whether this transaction manager should lazily retrieve a JMS Connection
+	 * and Session on access within a transaction ({@code true}). By default, it will
+	 * eagerly create a JMS Connection and Session at transaction begin ({@code false}).
 	 * @since 5.1.6
 	 * @see JmsResourceHolder#getConnection()
 	 * @see JmsResourceHolder#getSession()
@@ -183,7 +189,6 @@ public class JmsTransactionManager extends AbstractPlatformTransactionManager
 			throw new IllegalArgumentException("Property 'connectionFactory' is required");
 		}
 	}
-
 
 	@Override
 	public Object getResourceFactory() {
@@ -319,10 +324,10 @@ public class JmsTransactionManager extends AbstractPlatformTransactionManager
 		txObject.getResourceHolder().clear();
 	}
 
-
 	/**
 	 * Create a JMS Connection via this template's ConnectionFactory.
-	 * <p>This implementation uses JMS 1.1 API.
+	 * <p>
+	 * This implementation uses JMS 1.1 API.
 	 * @return the new JMS Connection
 	 * @throws javax.jms.JMSException if thrown by JMS API methods
 	 */
@@ -332,7 +337,8 @@ public class JmsTransactionManager extends AbstractPlatformTransactionManager
 
 	/**
 	 * Create a JMS Session for the given Connection.
-	 * <p>This implementation uses JMS 1.1 API.
+	 * <p>
+	 * This implementation uses JMS 1.1 API.
 	 * @param con the JMS Connection to create a Session for
 	 * @return the new JMS Session
 	 * @throws javax.jms.JMSException if thrown by JMS API methods
@@ -341,10 +347,9 @@ public class JmsTransactionManager extends AbstractPlatformTransactionManager
 		return con.createSession(true, Session.AUTO_ACKNOWLEDGE);
 	}
 
-
 	/**
-	 * Lazily initializing variant of {@link JmsResourceHolder},
-	 * initializing a JMS Connection and Session on user access.
+	 * Lazily initializing variant of {@link JmsResourceHolder}, initializing a JMS
+	 * Connection and Session on user access.
 	 */
 	private class LazyJmsResourceHolder extends JmsResourceHolder {
 
@@ -418,12 +423,13 @@ public class JmsTransactionManager extends AbstractPlatformTransactionManager
 				this.sessionInitialized = true;
 			}
 		}
+
 	}
 
-
 	/**
-	 * JMS transaction object, representing a JmsResourceHolder.
-	 * Used as transaction object by JmsTransactionManager.
+	 * JMS transaction object, representing a JmsResourceHolder. Used as transaction
+	 * object by JmsTransactionManager.
+	 *
 	 * @see JmsResourceHolder
 	 */
 	private static class JmsTransactionObject implements SmartTransactionObject {
@@ -453,6 +459,7 @@ public class JmsTransactionManager extends AbstractPlatformTransactionManager
 		public void flush() {
 			// no-op
 		}
+
 	}
 
 }

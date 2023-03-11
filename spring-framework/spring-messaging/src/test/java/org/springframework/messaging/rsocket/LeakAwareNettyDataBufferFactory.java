@@ -31,20 +31,19 @@ import org.springframework.core.io.buffer.PooledDataBuffer;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Unlike {@link org.springframework.core.testfixture.io.buffer.LeakAwareDataBufferFactory}
- * this one is an instance of {@link NettyDataBufferFactory} which is necessary
- * since {@link PayloadUtils} does instanceof checks, and that also allows
- * intercepting {@link NettyDataBufferFactory#wrap(ByteBuf)}.
+ * Unlike
+ * {@link org.springframework.core.testfixture.io.buffer.LeakAwareDataBufferFactory} this
+ * one is an instance of {@link NettyDataBufferFactory} which is necessary since
+ * {@link PayloadUtils} does instanceof checks, and that also allows intercepting
+ * {@link NettyDataBufferFactory#wrap(ByteBuf)}.
  */
 public class LeakAwareNettyDataBufferFactory extends NettyDataBufferFactory {
 
 	private final List<DataBufferLeakInfo> created = new ArrayList<>();
 
-
 	public LeakAwareNettyDataBufferFactory(ByteBufAllocator byteBufAllocator) {
 		super(byteBufAllocator);
 	}
-
 
 	public void checkForLeaks(Duration duration) throws InterruptedException {
 		Instant start = Instant.now();
@@ -69,7 +68,6 @@ public class LeakAwareNettyDataBufferFactory extends NettyDataBufferFactory {
 	public void reset() {
 		this.created.clear();
 	}
-
 
 	@Override
 	public NettyDataBuffer allocateBuffer() {
@@ -96,13 +94,12 @@ public class LeakAwareNettyDataBufferFactory extends NettyDataBufferFactory {
 	}
 
 	private DataBuffer recordHint(DataBuffer buffer) {
-		AssertionError error = new AssertionError(String.format(
-				"DataBuffer leak: {%s} {%s} not released.%nStacktrace at buffer creation: ", buffer,
-				ObjectUtils.getIdentityHexString(((NettyDataBuffer) buffer).getNativeBuffer())));
+		AssertionError error = new AssertionError(
+				String.format("DataBuffer leak: {%s} {%s} not released.%nStacktrace at buffer creation: ", buffer,
+						ObjectUtils.getIdentityHexString(((NettyDataBuffer) buffer).getNativeBuffer())));
 		this.created.add(new DataBufferLeakInfo(buffer, error));
 		return buffer;
 	}
-
 
 	private static class DataBufferLeakInfo {
 
@@ -122,5 +119,7 @@ public class LeakAwareNettyDataBufferFactory extends NettyDataBufferFactory {
 		AssertionError getError() {
 			return this.error;
 		}
+
 	}
+
 }

@@ -46,6 +46,7 @@ import static org.mockito.Mockito.mock;
 
 /**
  * Unit tests for {@link SessionAttributeMethodArgumentResolver}.
+ *
  * @author Rossen Stoyanchev
  */
 public class SessionAttributeMethodArgumentResolverTests {
@@ -58,7 +59,6 @@ public class SessionAttributeMethodArgumentResolverTests {
 
 	private Method handleMethod;
 
-
 	@BeforeEach
 	@SuppressWarnings("resource")
 	public void setup() {
@@ -70,7 +70,6 @@ public class SessionAttributeMethodArgumentResolverTests {
 		this.exchange = MockServerWebExchange.builder(MockServerHttpRequest.get("/")).session(this.session).build();
 		this.handleMethod = ReflectionUtils.findMethod(getClass(), "handleWithSessionAttribute", (Class<?>[]) null);
 	}
-
 
 	@Test
 	public void supportsParameter() {
@@ -134,24 +133,20 @@ public class SessionAttributeMethodArgumentResolverTests {
 		assertThat(actual.get()).isSameAs(foo);
 	}
 
-
 	private MethodParameter initMethodParameter(int parameterIndex) {
 		MethodParameter param = new SynthesizingMethodParameter(this.handleMethod, parameterIndex);
 		param.initParameterNameDiscovery(new DefaultParameterNameDiscoverer());
 		return param.withContainingClass(this.resolver.getClass());
 	}
 
-
-	@SuppressWarnings({"unused", "OptionalUsedAsFieldOrParameterType"})
-	private void handleWithSessionAttribute(
-			@SessionAttribute Foo foo,
-			@SessionAttribute("specialFoo") Foo namedFoo,
-			@SessionAttribute(name="foo", required = false) Foo notRequiredFoo,
-			@SessionAttribute(name="foo") Optional<Foo> optionalFoo,
-			String notSupported) {
+	@SuppressWarnings({ "unused", "OptionalUsedAsFieldOrParameterType" })
+	private void handleWithSessionAttribute(@SessionAttribute Foo foo, @SessionAttribute("specialFoo") Foo namedFoo,
+			@SessionAttribute(name = "foo", required = false) Foo notRequiredFoo,
+			@SessionAttribute(name = "foo") Optional<Foo> optionalFoo, String notSupported) {
 	}
 
 	private static class Foo {
+
 	}
 
 }

@@ -48,7 +48,6 @@ class JacksonStreamingIntegrationTests extends AbstractHttpHandlerIntegrationTes
 
 	private WebClient webClient;
 
-
 	@Override
 	protected HttpHandler createHttpHandler() {
 		this.wac = new AnnotationConfigApplicationContext();
@@ -64,21 +63,14 @@ class JacksonStreamingIntegrationTests extends AbstractHttpHandlerIntegrationTes
 		this.webClient = WebClient.create("http://localhost:" + this.port);
 	}
 
-
 	@ParameterizedHttpServerTest
 	void jsonStreaming(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		Flux<Person> result = this.webClient.get()
-				.uri("/stream")
-				.accept(APPLICATION_STREAM_JSON)
-				.retrieve()
+		Flux<Person> result = this.webClient.get().uri("/stream").accept(APPLICATION_STREAM_JSON).retrieve()
 				.bodyToFlux(Person.class);
 
-		StepVerifier.create(result)
-				.expectNext(new Person("foo 0"))
-				.expectNext(new Person("foo 1"))
-				.thenCancel()
+		StepVerifier.create(result).expectNext(new Person("foo 0")).expectNext(new Person("foo 1")).thenCancel()
 				.verify();
 	}
 
@@ -86,19 +78,12 @@ class JacksonStreamingIntegrationTests extends AbstractHttpHandlerIntegrationTes
 	void smileStreaming(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		Flux<Person> result = this.webClient.get()
-				.uri("/stream")
-				.accept(new MediaType("application", "stream+x-jackson-smile"))
-				.retrieve()
-				.bodyToFlux(Person.class);
+		Flux<Person> result = this.webClient.get().uri("/stream")
+				.accept(new MediaType("application", "stream+x-jackson-smile")).retrieve().bodyToFlux(Person.class);
 
-		StepVerifier.create(result)
-				.expectNext(new Person("foo 0"))
-				.expectNext(new Person("foo 1"))
-				.thenCancel()
+		StepVerifier.create(result).expectNext(new Person("foo 0")).expectNext(new Person("foo 1")).thenCancel()
 				.verify();
 	}
-
 
 	@RestController
 	@SuppressWarnings("unused")
@@ -121,6 +106,7 @@ class JacksonStreamingIntegrationTests extends AbstractHttpHandlerIntegrationTes
 		public JacksonStreamingController jsonStreamingController() {
 			return new JacksonStreamingController();
 		}
+
 	}
 
 	@SuppressWarnings("unused")
@@ -162,10 +148,9 @@ class JacksonStreamingIntegrationTests extends AbstractHttpHandlerIntegrationTes
 
 		@Override
 		public String toString() {
-			return "Person{" +
-					"name='" + name + '\'' +
-					'}';
+			return "Person{" + "name='" + name + '\'' + '}';
 		}
+
 	}
 
 }

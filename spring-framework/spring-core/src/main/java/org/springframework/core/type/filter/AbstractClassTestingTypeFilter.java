@@ -23,8 +23,7 @@ import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 
 /**
- * Type filter that exposes a
- * {@link org.springframework.core.type.ClassMetadata} object
+ * Type filter that exposes a {@link org.springframework.core.type.ClassMetadata} object
  * to subclasses, for class testing purposes.
  *
  * @author Rod Johnson

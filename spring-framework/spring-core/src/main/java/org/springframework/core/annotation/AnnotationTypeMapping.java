@@ -36,8 +36,8 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Provides mapping information for a single annotation (or meta-annotation) in
- * the context of a root annotation type.
+ * Provides mapping information for a single annotation (or meta-annotation) in the
+ * context of a root annotation type.
  *
  * @author Phillip Webb
  * @author Sam Brannen
@@ -47,7 +47,6 @@ import org.springframework.util.StringUtils;
 final class AnnotationTypeMapping {
 
 	private static final MirrorSet[] EMPTY_MIRROR_SETS = new MirrorSet[0];
-
 
 	@Nullable
 	private final AnnotationTypeMapping source;
@@ -81,17 +80,14 @@ final class AnnotationTypeMapping {
 
 	private final Set<Method> claimedAliases = new HashSet<>();
 
-
-	AnnotationTypeMapping(@Nullable AnnotationTypeMapping source,
-			Class<? extends Annotation> annotationType, @Nullable Annotation annotation) {
+	AnnotationTypeMapping(@Nullable AnnotationTypeMapping source, Class<? extends Annotation> annotationType,
+			@Nullable Annotation annotation) {
 
 		this.source = source;
 		this.root = (source != null ? source.getRoot() : this);
 		this.distance = (source == null ? 0 : source.getDistance() + 1);
 		this.annotationType = annotationType;
-		this.metaTypes = merge(
-				source != null ? source.getMetaTypes() : null,
-				annotationType);
+		this.metaTypes = merge(source != null ? source.getMetaTypes() : null, annotationType);
 		this.annotation = annotation;
 		this.attributes = AttributeMethods.forAnnotationType(annotationType);
 		this.mirrorSets = new MirrorSets();
@@ -105,7 +101,6 @@ final class AnnotationTypeMapping {
 		addConventionAnnotationValues();
 		this.synthesizable = computeSynthesizableFlag();
 	}
-
 
 	private static <T> List<T> merge(@Nullable List<T> existing, T element) {
 		if (existing == null) {
@@ -137,10 +132,9 @@ final class AnnotationTypeMapping {
 	private Method resolveAliasTarget(Method attribute, AliasFor aliasFor, boolean checkAliasPair) {
 		if (StringUtils.hasText(aliasFor.value()) && StringUtils.hasText(aliasFor.attribute())) {
 			throw new AnnotationConfigurationException(String.format(
-					"In @AliasFor declared on %s, attribute 'attribute' and its alias 'value' " +
-					"are present with values of '%s' and '%s', but only one is permitted.",
-					AttributeMethods.describe(attribute), aliasFor.attribute(),
-					aliasFor.value()));
+					"In @AliasFor declared on %s, attribute 'attribute' and its alias 'value' "
+							+ "are present with values of '%s' and '%s', but only one is permitted.",
+					AttributeMethods.describe(attribute), aliasFor.attribute(), aliasFor.value()));
 		}
 		Class<? extends Annotation> targetAnnotation = aliasFor.annotation();
 		if (targetAnnotation == Annotation.class) {
@@ -156,36 +150,34 @@ final class AnnotationTypeMapping {
 		Method target = AttributeMethods.forAnnotationType(targetAnnotation).get(targetAttributeName);
 		if (target == null) {
 			if (targetAnnotation == this.annotationType) {
-				throw new AnnotationConfigurationException(String.format(
-						"@AliasFor declaration on %s declares an alias for '%s' which is not present.",
-						AttributeMethods.describe(attribute), targetAttributeName));
+				throw new AnnotationConfigurationException(
+						String.format("@AliasFor declaration on %s declares an alias for '%s' which is not present.",
+								AttributeMethods.describe(attribute), targetAttributeName));
 			}
-			throw new AnnotationConfigurationException(String.format(
-					"%s is declared as an @AliasFor nonexistent %s.",
+			throw new AnnotationConfigurationException(String.format("%s is declared as an @AliasFor nonexistent %s.",
 					StringUtils.capitalize(AttributeMethods.describe(attribute)),
 					AttributeMethods.describe(targetAnnotation, targetAttributeName)));
 		}
 		if (target.equals(attribute)) {
 			throw new AnnotationConfigurationException(String.format(
-					"@AliasFor declaration on %s points to itself. " +
-					"Specify 'annotation' to point to a same-named attribute on a meta-annotation.",
+					"@AliasFor declaration on %s points to itself. "
+							+ "Specify 'annotation' to point to a same-named attribute on a meta-annotation.",
 					AttributeMethods.describe(attribute)));
 		}
 		if (!isCompatibleReturnType(attribute.getReturnType(), target.getReturnType())) {
-			throw new AnnotationConfigurationException(String.format(
-					"Misconfigured aliases: %s and %s must declare the same return type.",
-					AttributeMethods.describe(attribute),
-					AttributeMethods.describe(target)));
+			throw new AnnotationConfigurationException(
+					String.format("Misconfigured aliases: %s and %s must declare the same return type.",
+							AttributeMethods.describe(attribute), AttributeMethods.describe(target)));
 		}
 		if (isAliasPair(target) && checkAliasPair) {
 			AliasFor targetAliasFor = target.getAnnotation(AliasFor.class);
 			if (targetAliasFor != null) {
 				Method mirror = resolveAliasTarget(target, targetAliasFor, false);
 				if (!mirror.equals(attribute)) {
-					throw new AnnotationConfigurationException(String.format(
-							"%s must be declared as an @AliasFor %s, not %s.",
-							StringUtils.capitalize(AttributeMethods.describe(target)),
-							AttributeMethods.describe(attribute), AttributeMethods.describe(mirror)));
+					throw new AnnotationConfigurationException(
+							String.format("%s must be declared as an @AliasFor %s, not %s.",
+									StringUtils.capitalize(AttributeMethods.describe(target)),
+									AttributeMethods.describe(attribute), AttributeMethods.describe(mirror)));
 				}
 			}
 		}
@@ -240,8 +232,8 @@ final class AnnotationTypeMapping {
 			mapping.mirrorSets.updateFrom(aliases);
 			mapping.claimedAliases.addAll(aliases);
 			if (mapping.annotation != null) {
-				int[] resolvedMirrors = mapping.mirrorSets.resolve(null,
-						mapping.annotation, ReflectionUtils::invokeMethod);
+				int[] resolvedMirrors = mapping.mirrorSets.resolve(null, mapping.annotation,
+						ReflectionUtils::invokeMethod);
 				for (int i = 0; i < mapping.attributes.size(); i++) {
 					if (aliases.contains(mapping.attributes.get(i))) {
 						this.annotationValueMappings[attributeIndex] = resolvedMirrors[i];
@@ -338,8 +330,8 @@ final class AnnotationTypeMapping {
 				Method method = attributeMethods.get(i);
 				Class<?> type = method.getReturnType();
 				if (type.isAnnotation() || (type.isArray() && type.getComponentType().isAnnotation())) {
-					Class<? extends Annotation> annotationType =
-							(Class<? extends Annotation>) (type.isAnnotation() ? type : type.getComponentType());
+					Class<? extends Annotation> annotationType = (Class<? extends Annotation>) (type.isAnnotation()
+							? type : type.getComponentType());
 					AnnotationTypeMapping mapping = AnnotationTypeMappings.forAnnotationType(annotationType).get(0);
 					if (mapping.isSynthesizable()) {
 						return true;
@@ -352,8 +344,8 @@ final class AnnotationTypeMapping {
 	}
 
 	/**
-	 * Method called after all mappings have been set. At this point no further
-	 * lookups from child mappings will occur.
+	 * Method called after all mappings have been set. At this point no further lookups
+	 * from child mappings will occur.
 	 */
 	void afterAllMappingsSet() {
 		validateAllAliasesClaimed();
@@ -369,9 +361,9 @@ final class AnnotationTypeMapping {
 			AliasFor aliasFor = AnnotationsScanner.getDeclaredAnnotation(attribute, AliasFor.class);
 			if (aliasFor != null && !this.claimedAliases.contains(attribute)) {
 				Method target = resolveAliasTarget(attribute, aliasFor);
-				throw new AnnotationConfigurationException(String.format(
-						"@AliasFor declaration on %s declares an alias for %s which is not meta-present.",
-						AttributeMethods.describe(attribute), AttributeMethods.describe(target)));
+				throw new AnnotationConfigurationException(
+						String.format("@AliasFor declaration on %s declares an alias for %s which is not meta-present.",
+								AttributeMethods.describe(attribute), AttributeMethods.describe(target)));
 			}
 		}
 	}
@@ -383,14 +375,14 @@ final class AnnotationTypeMapping {
 			Method mirrorAttribute = mirrorSet.get(i);
 			Object mirrorDefaultValue = mirrorAttribute.getDefaultValue();
 			if (firstDefaultValue == null || mirrorDefaultValue == null) {
-				throw new AnnotationConfigurationException(String.format(
-						"Misconfigured aliases: %s and %s must declare default values.",
-						AttributeMethods.describe(firstAttribute), AttributeMethods.describe(mirrorAttribute)));
+				throw new AnnotationConfigurationException(
+						String.format("Misconfigured aliases: %s and %s must declare default values.",
+								AttributeMethods.describe(firstAttribute), AttributeMethods.describe(mirrorAttribute)));
 			}
 			if (!ObjectUtils.nullSafeEquals(firstDefaultValue, mirrorDefaultValue)) {
-				throw new AnnotationConfigurationException(String.format(
-						"Misconfigured aliases: %s and %s must declare the same default value.",
-						AttributeMethods.describe(firstAttribute), AttributeMethods.describe(mirrorAttribute)));
+				throw new AnnotationConfigurationException(
+						String.format("Misconfigured aliases: %s and %s must declare the same default value.",
+								AttributeMethods.describe(firstAttribute), AttributeMethods.describe(mirrorAttribute)));
 			}
 		}
 	}
@@ -433,8 +425,8 @@ final class AnnotationTypeMapping {
 	}
 
 	/**
-	 * Get the source annotation for this mapping. This will be the
-	 * meta-annotation, or {@code null} if this is the root mapping.
+	 * Get the source annotation for this mapping. This will be the meta-annotation, or
+	 * {@code null} if this is the root mapping.
 	 * @return the source annotation of the mapping
 	 */
 	@Nullable
@@ -451,10 +443,9 @@ final class AnnotationTypeMapping {
 	}
 
 	/**
-	 * Get the related index of an alias mapped attribute, or {@code -1} if
-	 * there is no mapping. The resulting value is the index of the attribute on
-	 * the root annotation that can be invoked in order to obtain the actual
-	 * value.
+	 * Get the related index of an alias mapped attribute, or {@code -1} if there is no
+	 * mapping. The resulting value is the index of the attribute on the root annotation
+	 * that can be invoked in order to obtain the actual value.
 	 * @param attributeIndex the attribute index of the source attribute
 	 * @return the mapped attribute index or {@code -1}
 	 */
@@ -463,10 +454,9 @@ final class AnnotationTypeMapping {
 	}
 
 	/**
-	 * Get the related index of a convention mapped attribute, or {@code -1}
-	 * if there is no mapping. The resulting value is the index of the attribute
-	 * on the root annotation that can be invoked in order to obtain the actual
-	 * value.
+	 * Get the related index of a convention mapped attribute, or {@code -1} if there is
+	 * no mapping. The resulting value is the index of the attribute on the root
+	 * annotation that can be invoked in order to obtain the actual value.
 	 * @param attributeIndex the attribute index of the source attribute
 	 * @return the mapped attribute index or {@code -1}
 	 */
@@ -475,15 +465,16 @@ final class AnnotationTypeMapping {
 	}
 
 	/**
-	 * Get a mapped attribute value from the most suitable
-	 * {@link #getAnnotation() meta-annotation}.
-	 * <p>The resulting value is obtained from the closest meta-annotation,
-	 * taking into consideration both convention and alias based mapping rules.
-	 * For root mappings, this method will always return {@code null}.
+	 * Get a mapped attribute value from the most suitable {@link #getAnnotation()
+	 * meta-annotation}.
+	 * <p>
+	 * The resulting value is obtained from the closest meta-annotation, taking into
+	 * consideration both convention and alias based mapping rules. For root mappings,
+	 * this method will always return {@code null}.
 	 * @param attributeIndex the attribute index of the source attribute
-	 * @param metaAnnotationsOnly if only meta annotations should be considered.
-	 * If this parameter is {@code false} then aliases within the annotation will
-	 * also be considered.
+	 * @param metaAnnotationsOnly if only meta annotations should be considered. If this
+	 * parameter is {@code false} then aliases within the annotation will also be
+	 * considered.
 	 * @return the mapped annotation value, or {@code null}
 	 */
 	@Nullable
@@ -504,8 +495,8 @@ final class AnnotationTypeMapping {
 	 * attribute at the given index.
 	 * @param attributeIndex the attribute index of the source attribute
 	 * @param value the value to check
-	 * @param valueExtractor the value extractor used to extract values from any
-	 * nested annotations
+	 * @param valueExtractor the value extractor used to extract values from any nested
+	 * annotations
 	 * @return {@code true} if the value is equivalent to the default value
 	 */
 	boolean isEquivalentToDefaultValue(int attributeIndex, Object value, ValueExtractor valueExtractor) {
@@ -524,8 +515,9 @@ final class AnnotationTypeMapping {
 
 	/**
 	 * Determine if the mapped annotation is <em>synthesizable</em>.
-	 * <p>Consult the documentation for {@link MergedAnnotation#synthesize()}
-	 * for an explanation of what is considered synthesizable.
+	 * <p>
+	 * Consult the documentation for {@link MergedAnnotation#synthesize()} for an
+	 * explanation of what is considered synthesizable.
 	 * @return {@code true} if the mapped annotation is synthesizable
 	 * @since 5.2.6
 	 */
@@ -533,15 +525,13 @@ final class AnnotationTypeMapping {
 		return this.synthesizable;
 	}
 
-
 	private static int[] filledIntArray(int size) {
 		int[] array = new int[size];
 		Arrays.fill(array, -1);
 		return array;
 	}
 
-	private static boolean isEquivalentToDefaultValue(Method attribute, Object value,
-			ValueExtractor valueExtractor) {
+	private static boolean isEquivalentToDefaultValue(Method attribute, Object value, ValueExtractor valueExtractor) {
 
 		return areEquivalent(attribute.getDefaultValue(), value, valueExtractor);
 	}
@@ -601,10 +591,9 @@ final class AnnotationTypeMapping {
 		return true;
 	}
 
-
 	/**
-	 * A collection of {@link MirrorSet} instances that provides details of all
-	 * defined mirrors.
+	 * A collection of {@link MirrorSet} instances that provides details of all defined
+	 * mirrors.
 	 */
 	class MirrorSets {
 
@@ -671,7 +660,6 @@ final class AnnotationTypeMapping {
 			return result;
 		}
 
-
 		/**
 		 * A single set of mirror attributes.
 		 */
@@ -698,8 +686,8 @@ final class AnnotationTypeMapping {
 				for (int i = 0; i < this.size; i++) {
 					Method attribute = attributes.get(this.indexes[i]);
 					Object value = valueExtractor.extract(attribute, annotation);
-					boolean isDefaultValue = (value == null ||
-							isEquivalentToDefaultValue(attribute, value, valueExtractor));
+					boolean isDefaultValue = (value == null
+							|| isEquivalentToDefaultValue(attribute, value, valueExtractor));
 					if (isDefaultValue || ObjectUtils.nullSafeEquals(lastValue, value)) {
 						if (result == -1) {
 							result = this.indexes[i];
@@ -709,12 +697,10 @@ final class AnnotationTypeMapping {
 					if (lastValue != null && !ObjectUtils.nullSafeEquals(lastValue, value)) {
 						String on = (source != null) ? " declared on " + source : "";
 						throw new AnnotationConfigurationException(String.format(
-								"Different @AliasFor mirror values for annotation [%s]%s; attribute '%s' " +
-								"and its alias '%s' are declared with values of [%s] and [%s].",
-								getAnnotationType().getName(), on,
-								attributes.get(result).getName(),
-								attribute.getName(),
-								ObjectUtils.nullSafeToString(lastValue),
+								"Different @AliasFor mirror values for annotation [%s]%s; attribute '%s' "
+										+ "and its alias '%s' are declared with values of [%s] and [%s].",
+								getAnnotationType().getName(), on, attributes.get(result).getName(),
+								attribute.getName(), ObjectUtils.nullSafeToString(lastValue),
 								ObjectUtils.nullSafeToString(value)));
 					}
 					result = this.indexes[i];
@@ -735,7 +721,9 @@ final class AnnotationTypeMapping {
 			int getAttributeIndex(int index) {
 				return this.indexes[index];
 			}
+
 		}
+
 	}
 
 }

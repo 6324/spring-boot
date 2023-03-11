@@ -28,13 +28,14 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Base class for message source implementations, providing support infrastructure
- * such as {@link java.text.MessageFormat} handling but not implementing concrete
- * methods defined in the {@link org.springframework.context.MessageSource}.
+ * Base class for message source implementations, providing support infrastructure such as
+ * {@link java.text.MessageFormat} handling but not implementing concrete methods defined
+ * in the {@link org.springframework.context.MessageSource}.
  *
- * <p>{@link AbstractMessageSource} derives from this class, providing concrete
- * {@code getMessage} implementations that delegate to a central template
- * method for message code resolution.
+ * <p>
+ * {@link AbstractMessageSource} derives from this class, providing concrete
+ * {@code getMessage} implementations that delegate to a central template method for
+ * message code resolution.
  *
  * @author Juergen Hoeller
  * @since 2.5.5
@@ -49,25 +50,25 @@ public abstract class MessageSourceSupport {
 	private boolean alwaysUseMessageFormat = false;
 
 	/**
-	 * Cache to hold already generated MessageFormats per message.
-	 * Used for passed-in default messages. MessageFormats for resolved
-	 * codes are cached on a specific basis in subclasses.
+	 * Cache to hold already generated MessageFormats per message. Used for passed-in
+	 * default messages. MessageFormats for resolved codes are cached on a specific basis
+	 * in subclasses.
 	 */
 	private final Map<String, Map<Locale, MessageFormat>> messageFormatsPerMessage = new HashMap<>();
 
-
 	/**
-	 * Set whether to always apply the {@code MessageFormat} rules,
-	 * parsing even messages without arguments.
-	 * <p>Default is "false": Messages without arguments are by default
-	 * returned as-is, without parsing them through MessageFormat.
-	 * Set this to "true" to enforce MessageFormat for all messages,
-	 * expecting all message texts to be written with MessageFormat escaping.
-	 * <p>For example, MessageFormat expects a single quote to be escaped
-	 * as "''". If your message texts are all written with such escaping,
-	 * even when not defining argument placeholders, you need to set this
-	 * flag to "true". Else, only message texts with actual arguments
-	 * are supposed to be written with MessageFormat escaping.
+	 * Set whether to always apply the {@code MessageFormat} rules, parsing even messages
+	 * without arguments.
+	 * <p>
+	 * Default is "false": Messages without arguments are by default returned as-is,
+	 * without parsing them through MessageFormat. Set this to "true" to enforce
+	 * MessageFormat for all messages, expecting all message texts to be written with
+	 * MessageFormat escaping.
+	 * <p>
+	 * For example, MessageFormat expects a single quote to be escaped as "''". If your
+	 * message texts are all written with such escaping, even when not defining argument
+	 * placeholders, you need to set this flag to "true". Else, only message texts with
+	 * actual arguments are supposed to be written with MessageFormat escaping.
 	 * @see java.text.MessageFormat
 	 */
 	public void setAlwaysUseMessageFormat(boolean alwaysUseMessageFormat) {
@@ -75,24 +76,24 @@ public abstract class MessageSourceSupport {
 	}
 
 	/**
-	 * Return whether to always apply the MessageFormat rules, parsing even
-	 * messages without arguments.
+	 * Return whether to always apply the MessageFormat rules, parsing even messages
+	 * without arguments.
 	 */
 	protected boolean isAlwaysUseMessageFormat() {
 		return this.alwaysUseMessageFormat;
 	}
 
-
 	/**
-	 * Render the given default message String. The default message is
-	 * passed in as specified by the caller and can be rendered into
-	 * a fully formatted default message shown to the user.
-	 * <p>The default implementation passes the String to {@code formatMessage},
-	 * resolving any argument placeholders found in them. Subclasses may override
-	 * this method to plug in custom processing of default messages.
+	 * Render the given default message String. The default message is passed in as
+	 * specified by the caller and can be rendered into a fully formatted default message
+	 * shown to the user.
+	 * <p>
+	 * The default implementation passes the String to {@code formatMessage}, resolving
+	 * any argument placeholders found in them. Subclasses may override this method to
+	 * plug in custom processing of default messages.
 	 * @param defaultMessage the passed-in default message String
-	 * @param args array of arguments that will be filled in for params within
-	 * the message, or {@code null} if none.
+	 * @param args array of arguments that will be filled in for params within the
+	 * message, or {@code null} if none.
 	 * @param locale the Locale used for formatting
 	 * @return the rendered default message (with resolved arguments)
 	 * @see #formatMessage(String, Object[], java.util.Locale)
@@ -102,12 +103,11 @@ public abstract class MessageSourceSupport {
 	}
 
 	/**
-	 * Format the given message String, using cached MessageFormats.
-	 * By default invoked for passed-in default messages, to resolve
-	 * any argument placeholders found in them.
+	 * Format the given message String, using cached MessageFormats. By default invoked
+	 * for passed-in default messages, to resolve any argument placeholders found in them.
 	 * @param msg the message to format
-	 * @param args array of arguments that will be filled in for params within
-	 * the message, or {@code null} if none
+	 * @param args array of arguments that will be filled in for params within the
+	 * message, or {@code null} if none
 	 * @param locale the Locale used for formatting
 	 * @return the formatted message (with resolved arguments)
 	 */
@@ -161,8 +161,9 @@ public abstract class MessageSourceSupport {
 
 	/**
 	 * Template method for resolving argument objects.
-	 * <p>The default implementation simply returns the given argument array as-is.
-	 * Can be overridden in subclasses in order to resolve special argument types.
+	 * <p>
+	 * The default implementation simply returns the given argument array as-is. Can be
+	 * overridden in subclasses in order to resolve special argument types.
 	 * @param args the original argument array
 	 * @param locale the Locale to resolve against
 	 * @return the resolved argument array

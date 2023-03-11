@@ -40,7 +40,6 @@ public class ResourceTestBean {
 
 	private Map<String, Resource[]> resourceArrayMap;
 
-
 	public ResourceTestBean() {
 	}
 
@@ -48,7 +47,6 @@ public class ResourceTestBean {
 		this.resource = resource;
 		this.inputStream = inputStream;
 	}
-
 
 	public Resource getResource() {
 		return resource;

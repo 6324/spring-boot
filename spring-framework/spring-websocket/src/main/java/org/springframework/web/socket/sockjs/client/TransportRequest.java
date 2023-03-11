@@ -25,12 +25,13 @@ import org.springframework.web.socket.sockjs.frame.SockJsMessageCodec;
 
 /**
  * Exposes information, typically to {@link Transport} and
- * {@link AbstractClientSockJsSession session} implementations, about a request
- * to connect to a SockJS server endpoint over a given transport.
+ * {@link AbstractClientSockJsSession session} implementations, about a request to connect
+ * to a SockJS server endpoint over a given transport.
  *
- * <p>Note that a single request to connect via {@link SockJsClient} may result
- * in multiple instances of {@link TransportRequest}, one for each transport
- * before a connection is successfully established.
+ * <p>
+ * Note that a single request to connect via {@link SockJsClient} may result in multiple
+ * instances of {@link TransportRequest}, one for each transport before a connection is
+ * successfully established.
  *
  * @author Rossen Stoyanchev
  * @since 4.1
@@ -48,15 +49,16 @@ public interface TransportRequest {
 	HttpHeaders getHandshakeHeaders();
 
 	/**
-	 * Return the headers to add to all other HTTP requests besides the handshake
-	 * request such as XHR receive and send requests.
+	 * Return the headers to add to all other HTTP requests besides the handshake request
+	 * such as XHR receive and send requests.
 	 * @since 4.2
 	 */
 	HttpHeaders getHttpRequestHeaders();
 
 	/**
 	 * Return the transport URL for the given transport.
-	 * <p>For an {@link XhrTransport} this is the URL for receiving messages.
+	 * <p>
+	 * For an {@link XhrTransport} this is the URL for receiving messages.
 	 */
 	URI getTransportUrl();
 
@@ -72,8 +74,8 @@ public interface TransportRequest {
 	SockJsMessageCodec getMessageCodec();
 
 	/**
-	 * Register a timeout cleanup task to invoke if the SockJS session is not
-	 * fully established within the calculated retransmission timeout period.
+	 * Register a timeout cleanup task to invoke if the SockJS session is not fully
+	 * established within the calculated retransmission timeout period.
 	 */
 	void addTimeoutTask(Runnable runnable);
 

@@ -52,13 +52,14 @@ public class JettySockJsIntegrationTests extends AbstractSockJsIntegrationTests 
 		return new JettyXhrTransport(new HttpClient());
 	}
 
-
 	@Configuration
 	static class JettyTestConfig {
+
 		@Bean
 		public RequestUpgradeStrategy upgradeStrategy() {
 			return new JettyRequestUpgradeStrategy();
 		}
+
 	}
 
 }

@@ -34,10 +34,11 @@ import static org.springframework.core.annotation.AnnotatedElementUtils.findAllM
 import static org.springframework.core.annotation.AnnotatedElementUtils.getAllMergedAnnotations;
 
 /**
- * Unit tests that verify support for finding multiple composed annotations on
- * a single annotated element.
+ * Unit tests that verify support for finding multiple composed annotations on a single
+ * annotated element.
  *
- * <p>See <a href="https://jira.spring.io/browse/SPR-13486">SPR-13486</a>.
+ * <p>
+ * See <a href="https://jira.spring.io/browse/SPR-13486">SPR-13486</a>.
  *
  * @author Sam Brannen
  * @since 4.3
@@ -240,7 +241,6 @@ class MultipleComposedAnnotationsOnSingleAnnotatedElementTests {
 		assertThat(barCacheable.value()).isEqualTo("barCache");
 	}
 
-
 	// -------------------------------------------------------------------------
 
 	/**
@@ -258,6 +258,7 @@ class MultipleComposedAnnotationsOnSingleAnnotatedElementTests {
 		String cacheName() default "";
 
 		String key() default "";
+
 	}
 
 	@Cacheable("fooCache")
@@ -268,6 +269,7 @@ class MultipleComposedAnnotationsOnSingleAnnotatedElementTests {
 
 		@AliasFor(annotation = Cacheable.class)
 		String key() default "";
+
 	}
 
 	@Cacheable("barCache")
@@ -278,6 +280,7 @@ class MultipleComposedAnnotationsOnSingleAnnotatedElementTests {
 
 		@AliasFor(annotation = Cacheable.class)
 		String key();
+
 	}
 
 	@Cacheable("noninheritedCache1")
@@ -287,6 +290,7 @@ class MultipleComposedAnnotationsOnSingleAnnotatedElementTests {
 
 		@AliasFor(annotation = Cacheable.class)
 		String key() default "";
+
 	}
 
 	@Cacheable("noninheritedCache2")
@@ -296,45 +300,54 @@ class MultipleComposedAnnotationsOnSingleAnnotatedElementTests {
 
 		@AliasFor(annotation = Cacheable.class)
 		String key() default "";
+
 	}
 
 	@FooCache(key = "fooKey")
 	@BarCache(key = "barKey")
 	private static class MultipleComposedCachesClass {
+
 	}
 
 	private static class SubMultipleComposedCachesClass extends MultipleComposedCachesClass {
+
 	}
 
 	@NoninheritedCache1
 	@NoninheritedCache2
 	private static class MultipleNoninheritedComposedCachesClass {
+
 	}
 
 	private static class SubMultipleNoninheritedComposedCachesClass extends MultipleNoninheritedComposedCachesClass {
+
 	}
 
 	@Cacheable(cacheName = "fooCache", key = "fooKey")
 	@BarCache(key = "barKey")
 	private static class ComposedPlusLocalCachesClass {
+
 	}
 
 	@FooCache(key = "fooKey")
 	@BarCache(key = "barKey")
 	private interface MultipleComposedCachesInterface {
+
 	}
 
 	private static class MultipleComposedCachesOnInterfaceClass implements MultipleComposedCachesInterface {
+
 	}
 
 	@Cacheable(cacheName = "fooCache", key = "fooKey")
 	private interface ComposedCacheInterface {
+
 	}
 
 	@BarCache(key = "barKey")
 	private static class ComposedCacheOnInterfaceAndLocalCacheClass implements ComposedCacheInterface {
-	}
 
+	}
 
 	@FooCache(key = "fooKey")
 	@BarCache(key = "barKey")
@@ -346,10 +359,10 @@ class MultipleComposedAnnotationsOnSingleAnnotatedElementTests {
 	private void composedPlusLocalCachesMethod() {
 	}
 
-
 	public interface GenericParameter<T> {
 
 		T getFor(Class<T> cls);
+
 	}
 
 	@SuppressWarnings("unused")
@@ -365,6 +378,7 @@ class MultipleComposedAnnotationsOnSingleAnnotatedElementTests {
 		public String getFor(Integer integer) {
 			return "foo";
 		}
+
 	}
 
 }

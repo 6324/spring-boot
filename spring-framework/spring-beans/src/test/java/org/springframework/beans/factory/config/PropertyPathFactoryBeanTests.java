@@ -38,7 +38,6 @@ public class PropertyPathFactoryBeanTests {
 
 	private static final Resource CONTEXT = qualifiedResource(PropertyPathFactoryBeanTests.class, "context.xml");
 
-
 	@Test
 	public void testPropertyPathFactoryBeanWithSingletonResult() {
 		DefaultListableBeanFactory xbf = new DefaultListableBeanFactory();

@@ -32,13 +32,11 @@ public class DefaultLifecycleMethodsTests {
 
 	private final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
-
 	@BeforeEach
 	public void setup() throws Exception {
-		new XmlBeanDefinitionReader(this.beanFactory).loadBeanDefinitions(
-				new ClassPathResource("defaultLifecycleMethods.xml", getClass()));
+		new XmlBeanDefinitionReader(this.beanFactory)
+				.loadBeanDefinitions(new ClassPathResource("defaultLifecycleMethods.xml", getClass()));
 	}
-
 
 	@Test
 	public void lifecycleMethodsInvoked() {
@@ -64,8 +62,8 @@ public class DefaultLifecycleMethodsTests {
 	@Test
 	public void ignoreDefaultLifecycleMethods() throws Exception {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource(
-				"ignoreDefaultLifecycleMethods.xml", getClass()));
+		new XmlBeanDefinitionReader(bf)
+				.loadBeanDefinitions(new ClassPathResource("ignoreDefaultLifecycleMethods.xml", getClass()));
 		bf.preInstantiateSingletons();
 		bf.destroySingletons();
 	}
@@ -100,7 +98,6 @@ public class DefaultLifecycleMethodsTests {
 		assertThat(bean.isDestroyCalled()).as("Bean destroy method called incorrectly").isFalse();
 		assertThat(bean.isCustomDestroyCalled()).as("Custom destroy method called incorrectly").isFalse();
 	}
-
 
 	public static class LifecycleAwareBean {
 
@@ -143,6 +140,7 @@ public class DefaultLifecycleMethodsTests {
 		public boolean isCustomDestroyCalled() {
 			return customDestroyCalled;
 		}
+
 	}
 
 }

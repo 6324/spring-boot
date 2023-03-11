@@ -30,14 +30,8 @@ import org.springframework.messaging.support.MessageBuilder;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
-
-
-
-
-
 /**
- * Unit tests for
- * {@link org.springframework.messaging.simp.SimpAttributesContextHolder}.
+ * Unit tests for {@link org.springframework.messaging.simp.SimpAttributesContextHolder}.
  *
  * @author Rossen Stoyanchev
  * @since 4.1
@@ -45,7 +39,6 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 public class SimpAttributesContextHolderTests {
 
 	private SimpAttributes simpAttributes;
-
 
 	@BeforeEach
 	public void setUp() {
@@ -57,7 +50,6 @@ public class SimpAttributesContextHolderTests {
 	public void tearDown() {
 		SimpAttributesContextHolder.resetAttributes();
 	}
-
 
 	@Test
 	public void resetAttributes() {
@@ -108,9 +100,9 @@ public class SimpAttributesContextHolderTests {
 
 	@Test
 	public void setAttributesFromMessageWithMissingSessionId() {
-		assertThatIllegalStateException().isThrownBy(() ->
-				SimpAttributesContextHolder.setAttributesFromMessage(new GenericMessage<Object>("")))
-			.withMessageStartingWith("No session id in");
+		assertThatIllegalStateException()
+				.isThrownBy(() -> SimpAttributesContextHolder.setAttributesFromMessage(new GenericMessage<Object>("")))
+				.withMessageStartingWith("No session id in");
 	}
 
 	@Test
@@ -118,9 +110,9 @@ public class SimpAttributesContextHolderTests {
 		SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create();
 		headerAccessor.setSessionId("session1");
 		Message<?> message = MessageBuilder.createMessage("", headerAccessor.getMessageHeaders());
-		assertThatIllegalStateException().isThrownBy(() ->
-				SimpAttributesContextHolder.setAttributesFromMessage(message))
-			.withMessageStartingWith("No session attributes in");
+		assertThatIllegalStateException()
+				.isThrownBy(() -> SimpAttributesContextHolder.setAttributesFromMessage(message))
+				.withMessageStartingWith("No session attributes in");
 	}
 
 	@Test
@@ -131,9 +123,8 @@ public class SimpAttributesContextHolderTests {
 
 	@Test
 	public void currentAttributesNone() {
-		assertThatIllegalStateException().isThrownBy(() ->
-				SimpAttributesContextHolder.currentAttributes())
-			.withMessageStartingWith("No thread-bound SimpAttributes found");
+		assertThatIllegalStateException().isThrownBy(() -> SimpAttributesContextHolder.currentAttributes())
+				.withMessageStartingWith("No thread-bound SimpAttributes found");
 	}
 
 }

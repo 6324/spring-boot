@@ -69,7 +69,6 @@ public class MessageWriterResultHandlerTests {
 
 	private final MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/path"));
 
-
 	private AbstractMessageWriterResultHandler initResultHandler(HttpMessageWriter<?>... writers) {
 		List<HttpMessageWriter<?>> writerList;
 		if (ObjectUtils.isEmpty(writers)) {
@@ -84,11 +83,11 @@ public class MessageWriterResultHandlerTests {
 			writerList = Arrays.asList(writers);
 		}
 		RequestedContentTypeResolver resolver = new RequestedContentTypeResolverBuilder().build();
-		return new AbstractMessageWriterResultHandler(writerList, resolver) {};
+		return new AbstractMessageWriterResultHandler(writerList, resolver) {
+		};
 	}
 
-
-	@Test  // SPR-12894
+	@Test // SPR-12894
 	public void useDefaultContentType() throws Exception {
 		Resource body = new ClassPathResource("logo.png", getClass());
 		MethodParameter type = on(TestController.class).resolveReturnType(Resource.class);
@@ -97,16 +96,16 @@ public class MessageWriterResultHandlerTests {
 		assertThat(this.exchange.getResponse().getHeaders().getFirst("Content-Type")).isEqualTo("image/png");
 	}
 
-	@Test  // SPR-13631
+	@Test // SPR-13631
 	public void useDefaultCharset() throws Exception {
-		this.exchange.getAttributes().put(PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE,
-				Collections.singleton(APPLICATION_JSON));
+		this.exchange.getAttributes().put(PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE, Collections.singleton(APPLICATION_JSON));
 
 		String body = "foo";
 		MethodParameter type = on(TestController.class).resolveReturnType(String.class);
 		this.resultHandler.writeBody(body, type, this.exchange).block(Duration.ofSeconds(5));
 
-		assertThat(this.exchange.getResponse().getHeaders().getContentType()).isEqualTo(MediaType.parseMediaType("application/json;charset=UTF-8"));
+		assertThat(this.exchange.getResponse().getHeaders().getContentType())
+				.isEqualTo(MediaType.parseMediaType("application/json;charset=UTF-8"));
 	}
 
 	@Test
@@ -135,7 +134,7 @@ public class MessageWriterResultHandlerTests {
 				.expectErrorMatches(ex -> ex.getMessage().startsWith("No content was written")).verify();
 	}
 
-	@Test  // SPR-13135
+	@Test // SPR-13135
 	public void unsupportedReturnType() throws Exception {
 		ByteArrayOutputStream body = new ByteArrayOutputStream();
 		MethodParameter type = on(TestController.class).resolveReturnType(OutputStream.class);
@@ -146,7 +145,7 @@ public class MessageWriterResultHandlerTests {
 		StepVerifier.create(mono).expectError(IllegalStateException.class).verify();
 	}
 
-	@Test  // SPR-12811
+	@Test // SPR-12811
 	public void jacksonTypeOfListElement() throws Exception {
 
 		MethodParameter returnType = on(TestController.class).resolveReturnType(List.class, ParentClass.class);
@@ -154,11 +153,11 @@ public class MessageWriterResultHandlerTests {
 		this.resultHandler.writeBody(body, returnType, this.exchange).block(Duration.ofSeconds(5));
 
 		assertThat(this.exchange.getResponse().getHeaders().getContentType()).isEqualTo(APPLICATION_JSON);
-		assertResponseBody("[{\"type\":\"foo\",\"parentProperty\":\"foo\"}," +
-				"{\"type\":\"bar\",\"parentProperty\":\"bar\"}]");
+		assertResponseBody(
+				"[{\"type\":\"foo\",\"parentProperty\":\"foo\"}," + "{\"type\":\"bar\",\"parentProperty\":\"bar\"}]");
 	}
 
-	@Test  // SPR-13318
+	@Test // SPR-13318
 	public void jacksonTypeWithSubType() throws Exception {
 		SimpleBean body = new SimpleBean(123L, "foo");
 		MethodParameter type = on(TestController.class).resolveReturnType(Identifiable.class);
@@ -168,7 +167,7 @@ public class MessageWriterResultHandlerTests {
 		assertResponseBody("{\"id\":123,\"name\":\"foo\"}");
 	}
 
-	@Test  // SPR-13318
+	@Test // SPR-13318
 	public void jacksonTypeWithSubTypeOfListElement() throws Exception {
 
 		MethodParameter returnType = on(TestController.class).resolveReturnType(List.class, Identifiable.class);
@@ -180,14 +179,11 @@ public class MessageWriterResultHandlerTests {
 		assertResponseBody("[{\"id\":123,\"name\":\"foo\"},{\"id\":456,\"name\":\"bar\"}]");
 	}
 
-
 	private void assertResponseBody(String responseBody) {
 		StepVerifier.create(this.exchange.getResponse().getBody())
-				.consumeNextWith(buf -> assertThat(buf.toString(UTF_8)).isEqualTo(responseBody))
-				.expectComplete()
+				.consumeNextWith(buf -> assertThat(buf.toString(UTF_8)).isEqualTo(responseBody)).expectComplete()
 				.verify();
 	}
-
 
 	@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 	@SuppressWarnings("unused")
@@ -209,8 +205,8 @@ public class MessageWriterResultHandlerTests {
 		public void setParentProperty(String parentProperty) {
 			this.parentProperty = parentProperty;
 		}
-	}
 
+	}
 
 	@JsonTypeName("foo")
 	private static class Foo extends ParentClass {
@@ -218,8 +214,8 @@ public class MessageWriterResultHandlerTests {
 		public Foo(String parentProperty) {
 			super(parentProperty);
 		}
-	}
 
+	}
 
 	@JsonTypeName("bar")
 	private static class Bar extends ParentClass {
@@ -227,15 +223,15 @@ public class MessageWriterResultHandlerTests {
 		Bar(String parentProperty) {
 			super(parentProperty);
 		}
-	}
 
+	}
 
 	private interface Identifiable extends Serializable {
 
 		@SuppressWarnings("unused")
 		Long getId();
-	}
 
+	}
 
 	@SuppressWarnings({ "serial" })
 	private static class SimpleBean implements Identifiable {
@@ -258,39 +254,67 @@ public class MessageWriterResultHandlerTests {
 		public String getName() {
 			return name;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class TestController {
 
-		Resource resource() { return null; }
+		Resource resource() {
+			return null;
+		}
 
-		String string() { return null; }
+		String string() {
+			return null;
+		}
 
-		void voidReturn() { }
+		void voidReturn() {
+		}
 
-		Mono<Void> monoVoid() { return null; }
+		Mono<Void> monoVoid() {
+			return null;
+		}
 
-		Completable completable() { return null; }
+		Completable completable() {
+			return null;
+		}
 
-		io.reactivex.Completable rxJava2Completable() { return null; }
+		io.reactivex.Completable rxJava2Completable() {
+			return null;
+		}
 
-		Flux<Void> fluxVoid() { return null; }
+		Flux<Void> fluxVoid() {
+			return null;
+		}
 
-		Observable<Void> observableVoid() { return null; }
+		Observable<Void> observableVoid() {
+			return null;
+		}
 
-		io.reactivex.Observable<Void> rxJava2ObservableVoid() { return null; }
+		io.reactivex.Observable<Void> rxJava2ObservableVoid() {
+			return null;
+		}
 
-		Flowable<Void> flowableVoid() { return null; }
+		Flowable<Void> flowableVoid() {
+			return null;
+		}
 
-		OutputStream outputStream() { return null; }
+		OutputStream outputStream() {
+			return null;
+		}
 
-		List<ParentClass> listParentClass() { return null; }
+		List<ParentClass> listParentClass() {
+			return null;
+		}
 
-		Identifiable identifiable() { return null; }
+		Identifiable identifiable() {
+			return null;
+		}
 
-		List<Identifiable> listIdentifiable() { return null; }
+		List<Identifiable> listIdentifiable() {
+			return null;
+		}
+
 	}
 
 }

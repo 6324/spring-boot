@@ -83,9 +83,8 @@ public class RequestMappingInfoTests {
 
 	@Test
 	public void throwWhenInvalidPattern() {
-		assertThatExceptionOfType(PatternParseException.class).isThrownBy(() ->
-				paths("/{foo").build())
-			.withMessageContaining("Expected close capture character after variable name }");
+		assertThatExceptionOfType(PatternParseException.class).isThrownBy(() -> paths("/{foo").build())
+				.withMessageContaining("Expected close capture character after variable name }");
 	}
 
 	@Test
@@ -183,8 +182,7 @@ public class RequestMappingInfoTests {
 
 		assertThat(match).isNotNull();
 
-		info = paths("/foo").params("foo!=bar")
-				.customCondition(new ParamsRequestCondition("foo!=bar")).build();
+		info = paths("/foo").params("foo!=bar").customCondition(new ParamsRequestCondition("foo!=bar")).build();
 
 		match = info.getMatchingCondition(exchange);
 
@@ -211,80 +209,57 @@ public class RequestMappingInfoTests {
 
 	@Test
 	public void equals() {
-		RequestMappingInfo info1 = paths("/foo").methods(RequestMethod.GET)
-				.params("foo=bar").headers("foo=bar")
+		RequestMappingInfo info1 = paths("/foo").methods(RequestMethod.GET).params("foo=bar").headers("foo=bar")
 				.consumes("text/plain").produces("text/plain")
-				.customCondition(new ParamsRequestCondition("customFoo=customBar"))
-				.build();
+				.customCondition(new ParamsRequestCondition("customFoo=customBar")).build();
 
-		RequestMappingInfo info2 = paths("/foo").methods(RequestMethod.GET)
-				.params("foo=bar").headers("foo=bar")
+		RequestMappingInfo info2 = paths("/foo").methods(RequestMethod.GET).params("foo=bar").headers("foo=bar")
 				.consumes("text/plain").produces("text/plain")
-				.customCondition(new ParamsRequestCondition("customFoo=customBar"))
-				.build();
+				.customCondition(new ParamsRequestCondition("customFoo=customBar")).build();
 
 		assertThat(info2).isEqualTo(info1);
 		assertThat(info2.hashCode()).isEqualTo(info1.hashCode());
 
-		info2 = paths("/foo", "/NOOOOOO").methods(RequestMethod.GET)
-				.params("foo=bar").headers("foo=bar")
+		info2 = paths("/foo", "/NOOOOOO").methods(RequestMethod.GET).params("foo=bar").headers("foo=bar")
 				.consumes("text/plain").produces("text/plain")
-				.customCondition(new ParamsRequestCondition("customFoo=customBar"))
-				.build();
+				.customCondition(new ParamsRequestCondition("customFoo=customBar")).build();
 
 		assertThat(info1.equals(info2)).isFalse();
 		assertThat(info2.hashCode()).isNotEqualTo(info1.hashCode());
 
-		info2 = paths("/foo").methods(RequestMethod.GET, RequestMethod.POST)
-				.params("foo=bar").headers("foo=bar")
+		info2 = paths("/foo").methods(RequestMethod.GET, RequestMethod.POST).params("foo=bar").headers("foo=bar")
 				.consumes("text/plain").produces("text/plain")
-				.customCondition(new ParamsRequestCondition("customFoo=customBar"))
-				.build();
+				.customCondition(new ParamsRequestCondition("customFoo=customBar")).build();
 
 		assertThat(info1.equals(info2)).isFalse();
 		assertThat(info2.hashCode()).isNotEqualTo(info1.hashCode());
 
-		info2 = paths("/foo").methods(RequestMethod.GET)
-				.params("/NOOOOOO").headers("foo=bar")
-				.consumes("text/plain").produces("text/plain")
-				.customCondition(new ParamsRequestCondition("customFoo=customBar"))
-				.build();
+		info2 = paths("/foo").methods(RequestMethod.GET).params("/NOOOOOO").headers("foo=bar").consumes("text/plain")
+				.produces("text/plain").customCondition(new ParamsRequestCondition("customFoo=customBar")).build();
 
 		assertThat(info1.equals(info2)).isFalse();
 		assertThat(info2.hashCode()).isNotEqualTo(info1.hashCode());
 
-		info2 = paths("/foo").methods(RequestMethod.GET)
-				.params("foo=bar").headers("/NOOOOOO")
-				.consumes("text/plain").produces("text/plain")
-				.customCondition(new ParamsRequestCondition("customFoo=customBar"))
-				.build();
+		info2 = paths("/foo").methods(RequestMethod.GET).params("foo=bar").headers("/NOOOOOO").consumes("text/plain")
+				.produces("text/plain").customCondition(new ParamsRequestCondition("customFoo=customBar")).build();
 
 		assertThat(info1.equals(info2)).isFalse();
 		assertThat(info2.hashCode()).isNotEqualTo(info1.hashCode());
 
-		info2 = paths("/foo").methods(RequestMethod.GET)
-				.params("foo=bar").headers("foo=bar")
-				.consumes("text/NOOOOOO").produces("text/plain")
-				.customCondition(new ParamsRequestCondition("customFoo=customBar"))
-				.build();
+		info2 = paths("/foo").methods(RequestMethod.GET).params("foo=bar").headers("foo=bar").consumes("text/NOOOOOO")
+				.produces("text/plain").customCondition(new ParamsRequestCondition("customFoo=customBar")).build();
 
 		assertThat(info1.equals(info2)).isFalse();
 		assertThat(info2.hashCode()).isNotEqualTo(info1.hashCode());
 
-		info2 = paths("/foo").methods(RequestMethod.GET)
-				.params("foo=bar").headers("foo=bar")
-				.consumes("text/plain").produces("text/NOOOOOO")
-				.customCondition(new ParamsRequestCondition("customFoo=customBar"))
-				.build();
+		info2 = paths("/foo").methods(RequestMethod.GET).params("foo=bar").headers("foo=bar").consumes("text/plain")
+				.produces("text/NOOOOOO").customCondition(new ParamsRequestCondition("customFoo=customBar")).build();
 
 		assertThat(info1.equals(info2)).isFalse();
 		assertThat(info2.hashCode()).isNotEqualTo(info1.hashCode());
 
-		info2 = paths("/foo").methods(RequestMethod.GET)
-				.params("foo=bar").headers("foo=bar")
-				.consumes("text/plain").produces("text/plain")
-				.customCondition(new ParamsRequestCondition("customFoo=NOOOOOO"))
-				.build();
+		info2 = paths("/foo").methods(RequestMethod.GET).params("foo=bar").headers("foo=bar").consumes("text/plain")
+				.produces("text/plain").customCondition(new ParamsRequestCondition("customFoo=NOOOOOO")).build();
 
 		assertThat(info1.equals(info2)).isFalse();
 		assertThat(info2.hashCode()).isNotEqualTo(info1.hashCode());
@@ -294,9 +269,7 @@ public class RequestMappingInfoTests {
 	@Disabled
 	public void preFlightRequest() throws Exception {
 		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.options("/foo")
-				.header("Origin", "https://domain.com")
-				.header(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, "POST")
-				);
+				.header("Origin", "https://domain.com").header(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, "POST"));
 
 		RequestMappingInfo info = paths("/foo").methods(RequestMethod.POST).build();
 		RequestMappingInfo match = info.getMatchingCondition(exchange);

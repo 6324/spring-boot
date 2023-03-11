@@ -32,8 +32,9 @@ import org.springframework.util.ConcurrentReferenceHashMap;
 /**
  * Helper class for resolving generic types against type variables.
  *
- * <p>Mainly intended for usage within the framework, resolving method
- * parameter types even when they are declared generically.
+ * <p>
+ * Mainly intended for usage within the framework, resolving method parameter types even
+ * when they are declared generically.
  *
  * @author Juergen Hoeller
  * @author Rob Harrop
@@ -47,17 +48,16 @@ public final class GenericTypeResolver {
 	@SuppressWarnings("rawtypes")
 	private static final Map<Class<?>, Map<TypeVariable, Type>> typeVariableCache = new ConcurrentReferenceHashMap<>();
 
-
 	private GenericTypeResolver() {
 	}
-
 
 	/**
 	 * Determine the target type for the given generic parameter type.
 	 * @param methodParameter the method parameter specification
 	 * @param implementationClass the class to resolve type variables against
 	 * @return the corresponding generic parameter or return type
-	 * @deprecated since 5.2 in favor of {@code methodParameter.withContainingClass(implementationClass).getParameterType()}
+	 * @deprecated since 5.2 in favor of
+	 * {@code methodParameter.withContainingClass(implementationClass).getParameterType()}
 	 */
 	@Deprecated
 	public static Class<?> resolveParameterType(MethodParameter methodParameter, Class<?> implementationClass) {
@@ -68,8 +68,8 @@ public final class GenericTypeResolver {
 	}
 
 	/**
-	 * Determine the target type for the generic return type of the given method,
-	 * where formal type variables are declared on the given class.
+	 * Determine the target type for the generic return type of the given method, where
+	 * formal type variables are declared on the given class.
 	 * @param method the method to introspect
 	 * @param clazz the class to resolve type variables against
 	 * @return the corresponding generic parameter or return type
@@ -85,9 +85,10 @@ public final class GenericTypeResolver {
 	 * target method which is assumed to return the given interface or an implementation
 	 * of it.
 	 * @param method the target method to check the return type of
-	 * @param genericIfc the generic interface or superclass to resolve the type argument from
-	 * @return the resolved parameter type of the method return type, or {@code null}
-	 * if not resolvable or if the single argument is of type {@link WildcardType}.
+	 * @param genericIfc the generic interface or superclass to resolve the type argument
+	 * from
+	 * @return the resolved parameter type of the method return type, or {@code null} if
+	 * not resolvable or if the single argument is of type {@link WildcardType}.
 	 */
 	@Nullable
 	public static Class<?> resolveReturnTypeArgument(Method method, Class<?> genericIfc) {
@@ -100,11 +101,12 @@ public final class GenericTypeResolver {
 	}
 
 	/**
-	 * Resolve the single type argument of the given generic interface against
-	 * the given target class which is assumed to implement the generic interface
-	 * and possibly declare a concrete type for its type variable.
+	 * Resolve the single type argument of the given generic interface against the given
+	 * target class which is assumed to implement the generic interface and possibly
+	 * declare a concrete type for its type variable.
 	 * @param clazz the target class to check against
-	 * @param genericIfc the generic interface or superclass to resolve the type argument from
+	 * @param genericIfc the generic interface or superclass to resolve the type argument
+	 * from
 	 * @return the resolved type of the argument, or {@code null} if not resolvable
 	 */
 	@Nullable
@@ -118,21 +120,20 @@ public final class GenericTypeResolver {
 
 	@Nullable
 	private static Class<?> getSingleGeneric(ResolvableType resolvableType) {
-		Assert.isTrue(resolvableType.getGenerics().length == 1,
-				() -> "Expected 1 type argument on generic interface [" + resolvableType +
-				"] but found " + resolvableType.getGenerics().length);
+		Assert.isTrue(resolvableType.getGenerics().length == 1, () -> "Expected 1 type argument on generic interface ["
+				+ resolvableType + "] but found " + resolvableType.getGenerics().length);
 		return resolvableType.getGeneric().resolve();
 	}
 
-
 	/**
-	 * Resolve the type arguments of the given generic interface against the given
-	 * target class which is assumed to implement the generic interface and possibly
-	 * declare concrete types for its type variables.
+	 * Resolve the type arguments of the given generic interface against the given target
+	 * class which is assumed to implement the generic interface and possibly declare
+	 * concrete types for its type variables.
 	 * @param clazz the target class to check against
-	 * @param genericIfc the generic interface or superclass to resolve the type argument from
-	 * @return the resolved type of each argument, with the array size matching the
-	 * number of actual type arguments, or {@code null} if not resolvable
+	 * @param genericIfc the generic interface or superclass to resolve the type argument
+	 * from
+	 * @return the resolved type of each argument, with the array size matching the number
+	 * of actual type arguments, or {@code null} if not resolvable
 	 */
 	@Nullable
 	public static Class<?>[] resolveTypeArguments(Class<?> clazz, Class<?> genericIfc) {
@@ -144,19 +145,19 @@ public final class GenericTypeResolver {
 	}
 
 	/**
-	 * Resolve the given generic type against the given context class,
-	 * substituting type variables as far as possible.
+	 * Resolve the given generic type against the given context class, substituting type
+	 * variables as far as possible.
 	 * @param genericType the (potentially) generic type
-	 * @param contextClass a context class for the target type, for example a class
-	 * in which the target type appears in a method signature (can be {@code null})
+	 * @param contextClass a context class for the target type, for example a class in
+	 * which the target type appears in a method signature (can be {@code null})
 	 * @return the resolved type (possibly the given generic type as-is)
 	 * @since 5.0
 	 */
 	public static Type resolveType(Type genericType, @Nullable Class<?> contextClass) {
 		if (contextClass != null) {
 			if (genericType instanceof TypeVariable) {
-				ResolvableType resolvedTypeVariable = resolveVariable(
-						(TypeVariable<?>) genericType, ResolvableType.forClass(contextClass));
+				ResolvableType resolvedTypeVariable = resolveVariable((TypeVariable<?>) genericType,
+						ResolvableType.forClass(contextClass));
 				if (resolvedTypeVariable != ResolvableType.NONE) {
 					Class<?> resolved = resolvedTypeVariable.resolve();
 					if (resolved != null) {
@@ -174,8 +175,8 @@ public final class GenericTypeResolver {
 					for (int i = 0; i < typeArguments.length; i++) {
 						Type typeArgument = typeArguments[i];
 						if (typeArgument instanceof TypeVariable) {
-							ResolvableType resolvedTypeArgument = resolveVariable(
-									(TypeVariable<?>) typeArgument, contextType);
+							ResolvableType resolvedTypeArgument = resolveVariable((TypeVariable<?>) typeArgument,
+									contextType);
 							if (resolvedTypeArgument != ResolvableType.NONE) {
 								generics[i] = resolvedTypeArgument.resolve();
 							}
@@ -224,7 +225,8 @@ public final class GenericTypeResolver {
 
 	/**
 	 * Resolve the specified generic type against the given TypeVariable map.
-	 * <p>Used by Spring Data.
+	 * <p>
+	 * Used by Spring Data.
 	 * @param genericType the generic type to resolve
 	 * @param map the TypeVariable Map to resolved against
 	 * @return the type if it resolves to a Class, or {@code Object.class} otherwise
@@ -235,9 +237,9 @@ public final class GenericTypeResolver {
 	}
 
 	/**
-	 * Build a mapping of {@link TypeVariable#getName TypeVariable names} to
-	 * {@link Class concrete classes} for the specified {@link Class}.
-	 * Searches all super types, enclosing types and interfaces.
+	 * Build a mapping of {@link TypeVariable#getName TypeVariable names} to {@link Class
+	 * concrete classes} for the specified {@link Class}. Searches all super types,
+	 * enclosing types and interfaces.
 	 * @see #resolveType(Type, Map)
 	 */
 	@SuppressWarnings("rawtypes")
@@ -277,8 +279,7 @@ public final class GenericTypeResolver {
 		}
 	}
 
-
-	@SuppressWarnings({"serial", "rawtypes"})
+	@SuppressWarnings({ "serial", "rawtypes" })
 	private static class TypeVariableMapVariableResolver implements ResolvableType.VariableResolver {
 
 		private final Map<TypeVariable, Type> typeVariableMap;
@@ -298,6 +299,7 @@ public final class GenericTypeResolver {
 		public Object getSource() {
 			return this.typeVariableMap;
 		}
+
 	}
 
 }

@@ -43,7 +43,6 @@ public class CollectionMergingTests {
 
 	private final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
-
 	@BeforeEach
 	public void setUp() throws Exception {
 		BeanDefinitionReader reader = new XmlBeanDefinitionReader(this.beanFactory);

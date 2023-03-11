@@ -34,7 +34,6 @@ public class QosSettings {
 
 	private long timeToLive;
 
-
 	/**
 	 * Create a new instance with the default settings.
 	 * @see Message#DEFAULT_DELIVERY_MODE
@@ -54,10 +53,9 @@ public class QosSettings {
 		this.timeToLive = timeToLive;
 	}
 
-
 	/**
-	 * Set the delivery mode to use when sending a message.
-	 * Default is the JMS Message default: "PERSISTENT".
+	 * Set the delivery mode to use when sending a message. Default is the JMS Message
+	 * default: "PERSISTENT".
 	 * @param deliveryMode the delivery mode to use
 	 * @see javax.jms.DeliveryMode#PERSISTENT
 	 * @see javax.jms.DeliveryMode#NON_PERSISTENT
@@ -108,7 +106,6 @@ public class QosSettings {
 		return this.timeToLive;
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -119,9 +116,8 @@ public class QosSettings {
 		}
 
 		QosSettings otherSettings = (QosSettings) other;
-		return (this.deliveryMode == otherSettings.deliveryMode &&
-				this.priority == otherSettings.priority &&
-				this.timeToLive == otherSettings.timeToLive);
+		return (this.deliveryMode == otherSettings.deliveryMode && this.priority == otherSettings.priority
+				&& this.timeToLive == otherSettings.timeToLive);
 	}
 
 	@Override
@@ -131,7 +127,8 @@ public class QosSettings {
 
 	@Override
 	public String toString() {
-		return "QosSettings{" + "deliveryMode=" + this.deliveryMode +
-				", priority=" + this.priority + ", timeToLive=" + this.timeToLive + '}';
+		return "QosSettings{" + "deliveryMode=" + this.deliveryMode + ", priority=" + this.priority + ", timeToLive="
+				+ this.timeToLive + '}';
 	}
+
 }

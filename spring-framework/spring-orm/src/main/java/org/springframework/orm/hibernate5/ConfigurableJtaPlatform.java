@@ -32,8 +32,9 @@ import org.springframework.transaction.jta.UserTransactionAdapter;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of Hibernate 5's JtaPlatform SPI, exposing passed-in {@link TransactionManager},
- * {@link UserTransaction} and {@link TransactionSynchronizationRegistry} references.
+ * Implementation of Hibernate 5's JtaPlatform SPI, exposing passed-in
+ * {@link TransactionManager}, {@link UserTransaction} and
+ * {@link TransactionSynchronizationRegistry} references.
  *
  * @author Juergen Hoeller
  * @since 4.2
@@ -48,10 +49,9 @@ class ConfigurableJtaPlatform implements JtaPlatform {
 	@Nullable
 	private final TransactionSynchronizationRegistry transactionSynchronizationRegistry;
 
-
 	/**
-	 * Create a new ConfigurableJtaPlatform instance with the given
-	 * JTA TransactionManager and optionally a given UserTransaction.
+	 * Create a new ConfigurableJtaPlatform instance with the given JTA TransactionManager
+	 * and optionally a given UserTransaction.
 	 * @param tm the JTA TransactionManager reference (required)
 	 * @param ut the JTA UserTransaction reference (optional)
 	 * @param tsr the JTA 1.1 TransactionSynchronizationRegistry (optional)
@@ -64,7 +64,6 @@ class ConfigurableJtaPlatform implements JtaPlatform {
 		this.userTransaction = (ut != null ? ut : new UserTransactionAdapter(tm));
 		this.transactionSynchronizationRegistry = tsr;
 	}
-
 
 	@Override
 	public TransactionManager retrieveTransactionManager() {

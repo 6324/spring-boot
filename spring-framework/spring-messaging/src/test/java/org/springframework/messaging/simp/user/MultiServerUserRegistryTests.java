@@ -46,7 +46,6 @@ class MultiServerUserRegistryTests {
 
 	private final MessageConverter converter = new MappingJackson2MessageConverter();
 
-
 	@Test
 	void getUserFromLocalRegistry() {
 		SimpUser user = Mockito.mock(SimpUser.class);
@@ -123,7 +122,7 @@ class MultiServerUserRegistryTests {
 		assertThat(sessionIds).isEqualTo(new HashSet<>(Arrays.asList("sess1", "sess2")));
 	}
 
-	@Test  // SPR-13800
+	@Test // SPR-13800
 	void getSessionsWhenUserIsConnectedToMultipleServers() {
 		// Add user to local registry
 		TestSimpUser localUser = new TestSimpUser("joe");
@@ -142,7 +141,6 @@ class MultiServerUserRegistryTests {
 
 		// Add remote registry
 		this.registry.addRemoteRegistryDto(message, this.converter, 20000);
-
 
 		assertThat(this.registry.getUserCount()).isEqualTo(1);
 		SimpUser user = this.registry.getUsers().iterator().next();
@@ -171,7 +169,6 @@ class MultiServerUserRegistryTests {
 
 		// Add remote registry
 		this.registry.addRemoteRegistryDto(message, this.converter, -1);
-
 
 		assertThat(this.registry.getUserCount()).isEqualTo(1);
 		this.registry.purgeExpiredRegistries();

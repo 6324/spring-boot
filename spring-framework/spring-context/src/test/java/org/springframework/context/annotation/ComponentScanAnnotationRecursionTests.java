@@ -25,10 +25,9 @@ import org.springframework.context.annotation.componentscan.level3.Level3Compone
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
- * Tests ensuring that configuration classes marked with @ComponentScan
- * may be processed recursively
+ * Tests ensuring that configuration classes marked with @ComponentScan may be processed
+ * recursively
  *
  * @author Chris Beams
  * @since 3.1
@@ -55,8 +54,8 @@ public class ComponentScanAnnotationRecursionTests {
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
 		ctx.register(LeftConfig.class); // left scans right, and right scans left
 		ctx.refresh();
-		ctx.getBean("leftConfig");      // but this is handled gracefully
-		ctx.getBean("rightConfig");     // and beans from both packages are available
+		ctx.getBean("leftConfig"); // but this is handled gracefully
+		ctx.getBean("rightConfig"); // and beans from both packages are available
 	}
 
 }

@@ -20,8 +20,8 @@ import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.lang.Nullable;
 
 /**
- * Exception thrown if a mapped object could not be retrieved via its identifier.
- * Provides information about the persistent class and the identifier.
+ * Exception thrown if a mapped object could not be retrieved via its identifier. Provides
+ * information about the persistent class and the identifier.
  *
  * @author Juergen Hoeller
  * @since 13.10.2003
@@ -35,10 +35,9 @@ public class ObjectRetrievalFailureException extends DataRetrievalFailureExcepti
 	@Nullable
 	private final Object identifier;
 
-
 	/**
-	 * Create a general ObjectRetrievalFailureException with the given message,
-	 * without any information on the affected object.
+	 * Create a general ObjectRetrievalFailureException with the given message, without
+	 * any information on the affected object.
 	 * @param msg the detail message
 	 * @param cause the source exception
 	 */
@@ -49,8 +48,8 @@ public class ObjectRetrievalFailureException extends DataRetrievalFailureExcepti
 	}
 
 	/**
-	 * Create a new ObjectRetrievalFailureException for the given object,
-	 * with the default "not found" message.
+	 * Create a new ObjectRetrievalFailureException for the given object, with the default
+	 * "not found" message.
 	 * @param persistentClass the persistent class
 	 * @param identifier the ID of the object that should have been retrieved
 	 */
@@ -61,15 +60,15 @@ public class ObjectRetrievalFailureException extends DataRetrievalFailureExcepti
 	}
 
 	/**
-	 * Create a new ObjectRetrievalFailureException for the given object,
-	 * with the given explicit message and exception.
+	 * Create a new ObjectRetrievalFailureException for the given object, with the given
+	 * explicit message and exception.
 	 * @param persistentClass the persistent class
 	 * @param identifier the ID of the object that should have been retrieved
 	 * @param msg the detail message
 	 * @param cause the source exception
 	 */
-	public ObjectRetrievalFailureException(
-			Class<?> persistentClass, Object identifier, String msg, @Nullable Throwable cause) {
+	public ObjectRetrievalFailureException(Class<?> persistentClass, Object identifier, String msg,
+			@Nullable Throwable cause) {
 
 		super(msg, cause);
 		this.persistentClass = persistentClass;
@@ -77,37 +76,35 @@ public class ObjectRetrievalFailureException extends DataRetrievalFailureExcepti
 	}
 
 	/**
-	 * Create a new ObjectRetrievalFailureException for the given object,
-	 * with the default "not found" message.
+	 * Create a new ObjectRetrievalFailureException for the given object, with the default
+	 * "not found" message.
 	 * @param persistentClassName the name of the persistent class
 	 * @param identifier the ID of the object that should have been retrieved
 	 */
 	public ObjectRetrievalFailureException(String persistentClassName, Object identifier) {
 		this(persistentClassName, identifier,
-				"Object of class [" + persistentClassName + "] with identifier [" + identifier + "]: not found",
-				null);
+				"Object of class [" + persistentClassName + "] with identifier [" + identifier + "]: not found", null);
 	}
 
 	/**
-	 * Create a new ObjectRetrievalFailureException for the given object,
-	 * with the given explicit message and exception.
+	 * Create a new ObjectRetrievalFailureException for the given object, with the given
+	 * explicit message and exception.
 	 * @param persistentClassName the name of the persistent class
 	 * @param identifier the ID of the object that should have been retrieved
 	 * @param msg the detail message
 	 * @param cause the source exception
 	 */
-	public ObjectRetrievalFailureException(
-			String persistentClassName, Object identifier, String msg, @Nullable Throwable cause) {
+	public ObjectRetrievalFailureException(String persistentClassName, Object identifier, String msg,
+			@Nullable Throwable cause) {
 
 		super(msg, cause);
 		this.persistentClass = persistentClassName;
 		this.identifier = identifier;
 	}
 
-
 	/**
-	 * Return the persistent class of the object that was not found.
-	 * If no Class was specified, this method returns null.
+	 * Return the persistent class of the object that was not found. If no Class was
+	 * specified, this method returns null.
 	 */
 	@Nullable
 	public Class<?> getPersistentClass() {
@@ -115,8 +112,8 @@ public class ObjectRetrievalFailureException extends DataRetrievalFailureExcepti
 	}
 
 	/**
-	 * Return the name of the persistent class of the object that was not found.
-	 * Will work for both Class objects and String names.
+	 * Return the name of the persistent class of the object that was not found. Will work
+	 * for both Class objects and String names.
 	 */
 	@Nullable
 	public String getPersistentClassName() {

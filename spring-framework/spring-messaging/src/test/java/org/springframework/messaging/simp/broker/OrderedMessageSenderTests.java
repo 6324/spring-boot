@@ -37,19 +37,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link OrderedMessageSender}.
+ *
  * @author Rossen Stoyanchev
  */
 public class OrderedMessageSenderTests {
 
 	private static final Log logger = LogFactory.getLog(OrderedMessageSenderTests.class);
 
-
 	private OrderedMessageSender sender;
 
 	ExecutorSubscribableChannel channel = new ExecutorSubscribableChannel(this.executor);
 
 	private ThreadPoolTaskExecutor executor;
-
 
 	@BeforeEach
 	public void setup() {
@@ -69,7 +68,6 @@ public class OrderedMessageSenderTests {
 	public void tearDown() {
 		this.executor.shutdown();
 	}
-
 
 	@Test
 	public void test() throws InterruptedException {
@@ -116,4 +114,3 @@ public class OrderedMessageSenderTests {
 	}
 
 }
-

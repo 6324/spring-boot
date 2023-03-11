@@ -32,4 +32,5 @@ public interface IAnnotationTestBean {
 
 	@ManagedOperation
 	int getExpensiveToCalculate();
+
 }

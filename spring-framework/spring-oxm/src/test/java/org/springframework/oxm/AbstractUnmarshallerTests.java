@@ -51,9 +51,8 @@ public abstract class AbstractUnmarshallerTests<U extends Unmarshaller> {
 
 	protected U unmarshaller;
 
-	protected static final String INPUT_STRING =
-			"<tns:flights xmlns:tns=\"http://samples.springframework.org/flight\">" +
-					"<tns:flight><tns:number>42</tns:number></tns:flight></tns:flights>";
+	protected static final String INPUT_STRING = "<tns:flights xmlns:tns=\"http://samples.springframework.org/flight\">"
+			+ "<tns:flight><tns:number>42</tns:number></tns:flight></tns:flights>";
 
 	@BeforeEach
 	public final void setUp() throws Exception {
@@ -147,9 +146,11 @@ public abstract class AbstractUnmarshallerTests<U extends Unmarshaller> {
 		XMLInputFactory inputFactory = XMLInputFactory.newInstance();
 		XMLStreamReader streamReader = inputFactory.createXMLStreamReader(new StringReader(INPUT_STRING));
 		streamReader.nextTag(); // skip to flights
-		assertThat(streamReader.getName()).as("Invalid element").isEqualTo(new QName("http://samples.springframework.org/flight", "flights"));
+		assertThat(streamReader.getName()).as("Invalid element")
+				.isEqualTo(new QName("http://samples.springframework.org/flight", "flights"));
 		streamReader.nextTag(); // skip to flight
-		assertThat(streamReader.getName()).as("Invalid element").isEqualTo(new QName("http://samples.springframework.org/flight", "flight"));
+		assertThat(streamReader.getName()).as("Invalid element")
+				.isEqualTo(new QName("http://samples.springframework.org/flight", "flight"));
 		Source source = StaxUtils.createStaxSource(streamReader);
 		Object flight = unmarshaller.unmarshal(source);
 		testFlight(flight);

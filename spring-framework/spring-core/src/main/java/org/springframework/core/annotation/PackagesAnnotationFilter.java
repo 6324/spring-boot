@@ -35,7 +35,6 @@ final class PackagesAnnotationFilter implements AnnotationFilter {
 
 	private final int hashCode;
 
-
 	PackagesAnnotationFilter(String... packages) {
 		Assert.notNull(packages, "Packages array must not be null");
 		this.prefixes = new String[packages.length];
@@ -48,7 +47,6 @@ final class PackagesAnnotationFilter implements AnnotationFilter {
 		this.hashCode = Arrays.hashCode(this.prefixes);
 	}
 
-
 	@Override
 	public boolean matches(String annotationType) {
 		for (String prefix : this.prefixes) {
@@ -58,7 +56,6 @@ final class PackagesAnnotationFilter implements AnnotationFilter {
 		}
 		return false;
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {
@@ -78,8 +75,7 @@ final class PackagesAnnotationFilter implements AnnotationFilter {
 
 	@Override
 	public String toString() {
-		return "Packages annotation filter: " +
-				StringUtils.arrayToCommaDelimitedString(this.prefixes);
+		return "Packages annotation filter: " + StringUtils.arrayToCommaDelimitedString(this.prefixes);
 	}
 
 }

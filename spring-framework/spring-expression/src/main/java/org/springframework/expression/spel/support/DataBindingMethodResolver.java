@@ -30,9 +30,10 @@ import org.springframework.lang.Nullable;
  * A {@link org.springframework.expression.MethodResolver} variant for data binding
  * purposes, using reflection to access instance methods on a given target object.
  *
- * <p>This accessor does not resolve static methods and also no technical methods
- * on {@code java.lang.Object} or {@code java.lang.Class}.
- * For unrestricted resolution, choose {@link ReflectiveMethodResolver} instead.
+ * <p>
+ * This accessor does not resolve static methods and also no technical methods on
+ * {@code java.lang.Object} or {@code java.lang.Class}. For unrestricted resolution,
+ * choose {@link ReflectiveMethodResolver} instead.
  *
  * @author Juergen Hoeller
  * @since 4.3.15
@@ -64,7 +65,6 @@ public final class DataBindingMethodResolver extends ReflectiveMethodResolver {
 		Class<?> clazz = method.getDeclaringClass();
 		return (clazz != Object.class && clazz != Class.class && !ClassLoader.class.isAssignableFrom(targetClass));
 	}
-
 
 	/**
 	 * Create a new data-binding method resolver for instance method resolution.

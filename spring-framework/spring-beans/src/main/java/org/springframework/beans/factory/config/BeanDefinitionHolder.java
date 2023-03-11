@@ -24,12 +24,13 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Holder for a BeanDefinition with name and aliases.
- * Can be registered as a placeholder for an inner bean.
+ * Holder for a BeanDefinition with name and aliases. Can be registered as a placeholder
+ * for an inner bean.
  *
- * <p>Can also be used for programmatic registration of inner bean
- * definitions. If you don't care about BeanNameAware and the like,
- * registering RootBeanDefinition or ChildBeanDefinition is good enough.
+ * <p>
+ * Can also be used for programmatic registration of inner bean definitions. If you don't
+ * care about BeanNameAware and the like, registering RootBeanDefinition or
+ * ChildBeanDefinition is good enough.
  *
  * @author Juergen Hoeller
  * @since 1.0.2
@@ -45,7 +46,6 @@ public class BeanDefinitionHolder implements BeanMetadataElement {
 
 	@Nullable
 	private final String[] aliases;
-
 
 	/**
 	 * Create a new BeanDefinitionHolder.
@@ -71,10 +71,11 @@ public class BeanDefinitionHolder implements BeanMetadataElement {
 	}
 
 	/**
-	 * Copy constructor: Create a new BeanDefinitionHolder with the
-	 * same contents as the given BeanDefinitionHolder instance.
-	 * <p>Note: The wrapped BeanDefinition reference is taken as-is;
-	 * it is {@code not} deeply copied.
+	 * Copy constructor: Create a new BeanDefinitionHolder with the same contents as the
+	 * given BeanDefinitionHolder instance.
+	 * <p>
+	 * Note: The wrapped BeanDefinition reference is taken as-is; it is {@code not} deeply
+	 * copied.
 	 * @param beanDefinitionHolder the BeanDefinitionHolder to copy
 	 */
 	public BeanDefinitionHolder(BeanDefinitionHolder beanDefinitionHolder) {
@@ -83,7 +84,6 @@ public class BeanDefinitionHolder implements BeanMetadataElement {
 		this.beanName = beanDefinitionHolder.getBeanName();
 		this.aliases = beanDefinitionHolder.getAliases();
 	}
-
 
 	/**
 	 * Return the wrapped BeanDefinition.
@@ -119,15 +119,14 @@ public class BeanDefinitionHolder implements BeanMetadataElement {
 	}
 
 	/**
-	 * Determine whether the given candidate name matches the bean name
-	 * or the aliases stored in this bean definition.
+	 * Determine whether the given candidate name matches the bean name or the aliases
+	 * stored in this bean definition.
 	 */
 	public boolean matchesName(@Nullable String candidateName) {
-		return (candidateName != null && (candidateName.equals(this.beanName) ||
-				candidateName.equals(BeanFactoryUtils.transformedBeanName(this.beanName)) ||
-				ObjectUtils.containsElement(this.aliases, candidateName)));
+		return (candidateName != null && (candidateName.equals(this.beanName)
+				|| candidateName.equals(BeanFactoryUtils.transformedBeanName(this.beanName))
+				|| ObjectUtils.containsElement(this.aliases, candidateName)));
 	}
-
 
 	/**
 	 * Return a friendly, short description for the bean, stating name and aliases.
@@ -138,12 +137,13 @@ public class BeanDefinitionHolder implements BeanMetadataElement {
 		if (this.aliases == null) {
 			return "Bean definition with name '" + this.beanName + "'";
 		}
-		return "Bean definition with name '" + this.beanName + "' and aliases [" + StringUtils.arrayToCommaDelimitedString(this.aliases) + ']';
+		return "Bean definition with name '" + this.beanName + "' and aliases ["
+				+ StringUtils.arrayToCommaDelimitedString(this.aliases) + ']';
 	}
 
 	/**
-	 * Return a long description for the bean, including name and aliases
-	 * as well as a description of the contained {@link BeanDefinition}.
+	 * Return a long description for the bean, including name and aliases as well as a
+	 * description of the contained {@link BeanDefinition}.
 	 * @see #getShortDescription()
 	 * @see #getBeanDefinition()
 	 */
@@ -152,8 +152,8 @@ public class BeanDefinitionHolder implements BeanMetadataElement {
 	}
 
 	/**
-	 * This implementation returns the long description. Can be overridden
-	 * to return the short description or any kind of custom description instead.
+	 * This implementation returns the long description. Can be overridden to return the
+	 * short description or any kind of custom description instead.
 	 * @see #getLongDescription()
 	 * @see #getShortDescription()
 	 */
@@ -161,7 +161,6 @@ public class BeanDefinitionHolder implements BeanMetadataElement {
 	public String toString() {
 		return getLongDescription();
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {
@@ -172,9 +171,8 @@ public class BeanDefinitionHolder implements BeanMetadataElement {
 			return false;
 		}
 		BeanDefinitionHolder otherHolder = (BeanDefinitionHolder) other;
-		return this.beanDefinition.equals(otherHolder.beanDefinition) &&
-				this.beanName.equals(otherHolder.beanName) &&
-				ObjectUtils.nullSafeEquals(this.aliases, otherHolder.aliases);
+		return this.beanDefinition.equals(otherHolder.beanDefinition) && this.beanName.equals(otherHolder.beanName)
+				&& ObjectUtils.nullSafeEquals(this.aliases, otherHolder.aliases);
 	}
 
 	@Override

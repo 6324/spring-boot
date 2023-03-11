@@ -28,7 +28,8 @@ import org.springframework.context.annotation.Role;
  * annotated with @{@link org.springframework.beans.factory.annotation.Configurable
  * Configurable}.
  *
- * <p>This configuration class is automatically imported when using the
+ * <p>
+ * This configuration class is automatically imported when using the
  * {@link EnableSpringConfigured @EnableSpringConfigured} annotation. See
  * {@code @EnableSpringConfigured}'s javadoc for complete usage details.
  *
@@ -42,8 +43,7 @@ public class SpringConfiguredConfiguration {
 	/**
 	 * The bean name used for the configurer aspect.
 	 */
-	public static final String BEAN_CONFIGURER_ASPECT_BEAN_NAME =
-			"org.springframework.context.config.internalBeanConfigurerAspect";
+	public static final String BEAN_CONFIGURER_ASPECT_BEAN_NAME = "org.springframework.context.config.internalBeanConfigurerAspect";
 
 	@Bean(name = BEAN_CONFIGURER_ASPECT_BEAN_NAME)
 	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)

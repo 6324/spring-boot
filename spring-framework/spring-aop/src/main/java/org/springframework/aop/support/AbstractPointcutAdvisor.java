@@ -27,8 +27,8 @@ import org.springframework.util.ObjectUtils;
 
 /**
  * Abstract base class for {@link org.springframework.aop.PointcutAdvisor}
- * implementations. Can be subclassed for returning a specific pointcut/advice
- * or a freely configurable pointcut/advice.
+ * implementations. Can be subclassed for returning a specific pointcut/advice or a freely
+ * configurable pointcut/advice.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -40,7 +40,6 @@ public abstract class AbstractPointcutAdvisor implements PointcutAdvisor, Ordere
 
 	@Nullable
 	private Integer order;
-
 
 	public void setOrder(int order) {
 		this.order = order;
@@ -63,7 +62,6 @@ public abstract class AbstractPointcutAdvisor implements PointcutAdvisor, Ordere
 		return true;
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -73,8 +71,8 @@ public abstract class AbstractPointcutAdvisor implements PointcutAdvisor, Ordere
 			return false;
 		}
 		PointcutAdvisor otherAdvisor = (PointcutAdvisor) other;
-		return (ObjectUtils.nullSafeEquals(getAdvice(), otherAdvisor.getAdvice()) &&
-				ObjectUtils.nullSafeEquals(getPointcut(), otherAdvisor.getPointcut()));
+		return (ObjectUtils.nullSafeEquals(getAdvice(), otherAdvisor.getAdvice())
+				&& ObjectUtils.nullSafeEquals(getPointcut(), otherAdvisor.getPointcut()));
 	}
 
 	@Override

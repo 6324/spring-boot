@@ -32,7 +32,6 @@ public class NumberStyleFormatterTests {
 
 	private final NumberStyleFormatter formatter = new NumberStyleFormatter();
 
-
 	@Test
 	public void formatValue() {
 		assertThat(formatter.print(new BigDecimal("23.56"), Locale.US)).isEqualTo("23.56");
@@ -45,14 +44,12 @@ public class NumberStyleFormatterTests {
 
 	@Test
 	public void parseBogusValue() throws ParseException {
-		assertThatExceptionOfType(ParseException.class).isThrownBy(() ->
-				formatter.parse("bogus", Locale.US));
+		assertThatExceptionOfType(ParseException.class).isThrownBy(() -> formatter.parse("bogus", Locale.US));
 	}
 
 	@Test
 	public void parsePercentValueNotLenientFailure() throws ParseException {
-		assertThatExceptionOfType(ParseException.class).isThrownBy(() ->
-				formatter.parse("23.56bogus", Locale.US));
+		assertThatExceptionOfType(ParseException.class).isThrownBy(() -> formatter.parse("23.56bogus", Locale.US));
 	}
 
 }

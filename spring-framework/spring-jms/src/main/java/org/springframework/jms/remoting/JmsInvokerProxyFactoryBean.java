@@ -24,15 +24,17 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * FactoryBean for JMS invoker proxies. Exposes the proxied service for use
- * as a bean reference, using the specified service interface.
+ * FactoryBean for JMS invoker proxies. Exposes the proxied service for use as a bean
+ * reference, using the specified service interface.
  *
- * <p>Serializes remote invocation objects and deserializes remote invocation
- * result objects. Uses Java serialization just like RMI, but with the JMS
- * provider as communication infrastructure.
+ * <p>
+ * Serializes remote invocation objects and deserializes remote invocation result objects.
+ * Uses Java serialization just like RMI, but with the JMS provider as communication
+ * infrastructure.
  *
- * <p>To be configured with a {@link javax.jms.QueueConnectionFactory} and a
- * target queue (either as {@link javax.jms.Queue} reference or as queue name).
+ * <p>
+ * To be configured with a {@link javax.jms.QueueConnectionFactory} and a target queue
+ * (either as {@link javax.jms.Queue} reference or as queue name).
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -54,12 +56,11 @@ public class JmsInvokerProxyFactoryBean extends JmsInvokerClientInterceptor
 	@Nullable
 	private Object serviceProxy;
 
-
 	/**
 	 * Set the interface that the proxy must implement.
 	 * @param serviceInterface the interface that the proxy must implement
-	 * @throws IllegalArgumentException if the supplied {@code serviceInterface}
-	 * is not an interface type
+	 * @throws IllegalArgumentException if the supplied {@code serviceInterface} is not an
+	 * interface type
 	 */
 	public void setServiceInterface(Class<?> serviceInterface) {
 		Assert.notNull(serviceInterface, "'serviceInterface' must not be null");
@@ -78,7 +79,6 @@ public class JmsInvokerProxyFactoryBean extends JmsInvokerClientInterceptor
 		Assert.notNull(this.serviceInterface, "Property 'serviceInterface' is required");
 		this.serviceProxy = new ProxyFactory(this.serviceInterface, this).getProxy(this.beanClassLoader);
 	}
-
 
 	@Override
 	@Nullable

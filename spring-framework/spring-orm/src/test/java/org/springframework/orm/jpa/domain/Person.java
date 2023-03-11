@@ -57,7 +57,6 @@ public class Person {
 
 	public transient ApplicationContext postLoaded;
 
-
 	public Integer getId() {
 		return id;
 	}
@@ -96,8 +95,8 @@ public class Person {
 
 	@Override
 	public String toString() {
-		return getClass().getName() + ":(" + hashCode() + ") id=" + id + "; firstName=" + first_name +
-				"; lastName=" + last_name + "; testBean=" + testBean;
+		return getClass().getName() + ":(" + hashCode() + ") id=" + id + "; firstName=" + first_name + "; lastName="
+				+ last_name + "; testBean=" + testBean;
 	}
 
 }

@@ -33,8 +33,8 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.sockjs.transport.TransportType;
 
 /**
- * An extension of {@link AbstractClientSockJsSession} for use with HTTP
- * transports simulating a WebSocket session.
+ * An extension of {@link AbstractClientSockJsSession} for use with HTTP transports
+ * simulating a WebSocket session.
  *
  * @author Rossen Stoyanchev
  * @since 4.1
@@ -53,9 +53,8 @@ public class XhrClientSockJsSession extends AbstractClientSockJsSession {
 
 	private int binaryMessageSizeLimit = -1;
 
-
-	public XhrClientSockJsSession(TransportRequest request, WebSocketHandler handler,
-			XhrTransport transport, SettableListenableFuture<WebSocketSession> connectFuture) {
+	public XhrClientSockJsSession(TransportRequest request, WebSocketHandler handler, XhrTransport transport,
+			SettableListenableFuture<WebSocketSession> connectFuture) {
 
 		super(request, handler, connectFuture);
 		Assert.notNull(transport, "XhrTransport is required");
@@ -66,7 +65,6 @@ public class XhrClientSockJsSession extends AbstractClientSockJsSession {
 		this.sendHeaders.setContentType(MediaType.APPLICATION_JSON);
 		this.sendUrl = request.getSockJsUrlInfo().getTransportUrl(TransportType.XHR_SEND);
 	}
-
 
 	public HttpHeaders getHeaders() {
 		return this.headers;

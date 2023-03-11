@@ -25,10 +25,11 @@ import java.util.function.IntPredicate;
 import org.springframework.util.Assert;
 
 /**
- * Provides a convenient implementation of the {@link DataBuffer} interface
- * that can be overridden to adapt the delegate.
+ * Provides a convenient implementation of the {@link DataBuffer} interface that can be
+ * overridden to adapt the delegate.
  *
- * <p>These methods default to calling through to the wrapped delegate object.
+ * <p>
+ * These methods default to calling through to the wrapped delegate object.
  *
  * @author Arjen Poutsma
  * @since 5.2
@@ -36,7 +37,6 @@ import org.springframework.util.Assert;
 public class DataBufferWrapper implements DataBuffer {
 
 	private final DataBuffer delegate;
-
 
 	/**
 	 * Create a new {@code DataBufferWrapper} that wraps the given buffer.
@@ -160,8 +160,7 @@ public class DataBufferWrapper implements DataBuffer {
 	}
 
 	@Override
-	public DataBuffer write(CharSequence charSequence,
-			Charset charset) {
+	public DataBuffer write(CharSequence charSequence, Charset charset) {
 		return this.delegate.write(charSequence, charset);
 	}
 

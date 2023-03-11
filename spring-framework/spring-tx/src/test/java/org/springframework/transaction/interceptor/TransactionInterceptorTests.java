@@ -60,9 +60,8 @@ public class TransactionInterceptorTests extends AbstractTransactionAspectTests 
 	}
 
 	/**
-	 * Template method to create an advised object given the
-	 * target object and transaction setup.
-	 * Creates a TransactionInterceptor and applies it.
+	 * Template method to create an advised object given the target object and transaction
+	 * setup. Creates a TransactionInterceptor and applies it.
 	 */
 	@Override
 	protected Object advised(Object target, PlatformTransactionManager ptm, TransactionAttributeSource tas) {
@@ -77,10 +76,9 @@ public class TransactionInterceptorTests extends AbstractTransactionAspectTests 
 		return pf.getProxy();
 	}
 
-
 	/**
-	 * A TransactionInterceptor should be serializable if its
-	 * PlatformTransactionManager is.
+	 * A TransactionInterceptor should be serializable if its PlatformTransactionManager
+	 * is.
 	 */
 	@Test
 	public void serializableWithAttributeProperties() throws Exception {
@@ -121,7 +119,8 @@ public class TransactionInterceptorTests extends AbstractTransactionAspectTests 
 		assertThat(condition3).isTrue();
 		boolean condition2 = ti.getTransactionAttributeSource() instanceof CompositeTransactionAttributeSource;
 		assertThat(condition2).isTrue();
-		CompositeTransactionAttributeSource ctas = (CompositeTransactionAttributeSource) ti.getTransactionAttributeSource();
+		CompositeTransactionAttributeSource ctas = (CompositeTransactionAttributeSource) ti
+				.getTransactionAttributeSource();
 		boolean condition1 = ctas.getTransactionAttributeSources()[0] instanceof NameMatchTransactionAttributeSource;
 		assertThat(condition1).isTrue();
 		boolean condition = ctas.getTransactionAttributeSources()[1] instanceof NameMatchTransactionAttributeSource;
@@ -159,9 +158,9 @@ public class TransactionInterceptorTests extends AbstractTransactionAspectTests 
 		DefaultTransactionAttribute attribute = new DefaultTransactionAttribute();
 		attribute.setQualifier("fooTransactionManager");
 
-		assertThatExceptionOfType(NoSuchBeanDefinitionException.class).isThrownBy(() ->
-				ti.determineTransactionManager(attribute))
-			.withMessageContaining("'fooTransactionManager'");
+		assertThatExceptionOfType(NoSuchBeanDefinitionException.class)
+				.isThrownBy(() -> ti.determineTransactionManager(attribute))
+				.withMessageContaining("'fooTransactionManager'");
 	}
 
 	@Test
@@ -169,8 +168,8 @@ public class TransactionInterceptorTests extends AbstractTransactionAspectTests 
 		BeanFactory beanFactory = mock(BeanFactory.class);
 		PlatformTransactionManager transactionManager = mock(PlatformTransactionManager.class);
 		TransactionInterceptor ti = transactionInterceptorWithTransactionManager(transactionManager, beanFactory);
-		PlatformTransactionManager fooTransactionManager =
-				associateTransactionManager(beanFactory, "fooTransactionManager");
+		PlatformTransactionManager fooTransactionManager = associateTransactionManager(beanFactory,
+				"fooTransactionManager");
 
 		DefaultTransactionAttribute attribute = new DefaultTransactionAttribute();
 		attribute.setQualifier("fooTransactionManager");
@@ -182,11 +181,11 @@ public class TransactionInterceptorTests extends AbstractTransactionAspectTests 
 	public void determineTransactionManagerWithQualifierAndDefaultName() {
 		BeanFactory beanFactory = mock(BeanFactory.class);
 		associateTransactionManager(beanFactory, "defaultTransactionManager");
-		TransactionInterceptor ti = transactionInterceptorWithTransactionManagerName(
-				"defaultTransactionManager", beanFactory);
+		TransactionInterceptor ti = transactionInterceptorWithTransactionManagerName("defaultTransactionManager",
+				beanFactory);
 
-		PlatformTransactionManager fooTransactionManager =
-				associateTransactionManager(beanFactory, "fooTransactionManager");
+		PlatformTransactionManager fooTransactionManager = associateTransactionManager(beanFactory,
+				"fooTransactionManager");
 		DefaultTransactionAttribute attribute = new DefaultTransactionAttribute();
 		attribute.setQualifier("fooTransactionManager");
 
@@ -196,10 +195,10 @@ public class TransactionInterceptorTests extends AbstractTransactionAspectTests 
 	@Test
 	public void determineTransactionManagerWithEmptyQualifierAndDefaultName() {
 		BeanFactory beanFactory = mock(BeanFactory.class);
-		PlatformTransactionManager defaultTransactionManager
-				= associateTransactionManager(beanFactory, "defaultTransactionManager");
-		TransactionInterceptor ti = transactionInterceptorWithTransactionManagerName(
-				"defaultTransactionManager", beanFactory);
+		PlatformTransactionManager defaultTransactionManager = associateTransactionManager(beanFactory,
+				"defaultTransactionManager");
+		TransactionInterceptor ti = transactionInterceptorWithTransactionManagerName("defaultTransactionManager",
+				beanFactory);
 
 		DefaultTransactionAttribute attribute = new DefaultTransactionAttribute();
 		attribute.setQualifier("");
@@ -229,10 +228,10 @@ public class TransactionInterceptorTests extends AbstractTransactionAspectTests 
 	@Test
 	public void determineTransactionManagerWithBeanNameSeveralTimes() {
 		BeanFactory beanFactory = mock(BeanFactory.class);
-		TransactionInterceptor ti = transactionInterceptorWithTransactionManagerName(
-				"fooTransactionManager", beanFactory);
+		TransactionInterceptor ti = transactionInterceptorWithTransactionManagerName("fooTransactionManager",
+				beanFactory);
 
-		PlatformTransactionManager txManager = 	associateTransactionManager(beanFactory, "fooTransactionManager");
+		PlatformTransactionManager txManager = associateTransactionManager(beanFactory, "fooTransactionManager");
 
 		DefaultTransactionAttribute attribute = new DefaultTransactionAttribute();
 		TransactionManager actual = ti.determineTransactionManager(attribute);
@@ -262,9 +261,8 @@ public class TransactionInterceptorTests extends AbstractTransactionAspectTests 
 		verify(beanFactory, times(1)).getBean(TransactionManager.class);
 	}
 
-
-	private TransactionInterceptor createTransactionInterceptor(BeanFactory beanFactory,
-			String transactionManagerName, PlatformTransactionManager transactionManager) {
+	private TransactionInterceptor createTransactionInterceptor(BeanFactory beanFactory, String transactionManagerName,
+			PlatformTransactionManager transactionManager) {
 
 		TransactionInterceptor ti = new TransactionInterceptor();
 		if (beanFactory != null) {
@@ -288,8 +286,8 @@ public class TransactionInterceptorTests extends AbstractTransactionAspectTests 
 		return createTransactionInterceptor(beanFactory, null, transactionManager);
 	}
 
-	private TransactionInterceptor transactionInterceptorWithTransactionManagerName(
-			String transactionManagerName, BeanFactory beanFactory) {
+	private TransactionInterceptor transactionInterceptorWithTransactionManagerName(String transactionManagerName,
+			BeanFactory beanFactory) {
 
 		return createTransactionInterceptor(beanFactory, transactionManagerName, null);
 	}
@@ -305,7 +303,6 @@ public class TransactionInterceptorTests extends AbstractTransactionAspectTests 
 		return transactionManager;
 	}
 
-
 	/**
 	 * We won't use this: we just want to know it's serializable.
 	 */
@@ -313,7 +310,8 @@ public class TransactionInterceptorTests extends AbstractTransactionAspectTests 
 	public static class SerializableTransactionManager implements PlatformTransactionManager, Serializable {
 
 		@Override
-		public TransactionStatus getTransaction(@Nullable TransactionDefinition definition) throws TransactionException {
+		public TransactionStatus getTransaction(@Nullable TransactionDefinition definition)
+				throws TransactionException {
 			throw new UnsupportedOperationException();
 		}
 
@@ -326,6 +324,7 @@ public class TransactionInterceptorTests extends AbstractTransactionAspectTests 
 		public void rollback(TransactionStatus status) throws TransactionException {
 			throw new UnsupportedOperationException();
 		}
+
 	}
 
 }

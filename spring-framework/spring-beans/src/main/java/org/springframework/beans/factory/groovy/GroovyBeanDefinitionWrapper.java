@@ -33,8 +33,8 @@ import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.util.CollectionUtils;
 
 /**
- * Internal wrapper for a Spring BeanDefinition, allowing for Groovy-style
- * property access within a {@link GroovyBeanDefinitionReader} closure.
+ * Internal wrapper for a Spring BeanDefinition, allowing for Groovy-style property access
+ * within a {@link GroovyBeanDefinitionReader} closure.
  *
  * @author Jeff Brown
  * @author Juergen Hoeller
@@ -43,12 +43,19 @@ import org.springframework.util.CollectionUtils;
 class GroovyBeanDefinitionWrapper extends GroovyObjectSupport {
 
 	private static final String PARENT = "parent";
+
 	private static final String AUTOWIRE = "autowire";
+
 	private static final String CONSTRUCTOR_ARGS = "constructorArgs";
+
 	private static final String FACTORY_BEAN = "factoryBean";
+
 	private static final String FACTORY_METHOD = "factoryMethod";
+
 	private static final String INIT_METHOD = "initMethod";
+
 	private static final String DESTROY_METHOD = "destroyMethod";
+
 	private static final String SINGLETON = "singleton";
 
 	private static final List<String> dynamicProperties = new ArrayList<>(8);
@@ -64,7 +71,6 @@ class GroovyBeanDefinitionWrapper extends GroovyObjectSupport {
 		dynamicProperties.add(SINGLETON);
 	}
 
-
 	private String beanName;
 
 	private Class<?> clazz;
@@ -76,7 +82,6 @@ class GroovyBeanDefinitionWrapper extends GroovyObjectSupport {
 	private BeanWrapper definitionWrapper;
 
 	private String parentName;
-
 
 	public GroovyBeanDefinitionWrapper(String beanName) {
 		this.beanName = beanName;
@@ -92,7 +97,6 @@ class GroovyBeanDefinitionWrapper extends GroovyObjectSupport {
 		this.clazz = clazz;
 		this.constructorArgs = constructorArgs;
 	}
-
 
 	public String getBeanName() {
 		return this.beanName;
@@ -159,7 +163,6 @@ class GroovyBeanDefinitionWrapper extends GroovyObjectSupport {
 		getBeanDefinition().getPropertyValues().add(propertyName, propertyValue);
 		return this;
 	}
-
 
 	@Override
 	public Object getProperty(String property) {
@@ -228,8 +231,8 @@ class GroovyBeanDefinitionWrapper extends GroovyObjectSupport {
 			}
 			// singleton property
 			else if (SINGLETON.equals(property)) {
-				bd.setScope(Boolean.TRUE.equals(newValue) ?
-						BeanDefinition.SCOPE_SINGLETON : BeanDefinition.SCOPE_PROTOTYPE);
+				bd.setScope(Boolean.TRUE.equals(newValue) ? BeanDefinition.SCOPE_SINGLETON
+						: BeanDefinition.SCOPE_PROTOTYPE);
 			}
 			else if (this.definitionWrapper.isWritableProperty(property)) {
 				this.definitionWrapper.setPropertyValue(property, newValue);

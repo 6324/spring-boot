@@ -36,26 +36,27 @@ import org.springframework.web.server.WebHandler;
 import org.springframework.web.server.adapter.WebHttpHandlerBuilder;
 
 /**
- * Central dispatcher for HTTP request handlers/controllers. Dispatches to
- * registered handlers for processing a request, providing convenient mapping
- * facilities.
+ * Central dispatcher for HTTP request handlers/controllers. Dispatches to registered
+ * handlers for processing a request, providing convenient mapping facilities.
  *
- * <p>{@code DispatcherHandler} discovers the delegate components it needs from
- * Spring configuration. It detects the following in the application context:
+ * <p>
+ * {@code DispatcherHandler} discovers the delegate components it needs from Spring
+ * configuration. It detects the following in the application context:
  * <ul>
  * <li>{@link HandlerMapping} -- map requests to handler objects
  * <li>{@link HandlerAdapter} -- for using any handler interface
  * <li>{@link HandlerResultHandler} -- process handler return values
  * </ul>
  *
- * <p>{@code DispatcherHandler} is also designed to be a Spring bean itself and
- * implements {@link ApplicationContextAware} for access to the context it runs
- * in. If {@code DispatcherHandler} is declared with the bean name "webHandler"
- * it is discovered by {@link WebHttpHandlerBuilder#applicationContext} which
- * creates a processing chain together with {@code WebFilter},
- * {@code WebExceptionHandler} and others.
+ * <p>
+ * {@code DispatcherHandler} is also designed to be a Spring bean itself and implements
+ * {@link ApplicationContextAware} for access to the context it runs in. If
+ * {@code DispatcherHandler} is declared with the bean name "webHandler" it is discovered
+ * by {@link WebHttpHandlerBuilder#applicationContext} which creates a processing chain
+ * together with {@code WebFilter}, {@code WebExceptionHandler} and others.
  *
- * <p>A {@code DispatcherHandler} bean declaration is included in
+ * <p>
+ * A {@code DispatcherHandler} bean declaration is included in
  * {@link org.springframework.web.reactive.config.EnableWebFlux @EnableWebFlux}
  * configuration.
  *
@@ -76,10 +77,9 @@ public class DispatcherHandler implements WebHandler, ApplicationContextAware {
 	@Nullable
 	private List<HandlerResultHandler> resultHandlers;
 
-
 	/**
-	 * Create a new {@code DispatcherHandler} which needs to be configured with
-	 * an {@link ApplicationContext} through {@link #setApplicationContext}.
+	 * Create a new {@code DispatcherHandler} which needs to be configured with an
+	 * {@link ApplicationContext} through {@link #setApplicationContext}.
 	 */
 	public DispatcherHandler() {
 	}
@@ -92,13 +92,13 @@ public class DispatcherHandler implements WebHandler, ApplicationContextAware {
 		initStrategies(applicationContext);
 	}
 
-
 	/**
 	 * Return all {@link HandlerMapping} beans detected by type in the
 	 * {@link #setApplicationContext injected context} and also
 	 * {@link AnnotationAwareOrderComparator#sort(List) sorted}.
-	 * <p><strong>Note:</strong> This method may return {@code null} if invoked
-	 * prior to {@link #setApplicationContext(ApplicationContext)}.
+	 * <p>
+	 * <strong>Note:</strong> This method may return {@code null} if invoked prior to
+	 * {@link #setApplicationContext(ApplicationContext)}.
 	 * @return immutable list with the configured mappings or {@code null}
 	 */
 	@Nullable
@@ -111,39 +111,34 @@ public class DispatcherHandler implements WebHandler, ApplicationContextAware {
 		initStrategies(applicationContext);
 	}
 
-
 	protected void initStrategies(ApplicationContext context) {
-		Map<String, HandlerMapping> mappingBeans = BeanFactoryUtils.beansOfTypeIncludingAncestors(
-				context, HandlerMapping.class, true, false);
+		Map<String, HandlerMapping> mappingBeans = BeanFactoryUtils.beansOfTypeIncludingAncestors(context,
+				HandlerMapping.class, true, false);
 
 		ArrayList<HandlerMapping> mappings = new ArrayList<>(mappingBeans.values());
 		AnnotationAwareOrderComparator.sort(mappings);
 		this.handlerMappings = Collections.unmodifiableList(mappings);
 
-		Map<String, HandlerAdapter> adapterBeans = BeanFactoryUtils.beansOfTypeIncludingAncestors(
-				context, HandlerAdapter.class, true, false);
+		Map<String, HandlerAdapter> adapterBeans = BeanFactoryUtils.beansOfTypeIncludingAncestors(context,
+				HandlerAdapter.class, true, false);
 
 		this.handlerAdapters = new ArrayList<>(adapterBeans.values());
 		AnnotationAwareOrderComparator.sort(this.handlerAdapters);
 
-		Map<String, HandlerResultHandler> beans = BeanFactoryUtils.beansOfTypeIncludingAncestors(
-				context, HandlerResultHandler.class, true, false);
+		Map<String, HandlerResultHandler> beans = BeanFactoryUtils.beansOfTypeIncludingAncestors(context,
+				HandlerResultHandler.class, true, false);
 
 		this.resultHandlers = new ArrayList<>(beans.values());
 		AnnotationAwareOrderComparator.sort(this.resultHandlers);
 	}
-
 
 	@Override
 	public Mono<Void> handle(ServerWebExchange exchange) {
 		if (this.handlerMappings == null) {
 			return createNotFoundError();
 		}
-		return Flux.fromIterable(this.handlerMappings)
-				.concatMap(mapping -> mapping.getHandler(exchange))
-				.next()
-				.switchIfEmpty(createNotFoundError())
-				.flatMap(handler -> invokeHandler(exchange, handler))
+		return Flux.fromIterable(this.handlerMappings).concatMap(mapping -> mapping.getHandler(exchange)).next()
+				.switchIfEmpty(createNotFoundError()).flatMap(handler -> invokeHandler(exchange, handler))
 				.flatMap(result -> handleResult(exchange, result));
 	}
 
@@ -168,12 +163,11 @@ public class DispatcherHandler implements WebHandler, ApplicationContextAware {
 	private Mono<Void> handleResult(ServerWebExchange exchange, HandlerResult result) {
 		return getResultHandler(result).handleResult(exchange, result)
 				.checkpoint("Handler " + result.getHandler() + " [DispatcherHandler]")
-				.onErrorResume(ex ->
-						result.applyExceptionHandler(ex).flatMap(exResult -> {
-							String text = "Exception handler " + exResult.getHandler() +
-									", error=\"" + ex.getMessage() + "\" [DispatcherHandler]";
-							return getResultHandler(exResult).handleResult(exchange, exResult).checkpoint(text);
-						}));
+				.onErrorResume(ex -> result.applyExceptionHandler(ex).flatMap(exResult -> {
+					String text = "Exception handler " + exResult.getHandler() + ", error=\"" + ex.getMessage()
+							+ "\" [DispatcherHandler]";
+					return getResultHandler(exResult).handleResult(exchange, exResult).checkpoint(text);
+				}));
 	}
 
 	private HandlerResultHandler getResultHandler(HandlerResult handlerResult) {

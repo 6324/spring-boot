@@ -31,7 +31,6 @@ public class TemplateParserContext implements ParserContext {
 
 	private final String expressionSuffix;
 
-
 	/**
 	 * Create a new TemplateParserContext with the default "#{" prefix and "}" suffix.
 	 */
@@ -48,7 +47,6 @@ public class TemplateParserContext implements ParserContext {
 		this.expressionPrefix = expressionPrefix;
 		this.expressionSuffix = expressionSuffix;
 	}
-
 
 	@Override
 	public final boolean isTemplate() {

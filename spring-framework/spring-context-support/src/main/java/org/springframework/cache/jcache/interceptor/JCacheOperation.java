@@ -27,8 +27,9 @@ import org.springframework.cache.interceptor.CacheResolver;
 /**
  * Model the base of JSR-107 cache operation through an interface contract.
  *
- * <p>A cache operation can be statically cached as it does not contain any
- * runtime operation of a specific cache invocation.
+ * <p>
+ * A cache operation can be statically cached as it does not contain any runtime operation
+ * of a specific cache invocation.
  *
  * @author Stephane Nicoll
  * @since 4.1
@@ -37,15 +38,16 @@ import org.springframework.cache.interceptor.CacheResolver;
 public interface JCacheOperation<A extends Annotation> extends BasicOperation, CacheMethodDetails<A> {
 
 	/**
-	 * Return the {@link CacheResolver} instance to use to resolve the cache
-	 * to use for this operation.
+	 * Return the {@link CacheResolver} instance to use to resolve the cache to use for
+	 * this operation.
 	 */
 	CacheResolver getCacheResolver();
 
 	/**
-	 * Return the {@link CacheInvocationParameter} instances based on the
-	 * specified method arguments.
-	 * <p>The method arguments must match the signature of the related method invocation
+	 * Return the {@link CacheInvocationParameter} instances based on the specified method
+	 * arguments.
+	 * <p>
+	 * The method arguments must match the signature of the related method invocation
 	 * @param values the parameters value for a particular invocation
 	 */
 	CacheInvocationParameter[] getAllParameters(Object... values);

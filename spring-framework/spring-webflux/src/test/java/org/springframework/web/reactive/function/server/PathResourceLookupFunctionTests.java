@@ -39,24 +39,22 @@ public class PathResourceLookupFunctionTests {
 	public void normal() throws Exception {
 		ClassPathResource location = new ClassPathResource("org/springframework/web/reactive/function/server/");
 
-		PathResourceLookupFunction
-				function = new PathResourceLookupFunction("/resources/**", location);
-		MockServerHttpRequest mockRequest = MockServerHttpRequest.get("https://localhost/resources/response.txt").build();
-		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		PathResourceLookupFunction function = new PathResourceLookupFunction("/resources/**", location);
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.get("https://localhost/resources/response.txt")
+				.build();
+		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 		Mono<Resource> result = function.apply(request);
 
 		File expected = new ClassPathResource("response.txt", getClass()).getFile();
-		StepVerifier.create(result)
-				.expectNextMatches(resource -> {
-					try {
-						return expected.equals(resource.getFile());
-					}
-					catch (IOException ex) {
-						return false;
-					}
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(result).expectNextMatches(resource -> {
+			try {
+				return expected.equals(resource.getFile());
+			}
+			catch (IOException ex) {
+				return false;
+			}
+		}).expectComplete().verify();
 	}
 
 	@Test
@@ -64,22 +62,21 @@ public class PathResourceLookupFunctionTests {
 		ClassPathResource location = new ClassPathResource("org/springframework/web/reactive/function/server/");
 
 		PathResourceLookupFunction function = new PathResourceLookupFunction("/resources/**", location);
-		MockServerHttpRequest mockRequest = MockServerHttpRequest.get("https://localhost/resources/child/response.txt").build();
-		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		MockServerHttpRequest mockRequest = MockServerHttpRequest.get("https://localhost/resources/child/response.txt")
+				.build();
+		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 		Mono<Resource> result = function.apply(request);
 		String path = "org/springframework/web/reactive/function/server/child/response.txt";
 		File expected = new ClassPathResource(path).getFile();
-		StepVerifier.create(result)
-				.expectNextMatches(resource -> {
-					try {
-						return expected.equals(resource.getFile());
-					}
-					catch (IOException ex) {
-						return false;
-					}
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(result).expectNextMatches(resource -> {
+			try {
+				return expected.equals(resource.getFile());
+			}
+			catch (IOException ex) {
+				return false;
+			}
+		}).expectComplete().verify();
 	}
 
 	@Test
@@ -88,40 +85,35 @@ public class PathResourceLookupFunctionTests {
 
 		PathResourceLookupFunction function = new PathResourceLookupFunction("/resources/**", location);
 		MockServerHttpRequest mockRequest = MockServerHttpRequest.get("https://example.com").build();
-		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 		Mono<Resource> result = function.apply(request);
-		StepVerifier.create(result)
-				.expectComplete()
-				.verify();
+		StepVerifier.create(result).expectComplete().verify();
 	}
 
 	@Test
 	public void composeResourceLookupFunction() throws Exception {
 		ClassPathResource defaultResource = new ClassPathResource("response.txt", getClass());
 
-		Function<ServerRequest, Mono<Resource>> lookupFunction =
-				new PathResourceLookupFunction("/resources/**",
-						new ClassPathResource("org/springframework/web/reactive/function/server/"));
+		Function<ServerRequest, Mono<Resource>> lookupFunction = new PathResourceLookupFunction("/resources/**",
+				new ClassPathResource("org/springframework/web/reactive/function/server/"));
 
-		Function<ServerRequest, Mono<Resource>> customLookupFunction =
-				lookupFunction.andThen(resourceMono -> resourceMono
-								.switchIfEmpty(Mono.just(defaultResource)));
+		Function<ServerRequest, Mono<Resource>> customLookupFunction = lookupFunction
+				.andThen(resourceMono -> resourceMono.switchIfEmpty(Mono.just(defaultResource)));
 
 		MockServerHttpRequest mockRequest = MockServerHttpRequest.get("https://localhost/resources/foo").build();
-		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 
 		Mono<Resource> result = customLookupFunction.apply(request);
-		StepVerifier.create(result)
-				.expectNextMatches(resource -> {
-					try {
-						return defaultResource.getFile().equals(resource.getFile());
-					}
-					catch (IOException ex) {
-						return false;
-					}
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(result).expectNextMatches(resource -> {
+			try {
+				return defaultResource.getFile().equals(resource.getFile());
+			}
+			catch (IOException ex) {
+				return false;
+			}
+		}).expectComplete().verify();
 	}
 
 }

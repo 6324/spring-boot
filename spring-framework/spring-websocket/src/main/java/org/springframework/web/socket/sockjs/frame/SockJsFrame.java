@@ -42,14 +42,12 @@ public class SockJsFrame {
 
 	private static final SockJsFrame CLOSE_GO_AWAY_FRAME = closeFrame(3000, "Go away!");
 
-	private static final SockJsFrame CLOSE_ANOTHER_CONNECTION_OPEN_FRAME =
-			closeFrame(2010, "Another connection still open");
-
+	private static final SockJsFrame CLOSE_ANOTHER_CONNECTION_OPEN_FRAME = closeFrame(2010,
+			"Another connection still open");
 
 	private final SockJsFrameType type;
 
 	private final String content;
-
 
 	/**
 	 * Create a new instance frame with the given frame content.
@@ -82,7 +80,6 @@ public class SockJsFrame {
 		}
 	}
 
-
 	/**
 	 * Return the SockJS frame type.
 	 */
@@ -105,9 +102,8 @@ public class SockJsFrame {
 	}
 
 	/**
-	 * Return data contained in a SockJS "message" and "close" frames. Otherwise
-	 * for SockJS "open" and "close" frames, which do not contain data, return
-	 * {@code null}.
+	 * Return data contained in a SockJS "message" and "close" frames. Otherwise for
+	 * SockJS "open" and "close" frames, which do not contain data, return {@code null}.
 	 */
 	@Nullable
 	public String getFrameData() {
@@ -118,7 +114,6 @@ public class SockJsFrame {
 			return getContent().substring(1);
 		}
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {
@@ -147,7 +142,6 @@ public class SockJsFrame {
 		result = StringUtils.replace(result, "\r", "\\r");
 		return "SockJsFrame content='" + result + "'";
 	}
-
 
 	public static SockJsFrame openFrame() {
 		return OPEN_FRAME;

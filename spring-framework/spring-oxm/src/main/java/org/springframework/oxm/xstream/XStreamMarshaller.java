@@ -91,26 +91,30 @@ import org.springframework.util.xml.StaxUtils;
 /**
  * Implementation of the {@code Marshaller} interface for XStream.
  *
- * <p>By default, XStream does not require any further configuration and can (un)marshal
- * any class on the classpath. As such, it is <b>not recommended to use the
- * {@code XStreamMarshaller} to unmarshal XML from external sources</b> (i.e. the Web),
- * as this can result in <b>security vulnerabilities</b>. If you do use the
+ * <p>
+ * By default, XStream does not require any further configuration and can (un)marshal any
+ * class on the classpath. As such, it is <b>not recommended to use the
+ * {@code XStreamMarshaller} to unmarshal XML from external sources</b> (i.e. the Web), as
+ * this can result in <b>security vulnerabilities</b>. If you do use the
  * {@code XStreamMarshaller} to unmarshal external XML, set the
  * {@link #setSupportedClasses(Class[]) supportedClasses} and
- * {@link #setConverters(ConverterMatcher[]) converters} properties (possibly using
- * a {@link CatchAllConverter}) or override the {@link #customizeXStream(XStream)}
- * method to make sure it only accepts the classes you want it to support.
+ * {@link #setConverters(ConverterMatcher[]) converters} properties (possibly using a
+ * {@link CatchAllConverter}) or override the {@link #customizeXStream(XStream)} method to
+ * make sure it only accepts the classes you want it to support.
  *
- * <p>Due to XStream's API, it is required to set the encoding used for writing to
+ * <p>
+ * Due to XStream's API, it is required to set the encoding used for writing to
  * OutputStreams. It defaults to {@code UTF-8}.
  *
- * <p><b>NOTE:</b> XStream is an XML serialization library, not a data binding library.
- * Therefore, it has limited namespace support. As such, it is rather unsuitable for
- * usage within Web Services.
+ * <p>
+ * <b>NOTE:</b> XStream is an XML serialization library, not a data binding library.
+ * Therefore, it has limited namespace support. As such, it is rather unsuitable for usage
+ * within Web Services.
  *
- * <p>This marshaller requires XStream 1.4.7 or higher, as of Spring 5.2.17.
- * Note that {@link XStream} construction has been reworked in 4.0, with the
- * stream driver and the class loader getting passed into XStream itself now.
+ * <p>
+ * This marshaller requires XStream 1.4.7 or higher, as of Spring 5.2.17. Note that
+ * {@link XStream} construction has been reworked in 4.0, with the stream driver and the
+ * class loader getting passed into XStream itself now.
  *
  * @author Peter Meijer
  * @author Arjen Poutsma
@@ -124,7 +128,6 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 	 * The default encoding used for stream access: UTF-8.
 	 */
 	public static final String DEFAULT_ENCODING = "UTF-8";
-
 
 	@Nullable
 	private ReflectionProvider reflectionProvider;
@@ -195,7 +198,6 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 
 	private final SingletonSupplier<XStream> xstream = SingletonSupplier.of(this::buildXStream);
 
-
 	/**
 	 * Set a custom XStream {@link ReflectionProvider} to use.
 	 * @since 4.0
@@ -206,7 +208,8 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 
 	/**
 	 * Set a XStream {@link HierarchicalStreamDriver} to be used for readers and writers.
-	 * <p>As of Spring 4.0, this stream driver will also be passed to the {@link XStream}
+	 * <p>
+	 * As of Spring 4.0, this stream driver will also be passed to the {@link XStream}
 	 * constructor and therefore used by streaming-related native API methods themselves.
 	 */
 	public void setStreamDriver(HierarchicalStreamDriver streamDriver) {
@@ -230,9 +233,9 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 	}
 
 	/**
-	 * Set one or more custom XStream {@link MapperWrapper} classes.
-	 * Each of those classes needs to have a constructor with a single argument
-	 * of type {@link Mapper} or {@link MapperWrapper}.
+	 * Set one or more custom XStream {@link MapperWrapper} classes. Each of those classes
+	 * needs to have a constructor with a single argument of type {@link Mapper} or
+	 * {@link MapperWrapper}.
 	 * @since 4.0
 	 */
 	@SuppressWarnings("unchecked")
@@ -241,8 +244,8 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 	}
 
 	/**
-	 * Set a custom XStream {@link ConverterLookup} to use.
-	 * Also used as {@link ConverterRegistry} if the given reference implements it as well.
+	 * Set a custom XStream {@link ConverterLookup} to use. Also used as
+	 * {@link ConverterRegistry} if the given reference implements it as well.
 	 * @since 4.0
 	 * @see DefaultConverterLookup
 	 */
@@ -264,8 +267,8 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 	}
 
 	/**
-	 * Set the {@code Converters} or {@code SingleValueConverters} to be registered
-	 * with the {@code XStream} instance.
+	 * Set the {@code Converters} or {@code SingleValueConverters} to be registered with
+	 * the {@code XStream} instance.
 	 * @see Converter
 	 * @see SingleValueConverter
 	 */
@@ -276,11 +279,12 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 	/**
 	 * Set XStream type permissions such as
 	 * {@link com.thoughtworks.xstream.security.AnyTypePermission},
-	 * {@link com.thoughtworks.xstream.security.ExplicitTypePermission} etc,
-	 * as an alternative to overriding the {@link #customizeXStream} method.
-	 * <p>Note: As of XStream 1.4.18, the default type permissions are
-	 * restricted to well-known core JDK types. For any custom types,
-	 * explicit type permissions need to be registered.
+	 * {@link com.thoughtworks.xstream.security.ExplicitTypePermission} etc, as an
+	 * alternative to overriding the {@link #customizeXStream} method.
+	 * <p>
+	 * Note: As of XStream 1.4.18, the default type permissions are restricted to
+	 * well-known core JDK types. For any custom types, explicit type permissions need to
+	 * be registered.
 	 * @since 5.2.17
 	 */
 	public void setTypePermissions(TypePermission... typePermissions) {
@@ -306,7 +310,8 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 
 	/**
 	 * Set the alias/type map, consisting of string aliases mapped to classes.
-	 * <p>Keys are aliases; values are either {@code Class} instances, or String class names.
+	 * <p>
+	 * Keys are aliases; values are either {@code Class} instances, or String class names.
 	 * @see XStream#alias(String, Class)
 	 */
 	public void setAliases(Map<String, ?> aliases) {
@@ -314,9 +319,11 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 	}
 
 	/**
-	 * Set the <em>aliases by type</em> map, consisting of string aliases mapped to classes.
-	 * <p>Any class that is assignable to this type will be aliased to the same name.
-	 * Keys are aliases; values are either {@code Class} instances, or String class names.
+	 * Set the <em>aliases by type</em> map, consisting of string aliases mapped to
+	 * classes.
+	 * <p>
+	 * Any class that is assignable to this type will be aliased to the same name. Keys
+	 * are aliases; values are either {@code Class} instances, or String class names.
 	 * @see XStream#aliasType(String, Class)
 	 */
 	public void setAliasesByType(Map<String, ?> aliasesByType) {
@@ -340,12 +347,11 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 	}
 
 	/**
-	 * Set the types to use XML attributes for. The given map can contain
-	 * either {@code <String, Class>} pairs, in which case
-	 * {@link XStream#useAttributeFor(String, Class)} is called.
-	 * Alternatively, the map can contain {@code <Class, String>}
-	 * or {@code <Class, List<String>>} pairs, which results
-	 * in {@link XStream#useAttributeFor(Class, String)} calls.
+	 * Set the types to use XML attributes for. The given map can contain either
+	 * {@code <String, Class>} pairs, in which case
+	 * {@link XStream#useAttributeFor(String, Class)} is called. Alternatively, the map
+	 * can contain {@code <Class, String>} or {@code <Class, List<String>>} pairs, which
+	 * results in {@link XStream#useAttributeFor(Class, String)} calls.
 	 */
 	public void setUseAttributeFor(Map<?, ?> useAttributeFor) {
 		this.useAttributeFor = useAttributeFor;
@@ -361,8 +367,8 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 	}
 
 	/**
-	 * Specify omitted fields, as a Map consisting of {@code Class} instances
-	 * mapped to comma separated field names.
+	 * Specify omitted fields, as a Map consisting of {@code Class} instances mapped to
+	 * comma separated field names.
 	 * @see XStream#omitField(Class, String)
 	 */
 	public void setOmittedFields(Map<Class<?>, String> omittedFields) {
@@ -370,7 +376,8 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 	}
 
 	/**
-	 * Set annotated classes for which aliases will be read from class-level annotation metadata.
+	 * Set annotated classes for which aliases will be read from class-level annotation
+	 * metadata.
 	 * @see XStream#processAnnotations(Class[])
 	 */
 	public void setAnnotatedClasses(Class<?>... annotatedClasses) {
@@ -379,8 +386,10 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 
 	/**
 	 * Activate XStream's autodetection mode.
-	 * <p><b>Note</b>: Autodetection implies that the XStream instance is being configured while
-	 * it is processing the XML streams, and thus introduces a potential concurrency problem.
+	 * <p>
+	 * <b>Note</b>: Autodetection implies that the XStream instance is being configured
+	 * while it is processing the XML streams, and thus introduces a potential concurrency
+	 * problem.
 	 * @see XStream#autodetectAnnotations(boolean)
 	 */
 	public void setAutodetectAnnotations(boolean autodetectAnnotations) {
@@ -401,8 +410,8 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 	}
 
 	/**
-	 * Set a custom XStream {@link NameCoder} to use.
-	 * The default is an {@link XmlFriendlyNameCoder}.
+	 * Set a custom XStream {@link NameCoder} to use. The default is an
+	 * {@link XmlFriendlyNameCoder}.
 	 * @since 4.0.4
 	 */
 	public void setNameCoder(NameCoder nameCoder) {
@@ -411,7 +420,8 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 
 	/**
 	 * Set the classes supported by this marshaller.
-	 * <p>If this property is empty (the default), all classes are supported.
+	 * <p>
+	 * If this property is empty (the default), all classes are supported.
 	 * @see #supports(Class)
 	 */
 	public void setSupportedClasses(Class<?>... supportedClasses) {
@@ -423,16 +433,15 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 		this.beanClassLoader = classLoader;
 	}
 
-
 	@Override
 	public void afterPropertiesSet() {
 		// no-op due to use of SingletonSupplier for the XStream field
 	}
 
 	/**
-	 * Build the native XStream delegate to be used by this marshaller,
-	 * delegating to {@link #constructXStream}, {@link #configureXStream},
-	 * and {@link #customizeXStream}.
+	 * Build the native XStream delegate to be used by this marshaller, delegating to
+	 * {@link #constructXStream}, {@link #configureXStream}, and
+	 * {@link #customizeXStream}.
 	 */
 	protected XStream buildXStream() {
 		XStream xstream = constructXStream();
@@ -442,8 +451,8 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 	}
 
 	/**
-	 * Construct an XStream instance, either using one of the
-	 * standard constructors or creating a custom subclass.
+	 * Construct an XStream instance, either using one of the standard constructors or
+	 * creating a custom subclass.
 	 * @return the {@code XStream} instance
 	 */
 	protected XStream constructXStream() {
@@ -463,7 +472,8 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 								ctor = mapperWrapper.getConstructor(MapperWrapper.class);
 							}
 							catch (NoSuchMethodException ex2) {
-								throw new IllegalStateException("No appropriate MapperWrapper constructor found: " + mapperWrapper);
+								throw new IllegalStateException(
+										"No appropriate MapperWrapper constructor found: " + mapperWrapper);
 							}
 						}
 						try {
@@ -572,8 +582,9 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 						}
 					}
 					else {
-						throw new IllegalArgumentException("'useAttributesFor' property takes either Map<Class, String> " +
-								"or Map<Class, List<String>> when using a map key of type Class");
+						throw new IllegalArgumentException(
+								"'useAttributesFor' property takes either Map<Class, String> "
+										+ "or Map<Class, List<String>> when using a map key of type Class");
 					}
 				}
 				else {
@@ -631,7 +642,8 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 
 	/**
 	 * Template to allow for customizing the given {@link XStream}.
-	 * <p>The default implementation is empty.
+	 * <p>
+	 * The default implementation is empty.
 	 * @param xstream the {@code XStream} instance
 	 */
 	protected void customizeXStream(XStream xstream) {
@@ -639,16 +651,17 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 
 	/**
 	 * Return the native XStream delegate used by this marshaller.
-	 * <p><b>NOTE: This method has been marked as final as of Spring 4.0.</b>
-	 * It can be used to access the fully configured XStream for marshalling
-	 * but not configuration purposes anymore.
-	 * <p>As of Spring Framework 5.1.16, creation of the {@link XStream} instance
-	 * returned by this method is thread safe.
+	 * <p>
+	 * <b>NOTE: This method has been marked as final as of Spring 4.0.</b> It can be used
+	 * to access the fully configured XStream for marshalling but not configuration
+	 * purposes anymore.
+	 * <p>
+	 * As of Spring Framework 5.1.16, creation of the {@link XStream} instance returned by
+	 * this method is thread safe.
 	 */
 	public final XStream getXStream() {
 		return this.xstream.obtain();
 	}
-
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -664,7 +677,6 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 			return false;
 		}
 	}
-
 
 	// Marshalling
 
@@ -704,8 +716,8 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 	}
 
 	@Override
-	protected void marshalSaxHandlers(Object graph, ContentHandler contentHandler, @Nullable LexicalHandler lexicalHandler)
-			throws XmlMappingException {
+	protected void marshalSaxHandlers(Object graph, ContentHandler contentHandler,
+			@Nullable LexicalHandler lexicalHandler) throws XmlMappingException {
 
 		SaxWriter saxWriter = new SaxWriter(this.nameCoder);
 		saxWriter.setContentHandler(contentHandler);
@@ -745,8 +757,8 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 	}
 
 	/**
-	 * Marshals the given graph to the given XStream HierarchicalStreamWriter.
-	 * Converts exceptions using {@link #convertXStreamException}.
+	 * Marshals the given graph to the given XStream HierarchicalStreamWriter. Converts
+	 * exceptions using {@link #convertXStreamException}.
 	 */
 	private void doMarshal(Object graph, HierarchicalStreamWriter streamWriter, @Nullable DataHolder dataHolder) {
 		try {
@@ -764,7 +776,6 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 			}
 		}
 	}
-
 
 	// Unmarshalling
 
@@ -825,7 +836,8 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 		return unmarshalInputStream(inputStream, null);
 	}
 
-	public Object unmarshalInputStream(InputStream inputStream, @Nullable DataHolder dataHolder) throws XmlMappingException, IOException {
+	public Object unmarshalInputStream(InputStream inputStream, @Nullable DataHolder dataHolder)
+			throws XmlMappingException, IOException {
 		if (this.streamDriver != null) {
 			return doUnmarshal(this.streamDriver.createReader(inputStream), dataHolder);
 		}
@@ -839,13 +851,14 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 		return unmarshalReader(reader, null);
 	}
 
-	public Object unmarshalReader(Reader reader, @Nullable DataHolder dataHolder) throws XmlMappingException, IOException {
+	public Object unmarshalReader(Reader reader, @Nullable DataHolder dataHolder)
+			throws XmlMappingException, IOException {
 		return doUnmarshal(getDefaultDriver().createReader(reader), dataHolder);
 	}
 
 	/**
-	 * Unmarshals the given graph to the given XStream HierarchicalStreamWriter.
-	 * Converts exceptions using {@link #convertXStreamException}.
+	 * Unmarshals the given graph to the given XStream HierarchicalStreamWriter. Converts
+	 * exceptions using {@link #convertXStreamException}.
 	 */
 	private Object doUnmarshal(HierarchicalStreamReader streamReader, @Nullable DataHolder dataHolder) {
 		try {
@@ -856,22 +869,23 @@ public class XStreamMarshaller extends AbstractMarshaller implements BeanClassLo
 		}
 	}
 
-
 	/**
 	 * Convert the given XStream exception to an appropriate exception from the
 	 * {@code org.springframework.oxm} hierarchy.
-	 * <p>A boolean flag is used to indicate whether this exception occurs during marshalling or
-	 * unmarshalling, since XStream itself does not make this distinction in its exception hierarchy.
+	 * <p>
+	 * A boolean flag is used to indicate whether this exception occurs during marshalling
+	 * or unmarshalling, since XStream itself does not make this distinction in its
+	 * exception hierarchy.
 	 * @param ex the XStream exception that occurred
-	 * @param marshalling indicates whether the exception occurs during marshalling ({@code true}),
-	 * or unmarshalling ({@code false})
+	 * @param marshalling indicates whether the exception occurs during marshalling
+	 * ({@code true}), or unmarshalling ({@code false})
 	 * @return the corresponding {@code XmlMappingException}
 	 */
 	protected XmlMappingException convertXStreamException(Exception ex, boolean marshalling) {
-		if (ex instanceof StreamException || ex instanceof CannotResolveClassException ||
-				ex instanceof ForbiddenClassException || ex instanceof ConversionException) {
+		if (ex instanceof StreamException || ex instanceof CannotResolveClassException
+				|| ex instanceof ForbiddenClassException || ex instanceof ConversionException) {
 			if (marshalling) {
-				return new MarshallingFailureException("XStream marshalling exception",  ex);
+				return new MarshallingFailureException("XStream marshalling exception", ex);
 			}
 			else {
 				return new UnmarshallingFailureException("XStream unmarshalling exception", ex);

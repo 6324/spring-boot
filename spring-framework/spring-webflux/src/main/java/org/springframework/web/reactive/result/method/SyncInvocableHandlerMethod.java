@@ -34,8 +34,8 @@ import org.springframework.web.server.ServerWebExchange;
 
 /**
  * Extension of {@link HandlerMethod} that invokes the underlying method via
- * {@link InvocableHandlerMethod} but uses sync argument resolvers only and
- * thus can return directly a {@link HandlerResult} with no async wrappers.
+ * {@link InvocableHandlerMethod} but uses sync argument resolvers only and thus can
+ * return directly a {@link HandlerResult} with no async wrappers.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -43,7 +43,6 @@ import org.springframework.web.server.ServerWebExchange;
 public class SyncInvocableHandlerMethod extends HandlerMethod {
 
 	private final InvocableHandlerMethod delegate;
-
 
 	public SyncInvocableHandlerMethod(HandlerMethod handlerMethod) {
 		super(handlerMethod);
@@ -55,10 +54,9 @@ public class SyncInvocableHandlerMethod extends HandlerMethod {
 		this.delegate = new InvocableHandlerMethod(bean, method);
 	}
 
-
 	/**
-	 * Configure the argument resolvers to use to use for resolving method
-	 * argument values against a {@code ServerWebExchange}.
+	 * Configure the argument resolvers to use to use for resolving method argument values
+	 * against a {@code ServerWebExchange}.
 	 */
 	public void setArgumentResolvers(List<SyncHandlerMethodArgumentResolver> resolvers) {
 		this.delegate.setArgumentResolvers(new ArrayList<>(resolvers));
@@ -68,15 +66,15 @@ public class SyncInvocableHandlerMethod extends HandlerMethod {
 	 * Return the configured argument resolvers.
 	 */
 	public List<SyncHandlerMethodArgumentResolver> getResolvers() {
-		return this.delegate.getResolvers().stream()
-				.map(resolver -> (SyncHandlerMethodArgumentResolver) resolver)
+		return this.delegate.getResolvers().stream().map(resolver -> (SyncHandlerMethodArgumentResolver) resolver)
 				.collect(Collectors.toList());
 	}
 
 	/**
-	 * Set the ParameterNameDiscoverer for resolving parameter names when needed
-	 * (e.g. default request attribute name).
-	 * <p>Default is a {@link DefaultParameterNameDiscoverer}.
+	 * Set the ParameterNameDiscoverer for resolving parameter names when needed (e.g.
+	 * default request attribute name).
+	 * <p>
+	 * Default is a {@link DefaultParameterNameDiscoverer}.
 	 */
 	public void setParameterNameDiscoverer(ParameterNameDiscoverer nameDiscoverer) {
 		this.delegate.setParameterNameDiscoverer(nameDiscoverer);
@@ -89,18 +87,18 @@ public class SyncInvocableHandlerMethod extends HandlerMethod {
 		return this.delegate.getParameterNameDiscoverer();
 	}
 
-
 	/**
 	 * Invoke the method for the given exchange.
 	 * @param exchange the current exchange
 	 * @param bindingContext the binding context to use
 	 * @param providedArgs optional list of argument values to match by type
 	 * @return a Mono with a {@link HandlerResult}.
-	 * @throws ServerErrorException if method argument resolution or method invocation fails
+	 * @throws ServerErrorException if method argument resolution or method invocation
+	 * fails
 	 */
 	@Nullable
-	public HandlerResult invokeForHandlerResult(ServerWebExchange exchange,
-			BindingContext bindingContext, Object... providedArgs) {
+	public HandlerResult invokeForHandlerResult(ServerWebExchange exchange, BindingContext bindingContext,
+			Object... providedArgs) {
 
 		MonoProcessor<HandlerResult> processor = MonoProcessor.create();
 		this.delegate.invoke(exchange, bindingContext, providedArgs).subscribeWith(processor);
@@ -108,15 +106,14 @@ public class SyncInvocableHandlerMethod extends HandlerMethod {
 		if (processor.isTerminated()) {
 			Throwable ex = processor.getError();
 			if (ex != null) {
-				throw (ex instanceof ServerErrorException ? (ServerErrorException) ex :
-						new ServerErrorException("Failed to invoke: " + getShortLogMessage(), getMethod(), ex));
+				throw (ex instanceof ServerErrorException ? (ServerErrorException) ex
+						: new ServerErrorException("Failed to invoke: " + getShortLogMessage(), getMethod(), ex));
 			}
 			return processor.peek();
 		}
 		else {
 			// Should never happen...
-			throw new IllegalStateException(
-					"SyncInvocableHandlerMethod should have completed synchronously.");
+			throw new IllegalStateException("SyncInvocableHandlerMethod should have completed synchronously.");
 		}
 	}
 

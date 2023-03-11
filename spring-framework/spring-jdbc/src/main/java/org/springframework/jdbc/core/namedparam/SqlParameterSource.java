@@ -20,16 +20,18 @@ import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.lang.Nullable;
 
 /**
- * Interface that defines common functionality for objects that can
- * offer parameter values for named SQL parameters, serving as argument
- * for {@link NamedParameterJdbcTemplate} operations.
+ * Interface that defines common functionality for objects that can offer parameter values
+ * for named SQL parameters, serving as argument for {@link NamedParameterJdbcTemplate}
+ * operations.
  *
- * <p>This interface allows for the specification of SQL type in addition
- * to parameter values. All parameter values and types are identified by
- * specifying the name of the parameter.
+ * <p>
+ * This interface allows for the specification of SQL type in addition to parameter
+ * values. All parameter values and types are identified by specifying the name of the
+ * parameter.
  *
- * <p>Intended to wrap various implementations like a Map or a JavaBean
- * with a consistent interface.
+ * <p>
+ * Intended to wrap various implementations like a Map or a JavaBean with a consistent
+ * interface.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -42,13 +44,12 @@ import org.springframework.lang.Nullable;
 public interface SqlParameterSource {
 
 	/**
-	 * Constant that indicates an unknown (or unspecified) SQL type.
-	 * To be returned from {@code getType} when no specific SQL type known.
+	 * Constant that indicates an unknown (or unspecified) SQL type. To be returned from
+	 * {@code getType} when no specific SQL type known.
 	 * @see #getSqlType
 	 * @see java.sql.Types
 	 */
 	int TYPE_UNKNOWN = JdbcUtils.TYPE_UNKNOWN;
-
 
 	/**
 	 * Determine whether there is a value for the specified named parameter.
@@ -69,8 +70,8 @@ public interface SqlParameterSource {
 	/**
 	 * Determine the SQL type for the specified named parameter.
 	 * @param paramName the name of the parameter
-	 * @return the SQL type of the specified parameter,
-	 * or {@code TYPE_UNKNOWN} if not known
+	 * @return the SQL type of the specified parameter, or {@code TYPE_UNKNOWN} if not
+	 * known
 	 * @see #TYPE_UNKNOWN
 	 */
 	default int getSqlType(String paramName) {
@@ -80,8 +81,7 @@ public interface SqlParameterSource {
 	/**
 	 * Determine the type name for the specified named parameter.
 	 * @param paramName the name of the parameter
-	 * @return the type name of the specified parameter,
-	 * or {@code null} if not known
+	 * @return the type name of the specified parameter, or {@code null} if not known
 	 */
 	@Nullable
 	default String getTypeName(String paramName) {
@@ -90,9 +90,10 @@ public interface SqlParameterSource {
 
 	/**
 	 * Enumerate all available parameter names if possible.
-	 * <p>This is an optional operation, primarily for use with
-	 * {@link org.springframework.jdbc.core.simple.SimpleJdbcInsert}
-	 * and {@link org.springframework.jdbc.core.simple.SimpleJdbcCall}.
+	 * <p>
+	 * This is an optional operation, primarily for use with
+	 * {@link org.springframework.jdbc.core.simple.SimpleJdbcInsert} and
+	 * {@link org.springframework.jdbc.core.simple.SimpleJdbcCall}.
 	 * @return the array of parameter names, or {@code null} if not determinable
 	 * @since 5.0.3
 	 * @see SqlParameterSourceUtils#extractCaseInsensitiveParameterNames

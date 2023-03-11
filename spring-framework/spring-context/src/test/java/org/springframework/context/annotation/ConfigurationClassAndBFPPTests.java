@@ -26,11 +26,10 @@ import org.springframework.beans.testfixture.beans.TestBean;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
- * Tests semantics of declaring {@link BeanFactoryPostProcessor}-returning @Bean
- * methods, specifically as regards static @Bean methods and the avoidance of
- * container lifecycle issues when BFPPs are in the mix.
+ * Tests semantics of declaring {@link BeanFactoryPostProcessor}-returning @Bean methods,
+ * specifically as regards static @Bean methods and the avoidance of container lifecycle
+ * issues when BFPPs are in the mix.
  *
  * @author Chris Beams
  * @since 3.1
@@ -43,7 +42,8 @@ public class ConfigurationClassAndBFPPTests {
 		ctx.register(TestBeanConfig.class, AutowiredConfigWithBFPPAsInstanceMethod.class);
 		ctx.refresh();
 		// instance method BFPP interferes with lifecycle -> autowiring fails!
-		// WARN-level logging should have been issued about returning BFPP from non-static @Bean method
+		// WARN-level logging should have been issued about returning BFPP from non-static
+		// @Bean method
 		assertThat(ctx.getBean(AutowiredConfigWithBFPPAsInstanceMethod.class).autowiredTestBean).isNull();
 	}
 
@@ -56,19 +56,21 @@ public class ConfigurationClassAndBFPPTests {
 		assertThat(ctx.getBean(AutowiredConfigWithBFPPAsStaticMethod.class).autowiredTestBean).isNotNull();
 	}
 
-
 	@Configuration
 	static class TestBeanConfig {
+
 		@Bean
 		public TestBean testBean() {
 			return new TestBean();
 		}
-	}
 
+	}
 
 	@Configuration
 	static class AutowiredConfigWithBFPPAsInstanceMethod {
-		@Autowired TestBean autowiredTestBean;
+
+		@Autowired
+		TestBean autowiredTestBean;
 
 		@Bean
 		public BeanFactoryPostProcessor bfpp() {
@@ -79,12 +81,14 @@ public class ConfigurationClassAndBFPPTests {
 				}
 			};
 		}
-	}
 
+	}
 
 	@Configuration
 	static class AutowiredConfigWithBFPPAsStaticMethod {
-		@Autowired TestBean autowiredTestBean;
+
+		@Autowired
+		TestBean autowiredTestBean;
 
 		@Bean
 		public static final BeanFactoryPostProcessor bfpp() {
@@ -95,8 +99,8 @@ public class ConfigurationClassAndBFPPTests {
 				}
 			};
 		}
-	}
 
+	}
 
 	@Test
 	public void staticBeanMethodsDoNotRespectScoping() {
@@ -106,13 +110,14 @@ public class ConfigurationClassAndBFPPTests {
 		assertThat(ConfigWithStaticBeanMethod.testBean()).isNotSameAs(ConfigWithStaticBeanMethod.testBean());
 	}
 
-
 	@Configuration
 	static class ConfigWithStaticBeanMethod {
+
 		@Bean
 		public static TestBean testBean() {
 			return new TestBean("foo");
 		}
+
 	}
 
 }

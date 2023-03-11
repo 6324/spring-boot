@@ -31,8 +31,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
- * An application-managed entity manager can join an existing transaction,
- * but such joining must be made programmatically, not transactionally.
+ * An application-managed entity manager can join an existing transaction, but such
+ * joining must be made programmatically, not transactionally.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -70,8 +70,7 @@ public class ApplicationManagedEntityManagerIntegrationTests extends AbstractEnt
 	@Test
 	public void testCannotFlushWithoutGettingTransaction() {
 		EntityManager em = entityManagerFactory.createEntityManager();
-		assertThatExceptionOfType(TransactionRequiredException.class).isThrownBy(() ->
-				doInstantiateAndSave(em));
+		assertThatExceptionOfType(TransactionRequiredException.class).isThrownBy(() -> doInstantiateAndSave(em));
 
 		// TODO following lines are a workaround for Hibernate bug
 		// If Hibernate throws an exception due to flush(),
@@ -119,7 +118,7 @@ public class ApplicationManagedEntityManagerIntegrationTests extends AbstractEnt
 
 		doInstantiateAndSave(em);
 		setComplete();
-		endTransaction();	// Should rollback
+		endTransaction(); // Should rollback
 		assertThat(countRowsInTable(em, "person")).as("Tx must have committed back").isEqualTo(1);
 
 		// Now clean up the database
@@ -139,7 +138,7 @@ public class ApplicationManagedEntityManagerIntegrationTests extends AbstractEnt
 		EntityManager em = entityManagerFactory.createEntityManager();
 		em.joinTransaction();
 		doInstantiateAndSave(em);
-		endTransaction();	// Should rollback
+		endTransaction(); // Should rollback
 		assertThat(countRowsInTable(em, "person")).as("Tx must have been rolled back").isEqualTo(0);
 	}
 
@@ -150,7 +149,7 @@ public class ApplicationManagedEntityManagerIntegrationTests extends AbstractEnt
 		doInstantiateAndSave(em);
 
 		setComplete();
-		endTransaction();	// Should rollback
+		endTransaction(); // Should rollback
 		assertThat(countRowsInTable(em, "person")).as("Tx must have committed back").isEqualTo(1);
 
 		// Now clean up the database

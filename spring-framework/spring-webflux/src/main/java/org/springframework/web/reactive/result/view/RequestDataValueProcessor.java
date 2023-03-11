@@ -21,17 +21,19 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * A contract for inspecting and potentially modifying request data values such
- * as URL query parameters or form field values before they are rendered by a
- * view or before a redirect.
+ * A contract for inspecting and potentially modifying request data values such as URL
+ * query parameters or form field values before they are rendered by a view or before a
+ * redirect.
  *
- * <p>Implementations may use this contract for example as part of a solution
- * to provide data integrity, confidentiality, protection against cross-site
- * request forgery (CSRF), and others or for other tasks such as automatically
- * adding a hidden field to all forms and URLs.
+ * <p>
+ * Implementations may use this contract for example as part of a solution to provide data
+ * integrity, confidentiality, protection against cross-site request forgery (CSRF), and
+ * others or for other tasks such as automatically adding a hidden field to all forms and
+ * URLs.
  *
- * <p>View technologies that support this contract can obtain an instance to
- * delegate to via {@link RequestContext#getRequestDataValueProcessor()}.
+ * <p>
+ * View technologies that support this contract can obtain an instance to delegate to via
+ * {@link RequestContext#getRequestDataValueProcessor()}.
  *
  * @author Rossen Stoyanchev
  * @since 5.0

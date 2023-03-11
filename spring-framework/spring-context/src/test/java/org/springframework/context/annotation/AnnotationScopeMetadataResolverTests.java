@@ -47,7 +47,6 @@ public class AnnotationScopeMetadataResolverTests {
 
 	private AnnotationScopeMetadataResolver scopeMetadataResolver = new AnnotationScopeMetadataResolver();
 
-
 	@Test
 	public void resolveScopeMetadataShouldNotApplyScopedProxyModeToSingleton() {
 		AnnotatedBeanDefinition bd = new AnnotatedGenericBeanDefinition(AnnotatedWithSingletonScope.class);
@@ -99,7 +98,7 @@ public class AnnotationScopeMetadataResolverTests {
 	@Test
 	public void customRequestScopeWithAttribute() {
 		AnnotatedBeanDefinition bd = new AnnotatedGenericBeanDefinition(
-			AnnotatedWithCustomRequestScopeWithAttributeOverride.class);
+				AnnotatedWithCustomRequestScopeWithAttributeOverride.class);
 		ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(bd);
 		assertThat(scopeMetadata).as("resolveScopeMetadata(..) must *never* return null.").isNotNull();
 		assertThat(scopeMetadata.getScopeName()).isEqualTo("request");
@@ -109,7 +108,8 @@ public class AnnotationScopeMetadataResolverTests {
 	@Test
 	public void customRequestScopeWithAttributeViaAsm() throws IOException {
 		MetadataReaderFactory readerFactory = new SimpleMetadataReaderFactory();
-		MetadataReader reader = readerFactory.getMetadataReader(AnnotatedWithCustomRequestScopeWithAttributeOverride.class.getName());
+		MetadataReader reader = readerFactory
+				.getMetadataReader(AnnotatedWithCustomRequestScopeWithAttributeOverride.class.getName());
 		AnnotatedBeanDefinition bd = new AnnotatedGenericBeanDefinition(reader.getAnnotationMetadata());
 		ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(bd);
 		assertThat(scopeMetadata).as("resolveScopeMetadata(..) must *never* return null.").isNotNull();
@@ -119,20 +119,18 @@ public class AnnotationScopeMetadataResolverTests {
 
 	@Test
 	public void ctorWithNullScopedProxyMode() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new AnnotationScopeMetadataResolver(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new AnnotationScopeMetadataResolver(null));
 	}
 
 	@Test
 	public void setScopeAnnotationTypeWithNullType() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				scopeMetadataResolver.setScopeAnnotationType(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> scopeMetadataResolver.setScopeAnnotationType(null));
 	}
-
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Scope("request")
 	@interface CustomRequestScope {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
@@ -140,26 +138,32 @@ public class AnnotationScopeMetadataResolverTests {
 	@interface CustomRequestScopeWithAttributeOverride {
 
 		ScopedProxyMode proxyMode();
+
 	}
 
 	@Scope("singleton")
 	private static class AnnotatedWithSingletonScope {
+
 	}
 
 	@Scope("prototype")
 	private static class AnnotatedWithPrototypeScope {
+
 	}
 
 	@Scope(scopeName = "request", proxyMode = TARGET_CLASS)
 	private static class AnnotatedWithScopedProxy {
+
 	}
 
 	@CustomRequestScope
 	private static class AnnotatedWithCustomRequestScope {
+
 	}
 
 	@CustomRequestScopeWithAttributeOverride(proxyMode = TARGET_CLASS)
 	private static class AnnotatedWithCustomRequestScopeWithAttributeOverride {
+
 	}
 
 }

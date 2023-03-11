@@ -44,7 +44,7 @@ import org.springframework.stereotype.Controller;
 /**
  * Client-side handling of requests initiated from the server side.
  *
- *  @author Rossen Stoyanchev
+ * @author Rossen Stoyanchev
  * @author Brian Clozel
  */
 public class RSocketServerToClientIntegrationTests {
@@ -52,7 +52,6 @@ public class RSocketServerToClientIntegrationTests {
 	private static AnnotationConfigApplicationContext context;
 
 	private static CloseableChannel server;
-
 
 	@BeforeAll
 	@SuppressWarnings("ConstantConditions")
@@ -62,17 +61,14 @@ public class RSocketServerToClientIntegrationTests {
 		RSocketMessageHandler messageHandler = context.getBean(RSocketMessageHandler.class);
 		SocketAcceptor responder = messageHandler.responder();
 
-		server = RSocketServer.create(responder)
-				.payloadDecoder(PayloadDecoder.ZERO_COPY)
-				.bind(TcpServerTransport.create("localhost", 0))
-				.block();
+		server = RSocketServer.create(responder).payloadDecoder(PayloadDecoder.ZERO_COPY)
+				.bind(TcpServerTransport.create("localhost", 0)).block();
 	}
 
 	@AfterAll
 	public static void tearDownOnce() {
 		server.dispose();
 	}
-
 
 	@Test
 	public void echo() {
@@ -94,7 +90,6 @@ public class RSocketServerToClientIntegrationTests {
 		connectAndRunTest("echo-channel");
 	}
 
-
 	private static void connectAndRunTest(String connectionRoute) {
 
 		context.getBean(ServerController.class).reset();
@@ -104,12 +99,9 @@ public class RSocketServerToClientIntegrationTests {
 
 		RSocketRequester requester = null;
 		try {
-			requester = RSocketRequester.builder()
-					.setupRoute(connectionRoute)
-					.rsocketStrategies(strategies)
+			requester = RSocketRequester.builder().setupRoute(connectionRoute).rsocketStrategies(strategies)
 					.rsocketConnector(connector -> connector.acceptor(responder))
-					.connectTcp("localhost", server.address().getPort())
-					.block();
+					.connectTcp("localhost", server.address().getPort()).block();
 
 			context.getBean(ServerController.class).await(Duration.ofSeconds(5));
 		}
@@ -120,14 +112,12 @@ public class RSocketServerToClientIntegrationTests {
 		}
 	}
 
-
 	@Controller
-	@SuppressWarnings({"unused", "NullableProblems"})
+	@SuppressWarnings({ "unused", "NullableProblems" })
 	static class ServerController {
 
 		// Must be initialized by @Test method...
 		volatile MonoProcessor<Void> result;
-
 
 		public void reset() {
 			this.result = MonoProcessor.create();
@@ -137,34 +127,25 @@ public class RSocketServerToClientIntegrationTests {
 			this.result.block(duration);
 		}
 
-
 		@ConnectMapping("echo")
 		void echo(RSocketRequester requester) {
 			runTest(() -> {
-				Flux<String> flux = Flux.range(1, 3).concatMap(i ->
-						requester.route("echo").data("Hello " + i).retrieveMono(String.class));
+				Flux<String> flux = Flux.range(1, 3)
+						.concatMap(i -> requester.route("echo").data("Hello " + i).retrieveMono(String.class));
 
-				StepVerifier.create(flux)
-						.expectNext("Hello 1")
-						.expectNext("Hello 2")
-						.expectNext("Hello 3")
-						.expectComplete()
-						.verify(Duration.ofSeconds(5));
+				StepVerifier.create(flux).expectNext("Hello 1").expectNext("Hello 2").expectNext("Hello 3")
+						.expectComplete().verify(Duration.ofSeconds(5));
 			});
 		}
 
 		@ConnectMapping("echo-async")
 		void echoAsync(RSocketRequester requester) {
 			runTest(() -> {
-				Flux<String> flux = Flux.range(1, 3).concatMap(i ->
-						requester.route("echo-async").data("Hello " + i).retrieveMono(String.class));
+				Flux<String> flux = Flux.range(1, 3)
+						.concatMap(i -> requester.route("echo-async").data("Hello " + i).retrieveMono(String.class));
 
-				StepVerifier.create(flux)
-						.expectNext("Hello 1 async")
-						.expectNext("Hello 2 async")
-						.expectNext("Hello 3 async")
-						.expectComplete()
-						.verify(Duration.ofSeconds(5));
+				StepVerifier.create(flux).expectNext("Hello 1 async").expectNext("Hello 2 async")
+						.expectNext("Hello 3 async").expectComplete().verify(Duration.ofSeconds(5));
 			});
 		}
 
@@ -173,13 +154,8 @@ public class RSocketServerToClientIntegrationTests {
 			runTest(() -> {
 				Flux<String> flux = requester.route("echo-stream").data("Hello").retrieveFlux(String.class);
 
-				StepVerifier.create(flux)
-						.expectNext("Hello 0")
-						.expectNextCount(5)
-						.expectNext("Hello 6")
-						.expectNext("Hello 7")
-						.thenCancel()
-						.verify(Duration.ofSeconds(5));
+				StepVerifier.create(flux).expectNext("Hello 0").expectNextCount(5).expectNext("Hello 6")
+						.expectNext("Hello 7").thenCancel().verify(Duration.ofSeconds(5));
 			});
 		}
 
@@ -187,28 +163,20 @@ public class RSocketServerToClientIntegrationTests {
 		void echoChannel(RSocketRequester requester) {
 			runTest(() -> {
 				Flux<String> flux = requester.route("echo-channel")
-						.data(Flux.range(1, 10).map(i -> "Hello " + i), String.class)
-						.retrieveFlux(String.class);
+						.data(Flux.range(1, 10).map(i -> "Hello " + i), String.class).retrieveFlux(String.class);
 
-				StepVerifier.create(flux)
-						.expectNext("Hello 1 async")
-						.expectNextCount(7)
-						.expectNext("Hello 9 async")
-						.expectNext("Hello 10 async")
-						.verifyComplete();
+				StepVerifier.create(flux).expectNext("Hello 1 async").expectNextCount(7).expectNext("Hello 9 async")
+						.expectNext("Hello 10 async").verifyComplete();
 			});
 		}
 
-
 		private void runTest(Runnable testEcho) {
-			Mono.fromRunnable(testEcho)
-					.doOnError(ex -> result.onError(ex))
-					.doOnSuccess(o -> result.onComplete())
+			Mono.fromRunnable(testEcho).doOnError(ex -> result.onError(ex)).doOnSuccess(o -> result.onComplete())
 					.subscribeOn(Schedulers.elastic()) // StepVerifier will block
 					.subscribe();
 		}
-	}
 
+	}
 
 	private static class ClientHandler {
 
@@ -238,8 +206,8 @@ public class RSocketServerToClientIntegrationTests {
 		Flux<String> echoChannel(Flux<String> payloads) {
 			return payloads.delayElements(Duration.ofMillis(10)).map(payload -> payload + " async");
 		}
-	}
 
+	}
 
 	@Configuration
 	static class RSocketConfig {
@@ -260,6 +228,7 @@ public class RSocketServerToClientIntegrationTests {
 		public RSocketStrategies rsocketStrategies() {
 			return RSocketStrategies.create();
 		}
+
 	}
 
 }

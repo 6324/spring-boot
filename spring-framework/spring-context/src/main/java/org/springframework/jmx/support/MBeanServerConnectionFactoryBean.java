@@ -40,9 +40,9 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 
 /**
- * {@link FactoryBean} that creates a JMX 1.2 {@code MBeanServerConnection}
- * to a remote {@code MBeanServer} exposed via a {@code JMXServerConnector}.
- * Exposes the {@code MBeanServer} for bean references.
+ * {@link FactoryBean} that creates a JMX 1.2 {@code MBeanServerConnection} to a remote
+ * {@code MBeanServer} exposed via a {@code JMXServerConnector}. Exposes the
+ * {@code MBeanServer} for bean references.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -74,7 +74,6 @@ public class MBeanServerConnectionFactoryBean
 	@Nullable
 	private JMXConnectorLazyInitTargetSource connectorTargetSource;
 
-
 	/**
 	 * Set the service URL of the remote {@code MBeanServer}.
 	 */
@@ -83,16 +82,16 @@ public class MBeanServerConnectionFactoryBean
 	}
 
 	/**
-	 * Set the environment properties used to construct the {@code JMXConnector}
-	 * as {@code java.util.Properties} (String key/value pairs).
+	 * Set the environment properties used to construct the {@code JMXConnector} as
+	 * {@code java.util.Properties} (String key/value pairs).
 	 */
 	public void setEnvironment(Properties environment) {
 		CollectionUtils.mergePropertiesIntoMap(environment, this.environment);
 	}
 
 	/**
-	 * Set the environment properties used to construct the {@code JMXConnector}
-	 * as a {@code Map} of String keys and arbitrary Object values.
+	 * Set the environment properties used to construct the {@code JMXConnector} as a
+	 * {@code Map} of String keys and arbitrary Object values.
 	 */
 	public void setEnvironmentMap(@Nullable Map<String, ?> environment) {
 		if (environment != null) {
@@ -102,9 +101,11 @@ public class MBeanServerConnectionFactoryBean
 
 	/**
 	 * Set whether to connect to the server on startup.
-	 * <p>Default is {@code true}.
-	 * <p>Can be turned off to allow for late start of the JMX server.
-	 * In this case, the JMX connector will be fetched on first access.
+	 * <p>
+	 * Default is {@code true}.
+	 * <p>
+	 * Can be turned off to allow for late start of the JMX server. In this case, the JMX
+	 * connector will be fetched on first access.
 	 */
 	public void setConnectOnStartup(boolean connectOnStartup) {
 		this.connectOnStartup = connectOnStartup;
@@ -115,10 +116,9 @@ public class MBeanServerConnectionFactoryBean
 		this.beanClassLoader = classLoader;
 	}
 
-
 	/**
-	 * Creates a {@code JMXConnector} for the given settings
-	 * and exposes the associated {@code MBeanServerConnection}.
+	 * Creates a {@code JMXConnector} for the given settings and exposes the associated
+	 * {@code MBeanServerConnection}.
 	 */
 	@Override
 	public void afterPropertiesSet() throws IOException {
@@ -145,18 +145,18 @@ public class MBeanServerConnectionFactoryBean
 	}
 
 	/**
-	 * Creates lazy proxies for the {@code JMXConnector} and {@code MBeanServerConnection}.
+	 * Creates lazy proxies for the {@code JMXConnector} and
+	 * {@code MBeanServerConnection}.
 	 */
 	private void createLazyConnection() {
 		this.connectorTargetSource = new JMXConnectorLazyInitTargetSource();
 		TargetSource connectionTargetSource = new MBeanServerConnectionLazyInitTargetSource();
 
-		this.connector = (JMXConnector)
-				new ProxyFactory(JMXConnector.class, this.connectorTargetSource).getProxy(this.beanClassLoader);
-		this.connection = (MBeanServerConnection)
-				new ProxyFactory(MBeanServerConnection.class, connectionTargetSource).getProxy(this.beanClassLoader);
+		this.connector = (JMXConnector) new ProxyFactory(JMXConnector.class, this.connectorTargetSource)
+				.getProxy(this.beanClassLoader);
+		this.connection = (MBeanServerConnection) new ProxyFactory(MBeanServerConnection.class, connectionTargetSource)
+				.getProxy(this.beanClassLoader);
 	}
-
 
 	@Override
 	@Nullable
@@ -174,22 +174,21 @@ public class MBeanServerConnectionFactoryBean
 		return true;
 	}
 
-
 	/**
 	 * Closes the underlying {@code JMXConnector}.
 	 */
 	@Override
 	public void destroy() throws IOException {
-		if (this.connector != null &&
-				(this.connectorTargetSource == null || this.connectorTargetSource.isInitialized())) {
+		if (this.connector != null
+				&& (this.connectorTargetSource == null || this.connectorTargetSource.isInitialized())) {
 			this.connector.close();
 		}
 	}
 
-
 	/**
-	 * Lazily creates a {@code JMXConnector} using the configured service URL
-	 * and environment properties.
+	 * Lazily creates a {@code JMXConnector} using the configured service URL and
+	 * environment properties.
+	 *
 	 * @see MBeanServerConnectionFactoryBean#setServiceUrl(String)
 	 * @see MBeanServerConnectionFactoryBean#setEnvironment(java.util.Properties)
 	 */
@@ -205,8 +204,8 @@ public class MBeanServerConnectionFactoryBean
 		public Class<?> getTargetClass() {
 			return JMXConnector.class;
 		}
-	}
 
+	}
 
 	/**
 	 * Lazily creates an {@code MBeanServerConnection}.
@@ -223,6 +222,7 @@ public class MBeanServerConnectionFactoryBean
 		public Class<?> getTargetClass() {
 			return MBeanServerConnection.class;
 		}
+
 	}
 
 }

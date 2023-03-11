@@ -53,13 +53,12 @@ public class ScheduledExecutorFactoryBeanTests {
 
 		ScheduledExecutorFactoryBean factory = new ScheduledExecutorFactoryBean() {
 			@Override
-			protected ScheduledExecutorService createExecutor(int poolSize, ThreadFactory threadFactory, RejectedExecutionHandler rejectedExecutionHandler) {
+			protected ScheduledExecutorService createExecutor(int poolSize, ThreadFactory threadFactory,
+					RejectedExecutionHandler rejectedExecutionHandler) {
 				return executor;
 			}
 		};
-		factory.setScheduledExecutorTasks(new ScheduledExecutorTask[]{
-			new NoOpScheduledExecutorTask()
-		});
+		factory.setScheduledExecutorTasks(new ScheduledExecutorTask[] { new NoOpScheduledExecutorTask() });
 		factory.afterPropertiesSet();
 		factory.destroy();
 
@@ -73,13 +72,12 @@ public class ScheduledExecutorFactoryBeanTests {
 
 		ScheduledExecutorFactoryBean factory = new ScheduledExecutorFactoryBean() {
 			@Override
-			protected ScheduledExecutorService createExecutor(int poolSize, ThreadFactory threadFactory, RejectedExecutionHandler rejectedExecutionHandler) {
+			protected ScheduledExecutorService createExecutor(int poolSize, ThreadFactory threadFactory,
+					RejectedExecutionHandler rejectedExecutionHandler) {
 				return executor;
 			}
 		};
-		factory.setScheduledExecutorTasks(new ScheduledExecutorTask[]{
-			new NoOpScheduledExecutorTask()
-		});
+		factory.setScheduledExecutorTasks(new ScheduledExecutorTask[] { new NoOpScheduledExecutorTask() });
 		factory.setWaitForTasksToCompleteOnShutdown(true);
 		factory.afterPropertiesSet();
 		factory.destroy();
@@ -93,9 +91,7 @@ public class ScheduledExecutorFactoryBeanTests {
 		Runnable runnable = mock(Runnable.class);
 
 		ScheduledExecutorFactoryBean factory = new ScheduledExecutorFactoryBean();
-		factory.setScheduledExecutorTasks(new ScheduledExecutorTask[]{
-			new ScheduledExecutorTask(runnable)
-		});
+		factory.setScheduledExecutorTasks(new ScheduledExecutorTask[] { new ScheduledExecutorTask(runnable) });
 		factory.afterPropertiesSet();
 		pauseToLetTaskStart(1);
 		factory.destroy();
@@ -113,7 +109,7 @@ public class ScheduledExecutorFactoryBeanTests {
 		task.setFixedRate(true);
 
 		ScheduledExecutorFactoryBean factory = new ScheduledExecutorFactoryBean();
-		factory.setScheduledExecutorTasks(new ScheduledExecutorTask[]{task});
+		factory.setScheduledExecutorTasks(new ScheduledExecutorTask[] { task });
 		factory.afterPropertiesSet();
 		pauseToLetTaskStart(2);
 		factory.destroy();
@@ -132,7 +128,7 @@ public class ScheduledExecutorFactoryBeanTests {
 		task.setFixedRate(true);
 
 		ScheduledExecutorFactoryBean factory = new ScheduledExecutorFactoryBean();
-		factory.setScheduledExecutorTasks(new ScheduledExecutorTask[]{task});
+		factory.setScheduledExecutorTasks(new ScheduledExecutorTask[] { task });
 		factory.setContinueScheduledExecutionAfterException(true);
 		factory.afterPropertiesSet();
 		pauseToLetTaskStart(2);
@@ -151,7 +147,7 @@ public class ScheduledExecutorFactoryBeanTests {
 		task.setDelay(3000); // nice long wait...
 
 		ScheduledExecutorFactoryBean factory = new ScheduledExecutorFactoryBean();
-		factory.setScheduledExecutorTasks(new ScheduledExecutorTask[] {task});
+		factory.setScheduledExecutorTasks(new ScheduledExecutorTask[] { task });
 		factory.afterPropertiesSet();
 		pauseToLetTaskStart(1);
 		// invoke destroy before tasks have even been scheduled...
@@ -172,7 +168,7 @@ public class ScheduledExecutorFactoryBeanTests {
 		task.setDelay(3000); // nice long wait...
 
 		ScheduledExecutorFactoryBean factory = new ScheduledExecutorFactoryBean();
-		factory.setScheduledExecutorTasks(new ScheduledExecutorTask[] {task});
+		factory.setScheduledExecutorTasks(new ScheduledExecutorTask[] { task });
 		factory.setContinueScheduledExecutionAfterException(true);
 		factory.afterPropertiesSet();
 		pauseToLetTaskStart(1);
@@ -188,14 +184,15 @@ public class ScheduledExecutorFactoryBeanTests {
 	public void testSettingThreadFactoryToNullForcesUseOfDefaultButIsOtherwiseCool() throws Exception {
 		ScheduledExecutorFactoryBean factory = new ScheduledExecutorFactoryBean() {
 			@Override
-			protected ScheduledExecutorService createExecutor(int poolSize, ThreadFactory threadFactory, RejectedExecutionHandler rejectedExecutionHandler) {
-				assertThat("Bah; the setThreadFactory(..) method must use a default ThreadFactory if a null arg is passed in.").isNotNull();
+			protected ScheduledExecutorService createExecutor(int poolSize, ThreadFactory threadFactory,
+					RejectedExecutionHandler rejectedExecutionHandler) {
+				assertThat(
+						"Bah; the setThreadFactory(..) method must use a default ThreadFactory if a null arg is passed in.")
+								.isNotNull();
 				return super.createExecutor(poolSize, threadFactory, rejectedExecutionHandler);
 			}
 		};
-		factory.setScheduledExecutorTasks(new ScheduledExecutorTask[]{
-			new NoOpScheduledExecutorTask()
-		});
+		factory.setScheduledExecutorTasks(new ScheduledExecutorTask[] { new NoOpScheduledExecutorTask() });
 		factory.setThreadFactory(null); // the null must not propagate
 		factory.afterPropertiesSet();
 		factory.destroy();
@@ -206,14 +203,15 @@ public class ScheduledExecutorFactoryBeanTests {
 	public void testSettingRejectedExecutionHandlerToNullForcesUseOfDefaultButIsOtherwiseCool() throws Exception {
 		ScheduledExecutorFactoryBean factory = new ScheduledExecutorFactoryBean() {
 			@Override
-			protected ScheduledExecutorService createExecutor(int poolSize, ThreadFactory threadFactory, RejectedExecutionHandler rejectedExecutionHandler) {
-				assertThat("Bah; the setRejectedExecutionHandler(..) method must use a default RejectedExecutionHandler if a null arg is passed in.").isNotNull();
+			protected ScheduledExecutorService createExecutor(int poolSize, ThreadFactory threadFactory,
+					RejectedExecutionHandler rejectedExecutionHandler) {
+				assertThat(
+						"Bah; the setRejectedExecutionHandler(..) method must use a default RejectedExecutionHandler if a null arg is passed in.")
+								.isNotNull();
 				return super.createExecutor(poolSize, threadFactory, rejectedExecutionHandler);
 			}
 		};
-		factory.setScheduledExecutorTasks(new ScheduledExecutorTask[]{
-			new NoOpScheduledExecutorTask()
-		});
+		factory.setScheduledExecutorTasks(new ScheduledExecutorTask[] { new NoOpScheduledExecutorTask() });
 		factory.setRejectedExecutionHandler(null); // the null must not propagate
 		factory.afterPropertiesSet();
 		factory.destroy();
@@ -225,7 +223,6 @@ public class ScheduledExecutorFactoryBeanTests {
 		assertThat(factory.getObjectType()).isEqualTo(ScheduledExecutorService.class);
 	}
 
-
 	private static void pauseToLetTaskStart(int seconds) {
 		try {
 			Thread.sleep(seconds * 1000);
@@ -234,12 +231,12 @@ public class ScheduledExecutorFactoryBeanTests {
 		}
 	}
 
-
 	private static class NoOpScheduledExecutorTask extends ScheduledExecutorTask {
 
 		public NoOpScheduledExecutorTask() {
 			super(new NoOpRunnable());
 		}
+
 	}
 
 }

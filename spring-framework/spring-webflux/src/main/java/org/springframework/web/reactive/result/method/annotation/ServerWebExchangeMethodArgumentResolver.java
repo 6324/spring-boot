@@ -46,12 +46,13 @@ import org.springframework.web.util.UriComponentsBuilder;
  * <li>{@link Locale}
  * <li>{@link TimeZone}
  * <li>{@link ZoneId}
- * <li>{@link UriBuilder} or {@link UriComponentsBuilder} -- for building URL's
- * relative to the current request
+ * <li>{@link UriBuilder} or {@link UriComponentsBuilder} -- for building URL's relative
+ * to the current request
  * </ul>
  *
- * <p>For the {@code WebSession} see {@link WebSessionMethodArgumentResolver}
- * and for the {@code Principal} see {@link PrincipalMethodArgumentResolver}.
+ * <p>
+ * For the {@code WebSession} see {@link WebSessionMethodArgumentResolver} and for the
+ * {@code Principal} see {@link PrincipalMethodArgumentResolver}.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -65,23 +66,18 @@ public class ServerWebExchangeMethodArgumentResolver extends HandlerMethodArgume
 		super(adapterRegistry);
 	}
 
-
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return checkParameterTypeNoReactiveWrapper(parameter,
-				type -> ServerWebExchange.class.isAssignableFrom(type) ||
-						ServerHttpRequest.class.isAssignableFrom(type) ||
-						ServerHttpResponse.class.isAssignableFrom(type) ||
-						HttpMethod.class == type ||
-						Locale.class == type ||
-						TimeZone.class == type ||
-						ZoneId.class == type ||
-						UriBuilder.class == type || UriComponentsBuilder.class == type);
+				type -> ServerWebExchange.class.isAssignableFrom(type) || ServerHttpRequest.class.isAssignableFrom(type)
+						|| ServerHttpResponse.class.isAssignableFrom(type) || HttpMethod.class == type
+						|| Locale.class == type || TimeZone.class == type || ZoneId.class == type
+						|| UriBuilder.class == type || UriComponentsBuilder.class == type);
 	}
 
 	@Override
-	public Object resolveArgumentValue(
-			MethodParameter methodParameter, BindingContext context, ServerWebExchange exchange) {
+	public Object resolveArgumentValue(MethodParameter methodParameter, BindingContext context,
+			ServerWebExchange exchange) {
 
 		Class<?> paramType = methodParameter.getParameterType();
 		if (ServerWebExchange.class.isAssignableFrom(paramType)) {
@@ -115,8 +111,8 @@ public class ServerWebExchangeMethodArgumentResolver extends HandlerMethodArgume
 		}
 		else {
 			// should never happen...
-			throw new IllegalArgumentException("Unknown parameter type: " +
-					paramType + " in method: " + methodParameter.getMethod());
+			throw new IllegalArgumentException(
+					"Unknown parameter type: " + paramType + " in method: " + methodParameter.getMethod());
 		}
 	}
 

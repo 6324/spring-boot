@@ -36,7 +36,8 @@ import org.springframework.context.annotation.Import;
  * }
  * </pre>
  *
- * <p>Customize the imported configuration by implementing the
+ * <p>
+ * Customize the imported configuration by implementing the
  * {@link WebSocketMessageBrokerConfigurer} interface:
  *
  * <pre class="code">

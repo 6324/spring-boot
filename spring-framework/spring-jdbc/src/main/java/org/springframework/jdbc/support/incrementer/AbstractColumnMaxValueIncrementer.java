@@ -21,9 +21,9 @@ import javax.sql.DataSource;
 import org.springframework.util.Assert;
 
 /**
- * Abstract base class for {@link DataFieldMaxValueIncrementer} implementations that use
- * a column in a custom sequence table. Subclasses need to provide the specific handling
- * of that table in their {@link #getNextKey()} implementation.
+ * Abstract base class for {@link DataFieldMaxValueIncrementer} implementations that use a
+ * column in a custom sequence table. Subclasses need to provide the specific handling of
+ * that table in their {@link #getNextKey()} implementation.
  *
  * @author Juergen Hoeller
  * @since 2.5.3
@@ -35,7 +35,6 @@ public abstract class AbstractColumnMaxValueIncrementer extends AbstractDataFiel
 
 	/** The number of keys buffered in a cache. */
 	private int cacheSize = 1;
-
 
 	/**
 	 * Default constructor for bean property style usage.
@@ -57,7 +56,6 @@ public abstract class AbstractColumnMaxValueIncrementer extends AbstractDataFiel
 		Assert.notNull(columnName, "Column name must not be null");
 		this.columnName = columnName;
 	}
-
 
 	/**
 	 * Set the name of the column in the sequence table.

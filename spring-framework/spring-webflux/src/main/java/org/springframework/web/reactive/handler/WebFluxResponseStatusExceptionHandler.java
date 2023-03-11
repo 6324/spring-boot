@@ -24,13 +24,13 @@ import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
 
 /**
  * Common WebFlux exception handler that detects instances of
- * {@link org.springframework.web.server.ResponseStatusException}
- * (inherited from the base class) as well as exceptions annotated with
- * {@link ResponseStatus @ResponseStatus} by determining the HTTP status
- * for them and updating the status of the response accordingly.
+ * {@link org.springframework.web.server.ResponseStatusException} (inherited from the base
+ * class) as well as exceptions annotated with {@link ResponseStatus @ResponseStatus} by
+ * determining the HTTP status for them and updating the status of the response
+ * accordingly.
  *
- * <p>If the response is already committed, the error remains unresolved
- * and is propagated.
+ * <p>
+ * If the response is already committed, the error remains unresolved and is propagated.
  *
  * @author Juergen Hoeller
  * @author Rossen Stoyanchev

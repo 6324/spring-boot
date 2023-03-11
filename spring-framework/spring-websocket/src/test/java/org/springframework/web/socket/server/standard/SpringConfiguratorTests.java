@@ -43,7 +43,6 @@ public class SpringConfiguratorTests {
 
 	private SpringConfigurator configurator;
 
-
 	@BeforeEach
 	public void setup() {
 		this.servletContext = new MockServletContext();
@@ -61,7 +60,6 @@ public class SpringConfiguratorTests {
 	public void destroy() {
 		this.contextLoader.closeWebApplicationContext(this.servletContext);
 	}
-
 
 	@Test
 	public void getEndpointPerConnection() throws Exception {
@@ -83,9 +81,8 @@ public class SpringConfiguratorTests {
 		assertThat(actual).isSameAs(expected);
 	}
 
-
 	@Configuration
-	@ComponentScan(basePackageClasses=SpringConfiguratorTests.class)
+	@ComponentScan(basePackageClasses = SpringConfiguratorTests.class)
 	static class Config {
 
 		@Bean
@@ -97,6 +94,7 @@ public class SpringConfiguratorTests {
 		public EchoService echoService() {
 			return new EchoService();
 		}
+
 	}
 
 	@ServerEndpoint("/echo")
@@ -109,6 +107,7 @@ public class SpringConfiguratorTests {
 		public EchoEndpoint(EchoService service) {
 			this.service = service;
 		}
+
 	}
 
 	@Component("myComponentEchoEndpoint")
@@ -122,6 +121,7 @@ public class SpringConfiguratorTests {
 		public ComponentEchoEndpoint(EchoService service) {
 			this.service = service;
 		}
+
 	}
 
 	@ServerEndpoint("/echo")
@@ -134,8 +134,11 @@ public class SpringConfiguratorTests {
 		public PerConnectionEchoEndpoint(EchoService service) {
 			this.service = service;
 		}
+
 	}
 
-	private static class EchoService {	}
+	private static class EchoService {
+
+	}
 
 }

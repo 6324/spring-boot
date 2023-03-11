@@ -42,8 +42,7 @@ public class PatternsRequestConditionTests {
 	@Test
 	public void prependNonEmptyPatternsOnly() {
 		PatternsRequestCondition c = createPatternsCondition("");
-		assertThat(c.getPatterns().iterator().next().getPatternString())
-				.as("Do not prepend empty patterns (SPR-8255)")
+		assertThat(c.getPatterns().iterator().next().getPatternString()).as("Do not prepend empty patterns (SPR-8255)")
 				.isEqualTo("");
 	}
 
@@ -114,8 +113,7 @@ public class PatternsRequestConditionTests {
 		PatternsRequestCondition match = condition.getMatchingCondition(exchange);
 
 		assertThat(match).isNotNull();
-		assertThat(match.getPatterns().iterator().next().getPatternString())
-				.as("Should match by default")
+		assertThat(match.getPatterns().iterator().next().getPatternString()).as("Should match by default")
 				.isEqualTo("/foo");
 
 		condition = createPatternsCondition("/foo");
@@ -183,9 +181,7 @@ public class PatternsRequestConditionTests {
 		c1 = createPatternsCondition("/fo*");
 		c2 = createPatternsCondition("/*oo");
 
-		assertThat(c1.compareTo(c2, exchange))
-				.as("Patterns are equally specific even if not the same")
-				.isEqualTo(0);
+		assertThat(c1.compareTo(c2, exchange)).as("Patterns are equally specific even if not the same").isEqualTo(0);
 	}
 
 	@Test
@@ -203,10 +199,8 @@ public class PatternsRequestConditionTests {
 	}
 
 	private PatternsRequestCondition createPatternsCondition(String... patterns) {
-		return new PatternsRequestCondition(Arrays
-				.stream(patterns)
-				.map(this.parser::parse)
-				.collect(Collectors.toList()));
+		return new PatternsRequestCondition(
+				Arrays.stream(patterns).map(this.parser::parse).collect(Collectors.toList()));
 	}
 
 }

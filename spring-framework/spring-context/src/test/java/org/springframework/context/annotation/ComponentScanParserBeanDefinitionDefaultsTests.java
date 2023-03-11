@@ -36,7 +36,6 @@ public class ComponentScanParserBeanDefinitionDefaultsTests {
 
 	private static final String LOCATION_PREFIX = "org/springframework/context/annotation/";
 
-
 	@BeforeEach
 	public void setUp() {
 		DefaultsTestBean.INIT_COUNT = 0;
@@ -119,8 +118,7 @@ public class ComponentScanParserBeanDefinitionDefaultsTests {
 		GenericApplicationContext context = new GenericApplicationContext();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(context);
 		reader.loadBeanDefinitions(LOCATION_PREFIX + "defaultAutowireByTypeTests.xml");
-		assertThatExceptionOfType(UnsatisfiedDependencyException.class).isThrownBy(
-				context::refresh);
+		assertThatExceptionOfType(UnsatisfiedDependencyException.class).isThrownBy(context::refresh);
 	}
 
 	@Test
@@ -130,7 +128,8 @@ public class ComponentScanParserBeanDefinitionDefaultsTests {
 		reader.loadBeanDefinitions(LOCATION_PREFIX + "defaultAutowireByNameTests.xml");
 		context.refresh();
 		DefaultsTestBean bean = (DefaultsTestBean) context.getBean(TEST_BEAN_NAME);
-		assertThat(bean.getConstructorDependency()).as("constructor dependency should not have been autowired").isNull();
+		assertThat(bean.getConstructorDependency()).as("constructor dependency should not have been autowired")
+				.isNull();
 		assertThat(bean.getPropertyDependency1()).as("propertyDependency1 should not have been autowired").isNull();
 		assertThat(bean.getPropertyDependency2()).as("propertyDependency2 should have been autowired").isNotNull();
 		assertThat(bean.getPropertyDependency2().getName()).isEqualTo("pd2");
@@ -143,7 +142,8 @@ public class ComponentScanParserBeanDefinitionDefaultsTests {
 		reader.loadBeanDefinitions(LOCATION_PREFIX + "defaultWithNoOverridesTests.xml");
 		context.refresh();
 		DefaultsTestBean bean = (DefaultsTestBean) context.getBean(TEST_BEAN_NAME);
-		assertThat(bean.getConstructorDependency()).as("constructor dependency should not have been autowired").isNull();
+		assertThat(bean.getConstructorDependency()).as("constructor dependency should not have been autowired")
+				.isNull();
 		assertThat(bean.getPropertyDependency1()).as("property dependencies should not have been autowired").isNull();
 		assertThat(bean.getPropertyDependency2()).as("property dependencies should not have been autowired").isNull();
 	}
@@ -183,7 +183,6 @@ public class ComponentScanParserBeanDefinitionDefaultsTests {
 		context.close();
 		assertThat(bean.isDestroyed()).as("bean should not have been destroyed").isFalse();
 	}
-
 
 	@SuppressWarnings("unused")
 	private static class DefaultsTestBean {
@@ -244,8 +243,8 @@ public class ComponentScanParserBeanDefinitionDefaultsTests {
 		public PropertyDependencyTestBean getPropertyDependency2() {
 			return this.propertyDependency2;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class PropertyDependencyTestBean {
@@ -259,8 +258,8 @@ public class ComponentScanParserBeanDefinitionDefaultsTests {
 		public String getName() {
 			return this.name;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class ConstructorDependencyTestBean {
@@ -274,6 +273,7 @@ public class ComponentScanParserBeanDefinitionDefaultsTests {
 		public String getName() {
 			return this.name;
 		}
+
 	}
 
 }

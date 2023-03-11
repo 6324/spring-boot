@@ -49,7 +49,6 @@ class InitBinderBindingContext extends BindingContext {
 	@Nullable
 	private Runnable saveModelOperation;
 
-
 	InitBinderBindingContext(@Nullable WebBindingInitializer initializer,
 			List<SyncInvocableHandlerMethod> binderMethods) {
 
@@ -58,33 +57,28 @@ class InitBinderBindingContext extends BindingContext {
 		this.binderMethodContext = new BindingContext(initializer);
 	}
 
-
 	/**
-	 * Return the {@link SessionStatus} instance to use that can be used to
-	 * signal that session processing is complete.
+	 * Return the {@link SessionStatus} instance to use that can be used to signal that
+	 * session processing is complete.
 	 */
 	public SessionStatus getSessionStatus() {
 		return this.sessionStatus;
 	}
 
-
 	@Override
 	protected WebExchangeDataBinder initDataBinder(WebExchangeDataBinder dataBinder, ServerWebExchange exchange) {
-		this.binderMethods.stream()
-				.filter(binderMethod -> {
-					InitBinder ann = binderMethod.getMethodAnnotation(InitBinder.class);
-					Assert.state(ann != null, "No InitBinder annotation");
-					String[] names = ann.value();
-					return (ObjectUtils.isEmpty(names) ||
-							ObjectUtils.containsElement(names, dataBinder.getObjectName()));
-				})
-				.forEach(method -> invokeBinderMethod(dataBinder, exchange, method));
+		this.binderMethods.stream().filter(binderMethod -> {
+			InitBinder ann = binderMethod.getMethodAnnotation(InitBinder.class);
+			Assert.state(ann != null, "No InitBinder annotation");
+			String[] names = ann.value();
+			return (ObjectUtils.isEmpty(names) || ObjectUtils.containsElement(names, dataBinder.getObjectName()));
+		}).forEach(method -> invokeBinderMethod(dataBinder, exchange, method));
 
 		return dataBinder;
 	}
 
-	private void invokeBinderMethod(
-			WebExchangeDataBinder dataBinder, ServerWebExchange exchange, SyncInvocableHandlerMethod binderMethod) {
+	private void invokeBinderMethod(WebExchangeDataBinder dataBinder, ServerWebExchange exchange,
+			SyncInvocableHandlerMethod binderMethod) {
 
 		HandlerResult result = binderMethod.invokeForHandlerResult(exchange, this.binderMethodContext, dataBinder);
 		if (result != null && result.getReturnValue() != null) {
@@ -99,8 +93,8 @@ class InitBinderBindingContext extends BindingContext {
 	}
 
 	/**
-	 * Provide the context required to apply {@link #saveModel()} after the
-	 * controller method has been invoked.
+	 * Provide the context required to apply {@link #saveModel()} after the controller
+	 * method has been invoked.
 	 */
 	public void setSessionContext(SessionAttributesHandler attributesHandler, WebSession session) {
 		this.saveModelOperation = () -> {
@@ -114,8 +108,8 @@ class InitBinderBindingContext extends BindingContext {
 	}
 
 	/**
-	 * Save model attributes in the session based on a type-level declarations
-	 * in an {@code @SessionAttributes} annotation.
+	 * Save model attributes in the session based on a type-level declarations in an
+	 * {@code @SessionAttributes} annotation.
 	 */
 	public void saveModel() {
 		if (this.saveModelOperation != null) {

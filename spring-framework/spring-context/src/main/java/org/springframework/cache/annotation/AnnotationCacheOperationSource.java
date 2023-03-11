@@ -34,7 +34,8 @@ import org.springframework.util.Assert;
  * Implementation of the {@link org.springframework.cache.interceptor.CacheOperationSource
  * CacheOperationSource} interface for working with caching metadata in annotation format.
  *
- * <p>This class reads Spring's {@link Cacheable}, {@link CachePut} and {@link CacheEvict}
+ * <p>
+ * This class reads Spring's {@link Cacheable}, {@link CachePut} and {@link CacheEvict}
  * annotations and exposes corresponding caching operation definition to Spring's cache
  * infrastructure. This class may also serve as base class for a custom
  * {@code CacheOperationSource}.
@@ -51,10 +52,9 @@ public class AnnotationCacheOperationSource extends AbstractFallbackCacheOperati
 
 	private final Set<CacheAnnotationParser> annotationParsers;
 
-
 	/**
-	 * Create a default AnnotationCacheOperationSource, supporting public methods
-	 * that carry the {@code Cacheable} and {@code CacheEvict} annotations.
+	 * Create a default AnnotationCacheOperationSource, supporting public methods that
+	 * carry the {@code Cacheable} and {@code CacheEvict} annotations.
 	 */
 	public AnnotationCacheOperationSource() {
 		this(true);
@@ -63,9 +63,9 @@ public class AnnotationCacheOperationSource extends AbstractFallbackCacheOperati
 	/**
 	 * Create a default {@code AnnotationCacheOperationSource}, supporting public methods
 	 * that carry the {@code Cacheable} and {@code CacheEvict} annotations.
-	 * @param publicMethodsOnly whether to support only annotated public methods
-	 * typically for use with proxy-based AOP), or protected/private methods as well
-	 * (typically used with AspectJ class weaving)
+	 * @param publicMethodsOnly whether to support only annotated public methods typically
+	 * for use with proxy-based AOP), or protected/private methods as well (typically used
+	 * with AspectJ class weaving)
 	 */
 	public AnnotationCacheOperationSource(boolean publicMethodsOnly) {
 		this.publicMethodsOnly = publicMethodsOnly;
@@ -102,7 +102,6 @@ public class AnnotationCacheOperationSource extends AbstractFallbackCacheOperati
 		this.annotationParsers = annotationParsers;
 	}
 
-
 	@Override
 	public boolean isCandidateClass(Class<?> targetClass) {
 		for (CacheAnnotationParser parser : this.annotationParsers) {
@@ -127,10 +126,12 @@ public class AnnotationCacheOperationSource extends AbstractFallbackCacheOperati
 
 	/**
 	 * Determine the cache operation(s) for the given {@link CacheOperationProvider}.
-	 * <p>This implementation delegates to configured
-	 * {@link CacheAnnotationParser CacheAnnotationParsers}
-	 * for parsing known annotations into Spring's metadata attribute class.
-	 * <p>Can be overridden to support custom annotations that carry caching metadata.
+	 * <p>
+	 * This implementation delegates to configured {@link CacheAnnotationParser
+	 * CacheAnnotationParsers} for parsing known annotations into Spring's metadata
+	 * attribute class.
+	 * <p>
+	 * Can be overridden to support custom annotations that carry caching metadata.
 	 * @param provider the cache operation provider to use
 	 * @return the configured caching operations, or {@code null} if none found
 	 */
@@ -162,7 +163,6 @@ public class AnnotationCacheOperationSource extends AbstractFallbackCacheOperati
 		return this.publicMethodsOnly;
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -172,8 +172,8 @@ public class AnnotationCacheOperationSource extends AbstractFallbackCacheOperati
 			return false;
 		}
 		AnnotationCacheOperationSource otherCos = (AnnotationCacheOperationSource) other;
-		return (this.annotationParsers.equals(otherCos.annotationParsers) &&
-				this.publicMethodsOnly == otherCos.publicMethodsOnly);
+		return (this.annotationParsers.equals(otherCos.annotationParsers)
+				&& this.publicMethodsOnly == otherCos.publicMethodsOnly);
 	}
 
 	@Override
@@ -181,10 +181,9 @@ public class AnnotationCacheOperationSource extends AbstractFallbackCacheOperati
 		return this.annotationParsers.hashCode();
 	}
 
-
 	/**
-	 * Callback interface providing {@link CacheOperation} instance(s) based on
-	 * a given {@link CacheAnnotationParser}.
+	 * Callback interface providing {@link CacheOperation} instance(s) based on a given
+	 * {@link CacheAnnotationParser}.
 	 */
 	@FunctionalInterface
 	protected interface CacheOperationProvider {
@@ -196,6 +195,7 @@ public class AnnotationCacheOperationSource extends AbstractFallbackCacheOperati
 		 */
 		@Nullable
 		Collection<CacheOperation> getCacheOperations(CacheAnnotationParser parser);
+
 	}
 
 }

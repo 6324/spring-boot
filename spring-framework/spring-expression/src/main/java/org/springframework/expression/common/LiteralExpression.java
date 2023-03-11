@@ -26,8 +26,8 @@ import org.springframework.lang.Nullable;
 /**
  * A very simple hardcoded implementation of the Expression interface that represents a
  * string literal. It is used with CompositeStringExpression when representing a template
- * expression which is made up of pieces - some being real expressions to be handled by
- * an EL implementation like SpEL, and some being just textual elements.
+ * expression which is made up of pieces - some being real expressions to be handled by an
+ * EL implementation like SpEL, and some being just textual elements.
  *
  * @author Andy Clement
  * @author Juergen Hoeller
@@ -38,11 +38,9 @@ public class LiteralExpression implements Expression {
 	/** Fixed literal value of this expression. */
 	private final String literalValue;
 
-
 	public LiteralExpression(String literalValue) {
 		this.literalValue = literalValue;
 	}
-
 
 	@Override
 	public final String getExpressionString() {
@@ -73,7 +71,8 @@ public class LiteralExpression implements Expression {
 
 	@Override
 	@Nullable
-	public <T> T getValue(@Nullable Object rootObject, @Nullable Class<T> desiredResultType) throws EvaluationException {
+	public <T> T getValue(@Nullable Object rootObject, @Nullable Class<T> desiredResultType)
+			throws EvaluationException {
 		Object value = getValue(rootObject);
 		return ExpressionUtils.convertTypedValue(null, new TypedValue(value), desiredResultType);
 	}
@@ -85,8 +84,7 @@ public class LiteralExpression implements Expression {
 
 	@Override
 	@Nullable
-	public <T> T getValue(EvaluationContext context, @Nullable Class<T> expectedResultType)
-			throws EvaluationException {
+	public <T> T getValue(EvaluationContext context, @Nullable Class<T> expectedResultType) throws EvaluationException {
 
 		Object value = getValue(context);
 		return ExpressionUtils.convertTypedValue(context, new TypedValue(value), expectedResultType);
@@ -137,7 +135,8 @@ public class LiteralExpression implements Expression {
 	}
 
 	@Override
-	public TypeDescriptor getValueTypeDescriptor(EvaluationContext context, @Nullable Object rootObject) throws EvaluationException {
+	public TypeDescriptor getValueTypeDescriptor(EvaluationContext context, @Nullable Object rootObject)
+			throws EvaluationException {
 		return TypeDescriptor.valueOf(String.class);
 	}
 
@@ -167,7 +166,8 @@ public class LiteralExpression implements Expression {
 	}
 
 	@Override
-	public void setValue(EvaluationContext context, @Nullable Object rootObject, @Nullable Object value) throws EvaluationException {
+	public void setValue(EvaluationContext context, @Nullable Object rootObject, @Nullable Object value)
+			throws EvaluationException {
 		throw new EvaluationException(this.literalValue, "Cannot call setValue() on a LiteralExpression");
 	}
 

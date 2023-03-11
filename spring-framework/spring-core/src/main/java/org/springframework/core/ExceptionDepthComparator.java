@@ -24,7 +24,8 @@ import java.util.List;
 import org.springframework.util.Assert;
 
 /**
- * Comparator capable of sorting exceptions based on their depth from the thrown exception type.
+ * Comparator capable of sorting exceptions based on their depth from the thrown exception
+ * type.
  *
  * @author Juergen Hoeller
  * @author Arjen Poutsma
@@ -33,7 +34,6 @@ import org.springframework.util.Assert;
 public class ExceptionDepthComparator implements Comparator<Class<? extends Throwable>> {
 
 	private final Class<? extends Throwable> targetException;
-
 
 	/**
 	 * Create a new ExceptionDepthComparator for the given exception.
@@ -52,7 +52,6 @@ public class ExceptionDepthComparator implements Comparator<Class<? extends Thro
 		Assert.notNull(exceptionType, "Target exception type must not be null");
 		this.targetException = exceptionType;
 	}
-
 
 	@Override
 	public int compare(Class<? extends Throwable> o1, Class<? extends Throwable> o2) {
@@ -73,15 +72,15 @@ public class ExceptionDepthComparator implements Comparator<Class<? extends Thro
 		return getDepth(declaredException, exceptionToMatch.getSuperclass(), depth + 1);
 	}
 
-
 	/**
-	 * Obtain the closest match from the given exception types for the given target exception.
+	 * Obtain the closest match from the given exception types for the given target
+	 * exception.
 	 * @param exceptionTypes the collection of exception types
 	 * @param targetException the target exception to find a match for
 	 * @return the closest matching exception type from the given collection
 	 */
-	public static Class<? extends Throwable> findClosestMatch(
-			Collection<Class<? extends Throwable>> exceptionTypes, Throwable targetException) {
+	public static Class<? extends Throwable> findClosestMatch(Collection<Class<? extends Throwable>> exceptionTypes,
+			Throwable targetException) {
 
 		Assert.notEmpty(exceptionTypes, "Exception types must not be empty");
 		if (exceptionTypes.size() == 1) {

@@ -45,22 +45,18 @@ import static org.mockito.Mockito.verify;
 /**
  * Test cases for the SQL LOB value:
  *
- * BLOB:
- *   1. Types.BLOB: setBlobAsBytes (byte[])
- *   2. String: setBlobAsBytes (byte[])
- *   3. else: IllegalArgumentException
+ * BLOB: 1. Types.BLOB: setBlobAsBytes (byte[]) 2. String: setBlobAsBytes (byte[]) 3.
+ * else: IllegalArgumentException
  *
- * CLOB:
- *   4. String or NULL: setClobAsString (String)
- *   5. InputStream: setClobAsAsciiStream (InputStream)
- *   6. Reader: setClobAsCharacterStream (Reader)
- *   7. else: IllegalArgumentException
+ * CLOB: 4. String or NULL: setClobAsString (String) 5. InputStream: setClobAsAsciiStream
+ * (InputStream) 6. Reader: setClobAsCharacterStream (Reader) 7. else:
+ * IllegalArgumentException
  *
  * @author Alef Arendsen
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-class SqlLobValueTests  {
+class SqlLobValueTests {
 
 	@Mock
 	private PreparedStatement preparedStatement;
@@ -98,8 +94,8 @@ class SqlLobValueTests  {
 	@Test
 	void test3() throws SQLException {
 		SqlLobValue lob = new SqlLobValue(new InputStreamReader(new ByteArrayInputStream("Bla".getBytes())), 12);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				lob.setTypeValue(preparedStatement, 1, Types.BLOB, "test"));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> lob.setTypeValue(preparedStatement, 1, Types.BLOB, "test"));
 	}
 
 	@Test
@@ -134,8 +130,8 @@ class SqlLobValueTests  {
 	@Test
 	void test7() throws SQLException {
 		SqlLobValue lob = new SqlLobValue("bla".getBytes());
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				lob.setTypeValue(preparedStatement, 1, Types.CLOB, "test"));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> lob.setTypeValue(preparedStatement, 1, Types.CLOB, "test"));
 	}
 
 	@Test
@@ -146,14 +142,13 @@ class SqlLobValueTests  {
 		lob.setTypeValue(preparedStatement, 1, Types.CLOB, "test");
 
 		SqlLobValue lob2 = new SqlLobValue("bla".getBytes());
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				lob2.setTypeValue(preparedStatement, 1, Types.CLOB, "test"));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> lob2.setTypeValue(preparedStatement, 1, Types.CLOB, "test"));
 
 		lob = new SqlLobValue(new ByteArrayInputStream("bla".getBytes()), 3);
 		lob.setTypeValue(preparedStatement, 1, Types.CLOB, "test");
 
-		lob = new SqlLobValue(new InputStreamReader(new ByteArrayInputStream(
-				"bla".getBytes())), 3);
+		lob = new SqlLobValue(new InputStreamReader(new ByteArrayInputStream("bla".getBytes())), 3);
 		lob.setTypeValue(preparedStatement, 1, Types.CLOB, "test");
 
 		// same for BLOB
@@ -166,10 +161,9 @@ class SqlLobValueTests  {
 		lob = new SqlLobValue(new ByteArrayInputStream("bla".getBytes()), 3);
 		lob.setTypeValue(preparedStatement, 1, Types.BLOB, "test");
 
-		SqlLobValue lob3 = new SqlLobValue(new InputStreamReader(new ByteArrayInputStream(
-				"bla".getBytes())), 3);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				lob3.setTypeValue(preparedStatement, 1, Types.BLOB, "test"));
+		SqlLobValue lob3 = new SqlLobValue(new InputStreamReader(new ByteArrayInputStream("bla".getBytes())), 3);
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> lob3.setTypeValue(preparedStatement, 1, Types.BLOB, "test"));
 	}
 
 	@Test
@@ -184,8 +178,8 @@ class SqlLobValueTests  {
 	@Test
 	void testOtherSqlType() throws SQLException {
 		SqlLobValue lob = new SqlLobValue("Bla", handler);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				lob.setTypeValue(preparedStatement, 1, Types.SMALLINT, "test"));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> lob.setTypeValue(preparedStatement, 1, Types.SMALLINT, "test"));
 	}
 
 }

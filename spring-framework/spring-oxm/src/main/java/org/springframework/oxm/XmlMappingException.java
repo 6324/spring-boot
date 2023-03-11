@@ -36,8 +36,8 @@ public abstract class XmlMappingException extends NestedRuntimeException {
 	}
 
 	/**
-	 * Construct an {@code XmlMappingException} with the specified detail message
-	 * and nested exception.
+	 * Construct an {@code XmlMappingException} with the specified detail message and
+	 * nested exception.
 	 * @param msg the detail message
 	 * @param cause the nested exception
 	 */

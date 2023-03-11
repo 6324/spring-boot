@@ -23,9 +23,9 @@ import java.lang.reflect.UndeclaredThrowableException;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Variant of {@link MethodInvokingRunnable} meant to be used for processing
- * of no-arg scheduled methods. Propagates user exceptions to the caller,
- * assuming that an error strategy for Runnables is in place.
+ * Variant of {@link MethodInvokingRunnable} meant to be used for processing of no-arg
+ * scheduled methods. Propagates user exceptions to the caller, assuming that an error
+ * strategy for Runnables is in place.
  *
  * @author Juergen Hoeller
  * @since 3.0.6
@@ -37,10 +37,9 @@ public class ScheduledMethodRunnable implements Runnable {
 
 	private final Method method;
 
-
 	/**
-	 * Create a {@code ScheduledMethodRunnable} for the given target instance,
-	 * calling the specified method.
+	 * Create a {@code ScheduledMethodRunnable} for the given target instance, calling the
+	 * specified method.
 	 * @param target the target instance to call the method on
 	 * @param method the target method to call
 	 */
@@ -50,8 +49,8 @@ public class ScheduledMethodRunnable implements Runnable {
 	}
 
 	/**
-	 * Create a {@code ScheduledMethodRunnable} for the given target instance,
-	 * calling the specified method by name.
+	 * Create a {@code ScheduledMethodRunnable} for the given target instance, calling the
+	 * specified method by name.
 	 * @param target the target instance to call the method on
 	 * @param methodName the name of the target method
 	 * @throws NoSuchMethodException if the specified method does not exist
@@ -60,7 +59,6 @@ public class ScheduledMethodRunnable implements Runnable {
 		this.target = target;
 		this.method = target.getClass().getMethod(methodName);
 	}
-
 
 	/**
 	 * Return the target instance to call the method on.
@@ -75,7 +73,6 @@ public class ScheduledMethodRunnable implements Runnable {
 	public Method getMethod() {
 		return this.method;
 	}
-
 
 	@Override
 	public void run() {

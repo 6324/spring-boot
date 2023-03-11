@@ -67,35 +67,29 @@ class SseIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 	@ParameterizedTest(name = "[{index}] server [{0}], webClient [{1}]")
 	@MethodSource("arguments")
 	protected @interface ParameterizedSseTest {
+
 	}
 
 	static Object[][] arguments() {
-		return new Object[][] {
-			{new JettyHttpServer(), new ReactorClientHttpConnector()},
-			{new JettyHttpServer(), new JettyClientHttpConnector()},
-			{new ReactorHttpServer(), new ReactorClientHttpConnector()},
-			{new ReactorHttpServer(), new JettyClientHttpConnector()},
-			{new TomcatHttpServer(), new ReactorClientHttpConnector()},
-			{new TomcatHttpServer(), new JettyClientHttpConnector()},
-			{new UndertowHttpServer(), new ReactorClientHttpConnector()},
-			{new UndertowHttpServer(), new JettyClientHttpConnector()}
-		};
+		return new Object[][] { { new JettyHttpServer(), new ReactorClientHttpConnector() },
+				{ new JettyHttpServer(), new JettyClientHttpConnector() },
+				{ new ReactorHttpServer(), new ReactorClientHttpConnector() },
+				{ new ReactorHttpServer(), new JettyClientHttpConnector() },
+				{ new TomcatHttpServer(), new ReactorClientHttpConnector() },
+				{ new TomcatHttpServer(), new JettyClientHttpConnector() },
+				{ new UndertowHttpServer(), new ReactorClientHttpConnector() },
+				{ new UndertowHttpServer(), new JettyClientHttpConnector() } };
 	}
-
 
 	private AnnotationConfigApplicationContext wac;
 
 	private WebClient webClient;
 
-
 	private void startServer(HttpServer httpServer, ClientHttpConnector connector) throws Exception {
 		super.startServer(httpServer);
 
-		this.webClient = WebClient
-				.builder()
-				.clientConnector(connector)
-				.baseUrl("http://localhost:" + this.port + "/sse")
-				.build();
+		this.webClient = WebClient.builder().clientConnector(connector)
+				.baseUrl("http://localhost:" + this.port + "/sse").build();
 	}
 
 	@Override
@@ -109,33 +103,20 @@ class SseIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 	void sseAsString(HttpServer httpServer, ClientHttpConnector connector) throws Exception {
 		startServer(httpServer, connector);
 
-		Flux<String> result = this.webClient.get()
-				.uri("/string")
-				.accept(TEXT_EVENT_STREAM)
-				.retrieve()
+		Flux<String> result = this.webClient.get().uri("/string").accept(TEXT_EVENT_STREAM).retrieve()
 				.bodyToFlux(String.class);
 
-		StepVerifier.create(result)
-				.expectNext("foo 0")
-				.expectNext("foo 1")
-				.thenCancel()
-				.verify(Duration.ofSeconds(5L));
+		StepVerifier.create(result).expectNext("foo 0").expectNext("foo 1").thenCancel().verify(Duration.ofSeconds(5L));
 	}
 
 	@ParameterizedSseTest
 	void sseAsPerson(HttpServer httpServer, ClientHttpConnector connector) throws Exception {
 		startServer(httpServer, connector);
 
-		Flux<Person> result = this.webClient.get()
-				.uri("/person")
-				.accept(TEXT_EVENT_STREAM)
-				.retrieve()
+		Flux<Person> result = this.webClient.get().uri("/person").accept(TEXT_EVENT_STREAM).retrieve()
 				.bodyToFlux(Person.class);
 
-		StepVerifier.create(result)
-				.expectNext(new Person("foo 0"))
-				.expectNext(new Person("foo 1"))
-				.thenCancel()
+		StepVerifier.create(result).expectNext(new Person("foo 0")).expectNext(new Person("foo 1")).thenCancel()
 				.verify(Duration.ofSeconds(5L));
 	}
 
@@ -145,11 +126,9 @@ class SseIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 
 		startServer(httpServer, connector);
 
-		Flux<ServerSentEvent<Person>> result = this.webClient.get()
-				.uri("/event")
-				.accept(TEXT_EVENT_STREAM)
-				.retrieve()
-				.bodyToFlux(new ParameterizedTypeReference<ServerSentEvent<Person>>() {});
+		Flux<ServerSentEvent<Person>> result = this.webClient.get().uri("/event").accept(TEXT_EVENT_STREAM).retrieve()
+				.bodyToFlux(new ParameterizedTypeReference<ServerSentEvent<Person>>() {
+				});
 
 		verifyPersonEvents(result);
 	}
@@ -158,33 +137,27 @@ class SseIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 	void sseAsEventWithoutAcceptHeader(HttpServer httpServer, ClientHttpConnector connector) throws Exception {
 		startServer(httpServer, connector);
 
-		Flux<ServerSentEvent<Person>> result = this.webClient.get()
-				.uri("/event")
-				.accept(TEXT_EVENT_STREAM)
-				.retrieve()
-				.bodyToFlux(new ParameterizedTypeReference<ServerSentEvent<Person>>() {});
+		Flux<ServerSentEvent<Person>> result = this.webClient.get().uri("/event").accept(TEXT_EVENT_STREAM).retrieve()
+				.bodyToFlux(new ParameterizedTypeReference<ServerSentEvent<Person>>() {
+				});
 
 		verifyPersonEvents(result);
 	}
 
 	private void verifyPersonEvents(Flux<ServerSentEvent<Person>> result) {
-		StepVerifier.create(result)
-				.consumeNextWith( event -> {
-					assertThat(event.id()).isEqualTo("0");
-					assertThat(event.data()).isEqualTo(new Person("foo 0"));
-					assertThat(event.comment()).isEqualTo("bar 0");
-					assertThat(event.event()).isNull();
-					assertThat(event.retry()).isNull();
-				})
-				.consumeNextWith( event -> {
-					assertThat(event.id()).isEqualTo("1");
-					assertThat(event.data()).isEqualTo(new Person("foo 1"));
-					assertThat(event.comment()).isEqualTo("bar 1");
-					assertThat(event.event()).isNull();
-					assertThat(event.retry()).isNull();
-				})
-				.thenCancel()
-				.verify(Duration.ofSeconds(5L));
+		StepVerifier.create(result).consumeNextWith(event -> {
+			assertThat(event.id()).isEqualTo("0");
+			assertThat(event.data()).isEqualTo(new Person("foo 0"));
+			assertThat(event.comment()).isEqualTo("bar 0");
+			assertThat(event.event()).isNull();
+			assertThat(event.retry()).isNull();
+		}).consumeNextWith(event -> {
+			assertThat(event.id()).isEqualTo("1");
+			assertThat(event.data()).isEqualTo(new Person("foo 1"));
+			assertThat(event.comment()).isEqualTo("bar 1");
+			assertThat(event.event()).isNull();
+			assertThat(event.retry()).isNull();
+		}).thenCancel().verify(Duration.ofSeconds(5L));
 	}
 
 	@ParameterizedSseTest // SPR-16494
@@ -194,22 +167,14 @@ class SseIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 
 		startServer(httpServer, connector);
 
-		Flux<String> result = this.webClient.get()
-				.uri("/infinite")
-				.accept(TEXT_EVENT_STREAM)
-				.retrieve()
+		Flux<String> result = this.webClient.get().uri("/infinite").accept(TEXT_EVENT_STREAM).retrieve()
 				.bodyToFlux(String.class);
 
-		StepVerifier.create(result)
-				.expectNext("foo 0")
-				.expectNext("foo 1")
-				.thenCancel()
-				.verify(Duration.ofSeconds(5L));
+		StepVerifier.create(result).expectNext("foo 0").expectNext("foo 1").thenCancel().verify(Duration.ofSeconds(5L));
 
 		SseController controller = this.wac.getBean(SseController.class);
 		controller.cancellation.block(Duration.ofSeconds(5));
 	}
-
 
 	@RestController
 	@SuppressWarnings("unused")
@@ -219,7 +184,6 @@ class SseIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 		private static final Flux<Long> INTERVAL = testInterval(Duration.ofMillis(100), 50);
 
 		private MonoProcessor<Void> cancellation = MonoProcessor.create();
-
 
 		@GetMapping("/string")
 		Flux<String> string() {
@@ -233,21 +197,17 @@ class SseIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 
 		@GetMapping("/event")
 		Flux<ServerSentEvent<Person>> sse() {
-			return INTERVAL.take(2).map(l ->
-					ServerSentEvent.builder(new Person("foo " + l))
-							.id(Long.toString(l))
-							.comment("bar " + l)
-							.build());
+			return INTERVAL.take(2).map(l -> ServerSentEvent.builder(new Person("foo " + l)).id(Long.toString(l))
+					.comment("bar " + l).build());
 		}
 
 		@GetMapping("/infinite")
 		Flux<String> infinite() {
-			return Flux.just(0, 1).map(l -> "foo " + l)
-					.mergeWith(Flux.never())
+			return Flux.just(0, 1).map(l -> "foo " + l).mergeWith(Flux.never())
 					.doOnCancel(() -> cancellation.onComplete());
 		}
-	}
 
+	}
 
 	@Configuration
 	@EnableWebFlux
@@ -258,8 +218,8 @@ class SseIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 		public SseController sseController() {
 			return new SseController();
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class Person {
@@ -302,6 +262,7 @@ class SseIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 		public String toString() {
 			return "Person{name='" + this.name + '\'' + '}';
 		}
+
 	}
 
 }

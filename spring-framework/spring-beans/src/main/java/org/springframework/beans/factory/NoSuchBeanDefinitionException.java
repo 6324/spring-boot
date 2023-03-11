@@ -22,8 +22,8 @@ import org.springframework.lang.Nullable;
 
 /**
  * Exception thrown when a {@code BeanFactory} is asked for a bean instance for which it
- * cannot find a definition. This may point to a non-existing bean, a non-unique bean,
- * or a manually registered singleton instance without an associated bean definition.
+ * cannot find a definition. This may point to a non-existing bean, a non-unique bean, or
+ * a manually registered singleton instance without an associated bean definition.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -40,7 +40,6 @@ public class NoSuchBeanDefinitionException extends BeansException {
 
 	@Nullable
 	private final ResolvableType resolvableType;
-
 
 	/**
 	 * Create a new {@code NoSuchBeanDefinitionException}.
@@ -103,9 +102,9 @@ public class NoSuchBeanDefinitionException extends BeansException {
 		this.resolvableType = type;
 	}
 
-
 	/**
-	 * Return the name of the missing bean, if it was a lookup <em>by name</em> that failed.
+	 * Return the name of the missing bean, if it was a lookup <em>by name</em> that
+	 * failed.
 	 */
 	@Nullable
 	public String getBeanName() {
@@ -132,8 +131,8 @@ public class NoSuchBeanDefinitionException extends BeansException {
 	}
 
 	/**
-	 * Return the number of beans found when only one matching bean was expected.
-	 * For a regular NoSuchBeanDefinitionException, this will always be 0.
+	 * Return the number of beans found when only one matching bean was expected. For a
+	 * regular NoSuchBeanDefinitionException, this will always be 0.
 	 * @see NoUniqueBeanDefinitionException
 	 */
 	public int getNumberOfBeansFound() {

@@ -34,8 +34,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PointcutsTests {
 
 	public static Method TEST_BEAN_SET_AGE;
+
 	public static Method TEST_BEAN_GET_AGE;
+
 	public static Method TEST_BEAN_GET_NAME;
+
 	public static Method TEST_BEAN_ABSQUATULATE;
 
 	static {
@@ -69,6 +72,7 @@ public class PointcutsTests {
 
 	// Subclass used for matching
 	public static class MyTestBean extends TestBean {
+
 	}
 
 	public static Pointcut myTestBeanSetterPointcut = new StaticMethodMatcherPointcut() {
@@ -98,6 +102,7 @@ public class PointcutsTests {
 
 	// Still more specific class
 	public static class MyTestBeanSubclass extends MyTestBean {
+
 	}
 
 	public static Pointcut myTestBeanSubclassGetterPointcut = new StaticMethodMatcherPointcut() {
@@ -117,7 +122,6 @@ public class PointcutsTests {
 	public static Pointcut allClassGetAgePointcut = new NameMatchMethodPointcut().addMethodName("getAge");
 
 	public static Pointcut allClassGetNamePointcut = new NameMatchMethodPointcut().addMethodName("getName");
-
 
 	@Test
 	public void testTrue() {
@@ -171,8 +175,8 @@ public class PointcutsTests {
 	}
 
 	/**
-	 * Tests vertical composition. First pointcut matches all setters.
-	 * Second one matches all getters in the MyTestBean class. TestBean getters shouldn't pass.
+	 * Tests vertical composition. First pointcut matches all setters. Second one matches
+	 * all getters in the MyTestBean class. TestBean getters shouldn't pass.
 	 */
 	@Test
 	public void testUnionOfAllSettersAndSubclassSetters() {
@@ -189,8 +193,8 @@ public class PointcutsTests {
 	}
 
 	/**
-	 * Intersection should be MyTestBean getAge() only:
-	 * it's the union of allClassGetAge and subclass getters
+	 * Intersection should be MyTestBean getAge() only: it's the union of allClassGetAge
+	 * and subclass getters
 	 */
 	@Test
 	public void testIntersectionOfSpecificGettersAndSubclassGetters() {
@@ -210,7 +214,8 @@ public class PointcutsTests {
 		assertThat(Pointcuts.matches(intersection, TEST_BEAN_GET_NAME, MyTestBeanSubclass.class)).isFalse();
 		assertThat(Pointcuts.matches(intersection, TEST_BEAN_GET_AGE, MyTestBeanSubclass.class)).isTrue();
 
-		// Now intersection with MyTestBeanSubclass getters should eliminate MyTestBean target
+		// Now intersection with MyTestBeanSubclass getters should eliminate MyTestBean
+		// target
 		intersection = Pointcuts.intersection(intersection, myTestBeanSubclassGetterPointcut);
 		assertThat(Pointcuts.matches(intersection, TEST_BEAN_GET_NAME, TestBean.class)).isFalse();
 		assertThat(Pointcuts.matches(intersection, TEST_BEAN_GET_AGE, TestBean.class)).isFalse();
@@ -233,7 +238,6 @@ public class PointcutsTests {
 		assertThat(Pointcuts.matches(union, TEST_BEAN_ABSQUATULATE, TestBean.class)).isTrue();
 		assertThat(Pointcuts.matches(union, TEST_BEAN_ABSQUATULATE, MyTestBean.class)).isFalse();
 	}
-
 
 	/**
 	 * The intersection of these two pointcuts leaves nothing.

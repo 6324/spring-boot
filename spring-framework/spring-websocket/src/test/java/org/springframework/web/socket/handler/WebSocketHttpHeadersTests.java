@@ -27,7 +27,6 @@ import org.springframework.web.socket.WebSocketHttpHeaders;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * Unit tests for WebSocketHttpHeaders.
  *

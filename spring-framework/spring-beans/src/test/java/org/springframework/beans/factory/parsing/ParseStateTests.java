@@ -70,7 +70,6 @@ public class ParseStateTests {
 		assertThat(snapshot.peek()).as("Snapshot should not have been modified.").isEqualTo(entry);
 	}
 
-
 	private static class MockEntry implements ParseState.Entry {
 
 	}

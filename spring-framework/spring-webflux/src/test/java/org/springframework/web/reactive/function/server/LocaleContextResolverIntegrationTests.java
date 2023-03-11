@@ -44,7 +44,6 @@ class LocaleContextResolverIntegrationTests extends AbstractRouterFunctionIntegr
 
 	private final WebClient webClient = WebClient.create();
 
-
 	@Override
 	protected RouterFunction<?> routerFunction() {
 		return RouterFunctions.route(RequestPredicates.path("/"), this::render);
@@ -56,30 +55,21 @@ class LocaleContextResolverIntegrationTests extends AbstractRouterFunctionIntegr
 
 	@Override
 	protected HandlerStrategies handlerStrategies() {
-		return HandlerStrategies.builder()
-				.viewResolver(new DummyViewResolver())
-				.localeContextResolver(new FixedLocaleContextResolver(Locale.GERMANY))
-				.build();
+		return HandlerStrategies.builder().viewResolver(new DummyViewResolver())
+				.localeContextResolver(new FixedLocaleContextResolver(Locale.GERMANY)).build();
 	}
 
 	@ParameterizedHttpServerTest
 	void fixedLocale(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-		Mono<ClientResponse> result = webClient
-				.get()
-				.uri("http://localhost:" + this.port + "/")
-				.exchange();
+		Mono<ClientResponse> result = webClient.get().uri("http://localhost:" + this.port + "/").exchange();
 
-		StepVerifier
-				.create(result)
-				.consumeNextWith(response -> {
-					assertThat(response.statusCode()).isEqualTo(HttpStatus.OK);
-					assertThat(response.headers().asHttpHeaders().getContentLanguage()).isEqualTo(Locale.GERMANY);
-				})
-				.verifyComplete();
+		StepVerifier.create(result).consumeNextWith(response -> {
+			assertThat(response.statusCode()).isEqualTo(HttpStatus.OK);
+			assertThat(response.headers().asHttpHeaders().getContentLanguage()).isEqualTo(Locale.GERMANY);
+		}).verifyComplete();
 	}
-
 
 	private static class DummyViewResolver implements ViewResolver {
 
@@ -87,8 +77,8 @@ class LocaleContextResolverIntegrationTests extends AbstractRouterFunctionIntegr
 		public Mono<View> resolveViewName(String viewName, Locale locale) {
 			return Mono.just(new DummyView(locale));
 		}
-	}
 
+	}
 
 	private static class DummyView implements View {
 
@@ -109,6 +99,7 @@ class LocaleContextResolverIntegrationTests extends AbstractRouterFunctionIntegr
 			exchange.getResponse().getHeaders().setContentLanguage(locale);
 			return Mono.empty();
 		}
+
 	}
 
 }

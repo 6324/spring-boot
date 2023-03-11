@@ -83,12 +83,11 @@ public class AutoProxyLazyInitTests {
 		assertThat(MyBeanImpl.initialized).isTrue();
 	}
 
-
 	public static interface MyBean {
 
 		public String doIt();
-	}
 
+	}
 
 	public static class MyBeanImpl implements MyBean {
 
@@ -106,8 +105,8 @@ public class AutoProxyLazyInitTests {
 		@PreDestroy
 		public void destroy() {
 		}
-	}
 
+	}
 
 	@Configuration
 	public static class ConfigWithStatic {
@@ -129,8 +128,8 @@ public class AutoProxyLazyInitTests {
 		public static MyBean myBean() {
 			return new MyBeanImpl();
 		}
-	}
 
+	}
 
 	@Configuration
 	public static class ConfigWithStaticAndInterface implements ApplicationListener<ApplicationContextEvent> {
@@ -156,8 +155,8 @@ public class AutoProxyLazyInitTests {
 		@Override
 		public void onApplicationEvent(ApplicationContextEvent event) {
 		}
-	}
 
+	}
 
 	@Configuration
 	public static class ConfigWithNonStatic {
@@ -179,8 +178,8 @@ public class AutoProxyLazyInitTests {
 		public MyBean myBean() {
 			return new MyBeanImpl();
 		}
-	}
 
+	}
 
 	@Configuration
 	public static class ConfigWithNonStaticAndInterface implements ApplicationListener<ApplicationContextEvent> {
@@ -206,18 +205,20 @@ public class AutoProxyLazyInitTests {
 		@Override
 		public void onApplicationEvent(ApplicationContextEvent event) {
 		}
-	}
 
+	}
 
 	private static class StrictLazyInitTargetSourceCreator extends LazyInitTargetSourceCreator {
 
 		@Override
-		protected AbstractBeanFactoryBasedTargetSource createBeanFactoryBasedTargetSource(Class<?> beanClass, String beanName) {
+		protected AbstractBeanFactoryBasedTargetSource createBeanFactoryBasedTargetSource(Class<?> beanClass,
+				String beanName) {
 			if ("myBean".equals(beanName)) {
 				assertThat(beanClass).isEqualTo(MyBean.class);
 			}
 			return super.createBeanFactoryBasedTargetSource(beanClass, beanName);
 		}
+
 	}
 
 }

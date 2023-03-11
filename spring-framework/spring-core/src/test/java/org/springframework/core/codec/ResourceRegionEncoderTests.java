@@ -41,6 +41,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test cases for {@link ResourceRegionEncoder} class.
+ *
  * @author Brian Clozel
  */
 class ResourceRegionEncoderTests extends AbstractLeakCheckingTests {
@@ -52,8 +53,9 @@ class ResourceRegionEncoderTests extends AbstractLeakCheckingTests {
 		ResolvableType resourceRegion = ResolvableType.forClass(ResourceRegion.class);
 		MimeType allMimeType = MimeType.valueOf("*/*");
 
-		assertThat(this.encoder.canEncode(ResolvableType.forClass(Resource.class),
-				MimeTypeUtils.APPLICATION_OCTET_STREAM)).isFalse();
+		assertThat(
+				this.encoder.canEncode(ResolvableType.forClass(Resource.class), MimeTypeUtils.APPLICATION_OCTET_STREAM))
+						.isFalse();
 		assertThat(this.encoder.canEncode(ResolvableType.forClass(Resource.class), allMimeType)).isFalse();
 		assertThat(this.encoder.canEncode(resourceRegion, MimeTypeUtils.APPLICATION_OCTET_STREAM)).isTrue();
 		assertThat(this.encoder.canEncode(resourceRegion, allMimeType)).isTrue();
@@ -64,74 +66,53 @@ class ResourceRegionEncoderTests extends AbstractLeakCheckingTests {
 
 	@Test
 	void shouldEncodeResourceRegionFileResource() throws Exception {
-		ResourceRegion region = new ResourceRegion(
-				new ClassPathResource("ResourceRegionEncoderTests.txt", getClass()), 0, 6);
+		ResourceRegion region = new ResourceRegion(new ClassPathResource("ResourceRegionEncoderTests.txt", getClass()),
+				0, 6);
 		Flux<DataBuffer> result = this.encoder.encode(Mono.just(region), this.bufferFactory,
-				ResolvableType.forClass(ResourceRegion.class),
-				MimeTypeUtils.APPLICATION_OCTET_STREAM,
+				ResolvableType.forClass(ResourceRegion.class), MimeTypeUtils.APPLICATION_OCTET_STREAM,
 				Collections.emptyMap());
 
-		StepVerifier.create(result)
-				.consumeNextWith(stringConsumer("Spring"))
-				.expectComplete()
-				.verify();
+		StepVerifier.create(result).consumeNextWith(stringConsumer("Spring")).expectComplete().verify();
 	}
 
 	@Test
 	void shouldEncodeMultipleResourceRegionsFileResource() {
 		Resource resource = new ClassPathResource("ResourceRegionEncoderTests.txt", getClass());
-		Flux<ResourceRegion> regions = Flux.just(
-				new ResourceRegion(resource, 0, 6),
-				new ResourceRegion(resource, 7, 9),
-				new ResourceRegion(resource, 17, 4),
-				new ResourceRegion(resource, 22, 17)
-		);
+		Flux<ResourceRegion> regions = Flux.just(new ResourceRegion(resource, 0, 6), new ResourceRegion(resource, 7, 9),
+				new ResourceRegion(resource, 17, 4), new ResourceRegion(resource, 22, 17));
 		String boundary = MimeTypeUtils.generateMultipartBoundaryString();
 
 		Flux<DataBuffer> result = this.encoder.encode(regions, this.bufferFactory,
-				ResolvableType.forClass(ResourceRegion.class),
-				MimeType.valueOf("text/plain"),
-				Collections.singletonMap(ResourceRegionEncoder.BOUNDARY_STRING_HINT, boundary)
-		);
+				ResolvableType.forClass(ResourceRegion.class), MimeType.valueOf("text/plain"),
+				Collections.singletonMap(ResourceRegionEncoder.BOUNDARY_STRING_HINT, boundary));
 
-		StepVerifier.create(result)
-				.consumeNextWith(stringConsumer("\r\n--" + boundary + "\r\n"))
+		StepVerifier.create(result).consumeNextWith(stringConsumer("\r\n--" + boundary + "\r\n"))
 				.consumeNextWith(stringConsumer("Content-Type: text/plain\r\n"))
 				.consumeNextWith(stringConsumer("Content-Range: bytes 0-5/39\r\n\r\n"))
-				.consumeNextWith(stringConsumer("Spring"))
-				.consumeNextWith(stringConsumer("\r\n--" + boundary + "\r\n"))
+				.consumeNextWith(stringConsumer("Spring")).consumeNextWith(stringConsumer("\r\n--" + boundary + "\r\n"))
 				.consumeNextWith(stringConsumer("Content-Type: text/plain\r\n"))
 				.consumeNextWith(stringConsumer("Content-Range: bytes 7-15/39\r\n\r\n"))
 				.consumeNextWith(stringConsumer("Framework"))
 				.consumeNextWith(stringConsumer("\r\n--" + boundary + "\r\n"))
 				.consumeNextWith(stringConsumer("Content-Type: text/plain\r\n"))
 				.consumeNextWith(stringConsumer("Content-Range: bytes 17-20/39\r\n\r\n"))
-				.consumeNextWith(stringConsumer("test"))
-				.consumeNextWith(stringConsumer("\r\n--" + boundary + "\r\n"))
+				.consumeNextWith(stringConsumer("test")).consumeNextWith(stringConsumer("\r\n--" + boundary + "\r\n"))
 				.consumeNextWith(stringConsumer("Content-Type: text/plain\r\n"))
 				.consumeNextWith(stringConsumer("Content-Range: bytes 22-38/39\r\n\r\n"))
 				.consumeNextWith(stringConsumer("resource content."))
-				.consumeNextWith(stringConsumer("\r\n--" + boundary + "--"))
-				.expectComplete()
-				.verify();
+				.consumeNextWith(stringConsumer("\r\n--" + boundary + "--")).expectComplete().verify();
 	}
 
 	@Test // gh-22107
 	void cancelWithoutDemandForMultipleResourceRegions() {
 		Resource resource = new ClassPathResource("ResourceRegionEncoderTests.txt", getClass());
-		Flux<ResourceRegion> regions = Flux.just(
-				new ResourceRegion(resource, 0, 6),
-				new ResourceRegion(resource, 7, 9),
-				new ResourceRegion(resource, 17, 4),
-				new ResourceRegion(resource, 22, 17)
-		);
+		Flux<ResourceRegion> regions = Flux.just(new ResourceRegion(resource, 0, 6), new ResourceRegion(resource, 7, 9),
+				new ResourceRegion(resource, 17, 4), new ResourceRegion(resource, 22, 17));
 		String boundary = MimeTypeUtils.generateMultipartBoundaryString();
 
 		Flux<DataBuffer> flux = this.encoder.encode(regions, this.bufferFactory,
-				ResolvableType.forClass(ResourceRegion.class),
-				MimeType.valueOf("text/plain"),
-				Collections.singletonMap(ResourceRegionEncoder.BOUNDARY_STRING_HINT, boundary)
-		);
+				ResolvableType.forClass(ResourceRegion.class), MimeType.valueOf("text/plain"),
+				Collections.singletonMap(ResourceRegionEncoder.BOUNDARY_STRING_HINT, boundary));
 
 		ZeroDemandSubscriber subscriber = new ZeroDemandSubscriber();
 		flux.subscribe(subscriber);
@@ -145,10 +126,8 @@ class ResourceRegionEncoderTests extends AbstractLeakCheckingTests {
 		String boundary = MimeTypeUtils.generateMultipartBoundaryString();
 
 		Flux<DataBuffer> flux = this.encoder.encode(regions, this.bufferFactory,
-				ResolvableType.forClass(ResourceRegion.class),
-				MimeType.valueOf("text/plain"),
-				Collections.singletonMap(ResourceRegionEncoder.BOUNDARY_STRING_HINT, boundary)
-		);
+				ResolvableType.forClass(ResourceRegion.class), MimeType.valueOf("text/plain"),
+				Collections.singletonMap(ResourceRegionEncoder.BOUNDARY_STRING_HINT, boundary));
 
 		ZeroDemandSubscriber subscriber = new ZeroDemandSubscriber();
 		flux.subscribe(subscriber);
@@ -159,24 +138,19 @@ class ResourceRegionEncoderTests extends AbstractLeakCheckingTests {
 	void nonExisting() {
 		Resource resource = new ClassPathResource("ResourceRegionEncoderTests.txt", getClass());
 		Resource nonExisting = new ClassPathResource("does not exist", getClass());
-		Flux<ResourceRegion> regions = Flux.just(
-				new ResourceRegion(resource, 0, 6),
+		Flux<ResourceRegion> regions = Flux.just(new ResourceRegion(resource, 0, 6),
 				new ResourceRegion(nonExisting, 0, 6));
 
 		String boundary = MimeTypeUtils.generateMultipartBoundaryString();
 
 		Flux<DataBuffer> result = this.encoder.encode(regions, this.bufferFactory,
-				ResolvableType.forClass(ResourceRegion.class),
-				MimeType.valueOf("text/plain"),
+				ResolvableType.forClass(ResourceRegion.class), MimeType.valueOf("text/plain"),
 				Collections.singletonMap(ResourceRegionEncoder.BOUNDARY_STRING_HINT, boundary));
 
-		StepVerifier.create(result)
-				.consumeNextWith(stringConsumer("\r\n--" + boundary + "\r\n"))
+		StepVerifier.create(result).consumeNextWith(stringConsumer("\r\n--" + boundary + "\r\n"))
 				.consumeNextWith(stringConsumer("Content-Type: text/plain\r\n"))
 				.consumeNextWith(stringConsumer("Content-Range: bytes 0-5/39\r\n\r\n"))
-				.consumeNextWith(stringConsumer("Spring"))
-				.expectError(EncodingException.class)
-				.verify();
+				.consumeNextWith(stringConsumer("Spring")).expectError(EncodingException.class).verify();
 	}
 
 	protected Consumer<DataBuffer> stringConsumer(String expected) {
@@ -187,13 +161,13 @@ class ResourceRegionEncoderTests extends AbstractLeakCheckingTests {
 		};
 	}
 
-
 	private static class ZeroDemandSubscriber extends BaseSubscriber<DataBuffer> {
 
 		@Override
 		protected void hookOnSubscribe(Subscription subscription) {
 			// Just subscribe without requesting
 		}
+
 	}
 
 }

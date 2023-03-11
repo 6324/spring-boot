@@ -43,7 +43,7 @@ import org.springframework.util.Assert;
  * @since 4.0
  * @see StompDecoder
  */
-public class StompEncoder  {
+public class StompEncoder {
 
 	private static final Byte LINE_FEED_BYTE = '\n';
 
@@ -53,24 +53,22 @@ public class StompEncoder  {
 
 	private static final int HEADER_KEY_CACHE_LIMIT = 32;
 
-
 	private final Map<String, byte[]> headerKeyAccessCache = new ConcurrentHashMap<>(HEADER_KEY_CACHE_LIMIT);
 
 	@SuppressWarnings("serial")
-	private final Map<String, byte[]> headerKeyUpdateCache =
-			new LinkedHashMap<String, byte[]>(HEADER_KEY_CACHE_LIMIT, 0.75f, true) {
-				@Override
-				protected boolean removeEldestEntry(Map.Entry<String, byte[]> eldest) {
-					if (size() > HEADER_KEY_CACHE_LIMIT) {
-						headerKeyAccessCache.remove(eldest.getKey());
-						return true;
-					}
-					else {
-						return false;
-					}
-				}
-			};
-
+	private final Map<String, byte[]> headerKeyUpdateCache = new LinkedHashMap<String, byte[]>(HEADER_KEY_CACHE_LIMIT,
+			0.75f, true) {
+		@Override
+		protected boolean removeEldestEntry(Map.Entry<String, byte[]> eldest) {
+			if (size() > HEADER_KEY_CACHE_LIMIT) {
+				headerKeyAccessCache.remove(eldest.getKey());
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	};
 
 	/**
 	 * Encodes the given STOMP {@code message} into a {@code byte[]}.
@@ -111,12 +109,11 @@ public class StompEncoder  {
 		return result.toByteArray();
 	}
 
-	private void writeHeaders(
-			StompCommand command, Map<String, Object> headers, byte[] payload, Result result) {
+	private void writeHeaders(StompCommand command, Map<String, Object> headers, byte[] payload, Result result) {
 
 		@SuppressWarnings("unchecked")
-		Map<String,List<String>> nativeHeaders =
-				(Map<String, List<String>>) headers.get(NativeMessageHeaderAccessor.NATIVE_HEADERS);
+		Map<String, List<String>> nativeHeaders = (Map<String, List<String>>) headers
+				.get(NativeMessageHeaderAccessor.NATIVE_HEADERS);
 
 		if (logger.isTraceEnabled()) {
 			logger.trace("Encoding STOMP " + command + ", headers=" + nativeHeaders);
@@ -135,8 +132,8 @@ public class StompEncoder  {
 			}
 
 			List<String> values = entry.getValue();
-			if ((StompCommand.CONNECT.equals(command) || StompCommand.STOMP.equals(command)) &&
-					StompHeaderAccessor.STOMP_PASSCODE_HEADER.equals(entry.getKey())) {
+			if ((StompCommand.CONNECT.equals(command) || StompCommand.STOMP.equals(command))
+					&& StompHeaderAccessor.STOMP_PASSCODE_HEADER.equals(entry.getKey())) {
 				values = Collections.singletonList(StompHeaderAccessor.getPasscode(headers));
 			}
 
@@ -179,8 +176,9 @@ public class StompEncoder  {
 	}
 
 	/**
-	 * See STOMP Spec 1.2:
-	 * <a href="https://stomp.github.io/stomp-specification-1.2.html#Value_Encoding">"Value Encoding"</a>.
+	 * See STOMP Spec 1.2: <a href=
+	 * "https://stomp.github.io/stomp-specification-1.2.html#Value_Encoding">"Value
+	 * Encoding"</a>.
 	 */
 	private String escape(String inString) {
 		StringBuilder sb = null;
@@ -202,7 +200,7 @@ public class StompEncoder  {
 				sb = getStringBuilder(sb, inString, i);
 				sb.append("\\r");
 			}
-			else if (sb != null){
+			else if (sb != null) {
 				sb.append(c);
 			}
 		}
@@ -217,7 +215,6 @@ public class StompEncoder  {
 		return sb;
 	}
 
-
 	/**
 	 * Accumulates byte content and returns an aggregated byte[] at the end.
 	 */
@@ -228,8 +225,8 @@ public class StompEncoder  {
 		void add(byte b);
 
 		byte[] toByteArray();
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	private static class DefaultResult extends ArrayList<Object> implements Result {
@@ -261,6 +258,7 @@ public class StompEncoder  {
 			}
 			return result;
 		}
+
 	}
 
 }

@@ -34,7 +34,6 @@ public class EmbeddedDatabaseFactoryBeanTests {
 
 	private final ClassRelativeResourceLoader resourceLoader = new ClassRelativeResourceLoader(getClass());
 
-
 	Resource resource(String path) {
 		return resourceLoader.getResource(path);
 	}
@@ -43,7 +42,7 @@ public class EmbeddedDatabaseFactoryBeanTests {
 	public void testFactoryBeanLifecycle() throws Exception {
 		EmbeddedDatabaseFactoryBean bean = new EmbeddedDatabaseFactoryBean();
 		ResourceDatabasePopulator populator = new ResourceDatabasePopulator(resource("db-schema.sql"),
-			resource("db-test-data.sql"));
+				resource("db-test-data.sql"));
 		bean.setDatabasePopulator(populator);
 		bean.afterPropertiesSet();
 		DataSource ds = bean.getObject();

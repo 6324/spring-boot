@@ -55,7 +55,6 @@ public class PersistenceContextTransactionTests {
 
 	private EntityManagerHoldingBean bean;
 
-
 	@BeforeEach
 	public void setup() {
 		factory = mock(EntityManagerFactory.class);
@@ -73,7 +72,8 @@ public class PersistenceContextTransactionTests {
 		@SuppressWarnings("serial")
 		PersistenceAnnotationBeanPostProcessor pabpp = new PersistenceAnnotationBeanPostProcessor() {
 			@Override
-			protected EntityManagerFactory findEntityManagerFactory(@Nullable String unitName, String requestingBeanName) {
+			protected EntityManagerFactory findEntityManagerFactory(@Nullable String unitName,
+					String requestingBeanName) {
 				return factory;
 			}
 		};
@@ -90,7 +90,6 @@ public class PersistenceContextTransactionTests {
 		assertThat(TransactionSynchronizationManager.isCurrentTransactionReadOnly()).isFalse();
 		assertThat(TransactionSynchronizationManager.isActualTransactionActive()).isFalse();
 	}
-
 
 	@Test
 	public void testTransactionCommitWithSharedEntityManager() {
@@ -251,7 +250,6 @@ public class PersistenceContextTransactionTests {
 		verify(manager).flush();
 	}
 
-
 	public static class EntityManagerHoldingBean {
 
 		@PersistenceContext
@@ -263,8 +261,10 @@ public class PersistenceContextTransactionTests {
 		@PersistenceContext(synchronization = SynchronizationType.UNSYNCHRONIZED)
 		public EntityManager sharedEntityManagerUnsynchronized;
 
-		@PersistenceContext(type = PersistenceContextType.EXTENDED, synchronization = SynchronizationType.UNSYNCHRONIZED)
+		@PersistenceContext(type = PersistenceContextType.EXTENDED,
+				synchronization = SynchronizationType.UNSYNCHRONIZED)
 		public EntityManager extendedEntityManagerUnsynchronized;
+
 	}
 
 }

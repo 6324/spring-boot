@@ -33,14 +33,16 @@ import java.util.TreeSet;
 import org.springframework.lang.Nullable;
 
 /**
- * Specialization of {@link Properties} that sorts properties alphanumerically
- * based on their keys.
+ * Specialization of {@link Properties} that sorts properties alphanumerically based on
+ * their keys.
  *
- * <p>This can be useful when storing the {@link Properties} instance in a
- * properties file, since it allows such files to be generated in a repeatable
- * manner with consistent ordering of properties.
+ * <p>
+ * This can be useful when storing the {@link Properties} instance in a properties file,
+ * since it allows such files to be generated in a repeatable manner with consistent
+ * ordering of properties.
  *
- * <p>Comments in generated properties files can also be optionally omitted.
+ * <p>
+ * Comments in generated properties files can also be optionally omitted.
  *
  * @author Sam Brannen
  * @since 5.2
@@ -55,36 +57,33 @@ class SortedProperties extends Properties {
 
 	private static final Comparator<Entry<Object, Object>> entryComparator = Entry.comparingByKey(keyComparator);
 
-
 	private final boolean omitComments;
-
 
 	/**
 	 * Construct a new {@code SortedProperties} instance that honors the supplied
 	 * {@code omitComments} flag.
-	 * @param omitComments {@code true} if comments should be omitted when
-	 * storing properties in a file
+	 * @param omitComments {@code true} if comments should be omitted when storing
+	 * properties in a file
 	 */
 	SortedProperties(boolean omitComments) {
 		this.omitComments = omitComments;
 	}
 
 	/**
-	 * Construct a new {@code SortedProperties} instance with properties populated
-	 * from the supplied {@link Properties} object and honoring the supplied
+	 * Construct a new {@code SortedProperties} instance with properties populated from
+	 * the supplied {@link Properties} object and honoring the supplied
 	 * {@code omitComments} flag.
-	 * <p>Default properties from the supplied {@code Properties} object will
-	 * not be copied.
-	 * @param properties the {@code Properties} object from which to copy the
-	 * initial properties
-	 * @param omitComments {@code true} if comments should be omitted when
-	 * storing properties in a file
+	 * <p>
+	 * Default properties from the supplied {@code Properties} object will not be copied.
+	 * @param properties the {@code Properties} object from which to copy the initial
+	 * properties
+	 * @param omitComments {@code true} if comments should be omitted when storing
+	 * properties in a file
 	 */
 	SortedProperties(Properties properties, boolean omitComments) {
 		this(omitComments);
 		putAll(properties);
 	}
-
 
 	@Override
 	public void store(OutputStream out, @Nullable String comments) throws IOException {
@@ -131,9 +130,10 @@ class SortedProperties extends Properties {
 
 	/**
 	 * Return a sorted set of the keys in this {@link Properties} object.
-	 * <p>The keys will be converted to strings if necessary using
-	 * {@link String#valueOf(Object)} and sorted alphanumerically according to
-	 * the natural order of strings.
+	 * <p>
+	 * The keys will be converted to strings if necessary using
+	 * {@link String#valueOf(Object)} and sorted alphanumerically according to the natural
+	 * order of strings.
 	 */
 	@Override
 	public Set<Object> keySet() {
@@ -144,9 +144,10 @@ class SortedProperties extends Properties {
 
 	/**
 	 * Return a sorted set of the entries in this {@link Properties} object.
-	 * <p>The entries will be sorted based on their keys, and the keys will be
-	 * converted to strings if necessary using {@link String#valueOf(Object)}
-	 * and compared alphanumerically according to the natural order of strings.
+	 * <p>
+	 * The entries will be sorted based on their keys, and the keys will be converted to
+	 * strings if necessary using {@link String#valueOf(Object)} and compared
+	 * alphanumerically according to the natural order of strings.
 	 */
 	@Override
 	public Set<Entry<Object, Object>> entrySet() {

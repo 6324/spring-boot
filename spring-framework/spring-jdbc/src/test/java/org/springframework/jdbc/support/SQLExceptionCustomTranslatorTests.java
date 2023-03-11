@@ -44,7 +44,6 @@ public class SQLExceptionCustomTranslatorTests {
 
 	private final SQLExceptionTranslator sext = new SQLErrorCodeSQLExceptionTranslator(ERROR_CODES);
 
-
 	@Test
 	public void badSqlGrammarException() {
 		SQLException badSqlGrammarExceptionEx = SQLExceptionSubclassFactory.newSQLDataException("", "", 1);

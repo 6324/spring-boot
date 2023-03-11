@@ -50,11 +50,9 @@ class DefaultHandlerStrategiesBuilder implements HandlerStrategies.Builder {
 
 	private LocaleContextResolver localeContextResolver = new AcceptHeaderLocaleContextResolver();
 
-
 	public DefaultHandlerStrategiesBuilder() {
 		this.codecConfigurer.registerDefaults(false);
 	}
-
 
 	public void defaultConfiguration() {
 		this.codecConfigurer.registerDefaults(true);
@@ -98,11 +96,9 @@ class DefaultHandlerStrategiesBuilder implements HandlerStrategies.Builder {
 
 	@Override
 	public HandlerStrategies build() {
-		return new DefaultHandlerStrategies(this.codecConfigurer.getReaders(),
-				this.codecConfigurer.getWriters(), this.viewResolvers, this.webFilters,
-				this.exceptionHandlers, this.localeContextResolver);
+		return new DefaultHandlerStrategies(this.codecConfigurer.getReaders(), this.codecConfigurer.getWriters(),
+				this.viewResolvers, this.webFilters, this.exceptionHandlers, this.localeContextResolver);
 	}
-
 
 	private static class DefaultHandlerStrategies implements HandlerStrategies {
 
@@ -118,13 +114,9 @@ class DefaultHandlerStrategiesBuilder implements HandlerStrategies.Builder {
 
 		private final LocaleContextResolver localeContextResolver;
 
-		public DefaultHandlerStrategies(
-				List<HttpMessageReader<?>> messageReaders,
-				List<HttpMessageWriter<?>> messageWriters,
-				List<ViewResolver> viewResolvers,
-				List<WebFilter> webFilters,
-				List<WebExceptionHandler> exceptionHandlers,
-				LocaleContextResolver localeContextResolver) {
+		public DefaultHandlerStrategies(List<HttpMessageReader<?>> messageReaders,
+				List<HttpMessageWriter<?>> messageWriters, List<ViewResolver> viewResolvers, List<WebFilter> webFilters,
+				List<WebExceptionHandler> exceptionHandlers, LocaleContextResolver localeContextResolver) {
 
 			this.messageReaders = unmodifiableCopy(messageReaders);
 			this.messageWriters = unmodifiableCopy(messageWriters);
@@ -167,6 +159,7 @@ class DefaultHandlerStrategiesBuilder implements HandlerStrategies.Builder {
 		public LocaleContextResolver localeContextResolver() {
 			return this.localeContextResolver;
 		}
+
 	}
 
 }

@@ -58,7 +58,6 @@ public class Ejb3TransactionAnnotationParser implements TransactionAnnotationPar
 		return new Ejb3TransactionAttribute(ann.value());
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		return (this == other || other instanceof Ejb3TransactionAnnotationParser);
@@ -69,10 +68,9 @@ public class Ejb3TransactionAnnotationParser implements TransactionAnnotationPar
 		return Ejb3TransactionAnnotationParser.class.hashCode();
 	}
 
-
 	/**
-	 * EJB3-specific TransactionAttribute, implementing EJB3's rollback rules
-	 * which are based on annotated exceptions.
+	 * EJB3-specific TransactionAttribute, implementing EJB3's rollback rules which are
+	 * based on annotated exceptions.
 	 */
 	private static class Ejb3TransactionAttribute extends DefaultTransactionAttribute {
 
@@ -85,6 +83,7 @@ public class Ejb3TransactionAnnotationParser implements TransactionAnnotationPar
 			ApplicationException ann = ex.getClass().getAnnotation(ApplicationException.class);
 			return (ann != null ? ann.rollback() : super.rollbackOn(ex));
 		}
+
 	}
 
 }

@@ -44,7 +44,8 @@ class AnnotationBackCompatibiltyTests {
 
 	@Test
 	void defaultValue() {
-		DefaultValueAnnotation synthesized = MergedAnnotations.from(WithDefaultValue.class).get(DefaultValueAnnotation.class).synthesize();
+		DefaultValueAnnotation synthesized = MergedAnnotations.from(WithDefaultValue.class)
+				.get(DefaultValueAnnotation.class).synthesize();
 		assertThat(synthesized).isInstanceOf(SynthesizedAnnotation.class);
 		Object defaultValue = AnnotationUtils.getDefaultValue(synthesized, "enumValue");
 		assertThat(defaultValue).isEqualTo(TestEnum.ONE);
@@ -73,6 +74,7 @@ class AnnotationBackCompatibiltyTests {
 	@Retention(RetentionPolicy.RUNTIME)
 	@MetaTestAnnotation
 	@interface MetaMetaTestAnnotation {
+
 	}
 
 	@MetaMetaTestAnnotation

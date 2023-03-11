@@ -34,9 +34,9 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Abstract implementation of the {@link BindingResult} interface and
- * its super-interface {@link Errors}. Encapsulates common management of
- * {@link ObjectError ObjectErrors} and {@link FieldError FieldErrors}.
+ * Abstract implementation of the {@link BindingResult} interface and its super-interface
+ * {@link Errors}. Encapsulates common management of {@link ObjectError ObjectErrors} and
+ * {@link FieldError FieldErrors}.
  *
  * @author Juergen Hoeller
  * @author Rob Harrop
@@ -58,7 +58,6 @@ public abstract class AbstractBindingResult extends AbstractErrors implements Bi
 
 	private final Set<String> suppressedFields = new HashSet<>();
 
-
 	/**
 	 * Create a new AbstractBindingResult instance.
 	 * @param objectName the name of the target object
@@ -68,10 +67,9 @@ public abstract class AbstractBindingResult extends AbstractErrors implements Bi
 		this.objectName = objectName;
 	}
 
-
 	/**
-	 * Set the strategy to use for resolving errors into message codes.
-	 * Default is DefaultMessageCodesResolver.
+	 * Set the strategy to use for resolving errors into message codes. Default is
+	 * DefaultMessageCodesResolver.
 	 * @see DefaultMessageCodesResolver
 	 */
 	public void setMessageCodesResolver(MessageCodesResolver messageCodesResolver) {
@@ -86,10 +84,9 @@ public abstract class AbstractBindingResult extends AbstractErrors implements Bi
 		return this.messageCodesResolver;
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of the Errors interface
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	@Override
 	public String getObjectName() {
@@ -234,9 +231,9 @@ public abstract class AbstractBindingResult extends AbstractErrors implements Bi
 	}
 
 	/**
-	 * This default implementation determines the type based on the actual
-	 * field value, if any. Subclasses should override this to determine
-	 * the type from a descriptor, even for {@code null} values.
+	 * This default implementation determines the type based on the actual field value, if
+	 * any. Subclasses should override this to determine the type from a descriptor, even
+	 * for {@code null} values.
 	 * @see #getActualFieldValue
 	 */
 	@Override
@@ -251,20 +248,20 @@ public abstract class AbstractBindingResult extends AbstractErrors implements Bi
 		return this.fieldTypes.get(field);
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of BindingResult interface
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
-	 * Return a model Map for the obtained state, exposing an Errors
-	 * instance as '{@link #MODEL_KEY_PREFIX MODEL_KEY_PREFIX} + objectName'
-	 * and the object itself.
-	 * <p>Note that the Map is constructed every time you're calling this method.
-	 * Adding things to the map and then re-calling this method will not work.
-	 * <p>The attributes in the model Map returned by this method are usually
-	 * included in the ModelAndView for a form view that uses Spring's bind tag,
-	 * which needs access to the Errors instance.
+	 * Return a model Map for the obtained state, exposing an Errors instance as
+	 * '{@link #MODEL_KEY_PREFIX MODEL_KEY_PREFIX} + objectName' and the object itself.
+	 * <p>
+	 * Note that the Map is constructed every time you're calling this method. Adding
+	 * things to the map and then re-calling this method will not work.
+	 * <p>
+	 * The attributes in the model Map returned by this method are usually included in the
+	 * ModelAndView for a form view that uses Spring's bind tag, which needs access to the
+	 * Errors instance.
 	 * @see #getObjectName
 	 * @see #MODEL_KEY_PREFIX
 	 */
@@ -285,9 +282,8 @@ public abstract class AbstractBindingResult extends AbstractErrors implements Bi
 	}
 
 	/**
-	 * This implementation delegates to the
-	 * {@link #getPropertyEditorRegistry() PropertyEditorRegistry}'s
-	 * editor lookup facility, if available.
+	 * This implementation delegates to the {@link #getPropertyEditorRegistry()
+	 * PropertyEditorRegistry}'s editor lookup facility, if available.
 	 */
 	@Override
 	@Nullable
@@ -321,8 +317,8 @@ public abstract class AbstractBindingResult extends AbstractErrors implements Bi
 
 	@Override
 	public String[] resolveMessageCodes(String errorCode, @Nullable String field) {
-		return getMessageCodesResolver().resolveMessageCodes(
-				errorCode, getObjectName(), fixedField(field), getFieldType(field));
+		return getMessageCodesResolver().resolveMessageCodes(errorCode, getObjectName(), fixedField(field),
+				getFieldType(field));
 	}
 
 	@Override
@@ -338,8 +334,9 @@ public abstract class AbstractBindingResult extends AbstractErrors implements Bi
 
 	/**
 	 * Mark the specified disallowed field as suppressed.
-	 * <p>The data binder invokes this for each field value that was
-	 * detected to target a disallowed field.
+	 * <p>
+	 * The data binder invokes this for each field value that was detected to target a
+	 * disallowed field.
 	 * @see DataBinder#setAllowedFields
 	 */
 	@Override
@@ -349,15 +346,14 @@ public abstract class AbstractBindingResult extends AbstractErrors implements Bi
 
 	/**
 	 * Return the list of fields that were suppressed during the bind process.
-	 * <p>Can be used to determine whether any field values were targeting
-	 * disallowed fields.
+	 * <p>
+	 * Can be used to determine whether any field values were targeting disallowed fields.
 	 * @see DataBinder#setAllowedFields
 	 */
 	@Override
 	public String[] getSuppressedFields() {
 		return StringUtils.toStringArray(this.suppressedFields);
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {
@@ -368,9 +364,9 @@ public abstract class AbstractBindingResult extends AbstractErrors implements Bi
 			return false;
 		}
 		BindingResult otherResult = (BindingResult) other;
-		return (getObjectName().equals(otherResult.getObjectName()) &&
-				ObjectUtils.nullSafeEquals(getTarget(), otherResult.getTarget()) &&
-				getAllErrors().equals(otherResult.getAllErrors()));
+		return (getObjectName().equals(otherResult.getObjectName())
+				&& ObjectUtils.nullSafeEquals(getTarget(), otherResult.getTarget())
+				&& getAllErrors().equals(otherResult.getAllErrors()));
 	}
 
 	@Override
@@ -378,10 +374,9 @@ public abstract class AbstractBindingResult extends AbstractErrors implements Bi
 		return getObjectName().hashCode();
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Template methods to be implemented/overridden by subclasses
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
 	 * Return the wrapped target object.
@@ -400,10 +395,11 @@ public abstract class AbstractBindingResult extends AbstractErrors implements Bi
 
 	/**
 	 * Format the given value for the specified field.
-	 * <p>The default implementation simply returns the field value as-is.
+	 * <p>
+	 * The default implementation simply returns the field value as-is.
 	 * @param field the field to check
-	 * @param value the value of the field (either a rejected value
-	 * other than from a binding error, or an actual field value)
+	 * @param value the value of the field (either a rejected value other than from a
+	 * binding error, or an actual field value)
 	 * @return the formatted value
 	 */
 	@Nullable

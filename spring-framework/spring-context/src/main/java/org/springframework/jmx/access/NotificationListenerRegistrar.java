@@ -37,9 +37,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 
 /**
- * Registrar object that associates a specific {@link javax.management.NotificationListener}
- * with one or more MBeans in an {@link javax.management.MBeanServer}
- * (typically via a {@link javax.management.MBeanServerConnection}).
+ * Registrar object that associates a specific
+ * {@link javax.management.NotificationListener} with one or more MBeans in an
+ * {@link javax.management.MBeanServer} (typically via a
+ * {@link javax.management.MBeanServerConnection}).
  *
  * @author Juergen Hoeller
  * @since 2.5.2
@@ -70,10 +71,9 @@ public class NotificationListenerRegistrar extends NotificationListenerHolder
 	@Nullable
 	private ObjectName[] actualObjectNames;
 
-
 	/**
-	 * Set the {@code MBeanServerConnection} used to connect to the
-	 * MBean which all invocations are routed to.
+	 * Set the {@code MBeanServerConnection} used to connect to the MBean which all
+	 * invocations are routed to.
 	 */
 	public void setServer(MBeanServerConnection server) {
 		this.server = server;
@@ -81,18 +81,19 @@ public class NotificationListenerRegistrar extends NotificationListenerHolder
 
 	/**
 	 * Specify the environment for the JMX connector.
-	 * @see javax.management.remote.JMXConnectorFactory#connect(javax.management.remote.JMXServiceURL, java.util.Map)
+	 * @see javax.management.remote.JMXConnectorFactory#connect(javax.management.remote.JMXServiceURL,
+	 * java.util.Map)
 	 */
 	public void setEnvironment(@Nullable Map<String, ?> environment) {
 		this.environment = environment;
 	}
 
 	/**
-	 * Allow Map access to the environment to be set for the connector,
-	 * with the option to add or override specific entries.
-	 * <p>Useful for specifying entries directly, for example via
-	 * "environment[myKey]". This is particularly useful for
-	 * adding or overriding entries in child bean definitions.
+	 * Allow Map access to the environment to be set for the connector, with the option to
+	 * add or override specific entries.
+	 * <p>
+	 * Useful for specifying entries directly, for example via "environment[myKey]". This
+	 * is particularly useful for adding or overriding entries in child bean definitions.
 	 */
 	@Nullable
 	public Map<String, ?> getEnvironment() {
@@ -108,16 +109,17 @@ public class NotificationListenerRegistrar extends NotificationListenerHolder
 
 	/**
 	 * Set the agent id of the {@code MBeanServer} to locate.
-	 * <p>Default is none. If specified, this will result in an
-	 * attempt being made to locate the attendant MBeanServer, unless
-	 * the {@link #setServiceUrl "serviceUrl"} property has been set.
+	 * <p>
+	 * Default is none. If specified, this will result in an attempt being made to locate
+	 * the attendant MBeanServer, unless the {@link #setServiceUrl "serviceUrl"} property
+	 * has been set.
 	 * @see javax.management.MBeanServerFactory#findMBeanServer(String)
-	 * <p>Specifying the empty String indicates the platform MBeanServer.
+	 * <p>
+	 * Specifying the empty String indicates the platform MBeanServer.
 	 */
 	public void setAgentId(String agentId) {
 		this.agentId = agentId;
 	}
-
 
 	@Override
 	public void afterPropertiesSet() {
@@ -132,8 +134,9 @@ public class NotificationListenerRegistrar extends NotificationListenerHolder
 
 	/**
 	 * Registers the specified {@code NotificationListener}.
-	 * <p>Ensures that an {@code MBeanServerConnection} is configured and attempts
-	 * to detect a local connection if one is not supplied.
+	 * <p>
+	 * Ensures that an {@code MBeanServerConnection} is configured and attempts to detect
+	 * a local connection if one is not supplied.
 	 */
 	public void prepare() {
 		if (this.server == null) {
@@ -143,11 +146,12 @@ public class NotificationListenerRegistrar extends NotificationListenerHolder
 			this.actualObjectNames = getResolvedObjectNames();
 			if (this.actualObjectNames != null) {
 				if (logger.isDebugEnabled()) {
-					logger.debug("Registering NotificationListener for MBeans " + Arrays.asList(this.actualObjectNames));
+					logger.debug(
+							"Registering NotificationListener for MBeans " + Arrays.asList(this.actualObjectNames));
 				}
 				for (ObjectName actualObjectName : this.actualObjectNames) {
-					this.server.addNotificationListener(
-							actualObjectName, getNotificationListener(), getNotificationFilter(), getHandback());
+					this.server.addNotificationListener(actualObjectName, getNotificationListener(),
+							getNotificationFilter(), getHandback());
 				}
 			}
 		}
@@ -169,8 +173,8 @@ public class NotificationListenerRegistrar extends NotificationListenerHolder
 			if (this.server != null && this.actualObjectNames != null) {
 				for (ObjectName actualObjectName : this.actualObjectNames) {
 					try {
-						this.server.removeNotificationListener(
-								actualObjectName, getNotificationListener(), getNotificationFilter(), getHandback());
+						this.server.removeNotificationListener(actualObjectName, getNotificationListener(),
+								getNotificationFilter(), getHandback());
 					}
 					catch (Exception ex) {
 						if (logger.isDebugEnabled()) {

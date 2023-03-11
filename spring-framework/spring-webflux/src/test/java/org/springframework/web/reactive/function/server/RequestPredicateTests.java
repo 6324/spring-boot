@@ -37,7 +37,8 @@ public class RequestPredicateTests {
 		RequestPredicate predicate3 = request -> false;
 
 		MockServerHttpRequest mockRequest = MockServerHttpRequest.get("https://example.com").build();
-		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 		assertThat(predicate1.and(predicate2).test(request)).isTrue();
 		assertThat(predicate2.and(predicate1).test(request)).isTrue();
 		assertThat(predicate1.and(predicate3).test(request)).isFalse();
@@ -49,7 +50,8 @@ public class RequestPredicateTests {
 		RequestPredicate negated = predicate.negate();
 
 		MockServerHttpRequest mockRequest = MockServerHttpRequest.get("https://example.com").build();
-		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 		assertThat(negated.test(request)).isTrue();
 
 		predicate = r -> true;
@@ -65,7 +67,8 @@ public class RequestPredicateTests {
 		RequestPredicate predicate3 = request -> false;
 
 		MockServerHttpRequest mockRequest = MockServerHttpRequest.get("https://example.com").build();
-		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest), Collections.emptyList());
+		ServerRequest request = new DefaultServerRequest(MockServerWebExchange.from(mockRequest),
+				Collections.emptyList());
 		assertThat(predicate1.or(predicate2).test(request)).isTrue();
 		assertThat(predicate2.or(predicate1).test(request)).isTrue();
 		assertThat(predicate2.or(predicate3).test(request)).isFalse();

@@ -28,8 +28,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * Utility methods for triggering specific {@link TransactionSynchronization}
- * callback methods on all currently registered synchronizations.
+ * Utility methods for triggering specific {@link TransactionSynchronization} callback
+ * methods on all currently registered synchronizations.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -40,9 +40,8 @@ public abstract class TransactionSynchronizationUtils {
 
 	private static final Log logger = LogFactory.getLog(TransactionSynchronizationUtils.class);
 
-	private static final boolean aopAvailable = ClassUtils.isPresent(
-			"org.springframework.aop.scope.ScopedObject", TransactionSynchronizationUtils.class.getClassLoader());
-
+	private static final boolean aopAvailable = ClassUtils.isPresent("org.springframework.aop.scope.ScopedObject",
+			TransactionSynchronizationUtils.class.getClassLoader());
 
 	/**
 	 * Check whether the given resource transaction manager refers to the given
@@ -55,8 +54,8 @@ public abstract class TransactionSynchronizationUtils {
 	}
 
 	/**
-	 * Unwrap the given resource handle if necessary; otherwise return
-	 * the given handle as-is.
+	 * Unwrap the given resource handle if necessary; otherwise return the given handle
+	 * as-is.
 	 * @see InfrastructureProxy#getWrappedObject()
 	 */
 	static Object unwrapResourceIfNecessary(Object resource) {
@@ -73,7 +72,6 @@ public abstract class TransactionSynchronizationUtils {
 		return resourceRef;
 	}
 
-
 	/**
 	 * Trigger {@code flush} callbacks on all currently registered synchronizations.
 	 * @throws RuntimeException if thrown by a {@code flush} callback
@@ -86,7 +84,8 @@ public abstract class TransactionSynchronizationUtils {
 	}
 
 	/**
-	 * Trigger {@code beforeCommit} callbacks on all currently registered synchronizations.
+	 * Trigger {@code beforeCommit} callbacks on all currently registered
+	 * synchronizations.
 	 * @param readOnly whether the transaction is defined as read-only transaction
 	 * @throws RuntimeException if thrown by a {@code beforeCommit} callback
 	 * @see TransactionSynchronization#beforeCommit(boolean)
@@ -98,7 +97,8 @@ public abstract class TransactionSynchronizationUtils {
 	}
 
 	/**
-	 * Trigger {@code beforeCompletion} callbacks on all currently registered synchronizations.
+	 * Trigger {@code beforeCompletion} callbacks on all currently registered
+	 * synchronizations.
 	 * @see TransactionSynchronization#beforeCompletion()
 	 */
 	public static void triggerBeforeCompletion() {
@@ -123,8 +123,8 @@ public abstract class TransactionSynchronizationUtils {
 	}
 
 	/**
-	 * Actually invoke the {@code afterCommit} methods of the
-	 * given Spring TransactionSynchronization objects.
+	 * Actually invoke the {@code afterCommit} methods of the given Spring
+	 * TransactionSynchronization objects.
 	 * @param synchronizations a List of TransactionSynchronization objects
 	 * @see TransactionSynchronization#afterCommit()
 	 */
@@ -137,9 +137,10 @@ public abstract class TransactionSynchronizationUtils {
 	}
 
 	/**
-	 * Trigger {@code afterCompletion} callbacks on all currently registered synchronizations.
-	 * @param completionStatus the completion status according to the
-	 * constants in the TransactionSynchronization interface
+	 * Trigger {@code afterCompletion} callbacks on all currently registered
+	 * synchronizations.
+	 * @param completionStatus the completion status according to the constants in the
+	 * TransactionSynchronization interface
 	 * @see TransactionSynchronizationManager#getSynchronizations()
 	 * @see TransactionSynchronization#afterCompletion(int)
 	 * @see TransactionSynchronization#STATUS_COMMITTED
@@ -152,11 +153,11 @@ public abstract class TransactionSynchronizationUtils {
 	}
 
 	/**
-	 * Actually invoke the {@code afterCompletion} methods of the
-	 * given Spring TransactionSynchronization objects.
+	 * Actually invoke the {@code afterCompletion} methods of the given Spring
+	 * TransactionSynchronization objects.
 	 * @param synchronizations a List of TransactionSynchronization objects
-	 * @param completionStatus the completion status according to the
-	 * constants in the TransactionSynchronization interface
+	 * @param completionStatus the completion status according to the constants in the
+	 * TransactionSynchronization interface
 	 * @see TransactionSynchronization#afterCompletion(int)
 	 * @see TransactionSynchronization#STATUS_COMMITTED
 	 * @see TransactionSynchronization#STATUS_ROLLED_BACK
@@ -177,7 +178,6 @@ public abstract class TransactionSynchronizationUtils {
 		}
 	}
 
-
 	/**
 	 * Inner class to avoid hard-coded dependency on AOP module.
 	 */
@@ -191,6 +191,7 @@ public abstract class TransactionSynchronizationUtils {
 				return resource;
 			}
 		}
+
 	}
 
 }

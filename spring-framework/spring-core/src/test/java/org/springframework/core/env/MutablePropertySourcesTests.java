@@ -103,9 +103,8 @@ class MutablePropertySourcesTests {
 		assertThat(sources.size()).isEqualTo(6);
 
 		String bogusPS = "bogus";
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				sources.addAfter(bogusPS, new MockPropertySource("h")))
-			.withMessageContaining("does not exist");
+		assertThatIllegalArgumentException().isThrownBy(() -> sources.addAfter(bogusPS, new MockPropertySource("h")))
+				.withMessageContaining("does not exist");
 
 		sources.addFirst(new MockPropertySource("a"));
 		assertThat(sources.size()).isEqualTo(7);
@@ -121,17 +120,15 @@ class MutablePropertySourcesTests {
 
 		sources.replace("a-replaced", new MockPropertySource("a"));
 
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				sources.replace(bogusPS, new MockPropertySource("bogus-replaced")))
-			.withMessageContaining("does not exist");
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> sources.replace(bogusPS, new MockPropertySource("bogus-replaced")))
+				.withMessageContaining("does not exist");
 
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				sources.addBefore("b", new MockPropertySource("b")))
-			.withMessageContaining("cannot be added relative to itself");
+		assertThatIllegalArgumentException().isThrownBy(() -> sources.addBefore("b", new MockPropertySource("b")))
+				.withMessageContaining("cannot be added relative to itself");
 
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				sources.addAfter("b", new MockPropertySource("b")))
-			.withMessageContaining("cannot be added relative to itself");
+		assertThatIllegalArgumentException().isThrownBy(() -> sources.addAfter("b", new MockPropertySource("b")))
+				.withMessageContaining("cannot be added relative to itself");
 	}
 
 	@Test
@@ -149,8 +146,7 @@ class MutablePropertySourcesTests {
 		assertThat(it.hasNext()).isTrue();
 		assertThat(it.next().getName()).isEqualTo("test");
 
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(
-				it::remove);
+		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(it::remove);
 		assertThat(it.hasNext()).isFalse();
 	}
 

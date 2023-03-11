@@ -26,8 +26,9 @@ import org.springframework.context.support.MessageSourceResourceBundle;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of Hibernate Validator 4.3/5.x's {@link ResourceBundleLocator} interface,
- * exposing a Spring {@link MessageSource} as localized {@link MessageSourceResourceBundle}.
+ * Implementation of Hibernate Validator 4.3/5.x's {@link ResourceBundleLocator}
+ * interface, exposing a Spring {@link MessageSource} as localized
+ * {@link MessageSourceResourceBundle}.
  *
  * @author Juergen Hoeller
  * @since 3.0.4

@@ -38,14 +38,17 @@ import org.springframework.util.Assert;
  * A Spring {@link FactoryBean} for creating a Quartz {@link org.quartz.CronTrigger}
  * instance, supporting bean-style usage for trigger configuration.
  *
- * <p>{@code CronTrigger(Impl)} itself is already a JavaBean but lacks sensible defaults.
+ * <p>
+ * {@code CronTrigger(Impl)} itself is already a JavaBean but lacks sensible defaults.
  * This class uses the Spring bean name as job name, the Quartz default group ("DEFAULT")
- * as job group, the current time as start time, and indefinite repetition, if not specified.
+ * as job group, the current time as start time, and indefinite repetition, if not
+ * specified.
  *
- * <p>This class will also register the trigger with the job name and group of
- * a given {@link org.quartz.JobDetail}. This allows {@link SchedulerFactoryBean}
- * to automatically register a trigger for the corresponding JobDetail,
- * instead of registering the JobDetail separately.
+ * <p>
+ * This class will also register the trigger with the job name and group of a given
+ * {@link org.quartz.JobDetail}. This allows {@link SchedulerFactoryBean} to automatically
+ * register a trigger for the corresponding JobDetail, instead of registering the
+ * JobDetail separately.
  *
  * @author Juergen Hoeller
  * @since 3.1
@@ -60,7 +63,6 @@ public class CronTriggerFactoryBean implements FactoryBean<CronTrigger>, BeanNam
 
 	/** Constants for the CronTrigger class. */
 	private static final Constants constants = new Constants(CronTrigger.class);
-
 
 	@Nullable
 	private String name;
@@ -100,7 +102,6 @@ public class CronTriggerFactoryBean implements FactoryBean<CronTrigger>, BeanNam
 	@Nullable
 	private CronTrigger cronTrigger;
 
-
 	/**
 	 * Specify the trigger's name.
 	 */
@@ -139,10 +140,11 @@ public class CronTriggerFactoryBean implements FactoryBean<CronTrigger>, BeanNam
 
 	/**
 	 * Register objects in the JobDataMap via a given Map.
-	 * <p>These objects will be available to this Trigger only,
-	 * in contrast to objects in the JobDetail's data map.
-	 * @param jobDataAsMap a Map with String keys and any objects as values
-	 * (for example Spring-managed beans)
+	 * <p>
+	 * These objects will be available to this Trigger only, in contrast to objects in the
+	 * JobDetail's data map.
+	 * @param jobDataAsMap a Map with String keys and any objects as values (for example
+	 * Spring-managed beans)
 	 */
 	public void setJobDataAsMap(Map<String, ?> jobDataAsMap) {
 		this.jobDataMap.putAll(jobDataAsMap);
@@ -150,8 +152,9 @@ public class CronTriggerFactoryBean implements FactoryBean<CronTrigger>, BeanNam
 
 	/**
 	 * Set a specific start time for the trigger.
-	 * <p>Note that a dynamically computed {@link #setStartDelay} specification
-	 * overrides a static timestamp set here.
+	 * <p>
+	 * Note that a dynamically computed {@link #setStartDelay} specification overrides a
+	 * static timestamp set here.
 	 */
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
@@ -159,8 +162,9 @@ public class CronTriggerFactoryBean implements FactoryBean<CronTrigger>, BeanNam
 
 	/**
 	 * Set the start delay in milliseconds.
-	 * <p>The start delay is added to the current system time (when the bean starts)
-	 * to control the start time of the trigger.
+	 * <p>
+	 * The start delay is added to the current system time (when the bean starts) to
+	 * control the start time of the trigger.
 	 */
 	public void setStartDelay(long startDelay) {
 		Assert.isTrue(startDelay >= 0, "Start delay cannot be negative");
@@ -203,9 +207,9 @@ public class CronTriggerFactoryBean implements FactoryBean<CronTrigger>, BeanNam
 	}
 
 	/**
-	 * Set the misfire instruction via the name of the corresponding
-	 * constant in the {@link org.quartz.CronTrigger} class.
-	 * Default is {@code MISFIRE_INSTRUCTION_SMART_POLICY}.
+	 * Set the misfire instruction via the name of the corresponding constant in the
+	 * {@link org.quartz.CronTrigger} class. Default is
+	 * {@code MISFIRE_INSTRUCTION_SMART_POLICY}.
 	 * @see org.quartz.CronTrigger#MISFIRE_INSTRUCTION_FIRE_ONCE_NOW
 	 * @see org.quartz.CronTrigger#MISFIRE_INSTRUCTION_DO_NOTHING
 	 * @see org.quartz.Trigger#MISFIRE_INSTRUCTION_SMART_POLICY
@@ -225,7 +229,6 @@ public class CronTriggerFactoryBean implements FactoryBean<CronTrigger>, BeanNam
 	public void setBeanName(String beanName) {
 		this.beanName = beanName;
 	}
-
 
 	@Override
 	public void afterPropertiesSet() throws ParseException {
@@ -263,7 +266,6 @@ public class CronTriggerFactoryBean implements FactoryBean<CronTrigger>, BeanNam
 		cti.setDescription(this.description);
 		this.cronTrigger = cti;
 	}
-
 
 	@Override
 	@Nullable

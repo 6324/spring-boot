@@ -38,11 +38,10 @@ public class CompoundExpression extends SpelNodeImpl {
 	public CompoundExpression(int startPos, int endPos, SpelNodeImpl... expressionComponents) {
 		super(startPos, endPos, expressionComponents);
 		if (expressionComponents.length < 2) {
-			throw new IllegalStateException("Do not build compound expressions with less than two entries: " +
-					expressionComponents.length);
+			throw new IllegalStateException(
+					"Do not build compound expressions with less than two entries: " + expressionComponents.length);
 		}
 	}
-
 
 	@Override
 	protected ValueRef getValueRef(ExpressionState state) throws EvaluationException {
@@ -81,8 +80,9 @@ public class CompoundExpression extends SpelNodeImpl {
 	}
 
 	/**
-	 * Evaluates a compound expression. This involves evaluating each piece in turn and the
-	 * return value from each piece is the active context object for the subsequent piece.
+	 * Evaluates a compound expression. This involves evaluating each piece in turn and
+	 * the return value from each piece is the active context object for the subsequent
+	 * piece.
 	 * @param state the state in which the expression is being evaluated
 	 * @return the final value from the last piece of the compound expression
 	 */
@@ -115,7 +115,7 @@ public class CompoundExpression extends SpelNodeImpl {
 
 	@Override
 	public boolean isCompilable() {
-		for (SpelNodeImpl child: this.children) {
+		for (SpelNodeImpl child : this.children) {
 			if (!child.isCompilable()) {
 				return false;
 			}

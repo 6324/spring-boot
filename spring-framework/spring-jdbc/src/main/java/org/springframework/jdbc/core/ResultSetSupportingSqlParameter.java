@@ -21,8 +21,8 @@ import java.sql.ResultSet;
 import org.springframework.lang.Nullable;
 
 /**
- * Common base class for ResultSet-supporting SqlParameters like
- * {@link SqlOutParameter} and {@link SqlReturnResultSet}.
+ * Common base class for ResultSet-supporting SqlParameters like {@link SqlOutParameter}
+ * and {@link SqlReturnResultSet}.
  *
  * @author Juergen Hoeller
  * @since 1.0.2
@@ -38,7 +38,6 @@ public class ResultSetSupportingSqlParameter extends SqlParameter {
 	@Nullable
 	private RowMapper<?> rowMapper;
 
-
 	/**
 	 * Create a new ResultSetSupportingSqlParameter.
 	 * @param name the name of the parameter, as used in input and output maps
@@ -52,8 +51,8 @@ public class ResultSetSupportingSqlParameter extends SqlParameter {
 	 * Create a new ResultSetSupportingSqlParameter.
 	 * @param name the name of the parameter, as used in input and output maps
 	 * @param sqlType the parameter SQL type according to {@code java.sql.Types}
-	 * @param scale the number of digits after the decimal point
-	 * (for DECIMAL and NUMERIC types)
+	 * @param scale the number of digits after the decimal point (for DECIMAL and NUMERIC
+	 * types)
 	 */
 	public ResultSetSupportingSqlParameter(String name, int sqlType, int scale) {
 		super(name, sqlType, scale);
@@ -102,10 +101,9 @@ public class ResultSetSupportingSqlParameter extends SqlParameter {
 		this.rowMapper = rm;
 	}
 
-
 	/**
-	 * Does this parameter support a ResultSet, i.e. does it hold a
-	 * ResultSetExtractor, RowCallbackHandler or RowMapper?
+	 * Does this parameter support a ResultSet, i.e. does it hold a ResultSetExtractor,
+	 * RowCallbackHandler or RowMapper?
 	 */
 	public boolean isResultSetSupported() {
 		return (this.resultSetExtractor != null || this.rowCallbackHandler != null || this.rowMapper != null);
@@ -134,7 +132,6 @@ public class ResultSetSupportingSqlParameter extends SqlParameter {
 	public RowMapper<?> getRowMapper() {
 		return this.rowMapper;
 	}
-
 
 	/**
 	 * This implementation always returns {@code false}.

@@ -41,6 +41,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 /**
  * Unit tests for {@link HttpMessageWriterView}.
+ *
  * @author Rossen Stoyanchev
  */
 public class HttpMessageWriterViewTests {
@@ -51,12 +52,10 @@ public class HttpMessageWriterViewTests {
 
 	private final MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
 
-
 	@Test
 	public void supportedMediaTypes() throws Exception {
-		assertThat(this.view.getSupportedMediaTypes()).isEqualTo(Arrays.asList(
-				MediaType.APPLICATION_JSON,
-				MediaType.parseMediaType("application/*+json")));
+		assertThat(this.view.getSupportedMediaTypes())
+				.isEqualTo(Arrays.asList(MediaType.APPLICATION_JSON, MediaType.parseMediaType("application/*+json")));
 	}
 
 	@Test
@@ -103,9 +102,8 @@ public class HttpMessageWriterViewTests {
 		this.model.addAttribute("foo1", "bar1");
 		this.model.addAttribute("foo2", "bar2");
 
-		assertThatIllegalStateException().isThrownBy(
-				this::doRender)
-			.withMessageContaining("Map rendering is not supported");
+		assertThatIllegalStateException().isThrownBy(this::doRender)
+				.withMessageContaining("Map rendering is not supported");
 	}
 
 	@Test
@@ -120,16 +118,13 @@ public class HttpMessageWriterViewTests {
 
 		StepVerifier.create(this.exchange.getResponse().getBody())
 				.consumeNextWith(buf -> assertThat(buf.toString(UTF_8)).isEqualTo("{\"foo\":\"f\",\"bar\":\"b\"}"))
-				.expectComplete()
-				.verify();
+				.expectComplete().verify();
 	}
 
 	private String doRender() {
 		this.view.render(this.model, MediaType.APPLICATION_JSON, this.exchange).block(Duration.ZERO);
 		return this.exchange.getResponse().getBodyAsString().block(Duration.ZERO);
 	}
-
-
 
 	@SuppressWarnings("unused")
 	private String handle() {

@@ -42,7 +42,6 @@ class PassThroughBlob implements Blob {
 
 	private long contentLength;
 
-
 	public PassThroughBlob(byte[] content) {
 		this.content = content;
 		this.contentLength = content.length;
@@ -52,7 +51,6 @@ class PassThroughBlob implements Blob {
 		this.binaryStream = binaryStream;
 		this.contentLength = contentLength;
 	}
-
 
 	@Override
 	public long length() throws SQLException {
@@ -68,7 +66,6 @@ class PassThroughBlob implements Blob {
 			return (this.binaryStream != null ? this.binaryStream : StreamUtils.emptyInput());
 		}
 	}
-
 
 	@Override
 	public InputStream getBinaryStream(long pos, long length) throws SQLException {

@@ -21,10 +21,10 @@ import java.lang.reflect.Method;
 /**
  * A strategy for handling uncaught exceptions thrown from asynchronous methods.
  *
- * <p>An asynchronous method usually returns a {@link java.util.concurrent.Future}
- * instance that gives access to the underlying exception. When the method does
- * not provide that return type, this handler can be used to manage such
- * uncaught exceptions.
+ * <p>
+ * An asynchronous method usually returns a {@link java.util.concurrent.Future} instance
+ * that gives access to the underlying exception. When the method does not provide that
+ * return type, this handler can be used to manage such uncaught exceptions.
  *
  * @author Stephane Nicoll
  * @since 4.1

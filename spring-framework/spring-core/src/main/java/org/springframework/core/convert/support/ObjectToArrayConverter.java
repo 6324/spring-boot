@@ -27,8 +27,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Converts an Object to a single-element array containing the Object.
- * Will convert the Object to the target array's component type if necessary.
+ * Converts an Object to a single-element array containing the Object. Will convert the
+ * Object to the target array's component type if necessary.
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -38,11 +38,9 @@ final class ObjectToArrayConverter implements ConditionalGenericConverter {
 
 	private final ConversionService conversionService;
 
-
 	public ObjectToArrayConverter(ConversionService conversionService) {
 		this.conversionService = conversionService;
 	}
-
 
 	@Override
 	public Set<ConvertiblePair> getConvertibleTypes() {

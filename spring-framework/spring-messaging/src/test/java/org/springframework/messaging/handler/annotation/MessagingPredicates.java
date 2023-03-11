@@ -51,12 +51,10 @@ public class MessagingPredicates {
 		return new HeaderPredicate().noAttributes();
 	}
 
-
 	public static class DestinationVariablePredicate implements Predicate<MethodParameter> {
 
 		@Nullable
 		private String value;
-
 
 		public DestinationVariablePredicate value(@Nullable String name) {
 			this.value = name;
@@ -73,8 +71,8 @@ public class MessagingPredicates {
 			DestinationVariable annotation = parameter.getParameterAnnotation(DestinationVariable.class);
 			return annotation != null && (this.value == null || annotation.value().equals(this.value));
 		}
-	}
 
+	}
 
 	public static class HeaderPredicate implements Predicate<MethodParameter> {
 
@@ -86,7 +84,6 @@ public class MessagingPredicates {
 
 		@Nullable
 		private String defaultValue;
-
 
 		public HeaderPredicate name(@Nullable String name) {
 			this.name = name;
@@ -118,11 +115,11 @@ public class MessagingPredicates {
 		@Override
 		public boolean test(MethodParameter parameter) {
 			Header annotation = parameter.getParameterAnnotation(Header.class);
-			return annotation != null &&
-					(this.name == null || annotation.name().equals(this.name)) &&
-					(this.required == null || annotation.required() == this.required) &&
-					(this.defaultValue == null || annotation.defaultValue().equals(this.defaultValue));
+			return annotation != null && (this.name == null || annotation.name().equals(this.name))
+					&& (this.required == null || annotation.required() == this.required)
+					&& (this.defaultValue == null || annotation.defaultValue().equals(this.defaultValue));
 		}
+
 	}
 
 }

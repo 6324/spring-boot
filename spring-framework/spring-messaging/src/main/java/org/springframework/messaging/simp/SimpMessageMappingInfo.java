@@ -37,7 +37,6 @@ public class SimpMessageMappingInfo implements MessageCondition<SimpMessageMappi
 
 	private final CompositeMessageCondition delegate;
 
-
 	public SimpMessageMappingInfo(SimpMessageTypeMessageCondition messageTypeMessageCondition,
 			DestinationPatternsMessageCondition destinationConditions) {
 
@@ -48,7 +47,6 @@ public class SimpMessageMappingInfo implements MessageCondition<SimpMessageMappi
 		this.delegate = delegate;
 	}
 
-
 	public SimpMessageTypeMessageCondition getMessageTypeMessageCondition() {
 		return this.delegate.getCondition(SimpMessageTypeMessageCondition.class);
 	}
@@ -56,7 +54,6 @@ public class SimpMessageMappingInfo implements MessageCondition<SimpMessageMappi
 	public DestinationPatternsMessageCondition getDestinationConditions() {
 		return this.delegate.getCondition(DestinationPatternsMessageCondition.class);
 	}
-
 
 	@Override
 	public SimpMessageMappingInfo combine(SimpMessageMappingInfo other) {
@@ -74,7 +71,6 @@ public class SimpMessageMappingInfo implements MessageCondition<SimpMessageMappi
 	public int compareTo(SimpMessageMappingInfo other, Message<?> message) {
 		return this.delegate.compareTo(other.delegate, message);
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {

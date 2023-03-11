@@ -21,12 +21,13 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * JavaBean for holding JDBC error codes for a particular database.
- * Instances of this class are normally loaded through a bean factory.
+ * JavaBean for holding JDBC error codes for a particular database. Instances of this
+ * class are normally loaded through a bean factory.
  *
- * <p>Used by Spring's {@link SQLErrorCodeSQLExceptionTranslator}.
- * The file "sql-error-codes.xml" in this package contains default
- * {@code SQLErrorCodes} instances for various databases.
+ * <p>
+ * Used by Spring's {@link SQLErrorCodeSQLExceptionTranslator}. The file
+ * "sql-error-codes.xml" in this package contains default {@code SQLErrorCodes} instances
+ * for various databases.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -66,24 +67,23 @@ public class SQLErrorCodes {
 	@Nullable
 	private SQLExceptionTranslator customSqlExceptionTranslator;
 
-
 	/**
-	 * Set this property if the database name contains spaces,
-	 * in which case we can not use the bean name for lookup.
+	 * Set this property if the database name contains spaces, in which case we can not
+	 * use the bean name for lookup.
 	 */
 	public void setDatabaseProductName(@Nullable String databaseProductName) {
-		this.databaseProductNames = new String[] {databaseProductName};
+		this.databaseProductNames = new String[] { databaseProductName };
 	}
 
 	@Nullable
 	public String getDatabaseProductName() {
-		return (this.databaseProductNames != null && this.databaseProductNames.length > 0 ?
-				this.databaseProductNames[0] : null);
+		return (this.databaseProductNames != null && this.databaseProductNames.length > 0 ? this.databaseProductNames[0]
+				: null);
 	}
 
 	/**
-	 * Set this property to specify multiple database names that contains spaces,
-	 * in which case we can not use bean names for lookup.
+	 * Set this property to specify multiple database names that contains spaces, in which
+	 * case we can not use bean names for lookup.
 	 */
 	public void setDatabaseProductNames(@Nullable String... databaseProductNames) {
 		this.databaseProductNames = databaseProductNames;
@@ -95,8 +95,8 @@ public class SQLErrorCodes {
 	}
 
 	/**
-	 * Set this property to true for databases that do not provide an error code
-	 * but that do provide SQL State (this includes PostgreSQL).
+	 * Set this property to true for databases that do not provide an error code but that
+	 * do provide SQL State (this includes PostgreSQL).
 	 */
 	public void setUseSqlStateForTranslation(boolean useStateCodeForTranslation) {
 		this.useSqlStateForTranslation = useStateCodeForTranslation;
@@ -195,11 +195,12 @@ public class SQLErrorCodes {
 		return this.customTranslations;
 	}
 
-	public void setCustomSqlExceptionTranslatorClass(@Nullable Class<? extends SQLExceptionTranslator> customTranslatorClass) {
+	public void setCustomSqlExceptionTranslatorClass(
+			@Nullable Class<? extends SQLExceptionTranslator> customTranslatorClass) {
 		if (customTranslatorClass != null) {
 			try {
-				this.customSqlExceptionTranslator =
-						ReflectionUtils.accessibleConstructor(customTranslatorClass).newInstance();
+				this.customSqlExceptionTranslator = ReflectionUtils.accessibleConstructor(customTranslatorClass)
+						.newInstance();
 			}
 			catch (Throwable ex) {
 				throw new IllegalStateException("Unable to instantiate custom translator", ex);

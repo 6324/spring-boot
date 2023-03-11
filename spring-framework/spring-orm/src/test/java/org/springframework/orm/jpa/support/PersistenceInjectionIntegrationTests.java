@@ -38,7 +38,6 @@ public class PersistenceInjectionIntegrationTests extends AbstractEntityManagerF
 	@Autowired
 	private DefaultPublicPersistenceUnitSetterNamedPerson namedSetterInjected;
 
-
 	@Test
 	public void testDefaultPersistenceContextSetterInjection() {
 		assertThat(defaultSetterInjected.getEntityManager()).isNotNull();

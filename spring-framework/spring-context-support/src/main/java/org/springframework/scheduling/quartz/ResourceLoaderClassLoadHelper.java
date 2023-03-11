@@ -32,9 +32,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * Wrapper that adapts from the Quartz {@link ClassLoadHelper} interface
- * onto Spring's {@link ResourceLoader} interface. Used by default when
- * the SchedulerFactoryBean runs in a Spring ApplicationContext.
+ * Wrapper that adapts from the Quartz {@link ClassLoadHelper} interface onto Spring's
+ * {@link ResourceLoader} interface. Used by default when the SchedulerFactoryBean runs in
+ * a Spring ApplicationContext.
  *
  * @author Juergen Hoeller
  * @since 2.5.5
@@ -47,10 +47,8 @@ public class ResourceLoaderClassLoadHelper implements ClassLoadHelper {
 	@Nullable
 	private ResourceLoader resourceLoader;
 
-
 	/**
-	 * Create a new ResourceLoaderClassLoadHelper for the default
-	 * ResourceLoader.
+	 * Create a new ResourceLoaderClassLoadHelper for the default ResourceLoader.
 	 * @see SchedulerFactoryBean#getConfigTimeResourceLoader()
 	 */
 	public ResourceLoaderClassLoadHelper() {
@@ -63,7 +61,6 @@ public class ResourceLoaderClassLoadHelper implements ClassLoadHelper {
 	public ResourceLoaderClassLoadHelper(@Nullable ResourceLoader resourceLoader) {
 		this.resourceLoader = resourceLoader;
 	}
-
 
 	@Override
 	public void initialize() {

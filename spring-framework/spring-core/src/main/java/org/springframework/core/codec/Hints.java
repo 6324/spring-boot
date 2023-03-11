@@ -39,12 +39,11 @@ public abstract class Hints {
 	public static final String LOG_PREFIX_HINT = Log.class.getName() + ".PREFIX";
 
 	/**
-	 * Name of boolean hint whether to avoid logging data either because it's
-	 * potentially sensitive, or because it has been logged by a composite
-	 * encoder, e.g. for multipart requests.
+	 * Name of boolean hint whether to avoid logging data either because it's potentially
+	 * sensitive, or because it has been logged by a composite encoder, e.g. for multipart
+	 * requests.
 	 */
 	public static final String SUPPRESS_LOGGING_HINT = Log.class.getName() + ".SUPPRESS_LOGGING";
-
 
 	/**
 	 * Create a map wit a single hint via {@link Collections#singletonMap}.
@@ -103,8 +102,8 @@ public abstract class Hints {
 	}
 
 	/**
-	 * Merge two maps of hints, creating and copying into a new map if both have
-	 * values, or returning the non-empty map, or an empty map if both are empty.
+	 * Merge two maps of hints, creating and copying into a new map if both have values,
+	 * or returning the non-empty map, or an empty map if both are empty.
 	 * @param hints1 1st map of hints
 	 * @param hints2 2nd map of hints
 	 * @return a single map with hints from both
@@ -128,9 +127,9 @@ public abstract class Hints {
 	}
 
 	/**
-	 * Merge a single hint into a map of hints, possibly creating and copying
-	 * all hints into a new map, or otherwise if the map of hints is empty,
-	 * creating a new single entry map.
+	 * Merge a single hint into a map of hints, possibly creating and copying all hints
+	 * into a new map, or otherwise if the map of hints is empty, creating a new single
+	 * entry map.
 	 * @param hints a map of hints to be merge
 	 * @param hintName the hint name to merge
 	 * @param hintValue the hint value to merge

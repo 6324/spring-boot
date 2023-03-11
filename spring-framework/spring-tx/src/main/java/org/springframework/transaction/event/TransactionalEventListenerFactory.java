@@ -24,8 +24,8 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 
 /**
- * {@link EventListenerFactory} implementation that handles {@link TransactionalEventListener}
- * annotated methods.
+ * {@link EventListenerFactory} implementation that handles
+ * {@link TransactionalEventListener} annotated methods.
  *
  * @author Stephane Nicoll
  * @since 4.2
@@ -33,7 +33,6 @@ import org.springframework.core.annotation.AnnotatedElementUtils;
 public class TransactionalEventListenerFactory implements EventListenerFactory, Ordered {
 
 	private int order = 50;
-
 
 	public void setOrder(int order) {
 		this.order = order;
@@ -43,7 +42,6 @@ public class TransactionalEventListenerFactory implements EventListenerFactory, 
 	public int getOrder() {
 		return this.order;
 	}
-
 
 	@Override
 	public boolean supportsMethod(Method method) {

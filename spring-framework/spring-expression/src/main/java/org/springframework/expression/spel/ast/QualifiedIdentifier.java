@@ -25,7 +25,8 @@ import org.springframework.lang.Nullable;
  * Represents a dot separated sequence of strings that indicate a package qualified type
  * reference.
  *
- * <p>Example: "java.lang.String" as in the expression "new java.lang.String('hello')"
+ * <p>
+ * Example: "java.lang.String" as in the expression "new java.lang.String('hello')"
  *
  * @author Andy Clement
  * @since 3.0
@@ -35,11 +36,9 @@ public class QualifiedIdentifier extends SpelNodeImpl {
 	@Nullable
 	private TypedValue value;
 
-
 	public QualifiedIdentifier(int startPos, int endPos, SpelNodeImpl... operands) {
 		super(startPos, endPos, operands);
 	}
-
 
 	@Override
 	public TypedValue getValueInternal(ExpressionState state) throws EvaluationException {

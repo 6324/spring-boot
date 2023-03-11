@@ -32,8 +32,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 
 /**
- * Abstract base {@code @Configuration} class providing common structure
- * for enabling Spring's annotation-driven cache management capability.
+ * Abstract base {@code @Configuration} class providing common structure for enabling
+ * Spring's annotation-driven cache management capability.
  *
  * @author Chris Beams
  * @author Stephane Nicoll
@@ -59,11 +59,10 @@ public abstract class AbstractCachingConfiguration implements ImportAware {
 	@Nullable
 	protected Supplier<CacheErrorHandler> errorHandler;
 
-
 	@Override
 	public void setImportMetadata(AnnotationMetadata importMetadata) {
-		this.enableCaching = AnnotationAttributes.fromMap(
-				importMetadata.getAnnotationAttributes(EnableCaching.class.getName(), false));
+		this.enableCaching = AnnotationAttributes
+				.fromMap(importMetadata.getAnnotationAttributes(EnableCaching.class.getName(), false));
 		if (this.enableCaching == null) {
 			throw new IllegalArgumentException(
 					"@EnableCaching is not present on importing class " + importMetadata.getClassName());
@@ -76,10 +75,10 @@ public abstract class AbstractCachingConfiguration implements ImportAware {
 			return;
 		}
 		if (configurers.size() > 1) {
-			throw new IllegalStateException(configurers.size() + " implementations of " +
-					"CachingConfigurer were found when only 1 was expected. " +
-					"Refactor the configuration such that CachingConfigurer is " +
-					"implemented only once or not at all.");
+			throw new IllegalStateException(configurers.size() + " implementations of "
+					+ "CachingConfigurer were found when only 1 was expected. "
+					+ "Refactor the configuration such that CachingConfigurer is "
+					+ "implemented only once or not at all.");
 		}
 		CachingConfigurer configurer = configurers.iterator().next();
 		useCachingConfigurer(configurer);

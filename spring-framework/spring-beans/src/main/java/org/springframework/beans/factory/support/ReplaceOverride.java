@@ -25,11 +25,12 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Extension of MethodOverride that represents an arbitrary
- * override of a method by the IoC container.
+ * Extension of MethodOverride that represents an arbitrary override of a method by the
+ * IoC container.
  *
- * <p>Any non-final method can be overridden, irrespective of its
- * parameters and return types.
+ * <p>
+ * Any non-final method can be overridden, irrespective of its parameters and return
+ * types.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -40,7 +41,6 @@ public class ReplaceOverride extends MethodOverride {
 	private final String methodReplacerBeanName;
 
 	private final List<String> typeIdentifiers = new ArrayList<>();
-
 
 	/**
 	 * Construct a new ReplaceOverride.
@@ -53,7 +53,6 @@ public class ReplaceOverride extends MethodOverride {
 		this.methodReplacerBeanName = methodReplacerBeanName;
 	}
 
-
 	/**
 	 * Return the name of the bean implementing MethodReplacer.
 	 */
@@ -62,14 +61,13 @@ public class ReplaceOverride extends MethodOverride {
 	}
 
 	/**
-	 * Add a fragment of a class string, like "Exception"
-	 * or "java.lang.Exc", to identify a parameter type.
+	 * Add a fragment of a class string, like "Exception" or "java.lang.Exc", to identify
+	 * a parameter type.
 	 * @param identifier a substring of the fully qualified class name
 	 */
 	public void addTypeIdentifier(String identifier) {
 		this.typeIdentifiers.add(identifier);
 	}
-
 
 	@Override
 	public boolean matches(Method method) {
@@ -94,15 +92,14 @@ public class ReplaceOverride extends MethodOverride {
 		return true;
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (!(other instanceof ReplaceOverride) || !super.equals(other)) {
 			return false;
 		}
 		ReplaceOverride that = (ReplaceOverride) other;
-		return (ObjectUtils.nullSafeEquals(this.methodReplacerBeanName, that.methodReplacerBeanName) &&
-				ObjectUtils.nullSafeEquals(this.typeIdentifiers, that.typeIdentifiers));
+		return (ObjectUtils.nullSafeEquals(this.methodReplacerBeanName, that.methodReplacerBeanName)
+				&& ObjectUtils.nullSafeEquals(this.typeIdentifiers, that.typeIdentifiers));
 	}
 
 	@Override

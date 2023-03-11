@@ -43,13 +43,12 @@ import org.springframework.util.Assert;
 public abstract class AbstractMessageSendingTemplate<D> implements MessageSendingOperations<D> {
 
 	/**
-	 * Name of the header that can be set to provide further information
-	 * (e.g. a {@code MethodParameter} instance) about the origin of the
-	 * payload, to be taken into account as a conversion hint.
+	 * Name of the header that can be set to provide further information (e.g. a
+	 * {@code MethodParameter} instance) about the origin of the payload, to be taken into
+	 * account as a conversion hint.
 	 * @since 4.2
 	 */
 	public static final String CONVERSION_HINT_HEADER = "conversionHint";
-
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
@@ -58,10 +57,9 @@ public abstract class AbstractMessageSendingTemplate<D> implements MessageSendin
 
 	private MessageConverter converter = new SimpleMessageConverter();
 
-
 	/**
-	 * Configure the default destination to use in send methods that don't have
-	 * a destination argument. If a default destination is not configured, send methods
+	 * Configure the default destination to use in send methods that don't have a
+	 * destination argument. If a default destination is not configured, send methods
 	 * without a destination argument will raise an exception if invoked.
 	 */
 	public void setDefaultDestination(@Nullable D defaultDestination) {
@@ -78,7 +76,8 @@ public abstract class AbstractMessageSendingTemplate<D> implements MessageSendin
 
 	/**
 	 * Set the {@link MessageConverter} to use in {@code convertAndSend} methods.
-	 * <p>By default, {@link SimpleMessageConverter} is used.
+	 * <p>
+	 * By default, {@link SimpleMessageConverter} is used.
 	 * @param messageConverter the message converter to use
 	 */
 	public void setMessageConverter(MessageConverter messageConverter) {
@@ -92,7 +91,6 @@ public abstract class AbstractMessageSendingTemplate<D> implements MessageSendin
 	public MessageConverter getMessageConverter() {
 		return this.converter;
 	}
-
 
 	@Override
 	public void send(Message<?> message) {
@@ -110,7 +108,6 @@ public abstract class AbstractMessageSendingTemplate<D> implements MessageSendin
 	}
 
 	protected abstract void doSend(D destination, Message<?> message);
-
 
 	@Override
 	public void convertAndSend(Object payload) throws MessagingException {
@@ -130,8 +127,7 @@ public abstract class AbstractMessageSendingTemplate<D> implements MessageSendin
 	}
 
 	@Override
-	public void convertAndSend(Object payload, @Nullable MessagePostProcessor postProcessor)
-			throws MessagingException {
+	public void convertAndSend(Object payload, @Nullable MessagePostProcessor postProcessor) throws MessagingException {
 
 		convertAndSend(getRequiredDefaultDestination(), payload, postProcessor);
 	}
@@ -153,8 +149,8 @@ public abstract class AbstractMessageSendingTemplate<D> implements MessageSendin
 
 	/**
 	 * Convert the given Object to serialized form, possibly using a
-	 * {@link MessageConverter}, wrap it as a message with the given
-	 * headers and apply the given post processor.
+	 * {@link MessageConverter}, wrap it as a message with the given headers and apply the
+	 * given post processor.
 	 * @param payload the Object to use as payload
 	 * @param headers the headers for the message to send
 	 * @param postProcessor the post processor to apply to the message
@@ -177,14 +173,14 @@ public abstract class AbstractMessageSendingTemplate<D> implements MessageSendin
 		}
 
 		MessageConverter converter = getMessageConverter();
-		Message<?> message = (converter instanceof SmartMessageConverter ?
-				((SmartMessageConverter) converter).toMessage(payload, messageHeaders, conversionHint) :
-				converter.toMessage(payload, messageHeaders));
+		Message<?> message = (converter instanceof SmartMessageConverter
+				? ((SmartMessageConverter) converter).toMessage(payload, messageHeaders, conversionHint)
+				: converter.toMessage(payload, messageHeaders));
 		if (message == null) {
 			String payloadType = payload.getClass().getName();
 			Object contentType = (messageHeaders != null ? messageHeaders.get(MessageHeaders.CONTENT_TYPE) : null);
-			throw new MessageConversionException("Unable to convert payload with type='" + payloadType +
-					"', contentType='" + contentType + "', converter=[" + getMessageConverter() + "]");
+			throw new MessageConversionException("Unable to convert payload with type='" + payloadType
+					+ "', contentType='" + contentType + "', converter=[" + getMessageConverter() + "]");
 		}
 		if (postProcessor != null) {
 			message = postProcessor.postProcessMessage(message);
@@ -193,9 +189,10 @@ public abstract class AbstractMessageSendingTemplate<D> implements MessageSendin
 	}
 
 	/**
-	 * Provides access to the map of input headers before a send operation.
-	 * Subclasses can modify the headers and then return the same or a different map.
-	 * <p>This default implementation in this class returns the input map.
+	 * Provides access to the map of input headers before a send operation. Subclasses can
+	 * modify the headers and then return the same or a different map.
+	 * <p>
+	 * This default implementation in this class returns the input map.
 	 * @param headers the headers to send (or {@code null} if none)
 	 * @return the actual headers to send (or {@code null} if none)
 	 */

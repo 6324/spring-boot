@@ -49,8 +49,8 @@ import static org.mockito.Mockito.mock;
  */
 public class Jaxb2UnmarshallerTests extends AbstractUnmarshallerTests<Jaxb2Marshaller> {
 
-	private static final String INPUT_STRING = "<tns:flights xmlns:tns=\"http://samples.springframework.org/flight\">" +
-			"<tns:flight><tns:number>42</tns:number></tns:flight></tns:flights>";
+	private static final String INPUT_STRING = "<tns:flights xmlns:tns=\"http://samples.springframework.org/flight\">"
+			+ "<tns:flight><tns:number>42</tns:number></tns:flight></tns:flights>";
 
 	@Override
 	protected Jaxb2Marshaller createUnmarshaller() throws Exception {
@@ -88,16 +88,21 @@ public class Jaxb2UnmarshallerTests extends AbstractUnmarshallerTests<Jaxb2Marsh
 		DataHandler dataHandler = new DataHandler(new FileDataSource(logo.getFile()));
 
 		given(mimeContainer.isXopPackage()).willReturn(true);
-		given(mimeContainer.getAttachment("<6b76528d-7a9c-4def-8e13-095ab89e9bb7@http://springframework.org/spring-ws>")).willReturn(dataHandler);
-		given(mimeContainer.getAttachment("<99bd1592-0521-41a2-9688-a8bfb40192fb@http://springframework.org/spring-ws>")).willReturn(dataHandler);
-		given(mimeContainer.getAttachment("696cfb9a-4d2d-402f-bb5c-59fa69e7f0b3@spring-ws.png")).willReturn(dataHandler);
-		String content = "<binaryObject xmlns='http://springframework.org/spring-ws'>" + "<bytes>" +
-				"<xop:Include href='cid:6b76528d-7a9c-4def-8e13-095ab89e9bb7@http://springframework.org/spring-ws' xmlns:xop='http://www.w3.org/2004/08/xop/include'/>" +
-				"</bytes>" + "<dataHandler>" +
-				"<xop:Include href='cid:99bd1592-0521-41a2-9688-a8bfb40192fb@http://springframework.org/spring-ws' xmlns:xop='http://www.w3.org/2004/08/xop/include'/>" +
-				"</dataHandler>" +
-				"<swaDataHandler>696cfb9a-4d2d-402f-bb5c-59fa69e7f0b3@spring-ws.png</swaDataHandler>" +
-				"</binaryObject>";
+		given(mimeContainer
+				.getAttachment("<6b76528d-7a9c-4def-8e13-095ab89e9bb7@http://springframework.org/spring-ws>"))
+						.willReturn(dataHandler);
+		given(mimeContainer
+				.getAttachment("<99bd1592-0521-41a2-9688-a8bfb40192fb@http://springframework.org/spring-ws>"))
+						.willReturn(dataHandler);
+		given(mimeContainer.getAttachment("696cfb9a-4d2d-402f-bb5c-59fa69e7f0b3@spring-ws.png"))
+				.willReturn(dataHandler);
+		String content = "<binaryObject xmlns='http://springframework.org/spring-ws'>" + "<bytes>"
+				+ "<xop:Include href='cid:6b76528d-7a9c-4def-8e13-095ab89e9bb7@http://springframework.org/spring-ws' xmlns:xop='http://www.w3.org/2004/08/xop/include'/>"
+				+ "</bytes>" + "<dataHandler>"
+				+ "<xop:Include href='cid:99bd1592-0521-41a2-9688-a8bfb40192fb@http://springframework.org/spring-ws' xmlns:xop='http://www.w3.org/2004/08/xop/include'/>"
+				+ "</dataHandler>"
+				+ "<swaDataHandler>696cfb9a-4d2d-402f-bb5c-59fa69e7f0b3@spring-ws.png</swaDataHandler>"
+				+ "</binaryObject>";
 
 		StringReader reader = new StringReader(content);
 		Object result = unmarshaller.unmarshal(new StreamSource(reader), mimeContainer);
@@ -130,10 +135,10 @@ public class Jaxb2UnmarshallerTests extends AbstractUnmarshallerTests<Jaxb2Marsh
 		unmarshaller = new Jaxb2Marshaller();
 		unmarshaller.setPackagesToScan(new String[] { "org.springframework.oxm.jaxb" });
 		unmarshaller.afterPropertiesSet();
-		Source source = new StreamSource(new StringReader(
-				"<brand-airplane><name>test</name></brand-airplane>"));
+		Source source = new StreamSource(new StringReader("<brand-airplane><name>test</name></brand-airplane>"));
 		JAXBElement<Airplane> airplane = (JAXBElement<Airplane>) unmarshaller.unmarshal(source);
-		assertThat(airplane.getValue().getName()).as("Unmarshalling via explicit @XmlRegistry tag should return correct type").isEqualTo("test");
+		assertThat(airplane.getValue().getName())
+				.as("Unmarshalling via explicit @XmlRegistry tag should return correct type").isEqualTo("test");
 	}
 
 	@Test

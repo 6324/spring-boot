@@ -97,8 +97,7 @@ class SystemPropertyUtilsTests {
 
 	@Test
 	void replaceWithNoDefault() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				SystemPropertyUtils.resolvePlaceholders("${test.prop}"));
+		assertThatIllegalArgumentException().isThrownBy(() -> SystemPropertyUtils.resolvePlaceholders("${test.prop}"));
 	}
 
 	@Test
@@ -129,7 +128,7 @@ class SystemPropertyUtilsTests {
 
 	@Test
 	void replaceFromEnv() {
-		Map<String,String> env = System.getenv();
+		Map<String, String> env = System.getenv();
 		if (env.containsKey("PATH")) {
 			String text = "${PATH}";
 			assertThat(SystemPropertyUtils.resolvePlaceholders(text)).isEqualTo(env.get("PATH"));

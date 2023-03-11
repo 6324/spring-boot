@@ -30,9 +30,9 @@ import org.springframework.web.server.NotAcceptableStatusException;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * Resolver that checks a query parameter and uses it to lookup a matching
- * MediaType. Lookup keys can be registered or as a fallback
- * {@link MediaTypeFactory} can be used to perform a lookup.
+ * Resolver that checks a query parameter and uses it to lookup a matching MediaType.
+ * Lookup keys can be registered or as a fallback {@link MediaTypeFactory} can be used to
+ * perform a lookup.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -44,7 +44,6 @@ public class ParameterContentTypeResolver implements RequestedContentTypeResolve
 
 	private String parameterName = "format";
 
-
 	public ParameterContentTypeResolver(Map<String, MediaType> mediaTypes) {
 		mediaTypes.forEach((key, value) -> this.mediaTypes.put(formatKey(key), value));
 	}
@@ -53,10 +52,10 @@ public class ParameterContentTypeResolver implements RequestedContentTypeResolve
 		return key.toLowerCase(Locale.ENGLISH);
 	}
 
-
 	/**
 	 * Set the name of the parameter to use to determine requested media types.
-	 * <p>By default this is set to {@literal "format"}.
+	 * <p>
+	 * By default this is set to {@literal "format"}.
 	 */
 	public void setParameterName(String parameterName) {
 		Assert.notNull(parameterName, "'parameterName' is required");
@@ -67,7 +66,6 @@ public class ParameterContentTypeResolver implements RequestedContentTypeResolve
 		return this.parameterName;
 	}
 
-
 	@Override
 	public List<MediaType> resolveMediaTypes(ServerWebExchange exchange) throws NotAcceptableStatusException {
 		String key = exchange.getRequest().getQueryParams().getFirst(getParameterName());
@@ -77,11 +75,10 @@ public class ParameterContentTypeResolver implements RequestedContentTypeResolve
 		key = formatKey(key);
 		MediaType match = this.mediaTypes.get(key);
 		if (match == null) {
-			match = MediaTypeFactory.getMediaType("filename." + key)
-					.orElseThrow(() -> {
-						List<MediaType> supported = new ArrayList<>(this.mediaTypes.values());
-						return new NotAcceptableStatusException(supported);
-					});
+			match = MediaTypeFactory.getMediaType("filename." + key).orElseThrow(() -> {
+				List<MediaType> supported = new ArrayList<>(this.mediaTypes.values());
+				return new NotAcceptableStatusException(supported);
+			});
 		}
 		this.mediaTypes.putIfAbsent(key, match);
 		return Collections.singletonList(match);

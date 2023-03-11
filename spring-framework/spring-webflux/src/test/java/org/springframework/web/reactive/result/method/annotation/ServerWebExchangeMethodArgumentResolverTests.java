@@ -47,14 +47,13 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
  */
 public class ServerWebExchangeMethodArgumentResolverTests {
 
-	private final ServerWebExchangeMethodArgumentResolver resolver =
-			new ServerWebExchangeMethodArgumentResolver(ReactiveAdapterRegistry.getSharedInstance());
+	private final ServerWebExchangeMethodArgumentResolver resolver = new ServerWebExchangeMethodArgumentResolver(
+			ReactiveAdapterRegistry.getSharedInstance());
 
-	private final MockServerWebExchange exchange = MockServerWebExchange.from(
-			MockServerHttpRequest.get("https://example.org:9999/path?q=foo"));
+	private final MockServerWebExchange exchange = MockServerWebExchange
+			.from(MockServerHttpRequest.get("https://example.org:9999/path?q=foo"));
 
 	private ResolvableMethod testMethod = ResolvableMethod.on(getClass()).named("handle").build();
-
 
 	@Test
 	public void supportsParameter() {
@@ -70,9 +69,11 @@ public class ServerWebExchangeMethodArgumentResolverTests {
 
 		assertThat(this.resolver.supportsParameter(this.testMethod.arg(WebSession.class))).isFalse();
 		assertThat(this.resolver.supportsParameter(this.testMethod.arg(String.class))).isFalse();
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.resolver.supportsParameter(this.testMethod.arg(Mono.class, ServerWebExchange.class)))
-			.withMessageStartingWith("ServerWebExchangeMethodArgumentResolver does not support reactive type wrapper");
+		assertThatIllegalStateException()
+				.isThrownBy(
+						() -> this.resolver.supportsParameter(this.testMethod.arg(Mono.class, ServerWebExchange.class)))
+				.withMessageStartingWith(
+						"ServerWebExchangeMethodArgumentResolver does not support reactive type wrapper");
 	}
 
 	@Test
@@ -97,24 +98,14 @@ public class ServerWebExchangeMethodArgumentResolverTests {
 
 		assertThat(value).isNotNull();
 		assertThat(value.getClass()).isEqualTo(UriComponentsBuilder.class);
-		assertThat(((UriComponentsBuilder) value).path("/next").toUriString()).isEqualTo("https://example.org:9999/next");
+		assertThat(((UriComponentsBuilder) value).path("/next").toUriString())
+				.isEqualTo("https://example.org:9999/next");
 	}
 
-
-
 	@SuppressWarnings("unused")
-	public void handle(
-			ServerWebExchange exchange,
-			ServerHttpRequest request,
-			ServerHttpResponse response,
-			WebSession session,
-			HttpMethod httpMethod,
-			Locale locale,
-			TimeZone timeZone,
-			ZoneId zoneId,
-			UriComponentsBuilder uriComponentsBuilder,
-			UriBuilder uriBuilder,
-			String s,
+	public void handle(ServerWebExchange exchange, ServerHttpRequest request, ServerHttpResponse response,
+			WebSession session, HttpMethod httpMethod, Locale locale, TimeZone timeZone, ZoneId zoneId,
+			UriComponentsBuilder uriComponentsBuilder, UriBuilder uriBuilder, String s,
 			Mono<ServerWebExchange> monoExchange) {
 	}
 

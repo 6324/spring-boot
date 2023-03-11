@@ -53,15 +53,10 @@ public class StandardClasses {
 	}
 
 	/*
-	java.net.URI
-	javax.xml.datatype.XMLGregorianCalendarxs:anySimpleType
-	javax.xml.datatype.Duration
-	java.lang.Object
-	java.awt.Image
-	javax.activation.DataHandler
-	javax.xml.transform.Source
-	java.util.UUID
-		 */
+	 * java.net.URI javax.xml.datatype.XMLGregorianCalendarxs:anySimpleType
+	 * javax.xml.datatype.Duration java.lang.Object java.awt.Image
+	 * javax.activation.DataHandler javax.xml.transform.Source java.util.UUID
+	 */
 	public JAXBElement<String> standardClassString() {
 		return new JAXBElement<>(NAME, String.class, "42");
 	}
@@ -95,8 +90,7 @@ public class StandardClasses {
 	}
 
 	public JAXBElement<XMLGregorianCalendar> standardClassXMLGregorianCalendar() throws DatatypeConfigurationException {
-		XMLGregorianCalendar calendar =
-				factory.newXMLGregorianCalendar((GregorianCalendar) Calendar.getInstance());
+		XMLGregorianCalendar calendar = factory.newXMLGregorianCalendar((GregorianCalendar) Calendar.getInstance());
 		return new JAXBElement<>(NAME, XMLGregorianCalendar.class, calendar);
 	}
 
@@ -116,12 +110,12 @@ public class StandardClasses {
 		return new JAXBElement<>(NAME, DataHandler.class, dataHandler);
 	}
 
-	/* The following should work according to the spec, but doesn't on the JAXB2 implementation including in JDK 1.6.0_17
-	public JAXBElement<Source> standardClassSource() {
-		StringReader reader = new StringReader("<foo/>");
-		return new JAXBElement<Source>(NAME, Source.class, new StreamSource(reader));
-	}
-	*/
+	/*
+	 * The following should work according to the spec, but doesn't on the JAXB2
+	 * implementation including in JDK 1.6.0_17 public JAXBElement<Source>
+	 * standardClassSource() { StringReader reader = new StringReader("<foo/>"); return
+	 * new JAXBElement<Source>(NAME, Source.class, new StreamSource(reader)); }
+	 */
 
 	public JAXBElement<UUID> standardClassUUID() {
 		return new JAXBElement<>(NAME, UUID.class, UUID.randomUUID());

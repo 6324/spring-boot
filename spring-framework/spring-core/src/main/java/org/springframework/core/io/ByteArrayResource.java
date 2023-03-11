@@ -26,26 +26,28 @@ import org.springframework.util.Assert;
 
 /**
  * {@link Resource} implementation for a given byte array.
- * <p>Creates a {@link ByteArrayInputStream} for the given byte array.
+ * <p>
+ * Creates a {@link ByteArrayInputStream} for the given byte array.
  *
- * <p>Useful for loading content from any given byte array,
- * without having to resort to a single-use {@link InputStreamResource}.
- * Particularly useful for creating mail attachments from local content,
- * where JavaMail needs to be able to read the stream multiple times.
+ * <p>
+ * Useful for loading content from any given byte array, without having to resort to a
+ * single-use {@link InputStreamResource}. Particularly useful for creating mail
+ * attachments from local content, where JavaMail needs to be able to read the stream
+ * multiple times.
  *
  * @author Juergen Hoeller
  * @author Sam Brannen
  * @since 1.2.3
  * @see java.io.ByteArrayInputStream
  * @see InputStreamResource
- * @see org.springframework.mail.javamail.MimeMessageHelper#addAttachment(String, InputStreamSource)
+ * @see org.springframework.mail.javamail.MimeMessageHelper#addAttachment(String,
+ * InputStreamSource)
  */
 public class ByteArrayResource extends AbstractResource {
 
 	private final byte[] byteArray;
 
 	private final String description;
-
 
 	/**
 	 * Create a new {@code ByteArrayResource}.
@@ -65,7 +67,6 @@ public class ByteArrayResource extends AbstractResource {
 		this.byteArray = byteArray;
 		this.description = (description != null ? description : "");
 	}
-
 
 	/**
 	 * Return the underlying byte array.
@@ -91,8 +92,7 @@ public class ByteArrayResource extends AbstractResource {
 	}
 
 	/**
-	 * This implementation returns a ByteArrayInputStream for the
-	 * underlying byte array.
+	 * This implementation returns a ByteArrayInputStream for the underlying byte array.
 	 * @see java.io.ByteArrayInputStream
 	 */
 	@Override
@@ -109,20 +109,18 @@ public class ByteArrayResource extends AbstractResource {
 		return "Byte array resource [" + this.description + "]";
 	}
 
-
 	/**
 	 * This implementation compares the underlying byte array.
 	 * @see java.util.Arrays#equals(byte[], byte[])
 	 */
 	@Override
 	public boolean equals(@Nullable Object other) {
-		return (this == other || (other instanceof ByteArrayResource &&
-				Arrays.equals(((ByteArrayResource) other).byteArray, this.byteArray)));
+		return (this == other || (other instanceof ByteArrayResource
+				&& Arrays.equals(((ByteArrayResource) other).byteArray, this.byteArray)));
 	}
 
 	/**
-	 * This implementation returns the hash code based on the
-	 * underlying byte array.
+	 * This implementation returns the hash code based on the underlying byte array.
 	 */
 	@Override
 	public int hashCode() {

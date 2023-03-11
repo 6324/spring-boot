@@ -33,9 +33,10 @@ import org.springframework.util.StringUtils;
 /**
  * Parser for the &lt;context:mbean-server/&gt; element.
  *
- * <p>Registers an instance of
- * {@link org.springframework.jmx.export.annotation.AnnotationMBeanExporter}
- * within the context.
+ * <p>
+ * Registers an instance of
+ * {@link org.springframework.jmx.export.annotation.AnnotationMBeanExporter} within the
+ * context.
  *
  * @author Mark Fisher
  * @author Juergen Hoeller
@@ -48,7 +49,6 @@ class MBeanServerBeanDefinitionParser extends AbstractBeanDefinitionParser {
 
 	private static final String AGENT_ID_ATTRIBUTE = "agent-id";
 
-
 	private static final boolean weblogicPresent;
 
 	private static final boolean webspherePresent;
@@ -58,7 +58,6 @@ class MBeanServerBeanDefinitionParser extends AbstractBeanDefinitionParser {
 		weblogicPresent = ClassUtils.isPresent("weblogic.management.Helper", classLoader);
 		webspherePresent = ClassUtils.isPresent("com.ibm.websphere.management.AdminServiceFactory", classLoader);
 	}
-
 
 	@Override
 	protected String resolveId(Element element, AbstractBeanDefinition definition, ParserContext parserContext) {

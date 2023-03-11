@@ -181,7 +181,6 @@ public class EisOperationTests {
 		verify(connection).close();
 	}
 
-
 	private class MappingRecordOperationImpl extends MappingRecordOperation {
 
 		private QueryCallDetector callDetector;
@@ -203,14 +202,15 @@ public class EisOperationTests {
 		protected Object extractOutputData(Record outputRecord) throws ResourceException {
 			return this.callDetector.callExtractOutputData(outputRecord);
 		}
-	}
 
+	}
 
 	private interface QueryCallDetector {
 
 		Record callCreateInputRecord(RecordFactory recordFactory, Object inputObject);
 
 		Object callExtractOutputData(Record outputRecord);
+
 	}
 
 }

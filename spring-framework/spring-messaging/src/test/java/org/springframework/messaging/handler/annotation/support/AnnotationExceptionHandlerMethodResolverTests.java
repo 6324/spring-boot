@@ -38,9 +38,8 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
  */
 public class AnnotationExceptionHandlerMethodResolverTests {
 
-	private final AnnotationExceptionHandlerMethodResolver resolver =
-			new AnnotationExceptionHandlerMethodResolver(ExceptionController.class);
-
+	private final AnnotationExceptionHandlerMethodResolver resolver = new AnnotationExceptionHandlerMethodResolver(
+			ExceptionController.class);
 
 	@Test
 	public void resolveMethodFromAnnotation() {
@@ -57,7 +56,8 @@ public class AnnotationExceptionHandlerMethodResolverTests {
 	@Test
 	public void resolveMethodFromArgumentWithErrorType() {
 		AssertionError exception = new AssertionError();
-		assertThat(this.resolver.resolveMethod(new IllegalStateException(exception)).getName()).isEqualTo("handleAssertionError");
+		assertThat(this.resolver.resolveMethod(new IllegalStateException(exception)).getName())
+				.isEqualTo("handleAssertionError");
 	}
 
 	@Test
@@ -95,22 +95,22 @@ public class AnnotationExceptionHandlerMethodResolverTests {
 
 	@Test
 	public void ambiguousExceptionMapping() {
-		assertThatIllegalStateException().isThrownBy(() ->
-				new AnnotationExceptionHandlerMethodResolver(AmbiguousController.class));
+		assertThatIllegalStateException()
+				.isThrownBy(() -> new AnnotationExceptionHandlerMethodResolver(AmbiguousController.class));
 	}
 
 	@Test
 	public void noExceptionMapping() {
-		assertThatIllegalStateException().isThrownBy(() ->
-				new AnnotationExceptionHandlerMethodResolver(NoExceptionController.class));
+		assertThatIllegalStateException()
+				.isThrownBy(() -> new AnnotationExceptionHandlerMethodResolver(NoExceptionController.class));
 	}
-
 
 	@Controller
 	@SuppressWarnings("unused")
 	static class ExceptionController {
 
-		public void handle() {}
+		public void handle() {
+		}
 
 		@MessageExceptionHandler(IOException.class)
 		public void handleIOException() {
@@ -127,24 +127,25 @@ public class AnnotationExceptionHandlerMethodResolverTests {
 		@MessageExceptionHandler
 		public void handleAssertionError(AssertionError exception) {
 		}
-	}
 
+	}
 
 	@Controller
 	static class InheritedController extends ExceptionController {
 
 		@Override
-		public void handleIOException()	{
+		public void handleIOException() {
 		}
-	}
 
+	}
 
 	@Controller
 	static class AmbiguousController {
 
-		public void handle() {}
+		public void handle() {
+		}
 
-		@MessageExceptionHandler({BindException.class, IllegalArgumentException.class})
+		@MessageExceptionHandler({ BindException.class, IllegalArgumentException.class })
 		public String handle1(Exception ex) throws IOException {
 			return ClassUtils.getShortName(ex.getClass());
 		}
@@ -153,8 +154,8 @@ public class AnnotationExceptionHandlerMethodResolverTests {
 		public String handle2(IllegalArgumentException ex) {
 			return ClassUtils.getShortName(ex.getClass());
 		}
-	}
 
+	}
 
 	@Controller
 	static class NoExceptionController {
@@ -162,6 +163,7 @@ public class AnnotationExceptionHandlerMethodResolverTests {
 		@MessageExceptionHandler
 		public void handle() {
 		}
+
 	}
 
 }

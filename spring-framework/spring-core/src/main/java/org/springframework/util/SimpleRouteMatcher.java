@@ -24,10 +24,11 @@ import org.springframework.lang.Nullable;
 /**
  * {@code RouteMatcher} that delegates to a {@link PathMatcher}.
  *
- * <p><strong>Note:</strong> This implementation is not efficient since
- * {@code PathMatcher} treats paths and patterns as Strings. For more optimized
- * performance use the {@code PathPatternRouteMatcher} from {@code spring-web}
- * which enables use of parsed routes and patterns.
+ * <p>
+ * <strong>Note:</strong> This implementation is not efficient since {@code PathMatcher}
+ * treats paths and patterns as Strings. For more optimized performance use the
+ * {@code PathPatternRouteMatcher} from {@code spring-web} which enables use of parsed
+ * routes and patterns.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -36,10 +37,8 @@ public class SimpleRouteMatcher implements RouteMatcher {
 
 	private final PathMatcher pathMatcher;
 
-
 	/**
-	 * Create a new {@code SimpleRouteMatcher} for the given
-	 * {@link PathMatcher} delegate.
+	 * Create a new {@code SimpleRouteMatcher} for the given {@link PathMatcher} delegate.
 	 */
 	public SimpleRouteMatcher(PathMatcher pathMatcher) {
 		Assert.notNull(pathMatcher, "PathMatcher is required");
@@ -52,7 +51,6 @@ public class SimpleRouteMatcher implements RouteMatcher {
 	public PathMatcher getPathMatcher() {
 		return this.pathMatcher;
 	}
-
 
 	@Override
 	public Route parseRoute(String route) {
@@ -88,7 +86,6 @@ public class SimpleRouteMatcher implements RouteMatcher {
 		return this.pathMatcher.getPatternComparator(route.value());
 	}
 
-
 	private static class DefaultRoute implements Route {
 
 		private final String path;
@@ -106,6 +103,7 @@ public class SimpleRouteMatcher implements RouteMatcher {
 		public String toString() {
 			return value();
 		}
+
 	}
 
 }

@@ -47,7 +47,6 @@ public abstract class AbstractRequestMappingIntegrationTests extends AbstractHtt
 
 	private ApplicationContext applicationContext;
 
-
 	@Override
 	protected HttpHandler createHttpHandler() {
 		this.restTemplate = initRestTemplate();
@@ -69,7 +68,6 @@ public abstract class AbstractRequestMappingIntegrationTests extends AbstractHtt
 		return this.restTemplate;
 	}
 
-
 	<T> ResponseEntity<T> performGet(String url, MediaType out, Class<T> type) throws Exception {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setAccept(Collections.singletonList(out));
@@ -80,16 +78,14 @@ public abstract class AbstractRequestMappingIntegrationTests extends AbstractHtt
 		return getRestTemplate().exchange(prepareGet(url, headers), type);
 	}
 
-	<T> ResponseEntity<T> performGet(String url, MediaType out, ParameterizedTypeReference<T> type)
-			throws Exception {
+	<T> ResponseEntity<T> performGet(String url, MediaType out, ParameterizedTypeReference<T> type) throws Exception {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setAccept(Collections.singletonList(out));
 		return this.restTemplate.exchange(prepareGet(url, headers), type);
 	}
 
-	<T> ResponseEntity<T> performOptions(String url, HttpHeaders headers, Class<T> type)
-			throws Exception {
+	<T> ResponseEntity<T> performOptions(String url, HttpHeaders headers, Class<T> type) throws Exception {
 
 		return getRestTemplate().exchange(prepareOptions(url, headers), type);
 	}
@@ -102,13 +98,12 @@ public abstract class AbstractRequestMappingIntegrationTests extends AbstractHtt
 		if (out != null) {
 			headers.setAccept(Collections.singletonList(out));
 		}
-		return  getRestTemplate().exchange(preparePost(url, headers, body), type);
+		return getRestTemplate().exchange(preparePost(url, headers, body), type);
 	}
 
-	<T> ResponseEntity<T> performPost(String url, HttpHeaders headers, Object body,
-			Class<T> type) throws Exception {
+	<T> ResponseEntity<T> performPost(String url, HttpHeaders headers, Object body, Class<T> type) throws Exception {
 
-		return  getRestTemplate().exchange(preparePost(url, headers, body), type);
+		return getRestTemplate().exchange(preparePost(url, headers, body), type);
 	}
 
 	<T> ResponseEntity<T> performPost(String url, MediaType in, Object body, MediaType out,

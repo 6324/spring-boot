@@ -44,7 +44,6 @@ public class ViewResolverRegistryTests {
 
 	private ViewResolverRegistry registry;
 
-
 	@BeforeEach
 	public void setup() {
 		StaticWebApplicationContext context = new StaticWebApplicationContext();
@@ -52,7 +51,6 @@ public class ViewResolverRegistryTests {
 		context.registerSingleton("scriptTemplateConfigurer", ScriptTemplateConfigurer.class);
 		this.registry = new ViewResolverRegistry(context);
 	}
-
 
 	@Test
 	public void order() {
@@ -92,14 +90,14 @@ public class ViewResolverRegistryTests {
 		assertThat(this.registry.getDefaultViews().get(0)).isSameAs(view);
 	}
 
-	@Test  // SPR-16431
+	@Test // SPR-16431
 	public void scriptTemplate() {
 		this.registry.scriptTemplate().prefix("/").suffix(".html");
 
 		List<ViewResolver> viewResolvers = this.registry.getViewResolvers();
 		assertThat(viewResolvers.size()).isEqualTo(1);
 		assertThat(viewResolvers.get(0).getClass()).isEqualTo(ScriptTemplateViewResolver.class);
-		DirectFieldAccessor accessor =  new DirectFieldAccessor(viewResolvers.get(0));
+		DirectFieldAccessor accessor = new DirectFieldAccessor(viewResolvers.get(0));
 		assertThat(accessor.getPropertyValue("prefix")).isEqualTo("/");
 		assertThat(accessor.getPropertyValue("suffix")).isEqualTo(".html");
 	}

@@ -21,8 +21,8 @@ import org.springframework.beans.factory.config.DependencyDescriptor;
 import org.springframework.lang.Nullable;
 
 /**
- * {@link AutowireCandidateResolver} implementation to use when no annotation
- * support is available. This implementation checks the bean definition only.
+ * {@link AutowireCandidateResolver} implementation to use when no annotation support is
+ * available. This implementation checks the bean definition only.
  *
  * @author Mark Fisher
  * @author Juergen Hoeller
@@ -35,7 +35,6 @@ public class SimpleAutowireCandidateResolver implements AutowireCandidateResolve
 	 * @since 5.2.7
 	 */
 	public static final SimpleAutowireCandidateResolver INSTANCE = new SimpleAutowireCandidateResolver();
-
 
 	@Override
 	public boolean isAutowireCandidate(BeanDefinitionHolder bdHolder, DependencyDescriptor descriptor) {

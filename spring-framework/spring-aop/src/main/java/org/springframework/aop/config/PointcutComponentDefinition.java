@@ -22,8 +22,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * {@link org.springframework.beans.factory.parsing.ComponentDefinition}
- * implementation that holds a pointcut definition.
+ * {@link org.springframework.beans.factory.parsing.ComponentDefinition} implementation
+ * that holds a pointcut definition.
  *
  * @author Rob Harrop
  * @since 2.0
@@ -36,7 +36,6 @@ public class PointcutComponentDefinition extends AbstractComponentDefinition {
 
 	private final String description;
 
-
 	public PointcutComponentDefinition(String pointcutBeanName, BeanDefinition pointcutDefinition, String expression) {
 		Assert.notNull(pointcutBeanName, "Bean name must not be null");
 		Assert.notNull(pointcutDefinition, "Pointcut definition must not be null");
@@ -45,7 +44,6 @@ public class PointcutComponentDefinition extends AbstractComponentDefinition {
 		this.pointcutDefinition = pointcutDefinition;
 		this.description = "Pointcut <name='" + pointcutBeanName + "', expression=[" + expression + "]>";
 	}
-
 
 	@Override
 	public String getName() {
@@ -59,7 +57,7 @@ public class PointcutComponentDefinition extends AbstractComponentDefinition {
 
 	@Override
 	public BeanDefinition[] getBeanDefinitions() {
-		return new BeanDefinition[] {this.pointcutDefinition};
+		return new BeanDefinition[] { this.pointcutDefinition };
 	}
 
 	@Override

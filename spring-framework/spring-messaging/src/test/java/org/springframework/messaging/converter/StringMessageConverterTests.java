@@ -31,7 +31,8 @@ import org.springframework.util.MimeTypeUtils;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Test fixture for {@link org.springframework.messaging.converter.StringMessageConverter}.
+ * Test fixture for
+ * {@link org.springframework.messaging.converter.StringMessageConverter}.
  *
  * @author Rossen Stoyanchev
  */
@@ -39,18 +40,17 @@ public class StringMessageConverterTests {
 
 	private final StringMessageConverter converter = new StringMessageConverter();
 
-
 	@Test
 	public void fromByteArrayMessage() {
-		Message<byte[]> message = MessageBuilder.withPayload(
-				"ABC".getBytes()).setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.TEXT_PLAIN).build();
+		Message<byte[]> message = MessageBuilder.withPayload("ABC".getBytes())
+				.setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.TEXT_PLAIN).build();
 		assertThat(this.converter.fromMessage(message, String.class)).isEqualTo("ABC");
 	}
 
 	@Test
 	public void fromStringMessage() {
-		Message<String> message = MessageBuilder.withPayload(
-				"ABC").setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.TEXT_PLAIN).build();
+		Message<String> message = MessageBuilder.withPayload("ABC")
+				.setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.TEXT_PLAIN).build();
 		assertThat(this.converter.fromMessage(message, String.class)).isEqualTo("ABC");
 	}
 
@@ -64,7 +64,8 @@ public class StringMessageConverterTests {
 	public void fromMessageCharset() {
 		String payload = "H\u00e9llo W\u00f6rld";
 		Message<byte[]> message = MessageBuilder.withPayload(payload.getBytes(StandardCharsets.ISO_8859_1))
-				.setHeader(MessageHeaders.CONTENT_TYPE, new MimeType("text", "plain", StandardCharsets.ISO_8859_1)).build();
+				.setHeader(MessageHeaders.CONTENT_TYPE, new MimeType("text", "plain", StandardCharsets.ISO_8859_1))
+				.build();
 		assertThat(this.converter.fromMessage(message, String.class)).isEqualTo(payload);
 	}
 
@@ -83,8 +84,8 @@ public class StringMessageConverterTests {
 
 	@Test
 	public void fromMessageByteArray() {
-		Message<byte[]> message = MessageBuilder.withPayload(
-				"ABC".getBytes()).setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.TEXT_PLAIN).build();
+		Message<byte[]> message = MessageBuilder.withPayload("ABC".getBytes())
+				.setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.TEXT_PLAIN).build();
 		assertThat(this.converter.fromMessage(message, String.class)).isEqualTo("ABC");
 	}
 

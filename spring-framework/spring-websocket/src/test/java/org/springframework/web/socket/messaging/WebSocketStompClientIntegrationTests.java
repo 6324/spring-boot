@@ -59,13 +59,11 @@ class WebSocketStompClientIntegrationTests {
 
 	private static final Log logger = LogFactory.getLog(WebSocketStompClientIntegrationTests.class);
 
-
 	private WebSocketStompClient stompClient;
 
 	private WebSocketTestServer server;
 
 	private AnnotationConfigWebApplicationContext wac;
-
 
 	@BeforeEach
 	void setUp(TestInfo testInfo) throws Exception {
@@ -107,7 +105,6 @@ class WebSocketStompClientIntegrationTests {
 		}
 	}
 
-
 	@Test
 	void publishSubscribe() throws Exception {
 
@@ -120,7 +117,6 @@ class WebSocketStompClientIntegrationTests {
 		assertThat(testHandler.getReceived()).containsExactly("payload");
 	}
 
-
 	@Configuration
 	static class TestConfig extends WebSocketMessageBrokerConfigurationSupport {
 
@@ -128,8 +124,7 @@ class WebSocketStompClientIntegrationTests {
 		protected void registerStompEndpoints(StompEndpointRegistry registry) {
 			// Can't rely on classpath detection
 			RequestUpgradeStrategy upgradeStrategy = new TomcatRequestUpgradeStrategy();
-			registry.addEndpoint("/stomp")
-					.setHandshakeHandler(new DefaultHandshakeHandler(upgradeStrategy))
+			registry.addEndpoint("/stomp").setHandshakeHandler(new DefaultHandshakeHandler(upgradeStrategy))
 					.setAllowedOrigins("*");
 		}
 
@@ -138,8 +133,8 @@ class WebSocketStompClientIntegrationTests {
 			configurer.setApplicationDestinationPrefixes("/app");
 			configurer.enableSimpleBroker("/topic", "/queue");
 		}
-	}
 
+	}
 
 	private static class TestHandler extends StompSessionHandlerAdapter {
 
@@ -149,17 +144,14 @@ class WebSocketStompClientIntegrationTests {
 
 		private final List<String> received = new ArrayList<>();
 
-
 		public TestHandler(String topic, Object payload) {
 			this.topic = topic;
 			this.payload = payload;
 		}
 
-
 		public List<String> getReceived() {
 			return this.received;
 		}
-
 
 		@Override
 		public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
@@ -168,6 +160,7 @@ class WebSocketStompClientIntegrationTests {
 				public Type getPayloadType(StompHeaders headers) {
 					return String.class;
 				}
+
 				@Override
 				public void handleFrame(StompHeaders headers, @Nullable Object payload) {
 					received.add((String) payload);
@@ -199,8 +192,8 @@ class WebSocketStompClientIntegrationTests {
 		}
 
 		@Override
-		public void handleException(StompSession session, StompCommand command,
-				StompHeaders headers, byte[] payload, Throwable ex) {
+		public void handleException(StompSession session, StompCommand command, StompHeaders headers, byte[] payload,
+				Throwable ex) {
 
 			logger.error(command + " " + headers, ex);
 		}
@@ -214,6 +207,7 @@ class WebSocketStompClientIntegrationTests {
 		public void handleTransportError(StompSession session, Throwable exception) {
 			logger.error(exception);
 		}
+
 	}
 
 }

@@ -32,14 +32,13 @@ public class AspectJCacheAnnotationTests extends AbstractCacheAnnotationTests {
 
 	@Override
 	protected ConfigurableApplicationContext getApplicationContext() {
-		return new GenericXmlApplicationContext(
-				"/org/springframework/cache/config/annotation-cache-aspectj.xml");
+		return new GenericXmlApplicationContext("/org/springframework/cache/config/annotation-cache-aspectj.xml");
 	}
 
 	@Test
 	public void testKeyStrategy() {
-		AnnotationCacheAspect aspect = ctx.getBean(
-				"org.springframework.cache.config.internalCacheAspect", AnnotationCacheAspect.class);
+		AnnotationCacheAspect aspect = ctx.getBean("org.springframework.cache.config.internalCacheAspect",
+				AnnotationCacheAspect.class);
 		assertThat(aspect.getKeyGenerator()).isSameAs(ctx.getBean("keyGenerator"));
 	}
 

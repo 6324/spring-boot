@@ -20,13 +20,14 @@ import org.springframework.aop.Pointcut;
 import org.springframework.lang.Nullable;
 
 /**
- * Concrete BeanFactory-based PointcutAdvisor that allows for any Advice
- * to be configured as reference to an Advice bean in the BeanFactory,
- * as well as the Pointcut to be configured through a bean property.
+ * Concrete BeanFactory-based PointcutAdvisor that allows for any Advice to be configured
+ * as reference to an Advice bean in the BeanFactory, as well as the Pointcut to be
+ * configured through a bean property.
  *
- * <p>Specifying the name of an advice bean instead of the advice object itself
- * (if running within a BeanFactory) increases loose coupling at initialization time,
- * in order to not initialize the advice object until the pointcut actually matches.
+ * <p>
+ * Specifying the name of an advice bean instead of the advice object itself (if running
+ * within a BeanFactory) increases loose coupling at initialization time, in order to not
+ * initialize the advice object until the pointcut actually matches.
  *
  * @author Juergen Hoeller
  * @since 2.0.2
@@ -38,10 +39,10 @@ public class DefaultBeanFactoryPointcutAdvisor extends AbstractBeanFactoryPointc
 
 	private Pointcut pointcut = Pointcut.TRUE;
 
-
 	/**
 	 * Specify the pointcut targeting the advice.
-	 * <p>Default is {@code Pointcut.TRUE}.
+	 * <p>
+	 * Default is {@code Pointcut.TRUE}.
 	 * @see #setAdviceBeanName
 	 */
 	public void setPointcut(@Nullable Pointcut pointcut) {
@@ -52,7 +53,6 @@ public class DefaultBeanFactoryPointcutAdvisor extends AbstractBeanFactoryPointc
 	public Pointcut getPointcut() {
 		return this.pointcut;
 	}
-
 
 	@Override
 	public String toString() {

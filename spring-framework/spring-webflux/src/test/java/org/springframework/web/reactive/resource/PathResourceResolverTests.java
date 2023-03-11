@@ -33,15 +33,14 @@ import static org.assertj.core.api.Assertions.fail;
 
 /**
  * Unit tests for {@link PathResourceResolver}.
+ *
  * @author Rossen Stoyanchev
  */
 public class PathResourceResolverTests {
 
 	private static final Duration TIMEOUT = Duration.ofSeconds(5);
 
-
 	private final PathResourceResolver resolver = new PathResourceResolver();
-
 
 	@Test
 	public void resolveFromClasspath() throws IOException {
@@ -116,25 +115,24 @@ public class PathResourceResolverTests {
 
 	@Test
 	public void checkResourceWithAllowedLocations() {
-		this.resolver.setAllowedLocations(
-				new ClassPathResource("test/", PathResourceResolver.class),
-				new ClassPathResource("testalternatepath/", PathResourceResolver.class)
-		);
+		this.resolver.setAllowedLocations(new ClassPathResource("test/", PathResourceResolver.class),
+				new ClassPathResource("testalternatepath/", PathResourceResolver.class));
 
 		Resource location = getResource("main.css");
-		String actual = this.resolver.resolveUrlPath("../testalternatepath/bar.css",
-				Collections.singletonList(location), null).block(TIMEOUT);
+		String actual = this.resolver
+				.resolveUrlPath("../testalternatepath/bar.css", Collections.singletonList(location), null)
+				.block(TIMEOUT);
 
 		assertThat(actual).isEqualTo("../testalternatepath/bar.css");
 	}
 
 	@Test // SPR-12624
 	public void checkRelativeLocation() throws Exception {
-		String location= new UrlResource(getClass().getResource("./test/")).getURL().toExternalForm();
-		location = location.replace("/test/org/springframework","/test/org/../org/springframework");
+		String location = new UrlResource(getClass().getResource("./test/")).getURL().toExternalForm();
+		location = location.replace("/test/org/springframework", "/test/org/../org/springframework");
 
-		Mono<Resource> resourceMono = this.resolver.resolveResource(
-				null, "main.css", Collections.singletonList(new UrlResource(location)), null);
+		Mono<Resource> resourceMono = this.resolver.resolveResource(null, "main.css",
+				Collections.singletonList(new UrlResource(location)), null);
 
 		assertThat(resourceMono.block(TIMEOUT)).isNotNull();
 	}
@@ -148,8 +146,8 @@ public class PathResourceResolverTests {
 	@Test // SPR-13241
 	public void resolvePathRootResource() {
 		Resource webjarsLocation = new ClassPathResource("/META-INF/resources/webjars/", PathResourceResolver.class);
-		String path = this.resolver.resolveUrlPathInternal(
-				"", Collections.singletonList(webjarsLocation), null).block(TIMEOUT);
+		String path = this.resolver.resolveUrlPathInternal("", Collections.singletonList(webjarsLocation), null)
+				.block(TIMEOUT);
 
 		assertThat(path).isNull();
 	}

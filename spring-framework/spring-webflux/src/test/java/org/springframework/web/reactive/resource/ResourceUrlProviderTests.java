@@ -50,7 +50,6 @@ public class ResourceUrlProviderTests {
 
 	private static final Duration TIMEOUT = Duration.ofSeconds(5);
 
-
 	private final List<Resource> locations = new ArrayList<>();
 
 	private final ResourceWebHandler handler = new ResourceWebHandler();
@@ -60,7 +59,6 @@ public class ResourceUrlProviderTests {
 	private final ResourceUrlProvider urlProvider = new ResourceUrlProvider();
 
 	private final MockServerWebExchange exchange = MockServerWebExchange.from(get("/"));
-
 
 	@BeforeEach
 	void setup() throws Exception {
@@ -72,7 +70,6 @@ public class ResourceUrlProviderTests {
 		this.urlProvider.registerHandlers(this.handlerMap);
 	}
 
-
 	@Test
 	void getStaticResourceUrl() {
 		String expected = "/resources/foo.css";
@@ -81,7 +78,7 @@ public class ResourceUrlProviderTests {
 		assertThat(actual).isEqualTo(expected);
 	}
 
-	@Test  // SPR-13374
+	@Test // SPR-13374
 	void getStaticResourceUrlRequestWithQueryOrHash() {
 
 		String url = "/resources/foo.css?foo=bar&url=https://example.org";
@@ -108,7 +105,7 @@ public class ResourceUrlProviderTests {
 		assertThat(url).isEqualTo("/resources/foo-e36d2e05253c6c7085a91522ce43a0b4.css");
 	}
 
-	@Test  // SPR-12647
+	@Test // SPR-12647
 	void bestPatternMatch() {
 		ResourceWebHandler otherHandler = new ResourceWebHandler();
 		otherHandler.setLocations(this.locations);
@@ -128,7 +125,7 @@ public class ResourceUrlProviderTests {
 		assertThat(url).isEqualTo("/resources/foo-e36d2e05253c6c7085a91522ce43a0b4.css");
 	}
 
-	@Test  // SPR-12592
+	@Test // SPR-12592
 	@SuppressWarnings("resource")
 	void initializeOnce() {
 		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
@@ -160,15 +157,13 @@ public class ResourceUrlProviderTests {
 		assertThat(childUrlProvider.getHandlerMap()).hasKeySatisfying(pathPatternStringOf("/resources/**"));
 	}
 
-
 	private Condition<PathPattern> pathPatternStringOf(String expected) {
-		return new Condition<PathPattern>(
-				actual -> actual != null && actual.getPatternString().equals(expected),
+		return new Condition<PathPattern>(actual -> actual != null && actual.getPatternString().equals(expected),
 				"Pattern %s", expected);
 	}
 
 	@Configuration
-	@SuppressWarnings({"unused", "WeakerAccess"})
+	@SuppressWarnings({ "unused", "WeakerAccess" })
 	static class HandlerMappingConfiguration {
 
 		@Bean
@@ -180,16 +175,18 @@ public class ResourceUrlProviderTests {
 		public ResourceUrlProvider resourceUrlProvider() {
 			return new ResourceUrlProvider();
 		}
+
 	}
 
 	@Configuration
-	@SuppressWarnings({"unused", "WeakerAccess"})
+	@SuppressWarnings({ "unused", "WeakerAccess" })
 	static class ParentHandlerMappingConfiguration {
 
 		@Bean
 		public ResourceUrlProvider resourceUrlProvider() {
 			return new ResourceUrlProvider();
 		}
+
 	}
 
 }

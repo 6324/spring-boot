@@ -46,12 +46,10 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
  */
 public class SockJsSessionTests extends AbstractSockJsSessionTests<TestSockJsSession> {
 
-
 	@Override
 	protected TestSockJsSession initSockJsSession() {
 		return new TestSockJsSession("1", this.sockJsConfig, this.webSocketHandler, Collections.emptyMap());
 	}
-
 
 	@Test
 	public void getTimeSinceLastActive() throws Exception {
@@ -248,8 +246,8 @@ public class SockJsSessionTests extends AbstractSockJsSessionTests<TestSockJsSes
 		this.session.setExceptionOnWrite(new IOException());
 		this.session.delegateConnectionEstablished();
 
-		assertThatExceptionOfType(SockJsTransportFailureException.class).isThrownBy(() ->
-				this.session.writeFrame(SockJsFrame.openFrame()));
+		assertThatExceptionOfType(SockJsTransportFailureException.class)
+				.isThrownBy(() -> this.session.writeFrame(SockJsFrame.openFrame()));
 		assertThat(this.session.getCloseStatus()).isEqualTo(CloseStatus.SERVER_ERROR);
 		verify(this.webSocketHandler).afterConnectionClosed(this.session, CloseStatus.SERVER_ERROR);
 	}

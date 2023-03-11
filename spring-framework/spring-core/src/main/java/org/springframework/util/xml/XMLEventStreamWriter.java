@@ -31,12 +31,13 @@ import javax.xml.stream.events.Namespace;
 import javax.xml.stream.events.StartElement;
 
 /**
- * Implementation of the {@link javax.xml.stream.XMLStreamWriter} interface
- * that wraps an {@link XMLEventWriter}.
+ * Implementation of the {@link javax.xml.stream.XMLStreamWriter} interface that wraps an
+ * {@link XMLEventWriter}.
  *
  * @author Arjen Poutsma
  * @since 3.0.5
- * @see StaxUtils#createEventStreamWriter(javax.xml.stream.XMLEventWriter, javax.xml.stream.XMLEventFactory)
+ * @see StaxUtils#createEventStreamWriter(javax.xml.stream.XMLEventWriter,
+ * javax.xml.stream.XMLEventFactory)
  */
 class XMLEventStreamWriter implements XMLStreamWriter {
 
@@ -50,12 +51,10 @@ class XMLEventStreamWriter implements XMLStreamWriter {
 
 	private boolean emptyElement = false;
 
-
 	public XMLEventStreamWriter(XMLEventWriter eventWriter, XMLEventFactory eventFactory) {
 		this.eventWriter = eventWriter;
 		this.eventFactory = eventFactory;
 	}
-
 
 	@Override
 	public void setNamespaceContext(NamespaceContext context) throws XMLStreamException {
@@ -86,7 +85,6 @@ class XMLEventStreamWriter implements XMLStreamWriter {
 	public Object getProperty(String name) throws IllegalArgumentException {
 		throw new IllegalArgumentException();
 	}
-
 
 	@Override
 	public void writeStartDocument() throws XMLStreamException {
@@ -121,7 +119,8 @@ class XMLEventStreamWriter implements XMLStreamWriter {
 	@Override
 	public void writeStartElement(String prefix, String localName, String namespaceURI) throws XMLStreamException {
 		closeEmptyElementIfNecessary();
-		doWriteStartElement(this.eventFactory.createStartElement(new QName(namespaceURI, localName, prefix), null, null));
+		doWriteStartElement(
+				this.eventFactory.createStartElement(new QName(namespaceURI, localName, prefix), null, null));
 	}
 
 	private void doWriteStartElement(StartElement startElement) throws XMLStreamException {
@@ -204,7 +203,8 @@ class XMLEventStreamWriter implements XMLStreamWriter {
 			newNamespaces.add(oldNamespace);
 		}
 		newNamespaces.add(namespace);
-		EndElement newEndElement = this.eventFactory.createEndElement(oldEndElement.getName(), newNamespaces.iterator());
+		EndElement newEndElement = this.eventFactory.createEndElement(oldEndElement.getName(),
+				newNamespaces.iterator());
 		this.eventWriter.add(namespace);
 		this.endElements.set(last, newEndElement);
 	}

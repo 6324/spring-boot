@@ -44,8 +44,8 @@ public class HeadersMethodArgumentResolver implements HandlerMethodArgumentResol
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		Class<?> paramType = parameter.getParameterType();
-		return ((parameter.hasParameterAnnotation(Headers.class) && Map.class.isAssignableFrom(paramType)) ||
-				MessageHeaders.class == paramType || MessageHeaderAccessor.class.isAssignableFrom(paramType));
+		return ((parameter.hasParameterAnnotation(Headers.class) && Map.class.isAssignableFrom(paramType))
+				|| MessageHeaders.class == paramType || MessageHeaderAccessor.class.isAssignableFrom(paramType));
 	}
 
 	@Override
@@ -74,8 +74,8 @@ public class HeadersMethodArgumentResolver implements HandlerMethodArgumentResol
 			}
 		}
 		else {
-			throw new IllegalStateException("Unexpected parameter of type " + paramType +
-					" in method " + parameter.getMethod() + ". ");
+			throw new IllegalStateException(
+					"Unexpected parameter of type " + paramType + " in method " + parameter.getMethod() + ". ");
 		}
 	}
 

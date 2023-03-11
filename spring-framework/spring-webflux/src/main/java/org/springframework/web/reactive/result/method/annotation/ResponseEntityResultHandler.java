@@ -43,8 +43,9 @@ import org.springframework.web.server.ServerWebExchange;
 /**
  * Handles {@link HttpEntity} and {@link ResponseEntity} return values.
  *
- * <p>By default the order for this result handler is set to 0. It is generally
- * safe to place it early in the order as it looks for a concrete return type.
+ * <p>
+ * By default the order for this result handler is set to 0. It is generally safe to place
+ * it early in the order as it looks for a concrete return type.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -53,14 +54,12 @@ public class ResponseEntityResultHandler extends AbstractMessageWriterResultHand
 
 	private static final Set<HttpMethod> SAFE_METHODS = EnumSet.of(HttpMethod.GET, HttpMethod.HEAD);
 
-
 	/**
 	 * Basic constructor with a default {@link ReactiveAdapterRegistry}.
 	 * @param writers the writers for serializing to the response body
 	 * @param resolver to determine the requested content type
 	 */
-	public ResponseEntityResultHandler(List<HttpMessageWriter<?>> writers,
-			RequestedContentTypeResolver resolver) {
+	public ResponseEntityResultHandler(List<HttpMessageWriter<?>> writers, RequestedContentTypeResolver resolver) {
 
 		this(writers, resolver, ReactiveAdapterRegistry.getSharedInstance());
 	}
@@ -71,13 +70,12 @@ public class ResponseEntityResultHandler extends AbstractMessageWriterResultHand
 	 * @param resolver to determine the requested content type
 	 * @param registry for adaptation to reactive types
 	 */
-	public ResponseEntityResultHandler(List<HttpMessageWriter<?>> writers,
-			RequestedContentTypeResolver resolver, ReactiveAdapterRegistry registry) {
+	public ResponseEntityResultHandler(List<HttpMessageWriter<?>> writers, RequestedContentTypeResolver resolver,
+			ReactiveAdapterRegistry registry) {
 
 		super(writers, resolver, registry);
 		setOrder(0);
 	}
-
 
 	@Override
 	public boolean supports(HandlerResult result) {
@@ -86,8 +84,8 @@ public class ResponseEntityResultHandler extends AbstractMessageWriterResultHand
 			return true;
 		}
 		ReactiveAdapter adapter = getAdapter(result);
-		return adapter != null && !adapter.isNoValue() &&
-				isSupportedType(result.getReturnType().getGeneric().toClass());
+		return adapter != null && !adapter.isNoValue()
+				&& isSupportedType(result.getReturnType().getGeneric().toClass());
 	}
 
 	@Nullable
@@ -101,11 +99,10 @@ public class ResponseEntityResultHandler extends AbstractMessageWriterResultHand
 	}
 
 	private boolean isSupportedType(@Nullable Class<?> clazz) {
-		return (clazz != null && ((HttpEntity.class.isAssignableFrom(clazz) &&
-				!RequestEntity.class.isAssignableFrom(clazz)) ||
-				HttpHeaders.class.isAssignableFrom(clazz)));
+		return (clazz != null
+				&& ((HttpEntity.class.isAssignableFrom(clazz) && !RequestEntity.class.isAssignableFrom(clazz))
+						|| HttpHeaders.class.isAssignableFrom(clazz)));
 	}
-
 
 	@Override
 	public Mono<Void> handleResult(ServerWebExchange exchange, HandlerResult result) {
@@ -139,8 +136,7 @@ public class ResponseEntityResultHandler extends AbstractMessageWriterResultHand
 			}
 
 			if (httpEntity instanceof ResponseEntity) {
-				exchange.getResponse().setRawStatusCode(
-						((ResponseEntity<?>) httpEntity).getStatusCodeValue());
+				exchange.getResponse().setRawStatusCode(((ResponseEntity<?>) httpEntity).getStatusCodeValue());
 			}
 
 			HttpHeaders entityHeaders = httpEntity.getHeaders();

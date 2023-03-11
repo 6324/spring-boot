@@ -33,21 +33,26 @@ import org.springframework.util.Assert;
 /**
  * Interceptor to wrap an after-throwing advice.
  *
- * <p>The signatures on handler methods on the {@code ThrowsAdvice}
- * implementation method argument must be of the form:<br>
+ * <p>
+ * The signatures on handler methods on the {@code ThrowsAdvice} implementation method
+ * argument must be of the form:<br>
  *
  * {@code void afterThrowing([Method, args, target], ThrowableSubclass);}
  *
- * <p>Only the last argument is required.
+ * <p>
+ * Only the last argument is required.
  *
- * <p>Some examples of valid methods would be:
+ * <p>
+ * Some examples of valid methods would be:
  *
  * <pre class="code">public void afterThrowing(Exception ex)</pre>
- * <pre class="code">public void afterThrowing(RemoteException)</pre>
- * <pre class="code">public void afterThrowing(Method method, Object[] args, Object target, Exception ex)</pre>
- * <pre class="code">public void afterThrowing(Method method, Object[] args, Object target, ServletException ex)</pre>
+ * <pre class="code">public void afterThrowing(RemoteException)</pre> <pre class=
+ * "code">public void afterThrowing(Method method, Object[] args, Object target, Exception ex)</pre>
+ * <pre class=
+ * "code">public void afterThrowing(Method method, Object[] args, Object target, ServletException ex)</pre>
  *
- * <p>This is a framework class that need not be used directly by Spring users.
+ * <p>
+ * This is a framework class that need not be used directly by Spring users.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -60,12 +65,10 @@ public class ThrowsAdviceInterceptor implements MethodInterceptor, AfterAdvice {
 
 	private static final Log logger = LogFactory.getLog(ThrowsAdviceInterceptor.class);
 
-
 	private final Object throwsAdvice;
 
 	/** Methods on throws advice, keyed by exception class. */
 	private final Map<Class<?>, Method> exceptionHandlerMap = new HashMap<>();
-
 
 	/**
 	 * Create a new ThrowsAdviceInterceptor for the given ThrowsAdvice.
@@ -78,8 +81,8 @@ public class ThrowsAdviceInterceptor implements MethodInterceptor, AfterAdvice {
 
 		Method[] methods = throwsAdvice.getClass().getMethods();
 		for (Method method : methods) {
-			if (method.getName().equals(AFTER_THROWING) &&
-					(method.getParameterCount() == 1 || method.getParameterCount() == 4)) {
+			if (method.getName().equals(AFTER_THROWING)
+					&& (method.getParameterCount() == 1 || method.getParameterCount() == 4)) {
 				Class<?> throwableParam = method.getParameterTypes()[method.getParameterCount() - 1];
 				if (Throwable.class.isAssignableFrom(throwableParam)) {
 					// An exception handler to register...
@@ -97,14 +100,12 @@ public class ThrowsAdviceInterceptor implements MethodInterceptor, AfterAdvice {
 		}
 	}
 
-
 	/**
 	 * Return the number of handler methods in this advice.
 	 */
 	public int getHandlerMethodCount() {
 		return this.exceptionHandlerMap.size();
 	}
-
 
 	@Override
 	public Object invoke(MethodInvocation mi) throws Throwable {
@@ -145,10 +146,10 @@ public class ThrowsAdviceInterceptor implements MethodInterceptor, AfterAdvice {
 	private void invokeHandlerMethod(MethodInvocation mi, Throwable ex, Method method) throws Throwable {
 		Object[] handlerArgs;
 		if (method.getParameterCount() == 1) {
-			handlerArgs = new Object[] {ex};
+			handlerArgs = new Object[] { ex };
 		}
 		else {
-			handlerArgs = new Object[] {mi.getMethod(), mi.getArguments(), mi.getThis(), ex};
+			handlerArgs = new Object[] { mi.getMethod(), mi.getArguments(), mi.getThis(), ex };
 		}
 		try {
 			method.invoke(this.throwsAdvice, handlerArgs);

@@ -30,11 +30,9 @@ public class TestSimpSession implements SimpSession {
 
 	private final Set<SimpSubscription> subscriptions = new HashSet<>();
 
-
 	public TestSimpSession(String id) {
 		this.id = id;
 	}
-
 
 	@Override
 	public String getId() {
@@ -61,7 +59,6 @@ public class TestSimpSession implements SimpSession {
 			this.subscriptions.add(subscription);
 		}
 	}
-
 
 	@Override
 	public boolean equals(Object other) {

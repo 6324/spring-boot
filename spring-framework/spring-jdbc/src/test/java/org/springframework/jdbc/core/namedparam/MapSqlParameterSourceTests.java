@@ -41,8 +41,7 @@ public class MapSqlParameterSourceTests {
 	@Test
 	public void getValueChokesIfParameterIsNotPresent() {
 		MapSqlParameterSource source = new MapSqlParameterSource();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				source.getValue("pechorin was right!"));
+		assertThatIllegalArgumentException().isThrownBy(() -> source.getValue("pechorin was right!"));
 	}
 
 	@Test
@@ -62,13 +61,15 @@ public class MapSqlParameterSourceTests {
 
 	@Test
 	public void toStringShowsCustomSqlType() {
-		MapSqlParameterSource source = new MapSqlParameterSource("FOO", new SqlParameterValue(Integer.MAX_VALUE, "Foo"));
+		MapSqlParameterSource source = new MapSqlParameterSource("FOO",
+				new SqlParameterValue(Integer.MAX_VALUE, "Foo"));
 		assertThat(source.toString()).isEqualTo(("MapSqlParameterSource {FOO=Foo (type:" + Integer.MAX_VALUE + ")}"));
 	}
 
 	@Test
 	public void toStringDoesNotShowTypeUnknown() {
-		MapSqlParameterSource source = new MapSqlParameterSource("FOO", new SqlParameterValue(JdbcUtils.TYPE_UNKNOWN, "Foo"));
+		MapSqlParameterSource source = new MapSqlParameterSource("FOO",
+				new SqlParameterValue(JdbcUtils.TYPE_UNKNOWN, "Foo"));
 		assertThat(source.toString()).isEqualTo("MapSqlParameterSource {FOO=Foo}");
 	}
 

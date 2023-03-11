@@ -23,8 +23,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Adapts a {@link CompletableFuture} or {@link CompletionStage} into a
- * Spring {@link ListenableFuture}.
+ * Adapts a {@link CompletableFuture} or {@link CompletionStage} into a Spring
+ * {@link ListenableFuture}.
  *
  * @author Sebastien Deleuze
  * @author Juergen Hoeller
@@ -36,7 +36,6 @@ public class CompletableToListenableFutureAdapter<T> implements ListenableFuture
 	private final CompletableFuture<T> completableFuture;
 
 	private final ListenableFutureCallbackRegistry<T> callbacks = new ListenableFutureCallbackRegistry<>();
-
 
 	/**
 	 * Create a new adapter for the given {@link CompletionStage}.
@@ -61,7 +60,6 @@ public class CompletableToListenableFutureAdapter<T> implements ListenableFuture
 		});
 	}
 
-
 	@Override
 	public void addCallback(ListenableFutureCallback<? super T> callback) {
 		this.callbacks.addCallback(callback);
@@ -77,7 +75,6 @@ public class CompletableToListenableFutureAdapter<T> implements ListenableFuture
 	public CompletableFuture<T> completable() {
 		return this.completableFuture;
 	}
-
 
 	@Override
 	public boolean cancel(boolean mayInterruptIfRunning) {

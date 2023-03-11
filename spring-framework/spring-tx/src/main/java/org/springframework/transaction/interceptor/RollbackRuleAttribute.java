@@ -22,43 +22,43 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Rule determining whether or not a given exception (and any subclasses)
- * should cause a rollback.
+ * Rule determining whether or not a given exception (and any subclasses) should cause a
+ * rollback.
  *
- * <p>Multiple such rules can be applied to determine whether a transaction
- * should commit or rollback after an exception has been thrown.
+ * <p>
+ * Multiple such rules can be applied to determine whether a transaction should commit or
+ * rollback after an exception has been thrown.
  *
  * @author Rod Johnson
  * @since 09.04.2003
  * @see NoRollbackRuleAttribute
  */
 @SuppressWarnings("serial")
-public class RollbackRuleAttribute implements Serializable{
+public class RollbackRuleAttribute implements Serializable {
 
 	/**
-	 * The {@link RollbackRuleAttribute rollback rule} for
-	 * {@link RuntimeException RuntimeExceptions}.
+	 * The {@link RollbackRuleAttribute rollback rule} for {@link RuntimeException
+	 * RuntimeExceptions}.
 	 */
-	public static final RollbackRuleAttribute ROLLBACK_ON_RUNTIME_EXCEPTIONS =
-			new RollbackRuleAttribute(RuntimeException.class);
-
+	public static final RollbackRuleAttribute ROLLBACK_ON_RUNTIME_EXCEPTIONS = new RollbackRuleAttribute(
+			RuntimeException.class);
 
 	/**
-	 * Could hold exception, resolving class name but would always require FQN.
-	 * This way does multiple string comparisons, but how often do we decide
-	 * whether to roll back a transaction following an exception?
+	 * Could hold exception, resolving class name but would always require FQN. This way
+	 * does multiple string comparisons, but how often do we decide whether to roll back a
+	 * transaction following an exception?
 	 */
 	private final String exceptionName;
 
-
 	/**
 	 * Create a new instance of the {@code RollbackRuleAttribute} class.
-	 * <p>This is the preferred way to construct a rollback rule that matches
-	 * the supplied {@link Exception} class, its subclasses, and its nested classes.
-	 * @param clazz throwable class; must be {@link Throwable} or a subclass
-	 * of {@code Throwable}
-	 * @throws IllegalArgumentException if the supplied {@code clazz} is
-	 * not a {@code Throwable} type or is {@code null}
+	 * <p>
+	 * This is the preferred way to construct a rollback rule that matches the supplied
+	 * {@link Exception} class, its subclasses, and its nested classes.
+	 * @param clazz throwable class; must be {@link Throwable} or a subclass of
+	 * {@code Throwable}
+	 * @throws IllegalArgumentException if the supplied {@code clazz} is not a
+	 * {@code Throwable} type or is {@code null}
 	 */
 	public RollbackRuleAttribute(Class<?> clazz) {
 		Assert.notNull(clazz, "'clazz' cannot be null");
@@ -70,28 +70,28 @@ public class RollbackRuleAttribute implements Serializable{
 	}
 
 	/**
-	 * Create a new instance of the {@code RollbackRuleAttribute} class
-	 * for the given {@code exceptionName}.
-	 * <p>This can be a substring, with no wildcard support at present. A value
-	 * of "ServletException" would match
-	 * {@code javax.servlet.ServletException} and subclasses, for example.
-	 * <p><b>NB:</b> Consider carefully how specific the pattern is, and
-	 * whether to include package information (which is not mandatory). For
-	 * example, "Exception" will match nearly anything, and will probably hide
-	 * other rules. "java.lang.Exception" would be correct if "Exception" was
-	 * meant to define a rule for all checked exceptions. With more unusual
-	 * exception names such as "BaseBusinessException" there's no need to use a
-	 * fully package-qualified name.
+	 * Create a new instance of the {@code RollbackRuleAttribute} class for the given
+	 * {@code exceptionName}.
+	 * <p>
+	 * This can be a substring, with no wildcard support at present. A value of
+	 * "ServletException" would match {@code javax.servlet.ServletException} and
+	 * subclasses, for example.
+	 * <p>
+	 * <b>NB:</b> Consider carefully how specific the pattern is, and whether to include
+	 * package information (which is not mandatory). For example, "Exception" will match
+	 * nearly anything, and will probably hide other rules. "java.lang.Exception" would be
+	 * correct if "Exception" was meant to define a rule for all checked exceptions. With
+	 * more unusual exception names such as "BaseBusinessException" there's no need to use
+	 * a fully package-qualified name.
 	 * @param exceptionName the exception name pattern; can also be a fully
 	 * package-qualified class name
-	 * @throws IllegalArgumentException if the supplied
-	 * {@code exceptionName} is {@code null} or empty
+	 * @throws IllegalArgumentException if the supplied {@code exceptionName} is
+	 * {@code null} or empty
 	 */
 	public RollbackRuleAttribute(String exceptionName) {
 		Assert.hasText(exceptionName, "'exceptionName' cannot be null or empty");
 		this.exceptionName = exceptionName;
 	}
-
 
 	/**
 	 * Return the pattern for the exception name.
@@ -102,14 +102,13 @@ public class RollbackRuleAttribute implements Serializable{
 
 	/**
 	 * Return the depth of the superclass matching.
-	 * <p>{@code 0} means {@code ex} matches exactly. Returns
-	 * {@code -1} if there is no match. Otherwise, returns depth with the
-	 * lowest depth winning.
+	 * <p>
+	 * {@code 0} means {@code ex} matches exactly. Returns {@code -1} if there is no
+	 * match. Otherwise, returns depth with the lowest depth winning.
 	 */
 	public int getDepth(Throwable ex) {
 		return getDepth(ex.getClass(), 0);
 	}
-
 
 	private int getDepth(Class<?> exceptionClass, int depth) {
 		if (exceptionClass.getName().contains(this.exceptionName)) {
@@ -122,7 +121,6 @@ public class RollbackRuleAttribute implements Serializable{
 		}
 		return getDepth(exceptionClass.getSuperclass(), depth + 1);
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {

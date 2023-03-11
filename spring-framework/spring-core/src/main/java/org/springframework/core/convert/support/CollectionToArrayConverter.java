@@ -30,10 +30,11 @@ import org.springframework.util.Assert;
 /**
  * Converts a Collection to an array.
  *
- * <p>First, creates a new array of the requested targetType with a length equal to the
- * size of the source Collection. Then sets each collection element into the array.
- * Will perform an element conversion from the collection's parameterized type to the
- * array's component type if necessary.
+ * <p>
+ * First, creates a new array of the requested targetType with a length equal to the size
+ * of the source Collection. Then sets each collection element into the array. Will
+ * perform an element conversion from the collection's parameterized type to the array's
+ * component type if necessary.
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -43,11 +44,9 @@ final class CollectionToArrayConverter implements ConditionalGenericConverter {
 
 	private final ConversionService conversionService;
 
-
 	public CollectionToArrayConverter(ConversionService conversionService) {
 		this.conversionService = conversionService;
 	}
-
 
 	@Override
 	public Set<ConvertiblePair> getConvertibleTypes() {

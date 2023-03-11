@@ -35,9 +35,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * Represents a user-defined {@link Configuration @Configuration} class.
- * Includes a set of {@link Bean} methods, including all such methods
- * defined in the ancestry of the class, in a 'flattened-out' manner.
+ * Represents a user-defined {@link Configuration @Configuration} class. Includes a set of
+ * {@link Bean} methods, including all such methods defined in the ancestry of the class,
+ * in a 'flattened-out' manner.
  *
  * @author Chris Beams
  * @author Juergen Hoeller
@@ -59,14 +59,11 @@ final class ConfigurationClass {
 
 	private final Set<BeanMethod> beanMethods = new LinkedHashSet<>();
 
-	private final Map<String, Class<? extends BeanDefinitionReader>> importedResources =
-			new LinkedHashMap<>();
+	private final Map<String, Class<? extends BeanDefinitionReader>> importedResources = new LinkedHashMap<>();
 
-	private final Map<ImportBeanDefinitionRegistrar, AnnotationMetadata> importBeanDefinitionRegistrars =
-			new LinkedHashMap<>();
+	private final Map<ImportBeanDefinitionRegistrar, AnnotationMetadata> importBeanDefinitionRegistrars = new LinkedHashMap<>();
 
 	final Set<String> skippedBeanMethods = new HashSet<>();
-
 
 	/**
 	 * Create a new {@link ConfigurationClass} with the given name.
@@ -135,7 +132,6 @@ final class ConfigurationClass {
 		this.beanName = beanName;
 	}
 
-
 	public AnnotationMetadata getMetadata() {
 		return this.metadata;
 	}
@@ -168,7 +164,8 @@ final class ConfigurationClass {
 	}
 
 	/**
-	 * Merge the imported-by declarations from the given configuration class into this one.
+	 * Merge the imported-by declarations from the given configuration class into this
+	 * one.
 	 * @since 4.0.5
 	 */
 	public void mergeImportedBy(ConfigurationClass otherConfigClass) {
@@ -176,8 +173,8 @@ final class ConfigurationClass {
 	}
 
 	/**
-	 * Return the configuration classes that imported this class,
-	 * or an empty Set if this configuration was not imported.
+	 * Return the configuration classes that imported this class, or an empty Set if this
+	 * configuration was not imported.
 	 * @since 4.0.5
 	 * @see #isImported()
 	 */
@@ -197,7 +194,8 @@ final class ConfigurationClass {
 		this.importedResources.put(importedResource, readerClass);
 	}
 
-	public void addImportBeanDefinitionRegistrar(ImportBeanDefinitionRegistrar registrar, AnnotationMetadata importingClassMetadata) {
+	public void addImportBeanDefinitionRegistrar(ImportBeanDefinitionRegistrar registrar,
+			AnnotationMetadata importingClassMetadata) {
 		this.importBeanDefinitionRegistrars.put(registrar, importingClassMetadata);
 	}
 
@@ -210,7 +208,8 @@ final class ConfigurationClass {
 	}
 
 	public void validate(ProblemReporter problemReporter) {
-		// A configuration class may not be final (CGLIB limitation) unless it declares proxyBeanMethods=false
+		// A configuration class may not be final (CGLIB limitation) unless it declares
+		// proxyBeanMethods=false
 		Map<String, Object> attributes = this.metadata.getAnnotationAttributes(Configuration.class.getName());
 		if (attributes != null && (Boolean) attributes.get("proxyBeanMethods")) {
 			if (this.metadata.isFinal()) {
@@ -224,8 +223,8 @@ final class ConfigurationClass {
 
 	@Override
 	public boolean equals(@Nullable Object other) {
-		return (this == other || (other instanceof ConfigurationClass &&
-				getMetadata().getClassName().equals(((ConfigurationClass) other).getMetadata().getClassName())));
+		return (this == other || (other instanceof ConfigurationClass
+				&& getMetadata().getClassName().equals(((ConfigurationClass) other).getMetadata().getClassName())));
 	}
 
 	@Override
@@ -238,7 +237,6 @@ final class ConfigurationClass {
 		return "ConfigurationClass: beanName '" + this.beanName + "', " + this.resource;
 	}
 
-
 	/**
 	 * Configuration classes must be non-final to accommodate CGLIB subclassing.
 	 */
@@ -248,6 +246,7 @@ final class ConfigurationClass {
 			super(String.format("@Configuration class '%s' may not be final. Remove the final modifier to continue.",
 					getSimpleName()), new Location(getResource(), getMetadata()));
 		}
+
 	}
 
 }

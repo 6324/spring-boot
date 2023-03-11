@@ -40,12 +40,10 @@ public class GenericApplicationListenerAdapter implements GenericApplicationList
 
 	private static final Map<Class<?>, ResolvableType> eventTypeCache = new ConcurrentReferenceHashMap<>();
 
-
 	private final ApplicationListener<ApplicationEvent> delegate;
 
 	@Nullable
 	private final ResolvableType declaredEventType;
-
 
 	/**
 	 * Create a new GenericApplicationListener for the given delegate.
@@ -57,7 +55,6 @@ public class GenericApplicationListenerAdapter implements GenericApplicationList
 		this.delegate = (ApplicationListener<ApplicationEvent>) delegate;
 		this.declaredEventType = resolveDeclaredEventType(this.delegate);
 	}
-
 
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
@@ -83,15 +80,14 @@ public class GenericApplicationListenerAdapter implements GenericApplicationList
 
 	@Override
 	public boolean supportsSourceType(@Nullable Class<?> sourceType) {
-		return !(this.delegate instanceof SmartApplicationListener) ||
-				((SmartApplicationListener) this.delegate).supportsSourceType(sourceType);
+		return !(this.delegate instanceof SmartApplicationListener)
+				|| ((SmartApplicationListener) this.delegate).supportsSourceType(sourceType);
 	}
 
 	@Override
 	public int getOrder() {
 		return (this.delegate instanceof Ordered ? ((Ordered) this.delegate).getOrder() : Ordered.LOWEST_PRECEDENCE);
 	}
-
 
 	@Nullable
 	private static ResolvableType resolveDeclaredEventType(ApplicationListener<ApplicationEvent> listener) {

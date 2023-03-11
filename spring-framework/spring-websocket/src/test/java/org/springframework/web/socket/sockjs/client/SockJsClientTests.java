@@ -53,7 +53,6 @@ public class SockJsClientTests {
 
 	private static final WebSocketHandler handler = mock(WebSocketHandler.class);
 
-
 	private SockJsClient sockJsClient;
 
 	private InfoReceiver infoReceiver;
@@ -63,7 +62,6 @@ public class SockJsClientTests {
 	private XhrTestTransport xhrTransport;
 
 	private ListenableFutureCallback<WebSocketSession> connectCallback;
-
 
 	@BeforeEach
 	@SuppressWarnings("unchecked")
@@ -179,11 +177,8 @@ public class SockJsClientTests {
 
 	private ArgumentCaptor<HttpHeaders> setupInfoRequest(boolean webSocketEnabled) {
 		ArgumentCaptor<HttpHeaders> headersCaptor = ArgumentCaptor.forClass(HttpHeaders.class);
-		given(this.infoReceiver.executeInfoRequest(any(), headersCaptor.capture())).willReturn(
-				"{\"entropy\":123," +
-						"\"origins\":[\"*:*\"]," +
-						"\"cookie_needed\":true," +
-						"\"websocket\":" + webSocketEnabled + "}");
+		given(this.infoReceiver.executeInfoRequest(any(), headersCaptor.capture())).willReturn("{\"entropy\":123,"
+				+ "\"origins\":[\"*:*\"]," + "\"cookie_needed\":true," + "\"websocket\":" + webSocketEnabled + "}");
 		return headersCaptor;
 	}
 

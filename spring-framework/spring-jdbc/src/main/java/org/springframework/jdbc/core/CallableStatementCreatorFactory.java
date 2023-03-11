@@ -29,9 +29,9 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.lang.Nullable;
 
 /**
- * Helper class that efficiently creates multiple {@link CallableStatementCreator}
- * objects with different parameters based on an SQL statement and a single
- * set of parameter declarations.
+ * Helper class that efficiently creates multiple {@link CallableStatementCreator} objects
+ * with different parameters based on an SQL statement and a single set of parameter
+ * declarations.
  *
  * @author Rod Johnson
  * @author Thomas Risberg
@@ -49,10 +49,9 @@ public class CallableStatementCreatorFactory {
 
 	private boolean updatableResults = false;
 
-
 	/**
-	 * Create a new factory. Will need to add parameters via the
-	 * {@link #addParameter} method or have no parameters.
+	 * Create a new factory. Will need to add parameters via the {@link #addParameter}
+	 * method or have no parameters.
 	 * @param callString the SQL call string
 	 */
 	public CallableStatementCreatorFactory(String callString) {
@@ -70,7 +69,6 @@ public class CallableStatementCreatorFactory {
 		this.declaredParameters = declaredParameters;
 	}
 
-
 	/**
 	 * Return the SQL call string.
 	 * @since 5.1.3
@@ -81,7 +79,8 @@ public class CallableStatementCreatorFactory {
 
 	/**
 	 * Add a new declared parameter.
-	 * <p>Order of parameter addition is significant.
+	 * <p>
+	 * Order of parameter addition is significant.
 	 * @param param the parameter to add to the list of declared parameters
 	 */
 	public void addParameter(SqlParameter param) {
@@ -107,7 +106,6 @@ public class CallableStatementCreatorFactory {
 		this.updatableResults = updatableResults;
 	}
 
-
 	/**
 	 * Return a new CallableStatementCreator instance given this parameters.
 	 * @param params list of parameters (may be {@code null})
@@ -118,12 +116,12 @@ public class CallableStatementCreatorFactory {
 
 	/**
 	 * Return a new CallableStatementCreator instance given this parameter mapper.
-	 * @param inParamMapper the ParameterMapper implementation that will return a Map of parameters
+	 * @param inParamMapper the ParameterMapper implementation that will return a Map of
+	 * parameters
 	 */
 	public CallableStatementCreator newCallableStatementCreator(ParameterMapper inParamMapper) {
 		return new CallableStatementCreatorImpl(inParamMapper);
 	}
-
 
 	/**
 	 * CallableStatementCreator implementation returned by this class.
@@ -138,7 +136,8 @@ public class CallableStatementCreatorFactory {
 
 		/**
 		 * Create a new CallableStatementCreatorImpl.
-		 * @param inParamMapper the ParameterMapper implementation for mapping input parameters
+		 * @param inParamMapper the ParameterMapper implementation for mapping input
+		 * parameters
 		 */
 		public CallableStatementCreatorImpl(ParameterMapper inParamMapper) {
 			this.inParameterMapper = inParamMapper;
@@ -154,7 +153,8 @@ public class CallableStatementCreatorFactory {
 
 		@Override
 		public CallableStatement createCallableStatement(Connection con) throws SQLException {
-			// If we were given a ParameterMapper, we must let the mapper do its thing to create the Map.
+			// If we were given a ParameterMapper, we must let the mapper do its thing to
+			// create the Map.
 			if (this.inParameterMapper != null) {
 				this.inParameters = this.inParameterMapper.createMap(con);
 			}
@@ -181,15 +181,18 @@ public class CallableStatementCreatorFactory {
 					// Get the value - it may still be null.
 					Object inValue = this.inParameters.get(declaredParam.getName());
 					if (declaredParam instanceof ResultSetSupportingSqlParameter) {
-						// It's an output parameter: SqlReturnResultSet parameters already excluded.
+						// It's an output parameter: SqlReturnResultSet parameters already
+						// excluded.
 						// It need not (but may be) supplied by the caller.
 						if (declaredParam instanceof SqlOutParameter) {
 							if (declaredParam.getTypeName() != null) {
-								cs.registerOutParameter(sqlColIndx, declaredParam.getSqlType(), declaredParam.getTypeName());
+								cs.registerOutParameter(sqlColIndx, declaredParam.getSqlType(),
+										declaredParam.getTypeName());
 							}
 							else {
 								if (declaredParam.getScale() != null) {
-									cs.registerOutParameter(sqlColIndx, declaredParam.getSqlType(), declaredParam.getScale());
+									cs.registerOutParameter(sqlColIndx, declaredParam.getSqlType(),
+											declaredParam.getScale());
 								}
 								else {
 									cs.registerOutParameter(sqlColIndx, declaredParam.getSqlType());
@@ -231,6 +234,7 @@ public class CallableStatementCreatorFactory {
 		public String toString() {
 			return "CallableStatementCreator: sql=[" + callString + "]; parameters=" + this.inParameters;
 		}
+
 	}
 
 }

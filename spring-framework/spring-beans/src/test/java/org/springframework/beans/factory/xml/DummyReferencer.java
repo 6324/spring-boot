@@ -16,7 +16,6 @@
 
 package org.springframework.beans.factory.xml;
 
-
 import org.springframework.beans.testfixture.beans.TestBean;
 import org.springframework.beans.testfixture.beans.factory.DummyFactory;
 
@@ -31,7 +30,6 @@ public class DummyReferencer {
 	private TestBean testBean2;
 
 	private DummyFactory dummyFactory;
-
 
 	public DummyReferencer() {
 	}

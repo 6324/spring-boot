@@ -22,10 +22,10 @@ import org.springframework.expression.spel.SpelMessage;
 import org.springframework.lang.Nullable;
 
 /**
- * Represents a reference to a value.  With a reference it is possible to get or set the
+ * Represents a reference to a value. With a reference it is possible to get or set the
  * value. Passing around value references rather than the values themselves can avoid
- * incorrect duplication of operand evaluation. For example in 'list[index++]++' without
- * a value reference for 'list[index++]' it would be necessary to evaluate list[index++]
+ * incorrect duplication of operand evaluation. For example in 'list[index++]++' without a
+ * value reference for 'list[index++]' it would be necessary to evaluate list[index++]
  * twice (once to get the value, once to determine where the value goes) and that would
  * double increment index.
  *
@@ -54,7 +54,6 @@ public interface ValueRef {
 	 */
 	boolean isWritable();
 
-
 	/**
 	 * A ValueRef for the null value.
 	 */
@@ -79,8 +78,8 @@ public interface ValueRef {
 		public boolean isWritable() {
 			return false;
 		}
-	}
 
+	}
 
 	/**
 	 * A ValueRef holder for a single value, which cannot be set.
@@ -89,7 +88,7 @@ public interface ValueRef {
 
 		private final TypedValue typedValue;
 
-		private final SpelNodeImpl node;  // used only for error reporting
+		private final SpelNodeImpl node; // used only for error reporting
 
 		public TypedValueHolderValueRef(TypedValue typedValue, SpelNodeImpl node) {
 			this.typedValue = typedValue;
@@ -103,14 +102,15 @@ public interface ValueRef {
 
 		@Override
 		public void setValue(@Nullable Object newValue) {
-			throw new SpelEvaluationException(
-					this.node.getStartPosition(), SpelMessage.NOT_ASSIGNABLE, this.node.toStringAST());
+			throw new SpelEvaluationException(this.node.getStartPosition(), SpelMessage.NOT_ASSIGNABLE,
+					this.node.toStringAST());
 		}
 
 		@Override
 		public boolean isWritable() {
 			return false;
 		}
+
 	}
 
 }

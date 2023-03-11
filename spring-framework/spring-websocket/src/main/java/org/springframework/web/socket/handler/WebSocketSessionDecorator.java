@@ -32,12 +32,13 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
- * Wraps another {@link org.springframework.web.socket.WebSocketSession} instance
- * and delegates to it.
+ * Wraps another {@link org.springframework.web.socket.WebSocketSession} instance and
+ * delegates to it.
  *
- * <p>Also provides a {@link #getDelegate()} method to return the decorated session
- * as well as a {@link #getLastSession()} method to go through all nested delegates
- * and return the "last" session.
+ * <p>
+ * Also provides a {@link #getDelegate()} method to return the decorated session as well
+ * as a {@link #getLastSession()} method to go through all nested delegates and return the
+ * "last" session.
  *
  * @author Rossen Stoyanchev
  * @since 4.0.3
@@ -46,12 +47,10 @@ public class WebSocketSessionDecorator implements WebSocketSession {
 
 	private final WebSocketSession delegate;
 
-
 	public WebSocketSessionDecorator(WebSocketSession session) {
 		Assert.notNull(session, "Delegate WebSocketSessionSession is required");
 		this.delegate = session;
 	}
-
 
 	public WebSocketSession getDelegate() {
 		return this.delegate;

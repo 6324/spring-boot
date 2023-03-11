@@ -48,8 +48,7 @@ public abstract class AbstractEntityManagerFactoryIntegrationTests {
 
 	protected static final String[] ECLIPSELINK_CONFIG_LOCATIONS = new String[] {
 			"/org/springframework/orm/jpa/eclipselink/eclipselink-manager.xml",
-			"/org/springframework/orm/jpa/memdb.xml", "/org/springframework/orm/jpa/inject.xml"};
-
+			"/org/springframework/orm/jpa/memdb.xml", "/org/springframework/orm/jpa/inject.xml" };
 
 	private static ConfigurableApplicationContext applicationContext;
 
@@ -69,7 +68,6 @@ public abstract class AbstractEntityManagerFactoryIntegrationTests {
 
 	private boolean zappedTables = false;
 
-
 	@Autowired
 	public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
 		this.entityManagerFactory = entityManagerFactory;
@@ -85,7 +83,6 @@ public abstract class AbstractEntityManagerFactoryIntegrationTests {
 	public void setDataSource(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
-
 
 	@BeforeEach
 	public void setup() {
@@ -122,7 +119,6 @@ public abstract class AbstractEntityManagerFactoryIntegrationTests {
 			applicationContext = null;
 		}
 	}
-
 
 	protected EntityManager createContainerManagedEntityManager() {
 		return ExtendedEntityManagerCreator.createContainerManagedEntityManager(this.entityManagerFactory);

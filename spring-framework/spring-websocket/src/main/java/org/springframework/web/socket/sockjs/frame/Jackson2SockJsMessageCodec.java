@@ -31,14 +31,17 @@ import org.springframework.util.Assert;
 /**
  * A Jackson 2.6+ codec for encoding and decoding SockJS messages.
  *
- * <p>It customizes Jackson's default properties with the following ones:
+ * <p>
+ * It customizes Jackson's default properties with the following ones:
  * <ul>
  * <li>{@link MapperFeature#DEFAULT_VIEW_INCLUSION} is disabled</li>
  * <li>{@link DeserializationFeature#FAIL_ON_UNKNOWN_PROPERTIES} is disabled</li>
  * </ul>
  *
- * <p>Note that Jackson's JSR-310 and Joda-Time support modules will be registered automatically
- * when available (and when Java 8 and Joda-Time themselves are available, respectively).
+ * <p>
+ * Note that Jackson's JSR-310 and Joda-Time support modules will be registered
+ * automatically when available (and when Java 8 and Joda-Time themselves are available,
+ * respectively).
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -46,7 +49,6 @@ import org.springframework.util.Assert;
 public class Jackson2SockJsMessageCodec extends AbstractSockJsMessageCodec {
 
 	private final ObjectMapper objectMapper;
-
 
 	public Jackson2SockJsMessageCodec() {
 		this.objectMapper = Jackson2ObjectMapperBuilder.json().build();
@@ -56,7 +58,6 @@ public class Jackson2SockJsMessageCodec extends AbstractSockJsMessageCodec {
 		Assert.notNull(objectMapper, "ObjectMapper must not be null");
 		this.objectMapper = objectMapper;
 	}
-
 
 	@Override
 	@Nullable

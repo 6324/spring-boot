@@ -33,14 +33,14 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 /**
- * Unit tests for {@link org.springframework.web.socket.adapter.jetty.JettyWebSocketSession}.
+ * Unit tests for
+ * {@link org.springframework.web.socket.adapter.jetty.JettyWebSocketSession}.
  *
  * @author Rossen Stoyanchev
  */
 public class JettyWebSocketSessionTests {
 
 	private final Map<String, Object> attributes = new HashMap<>();
-
 
 	@Test
 	@SuppressWarnings("resource")

@@ -25,15 +25,17 @@ import org.springframework.core.convert.converter.ConditionalGenericConverter;
 import org.springframework.lang.Nullable;
 
 /**
- * Simply calls {@link Object#toString()} to convert any supported object
- * to a {@link String}.
+ * Simply calls {@link Object#toString()} to convert any supported object to a
+ * {@link String}.
  *
- * <p>Supports {@link CharSequence}, {@link StringWriter}, and any class
- * with a String constructor or one of the following static factory methods:
- * {@code valueOf(String)}, {@code of(String)}, {@code from(String)}.
+ * <p>
+ * Supports {@link CharSequence}, {@link StringWriter}, and any class with a String
+ * constructor or one of the following static factory methods: {@code valueOf(String)},
+ * {@code of(String)}, {@code from(String)}.
  *
- * <p>Used by the {@link DefaultConversionService} as a fallback if there
- * are no other explicit to-String converters registered.
+ * <p>
+ * Used by the {@link DefaultConversionService} as a fallback if there are no other
+ * explicit to-String converters registered.
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -55,9 +57,8 @@ final class FallbackObjectToStringConverter implements ConditionalGenericConvert
 			// no conversion required
 			return false;
 		}
-		return (CharSequence.class.isAssignableFrom(sourceClass) ||
-				StringWriter.class.isAssignableFrom(sourceClass) ||
-				ObjectToObjectConverter.hasConversionMethodOrConstructor(sourceClass, String.class));
+		return (CharSequence.class.isAssignableFrom(sourceClass) || StringWriter.class.isAssignableFrom(sourceClass)
+				|| ObjectToObjectConverter.hasConversionMethodOrConstructor(sourceClass, String.class));
 	}
 
 	@Override

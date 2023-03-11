@@ -37,6 +37,7 @@ class PooledDataBufferTests {
 		public DataBufferFactory createDataBufferFactory() {
 			return new NettyDataBufferFactory(new UnpooledByteBufAllocator(true));
 		}
+
 	}
 
 	@Nested
@@ -46,6 +47,7 @@ class PooledDataBufferTests {
 		public DataBufferFactory createDataBufferFactory() {
 			return new NettyDataBufferFactory(new UnpooledByteBufAllocator(true));
 		}
+
 	}
 
 	@Nested
@@ -55,6 +57,7 @@ class PooledDataBufferTests {
 		public DataBufferFactory createDataBufferFactory() {
 			return new NettyDataBufferFactory(new PooledByteBufAllocator(true));
 		}
+
 	}
 
 	@Nested
@@ -64,6 +67,7 @@ class PooledDataBufferTests {
 		public DataBufferFactory createDataBufferFactory() {
 			return new NettyDataBufferFactory(new PooledByteBufAllocator(true));
 		}
+
 	}
 
 	interface PooledDataBufferTestingTrait {

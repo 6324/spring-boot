@@ -67,7 +67,8 @@ public class NamedParameterUtilsTests {
 		MapSqlParameterSource namedParams = new MapSqlParameterSource();
 		namedParams.addValue("a", "a").addValue("b", "b").addValue("c", "c");
 		assertThat(NamedParameterUtils.substituteNamedParameters("xxx :a :b :c", namedParams)).isEqualTo("xxx ? ? ?");
-		assertThat(NamedParameterUtils.substituteNamedParameters("xxx :a :b :c xx :a :a", namedParams)).isEqualTo("xxx ? ? ? xx ? ?");
+		assertThat(NamedParameterUtils.substituteNamedParameters("xxx :a :b :c xx :a :a", namedParams))
+				.isEqualTo("xxx ? ? ? xx ? ?");
 	}
 
 	@Test
@@ -80,22 +81,23 @@ public class NamedParameterUtilsTests {
 		assertThat(NamedParameterUtils.buildValueArray("xxx :a :b :c xx :a :b", paramMap).length).isSameAs(5);
 		assertThat(NamedParameterUtils.buildValueArray("xxx :a :a :a xx :a :a", paramMap).length).isSameAs(5);
 		assertThat(NamedParameterUtils.buildValueArray("xxx :a :b :c xx :a :b", paramMap)[4]).isEqualTo("b");
-		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).as("mixed named parameters and ? placeholders").isThrownBy(() ->
-				NamedParameterUtils.buildValueArray("xxx :a :b ?", paramMap));
+		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class)
+				.as("mixed named parameters and ? placeholders")
+				.isThrownBy(() -> NamedParameterUtils.buildValueArray("xxx :a :b ?", paramMap));
 	}
 
 	@Test
 	public void convertTypeMapToArray() {
 		MapSqlParameterSource namedParams = new MapSqlParameterSource();
 		namedParams.addValue("a", "a", 1).addValue("b", "b", 2).addValue("c", "c", 3);
-		assertThat(NamedParameterUtils
-				.buildSqlTypeArray(NamedParameterUtils.parseSqlStatement("xxx :a :b :c"), namedParams).length).isSameAs(3);
-		assertThat(NamedParameterUtils
-				.buildSqlTypeArray(NamedParameterUtils.parseSqlStatement("xxx :a :b :c xx :a :b"), namedParams).length).isSameAs(5);
-		assertThat(NamedParameterUtils
-				.buildSqlTypeArray(NamedParameterUtils.parseSqlStatement("xxx :a :a :a xx :a :a"), namedParams).length).isSameAs(5);
-		assertThat(NamedParameterUtils
-				.buildSqlTypeArray(NamedParameterUtils.parseSqlStatement("xxx :a :b :c xx :a :b"), namedParams)[4]).isEqualTo(2);
+		assertThat(NamedParameterUtils.buildSqlTypeArray(NamedParameterUtils.parseSqlStatement("xxx :a :b :c"),
+				namedParams).length).isSameAs(3);
+		assertThat(NamedParameterUtils.buildSqlTypeArray(NamedParameterUtils.parseSqlStatement("xxx :a :b :c xx :a :b"),
+				namedParams).length).isSameAs(5);
+		assertThat(NamedParameterUtils.buildSqlTypeArray(NamedParameterUtils.parseSqlStatement("xxx :a :a :a xx :a :a"),
+				namedParams).length).isSameAs(5);
+		assertThat(NamedParameterUtils.buildSqlTypeArray(NamedParameterUtils.parseSqlStatement("xxx :a :b :c xx :a :b"),
+				namedParams)[4]).isEqualTo(2);
 	}
 
 	@Test
@@ -105,11 +107,12 @@ public class NamedParameterUtilsTests {
 		paramMap.put("a", "a");
 		paramMap.put("b", sqlParameterValue);
 		paramMap.put("c", "c");
-		assertThat(NamedParameterUtils.buildValueArray("xxx :a :b :c xx :a :b", paramMap)[4]).isSameAs(sqlParameterValue);
+		assertThat(NamedParameterUtils.buildValueArray("xxx :a :b :c xx :a :b", paramMap)[4])
+				.isSameAs(sqlParameterValue);
 		MapSqlParameterSource namedParams = new MapSqlParameterSource();
 		namedParams.addValue("a", "a", 1).addValue("b", sqlParameterValue).addValue("c", "c", 3);
-		assertThat(NamedParameterUtils
-				.buildValueArray(NamedParameterUtils.parseSqlStatement("xxx :a :b :c xx :a :b"), namedParams, null)[4]).isSameAs(sqlParameterValue);
+		assertThat(NamedParameterUtils.buildValueArray(NamedParameterUtils.parseSqlStatement("xxx :a :b :c xx :a :b"),
+				namedParams, null)[4]).isSameAs(sqlParameterValue);
 	}
 
 	@Test
@@ -117,22 +120,27 @@ public class NamedParameterUtilsTests {
 		MapSqlParameterSource namedParams = new MapSqlParameterSource();
 		namedParams.addValue("a", "a", 1).addValue("b", "b", 2).addValue("c", "c", 3, "SQL_TYPE");
 		assertThat(NamedParameterUtils
-				.buildSqlParameterList(NamedParameterUtils.parseSqlStatement("xxx :a :b :c"), namedParams).size()).isSameAs(3);
+				.buildSqlParameterList(NamedParameterUtils.parseSqlStatement("xxx :a :b :c"), namedParams).size())
+						.isSameAs(3);
 		assertThat(NamedParameterUtils
-				.buildSqlParameterList(NamedParameterUtils.parseSqlStatement("xxx :a :b :c xx :a :b"), namedParams).size()).isSameAs(5);
+				.buildSqlParameterList(NamedParameterUtils.parseSqlStatement("xxx :a :b :c xx :a :b"), namedParams)
+				.size()).isSameAs(5);
 		assertThat(NamedParameterUtils
-				.buildSqlParameterList(NamedParameterUtils.parseSqlStatement("xxx :a :a :a xx :a :a"), namedParams).size()).isSameAs(5);
+				.buildSqlParameterList(NamedParameterUtils.parseSqlStatement("xxx :a :a :a xx :a :a"), namedParams)
+				.size()).isSameAs(5);
 		assertThat(NamedParameterUtils
-				.buildSqlParameterList(NamedParameterUtils.parseSqlStatement("xxx :a :b :c xx :a :b"), namedParams).get(4).getSqlType()).isEqualTo(2);
+				.buildSqlParameterList(NamedParameterUtils.parseSqlStatement("xxx :a :b :c xx :a :b"), namedParams)
+				.get(4).getSqlType()).isEqualTo(2);
 		assertThat(NamedParameterUtils
-				.buildSqlParameterList(NamedParameterUtils.parseSqlStatement("xxx :a :b :c"), namedParams).get(2).getTypeName()).isEqualTo("SQL_TYPE");
+				.buildSqlParameterList(NamedParameterUtils.parseSqlStatement("xxx :a :b :c"), namedParams).get(2)
+				.getTypeName()).isEqualTo("SQL_TYPE");
 	}
 
 	@Test
 	public void buildValueArrayWithMissingParameterValue() {
 		String sql = "select count(0) from foo where id = :id";
-		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class).isThrownBy(() ->
-				NamedParameterUtils.buildValueArray(sql, Collections.<String, Object>emptyMap()));
+		assertThatExceptionOfType(InvalidDataAccessApiUsageException.class)
+				.isThrownBy(() -> NamedParameterUtils.buildValueArray(sql, Collections.<String, Object>emptyMap()));
 	}
 
 	@Test
@@ -151,11 +159,12 @@ public class NamedParameterUtilsTests {
 		assertThat(NamedParameterUtils.substituteNamedParameters(parsedSql, null)).isEqualTo(expectedSql);
 	}
 
-	@Test  // SPR-4789
+	@Test // SPR-4789
 	public void parseSqlContainingComments() {
 		String sql1 = "/*+ HINT */ xxx /* comment ? */ :a yyyy :b :c :a zzzzz -- :xx XX\n";
 		ParsedSql psql1 = NamedParameterUtils.parseSqlStatement(sql1);
-		assertThat(NamedParameterUtils.substituteNamedParameters(psql1, null)).isEqualTo("/*+ HINT */ xxx /* comment ? */ ? yyyy ? ? ? zzzzz -- :xx XX\n");
+		assertThat(NamedParameterUtils.substituteNamedParameters(psql1, null))
+				.isEqualTo("/*+ HINT */ xxx /* comment ? */ ? yyyy ? ? ? zzzzz -- :xx XX\n");
 		MapSqlParameterSource paramMap = new MapSqlParameterSource();
 		paramMap.addValue("a", "a");
 		paramMap.addValue("b", "b");
@@ -169,19 +178,22 @@ public class NamedParameterUtilsTests {
 
 		String sql2 = "/*+ HINT */ xxx /* comment ? */ :a yyyy :b :c :a zzzzz -- :xx XX";
 		ParsedSql psql2 = NamedParameterUtils.parseSqlStatement(sql2);
-		assertThat(NamedParameterUtils.substituteNamedParameters(psql2, null)).isEqualTo("/*+ HINT */ xxx /* comment ? */ ? yyyy ? ? ? zzzzz -- :xx XX");
+		assertThat(NamedParameterUtils.substituteNamedParameters(psql2, null))
+				.isEqualTo("/*+ HINT */ xxx /* comment ? */ ? yyyy ? ? ? zzzzz -- :xx XX");
 
 		String sql3 = "/*+ HINT */ xxx /* comment ? */ :a yyyy :b :c :a zzzzz /* :xx XX*";
 		ParsedSql psql3 = NamedParameterUtils.parseSqlStatement(sql3);
-		assertThat(NamedParameterUtils.substituteNamedParameters(psql3, null)).isEqualTo("/*+ HINT */ xxx /* comment ? */ ? yyyy ? ? ? zzzzz /* :xx XX*");
+		assertThat(NamedParameterUtils.substituteNamedParameters(psql3, null))
+				.isEqualTo("/*+ HINT */ xxx /* comment ? */ ? yyyy ? ? ? zzzzz /* :xx XX*");
 
 		String sql4 = "/*+ HINT */ xxx /* comment :a ? */ :a yyyy :b :c :a zzzzz /* :xx XX*";
 		ParsedSql psql4 = NamedParameterUtils.parseSqlStatement(sql4);
 		Map<String, String> parameters = Collections.singletonMap("a", "0");
-		assertThat(NamedParameterUtils.substituteNamedParameters(psql4, new MapSqlParameterSource(parameters))).isEqualTo("/*+ HINT */ xxx /* comment :a ? */ ? yyyy ? ? ? zzzzz /* :xx XX*");
+		assertThat(NamedParameterUtils.substituteNamedParameters(psql4, new MapSqlParameterSource(parameters)))
+				.isEqualTo("/*+ HINT */ xxx /* comment :a ? */ ? yyyy ? ? ? zzzzz /* :xx XX*");
 	}
 
-	@Test  // SPR-4612
+	@Test // SPR-4612
 	public void parseSqlStatementWithPostgresCasting() {
 		String expectedSql = "select 'first name' from artists where id = ? and birth_date=?::timestamp";
 		String sql = "select 'first name' from artists where id = :id and birth_date=:birthDate::timestamp";
@@ -189,7 +201,7 @@ public class NamedParameterUtilsTests {
 		assertThat(NamedParameterUtils.substituteNamedParameters(parsedSql, null)).isEqualTo(expectedSql);
 	}
 
-	@Test  // SPR-13582
+	@Test // SPR-13582
 	public void parseSqlStatementWithPostgresContainedOperator() {
 		String expectedSql = "select 'first name' from artists where info->'stat'->'albums' = ?? ? and '[\"1\",\"2\",\"3\"]'::jsonb ?? '4'";
 		String sql = "select 'first name' from artists where info->'stat'->'albums' = ?? :album and '[\"1\",\"2\",\"3\"]'::jsonb ?? '4'";
@@ -198,7 +210,7 @@ public class NamedParameterUtilsTests {
 		assertThat(NamedParameterUtils.substituteNamedParameters(parsedSql, null)).isEqualTo(expectedSql);
 	}
 
-	@Test  // SPR-15382
+	@Test // SPR-15382
 	public void parseSqlStatementWithPostgresAnyArrayStringsExistsOperator() {
 		String expectedSql = "select '[\"3\", \"11\"]'::jsonb ?| '{1,3,11,12,17}'::text[]";
 		String sql = "select '[\"3\", \"11\"]'::jsonb ?| '{1,3,11,12,17}'::text[]";
@@ -208,7 +220,7 @@ public class NamedParameterUtilsTests {
 		assertThat(NamedParameterUtils.substituteNamedParameters(parsedSql, null)).isEqualTo(expectedSql);
 	}
 
-	@Test  // SPR-15382
+	@Test // SPR-15382
 	public void parseSqlStatementWithPostgresAllArrayStringsExistsOperator() {
 		String expectedSql = "select '[\"3\", \"11\"]'::jsonb ?& '{1,3,11,12,17}'::text[] AND ? = 'Back in Black'";
 		String sql = "select '[\"3\", \"11\"]'::jsonb ?& '{1,3,11,12,17}'::text[] AND :album = 'Back in Black'";
@@ -218,7 +230,7 @@ public class NamedParameterUtilsTests {
 		assertThat(NamedParameterUtils.substituteNamedParameters(parsedSql, null)).isEqualTo(expectedSql);
 	}
 
-	@Test  // SPR-7476
+	@Test // SPR-7476
 	public void parseSqlStatementWithEscapedColon() {
 		String expectedSql = "select '0\\:0' as a, foo from bar where baz < DATE(? 23:59:59) and baz = ?";
 		String sql = "select '0\\:0' as a, foo from bar where baz < DATE(:p1 23\\:59\\:59) and baz = :p2";
@@ -231,7 +243,7 @@ public class NamedParameterUtilsTests {
 		assertThat(finalSql).isEqualTo(expectedSql);
 	}
 
-	@Test  // SPR-7476
+	@Test // SPR-7476
 	public void parseSqlStatementWithBracketDelimitedParameterNames() {
 		String expectedSql = "select foo from bar where baz = b??z";
 		String sql = "select foo from bar where baz = b:{p1}:{p2}z";
@@ -244,7 +256,7 @@ public class NamedParameterUtilsTests {
 		assertThat(finalSql).isEqualTo(expectedSql);
 	}
 
-	@Test  // SPR-7476
+	@Test // SPR-7476
 	public void parseSqlStatementWithEmptyBracketsOrBracketsInQuotes() {
 		String expectedSql = "select foo from bar where baz = b:{}z";
 		String sql = "select foo from bar where baz = b:{}z";
@@ -274,28 +286,28 @@ public class NamedParameterUtilsTests {
 		assertThat(finalSql).isEqualTo(expectedSql);
 	}
 
-	@Test  // SPR-2544
+	@Test // SPR-2544
 	public void parseSqlStatementWithLogicalAnd() {
 		String expectedSql = "xxx & yyyy";
 		ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(expectedSql);
 		assertThat(NamedParameterUtils.substituteNamedParameters(parsedSql, null)).isEqualTo(expectedSql);
 	}
 
-	@Test  // SPR-2544
+	@Test // SPR-2544
 	public void substituteNamedParametersWithLogicalAnd() {
 		String expectedSql = "xxx & yyyy";
 		String newSql = NamedParameterUtils.substituteNamedParameters(expectedSql, new MapSqlParameterSource());
 		assertThat(newSql).isEqualTo(expectedSql);
 	}
 
-	@Test  // SPR-3173
+	@Test // SPR-3173
 	public void variableAssignmentOperator() {
 		String expectedSql = "x := 1";
 		String newSql = NamedParameterUtils.substituteNamedParameters(expectedSql, new MapSqlParameterSource());
 		assertThat(newSql).isEqualTo(expectedSql);
 	}
 
-	@Test  // SPR-8280
+	@Test // SPR-8280
 	public void parseSqlStatementWithQuotedSingleQuote() {
 		String sql = "SELECT ':foo'':doo', :xxx FROM DUAL";
 		ParsedSql psql = NamedParameterUtils.parseSqlStatement(sql);

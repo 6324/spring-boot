@@ -41,12 +41,10 @@ public class SimpleKey implements Serializable {
 	 */
 	public static final SimpleKey EMPTY = new SimpleKey();
 
-
 	private final Object[] params;
 
 	// Effectively final, just re-calculated on deserialization
 	private transient int hashCode;
-
 
 	/**
 	 * Create a new {@link SimpleKey} instance.
@@ -59,11 +57,10 @@ public class SimpleKey implements Serializable {
 		this.hashCode = Arrays.deepHashCode(this.params);
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
-		return (this == other ||
-				(other instanceof SimpleKey && Arrays.deepEquals(this.params, ((SimpleKey) other).params)));
+		return (this == other
+				|| (other instanceof SimpleKey && Arrays.deepEquals(this.params, ((SimpleKey) other).params)));
 	}
 
 	@Override

@@ -42,8 +42,8 @@ import org.springframework.expression.spel.SpelMessage;
 import org.springframework.lang.Nullable;
 
 /**
- * Reflection-based {@link MethodResolver} used by default in {@link StandardEvaluationContext}
- * unless explicit method resolvers have been specified.
+ * Reflection-based {@link MethodResolver} used by default in
+ * {@link StandardEvaluationContext} unless explicit method resolvers have been specified.
  *
  * @author Andy Clement
  * @author Juergen Hoeller
@@ -59,7 +59,6 @@ public class ReflectiveMethodResolver implements MethodResolver {
 
 	@Nullable
 	private Map<Class<?>, MethodFilter> filters;
-
 
 	public ReflectiveMethodResolver() {
 		this.useDistance = true;
@@ -79,12 +78,11 @@ public class ReflectiveMethodResolver implements MethodResolver {
 		this.useDistance = useDistance;
 	}
 
-
 	/**
 	 * Register a filter for methods on the given type.
 	 * @param type the type to filter on
-	 * @param filter the corresponding method filter,
-	 * or {@code null} to clear any filter for the given type
+	 * @param filter the corresponding method filter, or {@code null} to clear any filter
+	 * for the given type
 	 */
 	public void registerMethodFilter(Class<?> type, @Nullable MethodFilter filter) {
 		if (this.filters == null) {
@@ -101,10 +99,12 @@ public class ReflectiveMethodResolver implements MethodResolver {
 	/**
 	 * Locate a method on a type. There are three kinds of match that might occur:
 	 * <ol>
-	 * <li>an exact match where the types of the arguments match the types of the constructor
-	 * <li>an in-exact match where the types we are looking for are subtypes of those defined on the constructor
-	 * <li>a match where we are able to convert the arguments into those expected by the constructor,
-	 * according to the registered type converter
+	 * <li>an exact match where the types of the arguments match the types of the
+	 * constructor
+	 * <li>an in-exact match where the types we are looking for are subtypes of those
+	 * defined on the constructor
+	 * <li>a match where we are able to convert the arguments into those expected by the
+	 * constructor, according to the registered type converter
 	 * </ol>
 	 */
 	@Override
@@ -168,7 +168,8 @@ public class ReflectiveMethodResolver implements MethodResolver {
 					ReflectionHelper.ArgumentsMatchInfo matchInfo = null;
 					if (method.isVarArgs() && argumentTypes.size() >= (paramCount - 1)) {
 						// *sigh* complicated
-						matchInfo = ReflectionHelper.compareArgumentsVarargs(paramDescriptors, argumentTypes, typeConverter);
+						matchInfo = ReflectionHelper.compareArgumentsVarargs(paramDescriptors, argumentTypes,
+								typeConverter);
 					}
 					else if (paramCount == argumentTypes.size()) {
 						// Name and parameter number match, check the arguments
@@ -180,7 +181,8 @@ public class ReflectiveMethodResolver implements MethodResolver {
 						}
 						else if (matchInfo.isCloseMatch()) {
 							if (this.useDistance) {
-								int matchDistance = ReflectionHelper.getTypeDifferenceWeight(paramDescriptors, argumentTypes);
+								int matchDistance = ReflectionHelper.getTypeDifferenceWeight(paramDescriptors,
+										argumentTypes);
 								if (closeMatch == null || matchDistance < closeMatchDistance) {
 									// This is a better match...
 									closeMatch = method;
@@ -224,7 +226,8 @@ public class ReflectiveMethodResolver implements MethodResolver {
 	private Set<Method> getMethods(Class<?> type, Object targetObject) {
 		if (targetObject instanceof Class) {
 			Set<Method> result = new LinkedHashSet<>();
-			// Add these so that static methods are invocable on the type: e.g. Float.valueOf(..)
+			// Add these so that static methods are invocable on the type: e.g.
+			// Float.valueOf(..)
 			Method[] methods = getMethods(type);
 			for (Method method : methods) {
 				if (Modifier.isStatic(method.getModifiers())) {
@@ -237,7 +240,8 @@ public class ReflectiveMethodResolver implements MethodResolver {
 		}
 		else if (Proxy.isProxyClass(type)) {
 			Set<Method> result = new LinkedHashSet<>();
-			// Expose interface methods (not proxy-declared overrides) for proper vararg introspection
+			// Expose interface methods (not proxy-declared overrides) for proper vararg
+			// introspection
 			for (Class<?> ifc : type.getInterfaces()) {
 				Method[] methods = getMethods(ifc);
 				for (Method method : methods) {
@@ -262,9 +266,9 @@ public class ReflectiveMethodResolver implements MethodResolver {
 
 	/**
 	 * Return the set of methods for this type. The default implementation returns the
-	 * result of {@link Class#getMethods()} for the given {@code type}, but subclasses
-	 * may override in order to alter the results, e.g. specifying static methods
-	 * declared elsewhere.
+	 * result of {@link Class#getMethods()} for the given {@code type}, but subclasses may
+	 * override in order to alter the results, e.g. specifying static methods declared
+	 * elsewhere.
 	 * @param type the class for which to return the methods
 	 * @since 3.1.1
 	 */
@@ -273,10 +277,11 @@ public class ReflectiveMethodResolver implements MethodResolver {
 	}
 
 	/**
-	 * Determine whether the given {@code Method} is a candidate for method resolution
-	 * on an instance of the given target class.
-	 * <p>The default implementation considers any method as a candidate, even for
-	 * static methods sand non-user-declared methods on the {@link Object} base class.
+	 * Determine whether the given {@code Method} is a candidate for method resolution on
+	 * an instance of the given target class.
+	 * <p>
+	 * The default implementation considers any method as a candidate, even for static
+	 * methods sand non-user-declared methods on the {@link Object} base class.
 	 * @param method the Method to evaluate
 	 * @param targetClass the concrete target class that is being introspected
 	 * @since 4.3.15

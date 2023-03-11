@@ -33,7 +33,8 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 /**
- * Unit tests for {@link org.springframework.web.socket.adapter.standard.StandardWebSocketSession}.
+ * Unit tests for
+ * {@link org.springframework.web.socket.adapter.standard.StandardWebSocketSession}.
  *
  * @author Rossen Stoyanchev
  */
@@ -43,12 +44,12 @@ public class StandardWebSocketSessionTests {
 
 	private final Map<String, Object> attributes = new HashMap<>();
 
-
 	@Test
 	@SuppressWarnings("resource")
 	public void getPrincipalWithConstructorArg() {
 		TestPrincipal user = new TestPrincipal("joe");
-		StandardWebSocketSession session = new StandardWebSocketSession(this.headers, this.attributes, null, null, user);
+		StandardWebSocketSession session = new StandardWebSocketSession(this.headers, this.attributes, null, null,
+				user);
 
 		assertThat(session.getPrincipal()).isSameAs(user);
 	}

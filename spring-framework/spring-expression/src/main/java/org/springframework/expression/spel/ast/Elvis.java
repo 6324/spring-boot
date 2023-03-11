@@ -40,13 +40,12 @@ public class Elvis extends SpelNodeImpl {
 		super(startPos, endPos, args);
 	}
 
-
 	/**
-	 * Evaluate the condition and if not null, return it.
-	 * If it is null, return the other value.
+	 * Evaluate the condition and if not null, return it. If it is null, return the other
+	 * value.
 	 * @param state the expression state
-	 * @throws EvaluationException if the condition does not evaluate correctly
-	 * to a boolean or there is a problem executing the chosen alternative
+	 * @throws EvaluationException if the condition does not evaluate correctly to a
+	 * boolean or there is a problem executing the chosen alternative
 	 */
 	@Override
 	public TypedValue getValueInternal(ExpressionState state) throws EvaluationException {
@@ -71,8 +70,8 @@ public class Elvis extends SpelNodeImpl {
 	public boolean isCompilable() {
 		SpelNodeImpl condition = this.children[0];
 		SpelNodeImpl ifNullValue = this.children[1];
-		return (condition.isCompilable() && ifNullValue.isCompilable() &&
-				condition.exitTypeDescriptor != null && ifNullValue.exitTypeDescriptor != null);
+		return (condition.isCompilable() && ifNullValue.isCompilable() && condition.exitTypeDescriptor != null
+				&& ifNullValue.exitTypeDescriptor != null);
 	}
 
 	@Override
@@ -93,8 +92,8 @@ public class Elvis extends SpelNodeImpl {
 		mv.visitInsn(DUP);
 		mv.visitLdcInsn("");
 		mv.visitInsn(SWAP);
-		mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z",false);
-		mv.visitJumpInsn(IFEQ, endOfIf);  // if not empty, drop through to elseTarget
+		mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false);
+		mv.visitJumpInsn(IFEQ, endOfIf); // if not empty, drop through to elseTarget
 		mv.visitLabel(elseTarget);
 		mv.visitInsn(POP);
 		cf.enterCompilationScope();
@@ -110,8 +109,8 @@ public class Elvis extends SpelNodeImpl {
 	}
 
 	private void computeExitTypeDescriptor() {
-		if (this.exitTypeDescriptor == null && this.children[0].exitTypeDescriptor != null &&
-				this.children[1].exitTypeDescriptor != null) {
+		if (this.exitTypeDescriptor == null && this.children[0].exitTypeDescriptor != null
+				&& this.children[1].exitTypeDescriptor != null) {
 			String conditionDescriptor = this.children[0].exitTypeDescriptor;
 			String ifNullValueDescriptor = this.children[1].exitTypeDescriptor;
 			if (ObjectUtils.nullSafeEquals(conditionDescriptor, ifNullValueDescriptor)) {

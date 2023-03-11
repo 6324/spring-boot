@@ -17,8 +17,8 @@
 package org.springframework.remoting;
 
 /**
- * RemoteAccessException subclass to be thrown when no connection
- * could be established with a remote service.
+ * RemoteAccessException subclass to be thrown when no connection could be established
+ * with a remote service.
  *
  * @author Juergen Hoeller
  * @since 1.1

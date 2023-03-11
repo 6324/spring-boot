@@ -28,8 +28,9 @@ import org.springframework.util.Assert;
 /**
  * Composite {@link MessageCondition} that delegates to other message conditions.
  *
- * <p>For {@link #combine} and {@link #compareTo} it is expected that the "other"
- * composite contains the same number, type, and order of message conditions.
+ * <p>
+ * For {@link #combine} and {@link #compareTo} it is expected that the "other" composite
+ * contains the same number, type, and order of message conditions.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -37,7 +38,6 @@ import org.springframework.util.Assert;
 public class CompositeMessageCondition implements MessageCondition<CompositeMessageCondition> {
 
 	private final List<MessageCondition<?>> messageConditions;
-
 
 	public CompositeMessageCondition(MessageCondition<?>... messageConditions) {
 		this(Arrays.asList(messageConditions));
@@ -47,7 +47,6 @@ public class CompositeMessageCondition implements MessageCondition<CompositeMess
 		Assert.notEmpty(messageConditions, "No message conditions");
 		this.messageConditions = messageConditions;
 	}
-
 
 	public List<MessageCondition<?>> getMessageConditions() {
 		return this.messageConditions;
@@ -62,7 +61,6 @@ public class CompositeMessageCondition implements MessageCondition<CompositeMess
 		}
 		throw new IllegalStateException("No condition of type: " + messageConditionType);
 	}
-
 
 	@Override
 	public CompositeMessageCondition combine(CompositeMessageCondition other) {
@@ -97,7 +95,7 @@ public class CompositeMessageCondition implements MessageCondition<CompositeMess
 		checkCompatible(other);
 		List<MessageCondition<?>> otherConditions = other.getMessageConditions();
 		for (int i = 0; i < this.messageConditions.size(); i++) {
-			int result = compare (this.messageConditions.get(i), otherConditions.get(i), message);
+			int result = compare(this.messageConditions.get(i), otherConditions.get(i), message);
 			if (result != 0) {
 				return result;
 			}
@@ -106,8 +104,8 @@ public class CompositeMessageCondition implements MessageCondition<CompositeMess
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T extends MessageCondition<T>> int compare(
-			MessageCondition<?> first, MessageCondition<?> second, Message<?> message) {
+	private <T extends MessageCondition<T>> int compare(MessageCondition<?> first, MessageCondition<?> second,
+			Message<?> message) {
 
 		return ((T) first).compareTo((T) second, message);
 	}
@@ -120,11 +118,10 @@ public class CompositeMessageCondition implements MessageCondition<CompositeMess
 					continue;
 				}
 			}
-			throw new IllegalArgumentException("Mismatched CompositeMessageCondition: " +
-					this.messageConditions + " vs " + others);
+			throw new IllegalArgumentException(
+					"Mismatched CompositeMessageCondition: " + this.messageConditions + " vs " + others);
 		}
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {

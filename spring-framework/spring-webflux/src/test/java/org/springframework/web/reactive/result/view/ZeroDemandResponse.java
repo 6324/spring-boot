@@ -32,8 +32,8 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.util.MultiValueMap;
 
 /**
- * Response that subscribes to the writes source but never posts demand and also
- * offers method to then cancel the subscription, and check of leaks in the end.
+ * Response that subscribes to the writes source but never posts demand and also offers
+ * method to then cancel the subscription, and check of leaks in the end.
  *
  * @author Rossen Stoyanchev
  */
@@ -43,11 +43,9 @@ public class ZeroDemandResponse implements ServerHttpResponse {
 
 	private final ZeroDemandSubscriber writeSubscriber = new ZeroDemandSubscriber();
 
-
 	public ZeroDemandResponse() {
 		this.bufferFactory = new LeakAwareDataBufferFactory();
 	}
-
 
 	public void checkForLeaks() {
 		this.bufferFactory.checkForLeaks();
@@ -56,7 +54,6 @@ public class ZeroDemandResponse implements ServerHttpResponse {
 	public void cancelWrite() {
 		this.writeSubscriber.cancel();
 	}
-
 
 	@Override
 	public DataBufferFactory bufferFactory() {
@@ -68,7 +65,6 @@ public class ZeroDemandResponse implements ServerHttpResponse {
 		body.subscribe(this.writeSubscriber);
 		return Mono.never();
 	}
-
 
 	@Override
 	public boolean setStatusCode(HttpStatus status) {
@@ -115,12 +111,13 @@ public class ZeroDemandResponse implements ServerHttpResponse {
 		throw new UnsupportedOperationException();
 	}
 
-
 	private static class ZeroDemandSubscriber extends BaseSubscriber<DataBuffer> {
 
 		@Override
 		protected void hookOnSubscribe(Subscription subscription) {
 			// Just subscribe without requesting
 		}
+
 	}
+
 }

@@ -24,9 +24,9 @@ import org.springframework.util.Assert;
 /**
  * Default implementation of the {@link ScopedObject} interface.
  *
- * <p>Simply delegates the calls to the underlying
- * {@link ConfigurableBeanFactory bean factory}
- * ({@link ConfigurableBeanFactory#getBean(String)}/
+ * <p>
+ * Simply delegates the calls to the underlying {@link ConfigurableBeanFactory bean
+ * factory} ({@link ConfigurableBeanFactory#getBean(String)}/
  * {@link ConfigurableBeanFactory#destroyScopedBean(String)}).
  *
  * @author Juergen Hoeller
@@ -41,10 +41,10 @@ public class DefaultScopedObject implements ScopedObject, Serializable {
 
 	private final String targetBeanName;
 
-
 	/**
 	 * Creates a new instance of the {@link DefaultScopedObject} class.
-	 * @param beanFactory the {@link ConfigurableBeanFactory} that holds the scoped target object
+	 * @param beanFactory the {@link ConfigurableBeanFactory} that holds the scoped target
+	 * object
 	 * @param targetBeanName the name of the target bean
 	 */
 	public DefaultScopedObject(ConfigurableBeanFactory beanFactory, String targetBeanName) {
@@ -53,7 +53,6 @@ public class DefaultScopedObject implements ScopedObject, Serializable {
 		this.beanFactory = beanFactory;
 		this.targetBeanName = targetBeanName;
 	}
-
 
 	@Override
 	public Object getTargetObject() {

@@ -31,29 +31,32 @@ import org.springframework.transaction.TransactionSystemException;
 import org.springframework.util.Assert;
 
 /**
- * Template class that simplifies programmatic transaction demarcation and
- * transaction exception handling.
+ * Template class that simplifies programmatic transaction demarcation and transaction
+ * exception handling.
  *
- * <p>The central method is {@link #execute}, supporting transactional code that
- * implements the {@link TransactionCallback} interface. This template handles
- * the transaction lifecycle and possible exceptions such that neither the
- * TransactionCallback implementation nor the calling code needs to explicitly
- * handle transactions.
+ * <p>
+ * The central method is {@link #execute}, supporting transactional code that implements
+ * the {@link TransactionCallback} interface. This template handles the transaction
+ * lifecycle and possible exceptions such that neither the TransactionCallback
+ * implementation nor the calling code needs to explicitly handle transactions.
  *
- * <p>Typical usage: Allows for writing low-level data access objects that use
- * resources such as JDBC DataSources but are not transaction-aware themselves.
- * Instead, they can implicitly participate in transactions handled by higher-level
- * application services utilizing this class, making calls to the low-level
- * services via an inner-class callback object.
+ * <p>
+ * Typical usage: Allows for writing low-level data access objects that use resources such
+ * as JDBC DataSources but are not transaction-aware themselves. Instead, they can
+ * implicitly participate in transactions handled by higher-level application services
+ * utilizing this class, making calls to the low-level services via an inner-class
+ * callback object.
  *
- * <p>Can be used within a service implementation via direct instantiation with
- * a transaction manager reference, or get prepared in an application context
- * and passed to services as bean reference. Note: The transaction manager should
- * always be configured as bean in the application context: in the first case given
- * to the service directly, in the second case given to the prepared template.
+ * <p>
+ * Can be used within a service implementation via direct instantiation with a transaction
+ * manager reference, or get prepared in an application context and passed to services as
+ * bean reference. Note: The transaction manager should always be configured as bean in
+ * the application context: in the first case given to the service directly, in the second
+ * case given to the prepared template.
  *
- * <p>Supports setting the propagation behavior and the isolation level by name,
- * for convenient configuration in context definitions.
+ * <p>
+ * Supports setting the propagation behavior and the isolation level by name, for
+ * convenient configuration in context definitions.
  *
  * @author Juergen Hoeller
  * @since 17.03.2003
@@ -71,11 +74,11 @@ public class TransactionTemplate extends DefaultTransactionDefinition
 	@Nullable
 	private PlatformTransactionManager transactionManager;
 
-
 	/**
 	 * Construct a new TransactionTemplate for bean usage.
-	 * <p>Note: The PlatformTransactionManager needs to be set before
-	 * any {@code execute} calls.
+	 * <p>
+	 * Note: The PlatformTransactionManager needs to be set before any {@code execute}
+	 * calls.
 	 * @see #setTransactionManager
 	 */
 	public TransactionTemplate() {
@@ -90,17 +93,17 @@ public class TransactionTemplate extends DefaultTransactionDefinition
 	}
 
 	/**
-	 * Construct a new TransactionTemplate using the given transaction manager,
-	 * taking its default settings from the given transaction definition.
+	 * Construct a new TransactionTemplate using the given transaction manager, taking its
+	 * default settings from the given transaction definition.
 	 * @param transactionManager the transaction management strategy to be used
-	 * @param transactionDefinition the transaction definition to copy the
-	 * default settings from. Local properties can still be set to change values.
+	 * @param transactionDefinition the transaction definition to copy the default
+	 * settings from. Local properties can still be set to change values.
 	 */
-	public TransactionTemplate(PlatformTransactionManager transactionManager, TransactionDefinition transactionDefinition) {
+	public TransactionTemplate(PlatformTransactionManager transactionManager,
+			TransactionDefinition transactionDefinition) {
 		super(transactionDefinition);
 		this.transactionManager = transactionManager;
 	}
-
 
 	/**
 	 * Set the transaction management strategy to be used.
@@ -123,7 +126,6 @@ public class TransactionTemplate extends DefaultTransactionDefinition
 			throw new IllegalArgumentException("Property 'transactionManager' is required");
 		}
 	}
-
 
 	@Override
 	@Nullable
@@ -178,11 +180,10 @@ public class TransactionTemplate extends DefaultTransactionDefinition
 		}
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
-		return (this == other || (super.equals(other) && (!(other instanceof TransactionTemplate) ||
-				getTransactionManager() == ((TransactionTemplate) other).getTransactionManager())));
+		return (this == other || (super.equals(other) && (!(other instanceof TransactionTemplate)
+				|| getTransactionManager() == ((TransactionTemplate) other).getTransactionManager())));
 	}
 
 }

@@ -51,7 +51,6 @@ public class InitBinderBindingContextTests {
 
 	private final List<SyncHandlerMethodArgumentResolver> argumentResolvers = new ArrayList<>();
 
-
 	@Test
 	public void createBinder() throws Exception {
 		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
@@ -106,8 +105,7 @@ public class InitBinderBindingContextTests {
 	public void returnValueNotExpected() throws Exception {
 		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
 		BindingContext context = createBindingContext("initBinderReturnValue", WebDataBinder.class);
-		assertThatIllegalStateException().isThrownBy(() ->
-				context.createDataBinder(exchange, null, "invalidName"));
+		assertThatIllegalStateException().isThrownBy(() -> context.createDataBinder(exchange, null, "invalidName"));
 	}
 
 	@Test
@@ -124,7 +122,6 @@ public class InitBinderBindingContextTests {
 		assertThat(dataBinder.getDisallowedFields()[0]).isEqualToIgnoringCase("requestParam-22");
 	}
 
-
 	private BindingContext createBindingContext(String methodName, Class<?>... parameterTypes) throws Exception {
 		Object handler = new InitBinderHandler();
 		Method method = handler.getClass().getMethod(methodName, parameterTypes);
@@ -136,7 +133,6 @@ public class InitBinderBindingContextTests {
 		return new InitBinderBindingContext(this.bindingInitializer, Collections.singletonList(handlerMethod));
 	}
 
-
 	private static class InitBinderHandler {
 
 		@InitBinder
@@ -144,7 +140,7 @@ public class InitBinderBindingContextTests {
 			dataBinder.setDisallowedFields("id");
 		}
 
-		@InitBinder(value="foo")
+		@InitBinder(value = "foo")
 		public void initBinderWithAttributeName(WebDataBinder dataBinder) {
 			dataBinder.setDisallowedFields("id");
 		}
@@ -158,6 +154,7 @@ public class InitBinderBindingContextTests {
 		public void initBinderTypeConversion(WebDataBinder dataBinder, @RequestParam int requestParam) {
 			dataBinder.setDisallowedFields("requestParam-" + requestParam);
 		}
+
 	}
 
 }

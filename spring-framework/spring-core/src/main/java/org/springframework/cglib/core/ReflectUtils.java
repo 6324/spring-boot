@@ -44,7 +44,7 @@ import org.springframework.asm.Type;
 /**
  * @version $Id: ReflectUtils.java,v 1.30 2009/01/11 19:47:49 herbyderby Exp $
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class ReflectUtils {
 
 	private ReflectUtils() {
@@ -79,7 +79,8 @@ public class ReflectUtils {
 			privateLookupIn = (Method) AccessController.doPrivileged(new PrivilegedExceptionAction() {
 				public Object run() throws Exception {
 					try {
-						return MethodHandles.class.getMethod("privateLookupIn", Class.class, MethodHandles.Lookup.class);
+						return MethodHandles.class.getMethod("privateLookupIn", Class.class,
+								MethodHandles.Lookup.class);
 					}
 					catch (NoSuchMethodException ex) {
 						return null;
@@ -98,8 +99,8 @@ public class ReflectUtils {
 			});
 			classLoaderDefineClass = (Method) AccessController.doPrivileged(new PrivilegedExceptionAction() {
 				public Object run() throws Exception {
-					return ClassLoader.class.getDeclaredMethod("defineClass",
-							String.class, byte[].class, Integer.TYPE, Integer.TYPE, ProtectionDomain.class);
+					return ClassLoader.class.getDeclaredMethod("defineClass", String.class, byte[].class, Integer.TYPE,
+							Integer.TYPE, ProtectionDomain.class);
 				}
 			});
 			protectionDomain = getProtectionDomain(ReflectUtils.class);
@@ -132,9 +133,7 @@ public class ReflectUtils {
 	}
 	// SPRING PATCH END
 
-	private static final String[] CGLIB_PACKAGES = {
-			"java.lang",
-	};
+	private static final String[] CGLIB_PACKAGES = { "java.lang", };
 
 	static {
 		primitives.put("byte", Byte.TYPE);
@@ -185,8 +184,7 @@ public class ReflectUtils {
 		}
 		else if (member instanceof Constructor) {
 			Type[] types = TypeUtils.getTypes(((Constructor) member).getParameterTypes());
-			return new Signature(Constants.CONSTRUCTOR_NAME,
-					Type.getMethodDescriptor(Type.VOID_TYPE, types));
+			return new Signature(Constants.CONSTRUCTOR_NAME, Type.getMethodDescriptor(Type.VOID_TYPE, types));
 
 		}
 		else {
@@ -231,7 +229,7 @@ public class ReflectUtils {
 		int rparen = desc.indexOf(')', lparen);
 		List params = new ArrayList();
 		int start = lparen + 1;
-		for (; ; ) {
+		for (;;) {
 			int comma = desc.indexOf(',', start);
 			if (comma < 0) {
 				break;
@@ -253,7 +251,8 @@ public class ReflectUtils {
 		return getClass(className, loader, CGLIB_PACKAGES);
 	}
 
-	private static Class getClass(String className, ClassLoader loader, String[] packages) throws ClassNotFoundException {
+	private static Class getClass(String className, ClassLoader loader, String[] packages)
+			throws ClassNotFoundException {
 		String save = className;
 		int dimensions = 0;
 		int index = 0;
@@ -307,7 +306,7 @@ public class ReflectUtils {
 		return newInstance(getConstructor(type, parameterTypes), args);
 	}
 
-	@SuppressWarnings("deprecation")  // on JDK 9
+	@SuppressWarnings("deprecation") // on JDK 9
 	public static Object newInstance(final Constructor cstruct, final Object[] args) {
 		boolean flag = cstruct.isAccessible();
 		try {
@@ -415,8 +414,7 @@ public class ReflectUtils {
 			List properties = new ArrayList(all.length);
 			for (int i = 0; i < all.length; i++) {
 				PropertyDescriptor pd = all[i];
-				if ((read && pd.getReadMethod() != null) ||
-						(write && pd.getWriteMethod() != null)) {
+				if ((read && pd.getReadMethod() != null) || (write && pd.getWriteMethod() != null)) {
 					properties.add(pd);
 				}
 			}
@@ -427,8 +425,7 @@ public class ReflectUtils {
 		}
 	}
 
-	public static Method findDeclaredMethod(final Class type,
-			final String methodName, final Class[] parameterTypes)
+	public static Method findDeclaredMethod(final Class type, final String methodName, final Class[] parameterTypes)
 			throws NoSuchMethodException {
 
 		Class cl = type;
@@ -448,7 +445,7 @@ public class ReflectUtils {
 			list.addAll(OBJECT_METHODS);
 		}
 		else
-			list.addAll(java.util.Arrays.asList(type.getDeclaredMethods()));
+			list.addAll(Arrays.asList(type.getDeclaredMethods()));
 
 		Class superclass = type.getSuperclass();
 		if (superclass != null) {
@@ -471,7 +468,6 @@ public class ReflectUtils {
 		return list;
 	}
 
-
 	public static Method findInterfaceMethod(Class iface) {
 		if (!iface.isInterface()) {
 			throw new IllegalArgumentException(iface + " is not an interface");
@@ -488,25 +484,24 @@ public class ReflectUtils {
 		return defineClass(className, b, loader, null, null);
 	}
 
-	public static Class defineClass(String className, byte[] b, ClassLoader loader,
-			ProtectionDomain protectionDomain) throws Exception {
+	public static Class defineClass(String className, byte[] b, ClassLoader loader, ProtectionDomain protectionDomain)
+			throws Exception {
 
 		return defineClass(className, b, loader, protectionDomain, null);
 	}
 
-	@SuppressWarnings("deprecation")  // on JDK 9
-	public static Class defineClass(String className, byte[] b, ClassLoader loader,
-			ProtectionDomain protectionDomain, Class<?> contextClass) throws Exception {
+	@SuppressWarnings("deprecation") // on JDK 9
+	public static Class defineClass(String className, byte[] b, ClassLoader loader, ProtectionDomain protectionDomain,
+			Class<?> contextClass) throws Exception {
 
 		Class c = null;
-		Throwable t = THROWABLE;
 
 		// Preferred option: JDK 9+ Lookup.defineClass API if ClassLoader matches
-		if (contextClass != null && contextClass.getClassLoader() == loader &&
-				privateLookupInMethod != null && lookupDefineClassMethod != null) {
+		if (contextClass != null && contextClass.getClassLoader() == loader && privateLookupInMethod != null
+				&& lookupDefineClassMethod != null) {
 			try {
-				MethodHandles.Lookup lookup = (MethodHandles.Lookup)
-						privateLookupInMethod.invoke(null, contextClass, MethodHandles.lookup());
+				MethodHandles.Lookup lookup = (MethodHandles.Lookup) privateLookupInMethod.invoke(null, contextClass,
+						MethodHandles.lookup());
 				c = (Class) lookupDefineClassMethod.invoke(lookup, b);
 			}
 			catch (InvocationTargetException ex) {
@@ -517,7 +512,6 @@ public class ReflectUtils {
 				// in case of plain LinkageError (class already defined)
 				// or IllegalArgumentException (class in different package):
 				// fall through to traditional ClassLoader.defineClass below
-				t = target;
 			}
 			catch (Throwable ex) {
 				throw new CodeGenerationException(ex);
@@ -529,7 +523,7 @@ public class ReflectUtils {
 			if (protectionDomain == null) {
 				protectionDomain = PROTECTION_DOMAIN;
 			}
-			Object[] args = new Object[]{className, b, 0, b.length, protectionDomain};
+			Object[] args = new Object[] { className, b, 0, b.length, protectionDomain };
 			try {
 				if (!classLoaderDefineClassMethod.isAccessible()) {
 					classLoaderDefineClassMethod.setAccessible(true);
@@ -540,21 +534,23 @@ public class ReflectUtils {
 				throw new CodeGenerationException(ex.getTargetException());
 			}
 			catch (Throwable ex) {
-				// Fall through if setAccessible fails with InaccessibleObjectException on JDK 9+
-				// (on the module path and/or with a JVM bootstrapped with --illegal-access=deny)
+				// Fall through if setAccessible fails with InaccessibleObjectException on
+				// JDK 9+
+				// (on the module path and/or with a JVM bootstrapped with
+				// --illegal-access=deny)
 				if (!ex.getClass().getName().endsWith("InaccessibleObjectException")) {
 					throw new CodeGenerationException(ex);
 				}
-				t = ex;
 			}
 		}
 
-		// Fallback option: JDK 9+ Lookup.defineClass API even if ClassLoader does not match
-		if (c == null && contextClass != null && contextClass.getClassLoader() != loader &&
-				privateLookupInMethod != null && lookupDefineClassMethod != null) {
+		// Fallback option: JDK 9+ Lookup.defineClass API even if ClassLoader does not
+		// match
+		if (c == null && contextClass != null && contextClass.getClassLoader() != loader
+				&& privateLookupInMethod != null && lookupDefineClassMethod != null) {
 			try {
-				MethodHandles.Lookup lookup = (MethodHandles.Lookup)
-						privateLookupInMethod.invoke(null, contextClass, MethodHandles.lookup());
+				MethodHandles.Lookup lookup = (MethodHandles.Lookup) privateLookupInMethod.invoke(null, contextClass,
+						MethodHandles.lookup());
 				c = (Class) lookupDefineClassMethod.invoke(lookup, b);
 			}
 			catch (InvocationTargetException ex) {
@@ -567,7 +563,7 @@ public class ReflectUtils {
 
 		// No defineClass variant available at all?
 		if (c == null) {
-			throw new CodeGenerationException(t);
+			throw new CodeGenerationException(THROWABLE);
 		}
 
 		// Force static initializers to run.
@@ -625,12 +621,15 @@ public class ReflectUtils {
 			public Type getType() {
 				return type;
 			}
+
 			public Type getSuperType() {
 				return sc;
 			}
+
 			public Type[] getInterfaces() {
 				return TypeUtils.getTypes(clazz.getInterfaces());
 			}
+
 			public int getModifiers() {
 				return clazz.getModifiers();
 			}

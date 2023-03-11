@@ -68,12 +68,10 @@ class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T> {
 
 	private final Map<String, Object> hints = new HashMap<>();
 
-
 	public DefaultEntityResponseBuilder(T entity, BodyInserter<T, ? super ServerHttpResponse> inserter) {
 		this.entity = entity;
 		this.inserter = inserter;
 	}
-
 
 	@Override
 	public EntityResponse.Builder<T> status(HttpStatus status) {
@@ -195,23 +193,19 @@ class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T> {
 
 	@Override
 	public Mono<EntityResponse<T>> build() {
-		return Mono.just(new DefaultEntityResponse<T>(
-				this.status, this.headers, this.cookies, this.entity, this.inserter, this.hints));
+		return Mono.just(new DefaultEntityResponse<T>(this.status, this.headers, this.cookies, this.entity,
+				this.inserter, this.hints));
 	}
 
-
-	private static final class DefaultEntityResponse<T>
-			extends DefaultServerResponseBuilder.AbstractServerResponse
+	private static final class DefaultEntityResponse<T> extends DefaultServerResponseBuilder.AbstractServerResponse
 			implements EntityResponse<T> {
 
 		private final T entity;
 
 		private final BodyInserter<T, ? super ServerHttpResponse> inserter;
 
-
-		public DefaultEntityResponse(int statusCode, HttpHeaders headers,
-				MultiValueMap<String, ResponseCookie> cookies, T entity,
-				BodyInserter<T, ? super ServerHttpResponse> inserter, Map<String, Object> hints) {
+		public DefaultEntityResponse(int statusCode, HttpHeaders headers, MultiValueMap<String, ResponseCookie> cookies,
+				T entity, BodyInserter<T, ? super ServerHttpResponse> inserter, Map<String, Object> hints) {
 
 			super(statusCode, headers, cookies, hints);
 			this.entity = entity;
@@ -235,10 +229,12 @@ class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T> {
 				public List<HttpMessageWriter<?>> messageWriters() {
 					return context.messageWriters();
 				}
+
 				@Override
 				public Optional<ServerHttpRequest> serverRequest() {
 					return Optional.of(exchange.getRequest());
 				}
+
 				@Override
 				public Map<String, Object> hints() {
 					hints.put(Hints.LOG_PREFIX_HINT, exchange.getLogPrefix());
@@ -246,6 +242,7 @@ class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T> {
 				}
 			});
 		}
+
 	}
 
 }

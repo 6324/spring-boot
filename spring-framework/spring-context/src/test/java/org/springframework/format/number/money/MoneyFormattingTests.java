@@ -42,7 +42,6 @@ public class MoneyFormattingTests {
 
 	private final FormattingConversionService conversionService = new DefaultFormattingConversionService();
 
-
 	@BeforeEach
 	public void setUp() {
 		LocaleContextHolder.setLocale(Locale.US);
@@ -52,7 +51,6 @@ public class MoneyFormattingTests {
 	public void tearDown() {
 		LocaleContextHolder.setLocale(null);
 	}
-
 
 	@Test
 	public void testAmountAndUnit() {
@@ -171,7 +169,6 @@ public class MoneyFormattingTests {
 		assertThat(bean.getAmount().getCurrency().getCurrencyCode()).isEqualTo("USD");
 	}
 
-
 	public static class MoneyHolder {
 
 		private MonetaryAmount amount;
@@ -193,8 +190,8 @@ public class MoneyFormattingTests {
 		public void setUnit(CurrencyUnit unit) {
 			this.unit = unit;
 		}
-	}
 
+	}
 
 	public static class FormattedMoneyHolder1 {
 
@@ -208,8 +205,8 @@ public class MoneyFormattingTests {
 		public void setAmount(MonetaryAmount amount) {
 			this.amount = amount;
 		}
-	}
 
+	}
 
 	public static class FormattedMoneyHolder2 {
 
@@ -223,8 +220,8 @@ public class MoneyFormattingTests {
 		public void setAmount(MonetaryAmount amount) {
 			this.amount = amount;
 		}
-	}
 
+	}
 
 	public static class FormattedMoneyHolder3 {
 
@@ -238,8 +235,8 @@ public class MoneyFormattingTests {
 		public void setAmount(MonetaryAmount amount) {
 			this.amount = amount;
 		}
-	}
 
+	}
 
 	public static class FormattedMoneyHolder4 {
 
@@ -253,8 +250,8 @@ public class MoneyFormattingTests {
 		public void setAmount(MonetaryAmount amount) {
 			this.amount = amount;
 		}
-	}
 
+	}
 
 	public static class FormattedMoneyHolder5 {
 
@@ -268,6 +265,7 @@ public class MoneyFormattingTests {
 		public void setAmount(MonetaryAmount amount) {
 			this.amount = amount;
 		}
+
 	}
 
 }

@@ -41,25 +41,23 @@ public class ExecutorSubscribableChannel extends AbstractSubscribableChannel {
 
 	private final List<ExecutorChannelInterceptor> executorInterceptors = new ArrayList<>(4);
 
-
 	/**
-	 * Create a new {@link ExecutorSubscribableChannel} instance
-	 * where messages will be sent in the callers thread.
+	 * Create a new {@link ExecutorSubscribableChannel} instance where messages will be
+	 * sent in the callers thread.
 	 */
 	public ExecutorSubscribableChannel() {
 		this(null);
 	}
 
 	/**
-	 * Create a new {@link ExecutorSubscribableChannel} instance
-	 * where messages will be sent via the specified executor.
-	 * @param executor the executor used to send the message,
-	 * or {@code null} to execute in the callers thread.
+	 * Create a new {@link ExecutorSubscribableChannel} instance where messages will be
+	 * sent via the specified executor.
+	 * @param executor the executor used to send the message, or {@code null} to execute
+	 * in the callers thread.
 	 */
 	public ExecutorSubscribableChannel(@Nullable Executor executor) {
 		this.executor = executor;
 	}
-
 
 	@Nullable
 	public Executor getExecutor() {
@@ -91,7 +89,6 @@ public class ExecutorSubscribableChannel extends AbstractSubscribableChannel {
 		}
 	}
 
-
 	@Override
 	public boolean sendInternal(Message<?> message, long timeout) {
 		for (MessageHandler handler : getSubscribers()) {
@@ -105,7 +102,6 @@ public class ExecutorSubscribableChannel extends AbstractSubscribableChannel {
 		}
 		return true;
 	}
-
 
 	/**
 	 * Invoke a MessageHandler with ExecutorChannelInterceptors.
@@ -164,7 +160,8 @@ public class ExecutorSubscribableChannel extends AbstractSubscribableChannel {
 		private Message<?> applyBeforeHandle(Message<?> message) {
 			Message<?> messageToUse = message;
 			for (ExecutorChannelInterceptor interceptor : executorInterceptors) {
-				messageToUse = interceptor.beforeHandle(messageToUse, ExecutorSubscribableChannel.this, this.messageHandler);
+				messageToUse = interceptor.beforeHandle(messageToUse, ExecutorSubscribableChannel.this,
+						this.messageHandler);
 				if (messageToUse == null) {
 					String name = interceptor.getClass().getSimpleName();
 					if (logger.isDebugEnabled()) {
@@ -189,6 +186,7 @@ public class ExecutorSubscribableChannel extends AbstractSubscribableChannel {
 				}
 			}
 		}
+
 	}
 
 }

@@ -33,7 +33,6 @@ public class BeanNameGenerationTests {
 
 	private DefaultListableBeanFactory beanFactory;
 
-
 	@BeforeEach
 	public void setUp() {
 		this.beanFactory = new DefaultListableBeanFactory();

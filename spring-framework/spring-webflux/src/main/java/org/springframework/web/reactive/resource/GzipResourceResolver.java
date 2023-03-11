@@ -32,11 +32,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * A {@code ResourceResolver} that delegates to the chain to locate a resource
- * and then attempts to find a variation with the ".gz" extension.
+ * A {@code ResourceResolver} that delegates to the chain to locate a resource and then
+ * attempts to find a variation with the ".gz" extension.
  *
- * <p>The resolver gets involved only if the "Accept-Encoding" request header
- * contains the value "gzip" indicating the client accepts gzipped responses.
+ * <p>
+ * The resolver gets involved only if the "Accept-Encoding" request header contains the
+ * value "gzip" indicating the client accepts gzipped responses.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -46,25 +47,24 @@ import org.springframework.web.server.ServerWebExchange;
 public class GzipResourceResolver extends AbstractResourceResolver {
 
 	@Override
-	protected Mono<Resource> resolveResourceInternal(@Nullable ServerWebExchange exchange,
-			String requestPath, List<? extends Resource> locations, ResourceResolverChain chain) {
+	protected Mono<Resource> resolveResourceInternal(@Nullable ServerWebExchange exchange, String requestPath,
+			List<? extends Resource> locations, ResourceResolverChain chain) {
 
-		return chain.resolveResource(exchange, requestPath, locations)
-				.map(resource -> {
-					if (exchange == null || isGzipAccepted(exchange)) {
-						try {
-							Resource gzipped = new GzippedResource(resource);
-							if (gzipped.exists()) {
-								resource = gzipped;
-							}
-						}
-						catch (IOException ex) {
-							String logPrefix = exchange != null ? exchange.getLogPrefix() : "";
-							logger.trace(logPrefix + "No gzip resource for [" + resource.getFilename() + "]", ex);
-						}
+		return chain.resolveResource(exchange, requestPath, locations).map(resource -> {
+			if (exchange == null || isGzipAccepted(exchange)) {
+				try {
+					Resource gzipped = new GzippedResource(resource);
+					if (gzipped.exists()) {
+						resource = gzipped;
 					}
-					return resource;
-				});
+				}
+				catch (IOException ex) {
+					String logPrefix = exchange != null ? exchange.getLogPrefix() : "";
+					logger.trace(logPrefix + "No gzip resource for [" + resource.getFilename() + "]", ex);
+				}
+			}
+			return resource;
+		});
 	}
 
 	private boolean isGzipAccepted(ServerWebExchange exchange) {
@@ -73,12 +73,11 @@ public class GzipResourceResolver extends AbstractResourceResolver {
 	}
 
 	@Override
-	protected Mono<String> resolveUrlPathInternal(String resourceUrlPath,
-			List<? extends Resource> locations, ResourceResolverChain chain) {
+	protected Mono<String> resolveUrlPathInternal(String resourceUrlPath, List<? extends Resource> locations,
+			ResourceResolverChain chain) {
 
 		return chain.resolveUrlPath(resourceUrlPath, locations);
 	}
-
 
 	/**
 	 * A gzipped {@link HttpResource}.
@@ -162,12 +161,13 @@ public class GzipResourceResolver extends AbstractResourceResolver {
 
 		@Override
 		public HttpHeaders getResponseHeaders() {
-			HttpHeaders headers = (this.original instanceof HttpResource ?
-					((HttpResource) this.original).getResponseHeaders() : new HttpHeaders());
+			HttpHeaders headers = (this.original instanceof HttpResource
+					? ((HttpResource) this.original).getResponseHeaders() : new HttpHeaders());
 			headers.add(HttpHeaders.CONTENT_ENCODING, "gzip");
 			headers.add(HttpHeaders.VARY, HttpHeaders.ACCEPT_ENCODING);
 			return headers;
 		}
+
 	}
 
 }

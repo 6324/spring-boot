@@ -32,16 +32,14 @@ public class UnknownHttpStatusCodeException extends WebClientResponseException {
 
 	private static final long serialVersionUID = 2407169540168185007L;
 
-
 	/**
 	 * Create a new instance of the {@code UnknownHttpStatusCodeException} with the given
 	 * parameters.
 	 */
-	public UnknownHttpStatusCodeException(
-			int statusCode, HttpHeaders headers, byte[] responseBody, Charset responseCharset) {
+	public UnknownHttpStatusCodeException(int statusCode, HttpHeaders headers, byte[] responseBody,
+			Charset responseCharset) {
 
-		super("Unknown status code [" + statusCode + "]", statusCode, "",
-				headers, responseBody, responseCharset);
+		super("Unknown status code [" + statusCode + "]", statusCode, "", headers, responseBody, responseCharset);
 	}
 
 	/**
@@ -49,12 +47,11 @@ public class UnknownHttpStatusCodeException extends WebClientResponseException {
 	 * parameters.
 	 * @since 5.1.4
 	 */
-	public UnknownHttpStatusCodeException(
-			int statusCode, HttpHeaders headers, byte[] responseBody, Charset responseCharset,
-			@Nullable HttpRequest request) {
+	public UnknownHttpStatusCodeException(int statusCode, HttpHeaders headers, byte[] responseBody,
+			Charset responseCharset, @Nullable HttpRequest request) {
 
-		super("Unknown status code [" + statusCode + "]", statusCode, "",
-				headers, responseBody, responseCharset, request);
+		super("Unknown status code [" + statusCode + "]", statusCode, "", headers, responseBody, responseCharset,
+				request);
 	}
 
 }

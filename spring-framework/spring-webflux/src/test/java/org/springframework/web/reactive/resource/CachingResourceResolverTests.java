@@ -46,13 +46,11 @@ public class CachingResourceResolverTests {
 
 	private static final Duration TIMEOUT = Duration.ofSeconds(5);
 
-
 	private Cache cache;
 
 	private ResourceResolverChain chain;
 
 	private List<Resource> locations;
-
 
 	@BeforeEach
 	public void setup() {
@@ -67,7 +65,6 @@ public class CachingResourceResolverTests {
 		this.locations = new ArrayList<>();
 		this.locations.add(new ClassPathResource("test/", getClass()));
 	}
-
 
 	@Test
 	public void resolveResourceInternal() {
@@ -132,11 +129,10 @@ public class CachingResourceResolverTests {
 		String cacheKey = resourceKey(file);
 		assertThat(this.cache.get(cacheKey).get()).isSameAs(expected);
 
-
 		// 2. Resolve with Accept-Encoding
 
-		exchange = MockServerWebExchange.from(get(file)
-				.header("Accept-Encoding", "gzip ; a=b  , deflate ,  br  ; c=d "));
+		exchange = MockServerWebExchange
+				.from(get(file).header("Accept-Encoding", "gzip ; a=b  , deflate ,  br  ; c=d "));
 		expected = this.chain.resolveResource(exchange, file, this.locations).block(TIMEOUT);
 
 		cacheKey = resourceKey(file + "+encoding=br,gzip");

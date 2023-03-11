@@ -77,18 +77,20 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.StringValueResolver;
 
 /**
- * Bean post-processor that registers methods annotated with @{@link Scheduled}
- * to be invoked by a {@link org.springframework.scheduling.TaskScheduler} according
- * to the "fixedRate", "fixedDelay", or "cron" expression provided via the annotation.
+ * Bean post-processor that registers methods annotated with @{@link Scheduled} to be
+ * invoked by a {@link org.springframework.scheduling.TaskScheduler} according to the
+ * "fixedRate", "fixedDelay", or "cron" expression provided via the annotation.
  *
- * <p>This post-processor is automatically registered by Spring's
+ * <p>
+ * This post-processor is automatically registered by Spring's
  * {@code <task:annotation-driven>} XML element, and also by the
  * {@link EnableScheduling @EnableScheduling} annotation.
  *
- * <p>Autodetects any {@link SchedulingConfigurer} instances in the container,
- * allowing for customization of the scheduler to be used or for fine-grained
- * control over task registration (e.g. registration of {@link Trigger} tasks.
- * See the @{@link EnableScheduling} javadocs for complete usage details.
+ * <p>
+ * Autodetects any {@link SchedulingConfigurer} instances in the container, allowing for
+ * customization of the scheduler to be used or for fine-grained control over task
+ * registration (e.g. registration of {@link Trigger} tasks. See
+ * the @{@link EnableScheduling} javadocs for complete usage details.
  *
  * @author Mark Fisher
  * @author Juergen Hoeller
@@ -103,18 +105,18 @@ import org.springframework.util.StringValueResolver;
  * @see AsyncAnnotationBeanPostProcessor
  */
 public class ScheduledAnnotationBeanPostProcessor
-		implements ScheduledTaskHolder, MergedBeanDefinitionPostProcessor, DestructionAwareBeanPostProcessor,
-		Ordered, EmbeddedValueResolverAware, BeanNameAware, BeanFactoryAware, ApplicationContextAware,
+		implements ScheduledTaskHolder, MergedBeanDefinitionPostProcessor, DestructionAwareBeanPostProcessor, Ordered,
+		EmbeddedValueResolverAware, BeanNameAware, BeanFactoryAware, ApplicationContextAware,
 		SmartInitializingSingleton, ApplicationListener<ContextRefreshedEvent>, DisposableBean {
 
 	/**
 	 * The default name of the {@link TaskScheduler} bean to pick up: {@value}.
-	 * <p>Note that the initial lookup happens by type; this is just the fallback
-	 * in case of multiple scheduler beans found in the context.
+	 * <p>
+	 * Note that the initial lookup happens by type; this is just the fallback in case of
+	 * multiple scheduler beans found in the context.
 	 * @since 4.2
 	 */
 	public static final String DEFAULT_TASK_SCHEDULER_BEAN_NAME = "taskScheduler";
-
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
@@ -139,7 +141,6 @@ public class ScheduledAnnotationBeanPostProcessor
 
 	private final Map<Object, Set<ScheduledTask>> scheduledTasks = new IdentityHashMap<>(16);
 
-
 	/**
 	 * Create a default {@code ScheduledAnnotationBeanPostProcessor}.
 	 */
@@ -148,8 +149,8 @@ public class ScheduledAnnotationBeanPostProcessor
 	}
 
 	/**
-	 * Create a {@code ScheduledAnnotationBeanPostProcessor} delegating to the
-	 * specified {@link ScheduledTaskRegistrar}.
+	 * Create a {@code ScheduledAnnotationBeanPostProcessor} delegating to the specified
+	 * {@link ScheduledTaskRegistrar}.
 	 * @param registrar the ScheduledTaskRegistrar to register @Scheduled tasks on
 	 * @since 5.1
 	 */
@@ -158,21 +159,21 @@ public class ScheduledAnnotationBeanPostProcessor
 		this.registrar = registrar;
 	}
 
-
 	@Override
 	public int getOrder() {
 		return LOWEST_PRECEDENCE;
 	}
 
 	/**
-	 * Set the {@link org.springframework.scheduling.TaskScheduler} that will invoke
-	 * the scheduled methods, or a {@link java.util.concurrent.ScheduledExecutorService}
-	 * to be wrapped as a TaskScheduler.
-	 * <p>If not specified, default scheduler resolution will apply: searching for a
-	 * unique {@link TaskScheduler} bean in the context, or for a {@link TaskScheduler}
-	 * bean named "taskScheduler" otherwise; the same lookup will also be performed for
-	 * a {@link ScheduledExecutorService} bean. If neither of the two is resolvable,
-	 * a local single-threaded default scheduler will be created within the registrar.
+	 * Set the {@link org.springframework.scheduling.TaskScheduler} that will invoke the
+	 * scheduled methods, or a {@link java.util.concurrent.ScheduledExecutorService} to be
+	 * wrapped as a TaskScheduler.
+	 * <p>
+	 * If not specified, default scheduler resolution will apply: searching for a unique
+	 * {@link TaskScheduler} bean in the context, or for a {@link TaskScheduler} bean
+	 * named "taskScheduler" otherwise; the same lookup will also be performed for a
+	 * {@link ScheduledExecutorService} bean. If neither of the two is resolvable, a local
+	 * single-threaded default scheduler will be created within the registrar.
 	 * @see #DEFAULT_TASK_SCHEDULER_BEAN_NAME
 	 */
 	public void setScheduler(Object scheduler) {
@@ -191,8 +192,8 @@ public class ScheduledAnnotationBeanPostProcessor
 
 	/**
 	 * Making a {@link BeanFactory} available is optional; if not set,
-	 * {@link SchedulingConfigurer} beans won't get autodetected and
-	 * a {@link #setScheduler scheduler} has to be explicitly configured.
+	 * {@link SchedulingConfigurer} beans won't get autodetected and a
+	 * {@link #setScheduler scheduler} has to be explicitly configured.
 	 */
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) {
@@ -200,9 +201,9 @@ public class ScheduledAnnotationBeanPostProcessor
 	}
 
 	/**
-	 * Setting an {@link ApplicationContext} is optional: If set, registered
-	 * tasks will be activated in the {@link ContextRefreshedEvent} phase;
-	 * if not set, it will happen at {@link #afterSingletonsInstantiated} time.
+	 * Setting an {@link ApplicationContext} is optional: If set, registered tasks will be
+	 * activated in the {@link ContextRefreshedEvent} phase; if not set, it will happen at
+	 * {@link #afterSingletonsInstantiated} time.
 	 */
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) {
@@ -211,7 +212,6 @@ public class ScheduledAnnotationBeanPostProcessor
 			this.beanFactory = applicationContext;
 		}
 	}
-
 
 	@Override
 	public void afterSingletonsInstantiated() {
@@ -240,8 +240,8 @@ public class ScheduledAnnotationBeanPostProcessor
 		}
 
 		if (this.beanFactory instanceof ListableBeanFactory) {
-			Map<String, SchedulingConfigurer> beans =
-					((ListableBeanFactory) this.beanFactory).getBeansOfType(SchedulingConfigurer.class);
+			Map<String, SchedulingConfigurer> beans = ((ListableBeanFactory) this.beanFactory)
+					.getBeansOfType(SchedulingConfigurer.class);
 			List<SchedulingConfigurer> configurers = new ArrayList<>(beans.values());
 			AnnotationAwareOrderComparator.sort(configurers);
 			for (SchedulingConfigurer configurer : configurers) {
@@ -257,55 +257,60 @@ public class ScheduledAnnotationBeanPostProcessor
 			}
 			catch (NoUniqueBeanDefinitionException ex) {
 				if (logger.isTraceEnabled()) {
-					logger.trace("Could not find unique TaskScheduler bean - attempting to resolve by name: " +
-							ex.getMessage());
+					logger.trace("Could not find unique TaskScheduler bean - attempting to resolve by name: "
+							+ ex.getMessage());
 				}
 				try {
 					this.registrar.setTaskScheduler(resolveSchedulerBean(this.beanFactory, TaskScheduler.class, true));
 				}
 				catch (NoSuchBeanDefinitionException ex2) {
 					if (logger.isInfoEnabled()) {
-						logger.info("More than one TaskScheduler bean exists within the context, and " +
-								"none is named 'taskScheduler'. Mark one of them as primary or name it 'taskScheduler' " +
-								"(possibly as an alias); or implement the SchedulingConfigurer interface and call " +
-								"ScheduledTaskRegistrar#setScheduler explicitly within the configureTasks() callback: " +
-								ex.getBeanNamesFound());
+						logger.info("More than one TaskScheduler bean exists within the context, and "
+								+ "none is named 'taskScheduler'. Mark one of them as primary or name it 'taskScheduler' "
+								+ "(possibly as an alias); or implement the SchedulingConfigurer interface and call "
+								+ "ScheduledTaskRegistrar#setScheduler explicitly within the configureTasks() callback: "
+								+ ex.getBeanNamesFound());
 					}
 				}
 			}
 			catch (NoSuchBeanDefinitionException ex) {
 				if (logger.isTraceEnabled()) {
-					logger.trace("Could not find default TaskScheduler bean - attempting to find ScheduledExecutorService: " +
-							ex.getMessage());
+					logger.trace(
+							"Could not find default TaskScheduler bean - attempting to find ScheduledExecutorService: "
+									+ ex.getMessage());
 				}
 				// Search for ScheduledExecutorService bean next...
 				try {
-					this.registrar.setScheduler(resolveSchedulerBean(this.beanFactory, ScheduledExecutorService.class, false));
+					this.registrar.setScheduler(
+							resolveSchedulerBean(this.beanFactory, ScheduledExecutorService.class, false));
 				}
 				catch (NoUniqueBeanDefinitionException ex2) {
 					if (logger.isTraceEnabled()) {
-						logger.trace("Could not find unique ScheduledExecutorService bean - attempting to resolve by name: " +
-								ex2.getMessage());
+						logger.trace(
+								"Could not find unique ScheduledExecutorService bean - attempting to resolve by name: "
+										+ ex2.getMessage());
 					}
 					try {
-						this.registrar.setScheduler(resolveSchedulerBean(this.beanFactory, ScheduledExecutorService.class, true));
+						this.registrar.setScheduler(
+								resolveSchedulerBean(this.beanFactory, ScheduledExecutorService.class, true));
 					}
 					catch (NoSuchBeanDefinitionException ex3) {
 						if (logger.isInfoEnabled()) {
-							logger.info("More than one ScheduledExecutorService bean exists within the context, and " +
-									"none is named 'taskScheduler'. Mark one of them as primary or name it 'taskScheduler' " +
-									"(possibly as an alias); or implement the SchedulingConfigurer interface and call " +
-									"ScheduledTaskRegistrar#setScheduler explicitly within the configureTasks() callback: " +
-									ex2.getBeanNamesFound());
+							logger.info("More than one ScheduledExecutorService bean exists within the context, and "
+									+ "none is named 'taskScheduler'. Mark one of them as primary or name it 'taskScheduler' "
+									+ "(possibly as an alias); or implement the SchedulingConfigurer interface and call "
+									+ "ScheduledTaskRegistrar#setScheduler explicitly within the configureTasks() callback: "
+									+ ex2.getBeanNamesFound());
 						}
 					}
 				}
 				catch (NoSuchBeanDefinitionException ex2) {
 					if (logger.isTraceEnabled()) {
-						logger.trace("Could not find default ScheduledExecutorService bean - falling back to default: " +
-								ex2.getMessage());
+						logger.trace("Could not find default ScheduledExecutorService bean - falling back to default: "
+								+ ex2.getMessage());
 					}
-					// Giving up -> falling back to default scheduler within the registrar...
+					// Giving up -> falling back to default scheduler within the
+					// registrar...
 					logger.info("No TaskScheduler/ScheduledExecutorService bean found for scheduled processing");
 				}
 			}
@@ -318,8 +323,8 @@ public class ScheduledAnnotationBeanPostProcessor
 		if (byName) {
 			T scheduler = beanFactory.getBean(DEFAULT_TASK_SCHEDULER_BEAN_NAME, schedulerType);
 			if (this.beanName != null && this.beanFactory instanceof ConfigurableBeanFactory) {
-				((ConfigurableBeanFactory) this.beanFactory).registerDependentBean(
-						DEFAULT_TASK_SCHEDULER_BEAN_NAME, this.beanName);
+				((ConfigurableBeanFactory) this.beanFactory).registerDependentBean(DEFAULT_TASK_SCHEDULER_BEAN_NAME,
+						this.beanName);
 			}
 			return scheduler;
 		}
@@ -335,7 +340,6 @@ public class ScheduledAnnotationBeanPostProcessor
 		}
 	}
 
-
 	@Override
 	public void postProcessMergedBeanDefinition(RootBeanDefinition beanDefinition, Class<?> beanType, String beanName) {
 	}
@@ -347,19 +351,19 @@ public class ScheduledAnnotationBeanPostProcessor
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) {
-		if (bean instanceof AopInfrastructureBean || bean instanceof TaskScheduler ||
-				bean instanceof ScheduledExecutorService) {
+		if (bean instanceof AopInfrastructureBean || bean instanceof TaskScheduler
+				|| bean instanceof ScheduledExecutorService) {
 			// Ignore AOP infrastructure such as scoped proxies.
 			return bean;
 		}
 
 		Class<?> targetClass = AopProxyUtils.ultimateTargetClass(bean);
-		if (!this.nonAnnotatedClasses.contains(targetClass) &&
-				AnnotationUtils.isCandidateClass(targetClass, Arrays.asList(Scheduled.class, Schedules.class))) {
+		if (!this.nonAnnotatedClasses.contains(targetClass)
+				&& AnnotationUtils.isCandidateClass(targetClass, Arrays.asList(Scheduled.class, Schedules.class))) {
 			Map<Method, Set<Scheduled>> annotatedMethods = MethodIntrospector.selectMethods(targetClass,
 					(MethodIntrospector.MetadataLookup<Set<Scheduled>>) method -> {
-						Set<Scheduled> scheduledMethods = AnnotatedElementUtils.getMergedRepeatableAnnotations(
-								method, Scheduled.class, Schedules.class);
+						Set<Scheduled> scheduledMethods = AnnotatedElementUtils.getMergedRepeatableAnnotations(method,
+								Scheduled.class, Schedules.class);
 						return (!scheduledMethods.isEmpty() ? scheduledMethods : null);
 					});
 			if (annotatedMethods.isEmpty()) {
@@ -370,11 +374,11 @@ public class ScheduledAnnotationBeanPostProcessor
 			}
 			else {
 				// Non-empty set of methods
-				annotatedMethods.forEach((method, scheduledMethods) ->
-						scheduledMethods.forEach(scheduled -> processScheduled(scheduled, method, bean)));
+				annotatedMethods.forEach((method, scheduledMethods) -> scheduledMethods
+						.forEach(scheduled -> processScheduled(scheduled, method, bean)));
 				if (logger.isTraceEnabled()) {
-					logger.trace(annotatedMethods.size() + " @Scheduled methods processed on bean '" + beanName +
-							"': " + annotatedMethods);
+					logger.trace(annotatedMethods.size() + " @Scheduled methods processed on bean '" + beanName + "': "
+							+ annotatedMethods);
 				}
 			}
 		}
@@ -392,8 +396,7 @@ public class ScheduledAnnotationBeanPostProcessor
 		try {
 			Runnable runnable = createRunnable(bean, method);
 			boolean processedSchedule = false;
-			String errorMessage =
-					"Exactly one of the 'cron', 'fixedDelay(String)', or 'fixedRate(String)' attributes is required";
+			String errorMessage = "Exactly one of the 'cron', 'fixedDelay(String)', or 'fixedRate(String)' attributes is required";
 
 			Set<ScheduledTask> tasks = new LinkedHashSet<>(4);
 
@@ -410,8 +413,8 @@ public class ScheduledAnnotationBeanPostProcessor
 						initialDelay = parseDelayAsLong(initialDelayString);
 					}
 					catch (RuntimeException ex) {
-						throw new IllegalArgumentException(
-								"Invalid initialDelayString value \"" + initialDelayString + "\" - cannot parse into long");
+						throw new IllegalArgumentException("Invalid initialDelayString value \"" + initialDelayString
+								+ "\" - cannot parse into long");
 					}
 				}
 			}
@@ -435,12 +438,14 @@ public class ScheduledAnnotationBeanPostProcessor
 						else {
 							timeZone = TimeZone.getDefault();
 						}
-						tasks.add(this.registrar.scheduleCronTask(new CronTask(runnable, new CronTrigger(cron, timeZone))));
+						tasks.add(this.registrar
+								.scheduleCronTask(new CronTask(runnable, new CronTrigger(cron, timeZone))));
 					}
 				}
 			}
 
-			// At this point we don't need to differentiate between initial delay set or not anymore
+			// At this point we don't need to differentiate between initial delay set or
+			// not anymore
 			if (initialDelay < 0) {
 				initialDelay = 0;
 			}
@@ -450,7 +455,8 @@ public class ScheduledAnnotationBeanPostProcessor
 			if (fixedDelay >= 0) {
 				Assert.isTrue(!processedSchedule, errorMessage);
 				processedSchedule = true;
-				tasks.add(this.registrar.scheduleFixedDelayTask(new FixedDelayTask(runnable, fixedDelay, initialDelay)));
+				tasks.add(
+						this.registrar.scheduleFixedDelayTask(new FixedDelayTask(runnable, fixedDelay, initialDelay)));
 			}
 			String fixedDelayString = scheduled.fixedDelayString();
 			if (StringUtils.hasText(fixedDelayString)) {
@@ -467,7 +473,8 @@ public class ScheduledAnnotationBeanPostProcessor
 						throw new IllegalArgumentException(
 								"Invalid fixedDelayString value \"" + fixedDelayString + "\" - cannot parse into long");
 					}
-					tasks.add(this.registrar.scheduleFixedDelayTask(new FixedDelayTask(runnable, fixedDelay, initialDelay)));
+					tasks.add(this.registrar
+							.scheduleFixedDelayTask(new FixedDelayTask(runnable, fixedDelay, initialDelay)));
 				}
 			}
 
@@ -493,7 +500,8 @@ public class ScheduledAnnotationBeanPostProcessor
 						throw new IllegalArgumentException(
 								"Invalid fixedRateString value \"" + fixedRateString + "\" - cannot parse into long");
 					}
-					tasks.add(this.registrar.scheduleFixedRateTask(new FixedRateTask(runnable, fixedRate, initialDelay)));
+					tasks.add(
+							this.registrar.scheduleFixedRateTask(new FixedRateTask(runnable, fixedRate, initialDelay)));
 				}
 			}
 
@@ -513,9 +521,10 @@ public class ScheduledAnnotationBeanPostProcessor
 	}
 
 	/**
-	 * Create a {@link Runnable} for the given bean instance,
-	 * calling the specified scheduled method.
-	 * <p>The default implementation creates a {@link ScheduledMethodRunnable}.
+	 * Create a {@link Runnable} for the given bean instance, calling the specified
+	 * scheduled method.
+	 * <p>
+	 * The default implementation creates a {@link ScheduledMethodRunnable}.
 	 * @param target the target bean instance
 	 * @param method the scheduled method to call
 	 * @since 5.1
@@ -538,10 +547,9 @@ public class ScheduledAnnotationBeanPostProcessor
 		return (ch == 'P' || ch == 'p');
 	}
 
-
 	/**
-	 * Return all currently scheduled tasks, from {@link Scheduled} methods
-	 * as well as from programmatic {@link SchedulingConfigurer} interaction.
+	 * Return all currently scheduled tasks, from {@link Scheduled} methods as well as
+	 * from programmatic {@link SchedulingConfigurer} interaction.
 	 * @since 5.0.2
 	 */
 	@Override

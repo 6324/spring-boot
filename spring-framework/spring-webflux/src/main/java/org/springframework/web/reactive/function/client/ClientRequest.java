@@ -33,11 +33,12 @@ import org.springframework.web.reactive.function.BodyInserter;
 
 /**
  * Represents a typed, immutable, client-side HTTP request, as executed by the
- * {@link ExchangeFunction}. Instances of this interface can be created via static
- * builder methods.
+ * {@link ExchangeFunction}. Instances of this interface can be created via static builder
+ * methods.
  *
- * <p>Note that applications are more likely to perform requests through
- * {@link WebClient} rather than using this directly.
+ * <p>
+ * Note that applications are more likely to perform requests through {@link WebClient}
+ * rather than using this directly.
  *
  * @author Brian Clozel
  * @author Arjen Poutsma
@@ -46,14 +47,13 @@ import org.springframework.web.reactive.function.BodyInserter;
 public interface ClientRequest {
 
 	/**
-	 * Name of {@link #attributes() attribute} whose value can be used to
-	 * correlate log messages for this request. Use {@link #logPrefix()} to
-	 * obtain a consistently formatted prefix based on this attribute.
+	 * Name of {@link #attributes() attribute} whose value can be used to correlate log
+	 * messages for this request. Use {@link #logPrefix()} to obtain a consistently
+	 * formatted prefix based on this attribute.
 	 * @since 5.1
 	 * @see #logPrefix()
 	 */
 	String LOG_ID_ATTRIBUTE = ClientRequest.class.getName() + ".LOG_ID";
-
 
 	/**
 	 * Return the HTTP method.
@@ -95,11 +95,11 @@ public interface ClientRequest {
 	Map<String, Object> attributes();
 
 	/**
-	 * Return a log message prefix to use to correlate messages for this request.
-	 * The prefix is based on the value of the attribute {@link #LOG_ID_ATTRIBUTE
+	 * Return a log message prefix to use to correlate messages for this request. The
+	 * prefix is based on the value of the attribute {@link #LOG_ID_ATTRIBUTE
 	 * LOG_ID_ATTRIBUTE} surrounded with "[" and "]".
-	 * @return the log message prefix or an empty String if the
-	 * {@link #LOG_ID_ATTRIBUTE LOG_ID_ATTRIBUTE} is not set.
+	 * @return the log message prefix or an empty String if the {@link #LOG_ID_ATTRIBUTE
+	 * LOG_ID_ATTRIBUTE} is not set.
 	 * @since 5.1
 	 */
 	String logPrefix();
@@ -111,7 +111,6 @@ public interface ClientRequest {
 	 * @return {@code Mono<Void>} to indicate when writing is complete
 	 */
 	Mono<Void> writeTo(ClientHttpRequest request, ExchangeStrategies strategies);
-
 
 	// Static builder methods
 
@@ -146,7 +145,6 @@ public interface ClientRequest {
 		return new DefaultClientRequestBuilder(method, url);
 	}
 
-
 	/**
 	 * Defines a builder for a request.
 	 */
@@ -170,7 +168,7 @@ public interface ClientRequest {
 
 		/**
 		 * Add the given header value(s) under the given name.
-		 * @param headerName  the header name
+		 * @param headerName the header name
 		 * @param headerValues the header value(s)
 		 * @return this builder
 		 * @see HttpHeaders#add(String, String)
@@ -178,8 +176,8 @@ public interface ClientRequest {
 		Builder header(String headerName, String... headerValues);
 
 		/**
-		 * Manipulate this request's headers with the given consumer. The
-		 * headers provided to the consumer are "live", so that the consumer can be used to
+		 * Manipulate this request's headers with the given consumer. The headers provided
+		 * to the consumer are "live", so that the consumer can be used to
 		 * {@linkplain HttpHeaders#set(String, String) overwrite} existing header values,
 		 * {@linkplain HttpHeaders#remove(Object) remove} values, or use any of the other
 		 * {@link HttpHeaders} methods.
@@ -197,11 +195,11 @@ public interface ClientRequest {
 		Builder cookie(String name, String... values);
 
 		/**
-		 * Manipulate this request's cookies with the given consumer. The
-		 * map provided to the consumer is "live", so that the consumer can be used to
-		 * {@linkplain MultiValueMap#set(Object, Object) overwrite} existing header values,
-		 * {@linkplain MultiValueMap#remove(Object) remove} values, or use any of the other
-		 * {@link MultiValueMap} methods.
+		 * Manipulate this request's cookies with the given consumer. The map provided to
+		 * the consumer is "live", so that the consumer can be used to
+		 * {@linkplain MultiValueMap#set(Object, Object) overwrite} existing header
+		 * values, {@linkplain MultiValueMap#remove(Object) remove} values, or use any of
+		 * the other {@link MultiValueMap} methods.
 		 * @param cookiesConsumer a function that consumes the cookies map
 		 * @return this builder
 		 */
@@ -227,7 +225,8 @@ public interface ClientRequest {
 		/**
 		 * Set the body of the request to the given {@code Publisher} and return it.
 		 * @param publisher the {@code Publisher} to write to the request
-		 * @param typeReference a type reference describing the elements contained in the publisher
+		 * @param typeReference a type reference describing the elements contained in the
+		 * publisher
 		 * @param <S> the type of the elements contained in the publisher
 		 * @param <P> the type of the {@code Publisher}
 		 * @return the built request
@@ -243,9 +242,10 @@ public interface ClientRequest {
 		Builder attribute(String name, Object value);
 
 		/**
-		 * Manipulate the request attributes with the given consumer. The attributes provided to
-		 * the consumer are "live", so that the consumer can be used to inspect attributes,
-		 * remove attributes, or use any of the other map-provided methods.
+		 * Manipulate the request attributes with the given consumer. The attributes
+		 * provided to the consumer are "live", so that the consumer can be used to
+		 * inspect attributes, remove attributes, or use any of the other map-provided
+		 * methods.
 		 * @param attributesConsumer a function that consumes the attributes
 		 * @return this builder
 		 */
@@ -255,6 +255,7 @@ public interface ClientRequest {
 		 * Build the request.
 		 */
 		ClientRequest build();
+
 	}
 
 }

@@ -26,10 +26,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Spring {@link org.springframework.cache.Cache} adapter implementation
- * on top of a Caffeine {@link com.github.benmanes.caffeine.cache.Cache} instance.
+ * Spring {@link org.springframework.cache.Cache} adapter implementation on top of a
+ * Caffeine {@link com.github.benmanes.caffeine.cache.Cache} instance.
  *
- * <p>Requires Caffeine 2.1 or higher.
+ * <p>
+ * Requires Caffeine 2.1 or higher.
  *
  * @author Ben Manes
  * @author Juergen Hoeller
@@ -43,10 +44,9 @@ public class CaffeineCache extends AbstractValueAdaptingCache {
 
 	private final com.github.benmanes.caffeine.cache.Cache<Object, Object> cache;
 
-
 	/**
-	 * Create a {@link CaffeineCache} instance with the specified name and the
-	 * given internal {@link com.github.benmanes.caffeine.cache.Cache} to use.
+	 * Create a {@link CaffeineCache} instance with the specified name and the given
+	 * internal {@link com.github.benmanes.caffeine.cache.Cache} to use.
 	 * @param name the name of the cache
 	 * @param cache the backing Caffeine Cache instance
 	 */
@@ -55,12 +55,12 @@ public class CaffeineCache extends AbstractValueAdaptingCache {
 	}
 
 	/**
-	 * Create a {@link CaffeineCache} instance with the specified name and the
-	 * given internal {@link com.github.benmanes.caffeine.cache.Cache} to use.
+	 * Create a {@link CaffeineCache} instance with the specified name and the given
+	 * internal {@link com.github.benmanes.caffeine.cache.Cache} to use.
 	 * @param name the name of the cache
 	 * @param cache the backing Caffeine Cache instance
-	 * @param allowNullValues whether to accept and convert {@code null}
-	 * values for this cache
+	 * @param allowNullValues whether to accept and convert {@code null} values for this
+	 * cache
 	 */
 	public CaffeineCache(String name, com.github.benmanes.caffeine.cache.Cache<Object, Object> cache,
 			boolean allowNullValues) {
@@ -71,7 +71,6 @@ public class CaffeineCache extends AbstractValueAdaptingCache {
 		this.name = name;
 		this.cache = cache;
 	}
-
 
 	@Override
 	public final String getName() {
@@ -141,7 +140,6 @@ public class CaffeineCache extends AbstractValueAdaptingCache {
 		return notEmpty;
 	}
 
-
 	private class PutIfAbsentFunction implements Function<Object, Object> {
 
 		@Nullable
@@ -158,8 +156,8 @@ public class CaffeineCache extends AbstractValueAdaptingCache {
 			this.called = true;
 			return toStoreValue(this.value);
 		}
-	}
 
+	}
 
 	private class LoadFunction implements Function<Object, Object> {
 
@@ -178,6 +176,7 @@ public class CaffeineCache extends AbstractValueAdaptingCache {
 				throw new ValueRetrievalException(o, this.valueLoader, ex);
 			}
 		}
+
 	}
 
 }

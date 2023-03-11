@@ -33,14 +33,16 @@ import org.springframework.web.socket.WebSocketSession;
  * A {@link WebSocketHandler} that initializes and destroys a {@link WebSocketHandler}
  * instance for each WebSocket connection and delegates all other methods to it.
  *
- * <p>Essentially create an instance of this class once, providing the type of
+ * <p>
+ * Essentially create an instance of this class once, providing the type of
  * {@link WebSocketHandler} class to create for each connection, and then pass it to any
  * API method that expects a {@link WebSocketHandler}.
  *
- * <p>If initializing the target {@link WebSocketHandler} type requires a Spring
- * BeanFactory, then the {@link #setBeanFactory(BeanFactory)} property accordingly. Simply
- * declaring this class as a Spring bean will do that. Otherwise, {@link WebSocketHandler}
- * instances of the target type will be created using the default constructor.
+ * <p>
+ * If initializing the target {@link WebSocketHandler} type requires a Spring BeanFactory,
+ * then the {@link #setBeanFactory(BeanFactory)} property accordingly. Simply declaring
+ * this class as a Spring bean will do that. Otherwise, {@link WebSocketHandler} instances
+ * of the target type will be created using the default constructor.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -49,30 +51,26 @@ public class PerConnectionWebSocketHandler implements WebSocketHandler, BeanFact
 
 	private static final Log logger = LogFactory.getLog(PerConnectionWebSocketHandler.class);
 
-
 	private final BeanCreatingHandlerProvider<WebSocketHandler> provider;
 
-	private final Map<WebSocketSession, WebSocketHandler> handlers =
-			new ConcurrentHashMap<>();
+	private final Map<WebSocketSession, WebSocketHandler> handlers = new ConcurrentHashMap<>();
 
 	private final boolean supportsPartialMessages;
-
 
 	public PerConnectionWebSocketHandler(Class<? extends WebSocketHandler> handlerType) {
 		this(handlerType, false);
 	}
 
-	public PerConnectionWebSocketHandler(Class<? extends WebSocketHandler> handlerType, boolean supportsPartialMessages) {
+	public PerConnectionWebSocketHandler(Class<? extends WebSocketHandler> handlerType,
+			boolean supportsPartialMessages) {
 		this.provider = new BeanCreatingHandlerProvider<>(handlerType);
 		this.supportsPartialMessages = supportsPartialMessages;
 	}
-
 
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) {
 		this.provider.setBeanFactory(beanFactory);
 	}
-
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -106,7 +104,6 @@ public class PerConnectionWebSocketHandler implements WebSocketHandler, BeanFact
 		return this.supportsPartialMessages;
 	}
 
-
 	private WebSocketHandler getHandler(WebSocketSession session) {
 		WebSocketHandler handler = this.handlers.get(session);
 		if (handler == null) {
@@ -128,7 +125,6 @@ public class PerConnectionWebSocketHandler implements WebSocketHandler, BeanFact
 			}
 		}
 	}
-
 
 	@Override
 	public String toString() {

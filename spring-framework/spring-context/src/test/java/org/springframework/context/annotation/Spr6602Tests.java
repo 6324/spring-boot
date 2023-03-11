@@ -24,10 +24,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
- * Tests to verify that FactoryBean semantics are the same in Configuration
- * classes as in XML.
+ * Tests to verify that FactoryBean semantics are the same in Configuration classes as in
+ * XML.
  *
  * @author Chris Beams
  */
@@ -60,7 +59,6 @@ public class Spr6602Tests {
 		assertThat(bar3).isNotEqualTo(bar4);
 	}
 
-
 	@Configuration
 	public static class FooConfig {
 
@@ -73,8 +71,8 @@ public class Spr6602Tests {
 		public BarFactory barFactory() {
 			return new BarFactory();
 		}
-	}
 
+	}
 
 	public static class Foo {
 
@@ -83,12 +81,12 @@ public class Spr6602Tests {
 		public Foo(Bar bar) {
 			this.bar = bar;
 		}
-	}
 
+	}
 
 	public static class Bar {
-	}
 
+	}
 
 	public static class BarFactory implements FactoryBean<Bar> {
 

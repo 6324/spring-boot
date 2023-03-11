@@ -44,18 +44,21 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Static {@link org.springframework.beans.factory.BeanFactory} implementation
- * which allows one to register existing singleton instances programmatically.
+ * Static {@link org.springframework.beans.factory.BeanFactory} implementation which
+ * allows one to register existing singleton instances programmatically.
  *
- * <p>Does not have support for prototype beans or aliases.
+ * <p>
+ * Does not have support for prototype beans or aliases.
  *
- * <p>Serves as an example for a simple implementation of the
- * {@link org.springframework.beans.factory.ListableBeanFactory} interface,
- * managing existing bean instances rather than creating new ones based on bean
- * definitions, and not implementing any extended SPI interfaces (such as
+ * <p>
+ * Serves as an example for a simple implementation of the
+ * {@link org.springframework.beans.factory.ListableBeanFactory} interface, managing
+ * existing bean instances rather than creating new ones based on bean definitions, and
+ * not implementing any extended SPI interfaces (such as
  * {@link org.springframework.beans.factory.config.ConfigurableBeanFactory}).
  *
- * <p>For a full-fledged factory based on bean definitions, have a look at
+ * <p>
+ * For a full-fledged factory based on bean definitions, have a look at
  * {@link DefaultListableBeanFactory}.
  *
  * @author Rod Johnson
@@ -69,10 +72,9 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 	/** Map from bean name to bean instance. */
 	private final Map<String, Object> beans;
 
-
 	/**
-	 * Create a regular {@code StaticListableBeanFactory}, to be populated
-	 * with singleton bean instances through {@link #addBean} calls.
+	 * Create a regular {@code StaticListableBeanFactory}, to be populated with singleton
+	 * bean instances through {@link #addBean} calls.
 	 */
 	public StaticListableBeanFactory() {
 		this.beans = new LinkedHashMap<>();
@@ -80,12 +82,13 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 
 	/**
 	 * Create a {@code StaticListableBeanFactory} wrapping the given {@code Map}.
-	 * <p>Note that the given {@code Map} may be pre-populated with beans;
-	 * or new, still allowing for beans to be registered via {@link #addBean};
-	 * or {@link java.util.Collections#emptyMap()} for a dummy factory which
-	 * enforces operating against an empty set of beans.
-	 * @param beans a {@code Map} for holding this factory's beans, with the
-	 * bean name as key and the corresponding singleton object as value
+	 * <p>
+	 * Note that the given {@code Map} may be pre-populated with beans; or new, still
+	 * allowing for beans to be registered via {@link #addBean}; or
+	 * {@link java.util.Collections#emptyMap()} for a dummy factory which enforces
+	 * operating against an empty set of beans.
+	 * @param beans a {@code Map} for holding this factory's beans, with the bean name as
+	 * key and the corresponding singleton object as value
 	 * @since 4.3
 	 */
 	public StaticListableBeanFactory(Map<String, Object> beans) {
@@ -93,10 +96,10 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 		this.beans = beans;
 	}
 
-
 	/**
 	 * Add a new singleton bean.
-	 * <p>Will overwrite any existing instance for the given name.
+	 * <p>
+	 * Will overwrite any existing instance for the given name.
 	 * @param name the name of the bean
 	 * @param bean the bean instance
 	 */
@@ -104,10 +107,9 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 		this.beans.put(name, bean);
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of BeanFactory interface
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	@Override
 	public Object getBean(String name) throws BeansException {
@@ -206,6 +208,7 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 					throw new NoSuchBeanDefinitionException(requiredType);
 				}
 			}
+
 			@Override
 			public T getObject(Object... args) throws BeansException {
 				String[] beanNames = getBeanNamesForType(requiredType);
@@ -219,6 +222,7 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 					throw new NoSuchBeanDefinitionException(requiredType);
 				}
 			}
+
 			@Override
 			@Nullable
 			public T getIfAvailable() throws BeansException {
@@ -233,6 +237,7 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 					return null;
 				}
 			}
+
 			@Override
 			@Nullable
 			public T getIfUnique() throws BeansException {
@@ -244,10 +249,12 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 					return null;
 				}
 			}
+
 			@Override
 			public Stream<T> stream() {
 				return Arrays.stream(getBeanNamesForType(requiredType)).map(name -> (T) getBean(name));
 			}
+
 			@Override
 			public Stream<T> orderedStream() {
 				return stream().sorted(OrderComparator.INSTANCE);
@@ -274,8 +281,8 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 	public boolean isPrototype(String name) throws NoSuchBeanDefinitionException {
 		Object bean = getBean(name);
 		// In case of FactoryBean, return prototype status of created object.
-		return ((bean instanceof SmartFactoryBean && ((SmartFactoryBean<?>) bean).isPrototype()) ||
-				(bean instanceof FactoryBean && !((FactoryBean<?>) bean).isSingleton()));
+		return ((bean instanceof SmartFactoryBean && ((SmartFactoryBean<?>) bean).isPrototype())
+				|| (bean instanceof FactoryBean && !((FactoryBean<?>) bean).isSingleton()));
 	}
 
 	@Override
@@ -306,7 +313,8 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 		}
 
 		if (bean instanceof FactoryBean && !BeanFactoryUtils.isFactoryDereference(name)) {
-			// If it's a FactoryBean, we want to look at what it creates, not the factory class.
+			// If it's a FactoryBean, we want to look at what it creates, not the factory
+			// class.
 			return ((FactoryBean<?>) bean).getObjectType();
 		}
 		return bean.getClass();
@@ -317,10 +325,9 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 		return new String[0];
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of ListableBeanFactory interface
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	@Override
 	public boolean containsBeanDefinition(String name) {
@@ -343,8 +350,8 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 	}
 
 	@Override
-	public String[] getBeanNamesForType(@Nullable ResolvableType type,
-			boolean includeNonSingletons, boolean allowEagerInit) {
+	public String[] getBeanNamesForType(@Nullable ResolvableType type, boolean includeNonSingletons,
+			boolean allowEagerInit) {
 
 		Class<?> resolved = (type != null ? type.resolve() : null);
 		boolean isFactoryType = resolved != null && FactoryBean.class.isAssignableFrom(resolved);
@@ -356,8 +363,8 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 			if (beanInstance instanceof FactoryBean && !isFactoryType) {
 				FactoryBean<?> factoryBean = (FactoryBean<?>) beanInstance;
 				Class<?> objectType = factoryBean.getObjectType();
-				if ((includeNonSingletons || factoryBean.isSingleton()) &&
-						objectType != null && (type == null || type.isAssignableFrom(objectType))) {
+				if ((includeNonSingletons || factoryBean.isSingleton()) && objectType != null
+						&& (type == null || type.isAssignableFrom(objectType))) {
 					matches.add(beanName);
 				}
 			}
@@ -387,8 +394,8 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public <T> Map<String, T> getBeansOfType(@Nullable Class<T> type, boolean includeNonSingletons, boolean allowEagerInit)
-			throws BeansException {
+	public <T> Map<String, T> getBeansOfType(@Nullable Class<T> type, boolean includeNonSingletons,
+			boolean allowEagerInit) throws BeansException {
 
 		boolean isFactoryType = (type != null && FactoryBean.class.isAssignableFrom(type));
 		Map<String, T> matches = new LinkedHashMap<>();
@@ -401,8 +408,8 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 				// Match object created by FactoryBean.
 				FactoryBean<?> factory = (FactoryBean<?>) beanInstance;
 				Class<?> objectType = factory.getObjectType();
-				if ((includeNonSingletons || factory.isSingleton()) &&
-						objectType != null && (type == null || type.isAssignableFrom(objectType))) {
+				if ((includeNonSingletons || factory.isSingleton()) && objectType != null
+						&& (type == null || type.isAssignableFrom(objectType))) {
 					matches.put(beanName, getBean(beanName, type));
 				}
 			}

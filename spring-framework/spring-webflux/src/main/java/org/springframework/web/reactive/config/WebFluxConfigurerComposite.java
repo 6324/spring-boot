@@ -42,13 +42,11 @@ public class WebFluxConfigurerComposite implements WebFluxConfigurer {
 
 	private final List<WebFluxConfigurer> delegates = new ArrayList<>();
 
-
 	public void addWebFluxConfigurers(List<WebFluxConfigurer> configurers) {
 		if (!CollectionUtils.isEmpty(configurers)) {
 			this.delegates.addAll(configurers);
 		}
 	}
-
 
 	@Override
 	public void configureContentTypeResolver(RequestedContentTypeResolverBuilder builder) {
@@ -110,8 +108,8 @@ public class WebFluxConfigurerComposite implements WebFluxConfigurer {
 			return result.get(0);
 		}
 		else {
-			throw new IllegalStateException("More than one WebFluxConfigurer implements " +
-					beanType.getSimpleName() + " factory method.");
+			throw new IllegalStateException(
+					"More than one WebFluxConfigurer implements " + beanType.getSimpleName() + " factory method.");
 		}
 	}
 

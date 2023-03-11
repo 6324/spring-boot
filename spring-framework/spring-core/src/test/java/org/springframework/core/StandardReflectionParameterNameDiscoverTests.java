@@ -41,13 +41,15 @@ class StandardReflectionParameterNameDiscoverTests {
 
 	@Test
 	void getParameterNamesOnInterface() {
-		Method method = ReflectionUtils.findMethod(MessageService.class,"sendMessage", String.class);
+		Method method = ReflectionUtils.findMethod(MessageService.class, "sendMessage", String.class);
 		String[] actualParams = parameterNameDiscoverer.getParameterNames(method);
-		assertThat(actualParams).isEqualTo(new String[]{"message"});
+		assertThat(actualParams).isEqualTo(new String[] { "message" });
 	}
 
 	public interface MessageService {
+
 		void sendMessage(String message);
+
 	}
 
 }

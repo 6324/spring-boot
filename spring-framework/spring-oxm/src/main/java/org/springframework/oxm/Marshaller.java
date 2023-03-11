@@ -21,13 +21,14 @@ import java.io.IOException;
 import javax.xml.transform.Result;
 
 /**
- * Defines the contract for Object XML Mapping Marshallers. Implementations of this interface
- * can serialize a given Object to an XML Stream.
+ * Defines the contract for Object XML Mapping Marshallers. Implementations of this
+ * interface can serialize a given Object to an XML Stream.
  *
- * <p>Although the {@code marshal} method accepts a {@code java.lang.Object} as its
- * first parameter, most {@code Marshaller} implementations cannot handle arbitrary
- * {@code Object}s. Instead, a object class must be registered with the marshaller,
- * or have a common base class.
+ * <p>
+ * Although the {@code marshal} method accepts a {@code java.lang.Object} as its first
+ * parameter, most {@code Marshaller} implementations cannot handle arbitrary
+ * {@code Object}s. Instead, a object class must be registered with the marshaller, or
+ * have a common base class.
  *
  * @author Arjen Poutsma
  * @since 3.0
@@ -38,8 +39,8 @@ public interface Marshaller {
 	/**
 	 * Indicate whether this marshaller can marshal instances of the supplied type.
 	 * @param clazz the class that this marshaller is being asked if it can marshal
-	 * @return {@code true} if this marshaller can indeed marshal instances of the supplied class;
-	 * {@code false} otherwise
+	 * @return {@code true} if this marshaller can indeed marshal instances of the
+	 * supplied class; {@code false} otherwise
 	 */
 	boolean supports(Class<?> clazz);
 

@@ -25,11 +25,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Base class for EIS operation objects that work with the CCI API.
- * Encapsulates a CCI ConnectionFactory and a CCI InteractionSpec.
+ * Base class for EIS operation objects that work with the CCI API. Encapsulates a CCI
+ * ConnectionFactory and a CCI InteractionSpec.
  *
- * <p>Works with a CciTemplate instance underneath. EIS operation objects
- * are an alternative to working with a CciTemplate directly.
+ * <p>
+ * Works with a CciTemplate instance underneath. EIS operation objects are an alternative
+ * to working with a CciTemplate directly.
  *
  * @author Juergen Hoeller
  * @since 1.2
@@ -43,10 +44,9 @@ public abstract class EisOperation implements InitializingBean {
 	@Nullable
 	private InteractionSpec interactionSpec;
 
-
 	/**
-	 * Set the CciTemplate to be used by this operation.
-	 * Alternatively, specify a CCI ConnectionFactory.
+	 * Set the CciTemplate to be used by this operation. Alternatively, specify a CCI
+	 * ConnectionFactory.
 	 * @see #setConnectionFactory
 	 */
 	public void setCciTemplate(CciTemplate cciTemplate) {
@@ -82,7 +82,6 @@ public abstract class EisOperation implements InitializingBean {
 	public InteractionSpec getInteractionSpec() {
 		return this.interactionSpec;
 	}
-
 
 	@Override
 	public void afterPropertiesSet() {

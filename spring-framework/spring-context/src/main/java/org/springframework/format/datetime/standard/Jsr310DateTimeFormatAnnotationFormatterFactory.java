@@ -36,8 +36,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.StringUtils;
 
 /**
- * Formats fields annotated with the {@link DateTimeFormat} annotation using the
- * JSR-310 <code>java.time</code> package in JDK 8.
+ * Formats fields annotated with the {@link DateTimeFormat} annotation using the JSR-310
+ * <code>java.time</code> package in JDK 8.
  *
  * @author Juergen Hoeller
  * @since 4.0
@@ -59,7 +59,6 @@ public class Jsr310DateTimeFormatAnnotationFormatterFactory extends EmbeddedValu
 		fieldTypes.add(OffsetTime.class);
 		FIELD_TYPES = Collections.unmodifiableSet(fieldTypes);
 	}
-
 
 	@Override
 	public final Set<Class<?>> getFieldTypes() {

@@ -36,11 +36,11 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * {@code SimpUserRegistry} that looks up users in a "local" user registry as
- * well as a set of "remote" user registries. The local registry is provided as
- * a constructor argument while remote registries are updated via broadcasts
- * handled by {@link UserRegistryMessageHandler} which in turn notifies this
- * registry when updates are received.
+ * {@code SimpUserRegistry} that looks up users in a "local" user registry as well as a
+ * set of "remote" user registries. The local registry is provided as a constructor
+ * argument while remote registries are updated via broadcasts handled by
+ * {@link UserRegistryMessageHandler} which in turn notifies this registry when updates
+ * are received.
  *
  * @author Rossen Stoyanchev
  * @since 4.2
@@ -58,7 +58,6 @@ public class MultiServerUserRegistry implements SimpUserRegistry, SmartApplicati
 
 	/* Cross-server session lookup (e.g. same user connected to multiple servers) */
 	private final SessionLookup sessionLookup = new SessionLookup();
-
 
 	/**
 	 * Create an instance wrapping the local user registry.
@@ -81,26 +80,24 @@ public class MultiServerUserRegistry implements SimpUserRegistry, SmartApplicati
 		return host + '-' + UUID.randomUUID();
 	}
 
-
 	@Override
 	public int getOrder() {
-		return (this.delegateApplicationEvents ?
-				((SmartApplicationListener) this.localRegistry).getOrder() : Ordered.LOWEST_PRECEDENCE);
+		return (this.delegateApplicationEvents ? ((SmartApplicationListener) this.localRegistry).getOrder()
+				: Ordered.LOWEST_PRECEDENCE);
 	}
-
 
 	// SmartApplicationListener methods
 
 	@Override
 	public boolean supportsEventType(Class<? extends ApplicationEvent> eventType) {
-		return (this.delegateApplicationEvents &&
-				((SmartApplicationListener) this.localRegistry).supportsEventType(eventType));
+		return (this.delegateApplicationEvents
+				&& ((SmartApplicationListener) this.localRegistry).supportsEventType(eventType));
 	}
 
 	@Override
 	public boolean supportsSourceType(@Nullable Class<?> sourceType) {
-		return (this.delegateApplicationEvents &&
-				((SmartApplicationListener) this.localRegistry).supportsSourceType(sourceType));
+		return (this.delegateApplicationEvents
+				&& ((SmartApplicationListener) this.localRegistry).supportsSourceType(sourceType));
 	}
 
 	@Override
@@ -109,7 +106,6 @@ public class MultiServerUserRegistry implements SimpUserRegistry, SmartApplicati
 			((SmartApplicationListener) this.localRegistry).onApplicationEvent(event);
 		}
 	}
-
 
 	// SimpUserRegistry methods
 
@@ -157,7 +153,6 @@ public class MultiServerUserRegistry implements SimpUserRegistry, SmartApplicati
 		return result;
 	}
 
-
 	// Internal methods for UserRegistryMessageHandler to manage broadcasts
 
 	Object getLocalRegistryDto() {
@@ -165,7 +160,8 @@ public class MultiServerUserRegistry implements SimpUserRegistry, SmartApplicati
 	}
 
 	void addRemoteRegistryDto(Message<?> message, MessageConverter converter, long expirationPeriod) {
-		UserRegistrySnapshot registry = (UserRegistrySnapshot) converter.fromMessage(message, UserRegistrySnapshot.class);
+		UserRegistrySnapshot registry = (UserRegistrySnapshot) converter.fromMessage(message,
+				UserRegistrySnapshot.class);
 		if (registry != null && !registry.getId().equals(this.id)) {
 			registry.init(expirationPeriod, this.sessionLookup);
 			this.remoteRegistries.put(registry.getId(), registry);
@@ -177,16 +173,14 @@ public class MultiServerUserRegistry implements SimpUserRegistry, SmartApplicati
 		this.remoteRegistries.entrySet().removeIf(entry -> entry.getValue().isExpired(now));
 	}
 
-
 	@Override
 	public String toString() {
-		return "local=[" + this.localRegistry +	"], remote=" + this.remoteRegistries;
+		return "local=[" + this.localRegistry + "], remote=" + this.remoteRegistries;
 	}
 
-
 	/**
-	 * Holds a copy of a SimpUserRegistry for the purpose of broadcasting to and
-	 * receiving broadcasts from other application servers.
+	 * Holds a copy of a SimpUserRegistry for the purpose of broadcasting to and receiving
+	 * broadcasts from other application servers.
 	 */
 	private static class UserRegistrySnapshot {
 
@@ -262,8 +256,8 @@ public class MultiServerUserRegistry implements SimpUserRegistry, SmartApplicati
 		public String toString() {
 			return "id=" + this.id + ", users=" + this.users;
 		}
-	}
 
+	}
 
 	/**
 	 * SimpUser that can be (de)serialized and broadcast to other servers.
@@ -359,7 +353,6 @@ public class MultiServerUserRegistry implements SimpUserRegistry, SmartApplicati
 			}
 		}
 
-
 		@Override
 		public boolean equals(@Nullable Object other) {
 			return (this == other || (other instanceof SimpUser && this.name.equals(((SimpUser) other).getName())));
@@ -374,8 +367,8 @@ public class MultiServerUserRegistry implements SimpUserRegistry, SmartApplicati
 		public String toString() {
 			return "name=" + this.name + ", sessions=" + this.sessions;
 		}
-	}
 
+	}
 
 	/**
 	 * SimpSession that can be (de)serialized and broadcast to other servers.
@@ -460,8 +453,8 @@ public class MultiServerUserRegistry implements SimpUserRegistry, SmartApplicati
 		public String toString() {
 			return "id=" + this.id + ", subscriptions=" + this.subscriptions;
 		}
-	}
 
+	}
 
 	/**
 	 * SimpSubscription that can be (de)serialized and broadcast to other servers.
@@ -531,8 +524,8 @@ public class MultiServerUserRegistry implements SimpUserRegistry, SmartApplicati
 				return false;
 			}
 			SimpSubscription otherSubscription = (SimpSubscription) other;
-			return (getId().equals(otherSubscription.getId()) &&
-					ObjectUtils.nullSafeEquals(getSession(), otherSubscription.getSession()));
+			return (getId().equals(otherSubscription.getId())
+					&& ObjectUtils.nullSafeEquals(getSession(), otherSubscription.getSession()));
 		}
 
 		@Override
@@ -544,8 +537,8 @@ public class MultiServerUserRegistry implements SimpUserRegistry, SmartApplicati
 		public String toString() {
 			return "destination=" + this.destination;
 		}
-	}
 
+	}
 
 	/**
 	 * Helper class to find user sessions across all servers.
@@ -568,6 +561,7 @@ public class MultiServerUserRegistry implements SimpUserRegistry, SmartApplicati
 			}
 			return map;
 		}
+
 	}
 
 }

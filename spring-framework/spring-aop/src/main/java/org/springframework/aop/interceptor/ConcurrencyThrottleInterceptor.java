@@ -24,16 +24,17 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.util.ConcurrencyThrottleSupport;
 
 /**
- * Interceptor that throttles concurrent access, blocking invocations
- * if a specified concurrency limit is reached.
+ * Interceptor that throttles concurrent access, blocking invocations if a specified
+ * concurrency limit is reached.
  *
- * <p>Can be applied to methods of local services that involve heavy use
- * of system resources, in a scenario where it is more efficient to
- * throttle concurrency for a specific service rather than restricting
- * the entire thread pool (e.g. the web container's thread pool).
+ * <p>
+ * Can be applied to methods of local services that involve heavy use of system resources,
+ * in a scenario where it is more efficient to throttle concurrency for a specific service
+ * rather than restricting the entire thread pool (e.g. the web container's thread pool).
  *
- * <p>The default concurrency limit of this interceptor is 1.
- * Specify the "concurrencyLimit" bean property to change this value.
+ * <p>
+ * The default concurrency limit of this interceptor is 1. Specify the "concurrencyLimit"
+ * bean property to change this value.
  *
  * @author Juergen Hoeller
  * @since 11.02.2004

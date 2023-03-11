@@ -36,22 +36,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link PayloadUtils}.
+ *
  * @author Rossen Stoyanchev
  * @since 5.2
  */
 public class PayloadUtilsTests {
 
-	private LeakAwareNettyDataBufferFactory nettyBufferFactory =
-			new LeakAwareNettyDataBufferFactory(PooledByteBufAllocator.DEFAULT);
+	private LeakAwareNettyDataBufferFactory nettyBufferFactory = new LeakAwareNettyDataBufferFactory(
+			PooledByteBufAllocator.DEFAULT);
 
 	private DefaultDataBufferFactory defaultBufferFactory = new DefaultDataBufferFactory();
-
 
 	@AfterEach
 	public void tearDown() throws Exception {
 		this.nettyBufferFactory.checkForLeaks(Duration.ofSeconds(5));
 	}
-
 
 	@Test
 	public void retainAndReleaseWithNettyFactory() {
@@ -154,7 +153,6 @@ public class PayloadUtilsTests {
 		assertThat(payload).isInstanceOf(DefaultPayload.class);
 		assertThat(payload.getDataUtf8()).isEqualTo(data.toString(UTF_8));
 	}
-
 
 	private NettyDataBuffer createNettyDataBuffer(String content) {
 		NettyDataBuffer buffer = this.nettyBufferFactory.allocateBuffer();

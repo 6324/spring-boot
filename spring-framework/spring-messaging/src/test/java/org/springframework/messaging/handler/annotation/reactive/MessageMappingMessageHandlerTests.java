@@ -55,6 +55,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link MessageMappingMessageHandler}.
+ *
  * @author Rossen Stoyanchev
  */
 @SuppressWarnings("ALL")
@@ -62,9 +63,7 @@ public class MessageMappingMessageHandlerTests {
 
 	private static final DataBufferFactory bufferFactory = new DefaultDataBufferFactory();
 
-
 	private TestEncoderMethodReturnValueHandler returnValueHandler;
-
 
 	@Test
 	public void handleString() {
@@ -123,10 +122,11 @@ public class MessageMappingMessageHandlerTests {
 						new SimpleRouteMatcher(new AntPathMatcher()).parseRoute("string")));
 
 		StepVerifier.create(initMesssageHandler().handleMessage(message))
-				.expectErrorSatisfies(ex -> assertThat(ex.getMessage().startsWith("Could not resolve method parameter at index 0")).as("Actual: " + ex.getMessage()).isTrue())
+				.expectErrorSatisfies(
+						ex -> assertThat(ex.getMessage().startsWith("Could not resolve method parameter at index 0"))
+								.as("Actual: " + ex.getMessage()).isTrue())
 				.verify(Duration.ofSeconds(5));
 	}
-
 
 	private MessageMappingMessageHandler initMesssageHandler() {
 
@@ -171,7 +171,6 @@ public class MessageMappingMessageHandlerTests {
 		StepVerifier.create(result.collectList()).expectNext(expected).verifyComplete();
 	}
 
-
 	@Controller
 	static class TestController {
 
@@ -215,6 +214,7 @@ public class MessageMappingMessageHandlerTests {
 		Mono<String> handleException(IllegalArgumentException ex) {
 			return Mono.delay(Duration.ofMillis(10)).map(aLong -> ex.getMessage() + "::handled");
 		}
+
 	}
 
 }

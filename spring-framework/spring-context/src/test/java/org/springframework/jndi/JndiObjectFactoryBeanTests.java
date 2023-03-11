@@ -142,9 +142,8 @@ public class JndiObjectFactoryBeanTests {
 		jof.setJndiTemplate(new ExpectedLookupTemplate("foo", new Object()));
 		jof.setJndiName("foo");
 		jof.setExpectedType(String.class);
-		assertThatExceptionOfType(NamingException.class).isThrownBy(
-				jof::afterPropertiesSet)
-			.withMessageContaining("java.lang.String");
+		assertThatExceptionOfType(NamingException.class).isThrownBy(jof::afterPropertiesSet)
+				.withMessageContaining("java.lang.String");
 	}
 
 	@Test
@@ -363,9 +362,8 @@ public class JndiObjectFactoryBeanTests {
 		jof.setJndiName("foo");
 		jof.setExpectedType(DerivedTestBean.class);
 		jof.setProxyInterface(ITestBean.class);
-		assertThatExceptionOfType(NamingException.class).isThrownBy(
-				jof::afterPropertiesSet)
-			.withMessageContaining("org.springframework.beans.testfixture.beans.DerivedTestBean");
+		assertThatExceptionOfType(NamingException.class).isThrownBy(jof::afterPropertiesSet)
+				.withMessageContaining("org.springframework.beans.testfixture.beans.DerivedTestBean");
 	}
 
 	@Test

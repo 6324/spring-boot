@@ -40,7 +40,8 @@ public interface RequestUpgradeStrategy {
 	String[] getSupportedVersions();
 
 	/**
-	 * Return the WebSocket protocol extensions supported by the underlying WebSocket server.
+	 * Return the WebSocket protocol extensions supported by the underlying WebSocket
+	 * server.
 	 */
 	List<WebSocketExtension> getSupportedExtensions(ServerHttpRequest request);
 
@@ -57,13 +58,11 @@ public interface RequestUpgradeStrategy {
 	 * session via {@link org.springframework.web.socket.server.HandshakeInterceptor} and
 	 * thus made available to the {@link org.springframework.web.socket.WebSocketHandler}
 	 * @throws HandshakeFailureException thrown when handshake processing failed to
-	 * complete due to an internal, unrecoverable error, i.e. a server error as
-	 * opposed to a failure to successfully negotiate the requirements of the
-	 * handshake request.
+	 * complete due to an internal, unrecoverable error, i.e. a server error as opposed to
+	 * a failure to successfully negotiate the requirements of the handshake request.
 	 */
-	void upgrade(ServerHttpRequest request, ServerHttpResponse response,
-			@Nullable String selectedProtocol, List<WebSocketExtension> selectedExtensions,
-			@Nullable Principal user, WebSocketHandler wsHandler, Map<String, Object> attributes)
-			throws HandshakeFailureException;
+	void upgrade(ServerHttpRequest request, ServerHttpResponse response, @Nullable String selectedProtocol,
+			List<WebSocketExtension> selectedExtensions, @Nullable Principal user, WebSocketHandler wsHandler,
+			Map<String, Object> attributes) throws HandshakeFailureException;
 
 }

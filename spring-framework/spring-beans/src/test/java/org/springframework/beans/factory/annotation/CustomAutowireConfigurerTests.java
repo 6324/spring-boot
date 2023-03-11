@@ -39,8 +39,8 @@ public class CustomAutowireConfigurerTests {
 	@Test
 	public void testCustomResolver() {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(
-				qualifiedResource(CustomAutowireConfigurerTests.class, "context.xml"));
+		new XmlBeanDefinitionReader(bf)
+				.loadBeanDefinitions(qualifiedResource(CustomAutowireConfigurerTests.class, "context.xml"));
 
 		CustomAutowireConfigurer cac = new CustomAutowireConfigurer();
 		CustomResolver customResolver = new CustomResolver();
@@ -49,7 +49,6 @@ public class CustomAutowireConfigurerTests {
 		TestBean testBean = (TestBean) bf.getBean("testBean");
 		assertThat(testBean.getName()).isEqualTo("#1!");
 	}
-
 
 	public static class TestBean {
 
@@ -62,8 +61,8 @@ public class CustomAutowireConfigurerTests {
 		public String getName() {
 			return this.name;
 		}
-	}
 
+	}
 
 	public static class CustomResolver implements AutowireCandidateResolver {
 
@@ -90,6 +89,7 @@ public class CustomAutowireConfigurerTests {
 		public Object getLazyResolutionProxyIfNecessary(DependencyDescriptor descriptor, String beanName) {
 			return null;
 		}
+
 	}
 
 }

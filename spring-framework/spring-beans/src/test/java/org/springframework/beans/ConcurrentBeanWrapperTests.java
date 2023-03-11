@@ -106,7 +106,6 @@ public class ConcurrentBeanWrapperTests {
 		assertThat(bean.getProperties()).isEqualTo(p);
 	}
 
-
 	private static class TestRun implements Runnable {
 
 		private ConcurrentBeanWrapperTests test;
@@ -132,8 +131,8 @@ public class ConcurrentBeanWrapperTests {
 				}
 			}
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class TestBean {
@@ -147,6 +146,7 @@ public class ConcurrentBeanWrapperTests {
 		public void setProperties(Properties properties) {
 			this.properties = properties;
 		}
+
 	}
 
 }

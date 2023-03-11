@@ -90,7 +90,6 @@ class JmsTemplateTests {
 
 	private QosSettings qosSettings = new QosSettings(DeliveryMode.PERSISTENT, 9, 10000);
 
-
 	/**
 	 * Create the mock objects for testing.
 	 */
@@ -103,7 +102,8 @@ class JmsTemplateTests {
 		this.queue = mock(Queue.class);
 
 		given(this.connectionFactory.createConnection()).willReturn(this.connection);
-		given(this.connection.createSession(useTransactedTemplate(), Session.AUTO_ACKNOWLEDGE)).willReturn(this.session);
+		given(this.connection.createSession(useTransactedTemplate(), Session.AUTO_ACKNOWLEDGE))
+				.willReturn(this.session);
 		given(this.session.getTransacted()).willReturn(useTransactedSession());
 		given(this.jndiContext.lookup("testDestination")).willReturn(this.queue);
 	}
@@ -133,7 +133,6 @@ class JmsTemplateTests {
 	protected Session getLocalSession() {
 		return this.session;
 	}
-
 
 	@Test
 	void testExceptionStackTrace() {
@@ -236,7 +235,8 @@ class JmsTemplateTests {
 			});
 
 			assertThat(ConnectionFactoryUtils.getTransactionalSession(scf, null, false)).isSameAs(this.session);
-			assertThat(ConnectionFactoryUtils.getTransactionalSession(scf, scf.createConnection(), false)).isSameAs(this.session);
+			assertThat(ConnectionFactoryUtils.getTransactionalSession(scf, scf.createConnection(), false))
+					.isSameAs(this.session);
 
 			TransactionAwareConnectionFactoryProxy tacf = new TransactionAwareConnectionFactoryProxy(scf);
 			Connection tac = tacf.createConnection();
@@ -269,8 +269,8 @@ class JmsTemplateTests {
 	}
 
 	/**
-	 * Test sending to a destination using the method
-	 * send(Destination d, MessageCreator messageCreator)
+	 * Test sending to a destination using the method send(Destination d, MessageCreator
+	 * messageCreator)
 	 */
 	@Test
 	void testSendDestination() throws Exception {
@@ -278,8 +278,8 @@ class JmsTemplateTests {
 	}
 
 	/**
-	 * Test sending to a destination using the method
-	 * send(String d, MessageCreator messageCreator)
+	 * Test sending to a destination using the method send(String d, MessageCreator
+	 * messageCreator)
 	 */
 	@Test
 	void testSendDestinationName() throws Exception {
@@ -287,8 +287,8 @@ class JmsTemplateTests {
 	}
 
 	/**
-	 * Test sending to a destination using the method
-	 * send(Destination d, MessageCreator messageCreator) using QOS parameters.
+	 * Test sending to a destination using the method send(Destination d, MessageCreator
+	 * messageCreator) using QOS parameters.
 	 */
 	@Test
 	void testSendDestinationWithQOS() throws Exception {
@@ -296,8 +296,8 @@ class JmsTemplateTests {
 	}
 
 	/**
-	 * Test sending to a destination using the method
-	 * send(String d, MessageCreator messageCreator) using QOS parameters.
+	 * Test sending to a destination using the method send(String d, MessageCreator
+	 * messageCreator) using QOS parameters.
 	 */
 	@Test
 	void testSendDestinationNameWithQOS() throws Exception {
@@ -337,13 +337,12 @@ class JmsTemplateTests {
 	}
 
 	/**
-	 * Common method for testing a send method that uses the MessageCreator
-	 * callback but with different QOS options.
+	 * Common method for testing a send method that uses the MessageCreator callback but
+	 * with different QOS options.
 	 * @param ignoreQOS test using default QOS options.
 	 */
-	private void doTestSendDestination(
-			boolean explicitDestination, boolean useDefaultDestination,
-			boolean ignoreQOS, boolean disableIdAndTimestamp) throws Exception {
+	private void doTestSendDestination(boolean explicitDestination, boolean useDefaultDestination, boolean ignoreQOS,
+			boolean disableIdAndTimestamp) throws Exception {
 
 		JmsTemplate template = createTemplate();
 		template.setConnectionFactory(this.connectionFactory);
@@ -530,10 +529,8 @@ class JmsTemplateTests {
 		doTestReceive(true, false, true, false, true, false, 1000);
 	}
 
-	private void doTestReceive(
-			boolean explicitDestination, boolean useDefaultDestination, boolean testConverter,
-			boolean clientAcknowledge, boolean messageSelector, boolean noLocal, long timeout)
-			throws Exception {
+	private void doTestReceive(boolean explicitDestination, boolean useDefaultDestination, boolean testConverter,
+			boolean clientAcknowledge, boolean messageSelector, boolean noLocal, long timeout) throws Exception {
 
 		JmsTemplate template = createTemplate();
 		template.setConnectionFactory(this.connectionFactory);
@@ -556,13 +553,12 @@ class JmsTemplateTests {
 		MessageConsumer messageConsumer = mock(MessageConsumer.class);
 
 		String selectorString = "selector";
-		given(this.session.createConsumer(this.queue,
-				messageSelector ? selectorString : null)).willReturn(messageConsumer);
+		given(this.session.createConsumer(this.queue, messageSelector ? selectorString : null))
+				.willReturn(messageConsumer);
 
 		if (!useTransactedTemplate() && !useTransactedSession()) {
-			given(this.session.getAcknowledgeMode()).willReturn(
-					clientAcknowledge ? Session.CLIENT_ACKNOWLEDGE
-							: Session.AUTO_ACKNOWLEDGE);
+			given(this.session.getAcknowledgeMode())
+					.willReturn(clientAcknowledge ? Session.CLIENT_ACKNOWLEDGE : Session.AUTO_ACKNOWLEDGE);
 		}
 
 		TextMessage textMessage = mock(TextMessage.class);
@@ -586,9 +582,8 @@ class JmsTemplateTests {
 
 		if (useDefaultDestination) {
 			if (testConverter) {
-				textFromMessage = (String)
-						(messageSelector ? template.receiveSelectedAndConvert(selectorString) :
-						template.receiveAndConvert());
+				textFromMessage = (String) (messageSelector ? template.receiveSelectedAndConvert(selectorString)
+						: template.receiveAndConvert());
 			}
 			else {
 				message = (messageSelector ? template.receiveSelected(selectorString) : template.receive());
@@ -596,24 +591,24 @@ class JmsTemplateTests {
 		}
 		else if (explicitDestination) {
 			if (testConverter) {
-				textFromMessage = (String)
-						(messageSelector ? template.receiveSelectedAndConvert(this.queue, selectorString) :
-						template.receiveAndConvert(this.queue));
+				textFromMessage = (String) (messageSelector
+						? template.receiveSelectedAndConvert(this.queue, selectorString)
+						: template.receiveAndConvert(this.queue));
 			}
 			else {
-				message = (messageSelector ? template.receiveSelected(this.queue, selectorString) :
-						template.receive(this.queue));
+				message = (messageSelector ? template.receiveSelected(this.queue, selectorString)
+						: template.receive(this.queue));
 			}
 		}
 		else {
 			if (testConverter) {
-				textFromMessage = (String)
-						(messageSelector ? template.receiveSelectedAndConvert(destinationName, selectorString) :
-						template.receiveAndConvert(destinationName));
+				textFromMessage = (String) (messageSelector
+						? template.receiveSelectedAndConvert(destinationName, selectorString)
+						: template.receiveAndConvert(destinationName));
 			}
 			else {
-				message = (messageSelector ? template.receiveSelected(destinationName, selectorString) :
-						template.receive(destinationName));
+				message = (messageSelector ? template.receiveSelected(destinationName, selectorString)
+						: template.receive(destinationName));
 			}
 		}
 
@@ -682,7 +677,6 @@ class JmsTemplateTests {
 		MessageConsumer messageConsumer = mock(MessageConsumer.class);
 		given(localSession.createConsumer(replyDestination)).willReturn(messageConsumer);
 
-
 		TextMessage request = mock(TextMessage.class);
 		MessageCreator messageCreator = mock(MessageCreator.class);
 		given(messageCreator.createMessage(localSession)).willReturn(request);
@@ -721,7 +715,8 @@ class JmsTemplateTests {
 
 	@Test
 	void testIllegalStateException() throws Exception {
-		doTestJmsException(new javax.jms.IllegalStateException(""), org.springframework.jms.IllegalStateException.class);
+		doTestJmsException(new javax.jms.IllegalStateException(""),
+				org.springframework.jms.IllegalStateException.class);
 	}
 
 	@Test
@@ -784,7 +779,8 @@ class JmsTemplateTests {
 		doTestJmsException(new javax.jms.JMSException(""), UncategorizedJmsException.class);
 	}
 
-	protected void doTestJmsException(JMSException original, Class<? extends JmsException> thrownExceptionClass) throws Exception {
+	protected void doTestJmsException(JMSException original, Class<? extends JmsException> thrownExceptionClass)
+			throws Exception {
 		JmsTemplate template = createTemplate();
 		template.setConnectionFactory(this.connectionFactory);
 		template.setMessageConverter(new SimpleMessageConverter());
@@ -799,9 +795,8 @@ class JmsTemplateTests {
 
 		willThrow(original).given(messageProducer).send(textMessage);
 
-		assertThatExceptionOfType(thrownExceptionClass).isThrownBy(() ->
-				template.convertAndSend(this.queue, s))
-			.withCause(original);
+		assertThatExceptionOfType(thrownExceptionClass).isThrownBy(() -> template.convertAndSend(this.queue, s))
+				.withCause(original);
 
 		verify(messageProducer).close();
 		verify(this.session).close();

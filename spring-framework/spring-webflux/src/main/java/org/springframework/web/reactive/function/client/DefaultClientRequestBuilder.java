@@ -63,7 +63,6 @@ final class DefaultClientRequestBuilder implements ClientRequest.Builder {
 
 	private BodyInserter<?, ? super ClientHttpRequest> body = BodyInserters.empty();
 
-
 	public DefaultClientRequestBuilder(ClientRequest other) {
 		Assert.notNull(other, "ClientRequest must not be null");
 		this.method = other.method();
@@ -80,7 +79,6 @@ final class DefaultClientRequestBuilder implements ClientRequest.Builder {
 		this.method = method;
 		this.url = url;
 	}
-
 
 	@Override
 	public ClientRequest.Builder method(HttpMethod method) {
@@ -131,8 +129,8 @@ final class DefaultClientRequestBuilder implements ClientRequest.Builder {
 	}
 
 	@Override
-	public <S, P extends Publisher<S>> ClientRequest.Builder body(
-			P publisher, ParameterizedTypeReference<S> typeReference) {
+	public <S, P extends Publisher<S>> ClientRequest.Builder body(P publisher,
+			ParameterizedTypeReference<S> typeReference) {
 
 		this.body = BodyInserters.fromPublisher(publisher, typeReference);
 		return this;
@@ -160,7 +158,6 @@ final class DefaultClientRequestBuilder implements ClientRequest.Builder {
 	public ClientRequest build() {
 		return new BodyInserterRequest(this.method, this.url, this.headers, this.cookies, this.body, this.attributes);
 	}
-
 
 	private static class BodyInserterRequest implements ClientRequest {
 
@@ -232,10 +229,8 @@ final class DefaultClientRequestBuilder implements ClientRequest.Builder {
 		public Mono<Void> writeTo(ClientHttpRequest request, ExchangeStrategies strategies) {
 			HttpHeaders requestHeaders = request.getHeaders();
 			if (!this.headers.isEmpty()) {
-				this.headers.entrySet().stream()
-						.filter(entry -> !requestHeaders.containsKey(entry.getKey()))
-						.forEach(entry -> requestHeaders
-								.put(entry.getKey(), entry.getValue()));
+				this.headers.entrySet().stream().filter(entry -> !requestHeaders.containsKey(entry.getKey()))
+						.forEach(entry -> requestHeaders.put(entry.getKey(), entry.getValue()));
 			}
 
 			MultiValueMap<String, HttpCookie> requestCookies = request.getCookies();
@@ -251,16 +246,19 @@ final class DefaultClientRequestBuilder implements ClientRequest.Builder {
 				public List<HttpMessageWriter<?>> messageWriters() {
 					return strategies.messageWriters();
 				}
+
 				@Override
 				public Optional<ServerHttpRequest> serverRequest() {
 					return Optional.empty();
 				}
+
 				@Override
 				public Map<String, Object> hints() {
 					return Hints.from(Hints.LOG_PREFIX_HINT, logPrefix());
 				}
 			});
 		}
+
 	}
 
 }

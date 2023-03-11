@@ -23,8 +23,8 @@ import org.hibernate.JDBCException;
 import org.springframework.dao.UncategorizedDataAccessException;
 
 /**
- * Hibernate-specific subclass of UncategorizedDataAccessException,
- * for JDBC exceptions that Hibernate wrapped.
+ * Hibernate-specific subclass of UncategorizedDataAccessException, for JDBC exceptions
+ * that Hibernate wrapped.
  *
  * @author Juergen Hoeller
  * @since 4.2
@@ -34,8 +34,8 @@ import org.springframework.dao.UncategorizedDataAccessException;
 public class HibernateJdbcException extends UncategorizedDataAccessException {
 
 	public HibernateJdbcException(JDBCException ex) {
-		super("JDBC exception on Hibernate data access: SQLException for SQL [" + ex.getSQL() + "]; SQL state [" +
-				ex.getSQLState() + "]; error code [" + ex.getErrorCode() + "]; " + ex.getMessage(), ex);
+		super("JDBC exception on Hibernate data access: SQLException for SQL [" + ex.getSQL() + "]; SQL state ["
+				+ ex.getSQLState() + "]; error code [" + ex.getErrorCode() + "]; " + ex.getMessage(), ex);
 	}
 
 	/**

@@ -32,9 +32,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * AspectJ-based proxy factory, allowing for programmatic building
- * of proxies which include AspectJ aspects (code style as well
- * Java 5 annotation style).
+ * AspectJ-based proxy factory, allowing for programmatic building of proxies which
+ * include AspectJ aspects (code style as well Java 5 annotation style).
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -54,7 +53,6 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 
 	private final AspectJAdvisorFactory aspectFactory = new ReflectiveAspectJAdvisorFactory();
 
-
 	/**
 	 * Create a new AspectJProxyFactory.
 	 */
@@ -63,7 +61,8 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 
 	/**
 	 * Create a new AspectJProxyFactory.
-	 * <p>Will proxy all interfaces that the given target implements.
+	 * <p>
+	 * Will proxy all interfaces that the given target implements.
 	 * @param target the target object to be proxied
 	 */
 	public AspectJProxyFactory(Object target) {
@@ -73,13 +72,12 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 	}
 
 	/**
-	 * Create a new {@code AspectJProxyFactory}.
-	 * No target, only interfaces. Must add interceptors.
+	 * Create a new {@code AspectJProxyFactory}. No target, only interfaces. Must add
+	 * interceptors.
 	 */
 	public AspectJProxyFactory(Class<?>... interfaces) {
 		setInterfaces(interfaces);
 	}
-
 
 	/**
 	 * Add the supplied aspect instance to the chain. The type of the aspect instance
@@ -111,10 +109,10 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 		addAdvisorsFromAspectInstanceFactory(instanceFactory);
 	}
 
-
 	/**
-	 * Add all {@link Advisor Advisors} from the supplied {@link MetadataAwareAspectInstanceFactory}
-	 * to the current chain. Exposes any special purpose {@link Advisor Advisors} if needed.
+	 * Add all {@link Advisor Advisors} from the supplied
+	 * {@link MetadataAwareAspectInstanceFactory} to the current chain. Exposes any
+	 * special purpose {@link Advisor Advisors} if needed.
 	 * @see AspectJProxyUtils#makeAdvisorChainAspectJCapableIfNecessary(List)
 	 */
 	private void addAdvisorsFromAspectInstanceFactory(MetadataAwareAspectInstanceFactory instanceFactory) {
@@ -139,12 +137,13 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 	}
 
 	/**
-	 * Create a {@link MetadataAwareAspectInstanceFactory} for the supplied aspect type. If the aspect type
-	 * has no per clause, then a {@link SingletonMetadataAwareAspectInstanceFactory} is returned, otherwise
-	 * a {@link PrototypeAspectInstanceFactory} is returned.
+	 * Create a {@link MetadataAwareAspectInstanceFactory} for the supplied aspect type.
+	 * If the aspect type has no per clause, then a
+	 * {@link SingletonMetadataAwareAspectInstanceFactory} is returned, otherwise a
+	 * {@link PrototypeAspectInstanceFactory} is returned.
 	 */
-	private MetadataAwareAspectInstanceFactory createAspectInstanceFactory(
-			AspectMetadata am, Class<?> aspectClass, String aspectName) {
+	private MetadataAwareAspectInstanceFactory createAspectInstanceFactory(AspectMetadata am, Class<?> aspectClass,
+			String aspectName) {
 
 		MetadataAwareAspectInstanceFactory instanceFactory;
 		if (am.getAjType().getPerClause().getKind() == PerClauseKind.SINGLETON) {
@@ -160,8 +159,8 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 	}
 
 	/**
-	 * Get the singleton aspect instance for the supplied aspect type. An instance
-	 * is created if one cannot be found in the instance cache.
+	 * Get the singleton aspect instance for the supplied aspect type. An instance is
+	 * created if one cannot be found in the instance cache.
 	 */
 	private Object getSingletonAspectInstance(Class<?> aspectClass) {
 		// Quick check without a lock...
@@ -179,13 +178,14 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 		return instance;
 	}
 
-
 	/**
 	 * Create a new proxy according to the settings in this factory.
-	 * <p>Can be called repeatedly. Effect will vary if we've added
-	 * or removed interfaces. Can add and remove interceptors.
-	 * <p>Uses a default class loader: Usually, the thread context class loader
-	 * (if necessary for proxy creation).
+	 * <p>
+	 * Can be called repeatedly. Effect will vary if we've added or removed interfaces.
+	 * Can add and remove interceptors.
+	 * <p>
+	 * Uses a default class loader: Usually, the thread context class loader (if necessary
+	 * for proxy creation).
 	 * @return the new proxy
 	 */
 	@SuppressWarnings("unchecked")
@@ -195,9 +195,11 @@ public class AspectJProxyFactory extends ProxyCreatorSupport {
 
 	/**
 	 * Create a new proxy according to the settings in this factory.
-	 * <p>Can be called repeatedly. Effect will vary if we've added
-	 * or removed interfaces. Can add and remove interceptors.
-	 * <p>Uses the given class loader (if necessary for proxy creation).
+	 * <p>
+	 * Can be called repeatedly. Effect will vary if we've added or removed interfaces.
+	 * Can add and remove interceptors.
+	 * <p>
+	 * Uses the given class loader (if necessary for proxy creation).
 	 * @param classLoader the class loader to create the proxy with
 	 * @return the new proxy
 	 */

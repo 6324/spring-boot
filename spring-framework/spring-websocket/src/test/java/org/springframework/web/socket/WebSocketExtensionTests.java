@@ -27,14 +27,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test fixture for {@link WebSocketExtension}
+ *
  * @author Brian Clozel
  */
 public class WebSocketExtensionTests {
 
 	@Test
 	public void parseHeaderSingle() {
-		List<WebSocketExtension> extensions =
-				WebSocketExtension.parseExtensions("x-test-extension ; foo=bar ; bar=baz");
+		List<WebSocketExtension> extensions = WebSocketExtension
+				.parseExtensions("x-test-extension ; foo=bar ; bar=baz");
 
 		assertThat(extensions).hasSize(1);
 		WebSocketExtension extension = extensions.get(0);
@@ -47,11 +48,10 @@ public class WebSocketExtensionTests {
 
 	@Test
 	public void parseHeaderMultiple() {
-		List<WebSocketExtension> extensions =
-				WebSocketExtension.parseExtensions("x-foo-extension, x-bar-extension");
+		List<WebSocketExtension> extensions = WebSocketExtension.parseExtensions("x-foo-extension, x-bar-extension");
 
-		assertThat(extensions.stream().map(WebSocketExtension::getName))
-				.containsExactly("x-foo-extension", "x-bar-extension");
+		assertThat(extensions.stream().map(WebSocketExtension::getName)).containsExactly("x-foo-extension",
+				"x-bar-extension");
 	}
 
 	@Test // gh-26449
@@ -61,4 +61,5 @@ public class WebSocketExtensionTests {
 
 		assertThat(ext1).isEqualTo(ext2);
 	}
+
 }

@@ -25,11 +25,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of {@link java.util.Map} for use when building model data for use
- * with UI tools. Supports chained calls and generation of model attribute names.
+ * Implementation of {@link java.util.Map} for use when building model data for use with
+ * UI tools. Supports chained calls and generation of model attribute names.
  *
- * <p>This class serves as generic model holder for Servlet MVC but is not tied to it.
- * Check out the {@link Model} interface for an interface variant.
+ * <p>
+ * This class serves as generic model holder for Servlet MVC but is not tied to it. Check
+ * out the {@link Model} interface for an interface variant.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -47,8 +48,8 @@ public class ModelMap extends LinkedHashMap<String, Object> {
 	}
 
 	/**
-	 * Construct a new {@code ModelMap} containing the supplied attribute
-	 * under the supplied name.
+	 * Construct a new {@code ModelMap} containing the supplied attribute under the
+	 * supplied name.
 	 * @see #addAttribute(String, Object)
 	 */
 	public ModelMap(String attributeName, @Nullable Object attributeValue) {
@@ -56,15 +57,13 @@ public class ModelMap extends LinkedHashMap<String, Object> {
 	}
 
 	/**
-	 * Construct a new {@code ModelMap} containing the supplied attribute.
-	 * Uses attribute name generation to generate the key for the supplied model
-	 * object.
+	 * Construct a new {@code ModelMap} containing the supplied attribute. Uses attribute
+	 * name generation to generate the key for the supplied model object.
 	 * @see #addAttribute(Object)
 	 */
 	public ModelMap(Object attributeValue) {
 		addAttribute(attributeValue);
 	}
-
 
 	/**
 	 * Add the supplied attribute under the supplied name.
@@ -80,10 +79,11 @@ public class ModelMap extends LinkedHashMap<String, Object> {
 	/**
 	 * Add the supplied attribute to this {@code Map} using a
 	 * {@link org.springframework.core.Conventions#getVariableName generated name}.
-	 * <p><i>Note: Empty {@link Collection Collections} are not added to
-	 * the model when using this method because we cannot correctly determine
-	 * the true convention name. View code should check for {@code null} rather
-	 * than for empty collections as is already done by JSTL tags.</i>
+	 * <p>
+	 * <i>Note: Empty {@link Collection Collections} are not added to the model when using
+	 * this method because we cannot correctly determine the true convention name. View
+	 * code should check for {@code null} rather than for empty collections as is already
+	 * done by JSTL tags.</i>
 	 * @param attributeValue the model attribute value (never {@code null})
 	 */
 	public ModelMap addAttribute(Object attributeValue) {
@@ -95,8 +95,8 @@ public class ModelMap extends LinkedHashMap<String, Object> {
 	}
 
 	/**
-	 * Copy all attributes in the supplied {@code Collection} into this
-	 * {@code Map}, using attribute name generation for each element.
+	 * Copy all attributes in the supplied {@code Collection} into this {@code Map}, using
+	 * attribute name generation for each element.
 	 * @see #addAttribute(Object)
 	 */
 	public ModelMap addAllAttributes(@Nullable Collection<?> attributeValues) {
@@ -120,9 +120,8 @@ public class ModelMap extends LinkedHashMap<String, Object> {
 	}
 
 	/**
-	 * Copy all attributes in the supplied {@code Map} into this {@code Map},
-	 * with existing objects of the same name taking precedence (i.e. not getting
-	 * replaced).
+	 * Copy all attributes in the supplied {@code Map} into this {@code Map}, with
+	 * existing objects of the same name taking precedence (i.e. not getting replaced).
 	 */
 	public ModelMap mergeAttributes(@Nullable Map<String, ?> attributes) {
 		if (attributes != null) {

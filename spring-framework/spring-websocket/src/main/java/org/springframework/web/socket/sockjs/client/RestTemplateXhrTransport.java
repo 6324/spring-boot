@@ -59,7 +59,6 @@ public class RestTemplateXhrTransport extends AbstractXhrTransport {
 
 	private TaskExecutor taskExecutor = new SimpleAsyncTaskExecutor();
 
-
 	public RestTemplateXhrTransport() {
 		this(new RestTemplate());
 	}
@@ -68,7 +67,6 @@ public class RestTemplateXhrTransport extends AbstractXhrTransport {
 		Assert.notNull(restTemplate, "'restTemplate' is required");
 		this.restTemplate = restTemplate;
 	}
-
 
 	/**
 	 * Return the configured {@code RestTemplate}.
@@ -79,9 +77,10 @@ public class RestTemplateXhrTransport extends AbstractXhrTransport {
 
 	/**
 	 * Configure the {@code TaskExecutor} to use to execute XHR receive requests.
-	 * <p>By default {@link org.springframework.core.task.SimpleAsyncTaskExecutor
-	 * SimpleAsyncTaskExecutor} is configured which creates a new thread every
-	 * time the transports connects.
+	 * <p>
+	 * By default {@link org.springframework.core.task.SimpleAsyncTaskExecutor
+	 * SimpleAsyncTaskExecutor} is configured which creates a new thread every time the
+	 * transports connects.
 	 */
 	public void setTaskExecutor(TaskExecutor taskExecutor) {
 		Assert.notNull(taskExecutor, "TaskExecutor must not be null");
@@ -94,7 +93,6 @@ public class RestTemplateXhrTransport extends AbstractXhrTransport {
 	public TaskExecutor getTaskExecutor() {
 		return this.taskExecutor;
 	}
-
 
 	@Override
 	protected void connectInternal(final TransportRequest transportRequest, final WebSocketHandler handler,
@@ -149,16 +147,13 @@ public class RestTemplateXhrTransport extends AbstractXhrTransport {
 		return result;
 	}
 
-
 	/**
 	 * A simple ResponseExtractor that reads the body into a String.
 	 */
-	private static final ResponseExtractor<ResponseEntity<String>> textResponseExtractor =
-			response -> {
-				String body = StreamUtils.copyToString(response.getBody(), SockJsFrame.CHARSET);
-				return ResponseEntity.status(response.getRawStatusCode()).headers(response.getHeaders()).body(body);
-			};
-
+	private static final ResponseExtractor<ResponseEntity<String>> textResponseExtractor = response -> {
+		String body = StreamUtils.copyToString(response.getBody(), SockJsFrame.CHARSET);
+		return ResponseEntity.status(response.getRawStatusCode()).headers(response.getHeaders()).body(body);
+	};
 
 	/**
 	 * A RequestCallback to add the headers and (optionally) String content.
@@ -184,19 +179,20 @@ public class RestTemplateXhrTransport extends AbstractXhrTransport {
 			request.getHeaders().putAll(this.headers);
 			if (this.body != null) {
 				if (request instanceof StreamingHttpOutputMessage) {
-					((StreamingHttpOutputMessage) request).setBody(outputStream ->
-							StreamUtils.copy(this.body, SockJsFrame.CHARSET, outputStream));
+					((StreamingHttpOutputMessage) request)
+							.setBody(outputStream -> StreamUtils.copy(this.body, SockJsFrame.CHARSET, outputStream));
 				}
 				else {
 					StreamUtils.copy(this.body, SockJsFrame.CHARSET, request.getBody());
 				}
 			}
 		}
+
 	}
 
 	/**
-	 * Splits the body of an HTTP response into SockJS frames and delegates those
-	 * to an {@link XhrClientSockJsSession}.
+	 * Splits the body of an HTTP response into SockJS frames and delegates those to an
+	 * {@link XhrClientSockJsSession}.
 	 */
 	private class XhrReceiveExtractor implements ResponseExtractor<Object> {
 
@@ -210,12 +206,12 @@ public class RestTemplateXhrTransport extends AbstractXhrTransport {
 		public Object extractData(ClientHttpResponse response) throws IOException {
 			HttpStatus httpStatus = HttpStatus.resolve(response.getRawStatusCode());
 			if (httpStatus == null) {
-				throw new UnknownHttpStatusCodeException(
-						response.getRawStatusCode(), response.getStatusText(), response.getHeaders(), null, null);
+				throw new UnknownHttpStatusCodeException(response.getRawStatusCode(), response.getStatusText(),
+						response.getHeaders(), null, null);
 			}
 			if (httpStatus != HttpStatus.OK) {
-				throw new HttpServerErrorException(
-						httpStatus, response.getStatusText(), response.getHeaders(), null, null);
+				throw new HttpServerErrorException(httpStatus, response.getStatusText(), response.getHeaders(), null,
+						null);
 			}
 
 			if (logger.isTraceEnabled()) {
@@ -262,6 +258,7 @@ public class RestTemplateXhrTransport extends AbstractXhrTransport {
 				this.sockJsSession.handleFrame(content);
 			}
 		}
+
 	}
 
 }

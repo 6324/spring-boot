@@ -51,14 +51,12 @@ class SocketUtilsTests {
 
 	@Test
 	void findAvailableTcpPortWithZeroMinPort() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				SocketUtils.findAvailableTcpPort(0));
+		assertThatIllegalArgumentException().isThrownBy(() -> SocketUtils.findAvailableTcpPort(0));
 	}
 
 	@Test
 	void findAvailableTcpPortWithNegativeMinPort() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				SocketUtils.findAvailableTcpPort(-500));
+		assertThatIllegalArgumentException().isThrownBy(() -> SocketUtils.findAvailableTcpPort(-500));
 	}
 
 	@Test
@@ -77,13 +75,13 @@ class SocketUtilsTests {
 	@Test
 	void findAvailableTcpPortWhenPortOnLoopbackInterfaceIsNotAvailable() throws Exception {
 		int port = SocketUtils.findAvailableTcpPort();
-		ServerSocket socket = ServerSocketFactory.getDefault().createServerSocket(port, 1, InetAddress.getByName("localhost"));
+		ServerSocket socket = ServerSocketFactory.getDefault().createServerSocket(port, 1,
+				InetAddress.getByName("localhost"));
 		try {
 			// will only look for the exact port
-			assertThatIllegalStateException().isThrownBy(() ->
-					SocketUtils.findAvailableTcpPort(port, port))
-				.withMessageStartingWith("Could not find an available TCP port")
-				.withMessageEndingWith("after 1 attempts");
+			assertThatIllegalStateException().isThrownBy(() -> SocketUtils.findAvailableTcpPort(port, port))
+					.withMessageStartingWith("Could not find an available TCP port")
+					.withMessageEndingWith("after 1 attempts");
 		}
 		finally {
 			socket.close();
@@ -126,23 +124,19 @@ class SocketUtilsTests {
 
 	@Test
 	void findAvailableTcpPortsWithRequestedNumberGreaterThanSizeOfRange() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				findAvailableTcpPorts(50, 45000, 45010));
+		assertThatIllegalArgumentException().isThrownBy(() -> findAvailableTcpPorts(50, 45000, 45010));
 	}
-
 
 	// UDP
 
 	@Test
 	void findAvailableUdpPortWithZeroMinPort() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				SocketUtils.findAvailableUdpPort(0));
+		assertThatIllegalArgumentException().isThrownBy(() -> SocketUtils.findAvailableUdpPort(0));
 	}
 
 	@Test
 	void findAvailableUdpPortWithNegativeMinPort() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				SocketUtils.findAvailableUdpPort(-500));
+		assertThatIllegalArgumentException().isThrownBy(() -> SocketUtils.findAvailableUdpPort(-500));
 	}
 
 	@Test
@@ -157,10 +151,9 @@ class SocketUtilsTests {
 		DatagramSocket socket = new DatagramSocket(port, InetAddress.getByName("localhost"));
 		try {
 			// will only look for the exact port
-			assertThatIllegalStateException().isThrownBy(() ->
-					SocketUtils.findAvailableUdpPort(port, port))
-				.withMessageStartingWith("Could not find an available UDP port")
-				.withMessageEndingWith("after 1 attempts");
+			assertThatIllegalStateException().isThrownBy(() -> SocketUtils.findAvailableUdpPort(port, port))
+					.withMessageStartingWith("Could not find an available UDP port")
+					.withMessageEndingWith("after 1 attempts");
 		}
 		finally {
 			socket.close();
@@ -203,10 +196,8 @@ class SocketUtilsTests {
 
 	@Test
 	void findAvailableUdpPortsWithRequestedNumberGreaterThanSizeOfRange() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				findAvailableUdpPorts(50, 45000, 45010));
+		assertThatIllegalArgumentException().isThrownBy(() -> findAvailableUdpPorts(50, 45000, 45010));
 	}
-
 
 	// Helpers
 
@@ -229,6 +220,7 @@ class SocketUtilsTests {
 		SortedSet<Integer> ports = SocketUtils.findAvailableUdpPorts(numRequested, minPort, maxPort);
 		assertAvailablePorts(ports, numRequested, minPort, maxPort);
 	}
+
 	private void assertPortInRange(int port, int minPort, int maxPort) {
 		assertThat(port >= minPort).as("port [" + port + "] >= " + minPort).isTrue();
 		assertThat(port <= maxPort).as("port [" + port + "] <= " + maxPort).isTrue();

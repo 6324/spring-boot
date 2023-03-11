@@ -87,7 +87,6 @@ public abstract class AbstractJmsListenerContainerFactory<C extends AbstractMess
 	@Nullable
 	private Boolean autoStartup;
 
-
 	/**
 	 * @see AbstractMessageListenerContainer#setConnectionFactory(ConnectionFactory)
 	 */
@@ -194,7 +193,6 @@ public abstract class AbstractJmsListenerContainerFactory<C extends AbstractMess
 		this.autoStartup = autoStartup;
 	}
 
-
 	@Override
 	public C createListenerContainer(JmsListenerEndpoint endpoint) {
 		C instance = createContainerInstance();
@@ -258,8 +256,8 @@ public abstract class AbstractJmsListenerContainerFactory<C extends AbstractMess
 
 	/**
 	 * Further initialize the specified container.
-	 * <p>Subclasses can inherit from this method to apply extra
-	 * configuration if necessary.
+	 * <p>
+	 * Subclasses can inherit from this method to apply extra configuration if necessary.
 	 */
 	protected void initializeContainer(C instance) {
 	}

@@ -39,6 +39,7 @@ public class DriverManagerDataSourceTests {
 		final String pwd = "pwd";
 
 		class TestDriverManagerDataSource extends DriverManagerDataSource {
+
 			@Override
 			protected Connection getConnectionFromDriverManager(String url, Properties props) {
 				assertThat(url).isEqualTo(jdbcUrl);
@@ -46,10 +47,11 @@ public class DriverManagerDataSourceTests {
 				assertThat(props.getProperty("password")).isEqualTo(pwd);
 				return connection;
 			}
+
 		}
 
 		DriverManagerDataSource ds = new TestDriverManagerDataSource();
-		//ds.setDriverClassName("foobar");
+		// ds.setDriverClassName("foobar");
 		ds.setUrl(jdbcUrl);
 		ds.setUsername(uname);
 		ds.setPassword(pwd);
@@ -73,6 +75,7 @@ public class DriverManagerDataSourceTests {
 		connProps.setProperty("password", "pwd");
 
 		class TestDriverManagerDataSource extends DriverManagerDataSource {
+
 			@Override
 			protected Connection getConnectionFromDriverManager(String url, Properties props) {
 				assertThat(url).isEqualTo(jdbcUrl);
@@ -82,10 +85,11 @@ public class DriverManagerDataSourceTests {
 				assertThat(props.getProperty("yourProp")).isEqualTo("yourValue");
 				return connection;
 			}
+
 		}
 
 		DriverManagerDataSource ds = new TestDriverManagerDataSource();
-		//ds.setDriverClassName("foobar");
+		// ds.setDriverClassName("foobar");
 		ds.setUrl(jdbcUrl);
 		ds.setConnectionProperties(connProps);
 
@@ -108,6 +112,7 @@ public class DriverManagerDataSourceTests {
 		connProps.setProperty("password", "pwd2");
 
 		class TestDriverManagerDataSource extends DriverManagerDataSource {
+
 			@Override
 			protected Connection getConnectionFromDriverManager(String url, Properties props) {
 				assertThat(url).isEqualTo(jdbcUrl);
@@ -117,10 +122,11 @@ public class DriverManagerDataSourceTests {
 				assertThat(props.getProperty("yourProp")).isEqualTo("yourValue");
 				return connection;
 			}
+
 		}
 
 		DriverManagerDataSource ds = new TestDriverManagerDataSource();
-		//ds.setDriverClassName("foobar");
+		// ds.setDriverClassName("foobar");
 		ds.setUrl(jdbcUrl);
 		ds.setUsername(uname);
 		ds.setPassword(pwd);
@@ -138,9 +144,8 @@ public class DriverManagerDataSourceTests {
 	public void testInvalidClassName() throws Exception {
 		String bogusClassName = "foobar";
 		DriverManagerDataSource ds = new DriverManagerDataSource();
-		assertThatIllegalStateException().isThrownBy(() ->
-				ds.setDriverClassName(bogusClassName))
-			.withCauseInstanceOf(ClassNotFoundException.class);
+		assertThatIllegalStateException().isThrownBy(() -> ds.setDriverClassName(bogusClassName))
+				.withCauseInstanceOf(ClassNotFoundException.class);
 	}
 
 }

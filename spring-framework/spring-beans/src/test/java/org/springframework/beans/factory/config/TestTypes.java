@@ -23,7 +23,9 @@ import org.springframework.beans.factory.ObjectFactory;
  *
  * @author Chris Beams
  */
-final class TestTypes {}
+final class TestTypes {
+
+}
 
 /**
  * @author Juergen Hoeller

@@ -34,20 +34,20 @@ import org.springframework.util.StringUtils;
 /**
  * Simple implementation of {@link JmsHeaderMapper}.
  *
- * <p>This implementation copies JMS API headers (e.g. JMSReplyTo) to and from
- * {@link org.springframework.messaging.Message Messages}. Any user-defined
- * properties will also be copied from a JMS Message to a Message, and any
- * other headers on a Message (beyond the JMS API headers) will likewise
- * be copied to a JMS Message. Those other headers will be copied to the
- * general properties of a JMS Message whereas the JMS API headers are passed
- * to the appropriate setter methods (e.g. setJMSReplyTo).
+ * <p>
+ * This implementation copies JMS API headers (e.g. JMSReplyTo) to and from
+ * {@link org.springframework.messaging.Message Messages}. Any user-defined properties
+ * will also be copied from a JMS Message to a Message, and any other headers on a Message
+ * (beyond the JMS API headers) will likewise be copied to a JMS Message. Those other
+ * headers will be copied to the general properties of a JMS Message whereas the JMS API
+ * headers are passed to the appropriate setter methods (e.g. setJMSReplyTo).
  *
- * <p>Constants for the JMS API headers are defined in {@link JmsHeaders}.
- * Note that most of the JMS headers are read-only: the JMSDestination,
- * JMSDeliveryMode, JMSExpiration, JMSMessageID, JMSPriority, JMSRedelivered
- * and JMSTimestamp flags are only copied <em>from</em> a JMS Message. Those
- * values will <em>not</em> be passed along from a Message to an outbound
- * JMS Message.
+ * <p>
+ * Constants for the JMS API headers are defined in {@link JmsHeaders}. Note that most of
+ * the JMS headers are read-only: the JMSDestination, JMSDeliveryMode, JMSExpiration,
+ * JMSMessageID, JMSPriority, JMSRedelivered and JMSTimestamp flags are only copied
+ * <em>from</em> a JMS Message. Those values will <em>not</em> be passed along from a
+ * Message to an outbound JMS Message.
  *
  * @author Mark Fisher
  * @author Gary Russell
@@ -56,9 +56,8 @@ import org.springframework.util.StringUtils;
  */
 public class SimpleJmsHeaderMapper extends AbstractHeaderMapper<Message> implements JmsHeaderMapper {
 
-	private static final Set<Class<?>> SUPPORTED_PROPERTY_TYPES = new HashSet<>(Arrays.asList(
-			Boolean.class, Byte.class, Double.class, Float.class, Integer.class, Long.class, Short.class, String.class));
-
+	private static final Set<Class<?>> SUPPORTED_PROPERTY_TYPES = new HashSet<>(Arrays.asList(Boolean.class, Byte.class,
+			Double.class, Float.class, Integer.class, Long.class, Short.class, String.class));
 
 	@Override
 	public void fromHeaders(MessageHeaders headers, javax.jms.Message jmsMessage) {
@@ -106,8 +105,8 @@ public class SimpleJmsHeaderMapper extends AbstractHeaderMapper<Message> impleme
 						catch (Exception ex) {
 							if (headerName.startsWith("JMSX")) {
 								if (logger.isTraceEnabled()) {
-									logger.trace("Skipping reserved header '" + headerName +
-											"' since it cannot be set by client");
+									logger.trace("Skipping reserved header '" + headerName
+											+ "' since it cannot be set by client");
 								}
 							}
 							else if (logger.isDebugEnabled()) {
@@ -217,8 +216,8 @@ public class SimpleJmsHeaderMapper extends AbstractHeaderMapper<Message> impleme
 					}
 					catch (Exception ex) {
 						if (logger.isDebugEnabled()) {
-							logger.debug("Error occurred while mapping JMS property '" + propertyName +
-									"' to Message header", ex);
+							logger.debug("Error occurred while mapping JMS property '" + propertyName
+									+ "' to Message header", ex);
 						}
 					}
 				}
@@ -234,7 +233,9 @@ public class SimpleJmsHeaderMapper extends AbstractHeaderMapper<Message> impleme
 
 	/**
 	 * Add the outbound prefix if necessary.
-	 * <p>Convert {@link MessageHeaders#CONTENT_TYPE} to {@code content_type} for JMS compliance.
+	 * <p>
+	 * Convert {@link MessageHeaders#CONTENT_TYPE} to {@code content_type} for JMS
+	 * compliance.
 	 * @see #CONTENT_TYPE_PROPERTY
 	 */
 	@Override
@@ -247,7 +248,9 @@ public class SimpleJmsHeaderMapper extends AbstractHeaderMapper<Message> impleme
 
 	/**
 	 * Add the inbound prefix if necessary.
-	 * <p>Convert the JMS-compliant {@code content_type} to {@link MessageHeaders#CONTENT_TYPE}.
+	 * <p>
+	 * Convert the JMS-compliant {@code content_type} to
+	 * {@link MessageHeaders#CONTENT_TYPE}.
 	 * @see #CONTENT_TYPE_PROPERTY
 	 */
 	@Override

@@ -23,8 +23,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
 
 /**
- * {@link FactoryBean} that creates a Joda-Time {@link DateTimeFormatter}.
- * See the {@link DateTimeFormatterFactory base class} for configuration details.
+ * {@link FactoryBean} that creates a Joda-Time {@link DateTimeFormatter}. See the
+ * {@link DateTimeFormatterFactory base class} for configuration details.
  *
  * @author Phillip Webb
  * @author Sam Brannen
@@ -39,7 +39,6 @@ public class DateTimeFormatterFactoryBean extends DateTimeFormatterFactory
 
 	@Nullable
 	private DateTimeFormatter dateTimeFormatter;
-
 
 	@Override
 	public void afterPropertiesSet() {

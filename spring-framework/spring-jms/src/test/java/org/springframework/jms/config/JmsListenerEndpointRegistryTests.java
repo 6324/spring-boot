@@ -30,33 +30,31 @@ public class JmsListenerEndpointRegistryTests {
 
 	private final JmsListenerContainerTestFactory containerFactory = new JmsListenerContainerTestFactory();
 
-
 	@Test
 	public void createWithNullEndpoint() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				registry.registerListenerContainer(null, containerFactory));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> registry.registerListenerContainer(null, containerFactory));
 	}
 
 	@Test
 	public void createWithNullEndpointId() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				registry.registerListenerContainer(new SimpleJmsListenerEndpoint(), containerFactory));
+		assertThatIllegalArgumentException().isThrownBy(
+				() -> registry.registerListenerContainer(new SimpleJmsListenerEndpoint(), containerFactory));
 	}
 
 	@Test
 	public void createWithNullContainerFactory() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				registry.registerListenerContainer(createEndpoint("foo", "myDestination"), null));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> registry.registerListenerContainer(createEndpoint("foo", "myDestination"), null));
 	}
 
 	@Test
 	public void createWithDuplicateEndpointId() {
 		registry.registerListenerContainer(createEndpoint("test", "queue"), containerFactory);
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				registry.registerListenerContainer(createEndpoint("test", "queue"), containerFactory));
+		assertThatIllegalStateException().isThrownBy(
+				() -> registry.registerListenerContainer(createEndpoint("test", "queue"), containerFactory));
 	}
-
 
 	private SimpleJmsListenerEndpoint createEndpoint(String id, String destinationName) {
 		SimpleJmsListenerEndpoint endpoint = new SimpleJmsListenerEndpoint();

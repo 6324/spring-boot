@@ -48,7 +48,6 @@ class ProtectedLifecycleBean implements BeanNameAware, BeanFactoryAware, Initial
 
 	protected boolean destroyed;
 
-
 	public void setInitMethodDeclared(boolean initMethodDeclared) {
 		this.initMethodDeclared = initMethodDeclared;
 	}
@@ -84,13 +83,16 @@ class ProtectedLifecycleBean implements BeanNameAware, BeanFactoryAware, Initial
 	@Override
 	public void afterPropertiesSet() {
 		if (this.owningFactory == null) {
-			throw new RuntimeException("Factory didn't call setBeanFactory before afterPropertiesSet on lifecycle bean");
+			throw new RuntimeException(
+					"Factory didn't call setBeanFactory before afterPropertiesSet on lifecycle bean");
 		}
 		if (!this.postProcessedBeforeInit) {
-			throw new RuntimeException("Factory didn't call postProcessBeforeInit before afterPropertiesSet on lifecycle bean");
+			throw new RuntimeException(
+					"Factory didn't call postProcessBeforeInit before afterPropertiesSet on lifecycle bean");
 		}
 		if (this.initedViaDeclaredInitMethod) {
-			throw new RuntimeException("Factory initialized via declared init method before initializing via afterPropertiesSet");
+			throw new RuntimeException(
+					"Factory initialized via declared init method before initializing via afterPropertiesSet");
 		}
 		if (this.inited) {
 			throw new RuntimeException("Factory called afterPropertiesSet twice");
@@ -123,12 +125,12 @@ class ProtectedLifecycleBean implements BeanNameAware, BeanFactoryAware, Initial
 	}
 
 	/**
-	 * Dummy business method that will fail unless the factory
-	 * managed the bean's lifecycle correctly
+	 * Dummy business method that will fail unless the factory managed the bean's
+	 * lifecycle correctly
 	 */
 	public void businessMethod() {
-		if (!this.inited || (this.initMethodDeclared && !this.initedViaDeclaredInitMethod) ||
-				!this.postProcessedAfterInit) {
+		if (!this.inited || (this.initMethodDeclared && !this.initedViaDeclaredInitMethod)
+				|| !this.postProcessedAfterInit) {
 			throw new RuntimeException("Factory didn't initialize lifecycle object correctly");
 		}
 	}
@@ -144,7 +146,6 @@ class ProtectedLifecycleBean implements BeanNameAware, BeanFactoryAware, Initial
 	public boolean isDestroyed() {
 		return destroyed;
 	}
-
 
 	public static class PostProcessor implements BeanPostProcessor {
 
@@ -163,6 +164,7 @@ class ProtectedLifecycleBean implements BeanNameAware, BeanFactoryAware, Initial
 			}
 			return bean;
 		}
+
 	}
 
 }

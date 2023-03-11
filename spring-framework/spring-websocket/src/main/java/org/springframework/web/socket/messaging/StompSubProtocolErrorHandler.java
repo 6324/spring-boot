@@ -34,7 +34,6 @@ public class StompSubProtocolErrorHandler implements SubProtocolErrorHandler<byt
 
 	private static final byte[] EMPTY_PAYLOAD = new byte[0];
 
-
 	@Override
 	@Nullable
 	public Message<byte[]> handleClientMessageProcessingError(@Nullable Message<byte[]> clientMessage, Throwable ex) {

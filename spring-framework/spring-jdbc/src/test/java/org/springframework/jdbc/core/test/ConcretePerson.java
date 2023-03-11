@@ -25,7 +25,6 @@ public class ConcretePerson extends AbstractPerson {
 
 	private BigDecimal balance;
 
-
 	public BigDecimal getBalance() {
 		return balance;
 	}

@@ -44,31 +44,26 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 abstract class AbstractStaxHandlerTests {
 
-	private static final String COMPLEX_XML =
-			"<?xml version='1.0' encoding='UTF-8'?>" +
-					"<!DOCTYPE beans PUBLIC \"-//SPRING//DTD BEAN 2.0//EN\" \"https://www.springframework.org/dtd/spring-beans-2.0.dtd\">" +
-					"<?pi content?><root xmlns='namespace'><prefix:child xmlns:prefix='namespace2' prefix:attr='value'>characters <![CDATA[cdata]]></prefix:child>" +
-					"<!-- comment -->" +
-					"</root>";
+	private static final String COMPLEX_XML = "<?xml version='1.0' encoding='UTF-8'?>"
+			+ "<!DOCTYPE beans PUBLIC \"-//SPRING//DTD BEAN 2.0//EN\" \"https://www.springframework.org/dtd/spring-beans-2.0.dtd\">"
+			+ "<?pi content?><root xmlns='namespace'><prefix:child xmlns:prefix='namespace2' prefix:attr='value'>characters <![CDATA[cdata]]></prefix:child>"
+			+ "<!-- comment -->" + "</root>";
 
-	private static final String SIMPLE_XML = "<?xml version='1.0' encoding='UTF-8'?>" +
-					"<?pi content?><root xmlns='namespace'><prefix:child xmlns:prefix='namespace2' prefix:attr='value'>content</prefix:child>" +
-					"</root>";
+	private static final String SIMPLE_XML = "<?xml version='1.0' encoding='UTF-8'?>"
+			+ "<?pi content?><root xmlns='namespace'><prefix:child xmlns:prefix='namespace2' prefix:attr='value'>content</prefix:child>"
+			+ "</root>";
 
-	private static final Predicate<Node> nodeFilter = (n -> n.getNodeType() != Node.COMMENT_NODE &&
-			n.getNodeType() != Node.DOCUMENT_TYPE_NODE && n.getNodeType() != Node.PROCESSING_INSTRUCTION_NODE);
-
+	private static final Predicate<Node> nodeFilter = (n -> n.getNodeType() != Node.COMMENT_NODE
+			&& n.getNodeType() != Node.DOCUMENT_TYPE_NODE && n.getNodeType() != Node.PROCESSING_INSTRUCTION_NODE);
 
 	private XMLReader xmlReader;
 
-
 	@BeforeEach
-	@SuppressWarnings("deprecation")  // on JDK 9
+	@SuppressWarnings("deprecation") // on JDK 9
 	void createXMLReader() throws Exception {
 		xmlReader = org.xml.sax.helpers.XMLReaderFactory.createXMLReader();
 		xmlReader.setEntityResolver((publicId, systemId) -> new InputSource(new StringReader("")));
 	}
-
 
 	@Test
 	void noNamespacePrefixes() throws Exception {

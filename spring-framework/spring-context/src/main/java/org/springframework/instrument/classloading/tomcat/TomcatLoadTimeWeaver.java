@@ -27,9 +27,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * {@link org.springframework.instrument.classloading.LoadTimeWeaver} implementation
- * for Tomcat's new {@code org.apache.tomcat.InstrumentableClassLoader}.
- * Also capable of handling Spring's TomcatInstrumentableClassLoader when encountered.
+ * {@link org.springframework.instrument.classloading.LoadTimeWeaver} implementation for
+ * Tomcat's new {@code org.apache.tomcat.InstrumentableClassLoader}. Also capable of
+ * handling Spring's TomcatInstrumentableClassLoader when encountered.
  *
  * @author Juergen Hoeller
  * @since 4.0
@@ -38,17 +38,15 @@ public class TomcatLoadTimeWeaver implements LoadTimeWeaver {
 
 	private static final String INSTRUMENTABLE_LOADER_CLASS_NAME = "org.apache.tomcat.InstrumentableClassLoader";
 
-
 	private final ClassLoader classLoader;
 
 	private final Method addTransformerMethod;
 
 	private final Method copyMethod;
 
-
 	/**
-	 * Create a new instance of the {@link TomcatLoadTimeWeaver} class using
-	 * the default {@link ClassLoader class loader}.
+	 * Create a new instance of the {@link TomcatLoadTimeWeaver} class using the default
+	 * {@link ClassLoader class loader}.
 	 * @see org.springframework.util.ClassUtils#getDefaultClassLoader()
 	 */
 	public TomcatLoadTimeWeaver() {
@@ -56,8 +54,8 @@ public class TomcatLoadTimeWeaver implements LoadTimeWeaver {
 	}
 
 	/**
-	 * Create a new instance of the {@link TomcatLoadTimeWeaver} class using
-	 * the supplied {@link ClassLoader}.
+	 * Create a new instance of the {@link TomcatLoadTimeWeaver} class using the supplied
+	 * {@link ClassLoader}.
 	 * @param classLoader the {@code ClassLoader} to delegate to for weaving
 	 */
 	public TomcatLoadTimeWeaver(@Nullable ClassLoader classLoader) {
@@ -73,16 +71,20 @@ public class TomcatLoadTimeWeaver implements LoadTimeWeaver {
 			}
 		}
 		catch (ClassNotFoundException ex) {
-			// We're on an earlier version of Tomcat, probably with Spring's TomcatInstrumentableClassLoader
+			// We're on an earlier version of Tomcat, probably with Spring's
+			// TomcatInstrumentableClassLoader
 			instrumentableLoaderClass = classLoader.getClass();
 		}
 
 		try {
-			this.addTransformerMethod = instrumentableLoaderClass.getMethod("addTransformer", ClassFileTransformer.class);
-			// Check for Tomcat's new copyWithoutTransformers on InstrumentableClassLoader first
+			this.addTransformerMethod = instrumentableLoaderClass.getMethod("addTransformer",
+					ClassFileTransformer.class);
+			// Check for Tomcat's new copyWithoutTransformers on InstrumentableClassLoader
+			// first
 			Method copyMethod = ClassUtils.getMethodIfAvailable(instrumentableLoaderClass, "copyWithoutTransformers");
 			if (copyMethod == null) {
-				// Fallback: expecting TomcatInstrumentableClassLoader's getThrowawayClassLoader
+				// Fallback: expecting TomcatInstrumentableClassLoader's
+				// getThrowawayClassLoader
 				copyMethod = instrumentableLoaderClass.getMethod("getThrowawayClassLoader");
 			}
 			this.copyMethod = copyMethod;
@@ -92,7 +94,6 @@ public class TomcatLoadTimeWeaver implements LoadTimeWeaver {
 					"Could not initialize TomcatLoadTimeWeaver because Tomcat API classes are not available", ex);
 		}
 	}
-
 
 	@Override
 	public void addTransformer(ClassFileTransformer transformer) {

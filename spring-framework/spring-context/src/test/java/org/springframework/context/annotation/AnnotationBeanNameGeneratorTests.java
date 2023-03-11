@@ -48,7 +48,6 @@ public class AnnotationBeanNameGeneratorTests {
 
 	private AnnotationBeanNameGenerator beanNameGenerator = new AnnotationBeanNameGenerator();
 
-
 	@Test
 	public void generateBeanNameWithNamedComponent() {
 		BeanDefinitionRegistry registry = new SimpleBeanDefinitionRegistry();
@@ -121,7 +120,8 @@ public class AnnotationBeanNameGeneratorTests {
 	public void generateBeanNameFromComposedControllerAnnotationWithBlankName() {
 		// SPR-11360
 		BeanDefinitionRegistry registry = new SimpleBeanDefinitionRegistry();
-		AnnotatedBeanDefinition bd = new AnnotatedGenericBeanDefinition(ComposedControllerAnnotationWithBlankName.class);
+		AnnotatedBeanDefinition bd = new AnnotatedGenericBeanDefinition(
+				ComposedControllerAnnotationWithBlankName.class);
 		String beanName = this.beanNameGenerator.generateBeanName(bd, registry);
 		String expectedGeneratedBeanName = this.beanNameGenerator.buildDefaultBeanName(bd);
 		assertThat(beanName).isEqualTo(expectedGeneratedBeanName);
@@ -132,26 +132,29 @@ public class AnnotationBeanNameGeneratorTests {
 		// SPR-11360
 		BeanDefinitionRegistry registry = new SimpleBeanDefinitionRegistry();
 		AnnotatedBeanDefinition bd = new AnnotatedGenericBeanDefinition(
-			ComposedControllerAnnotationWithStringValue.class);
+				ComposedControllerAnnotationWithStringValue.class);
 		String beanName = this.beanNameGenerator.generateBeanName(bd, registry);
 		assertThat(beanName).isEqualTo("restController");
 	}
 
-
 	@Component("walden")
 	private static class ComponentWithName {
+
 	}
 
 	@Component(" ")
 	private static class ComponentWithBlankName {
+
 	}
 
 	@Component
 	private static class AnonymousComponent {
+
 	}
 
 	@Service("henry")
 	private static class ComponentFromStringMeta {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)
@@ -160,10 +163,12 @@ public class AnnotationBeanNameGeneratorTests {
 	public @interface NonStringMetaComponent {
 
 		long value();
+
 	}
 
 	@NonStringMetaComponent(123)
 	private static class ComponentFromNonStringMeta {
+
 	}
 
 	/**
@@ -175,18 +180,22 @@ public class AnnotationBeanNameGeneratorTests {
 	public static @interface TestRestController {
 
 		String value() default "";
+
 	}
 
 	@TestRestController
 	public static class ComposedControllerAnnotationWithoutName {
+
 	}
 
 	@TestRestController(" ")
 	public static class ComposedControllerAnnotationWithBlankName {
+
 	}
 
 	@TestRestController("restController")
 	public static class ComposedControllerAnnotationWithStringValue {
+
 	}
 
 }

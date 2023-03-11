@@ -38,11 +38,10 @@ public class ConvertingPropertyEditorAdapter extends PropertyEditorSupport {
 
 	private final boolean canConvertToString;
 
-
 	/**
 	 * Create a new ConvertingPropertyEditorAdapter for a given
-	 * {@link org.springframework.core.convert.ConversionService}
-	 * and the given target type.
+	 * {@link org.springframework.core.convert.ConversionService} and the given target
+	 * type.
 	 * @param conversionService the ConversionService to delegate to
 	 * @param targetDescriptor the target type to convert to
 	 */
@@ -51,9 +50,9 @@ public class ConvertingPropertyEditorAdapter extends PropertyEditorSupport {
 		Assert.notNull(targetDescriptor, "TypeDescriptor must not be null");
 		this.conversionService = conversionService;
 		this.targetDescriptor = targetDescriptor;
-		this.canConvertToString = conversionService.canConvert(this.targetDescriptor, TypeDescriptor.valueOf(String.class));
+		this.canConvertToString = conversionService.canConvert(this.targetDescriptor,
+				TypeDescriptor.valueOf(String.class));
 	}
-
 
 	@Override
 	public void setAsText(@Nullable String text) throws IllegalArgumentException {
@@ -64,7 +63,8 @@ public class ConvertingPropertyEditorAdapter extends PropertyEditorSupport {
 	@Nullable
 	public String getAsText() {
 		if (this.canConvertToString) {
-			return (String) this.conversionService.convert(getValue(), this.targetDescriptor, TypeDescriptor.valueOf(String.class));
+			return (String) this.conversionService.convert(getValue(), this.targetDescriptor,
+					TypeDescriptor.valueOf(String.class));
 		}
 		else {
 			return null;

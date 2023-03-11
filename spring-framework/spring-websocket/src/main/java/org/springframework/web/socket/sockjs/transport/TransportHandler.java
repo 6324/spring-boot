@@ -44,11 +44,11 @@ public interface TransportHandler {
 	TransportType getTransportType();
 
 	/**
-	 * Check whether the type of the given session matches the transport type
-	 * of this {@code TransportHandler} where session id and the transport type
-	 * are extracted from the SockJS URL.
-	 * @return {@code true} if the session matches (and would therefore get
-	 * accepted by {@link #handleRequest}), or {@code false} otherwise
+	 * Check whether the type of the given session matches the transport type of this
+	 * {@code TransportHandler} where session id and the transport type are extracted from
+	 * the SockJS URL.
+	 * @return {@code true} if the session matches (and would therefore get accepted by
+	 * {@link #handleRequest}), or {@code false} otherwise
 	 * @since 4.3.4
 	 */
 	boolean checkSessionType(SockJsSession session);
@@ -60,10 +60,10 @@ public interface TransportHandler {
 	 * @param response the current response
 	 * @param handler the target WebSocketHandler (never {@code null})
 	 * @param session the SockJS session (never {@code null})
-	 * @throws SockJsException raised when request processing fails as
-	 * explained in {@link SockJsService}
+	 * @throws SockJsException raised when request processing fails as explained in
+	 * {@link SockJsService}
 	 */
-	void handleRequest(ServerHttpRequest request, ServerHttpResponse response,
-			WebSocketHandler handler, SockJsSession session) throws SockJsException;
+	void handleRequest(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler handler,
+			SockJsSession session) throws SockJsException;
 
 }

@@ -17,11 +17,12 @@
 package org.springframework.dao;
 
 /**
- * Exception thrown on incorrect usage of the API, such as failing to
- * "compile" a query object that needed compilation before execution.
+ * Exception thrown on incorrect usage of the API, such as failing to "compile" a query
+ * object that needed compilation before execution.
  *
- * <p>This represents a problem in our Java data access framework,
- * not the underlying data access infrastructure.
+ * <p>
+ * This represents a problem in our Java data access framework, not the underlying data
+ * access infrastructure.
  *
  * @author Rod Johnson
  */

@@ -27,8 +27,8 @@ import org.aspectj.weaver.tools.JoinPointMatch;
 import org.springframework.aop.ProxyMethodInvocation;
 
 /**
- * Spring AOP around advice (MethodInterceptor) that wraps
- * an AspectJ advice method. Exposes ProceedingJoinPoint.
+ * Spring AOP around advice (MethodInterceptor) that wraps an AspectJ advice method.
+ * Exposes ProceedingJoinPoint.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -37,12 +37,11 @@ import org.springframework.aop.ProxyMethodInvocation;
 @SuppressWarnings("serial")
 public class AspectJAroundAdvice extends AbstractAspectJAdvice implements MethodInterceptor, Serializable {
 
-	public AspectJAroundAdvice(
-			Method aspectJAroundAdviceMethod, AspectJExpressionPointcut pointcut, AspectInstanceFactory aif) {
+	public AspectJAroundAdvice(Method aspectJAroundAdviceMethod, AspectJExpressionPointcut pointcut,
+			AspectInstanceFactory aif) {
 
 		super(aspectJAroundAdviceMethod, pointcut, aif);
 	}
-
 
 	@Override
 	public boolean isBeforeAdvice() {
@@ -71,10 +70,10 @@ public class AspectJAroundAdvice extends AbstractAspectJAdvice implements Method
 	}
 
 	/**
-	 * Return the ProceedingJoinPoint for the current invocation,
-	 * instantiating it lazily if it hasn't been bound to the thread already.
-	 * @param rmi the current Spring AOP ReflectiveMethodInvocation,
-	 * which we'll use for attribute binding
+	 * Return the ProceedingJoinPoint for the current invocation, instantiating it lazily
+	 * if it hasn't been bound to the thread already.
+	 * @param rmi the current Spring AOP ReflectiveMethodInvocation, which we'll use for
+	 * attribute binding
 	 * @return the ProceedingJoinPoint to make available to advice methods
 	 */
 	protected ProceedingJoinPoint lazyGetProceedingJoinPoint(ProxyMethodInvocation rmi) {

@@ -24,8 +24,8 @@ import org.springframework.core.NamedThreadLocal;
 import org.springframework.lang.Nullable;
 
 /**
- * A holder for a thread-local {@link JodaTimeContext}
- * with user-specific Joda-Time settings.
+ * A holder for a thread-local {@link JodaTimeContext} with user-specific Joda-Time
+ * settings.
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -34,13 +34,10 @@ import org.springframework.lang.Nullable;
  */
 public final class JodaTimeContextHolder {
 
-	private static final ThreadLocal<JodaTimeContext> jodaTimeContextHolder =
-			new NamedThreadLocal<>("JodaTimeContext");
-
+	private static final ThreadLocal<JodaTimeContext> jodaTimeContextHolder = new NamedThreadLocal<>("JodaTimeContext");
 
 	private JodaTimeContextHolder() {
 	}
-
 
 	/**
 	 * Reset the JodaTimeContext for the current thread.
@@ -51,8 +48,8 @@ public final class JodaTimeContextHolder {
 
 	/**
 	 * Associate the given JodaTimeContext with the current thread.
-	 * @param jodaTimeContext the current JodaTimeContext,
-	 * or {@code null} to reset the thread-bound context
+	 * @param jodaTimeContext the current JodaTimeContext, or {@code null} to reset the
+	 * thread-bound context
 	 */
 	public static void setJodaTimeContext(@Nullable JodaTimeContext jodaTimeContext) {
 		if (jodaTimeContext == null) {
@@ -72,9 +69,9 @@ public final class JodaTimeContextHolder {
 		return jodaTimeContextHolder.get();
 	}
 
-
 	/**
-	 * Obtain a DateTimeFormatter with user-specific settings applied to the given base Formatter.
+	 * Obtain a DateTimeFormatter with user-specific settings applied to the given base
+	 * Formatter.
 	 * @param formatter the base formatter that establishes default formatting rules
 	 * (generally user independent)
 	 * @param locale the current user locale (may be {@code null} if not known)

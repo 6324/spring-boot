@@ -21,11 +21,12 @@ import java.util.concurrent.ThreadFactory;
 import org.springframework.util.CustomizableThreadCreator;
 
 /**
- * Implementation of the {@link java.util.concurrent.ThreadFactory} interface,
- * allowing for customizing the created threads (name, priority, etc).
+ * Implementation of the {@link java.util.concurrent.ThreadFactory} interface, allowing
+ * for customizing the created threads (name, priority, etc).
  *
- * <p>See the base class {@link org.springframework.util.CustomizableThreadCreator}
- * for details on the available configuration options.
+ * <p>
+ * See the base class {@link org.springframework.util.CustomizableThreadCreator} for
+ * details on the available configuration options.
  *
  * @author Juergen Hoeller
  * @since 2.0.3
@@ -49,7 +50,6 @@ public class CustomizableThreadFactory extends CustomizableThreadCreator impleme
 	public CustomizableThreadFactory(String threadNamePrefix) {
 		super(threadNamePrefix);
 	}
-
 
 	@Override
 	public Thread newThread(Runnable runnable) {

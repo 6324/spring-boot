@@ -25,8 +25,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * A contract for invoking a chain of {@link ResourceResolver ResourceResolvers} where each resolver
- * is given a reference to the chain allowing it to delegate when necessary.
+ * A contract for invoking a chain of {@link ResourceResolver ResourceResolvers} where
+ * each resolver is given a reference to the chain allowing it to delegate when necessary.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -34,8 +34,8 @@ import org.springframework.web.server.ServerWebExchange;
 public interface ResourceResolverChain {
 
 	/**
-	 * Resolve the supplied request and request path to a {@link Resource} that
-	 * exists under one of the given resource locations.
+	 * Resolve the supplied request and request path to a {@link Resource} that exists
+	 * under one of the given resource locations.
 	 * @param exchange the current exchange
 	 * @param requestPath the portion of the request path to use
 	 * @param locations the locations to search in when looking up resources
@@ -45,10 +45,10 @@ public interface ResourceResolverChain {
 			List<? extends Resource> locations);
 
 	/**
-	 * Resolve the externally facing <em>public</em> URL path for clients to use
-	 * to access the resource that is located at the given <em>internal</em>
-	 * resource path.
-	 * <p>This is useful when rendering URL links to clients.
+	 * Resolve the externally facing <em>public</em> URL path for clients to use to access
+	 * the resource that is located at the given <em>internal</em> resource path.
+	 * <p>
+	 * This is useful when rendering URL links to clients.
 	 * @param resourcePath the internal resource path
 	 * @param locations the locations to search in when looking up resources
 	 * @return the resolved public URL path; or an empty {@code Mono} if unresolved

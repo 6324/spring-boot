@@ -41,11 +41,9 @@ public class MessageListenerTestContainer implements MessageListenerContainer, I
 
 	private boolean destroyInvoked;
 
-
 	MessageListenerTestContainer(JmsListenerEndpoint endpoint) {
 		this.endpoint = endpoint;
 	}
-
 
 	public void setAutoStartup(boolean autoStartup) {
 		this.autoStartup = autoStartup;

@@ -31,11 +31,9 @@ import org.springframework.context.annotation.Import;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
- * Tests that @Import may be used both as a locally declared and meta-declared
- * annotation, that all declarations are processed, and that any local declaration
- * is processed last.
+ * Tests that @Import may be used both as a locally declared and meta-declared annotation,
+ * that all declarations are processed, and that any local declaration is processed last.
  *
  * @author Chris Beams
  * @since 3.1
@@ -86,6 +84,7 @@ public class ImportAnnotationDetectionTests {
 	@MetaImport1
 	@MetaImport2
 	static class MultiMetaImportConfig {
+
 	}
 
 	@Configuration
@@ -93,6 +92,7 @@ public class ImportAnnotationDetectionTests {
 	@MetaImport2
 	@Import(Config3.class)
 	static class MultiMetaImportConfigWithLocalImport {
+
 	}
 
 	@Configuration
@@ -100,57 +100,66 @@ public class ImportAnnotationDetectionTests {
 	@MetaImport2
 	@Import(Config2a.class)
 	static class MultiMetaImportConfigWithLocalImportWithBeanOverride {
-	}
 
+	}
 
 	@Target(ElementType.TYPE)
 	@Retention(RetentionPolicy.RUNTIME)
 	@Import(Config1.class)
 	@interface MetaImport1 {
-	}
 
+	}
 
 	@Target(ElementType.TYPE)
 	@Retention(RetentionPolicy.RUNTIME)
 	@Import(Config2.class)
 	@interface MetaImport2 {
-	}
 
+	}
 
 	@Configuration
 	static class Config1 {
+
 		@Bean
 		TestBean testBean1() {
 			return new TestBean("1");
 		}
+
 	}
 
 	@Configuration
 	static class Config2 {
+
 		@Bean
 		TestBean testBean2() {
 			return new TestBean("2");
 		}
+
 	}
 
 	@Configuration
 	static class Config2a {
+
 		@Bean
 		TestBean testBean2() {
 			return new TestBean("2a");
 		}
+
 	}
 
 	@Configuration
 	static class Config3 {
+
 		@Bean
 		TestBean testBean3() {
 			return new TestBean("3");
 		}
+
 	}
 
 	@MetaImport1
 	static class ImportFromBean {
 
 	}
+
 }

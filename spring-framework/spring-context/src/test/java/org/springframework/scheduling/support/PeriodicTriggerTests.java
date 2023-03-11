@@ -201,7 +201,6 @@ public class PeriodicTriggerTests {
 		assertThat(trigger3).isEqualTo(trigger1);
 	}
 
-
 	// utility methods
 
 	private static void assertNegligibleDifference(Date d1, Date d2) {
@@ -212,8 +211,8 @@ public class PeriodicTriggerTests {
 	private static void assertApproximateDifference(Date lesser, Date greater, long expected) {
 		long diff = greater.getTime() - lesser.getTime();
 		long variance = Math.abs(expected - diff);
-		assertThat(variance < 100).as("expected approximate difference of " + expected +
-				", but actual difference was " + diff).isTrue();
+		assertThat(variance < 100)
+				.as("expected approximate difference of " + expected + ", but actual difference was " + diff).isTrue();
 	}
 
 	private static TriggerContext context(Object scheduled, Object actual, Object completion) {
@@ -228,13 +227,11 @@ public class PeriodicTriggerTests {
 			return (Date) o;
 		}
 		if (o instanceof Number) {
-			return new Date(System.currentTimeMillis() +
-					NumberUtils.convertNumberToTargetClass((Number) o, Long.class));
+			return new Date(
+					System.currentTimeMillis() + NumberUtils.convertNumberToTargetClass((Number) o, Long.class));
 		}
-		throw new IllegalArgumentException(
-				"expected Date or Number, but actual type was: " + o.getClass());
+		throw new IllegalArgumentException("expected Date or Number, but actual type was: " + o.getClass());
 	}
-
 
 	// helper class
 
@@ -266,6 +263,7 @@ public class PeriodicTriggerTests {
 		public Date lastScheduledExecutionTime() {
 			return this.scheduled;
 		}
+
 	}
 
 }

@@ -43,14 +43,12 @@ public class ChannelInterceptorTests {
 
 	private TestMessageHandler messageHandler;
 
-
 	@BeforeEach
 	public void setup() {
 		this.channel = new ExecutorSubscribableChannel();
 		this.messageHandler = new TestMessageHandler();
 		this.channel.subscribe(this.messageHandler);
 	}
-
 
 	@Test
 	public void preSendInterceptorReturningModifiedMessage() {
@@ -94,11 +92,13 @@ public class ChannelInterceptorTests {
 				assertInput(message, channel, sent);
 				preSendInvoked.set(true);
 			}
+
 			@Override
 			public void afterSendCompletion(Message<?> message, MessageChannel channel, boolean sent, Exception ex) {
 				assertInput(message, channel, sent);
 				completionInvoked.set(true);
 			}
+
 			private void assertInput(Message<?> message, MessageChannel channel, boolean sent) {
 				assertThat(message).isNotNull();
 				assertThat(channel).isNotNull();
@@ -127,11 +127,13 @@ public class ChannelInterceptorTests {
 				assertInput(message, channel, sent);
 				preSendInvoked.set(true);
 			}
+
 			@Override
 			public void afterSendCompletion(Message<?> message, MessageChannel channel, boolean sent, Exception ex) {
 				assertInput(message, channel, sent);
 				completionInvoked.set(true);
 			}
+
 			private void assertInput(Message<?> message, MessageChannel channel, boolean sent) {
 				assertThat(message).isNotNull();
 				assertThat(channel).isNotNull();
@@ -183,7 +185,6 @@ public class ChannelInterceptorTests {
 		assertThat(interceptor2.wasAfterCompletionInvoked()).isFalse();
 	}
 
-
 	private static class TestMessageHandler implements MessageHandler {
 
 		private final List<Message<?>> messages = new ArrayList<>();
@@ -196,8 +197,8 @@ public class ChannelInterceptorTests {
 		public void handleMessage(Message<?> message) throws MessagingException {
 			this.messages.add(message);
 		}
-	}
 
+	}
 
 	private abstract static class AbstractTestInterceptor implements ChannelInterceptor {
 
@@ -224,8 +225,8 @@ public class ChannelInterceptorTests {
 		public void afterSendCompletion(Message<?> message, MessageChannel channel, boolean sent, Exception ex) {
 			this.afterCompletionInvoked = true;
 		}
-	}
 
+	}
 
 	private static class PreSendInterceptor extends AbstractTestInterceptor {
 
@@ -249,8 +250,8 @@ public class ChannelInterceptorTests {
 			}
 			return (this.messageToReturn != null ? this.messageToReturn : message);
 		}
-	}
 
+	}
 
 	private static class NullReturningPreSendInterceptor extends AbstractTestInterceptor {
 
@@ -259,6 +260,7 @@ public class ChannelInterceptorTests {
 			super.preSend(message, channel);
 			return null;
 		}
+
 	}
 
 }

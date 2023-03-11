@@ -28,8 +28,8 @@ import org.springframework.util.ConcurrentReferenceHashMap;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Provides a quick way to access the attribute methods of an {@link Annotation}
- * with consistent ordering as well as a few useful utility methods.
+ * Provides a quick way to access the attribute methods of an {@link Annotation} with
+ * consistent ordering as well as a few useful utility methods.
  *
  * @author Phillip Webb
  * @since 5.2
@@ -38,9 +38,7 @@ final class AttributeMethods {
 
 	static final AttributeMethods NONE = new AttributeMethods(null, new Method[0]);
 
-
-	private static final Map<Class<? extends Annotation>, AttributeMethods> cache =
-			new ConcurrentReferenceHashMap<>();
+	private static final Map<Class<? extends Annotation>, AttributeMethods> cache = new ConcurrentReferenceHashMap<>();
 
 	private static final Comparator<Method> methodComparator = (m1, m2) -> {
 		if (m1 != null && m2 != null) {
@@ -48,7 +46,6 @@ final class AttributeMethods {
 		}
 		return m1 != null ? -1 : 1;
 	};
-
 
 	@Nullable
 	private final Class<? extends Annotation> annotationType;
@@ -60,7 +57,6 @@ final class AttributeMethods {
 	private final boolean hasDefaultValueMethod;
 
 	private final boolean hasNestedAnnotation;
-
 
 	private AttributeMethods(@Nullable Class<? extends Annotation> annotationType, Method[] attributeMethods) {
 		this.annotationType = annotationType;
@@ -84,17 +80,13 @@ final class AttributeMethods {
 		this.hasNestedAnnotation = foundNestedAnnotation;
 	}
 
-
 	/**
-	 * Determine if this instance only contains a single attribute named
-	 * {@code value}.
+	 * Determine if this instance only contains a single attribute named {@code value}.
 	 * @return {@code true} if there is only a value attribute
 	 */
 	boolean hasOnlyValueAttribute() {
-		return (this.attributeMethods.length == 1 &&
-				MergedAnnotation.VALUE.equals(this.attributeMethods[0].getName()));
+		return (this.attributeMethods.length == 1 && MergedAnnotation.VALUE.equals(this.attributeMethods[0].getName()));
 	}
-
 
 	/**
 	 * Determine if values from the given annotation can be safely accessed without
@@ -120,12 +112,13 @@ final class AttributeMethods {
 
 	/**
 	 * Check if values from the given annotation can be safely accessed without causing
-	 * any {@link TypeNotPresentException TypeNotPresentExceptions}. In particular,
-	 * this method is designed to cover Google App Engine's late arrival of such
-	 * exceptions for {@code Class} values (instead of the more typical early
+	 * any {@link TypeNotPresentException TypeNotPresentExceptions}. In particular, this
+	 * method is designed to cover Google App Engine's late arrival of such exceptions for
+	 * {@code Class} values (instead of the more typical early
 	 * {@code Class.getAnnotations() failure}.
 	 * @param annotation the annotation to validate
-	 * @throws IllegalStateException if a declared {@code Class} attribute could not be read
+	 * @throws IllegalStateException if a declared {@code Class} attribute could not be
+	 * read
 	 * @see #isValid(Annotation)
 	 */
 	void validate(Annotation annotation) {
@@ -136,8 +129,8 @@ final class AttributeMethods {
 					get(i).invoke(annotation);
 				}
 				catch (Throwable ex) {
-					throw new IllegalStateException("Could not obtain annotation attribute value for " +
-							get(i).getName() + " declared on " + annotation.annotationType(), ex);
+					throw new IllegalStateException("Could not obtain annotation attribute value for "
+							+ get(i).getName() + " declared on " + annotation.annotationType(), ex);
 				}
 			}
 		}
@@ -151,8 +144,8 @@ final class AttributeMethods {
 	}
 
 	/**
-	 * Get the attribute with the specified name or {@code null} if no
-	 * matching attribute exists.
+	 * Get the attribute with the specified name or {@code null} if no matching attribute
+	 * exists.
 	 * @param name the attribute name to find
 	 * @return the attribute method or {@code null}
 	 */
@@ -177,16 +170,15 @@ final class AttributeMethods {
 	 * Determine if the attribute at the specified index could throw a
 	 * {@link TypeNotPresentException} when accessed.
 	 * @param index the index of the attribute to check
-	 * @return {@code true} if the attribute can throw a
-	 * {@link TypeNotPresentException}
+	 * @return {@code true} if the attribute can throw a {@link TypeNotPresentException}
 	 */
 	boolean canThrowTypeNotPresentException(int index) {
 		return this.canThrowTypeNotPresentException[index];
 	}
 
 	/**
-	 * Get the index of the attribute with the specified name, or {@code -1}
-	 * if there is no attribute with the name.
+	 * Get the index of the attribute with the specified name, or {@code -1} if there is
+	 * no attribute with the name.
 	 * @param name the name to find
 	 * @return the index of the attribute, or {@code -1}
 	 */
@@ -200,8 +192,8 @@ final class AttributeMethods {
 	}
 
 	/**
-	 * Get the index of the specified attribute, or {@code -1} if the
-	 * attribute is not in this collection.
+	 * Get the index of the specified attribute, or {@code -1} if the attribute is not in
+	 * this collection.
 	 * @param attribute the attribute to find
 	 * @return the index of the attribute, or {@code -1}
 	 */
@@ -239,7 +231,6 @@ final class AttributeMethods {
 		return this.hasNestedAnnotation;
 	}
 
-
 	/**
 	 * Get the attribute methods for the given annotation type.
 	 * @param annotationType the annotation type
@@ -274,8 +265,8 @@ final class AttributeMethods {
 	}
 
 	/**
-	 * Create a description for the given attribute method suitable to use in
-	 * exception messages and logs.
+	 * Create a description for the given attribute method suitable to use in exception
+	 * messages and logs.
 	 * @param attribute the attribute to describe
 	 * @return a description of the attribute
 	 */
@@ -287,8 +278,8 @@ final class AttributeMethods {
 	}
 
 	/**
-	 * Create a description for the given attribute method suitable to use in
-	 * exception messages and logs.
+	 * Create a description for the given attribute method suitable to use in exception
+	 * messages and logs.
 	 * @param annotationType the annotation type
 	 * @param attributeName the attribute name
 	 * @return a description of the attribute

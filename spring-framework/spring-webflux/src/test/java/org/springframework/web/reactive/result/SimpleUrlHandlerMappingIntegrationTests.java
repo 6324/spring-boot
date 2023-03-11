@@ -47,8 +47,8 @@ import org.springframework.web.testfixture.http.server.reactive.bootstrap.HttpSe
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Integration tests with requests mapped via
- * {@link SimpleUrlHandlerMapping} to plain {@link WebHandler}s.
+ * Integration tests with requests mapped via {@link SimpleUrlHandlerMapping} to plain
+ * {@link WebHandler}s.
  *
  * @author Rossen Stoyanchev
  */
@@ -61,10 +61,8 @@ class SimpleUrlHandlerMappingIntegrationTests extends AbstractHttpHandlerIntegra
 		wac.refresh();
 
 		return WebHttpHandlerBuilder.webHandler(new DispatcherHandler(wac))
-				.exceptionHandler(new ResponseStatusExceptionHandler())
-				.build();
+				.exceptionHandler(new ResponseStatusExceptionHandler()).build();
 	}
-
 
 	@ParameterizedHttpServerTest
 	void testRequestToFooHandler(HttpServer httpServer) throws Exception {
@@ -121,17 +119,14 @@ class SimpleUrlHandlerMappingIntegrationTests extends AbstractHttpHandlerIntegra
 		return buffer.write(text.getBytes(StandardCharsets.UTF_8));
 	}
 
-
 	@Configuration
 	static class WebConfig {
 
 		@Bean
 		public SimpleUrlHandlerMapping handlerMapping() {
 			Map<String, Object> map = new HashMap<>();
-			map.put("/foo", (WebHandler) exchange ->
-				exchange.getResponse().writeWith(Flux.just(asDataBuffer("foo"))));
-			map.put("/bar", (WebHandler) exchange ->
-				exchange.getResponse().writeWith(Flux.just(asDataBuffer("bar"))));
+			map.put("/foo", (WebHandler) exchange -> exchange.getResponse().writeWith(Flux.just(asDataBuffer("foo"))));
+			map.put("/bar", (WebHandler) exchange -> exchange.getResponse().writeWith(Flux.just(asDataBuffer("bar"))));
 			map.put("/header", (WebHandler) exchange -> {
 				exchange.getResponse().getHeaders().add("foo", "bar");
 				return Mono.empty();
@@ -143,6 +138,7 @@ class SimpleUrlHandlerMappingIntegrationTests extends AbstractHttpHandlerIntegra
 		public SimpleHandlerAdapter handlerAdapter() {
 			return new SimpleHandlerAdapter();
 		}
+
 	}
 
 }

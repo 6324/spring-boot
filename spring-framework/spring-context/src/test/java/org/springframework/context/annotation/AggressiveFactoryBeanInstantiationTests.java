@@ -40,9 +40,8 @@ public class AggressiveFactoryBeanInstantiationTests {
 	public void directlyRegisteredFactoryBean() {
 		try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext()) {
 			context.register(SimpleFactoryBean.class);
-			context.addBeanFactoryPostProcessor(factory ->
-				BeanFactoryUtils.beanNamesForTypeIncludingAncestors(factory, String.class)
-			);
+			context.addBeanFactoryPostProcessor(
+					factory -> BeanFactoryUtils.beanNamesForTypeIncludingAncestors(factory, String.class));
 			context.refresh();
 		}
 	}
@@ -51,9 +50,8 @@ public class AggressiveFactoryBeanInstantiationTests {
 	public void beanMethodFactoryBean() {
 		try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext()) {
 			context.register(BeanMethodConfiguration.class);
-			context.addBeanFactoryPostProcessor(factory ->
-				BeanFactoryUtils.beanNamesForTypeIncludingAncestors(factory, String.class)
-			);
+			context.addBeanFactoryPostProcessor(
+					factory -> BeanFactoryUtils.beanNamesForTypeIncludingAncestors(factory, String.class));
 			context.refresh();
 		}
 	}
@@ -76,7 +74,6 @@ public class AggressiveFactoryBeanInstantiationTests {
 		}
 	}
 
-
 	@Configuration
 	static class BeanMethodConfiguration {
 
@@ -95,8 +92,8 @@ public class AggressiveFactoryBeanInstantiationTests {
 		public SimpleFactoryBean simpleFactoryBean(ApplicationContext applicationContext) {
 			return new SimpleFactoryBean(applicationContext);
 		}
-	}
 
+	}
 
 	@Configuration
 	static class BeanMethodConfigurationWithExceptionInInitializer extends BeanMethodConfiguration {
@@ -108,15 +105,15 @@ public class AggressiveFactoryBeanInstantiationTests {
 			new ExceptionInInitializer();
 			return new SimpleFactoryBean(applicationContext);
 		}
-	}
 
+	}
 
 	static class AutowiredBean {
 
 		@Autowired
 		String foo;
-	}
 
+	}
 
 	static class SimpleFactoryBean implements FactoryBean<Object> {
 
@@ -132,8 +129,8 @@ public class AggressiveFactoryBeanInstantiationTests {
 		public Class<?> getObjectType() {
 			return Object.class;
 		}
-	}
 
+	}
 
 	static class ExceptionInInitializer {
 
@@ -142,6 +139,7 @@ public class AggressiveFactoryBeanInstantiationTests {
 		private static int callInClinit() {
 			throw new UnsupportedOperationException();
 		}
+
 	}
 
 }

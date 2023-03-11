@@ -45,11 +45,10 @@ public class StandardTypeLocatorTests {
 
 		assertThat(locator.findType("Boolean")).isEqualTo(Boolean.class);
 		// currently does not know about java.util by default
-//		assertEquals(java.util.List.class,locator.findType("List"));
+		// assertEquals(java.util.List.class,locator.findType("List"));
 
-		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(() ->
-				locator.findType("URL"))
-			.satisfies(ex -> assertThat(ex.getMessageCode()).isEqualTo(SpelMessage.TYPE_NOT_FOUND));
+		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(() -> locator.findType("URL"))
+				.satisfies(ex -> assertThat(ex.getMessageCode()).isEqualTo(SpelMessage.TYPE_NOT_FOUND));
 		locator.registerImport("java.net");
 		assertThat(locator.findType("URL")).isEqualTo(java.net.URL.class);
 	}

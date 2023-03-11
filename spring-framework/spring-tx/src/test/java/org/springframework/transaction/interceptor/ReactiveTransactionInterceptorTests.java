@@ -40,9 +40,8 @@ public class ReactiveTransactionInterceptorTests extends AbstractReactiveTransac
 	}
 
 	/**
-	 * Template method to create an advised object given the
-	 * target object and transaction setup.
-	 * Creates a TransactionInterceptor and applies it.
+	 * Template method to create an advised object given the target object and transaction
+	 * setup. Creates a TransactionInterceptor and applies it.
 	 */
 	@Override
 	protected Object advised(Object target, ReactiveTransactionManager ptm, TransactionAttributeSource tas) {

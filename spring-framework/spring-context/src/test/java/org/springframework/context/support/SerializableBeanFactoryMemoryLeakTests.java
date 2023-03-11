@@ -39,8 +39,8 @@ import static org.springframework.beans.factory.support.BeanDefinitionBuilder.ro
 public class SerializableBeanFactoryMemoryLeakTests {
 
 	/**
-	 * Defensively zero-out static factory count - other tests
-	 * may have misbehaved before us.
+	 * Defensively zero-out static factory count - other tests may have misbehaved before
+	 * us.
 	 */
 	@BeforeAll
 	@AfterAll
@@ -94,8 +94,7 @@ public class SerializableBeanFactoryMemoryLeakTests {
 
 	private void registerMisconfiguredBeanDefinition(BeanDefinitionRegistry registry) {
 		registry.registerBeanDefinition("misconfigured",
-			rootBeanDefinition(Object.class).addPropertyValue("nonexistent", "bogus")
-				.getBeanDefinition());
+				rootBeanDefinition(Object.class).addPropertyValue("nonexistent", "bogus").getBeanDefinition());
 	}
 
 	private int serializableFactoryCount() throws Exception {

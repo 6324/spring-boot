@@ -36,10 +36,9 @@ class CacheRemoveEntryInterceptor extends AbstractKeyCacheInterceptor<CacheRemov
 		super(errorHandler);
 	}
 
-
 	@Override
-	protected Object invoke(
-			CacheOperationInvocationContext<CacheRemoveOperation> context, CacheOperationInvoker invoker) {
+	protected Object invoke(CacheOperationInvocationContext<CacheRemoveOperation> context,
+			CacheOperationInvoker invoker) {
 
 		CacheRemoveOperation operation = context.getOperation();
 		boolean earlyRemove = operation.isEarlyRemove();
@@ -67,8 +66,8 @@ class CacheRemoveEntryInterceptor extends AbstractKeyCacheInterceptor<CacheRemov
 		Object key = generateKey(context);
 		Cache cache = resolveCache(context);
 		if (logger.isTraceEnabled()) {
-			logger.trace("Invalidating key [" + key + "] on cache '" + cache.getName() +
-					"' for operation " + context.getOperation());
+			logger.trace("Invalidating key [" + key + "] on cache '" + cache.getName() + "' for operation "
+					+ context.getOperation());
 		}
 		doEvict(cache, key, context.getOperation().isEarlyRemove());
 	}

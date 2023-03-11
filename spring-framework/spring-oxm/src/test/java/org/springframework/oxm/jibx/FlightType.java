@@ -37,4 +37,5 @@ public class FlightType {
 	public void setNumber(long number) {
 		this.number = number;
 	}
+
 }

@@ -31,7 +31,8 @@ import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute
 import org.springframework.transaction.interceptor.TransactionAttribute;
 
 /**
- * Strategy implementation for parsing JTA 1.2's {@link javax.transaction.Transactional} annotation.
+ * Strategy implementation for parsing JTA 1.2's {@link javax.transaction.Transactional}
+ * annotation.
  *
  * @author Juergen Hoeller
  * @since 4.0
@@ -47,8 +48,8 @@ public class JtaTransactionAnnotationParser implements TransactionAnnotationPars
 	@Override
 	@Nullable
 	public TransactionAttribute parseTransactionAnnotation(AnnotatedElement element) {
-		AnnotationAttributes attributes = AnnotatedElementUtils.getMergedAnnotationAttributes(
-				element, javax.transaction.Transactional.class);
+		AnnotationAttributes attributes = AnnotatedElementUtils.getMergedAnnotationAttributes(element,
+				javax.transaction.Transactional.class);
 		if (attributes != null) {
 			return parseTransactionAnnotation(attributes);
 		}
@@ -78,7 +79,6 @@ public class JtaTransactionAnnotationParser implements TransactionAnnotationPars
 
 		return rbta;
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {

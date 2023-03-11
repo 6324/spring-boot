@@ -54,20 +54,22 @@ import org.springframework.util.concurrent.ListenableFutureTask;
  * A {@link org.springframework.messaging.MessageHandler} that handles messages by
  * forwarding them to a STOMP broker.
  *
- * <p>For each new {@link SimpMessageType#CONNECT CONNECT} message, an independent TCP
+ * <p>
+ * For each new {@link SimpMessageType#CONNECT CONNECT} message, an independent TCP
  * connection to the broker is opened and used exclusively for all messages from the
  * client that originated the CONNECT message. Messages from the same client are
  * identified through the session id message header. Reversely, when the STOMP broker
- * sends messages back on the TCP connection, those messages are enriched with the
- * session id of the client and sent back downstream through the {@link MessageChannel}
- * provided to the constructor.
+ * sends messages back on the TCP connection, those messages are enriched with the session
+ * id of the client and sent back downstream through the {@link MessageChannel} provided
+ * to the constructor.
  *
- * <p>This class also automatically opens a default "system" TCP connection to the
- * message broker that is used for sending messages that originate from the server
- * application (as opposed to from a client). Such messages are not associated with
- * any client and therefore do not have a session id header. The "system" connection
- * is effectively shared and cannot be used to receive messages. Several properties
- * are provided to configure the "system" connection including:
+ * <p>
+ * This class also automatically opens a default "system" TCP connection to the message
+ * broker that is used for sending messages that originate from the server application (as
+ * opposed to from a client). Such messages are not associated with any client and
+ * therefore do not have a session id header. The "system" connection is effectively
+ * shared and cannot be used to receive messages. Several properties are provided to
+ * configure the "system" connection including:
  * <ul>
  * <li>{@link #setSystemLogin}</li>
  * <li>{@link #setSystemPasscode}</li>
@@ -90,8 +92,8 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 	private static final long HEARTBEAT_MULTIPLIER = 3;
 
 	/**
-	 * Heartbeat starts once CONNECTED frame with heartbeat settings is received.
-	 * If CONNECTED doesn't arrive within a minute, we'll close the connection.
+	 * Heartbeat starts once CONNECTED frame with heartbeat settings is received. If
+	 * CONNECTED doesn't arrive within a minute, we'll close the connection.
 	 */
 	private static final int MAX_TIME_TO_CONNECTED_FRAME = 60 * 1000;
 
@@ -101,13 +103,11 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 
 	private static final Message<byte[]> HEARTBEAT_MESSAGE;
 
-
 	static {
 		EMPTY_TASK.run();
 		StompHeaderAccessor accessor = StompHeaderAccessor.createForHeartbeat();
 		HEARTBEAT_MESSAGE = MessageBuilder.createMessage(StompDecoder.HEARTBEAT_PAYLOAD, accessor.getMessageHeaders());
 	}
-
 
 	private String relayHost = "127.0.0.1";
 
@@ -140,12 +140,13 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 
 	private final Map<String, StompConnectionHandler> connectionHandlers = new ConcurrentHashMap<>();
 
-
 	/**
 	 * Create a StompBrokerRelayMessageHandler instance with the given message channels
 	 * and destination prefixes.
-	 * @param inboundChannel the channel for receiving messages from clients (e.g. WebSocket clients)
-	 * @param outboundChannel the channel for sending messages to clients (e.g. WebSocket clients)
+	 * @param inboundChannel the channel for receiving messages from clients (e.g.
+	 * WebSocket clients)
+	 * @param outboundChannel the channel for sending messages to clients (e.g. WebSocket
+	 * clients)
 	 * @param brokerChannel the channel for the application to send messages to the broker
 	 * @param destinationPrefixes the broker supported destination prefixes; destinations
 	 * that do not match the given prefix are ignored.
@@ -155,7 +156,6 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 
 		super(inboundChannel, outboundChannel, brokerChannel, destinationPrefixes);
 	}
-
 
 	/**
 	 * Set the STOMP message broker host.
@@ -185,10 +185,12 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 	public int getRelayPort() {
 		return this.relayPort;
 	}
+
 	/**
-	 * Set the login to use when creating connections to the STOMP broker on
-	 * behalf of connected clients.
-	 * <p>By default this is set to "guest".
+	 * Set the login to use when creating connections to the STOMP broker on behalf of
+	 * connected clients.
+	 * <p>
+	 * By default this is set to "guest".
 	 * @see #setSystemLogin(String)
 	 */
 	public void setClientLogin(String clientLogin) {
@@ -197,8 +199,8 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 	}
 
 	/**
-	 * Return the configured login to use for connections to the STOMP broker
-	 * on behalf of connected clients.
+	 * Return the configured login to use for connections to the STOMP broker on behalf of
+	 * connected clients.
 	 * @see #getSystemLogin()
 	 */
 	public String getClientLogin() {
@@ -206,9 +208,10 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 	}
 
 	/**
-	 * Set the client passcode to use to create connections to the STOMP broker on
-	 * behalf of connected clients.
-	 * <p>By default this is set to "guest".
+	 * Set the client passcode to use to create connections to the STOMP broker on behalf
+	 * of connected clients.
+	 * <p>
+	 * By default this is set to "guest".
 	 * @see #setSystemPasscode
 	 */
 	public void setClientPasscode(String clientPasscode) {
@@ -217,8 +220,8 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 	}
 
 	/**
-	 * Return the configured passcode to use for connections to the STOMP broker on
-	 * behalf of connected clients.
+	 * Return the configured passcode to use for connections to the STOMP broker on behalf
+	 * of connected clients.
 	 * @see #getSystemPasscode()
 	 */
 	public String getClientPasscode() {
@@ -226,10 +229,11 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 	}
 
 	/**
-	 * Set the login for the shared "system" connection used to send messages to
-	 * the STOMP broker from within the application, i.e. messages not associated
-	 * with a specific client session (e.g. REST/HTTP request handling method).
-	 * <p>By default this is set to "guest".
+	 * Set the login for the shared "system" connection used to send messages to the STOMP
+	 * broker from within the application, i.e. messages not associated with a specific
+	 * client session (e.g. REST/HTTP request handling method).
+	 * <p>
+	 * By default this is set to "guest".
 	 */
 	public void setSystemLogin(String systemLogin) {
 		Assert.hasText(systemLogin, "systemLogin must not be empty");
@@ -244,10 +248,11 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 	}
 
 	/**
-	 * Set the passcode for the shared "system" connection used to send messages to
-	 * the STOMP broker from within the application, i.e. messages not associated
-	 * with a specific client session (e.g. REST/HTTP request handling method).
-	 * <p>By default this is set to "guest".
+	 * Set the passcode for the shared "system" connection used to send messages to the
+	 * STOMP broker from within the application, i.e. messages not associated with a
+	 * specific client session (e.g. REST/HTTP request handling method).
+	 * <p>
+	 * By default this is set to "guest".
 	 */
 	public void setSystemPasscode(String systemPasscode) {
 		this.systemPasscode = systemPasscode;
@@ -260,21 +265,22 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 		return this.systemPasscode;
 	}
 
-
 	/**
 	 * Set the interval, in milliseconds, at which the "system" connection will, in the
 	 * absence of any other data being sent, send a heartbeat to the STOMP broker. A value
 	 * of zero will prevent heartbeats from being sent to the broker.
-	 * <p>The default value is 10000.
-	 * <p>See class-level documentation for more information on the "system" connection.
+	 * <p>
+	 * The default value is 10000.
+	 * <p>
+	 * See class-level documentation for more information on the "system" connection.
 	 */
 	public void setSystemHeartbeatSendInterval(long systemHeartbeatSendInterval) {
 		this.systemHeartbeatSendInterval = systemHeartbeatSendInterval;
 	}
 
 	/**
-	 * Return the interval, in milliseconds, at which the "system" connection will
-	 * send heartbeats to the STOMP broker.
+	 * Return the interval, in milliseconds, at which the "system" connection will send
+	 * heartbeats to the STOMP broker.
 	 */
 	public long getSystemHeartbeatSendInterval() {
 		return this.systemHeartbeatSendInterval;
@@ -285,26 +291,29 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 	 * expects, in the absence of any other data, to receive a heartbeat from the STOMP
 	 * broker. A value of zero will configure the connection to expect not to receive
 	 * heartbeats from the broker.
-	 * <p>The default value is 10000.
-	 * <p>See class-level documentation for more information on the "system" connection.
+	 * <p>
+	 * The default value is 10000.
+	 * <p>
+	 * See class-level documentation for more information on the "system" connection.
 	 */
 	public void setSystemHeartbeatReceiveInterval(long heartbeatReceiveInterval) {
 		this.systemHeartbeatReceiveInterval = heartbeatReceiveInterval;
 	}
 
 	/**
-	 * Return the interval, in milliseconds, at which the "system" connection expects
-	 * to receive heartbeats from the STOMP broker.
+	 * Return the interval, in milliseconds, at which the "system" connection expects to
+	 * receive heartbeats from the STOMP broker.
 	 */
 	public long getSystemHeartbeatReceiveInterval() {
 		return this.systemHeartbeatReceiveInterval;
 	}
 
 	/**
-	 * Configure one more destinations to subscribe to on the shared "system"
-	 * connection along with MessageHandler's to handle received messages.
-	 * <p>This is for internal use in a multi-application server scenario where
-	 * servers forward messages to each other (e.g. unresolved user destinations).
+	 * Configure one more destinations to subscribe to on the shared "system" connection
+	 * along with MessageHandler's to handle received messages.
+	 * <p>
+	 * This is for internal use in a multi-application server scenario where servers
+	 * forward messages to each other (e.g. unresolved user destinations).
 	 * @param subscriptions the destinations to subscribe to.
 	 */
 	public void setSystemSubscriptions(@Nullable Map<String, MessageHandler> subscriptions) {
@@ -327,7 +336,8 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 	 * the STOMP broker. This may be useful for example in a cloud environment where the
 	 * actual host to which the TCP connection is established is different from the host
 	 * providing the cloud-based STOMP service.
-	 * <p>By default this property is not set.
+	 * <p>
+	 * By default this property is not set.
 	 */
 	public void setVirtualHost(@Nullable String virtualHost) {
 		this.virtualHost = virtualHost;
@@ -343,19 +353,20 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 
 	/**
 	 * Configure a TCP client for managing TCP connections to the STOMP broker.
-	 * <p>By default {@link ReactorNettyTcpClient} is used.
-	 * <p><strong>Note:</strong> when this property is used, any
-	 * {@link #setRelayHost(String) host} or {@link #setRelayPort(int) port}
-	 * specified are effectively ignored.
+	 * <p>
+	 * By default {@link ReactorNettyTcpClient} is used.
+	 * <p>
+	 * <strong>Note:</strong> when this property is used, any {@link #setRelayHost(String)
+	 * host} or {@link #setRelayPort(int) port} specified are effectively ignored.
 	 */
 	public void setTcpClient(@Nullable TcpOperations<byte[]> tcpClient) {
 		this.tcpClient = tcpClient;
 	}
 
 	/**
-	 * Get the configured TCP client (never {@code null} unless not configured
-	 * invoked and this method is invoked before the handler is started and
-	 * hence a default implementation initialized).
+	 * Get the configured TCP client (never {@code null} unless not configured invoked and
+	 * this method is invoked before the handler is started and hence a default
+	 * implementation initialized).
 	 */
 	@Nullable
 	public TcpOperations<byte[]> getTcpClient() {
@@ -364,9 +375,10 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 
 	/**
 	 * Configure a {@link MessageHeaderInitializer} to apply to the headers of all
-	 * messages created through the {@code StompBrokerRelayMessageHandler} that
-	 * are sent to the client outbound message channel.
-	 * <p>By default this property is not set.
+	 * messages created through the {@code StompBrokerRelayMessageHandler} that are sent
+	 * to the client outbound message channel.
+	 * <p>
+	 * By default this property is not set.
 	 */
 	public void setHeaderInitializer(@Nullable MessageHeaderInitializer headerInitializer) {
 		this.headerInitializer = headerInitializer;
@@ -381,8 +393,8 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 	}
 
 	/**
-	 * Return a String describing internal state and counters.
-	 * Effectively {@code toString()} on {@link #getStats() getStats()}.
+	 * Return a String describing internal state and counters. Effectively
+	 * {@code toString()} on {@link #getStats() getStats()}.
 	 */
 	public String getStatsInfo() {
 		return this.stats.toString();
@@ -396,14 +408,12 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 		return this.stats;
 	}
 
-
 	/**
 	 * Return the current count of TCP connection to the broker.
 	 */
 	public int getConnectionCount() {
 		return this.connectionHandlers.size();
 	}
-
 
 	@Override
 	protected void startInternal() {
@@ -466,8 +476,8 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 
 		if (!isBrokerAvailable()) {
 			if (sessionId == null || SYSTEM_SESSION_ID.equals(sessionId)) {
-				throw new MessageDeliveryException("Message broker not active. Consider subscribing to " +
-						"receive BrokerAvailabilityEvent's from an ApplicationListener Spring bean.");
+				throw new MessageDeliveryException("Message broker not active. Consider subscribing to "
+						+ "receive BrokerAvailabilityEvent's from an ApplicationListener Spring bean.");
 			}
 			StompConnectionHandler handler = this.connectionHandlers.get(sessionId);
 			if (handler != null) {
@@ -496,8 +506,7 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 
 		MessageHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, MessageHeaderAccessor.class);
 		if (accessor == null) {
-			throw new IllegalStateException(
-					"No header accessor (not using the SimpMessagingTemplate?): " + message);
+			throw new IllegalStateException("No header accessor (not using the SimpMessagingTemplate?): " + message);
 		}
 		else if (accessor instanceof StompHeaderAccessor) {
 			stompAccessor = (StompHeaderAccessor) accessor;
@@ -585,7 +594,6 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 		return this.tcpClient != null ? this.tcpClient.toString() : this.relayHost + ":" + this.relayPort;
 	}
 
-
 	private class StompConnectionHandler implements TcpConnectionHandler<byte[]> {
 
 		private final String sessionId;
@@ -600,7 +608,6 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 		private volatile TcpConnection<byte[]> tcpConnection;
 
 		private volatile boolean isStompConnected;
-
 
 		protected StompConnectionHandler(String sessionId, StompHeaderAccessor connectHeaders) {
 			this(sessionId, connectHeaders, true);
@@ -632,8 +639,8 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 			this.tcpConnection = connection;
 			connection.onReadInactivity(() -> {
 				if (this.tcpConnection != null && !this.isStompConnected) {
-					handleTcpConnectionFailure("No CONNECTED frame received in " +
-							MAX_TIME_TO_CONNECTED_FRAME + " ms.", null);
+					handleTcpConnectionFailure("No CONNECTED frame received in " + MAX_TIME_TO_CONNECTED_FRAME + " ms.",
+							null);
 				}
 			}, MAX_TIME_TO_CONNECTED_FRAME);
 			connection.send(MessageBuilder.createMessage(EMPTY_PAYLOAD, this.connectHeaders.getMessageHeaders()));
@@ -743,16 +750,14 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 
 			if (clientSendInterval > 0 && serverReceiveInterval > 0) {
 				long interval = Math.max(clientSendInterval, serverReceiveInterval);
-				con.onWriteInactivity(() ->
-						con.send(HEARTBEAT_MESSAGE).addCallback(
-								result -> {},
-								ex -> handleTcpConnectionFailure(
-										"Failed to forward heartbeat: " + ex.getMessage(), ex)), interval);
+				con.onWriteInactivity(() -> con.send(HEARTBEAT_MESSAGE).addCallback(result -> {
+				}, ex -> handleTcpConnectionFailure("Failed to forward heartbeat: " + ex.getMessage(), ex)), interval);
 			}
 			if (clientReceiveInterval > 0 && serverSendInterval > 0) {
 				final long interval = Math.max(clientReceiveInterval, serverSendInterval) * HEARTBEAT_MULTIPLIER;
 				con.onReadInactivity(
-						() -> handleTcpConnectionFailure("No messages received in " + interval + " ms.", null), interval);
+						() -> handleTcpConnectionFailure("No messages received in " + interval + " ms.", null),
+						interval);
 			}
 		}
 
@@ -791,21 +796,22 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 
 		/**
 		 * Forward the given message to the STOMP broker.
-		 * <p>The method checks whether we have an active TCP connection and have
-		 * received the STOMP CONNECTED frame. For client messages this should be
-		 * false only if we lose the TCP connection around the same time when a
-		 * client message is being forwarded, so we simply log the ignored message
-		 * at debug level. For messages from within the application being sent on
-		 * the "system" connection an exception is raised so that components sending
-		 * the message have a chance to handle it -- by default the broker message
-		 * channel is synchronous.
-		 * <p>Note that if messages arrive concurrently around the same time a TCP
-		 * connection is lost, there is a brief period of time before the connection
-		 * is reset when one or more messages may sneak through and an attempt made
-		 * to forward them. Rather than synchronizing to guard against that, this
-		 * method simply lets them try and fail. For client sessions that may
-		 * result in an additional STOMP ERROR frame(s) being sent downstream but
-		 * code handling that downstream should be idempotent in such cases.
+		 * <p>
+		 * The method checks whether we have an active TCP connection and have received
+		 * the STOMP CONNECTED frame. For client messages this should be false only if we
+		 * lose the TCP connection around the same time when a client message is being
+		 * forwarded, so we simply log the ignored message at debug level. For messages
+		 * from within the application being sent on the "system" connection an exception
+		 * is raised so that components sending the message have a chance to handle it --
+		 * by default the broker message channel is synchronous.
+		 * <p>
+		 * Note that if messages arrive concurrently around the same time a TCP connection
+		 * is lost, there is a brief period of time before the connection is reset when
+		 * one or more messages may sneak through and an attempt made to forward them.
+		 * Rather than synchronizing to guard against that, this method simply lets them
+		 * try and fail. For client sessions that may result in an additional STOMP ERROR
+		 * frame(s) being sent downstream but code handling that downstream should be
+		 * idempotent in such cases.
 		 * @param message the message to send (never {@code null})
 		 * @return a future to wait for the result
 		 */
@@ -816,26 +822,26 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 			if (!this.isStompConnected || conn == null) {
 				if (this.isRemoteClientSession) {
 					if (logger.isDebugEnabled()) {
-						logger.debug("TCP connection closed already, ignoring " +
-								accessor.getShortLogMessage(message.getPayload()));
+						logger.debug("TCP connection closed already, ignoring "
+								+ accessor.getShortLogMessage(message.getPayload()));
 					}
 					return EMPTY_TASK;
 				}
 				else {
-					throw new IllegalStateException("Cannot forward messages " +
-							(conn != null ? "before STOMP CONNECTED. " : "while inactive. ") +
-							"Consider subscribing to receive BrokerAvailabilityEvent's from " +
-							"an ApplicationListener Spring bean. Dropped " +
-							accessor.getShortLogMessage(message.getPayload()));
+					throw new IllegalStateException("Cannot forward messages "
+							+ (conn != null ? "before STOMP CONNECTED. " : "while inactive. ")
+							+ "Consider subscribing to receive BrokerAvailabilityEvent's from "
+							+ "an ApplicationListener Spring bean. Dropped "
+							+ accessor.getShortLogMessage(message.getPayload()));
 				}
 			}
 
-			final Message<?> messageToSend = (accessor.isMutable() && accessor.isModified()) ?
-					MessageBuilder.createMessage(message.getPayload(), accessor.getMessageHeaders()) : message;
+			final Message<?> messageToSend = (accessor.isMutable() && accessor.isModified())
+					? MessageBuilder.createMessage(message.getPayload(), accessor.getMessageHeaders()) : message;
 
 			StompCommand command = accessor.getCommand();
-			if (logger.isDebugEnabled() && (StompCommand.SEND.equals(command) || StompCommand.SUBSCRIBE.equals(command) ||
-					StompCommand.UNSUBSCRIBE.equals(command) || StompCommand.DISCONNECT.equals(command))) {
+			if (logger.isDebugEnabled() && (StompCommand.SEND.equals(command) || StompCommand.SUBSCRIBE.equals(command)
+					|| StompCommand.UNSUBSCRIBE.equals(command) || StompCommand.DISCONNECT.equals(command))) {
 				logger.debug("Forwarding " + accessor.getShortLogMessage(message.getPayload()));
 			}
 			else if (logger.isTraceEnabled()) {
@@ -850,11 +856,12 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 						afterDisconnectSent(accessor);
 					}
 				}
+
 				@Override
 				public void onFailure(Throwable ex) {
 					if (tcpConnection != null) {
-						handleTcpConnectionFailure("failed to forward " +
-								accessor.getShortLogMessage(message.getPayload()), ex);
+						handleTcpConnectionFailure(
+								"failed to forward " + accessor.getShortLogMessage(message.getPayload()), ex);
 					}
 					else if (logger.isErrorEnabled()) {
 						logger.error("Failed to forward " + accessor.getShortLogMessage(message.getPayload()));
@@ -865,12 +872,12 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 		}
 
 		/**
-		 * After a DISCONNECT there should be no more client frames so we can
-		 * close the connection pro-actively. However, if the DISCONNECT has a
-		 * receipt header we leave the connection open and expect the server will
-		 * respond with a RECEIPT and then close the connection.
+		 * After a DISCONNECT there should be no more client frames so we can close the
+		 * connection pro-actively. However, if the DISCONNECT has a receipt header we
+		 * leave the connection open and expect the server will respond with a RECEIPT and
+		 * then close the connection.
 		 * @see <a href="https://stomp.github.io/stomp-specification-1.2.html#DISCONNECT">
-		 *     STOMP Specification 1.2 DISCONNECT</a>
+		 * STOMP Specification 1.2 DISCONNECT</a>
 		 */
 		private void afterDisconnectSent(StompHeaderAccessor accessor) {
 			if (accessor.getReceipt() == null) {
@@ -886,8 +893,8 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 		}
 
 		/**
-		 * Clean up state associated with the connection and close it.
-		 * Any exception arising from closing the connection are propagated.
+		 * Clean up state associated with the connection and close it. Any exception
+		 * arising from closing the connection are propagated.
 		 */
 		public void clearConnection() {
 			if (logger.isDebugEnabled()) {
@@ -914,8 +921,8 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 		public String toString() {
 			return "StompConnectionHandler[sessionId=" + this.sessionId + "]";
 		}
-	}
 
+	}
 
 	private class SystemStompConnectionHandler extends StompConnectionHandler {
 
@@ -945,12 +952,11 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 				TcpConnection<byte[]> conn = getTcpConnection();
 				if (conn != null) {
 					MessageHeaders headers = accessor.getMessageHeaders();
-					conn.send(MessageBuilder.createMessage(EMPTY_PAYLOAD, headers)).addCallback(
-							result -> {},
-							ex -> {
-								String error = "Failed to subscribe in \"system\" session.";
-								handleTcpConnectionFailure(error, ex);
-							});
+					conn.send(MessageBuilder.createMessage(EMPTY_PAYLOAD, headers)).addCallback(result -> {
+					}, ex -> {
+						String error = "Failed to subscribe in \"system\" session.";
+						handleTcpConnectionFailure(error, ex);
+					});
 				}
 			}
 		}
@@ -962,15 +968,15 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 				String destination = accessor.getDestination();
 				if (destination == null) {
 					if (logger.isDebugEnabled()) {
-						logger.debug("Got message on \"system\" connection, with no destination: " +
-								accessor.getDetailedLogMessage(message.getPayload()));
+						logger.debug("Got message on \"system\" connection, with no destination: "
+								+ accessor.getDetailedLogMessage(message.getPayload()));
 					}
 					return;
 				}
 				if (!getSystemSubscriptions().containsKey(destination)) {
 					if (logger.isDebugEnabled()) {
-						logger.debug("Got message on \"system\" connection with no handler: " +
-								accessor.getDetailedLogMessage(message.getPayload()));
+						logger.debug("Got message on \"system\" connection with no handler: "
+								+ accessor.getDetailedLogMessage(message.getPayload()));
 					}
 					return;
 				}
@@ -1011,8 +1017,8 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 				throw new MessageDeliveryException(message, ex);
 			}
 		}
-	}
 
+	}
 
 	private static class VoidCallable implements Callable<Void> {
 
@@ -1020,11 +1026,12 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 		public Void call() {
 			return null;
 		}
-	}
 
+	}
 
 	/**
 	 * Contract for access to session counters.
+	 *
 	 * @since 5.2
 	 */
 	public interface Stats {
@@ -1048,8 +1055,8 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 		 * The number of DISCONNECT frames processed.
 		 */
 		int getTotalDisconnect();
-	}
 
+	}
 
 	private class DefaultStats implements Stats {
 
@@ -1093,11 +1100,12 @@ public class StompBrokerRelayMessageHandler extends AbstractBrokerMessageHandler
 
 		@Override
 		public String toString() {
-			return (connectionHandlers.size() + " sessions, " + getTcpClientInfo() +
-					(isBrokerAvailable() ? " (available)" : " (not available)") +
-					", processed CONNECT(" + this.connect.get() + ")-CONNECTED(" +
-					this.connected.get() + ")-DISCONNECT(" + this.disconnect.get() + ")");
+			return (connectionHandlers.size() + " sessions, " + getTcpClientInfo()
+					+ (isBrokerAvailable() ? " (available)" : " (not available)") + ", processed CONNECT("
+					+ this.connect.get() + ")-CONNECTED(" + this.connected.get() + ")-DISCONNECT("
+					+ this.disconnect.get() + ")");
 		}
+
 	}
 
 }

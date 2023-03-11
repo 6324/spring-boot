@@ -52,7 +52,6 @@ public class StandardWebSocketHandlerAdapter extends Endpoint {
 	@Nullable
 	private StandardWebSocketSession delegateSession;
 
-
 	public StandardWebSocketHandlerAdapter(WebSocketHandler handler,
 			Function<Session, StandardWebSocketSession> sessionFactory) {
 
@@ -61,7 +60,6 @@ public class StandardWebSocketHandlerAdapter extends Endpoint {
 		this.delegateHandler = handler;
 		this.sessionFactory = sessionFactory;
 	}
-
 
 	@Override
 	public void onOpen(Session session, EndpointConfig config) {

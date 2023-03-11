@@ -34,8 +34,8 @@ import org.springframework.web.reactive.socket.WebSocketMessage;
 import org.springframework.web.reactive.socket.WebSocketSession;
 
 /**
- * Base class for Netty-based {@link WebSocketSession} adapters that provides
- * convenience methods to convert Netty {@link WebSocketFrame WebSocketFrames} to and from
+ * Base class for Netty-based {@link WebSocketSession} adapters that provides convenience
+ * methods to convert Netty {@link WebSocketFrame WebSocketFrames} to and from
  * {@link WebSocketMessage WebSocketMessages}.
  *
  * @author Rossen Stoyanchev
@@ -49,7 +49,6 @@ public abstract class NettyWebSocketSessionSupport<T> extends AbstractWebSocketS
 	 */
 	public static final int DEFAULT_FRAME_MAX_SIZE = 64 * 1024;
 
-
 	private static final Map<Class<?>, WebSocketMessage.Type> messageTypes;
 
 	static {
@@ -60,17 +59,14 @@ public abstract class NettyWebSocketSessionSupport<T> extends AbstractWebSocketS
 		messageTypes.put(PongWebSocketFrame.class, WebSocketMessage.Type.PONG);
 	}
 
-
 	protected NettyWebSocketSessionSupport(T delegate, HandshakeInfo info, NettyDataBufferFactory factory) {
 		super(delegate, ObjectUtils.getIdentityHexString(delegate), info, factory);
 	}
-
 
 	@Override
 	public NettyDataBufferFactory bufferFactory() {
 		return (NettyDataBufferFactory) super.bufferFactory();
 	}
-
 
 	protected WebSocketMessage toMessage(WebSocketFrame frame) {
 		DataBuffer payload = bufferFactory().wrap(frame.content());

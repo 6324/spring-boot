@@ -29,8 +29,8 @@ public interface AliasRegistry {
 	 * Given a name, register an alias for it.
 	 * @param name the canonical name
 	 * @param alias the alias to be registered
-	 * @throws IllegalStateException if the alias is already in use
-	 * and may not be overridden
+	 * @throws IllegalStateException if the alias is already in use and may not be
+	 * overridden
 	 */
 	void registerAlias(String name, String alias);
 
@@ -42,8 +42,8 @@ public interface AliasRegistry {
 	void removeAlias(String alias);
 
 	/**
-	 * Determine whether the given name is defined as an alias
-	 * (as opposed to the name of an actually registered component).
+	 * Determine whether the given name is defined as an alias (as opposed to the name of
+	 * an actually registered component).
 	 * @param name the name to check
 	 * @return whether the given name is an alias
 	 */

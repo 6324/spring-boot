@@ -18,7 +18,7 @@ package org.springframework.expression.spel.testresources;
 
 import java.util.List;
 
-public class TestAddress{
+public class TestAddress {
 
 	private String street;
 

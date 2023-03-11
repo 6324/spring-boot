@@ -30,12 +30,13 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringValueResolver;
 
 /**
- * Visitor class for traversing {@link BeanDefinition} objects, in particular
- * the property values and constructor argument values contained in them,
- * resolving bean metadata values.
+ * Visitor class for traversing {@link BeanDefinition} objects, in particular the property
+ * values and constructor argument values contained in them, resolving bean metadata
+ * values.
  *
- * <p>Used by {@link PlaceholderConfigurerSupport} to parse all String values
- * contained in a BeanDefinition, resolving any placeholders found.
+ * <p>
+ * Used by {@link PlaceholderConfigurerSupport} to parse all String values contained in a
+ * BeanDefinition, resolving any placeholders found.
  *
  * @author Juergen Hoeller
  * @author Sam Brannen
@@ -50,10 +51,9 @@ public class BeanDefinitionVisitor {
 	@Nullable
 	private StringValueResolver valueResolver;
 
-
 	/**
-	 * Create a new BeanDefinitionVisitor, applying the specified
-	 * value resolver to all bean metadata values.
+	 * Create a new BeanDefinitionVisitor, applying the specified value resolver to all
+	 * bean metadata values.
 	 * @param valueResolver the StringValueResolver to apply
 	 */
 	public BeanDefinitionVisitor(StringValueResolver valueResolver) {
@@ -62,16 +62,15 @@ public class BeanDefinitionVisitor {
 	}
 
 	/**
-	 * Create a new BeanDefinitionVisitor for subclassing.
-	 * Subclasses need to override the {@link #resolveStringValue} method.
+	 * Create a new BeanDefinitionVisitor for subclassing. Subclasses need to override the
+	 * {@link #resolveStringValue} method.
 	 */
 	protected BeanDefinitionVisitor() {
 	}
 
-
 	/**
-	 * Traverse the given BeanDefinition object and the MutablePropertyValues
-	 * and ConstructorArgumentValues contained in them.
+	 * Traverse the given BeanDefinition object and the MutablePropertyValues and
+	 * ConstructorArgumentValues contained in them.
 	 * @param beanDefinition the BeanDefinition object to traverse
 	 * @see #resolveStringValue(String)
 	 */
@@ -234,7 +233,7 @@ public class BeanDefinitionVisitor {
 		}
 	}
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected void visitList(List listVal) {
 		for (int i = 0; i < listVal.size(); i++) {
 			Object elem = listVal.get(i);
@@ -245,7 +244,7 @@ public class BeanDefinitionVisitor {
 		}
 	}
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected void visitSet(Set setVal) {
 		Set newContent = new LinkedHashSet();
 		boolean entriesModified = false;
@@ -262,7 +261,7 @@ public class BeanDefinitionVisitor {
 		}
 	}
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected void visitMap(Map<?, ?> mapVal) {
 		Map newContent = new LinkedHashMap();
 		boolean entriesModified = false;
@@ -290,8 +289,8 @@ public class BeanDefinitionVisitor {
 	@Nullable
 	protected String resolveStringValue(String strVal) {
 		if (this.valueResolver == null) {
-			throw new IllegalStateException("No StringValueResolver specified - pass a resolver " +
-					"object into the constructor or override the 'resolveStringValue' method");
+			throw new IllegalStateException("No StringValueResolver specified - pass a resolver "
+					+ "object into the constructor or override the 'resolveStringValue' method");
 		}
 		String resolvedValue = this.valueResolver.resolveStringValue(strVal);
 		// Return original String if not modified.

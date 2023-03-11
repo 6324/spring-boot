@@ -70,21 +70,17 @@ public class DefaultRSocketRequesterBuilderTests {
 
 	private final TestRSocketConnectorConfigurer connectorConfigurer = new TestRSocketConnectorConfigurer();
 
-
 	@BeforeEach
 	public void setup() {
 		this.transport = mock(ClientTransport.class);
 		given(this.transport.connect()).willReturn(Mono.just(this.connection));
 	}
 
-
 	@Test
 	@SuppressWarnings("unchecked")
 	public void rsocketConnectorConfigurerAppliesAtSubscription() {
 		Consumer<RSocketStrategies.Builder> strategiesConfigurer = mock(Consumer.class);
-		RSocketRequester.builder()
-				.rsocketConnector(this.connectorConfigurer)
-				.rsocketStrategies(strategiesConfigurer)
+		RSocketRequester.builder().rsocketConnector(this.connectorConfigurer).rsocketStrategies(strategiesConfigurer)
 				.connect(this.transport);
 
 		verifyNoInteractions(this.transport);
@@ -92,16 +88,12 @@ public class DefaultRSocketRequesterBuilderTests {
 	}
 
 	@Test
-	@SuppressWarnings({"unchecked", "deprecation"})
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	public void rsocketConnectorConfigurer() {
 		ClientRSocketFactoryConfigurer factoryConfigurer = mock(ClientRSocketFactoryConfigurer.class);
 		Consumer<RSocketStrategies.Builder> strategiesConfigurer = mock(Consumer.class);
-		RSocketRequester.builder()
-				.rsocketConnector(this.connectorConfigurer)
-				.rsocketFactory(factoryConfigurer)
-				.rsocketStrategies(strategiesConfigurer)
-				.connect(this.transport)
-				.block();
+		RSocketRequester.builder().rsocketConnector(this.connectorConfigurer).rsocketFactory(factoryConfigurer)
+				.rsocketStrategies(strategiesConfigurer).connect(this.transport).block();
 
 		// RSocketStrategies and RSocketConnector configurers should have been called
 
@@ -113,24 +105,18 @@ public class DefaultRSocketRequesterBuilderTests {
 
 	@Test
 	public void defaultDataMimeType() {
-		RSocketRequester requester = RSocketRequester.builder()
-				.connect(this.transport)
-				.block();
+		RSocketRequester requester = RSocketRequester.builder().connect(this.transport).block();
 
-		assertThat(requester.dataMimeType())
-				.as("Default data MimeType, based on the first Decoder")
+		assertThat(requester.dataMimeType()).as("Default data MimeType, based on the first Decoder")
 				.isEqualTo(MimeTypeUtils.TEXT_PLAIN);
 	}
 
 	@Test
 	public void defaultDataMimeTypeWithCustomDecoderRegistered() {
 		RSocketStrategies strategies = RSocketStrategies.builder()
-				.decoder(new TestJsonDecoder(MimeTypeUtils.APPLICATION_JSON))
-				.build();
+				.decoder(new TestJsonDecoder(MimeTypeUtils.APPLICATION_JSON)).build();
 
-		RSocketRequester requester = RSocketRequester.builder()
-				.rsocketStrategies(strategies)
-				.connect(this.transport)
+		RSocketRequester requester = RSocketRequester.builder().rsocketStrategies(strategies).connect(this.transport)
 				.block();
 
 		assertThat(requester.dataMimeType())
@@ -140,14 +126,11 @@ public class DefaultRSocketRequesterBuilderTests {
 
 	@Test
 	public void dataMimeTypeExplicitlySet() {
-		RSocketRequester requester = RSocketRequester.builder()
-				.dataMimeType(MimeTypeUtils.APPLICATION_JSON)
-				.connect(this.transport)
-				.block();
+		RSocketRequester requester = RSocketRequester.builder().dataMimeType(MimeTypeUtils.APPLICATION_JSON)
+				.connect(this.transport).block();
 
 		ConnectionSetupPayload setupPayload = Mono.from(this.connection.sentFrames())
-				.map(DefaultConnectionSetupPayload::new)
-				.block();
+				.map(DefaultConnectionSetupPayload::new).block();
 
 		assertThat(setupPayload.dataMimeType()).isEqualTo("application/json");
 		assertThat(requester.dataMimeType()).isEqualTo(MimeTypeUtils.APPLICATION_JSON);
@@ -158,19 +141,14 @@ public class DefaultRSocketRequesterBuilderTests {
 		MimeType dataMimeType = MimeTypeUtils.APPLICATION_JSON;
 		MimeType metaMimeType = MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_ROUTING.getString());
 
-		RSocketRequester requester = RSocketRequester.builder()
-				.metadataMimeType(metaMimeType)
-				.dataMimeType(dataMimeType)
-				.rsocketConnector(connector -> {
+		RSocketRequester requester = RSocketRequester.builder().metadataMimeType(metaMimeType)
+				.dataMimeType(dataMimeType).rsocketConnector(connector -> {
 					connector.metadataMimeType("text/plain");
 					connector.dataMimeType("application/xml");
-				})
-				.connect(this.transport)
-				.block();
+				}).connect(this.transport).block();
 
 		ConnectionSetupPayload setupPayload = Mono.from(this.connection.sentFrames())
-				.map(DefaultConnectionSetupPayload::new)
-				.block();
+				.map(DefaultConnectionSetupPayload::new).block();
 
 		assertThat(setupPayload.dataMimeType()).isEqualTo(dataMimeType.toString());
 		assertThat(setupPayload.metadataMimeType()).isEqualTo(metaMimeType.toString());
@@ -180,17 +158,11 @@ public class DefaultRSocketRequesterBuilderTests {
 
 	@Test
 	public void setupRoute() {
-		RSocketRequester.builder()
-				.dataMimeType(MimeTypeUtils.TEXT_PLAIN)
-				.metadataMimeType(MimeTypeUtils.TEXT_PLAIN)
-				.setupRoute("toA")
-				.setupData("My data")
-				.connect(this.transport)
-				.block();
+		RSocketRequester.builder().dataMimeType(MimeTypeUtils.TEXT_PLAIN).metadataMimeType(MimeTypeUtils.TEXT_PLAIN)
+				.setupRoute("toA").setupData("My data").connect(this.transport).block();
 
 		ConnectionSetupPayload setupPayload = Mono.from(this.connection.sentFrames())
-				.map(DefaultConnectionSetupPayload::new)
-				.block();
+				.map(DefaultConnectionSetupPayload::new).block();
 
 		assertThat(setupPayload.getMetadataUtf8()).isEqualTo("toA");
 		assertThat(setupPayload.getDataUtf8()).isEqualTo("My data");
@@ -203,21 +175,16 @@ public class DefaultRSocketRequesterBuilderTests {
 		Mono<String> asyncMeta2 = Mono.delay(Duration.ofMillis(1)).map(aLong -> "Async Metadata 2");
 		Mono<String> data = Mono.delay(Duration.ofMillis(1)).map(aLong -> "Async data");
 
-		RSocketRequester.builder()
-				.dataMimeType(MimeTypeUtils.TEXT_PLAIN)
-				.setupRoute("toA")
+		RSocketRequester.builder().dataMimeType(MimeTypeUtils.TEXT_PLAIN).setupRoute("toA")
 				.setupMetadata(asyncMeta1, new MimeType("text", "x.test.metadata1"))
-				.setupMetadata(asyncMeta2, new MimeType("text", "x.test.metadata2"))
-				.setupData(data)
-				.connect(this.transport)
+				.setupMetadata(asyncMeta2, new MimeType("text", "x.test.metadata2")).setupData(data)
+				.connect(this.transport).block();
+
+		ConnectionSetupPayload payload = Mono.from(this.connection.sentFrames()).map(DefaultConnectionSetupPayload::new)
 				.block();
 
-		ConnectionSetupPayload payload = Mono.from(this.connection.sentFrames())
-				.map(DefaultConnectionSetupPayload::new)
-				.block();
-
-		MimeType compositeMimeType =
-				MimeTypeUtils.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_COMPOSITE_METADATA.getString());
+		MimeType compositeMimeType = MimeTypeUtils
+				.parseMimeType(WellKnownMimeType.MESSAGE_RSOCKET_COMPOSITE_METADATA.getString());
 
 		DefaultMetadataExtractor extractor = new DefaultMetadataExtractor(StringDecoder.allMimeTypes());
 		extractor.metadataToExtract(new MimeType("text", "x.test.metadata1"), String.class, "asyncMeta1");
@@ -238,15 +205,10 @@ public class DefaultRSocketRequesterBuilderTests {
 	private void testPayloadDecoder(DataBufferFactory bufferFactory, PayloadDecoder payloadDecoder)
 			throws NoSuchFieldException {
 
-		RSocketStrategies strategies = RSocketStrategies.builder()
-				.dataBufferFactory(bufferFactory)
-				.build();
+		RSocketStrategies strategies = RSocketStrategies.builder().dataBufferFactory(bufferFactory).build();
 
-		RSocketRequester.builder()
-				.rsocketStrategies(strategies)
-				.rsocketConnector(this.connectorConfigurer)
-				.connect(this.transport)
-				.block();
+		RSocketRequester.builder().rsocketStrategies(strategies).rsocketConnector(this.connectorConfigurer)
+				.connect(this.transport).block();
 
 		RSocketConnector connector = this.connectorConfigurer.connector();
 		assertThat(connector).isNotNull();
@@ -257,11 +219,9 @@ public class DefaultRSocketRequesterBuilderTests {
 		assertThat(decoder).isSameAs(payloadDecoder);
 	}
 
-
 	static class MockConnection implements DuplexConnection {
 
 		private Publisher<ByteBuf> sentFrames;
-
 
 		public Publisher<ByteBuf> sentFrames() {
 			return this.sentFrames;
@@ -291,8 +251,8 @@ public class DefaultRSocketRequesterBuilderTests {
 		@Override
 		public void dispose() {
 		}
-	}
 
+	}
 
 	static class TestRSocketConnectorConfigurer implements RSocketConnectorConfigurer {
 
@@ -306,8 +266,8 @@ public class DefaultRSocketRequesterBuilderTests {
 		public void configure(RSocketConnector connector) {
 			this.connector = connector;
 		}
-	}
 
+	}
 
 	static class TestJsonDecoder implements Decoder<Object> {
 
@@ -335,18 +295,19 @@ public class DefaultRSocketRequesterBuilderTests {
 		}
 
 		@Override
-		public Flux<Object> decode(Publisher<DataBuffer> inputStream, ResolvableType elementType,
-				MimeType mimeType, Map<String, Object> hints) {
+		public Flux<Object> decode(Publisher<DataBuffer> inputStream, ResolvableType elementType, MimeType mimeType,
+				Map<String, Object> hints) {
 
 			throw new UnsupportedOperationException();
 		}
-
 
 		@Override
-		public Object decode(DataBuffer buffer, ResolvableType targetType, MimeType mimeType,
-				Map<String, Object> hints) throws DecodingException {
+		public Object decode(DataBuffer buffer, ResolvableType targetType, MimeType mimeType, Map<String, Object> hints)
+				throws DecodingException {
 
 			throw new UnsupportedOperationException();
 		}
+
 	}
+
 }

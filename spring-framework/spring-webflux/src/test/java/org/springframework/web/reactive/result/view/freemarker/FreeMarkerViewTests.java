@@ -50,17 +50,13 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
  */
 public class FreeMarkerViewTests {
 
-	private static final String TEMPLATE_PATH =
-			"classpath*:org/springframework/web/reactive/view/freemarker/";
+	private static final String TEMPLATE_PATH = "classpath*:org/springframework/web/reactive/view/freemarker/";
 
-
-	private final MockServerWebExchange exchange =
-			MockServerWebExchange.from(MockServerHttpRequest.get("/path"));
+	private final MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/path"));
 
 	private final GenericApplicationContext context = new GenericApplicationContext();
 
 	private Configuration freeMarkerConfig;
-
 
 	@BeforeEach
 	public void setup() throws Exception {
@@ -73,23 +69,20 @@ public class FreeMarkerViewTests {
 		this.freeMarkerConfig = configurer.createConfiguration();
 	}
 
-
 	@Test
 	public void noFreeMarkerConfig() throws Exception {
 		FreeMarkerView view = new FreeMarkerView();
 		view.setApplicationContext(this.context);
 		view.setUrl("anythingButNull");
-		assertThatExceptionOfType(ApplicationContextException.class).isThrownBy(
-				view::afterPropertiesSet)
-			.withMessageContaining("Must define a single FreeMarkerConfig bean");
+		assertThatExceptionOfType(ApplicationContextException.class).isThrownBy(view::afterPropertiesSet)
+				.withMessageContaining("Must define a single FreeMarkerConfig bean");
 	}
 
 	@Test
 	public void noTemplateName() throws Exception {
 		FreeMarkerView freeMarkerView = new FreeMarkerView();
-		assertThatIllegalArgumentException().isThrownBy(
-				freeMarkerView::afterPropertiesSet)
-			.withMessageContaining("Property 'url' is required");
+		assertThatIllegalArgumentException().isThrownBy(freeMarkerView::afterPropertiesSet)
+				.withMessageContaining("Property 'url' is required");
 	}
 
 	@Test
@@ -114,15 +107,13 @@ public class FreeMarkerViewTests {
 
 		StepVerifier.create(this.exchange.getResponse().getBody())
 				.consumeNextWith(buf -> assertThat(asString(buf)).isEqualTo("<html><body>hi FreeMarker</body></html>"))
-				.expectComplete()
-				.verify();
+				.expectComplete().verify();
 	}
 
 	@Test // gh-22754
 	public void subscribeWithoutDemand() {
 		ZeroDemandResponse response = new ZeroDemandResponse();
-		ServerWebExchange exchange = new DefaultServerWebExchange(
-				MockServerHttpRequest.get("/path").build(), response,
+		ServerWebExchange exchange = new DefaultServerWebExchange(MockServerHttpRequest.get("/path").build(), response,
 				new DefaultWebSessionManager(), ServerCodecConfigurer.create(),
 				new AcceptHeaderLocaleContextResolver());
 
@@ -139,14 +130,12 @@ public class FreeMarkerViewTests {
 		response.checkForLeaks();
 	}
 
-
 	private static String asString(DataBuffer dataBuffer) {
 		ByteBuffer byteBuffer = dataBuffer.asByteBuffer();
 		final byte[] bytes = new byte[byteBuffer.remaining()];
 		byteBuffer.get(bytes);
 		return new String(bytes, StandardCharsets.UTF_8);
 	}
-
 
 	@SuppressWarnings("unused")
 	private String handle() {

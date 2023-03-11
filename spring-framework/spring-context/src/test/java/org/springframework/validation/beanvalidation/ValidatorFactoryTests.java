@@ -131,8 +131,7 @@ public class ValidatorFactoryTests {
 		BeanPropertyBindingResult errors = new BeanPropertyBindingResult(person, "person");
 		validator.validate(person, errors);
 		assertThat(errors.getErrorCount()).isEqualTo(1);
-		assertThat(errors.getFieldError("address").getRejectedValue())
-				.as("Field/Value type mismatch")
+		assertThat(errors.getFieldError("address").getRejectedValue()).as("Field/Value type mismatch")
 				.isInstanceOf(ValidAddress.class);
 	}
 
@@ -184,8 +183,7 @@ public class ValidatorFactoryTests {
 
 	@Test
 	public void testSpringValidationWithAutowiredValidator() {
-		ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(
-				LocalValidatorFactoryBean.class);
+		ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(LocalValidatorFactoryBean.class);
 		LocalValidatorFactoryBean validator = ctx.getBean(LocalValidatorFactoryBean.class);
 
 		ValidPerson person = new ValidPerson();
@@ -282,7 +280,6 @@ public class ValidatorFactoryTests {
 		assertThat(errors.getFieldValue("list[1]")).isEqualTo("X");
 	}
 
-
 	@NameAddressValid
 	public static class ValidPerson {
 
@@ -331,8 +328,8 @@ public class ValidatorFactoryTests {
 		public void setAddressSet(Set<ValidAddress> addressSet) {
 			this.addressSet = addressSet;
 		}
-	}
 
+	}
 
 	public static class ValidAddress {
 
@@ -346,8 +343,8 @@ public class ValidatorFactoryTests {
 		public void setStreet(String street) {
 			this.street = street;
 		}
-	}
 
+	}
 
 	@Target(ElementType.TYPE)
 	@Retention(RetentionPolicy.RUNTIME)
@@ -359,8 +356,8 @@ public class ValidatorFactoryTests {
 		Class<?>[] groups() default {};
 
 		Class<?>[] payload() default {};
-	}
 
+	}
 
 	public static class NameAddressValidator implements ConstraintValidator<NameAddressValid, ValidPerson> {
 
@@ -378,13 +375,13 @@ public class ValidatorFactoryTests {
 			}
 			boolean valid = (value.name == null || !value.address.street.contains(value.name));
 			if (!valid && "Phil".equals(value.name)) {
-				context.buildConstraintViolationWithTemplate(
-						context.getDefaultConstraintMessageTemplate()).addPropertyNode("address").addConstraintViolation().disableDefaultConstraintViolation();
+				context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
+						.addPropertyNode("address").addConstraintViolation().disableDefaultConstraintViolation();
 			}
 			return valid;
 		}
-	}
 
+	}
 
 	public static class MainBean {
 
@@ -394,8 +391,8 @@ public class ValidatorFactoryTests {
 		public InnerBean getInner() {
 			return inner;
 		}
-	}
 
+	}
 
 	public static class MainBeanWithOptional {
 
@@ -405,8 +402,8 @@ public class ValidatorFactoryTests {
 		public Optional<InnerBean> getInner() {
 			return Optional.ofNullable(inner);
 		}
-	}
 
+	}
 
 	public static class InnerBean {
 
@@ -415,24 +412,25 @@ public class ValidatorFactoryTests {
 		public String getValue() {
 			return value;
 		}
+
 		public void setValue(String value) {
 			this.value = value;
 		}
-	}
 
+	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.FIELD)
-	@Constraint(validatedBy=InnerValidator.class)
+	@Constraint(validatedBy = InnerValidator.class)
 	public @interface InnerValid {
 
 		String message() default "NOT VALID";
 
-		Class<?>[] groups() default { };
+		Class<?>[] groups() default {};
 
 		Class<? extends Payload>[] payload() default {};
-	}
 
+	}
 
 	public static class InnerValidator implements ConstraintValidator<InnerValid, InnerBean> {
 
@@ -449,8 +447,8 @@ public class ValidatorFactoryTests {
 			}
 			return true;
 		}
-	}
 
+	}
 
 	public static class ListContainer {
 
@@ -464,8 +462,8 @@ public class ValidatorFactoryTests {
 		public List<String> getList() {
 			return list;
 		}
-	}
 
+	}
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.FIELD)
@@ -477,8 +475,8 @@ public class ValidatorFactoryTests {
 		Class<?>[] groups() default {};
 
 		Class<? extends Payload>[] payload() default {};
-	}
 
+	}
 
 	public static class NotXListValidator implements ConstraintValidator<NotXList, List<String>> {
 
@@ -492,12 +490,14 @@ public class ValidatorFactoryTests {
 			boolean valid = true;
 			for (int i = 0; i < list.size(); i++) {
 				if ("X".equals(list.get(i))) {
-					context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()).addBeanNode().inIterable().atIndex(i).addConstraintViolation();
+					context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
+							.addBeanNode().inIterable().atIndex(i).addConstraintViolation();
 					valid = false;
 				}
 			}
 			return valid;
 		}
+
 	}
 
 }

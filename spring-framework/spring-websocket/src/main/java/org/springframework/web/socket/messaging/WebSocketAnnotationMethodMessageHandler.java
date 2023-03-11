@@ -30,21 +30,20 @@ import org.springframework.messaging.simp.annotation.support.SimpAnnotationMetho
 import org.springframework.web.method.ControllerAdviceBean;
 
 /**
- * A sub-class of {@link SimpAnnotationMethodMessageHandler} to provide support
- * for {@link org.springframework.web.bind.annotation.ControllerAdvice
- * ControllerAdvice} with global {@code @MessageExceptionHandler} methods.
+ * A sub-class of {@link SimpAnnotationMethodMessageHandler} to provide support for
+ * {@link org.springframework.web.bind.annotation.ControllerAdvice ControllerAdvice} with
+ * global {@code @MessageExceptionHandler} methods.
  *
  * @author Rossen Stoyanchev
  * @since 4.2
  */
 public class WebSocketAnnotationMethodMessageHandler extends SimpAnnotationMethodMessageHandler {
 
-	public WebSocketAnnotationMethodMessageHandler(SubscribableChannel clientInChannel,
-			MessageChannel clientOutChannel, SimpMessageSendingOperations brokerTemplate) {
+	public WebSocketAnnotationMethodMessageHandler(SubscribableChannel clientInChannel, MessageChannel clientOutChannel,
+			SimpMessageSendingOperations brokerTemplate) {
 
 		super(clientInChannel, clientOutChannel, brokerTemplate);
 	}
-
 
 	@Override
 	public void afterPropertiesSet() {
@@ -78,7 +77,6 @@ public class WebSocketAnnotationMethodMessageHandler extends SimpAnnotationMetho
 			}
 		}
 	}
-
 
 	/**
 	 * Adapt ControllerAdviceBean to MessagingAdviceBean.
@@ -119,6 +117,7 @@ public class WebSocketAnnotationMethodMessageHandler extends SimpAnnotationMetho
 		public int getOrder() {
 			return this.adviceBean.getOrder();
 		}
+
 	}
 
 }

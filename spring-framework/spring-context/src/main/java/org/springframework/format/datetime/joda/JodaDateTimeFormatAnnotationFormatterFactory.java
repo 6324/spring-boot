@@ -39,7 +39,8 @@ import org.springframework.util.StringUtils;
 /**
  * Formats fields annotated with the {@link DateTimeFormat} annotation using Joda-Time.
  *
- * <p><b>NOTE:</b> Spring's Joda-Time support requires Joda-Time 2.x, as of Spring 4.0.
+ * <p>
+ * <b>NOTE:</b> Spring's Joda-Time support requires Joda-Time 2.x, as of Spring 4.0.
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -68,7 +69,6 @@ public class JodaDateTimeFormatAnnotationFormatterFactory extends EmbeddedValueR
 		fieldTypes.add(Long.class);
 		FIELD_TYPES = Collections.unmodifiableSet(fieldTypes);
 	}
-
 
 	@Override
 	public final Set<Class<?>> getFieldTypes() {

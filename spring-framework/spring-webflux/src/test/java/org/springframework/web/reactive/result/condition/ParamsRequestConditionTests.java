@@ -28,6 +28,7 @@ import static org.springframework.web.testfixture.http.server.reactive.MockServe
 
 /**
  * Unit tests for {@link ParamsRequestCondition}.
+ *
  * @author Rossen Stoyanchev
  */
 public class ParamsRequestConditionTests {
@@ -109,7 +110,8 @@ public class ParamsRequestConditionTests {
 		ParamsRequestCondition condition1 = new ParamsRequestCondition("response_type!=code");
 		ParamsRequestCondition condition2 = new ParamsRequestCondition("response_type");
 
-		assertThat(condition1.compareTo(condition2, exchange)).as("Negated match should not count as more specific").isEqualTo(0);
+		assertThat(condition1.compareTo(condition2, exchange)).as("Negated match should not count as more specific")
+				.isEqualTo(0);
 	}
 
 	@Test

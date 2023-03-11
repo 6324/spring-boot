@@ -30,19 +30,22 @@ import org.springframework.lang.Nullable;
 
 /**
  * Object to represent an SQL BLOB/CLOB value parameter. BLOBs can either be an
- * InputStream or a byte array. CLOBs can be in the form of a Reader, InputStream
- * or String. Each CLOB/BLOB value will be stored together with its length.
- * The type is based on which constructor is used. Objects of this class are
- * immutable except for the LobCreator reference. Use them and discard them.
+ * InputStream or a byte array. CLOBs can be in the form of a Reader, InputStream or
+ * String. Each CLOB/BLOB value will be stored together with its length. The type is based
+ * on which constructor is used. Objects of this class are immutable except for the
+ * LobCreator reference. Use them and discard them.
  *
- * <p>This class holds a reference to a LocCreator that must be closed after the
- * update has completed. This is done via a call to the closeLobCreator method.
- * All handling of the LobCreator is done by the framework classes that use it -
- * no need to set or close the LobCreator for end users of this class.
+ * <p>
+ * This class holds a reference to a LocCreator that must be closed after the update has
+ * completed. This is done via a call to the closeLobCreator method. All handling of the
+ * LobCreator is done by the framework classes that use it - no need to set or close the
+ * LobCreator for end users of this class.
  *
- * <p>A usage example:
+ * <p>
+ * A usage example:
  *
- * <pre class="code">JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);  // reusable object
+ * <pre class=
+ * "code">JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);  // reusable object
  * LobHandler lobHandler = new DefaultLobHandler();  // reusable object
  *
  * jdbcTemplate.update(
@@ -72,15 +75,13 @@ public class SqlLobValue implements DisposableSqlTypeValue {
 	private final int length;
 
 	/**
-	 * This contains a reference to the LobCreator - so we can close it
-	 * once the update is done.
+	 * This contains a reference to the LobCreator - so we can close it once the update is
+	 * done.
 	 */
 	private final LobCreator lobCreator;
 
-
 	/**
-	 * Create a new BLOB value with the given byte array,
-	 * using a DefaultLobHandler.
+	 * Create a new BLOB value with the given byte array, using a DefaultLobHandler.
 	 * @param bytes the byte array containing the BLOB value
 	 * @see org.springframework.jdbc.support.lob.DefaultLobHandler
 	 */
@@ -100,8 +101,7 @@ public class SqlLobValue implements DisposableSqlTypeValue {
 	}
 
 	/**
-	 * Create a new CLOB value with the given content string,
-	 * using a DefaultLobHandler.
+	 * Create a new CLOB value with the given content string, using a DefaultLobHandler.
 	 * @param content the String containing the CLOB value
 	 * @see org.springframework.jdbc.support.lob.DefaultLobHandler
 	 */
@@ -121,8 +121,7 @@ public class SqlLobValue implements DisposableSqlTypeValue {
 	}
 
 	/**
-	 * Create a new BLOB/CLOB value with the given stream,
-	 * using a DefaultLobHandler.
+	 * Create a new BLOB/CLOB value with the given stream, using a DefaultLobHandler.
 	 * @param stream the stream containing the LOB value
 	 * @param length the length of the LOB value
 	 * @see org.springframework.jdbc.support.lob.DefaultLobHandler
@@ -144,8 +143,7 @@ public class SqlLobValue implements DisposableSqlTypeValue {
 	}
 
 	/**
-	 * Create a new CLOB value with the given character stream,
-	 * using a DefaultLobHandler.
+	 * Create a new CLOB value with the given character stream, using a DefaultLobHandler.
 	 * @param reader the character stream containing the CLOB value
 	 * @param length the length of the CLOB value
 	 * @see org.springframework.jdbc.support.lob.DefaultLobHandler
@@ -165,7 +163,6 @@ public class SqlLobValue implements DisposableSqlTypeValue {
 		this.length = length;
 		this.lobCreator = lobHandler.getLobCreator();
 	}
-
 
 	/**
 	 * Set the specified content via the LobCreator.

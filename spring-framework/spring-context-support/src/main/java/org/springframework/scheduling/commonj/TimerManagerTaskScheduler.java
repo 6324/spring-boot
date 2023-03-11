@@ -34,8 +34,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ErrorHandler;
 
 /**
- * Implementation of Spring's {@link TaskScheduler} interface, wrapping
- * a CommonJ {@link commonj.timers.TimerManager}.
+ * Implementation of Spring's {@link TaskScheduler} interface, wrapping a CommonJ
+ * {@link commonj.timers.TimerManager}.
  *
  * @author Juergen Hoeller
  * @author Mark Fisher
@@ -49,14 +49,12 @@ public class TimerManagerTaskScheduler extends TimerManagerAccessor implements T
 	@Nullable
 	private volatile ErrorHandler errorHandler;
 
-
 	/**
 	 * Provide an {@link ErrorHandler} strategy.
 	 */
 	public void setErrorHandler(ErrorHandler errorHandler) {
 		this.errorHandler = errorHandler;
 	}
-
 
 	@Override
 	@Nullable
@@ -108,11 +106,11 @@ public class TimerManagerTaskScheduler extends TimerManagerAccessor implements T
 		return TaskUtils.decorateTaskWithErrorHandler(delegate, this.errorHandler, isRepeatingTask);
 	}
 
-
 	/**
 	 * ScheduledFuture adapter that wraps a CommonJ Timer.
 	 */
-	private static class TimerScheduledFuture extends FutureTask<Object> implements TimerListener, ScheduledFuture<Object> {
+	private static class TimerScheduledFuture extends FutureTask<Object>
+			implements TimerListener, ScheduledFuture<Object> {
 
 		@Nullable
 		protected transient Timer timer;
@@ -145,7 +143,8 @@ public class TimerManagerTaskScheduler extends TimerManagerAccessor implements T
 		@Override
 		public long getDelay(TimeUnit unit) {
 			Assert.state(this.timer != null, "No Timer available");
-			return unit.convert(this.timer.getScheduledExecutionTime() - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
+			return unit.convert(this.timer.getScheduledExecutionTime() - System.currentTimeMillis(),
+					TimeUnit.MILLISECONDS);
 		}
 
 		@Override
@@ -156,8 +155,8 @@ public class TimerManagerTaskScheduler extends TimerManagerAccessor implements T
 			long diff = getDelay(TimeUnit.MILLISECONDS) - other.getDelay(TimeUnit.MILLISECONDS);
 			return (diff == 0 ? 0 : ((diff < 0) ? -1 : 1));
 		}
-	}
 
+	}
 
 	/**
 	 * ScheduledFuture adapter for trigger-based rescheduling.
@@ -196,6 +195,7 @@ public class TimerManagerTaskScheduler extends TimerManagerAccessor implements T
 				schedule();
 			}
 		}
+
 	}
 
 }

@@ -19,9 +19,9 @@ package org.springframework.beans.factory.xml;
 import org.springframework.beans.testfixture.beans.TestBean;
 
 /**
- * Test class for Spring's ability to create
- * objects using static factory methods, rather
+ * Test class for Spring's ability to create objects using static factory methods, rather
  * than constructors.
+ *
  * @author Rod Johnson
  */
 public class TestBeanCreator {

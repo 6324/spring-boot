@@ -33,13 +33,14 @@ import org.springframework.util.ObjectUtils;
 
 /**
  * A simple message converter which is able to handle TextMessages, BytesMessages,
- * MapMessages, and ObjectMessages. Used as default conversion strategy
- * by {@link org.springframework.jms.core.JmsTemplate}, for
- * {@code convertAndSend} and {@code receiveAndConvert} operations.
+ * MapMessages, and ObjectMessages. Used as default conversion strategy by
+ * {@link org.springframework.jms.core.JmsTemplate}, for {@code convertAndSend} and
+ * {@code receiveAndConvert} operations.
  *
- * <p>Converts a String to a {@link javax.jms.TextMessage}, a byte array to a
- * {@link javax.jms.BytesMessage}, a Map to a {@link javax.jms.MapMessage}, and
- * a Serializable object to a {@link javax.jms.ObjectMessage} (or vice versa).
+ * <p>
+ * Converts a String to a {@link javax.jms.TextMessage}, a byte array to a
+ * {@link javax.jms.BytesMessage}, a Map to a {@link javax.jms.MapMessage}, and a
+ * Serializable object to a {@link javax.jms.ObjectMessage} (or vice versa).
  *
  * @author Juergen Hoeller
  * @since 1.1
@@ -49,9 +50,8 @@ import org.springframework.util.ObjectUtils;
 public class SimpleMessageConverter implements MessageConverter {
 
 	/**
-	 * This implementation creates a TextMessage for a String, a
-	 * BytesMessage for a byte array, a MapMessage for a Map,
-	 * and an ObjectMessage for a Serializable object.
+	 * This implementation creates a TextMessage for a String, a BytesMessage for a byte
+	 * array, a MapMessage for a Map, and an ObjectMessage for a Serializable object.
 	 * @see #createMessageForString
 	 * @see #createMessageForByteArray
 	 * @see #createMessageForMap
@@ -69,23 +69,23 @@ public class SimpleMessageConverter implements MessageConverter {
 			return createMessageForByteArray((byte[]) object, session);
 		}
 		else if (object instanceof Map) {
-			return createMessageForMap((Map<? ,?>) object, session);
+			return createMessageForMap((Map<?, ?>) object, session);
 		}
 		else if (object instanceof Serializable) {
 			return createMessageForSerializable(((Serializable) object), session);
 		}
 		else {
-			throw new MessageConversionException("Cannot convert object of type [" +
-					ObjectUtils.nullSafeClassName(object) + "] to JMS message. Supported message " +
-					"payloads are: String, byte array, Map<String,?>, Serializable object.");
+			throw new MessageConversionException("Cannot convert object of type ["
+					+ ObjectUtils.nullSafeClassName(object) + "] to JMS message. Supported message "
+					+ "payloads are: String, byte array, Map<String,?>, Serializable object.");
 		}
 	}
 
 	/**
-	 * This implementation converts a TextMessage back to a String, a
-	 * ByteMessage back to a byte array, a MapMessage back to a Map,
-	 * and an ObjectMessage back to a Serializable object. Returns
-	 * the plain Message object in case of an unknown message type.
+	 * This implementation converts a TextMessage back to a String, a ByteMessage back to
+	 * a byte array, a MapMessage back to a Map, and an ObjectMessage back to a
+	 * Serializable object. Returns the plain Message object in case of an unknown message
+	 * type.
 	 * @see #extractStringFromMessage
 	 * @see #extractByteArrayFromMessage
 	 * @see #extractMapFromMessage
@@ -109,7 +109,6 @@ public class SimpleMessageConverter implements MessageConverter {
 			return message;
 		}
 	}
-
 
 	/**
 	 * Create a JMS TextMessage for the given String.
@@ -150,8 +149,8 @@ public class SimpleMessageConverter implements MessageConverter {
 		for (Map.Entry<?, ?> entry : map.entrySet()) {
 			Object key = entry.getKey();
 			if (!(key instanceof String)) {
-				throw new MessageConversionException("Cannot convert non-String key of type [" +
-						ObjectUtils.nullSafeClassName(key) + "] to JMS MapMessage entry");
+				throw new MessageConversionException("Cannot convert non-String key of type ["
+						+ ObjectUtils.nullSafeClassName(key) + "] to JMS MapMessage entry");
 			}
 			message.setObject((String) key, entry.getValue());
 		}
@@ -169,7 +168,6 @@ public class SimpleMessageConverter implements MessageConverter {
 	protected ObjectMessage createMessageForSerializable(Serializable object, Session session) throws JMSException {
 		return session.createObjectMessage(object);
 	}
-
 
 	/**
 	 * Extract a String from the given TextMessage.

@@ -37,8 +37,7 @@ public class Spr7167Tests {
 		ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(MyConfig.class);
 
 		assertThat(ctx.getBeanFactory().getBeanDefinition("someDependency").getDescription())
-				.as("someDependency was not post processed")
-				.isEqualTo("post processed by MyPostProcessor");
+				.as("someDependency was not post processed").isEqualTo("post processed by MyPostProcessor");
 
 		MyConfig config = ctx.getBean(MyConfig.class);
 		assertThat(ClassUtils.isCglibProxy(config)).as("Config class was not enhanced").isTrue();
@@ -58,9 +57,11 @@ class MyConfig {
 	public BeanFactoryPostProcessor thePostProcessor() {
 		return new MyPostProcessor(someDependency());
 	}
+
 }
 
 class Dependency {
+
 }
 
 class MyPostProcessor implements BeanFactoryPostProcessor {
@@ -73,4 +74,5 @@ class MyPostProcessor implements BeanFactoryPostProcessor {
 		AbstractBeanDefinition bd = (AbstractBeanDefinition) beanFactory.getBeanDefinition("someDependency");
 		bd.setDescription("post processed by MyPostProcessor");
 	}
+
 }

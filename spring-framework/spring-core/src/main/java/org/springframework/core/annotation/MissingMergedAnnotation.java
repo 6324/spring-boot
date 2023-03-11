@@ -40,10 +40,8 @@ final class MissingMergedAnnotation<A extends Annotation> extends AbstractMerged
 
 	private static final MissingMergedAnnotation<?> INSTANCE = new MissingMergedAnnotation<>();
 
-
 	private MissingMergedAnnotation() {
 	}
-
 
 	@Override
 	public Class<A> getType() {
@@ -89,14 +87,12 @@ final class MissingMergedAnnotation<A extends Annotation> extends AbstractMerged
 
 	@Override
 	public boolean hasNonDefaultValue(String attributeName) {
-		throw new NoSuchElementException(
-				"Unable to check non-default value for missing annotation");
+		throw new NoSuchElementException("Unable to check non-default value for missing annotation");
 	}
 
 	@Override
 	public boolean hasDefaultValue(String attributeName) {
-		throw new NoSuchElementException(
-				"Unable to check default value for missing annotation");
+		throw new NoSuchElementException("Unable to check default value for missing annotation");
 	}
 
 	@Override
@@ -140,32 +136,28 @@ final class MissingMergedAnnotation<A extends Annotation> extends AbstractMerged
 	}
 
 	@Override
-	public <T extends Annotation> MergedAnnotation<T> getAnnotation(String attributeName,
-			Class<T> type) throws NoSuchElementException {
+	public <T extends Annotation> MergedAnnotation<T> getAnnotation(String attributeName, Class<T> type)
+			throws NoSuchElementException {
 
-		throw new NoSuchElementException(
-				"Unable to get attribute value for missing annotation");
+		throw new NoSuchElementException("Unable to get attribute value for missing annotation");
 	}
 
 	@Override
-	public <T extends Annotation> MergedAnnotation<T>[] getAnnotationArray(
-			String attributeName, Class<T> type) throws NoSuchElementException {
+	public <T extends Annotation> MergedAnnotation<T>[] getAnnotationArray(String attributeName, Class<T> type)
+			throws NoSuchElementException {
 
-		throw new NoSuchElementException(
-				"Unable to get attribute value for missing annotation");
+		throw new NoSuchElementException("Unable to get attribute value for missing annotation");
 	}
 
 	@Override
 	protected <T> T getAttributeValue(String attributeName, Class<T> type) {
-		throw new NoSuchElementException(
-				"Unable to get attribute value for missing annotation");
+		throw new NoSuchElementException("Unable to get attribute value for missing annotation");
 	}
 
 	@Override
 	protected A createSynthesized() {
 		throw new NoSuchElementException("Unable to synthesize missing annotation");
 	}
-
 
 	@SuppressWarnings("unchecked")
 	static <A extends Annotation> MergedAnnotation<A> getInstance() {

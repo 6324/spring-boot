@@ -28,17 +28,18 @@ import org.springframework.util.Assert;
 
 /**
  * Adapter for a JTA UserTransaction handle, taking a JTA
- * {@link javax.transaction.TransactionManager} reference and creating
- * a JTA {@link javax.transaction.UserTransaction} handle for it.
+ * {@link javax.transaction.TransactionManager} reference and creating a JTA
+ * {@link javax.transaction.UserTransaction} handle for it.
  *
- * <p>The JTA UserTransaction interface is an exact subset of the JTA
- * TransactionManager interface. Unfortunately, it does not serve as
- * super-interface of TransactionManager, though, which requires an
- * adapter such as this class to be used when intending to talk to
- * a TransactionManager handle through the UserTransaction interface.
+ * <p>
+ * The JTA UserTransaction interface is an exact subset of the JTA TransactionManager
+ * interface. Unfortunately, it does not serve as super-interface of TransactionManager,
+ * though, which requires an adapter such as this class to be used when intending to talk
+ * to a TransactionManager handle through the UserTransaction interface.
  *
- * <p>Used internally by Spring's {@link JtaTransactionManager} for certain
- * scenarios. Not intended for direct use in application code.
+ * <p>
+ * Used internally by Spring's {@link JtaTransactionManager} for certain scenarios. Not
+ * intended for direct use in application code.
  *
  * @author Juergen Hoeller
  * @since 1.1.5
@@ -46,7 +47,6 @@ import org.springframework.util.Assert;
 public class UserTransactionAdapter implements UserTransaction {
 
 	private final TransactionManager transactionManager;
-
 
 	/**
 	 * Create a new UserTransactionAdapter for the given TransactionManager.
@@ -64,7 +64,6 @@ public class UserTransactionAdapter implements UserTransaction {
 		return this.transactionManager;
 	}
 
-
 	@Override
 	public void setTransactionTimeout(int timeout) throws SystemException {
 		this.transactionManager.setTransactionTimeout(timeout);
@@ -76,8 +75,7 @@ public class UserTransactionAdapter implements UserTransaction {
 	}
 
 	@Override
-	public void commit()
-			throws RollbackException, HeuristicMixedException, HeuristicRollbackException,
+	public void commit() throws RollbackException, HeuristicMixedException, HeuristicRollbackException,
 			SecurityException, SystemException {
 		this.transactionManager.commit();
 	}

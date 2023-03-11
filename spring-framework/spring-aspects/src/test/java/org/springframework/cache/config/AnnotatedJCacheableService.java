@@ -37,8 +37,9 @@ import org.springframework.contextsupport.testfixture.jcache.JCacheableService;
 /**
  * Repository sample with a @CacheDefaults annotation
  *
- * <p>Note: copy/pasted from its original compilation because it needs to be
- * processed by the AspectJ compiler to wave the required aspects.
+ * <p>
+ * Note: copy/pasted from its original compilation because it needs to be processed by the
+ * AspectJ compiler to wave the required aspects.
  *
  * @author Stephane Nicoll
  */
@@ -46,7 +47,9 @@ import org.springframework.contextsupport.testfixture.jcache.JCacheableService;
 public class AnnotatedJCacheableService implements JCacheableService<Long> {
 
 	private final AtomicLong counter = new AtomicLong();
+
 	private final AtomicLong exceptionCounter = new AtomicLong();
+
 	private final Cache defaultCache;
 
 	public AnnotatedJCacheableService(Cache defaultCache) {
@@ -124,8 +127,8 @@ public class AnnotatedJCacheableService implements JCacheableService<Long> {
 		}
 		Object actual = valueWrapper.get();
 		if (value != actual) { // instance check on purpose
-			throw new AssertionError("Wrong value set in cache with key " + key + ". " +
-					"Expected=" + value + ", but got=" + actual);
+			throw new AssertionError(
+					"Wrong value set in cache with key " + key + ". " + "Expected=" + value + ", but got=" + actual);
 		}
 	}
 

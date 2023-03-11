@@ -35,21 +35,20 @@ import org.springframework.util.Assert;
  */
 public class InlineMap extends SpelNodeImpl {
 
-	// If the map is purely literals, it is a constant value and can be computed and cached
+	// If the map is purely literals, it is a constant value and can be computed and
+	// cached
 	@Nullable
 	private TypedValue constant;
-
 
 	public InlineMap(int startPos, int endPos, SpelNodeImpl... args) {
 		super(startPos, endPos, args);
 		checkIfConstant();
 	}
 
-
 	/**
 	 * If all the components of the map are constants, or lists/maps that themselves
-	 * contain constants, then a constant list can be built to represent this node.
-	 * This will speed up later getValue calls and reduce the amount of garbage created.
+	 * contain constants, then a constant list can be built to represent this node. This
+	 * will speed up later getValue calls and reduce the amount of garbage created.
 	 */
 	private void checkIfConstant() {
 		boolean isConstant = true;
@@ -128,7 +127,7 @@ public class InlineMap extends SpelNodeImpl {
 					key = keyChild.getValue(expressionState);
 				}
 				Object value = getChild(c).getValue(expressionState);
-				returnValue.put(key,  value);
+				returnValue.put(key, value);
 			}
 			return new TypedValue(returnValue);
 		}

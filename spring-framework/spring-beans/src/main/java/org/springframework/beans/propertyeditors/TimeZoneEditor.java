@@ -22,9 +22,8 @@ import java.util.TimeZone;
 import org.springframework.util.StringUtils;
 
 /**
- * Editor for {@code java.util.TimeZone}, translating timezone IDs into
- * {@code TimeZone} objects. Exposes the {@code TimeZone} ID as a text
- * representation.
+ * Editor for {@code java.util.TimeZone}, translating timezone IDs into {@code TimeZone}
+ * objects. Exposes the {@code TimeZone} ID as a text representation.
  *
  * @author Juergen Hoeller
  * @author Nicholas Williams

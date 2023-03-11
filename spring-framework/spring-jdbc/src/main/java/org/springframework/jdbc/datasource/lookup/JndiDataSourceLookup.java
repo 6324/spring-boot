@@ -24,8 +24,9 @@ import org.springframework.jndi.JndiLocatorSupport;
 /**
  * JNDI-based {@link DataSourceLookup} implementation.
  *
- * <p>For specific JNDI configuration, it is recommended to configure
- * the "jndiEnvironment"/"jndiTemplate" properties.
+ * <p>
+ * For specific JNDI configuration, it is recommended to configure the
+ * "jndiEnvironment"/"jndiTemplate" properties.
  *
  * @author Costin Leau
  * @author Juergen Hoeller

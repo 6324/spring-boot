@@ -19,8 +19,8 @@ package org.springframework.jmx.export.metadata;
 import org.springframework.lang.Nullable;
 
 /**
- * Metadata that indicates to expose a given bean property as JMX attribute.
- * Only valid when used on a JavaBean getter or setter.
+ * Metadata that indicates to expose a given bean property as JMX attribute. Only valid
+ * when used on a JavaBean getter or setter.
  *
  * @author Rob Harrop
  * @since 1.2
@@ -34,7 +34,6 @@ public class ManagedAttribute extends AbstractJmxAttribute {
 	 */
 	public static final ManagedAttribute EMPTY = new ManagedAttribute();
 
-
 	@Nullable
 	private Object defaultValue;
 
@@ -42,7 +41,6 @@ public class ManagedAttribute extends AbstractJmxAttribute {
 	private String persistPolicy;
 
 	private int persistPeriod = -1;
-
 
 	/**
 	 * Set the default value of this attribute.

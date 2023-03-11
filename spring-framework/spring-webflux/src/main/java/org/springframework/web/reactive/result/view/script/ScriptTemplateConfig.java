@@ -25,9 +25,9 @@ import javax.script.ScriptEngine;
 import org.springframework.lang.Nullable;
 
 /**
- * Interface to be implemented by objects that configure and manage a
- * JSR-223 {@link ScriptEngine} for automatic lookup in a web environment.
- * Detected and used by {@link ScriptTemplateView}.
+ * Interface to be implemented by objects that configure and manage a JSR-223
+ * {@link ScriptEngine} for automatic lookup in a web environment. Detected and used by
+ * {@link ScriptTemplateView}.
  *
  * @author Sebastien Deleuze
  * @since 5.0
@@ -41,7 +41,8 @@ public interface ScriptTemplateConfig {
 	ScriptEngine getEngine();
 
 	/**
-	 * Return the engine supplier that will be used to instantiate the {@link ScriptEngine}.
+	 * Return the engine supplier that will be used to instantiate the
+	 * {@link ScriptEngine}.
 	 * @since 5.2
 	 */
 	@Nullable

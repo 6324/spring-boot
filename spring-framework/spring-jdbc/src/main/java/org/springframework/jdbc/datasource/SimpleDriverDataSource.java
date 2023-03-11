@@ -27,26 +27,28 @@ import org.springframework.util.Assert;
 
 /**
  * Simple implementation of the standard JDBC {@link javax.sql.DataSource} interface,
- * configuring a plain old JDBC {@link java.sql.Driver} via bean properties, and
- * returning a new {@link java.sql.Connection} from every {@code getConnection} call.
+ * configuring a plain old JDBC {@link java.sql.Driver} via bean properties, and returning
+ * a new {@link java.sql.Connection} from every {@code getConnection} call.
  *
- * <p><b>NOTE: This class is not an actual connection pool; it does not actually
- * pool Connections.</b> It just serves as simple replacement for a full-blown
- * connection pool, implementing the same standard interface, but creating new
- * Connections on every call.
+ * <p>
+ * <b>NOTE: This class is not an actual connection pool; it does not actually pool
+ * Connections.</b> It just serves as simple replacement for a full-blown connection pool,
+ * implementing the same standard interface, but creating new Connections on every call.
  *
- * <p>In a Java EE container, it is recommended to use a JNDI DataSource provided by
- * the container. Such a DataSource can be exposed as a DataSource bean in a Spring
- * ApplicationContext via {@link org.springframework.jndi.JndiObjectFactoryBean},
- * for seamless switching to and from a local DataSource bean like this class.
+ * <p>
+ * In a Java EE container, it is recommended to use a JNDI DataSource provided by the
+ * container. Such a DataSource can be exposed as a DataSource bean in a Spring
+ * ApplicationContext via {@link org.springframework.jndi.JndiObjectFactoryBean}, for
+ * seamless switching to and from a local DataSource bean like this class.
  *
- * <p>This {@code SimpleDriverDataSource} class was originally designed alongside
- * <a href="https://commons.apache.org/proper/commons-dbcp">Apache Commons DBCP</a>
- * and <a href="https://sourceforge.net/projects/c3p0">C3P0</a>, featuring bean-style
+ * <p>
+ * This {@code SimpleDriverDataSource} class was originally designed alongside
+ * <a href="https://commons.apache.org/proper/commons-dbcp">Apache Commons DBCP</a> and
+ * <a href="https://sourceforge.net/projects/c3p0">C3P0</a>, featuring bean-style
  * {@code BasicDataSource}/{@code ComboPooledDataSource} classes with configuration
  * properties for local resource setups. For a modern JDBC connection pool, consider
- * <a href="https://github.com/brettwooldridge/HikariCP">HikariCP</a> instead,
- * exposing a corresponding {@code HikariDataSource} instance to the application.
+ * <a href="https://github.com/brettwooldridge/HikariCP">HikariCP</a> instead, exposing a
+ * corresponding {@code HikariDataSource} instance to the application.
  *
  * @author Juergen Hoeller
  * @since 2.5.5
@@ -56,7 +58,6 @@ public class SimpleDriverDataSource extends AbstractDriverBasedDataSource {
 
 	@Nullable
 	private Driver driver;
-
 
 	/**
 	 * Constructor for bean-style configuration.
@@ -103,11 +104,11 @@ public class SimpleDriverDataSource extends AbstractDriverBasedDataSource {
 		setConnectionProperties(conProps);
 	}
 
-
 	/**
 	 * Specify the JDBC Driver implementation class to use.
-	 * <p>An instance of this Driver class will be created and held
-	 * within the SimpleDriverDataSource.
+	 * <p>
+	 * An instance of this Driver class will be created and held within the
+	 * SimpleDriverDataSource.
 	 * @see #setDriver
 	 */
 	public void setDriverClass(Class<? extends Driver> driverClass) {
@@ -116,8 +117,8 @@ public class SimpleDriverDataSource extends AbstractDriverBasedDataSource {
 
 	/**
 	 * Specify the JDBC Driver instance to use.
-	 * <p>This allows for passing in a shared, possibly pre-configured
-	 * Driver instance.
+	 * <p>
+	 * This allows for passing in a shared, possibly pre-configured Driver instance.
 	 * @see #setDriverClass
 	 */
 	public void setDriver(@Nullable Driver driver) {
@@ -131,7 +132,6 @@ public class SimpleDriverDataSource extends AbstractDriverBasedDataSource {
 	public Driver getDriver() {
 		return this.driver;
 	}
-
 
 	@Override
 	protected Connection getConnectionFromDriver(Properties props) throws SQLException {

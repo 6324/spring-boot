@@ -17,10 +17,11 @@
 package org.springframework.util.backoff;
 
 /**
- * Provide a {@link BackOffExecution} that indicates the rate at which
- * an operation should be retried.
+ * Provide a {@link BackOffExecution} that indicates the rate at which an operation should
+ * be retried.
  *
- * <p>Users of this interface are expected to use it like this:
+ * <p>
+ * Users of this interface are expected to use it like this:
  *
  * <pre class="code">
  * BackOffExecution exec = backOff.start();
@@ -36,8 +37,8 @@ package org.springframework.util.backoff;
  * }
  * }</pre>
  *
- * Once the underlying operation has completed successfully,
- * the execution instance can be simply discarded.
+ * Once the underlying operation has completed successfully, the execution instance can be
+ * simply discarded.
  *
  * @author Stephane Nicoll
  * @since 4.1

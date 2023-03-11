@@ -38,7 +38,6 @@ public class ChannelRegistration {
 
 	private final List<ChannelInterceptor> interceptors = new ArrayList<>();
 
-
 	/**
 	 * Configure the thread pool backing this message channel.
 	 */
@@ -53,15 +52,15 @@ public class ChannelRegistration {
 	 */
 	public TaskExecutorRegistration taskExecutor(@Nullable ThreadPoolTaskExecutor taskExecutor) {
 		if (this.registration == null) {
-			this.registration = (taskExecutor != null ? new TaskExecutorRegistration(taskExecutor) :
-					new TaskExecutorRegistration());
+			this.registration = (taskExecutor != null ? new TaskExecutorRegistration(taskExecutor)
+					: new TaskExecutorRegistration());
 		}
 		return this.registration;
 	}
 
 	/**
-	 * Configure the given interceptors for this message channel,
-	 * adding them to the channel's current list of interceptors.
+	 * Configure the given interceptors for this message channel, adding them to the
+	 * channel's current list of interceptors.
 	 * @since 4.3.12
 	 */
 	public ChannelRegistration interceptors(ChannelInterceptor... interceptors) {
@@ -80,7 +79,6 @@ public class ChannelRegistration {
 		}
 		return this;
 	}
-
 
 	protected boolean hasTaskExecutor() {
 		return (this.registration != null);

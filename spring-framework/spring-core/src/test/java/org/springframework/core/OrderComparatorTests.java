@@ -34,7 +34,6 @@ class OrderComparatorTests {
 
 	private final OrderComparator comparator = new OrderComparator();
 
-
 	@Test
 	void compareOrderedInstancesBefore() {
 		assertThat(this.comparator.compare(new StubOrdered(100), new StubOrdered(2000))).isEqualTo(-1);
@@ -107,32 +106,31 @@ class OrderComparatorTests {
 
 	@Test
 	void compareWithSimpleSourceProvider() {
-		Comparator<Object> customComparator = this.comparator.withSourceProvider(
-				new TestSourceProvider(5L, new StubOrdered(25)));
+		Comparator<Object> customComparator = this.comparator
+				.withSourceProvider(new TestSourceProvider(5L, new StubOrdered(25)));
 		assertThat(customComparator.compare(new StubOrdered(10), 5L)).isEqualTo(-1);
 	}
 
 	@Test
 	void compareWithSourceProviderArray() {
 		Comparator<Object> customComparator = this.comparator.withSourceProvider(
-				new TestSourceProvider(5L, new Object[] {new StubOrdered(10), new StubOrdered(-25)}));
+				new TestSourceProvider(5L, new Object[] { new StubOrdered(10), new StubOrdered(-25) }));
 		assertThat(customComparator.compare(5L, new Object())).isEqualTo(-1);
 	}
 
 	@Test
 	void compareWithSourceProviderArrayNoMatch() {
-		Comparator<Object> customComparator = this.comparator.withSourceProvider(
-				new TestSourceProvider(5L, new Object[] {new Object(), new Object()}));
+		Comparator<Object> customComparator = this.comparator
+				.withSourceProvider(new TestSourceProvider(5L, new Object[] { new Object(), new Object() }));
 		assertThat(customComparator.compare(new Object(), 5L)).isEqualTo(0);
 	}
 
 	@Test
 	void compareWithSourceProviderEmpty() {
-		Comparator<Object> customComparator = this.comparator.withSourceProvider(
-				new TestSourceProvider(50L, new Object()));
+		Comparator<Object> customComparator = this.comparator
+				.withSourceProvider(new TestSourceProvider(50L, new Object()));
 		assertThat(customComparator.compare(new Object(), 5L)).isEqualTo(0);
 	}
-
 
 	private static class StubOrdered implements Ordered {
 
@@ -146,6 +144,7 @@ class OrderComparatorTests {
 		public int getOrder() {
 			return this.order;
 		}
+
 	}
 
 	private static class StubPriorityOrdered implements PriorityOrdered {
@@ -160,6 +159,7 @@ class OrderComparatorTests {
 		public int getOrder() {
 			return this.order;
 		}
+
 	}
 
 	private static class TestSourceProvider implements OrderComparator.OrderSourceProvider {
@@ -180,6 +180,7 @@ class OrderComparatorTests {
 			}
 			return null;
 		}
+
 	}
 
 }

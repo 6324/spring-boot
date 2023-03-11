@@ -33,15 +33,13 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class AnnotationDrivenBeanDefinitionParserTests {
 
-	private ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(
-			"annotationDrivenContext.xml", AnnotationDrivenBeanDefinitionParserTests.class);
-
+	private ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("annotationDrivenContext.xml",
+			AnnotationDrivenBeanDefinitionParserTests.class);
 
 	@AfterEach
 	public void closeApplicationContext() {
 		context.close();
 	}
-
 
 	@Test
 	public void asyncPostProcessorRegistered() {
@@ -57,7 +55,8 @@ public class AnnotationDrivenBeanDefinitionParserTests {
 	public void asyncPostProcessorExecutorReference() {
 		Object executor = context.getBean("testExecutor");
 		Object postProcessor = context.getBean(TaskManagementConfigUtils.ASYNC_ANNOTATION_PROCESSOR_BEAN_NAME);
-		assertThat(((Supplier<?>) new DirectFieldAccessor(postProcessor).getPropertyValue("executor")).get()).isSameAs(executor);
+		assertThat(((Supplier<?>) new DirectFieldAccessor(postProcessor).getPropertyValue("executor")).get())
+				.isSameAs(executor);
 	}
 
 	@Test
@@ -71,7 +70,8 @@ public class AnnotationDrivenBeanDefinitionParserTests {
 	public void asyncPostProcessorExceptionHandlerReference() {
 		Object exceptionHandler = context.getBean("testExceptionHandler");
 		Object postProcessor = context.getBean(TaskManagementConfigUtils.ASYNC_ANNOTATION_PROCESSOR_BEAN_NAME);
-		assertThat(((Supplier<?>) new DirectFieldAccessor(postProcessor).getPropertyValue("exceptionHandler")).get()).isSameAs(exceptionHandler);
+		assertThat(((Supplier<?>) new DirectFieldAccessor(postProcessor).getPropertyValue("exceptionHandler")).get())
+				.isSameAs(exceptionHandler);
 	}
 
 }

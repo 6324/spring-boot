@@ -28,8 +28,9 @@ import org.springframework.transaction.NoTransactionException;
 /**
  * Delegate to register and obtain transactional contexts.
  *
- * <p>Typically used by components that intercept or orchestrate transactional flows
- * such as AOP interceptors or transactional operators.
+ * <p>
+ * Typically used by components that intercept or orchestrate transactional flows such as
+ * AOP interceptors or transactional operators.
  *
  * @author Mark Paluch
  * @since 5.2
@@ -40,14 +41,13 @@ public abstract class TransactionContextManager {
 	private TransactionContextManager() {
 	}
 
-
 	/**
 	 * Obtain the current {@link TransactionContext} from the subscriber context or the
 	 * transactional context holder. Context retrieval fails with NoTransactionException
 	 * if no context or context holder is registered.
 	 * @return the current {@link TransactionContext}
-	 * @throws NoTransactionException if no TransactionContext was found in the subscriber context
-	 * or no context found in a holder
+	 * @throws NoTransactionException if no TransactionContext was found in the subscriber
+	 * context or no context found in a holder
 	 */
 	public static Mono<TransactionContext> currentContext() throws NoTransactionException {
 		return Mono.subscriberContext().handle((ctx, sink) -> {
@@ -67,7 +67,8 @@ public abstract class TransactionContextManager {
 	}
 
 	/**
-	 * Create a {@link TransactionContext} and register it in the subscriber {@link Context}.
+	 * Create a {@link TransactionContext} and register it in the subscriber
+	 * {@link Context}.
 	 * @return functional context registration.
 	 * @throws IllegalStateException if a transaction context is already associated.
 	 * @see Mono#subscriberContext(Function)
@@ -80,8 +81,8 @@ public abstract class TransactionContextManager {
 	/**
 	 * Return a {@link Function} to create or associate a new {@link TransactionContext}.
 	 * Interaction with transactional resources through
-	 * {@link TransactionSynchronizationManager} requires a TransactionContext
-	 * to be registered in the subscriber context.
+	 * {@link TransactionSynchronizationManager} requires a TransactionContext to be
+	 * registered in the subscriber context.
 	 * @return functional context registration.
 	 */
 	public static Function<Context, Context> getOrCreateContext() {
@@ -96,10 +97,10 @@ public abstract class TransactionContextManager {
 
 	/**
 	 * Return a {@link Function} to create or associate a new
-	 * {@link TransactionContextHolder}. Creation and release of transactions
-	 * within a reactive flow requires a mutable holder that follows a top to
-	 * down execution scheme. Reactor's subscriber context follows a down to top
-	 * approach regarding mutation visibility.
+	 * {@link TransactionContextHolder}. Creation and release of transactions within a
+	 * reactive flow requires a mutable holder that follows a top to down execution
+	 * scheme. Reactor's subscriber context follows a down to top approach regarding
+	 * mutation visibility.
 	 * @return functional context registration.
 	 */
 	public static Function<Context, Context> getOrCreateContextHolder() {
@@ -110,7 +111,6 @@ public abstract class TransactionContextManager {
 			return context;
 		};
 	}
-
 
 	/**
 	 * Stackless variant of {@link NoTransactionException} for reactive flows.
@@ -127,6 +127,7 @@ public abstract class TransactionContextManager {
 			// stackless exception
 			return this;
 		}
+
 	}
 
 }

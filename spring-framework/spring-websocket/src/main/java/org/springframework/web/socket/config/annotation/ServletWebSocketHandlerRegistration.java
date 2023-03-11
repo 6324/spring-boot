@@ -30,15 +30,14 @@ import org.springframework.web.socket.sockjs.SockJsService;
 import org.springframework.web.socket.sockjs.support.SockJsHttpRequestHandler;
 
 /**
- * A helper class for configuring {@link WebSocketHandler} request handling
- * including SockJS fallback options.
+ * A helper class for configuring {@link WebSocketHandler} request handling including
+ * SockJS fallback options.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
  */
 public class ServletWebSocketHandlerRegistration
 		extends AbstractWebSocketHandlerRegistration<MultiValueMap<HttpRequestHandler, String>> {
-
 
 	@Override
 	protected MultiValueMap<HttpRequestHandler, String> createMappings() {
@@ -55,11 +54,10 @@ public class ServletWebSocketHandlerRegistration
 
 	@Override
 	protected void addWebSocketHandlerMapping(MultiValueMap<HttpRequestHandler, String> mappings,
-			WebSocketHandler webSocketHandler, HandshakeHandler handshakeHandler,
-			HandshakeInterceptor[] interceptors, String path) {
+			WebSocketHandler webSocketHandler, HandshakeHandler handshakeHandler, HandshakeInterceptor[] interceptors,
+			String path) {
 
-		WebSocketHttpRequestHandler httpHandler =
-				new WebSocketHttpRequestHandler(webSocketHandler, handshakeHandler);
+		WebSocketHttpRequestHandler httpHandler = new WebSocketHttpRequestHandler(webSocketHandler, handshakeHandler);
 
 		if (!ObjectUtils.isEmpty(interceptors)) {
 			httpHandler.setHandshakeInterceptors(Arrays.asList(interceptors));

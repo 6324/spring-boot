@@ -55,14 +55,12 @@ public class ManagedMapTests {
 	public void mergeWithNonCompatibleParentType() {
 		ManagedMap map = new ManagedMap();
 		map.setMergeEnabled(true);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				map.merge("hello"));
+		assertThatIllegalArgumentException().isThrownBy(() -> map.merge("hello"));
 	}
 
 	@Test
 	public void mergeNotAllowedWhenMergeNotEnabled() {
-		assertThatIllegalStateException().isThrownBy(() ->
-				new ManagedMap().merge(null));
+		assertThatIllegalStateException().isThrownBy(() -> new ManagedMap().merge(null));
 	}
 
 	@Test

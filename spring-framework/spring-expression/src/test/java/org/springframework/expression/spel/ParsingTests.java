@@ -24,8 +24,9 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Parse some expressions and check we get the AST we expect. Rather than inspecting each node in the AST, we ask it to
- * write itself to a string form and check that is as expected.
+ * Parse some expressions and check we get the AST we expect. Rather than inspecting each
+ * node in the AST, we ask it to write itself to a string form and check that is as
+ * expected.
  *
  * @author Andy Clement
  */
@@ -272,7 +273,7 @@ public class ParsingTests {
 	public void testReferences01() {
 		parseCheck("@foo");
 		parseCheck("@'foo.bar'");
-		parseCheck("@\"foo.bar.goo\"","@'foo.bar.goo'");
+		parseCheck("@\"foo.bar.goo\"", "@'foo.bar.goo'");
 	}
 
 	@Test
@@ -395,12 +396,11 @@ public class ParsingTests {
 		parseCheck("#var1='value1'");
 	}
 
-
 	// ternary operator
 
 	@Test
 	public void testTernaryOperator01() {
-		parseCheck("1>2?3:4","(1 > 2) ? 3 : 4");
+		parseCheck("1>2?3:4", "(1 > 2) ? 3 : 4");
 	}
 
 	// public void testTernaryOperator01() {
@@ -410,7 +410,8 @@ public class ParsingTests {
 
 	//
 	// public void testLambdaMax() {
-	// parseCheck("(#max = {|x,y| $x > $y ? $x : $y }; #max(5,25))", "(#max={|x,y| ($x > $y) ? $x : $y };#max(5,25))");
+	// parseCheck("(#max = {|x,y| $x > $y ? $x : $y }; #max(5,25))", "(#max={|x,y| ($x >
+	// $y) ? $x : $y };#max(5,25))");
 	// }
 	//
 	// public void testLambdaFactorial() {
@@ -435,19 +436,18 @@ public class ParsingTests {
 	}
 
 	/**
-	 * Parse the supplied expression and then create a string representation of the resultant AST, it should be the same
-	 * as the original expression.
-	 *
-	 * @param expression the expression to parse *and* the expected value of the string form of the resultant AST
+	 * Parse the supplied expression and then create a string representation of the
+	 * resultant AST, it should be the same as the original expression.
+	 * @param expression the expression to parse *and* the expected value of the string
+	 * form of the resultant AST
 	 */
 	public void parseCheck(String expression) {
 		parseCheck(expression, expression);
 	}
 
 	/**
-	 * Parse the supplied expression and then create a string representation of the resultant AST, it should be the
-	 * expected value.
-	 *
+	 * Parse the supplied expression and then create a string representation of the
+	 * resultant AST, it should be the expected value.
 	 * @param expression the expression to parse
 	 * @param expectedStringFormOfAST the expected string form of the AST
 	 */

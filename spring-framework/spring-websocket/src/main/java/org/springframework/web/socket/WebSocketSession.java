@@ -28,8 +28,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.lang.Nullable;
 
 /**
- * A WebSocket session abstraction. Allows sending messages over a WebSocket
- * connection and closing it.
+ * A WebSocket session abstraction. Allows sending messages over a WebSocket connection
+ * and closing it.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -54,19 +54,21 @@ public interface WebSocketSession extends Closeable {
 
 	/**
 	 * Return the map with attributes associated with the WebSocket session.
-	 * <p>On the server side the map can be populated initially through a
+	 * <p>
+	 * On the server side the map can be populated initially through a
 	 * {@link org.springframework.web.socket.server.HandshakeInterceptor
 	 * HandshakeInterceptor}. On the client side the map can be populated via
-	 * {@link org.springframework.web.socket.client.WebSocketClient
-	 * WebSocketClient} handshake methods.
+	 * {@link org.springframework.web.socket.client.WebSocketClient WebSocketClient}
+	 * handshake methods.
 	 * @return a Map with the session attributes (never {@code null})
 	 */
 	Map<String, Object> getAttributes();
 
 	/**
-	 * Return a {@link java.security.Principal} instance containing the name
-	 * of the authenticated user.
-	 * <p>If the user has not been authenticated, the method returns <code>null</code>.
+	 * Return a {@link java.security.Principal} instance containing the name of the
+	 * authenticated user.
+	 * <p>
+	 * If the user has not been authenticated, the method returns <code>null</code>.
 	 */
 	@Nullable
 	Principal getPrincipal();
@@ -85,8 +87,8 @@ public interface WebSocketSession extends Closeable {
 
 	/**
 	 * Return the negotiated sub-protocol.
-	 * @return the protocol identifier, or {@code null} if no protocol
-	 * was specified or negotiated successfully
+	 * @return the protocol identifier, or {@code null} if no protocol was specified or
+	 * negotiated successfully
 	 */
 	@Nullable
 	String getAcceptedProtocol();
@@ -113,16 +115,17 @@ public interface WebSocketSession extends Closeable {
 
 	/**
 	 * Determine the negotiated extensions.
-	 * @return the list of extensions, or an empty list if no extension
-	 * was specified or negotiated successfully
+	 * @return the list of extensions, or an empty list if no extension was specified or
+	 * negotiated successfully
 	 */
 	List<WebSocketExtension> getExtensions();
 
 	/**
 	 * Send a WebSocket message: either {@link TextMessage} or {@link BinaryMessage}.
-	 * <p><strong>Note:</strong> The underlying standard WebSocket session (JSR-356) does
-	 * not allow concurrent sending. Therefore sending must be synchronized. To ensure
-	 * that, one option is to wrap the {@code WebSocketSession} with the
+	 * <p>
+	 * <strong>Note:</strong> The underlying standard WebSocket session (JSR-356) does not
+	 * allow concurrent sending. Therefore sending must be synchronized. To ensure that,
+	 * one option is to wrap the {@code WebSocketSession} with the
 	 * {@link org.springframework.web.socket.handler.ConcurrentWebSocketSessionDecorator
 	 * ConcurrentWebSocketSessionDecorator}.
 	 * @see org.springframework.web.socket.handler.ConcurrentWebSocketSessionDecorator

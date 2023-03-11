@@ -118,7 +118,8 @@ public class WebFluxConfigurationSupportTests {
 		assertThat(mapping.getContentTypeResolver()).isSameAs(resolver);
 
 		ServerWebExchange exchange = MockServerWebExchange.from(get("/path").accept(MediaType.APPLICATION_JSON));
-		assertThat(resolver.resolveMediaTypes(exchange)).isEqualTo(Collections.singletonList(MediaType.APPLICATION_JSON));
+		assertThat(resolver.resolveMediaTypes(exchange))
+				.isEqualTo(Collections.singletonList(MediaType.APPLICATION_JSON));
 	}
 
 	@Test
@@ -138,7 +139,8 @@ public class WebFluxConfigurationSupportTests {
 
 		Map<RequestMappingInfo, HandlerMethod> map = mapping.getHandlerMethods();
 		assertThat(map.size()).isEqualTo(1);
-		assertThat(map.keySet().iterator().next().getPatternsCondition().getPatterns()).isEqualTo(Collections.singleton(new PathPatternParser().parse("/api/user/{id}")));
+		assertThat(map.keySet().iterator().next().getPatternsCondition().getPatterns())
+				.isEqualTo(Collections.singleton(new PathPatternParser().parse("/api/user/{id}")));
 	}
 
 	@Test
@@ -295,7 +297,6 @@ public class WebFluxConfigurationSupportTests {
 		assertThat(resourceUrlProvider).isNotNull();
 	}
 
-
 	private void assertHasMessageReader(List<HttpMessageReader<?>> readers, ResolvableType type, MediaType mediaType) {
 		assertThat(readers.stream().anyMatch(c -> mediaType == null || c.canRead(type, mediaType))).isTrue();
 	}
@@ -311,11 +312,10 @@ public class WebFluxConfigurationSupportTests {
 		return context;
 	}
 
-
 	@EnableWebFlux
 	static class WebFluxConfig {
-	}
 
+	}
 
 	@Configuration
 	static class CustomPatchMatchConfig extends WebFluxConfigurationSupport {
@@ -330,8 +330,8 @@ public class WebFluxConfigurationSupportTests {
 		UserController userController() {
 			return new UserController();
 		}
-	}
 
+	}
 
 	@RestController
 	@RequestMapping("/user")
@@ -341,8 +341,8 @@ public class WebFluxConfigurationSupportTests {
 		public Principal getUser() {
 			return mock(Principal.class);
 		}
-	}
 
+	}
 
 	@Configuration
 	static class CustomMessageConverterConfig extends WebFluxConfigurationSupport {
@@ -355,8 +355,8 @@ public class WebFluxConfigurationSupportTests {
 			configurer.customCodecs().register(CharSequenceEncoder.textPlainOnly());
 			configurer.customCodecs().register(new Jaxb2XmlEncoder());
 		}
-	}
 
+	}
 
 	@Configuration
 	@SuppressWarnings("unused")
@@ -372,8 +372,8 @@ public class WebFluxConfigurationSupportTests {
 		public FreeMarkerConfigurer freeMarkerConfig() {
 			return new FreeMarkerConfigurer();
 		}
-	}
 
+	}
 
 	@Configuration
 	static class CustomResourceHandlingConfig extends WebFluxConfigurationSupport {
@@ -382,11 +382,12 @@ public class WebFluxConfigurationSupportTests {
 		protected void addResourceHandlers(ResourceHandlerRegistry registry) {
 			registry.addResourceHandler("/images/**").addResourceLocations("/images/");
 		}
-	}
 
+	}
 
 	@XmlRootElement
 	static class TestBean {
+
 	}
 
 }

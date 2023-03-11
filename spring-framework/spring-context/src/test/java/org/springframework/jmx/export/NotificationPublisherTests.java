@@ -55,7 +55,8 @@ public class NotificationPublisherTests extends AbstractMBeanServerTests {
 	@Test
 	public void testSimpleBean() throws Exception {
 		// start the MBeanExporter
-		ConfigurableApplicationContext ctx = loadContext("org/springframework/jmx/export/notificationPublisherTests.xml");
+		ConfigurableApplicationContext ctx = loadContext(
+				"org/springframework/jmx/export/notificationPublisherTests.xml");
 		this.server.addNotificationListener(ObjectNameManager.getInstance("spring:type=Publisher"), listener, null,
 				null);
 
@@ -68,7 +69,8 @@ public class NotificationPublisherTests extends AbstractMBeanServerTests {
 	@Test
 	public void testSimpleBeanRegisteredManually() throws Exception {
 		// start the MBeanExporter
-		ConfigurableApplicationContext ctx = loadContext("org/springframework/jmx/export/notificationPublisherTests.xml");
+		ConfigurableApplicationContext ctx = loadContext(
+				"org/springframework/jmx/export/notificationPublisherTests.xml");
 		MBeanExporter exporter = (MBeanExporter) ctx.getBean("exporter");
 		MyNotificationPublisher publisher = new MyNotificationPublisher();
 		exporter.registerManagedResource(publisher, ObjectNameManager.getInstance("spring:type=Publisher2"));
@@ -83,9 +85,10 @@ public class NotificationPublisherTests extends AbstractMBeanServerTests {
 	@Test
 	public void testMBean() throws Exception {
 		// start the MBeanExporter
-		ConfigurableApplicationContext ctx = loadContext("org/springframework/jmx/export/notificationPublisherTests.xml");
-		this.server.addNotificationListener(ObjectNameManager.getInstance("spring:type=PublisherMBean"), listener,
-				null, null);
+		ConfigurableApplicationContext ctx = loadContext(
+				"org/springframework/jmx/export/notificationPublisherTests.xml");
+		this.server.addNotificationListener(ObjectNameManager.getInstance("spring:type=PublisherMBean"), listener, null,
+				null);
 
 		MyNotificationPublisherMBean publisher = (MyNotificationPublisherMBean) ctx.getBean("publisherMBean");
 		publisher.sendNotification();
@@ -93,23 +96,25 @@ public class NotificationPublisherTests extends AbstractMBeanServerTests {
 	}
 
 	/*
-	@Test
-	public void testStandardMBean() throws Exception {
-		// start the MBeanExporter
-		ApplicationContext ctx = new ClassPathXmlApplicationContext("org/springframework/jmx/export/notificationPublisherTests.xml");
-		this.server.addNotificationListener(ObjectNameManager.getInstance("spring:type=PublisherStandardMBean"), listener, null, null);
-
-		MyNotificationPublisherStandardMBean publisher = (MyNotificationPublisherStandardMBean) ctx.getBean("publisherStandardMBean");
-		publisher.sendNotification();
-		assertEquals("Notification not sent", 1, listener.count);
-	}
-	*/
+	 * @Test public void testStandardMBean() throws Exception { // start the MBeanExporter
+	 * ApplicationContext ctx = new ClassPathXmlApplicationContext(
+	 * "org/springframework/jmx/export/notificationPublisherTests.xml");
+	 * this.server.addNotificationListener(ObjectNameManager.getInstance(
+	 * "spring:type=PublisherStandardMBean"), listener, null, null);
+	 *
+	 * MyNotificationPublisherStandardMBean publisher =
+	 * (MyNotificationPublisherStandardMBean) ctx.getBean("publisherStandardMBean");
+	 * publisher.sendNotification(); assertEquals("Notification not sent", 1,
+	 * listener.count); }
+	 */
 
 	@Test
 	public void testLazyInit() throws Exception {
 		// start the MBeanExporter
-		ConfigurableApplicationContext ctx = loadContext("org/springframework/jmx/export/notificationPublisherLazyTests.xml");
-		assertThat(ctx.getBeanFactory().containsSingleton("publisher")).as("Should not have instantiated the bean yet").isFalse();
+		ConfigurableApplicationContext ctx = loadContext(
+				"org/springframework/jmx/export/notificationPublisherLazyTests.xml");
+		assertThat(ctx.getBeanFactory().containsSingleton("publisher")).as("Should not have instantiated the bean yet")
+				.isFalse();
 
 		// need to touch the MBean proxy
 		server.getAttribute(ObjectNameManager.getInstance("spring:type=Publisher"), "Name");
@@ -143,6 +148,7 @@ public class NotificationPublisherTests extends AbstractMBeanServerTests {
 		public Notification getLastNotification() {
 			return lastNotification;
 		}
+
 	}
 
 	public static class MyNotificationPublisher implements NotificationPublisherAware {
@@ -165,19 +171,20 @@ public class NotificationPublisherTests extends AbstractMBeanServerTests {
 		public String getName() {
 			return "Rob Harrop";
 		}
+
 	}
 
 	public static class MyNotificationPublisherMBean extends NotificationBroadcasterSupport implements DynamicMBean {
 
 		@Override
-		public Object getAttribute(String attribute) throws AttributeNotFoundException, MBeanException,
-				ReflectionException {
+		public Object getAttribute(String attribute)
+				throws AttributeNotFoundException, MBeanException, ReflectionException {
 			return null;
 		}
 
 		@Override
-		public void setAttribute(Attribute attribute) throws AttributeNotFoundException,
-				InvalidAttributeValueException, MBeanException, ReflectionException {
+		public void setAttribute(Attribute attribute)
+				throws AttributeNotFoundException, InvalidAttributeValueException, MBeanException, ReflectionException {
 		}
 
 		@Override
@@ -191,8 +198,8 @@ public class NotificationPublisherTests extends AbstractMBeanServerTests {
 		}
 
 		@Override
-		public Object invoke(String actionName, Object[] params, String[] signature) throws MBeanException,
-				ReflectionException {
+		public Object invoke(String actionName, Object[] params, String[] signature)
+				throws MBeanException, ReflectionException {
 			return null;
 		}
 
@@ -205,6 +212,7 @@ public class NotificationPublisherTests extends AbstractMBeanServerTests {
 		public void sendNotification() {
 			sendNotification(new Notification("test", this, 1));
 		}
+
 	}
 
 	public static class MyNotificationPublisherStandardMBean extends NotificationBroadcasterSupport implements MyMBean {
@@ -213,11 +221,13 @@ public class NotificationPublisherTests extends AbstractMBeanServerTests {
 		public void sendNotification() {
 			sendNotification(new Notification("test", this, 1));
 		}
+
 	}
 
 	public interface MyMBean {
 
 		void sendNotification();
+
 	}
 
 }

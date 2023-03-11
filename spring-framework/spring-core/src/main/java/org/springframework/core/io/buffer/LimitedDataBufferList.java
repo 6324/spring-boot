@@ -23,18 +23,20 @@ import java.util.function.Predicate;
 import reactor.core.publisher.Flux;
 
 /**
- * Custom {@link List} to collect data buffers with and enforce a
- * limit on the total number of bytes buffered. For use with "collect" or
- * other buffering operators in declarative APIs, e.g. {@link Flux}.
+ * Custom {@link List} to collect data buffers with and enforce a limit on the total
+ * number of bytes buffered. For use with "collect" or other buffering operators in
+ * declarative APIs, e.g. {@link Flux}.
  *
- * <p>Adding elements increases the byte count and if the limit is exceeded,
- * {@link DataBufferLimitException} is raised.  {@link #clear()} resets the
- * count. Remove and set are not supported.
+ * <p>
+ * Adding elements increases the byte count and if the limit is exceeded,
+ * {@link DataBufferLimitException} is raised. {@link #clear()} resets the count. Remove
+ * and set are not supported.
  *
- * <p><strong>Note:</strong> This class does not automatically release the
- * buffers it contains. It is usually preferable to use hooks such as
- * {@link Flux#doOnDiscard} that also take care of cancel and error signals,
- * or otherwise {@link #releaseAndClear()} can be used.
+ * <p>
+ * <strong>Note:</strong> This class does not automatically release the buffers it
+ * contains. It is usually preferable to use hooks such as {@link Flux#doOnDiscard} that
+ * also take care of cancel and error signals, or otherwise {@link #releaseAndClear()} can
+ * be used.
  *
  * @author Rossen Stoyanchev
  * @since 5.1.11
@@ -46,11 +48,9 @@ public class LimitedDataBufferList extends ArrayList<DataBuffer> {
 
 	private int byteCount;
 
-
 	public LimitedDataBufferList(int maxByteCount) {
 		this.maxByteCount = maxByteCount;
 	}
-
 
 	@Override
 	public boolean add(DataBuffer buffer) {
@@ -95,8 +95,7 @@ public class LimitedDataBufferList extends ArrayList<DataBuffer> {
 
 	private void raiseLimitException() {
 		// Do not release here, it's likely down via doOnDiscard..
-		throw new DataBufferLimitException(
-				"Exceeded limit on max bytes to buffer : " + this.maxByteCount);
+		throw new DataBufferLimitException("Exceeded limit on max bytes to buffer : " + this.maxByteCount);
 	}
 
 	@Override
@@ -136,8 +135,8 @@ public class LimitedDataBufferList extends ArrayList<DataBuffer> {
 	}
 
 	/**
-	 * Shortcut to {@link DataBufferUtils#release release} all data buffers and
-	 * then {@link #clear()}.
+	 * Shortcut to {@link DataBufferUtils#release release} all data buffers and then
+	 * {@link #clear()}.
 	 */
 	public void releaseAndClear() {
 		forEach(buf -> {

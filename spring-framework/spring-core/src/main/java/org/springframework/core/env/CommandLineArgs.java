@@ -36,6 +36,7 @@ import org.springframework.lang.Nullable;
 class CommandLineArgs {
 
 	private final Map<String, List<String>> optionArgs = new HashMap<>();
+
 	private final List<String> nonOptionArgs = new ArrayList<>();
 
 	/**
@@ -69,8 +70,8 @@ class CommandLineArgs {
 
 	/**
 	 * Return the list of values associated with the given option. {@code null} signifies
-	 * that the option was not present; empty list signifies that no values were associated
-	 * with this option.
+	 * that the option was not present; empty list signifies that no values were
+	 * associated with this option.
 	 */
 	@Nullable
 	public List<String> getOptionValues(String optionName) {

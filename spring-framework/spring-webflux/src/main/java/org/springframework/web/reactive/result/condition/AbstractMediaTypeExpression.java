@@ -24,8 +24,8 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.UnsupportedMediaTypeStatusException;
 
 /**
- * Supports media type expressions as described in:
- * {@link RequestMapping#consumes()} and {@link RequestMapping#produces()}.
+ * Supports media type expressions as described in: {@link RequestMapping#consumes()} and
+ * {@link RequestMapping#produces()}.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -35,7 +35,6 @@ abstract class AbstractMediaTypeExpression implements Comparable<AbstractMediaTy
 	private final MediaType mediaType;
 
 	private final boolean isNegated;
-
 
 	AbstractMediaTypeExpression(String expression) {
 		if (expression.startsWith("!")) {
@@ -53,7 +52,6 @@ abstract class AbstractMediaTypeExpression implements Comparable<AbstractMediaTy
 		this.isNegated = negated;
 	}
 
-
 	@Override
 	public MediaType getMediaType() {
 		return this.mediaType;
@@ -63,7 +61,6 @@ abstract class AbstractMediaTypeExpression implements Comparable<AbstractMediaTy
 	public boolean isNegated() {
 		return this.isNegated;
 	}
-
 
 	public final boolean match(ServerWebExchange exchange) {
 		try {
@@ -77,7 +74,6 @@ abstract class AbstractMediaTypeExpression implements Comparable<AbstractMediaTy
 
 	protected abstract boolean matchMediaType(ServerWebExchange exchange)
 			throws NotAcceptableStatusException, UnsupportedMediaTypeStatusException;
-
 
 	@Override
 	public int compareTo(AbstractMediaTypeExpression other) {

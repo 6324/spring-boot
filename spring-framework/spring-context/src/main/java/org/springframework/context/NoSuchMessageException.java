@@ -44,4 +44,3 @@ public class NoSuchMessageException extends RuntimeException {
 	}
 
 }
-

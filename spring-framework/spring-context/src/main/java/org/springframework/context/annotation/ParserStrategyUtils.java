@@ -34,8 +34,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Common delegate code for the handling of parser strategies, e.g.
- * {@code TypeFilter}, {@code ImportSelector}, {@code ImportBeanDefinitionRegistrar}
+ * Common delegate code for the handling of parser strategies, e.g. {@code TypeFilter},
+ * {@code ImportSelector}, {@code ImportBeanDefinitionRegistrar}
  *
  * @author Juergen Hoeller
  * @author Phillip Webb
@@ -44,11 +44,11 @@ import org.springframework.util.Assert;
 abstract class ParserStrategyUtils {
 
 	/**
-	 * Instantiate a class using an appropriate constructor and return the new
-	 * instance as the specified assignable type. The returned instance will
-	 * have {@link BeanClassLoaderAware}, {@link BeanFactoryAware},
-	 * {@link EnvironmentAware}, and {@link ResourceLoaderAware} contracts
-	 * invoked if they are implemented by the given object.
+	 * Instantiate a class using an appropriate constructor and return the new instance as
+	 * the specified assignable type. The returned instance will have
+	 * {@link BeanClassLoaderAware}, {@link BeanFactoryAware}, {@link EnvironmentAware},
+	 * and {@link ResourceLoaderAware} contracts invoked if they are implemented by the
+	 * given object.
 	 * @since 5.2
 	 */
 	@SuppressWarnings("unchecked")
@@ -60,23 +60,22 @@ abstract class ParserStrategyUtils {
 		if (clazz.isInterface()) {
 			throw new BeanInstantiationException(clazz, "Specified class is an interface");
 		}
-		ClassLoader classLoader = (registry instanceof ConfigurableBeanFactory ?
-				((ConfigurableBeanFactory) registry).getBeanClassLoader() : resourceLoader.getClassLoader());
+		ClassLoader classLoader = (registry instanceof ConfigurableBeanFactory
+				? ((ConfigurableBeanFactory) registry).getBeanClassLoader() : resourceLoader.getClassLoader());
 		T instance = (T) createInstance(clazz, environment, resourceLoader, registry, classLoader);
 		ParserStrategyUtils.invokeAwareMethods(instance, environment, resourceLoader, registry, classLoader);
 		return instance;
 	}
 
-	private static Object createInstance(Class<?> clazz, Environment environment,
-			ResourceLoader resourceLoader, BeanDefinitionRegistry registry,
-			@Nullable ClassLoader classLoader) {
+	private static Object createInstance(Class<?> clazz, Environment environment, ResourceLoader resourceLoader,
+			BeanDefinitionRegistry registry, @Nullable ClassLoader classLoader) {
 
 		Constructor<?>[] constructors = clazz.getDeclaredConstructors();
 		if (constructors.length == 1 && constructors[0].getParameterCount() > 0) {
 			try {
 				Constructor<?> constructor = constructors[0];
-				Object[] args = resolveArgs(constructor.getParameterTypes(),
-						environment, resourceLoader, registry, classLoader);
+				Object[] args = resolveArgs(constructor.getParameterTypes(), environment, resourceLoader, registry,
+						classLoader);
 				return BeanUtils.instantiateClass(constructor, args);
 			}
 			catch (Exception ex) {
@@ -86,22 +85,19 @@ abstract class ParserStrategyUtils {
 		return BeanUtils.instantiateClass(clazz);
 	}
 
-	private static Object[] resolveArgs(Class<?>[] parameterTypes,
-			Environment environment, ResourceLoader resourceLoader,
-			BeanDefinitionRegistry registry, @Nullable ClassLoader classLoader) {
+	private static Object[] resolveArgs(Class<?>[] parameterTypes, Environment environment,
+			ResourceLoader resourceLoader, BeanDefinitionRegistry registry, @Nullable ClassLoader classLoader) {
 
-			Object[] parameters = new Object[parameterTypes.length];
-			for (int i = 0; i < parameterTypes.length; i++) {
-				parameters[i] = resolveParameter(parameterTypes[i], environment,
-						resourceLoader, registry, classLoader);
-			}
-			return parameters;
+		Object[] parameters = new Object[parameterTypes.length];
+		for (int i = 0; i < parameterTypes.length; i++) {
+			parameters[i] = resolveParameter(parameterTypes[i], environment, resourceLoader, registry, classLoader);
+		}
+		return parameters;
 	}
 
 	@Nullable
-	private static Object resolveParameter(Class<?> parameterType,
-			Environment environment, ResourceLoader resourceLoader,
-			BeanDefinitionRegistry registry, @Nullable ClassLoader classLoader) {
+	private static Object resolveParameter(Class<?> parameterType, Environment environment,
+			ResourceLoader resourceLoader, BeanDefinitionRegistry registry, @Nullable ClassLoader classLoader) {
 
 		if (parameterType == Environment.class) {
 			return environment;

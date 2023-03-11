@@ -19,10 +19,9 @@ package org.springframework.scripting.config;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**
- * {@code NamespaceHandler} that supports the wiring of
- * objects backed by dynamic languages such as Groovy, JRuby and
- * BeanShell. The following is an example (from the reference
- * documentation) that details the wiring of a Groovy backed bean:
+ * {@code NamespaceHandler} that supports the wiring of objects backed by dynamic
+ * languages such as Groovy, JRuby and BeanShell. The following is an example (from the
+ * reference documentation) that details the wiring of a Groovy backed bean:
  *
  * <pre class="code">
  * &lt;lang:groovy id="messenger"

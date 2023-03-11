@@ -48,7 +48,6 @@ public class BeanWiringInfo {
 	 */
 	public static final int AUTOWIRE_BY_TYPE = AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE;
 
-
 	@Nullable
 	private String beanName;
 
@@ -58,10 +57,9 @@ public class BeanWiringInfo {
 
 	private boolean dependencyCheck = false;
 
-
 	/**
-	 * Create a default BeanWiringInfo that suggests plain initialization of
-	 * factory and post-processor callbacks that the bean class may expect.
+	 * Create a default BeanWiringInfo that suggests plain initialization of factory and
+	 * post-processor callbacks that the bean class may expect.
 	 */
 	public BeanWiringInfo() {
 	}
@@ -69,8 +67,8 @@ public class BeanWiringInfo {
 	/**
 	 * Create a new BeanWiringInfo that points to the given bean name.
 	 * @param beanName the name of the bean definition to take the property values from
-	 * @throws IllegalArgumentException if the supplied beanName is {@code null},
-	 * is empty, or consists wholly of whitespace
+	 * @throws IllegalArgumentException if the supplied beanName is {@code null}, is
+	 * empty, or consists wholly of whitespace
 	 */
 	public BeanWiringInfo(String beanName) {
 		this(beanName, false);
@@ -79,10 +77,10 @@ public class BeanWiringInfo {
 	/**
 	 * Create a new BeanWiringInfo that points to the given bean name.
 	 * @param beanName the name of the bean definition to take the property values from
-	 * @param isDefaultBeanName whether the given bean name is a suggested
-	 * default bean name, not necessarily matching an actual bean definition
-	 * @throws IllegalArgumentException if the supplied beanName is {@code null},
-	 * is empty, or consists wholly of whitespace
+	 * @param isDefaultBeanName whether the given bean name is a suggested default bean
+	 * name, not necessarily matching an actual bean definition
+	 * @throws IllegalArgumentException if the supplied beanName is {@code null}, is
+	 * empty, or consists wholly of whitespace
 	 */
 	public BeanWiringInfo(String beanName, boolean isDefaultBeanName) {
 		Assert.hasText(beanName, "'beanName' must not be empty");
@@ -94,10 +92,10 @@ public class BeanWiringInfo {
 	 * Create a new BeanWiringInfo that indicates autowiring.
 	 * @param autowireMode one of the constants {@link #AUTOWIRE_BY_NAME} /
 	 * {@link #AUTOWIRE_BY_TYPE}
-	 * @param dependencyCheck whether to perform a dependency check for object
-	 * references in the bean instance (after autowiring)
-	 * @throws IllegalArgumentException if the supplied {@code autowireMode}
-	 * is not one of the allowed values
+	 * @param dependencyCheck whether to perform a dependency check for object references
+	 * in the bean instance (after autowiring)
+	 * @throws IllegalArgumentException if the supplied {@code autowireMode} is not one of
+	 * the allowed values
 	 * @see #AUTOWIRE_BY_NAME
 	 * @see #AUTOWIRE_BY_TYPE
 	 */
@@ -108,7 +106,6 @@ public class BeanWiringInfo {
 		this.autowireMode = autowireMode;
 		this.dependencyCheck = dependencyCheck;
 	}
-
 
 	/**
 	 * Return whether this BeanWiringInfo indicates autowiring.
@@ -126,24 +123,24 @@ public class BeanWiringInfo {
 	}
 
 	/**
-	 * Return whether the specific bean name is a suggested default bean name,
-	 * not necessarily matching an actual bean definition in the factory.
+	 * Return whether the specific bean name is a suggested default bean name, not
+	 * necessarily matching an actual bean definition in the factory.
 	 */
 	public boolean isDefaultBeanName() {
 		return this.isDefaultBeanName;
 	}
 
 	/**
-	 * Return one of the constants {@link #AUTOWIRE_BY_NAME} /
-	 * {@link #AUTOWIRE_BY_TYPE}, if autowiring is indicated.
+	 * Return one of the constants {@link #AUTOWIRE_BY_NAME} / {@link #AUTOWIRE_BY_TYPE},
+	 * if autowiring is indicated.
 	 */
 	public int getAutowireMode() {
 		return this.autowireMode;
 	}
 
 	/**
-	 * Return whether to perform a dependency check for object references
-	 * in the bean instance (after autowiring).
+	 * Return whether to perform a dependency check for object references in the bean
+	 * instance (after autowiring).
 	 */
 	public boolean getDependencyCheck() {
 		return this.dependencyCheck;

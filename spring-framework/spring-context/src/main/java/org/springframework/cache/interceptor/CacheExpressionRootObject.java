@@ -40,9 +40,8 @@ class CacheExpressionRootObject {
 
 	private final Class<?> targetClass;
 
-
-	public CacheExpressionRootObject(
-			Collection<? extends Cache> caches, Method method, Object[] args, Object target, Class<?> targetClass) {
+	public CacheExpressionRootObject(Collection<? extends Cache> caches, Method method, Object[] args, Object target,
+			Class<?> targetClass) {
 
 		this.method = method;
 		this.target = target;
@@ -50,7 +49,6 @@ class CacheExpressionRootObject {
 		this.args = args;
 		this.caches = caches;
 	}
-
 
 	public Collection<? extends Cache> getCaches() {
 		return this.caches;

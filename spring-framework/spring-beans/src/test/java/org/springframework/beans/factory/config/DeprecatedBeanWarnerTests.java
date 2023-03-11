@@ -32,7 +32,6 @@ public class DeprecatedBeanWarnerTests {
 
 	private BeanDefinition beanDefinition;
 
-
 	@Test
 	@SuppressWarnings("deprecation")
 	public void postProcess() {
@@ -47,7 +46,6 @@ public class DeprecatedBeanWarnerTests {
 		assertThat(this.beanDefinition).isEqualTo(def);
 	}
 
-
 	private class MyDeprecatedBeanWarner extends DeprecatedBeanWarner {
 
 		@Override
@@ -55,6 +53,7 @@ public class DeprecatedBeanWarnerTests {
 			DeprecatedBeanWarnerTests.this.beanName = beanName;
 			DeprecatedBeanWarnerTests.this.beanDefinition = beanDefinition;
 		}
+
 	}
 
 }

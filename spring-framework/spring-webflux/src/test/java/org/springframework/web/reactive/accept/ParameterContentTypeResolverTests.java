@@ -32,6 +32,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * Unit tests for {@link ParameterContentTypeResolver}.
+ *
  * @author Rossen Stoyanchev
  */
 public class ParameterContentTypeResolverTests {
@@ -48,8 +49,8 @@ public class ParameterContentTypeResolverTests {
 	@Test
 	public void noMatchForKey() {
 		ParameterContentTypeResolver resolver = new ParameterContentTypeResolver(Collections.emptyMap());
-		assertThatExceptionOfType(NotAcceptableStatusException.class).isThrownBy(() ->
-				resolver.resolveMediaTypes(createExchange("blah")));
+		assertThatExceptionOfType(NotAcceptableStatusException.class)
+				.isThrownBy(() -> resolver.resolveMediaTypes(createExchange("blah")));
 	}
 
 	@Test

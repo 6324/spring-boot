@@ -36,8 +36,8 @@ public class PathEditorTests {
 	@Test
 	public void testClasspathPathName() {
 		PropertyEditor pathEditor = new PathEditor();
-		pathEditor.setAsText("classpath:" + ClassUtils.classPackageAsResourcePath(getClass()) + "/" +
-				ClassUtils.getShortName(getClass()) + ".class");
+		pathEditor.setAsText("classpath:" + ClassUtils.classPackageAsResourcePath(getClass()) + "/"
+				+ ClassUtils.getShortName(getClass()) + ".class");
 		Object value = pathEditor.getValue();
 		assertThat(value instanceof Path).isTrue();
 		Path path = (Path) value;
@@ -47,8 +47,8 @@ public class PathEditorTests {
 	@Test
 	public void testWithNonExistentResource() {
 		PropertyEditor propertyEditor = new PathEditor();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				propertyEditor.setAsText("classpath:/no_way_this_file_is_found.doc"));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> propertyEditor.setAsText("classpath:/no_way_this_file_is_found.doc"));
 	}
 
 	@Test
@@ -92,7 +92,7 @@ public class PathEditorTests {
 			assertThat(!path.toFile().exists()).isTrue();
 		}
 		catch (IllegalArgumentException ex) {
-			if (File.separatorChar == '\\') {  // on Windows, otherwise silently ignore
+			if (File.separatorChar == '\\') { // on Windows, otherwise silently ignore
 				throw ex;
 			}
 		}
@@ -101,8 +101,8 @@ public class PathEditorTests {
 	@Test
 	public void testUnqualifiedPathNameFound() {
 		PropertyEditor pathEditor = new PathEditor();
-		String fileName = ClassUtils.classPackageAsResourcePath(getClass()) + "/" +
-				ClassUtils.getShortName(getClass()) + ".class";
+		String fileName = ClassUtils.classPackageAsResourcePath(getClass()) + "/" + ClassUtils.getShortName(getClass())
+				+ ".class";
 		pathEditor.setAsText(fileName);
 		Object value = pathEditor.getValue();
 		assertThat(value instanceof Path).isTrue();
@@ -119,8 +119,8 @@ public class PathEditorTests {
 	@Test
 	public void testUnqualifiedPathNameNotFound() {
 		PropertyEditor pathEditor = new PathEditor();
-		String fileName = ClassUtils.classPackageAsResourcePath(getClass()) + "/" +
-				ClassUtils.getShortName(getClass()) + ".clazz";
+		String fileName = ClassUtils.classPackageAsResourcePath(getClass()) + "/" + ClassUtils.getShortName(getClass())
+				+ ".clazz";
 		pathEditor.setAsText(fileName);
 		Object value = pathEditor.getValue();
 		assertThat(value instanceof Path).isTrue();

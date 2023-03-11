@@ -43,7 +43,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class WebSocketConnectionManagerTests {
 
-
 	@Test
 	public void openConnection() throws Exception {
 		List<String> subprotocols = Arrays.asList("abc");
@@ -51,7 +50,7 @@ public class WebSocketConnectionManagerTests {
 		TestLifecycleWebSocketClient client = new TestLifecycleWebSocketClient(false);
 		WebSocketHandler handler = new TextWebSocketHandler();
 
-		WebSocketConnectionManager manager = new WebSocketConnectionManager(client, handler , "/path/{id}", "123");
+		WebSocketConnectionManager manager = new WebSocketConnectionManager(client, handler, "/path/{id}", "123");
 		manager.setSubProtocols(subprotocols);
 		manager.openConnection();
 
@@ -71,7 +70,7 @@ public class WebSocketConnectionManagerTests {
 	public void clientLifecycle() throws Exception {
 		TestLifecycleWebSocketClient client = new TestLifecycleWebSocketClient(false);
 		WebSocketHandler handler = new TextWebSocketHandler();
-		WebSocketConnectionManager manager = new WebSocketConnectionManager(client, handler , "/a");
+		WebSocketConnectionManager manager = new WebSocketConnectionManager(client, handler, "/a");
 
 		manager.startInternal();
 		assertThat(client.isRunning()).isTrue();
@@ -79,7 +78,6 @@ public class WebSocketConnectionManagerTests {
 		manager.stopInternal();
 		assertThat(client.isRunning()).isFalse();
 	}
-
 
 	private static class TestLifecycleWebSocketClient implements WebSocketClient, Lifecycle {
 
@@ -90,7 +88,6 @@ public class WebSocketConnectionManagerTests {
 		private HttpHeaders headers;
 
 		private URI uri;
-
 
 		public TestLifecycleWebSocketClient(boolean running) {
 			this.running = running;
@@ -112,22 +109,23 @@ public class WebSocketConnectionManagerTests {
 		}
 
 		@Override
-		public ListenableFuture<WebSocketSession> doHandshake(WebSocketHandler handler,
-				String uriTemplate, Object... uriVars) {
+		public ListenableFuture<WebSocketSession> doHandshake(WebSocketHandler handler, String uriTemplate,
+				Object... uriVars) {
 
 			URI uri = UriComponentsBuilder.fromUriString(uriTemplate).buildAndExpand(uriVars).encode().toUri();
 			return doHandshake(handler, null, uri);
 		}
 
 		@Override
-		public ListenableFuture<WebSocketSession> doHandshake(WebSocketHandler handler,
-				WebSocketHttpHeaders headers, URI uri) {
+		public ListenableFuture<WebSocketSession> doHandshake(WebSocketHandler handler, WebSocketHttpHeaders headers,
+				URI uri) {
 
 			this.webSocketHandler = handler;
 			this.headers = headers;
 			this.uri = uri;
 			return new ListenableFutureTask<>(() -> null);
 		}
+
 	}
 
 }

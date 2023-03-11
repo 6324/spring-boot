@@ -37,20 +37,25 @@ import org.springframework.util.ClassUtils;
 import org.springframework.validation.annotation.Validated;
 
 /**
- * An AOP Alliance {@link MethodInterceptor} implementation that delegates to a
- * JSR-303 provider for performing method-level validation on annotated methods.
+ * An AOP Alliance {@link MethodInterceptor} implementation that delegates to a JSR-303
+ * provider for performing method-level validation on annotated methods.
  *
- * <p>Applicable methods have JSR-303 constraint annotations on their parameters
- * and/or on their return value (in the latter case specified at the method level,
- * typically as inline annotation).
+ * <p>
+ * Applicable methods have JSR-303 constraint annotations on their parameters and/or on
+ * their return value (in the latter case specified at the method level, typically as
+ * inline annotation).
  *
- * <p>E.g.: {@code public @NotNull Object myValidMethod(@NotNull String arg1, @Max(10) int arg2)}
+ * <p>
+ * E.g.:
+ * {@code public @NotNull Object myValidMethod(@NotNull String arg1, @Max(10) int arg2)}
  *
- * <p>Validation groups can be specified through Spring's {@link Validated} annotation
- * at the type level of the containing target class, applying to all public service methods
- * of that class. By default, JSR-303 will validate against its default group only.
+ * <p>
+ * Validation groups can be specified through Spring's {@link Validated} annotation at the
+ * type level of the containing target class, applying to all public service methods of
+ * that class. By default, JSR-303 will validate against its default group only.
  *
- * <p>As of Spring 5.0, this functionality requires a Bean Validation 1.1+ provider.
+ * <p>
+ * As of Spring 5.0, this functionality requires a Bean Validation 1.1+ provider.
  *
  * @author Juergen Hoeller
  * @since 3.1
@@ -61,9 +66,9 @@ public class MethodValidationInterceptor implements MethodInterceptor {
 
 	private final Validator validator;
 
-
 	/**
-	 * Create a new MethodValidationInterceptor using a default JSR-303 validator underneath.
+	 * Create a new MethodValidationInterceptor using a default JSR-303 validator
+	 * underneath.
 	 */
 	public MethodValidationInterceptor() {
 		this(Validation.buildDefaultValidatorFactory());
@@ -85,7 +90,6 @@ public class MethodValidationInterceptor implements MethodInterceptor {
 		this.validator = validator;
 	}
 
-
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		// Avoid Validator invocation on FactoryBean.getObjectType/isSingleton
@@ -101,16 +105,17 @@ public class MethodValidationInterceptor implements MethodInterceptor {
 		Set<ConstraintViolation<Object>> result;
 
 		try {
-			result = execVal.validateParameters(
-					invocation.getThis(), methodToValidate, invocation.getArguments(), groups);
+			result = execVal.validateParameters(invocation.getThis(), methodToValidate, invocation.getArguments(),
+					groups);
 		}
 		catch (IllegalArgumentException ex) {
-			// Probably a generic type mismatch between interface and impl as reported in SPR-12237 / HV-1011
+			// Probably a generic type mismatch between interface and impl as reported in
+			// SPR-12237 / HV-1011
 			// Let's try to find the bridged method on the implementation class...
 			methodToValidate = BridgeMethodResolver.findBridgedMethod(
 					ClassUtils.getMostSpecificMethod(invocation.getMethod(), invocation.getThis().getClass()));
-			result = execVal.validateParameters(
-					invocation.getThis(), methodToValidate, invocation.getArguments(), groups);
+			result = execVal.validateParameters(invocation.getThis(), methodToValidate, invocation.getArguments(),
+					groups);
 		}
 		if (!result.isEmpty()) {
 			throw new ConstraintViolationException(result);
@@ -131,8 +136,8 @@ public class MethodValidationInterceptor implements MethodInterceptor {
 
 		// Call from interface-based proxy handle, allowing for an efficient check?
 		if (clazz.isInterface()) {
-			return ((clazz == FactoryBean.class || clazz == SmartFactoryBean.class) &&
-					!method.getName().equals("getObject"));
+			return ((clazz == FactoryBean.class || clazz == SmartFactoryBean.class)
+					&& !method.getName().equals("getObject"));
 		}
 
 		// Call from CGLIB proxy handle, potentially implementing a FactoryBean method?
@@ -143,13 +148,15 @@ public class MethodValidationInterceptor implements MethodInterceptor {
 		else if (FactoryBean.class.isAssignableFrom(clazz)) {
 			factoryBeanType = FactoryBean.class;
 		}
-		return (factoryBeanType != null && !method.getName().equals("getObject") &&
-				ClassUtils.hasMethod(factoryBeanType, method));
+		return (factoryBeanType != null && !method.getName().equals("getObject")
+				&& ClassUtils.hasMethod(factoryBeanType, method));
 	}
 
 	/**
-	 * Determine the validation groups to validate against for the given method invocation.
-	 * <p>Default are the validation groups as specified in the {@link Validated} annotation
+	 * Determine the validation groups to validate against for the given method
+	 * invocation.
+	 * <p>
+	 * Default are the validation groups as specified in the {@link Validated} annotation
 	 * on the containing target class of the method.
 	 * @param invocation the current MethodInvocation
 	 * @return the applicable validation groups as a Class array

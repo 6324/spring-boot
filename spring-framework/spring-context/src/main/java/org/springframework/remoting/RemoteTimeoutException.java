@@ -17,9 +17,10 @@
 package org.springframework.remoting;
 
 /**
- * RemoteAccessException subclass to be thrown when the execution
- * of the target method did not complete before a configurable
- * timeout, for example when a reply message was not received.
+ * RemoteAccessException subclass to be thrown when the execution of the target method did
+ * not complete before a configurable timeout, for example when a reply message was not
+ * received.
+ *
  * @author Stephane Nicoll
  * @since 4.2
  */
@@ -42,4 +43,5 @@ public class RemoteTimeoutException extends RemoteAccessException {
 	public RemoteTimeoutException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
+
 }

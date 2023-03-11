@@ -32,8 +32,8 @@ import org.springframework.messaging.Message;
 
 /**
  * Resolves method parameters by delegating to a list of registered
- * {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}.
- * Previously resolved method parameters are cached for faster lookups.
+ * {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}. Previously
+ * resolved method parameters are cached for faster lookups.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -44,9 +44,8 @@ public class HandlerMethodArgumentResolverComposite implements HandlerMethodArgu
 
 	private final List<HandlerMethodArgumentResolver> argumentResolvers = new ArrayList<>();
 
-	private final Map<MethodParameter, HandlerMethodArgumentResolver> argumentResolverCache =
-			new ConcurrentHashMap<>(256);
-
+	private final Map<MethodParameter, HandlerMethodArgumentResolver> argumentResolverCache = new ConcurrentHashMap<>(
+			256);
 
 	/**
 	 * Add the given {@link HandlerMethodArgumentResolver}.
@@ -92,10 +91,9 @@ public class HandlerMethodArgumentResolverComposite implements HandlerMethodArgu
 		this.argumentResolvers.clear();
 	}
 
-
 	/**
-	 * Whether the given {@linkplain MethodParameter method parameter} is
-	 * supported by any registered {@link HandlerMethodArgumentResolver}.
+	 * Whether the given {@linkplain MethodParameter method parameter} is supported by any
+	 * registered {@link HandlerMethodArgumentResolver}.
 	 */
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -103,25 +101,24 @@ public class HandlerMethodArgumentResolverComposite implements HandlerMethodArgu
 	}
 
 	/**
-	 * Iterate over registered
-	 * {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers} and
-	 * invoke the one that supports it.
-	 * @throws IllegalStateException if no suitable
-	 * {@link HandlerMethodArgumentResolver} is found.
+	 * Iterate over registered {@link HandlerMethodArgumentResolver
+	 * HandlerMethodArgumentResolvers} and invoke the one that supports it.
+	 * @throws IllegalStateException if no suitable {@link HandlerMethodArgumentResolver}
+	 * is found.
 	 */
 	@Override
 	public Mono<Object> resolveArgument(MethodParameter parameter, Message<?> message) {
 		HandlerMethodArgumentResolver resolver = getArgumentResolver(parameter);
 		if (resolver == null) {
-			throw new IllegalArgumentException("Unsupported parameter type [" +
-					parameter.getParameterType().getName() + "]. supportsParameter should be called first.");
+			throw new IllegalArgumentException("Unsupported parameter type [" + parameter.getParameterType().getName()
+					+ "]. supportsParameter should be called first.");
 		}
 		return resolver.resolveArgument(parameter, message);
 	}
 
 	/**
-	 * Find a registered {@link HandlerMethodArgumentResolver} that supports
-	 * the given method parameter.
+	 * Find a registered {@link HandlerMethodArgumentResolver} that supports the given
+	 * method parameter.
 	 */
 	@Nullable
 	public HandlerMethodArgumentResolver getArgumentResolver(MethodParameter parameter) {

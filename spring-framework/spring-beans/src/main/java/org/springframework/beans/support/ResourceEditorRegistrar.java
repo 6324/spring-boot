@@ -48,10 +48,9 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 
 /**
  * PropertyEditorRegistrar implementation that populates a given
- * {@link org.springframework.beans.PropertyEditorRegistry}
- * (typically a {@link org.springframework.beans.BeanWrapper} used for bean
- * creation within an {@link org.springframework.context.ApplicationContext})
- * with resource editors. Used by
+ * {@link org.springframework.beans.PropertyEditorRegistry} (typically a
+ * {@link org.springframework.beans.BeanWrapper} used for bean creation within an
+ * {@link org.springframework.context.ApplicationContext}) with resource editors. Used by
  * {@link org.springframework.context.support.AbstractApplicationContext}.
  *
  * @author Juergen Hoeller
@@ -64,12 +63,11 @@ public class ResourceEditorRegistrar implements PropertyEditorRegistrar {
 
 	private final ResourceLoader resourceLoader;
 
-
 	/**
-	 * Create a new ResourceEditorRegistrar for the given {@link ResourceLoader}
-	 * and {@link PropertyResolver}.
-	 * @param resourceLoader the ResourceLoader (or ResourcePatternResolver)
-	 * to create editors for (usually an ApplicationContext)
+	 * Create a new ResourceEditorRegistrar for the given {@link ResourceLoader} and
+	 * {@link PropertyResolver}.
+	 * @param resourceLoader the ResourceLoader (or ResourcePatternResolver) to create
+	 * editors for (usually an ApplicationContext)
 	 * @param propertyResolver the PropertyResolver (usually an Environment)
 	 * @see org.springframework.core.env.Environment
 	 * @see org.springframework.core.io.support.ResourcePatternResolver
@@ -80,13 +78,13 @@ public class ResourceEditorRegistrar implements PropertyEditorRegistrar {
 		this.propertyResolver = propertyResolver;
 	}
 
-
 	/**
 	 * Populate the given {@code registry} with the following resource editors:
 	 * ResourceEditor, InputStreamEditor, InputSourceEditor, FileEditor, URLEditor,
 	 * URIEditor, ClassEditor, ClassArrayEditor.
-	 * <p>If this registrar has been configured with a {@link ResourcePatternResolver},
-	 * a ResourceArrayPropertyEditor will be registered as well.
+	 * <p>
+	 * If this registrar has been configured with a {@link ResourcePatternResolver}, a
+	 * ResourceArrayPropertyEditor will be registered as well.
 	 * @see org.springframework.core.io.ResourceEditor
 	 * @see org.springframework.beans.propertyeditors.InputStreamEditor
 	 * @see org.springframework.beans.propertyeditors.InputSourceEditor
@@ -115,8 +113,8 @@ public class ResourceEditorRegistrar implements PropertyEditorRegistrar {
 		doRegisterEditor(registry, Class[].class, new ClassArrayEditor(classLoader));
 
 		if (this.resourceLoader instanceof ResourcePatternResolver) {
-			doRegisterEditor(registry, Resource[].class,
-					new ResourceArrayPropertyEditor((ResourcePatternResolver) this.resourceLoader, this.propertyResolver));
+			doRegisterEditor(registry, Resource[].class, new ResourceArrayPropertyEditor(
+					(ResourcePatternResolver) this.resourceLoader, this.propertyResolver));
 		}
 	}
 

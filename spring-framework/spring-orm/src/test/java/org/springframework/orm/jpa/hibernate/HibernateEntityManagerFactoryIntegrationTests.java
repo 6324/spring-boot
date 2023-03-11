@@ -38,19 +38,20 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Rod Johnson
  */
 @SuppressWarnings("deprecation")
-public class HibernateEntityManagerFactoryIntegrationTests extends AbstractContainerEntityManagerFactoryIntegrationTests {
+public class HibernateEntityManagerFactoryIntegrationTests
+		extends AbstractContainerEntityManagerFactoryIntegrationTests {
 
 	@Override
 	protected String[] getConfigLocations() {
-		return new String[] {"/org/springframework/orm/jpa/hibernate/hibernate-manager.xml",
-				"/org/springframework/orm/jpa/memdb.xml", "/org/springframework/orm/jpa/inject.xml"};
+		return new String[] { "/org/springframework/orm/jpa/hibernate/hibernate-manager.xml",
+				"/org/springframework/orm/jpa/memdb.xml", "/org/springframework/orm/jpa/inject.xml" };
 	}
-
 
 	@Test
 	public void testCanCastNativeEntityManagerFactoryToHibernateEntityManagerFactoryImpl() {
 		EntityManagerFactoryInfo emfi = (EntityManagerFactoryInfo) entityManagerFactory;
-		boolean condition1 = emfi.getNativeEntityManagerFactory() instanceof org.hibernate.jpa.HibernateEntityManagerFactory;
+		boolean condition1 = emfi
+				.getNativeEntityManagerFactory() instanceof org.hibernate.jpa.HibernateEntityManagerFactory;
 		assertThat(condition1).isTrue();
 		// as of Hibernate 5.2
 		boolean condition = emfi.getNativeEntityManagerFactory() instanceof SessionFactory;
@@ -79,7 +80,7 @@ public class HibernateEntityManagerFactoryIntegrationTests extends AbstractConta
 		assertThat(proxy.getDelegate()).isSameAs(em.getDelegate());
 	}
 
-	@Test  // SPR-16956
+	@Test // SPR-16956
 	public void testReadOnly() {
 		assertThat(sharedEntityManager.unwrap(Session.class).getHibernateFlushMode()).isSameAs(FlushMode.AUTO);
 		assertThat(sharedEntityManager.unwrap(Session.class).isDefaultReadOnly()).isFalse();

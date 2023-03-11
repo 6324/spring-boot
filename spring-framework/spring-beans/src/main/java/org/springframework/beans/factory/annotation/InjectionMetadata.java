@@ -33,10 +33,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Internal class for managing injection metadata.
- * Not intended for direct use in applications.
+ * Internal class for managing injection metadata. Not intended for direct use in
+ * applications.
  *
- * <p>Used by {@link AutowiredAnnotationBeanPostProcessor},
+ * <p>
+ * Used by {@link AutowiredAnnotationBeanPostProcessor},
  * {@link org.springframework.context.annotation.CommonAnnotationBeanPostProcessor} and
  * {@link org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor}.
  *
@@ -54,17 +55,19 @@ public class InjectionMetadata {
 		protected boolean needsRefresh(Class<?> clazz) {
 			return false;
 		}
+
 		@Override
 		public void checkConfigMembers(RootBeanDefinition beanDefinition) {
 		}
+
 		@Override
 		public void inject(Object target, @Nullable String beanName, @Nullable PropertyValues pvs) {
 		}
+
 		@Override
 		public void clear(@Nullable PropertyValues pvs) {
 		}
 	};
-
 
 	private final Class<?> targetClass;
 
@@ -73,11 +76,11 @@ public class InjectionMetadata {
 	@Nullable
 	private volatile Set<InjectedElement> checkedElements;
 
-
 	/**
 	 * Create a new {@code InjectionMetadata instance}.
-	 * <p>Preferably use {@link #forElements} for reusing the {@link #EMPTY}
-	 * instance in case of no elements.
+	 * <p>
+	 * Preferably use {@link #forElements} for reusing the {@link #EMPTY} instance in case
+	 * of no elements.
 	 * @param targetClass the target class
 	 * @param elements the associated elements to inject
 	 * @see #forElements
@@ -86,7 +89,6 @@ public class InjectionMetadata {
 		this.targetClass = targetClass;
 		this.injectedElements = elements;
 	}
-
 
 	/**
 	 * Determine whether this metadata instance needs to be refreshed.
@@ -112,8 +114,8 @@ public class InjectionMetadata {
 
 	public void inject(Object target, @Nullable String beanName, @Nullable PropertyValues pvs) throws Throwable {
 		Collection<InjectedElement> checkedElements = this.checkedElements;
-		Collection<InjectedElement> elementsToIterate =
-				(checkedElements != null ? checkedElements : this.injectedElements);
+		Collection<InjectedElement> elementsToIterate = (checkedElements != null ? checkedElements
+				: this.injectedElements);
 		if (!elementsToIterate.isEmpty()) {
 			for (InjectedElement element : elementsToIterate) {
 				element.inject(target, beanName, pvs);
@@ -127,15 +129,14 @@ public class InjectionMetadata {
 	 */
 	public void clear(@Nullable PropertyValues pvs) {
 		Collection<InjectedElement> checkedElements = this.checkedElements;
-		Collection<InjectedElement> elementsToIterate =
-				(checkedElements != null ? checkedElements : this.injectedElements);
+		Collection<InjectedElement> elementsToIterate = (checkedElements != null ? checkedElements
+				: this.injectedElements);
 		if (!elementsToIterate.isEmpty()) {
 			for (InjectedElement element : elementsToIterate) {
 				element.clearPropertySkipping(pvs);
 			}
 		}
 	}
-
 
 	/**
 	 * Return an {@code InjectionMetadata} instance, possibly for empty elements.
@@ -145,8 +146,8 @@ public class InjectionMetadata {
 	 * @since 5.2
 	 */
 	public static InjectionMetadata forElements(Collection<InjectedElement> elements, Class<?> clazz) {
-		return (elements.isEmpty() ? new InjectionMetadata(clazz, Collections.emptyList()) :
-				new InjectionMetadata(clazz, elements));
+		return (elements.isEmpty() ? new InjectionMetadata(clazz, Collections.emptyList())
+				: new InjectionMetadata(clazz, elements));
 	}
 
 	/**
@@ -159,7 +160,6 @@ public class InjectionMetadata {
 	public static boolean needsRefresh(@Nullable InjectionMetadata metadata, Class<?> clazz) {
 		return (metadata == null || metadata.needsRefresh(clazz));
 	}
-
 
 	/**
 	 * A single injected element.
@@ -202,16 +202,16 @@ public class InjectionMetadata {
 			if (this.isField) {
 				Class<?> fieldType = ((Field) this.member).getType();
 				if (!(resourceType.isAssignableFrom(fieldType) || fieldType.isAssignableFrom(resourceType))) {
-					throw new IllegalStateException("Specified field type [" + fieldType +
-							"] is incompatible with resource type [" + resourceType.getName() + "]");
+					throw new IllegalStateException("Specified field type [" + fieldType
+							+ "] is incompatible with resource type [" + resourceType.getName() + "]");
 				}
 			}
 			else {
-				Class<?> paramType =
-						(this.pd != null ? this.pd.getPropertyType() : ((Method) this.member).getParameterTypes()[0]);
+				Class<?> paramType = (this.pd != null ? this.pd.getPropertyType()
+						: ((Method) this.member).getParameterTypes()[0]);
 				if (!(resourceType.isAssignableFrom(paramType) || paramType.isAssignableFrom(resourceType))) {
-					throw new IllegalStateException("Specified parameter type [" + paramType +
-							"] is incompatible with resource type [" + resourceType.getName() + "]");
+					throw new IllegalStateException("Specified parameter type [" + paramType
+							+ "] is incompatible with resource type [" + resourceType.getName() + "]");
 				}
 			}
 		}
@@ -243,9 +243,9 @@ public class InjectionMetadata {
 		}
 
 		/**
-		 * Check whether this injector's property needs to be skipped due to
-		 * an explicit property value having been specified. Also marks the
-		 * affected property as processed for other processors to ignore it.
+		 * Check whether this injector's property needs to be skipped due to an explicit
+		 * property value having been specified. Also marks the affected property as
+		 * processed for other processors to ignore it.
 		 */
 		protected boolean checkPropertySkipping(@Nullable PropertyValues pvs) {
 			Boolean skip = this.skip;
@@ -320,6 +320,7 @@ public class InjectionMetadata {
 		public String toString() {
 			return getClass().getSimpleName() + " for " + this.member;
 		}
+
 	}
 
 }

@@ -28,10 +28,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * {@link org.springframework.cache.Cache} implementation on top of a
- * {@link Cache javax.cache.Cache} instance.
+ * {@link org.springframework.cache.Cache} implementation on top of a {@link Cache
+ * javax.cache.Cache} instance.
  *
- * <p>Note: This class has been updated for JCache 1.0, as of Spring 4.0.
+ * <p>
+ * Note: This class has been updated for JCache 1.0, as of Spring 4.0.
  *
  * @author Juergen Hoeller
  * @author Stephane Nicoll
@@ -41,7 +42,6 @@ import org.springframework.util.Assert;
 public class JCacheCache extends AbstractValueAdaptingCache {
 
 	private final Cache<Object, Object> cache;
-
 
 	/**
 	 * Create a {@code JCacheCache} instance.
@@ -61,7 +61,6 @@ public class JCacheCache extends AbstractValueAdaptingCache {
 		Assert.notNull(jcache, "Cache must not be null");
 		this.cache = jcache;
 	}
-
 
 	@Override
 	public final String getName() {
@@ -124,7 +123,6 @@ public class JCacheCache extends AbstractValueAdaptingCache {
 		return notEmpty;
 	}
 
-
 	private class ValueLoaderEntryProcessor<T> implements EntryProcessor<Object, Object, T> {
 
 		@SuppressWarnings("unchecked")
@@ -141,13 +139,14 @@ public class JCacheCache extends AbstractValueAdaptingCache {
 					value = valueLoader.call();
 				}
 				catch (Exception ex) {
-					throw new EntryProcessorException("Value loader '" + valueLoader + "' failed " +
-							"to compute value for key '" + entry.getKey() + "'", ex);
+					throw new EntryProcessorException("Value loader '" + valueLoader + "' failed "
+							+ "to compute value for key '" + entry.getKey() + "'", ex);
 				}
 				entry.setValue(toStoreValue(value));
 				return value;
 			}
 		}
+
 	}
 
 }

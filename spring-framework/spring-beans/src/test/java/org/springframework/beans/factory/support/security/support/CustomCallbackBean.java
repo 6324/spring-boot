@@ -27,4 +27,5 @@ public class CustomCallbackBean {
 	public void destroy() {
 		System.setProperty("security.destroy", "true");
 	}
+
 }

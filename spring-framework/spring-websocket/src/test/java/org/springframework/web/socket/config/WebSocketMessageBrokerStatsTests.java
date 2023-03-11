@@ -39,8 +39,8 @@ class WebSocketMessageBrokerStatsTests {
 
 	@Test
 	void nullValues() {
-		String expected = "WebSocketSession[null], stompSubProtocol[null], stompBrokerRelay[null], " +
-				"inboundChannel[null], outboundChannel[null], sockJsScheduler[null]";
+		String expected = "WebSocketSession[null], stompSubProtocol[null], stompBrokerRelay[null], "
+				+ "inboundChannel[null], outboundChannel[null], sockJsScheduler[null]";
 		assertThat(stats).hasToString(expected);
 	}
 
@@ -53,9 +53,9 @@ class WebSocketMessageBrokerStatsTests {
 		stats.setOutboundChannelExecutor(executor);
 
 		assertThat(stats.getClientInboundExecutorStatsInfo()).as("inbound channel stats")
-			.isEqualTo("pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0");
+				.isEqualTo("pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0");
 		assertThat(stats.getClientOutboundExecutorStatsInfo()).as("outbound channel stats")
-			.isEqualTo("pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0");
+				.isEqualTo("pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0");
 	}
 
 	@Test
@@ -77,7 +77,7 @@ class WebSocketMessageBrokerStatsTests {
 		stats.setSockJsTaskScheduler(scheduler);
 
 		assertThat(stats.getSockJsTaskSchedulerStatsInfo())
-			.isEqualTo("pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0");
+				.isEqualTo("pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0");
 	}
 
 	@Test

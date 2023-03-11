@@ -44,8 +44,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
 /**
- * Integration tests with {@code @CrossOrigin} and {@code @RequestMapping}
- * annotated handler methods.
+ * Integration tests with {@code @CrossOrigin} and {@code @RequestMapping} annotated
+ * handler methods.
  *
  * @author Sebastien Deleuze
  * @author Rossen Stoyanchev
@@ -54,7 +54,6 @@ import static org.assertj.core.api.Assertions.fail;
 class CrossOriginAnnotationIntegrationTests extends AbstractRequestMappingIntegrationTests {
 
 	private final HttpHeaders headers = new HttpHeaders();
-
 
 	@Override
 	protected void startServer(HttpServer httpServer) throws Exception {
@@ -79,7 +78,6 @@ class CrossOriginAnnotationIntegrationTests extends AbstractRequestMappingIntegr
 		// JDK default HTTP client disallowed headers like Origin
 		return new RestTemplate(new HttpComponentsClientHttpRequestFactory());
 	}
-
 
 	@ParameterizedHttpServerTest
 	void actualGetRequestWithoutAnnotation(HttpServer httpServer) throws Exception {
@@ -179,9 +177,12 @@ class CrossOriginAnnotationIntegrationTests extends AbstractRequestMappingIntegr
 
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(entity.getHeaders().getAccessControlAllowOrigin()).isEqualTo("https://site1.com");
-		assertThat(entity.getHeaders().getAccessControlAllowMethods().toArray()).isEqualTo(new HttpMethod[] {HttpMethod.GET});
-		assertThat(entity.getHeaders().getAccessControlAllowHeaders().toArray()).isEqualTo(new String[] {"header1", "header2"});
-		assertThat(entity.getHeaders().getAccessControlExposeHeaders().toArray()).isEqualTo(new String[] {"header3", "header4"});
+		assertThat(entity.getHeaders().getAccessControlAllowMethods().toArray())
+				.isEqualTo(new HttpMethod[] { HttpMethod.GET });
+		assertThat(entity.getHeaders().getAccessControlAllowHeaders().toArray())
+				.isEqualTo(new String[] { "header1", "header2" });
+		assertThat(entity.getHeaders().getAccessControlExposeHeaders().toArray())
+				.isEqualTo(new String[] { "header3", "header4" });
 		assertThat(entity.getHeaders().getAccessControlAllowCredentials()).isFalse();
 		assertThat(entity.getHeaders().getAccessControlMaxAge()).isEqualTo(123);
 	}
@@ -239,8 +240,9 @@ class CrossOriginAnnotationIntegrationTests extends AbstractRequestMappingIntegr
 
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(entity.getHeaders().getAccessControlAllowOrigin()).isEqualTo("https://site1.com");
-		assertThat(entity.getHeaders().getAccessControlAllowMethods().toArray()).isEqualTo(new HttpMethod[] {HttpMethod.GET});
-		assertThat(entity.getHeaders().getAccessControlAllowHeaders().toArray()).isEqualTo(new String[] {"header1"});
+		assertThat(entity.getHeaders().getAccessControlAllowMethods().toArray())
+				.isEqualTo(new HttpMethod[] { HttpMethod.GET });
+		assertThat(entity.getHeaders().getAccessControlAllowHeaders().toArray()).isEqualTo(new String[] { "header1" });
 		assertThat(entity.getHeaders().getAccessControlAllowCredentials()).isTrue();
 	}
 
@@ -253,7 +255,8 @@ class CrossOriginAnnotationIntegrationTests extends AbstractRequestMappingIntegr
 
 		assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(entity.getHeaders().getAccessControlAllowOrigin()).isEqualTo("https://site1.com");
-		assertThat(entity.getHeaders().getAccessControlAllowMethods().toArray()).isEqualTo(new HttpMethod[] {HttpMethod.GET});
+		assertThat(entity.getHeaders().getAccessControlAllowMethods().toArray())
+				.isEqualTo(new HttpMethod[] { HttpMethod.GET });
 		assertThat(entity.getHeaders().getAccessControlAllowCredentials()).isTrue();
 	}
 
@@ -271,16 +274,16 @@ class CrossOriginAnnotationIntegrationTests extends AbstractRequestMappingIntegr
 		assertThat(entity.getHeaders().getAccessControlMaxAge()).isEqualTo(100);
 	}
 
-
 	@Configuration
 	@EnableWebFlux
 	@ComponentScan(resourcePattern = "**/CrossOriginAnnotationIntegrationTests*")
-	@SuppressWarnings({"unused", "WeakerAccess"})
+	@SuppressWarnings({ "unused", "WeakerAccess" })
 	static class WebConfig {
+
 	}
 
-
-	@RestController @SuppressWarnings("unused")
+	@RestController
+	@SuppressWarnings("unused")
 	private static class MethodLevelController {
 
 		@GetMapping("/no")
@@ -326,12 +329,8 @@ class CrossOriginAnnotationIntegrationTests extends AbstractRequestMappingIntegr
 			return "{}";
 		}
 
-		@CrossOrigin(
-				origins = { "https://site1.com", "https://site2.com" },
-				allowedHeaders = { "header1", "header2" },
-				exposedHeaders = { "header3", "header4" },
-				methods = RequestMethod.GET,
-				maxAge = 123,
+		@CrossOrigin(origins = { "https://site1.com", "https://site2.com" }, allowedHeaders = { "header1", "header2" },
+				exposedHeaders = { "header3", "header4" }, methods = RequestMethod.GET, maxAge = 123,
 				allowCredentials = "false")
 		@RequestMapping(path = "/customized", method = { RequestMethod.GET, RequestMethod.POST })
 		public String customized() {
@@ -349,8 +348,8 @@ class CrossOriginAnnotationIntegrationTests extends AbstractRequestMappingIntegr
 		public String customOriginDefinedViaPlaceholder() {
 			return "placeholder";
 		}
-	}
 
+	}
 
 	@RestController
 	@CrossOrigin(allowCredentials = "false")
@@ -373,6 +372,7 @@ class CrossOriginAnnotationIntegrationTests extends AbstractRequestMappingIntegr
 		public String baz() {
 			return "baz";
 		}
+
 	}
 
 	@RestController
@@ -390,6 +390,7 @@ class CrossOriginAnnotationIntegrationTests extends AbstractRequestMappingIntegr
 		String methodAge() {
 			return "methodAge";
 		}
+
 	}
 
 }

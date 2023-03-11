@@ -67,13 +67,11 @@ public class HttpEntityMethodArgumentResolverTests {
 
 	private final ResolvableMethod testMethod = ResolvableMethod.on(getClass()).named("handle").build();
 
-
 	private HttpEntityMethodArgumentResolver createResolver() {
 		List<HttpMessageReader<?>> readers = new ArrayList<>();
 		readers.add(new DecoderHttpMessageReader<>(StringDecoder.allMimeTypes()));
 		return new HttpEntityMethodArgumentResolver(readers, ReactiveAdapterRegistry.getSharedInstance());
 	}
-
 
 	@Test
 	public void supports() throws Exception {
@@ -98,9 +96,9 @@ public class HttpEntityMethodArgumentResolverTests {
 	public void doesNotSupport() {
 		assertThat(this.resolver.supportsParameter(this.testMethod.arg(Mono.class, String.class))).isFalse();
 		assertThat(this.resolver.supportsParameter(this.testMethod.arg(String.class))).isFalse();
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.resolver.supportsParameter(this.testMethod.arg(Mono.class, httpEntityType(String.class))))
-			.withMessageStartingWith("HttpEntityMethodArgumentResolver does not support reactive type wrapper");
+		assertThatIllegalStateException().isThrownBy(
+				() -> this.resolver.supportsParameter(this.testMethod.arg(Mono.class, httpEntityType(String.class))))
+				.withMessageStartingWith("HttpEntityMethodArgumentResolver does not support reactive type wrapper");
 	}
 
 	@Test
@@ -132,10 +130,8 @@ public class HttpEntityMethodArgumentResolverTests {
 		ResolvableType type = httpEntityType(Single.class, String.class);
 		HttpEntity<Single<String>> entity = resolveValueWithEmptyBody(type);
 
-		StepVerifier.create(RxReactiveStreams.toPublisher(entity.getBody()))
-				.expectNextCount(0)
-				.expectError(ServerWebInputException.class)
-				.verify();
+		StepVerifier.create(RxReactiveStreams.toPublisher(entity.getBody())).expectNextCount(0)
+				.expectError(ServerWebInputException.class).verify();
 	}
 
 	@Test
@@ -143,9 +139,7 @@ public class HttpEntityMethodArgumentResolverTests {
 		ResolvableType type = httpEntityType(io.reactivex.Single.class, String.class);
 		HttpEntity<io.reactivex.Single<String>> entity = resolveValueWithEmptyBody(type);
 
-		StepVerifier.create(entity.getBody().toFlowable())
-				.expectNextCount(0)
-				.expectError(ServerWebInputException.class)
+		StepVerifier.create(entity.getBody().toFlowable()).expectNextCount(0).expectError(ServerWebInputException.class)
 				.verify();
 	}
 
@@ -154,10 +148,7 @@ public class HttpEntityMethodArgumentResolverTests {
 		ResolvableType type = httpEntityType(Maybe.class, String.class);
 		HttpEntity<Maybe<String>> entity = resolveValueWithEmptyBody(type);
 
-		StepVerifier.create(entity.getBody().toFlowable())
-				.expectNextCount(0)
-				.expectComplete()
-				.verify();
+		StepVerifier.create(entity.getBody().toFlowable()).expectNextCount(0).expectComplete().verify();
 	}
 
 	@Test
@@ -165,9 +156,7 @@ public class HttpEntityMethodArgumentResolverTests {
 		ResolvableType type = httpEntityType(Observable.class, String.class);
 		HttpEntity<Observable<String>> entity = resolveValueWithEmptyBody(type);
 
-		StepVerifier.create(RxReactiveStreams.toPublisher(entity.getBody()))
-				.expectNextCount(0)
-				.expectComplete()
+		StepVerifier.create(RxReactiveStreams.toPublisher(entity.getBody())).expectNextCount(0).expectComplete()
 				.verify();
 	}
 
@@ -176,10 +165,8 @@ public class HttpEntityMethodArgumentResolverTests {
 		ResolvableType type = httpEntityType(io.reactivex.Observable.class, String.class);
 		HttpEntity<io.reactivex.Observable<String>> entity = resolveValueWithEmptyBody(type);
 
-		StepVerifier.create(entity.getBody().toFlowable(BackpressureStrategy.BUFFER))
-				.expectNextCount(0)
-				.expectComplete()
-				.verify();
+		StepVerifier.create(entity.getBody().toFlowable(BackpressureStrategy.BUFFER)).expectNextCount(0)
+				.expectComplete().verify();
 	}
 
 	@Test
@@ -187,10 +174,7 @@ public class HttpEntityMethodArgumentResolverTests {
 		ResolvableType type = httpEntityType(Flowable.class, String.class);
 		HttpEntity<Flowable<String>> entity = resolveValueWithEmptyBody(type);
 
-		StepVerifier.create(entity.getBody())
-				.expectNextCount(0)
-				.expectComplete()
-				.verify();
+		StepVerifier.create(entity.getBody()).expectNextCount(0).expectComplete().verify();
 	}
 
 	@Test
@@ -271,12 +255,8 @@ public class HttpEntityMethodArgumentResolverTests {
 		HttpEntity<Flux<String>> httpEntity = resolveValue(exchange, type);
 
 		assertThat(httpEntity.getHeaders()).isEqualTo(exchange.getRequest().getHeaders());
-		StepVerifier.create(httpEntity.getBody())
-				.expectNext("line1")
-				.expectNext("line2")
-				.expectNext("line3")
-				.expectComplete()
-				.verify();
+		StepVerifier.create(httpEntity.getBody()).expectNext("line1").expectNext("line2").expectNext("line3")
+				.expectComplete().verify();
 	}
 
 	@Test
@@ -291,16 +271,13 @@ public class HttpEntityMethodArgumentResolverTests {
 		assertThat(requestEntity.getBody()).isEqualTo("line1");
 	}
 
-
 	private MockServerWebExchange postExchange(String body) {
 		return MockServerWebExchange.from(post("/path").header("foo", "bar").contentType(TEXT_PLAIN).body(body));
 	}
 
 	private ResolvableType httpEntityType(Class<?> bodyType, Class<?>... generics) {
-		return ResolvableType.forClassWithGenerics(HttpEntity.class,
-				ObjectUtils.isEmpty(generics) ?
-						ResolvableType.forClass(bodyType) :
-						ResolvableType.forClassWithGenerics(bodyType, generics));
+		return ResolvableType.forClassWithGenerics(HttpEntity.class, ObjectUtils.isEmpty(generics)
+				? ResolvableType.forClass(bodyType) : ResolvableType.forClassWithGenerics(bodyType, generics));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -310,7 +287,8 @@ public class HttpEntityMethodArgumentResolverTests {
 		Object value = result.block(Duration.ofSeconds(5));
 
 		assertThat(value).isNotNull();
-		assertThat(param.getParameterType().isAssignableFrom(value.getClass())).as("Unexpected return value type: " + value.getClass()).isTrue();
+		assertThat(param.getParameterType().isAssignableFrom(value.getClass()))
+				.as("Unexpected return value type: " + value.getClass()).isTrue();
 
 		return (T) value;
 	}
@@ -326,22 +304,14 @@ public class HttpEntityMethodArgumentResolverTests {
 		return (HttpEntity<T>) httpEntity;
 	}
 
-
 	@SuppressWarnings("unused")
-	void handle(
-			String string,
-			Mono<String> monoString,
-			HttpEntity<String> httpEntity,
-			HttpEntity<Mono<String>> monoBody,
-			HttpEntity<Flux<String>> fluxBody,
-			HttpEntity<Single<String>> singleBody,
-			HttpEntity<io.reactivex.Single<String>> rxJava2SingleBody,
-			HttpEntity<Maybe<String>> rxJava2MaybeBody,
+	void handle(String string, Mono<String> monoString, HttpEntity<String> httpEntity,
+			HttpEntity<Mono<String>> monoBody, HttpEntity<Flux<String>> fluxBody, HttpEntity<Single<String>> singleBody,
+			HttpEntity<io.reactivex.Single<String>> rxJava2SingleBody, HttpEntity<Maybe<String>> rxJava2MaybeBody,
 			HttpEntity<Observable<String>> observableBody,
 			HttpEntity<io.reactivex.Observable<String>> rxJava2ObservableBody,
-			HttpEntity<Flowable<String>> flowableBody,
-			HttpEntity<CompletableFuture<String>> completableFutureBody,
-			RequestEntity<String> requestEntity,
-			Mono<HttpEntity<String>> httpEntityMono) {}
+			HttpEntity<Flowable<String>> flowableBody, HttpEntity<CompletableFuture<String>> completableFutureBody,
+			RequestEntity<String> requestEntity, Mono<HttpEntity<String>> httpEntityMono) {
+	}
 
 }

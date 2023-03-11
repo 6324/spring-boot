@@ -35,14 +35,12 @@ public class ReflectiveLoadTimeWeaverTests {
 
 	@Test
 	public void testCtorWithNullClassLoader() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ReflectiveLoadTimeWeaver(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new ReflectiveLoadTimeWeaver(null));
 	}
 
 	@Test
 	public void testCtorWithClassLoaderThatDoesNotExposeAnAddTransformerMethod() {
-		assertThatIllegalStateException().isThrownBy(() ->
-				new ReflectiveLoadTimeWeaver(getClass().getClassLoader()));
+		assertThatIllegalStateException().isThrownBy(() -> new ReflectiveLoadTimeWeaver(getClass().getClassLoader()));
 	}
 
 	@Test
@@ -51,7 +49,8 @@ public class ReflectiveLoadTimeWeaverTests {
 		ReflectiveLoadTimeWeaver weaver = new ReflectiveLoadTimeWeaver(classLoader);
 		weaver.addTransformer(new ClassFileTransformer() {
 			@Override
-			public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) {
+			public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
+					ProtectionDomain protectionDomain, byte[] classfileBuffer) {
 				return "CAFEDEAD".getBytes();
 			}
 		});
@@ -60,8 +59,8 @@ public class ReflectiveLoadTimeWeaverTests {
 
 	@Test
 	public void testAddTransformerWithNullTransformer() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ReflectiveLoadTimeWeaver(new JustAddTransformerClassLoader()).addTransformer(null));
+		assertThatIllegalArgumentException().isThrownBy(
+				() -> new ReflectiveLoadTimeWeaver(new JustAddTransformerClassLoader()).addTransformer(null));
 	}
 
 	@Test
@@ -80,16 +79,13 @@ public class ReflectiveLoadTimeWeaverTests {
 		assertThat(classLoader.getNumTimesGetThrowawayClassLoaderCalled()).isEqualTo(1);
 	}
 
-
 	public static class JustAddTransformerClassLoader extends ClassLoader {
 
 		private int numTimesAddTransformerCalled = 0;
 
-
 		public int getNumTimesGetThrowawayClassLoaderCalled() {
 			return this.numTimesAddTransformerCalled;
 		}
-
 
 		public void addTransformer(ClassFileTransformer transformer) {
 			++this.numTimesAddTransformerCalled;
@@ -97,17 +93,14 @@ public class ReflectiveLoadTimeWeaverTests {
 
 	}
 
-
 	public static final class TotallyCompliantClassLoader extends JustAddTransformerClassLoader {
 
 		private int numTimesGetThrowawayClassLoaderCalled = 0;
-
 
 		@Override
 		public int getNumTimesGetThrowawayClassLoaderCalled() {
 			return this.numTimesGetThrowawayClassLoaderCalled;
 		}
-
 
 		public ClassLoader getThrowawayClassLoader() {
 			++this.numTimesGetThrowawayClassLoaderCalled;

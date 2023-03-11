@@ -31,32 +31,27 @@ public class BeanWiringInfoTests {
 
 	@Test
 	public void ctorWithNullBeanName() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new BeanWiringInfo(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new BeanWiringInfo(null));
 	}
 
 	@Test
 	public void ctorWithWhitespacedBeanName() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new BeanWiringInfo("   \t"));
+		assertThatIllegalArgumentException().isThrownBy(() -> new BeanWiringInfo("   \t"));
 	}
 
 	@Test
 	public void ctorWithEmptyBeanName() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new BeanWiringInfo(""));
+		assertThatIllegalArgumentException().isThrownBy(() -> new BeanWiringInfo(""));
 	}
 
 	@Test
 	public void ctorWithNegativeIllegalAutowiringValue() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new BeanWiringInfo(-1, true));
+		assertThatIllegalArgumentException().isThrownBy(() -> new BeanWiringInfo(-1, true));
 	}
 
 	@Test
 	public void ctorWithPositiveOutOfRangeAutowiringValue() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new BeanWiringInfo(123871, true));
+		assertThatIllegalArgumentException().isThrownBy(() -> new BeanWiringInfo(123871, true));
 	}
 
 	@Test

@@ -76,9 +76,9 @@ public class FormattingConversionServiceFactoryBeanTests {
 		FormattingConversionService fcs = factory.getObject();
 		TypeDescriptor descriptor = new TypeDescriptor(TestBean.class.getDeclaredField("pattern"));
 
-		assertThatExceptionOfType(ConversionFailedException.class).isThrownBy(() ->
-				fcs.convert("15,00", TypeDescriptor.valueOf(String.class), descriptor))
-			.withCauseInstanceOf(NumberFormatException.class);
+		assertThatExceptionOfType(ConversionFailedException.class)
+				.isThrownBy(() -> fcs.convert("15,00", TypeDescriptor.valueOf(String.class), descriptor))
+				.withCauseInstanceOf(NumberFormatException.class);
 	}
 
 	@Test
@@ -125,8 +125,7 @@ public class FormattingConversionServiceFactoryBeanTests {
 		assertThatIllegalArgumentException().isThrownBy(factory::afterPropertiesSet);
 	}
 
-
-	@Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
+	@Target({ ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER })
 	@Retention(RetentionPolicy.RUNTIME)
 	private @interface SpecialInt {
 
@@ -135,8 +134,8 @@ public class FormattingConversionServiceFactoryBeanTests {
 
 		@AliasFor("value")
 		String alias() default "";
-	}
 
+	}
 
 	private static class TestBean {
 
@@ -153,8 +152,8 @@ public class FormattingConversionServiceFactoryBeanTests {
 		public void setSpecialInt(int field) {
 			this.specialInt = field;
 		}
-	}
 
+	}
 
 	private static class TestBeanFormatter implements Formatter<TestBean> {
 
@@ -169,8 +168,8 @@ public class FormattingConversionServiceFactoryBeanTests {
 			object.setSpecialInt(Integer.parseInt(text));
 			return object;
 		}
-	}
 
+	}
 
 	private static class SpecialIntAnnotationFormatterFactory implements AnnotationFormatterFactory<SpecialInt> {
 
@@ -208,8 +207,8 @@ public class FormattingConversionServiceFactoryBeanTests {
 				}
 			};
 		}
-	}
 
+	}
 
 	private static class TestFormatterRegistrar implements FormatterRegistrar {
 
@@ -217,6 +216,7 @@ public class FormattingConversionServiceFactoryBeanTests {
 		public void registerFormatters(FormatterRegistry registry) {
 			registry.addFormatter(new TestBeanFormatter());
 		}
+
 	}
 
 }

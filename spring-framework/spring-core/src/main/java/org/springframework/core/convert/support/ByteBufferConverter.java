@@ -28,8 +28,9 @@ import org.springframework.core.convert.converter.ConditionalGenericConverter;
 import org.springframework.lang.Nullable;
 
 /**
- * Converts a {@link ByteBuffer} directly to and from {@code byte[] ByteBuffer} directly to and from {@code byte[]s} and indirectly
- * to any type that the {@link ConversionService} support via {@code byte[]}.
+ * Converts a {@link ByteBuffer} directly to and from {@code byte[] ByteBuffer} directly
+ * to and from {@code byte[]s} and indirectly to any type that the
+ * {@link ConversionService} support via {@code byte[]}.
  *
  * @author Phillip Webb
  * @author Juergen Hoeller
@@ -52,14 +53,11 @@ final class ByteBufferConverter implements ConditionalGenericConverter {
 		CONVERTIBLE_PAIRS = Collections.unmodifiableSet(convertiblePairs);
 	}
 
-
 	private final ConversionService conversionService;
-
 
 	public ByteBufferConverter(ConversionService conversionService) {
 		this.conversionService = conversionService;
 	}
-
 
 	@Override
 	public Set<ConvertiblePair> getConvertibleTypes() {
@@ -76,13 +74,13 @@ final class ByteBufferConverter implements ConditionalGenericConverter {
 	}
 
 	private boolean matchesFromByteBuffer(TypeDescriptor targetType) {
-		return (targetType.isAssignableTo(BYTE_ARRAY_TYPE) ||
-				this.conversionService.canConvert(BYTE_ARRAY_TYPE, targetType));
+		return (targetType.isAssignableTo(BYTE_ARRAY_TYPE)
+				|| this.conversionService.canConvert(BYTE_ARRAY_TYPE, targetType));
 	}
 
 	private boolean matchesToByteBuffer(TypeDescriptor sourceType) {
-		return (sourceType.isAssignableTo(BYTE_ARRAY_TYPE) ||
-				this.conversionService.canConvert(sourceType, BYTE_ARRAY_TYPE));
+		return (sourceType.isAssignableTo(BYTE_ARRAY_TYPE)
+				|| this.conversionService.canConvert(sourceType, BYTE_ARRAY_TYPE));
 	}
 
 	@Override
@@ -112,8 +110,8 @@ final class ByteBufferConverter implements ConditionalGenericConverter {
 	}
 
 	private Object convertToByteBuffer(@Nullable Object source, TypeDescriptor sourceType) {
-		byte[] bytes = (byte[]) (source instanceof byte[] ? source :
-				this.conversionService.convert(source, sourceType, BYTE_ARRAY_TYPE));
+		byte[] bytes = (byte[]) (source instanceof byte[] ? source
+				: this.conversionService.convert(source, sourceType, BYTE_ARRAY_TYPE));
 
 		if (bytes == null) {
 			return ByteBuffer.wrap(new byte[0]);

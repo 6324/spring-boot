@@ -37,6 +37,7 @@ class PrioritizedParameterNameDiscovererTests {
 		public String[] getParameterNames(Method m) {
 			return FOO_BAR;
 		}
+
 		@Override
 		public String[] getParameterNames(Constructor<?> ctor) {
 			return FOO_BAR;
@@ -48,6 +49,7 @@ class PrioritizedParameterNameDiscovererTests {
 		public String[] getParameterNames(Method m) {
 			return SOMETHING_ELSE;
 		}
+
 		@Override
 		public String[] getParameterNames(Constructor<?> ctor) {
 			return SOMETHING_ELSE;

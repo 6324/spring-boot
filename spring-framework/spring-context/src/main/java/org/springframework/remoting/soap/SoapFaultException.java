@@ -21,8 +21,7 @@ import javax.xml.namespace.QName;
 import org.springframework.remoting.RemoteInvocationFailureException;
 
 /**
- * RemoteInvocationFailureException subclass that provides the details
- * of a SOAP fault.
+ * RemoteInvocationFailureException subclass that provides the details of a SOAP fault.
  *
  * @author Juergen Hoeller
  * @since 2.5
@@ -40,7 +39,6 @@ public abstract class SoapFaultException extends RemoteInvocationFailureExceptio
 	protected SoapFaultException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
-
 
 	/**
 	 * Return the SOAP fault code.

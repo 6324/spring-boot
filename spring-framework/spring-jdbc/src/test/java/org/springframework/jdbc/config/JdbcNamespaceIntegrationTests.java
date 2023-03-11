@@ -71,7 +71,7 @@ public class JdbcNamespaceIntegrationTests {
 	@Test
 	public void createWithAnonymousDataSourceAndDefaultDatabaseName() throws Exception {
 		assertCorrectSetupForSingleDataSource("jdbc-config-db-name-default-and-anonymous-datasource.xml",
-			url -> url.endsWith(DEFAULT_DATABASE_NAME));
+				url -> url.endsWith(DEFAULT_DATABASE_NAME));
 	}
 
 	@Test
@@ -111,8 +111,8 @@ public class JdbcNamespaceIntegrationTests {
 			assertNumRowsInTestTable(template, 1);
 			context.getBean(DataSourceInitializer.class).destroy();
 			// Table has been dropped
-			assertThatExceptionOfType(BadSqlGrammarException.class).isThrownBy(() ->
-					assertNumRowsInTestTable(template, 1));
+			assertThatExceptionOfType(BadSqlGrammarException.class)
+					.isThrownBy(() -> assertNumRowsInTestTable(template, 1));
 		}
 		finally {
 			context.close();
@@ -128,8 +128,8 @@ public class JdbcNamespaceIntegrationTests {
 			assertNumRowsInTestTable(template, 1);
 			context.getBean(EmbeddedDatabaseFactoryBean.class).destroy();
 			// Table has been dropped
-			assertThatExceptionOfType(BadSqlGrammarException.class).isThrownBy(() ->
-					assertNumRowsInTestTable(template, 1));
+			assertThatExceptionOfType(BadSqlGrammarException.class)
+					.isThrownBy(() -> assertNumRowsInTestTable(template, 1));
 		}
 		finally {
 			context.close();
@@ -144,9 +144,9 @@ public class JdbcNamespaceIntegrationTests {
 			JdbcTemplate template = new JdbcTemplate(dataSource);
 			assertNumRowsInTestTable(template, 1);
 			context.getBean(EmbeddedDatabaseFactoryBean.class).destroy();
-			 // Table has been dropped
-			assertThatExceptionOfType(BadSqlGrammarException.class).isThrownBy(() ->
-					assertNumRowsInTestTable(template, 1));
+			// Table has been dropped
+			assertThatExceptionOfType(BadSqlGrammarException.class)
+					.isThrownBy(() -> assertNumRowsInTestTable(template, 1));
 		}
 		finally {
 			context.close();
@@ -156,8 +156,8 @@ public class JdbcNamespaceIntegrationTests {
 	@Test
 	public void multipleDataSourcesHaveDifferentDatabaseNames() throws Exception {
 		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(factory).loadBeanDefinitions(new ClassPathResource(
-			"jdbc-config-multiple-datasources.xml", getClass()));
+		new XmlBeanDefinitionReader(factory)
+				.loadBeanDefinitions(new ClassPathResource("jdbc-config-multiple-datasources.xml", getClass()));
 		assertBeanPropertyValueOf("databaseName", "firstDataSource", factory);
 		assertBeanPropertyValueOf("databaseName", "secondDataSource", factory);
 	}

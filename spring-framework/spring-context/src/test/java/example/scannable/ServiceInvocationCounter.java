@@ -23,7 +23,7 @@ import org.aspectj.lang.annotation.Pointcut;
 /**
  * @author Mark Fisher
  */
-@CustomAspectStereotype({"myPointcutInfo", "otherPointcutInfo"})
+@CustomAspectStereotype({ "myPointcutInfo", "otherPointcutInfo" })
 @Aspect
 public class ServiceInvocationCounter {
 
@@ -31,9 +31,9 @@ public class ServiceInvocationCounter {
 
 	private static final ThreadLocal<Integer> threadLocalCount = new ThreadLocal<>();
 
-
 	@Pointcut("execution(* example.scannable.FooService+.*(..))")
-	public void serviceExecution() {}
+	public void serviceExecution() {
+	}
 
 	@Before("serviceExecution()")
 	public void countUse() {

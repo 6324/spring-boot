@@ -51,8 +51,8 @@ public class XmlBeanDefinitionReaderTests {
 	public void withOpenInputStream() {
 		SimpleBeanDefinitionRegistry registry = new SimpleBeanDefinitionRegistry();
 		Resource resource = new InputStreamResource(getClass().getResourceAsStream("test.xml"));
-		assertThatExceptionOfType(BeanDefinitionStoreException.class).isThrownBy(() ->
-				new XmlBeanDefinitionReader(registry).loadBeanDefinitions(resource));
+		assertThatExceptionOfType(BeanDefinitionStoreException.class)
+				.isThrownBy(() -> new XmlBeanDefinitionReader(registry).loadBeanDefinitions(resource));
 	}
 
 	@Test
@@ -85,8 +85,8 @@ public class XmlBeanDefinitionReaderTests {
 	public void withInputSource() {
 		SimpleBeanDefinitionRegistry registry = new SimpleBeanDefinitionRegistry();
 		InputSource resource = new InputSource(getClass().getResourceAsStream("test.xml"));
-		assertThatExceptionOfType(BeanDefinitionStoreException.class).isThrownBy(() ->
-				new XmlBeanDefinitionReader(registry).loadBeanDefinitions(resource));
+		assertThatExceptionOfType(BeanDefinitionStoreException.class)
+				.isThrownBy(() -> new XmlBeanDefinitionReader(registry).loadBeanDefinitions(resource));
 	}
 
 	@Test

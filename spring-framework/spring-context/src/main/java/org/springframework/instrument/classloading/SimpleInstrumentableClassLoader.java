@@ -24,7 +24,8 @@ import org.springframework.lang.Nullable;
 /**
  * Simplistic implementation of an instrumentable {@code ClassLoader}.
  *
- * <p>Usable in tests and standalone environments.
+ * <p>
+ * Usable in tests and standalone environments.
  *
  * @author Rod Johnson
  * @author Costin Leau
@@ -36,9 +37,7 @@ public class SimpleInstrumentableClassLoader extends OverridingClassLoader {
 		ClassLoader.registerAsParallelCapable();
 	}
 
-
 	private final WeavingTransformer weavingTransformer;
-
 
 	/**
 	 * Create a new SimpleInstrumentableClassLoader for the given ClassLoader.
@@ -49,7 +48,6 @@ public class SimpleInstrumentableClassLoader extends OverridingClassLoader {
 		this.weavingTransformer = new WeavingTransformer(parent);
 	}
 
-
 	/**
 	 * Add a {@link ClassFileTransformer} to be applied by this ClassLoader.
 	 * @param transformer the {@link ClassFileTransformer} to register
@@ -57,7 +55,6 @@ public class SimpleInstrumentableClassLoader extends OverridingClassLoader {
 	public void addTransformer(ClassFileTransformer transformer) {
 		this.weavingTransformer.addTransformer(transformer);
 	}
-
 
 	@Override
 	protected byte[] transformIfNecessary(String name, byte[] bytes) {

@@ -41,15 +41,13 @@ public abstract class AbstractExpressionTests {
 
 	protected static final boolean SHOULD_NOT_BE_WRITABLE = false;
 
-
 	protected final ExpressionParser parser = new SpelExpressionParser();
 
 	protected final StandardEvaluationContext context = TestScenarioCreator.getTestEvaluationContext();
 
-
 	/**
-	 * Evaluate an expression and check that the actual result matches the
-	 * expectedValue and the class of the result matches the expectedClassOfResult.
+	 * Evaluate an expression and check that the actual result matches the expectedValue
+	 * and the class of the result matches the expectedClassOfResult.
 	 * @param expression the expression to evaluate
 	 * @param expectedValue the expected result for evaluating the expression
 	 * @param expectedResultType the expected class of the evaluation result
@@ -66,20 +64,23 @@ public abstract class AbstractExpressionTests {
 		// Check the return value
 		if (value == null) {
 			if (expectedValue == null) {
-				return;  // no point doing other checks
+				return; // no point doing other checks
 			}
-			assertThat(expectedValue).as("Expression returned null value, but expected '" + expectedValue + "'").isNull();
+			assertThat(expectedValue).as("Expression returned null value, but expected '" + expectedValue + "'")
+					.isNull();
 		}
 
 		Class<?> resultType = value.getClass();
-		assertThat(resultType).as("Type of the actual result was not as expected.  Expected '" + expectedResultType +
-				"' but result was of type '" + resultType + "'").isEqualTo(expectedResultType);
+		assertThat(resultType).as("Type of the actual result was not as expected.  Expected '" + expectedResultType
+				+ "' but result was of type '" + resultType + "'").isEqualTo(expectedResultType);
 
 		if (expectedValue instanceof String) {
-			assertThat(AbstractExpressionTests.stringValueOf(value)).as("Did not get expected value for expression '" + expression + "'.").isEqualTo(expectedValue);
+			assertThat(AbstractExpressionTests.stringValueOf(value))
+					.as("Did not get expected value for expression '" + expression + "'.").isEqualTo(expectedValue);
 		}
 		else {
-			assertThat(value).as("Did not get expected value for expression '" + expression + "'.").isEqualTo(expectedValue);
+			assertThat(value).as("Did not get expected value for expression '" + expression + "'.")
+					.isEqualTo(expectedValue);
 		}
 	}
 
@@ -93,28 +94,31 @@ public abstract class AbstractExpressionTests {
 		Object value = expr.getValue(context, expectedResultType);
 		if (value == null) {
 			if (expectedValue == null) {
-				return;  // no point doing other checks
+				return; // no point doing other checks
 			}
-			assertThat(expectedValue).as("Expression returned null value, but expected '" + expectedValue + "'").isNull();
+			assertThat(expectedValue).as("Expression returned null value, but expected '" + expectedValue + "'")
+					.isNull();
 		}
 
 		Class<?> resultType = value.getClass();
-		assertThat(resultType).as("Type of the actual result was not as expected.  Expected '" + expectedResultType +
-				"' but result was of type '" + resultType + "'").isEqualTo(expectedResultType);
-		assertThat(value).as("Did not get expected value for expression '" + expression + "'.").isEqualTo(expectedValue);
+		assertThat(resultType).as("Type of the actual result was not as expected.  Expected '" + expectedResultType
+				+ "' but result was of type '" + resultType + "'").isEqualTo(expectedResultType);
+		assertThat(value).as("Did not get expected value for expression '" + expression + "'.")
+				.isEqualTo(expectedValue);
 	}
 
 	/**
-	 * Evaluate an expression and check that the actual result matches the
-	 * expectedValue and the class of the result matches the expectedClassOfResult.
-	 * This method can also check if the expression is writable (for example,
-	 * it is a variable or property reference).
+	 * Evaluate an expression and check that the actual result matches the expectedValue
+	 * and the class of the result matches the expectedClassOfResult. This method can also
+	 * check if the expression is writable (for example, it is a variable or property
+	 * reference).
 	 * @param expression the expression to evaluate
 	 * @param expectedValue the expected result for evaluating the expression
 	 * @param expectedClassOfResult the expected class of the evaluation result
 	 * @param shouldBeWritable should the parsed expression be writable?
 	 */
-	public void evaluate(String expression, Object expectedValue, Class<?> expectedClassOfResult, boolean shouldBeWritable) {
+	public void evaluate(String expression, Object expectedValue, Class<?> expectedClassOfResult,
+			boolean shouldBeWritable) {
 		Expression expr = parser.parseExpression(expression);
 		assertThat(expr).as("expression").isNotNull();
 		if (DEBUG) {
@@ -123,26 +127,29 @@ public abstract class AbstractExpressionTests {
 		Object value = expr.getValue(context);
 		if (value == null) {
 			if (expectedValue == null) {
-				return;  // no point doing other checks
+				return; // no point doing other checks
 			}
-			assertThat(expectedValue).as("Expression returned null value, but expected '" + expectedValue + "'").isNull();
+			assertThat(expectedValue).as("Expression returned null value, but expected '" + expectedValue + "'")
+					.isNull();
 		}
 		Class<? extends Object> resultType = value.getClass();
 		if (expectedValue instanceof String) {
-			assertThat(AbstractExpressionTests.stringValueOf(value)).as("Did not get expected value for expression '" + expression + "'.").isEqualTo(expectedValue);
+			assertThat(AbstractExpressionTests.stringValueOf(value))
+					.as("Did not get expected value for expression '" + expression + "'.").isEqualTo(expectedValue);
 		}
 		else {
-			assertThat(value).as("Did not get expected value for expression '" + expression + "'.").isEqualTo(expectedValue);
+			assertThat(value).as("Did not get expected value for expression '" + expression + "'.")
+					.isEqualTo(expectedValue);
 		}
-		assertThat(expectedClassOfResult.equals(resultType)).as("Type of the result was not as expected.  Expected '" + expectedClassOfResult +
-				"' but result was of type '" + resultType + "'").isTrue();
+		assertThat(expectedClassOfResult.equals(resultType)).as("Type of the result was not as expected.  Expected '"
+				+ expectedClassOfResult + "' but result was of type '" + resultType + "'").isTrue();
 
 		assertThat(expr.isWritable(context)).as("isWritable").isEqualTo(shouldBeWritable);
 	}
 
 	/**
-	 * Evaluate the specified expression and ensure the expected message comes out.
-	 * The message may have inserts and they will be checked if otherProperties is specified.
+	 * Evaluate the specified expression and ensure the expected message comes out. The
+	 * message may have inserts and they will be checked if otherProperties is specified.
 	 * The first entry in otherProperties should always be the position.
 	 * @param expression the expression to evaluate
 	 * @param expectedMessage the expected message
@@ -153,12 +160,12 @@ public abstract class AbstractExpressionTests {
 	}
 
 	/**
-	 * Evaluate the specified expression and ensure the expected message comes out.
-	 * The message may have inserts and they will be checked if otherProperties is specified.
+	 * Evaluate the specified expression and ensure the expected message comes out. The
+	 * message may have inserts and they will be checked if otherProperties is specified.
 	 * The first entry in otherProperties should always be the position.
 	 * @param expression the expression to evaluate
-	 * @param expectedReturnType ask the expression return value to be of this type if possible
-	 * ({@code null} indicates don't ask for conversion)
+	 * @param expectedReturnType ask the expression return value to be of this type if
+	 * possible ({@code null} indicates don't ask for conversion)
 	 * @param expectedMessage the expected message
 	 * @param otherProperties the expected inserts within the message
 	 */
@@ -192,8 +199,8 @@ public abstract class AbstractExpressionTests {
 	}
 
 	/**
-	 * Parse the specified expression and ensure the expected message comes out.
-	 * The message may have inserts and they will be checked if otherProperties is specified.
+	 * Parse the specified expression and ensure the expected message comes out. The
+	 * message may have inserts and they will be checked if otherProperties is specified.
 	 * The first entry in otherProperties should always be the position.
 	 * @param expression the expression to evaluate
 	 * @param expectedMessage the expected message
@@ -220,7 +227,6 @@ public abstract class AbstractExpressionTests {
 			}
 		});
 	}
-
 
 	protected static String stringValueOf(Object value) {
 		return stringValueOf(value, false);
@@ -263,8 +269,8 @@ public abstract class AbstractExpressionTests {
 					sb.append("}");
 				}
 				else {
-					throw new RuntimeException("Please implement support for type " + primitiveType.getName() +
-							" in ExpressionTestCase.stringValueOf()");
+					throw new RuntimeException("Please implement support for type " + primitiveType.getName()
+							+ " in ExpressionTestCase.stringValueOf()");
 				}
 			}
 			else if (value.getClass().getComponentType().isArray()) {

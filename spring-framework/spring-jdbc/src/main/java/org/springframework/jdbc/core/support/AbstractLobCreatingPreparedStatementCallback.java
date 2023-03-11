@@ -26,15 +26,19 @@ import org.springframework.jdbc.support.lob.LobHandler;
 import org.springframework.util.Assert;
 
 /**
- * Abstract {@link PreparedStatementCallback} implementation that manages a {@link LobCreator}.
- * Typically used as inner class, with access to surrounding method arguments.
+ * Abstract {@link PreparedStatementCallback} implementation that manages a
+ * {@link LobCreator}. Typically used as inner class, with access to surrounding method
+ * arguments.
  *
- * <p>Delegates to the {@code setValues} template method for setting values
- * on the PreparedStatement, using a given LobCreator for BLOB/CLOB arguments.
+ * <p>
+ * Delegates to the {@code setValues} template method for setting values on the
+ * PreparedStatement, using a given LobCreator for BLOB/CLOB arguments.
  *
- * <p>A usage example with {@link org.springframework.jdbc.core.JdbcTemplate}:
+ * <p>
+ * A usage example with {@link org.springframework.jdbc.core.JdbcTemplate}:
  *
- * <pre class="code">JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);  // reusable object
+ * <pre class=
+ * "code">JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);  // reusable object
  * LobHandler lobHandler = new DefaultLobHandler();  // reusable object
  *
  * jdbcTemplate.execute(
@@ -56,17 +60,14 @@ public abstract class AbstractLobCreatingPreparedStatementCallback implements Pr
 
 	private final LobHandler lobHandler;
 
-
 	/**
-	 * Create a new AbstractLobCreatingPreparedStatementCallback for the
-	 * given LobHandler.
+	 * Create a new AbstractLobCreatingPreparedStatementCallback for the given LobHandler.
 	 * @param lobHandler the LobHandler to create LobCreators with
 	 */
 	public AbstractLobCreatingPreparedStatementCallback(LobHandler lobHandler) {
 		Assert.notNull(lobHandler, "LobHandler must not be null");
 		this.lobHandler = lobHandler;
 	}
-
 
 	@Override
 	public final Integer doInPreparedStatement(PreparedStatement ps) throws SQLException, DataAccessException {
@@ -81,8 +82,8 @@ public abstract class AbstractLobCreatingPreparedStatementCallback implements Pr
 	}
 
 	/**
-	 * Set values on the given PreparedStatement, using the given
-	 * LobCreator for BLOB/CLOB arguments.
+	 * Set values on the given PreparedStatement, using the given LobCreator for BLOB/CLOB
+	 * arguments.
 	 * @param ps the PreparedStatement to use
 	 * @param lobCreator the LobCreator to use
 	 * @throws SQLException if thrown by JDBC methods

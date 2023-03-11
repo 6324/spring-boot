@@ -19,9 +19,8 @@ package org.springframework.jmx.export.metadata;
 import org.springframework.lang.Nullable;
 
 /**
- * Metadata indicating that instances of an annotated class
- * are to be registered with a JMX server.
- * Only valid when used on a {@code Class}.
+ * Metadata indicating that instances of an annotated class are to be registered with a
+ * JMX server. Only valid when used on a {@code Class}.
  *
  * @author Rob Harrop
  * @since 1.2
@@ -49,7 +48,6 @@ public class ManagedResource extends AbstractJmxAttribute {
 
 	@Nullable
 	private String persistLocation;
-
 
 	/**
 	 * Set the JMX ObjectName of this managed resource.

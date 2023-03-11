@@ -46,7 +46,6 @@ public class JettyWebSocketTestServer implements WebSocketTestServer {
 
 	private ServletContextHandler contextHandler;
 
-
 	@Override
 	public void setup() {
 		// Let server pick its own random, available port.

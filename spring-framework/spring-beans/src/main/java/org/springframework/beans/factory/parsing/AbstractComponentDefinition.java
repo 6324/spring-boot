@@ -20,11 +20,12 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanReference;
 
 /**
- * Base implementation of {@link ComponentDefinition} that provides a basic implementation of
- * {@link #getDescription} which delegates to {@link #getName}. Also provides a base implementation
- * of {@link #toString} which delegates to {@link #getDescription} in keeping with the recommended
- * implementation strategy. Also provides default implementations of {@link #getInnerBeanDefinitions}
- * and {@link #getBeanReferences} that return an empty array.
+ * Base implementation of {@link ComponentDefinition} that provides a basic implementation
+ * of {@link #getDescription} which delegates to {@link #getName}. Also provides a base
+ * implementation of {@link #toString} which delegates to {@link #getDescription} in
+ * keeping with the recommended implementation strategy. Also provides default
+ * implementations of {@link #getInnerBeanDefinitions} and {@link #getBeanReferences} that
+ * return an empty array.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller

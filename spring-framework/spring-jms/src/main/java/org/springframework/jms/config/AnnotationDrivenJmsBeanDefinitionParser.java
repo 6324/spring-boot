@@ -50,12 +50,12 @@ class AnnotationDrivenJmsBeanDefinitionParser implements BeanDefinitionParser {
 		BeanDefinitionRegistry registry = parserContext.getRegistry();
 
 		if (registry.containsBeanDefinition(JmsListenerConfigUtils.JMS_LISTENER_ANNOTATION_PROCESSOR_BEAN_NAME)) {
-			parserContext.getReaderContext().error(
-					"Only one JmsListenerAnnotationBeanPostProcessor may exist within the context.", source);
+			parserContext.getReaderContext()
+					.error("Only one JmsListenerAnnotationBeanPostProcessor may exist within the context.", source);
 		}
 		else {
-			BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(
-					"org.springframework.jms.annotation.JmsListenerAnnotationBeanPostProcessor");
+			BeanDefinitionBuilder builder = BeanDefinitionBuilder
+					.genericBeanDefinition("org.springframework.jms.annotation.JmsListenerAnnotationBeanPostProcessor");
 			builder.getRawBeanDefinition().setSource(source);
 			String endpointRegistry = element.getAttribute("registry");
 			if (StringUtils.hasText(endpointRegistry)) {
@@ -86,14 +86,15 @@ class AnnotationDrivenJmsBeanDefinitionParser implements BeanDefinitionParser {
 	}
 
 	private static void registerDefaultEndpointRegistry(@Nullable Object source, ParserContext parserContext) {
-		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(
-				"org.springframework.jms.config.JmsListenerEndpointRegistry");
+		BeanDefinitionBuilder builder = BeanDefinitionBuilder
+				.genericBeanDefinition("org.springframework.jms.config.JmsListenerEndpointRegistry");
 		builder.getRawBeanDefinition().setSource(source);
-		registerInfrastructureBean(parserContext, builder, JmsListenerConfigUtils.JMS_LISTENER_ENDPOINT_REGISTRY_BEAN_NAME);
+		registerInfrastructureBean(parserContext, builder,
+				JmsListenerConfigUtils.JMS_LISTENER_ENDPOINT_REGISTRY_BEAN_NAME);
 	}
 
-	private static void registerInfrastructureBean(
-			ParserContext parserContext, BeanDefinitionBuilder builder, String beanName) {
+	private static void registerInfrastructureBean(ParserContext parserContext, BeanDefinitionBuilder builder,
+			String beanName) {
 
 		builder.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 		parserContext.getRegistry().registerBeanDefinition(beanName, builder.getBeanDefinition());

@@ -40,8 +40,9 @@ import org.springframework.util.MimeType;
  * Implementation of {@link MessageConverter} that can read and write XML using Spring's
  * {@link Marshaller} and {@link Unmarshaller} abstractions.
  *
- * <p>This converter requires a {@code Marshaller} and {@code Unmarshaller} before it can
- * be used. These can be injected by the {@linkplain #MarshallingMessageConverter(Marshaller)
+ * <p>
+ * This converter requires a {@code Marshaller} and {@code Unmarshaller} before it can be
+ * used. These can be injected by the {@linkplain #MarshallingMessageConverter(Marshaller)
  * constructor} or {@linkplain #setMarshaller(Marshaller) bean properties}.
  *
  * @author Arjen Poutsma
@@ -57,14 +58,12 @@ public class MarshallingMessageConverter extends AbstractMessageConverter {
 	@Nullable
 	private Unmarshaller unmarshaller;
 
-
 	/**
 	 * Default construct allowing for {@link #setMarshaller(Marshaller)} and/or
 	 * {@link #setUnmarshaller(Unmarshaller)} to be invoked separately.
 	 */
 	public MarshallingMessageConverter() {
-		this(new MimeType("application", "xml"), new MimeType("text", "xml"),
-				new MimeType("application", "*+xml"));
+		this(new MimeType("application", "xml"), new MimeType("text", "xml"), new MimeType("application", "*+xml"));
 	}
 
 	/**
@@ -78,7 +77,8 @@ public class MarshallingMessageConverter extends AbstractMessageConverter {
 	/**
 	 * Constructor with {@link Marshaller}. If the given {@link Marshaller} also
 	 * implements {@link Unmarshaller}, it is also used for unmarshalling.
-	 * <p>Note that all {@code Marshaller} implementations in Spring also implement
+	 * <p>
+	 * Note that all {@code Marshaller} implementations in Spring also implement
 	 * {@code Unmarshaller} so that you can safely use this constructor.
 	 * @param marshaller object used as marshaller and unmarshaller
 	 */
@@ -90,7 +90,6 @@ public class MarshallingMessageConverter extends AbstractMessageConverter {
 			this.unmarshaller = (Unmarshaller) marshaller;
 		}
 	}
-
 
 	/**
 	 * Set the {@link Marshaller} to be used by this message converter.
@@ -122,17 +121,15 @@ public class MarshallingMessageConverter extends AbstractMessageConverter {
 		return this.unmarshaller;
 	}
 
-
 	@Override
 	protected boolean canConvertFrom(Message<?> message, Class<?> targetClass) {
-		return (supportsMimeType(message.getHeaders()) && this.unmarshaller != null &&
-				this.unmarshaller.supports(targetClass));
+		return (supportsMimeType(message.getHeaders()) && this.unmarshaller != null
+				&& this.unmarshaller.supports(targetClass));
 	}
 
 	@Override
 	protected boolean canConvertTo(Object payload, @Nullable MessageHeaders headers) {
-		return (supportsMimeType(headers) && this.marshaller != null &&
-				this.marshaller.supports(payload.getClass()));
+		return (supportsMimeType(headers) && this.marshaller != null && this.marshaller.supports(payload.getClass()));
 	}
 
 	@Override

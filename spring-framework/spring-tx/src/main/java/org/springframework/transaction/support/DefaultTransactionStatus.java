@@ -23,20 +23,23 @@ import org.springframework.util.Assert;
 
 /**
  * Default implementation of the {@link org.springframework.transaction.TransactionStatus}
- * interface, used by {@link AbstractPlatformTransactionManager}. Based on the concept
- * of an underlying "transaction object".
+ * interface, used by {@link AbstractPlatformTransactionManager}. Based on the concept of
+ * an underlying "transaction object".
  *
- * <p>Holds all status information that {@link AbstractPlatformTransactionManager}
- * needs internally, including a generic transaction object determined by the
- * concrete transaction manager implementation.
+ * <p>
+ * Holds all status information that {@link AbstractPlatformTransactionManager} needs
+ * internally, including a generic transaction object determined by the concrete
+ * transaction manager implementation.
  *
- * <p>Supports delegating savepoint-related methods to a transaction object
- * that implements the {@link SavepointManager} interface.
+ * <p>
+ * Supports delegating savepoint-related methods to a transaction object that implements
+ * the {@link SavepointManager} interface.
  *
- * <p><b>NOTE:</b> This is <i>not</i> intended for use with other PlatformTransactionManager
- * implementations, in particular not for mock transaction managers in testing environments.
- * Use the alternative {@link SimpleTransactionStatus} class or a mock for the plain
- * {@link org.springframework.transaction.TransactionStatus} interface instead.
+ * <p>
+ * <b>NOTE:</b> This is <i>not</i> intended for use with other PlatformTransactionManager
+ * implementations, in particular not for mock transaction managers in testing
+ * environments. Use the alternative {@link SimpleTransactionStatus} class or a mock for
+ * the plain {@link org.springframework.transaction.TransactionStatus} interface instead.
  *
  * @author Juergen Hoeller
  * @since 19.01.2004
@@ -64,24 +67,22 @@ public class DefaultTransactionStatus extends AbstractTransactionStatus {
 	@Nullable
 	private final Object suspendedResources;
 
-
 	/**
 	 * Create a new {@code DefaultTransactionStatus} instance.
-	 * @param transaction underlying transaction object that can hold state
-	 * for the internal transaction implementation
-	 * @param newTransaction if the transaction is new, otherwise participating
-	 * in an existing transaction
-	 * @param newSynchronization if a new transaction synchronization has been
-	 * opened for the given transaction
+	 * @param transaction underlying transaction object that can hold state for the
+	 * internal transaction implementation
+	 * @param newTransaction if the transaction is new, otherwise participating in an
+	 * existing transaction
+	 * @param newSynchronization if a new transaction synchronization has been opened for
+	 * the given transaction
 	 * @param readOnly whether the transaction is marked as read-only
 	 * @param debug should debug logging be enabled for the handling of this transaction?
 	 * Caching it in here can prevent repeated calls to ask the logging system whether
 	 * debug logging should be enabled.
-	 * @param suspendedResources a holder for resources that have been suspended
-	 * for this transaction, if any
+	 * @param suspendedResources a holder for resources that have been suspended for this
+	 * transaction, if any
 	 */
-	public DefaultTransactionStatus(
-			@Nullable Object transaction, boolean newTransaction, boolean newSynchronization,
+	public DefaultTransactionStatus(@Nullable Object transaction, boolean newTransaction, boolean newSynchronization,
 			boolean readOnly, boolean debug, @Nullable Object suspendedResources) {
 
 		this.transaction = transaction;
@@ -91,7 +92,6 @@ public class DefaultTransactionStatus extends AbstractTransactionStatus {
 		this.debug = debug;
 		this.suspendedResources = suspendedResources;
 	}
-
 
 	/**
 	 * Return the underlying transaction object.
@@ -115,8 +115,7 @@ public class DefaultTransactionStatus extends AbstractTransactionStatus {
 	}
 
 	/**
-	 * Return if a new transaction synchronization has been opened
-	 * for this transaction.
+	 * Return if a new transaction synchronization has been opened for this transaction.
 	 */
 	public boolean isNewSynchronization() {
 		return this.newSynchronization;
@@ -139,35 +138,35 @@ public class DefaultTransactionStatus extends AbstractTransactionStatus {
 	}
 
 	/**
-	 * Return the holder for resources that have been suspended for this transaction,
-	 * if any.
+	 * Return the holder for resources that have been suspended for this transaction, if
+	 * any.
 	 */
 	@Nullable
 	public Object getSuspendedResources() {
 		return this.suspendedResources;
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Enable functionality through underlying transaction object
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
-	 * Determine the rollback-only flag via checking the transaction object, provided
-	 * that the latter implements the {@link SmartTransactionObject} interface.
-	 * <p>Will return {@code true} if the global transaction itself has been marked
+	 * Determine the rollback-only flag via checking the transaction object, provided that
+	 * the latter implements the {@link SmartTransactionObject} interface.
+	 * <p>
+	 * Will return {@code true} if the global transaction itself has been marked
 	 * rollback-only by the transaction coordinator, for example in case of a timeout.
 	 * @see SmartTransactionObject#isRollbackOnly()
 	 */
 	@Override
 	public boolean isGlobalRollbackOnly() {
-		return ((this.transaction instanceof SmartTransactionObject) &&
-				((SmartTransactionObject) this.transaction).isRollbackOnly());
+		return ((this.transaction instanceof SmartTransactionObject)
+				&& ((SmartTransactionObject) this.transaction).isRollbackOnly());
 	}
 
 	/**
-	 * This implementation exposes the {@link SavepointManager} interface
-	 * of the underlying transaction object, if any.
+	 * This implementation exposes the {@link SavepointManager} interface of the
+	 * underlying transaction object, if any.
 	 * @throws NestedTransactionNotSupportedException if savepoints are not supported
 	 * @see #isTransactionSavepointManager()
 	 */

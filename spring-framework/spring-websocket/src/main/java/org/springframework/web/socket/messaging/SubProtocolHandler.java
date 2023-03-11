@@ -26,15 +26,16 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
- * A contract for handling WebSocket messages as part of a higher level protocol,
- * referred to as "sub-protocol" in the WebSocket RFC specification.
- * Handles both {@link WebSocketMessage WebSocketMessages} from a client
- * as well as {@link Message Messages} to a client.
+ * A contract for handling WebSocket messages as part of a higher level protocol, referred
+ * to as "sub-protocol" in the WebSocket RFC specification. Handles both
+ * {@link WebSocketMessage WebSocketMessages} from a client as well as {@link Message
+ * Messages} to a client.
  *
- * <p>Implementations of this interface can be configured on a
- * {@link SubProtocolWebSocketHandler} which selects a sub-protocol handler to
- * delegate messages to based on the sub-protocol requested by the client through
- * the {@code Sec-WebSocket-Protocol} request header.
+ * <p>
+ * Implementations of this interface can be configured on a
+ * {@link SubProtocolWebSocketHandler} which selects a sub-protocol handler to delegate
+ * messages to based on the sub-protocol requested by the client through the
+ * {@code Sec-WebSocket-Protocol} request header.
  *
  * @author Andy Wilkinson
  * @author Rossen Stoyanchev
@@ -57,7 +58,8 @@ public interface SubProtocolHandler {
 			throws Exception;
 
 	/**
-	 * Handle the given {@link Message} to the client associated with the given WebSocket session.
+	 * Handle the given {@link Message} to the client associated with the given WebSocket
+	 * session.
 	 * @param session the client session
 	 * @param message the client message
 	 */

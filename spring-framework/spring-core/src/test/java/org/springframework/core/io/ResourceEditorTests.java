@@ -45,8 +45,7 @@ class ResourceEditorTests {
 
 	@Test
 	void ctorWithNullCtorArgs() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ResourceEditor(null, null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new ResourceEditor(null, null));
 	}
 
 	@Test
@@ -97,8 +96,8 @@ class ResourceEditorTests {
 		System.setProperty("test.prop", "foo");
 		try {
 			assertThatIllegalArgumentException().isThrownBy(() -> {
-					editor.setAsText("${test.prop}-${bar}");
-					editor.getValue();
+				editor.setAsText("${test.prop}-${bar}");
+				editor.getValue();
 			});
 		}
 		finally {

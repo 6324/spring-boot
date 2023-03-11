@@ -28,9 +28,8 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.lang.Nullable;
 
 /**
- * Context that gets passed along a bean definition parsing process,
- * encapsulating all relevant configuration as well as state.
- * Nested inside an {@link XmlReaderContext}.
+ * Context that gets passed along a bean definition parsing process, encapsulating all
+ * relevant configuration as well as state. Nested inside an {@link XmlReaderContext}.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -49,7 +48,6 @@ public final class ParserContext {
 
 	private final Deque<CompositeComponentDefinition> containingComponents = new ArrayDeque<>();
 
-
 	public ParserContext(XmlReaderContext readerContext, BeanDefinitionParserDelegate delegate) {
 		this.readerContext = readerContext;
 		this.delegate = delegate;
@@ -62,7 +60,6 @@ public final class ParserContext {
 		this.delegate = delegate;
 		this.containingBeanDefinition = containingBeanDefinition;
 	}
-
 
 	public XmlReaderContext getReaderContext() {
 		return this.readerContext;

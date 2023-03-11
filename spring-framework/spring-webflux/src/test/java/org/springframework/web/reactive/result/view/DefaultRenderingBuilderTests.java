@@ -54,7 +54,6 @@ public class DefaultRenderingBuilderTests {
 		assertThat(((RedirectView) view).isPropagateQuery()).isFalse();
 	}
 
-
 	@Test
 	public void viewName() {
 		Rendering rendering = Rendering.view("foo").build();
@@ -126,9 +125,12 @@ public class DefaultRenderingBuilderTests {
 		assertThat(((RedirectView) view).isPropagateQuery()).isTrue();
 	}
 
+	private static class Foo {
 
-	private static class Foo {}
+	}
 
-	private static class Bar {}
+	private static class Bar {
+
+	}
 
 }

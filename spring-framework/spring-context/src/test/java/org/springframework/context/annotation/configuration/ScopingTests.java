@@ -43,8 +43,8 @@ import org.springframework.context.support.GenericApplicationContext;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Tests that scopes are properly supported by using a custom Scope implementations
- * and scoped proxy {@link Bean} declarations.
+ * Tests that scopes are properly supported by using a custom Scope implementations and
+ * scoped proxy {@link Bean} declarations.
  *
  * @author Costin Leau
  * @author Chris Beams
@@ -58,7 +58,6 @@ public class ScopingTests {
 	private CustomScope customScope;
 
 	private GenericApplicationContext ctx;
-
 
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -83,7 +82,6 @@ public class ScopingTests {
 		ctx.refresh();
 		return ctx;
 	}
-
 
 	@Test
 	public void testScopeOnClasses() throws Exception {
@@ -224,7 +222,6 @@ public class ScopingTests {
 		assertThat(spouseFromBF.getName()).isSameAs(spouse.getName());
 	}
 
-
 	static class Foo {
 
 		public Foo() {
@@ -232,8 +229,8 @@ public class ScopingTests {
 
 		public void doSomething() {
 		}
-	}
 
+	}
 
 	static class Bar {
 
@@ -246,18 +243,19 @@ public class ScopingTests {
 		public Foo getFoo() {
 			return foo;
 		}
-	}
 
+	}
 
 	@Configuration
 	public static class InvalidProxyOnPredefinedScopesConfiguration {
 
-		@Bean @Scope(proxyMode=ScopedProxyMode.INTERFACES)
+		@Bean
+		@Scope(proxyMode = ScopedProxyMode.INTERFACES)
 		public Object invalidProxyOnPredefinedScopes() {
 			return new Object();
 		}
-	}
 
+	}
 
 	@Configuration
 	public static class ScopedConfigurationClass {
@@ -306,26 +304,27 @@ public class ScopingTests {
 			singleton.setSpouse(scopedProxyInterface());
 			return singleton;
 		}
+
 	}
 
-
-	@Target({ElementType.METHOD})
+	@Target({ ElementType.METHOD })
 	@Retention(RetentionPolicy.RUNTIME)
 	@Scope(SCOPE)
 	@interface MyScope {
+
 	}
 
-
-	@Target({ElementType.METHOD})
+	@Target({ ElementType.METHOD })
 	@Retention(RetentionPolicy.RUNTIME)
 	@Bean
-	@Scope(value=SCOPE, proxyMode=ScopedProxyMode.TARGET_CLASS)
+	@Scope(value = SCOPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
 	@interface MyProxiedScope {
-	}
 
+	}
 
 	/**
 	 * Simple scope implementation which creates object based on a flag.
+	 *
 	 * @author Costin Leau
 	 * @author Chris Beams
 	 */
@@ -372,6 +371,7 @@ public class ScopingTests {
 		public Object resolveContextualObject(String key) {
 			return null;
 		}
+
 	}
 
 }

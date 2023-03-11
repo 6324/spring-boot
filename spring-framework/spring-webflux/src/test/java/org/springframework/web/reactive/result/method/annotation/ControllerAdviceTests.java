@@ -55,9 +55,7 @@ import static org.mockito.Mockito.mock;
  */
 public class ControllerAdviceTests {
 
-	private final MockServerWebExchange exchange =
-			MockServerWebExchange.from(MockServerHttpRequest.get("/"));
-
+	private final MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
 
 	@Test
 	public void resolveExceptionGlobalHandler() throws Exception {
@@ -126,7 +124,6 @@ public class ControllerAdviceTests {
 		assertThat(binder.getValidators()).isEqualTo(Collections.singletonList(validator));
 	}
 
-
 	private RequestMappingHandlerAdapter createAdapter(ApplicationContext context) throws Exception {
 		RequestMappingHandlerAdapter adapter = new RequestMappingHandlerAdapter();
 		adapter.setApplicationContext(context);
@@ -134,14 +131,13 @@ public class ControllerAdviceTests {
 		return adapter;
 	}
 
-	private HandlerResult handle(RequestMappingHandlerAdapter adapter,
-			Object controller, String methodName) throws Exception {
+	private HandlerResult handle(RequestMappingHandlerAdapter adapter, Object controller, String methodName)
+			throws Exception {
 
 		Method method = controller.getClass().getMethod(methodName);
 		HandlerMethod handlerMethod = new HandlerMethod(controller, method);
 		return adapter.handle(this.exchange, handlerMethod).block(Duration.ZERO);
 	}
-
 
 	@Configuration
 	static class TestConfig {
@@ -160,6 +156,7 @@ public class ControllerAdviceTests {
 		public SecondControllerAdvice anotherTestExceptionResolver() {
 			return new SecondControllerAdvice();
 		}
+
 	}
 
 	@Controller
@@ -169,7 +166,6 @@ public class ControllerAdviceTests {
 
 		private Throwable exception;
 
-
 		void setValidator(Validator validator) {
 			this.validator = validator;
 		}
@@ -177,7 +173,6 @@ public class ControllerAdviceTests {
 		void setException(Throwable exception) {
 			this.exception = exception;
 		}
-
 
 		@InitBinder
 		public void initDataBinder(WebDataBinder dataBinder) {
@@ -197,6 +192,7 @@ public class ControllerAdviceTests {
 				throw this.exception;
 			}
 		}
+
 	}
 
 	@ControllerAdvice
@@ -223,16 +219,18 @@ public class ControllerAdviceTests {
 		public String handleAssertionError(Error err) {
 			return err.toString();
 		}
+
 	}
 
 	@ControllerAdvice
 	@Order(2)
 	static class SecondControllerAdvice {
 
-		@ExceptionHandler({IllegalStateException.class, IllegalAccessException.class})
+		@ExceptionHandler({ IllegalStateException.class, IllegalAccessException.class })
 		public String handleException(Exception ex) {
 			return "SecondControllerAdvice: " + ClassUtils.getShortName(ex.getClass());
 		}
+
 	}
 
 }

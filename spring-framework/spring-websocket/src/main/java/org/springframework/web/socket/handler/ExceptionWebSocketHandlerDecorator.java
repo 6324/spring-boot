@@ -25,9 +25,9 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
- * An exception handling {@link WebSocketHandlerDecorator}.
- * Traps all {@link Throwable} instances that escape from the decorated
- * handler and closes the session with {@link CloseStatus#SERVER_ERROR}.
+ * An exception handling {@link WebSocketHandlerDecorator}. Traps all {@link Throwable}
+ * instances that escape from the decorated handler and closes the session with
+ * {@link CloseStatus#SERVER_ERROR}.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -36,11 +36,9 @@ public class ExceptionWebSocketHandlerDecorator extends WebSocketHandlerDecorato
 
 	private static final Log logger = LogFactory.getLog(ExceptionWebSocketHandlerDecorator.class);
 
-
 	public ExceptionWebSocketHandlerDecorator(WebSocketHandler delegate) {
 		super(delegate);
 	}
-
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) {
@@ -83,7 +81,6 @@ public class ExceptionWebSocketHandlerDecorator extends WebSocketHandlerDecorato
 			}
 		}
 	}
-
 
 	public static void tryCloseWithError(WebSocketSession session, Throwable exception, Log logger) {
 		if (logger.isErrorEnabled()) {

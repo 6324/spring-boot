@@ -176,6 +176,7 @@ class AttributeMethodsTests {
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@interface NoAttributes {
+
 	}
 
 	@Retention(RetentionPolicy.RUNTIME)

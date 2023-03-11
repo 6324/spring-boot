@@ -41,7 +41,6 @@ class FastByteArrayOutputStreamTests {
 
 	private final byte[] helloBytes = "Hello World".getBytes(StandardCharsets.UTF_8);
 
-
 	@Test
 	void size() throws Exception {
 		this.os.write(this.helloBytes);
@@ -64,7 +63,7 @@ class FastByteArrayOutputStreamTests {
 			this.os.write(1);
 		}
 		assertThat(this.os.size()).isEqualTo(10);
-		assertThat(new byte[] {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}).isEqualTo(this.os.toByteArray());
+		assertThat(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }).isEqualTo(this.os.toByteArray());
 	}
 
 	@Test
@@ -86,8 +85,7 @@ class FastByteArrayOutputStreamTests {
 	@Test
 	void close() throws Exception {
 		this.os.close();
-		assertThatIOException().isThrownBy(() ->
-				this.os.write(this.helloBytes));
+		assertThatIOException().isThrownBy(() -> this.os.write(this.helloBytes));
 	}
 
 	@Test
@@ -110,8 +108,7 @@ class FastByteArrayOutputStreamTests {
 	@Test
 	void failResize() throws Exception {
 		this.os.write(this.helloBytes);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.os.resize(5));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.os.resize(5));
 	}
 
 	@Test
@@ -203,7 +200,7 @@ class FastByteArrayOutputStreamTests {
 	void updateMessageDigestManyBuffers() throws Exception {
 		StringBuilder builder = new StringBuilder("\"0");
 		// filling at least one 256 buffer
-		for ( int i = 0; i < 30; i++) {
+		for (int i = 0; i < 30; i++) {
 			this.os.write(this.helloBytes);
 		}
 		InputStream inputStream = this.os.getInputStream();
@@ -212,7 +209,6 @@ class FastByteArrayOutputStreamTests {
 		String actual = builder.toString();
 		assertThat(actual).isEqualTo("\"06225ca1e4533354c516e74512065331d\"");
 	}
-
 
 	private void assertByteArrayEqualsString(FastByteArrayOutputStream actual) {
 		assertThat(actual.toByteArray()).isEqualTo(this.helloBytes);

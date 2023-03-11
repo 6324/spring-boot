@@ -53,11 +53,9 @@ public class JdkDynamicProxyTests extends AbstractAopProxyTests implements Seria
 		return new JdkDynamicAopProxy(as);
 	}
 
-
 	@Test
 	public void testNullConfig() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new JdkDynamicAopProxy(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new JdkDynamicAopProxy(null));
 	}
 
 	@Test
@@ -95,7 +93,8 @@ public class JdkDynamicProxyTests extends AbstractAopProxyTests implements Seria
 			@Override
 			protected void assertions(MethodInvocation invocation) {
 				assertThat(invocation.getThis()).isEqualTo(this);
-				assertThat(invocation.getMethod().getDeclaringClass()).as("Invocation should be on ITestBean: " + invocation.getMethod()).isEqualTo(ITestBean.class);
+				assertThat(invocation.getMethod().getDeclaringClass())
+						.as("Invocation should be on ITestBean: " + invocation.getMethod()).isEqualTo(ITestBean.class);
 			}
 		};
 
@@ -125,7 +124,8 @@ public class JdkDynamicProxyTests extends AbstractAopProxyTests implements Seria
 		as.setTarget(bean);
 
 		Foo proxy = (Foo) createProxy(as);
-		assertThat(proxy.getBarThis()).as("Target should be returned when return types are incompatible").isSameAs(bean);
+		assertThat(proxy.getBarThis()).as("Target should be returned when return types are incompatible")
+				.isSameAs(bean);
 		assertThat(proxy.getFooThis()).as("Proxy should be returned when return types are compatible").isSameAs(proxy);
 	}
 
@@ -140,7 +140,7 @@ public class JdkDynamicProxyTests extends AbstractAopProxyTests implements Seria
 		assertThat(named.hashCode()).isEqualTo(proxy.hashCode());
 	}
 
-	@Test  // SPR-13328
+	@Test // SPR-13328
 	@SuppressWarnings("unchecked")
 	public void testVarargsWithEnumArray() {
 		ProxyFactory proxyFactory = new ProxyFactory(new VarargTestBean());
@@ -148,18 +148,17 @@ public class JdkDynamicProxyTests extends AbstractAopProxyTests implements Seria
 		assertThat(proxy.doWithVarargs(MyEnum.A, MyOtherEnum.C)).isTrue();
 	}
 
-
 	public interface Foo {
 
 		Bar getBarThis();
 
 		Foo getFooThis();
-	}
 
+	}
 
 	public interface Bar {
-	}
 
+	}
 
 	public static class FooBar implements Foo, Bar {
 
@@ -172,8 +171,8 @@ public class JdkDynamicProxyTests extends AbstractAopProxyTests implements Seria
 		public Foo getFooThis() {
 			return this;
 		}
-	}
 
+	}
 
 	public interface Named {
 
@@ -184,8 +183,8 @@ public class JdkDynamicProxyTests extends AbstractAopProxyTests implements Seria
 
 		@Override
 		int hashCode();
-	}
 
+	}
 
 	public static class Person implements Named {
 
@@ -198,10 +197,13 @@ public class JdkDynamicProxyTests extends AbstractAopProxyTests implements Seria
 
 		@Override
 		public boolean equals(Object o) {
-			if (this == o) return true;
-			if (o == null || getClass() != o.getClass()) return false;
+			if (this == o)
+				return true;
+			if (o == null || getClass() != o.getClass())
+				return false;
 			Person person = (Person) o;
-			if (!name.equals(person.name)) return false;
+			if (!name.equals(person.name))
+				return false;
 			return true;
 		}
 
@@ -209,15 +211,15 @@ public class JdkDynamicProxyTests extends AbstractAopProxyTests implements Seria
 		public int hashCode() {
 			return name.hashCode();
 		}
-	}
 
+	}
 
 	public interface VarargTestInterface {
 
 		@SuppressWarnings("unchecked")
 		<V extends MyInterface> boolean doWithVarargs(V... args);
-	}
 
+	}
 
 	public static class VarargTestBean implements VarargTestInterface {
 
@@ -226,22 +228,23 @@ public class JdkDynamicProxyTests extends AbstractAopProxyTests implements Seria
 		public <V extends MyInterface> boolean doWithVarargs(V... args) {
 			return true;
 		}
-	}
 
+	}
 
 	public interface MyInterface {
-	}
 
+	}
 
 	public enum MyEnum implements MyInterface {
 
 		A, B;
-	}
 
+	}
 
 	public enum MyOtherEnum implements MyInterface {
 
 		C, D;
+
 	}
 
 }

@@ -25,8 +25,9 @@ import org.springframework.dao.support.PersistenceExceptionTranslator;
 import org.springframework.stereotype.Repository;
 
 /**
- * Tests for standalone usage of a PersistenceExceptionTranslationInterceptor, as explicit advice bean in a BeanFactory
- * rather than applied as part of a PersistenceExceptionTranslationAdvisor.
+ * Tests for standalone usage of a PersistenceExceptionTranslationInterceptor, as explicit
+ * advice bean in a BeanFactory rather than applied as part of a
+ * PersistenceExceptionTranslationAdvisor.
  *
  * @author Juergen Hoeller
  */

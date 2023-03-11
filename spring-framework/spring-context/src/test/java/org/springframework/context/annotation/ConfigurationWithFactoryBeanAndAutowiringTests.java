@@ -91,10 +91,9 @@ public class ConfigurationWithFactoryBeanAndAutowiringTests {
 		assertThat(ctx.getBean("myString")).isEqualTo("true");
 	}
 
-
 	static class DummyBean {
-	}
 
+	}
 
 	static class MyFactoryBean implements FactoryBean<String>, InitializingBean {
 
@@ -123,8 +122,8 @@ public class ConfigurationWithFactoryBeanAndAutowiringTests {
 		public String getString() {
 			return Boolean.toString(this.initialized);
 		}
-	}
 
+	}
 
 	static class MyParameterizedFactoryBean<T> implements FactoryBean<T> {
 
@@ -142,15 +141,15 @@ public class ConfigurationWithFactoryBeanAndAutowiringTests {
 		@Override
 		@SuppressWarnings("unchecked")
 		public Class<T> getObjectType() {
-			return (Class<T>)obj.getClass();
+			return (Class<T>) obj.getClass();
 		}
 
 		@Override
 		public boolean isSingleton() {
 			return true;
 		}
-	}
 
+	}
 
 	@Configuration
 	static class AppConfig {
@@ -159,8 +158,8 @@ public class ConfigurationWithFactoryBeanAndAutowiringTests {
 		public DummyBean dummyBean() {
 			return new DummyBean();
 		}
-	}
 
+	}
 
 	@Configuration
 	static class ConcreteFactoryBeanImplementationConfig {
@@ -173,8 +172,8 @@ public class ConfigurationWithFactoryBeanAndAutowiringTests {
 			Assert.notNull(dummyBean, "DummyBean was not injected.");
 			return new MyFactoryBean();
 		}
-	}
 
+	}
 
 	@Configuration
 	static class ParameterizedFactoryBeanImplementationConfig {
@@ -187,8 +186,8 @@ public class ConfigurationWithFactoryBeanAndAutowiringTests {
 			Assert.notNull(dummyBean, "DummyBean was not injected.");
 			return new MyParameterizedFactoryBean<>("whatev");
 		}
-	}
 
+	}
 
 	@Configuration
 	static class ParameterizedFactoryBeanInterfaceConfig {
@@ -201,8 +200,8 @@ public class ConfigurationWithFactoryBeanAndAutowiringTests {
 			Assert.notNull(dummyBean, "DummyBean was not injected.");
 			return new MyFactoryBean();
 		}
-	}
 
+	}
 
 	@Configuration
 	static class NonPublicParameterizedFactoryBeanInterfaceConfig {
@@ -215,8 +214,8 @@ public class ConfigurationWithFactoryBeanAndAutowiringTests {
 			Assert.notNull(dummyBean, "DummyBean was not injected.");
 			return new MyFactoryBean();
 		}
-	}
 
+	}
 
 	@Configuration
 	static class RawFactoryBeanInterfaceConfig {
@@ -230,8 +229,8 @@ public class ConfigurationWithFactoryBeanAndAutowiringTests {
 			Assert.notNull(dummyBean, "DummyBean was not injected.");
 			return new MyFactoryBean();
 		}
-	}
 
+	}
 
 	@Configuration
 	static class WildcardParameterizedFactoryBeanInterfaceConfig {
@@ -244,8 +243,8 @@ public class ConfigurationWithFactoryBeanAndAutowiringTests {
 			Assert.notNull(dummyBean, "DummyBean was not injected.");
 			return new MyFactoryBean();
 		}
-	}
 
+	}
 
 	@Configuration
 	static class FactoryBeanCallingConfig {
@@ -263,6 +262,7 @@ public class ConfigurationWithFactoryBeanAndAutowiringTests {
 		public String myString() {
 			return factoryBean().getString();
 		}
+
 	}
 
 }

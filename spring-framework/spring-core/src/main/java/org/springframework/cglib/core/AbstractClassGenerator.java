@@ -28,21 +28,19 @@ import org.springframework.cglib.core.internal.Function;
 import org.springframework.cglib.core.internal.LoadingCache;
 
 /**
- * Abstract class for all code-generating CGLIB utilities.
- * In addition to caching generated classes for performance, it provides hooks for
- * customizing the <code>ClassLoader</code>, name of the generated class, and transformations
- * applied before generation.
+ * Abstract class for all code-generating CGLIB utilities. In addition to caching
+ * generated classes for performance, it provides hooks for customizing the
+ * <code>ClassLoader</code>, name of the generated class, and transformations applied
+ * before generation.
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({ "rawtypes", "unchecked" })
 abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 
 	private static final ThreadLocal CURRENT = new ThreadLocal();
 
 	private static volatile Map<ClassLoader, ClassLoaderData> CACHE = new WeakHashMap<ClassLoader, ClassLoaderData>();
 
-	private static final boolean DEFAULT_USE_CACHE =
-			Boolean.parseBoolean(System.getProperty("cglib.useCache", "true"));
-
+	private static final boolean DEFAULT_USE_CACHE = Boolean.parseBoolean(System.getProperty("cglib.useCache", "true"));
 
 	private GeneratorStrategy strategy = DefaultGeneratorStrategy.INSTANCE;
 
@@ -64,26 +62,32 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 
 	private boolean attemptLoad;
 
-
 	protected static class ClassLoaderData {
 
 		private final Set<String> reservedClassNames = new HashSet<String>();
 
 		/**
-		 * {@link AbstractClassGenerator} here holds "cache key" (e.g. {@link org.springframework.cglib.proxy.Enhancer}
-		 * configuration), and the value is the generated class plus some additional values
-		 * (see {@link #unwrapCachedValue(Object)}.
-		 * <p>The generated classes can be reused as long as their classloader is reachable.</p>
-		 * <p>Note: the only way to access a class is to find it through generatedClasses cache, thus
-		 * the key should not expire as long as the class itself is alive (its classloader is alive).</p>
+		 * {@link AbstractClassGenerator} here holds "cache key" (e.g.
+		 * {@link org.springframework.cglib.proxy.Enhancer} configuration), and the value
+		 * is the generated class plus some additional values (see
+		 * {@link #unwrapCachedValue(Object)}.
+		 * <p>
+		 * The generated classes can be reused as long as their classloader is reachable.
+		 * </p>
+		 * <p>
+		 * Note: the only way to access a class is to find it through generatedClasses
+		 * cache, thus the key should not expire as long as the class itself is alive (its
+		 * classloader is alive).
+		 * </p>
 		 */
 		private final LoadingCache<AbstractClassGenerator, Object, Object> generatedClasses;
 
 		/**
-		 * Note: ClassLoaderData object is stored as a value of {@code WeakHashMap<ClassLoader, ...>} thus
-		 * this classLoader reference should be weak otherwise it would make classLoader strongly reachable
-		 * and alive forever.
-		 * Reference queue is not required since the cleanup is handled by {@link WeakHashMap}.
+		 * Note: ClassLoaderData object is stored as a value of
+		 * {@code WeakHashMap<ClassLoader, ...>} thus this classLoader reference should be
+		 * weak otherwise it would make classLoader strongly reachable and alive forever.
+		 * Reference queue is not required since the cleanup is handled by
+		 * {@link WeakHashMap}.
 		 */
 		private final WeakReference<ClassLoader> classLoader;
 
@@ -104,13 +108,12 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 				throw new IllegalArgumentException("classLoader == null is not yet supported");
 			}
 			this.classLoader = new WeakReference<ClassLoader>(classLoader);
-			Function<AbstractClassGenerator, Object> load =
-					new Function<AbstractClassGenerator, Object>() {
-						public Object apply(AbstractClassGenerator gen) {
-							Class klass = gen.generate(ClassLoaderData.this);
-							return gen.wrapCachedClass(klass);
-						}
-					};
+			Function<AbstractClassGenerator, Object> load = new Function<AbstractClassGenerator, Object>() {
+				public Object apply(AbstractClassGenerator gen) {
+					Class klass = gen.generate(ClassLoaderData.this);
+					return gen.wrapCachedClass(klass);
+				}
+			};
 			generatedClasses = new LoadingCache<AbstractClassGenerator, Object, Object>(GET_KEY, load);
 		}
 
@@ -135,8 +138,8 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 				return gen.unwrapCachedValue(cachedValue);
 			}
 		}
-	}
 
+	}
 
 	protected T wrapCachedClass(Class klass) {
 		return (T) new WeakReference(klass);
@@ -146,7 +149,6 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 		return ((WeakReference) cached).get();
 	}
 
-
 	protected static class Source {
 
 		String name;
@@ -154,8 +156,8 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 		public Source(String name) {
 			this.name = name;
 		}
-	}
 
+	}
 
 	protected AbstractClassGenerator(Source source) {
 		this.source = source;
@@ -178,13 +180,15 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 	}
 
 	/**
-	 * Set the <code>ClassLoader</code> in which the class will be generated.
-	 * Concrete subclasses of <code>AbstractClassGenerator</code> (such as <code>Enhancer</code>)
+	 * Set the <code>ClassLoader</code> in which the class will be generated. Concrete
+	 * subclasses of <code>AbstractClassGenerator</code> (such as <code>Enhancer</code>)
 	 * will try to choose an appropriate default if this is unset.
 	 * <p>
-	 * Classes are cached per-<code>ClassLoader</code> using a <code>WeakHashMap</code>, to allow
-	 * the generated classes to be removed when the associated loader is garbage collected.
-	 * @param classLoader the loader to generate the new class with, or null to use the default
+	 * Classes are cached per-<code>ClassLoader</code> using a <code>WeakHashMap</code>,
+	 * to allow the generated classes to be removed when the associated loader is garbage
+	 * collected.
+	 * @param classLoader the loader to generate the new class with, or null to use the
+	 * default
 	 */
 	public void setClassLoader(ClassLoader classLoader) {
 		this.classLoader = classLoader;
@@ -215,8 +219,8 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 	}
 
 	/**
-	 * Whether use and update the static cache of generated classes
-	 * for a class with the same properties. Default is <code>true</code>.
+	 * Whether use and update the static cache of generated classes for a class with the
+	 * same properties. Default is <code>true</code>.
 	 */
 	public void setUseCache(boolean useCache) {
 		this.useCache = useCache;
@@ -231,8 +235,8 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 
 	/**
 	 * If set, CGLIB will attempt to load classes from the specified
-	 * <code>ClassLoader</code> before generating them. Because generated
-	 * class names are not guaranteed to be unique, the default is <code>false</code>.
+	 * <code>ClassLoader</code> before generating them. Because generated class names are
+	 * not guaranteed to be unique, the default is <code>false</code>.
 	 */
 	public void setAttemptLoad(boolean attemptLoad) {
 		this.attemptLoad = attemptLoad;
@@ -243,8 +247,8 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 	}
 
 	/**
-	 * Set the strategy to use to create the bytecode from this generator.
-	 * By default an instance of {@link DefaultGeneratorStrategy} is used.
+	 * Set the strategy to use to create the bytecode from this generator. By default an
+	 * instance of {@link DefaultGeneratorStrategy} is used.
 	 */
 	public void setStrategy(GeneratorStrategy strategy) {
 		if (strategy == null)
@@ -260,8 +264,8 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 	}
 
 	/**
-	 * Used internally by CGLIB. Returns the <code>AbstractClassGenerator</code>
-	 * that is being used to generate a class in the current thread.
+	 * Used internally by CGLIB. Returns the <code>AbstractClassGenerator</code> that is
+	 * being used to generate a class in the current thread.
 	 */
 	public static AbstractClassGenerator getCurrent() {
 		return (AbstractClassGenerator) CURRENT.get();
@@ -289,8 +293,8 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 	/**
 	 * Returns the protection domain to use when defining the class.
 	 * <p>
-	 * Default implementation returns <code>null</code> for using a default protection domain. Sub-classes may
-	 * override to use a more specific protection domain.
+	 * Default implementation returns <code>null</code> for using a default protection
+	 * domain. Sub-classes may override to use a more specific protection domain.
 	 * </p>
 	 * @return the protection domain (<code>null</code> for using a default)
 	 */
@@ -308,7 +312,8 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 					cache = CACHE;
 					data = cache.get(loader);
 					if (data == null) {
-						Map<ClassLoader, ClassLoaderData> newCache = new WeakHashMap<ClassLoader, ClassLoaderData>(cache);
+						Map<ClassLoader, ClassLoaderData> newCache = new WeakHashMap<ClassLoader, ClassLoaderData>(
+								cache);
 						data = new ClassLoaderData(loader);
 						newCache.put(loader, data);
 						CACHE = newCache;
@@ -337,9 +342,9 @@ abstract public class AbstractClassGenerator<T> implements ClassGenerator {
 		try {
 			ClassLoader classLoader = data.getClassLoader();
 			if (classLoader == null) {
-				throw new IllegalStateException("ClassLoader is null while trying to define class " +
-						getClassName() + ". It seems that the loader has been expired from a weak reference somehow. " +
-						"Please file an issue at cglib's issue tracker.");
+				throw new IllegalStateException("ClassLoader is null while trying to define class " + getClassName()
+						+ ". It seems that the loader has been expired from a weak reference somehow. "
+						+ "Please file an issue at cglib's issue tracker.");
 			}
 			synchronized (classLoader) {
 				String name = generateClassName(data.getUniqueNamePredicate());

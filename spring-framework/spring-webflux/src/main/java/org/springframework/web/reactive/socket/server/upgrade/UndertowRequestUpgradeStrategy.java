@@ -53,8 +53,8 @@ import org.springframework.web.server.ServerWebExchange;
 public class UndertowRequestUpgradeStrategy implements RequestUpgradeStrategy {
 
 	@Override
-	public Mono<Void> upgrade(ServerWebExchange exchange, WebSocketHandler handler,
-			@Nullable String subProtocol, Supplier<HandshakeInfo> handshakeInfoFactory) {
+	public Mono<Void> upgrade(ServerWebExchange exchange, WebSocketHandler handler, @Nullable String subProtocol,
+			Supplier<HandshakeInfo> handshakeInfoFactory) {
 
 		HttpServerExchange httpExchange = getNativeRequest(exchange.getRequest());
 
@@ -66,12 +66,11 @@ public class UndertowRequestUpgradeStrategy implements RequestUpgradeStrategy {
 		DataBufferFactory bufferFactory = exchange.getResponse().bufferFactory();
 
 		// Trigger WebFlux preCommit actions and upgrade
-		return exchange.getResponse().setComplete()
-				.then(Mono.fromCallable(() -> {
-					DefaultCallback callback = new DefaultCallback(handshakeInfo, handler, bufferFactory);
-					new WebSocketProtocolHandshakeHandler(handshakes, callback).handleRequest(httpExchange);
-					return null;
-				}));
+		return exchange.getResponse().setComplete().then(Mono.fromCallable(() -> {
+			DefaultCallback callback = new DefaultCallback(handshakeInfo, handler, bufferFactory);
+			new WebSocketProtocolHandshakeHandler(handshakes, callback).handleRequest(httpExchange);
+			return null;
+		}));
 	}
 
 	private static HttpServerExchange getNativeRequest(ServerHttpRequest request) {
@@ -82,11 +81,9 @@ public class UndertowRequestUpgradeStrategy implements RequestUpgradeStrategy {
 			return getNativeRequest(((ServerHttpRequestDecorator) request).getDelegate());
 		}
 		else {
-			throw new IllegalArgumentException(
-					"Couldn't find HttpServerExchange in " + request.getClass().getName());
+			throw new IllegalArgumentException("Couldn't find HttpServerExchange in " + request.getClass().getName());
 		}
 	}
-
 
 	private class DefaultCallback implements WebSocketConnectionCallback {
 
@@ -110,14 +107,14 @@ public class UndertowRequestUpgradeStrategy implements RequestUpgradeStrategy {
 			channel.getReceiveSetter().set(adapter);
 			channel.resumeReceives();
 
-			this.handler.handle(session)
-					.checkpoint(exchange.getRequestURI() + " [UndertowRequestUpgradeStrategy]")
+			this.handler.handle(session).checkpoint(exchange.getRequestURI() + " [UndertowRequestUpgradeStrategy]")
 					.subscribe(session);
 		}
 
 		private UndertowWebSocketSession createSession(WebSocketChannel channel) {
 			return new UndertowWebSocketSession(channel, this.handshakeInfo, this.bufferFactory);
 		}
+
 	}
 
 }

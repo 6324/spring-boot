@@ -84,11 +84,12 @@ public class TrickyAspectJPointcutExpressionTests {
 		pointcut.setExpression(String.format("execution(* %s.TestService.*(..))", getClass().getName()));
 
 		// Test with default class loader first...
-		testAdvice(new DefaultPointcutAdvisor(pointcut, logAdvice), logAdvice, new TestServiceImpl(), "TestServiceImpl");
+		testAdvice(new DefaultPointcutAdvisor(pointcut, logAdvice), logAdvice, new TestServiceImpl(),
+				"TestServiceImpl");
 
 		// Then try again with a different class loader on the target...
 		SimpleThrowawayClassLoader loader = new SimpleThrowawayClassLoader(TestServiceImpl.class.getClassLoader());
-		// Make sure the interface is loaded from the  parent class loader
+		// Make sure the interface is loaded from the parent class loader
 		loader.excludeClass(TestService.class.getName());
 		loader.excludeClass(TestException.class.getName());
 		TestService other = (TestService) loader.loadClass(TestServiceImpl.class.getName()).newInstance();
@@ -112,11 +113,9 @@ public class TrickyAspectJPointcutExpressionTests {
 		TestService bean = (TestService) factory.getProxy();
 
 		assertThat(logAdvice.getCountThrows()).isEqualTo(0);
-		assertThatExceptionOfType(TestException.class).isThrownBy(
-				bean::sayHello).withMessageContaining(message);
+		assertThatExceptionOfType(TestException.class).isThrownBy(bean::sayHello).withMessageContaining(message);
 		assertThat(logAdvice.getCountThrows()).isEqualTo(1);
 	}
-
 
 	public static class SimpleThrowawayClassLoader extends OverridingClassLoader {
 
@@ -130,29 +129,28 @@ public class TrickyAspectJPointcutExpressionTests {
 
 	}
 
-
 	@SuppressWarnings("serial")
 	public static class TestException extends RuntimeException {
 
 		public TestException(String string) {
 			super(string);
 		}
-	}
 
+	}
 
 	@Target({ ElementType.METHOD, ElementType.TYPE })
 	@Retention(RetentionPolicy.RUNTIME)
 	@Documented
 	@Inherited
 	public static @interface Log {
-	}
 
+	}
 
 	public static interface TestService {
 
 		public String sayHello();
-	}
 
+	}
 
 	@Log
 	public static class TestServiceImpl implements TestService {
@@ -161,8 +159,8 @@ public class TrickyAspectJPointcutExpressionTests {
 		public String sayHello() {
 			throw new TestException("TestServiceImpl");
 		}
-	}
 
+	}
 
 	public class LogUserAdvice implements MethodBeforeAdvice, ThrowsAdvice {
 
@@ -192,6 +190,7 @@ public class TrickyAspectJPointcutExpressionTests {
 			countThrows = 0;
 			countBefore = 0;
 		}
+
 	}
 
 }

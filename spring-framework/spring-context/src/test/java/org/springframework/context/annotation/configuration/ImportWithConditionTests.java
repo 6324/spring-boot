@@ -53,37 +53,36 @@ public class ImportWithConditionTests {
 		assertThat(this.context.containsBean("beanOne")).isTrue();
 	}
 
-
 	@Configuration
-	@Import({ConditionalConfiguration.class, UnconditionalConfiguration.class})
+	@Import({ ConditionalConfiguration.class, UnconditionalConfiguration.class })
 	protected static class ConditionalThenUnconditional {
 
 		@Autowired
 		private BeanOne beanOne;
+
 	}
 
-
 	@Configuration
-	@Import({UnconditionalConfiguration.class, ConditionalConfiguration.class})
+	@Import({ UnconditionalConfiguration.class, ConditionalConfiguration.class })
 	protected static class UnconditionalThenConditional {
 
 		@Autowired
 		private BeanOne beanOne;
-	}
 
+	}
 
 	@Configuration
 	@Import(BeanProvidingConfiguration.class)
 	protected static class UnconditionalConfiguration {
-	}
 
+	}
 
 	@Configuration
 	@Conditional(NeverMatchingCondition.class)
 	@Import(BeanProvidingConfiguration.class)
 	protected static class ConditionalConfiguration {
-	}
 
+	}
 
 	@Configuration
 	protected static class BeanProvidingConfiguration {
@@ -92,12 +91,12 @@ public class ImportWithConditionTests {
 		BeanOne beanOne() {
 			return new BeanOne();
 		}
-	}
 
+	}
 
 	private static final class BeanOne {
-	}
 
+	}
 
 	private static final class NeverMatchingCondition implements ConfigurationCondition {
 
@@ -110,6 +109,7 @@ public class ImportWithConditionTests {
 		public ConfigurationPhase getConfigurationPhase() {
 			return ConfigurationPhase.REGISTER_BEAN;
 		}
+
 	}
 
 }

@@ -36,17 +36,18 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * {@link Resource} implementation for {@link java.nio.file.Path} handles,
- * performing all operations and transformations via the {@code Path} API.
- * Supports resolution as a {@link File} and also as a {@link URL}.
- * Implements the extended {@link WritableResource} interface.
+ * {@link Resource} implementation for {@link java.nio.file.Path} handles, performing all
+ * operations and transformations via the {@code Path} API. Supports resolution as a
+ * {@link File} and also as a {@link URL}. Implements the extended
+ * {@link WritableResource} interface.
  *
- * <p>Note: As of 5.1, {@link java.nio.file.Path} support is also available
- * in {@link FileSystemResource#FileSystemResource(Path) FileSystemResource},
- * applying Spring's standard String-based path transformations but
- * performing all operations via the {@link java.nio.file.Files} API.
- * This {@code PathResource} is effectively a pure {@code java.nio.path.Path}
- * based alternative with different {@code createRelative} behavior.
+ * <p>
+ * Note: As of 5.1, {@link java.nio.file.Path} support is also available in
+ * {@link FileSystemResource#FileSystemResource(Path) FileSystemResource}, applying
+ * Spring's standard String-based path transformations but performing all operations via
+ * the {@link java.nio.file.Files} API. This {@code PathResource} is effectively a pure
+ * {@code java.nio.path.Path} based alternative with different {@code createRelative}
+ * behavior.
  *
  * @author Philippe Marschall
  * @author Juergen Hoeller
@@ -59,12 +60,12 @@ public class PathResource extends AbstractResource implements WritableResource {
 
 	private final Path path;
 
-
 	/**
 	 * Create a new PathResource from a Path handle.
-	 * <p>Note: Unlike {@link FileSystemResource}, when building relative resources
-	 * via {@link #createRelative}, the relative path will be built <i>underneath</i>
-	 * the given root: e.g. Paths.get("C:/dir1/"), relative path "dir2" -> "C:/dir1/dir2"!
+	 * <p>
+	 * Note: Unlike {@link FileSystemResource}, when building relative resources via
+	 * {@link #createRelative}, the relative path will be built <i>underneath</i> the
+	 * given root: e.g. Paths.get("C:/dir1/"), relative path "dir2" -> "C:/dir1/dir2"!
 	 * @param path a Path handle
 	 */
 	public PathResource(Path path) {
@@ -74,9 +75,10 @@ public class PathResource extends AbstractResource implements WritableResource {
 
 	/**
 	 * Create a new PathResource from a Path handle.
-	 * <p>Note: Unlike {@link FileSystemResource}, when building relative resources
-	 * via {@link #createRelative}, the relative path will be built <i>underneath</i>
-	 * the given root: e.g. Paths.get("C:/dir1/"), relative path "dir2" -> "C:/dir1/dir2"!
+	 * <p>
+	 * Note: Unlike {@link FileSystemResource}, when building relative resources via
+	 * {@link #createRelative}, the relative path will be built <i>underneath</i> the
+	 * given root: e.g. Paths.get("C:/dir1/"), relative path "dir2" -> "C:/dir1/dir2"!
 	 * @param path a path
 	 * @see java.nio.file.Paths#get(String, String...)
 	 */
@@ -87,9 +89,10 @@ public class PathResource extends AbstractResource implements WritableResource {
 
 	/**
 	 * Create a new PathResource from a Path handle.
-	 * <p>Note: Unlike {@link FileSystemResource}, when building relative resources
-	 * via {@link #createRelative}, the relative path will be built <i>underneath</i>
-	 * the given root: e.g. Paths.get("C:/dir1/"), relative path "dir2" -> "C:/dir1/dir2"!
+	 * <p>
+	 * Note: Unlike {@link FileSystemResource}, when building relative resources via
+	 * {@link #createRelative}, the relative path will be built <i>underneath</i> the
+	 * given root: e.g. Paths.get("C:/dir1/"), relative path "dir2" -> "C:/dir1/dir2"!
 	 * @param uri a path URI
 	 * @see java.nio.file.Paths#get(URI)
 	 */
@@ -97,7 +100,6 @@ public class PathResource extends AbstractResource implements WritableResource {
 		Assert.notNull(uri, "URI must not be null");
 		this.path = Paths.get(uri).normalize();
 	}
-
 
 	/**
 	 * Return the file path for this resource.
@@ -116,8 +118,8 @@ public class PathResource extends AbstractResource implements WritableResource {
 	}
 
 	/**
-	 * This implementation checks whether the underlying file is marked as readable
-	 * (and corresponds to an actual file with content, not to a directory).
+	 * This implementation checks whether the underlying file is marked as readable (and
+	 * corresponds to an actual file with content, not to a directory).
 	 * @see java.nio.file.Files#isReadable(Path)
 	 * @see java.nio.file.Files#isDirectory(Path, java.nio.file.LinkOption...)
 	 */
@@ -142,8 +144,8 @@ public class PathResource extends AbstractResource implements WritableResource {
 	}
 
 	/**
-	 * This implementation checks whether the underlying file is marked as writable
-	 * (and corresponds to an actual file with content, not to a directory).
+	 * This implementation checks whether the underlying file is marked as writable (and
+	 * corresponds to an actual file with content, not to a directory).
 	 * @see java.nio.file.Files#isWritable(Path)
 	 * @see java.nio.file.Files#isDirectory(Path, java.nio.file.LinkOption...)
 	 */
@@ -249,8 +251,8 @@ public class PathResource extends AbstractResource implements WritableResource {
 	}
 
 	/**
-	 * This implementation creates a PathResource, applying the given path
-	 * relative to the path of the underlying file of this resource descriptor.
+	 * This implementation creates a PathResource, applying the given path relative to the
+	 * path of the underlying file of this resource descriptor.
 	 * @see java.nio.file.Path#resolve(String)
 	 */
 	@Override
@@ -272,14 +274,12 @@ public class PathResource extends AbstractResource implements WritableResource {
 		return "path [" + this.path.toAbsolutePath() + "]";
 	}
 
-
 	/**
 	 * This implementation compares the underlying Path references.
 	 */
 	@Override
 	public boolean equals(@Nullable Object other) {
-		return (this == other || (other instanceof PathResource &&
-				this.path.equals(((PathResource) other).path)));
+		return (this == other || (other instanceof PathResource && this.path.equals(((PathResource) other).path)));
 	}
 
 	/**

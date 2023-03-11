@@ -32,12 +32,13 @@ import org.springframework.util.Assert;
 import org.springframework.util.ErrorHandler;
 
 /**
- * Internal adapter that reschedules an underlying {@link Runnable} according
- * to the next execution time suggested by a given {@link Trigger}.
+ * Internal adapter that reschedules an underlying {@link Runnable} according to the next
+ * execution time suggested by a given {@link Trigger}.
  *
- * <p>Necessary because a native {@link ScheduledExecutorService} supports
- * delay-driven execution only. The flexibility of the {@link Trigger} interface
- * will be translated onto a delay for the next execution time (repeatedly).
+ * <p>
+ * Necessary because a native {@link ScheduledExecutorService} supports delay-driven
+ * execution only. The flexibility of the {@link Trigger} interface will be translated
+ * onto a delay for the next execution time (repeatedly).
  *
  * @author Juergen Hoeller
  * @author Mark Fisher
@@ -59,15 +60,13 @@ class ReschedulingRunnable extends DelegatingErrorHandlingRunnable implements Sc
 
 	private final Object triggerContextMonitor = new Object();
 
-
-	public ReschedulingRunnable(
-			Runnable delegate, Trigger trigger, ScheduledExecutorService executor, ErrorHandler errorHandler) {
+	public ReschedulingRunnable(Runnable delegate, Trigger trigger, ScheduledExecutorService executor,
+			ErrorHandler errorHandler) {
 
 		super(delegate, errorHandler);
 		this.trigger = trigger;
 		this.executor = executor;
 	}
-
 
 	@Nullable
 	public ScheduledFuture<?> schedule() {
@@ -100,7 +99,6 @@ class ReschedulingRunnable extends DelegatingErrorHandlingRunnable implements Sc
 			}
 		}
 	}
-
 
 	@Override
 	public boolean cancel(boolean mayInterruptIfRunning) {
@@ -156,7 +154,7 @@ class ReschedulingRunnable extends DelegatingErrorHandlingRunnable implements Sc
 			return 0;
 		}
 		long diff = getDelay(TimeUnit.MILLISECONDS) - other.getDelay(TimeUnit.MILLISECONDS);
-		return (diff == 0 ? 0 : ((diff < 0)? -1 : 1));
+		return (diff == 0 ? 0 : ((diff < 0) ? -1 : 1));
 	}
 
 }

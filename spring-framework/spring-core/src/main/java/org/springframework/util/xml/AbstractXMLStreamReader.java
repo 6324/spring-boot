@@ -39,12 +39,12 @@ abstract class AbstractXMLStreamReader implements XMLStreamReader {
 		int eventType = next();
 		StringBuilder builder = new StringBuilder();
 		while (eventType != XMLStreamConstants.END_ELEMENT) {
-			if (eventType == XMLStreamConstants.CHARACTERS || eventType == XMLStreamConstants.CDATA ||
-					eventType == XMLStreamConstants.SPACE || eventType == XMLStreamConstants.ENTITY_REFERENCE) {
+			if (eventType == XMLStreamConstants.CHARACTERS || eventType == XMLStreamConstants.CDATA
+					|| eventType == XMLStreamConstants.SPACE || eventType == XMLStreamConstants.ENTITY_REFERENCE) {
 				builder.append(getText());
 			}
-			else if (eventType == XMLStreamConstants.PROCESSING_INSTRUCTION ||
-					eventType == XMLStreamConstants.COMMENT) {
+			else if (eventType == XMLStreamConstants.PROCESSING_INSTRUCTION
+					|| eventType == XMLStreamConstants.COMMENT) {
 				// skipping
 			}
 			else if (eventType == XMLStreamConstants.END_DOCUMENT) {
@@ -96,9 +96,9 @@ abstract class AbstractXMLStreamReader implements XMLStreamReader {
 	@Override
 	public boolean hasText() {
 		int eventType = getEventType();
-		return (eventType == XMLStreamConstants.SPACE || eventType == XMLStreamConstants.CHARACTERS ||
-				eventType == XMLStreamConstants.COMMENT || eventType == XMLStreamConstants.CDATA ||
-				eventType == XMLStreamConstants.ENTITY_REFERENCE);
+		return (eventType == XMLStreamConstants.SPACE || eventType == XMLStreamConstants.CHARACTERS
+				|| eventType == XMLStreamConstants.COMMENT || eventType == XMLStreamConstants.CDATA
+				|| eventType == XMLStreamConstants.ENTITY_REFERENCE);
 	}
 
 	@Override
@@ -141,9 +141,9 @@ abstract class AbstractXMLStreamReader implements XMLStreamReader {
 	@Override
 	public int nextTag() throws XMLStreamException {
 		int eventType = next();
-		while (eventType == XMLStreamConstants.CHARACTERS && isWhiteSpace() ||
-				eventType == XMLStreamConstants.CDATA && isWhiteSpace() || eventType == XMLStreamConstants.SPACE ||
-				eventType == XMLStreamConstants.PROCESSING_INSTRUCTION || eventType == XMLStreamConstants.COMMENT) {
+		while (eventType == XMLStreamConstants.CHARACTERS && isWhiteSpace()
+				|| eventType == XMLStreamConstants.CDATA && isWhiteSpace() || eventType == XMLStreamConstants.SPACE
+				|| eventType == XMLStreamConstants.PROCESSING_INSTRUCTION || eventType == XMLStreamConstants.COMMENT) {
 			eventType = next();
 		}
 		if (eventType != XMLStreamConstants.START_ELEMENT && eventType != XMLStreamConstants.END_ELEMENT) {
@@ -165,8 +165,8 @@ abstract class AbstractXMLStreamReader implements XMLStreamReader {
 	public String getAttributeValue(@Nullable String namespaceURI, String localName) {
 		for (int i = 0; i < getAttributeCount(); i++) {
 			QName name = getAttributeName(i);
-			if (name.getLocalPart().equals(localName) &&
-					(namespaceURI == null || name.getNamespaceURI().equals(namespaceURI))) {
+			if (name.getLocalPart().equals(localName)
+					&& (namespaceURI == null || name.getNamespaceURI().equals(namespaceURI))) {
 				return getAttributeValue(i);
 			}
 		}

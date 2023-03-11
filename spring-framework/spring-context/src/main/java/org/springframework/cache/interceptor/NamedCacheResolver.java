@@ -24,8 +24,8 @@ import org.springframework.cache.CacheManager;
 import org.springframework.lang.Nullable;
 
 /**
- * A {@link CacheResolver} that forces the resolution to a configurable
- * collection of name(s) against a given {@link CacheManager}.
+ * A {@link CacheResolver} that forces the resolution to a configurable collection of
+ * name(s) against a given {@link CacheManager}.
  *
  * @author Stephane Nicoll
  * @since 4.1
@@ -35,7 +35,6 @@ public class NamedCacheResolver extends AbstractCacheResolver {
 	@Nullable
 	private Collection<String> cacheNames;
 
-
 	public NamedCacheResolver() {
 	}
 
@@ -43,7 +42,6 @@ public class NamedCacheResolver extends AbstractCacheResolver {
 		super(cacheManager);
 		this.cacheNames = new ArrayList<>(Arrays.asList(cacheNames));
 	}
-
 
 	/**
 	 * Set the cache name(s) that this resolver should use.

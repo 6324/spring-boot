@@ -27,9 +27,9 @@ import org.springframework.web.socket.sockjs.transport.TransportType;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * Container for the base URL of a SockJS endpoint with additional helper methods
- * to derive related SockJS URLs: specifically, the {@link #getInfoUrl() info}
- * and {@link #getTransportUrl(TransportType) transport} URLs.
+ * Container for the base URL of a SockJS endpoint with additional helper methods to
+ * derive related SockJS URLs: specifically, the {@link #getInfoUrl() info} and
+ * {@link #getTransportUrl(TransportType) transport} URLs.
  *
  * @author Rossen Stoyanchev
  * @since 4.1
@@ -37,7 +37,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class SockJsUrlInfo {
 
 	private static final IdGenerator idGenerator = new JdkIdGenerator();
-
 
 	private final URI sockJsUrl;
 
@@ -50,11 +49,9 @@ public class SockJsUrlInfo {
 	@Nullable
 	private UUID uuid;
 
-
 	public SockJsUrlInfo(URI sockJsUrl) {
 		this.sockJsUrl = sockJsUrl;
 	}
-
 
 	public URI getSockJsUrl() {
 		return this.sockJsUrl;
@@ -82,19 +79,13 @@ public class SockJsUrlInfo {
 	}
 
 	public URI getInfoUrl() {
-		return UriComponentsBuilder.fromUri(this.sockJsUrl)
-				.scheme(getScheme(TransportType.XHR))
-				.pathSegment("info")
+		return UriComponentsBuilder.fromUri(this.sockJsUrl).scheme(getScheme(TransportType.XHR)).pathSegment("info")
 				.build(true).toUri();
 	}
 
 	public URI getTransportUrl(TransportType transportType) {
-		return UriComponentsBuilder.fromUri(this.sockJsUrl)
-				.scheme(getScheme(transportType))
-				.pathSegment(getServerId())
-				.pathSegment(getSessionId())
-				.pathSegment(transportType.toString())
-				.build(true).toUri();
+		return UriComponentsBuilder.fromUri(this.sockJsUrl).scheme(getScheme(transportType)).pathSegment(getServerId())
+				.pathSegment(getSessionId()).pathSegment(transportType.toString()).build(true).toUri();
 	}
 
 	private String getScheme(TransportType transportType) {
@@ -111,7 +102,6 @@ public class SockJsUrlInfo {
 		}
 		return scheme;
 	}
-
 
 	@Override
 	public String toString() {

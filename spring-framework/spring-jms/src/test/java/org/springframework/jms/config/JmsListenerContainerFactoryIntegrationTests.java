@@ -58,12 +58,10 @@ public class JmsListenerContainerFactoryIntegrationTests {
 
 	private JmsEndpointSampleInterface listener = sample;
 
-
 	@BeforeEach
 	public void setup() {
 		initializeFactory(factory);
 	}
-
 
 	@Test
 	public void messageConverterUsedIfSet() throws JMSException {
@@ -80,8 +78,8 @@ public class JmsListenerContainerFactoryIntegrationTests {
 	}
 
 	private void testMessageConverterIsUsed() throws JMSException {
-		MethodJmsListenerEndpoint endpoint = createDefaultMethodJmsEndpoint(
-				this.listener.getClass(), "handleIt", String.class, String.class);
+		MethodJmsListenerEndpoint endpoint = createDefaultMethodJmsEndpoint(this.listener.getClass(), "handleIt",
+				String.class, String.class);
 		Message message = new StubTextMessage("foo-bar");
 		message.setStringProperty("my-header", "my-value");
 
@@ -96,8 +94,8 @@ public class JmsListenerContainerFactoryIntegrationTests {
 
 		containerFactory.setMessageConverter(new UpperCaseMessageConverter());
 
-		MethodJmsListenerEndpoint endpoint = createDefaultMethodJmsEndpoint(
-				JmsEndpointSampleInterface.class, "handleIt", String.class, String.class);
+		MethodJmsListenerEndpoint endpoint = createDefaultMethodJmsEndpoint(JmsEndpointSampleInterface.class,
+				"handleIt", String.class, String.class);
 		Message message = new StubTextMessage("foo-bar");
 		message.setStringProperty("my-header", "my-value");
 
@@ -113,15 +111,14 @@ public class JmsListenerContainerFactoryIntegrationTests {
 
 		containerFactory.setMessageConverter(new UpperCaseMessageConverter());
 
-		MethodJmsListenerEndpoint endpoint = createDefaultMethodJmsEndpoint(
-				JmsEndpointSampleBean.class, "handleIt", String.class, String.class);
+		MethodJmsListenerEndpoint endpoint = createDefaultMethodJmsEndpoint(JmsEndpointSampleBean.class, "handleIt",
+				String.class, String.class);
 		Message message = new StubTextMessage("foo-bar");
 		message.setStringProperty("my-header", "my-value");
 
 		invokeListener(endpoint, message);
 		assertListenerMethodInvocation("handleIt");
 	}
-
 
 	@SuppressWarnings("unchecked")
 	private void invokeListener(JmsListenerEndpoint endpoint, Message message) throws JMSException {
@@ -136,10 +133,12 @@ public class JmsListenerContainerFactoryIntegrationTests {
 	}
 
 	private void assertListenerMethodInvocation(String methodName) {
-		assertThat((boolean) sample.invocations.get(methodName)).as("Method " + methodName + " should have been invoked").isTrue();
+		assertThat((boolean) sample.invocations.get(methodName))
+				.as("Method " + methodName + " should have been invoked").isTrue();
 	}
 
-	private MethodJmsListenerEndpoint createMethodJmsEndpoint(DefaultMessageHandlerMethodFactory factory, Method method) {
+	private MethodJmsListenerEndpoint createMethodJmsEndpoint(DefaultMessageHandlerMethodFactory factory,
+			Method method) {
 		MethodJmsListenerEndpoint endpoint = new MethodJmsListenerEndpoint();
 		endpoint.setBean(listener);
 		endpoint.setMethod(method);
@@ -147,7 +146,8 @@ public class JmsListenerContainerFactoryIntegrationTests {
 		return endpoint;
 	}
 
-	private MethodJmsListenerEndpoint createDefaultMethodJmsEndpoint(Class<?> clazz, String methodName, Class<?>... paramTypes) {
+	private MethodJmsListenerEndpoint createDefaultMethodJmsEndpoint(Class<?> clazz, String methodName,
+			Class<?>... paramTypes) {
 		return createMethodJmsEndpoint(this.factory, ReflectionUtils.findMethod(clazz, methodName, paramTypes));
 	}
 
@@ -156,12 +156,11 @@ public class JmsListenerContainerFactoryIntegrationTests {
 		factory.afterPropertiesSet();
 	}
 
-
 	interface JmsEndpointSampleInterface {
 
 		void handleIt(@Payload String msg, @Header("my-header") String myHeader);
-	}
 
+	}
 
 	static class JmsEndpointSampleBean implements JmsEndpointSampleInterface {
 
@@ -173,8 +172,8 @@ public class JmsListenerContainerFactoryIntegrationTests {
 			assertThat(msg).as("Unexpected payload message").isEqualTo("FOO-BAR");
 			assertThat(myHeader).as("Unexpected header value").isEqualTo("my-value");
 		}
-	}
 
+	}
 
 	private static class UpperCaseMessageConverter implements MessageConverter {
 
@@ -188,6 +187,7 @@ public class JmsListenerContainerFactoryIntegrationTests {
 			String content = ((TextMessage) message).getText();
 			return content.toUpperCase();
 		}
+
 	}
 
 }

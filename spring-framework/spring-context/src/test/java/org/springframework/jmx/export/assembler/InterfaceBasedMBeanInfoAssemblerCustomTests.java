@@ -31,7 +31,6 @@ public class InterfaceBasedMBeanInfoAssemblerCustomTests extends AbstractJmxAsse
 
 	protected static final String OBJECT_NAME = "bean:name=testBean5";
 
-
 	@Override
 	protected String getObjectName() {
 		return OBJECT_NAME;
@@ -50,7 +49,7 @@ public class InterfaceBasedMBeanInfoAssemblerCustomTests extends AbstractJmxAsse
 	@Override
 	protected MBeanInfoAssembler getAssembler() {
 		InterfaceBasedMBeanInfoAssembler assembler = new InterfaceBasedMBeanInfoAssembler();
-		assembler.setManagedInterfaces(new Class<?>[] {ICustomJmxBean.class});
+		assembler.setManagedInterfaces(new Class<?>[] { ICustomJmxBean.class });
 		return assembler;
 	}
 

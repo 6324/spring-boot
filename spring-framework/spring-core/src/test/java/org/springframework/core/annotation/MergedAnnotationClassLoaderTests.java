@@ -28,8 +28,7 @@ import org.springframework.core.OverridingClassLoader;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Tests for {@link MergedAnnotation} to ensure the correct class loader is
- * used.
+ * Tests for {@link MergedAnnotation} to ensure the correct class loader is used.
  *
  * @author Phillip Webb
  * @since 5.2
@@ -50,8 +49,7 @@ class MergedAnnotationClassLoaderTests {
 		TestClassLoader child = new TestClassLoader(parent);
 		Class<?> source = child.loadClass(WITH_TEST_ANNOTATION);
 		Annotation annotation = getDeclaredAnnotation(source, TEST_ANNOTATION);
-		Annotation metaAnnotation = getDeclaredAnnotation(annotation.annotationType(),
-				TEST_META_ANNOTATION);
+		Annotation metaAnnotation = getDeclaredAnnotation(annotation.annotationType(), TEST_META_ANNOTATION);
 		// We should have loaded the source and initial annotation from child
 		assertThat(source.getClassLoader()).isEqualTo(child);
 		assertThat(annotation.getClass().getClassLoader()).isEqualTo(child);
@@ -59,32 +57,25 @@ class MergedAnnotationClassLoaderTests {
 		// The meta-annotation should have been loaded by the parent
 		assertThat(metaAnnotation.getClass().getClassLoader()).isEqualTo(parent);
 		assertThat(metaAnnotation.getClass().getClassLoader()).isEqualTo(parent);
-		assertThat(
-				getEnumAttribute(metaAnnotation).getClass().getClassLoader()).isEqualTo(
-						parent);
+		assertThat(getEnumAttribute(metaAnnotation).getClass().getClassLoader()).isEqualTo(parent);
 		assertThat(getClassAttribute(metaAnnotation).getClassLoader()).isEqualTo(child);
 		// MergedAnnotation should follow the same class loader logic
 		MergedAnnotations mergedAnnotations = MergedAnnotations.from(source);
 		Annotation synthesized = mergedAnnotations.get(TEST_ANNOTATION).synthesize();
-		Annotation synthesizedMeta = mergedAnnotations.get(
-				TEST_META_ANNOTATION).synthesize();
+		Annotation synthesizedMeta = mergedAnnotations.get(TEST_META_ANNOTATION).synthesize();
 		assertThat(synthesized.getClass().getClassLoader()).isEqualTo(child);
 		assertThat(synthesized.annotationType().getClassLoader()).isEqualTo(child);
 		assertThat(synthesizedMeta.getClass().getClassLoader()).isEqualTo(parent);
 		assertThat(synthesizedMeta.getClass().getClassLoader()).isEqualTo(parent);
 		assertThat(getClassAttribute(synthesizedMeta).getClassLoader()).isEqualTo(child);
-		assertThat(
-				getEnumAttribute(synthesizedMeta).getClass().getClassLoader()).isEqualTo(
-						parent);
+		assertThat(getEnumAttribute(synthesizedMeta).getClass().getClassLoader()).isEqualTo(parent);
 		assertThat(synthesized).isEqualTo(annotation);
 		assertThat(synthesizedMeta).isEqualTo(metaAnnotation);
 		// Also check utils version
-		Annotation utilsMeta = AnnotatedElementUtils.getMergedAnnotation(source,
-				TestMetaAnnotation.class);
+		Annotation utilsMeta = AnnotatedElementUtils.getMergedAnnotation(source, TestMetaAnnotation.class);
 		assertThat(utilsMeta.getClass().getClassLoader()).isEqualTo(parent);
 		assertThat(getClassAttribute(utilsMeta).getClassLoader()).isEqualTo(child);
-		assertThat(getEnumAttribute(utilsMeta).getClass().getClassLoader()).isEqualTo(
-				parent);
+		assertThat(getEnumAttribute(utilsMeta).getClass().getClassLoader()).isEqualTo(parent);
 		assertThat(utilsMeta).isEqualTo(metaAnnotation);
 	}
 
@@ -96,8 +87,7 @@ class MergedAnnotationClassLoaderTests {
 		return (Enum<?>) getAttributeValue(annotation, "enumValue");
 	}
 
-	private Object getAttributeValue(Annotation annotation, String name)
-			throws Exception {
+	private Object getAttributeValue(Annotation annotation, String name) throws Exception {
 		Method classValueMethod = annotation.annotationType().getDeclaredMethod(name);
 		classValueMethod.setAccessible(true);
 		return classValueMethod.invoke(annotation);
@@ -120,8 +110,7 @@ class MergedAnnotationClassLoaderTests {
 
 		@Override
 		protected boolean isEligibleForOverriding(String className) {
-			return WITH_TEST_ANNOTATION.equals(className)
-					|| TEST_ANNOTATION.equals(className)
+			return WITH_TEST_ANNOTATION.equals(className) || TEST_ANNOTATION.equals(className)
 					|| TEST_REFERENCE.equals(className);
 		}
 
@@ -168,4 +157,5 @@ class MergedAnnotationClassLoaderTests {
 		ONE, TWO, THREE
 
 	}
+
 }

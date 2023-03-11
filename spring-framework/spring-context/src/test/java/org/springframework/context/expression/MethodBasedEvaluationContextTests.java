@@ -37,7 +37,6 @@ public class MethodBasedEvaluationContextTests {
 
 	private final ParameterNameDiscoverer paramDiscover = new DefaultParameterNameDiscoverer();
 
-
 	@Test
 	public void simpleArguments() {
 		Method method = ReflectionUtils.findMethod(SampleMethods.class, "hello", String.class, Boolean.class);
@@ -72,7 +71,7 @@ public class MethodBasedEvaluationContextTests {
 	@Test
 	public void varArgEmpty() {
 		Method method = ReflectionUtils.findMethod(SampleMethods.class, "hello", Boolean.class, String[].class);
-		MethodBasedEvaluationContext context = createEvaluationContext(method, new Object[] {null});
+		MethodBasedEvaluationContext context = createEvaluationContext(method, new Object[] { null });
 
 		assertThat(context.lookupVariable("a0")).isNull();
 		assertThat(context.lookupVariable("p0")).isNull();
@@ -120,15 +119,14 @@ public class MethodBasedEvaluationContextTests {
 		assertThat(context.lookupVariable("p0")).isNull();
 		assertThat(context.lookupVariable("flag")).isNull();
 
-		assertThat(context.lookupVariable("a1")).isEqualTo(new Object[] {"hello", "hi"});
-		assertThat(context.lookupVariable("p1")).isEqualTo(new Object[] {"hello", "hi"});
-		assertThat(context.lookupVariable("vararg")).isEqualTo(new Object[] {"hello", "hi"});
+		assertThat(context.lookupVariable("a1")).isEqualTo(new Object[] { "hello", "hi" });
+		assertThat(context.lookupVariable("p1")).isEqualTo(new Object[] { "hello", "hi" });
+		assertThat(context.lookupVariable("vararg")).isEqualTo(new Object[] { "hello", "hi" });
 	}
 
 	private MethodBasedEvaluationContext createEvaluationContext(Method method, Object... args) {
 		return new MethodBasedEvaluationContext(this, method, args, this.paramDiscover);
 	}
-
 
 	@SuppressWarnings("unused")
 	private static class SampleMethods {
@@ -136,8 +134,9 @@ public class MethodBasedEvaluationContextTests {
 		private void hello(String foo, Boolean flag) {
 		}
 
-		private void hello(Boolean flag, String... vararg){
+		private void hello(Boolean flag, String... vararg) {
 		}
+
 	}
 
 }

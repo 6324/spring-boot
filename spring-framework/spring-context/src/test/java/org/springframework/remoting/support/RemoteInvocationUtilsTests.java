@@ -33,7 +33,8 @@ public class RemoteInvocationUtilsTests {
 		catch (Exception ex) {
 			int originalStackTraceLngth = ex.getStackTrace().length;
 			RemoteInvocationUtils.fillInClientStackTraceIfPossible(ex);
-			assertThat(ex.getStackTrace().length > originalStackTraceLngth).as("Stack trace not being filled in").isTrue();
+			assertThat(ex.getStackTrace().length > originalStackTraceLngth).as("Stack trace not being filled in")
+					.isTrue();
 		}
 	}
 

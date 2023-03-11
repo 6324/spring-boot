@@ -39,13 +39,18 @@ public class Spr7283Tests {
 		assertThat(condition).isTrue();
 	}
 
-
 	public static class A {
-		public A() {}
+
+		public A() {
+		}
+
 	}
 
 	public static class B {
-		public B() {}
+
+		public B() {
+		}
+
 	}
 
 }

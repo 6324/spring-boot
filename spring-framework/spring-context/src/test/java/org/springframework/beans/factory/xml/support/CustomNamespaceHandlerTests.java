@@ -74,15 +74,18 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 public class CustomNamespaceHandlerTests {
 
 	private static final Class<?> CLASS = CustomNamespaceHandlerTests.class;
+
 	private static final String CLASSNAME = CLASS.getSimpleName();
+
 	private static final String FQ_PATH = "org/springframework/beans/factory/xml/support";
 
 	private static final String NS_PROPS = format("%s/%s.properties", FQ_PATH, CLASSNAME);
+
 	private static final String NS_XML = format("%s/%s-context.xml", FQ_PATH, CLASSNAME);
+
 	private static final String TEST_XSD = format("%s/%s.xsd", FQ_PATH, CLASSNAME);
 
 	private GenericApplicationContext beanFactory;
-
 
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -95,7 +98,6 @@ public class CustomNamespaceHandlerTests {
 		reader.loadBeanDefinitions(getResource());
 		this.beanFactory.refresh();
 	}
-
 
 	@Test
 	public void testSimpleParser() throws Exception {
@@ -124,9 +126,9 @@ public class CustomNamespaceHandlerTests {
 		String[] beanNames = this.beanFactory.getBeanNamesForType(ApplicationListener.class);
 		assertThat(Arrays.asList(beanNames).contains("debuggingTestBeanNoInstance")).isTrue();
 		assertThat(this.beanFactory.getType("debuggingTestBeanNoInstance")).isEqualTo(ApplicationListener.class);
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				this.beanFactory.getBean("debuggingTestBeanNoInstance"))
-			.satisfies(ex -> assertThat(ex.getRootCause()).isInstanceOf(BeanInstantiationException.class));
+		assertThatExceptionOfType(BeanCreationException.class)
+				.isThrownBy(() -> this.beanFactory.getBean("debuggingTestBeanNoInstance"))
+				.satisfies(ex -> assertThat(ex.getRootCause()).isInstanceOf(BeanInstantiationException.class));
 	}
 
 	@Test
@@ -146,27 +148,26 @@ public class CustomNamespaceHandlerTests {
 		assertThat(beanDefinition.getAttribute("objectName")).isEqualTo("foo");
 	}
 
-	@Test  // SPR-2728
+	@Test // SPR-2728
 	public void testCustomElementNestedWithinUtilList() throws Exception {
 		List<?> things = (List<?>) this.beanFactory.getBean("list.of.things");
 		assertThat(things).isNotNull();
 		assertThat(things.size()).isEqualTo(2);
 	}
 
-	@Test  // SPR-2728
+	@Test // SPR-2728
 	public void testCustomElementNestedWithinUtilSet() throws Exception {
 		Set<?> things = (Set<?>) this.beanFactory.getBean("set.of.things");
 		assertThat(things).isNotNull();
 		assertThat(things.size()).isEqualTo(2);
 	}
 
-	@Test  // SPR-2728
+	@Test // SPR-2728
 	public void testCustomElementNestedWithinUtilMap() throws Exception {
 		Map<?, ?> things = (Map<?, ?>) this.beanFactory.getBean("map.of.things");
 		assertThat(things).isNotNull();
 		assertThat(things.size()).isEqualTo(2);
 	}
-
 
 	private void assertTestBean(ITestBean bean) {
 		assertThat(bean.getName()).as("Invalid name").isEqualTo("Rob Harrop");
@@ -176,7 +177,6 @@ public class CustomNamespaceHandlerTests {
 	private Resource getResource() {
 		return new ClassPathResource(NS_XML);
 	}
-
 
 	private final class DummySchemaResolver extends PluggableSchemaResolver {
 
@@ -195,10 +195,10 @@ public class CustomNamespaceHandlerTests {
 			}
 			return source;
 		}
+
 	}
 
 }
-
 
 /**
  * Custom namespace handler implementation.
@@ -218,7 +218,6 @@ final class TestNamespaceHandler extends NamespaceHandlerSupport {
 		registerBeanDefinitionDecoratorForAttribute("object-name", new ObjectNameBeanDefinitionDecorator());
 	}
 
-
 	private static class TestBeanDefinitionParser implements BeanDefinitionParser {
 
 		@Override
@@ -234,8 +233,8 @@ final class TestNamespaceHandler extends NamespaceHandlerSupport {
 			parserContext.getRegistry().registerBeanDefinition(element.getAttribute("id"), definition);
 			return null;
 		}
-	}
 
+	}
 
 	private static final class PersonDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
@@ -249,8 +248,8 @@ final class TestNamespaceHandler extends NamespaceHandlerSupport {
 			builder.addPropertyValue("name", element.getAttribute("name"));
 			builder.addPropertyValue("age", element.getAttribute("age"));
 		}
-	}
 
+	}
 
 	private static class PropertyModifyingBeanDefinitionDecorator implements BeanDefinitionDecorator {
 
@@ -259,15 +258,16 @@ final class TestNamespaceHandler extends NamespaceHandlerSupport {
 			Element element = (Element) node;
 			BeanDefinition def = definition.getBeanDefinition();
 
-			MutablePropertyValues mpvs = (def.getPropertyValues() == null) ? new MutablePropertyValues() : def.getPropertyValues();
+			MutablePropertyValues mpvs = (def.getPropertyValues() == null) ? new MutablePropertyValues()
+					: def.getPropertyValues();
 			mpvs.add("name", element.getAttribute("name"));
 			mpvs.add("age", element.getAttribute("age"));
 
 			((AbstractBeanDefinition) def).setPropertyValues(mpvs);
 			return definition;
 		}
-	}
 
+	}
 
 	private static class DebugBeanDefinitionDecorator extends AbstractInterceptorDrivenBeanDefinitionDecorator {
 
@@ -275,17 +275,18 @@ final class TestNamespaceHandler extends NamespaceHandlerSupport {
 		protected BeanDefinition createInterceptorDefinition(Node node) {
 			return new RootBeanDefinition(DebugInterceptor.class);
 		}
+
 	}
 
-
-	private static class NopInterceptorBeanDefinitionDecorator extends AbstractInterceptorDrivenBeanDefinitionDecorator {
+	private static class NopInterceptorBeanDefinitionDecorator
+			extends AbstractInterceptorDrivenBeanDefinitionDecorator {
 
 		@Override
 		protected BeanDefinition createInterceptorDefinition(Node node) {
 			return new RootBeanDefinition(NopInterceptor.class);
 		}
-	}
 
+	}
 
 	private static class ObjectNameBeanDefinitionDecorator implements BeanDefinitionDecorator {
 
@@ -295,6 +296,7 @@ final class TestNamespaceHandler extends NamespaceHandlerSupport {
 			definition.getBeanDefinition().setAttribute("objectName", objectNameAttribute.getValue());
 			return definition;
 		}
+
 	}
 
 }

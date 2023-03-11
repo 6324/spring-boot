@@ -36,7 +36,6 @@ class LocalVariableTableParameterNameDiscovererTests {
 
 	private final LocalVariableTableParameterNameDiscoverer discoverer = new LocalVariableTableParameterNameDiscoverer();
 
-
 	@Test
 	void methodParameterNameDiscoveryNoArgs() throws NoSuchMethodException {
 		Method getName = TestObject.class.getMethod("getName");
@@ -223,7 +222,6 @@ class LocalVariableTableParameterNameDiscovererTests {
 		assertThat(names).isNull();
 	}
 
-
 	public static void staticMethodNoLocalVars() {
 	}
 
@@ -246,7 +244,6 @@ class LocalVariableTableParameterNameDiscovererTests {
 		double u = x * y * z;
 		return u;
 	}
-
 
 	public static class InnerClass {
 
@@ -278,8 +275,8 @@ class LocalVariableTableParameterNameDiscovererTests {
 			long u = x * y;
 			return u;
 		}
-	}
 
+	}
 
 	public static class GenerifiedClass<K, V> {
 
@@ -320,6 +317,7 @@ class LocalVariableTableParameterNameDiscovererTests {
 		public static long getDate() {
 			return date;
 		}
+
 	}
 
 }

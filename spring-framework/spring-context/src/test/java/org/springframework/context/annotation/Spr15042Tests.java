@@ -31,7 +31,6 @@ public class Spr15042Tests {
 		new AnnotationConfigApplicationContext(PoolingTargetSourceConfig.class);
 	}
 
-
 	@Configuration
 	static class PoolingTargetSourceConfig {
 
@@ -56,6 +55,7 @@ public class Spr15042Tests {
 		public Object myObjectTarget() {
 			return new Object();
 		}
+
 	}
 
 }

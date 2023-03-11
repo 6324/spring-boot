@@ -51,7 +51,6 @@ class Spr12526Tests {
 		ctx.close();
 	}
 
-
 	@Configuration
 	static class TestContext {
 
@@ -76,8 +75,8 @@ class Spr12526Tests {
 		DependencyTwo dependencyTwo() {
 			return new DependencyTwo();
 		}
-	}
 
+	}
 
 	public static class CustomCondition {
 
@@ -90,19 +89,18 @@ class Spr12526Tests {
 		public void setCondition(boolean value) {
 			this.condition = value;
 		}
-	}
 
+	}
 
 	public interface Service {
 
 		void doStuff();
-	}
 
+	}
 
 	public static class FirstService implements Service {
 
 		private DependencyOne dependency;
-
 
 		@Override
 		public void doStuff() {
@@ -116,12 +114,11 @@ class Spr12526Tests {
 			this.dependency = dependency;
 		}
 
-
 		public DependencyOne getDependency() {
 			return dependency;
 		}
-	}
 
+	}
 
 	public static class SecondService implements Service {
 
@@ -139,18 +136,18 @@ class Spr12526Tests {
 			this.dependency = dependency;
 		}
 
-
 		public DependencyTwo getDependency() {
 			return dependency;
 		}
-	}
 
+	}
 
 	public static class DependencyOne {
+
 	}
 
-
 	public static class DependencyTwo {
+
 	}
 
 }

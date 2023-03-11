@@ -41,7 +41,6 @@ public final class PingMessage extends AbstractWebSocketMessage<ByteBuffer> {
 		super(payload);
 	}
 
-
 	@Override
 	public int getPayloadLength() {
 		return getPayload().remaining();

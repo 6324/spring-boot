@@ -35,7 +35,6 @@ class OrderSourceProviderTests {
 
 	private final AnnotationAwareOrderComparator comparator = AnnotationAwareOrderComparator.INSTANCE;
 
-
 	@Test
 	void plainComparator() {
 		List<Object> items = new ArrayList<>();
@@ -102,7 +101,7 @@ class OrderSourceProviderTests {
 		C c = new C(-50);
 		B b = new B();
 
-		Object[] items = new Object[] {a, c, b};
+		Object[] items = new Object[] { a, c, b };
 		Arrays.sort(items, comparator.withSourceProvider(obj -> null));
 		assertOrder(items, c, a, b);
 	}
@@ -113,7 +112,7 @@ class OrderSourceProviderTests {
 		C c = new C(3);
 		B b = new B();
 
-		Object[] items = new Object[] {a, c, b};
+		Object[] items = new Object[] { a, c, b };
 		Arrays.sort(items, comparator.withSourceProvider(obj -> {
 			if (obj == a) {
 				return new C(4);
@@ -132,7 +131,7 @@ class OrderSourceProviderTests {
 		C c = new C(5);
 		C c2 = new C(-5);
 
-		Object[] items = new Object[] {a, c, c2};
+		Object[] items = new Object[] { a, c, c2 };
 		Arrays.sort(items, comparator.withSourceProvider(obj -> {
 			if (obj == a) {
 				return 4;
@@ -144,7 +143,6 @@ class OrderSourceProviderTests {
 		}));
 		assertOrder(items, c2, a, c);
 	}
-
 
 	private void assertOrder(List<?> actual, Object... expected) {
 		for (int i = 0; i < actual.size(); i++) {
@@ -160,16 +158,15 @@ class OrderSourceProviderTests {
 		assertThat(expected.length).as("Wrong number of items").isEqualTo(expected.length);
 	}
 
-
 	@Order(1)
 	private static class A {
-	}
 
+	}
 
 	@Order(2)
 	private static class B {
-	}
 
+	}
 
 	private static class C implements Ordered {
 
@@ -183,6 +180,7 @@ class OrderSourceProviderTests {
 		public int getOrder() {
 			return order;
 		}
+
 	}
 
 }

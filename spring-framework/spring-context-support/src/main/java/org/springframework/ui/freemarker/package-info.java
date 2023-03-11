@@ -1,6 +1,5 @@
 /**
- * Support classes for setting up
- * <a href="https://freemarker.apache.org/">FreeMarker</a>
+ * Support classes for setting up <a href="https://freemarker.apache.org/">FreeMarker</a>
  * within a Spring application context.
  */
 @NonNullApi

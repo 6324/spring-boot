@@ -44,16 +44,14 @@ public class ReactorNettyTcpConnection<P> implements TcpConnection<P> {
 
 	private final DirectProcessor<Void> closeProcessor;
 
-
-	public ReactorNettyTcpConnection(NettyInbound inbound, NettyOutbound outbound,
-			ReactorNettyCodec<P> codec, DirectProcessor<Void> closeProcessor) {
+	public ReactorNettyTcpConnection(NettyInbound inbound, NettyOutbound outbound, ReactorNettyCodec<P> codec,
+			DirectProcessor<Void> closeProcessor) {
 
 		this.inbound = inbound;
 		this.outbound = outbound;
 		this.codec = codec;
 		this.closeProcessor = closeProcessor;
 	}
-
 
 	@Override
 	public ListenableFuture<Void> send(Message<P> message) {

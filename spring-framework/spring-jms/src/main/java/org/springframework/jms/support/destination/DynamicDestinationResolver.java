@@ -26,8 +26,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Simple {@link DestinationResolver} implementation resolving destination names
- * as dynamic destinations.
+ * Simple {@link DestinationResolver} implementation resolving destination names as
+ * dynamic destinations.
  *
  * @author Juergen Hoeller
  * @since 1.1
@@ -59,7 +59,6 @@ public class DynamicDestinationResolver implements DestinationResolver {
 			return resolveQueue(session, destinationName);
 		}
 	}
-
 
 	/**
 	 * Resolve the given destination name to a {@link Topic}.

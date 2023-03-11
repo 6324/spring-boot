@@ -45,8 +45,8 @@ public abstract class AbstractHttpReceivingTransportHandler extends AbstractTran
 	}
 
 	@Override
-	public final void handleRequest(ServerHttpRequest request, ServerHttpResponse response,
-			WebSocketHandler wsHandler, SockJsSession wsSession) throws SockJsException {
+	public final void handleRequest(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
+			SockJsSession wsSession) throws SockJsException {
 
 		Assert.notNull(wsSession, "No session");
 		AbstractHttpSockJsSession sockJsSession = (AbstractHttpSockJsSession) wsSession;
@@ -99,7 +99,6 @@ public abstract class AbstractHttpReceivingTransportHandler extends AbstractTran
 			throw new SockJsException("Failed to send error: " + error, sessionId, ex);
 		}
 	}
-
 
 	@Nullable
 	protected abstract String[] readMessages(ServerHttpRequest request) throws IOException;

@@ -32,25 +32,31 @@ public class ThisAndTargetSelectionOnlyPointcutsTests {
 	private TestInterface testBean;
 
 	private Counter thisAsClassCounter;
-	private Counter thisAsInterfaceCounter;
-	private Counter targetAsClassCounter;
-	private Counter targetAsInterfaceCounter;
-	private Counter thisAsClassAndTargetAsClassCounter;
-	private Counter thisAsInterfaceAndTargetAsInterfaceCounter;
-	private Counter thisAsInterfaceAndTargetAsClassCounter;
 
+	private Counter thisAsInterfaceCounter;
+
+	private Counter targetAsClassCounter;
+
+	private Counter targetAsInterfaceCounter;
+
+	private Counter thisAsClassAndTargetAsClassCounter;
+
+	private Counter thisAsInterfaceAndTargetAsInterfaceCounter;
+
+	private Counter thisAsInterfaceAndTargetAsClassCounter;
 
 	@BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml",
+				getClass());
 		testBean = (TestInterface) ctx.getBean("testBean");
 		thisAsClassCounter = (Counter) ctx.getBean("thisAsClassCounter");
 		thisAsInterfaceCounter = (Counter) ctx.getBean("thisAsInterfaceCounter");
 		targetAsClassCounter = (Counter) ctx.getBean("targetAsClassCounter");
 		targetAsInterfaceCounter = (Counter) ctx.getBean("targetAsInterfaceCounter");
 		thisAsClassAndTargetAsClassCounter = (Counter) ctx.getBean("thisAsClassAndTargetAsClassCounter");
-		thisAsInterfaceAndTargetAsInterfaceCounter = (Counter) ctx.getBean("thisAsInterfaceAndTargetAsInterfaceCounter");
+		thisAsInterfaceAndTargetAsInterfaceCounter = (Counter) ctx
+				.getBean("thisAsInterfaceAndTargetAsInterfaceCounter");
 		thisAsInterfaceAndTargetAsClassCounter = (Counter) ctx.getBean("thisAsInterfaceAndTargetAsClassCounter");
 
 		thisAsClassCounter.reset();
@@ -61,7 +67,6 @@ public class ThisAndTargetSelectionOnlyPointcutsTests {
 		thisAsInterfaceAndTargetAsInterfaceCounter.reset();
 		thisAsInterfaceAndTargetAsClassCounter.reset();
 	}
-
 
 	@Test
 	public void testThisAsClassDoesNotMatch() {
@@ -107,14 +112,16 @@ public class ThisAndTargetSelectionOnlyPointcutsTests {
 
 }
 
-
 interface TestInterface {
+
 	public void doIt();
+
 }
 
-
 class TestImpl implements TestInterface {
+
 	@Override
 	public void doIt() {
 	}
+
 }

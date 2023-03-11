@@ -17,9 +17,9 @@
 package org.springframework.remoting;
 
 /**
- * RemoteAccessException subclass to be thrown when the execution
- * of the target method failed on the server side, for example
- * when a method was not found on the target object.
+ * RemoteAccessException subclass to be thrown when the execution of the target method
+ * failed on the server side, for example when a method was not found on the target
+ * object.
  *
  * @author Juergen Hoeller
  * @since 2.5

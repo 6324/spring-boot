@@ -30,20 +30,21 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.ObjectUtils;
 
 /**
- * ASM visitor which looks for annotations defined on a class or method,
- * including meta-annotations.
+ * ASM visitor which looks for annotations defined on a class or method, including
+ * meta-annotations.
  *
- * <p>This visitor is fully recursive, taking into account any nested
- * annotations or nested annotation arrays.
+ * <p>
+ * This visitor is fully recursive, taking into account any nested annotations or nested
+ * annotation arrays.
  *
  * @author Juergen Hoeller
  * @author Chris Beams
  * @author Phillip Webb
  * @author Sam Brannen
  * @since 3.0
- * @deprecated As of Spring Framework 5.2, this class and related classes in this
- * package have been replaced by {@link SimpleAnnotationMetadataReadingVisitor}
- * and related classes for internal use within the framework.
+ * @deprecated As of Spring Framework 5.2, this class and related classes in this package
+ * have been replaced by {@link SimpleAnnotationMetadataReadingVisitor} and related
+ * classes for internal use within the framework.
  */
 @Deprecated
 final class AnnotationAttributesReadingVisitor extends RecursiveAnnotationAttributesVisitor {
@@ -51,7 +52,6 @@ final class AnnotationAttributesReadingVisitor extends RecursiveAnnotationAttrib
 	private final MultiValueMap<String, AnnotationAttributes> attributesMap;
 
 	private final Map<String, Set<String>> metaAnnotationMap;
-
 
 	public AnnotationAttributesReadingVisitor(String annotationType,
 			MultiValueMap<String, AnnotationAttributes> attributesMap, Map<String, Set<String>> metaAnnotationMap,
@@ -61,7 +61,6 @@ final class AnnotationAttributesReadingVisitor extends RecursiveAnnotationAttrib
 		this.attributesMap = attributesMap;
 		this.metaAnnotationMap = metaAnnotationMap;
 	}
-
 
 	@Override
 	public void visitEnd() {

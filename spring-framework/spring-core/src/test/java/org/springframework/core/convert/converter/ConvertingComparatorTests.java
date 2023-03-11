@@ -47,39 +47,38 @@ class ConvertingComparatorTests {
 
 	@Test
 	void shouldThrowOnNullComparator() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ConvertingComparator<>(null, this.converter));
+		assertThatIllegalArgumentException().isThrownBy(() -> new ConvertingComparator<>(null, this.converter));
 	}
 
 	@Test
 	void shouldThrowOnNullConverter() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ConvertingComparator<String, Integer>(this.comparator, null));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> new ConvertingComparator<String, Integer>(this.comparator, null));
 	}
 
 	@Test
 	void shouldThrowOnNullConversionService() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ConvertingComparator<String, Integer>(this.comparator, null, Integer.class));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> new ConvertingComparator<String, Integer>(this.comparator, null, Integer.class));
 	}
 
 	@Test
 	void shouldThrowOnNullType() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ConvertingComparator<String, Integer>(this.comparator, this.conversionService, null));
+		assertThatIllegalArgumentException().isThrownBy(
+				() -> new ConvertingComparator<String, Integer>(this.comparator, this.conversionService, null));
 	}
 
 	@Test
 	void shouldUseConverterOnCompare() throws Exception {
-		ConvertingComparator<String, Integer> convertingComparator = new ConvertingComparator<>(
-				this.comparator, this.converter);
+		ConvertingComparator<String, Integer> convertingComparator = new ConvertingComparator<>(this.comparator,
+				this.converter);
 		testConversion(convertingComparator);
 	}
 
 	@Test
 	void shouldUseConversionServiceOnCompare() throws Exception {
-		ConvertingComparator<String, Integer> convertingComparator = new ConvertingComparator<>(
-				comparator, conversionService, Integer.class);
+		ConvertingComparator<String, Integer> convertingComparator = new ConvertingComparator<>(comparator,
+				conversionService, Integer.class);
 		testConversion(convertingComparator);
 	}
 
@@ -98,7 +97,8 @@ class ConvertingComparatorTests {
 	@Test
 	void shouldGetMapEntryKeys() throws Exception {
 		ArrayList<Entry<String, Integer>> list = createReverseOrderMapEntryList();
-		Comparator<Map.Entry<String, Integer>> comparator = ConvertingComparator.mapEntryKeys(new ComparableComparator<String>());
+		Comparator<Map.Entry<String, Integer>> comparator = ConvertingComparator
+				.mapEntryKeys(new ComparableComparator<String>());
 		Collections.sort(list, comparator);
 		assertThat(list.get(0).getKey()).isEqualTo("a");
 	}
@@ -106,7 +106,8 @@ class ConvertingComparatorTests {
 	@Test
 	void shouldGetMapEntryValues() throws Exception {
 		ArrayList<Entry<String, Integer>> list = createReverseOrderMapEntryList();
-		Comparator<Map.Entry<String, Integer>> comparator = ConvertingComparator.mapEntryValues(new ComparableComparator<Integer>());
+		Comparator<Map.Entry<String, Integer>> comparator = ConvertingComparator
+				.mapEntryValues(new ComparableComparator<Integer>());
 		Collections.sort(list, comparator);
 		assertThat(list.get(0).getValue()).isEqualTo(1);
 	}
@@ -115,8 +116,7 @@ class ConvertingComparatorTests {
 		Map<String, Integer> map = new LinkedHashMap<>();
 		map.put("b", 2);
 		map.put("a", 1);
-		ArrayList<Entry<String, Integer>> list = new ArrayList<>(
-				map.entrySet());
+		ArrayList<Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
 		assertThat(list.get(0).getKey()).isEqualTo("b");
 		return list;
 	}
@@ -129,7 +129,6 @@ class ConvertingComparatorTests {
 		}
 
 	}
-
 
 	private static class TestComparator extends ComparableComparator<Integer> {
 
@@ -146,6 +145,7 @@ class ConvertingComparatorTests {
 		public void assertCalled() {
 			assertThat(this.called).isTrue();
 		}
+
 	}
 
 }

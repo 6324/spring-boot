@@ -51,7 +51,6 @@ public class DataFieldMaxValueIncrementerTests {
 
 	private final ResultSet resultSet = mock(ResultSet.class);
 
-
 	@Test
 	public void testHanaSequenceMaxValueIncrementer() throws SQLException {
 		given(dataSource.getConnection()).willReturn(connection);

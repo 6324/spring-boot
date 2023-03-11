@@ -41,7 +41,6 @@ public class ClassPathFactoryBeanDefinitionScannerTests {
 
 	private static final String BASE_PACKAGE = FactoryMethodComponent.class.getPackage().getName();
 
-
 	@Test
 	public void testSingletonScopedFactoryMethod() {
 		GenericApplicationContext context = new GenericApplicationContext();
@@ -56,28 +55,28 @@ public class ClassPathFactoryBeanDefinitionScannerTests {
 		FactoryMethodComponent fmc = context.getBean("factoryMethodComponent", FactoryMethodComponent.class);
 		assertThat(fmc.getClass().getName().contains(ClassUtils.CGLIB_CLASS_SEPARATOR)).isFalse();
 
-		TestBean tb = (TestBean) context.getBean("publicInstance"); //2
+		TestBean tb = (TestBean) context.getBean("publicInstance"); // 2
 		assertThat(tb.getName()).isEqualTo("publicInstance");
-		TestBean tb2 = (TestBean) context.getBean("publicInstance"); //2
+		TestBean tb2 = (TestBean) context.getBean("publicInstance"); // 2
 		assertThat(tb2.getName()).isEqualTo("publicInstance");
 		assertThat(tb).isSameAs(tb2);
 
-		tb = (TestBean) context.getBean("protectedInstance"); //3
+		tb = (TestBean) context.getBean("protectedInstance"); // 3
 		assertThat(tb.getName()).isEqualTo("protectedInstance");
 		assertThat(context.getBean("protectedInstance")).isSameAs(tb);
 		assertThat(tb.getCountry()).isEqualTo("0");
-		tb2 = context.getBean("protectedInstance", TestBean.class); //3
+		tb2 = context.getBean("protectedInstance", TestBean.class); // 3
 		assertThat(tb2.getName()).isEqualTo("protectedInstance");
 		assertThat(tb).isSameAs(tb2);
 
-		tb = context.getBean("privateInstance", TestBean.class); //4
+		tb = context.getBean("privateInstance", TestBean.class); // 4
 		assertThat(tb.getName()).isEqualTo("privateInstance");
 		assertThat(tb.getAge()).isEqualTo(1);
-		tb2 = context.getBean("privateInstance", TestBean.class); //4
+		tb2 = context.getBean("privateInstance", TestBean.class); // 4
 		assertThat(tb2.getAge()).isEqualTo(2);
 		assertThat(tb).isNotSameAs(tb2);
 
-		Object bean = context.getBean("requestScopedInstance"); //5
+		Object bean = context.getBean("requestScopedInstance"); // 5
 		assertThat(AopUtils.isCglibProxy(bean)).isTrue();
 		boolean condition = bean instanceof ScopedObject;
 		assertThat(condition).isTrue();
@@ -88,10 +87,10 @@ public class ClassPathFactoryBeanDefinitionScannerTests {
 		assertThat(clientBean.applicationContext).isSameAs(context);
 	}
 
-
 	public static class QualifiedClientBean {
 
-		@Autowired @Qualifier("public")
+		@Autowired
+		@Qualifier("public")
 		public TestBean testBean;
 
 		@Autowired
@@ -99,6 +98,7 @@ public class ClassPathFactoryBeanDefinitionScannerTests {
 
 		@Autowired
 		AbstractApplicationContext applicationContext;
+
 	}
 
 }

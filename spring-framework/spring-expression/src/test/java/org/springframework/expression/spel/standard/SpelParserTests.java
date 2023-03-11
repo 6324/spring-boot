@@ -116,43 +116,37 @@ public class SpelParserTests {
 		assertThatExceptionOfType(SpelParseException.class).isThrownBy(() -> {
 			SpelExpressionParser parser = new SpelExpressionParser();
 			parser.parseRaw("new String");
-		})
-		.satisfies(ex -> parseExceptionRequirements(SpelMessage.MISSING_CONSTRUCTOR_ARGS, 10));
+		}).satisfies(ex -> parseExceptionRequirements(SpelMessage.MISSING_CONSTRUCTOR_ARGS, 10));
 
 		assertThatExceptionOfType(SpelParseException.class).isThrownBy(() -> {
 			SpelExpressionParser parser = new SpelExpressionParser();
 			parser.parseRaw("new String(3,");
-		})
-		.satisfies(ex -> parseExceptionRequirements(SpelMessage.RUN_OUT_OF_ARGUMENTS, 10));
+		}).satisfies(ex -> parseExceptionRequirements(SpelMessage.RUN_OUT_OF_ARGUMENTS, 10));
 
 		assertThatExceptionOfType(SpelParseException.class).isThrownBy(() -> {
 			SpelExpressionParser parser = new SpelExpressionParser();
 			parser.parseRaw("new String(3");
-		})
-		.satisfies(ex -> parseExceptionRequirements(SpelMessage.RUN_OUT_OF_ARGUMENTS, 10));
+		}).satisfies(ex -> parseExceptionRequirements(SpelMessage.RUN_OUT_OF_ARGUMENTS, 10));
 
 		assertThatExceptionOfType(SpelParseException.class).isThrownBy(() -> {
 			SpelExpressionParser parser = new SpelExpressionParser();
 			parser.parseRaw("new String(");
-		})
-		.satisfies(ex -> parseExceptionRequirements(SpelMessage.RUN_OUT_OF_ARGUMENTS, 10));
+		}).satisfies(ex -> parseExceptionRequirements(SpelMessage.RUN_OUT_OF_ARGUMENTS, 10));
 
 		assertThatExceptionOfType(SpelParseException.class).isThrownBy(() -> {
 			SpelExpressionParser parser = new SpelExpressionParser();
 			parser.parseRaw("\"abc");
-		})
-		.satisfies(ex -> parseExceptionRequirements(SpelMessage.NON_TERMINATING_DOUBLE_QUOTED_STRING, 0));
+		}).satisfies(ex -> parseExceptionRequirements(SpelMessage.NON_TERMINATING_DOUBLE_QUOTED_STRING, 0));
 
 		assertThatExceptionOfType(SpelParseException.class).isThrownBy(() -> {
 			SpelExpressionParser parser = new SpelExpressionParser();
 			parser.parseRaw("'abc");
-		})
-		.satisfies(ex -> parseExceptionRequirements(SpelMessage.NON_TERMINATING_QUOTED_STRING, 0));
+		}).satisfies(ex -> parseExceptionRequirements(SpelMessage.NON_TERMINATING_QUOTED_STRING, 0));
 
 	}
 
-	private <E extends SpelParseException> Consumer<E> parseExceptionRequirements(
-			SpelMessage expectedMessage, int expectedPosition) {
+	private <E extends SpelParseException> Consumer<E> parseExceptionRequirements(SpelMessage expectedMessage,
+			int expectedPosition) {
 		return ex -> {
 			assertThat(ex.getMessageCode()).isEqualTo(expectedMessage);
 			assertThat(ex.getPosition()).isEqualTo(expectedPosition);
@@ -251,12 +245,11 @@ public class SpelParserTests {
 
 	@Test
 	public void testStringLiterals_DoubleQuotes_spr9620_2() {
-		assertThatExceptionOfType(SpelParseException.class).isThrownBy(() ->
-				new SpelExpressionParser().parseRaw("\"double quote: \\\"\\\".\""))
-			.satisfies(ex -> {
-				assertThat(ex.getPosition()).isEqualTo(17);
-				assertThat(ex.getMessageCode()).isEqualTo(SpelMessage.UNEXPECTED_ESCAPE_CHAR);
-			});
+		assertThatExceptionOfType(SpelParseException.class)
+				.isThrownBy(() -> new SpelExpressionParser().parseRaw("\"double quote: \\\"\\\".\"")).satisfies(ex -> {
+					assertThat(ex.getPosition()).isEqualTo(17);
+					assertThat(ex.getMessageCode()).isEqualTo(SpelMessage.UNEXPECTED_ESCAPE_CHAR);
+				});
 	}
 
 	@Test
@@ -369,7 +362,6 @@ public class SpelParserTests {
 		checkNumber("1e+3", 1e3d, Double.class);
 	}
 
-
 	private void checkNumber(String expression, Object value, Class<?> type) {
 		try {
 			SpelExpressionParser parser = new SpelExpressionParser();
@@ -385,9 +377,8 @@ public class SpelParserTests {
 
 	private void checkNumberError(String expression, SpelMessage expectedMessage) {
 		SpelExpressionParser parser = new SpelExpressionParser();
-		assertThatExceptionOfType(SpelParseException.class).isThrownBy(() ->
-				parser.parseRaw(expression))
-			.satisfies(ex -> assertThat(ex.getMessageCode()).isEqualTo(expectedMessage));
+		assertThatExceptionOfType(SpelParseException.class).isThrownBy(() -> parser.parseRaw(expression))
+				.satisfies(ex -> assertThat(ex.getMessageCode()).isEqualTo(expectedMessage));
 	}
 
 }

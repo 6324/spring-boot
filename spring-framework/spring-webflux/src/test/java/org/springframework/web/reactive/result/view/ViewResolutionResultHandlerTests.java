@@ -62,15 +62,14 @@ import static org.springframework.web.testfixture.http.server.reactive.MockServe
 import static org.springframework.web.testfixture.method.ResolvableMethod.on;
 
 /**
- * ViewResolutionResultHandler relying on a canned {@link TestViewResolver}
- * or a (Mockito) "mock".
+ * ViewResolutionResultHandler relying on a canned {@link TestViewResolver} or a (Mockito)
+ * "mock".
  *
  * @author Rossen Stoyanchev
  */
 public class ViewResolutionResultHandlerTests {
 
 	private final BindingContext bindingContext = new BindingContext();
-
 
 	@Test
 	public void supports() {
@@ -114,10 +113,12 @@ public class ViewResolutionResultHandlerTests {
 		ViewResolutionResultHandler resultHandler = resultHandler(mock(ViewResolver.class));
 		HandlerResult handlerResult = new HandlerResult(new Object(), null, returnType, this.bindingContext);
 		if (supports) {
-			assertThat(resultHandler.supports(handlerResult)).as("return type [" + returnType + "] should be supported").isTrue();
+			assertThat(resultHandler.supports(handlerResult)).as("return type [" + returnType + "] should be supported")
+					.isTrue();
 		}
 		else {
-			assertThat(resultHandler.supports(handlerResult)).as("return type [" + returnType + "] should not be supported").isFalse();
+			assertThat(resultHandler.supports(handlerResult))
+					.as("return type [" + returnType + "] should not be supported").isFalse();
 		}
 	}
 
@@ -162,14 +163,14 @@ public class ViewResolutionResultHandlerTests {
 		returnValue = new ConcurrentModel().addAttribute("name", "Joe").addAttribute("ignore", null);
 		testHandle("/account", returnType, returnValue, "account: {id=123, name=Joe}", resolver);
 
-		// Work around  caching issue...
+		// Work around caching issue...
 		ResolvableType.clearCache();
 
 		returnType = on(Handler.class).annotNotPresent(ModelAttribute.class).resolveReturnType(Map.class);
 		returnValue = Collections.singletonMap("name", "Joe");
 		testHandle("/account", returnType, returnValue, "account: {id=123, name=Joe}", resolver);
 
-		// Work around  caching issue...
+		// Work around caching issue...
 		ResolvableType.clearCache();
 
 		returnType = on(Handler.class).annotPresent(ModelAttribute.class).resolveReturnType(Map.class);
@@ -178,10 +179,9 @@ public class ViewResolutionResultHandlerTests {
 
 		returnType = on(Handler.class).resolveReturnType(TestBean.class);
 		returnValue = new TestBean("Joe");
-		String responseBody = "account: {id=123, " +
-				"org.springframework.validation.BindingResult.testBean=" +
-				"org.springframework.validation.BeanPropertyBindingResult: 0 errors, " +
-				"testBean=TestBean[name=Joe]}";
+		String responseBody = "account: {id=123, " + "org.springframework.validation.BindingResult.testBean="
+				+ "org.springframework.validation.BeanPropertyBindingResult: 0 errors, "
+				+ "testBean=TestBean[name=Joe]}";
 		testHandle("/account", returnType, returnValue, responseBody, resolver);
 
 		returnType = on(Handler.class).annotPresent(ModelAttribute.class).resolveReturnType(Long.class);
@@ -198,10 +198,8 @@ public class ViewResolutionResultHandlerTests {
 
 	@Test
 	public void handleWithMultipleResolvers() {
-		testHandle("/account",
-				on(Handler.class).annotNotPresent(ModelAttribute.class).resolveReturnType(String.class),
-				"profile", "profile: {id=123}",
-				new TestViewResolver("account"), new TestViewResolver("profile"));
+		testHandle("/account", on(Handler.class).annotNotPresent(ModelAttribute.class).resolveReturnType(String.class),
+				"profile", "profile: {id=123}", new TestViewResolver("account"), new TestViewResolver("profile"));
 	}
 
 	@Test
@@ -233,15 +231,14 @@ public class ViewResolutionResultHandlerTests {
 	@Test
 	public void unresolvedViewName() {
 		String returnValue = "account";
-		MethodParameter returnType = on(Handler.class).annotPresent(ModelAttribute.class).resolveReturnType(String.class);
+		MethodParameter returnType = on(Handler.class).annotPresent(ModelAttribute.class)
+				.resolveReturnType(String.class);
 		HandlerResult result = new HandlerResult(new Object(), returnValue, returnType, this.bindingContext);
 
 		MockServerWebExchange exchange = MockServerWebExchange.from(get("/path"));
 		Mono<Void> mono = resultHandler().handleResult(exchange, result);
 
-		StepVerifier.create(mono)
-				.expectNextCount(0)
-				.expectErrorMessage("Could not resolve view with name 'path'.")
+		StepVerifier.create(mono).expectNextCount(0).expectErrorMessage("Could not resolve view with name 'path'.")
 				.verify();
 	}
 
@@ -256,15 +253,13 @@ public class ViewResolutionResultHandlerTests {
 		TestView defaultView = new TestView("jsonView", APPLICATION_JSON);
 
 		resultHandler(Collections.singletonList(defaultView), new TestViewResolver("account"))
-				.handleResult(exchange, handlerResult)
-				.block(Duration.ofSeconds(5));
+				.handleResult(exchange, handlerResult).block(Duration.ofSeconds(5));
 
 		assertThat(exchange.getResponse().getHeaders().getContentType()).isEqualTo(APPLICATION_JSON);
-		assertResponseBody(exchange, "jsonView: {" +
-				"org.springframework.validation.BindingResult.testBean=" +
-				"org.springframework.validation.BeanPropertyBindingResult: 0 errors, " +
-				"testBean=TestBean[name=Joe]" +
-				"}");
+		assertResponseBody(exchange,
+				"jsonView: {" + "org.springframework.validation.BindingResult.testBean="
+						+ "org.springframework.validation.BeanPropertyBindingResult: 0 errors, "
+						+ "testBean=TestBean[name=Joe]" + "}");
 	}
 
 	@Test
@@ -277,13 +272,10 @@ public class ViewResolutionResultHandlerTests {
 
 		ViewResolutionResultHandler resultHandler = resultHandler(new TestViewResolver("account"));
 		Mono<Void> mono = resultHandler.handleResult(exchange, handlerResult);
-		StepVerifier.create(mono)
-				.expectNextCount(0)
-				.expectError(NotAcceptableStatusException.class)
-				.verify();
+		StepVerifier.create(mono).expectNextCount(0).expectError(NotAcceptableStatusException.class).verify();
 	}
 
-	@Test  // SPR-15291
+	@Test // SPR-15291
 	public void contentNegotiationWithRedirect() {
 		HandlerResult handlerResult = new HandlerResult(new Object(), "redirect:/",
 				on(Handler.class).annotNotPresent(ModelAttribute.class).resolveReturnType(String.class),
@@ -300,7 +292,6 @@ public class ViewResolutionResultHandlerTests {
 		assertThat(response.getStatusCode().value()).isEqualTo(303);
 		assertThat(response.getHeaders().getLocation().toString()).isEqualTo("/");
 	}
-
 
 	private ViewResolutionResultHandler resultHandler(ViewResolver... resolvers) {
 		return resultHandler(Collections.emptyList(), resolvers);
@@ -329,11 +320,9 @@ public class ViewResolutionResultHandlerTests {
 
 	private void assertResponseBody(MockServerWebExchange exchange, String responseBody) {
 		StepVerifier.create(exchange.getResponse().getBody())
-				.consumeNextWith(buf -> assertThat(buf.toString(UTF_8)).isEqualTo(responseBody))
-				.expectComplete()
+				.consumeNextWith(buf -> assertThat(buf.toString(UTF_8)).isEqualTo(responseBody)).expectComplete()
 				.verify();
 	}
-
 
 	private static class TestViewResolver implements ViewResolver, Ordered {
 
@@ -359,15 +348,14 @@ public class ViewResolutionResultHandlerTests {
 			View view = this.views.get(viewName);
 			return Mono.justOrEmpty(view);
 		}
-	}
 
+	}
 
 	private static final class TestView implements View {
 
 		private final String name;
 
 		private final List<MediaType> mediaTypes;
-
 
 		TestView(String name) {
 			this.name = name;
@@ -390,7 +378,8 @@ public class ViewResolutionResultHandlerTests {
 		}
 
 		@Override
-		public Mono<Void> render(@Nullable Map<String, ?> model, @Nullable MediaType mediaType, ServerWebExchange exchange) {
+		public Mono<Void> render(@Nullable Map<String, ?> model, @Nullable MediaType mediaType,
+				ServerWebExchange exchange) {
 			ServerHttpResponse response = exchange.getResponse();
 			if (mediaType != null) {
 				response.getHeaders().setContentType(mediaType);
@@ -401,8 +390,8 @@ public class ViewResolutionResultHandlerTests {
 			DataBuffer dataBuffer = new DefaultDataBufferFactory().wrap(byteBuffer);
 			return response.writeWith(Flux.just(dataBuffer));
 		}
-	}
 
+	}
 
 	private static class TestBean {
 
@@ -421,37 +410,82 @@ public class ViewResolutionResultHandlerTests {
 		public String toString() {
 			return "TestBean[name=" + this.name + "]";
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class Handler {
 
-		String string() { return null; }
-		Mono<String> monoString() { return null; }
-		@ModelAttribute("myString") String stringWithAnnotation() { return null; }
+		String string() {
+			return null;
+		}
 
-		Rendering rendering() { return null; }
-		Mono<Rendering> monoRendering() { return null; }
+		Mono<String> monoString() {
+			return null;
+		}
 
-		View view() { return null; }
-		Mono<View> monoView() { return null; }
+		@ModelAttribute("myString")
+		String stringWithAnnotation() {
+			return null;
+		}
 
-		void voidMethod() { }
-		Mono<Void> monoVoid() { return null; }
-		Completable completable() { return null; }
+		Rendering rendering() {
+			return null;
+		}
 
-		Model model() { return null; }
+		Mono<Rendering> monoRendering() {
+			return null;
+		}
 
-		Map<?,?> map() { return null; }
-		@ModelAttribute("myMap") Map<?,?> mapWithAnnotation() { return null; }
+		View view() {
+			return null;
+		}
 
-		TestBean testBean() { return null; }
+		Mono<View> monoView() {
+			return null;
+		}
 
-		Long longValue() { return null; }
-		@ModelAttribute("myLong") Long longModelAttribute() { return null; }
+		void voidMethod() {
+		}
 
-		Mono<?> monoWildcard() { return null; }
+		Mono<Void> monoVoid() {
+			return null;
+		}
+
+		Completable completable() {
+			return null;
+		}
+
+		Model model() {
+			return null;
+		}
+
+		Map<?, ?> map() {
+			return null;
+		}
+
+		@ModelAttribute("myMap")
+		Map<?, ?> mapWithAnnotation() {
+			return null;
+		}
+
+		TestBean testBean() {
+			return null;
+		}
+
+		Long longValue() {
+			return null;
+		}
+
+		@ModelAttribute("myLong")
+		Long longModelAttribute() {
+			return null;
+		}
+
+		Mono<?> monoWildcard() {
+			return null;
+		}
+
 	}
 
 }

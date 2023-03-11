@@ -29,7 +29,8 @@ public class JCacheAspectJNamespaceConfigTests extends AbstractJCacheAnnotationT
 	@Override
 	protected ApplicationContext getApplicationContext() {
 		GenericXmlApplicationContext context = new GenericXmlApplicationContext();
-		// Disallow bean definition overriding to test https://github.com/spring-projects/spring-framework/pull/27499
+		// Disallow bean definition overriding to test
+		// https://github.com/spring-projects/spring-framework/pull/27499
 		context.setAllowBeanDefinitionOverriding(false);
 		context.load("/org/springframework/cache/config/annotation-jcache-aspectj.xml");
 		context.refresh();

@@ -33,10 +33,11 @@ import org.springframework.lang.Nullable;
 
 /**
  * Support base class for singleton registries which need to handle
- * {@link org.springframework.beans.factory.FactoryBean} instances,
- * integrated with {@link DefaultSingletonBeanRegistry}'s singleton management.
+ * {@link org.springframework.beans.factory.FactoryBean} instances, integrated with
+ * {@link DefaultSingletonBeanRegistry}'s singleton management.
  *
- * <p>Serves as base class for {@link AbstractBeanFactory}.
+ * <p>
+ * Serves as base class for {@link AbstractBeanFactory}.
  *
  * @author Juergen Hoeller
  * @since 2.5.1
@@ -46,19 +47,18 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 	/** Cache of singleton objects created by FactoryBeans: FactoryBean name to object. */
 	private final Map<String, Object> factoryBeanObjectCache = new ConcurrentHashMap<>(16);
 
-
 	/**
 	 * Determine the type for the given FactoryBean.
 	 * @param factoryBean the FactoryBean instance to check
-	 * @return the FactoryBean's object type,
-	 * or {@code null} if the type cannot be determined yet
+	 * @return the FactoryBean's object type, or {@code null} if the type cannot be
+	 * determined yet
 	 */
 	@Nullable
 	protected Class<?> getTypeForFactoryBean(FactoryBean<?> factoryBean) {
 		try {
 			if (System.getSecurityManager() != null) {
-				return AccessController.doPrivileged(
-						(PrivilegedAction<Class<?>>) factoryBean::getObjectType, getAccessControlContext());
+				return AccessController.doPrivileged((PrivilegedAction<Class<?>>) factoryBean::getObjectType,
+						getAccessControlContext());
 			}
 			else {
 				return factoryBean.getObjectType();
@@ -66,18 +66,17 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 		}
 		catch (Throwable ex) {
 			// Thrown from the FactoryBean's getObjectType implementation.
-			logger.info("FactoryBean threw exception from getObjectType, despite the contract saying " +
-					"that it should return null if the type of its object cannot be determined yet", ex);
+			logger.info("FactoryBean threw exception from getObjectType, despite the contract saying "
+					+ "that it should return null if the type of its object cannot be determined yet", ex);
 			return null;
 		}
 	}
 
 	/**
-	 * Obtain an object to expose from the given FactoryBean, if available
-	 * in cached form. Quick check for minimal synchronization.
+	 * Obtain an object to expose from the given FactoryBean, if available in cached form.
+	 * Quick check for minimal synchronization.
 	 * @param beanName the name of the bean
-	 * @return the object obtained from the FactoryBean,
-	 * or {@code null} if not available
+	 * @return the object obtained from the FactoryBean, or {@code null} if not available
 	 */
 	@Nullable
 	protected Object getCachedObjectForFactoryBean(String beanName) {
@@ -99,8 +98,10 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 				Object object = this.factoryBeanObjectCache.get(beanName);
 				if (object == null) {
 					object = doGetObjectFromFactoryBean(factory, beanName);
-					// Only post-process and store if not put there already during getObject() call above
-					// (e.g. because of circular reference processing triggered by custom getBean calls)
+					// Only post-process and store if not put there already during
+					// getObject() call above
+					// (e.g. because of circular reference processing triggered by custom
+					// getBean calls)
 					Object alreadyThere = this.factoryBeanObjectCache.get(beanName);
 					if (alreadyThere != null) {
 						object = alreadyThere;
@@ -108,7 +109,8 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 					else {
 						if (shouldPostProcess) {
 							if (isSingletonCurrentlyInCreation(beanName)) {
-								// Temporarily return non-post-processed object, not storing it yet..
+								// Temporarily return non-post-processed object, not
+								// storing it yet..
 								return object;
 							}
 							beforeSingletonCreation(beanName);
@@ -180,8 +182,8 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 		// initialized yet: Many FactoryBeans just return null then.
 		if (object == null) {
 			if (isSingletonCurrentlyInCreation(beanName)) {
-				throw new BeanCurrentlyInCreationException(
-						beanName, "FactoryBean which is currently in creation returned null from getObject");
+				throw new BeanCurrentlyInCreationException(beanName,
+						"FactoryBean which is currently in creation returned null from getObject");
 			}
 			object = new NullBean();
 		}
@@ -189,10 +191,11 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 	}
 
 	/**
-	 * Post-process the given object that has been obtained from the FactoryBean.
-	 * The resulting object will get exposed for bean references.
-	 * <p>The default implementation simply returns the given object as-is.
-	 * Subclasses may override this, for example, to apply post-processors.
+	 * Post-process the given object that has been obtained from the FactoryBean. The
+	 * resulting object will get exposed for bean references.
+	 * <p>
+	 * The default implementation simply returns the given object as-is. Subclasses may
+	 * override this, for example, to apply post-processors.
 	 * @param object the object obtained from the FactoryBean.
 	 * @param beanName the name of the bean
 	 * @return the object to expose
@@ -240,9 +243,9 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 	}
 
 	/**
-	 * Return the security context for this bean factory. If a security manager
-	 * is set, interaction with the user code will be executed using the privileged
-	 * of the security context returned by this method.
+	 * Return the security context for this bean factory. If a security manager is set,
+	 * interaction with the user code will be executed using the privileged of the
+	 * security context returned by this method.
 	 * @see AccessController#getContext()
 	 */
 	protected AccessControlContext getAccessControlContext() {

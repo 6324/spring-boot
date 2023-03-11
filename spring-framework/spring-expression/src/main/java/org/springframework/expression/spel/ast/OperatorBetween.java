@@ -40,7 +40,6 @@ public class OperatorBetween extends Operator {
 		super("between", startPos, endPos, operands);
 	}
 
-
 	/**
 	 * Returns a boolean based on whether a value is in the range expressed. The first
 	 * operand is any value whilst the second is a list of two values - those two values

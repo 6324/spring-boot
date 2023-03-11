@@ -32,9 +32,8 @@ import org.springframework.util.DefaultPropertiesPersister;
 import org.springframework.util.PropertiesPersister;
 
 /**
- * Base class for JavaBean-style components that need to load properties
- * from one or more resources. Supports local properties as well, with
- * configurable overriding.
+ * Base class for JavaBean-style components that need to load properties from one or more
+ * resources. Supports local properties as well, with configurable overriding.
  *
  * @author Juergen Hoeller
  * @since 1.2.2
@@ -59,19 +58,17 @@ public abstract class PropertiesLoaderSupport {
 
 	private PropertiesPersister propertiesPersister = new DefaultPropertiesPersister();
 
-
 	/**
-	 * Set local properties, e.g. via the "props" tag in XML bean definitions.
-	 * These can be considered defaults, to be overridden by properties
-	 * loaded from files.
+	 * Set local properties, e.g. via the "props" tag in XML bean definitions. These can
+	 * be considered defaults, to be overridden by properties loaded from files.
 	 */
 	public void setProperties(Properties properties) {
-		this.localProperties = new Properties[] {properties};
+		this.localProperties = new Properties[] { properties };
 	}
 
 	/**
-	 * Set local properties, e.g. via the "props" tag in XML bean definitions,
-	 * allowing for merging multiple properties sets into one.
+	 * Set local properties, e.g. via the "props" tag in XML bean definitions, allowing
+	 * for merging multiple properties sets into one.
 	 */
 	public void setPropertiesArray(Properties... propertiesArray) {
 		this.localProperties = propertiesArray;
@@ -79,21 +76,23 @@ public abstract class PropertiesLoaderSupport {
 
 	/**
 	 * Set a location of a properties file to be loaded.
-	 * <p>Can point to a classic properties file or to an XML file
-	 * that follows JDK 1.5's properties XML format.
+	 * <p>
+	 * Can point to a classic properties file or to an XML file that follows JDK 1.5's
+	 * properties XML format.
 	 */
 	public void setLocation(Resource location) {
-		this.locations = new Resource[] {location};
+		this.locations = new Resource[] { location };
 	}
 
 	/**
 	 * Set locations of properties files to be loaded.
-	 * <p>Can point to classic properties files or to XML files
-	 * that follow JDK 1.5's properties XML format.
-	 * <p>Note: Properties defined in later files will override
-	 * properties defined earlier files, in case of overlapping keys.
-	 * Hence, make sure that the most specific files are the last
-	 * ones in the given list of locations.
+	 * <p>
+	 * Can point to classic properties files or to XML files that follow JDK 1.5's
+	 * properties XML format.
+	 * <p>
+	 * Note: Properties defined in later files will override properties defined earlier
+	 * files, in case of overlapping keys. Hence, make sure that the most specific files
+	 * are the last ones in the given list of locations.
 	 */
 	public void setLocations(Resource... locations) {
 		this.locations = locations;
@@ -101,9 +100,9 @@ public abstract class PropertiesLoaderSupport {
 
 	/**
 	 * Set whether local properties override properties from files.
-	 * <p>Default is "false": Properties from files override local defaults.
-	 * Can be switched to "true" to let local properties override defaults
-	 * from files.
+	 * <p>
+	 * Default is "false": Properties from files override local defaults. Can be switched
+	 * to "true" to let local properties override defaults from files.
 	 */
 	public void setLocalOverride(boolean localOverride) {
 		this.localOverride = localOverride;
@@ -111,8 +110,9 @@ public abstract class PropertiesLoaderSupport {
 
 	/**
 	 * Set if failure to find the property resource should be ignored.
-	 * <p>"true" is appropriate if the properties file is completely optional.
-	 * Default is "false".
+	 * <p>
+	 * "true" is appropriate if the properties file is completely optional. Default is
+	 * "false".
 	 */
 	public void setIgnoreResourceNotFound(boolean ignoreResourceNotFound) {
 		this.ignoreResourceNotFound = ignoreResourceNotFound;
@@ -120,9 +120,10 @@ public abstract class PropertiesLoaderSupport {
 
 	/**
 	 * Set the encoding to use for parsing properties files.
-	 * <p>Default is none, using the {@code java.util.Properties}
-	 * default encoding.
-	 * <p>Only applies to classic properties files, not to XML files.
+	 * <p>
+	 * Default is none, using the {@code java.util.Properties} default encoding.
+	 * <p>
+	 * Only applies to classic properties files, not to XML files.
 	 * @see org.springframework.util.PropertiesPersister#load
 	 */
 	public void setFileEncoding(String encoding) {
@@ -130,19 +131,18 @@ public abstract class PropertiesLoaderSupport {
 	}
 
 	/**
-	 * Set the PropertiesPersister to use for parsing properties files.
-	 * The default is DefaultPropertiesPersister.
+	 * Set the PropertiesPersister to use for parsing properties files. The default is
+	 * DefaultPropertiesPersister.
 	 * @see org.springframework.util.DefaultPropertiesPersister
 	 */
 	public void setPropertiesPersister(@Nullable PropertiesPersister propertiesPersister) {
-		this.propertiesPersister =
-				(propertiesPersister != null ? propertiesPersister : new DefaultPropertiesPersister());
+		this.propertiesPersister = (propertiesPersister != null ? propertiesPersister
+				: new DefaultPropertiesPersister());
 	}
 
-
 	/**
-	 * Return a merged Properties instance containing both the
-	 * loaded properties and properties set on this FactoryBean.
+	 * Return a merged Properties instance containing both the loaded properties and
+	 * properties set on this FactoryBean.
 	 */
 	protected Properties mergeProperties() throws IOException {
 		Properties result = new Properties();
@@ -179,8 +179,8 @@ public abstract class PropertiesLoaderSupport {
 					logger.trace("Loading properties file from " + location);
 				}
 				try {
-					PropertiesLoaderUtils.fillProperties(
-							props, new EncodedResource(location, this.fileEncoding), this.propertiesPersister);
+					PropertiesLoaderUtils.fillProperties(props, new EncodedResource(location, this.fileEncoding),
+							this.propertiesPersister);
 				}
 				catch (FileNotFoundException | UnknownHostException | SocketException ex) {
 					if (this.ignoreResourceNotFound) {

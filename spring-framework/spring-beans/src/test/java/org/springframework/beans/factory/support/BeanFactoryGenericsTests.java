@@ -126,12 +126,9 @@ public class BeanFactoryGenericsTests {
 		rbd.getPropertyValues().add("testBeanList", input);
 
 		bf.registerBeanDefinition("genericBean", rbd);
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				bf.getBean("genericBean"))
-			.withMessageContaining("genericBean")
-			.withMessageContaining("testBeanList[0]")
-			.withMessageContaining(TestBean.class.getName())
-			.withMessageContaining("Integer");
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> bf.getBean("genericBean"))
+				.withMessageContaining("genericBean").withMessageContaining("testBeanList[0]")
+				.withMessageContaining(TestBean.class.getName()).withMessageContaining("Integer");
 	}
 
 	@Test
@@ -166,8 +163,7 @@ public class BeanFactoryGenericsTests {
 	@Test
 	public void testGenericListOfArraysProperty() {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(
-				new ClassPathResource("genericBeanTests.xml", getClass()));
+		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource("genericBeanTests.xml", getClass()));
 		GenericBean<?> gb = (GenericBean<?>) bf.getBean("listOfArrays");
 
 		assertThat(gb.getListOfArrays().size()).isEqualTo(1);
@@ -176,7 +172,6 @@ public class BeanFactoryGenericsTests {
 		assertThat(array[0]).isEqualTo("value1");
 		assertThat(array[1]).isEqualTo("value2");
 	}
-
 
 	@Test
 	public void testGenericSetConstructor() {
@@ -437,7 +432,6 @@ public class BeanFactoryGenericsTests {
 		assertThat(condition).isTrue();
 	}
 
-
 	@Test
 	public void testGenericSetFactoryMethod() {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
@@ -600,8 +594,7 @@ public class BeanFactoryGenericsTests {
 	@Test
 	public void testGenericListBean() throws Exception {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(
-				new ClassPathResource("genericBeanTests.xml", getClass()));
+		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource("genericBeanTests.xml", getClass()));
 		List<?> list = (List<?>) bf.getBean("list");
 		assertThat(list.size()).isEqualTo(1);
 		assertThat(list.get(0)).isEqualTo(new URL("http://localhost:8080"));
@@ -610,8 +603,7 @@ public class BeanFactoryGenericsTests {
 	@Test
 	public void testGenericSetBean() throws Exception {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(
-				new ClassPathResource("genericBeanTests.xml", getClass()));
+		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource("genericBeanTests.xml", getClass()));
 		Set<?> set = (Set<?>) bf.getBean("set");
 		assertThat(set.size()).isEqualTo(1);
 		assertThat(set.iterator().next()).isEqualTo(new URL("http://localhost:8080"));
@@ -620,8 +612,7 @@ public class BeanFactoryGenericsTests {
 	@Test
 	public void testGenericMapBean() throws Exception {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(
-				new ClassPathResource("genericBeanTests.xml", getClass()));
+		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource("genericBeanTests.xml", getClass()));
 		Map<?, ?> map = (Map<?, ?>) bf.getBean("map");
 		assertThat(map.size()).isEqualTo(1);
 		assertThat(map.keySet().iterator().next()).isEqualTo(10);
@@ -631,8 +622,7 @@ public class BeanFactoryGenericsTests {
 	@Test
 	public void testGenericallyTypedIntegerBean() {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(
-				new ClassPathResource("genericBeanTests.xml", getClass()));
+		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource("genericBeanTests.xml", getClass()));
 		GenericIntegerBean gb = (GenericIntegerBean) bf.getBean("integerBean");
 		assertThat(gb.getGenericProperty()).isEqualTo(10);
 		assertThat(gb.getGenericListProperty().get(0)).isEqualTo(20);
@@ -642,8 +632,7 @@ public class BeanFactoryGenericsTests {
 	@Test
 	public void testGenericallyTypedSetOfIntegerBean() {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(
-				new ClassPathResource("genericBeanTests.xml", getClass()));
+		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource("genericBeanTests.xml", getClass()));
 		GenericSetOfIntegerBean gb = (GenericSetOfIntegerBean) bf.getBean("setOfIntegerBean");
 		assertThat(gb.getGenericProperty().iterator().next()).isEqualTo(10);
 		assertThat(gb.getGenericListProperty().get(0).iterator().next()).isEqualTo(20);
@@ -654,8 +643,7 @@ public class BeanFactoryGenericsTests {
 	@EnabledForTestGroups(LONG_RUNNING)
 	public void testSetBean() throws Exception {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(
-				new ClassPathResource("genericBeanTests.xml", getClass()));
+		new XmlBeanDefinitionReader(bf).loadBeanDefinitions(new ClassPathResource("genericBeanTests.xml", getClass()));
 		UrlSet us = (UrlSet) bf.getBean("setBean");
 		assertThat(us.size()).isEqualTo(1);
 		assertThat(us.iterator().next()).isEqualTo(new URL("https://www.springframework.org"));
@@ -663,13 +651,13 @@ public class BeanFactoryGenericsTests {
 
 	/**
 	 * Tests support for parameterized static {@code factory-method} declarations such as
-	 * Mockito's {@code mock()} method which has the following signature.
-	 * <pre>
+	 * Mockito's {@code mock()} method which has the following signature. <pre>
 	 * {@code
 	 * public static <T> T mock(Class<T> classToMock)
 	 * }
 	 * </pre>
-	 * <p>See SPR-9493
+	 * <p>
+	 * See SPR-9493
 	 */
 	@Test
 	public void parameterizedStaticFactoryMethod() {
@@ -689,13 +677,13 @@ public class BeanFactoryGenericsTests {
 	/**
 	 * Tests support for parameterized instance {@code factory-method} declarations such
 	 * as EasyMock's {@code IMocksControl.createMock()} method which has the following
-	 * signature.
-	 * <pre>
+	 * signature. <pre>
 	 * {@code
 	 * public <T> T createMock(Class<T> toMock)
 	 * }
 	 * </pre>
-	 * <p>See SPR-10411
+	 * <p>
+	 * See SPR-10411
 	 */
 	@Test
 	public void parameterizedInstanceFactoryMethod() {
@@ -800,7 +788,7 @@ public class BeanFactoryGenericsTests {
 		assertThat(beans.size()).isEqualTo(1);
 	}
 
-	@Test  // SPR-16720
+	@Test // SPR-16720
 	public void parameterizedInstanceFactoryMethodWithTempClassLoader() {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
 		bf.setTempClassLoader(new OverridingClassLoader(getClass().getClassLoader()));
@@ -837,8 +825,10 @@ public class BeanFactoryGenericsTests {
 		assertThat(nb.getFloatStore()).isSameAs(bf.getBean("floatStore"));
 
 		String[] numberStoreNames = bf.getBeanNamesForType(ResolvableType.forClass(NumberStore.class));
-		String[] doubleStoreNames = bf.getBeanNamesForType(ResolvableType.forClassWithGenerics(NumberStore.class, Double.class));
-		String[] floatStoreNames = bf.getBeanNamesForType(ResolvableType.forClassWithGenerics(NumberStore.class, Float.class));
+		String[] doubleStoreNames = bf
+				.getBeanNamesForType(ResolvableType.forClassWithGenerics(NumberStore.class, Double.class));
+		String[] floatStoreNames = bf
+				.getBeanNamesForType(ResolvableType.forClassWithGenerics(NumberStore.class, Float.class));
 		assertThat(numberStoreNames.length).isEqualTo(2);
 		assertThat(numberStoreNames[0]).isEqualTo("doubleStore");
 		assertThat(numberStoreNames[1]).isEqualTo("floatStore");
@@ -866,8 +856,10 @@ public class BeanFactoryGenericsTests {
 		assertThat(nb.getFloatStore()).isSameAs(bf.getBean("store2"));
 
 		String[] numberStoreNames = bf.getBeanNamesForType(ResolvableType.forClass(NumberStore.class));
-		String[] doubleStoreNames = bf.getBeanNamesForType(ResolvableType.forClassWithGenerics(NumberStore.class, Double.class));
-		String[] floatStoreNames = bf.getBeanNamesForType(ResolvableType.forClassWithGenerics(NumberStore.class, Float.class));
+		String[] doubleStoreNames = bf
+				.getBeanNamesForType(ResolvableType.forClassWithGenerics(NumberStore.class, Double.class));
+		String[] floatStoreNames = bf
+				.getBeanNamesForType(ResolvableType.forClassWithGenerics(NumberStore.class, Float.class));
 		assertThat(numberStoreNames.length).isEqualTo(2);
 		assertThat(numberStoreNames[0]).isEqualTo("store1");
 		assertThat(numberStoreNames[1]).isEqualTo("store2");
@@ -876,11 +868,15 @@ public class BeanFactoryGenericsTests {
 		assertThat(floatStoreNames.length).isEqualTo(1);
 		assertThat(floatStoreNames[0]).isEqualTo("store2");
 
-		ObjectProvider<NumberStore<?>> numberStoreProvider = bf.getBeanProvider(ResolvableType.forClass(NumberStore.class));
-		ObjectProvider<NumberStore<Double>> doubleStoreProvider = bf.getBeanProvider(ResolvableType.forClassWithGenerics(NumberStore.class, Double.class));
-		ObjectProvider<NumberStore<Float>> floatStoreProvider = bf.getBeanProvider(ResolvableType.forClassWithGenerics(NumberStore.class, Float.class));
+		ObjectProvider<NumberStore<?>> numberStoreProvider = bf
+				.getBeanProvider(ResolvableType.forClass(NumberStore.class));
+		ObjectProvider<NumberStore<Double>> doubleStoreProvider = bf
+				.getBeanProvider(ResolvableType.forClassWithGenerics(NumberStore.class, Double.class));
+		ObjectProvider<NumberStore<Float>> floatStoreProvider = bf
+				.getBeanProvider(ResolvableType.forClassWithGenerics(NumberStore.class, Float.class));
 		assertThatExceptionOfType(NoUniqueBeanDefinitionException.class).isThrownBy(numberStoreProvider::getObject);
-		assertThatExceptionOfType(NoUniqueBeanDefinitionException.class).isThrownBy(numberStoreProvider::getIfAvailable);
+		assertThatExceptionOfType(NoUniqueBeanDefinitionException.class)
+				.isThrownBy(numberStoreProvider::getIfAvailable);
 		assertThat(numberStoreProvider.getIfUnique()).isNull();
 		assertThat(doubleStoreProvider.getObject()).isSameAs(bf.getBean("store1"));
 		assertThat(doubleStoreProvider.getIfAvailable()).isSameAs(bf.getBean("store1"));
@@ -951,28 +947,28 @@ public class BeanFactoryGenericsTests {
 		bd2.setFactoryMethodName("newFloatStore");
 		bf.registerBeanDefinition("store2", bd2);
 
-		ObjectProvider<NumberStore<?>> numberStoreProvider = bf.getBeanProvider(ResolvableType.forClass(NumberStore.class));
+		ObjectProvider<NumberStore<?>> numberStoreProvider = bf
+				.getBeanProvider(ResolvableType.forClass(NumberStore.class));
 		List<NumberStore<?>> resolved = numberStoreProvider.orderedStream().collect(Collectors.toList());
 		assertThat(resolved.size()).isEqualTo(2);
 		assertThat(resolved.get(0)).isSameAs(bf.getBean("store2"));
 		assertThat(resolved.get(1)).isSameAs(bf.getBean("store1"));
 	}
 
-
 	@SuppressWarnings("serial")
 	public static class NamedUrlList extends LinkedList<URL> {
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	public static class NamedUrlSet extends HashSet<URL> {
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	public static class NamedUrlMap extends HashMap<Integer, URL> {
-	}
 
+	}
 
 	public static class CollectionDependentBean {
 
@@ -981,8 +977,8 @@ public class BeanFactoryGenericsTests {
 			assertThat(set.size()).isEqualTo(1);
 			assertThat(map.size()).isEqualTo(1);
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	public static class UrlSet extends HashSet<URL> {
@@ -1000,8 +996,8 @@ public class BeanFactoryGenericsTests {
 				add(urlName.toURL());
 			}
 		}
-	}
 
+	}
 
 	/**
 	 * Pseudo-implementation of EasyMock's {@code MocksControl} class.
@@ -1010,28 +1006,28 @@ public class BeanFactoryGenericsTests {
 
 		@SuppressWarnings("unchecked")
 		public <T> T createMock(Class<T> toMock) {
-			return (T) Proxy.newProxyInstance(BeanFactoryGenericsTests.class.getClassLoader(), new Class<?>[] {toMock},
-					new InvocationHandler() {
+			return (T) Proxy.newProxyInstance(BeanFactoryGenericsTests.class.getClassLoader(),
+					new Class<?>[] { toMock }, new InvocationHandler() {
 						@Override
 						public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 							throw new UnsupportedOperationException("mocked!");
 						}
 					});
 		}
-	}
 
+	}
 
 	public static class NumberStore<T extends Number> {
-	}
 
+	}
 
 	public static class DoubleStore extends NumberStore<Double> {
-	}
 
+	}
 
 	public static class FloatStore extends NumberStore<Float> {
-	}
 
+	}
 
 	public static class NumberBean {
 
@@ -1051,8 +1047,8 @@ public class BeanFactoryGenericsTests {
 		public NumberStore<Float> getFloatStore() {
 			return this.floatStore;
 		}
-	}
 
+	}
 
 	public static class NumberStoreFactory {
 
@@ -1065,6 +1061,7 @@ public class BeanFactoryGenericsTests {
 		public static NumberStore<Float> newFloatStore() {
 			return new FloatStore();
 		}
+
 	}
 
 }

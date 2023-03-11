@@ -35,16 +35,19 @@ import org.springframework.util.ClassUtils;
 /**
  * Convenient proxy factory bean for scoped objects.
  *
- * <p>Proxies created using this factory bean are thread-safe singletons
- * and may be injected into shared objects, with transparent scoping behavior.
+ * <p>
+ * Proxies created using this factory bean are thread-safe singletons and may be injected
+ * into shared objects, with transparent scoping behavior.
  *
- * <p>Proxies returned by this class implement the {@link ScopedObject} interface.
- * This presently allows for removing the corresponding object from the scope,
- * seamlessly creating a new instance in the scope on next access.
+ * <p>
+ * Proxies returned by this class implement the {@link ScopedObject} interface. This
+ * presently allows for removing the corresponding object from the scope, seamlessly
+ * creating a new instance in the scope on next access.
  *
- * <p>Please note that the proxies created by this factory are
- * <i>class-based</i> proxies by default. This can be customized
- * through switching the "proxyTargetClass" property to "false".
+ * <p>
+ * Please note that the proxies created by this factory are <i>class-based</i> proxies by
+ * default. This can be customized through switching the "proxyTargetClass" property to
+ * "false".
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -66,14 +69,12 @@ public class ScopedProxyFactoryBean extends ProxyConfig
 	@Nullable
 	private Object proxy;
 
-
 	/**
 	 * Create a new ScopedProxyFactoryBean instance.
 	 */
 	public ScopedProxyFactoryBean() {
 		setProxyTargetClass(true);
 	}
-
 
 	/**
 	 * Set the name of the bean that is to be scoped.
@@ -99,8 +100,8 @@ public class ScopedProxyFactoryBean extends ProxyConfig
 		Assert.notNull(this.targetBeanName, "Property 'targetBeanName' is required");
 		Class<?> beanType = beanFactory.getType(this.targetBeanName);
 		if (beanType == null) {
-			throw new IllegalStateException("Cannot create scoped proxy for bean '" + this.targetBeanName +
-					"': Target type could not be determined at the time of proxy creation.");
+			throw new IllegalStateException("Cannot create scoped proxy for bean '" + this.targetBeanName
+					+ "': Target type could not be determined at the time of proxy creation.");
 		}
 		if (!isProxyTargetClass() || beanType.isInterface() || Modifier.isPrivate(beanType.getModifiers())) {
 			pf.setInterfaces(ClassUtils.getAllInterfacesForClass(beanType, cbf.getBeanClassLoader()));
@@ -116,7 +117,6 @@ public class ScopedProxyFactoryBean extends ProxyConfig
 
 		this.proxy = pf.getProxy(cbf.getBeanClassLoader());
 	}
-
 
 	@Override
 	public Object getObject() {

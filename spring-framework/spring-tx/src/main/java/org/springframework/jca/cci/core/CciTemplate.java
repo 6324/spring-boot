@@ -46,22 +46,23 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * <b>This is the central class in the CCI core package.</b>
- * It simplifies the use of CCI and helps to avoid common errors.
- * It executes core CCI workflow, leaving application code to provide parameters
- * to CCI and extract results. This class executes EIS queries or updates,
- * catching ResourceExceptions and translating them to the generic exception
+ * <b>This is the central class in the CCI core package.</b> It simplifies the use of CCI
+ * and helps to avoid common errors. It executes core CCI workflow, leaving application
+ * code to provide parameters to CCI and extract results. This class executes EIS queries
+ * or updates, catching ResourceExceptions and translating them to the generic exception
  * hierarchy defined in the {@code org.springframework.dao} package.
  *
- * <p>Code using this class can pass in and receive {@link javax.resource.cci.Record}
- * instances, or alternatively implement callback interfaces for creating input
- * Records and extracting result objects from output Records (or CCI ResultSets).
+ * <p>
+ * Code using this class can pass in and receive {@link javax.resource.cci.Record}
+ * instances, or alternatively implement callback interfaces for creating input Records
+ * and extracting result objects from output Records (or CCI ResultSets).
  *
- * <p>Can be used within a service implementation via direct instantiation
- * with a ConnectionFactory reference, or get prepared in an application context
- * and given to services as bean reference. Note: The ConnectionFactory should
- * always be configured as a bean in the application context, in the first case
- * given to the service directly, in the second case to the prepared template.
+ * <p>
+ * Can be used within a service implementation via direct instantiation with a
+ * ConnectionFactory reference, or get prepared in an application context and given to
+ * services as bean reference. Note: The ConnectionFactory should always be configured as
+ * a bean in the application context, in the first case given to the service directly, in
+ * the second case to the prepared template.
  *
  * @author Thierry Templier
  * @author Juergen Hoeller
@@ -82,10 +83,10 @@ public class CciTemplate implements CciOperations {
 	@Nullable
 	private RecordCreator outputRecordCreator;
 
-
 	/**
 	 * Construct a new CciTemplate for bean usage.
-	 * <p>Note: The ConnectionFactory has to be set before using the instance.
+	 * <p>
+	 * Note: The ConnectionFactory has to be set before using the instance.
 	 * @see #setConnectionFactory
 	 */
 	public CciTemplate() {
@@ -105,8 +106,8 @@ public class CciTemplate implements CciOperations {
 	 * Construct a new CciTemplate, given a ConnectionFactory to obtain Connections from.
 	 * Note: This will trigger eager initialization of the exception translator.
 	 * @param connectionFactory the JCA ConnectionFactory to obtain Connections from
-	 * @param connectionSpec the CCI ConnectionSpec to obtain Connections for
-	 * (may be {@code null})
+	 * @param connectionSpec the CCI ConnectionSpec to obtain Connections for (may be
+	 * {@code null})
 	 */
 	public CciTemplate(ConnectionFactory connectionFactory, @Nullable ConnectionSpec connectionSpec) {
 		setConnectionFactory(connectionFactory);
@@ -115,7 +116,6 @@ public class CciTemplate implements CciOperations {
 		}
 		afterPropertiesSet();
 	}
-
 
 	/**
 	 * Set the CCI ConnectionFactory to obtain Connections from.
@@ -139,8 +139,8 @@ public class CciTemplate implements CciOperations {
 	}
 
 	/**
-	 * Set the CCI ConnectionSpec that this template instance is
-	 * supposed to obtain Connections for.
+	 * Set the CCI ConnectionSpec that this template instance is supposed to obtain
+	 * Connections for.
 	 */
 	public void setConnectionSpec(@Nullable ConnectionSpec connectionSpec) {
 		this.connectionSpec = connectionSpec;
@@ -156,15 +156,19 @@ public class CciTemplate implements CciOperations {
 
 	/**
 	 * Set a RecordCreator that should be used for creating default output Records.
-	 * <p>Default is none: When no explicit output Record gets passed into an
-	 * {@code execute} method, CCI's {@code Interaction.execute} variant
-	 * that returns an output Record will be called.
-	 * <p>Specify a RecordCreator here if you always need to call CCI's
-	 * {@code Interaction.execute} variant with a passed-in output Record.
-	 * Unless there is an explicitly specified output Record, CciTemplate will
-	 * then invoke this RecordCreator to create a default output Record instance.
-	 * @see javax.resource.cci.Interaction#execute(javax.resource.cci.InteractionSpec, Record)
-	 * @see javax.resource.cci.Interaction#execute(javax.resource.cci.InteractionSpec, Record, Record)
+	 * <p>
+	 * Default is none: When no explicit output Record gets passed into an {@code execute}
+	 * method, CCI's {@code Interaction.execute} variant that returns an output Record
+	 * will be called.
+	 * <p>
+	 * Specify a RecordCreator here if you always need to call CCI's
+	 * {@code Interaction.execute} variant with a passed-in output Record. Unless there is
+	 * an explicitly specified output Record, CciTemplate will then invoke this
+	 * RecordCreator to create a default output Record instance.
+	 * @see javax.resource.cci.Interaction#execute(javax.resource.cci.InteractionSpec,
+	 * Record)
+	 * @see javax.resource.cci.Interaction#execute(javax.resource.cci.InteractionSpec,
+	 * Record, Record)
 	 */
 	public void setOutputRecordCreator(@Nullable RecordCreator creator) {
 		this.outputRecordCreator = creator;
@@ -184,13 +188,12 @@ public class CciTemplate implements CciOperations {
 		}
 	}
 
-
 	/**
-	 * Create a template derived from this template instance,
-	 * inheriting the ConnectionFactory and other settings but
-	 * overriding the ConnectionSpec used for obtaining Connections.
-	 * @param connectionSpec the CCI ConnectionSpec that the derived template
-	 * instance is supposed to obtain Connections for
+	 * Create a template derived from this template instance, inheriting the
+	 * ConnectionFactory and other settings but overriding the ConnectionSpec used for
+	 * obtaining Connections.
+	 * @param connectionSpec the CCI ConnectionSpec that the derived template instance is
+	 * supposed to obtain Connections for
 	 * @return the derived template instance
 	 * @see #setConnectionSpec
 	 */
@@ -202,7 +205,6 @@ public class CciTemplate implements CciOperations {
 		}
 		return derived;
 	}
-
 
 	@Override
 	@Nullable
@@ -275,10 +277,10 @@ public class CciTemplate implements CciOperations {
 	}
 
 	/**
-	 * Execute the specified interaction on an EIS with CCI.
-	 * All other interaction execution methods go through this.
-	 * @param spec the CCI InteractionSpec instance that defines
-	 * the interaction (connector-specific)
+	 * Execute the specified interaction on an EIS with CCI. All other interaction
+	 * execution methods go through this.
+	 * @param spec the CCI InteractionSpec instance that defines the interaction
+	 * (connector-specific)
 	 * @param inputRecord the input record
 	 * @param outputRecord output record (can be {@code null})
 	 * @param outputExtractor object to convert the output record to a result object
@@ -286,8 +288,7 @@ public class CciTemplate implements CciOperations {
 	 * @throws DataAccessException if there is any problem
 	 */
 	@Nullable
-	protected <T> T doExecute(
-			final InteractionSpec spec, final Record inputRecord, @Nullable final Record outputRecord,
+	protected <T> T doExecute(final InteractionSpec spec, final Record inputRecord, @Nullable final Record outputRecord,
 			@Nullable final RecordExtractor<T> outputExtractor) throws DataAccessException {
 
 		return execute((InteractionCallback<T>) (interaction, connectionFactory) -> {
@@ -313,7 +314,6 @@ public class CciTemplate implements CciOperations {
 			}
 		});
 	}
-
 
 	/**
 	 * Create an indexed Record through the ConnectionFactory's RecordFactory.
@@ -358,8 +358,8 @@ public class CciTemplate implements CciOperations {
 	}
 
 	/**
-	 * Invoke the given RecordCreator, converting JCA ResourceExceptions
-	 * to Spring's DataAccessException hierarchy.
+	 * Invoke the given RecordCreator, converting JCA ResourceExceptions to Spring's
+	 * DataAccessException hierarchy.
 	 * @param recordCreator the RecordCreator to invoke
 	 * @return the created Record
 	 * @throws DataAccessException if creation of the Record failed
@@ -372,8 +372,8 @@ public class CciTemplate implements CciOperations {
 			return recordCreator.createRecord(recordFactory);
 		}
 		catch (NotSupportedException ex) {
-			throw new RecordTypeNotSupportedException(
-					"Creation of the desired Record type not supported by connector", ex);
+			throw new RecordTypeNotSupportedException("Creation of the desired Record type not supported by connector",
+					ex);
 		}
 		catch (ResourceException ex) {
 			throw new CannotCreateRecordException("Creation of the desired Record failed", ex);
@@ -382,10 +382,10 @@ public class CciTemplate implements CciOperations {
 
 	/**
 	 * Return a RecordFactory for the given ConnectionFactory.
-	 * <p>Default implementation returns the connector's RecordFactory if
-	 * available, falling back to a NotSupportedRecordFactory placeholder.
-	 * This allows to invoke a RecordCreator callback with a non-null
-	 * RecordFactory reference in any case.
+	 * <p>
+	 * Default implementation returns the connector's RecordFactory if available, falling
+	 * back to a NotSupportedRecordFactory placeholder. This allows to invoke a
+	 * RecordCreator callback with a non-null RecordFactory reference in any case.
 	 * @param connectionFactory the CCI ConnectionFactory
 	 * @return the CCI RecordFactory for the ConnectionFactory
 	 * @throws ResourceException if thrown by CCI methods
@@ -400,10 +400,9 @@ public class CciTemplate implements CciOperations {
 		}
 	}
 
-
 	/**
-	 * Close the given CCI Interaction and ignore any thrown exception.
-	 * This is useful for typical finally blocks in manual CCI code.
+	 * Close the given CCI Interaction and ignore any thrown exception. This is useful for
+	 * typical finally blocks in manual CCI code.
 	 * @param interaction the CCI Interaction to close
 	 * @see javax.resource.cci.Interaction#close()
 	 */
@@ -416,15 +415,16 @@ public class CciTemplate implements CciOperations {
 				logger.trace("Could not close CCI Interaction", ex);
 			}
 			catch (Throwable ex) {
-				// We don't trust the CCI driver: It might throw RuntimeException or Error.
+				// We don't trust the CCI driver: It might throw RuntimeException or
+				// Error.
 				logger.trace("Unexpected exception on closing CCI Interaction", ex);
 			}
 		}
 	}
 
 	/**
-	 * Close the given CCI ResultSet and ignore any thrown exception.
-	 * This is useful for typical finally blocks in manual CCI code.
+	 * Close the given CCI ResultSet and ignore any thrown exception. This is useful for
+	 * typical finally blocks in manual CCI code.
 	 * @param resultSet the CCI ResultSet to close
 	 * @see javax.resource.cci.ResultSet#close()
 	 */
@@ -437,12 +437,12 @@ public class CciTemplate implements CciOperations {
 				logger.trace("Could not close CCI ResultSet", ex);
 			}
 			catch (Throwable ex) {
-				// We don't trust the CCI driver: It might throw RuntimeException or Error.
+				// We don't trust the CCI driver: It might throw RuntimeException or
+				// Error.
 				logger.trace("Unexpected exception on closing CCI ResultSet", ex);
 			}
 		}
 	}
-
 
 	private static class SimpleRecordExtractor implements RecordExtractor<Record> {
 
@@ -450,6 +450,7 @@ public class CciTemplate implements CciOperations {
 		public Record extractData(Record record) {
 			return record;
 		}
+
 	}
 
 }

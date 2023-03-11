@@ -20,8 +20,8 @@ import org.springframework.beans.FatalBeanException;
 import org.springframework.lang.Nullable;
 
 /**
- * Exception thrown when a BeanFactory encounters an invalid bean definition:
- * e.g. in case of incomplete or contradictory bean metadata.
+ * Exception thrown when a BeanFactory encounters an invalid bean definition: e.g. in case
+ * of incomplete or contradictory bean metadata.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -35,7 +35,6 @@ public class BeanDefinitionStoreException extends FatalBeanException {
 
 	@Nullable
 	private final String beanName;
-
 
 	/**
 	 * Create a new BeanDefinitionStoreException.
@@ -60,7 +59,8 @@ public class BeanDefinitionStoreException extends FatalBeanException {
 
 	/**
 	 * Create a new BeanDefinitionStoreException.
-	 * @param resourceDescription description of the resource that the bean definition came from
+	 * @param resourceDescription description of the resource that the bean definition
+	 * came from
 	 * @param msg the detail message (used as exception message as-is)
 	 */
 	public BeanDefinitionStoreException(@Nullable String resourceDescription, String msg) {
@@ -71,7 +71,8 @@ public class BeanDefinitionStoreException extends FatalBeanException {
 
 	/**
 	 * Create a new BeanDefinitionStoreException.
-	 * @param resourceDescription description of the resource that the bean definition came from
+	 * @param resourceDescription description of the resource that the bean definition
+	 * came from
 	 * @param msg the detail message (used as exception message as-is)
 	 * @param cause the root cause (may be {@code null})
 	 */
@@ -83,7 +84,8 @@ public class BeanDefinitionStoreException extends FatalBeanException {
 
 	/**
 	 * Create a new BeanDefinitionStoreException.
-	 * @param resourceDescription description of the resource that the bean definition came from
+	 * @param resourceDescription description of the resource that the bean definition
+	 * came from
 	 * @param beanName the name of the bean
 	 * @param msg the detail message (appended to an introductory message that indicates
 	 * the resource and the name of the bean)
@@ -94,14 +96,15 @@ public class BeanDefinitionStoreException extends FatalBeanException {
 
 	/**
 	 * Create a new BeanDefinitionStoreException.
-	 * @param resourceDescription description of the resource that the bean definition came from
+	 * @param resourceDescription description of the resource that the bean definition
+	 * came from
 	 * @param beanName the name of the bean
 	 * @param msg the detail message (appended to an introductory message that indicates
 	 * the resource and the name of the bean)
 	 * @param cause the root cause (may be {@code null})
 	 */
-	public BeanDefinitionStoreException(
-			@Nullable String resourceDescription, String beanName, String msg, @Nullable Throwable cause) {
+	public BeanDefinitionStoreException(@Nullable String resourceDescription, String beanName, String msg,
+			@Nullable Throwable cause) {
 
 		super("Invalid bean definition with name '" + beanName + "' defined in " + resourceDescription + ": " + msg,
 				cause);
@@ -109,9 +112,9 @@ public class BeanDefinitionStoreException extends FatalBeanException {
 		this.beanName = beanName;
 	}
 
-
 	/**
-	 * Return the description of the resource that the bean definition came from, if available.
+	 * Return the description of the resource that the bean definition came from, if
+	 * available.
 	 */
 	@Nullable
 	public String getResourceDescription() {

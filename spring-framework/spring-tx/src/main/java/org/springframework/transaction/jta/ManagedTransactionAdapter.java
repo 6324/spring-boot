@@ -29,8 +29,8 @@ import org.springframework.util.Assert;
 
 /**
  * Adapter for a managed JTA Transaction handle, taking a JTA
- * {@link javax.transaction.TransactionManager} reference and creating
- * a JTA {@link javax.transaction.Transaction} handle for it.
+ * {@link javax.transaction.TransactionManager} reference and creating a JTA
+ * {@link javax.transaction.Transaction} handle for it.
  *
  * @author Juergen Hoeller
  * @since 3.0.2
@@ -38,7 +38,6 @@ import org.springframework.util.Assert;
 public class ManagedTransactionAdapter implements Transaction {
 
 	private final TransactionManager transactionManager;
-
 
 	/**
 	 * Create a new ManagedTransactionAdapter for the given TransactionManager.
@@ -55,7 +54,6 @@ public class ManagedTransactionAdapter implements Transaction {
 	public final TransactionManager getTransactionManager() {
 		return this.transactionManager;
 	}
-
 
 	@Override
 	public void commit() throws RollbackException, HeuristicMixedException, HeuristicRollbackException,

@@ -38,27 +38,30 @@ import org.springframework.web.context.request.async.WebAsyncManager;
 import org.springframework.web.context.request.async.WebAsyncUtils;
 
 /**
- * Spring web request interceptor that binds a Hibernate {@code Session} to the
- * thread for the entire processing of the request.
+ * Spring web request interceptor that binds a Hibernate {@code Session} to the thread for
+ * the entire processing of the request.
  *
- * <p>This class is a concrete expression of the "Open Session in View" pattern, which
- * is a pattern that allows for the lazy loading of associations in web views despite
- * the original transactions already being completed.
+ * <p>
+ * This class is a concrete expression of the "Open Session in View" pattern, which is a
+ * pattern that allows for the lazy loading of associations in web views despite the
+ * original transactions already being completed.
  *
- * <p>This interceptor makes Hibernate Sessions available via the current thread,
- * which will be autodetected by transaction managers. It is suitable for service layer
- * transactions via {@link org.springframework.orm.hibernate5.HibernateTransactionManager}
- * as well as for non-transactional execution (if configured appropriately).
+ * <p>
+ * This interceptor makes Hibernate Sessions available via the current thread, which will
+ * be autodetected by transaction managers. It is suitable for service layer transactions
+ * via {@link org.springframework.orm.hibernate5.HibernateTransactionManager} as well as
+ * for non-transactional execution (if configured appropriately).
  *
- * <p>In contrast to {@link OpenSessionInViewFilter}, this interceptor is configured
- * in a Spring application context and can thus take advantage of bean wiring.
+ * <p>
+ * In contrast to {@link OpenSessionInViewFilter}, this interceptor is configured in a
+ * Spring application context and can thus take advantage of bean wiring.
  *
- * <p><b>WARNING:</b> Applying this interceptor to existing logic can cause issues
- * that have not appeared before, through the use of a single Hibernate
- * {@code Session} for the processing of an entire request. In particular, the
- * reassociation of persistent objects with a Hibernate {@code Session} has to
- * occur at the very beginning of request processing, to avoid clashes with already
- * loaded instances of the same objects.
+ * <p>
+ * <b>WARNING:</b> Applying this interceptor to existing logic can cause issues that have
+ * not appeared before, through the use of a single Hibernate {@code Session} for the
+ * processing of an entire request. In particular, the reassociation of persistent objects
+ * with a Hibernate {@code Session} has to occur at the very beginning of request
+ * processing, to avoid clashes with already loaded instances of the same objects.
  *
  * @author Juergen Hoeller
  * @since 4.2
@@ -71,9 +74,9 @@ import org.springframework.web.context.request.async.WebAsyncUtils;
 public class OpenSessionInViewInterceptor implements AsyncWebRequestInterceptor {
 
 	/**
-	 * Suffix that gets appended to the {@code SessionFactory}
-	 * {@code toString()} representation for the "participate in existing
-	 * session handling" request attribute.
+	 * Suffix that gets appended to the {@code SessionFactory} {@code toString()}
+	 * representation for the "participate in existing session handling" request
+	 * attribute.
 	 * @see #getParticipateAttributeName
 	 */
 	public static final String PARTICIPATE_SUFFIX = ".PARTICIPATE";
@@ -83,7 +86,6 @@ public class OpenSessionInViewInterceptor implements AsyncWebRequestInterceptor 
 	@Nullable
 	private SessionFactory sessionFactory;
 
-
 	/**
 	 * Set the Hibernate SessionFactory that should be used to create Hibernate Sessions.
 	 */
@@ -92,7 +94,8 @@ public class OpenSessionInViewInterceptor implements AsyncWebRequestInterceptor 
 	}
 
 	/**
-	 * Return the Hibernate SessionFactory that should be used to create Hibernate Sessions.
+	 * Return the Hibernate SessionFactory that should be used to create Hibernate
+	 * Sessions.
 	 */
 	@Nullable
 	public SessionFactory getSessionFactory() {
@@ -104,7 +107,6 @@ public class OpenSessionInViewInterceptor implements AsyncWebRequestInterceptor 
 		Assert.state(sf != null, "No SessionFactory set");
 		return sf;
 	}
-
 
 	/**
 	 * Open a new Hibernate {@code Session} according and bind it to the thread via the
@@ -130,8 +132,8 @@ public class OpenSessionInViewInterceptor implements AsyncWebRequestInterceptor 
 			SessionHolder sessionHolder = new SessionHolder(session);
 			TransactionSynchronizationManager.bindResource(obtainSessionFactory(), sessionHolder);
 
-			AsyncRequestInterceptor asyncRequestInterceptor =
-					new AsyncRequestInterceptor(obtainSessionFactory(), sessionHolder);
+			AsyncRequestInterceptor asyncRequestInterceptor = new AsyncRequestInterceptor(obtainSessionFactory(),
+					sessionHolder);
 			asyncManager.registerCallableInterceptor(key, asyncRequestInterceptor);
 			asyncManager.registerDeferredResultInterceptor(key, asyncRequestInterceptor);
 		}
@@ -148,8 +150,8 @@ public class OpenSessionInViewInterceptor implements AsyncWebRequestInterceptor 
 	@Override
 	public void afterCompletion(WebRequest request, @Nullable Exception ex) throws DataAccessException {
 		if (!decrementParticipateCount(request)) {
-			SessionHolder sessionHolder =
-					(SessionHolder) TransactionSynchronizationManager.unbindResource(obtainSessionFactory());
+			SessionHolder sessionHolder = (SessionHolder) TransactionSynchronizationManager
+					.unbindResource(obtainSessionFactory());
 			logger.debug("Closing Hibernate Session in OpenSessionInViewInterceptor");
 			SessionFactoryUtils.closeSession(sessionHolder.getSession());
 		}
@@ -180,7 +182,8 @@ public class OpenSessionInViewInterceptor implements AsyncWebRequestInterceptor 
 
 	/**
 	 * Open a Session for the SessionFactory that this interceptor uses.
-	 * <p>The default implementation delegates to the {@link SessionFactory#openSession}
+	 * <p>
+	 * The default implementation delegates to the {@link SessionFactory#openSession}
 	 * method and sets the {@link Session}'s flush mode to "MANUAL".
 	 * @return the Session to use
 	 * @throws DataAccessResourceFailureException if the Session could not be created
@@ -199,10 +202,11 @@ public class OpenSessionInViewInterceptor implements AsyncWebRequestInterceptor 
 	}
 
 	/**
-	 * Return the name of the request attribute that identifies that a request is
-	 * already intercepted.
-	 * <p>The default implementation takes the {@code toString()} representation
-	 * of the {@code SessionFactory} instance and appends {@link #PARTICIPATE_SUFFIX}.
+	 * Return the name of the request attribute that identifies that a request is already
+	 * intercepted.
+	 * <p>
+	 * The default implementation takes the {@code toString()} representation of the
+	 * {@code SessionFactory} instance and appends {@link #PARTICIPATE_SUFFIX}.
 	 */
 	protected String getParticipateAttributeName() {
 		return obtainSessionFactory().toString() + PARTICIPATE_SUFFIX;

@@ -41,7 +41,6 @@ public class ConfigurationWithFactoryBeanAndParametersTests {
 		assertThat(ctx.getBean(Bar.class).foo).isNotNull();
 	}
 
-
 	@Configuration
 	static class Config {
 
@@ -49,12 +48,12 @@ public class ConfigurationWithFactoryBeanAndParametersTests {
 		public FactoryBean<Foo> fb(@Value("42") String answer) {
 			return new FooFactoryBean();
 		}
-	}
 
+	}
 
 	static class Foo {
-	}
 
+	}
 
 	static class Bar {
 
@@ -64,8 +63,8 @@ public class ConfigurationWithFactoryBeanAndParametersTests {
 		public Bar(Foo foo) {
 			this.foo = foo;
 		}
-	}
 
+	}
 
 	static class FooFactoryBean implements FactoryBean<Foo> {
 
@@ -83,6 +82,7 @@ public class ConfigurationWithFactoryBeanAndParametersTests {
 		public boolean isSingleton() {
 			return true;
 		}
+
 	}
 
 }

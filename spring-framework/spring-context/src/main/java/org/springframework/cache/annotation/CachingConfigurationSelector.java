@@ -26,11 +26,12 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Selects which implementation of {@link AbstractCachingConfiguration} should
- * be used based on the value of {@link EnableCaching#mode} on the importing
+ * Selects which implementation of {@link AbstractCachingConfiguration} should be used
+ * based on the value of {@link EnableCaching#mode} on the importing
  * {@code @Configuration} class.
  *
- * <p>Detects the presence of JSR-107 and enables JCache support accordingly.
+ * <p>
+ * Detects the presence of JSR-107 and enables JCache support accordingly.
  *
  * @author Chris Beams
  * @author Stephane Nicoll
@@ -40,15 +41,11 @@ import org.springframework.util.StringUtils;
  */
 public class CachingConfigurationSelector extends AdviceModeImportSelector<EnableCaching> {
 
-	private static final String PROXY_JCACHE_CONFIGURATION_CLASS =
-			"org.springframework.cache.jcache.config.ProxyJCacheConfiguration";
+	private static final String PROXY_JCACHE_CONFIGURATION_CLASS = "org.springframework.cache.jcache.config.ProxyJCacheConfiguration";
 
-	private static final String CACHE_ASPECT_CONFIGURATION_CLASS_NAME =
-			"org.springframework.cache.aspectj.AspectJCachingConfiguration";
+	private static final String CACHE_ASPECT_CONFIGURATION_CLASS_NAME = "org.springframework.cache.aspectj.AspectJCachingConfiguration";
 
-	private static final String JCACHE_ASPECT_CONFIGURATION_CLASS_NAME =
-			"org.springframework.cache.aspectj.AspectJJCacheConfiguration";
-
+	private static final String JCACHE_ASPECT_CONFIGURATION_CLASS_NAME = "org.springframework.cache.aspectj.AspectJJCacheConfiguration";
 
 	private static final boolean jsr107Present;
 
@@ -60,7 +57,6 @@ public class CachingConfigurationSelector extends AdviceModeImportSelector<Enabl
 		jcacheImplPresent = ClassUtils.isPresent(PROXY_JCACHE_CONFIGURATION_CLASS, classLoader);
 	}
 
-
 	/**
 	 * Returns {@link ProxyCachingConfiguration} or {@code AspectJCachingConfiguration}
 	 * for {@code PROXY} and {@code ASPECTJ} values of {@link EnableCaching#mode()},
@@ -69,18 +65,20 @@ public class CachingConfigurationSelector extends AdviceModeImportSelector<Enabl
 	@Override
 	public String[] selectImports(AdviceMode adviceMode) {
 		switch (adviceMode) {
-			case PROXY:
-				return getProxyImports();
-			case ASPECTJ:
-				return getAspectJImports();
-			default:
-				return null;
+		case PROXY:
+			return getProxyImports();
+		case ASPECTJ:
+			return getAspectJImports();
+		default:
+			return null;
 		}
 	}
 
 	/**
-	 * Return the imports to use if the {@link AdviceMode} is set to {@link AdviceMode#PROXY}.
-	 * <p>Take care of adding the necessary JSR-107 import if it is available.
+	 * Return the imports to use if the {@link AdviceMode} is set to
+	 * {@link AdviceMode#PROXY}.
+	 * <p>
+	 * Take care of adding the necessary JSR-107 import if it is available.
 	 */
 	private String[] getProxyImports() {
 		List<String> result = new ArrayList<>(3);
@@ -93,8 +91,10 @@ public class CachingConfigurationSelector extends AdviceModeImportSelector<Enabl
 	}
 
 	/**
-	 * Return the imports to use if the {@link AdviceMode} is set to {@link AdviceMode#ASPECTJ}.
-	 * <p>Take care of adding the necessary JSR-107 import if it is available.
+	 * Return the imports to use if the {@link AdviceMode} is set to
+	 * {@link AdviceMode#ASPECTJ}.
+	 * <p>
+	 * Take care of adding the necessary JSR-107 import if it is available.
 	 */
 	private String[] getAspectJImports() {
 		List<String> result = new ArrayList<>(2);

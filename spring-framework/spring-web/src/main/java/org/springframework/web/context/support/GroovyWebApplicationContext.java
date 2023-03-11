@@ -67,7 +67,7 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.web.context.ContextLoader#initWebApplicationContext
  * @see org.springframework.web.servlet.FrameworkServlet#initWebApplicationContext
  */
-public class GroovyWebApplicationContext extends AbstractRefreshableWebApplicationContext implements GroovyObject {
+public abstract class GroovyWebApplicationContext extends AbstractRefreshableWebApplicationContext implements GroovyObject {
 
 	/** Default config location for the root context. */
 	public static final String DEFAULT_CONFIG_LOCATION = "/WEB-INF/applicationContext.groovy";

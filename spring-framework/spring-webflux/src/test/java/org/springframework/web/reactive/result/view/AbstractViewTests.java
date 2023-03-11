@@ -48,7 +48,6 @@ public class AbstractViewTests {
 
 	private MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
 
-
 	@Test
 	public void resolveAsyncAttributes() {
 
@@ -86,12 +85,13 @@ public class AbstractViewTests {
 		private Map<String, Object> attributes;
 
 		@Override
-		protected Mono<Void> renderInternal(Map<String, Object> renderAttributes,
-				@Nullable MediaType contentType, ServerWebExchange exchange) {
+		protected Mono<Void> renderInternal(Map<String, Object> renderAttributes, @Nullable MediaType contentType,
+				ServerWebExchange exchange) {
 
 			this.attributes = renderAttributes;
 			return Mono.empty();
 		}
+
 	}
 
 }

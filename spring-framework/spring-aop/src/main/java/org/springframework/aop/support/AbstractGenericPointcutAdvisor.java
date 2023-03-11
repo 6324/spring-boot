@@ -19,8 +19,8 @@ package org.springframework.aop.support;
 import org.aopalliance.aop.Advice;
 
 /**
- * Abstract generic {@link org.springframework.aop.PointcutAdvisor}
- * that allows for any {@link Advice} to be configured.
+ * Abstract generic {@link org.springframework.aop.PointcutAdvisor} that allows for any
+ * {@link Advice} to be configured.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -31,7 +31,6 @@ import org.aopalliance.aop.Advice;
 public abstract class AbstractGenericPointcutAdvisor extends AbstractPointcutAdvisor {
 
 	private Advice advice = EMPTY_ADVICE;
-
 
 	/**
 	 * Specify the advice that this advisor should apply.
@@ -44,7 +43,6 @@ public abstract class AbstractGenericPointcutAdvisor extends AbstractPointcutAdv
 	public Advice getAdvice() {
 		return this.advice;
 	}
-
 
 	@Override
 	public String toString() {

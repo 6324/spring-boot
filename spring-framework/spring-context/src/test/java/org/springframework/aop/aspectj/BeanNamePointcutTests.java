@@ -41,18 +41,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BeanNamePointcutTests {
 
 	private ITestBean testBean1;
+
 	private ITestBean testBean2;
+
 	private ITestBean testBeanContainingNestedBean;
+
 	private Map<?, ?> testFactoryBean1;
+
 	private Map<?, ?> testFactoryBean2;
+
 	private Counter counterAspect;
 
 	private ITestBean interceptThis;
+
 	private ITestBean dontInterceptThis;
+
 	private TestInterceptor testInterceptor;
 
 	private ClassPathXmlApplicationContext ctx;
-
 
 	@BeforeEach
 	public void setup() {
@@ -70,8 +76,8 @@ public class BeanNamePointcutTests {
 		counterAspect.reset();
 	}
 
-
-	// We don't need to test all combination of pointcuts due to BeanNamePointcutMatchingTests
+	// We don't need to test all combination of pointcuts due to
+	// BeanNamePointcutMatchingTests
 
 	@Test
 	public void testMatchingBeanName() {
@@ -133,7 +139,6 @@ public class BeanNamePointcutTests {
 		assertThat(testInterceptor.interceptionCount).isEqualTo(1);
 	}
 
-
 	public static class TestInterceptor implements MethodBeforeAdvice {
 
 		private int interceptionCount;
@@ -142,6 +147,7 @@ public class BeanNamePointcutTests {
 		public void before(Method method, Object[] args, @Nullable Object target) throws Throwable {
 			interceptionCount++;
 		}
+
 	}
 
 }

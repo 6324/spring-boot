@@ -21,9 +21,8 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.aop.support.DelegatingIntroductionInterceptor;
 
 /**
- * Mixin to provide stateful locking functionality.
- * Test/demonstration of AOP mixin support rather than a
- * useful interceptor in its own right.
+ * Mixin to provide stateful locking functionality. Test/demonstration of AOP mixin
+ * support rather than a useful interceptor in its own right.
  *
  * @author Rod Johnson
  * @since 10.07.2003
@@ -53,9 +52,8 @@ public class LockMixin extends DelegatingIntroductionInterceptor implements Lock
 	}
 
 	/**
-	 * Note that we need to override around advice.
-	 * If the method is a setter and we're locked, prevent execution.
-	 * Otherwise let super.invoke() handle it, and do normal
+	 * Note that we need to override around advice. If the method is a setter and we're
+	 * locked, prevent execution. Otherwise let super.invoke() handle it, and do normal
 	 * Lockable(this) then target behaviour.
 	 * @see org.aopalliance.MethodInterceptor#invoke(org.aopalliance.MethodInvocation)
 	 */

@@ -23,8 +23,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.impl.NoOpLog;
 
 /**
- * Implementation of {@link Log} that wraps a list of loggers and delegates
- * to the first one for which logging is enabled at the given level.
+ * Implementation of {@link Log} that wraps a list of loggers and delegates to the first
+ * one for which logging is enabled at the given level.
  *
  * @author Rossen Stoyanchev
  * @since 5.1
@@ -33,7 +33,6 @@ import org.apache.commons.logging.impl.NoOpLog;
 final class CompositeLog implements Log {
 
 	private static final Log NO_OP_LOG = new NoOpLog();
-
 
 	private final Log fatalLogger;
 
@@ -47,17 +46,16 @@ final class CompositeLog implements Log {
 
 	private final Log traceLogger;
 
-
 	/**
-	 * Constructor with list of loggers. For optimal performance, the constructor
-	 * checks and remembers which logger is on for each log category.
+	 * Constructor with list of loggers. For optimal performance, the constructor checks
+	 * and remembers which logger is on for each log category.
 	 * @param loggers the loggers to use
 	 */
 	public CompositeLog(List<Log> loggers) {
 		this.fatalLogger = initLogger(loggers, Log::isFatalEnabled);
 		this.errorLogger = initLogger(loggers, Log::isErrorEnabled);
-		this.warnLogger  = initLogger(loggers, Log::isWarnEnabled);
-		this.infoLogger  = initLogger(loggers, Log::isInfoEnabled);
+		this.warnLogger = initLogger(loggers, Log::isWarnEnabled);
+		this.infoLogger = initLogger(loggers, Log::isInfoEnabled);
 		this.debugLogger = initLogger(loggers, Log::isDebugEnabled);
 		this.traceLogger = initLogger(loggers, Log::isTraceEnabled);
 	}
@@ -70,7 +68,6 @@ final class CompositeLog implements Log {
 		}
 		return NO_OP_LOG;
 	}
-
 
 	@Override
 	public boolean isFatalEnabled() {

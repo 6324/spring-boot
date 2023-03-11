@@ -32,8 +32,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * Simple {@link org.springframework.aop.IntroductionAdvisor} implementation
- * that by default applies to any class.
+ * Simple {@link org.springframework.aop.IntroductionAdvisor} implementation that by
+ * default applies to any class.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -48,7 +48,6 @@ public class DefaultIntroductionAdvisor implements IntroductionAdvisor, ClassFil
 
 	private int order = Ordered.LOWEST_PRECEDENCE;
 
-
 	/**
 	 * Create a DefaultIntroductionAdvisor for the given advice.
 	 * @param advice the Advice to apply (may implement the
@@ -62,8 +61,8 @@ public class DefaultIntroductionAdvisor implements IntroductionAdvisor, ClassFil
 	/**
 	 * Create a DefaultIntroductionAdvisor for the given advice.
 	 * @param advice the Advice to apply
-	 * @param introductionInfo the IntroductionInfo that describes
-	 * the interface to introduce (may be {@code null})
+	 * @param introductionInfo the IntroductionInfo that describes the interface to
+	 * introduce (may be {@code null})
 	 */
 	public DefaultIntroductionAdvisor(Advice advice, @Nullable IntroductionInfo introductionInfo) {
 		Assert.notNull(advice, "Advice must not be null");
@@ -91,7 +90,6 @@ public class DefaultIntroductionAdvisor implements IntroductionAdvisor, ClassFil
 		addInterface(ifc);
 	}
 
-
 	/**
 	 * Add the specified interface to the list of interfaces to introduce.
 	 * @param ifc the interface to introduce
@@ -112,10 +110,10 @@ public class DefaultIntroductionAdvisor implements IntroductionAdvisor, ClassFil
 	@Override
 	public void validateInterfaces() throws IllegalArgumentException {
 		for (Class<?> ifc : this.interfaces) {
-			if (this.advice instanceof DynamicIntroductionAdvice &&
-					!((DynamicIntroductionAdvice) this.advice).implementsInterface(ifc)) {
-				throw new IllegalArgumentException("DynamicIntroductionAdvice [" + this.advice + "] " +
-						"does not implement interface [" + ifc.getName() + "] specified for introduction");
+			if (this.advice instanceof DynamicIntroductionAdvice
+					&& !((DynamicIntroductionAdvice) this.advice).implementsInterface(ifc)) {
+				throw new IllegalArgumentException("DynamicIntroductionAdvice [" + this.advice + "] "
+						+ "does not implement interface [" + ifc.getName() + "] specified for introduction");
 			}
 		}
 	}
@@ -149,7 +147,6 @@ public class DefaultIntroductionAdvisor implements IntroductionAdvisor, ClassFil
 		return true;
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -169,8 +166,8 @@ public class DefaultIntroductionAdvisor implements IntroductionAdvisor, ClassFil
 
 	@Override
 	public String toString() {
-		return getClass().getName() + ": advice [" + this.advice + "]; interfaces " +
-				ClassUtils.classNamesToString(this.interfaces);
+		return getClass().getName() + ": advice [" + this.advice + "]; interfaces "
+				+ ClassUtils.classNamesToString(this.interfaces);
 	}
 
 }

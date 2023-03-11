@@ -50,7 +50,6 @@ public class WebSocketServerSockJsSessionTests extends AbstractSockJsSessionTest
 
 	private TestWebSocketSession webSocketSession;
 
-
 	@BeforeEach
 	public void setup() {
 		super.setUp();
@@ -93,7 +92,8 @@ public class WebSocketServerSockJsSessionTests extends AbstractSockJsSessionTest
 				session.sendMessage(new TextMessage("go go"));
 			}
 		};
-		TestWebSocketServerSockJsSession session = new TestWebSocketServerSockJsSession(this.sockJsConfig, handler, null);
+		TestWebSocketServerSockJsSession session = new TestWebSocketServerSockJsSession(this.sockJsConfig, handler,
+				null);
 		session.initializeDelegateSession(this.webSocketSession);
 		List<TextMessage> expected = Arrays.asList(new TextMessage("o"), new TextMessage("a[\"go go\"]"));
 		assertThat(this.webSocketSession.getSentMessages()).isEqualTo(expected);
@@ -131,7 +131,8 @@ public class WebSocketServerSockJsSessionTests extends AbstractSockJsSessionTest
 		this.session.initializeDelegateSession(this.webSocketSession);
 		this.session.sendMessageInternal("x");
 
-		assertThat(this.webSocketSession.getSentMessages()).isEqualTo(Arrays.asList(new TextMessage("o"), new TextMessage("a[\"x\"]")));
+		assertThat(this.webSocketSession.getSentMessages())
+				.isEqualTo(Arrays.asList(new TextMessage("o"), new TextMessage("a[\"x\"]")));
 
 		assertThat(this.session.heartbeatSchedulingEvents).isEqualTo(Arrays.asList("schedule", "cancel", "schedule"));
 	}
@@ -144,7 +145,6 @@ public class WebSocketServerSockJsSessionTests extends AbstractSockJsSessionTest
 
 		assertThat(this.webSocketSession.getCloseStatus()).isEqualTo(CloseStatus.NOT_ACCEPTABLE);
 	}
-
 
 	static class TestWebSocketServerSockJsSession extends WebSocketServerSockJsSession {
 
@@ -165,6 +165,7 @@ public class WebSocketServerSockJsSessionTests extends AbstractSockJsSessionTest
 		protected void cancelHeartbeat() {
 			this.heartbeatSchedulingEvents.add("cancel");
 		}
+
 	}
 
 }

@@ -17,8 +17,8 @@
 package org.springframework.aop.framework;
 
 /**
- * Listener to be registered on {@link ProxyCreatorSupport} objects
- * Allows for receiving callbacks on activation and change of advice.
+ * Listener to be registered on {@link ProxyCreatorSupport} objects Allows for receiving
+ * callbacks on activation and change of advice.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller

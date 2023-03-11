@@ -50,15 +50,14 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 /**
  * Unit tests for {@link AbstractMethodMessageHandler}.
+ *
  * @author Rossen Stoyanchev
  */
 public class MethodMessageHandlerTests {
 
-
 	@Test
 	public void duplicateMapping() {
-		assertThatIllegalStateException().isThrownBy(() ->
-				initMethodMessageHandler(DuplicateMappingsController.class));
+		assertThatIllegalStateException().isThrownBy(() -> initMethodMessageHandler(DuplicateMappingsController.class));
 	}
 
 	@Test
@@ -67,8 +66,7 @@ public class MethodMessageHandlerTests {
 		Map<String, HandlerMethod> mappings = messageHandler.getHandlerMethods();
 
 		assertThat(mappings.keySet().size()).isEqualTo(5);
-		assertThat(mappings).containsOnlyKeys(
-				"/handleMessage", "/handleMessageWithArgument", "/handleMessageWithError",
+		assertThat(mappings).containsOnlyKeys("/handleMessage", "/handleMessageWithArgument", "/handleMessageWithError",
 				"/handleMessageMatch1", "/handleMessageMatch2");
 	}
 
@@ -81,14 +79,13 @@ public class MethodMessageHandlerTests {
 		handler.register(controller, TestController.class.getMethod("handleMessageMatch2"), "/bestmatch/*/*");
 		handler.afterPropertiesSet();
 
-		Message<?> message = new GenericMessage<>("body", Collections.singletonMap(
-				DestinationPatternsMessageCondition.LOOKUP_DESTINATION_HEADER,
-				new SimpleRouteMatcher(new AntPathMatcher()).parseRoute("/bestmatch/bar/path")));
+		Message<?> message = new GenericMessage<>("body",
+				Collections.singletonMap(DestinationPatternsMessageCondition.LOOKUP_DESTINATION_HEADER,
+						new SimpleRouteMatcher(new AntPathMatcher()).parseRoute("/bestmatch/bar/path")));
 
 		handler.handleMessage(message).block(Duration.ofSeconds(5));
 
-		StepVerifier.create((Publisher<Object>) handler.getLastReturnValue())
-				.expectNext("handleMessageMatch1")
+		StepVerifier.create((Publisher<Object>) handler.getLastReturnValue()).expectNext("handleMessageMatch1")
 				.verifyComplete();
 	}
 
@@ -100,18 +97,16 @@ public class MethodMessageHandlerTests {
 		configurer.addCustomResolver(new StubArgumentResolver(String.class, "foo"));
 
 		TestMethodMessageHandler handler = initMethodMessageHandler(
-				theHandler -> theHandler.setArgumentResolverConfigurer(configurer),
-				TestController.class);
+				theHandler -> theHandler.setArgumentResolverConfigurer(configurer), TestController.class);
 
-		Message<?> message = new GenericMessage<>("body", Collections.singletonMap(
-				DestinationPatternsMessageCondition.LOOKUP_DESTINATION_HEADER,
-				new SimpleRouteMatcher(new AntPathMatcher()).parseRoute("/handleMessageWithArgument")));
+		Message<?> message = new GenericMessage<>("body",
+				Collections.singletonMap(DestinationPatternsMessageCondition.LOOKUP_DESTINATION_HEADER,
+						new SimpleRouteMatcher(new AntPathMatcher()).parseRoute("/handleMessageWithArgument")));
 
 		handler.handleMessage(message).block(Duration.ofSeconds(5));
 
 		StepVerifier.create((Publisher<Object>) handler.getLastReturnValue())
-				.expectNext("handleMessageWithArgument,payload=foo")
-				.verifyComplete();
+				.expectNext("handleMessageWithArgument,payload=foo").verifyComplete();
 	}
 
 	@Test
@@ -120,24 +115,23 @@ public class MethodMessageHandlerTests {
 
 		TestMethodMessageHandler handler = initMethodMessageHandler(TestController.class);
 
-		Message<?> message = new GenericMessage<>("body", Collections.singletonMap(
-				DestinationPatternsMessageCondition.LOOKUP_DESTINATION_HEADER,
-				new SimpleRouteMatcher(new AntPathMatcher()).parseRoute("/handleMessageWithError")));
+		Message<?> message = new GenericMessage<>("body",
+				Collections.singletonMap(DestinationPatternsMessageCondition.LOOKUP_DESTINATION_HEADER,
+						new SimpleRouteMatcher(new AntPathMatcher()).parseRoute("/handleMessageWithError")));
 
 		handler.handleMessage(message).block(Duration.ofSeconds(5));
 
 		StepVerifier.create((Publisher<Object>) handler.getLastReturnValue())
-				.expectNext("handleIllegalStateException,ex=rejected")
-				.verifyComplete();
+				.expectNext("handleIllegalStateException,ex=rejected").verifyComplete();
 	}
-
 
 	private TestMethodMessageHandler initMethodMessageHandler(Class<?>... handlerTypes) {
-		return initMethodMessageHandler(handler -> {}, handlerTypes);
+		return initMethodMessageHandler(handler -> {
+		}, handlerTypes);
 	}
 
-	private TestMethodMessageHandler initMethodMessageHandler(
-			Consumer<TestMethodMessageHandler> customizer, Class<?>... handlerTypes) {
+	private TestMethodMessageHandler initMethodMessageHandler(Consumer<TestMethodMessageHandler> customizer,
+			Class<?>... handlerTypes) {
 
 		StaticApplicationContext context = new StaticApplicationContext();
 		for (Class<?> handlerType : handlerTypes) {
@@ -150,7 +144,6 @@ public class MethodMessageHandlerTests {
 		messageHandler.afterPropertiesSet();
 		return messageHandler;
 	}
-
 
 	@SuppressWarnings("unused")
 	private static class TestController {
@@ -183,24 +176,25 @@ public class MethodMessageHandlerTests {
 		private Mono<String> delay(String value) {
 			return Mono.delay(Duration.ofMillis(10)).map(aLong -> value);
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class DuplicateMappingsController {
 
-		void handleMessageFoo() { }
+		void handleMessageFoo() {
+		}
 
-		void handleMessageFoo(String foo) { }
+		void handleMessageFoo(String foo) {
+		}
+
 	}
-
 
 	private static class TestMethodMessageHandler extends AbstractMethodMessageHandler<String> {
 
 		private final TestReturnValueHandler returnValueHandler = new TestReturnValueHandler();
 
 		private PathMatcher pathMatcher = new AntPathMatcher();
-
 
 		public TestMethodMessageHandler() {
 			setHandlerPredicate(handlerType -> handlerType.getName().endsWith("Controller"));
@@ -242,26 +236,26 @@ public class MethodMessageHandlerTests {
 		@Override
 		@Nullable
 		protected RouteMatcher.Route getDestination(Message<?> message) {
-			return (RouteMatcher.Route) message.getHeaders().get(
-					DestinationPatternsMessageCondition.LOOKUP_DESTINATION_HEADER);
+			return (RouteMatcher.Route) message.getHeaders()
+					.get(DestinationPatternsMessageCondition.LOOKUP_DESTINATION_HEADER);
 		}
 
 		@Override
 		protected String getMatchingMapping(String mapping, Message<?> message) {
 			RouteMatcher.Route destination = getDestination(message);
 			Assert.notNull(destination, "No destination");
-			return mapping.equals(destination.value()) ||
-					this.pathMatcher.match(mapping, destination.value()) ? mapping : null;
+			return mapping.equals(destination.value()) || this.pathMatcher.match(mapping, destination.value()) ? mapping
+					: null;
 		}
 
 		@Override
 		protected Comparator<String> getMappingComparator(Message<?> message) {
 			return (info1, info2) -> {
 				SimpleRouteMatcher routeMatcher = new SimpleRouteMatcher(new AntPathMatcher());
-				DestinationPatternsMessageCondition cond1 =
-						new DestinationPatternsMessageCondition(new String[] { info1 }, routeMatcher);
-				DestinationPatternsMessageCondition cond2 =
-						new DestinationPatternsMessageCondition(new String[] { info2 }, routeMatcher);
+				DestinationPatternsMessageCondition cond1 = new DestinationPatternsMessageCondition(
+						new String[] { info1 }, routeMatcher);
+				DestinationPatternsMessageCondition cond2 = new DestinationPatternsMessageCondition(
+						new String[] { info2 }, routeMatcher);
 				return cond1.compareTo(cond2, message);
 			};
 		}
@@ -270,6 +264,7 @@ public class MethodMessageHandlerTests {
 		protected AbstractExceptionHandlerMethodResolver createExceptionMethodResolverFor(Class<?> beanType) {
 			return new TestExceptionResolver(beanType);
 		}
+
 	}
 
 }

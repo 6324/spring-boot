@@ -25,13 +25,14 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Thrown when binding errors are considered fatal. Implements the
- * {@link BindingResult} interface (and its super-interface {@link Errors})
- * to allow for the direct analysis of binding errors.
+ * Thrown when binding errors are considered fatal. Implements the {@link BindingResult}
+ * interface (and its super-interface {@link Errors}) to allow for the direct analysis of
+ * binding errors.
  *
- * <p>As of Spring 2.0, this is a special-purpose class. Normally,
- * application code will work with the {@link BindingResult} interface,
- * or with a {@link DataBinder} that in turn exposes a BindingResult via
+ * <p>
+ * As of Spring 2.0, this is a special-purpose class. Normally, application code will work
+ * with the {@link BindingResult} interface, or with a {@link DataBinder} that in turn
+ * exposes a BindingResult via
  * {@link org.springframework.validation.DataBinder#getBindingResult()}.
  *
  * @author Rod Johnson
@@ -45,7 +46,6 @@ import org.springframework.util.Assert;
 public class BindException extends Exception implements BindingResult {
 
 	private final BindingResult bindingResult;
-
 
 	/**
 	 * Create a new BindException instance for a BindingResult.
@@ -67,14 +67,12 @@ public class BindException extends Exception implements BindingResult {
 		this.bindingResult = new BeanPropertyBindingResult(target, objectName);
 	}
 
-
 	/**
 	 * Return the BindingResult that this BindException wraps.
 	 */
 	public final BindingResult getBindingResult() {
 		return this.bindingResult;
 	}
-
 
 	@Override
 	public String getObjectName() {
@@ -100,7 +98,6 @@ public class BindException extends Exception implements BindingResult {
 	public void popNestedPath() throws IllegalStateException {
 		this.bindingResult.popNestedPath();
 	}
-
 
 	@Override
 	public void reject(String errorCode) {
@@ -128,7 +125,8 @@ public class BindException extends Exception implements BindingResult {
 	}
 
 	@Override
-	public void rejectValue(@Nullable String field, String errorCode, @Nullable Object[] errorArgs, @Nullable String defaultMessage) {
+	public void rejectValue(@Nullable String field, String errorCode, @Nullable Object[] errorArgs,
+			@Nullable String defaultMessage) {
 		this.bindingResult.rejectValue(field, errorCode, errorArgs, defaultMessage);
 	}
 
@@ -136,7 +134,6 @@ public class BindException extends Exception implements BindingResult {
 	public void addAllErrors(Errors errors) {
 		this.bindingResult.addAllErrors(errors);
 	}
-
 
 	@Override
 	public boolean hasErrors() {
@@ -287,7 +284,6 @@ public class BindException extends Exception implements BindingResult {
 	public String[] getSuppressedFields() {
 		return this.bindingResult.getSuppressedFields();
 	}
-
 
 	/**
 	 * Returns diagnostic information about the errors held in this object.

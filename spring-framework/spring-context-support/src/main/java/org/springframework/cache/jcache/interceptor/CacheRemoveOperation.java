@@ -34,15 +34,13 @@ class CacheRemoveOperation extends AbstractJCacheKeyOperation<CacheRemove> {
 
 	private final ExceptionTypeFilter exceptionTypeFilter;
 
-
-	public CacheRemoveOperation(
-			CacheMethodDetails<CacheRemove> methodDetails, CacheResolver cacheResolver, KeyGenerator keyGenerator) {
+	public CacheRemoveOperation(CacheMethodDetails<CacheRemove> methodDetails, CacheResolver cacheResolver,
+			KeyGenerator keyGenerator) {
 
 		super(methodDetails, cacheResolver, keyGenerator);
 		CacheRemove ann = methodDetails.getCacheAnnotation();
 		this.exceptionTypeFilter = createExceptionTypeFilter(ann.evictFor(), ann.noEvictFor());
 	}
-
 
 	@Override
 	public ExceptionTypeFilter getExceptionTypeFilter() {
@@ -51,7 +49,8 @@ class CacheRemoveOperation extends AbstractJCacheKeyOperation<CacheRemove> {
 
 	/**
 	 * Specify if the cache entry should be removed before invoking the method.
-	 * <p>By default, the cache entry is removed after the method invocation.
+	 * <p>
+	 * By default, the cache entry is removed after the method invocation.
 	 * @see javax.cache.annotation.CacheRemove#afterInvocation()
 	 */
 	public boolean isEarlyRemove() {

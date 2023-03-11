@@ -24,8 +24,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * A concrete variant of {@link SqlQuery} which can be configured
- * with a {@link RowMapper}.
+ * A concrete variant of {@link SqlQuery} which can be configured with a
+ * {@link RowMapper}.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -43,7 +43,6 @@ public class GenericSqlQuery<T> extends SqlQuery<T> {
 	@Nullable
 	private Class<? extends RowMapper> rowMapperClass;
 
-
 	/**
 	 * Set a specific {@link RowMapper} instance to use for this query.
 	 * @since 4.3.2
@@ -53,8 +52,8 @@ public class GenericSqlQuery<T> extends SqlQuery<T> {
 	}
 
 	/**
-	 * Set a {@link RowMapper} class for this query, creating a fresh
-	 * {@link RowMapper} instance per execution.
+	 * Set a {@link RowMapper} class for this query, creating a fresh {@link RowMapper}
+	 * instance per execution.
 	 */
 	@SuppressWarnings("rawtypes")
 	public void setRowMapperClass(Class<? extends RowMapper> rowMapperClass) {
@@ -67,7 +66,6 @@ public class GenericSqlQuery<T> extends SqlQuery<T> {
 		Assert.isTrue(this.rowMapper != null || this.rowMapperClass != null,
 				"'rowMapper' or 'rowMapperClass' is required");
 	}
-
 
 	@Override
 	@SuppressWarnings("unchecked")

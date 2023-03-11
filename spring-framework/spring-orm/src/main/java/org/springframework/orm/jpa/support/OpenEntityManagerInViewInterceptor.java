@@ -35,19 +35,21 @@ import org.springframework.web.context.request.async.WebAsyncManager;
 import org.springframework.web.context.request.async.WebAsyncUtils;
 
 /**
- * Spring web request interceptor that binds a JPA EntityManager to the
- * thread for the entire processing of the request. Intended for the "Open
- * EntityManager in View" pattern, i.e. to allow for lazy loading in
- * web views despite the original transactions already being completed.
+ * Spring web request interceptor that binds a JPA EntityManager to the thread for the
+ * entire processing of the request. Intended for the "Open EntityManager in View"
+ * pattern, i.e. to allow for lazy loading in web views despite the original transactions
+ * already being completed.
  *
- * <p>This interceptor makes JPA EntityManagers available via the current thread,
- * which will be autodetected by transaction managers. It is suitable for service
- * layer transactions via {@link org.springframework.orm.jpa.JpaTransactionManager}
- * or {@link org.springframework.transaction.jta.JtaTransactionManager} as well
- * as for non-transactional read-only execution.
+ * <p>
+ * This interceptor makes JPA EntityManagers available via the current thread, which will
+ * be autodetected by transaction managers. It is suitable for service layer transactions
+ * via {@link org.springframework.orm.jpa.JpaTransactionManager} or
+ * {@link org.springframework.transaction.jta.JtaTransactionManager} as well as for
+ * non-transactional read-only execution.
  *
- * <p>In contrast to {@link OpenEntityManagerInViewFilter}, this interceptor is set
- * up in a Spring application context and can thus take advantage of bean wiring.
+ * <p>
+ * In contrast to {@link OpenEntityManagerInViewFilter}, this interceptor is set up in a
+ * Spring application context and can thus take advantage of bean wiring.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -56,16 +58,15 @@ import org.springframework.web.context.request.async.WebAsyncUtils;
  * @see org.springframework.orm.jpa.SharedEntityManagerCreator
  * @see org.springframework.transaction.support.TransactionSynchronizationManager
  */
-public class OpenEntityManagerInViewInterceptor extends EntityManagerFactoryAccessor implements AsyncWebRequestInterceptor {
+public class OpenEntityManagerInViewInterceptor extends EntityManagerFactoryAccessor
+		implements AsyncWebRequestInterceptor {
 
 	/**
-	 * Suffix that gets appended to the EntityManagerFactory toString
-	 * representation for the "participate in existing entity manager
-	 * handling" request attribute.
+	 * Suffix that gets appended to the EntityManagerFactory toString representation for
+	 * the "participate in existing entity manager handling" request attribute.
 	 * @see #getParticipateAttributeName
 	 */
 	public static final String PARTICIPATE_SUFFIX = ".PARTICIPATE";
-
 
 	@Override
 	public void preHandle(WebRequest request) throws DataAccessException {
@@ -106,8 +107,8 @@ public class OpenEntityManagerInViewInterceptor extends EntityManagerFactoryAcce
 	@Override
 	public void afterCompletion(WebRequest request, @Nullable Exception ex) throws DataAccessException {
 		if (!decrementParticipateCount(request)) {
-			EntityManagerHolder emHolder = (EntityManagerHolder)
-					TransactionSynchronizationManager.unbindResource(obtainEntityManagerFactory());
+			EntityManagerHolder emHolder = (EntityManagerHolder) TransactionSynchronizationManager
+					.unbindResource(obtainEntityManagerFactory());
 			logger.debug("Closing JPA EntityManager in OpenEntityManagerInViewInterceptor");
 			EntityManagerFactoryUtils.closeEntityManager(emHolder.getEntityManager());
 		}
@@ -137,15 +138,14 @@ public class OpenEntityManagerInViewInterceptor extends EntityManagerFactoryAcce
 	}
 
 	/**
-	 * Return the name of the request attribute that identifies that a request is
-	 * already filtered. Default implementation takes the toString representation
-	 * of the EntityManagerFactory instance and appends ".FILTERED".
+	 * Return the name of the request attribute that identifies that a request is already
+	 * filtered. Default implementation takes the toString representation of the
+	 * EntityManagerFactory instance and appends ".FILTERED".
 	 * @see #PARTICIPATE_SUFFIX
 	 */
 	protected String getParticipateAttributeName() {
 		return obtainEntityManagerFactory().toString() + PARTICIPATE_SUFFIX;
 	}
-
 
 	private boolean applyEntityManagerBindingInterceptor(WebAsyncManager asyncManager, String key) {
 		CallableProcessingInterceptor cpi = asyncManager.getCallableInterceptor(key);

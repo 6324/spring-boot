@@ -20,8 +20,8 @@ import org.springframework.cache.Cache;
 import org.springframework.lang.Nullable;
 
 /**
- * A simple {@link CacheErrorHandler} that does not handle the
- * exception at all, simply throwing it back at the client.
+ * A simple {@link CacheErrorHandler} that does not handle the exception at all, simply
+ * throwing it back at the client.
  *
  * @author Stephane Nicoll
  * @since 4.1
@@ -47,4 +47,5 @@ public class SimpleCacheErrorHandler implements CacheErrorHandler {
 	public void handleCacheClearError(RuntimeException exception, Cache cache) {
 		throw exception;
 	}
+
 }

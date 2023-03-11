@@ -49,7 +49,6 @@ public class Spr11310Tests {
 		assertThat(holder.itemsArray[2]).isEqualTo("unknownOrder");
 	}
 
-
 	@Configuration
 	static class Config {
 
@@ -77,8 +76,8 @@ public class Spr11310Tests {
 
 	}
 
-
 	private static class StringHolder {
+
 		@Autowired
 		private List<String> itemsList;
 
@@ -86,4 +85,5 @@ public class Spr11310Tests {
 		private String[] itemsArray;
 
 	}
+
 }

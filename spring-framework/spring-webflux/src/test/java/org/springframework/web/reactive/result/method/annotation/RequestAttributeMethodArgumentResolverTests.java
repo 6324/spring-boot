@@ -51,9 +51,8 @@ public class RequestAttributeMethodArgumentResolverTests {
 
 	private final MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.get("/"));
 
-	private final ResolvableMethod testMethod = ResolvableMethod.on(getClass())
-			.named("handleWithRequestAttribute").build();
-
+	private final ResolvableMethod testMethod = ResolvableMethod.on(getClass()).named("handleWithRequestAttribute")
+			.build();
 
 	@BeforeEach
 	@SuppressWarnings("resource")
@@ -64,28 +63,25 @@ public class RequestAttributeMethodArgumentResolverTests {
 		this.resolver = new RequestAttributeMethodArgumentResolver(context.getBeanFactory(), registry);
 	}
 
-
 	@Test
 	public void supportsParameter() {
-		assertThat(this.resolver.supportsParameter(
-				this.testMethod.annot(requestAttribute().noName()).arg(Foo.class))).isTrue();
+		assertThat(this.resolver.supportsParameter(this.testMethod.annot(requestAttribute().noName()).arg(Foo.class)))
+				.isTrue();
 
 		// SPR-16158
-		assertThat(this.resolver.supportsParameter(
-				this.testMethod.annotPresent(RequestAttribute.class).arg(Mono.class, Foo.class))).isTrue();
+		assertThat(this.resolver
+				.supportsParameter(this.testMethod.annotPresent(RequestAttribute.class).arg(Mono.class, Foo.class)))
+						.isTrue();
 
-		assertThat(this.resolver.supportsParameter(
-				this.testMethod.annotNotPresent(RequestAttribute.class).arg())).isFalse();
+		assertThat(this.resolver.supportsParameter(this.testMethod.annotNotPresent(RequestAttribute.class).arg()))
+				.isFalse();
 	}
 
 	@Test
 	public void resolve() {
 		MethodParameter param = this.testMethod.annot(requestAttribute().noName()).arg(Foo.class);
 		Mono<Object> mono = this.resolver.resolveArgument(param, new BindingContext(), this.exchange);
-		StepVerifier.create(mono)
-				.expectNextCount(0)
-				.expectError(ServerWebInputException.class)
-				.verify();
+		StepVerifier.create(mono).expectNextCount(0).expectError(ServerWebInputException.class).verify();
 
 		Foo foo = new Foo();
 		this.exchange.getAttributes().put("foo", foo);
@@ -138,7 +134,7 @@ public class RequestAttributeMethodArgumentResolverTests {
 		assertThat(optional.get()).isSameAs(foo);
 	}
 
-	@Test  // SPR-16158
+	@Test // SPR-16158
 	public void resolveMonoParameter() {
 		MethodParameter param = this.testMethod.annot(requestAttribute().noName()).arg(Mono.class, Foo.class);
 
@@ -165,19 +161,15 @@ public class RequestAttributeMethodArgumentResolverTests {
 		assertThat(mono.block(Duration.ZERO)).isSameAs(Mono.empty());
 	}
 
-
-	@SuppressWarnings({"unused", "OptionalUsedAsFieldOrParameterType"})
-	private void handleWithRequestAttribute(
-			@RequestAttribute Foo foo,
-			@RequestAttribute("specialFoo") Foo namedFoo,
-			@RequestAttribute(name="foo", required = false) Foo notRequiredFoo,
-			@RequestAttribute(name="foo") Optional<Foo> optionalFoo,
-			@RequestAttribute Mono<Foo> fooMono,
+	@SuppressWarnings({ "unused", "OptionalUsedAsFieldOrParameterType" })
+	private void handleWithRequestAttribute(@RequestAttribute Foo foo, @RequestAttribute("specialFoo") Foo namedFoo,
+			@RequestAttribute(name = "foo", required = false) Foo notRequiredFoo,
+			@RequestAttribute(name = "foo") Optional<Foo> optionalFoo, @RequestAttribute Mono<Foo> fooMono,
 			String notSupported) {
 	}
 
-
 	private static class Foo {
+
 	}
 
 }

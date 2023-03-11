@@ -55,15 +55,13 @@ public class ManagedPropertiesTests {
 	public void mergeWithNonCompatibleParentType() {
 		ManagedProperties map = new ManagedProperties();
 		map.setMergeEnabled(true);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				map.merge("hello"));
+		assertThatIllegalArgumentException().isThrownBy(() -> map.merge("hello"));
 	}
 
 	@Test
 	public void mergeNotAllowedWhenMergeNotEnabled() {
 		ManagedProperties map = new ManagedProperties();
-		assertThatIllegalStateException().isThrownBy(() ->
-				map.merge(null));
+		assertThatIllegalStateException().isThrownBy(() -> map.merge(null));
 	}
 
 	@Test

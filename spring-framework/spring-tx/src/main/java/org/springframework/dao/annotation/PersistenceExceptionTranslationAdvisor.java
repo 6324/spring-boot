@@ -45,14 +45,12 @@ public class PersistenceExceptionTranslationAdvisor extends AbstractPointcutAdvi
 
 	private final AnnotationMatchingPointcut pointcut;
 
-
 	/**
 	 * Create a new PersistenceExceptionTranslationAdvisor.
 	 * @param persistenceExceptionTranslator the PersistenceExceptionTranslator to use
 	 * @param repositoryAnnotationType the annotation type to check for
 	 */
-	public PersistenceExceptionTranslationAdvisor(
-			PersistenceExceptionTranslator persistenceExceptionTranslator,
+	public PersistenceExceptionTranslationAdvisor(PersistenceExceptionTranslator persistenceExceptionTranslator,
 			Class<? extends Annotation> repositoryAnnotationType) {
 
 		this.advice = new PersistenceExceptionTranslationInterceptor(persistenceExceptionTranslator);
@@ -65,13 +63,12 @@ public class PersistenceExceptionTranslationAdvisor extends AbstractPointcutAdvi
 	 * PersistenceExceptionTranslators from
 	 * @param repositoryAnnotationType the annotation type to check for
 	 */
-	PersistenceExceptionTranslationAdvisor(
-			ListableBeanFactory beanFactory, Class<? extends Annotation> repositoryAnnotationType) {
+	PersistenceExceptionTranslationAdvisor(ListableBeanFactory beanFactory,
+			Class<? extends Annotation> repositoryAnnotationType) {
 
 		this.advice = new PersistenceExceptionTranslationInterceptor(beanFactory);
 		this.pointcut = new AnnotationMatchingPointcut(repositoryAnnotationType, true);
 	}
-
 
 	@Override
 	public Advice getAdvice() {

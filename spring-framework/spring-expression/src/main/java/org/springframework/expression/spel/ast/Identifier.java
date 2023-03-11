@@ -30,12 +30,10 @@ public class Identifier extends SpelNodeImpl {
 
 	private final TypedValue id;
 
-
 	public Identifier(String payload, int startPos, int endPos) {
 		super(startPos, endPos);
 		this.id = new TypedValue(payload);
 	}
-
 
 	@Override
 	public String toStringAST() {

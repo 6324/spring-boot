@@ -32,17 +32,21 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 public class NullPrimitiveTests {
 
 	interface Foo {
+
 		int getValue();
+
 	}
 
 	@Test
 	public void testNullPrimitiveWithJdkProxy() {
 
 		class SimpleFoo implements Foo {
+
 			@Override
 			public int getValue() {
 				return 100;
 			}
+
 		}
 
 		SimpleFoo target = new SimpleFoo();
@@ -51,15 +55,16 @@ public class NullPrimitiveTests {
 
 		Foo foo = (Foo) factory.getProxy();
 
-		assertThatExceptionOfType(AopInvocationException.class).isThrownBy(() ->
-				foo.getValue())
-			.withMessageContaining("Foo.getValue()");
+		assertThatExceptionOfType(AopInvocationException.class).isThrownBy(() -> foo.getValue())
+				.withMessageContaining("Foo.getValue()");
 	}
 
 	public static class Bar {
+
 		public int getValue() {
 			return 100;
 		}
+
 	}
 
 	@Test
@@ -71,9 +76,8 @@ public class NullPrimitiveTests {
 
 		Bar bar = (Bar) factory.getProxy();
 
-		assertThatExceptionOfType(AopInvocationException.class).isThrownBy(() ->
-				bar.getValue())
-			.withMessageContaining("Bar.getValue()");
+		assertThatExceptionOfType(AopInvocationException.class).isThrownBy(() -> bar.getValue())
+				.withMessageContaining("Bar.getValue()");
 	}
 
 }

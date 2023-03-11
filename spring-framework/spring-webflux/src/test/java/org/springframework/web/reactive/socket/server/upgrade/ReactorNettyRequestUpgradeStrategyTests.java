@@ -22,6 +22,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * Unit tests for {@link ReactorNettyRequestUpgradeStrategy}.
+ *
  * @author Rossen Stoyanchev
  */
 public class ReactorNettyRequestUpgradeStrategyTests {

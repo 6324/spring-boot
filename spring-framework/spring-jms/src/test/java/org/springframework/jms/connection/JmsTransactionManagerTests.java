@@ -57,7 +57,6 @@ public class JmsTransactionManagerTests {
 		assertThat(TransactionSynchronizationManager.isSynchronizationActive()).isFalse();
 	}
 
-
 	@Test
 	public void testTransactionCommit() throws JMSException {
 		ConnectionFactory cf = mock(ConnectionFactory.class);
@@ -164,8 +163,7 @@ public class JmsTransactionManagerTests {
 				status.setRollbackOnly();
 			}
 		});
-		assertThatExceptionOfType(UnexpectedRollbackException.class).isThrownBy(() ->
-				tm.commit(ts));
+		assertThatExceptionOfType(UnexpectedRollbackException.class).isThrownBy(() -> tm.commit(ts));
 
 		verify(session).rollback();
 		verify(session).close();

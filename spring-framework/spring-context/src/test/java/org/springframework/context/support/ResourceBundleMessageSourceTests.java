@@ -88,9 +88,8 @@ public class ResourceBundleMessageSourceTests {
 		doTestMessageAccess(true, false, true, true, false);
 	}
 
-	protected void doTestMessageAccess(
-			boolean reloadable, boolean fallbackToSystemLocale,
-			boolean expectGermanFallback, boolean useCodeAsDefaultMessage, boolean alwaysUseMessageFormat) {
+	protected void doTestMessageAccess(boolean reloadable, boolean fallbackToSystemLocale, boolean expectGermanFallback,
+			boolean useCodeAsDefaultMessage, boolean alwaysUseMessageFormat) {
 
 		StaticApplicationContext ac = new StaticApplicationContext();
 		if (reloadable) {
@@ -103,14 +102,11 @@ public class ResourceBundleMessageSourceTests {
 		String basepath = "org/springframework/context/support/";
 		String[] basenames;
 		if (reloadable) {
-			basenames = new String[] {
-					"classpath:" + basepath + "messages",
-					"classpath:" + basepath + "more-messages"};
+			basenames = new String[] { "classpath:" + basepath + "messages",
+					"classpath:" + basepath + "more-messages" };
 		}
 		else {
-			basenames = new String[] {
-					basepath + "messages",
-					basepath + "more-messages"};
+			basenames = new String[] { basepath + "messages", basepath + "more-messages" };
 		}
 		pvs.add("basenames", basenames);
 		if (!fallbackToSystemLocale) {
@@ -122,8 +118,8 @@ public class ResourceBundleMessageSourceTests {
 		if (alwaysUseMessageFormat) {
 			pvs.add("alwaysUseMessageFormat", Boolean.TRUE);
 		}
-		Class<?> clazz = reloadable ?
-				(Class<?>) ReloadableResourceBundleMessageSource.class : ResourceBundleMessageSource.class;
+		Class<?> clazz = reloadable ? (Class<?>) ReloadableResourceBundleMessageSource.class
+				: ResourceBundleMessageSource.class;
 		ac.registerSingleton("messageSource", clazz, pvs);
 		ac.refresh();
 
@@ -152,14 +148,14 @@ public class ResourceBundleMessageSourceTests {
 		assertThat(ac.getMessage("code3", null, Locale.ENGLISH)).isEqualTo("message3");
 		MessageSourceResolvable resolvable = new DefaultMessageSourceResolvable("code3");
 		assertThat(ac.getMessage(resolvable, Locale.ENGLISH)).isEqualTo("message3");
-		resolvable = new DefaultMessageSourceResolvable(new String[] {"code4", "code3"});
+		resolvable = new DefaultMessageSourceResolvable(new String[] { "code4", "code3" });
 		assertThat(ac.getMessage(resolvable, Locale.ENGLISH)).isEqualTo("message3");
 
 		assertThat(ac.getMessage("code3", null, Locale.ENGLISH)).isEqualTo("message3");
-		resolvable = new DefaultMessageSourceResolvable(new String[] {"code4", "code3"});
+		resolvable = new DefaultMessageSourceResolvable(new String[] { "code4", "code3" });
 		assertThat(ac.getMessage(resolvable, Locale.ENGLISH)).isEqualTo("message3");
 
-		Object[] args = new Object[] {"Hello", new DefaultMessageSourceResolvable(new String[] {"code1"})};
+		Object[] args = new Object[] { "Hello", new DefaultMessageSourceResolvable(new String[] { "code1" }) };
 		assertThat(ac.getMessage("hello", args, Locale.ENGLISH)).isEqualTo("Hello, message1");
 
 		// test default message without and with args
@@ -180,7 +176,7 @@ public class ResourceBundleMessageSourceTests {
 		assertThat(ac.getMessage(resolvable, Locale.ENGLISH)).isEqualTo("Hello, default");
 
 		// test message args
-		assertThat(ac.getMessage("hello", new Object[]{"Arg1", "Arg2"}, Locale.ENGLISH)).isEqualTo("Arg1, Arg2");
+		assertThat(ac.getMessage("hello", new Object[] { "Arg1", "Arg2" }, Locale.ENGLISH)).isEqualTo("Arg1, Arg2");
 		assertThat(ac.getMessage("hello", null, Locale.ENGLISH)).isEqualTo("{0}, {1}");
 
 		if (alwaysUseMessageFormat) {
@@ -189,14 +185,14 @@ public class ResourceBundleMessageSourceTests {
 		else {
 			assertThat(ac.getMessage("escaped", null, Locale.ENGLISH)).isEqualTo("I''m");
 		}
-		assertThat(ac.getMessage("escaped", new Object[]{"some arg"}, Locale.ENGLISH)).isEqualTo("I'm");
+		assertThat(ac.getMessage("escaped", new Object[] { "some arg" }, Locale.ENGLISH)).isEqualTo("I'm");
 
 		if (useCodeAsDefaultMessage) {
 			assertThat(ac.getMessage("code4", null, Locale.GERMAN)).isEqualTo("code4");
 		}
 		else {
-			assertThatExceptionOfType(NoSuchMessageException.class).isThrownBy(() ->
-					ac.getMessage("code4", null, Locale.GERMAN));
+			assertThatExceptionOfType(NoSuchMessageException.class)
+					.isThrownBy(() -> ac.getMessage("code4", null, Locale.GERMAN));
 		}
 	}
 
@@ -205,7 +201,8 @@ public class ResourceBundleMessageSourceTests {
 		GenericApplicationContext ac = new GenericApplicationContext();
 		ac.refresh();
 		assertThat(ac.getMessage("code1", null, "default", Locale.ENGLISH)).isEqualTo("default");
-		assertThat(ac.getMessage("code1", new Object[]{"value"}, "default {0}", Locale.ENGLISH)).isEqualTo("default value");
+		assertThat(ac.getMessage("code1", new Object[] { "value" }, "default {0}", Locale.ENGLISH))
+				.isEqualTo("default value");
 	}
 
 	@Test
@@ -216,7 +213,8 @@ public class ResourceBundleMessageSourceTests {
 		ac.setParent(parent);
 		ac.refresh();
 		assertThat(ac.getMessage("code1", null, "default", Locale.ENGLISH)).isEqualTo("default");
-		assertThat(ac.getMessage("code1", new Object[]{"value"}, "default {0}", Locale.ENGLISH)).isEqualTo("default value");
+		assertThat(ac.getMessage("code1", new Object[] { "value" }, "default {0}", Locale.ENGLISH))
+				.isEqualTo("default value");
 	}
 
 	@Test
@@ -227,7 +225,8 @@ public class ResourceBundleMessageSourceTests {
 		ac.setParent(parent);
 		ac.refresh();
 		assertThat(ac.getMessage("code1", null, "default", Locale.ENGLISH)).isEqualTo("default");
-		assertThat(ac.getMessage("code1", new Object[]{"value"}, "default {0}", Locale.ENGLISH)).isEqualTo("default value");
+		assertThat(ac.getMessage("code1", new Object[] { "value" }, "default {0}", Locale.ENGLISH))
+				.isEqualTo("default value");
 	}
 
 	@Test
@@ -238,7 +237,8 @@ public class ResourceBundleMessageSourceTests {
 		ac.setParent(parent);
 		ac.refresh();
 		assertThat(ac.getMessage("code1", null, "default", Locale.ENGLISH)).isEqualTo("default");
-		assertThat(ac.getMessage("code1", new Object[]{"value"}, "default {0}", Locale.ENGLISH)).isEqualTo("default value");
+		assertThat(ac.getMessage("code1", new Object[] { "value" }, "default {0}", Locale.ENGLISH))
+				.isEqualTo("default value");
 	}
 
 	@Test
@@ -272,8 +272,8 @@ public class ResourceBundleMessageSourceTests {
 		ms.setBasename("org/springframework/context/support/messages");
 		ms.setDefaultEncoding("argh");
 		ms.setFallbackToSystemLocale(false);
-		assertThatExceptionOfType(NoSuchMessageException.class).isThrownBy(() ->
-				ms.getMessage("code1", null, Locale.ENGLISH));
+		assertThatExceptionOfType(NoSuchMessageException.class)
+				.isThrownBy(() -> ms.getMessage("code1", null, Locale.ENGLISH));
 	}
 
 	@Test
@@ -322,8 +322,8 @@ public class ResourceBundleMessageSourceTests {
 		ms.setBasename("org/springframework/context/support/messages");
 		assertThat(ms.getMessage("code1", null, Locale.ENGLISH)).isEqualTo("message1");
 		assertThat(ms.getMessage("code2", null, Locale.GERMAN)).isEqualTo("nachricht2");
-		assertThat(ms.getMessage("warning", new Object[]{"this"}, Locale.ENGLISH)).isEqualTo("Do not do this");
-		assertThat(ms.getMessage("warning", new Object[]{"that"}, Locale.GERMAN)).isEqualTo("Do not do that");
+		assertThat(ms.getMessage("warning", new Object[] { "this" }, Locale.ENGLISH)).isEqualTo("Do not do this");
+		assertThat(ms.getMessage("warning", new Object[] { "that" }, Locale.GERMAN)).isEqualTo("Do not do that");
 	}
 
 	@Test
@@ -352,8 +352,8 @@ public class ResourceBundleMessageSourceTests {
 		fileCharsets.setProperty("org/springframework/context/support/messages_de", "unicode");
 		ms.setFileEncodings(fileCharsets);
 		ms.setFallbackToSystemLocale(false);
-		assertThatExceptionOfType(NoSuchMessageException.class).isThrownBy(() ->
-				ms.getMessage("code1", null, Locale.ENGLISH));
+		assertThatExceptionOfType(NoSuchMessageException.class)
+				.isThrownBy(() -> ms.getMessage("code1", null, Locale.ENGLISH));
 	}
 
 	@Test
@@ -364,8 +364,8 @@ public class ResourceBundleMessageSourceTests {
 		Properties fileCharsets = new Properties();
 		fileCharsets.setProperty("org/springframework/context/support/messages", "unicode");
 		ms.setFileEncodings(fileCharsets);
-		assertThatExceptionOfType(NoSuchMessageException.class).isThrownBy(() ->
-				ms.getMessage("code1", null, Locale.ENGLISH));
+		assertThatExceptionOfType(NoSuchMessageException.class)
+				.isThrownBy(() -> ms.getMessage("code1", null, Locale.ENGLISH));
 	}
 
 	@Test
@@ -424,7 +424,6 @@ public class ResourceBundleMessageSourceTests {
 		assertThat(rbg.getString("code2")).isEqualTo("nachricht2");
 		assertThat(rbg.containsKey("code2")).isTrue();
 	}
-
 
 	@AfterEach
 	public void tearDown() {

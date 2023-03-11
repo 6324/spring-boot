@@ -29,8 +29,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.MultiValueMap;
 
 /**
- * {@link MethodMetadata} implementation that uses standard reflection
- * to introspect a given {@code Method}.
+ * {@link MethodMetadata} implementation that uses standard reflection to introspect a
+ * given {@code Method}.
  *
  * @author Juergen Hoeller
  * @author Mark Pollack
@@ -46,11 +46,11 @@ public class StandardMethodMetadata implements MethodMetadata {
 
 	private final MergedAnnotations mergedAnnotations;
 
-
 	/**
 	 * Create a new StandardMethodMetadata wrapper for the given Method.
 	 * @param introspectedMethod the Method to introspect
-	 * @deprecated since 5.2 in favor of obtaining instances via {@link AnnotationMetadata}
+	 * @deprecated since 5.2 in favor of obtaining instances via
+	 * {@link AnnotationMetadata}
 	 */
 	@Deprecated
 	public StandardMethodMetadata(Method introspectedMethod) {
@@ -58,26 +58,26 @@ public class StandardMethodMetadata implements MethodMetadata {
 	}
 
 	/**
-	 * Create a new StandardMethodMetadata wrapper for the given Method,
-	 * providing the option to return any nested annotations or annotation arrays in the
-	 * form of {@link org.springframework.core.annotation.AnnotationAttributes} instead
-	 * of actual {@link java.lang.annotation.Annotation} instances.
+	 * Create a new StandardMethodMetadata wrapper for the given Method, providing the
+	 * option to return any nested annotations or annotation arrays in the form of
+	 * {@link org.springframework.core.annotation.AnnotationAttributes} instead of actual
+	 * {@link java.lang.annotation.Annotation} instances.
 	 * @param introspectedMethod the Method to introspect
 	 * @param nestedAnnotationsAsMap return nested annotations and annotation arrays as
 	 * {@link org.springframework.core.annotation.AnnotationAttributes} for compatibility
 	 * with ASM-based {@link AnnotationMetadata} implementations
 	 * @since 3.1.1
-	 * @deprecated since 5.2 in favor of obtaining instances via {@link AnnotationMetadata}
+	 * @deprecated since 5.2 in favor of obtaining instances via
+	 * {@link AnnotationMetadata}
 	 */
 	@Deprecated
 	public StandardMethodMetadata(Method introspectedMethod, boolean nestedAnnotationsAsMap) {
 		Assert.notNull(introspectedMethod, "Method must not be null");
 		this.introspectedMethod = introspectedMethod;
 		this.nestedAnnotationsAsMap = nestedAnnotationsAsMap;
-		this.mergedAnnotations = MergedAnnotations.from(
-				introspectedMethod, SearchStrategy.DIRECT, RepeatableContainers.none());
+		this.mergedAnnotations = MergedAnnotations.from(introspectedMethod, SearchStrategy.DIRECT,
+				RepeatableContainers.none());
 	}
-
 
 	@Override
 	public MergedAnnotations getAnnotations() {
@@ -136,18 +136,19 @@ public class StandardMethodMetadata implements MethodMetadata {
 		if (this.nestedAnnotationsAsMap) {
 			return MethodMetadata.super.getAnnotationAttributes(annotationName, classValuesAsString);
 		}
-		return AnnotatedElementUtils.getMergedAnnotationAttributes(this.introspectedMethod,
-				annotationName, classValuesAsString, false);
+		return AnnotatedElementUtils.getMergedAnnotationAttributes(this.introspectedMethod, annotationName,
+				classValuesAsString, false);
 	}
 
 	@Override
 	@Nullable
-	public MultiValueMap<String, Object> getAllAnnotationAttributes(String annotationName, boolean classValuesAsString) {
+	public MultiValueMap<String, Object> getAllAnnotationAttributes(String annotationName,
+			boolean classValuesAsString) {
 		if (this.nestedAnnotationsAsMap) {
 			return MethodMetadata.super.getAllAnnotationAttributes(annotationName, classValuesAsString);
 		}
-		return AnnotatedElementUtils.getAllAnnotationAttributes(this.introspectedMethod,
-				annotationName, classValuesAsString, false);
+		return AnnotatedElementUtils.getAllAnnotationAttributes(this.introspectedMethod, annotationName,
+				classValuesAsString, false);
 	}
 
 }

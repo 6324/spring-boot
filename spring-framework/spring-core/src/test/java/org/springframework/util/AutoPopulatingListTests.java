@@ -94,7 +94,6 @@ class AutoPopulatingListTests {
 		assertThat(SerializationTestUtils.serializeAndDeserialize(list)).isEqualTo(list);
 	}
 
-
 	private static class MockElementFactory implements AutoPopulatingList.ElementFactory<Object> {
 
 		@Override
@@ -103,6 +102,7 @@ class AutoPopulatingListTests {
 			bean.setAge(index);
 			return bean;
 		}
+
 	}
 
 }

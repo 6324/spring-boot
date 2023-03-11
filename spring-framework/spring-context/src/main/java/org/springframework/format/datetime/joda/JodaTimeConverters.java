@@ -32,12 +32,13 @@ import org.springframework.core.convert.converter.ConverterRegistry;
 import org.springframework.format.datetime.DateFormatterRegistrar;
 
 /**
- * Installs lower-level type converters required to integrate
- * Joda-Time support into Spring's field formatting system.
+ * Installs lower-level type converters required to integrate Joda-Time support into
+ * Spring's field formatting system.
  *
- * <p>Note: {@link JodaTimeFormatterRegistrar} installs these converters
- * and relies on several of them for its formatters. Some additional
- * converters are just being registered for custom conversion scenarios.
+ * <p>
+ * Note: {@link JodaTimeFormatterRegistrar} installs these converters and relies on
+ * several of them for its formatters. Some additional converters are just being
+ * registered for custom conversion scenarios.
  *
  * @author Keith Donald
  * @author Phillip Webb
@@ -48,7 +49,6 @@ final class JodaTimeConverters {
 
 	private JodaTimeConverters() {
 	}
-
 
 	/**
 	 * Install the converters into the converter registry.
@@ -74,15 +74,14 @@ final class JodaTimeConverters {
 		registry.addConverter(new LocalDateTimeToLocalTimeConverter());
 	}
 
-
 	private static class DateTimeToLocalDateConverter implements Converter<DateTime, LocalDate> {
 
 		@Override
 		public LocalDate convert(DateTime source) {
 			return source.toLocalDate();
 		}
-	}
 
+	}
 
 	private static class DateTimeToLocalTimeConverter implements Converter<DateTime, LocalTime> {
 
@@ -90,8 +89,8 @@ final class JodaTimeConverters {
 		public LocalTime convert(DateTime source) {
 			return source.toLocalTime();
 		}
-	}
 
+	}
 
 	private static class DateTimeToLocalDateTimeConverter implements Converter<DateTime, LocalDateTime> {
 
@@ -99,8 +98,8 @@ final class JodaTimeConverters {
 		public LocalDateTime convert(DateTime source) {
 			return source.toLocalDateTime();
 		}
-	}
 
+	}
 
 	@Deprecated
 	private static class DateTimeToDateMidnightConverter implements Converter<DateTime, org.joda.time.DateMidnight> {
@@ -109,8 +108,8 @@ final class JodaTimeConverters {
 		public org.joda.time.DateMidnight convert(DateTime source) {
 			return source.toDateMidnight();
 		}
-	}
 
+	}
 
 	private static class DateTimeToMutableDateTimeConverter implements Converter<DateTime, MutableDateTime> {
 
@@ -118,8 +117,8 @@ final class JodaTimeConverters {
 		public MutableDateTime convert(DateTime source) {
 			return source.toMutableDateTime();
 		}
-	}
 
+	}
 
 	private static class DateTimeToInstantConverter implements Converter<DateTime, Instant> {
 
@@ -127,8 +126,8 @@ final class JodaTimeConverters {
 		public Instant convert(DateTime source) {
 			return source.toInstant();
 		}
-	}
 
+	}
 
 	private static class DateTimeToDateConverter implements Converter<DateTime, Date> {
 
@@ -136,8 +135,8 @@ final class JodaTimeConverters {
 		public Date convert(DateTime source) {
 			return source.toDate();
 		}
-	}
 
+	}
 
 	private static class DateTimeToCalendarConverter implements Converter<DateTime, Calendar> {
 
@@ -145,8 +144,8 @@ final class JodaTimeConverters {
 		public Calendar convert(DateTime source) {
 			return source.toGregorianCalendar();
 		}
-	}
 
+	}
 
 	private static class DateTimeToLongConverter implements Converter<DateTime, Long> {
 
@@ -154,11 +153,12 @@ final class JodaTimeConverters {
 		public Long convert(DateTime source) {
 			return source.getMillis();
 		}
-	}
 
+	}
 
 	/**
 	 * Used when printing a {@code java.util.Date} field with a ReadableInstantPrinter.
+	 *
 	 * @see MillisecondInstantPrinter
 	 * @see JodaDateTimeFormatAnnotationFormatterFactory
 	 */
@@ -168,11 +168,13 @@ final class JodaTimeConverters {
 		public ReadableInstant convert(Date source) {
 			return new DateTime(source);
 		}
+
 	}
 
-
 	/**
-	 * Used when printing a {@code java.util.Calendar} field with a ReadableInstantPrinter.
+	 * Used when printing a {@code java.util.Calendar} field with a
+	 * ReadableInstantPrinter.
+	 *
 	 * @see MillisecondInstantPrinter
 	 * @see JodaDateTimeFormatAnnotationFormatterFactory
 	 */
@@ -182,11 +184,12 @@ final class JodaTimeConverters {
 		public ReadableInstant convert(Calendar source) {
 			return new DateTime(source);
 		}
-	}
 
+	}
 
 	/**
 	 * Used when printing a Long field with a ReadableInstantPrinter.
+	 *
 	 * @see MillisecondInstantPrinter
 	 * @see JodaDateTimeFormatAnnotationFormatterFactory
 	 */
@@ -196,8 +199,8 @@ final class JodaTimeConverters {
 		public ReadableInstant convert(Long source) {
 			return new DateTime(source.longValue());
 		}
-	}
 
+	}
 
 	private static class LocalDateTimeToLocalDateConverter implements Converter<LocalDateTime, LocalDate> {
 
@@ -205,8 +208,8 @@ final class JodaTimeConverters {
 		public LocalDate convert(LocalDateTime source) {
 			return source.toLocalDate();
 		}
-	}
 
+	}
 
 	private static class LocalDateTimeToLocalTimeConverter implements Converter<LocalDateTime, LocalTime> {
 
@@ -214,6 +217,7 @@ final class JodaTimeConverters {
 		public LocalTime convert(LocalDateTime source) {
 			return source.toLocalTime();
 		}
+
 	}
 
 }

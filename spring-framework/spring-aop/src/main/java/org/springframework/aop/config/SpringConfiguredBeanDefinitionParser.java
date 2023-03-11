@@ -28,11 +28,12 @@ import org.springframework.beans.factory.xml.ParserContext;
  * {@link BeanDefinitionParser} responsible for parsing the
  * {@code <aop:spring-configured/>} tag.
  *
- * <p><b>NOTE:</b> This is essentially a duplicate of Spring 2.5's
- * {@link org.springframework.context.config.SpringConfiguredBeanDefinitionParser}
- * for the {@code <context:spring-configured/>} tag, mirrored here for compatibility with
- * Spring 2.0's {@code <aop:spring-configured/>} tag (avoiding a direct dependency on the
- * context package).
+ * <p>
+ * <b>NOTE:</b> This is essentially a duplicate of Spring 2.5's
+ * {@link org.springframework.context.config.SpringConfiguredBeanDefinitionParser} for the
+ * {@code <context:spring-configured/>} tag, mirrored here for compatibility with Spring
+ * 2.0's {@code <aop:spring-configured/>} tag (avoiding a direct dependency on the context
+ * package).
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -43,12 +44,9 @@ class SpringConfiguredBeanDefinitionParser implements BeanDefinitionParser {
 	/**
 	 * The bean name of the internally managed bean configurer aspect.
 	 */
-	public static final String BEAN_CONFIGURER_ASPECT_BEAN_NAME =
-			"org.springframework.context.config.internalBeanConfigurerAspect";
+	public static final String BEAN_CONFIGURER_ASPECT_BEAN_NAME = "org.springframework.context.config.internalBeanConfigurerAspect";
 
-	private static final String BEAN_CONFIGURER_ASPECT_CLASS_NAME =
-			"org.springframework.beans.factory.aspectj.AnnotationBeanConfigurerAspect";
-
+	private static final String BEAN_CONFIGURER_ASPECT_CLASS_NAME = "org.springframework.beans.factory.aspectj.AnnotationBeanConfigurerAspect";
 
 	@Override
 	public BeanDefinition parse(Element element, ParserContext parserContext) {

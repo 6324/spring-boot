@@ -34,7 +34,8 @@ import org.springframework.web.reactive.result.view.ViewResolver;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * {@code HandlerResultHandler} implementation that supports {@link ServerResponse ServerResponses}.
+ * {@code HandlerResultHandler} implementation that supports {@link ServerResponse
+ * ServerResponses}.
  *
  * @author Arjen Poutsma
  * @since 5.0
@@ -47,10 +48,10 @@ public class ServerResponseResultHandler implements HandlerResultHandler, Initia
 
 	private int order = 0;
 
-
 	/**
 	 * Configure HTTP message writers to serialize the request body with.
-	 * <p>By default this is set to {@link ServerCodecConfigurer}'s default writers.
+	 * <p>
+	 * By default this is set to {@link ServerCodecConfigurer}'s default writers.
 	 */
 	public void setMessageWriters(List<HttpMessageWriter<?>> configurer) {
 		this.messageWriters = configurer;
@@ -62,8 +63,9 @@ public class ServerResponseResultHandler implements HandlerResultHandler, Initia
 
 	/**
 	 * Set the order for this result handler relative to others.
-	 * <p>By default set to 0. It is generally safe to place it early in the
-	 * order as it looks for a concrete return type.
+	 * <p>
+	 * By default set to 0. It is generally safe to place it early in the order as it
+	 * looks for a concrete return type.
 	 */
 	public void setOrder(int order) {
 		this.order = order;
@@ -73,7 +75,6 @@ public class ServerResponseResultHandler implements HandlerResultHandler, Initia
 	public int getOrder() {
 		return this.order;
 	}
-
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -96,6 +97,7 @@ public class ServerResponseResultHandler implements HandlerResultHandler, Initia
 			public List<HttpMessageWriter<?>> messageWriters() {
 				return messageWriters;
 			}
+
 			@Override
 			public List<ViewResolver> viewResolvers() {
 				return viewResolvers;

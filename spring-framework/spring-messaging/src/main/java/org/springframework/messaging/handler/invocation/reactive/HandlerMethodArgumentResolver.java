@@ -22,8 +22,8 @@ import org.springframework.core.MethodParameter;
 import org.springframework.messaging.Message;
 
 /**
- * Strategy interface for resolving method parameters into argument values
- * in the context of a given {@link Message}.
+ * Strategy interface for resolving method parameters into argument values in the context
+ * of a given {@link Message}.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -31,8 +31,8 @@ import org.springframework.messaging.Message;
 public interface HandlerMethodArgumentResolver {
 
 	/**
-	 * Whether the given {@linkplain MethodParameter method parameter} is
-	 * supported by this resolver.
+	 * Whether the given {@linkplain MethodParameter method parameter} is supported by
+	 * this resolver.
 	 * @param parameter the method parameter to check
 	 * @return {@code true} if this resolver supports the supplied parameter;
 	 * {@code false} otherwise
@@ -41,10 +41,10 @@ public interface HandlerMethodArgumentResolver {
 
 	/**
 	 * Resolves a method parameter into an argument value from a given message.
-	 * @param parameter the method parameter to resolve.
-	 * This parameter must have previously been passed to
-	 * {@link #supportsParameter(org.springframework.core.MethodParameter)}
-	 * which must have returned {@code true}.
+	 * @param parameter the method parameter to resolve. This parameter must have
+	 * previously been passed to
+	 * {@link #supportsParameter(org.springframework.core.MethodParameter)} which must
+	 * have returned {@code true}.
 	 * @param message the currently processed message
 	 * @return {@code Mono} for the argument value, possibly empty
 	 */

@@ -19,15 +19,16 @@ package org.springframework.scripting.support;
 import javax.script.ScriptException;
 
 /**
- * Exception decorating a {@link javax.script.ScriptException} coming out of
- * JSR-223 script evaluation, i.e. a {@link javax.script.ScriptEngine#eval}
- * call or {@link javax.script.Invocable#invokeMethod} /
+ * Exception decorating a {@link javax.script.ScriptException} coming out of JSR-223
+ * script evaluation, i.e. a {@link javax.script.ScriptEngine#eval} call or
+ * {@link javax.script.Invocable#invokeMethod} /
  * {@link javax.script.Invocable#invokeFunction} call.
  *
- * <p>This exception does not print the Java stacktrace, since the JSR-223
- * {@link ScriptException} results in a rather convoluted text output.
- * From that perspective, this exception is primarily a decorator for a
- * {@link ScriptException} root cause passed into an outer exception.
+ * <p>
+ * This exception does not print the Java stacktrace, since the JSR-223
+ * {@link ScriptException} results in a rather convoluted text output. From that
+ * perspective, this exception is primarily a decorator for a {@link ScriptException} root
+ * cause passed into an outer exception.
  *
  * @author Juergen Hoeller
  * @author Sebastien Deleuze
@@ -38,7 +39,6 @@ public class StandardScriptEvalException extends RuntimeException {
 
 	private final ScriptException scriptException;
 
-
 	/**
 	 * Construct a new script eval exception with the specified original exception.
 	 */
@@ -46,7 +46,6 @@ public class StandardScriptEvalException extends RuntimeException {
 		super(ex.getMessage());
 		this.scriptException = ex;
 	}
-
 
 	public final ScriptException getScriptException() {
 		return this.scriptException;

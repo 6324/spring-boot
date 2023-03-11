@@ -100,11 +100,14 @@ public class MethodInvocationProceedingJoinPointTests {
 			assertThat(raw).isSameAs(target);
 
 			assertThat(AbstractAspectJAdvice.currentJoinPoint().getSignature().getName()).isSameAs(method.getName());
-			assertThat(AbstractAspectJAdvice.currentJoinPoint().getSignature().getModifiers()).isEqualTo(method.getModifiers());
+			assertThat(AbstractAspectJAdvice.currentJoinPoint().getSignature().getModifiers())
+					.isEqualTo(method.getModifiers());
 
 			MethodSignature msig = (MethodSignature) AbstractAspectJAdvice.currentJoinPoint().getSignature();
-			assertThat(AbstractAspectJAdvice.currentJoinPoint().getSignature()).as("Return same MethodSignature repeatedly").isSameAs(msig);
-			assertThat(AbstractAspectJAdvice.currentJoinPoint()).as("Return same JoinPoint repeatedly").isSameAs(AbstractAspectJAdvice.currentJoinPoint());
+			assertThat(AbstractAspectJAdvice.currentJoinPoint().getSignature())
+					.as("Return same MethodSignature repeatedly").isSameAs(msig);
+			assertThat(AbstractAspectJAdvice.currentJoinPoint()).as("Return same JoinPoint repeatedly")
+					.isSameAs(AbstractAspectJAdvice.currentJoinPoint());
 			assertThat(msig.getDeclaringType()).isEqualTo(method.getDeclaringClass());
 			assertThat(Arrays.equals(method.getParameterTypes(), msig.getParameterTypes())).isTrue();
 			assertThat(msig.getReturnType()).isEqualTo(method.getReturnType());
@@ -124,7 +127,8 @@ public class MethodInvocationProceedingJoinPointTests {
 		pf.addAdvisor(ExposeInvocationInterceptor.ADVISOR);
 		pf.addAdvice((MethodBeforeAdvice) (method, args, target) -> {
 			SourceLocation sloc = AbstractAspectJAdvice.currentJoinPoint().getSourceLocation();
-			assertThat(AbstractAspectJAdvice.currentJoinPoint().getSourceLocation()).as("Same source location must be returned on subsequent requests").isEqualTo(sloc);
+			assertThat(AbstractAspectJAdvice.currentJoinPoint().getSourceLocation())
+					.as("Same source location must be returned on subsequent requests").isEqualTo(sloc);
 			assertThat(sloc.getWithinType()).isEqualTo(TestBean.class);
 			assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(sloc::getLine);
 			assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(sloc::getFileName);
@@ -141,10 +145,12 @@ public class MethodInvocationProceedingJoinPointTests {
 		pf.addAdvisor(ExposeInvocationInterceptor.ADVISOR);
 		pf.addAdvice((MethodBeforeAdvice) (method, args, target) -> {
 			StaticPart staticPart = AbstractAspectJAdvice.currentJoinPoint().getStaticPart();
-			assertThat(AbstractAspectJAdvice.currentJoinPoint().getStaticPart()).as("Same static part must be returned on subsequent requests").isEqualTo(staticPart);
+			assertThat(AbstractAspectJAdvice.currentJoinPoint().getStaticPart())
+					.as("Same static part must be returned on subsequent requests").isEqualTo(staticPart);
 			assertThat(staticPart.getKind()).isEqualTo(ProceedingJoinPoint.METHOD_EXECUTION);
 			assertThat(staticPart.getSignature()).isSameAs(AbstractAspectJAdvice.currentJoinPoint().getSignature());
-			assertThat(staticPart.getSourceLocation()).isEqualTo(AbstractAspectJAdvice.currentJoinPoint().getSourceLocation());
+			assertThat(staticPart.getSourceLocation())
+					.isEqualTo(AbstractAspectJAdvice.currentJoinPoint().getSourceLocation());
 		});
 		ITestBean itb = (ITestBean) pf.getProxy();
 		// Any call will do

@@ -45,7 +45,6 @@ public class SimpSessionScopeTests {
 
 	private SimpAttributes simpAttributes;
 
-
 	@BeforeEach
 	public void setUp() {
 		this.scope = new SimpSessionScope();
@@ -101,6 +100,5 @@ public class SimpSessionScopeTests {
 	public void getSessionId() {
 		assertThat(this.scope.getConversationId()).isEqualTo("session1");
 	}
-
 
 }

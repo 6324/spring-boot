@@ -39,8 +39,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 /**
- * Abstract base class for a {@link MessageHandler} that broker messages to
- * registered subscribers.
+ * Abstract base class for a {@link MessageHandler} that broker messages to registered
+ * subscribers.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -77,11 +77,12 @@ public abstract class AbstractBrokerMessageHandler
 
 	private final ChannelInterceptor unsentDisconnectInterceptor = new UnsentDisconnectChannelInterceptor();
 
-
 	/**
 	 * Constructor with no destination prefixes (matches all destinations).
-	 * @param inboundChannel the channel for receiving messages from clients (e.g. WebSocket clients)
-	 * @param outboundChannel the channel for sending messages to clients (e.g. WebSocket clients)
+	 * @param inboundChannel the channel for receiving messages from clients (e.g.
+	 * WebSocket clients)
+	 * @param outboundChannel the channel for sending messages to clients (e.g. WebSocket
+	 * clients)
 	 * @param brokerChannel the channel for the application to send messages to the broker
 	 */
 	public AbstractBrokerMessageHandler(SubscribableChannel inboundChannel, MessageChannel outboundChannel,
@@ -92,8 +93,10 @@ public abstract class AbstractBrokerMessageHandler
 
 	/**
 	 * Constructor with destination prefixes to match to destinations of messages.
-	 * @param inboundChannel the channel for receiving messages from clients (e.g. WebSocket clients)
-	 * @param outboundChannel the channel for sending messages to clients (e.g. WebSocket clients)
+	 * @param inboundChannel the channel for receiving messages from clients (e.g.
+	 * WebSocket clients)
+	 * @param outboundChannel the channel for sending messages to clients (e.g. WebSocket
+	 * clients)
 	 * @param brokerChannel the channel for the application to send messages to the broker
 	 * @param destinationPrefixes prefixes to use to filter out messages
 	 */
@@ -111,7 +114,6 @@ public abstract class AbstractBrokerMessageHandler
 		destinationPrefixes = (destinationPrefixes != null ? destinationPrefixes : Collections.emptyList());
 		this.destinationPrefixes = Collections.unmodifiableCollection(destinationPrefixes);
 	}
-
 
 	public SubscribableChannel getClientInboundChannel() {
 		return this.clientInboundChannel;
@@ -131,13 +133,15 @@ public abstract class AbstractBrokerMessageHandler
 
 	/**
 	 * Whether the client must receive messages in the order of publication.
-	 * <p>By default messages sent to the {@code "clientOutboundChannel"} may
-	 * not be processed in the same order because the channel is backed by a
-	 * ThreadPoolExecutor that in turn does not guarantee processing in order.
-	 * <p>When this flag is set to {@code true} messages within the same session
-	 * will be sent to the {@code "clientOutboundChannel"} one at a time in
-	 * order to preserve the order of publication. Enable this only if needed
-	 * since there is some performance overhead to keep messages in order.
+	 * <p>
+	 * By default messages sent to the {@code "clientOutboundChannel"} may not be
+	 * processed in the same order because the channel is backed by a ThreadPoolExecutor
+	 * that in turn does not guarantee processing in order.
+	 * <p>
+	 * When this flag is set to {@code true} messages within the same session will be sent
+	 * to the {@code "clientOutboundChannel"} one at a time in order to preserve the order
+	 * of publication. Enable this only if needed since there is some performance overhead
+	 * to keep messages in order.
 	 * @param preservePublishOrder whether to publish in order
 	 * @since 5.1
 	 */
@@ -172,7 +176,6 @@ public abstract class AbstractBrokerMessageHandler
 	public boolean isAutoStartup() {
 		return this.autoStartup;
 	}
-
 
 	@Override
 	public void start() {
@@ -220,9 +223,10 @@ public abstract class AbstractBrokerMessageHandler
 
 	/**
 	 * Check whether this message handler is currently running.
-	 * <p>Note that even when this message handler is running the
-	 * {@link #isBrokerAvailable()} flag may still independently alternate between
-	 * being on and off depending on the concrete sub-class implementation.
+	 * <p>
+	 * Note that even when this message handler is running the
+	 * {@link #isBrokerAvailable()} flag may still independently alternate between being
+	 * on and off depending on the concrete sub-class implementation.
 	 */
 	@Override
 	public final boolean isRunning() {
@@ -231,19 +235,20 @@ public abstract class AbstractBrokerMessageHandler
 
 	/**
 	 * Whether the message broker is currently available and able to process messages.
-	 * <p>Note that this is in addition to the {@link #isRunning()} flag, which
-	 * indicates whether this message handler is running. In other words the message
-	 * handler must first be running and then the {@code #isBrokerAvailable()} flag
-	 * may still independently alternate between being on and off depending on the
-	 * concrete sub-class implementation.
-	 * <p>Application components may implement
+	 * <p>
+	 * Note that this is in addition to the {@link #isRunning()} flag, which indicates
+	 * whether this message handler is running. In other words the message handler must
+	 * first be running and then the {@code #isBrokerAvailable()} flag may still
+	 * independently alternate between being on and off depending on the concrete
+	 * sub-class implementation.
+	 * <p>
+	 * Application components may implement
 	 * {@code org.springframework.context.ApplicationListener&lt;BrokerAvailabilityEvent&gt;}
 	 * to receive notifications when broker becomes available and unavailable.
 	 */
 	public boolean isBrokerAvailable() {
 		return this.brokerAvailable.get();
 	}
-
 
 	@Override
 	public void handleMessage(Message<?> message) {
@@ -257,7 +262,6 @@ public abstract class AbstractBrokerMessageHandler
 	}
 
 	protected abstract void handleMessageInternal(Message<?> message);
-
 
 	protected boolean checkDestinationPrefix(@Nullable String destination) {
 		if (destination == null || CollectionUtils.isEmpty(this.destinationPrefixes)) {
@@ -292,15 +296,14 @@ public abstract class AbstractBrokerMessageHandler
 	}
 
 	/**
-	 * Get the MessageChannel to use for sending messages to clients, possibly
-	 * a per-session wrapper when {@code preservePublishOrder=true}.
+	 * Get the MessageChannel to use for sending messages to clients, possibly a
+	 * per-session wrapper when {@code preservePublishOrder=true}.
 	 * @since 5.1
 	 */
 	protected MessageChannel getClientOutboundChannelForSession(String sessionId) {
-		return this.preservePublishOrder ?
-				new OrderedMessageSender(getClientOutboundChannel(), logger) : getClientOutboundChannel();
+		return this.preservePublishOrder ? new OrderedMessageSender(getClientOutboundChannel(), logger)
+				: getClientOutboundChannel();
 	}
-
 
 	/**
 	 * Detect unsent DISCONNECT messages and process them anyway.
@@ -308,8 +311,8 @@ public abstract class AbstractBrokerMessageHandler
 	private class UnsentDisconnectChannelInterceptor implements ChannelInterceptor {
 
 		@Override
-		public void afterSendCompletion(
-				Message<?> message, MessageChannel channel, boolean sent, @Nullable Exception ex) {
+		public void afterSendCompletion(Message<?> message, MessageChannel channel, boolean sent,
+				@Nullable Exception ex) {
 
 			if (!sent) {
 				SimpMessageType messageType = SimpMessageHeaderAccessor.getMessageType(message.getHeaders());
@@ -319,6 +322,7 @@ public abstract class AbstractBrokerMessageHandler
 				}
 			}
 		}
+
 	}
 
 }

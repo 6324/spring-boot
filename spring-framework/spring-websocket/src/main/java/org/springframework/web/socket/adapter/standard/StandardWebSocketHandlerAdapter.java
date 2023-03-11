@@ -48,7 +48,6 @@ public class StandardWebSocketHandlerAdapter extends Endpoint {
 
 	private final StandardWebSocketSession wsSession;
 
-
 	public StandardWebSocketHandlerAdapter(WebSocketHandler handler, StandardWebSocketSession wsSession) {
 		Assert.notNull(handler, "WebSocketHandler must not be null");
 		Assert.notNull(wsSession, "WebSocketSession must not be null");
@@ -56,13 +55,13 @@ public class StandardWebSocketHandlerAdapter extends Endpoint {
 		this.wsSession = wsSession;
 	}
 
-
 	@Override
 	public void onOpen(final javax.websocket.Session session, EndpointConfig config) {
 		this.wsSession.initializeNativeSession(session);
 
 		// The following inner classes need to remain since lambdas would not retain their
-		// declared generic types (which need to be seen by the underlying WebSocket engine)
+		// declared generic types (which need to be seen by the underlying WebSocket
+		// engine)
 
 		if (this.handler.supportsPartialMessages()) {
 			session.addMessageHandler(new MessageHandler.Partial<String>() {

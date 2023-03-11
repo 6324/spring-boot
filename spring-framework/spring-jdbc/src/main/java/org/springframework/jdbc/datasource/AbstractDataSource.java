@@ -26,12 +26,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Abstract base class for Spring's {@link javax.sql.DataSource}
- * implementations, taking care of the padding.
+ * Abstract base class for Spring's {@link javax.sql.DataSource} implementations, taking
+ * care of the padding.
  *
- * <p>'Padding' in the context of this class means default implementations
- * for certain methods from the {@code DataSource} interface, such as
- * {@link #getLoginTimeout()}, {@link #setLoginTimeout(int)}, and so forth.
+ * <p>
+ * 'Padding' in the context of this class means default implementations for certain
+ * methods from the {@code DataSource} interface, such as {@link #getLoginTimeout()},
+ * {@link #setLoginTimeout(int)}, and so forth.
  *
  * @author Juergen Hoeller
  * @since 07.05.2003
@@ -41,7 +42,6 @@ public abstract class AbstractDataSource implements DataSource {
 
 	/** Logger available to subclasses. */
 	protected final Log logger = LogFactory.getLog(getClass());
-
 
 	/**
 	 * Returns 0, indicating the default system timeout is to be used.
@@ -75,10 +75,9 @@ public abstract class AbstractDataSource implements DataSource {
 		throw new UnsupportedOperationException("setLogWriter");
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of JDBC 4.0's Wrapper interface
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -86,8 +85,8 @@ public abstract class AbstractDataSource implements DataSource {
 		if (iface.isInstance(this)) {
 			return (T) this;
 		}
-		throw new SQLException("DataSource of type [" + getClass().getName() +
-				"] cannot be unwrapped as [" + iface.getName() + "]");
+		throw new SQLException(
+				"DataSource of type [" + getClass().getName() + "] cannot be unwrapped as [" + iface.getName() + "]");
 	}
 
 	@Override
@@ -95,10 +94,9 @@ public abstract class AbstractDataSource implements DataSource {
 		return iface.isInstance(this);
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Implementation of JDBC 4.1's getParentLogger method
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	@Override
 	public Logger getParentLogger() {

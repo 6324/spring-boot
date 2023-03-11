@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * Tests for {@link InstanceComparator}.
  *
@@ -78,15 +77,19 @@ class InstanceComparatorTests {
 	}
 
 	private static class C1 implements I1 {
+
 	}
 
 	private static class C2 implements I1 {
+
 	}
 
 	private static class C3 implements I2 {
+
 	}
 
 	private static class C4 implements I2 {
+
 	}
 
 }

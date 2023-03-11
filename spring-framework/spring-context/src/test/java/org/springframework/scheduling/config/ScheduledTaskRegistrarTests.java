@@ -35,10 +35,10 @@ import static org.mockito.Mockito.mock;
  */
 class ScheduledTaskRegistrarTests {
 
-	private static final Runnable no_op = () -> {};
+	private static final Runnable no_op = () -> {
+	};
 
 	private final ScheduledTaskRegistrar taskRegistrar = new ScheduledTaskRegistrar();
-
 
 	@BeforeEach
 	void preconditions() {
@@ -84,9 +84,8 @@ class ScheduledTaskRegistrarTests {
 
 	@Test
 	void addCronTaskWithInvalidExpression() {
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> this.taskRegistrar.addCronTask(no_op, "* * *"))
-			.withMessage("Cron expression must consist of 6 fields (found 3 in \"* * *\")");
+		assertThatIllegalArgumentException().isThrownBy(() -> this.taskRegistrar.addCronTask(no_op, "* * *"))
+				.withMessage("Cron expression must consist of 6 fields (found 3 in \"* * *\")");
 	}
 
 	@Test

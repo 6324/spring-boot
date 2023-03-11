@@ -37,10 +37,10 @@ import org.springframework.util.StringUtils;
  * An implementation of
  * {@link org.springframework.messaging.simp.SimpMessageSendingOperations}.
  *
- * <p>Also provides methods for sending messages to a user. See
+ * <p>
+ * Also provides methods for sending messages to a user. See
  * {@link org.springframework.messaging.simp.user.UserDestinationResolver
- * UserDestinationResolver}
- * for more on user destinations.
+ * UserDestinationResolver} for more on user destinations.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -57,7 +57,6 @@ public class SimpMessagingTemplate extends AbstractMessageSendingTemplate<String
 	@Nullable
 	private MessageHeaderInitializer headerInitializer;
 
-
 	/**
 	 * Create a new {@link SimpMessagingTemplate} instance.
 	 * @param messageChannel the message channel (never {@code null})
@@ -66,7 +65,6 @@ public class SimpMessagingTemplate extends AbstractMessageSendingTemplate<String
 		Assert.notNull(messageChannel, "MessageChannel must not be null");
 		this.messageChannel = messageChannel;
 	}
-
 
 	/**
 	 * Return the configured message channel.
@@ -77,7 +75,8 @@ public class SimpMessagingTemplate extends AbstractMessageSendingTemplate<String
 
 	/**
 	 * Configure the prefix to use for destinations targeting a specific user.
-	 * <p>The default value is "/user/".
+	 * <p>
+	 * The default value is "/user/".
 	 * @see org.springframework.messaging.simp.user.UserDestinationMessageHandler
 	 */
 	public void setUserDestinationPrefix(String prefix) {
@@ -110,7 +109,8 @@ public class SimpMessagingTemplate extends AbstractMessageSendingTemplate<String
 	/**
 	 * Configure a {@link MessageHeaderInitializer} to apply to the headers of all
 	 * messages created through the {@code SimpMessagingTemplate}.
-	 * <p>By default, this property is not set.
+	 * <p>
+	 * By default, this property is not set.
 	 */
 	public void setHeaderInitializer(@Nullable MessageHeaderInitializer headerInitializer) {
 		this.headerInitializer = headerInitializer;
@@ -124,16 +124,15 @@ public class SimpMessagingTemplate extends AbstractMessageSendingTemplate<String
 		return this.headerInitializer;
 	}
 
-
 	/**
 	 * If the headers of the given message already contain a
 	 * {@link org.springframework.messaging.simp.SimpMessageHeaderAccessor#DESTINATION_HEADER
 	 * SimpMessageHeaderAccessor#DESTINATION_HEADER} then the message is sent without
 	 * further changes.
-	 * <p>If a destination header is not already present ,the message is sent
-	 * to the configured {@link #setDefaultDestination(Object) defaultDestination}
-	 * or an exception an {@code IllegalStateException} is raised if that isn't
-	 * configured.
+	 * <p>
+	 * If a destination header is not already present ,the message is sent to the
+	 * configured {@link #setDefaultDestination(Object) defaultDestination} or an
+	 * exception an {@code IllegalStateException} is raised if that isn't configured.
 	 * @param message the message to send (never {@code null})
 	 */
 	@Override
@@ -151,8 +150,8 @@ public class SimpMessagingTemplate extends AbstractMessageSendingTemplate<String
 	protected void doSend(String destination, Message<?> message) {
 		Assert.notNull(destination, "Destination must not be null");
 
-		SimpMessageHeaderAccessor simpAccessor =
-				MessageHeaderAccessor.getAccessor(message, SimpMessageHeaderAccessor.class);
+		SimpMessageHeaderAccessor simpAccessor = MessageHeaderAccessor.getAccessor(message,
+				SimpMessageHeaderAccessor.class);
 
 		if (simpAccessor != null) {
 			if (simpAccessor.isMutable()) {
@@ -198,7 +197,6 @@ public class SimpMessagingTemplate extends AbstractMessageSendingTemplate<String
 		}
 	}
 
-
 	@Override
 	public void convertAndSendToUser(String user, String destination, Object payload) throws MessagingException {
 		convertAndSendToUser(user, destination, payload, (MessagePostProcessor) null);
@@ -230,16 +228,17 @@ public class SimpMessagingTemplate extends AbstractMessageSendingTemplate<String
 		super.convertAndSend(this.destinationPrefix + user + destination, payload, headers, postProcessor);
 	}
 
-
 	/**
 	 * Creates a new map and puts the given headers under the key
-	 * {@link NativeMessageHeaderAccessor#NATIVE_HEADERS NATIVE_HEADERS NATIVE_HEADERS NATIVE_HEADERS}.
-	 * effectively treats the input header map as headers to be sent out to the
-	 * destination.
-	 * <p>However if the given headers already contain the key
-	 * {@code NATIVE_HEADERS NATIVE_HEADERS} then the same headers instance is
-	 * returned without changes.
-	 * <p>Also if the given headers were prepared and obtained with
+	 * {@link NativeMessageHeaderAccessor#NATIVE_HEADERS NATIVE_HEADERS NATIVE_HEADERS
+	 * NATIVE_HEADERS}. effectively treats the input header map as headers to be sent out
+	 * to the destination.
+	 * <p>
+	 * However if the given headers already contain the key
+	 * {@code NATIVE_HEADERS NATIVE_HEADERS} then the same headers instance is returned
+	 * without changes.
+	 * <p>
+	 * Also if the given headers were prepared and obtained with
 	 * {@link SimpMessageHeaderAccessor#getMessageHeaders()} then the same headers
 	 * instance is also returned without changes.
 	 */
@@ -255,8 +254,8 @@ public class SimpMessagingTemplate extends AbstractMessageSendingTemplate<String
 			return headers;
 		}
 		if (headers instanceof MessageHeaders) {
-			SimpMessageHeaderAccessor accessor =
-					MessageHeaderAccessor.getAccessor((MessageHeaders) headers, SimpMessageHeaderAccessor.class);
+			SimpMessageHeaderAccessor accessor = MessageHeaderAccessor.getAccessor((MessageHeaders) headers,
+					SimpMessageHeaderAccessor.class);
 			if (accessor != null) {
 				return headers;
 			}

@@ -29,18 +29,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link StompSubProtocolErrorHandler}.
+ *
  * @author Rossen Stoyanchev
  */
 public class StompSubProtocolErrorHandlerTests {
 
 	private StompSubProtocolErrorHandler handler;
 
-
 	@BeforeEach
 	public void setUp() throws Exception {
 		this.handler = new StompSubProtocolErrorHandler();
 	}
-
 
 	@Test
 	public void handleClientMessageProcessingError() throws Exception {
@@ -70,6 +69,5 @@ public class StompSubProtocolErrorHandlerTests {
 		assertThat(accessor).isNotNull();
 		assertThat(accessor.getReceiptId()).isEqualTo(receiptId);
 	}
-
 
 }

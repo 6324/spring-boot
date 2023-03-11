@@ -37,7 +37,6 @@ public class MethodExclusionMBeanInfoAssemblerTests extends AbstractJmxAssembler
 
 	private static final String OBJECT_NAME = "bean:name=testBean5";
 
-
 	@Override
 	protected String getObjectName() {
 		return OBJECT_NAME;
@@ -61,7 +60,7 @@ public class MethodExclusionMBeanInfoAssemblerTests extends AbstractJmxAssembler
 	@Override
 	protected MBeanInfoAssembler getAssembler() {
 		MethodExclusionMBeanInfoAssembler assembler = new MethodExclusionMBeanInfoAssembler();
-		assembler.setIgnoredMethods(new String[] {"dontExposeMe", "setSuperman"});
+		assembler.setIgnoredMethods(new String[] { "dontExposeMe", "setSuperman" });
 		return assembler;
 	}
 
@@ -86,7 +85,8 @@ public class MethodExclusionMBeanInfoAssemblerTests extends AbstractJmxAssembler
 		assembler.setIgnoredMethodMappings(ignored);
 		Method method = JmxTestBean.class.getMethod("dontExposeMe");
 		assertThat(assembler.isNotIgnored(method, beanKey)).isFalse();
-		// this bean does not have any ignored methods on it, so must obviously not be ignored...
+		// this bean does not have any ignored methods on it, so must obviously not be
+		// ignored...
 		assertThat(assembler.isNotIgnored(method, "someOtherBeanKey")).isTrue();
 	}
 

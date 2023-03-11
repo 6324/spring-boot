@@ -33,13 +33,14 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Chris Beams
  */
 public class FactoryBeanLookupTests {
+
 	private BeanFactory beanFactory;
 
 	@BeforeEach
 	public void setUp() {
 		beanFactory = new DefaultListableBeanFactory();
-		new XmlBeanDefinitionReader((BeanDefinitionRegistry) beanFactory).loadBeanDefinitions(
-				new ClassPathResource("FactoryBeanLookupTests-context.xml", this.getClass()));
+		new XmlBeanDefinitionReader((BeanDefinitionRegistry) beanFactory)
+				.loadBeanDefinitions(new ClassPathResource("FactoryBeanLookupTests-context.xml", this.getClass()));
 	}
 
 	@Test
@@ -71,9 +72,11 @@ public class FactoryBeanLookupTests {
 		Foo foo = beanFactory.getBean("fooFactory", Foo.class);
 		assertThat(foo).isNotNull();
 	}
+
 }
 
 class FooFactoryBean extends AbstractFactoryBean<Foo> {
+
 	@Override
 	protected Foo createInstance() throws Exception {
 		return new Foo();
@@ -83,6 +86,9 @@ class FooFactoryBean extends AbstractFactoryBean<Foo> {
 	public Class<?> getObjectType() {
 		return Foo.class;
 	}
+
 }
 
-class Foo { }
+class Foo {
+
+}

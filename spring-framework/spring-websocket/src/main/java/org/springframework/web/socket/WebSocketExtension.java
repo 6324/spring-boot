@@ -30,31 +30,36 @@ import org.springframework.util.LinkedCaseInsensitiveMap;
 import org.springframework.util.StringUtils;
 
 /**
- * Represents a WebSocket extension as defined in the RFC 6455.
- * WebSocket extensions add protocol features to the WebSocket protocol. The extensions
- * used within a session are negotiated during the handshake phase as follows:
+ * Represents a WebSocket extension as defined in the RFC 6455. WebSocket extensions add
+ * protocol features to the WebSocket protocol. The extensions used within a session are
+ * negotiated during the handshake phase as follows:
  * <ul>
  * <li>the client may ask for specific extensions in the HTTP handshake request</li>
- * <li>the server responds with the final list of extensions to use in the current session</li>
+ * <li>the server responds with the final list of extensions to use in the current
+ * session</li>
  * </ul>
  *
- * <p>WebSocket Extension HTTP headers may include parameters and follow
- * <a href="https://tools.ietf.org/html/rfc7230#section-3.2">RFC 7230 section 3.2</a></p>
+ * <p>
+ * WebSocket Extension HTTP headers may include parameters and follow
+ * <a href="https://tools.ietf.org/html/rfc7230#section-3.2">RFC 7230 section 3.2</a>
+ * </p>
  *
- * <p>Note that the order of extensions in HTTP headers defines their order of execution,
- * e.g. extensions "foo, bar" will be executed as "bar(foo(message))".</p>
+ * <p>
+ * Note that the order of extensions in HTTP headers defines their order of execution,
+ * e.g. extensions "foo, bar" will be executed as "bar(foo(message))".
+ * </p>
  *
  * @author Brian Clozel
  * @author Juergen Hoeller
  * @since 4.0
- * @see <a href="https://tools.ietf.org/html/rfc6455#section-9">WebSocket Protocol Extensions, RFC 6455 - Section 9</a>
+ * @see <a href="https://tools.ietf.org/html/rfc6455#section-9">WebSocket Protocol
+ * Extensions, RFC 6455 - Section 9</a>
  */
 public class WebSocketExtension {
 
 	private final String name;
 
 	private final Map<String, String> parameters;
-
 
 	/**
 	 * Create a WebSocketExtension with the given name.
@@ -82,7 +87,6 @@ public class WebSocketExtension {
 		}
 	}
 
-
 	/**
 	 * Return the name of the extension (never {@code null) or empty}.
 	 */
@@ -96,7 +100,6 @@ public class WebSocketExtension {
 	public Map<String, String> getParameters() {
 		return this.parameters;
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {
@@ -123,10 +126,11 @@ public class WebSocketExtension {
 		return str.toString();
 	}
 
-
 	/**
-	 * Parse the given, comma-separated string into a list of {@code WebSocketExtension} objects.
-	 * <p>This method can be used to parse a "Sec-WebSocket-Extension" header.
+	 * Parse the given, comma-separated string into a list of {@code WebSocketExtension}
+	 * objects.
+	 * <p>
+	 * This method can be used to parse a "Sec-WebSocket-Extension" header.
 	 * @param extensions the string to parse
 	 * @return the list of extensions
 	 * @throws IllegalArgumentException if the string cannot be parsed

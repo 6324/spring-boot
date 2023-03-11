@@ -38,9 +38,8 @@ import static org.springframework.core.testfixture.io.ResourceTestUtils.qualifie
  */
 public class RegexpMethodPointcutAdvisorIntegrationTests {
 
-	private static final Resource CONTEXT =
-			qualifiedResource(RegexpMethodPointcutAdvisorIntegrationTests.class, "context.xml");
-
+	private static final Resource CONTEXT = qualifiedResource(RegexpMethodPointcutAdvisorIntegrationTests.class,
+			"context.xml");
 
 	@Test
 	public void testSinglePattern() throws Throwable {

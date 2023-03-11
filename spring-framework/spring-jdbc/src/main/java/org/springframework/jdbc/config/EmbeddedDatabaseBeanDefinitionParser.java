@@ -28,11 +28,12 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link org.springframework.beans.factory.xml.BeanDefinitionParser} that
- * parses an {@code embedded-database} element and creates a {@link BeanDefinition}
- * for an {@link EmbeddedDatabaseFactoryBean}.
+ * {@link org.springframework.beans.factory.xml.BeanDefinitionParser} that parses an
+ * {@code embedded-database} element and creates a {@link BeanDefinition} for an
+ * {@link EmbeddedDatabaseFactoryBean}.
  *
- * <p>Picks up nested {@code script} elements and configures a
+ * <p>
+ * Picks up nested {@code script} elements and configures a
  * {@link ResourceDatabasePopulator} for each of them.
  *
  * @author Oliver Gierke
@@ -52,7 +53,6 @@ class EmbeddedDatabaseBeanDefinitionParser extends AbstractBeanDefinitionParser 
 	 * Constant for the "generate-name" attribute.
 	 */
 	static final String GENERATE_NAME_ATTRIBUTE = "generate-name";
-
 
 	@Override
 	protected AbstractBeanDefinition parseInternal(Element element, ParserContext parserContext) {

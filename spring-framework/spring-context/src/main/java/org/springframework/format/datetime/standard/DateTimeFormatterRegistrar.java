@@ -54,8 +54,11 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
  */
 public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 
-	private enum Type {DATE, TIME, DATE_TIME}
+	private enum Type {
 
+		DATE, TIME, DATE_TIME
+
+	}
 
 	/**
 	 * User-defined formatters.
@@ -67,19 +70,18 @@ public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 	 */
 	private final Map<Type, DateTimeFormatterFactory> factories = new EnumMap<>(Type.class);
 
-
 	public DateTimeFormatterRegistrar() {
 		for (Type type : Type.values()) {
 			this.factories.put(type, new DateTimeFormatterFactory());
 		}
 	}
 
-
 	/**
 	 * Set whether standard ISO formatting should be applied to all date/time types.
 	 * Default is "false" (no).
-	 * <p>If set to "true", the "dateStyle", "timeStyle" and "dateTimeStyle"
-	 * properties are effectively ignored.
+	 * <p>
+	 * If set to "true", the "dateStyle", "timeStyle" and "dateTimeStyle" properties are
+	 * effectively ignored.
 	 */
 	public void setUseIsoFormat(boolean useIsoFormat) {
 		this.factories.get(Type.DATE).setIso(useIsoFormat ? ISO.DATE : ISO.NONE);
@@ -88,24 +90,24 @@ public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 	}
 
 	/**
-	 * Set the default format style of {@link java.time.LocalDate} objects.
-	 * Default is {@link java.time.format.FormatStyle#SHORT}.
+	 * Set the default format style of {@link java.time.LocalDate} objects. Default is
+	 * {@link java.time.format.FormatStyle#SHORT}.
 	 */
 	public void setDateStyle(FormatStyle dateStyle) {
 		this.factories.get(Type.DATE).setDateStyle(dateStyle);
 	}
 
 	/**
-	 * Set the default format style of {@link java.time.LocalTime} objects.
-	 * Default is {@link java.time.format.FormatStyle#SHORT}.
+	 * Set the default format style of {@link java.time.LocalTime} objects. Default is
+	 * {@link java.time.format.FormatStyle#SHORT}.
 	 */
 	public void setTimeStyle(FormatStyle timeStyle) {
 		this.factories.get(Type.TIME).setTimeStyle(timeStyle);
 	}
 
 	/**
-	 * Set the default format style of {@link java.time.LocalDateTime} objects.
-	 * Default is {@link java.time.format.FormatStyle#SHORT}.
+	 * Set the default format style of {@link java.time.LocalDateTime} objects. Default is
+	 * {@link java.time.format.FormatStyle#SHORT}.
 	 */
 	public void setDateTimeStyle(FormatStyle dateTimeStyle) {
 		this.factories.get(Type.DATE_TIME).setDateTimeStyle(dateTimeStyle);
@@ -113,9 +115,10 @@ public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 
 	/**
 	 * Set the formatter that will be used for objects representing date values.
-	 * <p>This formatter will be used for the {@link LocalDate} type.
-	 * When specified, the {@link #setDateStyle dateStyle} and
-	 * {@link #setUseIsoFormat useIsoFormat} properties will be ignored.
+	 * <p>
+	 * This formatter will be used for the {@link LocalDate} type. When specified, the
+	 * {@link #setDateStyle dateStyle} and {@link #setUseIsoFormat useIsoFormat}
+	 * properties will be ignored.
 	 * @param formatter the formatter to use
 	 * @see #setTimeFormatter
 	 * @see #setDateTimeFormatter
@@ -126,9 +129,10 @@ public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 
 	/**
 	 * Set the formatter that will be used for objects representing time values.
-	 * <p>This formatter will be used for the {@link LocalTime} and {@link OffsetTime}
-	 * types. When specified, the {@link #setTimeStyle timeStyle} and
-	 * {@link #setUseIsoFormat useIsoFormat} properties will be ignored.
+	 * <p>
+	 * This formatter will be used for the {@link LocalTime} and {@link OffsetTime} types.
+	 * When specified, the {@link #setTimeStyle timeStyle} and {@link #setUseIsoFormat
+	 * useIsoFormat} properties will be ignored.
 	 * @param formatter the formatter to use
 	 * @see #setDateFormatter
 	 * @see #setDateTimeFormatter
@@ -139,10 +143,11 @@ public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 
 	/**
 	 * Set the formatter that will be used for objects representing date and time values.
-	 * <p>This formatter will be used for {@link LocalDateTime}, {@link ZonedDateTime}
-	 * and {@link OffsetDateTime} types. When specified, the
-	 * {@link #setDateTimeStyle dateTimeStyle} and
-	 * {@link #setUseIsoFormat useIsoFormat} properties will be ignored.
+	 * <p>
+	 * This formatter will be used for {@link LocalDateTime}, {@link ZonedDateTime} and
+	 * {@link OffsetDateTime} types. When specified, the {@link #setDateTimeStyle
+	 * dateTimeStyle} and {@link #setUseIsoFormat useIsoFormat} properties will be
+	 * ignored.
 	 * @param formatter the formatter to use
 	 * @see #setDateFormatter
 	 * @see #setTimeFormatter
@@ -150,7 +155,6 @@ public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 	public void setDateTimeFormatter(DateTimeFormatter formatter) {
 		this.formatters.put(Type.DATE_TIME, formatter);
 	}
-
 
 	@Override
 	public void registerFormatters(FormatterRegistry registry) {
@@ -163,13 +167,11 @@ public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 		// Efficient ISO_LOCAL_* variants for printing since they are twice as fast...
 
 		registry.addFormatterForFieldType(LocalDate.class,
-				new TemporalAccessorPrinter(
-						df == DateTimeFormatter.ISO_DATE ? DateTimeFormatter.ISO_LOCAL_DATE : df),
+				new TemporalAccessorPrinter(df == DateTimeFormatter.ISO_DATE ? DateTimeFormatter.ISO_LOCAL_DATE : df),
 				new TemporalAccessorParser(LocalDate.class, df));
 
 		registry.addFormatterForFieldType(LocalTime.class,
-				new TemporalAccessorPrinter(
-						tf == DateTimeFormatter.ISO_TIME ? DateTimeFormatter.ISO_LOCAL_TIME : tf),
+				new TemporalAccessorPrinter(tf == DateTimeFormatter.ISO_TIME ? DateTimeFormatter.ISO_LOCAL_TIME : tf),
 				new TemporalAccessorParser(LocalTime.class, tf));
 
 		registry.addFormatterForFieldType(LocalDateTime.class,
@@ -177,16 +179,13 @@ public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 						dtf == DateTimeFormatter.ISO_DATE_TIME ? DateTimeFormatter.ISO_LOCAL_DATE_TIME : dtf),
 				new TemporalAccessorParser(LocalDateTime.class, dtf));
 
-		registry.addFormatterForFieldType(ZonedDateTime.class,
-				new TemporalAccessorPrinter(dtf),
+		registry.addFormatterForFieldType(ZonedDateTime.class, new TemporalAccessorPrinter(dtf),
 				new TemporalAccessorParser(ZonedDateTime.class, dtf));
 
-		registry.addFormatterForFieldType(OffsetDateTime.class,
-				new TemporalAccessorPrinter(dtf),
+		registry.addFormatterForFieldType(OffsetDateTime.class, new TemporalAccessorPrinter(dtf),
 				new TemporalAccessorParser(OffsetDateTime.class, dtf));
 
-		registry.addFormatterForFieldType(OffsetTime.class,
-				new TemporalAccessorPrinter(tf),
+		registry.addFormatterForFieldType(OffsetTime.class, new TemporalAccessorPrinter(tf),
 				new TemporalAccessorParser(OffsetTime.class, tf));
 
 		registry.addFormatterForFieldType(Instant.class, new InstantFormatter());
@@ -211,9 +210,12 @@ public class DateTimeFormatterRegistrar implements FormatterRegistrar {
 
 	private DateTimeFormatter getFallbackFormatter(Type type) {
 		switch (type) {
-			case DATE: return DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
-			case TIME: return DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
-			default: return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
+		case DATE:
+			return DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+		case TIME:
+			return DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
+		default:
+			return DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
 		}
 	}
 

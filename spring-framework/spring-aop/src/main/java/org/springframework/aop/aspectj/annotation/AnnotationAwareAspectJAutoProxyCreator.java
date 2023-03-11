@@ -31,14 +31,18 @@ import org.springframework.util.Assert;
  * {@link AspectJAwareAdvisorAutoProxyCreator} subclass that processes all AspectJ
  * annotation aspects in the current application context, as well as Spring Advisors.
  *
- * <p>Any AspectJ annotated classes will automatically be recognized, and their
- * advice applied if Spring AOP's proxy-based model is capable of applying it.
- * This covers method execution joinpoints.
+ * <p>
+ * Any AspectJ annotated classes will automatically be recognized, and their advice
+ * applied if Spring AOP's proxy-based model is capable of applying it. This covers method
+ * execution joinpoints.
  *
- * <p>If the &lt;aop:include&gt; element is used, only @AspectJ beans with names matched by
- * an include pattern will be considered as defining aspects to use for Spring auto-proxying.
+ * <p>
+ * If the &lt;aop:include&gt; element is used, only @AspectJ beans with names matched by
+ * an include pattern will be considered as defining aspects to use for Spring
+ * auto-proxying.
  *
- * <p>Processing of Spring Advisors follows the rules established in
+ * <p>
+ * Processing of Spring Advisors follows the rules established in
  * {@link org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator}.
  *
  * @author Rod Johnson
@@ -58,10 +62,10 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 	@Nullable
 	private BeanFactoryAspectJAdvisorsBuilder aspectJAdvisorsBuilder;
 
-
 	/**
 	 * Set a list of regex patterns, matching eligible @AspectJ bean names.
-	 * <p>Default is to consider all @AspectJ beans as eligible.
+	 * <p>
+	 * Default is to consider all @AspectJ beans as eligible.
 	 */
 	public void setIncludePatterns(List<String> patterns) {
 		this.includePatterns = new ArrayList<>(patterns.size());
@@ -81,10 +85,9 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 		if (this.aspectJAdvisorFactory == null) {
 			this.aspectJAdvisorFactory = new ReflectiveAspectJAdvisorFactory(beanFactory);
 		}
-		this.aspectJAdvisorsBuilder =
-				new BeanFactoryAspectJAdvisorsBuilderAdapter(beanFactory, this.aspectJAdvisorFactory);
+		this.aspectJAdvisorsBuilder = new BeanFactoryAspectJAdvisorsBuilderAdapter(beanFactory,
+				this.aspectJAdvisorFactory);
 	}
-
 
 	@Override
 	protected List<Advisor> findCandidateAdvisors() {
@@ -100,22 +103,24 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 	@Override
 	protected boolean isInfrastructureClass(Class<?> beanClass) {
 		// Previously we setProxyTargetClass(true) in the constructor, but that has too
-		// broad an impact. Instead we now override isInfrastructureClass to avoid proxying
+		// broad an impact. Instead we now override isInfrastructureClass to avoid
+		// proxying
 		// aspects. I'm not entirely happy with that as there is no good reason not
 		// to advise aspects, except that it causes advice invocation to go through a
 		// proxy, and if the aspect implements e.g the Ordered interface it will be
 		// proxied by that interface and fail at runtime as the advice method is not
 		// defined on the interface. We could potentially relax the restriction about
 		// not advising aspects in the future.
-		return (super.isInfrastructureClass(beanClass) ||
-				(this.aspectJAdvisorFactory != null && this.aspectJAdvisorFactory.isAspect(beanClass)));
+		return (super.isInfrastructureClass(beanClass)
+				|| (this.aspectJAdvisorFactory != null && this.aspectJAdvisorFactory.isAspect(beanClass)));
 	}
 
 	/**
 	 * Check whether the given aspect bean is eligible for auto-proxying.
-	 * <p>If no &lt;aop:include&gt; elements were used then "includePatterns" will be
-	 * {@code null} and all beans are included. If "includePatterns" is non-null,
-	 * then one of the patterns must match.
+	 * <p>
+	 * If no &lt;aop:include&gt; elements were used then "includePatterns" will be
+	 * {@code null} and all beans are included. If "includePatterns" is non-null, then one
+	 * of the patterns must match.
 	 */
 	protected boolean isEligibleAspectBean(String beanName) {
 		if (this.includePatterns == null) {
@@ -131,15 +136,14 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 		}
 	}
 
-
 	/**
-	 * Subclass of BeanFactoryAspectJAdvisorsBuilderAdapter that delegates to
-	 * surrounding AnnotationAwareAspectJAutoProxyCreator facilities.
+	 * Subclass of BeanFactoryAspectJAdvisorsBuilderAdapter that delegates to surrounding
+	 * AnnotationAwareAspectJAutoProxyCreator facilities.
 	 */
 	private class BeanFactoryAspectJAdvisorsBuilderAdapter extends BeanFactoryAspectJAdvisorsBuilder {
 
-		public BeanFactoryAspectJAdvisorsBuilderAdapter(
-				ListableBeanFactory beanFactory, AspectJAdvisorFactory advisorFactory) {
+		public BeanFactoryAspectJAdvisorsBuilderAdapter(ListableBeanFactory beanFactory,
+				AspectJAdvisorFactory advisorFactory) {
 
 			super(beanFactory, advisorFactory);
 		}
@@ -148,6 +152,7 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 		protected boolean isEligibleBean(String beanName) {
 			return AnnotationAwareAspectJAutoProxyCreator.this.isEligibleAspectBean(beanName);
 		}
+
 	}
 
 }

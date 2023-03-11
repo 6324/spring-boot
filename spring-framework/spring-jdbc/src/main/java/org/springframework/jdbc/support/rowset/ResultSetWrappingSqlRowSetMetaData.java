@@ -24,10 +24,12 @@ import org.springframework.lang.Nullable;
 
 /**
  * The default implementation of Spring's {@link SqlRowSetMetaData} interface, wrapping a
- * {@link java.sql.ResultSetMetaData} instance, catching any {@link SQLException SQLExceptions}
- * and translating them to a corresponding Spring {@link InvalidResultSetAccessException}.
+ * {@link java.sql.ResultSetMetaData} instance, catching any {@link SQLException
+ * SQLExceptions} and translating them to a corresponding Spring
+ * {@link InvalidResultSetAccessException}.
  *
- * <p>Used by {@link ResultSetWrappingSqlRowSet}.
+ * <p>
+ * Used by {@link ResultSetWrappingSqlRowSet}.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -41,12 +43,11 @@ public class ResultSetWrappingSqlRowSetMetaData implements SqlRowSetMetaData {
 	@Nullable
 	private String[] columnNames;
 
-
 	/**
-	 * Create a new ResultSetWrappingSqlRowSetMetaData object
-	 * for the given ResultSetMetaData instance.
-	 * @param resultSetMetaData a disconnected ResultSetMetaData instance
-	 * to wrap (usually a {@code javax.sql.RowSetMetaData} instance)
+	 * Create a new ResultSetWrappingSqlRowSetMetaData object for the given
+	 * ResultSetMetaData instance.
+	 * @param resultSetMetaData a disconnected ResultSetMetaData instance to wrap (usually
+	 * a {@code javax.sql.RowSetMetaData} instance)
 	 * @see java.sql.ResultSet#getMetaData
 	 * @see javax.sql.RowSetMetaData
 	 * @see ResultSetWrappingSqlRowSet#getMetaData
@@ -54,7 +55,6 @@ public class ResultSetWrappingSqlRowSetMetaData implements SqlRowSetMetaData {
 	public ResultSetWrappingSqlRowSetMetaData(ResultSetMetaData resultSetMetaData) {
 		this.resultSetMetaData = resultSetMetaData;
 	}
-
 
 	@Override
 	public String getCatalogName(int column) throws InvalidResultSetAccessException {

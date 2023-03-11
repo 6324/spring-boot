@@ -36,11 +36,9 @@ public final class BooleanTypedValue extends TypedValue {
 	 */
 	public static final BooleanTypedValue FALSE = new BooleanTypedValue(false);
 
-
 	private BooleanTypedValue(boolean b) {
 		super(b);
 	}
-
 
 	public static BooleanTypedValue forValue(boolean b) {
 		return (b ? TRUE : FALSE);

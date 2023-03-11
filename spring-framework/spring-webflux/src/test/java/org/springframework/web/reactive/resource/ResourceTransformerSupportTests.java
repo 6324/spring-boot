@@ -43,11 +43,9 @@ public class ResourceTransformerSupportTests {
 
 	private static final Duration TIMEOUT = Duration.ofSeconds(5);
 
-
 	private ResourceTransformerChain chain;
 
 	private TestResourceTransformerSupport transformer;
-
 
 	@BeforeEach
 	public void setup() {
@@ -75,7 +73,6 @@ public class ResourceTransformerSupportTests {
 		urlProvider.registerHandlers(Collections.singletonMap("/resources/**", handler));
 		return urlProvider;
 	}
-
 
 	@Test
 	public void resolveUrlPath() {
@@ -120,13 +117,13 @@ public class ResourceTransformerSupportTests {
 		return new ClassPathResource("test/" + filePath, getClass());
 	}
 
-
 	private static class TestResourceTransformerSupport extends ResourceTransformerSupport {
 
 		@Override
 		public Mono<Resource> transform(ServerWebExchange ex, Resource res, ResourceTransformerChain chain) {
 			return Mono.error(new IllegalStateException("Should never be called"));
 		}
+
 	}
 
 }

@@ -25,12 +25,13 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Return type of any JMS listener method used to indicate the actual response
- * destination alongside the response itself. Typically used when said destination
- * needs to be computed at runtime.
+ * Return type of any JMS listener method used to indicate the actual response destination
+ * alongside the response itself. Typically used when said destination needs to be
+ * computed at runtime.
  *
- * <p>The example below sends a response with the content of the {@code result}
- * argument to the {@code queueOut Queue}:
+ * <p>
+ * The example below sends a response with the content of the {@code result} argument to
+ * the {@code queueOut Queue}:
  *
  * <pre class="code">
  * package com.acme.foo;
@@ -44,8 +45,8 @@ import org.springframework.util.Assert;
  * }</pre>
  *
  * If the destination does not need to be computed at runtime,
- * {@link org.springframework.messaging.handler.annotation.SendTo @SendTo}
- * is the recommended declarative approach.
+ * {@link org.springframework.messaging.handler.annotation.SendTo @SendTo} is the
+ * recommended declarative approach.
  *
  * @author Stephane Nicoll
  * @since 4.2
@@ -59,7 +60,6 @@ public class JmsResponse<T> {
 
 	private final Object destination;
 
-
 	/**
 	 * Create a new {@link JmsResponse} instance.
 	 * @param response the content of the result
@@ -71,7 +71,6 @@ public class JmsResponse<T> {
 		this.destination = destination;
 	}
 
-
 	/**
 	 * Return the content of the response.
 	 */
@@ -80,8 +79,9 @@ public class JmsResponse<T> {
 	}
 
 	/**
-	 * Resolve the {@link Destination} to use for this instance. The {@link DestinationResolver}
-	 * and {@link Session} can be used to resolve a destination at runtime.
+	 * Resolve the {@link Destination} to use for this instance. The
+	 * {@link DestinationResolver} and {@link Session} can be used to resolve a
+	 * destination at runtime.
 	 * @param destinationResolver the destination resolver to use if necessary
 	 * @param session the session to use, if necessary
 	 * @return the {@link Destination} to use
@@ -96,8 +96,8 @@ public class JmsResponse<T> {
 		}
 		if (this.destination instanceof DestinationNameHolder) {
 			DestinationNameHolder nameHolder = (DestinationNameHolder) this.destination;
-			return destinationResolver.resolveDestinationName(session,
-					nameHolder.destinationName, nameHolder.pubSubDomain);
+			return destinationResolver.resolveDestinationName(session, nameHolder.destinationName,
+					nameHolder.pubSubDomain);
 		}
 		return null;
 	}
@@ -106,7 +106,6 @@ public class JmsResponse<T> {
 	public String toString() {
 		return "JmsResponse [" + "response=" + this.response + ", destination=" + this.destination + ']';
 	}
-
 
 	/**
 	 * Create a {@link JmsResponse} targeting the queue with the specified name.
@@ -132,10 +131,9 @@ public class JmsResponse<T> {
 		return new JmsResponse<>(result, destination);
 	}
 
-
 	/**
-	 * Internal class combining a destination name
-	 * and its target destination type (queue or topic).
+	 * Internal class combining a destination name and its target destination type (queue
+	 * or topic).
 	 */
 	private static class DestinationNameHolder {
 
@@ -152,6 +150,7 @@ public class JmsResponse<T> {
 		public String toString() {
 			return this.destinationName + "{" + "pubSubDomain=" + this.pubSubDomain + '}';
 		}
+
 	}
 
 }

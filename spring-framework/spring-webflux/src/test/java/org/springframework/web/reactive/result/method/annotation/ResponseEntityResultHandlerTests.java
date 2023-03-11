@@ -68,18 +68,18 @@ import static org.springframework.web.testfixture.http.server.reactive.MockServe
 import static org.springframework.web.testfixture.method.ResolvableMethod.on;
 
 /**
- * Unit tests for {@link ResponseEntityResultHandler}. When adding a test also
- * consider whether the logic under test is in a parent class, then see:
+ * Unit tests for {@link ResponseEntityResultHandler}. When adding a test also consider
+ * whether the logic under test is in a parent class, then see:
  * <ul>
  * <li>{@code MessageWriterResultHandlerTests},
  * <li>{@code ContentNegotiatingResultHandlerSupportTests}
  * </ul>
+ *
  * @author Rossen Stoyanchev
  */
 public class ResponseEntityResultHandlerTests {
 
 	private ResponseEntityResultHandler resultHandler;
-
 
 	@BeforeEach
 	public void setup() throws Exception {
@@ -103,7 +103,6 @@ public class ResponseEntityResultHandlerTests {
 		RequestedContentTypeResolver resolver = new RequestedContentTypeResolverBuilder().build();
 		return new ResponseEntityResultHandler(writerList, resolver);
 	}
-
 
 	@Test
 	public void supports() throws Exception {
@@ -255,7 +254,7 @@ public class ResponseEntityResultHandlerTests {
 		assertConditionalResponse(exchange, HttpStatus.NOT_MODIFIED, null, etagValue, Instant.MIN);
 	}
 
-	@Test  // SPR-14559
+	@Test // SPR-14559
 	public void handleReturnValueEtagInvalidIfNoneMatch() throws Exception {
 		MockServerWebExchange exchange = MockServerWebExchange.from(get("/path").ifNoneMatch("unquoted"));
 
@@ -275,10 +274,8 @@ public class ResponseEntityResultHandlerTests {
 		Instant currentTime = Instant.now().truncatedTo(ChronoUnit.SECONDS);
 		Instant oneMinAgo = currentTime.minusSeconds(60);
 
-		MockServerWebExchange exchange = MockServerWebExchange.from(get("/path")
-				.ifNoneMatch(eTag)
-				.ifModifiedSince(currentTime.toEpochMilli())
-				);
+		MockServerWebExchange exchange = MockServerWebExchange
+				.from(get("/path").ifNoneMatch(eTag).ifModifiedSince(currentTime.toEpochMilli()));
 
 		ResponseEntity<String> entity = ok().eTag(eTag).lastModified(oneMinAgo.toEpochMilli()).body("body");
 		MethodParameter returnType = on(TestController.class).resolveReturnType(entity(String.class));
@@ -296,10 +293,8 @@ public class ResponseEntityResultHandlerTests {
 		Instant currentTime = Instant.now().truncatedTo(ChronoUnit.SECONDS);
 		Instant oneMinAgo = currentTime.minusSeconds(60);
 
-		MockServerWebExchange exchange = MockServerWebExchange.from(get("/path")
-				.ifNoneMatch(etag)
-				.ifModifiedSince(currentTime.toEpochMilli())
-				);
+		MockServerWebExchange exchange = MockServerWebExchange
+				.from(get("/path").ifNoneMatch(etag).ifModifiedSince(currentTime.toEpochMilli()));
 
 		ResponseEntity<String> entity = ok().eTag(newEtag).lastModified(oneMinAgo.toEpochMilli()).body("body");
 		MethodParameter returnType = on(TestController.class).resolveReturnType(entity(String.class));
@@ -309,7 +304,7 @@ public class ResponseEntityResultHandlerTests {
 		assertConditionalResponse(exchange, HttpStatus.OK, "body", newEtag, oneMinAgo);
 	}
 
-	@Test  // SPR-14877
+	@Test // SPR-14877
 	public void handleMonoWithWildcardBodyType() throws Exception {
 		MockServerWebExchange exchange = MockServerWebExchange.from(get("/path"));
 		exchange.getAttributes().put(PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE, Collections.singleton(APPLICATION_JSON));
@@ -323,7 +318,7 @@ public class ResponseEntityResultHandlerTests {
 		assertResponseBody(exchange, "body");
 	}
 
-	@Test  // SPR-14877
+	@Test // SPR-14877
 	public void handleMonoWithWildcardBodyTypeAndNullBody() throws Exception {
 		MockServerWebExchange exchange = MockServerWebExchange.from(get("/path"));
 		exchange.getAttributes().put(PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE, Collections.singleton(APPLICATION_JSON));
@@ -361,13 +356,10 @@ public class ResponseEntityResultHandlerTests {
 		MockServerWebExchange exchange = MockServerWebExchange.from(get("/path"));
 		ResponseEntityResultHandler resultHandler = new ResponseEntityResultHandler(
 				Collections.singletonList(new EncoderHttpMessageWriter<>(CharSequenceEncoder.textPlainOnly())),
-				new RequestedContentTypeResolverBuilder().build()
-		);
+				new RequestedContentTypeResolverBuilder().build());
 
-		StepVerifier.create(resultHandler.handleResult(exchange, result))
-				.consumeErrorWith(ex -> assertThat(ex)
-						.isInstanceOf(HttpMessageNotWritableException.class)
-						.hasMessageContaining("with preset Content-Type"))
+		StepVerifier.create(resultHandler.handleResult(exchange, result)).consumeErrorWith(ex -> assertThat(ex)
+				.isInstanceOf(HttpMessageNotWritableException.class).hasMessageContaining("with preset Content-Type"))
 				.verify();
 	}
 
@@ -379,20 +371,16 @@ public class ResponseEntityResultHandlerTests {
 
 		MockServerWebExchange exchange = MockServerWebExchange.from(get("/path"));
 		Set<MediaType> mediaTypes = Collections.singleton(MediaType.APPLICATION_XML);
-				exchange.getAttributes().put(PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE, mediaTypes);
+		exchange.getAttributes().put(PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE, mediaTypes);
 
 		ResponseEntityResultHandler resultHandler = new ResponseEntityResultHandler(
 				Collections.singletonList(new EncoderHttpMessageWriter<>(CharSequenceEncoder.textPlainOnly())),
-				new RequestedContentTypeResolverBuilder().build()
-		);
+				new RequestedContentTypeResolverBuilder().build());
 
-		StepVerifier.create(resultHandler.handleResult(exchange, result))
-				.consumeErrorWith(ex -> assertThat(ex)
-						.isInstanceOf(HttpMessageNotWritableException.class)
-						.hasMessageContaining("with preset Content-Type"))
+		StepVerifier.create(resultHandler.handleResult(exchange, result)).consumeErrorWith(ex -> assertThat(ex)
+				.isInstanceOf(HttpMessageNotWritableException.class).hasMessageContaining("with preset Content-Type"))
 				.verify();
 	}
-
 
 	private void testHandle(Object returnValue, MethodParameter returnType) {
 		MockServerWebExchange exchange = MockServerWebExchange.from(get("/path"));
@@ -414,8 +402,7 @@ public class ResponseEntityResultHandlerTests {
 
 	private void assertResponseBody(MockServerWebExchange exchange, String responseBody) {
 		StepVerifier.create(exchange.getResponse().getBody())
-				.consumeNextWith(buf -> assertThat(buf.toString(UTF_8)).isEqualTo(responseBody))
-				.expectComplete()
+				.consumeNextWith(buf -> assertThat(buf.toString(UTF_8)).isEqualTo(responseBody)).expectComplete()
 				.verify();
 	}
 
@@ -423,8 +410,8 @@ public class ResponseEntityResultHandlerTests {
 		StepVerifier.create(exchange.getResponse().getBody()).expectComplete().verify();
 	}
 
-	private void assertConditionalResponse(MockServerWebExchange exchange, HttpStatus status,
-			String body, String etag, Instant lastModified) throws Exception {
+	private void assertConditionalResponse(MockServerWebExchange exchange, HttpStatus status, String body, String etag,
+			Instant lastModified) throws Exception {
 
 		assertThat(exchange.getResponse().getStatusCode()).isEqualTo(status);
 		if (body != null) {
@@ -443,31 +430,53 @@ public class ResponseEntityResultHandlerTests {
 		}
 	}
 
-
 	@SuppressWarnings("unused")
 	private static class TestController {
 
-		ResponseEntity<String> responseEntityString() { return null; }
+		ResponseEntity<String> responseEntityString() {
+			return null;
+		}
 
-		ResponseEntity<Void> responseEntityVoid() { return null; }
+		ResponseEntity<Void> responseEntityVoid() {
+			return null;
+		}
 
-		HttpHeaders httpHeaders() { return null; }
+		HttpHeaders httpHeaders() {
+			return null;
+		}
 
-		Mono<ResponseEntity<String>> mono() { return null; }
+		Mono<ResponseEntity<String>> mono() {
+			return null;
+		}
 
-		Single<ResponseEntity<String>> single() { return null; }
+		Single<ResponseEntity<String>> single() {
+			return null;
+		}
 
-		CompletableFuture<ResponseEntity<String>> completableFuture() { return null; }
+		CompletableFuture<ResponseEntity<String>> completableFuture() {
+			return null;
+		}
 
-		String string() { return null; }
+		String string() {
+			return null;
+		}
 
-		Completable completable() { return null; }
+		Completable completable() {
+			return null;
+		}
 
-		Mono<ResponseEntity<?>> monoResponseEntityWildcard() { return null; }
+		Mono<ResponseEntity<?>> monoResponseEntityWildcard() {
+			return null;
+		}
 
-		Flux<?> fluxWildcard() { return null; }
+		Flux<?> fluxWildcard() {
+			return null;
+		}
 
-		Object object() { return null; }
+		Object object() {
+			return null;
+		}
+
 	}
 
 }

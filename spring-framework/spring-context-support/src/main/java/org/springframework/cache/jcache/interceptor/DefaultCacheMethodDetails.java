@@ -42,15 +42,12 @@ class DefaultCacheMethodDetails<A extends Annotation> implements CacheMethodDeta
 
 	private final String cacheName;
 
-
 	public DefaultCacheMethodDetails(Method method, A cacheAnnotation, String cacheName) {
 		this.method = method;
-		this.annotations = Collections.unmodifiableSet(
-				new LinkedHashSet<>(Arrays.asList(method.getAnnotations())));
+		this.annotations = Collections.unmodifiableSet(new LinkedHashSet<>(Arrays.asList(method.getAnnotations())));
 		this.cacheAnnotation = cacheAnnotation;
 		this.cacheName = cacheName;
 	}
-
 
 	@Override
 	public Method getMethod() {

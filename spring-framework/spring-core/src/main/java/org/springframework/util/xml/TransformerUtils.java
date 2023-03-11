@@ -22,8 +22,8 @@ import javax.xml.transform.Transformer;
 import org.springframework.util.Assert;
 
 /**
- * Contains common behavior relating to {@link javax.xml.transform.Transformer Transformers}
- * and the {@code javax.xml.transform} package in general.
+ * Contains common behavior relating to {@link javax.xml.transform.Transformer
+ * Transformers} and the {@code javax.xml.transform} package in general.
  *
  * @author Rick Evans
  * @author Juergen Hoeller
@@ -33,15 +33,17 @@ public abstract class TransformerUtils {
 
 	/**
 	 * The indent amount of characters if {@link #enableIndenting indenting is enabled}.
-	 * <p>Defaults to "2".
+	 * <p>
+	 * Defaults to "2".
 	 */
 	public static final int DEFAULT_INDENT_AMOUNT = 2;
 
-
 	/**
 	 * Enable indenting for the supplied {@link javax.xml.transform.Transformer}.
-	 * <p>If the underlying XSLT engine is Xalan, then the special output key {@code indent-amount}
-	 * will be also be set to a value of {@link #DEFAULT_INDENT_AMOUNT} characters.
+	 * <p>
+	 * If the underlying XSLT engine is Xalan, then the special output key
+	 * {@code indent-amount} will be also be set to a value of
+	 * {@link #DEFAULT_INDENT_AMOUNT} characters.
 	 * @param transformer the target transformer
 	 * @see javax.xml.transform.Transformer#setOutputProperty(String, String)
 	 * @see javax.xml.transform.OutputKeys#INDENT
@@ -52,8 +54,10 @@ public abstract class TransformerUtils {
 
 	/**
 	 * Enable indenting for the supplied {@link javax.xml.transform.Transformer}.
-	 * <p>If the underlying XSLT engine is Xalan, then the special output key {@code indent-amount}
-	 * will be also be set to a value of {@link #DEFAULT_INDENT_AMOUNT} characters.
+	 * <p>
+	 * If the underlying XSLT engine is Xalan, then the special output key
+	 * {@code indent-amount} will be also be set to a value of
+	 * {@link #DEFAULT_INDENT_AMOUNT} characters.
 	 * @param transformer the target transformer
 	 * @param indentAmount the size of the indent (2 characters, 3 characters, etc)
 	 * @see javax.xml.transform.Transformer#setOutputProperty(String, String)

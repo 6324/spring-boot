@@ -34,7 +34,6 @@ public class SpelEvaluationException extends EvaluationException {
 
 	private final Object[] inserts;
 
-
 	public SpelEvaluationException(SpelMessage message, Object... inserts) {
 		super(message.formatMessage(inserts));
 		this.message = message;
@@ -58,7 +57,6 @@ public class SpelEvaluationException extends EvaluationException {
 		this.message = message;
 		this.inserts = inserts;
 	}
-
 
 	/**
 	 * Set the position in the related expression which gave rise to this exception.

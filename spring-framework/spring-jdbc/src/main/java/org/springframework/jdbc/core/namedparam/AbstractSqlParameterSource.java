@@ -26,11 +26,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Abstract base class for {@link SqlParameterSource} implementations.
- * Provides registration of SQL types per parameter and a friendly
- * {@link #toString() toString} representation enumerating all parameters for
- * a {@code SqlParameterSource} implementing {@link #getParameterNames()}.
- * Concrete subclasses must implement {@link #hasValue} and {@link #getValue}.
+ * Abstract base class for {@link SqlParameterSource} implementations. Provides
+ * registration of SQL types per parameter and a friendly {@link #toString() toString}
+ * representation enumerating all parameters for a {@code SqlParameterSource} implementing
+ * {@link #getParameterNames()}. Concrete subclasses must implement {@link #hasValue} and
+ * {@link #getValue}.
  *
  * @author Juergen Hoeller
  * @author Jens Schauder
@@ -44,7 +44,6 @@ public abstract class AbstractSqlParameterSource implements SqlParameterSource {
 	private final Map<String, Integer> sqlTypes = new HashMap<>();
 
 	private final Map<String, String> typeNames = new HashMap<>();
-
 
 	/**
 	 * Register an SQL type for the given parameter.
@@ -69,8 +68,7 @@ public abstract class AbstractSqlParameterSource implements SqlParameterSource {
 	/**
 	 * Return the SQL type for the given parameter, if registered.
 	 * @param paramName the name of the parameter
-	 * @return the SQL type of the parameter,
-	 * or {@code TYPE_UNKNOWN} if not registered
+	 * @return the SQL type of the parameter, or {@code TYPE_UNKNOWN} if not registered
 	 */
 	@Override
 	public int getSqlType(String paramName) {
@@ -81,8 +79,7 @@ public abstract class AbstractSqlParameterSource implements SqlParameterSource {
 	/**
 	 * Return the type name for the given parameter, if registered.
 	 * @param paramName the name of the parameter
-	 * @return the type name of the parameter,
-	 * or {@code null} if not registered
+	 * @return the type name of the parameter, or {@code null} if not registered
 	 */
 	@Override
 	@Nullable
@@ -91,10 +88,10 @@ public abstract class AbstractSqlParameterSource implements SqlParameterSource {
 		return this.typeNames.get(paramName);
 	}
 
-
 	/**
-	 * Enumerate the parameter names and values with their corresponding SQL type if available,
-	 * or just return the simple {@code SqlParameterSource} implementation class name otherwise.
+	 * Enumerate the parameter names and values with their corresponding SQL type if
+	 * available, or just return the simple {@code SqlParameterSource} implementation
+	 * class name otherwise.
 	 * @since 5.2
 	 * @see #getParameterNames()
 	 */

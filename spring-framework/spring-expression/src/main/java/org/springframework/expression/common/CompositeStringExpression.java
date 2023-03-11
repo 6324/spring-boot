@@ -47,12 +47,10 @@ public class CompositeStringExpression implements Expression {
 	/** The array of expressions that make up the composite expression. */
 	private final Expression[] expressions;
 
-
 	public CompositeStringExpression(String expressionString, Expression[] expressions) {
 		this.expressionString = expressionString;
 		this.expressions = expressions;
 	}
-
 
 	@Override
 	public final String getExpressionString() {
@@ -96,7 +94,8 @@ public class CompositeStringExpression implements Expression {
 
 	@Override
 	@Nullable
-	public <T> T getValue(@Nullable Object rootObject, @Nullable Class<T> desiredResultType) throws EvaluationException {
+	public <T> T getValue(@Nullable Object rootObject, @Nullable Class<T> desiredResultType)
+			throws EvaluationException {
 		Object value = getValue(rootObject);
 		return ExpressionUtils.convertTypedValue(null, new TypedValue(value), desiredResultType);
 	}
@@ -115,8 +114,7 @@ public class CompositeStringExpression implements Expression {
 
 	@Override
 	@Nullable
-	public <T> T getValue(EvaluationContext context, @Nullable Class<T> expectedResultType)
-			throws EvaluationException {
+	public <T> T getValue(EvaluationContext context, @Nullable Class<T> expectedResultType) throws EvaluationException {
 
 		Object value = getValue(context);
 		return ExpressionUtils.convertTypedValue(context, new TypedValue(value), expectedResultType);
@@ -139,7 +137,7 @@ public class CompositeStringExpression implements Expression {
 	public <T> T getValue(EvaluationContext context, @Nullable Object rootObject, @Nullable Class<T> desiredResultType)
 			throws EvaluationException {
 
-		Object value = getValue(context,rootObject);
+		Object value = getValue(context, rootObject);
 		return ExpressionUtils.convertTypedValue(context, new TypedValue(value), desiredResultType);
 	}
 
@@ -211,7 +209,8 @@ public class CompositeStringExpression implements Expression {
 	}
 
 	@Override
-	public void setValue(EvaluationContext context, @Nullable Object rootObject, @Nullable Object value) throws EvaluationException {
+	public void setValue(EvaluationContext context, @Nullable Object rootObject, @Nullable Object value)
+			throws EvaluationException {
 		throw new EvaluationException(this.expressionString, "Cannot call setValue on a composite expression");
 	}
 

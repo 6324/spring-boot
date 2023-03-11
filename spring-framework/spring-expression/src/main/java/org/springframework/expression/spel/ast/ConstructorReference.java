@@ -44,9 +44,11 @@ import org.springframework.util.Assert;
 
 /**
  * Represents the invocation of a constructor. Either a constructor on a regular type or
- * construction of an array. When an array is constructed, an initializer can be specified.
+ * construction of an array. When an array is constructed, an initializer can be
+ * specified.
  *
- * <p>Examples:<br>
+ * <p>
+ * Examples:<br>
  * new String('hello world')<br>
  * new int[]{1,2,3,4}<br>
  * new int[3] new int[3]{1,2,3}
@@ -59,8 +61,8 @@ import org.springframework.util.Assert;
 public class ConstructorReference extends SpelNodeImpl {
 
 	/**
-	 * Maximum number of elements permitted in an array declaration, applying
-	 * to one-dimensional as well as multi-dimensional arrays.
+	 * Maximum number of elements permitted in an array declaration, applying to
+	 * one-dimensional as well as multi-dimensional arrays.
 	 * @since 5.2.20
 	 */
 	private static final int MAX_ARRAY_ELEMENTS = 256 * 1024; // 256K
@@ -70,15 +72,15 @@ public class ConstructorReference extends SpelNodeImpl {
 	@Nullable
 	private SpelNodeImpl[] dimensions;
 
-	// TODO is this caching safe - passing the expression around will mean this executor is also being passed around
+	// TODO is this caching safe - passing the expression around will mean this executor
+	// is also being passed around
 	/** The cached executor that may be reused on subsequent evaluations. */
 	@Nullable
 	private volatile ConstructorExecutor cachedExecutor;
 
-
 	/**
-	 * Create a constructor reference. The first argument is the type, the rest are the parameters to the constructor
-	 * call
+	 * Create a constructor reference. The first argument is the type, the rest are the
+	 * parameters to the constructor call
 	 */
 	public ConstructorReference(int startPos, int endPos, SpelNodeImpl... arguments) {
 		super(startPos, endPos, arguments);
@@ -86,8 +88,8 @@ public class ConstructorReference extends SpelNodeImpl {
 	}
 
 	/**
-	 * Create a constructor reference. The first argument is the type, the rest are the parameters to the constructor
-	 * call
+	 * Create a constructor reference. The first argument is the type, the rest are the
+	 * parameters to the constructor call
 	 */
 	public ConstructorReference(int startPos, int endPos, SpelNodeImpl[] dimensions, SpelNodeImpl... arguments) {
 		super(startPos, endPos, arguments);
@@ -95,9 +97,9 @@ public class ConstructorReference extends SpelNodeImpl {
 		this.dimensions = dimensions;
 	}
 
-
 	/**
-	 * Implements getValue() - delegating to the code for building an array or a simple type.
+	 * Implements getValue() - delegating to the code for building an array or a simple
+	 * type.
 	 */
 	@Override
 	public TypedValue getValueInternal(ExpressionState state) throws EvaluationException {
@@ -133,13 +135,17 @@ public class ConstructorReference extends SpelNodeImpl {
 			catch (AccessException ex) {
 				// Two reasons this can occur:
 				// 1. the method invoked actually threw a real exception
-				// 2. the method invoked was not passed the arguments it expected and has become 'stale'
+				// 2. the method invoked was not passed the arguments it expected and has
+				// become 'stale'
 
-				// In the first case we should not retry, in the second case we should see if there is a
+				// In the first case we should not retry, in the second case we should see
+				// if there is a
 				// better suited method.
 
-				// To determine which situation it is, the AccessException will contain a cause.
-				// If the cause is an InvocationTargetException, a user exception was thrown inside the constructor.
+				// To determine which situation it is, the AccessException will contain a
+				// cause.
+				// If the cause is an InvocationTargetException, a user exception was
+				// thrown inside the constructor.
 				// Otherwise the constructor could not be invoked.
 				if (ex.getCause() instanceof InvocationTargetException) {
 					// User exception was the root cause - exit now
@@ -155,7 +161,8 @@ public class ConstructorReference extends SpelNodeImpl {
 					}
 				}
 
-				// At this point we know it wasn't a user problem so worth a retry if a better candidate can be found
+				// At this point we know it wasn't a user problem so worth a retry if a
+				// better candidate can be found
 				this.cachedExecutor = null;
 			}
 		}
@@ -174,9 +181,8 @@ public class ConstructorReference extends SpelNodeImpl {
 			return executorToUse.execute(state.getEvaluationContext(), arguments);
 		}
 		catch (AccessException ex) {
-			throw new SpelEvaluationException(getStartPosition(), ex,
-					SpelMessage.CONSTRUCTOR_INVOCATION_PROBLEM, typeName,
-					FormatHelper.formatMethodForMessage("", argumentTypes));
+			throw new SpelEvaluationException(getStartPosition(), ex, SpelMessage.CONSTRUCTOR_INVOCATION_PROBLEM,
+					typeName, FormatHelper.formatMethodForMessage("", argumentTypes));
 		}
 	}
 
@@ -184,13 +190,15 @@ public class ConstructorReference extends SpelNodeImpl {
 	 * Go through the list of registered constructor resolvers and see if any can find a
 	 * constructor that takes the specified set of arguments.
 	 * @param typeName the type trying to be constructed
-	 * @param argumentTypes the types of the arguments supplied that the constructor must take
+	 * @param argumentTypes the types of the arguments supplied that the constructor must
+	 * take
 	 * @param state the current state of the expression
-	 * @return a reusable ConstructorExecutor that can be invoked to run the constructor or null
+	 * @return a reusable ConstructorExecutor that can be invoked to run the constructor
+	 * or null
 	 * @throws SpelEvaluationException if there is a problem locating the constructor
 	 */
-	private ConstructorExecutor findExecutorForConstructor(String typeName,
-			List<TypeDescriptor> argumentTypes, ExpressionState state) throws SpelEvaluationException {
+	private ConstructorExecutor findExecutorForConstructor(String typeName, List<TypeDescriptor> argumentTypes,
+			ExpressionState state) throws SpelEvaluationException {
 
 		EvaluationContext evalContext = state.getEvaluationContext();
 		List<ConstructorResolver> ctorResolvers = evalContext.getConstructorResolvers();
@@ -202,9 +210,8 @@ public class ConstructorReference extends SpelNodeImpl {
 				}
 			}
 			catch (AccessException ex) {
-				throw new SpelEvaluationException(getStartPosition(), ex,
-						SpelMessage.CONSTRUCTOR_INVOCATION_PROBLEM, typeName,
-						FormatHelper.formatMethodForMessage("", argumentTypes));
+				throw new SpelEvaluationException(getStartPosition(), ex, SpelMessage.CONSTRUCTOR_INVOCATION_PROBLEM,
+						typeName, FormatHelper.formatMethodForMessage("", argumentTypes));
 			}
 		}
 		throw new SpelEvaluationException(getStartPosition(), SpelMessage.CONSTRUCTOR_NOT_FOUND, typeName,
@@ -234,12 +241,12 @@ public class ConstructorReference extends SpelNodeImpl {
 	 * @throws EvaluationException if there is a problem creating the array
 	 */
 	private TypedValue createArray(ExpressionState state) throws EvaluationException {
-		// First child gives us the array type which will either be a primitive or reference type
+		// First child gives us the array type which will either be a primitive or
+		// reference type
 		Object intendedArrayType = getChild(0).getValue(state);
 		if (!(intendedArrayType instanceof String)) {
 			throw new SpelEvaluationException(getChild(0).getStartPosition(),
-					SpelMessage.TYPE_NAME_EXPECTED_FOR_ARRAY_CONSTRUCTION,
-					FormatHelper.formatClassNameForMessage(
+					SpelMessage.TYPE_NAME_EXPECTED_FOR_ARRAY_CONSTRUCTION, FormatHelper.formatClassNameForMessage(
 							intendedArrayType != null ? intendedArrayType.getClass() : null));
 		}
 
@@ -255,7 +262,8 @@ public class ConstructorReference extends SpelNodeImpl {
 
 		Object newArray = null;
 		if (!hasInitializer()) {
-			// Confirm all dimensions were specified (for example [3][][5] is missing the 2nd dimension)
+			// Confirm all dimensions were specified (for example [3][][5] is missing the
+			// 2nd dimension)
 			if (this.dimensions != null) {
 				for (SpelNodeImpl dimension : this.dimensions) {
 					if (dimension == null) {
@@ -288,7 +296,8 @@ public class ConstructorReference extends SpelNodeImpl {
 		else {
 			// There is an initializer
 			if (this.dimensions == null || this.dimensions.length > 1) {
-				// There is an initializer but this is a multi-dimensional array (e.g. new int[][]{{1,2},{3,4}})
+				// There is an initializer but this is a multi-dimensional array (e.g. new
+				// int[][]{{1,2},{3,4}})
 				// - this is not currently supported
 				throw new SpelEvaluationException(getStartPosition(),
 						SpelMessage.MULTIDIM_ARRAY_INITIALIZER_NOT_SUPPORTED);
@@ -342,8 +351,8 @@ public class ConstructorReference extends SpelNodeImpl {
 
 	private void checkNumElements(long numElements) {
 		if (numElements >= MAX_ARRAY_ELEMENTS) {
-			throw new SpelEvaluationException(getStartPosition(),
-					SpelMessage.MAX_ARRAY_ELEMENTS_THRESHOLD_EXCEEDED, MAX_ARRAY_ELEMENTS);
+			throw new SpelEvaluationException(getStartPosition(), SpelMessage.MAX_ARRAY_ELEMENTS_THRESHOLD_EXCEEDED,
+					MAX_ARRAY_ELEMENTS);
 		}
 	}
 
@@ -355,8 +364,8 @@ public class ConstructorReference extends SpelNodeImpl {
 		for (int i = 0; i < newObjectArray.length; i++) {
 			SpelNode elementNode = initializer.getChild(i);
 			Object arrayEntry = elementNode.getValue(state);
-			newObjectArray[i] = typeConverter.convertValue(arrayEntry,
-					TypeDescriptor.forObject(arrayEntry), toTypeDescriptor);
+			newObjectArray[i] = typeConverter.convertValue(arrayEntry, TypeDescriptor.forObject(arrayEntry),
+					toTypeDescriptor);
 		}
 	}
 
@@ -446,13 +455,12 @@ public class ConstructorReference extends SpelNodeImpl {
 
 	@Override
 	public boolean isCompilable() {
-		if (!(this.cachedExecutor instanceof ReflectiveConstructorExecutor) ||
-			this.exitTypeDescriptor == null) {
+		if (!(this.cachedExecutor instanceof ReflectiveConstructorExecutor) || this.exitTypeDescriptor == null) {
 			return false;
 		}
 
 		if (getChildCount() > 1) {
-			for (int c = 1, max = getChildCount();c < max; c++) {
+			for (int c = 1, max = getChildCount(); c < max; c++) {
 				if (!this.children[c].isCompilable()) {
 					return false;
 				}
@@ -464,8 +472,8 @@ public class ConstructorReference extends SpelNodeImpl {
 			return false;
 		}
 		Constructor<?> constructor = executor.getConstructor();
-		return (Modifier.isPublic(constructor.getModifiers()) &&
-				Modifier.isPublic(constructor.getDeclaringClass().getModifiers()));
+		return (Modifier.isPublic(constructor.getModifiers())
+				&& Modifier.isPublic(constructor.getDeclaringClass().getModifiers()));
 	}
 
 	@Override
@@ -478,7 +486,8 @@ public class ConstructorReference extends SpelNodeImpl {
 		mv.visitTypeInsn(NEW, classDesc);
 		mv.visitInsn(DUP);
 
-		// children[0] is the type of the constructor, don't want to include that in argument processing
+		// children[0] is the type of the constructor, don't want to include that in
+		// argument processing
 		SpelNodeImpl[] arguments = new SpelNodeImpl[this.children.length - 1];
 		System.arraycopy(this.children, 1, arguments, 0, this.children.length - 1);
 		generateCodeForArguments(mv, cf, constructor, arguments);

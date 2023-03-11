@@ -44,8 +44,8 @@ import org.springframework.web.reactive.HandlerResult;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * Extension of {@link HandlerMethod} that invokes the underlying method with
- * argument values resolved from the current HTTP request through a list of
+ * Extension of {@link HandlerMethod} that invokes the underlying method with argument
+ * values resolved from the current HTTP request through a list of
  * {@link HandlerMethodArgumentResolver}.
  *
  * @author Rossen Stoyanchev
@@ -59,13 +59,11 @@ public class InvocableHandlerMethod extends HandlerMethod {
 
 	private static final Object NO_ARG_VALUE = new Object();
 
-
 	private final HandlerMethodArgumentResolverComposite resolvers = new HandlerMethodArgumentResolverComposite();
 
 	private ParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
 
 	private ReactiveAdapterRegistry reactiveAdapterRegistry = ReactiveAdapterRegistry.getSharedInstance();
-
 
 	/**
 	 * Create an instance from a {@code HandlerMethod}.
@@ -81,10 +79,9 @@ public class InvocableHandlerMethod extends HandlerMethod {
 		super(bean, method);
 	}
 
-
 	/**
-	 * Configure the argument resolvers to use to use for resolving method
-	 * argument values against a {@code ServerWebExchange}.
+	 * Configure the argument resolvers to use to use for resolving method argument values
+	 * against a {@code ServerWebExchange}.
 	 */
 	public void setArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 		this.resolvers.addResolvers(resolvers);
@@ -98,9 +95,10 @@ public class InvocableHandlerMethod extends HandlerMethod {
 	}
 
 	/**
-	 * Set the ParameterNameDiscoverer for resolving parameter names when needed
-	 * (e.g. default request attribute name).
-	 * <p>Default is a {@link DefaultParameterNameDiscoverer}.
+	 * Set the ParameterNameDiscoverer for resolving parameter names when needed (e.g.
+	 * default request attribute name).
+	 * <p>
+	 * Default is a {@link DefaultParameterNameDiscoverer}.
 	 */
 	public void setParameterNameDiscoverer(ParameterNameDiscoverer nameDiscoverer) {
 		this.parameterNameDiscoverer = nameDiscoverer;
@@ -114,14 +112,15 @@ public class InvocableHandlerMethod extends HandlerMethod {
 	}
 
 	/**
-	 * Configure a reactive adapter registry. This is needed for cases where the response is
-	 * fully handled within the controller in combination with an async void return value.
-	 * <p>By default this is a {@link ReactiveAdapterRegistry} with default settings.
+	 * Configure a reactive adapter registry. This is needed for cases where the response
+	 * is fully handled within the controller in combination with an async void return
+	 * value.
+	 * <p>
+	 * By default this is a {@link ReactiveAdapterRegistry} with default settings.
 	 */
 	public void setReactiveAdapterRegistry(ReactiveAdapterRegistry registry) {
 		this.reactiveAdapterRegistry = registry;
 	}
-
 
 	/**
 	 * Invoke the method for the given exchange.
@@ -131,17 +130,16 @@ public class InvocableHandlerMethod extends HandlerMethod {
 	 * @return a Mono with a {@link HandlerResult}
 	 */
 	@SuppressWarnings("KotlinInternalInJava")
-	public Mono<HandlerResult> invoke(
-			ServerWebExchange exchange, BindingContext bindingContext, Object... providedArgs) {
+	public Mono<HandlerResult> invoke(ServerWebExchange exchange, BindingContext bindingContext,
+			Object... providedArgs) {
 
 		return getMethodArgumentValues(exchange, bindingContext, providedArgs).flatMap(args -> {
 			Object value;
 			try {
 				ReflectionUtils.makeAccessible(getBridgedMethod());
 				Method method = getBridgedMethod();
-				if (KotlinDetector.isKotlinReflectPresent() &&
-						KotlinDetector.isKotlinType(method.getDeclaringClass()) &&
-						CoroutinesUtils.isSuspendingFunction(method)) {
+				if (KotlinDetector.isKotlinReflectPresent() && KotlinDetector.isKotlinType(method.getDeclaringClass())
+						&& CoroutinesUtils.isSuspendingFunction(method)) {
 					value = CoroutinesUtils.invokeSuspendingFunction(method, getBean(), args);
 				}
 				else {
@@ -178,8 +176,8 @@ public class InvocableHandlerMethod extends HandlerMethod {
 		});
 	}
 
-	private Mono<Object[]> getMethodArgumentValues(
-			ServerWebExchange exchange, BindingContext bindingContext, Object... providedArgs) {
+	private Mono<Object[]> getMethodArgumentValues(ServerWebExchange exchange, BindingContext bindingContext,
+			Object... providedArgs) {
 
 		MethodParameter[] parameters = getMethodParameters();
 		if (ObjectUtils.isEmpty(parameters)) {
@@ -195,21 +193,20 @@ public class InvocableHandlerMethod extends HandlerMethod {
 				continue;
 			}
 			if (!this.resolvers.supportsParameter(parameter)) {
-				return Mono.error(new IllegalStateException(
-						formatArgumentError(parameter, "No suitable resolver")));
+				return Mono.error(new IllegalStateException(formatArgumentError(parameter, "No suitable resolver")));
 			}
 			try {
-				argMonos.add(this.resolvers.resolveArgument(parameter, bindingContext, exchange)
-						.defaultIfEmpty(NO_ARG_VALUE)
-						.doOnError(ex -> logArgumentErrorIfNecessary(exchange, parameter, ex)));
+				argMonos.add(
+						this.resolvers.resolveArgument(parameter, bindingContext, exchange).defaultIfEmpty(NO_ARG_VALUE)
+								.doOnError(ex -> logArgumentErrorIfNecessary(exchange, parameter, ex)));
 			}
 			catch (Exception ex) {
 				logArgumentErrorIfNecessary(exchange, parameter, ex);
 				argMonos.add(Mono.error(ex));
 			}
 		}
-		return Mono.zip(argMonos, values ->
-				Stream.of(values).map(value -> value != NO_ARG_VALUE ? value : null).toArray());
+		return Mono.zip(argMonos,
+				values -> Stream.of(values).map(value -> value != NO_ARG_VALUE ? value : null).toArray());
 	}
 
 	private void logArgumentErrorIfNecessary(ServerWebExchange exchange, MethodParameter parameter, Throwable ex) {

@@ -33,16 +33,14 @@ public class DeclareParentsDelegateRefTests {
 
 	protected Counter counter;
 
-
 	@BeforeEach
 	public void setup() {
-		ClassPathXmlApplicationContext ctx =
-				new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml", getClass());
+		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(getClass().getSimpleName() + ".xml",
+				getClass());
 		noMethodsBean = (NoMethodsBean) ctx.getBean("noMethodsBean");
 		counter = (Counter) ctx.getBean("counter");
 		counter.reset();
 	}
-
 
 	@Test
 	public void testIntroductionWasMade() {
@@ -52,17 +50,16 @@ public class DeclareParentsDelegateRefTests {
 
 	@Test
 	public void testIntroductionDelegation() {
-		((ICounter)noMethodsBean).increment();
+		((ICounter) noMethodsBean).increment();
 		assertThat(counter.getCount()).as("Delegate's counter should be updated").isEqualTo(1);
 	}
 
 }
 
-
 interface NoMethodsBean {
-}
 
+}
 
 class NoMethodsBeanImpl implements NoMethodsBean {
-}
 
+}

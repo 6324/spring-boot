@@ -34,9 +34,10 @@ import org.springframework.lang.Nullable;
  * Persistence Services (EclipseLink). Developed and tested against EclipseLink 2.7;
  * backwards-compatible with EclipseLink 2.5 and 2.6 at runtime.
  *
- * <p>Exposes EclipseLink's persistence provider and EntityManager extension interface,
- * and adapts {@link AbstractJpaVendorAdapter}'s common configuration settings.
- * No support for the detection of annotated packages (through
+ * <p>
+ * Exposes EclipseLink's persistence provider and EntityManager extension interface, and
+ * adapts {@link AbstractJpaVendorAdapter}'s common configuration settings. No support for
+ * the detection of annotated packages (through
  * {@link org.springframework.orm.jpa.persistenceunit.SmartPersistenceUnitInfo#getManagedPackages()})
  * since EclipseLink doesn't use package-level metadata.
  *
@@ -52,7 +53,6 @@ public class EclipseLinkJpaVendorAdapter extends AbstractJpaVendorAdapter {
 	private final PersistenceProvider persistenceProvider = new org.eclipse.persistence.jpa.PersistenceProvider();
 
 	private final EclipseLinkJpaDialect jpaDialect = new EclipseLinkJpaDialect();
-
 
 	@Override
 	public PersistenceProvider getPersistenceProvider() {
@@ -74,14 +74,14 @@ public class EclipseLinkJpaVendorAdapter extends AbstractJpaVendorAdapter {
 		}
 
 		if (isGenerateDdl()) {
-			jpaProperties.put(PersistenceUnitProperties.DDL_GENERATION,
-					PersistenceUnitProperties.CREATE_ONLY);
+			jpaProperties.put(PersistenceUnitProperties.DDL_GENERATION, PersistenceUnitProperties.CREATE_ONLY);
 			jpaProperties.put(PersistenceUnitProperties.DDL_GENERATION_MODE,
 					PersistenceUnitProperties.DDL_DATABASE_GENERATION);
 		}
 		if (isShowSql()) {
-			jpaProperties.put(PersistenceUnitProperties.CATEGORY_LOGGING_LEVEL_ +
-					org.eclipse.persistence.logging.SessionLog.SQL, Level.FINE.toString());
+			jpaProperties.put(
+					PersistenceUnitProperties.CATEGORY_LOGGING_LEVEL_ + org.eclipse.persistence.logging.SessionLog.SQL,
+					Level.FINE.toString());
 			jpaProperties.put(PersistenceUnitProperties.LOGGING_PARAMETERS, Boolean.TRUE.toString());
 		}
 
@@ -96,17 +96,28 @@ public class EclipseLinkJpaVendorAdapter extends AbstractJpaVendorAdapter {
 	@Nullable
 	protected String determineTargetDatabaseName(Database database) {
 		switch (database) {
-			case DB2: return TargetDatabase.DB2;
-			case DERBY: return TargetDatabase.Derby;
-			case HANA: return TargetDatabase.HANA;
-			case HSQL: return TargetDatabase.HSQL;
-			case INFORMIX: return TargetDatabase.Informix;
-			case MYSQL: return TargetDatabase.MySQL;
-			case ORACLE: return TargetDatabase.Oracle;
-			case POSTGRESQL: return TargetDatabase.PostgreSQL;
-			case SQL_SERVER: return TargetDatabase.SQLServer;
-			case SYBASE: return TargetDatabase.Sybase;
-			default: return null;
+		case DB2:
+			return TargetDatabase.DB2;
+		case DERBY:
+			return TargetDatabase.Derby;
+		case HANA:
+			return TargetDatabase.HANA;
+		case HSQL:
+			return TargetDatabase.HSQL;
+		case INFORMIX:
+			return TargetDatabase.Informix;
+		case MYSQL:
+			return TargetDatabase.MySQL;
+		case ORACLE:
+			return TargetDatabase.Oracle;
+		case POSTGRESQL:
+			return TargetDatabase.PostgreSQL;
+		case SQL_SERVER:
+			return TargetDatabase.SQLServer;
+		case SYBASE:
+			return TargetDatabase.Sybase;
+		default:
+			return null;
 		}
 	}
 

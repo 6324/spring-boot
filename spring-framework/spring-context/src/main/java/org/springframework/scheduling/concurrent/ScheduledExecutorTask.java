@@ -22,22 +22,26 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * JavaBean that describes a scheduled executor task, consisting of the
- * {@link Runnable} and a delay plus period. The period needs to be specified;
- * there is no point in a default for it.
+ * JavaBean that describes a scheduled executor task, consisting of the {@link Runnable}
+ * and a delay plus period. The period needs to be specified; there is no point in a
+ * default for it.
  *
- * <p>The {@link java.util.concurrent.ScheduledExecutorService} does not offer
- * more sophisticated scheduling options such as cron expressions.
- * Consider using {@link ThreadPoolTaskScheduler} for such needs.
+ * <p>
+ * The {@link java.util.concurrent.ScheduledExecutorService} does not offer more
+ * sophisticated scheduling options such as cron expressions. Consider using
+ * {@link ThreadPoolTaskScheduler} for such needs.
  *
- * <p>Note that the {@link java.util.concurrent.ScheduledExecutorService} mechanism
- * uses a {@link Runnable} instance that is shared between repeated executions,
- * in contrast to Quartz which creates a new Job instance for each execution.
+ * <p>
+ * Note that the {@link java.util.concurrent.ScheduledExecutorService} mechanism uses a
+ * {@link Runnable} instance that is shared between repeated executions, in contrast to
+ * Quartz which creates a new Job instance for each execution.
  *
  * @author Juergen Hoeller
  * @since 2.0
- * @see java.util.concurrent.ScheduledExecutorService#scheduleWithFixedDelay(java.lang.Runnable, long, long, java.util.concurrent.TimeUnit)
- * @see java.util.concurrent.ScheduledExecutorService#scheduleAtFixedRate(java.lang.Runnable, long, long, java.util.concurrent.TimeUnit)
+ * @see java.util.concurrent.ScheduledExecutorService#scheduleWithFixedDelay(java.lang.Runnable,
+ * long, long, java.util.concurrent.TimeUnit)
+ * @see java.util.concurrent.ScheduledExecutorService#scheduleAtFixedRate(java.lang.Runnable,
+ * long, long, java.util.concurrent.TimeUnit)
  */
 public class ScheduledExecutorTask {
 
@@ -52,10 +56,8 @@ public class ScheduledExecutorTask {
 
 	private boolean fixedRate = false;
 
-
 	/**
-	 * Create a new ScheduledExecutorTask,
-	 * to be populated via bean properties.
+	 * Create a new ScheduledExecutorTask, to be populated via bean properties.
 	 * @see #setDelay
 	 * @see #setPeriod
 	 * @see #setFixedRate
@@ -64,8 +66,7 @@ public class ScheduledExecutorTask {
 	}
 
 	/**
-	 * Create a new ScheduledExecutorTask, with default
-	 * one-time execution without delay.
+	 * Create a new ScheduledExecutorTask, with default one-time execution without delay.
 	 * @param executorTask the Runnable to schedule
 	 */
 	public ScheduledExecutorTask(Runnable executorTask) {
@@ -73,8 +74,8 @@ public class ScheduledExecutorTask {
 	}
 
 	/**
-	 * Create a new ScheduledExecutorTask, with default
-	 * one-time execution with the given delay.
+	 * Create a new ScheduledExecutorTask, with default one-time execution with the given
+	 * delay.
 	 * @param executorTask the Runnable to schedule
 	 * @param delay the delay before starting the task for the first time (ms)
 	 */
@@ -97,7 +98,6 @@ public class ScheduledExecutorTask {
 		this.fixedRate = fixedRate;
 	}
 
-
 	/**
 	 * Set the Runnable to schedule as executor task.
 	 */
@@ -114,9 +114,8 @@ public class ScheduledExecutorTask {
 	}
 
 	/**
-	 * Set the delay before starting the task for the first time,
-	 * in milliseconds. Default is 0, immediately starting the
-	 * task after successful scheduling.
+	 * Set the delay before starting the task for the first time, in milliseconds. Default
+	 * is 0, immediately starting the task after successful scheduling.
 	 */
 	public void setDelay(long delay) {
 		this.delay = delay;
@@ -131,17 +130,21 @@ public class ScheduledExecutorTask {
 
 	/**
 	 * Set the period between repeated task executions, in milliseconds.
-	 * <p>Default is -1, leading to one-time execution. In case of a positive value,
-	 * the task will be executed repeatedly, with the given interval in-between executions.
-	 * <p>Note that the semantics of the period value vary between fixed-rate and
-	 * fixed-delay execution.
-	 * <p><b>Note:</b> A period of 0 (for example as fixed delay) is <i>not</i> supported,
-	 * simply because {@code java.util.concurrent.ScheduledExecutorService} itself
-	 * does not support it. Hence a value of 0 will be treated as one-time execution;
-	 * however, that value should never be specified explicitly in the first place!
+	 * <p>
+	 * Default is -1, leading to one-time execution. In case of a positive value, the task
+	 * will be executed repeatedly, with the given interval in-between executions.
+	 * <p>
+	 * Note that the semantics of the period value vary between fixed-rate and fixed-delay
+	 * execution.
+	 * <p>
+	 * <b>Note:</b> A period of 0 (for example as fixed delay) is <i>not</i> supported,
+	 * simply because {@code java.util.concurrent.ScheduledExecutorService} itself does
+	 * not support it. Hence a value of 0 will be treated as one-time execution; however,
+	 * that value should never be specified explicitly in the first place!
 	 * @see #setFixedRate
 	 * @see #isOneTimeTask()
-	 * @see java.util.concurrent.ScheduledExecutorService#scheduleWithFixedDelay(Runnable, long, long, java.util.concurrent.TimeUnit)
+	 * @see java.util.concurrent.ScheduledExecutorService#scheduleWithFixedDelay(Runnable,
+	 * long, long, java.util.concurrent.TimeUnit)
 	 */
 	public void setPeriod(long period) {
 		this.period = period;
@@ -164,8 +167,8 @@ public class ScheduledExecutorTask {
 	}
 
 	/**
-	 * Specify the time unit for the delay and period values.
-	 * Default is milliseconds ({@code TimeUnit.MILLISECONDS}).
+	 * Specify the time unit for the delay and period values. Default is milliseconds
+	 * ({@code TimeUnit.MILLISECONDS}).
 	 * @see java.util.concurrent.TimeUnit#MILLISECONDS
 	 * @see java.util.concurrent.TimeUnit#SECONDS
 	 */
@@ -181,11 +184,14 @@ public class ScheduledExecutorTask {
 	}
 
 	/**
-	 * Set whether to schedule as fixed-rate execution, rather than
-	 * fixed-delay execution. Default is "false", that is, fixed delay.
-	 * <p>See ScheduledExecutorService javadoc for details on those execution modes.
-	 * @see java.util.concurrent.ScheduledExecutorService#scheduleWithFixedDelay(java.lang.Runnable, long, long, java.util.concurrent.TimeUnit)
-	 * @see java.util.concurrent.ScheduledExecutorService#scheduleAtFixedRate(java.lang.Runnable, long, long, java.util.concurrent.TimeUnit)
+	 * Set whether to schedule as fixed-rate execution, rather than fixed-delay execution.
+	 * Default is "false", that is, fixed delay.
+	 * <p>
+	 * See ScheduledExecutorService javadoc for details on those execution modes.
+	 * @see java.util.concurrent.ScheduledExecutorService#scheduleWithFixedDelay(java.lang.Runnable,
+	 * long, long, java.util.concurrent.TimeUnit)
+	 * @see java.util.concurrent.ScheduledExecutorService#scheduleAtFixedRate(java.lang.Runnable,
+	 * long, long, java.util.concurrent.TimeUnit)
 	 */
 	public void setFixedRate(boolean fixedRate) {
 		this.fixedRate = fixedRate;

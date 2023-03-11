@@ -47,7 +47,8 @@ import org.springframework.util.StringUtils;
 /**
  * Base class for YAML factories.
  *
- * <p>Requires SnakeYAML 1.18 or higher, as of Spring Framework 5.0.6.
+ * <p>
+ * Requires SnakeYAML 1.18 or higher, as of Spring Framework 5.0.6.
  *
  * @author Dave Syer
  * @author Juergen Hoeller
@@ -68,12 +69,10 @@ public abstract class YamlProcessor {
 
 	private Set<String> supportedTypes = Collections.emptySet();
 
-
 	/**
-	 * A map of document matchers allowing callers to selectively use only
-	 * some of the documents in a YAML resource. In YAML documents are
-	 * separated by {@code ---} lines, and each document is converted
-	 * to properties before the match is made. E.g.
+	 * A map of document matchers allowing callers to selectively use only some of the
+	 * documents in a YAML resource. In YAML documents are separated by {@code ---} lines,
+	 * and each document is converted to properties before the match is made. E.g.
 	 * <pre class="code">
 	 * environment: dev
 	 * url: https://dev.bar.com
@@ -82,14 +81,10 @@ public abstract class YamlProcessor {
 	 * environment: prod
 	 * url:https://foo.bar.com
 	 * name: My Cool App
-	 * </pre>
-	 * when mapped with
-	 * <pre class="code">
+	 * </pre> when mapped with <pre class="code">
 	 * setDocumentMatchers(properties ->
 	 *     ("prod".equals(properties.getProperty("environment")) ? MatchStatus.FOUND : MatchStatus.NOT_FOUND));
-	 * </pre>
-	 * would end up as
-	 * <pre class="code">
+	 * </pre> would end up as <pre class="code">
 	 * environment=prod
 	 * url=https://foo.bar.com
 	 * name=My Cool App
@@ -109,9 +104,9 @@ public abstract class YamlProcessor {
 	}
 
 	/**
-	 * Method to use for resolving resources. Each resource will be converted to a Map,
-	 * so this property is used to decide which map entries to keep in the final output
-	 * from this factory. Default is {@link ResolutionMethod#OVERRIDE}.
+	 * Method to use for resolving resources. Each resource will be converted to a Map, so
+	 * this property is used to decide which map entries to keep in the final output from
+	 * this factory. Default is {@link ResolutionMethod#OVERRIDE}.
 	 */
 	public void setResolutionMethod(ResolutionMethod resolutionMethod) {
 		Assert.notNull(resolutionMethod, "ResolutionMethod must not be null");
@@ -128,12 +123,13 @@ public abstract class YamlProcessor {
 
 	/**
 	 * Set the supported types that can be loaded from YAML documents.
-	 * <p>If no supported types are configured, all types encountered in YAML
-	 * documents will be supported. If an unsupported type is encountered, an
-	 * {@link IllegalStateException} will be thrown when the corresponding YAML
-	 * node is processed.
-	 * @param supportedTypes the supported types, or an empty array to clear the
-	 * supported types
+	 * <p>
+	 * If no supported types are configured, all types encountered in YAML documents will
+	 * be supported. If an unsupported type is encountered, an
+	 * {@link IllegalStateException} will be thrown when the corresponding YAML node is
+	 * processed.
+	 * @param supportedTypes the supported types, or an empty array to clear the supported
+	 * types
 	 * @since 5.1.16
 	 * @see #createYaml()
 	 */
@@ -152,9 +148,9 @@ public abstract class YamlProcessor {
 	 * Provide an opportunity for subclasses to process the Yaml parsed from the supplied
 	 * resources. Each resource is parsed in turn and the documents inside checked against
 	 * the {@link #setDocumentMatchers(DocumentMatcher...) matchers}. If a document
-	 * matches it is passed into the callback, along with its representation as Properties.
-	 * Depending on the {@link #setResolutionMethod(ResolutionMethod)} not all of the
-	 * documents will be parsed.
+	 * matches it is passed into the callback, along with its representation as
+	 * Properties. Depending on the {@link #setResolutionMethod(ResolutionMethod)} not all
+	 * of the documents will be parsed.
 	 * @param callback a callback to delegate to once matching documents are found
 	 * @see #createYaml()
 	 */
@@ -170,13 +166,15 @@ public abstract class YamlProcessor {
 
 	/**
 	 * Create the {@link Yaml} instance to use.
-	 * <p>The default implementation sets the "allowDuplicateKeys" flag to {@code false},
+	 * <p>
+	 * The default implementation sets the "allowDuplicateKeys" flag to {@code false},
 	 * enabling built-in duplicate key handling in SnakeYAML 1.18+.
-	 * <p>As of Spring Framework 5.1.16, if custom {@linkplain #setSupportedTypes
-	 * supported types} have been configured, the default implementation creates
-	 * a {@code Yaml} instance that filters out unsupported types encountered in
-	 * YAML documents. If an unsupported type is encountered, an
-	 * {@link IllegalStateException} will be thrown when the node is processed.
+	 * <p>
+	 * As of Spring Framework 5.1.16, if custom {@linkplain #setSupportedTypes supported
+	 * types} have been configured, the default implementation creates a {@code Yaml}
+	 * instance that filters out unsupported types encountered in YAML documents. If an
+	 * unsupported type is encountered, an {@link IllegalStateException} will be thrown
+	 * when the node is processed.
 	 * @see LoaderOptions#setAllowDuplicateKeys(boolean)
 	 */
 	protected Yaml createYaml() {
@@ -184,8 +182,8 @@ public abstract class YamlProcessor {
 		loaderOptions.setAllowDuplicateKeys(false);
 
 		if (!this.supportedTypes.isEmpty()) {
-			return new Yaml(new FilteringConstructor(loaderOptions), new Representer(),
-					new DumperOptions(), loaderOptions);
+			return new Yaml(new FilteringConstructor(loaderOptions), new Representer(), new DumperOptions(),
+					loaderOptions);
 		}
 		return new Yaml(loaderOptions);
 	}
@@ -206,8 +204,8 @@ public abstract class YamlProcessor {
 					}
 				}
 				if (logger.isDebugEnabled()) {
-					logger.debug("Loaded " + count + " document" + (count > 1 ? "s" : "") +
-							" from YAML resource: " + resource);
+					logger.debug("Loaded " + count + " document" + (count > 1 ? "s" : "") + " from YAML resource: "
+							+ resource);
 				}
 			}
 		}
@@ -218,8 +216,8 @@ public abstract class YamlProcessor {
 	}
 
 	private void handleProcessError(Resource resource, IOException ex) {
-		if (this.resolutionMethod != ResolutionMethod.FIRST_FOUND &&
-				this.resolutionMethod != ResolutionMethod.OVERRIDE_AND_IGNORE) {
+		if (this.resolutionMethod != ResolutionMethod.FIRST_FOUND
+				&& this.resolutionMethod != ResolutionMethod.OVERRIDE_AND_IGNORE) {
 			throw new IllegalStateException(ex);
 		}
 		if (logger.isWarnEnabled()) {
@@ -336,8 +334,7 @@ public abstract class YamlProcessor {
 				else {
 					int count = 0;
 					for (Object object : collection) {
-						buildFlattenedMap(result, Collections.singletonMap(
-								"[" + (count++) + "]", object), key);
+						buildFlattenedMap(result, Collections.singletonMap("[" + (count++) + "]", object), key);
 					}
 				}
 			}
@@ -347,7 +344,6 @@ public abstract class YamlProcessor {
 		});
 	}
 
-
 	/**
 	 * Callback interface used to process the YAML parsing results.
 	 */
@@ -355,14 +351,14 @@ public abstract class YamlProcessor {
 
 		/**
 		 * Process the given representation of the parsing results.
-		 * @param properties the properties to process (as a flattened
-		 * representation with indexed keys in case of a collection or map)
-		 * @param map the result map (preserving the original value structure
-		 * in the YAML document)
+		 * @param properties the properties to process (as a flattened representation with
+		 * indexed keys in case of a collection or map)
+		 * @param map the result map (preserving the original value structure in the YAML
+		 * document)
 		 */
 		void process(Properties properties, Map<String, Object> map);
-	}
 
+	}
 
 	/**
 	 * Strategy interface used to test if properties match.
@@ -375,8 +371,8 @@ public abstract class YamlProcessor {
 		 * @return the status of the match
 		 */
 		MatchStatus matches(Properties properties);
-	}
 
+	}
 
 	/**
 	 * Status returned from {@link DocumentMatcher#matches(java.util.Properties)}.
@@ -404,8 +400,8 @@ public abstract class YamlProcessor {
 		public static MatchStatus getMostSpecific(MatchStatus a, MatchStatus b) {
 			return (a.ordinal() < b.ordinal() ? a : b);
 		}
-	}
 
+	}
 
 	/**
 	 * Method to use for resolving resources.
@@ -426,12 +422,13 @@ public abstract class YamlProcessor {
 		 * Take the first resource in the list that exists and use just that.
 		 */
 		FIRST_FOUND
-	}
 
+	}
 
 	/**
 	 * {@link Constructor} that supports filtering of unsupported types.
-	 * <p>If an unsupported type is encountered in a YAML document, an
+	 * <p>
+	 * If an unsupported type is encountered in a YAML document, an
 	 * {@link IllegalStateException} will be thrown from {@link #getClassForName}.
 	 */
 	private class FilteringConstructor extends Constructor {
@@ -446,6 +443,7 @@ public abstract class YamlProcessor {
 					() -> "Unsupported type encountered in YAML document: " + name);
 			return super.getClassForName(name);
 		}
+
 	}
 
 }

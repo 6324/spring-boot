@@ -39,10 +39,11 @@ public class DestinationPatternsMessageConditionTests {
 
 	@Test
 	public void prependSlashWithCustomPathSeparator() {
-		DestinationPatternsMessageCondition c =
-				new DestinationPatternsMessageCondition(new String[] {"foo"}, new AntPathMatcher("."));
+		DestinationPatternsMessageCondition c = new DestinationPatternsMessageCondition(new String[] { "foo" },
+				new AntPathMatcher("."));
 
-		assertThat(c.getPatterns().iterator().next()).as("Pre-pending should be disabled when not using '/' as path separator").isEqualTo("foo");
+		assertThat(c.getPatterns().iterator().next())
+				.as("Pre-pending should be disabled when not using '/' as path separator").isEqualTo("foo");
 	}
 
 	// SPR-8255
@@ -79,8 +80,8 @@ public class DestinationPatternsMessageConditionTests {
 		DestinationPatternsMessageCondition c1 = condition("/t1", "/t2");
 		DestinationPatternsMessageCondition c2 = condition("/m1", "/m2");
 
-		assertThat(c1.combine(c2)).isEqualTo(new DestinationPatternsMessageCondition(
-				"/t1/m1", "/t1/m2", "/t2/m1", "/t2/m2"));
+		assertThat(c1.combine(c2))
+				.isEqualTo(new DestinationPatternsMessageCondition("/t1/m1", "/t1/m2", "/t2/m1", "/t2/m2"));
 	}
 
 	@Test
@@ -137,14 +138,13 @@ public class DestinationPatternsMessageConditionTests {
 		assertThat(match1.compareTo(match2, message)).isEqualTo(1);
 	}
 
-
 	private DestinationPatternsMessageCondition condition(String... patterns) {
 		return new DestinationPatternsMessageCondition(patterns);
 	}
 
 	private Message<?> messageTo(String destination) {
-		return MessageBuilder.withPayload(new byte[0]).setHeader(
-				DestinationPatternsMessageCondition.LOOKUP_DESTINATION_HEADER, destination).build();
+		return MessageBuilder.withPayload(new byte[0])
+				.setHeader(DestinationPatternsMessageCondition.LOOKUP_DESTINATION_HEADER, destination).build();
 	}
 
 }

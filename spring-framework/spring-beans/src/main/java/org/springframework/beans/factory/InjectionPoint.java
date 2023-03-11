@@ -27,10 +27,10 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * A simple descriptor for an injection point, pointing to a method/constructor
- * parameter or a field. Exposed by {@link UnsatisfiedDependencyException}.
- * Also available as an argument for factory methods, reacting to the
- * requesting injection point for building a customized bean instance.
+ * A simple descriptor for an injection point, pointing to a method/constructor parameter
+ * or a field. Exposed by {@link UnsatisfiedDependencyException}. Also available as an
+ * argument for factory methods, reacting to the requesting injection point for building a
+ * customized bean instance.
  *
  * @author Juergen Hoeller
  * @since 4.3
@@ -47,7 +47,6 @@ public class InjectionPoint {
 
 	@Nullable
 	private volatile Annotation[] fieldAnnotations;
-
 
 	/**
 	 * Create an injection point descriptor for a method or constructor parameter.
@@ -72,8 +71,8 @@ public class InjectionPoint {
 	 * @param original the original descriptor to create a copy from
 	 */
 	protected InjectionPoint(InjectionPoint original) {
-		this.methodParameter = (original.methodParameter != null ?
-				new MethodParameter(original.methodParameter) : null);
+		this.methodParameter = (original.methodParameter != null ? new MethodParameter(original.methodParameter)
+				: null);
 		this.field = original.field;
 		this.fieldAnnotations = original.fieldAnnotations;
 	}
@@ -84,10 +83,10 @@ public class InjectionPoint {
 	protected InjectionPoint() {
 	}
 
-
 	/**
 	 * Return the wrapped MethodParameter, if any.
-	 * <p>Note: Either MethodParameter or Field is available.
+	 * <p>
+	 * Note: Either MethodParameter or Field is available.
 	 * @return the MethodParameter, or {@code null} if none
 	 */
 	@Nullable
@@ -97,7 +96,8 @@ public class InjectionPoint {
 
 	/**
 	 * Return the wrapped Field, if any.
-	 * <p>Note: Either MethodParameter or Field is available.
+	 * <p>
+	 * Note: Either MethodParameter or Field is available.
 	 * @return the Field, or {@code null} if none
 	 */
 	@Nullable
@@ -117,7 +117,8 @@ public class InjectionPoint {
 	}
 
 	/**
-	 * Obtain the annotations associated with the wrapped field or method/constructor parameter.
+	 * Obtain the annotations associated with the wrapped field or method/constructor
+	 * parameter.
 	 */
 	public Annotation[] getAnnotations() {
 		if (this.field != null) {
@@ -141,8 +142,8 @@ public class InjectionPoint {
 	 */
 	@Nullable
 	public <A extends Annotation> A getAnnotation(Class<A> annotationType) {
-		return (this.field != null ? this.field.getAnnotation(annotationType) :
-				obtainMethodParameter().getParameterAnnotation(annotationType));
+		return (this.field != null ? this.field.getAnnotation(annotationType)
+				: obtainMethodParameter().getParameterAnnotation(annotationType));
 	}
 
 	/**
@@ -163,17 +164,17 @@ public class InjectionPoint {
 
 	/**
 	 * Return the wrapped annotated element.
-	 * <p>Note: In case of a method/constructor parameter, this exposes
-	 * the annotations declared on the method or constructor itself
-	 * (i.e. at the method/constructor level, not at the parameter level).
-	 * Use {@link #getAnnotations()} to obtain parameter-level annotations in
-	 * such a scenario, transparently with corresponding field annotations.
+	 * <p>
+	 * Note: In case of a method/constructor parameter, this exposes the annotations
+	 * declared on the method or constructor itself (i.e. at the method/constructor level,
+	 * not at the parameter level). Use {@link #getAnnotations()} to obtain
+	 * parameter-level annotations in such a scenario, transparently with corresponding
+	 * field annotations.
 	 * @return the Field / Method / Constructor as AnnotatedElement
 	 */
 	public AnnotatedElement getAnnotatedElement() {
 		return (this.field != null ? this.field : obtainMethodParameter().getAnnotatedElement());
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {
@@ -184,8 +185,8 @@ public class InjectionPoint {
 			return false;
 		}
 		InjectionPoint otherPoint = (InjectionPoint) other;
-		return (ObjectUtils.nullSafeEquals(this.field, otherPoint.field) &&
-				ObjectUtils.nullSafeEquals(this.methodParameter, otherPoint.methodParameter));
+		return (ObjectUtils.nullSafeEquals(this.field, otherPoint.field)
+				&& ObjectUtils.nullSafeEquals(this.methodParameter, otherPoint.methodParameter));
 	}
 
 	@Override

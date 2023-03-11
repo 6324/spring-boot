@@ -30,7 +30,6 @@ public class Task {
 
 	private final Runnable runnable;
 
-
 	/**
 	 * Create a new {@code Task}.
 	 * @param runnable the underlying task to execute
@@ -40,14 +39,12 @@ public class Task {
 		this.runnable = runnable;
 	}
 
-
 	/**
 	 * Return the underlying task.
 	 */
 	public Runnable getRunnable() {
 		return this.runnable;
 	}
-
 
 	@Override
 	public String toString() {

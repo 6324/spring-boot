@@ -30,26 +30,29 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * {@link javax.jms.ConnectionFactory} implementation that delegates all calls
- * to a given target {@link javax.jms.ConnectionFactory}, adapting specific
- * {@code create(Queue/Topic)Connection} calls to the target ConnectionFactory
- * if necessary (e.g. when running JMS 1.0.2 API based code against a generic
- * JMS 1.1 ConnectionFactory, such as ActiveMQ's PooledConnectionFactory).
+ * {@link javax.jms.ConnectionFactory} implementation that delegates all calls to a given
+ * target {@link javax.jms.ConnectionFactory}, adapting specific
+ * {@code create(Queue/Topic)Connection} calls to the target ConnectionFactory if
+ * necessary (e.g. when running JMS 1.0.2 API based code against a generic JMS 1.1
+ * ConnectionFactory, such as ActiveMQ's PooledConnectionFactory).
  *
- * <p>As of Spring Framework 5, this class supports JMS 2.0 {@code JMSContext}
- * calls and therefore requires the JMS 2.0 API to be present at runtime.
- * It may nevertheless run against a JMS 1.1 driver (bound to the JMS 2.0 API)
- * as long as no actual JMS 2.0 calls are triggered by the application's setup.
+ * <p>
+ * As of Spring Framework 5, this class supports JMS 2.0 {@code JMSContext} calls and
+ * therefore requires the JMS 2.0 API to be present at runtime. It may nevertheless run
+ * against a JMS 1.1 driver (bound to the JMS 2.0 API) as long as no actual JMS 2.0 calls
+ * are triggered by the application's setup.
  *
- * <p>This class allows for being subclassed, with subclasses overriding only
- * those methods (such as {@link #createConnection()}) that should not simply
- * delegate to the target ConnectionFactory.
+ * <p>
+ * This class allows for being subclassed, with subclasses overriding only those methods
+ * (such as {@link #createConnection()}) that should not simply delegate to the target
+ * ConnectionFactory.
  *
- * <p>Can also be defined as-is, wrapping a specific target ConnectionFactory,
- * using the "shouldStopConnections" flag to indicate whether Connections
- * obtained from the target factory are supposed to be stopped before closed.
- * The latter may be necessary for some connection pools that simply return
- * released connections to the pool, not stopping them while they sit in the pool.
+ * <p>
+ * Can also be defined as-is, wrapping a specific target ConnectionFactory, using the
+ * "shouldStopConnections" flag to indicate whether Connections obtained from the target
+ * factory are supposed to be stopped before closed. The latter may be necessary for some
+ * connection pools that simply return released connections to the pool, not stopping them
+ * while they sit in the pool.
  *
  * @author Juergen Hoeller
  * @since 2.0.2
@@ -64,7 +67,6 @@ public class DelegatingConnectionFactory
 	private ConnectionFactory targetConnectionFactory;
 
 	private boolean shouldStopConnections = false;
-
 
 	/**
 	 * Set the target ConnectionFactory that this ConnectionFactory should delegate to.
@@ -88,11 +90,12 @@ public class DelegatingConnectionFactory
 	}
 
 	/**
-	 * Indicate whether Connections obtained from the target factory are supposed
-	 * to be stopped before closed ("true") or simply closed ("false").
-	 * An extra stop call may be necessary for some connection pools that simply return
-	 * released connections to the pool, not stopping them while they sit in the pool.
-	 * <p>Default is "false", simply closing Connections.
+	 * Indicate whether Connections obtained from the target factory are supposed to be
+	 * stopped before closed ("true") or simply closed ("false"). An extra stop call may
+	 * be necessary for some connection pools that simply return released connections to
+	 * the pool, not stopping them while they sit in the pool.
+	 * <p>
+	 * Default is "false", simply closing Connections.
 	 * @see ConnectionFactoryUtils#releaseConnection
 	 */
 	public void setShouldStopConnections(boolean shouldStopConnections) {
@@ -105,7 +108,6 @@ public class DelegatingConnectionFactory
 			throw new IllegalArgumentException("'targetConnectionFactory' is required");
 		}
 	}
-
 
 	@Override
 	public Connection createConnection() throws JMSException {

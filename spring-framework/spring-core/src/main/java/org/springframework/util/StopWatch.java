@@ -24,20 +24,23 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.lang.Nullable;
 
 /**
- * Simple stop watch, allowing for timing of a number of tasks, exposing total
- * running time and running time for each named task.
+ * Simple stop watch, allowing for timing of a number of tasks, exposing total running
+ * time and running time for each named task.
  *
- * <p>Conceals use of {@link System#nanoTime()}, improving the readability of
- * application code and reducing the likelihood of calculation errors.
+ * <p>
+ * Conceals use of {@link System#nanoTime()}, improving the readability of application
+ * code and reducing the likelihood of calculation errors.
  *
- * <p>Note that this object is not designed to be thread-safe and does not use
+ * <p>
+ * Note that this object is not designed to be thread-safe and does not use
  * synchronization.
  *
- * <p>This class is normally used to verify performance during proof-of-concept
- * work and in development, rather than as part of production applications.
+ * <p>
+ * This class is normally used to verify performance during proof-of-concept work and in
+ * development, rather than as part of production applications.
  *
- * <p>As of Spring Framework 5.2, running time is tracked and reported in
- * nanoseconds.
+ * <p>
+ * As of Spring Framework 5.2, running time is tracked and reported in nanoseconds.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -48,8 +51,9 @@ public class StopWatch {
 
 	/**
 	 * Identifier of this {@code StopWatch}.
-	 * <p>Handy when we have output from multiple stop watches and need to
-	 * distinguish between them in log or console output.
+	 * <p>
+	 * Handy when we have output from multiple stop watches and need to distinguish
+	 * between them in log or console output.
 	 */
 	private final String id;
 
@@ -72,10 +76,10 @@ public class StopWatch {
 	/** Total running time. */
 	private long totalTimeNanos;
 
-
 	/**
 	 * Construct a new {@code StopWatch}.
-	 * <p>Does not start any task.
+	 * <p>
+	 * Does not start any task.
 	 */
 	public StopWatch() {
 		this("");
@@ -83,15 +87,16 @@ public class StopWatch {
 
 	/**
 	 * Construct a new {@code StopWatch} with the given ID.
-	 * <p>The ID is handy when we have output from multiple stop watches and need
-	 * to distinguish between them.
-	 * <p>Does not start any task.
+	 * <p>
+	 * The ID is handy when we have output from multiple stop watches and need to
+	 * distinguish between them.
+	 * <p>
+	 * Does not start any task.
 	 * @param id identifier for this stop watch
 	 */
 	public StopWatch(String id) {
 		this.id = id;
 	}
-
 
 	/**
 	 * Get the ID of this {@code StopWatch}, as specified on construction.
@@ -105,20 +110,21 @@ public class StopWatch {
 
 	/**
 	 * Configure whether the {@link TaskInfo} array is built over time.
-	 * <p>Set this to {@code false} when using a {@code StopWatch} for millions
-	 * of intervals; otherwise, the {@code TaskInfo} structure will consume
-	 * excessive memory.
-	 * <p>Default is {@code true}.
+	 * <p>
+	 * Set this to {@code false} when using a {@code StopWatch} for millions of intervals;
+	 * otherwise, the {@code TaskInfo} structure will consume excessive memory.
+	 * <p>
+	 * Default is {@code true}.
 	 */
 	public void setKeepTaskList(boolean keepTaskList) {
 		this.keepTaskList = keepTaskList;
 	}
 
-
 	/**
 	 * Start an unnamed task.
-	 * <p>The results are undefined if {@link #stop()} or timing methods are
-	 * called without invoking this method first.
+	 * <p>
+	 * The results are undefined if {@link #stop()} or timing methods are called without
+	 * invoking this method first.
 	 * @see #start(String)
 	 * @see #stop()
 	 */
@@ -128,8 +134,9 @@ public class StopWatch {
 
 	/**
 	 * Start a named task.
-	 * <p>The results are undefined if {@link #stop()} or timing methods are
-	 * called without invoking this method first.
+	 * <p>
+	 * The results are undefined if {@link #stop()} or timing methods are called without
+	 * invoking this method first.
 	 * @param taskName the name of the task to start
 	 * @see #start()
 	 * @see #stop()
@@ -144,8 +151,9 @@ public class StopWatch {
 
 	/**
 	 * Stop the current task.
-	 * <p>The results are undefined if timing methods are called without invoking
-	 * at least one pair of {@code start()} / {@code stop()} methods.
+	 * <p>
+	 * The results are undefined if timing methods are called without invoking at least
+	 * one pair of {@code start()} / {@code stop()} methods.
 	 * @see #start()
 	 * @see #start(String)
 	 */
@@ -224,7 +232,6 @@ public class StopWatch {
 		return this.lastTaskInfo;
 	}
 
-
 	/**
 	 * Get the total time in nanoseconds for all tasks.
 	 * @since 5.2
@@ -270,7 +277,6 @@ public class StopWatch {
 		return this.taskList.toArray(new TaskInfo[0]);
 	}
 
-
 	/**
 	 * Get a short description of the total running time.
 	 */
@@ -280,8 +286,8 @@ public class StopWatch {
 
 	/**
 	 * Generate a string with a table describing all tasks performed.
-	 * <p>For custom reporting, call {@link #getTaskInfo()} and use the task info
-	 * directly.
+	 * <p>
+	 * For custom reporting, call {@link #getTaskInfo()} and use the task info directly.
 	 */
 	public String prettyPrint() {
 		StringBuilder sb = new StringBuilder(shortSummary());
@@ -310,8 +316,8 @@ public class StopWatch {
 
 	/**
 	 * Generate an informative string describing all tasks performed
-	 * <p>For custom reporting, call {@link #getTaskInfo()} and use the task info
-	 * directly.
+	 * <p>
+	 * For custom reporting, call {@link #getTaskInfo()} and use the task info directly.
 	 */
 	@Override
 	public String toString() {
@@ -329,7 +335,6 @@ public class StopWatch {
 		return sb.toString();
 	}
 
-
 	private static long nanosToMillis(long duration) {
 		return TimeUnit.NANOSECONDS.toMillis(duration);
 	}
@@ -337,7 +342,6 @@ public class StopWatch {
 	private static double nanosToSeconds(long duration) {
 		return duration / 1_000_000_000.0;
 	}
-
 
 	/**
 	 * Nested class to hold data about one task executed within the {@code StopWatch}.

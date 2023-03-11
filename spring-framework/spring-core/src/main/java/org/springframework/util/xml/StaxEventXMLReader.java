@@ -47,8 +47,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
 /**
- * SAX {@code XMLReader} that reads from a StAX {@code XMLEventReader}. Consumes {@code XMLEvents} from
- * an {@code XMLEventReader}, and calls the corresponding methods on the SAX callback interfaces.
+ * SAX {@code XMLReader} that reads from a StAX {@code XMLEventReader}. Consumes
+ * {@code XMLEvents} from an {@code XMLEventReader}, and calls the corresponding methods
+ * on the SAX callback interfaces.
  *
  * @author Arjen Poutsma
  * @since 3.0
@@ -70,13 +71,14 @@ class StaxEventXMLReader extends AbstractStaxXMLReader {
 	@Nullable
 	private String encoding;
 
-
 	/**
-	 * Constructs a new instance of the {@code StaxEventXmlReader} that reads from
-	 * the given {@code XMLEventReader}. The supplied event reader must be in
-	 * {@code XMLStreamConstants.START_DOCUMENT} or {@code XMLStreamConstants.START_ELEMENT} state.
+	 * Constructs a new instance of the {@code StaxEventXmlReader} that reads from the
+	 * given {@code XMLEventReader}. The supplied event reader must be in
+	 * {@code XMLStreamConstants.START_DOCUMENT} or
+	 * {@code XMLStreamConstants.START_ELEMENT} state.
 	 * @param reader the {@code XMLEventReader} to read from
-	 * @throws IllegalStateException if the reader is not at the start of a document or element
+	 * @throws IllegalStateException if the reader is not at the start of a document or
+	 * element
 	 */
 	StaxEventXMLReader(XMLEventReader reader) {
 		try {
@@ -91,7 +93,6 @@ class StaxEventXMLReader extends AbstractStaxXMLReader {
 		this.reader = reader;
 	}
 
-
 	@Override
 	protected void parseInternal() throws SAXException, XMLStreamException {
 		boolean documentStarted = false;
@@ -104,47 +105,47 @@ class StaxEventXMLReader extends AbstractStaxXMLReader {
 				documentStarted = true;
 			}
 			switch (event.getEventType()) {
-				case XMLStreamConstants.START_DOCUMENT:
-					handleStartDocument(event);
-					documentStarted = true;
-					break;
-				case XMLStreamConstants.START_ELEMENT:
-					elementDepth++;
-					handleStartElement(event.asStartElement());
-					break;
-				case XMLStreamConstants.END_ELEMENT:
-					elementDepth--;
-					if (elementDepth >= 0) {
-						handleEndElement(event.asEndElement());
-					}
-					break;
-				case XMLStreamConstants.PROCESSING_INSTRUCTION:
-					handleProcessingInstruction((ProcessingInstruction) event);
-					break;
-				case XMLStreamConstants.CHARACTERS:
-				case XMLStreamConstants.SPACE:
-				case XMLStreamConstants.CDATA:
-					handleCharacters(event.asCharacters());
-					break;
-				case XMLStreamConstants.END_DOCUMENT:
-					handleEndDocument();
-					documentEnded = true;
-					break;
-				case XMLStreamConstants.NOTATION_DECLARATION:
-					handleNotationDeclaration((NotationDeclaration) event);
-					break;
-				case XMLStreamConstants.ENTITY_DECLARATION:
-					handleEntityDeclaration((EntityDeclaration) event);
-					break;
-				case XMLStreamConstants.COMMENT:
-					handleComment((Comment) event);
-					break;
-				case XMLStreamConstants.DTD:
-					handleDtd((DTD) event);
-					break;
-				case XMLStreamConstants.ENTITY_REFERENCE:
-					handleEntityReference((EntityReference) event);
-					break;
+			case XMLStreamConstants.START_DOCUMENT:
+				handleStartDocument(event);
+				documentStarted = true;
+				break;
+			case XMLStreamConstants.START_ELEMENT:
+				elementDepth++;
+				handleStartElement(event.asStartElement());
+				break;
+			case XMLStreamConstants.END_ELEMENT:
+				elementDepth--;
+				if (elementDepth >= 0) {
+					handleEndElement(event.asEndElement());
+				}
+				break;
+			case XMLStreamConstants.PROCESSING_INSTRUCTION:
+				handleProcessingInstruction((ProcessingInstruction) event);
+				break;
+			case XMLStreamConstants.CHARACTERS:
+			case XMLStreamConstants.SPACE:
+			case XMLStreamConstants.CDATA:
+				handleCharacters(event.asCharacters());
+				break;
+			case XMLStreamConstants.END_DOCUMENT:
+				handleEndDocument();
+				documentEnded = true;
+				break;
+			case XMLStreamConstants.NOTATION_DECLARATION:
+				handleNotationDeclaration((NotationDeclaration) event);
+				break;
+			case XMLStreamConstants.ENTITY_DECLARATION:
+				handleEntityDeclaration((EntityDeclaration) event);
+				break;
+			case XMLStreamConstants.COMMENT:
+				handleComment((Comment) event);
+				break;
+			case XMLStreamConstants.DTD:
+				handleDtd((DTD) event);
+				break;
+			case XMLStreamConstants.ENTITY_REFERENCE:
+				handleEntityReference((EntityReference) event);
+				break;
 			}
 		}
 		if (documentStarted && !documentEnded) {
@@ -173,24 +174,29 @@ class StaxEventXMLReader extends AbstractStaxXMLReader {
 				public int getColumnNumber() {
 					return (location != null ? location.getColumnNumber() : -1);
 				}
+
 				@Override
 				public int getLineNumber() {
 					return (location != null ? location.getLineNumber() : -1);
 				}
+
 				@Override
 				@Nullable
 				public String getPublicId() {
 					return (location != null ? location.getPublicId() : null);
 				}
+
 				@Override
 				@Nullable
 				public String getSystemId() {
 					return (location != null ? location.getSystemId() : null);
 				}
+
 				@Override
 				public String getXMLVersion() {
 					return xmlVersion;
 				}
+
 				@Override
 				@Nullable
 				public String getEncoding() {
@@ -209,7 +215,7 @@ class StaxEventXMLReader extends AbstractStaxXMLReader {
 					Namespace namespace = (Namespace) i.next();
 					startPrefixMapping(namespace.getPrefix(), namespace.getNamespaceURI());
 				}
-				for (Iterator i = startElement.getAttributes(); i.hasNext();){
+				for (Iterator i = startElement.getAttributes(); i.hasNext();) {
 					Attribute attribute = (Attribute) i.next();
 					QName attributeName = attribute.getName();
 					startPrefixMapping(attributeName.getPrefix(), attributeName.getNamespaceURI());
@@ -324,7 +330,8 @@ class StaxEventXMLReader extends AbstractStaxXMLReader {
 			if (type == null) {
 				type = "CDATA";
 			}
-			attributes.addAttribute(namespace, qName.getLocalPart(), toQualifiedName(qName), type, attribute.getValue());
+			attributes.addAttribute(namespace, qName.getLocalPart(), toQualifiedName(qName), type,
+					attribute.getValue());
 		}
 		if (hasNamespacePrefixesFeature()) {
 			for (Iterator i = event.getNamespaces(); i.hasNext();) {

@@ -47,8 +47,8 @@ public interface SimpUser {
 	SimpSession getSession(String sessionId);
 
 	/**
-	 * Return the sessions for the user.
-	 * The returned set is a copy and will never be modified.
+	 * Return the sessions for the user. The returned set is a copy and will never be
+	 * modified.
 	 * @return a set of session ids, or an empty set if none
 	 */
 	Set<SimpSession> getSessions();

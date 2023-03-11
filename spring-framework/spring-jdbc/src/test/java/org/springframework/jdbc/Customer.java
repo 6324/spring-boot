@@ -25,7 +25,6 @@ public class Customer {
 
 	private String forename;
 
-
 	public int getId() {
 		return id;
 	}
@@ -41,7 +40,6 @@ public class Customer {
 	public void setForename(String forename) {
 		this.forename = forename;
 	}
-
 
 	@Override
 	public String toString() {

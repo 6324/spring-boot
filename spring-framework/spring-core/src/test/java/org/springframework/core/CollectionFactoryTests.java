@@ -59,14 +59,14 @@ class CollectionFactoryTests {
 
 	/**
 	 * The test demonstrates that the generics-based API for
-	 * {@link CollectionFactory#createApproximateCollection(Object, int)}
-	 * is not type-safe.
-	 * <p>Specifically, the parameterized type {@code E} is not bound to
-	 * the type of elements contained in the {@code collection} argument
-	 * passed to {@code createApproximateCollection()}. Thus casting the
-	 * value returned by {@link EnumSet#copyOf(EnumSet)} to
-	 * {@code (Collection<E>)} cannot guarantee that the returned collection
-	 * actually contains elements of type {@code E}.
+	 * {@link CollectionFactory#createApproximateCollection(Object, int)} is not
+	 * type-safe.
+	 * <p>
+	 * Specifically, the parameterized type {@code E} is not bound to the type of elements
+	 * contained in the {@code collection} argument passed to
+	 * {@code createApproximateCollection()}. Thus casting the value returned by
+	 * {@link EnumSet#copyOf(EnumSet)} to {@code (Collection<E>)} cannot guarantee that
+	 * the returned collection actually contains elements of type {@code E}.
 	 */
 	@Test
 	void createApproximateCollectionIsNotTypeSafeForEnumSet() {
@@ -79,8 +79,7 @@ class CollectionFactoryTests {
 		// by createApproximateCollection() is of type Collection<Color>. Thus, 42
 		// cannot be cast to a Color.
 
-		assertThatExceptionOfType(ClassCastException.class).isThrownBy(() ->
-				ints.add(42));
+		assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> ints.add(42));
 	}
 
 	@Test
@@ -94,15 +93,14 @@ class CollectionFactoryTests {
 		// by createCollection() is of type Collection<Color>. Thus, 42 cannot be cast
 		// to a Color.
 
-		assertThatExceptionOfType(ClassCastException.class).isThrownBy(() ->
-				ints.add(42));
+		assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> ints.add(42));
 	}
 
 	/**
 	 * The test demonstrates that the generics-based API for
-	 * {@link CollectionFactory#createApproximateMap(Object, int)}
-	 * is not type-safe.
-	 * <p>The reasoning is similar that described in
+	 * {@link CollectionFactory#createApproximateMap(Object, int)} is not type-safe.
+	 * <p>
+	 * The reasoning is similar that described in
 	 * {@link #createApproximateCollectionIsNotTypeSafeForEnumSet}.
 	 */
 	@Test
@@ -119,8 +117,7 @@ class CollectionFactoryTests {
 		// returned by createApproximateMap() are of type Color. Thus "foo" cannot be
 		// cast to a Color.
 
-		assertThatExceptionOfType(ClassCastException.class).isThrownBy(() ->
-				map.put("foo", 1));
+		assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> map.put("foo", 1));
 	}
 
 	@Test
@@ -134,8 +131,7 @@ class CollectionFactoryTests {
 		// returned by createMap() are of type Color. Thus "foo" cannot be cast to a
 		// Color.
 
-		assertThatExceptionOfType(ClassCastException.class).isThrownBy(() ->
-				map.put("foo", 1));
+		assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> map.put("foo", 1));
 	}
 
 	@Test
@@ -149,8 +145,7 @@ class CollectionFactoryTests {
 		// returned by createMap() are of type java.util.List. Thus 1 cannot be
 		// cast to a List.
 
-		assertThatExceptionOfType(ClassCastException.class).isThrownBy(() ->
-				map.put("foo", 1));
+		assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> map.put("foo", 1));
 	}
 
 	@Test
@@ -232,7 +227,7 @@ class CollectionFactoryTests {
 		assertThat(createCollection(EnumSet.class, Color.class, 0)).isInstanceOf(EnumSet.class);
 	}
 
-	@Test  // SPR-17619
+	@Test // SPR-17619
 	void createsEnumSetSubclass() {
 		EnumSet<Color> enumSet = EnumSet.noneOf(Color.class);
 		assertThat(createCollection(enumSet.getClass(), Color.class, 0)).isInstanceOf(enumSet.getClass());
@@ -240,20 +235,17 @@ class CollectionFactoryTests {
 
 	@Test
 	void rejectsInvalidElementTypeForEnumSet() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				createCollection(EnumSet.class, Object.class, 0));
+		assertThatIllegalArgumentException().isThrownBy(() -> createCollection(EnumSet.class, Object.class, 0));
 	}
 
 	@Test
 	void rejectsNullElementTypeForEnumSet() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				createCollection(EnumSet.class, null, 0));
+		assertThatIllegalArgumentException().isThrownBy(() -> createCollection(EnumSet.class, null, 0));
 	}
 
 	@Test
 	void rejectsNullCollectionType() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				createCollection(null, Object.class, 0));
+		assertThatIllegalArgumentException().isThrownBy(() -> createCollection(null, Object.class, 0));
 	}
 
 	@Test
@@ -282,25 +274,23 @@ class CollectionFactoryTests {
 
 	@Test
 	void rejectsInvalidKeyTypeForEnumMap() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				createMap(EnumMap.class, Object.class, 0));
+		assertThatIllegalArgumentException().isThrownBy(() -> createMap(EnumMap.class, Object.class, 0));
 	}
 
 	@Test
 	void rejectsNullKeyTypeForEnumMap() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				createMap(EnumMap.class, null, 0));
+		assertThatIllegalArgumentException().isThrownBy(() -> createMap(EnumMap.class, null, 0));
 	}
 
 	@Test
 	void rejectsNullMapType() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				createMap(null, Object.class, 0));
+		assertThatIllegalArgumentException().isThrownBy(() -> createMap(null, Object.class, 0));
 	}
 
-
 	enum Color {
+
 		RED, BLUE;
+
 	}
 
 }

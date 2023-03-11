@@ -26,12 +26,13 @@ import org.springframework.core.convert.converter.ConverterRegistry;
 import org.springframework.lang.Nullable;
 
 /**
- * A specialization of {@link GenericConversionService} configured by default
- * with converters appropriate for most environments.
+ * A specialization of {@link GenericConversionService} configured by default with
+ * converters appropriate for most environments.
  *
- * <p>Designed for direct instantiation but also exposes the static
- * {@link #addDefaultConverters(ConverterRegistry)} utility method for ad-hoc
- * use against any {@code ConverterRegistry} instance.
+ * <p>
+ * Designed for direct instantiation but also exposes the static
+ * {@link #addDefaultConverters(ConverterRegistry)} utility method for ad-hoc use against
+ * any {@code ConverterRegistry} instance.
  *
  * @author Chris Beams
  * @author Juergen Hoeller
@@ -43,23 +44,22 @@ public class DefaultConversionService extends GenericConversionService {
 	@Nullable
 	private static volatile DefaultConversionService sharedInstance;
 
-
 	/**
 	 * Create a new {@code DefaultConversionService} with the set of
-	 * {@linkplain DefaultConversionService#addDefaultConverters(ConverterRegistry) default converters}.
+	 * {@linkplain DefaultConversionService#addDefaultConverters(ConverterRegistry)
+	 * default converters}.
 	 */
 	public DefaultConversionService() {
 		addDefaultConverters(this);
 	}
 
-
 	/**
-	 * Return a shared default {@code ConversionService} instance,
-	 * lazily building it once needed.
-	 * <p><b>NOTE:</b> We highly recommend constructing individual
-	 * {@code ConversionService} instances for customization purposes.
-	 * This accessor is only meant as a fallback for code paths which
-	 * need simple type coercion but cannot access a longer-lived
+	 * Return a shared default {@code ConversionService} instance, lazily building it once
+	 * needed.
+	 * <p>
+	 * <b>NOTE:</b> We highly recommend constructing individual {@code ConversionService}
+	 * instances for customization purposes. This accessor is only meant as a fallback for
+	 * code paths which need simple type coercion but cannot access a longer-lived
 	 * {@code ConversionService} instance any other way.
 	 * @return the shared {@code ConversionService} instance (never {@code null})
 	 * @since 4.3.5
@@ -80,9 +80,10 @@ public class DefaultConversionService extends GenericConversionService {
 
 	/**
 	 * Add converters appropriate for most environments.
-	 * @param converterRegistry the registry of converters to add to
-	 * (must also be castable to ConversionService, e.g. being a {@link ConfigurableConversionService})
-	 * @throws ClassCastException if the given ConverterRegistry could not be cast to a ConversionService
+	 * @param converterRegistry the registry of converters to add to (must also be
+	 * castable to ConversionService, e.g. being a {@link ConfigurableConversionService})
+	 * @throws ClassCastException if the given ConverterRegistry could not be cast to a
+	 * ConversionService
 	 */
 	public static void addDefaultConverters(ConverterRegistry converterRegistry) {
 		addScalarConverters(converterRegistry);
@@ -101,9 +102,10 @@ public class DefaultConversionService extends GenericConversionService {
 
 	/**
 	 * Add common collection converters.
-	 * @param converterRegistry the registry of converters to add to
-	 * (must also be castable to ConversionService, e.g. being a {@link ConfigurableConversionService})
-	 * @throws ClassCastException if the given ConverterRegistry could not be cast to a ConversionService
+	 * @param converterRegistry the registry of converters to add to (must also be
+	 * castable to ConversionService, e.g. being a {@link ConfigurableConversionService})
+	 * @throws ClassCastException if the given ConverterRegistry could not be cast to a
+	 * ConversionService
 	 * @since 4.2.3
 	 */
 	public static void addCollectionConverters(ConverterRegistry converterRegistry) {

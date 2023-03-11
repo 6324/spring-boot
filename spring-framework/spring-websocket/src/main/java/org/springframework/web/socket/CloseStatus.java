@@ -24,7 +24,8 @@ import org.springframework.util.ObjectUtils;
  * Represents a WebSocket close status code and reason. Status codes in the 1xxx range are
  * pre-defined by the protocol. Optionally, a status code may be sent with a reason.
  *
- * <p>See <a href="https://tools.ietf.org/html/rfc6455#section-7.4.1">RFC 6455, Section 7.4.1
+ * <p>
+ * See <a href="https://tools.ietf.org/html/rfc6455#section-7.4.1">RFC 6455, Section 7.4.1
  * "Defined Status Codes"</a>.
  *
  * @author Rossen Stoyanchev
@@ -48,7 +49,7 @@ public final class CloseStatus {
 	 * "1002 indicates that an endpoint is terminating the connection due to a protocol
 	 * error."
 	 */
-	public static final CloseStatus PROTOCOL_ERROR  = new CloseStatus(1002);
+	public static final CloseStatus PROTOCOL_ERROR = new CloseStatus(1002);
 
 	/**
 	 * "1003 indicates that an endpoint is terminating the connection because it has
@@ -134,20 +135,18 @@ public final class CloseStatus {
 	public static final CloseStatus TLS_HANDSHAKE_FAILURE = new CloseStatus(1015);
 
 	/**
-	 * A status code for use within the framework the indicate a session has
-	 * become unreliable (e.g. timed out while sending a message) and extra
-	 * care should be exercised, e.g. avoid sending any further data to the
-	 * client that may be done during normal shutdown.
+	 * A status code for use within the framework the indicate a session has become
+	 * unreliable (e.g. timed out while sending a message) and extra care should be
+	 * exercised, e.g. avoid sending any further data to the client that may be done
+	 * during normal shutdown.
 	 * @since 4.0.3
 	 */
 	public static final CloseStatus SESSION_NOT_RELIABLE = new CloseStatus(4500);
-
 
 	private final int code;
 
 	@Nullable
 	private final String reason;
-
 
 	/**
 	 * Create a new {@link CloseStatus} instance.
@@ -167,7 +166,6 @@ public final class CloseStatus {
 		this.code = code;
 		this.reason = reason;
 	}
-
 
 	/**
 	 * Return the status code.
@@ -193,7 +191,6 @@ public final class CloseStatus {
 		Assert.hasText(reason, "Reason must not be empty");
 		return new CloseStatus(this.code, reason);
 	}
-
 
 	public boolean equalsCode(CloseStatus other) {
 		return (this.code == other.code);

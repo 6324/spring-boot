@@ -17,10 +17,9 @@
 package org.springframework.dao;
 
 /**
- * Exception thrown when an attempt to insert or update data
- * results in violation of an primary key or unique constraint.
- * Note that this is not necessarily a purely relational concept;
- * unique primary keys are required by most database types.
+ * Exception thrown when an attempt to insert or update data results in violation of an
+ * primary key or unique constraint. Note that this is not necessarily a purely relational
+ * concept; unique primary keys are required by most database types.
  *
  * @author Thomas Risberg
  */

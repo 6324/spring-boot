@@ -60,7 +60,8 @@ public abstract class AbstractJmxAssemblerTests extends AbstractJmxTests {
 		IJmxTestBean bean = getBean();
 		assertThat(bean).isNotNull();
 		MBeanInfo inf = getMBeanInfo();
-		assertThat(inf.getOperations().length).as("Incorrect number of operations registered").isEqualTo(getExpectedOperationCount());
+		assertThat(inf.getOperations().length).as("Incorrect number of operations registered")
+				.isEqualTo(getExpectedOperationCount());
 	}
 
 	@Test
@@ -68,7 +69,8 @@ public abstract class AbstractJmxAssemblerTests extends AbstractJmxTests {
 		IJmxTestBean bean = getBean();
 		assertThat(bean).isNotNull();
 		MBeanInfo inf = getMBeanInfo();
-		assertThat(inf.getAttributes().length).as("Incorrect number of attributes registered").isEqualTo(getExpectedAttributeCount());
+		assertThat(inf.getAttributes().length).as("Incorrect number of attributes registered")
+				.isEqualTo(getExpectedAttributeCount());
 	}
 
 	@Test
@@ -125,10 +127,10 @@ public abstract class AbstractJmxAssemblerTests extends AbstractJmxTests {
 	}
 
 	@Test
-	public void testOperationInvocation() throws Exception{
+	public void testOperationInvocation() throws Exception {
 		ObjectName objectName = ObjectNameManager.getInstance(getObjectName());
-		Object result = getServer().invoke(objectName, "add",
-				new Object[] {new Integer(20), new Integer(30)}, new String[] {"int", "int"});
+		Object result = getServer().invoke(objectName, "add", new Object[] { new Integer(20), new Integer(30) },
+				new String[] { "int", "int" });
 		assertThat(result).as("Incorrect result").isEqualTo(new Integer(50));
 	}
 
@@ -150,13 +152,17 @@ public abstract class AbstractJmxAssemblerTests extends AbstractJmxTests {
 
 		ModelMBeanOperationInfo get = info.getOperation("getName");
 		assertThat(get).as("get operation should not be null").isNotNull();
-		assertThat(new Integer(4)).as("get operation should have visibility of four").isEqualTo(get.getDescriptor().getFieldValue("visibility"));
-		assertThat(get.getDescriptor().getFieldValue("role")).as("get operation should have role \"getter\"").isEqualTo("getter");
+		assertThat(new Integer(4)).as("get operation should have visibility of four")
+				.isEqualTo(get.getDescriptor().getFieldValue("visibility"));
+		assertThat(get.getDescriptor().getFieldValue("role")).as("get operation should have role \"getter\"")
+				.isEqualTo("getter");
 
 		ModelMBeanOperationInfo set = info.getOperation("setName");
 		assertThat(set).as("set operation should not be null").isNotNull();
-		assertThat(new Integer(4)).as("set operation should have visibility of four").isEqualTo(set.getDescriptor().getFieldValue("visibility"));
-		assertThat(set.getDescriptor().getFieldValue("role")).as("set operation should have role \"setter\"").isEqualTo("setter");
+		assertThat(new Integer(4)).as("set operation should have visibility of four")
+				.isEqualTo(set.getDescriptor().getFieldValue("visibility"));
+		assertThat(set.getDescriptor().getFieldValue("role")).as("set operation should have role \"setter\"")
+				.isEqualTo("setter");
 	}
 
 	@Test

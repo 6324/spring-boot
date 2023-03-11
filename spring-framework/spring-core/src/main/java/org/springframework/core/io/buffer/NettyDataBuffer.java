@@ -33,8 +33,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Implementation of the {@code DataBuffer} interface that wraps a Netty
- * {@link ByteBuf}. Typically constructed with {@link NettyDataBufferFactory}.
+ * Implementation of the {@code DataBuffer} interface that wraps a Netty {@link ByteBuf}.
+ * Typically constructed with {@link NettyDataBufferFactory}.
  *
  * @author Arjen Poutsma
  * @author Brian Clozel
@@ -46,7 +46,6 @@ public class NettyDataBuffer implements PooledDataBuffer {
 
 	private final NettyDataBufferFactory dataBufferFactory;
 
-
 	/**
 	 * Create a new {@code NettyDataBuffer} based on the given {@code ByteBuff}.
 	 * @param byteBuf the buffer to base this buffer on
@@ -57,7 +56,6 @@ public class NettyDataBuffer implements PooledDataBuffer {
 		this.byteBuf = byteBuf;
 		this.dataBufferFactory = dataBufferFactory;
 	}
-
 
 	/**
 	 * Directly exposes the native {@code ByteBuf} that this buffer is based on.
@@ -226,8 +224,8 @@ public class NettyDataBuffer implements PooledDataBuffer {
 	}
 
 	/**
-	 * Writes one or more Netty {@link ByteBuf ByteBufs} to this buffer,
-	 * starting at the current writing position.
+	 * Writes one or more Netty {@link ByteBuf ByteBufs} to this buffer, starting at the
+	 * current writing position.
 	 * @param byteBufs the buffers to write into this buffer
 	 * @return this buffer
 	 */
@@ -320,11 +318,10 @@ public class NettyDataBuffer implements PooledDataBuffer {
 		return this.byteBuf.release();
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
-		return (this == other || (other instanceof NettyDataBuffer &&
-				this.byteBuf.equals(((NettyDataBuffer) other).byteBuf)));
+		return (this == other
+				|| (other instanceof NettyDataBuffer && this.byteBuf.equals(((NettyDataBuffer) other).byteBuf)));
 	}
 
 	@Override

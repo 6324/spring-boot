@@ -34,15 +34,13 @@ import org.springframework.util.Assert;
  */
 public class SimpMessageTypeMessageCondition extends AbstractMessageCondition<SimpMessageTypeMessageCondition> {
 
-	public static final SimpMessageTypeMessageCondition MESSAGE =
-			new SimpMessageTypeMessageCondition(SimpMessageType.MESSAGE);
+	public static final SimpMessageTypeMessageCondition MESSAGE = new SimpMessageTypeMessageCondition(
+			SimpMessageType.MESSAGE);
 
-	public static final SimpMessageTypeMessageCondition SUBSCRIBE =
-			new SimpMessageTypeMessageCondition(SimpMessageType.SUBSCRIBE);
-
+	public static final SimpMessageTypeMessageCondition SUBSCRIBE = new SimpMessageTypeMessageCondition(
+			SimpMessageType.SUBSCRIBE);
 
 	private final SimpMessageType messageType;
-
 
 	/**
 	 * A constructor accepting a message type.
@@ -52,7 +50,6 @@ public class SimpMessageTypeMessageCondition extends AbstractMessageCondition<Si
 		Assert.notNull(messageType, "MessageType must not be null");
 		this.messageType = messageType;
 	}
-
 
 	public SimpMessageType getMessageType() {
 		return this.messageType;

@@ -43,8 +43,8 @@ public class DefaultJpaDialectTests {
 	public void testDefaultTransactionDefinition() throws Exception {
 		DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
 		definition.setIsolationLevel(TransactionDefinition.ISOLATION_REPEATABLE_READ);
-		assertThatExceptionOfType(TransactionException.class).isThrownBy(() ->
-				dialect.beginTransaction(null, definition));
+		assertThatExceptionOfType(TransactionException.class)
+				.isThrownBy(() -> dialect.beginTransaction(null, definition));
 	}
 
 	@Test
@@ -61,6 +61,8 @@ public class DefaultJpaDialectTests {
 	@Test
 	public void testTranslateException() {
 		OptimisticLockException ex = new OptimisticLockException();
-		assertThat(dialect.translateExceptionIfPossible(ex).getCause()).isEqualTo(EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(ex).getCause());
+		assertThat(dialect.translateExceptionIfPossible(ex).getCause())
+				.isEqualTo(EntityManagerFactoryUtils.convertJpaAccessExceptionIfPossible(ex).getCause());
 	}
+
 }

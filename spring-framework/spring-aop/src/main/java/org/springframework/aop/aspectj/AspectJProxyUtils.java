@@ -33,17 +33,20 @@ import org.springframework.aop.interceptor.ExposeInvocationInterceptor;
 public abstract class AspectJProxyUtils {
 
 	/**
-	 * Add special advisors if necessary to work with a proxy chain that contains AspectJ advisors:
-	 * concretely, {@link ExposeInvocationInterceptor} at the beginning of the list.
-	 * <p>This will expose the current Spring AOP invocation (necessary for some AspectJ pointcut
-	 * matching) and make available the current AspectJ JoinPoint. The call will have no effect
-	 * if there are no AspectJ advisors in the advisor chain.
+	 * Add special advisors if necessary to work with a proxy chain that contains AspectJ
+	 * advisors: concretely, {@link ExposeInvocationInterceptor} at the beginning of the
+	 * list.
+	 * <p>
+	 * This will expose the current Spring AOP invocation (necessary for some AspectJ
+	 * pointcut matching) and make available the current AspectJ JoinPoint. The call will
+	 * have no effect if there are no AspectJ advisors in the advisor chain.
 	 * @param advisors the advisors available
-	 * @return {@code true} if an {@link ExposeInvocationInterceptor} was added to the list,
-	 * otherwise {@code false}
+	 * @return {@code true} if an {@link ExposeInvocationInterceptor} was added to the
+	 * list, otherwise {@code false}
 	 */
 	public static boolean makeAdvisorChainAspectJCapableIfNecessary(List<Advisor> advisors) {
-		// Don't add advisors to an empty list; may indicate that proxying is just not required
+		// Don't add advisors to an empty list; may indicate that proxying is just not
+		// required
 		if (!advisors.isEmpty()) {
 			boolean foundAspectJAdvice = false;
 			for (Advisor advisor : advisors) {
@@ -67,10 +70,9 @@ public abstract class AspectJProxyUtils {
 	 * @param advisor the Advisor to check
 	 */
 	private static boolean isAspectJAdvice(Advisor advisor) {
-		return (advisor instanceof InstantiationModelAwarePointcutAdvisor ||
-				advisor.getAdvice() instanceof AbstractAspectJAdvice ||
-				(advisor instanceof PointcutAdvisor &&
-						((PointcutAdvisor) advisor).getPointcut() instanceof AspectJExpressionPointcut));
+		return (advisor instanceof InstantiationModelAwarePointcutAdvisor
+				|| advisor.getAdvice() instanceof AbstractAspectJAdvice || (advisor instanceof PointcutAdvisor
+						&& ((PointcutAdvisor) advisor).getPointcut() instanceof AspectJExpressionPointcut));
 	}
 
 }

@@ -40,7 +40,6 @@ public class DateTimeFormatterFactoryBean extends DateTimeFormatterFactory
 	@Nullable
 	private DateTimeFormatter dateTimeFormatter;
 
-
 	@Override
 	public void afterPropertiesSet() {
 		this.dateTimeFormatter = createDateTimeFormatter();

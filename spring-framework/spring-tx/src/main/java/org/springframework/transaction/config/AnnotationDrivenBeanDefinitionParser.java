@@ -33,16 +33,15 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 import org.springframework.util.ClassUtils;
 
 /**
- * {@link org.springframework.beans.factory.xml.BeanDefinitionParser
- * BeanDefinitionParser} implementation that allows users to easily configure
- * all the infrastructure beans required to enable annotation-driven transaction
- * demarcation.
+ * {@link org.springframework.beans.factory.xml.BeanDefinitionParser BeanDefinitionParser}
+ * implementation that allows users to easily configure all the infrastructure beans
+ * required to enable annotation-driven transaction demarcation.
  *
- * <p>By default, all proxies are created as JDK proxies. This may cause some
- * problems if you are injecting objects as concrete classes rather than
- * interfaces. To overcome this restriction you can set the
- * '{@code proxy-target-class}' attribute to '{@code true}', which
- * will result in class-based proxies being created.
+ * <p>
+ * By default, all proxies are created as JDK proxies. This may cause some problems if you
+ * are injecting objects as concrete classes rather than interfaces. To overcome this
+ * restriction you can set the '{@code proxy-target-class}' attribute to '{@code true}',
+ * which will result in class-based proxies being created.
  *
  * @author Juergen Hoeller
  * @author Rob Harrop
@@ -54,8 +53,8 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 
 	/**
 	 * Parses the {@code <tx:annotation-driven/>} tag. Will
-	 * {@link AopNamespaceUtils#registerAutoProxyCreatorIfNecessary register an AutoProxyCreator}
-	 * with the container as necessary.
+	 * {@link AopNamespaceUtils#registerAutoProxyCreatorIfNecessary register an
+	 * AutoProxyCreator} with the container as necessary.
 	 */
 	@Override
 	@Nullable
@@ -112,9 +111,9 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 				TransactionManagementConfigUtils.TRANSACTIONAL_EVENT_LISTENER_FACTORY_BEAN_NAME));
 	}
 
-
 	/**
-	 * Inner class to just introduce an AOP framework dependency when actually in proxy mode.
+	 * Inner class to just introduce an AOP framework dependency when actually in proxy
+	 * mode.
 	 */
 	private static class AopAutoProxyConfigurer {
 
@@ -137,11 +136,13 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 				interceptorDef.setSource(eleSource);
 				interceptorDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 				registerTransactionManager(element, interceptorDef);
-				interceptorDef.getPropertyValues().add("transactionAttributeSource", new RuntimeBeanReference(sourceName));
+				interceptorDef.getPropertyValues().add("transactionAttributeSource",
+						new RuntimeBeanReference(sourceName));
 				String interceptorName = parserContext.getReaderContext().registerWithGeneratedName(interceptorDef);
 
 				// Create the TransactionAttributeSourceAdvisor definition.
-				RootBeanDefinition advisorDef = new RootBeanDefinition(BeanFactoryTransactionAttributeSourceAdvisor.class);
+				RootBeanDefinition advisorDef = new RootBeanDefinition(
+						BeanFactoryTransactionAttributeSourceAdvisor.class);
 				advisorDef.setSource(eleSource);
 				advisorDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 				advisorDef.getPropertyValues().add("transactionAttributeSource", new RuntimeBeanReference(sourceName));
@@ -151,13 +152,15 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 				}
 				parserContext.getRegistry().registerBeanDefinition(txAdvisorBeanName, advisorDef);
 
-				CompositeComponentDefinition compositeDef = new CompositeComponentDefinition(element.getTagName(), eleSource);
+				CompositeComponentDefinition compositeDef = new CompositeComponentDefinition(element.getTagName(),
+						eleSource);
 				compositeDef.addNestedComponent(new BeanComponentDefinition(sourceDef, sourceName));
 				compositeDef.addNestedComponent(new BeanComponentDefinition(interceptorDef, interceptorName));
 				compositeDef.addNestedComponent(new BeanComponentDefinition(advisorDef, txAdvisorBeanName));
 				parserContext.registerComponent(compositeDef);
 			}
 		}
+
 	}
 
 }

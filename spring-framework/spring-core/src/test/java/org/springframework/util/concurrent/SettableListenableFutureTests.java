@@ -40,7 +40,6 @@ class SettableListenableFutureTests {
 
 	private final SettableListenableFuture<String> settableListenableFuture = new SettableListenableFuture<>();
 
-
 	@Test
 	void validateInitialValues() {
 		assertThat(settableListenableFuture.isCancelled()).isFalse();
@@ -78,9 +77,8 @@ class SettableListenableFutureTests {
 		Throwable exception = new RuntimeException();
 		assertThat(settableListenableFuture.setException(exception)).isTrue();
 
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(
-				settableListenableFuture::get)
-			.withCause(exception);
+		assertThatExceptionOfType(ExecutionException.class).isThrownBy(settableListenableFuture::get)
+				.withCause(exception);
 
 		assertThat(settableListenableFuture.isCancelled()).isFalse();
 		assertThat(settableListenableFuture.isDone()).isTrue();
@@ -92,9 +90,7 @@ class SettableListenableFutureTests {
 		assertThat(settableListenableFuture.setException(exception)).isTrue();
 		Future<String> completable = settableListenableFuture.completable();
 
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(
-				completable::get)
-			.withCause(exception);
+		assertThatExceptionOfType(ExecutionException.class).isThrownBy(completable::get).withCause(exception);
 
 		assertThat(completable.isCancelled()).isFalse();
 		assertThat(completable.isDone()).isTrue();
@@ -105,9 +101,8 @@ class SettableListenableFutureTests {
 		Throwable exception = new OutOfMemoryError();
 		assertThat(settableListenableFuture.setException(exception)).isTrue();
 
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(
-				settableListenableFuture::get)
-			.withCause(exception);
+		assertThatExceptionOfType(ExecutionException.class).isThrownBy(settableListenableFuture::get)
+				.withCause(exception);
 
 		assertThat(settableListenableFuture.isCancelled()).isFalse();
 		assertThat(settableListenableFuture.isDone()).isTrue();
@@ -119,9 +114,7 @@ class SettableListenableFutureTests {
 		assertThat(settableListenableFuture.setException(exception)).isTrue();
 		Future<String> completable = settableListenableFuture.completable();
 
-		assertThatExceptionOfType(ExecutionException.class).isThrownBy(
-				completable::get)
-			.withCause(exception);
+		assertThatExceptionOfType(ExecutionException.class).isThrownBy(completable::get).withCause(exception);
 
 		assertThat(completable.isCancelled()).isFalse();
 		assertThat(completable.isDone()).isTrue();
@@ -137,6 +130,7 @@ class SettableListenableFutureTests {
 			public void onSuccess(String result) {
 				callbackHolder[0] = result;
 			}
+
 			@Override
 			public void onFailure(Throwable ex) {
 				throw new AssertionError("Expected onSuccess() to be called", ex);
@@ -159,6 +153,7 @@ class SettableListenableFutureTests {
 			public void onSuccess(String result) {
 				callbackHolder[0] = result;
 			}
+
 			@Override
 			public void onFailure(Throwable ex) {
 				throw new AssertionError("Expected onSuccess() to be called", ex);
@@ -182,6 +177,7 @@ class SettableListenableFutureTests {
 			public void onSuccess(String result) {
 				fail("Expected onFailure() to be called");
 			}
+
 			@Override
 			public void onFailure(Throwable ex) {
 				callbackHolder[0] = ex;
@@ -204,6 +200,7 @@ class SettableListenableFutureTests {
 			public void onSuccess(String result) {
 				fail("Expected onFailure() to be called");
 			}
+
 			@Override
 			public void onFailure(Throwable ex) {
 				callbackHolder[0] = ex;
@@ -247,8 +244,8 @@ class SettableListenableFutureTests {
 
 	@Test
 	void getWithTimeoutThrowsTimeoutException() throws ExecutionException, InterruptedException {
-		assertThatExceptionOfType(TimeoutException.class).isThrownBy(() ->
-				settableListenableFuture.get(1L, TimeUnit.MILLISECONDS));
+		assertThatExceptionOfType(TimeoutException.class)
+				.isThrownBy(() -> settableListenableFuture.get(1L, TimeUnit.MILLISECONDS));
 	}
 
 	@Test
@@ -332,15 +329,15 @@ class SettableListenableFutureTests {
 	void cancelStateThrowsExceptionWhenCallingGet() throws ExecutionException, InterruptedException {
 		settableListenableFuture.cancel(true);
 
-		assertThatExceptionOfType(CancellationException.class).isThrownBy(() ->
-				settableListenableFuture.get());
+		assertThatExceptionOfType(CancellationException.class).isThrownBy(() -> settableListenableFuture.get());
 
 		assertThat(settableListenableFuture.isCancelled()).isTrue();
 		assertThat(settableListenableFuture.isDone()).isTrue();
 	}
 
 	@Test
-	void cancelStateThrowsExceptionWhenCallingGetWithTimeout() throws ExecutionException, TimeoutException, InterruptedException {
+	void cancelStateThrowsExceptionWhenCallingGetWithTimeout()
+			throws ExecutionException, TimeoutException, InterruptedException {
 		new Thread(() -> {
 			try {
 				Thread.sleep(20L);
@@ -351,15 +348,15 @@ class SettableListenableFutureTests {
 			}
 		}).start();
 
-		assertThatExceptionOfType(CancellationException.class).isThrownBy(() ->
-			settableListenableFuture.get(500L, TimeUnit.MILLISECONDS));
+		assertThatExceptionOfType(CancellationException.class)
+				.isThrownBy(() -> settableListenableFuture.get(500L, TimeUnit.MILLISECONDS));
 
 		assertThat(settableListenableFuture.isCancelled()).isTrue();
 		assertThat(settableListenableFuture.isDone()).isTrue();
 	}
 
 	@Test
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void cancelDoesNotNotifyCallbacksOnSet() {
 		ListenableFutureCallback callback = mock(ListenableFutureCallback.class);
 		settableListenableFuture.addCallback(callback);
@@ -376,7 +373,7 @@ class SettableListenableFutureTests {
 	}
 
 	@Test
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void cancelDoesNotNotifyCallbacksOnSetException() {
 		ListenableFutureCallback callback = mock(ListenableFutureCallback.class);
 		settableListenableFuture.addCallback(callback);
@@ -392,7 +389,6 @@ class SettableListenableFutureTests {
 		assertThat(settableListenableFuture.isDone()).isTrue();
 	}
 
-
 	private static class InterruptibleSettableListenableFuture extends SettableListenableFuture<String> {
 
 		private boolean interrupted = false;
@@ -405,6 +401,7 @@ class SettableListenableFutureTests {
 		boolean calledInterruptTask() {
 			return interrupted;
 		}
+
 	}
 
 }

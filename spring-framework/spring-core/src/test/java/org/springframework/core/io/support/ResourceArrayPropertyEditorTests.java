@@ -44,7 +44,8 @@ class ResourceArrayPropertyEditorTests {
 	@Test
 	void patternResource() {
 		// N.B. this will sometimes fail if you use classpath: instead of classpath*:.
-		// The result depends on the classpath - if test-classes are segregated from classes
+		// The result depends on the classpath - if test-classes are segregated from
+		// classes
 		// and they come first on the classpath (like in Maven) then it breaks, if classes
 		// comes first (like in Spring Build) then it is OK.
 		PropertyEditor editor = new ResourceArrayPropertyEditor();
@@ -70,13 +71,11 @@ class ResourceArrayPropertyEditorTests {
 
 	@Test
 	void strictSystemPropertyReplacementWithUnresolvablePlaceholder() {
-		PropertyEditor editor = new ResourceArrayPropertyEditor(
-				new PathMatchingResourcePatternResolver(), new StandardEnvironment(),
-				false);
+		PropertyEditor editor = new ResourceArrayPropertyEditor(new PathMatchingResourcePatternResolver(),
+				new StandardEnvironment(), false);
 		System.setProperty("test.prop", "foo");
 		try {
-			assertThatIllegalArgumentException().isThrownBy(() ->
-					editor.setAsText("${test.prop}-${bar}"));
+			assertThatIllegalArgumentException().isThrownBy(() -> editor.setAsText("${test.prop}-${bar}"));
 		}
 		finally {
 			System.getProperties().remove("test.prop");

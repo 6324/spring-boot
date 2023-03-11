@@ -28,12 +28,13 @@ import org.springframework.jdbc.core.ParameterMapper;
 import org.springframework.jdbc.core.SqlParameter;
 
 /**
- * Superclass for object abstractions of RDBMS stored procedures.
- * This class is abstract and it is intended that subclasses will provide a typed
- * method for invocation that delegates to the supplied {@link #execute} method.
+ * Superclass for object abstractions of RDBMS stored procedures. This class is abstract
+ * and it is intended that subclasses will provide a typed method for invocation that
+ * delegates to the supplied {@link #execute} method.
  *
- * <p>The inherited {@link #setSql sql} property is the name of the stored procedure
- * in the RDBMS.
+ * <p>
+ * The inherited {@link #setSql sql} property is the name of the stored procedure in the
+ * RDBMS.
  *
  * @author Rod Johnson
  * @author Thomas Risberg
@@ -48,8 +49,8 @@ public abstract class StoredProcedure extends SqlCall {
 
 	/**
 	 * Create a new object wrapper for a stored procedure.
-	 * @param ds the DataSource to use throughout the lifetime
-	 * of this object to obtain connections
+	 * @param ds the DataSource to use throughout the lifetime of this object to obtain
+	 * connections
 	 * @param name the name of the stored procedure in the database
 	 */
 	protected StoredProcedure(DataSource ds, String name) {
@@ -67,10 +68,9 @@ public abstract class StoredProcedure extends SqlCall {
 		setSql(name);
 	}
 
-
 	/**
-	 * StoredProcedure parameter Maps are by default allowed to contain
-	 * additional entries that are not actually used as parameters.
+	 * StoredProcedure parameter Maps are by default allowed to contain additional entries
+	 * that are not actually used as parameters.
 	 */
 	@Override
 	protected boolean allowsUnusedParameters() {
@@ -79,33 +79,35 @@ public abstract class StoredProcedure extends SqlCall {
 
 	/**
 	 * Declare a parameter.
-	 * <p>Parameters declared as {@code SqlParameter} and {@code SqlInOutParameter}
-	 * will always be used to provide input values. In addition to this, any parameter declared
-	 * as {@code SqlOutParameter} where a non-null input value is provided will also be used
-	 * as an input parameter.
-	 * <b>Note: Calls to declareParameter must be made in the same order as
-	 * they appear in the database's stored procedure parameter list.</b>
-	 * <p>Names are purely used to help mapping.
+	 * <p>
+	 * Parameters declared as {@code SqlParameter} and {@code SqlInOutParameter} will
+	 * always be used to provide input values. In addition to this, any parameter declared
+	 * as {@code SqlOutParameter} where a non-null input value is provided will also be
+	 * used as an input parameter. <b>Note: Calls to declareParameter must be made in the
+	 * same order as they appear in the database's stored procedure parameter list.</b>
+	 * <p>
+	 * Names are purely used to help mapping.
 	 * @param param the parameter object
 	 */
 	@Override
 	public void declareParameter(SqlParameter param) throws InvalidDataAccessApiUsageException {
 		if (param.getName() == null) {
-			throw new InvalidDataAccessApiUsageException("Parameters to stored procedures must have names as well as types");
+			throw new InvalidDataAccessApiUsageException(
+					"Parameters to stored procedures must have names as well as types");
 		}
 		super.declareParameter(param);
 	}
 
 	/**
-	 * Execute the stored procedure with the provided parameter values. This is
-	 * a convenience method where the order of the passed in parameter values
-	 * must match the order that the parameters where declared in.
-	 * @param inParams variable number of input parameters. Output parameters should
-	 * not be included in this map. It is legal for values to be {@code null}, and this
-	 * will produce the correct behavior using a NULL argument to the stored procedure.
-	 * @return map of output params, keyed by name as in parameter declarations.
-	 * Output parameters will appear here, with their values after the stored procedure
-	 * has been called.
+	 * Execute the stored procedure with the provided parameter values. This is a
+	 * convenience method where the order of the passed in parameter values must match the
+	 * order that the parameters where declared in.
+	 * @param inParams variable number of input parameters. Output parameters should not
+	 * be included in this map. It is legal for values to be {@code null}, and this will
+	 * produce the correct behavior using a NULL argument to the stored procedure.
+	 * @return map of output params, keyed by name as in parameter declarations. Output
+	 * parameters will appear here, with their values after the stored procedure has been
+	 * called.
 	 */
 	public Map<String, Object> execute(Object... inParams) {
 		Map<String, Object> paramsToUse = new HashMap<>();
@@ -120,18 +122,18 @@ public abstract class StoredProcedure extends SqlCall {
 	}
 
 	/**
-	 * Execute the stored procedure. Subclasses should define a strongly typed
-	 * execute method (with a meaningful name) that invokes this method, populating
-	 * the input map and extracting typed values from the output map. Subclass
-	 * execute methods will often take domain objects as arguments and return values.
-	 * Alternatively, they can return void.
+	 * Execute the stored procedure. Subclasses should define a strongly typed execute
+	 * method (with a meaningful name) that invokes this method, populating the input map
+	 * and extracting typed values from the output map. Subclass execute methods will
+	 * often take domain objects as arguments and return values. Alternatively, they can
+	 * return void.
 	 * @param inParams map of input parameters, keyed by name as in parameter
-	 * declarations. Output parameters need not (but can) be included in this map.
-	 * It is legal for map entries to be {@code null}, and this will produce the
-	 * correct behavior using a NULL argument to the stored procedure.
-	 * @return map of output params, keyed by name as in parameter declarations.
-	 * Output parameters will appear here, with their values after the
-	 * stored procedure has been called.
+	 * declarations. Output parameters need not (but can) be included in this map. It is
+	 * legal for map entries to be {@code null}, and this will produce the correct
+	 * behavior using a NULL argument to the stored procedure.
+	 * @return map of output params, keyed by name as in parameter declarations. Output
+	 * parameters will appear here, with their values after the stored procedure has been
+	 * called.
 	 */
 	public Map<String, Object> execute(Map<String, ?> inParams) throws DataAccessException {
 		validateParameters(inParams.values().toArray());
@@ -139,20 +141,20 @@ public abstract class StoredProcedure extends SqlCall {
 	}
 
 	/**
-	 * Execute the stored procedure. Subclasses should define a strongly typed
-	 * execute method (with a meaningful name) that invokes this method, passing in
-	 * a ParameterMapper that will populate the input map.  This allows mapping database
+	 * Execute the stored procedure. Subclasses should define a strongly typed execute
+	 * method (with a meaningful name) that invokes this method, passing in a
+	 * ParameterMapper that will populate the input map. This allows mapping database
 	 * specific features since the ParameterMapper has access to the Connection object.
-	 * The execute method is also responsible for extracting typed values from the output map.
-	 * Subclass execute methods will often take domain objects as arguments and return values.
-	 * Alternatively, they can return void.
+	 * The execute method is also responsible for extracting typed values from the output
+	 * map. Subclass execute methods will often take domain objects as arguments and
+	 * return values. Alternatively, they can return void.
 	 * @param inParamMapper map of input parameters, keyed by name as in parameter
-	 * declarations. Output parameters need not (but can) be included in this map.
-	 * It is legal for map entries to be {@code null}, and this will produce the correct
+	 * declarations. Output parameters need not (but can) be included in this map. It is
+	 * legal for map entries to be {@code null}, and this will produce the correct
 	 * behavior using a NULL argument to the stored procedure.
-	 * @return map of output params, keyed by name as in parameter declarations.
-	 * Output parameters will appear here, with their values after the
-	 * stored procedure has been called.
+	 * @return map of output params, keyed by name as in parameter declarations. Output
+	 * parameters will appear here, with their values after the stored procedure has been
+	 * called.
 	 */
 	public Map<String, Object> execute(ParameterMapper inParamMapper) throws DataAccessException {
 		checkCompiled();

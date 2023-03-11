@@ -30,8 +30,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 /**
- * Abstract base class for integration tests for {@link ResourceDatabasePopulator}
- * and {@link DatabasePopulatorUtils}.
+ * Abstract base class for integration tests for {@link ResourceDatabasePopulator} and
+ * {@link DatabasePopulatorUtils}.
  *
  * @author Dave Syer
  * @author Sam Brannen
@@ -44,7 +44,6 @@ abstract class AbstractDatabasePopulatorTests extends AbstractDatabaseInitializa
 	private static final String COUNT_KEITH_SQL = "select COUNT(NAME) from T_TEST where NAME='Keith'";
 
 	protected final ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
-
 
 	@Test
 	void scriptWithSingleLineCommentsAndFailedDrop() throws Exception {
@@ -149,7 +148,7 @@ abstract class AbstractDatabasePopulatorTests extends AbstractDatabaseInitializa
 	@Test
 	void constructorWithMultipleScriptResources() throws Exception {
 		final ResourceDatabasePopulator populator = new ResourceDatabasePopulator(usersSchema(),
-			resource("users-data-with-comments.sql"));
+				resource("users-data-with-comments.sql"));
 		DatabasePopulatorUtils.execute(populator, db);
 		assertUsersDatabaseCreated("Brannen", "Hoeller");
 	}

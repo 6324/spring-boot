@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * @author Gary Russell
  * @since 5.0

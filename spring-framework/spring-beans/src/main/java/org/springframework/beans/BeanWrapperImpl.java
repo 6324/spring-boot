@@ -31,20 +31,21 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Default {@link BeanWrapper} implementation that should be sufficient
- * for all typical use cases. Caches introspection results for efficiency.
+ * Default {@link BeanWrapper} implementation that should be sufficient for all typical
+ * use cases. Caches introspection results for efficiency.
  *
- * <p>Note: Auto-registers default property editors from the
- * {@code org.springframework.beans.propertyeditors} package, which apply
- * in addition to the JDK's standard PropertyEditors. Applications can call
- * the {@link #registerCustomEditor(Class, java.beans.PropertyEditor)} method
- * to register an editor for a particular instance (i.e. they are not shared
- * across the application). See the base class
- * {@link PropertyEditorRegistrySupport} for details.
+ * <p>
+ * Note: Auto-registers default property editors from the
+ * {@code org.springframework.beans.propertyeditors} package, which apply in addition to
+ * the JDK's standard PropertyEditors. Applications can call the
+ * {@link #registerCustomEditor(Class, java.beans.PropertyEditor)} method to register an
+ * editor for a particular instance (i.e. they are not shared across the application). See
+ * the base class {@link PropertyEditorRegistrySupport} for details.
  *
- * <p><b>NOTE: As of Spring 2.5, this is - for almost all purposes - an
- * internal class.</b> It is just public in order to allow for access from
- * other framework packages. For standard application access purposes, use the
+ * <p>
+ * <b>NOTE: As of Spring 2.5, this is - for almost all purposes - an internal class.</b>
+ * It is just public in order to allow for access from other framework packages. For
+ * standard application access purposes, use the
  * {@link PropertyAccessorFactory#forBeanPropertyAccess} factory method instead.
  *
  * @author Rod Johnson
@@ -63,8 +64,8 @@ import org.springframework.util.ReflectionUtils;
 public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements BeanWrapper {
 
 	/**
-	 * Cached introspections results for this object, to prevent encountering
-	 * the cost of JavaBeans introspection every time.
+	 * Cached introspections results for this object, to prevent encountering the cost of
+	 * JavaBeans introspection every time.
 	 */
 	@Nullable
 	private CachedIntrospectionResults cachedIntrospectionResults;
@@ -74,7 +75,6 @@ public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements
 	 */
 	@Nullable
 	private AccessControlContext acc;
-
 
 	/**
 	 * Create a new empty BeanWrapperImpl. Wrapped instance needs to be set afterwards.
@@ -87,8 +87,8 @@ public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements
 
 	/**
 	 * Create a new empty BeanWrapperImpl. Wrapped instance needs to be set afterwards.
-	 * @param registerDefaultEditors whether to register default editors
-	 * (can be suppressed if the BeanWrapper won't need any type conversion)
+	 * @param registerDefaultEditors whether to register default editors (can be
+	 * suppressed if the BeanWrapper won't need any type conversion)
 	 * @see #setWrappedInstance
 	 */
 	public BeanWrapperImpl(boolean registerDefaultEditors) {
@@ -112,8 +112,8 @@ public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements
 	}
 
 	/**
-	 * Create a new BeanWrapperImpl for the given object,
-	 * registering a nested path that the object is in.
+	 * Create a new BeanWrapperImpl for the given object, registering a nested path that
+	 * the object is in.
 	 * @param object the object wrapped by this BeanWrapper
 	 * @param nestedPath the nested path of the object
 	 * @param rootObject the root object at the top of the path
@@ -123,8 +123,8 @@ public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements
 	}
 
 	/**
-	 * Create a new BeanWrapperImpl for the given object,
-	 * registering a nested path that the object is in.
+	 * Create a new BeanWrapperImpl for the given object, registering a nested path that
+	 * the object is in.
 	 * @param object the object wrapped by this BeanWrapper
 	 * @param nestedPath the nested path of the object
 	 * @param parent the containing BeanWrapper (must not be {@code null})
@@ -133,7 +133,6 @@ public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements
 		super(object, nestedPath, parent);
 		setSecurityContext(parent.acc);
 	}
-
 
 	/**
 	 * Set a bean instance to hold, without any unwrapping of {@link java.util.Optional}.
@@ -155,8 +154,7 @@ public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements
 	}
 
 	/**
-	 * Set the class to introspect.
-	 * Needs to be called when the target object changes.
+	 * Set the class to introspect. Needs to be called when the target object changes.
 	 * @param clazz the class to introspect
 	 */
 	protected void setIntrospectionClass(Class<?> clazz) {
@@ -166,8 +164,8 @@ public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements
 	}
 
 	/**
-	 * Obtain a lazily initialized CachedIntrospectionResults instance
-	 * for the wrapped object.
+	 * Obtain a lazily initialized CachedIntrospectionResults instance for the wrapped
+	 * object.
 	 */
 	private CachedIntrospectionResults getCachedIntrospectionResults() {
 		if (this.cachedIntrospectionResults == null) {
@@ -177,30 +175,30 @@ public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements
 	}
 
 	/**
-	 * Set the security context used during the invocation of the wrapped instance methods.
-	 * Can be null.
+	 * Set the security context used during the invocation of the wrapped instance
+	 * methods. Can be null.
 	 */
 	public void setSecurityContext(@Nullable AccessControlContext acc) {
 		this.acc = acc;
 	}
 
 	/**
-	 * Return the security context used during the invocation of the wrapped instance methods.
-	 * Can be null.
+	 * Return the security context used during the invocation of the wrapped instance
+	 * methods. Can be null.
 	 */
 	@Nullable
 	public AccessControlContext getSecurityContext() {
 		return this.acc;
 	}
 
-
 	/**
 	 * Convert the given value for the specified property to the latter's type.
-	 * <p>This method is only intended for optimizations in a BeanFactory.
-	 * Use the {@code convertIfNecessary} methods for programmatic conversion.
+	 * <p>
+	 * This method is only intended for optimizations in a BeanFactory. Use the
+	 * {@code convertIfNecessary} methods for programmatic conversion.
 	 * @param value the value to convert
-	 * @param propertyName the target property
-	 * (note that nested or indexed properties are not supported here)
+	 * @param propertyName the target property (note that nested or indexed properties are
+	 * not supported here)
 	 * @return the new value, possibly the result of type conversion
 	 * @throws TypeMismatchException if type conversion failed
 	 */
@@ -260,7 +258,6 @@ public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements
 		return pd;
 	}
 
-
 	private class BeanPropertyHandler extends PropertyHandler {
 
 		private final PropertyDescriptor pd;
@@ -296,8 +293,8 @@ public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements
 					return null;
 				});
 				try {
-					return AccessController.doPrivileged((PrivilegedExceptionAction<Object>)
-							() -> readMethod.invoke(getWrappedInstance(), (Object[]) null), acc);
+					return AccessController.doPrivileged((PrivilegedExceptionAction<Object>) () -> readMethod
+							.invoke(getWrappedInstance(), (Object[]) null), acc);
 				}
 				catch (PrivilegedActionException pae) {
 					throw pae.getException();
@@ -311,17 +308,18 @@ public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements
 
 		@Override
 		public void setValue(@Nullable Object value) throws Exception {
-			Method writeMethod = (this.pd instanceof GenericTypeAwarePropertyDescriptor ?
-					((GenericTypeAwarePropertyDescriptor) this.pd).getWriteMethodForActualAccess() :
-					this.pd.getWriteMethod());
+			Method writeMethod = (this.pd instanceof GenericTypeAwarePropertyDescriptor
+					? ((GenericTypeAwarePropertyDescriptor) this.pd).getWriteMethodForActualAccess()
+					: this.pd.getWriteMethod());
 			if (System.getSecurityManager() != null) {
 				AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
 					ReflectionUtils.makeAccessible(writeMethod);
 					return null;
 				});
 				try {
-					AccessController.doPrivileged((PrivilegedExceptionAction<Object>)
-							() -> writeMethod.invoke(getWrappedInstance(), value), acc);
+					AccessController.doPrivileged(
+							(PrivilegedExceptionAction<Object>) () -> writeMethod.invoke(getWrappedInstance(), value),
+							acc);
 				}
 				catch (PrivilegedActionException ex) {
 					throw ex.getException();
@@ -332,6 +330,7 @@ public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements
 				writeMethod.invoke(getWrappedInstance(), value);
 			}
 		}
+
 	}
 
 }

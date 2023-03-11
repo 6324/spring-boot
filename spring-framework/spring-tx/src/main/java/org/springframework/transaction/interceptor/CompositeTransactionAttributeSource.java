@@ -23,8 +23,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Composite {@link TransactionAttributeSource} implementation that iterates
- * over a given array of {@link TransactionAttributeSource} instances.
+ * Composite {@link TransactionAttributeSource} implementation that iterates over a given
+ * array of {@link TransactionAttributeSource} instances.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -34,10 +34,10 @@ public class CompositeTransactionAttributeSource implements TransactionAttribute
 
 	private final TransactionAttributeSource[] transactionAttributeSources;
 
-
 	/**
 	 * Create a new CompositeTransactionAttributeSource for the given sources.
-	 * @param transactionAttributeSources the TransactionAttributeSource instances to combine
+	 * @param transactionAttributeSources the TransactionAttributeSource instances to
+	 * combine
 	 */
 	public CompositeTransactionAttributeSource(TransactionAttributeSource... transactionAttributeSources) {
 		Assert.notNull(transactionAttributeSources, "TransactionAttributeSource array must not be null");
@@ -51,7 +51,6 @@ public class CompositeTransactionAttributeSource implements TransactionAttribute
 	public final TransactionAttributeSource[] getTransactionAttributeSources() {
 		return this.transactionAttributeSources;
 	}
-
 
 	@Override
 	public boolean isCandidateClass(Class<?> targetClass) {

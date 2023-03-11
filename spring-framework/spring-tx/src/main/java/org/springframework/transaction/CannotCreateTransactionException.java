@@ -17,8 +17,8 @@
 package org.springframework.transaction;
 
 /**
- * Exception thrown when a transaction can't be created using an
- * underlying transaction API such as JTA.
+ * Exception thrown when a transaction can't be created using an underlying transaction
+ * API such as JTA.
  *
  * @author Rod Johnson
  * @since 17.03.2003

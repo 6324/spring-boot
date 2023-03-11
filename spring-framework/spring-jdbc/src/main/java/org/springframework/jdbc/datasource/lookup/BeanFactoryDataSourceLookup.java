@@ -27,8 +27,9 @@ import org.springframework.util.Assert;
 /**
  * {@link DataSourceLookup} implementation based on a Spring {@link BeanFactory}.
  *
- * <p>Will lookup Spring managed beans identified by bean name,
- * expecting them to be of type {@code javax.sql.DataSource}.
+ * <p>
+ * Will lookup Spring managed beans identified by bean name, expecting them to be of type
+ * {@code javax.sql.DataSource}.
  *
  * @author Costin Leau
  * @author Juergen Hoeller
@@ -40,10 +41,10 @@ public class BeanFactoryDataSourceLookup implements DataSourceLookup, BeanFactor
 	@Nullable
 	private BeanFactory beanFactory;
 
-
 	/**
 	 * Create a new instance of the {@link BeanFactoryDataSourceLookup} class.
-	 * <p>The BeanFactory to access must be set via {@code setBeanFactory}.
+	 * <p>
+	 * The BeanFactory to access must be set via {@code setBeanFactory}.
 	 * @see #setBeanFactory
 	 */
 	public BeanFactoryDataSourceLookup() {
@@ -51,24 +52,24 @@ public class BeanFactoryDataSourceLookup implements DataSourceLookup, BeanFactor
 
 	/**
 	 * Create a new instance of the {@link BeanFactoryDataSourceLookup} class.
-	 * <p>Use of this constructor is redundant if this object is being created
-	 * by a Spring IoC container, as the supplied {@link BeanFactory} will be
-	 * replaced by the {@link BeanFactory} that creates it (c.f. the
-	 * {@link BeanFactoryAware} contract). So only use this constructor if you
-	 * are using this class outside the context of a Spring IoC container.
-	 * @param beanFactory the bean factory to be used to lookup {@link DataSource DataSources}
+	 * <p>
+	 * Use of this constructor is redundant if this object is being created by a Spring
+	 * IoC container, as the supplied {@link BeanFactory} will be replaced by the
+	 * {@link BeanFactory} that creates it (c.f. the {@link BeanFactoryAware} contract).
+	 * So only use this constructor if you are using this class outside the context of a
+	 * Spring IoC container.
+	 * @param beanFactory the bean factory to be used to lookup {@link DataSource
+	 * DataSources}
 	 */
 	public BeanFactoryDataSourceLookup(BeanFactory beanFactory) {
 		Assert.notNull(beanFactory, "BeanFactory is required");
 		this.beanFactory = beanFactory;
 	}
 
-
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) {
 		this.beanFactory = beanFactory;
 	}
-
 
 	@Override
 	public DataSource getDataSource(String dataSourceName) throws DataSourceLookupFailureException {

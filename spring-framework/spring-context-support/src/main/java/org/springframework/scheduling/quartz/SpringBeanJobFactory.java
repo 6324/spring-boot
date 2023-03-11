@@ -28,16 +28,17 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.lang.Nullable;
 
 /**
- * Subclass of {@link AdaptableJobFactory} that also supports Spring-style
- * dependency injection on bean properties. This is essentially the direct
- * equivalent of Spring's {@link QuartzJobBean} in the shape of a Quartz
- * {@link org.quartz.spi.JobFactory}.
+ * Subclass of {@link AdaptableJobFactory} that also supports Spring-style dependency
+ * injection on bean properties. This is essentially the direct equivalent of Spring's
+ * {@link QuartzJobBean} in the shape of a Quartz {@link org.quartz.spi.JobFactory}.
  *
- * <p>Applies scheduler context, job data map and trigger data map entries
- * as bean property values. If no matching bean property is found, the entry
- * is by default simply ignored. This is analogous to QuartzJobBean's behavior.
+ * <p>
+ * Applies scheduler context, job data map and trigger data map entries as bean property
+ * values. If no matching bean property is found, the entry is by default simply ignored.
+ * This is analogous to QuartzJobBean's behavior.
  *
- * <p>Compatible with Quartz 2.1.4 and higher, as of Spring 4.1.
+ * <p>
+ * Compatible with Quartz 2.1.4 and higher, as of Spring 4.1.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -56,14 +57,14 @@ public class SpringBeanJobFactory extends AdaptableJobFactory
 	@Nullable
 	private SchedulerContext schedulerContext;
 
-
 	/**
 	 * Specify the unknown properties (not found in the bean) that should be ignored.
-	 * <p>Default is {@code null}, indicating that all unknown properties
-	 * should be ignored. Specify an empty array to throw an exception in case
-	 * of any unknown properties, or a list of property names that should be
-	 * ignored if there is no corresponding property found on the particular
-	 * job class (all other unknown properties will still trigger an exception).
+	 * <p>
+	 * Default is {@code null}, indicating that all unknown properties should be ignored.
+	 * Specify an empty array to throw an exception in case of any unknown properties, or
+	 * a list of property names that should be ignored if there is no corresponding
+	 * property found on the particular job class (all other unknown properties will still
+	 * trigger an exception).
 	 */
 	public void setIgnoredUnknownProperties(String... ignoredUnknownProperties) {
 		this.ignoredUnknownProperties = ignoredUnknownProperties;
@@ -79,17 +80,16 @@ public class SpringBeanJobFactory extends AdaptableJobFactory
 		this.schedulerContext = schedulerContext;
 	}
 
-
 	/**
-	 * Create the job instance, populating it with property values taken
-	 * from the scheduler context, job data map and trigger data map.
+	 * Create the job instance, populating it with property values taken from the
+	 * scheduler context, job data map and trigger data map.
 	 */
 	@Override
 	protected Object createJobInstance(TriggerFiredBundle bundle) throws Exception {
-		Object job = (this.applicationContext != null ?
-				this.applicationContext.getAutowireCapableBeanFactory().createBean(
-						bundle.getJobDetail().getJobClass(), AutowireCapableBeanFactory.AUTOWIRE_CONSTRUCTOR, false) :
-				super.createJobInstance(bundle));
+		Object job = (this.applicationContext != null
+				? this.applicationContext.getAutowireCapableBeanFactory().createBean(
+						bundle.getJobDetail().getJobClass(), AutowireCapableBeanFactory.AUTOWIRE_CONSTRUCTOR, false)
+				: super.createJobInstance(bundle));
 
 		if (isEligibleForPropertyPopulation(job)) {
 			BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(job);
@@ -116,10 +116,11 @@ public class SpringBeanJobFactory extends AdaptableJobFactory
 	}
 
 	/**
-	 * Return whether the given job object is eligible for having
-	 * its bean properties populated.
-	 * <p>The default implementation ignores {@link QuartzJobBean} instances,
-	 * which will inject bean properties themselves.
+	 * Return whether the given job object is eligible for having its bean properties
+	 * populated.
+	 * <p>
+	 * The default implementation ignores {@link QuartzJobBean} instances, which will
+	 * inject bean properties themselves.
 	 * @param jobObject the job object to introspect
 	 * @see QuartzJobBean
 	 */

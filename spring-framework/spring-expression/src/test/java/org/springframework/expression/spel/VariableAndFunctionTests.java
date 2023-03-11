@@ -39,21 +39,24 @@ public class VariableAndFunctionTests extends AbstractExpressionTests {
 
 	@Test
 	public void testVariableAccess_WellKnownVariables() {
-		evaluate("#this.getName()","Nikola Tesla",String.class);
-		evaluate("#root.getName()","Nikola Tesla",String.class);
+		evaluate("#this.getName()", "Nikola Tesla", String.class);
+		evaluate("#root.getName()", "Nikola Tesla", String.class);
 	}
 
 	@Test
 	public void testFunctionAccess01() {
 		evaluate("#reverseInt(1,2,3)", "int[3]{3,2,1}", int[].class);
-		evaluate("#reverseInt('1',2,3)", "int[3]{3,2,1}", int[].class); // requires type conversion of '1' to 1
+		evaluate("#reverseInt('1',2,3)", "int[3]{3,2,1}", int[].class); // requires type
+																		// conversion of
+																		// '1' to 1
 		evaluateAndCheckError("#reverseInt(1)", SpelMessage.INCORRECT_NUMBER_OF_ARGUMENTS_TO_FUNCTION, 0, 1, 3);
 	}
 
 	@Test
 	public void testFunctionAccess02() {
 		evaluate("#reverseString('hello')", "olleh", String.class);
-		evaluate("#reverseString(37)", "73", String.class); // requires type conversion of 37 to '37'
+		evaluate("#reverseString(37)", "73", String.class); // requires type conversion of
+															// 37 to '37'
 	}
 
 	@Test
@@ -82,11 +85,10 @@ public class VariableAndFunctionTests extends AbstractExpressionTests {
 		SpelExpressionParser parser = new SpelExpressionParser();
 		StandardEvaluationContext ctx = new StandardEvaluationContext();
 		ctx.setVariable("notStatic", this.getClass().getMethod("nonStatic"));
-		assertThatExceptionOfType(SpelEvaluationException.class).isThrownBy(() ->
-				parser.parseRaw("#notStatic()").getValue(ctx)).
-			satisfies(ex -> assertThat(ex.getMessageCode()).isEqualTo(SpelMessage.FUNCTION_MUST_BE_STATIC));
+		assertThatExceptionOfType(SpelEvaluationException.class)
+				.isThrownBy(() -> parser.parseRaw("#notStatic()").getValue(ctx))
+				.satisfies(ex -> assertThat(ex.getMessageCode()).isEqualTo(SpelMessage.FUNCTION_MUST_BE_STATIC));
 	}
-
 
 	// this method is used by the test above
 	public void nonStatic() {

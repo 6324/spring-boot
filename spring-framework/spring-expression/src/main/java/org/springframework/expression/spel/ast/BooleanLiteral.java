@@ -30,13 +30,11 @@ public class BooleanLiteral extends Literal {
 
 	private final BooleanTypedValue value;
 
-
 	public BooleanLiteral(String payload, int startPos, int endPos, boolean value) {
 		super(payload, startPos, endPos);
 		this.value = BooleanTypedValue.forValue(value);
 		this.exitTypeDescriptor = "Z";
 	}
-
 
 	@Override
 	public BooleanTypedValue getLiteralValue() {

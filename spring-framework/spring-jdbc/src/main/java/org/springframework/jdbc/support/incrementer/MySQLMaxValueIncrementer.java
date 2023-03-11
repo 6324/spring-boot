@@ -29,29 +29,34 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.support.JdbcUtils;
 
 /**
- * {@link DataFieldMaxValueIncrementer} that increments the maximum value of a given MySQL table
- * with the equivalent of an auto-increment column. Note: If you use this class, your MySQL
- * key column should <i>NOT</i> be auto-increment, as the sequence table does the job.
+ * {@link DataFieldMaxValueIncrementer} that increments the maximum value of a given MySQL
+ * table with the equivalent of an auto-increment column. Note: If you use this class,
+ * your MySQL key column should <i>NOT</i> be auto-increment, as the sequence table does
+ * the job.
  *
- * <p>The sequence is kept in a table; there should be one sequence table per
- * table that needs an auto-generated key. The storage engine used by the sequence table
- * can be MYISAM or INNODB since the sequences are allocated using a separate connection
- * without being affected by any other transactions that might be in progress.
+ * <p>
+ * The sequence is kept in a table; there should be one sequence table per table that
+ * needs an auto-generated key. The storage engine used by the sequence table can be
+ * MYISAM or INNODB since the sequences are allocated using a separate connection without
+ * being affected by any other transactions that might be in progress.
  *
- * <p>Example:
+ * <p>
+ * Example:
  *
- * <pre class="code">create table tab (id int unsigned not null primary key, text varchar(100));
+ * <pre class=
+ * "code">create table tab (id int unsigned not null primary key, text varchar(100));
  * create table tab_sequence (value int not null);
  * insert into tab_sequence values(0);</pre>
  *
  * If "cacheSize" is set, the intermediate values are served without querying the
- * database. If the server or your application is stopped or crashes or a transaction
- * is rolled back, the unused values will never be served. The maximum hole size in
- * numbering is consequently the value of cacheSize.
+ * database. If the server or your application is stopped or crashes or a transaction is
+ * rolled back, the unused values will never be served. The maximum hole size in numbering
+ * is consequently the value of cacheSize.
  *
- * <p>It is possible to avoid acquiring a new connection for the incrementer by setting the
- * "useNewConnection" property to false. In this case you <i>MUST</i> use a non-transactional
- * storage engine like MYISAM when defining the incrementer table.
+ * <p>
+ * It is possible to avoid acquiring a new connection for the incrementer by setting the
+ * "useNewConnection" property to false. In this case you <i>MUST</i> use a
+ * non-transactional storage engine like MYISAM when defining the incrementer table.
  *
  * @author Jean-Pierre Pawlak
  * @author Thomas Risberg
@@ -70,7 +75,6 @@ public class MySQLMaxValueIncrementer extends AbstractColumnMaxValueIncrementer 
 
 	/** Whether or not to use a new connection for the incrementer. */
 	private boolean useNewConnection = true;
-
 
 	/**
 	 * Default constructor for bean property style usage.
@@ -91,15 +95,16 @@ public class MySQLMaxValueIncrementer extends AbstractColumnMaxValueIncrementer 
 		super(dataSource, incrementerName, columnName);
 	}
 
-
 	/**
 	 * Set whether to use a new connection for the incrementer.
-	 * <p>{@code true} is necessary to support transactional storage engines,
-	 * using an isolated separate transaction for the increment operation.
-	 * {@code false} is sufficient if the storage engine of the sequence table
-	 * is non-transactional (like MYISAM), avoiding the effort of acquiring an
-	 * extra {@code Connection} for the increment operation.
-	 * <p>Default is {@code true} since Spring Framework 5.0.
+	 * <p>
+	 * {@code true} is necessary to support transactional storage engines, using an
+	 * isolated separate transaction for the increment operation. {@code false} is
+	 * sufficient if the storage engine of the sequence table is non-transactional (like
+	 * MYISAM), avoiding the effort of acquiring an extra {@code Connection} for the
+	 * increment operation.
+	 * <p>
+	 * Default is {@code true} since Spring Framework 5.0.
 	 * @since 4.3.6
 	 * @see DataSource#getConnection()
 	 */
@@ -107,18 +112,18 @@ public class MySQLMaxValueIncrementer extends AbstractColumnMaxValueIncrementer 
 		this.useNewConnection = useNewConnection;
 	}
 
-
 	@Override
 	protected synchronized long getNextKey() throws DataAccessException {
 		if (this.maxId == this.nextId) {
 			/*
-			* If useNewConnection is true, then we obtain a non-managed connection so our modifications
-			* are handled in a separate transaction. If it is false, then we use the current transaction's
-			* connection relying on the use of a non-transactional storage engine like MYISAM for the
-			* incrementer table. We also use straight JDBC code because we need to make sure that the insert
-			* and select are performed on the same connection (otherwise we can't be sure that last_insert_id()
-			* returned the correct value).
-			*/
+			 * If useNewConnection is true, then we obtain a non-managed connection so our
+			 * modifications are handled in a separate transaction. If it is false, then
+			 * we use the current transaction's connection relying on the use of a
+			 * non-transactional storage engine like MYISAM for the incrementer table. We
+			 * also use straight JDBC code because we need to make sure that the insert
+			 * and select are performed on the same connection (otherwise we can't be sure
+			 * that last_insert_id() returned the correct value).
+			 */
 			Connection con = null;
 			Statement stmt = null;
 			boolean mustRestoreAutoCommit = false;
@@ -140,18 +145,20 @@ public class MySQLMaxValueIncrementer extends AbstractColumnMaxValueIncrementer 
 				// Increment the sequence column...
 				String columnName = getColumnName();
 				try {
-					stmt.executeUpdate("update " + getIncrementerName() + " set " + columnName +
-							" = last_insert_id(" + columnName + " + " + getCacheSize() + ")");
+					stmt.executeUpdate("update " + getIncrementerName() + " set " + columnName + " = last_insert_id("
+							+ columnName + " + " + getCacheSize() + ")");
 				}
 				catch (SQLException ex) {
-					throw new DataAccessResourceFailureException("Could not increment " + columnName + " for " +
-							getIncrementerName() + " sequence table", ex);
+					throw new DataAccessResourceFailureException(
+							"Could not increment " + columnName + " for " + getIncrementerName() + " sequence table",
+							ex);
 				}
 				// Retrieve the new max of the sequence column...
 				ResultSet rs = stmt.executeQuery(VALUE_SQL);
 				try {
 					if (!rs.next()) {
-						throw new DataAccessResourceFailureException("last_insert_id() failed after executing an update");
+						throw new DataAccessResourceFailureException(
+								"last_insert_id() failed after executing an update");
 					}
 					this.maxId = rs.getLong(1);
 				}

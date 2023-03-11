@@ -58,12 +58,10 @@ public class JibxMarshallerTests extends AbstractMarshallerTests<JibxMarshaller>
 		return flights;
 	}
 
-
 	@Test
 	public void afterPropertiesSetNoContextPath() throws Exception {
 		JibxMarshaller marshaller = new JibxMarshaller();
-		assertThatIllegalArgumentException().isThrownBy(
-				marshaller::afterPropertiesSet);
+		assertThatIllegalArgumentException().isThrownBy(marshaller::afterPropertiesSet);
 	}
 
 	@Test
@@ -71,9 +69,9 @@ public class JibxMarshallerTests extends AbstractMarshallerTests<JibxMarshaller>
 		marshaller.setIndent(4);
 		StringWriter writer = new StringWriter();
 		marshaller.marshal(flights, new StreamResult(writer));
-		String expected =
-				"<?xml version=\"1.0\"?>\n" + "<flights xmlns=\"http://samples.springframework.org/flight\">\n" +
-						"    <flight>\n" + "        <number>42</number>\n" + "    </flight>\n" + "</flights>";
+		String expected = "<?xml version=\"1.0\"?>\n"
+				+ "<flights xmlns=\"http://samples.springframework.org/flight\">\n" + "    <flight>\n"
+				+ "        <number>42</number>\n" + "    </flight>\n" + "</flights>";
 		assertThat(XmlContent.from(writer)).isSimilarToIgnoringWhitespace(expected);
 	}
 
@@ -83,7 +81,8 @@ public class JibxMarshallerTests extends AbstractMarshallerTests<JibxMarshaller>
 		marshaller.setStandalone(Boolean.TRUE);
 		StringWriter writer = new StringWriter();
 		marshaller.marshal(flights, new StreamResult(writer));
-		assertThat(writer.toString().startsWith("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"yes\"?>")).as("Encoding and standalone not set").isTrue();
+		assertThat(writer.toString().startsWith("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"yes\"?>"))
+				.as("Encoding and standalone not set").isTrue();
 	}
 
 	@Test
@@ -92,7 +91,8 @@ public class JibxMarshallerTests extends AbstractMarshallerTests<JibxMarshaller>
 		marshaller.setDocTypeSystemId("flights.dtd");
 		StringWriter writer = new StringWriter();
 		marshaller.marshal(flights, new StreamResult(writer));
-		assertThat(writer.toString().contains("<!DOCTYPE flights SYSTEM \"flights.dtd\">")).as("doc type not written").isTrue();
+		assertThat(writer.toString().contains("<!DOCTYPE flights SYSTEM \"flights.dtd\">")).as("doc type not written")
+				.isTrue();
 	}
 
 	@Test

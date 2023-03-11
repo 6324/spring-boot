@@ -29,8 +29,6 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
-
 /**
  * Abstract base class for integration tests involving database initialization.
  *
@@ -44,7 +42,6 @@ public abstract class AbstractDatabaseInitializationTests {
 	EmbeddedDatabase db;
 
 	JdbcTemplate jdbcTemplate;
-
 
 	@BeforeEach
 	public void setUp() {

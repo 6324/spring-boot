@@ -23,8 +23,8 @@ import java.util.List;
 import org.springframework.lang.Nullable;
 
 /**
- * Generic utility methods for working with JDBC batch statements.
- * Mainly for internal use within the framework.
+ * Generic utility methods for working with JDBC batch statements. Mainly for internal use
+ * within the framework.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -34,26 +34,25 @@ import org.springframework.lang.Nullable;
 @Deprecated
 public abstract class BatchUpdateUtils {
 
-	public static int[] executeBatchUpdate(
-			String sql, final List<Object[]> batchArgs, final int[] columnTypes, JdbcOperations jdbcOperations) {
+	public static int[] executeBatchUpdate(String sql, final List<Object[]> batchArgs, final int[] columnTypes,
+			JdbcOperations jdbcOperations) {
 
 		if (batchArgs.isEmpty()) {
 			return new int[0];
 		}
 
-		return jdbcOperations.batchUpdate(
-				sql,
-				new BatchPreparedStatementSetter() {
-					@Override
-					public void setValues(PreparedStatement ps, int i) throws SQLException {
-						Object[] values = batchArgs.get(i);
-						setStatementParameters(values, ps, columnTypes);
-					}
-					@Override
-					public int getBatchSize() {
-						return batchArgs.size();
-					}
-				});
+		return jdbcOperations.batchUpdate(sql, new BatchPreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement ps, int i) throws SQLException {
+				Object[] values = batchArgs.get(i);
+				setStatementParameters(values, ps, columnTypes);
+			}
+
+			@Override
+			public int getBatchSize() {
+				return batchArgs.size();
+			}
+		});
 	}
 
 	protected static void setStatementParameters(Object[] values, PreparedStatement ps, @Nullable int[] columnTypes)

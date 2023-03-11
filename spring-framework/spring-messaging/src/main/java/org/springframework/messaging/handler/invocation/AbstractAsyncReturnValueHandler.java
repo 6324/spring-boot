@@ -21,10 +21,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.messaging.Message;
 
 /**
- * Convenient base class for {@link AsyncHandlerMethodReturnValueHandler}
- * implementations that support only asynchronous (Future-like) return values
- * and merely serve as adapters of such types to Spring's
- * {@link org.springframework.util.concurrent.ListenableFuture ListenableFuture}.
+ * Convenient base class for {@link AsyncHandlerMethodReturnValueHandler} implementations
+ * that support only asynchronous (Future-like) return values and merely serve as adapters
+ * of such types to Spring's {@link org.springframework.util.concurrent.ListenableFuture
+ * ListenableFuture}.
  *
  * @author Sebastien Deleuze
  * @since 4.2

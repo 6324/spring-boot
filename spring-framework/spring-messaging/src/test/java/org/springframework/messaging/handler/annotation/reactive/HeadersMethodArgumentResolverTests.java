@@ -36,17 +36,17 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 /**
  * Test fixture for {@link HeadersMethodArgumentResolver} tests.
+ *
  * @author Rossen Stoyanchev
  */
 public class HeadersMethodArgumentResolverTests {
 
 	private final HeadersMethodArgumentResolver resolver = new HeadersMethodArgumentResolver();
 
-	private Message<byte[]> message =
-			MessageBuilder.withPayload(new byte[0]).copyHeaders(Collections.singletonMap("foo", "bar")).build();
+	private Message<byte[]> message = MessageBuilder.withPayload(new byte[0])
+			.copyHeaders(Collections.singletonMap("foo", "bar")).build();
 
 	private final ResolvableMethod resolvable = ResolvableMethod.on(getClass()).named("handleMessage").build();
-
 
 	@Test
 	public void supportsParameter() {
@@ -58,7 +58,8 @@ public class HeadersMethodArgumentResolverTests {
 		assertThat(this.resolver.supportsParameter(this.resolvable.arg(MessageHeaderAccessor.class))).isTrue();
 		assertThat(this.resolver.supportsParameter(this.resolvable.arg(TestMessageHeaderAccessor.class))).isTrue();
 
-		assertThat(this.resolver.supportsParameter(this.resolvable.annotPresent(Headers.class).arg(String.class))).isFalse();
+		assertThat(this.resolver.supportsParameter(this.resolvable.annotPresent(Headers.class).arg(String.class)))
+				.isFalse();
 	}
 
 	@Test
@@ -71,8 +72,8 @@ public class HeadersMethodArgumentResolverTests {
 
 	@Test
 	public void resolveArgumentAnnotatedNotMap() {
-		assertThatIllegalStateException().isThrownBy(() ->
-				resolveArgument(this.resolvable.annotPresent(Headers.class).arg(String.class)));
+		assertThatIllegalStateException()
+				.isThrownBy(() -> resolveArgument(this.resolvable.annotPresent(Headers.class).arg(String.class)));
 	}
 
 	@Test
@@ -93,21 +94,15 @@ public class HeadersMethodArgumentResolverTests {
 		assertThat(headers.getHeader("foo")).isEqualTo("bar");
 	}
 
-	@SuppressWarnings({"unchecked", "ConstantConditions"})
+	@SuppressWarnings({ "unchecked", "ConstantConditions" })
 	private <T> T resolveArgument(MethodParameter param) {
 		return (T) this.resolver.resolveArgument(param, this.message).block(Duration.ofSeconds(5));
 	}
 
-
 	@SuppressWarnings("unused")
-	private void handleMessage(
-			@Headers Map<String, Object> param1,
-			@Headers String param2,
-			MessageHeaders param3,
-			MessageHeaderAccessor param4,
-			TestMessageHeaderAccessor param5) {
+	private void handleMessage(@Headers Map<String, Object> param1, @Headers String param2, MessageHeaders param3,
+			MessageHeaderAccessor param4, TestMessageHeaderAccessor param5) {
 	}
-
 
 	public static class TestMessageHeaderAccessor extends NativeMessageHeaderAccessor {
 
@@ -118,6 +113,7 @@ public class HeadersMethodArgumentResolverTests {
 		public static TestMessageHeaderAccessor wrap(Message<?> message) {
 			return new TestMessageHeaderAccessor(message);
 		}
+
 	}
 
 }

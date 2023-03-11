@@ -26,15 +26,15 @@ import org.springframework.core.annotation.MergedAnnotations.SearchStrategy;
 import org.springframework.lang.Nullable;
 
 /**
- * {@code AnnotationAwareOrderComparator} is an extension of
- * {@link OrderComparator} that supports Spring's
- * {@link org.springframework.core.Ordered} interface as well as the
- * {@link Order @Order} and {@link javax.annotation.Priority @Priority}
- * annotations, with an order value provided by an {@code Ordered}
- * instance overriding a statically defined annotation value (if any).
+ * {@code AnnotationAwareOrderComparator} is an extension of {@link OrderComparator} that
+ * supports Spring's {@link org.springframework.core.Ordered} interface as well as the
+ * {@link Order @Order} and {@link javax.annotation.Priority @Priority} annotations, with
+ * an order value provided by an {@code Ordered} instance overriding a statically defined
+ * annotation value (if any).
  *
- * <p>Consult the Javadoc for {@link OrderComparator} for details on the
- * sort semantics for non-ordered objects.
+ * <p>
+ * Consult the Javadoc for {@link OrderComparator} for details on the sort semantics for
+ * non-ordered objects.
  *
  * @author Juergen Hoeller
  * @author Oliver Gierke
@@ -51,12 +51,10 @@ public class AnnotationAwareOrderComparator extends OrderComparator {
 	 */
 	public static final AnnotationAwareOrderComparator INSTANCE = new AnnotationAwareOrderComparator();
 
-
 	/**
 	 * This implementation checks for {@link Order @Order} or
-	 * {@link javax.annotation.Priority @Priority} on various kinds of
-	 * elements, in addition to the {@link org.springframework.core.Ordered}
-	 * check in the superclass.
+	 * {@link javax.annotation.Priority @Priority} on various kinds of elements, in
+	 * addition to the {@link org.springframework.core.Ordered} check in the superclass.
 	 */
 	@Override
 	@Nullable
@@ -80,10 +78,10 @@ public class AnnotationAwareOrderComparator extends OrderComparator {
 	}
 
 	/**
-	 * This implementation retrieves an @{@link javax.annotation.Priority}
-	 * value, allowing for additional semantics over the regular @{@link Order}
-	 * annotation: typically, selecting one object over another in case of
-	 * multiple matches but only one object to be returned.
+	 * This implementation retrieves an @{@link javax.annotation.Priority} value, allowing
+	 * for additional semantics over the regular @{@link Order} annotation: typically,
+	 * selecting one object over another in case of multiple matches but only one object
+	 * to be returned.
 	 */
 	@Override
 	@Nullable
@@ -92,17 +90,17 @@ public class AnnotationAwareOrderComparator extends OrderComparator {
 			return OrderUtils.getPriority((Class<?>) obj);
 		}
 		Integer priority = OrderUtils.getPriority(obj.getClass());
-		if (priority == null  && obj instanceof DecoratingProxy) {
+		if (priority == null && obj instanceof DecoratingProxy) {
 			return getPriority(((DecoratingProxy) obj).getDecoratedClass());
 		}
 		return priority;
 	}
 
-
 	/**
 	 * Sort the given list with a default {@link AnnotationAwareOrderComparator}.
-	 * <p>Optimized to skip sorting for lists with size 0 or 1,
-	 * in order to avoid unnecessary array extraction.
+	 * <p>
+	 * Optimized to skip sorting for lists with size 0 or 1, in order to avoid unnecessary
+	 * array extraction.
 	 * @param list the List to sort
 	 * @see java.util.List#sort(java.util.Comparator)
 	 */
@@ -114,8 +112,9 @@ public class AnnotationAwareOrderComparator extends OrderComparator {
 
 	/**
 	 * Sort the given array with a default AnnotationAwareOrderComparator.
-	 * <p>Optimized to skip sorting for lists with size 0 or 1,
-	 * in order to avoid unnecessary array extraction.
+	 * <p>
+	 * Optimized to skip sorting for lists with size 0 or 1, in order to avoid unnecessary
+	 * array extraction.
 	 * @param array the array to sort
 	 * @see java.util.Arrays#sort(Object[], java.util.Comparator)
 	 */
@@ -126,10 +125,11 @@ public class AnnotationAwareOrderComparator extends OrderComparator {
 	}
 
 	/**
-	 * Sort the given array or List with a default AnnotationAwareOrderComparator,
-	 * if necessary. Simply skips sorting when given any other value.
-	 * <p>Optimized to skip sorting for lists with size 0 or 1,
-	 * in order to avoid unnecessary array extraction.
+	 * Sort the given array or List with a default AnnotationAwareOrderComparator, if
+	 * necessary. Simply skips sorting when given any other value.
+	 * <p>
+	 * Optimized to skip sorting for lists with size 0 or 1, in order to avoid unnecessary
+	 * array extraction.
 	 * @param value the array or List to sort
 	 * @see java.util.Arrays#sort(Object[], java.util.Comparator)
 	 */

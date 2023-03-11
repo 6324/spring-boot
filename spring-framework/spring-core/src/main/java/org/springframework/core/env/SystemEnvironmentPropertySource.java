@@ -28,8 +28,9 @@ import org.springframework.util.Assert;
  * containing the period character and/or hyphen character; also allows for uppercase
  * variations on property names for more idiomatic shell use.
  *
- * <p>For example, a call to {@code getProperty("foo.bar")} will attempt to find a value
- * for the original property or any 'equivalent' property, returning the first found:
+ * <p>
+ * For example, a call to {@code getProperty("foo.bar")} will attempt to find a value for
+ * the original property or any 'equivalent' property, returning the first found:
  * <ul>
  * <li>{@code foo.bar} - the original name</li>
  * <li>{@code foo_bar} - with underscores for periods (if any)</li>
@@ -38,10 +39,12 @@ import org.springframework.util.Assert;
  * </ul>
  * Any hyphen variant of the above would work as well, or even mix dot/hyphen variants.
  *
- * <p>The same applies for calls to {@link #containsProperty(String)}, which returns
+ * <p>
+ * The same applies for calls to {@link #containsProperty(String)}, which returns
  * {@code true} if any of the above properties are present, otherwise {@code false}.
  *
- * <p>This feature is particularly useful when specifying active or default profiles as
+ * <p>
+ * This feature is particularly useful when specifying active or default profiles as
  * environment variables. The following is not allowable under Bash:
  *
  * <pre class="code">spring.profiles.active=p1 java -classpath ... MyApp</pre>
@@ -50,11 +53,13 @@ import org.springframework.util.Assert;
  *
  * <pre class="code">SPRING_PROFILES_ACTIVE=p1 java -classpath ... MyApp</pre>
  *
- * <p>Enable debug- or trace-level logging for this class (or package) for messages
+ * <p>
+ * Enable debug- or trace-level logging for this class (or package) for messages
  * explaining when these 'property name resolutions' occur.
  *
- * <p>This property source is included by default in {@link StandardEnvironment}
- * and all its subclasses.
+ * <p>
+ * This property source is included by default in {@link StandardEnvironment} and all its
+ * subclasses.
  *
  * @author Chris Beams
  * @author Juergen Hoeller
@@ -73,10 +78,9 @@ public class SystemEnvironmentPropertySource extends MapPropertySource {
 		super(name, source);
 	}
 
-
 	/**
-	 * Return {@code true} if a property with the given name or any underscore/uppercase variant
-	 * thereof exists in this property source.
+	 * Return {@code true} if a property with the given name or any underscore/uppercase
+	 * variant thereof exists in this property source.
 	 */
 	@Override
 	public boolean containsProperty(String name) {
@@ -84,16 +88,16 @@ public class SystemEnvironmentPropertySource extends MapPropertySource {
 	}
 
 	/**
-	 * This implementation returns {@code true} if a property with the given name or
-	 * any underscore/uppercase variant thereof exists in this property source.
+	 * This implementation returns {@code true} if a property with the given name or any
+	 * underscore/uppercase variant thereof exists in this property source.
 	 */
 	@Override
 	@Nullable
 	public Object getProperty(String name) {
 		String actualName = resolvePropertyName(name);
 		if (logger.isDebugEnabled() && !name.equals(actualName)) {
-			logger.debug("PropertySource '" + getName() + "' does not contain property '" + name +
-					"', but found equivalent '" + actualName + "'");
+			logger.debug("PropertySource '" + getName() + "' does not contain property '" + name
+					+ "', but found equivalent '" + actualName + "'");
 		}
 		return super.getProperty(actualName);
 	}

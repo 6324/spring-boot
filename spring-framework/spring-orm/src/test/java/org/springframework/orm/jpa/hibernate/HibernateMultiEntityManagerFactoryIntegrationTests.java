@@ -33,18 +33,17 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
  *
  * @author Juergen Hoeller
  */
-public class HibernateMultiEntityManagerFactoryIntegrationTests extends AbstractContainerEntityManagerFactoryIntegrationTests {
+public class HibernateMultiEntityManagerFactoryIntegrationTests
+		extends AbstractContainerEntityManagerFactoryIntegrationTests {
 
 	@Autowired
 	private EntityManagerFactory entityManagerFactory2;
 
-
 	@Override
 	protected String[] getConfigLocations() {
-		return new String[] {"/org/springframework/orm/jpa/hibernate/hibernate-manager-multi.xml",
-				"/org/springframework/orm/jpa/memdb.xml"};
+		return new String[] { "/org/springframework/orm/jpa/hibernate/hibernate-manager-multi.xml",
+				"/org/springframework/orm/jpa/memdb.xml" };
 	}
-
 
 	@Override
 	@Test
@@ -61,8 +60,7 @@ public class HibernateMultiEntityManagerFactoryIntegrationTests extends Abstract
 	public void testEntityManagerFactory2() {
 		EntityManager em = this.entityManagerFactory2.createEntityManager();
 		try {
-			assertThatIllegalArgumentException().isThrownBy(() ->
-					em.createQuery("select tb from TestBean"));
+			assertThatIllegalArgumentException().isThrownBy(() -> em.createQuery("select tb from TestBean"));
 		}
 		finally {
 			em.close();

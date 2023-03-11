@@ -21,9 +21,9 @@ import org.w3c.dom.Element;
 import org.springframework.ejb.access.LocalStatelessSessionProxyFactoryBean;
 
 /**
- * {@link org.springframework.beans.factory.xml.BeanDefinitionParser}
- * implementation for parsing '{@code local-slsb}' tags and
- * creating {@link LocalStatelessSessionProxyFactoryBean} definitions.
+ * {@link org.springframework.beans.factory.xml.BeanDefinitionParser} implementation for
+ * parsing '{@code local-slsb}' tags and creating
+ * {@link LocalStatelessSessionProxyFactoryBean} definitions.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller

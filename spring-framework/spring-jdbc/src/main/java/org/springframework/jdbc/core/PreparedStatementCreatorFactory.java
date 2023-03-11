@@ -32,9 +32,9 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.lang.Nullable;
 
 /**
- * Helper class that efficiently creates multiple {@link PreparedStatementCreator}
- * objects with different parameters based on an SQL statement and a single
- * set of parameter declarations.
+ * Helper class that efficiently creates multiple {@link PreparedStatementCreator} objects
+ * with different parameters based on an SQL statement and a single set of parameter
+ * declarations.
  *
  * @author Rod Johnson
  * @author Thomas Risberg
@@ -57,10 +57,9 @@ public class PreparedStatementCreatorFactory {
 	@Nullable
 	private String[] generatedKeysColumnNames;
 
-
 	/**
-	 * Create a new factory. Will need to add parameters via the
-	 * {@link #addParameter} method or have no parameters.
+	 * Create a new factory. Will need to add parameters via the {@link #addParameter}
+	 * method or have no parameters.
 	 * @param sql the SQL statement to execute
 	 */
 	public PreparedStatementCreatorFactory(String sql) {
@@ -88,7 +87,6 @@ public class PreparedStatementCreatorFactory {
 		this.declaredParameters = declaredParameters;
 	}
 
-
 	/**
 	 * Return the SQL statement to execute.
 	 * @since 5.1.3
@@ -99,7 +97,8 @@ public class PreparedStatementCreatorFactory {
 
 	/**
 	 * Add a new declared parameter.
-	 * <p>Order of parameter addition is significant.
+	 * <p>
+	 * Order of parameter addition is significant.
 	 * @param param the parameter to add to the list of declared parameters
 	 */
 	public void addParameter(SqlParameter param) {
@@ -138,7 +137,6 @@ public class PreparedStatementCreatorFactory {
 		this.generatedKeysColumnNames = names;
 	}
 
-
 	/**
 	 * Return a new PreparedStatementSetter for the given parameters.
 	 * @param params list of parameters (may be {@code null})
@@ -173,15 +171,14 @@ public class PreparedStatementCreatorFactory {
 
 	/**
 	 * Return a new PreparedStatementCreator for the given parameters.
-	 * @param sqlToUse the actual SQL statement to use (if different from
-	 * the factory's, for example because of named parameter expanding)
+	 * @param sqlToUse the actual SQL statement to use (if different from the factory's,
+	 * for example because of named parameter expanding)
 	 * @param params the parameter array (may be {@code null})
 	 */
 	public PreparedStatementCreator newPreparedStatementCreator(String sqlToUse, @Nullable Object[] params) {
-		return new PreparedStatementCreatorImpl(
-				sqlToUse, params != null ? Arrays.asList(params) : Collections.emptyList());
+		return new PreparedStatementCreatorImpl(sqlToUse,
+				params != null ? Arrays.asList(params) : Collections.emptyList());
 	}
-
 
 	/**
 	 * PreparedStatementCreator implementation returned by this class.
@@ -213,9 +210,8 @@ public class PreparedStatementCreatorFactory {
 					}
 				}
 				if (names.size() != declaredParameters.size()) {
-					throw new InvalidDataAccessApiUsageException(
-							"SQL [" + sql + "]: given " + names.size() +
-							" parameters but expected " + declaredParameters.size());
+					throw new InvalidDataAccessApiUsageException("SQL [" + sql + "]: given " + names.size()
+							+ " parameters but expected " + declaredParameters.size());
 				}
 			}
 		}
@@ -236,7 +232,7 @@ public class PreparedStatementCreatorFactory {
 			}
 			else {
 				ps = con.prepareStatement(this.actualSql, resultSetType,
-					updatableResults ? ResultSet.CONCUR_UPDATABLE : ResultSet.CONCUR_READ_ONLY);
+						updatableResults ? ResultSet.CONCUR_UPDATABLE : ResultSet.CONCUR_READ_ONLY);
 			}
 			setValues(ps);
 			return ps;
@@ -249,8 +245,10 @@ public class PreparedStatementCreatorFactory {
 			for (int i = 0; i < this.parameters.size(); i++) {
 				Object in = this.parameters.get(i);
 				SqlParameter declaredParameter;
-				// SqlParameterValue overrides declared parameter meta-data, in particular for
-				// independence from the declared parameter position in case of named parameters.
+				// SqlParameterValue overrides declared parameter meta-data, in particular
+				// for
+				// independence from the declared parameter position in case of named
+				// parameters.
 				if (in instanceof SqlParameterValue) {
 					SqlParameterValue paramValue = (SqlParameterValue) in;
 					in = paramValue.getValue();
@@ -259,8 +257,8 @@ public class PreparedStatementCreatorFactory {
 				else {
 					if (declaredParameters.size() <= i) {
 						throw new InvalidDataAccessApiUsageException(
-								"SQL [" + sql + "]: unable to access parameter number " + (i + 1) +
-								" given only " + declaredParameters.size() + " parameters");
+								"SQL [" + sql + "]: unable to access parameter number " + (i + 1) + " given only "
+										+ declaredParameters.size() + " parameters");
 
 					}
 					declaredParameter = declaredParameters.get(i);
@@ -299,6 +297,7 @@ public class PreparedStatementCreatorFactory {
 		public String toString() {
 			return "PreparedStatementCreator: sql=[" + sql + "]; parameters=" + this.parameters;
 		}
+
 	}
 
 }

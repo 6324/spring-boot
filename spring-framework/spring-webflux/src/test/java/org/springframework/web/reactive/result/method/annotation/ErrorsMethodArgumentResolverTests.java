@@ -44,16 +44,14 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
  */
 public class ErrorsMethodArgumentResolverTests {
 
-	private final ErrorsMethodArgumentResolver resolver =
-			new ErrorsMethodArgumentResolver(ReactiveAdapterRegistry.getSharedInstance());
+	private final ErrorsMethodArgumentResolver resolver = new ErrorsMethodArgumentResolver(
+			ReactiveAdapterRegistry.getSharedInstance());
 
 	private final BindingContext bindingContext = new BindingContext();
 
-	private final MockServerWebExchange exchange =
-			MockServerWebExchange.from(MockServerHttpRequest.post("/path"));
+	private final MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.post("/path"));
 
 	private final ResolvableMethod testMethod = ResolvableMethod.on(getClass()).named("handle").build();
-
 
 	@Test
 	public void supports() {
@@ -104,23 +102,22 @@ public class ErrorsMethodArgumentResolverTests {
 	@Test
 	public void resolveWithMonoOnBindingResultAndModelAttribute() {
 		MethodParameter parameter = this.testMethod.arg(BindingResult.class);
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.resolver.resolveArgument(parameter, this.bindingContext, this.exchange)
+		assertThatIllegalStateException()
+				.isThrownBy(() -> this.resolver.resolveArgument(parameter, this.bindingContext, this.exchange)
 						.block(Duration.ofMillis(5000)))
-			.withMessageContaining("An @ModelAttribute and an Errors/BindingResult argument " +
-					"cannot both be declared with an async type wrapper.");
+				.withMessageContaining("An @ModelAttribute and an Errors/BindingResult argument "
+						+ "cannot both be declared with an async type wrapper.");
 	}
 
-	@Test  // SPR-16187
+	@Test // SPR-16187
 	public void resolveWithBindingResultNotFound() {
 		MethodParameter parameter = this.testMethod.arg(Errors.class);
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.resolver.resolveArgument(parameter, this.bindingContext, this.exchange)
+		assertThatIllegalStateException()
+				.isThrownBy(() -> this.resolver.resolveArgument(parameter, this.bindingContext, this.exchange)
 						.block(Duration.ofMillis(5000)))
-			.withMessageContaining("An Errors/BindingResult argument is expected " +
-					"immediately after the @ModelAttribute argument");
+				.withMessageContaining("An Errors/BindingResult argument is expected "
+						+ "immediately after the @ModelAttribute argument");
 	}
-
 
 	@SuppressWarnings("unused")
 	private static class Foo {
@@ -141,16 +138,12 @@ public class ErrorsMethodArgumentResolverTests {
 		public void setName(String name) {
 			this.name = name;
 		}
+
 	}
 
 	@SuppressWarnings("unused")
-	void handle(
-			@ModelAttribute Foo foo,
-			Errors errors,
-			@ModelAttribute Mono<Foo> fooMono,
-			BindingResult bindingResult,
-			Mono<Errors> errorsMono,
-			String string) {
+	void handle(@ModelAttribute Foo foo, Errors errors, @ModelAttribute Mono<Foo> fooMono, BindingResult bindingResult,
+			Mono<Errors> errorsMono, String string) {
 	}
 
 }

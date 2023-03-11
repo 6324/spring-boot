@@ -38,9 +38,9 @@ import org.springframework.util.ReflectionUtils;
  * @author Phillip Webb
  * @author Sam Brannen
  * @since 3.1.1
- * @deprecated As of Spring Framework 5.2, this class and related classes in this
- * package have been replaced by {@link SimpleAnnotationMetadataReadingVisitor}
- * and related classes for internal use within the framework.
+ * @deprecated As of Spring Framework 5.2, this class and related classes in this package
+ * have been replaced by {@link SimpleAnnotationMetadataReadingVisitor} and related
+ * classes for internal use within the framework.
  */
 @Deprecated
 abstract class AbstractRecursiveAnnotationVisitor extends AnnotationVisitor {
@@ -52,13 +52,11 @@ abstract class AbstractRecursiveAnnotationVisitor extends AnnotationVisitor {
 	@Nullable
 	protected final ClassLoader classLoader;
 
-
 	public AbstractRecursiveAnnotationVisitor(@Nullable ClassLoader classLoader, AnnotationAttributes attributes) {
 		super(SpringAsmInfo.ASM_VERSION);
 		this.classLoader = classLoader;
 		this.attributes = attributes;
 	}
-
 
 	@Override
 	public void visit(String attributeName, Object attributeValue) {

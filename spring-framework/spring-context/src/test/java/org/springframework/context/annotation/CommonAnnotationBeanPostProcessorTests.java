@@ -122,8 +122,8 @@ public class CommonAnnotationBeanPostProcessorTests {
 	@Test
 	public void testSerialization() throws Exception {
 		CommonAnnotationBeanPostProcessor bpp = new CommonAnnotationBeanPostProcessor();
-		CommonAnnotationBeanPostProcessor bpp2 = (CommonAnnotationBeanPostProcessor)
-				SerializationTestUtils.serializeAndDeserialize(bpp);
+		CommonAnnotationBeanPostProcessor bpp2 = (CommonAnnotationBeanPostProcessor) SerializationTestUtils
+				.serializeAndDeserialize(bpp);
 
 		AnnotatedInitDestroyBean bean = new AnnotatedInitDestroyBean();
 		bpp2.postProcessBeforeDestruction(bean, "annotatedBean");
@@ -135,8 +135,8 @@ public class CommonAnnotationBeanPostProcessorTests {
 		InitDestroyAnnotationBeanPostProcessor bpp = new InitDestroyAnnotationBeanPostProcessor();
 		bpp.setInitAnnotationType(PostConstruct.class);
 		bpp.setDestroyAnnotationType(PreDestroy.class);
-		InitDestroyAnnotationBeanPostProcessor bpp2 = (InitDestroyAnnotationBeanPostProcessor)
-				SerializationTestUtils.serializeAndDeserialize(bpp);
+		InitDestroyAnnotationBeanPostProcessor bpp2 = (InitDestroyAnnotationBeanPostProcessor) SerializationTestUtils
+				.serializeAndDeserialize(bpp);
 
 		AnnotatedInitDestroyBean bean = new AnnotatedInitDestroyBean();
 		bpp2.postProcessBeforeDestruction(bean, "annotatedBean");
@@ -513,7 +513,6 @@ public class CommonAnnotationBeanPostProcessorTests {
 		assertThat(tb.getName()).isEqualTo("notLazyAnymore");
 	}
 
-
 	public static class AnnotatedInitDestroyBean {
 
 		public boolean initCalled = false;
@@ -535,8 +534,8 @@ public class CommonAnnotationBeanPostProcessorTests {
 			}
 			this.destroyCalled = true;
 		}
-	}
 
+	}
 
 	public static class InitDestroyBeanPostProcessor implements DestructionAwareBeanPostProcessor {
 
@@ -567,8 +566,8 @@ public class CommonAnnotationBeanPostProcessorTests {
 		public boolean requiresDestruction(Object bean) {
 			return true;
 		}
-	}
 
+	}
 
 	public static class ResourceInjectionBean extends AnnotatedInitDestroyBean {
 
@@ -644,12 +643,12 @@ public class CommonAnnotationBeanPostProcessorTests {
 		public TestBean getTestBean2() {
 			return testBean2;
 		}
-	}
 
+	}
 
 	static class NonPublicResourceInjectionBean<B> extends ResourceInjectionBean {
 
-		@Resource(name="testBean4", type=TestBean.class)
+		@Resource(name = "testBean4", type = TestBean.class)
 		protected ITestBean testBean3;
 
 		private B testBean4;
@@ -668,7 +667,7 @@ public class CommonAnnotationBeanPostProcessorTests {
 			super.setTestBean2(testBean2);
 		}
 
-		@Resource(name="${tb}", type=ITestBean.class)
+		@Resource(name = "${tb}", type = ITestBean.class)
 		private void setTestBean4(B testBean4) {
 			if (this.testBean4 != null) {
 				throw new IllegalStateException("Already called");
@@ -714,12 +713,12 @@ public class CommonAnnotationBeanPostProcessorTests {
 		protected void destroy2() {
 			super.destroy2();
 		}
-	}
 
+	}
 
 	public static class ExtendedResourceInjectionBean extends NonPublicResourceInjectionBean<ITestBean> {
-	}
 
+	}
 
 	public interface InterfaceWithDefaultMethod {
 
@@ -742,8 +741,8 @@ public class CommonAnnotationBeanPostProcessorTests {
 		}
 
 		void increaseCounter();
-	}
 
+	}
 
 	public static class DefaultMethodResourceInjectionBean extends ResourceInjectionBean
 			implements InterfaceWithDefaultMethod {
@@ -754,12 +753,12 @@ public class CommonAnnotationBeanPostProcessorTests {
 		public void increaseCounter() {
 			counter++;
 		}
-	}
 
+	}
 
 	public static class ExtendedEjbInjectionBean extends ResourceInjectionBean {
 
-		@EJB(name="testBean4", beanInterface=TestBean.class)
+		@EJB(name = "testBean4", beanInterface = TestBean.class)
 		protected ITestBean testBean3;
 
 		private ITestBean testBean4;
@@ -778,7 +777,7 @@ public class CommonAnnotationBeanPostProcessorTests {
 			super.setTestBean2(testBean2);
 		}
 
-		@EJB(beanName="testBean3", beanInterface=ITestBean.class)
+		@EJB(beanName = "testBean3", beanInterface = ITestBean.class)
 		private void setTestBean4(ITestBean testBean4) {
 			if (this.testBean4 != null) {
 				throw new IllegalStateException("Already called");
@@ -816,51 +815,54 @@ public class CommonAnnotationBeanPostProcessorTests {
 		protected void destroy2() {
 			super.destroy2();
 		}
-	}
 
+	}
 
 	private static class NamedResourceInjectionBean {
 
-		@Resource(name="testBean9")
+		@Resource(name = "testBean9")
 		private INestedTestBean testBean;
-	}
 
+	}
 
 	private static class ConvertedResourceInjectionBean {
 
-		@Resource(name="value")
+		@Resource(name = "value")
 		private int value;
-	}
 
+	}
 
 	private static class LazyResourceFieldInjectionBean {
 
-		@Resource @Lazy
+		@Resource
+		@Lazy
 		private ITestBean testBean;
-	}
 
+	}
 
 	private static class LazyResourceMethodInjectionBean {
 
 		private ITestBean testBean;
 
-		@Resource @Lazy
+		@Resource
+		@Lazy
 		public void setTestBean(ITestBean testBean) {
 			this.testBean = testBean;
 		}
-	}
 
+	}
 
 	private static class LazyResourceCglibInjectionBean {
 
 		private TestBean testBean;
 
-		@Resource @Lazy
+		@Resource
+		@Lazy
 		public void setTestBean(TestBean testBean) {
 			this.testBean = testBean;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class NullFactory {
@@ -868,6 +870,7 @@ public class CommonAnnotationBeanPostProcessorTests {
 		public static Object create() {
 			return null;
 		}
+
 	}
 
 }

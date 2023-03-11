@@ -24,8 +24,8 @@ import org.springframework.expression.spel.testresources.Inventor;
 import org.springframework.expression.spel.testresources.PlaceOfBirth;
 
 /**
- * Builds an evaluation context for test expressions.
- * Features of the test evaluation context are:
+ * Builds an evaluation context for test expressions. Features of the test evaluation
+ * context are:
  * <ul>
  * <li>The root context object is an Inventor instance {@link Inventor}
  * </ul>
@@ -41,15 +41,15 @@ public class TestScenarioCreator {
 	}
 
 	/**
-	 * Register some Java reflect methods as well known functions that can be called from an expression.
+	 * Register some Java reflect methods as well known functions that can be called from
+	 * an expression.
 	 * @param testContext the test evaluation context
 	 */
 	private static void populateFunctions(StandardEvaluationContext testContext) {
 		try {
-			testContext.registerFunction("isEven",
-					TestScenarioCreator.class.getDeclaredMethod("isEven", Integer.TYPE));
-			testContext.registerFunction("reverseInt",
-					TestScenarioCreator.class.getDeclaredMethod("reverseInt", Integer.TYPE, Integer.TYPE, Integer.TYPE));
+			testContext.registerFunction("isEven", TestScenarioCreator.class.getDeclaredMethod("isEven", Integer.TYPE));
+			testContext.registerFunction("reverseInt", TestScenarioCreator.class.getDeclaredMethod("reverseInt",
+					Integer.TYPE, Integer.TYPE, Integer.TYPE));
 			testContext.registerFunction("reverseString",
 					TestScenarioCreator.class.getDeclaredMethod("reverseString", String.class));
 			testContext.registerFunction("varargsFunction",
@@ -71,8 +71,8 @@ public class TestScenarioCreator {
 	}
 
 	/**
-	 * Create the root context object, an Inventor instance. Non-qualified property
-	 * and method references will be resolved against this context object.
+	 * Create the root context object, an Inventor instance. Non-qualified property and
+	 * method references will be resolved against this context object.
 	 * @param testContext the evaluation context in which to set the root object
 	 */
 	private static void setupRootContextObject(StandardEvaluationContext testContext) {
@@ -86,8 +86,8 @@ public class TestScenarioCreator {
 		testContext.setRootObject(tesla);
 	}
 
-
-	// These methods are registered in the test context and therefore accessible through function calls
+	// These methods are registered in the test context and therefore accessible through
+	// function calls
 	// in test expressions
 
 	public static String isEven(int i) {

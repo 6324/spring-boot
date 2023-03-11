@@ -34,9 +34,8 @@ import org.springframework.core.task.NoOpRunnable;
  */
 public class ConcurrentTaskExecutorTests extends AbstractSchedulingTaskExecutorTests {
 
-	private final ThreadPoolExecutor concurrentExecutor =
-			new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
-
+	private final ThreadPoolExecutor concurrentExecutor = new ThreadPoolExecutor(1, 1, 60, TimeUnit.SECONDS,
+			new LinkedBlockingQueue<>());
 
 	@Override
 	protected AsyncListenableTaskExecutor buildExecutor() {
@@ -54,7 +53,6 @@ public class ConcurrentTaskExecutorTests extends AbstractSchedulingTaskExecutorT
 			}
 		}
 	}
-
 
 	@Test
 	public void zeroArgCtorResultsInDefaultTaskExecutorBeingUsed() {

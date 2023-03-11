@@ -95,9 +95,11 @@ class InstantFormatterTests {
 		}
 
 		Stream<Instant> randomInstantStream(Instant min, Instant max) {
-			return Stream.concat(Stream.of(Instant.now()), // make sure that the data set includes current instant
+			return Stream.concat(Stream.of(Instant.now()), // make sure that the data set
+															// includes current instant
 					random.longs(min.getEpochSecond(), max.getEpochSecond()).mapToObj(Instant::ofEpochSecond));
 		}
+
 	}
 
 	private static class ISOSerializedInstantProvider extends RandomInstantProvider {
@@ -106,6 +108,7 @@ class InstantFormatterTests {
 		Stream<?> provideArguments() {
 			return randomInstantStream(MIN, MAX).map(DateTimeFormatter.ISO_INSTANT::format);
 		}
+
 	}
 
 	private static class RFC1123SerializedInstantProvider extends RandomInstantProvider {
@@ -120,6 +123,7 @@ class InstantFormatterTests {
 			return randomInstantStream(min, max)
 					.map(DateTimeFormatter.RFC_1123_DATE_TIME.withZone(systemDefault())::format);
 		}
+
 	}
 
 }

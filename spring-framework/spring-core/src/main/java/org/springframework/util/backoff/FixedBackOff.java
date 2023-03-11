@@ -17,8 +17,8 @@
 package org.springframework.util.backoff;
 
 /**
- * A simple {@link BackOff} implementation that provides a fixed interval
- * between two attempts and a maximum number of retries.
+ * A simple {@link BackOff} implementation that provides a fixed interval between two
+ * attempts and a maximum number of retries.
  *
  * @author Stephane Nicoll
  * @since 4.1
@@ -39,10 +39,9 @@ public class FixedBackOff implements BackOff {
 
 	private long maxAttempts = UNLIMITED_ATTEMPTS;
 
-
 	/**
-	 * Create an instance with an interval of {@value #DEFAULT_INTERVAL}
-	 * ms and an unlimited number of attempts.
+	 * Create an instance with an interval of {@value #DEFAULT_INTERVAL} ms and an
+	 * unlimited number of attempts.
 	 */
 	public FixedBackOff() {
 	}
@@ -56,7 +55,6 @@ public class FixedBackOff implements BackOff {
 		this.interval = interval;
 		this.maxAttempts = maxAttempts;
 	}
-
 
 	/**
 	 * Set the interval between two attempts in milliseconds.
@@ -91,7 +89,6 @@ public class FixedBackOff implements BackOff {
 		return new FixedBackOffExecution();
 	}
 
-
 	private class FixedBackOffExecution implements BackOffExecution {
 
 		private long currentAttempts = 0;
@@ -109,13 +106,12 @@ public class FixedBackOff implements BackOff {
 
 		@Override
 		public String toString() {
-			String attemptValue = (FixedBackOff.this.maxAttempts == Long.MAX_VALUE ?
-					"unlimited" : String.valueOf(FixedBackOff.this.maxAttempts));
-			return "FixedBackOff{interval=" + FixedBackOff.this.interval +
-					", currentAttempts=" + this.currentAttempts +
-					", maxAttempts=" + attemptValue +
-					'}';
+			String attemptValue = (FixedBackOff.this.maxAttempts == Long.MAX_VALUE ? "unlimited"
+					: String.valueOf(FixedBackOff.this.maxAttempts));
+			return "FixedBackOff{interval=" + FixedBackOff.this.interval + ", currentAttempts=" + this.currentAttempts
+					+ ", maxAttempts=" + attemptValue + '}';
 		}
+
 	}
 
 }

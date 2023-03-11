@@ -42,9 +42,7 @@ final class DefaultExchangeStrategiesBuilder implements ExchangeStrategies.Build
 		DEFAULT_EXCHANGE_STRATEGIES = builder.build();
 	}
 
-
 	private final ClientCodecConfigurer codecConfigurer;
-
 
 	public DefaultExchangeStrategiesBuilder() {
 		this.codecConfigurer = ClientCodecConfigurer.create();
@@ -54,7 +52,6 @@ final class DefaultExchangeStrategiesBuilder implements ExchangeStrategies.Build
 	private DefaultExchangeStrategiesBuilder(DefaultExchangeStrategies other) {
 		this.codecConfigurer = other.codecConfigurer.clone();
 	}
-
 
 	public void defaultConfiguration() {
 		this.codecConfigurer.registerDefaults(true);
@@ -71,7 +68,6 @@ final class DefaultExchangeStrategiesBuilder implements ExchangeStrategies.Build
 		return new DefaultExchangeStrategies(this.codecConfigurer);
 	}
 
-
 	private static class DefaultExchangeStrategies implements ExchangeStrategies {
 
 		private final ClientCodecConfigurer codecConfigurer;
@@ -79,7 +75,6 @@ final class DefaultExchangeStrategiesBuilder implements ExchangeStrategies.Build
 		private final List<HttpMessageReader<?>> readers;
 
 		private final List<HttpMessageWriter<?>> writers;
-
 
 		public DefaultExchangeStrategies(ClientCodecConfigurer codecConfigurer) {
 			this.codecConfigurer = codecConfigurer;
@@ -105,6 +100,7 @@ final class DefaultExchangeStrategiesBuilder implements ExchangeStrategies.Build
 		public Builder mutate() {
 			return new DefaultExchangeStrategiesBuilder(this);
 		}
+
 	}
 
 }

@@ -142,7 +142,6 @@ public class ConsumesRequestConditionTests {
 		assertThat(result > 0).as("Invalid comparison result: " + result).isTrue();
 	}
 
-
 	@Test
 	public void combine() throws Exception {
 		ConsumesRequestCondition condition1 = new ConsumesRequestCondition("text/plain");
@@ -163,8 +162,8 @@ public class ConsumesRequestConditionTests {
 
 	@Test
 	public void parseConsumesAndHeaders() throws Exception {
-		String[] consumes = new String[] {"text/plain"};
-		String[] headers = new String[]{"foo=bar", "content-type=application/xml,application/pdf"};
+		String[] consumes = new String[] { "text/plain" };
+		String[] headers = new String[] { "foo=bar", "content-type=application/xml,application/pdf" };
 		ConsumesRequestCondition condition = new ConsumesRequestCondition(consumes, headers);
 
 		assertConditions(condition, "text/plain", "application/xml", "application/pdf");
@@ -203,8 +202,8 @@ public class ConsumesRequestConditionTests {
 	}
 
 	private MockServerWebExchange postExchange(String contentType) {
-		return MockServerWebExchange.from(
-				MockServerHttpRequest.post("/").header(HttpHeaders.CONTENT_TYPE, contentType));
+		return MockServerWebExchange
+				.from(MockServerHttpRequest.post("/").header(HttpHeaders.CONTENT_TYPE, contentType));
 	}
 
 }

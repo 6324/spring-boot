@@ -43,12 +43,11 @@ class ConstantsTests {
 		assertThat(c.asNumber("dog").intValue()).isEqualTo(A.DOG);
 		assertThat(c.asNumber("cat").intValue()).isEqualTo(A.CAT);
 
-		assertThatExceptionOfType(Constants.ConstantException.class).isThrownBy(() ->
-				c.asNumber("bogus"));
+		assertThatExceptionOfType(Constants.ConstantException.class).isThrownBy(() -> c.asNumber("bogus"));
 
 		assertThat(c.asString("S1").equals(A.S1)).isTrue();
-		assertThatExceptionOfType(Constants.ConstantException.class).as("wrong type").isThrownBy(() ->
-				c.asNumber("S1"));
+		assertThatExceptionOfType(Constants.ConstantException.class).as("wrong type")
+				.isThrownBy(() -> c.asNumber("S1"));
 	}
 
 	@Test
@@ -160,15 +159,13 @@ class ConstantsTests {
 		assertThat(c.toCode("", "s")).isEqualTo("S1");
 		assertThat(c.toCode("", "s1")).isEqualTo("S1");
 		assertThat(c.toCode("", null)).isEqualTo("S1");
-		assertThatExceptionOfType(Constants.ConstantException.class).isThrownBy(() ->
-				c.toCode("bogus", "bogus"));
-		assertThatExceptionOfType(Constants.ConstantException.class).isThrownBy(() ->
-				c.toCode("bogus", null));
+		assertThatExceptionOfType(Constants.ConstantException.class).isThrownBy(() -> c.toCode("bogus", "bogus"));
+		assertThatExceptionOfType(Constants.ConstantException.class).isThrownBy(() -> c.toCode("bogus", null));
 
 		assertThat(c.toCodeForProperty(Integer.valueOf(1), "myProperty")).isEqualTo("MY_PROPERTY_NO");
 		assertThat(c.toCodeForProperty(Integer.valueOf(2), "myProperty")).isEqualTo("MY_PROPERTY_YES");
-		assertThatExceptionOfType(Constants.ConstantException.class).isThrownBy(() ->
-				c.toCodeForProperty("bogus", "bogus"));
+		assertThatExceptionOfType(Constants.ConstantException.class)
+				.isThrownBy(() -> c.toCodeForProperty("bogus", "bogus"));
 
 		assertThat(c.toCodeForSuffix(Integer.valueOf(0), "")).isEqualTo("DOG");
 		assertThat(c.toCodeForSuffix(Integer.valueOf(0), "G")).isEqualTo("DOG");
@@ -184,10 +181,9 @@ class ConstantsTests {
 		assertThat(c.toCodeForSuffix("", "1")).isEqualTo("S1");
 		assertThat(c.toCodeForSuffix("", "s1")).isEqualTo("S1");
 		assertThat(c.toCodeForSuffix("", null)).isEqualTo("S1");
-		assertThatExceptionOfType(Constants.ConstantException.class).isThrownBy(() ->
-				c.toCodeForSuffix("bogus", "bogus"));
-		assertThatExceptionOfType(Constants.ConstantException.class).isThrownBy(() ->
-				c.toCodeForSuffix("bogus", null));
+		assertThatExceptionOfType(Constants.ConstantException.class)
+				.isThrownBy(() -> c.toCodeForSuffix("bogus", "bogus"));
+		assertThatExceptionOfType(Constants.ConstantException.class).isThrownBy(() -> c.toCodeForSuffix("bogus", null));
 	}
 
 	@Test
@@ -222,35 +218,40 @@ class ConstantsTests {
 
 	@Test
 	void ctorWithNullClass() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new Constants(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new Constants(null));
 	}
-
 
 	private static final class NoConstants {
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static final class A {
 
 		public static final int DOG = 0;
+
 		public static final int CAT = 66;
+
 		public static final String S1 = "";
 
 		public static final int PREFIX_NO = 1;
+
 		public static final int PREFIX_YES = 2;
 
 		public static final int MY_PROPERTY_NO = 1;
+
 		public static final int MY_PROPERTY_YES = 2;
 
 		public static final int NO_PROPERTY = 3;
+
 		public static final int YES_PROPERTY = 4;
 
 		/** ignore these */
 		protected static final int P = -1;
+
 		protected boolean f;
 		static final Object o = new Object();
+
 	}
 
 }

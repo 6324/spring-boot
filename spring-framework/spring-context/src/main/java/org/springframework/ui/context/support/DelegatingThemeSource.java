@@ -22,11 +22,12 @@ import org.springframework.ui.context.Theme;
 import org.springframework.ui.context.ThemeSource;
 
 /**
- * Empty ThemeSource that delegates all calls to the parent ThemeSource.
- * If no parent is available, it simply won't resolve any theme.
+ * Empty ThemeSource that delegates all calls to the parent ThemeSource. If no parent is
+ * available, it simply won't resolve any theme.
  *
- * <p>Used as placeholder by UiApplicationContextUtils, if a context doesn't
- * define its own ThemeSource. Not intended for direct use in applications.
+ * <p>
+ * Used as placeholder by UiApplicationContextUtils, if a context doesn't define its own
+ * ThemeSource. Not intended for direct use in applications.
  *
  * @author Juergen Hoeller
  * @since 1.2.4
@@ -36,7 +37,6 @@ public class DelegatingThemeSource implements HierarchicalThemeSource {
 
 	@Nullable
 	private ThemeSource parentThemeSource;
-
 
 	@Override
 	public void setParentThemeSource(@Nullable ThemeSource parentThemeSource) {
@@ -48,7 +48,6 @@ public class DelegatingThemeSource implements HierarchicalThemeSource {
 	public ThemeSource getParentThemeSource() {
 		return this.parentThemeSource;
 	}
-
 
 	@Override
 	@Nullable

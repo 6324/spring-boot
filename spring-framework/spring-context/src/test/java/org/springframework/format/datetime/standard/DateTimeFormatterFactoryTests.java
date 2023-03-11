@@ -38,20 +38,20 @@ public class DateTimeFormatterFactoryTests {
 
 	// Potential test timezone, both have daylight savings on October 21st
 	private static final TimeZone ZURICH = TimeZone.getTimeZone("Europe/Zurich");
+
 	private static final TimeZone NEW_YORK = TimeZone.getTimeZone("America/New_York");
 
 	// Ensure that we are testing against a timezone other than the default.
 	private static final TimeZone TEST_TIMEZONE = ZURICH.equals(TimeZone.getDefault()) ? NEW_YORK : ZURICH;
 
-
 	private DateTimeFormatterFactory factory = new DateTimeFormatterFactory();
 
 	private LocalDateTime dateTime = LocalDateTime.of(2009, 10, 21, 12, 10, 00, 00);
 
-
 	@Test
 	public void createDateTimeFormatter() {
-		assertThat(factory.createDateTimeFormatter().toString()).isEqualTo(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).toString());
+		assertThat(factory.createDateTimeFormatter().toString())
+				.isEqualTo(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).toString());
 	}
 
 	@Test

@@ -28,7 +28,6 @@ public class QualifierEntry implements ParseState.Entry {
 
 	private final String typeName;
 
-
 	/**
 	 * Create a new {@code QualifierEntry} instance.
 	 * @param typeName the name of the qualifier type
@@ -39,7 +38,6 @@ public class QualifierEntry implements ParseState.Entry {
 		}
 		this.typeName = typeName;
 	}
-
 
 	@Override
 	public String toString() {

@@ -29,14 +29,14 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 
 /**
- * SqlUpdate subclass that performs batch update operations. Encapsulates
- * queuing up records to be updated, and adds them as a single batch once
- * {@code flush} is called or the given batch size has been met.
+ * SqlUpdate subclass that performs batch update operations. Encapsulates queuing up
+ * records to be updated, and adds them as a single batch once {@code flush} is called or
+ * the given batch size has been met.
  *
- * <p>Note that this class is a <b>non-thread-safe object</b>, in contrast
- * to all other JDBC operations objects in this package. You need to create
- * a new instance of it for each use, or call {@code reset} before
- * reuse within the same thread.
+ * <p>
+ * Note that this class is a <b>non-thread-safe object</b>, in contrast to all other JDBC
+ * operations objects in this package. You need to create a new instance of it for each
+ * use, or call {@code reset} before reuse within the same thread.
  *
  * @author Keith Donald
  * @author Juergen Hoeller
@@ -51,7 +51,6 @@ public class BatchSqlUpdate extends SqlUpdate {
 	 */
 	public static final int DEFAULT_BATCH_SIZE = 5000;
 
-
 	private int batchSize = DEFAULT_BATCH_SIZE;
 
 	private boolean trackRowsAffected = true;
@@ -60,10 +59,9 @@ public class BatchSqlUpdate extends SqlUpdate {
 
 	private final List<Integer> rowsAffected = new ArrayList<>();
 
-
 	/**
-	 * Constructor to allow use as a JavaBean. DataSource and SQL
-	 * must be supplied before compilation and use.
+	 * Constructor to allow use as a JavaBean. DataSource and SQL must be supplied before
+	 * compilation and use.
 	 * @see #setDataSource
 	 * @see #setSql
 	 */
@@ -81,8 +79,7 @@ public class BatchSqlUpdate extends SqlUpdate {
 	}
 
 	/**
-	 * Construct an update object with a given DataSource, SQL
-	 * and anonymous parameters.
+	 * Construct an update object with a given DataSource, SQL and anonymous parameters.
 	 * @param ds the DataSource to use to obtain connections
 	 * @param sql the SQL statement to execute
 	 * @param types the SQL types of the parameters, as defined in the
@@ -94,15 +91,14 @@ public class BatchSqlUpdate extends SqlUpdate {
 	}
 
 	/**
-	 * Construct an update object with a given DataSource, SQL,
-	 * anonymous parameters and specifying the maximum number of rows
-	 * that may be affected.
+	 * Construct an update object with a given DataSource, SQL, anonymous parameters and
+	 * specifying the maximum number of rows that may be affected.
 	 * @param ds the DataSource to use to obtain connections
 	 * @param sql the SQL statement to execute
 	 * @param types the SQL types of the parameters, as defined in the
 	 * {@code java.sql.Types} class
-	 * @param batchSize the number of statements that will trigger
-	 * an automatic intermediate flush
+	 * @param batchSize the number of statements that will trigger an automatic
+	 * intermediate flush
 	 * @see java.sql.Types
 	 */
 	public BatchSqlUpdate(DataSource ds, String sql, int[] types, int batchSize) {
@@ -110,25 +106,25 @@ public class BatchSqlUpdate extends SqlUpdate {
 		setBatchSize(batchSize);
 	}
 
-
 	/**
-	 * Set the number of statements that will trigger an automatic intermediate
-	 * flush. {@code update} calls or the given statement parameters will
-	 * be queued until the batch size is met, at which point it will empty the
-	 * queue and execute the batch.
-	 * <p>You can also flush already queued statements with an explicit
-	 * {@code flush} call. Note that you need to this after queueing
-	 * all parameters to guarantee that all statements have been flushed.
+	 * Set the number of statements that will trigger an automatic intermediate flush.
+	 * {@code update} calls or the given statement parameters will be queued until the
+	 * batch size is met, at which point it will empty the queue and execute the batch.
+	 * <p>
+	 * You can also flush already queued statements with an explicit {@code flush} call.
+	 * Note that you need to this after queueing all parameters to guarantee that all
+	 * statements have been flushed.
 	 */
 	public void setBatchSize(int batchSize) {
 		this.batchSize = batchSize;
 	}
 
 	/**
-	 * Set whether to track the rows affected by batch updates performed
-	 * by this operation object.
-	 * <p>Default is "true". Turn this off to save the memory needed for
-	 * the list of row counts.
+	 * Set whether to track the rows affected by batch updates performed by this operation
+	 * object.
+	 * <p>
+	 * Default is "true". Turn this off to save the memory needed for the list of row
+	 * counts.
 	 * @see #getRowsAffected()
 	 */
 	public void setTrackRowsAffected(boolean trackRowsAffected) {
@@ -143,19 +139,17 @@ public class BatchSqlUpdate extends SqlUpdate {
 		return false;
 	}
 
-
 	/**
-	 * Overridden version of {@code update} that adds the given statement
-	 * parameters to the queue rather than executing them immediately.
-	 * All other {@code update} methods of the SqlUpdate base class go
-	 * through this method and will thus behave similarly.
-	 * <p>You need to call {@code flush} to actually execute the batch.
-	 * If the specified batch size is reached, an implicit flush will happen;
-	 * you still need to finally call {@code flush} to flush all statements.
+	 * Overridden version of {@code update} that adds the given statement parameters to
+	 * the queue rather than executing them immediately. All other {@code update} methods
+	 * of the SqlUpdate base class go through this method and will thus behave similarly.
+	 * <p>
+	 * You need to call {@code flush} to actually execute the batch. If the specified
+	 * batch size is reached, an implicit flush will happen; you still need to finally
+	 * call {@code flush} to flush all statements.
 	 * @param params array of parameter objects
-	 * @return the number of rows affected by the update (always -1,
-	 * meaning "not applicable", as the statement is not actually
-	 * executed by this method)
+	 * @return the number of rows affected by the update (always -1, meaning "not
+	 * applicable", as the statement is not actually executed by this method)
 	 * @see #flush
 	 */
 	@Override
@@ -182,19 +176,18 @@ public class BatchSqlUpdate extends SqlUpdate {
 			return new int[0];
 		}
 
-		int[] rowsAffected = getJdbcTemplate().batchUpdate(
-				resolveSql(),
-				new BatchPreparedStatementSetter() {
-					@Override
-					public int getBatchSize() {
-						return parameterQueue.size();
-					}
-					@Override
-					public void setValues(PreparedStatement ps, int index) throws SQLException {
-						Object[] params = parameterQueue.removeFirst();
-						newPreparedStatementSetter(params).setValues(ps);
-					}
-				});
+		int[] rowsAffected = getJdbcTemplate().batchUpdate(resolveSql(), new BatchPreparedStatementSetter() {
+			@Override
+			public int getBatchSize() {
+				return parameterQueue.size();
+			}
+
+			@Override
+			public void setValues(PreparedStatement ps, int index) throws SQLException {
+				Object[] params = parameterQueue.removeFirst();
+				newPreparedStatementSetter(params).setValues(ps);
+			}
+		});
 
 		for (int rowCount : rowsAffected) {
 			checkRowsAffected(rowCount);
@@ -207,8 +200,7 @@ public class BatchSqlUpdate extends SqlUpdate {
 	}
 
 	/**
-	 * Return the current number of statements or statement parameters
-	 * in the queue.
+	 * Return the current number of statements or statement parameters in the queue.
 	 */
 	public int getQueueCount() {
 		return this.parameterQueue.size();
@@ -222,9 +214,8 @@ public class BatchSqlUpdate extends SqlUpdate {
 	}
 
 	/**
-	 * Return the number of affected rows for all already executed statements.
-	 * Accumulates all of {@code flush}'s return values until
-	 * {@code reset} is invoked.
+	 * Return the number of affected rows for all already executed statements. Accumulates
+	 * all of {@code flush}'s return values until {@code reset} is invoked.
 	 * @return an array of the number of rows affected by each statement
 	 * @see #reset
 	 */
@@ -237,8 +228,8 @@ public class BatchSqlUpdate extends SqlUpdate {
 	}
 
 	/**
-	 * Reset the statement parameter queue, the rows affected cache,
-	 * and the execution count.
+	 * Reset the statement parameter queue, the rows affected cache, and the execution
+	 * count.
 	 */
 	public void reset() {
 		this.parameterQueue.clear();

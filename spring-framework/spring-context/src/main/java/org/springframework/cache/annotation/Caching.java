@@ -26,14 +26,15 @@ import java.lang.annotation.Target;
 /**
  * Group annotation for multiple cache annotations (of different or the same type).
  *
- * <p>This annotation may be used as a <em>meta-annotation</em> to create custom
- * <em>composed annotations</em> with attribute overrides.
+ * <p>
+ * This annotation may be used as a <em>meta-annotation</em> to create custom <em>composed
+ * annotations</em> with attribute overrides.
  *
  * @author Costin Leau
  * @author Chris Beams
  * @since 3.1
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented

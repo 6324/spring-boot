@@ -63,13 +63,13 @@ public class DefaultNamespaceHandlerResolverTests {
 
 	@Test
 	public void testCtorWithNullClassLoaderArgumentAndNullMappingLocationArgument() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new DefaultNamespaceHandlerResolver(null, null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new DefaultNamespaceHandlerResolver(null, null));
 	}
 
 	@Test
 	public void testCtorWithNonExistentMappingLocationArgument() {
-		// simply must not bail; we don't want non-existent resources to result in an Exception
+		// simply must not bail; we don't want non-existent resources to result in an
+		// Exception
 		new DefaultNamespaceHandlerResolver(null, "738trbc bobabloobop871");
 	}
 

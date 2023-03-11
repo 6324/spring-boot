@@ -1,6 +1,6 @@
 /**
- * This package contains integration classes for JMS,
- * allowing for Spring-style JMS access.
+ * This package contains integration classes for JMS, allowing for Spring-style JMS
+ * access.
  */
 @NonNullApi
 @NonNullFields

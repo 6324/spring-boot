@@ -25,11 +25,12 @@ import org.springframework.context.NoSuchMessageException;
 import org.springframework.lang.Nullable;
 
 /**
- * Empty {@link MessageSource} that delegates all calls to the parent MessageSource.
- * If no parent is available, it simply won't resolve any message.
+ * Empty {@link MessageSource} that delegates all calls to the parent MessageSource. If no
+ * parent is available, it simply won't resolve any message.
  *
- * <p>Used as placeholder by AbstractApplicationContext, if the context doesn't
- * define its own MessageSource. Not intended for direct use in applications.
+ * <p>
+ * Used as placeholder by AbstractApplicationContext, if the context doesn't define its
+ * own MessageSource. Not intended for direct use in applications.
  *
  * @author Juergen Hoeller
  * @since 1.1.5
@@ -39,7 +40,6 @@ public class DelegatingMessageSource extends MessageSourceSupport implements Hie
 
 	@Nullable
 	private MessageSource parentMessageSource;
-
 
 	@Override
 	public void setParentMessageSource(@Nullable MessageSource parent) {
@@ -51,7 +51,6 @@ public class DelegatingMessageSource extends MessageSourceSupport implements Hie
 	public MessageSource getParentMessageSource() {
 		return this.parentMessageSource;
 	}
-
 
 	@Override
 	@Nullable
@@ -91,7 +90,6 @@ public class DelegatingMessageSource extends MessageSourceSupport implements Hie
 			throw new NoSuchMessageException(code, locale);
 		}
 	}
-
 
 	@Override
 	public String toString() {

@@ -48,11 +48,14 @@ public class RequestHeaderMapMethodArgumentResolverTests {
 	private RequestHeaderMapMethodArgumentResolver resolver;
 
 	private MethodParameter paramMap;
-	private MethodParameter paramMultiValueMap;
-	private MethodParameter paramHttpHeaders;
-	private MethodParameter paramUnsupported;
-	private MethodParameter paramAlsoUnsupported;
 
+	private MethodParameter paramMultiValueMap;
+
+	private MethodParameter paramHttpHeaders;
+
+	private MethodParameter paramUnsupported;
+
+	private MethodParameter paramAlsoUnsupported;
 
 	@BeforeEach
 	public void setup() throws Exception {
@@ -67,16 +70,15 @@ public class RequestHeaderMapMethodArgumentResolverTests {
 		paramAlsoUnsupported = new SynthesizingMethodParameter(method, 4);
 	}
 
-
 	@Test
 	public void supportsParameter() {
 		assertThat(resolver.supportsParameter(paramMap)).as("Map parameter not supported").isTrue();
 		assertThat(resolver.supportsParameter(paramMultiValueMap)).as("MultiValueMap parameter not supported").isTrue();
 		assertThat(resolver.supportsParameter(paramHttpHeaders)).as("HttpHeaders parameter not supported").isTrue();
 		assertThat(resolver.supportsParameter(paramUnsupported)).as("non-@RequestParam map supported").isFalse();
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.resolver.supportsParameter(this.paramAlsoUnsupported))
-			.withMessageStartingWith("RequestHeaderMapMethodArgumentResolver does not support reactive type wrapper");
+		assertThatIllegalStateException().isThrownBy(() -> this.resolver.supportsParameter(this.paramAlsoUnsupported))
+				.withMessageStartingWith(
+						"RequestHeaderMapMethodArgumentResolver does not support reactive type wrapper");
 	}
 
 	@Test
@@ -135,14 +137,9 @@ public class RequestHeaderMapMethodArgumentResolverTests {
 		assertThat(result).as("Invalid result").isEqualTo(expected);
 	}
 
-
 	@SuppressWarnings("unused")
-	public void params(
-			@RequestHeader Map<?, ?> param1,
-			@RequestHeader MultiValueMap<?, ?> param2,
-			@RequestHeader HttpHeaders param3,
-			Map<?,?> unsupported,
-			@RequestHeader Mono<Map<?, ?>> alsoUnsupported) {
+	public void params(@RequestHeader Map<?, ?> param1, @RequestHeader MultiValueMap<?, ?> param2,
+			@RequestHeader HttpHeaders param3, Map<?, ?> unsupported, @RequestHeader Mono<Map<?, ?>> alsoUnsupported) {
 	}
 
 }

@@ -58,8 +58,8 @@ public class XhrPollingTransportHandler extends AbstractHttpSendingTransportHand
 	}
 
 	@Override
-	public PollingSockJsSession createSession(
-			String sessionId, WebSocketHandler handler, Map<String, Object> attributes) {
+	public PollingSockJsSession createSession(String sessionId, WebSocketHandler handler,
+			Map<String, Object> attributes) {
 
 		return new PollingSockJsSession(sessionId, getServiceConfig(), handler, attributes);
 	}

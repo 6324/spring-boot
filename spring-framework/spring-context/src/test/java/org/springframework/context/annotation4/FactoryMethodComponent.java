@@ -26,8 +26,8 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 /**
- * Class used to test the functionality of factory method bean definitions
- * declared inside a Spring component class.
+ * Class used to test the functionality of factory method bean definitions declared inside
+ * a Spring component class.
  *
  * @author Mark Pollack
  * @author Juergen Hoeller
@@ -37,11 +37,12 @@ public class FactoryMethodComponent {
 
 	private int i;
 
-	public static TestBean nullInstance()  {
+	public static TestBean nullInstance() {
 		return null;
 	}
 
-	@Bean @Qualifier("public")
+	@Bean
+	@Qualifier("public")
 	public TestBean publicInstance() {
 		return new TestBean("publicInstance");
 	}
@@ -51,20 +52,24 @@ public class FactoryMethodComponent {
 		return new TestBean("publicInstance");
 	}
 
-	@Bean @BeanAge(1)
-	protected TestBean protectedInstance(@Qualifier("public") TestBean spouse, @Value("#{privateInstance.age}") String country) {
+	@Bean
+	@BeanAge(1)
+	protected TestBean protectedInstance(@Qualifier("public") TestBean spouse,
+			@Value("#{privateInstance.age}") String country) {
 		TestBean tb = new TestBean("protectedInstance", 1);
 		tb.setSpouse(tb);
 		tb.setCountry(country);
 		return tb;
 	}
 
-	@Bean @Scope("prototype")
+	@Bean
+	@Scope("prototype")
 	private TestBean privateInstance() {
 		return new TestBean("privateInstance", i++);
 	}
 
-	@Bean @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
+	@Bean
+	@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 	public TestBean requestScopedInstance() {
 		return new TestBean("requestScopedInstance", 3);
 	}

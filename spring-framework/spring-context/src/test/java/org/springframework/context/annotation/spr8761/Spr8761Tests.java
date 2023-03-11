@@ -26,7 +26,6 @@ import org.springframework.stereotype.Component;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * Tests cornering the regression reported in SPR-8761.
  *
@@ -54,5 +53,7 @@ class WithNestedAnnotation {
 	@Retention(RetentionPolicy.RUNTIME)
 	@Component
 	public static @interface MyComponent {
+
 	}
+
 }

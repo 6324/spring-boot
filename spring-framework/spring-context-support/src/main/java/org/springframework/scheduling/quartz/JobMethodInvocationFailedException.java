@@ -20,9 +20,8 @@ import org.springframework.core.NestedRuntimeException;
 import org.springframework.util.MethodInvoker;
 
 /**
- * Unchecked exception that wraps an exception thrown from a target method.
- * Propagated to the Quartz scheduler from a Job that reflectively invokes
- * an arbitrary target method.
+ * Unchecked exception that wraps an exception thrown from a target method. Propagated to
+ * the Quartz scheduler from a Job that reflectively invokes an arbitrary target method.
  *
  * @author Juergen Hoeller
  * @since 2.5.3
@@ -37,8 +36,8 @@ public class JobMethodInvocationFailedException extends NestedRuntimeException {
 	 * @param cause the root cause (as thrown from the target method)
 	 */
 	public JobMethodInvocationFailedException(MethodInvoker methodInvoker, Throwable cause) {
-		super("Invocation of method '" + methodInvoker.getTargetMethod() +
-				"' on target class [" + methodInvoker.getTargetClass() + "] failed", cause);
+		super("Invocation of method '" + methodInvoker.getTargetMethod() + "' on target class ["
+				+ methodInvoker.getTargetClass() + "] failed", cause);
 	}
 
 }

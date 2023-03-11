@@ -36,7 +36,6 @@ public class TypeMismatchException extends PropertyAccessException {
 	 */
 	public static final String ERROR_CODE = "typeMismatch";
 
-
 	@Nullable
 	private String propertyName;
 
@@ -45,7 +44,6 @@ public class TypeMismatchException extends PropertyAccessException {
 
 	@Nullable
 	private final Class<?> requiredType;
-
 
 	/**
 	 * Create a new {@code TypeMismatchException}.
@@ -65,13 +63,11 @@ public class TypeMismatchException extends PropertyAccessException {
 	public TypeMismatchException(PropertyChangeEvent propertyChangeEvent, @Nullable Class<?> requiredType,
 			@Nullable Throwable cause) {
 
-		super(propertyChangeEvent,
-				"Failed to convert property value of type '" +
-				ClassUtils.getDescriptiveType(propertyChangeEvent.getNewValue()) + "'" +
-				(requiredType != null ?
-				" to required type '" + ClassUtils.getQualifiedName(requiredType) + "'" : "") +
-				(propertyChangeEvent.getPropertyName() != null ?
-				" for property '" + propertyChangeEvent.getPropertyName() + "'" : ""),
+		super(propertyChangeEvent, "Failed to convert property value of type '"
+				+ ClassUtils.getDescriptiveType(propertyChangeEvent.getNewValue()) + "'"
+				+ (requiredType != null ? " to required type '" + ClassUtils.getQualifiedName(requiredType) + "'" : "")
+				+ (propertyChangeEvent.getPropertyName() != null
+						? " for property '" + propertyChangeEvent.getPropertyName() + "'" : ""),
 				cause);
 		this.propertyName = propertyChangeEvent.getPropertyName();
 		this.value = propertyChangeEvent.getNewValue();
@@ -96,17 +92,17 @@ public class TypeMismatchException extends PropertyAccessException {
 	 * @see #initPropertyName
 	 */
 	public TypeMismatchException(@Nullable Object value, @Nullable Class<?> requiredType, @Nullable Throwable cause) {
-		super("Failed to convert value of type '" + ClassUtils.getDescriptiveType(value) + "'" +
-				(requiredType != null ? " to required type '" + ClassUtils.getQualifiedName(requiredType) + "'" : ""),
+		super("Failed to convert value of type '" + ClassUtils.getDescriptiveType(value) + "'"
+				+ (requiredType != null ? " to required type '" + ClassUtils.getQualifiedName(requiredType) + "'" : ""),
 				cause);
 		this.value = value;
 		this.requiredType = requiredType;
 	}
 
-
 	/**
-	 * Initialize this exception's property name for exposure through {@link #getPropertyName()},
-	 * as an alternative to having it initialized via a {@link PropertyChangeEvent}.
+	 * Initialize this exception's property name for exposure through
+	 * {@link #getPropertyName()}, as an alternative to having it initialized via a
+	 * {@link PropertyChangeEvent}.
 	 * @param propertyName the property name to expose
 	 * @since 5.0.4
 	 * @see #TypeMismatchException(Object, Class)

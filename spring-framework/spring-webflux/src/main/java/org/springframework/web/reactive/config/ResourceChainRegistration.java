@@ -43,9 +43,8 @@ public class ResourceChainRegistration {
 
 	private static final String DEFAULT_CACHE_NAME = "spring-resource-chain-cache";
 
-	private static final boolean isWebJarsAssetLocatorPresent = ClassUtils.isPresent(
-			"org.webjars.WebJarAssetLocator", ResourceChainRegistration.class.getClassLoader());
-
+	private static final boolean isWebJarsAssetLocatorPresent = ClassUtils.isPresent("org.webjars.WebJarAssetLocator",
+			ResourceChainRegistration.class.getClassLoader());
 
 	private final List<ResourceResolver> resolvers = new ArrayList<>(4);
 
@@ -59,7 +58,6 @@ public class ResourceChainRegistration {
 
 	private boolean hasWebjarsResolver;
 
-
 	public ResourceChainRegistration(boolean cacheResources) {
 		this(cacheResources, cacheResources ? new ConcurrentMapCache(DEFAULT_CACHE_NAME) : null);
 	}
@@ -71,7 +69,6 @@ public class ResourceChainRegistration {
 			this.transformers.add(new CachingResourceTransformer(cache));
 		}
 	}
-
 
 	/**
 	 * Add a resource resolver to the chain.

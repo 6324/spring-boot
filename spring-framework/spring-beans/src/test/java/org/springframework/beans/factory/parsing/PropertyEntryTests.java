@@ -30,20 +30,17 @@ public class PropertyEntryTests {
 
 	@Test
 	public void testCtorBailsOnNullPropertyNameArgument() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new PropertyEntry(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new PropertyEntry(null));
 	}
 
 	@Test
 	public void testCtorBailsOnEmptyPropertyNameArgument() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new PropertyEntry(""));
+		assertThatIllegalArgumentException().isThrownBy(() -> new PropertyEntry(""));
 	}
 
 	@Test
 	public void testCtorBailsOnWhitespacedPropertyNameArgument() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new PropertyEntry("\t   "));
+		assertThatIllegalArgumentException().isThrownBy(() -> new PropertyEntry("\t   "));
 	}
 
 }

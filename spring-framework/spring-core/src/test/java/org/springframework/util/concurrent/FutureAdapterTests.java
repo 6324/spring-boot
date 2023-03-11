@@ -36,7 +36,6 @@ class FutureAdapterTests {
 
 	private Future<Integer> adaptee;
 
-
 	@BeforeEach
 	@SuppressWarnings("unchecked")
 	void setUp() {
@@ -83,6 +82,5 @@ class FutureAdapterTests {
 		String result = adapter.get(1, TimeUnit.SECONDS);
 		assertThat(result).isEqualTo("42");
 	}
-
 
 }

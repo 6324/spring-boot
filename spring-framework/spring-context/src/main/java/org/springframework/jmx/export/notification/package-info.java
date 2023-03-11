@@ -1,6 +1,6 @@
 /**
- * Provides supporting infrastructure to allow Spring-created MBeans
- * to send JMX notifications.
+ * Provides supporting infrastructure to allow Spring-created MBeans to send JMX
+ * notifications.
  */
 @NonNullApi
 @NonNullFields

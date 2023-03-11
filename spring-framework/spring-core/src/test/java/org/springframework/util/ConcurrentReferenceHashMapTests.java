@@ -56,7 +56,6 @@ class ConcurrentReferenceHashMapTests {
 
 	private TestWeakConcurrentCache<Integer, String> map = new TestWeakConcurrentCache<>();
 
-
 	@Test
 	void shouldCreateWithDefaults() {
 		ConcurrentReferenceHashMap<Integer, String> map = new ConcurrentReferenceHashMap<>();
@@ -102,25 +101,22 @@ class ConcurrentReferenceHashMapTests {
 	@Test
 	void shouldNeedNonNegativeInitialCapacity() {
 		new ConcurrentReferenceHashMap<Integer, String>(0, 1);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new TestWeakConcurrentCache<Integer, String>(-1, 1))
-			.withMessageContaining("Initial capacity must not be negative");
+		assertThatIllegalArgumentException().isThrownBy(() -> new TestWeakConcurrentCache<Integer, String>(-1, 1))
+				.withMessageContaining("Initial capacity must not be negative");
 	}
 
 	@Test
 	void shouldNeedPositiveLoadFactor() {
 		new ConcurrentReferenceHashMap<Integer, String>(0, 0.1f, 1);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new TestWeakConcurrentCache<Integer, String>(0, 0.0f, 1))
-			.withMessageContaining("Load factor must be positive");
+		assertThatIllegalArgumentException().isThrownBy(() -> new TestWeakConcurrentCache<Integer, String>(0, 0.0f, 1))
+				.withMessageContaining("Load factor must be positive");
 	}
 
 	@Test
 	void shouldNeedPositiveConcurrencyLevel() {
 		new ConcurrentReferenceHashMap<Integer, String>(1, 1);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new TestWeakConcurrentCache<Integer, String>(1, 0))
-			.withMessageContaining("Concurrency level must be positive");
+		assertThatIllegalArgumentException().isThrownBy(() -> new TestWeakConcurrentCache<Integer, String>(1, 0))
+				.withMessageContaining("Concurrency level must be positive");
 	}
 
 	@Test
@@ -512,8 +508,10 @@ class ConcurrentReferenceHashMapTests {
 	@Test
 	@Disabled("Intended for use during development only")
 	void shouldBeFasterThanSynchronizedMap() throws InterruptedException {
-		Map<Integer, WeakReference<String>> synchronizedMap = Collections.synchronizedMap(new WeakHashMap<Integer, WeakReference<String>>());
-		StopWatch mapTime = timeMultiThreaded("SynchronizedMap", synchronizedMap, v -> new WeakReference<>(String.valueOf(v)));
+		Map<Integer, WeakReference<String>> synchronizedMap = Collections
+				.synchronizedMap(new WeakHashMap<Integer, WeakReference<String>>());
+		StopWatch mapTime = timeMultiThreaded("SynchronizedMap", synchronizedMap,
+				v -> new WeakReference<>(String.valueOf(v)));
 		System.out.println(mapTime.prettyPrint());
 
 		this.map.setDisableTestHooks(true);
@@ -526,7 +524,8 @@ class ConcurrentReferenceHashMapTests {
 
 	@Test
 	void shouldSupportNullReference() {
-		// GC could happen during restructure so we must be able to create a reference for a null entry
+		// GC could happen during restructure so we must be able to create a reference for
+		// a null entry
 		map.createReferenceManager().createReference(null, 1234, null);
 	}
 
@@ -534,8 +533,8 @@ class ConcurrentReferenceHashMapTests {
 	 * Time a multi-threaded access to a cache.
 	 * @return the timing stopwatch
 	 */
-	private <V> StopWatch timeMultiThreaded(String id, final Map<Integer, V> map,
-			ValueFactory<V> factory) throws InterruptedException {
+	private <V> StopWatch timeMultiThreaded(String id, final Map<Integer, V> map, ValueFactory<V> factory)
+			throws InterruptedException {
 
 		StopWatch stopWatch = new StopWatch(id);
 		for (int i = 0; i < 500; i++) {
@@ -568,12 +567,11 @@ class ConcurrentReferenceHashMapTests {
 		return stopWatch;
 	}
 
-
 	private interface ValueFactory<V> {
 
 		V newValue(int k);
-	}
 
+	}
 
 	private static class TestWeakConcurrentCache<K, V> extends ConcurrentReferenceHashMap<K, V> {
 
@@ -623,12 +621,14 @@ class ConcurrentReferenceHashMapTests {
 					}
 					return new MockReference<>(entry, hash, next, TestWeakConcurrentCache.this.queue);
 				}
+
 				@Override
 				public Reference<K, V> pollForPurge() {
 					if (TestWeakConcurrentCache.this.disableTestHooks) {
 						return super.pollForPurge();
 					}
-					return TestWeakConcurrentCache.this.queue.isEmpty() ? null : TestWeakConcurrentCache.this.queue.removeFirst();
+					return TestWeakConcurrentCache.this.queue.isEmpty() ? null
+							: TestWeakConcurrentCache.this.queue.removeFirst();
 				}
 			};
 		}
@@ -636,8 +636,8 @@ class ConcurrentReferenceHashMapTests {
 		public MockReference<K, V> getMockReference(K key, Restructure restructure) {
 			return (MockReference<K, V>) super.getReference(key, restructure);
 		}
-	}
 
+	}
 
 	private static class MockReference<K, V> implements Reference<K, V> {
 
@@ -680,6 +680,7 @@ class ConcurrentReferenceHashMapTests {
 		public void queueForPurge() {
 			this.queue.add(this);
 		}
+
 	}
 
 }

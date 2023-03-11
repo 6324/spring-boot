@@ -41,7 +41,6 @@ public class BshScriptEvaluator implements ScriptEvaluator, BeanClassLoaderAware
 	@Nullable
 	private ClassLoader classLoader;
 
-
 	/**
 	 * Construct a new BshScriptEvaluator.
 	 */
@@ -56,12 +55,10 @@ public class BshScriptEvaluator implements ScriptEvaluator, BeanClassLoaderAware
 		this.classLoader = classLoader;
 	}
 
-
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
 		this.classLoader = classLoader;
 	}
-
 
 	@Override
 	@Nullable

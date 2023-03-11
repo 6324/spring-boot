@@ -73,12 +73,12 @@ public class StandardWebSocketSession extends AbstractWebSocketSession<Session> 
 	@Nullable
 	private final InetSocketAddress remoteAddress;
 
-
 	/**
 	 * Constructor for a standard WebSocket session.
 	 * @param headers the headers of the handshake request
-	 * @param attributes the attributes from the HTTP handshake to associate with the WebSocket
-	 * session; the provided attributes are copied, the original map is not used.
+	 * @param attributes the attributes from the HTTP handshake to associate with the
+	 * WebSocket session; the provided attributes are copied, the original map is not
+	 * used.
 	 * @param localAddress the address on which the request was received
 	 * @param remoteAddress the address of the remote client
 	 */
@@ -91,11 +91,12 @@ public class StandardWebSocketSession extends AbstractWebSocketSession<Session> 
 	/**
 	 * Constructor that associates a user with the WebSocket session.
 	 * @param headers the headers of the handshake request
-	 * @param attributes the attributes from the HTTP handshake to associate with the WebSocket session
+	 * @param attributes the attributes from the HTTP handshake to associate with the
+	 * WebSocket session
 	 * @param localAddress the address on which the request was received
 	 * @param remoteAddress the address of the remote client
-	 * @param user the user associated with the session; if {@code null} we'll
-	 * fallback on the user available in the underlying WebSocket session
+	 * @param user the user associated with the session; if {@code null} we'll fallback on
+	 * the user available in the underlying WebSocket session
 	 */
 	public StandardWebSocketSession(@Nullable HttpHeaders headers, @Nullable Map<String, Object> attributes,
 			@Nullable InetSocketAddress localAddress, @Nullable InetSocketAddress remoteAddress,
@@ -109,7 +110,6 @@ public class StandardWebSocketSession extends AbstractWebSocketSession<Session> 
 		this.localAddress = localAddress;
 		this.remoteAddress = remoteAddress;
 	}
-
 
 	@Override
 	public String getId() {

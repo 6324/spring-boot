@@ -33,8 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class XMLEventStreamWriterTests {
 
-	private static final String XML =
-			"<?pi content?><root xmlns='namespace'><prefix:child xmlns:prefix='namespace2'><!--comment-->content</prefix:child></root>";
+	private static final String XML = "<?pi content?><root xmlns='namespace'><prefix:child xmlns:prefix='namespace2'><!--comment-->content</prefix:child></root>";
 
 	private XMLEventStreamWriter streamWriter;
 
@@ -62,9 +61,9 @@ class XMLEventStreamWriterTests {
 		streamWriter.writeEndElement();
 		streamWriter.writeEndDocument();
 
-		Predicate<Node> nodeFilter = n -> n.getNodeType() != Node.DOCUMENT_TYPE_NODE && n.getNodeType() != Node.PROCESSING_INSTRUCTION_NODE;
+		Predicate<Node> nodeFilter = n -> n.getNodeType() != Node.DOCUMENT_TYPE_NODE
+				&& n.getNodeType() != Node.PROCESSING_INSTRUCTION_NODE;
 		assertThat(XmlContent.from(stringWriter)).isSimilarTo(XML, nodeFilter);
 	}
-
 
 }

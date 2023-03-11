@@ -41,14 +41,16 @@ public class AnnotationDrivenTests {
 
 	@Test
 	public void withProxyTargetClass() throws Exception {
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("annotationDrivenProxyTargetClassTests.xml", getClass());
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+				"annotationDrivenProxyTargetClassTests.xml", getClass());
 		doTestWithMultipleTransactionManagers(context);
 	}
 
 	@Test
 	public void withConfigurationClass() throws Exception {
 		ApplicationContext parent = new AnnotationConfigApplicationContext(TransactionManagerConfiguration.class);
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"annotationDrivenConfigurationClassTests.xml"}, getClass(), parent);
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+				new String[] { "annotationDrivenConfigurationClassTests.xml" }, getClass(), parent);
 		doTestWithMultipleTransactionManagers(context);
 	}
 
@@ -58,13 +60,16 @@ public class AnnotationDrivenTests {
 		parent.registerBeanDefinition("transactionManager1", new RootBeanDefinition(SynchTransactionManager.class));
 		parent.registerBeanDefinition("transactionManager2", new RootBeanDefinition(NoSynchTransactionManager.class));
 		parent.refresh();
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"annotationDrivenConfigurationClassTests.xml"}, getClass(), parent);
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+				new String[] { "annotationDrivenConfigurationClassTests.xml" }, getClass(), parent);
 		doTestWithMultipleTransactionManagers(context);
 	}
 
 	private void doTestWithMultipleTransactionManagers(ApplicationContext context) {
-		CallCountingTransactionManager tm1 = context.getBean("transactionManager1", CallCountingTransactionManager.class);
-		CallCountingTransactionManager tm2 = context.getBean("transactionManager2", CallCountingTransactionManager.class);
+		CallCountingTransactionManager tm1 = context.getBean("transactionManager1",
+				CallCountingTransactionManager.class);
+		CallCountingTransactionManager tm2 = context.getBean("transactionManager2",
+				CallCountingTransactionManager.class);
 		TransactionalService service = context.getBean("service", TransactionalService.class);
 		assertThat(AopUtils.isCglibProxy(service)).isTrue();
 		service.setSomething("someName");
@@ -84,7 +89,8 @@ public class AnnotationDrivenTests {
 	@Test
 	@SuppressWarnings("resource")
 	public void serializableWithPreviousUsage() throws Exception {
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("annotationDrivenProxyTargetClassTests.xml", getClass());
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+				"annotationDrivenProxyTargetClassTests.xml", getClass());
 		TransactionalService service = context.getBean("service", TransactionalService.class);
 		service.setSomething("someName");
 		service = (TransactionalService) SerializationTestUtils.serializeAndDeserialize(service);
@@ -94,12 +100,12 @@ public class AnnotationDrivenTests {
 	@Test
 	@SuppressWarnings("resource")
 	public void serializableWithoutPreviousUsage() throws Exception {
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("annotationDrivenProxyTargetClassTests.xml", getClass());
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+				"annotationDrivenProxyTargetClassTests.xml", getClass());
 		TransactionalService service = context.getBean("service", TransactionalService.class);
 		service = (TransactionalService) SerializationTestUtils.serializeAndDeserialize(service);
 		service.setSomething("someName");
 	}
-
 
 	@SuppressWarnings("serial")
 	public static class TransactionCheckingInterceptor implements MethodInterceptor, Serializable {
@@ -116,6 +122,7 @@ public class AnnotationDrivenTests {
 			}
 			return methodInvocation.proceed();
 		}
+
 	}
 
 }

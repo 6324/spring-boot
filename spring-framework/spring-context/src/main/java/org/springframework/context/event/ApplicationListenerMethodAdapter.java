@@ -51,14 +51,14 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.concurrent.ListenableFuture;
 
 /**
- * {@link GenericApplicationListener} adapter that delegates the processing of
- * an event to an {@link EventListener} annotated method.
+ * {@link GenericApplicationListener} adapter that delegates the processing of an event to
+ * an {@link EventListener} annotated method.
  *
- * <p>Delegates to {@link #processEvent(ApplicationEvent)} to give subclasses
- * a chance to deviate from the default. Unwraps the content of a
- * {@link PayloadApplicationEvent} if necessary to allow a method declaration
- * to define any arbitrary event type. If a condition is defined, it is
- * evaluated prior to invoking the underlying method.
+ * <p>
+ * Delegates to {@link #processEvent(ApplicationEvent)} to give subclasses a chance to
+ * deviate from the default. Unwraps the content of a {@link PayloadApplicationEvent} if
+ * necessary to allow a method declaration to define any arbitrary event type. If a
+ * condition is defined, it is evaluated prior to invoking the underlying method.
  *
  * @author Stephane Nicoll
  * @author Juergen Hoeller
@@ -67,9 +67,8 @@ import org.springframework.util.concurrent.ListenableFuture;
  */
 public class ApplicationListenerMethodAdapter implements GenericApplicationListener {
 
-	private static final boolean reactiveStreamsPresent = ClassUtils.isPresent(
-			"org.reactivestreams.Publisher", ApplicationListenerMethodAdapter.class.getClassLoader());
-
+	private static final boolean reactiveStreamsPresent = ClassUtils.isPresent("org.reactivestreams.Publisher",
+			ApplicationListenerMethodAdapter.class.getClassLoader());
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
@@ -94,12 +93,11 @@ public class ApplicationListenerMethodAdapter implements GenericApplicationListe
 	@Nullable
 	private EventExpressionEvaluator evaluator;
 
-
 	public ApplicationListenerMethodAdapter(String beanName, Class<?> targetClass, Method method) {
 		this.beanName = beanName;
 		this.method = BridgeMethodResolver.findBridgedMethod(method);
-		this.targetMethod = (!Proxy.isProxyClass(targetClass) ?
-				AopUtils.getMostSpecificMethod(method, targetClass) : this.method);
+		this.targetMethod = (!Proxy.isProxyClass(targetClass) ? AopUtils.getMostSpecificMethod(method, targetClass)
+				: this.method);
 		this.methodKey = new AnnotatedElementKey(this.targetMethod, targetClass);
 
 		EventListener ann = AnnotatedElementUtils.findMergedAnnotation(this.targetMethod, EventListener.class);
@@ -111,8 +109,7 @@ public class ApplicationListenerMethodAdapter implements GenericApplicationListe
 	private static List<ResolvableType> resolveDeclaredEventTypes(Method method, @Nullable EventListener ann) {
 		int count = method.getParameterCount();
 		if (count > 1) {
-			throw new IllegalStateException(
-					"Maximum one parameter is allowed for event listener method: " + method);
+			throw new IllegalStateException("Maximum one parameter is allowed for event listener method: " + method);
 		}
 
 		if (ann != null) {
@@ -127,8 +124,7 @@ public class ApplicationListenerMethodAdapter implements GenericApplicationListe
 		}
 
 		if (count == 0) {
-			throw new IllegalStateException(
-					"Event parameter is mandatory for event listener method: " + method);
+			throw new IllegalStateException("Event parameter is mandatory for event listener method: " + method);
 		}
 		return Collections.singletonList(ResolvableType.forMethodParameter(method, 0));
 	}
@@ -138,7 +134,6 @@ public class ApplicationListenerMethodAdapter implements GenericApplicationListe
 		return (ann != null ? ann.value() : 0);
 	}
 
-
 	/**
 	 * Initialize this instance.
 	 */
@@ -146,7 +141,6 @@ public class ApplicationListenerMethodAdapter implements GenericApplicationListe
 		this.applicationContext = applicationContext;
 		this.evaluator = evaluator;
 	}
-
 
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
@@ -179,10 +173,9 @@ public class ApplicationListenerMethodAdapter implements GenericApplicationListe
 		return this.order;
 	}
 
-
 	/**
-	 * Process the specified {@link ApplicationEvent}, checking if the condition
-	 * matches and handling a non-null result, if any.
+	 * Process the specified {@link ApplicationEvent}, checking if the condition matches
+	 * and handling a non-null result, if any.
 	 */
 	public void processEvent(ApplicationEvent event) {
 		Object[] args = resolveArguments(event);
@@ -199,9 +192,10 @@ public class ApplicationListenerMethodAdapter implements GenericApplicationListe
 
 	/**
 	 * Resolve the method arguments to use for the specified {@link ApplicationEvent}.
-	 * <p>These arguments will be used to invoke the method handled by this instance.
-	 * Can return {@code null} to indicate that no suitable arguments could be resolved
-	 * and therefore the method should not be invoked at all for the specified event.
+	 * <p>
+	 * These arguments will be used to invoke the method handled by this instance. Can
+	 * return {@code null} to indicate that no suitable arguments could be resolved and
+	 * therefore the method should not be invoked at all for the specified event.
 	 */
 	@Nullable
 	protected Object[] resolveArguments(ApplicationEvent event) {
@@ -213,14 +207,13 @@ public class ApplicationListenerMethodAdapter implements GenericApplicationListe
 			return new Object[0];
 		}
 		Class<?> declaredEventClass = declaredEventType.toClass();
-		if (!ApplicationEvent.class.isAssignableFrom(declaredEventClass) &&
-				event instanceof PayloadApplicationEvent) {
+		if (!ApplicationEvent.class.isAssignableFrom(declaredEventClass) && event instanceof PayloadApplicationEvent) {
 			Object payload = ((PayloadApplicationEvent<?>) event).getPayload();
 			if (declaredEventClass.isInstance(payload)) {
-				return new Object[] {payload};
+				return new Object[] { payload };
 			}
 		}
-		return new Object[] {event};
+		return new Object[] { event };
 	}
 
 	protected void handleResult(Object result) {
@@ -283,8 +276,8 @@ public class ApplicationListenerMethodAdapter implements GenericApplicationListe
 		String condition = getCondition();
 		if (StringUtils.hasText(condition)) {
 			Assert.notNull(this.evaluator, "EventExpressionEvaluator must not be null");
-			return this.evaluator.condition(
-					condition, event, this.targetMethod, this.methodKey, args, this.applicationContext);
+			return this.evaluator.condition(condition, event, this.targetMethod, this.methodKey, args,
+					this.applicationContext);
 		}
 		return true;
 	}
@@ -334,9 +327,10 @@ public class ApplicationListenerMethodAdapter implements GenericApplicationListe
 
 	/**
 	 * Return the condition to use.
-	 * <p>Matches the {@code condition} attribute of the {@link EventListener}
-	 * annotation or any matching attribute on a composed annotation that
-	 * is meta-annotated with {@code @EventListener}.
+	 * <p>
+	 * Matches the {@code condition} attribute of the {@link EventListener} annotation or
+	 * any matching attribute on a composed annotation that is meta-annotated with
+	 * {@code @EventListener}.
 	 */
 	@Nullable
 	protected String getCondition() {
@@ -344,8 +338,8 @@ public class ApplicationListenerMethodAdapter implements GenericApplicationListe
 	}
 
 	/**
-	 * Add additional details such as the bean type and method signature to
-	 * the given error message.
+	 * Add additional details such as the bean type and method signature to the given
+	 * error message.
 	 * @param message error message to append the HandlerMethod details to
 	 */
 	protected String getDetailedErrorMessage(Object bean, String message) {
@@ -358,19 +352,19 @@ public class ApplicationListenerMethodAdapter implements GenericApplicationListe
 
 	/**
 	 * Assert that the target bean class is an instance of the class where the given
-	 * method is declared. In some cases the actual bean instance at event-
-	 * processing time may be a JDK dynamic proxy (lazy initialization, prototype
-	 * beans, and others). Event listener beans that require proxying should prefer
-	 * class-based proxy mechanisms.
+	 * method is declared. In some cases the actual bean instance at event- processing
+	 * time may be a JDK dynamic proxy (lazy initialization, prototype beans, and others).
+	 * Event listener beans that require proxying should prefer class-based proxy
+	 * mechanisms.
 	 */
 	private void assertTargetBean(Method method, Object targetBean, Object[] args) {
 		Class<?> methodDeclaringClass = method.getDeclaringClass();
 		Class<?> targetBeanClass = targetBean.getClass();
 		if (!methodDeclaringClass.isAssignableFrom(targetBeanClass)) {
-			String msg = "The event listener method class '" + methodDeclaringClass.getName() +
-					"' is not an instance of the actual bean class '" +
-					targetBeanClass.getName() + "'. If the bean requires proxying " +
-					"(e.g. due to @Transactional), please use class-based proxying.";
+			String msg = "The event listener method class '" + methodDeclaringClass.getName()
+					+ "' is not an instance of the actual bean class '" + targetBeanClass.getName()
+					+ "'. If the bean requires proxying "
+					+ "(e.g. due to @Transactional), please use class-based proxying.";
 			throw new IllegalStateException(getInvocationErrorMessage(targetBean, msg, args));
 		}
 	}
@@ -403,8 +397,8 @@ public class ApplicationListenerMethodAdapter implements GenericApplicationListe
 		}
 		for (ResolvableType declaredEventType : this.declaredEventTypes) {
 			Class<?> eventClass = declaredEventType.toClass();
-			if (!ApplicationEvent.class.isAssignableFrom(eventClass) &&
-					payloadType != null && declaredEventType.isAssignableFrom(payloadType)) {
+			if (!ApplicationEvent.class.isAssignableFrom(eventClass) && payloadType != null
+					&& declaredEventType.isAssignableFrom(payloadType)) {
 				return declaredEventType;
 			}
 			if (eventClass.isInstance(event)) {
@@ -414,12 +408,10 @@ public class ApplicationListenerMethodAdapter implements GenericApplicationListe
 		return null;
 	}
 
-
 	@Override
 	public String toString() {
 		return this.method.toGenericString();
 	}
-
 
 	private class ReactiveResultHandler {
 
@@ -431,8 +423,8 @@ public class ApplicationListenerMethodAdapter implements GenericApplicationListe
 			}
 			return false;
 		}
-	}
 
+	}
 
 	private class EventPublicationSubscriber implements Subscriber<Object> {
 
@@ -454,6 +446,7 @@ public class ApplicationListenerMethodAdapter implements GenericApplicationListe
 		@Override
 		public void onComplete() {
 		}
+
 	}
 
 }

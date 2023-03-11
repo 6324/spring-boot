@@ -28,11 +28,12 @@ import org.springframework.beans.factory.NamedBean;
 
 /**
  * Convenient methods for creating advisors that may be used when autoproxying beans
- * created with the Spring IoC container, binding the bean name to the current
- * invocation. May support a {@code bean()} pointcut designator with AspectJ.
+ * created with the Spring IoC container, binding the bean name to the current invocation.
+ * May support a {@code bean()} pointcut designator with AspectJ.
  *
- * <p>Typically used in Spring auto-proxying, where the bean name is known
- * at proxy creation time.
+ * <p>
+ * Typically used in Spring auto-proxying, where the bean name is known at proxy creation
+ * time.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -42,16 +43,15 @@ import org.springframework.beans.factory.NamedBean;
 public abstract class ExposeBeanNameAdvisors {
 
 	/**
-	 * Binding for the bean name of the bean which is currently being invoked
-	 * in the ReflectiveMethodInvocation userAttributes Map.
+	 * Binding for the bean name of the bean which is currently being invoked in the
+	 * ReflectiveMethodInvocation userAttributes Map.
 	 */
 	private static final String BEAN_NAME_ATTRIBUTE = ExposeBeanNameAdvisors.class.getName() + ".BEAN_NAME";
 
-
 	/**
-	 * Find the bean name for the current invocation. Assumes that an ExposeBeanNameAdvisor
-	 * has been included in the interceptor chain, and that the invocation is exposed
-	 * with ExposeInvocationInterceptor.
+	 * Find the bean name for the current invocation. Assumes that an
+	 * ExposeBeanNameAdvisor has been included in the interceptor chain, and that the
+	 * invocation is exposed with ExposeInvocationInterceptor.
 	 * @return the bean name (never {@code null})
 	 * @throws IllegalStateException if the bean name has not been exposed
 	 */
@@ -79,8 +79,7 @@ public abstract class ExposeBeanNameAdvisors {
 	}
 
 	/**
-	 * Create a new advisor that will expose the given bean name,
-	 * with no introduction.
+	 * Create a new advisor that will expose the given bean name, with no introduction.
 	 * @param beanName bean name to expose
 	 */
 	public static Advisor createAdvisorWithoutIntroduction(String beanName) {
@@ -88,15 +87,14 @@ public abstract class ExposeBeanNameAdvisors {
 	}
 
 	/**
-	 * Create a new advisor that will expose the given bean name, introducing
-	 * the NamedBean interface to make the bean name accessible without forcing
-	 * the target object to be aware of this Spring IoC concept.
+	 * Create a new advisor that will expose the given bean name, introducing the
+	 * NamedBean interface to make the bean name accessible without forcing the target
+	 * object to be aware of this Spring IoC concept.
 	 * @param beanName the bean name to expose
 	 */
 	public static Advisor createAdvisorIntroducingNamedBean(String beanName) {
 		return new DefaultIntroductionAdvisor(new ExposeBeanNameIntroduction(beanName));
 	}
-
 
 	/**
 	 * Interceptor that exposes the specified bean name as invocation attribute.
@@ -118,8 +116,8 @@ public abstract class ExposeBeanNameAdvisors {
 			pmi.setUserAttribute(BEAN_NAME_ATTRIBUTE, this.beanName);
 			return mi.proceed();
 		}
-	}
 
+	}
 
 	/**
 	 * Introduction that exposes the specified bean name as invocation attribute.
@@ -147,6 +145,7 @@ public abstract class ExposeBeanNameAdvisors {
 		public String getBeanName() {
 			return this.beanName;
 		}
+
 	}
 
 }

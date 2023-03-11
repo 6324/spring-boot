@@ -32,11 +32,12 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Utility methods for AOP proxy factories.
- * Mainly for internal use within the AOP framework.
+ * Utility methods for AOP proxy factories. Mainly for internal use within the AOP
+ * framework.
  *
- * <p>See {@link org.springframework.aop.support.AopUtils} for a collection of
- * generic AOP utility methods which do not depend on AOP framework internals.
+ * <p>
+ * See {@link org.springframework.aop.support.AopUtils} for a collection of generic AOP
+ * utility methods which do not depend on AOP framework internals.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -47,8 +48,8 @@ public abstract class AopProxyUtils {
 	/**
 	 * Obtain the singleton target object behind the given proxy, if any.
 	 * @param candidate the (potential) proxy to check
-	 * @return the singleton target object managed in a {@link SingletonTargetSource},
-	 * or {@code null} in any other case (not a proxy, not an existing singleton target)
+	 * @return the singleton target object managed in a {@link SingletonTargetSource}, or
+	 * {@code null} in any other case (not a proxy, not an existing singleton target)
 	 * @since 4.3.8
 	 * @see Advised#getTargetSource()
 	 * @see SingletonTargetSource#getTarget()
@@ -65,12 +66,12 @@ public abstract class AopProxyUtils {
 	}
 
 	/**
-	 * Determine the ultimate target class of the given bean instance, traversing
-	 * not only a top-level proxy but any number of nested proxies as well &mdash;
-	 * as long as possible without side effects, that is, just for singleton targets.
+	 * Determine the ultimate target class of the given bean instance, traversing not only
+	 * a top-level proxy but any number of nested proxies as well &mdash; as long as
+	 * possible without side effects, that is, just for singleton targets.
 	 * @param candidate the instance to check (might be an AOP proxy)
-	 * @return the ultimate target class (or the plain class of the given
-	 * object as fallback; never {@code null})
+	 * @return the ultimate target class (or the plain class of the given object as
+	 * fallback; never {@code null})
 	 * @see org.springframework.aop.TargetClassAware#getTargetClass()
 	 * @see Advised#getTargetSource()
 	 */
@@ -90,7 +91,8 @@ public abstract class AopProxyUtils {
 
 	/**
 	 * Determine the complete set of interfaces to proxy for the given AOP configuration.
-	 * <p>This will always add the {@link Advised} interface unless the AdvisedSupport's
+	 * <p>
+	 * This will always add the {@link Advised} interface unless the AdvisedSupport's
 	 * {@link AdvisedSupport#setOpaque "opaque"} flag is on. Always adds the
 	 * {@link org.springframework.aop.SpringProxy} marker interface.
 	 * @param advised the proxy config
@@ -104,7 +106,8 @@ public abstract class AopProxyUtils {
 
 	/**
 	 * Determine the complete set of interfaces to proxy for the given AOP configuration.
-	 * <p>This will always add the {@link Advised} interface unless the AdvisedSupport's
+	 * <p>
+	 * This will always add the {@link Advised} interface unless the AdvisedSupport's
 	 * {@link AdvisedSupport#setOpaque "opaque"} flag is on. Always adds the
 	 * {@link org.springframework.aop.SpringProxy} marker interface.
 	 * @param advised the proxy config
@@ -161,11 +164,11 @@ public abstract class AopProxyUtils {
 	}
 
 	/**
-	 * Extract the user-specified interfaces that the given proxy implements,
-	 * i.e. all non-Advised interfaces that the proxy implements.
+	 * Extract the user-specified interfaces that the given proxy implements, i.e. all
+	 * non-Advised interfaces that the proxy implements.
 	 * @param proxy the proxy to analyze (usually a JDK dynamic proxy)
-	 * @return all user-specified interfaces that the proxy implements,
-	 * in the original order (never {@code null} or empty)
+	 * @return all user-specified interfaces that the proxy implements, in the original
+	 * order (never {@code null} or empty)
 	 * @see Advised
 	 */
 	public static Class<?>[] proxiedUserInterfaces(Object proxy) {
@@ -186,13 +189,13 @@ public abstract class AopProxyUtils {
 	}
 
 	/**
-	 * Check equality of the proxies behind the given AdvisedSupport objects.
-	 * Not the same as equality of the AdvisedSupport objects:
-	 * rather, equality of interfaces, advisors and target sources.
+	 * Check equality of the proxies behind the given AdvisedSupport objects. Not the same
+	 * as equality of the AdvisedSupport objects: rather, equality of interfaces, advisors
+	 * and target sources.
 	 */
 	public static boolean equalsInProxy(AdvisedSupport a, AdvisedSupport b) {
-		return (a == b ||
-				(equalsProxiedInterfaces(a, b) && equalsAdvisors(a, b) && a.getTargetSource().equals(b.getTargetSource())));
+		return (a == b || (equalsProxiedInterfaces(a, b) && equalsAdvisors(a, b)
+				&& a.getTargetSource().equals(b.getTargetSource())));
 	}
 
 	/**
@@ -209,11 +212,10 @@ public abstract class AopProxyUtils {
 		return Arrays.equals(a.getAdvisors(), b.getAdvisors());
 	}
 
-
 	/**
-	 * Adapt the given arguments to the target signature in the given method,
-	 * if necessary: in particular, if a given vararg argument array does not
-	 * match the array type of the declared vararg parameter in the method.
+	 * Adapt the given arguments to the target signature in the given method, if
+	 * necessary: in particular, if a given vararg argument array does not match the array
+	 * type of the declared vararg parameter in the method.
 	 * @param method the target method
 	 * @param arguments the given arguments
 	 * @return a cloned argument array, or the original if no adaptation is needed

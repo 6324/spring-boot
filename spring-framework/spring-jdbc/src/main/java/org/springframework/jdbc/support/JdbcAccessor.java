@@ -26,12 +26,13 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Base class for {@link org.springframework.jdbc.core.JdbcTemplate} and
- * other JDBC-accessing DAO helpers, defining common properties such as
- * DataSource and exception translator.
+ * Base class for {@link org.springframework.jdbc.core.JdbcTemplate} and other
+ * JDBC-accessing DAO helpers, defining common properties such as DataSource and exception
+ * translator.
  *
- * <p>Not intended to be used directly.
- * See {@link org.springframework.jdbc.core.JdbcTemplate}.
+ * <p>
+ * Not intended to be used directly. See
+ * {@link org.springframework.jdbc.core.JdbcTemplate}.
  *
  * @author Juergen Hoeller
  * @since 28.11.2003
@@ -49,7 +50,6 @@ public abstract class JdbcAccessor implements InitializingBean {
 	private volatile SQLExceptionTranslator exceptionTranslator;
 
 	private boolean lazyInit = true;
-
 
 	/**
 	 * Set the JDBC DataSource to obtain connections from.
@@ -79,9 +79,9 @@ public abstract class JdbcAccessor implements InitializingBean {
 	}
 
 	/**
-	 * Specify the database product name for the DataSource that this accessor uses.
-	 * This allows to initialize an SQLErrorCodeSQLExceptionTranslator without
-	 * obtaining a Connection from the DataSource to get the meta-data.
+	 * Specify the database product name for the DataSource that this accessor uses. This
+	 * allows to initialize an SQLErrorCodeSQLExceptionTranslator without obtaining a
+	 * Connection from the DataSource to get the meta-data.
 	 * @param dbName the database product name that identifies the error codes entry
 	 * @see SQLErrorCodeSQLExceptionTranslator#setDatabaseProductName
 	 * @see java.sql.DatabaseMetaData#getDatabaseProductName()
@@ -92,9 +92,10 @@ public abstract class JdbcAccessor implements InitializingBean {
 
 	/**
 	 * Set the exception translator for this instance.
-	 * <p>If no custom translator is provided, a default
-	 * {@link SQLErrorCodeSQLExceptionTranslator} is used
-	 * which examines the SQLException's vendor-specific error code.
+	 * <p>
+	 * If no custom translator is provided, a default
+	 * {@link SQLErrorCodeSQLExceptionTranslator} is used which examines the
+	 * SQLException's vendor-specific error code.
 	 * @see org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator
 	 * @see org.springframework.jdbc.support.SQLStateSQLExceptionTranslator
 	 */
@@ -104,9 +105,10 @@ public abstract class JdbcAccessor implements InitializingBean {
 
 	/**
 	 * Return the exception translator for this instance.
-	 * <p>Creates a default {@link SQLErrorCodeSQLExceptionTranslator}
-	 * for the specified DataSource if none set, or a
-	 * {@link SQLStateSQLExceptionTranslator} in case of no DataSource.
+	 * <p>
+	 * Creates a default {@link SQLErrorCodeSQLExceptionTranslator} for the specified
+	 * DataSource if none set, or a {@link SQLStateSQLExceptionTranslator} in case of no
+	 * DataSource.
 	 * @see #getDataSource()
 	 */
 	public SQLExceptionTranslator getExceptionTranslator() {
@@ -131,10 +133,11 @@ public abstract class JdbcAccessor implements InitializingBean {
 	}
 
 	/**
-	 * Set whether to lazily initialize the SQLExceptionTranslator for this accessor,
-	 * on first encounter of an SQLException. Default is "true"; can be switched to
-	 * "false" for initialization on startup.
-	 * <p>Early initialization just applies if {@code afterPropertiesSet()} is called.
+	 * Set whether to lazily initialize the SQLExceptionTranslator for this accessor, on
+	 * first encounter of an SQLException. Default is "true"; can be switched to "false"
+	 * for initialization on startup.
+	 * <p>
+	 * Early initialization just applies if {@code afterPropertiesSet()} is called.
 	 * @see #getExceptionTranslator()
 	 * @see #afterPropertiesSet()
 	 */
@@ -151,8 +154,8 @@ public abstract class JdbcAccessor implements InitializingBean {
 	}
 
 	/**
-	 * Eagerly initialize the exception translator, if demanded,
-	 * creating a default one for the specified DataSource if none set.
+	 * Eagerly initialize the exception translator, if demanded, creating a default one
+	 * for the specified DataSource if none set.
 	 */
 	@Override
 	public void afterPropertiesSet() {

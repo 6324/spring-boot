@@ -53,7 +53,6 @@ public abstract class TemplateAwareExpressionParser implements ExpressionParser 
 		}
 	}
 
-
 	private Expression parseTemplate(String expressionString, ParserContext context) throws ParseException {
 		if (expressionString.isEmpty()) {
 			return new LiteralExpression("");
@@ -103,20 +102,18 @@ public abstract class TemplateAwareExpressionParser implements ExpressionParser 
 				int suffixIndex = skipToCorrectEndSuffix(suffix, expressionString, afterPrefixIndex);
 				if (suffixIndex == -1) {
 					throw new ParseException(expressionString, prefixIndex,
-							"No ending suffix '" + suffix + "' for expression starting at character " +
-							prefixIndex + ": " + expressionString.substring(prefixIndex));
+							"No ending suffix '" + suffix + "' for expression starting at character " + prefixIndex
+									+ ": " + expressionString.substring(prefixIndex));
 				}
 				if (suffixIndex == afterPrefixIndex) {
-					throw new ParseException(expressionString, prefixIndex,
-							"No expression defined within delimiter '" + prefix + suffix +
-							"' at character " + prefixIndex);
+					throw new ParseException(expressionString, prefixIndex, "No expression defined within delimiter '"
+							+ prefix + suffix + "' at character " + prefixIndex);
 				}
 				String expr = expressionString.substring(prefixIndex + prefix.length(), suffixIndex);
 				expr = expr.trim();
 				if (expr.isEmpty()) {
-					throw new ParseException(expressionString, prefixIndex,
-							"No expression defined within delimiter '" + prefix + suffix +
-							"' at character " + prefixIndex);
+					throw new ParseException(expressionString, prefixIndex, "No expression defined within delimiter '"
+							+ prefix + suffix + "' at character " + prefixIndex);
 				}
 				expressions.add(doParseExpression(expr, context));
 				startIdx = suffixIndex + suffix.length();
@@ -180,50 +177,47 @@ public abstract class TemplateAwareExpressionParser implements ExpressionParser 
 			}
 			char ch = expressionString.charAt(pos);
 			switch (ch) {
-				case '{':
-				case '[':
-				case '(':
-					stack.push(new Bracket(ch, pos));
-					break;
-				case '}':
-				case ']':
-				case ')':
-					if (stack.isEmpty()) {
-						throw new ParseException(expressionString, pos, "Found closing '" + ch +
-								"' at position " + pos + " without an opening '" +
-								Bracket.theOpenBracketFor(ch) + "'");
-					}
-					Bracket p = stack.pop();
-					if (!p.compatibleWithCloseBracket(ch)) {
-						throw new ParseException(expressionString, pos, "Found closing '" + ch +
-								"' at position " + pos + " but most recent opening is '" + p.bracket +
-								"' at position " + p.pos);
-					}
-					break;
-				case '\'':
-				case '"':
-					// jump to the end of the literal
-					int endLiteral = expressionString.indexOf(ch, pos + 1);
-					if (endLiteral == -1) {
-						throw new ParseException(expressionString, pos,
-								"Found non terminating string literal starting at position " + pos);
-					}
-					pos = endLiteral;
-					break;
+			case '{':
+			case '[':
+			case '(':
+				stack.push(new Bracket(ch, pos));
+				break;
+			case '}':
+			case ']':
+			case ')':
+				if (stack.isEmpty()) {
+					throw new ParseException(expressionString, pos, "Found closing '" + ch + "' at position " + pos
+							+ " without an opening '" + Bracket.theOpenBracketFor(ch) + "'");
+				}
+				Bracket p = stack.pop();
+				if (!p.compatibleWithCloseBracket(ch)) {
+					throw new ParseException(expressionString, pos, "Found closing '" + ch + "' at position " + pos
+							+ " but most recent opening is '" + p.bracket + "' at position " + p.pos);
+				}
+				break;
+			case '\'':
+			case '"':
+				// jump to the end of the literal
+				int endLiteral = expressionString.indexOf(ch, pos + 1);
+				if (endLiteral == -1) {
+					throw new ParseException(expressionString, pos,
+							"Found non terminating string literal starting at position " + pos);
+				}
+				pos = endLiteral;
+				break;
 			}
 			pos++;
 		}
 		if (!stack.isEmpty()) {
 			Bracket p = stack.pop();
-			throw new ParseException(expressionString, p.pos, "Missing closing '" +
-					Bracket.theCloseBracketFor(p.bracket) + "' for '" + p.bracket + "' at position " + p.pos);
+			throw new ParseException(expressionString, p.pos, "Missing closing '"
+					+ Bracket.theCloseBracketFor(p.bracket) + "' for '" + p.bracket + "' at position " + p.pos);
 		}
 		if (!isSuffixHere(expressionString, pos, suffix)) {
 			return -1;
 		}
 		return pos;
 	}
-
 
 	/**
 	 * Actually parse the expression string and return an Expression object.
@@ -234,7 +228,6 @@ public abstract class TemplateAwareExpressionParser implements ExpressionParser 
 	 */
 	protected abstract Expression doParseExpression(String expressionString, @Nullable ParserContext context)
 			throws ParseException;
-
 
 	/**
 	 * This captures a type of bracket and the position in which it occurs in the
@@ -282,6 +275,7 @@ public abstract class TemplateAwareExpressionParser implements ExpressionParser 
 			}
 			return ')';
 		}
+
 	}
 
 }

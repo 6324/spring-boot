@@ -22,8 +22,8 @@ import org.springframework.lang.Nullable;
 /**
  * A type converter can convert values between different types encountered during
  * expression evaluation. This is an SPI for the expression parser; see
- * {@link org.springframework.core.convert.ConversionService} for the primary
- * user API to Spring's conversion facilities.
+ * {@link org.springframework.core.convert.ConversionService} for the primary user API to
+ * Spring's conversion facilities.
  *
  * @author Andy Clement
  * @author Juergen Hoeller
@@ -32,8 +32,8 @@ import org.springframework.lang.Nullable;
 public interface TypeConverter {
 
 	/**
-	 * Return {@code true} if the type converter can convert the specified type
-	 * to the desired target type.
+	 * Return {@code true} if the type converter can convert the specified type to the
+	 * desired target type.
 	 * @param sourceType a type descriptor that describes the source type
 	 * @param targetType a type descriptor that describes the requested result type
 	 * @return {@code true} if that conversion can be performed
@@ -43,9 +43,10 @@ public interface TypeConverter {
 	/**
 	 * Convert (or coerce) a value from one type to another, for example from a
 	 * {@code boolean} to a {@code String}.
-	 * <p>The {@link TypeDescriptor} parameters enable support for typed collections:
-	 * A caller may prefer a {@code List&lt;Integer&gt;}, for example, rather than
-	 * simply any {@code List}.
+	 * <p>
+	 * The {@link TypeDescriptor} parameters enable support for typed collections: A
+	 * caller may prefer a {@code List&lt;Integer&gt;}, for example, rather than simply
+	 * any {@code List}.
 	 * @param value the value to be converted
 	 * @param sourceType a type descriptor that supplies extra information about the
 	 * source object
