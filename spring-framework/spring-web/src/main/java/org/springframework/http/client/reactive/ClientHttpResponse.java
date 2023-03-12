@@ -40,8 +40,8 @@ public interface ClientHttpResponse extends ReactiveHttpInputMessage {
 	HttpStatus getStatusCode();
 
 	/**
-	 * Return the HTTP status code (potentially non-standard and not
-	 * resolvable through the {@link HttpStatus} enum) as an integer.
+	 * Return the HTTP status code (potentially non-standard and not resolvable through
+	 * the {@link HttpStatus} enum) as an integer.
 	 * @return the HTTP status as an integer value
 	 * @since 5.0.6
 	 * @see #getStatusCode()

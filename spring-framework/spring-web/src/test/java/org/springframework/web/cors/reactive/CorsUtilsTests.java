@@ -32,6 +32,7 @@ import static org.springframework.web.testfixture.http.server.reactive.MockServe
 
 /**
  * Test case for reactive {@link CorsUtils}.
+ *
  * @author Sebastien Deleuze
  * @author Rossen Stoyanchev
  */
@@ -39,7 +40,8 @@ public class CorsUtilsTests {
 
 	@Test
 	public void isCorsRequest() {
-		ServerHttpRequest request = get("http://domain.example/").header(HttpHeaders.ORIGIN, "https://domain.com").build();
+		ServerHttpRequest request = get("http://domain.example/").header(HttpHeaders.ORIGIN, "https://domain.com")
+				.build();
 		assertThat(CorsUtils.isCorsRequest(request)).isTrue();
 	}
 
@@ -51,10 +53,8 @@ public class CorsUtilsTests {
 
 	@Test
 	public void isPreFlightRequest() {
-		ServerHttpRequest request = options("/")
-				.header(HttpHeaders.ORIGIN, "https://domain.com")
-				.header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "GET")
-				.build();
+		ServerHttpRequest request = options("/").header(HttpHeaders.ORIGIN, "https://domain.com")
+				.header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, "GET").build();
 		assertThat(CorsUtils.isPreFlightRequest(request)).isTrue();
 	}
 
@@ -67,7 +67,7 @@ public class CorsUtilsTests {
 		assertThat(CorsUtils.isPreFlightRequest(request)).isFalse();
 	}
 
-	@Test  // SPR-16262
+	@Test // SPR-16262
 	public void isSameOriginWithXForwardedHeaders() {
 		String server = "mydomain1.example";
 		testWithXForwardedHeaders(server, -1, "https", null, -1, "https://mydomain1.example");
@@ -78,7 +78,7 @@ public class CorsUtilsTests {
 		testWithXForwardedHeaders(server, 123, "https", "mydomain2.example", 456, "https://mydomain2.example:456");
 	}
 
-	@Test  // SPR-16262
+	@Test // SPR-16262
 	public void isSameOriginWithForwardedHeader() {
 		String server = "mydomain1.example";
 		testWithForwardedHeader(server, -1, "proto=https", "https://mydomain1.example");
@@ -86,22 +86,21 @@ public class CorsUtilsTests {
 		testWithForwardedHeader(server, -1, "proto=https; host=mydomain2.example", "https://mydomain2.example");
 		testWithForwardedHeader(server, 123, "proto=https; host=mydomain2.example", "https://mydomain2.example");
 		testWithForwardedHeader(server, -1, "proto=https; host=mydomain2.example:456", "https://mydomain2.example:456");
-		testWithForwardedHeader(server, 123, "proto=https; host=mydomain2.example:456", "https://mydomain2.example:456");
+		testWithForwardedHeader(server, 123, "proto=https; host=mydomain2.example:456",
+				"https://mydomain2.example:456");
 	}
 
-	@Test  // SPR-16362
+	@Test // SPR-16362
 	@SuppressWarnings("deprecation")
 	public void isSameOriginWithDifferentSchemes() {
-		MockServerHttpRequest request = MockServerHttpRequest
-				.get("http://mydomain1.example")
-				.header(HttpHeaders.ORIGIN, "https://mydomain1.example")
-				.build();
+		MockServerHttpRequest request = MockServerHttpRequest.get("http://mydomain1.example")
+				.header(HttpHeaders.ORIGIN, "https://mydomain1.example").build();
 		assertThat(CorsUtils.isSameOrigin(request)).isFalse();
 	}
 
 	@SuppressWarnings("deprecation")
-	private void testWithXForwardedHeaders(String serverName, int port,
-			String forwardedProto, String forwardedHost, int forwardedPort, String originHeader) {
+	private void testWithXForwardedHeaders(String serverName, int port, String forwardedProto, String forwardedHost,
+			int forwardedPort, String originHeader) {
 
 		String url = "http://" + serverName;
 		if (port != -1) {
@@ -124,16 +123,14 @@ public class CorsUtilsTests {
 	}
 
 	@SuppressWarnings("deprecation")
-	private void testWithForwardedHeader(String serverName, int port,
-			String forwardedHeader, String originHeader) {
+	private void testWithForwardedHeader(String serverName, int port, String forwardedHeader, String originHeader) {
 
 		String url = "http://" + serverName;
 		if (port != -1) {
 			url = url + ":" + port;
 		}
 
-		MockServerHttpRequest.BaseBuilder<?> builder = get(url)
-				.header("Forwarded", forwardedHeader)
+		MockServerHttpRequest.BaseBuilder<?> builder = get(url).header("Forwarded", forwardedHeader)
 				.header(HttpHeaders.ORIGIN, originHeader);
 
 		ServerHttpRequest request = adaptFromForwardedHeaders(builder);

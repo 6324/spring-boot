@@ -33,7 +33,8 @@ import org.springframework.web.testfixture.servlet.MockServletConfig;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Base class for tests using on the DispatcherServlet and HandlerMethod infrastructure classes:
+ * Base class for tests using on the DispatcherServlet and HandlerMethod infrastructure
+ * classes:
  * <ul>
  * <li>RequestMappingHandlerMapping
  * <li>RequestMappingHandlerAdapter
@@ -46,7 +47,6 @@ public abstract class AbstractServletHandlerMethodTests {
 
 	private DispatcherServlet servlet;
 
-
 	protected DispatcherServlet getServlet() {
 		assertThat(servlet).as("DispatcherServlet not initialized").isNotNull();
 		return servlet;
@@ -58,7 +58,8 @@ public abstract class AbstractServletHandlerMethodTests {
 	}
 
 	/**
-	 * Initialize a DispatcherServlet instance registering zero or more controller classes.
+	 * Initialize a DispatcherServlet instance registering zero or more controller
+	 * classes.
 	 */
 	protected WebApplicationContext initServletWithControllers(final Class<?>... controllerClasses)
 			throws ServletException {

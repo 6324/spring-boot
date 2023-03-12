@@ -127,7 +127,6 @@ public class RequestMethodsRequestConditionTests {
 		assertThat(result.getContent().size()).isEqualTo(2);
 	}
 
-
 	private void testMatch(RequestMethodsRequestCondition condition, RequestMethod method) {
 		MockHttpServletRequest request = new MockHttpServletRequest(method.name(), "");
 		RequestMethodsRequestCondition actual = condition.getMatchingCondition(request);

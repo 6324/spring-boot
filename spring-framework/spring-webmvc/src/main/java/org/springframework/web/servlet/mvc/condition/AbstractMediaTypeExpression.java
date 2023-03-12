@@ -21,8 +21,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * Supports media type expressions as described in:
- * {@link RequestMapping#consumes()} and {@link RequestMapping#produces()}.
+ * Supports media type expressions as described in: {@link RequestMapping#consumes()} and
+ * {@link RequestMapping#produces()}.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -33,7 +33,6 @@ abstract class AbstractMediaTypeExpression implements MediaTypeExpression, Compa
 	private final MediaType mediaType;
 
 	private final boolean isNegated;
-
 
 	AbstractMediaTypeExpression(String expression) {
 		if (expression.startsWith("!")) {
@@ -51,7 +50,6 @@ abstract class AbstractMediaTypeExpression implements MediaTypeExpression, Compa
 		this.isNegated = negated;
 	}
 
-
 	@Override
 	public MediaType getMediaType() {
 		return this.mediaType;
@@ -61,7 +59,6 @@ abstract class AbstractMediaTypeExpression implements MediaTypeExpression, Compa
 	public boolean isNegated() {
 		return this.isNegated;
 	}
-
 
 	@Override
 	public int compareTo(AbstractMediaTypeExpression other) {

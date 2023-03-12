@@ -37,7 +37,6 @@ public class MockHttpOutputMessage implements HttpOutputMessage {
 
 	private final HttpHeaders writtenHeaders = new HttpHeaders();
 
-
 	@Override
 	public HttpHeaders getHeaders() {
 		return (this.headersWritten ? HttpHeaders.readOnlyHttpHeaders(this.headers) : this.headers);
@@ -45,8 +44,8 @@ public class MockHttpOutputMessage implements HttpOutputMessage {
 
 	/**
 	 * Return a copy of the actual headers written at the time of the call to
-	 * getResponseBody, i.e. ignoring any further changes that may have been made to
-	 * the underlying headers, e.g. via a previously obtained instance.
+	 * getResponseBody, i.e. ignoring any further changes that may have been made to the
+	 * underlying headers, e.g. via a previously obtained instance.
 	 */
 	public HttpHeaders getWrittenHeaders() {
 		return writtenHeaders;

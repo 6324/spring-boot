@@ -97,8 +97,10 @@ public class LocaleResolverTests {
 			assertThat(((TimeZoneAwareLocaleContext) localeContext).getTimeZone()).isNull();
 
 			if (localeContextResolver instanceof AbstractLocaleContextResolver) {
-				((AbstractLocaleContextResolver) localeContextResolver).setDefaultTimeZone(TimeZone.getTimeZone("GMT+1"));
-				assertThat(TimeZone.getTimeZone("GMT+1")).isEqualTo(((TimeZoneAwareLocaleContext) localeContext).getTimeZone());
+				((AbstractLocaleContextResolver) localeContextResolver)
+						.setDefaultTimeZone(TimeZone.getTimeZone("GMT+1"));
+				assertThat(TimeZone.getTimeZone("GMT+1"))
+						.isEqualTo(((TimeZoneAwareLocaleContext) localeContext).getTimeZone());
 			}
 
 			try {
@@ -109,7 +111,8 @@ public class LocaleResolverTests {
 				localeContext = localeContextResolver.resolveLocaleContext(request);
 				assertThat(localeContext.getLocale()).isEqualTo(Locale.US);
 				if (localeContextResolver instanceof AbstractLocaleContextResolver) {
-					assertThat(TimeZone.getTimeZone("GMT+1")).isEqualTo(((TimeZoneAwareLocaleContext) localeContext).getTimeZone());
+					assertThat(TimeZone.getTimeZone("GMT+1"))
+							.isEqualTo(((TimeZoneAwareLocaleContext) localeContext).getTimeZone());
 				}
 				else {
 					assertThat(((TimeZoneAwareLocaleContext) localeContext).getTimeZone()).isNull();
@@ -121,7 +124,8 @@ public class LocaleResolverTests {
 				assertThat(localeContext.getLocale()).isEqualTo(Locale.GERMANY);
 				boolean condition1 = localeContext instanceof TimeZoneAwareLocaleContext;
 				assertThat(condition1).isTrue();
-				assertThat(TimeZone.getTimeZone("GMT+2")).isEqualTo(((TimeZoneAwareLocaleContext) localeContext).getTimeZone());
+				assertThat(TimeZone.getTimeZone("GMT+2"))
+						.isEqualTo(((TimeZoneAwareLocaleContext) localeContext).getTimeZone());
 
 				localeContextResolver.setLocaleContext(request, response,
 						new SimpleTimeZoneAwareLocaleContext(null, TimeZone.getTimeZone("GMT+3")));
@@ -129,7 +133,8 @@ public class LocaleResolverTests {
 				assertThat(localeContext.getLocale()).isEqualTo(Locale.UK);
 				boolean condition = localeContext instanceof TimeZoneAwareLocaleContext;
 				assertThat(condition).isTrue();
-				assertThat(TimeZone.getTimeZone("GMT+3")).isEqualTo(((TimeZoneAwareLocaleContext) localeContext).getTimeZone());
+				assertThat(TimeZone.getTimeZone("GMT+3"))
+						.isEqualTo(((TimeZoneAwareLocaleContext) localeContext).getTimeZone());
 
 				if (localeContextResolver instanceof AbstractLocaleContextResolver) {
 					((AbstractLocaleContextResolver) localeContextResolver).setDefaultLocale(Locale.GERMANY);

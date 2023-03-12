@@ -46,12 +46,12 @@ public class NashornScriptTemplateTests {
 
 	private ServletContext servletContext;
 
-
 	@BeforeEach
 	public void setup() {
 		this.webAppContext = mock(WebApplicationContext.class);
 		this.servletContext = new MockServletContext();
-		this.servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, this.webAppContext);
+		this.servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE,
+				this.webAppContext);
 	}
 
 	@Test
@@ -61,18 +61,20 @@ public class NashornScriptTemplateTests {
 		model.put("body", "This is the body");
 		String url = "org/springframework/web/servlet/view/script/nashorn/template.html";
 		MockHttpServletResponse response = render(url, model, ScriptTemplatingConfiguration.class);
-		assertThat(response.getContentAsString()).isEqualTo("<html><head><title>Layout example</title></head><body><p>This is the body</p></body></html>");
+		assertThat(response.getContentAsString()).isEqualTo(
+				"<html><head><title>Layout example</title></head><body><p>This is the body</p></body></html>");
 	}
 
-	@Test  // SPR-13453
+	@Test // SPR-13453
 	public void renderTemplateWithUrl() throws Exception {
 		String url = "org/springframework/web/servlet/view/script/nashorn/template.html";
 		MockHttpServletResponse response = render(url, null, ScriptTemplatingWithUrlConfiguration.class);
-		assertThat(response.getContentAsString()).isEqualTo(("<html><head><title>Check url parameter</title></head><body><p>" + url + "</p></body></html>"));
+		assertThat(response.getContentAsString()).isEqualTo(
+				("<html><head><title>Check url parameter</title></head><body><p>" + url + "</p></body></html>"));
 	}
 
-	private MockHttpServletResponse render(String viewUrl, Map<String, Object> model,
-			Class<?> configuration) throws Exception {
+	private MockHttpServletResponse render(String viewUrl, Map<String, Object> model, Class<?> configuration)
+			throws Exception {
 
 		ScriptTemplateView view = createViewWithUrl(viewUrl, configuration);
 		MockHttpServletResponse response = new MockHttpServletResponse();
@@ -93,7 +95,6 @@ public class NashornScriptTemplateTests {
 		return view;
 	}
 
-
 	@Configuration
 	static class ScriptTemplatingConfiguration {
 
@@ -105,8 +106,8 @@ public class NashornScriptTemplateTests {
 			configurer.setRenderFunction("render");
 			return configurer;
 		}
-	}
 
+	}
 
 	@Configuration
 	static class ScriptTemplatingWithUrlConfiguration {
@@ -119,6 +120,7 @@ public class NashornScriptTemplateTests {
 			configurer.setRenderFunction("renderWithUrl");
 			return configurer;
 		}
+
 	}
 
 }

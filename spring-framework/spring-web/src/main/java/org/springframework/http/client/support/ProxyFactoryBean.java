@@ -30,7 +30,7 @@ import org.springframework.util.Assert;
  *
  * @author Arjen Poutsma
  * @since 3.0.4
- * @see	FactoryBean
+ * @see FactoryBean
  * @see Proxy
  */
 public class ProxyFactoryBean implements FactoryBean<Proxy>, InitializingBean {
@@ -45,10 +45,10 @@ public class ProxyFactoryBean implements FactoryBean<Proxy>, InitializingBean {
 	@Nullable
 	private Proxy proxy;
 
-
 	/**
 	 * Set the proxy type.
-	 * <p>Defaults to {@link java.net.Proxy.Type#HTTP}.
+	 * <p>
+	 * Defaults to {@link java.net.Proxy.Type#HTTP}.
 	 */
 	public void setType(Proxy.Type type) {
 		this.type = type;
@@ -68,7 +68,6 @@ public class ProxyFactoryBean implements FactoryBean<Proxy>, InitializingBean {
 		this.port = port;
 	}
 
-
 	@Override
 	public void afterPropertiesSet() throws IllegalArgumentException {
 		Assert.notNull(this.type, "Property 'type' is required");
@@ -80,7 +79,6 @@ public class ProxyFactoryBean implements FactoryBean<Proxy>, InitializingBean {
 		SocketAddress socketAddress = new InetSocketAddress(this.hostname, this.port);
 		this.proxy = new Proxy(this.type, socketAddress);
 	}
-
 
 	@Override
 	@Nullable

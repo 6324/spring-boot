@@ -25,17 +25,17 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 
-
 /**
- * {@link WebFilter} that handles CORS preflight requests and intercepts
- * CORS simple and actual requests thanks to a {@link CorsProcessor} implementation
- * ({@link DefaultCorsProcessor} by default) in order to add the relevant CORS
- * response headers (like {@code Access-Control-Allow-Origin}) using the provided
+ * {@link WebFilter} that handles CORS preflight requests and intercepts CORS simple and
+ * actual requests thanks to a {@link CorsProcessor} implementation
+ * ({@link DefaultCorsProcessor} by default) in order to add the relevant CORS response
+ * headers (like {@code Access-Control-Allow-Origin}) using the provided
  * {@link CorsConfigurationSource} (for example an {@link UrlBasedCorsConfigurationSource}
  * instance.
  *
- * <p>This is an alternative to Spring WebFlux Java config CORS configuration,
- * mostly useful for applications using the functional API.
+ * <p>
+ * This is an alternative to Spring WebFlux Java config CORS configuration, mostly useful
+ * for applications using the functional API.
  *
  * @author Sebastien Deleuze
  * @since 5.0
@@ -47,10 +47,9 @@ public class CorsWebFilter implements WebFilter {
 
 	private final CorsProcessor processor;
 
-
 	/**
-	 * Constructor accepting a {@link CorsConfigurationSource} used by the filter
-	 * to find the {@link CorsConfiguration} to use for each incoming request.
+	 * Constructor accepting a {@link CorsConfigurationSource} used by the filter to find
+	 * the {@link CorsConfiguration} to use for each incoming request.
 	 * @see UrlBasedCorsConfigurationSource
 	 */
 	public CorsWebFilter(CorsConfigurationSource configSource) {
@@ -58,10 +57,10 @@ public class CorsWebFilter implements WebFilter {
 	}
 
 	/**
-	 * Constructor accepting a {@link CorsConfigurationSource} used by the filter
-	 * to find the {@link CorsConfiguration} to use for each incoming request and a
-	 * custom {@link CorsProcessor} to use to apply the matched
-	 * {@link CorsConfiguration} for a request.
+	 * Constructor accepting a {@link CorsConfigurationSource} used by the filter to find
+	 * the {@link CorsConfiguration} to use for each incoming request and a custom
+	 * {@link CorsProcessor} to use to apply the matched {@link CorsConfiguration} for a
+	 * request.
 	 * @see UrlBasedCorsConfigurationSource
 	 */
 	public CorsWebFilter(CorsConfigurationSource configSource, CorsProcessor processor) {
@@ -70,7 +69,6 @@ public class CorsWebFilter implements WebFilter {
 		this.configSource = configSource;
 		this.processor = processor;
 	}
-
 
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {

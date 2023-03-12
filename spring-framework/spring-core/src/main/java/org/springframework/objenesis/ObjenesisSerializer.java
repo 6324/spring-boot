@@ -15,30 +15,31 @@
  */
 package org.springframework.objenesis;
 
-
 import org.springframework.objenesis.strategy.SerializingInstantiatorStrategy;
 
 /**
  * Objenesis implementation using the {@link SerializingInstantiatorStrategy}.
- * 
+ *
  * @author Henri Tremblay
  */
 public class ObjenesisSerializer extends ObjenesisBase {
 
-   /**
-    * Default constructor using the {@link SerializingInstantiatorStrategy}
-    */
-   public ObjenesisSerializer() {
-      super(new SerializingInstantiatorStrategy());
-   }
+	/**
+	 * Default constructor using the {@link SerializingInstantiatorStrategy}
+	 */
+	public ObjenesisSerializer() {
+		super(new SerializingInstantiatorStrategy());
+	}
 
-   /**
-    * Instance using the {@link SerializingInstantiatorStrategy} with or without caching
-    * {@link org.springframework.objenesis.instantiator.ObjectInstantiator}s
-    * 
-    * @param useCache If {@link org.springframework.objenesis.instantiator.ObjectInstantiator}s should be cached
-    */
-   public ObjenesisSerializer(boolean useCache) {
-      super(new SerializingInstantiatorStrategy(), useCache);
-   }
+	/**
+	 * Instance using the {@link SerializingInstantiatorStrategy} with or without caching
+	 * {@link org.springframework.objenesis.instantiator.ObjectInstantiator}s
+	 * @param useCache If
+	 * {@link org.springframework.objenesis.instantiator.ObjectInstantiator}s should be
+	 * cached
+	 */
+	public ObjenesisSerializer(boolean useCache) {
+		super(new SerializingInstantiatorStrategy(), useCache);
+	}
+
 }

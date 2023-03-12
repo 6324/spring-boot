@@ -34,8 +34,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 /**
- * Abstract base implementation of the MultipartHttpServletRequest interface.
- * Provides management of pre-generated MultipartFile instances.
+ * Abstract base implementation of the MultipartHttpServletRequest interface. Provides
+ * management of pre-generated MultipartFile instances.
  *
  * @author Juergen Hoeller
  * @author Arjen Poutsma
@@ -47,7 +47,6 @@ public abstract class AbstractMultipartHttpServletRequest extends HttpServletReq
 	@Nullable
 	private MultiValueMap<String, MultipartFile> multipartFiles;
 
-
 	/**
 	 * Wrap the given HttpServletRequest in a MultipartHttpServletRequest.
 	 * @param request the request to wrap
@@ -55,7 +54,6 @@ public abstract class AbstractMultipartHttpServletRequest extends HttpServletReq
 	protected AbstractMultipartHttpServletRequest(HttpServletRequest request) {
 		super(request);
 	}
-
 
 	@Override
 	public HttpServletRequest getRequest() {
@@ -111,9 +109,9 @@ public abstract class AbstractMultipartHttpServletRequest extends HttpServletReq
 
 	/**
 	 * Determine whether the underlying multipart request has been resolved.
-	 * @return {@code true} when eagerly initialized or lazily triggered,
-	 * {@code false} in case of a lazy-resolution request that got aborted
-	 * before any parameters or multipart files have been accessed
+	 * @return {@code true} when eagerly initialized or lazily triggered, {@code false} in
+	 * case of a lazy-resolution request that got aborted before any parameters or
+	 * multipart files have been accessed
 	 * @since 4.3.15
 	 * @see #getMultipartFiles()
 	 */
@@ -121,19 +119,16 @@ public abstract class AbstractMultipartHttpServletRequest extends HttpServletReq
 		return (this.multipartFiles != null);
 	}
 
-
 	/**
 	 * Set a Map with parameter names as keys and list of MultipartFile objects as values.
 	 * To be invoked by subclasses on initialization.
 	 */
 	protected final void setMultipartFiles(MultiValueMap<String, MultipartFile> multipartFiles) {
-		this.multipartFiles =
-				new LinkedMultiValueMap<>(Collections.unmodifiableMap(multipartFiles));
+		this.multipartFiles = new LinkedMultiValueMap<>(Collections.unmodifiableMap(multipartFiles));
 	}
 
 	/**
-	 * Obtain the MultipartFile Map for retrieval,
-	 * lazily initializing it if necessary.
+	 * Obtain the MultipartFile Map for retrieval, lazily initializing it if necessary.
 	 * @see #initializeMultipart()
 	 */
 	protected MultiValueMap<String, MultipartFile> getMultipartFiles() {
@@ -144,8 +139,8 @@ public abstract class AbstractMultipartHttpServletRequest extends HttpServletReq
 	}
 
 	/**
-	 * Lazily initialize the multipart request, if possible.
-	 * Only called if not already eagerly initialized.
+	 * Lazily initialize the multipart request, if possible. Only called if not already
+	 * eagerly initialized.
 	 */
 	protected void initializeMultipart() {
 		throw new IllegalStateException("Multipart request not initialized");

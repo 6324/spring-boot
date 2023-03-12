@@ -41,10 +41,11 @@ public class RequestContextListenerTests {
 		assertThat(RequestContextHolder.getRequestAttributes()).isNull();
 		listener.requestInitialized(new ServletRequestEvent(context, request));
 		assertThat(RequestContextHolder.getRequestAttributes()).isNotNull();
-		assertThat(RequestContextHolder.getRequestAttributes().getAttribute("test", RequestAttributes.SCOPE_REQUEST)).isEqualTo("value");
+		assertThat(RequestContextHolder.getRequestAttributes().getAttribute("test", RequestAttributes.SCOPE_REQUEST))
+				.isEqualTo("value");
 		MockRunnable runnable = new MockRunnable();
-		RequestContextHolder.getRequestAttributes().registerDestructionCallback(
-				"test", runnable, RequestAttributes.SCOPE_REQUEST);
+		RequestContextHolder.getRequestAttributes().registerDestructionCallback("test", runnable,
+				RequestAttributes.SCOPE_REQUEST);
 
 		listener.requestDestroyed(new ServletRequestEvent(context, request));
 		assertThat(RequestContextHolder.getRequestAttributes()).isNull();
@@ -61,10 +62,11 @@ public class RequestContextListenerTests {
 		assertThat(RequestContextHolder.getRequestAttributes()).isNull();
 		listener.requestInitialized(new ServletRequestEvent(context, request));
 		assertThat(RequestContextHolder.getRequestAttributes()).isNotNull();
-		assertThat(RequestContextHolder.getRequestAttributes().getAttribute("test", RequestAttributes.SCOPE_REQUEST)).isEqualTo("value");
+		assertThat(RequestContextHolder.getRequestAttributes().getAttribute("test", RequestAttributes.SCOPE_REQUEST))
+				.isEqualTo("value");
 		MockRunnable runnable = new MockRunnable();
-		RequestContextHolder.getRequestAttributes().registerDestructionCallback(
-				"test", runnable, RequestAttributes.SCOPE_REQUEST);
+		RequestContextHolder.getRequestAttributes().registerDestructionCallback("test", runnable,
+				RequestAttributes.SCOPE_REQUEST);
 
 		request.clearAttributes();
 		listener.requestDestroyed(new ServletRequestEvent(context, request));
@@ -82,10 +84,11 @@ public class RequestContextListenerTests {
 		assertThat(RequestContextHolder.getRequestAttributes()).isNull();
 		listener.requestInitialized(new ServletRequestEvent(context, request));
 		assertThat(RequestContextHolder.getRequestAttributes()).isNotNull();
-		assertThat(RequestContextHolder.getRequestAttributes().getAttribute("test", RequestAttributes.SCOPE_REQUEST)).isEqualTo("value");
+		assertThat(RequestContextHolder.getRequestAttributes().getAttribute("test", RequestAttributes.SCOPE_REQUEST))
+				.isEqualTo("value");
 		MockRunnable runnable = new MockRunnable();
-		RequestContextHolder.getRequestAttributes().registerDestructionCallback(
-				"test", runnable, RequestAttributes.SCOPE_REQUEST);
+		RequestContextHolder.getRequestAttributes().registerDestructionCallback("test", runnable,
+				RequestAttributes.SCOPE_REQUEST);
 
 		// Execute requestDestroyed callback in different thread.
 		Thread thread = new Thread() {

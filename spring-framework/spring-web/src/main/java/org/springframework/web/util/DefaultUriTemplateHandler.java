@@ -25,18 +25,18 @@ import java.util.Map;
  * Default implementation of {@link UriTemplateHandler} based on the use of
  * {@link UriComponentsBuilder} for expanding and encoding variables.
  *
- * <p>There are also several properties to customize how URI template handling
- * is performed, including a {@link #setBaseUrl baseUrl} to be used as a prefix
- * for all URI templates and a couple of encoding related options &mdash;
- * {@link #setParsePath parsePath} and {@link #setStrictEncoding strictEncoding}
- * respectively.
+ * <p>
+ * There are also several properties to customize how URI template handling is performed,
+ * including a {@link #setBaseUrl baseUrl} to be used as a prefix for all URI templates
+ * and a couple of encoding related options &mdash; {@link #setParsePath parsePath} and
+ * {@link #setStrictEncoding strictEncoding} respectively.
  *
  * @author Rossen Stoyanchev
  * @since 4.2
  * @deprecated as of 5.0 in favor of {@link DefaultUriBuilderFactory}.
- * <p><strong>Note:</strong> {@link DefaultUriBuilderFactory} has a different
- * default for the {@link #setParsePath(boolean) parsePath} property (from
- * false to true).
+ * <p>
+ * <strong>Note:</strong> {@link DefaultUriBuilderFactory} has a different default for the
+ * {@link #setParsePath(boolean) parsePath} property (from false to true).
  */
 @Deprecated
 public class DefaultUriTemplateHandler extends AbstractUriTemplateHandler {
@@ -45,15 +45,16 @@ public class DefaultUriTemplateHandler extends AbstractUriTemplateHandler {
 
 	private boolean strictEncoding;
 
-
 	/**
 	 * Whether to parse the path of a URI template string into path segments.
-	 * <p>If set to {@code true} the URI template path is immediately decomposed
-	 * into path segments any URI variables expanded into it are then subject to
-	 * path segment encoding rules. In effect URI variables in the path have any
-	 * "/" characters percent encoded.
-	 * <p>By default this is set to {@code false} in which case the path is kept
-	 * as a full path and expanded URI variables will preserve "/" characters.
+	 * <p>
+	 * If set to {@code true} the URI template path is immediately decomposed into path
+	 * segments any URI variables expanded into it are then subject to path segment
+	 * encoding rules. In effect URI variables in the path have any "/" characters percent
+	 * encoded.
+	 * <p>
+	 * By default this is set to {@code false} in which case the path is kept as a full
+	 * path and expanded URI variables will preserve "/" characters.
 	 * @param parsePath whether to parse the path into path segments
 	 */
 	public void setParsePath(boolean parsePath) {
@@ -70,15 +71,16 @@ public class DefaultUriTemplateHandler extends AbstractUriTemplateHandler {
 	/**
 	 * Whether to encode characters outside the unreserved set as defined in
 	 * <a href="https://tools.ietf.org/html/rfc3986#section-2">RFC 3986 Section 2</a>.
-	 * This ensures a URI variable value will not contain any characters with a
-	 * reserved purpose.
-	 * <p>By default this is set to {@code false} in which case only characters
-	 * illegal for the given URI component are encoded. For example when expanding
-	 * a URI variable into a path segment the "/" character is illegal and
-	 * encoded. The ";" character however is legal and not encoded even though
-	 * it has a reserved purpose.
-	 * <p><strong>Note:</strong> this property supersedes the need to also set
-	 * the {@link #setParsePath parsePath} property.
+	 * This ensures a URI variable value will not contain any characters with a reserved
+	 * purpose.
+	 * <p>
+	 * By default this is set to {@code false} in which case only characters illegal for
+	 * the given URI component are encoded. For example when expanding a URI variable into
+	 * a path segment the "/" character is illegal and encoded. The ";" character however
+	 * is legal and not encoded even though it has a reserved purpose.
+	 * <p>
+	 * <strong>Note:</strong> this property supersedes the need to also set the
+	 * {@link #setParsePath parsePath} property.
 	 * @param strictEncoding whether to perform strict encoding
 	 * @since 4.3
 	 */
@@ -92,7 +94,6 @@ public class DefaultUriTemplateHandler extends AbstractUriTemplateHandler {
 	public boolean isStrictEncoding() {
 		return this.strictEncoding;
 	}
-
 
 	@Override
 	protected URI expandInternal(String uriTemplate, Map<String, ?> uriVariables) {
@@ -109,9 +110,9 @@ public class DefaultUriTemplateHandler extends AbstractUriTemplateHandler {
 	}
 
 	/**
-	 * Create a {@code UriComponentsBuilder} from the URI template string.
-	 * This implementation also breaks up the path into path segments depending
-	 * on whether {@link #setParsePath parsePath} is enabled.
+	 * Create a {@code UriComponentsBuilder} from the URI template string. This
+	 * implementation also breaks up the path into path segments depending on whether
+	 * {@link #setParsePath parsePath} is enabled.
 	 */
 	protected UriComponentsBuilder initUriComponentsBuilder(String uriTemplate) {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(uriTemplate);

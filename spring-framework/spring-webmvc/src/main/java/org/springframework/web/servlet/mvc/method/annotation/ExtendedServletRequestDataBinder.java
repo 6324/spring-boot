@@ -26,8 +26,8 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.HandlerMapping;
 
 /**
- * Subclass of {@link ServletRequestDataBinder} that adds URI template variables
- * to the values used for data binding.
+ * Subclass of {@link ServletRequestDataBinder} that adds URI template variables to the
+ * values used for data binding.
  *
  * @author Rossen Stoyanchev
  * @since 3.1
@@ -36,8 +36,8 @@ public class ExtendedServletRequestDataBinder extends ServletRequestDataBinder {
 
 	/**
 	 * Create a new instance, with default object name.
-	 * @param target the target object to bind onto (or {@code null}
-	 * if the binder is just used to convert a plain parameter value)
+	 * @param target the target object to bind onto (or {@code null} if the binder is just
+	 * used to convert a plain parameter value)
 	 * @see #DEFAULT_OBJECT_NAME
 	 */
 	public ExtendedServletRequestDataBinder(@Nullable Object target) {
@@ -46,15 +46,14 @@ public class ExtendedServletRequestDataBinder extends ServletRequestDataBinder {
 
 	/**
 	 * Create a new instance.
-	 * @param target the target object to bind onto (or {@code null}
-	 * if the binder is just used to convert a plain parameter value)
+	 * @param target the target object to bind onto (or {@code null} if the binder is just
+	 * used to convert a plain parameter value)
 	 * @param objectName the name of the target object
 	 * @see #DEFAULT_OBJECT_NAME
 	 */
 	public ExtendedServletRequestDataBinder(@Nullable Object target, String objectName) {
 		super(target, objectName);
 	}
-
 
 	/**
 	 * Merge URI variables into the property values to use for data binding.
@@ -68,8 +67,8 @@ public class ExtendedServletRequestDataBinder extends ServletRequestDataBinder {
 			uriVars.forEach((name, value) -> {
 				if (mpvs.contains(name)) {
 					if (logger.isWarnEnabled()) {
-						logger.warn("Skipping URI variable '" + name +
-								"' because request contains bind value with same name.");
+						logger.warn("Skipping URI variable '" + name
+								+ "' because request contains bind value with same name.");
 					}
 				}
 				else {

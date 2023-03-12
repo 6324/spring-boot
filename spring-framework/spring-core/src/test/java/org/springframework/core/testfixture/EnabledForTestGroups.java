@@ -21,8 +21,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import java.lang.annotation.*;
 
 /**
- * {@code @EnabledForTestGroups} is used to enable the annotated test class or
- * test method for one or more {@link TestGroup} {@linkplain #value values}.
+ * {@code @EnabledForTestGroups} is used to enable the annotated test class or test method
+ * for one or more {@link TestGroup} {@linkplain #value values}.
  *
  * @author Sam Brannen
  * @since 5.2

@@ -52,13 +52,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
- * Resolves {@link HttpEntity} and {@link RequestEntity} method argument values
- * and also handles {@link HttpEntity} and {@link ResponseEntity} return values.
+ * Resolves {@link HttpEntity} and {@link RequestEntity} method argument values and also
+ * handles {@link HttpEntity} and {@link ResponseEntity} return values.
  *
- * <p>An {@link HttpEntity} return type has a specific purpose. Therefore this
- * handler should be configured ahead of handlers that support any return
- * value type annotated with {@code @ModelAttribute} or {@code @ResponseBody}
- * to ensure they don't take over.
+ * <p>
+ * An {@link HttpEntity} return type has a specific purpose. Therefore this handler should
+ * be configured ahead of handlers that support any return value type annotated with
+ * {@code @ModelAttribute} or {@code @ResponseBody} to ensure they don't take over.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -68,33 +68,31 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 public class HttpEntityMethodProcessor extends AbstractMessageConverterMethodProcessor {
 
 	/**
-	 * Basic constructor with converters only. Suitable for resolving
-	 * {@code HttpEntity}. For handling {@code ResponseEntity} consider also
-	 * providing a {@code ContentNegotiationManager}.
+	 * Basic constructor with converters only. Suitable for resolving {@code HttpEntity}.
+	 * For handling {@code ResponseEntity} consider also providing a
+	 * {@code ContentNegotiationManager}.
 	 */
 	public HttpEntityMethodProcessor(List<HttpMessageConverter<?>> converters) {
 		super(converters);
 	}
 
 	/**
-	 * Basic constructor with converters and {@code ContentNegotiationManager}.
-	 * Suitable for resolving {@code HttpEntity} and handling {@code ResponseEntity}
-	 * without {@code Request~} or {@code ResponseBodyAdvice}.
+	 * Basic constructor with converters and {@code ContentNegotiationManager}. Suitable
+	 * for resolving {@code HttpEntity} and handling {@code ResponseEntity} without
+	 * {@code Request~} or {@code ResponseBodyAdvice}.
 	 */
-	public HttpEntityMethodProcessor(List<HttpMessageConverter<?>> converters,
-			ContentNegotiationManager manager) {
+	public HttpEntityMethodProcessor(List<HttpMessageConverter<?>> converters, ContentNegotiationManager manager) {
 
 		super(converters, manager);
 	}
 
 	/**
-	 * Complete constructor for resolving {@code HttpEntity} method arguments.
-	 * For handling {@code ResponseEntity} consider also providing a
+	 * Complete constructor for resolving {@code HttpEntity} method arguments. For
+	 * handling {@code ResponseEntity} consider also providing a
 	 * {@code ContentNegotiationManager}.
 	 * @since 4.2
 	 */
-	public HttpEntityMethodProcessor(List<HttpMessageConverter<?>> converters,
-			List<Object> requestResponseBodyAdvice) {
+	public HttpEntityMethodProcessor(List<HttpMessageConverter<?>> converters, List<Object> requestResponseBodyAdvice) {
 
 		super(converters, null, requestResponseBodyAdvice);
 	}
@@ -109,17 +107,16 @@ public class HttpEntityMethodProcessor extends AbstractMessageConverterMethodPro
 		super(converters, manager, requestResponseBodyAdvice);
 	}
 
-
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return (HttpEntity.class == parameter.getParameterType() ||
-				RequestEntity.class == parameter.getParameterType());
+		return (HttpEntity.class == parameter.getParameterType()
+				|| RequestEntity.class == parameter.getParameterType());
 	}
 
 	@Override
 	public boolean supportsReturnType(MethodParameter returnType) {
-		return (HttpEntity.class.isAssignableFrom(returnType.getParameterType()) &&
-				!RequestEntity.class.isAssignableFrom(returnType.getParameterType()));
+		return (HttpEntity.class.isAssignableFrom(returnType.getParameterType())
+				&& !RequestEntity.class.isAssignableFrom(returnType.getParameterType()));
 	}
 
 	@Override
@@ -131,14 +128,14 @@ public class HttpEntityMethodProcessor extends AbstractMessageConverterMethodPro
 		ServletServerHttpRequest inputMessage = createInputMessage(webRequest);
 		Type paramType = getHttpEntityType(parameter);
 		if (paramType == null) {
-			throw new IllegalArgumentException("HttpEntity parameter '" + parameter.getParameterName() +
-					"' in method " + parameter.getMethod() + " is not parameterized");
+			throw new IllegalArgumentException("HttpEntity parameter '" + parameter.getParameterName() + "' in method "
+					+ parameter.getMethod() + " is not parameterized");
 		}
 
 		Object body = readWithMessageConverters(webRequest, parameter, paramType);
 		if (RequestEntity.class == parameter.getParameterType()) {
-			return new RequestEntity<>(body, inputMessage.getHeaders(),
-					inputMessage.getMethod(), inputMessage.getURI());
+			return new RequestEntity<>(body, inputMessage.getHeaders(), inputMessage.getMethod(),
+					inputMessage.getURI());
 		}
 		else {
 			return new HttpEntity<>(body, inputMessage.getHeaders());
@@ -152,8 +149,8 @@ public class HttpEntityMethodProcessor extends AbstractMessageConverterMethodPro
 		if (parameterType instanceof ParameterizedType) {
 			ParameterizedType type = (ParameterizedType) parameterType;
 			if (type.getActualTypeArguments().length != 1) {
-				throw new IllegalArgumentException("Expected single generic parameter on '" +
-						parameter.getParameterName() + "' in method " + parameter.getMethod());
+				throw new IllegalArgumentException("Expected single generic parameter on '"
+						+ parameter.getParameterName() + "' in method " + parameter.getMethod());
 			}
 			return type.getActualTypeArguments()[0];
 		}
@@ -245,8 +242,8 @@ public class HttpEntityMethodProcessor extends AbstractMessageConverterMethodPro
 	}
 
 	private boolean isResourceNotModified(ServletServerHttpRequest request, ServletServerHttpResponse response) {
-		ServletWebRequest servletWebRequest =
-				new ServletWebRequest(request.getServletRequest(), response.getServletResponse());
+		ServletWebRequest servletWebRequest = new ServletWebRequest(request.getServletRequest(),
+				response.getServletResponse());
 		HttpHeaders responseHeaders = response.getHeaders();
 		String etag = responseHeaders.getETag();
 		long lastModifiedTimestamp = responseHeaders.getLastModified();

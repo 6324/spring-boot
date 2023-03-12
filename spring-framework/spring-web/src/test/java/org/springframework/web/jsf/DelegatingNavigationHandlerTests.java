@@ -39,13 +39,13 @@ public class DelegatingNavigationHandlerTests {
 
 	private final TestNavigationHandler origNavHandler = new TestNavigationHandler();
 
-	private final DelegatingNavigationHandlerProxy delNavHandler = new DelegatingNavigationHandlerProxy(origNavHandler) {
+	private final DelegatingNavigationHandlerProxy delNavHandler = new DelegatingNavigationHandlerProxy(
+			origNavHandler) {
 		@Override
 		protected BeanFactory getBeanFactory(FacesContext facesContext) {
 			return beanFactory;
 		}
 	};
-
 
 	@Test
 	public void handleNavigationWithoutDecoration() {
@@ -71,10 +71,10 @@ public class DelegatingNavigationHandlerTests {
 		assertThat(origNavHandler.lastOutcome).isEqualTo("myViewId");
 	}
 
-
 	static class TestNavigationHandler extends NavigationHandler {
 
 		private String lastFromAction;
+
 		private String lastOutcome;
 
 		@Override
@@ -82,17 +82,18 @@ public class DelegatingNavigationHandlerTests {
 			lastFromAction = fromAction;
 			lastOutcome = outcome;
 		}
-	}
 
+	}
 
 	static class TestDecoratingNavigationHandler extends DecoratingNavigationHandler {
 
 		private String lastFromAction;
+
 		private String lastOutcome;
 
 		@Override
-		public void handleNavigation(FacesContext facesContext, @Nullable String fromAction,
-				@Nullable String outcome, @Nullable NavigationHandler originalNavigationHandler) {
+		public void handleNavigation(FacesContext facesContext, @Nullable String fromAction, @Nullable String outcome,
+				@Nullable NavigationHandler originalNavigationHandler) {
 
 			lastFromAction = fromAction;
 			lastOutcome = outcome;
@@ -100,6 +101,7 @@ public class DelegatingNavigationHandlerTests {
 				originalNavigationHandler.handleNavigation(facesContext, fromAction, outcome);
 			}
 		}
+
 	}
 
 }

@@ -44,13 +44,15 @@ import org.springframework.web.method.support.InvocableHandlerMethod;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Assist with initialization of the {@link Model} before controller method
- * invocation and with updates to it after the invocation.
+ * Assist with initialization of the {@link Model} before controller method invocation and
+ * with updates to it after the invocation.
  *
- * <p>On initialization the model is populated with attributes temporarily stored
- * in the session and through the invocation of {@code @ModelAttribute} methods.
+ * <p>
+ * On initialization the model is populated with attributes temporarily stored in the
+ * session and through the invocation of {@code @ModelAttribute} methods.
  *
- * <p>On update model attributes are synchronized with the session and also
+ * <p>
+ * On update model attributes are synchronized with the session and also
  * {@link BindingResult} attributes are added if missing.
  *
  * @author Rossen Stoyanchev
@@ -64,15 +66,14 @@ public final class ModelFactory {
 
 	private final SessionAttributesHandler sessionAttributesHandler;
 
-
 	/**
 	 * Create a new instance with the given {@code @ModelAttribute} methods.
 	 * @param handlerMethods the {@code @ModelAttribute} methods to invoke
 	 * @param binderFactory for preparation of {@link BindingResult} attributes
 	 * @param attributeHandler for access to session attributes
 	 */
-	public ModelFactory(@Nullable List<InvocableHandlerMethod> handlerMethods,
-			WebDataBinderFactory binderFactory, SessionAttributesHandler attributeHandler) {
+	public ModelFactory(@Nullable List<InvocableHandlerMethod> handlerMethods, WebDataBinderFactory binderFactory,
+			SessionAttributesHandler attributeHandler) {
 
 		if (handlerMethods != null) {
 			for (InvocableHandlerMethod handlerMethod : handlerMethods) {
@@ -83,15 +84,14 @@ public final class ModelFactory {
 		this.sessionAttributesHandler = attributeHandler;
 	}
 
-
 	/**
 	 * Populate the model in the following order:
 	 * <ol>
 	 * <li>Retrieve "known" session attributes listed as {@code @SessionAttributes}.
 	 * <li>Invoke {@code @ModelAttribute} methods
 	 * <li>Find {@code @ModelAttribute} method arguments also listed as
-	 * {@code @SessionAttributes} and ensure they're present in the model raising
-	 * an exception if necessary.
+	 * {@code @SessionAttributes} and ensure they're present in the model raising an
+	 * exception if necessary.
 	 * </ol>
 	 * @param request the current request
 	 * @param container a container with the model to be initialized
@@ -117,8 +117,8 @@ public final class ModelFactory {
 	}
 
 	/**
-	 * Invoke model attribute methods to populate the model.
-	 * Attributes are added only if not already present in the model.
+	 * Invoke model attribute methods to populate the model. Attributes are added only if
+	 * not already present in the model.
 	 */
 	private void invokeModelAttributeMethods(NativeWebRequest request, ModelAndViewContainer container)
 			throws Exception {
@@ -135,7 +135,7 @@ public final class ModelFactory {
 			}
 
 			Object returnValue = modelMethod.invokeForRequest(request, container);
-			if (!modelMethod.isVoid()){
+			if (!modelMethod.isVoid()) {
 				String returnValueName = getNameForReturnValue(returnValue, modelMethod.getReturnType());
 				if (!ann.binding()) {
 					container.setBindingDisabled(returnValueName);
@@ -177,15 +177,15 @@ public final class ModelFactory {
 	}
 
 	/**
-	 * Promote model attributes listed as {@code @SessionAttributes} to the session.
-	 * Add {@link BindingResult} attributes where necessary.
+	 * Promote model attributes listed as {@code @SessionAttributes} to the session. Add
+	 * {@link BindingResult} attributes where necessary.
 	 * @param request the current request
 	 * @param container contains the model to update
 	 * @throws Exception if creating BindingResult attributes fails
 	 */
 	public void updateModel(NativeWebRequest request, ModelAndViewContainer container) throws Exception {
 		ModelMap defaultModel = container.getDefaultModel();
-		if (container.getSessionStatus().isComplete()){
+		if (container.getSessionStatus().isComplete()) {
 			this.sessionAttributesHandler.cleanupAttributes(request);
 		}
 		else {
@@ -225,15 +225,14 @@ public final class ModelFactory {
 			return true;
 		}
 
-		return (!value.getClass().isArray() && !(value instanceof Collection) &&
-				!(value instanceof Map) && !BeanUtils.isSimpleValueType(value.getClass()));
+		return (!value.getClass().isArray() && !(value instanceof Collection) && !(value instanceof Map)
+				&& !BeanUtils.isSimpleValueType(value.getClass()));
 	}
 
-
 	/**
-	 * Derive the model attribute name for the given method parameter based on
-	 * a {@code @ModelAttribute} parameter annotation (if present) or falling
-	 * back on parameter type based conventions.
+	 * Derive the model attribute name for the given method parameter based on a
+	 * {@code @ModelAttribute} parameter annotation (if present) or falling back on
+	 * parameter type based conventions.
 	 * @param parameter a descriptor for the method parameter
 	 * @return the derived name
 	 * @see Conventions#getVariableNameForParameter(MethodParameter)
@@ -245,8 +244,8 @@ public final class ModelFactory {
 	}
 
 	/**
-	 * Derive the model attribute name for the given return value. Results will be
-	 * based on:
+	 * Derive the model attribute name for the given return value. Results will be based
+	 * on:
 	 * <ol>
 	 * <li>the method {@code ModelAttribute} annotation value
 	 * <li>the declared return type if it is more specific than {@code Object}
@@ -269,7 +268,6 @@ public final class ModelFactory {
 			return Conventions.getVariableNameForReturnType(method, resolvedType, returnValue);
 		}
 	}
-
 
 	private static class ModelMethod {
 
@@ -303,6 +301,7 @@ public final class ModelFactory {
 		public String toString() {
 			return this.handlerMethod.getMethod().toGenericString();
 		}
+
 	}
 
 }

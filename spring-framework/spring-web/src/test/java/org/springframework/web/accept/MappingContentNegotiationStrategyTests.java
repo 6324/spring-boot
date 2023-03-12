@@ -77,7 +77,6 @@ public class MappingContentNegotiationStrategyTests {
 		assertThat(mediaTypes.get(0).toString()).isEqualTo("application/xml");
 	}
 
-
 	private static class TestMappingContentNegotiationStrategy extends AbstractMappingContentNegotiationStrategy {
 
 		private final String extension;
@@ -96,6 +95,7 @@ public class MappingContentNegotiationStrategyTests {
 		protected MediaType handleNoMatch(NativeWebRequest request, String mappingKey) {
 			return "xml".equals(mappingKey) ? MediaType.APPLICATION_XML : null;
 		}
+
 	}
 
 }

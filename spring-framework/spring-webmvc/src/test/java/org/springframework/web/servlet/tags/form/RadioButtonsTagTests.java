@@ -74,7 +74,7 @@ public class RadioButtonsTagTests extends AbstractFormTagTests {
 	@Test
 	public void withMultiValueArray() throws Exception {
 		this.tag.setPath("stringArray");
-		this.tag.setItems(new Object[] {"foo", "bar", "baz"});
+		this.tag.setItems(new Object[] { "foo", "bar", "baz" });
 		int result = this.tag.doStartTag();
 		assertThat(result).isEqualTo(Tag.SKIP_BODY);
 
@@ -116,7 +116,7 @@ public class RadioButtonsTagTests extends AbstractFormTagTests {
 		String dynamicAttribute2 = "attr2";
 
 		this.tag.setPath("stringArray");
-		this.tag.setItems(new Object[] {"foo", "bar", "baz"});
+		this.tag.setItems(new Object[] { "foo", "bar", "baz" });
 		this.tag.setDynamicAttribute(null, dynamicAttribute1, dynamicAttribute1);
 		this.tag.setDynamicAttribute(null, dynamicAttribute2, dynamicAttribute2);
 
@@ -168,7 +168,7 @@ public class RadioButtonsTagTests extends AbstractFormTagTests {
 	public void withMultiValueArrayWithDelimiter() throws Exception {
 		this.tag.setDelimiter("<br/>");
 		this.tag.setPath("stringArray");
-		this.tag.setItems(new Object[] {"foo", "bar", "baz"});
+		this.tag.setItems(new Object[] { "foo", "bar", "baz" });
 		int result = this.tag.doStartTag();
 		assertThat(result).isEqualTo(Tag.SKIP_BODY);
 
@@ -303,7 +303,7 @@ public class RadioButtonsTagTests extends AbstractFormTagTests {
 	@Test
 	public void withMultiValueWithEditor() throws Exception {
 		this.tag.setPath("stringArray");
-		this.tag.setItems(new Object[] {"   foo", "   bar", "   baz"});
+		this.tag.setItems(new Object[] { "   foo", "   bar", "   baz" });
 		BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(this.bean, COMMAND_NAME);
 		MyStringTrimmerEditor editor = new MyStringTrimmerEditor();
 		bindingResult.getPropertyEditorRegistry().registerCustomEditor(String.class, editor);
@@ -496,8 +496,10 @@ public class RadioButtonsTagTests extends AbstractFormTagTests {
 		assertThat(rootElement.elements().size()).isEqualTo(2);
 		Node value1 = rootElement.selectSingleNode("//input[@value = 'VALUE_1']");
 		Node value2 = rootElement.selectSingleNode("//input[@value = 'VALUE_2']");
-		assertThat(rootElement.selectSingleNode("//label[@for = '" + value1.valueOf("@id") + "']").getText()).isEqualTo("TestEnum: VALUE_1");
-		assertThat(rootElement.selectSingleNode("//label[@for = '" + value2.valueOf("@id") + "']").getText()).isEqualTo("TestEnum: VALUE_2");
+		assertThat(rootElement.selectSingleNode("//label[@for = '" + value1.valueOf("@id") + "']").getText())
+				.isEqualTo("TestEnum: VALUE_1");
+		assertThat(rootElement.selectSingleNode("//label[@for = '" + value2.valueOf("@id") + "']").getText())
+				.isEqualTo("TestEnum: VALUE_2");
 		assertThat(rootElement.selectSingleNode("//input[@checked]")).isEqualTo(value2);
 	}
 
@@ -521,22 +523,24 @@ public class RadioButtonsTagTests extends AbstractFormTagTests {
 		assertThat(rootElement.elements().size()).isEqualTo(2);
 		Node value1 = rootElement.selectSingleNode("//input[@value = 'Value: VALUE_1']");
 		Node value2 = rootElement.selectSingleNode("//input[@value = 'Value: VALUE_2']");
-		assertThat(rootElement.selectSingleNode("//label[@for = '" + value1.valueOf("@id") + "']").getText()).isEqualTo("Label: VALUE_1");
-		assertThat(rootElement.selectSingleNode("//label[@for = '" + value2.valueOf("@id") + "']").getText()).isEqualTo("Label: VALUE_2");
+		assertThat(rootElement.selectSingleNode("//label[@for = '" + value1.valueOf("@id") + "']").getText())
+				.isEqualTo("Label: VALUE_1");
+		assertThat(rootElement.selectSingleNode("//label[@for = '" + value2.valueOf("@id") + "']").getText())
+				.isEqualTo("Label: VALUE_2");
 		assertThat(rootElement.selectSingleNode("//input[@checked]")).isEqualTo(value2);
 	}
 
 	@Test
 	public void withNullValue() throws Exception {
 		this.tag.setPath("name");
-		assertThatIllegalArgumentException().as("null value when binding to a non-boolean").isThrownBy(
-				this.tag::doStartTag);
+		assertThatIllegalArgumentException().as("null value when binding to a non-boolean")
+				.isThrownBy(this.tag::doStartTag);
 	}
 
 	@Test
 	public void hiddenElementOmittedOnDisabled() throws Exception {
 		this.tag.setPath("stringArray");
-		this.tag.setItems(new Object[] {"foo", "bar", "baz"});
+		this.tag.setItems(new Object[] { "foo", "bar", "baz" });
 		this.tag.setDisabled(true);
 		int result = this.tag.doStartTag();
 		assertThat(result).isEqualTo(Tag.SKIP_BODY);
@@ -562,7 +566,7 @@ public class RadioButtonsTagTests extends AbstractFormTagTests {
 	@Test
 	public void spanElementCustomizable() throws Exception {
 		this.tag.setPath("stringArray");
-		this.tag.setItems(new Object[] {"foo", "bar", "baz"});
+		this.tag.setItems(new Object[] { "foo", "bar", "baz" });
 		this.tag.setElement("element");
 		int result = this.tag.doStartTag();
 		assertThat(result).isEqualTo(Tag.SKIP_BODY);
@@ -579,9 +583,8 @@ public class RadioButtonsTagTests extends AbstractFormTagTests {
 
 	@Test
 	public void dynamicTypeAttribute() throws JspException {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.tag.setDynamicAttribute(null, "type", "email"))
-			.withMessage("Attribute type=\"email\" is not allowed");
+		assertThatIllegalArgumentException().isThrownBy(() -> this.tag.setDynamicAttribute(null, "type", "email"))
+				.withMessage("Attribute type=\"email\" is not allowed");
 	}
 
 	private Date getDate() {
@@ -613,8 +616,8 @@ public class RadioButtonsTagTests extends AbstractFormTagTests {
 		this.bean.setName("Rob Harrop");
 		this.bean.setJedi(true);
 		this.bean.setSomeBoolean(Boolean.TRUE);
-		this.bean.setStringArray(new String[] {"bar", "foo"});
-		this.bean.setSomeIntegerArray(new Integer[] {2, 1});
+		this.bean.setStringArray(new String[] { "bar", "foo" });
+		this.bean.setSomeIntegerArray(new Integer[] { 2, 1 });
 		this.bean.setOtherColours(colours);
 		this.bean.setPets(pets);
 		List list = new ArrayList();
@@ -623,7 +626,6 @@ public class RadioButtonsTagTests extends AbstractFormTagTests {
 		this.bean.setSomeList(list);
 		return this.bean;
 	}
-
 
 	private static class MyStringTrimmerEditor extends StringTrimmerEditor {
 
@@ -638,6 +640,7 @@ public class RadioButtonsTagTests extends AbstractFormTagTests {
 			super.setAsText(text);
 			this.allProcessedValues.add(getValue());
 		}
+
 	}
 
 }

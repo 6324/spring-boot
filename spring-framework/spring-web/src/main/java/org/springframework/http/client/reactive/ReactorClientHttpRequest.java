@@ -54,7 +54,6 @@ class ReactorClientHttpRequest extends AbstractClientHttpRequest implements Zero
 
 	private final NettyDataBufferFactory bufferFactory;
 
-
 	public ReactorClientHttpRequest(HttpMethod method, URI uri, HttpClientRequest request, NettyOutbound outbound) {
 		this.httpMethod = method;
 		this.uri = uri;
@@ -62,7 +61,6 @@ class ReactorClientHttpRequest extends AbstractClientHttpRequest implements Zero
 		this.outbound = outbound;
 		this.bufferFactory = new NettyDataBufferFactory(outbound.alloc());
 	}
-
 
 	@Override
 	public DataBufferFactory bufferFactory() {
@@ -123,8 +121,7 @@ class ReactorClientHttpRequest extends AbstractClientHttpRequest implements Zero
 	@Override
 	protected void applyCookies() {
 		getCookies().values().stream().flatMap(Collection::stream)
-				.map(cookie -> new DefaultCookie(cookie.getName(), cookie.getValue()))
-				.forEach(this.request::addCookie);
+				.map(cookie -> new DefaultCookie(cookie.getName(), cookie.getValue())).forEach(this.request::addCookie);
 	}
 
 }

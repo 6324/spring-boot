@@ -50,18 +50,17 @@ import org.springframework.web.testfixture.xml.Pojo;
 
 /**
  * Test scenarios for data buffer leaks.
+ *
  * @author Rossen Stoyanchev
  */
 public class CancelWithoutDemandCodecTests {
 
 	private final LeakAwareDataBufferFactory bufferFactory = new LeakAwareDataBufferFactory();
 
-
 	@AfterEach
 	public void tearDown() throws Exception {
 		this.bufferFactory.checkForLeaks();
 	}
-
 
 	@Test // gh-22107
 	public void cancelWithEncoderHttpMessageWriterAndSingleValue() {
@@ -69,8 +68,8 @@ public class CancelWithoutDemandCodecTests {
 		HttpMessageWriter<CharSequence> writer = new EncoderHttpMessageWriter<>(encoder);
 		CancellingOutputMessage outputMessage = new CancellingOutputMessage(this.bufferFactory);
 
-		writer.write(Mono.just("foo"), ResolvableType.forType(String.class), MediaType.TEXT_PLAIN,
-				outputMessage, Collections.emptyMap()).block(Duration.ofSeconds(5));
+		writer.write(Mono.just("foo"), ResolvableType.forType(String.class), MediaType.TEXT_PLAIN, outputMessage,
+				Collections.emptyMap()).block(Duration.ofSeconds(5));
 	}
 
 	@Test // gh-22107
@@ -78,11 +77,12 @@ public class CancelWithoutDemandCodecTests {
 		Jackson2JsonEncoder encoder = new Jackson2JsonEncoder();
 
 		Flux<DataBuffer> flux = encoder.encode(Flux.just(new Pojo("foofoo", "barbar"), new Pojo("bar", "baz")),
-				this.bufferFactory, ResolvableType.forClass(Pojo.class),
-				MediaType.APPLICATION_JSON, Collections.emptyMap());
+				this.bufferFactory, ResolvableType.forClass(Pojo.class), MediaType.APPLICATION_JSON,
+				Collections.emptyMap());
 
 		BaseSubscriber<DataBuffer> subscriber = new ZeroDemandSubscriber();
-		flux.subscribe(subscriber); // Assume sync execution (e.g. encoding with Flux.just)..
+		flux.subscribe(subscriber); // Assume sync execution (e.g. encoding with
+									// Flux.just)..
 		subscriber.cancel();
 	}
 
@@ -90,12 +90,12 @@ public class CancelWithoutDemandCodecTests {
 	public void cancelWithJaxb2() {
 		Jaxb2XmlEncoder encoder = new Jaxb2XmlEncoder();
 
-		Flux<DataBuffer> flux = encoder.encode(Mono.just(new Pojo("foo", "bar")),
-				this.bufferFactory, ResolvableType.forClass(Pojo.class),
-				MediaType.APPLICATION_XML, Collections.emptyMap());
+		Flux<DataBuffer> flux = encoder.encode(Mono.just(new Pojo("foo", "bar")), this.bufferFactory,
+				ResolvableType.forClass(Pojo.class), MediaType.APPLICATION_XML, Collections.emptyMap());
 
 		BaseSubscriber<DataBuffer> subscriber = new ZeroDemandSubscriber();
-		flux.subscribe(subscriber); // Assume sync execution (e.g. encoding with Flux.just)..
+		flux.subscribe(subscriber); // Assume sync execution (e.g. encoding with
+									// Flux.just)..
 		subscriber.cancel();
 	}
 
@@ -104,12 +104,12 @@ public class CancelWithoutDemandCodecTests {
 		ProtobufEncoder encoder = new ProtobufEncoder();
 		Msg msg = Msg.newBuilder().setFoo("Foo").setBlah(SecondMsg.newBuilder().setBlah(123).build()).build();
 
-		Flux<DataBuffer> flux = encoder.encode(Mono.just(msg),
-				this.bufferFactory, ResolvableType.forClass(Msg.class),
+		Flux<DataBuffer> flux = encoder.encode(Mono.just(msg), this.bufferFactory, ResolvableType.forClass(Msg.class),
 				new MimeType("application", "x-protobuf"), Collections.emptyMap());
 
 		BaseSubscriber<DataBuffer> subscriber = new ZeroDemandSubscriber();
-		flux.subscribe(subscriber); // Assume sync execution (e.g. encoding with Flux.just)..
+		flux.subscribe(subscriber); // Assume sync execution (e.g. encoding with
+									// Flux.just)..
 		subscriber.cancel();
 	}
 
@@ -142,8 +142,8 @@ public class CancelWithoutDemandCodecTests {
 		MultipartHttpMessageWriter writer = new MultipartHttpMessageWriter(writers);
 		CancellingOutputMessage outputMessage = new CancellingOutputMessage(this.bufferFactory);
 
-		writer.write(Mono.just(builder.build()), null, MediaType.MULTIPART_FORM_DATA,
-				outputMessage, Collections.emptyMap()).block(Duration.ofSeconds(5));
+		writer.write(Mono.just(builder.build()), null, MediaType.MULTIPART_FORM_DATA, outputMessage,
+				Collections.emptyMap()).block(Duration.ofSeconds(5));
 	}
 
 	@Test // gh-22107
@@ -156,17 +156,13 @@ public class CancelWithoutDemandCodecTests {
 				outputMessage, Collections.emptyMap()).block(Duration.ofSeconds(5));
 	}
 
-
-
 	private static class CancellingOutputMessage implements ReactiveHttpOutputMessage {
 
 		private final DataBufferFactory bufferFactory;
 
-
 		public CancellingOutputMessage(DataBufferFactory bufferFactory) {
 			this.bufferFactory = bufferFactory;
 		}
-
 
 		@Override
 		public DataBufferFactory bufferFactory() {
@@ -186,7 +182,8 @@ public class CancelWithoutDemandCodecTests {
 		public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
 			Flux<? extends DataBuffer> flux = Flux.from(body);
 			BaseSubscriber<DataBuffer> subscriber = new ZeroDemandSubscriber();
-			flux.subscribe(subscriber); // Assume sync execution (e.g. encoding with Flux.just)..
+			flux.subscribe(subscriber); // Assume sync execution (e.g. encoding with
+										// Flux.just)..
 			subscriber.cancel();
 			return Mono.empty();
 		}
@@ -195,7 +192,8 @@ public class CancelWithoutDemandCodecTests {
 		public Mono<Void> writeAndFlushWith(Publisher<? extends Publisher<? extends DataBuffer>> body) {
 			Flux<? extends DataBuffer> flux = Flux.from(body).concatMap(Flux::from);
 			BaseSubscriber<DataBuffer> subscriber = new ZeroDemandSubscriber();
-			flux.subscribe(subscriber); // Assume sync execution (e.g. encoding with Flux.just)..
+			flux.subscribe(subscriber); // Assume sync execution (e.g. encoding with
+										// Flux.just)..
 			subscriber.cancel();
 			return Mono.empty();
 		}
@@ -209,8 +207,8 @@ public class CancelWithoutDemandCodecTests {
 		public HttpHeaders getHeaders() {
 			return new HttpHeaders();
 		}
-	}
 
+	}
 
 	private static class ZeroDemandSubscriber extends BaseSubscriber<DataBuffer> {
 
@@ -218,8 +216,8 @@ public class CancelWithoutDemandCodecTests {
 		protected void hookOnSubscribe(Subscription subscription) {
 			// Just subscribe without requesting
 		}
-	}
 
+	}
 
 	private static class ZeroDemandMessageSubscriber extends BaseSubscriber<Message> {
 
@@ -227,5 +225,7 @@ public class CancelWithoutDemandCodecTests {
 		protected void hookOnSubscribe(Subscription subscription) {
 			// Just subscribe without requesting
 		}
+
 	}
+
 }

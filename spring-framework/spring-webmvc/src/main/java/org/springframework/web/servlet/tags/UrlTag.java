@@ -42,91 +42,92 @@ import org.springframework.web.util.UriUtils;
  * The {@code <url>} tag creates URLs. Modeled after the JSTL {@code c:url} tag with
  * backwards compatibility in mind.
  *
- * <p>Enhancements to the JSTL functionality include:
+ * <p>
+ * Enhancements to the JSTL functionality include:
  * <ul>
  * <li>URL encoded template URI variables</li>
  * <li>HTML/XML escaping of URLs</li>
  * <li>JavaScript escaping of URLs</li>
  * </ul>
  *
- * <p>Template URI variables are indicated in the {@link #setValue(String) 'value'}
- * attribute and marked by braces '{variableName}'. The braces and attribute name are
- * replaced by the URL encoded value of a parameter defined with the spring:param tag
- * in the body of the url tag. If no parameter is available the literal value is
- * passed through. Params matched to template variables will not be added to the query
- * string.
+ * <p>
+ * Template URI variables are indicated in the {@link #setValue(String) 'value'} attribute
+ * and marked by braces '{variableName}'. The braces and attribute name are replaced by
+ * the URL encoded value of a parameter defined with the spring:param tag in the body of
+ * the url tag. If no parameter is available the literal value is passed through. Params
+ * matched to template variables will not be added to the query string.
  *
- * <p>Use of the spring:param tag for URI template variables is strongly recommended
- * over direct EL substitution as the values are URL encoded.  Failure to properly
- * encode URL can leave an application vulnerable to XSS and other injection attacks.
+ * <p>
+ * Use of the spring:param tag for URI template variables is strongly recommended over
+ * direct EL substitution as the values are URL encoded. Failure to properly encode URL
+ * can leave an application vulnerable to XSS and other injection attacks.
  *
- * <p>URLs can be HTML/XML escaped by setting the {@link #setHtmlEscape(boolean)
- * 'htmlEscape'} attribute to 'true'.  Detects an HTML escaping setting, either on
- * this tag instance, the page level, or the {@code web.xml} level. The default
- * is 'false'.  When setting the URL value into a variable, escaping is not recommended.
+ * <p>
+ * URLs can be HTML/XML escaped by setting the {@link #setHtmlEscape(boolean)
+ * 'htmlEscape'} attribute to 'true'. Detects an HTML escaping setting, either on this tag
+ * instance, the page level, or the {@code web.xml} level. The default is 'false'. When
+ * setting the URL value into a variable, escaping is not recommended.
  *
- * <p>Example usage:
- * <pre class="code">&lt;spring:url value="/url/path/{variableName}"&gt;
+ * <p>
+ * Example usage: <pre class="code">&lt;spring:url value="/url/path/{variableName}"&gt;
  *   &lt;spring:param name="variableName" value="more than JSTL c:url" /&gt;
  * &lt;/spring:url&gt;</pre>
  *
- * <p>The above results in:
+ * <p>
+ * The above results in:
  * {@code /currentApplicationContext/url/path/more%20than%20JSTL%20c%3Aurl}
  *
  * <table>
- * <caption>Attribute Summary</caption>
- * <thead>
+ * <caption>Attribute Summary</caption> <thead>
  * <tr>
  * <th>Attribute</th>
  * <th>Required?</th>
  * <th>Runtime Expression?</th>
  * <th>Description</th>
  * </tr>
- * </thead>
- * <tbody>
+ * </thead> <tbody>
  * <tr>
  * <td>value</td>
  * <td>true</td>
  * <td>true</td>
- * <td>The URL to build. This value can include template {placeholders} that are
- * replaced with the URL encoded value of the named parameter. Parameters
- * must be defined using the param tag inside the body of this tag.</td>
+ * <td>The URL to build. This value can include template {placeholders} that are replaced
+ * with the URL encoded value of the named parameter. Parameters must be defined using the
+ * param tag inside the body of this tag.</td>
  * </tr>
  * <tr>
  * <td>context</td>
  * <td>false</td>
  * <td>true</td>
- * <td>Specifies a remote application context path.
- * The default is the current application context path.</td>
+ * <td>Specifies a remote application context path. The default is the current application
+ * context path.</td>
  * </tr>
  * <tr>
  * <td>var</td>
  * <td>false</td>
  * <td>true</td>
- * <td>The name of the variable to export the URL value to.
- * If not specified the URL is written as output.</td>
+ * <td>The name of the variable to export the URL value to. If not specified the URL is
+ * written as output.</td>
  * </tr>
  * <tr>
  * <td>scope</td>
  * <td>false</td>
  * <td>true</td>
- * <td>The scope for the var. 'application', 'session', 'request' and 'page'
- * scopes are supported. Defaults to page scope. This attribute has no
- * effect unless the var attribute is also defined.</td>
+ * <td>The scope for the var. 'application', 'session', 'request' and 'page' scopes are
+ * supported. Defaults to page scope. This attribute has no effect unless the var
+ * attribute is also defined.</td>
  * </tr>
  * <tr>
  * <td>htmlEscape</td>
  * <td>false</td>
  * <td>true</td>
- * <td>Set HTML escaping for this tag, as a boolean value. Overrides the
- * default HTML escaping setting for the current page.</td>
+ * <td>Set HTML escaping for this tag, as a boolean value. Overrides the default HTML
+ * escaping setting for the current page.</td>
  * </tr>
  * <tr>
  * <td>javaScriptEscape</td>
  * <td>false</td>
  * <td>true</td>
- * <td>Set JavaScript escaping for this tag, as a boolean value.
- * Default is false.</td>
+ * <td>Set JavaScript escaping for this tag, as a boolean value. Default is false.</td>
  * </tr>
  * </tbody>
  * </table>
@@ -143,7 +144,6 @@ public class UrlTag extends HtmlEscapingAwareTag implements ParamAware {
 	private static final String URL_TEMPLATE_DELIMITER_SUFFIX = "}";
 
 	private static final String URL_TYPE_ABSOLUTE = "://";
-
 
 	private List<Param> params = Collections.emptyList();
 
@@ -165,7 +165,6 @@ public class UrlTag extends HtmlEscapingAwareTag implements ParamAware {
 
 	private boolean javaScriptEscape = false;
 
-
 	/**
 	 * Set the value of the URL.
 	 */
@@ -185,8 +184,7 @@ public class UrlTag extends HtmlEscapingAwareTag implements ParamAware {
 	}
 
 	/**
-	 * Set the context path for the URL.
-	 * Defaults to the current context.
+	 * Set the context path for the URL. Defaults to the current context.
 	 */
 	public void setContext(String context) {
 		if (context.startsWith("/")) {
@@ -198,24 +196,23 @@ public class UrlTag extends HtmlEscapingAwareTag implements ParamAware {
 	}
 
 	/**
-	 * Set the variable name to expose the URL under. Defaults to rendering the
-	 * URL to the current JspWriter
+	 * Set the variable name to expose the URL under. Defaults to rendering the URL to the
+	 * current JspWriter
 	 */
 	public void setVar(String var) {
 		this.var = var;
 	}
 
 	/**
-	 * Set the scope to export the URL variable to. This attribute has no
-	 * meaning unless var is also defined.
+	 * Set the scope to export the URL variable to. This attribute has no meaning unless
+	 * var is also defined.
 	 */
 	public void setScope(String scope) {
 		this.scope = TagUtils.getScope(scope);
 	}
 
 	/**
-	 * Set JavaScript escaping for this tag, as boolean value.
-	 * Default is "false".
+	 * Set JavaScript escaping for this tag, as boolean value. Default is "false".
 	 */
 	public void setJavaScriptEscape(boolean javaScriptEscape) throws JspException {
 		this.javaScriptEscape = javaScriptEscape;
@@ -225,7 +222,6 @@ public class UrlTag extends HtmlEscapingAwareTag implements ParamAware {
 	public void addParam(Param param) {
 		this.params.add(param);
 	}
-
 
 	@Override
 	public int doStartTagInternal() throws JspException {
@@ -259,7 +255,6 @@ public class UrlTag extends HtmlEscapingAwareTag implements ParamAware {
 		}
 		return EVAL_PAGE;
 	}
-
 
 	/**
 	 * Build the URL for the tag from the tag attributes and parameters.
@@ -306,14 +301,14 @@ public class UrlTag extends HtmlEscapingAwareTag implements ParamAware {
 	}
 
 	/**
-	 * Build the query string from available parameters that have not already
-	 * been applied as template params.
-	 * <p>The names and values of parameters are URL encoded.
+	 * Build the query string from available parameters that have not already been applied
+	 * as template params.
+	 * <p>
+	 * The names and values of parameters are URL encoded.
 	 * @param params the parameters to build the query string from
-	 * @param usedParams set of parameter names that have been applied as
-	 * template params
-	 * @param includeQueryStringDelimiter true if the query string should start
-	 * with a '?' instead of '&'
+	 * @param usedParams set of parameter names that have been applied as template params
+	 * @param includeQueryStringDelimiter true if the query string should start with a '?'
+	 * instead of '&'
 	 * @return the query string
 	 */
 	protected String createQueryString(List<Param> params, Set<String> usedParams, boolean includeQueryStringDelimiter)
@@ -345,9 +340,10 @@ public class UrlTag extends HtmlEscapingAwareTag implements ParamAware {
 	}
 
 	/**
-	 * Replace template markers in the URL matching available parameters. The
-	 * name of matched parameters are added to the used parameters set.
-	 * <p>Parameter values are URL encoded.
+	 * Replace template markers in the URL matching available parameters. The name of
+	 * matched parameters are added to the used parameters set.
+	 * <p>
+	 * Parameter values are URL encoded.
 	 * @param uri the URL with template parameters to replace
 	 * @param params parameters used to replace template markers
 	 * @param usedParams set of template parameter names that have been replaced
@@ -388,13 +384,13 @@ public class UrlTag extends HtmlEscapingAwareTag implements ParamAware {
 		return uri;
 	}
 
-
 	/**
 	 * Internal enum that classifies URLs by type.
 	 */
 	private enum UrlType {
 
 		CONTEXT_RELATIVE, RELATIVE, ABSOLUTE
+
 	}
 
 }

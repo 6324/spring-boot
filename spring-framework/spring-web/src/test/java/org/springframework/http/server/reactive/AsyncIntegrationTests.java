@@ -44,7 +44,6 @@ class AsyncIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 
 	private final DataBufferFactory dataBufferFactory = new DefaultDataBufferFactory();
 
-
 	@Override
 	protected AsyncHandler createHttpHandler() {
 		return new AsyncHandler();
@@ -60,16 +59,15 @@ class AsyncIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 		assertThat(response.getBody()).isEqualTo("hello");
 	}
 
-
 	private class AsyncHandler implements HttpHandler {
 
 		@Override
 		public Mono<Void> handle(ServerHttpRequest request, ServerHttpResponse response) {
-			return response.writeWith(Flux.just("h", "e", "l", "l", "o")
-										.delayElements(Duration.ofMillis(100))
-										.publishOn(asyncGroup)
-					.collect(dataBufferFactory::allocateBuffer, (buffer, str) -> buffer.write(str.getBytes())));
+			return response.writeWith(
+					Flux.just("h", "e", "l", "l", "o").delayElements(Duration.ofMillis(100)).publishOn(asyncGroup)
+							.collect(dataBufferFactory::allocateBuffer, (buffer, str) -> buffer.write(str.getBytes())));
 		}
+
 	}
 
 }

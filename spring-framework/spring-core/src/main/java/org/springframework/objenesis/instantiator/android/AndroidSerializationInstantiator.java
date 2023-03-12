@@ -24,55 +24,58 @@ import java.io.ObjectStreamClass;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-
-
 /**
- * {@link ObjectInstantiator} for Android which creates objects using the constructor from the first
- * non-serializable parent class constructor, using internal methods on the Dalvik implementation of
- * {@link ObjectStreamClass}.
+ * {@link ObjectInstantiator} for Android which creates objects using the constructor from
+ * the first non-serializable parent class constructor, using internal methods on the
+ * Dalvik implementation of {@link ObjectStreamClass}.
  *
  * @author Ian Parkinson (Google Inc.)
  */
 @Instantiator(Typology.SERIALIZATION)
 public class AndroidSerializationInstantiator<T> implements ObjectInstantiator<T> {
-   private final Class<T> type;
-   private final ObjectStreamClass objectStreamClass;
-   private final Method newInstanceMethod;
 
-   public AndroidSerializationInstantiator(Class<T> type) {
-      this.type = type;
-      newInstanceMethod = getNewInstanceMethod();
-      Method m;
-      try {
-         m = ObjectStreamClass.class.getMethod("lookupAny", Class.class);
-      } catch (NoSuchMethodException e) {
-         throw new ObjenesisException(e);
-      }
-      try {
-         objectStreamClass = (ObjectStreamClass) m.invoke(null, type);
-      } catch (IllegalAccessException | InvocationTargetException e) {
-         throw new ObjenesisException(e);
-      }
-   }
+	private final Class<T> type;
 
-   public T newInstance() {
-      try {
-         return type.cast(newInstanceMethod.invoke(objectStreamClass, type));
-      }
-      catch(IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-         throw new ObjenesisException(e);
-      }
-   }
+	private final ObjectStreamClass objectStreamClass;
 
-   private static Method getNewInstanceMethod() {
-      try {
-         Method newInstanceMethod = ObjectStreamClass.class.getDeclaredMethod(
-            "newInstance", Class.class);
-         newInstanceMethod.setAccessible(true);
-         return newInstanceMethod;
-      }
-      catch(RuntimeException | NoSuchMethodException e) {
-         throw new ObjenesisException(e);
-      }
-   }
+	private final Method newInstanceMethod;
+
+	public AndroidSerializationInstantiator(Class<T> type) {
+		this.type = type;
+		newInstanceMethod = getNewInstanceMethod();
+		Method m;
+		try {
+			m = ObjectStreamClass.class.getMethod("lookupAny", Class.class);
+		}
+		catch (NoSuchMethodException e) {
+			throw new ObjenesisException(e);
+		}
+		try {
+			objectStreamClass = (ObjectStreamClass) m.invoke(null, type);
+		}
+		catch (IllegalAccessException | InvocationTargetException e) {
+			throw new ObjenesisException(e);
+		}
+	}
+
+	public T newInstance() {
+		try {
+			return type.cast(newInstanceMethod.invoke(objectStreamClass, type));
+		}
+		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			throw new ObjenesisException(e);
+		}
+	}
+
+	private static Method getNewInstanceMethod() {
+		try {
+			Method newInstanceMethod = ObjectStreamClass.class.getDeclaredMethod("newInstance", Class.class);
+			newInstanceMethod.setAccessible(true);
+			return newInstanceMethod;
+		}
+		catch (RuntimeException | NoSuchMethodException e) {
+			throw new ObjenesisException(e);
+		}
+	}
+
 }

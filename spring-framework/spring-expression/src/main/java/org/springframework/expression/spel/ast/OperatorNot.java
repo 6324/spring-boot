@@ -35,8 +35,8 @@ import org.springframework.expression.spel.support.BooleanTypedValue;
  */
 public class OperatorNot extends SpelNodeImpl {
 
-// Not is a unary operator so does not
-												// extend BinaryOperator
+	// Not is a unary operator so does not
+	// extend BinaryOperator
 
 	public OperatorNot(int startPos, int endPos, SpelNodeImpl operand) {
 		super(startPos, endPos, operand);

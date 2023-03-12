@@ -102,11 +102,10 @@ public class Jackson2ObjectMapperBuilderTests {
 
 	private static final String DATA = "{\"offsetDateTime\": \"2020-01-01T00:00:00\"}";
 
-
 	@Test
 	public void unknownFeature() {
-		assertThatExceptionOfType(FatalBeanException.class).isThrownBy(() ->
-				Jackson2ObjectMapperBuilder.json().featuresToEnable(Boolean.TRUE).build());
+		assertThatExceptionOfType(FatalBeanException.class)
+				.isThrownBy(() -> Jackson2ObjectMapperBuilder.json().featuresToEnable(Boolean.TRUE).build());
 	}
 
 	@Test
@@ -143,12 +142,10 @@ public class Jackson2ObjectMapperBuilderTests {
 	public void booleanSetters() {
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()
 				.featuresToEnable(MapperFeature.DEFAULT_VIEW_INCLUSION,
-						DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
-						SerializationFeature.INDENT_OUTPUT)
-				.featuresToDisable(MapperFeature.AUTO_DETECT_FIELDS,
-						MapperFeature.AUTO_DETECT_GETTERS,
-						MapperFeature.AUTO_DETECT_SETTERS,
-						SerializationFeature.FAIL_ON_EMPTY_BEANS).build();
+						DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, SerializationFeature.INDENT_OUTPUT)
+				.featuresToDisable(MapperFeature.AUTO_DETECT_FIELDS, MapperFeature.AUTO_DETECT_GETTERS,
+						MapperFeature.AUTO_DETECT_SETTERS, SerializationFeature.FAIL_ON_EMPTY_BEANS)
+				.build();
 		assertThat(objectMapper).isNotNull();
 		assertThat(objectMapper.isEnabled(MapperFeature.DEFAULT_VIEW_INCLUSION)).isTrue();
 		assertThat(objectMapper.isEnabled(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)).isTrue();
@@ -162,25 +159,32 @@ public class Jackson2ObjectMapperBuilderTests {
 	@Test
 	public void setNotNullSerializationInclusion() {
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
-		assertThat(objectMapper.getSerializationConfig().getSerializationInclusion()).isSameAs(JsonInclude.Include.ALWAYS);
+		assertThat(objectMapper.getSerializationConfig().getSerializationInclusion())
+				.isSameAs(JsonInclude.Include.ALWAYS);
 		objectMapper = Jackson2ObjectMapperBuilder.json().serializationInclusion(JsonInclude.Include.NON_NULL).build();
-		assertThat(objectMapper.getSerializationConfig().getSerializationInclusion()).isSameAs(JsonInclude.Include.NON_NULL);
+		assertThat(objectMapper.getSerializationConfig().getSerializationInclusion())
+				.isSameAs(JsonInclude.Include.NON_NULL);
 	}
 
 	@Test
 	public void setNotDefaultSerializationInclusion() {
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
-		assertThat(objectMapper.getSerializationConfig().getSerializationInclusion()).isSameAs(JsonInclude.Include.ALWAYS);
-		objectMapper = Jackson2ObjectMapperBuilder.json().serializationInclusion(JsonInclude.Include.NON_DEFAULT).build();
-		assertThat(objectMapper.getSerializationConfig().getSerializationInclusion()).isSameAs(JsonInclude.Include.NON_DEFAULT);
+		assertThat(objectMapper.getSerializationConfig().getSerializationInclusion())
+				.isSameAs(JsonInclude.Include.ALWAYS);
+		objectMapper = Jackson2ObjectMapperBuilder.json().serializationInclusion(JsonInclude.Include.NON_DEFAULT)
+				.build();
+		assertThat(objectMapper.getSerializationConfig().getSerializationInclusion())
+				.isSameAs(JsonInclude.Include.NON_DEFAULT);
 	}
 
 	@Test
 	public void setNotEmptySerializationInclusion() {
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
-		assertThat(objectMapper.getSerializationConfig().getSerializationInclusion()).isSameAs(JsonInclude.Include.ALWAYS);
+		assertThat(objectMapper.getSerializationConfig().getSerializationInclusion())
+				.isSameAs(JsonInclude.Include.ALWAYS);
 		objectMapper = Jackson2ObjectMapperBuilder.json().serializationInclusion(JsonInclude.Include.NON_EMPTY).build();
-		assertThat(objectMapper.getSerializationConfig().getSerializationInclusion()).isSameAs(JsonInclude.Include.NON_EMPTY);
+		assertThat(objectMapper.getSerializationConfig().getSerializationInclusion())
+				.isSameAs(JsonInclude.Include.NON_EMPTY);
 	}
 
 	@Test
@@ -226,8 +230,8 @@ public class Jackson2ObjectMapperBuilderTests {
 	@Test
 	public void wrongTimeZoneStringSetter() {
 		String zoneId = "foo";
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				Jackson2ObjectMapperBuilder.json().timeZone(zoneId).build());
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> Jackson2ObjectMapperBuilder.json().timeZone(zoneId).build());
 	}
 
 	@Test
@@ -243,20 +247,20 @@ public class Jackson2ObjectMapperBuilderTests {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void modulesToInstallByClass() {
-		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()
-				.modulesToInstall(CustomIntegerModule.class)
+		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().modulesToInstall(CustomIntegerModule.class)
 				.build();
 		Serializers serializers = getSerializerFactoryConfig(objectMapper).serializers().iterator().next();
-		assertThat(serializers.findSerializer(null, SimpleType.construct(Integer.class), null).getClass()).isSameAs(CustomIntegerSerializer.class);
+		assertThat(serializers.findSerializer(null, SimpleType.construct(Integer.class), null).getClass())
+				.isSameAs(CustomIntegerSerializer.class);
 	}
 
 	@Test
 	public void modulesToInstallByInstance() {
-		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()
-				.modulesToInstall(new CustomIntegerModule())
+		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().modulesToInstall(new CustomIntegerModule())
 				.build();
 		Serializers serializers = getSerializerFactoryConfig(objectMapper).serializers().iterator().next();
-		assertThat(serializers.findSerializer(null, SimpleType.construct(Integer.class), null).getClass()).isSameAs(CustomIntegerSerializer.class);
+		assertThat(serializers.findSerializer(null, SimpleType.construct(Integer.class), null).getClass())
+				.isSameAs(CustomIntegerSerializer.class);
 	}
 
 	@Test
@@ -278,34 +282,30 @@ public class Jackson2ObjectMapperBuilderTests {
 		assertThat(new String(objectMapper.writeValueAsBytes(range), "UTF-8")).isEqualTo("{\"start\":1,\"end\":3}");
 	}
 
-	@Test  // SPR-12634
-	public void customizeWellKnownModulesWithModule()
-			throws JsonProcessingException, UnsupportedEncodingException {
+	@Test // SPR-12634
+	public void customizeWellKnownModulesWithModule() throws JsonProcessingException, UnsupportedEncodingException {
 
-		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()
-				.modulesToInstall(new CustomIntegerModule())
+		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().modulesToInstall(new CustomIntegerModule())
 				.build();
 		DateTime dateTime = new DateTime(1322903730000L, DateTimeZone.UTC);
 		assertThat(new String(objectMapper.writeValueAsBytes(dateTime), "UTF-8")).isEqualTo("1322903730000");
 		assertThat(new String(objectMapper.writeValueAsBytes(4), "UTF-8")).contains("customid");
 	}
 
-	@Test  // SPR-12634
+	@Test // SPR-12634
 	@SuppressWarnings("unchecked")
 	public void customizeWellKnownModulesWithModuleClass()
 			throws JsonProcessingException, UnsupportedEncodingException {
 
-		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()
-				.modulesToInstall(CustomIntegerModule.class)
+		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().modulesToInstall(CustomIntegerModule.class)
 				.build();
 		DateTime dateTime = new DateTime(1322903730000L, DateTimeZone.UTC);
 		assertThat(new String(objectMapper.writeValueAsBytes(dateTime), "UTF-8")).isEqualTo("1322903730000");
 		assertThat(new String(objectMapper.writeValueAsBytes(4), "UTF-8")).contains("customid");
 	}
 
-	@Test  // SPR-12634
-	public void customizeWellKnownModulesWithSerializer()
-			throws JsonProcessingException, UnsupportedEncodingException {
+	@Test // SPR-12634
+	public void customizeWellKnownModulesWithSerializer() throws JsonProcessingException, UnsupportedEncodingException {
 
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()
 				.serializerByType(Integer.class, new CustomIntegerSerializer()).build();
@@ -314,19 +314,19 @@ public class Jackson2ObjectMapperBuilderTests {
 		assertThat(new String(objectMapper.writeValueAsBytes(4), "UTF-8")).contains("customid");
 	}
 
-	@Test  // gh-22576
+	@Test // gh-22576
 	public void overrideWellKnownModuleWithModule() throws IOException {
 		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
 		JavaTimeModule javaTimeModule = new JavaTimeModule();
 		javaTimeModule.addDeserializer(OffsetDateTime.class, new OffsetDateTimeDeserializer());
 		builder.modulesToInstall(javaTimeModule);
 		builder.featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-		ObjectMapper objectMapper =  builder.build();
+		ObjectMapper objectMapper = builder.build();
 		DemoPojo demoPojo = objectMapper.readValue(DATA, DemoPojo.class);
 		assertThat(demoPojo.getOffsetDateTime()).isNotNull();
 	}
 
-	@Test  // gh-22740
+	@Test // gh-22740
 	public void registerMultipleModulesWithNullTypeId() {
 		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
 		SimpleModule fooModule = new SimpleModule();
@@ -335,14 +335,12 @@ public class Jackson2ObjectMapperBuilderTests {
 		barModule.addSerializer(new BarSerializer());
 		builder.modulesToInstall(fooModule, barModule);
 		ObjectMapper objectMapper = builder.build();
-		assertThat(StreamSupport
-		.stream(getSerializerFactoryConfig(objectMapper).serializers().spliterator(), false)
-		.filter(s -> s.findSerializer(null, SimpleType.construct(Foo.class), null) != null)
-		.count()).isEqualTo(1);
-		assertThat(StreamSupport
-		.stream(getSerializerFactoryConfig(objectMapper).serializers().spliterator(), false)
-		.filter(s -> s.findSerializer(null, SimpleType.construct(Bar.class), null) != null)
-		.count()).isEqualTo(1);
+		assertThat(StreamSupport.stream(getSerializerFactoryConfig(objectMapper).serializers().spliterator(), false)
+				.filter(s -> s.findSerializer(null, SimpleType.construct(Foo.class), null) != null).count())
+						.isEqualTo(1);
+		assertThat(StreamSupport.stream(getSerializerFactoryConfig(objectMapper).serializers().spliterator(), false)
+				.filter(s -> s.findSerializer(null, SimpleType.construct(Bar.class), null) != null).count())
+						.isEqualTo(1);
 	}
 
 	private static SerializerFactoryConfig getSerializerFactoryConfig(ObjectMapper objectMapper) {
@@ -364,10 +362,11 @@ public class Jackson2ObjectMapperBuilderTests {
 	@Test
 	public void serializerByType() {
 		JsonSerializer<Number> serializer = new NumberSerializer(Integer.class);
-		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()
-				.modules(new ArrayList<>())  // Disable well-known modules detection
-				.serializerByType(Boolean.class, serializer)
-				.build();
+		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().modules(new ArrayList<>()) // Disable
+																									// well-known
+																									// modules
+																									// detection
+				.serializerByType(Boolean.class, serializer).build();
 		assertThat(getSerializerFactoryConfig(objectMapper).hasSerializers()).isTrue();
 		Serializers serializers = getSerializerFactoryConfig(objectMapper).serializers().iterator().next();
 		assertThat(serializers.findSerializer(null, SimpleType.construct(Boolean.class), null)).isSameAs(serializer);
@@ -376,13 +375,15 @@ public class Jackson2ObjectMapperBuilderTests {
 	@Test
 	public void deserializerByType() throws JsonMappingException {
 		JsonDeserializer<Date> deserializer = new DateDeserializers.DateDeserializer();
-		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()
-				.modules(new ArrayList<>())  // Disable well-known modules detection
-				.deserializerByType(Date.class, deserializer)
-				.build();
+		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().modules(new ArrayList<>()) // Disable
+																									// well-known
+																									// modules
+																									// detection
+				.deserializerByType(Date.class, deserializer).build();
 		assertThat(getDeserializerFactoryConfig(objectMapper).hasDeserializers()).isTrue();
 		Deserializers deserializers = getDeserializerFactoryConfig(objectMapper).deserializers().iterator().next();
-		assertThat(deserializers.findBeanDeserializer(SimpleType.construct(Date.class), null, null)).isSameAs(deserializer);
+		assertThat(deserializers.findBeanDeserializer(SimpleType.construct(Date.class), null, null))
+				.isSameAs(deserializer);
 	}
 
 	@Test
@@ -390,9 +391,7 @@ public class Jackson2ObjectMapperBuilderTests {
 		Class<?> target = String.class;
 		Class<?> mixInSource = Object.class;
 
-		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()
-				.modules().mixIn(target, mixInSource)
-				.build();
+		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().modules().mixIn(target, mixInSource).build();
 
 		assertThat(objectMapper.mixInCount()).isEqualTo(1);
 		assertThat(objectMapper.findMixInClassFor(target)).isSameAs(mixInSource);
@@ -405,9 +404,7 @@ public class Jackson2ObjectMapperBuilderTests {
 		Map<Class<?>, Class<?>> mixIns = new HashMap<>();
 		mixIns.put(target, mixInSource);
 
-		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()
-				.modules().mixIns(mixIns)
-				.build();
+		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().modules().mixIns(mixIns).build();
 
 		assertThat(objectMapper.mixInCount()).isEqualTo(1);
 		assertThat(objectMapper.findMixInClassFor(target)).isSameAs(mixInSource);
@@ -422,8 +419,7 @@ public class Jackson2ObjectMapperBuilderTests {
 		assertThat(output).contains("value1");
 		assertThat(output).contains("value2");
 
-		SimpleFilterProvider provider = new SimpleFilterProvider()
-				.setFailOnUnknownId(false)
+		SimpleFilterProvider provider = new SimpleFilterProvider().setFailOnUnknownId(false)
 				.setDefaultFilter(SimpleBeanPropertyFilter.serializeAllExcept("property2"));
 		objectMapper = Jackson2ObjectMapperBuilder.json().filters(provider).build();
 		output = objectMapper.writeValueAsString(bean);
@@ -442,22 +438,19 @@ public class Jackson2ObjectMapperBuilderTests {
 		JsonSerializer<Class<?>> serializer1 = new ClassSerializer();
 		JsonSerializer<Number> serializer2 = new NumberSerializer(Integer.class);
 
-		Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json()
-				.modules(new ArrayList<>())  // Disable well-known modules detection
-				.serializers(serializer1)
-				.serializersByType(Collections.singletonMap(Boolean.class, serializer2))
-				.deserializersByType(deserializerMap)
-				.annotationIntrospector(introspector)
+		Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json().modules(new ArrayList<>()) // Disable
+																											// well-known
+																											// modules
+																											// detection
+				.serializers(serializer1).serializersByType(Collections.singletonMap(Boolean.class, serializer2))
+				.deserializersByType(deserializerMap).annotationIntrospector(introspector)
 				.annotationIntrospector(current -> AnnotationIntrospector.pair(current, introspector))
-				.featuresToEnable(SerializationFeature.FAIL_ON_EMPTY_BEANS,
-						DeserializationFeature.UNWRAP_ROOT_VALUE,
+				.featuresToEnable(SerializationFeature.FAIL_ON_EMPTY_BEANS, DeserializationFeature.UNWRAP_ROOT_VALUE,
 						JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER,
 						JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS)
-				.featuresToDisable(MapperFeature.AUTO_DETECT_GETTERS,
-						MapperFeature.AUTO_DETECT_FIELDS,
-						JsonParser.Feature.AUTO_CLOSE_SOURCE,
-						JsonGenerator.Feature.QUOTE_FIELD_NAMES)
-						.serializationInclusion(JsonInclude.Include.NON_NULL);
+				.featuresToDisable(MapperFeature.AUTO_DETECT_GETTERS, MapperFeature.AUTO_DETECT_FIELDS,
+						JsonParser.Feature.AUTO_CLOSE_SOURCE, JsonGenerator.Feature.QUOTE_FIELD_NAMES)
+				.serializationInclusion(JsonInclude.Include.NON_NULL);
 
 		ObjectMapper mapper = new ObjectMapper();
 		builder.configure(mapper);
@@ -471,12 +464,13 @@ public class Jackson2ObjectMapperBuilderTests {
 		assertThat(serializers.findSerializer(null, SimpleType.construct(Number.class), null)).isNull();
 
 		Deserializers deserializers = getDeserializerFactoryConfig(mapper).deserializers().iterator().next();
-		assertThat(deserializers.findBeanDeserializer(SimpleType.construct(Date.class), null, null)).isSameAs(deserializer);
+		assertThat(deserializers.findBeanDeserializer(SimpleType.construct(Date.class), null, null))
+				.isSameAs(deserializer);
 
-		AnnotationIntrospectorPair pair1 =
-				(AnnotationIntrospectorPair) mapper.getSerializationConfig().getAnnotationIntrospector();
-		AnnotationIntrospectorPair pair2 =
-				(AnnotationIntrospectorPair) mapper.getDeserializationConfig().getAnnotationIntrospector();
+		AnnotationIntrospectorPair pair1 = (AnnotationIntrospectorPair) mapper.getSerializationConfig()
+				.getAnnotationIntrospector();
+		AnnotationIntrospectorPair pair2 = (AnnotationIntrospectorPair) mapper.getDeserializationConfig()
+				.getAnnotationIntrospector();
 
 		assertThat(pair1.allIntrospectors()).containsExactly(introspector, introspector);
 		assertThat(pair2.allIntrospectors()).containsExactly(introspector, introspector);
@@ -488,7 +482,8 @@ public class Jackson2ObjectMapperBuilderTests {
 
 		assertThat(mapper.getSerializationConfig().isEnabled(MapperFeature.AUTO_DETECT_GETTERS)).isFalse();
 		assertThat(mapper.getDeserializationConfig().isEnabled(MapperFeature.DEFAULT_VIEW_INCLUSION)).isFalse();
-		assertThat(mapper.getDeserializationConfig().isEnabled(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)).isFalse();
+		assertThat(mapper.getDeserializationConfig().isEnabled(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES))
+				.isFalse();
 		assertThat(mapper.getDeserializationConfig().isEnabled(MapperFeature.AUTO_DETECT_FIELDS)).isFalse();
 		assertThat(mapper.getFactory().isEnabled(JsonParser.Feature.AUTO_CLOSE_SOURCE)).isFalse();
 		assertThat(mapper.getFactory().isEnabled(JsonGenerator.Feature.QUOTE_FIELD_NAMES)).isFalse();
@@ -502,7 +497,7 @@ public class Jackson2ObjectMapperBuilderTests {
 		assertThat(objectMapper.getClass()).isEqualTo(XmlMapper.class);
 	}
 
-	@Test  // gh-22428
+	@Test // gh-22428
 	public void xmlMapperAndCustomFactory() {
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.xml().factory(new MyXmlFactory()).build();
 		assertThat(objectMapper).isNotNull();
@@ -520,7 +515,7 @@ public class Jackson2ObjectMapperBuilderTests {
 		assertThat(xmlObjectMapper.getClass().isAssignableFrom(XmlMapper.class)).isTrue();
 	}
 
-	@Test  // SPR-13975
+	@Test // SPR-13975
 	public void defaultUseWrapper() throws JsonProcessingException {
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.xml().defaultUseWrapper(false).build();
 		assertThat(objectMapper).isNotNull();
@@ -530,21 +525,21 @@ public class Jackson2ObjectMapperBuilderTests {
 		assertThat(output).contains("<list>foo</list><list>bar</list></ListContainer>");
 	}
 
-	@Test  // SPR-14435
+	@Test // SPR-14435
 	public void smile() {
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.smile().build();
 		assertThat(objectMapper).isNotNull();
 		assertThat(objectMapper.getFactory().getClass()).isEqualTo(SmileFactory.class);
 	}
 
-	@Test  // SPR-14435
+	@Test // SPR-14435
 	public void cbor() {
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.cbor().build();
 		assertThat(objectMapper).isNotNull();
 		assertThat(objectMapper.getFactory().getClass()).isEqualTo(CBORFactory.class);
 	}
 
-	@Test  // SPR-14435
+	@Test // SPR-14435
 	public void factory() {
 		ObjectMapper objectMapper = new Jackson2ObjectMapperBuilder().factory(new SmileFactory()).build();
 		assertThat(objectMapper).isNotNull();
@@ -554,8 +549,7 @@ public class Jackson2ObjectMapperBuilderTests {
 	@Test
 	public void visibility() throws JsonProcessingException {
 		ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()
-				.visibility(PropertyAccessor.GETTER, Visibility.NONE)
-				.visibility(PropertyAccessor.FIELD, Visibility.ANY)
+				.visibility(PropertyAccessor.GETTER, Visibility.NONE).visibility(PropertyAccessor.FIELD, Visibility.ANY)
 				.build();
 
 		String json = objectMapper.writeValueAsString(new JacksonVisibilityBean());
@@ -563,7 +557,6 @@ public class Jackson2ObjectMapperBuilderTests {
 		assertThat(json).contains("property2");
 		assertThat(json).doesNotContain("property3");
 	}
-
 
 	public static class CustomIntegerModule extends Module {
 
@@ -583,21 +576,20 @@ public class Jackson2ObjectMapperBuilderTests {
 			serializers.addSerializer(Integer.class, new CustomIntegerSerializer());
 			context.addSerializers(serializers);
 		}
-	}
 
+	}
 
 	public static class CustomIntegerSerializer extends JsonSerializer<Integer> {
 
 		@Override
-		public void serialize(Integer value, JsonGenerator gen, SerializerProvider serializers)
-				throws IOException {
+		public void serialize(Integer value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
 
 			gen.writeStartObject();
 			gen.writeNumberField("customid", value);
 			gen.writeEndObject();
 		}
-	}
 
+	}
 
 	@JsonFilter("myJacksonFilter")
 	public static class JacksonFilteredBean {
@@ -611,6 +603,7 @@ public class Jackson2ObjectMapperBuilderTests {
 		}
 
 		private String property1;
+
 		private String property2;
 
 		public String getProperty1() {
@@ -628,8 +621,8 @@ public class Jackson2ObjectMapperBuilderTests {
 		public void setProperty2(String property2) {
 			this.property2 = property2;
 		}
-	}
 
+	}
 
 	public static class ListContainer<T> {
 
@@ -649,8 +642,8 @@ public class Jackson2ObjectMapperBuilderTests {
 		public void setList(List<T> list) {
 			this.list = list;
 		}
-	}
 
+	}
 
 	public static class JacksonVisibilityBean {
 
@@ -662,15 +655,16 @@ public class Jackson2ObjectMapperBuilderTests {
 		public String getProperty3() {
 			return null;
 		}
-	}
 
+	}
 
 	static class OffsetDateTimeDeserializer extends JsonDeserializer<OffsetDateTime> {
 
 		private static final String CURRENT_ZONE_OFFSET = OffsetDateTime.now().getOffset().toString();
 
 		@Override
-		public OffsetDateTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+		public OffsetDateTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
+				throws IOException {
 			final String value = jsonParser.getValueAsString();
 			if (StringUtils.isEmpty(value)) {
 				return null;
@@ -683,8 +677,8 @@ public class Jackson2ObjectMapperBuilderTests {
 				return OffsetDateTime.parse(value + CURRENT_ZONE_OFFSET);
 			}
 		}
-	}
 
+	}
 
 	@JsonDeserialize
 	static class DemoPojo {
@@ -698,19 +692,24 @@ public class Jackson2ObjectMapperBuilderTests {
 		public void setOffsetDateTime(OffsetDateTime offsetDateTime) {
 			this.offsetDateTime = offsetDateTime;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	public static class MyXmlFactory extends XmlFactory {
+
 	}
 
+	static class Foo {
 
-	static class Foo {}
+	}
 
-	static class Bar {}
+	static class Bar {
+
+	}
 
 	static class FooSerializer extends JsonSerializer<Foo> {
+
 		@Override
 		public void serialize(Foo value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
 		}
@@ -719,16 +718,20 @@ public class Jackson2ObjectMapperBuilderTests {
 		public Class<Foo> handledType() {
 			return Foo.class;
 		}
+
 	}
 
 	static class BarSerializer extends JsonSerializer<Bar> {
+
 		@Override
 		public void serialize(Bar value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
 		}
+
 		@Override
 		public Class<Bar> handledType() {
 			return Bar.class;
 		}
+
 	}
 
 }

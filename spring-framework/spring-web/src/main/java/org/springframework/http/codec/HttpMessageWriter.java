@@ -31,8 +31,8 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.lang.Nullable;
 
 /**
- * Strategy for encoding a stream of objects of type {@code <T>} and writing
- * the encoded stream of bytes to an {@link ReactiveHttpOutputMessage}.
+ * Strategy for encoding a stream of objects of type {@code <T>} and writing the encoded
+ * stream of bytes to an {@link ReactiveHttpOutputMessage}.
  *
  * @author Rossen Stoyanchev
  * @author Arjen Poutsma
@@ -60,32 +60,32 @@ public interface HttpMessageWriter<T> {
 	 * @param inputStream the objects to write
 	 * @param elementType the type of objects in the stream which must have been
 	 * previously checked via {@link #canWrite(ResolvableType, MediaType)}
-	 * @param mediaType the content type for the write (possibly {@code null} to
-	 * indicate that the default content type of the writer must be used)
+	 * @param mediaType the content type for the write (possibly {@code null} to indicate
+	 * that the default content type of the writer must be used)
 	 * @param message the message to write to
 	 * @param hints additional information about how to encode and write
 	 * @return indicates completion or error
 	 */
-	Mono<Void> write(Publisher<? extends T> inputStream, ResolvableType elementType,
-			@Nullable MediaType mediaType, ReactiveHttpOutputMessage message, Map<String, Object> hints);
+	Mono<Void> write(Publisher<? extends T> inputStream, ResolvableType elementType, @Nullable MediaType mediaType,
+			ReactiveHttpOutputMessage message, Map<String, Object> hints);
 
 	/**
 	 * Server-side only alternative to
 	 * {@link #write(Publisher, ResolvableType, MediaType, ReactiveHttpOutputMessage, Map)}
 	 * with additional context available.
-	 * @param actualType the actual return type of the method that returned the
-	 * value; for annotated controllers, the {@link MethodParameter} can be
-	 * accessed via {@link ResolvableType#getSource()}.
+	 * @param actualType the actual return type of the method that returned the value; for
+	 * annotated controllers, the {@link MethodParameter} can be accessed via
+	 * {@link ResolvableType#getSource()}.
 	 * @param elementType the type of Objects in the input stream
-	 * @param mediaType the content type to use (possibly {@code null} indicating
-	 * the default content type of the writer should be used)
+	 * @param mediaType the content type to use (possibly {@code null} indicating the
+	 * default content type of the writer should be used)
 	 * @param request the current request
 	 * @param response the current response
 	 * @return a {@link Mono} that indicates completion of writing or error
 	 */
-	default Mono<Void> write(Publisher<? extends T> inputStream, ResolvableType actualType,
-			ResolvableType elementType, @Nullable MediaType mediaType, ServerHttpRequest request,
-			ServerHttpResponse response, Map<String, Object> hints) {
+	default Mono<Void> write(Publisher<? extends T> inputStream, ResolvableType actualType, ResolvableType elementType,
+			@Nullable MediaType mediaType, ServerHttpRequest request, ServerHttpResponse response,
+			Map<String, Object> hints) {
 
 		return write(inputStream, elementType, mediaType, response, hints);
 	}

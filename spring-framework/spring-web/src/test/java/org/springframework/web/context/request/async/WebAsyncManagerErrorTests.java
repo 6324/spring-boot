@@ -37,8 +37,8 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.web.context.request.async.CallableProcessingInterceptor.RESULT_NONE;
 
 /**
- * {@link WebAsyncManager} tests where container-triggered error/completion
- * events are simulated.
+ * {@link WebAsyncManager} tests where container-triggered error/completion events are
+ * simulated.
  *
  * @author Violeta Georgieva
  * @since 5.0
@@ -53,7 +53,6 @@ public class WebAsyncManagerErrorTests {
 
 	private MockHttpServletResponse servletResponse;
 
-
 	@BeforeEach
 	public void setup() {
 		this.servletRequest = new MockHttpServletRequest("GET", "/test");
@@ -67,7 +66,6 @@ public class WebAsyncManagerErrorTests {
 		this.asyncManager.setTaskExecutor(executor);
 		this.asyncManager.setAsyncWebRequest(this.asyncWebRequest);
 	}
-
 
 	@Test
 	public void startCallableProcessingErrorAndComplete() throws Exception {
@@ -272,12 +270,13 @@ public class WebAsyncManagerErrorTests {
 		assertThat(((MockAsyncContext) this.servletRequest.getAsyncContext()).getDispatchedPath()).isEqualTo("/test");
 	}
 
-
 	private final class StubCallable implements Callable<Object> {
+
 		@Override
 		public Object call() throws Exception {
 			return 21;
 		}
+
 	}
 
 }

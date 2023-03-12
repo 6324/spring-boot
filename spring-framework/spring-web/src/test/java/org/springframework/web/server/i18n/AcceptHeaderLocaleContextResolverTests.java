@@ -48,7 +48,6 @@ public class AcceptHeaderLocaleContextResolverTests {
 
 	private final AcceptHeaderLocaleContextResolver resolver = new AcceptHeaderLocaleContextResolver();
 
-
 	@Test
 	public void resolve() {
 		assertThat(this.resolver.resolveLocaleContext(exchange(CANADA)).getLocale()).isEqualTo(CANADA);
@@ -126,7 +125,8 @@ public class AcceptHeaderLocaleContextResolverTests {
 
 	@Test
 	public void resolveInvalidAcceptLanguageHeader() {
-		MockServerHttpRequest request = MockServerHttpRequest.get("/").header(HttpHeaders.ACCEPT_LANGUAGE, "en_US").build();
+		MockServerHttpRequest request = MockServerHttpRequest.get("/").header(HttpHeaders.ACCEPT_LANGUAGE, "en_US")
+				.build();
 		MockServerWebExchange exchange = MockServerWebExchange.from(request);
 		assertThat(this.resolver.resolveLocaleContext(exchange).getLocale()).isNull();
 	}
@@ -135,7 +135,8 @@ public class AcceptHeaderLocaleContextResolverTests {
 	public void resolveInvalidAcceptLanguageHeaderWithDefault() {
 		this.resolver.setDefaultLocale(US);
 
-		MockServerHttpRequest request = MockServerHttpRequest.get("/").header(HttpHeaders.ACCEPT_LANGUAGE, "en_US").build();
+		MockServerHttpRequest request = MockServerHttpRequest.get("/").header(HttpHeaders.ACCEPT_LANGUAGE, "en_US")
+				.build();
 		MockServerWebExchange exchange = MockServerWebExchange.from(request);
 		assertThat(this.resolver.resolveLocaleContext(exchange).getLocale()).isEqualTo(US);
 	}
@@ -151,7 +152,6 @@ public class AcceptHeaderLocaleContextResolverTests {
 		exchange = MockServerWebExchange.from(request);
 		assertThat(this.resolver.resolveLocaleContext(exchange).getLocale()).isEqualTo(US);
 	}
-
 
 	private ServerWebExchange exchange(Locale... locales) {
 		return MockServerWebExchange.from(MockServerHttpRequest.get("").acceptLanguageAsLocales(locales));

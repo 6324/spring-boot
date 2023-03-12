@@ -57,16 +57,18 @@ public class Jaxb2CollectionHttpMessageConverterTests {
 
 	private Type typeSetType;
 
-
 	@BeforeEach
 	public void setup() {
 		converter = new Jaxb2CollectionHttpMessageConverter<Collection<Object>>();
-		rootElementListType = new ParameterizedTypeReference<List<RootElement>>() {}.getType();
-		rootElementSetType = new ParameterizedTypeReference<Set<RootElement>>() {}.getType();
-		typeListType = new ParameterizedTypeReference<List<TestType>>() {}.getType();
-		typeSetType = new ParameterizedTypeReference<Set<TestType>>() {}.getType();
+		rootElementListType = new ParameterizedTypeReference<List<RootElement>>() {
+		}.getType();
+		rootElementSetType = new ParameterizedTypeReference<Set<RootElement>>() {
+		}.getType();
+		typeListType = new ParameterizedTypeReference<List<TestType>>() {
+		}.getType();
+		typeSetType = new ParameterizedTypeReference<Set<TestType>>() {
+		}.getType();
 	}
-
 
 	@Test
 	public void canRead() {
@@ -127,10 +129,9 @@ public class Jaxb2CollectionHttpMessageConverterTests {
 	@SuppressWarnings("unchecked")
 	public void readXmlRootElementExternalEntityDisabled() throws Exception {
 		Resource external = new ClassPathResource("external.txt", getClass());
-		String content =  "<!DOCTYPE root [" +
-				"  <!ELEMENT external ANY >\n" +
-				"  <!ENTITY ext SYSTEM \"" + external.getURI() + "\" >]>" +
-				"  <list><rootElement><type s=\"1\"/><external>&ext;</external></rootElement></list>";
+		String content = "<!DOCTYPE root [" + "  <!ELEMENT external ANY >\n" + "  <!ENTITY ext SYSTEM \""
+				+ external.getURI() + "\" >]>"
+				+ "  <list><rootElement><type s=\"1\"/><external>&ext;</external></rootElement></list>";
 		MockHttpInputMessage inputMessage = new MockHttpInputMessage(content.getBytes("UTF-8"));
 
 		converter = new Jaxb2CollectionHttpMessageConverter<Collection<Object>>() {
@@ -156,10 +157,9 @@ public class Jaxb2CollectionHttpMessageConverterTests {
 	@SuppressWarnings("unchecked")
 	public void readXmlRootElementExternalEntityEnabled() throws Exception {
 		Resource external = new ClassPathResource("external.txt", getClass());
-		String content =  "<!DOCTYPE root [" +
-				"  <!ELEMENT external ANY >\n" +
-				"  <!ENTITY ext SYSTEM \"" + external.getURI() + "\" >]>" +
-				"  <list><rootElement><type s=\"1\"/><external>&ext;</external></rootElement></list>";
+		String content = "<!DOCTYPE root [" + "  <!ELEMENT external ANY >\n" + "  <!ENTITY ext SYSTEM \""
+				+ external.getURI() + "\" >]>"
+				+ "  <list><rootElement><type s=\"1\"/><external>&ext;</external></rootElement></list>";
 		MockHttpInputMessage inputMessage = new MockHttpInputMessage(content.getBytes("UTF-8"));
 
 		Jaxb2CollectionHttpMessageConverter<?> c = new Jaxb2CollectionHttpMessageConverter<Collection<Object>>() {
@@ -180,27 +180,23 @@ public class Jaxb2CollectionHttpMessageConverterTests {
 	public void testXmlBomb() throws Exception {
 		// https://en.wikipedia.org/wiki/Billion_laughs
 		// https://msdn.microsoft.com/en-us/magazine/ee335713.aspx
-		String content = "<?xml version=\"1.0\"?>\n" +
-				"<!DOCTYPE lolz [\n" +
-				" <!ENTITY lol \"lol\">\n" +
-				" <!ELEMENT lolz (#PCDATA)>\n" +
-				" <!ENTITY lol1 \"&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;\">\n" +
-				" <!ENTITY lol2 \"&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;\">\n" +
-				" <!ENTITY lol3 \"&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;\">\n" +
-				" <!ENTITY lol4 \"&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;\">\n" +
-				" <!ENTITY lol5 \"&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;\">\n" +
-				" <!ENTITY lol6 \"&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;\">\n" +
-				" <!ENTITY lol7 \"&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;\">\n" +
-				" <!ENTITY lol8 \"&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;\">\n" +
-				" <!ENTITY lol9 \"&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;\">\n" +
-				"]>\n" +
-				"<list><rootElement><external>&lol9;</external></rootElement></list>";
+		String content = "<?xml version=\"1.0\"?>\n" + "<!DOCTYPE lolz [\n" + " <!ENTITY lol \"lol\">\n"
+				+ " <!ELEMENT lolz (#PCDATA)>\n"
+				+ " <!ENTITY lol1 \"&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;\">\n"
+				+ " <!ENTITY lol2 \"&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;\">\n"
+				+ " <!ENTITY lol3 \"&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;\">\n"
+				+ " <!ENTITY lol4 \"&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;\">\n"
+				+ " <!ENTITY lol5 \"&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;\">\n"
+				+ " <!ENTITY lol6 \"&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;\">\n"
+				+ " <!ENTITY lol7 \"&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;\">\n"
+				+ " <!ENTITY lol8 \"&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;\">\n"
+				+ " <!ENTITY lol9 \"&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;\">\n" + "]>\n"
+				+ "<list><rootElement><external>&lol9;</external></rootElement></list>";
 		MockHttpInputMessage inputMessage = new MockHttpInputMessage(content.getBytes("UTF-8"));
-		assertThatExceptionOfType(HttpMessageNotReadableException.class).isThrownBy(() ->
-				this.converter.read(this.rootElementListType, null, inputMessage))
-			.withMessageContaining("\"lol9\"");
+		assertThatExceptionOfType(HttpMessageNotReadableException.class)
+				.isThrownBy(() -> this.converter.read(this.rootElementListType, null, inputMessage))
+				.withMessageContaining("\"lol9\"");
 	}
-
 
 	@XmlRootElement
 	public static class RootElement {
@@ -215,7 +211,7 @@ public class Jaxb2CollectionHttpMessageConverterTests {
 		@XmlElement
 		public TestType type = new TestType();
 
-		@XmlElement(required=false)
+		@XmlElement(required = false)
 		public String external;
 
 		@Override
@@ -234,8 +230,8 @@ public class Jaxb2CollectionHttpMessageConverterTests {
 		public int hashCode() {
 			return type.hashCode();
 		}
-	}
 
+	}
 
 	@XmlType
 	public static class TestType {
@@ -266,6 +262,7 @@ public class Jaxb2CollectionHttpMessageConverterTests {
 		public int hashCode() {
 			return s.hashCode();
 		}
+
 	}
 
 }

@@ -55,7 +55,6 @@ public abstract class AbstractHtmlElementTagTests extends AbstractTagTests {
 
 	private MockPageContext pageContext;
 
-
 	@BeforeEach
 	public final void setUp() throws Exception {
 		// set up a writer for the tag content to be written to
@@ -114,8 +113,7 @@ public abstract class AbstractHtmlElementTagTests extends AbstractTagTests {
 
 	protected void exposeBindingResult(Errors errors) {
 		// wrap errors in a Model
-		Map<String, Object> model = Collections.singletonMap(
-				BindingResult.MODEL_KEY_PREFIX + COMMAND_NAME, errors);
+		Map<String, Object> model = Collections.singletonMap(BindingResult.MODEL_KEY_PREFIX + COMMAND_NAME, errors);
 
 		// replace the request context with one containing the errors
 		MockPageContext pageContext = getPageContext();
@@ -125,9 +123,8 @@ public abstract class AbstractHtmlElementTagTests extends AbstractTagTests {
 
 	protected final void assertContainsAttribute(String output, String attributeName, String attributeValue) {
 		String attributeString = attributeName + "=\"" + attributeValue + "\"";
-		assertThat(output.contains(attributeString)).as("Expected to find attribute '" + attributeName +
-				"' with value '" + attributeValue +
-				"' in output + '" + output + "'").isTrue();
+		assertThat(output.contains(attributeString)).as("Expected to find attribute '" + attributeName
+				+ "' with value '" + attributeValue + "' in output + '" + output + "'").isTrue();
 	}
 
 	protected final void assertAttributeNotPresent(String output, String attributeName) {
@@ -137,7 +134,9 @@ public abstract class AbstractHtmlElementTagTests extends AbstractTagTests {
 
 	protected final void assertBlockTagContains(String output, String desiredContents) {
 		String contents = output.substring(output.indexOf(">") + 1, output.lastIndexOf("<"));
-		assertThat(contents.contains(desiredContents)).as("Expected to find '" + desiredContents + "' in the contents of block tag '" + output + "'").isTrue();
+		assertThat(contents.contains(desiredContents))
+				.as("Expected to find '" + desiredContents + "' in the contents of block tag '" + output + "'")
+				.isTrue();
 	}
 
 }

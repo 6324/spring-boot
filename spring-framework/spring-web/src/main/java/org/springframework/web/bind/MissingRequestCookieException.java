@@ -19,9 +19,8 @@ package org.springframework.web.bind;
 import org.springframework.core.MethodParameter;
 
 /**
- * {@link ServletRequestBindingException} subclass that indicates
- * that a request cookie expected in the method parameters of an
- * {@code @RequestMapping} method is not present.
+ * {@link ServletRequestBindingException} subclass that indicates that a request cookie
+ * expected in the method parameters of an {@code @RequestMapping} method is not present.
  *
  * @author Juergen Hoeller
  * @since 5.1
@@ -34,7 +33,6 @@ public class MissingRequestCookieException extends ServletRequestBindingExceptio
 
 	private final MethodParameter parameter;
 
-
 	/**
 	 * Constructor for MissingRequestCookieException.
 	 * @param cookieName the name of the missing request cookie
@@ -46,11 +44,10 @@ public class MissingRequestCookieException extends ServletRequestBindingExceptio
 		this.parameter = parameter;
 	}
 
-
 	@Override
 	public String getMessage() {
-		return "Missing cookie '" + this.cookieName +
-				"' for method parameter of type " + this.parameter.getNestedParameterType().getSimpleName();
+		return "Missing cookie '" + this.cookieName + "' for method parameter of type "
+				+ this.parameter.getNestedParameterType().getSimpleName();
 	}
 
 	/**

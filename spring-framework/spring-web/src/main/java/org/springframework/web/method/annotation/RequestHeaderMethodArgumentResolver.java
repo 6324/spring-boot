@@ -29,16 +29,18 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.context.request.NativeWebRequest;
 
 /**
- * Resolves method arguments annotated with {@code @RequestHeader} except for
- * {@link Map} arguments. See {@link RequestHeaderMapMethodArgumentResolver} for
- * details on {@link Map} arguments annotated with {@code @RequestHeader}.
+ * Resolves method arguments annotated with {@code @RequestHeader} except for {@link Map}
+ * arguments. See {@link RequestHeaderMapMethodArgumentResolver} for details on
+ * {@link Map} arguments annotated with {@code @RequestHeader}.
  *
- * <p>An {@code @RequestHeader} is a named value resolved from a request header.
- * It has a required flag and a default value to fall back on when the request
- * header does not exist.
+ * <p>
+ * An {@code @RequestHeader} is a named value resolved from a request header. It has a
+ * required flag and a default value to fall back on when the request header does not
+ * exist.
  *
- * <p>A {@link WebDataBinder} is invoked to apply type conversion to resolved
- * request header values that don't yet match the method parameter type.
+ * <p>
+ * A {@link WebDataBinder} is invoked to apply type conversion to resolved request header
+ * values that don't yet match the method parameter type.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -48,19 +50,18 @@ public class RequestHeaderMethodArgumentResolver extends AbstractNamedValueMetho
 
 	/**
 	 * Create a new {@link RequestHeaderMethodArgumentResolver} instance.
-	 * @param beanFactory a bean factory to use for resolving  ${...}
-	 * placeholder and #{...} SpEL expressions in default values;
-	 * or {@code null} if default values are not expected to have expressions
+	 * @param beanFactory a bean factory to use for resolving ${...} placeholder and
+	 * #{...} SpEL expressions in default values; or {@code null} if default values are
+	 * not expected to have expressions
 	 */
 	public RequestHeaderMethodArgumentResolver(@Nullable ConfigurableBeanFactory beanFactory) {
 		super(beanFactory);
 	}
 
-
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return (parameter.hasParameterAnnotation(RequestHeader.class) &&
-				!Map.class.isAssignableFrom(parameter.nestedIfOptional().getNestedParameterType()));
+		return (parameter.hasParameterAnnotation(RequestHeader.class)
+				&& !Map.class.isAssignableFrom(parameter.nestedIfOptional().getNestedParameterType()));
 	}
 
 	@Override
@@ -87,12 +88,12 @@ public class RequestHeaderMethodArgumentResolver extends AbstractNamedValueMetho
 		throw new MissingRequestHeaderException(name, parameter);
 	}
 
-
 	private static final class RequestHeaderNamedValueInfo extends NamedValueInfo {
 
 		private RequestHeaderNamedValueInfo(RequestHeader annotation) {
 			super(annotation.name(), annotation.required(), annotation.defaultValue());
 		}
+
 	}
 
 }

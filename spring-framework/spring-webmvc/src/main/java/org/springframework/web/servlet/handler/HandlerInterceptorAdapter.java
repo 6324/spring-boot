@@ -24,8 +24,8 @@ import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Abstract adapter class for the {@link AsyncHandlerInterceptor} interface,
- * for simplified implementation of pre-only/post-only interceptors.
+ * Abstract adapter class for the {@link AsyncHandlerInterceptor} interface, for
+ * simplified implementation of pre-only/post-only interceptors.
  *
  * @author Juergen Hoeller
  * @since 05.12.2003
@@ -62,8 +62,8 @@ public abstract class HandlerInterceptorAdapter implements AsyncHandlerIntercept
 	 * This implementation is empty.
 	 */
 	@Override
-	public void afterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response,
-			Object handler) throws Exception {
+	public void afterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
 	}
 
 }

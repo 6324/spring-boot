@@ -26,25 +26,24 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.util.TagUtils;
 
 /**
- * The {@code <transform>} tag provides transformation for reference data values
- * from controllers and other objects inside a {@code spring:bind} tag (or a
- * data-bound form element tag from Spring's form tag library).
+ * The {@code <transform>} tag provides transformation for reference data values from
+ * controllers and other objects inside a {@code spring:bind} tag (or a data-bound form
+ * element tag from Spring's form tag library).
  *
- * <p>The BindTag has a PropertyEditor that it uses to transform properties of
- * a bean to a String, usable in HTML forms. This tag uses that PropertyEditor
- * to transform objects passed into this tag.
+ * <p>
+ * The BindTag has a PropertyEditor that it uses to transform properties of a bean to a
+ * String, usable in HTML forms. This tag uses that PropertyEditor to transform objects
+ * passed into this tag.
  *
  * <table>
- * <caption>Attribute Summary</caption>
- * <thead>
+ * <caption>Attribute Summary</caption> <thead>
  * <tr>
  * <th>Attribute</th>
  * <th>Required?</th>
  * <th>Runtime Expression?</th>
  * <th>Description</th>
  * </tr>
- * </thead>
- * <tbody>
+ * </thead> <tbody>
  * <tr>
  * <td>htmlEscape</td>
  * <td>false</td>
@@ -56,25 +55,25 @@ import org.springframework.web.util.TagUtils;
  * <td>scope</td>
  * <td>false</td>
  * <td>true</td>
- * <td>The scope to use when exported the result to a variable. This attribute
- * is only used when var is also set. Possible values are page, request, session
- * and application.</td>
+ * <td>The scope to use when exported the result to a variable. This attribute is only
+ * used when var is also set. Possible values are page, request, session and
+ * application.</td>
  * </tr>
  * <tr>
  * <td>value</td>
  * <td>true</td>
  * <td>true</td>
- * <td>The value to transform. This is the actual object you want to have
- * transformed (for instance a Date). Using the PropertyEditor that is currently
- * in use by the 'spring:bind' tag.</td>
+ * <td>The value to transform. This is the actual object you want to have transformed (for
+ * instance a Date). Using the PropertyEditor that is currently in use by the
+ * 'spring:bind' tag.</td>
  * </tr>
  * <tr>
  * <td>var</td>
  * <td>false</td>
  * <td>true</td>
- * <td>The string to use when binding the result to the page, request, session
- * or application scope. If not specified, the result gets outputted to the
- * writer (i.e. typically directly to the JSP).</td>
+ * <td>The string to use when binding the result to the page, request, session or
+ * application scope. If not specified, the result gets outputted to the writer (i.e.
+ * typically directly to the JSP).</td>
  * </tr>
  * </tbody>
  * </table>
@@ -98,21 +97,21 @@ public class TransformTag extends HtmlEscapingAwareTag {
 	/** the scope of the variable the result will be put in. */
 	private String scope = TagUtils.SCOPE_PAGE;
 
-
 	/**
-	 * Set the value to transform, using the appropriate PropertyEditor
-	 * from the enclosing BindTag.
-	 * <p>The value can either be a plain value to transform (a hard-coded String
-	 * value in a JSP or a JSP expression), or a JSP EL expression to be evaluated
-	 * (transforming the result of the expression).
+	 * Set the value to transform, using the appropriate PropertyEditor from the enclosing
+	 * BindTag.
+	 * <p>
+	 * The value can either be a plain value to transform (a hard-coded String value in a
+	 * JSP or a JSP expression), or a JSP EL expression to be evaluated (transforming the
+	 * result of the expression).
 	 */
 	public void setValue(Object value) {
 		this.value = value;
 	}
 
 	/**
-	 * Set PageContext attribute name under which to expose
-	 * a variable that contains the result of the transformation.
+	 * Set PageContext attribute name under which to expose a variable that contains the
+	 * result of the transformation.
 	 * @see #setScope
 	 * @see javax.servlet.jsp.PageContext#setAttribute
 	 */
@@ -121,8 +120,7 @@ public class TransformTag extends HtmlEscapingAwareTag {
 	}
 
 	/**
-	 * Set the scope to export the variable to.
-	 * Default is SCOPE_PAGE ("page").
+	 * Set the scope to export the variable to. Default is SCOPE_PAGE ("page").
 	 * @see #setVar
 	 * @see org.springframework.web.util.TagUtils#SCOPE_PAGE
 	 * @see javax.servlet.jsp.PageContext#setAttribute
@@ -130,7 +128,6 @@ public class TransformTag extends HtmlEscapingAwareTag {
 	public void setScope(String scope) {
 		this.scope = scope;
 	}
-
 
 	@Override
 	protected final int doStartTagInternal() throws JspException {

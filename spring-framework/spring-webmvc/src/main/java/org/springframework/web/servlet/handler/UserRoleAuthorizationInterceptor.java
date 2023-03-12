@@ -25,8 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.lang.Nullable;
 
 /**
- * Interceptor that checks the authorization of the current user via the
- * user's roles, as evaluated by HttpServletRequest's isUserInRole method.
+ * Interceptor that checks the authorization of the current user via the user's roles, as
+ * evaluated by HttpServletRequest's isUserInRole method.
  *
  * @author Juergen Hoeller
  * @since 20.06.2003
@@ -37,7 +37,6 @@ public class UserRoleAuthorizationInterceptor extends HandlerInterceptorAdapter 
 	@Nullable
 	private String[] authorizedRoles;
 
-
 	/**
 	 * Set the roles that this interceptor should treat as authorized.
 	 * @param authorizedRoles array of role names
@@ -45,7 +44,6 @@ public class UserRoleAuthorizationInterceptor extends HandlerInterceptorAdapter 
 	public final void setAuthorizedRoles(String... authorizedRoles) {
 		this.authorizedRoles = authorizedRoles;
 	}
-
 
 	@Override
 	public final boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -63,10 +61,11 @@ public class UserRoleAuthorizationInterceptor extends HandlerInterceptorAdapter 
 	}
 
 	/**
-	 * Handle a request that is not authorized according to this interceptor.
-	 * Default implementation sends HTTP status code 403 ("forbidden").
-	 * <p>This method can be overridden to write a custom message, forward or
-	 * redirect to some error page or login page, or throw a ServletException.
+	 * Handle a request that is not authorized according to this interceptor. Default
+	 * implementation sends HTTP status code 403 ("forbidden").
+	 * <p>
+	 * This method can be overridden to write a custom message, forward or redirect to
+	 * some error page or login page, or throw a ServletException.
 	 * @param request current HTTP request
 	 * @param response current HTTP response
 	 * @param handler chosen handler to execute, for type and/or instance evaluation

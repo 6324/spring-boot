@@ -38,37 +38,31 @@ import org.springframework.lang.Nullable;
  */
 class ResourceHandlerFunction implements HandlerFunction<ServerResponse> {
 
-	private static final Set<HttpMethod> SUPPORTED_METHODS =
-			EnumSet.of(HttpMethod.GET, HttpMethod.HEAD, HttpMethod.OPTIONS);
-
+	private static final Set<HttpMethod> SUPPORTED_METHODS = EnumSet.of(HttpMethod.GET, HttpMethod.HEAD,
+			HttpMethod.OPTIONS);
 
 	private final Resource resource;
-
 
 	public ResourceHandlerFunction(Resource resource) {
 		this.resource = resource;
 	}
-
 
 	@Override
 	public ServerResponse handle(ServerRequest request) {
 		HttpMethod method = request.method();
 		if (method != null) {
 			switch (method) {
-				case GET:
-					return EntityResponse.fromObject(this.resource).build();
-				case HEAD:
-					Resource headResource = new HeadMethodResource(this.resource);
-					return EntityResponse.fromObject(headResource).build();
-				case OPTIONS:
-					return ServerResponse.ok()
-							.allow(SUPPORTED_METHODS).build();
+			case GET:
+				return EntityResponse.fromObject(this.resource).build();
+			case HEAD:
+				Resource headResource = new HeadMethodResource(this.resource);
+				return EntityResponse.fromObject(headResource).build();
+			case OPTIONS:
+				return ServerResponse.ok().allow(SUPPORTED_METHODS).build();
 			}
 		}
-		return ServerResponse.status(HttpStatus.METHOD_NOT_ALLOWED)
-				.allow(SUPPORTED_METHODS).build();
+		return ServerResponse.status(HttpStatus.METHOD_NOT_ALLOWED).allow(SUPPORTED_METHODS).build();
 	}
-
 
 	private static class HeadMethodResource implements Resource {
 
@@ -132,6 +126,7 @@ class ResourceHandlerFunction implements HandlerFunction<ServerResponse> {
 		public String getDescription() {
 			return this.delegate.getDescription();
 		}
+
 	}
 
 }

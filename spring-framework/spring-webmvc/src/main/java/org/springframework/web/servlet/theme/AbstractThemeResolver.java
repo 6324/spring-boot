@@ -19,8 +19,8 @@ package org.springframework.web.servlet.theme;
 import org.springframework.web.servlet.ThemeResolver;
 
 /**
- * Abstract base class for {@link ThemeResolver} implementations.
- * Provides support for a default theme name.
+ * Abstract base class for {@link ThemeResolver} implementations. Provides support for a
+ * default theme name.
  *
  * @author Juergen Hoeller
  * @author Jean-Pierre Pawlak
@@ -35,10 +35,8 @@ public abstract class AbstractThemeResolver implements ThemeResolver {
 
 	private String defaultThemeName = ORIGINAL_DEFAULT_THEME_NAME;
 
-
 	/**
-	 * Set the name of the default theme.
-	 * Out-of-the-box value is "theme".
+	 * Set the name of the default theme. Out-of-the-box value is "theme".
 	 */
 	public void setDefaultThemeName(String defaultThemeName) {
 		this.defaultThemeName = defaultThemeName;

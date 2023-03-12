@@ -23,8 +23,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.core.io.Resource;
 
 /**
- * A contract for invoking a chain of {@link ResourceTransformer ResourceTransformers} where each resolver
- * is given a reference to the chain allowing it to delegate when necessary.
+ * A contract for invoking a chain of {@link ResourceTransformer ResourceTransformers}
+ * where each resolver is given a reference to the chain allowing it to delegate when
+ * necessary.
  *
  * @author Rossen Stoyanchev
  * @since 4.1
@@ -33,8 +34,8 @@ public interface ResourceTransformerChain {
 
 	/**
 	 * Return the {@code ResourceResolverChain} that was used to resolve the
-	 * {@code Resource} being transformed. This may be needed for resolving
-	 * related resources, e.g. links to other resources.
+	 * {@code Resource} being transformed. This may be needed for resolving related
+	 * resources, e.g. links to other resources.
 	 */
 	ResourceResolverChain getResolverChain();
 

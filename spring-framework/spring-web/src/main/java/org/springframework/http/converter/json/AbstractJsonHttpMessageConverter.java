@@ -38,8 +38,9 @@ import org.springframework.lang.Nullable;
 /**
  * Common base class for plain JSON converters, e.g. Gson and JSON-B.
  *
- * <p>Note that the Jackson converters have a dedicated class hierarchy
- * due to their multi-format support.
+ * <p>
+ * Note that the Jackson converters have a dedicated class hierarchy due to their
+ * multi-format support.
  *
  * @author Juergen Hoeller
  * @since 5.0
@@ -58,12 +59,10 @@ public abstract class AbstractJsonHttpMessageConverter extends AbstractGenericHt
 	@Nullable
 	private String jsonPrefix;
 
-
 	public AbstractJsonHttpMessageConverter() {
 		super(MediaType.APPLICATION_JSON, new MediaType("application", "*+json"));
 		setDefaultCharset(DEFAULT_CHARSET);
 	}
-
 
 	/**
 	 * Specify a custom prefix to use for JSON output. Default is none.
@@ -76,16 +75,15 @@ public abstract class AbstractJsonHttpMessageConverter extends AbstractGenericHt
 	/**
 	 * Indicate whether the JSON output by this view should be prefixed with ")]}', ".
 	 * Default is {@code false}.
-	 * <p>Prefixing the JSON string in this manner is used to help prevent JSON
-	 * Hijacking. The prefix renders the string syntactically invalid as a script
-	 * so that it cannot be hijacked.
-	 * This prefix should be stripped before parsing the string as JSON.
+	 * <p>
+	 * Prefixing the JSON string in this manner is used to help prevent JSON Hijacking.
+	 * The prefix renders the string syntactically invalid as a script so that it cannot
+	 * be hijacked. This prefix should be stripped before parsing the string as JSON.
 	 * @see #setJsonPrefix
 	 */
 	public void setPrefixJson(boolean prefixJson) {
 		this.jsonPrefix = (prefixJson ? ")]}', " : null);
 	}
-
 
 	@Override
 	public final Object read(Type type, @Nullable Class<?> contextClass, HttpInputMessage inputMessage)
@@ -130,7 +128,6 @@ public abstract class AbstractJsonHttpMessageConverter extends AbstractGenericHt
 		writer.flush();
 	}
 
-
 	/**
 	 * Template method that reads the JSON-bound object from the given {@link Reader}.
 	 * @param resolvedType the resolved generic type
@@ -148,7 +145,6 @@ public abstract class AbstractJsonHttpMessageConverter extends AbstractGenericHt
 	 * @throws Exception in case of write failures
 	 */
 	protected abstract void writeInternal(Object object, @Nullable Type type, Writer writer) throws Exception;
-
 
 	private static Reader getReader(HttpInputMessage inputMessage) throws IOException {
 		return new InputStreamReader(inputMessage.getBody(), getCharset(inputMessage.getHeaders()));

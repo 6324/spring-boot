@@ -26,11 +26,12 @@ import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * {@link LocaleContextResolver} implementation that always returns a fixed locale
- * and optionally time zone. Default is the current JVM's default locale.
+ * {@link LocaleContextResolver} implementation that always returns a fixed locale and
+ * optionally time zone. Default is the current JVM's default locale.
  *
- * <p>Note: Does not support {@link #setLocaleContext}, as the fixed locale and
- * time zone cannot be changed.
+ * <p>
+ * Note: Does not support {@link #setLocaleContext}, as the fixed locale and time zone
+ * cannot be changed.
  *
  * @author Sebastien Deleuze
  * @since 5.0
@@ -42,10 +43,9 @@ public class FixedLocaleContextResolver implements LocaleContextResolver {
 	@Nullable
 	private final TimeZone timeZone;
 
-
 	/**
-	 * Create a default FixedLocaleResolver, exposing a configured default
-	 * locale (or the JVM's default locale as fallback).
+	 * Create a default FixedLocaleResolver, exposing a configured default locale (or the
+	 * JVM's default locale as fallback).
 	 */
 	public FixedLocaleContextResolver() {
 		this(Locale.getDefault());
@@ -70,7 +70,6 @@ public class FixedLocaleContextResolver implements LocaleContextResolver {
 		this.timeZone = timeZone;
 	}
 
-
 	@Override
 	public LocaleContext resolveLocaleContext(ServerWebExchange exchange) {
 		return new TimeZoneAwareLocaleContext() {
@@ -78,6 +77,7 @@ public class FixedLocaleContextResolver implements LocaleContextResolver {
 			public Locale getLocale() {
 				return locale;
 			}
+
 			@Override
 			@Nullable
 			public TimeZone getTimeZone() {

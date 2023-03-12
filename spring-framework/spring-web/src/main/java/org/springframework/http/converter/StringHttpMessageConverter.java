@@ -33,9 +33,10 @@ import org.springframework.util.StreamUtils;
 /**
  * Implementation of {@link HttpMessageConverter} that can read and write strings.
  *
- * <p>By default, this converter supports all media types (<code>&#42;/&#42;</code>),
- * and writes with a {@code Content-Type} of {@code text/plain}. This can be overridden
- * by setting the {@link #setSupportedMediaTypes supportedMediaTypes} property.
+ * <p>
+ * By default, this converter supports all media types (<code>&#42;/&#42;</code>), and
+ * writes with a {@code Content-Type} of {@code text/plain}. This can be overridden by
+ * setting the {@link #setSupportedMediaTypes supportedMediaTypes} property.
  *
  * @author Arjen Poutsma
  * @author Juergen Hoeller
@@ -50,12 +51,10 @@ public class StringHttpMessageConverter extends AbstractHttpMessageConverter<Str
 	 */
 	public static final Charset DEFAULT_CHARSET = StandardCharsets.ISO_8859_1;
 
-
 	@Nullable
 	private volatile List<Charset> availableCharsets;
 
 	private boolean writeAcceptCharset = false;
-
 
 	/**
 	 * A default constructor that uses {@code "ISO-8859-1"} as the default charset.
@@ -66,24 +65,23 @@ public class StringHttpMessageConverter extends AbstractHttpMessageConverter<Str
 	}
 
 	/**
-	 * A constructor accepting a default charset to use if the requested content
-	 * type does not specify one.
+	 * A constructor accepting a default charset to use if the requested content type does
+	 * not specify one.
 	 */
 	public StringHttpMessageConverter(Charset defaultCharset) {
 		super(defaultCharset, MediaType.TEXT_PLAIN, MediaType.ALL);
 	}
 
-
 	/**
-	 * Whether the {@code Accept-Charset} header should be written to any outgoing
-	 * request sourced from the value of {@link Charset#availableCharsets()}.
-	 * The behavior is suppressed if the header has already been set.
-	 * <p>As of 5.2, by default is set to {@code false}.
+	 * Whether the {@code Accept-Charset} header should be written to any outgoing request
+	 * sourced from the value of {@link Charset#availableCharsets()}. The behavior is
+	 * suppressed if the header has already been set.
+	 * <p>
+	 * As of 5.2, by default is set to {@code false}.
 	 */
 	public void setWriteAcceptCharset(boolean writeAcceptCharset) {
 		this.writeAcceptCharset = writeAcceptCharset;
 	}
-
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -102,13 +100,11 @@ public class StringHttpMessageConverter extends AbstractHttpMessageConverter<Str
 		return (long) str.getBytes(charset).length;
 	}
 
-
 	@Override
 	protected void addDefaultHeaders(HttpHeaders headers, String s, @Nullable MediaType type) throws IOException {
-		if (headers.getContentType() == null ) {
-			if (type != null && type.isConcrete() &&
-					(type.isCompatibleWith(MediaType.APPLICATION_JSON) ||
-					type.isCompatibleWith(APPLICATION_PLUS_JSON))) {
+		if (headers.getContentType() == null) {
+			if (type != null && type.isConcrete() && (type.isCompatibleWith(MediaType.APPLICATION_JSON)
+					|| type.isCompatibleWith(APPLICATION_PLUS_JSON))) {
 				// Prevent charset parameter for JSON..
 				headers.setContentType(type);
 			}
@@ -126,11 +122,11 @@ public class StringHttpMessageConverter extends AbstractHttpMessageConverter<Str
 		StreamUtils.copy(str, charset, outputMessage.getBody());
 	}
 
-
 	/**
 	 * Return the list of supported {@link Charset Charsets}.
-	 * <p>By default, returns {@link Charset#availableCharsets()}.
-	 * Can be overridden in subclasses.
+	 * <p>
+	 * By default, returns {@link Charset#availableCharsets()}. Can be overridden in
+	 * subclasses.
 	 * @return the list of accepted charsets
 	 */
 	protected List<Charset> getAcceptedCharsets() {
@@ -146,9 +142,8 @@ public class StringHttpMessageConverter extends AbstractHttpMessageConverter<Str
 		if (contentType != null && contentType.getCharset() != null) {
 			return contentType.getCharset();
 		}
-		else if (contentType != null &&
-				(contentType.isCompatibleWith(MediaType.APPLICATION_JSON) ||
-						contentType.isCompatibleWith(APPLICATION_PLUS_JSON))) {
+		else if (contentType != null && (contentType.isCompatibleWith(MediaType.APPLICATION_JSON)
+				|| contentType.isCompatibleWith(APPLICATION_PLUS_JSON))) {
 			// Matching to AbstractJackson2HttpMessageConverter#DEFAULT_CHARSET
 			return StandardCharsets.UTF_8;
 		}

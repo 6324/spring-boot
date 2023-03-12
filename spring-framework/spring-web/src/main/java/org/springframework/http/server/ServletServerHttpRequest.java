@@ -60,7 +60,6 @@ public class ServletServerHttpRequest implements ServerHttpRequest {
 
 	protected static final Charset FORM_CHARSET = StandardCharsets.UTF_8;
 
-
 	private final HttpServletRequest servletRequest;
 
 	@Nullable
@@ -72,17 +71,15 @@ public class ServletServerHttpRequest implements ServerHttpRequest {
 	@Nullable
 	private ServerHttpAsyncRequestControl asyncRequestControl;
 
-
 	/**
-	 * Construct a new instance of the ServletServerHttpRequest based on the
-	 * given {@link HttpServletRequest}.
+	 * Construct a new instance of the ServletServerHttpRequest based on the given
+	 * {@link HttpServletRequest}.
 	 * @param servletRequest the servlet request
 	 */
 	public ServletServerHttpRequest(HttpServletRequest servletRequest) {
 		Assert.notNull(servletRequest, "HttpServletRequest must not be null");
 		this.servletRequest = servletRequest;
 	}
-
 
 	/**
 	 * Returns the {@code HttpServletRequest} this object is based on.
@@ -119,8 +116,7 @@ public class ServletServerHttpRequest implements ServerHttpRequest {
 			}
 			catch (URISyntaxException ex) {
 				if (!hasQuery) {
-					throw new IllegalStateException(
-							"Could not resolve HttpServletRequest as URI: " + urlString, ex);
+					throw new IllegalStateException("Could not resolve HttpServletRequest as URI: " + urlString, ex);
 				}
 				// Maybe a malformed query string... try plain request URL
 				try {
@@ -128,8 +124,7 @@ public class ServletServerHttpRequest implements ServerHttpRequest {
 					this.uri = new URI(urlString);
 				}
 				catch (URISyntaxException ex2) {
-					throw new IllegalStateException(
-							"Could not resolve HttpServletRequest as URI: " + urlString, ex2);
+					throw new IllegalStateException("Could not resolve HttpServletRequest as URI: " + urlString, ex2);
 				}
 			}
 		}
@@ -143,8 +138,8 @@ public class ServletServerHttpRequest implements ServerHttpRequest {
 
 			for (Enumeration<?> names = this.servletRequest.getHeaderNames(); names.hasMoreElements();) {
 				String headerName = (String) names.nextElement();
-				for (Enumeration<?> headerValues = this.servletRequest.getHeaders(headerName);
-						headerValues.hasMoreElements();) {
+				for (Enumeration<?> headerValues = this.servletRequest.getHeaders(headerName); headerValues
+						.hasMoreElements();) {
 					String headerValue = (String) headerValues.nextElement();
 					this.headers.add(headerName, headerValue);
 				}
@@ -226,18 +221,17 @@ public class ServletServerHttpRequest implements ServerHttpRequest {
 		return this.asyncRequestControl;
 	}
 
-
 	private static boolean isFormPost(HttpServletRequest request) {
 		String contentType = request.getContentType();
-		return (contentType != null && contentType.contains(FORM_CONTENT_TYPE) &&
-				HttpMethod.POST.matches(request.getMethod()));
+		return (contentType != null && contentType.contains(FORM_CONTENT_TYPE)
+				&& HttpMethod.POST.matches(request.getMethod()));
 	}
 
 	/**
-	 * Use {@link javax.servlet.ServletRequest#getParameterMap()} to reconstruct the
-	 * body of a form 'POST' providing a predictable outcome as opposed to reading
-	 * from the body, which can fail if any other code has used the ServletRequest
-	 * to access a parameter, thus causing the input stream to be "consumed".
+	 * Use {@link javax.servlet.ServletRequest#getParameterMap()} to reconstruct the body
+	 * of a form 'POST' providing a predictable outcome as opposed to reading from the
+	 * body, which can fail if any other code has used the ServletRequest to access a
+	 * parameter, thus causing the input stream to be "consumed".
 	 */
 	private static InputStream getBodyFromServletRequestParameters(HttpServletRequest request) throws IOException {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);

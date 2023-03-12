@@ -25,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Unit tests for {@link ResponseCookie}.
+ *
  * @author Rossen Stoyanchev
  */
 public class ResponseCookieTests {
@@ -35,13 +36,11 @@ public class ResponseCookieTests {
 		assertThat(ResponseCookie.from("id", null).build().toString()).isEqualTo("id=");
 		assertThat(ResponseCookie.from("id", "1fWa").build().toString()).isEqualTo("id=1fWa");
 
-		ResponseCookie cookie = ResponseCookie.from("id", "1fWa")
-				.domain("abc").path("/path").maxAge(0).httpOnly(true).secure(true).sameSite("None")
-				.build();
+		ResponseCookie cookie = ResponseCookie.from("id", "1fWa").domain("abc").path("/path").maxAge(0).httpOnly(true)
+				.secure(true).sameSite("None").build();
 
-		assertThat(cookie.toString()).isEqualTo("id=1fWa; Path=/path; Domain=abc; " +
-				"Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT; " +
-				"Secure; HttpOnly; SameSite=None");
+		assertThat(cookie.toString()).isEqualTo("id=1fWa; Path=/path; Domain=abc; "
+				+ "Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT; " + "Secure; HttpOnly; SameSite=None");
 	}
 
 	@Test
@@ -84,11 +83,11 @@ public class ResponseCookieTests {
 	@Test // gh-24663
 	public void domainWithEmptyDoubleQuotes() {
 
-		Arrays.asList("\"\"", "\t\"\" ", " \" \t \"\t")
-				.forEach(domain -> {
-					ResponseCookie cookie = ResponseCookie.fromClientResponse("id", "1fWa").domain(domain).build();
-					assertThat(cookie.getDomain()).isNull();
-				});
+		Arrays.asList("\"\"", "\t\"\" ", " \" \t \"\t").forEach(domain -> {
+			ResponseCookie cookie = ResponseCookie.fromClientResponse("id", "1fWa").domain(domain).build();
+			assertThat(cookie.getDomain()).isNull();
+		});
 
 	}
+
 }

@@ -34,11 +34,11 @@ public class HttpMessageNotReadableException extends HttpMessageConversionExcept
 	@Nullable
 	private final HttpInputMessage httpInputMessage;
 
-
 	/**
 	 * Create a new HttpMessageNotReadableException.
 	 * @param msg the detail message
-	 * @deprecated as of 5.1, in favor of {@link #HttpMessageNotReadableException(String, HttpInputMessage)}
+	 * @deprecated as of 5.1, in favor of
+	 * {@link #HttpMessageNotReadableException(String, HttpInputMessage)}
 	 */
 	@Deprecated
 	public HttpMessageNotReadableException(String msg) {
@@ -50,7 +50,8 @@ public class HttpMessageNotReadableException extends HttpMessageConversionExcept
 	 * Create a new HttpMessageNotReadableException.
 	 * @param msg the detail message
 	 * @param cause the root cause (if any)
-	 * @deprecated as of 5.1, in favor of {@link #HttpMessageNotReadableException(String, Throwable, HttpInputMessage)}
+	 * @deprecated as of 5.1, in favor of
+	 * {@link #HttpMessageNotReadableException(String, Throwable, HttpInputMessage)}
 	 */
 	@Deprecated
 	public HttpMessageNotReadableException(String msg, @Nullable Throwable cause) {
@@ -80,7 +81,6 @@ public class HttpMessageNotReadableException extends HttpMessageConversionExcept
 		super(msg, cause);
 		this.httpInputMessage = httpInputMessage;
 	}
-
 
 	/**
 	 * Return the original HTTP message.

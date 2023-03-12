@@ -23,196 +23,625 @@ import javax.servlet.jsp.JspException;
 import org.springframework.web.bind.WebDataBinder;
 
 /**
- * The {@code <checkbox>} tag renders an HTML 'input' tag with type 'checkbox'.
- * May be used in one of three different approaches depending on the
- * type of the {@link #getValue bound value}.
+ * The {@code <checkbox>} tag renders an HTML 'input' tag with type 'checkbox'. May be
+ * used in one of three different approaches depending on the type of the {@link #getValue
+ * bound value}.
  *
- * <h3>Approach One</h3>
- * When the bound value is of type {@link Boolean} then the '{@code input(checkbox)}'
- * is marked as 'checked' if the bound value is {@code true}. The '{@code value}'
- * attribute corresponds to the resolved value of the {@link #setValue(Object) value} property.
- * <h3>Approach Two</h3>
- * When the bound value is of type {@link Collection} then the '{@code input(checkbox)}'
- * is marked as 'checked' if the configured {@link #setValue(Object) value} is present in
- * the bound {@link Collection}.
- * <h3>Approach Three</h3>
- * For any other bound value type, the '{@code input(checkbox)}' is marked as 'checked'
- * if the configured {@link #setValue(Object) value} is equal to the bound value.
+ * <h3>Approach One</h3> When the bound value is of type {@link Boolean} then the
+ * '{@code input(checkbox)}' is marked as 'checked' if the bound value is {@code true}.
+ * The '{@code value}' attribute corresponds to the resolved value of the
+ * {@link #setValue(Object) value} property.
+ * <h3>Approach Two</h3> When the bound value is of type {@link Collection} then the
+ * '{@code input(checkbox)}' is marked as 'checked' if the configured
+ * {@link #setValue(Object) value} is present in the bound {@link Collection}.
+ * <h3>Approach Three</h3> For any other bound value type, the '{@code input(checkbox)}'
+ * is marked as 'checked' if the configured {@link #setValue(Object) value} is equal to
+ * the bound value.
  *
  * <p>
  * <table>
- * <caption>Attribute Summary</caption>
- * <thead>
+ * <caption>Attribute Summary</caption> <thead>
  * <tr>
  * <th class="colFirst">Attribute</th>
  * <th class="colOne">Required?</th>
  * <th class="colOne">Runtime Expression?</th>
  * <th class="colLast">Description</th>
  * </tr>
- * </thead>
- * <tbody>
+ * </thead> <tbody>
  * <tr class="altColor">
- * <td><p>accesskey</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Standard Attribute</p></td>
+ * <td>
+ * <p>
+ * accesskey
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Standard Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>cssClass</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute</p></td>
+ * <td>
+ * <p>
+ * cssClass
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>cssErrorClass</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute. Used when the bound field has errors.</p></td>
+ * <td>
+ * <p>
+ * cssErrorClass
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute. Used when the bound field has errors.
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>cssStyle</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute</p></td>
+ * <td>
+ * <p>
+ * cssStyle
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>dir</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Standard Attribute</p></td>
+ * <td>
+ * <p>
+ * dir
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Standard Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>disabled</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute. Setting the value of this attribute to 'true'
- * will disable the HTML element.</p></td>
+ * <td>
+ * <p>
+ * disabled
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute. Setting the value of this attribute to 'true' will disable the
+ * HTML element.
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>htmlEscape</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>Enable/disable HTML escaping of rendered values.</p></td>
+ * <td>
+ * <p>
+ * htmlEscape
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * Enable/disable HTML escaping of rendered values.
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>id</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Standard Attribute</p></td>
+ * <td>
+ * <p>
+ * id
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Standard Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>label</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>Value to be displayed as part of the tag</p></td>
+ * <td>
+ * <p>
+ * label
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * Value to be displayed as part of the tag
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>lang</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Standard Attribute</p></td>
+ * <td>
+ * <p>
+ * lang
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Standard Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>onblur</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onblur
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>onchange</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onchange
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>onclick</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onclick
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>ondblclick</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * ondblclick
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>onfocus</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onfocus
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>onkeydown</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onkeydown
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>onkeypress</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onkeypress
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>onkeyup</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onkeyup
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>onmousedown</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onmousedown
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>onmousemove</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onmousemove
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>onmouseout</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onmouseout
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>onmouseover</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onmouseover
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>onmouseup</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onmouseup
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>path</p></td>
- * <td><p>true</p></td>
- * <td><p>true</p></td>
- * <td><p>Path to property for data binding</p></td>
+ * <td>
+ * <p>
+ * path
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * Path to property for data binding
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>tabindex</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Standard Attribute</p></td>
+ * <td>
+ * <p>
+ * tabindex
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Standard Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>title</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Standard Attribute</p></td>
+ * <td>
+ * <p>
+ * title
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Standard Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>value</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute</p></td>
+ * <td>
+ * <p>
+ * value
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute
+ * </p>
+ * </td>
  * </tr>
  * </tbody>
  * </table>

@@ -44,7 +44,6 @@ public class RequestPartServletServerHttpRequestTests {
 
 	private final MockMultipartHttpServletRequest mockRequest = new MockMultipartHttpServletRequest();
 
-
 	@Test
 	public void getMethod() throws Exception {
 		this.mockRequest.addFile(new MockMultipartFile("part", "", "", "content".getBytes("UTF-8")));
@@ -90,7 +89,7 @@ public class RequestPartServletServerHttpRequestTests {
 		assertThat(result).isEqualTo(bytes);
 	}
 
-	@Test  // SPR-13317
+	@Test // SPR-13317
 	public void getBodyWithWrappedRequest() throws Exception {
 		byte[] bytes = "content".getBytes("UTF-8");
 		MultipartFile part = new MockMultipartFile("part", "", "application/json", bytes);
@@ -102,7 +101,7 @@ public class RequestPartServletServerHttpRequestTests {
 		assertThat(result).isEqualTo(bytes);
 	}
 
-	@Test  // SPR-13096
+	@Test // SPR-13096
 	public void getBodyViaRequestParameter() throws Exception {
 		MockMultipartHttpServletRequest mockRequest = new MockMultipartHttpServletRequest() {
 			@Override
@@ -113,7 +112,7 @@ public class RequestPartServletServerHttpRequestTests {
 			}
 		};
 
-		byte[] bytes = {(byte) 0xC4};
+		byte[] bytes = { (byte) 0xC4 };
 		mockRequest.setParameter("part", new String(bytes, StandardCharsets.ISO_8859_1));
 		ServerHttpRequest request = new RequestPartServletServerHttpRequest(mockRequest, "part");
 		byte[] result = FileCopyUtils.copyToByteArray(request.getBody());
@@ -131,7 +130,7 @@ public class RequestPartServletServerHttpRequestTests {
 			}
 		};
 
-		byte[] bytes = {(byte) 0xC4};
+		byte[] bytes = { (byte) 0xC4 };
 		mockRequest.setParameter("part", new String(bytes, StandardCharsets.ISO_8859_1));
 		mockRequest.setCharacterEncoding("iso-8859-1");
 		ServerHttpRequest request = new RequestPartServletServerHttpRequest(mockRequest, "part");
@@ -139,7 +138,7 @@ public class RequestPartServletServerHttpRequestTests {
 		assertThat(result).isEqualTo(bytes);
 	}
 
-	@Test  // gh-25829
+	@Test // gh-25829
 	public void getBodyViaRequestPart() throws Exception {
 		byte[] bytes = "content".getBytes("UTF-8");
 		MockPart mockPart = new MockPart("part", bytes);

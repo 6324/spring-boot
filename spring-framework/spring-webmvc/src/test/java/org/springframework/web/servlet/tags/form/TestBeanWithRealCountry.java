@@ -25,7 +25,6 @@ public class TestBeanWithRealCountry extends TestBean {
 
 	private Country realCountry = Country.COUNTRY_AT;
 
-
 	public void setRealCountry(Country realCountry) {
 		this.realCountry = realCountry;
 	}

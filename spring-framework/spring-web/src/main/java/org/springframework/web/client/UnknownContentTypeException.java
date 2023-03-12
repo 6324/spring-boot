@@ -24,9 +24,8 @@ import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 
 /**
- * Raised when no suitable
- * {@link org.springframework.http.converter.HttpMessageConverter} could be
- * found to extract the response.
+ * Raised when no suitable {@link org.springframework.http.converter.HttpMessageConverter}
+ * could be found to extract the response.
  *
  * @author Rossen Stoyanchev
  * @since 5.2.7
@@ -34,7 +33,6 @@ import org.springframework.lang.Nullable;
 public class UnknownContentTypeException extends RestClientException {
 
 	private static final long serialVersionUID = 2759516676367274084L;
-
 
 	private final Type targetType;
 
@@ -48,7 +46,6 @@ public class UnknownContentTypeException extends RestClientException {
 
 	private final HttpHeaders responseHeaders;
 
-
 	/**
 	 * Construct a new instance of with the given response data.
 	 * @param targetType the expected target type
@@ -58,11 +55,11 @@ public class UnknownContentTypeException extends RestClientException {
 	 * @param responseHeaders the response headers (may be {@code null})
 	 * @param responseBody the response body content (may be {@code null})
 	 */
-	public UnknownContentTypeException(Type targetType, MediaType contentType,
-			int statusCode, String statusText, HttpHeaders responseHeaders, byte[] responseBody) {
+	public UnknownContentTypeException(Type targetType, MediaType contentType, int statusCode, String statusText,
+			HttpHeaders responseHeaders, byte[] responseBody) {
 
-		super("Could not extract response: no suitable HttpMessageConverter found " +
-				"for response type [" + targetType + "] and content type [" + contentType + "]");
+		super("Could not extract response: no suitable HttpMessageConverter found " + "for response type [" + targetType
+				+ "] and content type [" + contentType + "]");
 
 		this.targetType = targetType;
 		this.contentType = contentType;
@@ -71,7 +68,6 @@ public class UnknownContentTypeException extends RestClientException {
 		this.responseHeaders = responseHeaders;
 		this.responseBody = responseBody;
 	}
-
 
 	/**
 	 * Return the target type expected for the response.
@@ -117,12 +113,12 @@ public class UnknownContentTypeException extends RestClientException {
 	}
 
 	/**
-	 * Return the response body converted to String using the charset from the
-	 * response "Content-Type" or {@code "UTF-8"} otherwise.
+	 * Return the response body converted to String using the charset from the response
+	 * "Content-Type" or {@code "UTF-8"} otherwise.
 	 */
 	public String getResponseBodyAsString() {
-		return new String(this.responseBody, this.contentType.getCharset() != null ?
-				this.contentType.getCharset() : StandardCharsets.UTF_8);
+		return new String(this.responseBody,
+				this.contentType.getCharset() != null ? this.contentType.getCharset() : StandardCharsets.UTF_8);
 	}
 
 }

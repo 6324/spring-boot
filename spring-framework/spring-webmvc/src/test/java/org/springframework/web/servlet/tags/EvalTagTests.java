@@ -47,7 +47,6 @@ public class EvalTagTests extends AbstractTagTests {
 
 	private MockPageContext context;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		context = createPageContext();
@@ -58,7 +57,6 @@ public class EvalTagTests extends AbstractTagTests {
 		tag = new EvalTag();
 		tag.setPageContext(context);
 	}
-
 
 	@Test
 	public void printScopedAttributeResult() throws Exception {
@@ -88,7 +86,8 @@ public class EvalTagTests extends AbstractTagTests {
 		assertThat(action).isEqualTo(Tag.EVAL_BODY_INCLUDE);
 		action = tag.doEndTag();
 		assertThat(action).isEqualTo(Tag.EVAL_PAGE);
-		assertThat(((MockHttpServletResponse) context.getResponse()).getContentAsString()).isEqualTo(formatter.print(new BigDecimal(".25"), Locale.getDefault()));
+		assertThat(((MockHttpServletResponse) context.getResponse()).getContentAsString())
+				.isEqualTo(formatter.print(new BigDecimal(".25"), Locale.getDefault()));
 	}
 
 	@Test
@@ -110,7 +109,8 @@ public class EvalTagTests extends AbstractTagTests {
 		assertThat(action).isEqualTo(Tag.EVAL_BODY_INCLUDE);
 		action = tag.doEndTag();
 		assertThat(action).isEqualTo(Tag.EVAL_PAGE);
-		assertThat(((MockHttpServletResponse) context.getResponse()).getContentAsString()).isEqualTo("function foo() { alert(\\\"hi\\\") }");
+		assertThat(((MockHttpServletResponse) context.getResponse()).getContentAsString())
+				.isEqualTo("function foo() { alert(\\\"hi\\\") }");
 	}
 
 	@Test
@@ -124,7 +124,7 @@ public class EvalTagTests extends AbstractTagTests {
 		assertThat(context.getAttribute("foo")).isEqualTo(new BigDecimal(".25"));
 	}
 
-	@Test  // SPR-6923
+	@Test // SPR-6923
 	public void nestedPropertyWithAttributeName() throws Exception {
 		tag.setExpression("bean.bean");
 		tag.setVar("foo");
@@ -137,8 +137,8 @@ public class EvalTagTests extends AbstractTagTests {
 
 	@Test
 	public void accessUsingBeanSyntax() throws Exception {
-		GenericApplicationContext wac = (GenericApplicationContext)
-				context.getRequest().getAttribute(DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		GenericApplicationContext wac = (GenericApplicationContext) context.getRequest()
+				.getAttribute(DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 		wac.getDefaultListableBeanFactory().registerSingleton("bean2", context.getRequest().getAttribute("bean"));
 		tag.setExpression("@bean2.bean");
 		tag.setVar("foo");
@@ -153,8 +153,8 @@ public class EvalTagTests extends AbstractTagTests {
 	public void environmentAccess() throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		map.put("key.foo", "value.foo");
-		GenericApplicationContext wac = (GenericApplicationContext)
-		context.getRequest().getAttribute(DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		GenericApplicationContext wac = (GenericApplicationContext) context.getRequest()
+				.getAttribute(DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 		wac.getEnvironment().getPropertySources().addFirst(new MapPropertySource("mapSource", map));
 		wac.getDefaultListableBeanFactory().registerSingleton("bean2", context.getRequest().getAttribute("bean"));
 		tag.setExpression("@environment['key.foo']");
@@ -175,15 +175,13 @@ public class EvalTagTests extends AbstractTagTests {
 		assertThat(((MockHttpServletResponse) context.getResponse()).getContentAsString()).isEqualTo("value");
 	}
 
-
-
 	public static class Bean {
 
 		public String method() {
 			return "foo";
 		}
 
-		@NumberFormat(style=Style.PERCENT)
+		@NumberFormat(style = Style.PERCENT)
 		public BigDecimal getFormattable() {
 			return new BigDecimal(".25");
 		}
@@ -209,6 +207,7 @@ public class EvalTagTests extends AbstractTagTests {
 			map.put("key", "value");
 			return map;
 		}
+
 	}
 
 }

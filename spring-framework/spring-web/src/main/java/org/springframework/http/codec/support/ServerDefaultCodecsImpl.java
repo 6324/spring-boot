@@ -39,7 +39,6 @@ class ServerDefaultCodecsImpl extends BaseDefaultCodecs implements ServerCodecCo
 	@Nullable
 	private Encoder<?> sseEncoder;
 
-
 	ServerDefaultCodecsImpl() {
 	}
 
@@ -48,7 +47,6 @@ class ServerDefaultCodecsImpl extends BaseDefaultCodecs implements ServerCodecCo
 		this.multipartReader = other.multipartReader;
 		this.sseEncoder = other.sseEncoder;
 	}
-
 
 	@Override
 	public void multipartReader(HttpMessageReader<?> reader) {
@@ -59,7 +57,6 @@ class ServerDefaultCodecsImpl extends BaseDefaultCodecs implements ServerCodecCo
 	public void serverSentEventEncoder(Encoder<?> encoder) {
 		this.sseEncoder = encoder;
 	}
-
 
 	@Override
 	protected void extendTypedReaders(List<HttpMessageReader<?>> typedReaders) {

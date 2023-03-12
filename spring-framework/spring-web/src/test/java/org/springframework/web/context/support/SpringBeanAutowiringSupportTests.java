@@ -55,7 +55,6 @@ public class SpringBeanAutowiringSupportTests {
 		assertThat(target.name).isEqualTo("tb");
 	}
 
-
 	public static class InjectionTarget {
 
 		@Autowired
@@ -63,6 +62,7 @@ public class SpringBeanAutowiringSupportTests {
 
 		@Value("#{testBean.name}")
 		public String name;
+
 	}
 
 }

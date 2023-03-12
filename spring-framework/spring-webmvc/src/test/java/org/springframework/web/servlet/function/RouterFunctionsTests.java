@@ -41,8 +41,7 @@ public class RouterFunctionsTests {
 		RequestPredicate requestPredicate = mock(RequestPredicate.class);
 		given(requestPredicate.test(request)).willReturn(true);
 
-		RouterFunction<ServerResponse>
-				result = RouterFunctions.route(requestPredicate, handlerFunction);
+		RouterFunction<ServerResponse> result = RouterFunctions.route(requestPredicate, handlerFunction);
 		assertThat(result).isNotNull();
 
 		Optional<HandlerFunction<ServerResponse>> resultHandlerFunction = result.route(request);

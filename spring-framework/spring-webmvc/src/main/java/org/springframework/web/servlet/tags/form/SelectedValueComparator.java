@@ -27,27 +27,34 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.servlet.support.BindStatus;
 
 /**
- * Utility class for testing whether a candidate value matches a {@link BindStatus#getValue data bound value}.
- * Eagerly attempts to prove a comparison through a number of avenues to deal with issues such as instance
- * inequality, logical (String-representation-based) equality and {@link PropertyEditor}-based comparison.
+ * Utility class for testing whether a candidate value matches a
+ * {@link BindStatus#getValue data bound value}. Eagerly attempts to prove a comparison
+ * through a number of avenues to deal with issues such as instance inequality, logical
+ * (String-representation-based) equality and {@link PropertyEditor}-based comparison.
  *
- * <p>Full support is provided for comparing arrays, {@link Collection Collections} and {@link Map Maps}.
+ * <p>
+ * Full support is provided for comparing arrays, {@link Collection Collections} and
+ * {@link Map Maps}.
  *
- * <p><h1><a name="equality-contract">Equality Contract</a></h1>
- * For single-valued objects equality is first tested using standard {@link Object#equals Java equality}. As
- * such, user code should endeavour to implement {@link Object#equals} to speed up the comparison process. If
- * {@link Object#equals} returns {@code false} then an attempt is made at an
- * {@link #exhaustiveCompare exhaustive comparison} with the aim being to <strong>prove</strong> equality rather
- * than disprove it.
+ * <p>
+ * <h1><a name="equality-contract">Equality Contract</a></h1> For single-valued objects
+ * equality is first tested using standard {@link Object#equals Java equality}. As such,
+ * user code should endeavour to implement {@link Object#equals} to speed up the
+ * comparison process. If {@link Object#equals} returns {@code false} then an attempt is
+ * made at an {@link #exhaustiveCompare exhaustive comparison} with the aim being to
+ * <strong>prove</strong> equality rather than disprove it.
  *
- * <p>Next, an attempt is made to compare the {@code String} representations of both the candidate and bound
- * values. This may result in {@code true} in a number of cases due to the fact both values will be represented
- * as {@code Strings} when shown to the user.
+ * <p>
+ * Next, an attempt is made to compare the {@code String} representations of both the
+ * candidate and bound values. This may result in {@code true} in a number of cases due to
+ * the fact both values will be represented as {@code Strings} when shown to the user.
  *
- * <p>Next, if the candidate value is a {@code String}, an attempt is made to compare the bound value to
- * result of applying the corresponding {@link PropertyEditor} to the candidate. This comparison may be
- * executed twice, once against the direct {@code String} instances, and then against the {@code String}
- * representations if the first comparison results in {@code false}.
+ * <p>
+ * Next, if the candidate value is a {@code String}, an attempt is made to compare the
+ * bound value to result of applying the corresponding {@link PropertyEditor} to the
+ * candidate. This comparison may be executed twice, once against the direct
+ * {@code String} instances, and then against the {@code String} representations if the
+ * first comparison results in {@code false}.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -57,8 +64,8 @@ abstract class SelectedValueComparator {
 
 	/**
 	 * Returns {@code true} if the supplied candidate value is equal to the value bound to
-	 * the supplied {@link BindStatus}. Equality in this case differs from standard Java equality and
-	 * is described in more detail <a href="#equality-contract">here</a>.
+	 * the supplied {@link BindStatus}. Equality in this case differs from standard Java
+	 * equality and is described in more detail <a href="#equality-contract">here</a>.
 	 */
 	public static boolean isSelected(BindStatus bindStatus, @Nullable Object candidateValue) {
 		// Check obvious equality matches with the candidate first,
@@ -68,8 +75,8 @@ abstract class SelectedValueComparator {
 			return true;
 		}
 		Object actualValue = bindStatus.getActualValue();
-		if (actualValue != null && actualValue != boundValue &&
-				ObjectUtils.nullSafeEquals(actualValue, candidateValue)) {
+		if (actualValue != null && actualValue != boundValue
+				&& ObjectUtils.nullSafeEquals(actualValue, candidateValue)) {
 			return true;
 		}
 		if (actualValue != null) {
@@ -99,8 +106,8 @@ abstract class SelectedValueComparator {
 		return selected;
 	}
 
-	private static boolean collectionCompare(
-			Collection<?> boundCollection, Object candidateValue, BindStatus bindStatus) {
+	private static boolean collectionCompare(Collection<?> boundCollection, Object candidateValue,
+			BindStatus bindStatus) {
 		try {
 			if (boundCollection.contains(candidateValue)) {
 				return true;
@@ -124,8 +131,8 @@ abstract class SelectedValueComparator {
 		return exhaustiveCollectionCompare(boundMap.keySet(), candidateValue, bindStatus);
 	}
 
-	private static boolean exhaustiveCollectionCompare(
-			Collection<?> collection, Object candidateValue, BindStatus bindStatus) {
+	private static boolean exhaustiveCollectionCompare(Collection<?> collection, Object candidateValue,
+			BindStatus bindStatus) {
 
 		Map<PropertyEditor, Object> convertedValueCache = new HashMap<>();
 		PropertyEditor editor = null;
@@ -164,7 +171,8 @@ abstract class SelectedValueComparator {
 		}
 
 		if (editor != null && candidate instanceof String) {
-			// Try PE-based comparison (PE should *not* be allowed to escape creating thread)
+			// Try PE-based comparison (PE should *not* be allowed to escape creating
+			// thread)
 			String candidateAsString = (String) candidate;
 			Object candidateAsValue;
 			if (convertedValueCache != null && convertedValueCache.containsKey(editor)) {

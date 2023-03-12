@@ -27,12 +27,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Base class for {@link org.springframework.web.client.AsyncRestTemplate}
- * and other HTTP accessing gateway helpers, defining common properties
- * such as the {@link org.springframework.http.client.AsyncClientHttpRequestFactory}
- * to operate on.
+ * Base class for {@link org.springframework.web.client.AsyncRestTemplate} and other HTTP
+ * accessing gateway helpers, defining common properties such as the
+ * {@link org.springframework.http.client.AsyncClientHttpRequestFactory} to operate on.
  *
- * <p>Not intended to be used directly. See
+ * <p>
+ * Not intended to be used directly. See
  * {@link org.springframework.web.client.AsyncRestTemplate}.
  *
  * @author Arjen Poutsma
@@ -49,10 +49,9 @@ public class AsyncHttpAccessor {
 	@Nullable
 	private org.springframework.http.client.AsyncClientHttpRequestFactory asyncRequestFactory;
 
-
 	/**
-	 * Set the request factory that this accessor uses for obtaining {@link
-	 * org.springframework.http.client.ClientHttpRequest HttpRequests}.
+	 * Set the request factory that this accessor uses for obtaining
+	 * {@link org.springframework.http.client.ClientHttpRequest HttpRequests}.
 	 */
 	public void setAsyncRequestFactory(
 			org.springframework.http.client.AsyncClientHttpRequestFactory asyncRequestFactory) {
@@ -62,8 +61,8 @@ public class AsyncHttpAccessor {
 	}
 
 	/**
-	 * Return the request factory that this accessor uses for obtaining {@link
-	 * org.springframework.http.client.ClientHttpRequest HttpRequests}.
+	 * Return the request factory that this accessor uses for obtaining
+	 * {@link org.springframework.http.client.ClientHttpRequest HttpRequests}.
 	 */
 	public org.springframework.http.client.AsyncClientHttpRequestFactory getAsyncRequestFactory() {
 		Assert.state(this.asyncRequestFactory != null, "No AsyncClientHttpRequestFactory set");
@@ -71,7 +70,8 @@ public class AsyncHttpAccessor {
 	}
 
 	/**
-	 * Create a new {@link org.springframework.http.client.AsyncClientHttpRequest} via this template's
+	 * Create a new {@link org.springframework.http.client.AsyncClientHttpRequest} via
+	 * this template's
 	 * {@link org.springframework.http.client.AsyncClientHttpRequestFactory}.
 	 * @param url the URL to connect to
 	 * @param method the HTTP method to execute (GET, POST, etc.)
@@ -81,8 +81,8 @@ public class AsyncHttpAccessor {
 	protected org.springframework.http.client.AsyncClientHttpRequest createAsyncRequest(URI url, HttpMethod method)
 			throws IOException {
 
-		org.springframework.http.client.AsyncClientHttpRequest request =
-				getAsyncRequestFactory().createAsyncRequest(url, method);
+		org.springframework.http.client.AsyncClientHttpRequest request = getAsyncRequestFactory()
+				.createAsyncRequest(url, method);
 		if (logger.isDebugEnabled()) {
 			logger.debug("Created asynchronous " + method.name() + " request for \"" + url + "\"");
 		}

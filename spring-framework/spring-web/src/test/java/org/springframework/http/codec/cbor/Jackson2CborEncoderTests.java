@@ -87,7 +87,8 @@ public class Jackson2CborEncoderTests extends AbstractLeakCheckingTests {
 	@Test
 	public void encode() {
 		Pojo value = new Pojo("foo", "bar");
-		DataBuffer result = encoder.encodeValue(value, this.bufferFactory, ResolvableType.forClass(Pojo.class), CBOR_MIME_TYPE, null);
+		DataBuffer result = encoder.encodeValue(value, this.bufferFactory, ResolvableType.forClass(Pojo.class),
+				CBOR_MIME_TYPE, null);
 		pojoConsumer(value).accept(result);
 	}
 
@@ -98,7 +99,8 @@ public class Jackson2CborEncoderTests extends AbstractLeakCheckingTests {
 		Pojo pojo3 = new Pojo("foofoofoo", "barbarbar");
 		Flux<Pojo> input = Flux.just(pojo1, pojo2, pojo3);
 		ResolvableType type = ResolvableType.forClass(Pojo.class);
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-				encoder.encode(input, this.bufferFactory, type, CBOR_MIME_TYPE, null));
+		assertThatExceptionOfType(UnsupportedOperationException.class)
+				.isThrownBy(() -> encoder.encode(input, this.bufferFactory, type, CBOR_MIME_TYPE, null));
 	}
+
 }

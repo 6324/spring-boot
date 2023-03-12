@@ -21,28 +21,28 @@ import org.springframework.objenesis.instantiator.annotations.Typology;
 
 import java.lang.reflect.InvocationTargetException;
 
-
-
 /**
- * Instantiates a class by making a call to internal GCJ private methods. It is only supposed to
- * work on GCJ JVMs. This instantiator will not call any constructors.
+ * Instantiates a class by making a call to internal GCJ private methods. It is only
+ * supposed to work on GCJ JVMs. This instantiator will not call any constructors.
  *
  * @author Leonardo Mesquita
  * @see org.springframework.objenesis.instantiator.ObjectInstantiator
  */
 @Instantiator(Typology.STANDARD)
 public class GCJInstantiator<T> extends GCJInstantiatorBase<T> {
-   public GCJInstantiator(Class<T> type) {
-      super(type);
-   }
 
-   @Override
-   public T newInstance() {
-      try {
-         return type.cast(newObjectMethod.invoke(dummyStream, type, Object.class));
-      }
-      catch(RuntimeException | IllegalAccessException | InvocationTargetException e) {
-         throw new ObjenesisException(e);
-      }
-   }
+	public GCJInstantiator(Class<T> type) {
+		super(type);
+	}
+
+	@Override
+	public T newInstance() {
+		try {
+			return type.cast(newObjectMethod.invoke(dummyStream, type, Object.class));
+		}
+		catch (RuntimeException | IllegalAccessException | InvocationTargetException e) {
+			throw new ObjenesisException(e);
+		}
+	}
+
 }

@@ -27,12 +27,13 @@ import org.springframework.context.i18n.TimeZoneAwareLocaleContext;
 import org.springframework.lang.Nullable;
 
 /**
- * {@link org.springframework.web.servlet.LocaleResolver} implementation
- * that always returns a fixed default locale and optionally time zone.
- * Default is the current JVM's default locale.
+ * {@link org.springframework.web.servlet.LocaleResolver} implementation that always
+ * returns a fixed default locale and optionally time zone. Default is the current JVM's
+ * default locale.
  *
- * <p>Note: Does not support {@code setLocale(Context)}, as the fixed
- * locale and time zone cannot be changed.
+ * <p>
+ * Note: Does not support {@code setLocale(Context)}, as the fixed locale and time zone
+ * cannot be changed.
  *
  * @author Juergen Hoeller
  * @since 1.1
@@ -42,8 +43,8 @@ import org.springframework.lang.Nullable;
 public class FixedLocaleResolver extends AbstractLocaleContextResolver {
 
 	/**
-	 * Create a default FixedLocaleResolver, exposing a configured default
-	 * locale (or the JVM's default locale as fallback).
+	 * Create a default FixedLocaleResolver, exposing a configured default locale (or the
+	 * JVM's default locale as fallback).
 	 * @see #setDefaultLocale
 	 * @see #setDefaultTimeZone
 	 */
@@ -69,7 +70,6 @@ public class FixedLocaleResolver extends AbstractLocaleContextResolver {
 		setDefaultTimeZone(timeZone);
 	}
 
-
 	@Override
 	public Locale resolveLocale(HttpServletRequest request) {
 		Locale locale = getDefaultLocale();
@@ -87,6 +87,7 @@ public class FixedLocaleResolver extends AbstractLocaleContextResolver {
 			public Locale getLocale() {
 				return getDefaultLocale();
 			}
+
 			@Override
 			public TimeZone getTimeZone() {
 				return getDefaultTimeZone();
@@ -95,10 +96,11 @@ public class FixedLocaleResolver extends AbstractLocaleContextResolver {
 	}
 
 	@Override
-	public void setLocaleContext( HttpServletRequest request, @Nullable HttpServletResponse response,
+	public void setLocaleContext(HttpServletRequest request, @Nullable HttpServletResponse response,
 			@Nullable LocaleContext localeContext) {
 
-		throw new UnsupportedOperationException("Cannot change fixed locale - use a different locale resolution strategy");
+		throw new UnsupportedOperationException(
+				"Cannot change fixed locale - use a different locale resolution strategy");
 	}
 
 }

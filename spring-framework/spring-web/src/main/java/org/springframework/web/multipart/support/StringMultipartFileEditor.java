@@ -23,10 +23,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * Custom {@link java.beans.PropertyEditor} for converting
- * {@link MultipartFile MultipartFiles} to Strings.
+ * Custom {@link java.beans.PropertyEditor} for converting {@link MultipartFile
+ * MultipartFiles} to Strings.
  *
- * <p>Allows one to specify the charset to use.
+ * <p>
+ * Allows one to specify the charset to use.
  *
  * @author Juergen Hoeller
  * @since 13.10.2003
@@ -35,7 +36,6 @@ public class StringMultipartFileEditor extends PropertyEditorSupport {
 
 	@Nullable
 	private final String charsetName;
-
 
 	/**
 	 * Create a new {@link StringMultipartFileEditor}, using the default charset.
@@ -53,7 +53,6 @@ public class StringMultipartFileEditor extends PropertyEditorSupport {
 		this.charsetName = charsetName;
 	}
 
-
 	@Override
 	public void setAsText(String text) {
 		setValue(text);
@@ -64,9 +63,8 @@ public class StringMultipartFileEditor extends PropertyEditorSupport {
 		if (value instanceof MultipartFile) {
 			MultipartFile multipartFile = (MultipartFile) value;
 			try {
-				super.setValue(this.charsetName != null ?
-						new String(multipartFile.getBytes(), this.charsetName) :
-						new String(multipartFile.getBytes()));
+				super.setValue(this.charsetName != null ? new String(multipartFile.getBytes(), this.charsetName)
+						: new String(multipartFile.getBytes()));
 			}
 			catch (IOException ex) {
 				throw new IllegalArgumentException("Cannot read contents of multipart file", ex);

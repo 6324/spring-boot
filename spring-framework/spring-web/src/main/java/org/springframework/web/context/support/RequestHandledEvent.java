@@ -22,9 +22,10 @@ import org.springframework.lang.Nullable;
 /**
  * Event raised when a request is handled within an ApplicationContext.
  *
- * <p>Supported by Spring's own FrameworkServlet (through a specific
- * ServletRequestHandledEvent subclass), but can also be raised by any
- * other web component.
+ * <p>
+ * Supported by Spring's own FrameworkServlet (through a specific
+ * ServletRequestHandledEvent subclass), but can also be raised by any other web
+ * component.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -51,13 +52,12 @@ public class RequestHandledEvent extends ApplicationEvent {
 	@Nullable
 	private Throwable failureCause;
 
-
 	/**
 	 * Create a new RequestHandledEvent with session information.
 	 * @param source the component that published the event
 	 * @param sessionId the id of the HTTP session, if any
-	 * @param userName the name of the user that was associated with the
-	 * request, if any (usually the UserPrincipal)
+	 * @param userName the name of the user that was associated with the request, if any
+	 * (usually the UserPrincipal)
 	 * @param processingTimeMillis the processing time of the request in milliseconds
 	 */
 	public RequestHandledEvent(Object source, @Nullable String sessionId, @Nullable String userName,
@@ -73,8 +73,8 @@ public class RequestHandledEvent extends ApplicationEvent {
 	 * Create a new RequestHandledEvent with session information.
 	 * @param source the component that published the event
 	 * @param sessionId the id of the HTTP session, if any
-	 * @param userName the name of the user that was associated with the
-	 * request, if any (usually the UserPrincipal)
+	 * @param userName the name of the user that was associated with the request, if any
+	 * (usually the UserPrincipal)
 	 * @param processingTimeMillis the processing time of the request in milliseconds
 	 * @param failureCause the cause of failure, if any
 	 */
@@ -84,7 +84,6 @@ public class RequestHandledEvent extends ApplicationEvent {
 		this(source, sessionId, userName, processingTimeMillis);
 		this.failureCause = failureCause;
 	}
-
 
 	/**
 	 * Return the processing time of the request in milliseconds.
@@ -102,8 +101,8 @@ public class RequestHandledEvent extends ApplicationEvent {
 	}
 
 	/**
-	 * Return the name of the user that was associated with the request
-	 * (usually the UserPrincipal).
+	 * Return the name of the user that was associated with the request (usually the
+	 * UserPrincipal).
 	 * @see javax.servlet.http.HttpServletRequest#getUserPrincipal()
 	 */
 	@Nullable
@@ -126,10 +125,9 @@ public class RequestHandledEvent extends ApplicationEvent {
 		return this.failureCause;
 	}
 
-
 	/**
-	 * Return a short description of this event, only involving
-	 * the most important context data.
+	 * Return a short description of this event, only involving the most important context
+	 * data.
 	 */
 	public String getShortDescription() {
 		StringBuilder sb = new StringBuilder();
@@ -139,8 +137,7 @@ public class RequestHandledEvent extends ApplicationEvent {
 	}
 
 	/**
-	 * Return a full description of this event, involving
-	 * all available context data.
+	 * Return a full description of this event, involving all available context data.
 	 */
 	public String getDescription() {
 		StringBuilder sb = new StringBuilder();

@@ -71,8 +71,7 @@ public class AnnotationConfigWebApplicationContextTests {
 		AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
 		ctx.setBeanNameGenerator(new AnnotationBeanNameGenerator() {
 			@Override
-			public String generateBeanName(BeanDefinition definition,
-					BeanDefinitionRegistry registry) {
+			public String generateBeanName(BeanDefinition definition, BeanDefinitionRegistry registry) {
 				return "custom-" + super.generateBeanName(definition, registry);
 			}
 		});
@@ -81,7 +80,6 @@ public class AnnotationConfigWebApplicationContextTests {
 		assertThat(ctx.containsBean("custom-myConfig")).isTrue();
 	}
 
-
 	@Configuration("myConfig")
 	static class Config {
 
@@ -89,10 +87,11 @@ public class AnnotationConfigWebApplicationContextTests {
 		public TestBean myTestBean() {
 			return new TestBean();
 		}
+
 	}
 
-
 	static class TestBean {
+
 	}
 
 }

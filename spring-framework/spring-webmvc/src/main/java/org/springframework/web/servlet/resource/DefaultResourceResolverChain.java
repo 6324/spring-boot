@@ -41,7 +41,6 @@ class DefaultResourceResolverChain implements ResourceResolverChain {
 	@Nullable
 	private final ResourceResolverChain nextChain;
 
-
 	public DefaultResourceResolverChain(@Nullable List<? extends ResourceResolver> resolvers) {
 		resolvers = (resolvers != null ? resolvers : Collections.emptyList());
 		DefaultResourceResolverChain chain = initChain(new ArrayList<>(resolvers));
@@ -65,21 +64,20 @@ class DefaultResourceResolverChain implements ResourceResolverChain {
 		this.nextChain = chain;
 	}
 
-
 	@Override
 	@Nullable
-	public Resource resolveResource(
-			@Nullable HttpServletRequest request, String requestPath, List<? extends Resource> locations) {
+	public Resource resolveResource(@Nullable HttpServletRequest request, String requestPath,
+			List<? extends Resource> locations) {
 
-		return (this.resolver != null && this.nextChain != null ?
-				this.resolver.resolveResource(request, requestPath, locations, this.nextChain) : null);
+		return (this.resolver != null && this.nextChain != null
+				? this.resolver.resolveResource(request, requestPath, locations, this.nextChain) : null);
 	}
 
 	@Override
 	@Nullable
 	public String resolveUrlPath(String resourcePath, List<? extends Resource> locations) {
-		return (this.resolver != null && this.nextChain != null ?
-				this.resolver.resolveUrlPath(resourcePath, locations, this.nextChain) : null);
+		return (this.resolver != null && this.nextChain != null
+				? this.resolver.resolveUrlPath(resourcePath, locations, this.nextChain) : null);
 	}
 
 }

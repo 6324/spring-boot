@@ -37,7 +37,6 @@ public class SessionFlashMapManager extends AbstractFlashMapManager {
 
 	private static final String FLASH_MAPS_SESSION_ATTRIBUTE = SessionFlashMapManager.class.getName() + ".FLASH_MAPS";
 
-
 	/**
 	 * Retrieves saved FlashMap instances from the HTTP session, if any.
 	 */

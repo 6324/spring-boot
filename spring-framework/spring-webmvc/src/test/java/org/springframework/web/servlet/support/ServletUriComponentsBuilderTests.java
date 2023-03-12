@@ -41,7 +41,6 @@ public class ServletUriComponentsBuilderTests {
 
 	private MockHttpServletRequest request;
 
-
 	@BeforeEach
 	public void setup() {
 		this.request = new MockHttpServletRequest();
@@ -51,7 +50,6 @@ public class ServletUriComponentsBuilderTests {
 		this.request.setRequestURI("/mvc-showcase");
 		this.request.setContextPath("/mvc-showcase");
 	}
-
 
 	@Test
 	public void fromRequest() {
@@ -97,7 +95,7 @@ public class ServletUriComponentsBuilderTests {
 		request.addHeader("X-Forwarded-Port", "443");
 
 		HttpServletRequest requestToUse = adaptFromForwardedHeaders(request);
-		UriComponents result =  ServletUriComponentsBuilder.fromRequest(requestToUse).build();
+		UriComponents result = ServletUriComponentsBuilder.fromRequest(requestToUse).build();
 
 		assertThat(result.toString()).isEqualTo("https://84.198.58.199/mvc-showcase");
 	}
@@ -117,7 +115,7 @@ public class ServletUriComponentsBuilderTests {
 		this.request.setRequestURI("/mvc-showcase/bar");
 
 		HttpServletRequest requestToUse = adaptFromForwardedHeaders(this.request);
-		UriComponents result =  ServletUriComponentsBuilder.fromRequest(requestToUse).build();
+		UriComponents result = ServletUriComponentsBuilder.fromRequest(requestToUse).build();
 
 		assertThat(result.toUriString()).isEqualTo("http://localhost/prefix/bar");
 	}
@@ -129,7 +127,7 @@ public class ServletUriComponentsBuilderTests {
 		this.request.setRequestURI("/spring-mvc-showcase/bar");
 
 		HttpServletRequest requestToUse = adaptFromForwardedHeaders(this.request);
-		UriComponents result =  ServletUriComponentsBuilder.fromRequest(requestToUse).build();
+		UriComponents result = ServletUriComponentsBuilder.fromRequest(requestToUse).build();
 
 		assertThat(result.toUriString()).isEqualTo("http://localhost/foo/bar");
 	}
@@ -141,7 +139,7 @@ public class ServletUriComponentsBuilderTests {
 		this.request.setRequestURI("/mvc-showcase/bar");
 
 		HttpServletRequest requestToUse = adaptFromForwardedHeaders(this.request);
-		UriComponents result =  ServletUriComponentsBuilder.fromRequest(requestToUse).build();
+		UriComponents result = ServletUriComponentsBuilder.fromRequest(requestToUse).build();
 
 		assertThat(result.toUriString()).isEqualTo("http://localhost/bar");
 	}

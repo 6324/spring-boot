@@ -25,22 +25,23 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * A FlashMap provides a way for one request to store attributes intended for
- * use in another. This is most commonly needed when redirecting from one URL
- * to another -- e.g. the Post/Redirect/Get pattern. A FlashMap is saved before
- * the redirect (typically in the session) and is made available after the
- * redirect and removed immediately.
+ * A FlashMap provides a way for one request to store attributes intended for use in
+ * another. This is most commonly needed when redirecting from one URL to another -- e.g.
+ * the Post/Redirect/Get pattern. A FlashMap is saved before the redirect (typically in
+ * the session) and is made available after the redirect and removed immediately.
  *
- * <p>A FlashMap can be set up with a request path and request parameters to
- * help identify the target request. Without this information, a FlashMap is
- * made available to the next request, which may or may not be the intended
- * recipient. On a redirect, the target URL is known and a FlashMap can be
- * updated with that information. This is done automatically when the
- * {@code org.springframework.web.servlet.view.RedirectView} is used.
+ * <p>
+ * A FlashMap can be set up with a request path and request parameters to help identify
+ * the target request. Without this information, a FlashMap is made available to the next
+ * request, which may or may not be the intended recipient. On a redirect, the target URL
+ * is known and a FlashMap can be updated with that information. This is done
+ * automatically when the {@code org.springframework.web.servlet.view.RedirectView} is
+ * used.
  *
- * <p>Note: annotated controllers will usually not use FlashMap directly.
- * See {@code org.springframework.web.servlet.mvc.support.RedirectAttributes}
- * for an overview of using flash attributes in annotated controllers.
+ * <p>
+ * Note: annotated controllers will usually not use FlashMap directly. See
+ * {@code org.springframework.web.servlet.mvc.support.RedirectAttributes} for an overview
+ * of using flash attributes in annotated controllers.
  *
  * @author Rossen Stoyanchev
  * @since 3.1
@@ -56,11 +57,11 @@ public final class FlashMap extends HashMap<String, Object> implements Comparabl
 
 	private long expirationTime = -1;
 
-
 	/**
 	 * Provide a URL path to help identify the target request for this FlashMap.
-	 * <p>The path may be absolute (e.g. "/application/resource") or relative to the
-	 * current request (e.g. "../resource").
+	 * <p>
+	 * The path may be absolute (e.g. "/application/resource") or relative to the current
+	 * request (e.g. "../resource").
 	 */
 	public void setTargetRequestPath(@Nullable String path) {
 		this.targetRequestPath = path;
@@ -126,8 +127,8 @@ public final class FlashMap extends HashMap<String, Object> implements Comparabl
 	}
 
 	/**
-	 * Return the expiration time for the FlashMap or -1 if the expiration
-	 * period has not started.
+	 * Return the expiration time for the FlashMap or -1 if the expiration period has not
+	 * started.
 	 * @since 4.2
 	 */
 	public long getExpirationTime() {
@@ -135,18 +136,17 @@ public final class FlashMap extends HashMap<String, Object> implements Comparabl
 	}
 
 	/**
-	 * Return whether this instance has expired depending on the amount of
-	 * elapsed time since the call to {@link #startExpirationPeriod}.
+	 * Return whether this instance has expired depending on the amount of elapsed time
+	 * since the call to {@link #startExpirationPeriod}.
 	 */
 	public boolean isExpired() {
 		return (this.expirationTime != -1 && System.currentTimeMillis() > this.expirationTime);
 	}
 
-
 	/**
-	 * Compare two FlashMaps and prefer the one that specifies a target URL
-	 * path or has more target URL parameters. Before comparing FlashMap
-	 * instances ensure that they match a given request.
+	 * Compare two FlashMaps and prefer the one that specifies a target URL path or has
+	 * more target URL parameters. Before comparing FlashMap instances ensure that they
+	 * match a given request.
 	 */
 	@Override
 	public int compareTo(FlashMap other) {
@@ -169,9 +169,9 @@ public final class FlashMap extends HashMap<String, Object> implements Comparabl
 			return false;
 		}
 		FlashMap otherFlashMap = (FlashMap) other;
-		return (super.equals(otherFlashMap) &&
-				ObjectUtils.nullSafeEquals(this.targetRequestPath, otherFlashMap.targetRequestPath) &&
-				this.targetRequestParams.equals(otherFlashMap.targetRequestParams));
+		return (super.equals(otherFlashMap)
+				&& ObjectUtils.nullSafeEquals(this.targetRequestPath, otherFlashMap.targetRequestPath)
+				&& this.targetRequestParams.equals(otherFlashMap.targetRequestParams));
 	}
 
 	@Override
@@ -184,8 +184,8 @@ public final class FlashMap extends HashMap<String, Object> implements Comparabl
 
 	@Override
 	public String toString() {
-		return "FlashMap [attributes=" + super.toString() + ", targetRequestPath=" +
-				this.targetRequestPath + ", targetRequestParams=" + this.targetRequestParams + "]";
+		return "FlashMap [attributes=" + super.toString() + ", targetRequestPath=" + this.targetRequestPath
+				+ ", targetRequestParams=" + this.targetRequestParams + "]";
 	}
 
 }

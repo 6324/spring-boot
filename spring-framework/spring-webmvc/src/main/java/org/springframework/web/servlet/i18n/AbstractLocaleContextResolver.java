@@ -27,11 +27,13 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.LocaleContextResolver;
 
 /**
- * Abstract base class for {@link LocaleContextResolver} implementations.
- * Provides support for a default locale and a default time zone.
+ * Abstract base class for {@link LocaleContextResolver} implementations. Provides support
+ * for a default locale and a default time zone.
  *
- * <p>Also provides pre-implemented versions of {@link #resolveLocale} and {@link #setLocale},
- * delegating to {@link #resolveLocaleContext} and {@link #setLocaleContext}.
+ * <p>
+ * Also provides pre-implemented versions of {@link #resolveLocale} and
+ * {@link #setLocale}, delegating to {@link #resolveLocaleContext} and
+ * {@link #setLocaleContext}.
  *
  * @author Juergen Hoeller
  * @since 4.0
@@ -42,7 +44,6 @@ public abstract class AbstractLocaleContextResolver extends AbstractLocaleResolv
 
 	@Nullable
 	private TimeZone defaultTimeZone;
-
 
 	/**
 	 * Set a default TimeZone that this resolver will return if no other time zone found.
@@ -58,7 +59,6 @@ public abstract class AbstractLocaleContextResolver extends AbstractLocaleResolv
 	public TimeZone getDefaultTimeZone() {
 		return this.defaultTimeZone;
 	}
-
 
 	@Override
 	public Locale resolveLocale(HttpServletRequest request) {

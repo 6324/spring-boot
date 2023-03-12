@@ -25,15 +25,18 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.servlet.tags.HtmlEscapingAwareTag;
 
 /**
- * Base class for all JSP form tags. Provides utility methods for
- * null-safe EL evaluation and for accessing and working with a {@link TagWriter}.
+ * Base class for all JSP form tags. Provides utility methods for null-safe EL evaluation
+ * and for accessing and working with a {@link TagWriter}.
  *
- * <p>Subclasses should implement the {@link #writeTagContent(TagWriter)} to perform
- * actual tag rendering.
+ * <p>
+ * Subclasses should implement the {@link #writeTagContent(TagWriter)} to perform actual
+ * tag rendering.
  *
- * <p>Subclasses (or test classes) can override the {@link #createTagWriter()} method to
- * redirect output to a {@link java.io.Writer} other than the {@link javax.servlet.jsp.JspWriter}
- * associated with the current {@link javax.servlet.jsp.PageContext}.
+ * <p>
+ * Subclasses (or test classes) can override the {@link #createTagWriter()} method to
+ * redirect output to a {@link java.io.Writer} other than the
+ * {@link javax.servlet.jsp.JspWriter} associated with the current
+ * {@link javax.servlet.jsp.PageContext}.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -44,7 +47,8 @@ public abstract class AbstractFormTag extends HtmlEscapingAwareTag {
 
 	/**
 	 * Evaluate the supplied value for the supplied attribute name.
-	 * <p>The default implementation simply returns the given value as-is.
+	 * <p>
+	 * The default implementation simply returns the given value as-is.
 	 */
 	@Nullable
 	protected Object evaluate(String attributeName, @Nullable Object value) throws JspException {
@@ -52,11 +56,11 @@ public abstract class AbstractFormTag extends HtmlEscapingAwareTag {
 	}
 
 	/**
-	 * Optionally writes the supplied value under the supplied attribute name into the supplied
-	 * {@link TagWriter}. In this case, the supplied value is {@link #evaluate evaluated} first
-	 * and then the {@link ObjectUtils#getDisplayString String representation} is written as the
-	 * attribute value. If the resultant {@code String} representation is {@code null}
-	 * or empty, no attribute is written.
+	 * Optionally writes the supplied value under the supplied attribute name into the
+	 * supplied {@link TagWriter}. In this case, the supplied value is {@link #evaluate
+	 * evaluated} first and then the {@link ObjectUtils#getDisplayString String
+	 * representation} is written as the attribute value. If the resultant {@code String}
+	 * representation is {@code null} or empty, no attribute is written.
 	 * @see TagWriter#writeOptionalAttributeValue(String, String)
 	 */
 	protected final void writeOptionalAttribute(TagWriter tagWriter, String attributeName, @Nullable String value)
@@ -68,10 +72,10 @@ public abstract class AbstractFormTag extends HtmlEscapingAwareTag {
 	}
 
 	/**
-	 * Create the {@link TagWriter} which all output will be written to. By default,
-	 * the {@link TagWriter} writes its output to the {@link javax.servlet.jsp.JspWriter}
-	 * for the current {@link javax.servlet.jsp.PageContext}. Subclasses may choose to
-	 * change the {@link java.io.Writer} to which output is actually written.
+	 * Create the {@link TagWriter} which all output will be written to. By default, the
+	 * {@link TagWriter} writes its output to the {@link javax.servlet.jsp.JspWriter} for
+	 * the current {@link javax.servlet.jsp.PageContext}. Subclasses may choose to change
+	 * the {@link java.io.Writer} to which output is actually written.
 	 */
 	protected TagWriter createTagWriter() {
 		return new TagWriter(this.pageContext);
@@ -88,18 +92,17 @@ public abstract class AbstractFormTag extends HtmlEscapingAwareTag {
 	}
 
 	/**
-	 * Get the display value of the supplied {@code Object}, HTML escaped
-	 * as required. This version is <strong>not</strong> {@link PropertyEditor}-aware.
+	 * Get the display value of the supplied {@code Object}, HTML escaped as required.
+	 * This version is <strong>not</strong> {@link PropertyEditor}-aware.
 	 */
 	protected String getDisplayString(@Nullable Object value) {
 		return ValueFormatter.getDisplayString(value, isHtmlEscape());
 	}
 
 	/**
-	 * Get the display value of the supplied {@code Object}, HTML escaped
-	 * as required. If the supplied value is not a {@link String} and the supplied
-	 * {@link PropertyEditor} is not null then the {@link PropertyEditor} is used
-	 * to obtain the display value.
+	 * Get the display value of the supplied {@code Object}, HTML escaped as required. If
+	 * the supplied value is not a {@link String} and the supplied {@link PropertyEditor}
+	 * is not null then the {@link PropertyEditor} is used to obtain the display value.
 	 */
 	protected String getDisplayString(@Nullable Object value, @Nullable PropertyEditor propertyEditor) {
 		return ValueFormatter.getDisplayString(value, propertyEditor, isHtmlEscape());
@@ -114,10 +117,10 @@ public abstract class AbstractFormTag extends HtmlEscapingAwareTag {
 		return (defaultHtmlEscape == null || defaultHtmlEscape.booleanValue());
 	}
 
-
 	/**
 	 * Subclasses should implement this method to perform tag content rendering.
-	 * @return valid tag render instruction as per {@link javax.servlet.jsp.tagext.Tag#doStartTag()}.
+	 * @return valid tag render instruction as per
+	 * {@link javax.servlet.jsp.tagext.Tag#doStartTag()}.
 	 */
 	protected abstract int writeTagContent(TagWriter tagWriter) throws JspException;
 

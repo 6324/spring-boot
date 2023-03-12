@@ -52,7 +52,8 @@ import org.springframework.util.xml.StaxUtils;
 /**
  * An {@code HttpMessageConverter} that can read XML collections using JAXB2.
  *
- * <p>This converter can read {@linkplain Collection collections} that contain classes
+ * <p>
+ * This converter can read {@linkplain Collection collections} that contain classes
  * annotated with {@link XmlRootElement} and {@link XmlType}. Note that this converter
  * does not support writing.
  *
@@ -62,15 +63,14 @@ import org.springframework.util.xml.StaxUtils;
  * @param <T> the converted object type
  */
 @SuppressWarnings("rawtypes")
-public class Jaxb2CollectionHttpMessageConverter<T extends Collection>
-		extends AbstractJaxb2HttpMessageConverter<T> implements GenericHttpMessageConverter<T> {
+public class Jaxb2CollectionHttpMessageConverter<T extends Collection> extends AbstractJaxb2HttpMessageConverter<T>
+		implements GenericHttpMessageConverter<T> {
 
 	private final XMLInputFactory inputFactory = createXmlInputFactory();
 
-
 	/**
-	 * Always returns {@code false} since Jaxb2CollectionHttpMessageConverter
-	 * required generic type information in order to read a Collection.
+	 * Always returns {@code false} since Jaxb2CollectionHttpMessageConverter required
+	 * generic type information in order to read a Collection.
 	 */
 	@Override
 	public boolean canRead(Class<?> clazz, @Nullable MediaType mediaType) {
@@ -79,9 +79,10 @@ public class Jaxb2CollectionHttpMessageConverter<T extends Collection>
 
 	/**
 	 * {@inheritDoc}
-	 * <p>Jaxb2CollectionHttpMessageConverter can read a generic
-	 * {@link Collection} where the generic type is a JAXB type annotated with
-	 * {@link XmlRootElement} or {@link XmlType}.
+	 * <p>
+	 * Jaxb2CollectionHttpMessageConverter can read a generic {@link Collection} where the
+	 * generic type is a JAXB type annotated with {@link XmlRootElement} or
+	 * {@link XmlType}.
 	 */
 	@Override
 	public boolean canRead(Type type, @Nullable Class<?> contextClass, @Nullable MediaType mediaType) {
@@ -104,13 +105,13 @@ public class Jaxb2CollectionHttpMessageConverter<T extends Collection>
 			return false;
 		}
 		Class<?> typeArgumentClass = (Class<?>) typeArgument;
-		return (typeArgumentClass.isAnnotationPresent(XmlRootElement.class) ||
-				typeArgumentClass.isAnnotationPresent(XmlType.class)) && canRead(mediaType);
+		return (typeArgumentClass.isAnnotationPresent(XmlRootElement.class)
+				|| typeArgumentClass.isAnnotationPresent(XmlType.class)) && canRead(mediaType);
 	}
 
 	/**
-	 * Always returns {@code false} since Jaxb2CollectionHttpMessageConverter
-	 * does not convert collections to XML.
+	 * Always returns {@code false} since Jaxb2CollectionHttpMessageConverter does not
+	 * convert collections to XML.
 	 */
 	@Override
 	public boolean canWrite(Class<?> clazz, @Nullable MediaType mediaType) {
@@ -118,8 +119,8 @@ public class Jaxb2CollectionHttpMessageConverter<T extends Collection>
 	}
 
 	/**
-	 * Always returns {@code false} since Jaxb2CollectionHttpMessageConverter
-	 * does not convert collections to XML.
+	 * Always returns {@code false} since Jaxb2CollectionHttpMessageConverter does not
+	 * convert collections to XML.
 	 */
 	@Override
 	public boolean canWrite(@Nullable Type type, @Nullable Class<?> clazz, @Nullable MediaType mediaType) {
@@ -161,16 +162,16 @@ public class Jaxb2CollectionHttpMessageConverter<T extends Collection>
 				}
 				else {
 					// should not happen, since we check in canRead(Type)
-					throw new HttpMessageNotReadableException(
-							"Cannot unmarshal to [" + elementClass + "]", inputMessage);
+					throw new HttpMessageNotReadableException("Cannot unmarshal to [" + elementClass + "]",
+							inputMessage);
 				}
 				event = moveToNextElement(streamReader);
 			}
 			return result;
 		}
 		catch (XMLStreamException ex) {
-			throw new HttpMessageNotReadableException(
-					"Failed to read XML stream: " + ex.getMessage(), ex, inputMessage);
+			throw new HttpMessageNotReadableException("Failed to read XML stream: " + ex.getMessage(), ex,
+					inputMessage);
 		}
 		catch (UnmarshalException ex) {
 			throw new HttpMessageNotReadableException(
@@ -182,8 +183,8 @@ public class Jaxb2CollectionHttpMessageConverter<T extends Collection>
 	}
 
 	/**
-	 * Create a Collection of the given type, with the given initial capacity
-	 * (if supported by the Collection type).
+	 * Create a Collection of the given type, with the given initial capacity (if
+	 * supported by the Collection type).
 	 * @param collectionClass the type of Collection to instantiate
 	 * @return the created Collection instance
 	 */
@@ -246,10 +247,11 @@ public class Jaxb2CollectionHttpMessageConverter<T extends Collection>
 
 	/**
 	 * Create an {@code XMLInputFactory} that this converter will use to create
-	 * {@link javax.xml.stream.XMLStreamReader} and {@link javax.xml.stream.XMLEventReader}
-	 * objects.
-	 * <p>Can be overridden in subclasses, adding further initialization of the factory.
-	 * The resulting factory is cached, so this method will only be called once.
+	 * {@link javax.xml.stream.XMLStreamReader} and
+	 * {@link javax.xml.stream.XMLEventReader} objects.
+	 * <p>
+	 * Can be overridden in subclasses, adding further initialization of the factory. The
+	 * resulting factory is cached, so this method will only be called once.
 	 * @see StaxUtils#createDefensiveInputFactory()
 	 */
 	protected XMLInputFactory createXmlInputFactory() {

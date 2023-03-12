@@ -33,9 +33,10 @@ import org.springframework.util.StringUtils;
  * Abstract base class for {@code Processor} implementations that bridge between
  * event-listener write APIs and Reactive Streams.
  *
- * <p>Specifically a base class for writing to the HTTP response body with
- * Servlet 3.1 non-blocking I/O and Undertow XNIO as well for writing WebSocket
- * messages through the Java WebSocket API (JSR-356), Jetty, and Undertow.
+ * <p>
+ * Specifically a base class for writing to the HTTP response body with Servlet 3.1
+ * non-blocking I/O and Undertow XNIO as well for writing WebSocket messages through the
+ * Java WebSocket API (JSR-356), Jetty, and Undertow.
  *
  * @author Arjen Poutsma
  * @author Violeta Georgieva
@@ -54,7 +55,6 @@ public abstract class AbstractListenerWriteProcessor<T> implements Processor<T, 
 	 */
 	protected static final Log rsWriteLogger = LogDelegateFactory.getHiddenLog(AbstractListenerWriteProcessor.class);
 
-
 	private final AtomicReference<State> state = new AtomicReference<>(State.UNSUBSCRIBED);
 
 	@Nullable
@@ -67,17 +67,16 @@ public abstract class AbstractListenerWriteProcessor<T> implements Processor<T, 
 	private volatile boolean subscriberCompleted;
 
 	/**
-	 * Indicates we're waiting for one last isReady-onWritePossible cycle
-	 * after "onComplete" because some Servlet containers expect this to take
-	 * place prior to calling AsyncContext.complete().
-	 * See https://github.com/eclipse-ee4j/servlet-api/issues/273
+	 * Indicates we're waiting for one last isReady-onWritePossible cycle after
+	 * "onComplete" because some Servlet containers expect this to take place prior to
+	 * calling AsyncContext.complete(). See
+	 * https://github.com/eclipse-ee4j/servlet-api/issues/273
 	 */
 	private volatile boolean readyToCompleteAfterLastWrite;
 
 	private final WriteResultPublisher resultPublisher;
 
 	private final String logPrefix;
-
 
 	public AbstractListenerWriteProcessor() {
 		this("");
@@ -92,7 +91,6 @@ public abstract class AbstractListenerWriteProcessor<T> implements Processor<T, 
 		this.resultPublisher = new WriteResultPublisher(logPrefix);
 	}
 
-
 	/**
 	 * Get the configured log prefix.
 	 * @since 5.1
@@ -100,7 +98,6 @@ public abstract class AbstractListenerWriteProcessor<T> implements Processor<T, 
 	public String getLogPrefix() {
 		return this.logPrefix;
 	}
-
 
 	// Subscriber methods and async I/O notification methods...
 
@@ -118,8 +115,8 @@ public abstract class AbstractListenerWriteProcessor<T> implements Processor<T, 
 	}
 
 	/**
-	 * Error signal from the upstream, write Publisher. This is also used by
-	 * sub-classes to delegate error notifications from the container.
+	 * Error signal from the upstream, write Publisher. This is also used by sub-classes
+	 * to delegate error notifications from the container.
 	 */
 	@Override
 	public final void onError(Throwable ex) {
@@ -130,8 +127,8 @@ public abstract class AbstractListenerWriteProcessor<T> implements Processor<T, 
 	}
 
 	/**
-	 * Completion signal from the upstream, write Publisher. This is also used
-	 * by sub-classes to delegate completion notifications from the container.
+	 * Completion signal from the upstream, write Publisher. This is also used by
+	 * sub-classes to delegate completion notifications from the container.
 	 */
 	@Override
 	public final void onComplete() {
@@ -142,9 +139,8 @@ public abstract class AbstractListenerWriteProcessor<T> implements Processor<T, 
 	}
 
 	/**
-	 * Invoked when writing is possible, either in the same thread after a check
-	 * via {@link #isWritePossible()}, or as a callback from the underlying
-	 * container.
+	 * Invoked when writing is possible, either in the same thread after a check via
+	 * {@link #isWritePossible()}, or as a callback from the underlying container.
 	 */
 	public final void onWritePossible() {
 		if (rsWriteLogger.isTraceEnabled()) {
@@ -154,8 +150,8 @@ public abstract class AbstractListenerWriteProcessor<T> implements Processor<T, 
 	}
 
 	/**
-	 * Invoked during an error or completion callback from the underlying
-	 * container to cancel the upstream subscription.
+	 * Invoked during an error or completion callback from the underlying container to
+	 * cancel the upstream subscription.
 	 */
 	public void cancel() {
 		rsWriteLogger.trace(getLogPrefix() + "Cancellation");
@@ -174,26 +170,25 @@ public abstract class AbstractListenerWriteProcessor<T> implements Processor<T, 
 		this.resultPublisher.subscribe(subscriber);
 	}
 
-
 	// Write API methods to be implemented or template methods to override...
 
 	/**
-	 * Whether the given data item has any content to write.
-	 * If false the item is not written.
+	 * Whether the given data item has any content to write. If false the item is not
+	 * written.
 	 */
 	protected abstract boolean isDataEmpty(T data);
 
 	/**
 	 * Template method invoked after a data item to write is received via
-	 * {@link Subscriber#onNext(Object)}. The default implementation saves the
-	 * data item for writing once that is possible.
+	 * {@link Subscriber#onNext(Object)}. The default implementation saves the data item
+	 * for writing once that is possible.
 	 */
 	protected void dataReceived(T data) {
 		T prev = this.currentData;
 		if (prev != null) {
 			// This shouldn't happen:
-			//   1. dataReceived can only be called from REQUESTED state
-			//   2. currentData is cleared before requesting
+			// 1. dataReceived can only be called from REQUESTED state
+			// 2. currentData is cleared before requesting
 			discardData(data);
 			cancel();
 			onError(new IllegalStateException("Received new data while current not processed yet."));
@@ -208,23 +203,25 @@ public abstract class AbstractListenerWriteProcessor<T> implements Processor<T, 
 
 	/**
 	 * Write the given item.
-	 * <p><strong>Note:</strong> Sub-classes are responsible for releasing any
-	 * data buffer associated with the item, once fully written, if pooled
-	 * buffers apply to the underlying container.
+	 * <p>
+	 * <strong>Note:</strong> Sub-classes are responsible for releasing any data buffer
+	 * associated with the item, once fully written, if pooled buffers apply to the
+	 * underlying container.
 	 * @param data the item to write
-	 * @return {@code true} if the current data item was written completely and
-	 * a new item requested, or {@code false} if it was written partially and
-	 * we'll need more write callbacks before it is fully written
+	 * @return {@code true} if the current data item was written completely and a new item
+	 * requested, or {@code false} if it was written partially and we'll need more write
+	 * callbacks before it is fully written
 	 */
 	protected abstract boolean write(T data) throws IOException;
 
 	/**
-	 * Invoked after the current data has been written and before requesting
-	 * the next item from the upstream, write Publisher.
-	 * <p>The default implementation is a no-op.
-	 * @deprecated originally introduced for Undertow to stop write notifications
-	 * when no data is available, but deprecated as of as of 5.0.6 since constant
-	 * switching on every requested item causes a significant slowdown.
+	 * Invoked after the current data has been written and before requesting the next item
+	 * from the upstream, write Publisher.
+	 * <p>
+	 * The default implementation is a no-op.
+	 * @deprecated originally introduced for Undertow to stop write notifications when no
+	 * data is available, but deprecated as of as of 5.0.6 since constant switching on
+	 * every requested item causes a significant slowdown.
 	 */
 	@Deprecated
 	protected void writingPaused() {
@@ -232,30 +229,30 @@ public abstract class AbstractListenerWriteProcessor<T> implements Processor<T, 
 
 	/**
 	 * Invoked after onComplete or onError notification.
-	 * <p>The default implementation is a no-op.
+	 * <p>
+	 * The default implementation is a no-op.
 	 */
 	protected void writingComplete() {
 	}
 
 	/**
-	 * Invoked when an I/O error occurs during a write. Sub-classes may choose
-	 * to ignore this if they know the underlying API will provide an error
-	 * notification in a container thread.
-	 * <p>Defaults to no-op.
+	 * Invoked when an I/O error occurs during a write. Sub-classes may choose to ignore
+	 * this if they know the underlying API will provide an error notification in a
+	 * container thread.
+	 * <p>
+	 * Defaults to no-op.
 	 */
 	protected void writingFailed(Throwable ex) {
 	}
 
 	/**
-	 * Invoked after any error (either from the upstream write Publisher, or
-	 * from I/O operations to the underlying server) and cancellation
-	 * to discard in-flight data that was in
-	 * the process of being written when the error took place.
+	 * Invoked after any error (either from the upstream write Publisher, or from I/O
+	 * operations to the underlying server) and cancellation to discard in-flight data
+	 * that was in the process of being written when the error took place.
 	 * @param data the data to be released
 	 * @since 5.0.11
 	 */
 	protected abstract void discardData(T data);
-
 
 	// Private methods for use from State's...
 
@@ -302,11 +299,11 @@ public abstract class AbstractListenerWriteProcessor<T> implements Processor<T, 
 		}
 	}
 
-
 	/**
 	 * Represents a state for the {@link Processor} to be in.
 	 *
-	 * <p><pre>
+	 * <p>
+	 * <pre>
 	 *        UNSUBSCRIBED
 	 *             |
 	 *             v
@@ -336,7 +333,8 @@ public abstract class AbstractListenerWriteProcessor<T> implements Processor<T, 
 
 			@Override
 			public <T> void onComplete(AbstractListenerWriteProcessor<T> processor) {
-				// This can happen on (very early) completion notification from container..
+				// This can happen on (very early) completion notification from
+				// container..
 				processor.changeStateToComplete(this);
 			}
 		},
@@ -353,6 +351,7 @@ public abstract class AbstractListenerWriteProcessor<T> implements Processor<T, 
 					processor.changeStateToReceived(this);
 				}
 			}
+
 			@Override
 			public <T> void onComplete(AbstractListenerWriteProcessor<T> processor) {
 				processor.readyToCompleteAfterLastWrite = true;
@@ -421,10 +420,12 @@ public abstract class AbstractListenerWriteProcessor<T> implements Processor<T, 
 			public <T> void onNext(AbstractListenerWriteProcessor<T> processor, T data) {
 				// ignore
 			}
+
 			@Override
 			public <T> void onError(AbstractListenerWriteProcessor<T> processor, Throwable ex) {
 				// ignore
 			}
+
 			@Override
 			public <T> void onComplete(AbstractListenerWriteProcessor<T> processor) {
 				// ignore
@@ -459,6 +460,7 @@ public abstract class AbstractListenerWriteProcessor<T> implements Processor<T, 
 		public <T> void onWritePossible(AbstractListenerWriteProcessor<T> processor) {
 			// ignore
 		}
+
 	}
 
 }

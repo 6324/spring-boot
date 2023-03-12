@@ -40,17 +40,19 @@ import org.springframework.web.util.WebUtils;
 
 /**
  * Servlet-based {@link MultipartResolver} implementation for
- * <a href="https://commons.apache.org/proper/commons-fileupload">Apache Commons FileUpload</a>
- * 1.2 or above.
+ * <a href="https://commons.apache.org/proper/commons-fileupload">Apache Commons
+ * FileUpload</a> 1.2 or above.
  *
- * <p>Provides "maxUploadSize", "maxInMemorySize" and "defaultEncoding" settings as
- * bean properties (inherited from {@link CommonsFileUploadSupport}). See corresponding
+ * <p>
+ * Provides "maxUploadSize", "maxInMemorySize" and "defaultEncoding" settings as bean
+ * properties (inherited from {@link CommonsFileUploadSupport}). See corresponding
  * ServletFileUpload / DiskFileItemFactory properties ("sizeMax", "sizeThreshold",
  * "headerEncoding") for details in terms of defaults and accepted values.
  *
- * <p>Saves temporary files to the servlet container's temporary directory.
- * Needs to be initialized <i>either</i> by an application context <i>or</i>
- * via the constructor that takes a ServletContext (for standalone usage).
+ * <p>
+ * Saves temporary files to the servlet container's temporary directory. Needs to be
+ * initialized <i>either</i> by an application context <i>or</i> via the constructor that
+ * takes a ServletContext (for standalone usage).
  *
  * @author Trevor D. Cook
  * @author Juergen Hoeller
@@ -65,11 +67,10 @@ public class CommonsMultipartResolver extends CommonsFileUploadSupport
 
 	private boolean resolveLazily = false;
 
-
 	/**
-	 * Constructor for use as bean. Determines the servlet container's
-	 * temporary directory via the ServletContext passed in as through the
-	 * ServletContextAware interface (typically by a WebApplicationContext).
+	 * Constructor for use as bean. Determines the servlet container's temporary directory
+	 * via the ServletContext passed in as through the ServletContextAware interface
+	 * (typically by a WebApplicationContext).
 	 * @see #setServletContext
 	 * @see org.springframework.web.context.ServletContextAware
 	 * @see org.springframework.web.context.WebApplicationContext
@@ -79,8 +80,8 @@ public class CommonsMultipartResolver extends CommonsFileUploadSupport
 	}
 
 	/**
-	 * Constructor for standalone usage. Determines the servlet container's
-	 * temporary directory via the given ServletContext.
+	 * Constructor for standalone usage. Determines the servlet container's temporary
+	 * directory via the given ServletContext.
 	 * @param servletContext the ServletContext to use
 	 */
 	public CommonsMultipartResolver(ServletContext servletContext) {
@@ -88,22 +89,23 @@ public class CommonsMultipartResolver extends CommonsFileUploadSupport
 		setServletContext(servletContext);
 	}
 
-
 	/**
-	 * Set whether to resolve the multipart request lazily at the time of
-	 * file or parameter access.
-	 * <p>Default is "false", resolving the multipart elements immediately, throwing
-	 * corresponding exceptions at the time of the {@link #resolveMultipart} call.
-	 * Switch this to "true" for lazy multipart parsing, throwing parse exceptions
-	 * once the application attempts to obtain multipart files or parameters.
+	 * Set whether to resolve the multipart request lazily at the time of file or
+	 * parameter access.
+	 * <p>
+	 * Default is "false", resolving the multipart elements immediately, throwing
+	 * corresponding exceptions at the time of the {@link #resolveMultipart} call. Switch
+	 * this to "true" for lazy multipart parsing, throwing parse exceptions once the
+	 * application attempts to obtain multipart files or parameters.
 	 */
 	public void setResolveLazily(boolean resolveLazily) {
 		this.resolveLazily = resolveLazily;
 	}
 
 	/**
-	 * Initialize the underlying {@code org.apache.commons.fileupload.servlet.ServletFileUpload}
-	 * instance. Can be overridden to use a custom subclass, e.g. for testing purposes.
+	 * Initialize the underlying
+	 * {@code org.apache.commons.fileupload.servlet.ServletFileUpload} instance. Can be
+	 * overridden to use a custom subclass, e.g. for testing purposes.
 	 * @param fileItemFactory the Commons FileItemFactory to use
 	 * @return the new ServletFileUpload instance
 	 */
@@ -118,7 +120,6 @@ public class CommonsMultipartResolver extends CommonsFileUploadSupport
 			getFileItemFactory().setRepository(WebUtils.getTempDir(servletContext));
 		}
 	}
-
 
 	@Override
 	public boolean isMultipart(HttpServletRequest request) {
@@ -171,10 +172,10 @@ public class CommonsMultipartResolver extends CommonsFileUploadSupport
 	}
 
 	/**
-	 * Determine the encoding for the given request.
-	 * Can be overridden in subclasses.
-	 * <p>The default implementation checks the request encoding,
-	 * falling back to the default encoding specified for this resolver.
+	 * Determine the encoding for the given request. Can be overridden in subclasses.
+	 * <p>
+	 * The default implementation checks the request encoding, falling back to the default
+	 * encoding specified for this resolver.
 	 * @param request current HTTP request
 	 * @return the encoding for the request (never {@code null})
 	 * @see javax.servlet.ServletRequest#getCharacterEncoding
@@ -190,8 +191,8 @@ public class CommonsMultipartResolver extends CommonsFileUploadSupport
 
 	@Override
 	public void cleanupMultipart(MultipartHttpServletRequest request) {
-		if (!(request instanceof AbstractMultipartHttpServletRequest) ||
-				((AbstractMultipartHttpServletRequest) request).isResolved()) {
+		if (!(request instanceof AbstractMultipartHttpServletRequest)
+				|| ((AbstractMultipartHttpServletRequest) request).isResolved()) {
 			try {
 				cleanupFileItems(request.getMultiFileMap());
 			}

@@ -67,7 +67,6 @@ public class SpringHandlerInstantiatorTests {
 
 	private ObjectMapper objectMapper;
 
-
 	@BeforeEach
 	public void setup() {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
@@ -78,7 +77,6 @@ public class SpringHandlerInstantiatorTests {
 		instantiator = new SpringHandlerInstantiator(bf);
 		objectMapper = Jackson2ObjectMapperBuilder.json().handlerInstantiator(instantiator).build();
 	}
-
 
 	@Test
 	public void autowiredSerializer() throws JsonProcessingException {
@@ -114,20 +112,20 @@ public class SpringHandlerInstantiatorTests {
 		assertThat(CustomTypeIdResolver.isAutowiredFiledInitialized).isTrue();
 	}
 
-
 	public static class UserDeserializer extends JsonDeserializer<User> {
 
 		@Autowired
 		private Capitalizer capitalizer;
 
 		@Override
-		public User deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws  IOException {
+		public User deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
+				throws IOException {
 			ObjectCodec oc = jsonParser.getCodec();
 			JsonNode node = oc.readTree(jsonParser);
 			return new User(this.capitalizer.capitalize(node.get("username").asText()));
 		}
-	}
 
+	}
 
 	public static class UserSerializer extends JsonSerializer<User> {
 
@@ -135,15 +133,15 @@ public class SpringHandlerInstantiatorTests {
 		private Capitalizer capitalizer;
 
 		@Override
-		public void serialize(User user, JsonGenerator jsonGenerator,
-				SerializerProvider serializerProvider) throws IOException {
+		public void serialize(User user, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
+				throws IOException {
 
 			jsonGenerator.writeStartObject();
 			jsonGenerator.writeStringField("username", this.capitalizer.capitalize(user.getUsername()));
 			jsonGenerator.writeEndObject();
 		}
-	}
 
+	}
 
 	public static class UpperCaseKeyDeserializer extends KeyDeserializer {
 
@@ -154,8 +152,8 @@ public class SpringHandlerInstantiatorTests {
 		public Object deserializeKey(String key, DeserializationContext context) throws IOException {
 			return this.capitalizer.capitalize(key);
 		}
-	}
 
+	}
 
 	public static class CustomTypeResolverBuilder extends StdTypeResolverBuilder {
 
@@ -173,13 +171,13 @@ public class SpringHandlerInstantiatorTests {
 		}
 
 		@Override
-		public TypeDeserializer buildTypeDeserializer(DeserializationConfig config,
-				JavaType baseType, Collection<NamedType> subtypes) {
+		public TypeDeserializer buildTypeDeserializer(DeserializationConfig config, JavaType baseType,
+				Collection<NamedType> subtypes) {
 
 			return super.buildTypeDeserializer(config, baseType, subtypes);
 		}
-	}
 
+	}
 
 	public static class CustomTypeIdResolver implements TypeIdResolver {
 
@@ -225,8 +223,8 @@ public class SpringHandlerInstantiatorTests {
 		public String getDescForKnownTypeIds() {
 			return null;
 		}
-	}
 
+	}
 
 	@JsonDeserialize(using = UserDeserializer.class)
 	@JsonSerialize(using = UserSerializer.class)
@@ -241,9 +239,11 @@ public class SpringHandlerInstantiatorTests {
 			this.username = username;
 		}
 
-		public String getUsername() { return this.username; }
-	}
+		public String getUsername() {
+			return this.username;
+		}
 
+	}
 
 	public static class SecurityRegistry {
 
@@ -257,8 +257,8 @@ public class SpringHandlerInstantiatorTests {
 		public Map<String, String> getCredentials() {
 			return credentials;
 		}
-	}
 
+	}
 
 	@JsonTypeInfo(use = JsonTypeInfo.Id.CUSTOM, property = "type")
 	@JsonTypeResolver(CustomTypeResolverBuilder.class)
@@ -268,14 +268,15 @@ public class SpringHandlerInstantiatorTests {
 		public String getType() {
 			return Group.class.getName();
 		}
-	}
 
+	}
 
 	public static class Capitalizer {
 
 		public String capitalize(String text) {
 			return text.toUpperCase();
 		}
+
 	}
 
 }

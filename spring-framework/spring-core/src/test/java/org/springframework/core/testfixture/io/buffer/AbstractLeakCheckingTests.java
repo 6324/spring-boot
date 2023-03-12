@@ -20,9 +20,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.springframework.core.io.buffer.DataBufferFactory;
 
 /**
- * Abstract base class for unit tests that allocate data buffers via a {@link DataBufferFactory}.
- * After each unit test, this base class checks whether all created buffers have been released,
- * throwing an {@link AssertionError} if not.
+ * Abstract base class for unit tests that allocate data buffers via a
+ * {@link DataBufferFactory}. After each unit test, this base class checks whether all
+ * created buffers have been released, throwing an {@link AssertionError} if not.
  *
  * @author Arjen Poutsma
  * @since 5.1.3
@@ -36,8 +36,8 @@ public abstract class AbstractLeakCheckingTests {
 	protected final LeakAwareDataBufferFactory bufferFactory = new LeakAwareDataBufferFactory();
 
 	/**
-	 * Checks whether any of the data buffers created by {@link #bufferFactory} have not been
-	 * released, throwing an assertion error if so.
+	 * Checks whether any of the data buffers created by {@link #bufferFactory} have not
+	 * been released, throwing an assertion error if so.
 	 */
 	@AfterEach
 	final void checkForLeaks() {

@@ -22,10 +22,10 @@ import org.springframework.objenesis.instantiator.ObjectInstantiator;
 import org.springframework.objenesis.instantiator.annotations.Instantiator;
 import org.springframework.objenesis.instantiator.annotations.Typology;
 
-
 /**
- * Instantiates a class by grabbing the no args constructor and calling Constructor.newInstance().
- * This can deal with default public constructors, but that's about it.
+ * Instantiates a class by grabbing the no args constructor and calling
+ * Constructor.newInstance(). This can deal with default public constructors, but that's
+ * about it.
  *
  * @author Joe Walnes
  * @param <T> Type instantiated
@@ -34,24 +34,24 @@ import org.springframework.objenesis.instantiator.annotations.Typology;
 @Instantiator(Typology.NOT_COMPLIANT)
 public class ConstructorInstantiator<T> implements ObjectInstantiator<T> {
 
-   protected Constructor<T> constructor;
+	protected Constructor<T> constructor;
 
-   public ConstructorInstantiator(Class<T> type) {
-      try {
-         constructor = type.getDeclaredConstructor((Class[]) null);
-      }
-      catch(Exception e) {
-         throw new ObjenesisException(e);
-      }
-   }
+	public ConstructorInstantiator(Class<T> type) {
+		try {
+			constructor = type.getDeclaredConstructor((Class[]) null);
+		}
+		catch (Exception e) {
+			throw new ObjenesisException(e);
+		}
+	}
 
-   public T newInstance() {
-      try {
-         return constructor.newInstance((Object[]) null);
-      }
-      catch(Exception e) {
-          throw new ObjenesisException(e);
-      }
-   }
+	public T newInstance() {
+		try {
+			return constructor.newInstance((Object[]) null);
+		}
+		catch (Exception e) {
+			throw new ObjenesisException(e);
+		}
+	}
 
 }

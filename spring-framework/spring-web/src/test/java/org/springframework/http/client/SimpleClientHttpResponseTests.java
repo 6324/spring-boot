@@ -44,8 +44,7 @@ public class SimpleClientHttpResponseTests {
 
 	private final SimpleClientHttpResponse response = new SimpleClientHttpResponse(this.connection);
 
-
-	@Test  // SPR-14040
+	@Test // SPR-14040
 	public void shouldNotCloseConnectionWhenResponseClosed() throws Exception {
 		TestByteArrayInputStream is = new TestByteArrayInputStream("Spring".getBytes(StandardCharsets.UTF_8));
 		given(this.connection.getErrorStream()).willReturn(null);
@@ -59,7 +58,7 @@ public class SimpleClientHttpResponseTests {
 		verify(this.connection, never()).disconnect();
 	}
 
-	@Test  // SPR-14040
+	@Test // SPR-14040
 	public void shouldDrainStreamWhenResponseClosed() throws Exception {
 		byte[] buf = new byte[6];
 		TestByteArrayInputStream is = new TestByteArrayInputStream("SpringSpring".getBytes(StandardCharsets.UTF_8));
@@ -77,7 +76,7 @@ public class SimpleClientHttpResponseTests {
 		verify(this.connection, never()).disconnect();
 	}
 
-	@Test  // SPR-14040
+	@Test // SPR-14040
 	public void shouldDrainErrorStreamWhenResponseClosed() throws Exception {
 		byte[] buf = new byte[6];
 		TestByteArrayInputStream is = new TestByteArrayInputStream("SpringSpring".getBytes(StandardCharsets.UTF_8));
@@ -94,7 +93,7 @@ public class SimpleClientHttpResponseTests {
 		verify(this.connection, never()).disconnect();
 	}
 
-	@Test  // SPR-16773
+	@Test // SPR-16773
 	public void shouldNotDrainWhenErrorStreamClosed() throws Exception {
 		InputStream is = mock(InputStream.class);
 		given(this.connection.getErrorStream()).willReturn(is);
@@ -120,7 +119,6 @@ public class SimpleClientHttpResponseTests {
 		verify(this.connection, never()).disconnect();
 	}
 
-
 	private static class TestByteArrayInputStream extends ByteArrayInputStream {
 
 		private boolean closed;
@@ -139,6 +137,7 @@ public class SimpleClientHttpResponseTests {
 			super.close();
 			this.closed = true;
 		}
+
 	}
 
 }

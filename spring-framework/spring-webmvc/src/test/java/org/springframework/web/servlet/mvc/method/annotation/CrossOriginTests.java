@@ -73,7 +73,6 @@ public class CrossOriginTests {
 
 	private final String corsPreflightHandler = "org.springframework.web.servlet.handler.AbstractHandlerMapping$PreFlightHandler";
 
-
 	@BeforeEach
 	@SuppressWarnings("resource")
 	public void setup() {
@@ -90,7 +89,6 @@ public class CrossOriginTests {
 		this.request.setMethod("GET");
 		this.request.addHeader(HttpHeaders.ORIGIN, "https://domain.com/");
 	}
-
 
 	@Test
 	public void noAnnotationWithoutOrigin() throws Exception {
@@ -119,7 +117,7 @@ public class CrossOriginTests {
 		assertThat(chain.getHandler().getClass().getName()).isEqualTo(corsPreflightHandler);
 	}
 
-	@Test  // SPR-12931
+	@Test // SPR-12931
 	public void noAnnotationWithOrigin() throws Exception {
 		this.handlerMapping.registerHandler(new MethodLevelController());
 		this.request.setRequestURI("/no");
@@ -127,7 +125,7 @@ public class CrossOriginTests {
 		assertThat(getCorsConfiguration(chain, false)).isNull();
 	}
 
-	@Test  // SPR-12931
+	@Test // SPR-12931
 	public void noAnnotationPostWithOrigin() throws Exception {
 		this.handlerMapping.registerHandler(new MethodLevelController());
 		this.request.setMethod("POST");
@@ -143,10 +141,10 @@ public class CrossOriginTests {
 		HandlerExecutionChain chain = this.handlerMapping.getHandler(request);
 		CorsConfiguration config = getCorsConfiguration(chain, false);
 		assertThat(config).isNotNull();
-		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] {"GET"});
-		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] {"*"});
+		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] { "GET" });
+		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] { "*" });
 		assertThat(config.getAllowCredentials()).isNull();
-		assertThat(config.getAllowedHeaders().toArray()).isEqualTo(new String[] {"*"});
+		assertThat(config.getAllowedHeaders().toArray()).isEqualTo(new String[] { "*" });
 		assertThat(CollectionUtils.isEmpty(config.getExposedHeaders())).isTrue();
 		assertThat(config.getMaxAge()).isEqualTo(new Long(1800));
 	}
@@ -158,10 +156,11 @@ public class CrossOriginTests {
 		HandlerExecutionChain chain = this.handlerMapping.getHandler(request);
 		CorsConfiguration config = getCorsConfiguration(chain, false);
 		assertThat(config).isNotNull();
-		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] {"DELETE"});
-		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] {"https://site1.com", "https://site2.com"});
-		assertThat(config.getAllowedHeaders().toArray()).isEqualTo(new String[] {"header1", "header2"});
-		assertThat(config.getExposedHeaders().toArray()).isEqualTo(new String[] {"header3", "header4"});
+		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] { "DELETE" });
+		assertThat(config.getAllowedOrigins().toArray())
+				.isEqualTo(new String[] { "https://site1.com", "https://site2.com" });
+		assertThat(config.getAllowedHeaders().toArray()).isEqualTo(new String[] { "header1", "header2" });
+		assertThat(config.getExposedHeaders().toArray()).isEqualTo(new String[] { "header3", "header4" });
 		assertThat(config.getMaxAge()).isEqualTo(new Long(123));
 		assertThat((boolean) config.getAllowCredentials()).isFalse();
 	}
@@ -190,10 +189,10 @@ public class CrossOriginTests {
 
 	@Test
 	public void bogusAllowCredentialsValue() throws Exception {
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.handlerMapping.registerHandler(new MethodLevelControllerWithBogusAllowCredentialsValue()))
-			.withMessageContaining("@CrossOrigin's allowCredentials")
-			.withMessageContaining("current value is [bogus]");
+		assertThatIllegalStateException().isThrownBy(
+				() -> this.handlerMapping.registerHandler(new MethodLevelControllerWithBogusAllowCredentialsValue()))
+				.withMessageContaining("@CrossOrigin's allowCredentials")
+				.withMessageContaining("current value is [bogus]");
 	}
 
 	@Test
@@ -204,24 +203,24 @@ public class CrossOriginTests {
 		HandlerExecutionChain chain = this.handlerMapping.getHandler(request);
 		CorsConfiguration config = getCorsConfiguration(chain, false);
 		assertThat(config).isNotNull();
-		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] {"GET"});
-		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] {"*"});
+		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] { "GET" });
+		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] { "*" });
 		assertThat((boolean) config.getAllowCredentials()).isFalse();
 
 		this.request.setRequestURI("/bar");
 		chain = this.handlerMapping.getHandler(request);
 		config = getCorsConfiguration(chain, false);
 		assertThat(config).isNotNull();
-		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] {"GET"});
-		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] {"*"});
+		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] { "GET" });
+		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] { "*" });
 		assertThat((boolean) config.getAllowCredentials()).isFalse();
 
 		this.request.setRequestURI("/baz");
 		chain = this.handlerMapping.getHandler(request);
 		config = getCorsConfiguration(chain, false);
 		assertThat(config).isNotNull();
-		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] {"GET"});
-		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] {"*"});
+		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] { "GET" });
+		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] { "*" });
 		assertThat((boolean) config.getAllowCredentials()).isTrue();
 	}
 
@@ -233,8 +232,8 @@ public class CrossOriginTests {
 		HandlerExecutionChain chain = this.handlerMapping.getHandler(request);
 		CorsConfiguration config = getCorsConfiguration(chain, false);
 		assertThat(config).isNotNull();
-		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] {"GET"});
-		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] {"http://www.foo.example/"});
+		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] { "GET" });
+		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] { "http://www.foo.example/" });
 		assertThat((boolean) config.getAllowCredentials()).isTrue();
 	}
 
@@ -246,8 +245,8 @@ public class CrossOriginTests {
 		HandlerExecutionChain chain = this.handlerMapping.getHandler(request);
 		CorsConfiguration config = getCorsConfiguration(chain, false);
 		assertThat(config).isNotNull();
-		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] {"GET"});
-		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] {"http://www.foo.example/"});
+		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] { "GET" });
+		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] { "http://www.foo.example/" });
 		assertThat((boolean) config.getAllowCredentials()).isTrue();
 	}
 
@@ -260,10 +259,10 @@ public class CrossOriginTests {
 		HandlerExecutionChain chain = this.handlerMapping.getHandler(request);
 		CorsConfiguration config = getCorsConfiguration(chain, true);
 		assertThat(config).isNotNull();
-		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] {"GET"});
-		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] {"*"});
+		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] { "GET" });
+		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] { "*" });
 		assertThat(config.getAllowCredentials()).isNull();
-		assertThat(config.getAllowedHeaders().toArray()).isEqualTo(new String[] {"*"});
+		assertThat(config.getAllowedHeaders().toArray()).isEqualTo(new String[] { "*" });
 		assertThat(CollectionUtils.isEmpty(config.getExposedHeaders())).isTrue();
 		assertThat(config.getMaxAge()).isEqualTo(new Long(1800));
 	}
@@ -278,9 +277,9 @@ public class CrossOriginTests {
 		HandlerExecutionChain chain = this.handlerMapping.getHandler(request);
 		CorsConfiguration config = getCorsConfiguration(chain, true);
 		assertThat(config).isNotNull();
-		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] {"*"});
-		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] {"*"});
-		assertThat(config.getAllowedHeaders().toArray()).isEqualTo(new String[] {"*"});
+		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] { "*" });
+		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] { "*" });
+		assertThat(config.getAllowedHeaders().toArray()).isEqualTo(new String[] { "*" });
 		assertThat((boolean) config.getAllowCredentials()).isTrue();
 		assertThat(CollectionUtils.isEmpty(config.getExposedHeaders())).isTrue();
 		assertThat(config.getMaxAge()).isNull();
@@ -295,9 +294,9 @@ public class CrossOriginTests {
 		HandlerExecutionChain chain = this.handlerMapping.getHandler(request);
 		CorsConfiguration config = getCorsConfiguration(chain, true);
 		assertThat(config).isNotNull();
-		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] {"*"});
-		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] {"*"});
-		assertThat(config.getAllowedHeaders().toArray()).isEqualTo(new String[] {"*"});
+		assertThat(config.getAllowedMethods().toArray()).isEqualTo(new String[] { "*" });
+		assertThat(config.getAllowedOrigins().toArray()).isEqualTo(new String[] { "*" });
+		assertThat(config.getAllowedHeaders().toArray()).isEqualTo(new String[] { "*" });
 		assertThat((boolean) config.getAllowCredentials()).isTrue();
 		assertThat(CollectionUtils.isEmpty(config.getExposedHeaders())).isTrue();
 		assertThat(config.getMaxAge()).isNull();
@@ -310,13 +309,12 @@ public class CrossOriginTests {
 		assertThat(this.handlerMapping.getHandler(request)).isNull();
 	}
 
-
 	private CorsConfiguration getCorsConfiguration(HandlerExecutionChain chain, boolean isPreFlightRequest) {
 		if (isPreFlightRequest) {
 			Object handler = chain.getHandler();
 			assertThat(handler.getClass().getSimpleName().equals("PreFlightHandler")).isTrue();
 			DirectFieldAccessor accessor = new DirectFieldAccessor(handler);
-			return (CorsConfiguration)accessor.getPropertyValue("config");
+			return (CorsConfiguration) accessor.getPropertyValue("config");
 		}
 		else {
 			HandlerInterceptor[] interceptors = chain.getInterceptors();
@@ -331,7 +329,6 @@ public class CrossOriginTests {
 		}
 		return null;
 	}
-
 
 	@Controller
 	private static class MethodLevelController {
@@ -376,11 +373,8 @@ public class CrossOriginTests {
 			return "{}";
 		}
 
-		@CrossOrigin(origins = { "https://site1.com", "https://site2.com" },
-				allowedHeaders = { "header1", "header2" },
-				exposedHeaders = { "header3", "header4" },
-				methods = RequestMethod.DELETE,
-				maxAge = 123,
+		@CrossOrigin(origins = { "https://site1.com", "https://site2.com" }, allowedHeaders = { "header1", "header2" },
+				exposedHeaders = { "header3", "header4" }, methods = RequestMethod.DELETE, maxAge = 123,
 				allowCredentials = "false")
 		@RequestMapping(path = "/customized", method = { RequestMethod.GET, RequestMethod.POST })
 		public void customized() {
@@ -395,8 +389,8 @@ public class CrossOriginTests {
 		@RequestMapping("/someOrigin")
 		public void customOriginDefinedViaPlaceholder() {
 		}
-	}
 
+	}
 
 	@Controller
 	private static class MethodLevelControllerWithBogusAllowCredentialsValue {
@@ -405,8 +399,8 @@ public class CrossOriginTests {
 		@RequestMapping("/bogus")
 		public void bogusAllowCredentialsValue() {
 		}
-	}
 
+	}
 
 	@Controller
 	@CrossOrigin(allowCredentials = "false")
@@ -428,8 +422,7 @@ public class CrossOriginTests {
 
 	}
 
-
-	@Target({ElementType.METHOD, ElementType.TYPE})
+	@Target({ ElementType.METHOD, ElementType.TYPE })
 	@Retention(RetentionPolicy.RUNTIME)
 	@CrossOrigin
 	private @interface ComposedCrossOrigin {
@@ -437,8 +430,8 @@ public class CrossOriginTests {
 		String[] origins() default {};
 
 		String allowCredentials() default "";
-	}
 
+	}
 
 	@Controller
 	@ComposedCrossOrigin(origins = "http://www.foo.example/", allowCredentials = "true")
@@ -447,8 +440,8 @@ public class CrossOriginTests {
 		@RequestMapping(path = "/foo", method = RequestMethod.GET)
 		public void foo() {
 		}
-	}
 
+	}
 
 	@Controller
 	private static class MethodLevelMappingWithComposedAnnotation {
@@ -457,8 +450,8 @@ public class CrossOriginTests {
 		@ComposedCrossOrigin(origins = "http://www.foo.example/", allowCredentials = "true")
 		public void foo() {
 		}
-	}
 
+	}
 
 	private static class TestRequestMappingInfoHandlerMapping extends RequestMappingHandlerMapping {
 
@@ -476,7 +469,8 @@ public class CrossOriginTests {
 			RequestMapping annotation = AnnotatedElementUtils.findMergedAnnotation(method, RequestMapping.class);
 			if (annotation != null) {
 				return new RequestMappingInfo(
-						new PatternsRequestCondition(annotation.value(), getUrlPathHelper(), getPathMatcher(), true, true),
+						new PatternsRequestCondition(annotation.value(), getUrlPathHelper(), getPathMatcher(), true,
+								true),
 						new RequestMethodsRequestCondition(annotation.method()),
 						new ParamsRequestCondition(annotation.params()),
 						new HeadersRequestCondition(annotation.headers()),
@@ -487,6 +481,7 @@ public class CrossOriginTests {
 				return null;
 			}
 		}
+
 	}
 
 }

@@ -33,4 +33,5 @@ class SimpleFloatEditor extends PropertyEditorSupport {
 	public String getAsText() {
 		return getValue() + "f";
 	}
+
 }

@@ -19,9 +19,8 @@ package org.springframework.web.util.pattern;
 import org.springframework.web.util.pattern.PathPattern.MatchingContext;
 
 /**
- * A separator path element. In the pattern '/foo/bar' the two occurrences
- * of '/' will be represented by a SeparatorPathElement (if the default
- * separator of '/' is being used).
+ * A separator path element. In the pattern '/foo/bar' the two occurrences of '/' will be
+ * represented by a SeparatorPathElement (if the default separator of '/' is being used).
  *
  * @author Andy Clement
  * @since 5.0
@@ -32,10 +31,9 @@ class SeparatorPathElement extends PathElement {
 		super(pos, separator);
 	}
 
-
 	/**
-	 * Matching a separator is easy, basically the character at candidateIndex
-	 * must be the separator.
+	 * Matching a separator is easy, basically the character at candidateIndex must be the
+	 * separator.
 	 */
 	@Override
 	public boolean matches(int pathIndex, MatchingContext matchingContext) {
@@ -69,7 +67,7 @@ class SeparatorPathElement extends PathElement {
 
 	@Override
 	public char[] getChars() {
-		return new char[] {this.separator};
+		return new char[] { this.separator };
 	}
 
 }

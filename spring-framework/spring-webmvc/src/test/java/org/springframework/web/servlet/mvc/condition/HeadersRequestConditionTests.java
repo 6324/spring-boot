@@ -151,7 +151,8 @@ public class HeadersRequestConditionTests {
 		HeadersRequestCondition condition1 = new HeadersRequestCondition("foo!=a");
 		HeadersRequestCondition condition2 = new HeadersRequestCondition("foo");
 
-		assertThat(condition1.compareTo(condition2, request)).as("Negated match should not count as more specific").isEqualTo(0);
+		assertThat(condition1.compareTo(condition2, request)).as("Negated match should not count as more specific")
+				.isEqualTo(0);
 	}
 
 	@Test
@@ -179,7 +180,5 @@ public class HeadersRequestConditionTests {
 		result = condition.getMatchingCondition(request);
 		assertThat(result).isNull();
 	}
-
-
 
 }

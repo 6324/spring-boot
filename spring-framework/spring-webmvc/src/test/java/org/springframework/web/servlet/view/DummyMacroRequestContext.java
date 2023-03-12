@@ -44,11 +44,9 @@ public class DummyMacroRequestContext {
 
 	private String contextPath;
 
-
 	public DummyMacroRequestContext(HttpServletRequest request) {
 		this.request = request;
 	}
-
 
 	public void setMessageMap(Map<String, String> messageMap) {
 		this.messageMap = messageMap;
@@ -58,7 +56,6 @@ public class DummyMacroRequestContext {
 		this.themeMessageMap = themeMessageMap;
 	}
 
-
 	/**
 	 * @see org.springframework.web.servlet.support.RequestContext#getMessage(String)
 	 */
@@ -67,7 +64,8 @@ public class DummyMacroRequestContext {
 	}
 
 	/**
-	 * @see org.springframework.web.servlet.support.RequestContext#getMessage(String, String)
+	 * @see org.springframework.web.servlet.support.RequestContext#getMessage(String,
+	 * String)
 	 */
 	public String getMessage(String code, String defaultMsg) {
 		String msg = this.messageMap.get(code);
@@ -75,14 +73,16 @@ public class DummyMacroRequestContext {
 	}
 
 	/**
-	 * @see org.springframework.web.servlet.support.RequestContext#getMessage(String, List)
+	 * @see org.springframework.web.servlet.support.RequestContext#getMessage(String,
+	 * List)
 	 */
 	public String getMessage(String code, List<?> args) {
 		return this.messageMap.get(code) + args;
 	}
 
 	/**
-	 * @see org.springframework.web.servlet.support.RequestContext#getMessage(String, List, String)
+	 * @see org.springframework.web.servlet.support.RequestContext#getMessage(String,
+	 * List, String)
 	 */
 	public String getMessage(String code, List<?> args, String defaultMsg) {
 		String msg = this.messageMap.get(code);
@@ -97,7 +97,8 @@ public class DummyMacroRequestContext {
 	}
 
 	/**
-	 * @see org.springframework.web.servlet.support.RequestContext#getThemeMessage(String, String)
+	 * @see org.springframework.web.servlet.support.RequestContext#getThemeMessage(String,
+	 * String)
 	 */
 	public String getThemeMessage(String code, String defaultMsg) {
 		String msg = this.themeMessageMap.get(code);
@@ -105,14 +106,16 @@ public class DummyMacroRequestContext {
 	}
 
 	/**
-	 * @see org.springframework.web.servlet.support.RequestContext#getThemeMessage(String, List)
+	 * @see org.springframework.web.servlet.support.RequestContext#getThemeMessage(String,
+	 * List)
 	 */
 	public String getThemeMessage(String code, List<?> args) {
 		return this.themeMessageMap.get(code) + args;
 	}
 
 	/**
-	 * @see org.springframework.web.servlet.support.RequestContext#getThemeMessage(String, List, String)
+	 * @see org.springframework.web.servlet.support.RequestContext#getThemeMessage(String,
+	 * List, String)
 	 */
 	public String getThemeMessage(String code, List<?> args, String defaultMsg) {
 		String msg = this.themeMessageMap.get(code);
@@ -138,9 +141,10 @@ public class DummyMacroRequestContext {
 	}
 
 	/**
-	 * @see org.springframework.web.servlet.support.RequestContext#getContextUrl(String, Map)
+	 * @see org.springframework.web.servlet.support.RequestContext#getContextUrl(String,
+	 * Map)
 	 */
-	public String getContextUrl(String relativeUrl, Map<String,String> params) {
+	public String getContextUrl(String relativeUrl, Map<String, String> params) {
 		UriComponents uric = UriComponentsBuilder.fromUriString(relativeUrl).buildAndExpand(params);
 		return getContextPath() + uric.toUri().toASCIIString();
 	}
@@ -153,7 +157,8 @@ public class DummyMacroRequestContext {
 	}
 
 	/**
-	 * @see org.springframework.web.servlet.support.RequestContext#getBindStatus(String, boolean)
+	 * @see org.springframework.web.servlet.support.RequestContext#getBindStatus(String,
+	 * boolean)
 	 */
 	public BindStatus getBindStatus(String path, boolean htmlEscape) throws IllegalStateException {
 		return new BindStatus(new RequestContext(this.request), path, htmlEscape);

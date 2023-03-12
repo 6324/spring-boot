@@ -19,8 +19,7 @@ package org.springframework.instrument;
 import java.lang.instrument.Instrumentation;
 
 /**
- * Java agent that saves the {@link Instrumentation} interface from the JVM
- * for later use.
+ * Java agent that saves the {@link Instrumentation} interface from the JVM for later use.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -31,10 +30,8 @@ public final class InstrumentationSavingAgent {
 
 	private static volatile Instrumentation instrumentation;
 
-
 	private InstrumentationSavingAgent() {
 	}
-
 
 	/**
 	 * Save the {@link Instrumentation} interface exposed by the JVM.
@@ -44,8 +41,8 @@ public final class InstrumentationSavingAgent {
 	}
 
 	/**
-	 * Save the {@link Instrumentation} interface exposed by the JVM.
-	 * This method is required to dynamically load this Agent with the Attach API.
+	 * Save the {@link Instrumentation} interface exposed by the JVM. This method is
+	 * required to dynamically load this Agent with the Attach API.
 	 */
 	public static void agentmain(String agentArgs, Instrumentation inst) {
 		instrumentation = inst;
@@ -53,15 +50,16 @@ public final class InstrumentationSavingAgent {
 
 	/**
 	 * Return the {@link Instrumentation} interface exposed by the JVM.
-	 * <p>Note that this agent class will typically not be available in the classpath
-	 * unless the agent is actually specified on JVM startup. If you intend to do
-	 * conditional checking with respect to agent availability, consider using
+	 * <p>
+	 * Note that this agent class will typically not be available in the classpath unless
+	 * the agent is actually specified on JVM startup. If you intend to do conditional
+	 * checking with respect to agent availability, consider using
 	 * {@link org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver#getInstrumentation()}
 	 * instead - which will work without the agent class in the classpath as well.
-	 * @return the {@code Instrumentation} instance previously saved when
-	 * the {@link #premain} or {@link #agentmain} methods was called by the JVM;
-	 * will be {@code null} if this class was not used as Java agent when this
-	 * JVM was started or it wasn't installed as agent using the Attach API.
+	 * @return the {@code Instrumentation} instance previously saved when the
+	 * {@link #premain} or {@link #agentmain} methods was called by the JVM; will be
+	 * {@code null} if this class was not used as Java agent when this JVM was started or
+	 * it wasn't installed as agent using the Attach API.
 	 * @see org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver#getInstrumentation()
 	 */
 	public static Instrumentation getInstrumentation() {

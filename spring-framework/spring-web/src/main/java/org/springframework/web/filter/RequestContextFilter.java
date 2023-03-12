@@ -28,16 +28,20 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
- * Servlet Filter that exposes the request to the current thread,
- * through both {@link org.springframework.context.i18n.LocaleContextHolder} and
+ * Servlet Filter that exposes the request to the current thread, through both
+ * {@link org.springframework.context.i18n.LocaleContextHolder} and
  * {@link RequestContextHolder}. To be registered as filter in {@code web.xml}.
  *
- * <p>Alternatively, Spring's {@link org.springframework.web.context.request.RequestContextListener}
- * and Spring's {@link org.springframework.web.servlet.DispatcherServlet} also expose
- * the same request context to the current thread.
+ * <p>
+ * Alternatively, Spring's
+ * {@link org.springframework.web.context.request.RequestContextListener} and Spring's
+ * {@link org.springframework.web.servlet.DispatcherServlet} also expose the same request
+ * context to the current thread.
  *
- * <p>This filter is mainly for use with third-party servlets, e.g. the JSF FacesServlet.
- * Within Spring's own web support, DispatcherServlet's processing is perfectly sufficient.
+ * <p>
+ * This filter is mainly for use with third-party servlets, e.g. the JSF FacesServlet.
+ * Within Spring's own web support, DispatcherServlet's processing is perfectly
+ * sufficient.
  *
  * @author Juergen Hoeller
  * @author Rod Johnson
@@ -52,23 +56,23 @@ public class RequestContextFilter extends OncePerRequestFilter {
 
 	private boolean threadContextInheritable = false;
 
-
 	/**
-	 * Set whether to expose the LocaleContext and RequestAttributes as inheritable
-	 * for child threads (using an {@link java.lang.InheritableThreadLocal}).
-	 * <p>Default is "false", to avoid side effects on spawned background threads.
-	 * Switch this to "true" to enable inheritance for custom child threads which
-	 * are spawned during request processing and only used for this request
-	 * (that is, ending after their initial task, without reuse of the thread).
-	 * <p><b>WARNING:</b> Do not use inheritance for child threads if you are
-	 * accessing a thread pool which is configured to potentially add new threads
-	 * on demand (e.g. a JDK {@link java.util.concurrent.ThreadPoolExecutor}),
-	 * since this will expose the inherited context to such a pooled thread.
+	 * Set whether to expose the LocaleContext and RequestAttributes as inheritable for
+	 * child threads (using an {@link java.lang.InheritableThreadLocal}).
+	 * <p>
+	 * Default is "false", to avoid side effects on spawned background threads. Switch
+	 * this to "true" to enable inheritance for custom child threads which are spawned
+	 * during request processing and only used for this request (that is, ending after
+	 * their initial task, without reuse of the thread).
+	 * <p>
+	 * <b>WARNING:</b> Do not use inheritance for child threads if you are accessing a
+	 * thread pool which is configured to potentially add new threads on demand (e.g. a
+	 * JDK {@link java.util.concurrent.ThreadPoolExecutor}), since this will expose the
+	 * inherited context to such a pooled thread.
 	 */
 	public void setThreadContextInheritable(boolean threadContextInheritable) {
 		this.threadContextInheritable = threadContextInheritable;
 	}
-
 
 	/**
 	 * Returns "false" so that the filter may set up the request context in each
@@ -80,8 +84,8 @@ public class RequestContextFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Returns "false" so that the filter may set up the request context in an
-	 * error dispatch.
+	 * Returns "false" so that the filter may set up the request context in an error
+	 * dispatch.
 	 */
 	@Override
 	protected boolean shouldNotFilterErrorDispatch() {
@@ -89,8 +93,7 @@ public class RequestContextFilter extends OncePerRequestFilter {
 	}
 
 	@Override
-	protected void doFilterInternal(
-			HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
 		ServletRequestAttributes attributes = new ServletRequestAttributes(request, response);

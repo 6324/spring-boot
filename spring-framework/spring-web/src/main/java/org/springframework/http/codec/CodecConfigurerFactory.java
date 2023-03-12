@@ -27,9 +27,9 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.util.ClassUtils;
 
 /**
- * Internal delegate for loading the default codec configurer class names.
- * Models a loose relationship with the default implementations in the support
- * package, literally only needing to know the default class name to use.
+ * Internal delegate for loading the default codec configurer class names. Models a loose
+ * relationship with the default implementations in the support package, literally only
+ * needing to know the default class name to use.
  *
  * @author Juergen Hoeller
  * @since 5.0.1
@@ -44,8 +44,8 @@ final class CodecConfigurerFactory {
 
 	static {
 		try {
-			Properties props = PropertiesLoaderUtils.loadProperties(
-					new ClassPathResource(DEFAULT_CONFIGURERS_PATH, CodecConfigurerFactory.class));
+			Properties props = PropertiesLoaderUtils
+					.loadProperties(new ClassPathResource(DEFAULT_CONFIGURERS_PATH, CodecConfigurerFactory.class));
 			for (String ifcName : props.stringPropertyNames()) {
 				String implName = props.getProperty(ifcName);
 				Class<?> ifc = ClassUtils.forName(ifcName, CodecConfigurerFactory.class.getClassLoader());
@@ -58,10 +58,8 @@ final class CodecConfigurerFactory {
 		}
 	}
 
-
 	private CodecConfigurerFactory() {
 	}
-
 
 	@SuppressWarnings("unchecked")
 	public static <T extends CodecConfigurer> T create(Class<T> ifc) {

@@ -58,7 +58,6 @@ public class RequestHeaderMapMethodArgumentResolverTests {
 
 	private MockHttpServletRequest request;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		resolver = new RequestHeaderMapMethodArgumentResolver();
@@ -72,7 +71,6 @@ public class RequestHeaderMapMethodArgumentResolverTests {
 		request = new MockHttpServletRequest();
 		webRequest = new ServletWebRequest(request, new MockHttpServletResponse());
 	}
-
 
 	@Test
 	public void supportsParameter() {
@@ -136,10 +134,8 @@ public class RequestHeaderMapMethodArgumentResolverTests {
 		assertThat(result).as("Invalid result").isEqualTo(expected);
 	}
 
-
-	public void params(@RequestHeader Map<?, ?> param1,
-			@RequestHeader MultiValueMap<?, ?> param2, @RequestHeader HttpHeaders param3,
-			Map<?, ?> unsupported) {
+	public void params(@RequestHeader Map<?, ?> param1, @RequestHeader MultiValueMap<?, ?> param2,
+			@RequestHeader HttpHeaders param3, Map<?, ?> unsupported) {
 	}
 
 }

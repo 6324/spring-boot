@@ -21,7 +21,8 @@ import java.util.Map;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 /**
- * Assist with configuring a {@link org.springframework.web.servlet.view.UrlBasedViewResolver}.
+ * Assist with configuring a
+ * {@link org.springframework.web.servlet.view.UrlBasedViewResolver}.
  *
  * @author Sebastien Deleuze
  * @author Rossen Stoyanchev
@@ -31,11 +32,9 @@ public class UrlBasedViewResolverRegistration {
 
 	protected final UrlBasedViewResolver viewResolver;
 
-
 	public UrlBasedViewResolverRegistration(UrlBasedViewResolver viewResolver) {
 		this.viewResolver = viewResolver;
 	}
-
 
 	protected UrlBasedViewResolver getViewResolver() {
 		return this.viewResolver;
@@ -69,9 +68,9 @@ public class UrlBasedViewResolverRegistration {
 	}
 
 	/**
-	 * Set the view names (or name patterns) that can be handled by this view
-	 * resolver. View names can contain simple wildcards such that 'my*', '*Report'
-	 * and '*Repo*' will all match the view name 'myReport'.
+	 * Set the view names (or name patterns) that can be handled by this view resolver.
+	 * View names can contain simple wildcards such that 'my*', '*Report' and '*Repo*'
+	 * will all match the view name 'myReport'.
 	 * @see org.springframework.web.servlet.view.UrlBasedViewResolver#setViewNames
 	 */
 	public UrlBasedViewResolverRegistration viewNames(String... viewNames) {
@@ -80,9 +79,9 @@ public class UrlBasedViewResolverRegistration {
 	}
 
 	/**
-	 * Set static attributes to be added to the model of every request for all
-	 * views resolved by this view resolver. This allows for setting any kind of
-	 * attribute values, for example bean references.
+	 * Set static attributes to be added to the model of every request for all views
+	 * resolved by this view resolver. This allows for setting any kind of attribute
+	 * values, for example bean references.
 	 * @see org.springframework.web.servlet.view.UrlBasedViewResolver#setAttributesMap
 	 */
 	public UrlBasedViewResolverRegistration attributes(Map<String, ?> attributes) {
@@ -91,8 +90,7 @@ public class UrlBasedViewResolverRegistration {
 	}
 
 	/**
-	 * Specify the maximum number of entries for the view cache.
-	 * Default is 1024.
+	 * Specify the maximum number of entries for the view cache. Default is 1024.
 	 * @see org.springframework.web.servlet.view.UrlBasedViewResolver#setCache(boolean)
 	 */
 	public UrlBasedViewResolverRegistration cacheLimit(int cacheLimit) {
@@ -102,10 +100,12 @@ public class UrlBasedViewResolverRegistration {
 
 	/**
 	 * Enable or disable caching.
-	 * <p>This is equivalent to setting the {@link #cacheLimit "cacheLimit"}
-	 * property to the default limit (1024) or to 0, respectively.
-	 * <p>Default is "true": caching is enabled.
-	 * Disable this only for debugging and development.
+	 * <p>
+	 * This is equivalent to setting the {@link #cacheLimit "cacheLimit"} property to the
+	 * default limit (1024) or to 0, respectively.
+	 * <p>
+	 * Default is "true": caching is enabled. Disable this only for debugging and
+	 * development.
 	 * @see org.springframework.web.servlet.view.UrlBasedViewResolver#setCache(boolean)
 	 */
 	public UrlBasedViewResolverRegistration cache(boolean cache) {
@@ -114,5 +114,3 @@ public class UrlBasedViewResolverRegistration {
 	}
 
 }
-
-

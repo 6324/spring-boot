@@ -42,8 +42,9 @@ import static org.mockito.Mockito.mock;
 /**
  * Base tests for {@link AbstractView}.
  *
- * <p>Not called {@code AbstractViewTests} since doing so would cause it
- * to be ignored in the Gradle build.
+ * <p>
+ * Not called {@code AbstractViewTests} since doing so would cause it to be ignored in the
+ * Gradle build.
  *
  * @author Rod Johnson
  * @author Sam Brannen
@@ -240,20 +241,16 @@ public class BaseViewTests {
 	public void attributeCSVParsingInvalid() {
 		AbstractView v = new ConcreteView();
 		// No equals
-		assertThatIllegalArgumentException().isThrownBy(() ->
-			v.setAttributesCSV("fweoiruiu"));
+		assertThatIllegalArgumentException().isThrownBy(() -> v.setAttributesCSV("fweoiruiu"));
 
 		// No value
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				v.setAttributesCSV("fweoiruiu="));
+		assertThatIllegalArgumentException().isThrownBy(() -> v.setAttributesCSV("fweoiruiu="));
 
 		// No closing ]
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				v.setAttributesCSV("fweoiruiu=["));
+		assertThatIllegalArgumentException().isThrownBy(() -> v.setAttributesCSV("fweoiruiu=["));
 
 		// Second one is bogus
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				v.setAttributesCSV("fweoiruiu=[de],="));
+		assertThatIllegalArgumentException().isThrownBy(() -> v.setAttributesCSV("fweoiruiu=[de],="));
 	}
 
 	@Test
@@ -268,26 +265,26 @@ public class BaseViewTests {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void checkContainsAll(Map expected, Map<String, Object> actual) {
-		expected.forEach((k, v) -> assertThat(actual.get(k)).as("Values for model key '" + k
-						+ "' must match").isEqualTo(expected.get(k)));
+		expected.forEach((k, v) -> assertThat(actual.get(k)).as("Values for model key '" + k + "' must match")
+				.isEqualTo(expected.get(k)));
 	}
-
 
 	/**
-	 * Trivial concrete subclass we can use when we're interested only
-	 * in CSV parsing, which doesn't require lifecycle management
+	 * Trivial concrete subclass we can use when we're interested only in CSV parsing,
+	 * which doesn't require lifecycle management
 	 */
 	private static class ConcreteView extends AbstractView {
+
 		// Do-nothing concrete subclass
 		@Override
-		protected void renderMergedOutputModel(Map<String, Object> model,
-				HttpServletRequest request, HttpServletResponse response)
+		protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
+				HttpServletResponse response)
 
-			throws ServletException, IOException {
+				throws ServletException, IOException {
 			throw new UnsupportedOperationException();
 		}
-	}
 
+	}
 
 	/**
 	 * Single threaded subclass of AbstractView to check superclass behavior.
@@ -322,6 +319,7 @@ public class BaseViewTests {
 			this.initialized = true;
 			assertThat(getApplicationContext() == wac).isTrue();
 		}
+
 	}
 
 }

@@ -33,8 +33,8 @@ import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.util.WebUtils;
 
 /**
- * A common delegate for {@code HandlerMethodArgumentResolver} implementations
- * which need to resolve {@link MultipartFile} and {@link Part} arguments.
+ * A common delegate for {@code HandlerMethodArgumentResolver} implementations which need
+ * to resolve {@link MultipartFile} and {@link Part} arguments.
  *
  * @author Juergen Hoeller
  * @since 4.3
@@ -46,10 +46,8 @@ public final class MultipartResolutionDelegate {
 	 */
 	public static final Object UNRESOLVABLE = new Object();
 
-
 	private MultipartResolutionDelegate() {
 	}
-
 
 	@Nullable
 	public static MultipartRequest resolveMultipartRequest(NativeWebRequest webRequest) {
@@ -65,8 +63,8 @@ public final class MultipartResolutionDelegate {
 	}
 
 	public static boolean isMultipartRequest(HttpServletRequest request) {
-		return (WebUtils.getNativeRequest(request, MultipartHttpServletRequest.class) != null ||
-				isMultipartContent(request));
+		return (WebUtils.getNativeRequest(request, MultipartHttpServletRequest.class) != null
+				|| isMultipartContent(request));
 	}
 
 	private static boolean isMultipartContent(HttpServletRequest request) {
@@ -82,20 +80,19 @@ public final class MultipartResolutionDelegate {
 		return new StandardMultipartHttpServletRequest(request);
 	}
 
-
 	public static boolean isMultipartArgument(MethodParameter parameter) {
 		Class<?> paramType = parameter.getNestedParameterType();
-		return (MultipartFile.class == paramType ||
-				isMultipartFileCollection(parameter) || isMultipartFileArray(parameter) ||
-				(Part.class == paramType || isPartCollection(parameter) || isPartArray(parameter)));
+		return (MultipartFile.class == paramType || isMultipartFileCollection(parameter)
+				|| isMultipartFileArray(parameter)
+				|| (Part.class == paramType || isPartCollection(parameter) || isPartArray(parameter)));
 	}
 
 	@Nullable
 	public static Object resolveMultipartArgument(String name, MethodParameter parameter, HttpServletRequest request)
 			throws Exception {
 
-		MultipartHttpServletRequest multipartRequest =
-				WebUtils.getNativeRequest(request, MultipartHttpServletRequest.class);
+		MultipartHttpServletRequest multipartRequest = WebUtils.getNativeRequest(request,
+				MultipartHttpServletRequest.class);
 		boolean isMultipart = (multipartRequest != null || isMultipartContent(request));
 
 		if (MultipartFile.class == parameter.getNestedParameterType()) {
@@ -123,7 +120,7 @@ public final class MultipartResolutionDelegate {
 			}
 		}
 		else if (Part.class == parameter.getNestedParameterType()) {
-			return (isMultipart ? request.getPart(name): null);
+			return (isMultipart ? request.getPart(name) : null);
 		}
 		else if (isPartCollection(parameter)) {
 			return (isMultipart ? resolvePartList(request, name) : null);
@@ -155,7 +152,7 @@ public final class MultipartResolutionDelegate {
 	@Nullable
 	private static Class<?> getCollectionParameterType(MethodParameter methodParam) {
 		Class<?> paramType = methodParam.getNestedParameterType();
-		if (Collection.class == paramType || List.class.isAssignableFrom(paramType)){
+		if (Collection.class == paramType || List.class.isAssignableFrom(paramType)) {
 			Class<?> valueType = ResolvableType.forMethodParameter(methodParam).asCollection().resolveGeneric();
 			if (valueType != null) {
 				return valueType;

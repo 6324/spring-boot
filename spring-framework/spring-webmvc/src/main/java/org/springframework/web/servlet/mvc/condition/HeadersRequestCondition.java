@@ -29,12 +29,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.cors.CorsUtils;
 
 /**
- * A logical conjunction (' && ') request condition that matches a request against
- * a set of header expressions with syntax defined in {@link RequestMapping#headers()}.
+ * A logical conjunction (' && ') request condition that matches a request against a set
+ * of header expressions with syntax defined in {@link RequestMapping#headers()}.
  *
- * <p>Expressions passed to the constructor with header names 'Accept' or
- * 'Content-Type' are ignored. See {@link ConsumesRequestCondition} and
- * {@link ProducesRequestCondition} for those.
+ * <p>
+ * Expressions passed to the constructor with header names 'Accept' or 'Content-Type' are
+ * ignored. See {@link ConsumesRequestCondition} and {@link ProducesRequestCondition} for
+ * those.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -44,16 +45,14 @@ public final class HeadersRequestCondition extends AbstractRequestCondition<Head
 
 	private static final HeadersRequestCondition PRE_FLIGHT_MATCH = new HeadersRequestCondition();
 
-
 	private final Set<HeaderExpression> expressions;
 
-
 	/**
-	 * Create a new instance from the given header expressions. Expressions with
-	 * header names 'Accept' or 'Content-Type' are ignored. See {@link ConsumesRequestCondition}
+	 * Create a new instance from the given header expressions. Expressions with header
+	 * names 'Accept' or 'Content-Type' are ignored. See {@link ConsumesRequestCondition}
 	 * and {@link ProducesRequestCondition} for those.
-	 * @param headers media type expressions with syntax defined in {@link RequestMapping#headers()};
-	 * if 0, the condition will match to every request
+	 * @param headers media type expressions with syntax defined in
+	 * {@link RequestMapping#headers()}; if 0, the condition will match to every request
 	 */
 	public HeadersRequestCondition(String... headers) {
 		this.expressions = parseExpressions(headers);
@@ -78,7 +77,6 @@ public final class HeadersRequestCondition extends AbstractRequestCondition<Head
 		this.expressions = conditions;
 	}
 
-
 	/**
 	 * Return the contained request header expressions.
 	 */
@@ -97,8 +95,8 @@ public final class HeadersRequestCondition extends AbstractRequestCondition<Head
 	}
 
 	/**
-	 * Returns a new instance with the union of the header expressions
-	 * from "this" and the "other" instance.
+	 * Returns a new instance with the union of the header expressions from "this" and the
+	 * "other" instance.
 	 */
 	@Override
 	public HeadersRequestCondition combine(HeadersRequestCondition other) {
@@ -117,8 +115,8 @@ public final class HeadersRequestCondition extends AbstractRequestCondition<Head
 	}
 
 	/**
-	 * Returns "this" instance if the request matches all expressions;
-	 * or {@code null} otherwise.
+	 * Returns "this" instance if the request matches all expressions; or {@code null}
+	 * otherwise.
 	 */
 	@Override
 	@Nullable
@@ -135,15 +133,16 @@ public final class HeadersRequestCondition extends AbstractRequestCondition<Head
 	}
 
 	/**
-	 * Compare to another condition based on header expressions. A condition
-	 * is considered to be a more specific match, if it has:
+	 * Compare to another condition based on header expressions. A condition is considered
+	 * to be a more specific match, if it has:
 	 * <ol>
 	 * <li>A greater number of expressions.
 	 * <li>A greater number of non-negated expressions with a concrete value.
 	 * </ol>
-	 * <p>It is assumed that both instances have been obtained via
-	 * {@link #getMatchingCondition(HttpServletRequest)} and each instance
-	 * contains the matching header expression only or is otherwise empty.
+	 * <p>
+	 * It is assumed that both instances have been obtained via
+	 * {@link #getMatchingCondition(HttpServletRequest)} and each instance contains the
+	 * matching header expression only or is otherwise empty.
 	 */
 	@Override
 	public int compareTo(HeadersRequestCondition other, HttpServletRequest request) {
@@ -163,7 +162,6 @@ public final class HeadersRequestCondition extends AbstractRequestCondition<Head
 		}
 		return count;
 	}
-
 
 	/**
 	 * Parses and matches a single header expression to a request.
@@ -193,6 +191,7 @@ public final class HeadersRequestCondition extends AbstractRequestCondition<Head
 		protected boolean matchValue(HttpServletRequest request) {
 			return ObjectUtils.nullSafeEquals(this.value, request.getHeader(this.name));
 		}
+
 	}
 
 }

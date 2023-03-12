@@ -32,9 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class UrlBasedCorsConfigurationSourceTests {
 
-	private final UrlBasedCorsConfigurationSource configSource
-			= new UrlBasedCorsConfigurationSource();
-
+	private final UrlBasedCorsConfigurationSource configSource = new UrlBasedCorsConfigurationSource();
 
 	@Test
 	public void empty() {

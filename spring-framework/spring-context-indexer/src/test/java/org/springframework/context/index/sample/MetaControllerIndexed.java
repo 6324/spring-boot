@@ -36,4 +36,5 @@ import org.springframework.stereotype.Indexed;
 @Controller
 @Indexed
 public @interface MetaControllerIndexed {
+
 }

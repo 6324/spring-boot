@@ -34,8 +34,9 @@ import org.springframework.web.util.WebUtils;
 /**
  * Servlet-based implementation of the {@link RequestAttributes} interface.
  *
- * <p>Accesses objects from servlet request and HTTP session scope,
- * with no distinction between "session" and "global session".
+ * <p>
+ * Accesses objects from servlet request and HTTP session scope, with no distinction
+ * between "session" and "global session".
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -45,11 +46,11 @@ import org.springframework.web.util.WebUtils;
 public class ServletRequestAttributes extends AbstractRequestAttributes {
 
 	/**
-	 * Constant identifying the {@link String} prefixed to the name of a
-	 * destruction callback when it is stored in a {@link HttpSession}.
+	 * Constant identifying the {@link String} prefixed to the name of a destruction
+	 * callback when it is stored in a {@link HttpSession}.
 	 */
-	public static final String DESTRUCTION_CALLBACK_NAME_PREFIX =
-			ServletRequestAttributes.class.getName() + ".DESTRUCTION_CALLBACK.";
+	public static final String DESTRUCTION_CALLBACK_NAME_PREFIX = ServletRequestAttributes.class.getName()
+			+ ".DESTRUCTION_CALLBACK.";
 
 	protected static final Set<Class<?>> immutableValueTypes = new HashSet<>(16);
 
@@ -60,7 +61,6 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 		immutableValueTypes.add(String.class);
 	}
 
-
 	private final HttpServletRequest request;
 
 	@Nullable
@@ -70,7 +70,6 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 	private volatile HttpSession session;
 
 	private final Map<String, Object> sessionAttributesToUpdate = new ConcurrentHashMap<>(1);
-
 
 	/**
 	 * Create a new ServletRequestAttributes instance for the given request.
@@ -90,7 +89,6 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 		this(request);
 		this.response = response;
 	}
-
 
 	/**
 	 * Exposes the native {@link HttpServletRequest} that we're wrapping.
@@ -141,13 +139,11 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 		return session;
 	}
 
-
 	@Override
 	public Object getAttribute(String name, int scope) {
 		if (scope == SCOPE_REQUEST) {
 			if (!isRequestActive()) {
-				throw new IllegalStateException(
-						"Cannot ask for request attribute - request is not active anymore!");
+				throw new IllegalStateException("Cannot ask for request attribute - request is not active anymore!");
 			}
 			return this.request.getAttribute(name);
 		}
@@ -173,8 +169,7 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 	public void setAttribute(String name, Object value, int scope) {
 		if (scope == SCOPE_REQUEST) {
 			if (!isRequestActive()) {
-				throw new IllegalStateException(
-						"Cannot set request attribute - request is not active anymore!");
+				throw new IllegalStateException("Cannot set request attribute - request is not active anymore!");
 			}
 			this.request.setAttribute(name, value);
 		}
@@ -212,8 +207,7 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 	public String[] getAttributeNames(int scope) {
 		if (scope == SCOPE_REQUEST) {
 			if (!isRequestActive()) {
-				throw new IllegalStateException(
-						"Cannot ask for request attributes - request is not active anymore!");
+				throw new IllegalStateException("Cannot ask for request attributes - request is not active anymore!");
 			}
 			return StringUtils.toStringArray(this.request.getAttributeNames());
 		}
@@ -264,10 +258,9 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 		return WebUtils.getSessionMutex(obtainSession());
 	}
 
-
 	/**
-	 * Update all accessed session attributes through {@code session.setAttribute}
-	 * calls, explicitly indicating to the container that they might have been modified.
+	 * Update all accessed session attributes through {@code session.setAttribute} calls,
+	 * explicitly indicating to the container that they might have been modified.
 	 */
 	@Override
 	protected void updateAccessedSessionAttributes() {
@@ -297,12 +290,13 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 	 * Determine whether the given value is to be considered as an immutable session
 	 * attribute, that is, doesn't have to be re-set via {@code session.setAttribute}
 	 * since its value cannot meaningfully change internally.
-	 * <p>The default implementation returns {@code true} for {@code String},
+	 * <p>
+	 * The default implementation returns {@code true} for {@code String},
 	 * {@code Character}, {@code Boolean} and standard {@code Number} values.
 	 * @param name the name of the attribute
 	 * @param value the corresponding value to check
-	 * @return {@code true} if the value is to be considered as immutable for the
-	 * purposes of session attribute management; {@code false} otherwise
+	 * @return {@code true} if the value is to be considered as immutable for the purposes
+	 * of session attribute management; {@code false} otherwise
 	 * @see #updateAccessedSessionAttributes()
 	 */
 	protected boolean isImmutableSessionAttribute(String name, @Nullable Object value) {
@@ -311,17 +305,16 @@ public class ServletRequestAttributes extends AbstractRequestAttributes {
 
 	/**
 	 * Register the given callback as to be executed after session termination.
-	 * <p>Note: The callback object should be serializable in order to survive
-	 * web app restarts.
+	 * <p>
+	 * Note: The callback object should be serializable in order to survive web app
+	 * restarts.
 	 * @param name the name of the attribute to register the callback for
 	 * @param callback the callback to be executed for destruction
 	 */
 	protected void registerSessionDestructionCallback(String name, Runnable callback) {
 		HttpSession session = obtainSession();
-		session.setAttribute(DESTRUCTION_CALLBACK_NAME_PREFIX + name,
-				new DestructionCallbackBindingListener(callback));
+		session.setAttribute(DESTRUCTION_CALLBACK_NAME_PREFIX + name, new DestructionCallbackBindingListener(callback));
 	}
-
 
 	@Override
 	public String toString() {

@@ -76,7 +76,6 @@ public class ServerCodecConfigurerTests {
 
 	private final AtomicInteger index = new AtomicInteger(0);
 
-
 	@Test
 	public void defaultReaders() {
 		List<HttpMessageReader<?>> readers = this.configurer.getReaders();
@@ -88,7 +87,8 @@ public class ServerCodecConfigurerTests {
 		assertStringDecoder(getNextDecoder(readers), true);
 		assertThat(getNextDecoder(readers).getClass()).isEqualTo(ProtobufDecoder.class);
 		assertThat(readers.get(this.index.getAndIncrement()).getClass()).isEqualTo(FormHttpMessageReader.class);
-		assertThat(readers.get(this.index.getAndIncrement()).getClass()).isEqualTo(SynchronossPartHttpMessageReader.class);
+		assertThat(readers.get(this.index.getAndIncrement()).getClass())
+				.isEqualTo(SynchronossPartHttpMessageReader.class);
 		assertThat(readers.get(this.index.getAndIncrement()).getClass()).isEqualTo(MultipartHttpMessageReader.class);
 		assertThat(getNextDecoder(readers).getClass()).isEqualTo(Jackson2JsonDecoder.class);
 		assertThat(getNextDecoder(readers).getClass()).isEqualTo(Jackson2SmileDecoder.class);
@@ -120,10 +120,9 @@ public class ServerCodecConfigurerTests {
 
 		assertThat(this.configurer.getWriters().stream()
 				.filter(writer -> ServerSentEventHttpMessageWriter.class.equals(writer.getClass()))
-				.map(writer -> (ServerSentEventHttpMessageWriter) writer)
-				.findFirst()
-				.map(ServerSentEventHttpMessageWriter::getEncoder)
-				.filter(e -> e == encoder).orElse(null)).isSameAs(encoder);
+				.map(writer -> (ServerSentEventHttpMessageWriter) writer).findFirst()
+				.map(ServerSentEventHttpMessageWriter::getEncoder).filter(e -> e == encoder).orElse(null))
+						.isSameAs(encoder);
 	}
 
 	@Test
@@ -213,11 +212,10 @@ public class ServerCodecConfigurerTests {
 
 		// Clone has the customizations
 
-		HttpMessageReader<?> actualReader =
-				findCodec(clone.getReaders(), MultipartHttpMessageReader.class);
+		HttpMessageReader<?> actualReader = findCodec(clone.getReaders(), MultipartHttpMessageReader.class);
 
-		ServerSentEventHttpMessageWriter actualWriter =
-				findCodec(clone.getWriters(), ServerSentEventHttpMessageWriter.class);
+		ServerSentEventHttpMessageWriter actualWriter = findCodec(clone.getWriters(),
+				ServerSentEventHttpMessageWriter.class);
 
 		assertThat(actualReader).isSameAs(reader);
 		assertThat(actualWriter.getEncoder()).isSameAs(encoder);

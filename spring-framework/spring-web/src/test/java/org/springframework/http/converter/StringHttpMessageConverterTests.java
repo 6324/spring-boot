@@ -41,13 +41,11 @@ public class StringHttpMessageConverterTests {
 
 	private MockHttpOutputMessage outputMessage;
 
-
 	@BeforeEach
 	public void setUp() {
 		this.converter = new StringHttpMessageConverter();
 		this.outputMessage = new MockHttpOutputMessage();
 	}
-
 
 	@Test
 	public void canRead() {
@@ -139,7 +137,7 @@ public class StringHttpMessageConverterTests {
 		assertThat(headers.getAcceptCharset().isEmpty()).isTrue();
 	}
 
-	@Test  // SPR-8867
+	@Test // SPR-8867
 	public void writeOverrideRequestedContentType() throws IOException {
 		String body = "H\u00e9llo W\u00f6rld";
 		MediaType requestedContentType = new MediaType("text", "html");

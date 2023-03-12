@@ -71,10 +71,8 @@ public class ServletContextSupportTests {
 		pvs.add("attributeName", "myAttr");
 		wac.registerSingleton("importedAttr", ServletContextAttributeFactoryBean.class, pvs);
 
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(
-				wac::refresh)
-			.withCauseInstanceOf(IllegalStateException.class)
-			.withMessageContaining("myAttr");
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(wac::refresh)
+				.withCauseInstanceOf(IllegalStateException.class).withMessageContaining("myAttr");
 	}
 
 	@Test
@@ -105,10 +103,8 @@ public class ServletContextSupportTests {
 		pvs.add("initParamName", "myParam");
 		wac.registerSingleton("importedParam", ServletContextParameterFactoryBean.class, pvs);
 
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(
-				wac::refresh)
-			.withCauseInstanceOf(IllegalStateException.class)
-			.withMessageContaining("myParam");
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(wac::refresh)
+				.withCauseInstanceOf(IllegalStateException.class).withMessageContaining("myParam");
 	}
 
 	@Test

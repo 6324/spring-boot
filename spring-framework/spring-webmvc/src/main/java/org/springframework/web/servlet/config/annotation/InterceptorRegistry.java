@@ -38,7 +38,6 @@ public class InterceptorRegistry {
 
 	private final List<InterceptorRegistration> registrations = new ArrayList<>();
 
-
 	/**
 	 * Adds the provided {@link HandlerInterceptor}.
 	 * @param interceptor the interceptor to add
@@ -68,15 +67,12 @@ public class InterceptorRegistry {
 	 * Return all registered interceptors.
 	 */
 	protected List<Object> getInterceptors() {
-		return this.registrations.stream()
-				.sorted(INTERCEPTOR_ORDER_COMPARATOR)
-				.map(InterceptorRegistration::getInterceptor)
-				.collect(Collectors.toList());
+		return this.registrations.stream().sorted(INTERCEPTOR_ORDER_COMPARATOR)
+				.map(InterceptorRegistration::getInterceptor).collect(Collectors.toList());
 	}
 
-
-	private static final Comparator<Object> INTERCEPTOR_ORDER_COMPARATOR =
-			OrderComparator.INSTANCE.withSourceProvider(object -> {
+	private static final Comparator<Object> INTERCEPTOR_ORDER_COMPARATOR = OrderComparator.INSTANCE
+			.withSourceProvider(object -> {
 				if (object instanceof InterceptorRegistration) {
 					return (Ordered) ((InterceptorRegistration) object)::getOrder;
 				}

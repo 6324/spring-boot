@@ -24,12 +24,13 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.request.NativeWebRequest;
 
 /**
- * Strategy that resolves the requested content type from a query parameter.
- * The default query parameter name is {@literal "format"}.
+ * Strategy that resolves the requested content type from a query parameter. The default
+ * query parameter name is {@literal "format"}.
  *
- * <p>You can register static mappings between keys (i.e. the expected value of
- * the query parameter) and MediaType's via {@link #addMapping(String, MediaType)}.
- * As of 5.0 this strategy also supports dynamic lookups of keys via
+ * <p>
+ * You can register static mappings between keys (i.e. the expected value of the query
+ * parameter) and MediaType's via {@link #addMapping(String, MediaType)}. As of 5.0 this
+ * strategy also supports dynamic lookups of keys via
  * {@link org.springframework.http.MediaTypeFactory#getMediaType}.
  *
  * @author Rossen Stoyanchev
@@ -39,7 +40,6 @@ public class ParameterContentNegotiationStrategy extends AbstractMappingContentN
 
 	private String parameterName = "format";
 
-
 	/**
 	 * Create an instance with the given map of file extensions and media types.
 	 */
@@ -47,10 +47,10 @@ public class ParameterContentNegotiationStrategy extends AbstractMappingContentN
 		super(mediaTypes);
 	}
 
-
 	/**
 	 * Set the name of the parameter to use to determine requested media types.
-	 * <p>By default this is set to {@code "format"}.
+	 * <p>
+	 * By default this is set to {@code "format"}.
 	 */
 	public void setParameterName(String parameterName) {
 		Assert.notNull(parameterName, "'parameterName' is required");
@@ -60,7 +60,6 @@ public class ParameterContentNegotiationStrategy extends AbstractMappingContentN
 	public String getParameterName() {
 		return this.parameterName;
 	}
-
 
 	@Override
 	@Nullable

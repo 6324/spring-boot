@@ -39,7 +39,6 @@ public class HandlerMethodArgumentResolverCompositeTests {
 
 	private MethodParameter paramStr;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		this.resolverComposite = new HandlerMethodArgumentResolverComposite();
@@ -48,7 +47,6 @@ public class HandlerMethodArgumentResolverCompositeTests {
 		paramInt = new MethodParameter(method, 0);
 		paramStr = new MethodParameter(method, 1);
 	}
-
 
 	@Test
 	public void supportsParameter() throws Exception {
@@ -77,10 +75,9 @@ public class HandlerMethodArgumentResolverCompositeTests {
 
 	@Test
 	public void noSuitableArgumentResolver() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.resolverComposite.resolveArgument(paramStr, null, null, null));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> this.resolverComposite.resolveArgument(paramStr, null, null, null));
 	}
-
 
 	@SuppressWarnings("unused")
 	private void handle(Integer arg1, String arg2) {

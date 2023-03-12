@@ -33,7 +33,8 @@ import org.springframework.web.jsf.FacesContextUtils;
  * JSF {@code ELResolver} that delegates to the Spring root {@code WebApplicationContext},
  * resolving name references to Spring-defined beans.
  *
- * <p>Configure this resolver in your {@code faces-config.xml} file as follows:
+ * <p>
+ * Configure this resolver in your {@code faces-config.xml} file as follows:
  *
  * <pre class="code">
  * &lt;application>
@@ -41,9 +42,8 @@ import org.springframework.web.jsf.FacesContextUtils;
  *   &lt;el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver&lt;/el-resolver>
  * &lt;/application></pre>
  *
- * All your JSF expressions can then implicitly refer to the names of
- * Spring-managed service layer beans, for example in property values of
- * JSF-managed beans:
+ * All your JSF expressions can then implicitly refer to the names of Spring-managed
+ * service layer beans, for example in property values of JSF-managed beans:
  *
  * <pre class="code">
  * &lt;managed-bean>
@@ -56,8 +56,7 @@ import org.springframework.web.jsf.FacesContextUtils;
  *   &lt;/managed-property>
  * &lt;/managed-bean></pre>
  *
- * with "mySpringManagedBusinessObject" defined as Spring bean in
- * applicationContext.xml:
+ * with "mySpringManagedBusinessObject" defined as Spring bean in applicationContext.xml:
  *
  * <pre class="code">
  * &lt;bean id="mySpringManagedBusinessObject" class="example.MySpringManagedBusinessObject">
@@ -106,7 +105,8 @@ public class SpringBeanFacesELResolver extends ELResolver {
 			WebApplicationContext wac = getWebApplicationContext(elContext);
 			if (wac.containsBean(beanName)) {
 				if (value == wac.getBean(beanName)) {
-					// Setting the bean reference to the same value is alright - can simply be ignored...
+					// Setting the bean reference to the same value is alright - can
+					// simply be ignored...
 					elContext.setPropertyResolved(true);
 				}
 				else {
@@ -142,7 +142,8 @@ public class SpringBeanFacesELResolver extends ELResolver {
 
 	/**
 	 * Retrieve the web application context to delegate bean name resolution to.
-	 * <p>The default implementation delegates to FacesContextUtils.
+	 * <p>
+	 * The default implementation delegates to FacesContextUtils.
 	 * @param elContext the current JSF ELContext
 	 * @return the Spring web application context (never {@code null})
 	 * @see org.springframework.web.jsf.FacesContextUtils#getRequiredWebApplicationContext

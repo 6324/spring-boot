@@ -84,12 +84,10 @@ public class Jackson2ObjectMapperFactoryBeanTests {
 
 	private final Jackson2ObjectMapperFactoryBean factory = new Jackson2ObjectMapperFactoryBean();
 
-
 	@Test
 	public void unknownFeature() {
 		this.factory.setFeaturesToEnable(Boolean.TRUE);
-		assertThatExceptionOfType(FatalBeanException.class).isThrownBy(
-				this.factory::afterPropertiesSet);
+		assertThatExceptionOfType(FatalBeanException.class).isThrownBy(this.factory::afterPropertiesSet);
 	}
 
 	@Test
@@ -116,28 +114,32 @@ public class Jackson2ObjectMapperFactoryBeanTests {
 	@Test
 	public void defaultSerializationInclusion() {
 		this.factory.afterPropertiesSet();
-		assertThat(this.factory.getObject().getSerializationConfig().getSerializationInclusion()).isSameAs(Include.ALWAYS);
+		assertThat(this.factory.getObject().getSerializationConfig().getSerializationInclusion())
+				.isSameAs(Include.ALWAYS);
 	}
 
 	@Test
 	public void nonNullSerializationInclusion() {
 		this.factory.setSerializationInclusion(Include.NON_NULL);
 		this.factory.afterPropertiesSet();
-		assertThat(this.factory.getObject().getSerializationConfig().getSerializationInclusion()).isSameAs(Include.NON_NULL);
+		assertThat(this.factory.getObject().getSerializationConfig().getSerializationInclusion())
+				.isSameAs(Include.NON_NULL);
 	}
 
 	@Test
 	public void nonDefaultSerializationInclusion() {
 		this.factory.setSerializationInclusion(Include.NON_DEFAULT);
 		this.factory.afterPropertiesSet();
-		assertThat(this.factory.getObject().getSerializationConfig().getSerializationInclusion()).isSameAs(Include.NON_DEFAULT);
+		assertThat(this.factory.getObject().getSerializationConfig().getSerializationInclusion())
+				.isSameAs(Include.NON_DEFAULT);
 	}
 
 	@Test
 	public void nonEmptySerializationInclusion() {
 		this.factory.setSerializationInclusion(Include.NON_EMPTY);
 		this.factory.afterPropertiesSet();
-		assertThat(this.factory.getObject().getSerializationConfig().getSerializationInclusion()).isSameAs(Include.NON_EMPTY);
+		assertThat(this.factory.getObject().getSerializationConfig().getSerializationInclusion())
+				.isSameAs(Include.NON_EMPTY);
 	}
 
 	@Test
@@ -194,7 +196,7 @@ public class Jackson2ObjectMapperFactoryBeanTests {
 		SimpleModule module = new SimpleModule();
 		module.addSerializer(Integer.class, serializer);
 
-		this.factory.setModules(Arrays.asList(new Module[]{module}));
+		this.factory.setModules(Arrays.asList(new Module[] { module }));
 		this.factory.afterPropertiesSet();
 		ObjectMapper objectMapper = this.factory.getObject();
 
@@ -212,7 +214,7 @@ public class Jackson2ObjectMapperFactoryBeanTests {
 		assertThat(new String(objectMapper.writeValueAsBytes(dateTime), "UTF-8")).isEqualTo(timestamp.toString());
 	}
 
-	@Test  // SPR-12634
+	@Test // SPR-12634
 	public void customizeDefaultModulesWithModuleClass() throws JsonProcessingException, UnsupportedEncodingException {
 		this.factory.setModulesToInstall(CustomIntegerModule.class);
 		this.factory.afterPropertiesSet();
@@ -223,7 +225,7 @@ public class Jackson2ObjectMapperFactoryBeanTests {
 		assertThat(new String(objectMapper.writeValueAsBytes(4), "UTF-8")).contains("customid");
 	}
 
-	@Test  // SPR-12634
+	@Test // SPR-12634
 	public void customizeDefaultModulesWithSerializer() throws JsonProcessingException, UnsupportedEncodingException {
 		Map<Class<?>, JsonSerializer<?>> serializers = new HashMap<>();
 		serializers.put(Integer.class, new CustomIntegerSerializer());
@@ -320,14 +322,11 @@ public class Jackson2ObjectMapperFactoryBeanTests {
 		this.factory.setAnnotationIntrospector(annotationIntrospector);
 
 		this.factory.setFeaturesToEnable(SerializationFeature.FAIL_ON_EMPTY_BEANS,
-				DeserializationFeature.UNWRAP_ROOT_VALUE,
-				JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER,
+				DeserializationFeature.UNWRAP_ROOT_VALUE, JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER,
 				JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS);
 
-		this.factory.setFeaturesToDisable(MapperFeature.AUTO_DETECT_GETTERS,
-				MapperFeature.AUTO_DETECT_FIELDS,
-				JsonParser.Feature.AUTO_CLOSE_SOURCE,
-				JsonGenerator.Feature.QUOTE_FIELD_NAMES);
+		this.factory.setFeaturesToDisable(MapperFeature.AUTO_DETECT_GETTERS, MapperFeature.AUTO_DETECT_FIELDS,
+				JsonParser.Feature.AUTO_CLOSE_SOURCE, JsonGenerator.Feature.QUOTE_FIELD_NAMES);
 
 		assertThat(getSerializerFactoryConfig(objectMapper).hasSerializers()).isFalse();
 		assertThat(getDeserializerFactoryConfig(objectMapper).hasDeserializers()).isFalse();
@@ -345,16 +344,20 @@ public class Jackson2ObjectMapperFactoryBeanTests {
 		assertThat(serializers.findSerializer(null, SimpleType.construct(Number.class), null)).isNull();
 
 		assertThat(objectMapper.getSerializationConfig().getAnnotationIntrospector()).isSameAs(annotationIntrospector);
-		assertThat(objectMapper.getDeserializationConfig().getAnnotationIntrospector()).isSameAs(annotationIntrospector);
+		assertThat(objectMapper.getDeserializationConfig().getAnnotationIntrospector())
+				.isSameAs(annotationIntrospector);
 
 		assertThat(objectMapper.getSerializationConfig().isEnabled(SerializationFeature.FAIL_ON_EMPTY_BEANS)).isTrue();
-		assertThat(objectMapper.getDeserializationConfig().isEnabled(DeserializationFeature.UNWRAP_ROOT_VALUE)).isTrue();
-		assertThat(objectMapper.getFactory().isEnabled(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER)).isTrue();
+		assertThat(objectMapper.getDeserializationConfig().isEnabled(DeserializationFeature.UNWRAP_ROOT_VALUE))
+				.isTrue();
+		assertThat(objectMapper.getFactory().isEnabled(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER))
+				.isTrue();
 		assertThat(objectMapper.getFactory().isEnabled(JsonGenerator.Feature.WRITE_NUMBERS_AS_STRINGS)).isTrue();
 
 		assertThat(objectMapper.getSerializationConfig().isEnabled(MapperFeature.AUTO_DETECT_GETTERS)).isFalse();
 		assertThat(objectMapper.getDeserializationConfig().isEnabled(MapperFeature.DEFAULT_VIEW_INCLUSION)).isFalse();
-		assertThat(objectMapper.getDeserializationConfig().isEnabled(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)).isFalse();
+		assertThat(objectMapper.getDeserializationConfig().isEnabled(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES))
+				.isFalse();
 		assertThat(objectMapper.getDeserializationConfig().isEnabled(MapperFeature.AUTO_DETECT_FIELDS)).isFalse();
 		assertThat(objectMapper.getFactory().isEnabled(JsonParser.Feature.AUTO_CLOSE_SOURCE)).isFalse();
 		assertThat(objectMapper.getFactory().isEnabled(JsonGenerator.Feature.QUOTE_FIELD_NAMES)).isFalse();
@@ -381,7 +384,7 @@ public class Jackson2ObjectMapperFactoryBeanTests {
 		assertThat(this.factory.getObjectType()).isEqualTo(XmlMapper.class);
 	}
 
-	@Test  // SPR-14435
+	@Test // SPR-14435
 	public void setFactory() {
 		this.factory.setFactory(new SmileFactory());
 		this.factory.afterPropertiesSet();
@@ -390,7 +393,6 @@ public class Jackson2ObjectMapperFactoryBeanTests {
 		assertThat(this.factory.isSingleton()).isTrue();
 		assertThat(this.factory.getObject().getFactory().getClass()).isEqualTo(SmileFactory.class);
 	}
-
 
 	public static class CustomIntegerModule extends Module {
 
@@ -410,8 +412,8 @@ public class Jackson2ObjectMapperFactoryBeanTests {
 			serializers.addSerializer(Integer.class, new CustomIntegerSerializer());
 			context.addSerializers(serializers);
 		}
-	}
 
+	}
 
 	public static class CustomIntegerSerializer extends JsonSerializer<Integer> {
 
@@ -421,15 +423,15 @@ public class Jackson2ObjectMapperFactoryBeanTests {
 			gen.writeNumberField("customid", value);
 			gen.writeEndObject();
 		}
-	}
 
+	}
 
 	@JsonFilter("myJacksonFilter")
 	public static class JacksonFilteredBean {
 
 		private String property1;
-		private String property2;
 
+		private String property2;
 
 		public JacksonFilteredBean(String property1, String property2) {
 			this.property1 = property1;
@@ -451,6 +453,7 @@ public class Jackson2ObjectMapperFactoryBeanTests {
 		public void setProperty2(String property2) {
 			this.property2 = property2;
 		}
+
 	}
 
 }

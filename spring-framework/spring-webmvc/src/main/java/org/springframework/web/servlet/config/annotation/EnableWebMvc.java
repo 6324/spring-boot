@@ -37,7 +37,8 @@ import org.springframework.context.annotation.Import;
  * }
  * </pre>
  *
- * <p>To customize the imported configuration, implement the interface
+ * <p>
+ * To customize the imported configuration, implement the interface
  * {@link WebMvcConfigurer} and override individual methods, e.g.:
  *
  * <pre class="code">
@@ -59,16 +60,17 @@ import org.springframework.context.annotation.Import;
  * }
  * </pre>
  *
- * <p><strong>Note:</strong> only one {@code @Configuration} class may have the
- * {@code @EnableWebMvc} annotation to import the Spring Web MVC
- * configuration. There can however be multiple {@code @Configuration} classes
- * implementing {@code WebMvcConfigurer} in order to customize the provided
- * configuration.
+ * <p>
+ * <strong>Note:</strong> only one {@code @Configuration} class may have the
+ * {@code @EnableWebMvc} annotation to import the Spring Web MVC configuration. There can
+ * however be multiple {@code @Configuration} classes implementing
+ * {@code WebMvcConfigurer} in order to customize the provided configuration.
  *
- * <p>If {@link WebMvcConfigurer} does not expose some more advanced setting that
- * needs to be configured consider removing the {@code @EnableWebMvc}
- * annotation and extending directly from {@link WebMvcConfigurationSupport}
- * or {@link DelegatingWebMvcConfiguration}, e.g.:
+ * <p>
+ * If {@link WebMvcConfigurer} does not expose some more advanced setting that needs to be
+ * configured consider removing the {@code @EnableWebMvc} annotation and extending
+ * directly from {@link WebMvcConfigurationSupport} or
+ * {@link DelegatingWebMvcConfiguration}, e.g.:
  *
  * <pre class="code">
  * &#064;Configuration
@@ -100,4 +102,5 @@ import org.springframework.context.annotation.Import;
 @Documented
 @Import(DelegatingWebMvcConfiguration.class)
 public @interface EnableWebMvc {
+
 }

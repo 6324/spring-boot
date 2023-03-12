@@ -57,25 +57,23 @@ public class GroovyMarkupViewTests {
 
 	private ServletContext servletContext;
 
-
 	@BeforeEach
 	public void setup() {
 		this.webAppContext = mock(WebApplicationContext.class);
 		this.servletContext = new MockServletContext();
-		this.servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, this.webAppContext);
+		this.servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE,
+				this.webAppContext);
 	}
-
 
 	@Test
 	public void missingGroovyMarkupConfig() throws Exception {
 		GroovyMarkupView view = new GroovyMarkupView();
-		given(this.webAppContext.getBeansOfType(GroovyMarkupConfig.class, true, false))
-				.willReturn(new HashMap<>());
+		given(this.webAppContext.getBeansOfType(GroovyMarkupConfig.class, true, false)).willReturn(new HashMap<>());
 
 		view.setUrl("sampleView");
-		assertThatExceptionOfType(ApplicationContextException.class).isThrownBy(() ->
-				view.setApplicationContext(this.webAppContext))
-			.withMessageContaining("GroovyMarkupConfig");
+		assertThatExceptionOfType(ApplicationContextException.class)
+				.isThrownBy(() -> view.setApplicationContext(this.webAppContext))
+				.withMessageContaining("GroovyMarkupConfig");
 	}
 
 	@Test
@@ -152,12 +150,12 @@ public class GroovyMarkupViewTests {
 	public void renderLayoutTemplate() throws Exception {
 		Map<String, Object> model = new HashMap<>();
 		MockHttpServletResponse response = renderViewWithModel("content.tpl", model, Locale.US);
-		assertThat(response.getContentAsString()).isEqualTo("<html><head><title>Layout example</title></head><body><p>This is the body</p></body></html>");
+		assertThat(response.getContentAsString()).isEqualTo(
+				"<html><head><title>Layout example</title></head><body><p>This is the body</p></body></html>");
 	}
 
-
-	private MockHttpServletResponse renderViewWithModel(String viewUrl, Map<String,
-			Object> model, Locale locale) throws Exception {
+	private MockHttpServletResponse renderViewWithModel(String viewUrl, Map<String, Object> model, Locale locale)
+			throws Exception {
 
 		GroovyMarkupView view = createViewWithUrl(viewUrl);
 		MockHttpServletResponse response = new MockHttpServletResponse();
@@ -180,7 +178,6 @@ public class GroovyMarkupViewTests {
 		return view;
 	}
 
-
 	public class TestTemplateEngine extends MarkupTemplateEngine {
 
 		public TestTemplateEngine() {
@@ -191,8 +188,8 @@ public class GroovyMarkupViewTests {
 		public Template createTemplate(Reader reader) {
 			return null;
 		}
-	}
 
+	}
 
 	@Configuration
 	static class GroovyMarkupConfiguration {
@@ -203,6 +200,7 @@ public class GroovyMarkupViewTests {
 			configurer.setResourceLoaderPath(RESOURCE_LOADER_PATH);
 			return configurer;
 		}
+
 	}
 
 }

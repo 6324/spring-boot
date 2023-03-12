@@ -45,17 +45,15 @@ class ZeroCopyIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 
 	private final ZeroCopyHandler handler = new ZeroCopyHandler();
 
-
 	@Override
 	protected HttpHandler createHttpHandler() {
 		return this.handler;
 	}
 
-
 	@ParameterizedHttpServerTest
 	void zeroCopy(HttpServer httpServer) throws Exception {
 		assumeTrue(httpServer instanceof ReactorHttpServer || httpServer instanceof UndertowHttpServer,
-			"Zero-copy does not support Servlet");
+				"Zero-copy does not support Servlet");
 
 		startServer(httpServer);
 
@@ -68,7 +66,6 @@ class ZeroCopyIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 		assertThat(response.getBody().length).isEqualTo(springLogoResource.contentLength());
 		assertThat(response.getHeaders().getContentType()).isEqualTo(MediaType.IMAGE_PNG);
 	}
-
 
 	private static class ZeroCopyHandler implements HttpHandler {
 
@@ -85,6 +82,7 @@ class ZeroCopyIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 				return Mono.error(ex);
 			}
 		}
+
 	}
 
 }

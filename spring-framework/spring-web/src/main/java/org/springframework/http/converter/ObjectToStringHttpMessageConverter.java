@@ -27,15 +27,16 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * An {@code HttpMessageConverter} that uses {@link StringHttpMessageConverter}
- * for reading and writing content and a {@link ConversionService} for converting
- * the String content to and from the target object type.
+ * An {@code HttpMessageConverter} that uses {@link StringHttpMessageConverter} for
+ * reading and writing content and a {@link ConversionService} for converting the String
+ * content to and from the target object type.
  *
- * <p>By default, this converter supports the media type {@code text/plain} only.
- * This can be overridden through the {@link #setSupportedMediaTypes supportedMediaTypes}
- * property.
+ * <p>
+ * By default, this converter supports the media type {@code text/plain} only. This can be
+ * overridden through the {@link #setSupportedMediaTypes supportedMediaTypes} property.
  *
- * <p>A usage example:
+ * <p>
+ * A usage example:
  *
  * <pre class="code">
  * &lt;bean class="org.springframework.http.converter.ObjectToStringHttpMessageConverter">
@@ -55,10 +56,9 @@ public class ObjectToStringHttpMessageConverter extends AbstractHttpMessageConve
 
 	private final StringHttpMessageConverter stringHttpMessageConverter;
 
-
 	/**
-	 * A constructor accepting a {@code ConversionService} to use to convert the
-	 * (String) message body to/from the target class type. This constructor uses
+	 * A constructor accepting a {@code ConversionService} to use to convert the (String)
+	 * message body to/from the target class type. This constructor uses
 	 * {@link StringHttpMessageConverter#DEFAULT_CHARSET} as the default charset.
 	 * @param conversionService the conversion service
 	 */
@@ -79,14 +79,12 @@ public class ObjectToStringHttpMessageConverter extends AbstractHttpMessageConve
 		this.stringHttpMessageConverter = new StringHttpMessageConverter(defaultCharset);
 	}
 
-
 	/**
 	 * Delegates to {@link StringHttpMessageConverter#setWriteAcceptCharset(boolean)}.
 	 */
 	public void setWriteAcceptCharset(boolean writeAcceptCharset) {
 		this.stringHttpMessageConverter.setWriteAcceptCharset(writeAcceptCharset);
 	}
-
 
 	@Override
 	public boolean canRead(Class<?> clazz, @Nullable MediaType mediaType) {
@@ -112,8 +110,7 @@ public class ObjectToStringHttpMessageConverter extends AbstractHttpMessageConve
 		Object result = this.conversionService.convert(value, clazz);
 		if (result == null) {
 			throw new HttpMessageNotReadableException(
-					"Unexpected null conversion result for '" + value + "' to " + clazz,
-					inputMessage);
+					"Unexpected null conversion result for '" + value + "' to " + clazz, inputMessage);
 		}
 		return result;
 	}

@@ -23,12 +23,10 @@ import org.springframework.objenesis.instantiator.annotations.Typology;
 import java.io.ObjectInputStream;
 import java.lang.reflect.Method;
 
-
-
 /**
- * Instantiates a class by making a call to internal Perc private methods. It is only supposed to
- * work on Perc JVMs. This instantiator will not call any constructors. The code was provided by
- * Aonix Perc support team.
+ * Instantiates a class by making a call to internal Perc private methods. It is only
+ * supposed to work on Perc JVMs. This instantiator will not call any constructors. The
+ * code was provided by Aonix Perc support team.
  *
  * @author Henri Tremblay
  * @see ObjectInstantiator
@@ -45,20 +43,20 @@ public class PercInstantiator<T> implements ObjectInstantiator<T> {
 		typeArgs[0] = type;
 
 		try {
-         newInstanceMethod = ObjectInputStream.class.getDeclaredMethod("newInstance", Class.class,
-            Boolean.TYPE);
+			newInstanceMethod = ObjectInputStream.class.getDeclaredMethod("newInstance", Class.class, Boolean.TYPE);
 			newInstanceMethod.setAccessible(true);
 		}
-      catch(RuntimeException | NoSuchMethodException e) {
+		catch (RuntimeException | NoSuchMethodException e) {
 			throw new ObjenesisException(e);
 		}
-   }
+	}
 
 	@SuppressWarnings("unchecked")
-   public T newInstance() {
+	public T newInstance() {
 		try {
-         return (T) newInstanceMethod.invoke(null, typeArgs);
-		} catch (Exception e) {
+			return (T) newInstanceMethod.invoke(null, typeArgs);
+		}
+		catch (Exception e) {
 			throw new ObjenesisException(e);
 		}
 	}

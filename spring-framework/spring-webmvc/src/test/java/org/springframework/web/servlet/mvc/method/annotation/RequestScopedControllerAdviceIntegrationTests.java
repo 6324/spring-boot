@@ -59,7 +59,6 @@ class RequestScopedControllerAdviceIntegrationTests {
 		context.close();
 	}
 
-
 	@Configuration
 	@EnableWebMvc
 	static class Config {
@@ -69,6 +68,7 @@ class RequestScopedControllerAdviceIntegrationTests {
 		RequestScopedControllerAdvice requestScopedControllerAdvice() {
 			return new RequestScopedControllerAdvice();
 		}
+
 	}
 
 	@ControllerAdvice
@@ -79,6 +79,7 @@ class RequestScopedControllerAdviceIntegrationTests {
 		public int getOrder() {
 			return 99;
 		}
+
 	}
 
 }

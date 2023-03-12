@@ -40,22 +40,19 @@ public class ProxyFactoryBeanTests {
 	@Test
 	public void noType() {
 		factoryBean.setType(null);
-		assertThatIllegalArgumentException().isThrownBy(
-				factoryBean::afterPropertiesSet);
+		assertThatIllegalArgumentException().isThrownBy(factoryBean::afterPropertiesSet);
 	}
 
 	@Test
 	public void noHostname() {
 		factoryBean.setHostname("");
-		assertThatIllegalArgumentException().isThrownBy(
-				factoryBean::afterPropertiesSet);
+		assertThatIllegalArgumentException().isThrownBy(factoryBean::afterPropertiesSet);
 	}
 
 	@Test
 	public void noPort() {
 		factoryBean.setHostname("example.com");
-		assertThatIllegalArgumentException().isThrownBy(
-				factoryBean::afterPropertiesSet);
+		assertThatIllegalArgumentException().isThrownBy(factoryBean::afterPropertiesSet);
 	}
 
 	@Test

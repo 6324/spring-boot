@@ -26,8 +26,6 @@ import org.springframework.web.testfixture.servlet.MockHttpServletResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-
-
 /**
  * @author Rick Evans
  * @author Brian Clozel
@@ -37,7 +35,6 @@ public class WebContentInterceptorTests {
 	private MockHttpServletRequest request = new MockHttpServletRequest("GET", "/");
 
 	private MockHttpServletResponse response = new MockHttpServletResponse();
-
 
 	@Test
 	public void cacheResourcesConfiguration() throws Exception {
@@ -164,8 +161,7 @@ public class WebContentInterceptorTests {
 	@Test
 	public void throwsExceptionWithNullPathMatcher() throws Exception {
 		WebContentInterceptor interceptor = new WebContentInterceptor();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				interceptor.setPathMatcher(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> interceptor.setPathMatcher(null));
 	}
 
 }

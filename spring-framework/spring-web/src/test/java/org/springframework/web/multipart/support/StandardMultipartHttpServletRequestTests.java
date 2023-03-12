@@ -48,7 +48,7 @@ public class StandardMultipartHttpServletRequestTests {
 		assertThat(multipartFile.getOriginalFilename()).isEqualTo("myFile.txt");
 	}
 
-	@Test  // SPR-13319
+	@Test // SPR-13319
 	public void filenameRfc5987() throws Exception {
 		String disposition = "form-data; name=\"file\"; filename*=\"UTF-8''foo-%c3%a4-%e2%82%ac.html\"";
 		StandardMultipartHttpServletRequest request = requestWithPart("file", disposition, "");
@@ -58,7 +58,7 @@ public class StandardMultipartHttpServletRequestTests {
 		assertThat(multipartFile.getOriginalFilename()).isEqualTo("foo-ä-€.html");
 	}
 
-	@Test  // SPR-15205
+	@Test // SPR-15205
 	public void filenameRfc2047() throws Exception {
 		String disposition = "form-data; name=\"file\"; filename=\"=?UTF-8?Q?Declara=C3=A7=C3=A3o.pdf?=\"";
 		StandardMultipartHttpServletRequest request = requestWithPart("file", disposition, "");
@@ -83,14 +83,10 @@ public class StandardMultipartHttpServletRequestTests {
 		MockHttpOutputMessage output = new MockHttpOutputMessage();
 		new FormHttpMessageConverter().write(map, null, output);
 
-		assertThat(output.getBodyAsString(StandardCharsets.UTF_8)).contains(
-				"Content-Disposition: form-data; name=\"file\"; filename=\"myFile.txt\"\r\n" +
-						"Content-Type: text/plain\r\n" +
-						"Content-Length: 6\r\n" +
-						"\r\n" +
-						"myBody\r\n");
+		assertThat(output.getBodyAsString(StandardCharsets.UTF_8))
+				.contains("Content-Disposition: form-data; name=\"file\"; filename=\"myFile.txt\"\r\n"
+						+ "Content-Type: text/plain\r\n" + "Content-Length: 6\r\n" + "\r\n" + "myBody\r\n");
 	}
-
 
 	private StandardMultipartHttpServletRequest requestWithPart(String name, String disposition, String content) {
 		MockHttpServletRequest request = new MockHttpServletRequest();

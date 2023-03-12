@@ -43,7 +43,6 @@ public class ScriptTemplateConfigurerBeanDefinitionParser extends AbstractSimple
 	 */
 	public static final String BEAN_NAME = "mvcScriptTemplateConfigurer";
 
-
 	@Override
 	protected String resolveId(Element element, AbstractBeanDefinition definition, ParserContext parserContext) {
 		return BEAN_NAME;
@@ -87,9 +86,9 @@ public class ScriptTemplateConfigurerBeanDefinitionParser extends AbstractSimple
 
 	@Override
 	protected boolean isEligibleAttribute(String name) {
-		return (name.equals("engine-name") || name.equals("scripts") || name.equals("render-object") ||
-				name.equals("render-function") || name.equals("content-type") ||
-				name.equals("charset") || name.equals("resource-loader-path"));
+		return (name.equals("engine-name") || name.equals("scripts") || name.equals("render-object")
+				|| name.equals("render-function") || name.equals("content-type") || name.equals("charset")
+				|| name.equals("resource-loader-path"));
 	}
 
 }

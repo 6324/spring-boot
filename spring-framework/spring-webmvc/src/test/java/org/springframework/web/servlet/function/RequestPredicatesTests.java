@@ -44,7 +44,6 @@ public class RequestPredicatesTests {
 		assertThat(predicate.test(request)).isTrue();
 	}
 
-
 	@Test
 	public void method() {
 		HttpMethod httpMethod = HttpMethod.GET;
@@ -179,14 +178,12 @@ public class RequestPredicatesTests {
 		assertThat(predicate.test(request)).isTrue();
 	}
 
-
 	@Test
 	public void headers() {
 		String name = "MyHeader";
 		String value = "MyValue";
-		RequestPredicate predicate =
-				RequestPredicates.headers(
-						headers -> headers.header(name).equals(Collections.singletonList(value)));
+		RequestPredicate predicate = RequestPredicates
+				.headers(headers -> headers.header(name).equals(Collections.singletonList(value)));
 		MockHttpServletRequest servletRequest = new MockHttpServletRequest("GET", "/path");
 		servletRequest.addHeader(name, value);
 		ServerRequest request = new DefaultServerRequest(servletRequest, emptyList());

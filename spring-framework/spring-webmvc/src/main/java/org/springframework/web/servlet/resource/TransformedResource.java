@@ -23,9 +23,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.lang.Nullable;
 
 /**
- * An extension of {@link ByteArrayResource} that a {@link ResourceTransformer}
- * can use to represent an original resource preserving all other information
- * except the content.
+ * An extension of {@link ByteArrayResource} that a {@link ResourceTransformer} can use to
+ * represent an original resource preserving all other information except the content.
  *
  * @author Jeremy Grelle
  * @author Rossen Stoyanchev
@@ -38,7 +37,6 @@ public class TransformedResource extends ByteArrayResource {
 
 	private final long lastModified;
 
-
 	public TransformedResource(Resource original, byte[] transformedContent) {
 		super(transformedContent);
 		this.filename = original.getFilename();
@@ -50,7 +48,6 @@ public class TransformedResource extends ByteArrayResource {
 			throw new IllegalArgumentException(ex);
 		}
 	}
-
 
 	@Override
 	@Nullable

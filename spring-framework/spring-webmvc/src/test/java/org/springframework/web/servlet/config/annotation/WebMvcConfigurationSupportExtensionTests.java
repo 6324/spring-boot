@@ -98,10 +98,10 @@ import static org.springframework.http.MediaType.APPLICATION_XML;
  * A test fixture with a sub-class of {@link WebMvcConfigurationSupport} that also
  * implements the various {@link WebMvcConfigurer} extension points.
  *
- * The former doesn't implement the latter but the two must have compatible
- * callback method signatures to support moving from simple to advanced
- * configuration -- i.e. dropping @EnableWebMvc + WebMvcConfigurer and extending
- * directly from WebMvcConfigurationSupport.
+ * The former doesn't implement the latter but the two must have compatible callback
+ * method signatures to support moving from simple to advanced configuration -- i.e.
+ * dropping @EnableWebMvc + WebMvcConfigurer and extending directly from
+ * WebMvcConfigurationSupport.
  *
  * @author Rossen Stoyanchev
  * @author Sebastien Deleuze
@@ -111,7 +111,6 @@ public class WebMvcConfigurationSupportExtensionTests {
 	private TestWebMvcConfigurationSupport config;
 
 	private StaticWebApplicationContext context;
-
 
 	@BeforeEach
 	public void setUp() {
@@ -128,8 +127,8 @@ public class WebMvcConfigurationSupportExtensionTests {
 	@Test
 	public void handlerMappings() throws Exception {
 		RequestMappingHandlerMapping rmHandlerMapping = this.config.requestMappingHandlerMapping(
-				this.config.mvcContentNegotiationManager(),
-				this.config.mvcConversionService(), this.config.mvcResourceUrlProvider());
+				this.config.mvcContentNegotiationManager(), this.config.mvcConversionService(),
+				this.config.mvcResourceUrlProvider());
 		rmHandlerMapping.setApplicationContext(this.context);
 		rmHandlerMapping.afterPropertiesSet();
 		assertThat(rmHandlerMapping.getUrlPathHelper().getClass()).isEqualTo(TestPathHelper.class);
@@ -146,15 +145,13 @@ public class WebMvcConfigurationSupportExtensionTests {
 		Map<RequestMappingInfo, HandlerMethod> map = rmHandlerMapping.getHandlerMethods();
 		assertThat(map.size()).isEqualTo(2);
 		RequestMappingInfo info = map.entrySet().stream()
-				.filter(entry -> entry.getValue().getBeanType().equals(UserController.class))
-				.findFirst()
-				.orElseThrow(() -> new AssertionError("UserController bean not found"))
-				.getKey();
+				.filter(entry -> entry.getValue().getBeanType().equals(UserController.class)).findFirst()
+				.orElseThrow(() -> new AssertionError("UserController bean not found")).getKey();
 		assertThat(info.getPatternsCondition().getPatterns()).isEqualTo(Collections.singleton("/api/user/{id}"));
 
 		AbstractHandlerMapping handlerMapping = (AbstractHandlerMapping) this.config.viewControllerHandlerMapping(
-				this.config.mvcPathMatcher(), this.config.mvcUrlPathHelper(),
-				this.config.mvcConversionService(), this.config.mvcResourceUrlProvider());
+				this.config.mvcPathMatcher(), this.config.mvcUrlPathHelper(), this.config.mvcConversionService(),
+				this.config.mvcResourceUrlProvider());
 		handlerMapping.setApplicationContext(this.context);
 		assertThat(handlerMapping).isNotNull();
 		assertThat(handlerMapping.getOrder()).isEqualTo(1);
@@ -170,10 +167,9 @@ public class WebMvcConfigurationSupportExtensionTests {
 		assertThat(chain).isNotNull();
 		assertThat(chain.getHandler()).isNotNull();
 
-		handlerMapping = (AbstractHandlerMapping) this.config.resourceHandlerMapping(
-				this.config.mvcUrlPathHelper(), this.config.mvcPathMatcher(),
-				this.config.mvcContentNegotiationManager(), this.config.mvcConversionService(),
-				this.config.mvcResourceUrlProvider());
+		handlerMapping = (AbstractHandlerMapping) this.config.resourceHandlerMapping(this.config.mvcUrlPathHelper(),
+				this.config.mvcPathMatcher(), this.config.mvcContentNegotiationManager(),
+				this.config.mvcConversionService(), this.config.mvcResourceUrlProvider());
 		handlerMapping.setApplicationContext(this.context);
 		assertThat(handlerMapping).isNotNull();
 		assertThat(handlerMapping.getOrder()).isEqualTo((Integer.MAX_VALUE - 1));
@@ -222,24 +218,24 @@ public class WebMvcConfigurationSupportExtensionTests {
 		DirectFieldAccessor fieldAccessor = new DirectFieldAccessor(adapter);
 
 		// Custom argument resolvers and return value handlers
-		List<HandlerMethodArgumentResolver> argResolvers =
-				(List<HandlerMethodArgumentResolver>) fieldAccessor.getPropertyValue("customArgumentResolvers");
+		List<HandlerMethodArgumentResolver> argResolvers = (List<HandlerMethodArgumentResolver>) fieldAccessor
+				.getPropertyValue("customArgumentResolvers");
 		assertThat(argResolvers.size()).isEqualTo(1);
 
-		List<HandlerMethodReturnValueHandler> handlers =
-				(List<HandlerMethodReturnValueHandler>) fieldAccessor.getPropertyValue("customReturnValueHandlers");
+		List<HandlerMethodReturnValueHandler> handlers = (List<HandlerMethodReturnValueHandler>) fieldAccessor
+				.getPropertyValue("customReturnValueHandlers");
 		assertThat(handlers.size()).isEqualTo(1);
 
 		// Async support options
 		assertThat(fieldAccessor.getPropertyValue("taskExecutor").getClass()).isEqualTo(ConcurrentTaskExecutor.class);
 		assertThat(fieldAccessor.getPropertyValue("asyncRequestTimeout")).isEqualTo(2500L);
 
-		CallableProcessingInterceptor[] callableInterceptors =
-				(CallableProcessingInterceptor[]) fieldAccessor.getPropertyValue("callableInterceptors");
+		CallableProcessingInterceptor[] callableInterceptors = (CallableProcessingInterceptor[]) fieldAccessor
+				.getPropertyValue("callableInterceptors");
 		assertThat(callableInterceptors.length).isEqualTo(1);
 
-		DeferredResultProcessingInterceptor[] deferredResultInterceptors =
-				(DeferredResultProcessingInterceptor[]) fieldAccessor.getPropertyValue("deferredResultInterceptors");
+		DeferredResultProcessingInterceptor[] deferredResultInterceptors = (DeferredResultProcessingInterceptor[]) fieldAccessor
+				.getPropertyValue("deferredResultInterceptors");
 		assertThat(deferredResultInterceptors.length).isEqualTo(1);
 
 		assertThat(fieldAccessor.getPropertyValue("ignoreDefaultModelOnRedirect")).isEqualTo(false);
@@ -251,8 +247,8 @@ public class WebMvcConfigurationSupportExtensionTests {
 				this.config.mvcContentNegotiationManager(), this.config.mvcConversionService(),
 				this.config.mvcValidator());
 
-		ConfigurableWebBindingInitializer initializer =
-				(ConfigurableWebBindingInitializer) adapter.getWebBindingInitializer();
+		ConfigurableWebBindingInitializer initializer = (ConfigurableWebBindingInitializer) adapter
+				.getWebBindingInitializer();
 
 		assertThat(initializer).isNotNull();
 
@@ -279,7 +275,8 @@ public class WebMvcConfigurationSupportExtensionTests {
 		assertThat(manager.resolveMediaTypes(webRequest)).isEqualTo(Collections.singletonList(APPLICATION_XML));
 
 		request.setRequestURI("/foo.rss");
-		assertThat(manager.resolveMediaTypes(webRequest)).isEqualTo(Collections.singletonList(MediaType.valueOf("application/rss+xml")));
+		assertThat(manager.resolveMediaTypes(webRequest))
+				.isEqualTo(Collections.singletonList(MediaType.valueOf("application/rss+xml")));
 
 		request.setRequestURI("/foo.atom");
 		assertThat(manager.resolveMediaTypes(webRequest)).isEqualTo(Collections.singletonList(APPLICATION_ATOM_XML));
@@ -303,8 +300,8 @@ public class WebMvcConfigurationSupportExtensionTests {
 
 	@Test
 	public void exceptionResolvers() throws Exception {
-		List<HandlerExceptionResolver> resolvers = ((HandlerExceptionResolverComposite)
-				this.config.handlerExceptionResolver(null)).getExceptionResolvers();
+		List<HandlerExceptionResolver> resolvers = ((HandlerExceptionResolverComposite) this.config
+				.handlerExceptionResolver(null)).getExceptionResolvers();
 
 		assertThat(resolvers.size()).isEqualTo(2);
 		assertThat(resolvers.get(0).getClass()).isEqualTo(ResponseStatusExceptionResolver.class);
@@ -314,8 +311,8 @@ public class WebMvcConfigurationSupportExtensionTests {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void viewResolvers() throws Exception {
-		ViewResolverComposite viewResolver = (ViewResolverComposite) this.config.mvcViewResolver(
-				this.config.mvcContentNegotiationManager());
+		ViewResolverComposite viewResolver = (ViewResolverComposite) this.config
+				.mvcViewResolver(this.config.mvcContentNegotiationManager());
 		assertThat(viewResolver.getOrder()).isEqualTo(Ordered.HIGHEST_PRECEDENCE);
 		List<ViewResolver> viewResolvers = viewResolver.getViewResolvers();
 
@@ -346,21 +343,21 @@ public class WebMvcConfigurationSupportExtensionTests {
 		assertThat(configs.get("/resources/**").getAllowedOrigins().get(0)).isEqualTo("*");
 	}
 
-
 	@Controller
 	private static class TestController {
 
 		@RequestMapping("/")
 		public void handle() {
 		}
+
 	}
 
 	/**
 	 * Since WebMvcConfigurationSupport does not implement WebMvcConfigurer, the purpose
-	 * of this test class is also to ensure the two are in sync with each other. Effectively
-	 * that ensures that application config classes that use the combo {@code @EnableWebMvc}
-	 * plus WebMvcConfigurer can switch to extending WebMvcConfigurationSupport directly for
-	 * more advanced configuration needs.
+	 * of this test class is also to ensure the two are in sync with each other.
+	 * Effectively that ensures that application config classes that use the combo
+	 * {@code @EnableWebMvc} plus WebMvcConfigurer can switch to extending
+	 * WebMvcConfigurationSupport directly for more advanced configuration needs.
 	 */
 	private class TestWebMvcConfigurationSupport extends WebMvcConfigurationSupport implements WebMvcConfigurer {
 
@@ -408,8 +405,7 @@ public class WebMvcConfigurationSupportExtensionTests {
 		public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
 			configurer.setDefaultTimeout(2500).setTaskExecutor(new ConcurrentTaskExecutor())
 					.registerCallableInterceptors(new CallableProcessingInterceptor() {
-					})
-					.registerDeferredResultInterceptors(new DeferredResultProcessingInterceptor() {
+					}).registerDeferredResultInterceptors(new DeferredResultProcessingInterceptor() {
 					});
 		}
 
@@ -451,7 +447,7 @@ public class WebMvcConfigurationSupportExtensionTests {
 			return new DefaultMessageCodesResolver() {
 				@Override
 				public String[] resolveMessageCodes(String errorCode, String objectName) {
-					return new String[] {"custom." + errorCode};
+					return new String[] { "custom." + errorCode };
 				}
 			};
 		}
@@ -487,11 +483,12 @@ public class WebMvcConfigurationSupportExtensionTests {
 	}
 
 	private class TestPathHelper extends UrlPathHelper {
+
 	}
 
 	private class TestPathMatcher extends AntPathMatcher {
-	}
 
+	}
 
 	@RestController
 	@RequestMapping("/user")
@@ -501,6 +498,7 @@ public class WebMvcConfigurationSupportExtensionTests {
 		public Principal getUser() {
 			return mock(Principal.class);
 		}
+
 	}
 
 }

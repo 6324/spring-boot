@@ -16,7 +16,6 @@
 
 package org.springframework.http.client;
 
-
 public class NoOutputStreamingBufferedSimpleHttpRequestFactoryTests extends AbstractHttpRequestFactoryTests {
 
 	@Override

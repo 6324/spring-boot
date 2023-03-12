@@ -47,7 +47,6 @@ public class ChannelSendOperatorTests {
 
 	private final OneByOneAsyncWriter writer = new OneByOneAsyncWriter();
 
-
 	@Test
 	public void errorBeforeFirstItem() throws Exception {
 		IllegalStateException error = new IllegalStateException("boo");
@@ -83,7 +82,6 @@ public class ChannelSendOperatorTests {
 		assertThat(this.writer.completed).isTrue();
 	}
 
-
 	@Test
 	public void writeMultipleItems() {
 		List<String> items = Arrays.asList("one", "two", "three");
@@ -103,7 +101,7 @@ public class ChannelSendOperatorTests {
 	@Test
 	public void errorAfterMultipleItems() {
 		IllegalStateException error = new IllegalStateException("boo");
-		Flux<String> publisher = Flux.generate(() -> 0, (idx , subscriber) -> {
+		Flux<String> publisher = Flux.generate(() -> 0, (idx, subscriber) -> {
 			int i = ++idx;
 			subscriber.next(String.valueOf(i));
 			if (i == 3) {
@@ -128,19 +126,18 @@ public class ChannelSendOperatorTests {
 	public void cancelWhileItemCached() {
 		LeakAwareDataBufferFactory bufferFactory = new LeakAwareDataBufferFactory();
 
-		ChannelSendOperator<DataBuffer> operator = new ChannelSendOperator<>(
-				Mono.fromCallable(() -> {
-					DataBuffer dataBuffer = bufferFactory.allocateBuffer();
-					dataBuffer.write("foo", StandardCharsets.UTF_8);
-					return dataBuffer;
-				}),
-				publisher -> {
-					ZeroDemandSubscriber subscriber = new ZeroDemandSubscriber();
-					publisher.subscribe(subscriber);
-					return Mono.never();
-				});
+		ChannelSendOperator<DataBuffer> operator = new ChannelSendOperator<>(Mono.fromCallable(() -> {
+			DataBuffer dataBuffer = bufferFactory.allocateBuffer();
+			dataBuffer.write("foo", StandardCharsets.UTF_8);
+			return dataBuffer;
+		}), publisher -> {
+			ZeroDemandSubscriber subscriber = new ZeroDemandSubscriber();
+			publisher.subscribe(subscriber);
+			return Mono.never();
+		});
 
-		BaseSubscriber<Void> subscriber = new BaseSubscriber<Void>() {};
+		BaseSubscriber<Void> subscriber = new BaseSubscriber<Void>() {
+		};
 		operator.subscribe(subscriber);
 		subscriber.cancel();
 
@@ -157,22 +154,21 @@ public class ChannelSendOperatorTests {
 		LeakAwareDataBufferFactory bufferFactory = new LeakAwareDataBufferFactory();
 		ZeroDemandSubscriber writeSubscriber = new ZeroDemandSubscriber();
 
-		ChannelSendOperator<DataBuffer> operator = new ChannelSendOperator<>(
-				Flux.create(sink -> {
-					DataBuffer dataBuffer = bufferFactory.allocateBuffer();
-					dataBuffer.write("foo", StandardCharsets.UTF_8);
-					sink.next(dataBuffer);
-					sink.error(new IllegalStateException("err"));
-				}),
-				publisher -> {
-					publisher.subscribe(writeSubscriber);
-					return Mono.never();
-				});
+		ChannelSendOperator<DataBuffer> operator = new ChannelSendOperator<>(Flux.create(sink -> {
+			DataBuffer dataBuffer = bufferFactory.allocateBuffer();
+			dataBuffer.write("foo", StandardCharsets.UTF_8);
+			sink.next(dataBuffer);
+			sink.error(new IllegalStateException("err"));
+		}), publisher -> {
+			publisher.subscribe(writeSubscriber);
+			return Mono.never();
+		});
 
-
-		operator.subscribe(new BaseSubscriber<Void>() {});
+		operator.subscribe(new BaseSubscriber<Void>() {
+		});
 		try {
-			writeSubscriber.signalDemand(1);  // Let cached signals ("foo" and error) be published..
+			writeSubscriber.signalDemand(1); // Let cached signals ("foo" and error) be
+												// published..
 		}
 		catch (Throwable ex) {
 			assertThat(ex.getCause()).isNotNull();
@@ -187,20 +183,19 @@ public class ChannelSendOperatorTests {
 
 		// 1. First item received
 		// 2. writeFunction applied and writeCompletionBarrier subscribed to it
-		// 3. writeFunction fails, e.g. to flush status and headers, before request(n) from server
+		// 3. writeFunction fails, e.g. to flush status and headers, before request(n)
+		// from server
 
 		LeakAwareDataBufferFactory bufferFactory = new LeakAwareDataBufferFactory();
 
-		ChannelSendOperator<DataBuffer> operator = new ChannelSendOperator<>(
-				Flux.create(sink -> {
-					DataBuffer dataBuffer = bufferFactory.allocateBuffer();
-					dataBuffer.write("foo", StandardCharsets.UTF_8);
-					sink.next(dataBuffer);
-				}),
-				publisher -> {
-					publisher.subscribe(new ZeroDemandSubscriber());
-					return Mono.error(new IllegalStateException("err"));
-				});
+		ChannelSendOperator<DataBuffer> operator = new ChannelSendOperator<>(Flux.create(sink -> {
+			DataBuffer dataBuffer = bufferFactory.allocateBuffer();
+			dataBuffer.write("foo", StandardCharsets.UTF_8);
+			sink.next(dataBuffer);
+		}), publisher -> {
+			publisher.subscribe(new ZeroDemandSubscriber());
+			return Mono.error(new IllegalStateException("err"));
+		});
 
 		StepVerifier.create(operator).expectErrorMessage("err").verify(Duration.ofSeconds(5));
 		bufferFactory.checkForLeaks();
@@ -209,26 +204,18 @@ public class ChannelSendOperatorTests {
 	@Test // gh-23175
 	public void errorInWriteFunction() {
 
-		StepVerifier
-				.create(new ChannelSendOperator<>(Mono.just("one"), p -> {
-					throw new IllegalStateException("boo");
-				}))
-				.expectErrorMessage("boo")
-				.verify(Duration.ofMillis(5000));
+		StepVerifier.create(new ChannelSendOperator<>(Mono.just("one"), p -> {
+			throw new IllegalStateException("boo");
+		})).expectErrorMessage("boo").verify(Duration.ofMillis(5000));
 
-		StepVerifier
-				.create(new ChannelSendOperator<>(Mono.empty(), p -> {
-					throw new IllegalStateException("boo");
-				}))
-				.expectErrorMessage("boo")
-				.verify(Duration.ofMillis(5000));
+		StepVerifier.create(new ChannelSendOperator<>(Mono.empty(), p -> {
+			throw new IllegalStateException("boo");
+		})).expectErrorMessage("boo").verify(Duration.ofMillis(5000));
 	}
 
-
-	private <T> Mono<Void> sendOperator(Publisher<String> source){
+	private <T> Mono<Void> sendOperator(Publisher<String> source) {
 		return new ChannelSendOperator<>(source, writer::send);
 	}
-
 
 	private static class OneByOneAsyncWriter {
 
@@ -238,12 +225,10 @@ public class ChannelSendOperatorTests {
 
 		private Throwable error;
 
-
 		public Publisher<Void> send(Publisher<String> publisher) {
-			return subscriber -> Executors.newSingleThreadScheduledExecutor().schedule(() ->
-							publisher.subscribe(new WriteSubscriber(subscriber)),50, TimeUnit.MILLISECONDS);
+			return subscriber -> Executors.newSingleThreadScheduledExecutor()
+					.schedule(() -> publisher.subscribe(new WriteSubscriber(subscriber)), 50, TimeUnit.MILLISECONDS);
 		}
-
 
 		private class WriteSubscriber implements Subscriber<String> {
 
@@ -278,12 +263,12 @@ public class ChannelSendOperatorTests {
 				completed = true;
 				this.subscriber.onComplete();
 			}
+
 		}
+
 	}
 
-
 	private static class ZeroDemandSubscriber extends BaseSubscriber<DataBuffer> {
-
 
 		@Override
 		protected void hookOnSubscribe(Subscription subscription) {
@@ -293,6 +278,7 @@ public class ChannelSendOperatorTests {
 		public void signalDemand(long demand) {
 			upstream().request(demand);
 		}
+
 	}
 
 }

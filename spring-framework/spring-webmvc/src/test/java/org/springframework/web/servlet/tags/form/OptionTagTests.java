@@ -77,7 +77,6 @@ public class OptionTagTests extends AbstractHtmlElementTagTests {
 		this.tag.setPageContext(getPageContext());
 	}
 
-
 	@Test
 	public void canBeDisabledEvenWhenSelected() throws Exception {
 		String selectName = "testBean.name";
@@ -199,8 +198,8 @@ public class OptionTagTests extends AbstractHtmlElementTagTests {
 		this.tag.setParent(null);
 		this.tag.setValue("foo");
 		this.tag.setLabel("Foo");
-		assertThatIllegalStateException().as("not be able to use <option> tag without exposed context").isThrownBy(
-				tag::doStartTag);
+		assertThatIllegalStateException().as("not be able to use <option> tag without exposed context")
+				.isThrownBy(tag::doStartTag);
 	}
 
 	@Test
@@ -466,10 +465,8 @@ public class OptionTagTests extends AbstractHtmlElementTagTests {
 	public void optionTagNotNestedWithinSelectTag() throws Exception {
 		tag.setParent(null);
 		tag.setValue("foo");
-		assertThatIllegalStateException().as("when not nested within a <select/> tag").isThrownBy(
-				tag::doStartTag);
+		assertThatIllegalStateException().as("when not nested within a <select/> tag").isThrownBy(tag::doStartTag);
 	}
-
 
 	private void assertOptionTagOpened(String output) {
 		assertThat(output.startsWith("<option")).isTrue();
@@ -496,7 +493,6 @@ public class OptionTagTests extends AbstractHtmlElementTagTests {
 		request.setAttribute("testBean", bean);
 	}
 
-
 	private static class TestBeanPropertyEditor extends PropertyEditorSupport {
 
 		@Override
@@ -508,8 +504,8 @@ public class OptionTagTests extends AbstractHtmlElementTagTests {
 		public String getAsText() {
 			return ((TestBean) getValue()).getName();
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	public static class RulesVariant implements Serializable {
@@ -568,8 +564,8 @@ public class OptionTagTests extends AbstractHtmlElementTagTests {
 		public int hashCode() {
 			return this.toId().hashCode();
 		}
-	}
 
+	}
 
 	public class RulesVariantEditor extends PropertyEditorSupport {
 
@@ -583,8 +579,8 @@ public class OptionTagTests extends AbstractHtmlElementTagTests {
 			RulesVariant rulesVariant = (RulesVariant) getValue();
 			return rulesVariant.toId();
 		}
-	}
 
+	}
 
 	private static class FriendEditor extends PropertyEditorSupport {
 
@@ -593,11 +589,11 @@ public class OptionTagTests extends AbstractHtmlElementTagTests {
 			setValue(new TestBean(text));
 		}
 
-
 		@Override
 		public String getAsText() {
 			return ((TestBean) getValue()).getName();
 		}
+
 	}
 
 }

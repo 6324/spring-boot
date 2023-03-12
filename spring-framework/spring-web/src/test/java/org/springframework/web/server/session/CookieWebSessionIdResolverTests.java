@@ -26,12 +26,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link CookieWebSessionIdResolver}.
+ *
  * @author Rossen Stoyanchev
  */
 public class CookieWebSessionIdResolverTests {
 
 	private final CookieWebSessionIdResolver resolver = new CookieWebSessionIdResolver();
-
 
 	@Test
 	public void setSessionId() {

@@ -35,11 +35,15 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 public class CompositeRequestConditionTests {
 
 	private ParamsRequestCondition param1;
+
 	private ParamsRequestCondition param2;
+
 	private ParamsRequestCondition param3;
 
 	private HeadersRequestCondition header1;
+
 	private HeadersRequestCondition header2;
+
 	private HeadersRequestCondition header3;
 
 	@BeforeEach
@@ -76,8 +80,7 @@ public class CompositeRequestConditionTests {
 	public void combineDifferentLength() {
 		CompositeRequestCondition cond1 = new CompositeRequestCondition(this.param1);
 		CompositeRequestCondition cond2 = new CompositeRequestCondition(this.param1, this.header1);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				cond1.combine(cond2));
+		assertThatIllegalArgumentException().isThrownBy(() -> cond1.combine(cond2));
 	}
 
 	@Test
@@ -136,8 +139,7 @@ public class CompositeRequestConditionTests {
 	public void compareDifferentLength() {
 		CompositeRequestCondition cond1 = new CompositeRequestCondition(this.param1);
 		CompositeRequestCondition cond2 = new CompositeRequestCondition(this.param1, this.header1);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				cond1.compareTo(cond2, new MockHttpServletRequest()));
+		assertThatIllegalArgumentException().isThrownBy(() -> cond1.compareTo(cond2, new MockHttpServletRequest()));
 	}
 
 }

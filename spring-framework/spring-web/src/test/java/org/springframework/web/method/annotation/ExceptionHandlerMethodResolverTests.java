@@ -87,21 +87,21 @@ public class ExceptionHandlerMethodResolverTests {
 
 	@Test
 	public void ambiguousExceptionMapping() {
-		assertThatIllegalStateException().isThrownBy(() ->
-				new ExceptionHandlerMethodResolver(AmbiguousController.class));
+		assertThatIllegalStateException()
+				.isThrownBy(() -> new ExceptionHandlerMethodResolver(AmbiguousController.class));
 	}
 
 	@Test
 	public void noExceptionMapping() {
-		assertThatIllegalStateException().isThrownBy(() ->
-				new ExceptionHandlerMethodResolver(NoExceptionController.class));
+		assertThatIllegalStateException()
+				.isThrownBy(() -> new ExceptionHandlerMethodResolver(NoExceptionController.class));
 	}
-
 
 	@Controller
 	static class ExceptionController {
 
-		public void handle() {}
+		public void handle() {
+		}
 
 		@ExceptionHandler(IOException.class)
 		public void handleIOException() {
@@ -114,24 +114,25 @@ public class ExceptionHandlerMethodResolverTests {
 		@ExceptionHandler
 		public void handleIllegalArgumentException(IllegalArgumentException exception) {
 		}
-	}
 
+	}
 
 	@Controller
 	static class InheritedController extends ExceptionController {
 
 		@Override
-		public void handleIOException()	{
+		public void handleIOException() {
 		}
-	}
 
+	}
 
 	@Controller
 	static class AmbiguousController {
 
-		public void handle() {}
+		public void handle() {
+		}
 
-		@ExceptionHandler({BindException.class, IllegalArgumentException.class})
+		@ExceptionHandler({ BindException.class, IllegalArgumentException.class })
 		public String handle1(Exception ex, HttpServletRequest request, HttpServletResponse response)
 				throws IOException {
 			return ClassUtils.getShortName(ex.getClass());
@@ -141,8 +142,8 @@ public class ExceptionHandlerMethodResolverTests {
 		public String handle2(IllegalArgumentException ex) {
 			return ClassUtils.getShortName(ex.getClass());
 		}
-	}
 
+	}
 
 	@Controller
 	static class NoExceptionController {
@@ -150,6 +151,7 @@ public class ExceptionHandlerMethodResolverTests {
 		@ExceptionHandler
 		public void handle() {
 		}
+
 	}
 
 }

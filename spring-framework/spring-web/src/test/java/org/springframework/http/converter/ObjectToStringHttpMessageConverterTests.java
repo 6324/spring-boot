@@ -51,7 +51,6 @@ public class ObjectToStringHttpMessageConverterTests {
 
 	private ServletServerHttpResponse response;
 
-
 	@BeforeEach
 	public void setup() {
 		ConversionService conversionService = new DefaultConversionService();
@@ -60,7 +59,6 @@ public class ObjectToStringHttpMessageConverterTests {
 		this.servletResponse = new MockHttpServletResponse();
 		this.response = new ServletServerHttpResponse(this.servletResponse);
 	}
-
 
 	@Test
 	public void canRead() {
@@ -100,7 +98,8 @@ public class ObjectToStringHttpMessageConverterTests {
 	@Test
 	public void defaultCharsetModified() throws IOException {
 		ConversionService cs = new DefaultConversionService();
-		ObjectToStringHttpMessageConverter converter = new ObjectToStringHttpMessageConverter(cs, StandardCharsets.UTF_16);
+		ObjectToStringHttpMessageConverter converter = new ObjectToStringHttpMessageConverter(cs,
+				StandardCharsets.UTF_16);
 		converter.write((byte) 31, null, this.response);
 
 		assertThat(this.servletResponse.getCharacterEncoding()).isEqualTo("UTF-16");
@@ -164,13 +163,13 @@ public class ObjectToStringHttpMessageConverterTests {
 		assertThat(this.servletResponse.getContentType().startsWith(MediaType.TEXT_PLAIN_VALUE)).isTrue();
 		assertThat(this.servletResponse.getContentLength()).isEqualTo(8);
 		// First two bytes: byte order mark
-		assertThat(this.servletResponse.getContentAsByteArray()).isEqualTo(new byte[] { -2, -1, 0, '9', 0, '5', 0, '8' });
+		assertThat(this.servletResponse.getContentAsByteArray())
+				.isEqualTo(new byte[] { -2, -1, 0, '9', 0, '5', 0, '8' });
 	}
 
 	@Test
 	public void testConversionServiceRequired() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ObjectToStringHttpMessageConverter(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new ObjectToStringHttpMessageConverter(null));
 	}
 
 }

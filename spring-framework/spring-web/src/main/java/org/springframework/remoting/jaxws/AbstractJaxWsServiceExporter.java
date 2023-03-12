@@ -38,11 +38,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Abstract exporter for JAX-WS services, autodetecting annotated service beans
- * (through the JAX-WS {@link javax.jws.WebService} annotation).
+ * Abstract exporter for JAX-WS services, autodetecting annotated service beans (through
+ * the JAX-WS {@link javax.jws.WebService} annotation).
  *
- * <p>Subclasses need to implement the {@link #publishEndpoint} template methods
- * for actual endpoint exposure.
+ * <p>
+ * Subclasses need to implement the {@link #publishEndpoint} template methods for actual
+ * endpoint exposure.
  *
  * @author Juergen Hoeller
  * @since 2.5.5
@@ -69,7 +70,6 @@ public abstract class AbstractJaxWsServiceExporter implements BeanFactoryAware, 
 
 	private final Set<Endpoint> publishedEndpoints = new LinkedHashSet<>();
 
-
 	/**
 	 * Set the property bag for the endpoint, including properties such as
 	 * "javax.xml.ws.wsdl.service" or "javax.xml.ws.wsdl.port".
@@ -82,8 +82,8 @@ public abstract class AbstractJaxWsServiceExporter implements BeanFactoryAware, 
 	}
 
 	/**
-	 * Set the JDK concurrent executor to use for dispatching incoming requests
-	 * to exported service instances.
+	 * Set the JDK concurrent executor to use for dispatching incoming requests to
+	 * exported service instances.
 	 * @see javax.xml.ws.Endpoint#setExecutor
 	 */
 	public void setExecutor(Executor executor) {
@@ -91,16 +91,16 @@ public abstract class AbstractJaxWsServiceExporter implements BeanFactoryAware, 
 	}
 
 	/**
-	 * Specify the binding type to use, overriding the value of
-	 * the JAX-WS {@link javax.xml.ws.BindingType} annotation.
+	 * Specify the binding type to use, overriding the value of the JAX-WS
+	 * {@link javax.xml.ws.BindingType} annotation.
 	 */
 	public void setBindingType(String bindingType) {
 		this.bindingType = bindingType;
 	}
 
 	/**
-	 * Specify WebServiceFeature objects (e.g. as inner bean definitions)
-	 * to apply to JAX-WS endpoint creation.
+	 * Specify WebServiceFeature objects (e.g. as inner bean definitions) to apply to
+	 * JAX-WS endpoint creation.
 	 * @since 4.0
 	 */
 	public void setEndpointFeatures(WebServiceFeature... endpointFeatures) {
@@ -118,7 +118,6 @@ public abstract class AbstractJaxWsServiceExporter implements BeanFactoryAware, 
 		this.beanFactory = (ListableBeanFactory) beanFactory;
 	}
 
-
 	/**
 	 * Immediately publish all endpoints when fully configured.
 	 * @see #publishEndpoints()
@@ -129,8 +128,8 @@ public abstract class AbstractJaxWsServiceExporter implements BeanFactoryAware, 
 	}
 
 	/**
-	 * Publish all {@link javax.jws.WebService} annotated beans in the
-	 * containing BeanFactory.
+	 * Publish all {@link javax.jws.WebService} annotated beans in the containing
+	 * BeanFactory.
 	 * @see #publishEndpoint
 	 */
 	public void publishEndpoints() {
@@ -180,11 +179,9 @@ public abstract class AbstractJaxWsServiceExporter implements BeanFactoryAware, 
 	 * @see Endpoint#create(String, Object)
 	 */
 	protected Endpoint createEndpoint(Object bean) {
-		return (this.endpointFeatures != null ?
-				Endpoint.create(this.bindingType, bean, this.endpointFeatures) :
-				Endpoint.create(this.bindingType, bean));
+		return (this.endpointFeatures != null ? Endpoint.create(this.bindingType, bean, this.endpointFeatures)
+				: Endpoint.create(this.bindingType, bean));
 	}
-
 
 	/**
 	 * Actually publish the given endpoint. To be implemented by subclasses.
@@ -199,7 +196,6 @@ public abstract class AbstractJaxWsServiceExporter implements BeanFactoryAware, 
 	 * @param annotation the service bean's WebServiceProvider annotation
 	 */
 	protected abstract void publishEndpoint(Endpoint endpoint, WebServiceProvider annotation);
-
 
 	/**
 	 * Stops all published endpoints, taking the web services offline.

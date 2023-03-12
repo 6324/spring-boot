@@ -23,13 +23,14 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.context.ServletContextAware;
 
 /**
- * {@link FactoryBean} that retrieves a specific ServletContext init parameter
- * (that is, a "context-param" defined in {@code web.xml}).
- * Exposes that ServletContext init parameter when used as bean reference,
- * effectively making it available as named Spring bean instance.
+ * {@link FactoryBean} that retrieves a specific ServletContext init parameter (that is, a
+ * "context-param" defined in {@code web.xml}). Exposes that ServletContext init parameter
+ * when used as bean reference, effectively making it available as named Spring bean
+ * instance.
  *
- * <p><b>NOTE:</b> As of Spring 3.0, you may also use the "contextParameters" default
- * bean which is of type Map, and dereference it using an "#{contextParameters.myKey}"
+ * <p>
+ * <b>NOTE:</b> As of Spring 3.0, you may also use the "contextParameters" default bean
+ * which is of type Map, and dereference it using an "#{contextParameters.myKey}"
  * expression to access a specific parameter by name.
  *
  * @author Juergen Hoeller
@@ -44,7 +45,6 @@ public class ServletContextParameterFactoryBean implements FactoryBean<String>, 
 
 	@Nullable
 	private String paramValue;
-
 
 	/**
 	 * Set the name of the ServletContext init parameter to expose.
@@ -63,7 +63,6 @@ public class ServletContextParameterFactoryBean implements FactoryBean<String>, 
 			throw new IllegalStateException("No ServletContext init parameter '" + this.initParamName + "' found");
 		}
 	}
-
 
 	@Override
 	@Nullable

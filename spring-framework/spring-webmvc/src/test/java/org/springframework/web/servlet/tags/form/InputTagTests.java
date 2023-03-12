@@ -43,7 +43,6 @@ public class InputTagTests extends AbstractFormTagTests {
 
 	private TestBean rob;
 
-
 	@Override
 	protected void onSetUp() {
 		this.tag = createTag(getWriter());
@@ -68,7 +67,6 @@ public class InputTagTests extends AbstractFormTagTests {
 	protected final InputTag getTag() {
 		return this.tag;
 	}
-
 
 	@Test
 	public void simpleBind() throws Exception {
@@ -360,16 +358,14 @@ public class InputTagTests extends AbstractFormTagTests {
 
 	@Test
 	public void dynamicTypeRadioAttribute() throws JspException {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.tag.setDynamicAttribute(null, "type", "radio"))
-			.withMessage("Attribute type=\"radio\" is not allowed");
+		assertThatIllegalArgumentException().isThrownBy(() -> this.tag.setDynamicAttribute(null, "type", "radio"))
+				.withMessage("Attribute type=\"radio\" is not allowed");
 	}
 
 	@Test
 	public void dynamicTypeCheckboxAttribute() throws JspException {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.tag.setDynamicAttribute(null, "type", "checkbox"))
-			.withMessage("Attribute type=\"checkbox\" is not allowed");
+		assertThatIllegalArgumentException().isThrownBy(() -> this.tag.setDynamicAttribute(null, "type", "checkbox"))
+				.withMessage("Attribute type=\"checkbox\" is not allowed");
 	}
 
 	protected final void assertTagClosed(String output) {

@@ -1,6 +1,6 @@
 /**
- * Support classes for document generation,
- * providing View implementations for PDF and Excel.
+ * Support classes for document generation, providing View implementations for PDF and
+ * Excel.
  */
 @NonNullApi
 @NonNullFields

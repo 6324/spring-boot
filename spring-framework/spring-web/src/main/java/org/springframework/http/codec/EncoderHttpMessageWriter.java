@@ -43,9 +43,10 @@ import org.springframework.util.StringUtils;
 /**
  * {@code HttpMessageWriter} that wraps and delegates to an {@link Encoder}.
  *
- * <p>Also a {@code HttpMessageWriter} that pre-resolves encoding hints
- * from the extra information available on the server side such as the request
- * or controller method annotations.
+ * <p>
+ * Also a {@code HttpMessageWriter} that pre-resolves encoding hints from the extra
+ * information available on the server side such as the request or controller method
+ * annotations.
  *
  * @author Arjen Poutsma
  * @author Sebastien Deleuze
@@ -64,7 +65,6 @@ public class EncoderHttpMessageWriter<T> implements HttpMessageWriter<T> {
 	@Nullable
 	private final MediaType defaultMediaType;
 
-
 	/**
 	 * Create an instance wrapping the given {@link Encoder}.
 	 */
@@ -77,8 +77,8 @@ public class EncoderHttpMessageWriter<T> implements HttpMessageWriter<T> {
 	}
 
 	private static void initLogger(Encoder<?> encoder) {
-		if (encoder instanceof AbstractEncoder &&
-				encoder.getClass().getName().startsWith("org.springframework.core.codec")) {
+		if (encoder instanceof AbstractEncoder
+				&& encoder.getClass().getName().startsWith("org.springframework.core.codec")) {
 			Log logger = HttpLogging.forLog(((AbstractEncoder<?>) encoder).getLogger());
 			((AbstractEncoder<?>) encoder).setLogger(logger);
 		}
@@ -88,7 +88,6 @@ public class EncoderHttpMessageWriter<T> implements HttpMessageWriter<T> {
 	private static MediaType initDefaultMediaType(List<MediaType> mediaTypes) {
 		return mediaTypes.stream().filter(MediaType::isConcrete).findFirst().orElse(null);
 	}
-
 
 	/**
 	 * Return the {@code Encoder} of this writer.
@@ -102,7 +101,6 @@ public class EncoderHttpMessageWriter<T> implements HttpMessageWriter<T> {
 		return this.mediaTypes;
 	}
 
-
 	@Override
 	public boolean canWrite(ResolvableType elementType, @Nullable MediaType mediaType) {
 		return this.encoder.canEncode(elementType, mediaType);
@@ -114,27 +112,23 @@ public class EncoderHttpMessageWriter<T> implements HttpMessageWriter<T> {
 
 		MediaType contentType = updateContentType(message, mediaType);
 
-		Flux<DataBuffer> body = this.encoder.encode(
-				inputStream, message.bufferFactory(), elementType, contentType, hints);
+		Flux<DataBuffer> body = this.encoder.encode(inputStream, message.bufferFactory(), elementType, contentType,
+				hints);
 
 		if (inputStream instanceof Mono) {
-			return body
-					.singleOrEmpty()
-					.switchIfEmpty(Mono.defer(() -> {
-						message.getHeaders().setContentLength(0);
-						return message.setComplete().then(Mono.empty());
-					}))
-					.flatMap(buffer -> {
-						message.getHeaders().setContentLength(buffer.readableByteCount());
-						return message.writeWith(Mono.just(buffer)
-								.doOnDiscard(PooledDataBuffer.class, DataBufferUtils::release));
-					})
-					.doOnDiscard(PooledDataBuffer.class, DataBufferUtils::release);
+			return body.singleOrEmpty().switchIfEmpty(Mono.defer(() -> {
+				message.getHeaders().setContentLength(0);
+				return message.setComplete().then(Mono.empty());
+			})).flatMap(buffer -> {
+				message.getHeaders().setContentLength(buffer.readableByteCount());
+				return message
+						.writeWith(Mono.just(buffer).doOnDiscard(PooledDataBuffer.class, DataBufferUtils::release));
+			}).doOnDiscard(PooledDataBuffer.class, DataBufferUtils::release);
 		}
 
 		if (isStreamingMediaType(contentType)) {
-			return message.writeAndFlushWith(body.map(buffer ->
-					Mono.just(buffer).doOnDiscard(PooledDataBuffer.class, DataBufferUtils::release)));
+			return message.writeAndFlushWith(body
+					.map(buffer -> Mono.just(buffer).doOnDiscard(PooledDataBuffer.class, DataBufferUtils::release)));
 		}
 
 		return message.writeWith(body);
@@ -156,8 +150,8 @@ public class EncoderHttpMessageWriter<T> implements HttpMessageWriter<T> {
 	}
 
 	private static boolean useFallback(@Nullable MediaType main, @Nullable MediaType fallback) {
-		return (main == null || !main.isConcrete() ||
-				main.equals(MediaType.APPLICATION_OCTET_STREAM) && fallback != null);
+		return (main == null || !main.isConcrete()
+				|| main.equals(MediaType.APPLICATION_OCTET_STREAM) && fallback != null);
 	}
 
 	private static MediaType addDefaultCharset(MediaType main, @Nullable MediaType defaultType) {
@@ -190,13 +184,12 @@ public class EncoderHttpMessageWriter<T> implements HttpMessageWriter<T> {
 		return true;
 	}
 
-
 	// Server side only...
 
 	@Override
-	public Mono<Void> write(Publisher<? extends T> inputStream, ResolvableType actualType,
-			ResolvableType elementType, @Nullable MediaType mediaType, ServerHttpRequest request,
-			ServerHttpResponse response, Map<String, Object> hints) {
+	public Mono<Void> write(Publisher<? extends T> inputStream, ResolvableType actualType, ResolvableType elementType,
+			@Nullable MediaType mediaType, ServerHttpRequest request, ServerHttpResponse response,
+			Map<String, Object> hints) {
 
 		Map<String, Object> allHints = Hints.merge(hints,
 				getWriteHints(actualType, elementType, mediaType, request, response));
@@ -205,9 +198,9 @@ public class EncoderHttpMessageWriter<T> implements HttpMessageWriter<T> {
 	}
 
 	/**
-	 * Get additional hints for encoding for example based on the server request
-	 * or annotations from controller method parameters. By default, delegate to
-	 * the encoder if it is an instance of {@link HttpMessageEncoder}.
+	 * Get additional hints for encoding for example based on the server request or
+	 * annotations from controller method parameters. By default, delegate to the encoder
+	 * if it is an instance of {@link HttpMessageEncoder}.
 	 */
 	protected Map<String, Object> getWriteHints(ResolvableType streamType, ResolvableType elementType,
 			@Nullable MediaType mediaType, ServerHttpRequest request, ServerHttpResponse response) {

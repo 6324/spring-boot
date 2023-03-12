@@ -47,7 +47,6 @@ public class JdkProxyControllerTests {
 
 	private DispatcherServlet servlet;
 
-
 	@Test
 	public void typeLevel() throws Exception {
 		initServlet(TypeLevelImpl.class);
@@ -78,7 +77,6 @@ public class JdkProxyControllerTests {
 		assertThat(response.getContentAsString()).isEqualTo("doIt");
 	}
 
-
 	@SuppressWarnings("serial")
 	private void initServlet(final Class<?> controllerclass) throws ServletException {
 		servlet = new DispatcherServlet() {
@@ -89,7 +87,8 @@ public class JdkProxyControllerTests {
 				DefaultAdvisorAutoProxyCreator autoProxyCreator = new DefaultAdvisorAutoProxyCreator();
 				autoProxyCreator.setBeanFactory(wac.getBeanFactory());
 				wac.getBeanFactory().addBeanPostProcessor(autoProxyCreator);
-				wac.getBeanFactory().registerSingleton("advisor", new DefaultPointcutAdvisor(new SimpleTraceInterceptor(true)));
+				wac.getBeanFactory().registerSingleton("advisor",
+						new DefaultPointcutAdvisor(new SimpleTraceInterceptor(true)));
 				wac.refresh();
 				return wac;
 			}
@@ -97,15 +96,14 @@ public class JdkProxyControllerTests {
 		servlet.init(new MockServletConfig());
 	}
 
-
 	@Controller
 	@RequestMapping("/test")
 	public interface TypeLevel {
 
 		@RequestMapping
 		void doIt(Writer writer) throws IOException;
-	}
 
+	}
 
 	public static class TypeLevelImpl implements TypeLevel {
 
@@ -113,16 +111,16 @@ public class JdkProxyControllerTests {
 		public void doIt(Writer writer) throws IOException {
 			writer.write("doIt");
 		}
-	}
 
+	}
 
 	@Controller
 	public interface MethodLevel {
 
 		@RequestMapping("/test")
 		void doIt(Writer writer) throws IOException;
-	}
 
+	}
 
 	public static class MethodLevelImpl implements MethodLevel {
 
@@ -130,8 +128,8 @@ public class JdkProxyControllerTests {
 		public void doIt(Writer writer) throws IOException {
 			writer.write("doIt");
 		}
-	}
 
+	}
 
 	@Controller
 	@RequestMapping("/hotels")
@@ -139,8 +137,8 @@ public class JdkProxyControllerTests {
 
 		@RequestMapping("/bookings")
 		void doIt(Writer writer) throws IOException;
-	}
 
+	}
 
 	public static class TypeAndMethodLevelImpl implements TypeAndMethodLevel {
 
@@ -148,6 +146,7 @@ public class JdkProxyControllerTests {
 		public void doIt(Writer writer) throws IOException {
 			writer.write("doIt");
 		}
+
 	}
 
 }

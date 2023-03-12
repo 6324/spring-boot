@@ -20,9 +20,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Represents an HTTP cookie as a name-value pair consistent with the content of
- * the "Cookie" request header. The {@link ResponseCookie} sub-class has the
- * additional attributes expected in the "Set-Cookie" response header.
+ * Represents an HTTP cookie as a name-value pair consistent with the content of the
+ * "Cookie" request header. The {@link ResponseCookie} sub-class has the additional
+ * attributes expected in the "Set-Cookie" response header.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -33,7 +33,6 @@ public class HttpCookie {
 	private final String name;
 
 	private final String value;
-
 
 	public HttpCookie(String name, @Nullable String value) {
 		Assert.hasLength(name, "'name' is required and must not be empty.");
@@ -54,7 +53,6 @@ public class HttpCookie {
 	public String getValue() {
 		return this.value;
 	}
-
 
 	@Override
 	public int hashCode() {

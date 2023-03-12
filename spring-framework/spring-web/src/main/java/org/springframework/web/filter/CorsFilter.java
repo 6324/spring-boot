@@ -32,20 +32,22 @@ import org.springframework.web.cors.DefaultCorsProcessor;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
- * {@link javax.servlet.Filter} that handles CORS preflight requests and intercepts
- * CORS simple and actual requests thanks to a {@link CorsProcessor} implementation
- * ({@link DefaultCorsProcessor} by default) in order to add the relevant CORS
- * response headers (like {@code Access-Control-Allow-Origin}) using the provided
+ * {@link javax.servlet.Filter} that handles CORS preflight requests and intercepts CORS
+ * simple and actual requests thanks to a {@link CorsProcessor} implementation
+ * ({@link DefaultCorsProcessor} by default) in order to add the relevant CORS response
+ * headers (like {@code Access-Control-Allow-Origin}) using the provided
  * {@link CorsConfigurationSource} (for example an {@link UrlBasedCorsConfigurationSource}
  * instance.
  *
- * <p>This is an alternative to Spring MVC Java config and XML namespace CORS configuration,
+ * <p>
+ * This is an alternative to Spring MVC Java config and XML namespace CORS configuration,
  * useful for applications depending only on spring-web (not on spring-webmvc) or for
- * security constraints requiring CORS checks to be performed at {@link javax.servlet.Filter}
- * level.
+ * security constraints requiring CORS checks to be performed at
+ * {@link javax.servlet.Filter} level.
  *
- * <p>This filter could be used in conjunction with {@link DelegatingFilterProxy} in order
- * to help with its initialization.
+ * <p>
+ * This filter could be used in conjunction with {@link DelegatingFilterProxy} in order to
+ * help with its initialization.
  *
  * @author Sebastien Deleuze
  * @since 4.2
@@ -57,10 +59,9 @@ public class CorsFilter extends OncePerRequestFilter {
 
 	private CorsProcessor processor = new DefaultCorsProcessor();
 
-
 	/**
-	 * Constructor accepting a {@link CorsConfigurationSource} used by the filter
-	 * to find the {@link CorsConfiguration} to use for each incoming request.
+	 * Constructor accepting a {@link CorsConfigurationSource} used by the filter to find
+	 * the {@link CorsConfiguration} to use for each incoming request.
 	 * @see UrlBasedCorsConfigurationSource
 	 */
 	public CorsFilter(CorsConfigurationSource configSource) {
@@ -68,21 +69,20 @@ public class CorsFilter extends OncePerRequestFilter {
 		this.configSource = configSource;
 	}
 
-
 	/**
 	 * Configure a custom {@link CorsProcessor} to use to apply the matched
 	 * {@link CorsConfiguration} for a request.
-	 * <p>By default {@link DefaultCorsProcessor} is used.
+	 * <p>
+	 * By default {@link DefaultCorsProcessor} is used.
 	 */
 	public void setCorsProcessor(CorsProcessor processor) {
 		Assert.notNull(processor, "CorsProcessor must not be null");
 		this.processor = processor;
 	}
 
-
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-			FilterChain filterChain) throws ServletException, IOException {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
 
 		CorsConfiguration corsConfiguration = this.configSource.getCorsConfiguration(request);
 		boolean isValid = this.processor.processRequest(corsConfiguration, request, response);

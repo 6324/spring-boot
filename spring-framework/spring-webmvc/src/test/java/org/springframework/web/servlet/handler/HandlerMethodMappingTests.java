@@ -42,7 +42,6 @@ import org.springframework.web.util.UrlPathHelper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
-
 /**
  * Test for {@link AbstractHandlerMethodMapping}.
  *
@@ -60,7 +59,6 @@ public class HandlerMethodMappingTests {
 
 	private Method method2;
 
-
 	@BeforeEach
 	public void setUp() throws Exception {
 		this.mapping = new MyHandlerMethodMapping();
@@ -69,12 +67,11 @@ public class HandlerMethodMappingTests {
 		this.method2 = handler.getClass().getMethod("handlerMethod2");
 	}
 
-
 	@Test
 	public void registerDuplicates() {
 		this.mapping.registerMapping("foo", this.handler, this.method1);
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.mapping.registerMapping("foo", this.handler, this.method2));
+		assertThatIllegalStateException()
+				.isThrownBy(() -> this.mapping.registerMapping("foo", this.handler, this.method2));
 	}
 
 	@Test
@@ -104,8 +101,8 @@ public class HandlerMethodMappingTests {
 		this.mapping.registerMapping("/f?o", this.handler, this.method1);
 		this.mapping.registerMapping("/fo?", this.handler, this.method2);
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.mapping.getHandlerInternal(new MockHttpServletRequest("GET", "/foo")));
+		assertThatIllegalStateException()
+				.isThrownBy(() -> this.mapping.getHandlerInternal(new MockHttpServletRequest("GET", "/foo")));
 	}
 
 	@Test
@@ -243,17 +240,15 @@ public class HandlerMethodMappingTests {
 
 		CorsConfiguration config = this.mapping.getMappingRegistry().getCorsConfiguration(handlerMethod);
 		assertThat(config).isNotNull();
-		assertThat(config.getAllowedOrigins().get(0)).isEqualTo(("http://" + beanName.hashCode() + this.method1.getName()));
+		assertThat(config.getAllowedOrigins().get(0))
+				.isEqualTo(("http://" + beanName.hashCode() + this.method1.getName()));
 	}
-
-
 
 	private static class MyHandlerMethodMapping extends AbstractHandlerMethodMapping<String> {
 
 		private UrlPathHelper pathHelper = new UrlPathHelper();
 
 		private PathMatcher pathMatcher = new AntPathMatcher();
-
 
 		public MyHandlerMethodMapping() {
 			setHandlerMethodMappingNamingStrategy(new SimpleMappingNamingStrategy());
@@ -302,6 +297,7 @@ public class HandlerMethodMappingTests {
 		public String getName(HandlerMethod handlerMethod, String mapping) {
 			return handlerMethod.getMethod().getName();
 		}
+
 	}
 
 	@Controller
@@ -314,5 +310,7 @@ public class HandlerMethodMappingTests {
 		@RequestMapping
 		public void handlerMethod2() {
 		}
+
 	}
+
 }

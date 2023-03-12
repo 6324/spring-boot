@@ -43,7 +43,6 @@ public class FormHttpMessageWriterTests extends AbstractLeakCheckingTests {
 
 	private final FormHttpMessageWriter writer = new FormHttpMessageWriter();
 
-
 	@Test
 	public void canWrite() {
 		assertThat(this.writer.canWrite(
@@ -51,20 +50,18 @@ public class FormHttpMessageWriterTests extends AbstractLeakCheckingTests {
 				MediaType.APPLICATION_FORM_URLENCODED)).isTrue();
 
 		// No generic information
-		assertThat(this.writer.canWrite(
-				ResolvableType.forInstance(new LinkedMultiValueMap<String, String>()),
+		assertThat(this.writer.canWrite(ResolvableType.forInstance(new LinkedMultiValueMap<String, String>()),
 				MediaType.APPLICATION_FORM_URLENCODED)).isTrue();
 
-		assertThat(this.writer.canWrite(
-				ResolvableType.forClassWithGenerics(MultiValueMap.class, String.class, Object.class),
-				null)).isFalse();
+		assertThat(this.writer
+				.canWrite(ResolvableType.forClassWithGenerics(MultiValueMap.class, String.class, Object.class), null))
+						.isFalse();
 
-		assertThat(this.writer.canWrite(
-				ResolvableType.forClassWithGenerics(MultiValueMap.class, Object.class, String.class),
-				null)).isFalse();
+		assertThat(this.writer
+				.canWrite(ResolvableType.forClassWithGenerics(MultiValueMap.class, Object.class, String.class), null))
+						.isFalse();
 
-		assertThat(this.writer.canWrite(
-				ResolvableType.forClassWithGenerics(Map.class, String.class, String.class),
+		assertThat(this.writer.canWrite(ResolvableType.forClassWithGenerics(Map.class, String.class, String.class),
 				MediaType.APPLICATION_FORM_URLENCODED)).isFalse();
 
 		assertThat(this.writer.canWrite(
@@ -83,10 +80,7 @@ public class FormHttpMessageWriterTests extends AbstractLeakCheckingTests {
 		this.writer.write(Mono.just(body), null, MediaType.APPLICATION_FORM_URLENCODED, response, null).block();
 
 		String expected = "name+1=value+1&name+2=value+2%2B1&name+2=value+2%2B2&name+3";
-		StepVerifier.create(response.getBody())
-				.consumeNextWith(stringConsumer(expected))
-				.expectComplete()
-				.verify();
+		StepVerifier.create(response.getBody()).consumeNextWith(stringConsumer(expected)).expectComplete().verify();
 		HttpHeaders headers = response.getHeaders();
 		assertThat(headers.getContentType().toString()).isEqualTo("application/x-www-form-urlencoded;charset=UTF-8");
 		assertThat(headers.getContentLength()).isEqualTo(expected.length());
@@ -99,6 +93,5 @@ public class FormHttpMessageWriterTests extends AbstractLeakCheckingTests {
 			assertThat(value).isEqualTo(expected);
 		};
 	}
-
 
 }

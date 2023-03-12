@@ -47,7 +47,6 @@ public class ModelAndViewMethodReturnValueHandlerTests {
 
 	private MethodParameter returnParamModelAndView;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		this.handler = new ModelAndViewMethodReturnValueHandler();
@@ -55,7 +54,6 @@ public class ModelAndViewMethodReturnValueHandlerTests {
 		this.webRequest = new ServletWebRequest(new MockHttpServletRequest());
 		this.returnParamModelAndView = getReturnValueParam("modelAndView");
 	}
-
 
 	@Test
 	public void supportsReturnType() throws Exception {
@@ -90,7 +88,7 @@ public class ModelAndViewMethodReturnValueHandlerTests {
 
 	@Test
 	public void handleRedirectAttributesWithViewReference() throws Exception {
-		RedirectAttributesModelMap redirectAttributes  = new RedirectAttributesModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		mavContainer.setRedirectModel(redirectAttributes);
 
 		ModelAndView mav = new ModelAndView(new RedirectView(), "attrName", "attrValue");
@@ -98,12 +96,13 @@ public class ModelAndViewMethodReturnValueHandlerTests {
 
 		assertThat(mavContainer.getView().getClass()).isEqualTo(RedirectView.class);
 		assertThat(mavContainer.getModel().get("attrName")).isEqualTo("attrValue");
-		assertThat(mavContainer.getModel()).as("RedirectAttributes should be used if controller redirects").isSameAs(redirectAttributes);
+		assertThat(mavContainer.getModel()).as("RedirectAttributes should be used if controller redirects")
+				.isSameAs(redirectAttributes);
 	}
 
 	@Test
 	public void handleRedirectAttributesWithViewName() throws Exception {
-		RedirectAttributesModelMap redirectAttributes  = new RedirectAttributesModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		mavContainer.setRedirectModel(redirectAttributes);
 
 		ModelAndView mav = new ModelAndView("redirect:viewName", "attrName", "attrValue");
@@ -117,7 +116,7 @@ public class ModelAndViewMethodReturnValueHandlerTests {
 
 	@Test
 	public void handleRedirectAttributesWithCustomPrefix() throws Exception {
-		RedirectAttributesModelMap redirectAttributes  = new RedirectAttributesModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		mavContainer.setRedirectModel(redirectAttributes);
 
 		ModelAndView mav = new ModelAndView("myRedirect:viewName", "attrName", "attrValue");
@@ -132,7 +131,7 @@ public class ModelAndViewMethodReturnValueHandlerTests {
 
 	@Test
 	public void handleRedirectAttributesWithoutRedirect() throws Exception {
-		RedirectAttributesModelMap redirectAttributes  = new RedirectAttributesModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		mavContainer.setRedirectModel(redirectAttributes);
 
 		ModelAndView mav = new ModelAndView();
@@ -141,10 +140,11 @@ public class ModelAndViewMethodReturnValueHandlerTests {
 		ModelMap model = mavContainer.getModel();
 		assertThat(mavContainer.getView()).isEqualTo(null);
 		assertThat(mavContainer.getModel().isEmpty()).isTrue();
-		assertThat(model).as("RedirectAttributes should not be used if controller doesn't redirect").isNotSameAs(redirectAttributes);
+		assertThat(model).as("RedirectAttributes should not be used if controller doesn't redirect")
+				.isNotSameAs(redirectAttributes);
 	}
 
-	@Test  // SPR-14045
+	@Test // SPR-14045
 	public void handleRedirectWithIgnoreDefaultModel() throws Exception {
 		mavContainer.setIgnoreDefaultModelOnRedirect(true);
 
@@ -158,12 +158,10 @@ public class ModelAndViewMethodReturnValueHandlerTests {
 		assertThat(model.get("name")).isEqualTo("value");
 	}
 
-
 	private MethodParameter getReturnValueParam(String methodName) throws Exception {
 		Method method = getClass().getDeclaredMethod(methodName);
 		return new MethodParameter(method, -1);
 	}
-
 
 	@SuppressWarnings("unused")
 	ModelAndView modelAndView() {

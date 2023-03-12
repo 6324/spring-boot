@@ -60,10 +60,12 @@ public class PathVariableMethodArgumentResolverTests {
 	private MockHttpServletRequest request;
 
 	private MethodParameter paramNamedString;
-	private MethodParameter paramString;
-	private MethodParameter paramNotRequired;
-	private MethodParameter paramOptional;
 
+	private MethodParameter paramString;
+
+	private MethodParameter paramNotRequired;
+
+	private MethodParameter paramOptional;
 
 	@BeforeEach
 	public void setup() throws Exception {
@@ -78,7 +80,6 @@ public class PathVariableMethodArgumentResolverTests {
 		paramNotRequired = new SynthesizingMethodParameter(method, 2);
 		paramOptional = new SynthesizingMethodParameter(method, 3);
 	}
-
 
 	@Test
 	public void supportsParameter() {
@@ -129,8 +130,8 @@ public class PathVariableMethodArgumentResolverTests {
 		WebDataBinderFactory binderFactory = new DefaultDataBinderFactory(initializer);
 
 		@SuppressWarnings("unchecked")
-		Optional<String> result = (Optional<String>)
-				resolver.resolveArgument(paramOptional, mavContainer, webRequest, binderFactory);
+		Optional<String> result = (Optional<String>) resolver.resolveArgument(paramOptional, mavContainer, webRequest,
+				binderFactory);
 		assertThat(result.get()).as("PathVariable not resolved correctly").isEqualTo("value");
 
 		@SuppressWarnings("unchecked")
@@ -162,8 +163,8 @@ public class PathVariableMethodArgumentResolverTests {
 
 	@Test
 	public void handleMissingValue() throws Exception {
-		assertThatExceptionOfType(MissingPathVariableException.class).isThrownBy(() ->
-				resolver.resolveArgument(paramNamedString, mavContainer, webRequest, null));
+		assertThatExceptionOfType(MissingPathVariableException.class)
+				.isThrownBy(() -> resolver.resolveArgument(paramNamedString, mavContainer, webRequest, null));
 	}
 
 	@Test
@@ -177,13 +178,13 @@ public class PathVariableMethodArgumentResolverTests {
 		initializer.setConversionService(new DefaultConversionService());
 		WebDataBinderFactory binderFactory = new DefaultDataBinderFactory(initializer);
 
-		assertThat(resolver.resolveArgument(paramOptional, mavContainer, webRequest, binderFactory)).isEqualTo(Optional.empty());
+		assertThat(resolver.resolveArgument(paramOptional, mavContainer, webRequest, binderFactory))
+				.isEqualTo(Optional.empty());
 	}
-
 
 	@SuppressWarnings("unused")
 	public void handle(@PathVariable("name") String param1, String param2,
-			@PathVariable(name="name", required = false) String param3,
+			@PathVariable(name = "name", required = false) String param3,
 			@PathVariable("name") Optional<String> param4) {
 	}
 

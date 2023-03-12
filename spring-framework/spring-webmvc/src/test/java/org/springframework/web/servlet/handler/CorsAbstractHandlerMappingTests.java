@@ -45,6 +45,7 @@ import static org.mockito.Mockito.mock;
 
 /**
  * Unit tests for CORS-related handling in {@link AbstractHandlerMapping}.
+ *
  * @author Sebastien Deleuze
  * @author Rossen Stoyanchev
  */
@@ -53,7 +54,6 @@ class CorsAbstractHandlerMappingTests {
 	private MockHttpServletRequest request;
 
 	private AbstractHandlerMapping handlerMapping;
-
 
 	@BeforeEach
 	void setup() {
@@ -198,7 +198,6 @@ class CorsAbstractHandlerMappingTests {
 		assertThat(config.getAllowCredentials()).isTrue();
 	}
 
-
 	@SuppressWarnings("ConstantConditions")
 	private CorsConfiguration getRequiredCorsConfiguration(HandlerExecutionChain chain, boolean isPreFlightRequest) {
 		CorsConfiguration corsConfig = null;
@@ -231,6 +230,7 @@ class CorsAbstractHandlerMappingTests {
 			}
 			return new SimpleHandler();
 		}
+
 	}
 
 	public class SimpleHandler extends WebContentGenerator implements HttpRequestHandler {
@@ -268,6 +268,7 @@ class CorsAbstractHandlerMappingTests {
 			config.setAllowCredentials(true);
 			return config;
 		}
+
 	}
 
 }

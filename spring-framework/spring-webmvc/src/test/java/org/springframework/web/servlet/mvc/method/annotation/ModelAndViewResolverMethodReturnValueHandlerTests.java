@@ -51,7 +51,6 @@ public class ModelAndViewResolverMethodReturnValueHandlerTests {
 
 	private ServletWebRequest request;
 
-
 	@BeforeEach
 	public void setup() {
 		mavResolvers = new ArrayList<>();
@@ -59,7 +58,6 @@ public class ModelAndViewResolverMethodReturnValueHandlerTests {
 		mavContainer = new ModelAndViewContainer();
 		request = new ServletWebRequest(new MockHttpServletRequest());
 	}
-
 
 	@Test
 	public void modelAndViewResolver() throws Exception {
@@ -78,8 +76,8 @@ public class ModelAndViewResolverMethodReturnValueHandlerTests {
 	public void modelAndViewResolverUnresolved() throws Exception {
 		MethodParameter returnType = new MethodParameter(getClass().getDeclaredMethod("intReturnValue"), -1);
 		mavResolvers.add(new TestModelAndViewResolver(TestBean.class));
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-				handler.handleReturnValue(99, returnType, mavContainer, request));
+		assertThatExceptionOfType(UnsupportedOperationException.class)
+				.isThrownBy(() -> handler.handleReturnValue(99, returnType, mavContainer, request));
 	}
 
 	@Test
@@ -95,18 +93,17 @@ public class ModelAndViewResolverMethodReturnValueHandlerTests {
 	@Test
 	public void handleSimpleType() throws Exception {
 		MethodParameter returnType = new MethodParameter(getClass().getDeclaredMethod("intReturnValue"), -1);
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-					handler.handleReturnValue(55, returnType, mavContainer, request));
+		assertThatExceptionOfType(UnsupportedOperationException.class)
+				.isThrownBy(() -> handler.handleReturnValue(55, returnType, mavContainer, request));
 	}
 
 	@Test
-	public void handleNonSimpleType() throws Exception{
+	public void handleNonSimpleType() throws Exception {
 		MethodParameter returnType = new MethodParameter(getClass().getDeclaredMethod("testBeanReturnValue"), -1);
 		handler.handleReturnValue(new TestBean(), returnType, mavContainer, request);
 
 		assertThat(mavContainer.containsAttribute("testBean")).isTrue();
 	}
-
 
 	@SuppressWarnings("unused")
 	private int intReturnValue() {
@@ -117,7 +114,6 @@ public class ModelAndViewResolverMethodReturnValueHandlerTests {
 	private TestBean testBeanReturnValue() {
 		return null;
 	}
-
 
 	private static class TestModelAndViewResolver implements ModelAndViewResolver {
 
@@ -138,6 +134,7 @@ public class ModelAndViewResolverMethodReturnValueHandlerTests {
 				return ModelAndViewResolver.UNRESOLVED;
 			}
 		}
+
 	}
 
 }

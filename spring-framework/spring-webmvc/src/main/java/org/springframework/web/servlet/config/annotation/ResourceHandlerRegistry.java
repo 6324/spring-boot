@@ -38,16 +38,21 @@ import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * Stores registrations of resource handlers for serving static resources such as images, css files and others
- * through Spring MVC including setting cache headers optimized for efficient loading in a web browser.
- * Resources can be served out of locations under web application root, from the classpath, and others.
+ * Stores registrations of resource handlers for serving static resources such as images,
+ * css files and others through Spring MVC including setting cache headers optimized for
+ * efficient loading in a web browser. Resources can be served out of locations under web
+ * application root, from the classpath, and others.
  *
- * <p>To create a resource handler, use {@link #addResourceHandler(String...)} providing the URL path patterns
- * for which the handler should be invoked to serve static resources (e.g. {@code "/resources/**"}).
+ * <p>
+ * To create a resource handler, use {@link #addResourceHandler(String...)} providing the
+ * URL path patterns for which the handler should be invoked to serve static resources
+ * (e.g. {@code "/resources/**"}).
  *
- * <p>Then use additional methods on the returned {@link ResourceHandlerRegistration} to add one or more
- * locations from which to serve static content from (e.g. {{@code "/"},
- * {@code "classpath:/META-INF/public-web-resources/"}}) or to specify a cache period for served resources.
+ * <p>
+ * Then use additional methods on the returned {@link ResourceHandlerRegistration} to add
+ * one or more locations from which to serve static content from (e.g. {{@code "/"},
+ * {@code "classpath:/META-INF/public-web-resources/"}}) or to specify a cache period for
+ * served resources.
  *
  * @author Rossen Stoyanchev
  * @since 3.1
@@ -68,7 +73,6 @@ public class ResourceHandlerRegistry {
 	private final List<ResourceHandlerRegistration> registrations = new ArrayList<>();
 
 	private int order = Ordered.LOWEST_PRECEDENCE - 1;
-
 
 	/**
 	 * Create a new resource handler registry for the given application context.
@@ -95,7 +99,8 @@ public class ResourceHandlerRegistry {
 	/**
 	 * A variant of
 	 * {@link #ResourceHandlerRegistry(ApplicationContext, ServletContext, ContentNegotiationManager)}
-	 * that also accepts the {@link UrlPathHelper} used for mapping requests to static resources.
+	 * that also accepts the {@link UrlPathHelper} used for mapping requests to static
+	 * resources.
 	 * @since 4.3.13
 	 */
 	public ResourceHandlerRegistry(ApplicationContext applicationContext, ServletContext servletContext,
@@ -108,13 +113,14 @@ public class ResourceHandlerRegistry {
 		this.pathHelper = pathHelper;
 	}
 
-
 	/**
-	 * Add a resource handler for serving static resources based on the specified URL path patterns.
-	 * The handler will be invoked for every incoming request that matches to one of the specified
-	 * path patterns.
-	 * <p>Patterns like {@code "/static/**"} or {@code "/css/{filename:\\w+\\.css}"} are allowed.
-	 * See {@link org.springframework.util.AntPathMatcher} for more details on the syntax.
+	 * Add a resource handler for serving static resources based on the specified URL path
+	 * patterns. The handler will be invoked for every incoming request that matches to
+	 * one of the specified path patterns.
+	 * <p>
+	 * Patterns like {@code "/static/**"} or {@code "/css/{filename:\\w+\\.css}"} are
+	 * allowed. See {@link org.springframework.util.AntPathMatcher} for more details on
+	 * the syntax.
 	 * @return a {@link ResourceHandlerRegistration} to use to further configure the
 	 * registered resource handler
 	 */
@@ -137,9 +143,11 @@ public class ResourceHandlerRegistry {
 	}
 
 	/**
-	 * Specify the order to use for resource handling relative to other {@link HandlerMapping HandlerMappings}
-	 * configured in the Spring MVC application context.
-	 * <p>The default value used is {@code Integer.MAX_VALUE-1}.
+	 * Specify the order to use for resource handling relative to other
+	 * {@link HandlerMapping HandlerMappings} configured in the Spring MVC application
+	 * context.
+	 * <p>
+	 * The default value used is {@code Integer.MAX_VALUE-1}.
 	 */
 	public ResourceHandlerRegistry setOrder(int order) {
 		this.order = order;

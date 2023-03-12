@@ -52,18 +52,19 @@ import org.springframework.util.MimeType;
 /**
  * Abstract base class for Jackson 2.9 decoding, leveraging non-blocking parsing.
  *
- * <p>Compatible with Jackson 2.9.7 and higher.
+ * <p>
+ * Compatible with Jackson 2.9.7 and higher.
  *
  * @author Sebastien Deleuze
  * @author Rossen Stoyanchev
  * @author Arjen Poutsma
  * @since 5.0
- * @see <a href="https://github.com/FasterXML/jackson-core/issues/57" target="_blank">Add support for non-blocking ("async") JSON parsing</a>
+ * @see <a href="https://github.com/FasterXML/jackson-core/issues/57" target="_blank">Add
+ * support for non-blocking ("async") JSON parsing</a>
  */
 public abstract class AbstractJackson2Decoder extends Jackson2CodecSupport implements HttpMessageDecoder<Object> {
 
 	private int maxInMemorySize = 256 * 1024;
-
 
 	/**
 	 * Constructor with a Jackson {@link ObjectMapper} to use.
@@ -72,13 +73,13 @@ public abstract class AbstractJackson2Decoder extends Jackson2CodecSupport imple
 		super(mapper, mimeTypes);
 	}
 
-
 	/**
-	 * Set the max number of bytes that can be buffered by this decoder. This
-	 * is either the size of the entire input when decoding as a whole, or the
-	 * size of one top-level JSON object within a JSON stream. When the limit
-	 * is exceeded, {@link DataBufferLimitException} is raised.
-	 * <p>By default this is set to 256K.
+	 * Set the max number of bytes that can be buffered by this decoder. This is either
+	 * the size of the entire input when decoding as a whole, or the size of one top-level
+	 * JSON object within a JSON stream. When the limit is exceeded,
+	 * {@link DataBufferLimitException} is raised.
+	 * <p>
+	 * By default this is set to 256K.
 	 * @param byteCount the max number of bytes to buffer, or -1 for unlimited
 	 * @since 5.1.11
 	 */
@@ -94,18 +95,17 @@ public abstract class AbstractJackson2Decoder extends Jackson2CodecSupport imple
 		return this.maxInMemorySize;
 	}
 
-
 	@Override
 	public boolean canDecode(ResolvableType elementType, @Nullable MimeType mimeType) {
 		JavaType javaType = getObjectMapper().constructType(elementType.getType());
 		// Skip String: CharSequenceDecoder + "*/*" comes after
-		return (!CharSequence.class.isAssignableFrom(elementType.toClass()) &&
-				getObjectMapper().canDeserialize(javaType) && supportsMimeType(mimeType));
+		return (!CharSequence.class.isAssignableFrom(elementType.toClass())
+				&& getObjectMapper().canDeserialize(javaType) && supportsMimeType(mimeType));
 	}
 
 	@Override
-	public Flux<Object> decode(Publisher<DataBuffer> input, ResolvableType elementType,
-			@Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
+	public Flux<Object> decode(Publisher<DataBuffer> input, ResolvableType elementType, @Nullable MimeType mimeType,
+			@Nullable Map<String, Object> hints) {
 
 		ObjectMapper mapper = getObjectMapper();
 
@@ -115,8 +115,8 @@ public abstract class AbstractJackson2Decoder extends Jackson2CodecSupport imple
 		}
 
 		Flux<DataBuffer> processed = processInput(input, elementType, mimeType, hints);
-		Flux<TokenBuffer> tokens = Jackson2Tokenizer.tokenize(processed, mapper.getFactory(), mapper,
-				true, forceUseOfBigDecimal, getMaxInMemorySize());
+		Flux<TokenBuffer> tokens = Jackson2Tokenizer.tokenize(processed, mapper.getFactory(), mapper, true,
+				forceUseOfBigDecimal, getMaxInMemorySize());
 
 		ObjectReader reader = getObjectReader(elementType, hints);
 
@@ -136,8 +136,7 @@ public abstract class AbstractJackson2Decoder extends Jackson2CodecSupport imple
 
 	/**
 	 * Process the input publisher into a flux. Default implementation returns
-	 * {@link Flux#from(Publisher)}, but subclasses can choose to customize
-	 * this behavior.
+	 * {@link Flux#from(Publisher)}, but subclasses can choose to customize this behavior.
 	 * @param input the {@code DataBuffer} input stream to process
 	 * @param elementType the expected type of elements in the output stream
 	 * @param mimeType the MIME type associated with the input stream (optional)
@@ -146,7 +145,7 @@ public abstract class AbstractJackson2Decoder extends Jackson2CodecSupport imple
 	 * @since 5.1.14
 	 */
 	protected Flux<DataBuffer> processInput(Publisher<DataBuffer> input, ResolvableType elementType,
-				@Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
+			@Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
 
 		return Flux.from(input);
 	}
@@ -160,8 +159,8 @@ public abstract class AbstractJackson2Decoder extends Jackson2CodecSupport imple
 	}
 
 	@Override
-	public Object decode(DataBuffer dataBuffer, ResolvableType targetType,
-			@Nullable MimeType mimeType, @Nullable Map<String, Object> hints) throws DecodingException {
+	public Object decode(DataBuffer dataBuffer, ResolvableType targetType, @Nullable MimeType mimeType,
+			@Nullable Map<String, Object> hints) throws DecodingException {
 
 		try {
 			ObjectReader objectReader = getObjectReader(targetType, hints);
@@ -185,14 +184,13 @@ public abstract class AbstractJackson2Decoder extends Jackson2CodecSupport imple
 		}
 		JavaType javaType = getJavaType(elementType.getType(), contextClass);
 		Class<?> jsonView = (hints != null ? (Class<?>) hints.get(Jackson2CodecSupport.JSON_VIEW_HINT) : null);
-		return jsonView != null ?
-				getObjectMapper().readerWithView(jsonView).forType(javaType) :
-				getObjectMapper().readerFor(javaType);
+		return jsonView != null ? getObjectMapper().readerWithView(jsonView).forType(javaType)
+				: getObjectMapper().readerFor(javaType);
 	}
 
 	@Nullable
 	private Class<?> getContextClass(@Nullable ResolvableType elementType) {
-		MethodParameter param = (elementType != null ? getParameter(elementType)  : null);
+		MethodParameter param = (elementType != null ? getParameter(elementType) : null);
 		return (param != null ? param.getContainingClass() : null);
 	}
 
@@ -217,7 +215,6 @@ public abstract class AbstractJackson2Decoder extends Jackson2CodecSupport imple
 		return new DecodingException("I/O error while parsing input stream", ex);
 	}
 
-
 	// HttpMessageDecoder
 
 	@Override
@@ -231,7 +228,6 @@ public abstract class AbstractJackson2Decoder extends Jackson2CodecSupport imple
 	public List<MimeType> getDecodableMimeTypes() {
 		return getMimeTypes();
 	}
-
 
 	// Jackson2CodecSupport
 

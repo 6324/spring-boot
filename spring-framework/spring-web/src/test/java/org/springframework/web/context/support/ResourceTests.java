@@ -36,7 +36,8 @@ public class ResourceTests {
 		MockServletContext sc = new MockServletContext();
 		Resource resource = new ServletContextResource(sc, "org/springframework/core/io/Resource.class");
 		doTestResource(resource);
-		assertThat(new ServletContextResource(sc, "org/springframework/core/../core/io/./Resource.class")).isEqualTo(resource);
+		assertThat(new ServletContextResource(sc, "org/springframework/core/../core/io/./Resource.class"))
+				.isEqualTo(resource);
 	}
 
 	@Test
@@ -61,4 +62,5 @@ public class ResourceTests {
 		assertThat(relative2.getURL().getFile().endsWith("ResourcePatternResolver.class")).isTrue();
 		assertThat(relative2.exists()).isTrue();
 	}
+
 }

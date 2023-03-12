@@ -27,8 +27,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 
 /**
- * Assists with the registration of simple automated controllers pre-configured
- * with status code and/or a view.
+ * Assists with the registration of simple automated controllers pre-configured with
+ * status code and/or a view.
  *
  * @author Rossen Stoyanchev
  * @author Keith Donald
@@ -45,7 +45,6 @@ public class ViewControllerRegistry {
 
 	private int order = 1;
 
-
 	/**
 	 * Class constructor with {@link ApplicationContext}.
 	 * @since 4.3.12
@@ -54,17 +53,18 @@ public class ViewControllerRegistry {
 		this.applicationContext = applicationContext;
 	}
 
-
 	/**
-	 * Map a view controller to the given URL path (or pattern) in order to render
-	 * a response with a pre-configured status code and view.
-	 * <p>Patterns like {@code "/admin/**"} or {@code "/articles/{articlename:\\w+}"}
-	 * are allowed. See {@link org.springframework.util.AntPathMatcher} for more details on the
-	 * syntax.
-	 * <p><strong>Note:</strong> If an {@code @RequestMapping} method is mapped
-	 * to a URL for any HTTP method then a view controller cannot handle the
-	 * same URL. For this reason it is recommended to avoid splitting URL
-	 * handling across an annotated controller and a view controller.
+	 * Map a view controller to the given URL path (or pattern) in order to render a
+	 * response with a pre-configured status code and view.
+	 * <p>
+	 * Patterns like {@code "/admin/**"} or {@code "/articles/{articlename:\\w+}"} are
+	 * allowed. See {@link org.springframework.util.AntPathMatcher} for more details on
+	 * the syntax.
+	 * <p>
+	 * <strong>Note:</strong> If an {@code @RequestMapping} method is mapped to a URL for
+	 * any HTTP method then a view controller cannot handle the same URL. For this reason
+	 * it is recommended to avoid splitting URL handling across an annotated controller
+	 * and a view controller.
 	 */
 	public ViewControllerRegistration addViewController(String urlPath) {
 		ViewControllerRegistration registration = new ViewControllerRegistration(urlPath);
@@ -74,9 +74,9 @@ public class ViewControllerRegistry {
 	}
 
 	/**
-	 * Map a view controller to the given URL path (or pattern) in order to redirect
-	 * to another URL. By default the redirect URL is expected to be relative to
-	 * the current ServletContext, i.e. as relative to the web application root.
+	 * Map a view controller to the given URL path (or pattern) in order to redirect to
+	 * another URL. By default the redirect URL is expected to be relative to the current
+	 * ServletContext, i.e. as relative to the web application root.
 	 * @since 4.1
 	 */
 	public RedirectViewControllerRegistration addRedirectViewController(String urlPath, String redirectUrl) {
@@ -87,8 +87,8 @@ public class ViewControllerRegistry {
 	}
 
 	/**
-	 * Map a simple controller to the given URL path (or pattern) in order to
-	 * set the response status to the given code without rendering a body.
+	 * Map a simple controller to the given URL path (or pattern) in order to set the
+	 * response status to the given code without rendering a body.
 	 * @since 4.1
 	 */
 	public void addStatusController(String urlPath, HttpStatus statusCode) {
@@ -102,17 +102,17 @@ public class ViewControllerRegistry {
 	/**
 	 * Specify the order to use for the {@code HandlerMapping} used to map view
 	 * controllers relative to other handler mappings configured in Spring MVC.
-	 * <p>By default this is set to 1, i.e. right after annotated controllers,
-	 * which are ordered at 0.
+	 * <p>
+	 * By default this is set to 1, i.e. right after annotated controllers, which are
+	 * ordered at 0.
 	 */
 	public void setOrder(int order) {
 		this.order = order;
 	}
 
-
 	/**
-	 * Return the {@code HandlerMapping} that contains the registered view
-	 * controller mappings, or {@code null} for no registrations.
+	 * Return the {@code HandlerMapping} that contains the registered view controller
+	 * mappings, or {@code null} for no registrations.
 	 * @since 4.3.12
 	 */
 	@Nullable

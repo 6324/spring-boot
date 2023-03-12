@@ -36,7 +36,6 @@ public class NotAcceptableStatusException extends ResponseStatusException {
 
 	private final List<MediaType> supportedMediaTypes;
 
-
 	/**
 	 * Constructor for when the requested Content-Type is invalid.
 	 */
@@ -52,7 +51,6 @@ public class NotAcceptableStatusException extends ResponseStatusException {
 		super(HttpStatus.NOT_ACCEPTABLE, "Could not find acceptable representation");
 		this.supportedMediaTypes = Collections.unmodifiableList(supportedMediaTypes);
 	}
-
 
 	/**
 	 * Return a Map with an "Accept" header.
@@ -79,8 +77,8 @@ public class NotAcceptableStatusException extends ResponseStatusException {
 	}
 
 	/**
-	 * Return the list of supported content types in cases when the Accept
-	 * header is parsed but not supported, or an empty list otherwise.
+	 * Return the list of supported content types in cases when the Accept header is
+	 * parsed but not supported, or an empty list otherwise.
 	 */
 	public List<MediaType> getSupportedMediaTypes() {
 		return this.supportedMediaTypes;

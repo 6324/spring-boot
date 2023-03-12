@@ -41,13 +41,12 @@ import org.springframework.web.servlet.ViewResolver;
  * @author Rossen Stoyanchev
  * @since 4.1
  */
-public class ViewResolverComposite implements ViewResolver, Ordered, InitializingBean,
-		ApplicationContextAware, ServletContextAware {
+public class ViewResolverComposite
+		implements ViewResolver, Ordered, InitializingBean, ApplicationContextAware, ServletContextAware {
 
 	private final List<ViewResolver> viewResolvers = new ArrayList<>();
 
 	private int order = Ordered.LOWEST_PRECEDENCE;
-
 
 	/**
 	 * Set the list of view viewResolvers to delegate to.
@@ -79,7 +78,7 @@ public class ViewResolverComposite implements ViewResolver, Ordered, Initializin
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		for (ViewResolver viewResolver : this.viewResolvers) {
 			if (viewResolver instanceof ApplicationContextAware) {
-				((ApplicationContextAware)viewResolver).setApplicationContext(applicationContext);
+				((ApplicationContextAware) viewResolver).setApplicationContext(applicationContext);
 			}
 		}
 	}
@@ -88,7 +87,7 @@ public class ViewResolverComposite implements ViewResolver, Ordered, Initializin
 	public void setServletContext(ServletContext servletContext) {
 		for (ViewResolver viewResolver : this.viewResolvers) {
 			if (viewResolver instanceof ServletContextAware) {
-				((ServletContextAware)viewResolver).setServletContext(servletContext);
+				((ServletContextAware) viewResolver).setServletContext(servletContext);
 			}
 		}
 	}

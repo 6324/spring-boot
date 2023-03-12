@@ -40,15 +40,14 @@ public class DefaultWebSessionManager implements WebSessionManager {
 
 	private static final Log logger = LogFactory.getLog(DefaultWebSessionManager.class);
 
-
 	private WebSessionIdResolver sessionIdResolver = new CookieWebSessionIdResolver();
 
 	private WebSessionStore sessionStore = new InMemoryWebSessionStore();
 
-
 	/**
 	 * Configure the id resolution strategy.
-	 * <p>By default an instance of {@link CookieWebSessionIdResolver}.
+	 * <p>
+	 * By default an instance of {@link CookieWebSessionIdResolver}.
 	 * @param sessionIdResolver the resolver to use
 	 */
 	public void setSessionIdResolver(WebSessionIdResolver sessionIdResolver) {
@@ -65,7 +64,8 @@ public class DefaultWebSessionManager implements WebSessionManager {
 
 	/**
 	 * Configure the persistence strategy.
-	 * <p>By default an instance of {@link InMemoryWebSessionStore}.
+	 * <p>
+	 * By default an instance of {@link InMemoryWebSessionStore}.
 	 * @param sessionStore the persistence strategy to use
 	 */
 	public void setSessionStore(WebSessionStore sessionStore) {
@@ -80,11 +80,9 @@ public class DefaultWebSessionManager implements WebSessionManager {
 		return this.sessionStore;
 	}
 
-
 	@Override
 	public Mono<WebSession> getSession(ServerWebExchange exchange) {
-		return Mono.defer(() -> retrieveSession(exchange)
-				.switchIfEmpty(createWebSession())
+		return Mono.defer(() -> retrieveSession(exchange).switchIfEmpty(createWebSession())
 				.doOnNext(session -> exchange.getResponse().beforeCommit(() -> save(exchange, session))));
 	}
 
@@ -98,8 +96,7 @@ public class DefaultWebSessionManager implements WebSessionManager {
 
 	private Mono<WebSession> retrieveSession(ServerWebExchange exchange) {
 		return Flux.fromIterable(getSessionIdResolver().resolveSessionIds(exchange))
-				.concatMap(this.sessionStore::retrieveSession)
-				.next();
+				.concatMap(this.sessionStore::retrieveSession).next();
 	}
 
 	private Mono<Void> save(ServerWebExchange exchange, WebSession session) {

@@ -25,10 +25,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Provides a convenient implementation of the {@link HttpRequest} interface
- * that can be overridden to adapt the request.
+ * Provides a convenient implementation of the {@link HttpRequest} interface that can be
+ * overridden to adapt the request.
  *
- * <p>These methods default to calling through to the wrapped request object.
+ * <p>
+ * These methods default to calling through to the wrapped request object.
  *
  * @author Arjen Poutsma
  * @since 3.1
@@ -36,7 +37,6 @@ import org.springframework.util.Assert;
 public class HttpRequestWrapper implements HttpRequest {
 
 	private final HttpRequest request;
-
 
 	/**
 	 * Create a new {@code HttpRequest} wrapping the given request object.
@@ -46,7 +46,6 @@ public class HttpRequestWrapper implements HttpRequest {
 		Assert.notNull(request, "HttpRequest must not be null");
 		this.request = request;
 	}
-
 
 	/**
 	 * Return the wrapped request.

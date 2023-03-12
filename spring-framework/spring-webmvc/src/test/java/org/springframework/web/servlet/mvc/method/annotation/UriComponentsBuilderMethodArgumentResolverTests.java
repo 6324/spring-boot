@@ -44,9 +44,10 @@ public class UriComponentsBuilderMethodArgumentResolverTests {
 	private MockHttpServletRequest servletRequest;
 
 	private MethodParameter builderParam;
-	private MethodParameter servletBuilderParam;
-	private MethodParameter intParam;
 
+	private MethodParameter servletBuilderParam;
+
+	private MethodParameter intParam;
 
 	@BeforeEach
 	public void setup() throws Exception {
@@ -54,13 +55,12 @@ public class UriComponentsBuilderMethodArgumentResolverTests {
 		this.servletRequest = new MockHttpServletRequest();
 		this.webRequest = new ServletWebRequest(this.servletRequest);
 
-		Method method = this.getClass().getDeclaredMethod(
-				"handle", UriComponentsBuilder.class, ServletUriComponentsBuilder.class, int.class);
+		Method method = this.getClass().getDeclaredMethod("handle", UriComponentsBuilder.class,
+				ServletUriComponentsBuilder.class, int.class);
 		this.builderParam = new MethodParameter(method, 0);
 		this.servletBuilderParam = new MethodParameter(method, 1);
 		this.intParam = new MethodParameter(method, 2);
 	}
-
 
 	@Test
 	public void supportsParameter() throws Exception {
@@ -75,13 +75,14 @@ public class UriComponentsBuilderMethodArgumentResolverTests {
 		this.servletRequest.setServletPath("/main");
 		this.servletRequest.setPathInfo("/accounts");
 
-		Object actual = this.resolver.resolveArgument(this.builderParam, new ModelAndViewContainer(), this.webRequest, null);
+		Object actual = this.resolver.resolveArgument(this.builderParam, new ModelAndViewContainer(), this.webRequest,
+				null);
 
 		assertThat(actual).isNotNull();
 		assertThat(actual.getClass()).isEqualTo(ServletUriComponentsBuilder.class);
-		assertThat(((ServletUriComponentsBuilder) actual).build().toUriString()).isEqualTo("http://localhost/myapp/main");
+		assertThat(((ServletUriComponentsBuilder) actual).build().toUriString())
+				.isEqualTo("http://localhost/myapp/main");
 	}
-
 
 	void handle(UriComponentsBuilder builder, ServletUriComponentsBuilder servletBuilder, int value) {
 	}

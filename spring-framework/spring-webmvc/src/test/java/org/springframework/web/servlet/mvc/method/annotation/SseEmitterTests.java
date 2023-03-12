@@ -29,20 +29,19 @@ import org.springframework.http.MediaType;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.web.servlet.mvc.method.annotation.SseEmitter.event;
 
-
 /**
- * Unit tests for {@link org.springframework.web.servlet.mvc.method.annotation.SseEmitter}.
+ * Unit tests for
+ * {@link org.springframework.web.servlet.mvc.method.annotation.SseEmitter}.
+ *
  * @author Rossen Stoyanchev
  */
 public class SseEmitterTests {
 
 	private static final MediaType TEXT_PLAIN_UTF8 = new MediaType("text", "plain", StandardCharsets.UTF_8);
 
-
 	private SseEmitter emitter;
 
 	private TestHandler handler;
-
 
 	@BeforeEach
 	public void setup() throws IOException {
@@ -50,7 +49,6 @@ public class SseEmitterTests {
 		this.emitter = new SseEmitter();
 		this.emitter.initialize(this.handler);
 	}
-
 
 	@Test
 	public void send() throws Exception {
@@ -116,13 +114,11 @@ public class SseEmitterTests {
 		this.handler.assertObject(4, "\nevent:test\nretry:5000\nid:1\n\n", TEXT_PLAIN_UTF8);
 	}
 
-
 	private static class TestHandler implements ResponseBodyEmitter.Handler {
 
 		private List<Object> objects = new ArrayList<>();
 
 		private List<MediaType> mediaTypes = new ArrayList<>();
-
 
 		public void assertSentObjectCount(int size) {
 			assertThat(this.objects.size()).isEqualTo(size);
@@ -163,6 +159,7 @@ public class SseEmitterTests {
 		@Override
 		public void onCompletion(Runnable callback) {
 		}
+
 	}
 
 }

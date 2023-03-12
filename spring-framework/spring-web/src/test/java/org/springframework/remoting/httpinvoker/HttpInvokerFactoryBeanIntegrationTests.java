@@ -74,23 +74,22 @@ public class HttpInvokerFactoryBeanIntegrationTests {
 		myBean.myService.handleAsync();
 	}
 
-
 	public interface MyService {
 
 		public void handle();
 
 		@Async
 		public void handleAsync();
-	}
 
+	}
 
 	@Component("myBean")
 	public static class MyBean {
 
 		@Autowired
 		public MyService myService;
-	}
 
+	}
 
 	@Configuration
 	@ComponentScan
@@ -115,8 +114,8 @@ public class HttpInvokerFactoryBeanIntegrationTests {
 		public FactoryBean<String> myOtherService() {
 			throw new IllegalStateException("Don't ever call me");
 		}
-	}
 
+	}
 
 	@Configuration
 	static class ConfigWithPlainFactoryBean {
@@ -138,6 +137,7 @@ public class HttpInvokerFactoryBeanIntegrationTests {
 			factory.setHttpInvokerRequestExecutor((config, invocation) -> new RemoteInvocationResult());
 			return factory;
 		}
+
 	}
 
 }

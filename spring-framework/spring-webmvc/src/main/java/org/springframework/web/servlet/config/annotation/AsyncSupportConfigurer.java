@@ -47,17 +47,17 @@ public class AsyncSupportConfigurer {
 
 	private final List<DeferredResultProcessingInterceptor> deferredResultInterceptors = new ArrayList<>();
 
-
 	/**
 	 * The provided task executor is used to:
 	 * <ol>
 	 * <li>Handle {@link Callable} controller method return values.
-	 * <li>Perform blocking writes when streaming to the response
-	 * through a reactive (e.g. Reactor, RxJava) controller method return value.
+	 * <li>Perform blocking writes when streaming to the response through a reactive (e.g.
+	 * Reactor, RxJava) controller method return value.
 	 * </ol>
-	 * <p>By default only a {@link SimpleAsyncTaskExecutor} is used. However when
-	 * using the above two use cases, it's recommended to configure an executor
-	 * backed by a thread pool such as {@link ThreadPoolTaskExecutor}.
+	 * <p>
+	 * By default only a {@link SimpleAsyncTaskExecutor} is used. However when using the
+	 * above two use cases, it's recommended to configure an executor backed by a thread
+	 * pool such as {@link ThreadPoolTaskExecutor}.
 	 * @param taskExecutor the task executor instance to use by default
 	 */
 	public AsyncSupportConfigurer setTaskExecutor(AsyncTaskExecutor taskExecutor) {
@@ -66,12 +66,13 @@ public class AsyncSupportConfigurer {
 	}
 
 	/**
-	 * Specify the amount of time, in milliseconds, before asynchronous request
-	 * handling times out. In Servlet 3, the timeout begins after the main request
-	 * processing thread has exited and ends when the request is dispatched again
-	 * for further processing of the concurrently produced result.
-	 * <p>If this value is not set, the default timeout of the underlying
-	 * implementation is used.
+	 * Specify the amount of time, in milliseconds, before asynchronous request handling
+	 * times out. In Servlet 3, the timeout begins after the main request processing
+	 * thread has exited and ends when the request is dispatched again for further
+	 * processing of the concurrently produced result.
+	 * <p>
+	 * If this value is not set, the default timeout of the underlying implementation is
+	 * used.
 	 * @param timeout the timeout value in milliseconds
 	 */
 	public AsyncSupportConfigurer setDefaultTimeout(long timeout) {
@@ -80,9 +81,8 @@ public class AsyncSupportConfigurer {
 	}
 
 	/**
-	 * Configure lifecycle interceptors with callbacks around concurrent request
-	 * execution that starts when a controller returns a
-	 * {@link java.util.concurrent.Callable}.
+	 * Configure lifecycle interceptors with callbacks around concurrent request execution
+	 * that starts when a controller returns a {@link java.util.concurrent.Callable}.
 	 * @param interceptors the interceptors to register
 	 */
 	public AsyncSupportConfigurer registerCallableInterceptors(CallableProcessingInterceptor... interceptors) {
@@ -91,8 +91,8 @@ public class AsyncSupportConfigurer {
 	}
 
 	/**
-	 * Configure lifecycle interceptors with callbacks around concurrent request
-	 * execution that starts when a controller returns a {@link DeferredResult}.
+	 * Configure lifecycle interceptors with callbacks around concurrent request execution
+	 * that starts when a controller returns a {@link DeferredResult}.
 	 * @param interceptors the interceptors to register
 	 */
 	public AsyncSupportConfigurer registerDeferredResultInterceptors(
@@ -101,7 +101,6 @@ public class AsyncSupportConfigurer {
 		this.deferredResultInterceptors.addAll(Arrays.asList(interceptors));
 		return this;
 	}
-
 
 	@Nullable
 	protected AsyncTaskExecutor getTaskExecutor() {

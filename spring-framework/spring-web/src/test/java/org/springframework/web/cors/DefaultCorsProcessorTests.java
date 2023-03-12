@@ -45,7 +45,6 @@ public class DefaultCorsProcessorTests {
 
 	private CorsConfiguration conf;
 
-
 	@BeforeEach
 	public void setup() {
 		this.request = new MockHttpServletRequest();

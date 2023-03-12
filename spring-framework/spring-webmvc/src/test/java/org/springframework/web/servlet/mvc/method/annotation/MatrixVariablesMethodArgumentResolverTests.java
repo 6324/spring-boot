@@ -42,6 +42,7 @@ import static org.springframework.web.testfixture.method.MvcAnnotationPredicates
 
 /**
  * Test fixture with {@link MatrixVariableMethodArgumentResolver}.
+ *
  * @author Rossen Stoyanchev
  */
 public class MatrixVariablesMethodArgumentResolverTests {
@@ -56,7 +57,6 @@ public class MatrixVariablesMethodArgumentResolverTests {
 
 	private ResolvableMethod testMethod = ResolvableMethod.on(this.getClass()).named("handle").build();
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		this.resolver = new MatrixVariableMethodArgumentResolver();
@@ -68,17 +68,18 @@ public class MatrixVariablesMethodArgumentResolverTests {
 		this.request.setAttribute(HandlerMapping.MATRIX_VARIABLES_ATTRIBUTE, params);
 	}
 
-
 	@Test
 	public void supportsParameter() {
 
 		assertThat(this.resolver.supportsParameter(this.testMethod.arg(String.class))).isFalse();
 
-		assertThat(this.resolver.supportsParameter(
-				this.testMethod.annot(matrixAttribute().noName()).arg(List.class, String.class))).isTrue();
+		assertThat(this.resolver
+				.supportsParameter(this.testMethod.annot(matrixAttribute().noName()).arg(List.class, String.class)))
+						.isTrue();
 
-		assertThat(this.resolver.supportsParameter(
-				this.testMethod.annot(matrixAttribute().name("year")).arg(int.class))).isTrue();
+		assertThat(
+				this.resolver.supportsParameter(this.testMethod.annot(matrixAttribute().name("year")).arg(int.class)))
+						.isTrue();
 	}
 
 	@Test
@@ -89,7 +90,8 @@ public class MatrixVariablesMethodArgumentResolverTests {
 		params.add("colors", "blue");
 		MethodParameter param = this.testMethod.annot(matrixAttribute().noName()).arg(List.class, String.class);
 
-		assertThat(this.resolver.resolveArgument(param, this.mavContainer, this.webRequest, null)).isEqualTo(Arrays.asList("red", "green", "blue"));
+		assertThat(this.resolver.resolveArgument(param, this.mavContainer, this.webRequest, null))
+				.isEqualTo(Arrays.asList("red", "green", "blue"));
 	}
 
 	@Test
@@ -113,15 +115,15 @@ public class MatrixVariablesMethodArgumentResolverTests {
 		getVariablesFor("var2").add("colors", "green");
 		MethodParameter param = this.testMethod.annot(matrixAttribute().noName()).arg(List.class, String.class);
 
-		assertThatExceptionOfType(ServletRequestBindingException.class).isThrownBy(() ->
-				this.resolver.resolveArgument(param, this.mavContainer, this.webRequest, null));
+		assertThatExceptionOfType(ServletRequestBindingException.class)
+				.isThrownBy(() -> this.resolver.resolveArgument(param, this.mavContainer, this.webRequest, null));
 	}
 
 	@Test
 	public void resolveArgumentRequired() throws Exception {
 		MethodParameter param = this.testMethod.annot(matrixAttribute().noName()).arg(List.class, String.class);
-		assertThatExceptionOfType(ServletRequestBindingException.class).isThrownBy(() ->
-				this.resolver.resolveArgument(param, this.mavContainer, this.webRequest, null));
+		assertThatExceptionOfType(ServletRequestBindingException.class)
+				.isThrownBy(() -> this.resolver.resolveArgument(param, this.mavContainer, this.webRequest, null));
 	}
 
 	@Test
@@ -133,23 +135,18 @@ public class MatrixVariablesMethodArgumentResolverTests {
 		assertThat(this.resolver.resolveArgument(param, this.mavContainer, this.webRequest, null)).isEqualTo("2013");
 	}
 
-
 	@SuppressWarnings("unchecked")
 	private MultiValueMap<String, String> getVariablesFor(String pathVarName) {
-		Map<String, MultiValueMap<String, String>> matrixVariables =
-				(Map<String, MultiValueMap<String, String>>) this.request.getAttribute(
-						HandlerMapping.MATRIX_VARIABLES_ATTRIBUTE);
+		Map<String, MultiValueMap<String, String>> matrixVariables = (Map<String, MultiValueMap<String, String>>) this.request
+				.getAttribute(HandlerMapping.MATRIX_VARIABLES_ATTRIBUTE);
 
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		matrixVariables.put(pathVarName, params);
 		return params;
 	}
 
-
-	public void handle(
-			String stringArg,
-			@MatrixVariable List<String> colors,
-			@MatrixVariable(name = "year", pathVar = "cars", required = false, defaultValue = "2013") int preferredYear) {
+	public void handle(String stringArg, @MatrixVariable List<String> colors, @MatrixVariable(name = "year",
+			pathVar = "cars", required = false, defaultValue = "2013") int preferredYear) {
 	}
 
 }

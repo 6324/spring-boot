@@ -29,8 +29,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
 /**
- * Exception thrown when a request handler does not support a
- * specific request method.
+ * Exception thrown when a request handler does not support a specific request method.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -42,7 +41,6 @@ public class HttpRequestMethodNotSupportedException extends ServletException {
 
 	@Nullable
 	private final String[] supportedMethods;
-
 
 	/**
 	 * Create a new HttpRequestMethodNotSupportedException.
@@ -91,7 +89,6 @@ public class HttpRequestMethodNotSupportedException extends ServletException {
 		this.supportedMethods = supportedMethods;
 	}
 
-
 	/**
 	 * Return the HTTP request method that caused the failure.
 	 */
@@ -108,8 +105,8 @@ public class HttpRequestMethodNotSupportedException extends ServletException {
 	}
 
 	/**
-	 * Return the actually supported HTTP methods as {@link HttpMethod} instances,
-	 * or {@code null} if not known.
+	 * Return the actually supported HTTP methods as {@link HttpMethod} instances, or
+	 * {@code null} if not known.
 	 * @since 3.2
 	 */
 	@Nullable

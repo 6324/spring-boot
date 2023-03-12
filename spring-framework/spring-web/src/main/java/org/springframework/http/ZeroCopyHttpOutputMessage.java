@@ -22,8 +22,8 @@ import java.nio.file.Path;
 import reactor.core.publisher.Mono;
 
 /**
- * Sub-interface of {@code ReactiveOutputMessage} that has support for "zero-copy"
- * file transfers.
+ * Sub-interface of {@code ReactiveOutputMessage} that has support for "zero-copy" file
+ * transfers.
  *
  * @author Arjen Poutsma
  * @author Juergen Hoeller
@@ -33,8 +33,8 @@ import reactor.core.publisher.Mono;
 public interface ZeroCopyHttpOutputMessage extends ReactiveHttpOutputMessage {
 
 	/**
-	 * Use the given {@link File} to write the body of the message to the underlying
-	 * HTTP layer.
+	 * Use the given {@link File} to write the body of the message to the underlying HTTP
+	 * layer.
 	 * @param file the file to transfer
 	 * @param position the position within the file from which the transfer is to begin
 	 * @param count the number of bytes to be transferred
@@ -45,8 +45,8 @@ public interface ZeroCopyHttpOutputMessage extends ReactiveHttpOutputMessage {
 	}
 
 	/**
-	 * Use the given {@link Path} to write the body of the message to the underlying
-	 * HTTP layer.
+	 * Use the given {@link Path} to write the body of the message to the underlying HTTP
+	 * layer.
 	 * @param file the file to transfer
 	 * @param position the position within the file from which the transfer is to begin
 	 * @param count the number of bytes to be transferred

@@ -67,7 +67,6 @@ public class FormHttpMessageConverterTests {
 
 	private final FormHttpMessageConverter converter = new AllEncompassingFormHttpMessageConverter();
 
-
 	@Test
 	public void canRead() {
 		assertCanRead(MultiValueMap.class, null);
@@ -122,8 +121,8 @@ public class FormHttpMessageConverterTests {
 	public void readForm() throws Exception {
 		String body = "name+1=value+1&name+2=value+2%2B1&name+2=value+2%2B2&name+3";
 		MockHttpInputMessage inputMessage = new MockHttpInputMessage(body.getBytes(StandardCharsets.ISO_8859_1));
-		inputMessage.getHeaders().setContentType(
-				new MediaType("application", "x-www-form-urlencoded", StandardCharsets.ISO_8859_1));
+		inputMessage.getHeaders()
+				.setContentType(new MediaType("application", "x-www-form-urlencoded", StandardCharsets.ISO_8859_1));
 		MultiValueMap<String, String> result = this.converter.read(null, inputMessage);
 
 		assertThat(result.size()).as("Invalid result").isEqualTo(3);
@@ -145,9 +144,12 @@ public class FormHttpMessageConverterTests {
 		MockHttpOutputMessage outputMessage = new MockHttpOutputMessage();
 		this.converter.write(body, APPLICATION_FORM_URLENCODED, outputMessage);
 
-		assertThat(outputMessage.getBodyAsString(StandardCharsets.UTF_8)).as("Invalid result").isEqualTo("name+1=value+1&name+2=value+2%2B1&name+2=value+2%2B2&name+3");
-		assertThat(outputMessage.getHeaders().getContentType().toString()).as("Invalid content-type").isEqualTo("application/x-www-form-urlencoded;charset=UTF-8");
-		assertThat(outputMessage.getHeaders().getContentLength()).as("Invalid content-length").isEqualTo(outputMessage.getBodyAsBytes().length);
+		assertThat(outputMessage.getBodyAsString(StandardCharsets.UTF_8)).as("Invalid result")
+				.isEqualTo("name+1=value+1&name+2=value+2%2B1&name+2=value+2%2B2&name+3");
+		assertThat(outputMessage.getHeaders().getContentType().toString()).as("Invalid content-type")
+				.isEqualTo("application/x-www-form-urlencoded;charset=UTF-8");
+		assertThat(outputMessage.getHeaders().getContentLength()).as("Invalid content-length")
+				.isEqualTo(outputMessage.getBodyAsBytes().length);
 	}
 
 	@Test
@@ -263,9 +265,7 @@ public class FormHttpMessageConverterTests {
 		// With developer builds we get: <MyBean><string>foo</string></MyBean>
 		// But on CI server we get: <MyBean xmlns=""><string>foo</string></MyBean>
 		// So... we make a compromise:
-		assertThat(item.getString())
-				.startsWith("<MyBean")
-				.endsWith("><string>foo</string></MyBean>");
+		assertThat(item.getString()).startsWith("<MyBean").endsWith("><string>foo</string></MyBean>");
 	}
 
 	private void assertCanRead(MediaType mediaType) {
@@ -301,16 +301,13 @@ public class FormHttpMessageConverterTests {
 		assertThat(this.converter.canWrite(clazz, mediaType)).as(clazz.getSimpleName() + " : " + mediaType).isFalse();
 	}
 
-
 	private static class MockHttpOutputMessageRequestContext implements RequestContext {
 
 		private final MockHttpOutputMessage outputMessage;
 
-
 		private MockHttpOutputMessageRequestContext(MockHttpOutputMessage outputMessage) {
 			this.outputMessage = outputMessage;
 		}
-
 
 		@Override
 		public String getCharacterEncoding() {
@@ -334,6 +331,7 @@ public class FormHttpMessageConverterTests {
 		public InputStream getInputStream() throws IOException {
 			return new ByteArrayInputStream(this.outputMessage.getBodyAsBytes());
 		}
+
 	}
 
 	public static class MyBean {
@@ -347,6 +345,7 @@ public class FormHttpMessageConverterTests {
 		public void setString(String string) {
 			this.string = string;
 		}
+
 	}
 
 }

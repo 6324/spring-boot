@@ -161,8 +161,7 @@ public class WebMvcConfigurationSupportTests {
 		RequestMappingHandlerAdapter adapter = context.getBean(RequestMappingHandlerAdapter.class);
 		List<HttpMessageConverter<?>> converters = adapter.getMessageConverters();
 		assertThat(converters.size()).isEqualTo(12);
-		converters.stream()
-				.filter(converter -> converter instanceof AbstractJackson2HttpMessageConverter)
+		converters.stream().filter(converter -> converter instanceof AbstractJackson2HttpMessageConverter)
 				.forEach(converter -> {
 					ObjectMapper mapper = ((AbstractJackson2HttpMessageConverter) converter).getObjectMapper();
 					assertThat(mapper.getDeserializationConfig().isEnabled(DEFAULT_VIEW_INCLUSION)).isFalse();
@@ -173,8 +172,8 @@ public class WebMvcConfigurationSupportTests {
 					}
 				});
 
-		ConfigurableWebBindingInitializer initializer =
-				(ConfigurableWebBindingInitializer) adapter.getWebBindingInitializer();
+		ConfigurableWebBindingInitializer initializer = (ConfigurableWebBindingInitializer) adapter
+				.getWebBindingInitializer();
 		assertThat(initializer).isNotNull();
 
 		ConversionService conversionService = initializer.getConversionService();
@@ -209,8 +208,8 @@ public class WebMvcConfigurationSupportTests {
 	@SuppressWarnings("unchecked")
 	public void handlerExceptionResolver() throws Exception {
 		ApplicationContext context = initContext(WebConfig.class);
-		HandlerExceptionResolverComposite compositeResolver =
-				context.getBean("handlerExceptionResolver", HandlerExceptionResolverComposite.class);
+		HandlerExceptionResolverComposite compositeResolver = context.getBean("handlerExceptionResolver",
+				HandlerExceptionResolverComposite.class);
 
 		assertThat(compositeResolver.getOrder()).isEqualTo(0);
 		List<HandlerExceptionResolver> expectedResolvers = compositeResolver.getExceptionResolvers();
@@ -232,7 +231,8 @@ public class WebMvcConfigurationSupportTests {
 			ResponseStatusExceptionResolver rser = (ResponseStatusExceptionResolver) expectedResolvers.get(1);
 			MockHttpServletRequest request = new MockHttpServletRequest("GET", "/");
 			MockHttpServletResponse response = new MockHttpServletResponse();
-			rser.resolveException(request, response, context.getBean(TestController.class), new UserAlreadyExistsException());
+			rser.resolveException(request, response, context.getBean(TestController.class),
+					new UserAlreadyExistsException());
 			assertThat(response.getErrorMessage()).isEqualTo("User already exists!");
 		}
 		finally {
@@ -254,17 +254,17 @@ public class WebMvcConfigurationSupportTests {
 
 		assertThat(composite).isNotNull();
 		assertThat(composite.getExceptionResolvers().size()).isEqualTo(3);
-		assertThat(composite.getExceptionResolvers().get(0).getClass()).isEqualTo(ExceptionHandlerExceptionResolver.class);
+		assertThat(composite.getExceptionResolvers().get(0).getClass())
+				.isEqualTo(ExceptionHandlerExceptionResolver.class);
 
-		ExceptionHandlerExceptionResolver resolver =
-				(ExceptionHandlerExceptionResolver) composite.getExceptionResolvers().get(0);
+		ExceptionHandlerExceptionResolver resolver = (ExceptionHandlerExceptionResolver) composite
+				.getExceptionResolvers().get(0);
 
 		assertThat(resolver.getCustomArgumentResolvers().size()).isEqualTo(1);
 		assertThat(resolver.getCustomArgumentResolvers().get(0).getClass()).isEqualTo(TestArgumentResolver.class);
 		assertThat(resolver.getCustomReturnValueHandlers().size()).isEqualTo(1);
 		assertThat(resolver.getCustomReturnValueHandlers().get(0).getClass()).isEqualTo(TestReturnValueHandler.class);
 	}
-
 
 	@Test
 	public void mvcViewResolver() {
@@ -318,7 +318,6 @@ public class WebMvcConfigurationSupportTests {
 		return context;
 	}
 
-
 	@EnableWebMvc
 	@Configuration
 	static class WebConfig {
@@ -334,8 +333,8 @@ public class WebMvcConfigurationSupportTests {
 			messageSource.addMessage("exception.user.exists", Locale.ENGLISH, "User already exists!");
 			return messageSource;
 		}
-	}
 
+	}
 
 	@Configuration
 	static class ViewResolverConfig {
@@ -344,8 +343,8 @@ public class WebMvcConfigurationSupportTests {
 		public ViewResolver beanNameViewResolver() {
 			return new BeanNameViewResolver();
 		}
-	}
 
+	}
 
 	@EnableWebMvc
 	@Configuration
@@ -356,6 +355,7 @@ public class WebMvcConfigurationSupportTests {
 			registry.jsp();
 			registry.order(123);
 		}
+
 	}
 
 	@EnableWebMvc
@@ -371,8 +371,8 @@ public class WebMvcConfigurationSupportTests {
 		public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> handlers) {
 			handlers.add(new TestReturnValueHandler());
 		}
-	}
 
+	}
 
 	@Controller
 	private static class TestController {
@@ -386,8 +386,8 @@ public class WebMvcConfigurationSupportTests {
 				@DateTimeFormat(iso = ISO.DATE) @PathVariable DateTime date) {
 			return null;
 		}
-	}
 
+	}
 
 	@Controller
 	@Scope("prototype")
@@ -396,8 +396,8 @@ public class WebMvcConfigurationSupportTests {
 		@RequestMapping("/scoped")
 		public void handle() {
 		}
-	}
 
+	}
 
 	@Controller
 	@Scope(scopeName = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -406,12 +406,13 @@ public class WebMvcConfigurationSupportTests {
 		@RequestMapping("/scopedProxy")
 		public void handle() {
 		}
-	}
 
+	}
 
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "exception.user.exists")
 	@SuppressWarnings("serial")
 	private static class UserAlreadyExistsException extends RuntimeException {
+
 	}
 
 	private static class TestArgumentResolver implements HandlerMethodArgumentResolver {
@@ -426,6 +427,7 @@ public class WebMvcConfigurationSupportTests {
 				NativeWebRequest request, WebDataBinderFactory factory) {
 			return null;
 		}
+
 	}
 
 	private static class TestReturnValueHandler implements HandlerMethodReturnValueHandler {
@@ -436,9 +438,10 @@ public class WebMvcConfigurationSupportTests {
 		}
 
 		@Override
-		public void handleReturnValue(Object value, MethodParameter parameter,
-				ModelAndViewContainer container, NativeWebRequest request) {
+		public void handleReturnValue(Object value, MethodParameter parameter, ModelAndViewContainer container,
+				NativeWebRequest request) {
 		}
+
 	}
 
 }

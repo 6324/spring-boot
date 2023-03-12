@@ -47,7 +47,6 @@ class WriteResultPublisher implements Publisher<Void> {
 	 */
 	private static final Log rsWriteResultLogger = LogDelegateFactory.getHiddenLog(WriteResultPublisher.class);
 
-
 	private final AtomicReference<State> state = new AtomicReference<>(State.UNSUBSCRIBED);
 
 	@Nullable
@@ -60,11 +59,9 @@ class WriteResultPublisher implements Publisher<Void> {
 
 	private final String logPrefix;
 
-
 	public WriteResultPublisher(String logPrefix) {
 		this.logPrefix = logPrefix;
 	}
-
 
 	@Override
 	public final void subscribe(Subscriber<? super Void> subscriber) {
@@ -98,10 +95,9 @@ class WriteResultPublisher implements Publisher<Void> {
 		return this.state.compareAndSet(oldState, newState);
 	}
 
-
 	/**
-	 * Subscription to receive and delegate request and cancel signals from the
-	 * subscriber to this publisher.
+	 * Subscription to receive and delegate request and cancel signals from the subscriber
+	 * to this publisher.
 	 */
 	private static final class WriteResultSubscription implements Subscription {
 
@@ -130,12 +126,13 @@ class WriteResultPublisher implements Publisher<Void> {
 		private State state() {
 			return this.publisher.state.get();
 		}
-	}
 
+	}
 
 	/**
 	 * Represents a state for the {@link Publisher} to be in.
-	 * <p><pre>
+	 * <p>
+	 * <pre>
 	 *     UNSUBSCRIBED
 	 *          |
 	 *          v
@@ -159,7 +156,8 @@ class WriteResultPublisher implements Publisher<Void> {
 					publisher.subscriber = subscriber;
 					subscriber.onSubscribe(subscription);
 					publisher.changeState(SUBSCRIBING, SUBSCRIBED);
-					// Now safe to check "beforeSubscribed" flags, they won't change once in NO_DEMAND
+					// Now safe to check "beforeSubscribed" flags, they won't change once
+					// in NO_DEMAND
 					if (publisher.completedBeforeSubscribed) {
 						publisher.publishComplete();
 					}
@@ -172,17 +170,19 @@ class WriteResultPublisher implements Publisher<Void> {
 					throw new IllegalStateException(toString());
 				}
 			}
+
 			@Override
 			void publishComplete(WriteResultPublisher publisher) {
 				publisher.completedBeforeSubscribed = true;
-				if(State.SUBSCRIBED.equals(publisher.state.get())) {
+				if (State.SUBSCRIBED.equals(publisher.state.get())) {
 					publisher.state.get().publishComplete(publisher);
 				}
 			}
+
 			@Override
 			void publishError(WriteResultPublisher publisher, Throwable ex) {
 				publisher.errorBeforeSubscribed = ex;
-				if(State.SUBSCRIBED.equals(publisher.state.get())) {
+				if (State.SUBSCRIBED.equals(publisher.state.get())) {
 					publisher.state.get().publishError(publisher, ex);
 				}
 			}
@@ -193,17 +193,19 @@ class WriteResultPublisher implements Publisher<Void> {
 			void request(WriteResultPublisher publisher, long n) {
 				Operators.validate(n);
 			}
+
 			@Override
 			void publishComplete(WriteResultPublisher publisher) {
 				publisher.completedBeforeSubscribed = true;
-				if(State.SUBSCRIBED.equals(publisher.state.get())) {
+				if (State.SUBSCRIBED.equals(publisher.state.get())) {
 					publisher.state.get().publishComplete(publisher);
 				}
 			}
+
 			@Override
 			void publishError(WriteResultPublisher publisher, Throwable ex) {
 				publisher.errorBeforeSubscribed = ex;
-				if(State.SUBSCRIBED.equals(publisher.state.get())) {
+				if (State.SUBSCRIBED.equals(publisher.state.get())) {
 					publisher.state.get().publishError(publisher, ex);
 				}
 			}
@@ -221,14 +223,17 @@ class WriteResultPublisher implements Publisher<Void> {
 			void request(WriteResultPublisher publisher, long n) {
 				// ignore
 			}
+
 			@Override
 			void cancel(WriteResultPublisher publisher) {
 				// ignore
 			}
+
 			@Override
 			void publishComplete(WriteResultPublisher publisher) {
 				// ignore
 			}
+
 			@Override
 			void publishError(WriteResultPublisher publisher, Throwable t) {
 				// ignore
@@ -270,6 +275,7 @@ class WriteResultPublisher implements Publisher<Void> {
 				publisher.state.get().publishError(publisher, t);
 			}
 		}
+
 	}
 
 }

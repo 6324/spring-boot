@@ -35,27 +35,26 @@ public interface ServerHttpResponse extends ReactiveHttpOutputMessage {
 	/**
 	 * Set the HTTP status code of the response.
 	 * @param status the HTTP status as an {@link HttpStatus} enum value
-	 * @return {@code false} if the status code change wasn't processed because
-	 * the HTTP response is committed, {@code true} if successfully set.
+	 * @return {@code false} if the status code change wasn't processed because the HTTP
+	 * response is committed, {@code true} if successfully set.
 	 */
 	boolean setStatusCode(@Nullable HttpStatus status);
 
 	/**
-	 * Return the status code that has been set, or otherwise fall back on the
-	 * status of the response from the underlying server. The return value may
-	 * be {@code null} if the status code value is outside the
-	 * {@link HttpStatus} enum range, or if there is no default value from the
-	 * underlying server.
+	 * Return the status code that has been set, or otherwise fall back on the status of
+	 * the response from the underlying server. The return value may be {@code null} if
+	 * the status code value is outside the {@link HttpStatus} enum range, or if there is
+	 * no default value from the underlying server.
 	 */
 	@Nullable
 	HttpStatus getStatusCode();
 
 	/**
-	 * Set the HTTP status code to the given value (potentially non-standard and
-	 * not resolvable through the {@link HttpStatus} enum) as an integer.
+	 * Set the HTTP status code to the given value (potentially non-standard and not
+	 * resolvable through the {@link HttpStatus} enum) as an integer.
 	 * @param value the status code value
-	 * @return {@code false} if the status code change wasn't processed because
-	 * the HTTP response is committed, {@code true} if successfully set.
+	 * @return {@code false} if the status code change wasn't processed because the HTTP
+	 * response is committed, {@code true} if successfully set.
 	 * @since 5.2.4
 	 */
 	default boolean setRawStatusCode(@Nullable Integer value) {
@@ -65,17 +64,16 @@ public interface ServerHttpResponse extends ReactiveHttpOutputMessage {
 		else {
 			HttpStatus httpStatus = HttpStatus.resolve(value);
 			if (httpStatus == null) {
-				throw new IllegalStateException(
-						"Unresolvable HttpStatus for general ServerHttpResponse: " + value);
+				throw new IllegalStateException("Unresolvable HttpStatus for general ServerHttpResponse: " + value);
 			}
 			return setStatusCode(httpStatus);
 		}
 	}
 
 	/**
-	 * Return the status code that has been set, or otherwise fall back on the
-	 * status of the response from the underlying server. The return value may
-	 * be {@code null} if there is no default value from the underlying server.
+	 * Return the status code that has been set, or otherwise fall back on the status of
+	 * the response from the underlying server. The return value may be {@code null} if
+	 * there is no default value from the underlying server.
 	 * @since 5.2.4
 	 */
 	@Nullable

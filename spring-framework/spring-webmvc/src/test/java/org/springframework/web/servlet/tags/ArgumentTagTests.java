@@ -79,8 +79,7 @@ public class ArgumentTagTests extends AbstractTagTests {
 
 	@Test
 	public void argumentWithBodyValue() throws JspException {
-		tag.setBodyContent(new MockBodyContent("value2",
-				new MockHttpServletResponse()));
+		tag.setBodyContent(new MockBodyContent("value2", new MockHttpServletResponse()));
 
 		int action = tag.doEndTag();
 
@@ -102,8 +101,7 @@ public class ArgumentTagTests extends AbstractTagTests {
 		parent = new MockArgumentSupportTag();
 		tag.setPageContext(createPageContext());
 		tag.setParent(parent);
-		tag.setBodyContent(new MockBodyContent("value4",
-				new MockHttpServletResponse()));
+		tag.setBodyContent(new MockBodyContent("value4", new MockHttpServletResponse()));
 
 		action = tag.doEndTag();
 
@@ -124,6 +122,7 @@ public class ArgumentTagTests extends AbstractTagTests {
 		private Object getArgument() {
 			return argument;
 		}
+
 	}
 
 }

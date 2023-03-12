@@ -85,7 +85,6 @@ class DefaultServerRequest implements ServerRequest {
 
 	private final Map<String, Object> attributes;
 
-
 	public DefaultServerRequest(HttpServletRequest servletRequest, List<HttpMessageConverter<?>> messageConverters) {
 		this.serverHttpRequest = new ServletServerHttpRequest(servletRequest);
 		this.messageConverters = Collections.unmodifiableList(new ArrayList<>(messageConverters));
@@ -97,12 +96,9 @@ class DefaultServerRequest implements ServerRequest {
 	}
 
 	private static List<MediaType> allSupportedMediaTypes(List<HttpMessageConverter<?>> messageConverters) {
-		return messageConverters.stream()
-				.flatMap(converter -> converter.getSupportedMediaTypes().stream())
-				.sorted(MediaType.SPECIFICITY_COMPARATOR)
-				.collect(Collectors.toList());
+		return messageConverters.stream().flatMap(converter -> converter.getSupportedMediaTypes().stream())
+				.sorted(MediaType.SPECIFICITY_COMPARATOR).collect(Collectors.toList());
 	}
-
 
 	@Override
 	public String methodName() {
@@ -192,15 +188,13 @@ class DefaultServerRequest implements ServerRequest {
 
 		for (HttpMessageConverter<?> messageConverter : this.messageConverters) {
 			if (messageConverter instanceof GenericHttpMessageConverter) {
-				GenericHttpMessageConverter<T> genericMessageConverter =
-						(GenericHttpMessageConverter<T>) messageConverter;
+				GenericHttpMessageConverter<T> genericMessageConverter = (GenericHttpMessageConverter<T>) messageConverter;
 				if (genericMessageConverter.canRead(bodyType, bodyClass, contentType)) {
 					return genericMessageConverter.read(bodyType, bodyClass, this.serverHttpRequest);
 				}
 			}
 			if (messageConverter.canRead(bodyClass, contentType)) {
-				HttpMessageConverter<T> theConverter =
-						(HttpMessageConverter<T>) messageConverter;
+				HttpMessageConverter<T> theConverter = (HttpMessageConverter<T>) messageConverter;
 				Class<? extends T> clazz = (Class<? extends T>) bodyClass;
 				return theConverter.read(clazz, this.serverHttpRequest);
 			}
@@ -231,8 +225,8 @@ class DefaultServerRequest implements ServerRequest {
 	@Override
 	@SuppressWarnings("unchecked")
 	public Map<String, String> pathVariables() {
-		Map<String, String> pathVariables = (Map<String, String>)
-				servletRequest().getAttribute(RouterFunctions.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+		Map<String, String> pathVariables = (Map<String, String>) servletRequest()
+				.getAttribute(RouterFunctions.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
 		if (pathVariables != null) {
 			return pathVariables;
 		}
@@ -251,9 +245,8 @@ class DefaultServerRequest implements ServerRequest {
 		return Optional.ofNullable(this.serverHttpRequest.getPrincipal());
 	}
 
-
-	static Optional<ServerResponse> checkNotModified(
-			HttpServletRequest servletRequest, @Nullable Instant lastModified, @Nullable String etag) {
+	static Optional<ServerResponse> checkNotModified(HttpServletRequest servletRequest, @Nullable Instant lastModified,
+			@Nullable String etag) {
 
 		long lastModifiedTimestamp = -1;
 		if (lastModified != null && lastModified.isAfter(Instant.EPOCH)) {
@@ -263,15 +256,13 @@ class DefaultServerRequest implements ServerRequest {
 		CheckNotModifiedResponse response = new CheckNotModifiedResponse();
 		WebRequest webRequest = new ServletWebRequest(servletRequest, response);
 		if (webRequest.checkNotModified(etag, lastModifiedTimestamp)) {
-			return Optional.of(ServerResponse.status(response.status).
-					headers(headers -> headers.addAll(response.headers))
-					.build());
+			return Optional.of(ServerResponse.status(response.status)
+					.headers(headers -> headers.addAll(response.headers)).build());
 		}
 		else {
 			return Optional.empty();
 		}
 	}
-
 
 	/**
 	 * Default implementation of {@link Headers}.
@@ -335,8 +326,8 @@ class DefaultServerRequest implements ServerRequest {
 		public String toString() {
 			return this.delegate.toString();
 		}
-	}
 
+	}
 
 	private static final class ServletParametersMap extends AbstractMap<String, List<String>> {
 
@@ -348,12 +339,10 @@ class DefaultServerRequest implements ServerRequest {
 
 		@Override
 		public Set<Entry<String, List<String>>> entrySet() {
-			return this.servletRequest.getParameterMap().entrySet().stream()
-					.map(entry -> {
-						List<String> value = Arrays.asList(entry.getValue());
-						return new SimpleImmutableEntry<>(entry.getKey(), value);
-					})
-					.collect(Collectors.toSet());
+			return this.servletRequest.getParameterMap().entrySet().stream().map(entry -> {
+				List<String> value = Arrays.asList(entry.getValue());
+				return new SimpleImmutableEntry<>(entry.getKey(), value);
+			}).collect(Collectors.toSet());
 		}
 
 		@Override
@@ -387,8 +376,8 @@ class DefaultServerRequest implements ServerRequest {
 		public void clear() {
 			throw new UnsupportedOperationException();
 		}
-	}
 
+	}
 
 	private static final class ServletAttributesMap extends AbstractMap<String, Object> {
 
@@ -412,12 +401,10 @@ class DefaultServerRequest implements ServerRequest {
 
 		@Override
 		public Set<Entry<String, Object>> entrySet() {
-			return Collections.list(this.servletRequest.getAttributeNames()).stream()
-					.map(name -> {
-						Object value = this.servletRequest.getAttribute(name);
-						return new SimpleImmutableEntry<>(name, value);
-					})
-					.collect(Collectors.toSet());
+			return Collections.list(this.servletRequest.getAttributeNames()).stream().map(name -> {
+				Object value = this.servletRequest.getAttribute(name);
+				return new SimpleImmutableEntry<>(name, value);
+			}).collect(Collectors.toSet());
 		}
 
 		@Override
@@ -440,14 +427,14 @@ class DefaultServerRequest implements ServerRequest {
 			this.servletRequest.removeAttribute(name);
 			return value;
 		}
-	}
 
+	}
 
 	/**
 	 * Simple implementation of {@link HttpServletResponse} used by
-	 * {@link #checkNotModified(HttpServletRequest, Instant, String)} to record status and headers set by
-	 * {@link ServletWebRequest#checkNotModified(String, long)}. Throws an {@code UnsupportedOperationException}
-	 * for other methods.
+	 * {@link #checkNotModified(HttpServletRequest, Instant, String)} to record status and
+	 * headers set by {@link ServletWebRequest#checkNotModified(String, long)}. Throws an
+	 * {@code UnsupportedOperationException} for other methods.
 	 */
 	private static final class CheckNotModifiedResponse implements HttpServletResponse {
 
@@ -508,7 +495,6 @@ class DefaultServerRequest implements ServerRequest {
 			return this.headers.keySet();
 		}
 
-
 		// Unsupported
 
 		@Override
@@ -567,7 +553,6 @@ class DefaultServerRequest implements ServerRequest {
 		public void addIntHeader(String name, int value) {
 			throw new UnsupportedOperationException();
 		}
-
 
 		@Override
 		public String getCharacterEncoding() {
@@ -648,6 +633,7 @@ class DefaultServerRequest implements ServerRequest {
 		public Locale getLocale() {
 			throw new UnsupportedOperationException();
 		}
+
 	}
 
 }

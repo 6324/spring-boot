@@ -51,13 +51,11 @@ public class MarshallingViewTests {
 
 	private MarshallingView view;
 
-
 	@BeforeEach
 	public void createView() throws Exception {
 		marshallerMock = mock(Marshaller.class);
 		view = new MarshallingView(marshallerMock);
 	}
-
 
 	@Test
 	public void getContentType() {
@@ -123,8 +121,7 @@ public class MarshallingViewTests {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				view.render(model, request, response));
+		assertThatIllegalStateException().isThrownBy(() -> view.render(model, request, response));
 
 		assertThat(response.getContentLength()).as("Invalid content length").isEqualTo(0);
 	}
@@ -138,8 +135,7 @@ public class MarshallingViewTests {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				view.render(model, request, response));
+		assertThatIllegalStateException().isThrownBy(() -> view.render(model, request, response));
 
 		assertThat(response.getContentLength()).as("Invalid content length").isEqualTo(0);
 	}
@@ -157,8 +153,7 @@ public class MarshallingViewTests {
 
 		given(marshallerMock.supports(Object.class)).willReturn(false);
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				view.render(model, request, response));
+		assertThatIllegalStateException().isThrownBy(() -> view.render(model, request, response));
 	}
 
 	@Test
@@ -211,8 +206,7 @@ public class MarshallingViewTests {
 
 		given(marshallerMock.supports(Object.class)).willReturn(false);
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				view.render(model, request, response));
+		assertThatIllegalStateException().isThrownBy(() -> view.render(model, request, response));
 	}
 
 }

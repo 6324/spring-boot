@@ -38,10 +38,11 @@ import org.springframework.web.servlet.HandlerMapping;
 /**
  * Resolves arguments annotated with {@link MatrixVariable @MatrixVariable}.
  *
- * <p>If the method parameter is of type {@link Map} it will by resolved by
- * {@link MatrixVariableMapMethodArgumentResolver} instead unless the annotation
- * specifies a name in which case it is considered to be a single attribute of
- * type map (vs multiple attributes collected in a map).
+ * <p>
+ * If the method parameter is of type {@link Map} it will by resolved by
+ * {@link MatrixVariableMapMethodArgumentResolver} instead unless the annotation specifies
+ * a name in which case it is considered to be a single attribute of type map (vs multiple
+ * attributes collected in a map).
  *
  * @author Rossen Stoyanchev
  * @author Sam Brannen
@@ -52,7 +53,6 @@ public class MatrixVariableMethodArgumentResolver extends AbstractNamedValueMeth
 	public MatrixVariableMethodArgumentResolver() {
 		super(null);
 	}
-
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -77,8 +77,8 @@ public class MatrixVariableMethodArgumentResolver extends AbstractNamedValueMeth
 	@SuppressWarnings("unchecked")
 	@Nullable
 	protected Object resolveName(String name, MethodParameter parameter, NativeWebRequest request) throws Exception {
-		Map<String, MultiValueMap<String, String>> pathParameters = (Map<String, MultiValueMap<String, String>>)
-				request.getAttribute(HandlerMapping.MATRIX_VARIABLES_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST);
+		Map<String, MultiValueMap<String, String>> pathParameters = (Map<String, MultiValueMap<String, String>>) request
+				.getAttribute(HandlerMapping.MATRIX_VARIABLES_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST);
 		if (CollectionUtils.isEmpty(pathParameters)) {
 			return null;
 		}
@@ -101,8 +101,8 @@ public class MatrixVariableMethodArgumentResolver extends AbstractNamedValueMeth
 					if (found) {
 						String paramType = parameter.getNestedParameterType().getName();
 						throw new ServletRequestBindingException(
-								"Found more than one match for URI path parameter '" + name +
-								"' for parameter type [" + paramType + "]. Use 'pathVar' attribute to disambiguate.");
+								"Found more than one match for URI path parameter '" + name + "' for parameter type ["
+										+ paramType + "]. Use 'pathVar' attribute to disambiguate.");
 					}
 					paramValues.addAll(params.get(name));
 					found = true;
@@ -126,12 +126,12 @@ public class MatrixVariableMethodArgumentResolver extends AbstractNamedValueMeth
 		throw new MissingMatrixVariableException(name, parameter);
 	}
 
-
 	private static final class MatrixVariableNamedValueInfo extends NamedValueInfo {
 
 		private MatrixVariableNamedValueInfo(MatrixVariable annotation) {
 			super(annotation.name(), annotation.required(), annotation.defaultValue());
 		}
+
 	}
 
 }

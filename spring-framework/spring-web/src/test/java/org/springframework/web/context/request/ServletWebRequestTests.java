@@ -46,14 +46,12 @@ public class ServletWebRequestTests {
 
 	private ServletWebRequest request;
 
-
 	@BeforeEach
 	public void setup() {
 		servletRequest = new MockHttpServletRequest();
 		servletResponse = new MockHttpServletResponse();
 		request = new ServletWebRequest(servletRequest, servletResponse);
 	}
-
 
 	@Test
 	public void parameters() {

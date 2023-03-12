@@ -61,12 +61,11 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
  */
 public class SynchronossPartHttpMessageReaderTests extends AbstractLeakCheckingTests {
 
-	private final MultipartHttpMessageReader reader =
-			new MultipartHttpMessageReader(new SynchronossPartHttpMessageReader());
+	private final MultipartHttpMessageReader reader = new MultipartHttpMessageReader(
+			new SynchronossPartHttpMessageReader());
 
-	private static final ResolvableType PARTS_ELEMENT_TYPE =
-			forClassWithGenerics(MultiValueMap.class, String.class, Part.class);
-
+	private static final ResolvableType PARTS_ELEMENT_TYPE = forClassWithGenerics(MultiValueMap.class, String.class,
+			Part.class);
 
 	@Test
 	void canRead() {
@@ -75,20 +74,16 @@ public class SynchronossPartHttpMessageReaderTests extends AbstractLeakCheckingT
 		assertThat(this.reader.canRead(PARTS_ELEMENT_TYPE, MediaType.MULTIPART_RELATED)).isTrue();
 		assertThat(this.reader.canRead(PARTS_ELEMENT_TYPE, null)).isTrue();
 
-		assertThat(this.reader.canRead(
-				forClassWithGenerics(MultiValueMap.class, String.class, Object.class),
+		assertThat(this.reader.canRead(forClassWithGenerics(MultiValueMap.class, String.class, Object.class),
 				MediaType.MULTIPART_FORM_DATA)).isFalse();
 
-		assertThat(this.reader.canRead(
-				forClassWithGenerics(MultiValueMap.class, String.class, String.class),
+		assertThat(this.reader.canRead(forClassWithGenerics(MultiValueMap.class, String.class, String.class),
 				MediaType.MULTIPART_FORM_DATA)).isFalse();
 
-		assertThat(this.reader.canRead(
-				forClassWithGenerics(Map.class, String.class, String.class),
+		assertThat(this.reader.canRead(forClassWithGenerics(Map.class, String.class, String.class),
 				MediaType.MULTIPART_FORM_DATA)).isFalse();
 
-		assertThat(this.reader.canRead(
-				forClassWithGenerics(MultiValueMap.class, String.class, Part.class),
+		assertThat(this.reader.canRead(forClassWithGenerics(MultiValueMap.class, String.class, Part.class),
 				MediaType.APPLICATION_FORM_URLENCODED)).isFalse();
 	}
 
@@ -152,62 +147,48 @@ public class SynchronossPartHttpMessageReaderTests extends AbstractLeakCheckingT
 
 		MediaType contentType = new MediaType("multipart", "form-data",
 				singletonMap("boundary", "NbjrKgjbsaMLdnMxMfDpD6myWomYc0qNX0w"));
-		ServerHttpRequest request = MockServerHttpRequest.post("/")
-				.contentType(contentType)
-				.body(body);
+		ServerHttpRequest request = MockServerHttpRequest.post("/").contentType(contentType).body(body);
 
 		Mono<MultiValueMap<String, Part>> parts = this.reader.readMono(PARTS_ELEMENT_TYPE, request, emptyMap());
 
-		StepVerifier.create(parts)
-				.assertNext(result -> assertThat(result).isEmpty())
-				.verifyComplete();
+		StepVerifier.create(parts).assertNext(result -> assertThat(result).isEmpty()).verifyComplete();
 	}
 
 	@Test
 	void readTooManyParts() {
 		testMultipartExceptions(reader -> reader.setMaxParts(1), ex -> {
-					assertThat(ex)
-							.isInstanceOf(DecodingException.class)
-							.hasMessageStartingWith("Failure while parsing part[2]");
-					assertThat(ex.getCause())
-							.hasMessage("Too many parts (2 allowed)");
-				}
-		);
+			assertThat(ex).isInstanceOf(DecodingException.class)
+					.hasMessageStartingWith("Failure while parsing part[2]");
+			assertThat(ex.getCause()).hasMessage("Too many parts (2 allowed)");
+		});
 	}
 
 	@Test
 	void readFilePartTooBig() {
 		testMultipartExceptions(reader -> reader.setMaxDiskUsagePerPart(5), ex -> {
-					assertThat(ex)
-							.isInstanceOf(DecodingException.class)
-							.hasMessageStartingWith("Failure while parsing part[1]");
-					assertThat(ex.getCause())
-							.hasMessage("Part[1] exceeded the disk usage limit of 5 bytes");
-				}
-		);
+			assertThat(ex).isInstanceOf(DecodingException.class)
+					.hasMessageStartingWith("Failure while parsing part[1]");
+			assertThat(ex.getCause()).hasMessage("Part[1] exceeded the disk usage limit of 5 bytes");
+		});
 	}
 
 	@Test
 	void readPartHeadersTooBig() {
 		testMultipartExceptions(reader -> reader.setMaxInMemorySize(1), ex -> {
-					assertThat(ex)
-							.isInstanceOf(DecodingException.class)
-							.hasMessageStartingWith("Failure while parsing part[1]");
-					assertThat(ex.getCause())
-							.hasMessage("Part[1] exceeded the in-memory limit of 1 bytes");
-				}
-		);
+			assertThat(ex).isInstanceOf(DecodingException.class)
+					.hasMessageStartingWith("Failure while parsing part[1]");
+			assertThat(ex.getCause()).hasMessage("Part[1] exceeded the in-memory limit of 1 bytes");
+		});
 	}
 
-	private void testMultipartExceptions(
-			Consumer<SynchronossPartHttpMessageReader> configurer, Consumer<Throwable> assertions) {
+	private void testMultipartExceptions(Consumer<SynchronossPartHttpMessageReader> configurer,
+			Consumer<Throwable> assertions) {
 
 		SynchronossPartHttpMessageReader reader = new SynchronossPartHttpMessageReader();
 		configurer.accept(reader);
 		MultipartHttpMessageReader multipartReader = new MultipartHttpMessageReader(reader);
 		StepVerifier.create(multipartReader.readMono(PARTS_ELEMENT_TYPE, generateMultipartRequest(), emptyMap()))
-				.consumeErrorWith(assertions)
-				.verify();
+				.consumeErrorWith(assertions).verify();
 	}
 
 	private ServerHttpRequest generateMultipartRequest() {
@@ -221,14 +202,12 @@ public class SynchronossPartHttpMessageReaderTests extends AbstractLeakCheckingT
 				.block(Duration.ofSeconds(5));
 		Flux<DataBuffer> requestBody = outputMessage.getBody()
 				.map(buffer -> this.bufferFactory.wrap(buffer.asByteBuffer()));
-		return MockServerHttpRequest.post("/")
-				.contentType(outputMessage.getHeaders().getContentType())
+		return MockServerHttpRequest.post("/").contentType(outputMessage.getHeaders().getContentType())
 				.body(requestBody);
 	}
 
 	private ServerHttpRequest generateErrorMultipartRequest() {
-		return MockServerHttpRequest.post("/")
-				.header(CONTENT_TYPE, MULTIPART_FORM_DATA.toString())
+		return MockServerHttpRequest.post("/").header(CONTENT_TYPE, MULTIPART_FORM_DATA.toString())
 				.body(Flux.just(this.bufferFactory.wrap("invalid content".getBytes())));
 	}
 
@@ -238,6 +217,7 @@ public class SynchronossPartHttpMessageReaderTests extends AbstractLeakCheckingT
 		protected void hookOnSubscribe(Subscription subscription) {
 			// Just subscribe without requesting
 		}
+
 	}
 
 }

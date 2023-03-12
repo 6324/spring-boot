@@ -25,10 +25,12 @@ import org.springframework.http.HttpStatus;
 /**
  * Represents a client-side HTTP response.
  *
- * <p>Obtained via an invocation of {@link ClientHttpRequest#execute()}.
+ * <p>
+ * Obtained via an invocation of {@link ClientHttpRequest#execute()}.
  *
- * <p>A {@code ClientHttpResponse} must be {@linkplain #close() closed},
- * typically in a {@code finally} block.
+ * <p>
+ * A {@code ClientHttpResponse} must be {@linkplain #close() closed}, typically in a
+ * {@code finally} block.
  *
  * @author Arjen Poutsma
  * @since 3.0
@@ -37,7 +39,8 @@ public interface ClientHttpResponse extends HttpInputMessage, Closeable {
 
 	/**
 	 * Get the HTTP status code as an {@link HttpStatus} enum value.
-	 * <p>For status codes not supported by {@code HttpStatus}, use
+	 * <p>
+	 * For status codes not supported by {@code HttpStatus}, use
 	 * {@link #getRawStatusCode()} instead.
 	 * @return the HTTP status as an HttpStatus enum value (never {@code null})
 	 * @throws IOException in case of I/O errors
@@ -48,8 +51,8 @@ public interface ClientHttpResponse extends HttpInputMessage, Closeable {
 	HttpStatus getStatusCode() throws IOException;
 
 	/**
-	 * Get the HTTP status code (potentially non-standard and not
-	 * resolvable through the {@link HttpStatus} enum) as an integer.
+	 * Get the HTTP status code (potentially non-standard and not resolvable through the
+	 * {@link HttpStatus} enum) as an integer.
 	 * @return the HTTP status as an integer value
 	 * @throws IOException in case of I/O errors
 	 * @since 3.1.1

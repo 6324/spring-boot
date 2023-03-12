@@ -35,9 +35,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class MappingMediaTypeFileExtensionResolverTests {
 
-	private static final Map<String, MediaType> DEFAULT_MAPPINGS =
-			Collections.singletonMap("json", MediaType.APPLICATION_JSON);
-
+	private static final Map<String, MediaType> DEFAULT_MAPPINGS = Collections.singletonMap("json",
+			MediaType.APPLICATION_JSON);
 
 	@Test
 	public void resolveExtensions() {
@@ -50,8 +49,9 @@ public class MappingMediaTypeFileExtensionResolverTests {
 
 	@Test
 	public void resolveExtensionsNoMatch() {
-		assertThat(new MappingMediaTypeFileExtensionResolver(DEFAULT_MAPPINGS)
-				.resolveFileExtensions(MediaType.TEXT_HTML)).isEmpty();
+		assertThat(
+				new MappingMediaTypeFileExtensionResolver(DEFAULT_MAPPINGS).resolveFileExtensions(MediaType.TEXT_HTML))
+						.isEmpty();
 	}
 
 	@Test // SPR-13747
@@ -70,4 +70,5 @@ public class MappingMediaTypeFileExtensionResolverTests {
 		MappingMediaTypeFileExtensionResolver resolver = new MappingMediaTypeFileExtensionResolver(mappings);
 		assertThat(resolver.getAllFileExtensions()).containsExactly("json");
 	}
+
 }

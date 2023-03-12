@@ -30,7 +30,6 @@ import org.springframework.http.client.ClientHttpResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * Tests for {@link InterceptingHttpAccessor}.
  *
@@ -41,10 +40,8 @@ public class InterceptingHttpAccessorTests {
 	@Test
 	public void getInterceptors() {
 		TestInterceptingHttpAccessor accessor = new TestInterceptingHttpAccessor();
-		List<ClientHttpRequestInterceptor> interceptors = Arrays.asList(
-				new SecondClientHttpRequestInterceptor(),
-				new ThirdClientHttpRequestInterceptor(),
-				new FirstClientHttpRequestInterceptor()
+		List<ClientHttpRequestInterceptor> interceptors = Arrays.asList(new SecondClientHttpRequestInterceptor(),
+				new ThirdClientHttpRequestInterceptor(), new FirstClientHttpRequestInterceptor()
 
 		);
 		accessor.setInterceptors(interceptors);
@@ -54,10 +51,9 @@ public class InterceptingHttpAccessorTests {
 		assertThat(accessor.getInterceptors().get(2)).isInstanceOf(ThirdClientHttpRequestInterceptor.class);
 	}
 
-
 	private class TestInterceptingHttpAccessor extends InterceptingHttpAccessor {
-	}
 
+	}
 
 	@Order(1)
 	private class FirstClientHttpRequestInterceptor implements ClientHttpRequestInterceptor {
@@ -66,8 +62,8 @@ public class InterceptingHttpAccessorTests {
 		public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) {
 			return null;
 		}
-	}
 
+	}
 
 	private class SecondClientHttpRequestInterceptor implements ClientHttpRequestInterceptor, Ordered {
 
@@ -80,8 +76,8 @@ public class InterceptingHttpAccessorTests {
 		public int getOrder() {
 			return 2;
 		}
-	}
 
+	}
 
 	private class ThirdClientHttpRequestInterceptor implements ClientHttpRequestInterceptor {
 
@@ -89,6 +85,7 @@ public class InterceptingHttpAccessorTests {
 		public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) {
 			return null;
 		}
+
 	}
 
 }

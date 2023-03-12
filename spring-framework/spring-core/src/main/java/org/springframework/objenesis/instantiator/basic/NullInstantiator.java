@@ -27,13 +27,14 @@ import org.springframework.objenesis.instantiator.annotations.Typology;
 @Instantiator(Typology.NOT_COMPLIANT)
 public class NullInstantiator<T> implements ObjectInstantiator<T> {
 
-   public NullInstantiator(Class<T> type) {
-   }
+	public NullInstantiator(Class<T> type) {
+	}
 
-   /**
-    * @return Always null
-    */
-   public T newInstance() {
-      return null;
-   }
+	/**
+	 * @return Always null
+	 */
+	public T newInstance() {
+		return null;
+	}
+
 }

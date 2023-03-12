@@ -49,7 +49,6 @@ public class OncePerRequestFilterTests {
 
 	private MockFilterChain filterChain;
 
-
 	@BeforeEach
 	@SuppressWarnings("serial")
 	public void setup() throws Exception {
@@ -57,9 +56,9 @@ public class OncePerRequestFilterTests {
 		this.request.setScheme("http");
 		this.request.setServerName("localhost");
 		this.request.setServerPort(80);
-		this.filterChain = new MockFilterChain(new HttpServlet() {});
+		this.filterChain = new MockFilterChain(new HttpServlet() {
+		});
 	}
-
 
 	@Test
 	public void filterOnce() throws ServletException, IOException {
@@ -120,7 +119,6 @@ public class OncePerRequestFilterTests {
 		this.request.setAttribute(WebUtils.ERROR_REQUEST_URI_ATTRIBUTE, "/error");
 	}
 
-
 	private static class TestOncePerRequestFilter extends OncePerRequestFilter {
 
 		private boolean shouldNotFilter;
@@ -133,7 +131,6 @@ public class OncePerRequestFilterTests {
 
 		private boolean didFilterNestedErrorDispatch;
 
-
 		public void setShouldNotFilterErrorDispatch(boolean shouldNotFilterErrorDispatch) {
 			this.shouldNotFilterErrorDispatch = shouldNotFilterErrorDispatch;
 		}
@@ -142,7 +139,6 @@ public class OncePerRequestFilterTests {
 			this.didFilter = false;
 			this.didFilterNestedErrorDispatch = false;
 		}
-
 
 		@Override
 		protected boolean shouldNotFilter(HttpServletRequest request) {
@@ -173,6 +169,7 @@ public class OncePerRequestFilterTests {
 			this.didFilterNestedErrorDispatch = true;
 			super.doFilterNestedErrorDispatch(request, response, filterChain);
 		}
+
 	}
 
 }

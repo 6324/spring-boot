@@ -26,8 +26,8 @@ import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link ClientHttpResponse} implementation that uses standard JDK facilities.
- * Obtained via {@link SimpleBufferingClientHttpRequest#execute()} and
+ * {@link ClientHttpResponse} implementation that uses standard JDK facilities. Obtained
+ * via {@link SimpleBufferingClientHttpRequest#execute()} and
  * {@link SimpleStreamingClientHttpRequest#execute()}.
  *
  * @author Arjen Poutsma
@@ -44,11 +44,9 @@ final class SimpleClientHttpResponse extends AbstractClientHttpResponse {
 	@Nullable
 	private InputStream responseStream;
 
-
 	SimpleClientHttpResponse(HttpURLConnection connection) {
 		this.connection = connection;
 	}
-
 
 	@Override
 	public int getRawStatusCode() throws IOException {
@@ -65,7 +63,8 @@ final class SimpleClientHttpResponse extends AbstractClientHttpResponse {
 	public HttpHeaders getHeaders() {
 		if (this.headers == null) {
 			this.headers = new HttpHeaders();
-			// Header field 0 is the status line for most HttpURLConnections, but not on GAE
+			// Header field 0 is the status line for most HttpURLConnections, but not on
+			// GAE
 			String name = this.connection.getHeaderFieldKey(0);
 			if (StringUtils.hasLength(name)) {
 				this.headers.add(name, this.connection.getHeaderField(0));

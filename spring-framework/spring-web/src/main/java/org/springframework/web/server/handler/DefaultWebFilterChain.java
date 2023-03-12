@@ -33,12 +33,14 @@ import org.springframework.web.server.WebHandler;
 /**
  * Default implementation of {@link WebFilterChain}.
  *
- * <p>Each instance of this class represents one link in the chain. The public
- * constructor {@link #DefaultWebFilterChain(WebHandler, List)}
- * initializes the full chain and represents its first link.
+ * <p>
+ * Each instance of this class represents one link in the chain. The public constructor
+ * {@link #DefaultWebFilterChain(WebHandler, List)} initializes the full chain and
+ * represents its first link.
  *
- * <p>This class is immutable and thread-safe. It can be created once and
- * re-used to handle request concurrently.
+ * <p>
+ * This class is immutable and thread-safe. It can be created once and re-used to handle
+ * request concurrently.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -54,7 +56,6 @@ public class DefaultWebFilterChain implements WebFilterChain {
 
 	@Nullable
 	private final DefaultWebFilterChain chain;
-
 
 	/**
 	 * Public constructor with the list of filters and the target handler to use.
@@ -83,8 +84,8 @@ public class DefaultWebFilterChain implements WebFilterChain {
 	/**
 	 * Private constructor to represent one link in the chain.
 	 */
-	private DefaultWebFilterChain(List<WebFilter> allFilters, WebHandler handler,
-			@Nullable WebFilter currentFilter, @Nullable DefaultWebFilterChain chain) {
+	private DefaultWebFilterChain(List<WebFilter> allFilters, WebHandler handler, @Nullable WebFilter currentFilter,
+			@Nullable DefaultWebFilterChain chain) {
 
 		this.allFilters = allFilters;
 		this.currentFilter = currentFilter;
@@ -104,7 +105,6 @@ public class DefaultWebFilterChain implements WebFilterChain {
 		this(handler, Arrays.asList(filters));
 	}
 
-
 	public List<WebFilter> getFilters() {
 		return this.allFilters;
 	}
@@ -113,13 +113,10 @@ public class DefaultWebFilterChain implements WebFilterChain {
 		return this.handler;
 	}
 
-
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange) {
-		return Mono.defer(() ->
-				this.currentFilter != null && this.chain != null ?
-						invokeFilter(this.currentFilter, this.chain, exchange) :
-						this.handler.handle(exchange));
+		return Mono.defer(() -> this.currentFilter != null && this.chain != null
+				? invokeFilter(this.currentFilter, this.chain, exchange) : this.handler.handle(exchange));
 	}
 
 	private Mono<Void> invokeFilter(WebFilter current, DefaultWebFilterChain chain, ServerWebExchange exchange) {

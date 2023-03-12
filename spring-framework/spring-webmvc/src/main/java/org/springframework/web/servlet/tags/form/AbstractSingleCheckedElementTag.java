@@ -22,9 +22,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Abstract base class to provide common methods for implementing databinding-aware
- * JSP tags for rendering a <i>single</i> HTML '{@code input}' element with a
- * '{@code type}' of '{@code checkbox}' or '{@code radio}'.
+ * Abstract base class to provide common methods for implementing databinding-aware JSP
+ * tags for rendering a <i>single</i> HTML '{@code input}' element with a '{@code type}'
+ * of '{@code checkbox}' or '{@code radio}'.
  *
  * @author Juergen Hoeller
  * @since 2.5.2
@@ -44,10 +44,8 @@ public abstract class AbstractSingleCheckedElementTag extends AbstractCheckedEle
 	@Nullable
 	private Object label;
 
-
 	/**
-	 * Set the value of the '{@code value}' attribute.
-	 * May be a runtime expression.
+	 * Set the value of the '{@code value}' attribute. May be a runtime expression.
 	 */
 	public void setValue(Object value) {
 		this.value = value;
@@ -62,8 +60,7 @@ public abstract class AbstractSingleCheckedElementTag extends AbstractCheckedEle
 	}
 
 	/**
-	 * Set the value of the '{@code label}' attribute.
-	 * May be a runtime expression.
+	 * Set the value of the '{@code label}' attribute. May be a runtime expression.
 	 */
 	public void setLabel(Object label) {
 		this.label = label;
@@ -77,11 +74,10 @@ public abstract class AbstractSingleCheckedElementTag extends AbstractCheckedEle
 		return this.label;
 	}
 
-
 	/**
 	 * Renders the '{@code input(radio)}' element with the configured
-	 * {@link #setValue(Object) value}. Marks the element as checked if the
-	 * value matches the {@link #getValue bound value}.
+	 * {@link #setValue(Object) value}. Marks the element as checked if the value matches
+	 * the {@link #getValue bound value}.
 	 */
 	@Override
 	protected int writeTagContent(TagWriter tagWriter) throws JspException {
@@ -106,8 +102,8 @@ public abstract class AbstractSingleCheckedElementTag extends AbstractCheckedEle
 	}
 
 	/**
-	 * Write the details for the given primary tag:
-	 * i.e. special attributes and the tag's value.
+	 * Write the details for the given primary tag: i.e. special attributes and the tag's
+	 * value.
 	 */
 	protected abstract void writeTagDetails(TagWriter tagWriter) throws JspException;
 

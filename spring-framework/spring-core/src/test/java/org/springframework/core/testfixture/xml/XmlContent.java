@@ -22,8 +22,8 @@ import org.xmlunit.assertj.XmlAssert;
 import java.io.StringWriter;
 
 /**
- * {@link AssertProvider} to allow XML content assertions. Ultimately delegates
- * to {@link XmlAssert}.
+ * {@link AssertProvider} to allow XML content assertions. Ultimately delegates to
+ * {@link XmlAssert}.
  *
  * @author Phillip Webb
  */

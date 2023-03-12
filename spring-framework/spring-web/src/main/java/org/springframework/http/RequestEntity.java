@@ -32,9 +32,10 @@ import org.springframework.util.ObjectUtils;
  * Extension of {@link HttpEntity} that adds a {@linkplain HttpMethod method} and
  * {@linkplain URI uri}. Used in {@code RestTemplate} and {@code @Controller} methods.
  *
- * <p>In {@code RestTemplate}, this class is used as parameter in
- * {@link org.springframework.web.client.RestTemplate#exchange(RequestEntity, Class) exchange()}:
- * <pre class="code">
+ * <p>
+ * In {@code RestTemplate}, this class is used as parameter in
+ * {@link org.springframework.web.client.RestTemplate#exchange(RequestEntity, Class)
+ * exchange()}: <pre class="code">
  * MyRequest body = ...
  * RequestEntity&lt;MyRequest&gt; request = RequestEntity
  *     .post(new URI(&quot;https://example.com/bar&quot;))
@@ -43,7 +44,8 @@ import org.springframework.util.ObjectUtils;
  * ResponseEntity&lt;MyResponse&gt; response = template.exchange(request, MyResponse.class);
  * </pre>
  *
- * <p>If you would like to provide a URI template with variables, consider using
+ * <p>
+ * If you would like to provide a URI template with variables, consider using
  * {@link org.springframework.web.util.DefaultUriBuilderFactory DefaultUriBuilderFactory}:
  * <pre class="code">
  * // Create shared factory
@@ -54,7 +56,8 @@ import org.springframework.util.ObjectUtils;
  * RequestEntity&lt;MyRequest&gt; request = RequestEntity.post(uri).accept(MediaType.APPLICATION_JSON).body(body);
  * </pre>
  *
- * <p>Can also be used in Spring MVC, as a parameter in a @Controller method:
+ * <p>
+ * Can also be used in Spring MVC, as a parameter in a @Controller method:
  * <pre class="code">
  * &#64;RequestMapping("/handle")
  * public void handle(RequestEntity&lt;String&gt; request) {
@@ -82,7 +85,6 @@ public class RequestEntity<T> extends HttpEntity<T> {
 
 	@Nullable
 	private final Type type;
-
 
 	/**
 	 * Constructor with method and URL but without body nor headers.
@@ -132,8 +134,8 @@ public class RequestEntity<T> extends HttpEntity<T> {
 	 * @param method the method
 	 * @param url the URL
 	 */
-	public RequestEntity(@Nullable T body, @Nullable MultiValueMap<String, String> headers,
-			@Nullable HttpMethod method, URI url) {
+	public RequestEntity(@Nullable T body, @Nullable MultiValueMap<String, String> headers, @Nullable HttpMethod method,
+			URI url) {
 
 		this(body, headers, method, url, null);
 	}
@@ -147,15 +149,14 @@ public class RequestEntity<T> extends HttpEntity<T> {
 	 * @param type the type used for generic type resolution
 	 * @since 4.3
 	 */
-	public RequestEntity(@Nullable T body, @Nullable MultiValueMap<String, String> headers,
-			@Nullable HttpMethod method, URI url, @Nullable Type type) {
+	public RequestEntity(@Nullable T body, @Nullable MultiValueMap<String, String> headers, @Nullable HttpMethod method,
+			URI url, @Nullable Type type) {
 
 		super(body, headers);
 		this.method = method;
 		this.url = url;
 		this.type = type;
 	}
-
 
 	/**
 	 * Return the HTTP method of the request.
@@ -190,7 +191,6 @@ public class RequestEntity<T> extends HttpEntity<T> {
 		return this.type;
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -200,8 +200,8 @@ public class RequestEntity<T> extends HttpEntity<T> {
 			return false;
 		}
 		RequestEntity<?> otherEntity = (RequestEntity<?>) other;
-		return (ObjectUtils.nullSafeEquals(getMethod(), otherEntity.getMethod()) &&
-				ObjectUtils.nullSafeEquals(getUrl(), otherEntity.getUrl()));
+		return (ObjectUtils.nullSafeEquals(getMethod(), otherEntity.getMethod())
+				&& ObjectUtils.nullSafeEquals(getUrl(), otherEntity.getUrl()));
 	}
 
 	@Override
@@ -229,7 +229,6 @@ public class RequestEntity<T> extends HttpEntity<T> {
 		builder.append('>');
 		return builder.toString();
 	}
-
 
 	// Static builder methods
 
@@ -306,16 +305,16 @@ public class RequestEntity<T> extends HttpEntity<T> {
 		return method(HttpMethod.OPTIONS, url);
 	}
 
-
 	/**
 	 * Defines a builder that adds headers to the request entity.
+	 *
 	 * @param <B> the builder subclass
 	 */
 	public interface HeadersBuilder<B extends HeadersBuilder<B>> {
 
 		/**
 		 * Add the given, single header value under the given name.
-		 * @param headerName  the header name
+		 * @param headerName the header name
 		 * @param headerValues the header value(s)
 		 * @return this builder
 		 * @see HttpHeaders#add(String, String)
@@ -332,8 +331,8 @@ public class RequestEntity<T> extends HttpEntity<T> {
 		B headers(@Nullable HttpHeaders headers);
 
 		/**
-		 * Manipulate this entity's headers with the given consumer. The
-		 * headers provided to the consumer are "live", so that the consumer can be used to
+		 * Manipulate this entity's headers with the given consumer. The headers provided
+		 * to the consumer are "live", so that the consumer can be used to
 		 * {@linkplain HttpHeaders#set(String, String) overwrite} existing header values,
 		 * {@linkplain HttpHeaders#remove(Object) remove} values, or use any of the other
 		 * {@link HttpHeaders} methods.
@@ -344,15 +343,15 @@ public class RequestEntity<T> extends HttpEntity<T> {
 		B headers(Consumer<HttpHeaders> headersConsumer);
 
 		/**
-		 * Set the list of acceptable {@linkplain MediaType media types}, as
-		 * specified by the {@code Accept} header.
+		 * Set the list of acceptable {@linkplain MediaType media types}, as specified by
+		 * the {@code Accept} header.
 		 * @param acceptableMediaTypes the acceptable media types
 		 */
 		B accept(MediaType... acceptableMediaTypes);
 
 		/**
-		 * Set the list of acceptable {@linkplain Charset charsets}, as specified
-		 * by the {@code Accept-Charset} header.
+		 * Set the list of acceptable {@linkplain Charset charsets}, as specified by the
+		 * {@code Accept-Charset} header.
 		 * @param acceptableCharsets the acceptable charsets
 		 */
 		B acceptCharset(Charset... acceptableCharsets);
@@ -373,8 +372,9 @@ public class RequestEntity<T> extends HttpEntity<T> {
 
 		/**
 		 * Set the value of the {@code If-Modified-Since} header.
-		 * <p>The date should be specified as the number of milliseconds since
-		 * January 1, 1970 GMT.
+		 * <p>
+		 * The date should be specified as the number of milliseconds since January 1,
+		 * 1970 GMT.
 		 * @param ifModifiedSince the new value of the header
 		 */
 		B ifModifiedSince(long ifModifiedSince);
@@ -391,8 +391,8 @@ public class RequestEntity<T> extends HttpEntity<T> {
 		 * @see BodyBuilder#body(Object)
 		 */
 		RequestEntity<Void> build();
-	}
 
+	}
 
 	/**
 	 * Defines a builder that adds a body to the response entity.
@@ -400,8 +400,8 @@ public class RequestEntity<T> extends HttpEntity<T> {
 	public interface BodyBuilder extends HeadersBuilder<BodyBuilder> {
 
 		/**
-		 * Set the length of the body in bytes, as specified by the
-		 * {@code Content-Length} header.
+		 * Set the length of the body in bytes, as specified by the {@code Content-Length}
+		 * header.
 		 * @param contentLength the content length
 		 * @return this builder
 		 * @see HttpHeaders#setContentLength(long)
@@ -409,8 +409,8 @@ public class RequestEntity<T> extends HttpEntity<T> {
 		BodyBuilder contentLength(long contentLength);
 
 		/**
-		 * Set the {@linkplain MediaType media type} of the body, as specified
-		 * by the {@code Content-Type} header.
+		 * Set the {@linkplain MediaType media type} of the body, as specified by the
+		 * {@code Content-Type} header.
 		 * @param contentType the content type
 		 * @return this builder
 		 * @see HttpHeaders#setContentType(MediaType)
@@ -434,8 +434,8 @@ public class RequestEntity<T> extends HttpEntity<T> {
 		 * @since 4.3
 		 */
 		<T> RequestEntity<T> body(T body, Type type);
-	}
 
+	}
 
 	private static class DefaultBodyBuilder implements BodyBuilder {
 
@@ -534,6 +534,7 @@ public class RequestEntity<T> extends HttpEntity<T> {
 		public <T> RequestEntity<T> body(T body, Type type) {
 			return new RequestEntity<>(body, this.headers, this.method, this.url, type);
 		}
+
 	}
 
 }

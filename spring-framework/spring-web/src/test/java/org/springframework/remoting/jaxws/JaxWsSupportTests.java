@@ -102,20 +102,18 @@ public class JaxWsSupportTests {
 
 			String order = orderService.getOrder(1000);
 			assertThat(order).isEqualTo("order 1000");
-			assertThatExceptionOfType(Exception.class).isThrownBy(() ->
-					orderService.getOrder(0))
-				.matches(ex -> ex instanceof OrderNotFoundException ||
-						ex instanceof RemoteAccessException);
-			// ignore RemoteAccessException as probably setup issue with JAX-WS provider vs JAXB
+			assertThatExceptionOfType(Exception.class).isThrownBy(() -> orderService.getOrder(0))
+					.matches(ex -> ex instanceof OrderNotFoundException || ex instanceof RemoteAccessException);
+			// ignore RemoteAccessException as probably setup issue with JAX-WS provider
+			// vs JAXB
 
 			ServiceAccessor serviceAccessor = ac.getBean("accessor", ServiceAccessor.class);
 			order = serviceAccessor.orderService.getOrder(1000);
 			assertThat(order).isEqualTo("order 1000");
-			assertThatExceptionOfType(Exception.class).isThrownBy(() ->
-					serviceAccessor.orderService.getOrder(0))
-				.matches(ex -> ex instanceof OrderNotFoundException ||
-							ex instanceof WebServiceException);
-			// ignore WebServiceException as probably setup issue with JAX-WS provider vs JAXB
+			assertThatExceptionOfType(Exception.class).isThrownBy(() -> serviceAccessor.orderService.getOrder(0))
+					.matches(ex -> ex instanceof OrderNotFoundException || ex instanceof WebServiceException);
+			// ignore WebServiceException as probably setup issue with JAX-WS provider vs
+			// JAXB
 		}
 		catch (BeanCreationException ex) {
 			if ("exporter".equals(ex.getBeanName()) && ex.getRootCause() instanceof ClassNotFoundException) {
@@ -130,7 +128,6 @@ public class JaxWsSupportTests {
 		}
 	}
 
-
 	public static class ServiceAccessor {
 
 		@WebServiceRef
@@ -142,10 +139,10 @@ public class JaxWsSupportTests {
 		public void setMyService(OrderService myService) {
 			this.myService = myService;
 		}
+
 	}
 
-
-	@WebServiceClient(targetNamespace = "http://jaxws.remoting.springframework.org/", name="OrderService")
+	@WebServiceClient(targetNamespace = "http://jaxws.remoting.springframework.org/", name = "OrderService")
 	public static class OrderServiceService extends Service {
 
 		public OrderServiceService() throws MalformedURLException {
@@ -156,6 +153,7 @@ public class JaxWsSupportTests {
 		public OrderServiceService(URL wsdlDocumentLocation, QName serviceName) {
 			super(wsdlDocumentLocation, serviceName);
 		}
+
 	}
 
 }

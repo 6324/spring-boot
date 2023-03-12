@@ -26,8 +26,8 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.lang.Nullable;
 
 /**
- * A convenient base class for {@code ResponseBodyAdvice} implementations
- * that customize the response before JSON serialization with
+ * A convenient base class for {@code ResponseBodyAdvice} implementations that customize
+ * the response before JSON serialization with
  * {@link AbstractJackson2HttpMessageConverter}'s concrete subclasses.
  *
  * @author Rossen Stoyanchev
@@ -43,9 +43,9 @@ public abstract class AbstractMappingJacksonResponseBodyAdvice implements Respon
 
 	@Override
 	@Nullable
-	public final Object beforeBodyWrite(@Nullable Object body, MethodParameter returnType,
-			MediaType contentType, Class<? extends HttpMessageConverter<?>> converterType,
-			ServerHttpRequest request, ServerHttpResponse response) {
+	public final Object beforeBodyWrite(@Nullable Object body, MethodParameter returnType, MediaType contentType,
+			Class<? extends HttpMessageConverter<?>> converterType, ServerHttpRequest request,
+			ServerHttpResponse response) {
 
 		if (body == null) {
 			return null;

@@ -25,8 +25,8 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebHandler;
 
 /**
- * {@link WebHandlerDecorator} that invokes a chain of {@link WebFilter WebFilters}
- * before invoking the delegate {@link WebHandler}.
+ * {@link WebHandlerDecorator} that invokes a chain of {@link WebFilter WebFilters} before
+ * invoking the delegate {@link WebHandler}.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -34,7 +34,6 @@ import org.springframework.web.server.WebHandler;
 public class FilteringWebHandler extends WebHandlerDecorator {
 
 	private final DefaultWebFilterChain chain;
-
 
 	/**
 	 * Constructor.
@@ -45,14 +44,12 @@ public class FilteringWebHandler extends WebHandlerDecorator {
 		this.chain = new DefaultWebFilterChain(handler, filters);
 	}
 
-
 	/**
 	 * Return a read-only list of the configured filters.
 	 */
 	public List<WebFilter> getFilters() {
 		return this.chain.getFilters();
 	}
-
 
 	@Override
 	public Mono<Void> handle(ServerWebExchange exchange) {

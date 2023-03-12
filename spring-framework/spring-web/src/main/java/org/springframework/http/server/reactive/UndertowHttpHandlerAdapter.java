@@ -42,17 +42,14 @@ public class UndertowHttpHandlerAdapter implements io.undertow.server.HttpHandle
 
 	private static final Log logger = HttpLogging.forLogName(UndertowHttpHandlerAdapter.class);
 
-
 	private final HttpHandler httpHandler;
 
 	private DataBufferFactory bufferFactory = new DefaultDataBufferFactory(false);
-
 
 	public UndertowHttpHandlerAdapter(HttpHandler httpHandler) {
 		Assert.notNull(httpHandler, "HttpHandler must not be null");
 		this.httpHandler = httpHandler;
 	}
-
 
 	public void setDataBufferFactory(DataBufferFactory bufferFactory) {
 		Assert.notNull(bufferFactory, "DataBufferFactory must not be null");
@@ -62,7 +59,6 @@ public class UndertowHttpHandlerAdapter implements io.undertow.server.HttpHandle
 	public DataBufferFactory getDataBufferFactory() {
 		return this.bufferFactory;
 	}
-
 
 	@Override
 	public void handleRequest(HttpServerExchange exchange) {
@@ -87,13 +83,11 @@ public class UndertowHttpHandlerAdapter implements io.undertow.server.HttpHandle
 		this.httpHandler.handle(request, response).subscribe(resultSubscriber);
 	}
 
-
 	private class HandlerResultSubscriber implements Subscriber<Void> {
 
 		private final HttpServerExchange exchange;
 
 		private final String logPrefix;
-
 
 		public HandlerResultSubscriber(HttpServerExchange exchange, UndertowServerHttpRequest request) {
 			this.exchange = exchange;
@@ -134,6 +128,7 @@ public class UndertowHttpHandlerAdapter implements io.undertow.server.HttpHandle
 			logger.trace(this.logPrefix + "Handling completed");
 			this.exchange.endExchange();
 		}
+
 	}
 
 }

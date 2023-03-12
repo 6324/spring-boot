@@ -45,13 +45,13 @@ public abstract class CorsUtils {
 	}
 
 	/**
-	 * Returns {@code true} if the request is a valid CORS pre-flight one by checking {code OPTIONS} method with
-	 * {@code Origin} and {@code Access-Control-Request-Method} headers presence.
+	 * Returns {@code true} if the request is a valid CORS pre-flight one by checking
+	 * {code OPTIONS} method with {@code Origin} and {@code Access-Control-Request-Method}
+	 * headers presence.
 	 */
 	public static boolean isPreFlightRequest(ServerHttpRequest request) {
 		HttpHeaders headers = request.getHeaders();
-		return (request.getMethod() == HttpMethod.OPTIONS
-				&& headers.containsKey(HttpHeaders.ORIGIN)
+		return (request.getMethod() == HttpMethod.OPTIONS && headers.containsKey(HttpHeaders.ORIGIN)
 				&& headers.containsKey(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD));
 	}
 
@@ -59,14 +59,15 @@ public abstract class CorsUtils {
 	 * Check if the request is a same-origin one, based on {@code Origin}, and
 	 * {@code Host} headers.
 	 *
-	 * <p><strong>Note:</strong> as of 5.1 this method ignores
-	 * {@code "Forwarded"} and {@code "X-Forwarded-*"} headers that specify the
-	 * client-originated address. Consider using the {@code ForwardedHeaderFilter}
-	 * to extract and use, or to discard such headers.
-	 *
-	 * @return {@code true} if the request is a same-origin one, {@code false} in case
-	 * of a cross-origin request
-	 * @deprecated as of 5.2, same-origin checks are performed directly by {@link #isCorsRequest}
+	 * <p>
+	 * <strong>Note:</strong> as of 5.1 this method ignores {@code "Forwarded"} and
+	 * {@code "X-Forwarded-*"} headers that specify the client-originated address.
+	 * Consider using the {@code ForwardedHeaderFilter} to extract and use, or to discard
+	 * such headers.
+	 * @return {@code true} if the request is a same-origin one, {@code false} in case of
+	 * a cross-origin request
+	 * @deprecated as of 5.2, same-origin checks are performed directly by
+	 * {@link #isCorsRequest}
 	 */
 	@Deprecated
 	public static boolean isSameOrigin(ServerHttpRequest request) {
@@ -84,9 +85,8 @@ public abstract class CorsUtils {
 		Assert.isTrue(actualPort != -1, "Actual request port must not be undefined");
 
 		UriComponents originUrl = UriComponentsBuilder.fromOriginHeader(origin).build();
-		return (actualScheme.equals(originUrl.getScheme()) &&
-				actualHost.equals(originUrl.getHost()) &&
-				actualPort == getPort(originUrl.getScheme(), originUrl.getPort()));
+		return (actualScheme.equals(originUrl.getScheme()) && actualHost.equals(originUrl.getHost())
+				&& actualPort == getPort(originUrl.getScheme(), originUrl.getPort()));
 	}
 
 	private static int getPort(@Nullable String scheme, int port) {

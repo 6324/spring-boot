@@ -22,15 +22,15 @@ import org.springframework.lang.Nullable;
 
 /**
  * A simple holder for the POJO to serialize via
- * {@link MappingJackson2HttpMessageConverter} along with further
- * serialization instructions to be passed in to the converter.
+ * {@link MappingJackson2HttpMessageConverter} along with further serialization
+ * instructions to be passed in to the converter.
  *
- * <p>On the server side this wrapper is added with a
- * {@code ResponseBodyInterceptor} after content negotiation selects the
- * converter to use but before the write.
+ * <p>
+ * On the server side this wrapper is added with a {@code ResponseBodyInterceptor} after
+ * content negotiation selects the converter to use but before the write.
  *
- * <p>On the client side, simply wrap the POJO and pass it in to the
- * {@code RestTemplate}.
+ * <p>
+ * On the client side, simply wrap the POJO and pass it in to the {@code RestTemplate}.
  *
  * @author Rossen Stoyanchev
  * @since 4.1
@@ -45,7 +45,6 @@ public class MappingJacksonValue {
 	@Nullable
 	private FilterProvider filters;
 
-
 	/**
 	 * Create a new instance wrapping the given POJO to be serialized.
 	 * @param value the Object to be serialized
@@ -53,7 +52,6 @@ public class MappingJacksonValue {
 	public MappingJacksonValue(Object value) {
 		this.value = value;
 	}
-
 
 	/**
 	 * Modify the POJO to serialize.

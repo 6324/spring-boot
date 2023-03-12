@@ -57,10 +57,10 @@ public class RequestParamMapMethodArgumentResolverTests {
 
 	private ResolvableMethod testMethod = ResolvableMethod.on(getClass()).named("handle").build();
 
-
 	@Test
 	public void supportsParameter() {
-		MethodParameter param = this.testMethod.annot(requestParam().noName()).arg(Map.class, String.class, String.class);
+		MethodParameter param = this.testMethod.annot(requestParam().noName()).arg(Map.class, String.class,
+				String.class);
 		assertThat(resolver.supportsParameter(param)).isTrue();
 
 		param = this.testMethod.annotPresent(RequestParam.class).arg(MultiValueMap.class, String.class, String.class);
@@ -80,7 +80,8 @@ public class RequestParamMapMethodArgumentResolverTests {
 		request.addParameter(name, value);
 		Map<String, String> expected = Collections.singletonMap(name, value);
 
-		MethodParameter param = this.testMethod.annot(requestParam().noName()).arg(Map.class, String.class, String.class);
+		MethodParameter param = this.testMethod.annot(requestParam().noName()).arg(Map.class, String.class,
+				String.class);
 		Object result = resolver.resolveArgument(param, null, webRequest, null);
 
 		boolean condition = result instanceof Map;
@@ -99,7 +100,8 @@ public class RequestParamMapMethodArgumentResolverTests {
 		expected.add(name, value1);
 		expected.add(name, value2);
 
-		MethodParameter param = this.testMethod.annotPresent(RequestParam.class).arg(MultiValueMap.class, String.class, String.class);
+		MethodParameter param = this.testMethod.annotPresent(RequestParam.class).arg(MultiValueMap.class, String.class,
+				String.class);
 		Object result = resolver.resolveArgument(param, null, webRequest, null);
 
 		boolean condition = result instanceof MultiValueMap;
@@ -117,7 +119,8 @@ public class RequestParamMapMethodArgumentResolverTests {
 		request.addFile(expected2);
 		webRequest = new ServletWebRequest(request);
 
-		MethodParameter param = this.testMethod.annot(requestParam().noName()).arg(Map.class, String.class, MultipartFile.class);
+		MethodParameter param = this.testMethod.annot(requestParam().noName()).arg(Map.class, String.class,
+				MultipartFile.class);
 		Object result = resolver.resolveArgument(param, null, webRequest, null);
 
 		boolean condition = result instanceof Map;
@@ -140,7 +143,8 @@ public class RequestParamMapMethodArgumentResolverTests {
 		request.addFile(expected3);
 		webRequest = new ServletWebRequest(request);
 
-		MethodParameter param = this.testMethod.annot(requestParam().noName()).arg(MultiValueMap.class, String.class, MultipartFile.class);
+		MethodParameter param = this.testMethod.annot(requestParam().noName()).arg(MultiValueMap.class, String.class,
+				MultipartFile.class);
 		Object result = resolver.resolveArgument(param, null, webRequest, null);
 
 		boolean condition = result instanceof MultiValueMap;
@@ -189,7 +193,8 @@ public class RequestParamMapMethodArgumentResolverTests {
 		request.addPart(expected3);
 		webRequest = new ServletWebRequest(request);
 
-		MethodParameter param = this.testMethod.annot(requestParam().noName()).arg(MultiValueMap.class, String.class, Part.class);
+		MethodParameter param = this.testMethod.annot(requestParam().noName()).arg(MultiValueMap.class, String.class,
+				Part.class);
 		Object result = resolver.resolveArgument(param, null, webRequest, null);
 
 		boolean condition = result instanceof MultiValueMap;
@@ -203,16 +208,10 @@ public class RequestParamMapMethodArgumentResolverTests {
 		assertThat(resultMap.get("other").get(0)).isEqualTo(expected3);
 	}
 
-
-	public void handle(
-			@RequestParam Map<String, String> param1,
-			@RequestParam MultiValueMap<String, String> param2,
-			@RequestParam Map<String, MultipartFile> param3,
-			@RequestParam MultiValueMap<String, MultipartFile> param4,
-			@RequestParam Map<String, Part> param5,
-			@RequestParam MultiValueMap<String, Part> param6,
-			@RequestParam("name") Map<String, String> param7,
-			Map<String, String> param8) {
+	public void handle(@RequestParam Map<String, String> param1, @RequestParam MultiValueMap<String, String> param2,
+			@RequestParam Map<String, MultipartFile> param3, @RequestParam MultiValueMap<String, MultipartFile> param4,
+			@RequestParam Map<String, Part> param5, @RequestParam MultiValueMap<String, Part> param6,
+			@RequestParam("name") Map<String, String> param7, Map<String, String> param8) {
 	}
 
 }

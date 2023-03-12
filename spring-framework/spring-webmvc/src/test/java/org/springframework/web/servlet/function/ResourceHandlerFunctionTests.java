@@ -70,7 +70,6 @@ public class ResourceHandlerFunctionTests {
 		};
 	}
 
-
 	@Test
 	public void get() throws IOException, ServletException {
 		MockHttpServletRequest servletRequest = new MockHttpServletRequest("GET", "/");
@@ -162,7 +161,6 @@ public class ResourceHandlerFunctionTests {
 		EntityResponse<Resource> entityResponse = (EntityResponse<Resource>) response;
 		assertThat(entityResponse.entity().getFilename()).isEqualTo(this.resource.getFilename());
 
-
 		MockHttpServletResponse servletResponse = new MockHttpServletResponse();
 		ModelAndView mav = response.writeTo(servletRequest, servletResponse, this.context);
 		assertThat(mav).isNull();
@@ -174,7 +172,6 @@ public class ResourceHandlerFunctionTests {
 		assertThat(servletResponse.getContentLength()).isEqualTo(this.resource.contentLength());
 	}
 
-
 	@Test
 	public void options() throws ServletException, IOException {
 		MockHttpServletRequest servletRequest = new MockHttpServletRequest("OPTIONS", "/");
@@ -182,7 +179,8 @@ public class ResourceHandlerFunctionTests {
 
 		ServerResponse response = this.handlerFunction.handle(request);
 		assertThat(response.statusCode()).isEqualTo(HttpStatus.OK);
-		assertThat(response.headers().getAllow()).isEqualTo(EnumSet.of(HttpMethod.GET, HttpMethod.HEAD, HttpMethod.OPTIONS));
+		assertThat(response.headers().getAllow())
+				.isEqualTo(EnumSet.of(HttpMethod.GET, HttpMethod.HEAD, HttpMethod.OPTIONS));
 
 		MockHttpServletResponse servletResponse = new MockHttpServletResponse();
 		ModelAndView mav = response.writeTo(servletRequest, servletResponse, this.context);
@@ -193,6 +191,5 @@ public class ResourceHandlerFunctionTests {
 		byte[] actualBytes = servletResponse.getContentAsByteArray();
 		assertThat(actualBytes.length).isEqualTo(0);
 	}
-
 
 }

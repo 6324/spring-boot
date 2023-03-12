@@ -44,10 +44,10 @@ import org.springframework.util.CommonsLogWriter;
 /**
  * General stream-based protocol exporter for a Hessian endpoint.
  *
- * <p>Hessian is a slim, binary RPC protocol.
- * For information on Hessian, see the
- * <a href="http://hessian.caucho.com">Hessian website</a>.
- * <b>Note: As of Spring 4.0, this exporter requires Hessian 4.0 or above.</b>
+ * <p>
+ * Hessian is a slim, binary RPC protocol. For information on Hessian, see the
+ * <a href="http://hessian.caucho.com">Hessian website</a>. <b>Note: As of Spring 4.0,
+ * this exporter requires Hessian 4.0 or above.</b>
  *
  * @author Juergen Hoeller
  * @since 2.5.1
@@ -61,7 +61,6 @@ public class HessianExporter extends RemoteExporter implements InitializingBean 
 	 */
 	public static final String CONTENT_TYPE_HESSIAN = "application/x-hessian";
 
-
 	private SerializerFactory serializerFactory = new SerializerFactory();
 
 	@Nullable
@@ -73,50 +72,49 @@ public class HessianExporter extends RemoteExporter implements InitializingBean 
 	@Nullable
 	private HessianSkeleton skeleton;
 
-
 	/**
 	 * Specify the Hessian SerializerFactory to use.
-	 * <p>This will typically be passed in as an inner bean definition
-	 * of type {@code com.caucho.hessian.io.SerializerFactory},
-	 * with custom bean property values applied.
+	 * <p>
+	 * This will typically be passed in as an inner bean definition of type
+	 * {@code com.caucho.hessian.io.SerializerFactory}, with custom bean property values
+	 * applied.
 	 */
 	public void setSerializerFactory(@Nullable SerializerFactory serializerFactory) {
 		this.serializerFactory = (serializerFactory != null ? serializerFactory : new SerializerFactory());
 	}
 
 	/**
-	 * Set whether to send the Java collection type for each serialized
-	 * collection. Default is "true".
+	 * Set whether to send the Java collection type for each serialized collection.
+	 * Default is "true".
 	 */
 	public void setSendCollectionType(boolean sendCollectionType) {
 		this.serializerFactory.setSendCollectionType(sendCollectionType);
 	}
 
 	/**
-	 * Set whether to allow non-serializable types as Hessian arguments
-	 * and return values. Default is "true".
+	 * Set whether to allow non-serializable types as Hessian arguments and return values.
+	 * Default is "true".
 	 */
 	public void setAllowNonSerializable(boolean allowNonSerializable) {
 		this.serializerFactory.setAllowNonSerializable(allowNonSerializable);
 	}
 
 	/**
-	 * Specify a custom HessianRemoteResolver to use for resolving remote
-	 * object references.
+	 * Specify a custom HessianRemoteResolver to use for resolving remote object
+	 * references.
 	 */
 	public void setRemoteResolver(HessianRemoteResolver remoteResolver) {
 		this.remoteResolver = remoteResolver;
 	}
 
 	/**
-	 * Set whether Hessian's debug mode should be enabled, logging to
-	 * this exporter's Commons Logging log. Default is "false".
+	 * Set whether Hessian's debug mode should be enabled, logging to this exporter's
+	 * Commons Logging log. Default is "false".
 	 * @see com.caucho.hessian.client.HessianProxyFactory#setDebug
 	 */
 	public void setDebug(boolean debug) {
 		this.debugLogger = (debug ? logger : null);
 	}
-
 
 	@Override
 	public void afterPropertiesSet() {
@@ -131,7 +129,6 @@ public class HessianExporter extends RemoteExporter implements InitializingBean 
 		checkServiceInterface();
 		this.skeleton = new HessianSkeleton(getProxyForService(), getServiceInterface());
 	}
-
 
 	/**
 	 * Perform an invocation on the exported object.
@@ -160,7 +157,7 @@ public class HessianExporter extends RemoteExporter implements InitializingBean 
 			OutputStream osToUse = outputStream;
 
 			if (this.debugLogger != null && this.debugLogger.isDebugEnabled()) {
-				try (PrintWriter debugWriter = new PrintWriter(new CommonsLogWriter(this.debugLogger))){
+				try (PrintWriter debugWriter = new PrintWriter(new CommonsLogWriter(this.debugLogger))) {
 					@SuppressWarnings("resource")
 					HessianDebugInputStream dis = new HessianDebugInputStream(inputStream, debugWriter);
 					@SuppressWarnings("resource")
@@ -215,7 +212,8 @@ public class HessianExporter extends RemoteExporter implements InitializingBean 
 				}
 			}
 			else {
-				throw new IOException("Expected 'H'/'C' (Hessian 2.0) or 'c' (Hessian 1.0) in hessian input at " + code);
+				throw new IOException(
+						"Expected 'H'/'C' (Hessian 2.0) or 'c' (Hessian 1.0) in hessian input at " + code);
 			}
 
 			in.setSerializerFactory(this.serializerFactory);

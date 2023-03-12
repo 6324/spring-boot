@@ -37,7 +37,6 @@ class DeferredResultInterceptorChain {
 
 	private int preProcessingIndex = -1;
 
-
 	public DeferredResultInterceptorChain(List<DeferredResultProcessingInterceptor> interceptors) {
 		this.interceptors = interceptors;
 	}
@@ -57,7 +56,7 @@ class DeferredResultInterceptorChain {
 		}
 	}
 
-	public Object applyPostProcess(NativeWebRequest request,  DeferredResult<?> deferredResult,
+	public Object applyPostProcess(NativeWebRequest request, DeferredResult<?> deferredResult,
 			Object concurrentResult) {
 
 		try {
@@ -76,7 +75,7 @@ class DeferredResultInterceptorChain {
 			if (deferredResult.isSetOrExpired()) {
 				return;
 			}
-			if (!interceptor.handleTimeout(request, deferredResult)){
+			if (!interceptor.handleTimeout(request, deferredResult)) {
 				break;
 			}
 		}
@@ -94,7 +93,7 @@ class DeferredResultInterceptorChain {
 			if (deferredResult.isSetOrExpired()) {
 				return false;
 			}
-			if (!interceptor.handleError(request, deferredResult, ex)){
+			if (!interceptor.handleError(request, deferredResult, ex)) {
 				return false;
 			}
 		}

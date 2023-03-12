@@ -47,12 +47,10 @@ public class SpringWildcardServletTilesApplicationContext extends ServletApplica
 
 	private final ResourcePatternResolver resolver;
 
-
 	public SpringWildcardServletTilesApplicationContext(ServletContext servletContext) {
 		super(servletContext);
 		this.resolver = new ServletContextResourcePatternResolver(servletContext);
 	}
-
 
 	@Override
 	@Nullable

@@ -17,8 +17,8 @@
 package org.springframework.web.util;
 
 /**
- * Helper for decoding HTML Strings by replacing character
- * entity references with the referred character.
+ * Helper for decoding HTML Strings by replacing character entity references with the
+ * referred character.
  *
  * @author Juergen Hoeller
  * @author Martin Kersten
@@ -27,7 +27,6 @@ package org.springframework.web.util;
 class HtmlCharacterEntityDecoder {
 
 	private static final int MAX_REFERENCE_SIZE = 10;
-
 
 	private final HtmlCharacterEntityReferences characterEntityReferences;
 
@@ -41,13 +40,11 @@ class HtmlCharacterEntityDecoder {
 
 	private int nextSemicolonPosition = -2;
 
-
 	public HtmlCharacterEntityDecoder(HtmlCharacterEntityReferences characterEntityReferences, String original) {
 		this.characterEntityReferences = characterEntityReferences;
 		this.originalMessage = original;
 		this.decodedMessage = new StringBuilder(original.length());
 	}
-
 
 	public String decode() {
 		while (this.currentPosition < this.originalMessage.length()) {
@@ -62,17 +59,16 @@ class HtmlCharacterEntityDecoder {
 		this.nextPotentialReferencePosition = Math.max(startPosition, this.nextSemicolonPosition - MAX_REFERENCE_SIZE);
 
 		do {
-			this.nextPotentialReferencePosition =
-					this.originalMessage.indexOf('&', this.nextPotentialReferencePosition);
+			this.nextPotentialReferencePosition = this.originalMessage.indexOf('&',
+					this.nextPotentialReferencePosition);
 
-			if (this.nextSemicolonPosition != -1 &&
-					this.nextSemicolonPosition < this.nextPotentialReferencePosition) {
+			if (this.nextSemicolonPosition != -1 && this.nextSemicolonPosition < this.nextPotentialReferencePosition) {
 				this.nextSemicolonPosition = this.originalMessage.indexOf(';', this.nextPotentialReferencePosition + 1);
 			}
 
-			boolean isPotentialReference = (this.nextPotentialReferencePosition != -1 &&
-					this.nextSemicolonPosition != -1 &&
-					this.nextPotentialReferencePosition - this.nextSemicolonPosition < MAX_REFERENCE_SIZE);
+			boolean isPotentialReference = (this.nextPotentialReferencePosition != -1
+					&& this.nextSemicolonPosition != -1
+					&& this.nextPotentialReferencePosition - this.nextSemicolonPosition < MAX_REFERENCE_SIZE);
 
 			if (isPotentialReference) {
 				break;
@@ -92,8 +88,8 @@ class HtmlCharacterEntityDecoder {
 
 	private void copyCharactersTillPotentialReference() {
 		if (this.nextPotentialReferencePosition != this.currentPosition) {
-			int skipUntilIndex = (this.nextPotentialReferencePosition != -1 ?
-					this.nextPotentialReferencePosition : this.originalMessage.length());
+			int skipUntilIndex = (this.nextPotentialReferencePosition != -1 ? this.nextPotentialReferencePosition
+					: this.originalMessage.length());
 			if (skipUntilIndex - this.currentPosition > 3) {
 				this.decodedMessage.append(this.originalMessage, this.currentPosition, skipUntilIndex);
 				this.currentPosition = skipUntilIndex;
@@ -125,9 +121,8 @@ class HtmlCharacterEntityDecoder {
 		char referenceChar = this.originalMessage.charAt(this.nextPotentialReferencePosition + 2);
 		boolean isHexNumberedReference = (referenceChar == 'x' || referenceChar == 'X');
 		try {
-			int value = (!isHexNumberedReference ?
-					Integer.parseInt(getReferenceSubstring(2)) :
-					Integer.parseInt(getReferenceSubstring(3), 16));
+			int value = (!isHexNumberedReference ? Integer.parseInt(getReferenceSubstring(2))
+					: Integer.parseInt(getReferenceSubstring(3), 16));
 			this.decodedMessage.append((char) value);
 			return true;
 		}
@@ -147,8 +142,8 @@ class HtmlCharacterEntityDecoder {
 	}
 
 	private String getReferenceSubstring(int referenceOffset) {
-		return this.originalMessage.substring(
-				this.nextPotentialReferencePosition + referenceOffset, this.nextSemicolonPosition);
+		return this.originalMessage.substring(this.nextPotentialReferencePosition + referenceOffset,
+				this.nextSemicolonPosition);
 	}
 
 }

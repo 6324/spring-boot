@@ -29,7 +29,8 @@ import org.springframework.web.util.UrlPathHelper;
 import org.springframework.web.util.WebUtils;
 
 /**
- * An {@link org.springframework.web.method.annotation.AbstractCookieValueMethodArgumentResolver}
+ * An
+ * {@link org.springframework.web.method.annotation.AbstractCookieValueMethodArgumentResolver}
  * that resolves cookie values from an {@link HttpServletRequest}.
  *
  * @author Rossen Stoyanchev
@@ -39,21 +40,18 @@ public class ServletCookieValueMethodArgumentResolver extends AbstractCookieValu
 
 	private UrlPathHelper urlPathHelper = UrlPathHelper.defaultInstance;
 
-
 	public ServletCookieValueMethodArgumentResolver(@Nullable ConfigurableBeanFactory beanFactory) {
 		super(beanFactory);
 	}
-
 
 	public void setUrlPathHelper(UrlPathHelper urlPathHelper) {
 		this.urlPathHelper = urlPathHelper;
 	}
 
-
 	@Override
 	@Nullable
-	protected Object resolveName(String cookieName, MethodParameter parameter,
-			NativeWebRequest webRequest) throws Exception {
+	protected Object resolveName(String cookieName, MethodParameter parameter, NativeWebRequest webRequest)
+			throws Exception {
 
 		HttpServletRequest servletRequest = webRequest.getNativeRequest(HttpServletRequest.class);
 		Assert.state(servletRequest != null, "No HttpServletRequest");

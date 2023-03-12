@@ -54,11 +54,10 @@ import static org.mockito.Mockito.mock;
  */
 public class MultipartHttpMessageWriterTests extends AbstractLeakCheckingTests {
 
-	private final MultipartHttpMessageWriter writer =
-			new MultipartHttpMessageWriter(ClientCodecConfigurer.create().getWriters());
+	private final MultipartHttpMessageWriter writer = new MultipartHttpMessageWriter(
+			ClientCodecConfigurer.create().getWriters());
 
 	private final MockServerHttpResponse response = new MockServerHttpResponse(this.bufferFactory);
-
 
 	@Test
 	public void canWrite() {
@@ -78,8 +77,7 @@ public class MultipartHttpMessageWriterTests extends AbstractLeakCheckingTests {
 				ResolvableType.forClassWithGenerics(MultiValueMap.class, String.class, Object.class),
 				MediaType.APPLICATION_FORM_URLENCODED)).isTrue();
 
-		assertThat(this.writer.canWrite(
-				ResolvableType.forClassWithGenerics(Map.class, String.class, Object.class),
+		assertThat(this.writer.canWrite(ResolvableType.forClassWithGenerics(Map.class, String.class, Object.class),
 				MediaType.MULTIPART_FORM_DATA)).isFalse();
 	}
 
@@ -94,11 +92,9 @@ public class MultipartHttpMessageWriterTests extends AbstractLeakCheckingTests {
 			}
 		};
 
-		Flux<DataBuffer> bufferPublisher = Flux.just(
-				this.bufferFactory.wrap("Aa".getBytes(StandardCharsets.UTF_8)),
+		Flux<DataBuffer> bufferPublisher = Flux.just(this.bufferFactory.wrap("Aa".getBytes(StandardCharsets.UTF_8)),
 				this.bufferFactory.wrap("Bb".getBytes(StandardCharsets.UTF_8)),
-				this.bufferFactory.wrap("Cc".getBytes(StandardCharsets.UTF_8))
-		);
+				this.bufferFactory.wrap("Cc".getBytes(StandardCharsets.UTF_8)));
 		FilePart mockPart = mock(FilePart.class);
 		given(mockPart.content()).willReturn(bufferPublisher);
 		given(mockPart.filename()).willReturn("file.txt");
@@ -185,8 +181,7 @@ public class MultipartHttpMessageWriterTests extends AbstractLeakCheckingTests {
 		Mono<MultiValueMap<String, HttpEntity<?>>> result = Mono.just(bodyBuilder.build());
 
 		Map<String, Object> hints = Collections.emptyMap();
-		this.writer.write(result, null, mediaType, this.response, hints)
-				.block(Duration.ofSeconds(5));
+		this.writer.write(result, null, mediaType, this.response, hints).block(Duration.ofSeconds(5));
 
 		MediaType contentType = this.response.getHeaders().getContentType();
 		assertThat(contentType).isNotNull();
@@ -203,12 +198,11 @@ public class MultipartHttpMessageWriterTests extends AbstractLeakCheckingTests {
 
 	@SuppressWarnings("ConstantConditions")
 	private String decodeToString(Part part) {
-		return StringDecoder.textPlainOnly().decodeToMono(part.content(),
-					ResolvableType.forClass(String.class), MediaType.TEXT_PLAIN,
-					Collections.emptyMap()).block(Duration.ZERO);
+		return StringDecoder.textPlainOnly().decodeToMono(part.content(), ResolvableType.forClass(String.class),
+				MediaType.TEXT_PLAIN, Collections.emptyMap()).block(Duration.ZERO);
 	}
 
-	@Test  // SPR-16402
+	@Test // SPR-16402
 	public void singleSubscriberWithResource() throws IOException {
 		UnicastProcessor<Resource> processor = UnicastProcessor.create();
 		Resource logo = new ClassPathResource("/org/springframework/http/converter/logo.jpg");
@@ -251,27 +245,24 @@ public class MultipartHttpMessageWriterTests extends AbstractLeakCheckingTests {
 		this.response.getBodyAsString().block(Duration.ofSeconds(5));
 	}
 
-	@Test  // SPR-16376
+	@Test // SPR-16376
 	public void customContentDisposition() throws IOException {
 		Resource logo = new ClassPathResource("/org/springframework/http/converter/logo.jpg");
 		Flux<DataBuffer> buffers = DataBufferUtils.read(logo, new DefaultDataBufferFactory(), 1024);
 		long contentLength = logo.contentLength();
 
 		MultipartBodyBuilder bodyBuilder = new MultipartBodyBuilder();
-		bodyBuilder.part("resource", logo)
-				.headers(h -> h.setContentDispositionFormData("resource", "spring.jpg"));
-		bodyBuilder.asyncPart("buffers", buffers, DataBuffer.class)
-				.headers(h -> {
-					h.setContentDispositionFormData("buffers", "buffers.jpg");
-					h.setContentType(MediaType.IMAGE_JPEG);
-					h.setContentLength(contentLength);
-				});
+		bodyBuilder.part("resource", logo).headers(h -> h.setContentDispositionFormData("resource", "spring.jpg"));
+		bodyBuilder.asyncPart("buffers", buffers, DataBuffer.class).headers(h -> {
+			h.setContentDispositionFormData("buffers", "buffers.jpg");
+			h.setContentType(MediaType.IMAGE_JPEG);
+			h.setContentLength(contentLength);
+		});
 
 		MultiValueMap<String, HttpEntity<?>> multipartData = bodyBuilder.build();
 
 		Map<String, Object> hints = Collections.emptyMap();
-		this.writer.write(Mono.just(multipartData), null, MediaType.MULTIPART_FORM_DATA,
-				this.response, hints).block();
+		this.writer.write(Mono.just(multipartData), null, MediaType.MULTIPART_FORM_DATA, this.response, hints).block();
 
 		MultiValueMap<String, Part> requestParts = parse(hints);
 		assertThat(requestParts.size()).isEqualTo(2);
@@ -298,19 +289,15 @@ public class MultipartHttpMessageWriterTests extends AbstractLeakCheckingTests {
 		MultipartHttpMessageReader reader = new MultipartHttpMessageReader(synchronossReader);
 
 		MockServerHttpRequest request = MockServerHttpRequest.post("/")
-				.contentType(MediaType.parseMediaType(contentType.toString()))
-				.body(this.response.getBody());
+				.contentType(MediaType.parseMediaType(contentType.toString())).body(this.response.getBody());
 
-		ResolvableType elementType = ResolvableType.forClassWithGenerics(
-				MultiValueMap.class, String.class, Part.class);
+		ResolvableType elementType = ResolvableType.forClassWithGenerics(MultiValueMap.class, String.class, Part.class);
 
-		MultiValueMap<String, Part> result = reader.readMono(elementType, request, hints)
-				.block(Duration.ofSeconds(5));
+		MultiValueMap<String, Part> result = reader.readMono(elementType, request, hints).block(Duration.ofSeconds(5));
 
 		assertThat(result).isNotNull();
 		return result;
 	}
-
 
 	@SuppressWarnings("unused")
 	private static class Foo {
@@ -331,6 +318,7 @@ public class MultipartHttpMessageWriterTests extends AbstractLeakCheckingTests {
 		public void setBar(String bar) {
 			this.bar = bar;
 		}
+
 	}
 
 }

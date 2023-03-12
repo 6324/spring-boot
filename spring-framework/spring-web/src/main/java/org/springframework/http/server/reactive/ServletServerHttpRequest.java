@@ -60,7 +60,6 @@ class ServletServerHttpRequest extends AbstractServerHttpRequest {
 
 	static final DataBuffer EOF_BUFFER = new DefaultDataBufferFactory().allocateBuffer(0);
 
-
 	private final HttpServletRequest request;
 
 	private final RequestBodyPublisher bodyPublisher;
@@ -71,9 +70,8 @@ class ServletServerHttpRequest extends AbstractServerHttpRequest {
 
 	private final byte[] buffer;
 
-	public ServletServerHttpRequest(HttpServletRequest request, AsyncContext asyncContext,
-			String servletPath, DataBufferFactory bufferFactory, int bufferSize)
-			throws IOException, URISyntaxException {
+	public ServletServerHttpRequest(HttpServletRequest request, AsyncContext asyncContext, String servletPath,
+			DataBufferFactory bufferFactory, int bufferSize) throws IOException, URISyntaxException {
 
 		this(createDefaultHttpHeaders(request), request, asyncContext, servletPath, bufferFactory, bufferSize);
 	}
@@ -99,12 +97,11 @@ class ServletServerHttpRequest extends AbstractServerHttpRequest {
 		this.bodyPublisher.registerReadListener();
 	}
 
-
 	private static HttpHeaders createDefaultHttpHeaders(HttpServletRequest request) {
 		HttpHeaders headers = new HttpHeaders();
-		for (Enumeration<?> names = request.getHeaderNames(); names.hasMoreElements(); ) {
+		for (Enumeration<?> names = request.getHeaderNames(); names.hasMoreElements();) {
 			String name = (String) names.nextElement();
-			for (Enumeration<?> values = request.getHeaders(name); values.hasMoreElements(); ) {
+			for (Enumeration<?> values = request.getHeaders(name); values.hasMoreElements();) {
 				headers.add(name, (String) values.nextElement());
 			}
 		}
@@ -137,9 +134,7 @@ class ServletServerHttpRequest extends AbstractServerHttpRequest {
 				Map<String, String> params = new LinkedCaseInsensitiveMap<>();
 				params.putAll(contentType.getParameters());
 				params.put("charset", charset.toString());
-				headers.setContentType(
-						new MediaType(contentType.getType(), contentType.getSubtype(),
-								params));
+				headers.setContentType(new MediaType(contentType.getType(), contentType.getSubtype(), params));
 			}
 		}
 		if (headers.getContentLength() == -1) {
@@ -150,7 +145,6 @@ class ServletServerHttpRequest extends AbstractServerHttpRequest {
 		}
 		return headers;
 	}
-
 
 	@Override
 	public String getMethodValue() {
@@ -210,10 +204,10 @@ class ServletServerHttpRequest extends AbstractServerHttpRequest {
 	}
 
 	/**
-	 * Read from the request body InputStream and return a DataBuffer.
-	 * Invoked only when {@link ServletInputStream#isReady()} returns "true".
-	 * @return a DataBuffer with data read, or {@link #EOF_BUFFER} if the input
-	 * stream returned -1, or null if 0 bytes were read.
+	 * Read from the request body InputStream and return a DataBuffer. Invoked only when
+	 * {@link ServletInputStream#isReady()} returns "true".
+	 * @return a DataBuffer with data read, or {@link #EOF_BUFFER} if the input stream
+	 * returned -1, or null if 0 bytes were read.
 	 */
 	@Nullable
 	DataBuffer readFromInputStream() throws IOException {
@@ -246,7 +240,6 @@ class ServletServerHttpRequest extends AbstractServerHttpRequest {
 		return (T) this.request;
 	}
 
-
 	private final class RequestAsyncListener implements AsyncListener {
 
 		@Override
@@ -269,8 +262,8 @@ class ServletServerHttpRequest extends AbstractServerHttpRequest {
 		public void onComplete(AsyncEvent event) {
 			bodyPublisher.onAllDataRead();
 		}
-	}
 
+	}
 
 	private class RequestBodyPublisher extends AbstractListenerReadPublisher<DataBuffer> {
 
@@ -317,7 +310,6 @@ class ServletServerHttpRequest extends AbstractServerHttpRequest {
 			// Nothing to discard since we pass data buffers on immediately..
 		}
 
-
 		private class RequestBodyPublisherReadListener implements ReadListener {
 
 			@Override
@@ -335,7 +327,9 @@ class ServletServerHttpRequest extends AbstractServerHttpRequest {
 				RequestBodyPublisher.this.onError(throwable);
 
 			}
+
 		}
+
 	}
 
 }

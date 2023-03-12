@@ -44,13 +44,16 @@ import org.springframework.util.MultiValueMap;
 public abstract class AbstractClientHttpRequest implements ClientHttpRequest {
 
 	/**
-	 * COMMITTING -> COMMITTED is the period after doCommit is called but before
-	 * the response status and headers have been applied to the underlying
-	 * response during which time pre-commit actions can still make changes to
-	 * the response status and headers.
+	 * COMMITTING -> COMMITTED is the period after doCommit is called but before the
+	 * response status and headers have been applied to the underlying response during
+	 * which time pre-commit actions can still make changes to the response status and
+	 * headers.
 	 */
-	private enum State {NEW, COMMITTING, COMMITTED}
+	private enum State {
 
+		NEW, COMMITTING, COMMITTED
+
+	}
 
 	private final HttpHeaders headers;
 
@@ -59,7 +62,6 @@ public abstract class AbstractClientHttpRequest implements ClientHttpRequest {
 	private final AtomicReference<State> state = new AtomicReference<>(State.NEW);
 
 	private final List<Supplier<? extends Publisher<Void>>> commitActions = new ArrayList<>(4);
-
 
 	public AbstractClientHttpRequest() {
 		this(new HttpHeaders());
@@ -70,7 +72,6 @@ public abstract class AbstractClientHttpRequest implements ClientHttpRequest {
 		this.headers = headers;
 		this.cookies = new LinkedMultiValueMap<>();
 	}
-
 
 	@Override
 	public HttpHeaders getHeaders() {
@@ -108,8 +109,8 @@ public abstract class AbstractClientHttpRequest implements ClientHttpRequest {
 	}
 
 	/**
-	 * Apply {@link #beforeCommit(Supplier) beforeCommit} actions, apply the
-	 * request headers/cookies, and write the request body.
+	 * Apply {@link #beforeCommit(Supplier) beforeCommit} actions, apply the request
+	 * headers/cookies, and write the request body.
 	 * @param writeAction the action to write the request body (may be {@code null})
 	 * @return a completion publisher
 	 */
@@ -118,33 +119,31 @@ public abstract class AbstractClientHttpRequest implements ClientHttpRequest {
 			return Mono.empty();
 		}
 
-		this.commitActions.add(() ->
-				Mono.fromRunnable(() -> {
-					applyHeaders();
-					applyCookies();
-					this.state.set(State.COMMITTED);
-				}));
+		this.commitActions.add(() -> Mono.fromRunnable(() -> {
+			applyHeaders();
+			applyCookies();
+			this.state.set(State.COMMITTED);
+		}));
 
 		if (writeAction != null) {
 			this.commitActions.add(writeAction);
 		}
 
-		List<? extends Publisher<Void>> actions = this.commitActions.stream()
-				.map(Supplier::get).collect(Collectors.toList());
+		List<? extends Publisher<Void>> actions = this.commitActions.stream().map(Supplier::get)
+				.collect(Collectors.toList());
 
 		return Flux.concat(actions).then();
 	}
 
-
 	/**
-	 * Apply header changes from {@link #getHeaders()} to the underlying request.
-	 * This method is called once only.
+	 * Apply header changes from {@link #getHeaders()} to the underlying request. This
+	 * method is called once only.
 	 */
 	protected abstract void applyHeaders();
 
 	/**
-	 * Add cookies from {@link #getHeaders()} to the underlying request.
-	 * This method is called once only.
+	 * Add cookies from {@link #getHeaders()} to the underlying request. This method is
+	 * called once only.
 	 */
 	protected abstract void applyCookies();
 

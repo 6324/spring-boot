@@ -33,8 +33,8 @@ import org.springframework.http.codec.HttpMessageWriter;
 import org.springframework.util.Assert;
 
 /**
- * Default implementation of {@link CodecConfigurer} that serves as a base for
- * client and server specific variants.
+ * Default implementation of {@link CodecConfigurer} that serves as a base for client and
+ * server specific variants.
  *
  * @author Rossen Stoyanchev
  * @author Brian Clozel
@@ -46,10 +46,9 @@ abstract class BaseCodecConfigurer implements CodecConfigurer {
 
 	protected final DefaultCustomCodecs customCodecs;
 
-
 	/**
-	 * Constructor with the base {@link BaseDefaultCodecs} to use, which can be
-	 * a client or server specific variant.
+	 * Constructor with the base {@link BaseDefaultCodecs} to use, which can be a client
+	 * or server specific variant.
 	 */
 	BaseCodecConfigurer(BaseDefaultCodecs defaultCodecs) {
 		Assert.notNull(defaultCodecs, "'defaultCodecs' is required");
@@ -67,12 +66,11 @@ abstract class BaseCodecConfigurer implements CodecConfigurer {
 	}
 
 	/**
-	 * Sub-classes should override this to create a deep copy of
-	 * {@link BaseDefaultCodecs} which can be client or server specific.
+	 * Sub-classes should override this to create a deep copy of {@link BaseDefaultCodecs}
+	 * which can be client or server specific.
 	 * @since 5.1.12
 	 */
 	protected abstract BaseDefaultCodecs cloneDefaultCodecs();
-
 
 	@Override
 	public DefaultCodecs defaultCodecs() {
@@ -117,7 +115,6 @@ abstract class BaseCodecConfigurer implements CodecConfigurer {
 
 	@Override
 	public abstract CodecConfigurer clone();
-
 
 	/**
 	 * Default implementation of {@code CustomCodecs}.
@@ -239,6 +236,7 @@ abstract class BaseCodecConfigurer implements CodecConfigurer {
 		List<Consumer<DefaultCodecConfig>> getDefaultConfigConsumers() {
 			return this.defaultConfigConsumers;
 		}
+
 	}
 
 }

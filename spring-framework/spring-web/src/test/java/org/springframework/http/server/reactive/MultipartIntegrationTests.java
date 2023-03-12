@@ -59,8 +59,7 @@ class MultipartIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 
 		RestTemplate restTemplate = new RestTemplate();
 		RequestEntity<MultiValueMap<String, Object>> request = RequestEntity
-				.post(new URI("http://localhost:" + port + "/form-parts"))
-				.contentType(MediaType.MULTIPART_FORM_DATA)
+				.post(new URI("http://localhost:" + port + "/form-parts")).contentType(MediaType.MULTIPART_FORM_DATA)
 				.body(generateBody());
 		ResponseEntity<Void> response = restTemplate.exchange(request, Void.class);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -78,7 +77,6 @@ class MultipartIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 		return parts;
 	}
 
-
 	static class CheckRequestHandler implements WebHandler {
 
 		@Override
@@ -90,16 +88,13 @@ class MultipartIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 		}
 
 		private Mono<Void> assertGetFormParts(ServerWebExchange exchange) {
-			return exchange
-					.getMultipartData()
-					.doOnNext(parts -> {
-						assertThat(parts.size()).isEqualTo(2);
-						assertThat(parts.containsKey("fooPart")).isTrue();
-						assertFooPart(parts.getFirst("fooPart"));
-						assertThat(parts.containsKey("barPart")).isTrue();
-						assertBarPart(parts.getFirst("barPart"));
-					})
-					.then();
+			return exchange.getMultipartData().doOnNext(parts -> {
+				assertThat(parts.size()).isEqualTo(2);
+				assertThat(parts.containsKey("fooPart")).isTrue();
+				assertFooPart(parts.getFirst("fooPart"));
+				assertThat(parts.containsKey("barPart")).isTrue();
+				assertBarPart(parts.getFirst("barPart"));
+			}).then();
 		}
 
 		private void assertFooPart(Part part) {
@@ -108,14 +103,12 @@ class MultipartIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 			assertThat(condition).isTrue();
 			assertThat(((FilePart) part).filename()).isEqualTo("foo.txt");
 
-			StepVerifier.create(DataBufferUtils.join(part.content()))
-					.consumeNextWith(buffer -> {
-						assertThat(buffer.readableByteCount()).isEqualTo(12);
-						byte[] byteContent = new byte[12];
-						buffer.read(byteContent);
-						assertThat(new String(byteContent)).isEqualTo("Lorem Ipsum.");
-					})
-					.verifyComplete();
+			StepVerifier.create(DataBufferUtils.join(part.content())).consumeNextWith(buffer -> {
+				assertThat(buffer.readableByteCount()).isEqualTo(12);
+				byte[] byteContent = new byte[12];
+				buffer.read(byteContent);
+				assertThat(new String(byteContent)).isEqualTo("Lorem Ipsum.");
+			}).verifyComplete();
 		}
 
 		private void assertBarPart(Part part) {
@@ -124,6 +117,7 @@ class MultipartIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 			assertThat(condition).isTrue();
 			assertThat(((FormFieldPart) part).value()).isEqualTo("bar");
 		}
+
 	}
 
 }

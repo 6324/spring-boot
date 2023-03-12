@@ -47,9 +47,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Represents a typed server-side HTTP response, as returned
- * by a {@linkplain HandlerFunction handler function} or
- * {@linkplain HandlerFilterFunction filter function}.
+ * Represents a typed server-side HTTP response, as returned by a
+ * {@linkplain HandlerFunction handler function} or {@linkplain HandlerFilterFunction
+ * filter function}.
  *
  * @author Arjen Poutsma
  * @since 5.2
@@ -91,8 +91,7 @@ public interface ServerResponse {
 	 */
 	@Nullable
 	ModelAndView writeTo(HttpServletRequest request, HttpServletResponse response, Context context)
-		throws ServletException, IOException;
-
+			throws ServletException, IOException;
 
 	// Static methods
 
@@ -132,8 +131,8 @@ public interface ServerResponse {
 	}
 
 	/**
-	 * Create a builder with a {@linkplain HttpStatus#CREATED 201 Created} status
-	 * and a location header set to the given URI.
+	 * Create a builder with a {@linkplain HttpStatus#CREATED 201 Created} status and a
+	 * location header set to the given URI.
 	 * @param location the location URI
 	 * @return the created builder
 	 */
@@ -159,8 +158,8 @@ public interface ServerResponse {
 	}
 
 	/**
-	 * Create a builder with a {@linkplain HttpStatus#SEE_OTHER 303 See Other}
-	 * status and a location header set to the given URI.
+	 * Create a builder with a {@linkplain HttpStatus#SEE_OTHER 303 See Other} status and
+	 * a location header set to the given URI.
 	 * @param location the location URI
 	 * @return the created builder
 	 */
@@ -170,8 +169,8 @@ public interface ServerResponse {
 	}
 
 	/**
-	 * Create a builder with a {@linkplain HttpStatus#TEMPORARY_REDIRECT 307 Temporary Redirect}
-	 * status and a location header set to the given URI.
+	 * Create a builder with a {@linkplain HttpStatus#TEMPORARY_REDIRECT 307 Temporary
+	 * Redirect} status and a location header set to the given URI.
 	 * @param location the location URI
 	 * @return the created builder
 	 */
@@ -181,8 +180,8 @@ public interface ServerResponse {
 	}
 
 	/**
-	 * Create a builder with a {@linkplain HttpStatus#PERMANENT_REDIRECT 308 Permanent Redirect}
-	 * status and a location header set to the given URI.
+	 * Create a builder with a {@linkplain HttpStatus#PERMANENT_REDIRECT 308 Permanent
+	 * Redirect} status and a location header set to the given URI.
 	 * @param location the location URI
 	 * @return the created builder
 	 */
@@ -208,24 +207,24 @@ public interface ServerResponse {
 	}
 
 	/**
-	 * Create a builder with a
-	 * {@linkplain HttpStatus#UNPROCESSABLE_ENTITY 422 Unprocessable Entity} status.
+	 * Create a builder with a {@linkplain HttpStatus#UNPROCESSABLE_ENTITY 422
+	 * Unprocessable Entity} status.
 	 * @return the created builder
 	 */
 	static BodyBuilder unprocessableEntity() {
 		return status(HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 
-
 	/**
 	 * Defines a builder that adds headers to the response.
+	 *
 	 * @param <B> the builder subclass
 	 */
 	interface HeadersBuilder<B extends HeadersBuilder<B>> {
 
 		/**
 		 * Add the given header value(s) under the given name.
-		 * @param headerName   the header name
+		 * @param headerName the header name
 		 * @param headerValues the header value(s)
 		 * @return this builder
 		 * @see HttpHeaders#add(String, String)
@@ -233,8 +232,8 @@ public interface ServerResponse {
 		B header(String headerName, String... headerValues);
 
 		/**
-		 * Manipulate this response's headers with the given consumer. The
-		 * headers provided to the consumer are "live", so that the consumer can be used to
+		 * Manipulate this response's headers with the given consumer. The headers
+		 * provided to the consumer are "live", so that the consumer can be used to
 		 * {@linkplain HttpHeaders#set(String, String) overwrite} existing header values,
 		 * {@linkplain HttpHeaders#remove(Object) remove} values, or use any of the other
 		 * {@link HttpHeaders} methods.
@@ -251,20 +250,19 @@ public interface ServerResponse {
 		B cookie(Cookie cookie);
 
 		/**
-		 * Manipulate this response's cookies with the given consumer. The
-		 * cookies provided to the consumer are "live", so that the consumer can be used to
+		 * Manipulate this response's cookies with the given consumer. The cookies
+		 * provided to the consumer are "live", so that the consumer can be used to
 		 * {@linkplain MultiValueMap#set(Object, Object) overwrite} existing cookies,
-		 * {@linkplain MultiValueMap#remove(Object) remove} cookies, or use any of the other
-		 * {@link MultiValueMap} methods.
+		 * {@linkplain MultiValueMap#remove(Object) remove} cookies, or use any of the
+		 * other {@link MultiValueMap} methods.
 		 * @param cookiesConsumer a function that consumes the cookies
 		 * @return this builder
 		 */
 		B cookies(Consumer<MultiValueMap<String, Cookie>> cookiesConsumer);
 
 		/**
-		 * Set the set of allowed {@link HttpMethod HTTP methods}, as specified
-		 * by the {@code Allow} header.
-		 *
+		 * Set the set of allowed {@link HttpMethod HTTP methods}, as specified by the
+		 * {@code Allow} header.
 		 * @param allowedMethods the allowed methods
 		 * @return this builder
 		 * @see HttpHeaders#setAllow(Set)
@@ -272,8 +270,8 @@ public interface ServerResponse {
 		B allow(HttpMethod... allowedMethods);
 
 		/**
-		 * Set the set of allowed {@link HttpMethod HTTP methods}, as specified
-		 * by the {@code Allow} header.
+		 * Set the set of allowed {@link HttpMethod HTTP methods}, as specified by the
+		 * {@code Allow} header.
 		 * @param allowedMethods the allowed methods
 		 * @return this builder
 		 * @see HttpHeaders#setAllow(Set)
@@ -305,6 +303,7 @@ public interface ServerResponse {
 		 * @see HttpHeaders#setLastModified(long)
 		 */
 		B lastModified(Instant lastModified);
+
 		/**
 		 * Set the location of a resource, as specified by the {@code Location} header.
 		 * @param location the location
@@ -316,20 +315,22 @@ public interface ServerResponse {
 		/**
 		 * Set the caching directives for the resource, as specified by the HTTP 1.1
 		 * {@code Cache-Control} header.
-		 * <p>A {@code CacheControl} instance can be built like
+		 * <p>
+		 * A {@code CacheControl} instance can be built like
 		 * {@code CacheControl.maxAge(3600).cachePublic().noTransform()}.
 		 * @param cacheControl a builder for cache-related HTTP response headers
 		 * @return this builder
-		 * @see <a href="https://tools.ietf.org/html/rfc7234#section-5.2">RFC-7234 Section 5.2</a>
+		 * @see <a href="https://tools.ietf.org/html/rfc7234#section-5.2">RFC-7234 Section
+		 * 5.2</a>
 		 */
 		B cacheControl(CacheControl cacheControl);
 
 		/**
-		 * Configure one or more request header names (e.g. "Accept-Language") to
-		 * add to the "Vary" response header to inform clients that the response is
-		 * subject to content negotiation and variances based on the value of the
-		 * given request headers. The configured request header names are added only
-		 * if not already present in the response "Vary" header.
+		 * Configure one or more request header names (e.g. "Accept-Language") to add to
+		 * the "Vary" response header to inform clients that the response is subject to
+		 * content negotiation and variances based on the value of the given request
+		 * headers. The configured request header names are added only if not already
+		 * present in the response "Vary" header.
 		 * @param requestHeaders request header names
 		 * @return this builder
 		 */
@@ -342,13 +343,12 @@ public interface ServerResponse {
 
 		/**
 		 * Build the response entity with a custom write function.
-		 * @param writeFunction the function used to write to the {@link HttpServletResponse}
+		 * @param writeFunction the function used to write to the
+		 * {@link HttpServletResponse}
 		 */
-		ServerResponse build(BiFunction<HttpServletRequest, HttpServletResponse,
-				ModelAndView> writeFunction);
+		ServerResponse build(BiFunction<HttpServletRequest, HttpServletResponse, ModelAndView> writeFunction);
 
 	}
-
 
 	/**
 	 * Defines a builder that adds a body to the response.
@@ -356,8 +356,8 @@ public interface ServerResponse {
 	interface BodyBuilder extends HeadersBuilder<BodyBuilder> {
 
 		/**
-		 * Set the length of the body in bytes, as specified by the
-		 * {@code Content-Length} header.
+		 * Set the length of the body in bytes, as specified by the {@code Content-Length}
+		 * header.
 		 * @param contentLength the content length
 		 * @return this builder
 		 * @see HttpHeaders#setContentLength(long)
@@ -376,17 +376,17 @@ public interface ServerResponse {
 		/**
 		 * Set the body of the response to the given {@code Object} and return it.
 		 *
-		 * <p>Asynchronous response bodies are supported by providing a {@link CompletionStage} or
-		 * {@link Publisher} as body.
+		 * <p>
+		 * Asynchronous response bodies are supported by providing a
+		 * {@link CompletionStage} or {@link Publisher} as body.
 		 * @param body the body of the response
 		 * @return the built response
 		 */
 		ServerResponse body(Object body);
 
 		/**
-		 * Set the body of the response to the given {@code Object} and return it. The parameter
-		 * {@code bodyType} is used to capture the generic type.
-		 *
+		 * Set the body of the response to the given {@code Object} and return it. The
+		 * parameter {@code bodyType} is used to capture the generic type.
 		 * @param body the body of the response
 		 * @param bodyType the type of the body, used to capture the generic type
 		 * @return the built response
@@ -394,12 +394,14 @@ public interface ServerResponse {
 		<T> ServerResponse body(T body, ParameterizedTypeReference<T> bodyType);
 
 		/**
-		 * Render the template with the given {@code name} using the given {@code modelAttributes}.
-		 * The model attributes are mapped under a
-		 * {@linkplain org.springframework.core.Conventions#getVariableName generated name}.
-		 * <p><em>Note: Empty {@link Collection Collections} are not added to
-		 * the model when using this method because we cannot correctly determine
-		 * the true convention name.</em>
+		 * Render the template with the given {@code name} using the given
+		 * {@code modelAttributes}. The model attributes are mapped under a
+		 * {@linkplain org.springframework.core.Conventions#getVariableName generated
+		 * name}.
+		 * <p>
+		 * <em>Note: Empty {@link Collection Collections} are not added to the model when
+		 * using this method because we cannot correctly determine the true convention
+		 * name.</em>
 		 * @param name the name of the template to be rendered
 		 * @param modelAttributes the modelAttributes used to render the template
 		 * @return the built response
@@ -413,16 +415,18 @@ public interface ServerResponse {
 		 * @return the built response
 		 */
 		ServerResponse render(String name, Map<String, ?> model);
+
 	}
 
-
 	/**
-	 * Defines the context used during the {@link #writeTo(HttpServletRequest, HttpServletResponse, Context)}.
+	 * Defines the context used during the
+	 * {@link #writeTo(HttpServletRequest, HttpServletResponse, Context)}.
 	 */
 	interface Context {
 
 		/**
-		 * Return the {@link HttpMessageConverter HttpMessageConverters} to be used for response body conversion.
+		 * Return the {@link HttpMessageConverter HttpMessageConverters} to be used for
+		 * response body conversion.
 		 * @return the list of message writers
 		 */
 		List<HttpMessageConverter<?>> messageConverters();

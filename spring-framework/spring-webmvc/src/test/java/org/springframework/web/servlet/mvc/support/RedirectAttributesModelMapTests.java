@@ -64,12 +64,14 @@ public class RedirectAttributesModelMapTests {
 		String attrName = "person";
 		this.redirectAttributes.addAttribute(attrName, new TestBean("Fred"));
 
-		assertThat(this.redirectAttributes.get(attrName)).as("ConversionService should have invoked toString()").isEqualTo("Fred");
+		assertThat(this.redirectAttributes.get(attrName)).as("ConversionService should have invoked toString()")
+				.isEqualTo("Fred");
 
 		this.conversionService.addConverter(new TestBeanConverter());
 		this.redirectAttributes.addAttribute(attrName, new TestBean("Fred"));
 
-		assertThat(this.redirectAttributes.get(attrName)).as("Type converter should have been used").isEqualTo("[Fred]");
+		assertThat(this.redirectAttributes.get(attrName)).as("Type converter should have been used")
+				.isEqualTo("[Fred]");
 	}
 
 	@Test
@@ -144,6 +146,7 @@ public class RedirectAttributesModelMapTests {
 		public String convert(TestBean source) {
 			return "[" + source.getName() + "]";
 		}
+
 	}
 
 }

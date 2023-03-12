@@ -22,8 +22,8 @@ import java.nio.file.Path;
 import reactor.core.publisher.Mono;
 
 /**
- * Specialization of {@link Part} that represents an uploaded file received in
- * a multipart request.
+ * Specialization of {@link Part} that represents an uploaded file received in a multipart
+ * request.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -37,13 +37,14 @@ public interface FilePart extends Part {
 	String filename();
 
 	/**
-	 * Convenience method to copy the content of the file in this part to the
-	 * given destination file. If the destination file already exists, it will
-	 * be truncated first.
-	 * <p>The default implementation delegates to {@link #transferTo(Path)}.
+	 * Convenience method to copy the content of the file in this part to the given
+	 * destination file. If the destination file already exists, it will be truncated
+	 * first.
+	 * <p>
+	 * The default implementation delegates to {@link #transferTo(Path)}.
 	 * @param dest the target file
-	 * @return completion {@code Mono} with the result of the file transfer,
-	 * possibly {@link IllegalStateException} if the part isn't a file
+	 * @return completion {@code Mono} with the result of the file transfer, possibly
+	 * {@link IllegalStateException} if the part isn't a file
 	 * @see #transferTo(Path)
 	 */
 	default Mono<Void> transferTo(File dest) {
@@ -51,12 +52,12 @@ public interface FilePart extends Part {
 	}
 
 	/**
-	 * Convenience method to copy the content of the file in this part to the
-	 * given destination file. If the destination file already exists, it will
-	 * be truncated first.
+	 * Convenience method to copy the content of the file in this part to the given
+	 * destination file. If the destination file already exists, it will be truncated
+	 * first.
 	 * @param dest the target file
-	 * @return completion {@code Mono} with the result of the file transfer,
-	 * possibly {@link IllegalStateException} if the part isn't a file
+	 * @return completion {@code Mono} with the result of the file transfer, possibly
+	 * {@link IllegalStateException} if the part isn't a file
 	 * @since 5.1
 	 * @see #transferTo(File)
 	 */

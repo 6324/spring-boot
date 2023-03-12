@@ -55,18 +55,20 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Resolve {@code @ModelAttribute} annotated method arguments and handle
- * return values from {@code @ModelAttribute} annotated methods.
+ * Resolve {@code @ModelAttribute} annotated method arguments and handle return values
+ * from {@code @ModelAttribute} annotated methods.
  *
- * <p>Model attributes are obtained from the model or created with a default
- * constructor (and then added to the model). Once created the attribute is
- * populated via data binding to Servlet request parameters. Validation may be
- * applied if the argument is annotated with {@code @javax.validation.Valid}.
- * or Spring's own {@code @org.springframework.validation.annotation.Validated}.
+ * <p>
+ * Model attributes are obtained from the model or created with a default constructor (and
+ * then added to the model). Once created the attribute is populated via data binding to
+ * Servlet request parameters. Validation may be applied if the argument is annotated with
+ * {@code @javax.validation.Valid}. or Spring's own
+ * {@code @org.springframework.validation.annotation.Validated}.
  *
- * <p>When this handler is created with {@code annotationNotRequired=true}
- * any non-simple type argument and return value is regarded as a model
- * attribute with or without the presence of an {@code @ModelAttribute}.
+ * <p>
+ * When this handler is created with {@code annotationNotRequired=true} any non-simple
+ * type argument and return value is regarded as a model attribute with or without the
+ * presence of an {@code @ModelAttribute}.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -81,36 +83,33 @@ public class ModelAttributeMethodProcessor implements HandlerMethodArgumentResol
 
 	private final boolean annotationNotRequired;
 
-
 	/**
 	 * Class constructor.
-	 * @param annotationNotRequired if "true", non-simple method arguments and
-	 * return values are considered model attributes with or without a
-	 * {@code @ModelAttribute} annotation
+	 * @param annotationNotRequired if "true", non-simple method arguments and return
+	 * values are considered model attributes with or without a {@code @ModelAttribute}
+	 * annotation
 	 */
 	public ModelAttributeMethodProcessor(boolean annotationNotRequired) {
 		this.annotationNotRequired = annotationNotRequired;
 	}
 
-
 	/**
-	 * Returns {@code true} if the parameter is annotated with
-	 * {@link ModelAttribute} or, if in default resolution mode, for any
-	 * method parameter that is not a simple type.
+	 * Returns {@code true} if the parameter is annotated with {@link ModelAttribute} or,
+	 * if in default resolution mode, for any method parameter that is not a simple type.
 	 */
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return (parameter.hasParameterAnnotation(ModelAttribute.class) ||
-				(this.annotationNotRequired && !BeanUtils.isSimpleProperty(parameter.getParameterType())));
+		return (parameter.hasParameterAnnotation(ModelAttribute.class)
+				|| (this.annotationNotRequired && !BeanUtils.isSimpleProperty(parameter.getParameterType())));
 	}
 
 	/**
-	 * Resolve the argument from the model or if not found instantiate it with
-	 * its default if it is available. The model attribute is then populated
-	 * with request values via data binding and optionally validated
-	 * if {@code @java.validation.Valid} is present on the argument.
-	 * @throws BindException if data binding and validation result in an error
-	 * and the next method parameter is not of type {@link Errors}
+	 * Resolve the argument from the model or if not found instantiate it with its default
+	 * if it is available. The model attribute is then populated with request values via
+	 * data binding and optionally validated if {@code @java.validation.Valid} is present
+	 * on the argument.
+	 * @throws BindException if data binding and validation result in an error and the
+	 * next method parameter is not of type {@link Errors}
 	 * @throws Exception if WebDataBinder initialization fails
 	 */
 	@Override
@@ -180,11 +179,12 @@ public class ModelAttributeMethodProcessor implements HandlerMethodArgumentResol
 	}
 
 	/**
-	 * Extension point to create the model attribute if not found in the model,
-	 * with subsequent parameter binding through bean properties (unless suppressed).
-	 * <p>The default implementation typically uses the unique public no-arg constructor
-	 * if available but also handles a "primary constructor" approach for data classes:
-	 * It understands the JavaBeans {@link ConstructorProperties} annotation as well as
+	 * Extension point to create the model attribute if not found in the model, with
+	 * subsequent parameter binding through bean properties (unless suppressed).
+	 * <p>
+	 * The default implementation typically uses the unique public no-arg constructor if
+	 * available but also handles a "primary constructor" approach for data classes: It
+	 * understands the JavaBeans {@link ConstructorProperties} annotation as well as
 	 * runtime-retained parameter names in the bytecode, associating request parameters
 	 * with constructor arguments by name. If no such constructor is found, the default
 	 * constructor will be used (even if not public), assuming subsequent bean property
@@ -196,7 +196,8 @@ public class ModelAttributeMethodProcessor implements HandlerMethodArgumentResol
 	 * @return the created model attribute (never {@code null})
 	 * @throws BindException in case of constructor argument binding failure
 	 * @throws Exception in case of constructor invocation failure
-	 * @see #constructAttribute(Constructor, String, MethodParameter, WebDataBinderFactory, NativeWebRequest)
+	 * @see #constructAttribute(Constructor, String, MethodParameter,
+	 * WebDataBinderFactory, NativeWebRequest)
 	 * @see BeanUtils#findPrimaryConstructor(Class)
 	 */
 	protected Object createAttribute(String attributeName, MethodParameter parameter,
@@ -230,7 +231,8 @@ public class ModelAttributeMethodProcessor implements HandlerMethodArgumentResol
 
 	/**
 	 * Construct a new attribute instance with the given constructor.
-	 * <p>Called from
+	 * <p>
+	 * Called from
 	 * {@link #createAttribute(String, MethodParameter, WebDataBinderFactory, NativeWebRequest)}
 	 * after constructor resolution.
 	 * @param ctor the constructor to use
@@ -256,7 +258,8 @@ public class ModelAttributeMethodProcessor implements HandlerMethodArgumentResol
 			return BeanUtils.instantiateClass(ctor);
 		}
 
-		// A single data class constructor -> resolve constructor arguments from request parameters.
+		// A single data class constructor -> resolve constructor arguments from request
+		// parameters.
 		ConstructorProperties cp = ctor.getAnnotation(ConstructorProperties.class);
 		String[] paramNames = (cp != null ? cp.value() : parameterNameDiscoverer.getParameterNames(ctor));
 		Assert.state(paramNames != null, () -> "Cannot resolve parameter names for constructor " + ctor);
@@ -328,8 +331,8 @@ public class ModelAttributeMethodProcessor implements HandlerMethodArgumentResol
 	 */
 	@Deprecated
 	@Nullable
-	protected Object constructAttribute(Constructor<?> ctor, String attributeName,
-			WebDataBinderFactory binderFactory, NativeWebRequest webRequest) throws Exception {
+	protected Object constructAttribute(Constructor<?> ctor, String attributeName, WebDataBinderFactory binderFactory,
+			NativeWebRequest webRequest) throws Exception {
 
 		return null;
 	}
@@ -345,9 +348,10 @@ public class ModelAttributeMethodProcessor implements HandlerMethodArgumentResol
 
 	/**
 	 * Validate the model attribute if applicable.
-	 * <p>The default implementation checks for {@code @javax.validation.Valid},
-	 * Spring's {@link org.springframework.validation.annotation.Validated},
-	 * and custom annotations whose name starts with "Valid".
+	 * <p>
+	 * The default implementation checks for {@code @javax.validation.Valid}, Spring's
+	 * {@link org.springframework.validation.annotation.Validated}, and custom annotations
+	 * whose name starts with "Valid".
 	 * @param binder the DataBinder to be used
 	 * @param parameter the method parameter declaration
 	 * @see WebDataBinder#validate(Object...)
@@ -365,9 +369,10 @@ public class ModelAttributeMethodProcessor implements HandlerMethodArgumentResol
 
 	/**
 	 * Validate the specified candidate value if applicable.
-	 * <p>The default implementation checks for {@code @javax.validation.Valid},
-	 * Spring's {@link org.springframework.validation.annotation.Validated},
-	 * and custom annotations whose name starts with "Valid".
+	 * <p>
+	 * The default implementation checks for {@code @javax.validation.Valid}, Spring's
+	 * {@link org.springframework.validation.annotation.Validated}, and custom annotations
+	 * whose name starts with "Valid".
 	 * @param binder the DataBinder to be used
 	 * @param parameter the method parameter declaration
 	 * @param targetType the target type
@@ -377,8 +382,8 @@ public class ModelAttributeMethodProcessor implements HandlerMethodArgumentResol
 	 * @see #validateIfApplicable(WebDataBinder, MethodParameter)
 	 * @see SmartValidator#validateValue(Class, String, Object, Errors, Object...)
 	 */
-	protected void validateValueIfApplicable(WebDataBinder binder, MethodParameter parameter,
-			Class<?> targetType, String fieldName, @Nullable Object value) {
+	protected void validateValueIfApplicable(WebDataBinder binder, MethodParameter parameter, Class<?> targetType,
+			String fieldName, @Nullable Object value) {
 
 		for (Annotation ann : parameter.getParameterAnnotations()) {
 			Object[] validationHints = determineValidationHints(ann);
@@ -402,8 +407,8 @@ public class ModelAttributeMethodProcessor implements HandlerMethodArgumentResol
 	/**
 	 * Determine any validation triggered by the given annotation.
 	 * @param ann the annotation (potentially a validation annotation)
-	 * @return the validation hints to apply (possibly an empty array),
-	 * or {@code null} if this annotation does not trigger any validation
+	 * @return the validation hints to apply (possibly an empty array), or {@code null} if
+	 * this annotation does not trigger any validation
 	 * @since 5.1
 	 */
 	@Nullable
@@ -414,14 +419,16 @@ public class ModelAttributeMethodProcessor implements HandlerMethodArgumentResol
 			if (hints == null) {
 				return new Object[0];
 			}
-			return (hints instanceof Object[] ? (Object[]) hints : new Object[] {hints});
+			return (hints instanceof Object[] ? (Object[]) hints : new Object[] { hints });
 		}
 		return null;
 	}
 
 	/**
 	 * Whether to raise a fatal bind exception on validation errors.
-	 * <p>The default implementation delegates to {@link #isBindExceptionRequired(MethodParameter)}.
+	 * <p>
+	 * The default implementation delegates to
+	 * {@link #isBindExceptionRequired(MethodParameter)}.
 	 * @param binder the data binder used to perform data binding
 	 * @param parameter the method parameter declaration
 	 * @return {@code true} if the next method parameter is not of type {@link Errors}
@@ -445,14 +452,13 @@ public class ModelAttributeMethodProcessor implements HandlerMethodArgumentResol
 	}
 
 	/**
-	 * Return {@code true} if there is a method-level {@code @ModelAttribute}
-	 * or, in default resolution mode, for any return value type that is not
-	 * a simple type.
+	 * Return {@code true} if there is a method-level {@code @ModelAttribute} or, in
+	 * default resolution mode, for any return value type that is not a simple type.
 	 */
 	@Override
 	public boolean supportsReturnType(MethodParameter returnType) {
-		return (returnType.hasMethodAnnotation(ModelAttribute.class) ||
-				(this.annotationNotRequired && !BeanUtils.isSimpleProperty(returnType.getParameterType())));
+		return (returnType.hasMethodAnnotation(ModelAttribute.class)
+				|| (this.annotationNotRequired && !BeanUtils.isSimpleProperty(returnType.getParameterType())));
 	}
 
 	/**
@@ -468,9 +474,9 @@ public class ModelAttributeMethodProcessor implements HandlerMethodArgumentResol
 		}
 	}
 
-
 	/**
 	 * {@link MethodParameter} subclass which detects field annotations as well.
+	 *
 	 * @since 5.1
 	 */
 	private static class FieldAwareConstructorParameter extends MethodParameter {
@@ -523,6 +529,7 @@ public class ModelAttributeMethodProcessor implements HandlerMethodArgumentResol
 		public String getParameterName() {
 			return this.parameterName;
 		}
+
 	}
 
 }

@@ -33,9 +33,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * A {@link org.springframework.web.servlet.resource.ResourceResolver} that
- * resolves resources from a {@link org.springframework.cache.Cache} or otherwise
- * delegates to the resolver chain and saves the result in the cache.
+ * A {@link org.springframework.web.servlet.resource.ResourceResolver} that resolves
+ * resources from a {@link org.springframework.cache.Cache} or otherwise delegates to the
+ * resolver chain and saves the result in the cache.
  *
  * @author Rossen Stoyanchev
  * @author Brian Clozel
@@ -53,11 +53,9 @@ public class CachingResourceResolver extends AbstractResourceResolver {
 	 */
 	public static final String RESOLVED_URL_PATH_CACHE_KEY_PREFIX = "resolvedUrlPath:";
 
-
 	private final Cache cache;
 
 	private final List<String> contentCodings = new ArrayList<>(EncodedResourceResolver.DEFAULT_CODINGS);
-
 
 	public CachingResourceResolver(Cache cache) {
 		Assert.notNull(cache, "Cache is required");
@@ -72,7 +70,6 @@ public class CachingResourceResolver extends AbstractResourceResolver {
 		this.cache = cache;
 	}
 
-
 	/**
 	 * Return the configured {@code Cache}.
 	 */
@@ -81,12 +78,14 @@ public class CachingResourceResolver extends AbstractResourceResolver {
 	}
 
 	/**
-	 * Configure the supported content codings from the
-	 * {@literal "Accept-Encoding"} header for which to cache resource variations.
-	 * <p>The codings configured here are generally expected to match those
-	 * configured on {@link EncodedResourceResolver#setContentCodings(List)}.
-	 * <p>By default this property is set to {@literal ["br", "gzip"]} based on
-	 * the value of {@link EncodedResourceResolver#DEFAULT_CODINGS}.
+	 * Configure the supported content codings from the {@literal "Accept-Encoding"}
+	 * header for which to cache resource variations.
+	 * <p>
+	 * The codings configured here are generally expected to match those configured on
+	 * {@link EncodedResourceResolver#setContentCodings(List)}.
+	 * <p>
+	 * By default this property is set to {@literal ["br", "gzip"]} based on the value of
+	 * {@link EncodedResourceResolver#DEFAULT_CODINGS}.
 	 * @param codings one or more supported content codings
 	 * @since 5.1
 	 */
@@ -103,7 +102,6 @@ public class CachingResourceResolver extends AbstractResourceResolver {
 	public List<String> getContentCodings() {
 		return Collections.unmodifiableList(this.contentCodings);
 	}
-
 
 	@Override
 	protected Resource resolveResourceInternal(@Nullable HttpServletRequest request, String requestPath,
@@ -143,19 +141,15 @@ public class CachingResourceResolver extends AbstractResourceResolver {
 		if (!StringUtils.hasText(header)) {
 			return null;
 		}
-		return Arrays.stream(StringUtils.tokenizeToStringArray(header, ","))
-				.map(token -> {
-					int index = token.indexOf(';');
-					return (index >= 0 ? token.substring(0, index) : token).trim().toLowerCase();
-				})
-				.filter(this.contentCodings::contains)
-				.sorted()
-				.collect(Collectors.joining(","));
+		return Arrays.stream(StringUtils.tokenizeToStringArray(header, ",")).map(token -> {
+			int index = token.indexOf(';');
+			return (index >= 0 ? token.substring(0, index) : token).trim().toLowerCase();
+		}).filter(this.contentCodings::contains).sorted().collect(Collectors.joining(","));
 	}
 
 	@Override
-	protected String resolveUrlPathInternal(String resourceUrlPath,
-			List<? extends Resource> locations, ResourceResolverChain chain) {
+	protected String resolveUrlPathInternal(String resourceUrlPath, List<? extends Resource> locations,
+			ResourceResolverChain chain) {
 
 		String key = RESOLVED_URL_PATH_CACHE_KEY_PREFIX + resourceUrlPath;
 		String resolvedUrlPath = this.cache.get(key, String.class);

@@ -115,24 +115,22 @@ public class WebArgumentResolverAdapterTests {
 	public void resolveArgumentUnresolved() throws Exception {
 		given(adaptee.resolveArgument(parameter, webRequest)).willReturn(WebArgumentResolver.UNRESOLVED);
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				adapter.resolveArgument(parameter, null, webRequest, null));
+		assertThatIllegalStateException().isThrownBy(() -> adapter.resolveArgument(parameter, null, webRequest, null));
 	}
 
 	@Test
 	public void resolveArgumentWrongType() throws Exception {
 		given(adaptee.resolveArgument(parameter, webRequest)).willReturn("Foo");
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				adapter.resolveArgument(parameter, null, webRequest, null));
+		assertThatIllegalStateException().isThrownBy(() -> adapter.resolveArgument(parameter, null, webRequest, null));
 	}
 
 	@Test
 	public void resolveArgumentThrowsException() throws Exception {
 		given(adaptee.resolveArgument(parameter, webRequest)).willThrow(new Exception());
 
-		assertThatExceptionOfType(Exception.class).isThrownBy(() ->
-				adapter.resolveArgument(parameter, null, webRequest, null));
+		assertThatExceptionOfType(Exception.class)
+				.isThrownBy(() -> adapter.resolveArgument(parameter, null, webRequest, null));
 	}
 
 	public void handle(int param) {
@@ -148,6 +146,7 @@ public class WebArgumentResolverAdapterTests {
 		protected NativeWebRequest getWebRequest() {
 			return WebArgumentResolverAdapterTests.this.webRequest;
 		}
+
 	}
 
 }

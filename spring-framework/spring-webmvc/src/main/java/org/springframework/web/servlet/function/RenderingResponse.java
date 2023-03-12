@@ -28,7 +28,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.MultiValueMap;
 
 /**
- * Rendering-specific subtype of {@link ServerResponse} that exposes model and template data.
+ * Rendering-specific subtype of {@link ServerResponse} that exposes model and template
+ * data.
  *
  * @author Arjen Poutsma
  * @since 5.2
@@ -45,11 +46,11 @@ public interface RenderingResponse extends ServerResponse {
 	 */
 	Map<String, Object> model();
 
-
 	// Builder
 
 	/**
-	 * Create a builder with the template name, status code, headers and model of the given response.
+	 * Create a builder with the template name, status code, headers and model of the
+	 * given response.
 	 * @param other the response to copy the values from
 	 * @return the created builder
 	 */
@@ -66,7 +67,6 @@ public interface RenderingResponse extends ServerResponse {
 		return new DefaultRenderingResponseBuilder(name);
 	}
 
-
 	/**
 	 * Defines a builder for {@code RenderingResponse}.
 	 */
@@ -74,11 +74,13 @@ public interface RenderingResponse extends ServerResponse {
 
 		/**
 		 * Add the supplied attribute to the model using a
-		 * {@linkplain org.springframework.core.Conventions#getVariableName generated name}.
-		 * <p><em>Note: Empty {@link Collection Collections} are not added to
-		 * the model when using this method because we cannot correctly determine
-		 * the true convention name. View code should check for {@code null} rather
-		 * than for empty collections.</em>
+		 * {@linkplain org.springframework.core.Conventions#getVariableName generated
+		 * name}.
+		 * <p>
+		 * <em>Note: Empty {@link Collection Collections} are not added to the model when
+		 * using this method because we cannot correctly determine the true convention
+		 * name. View code should check for {@code null} rather than for empty
+		 * collections.</em>
 		 * @param attribute the model attribute value (never {@code null})
 		 */
 		Builder modelAttribute(Object attribute);
@@ -91,15 +93,15 @@ public interface RenderingResponse extends ServerResponse {
 		Builder modelAttribute(String name, @Nullable Object value);
 
 		/**
-		 * Copy all attributes in the supplied array into the model,
-		 * using attribute name generation for each element.
+		 * Copy all attributes in the supplied array into the model, using attribute name
+		 * generation for each element.
 		 * @see #modelAttribute(Object)
 		 */
 		Builder modelAttributes(Object... attributes);
 
 		/**
-		 * Copy all attributes in the supplied {@code Collection} into the model,
-		 * using attribute name generation for each element.
+		 * Copy all attributes in the supplied {@code Collection} into the model, using
+		 * attribute name generation for each element.
 		 * @see #modelAttribute(Object)
 		 */
 		Builder modelAttributes(Collection<?> attributes);
@@ -120,8 +122,8 @@ public interface RenderingResponse extends ServerResponse {
 		Builder header(String headerName, String... headerValues);
 
 		/**
-		 * Manipulate this response's headers with the given consumer. The
-		 * headers provided to the consumer are "live", so that the consumer can be used to
+		 * Manipulate this response's headers with the given consumer. The headers
+		 * provided to the consumer are "live", so that the consumer can be used to
 		 * {@linkplain HttpHeaders#set(String, String) overwrite} existing header values,
 		 * {@linkplain HttpHeaders#remove(Object) remove} values, or use any of the other
 		 * {@link HttpHeaders} methods.
@@ -152,11 +154,11 @@ public interface RenderingResponse extends ServerResponse {
 		Builder cookie(Cookie cookie);
 
 		/**
-		 * Manipulate this response's cookies with the given consumer. The
-		 * cookies provided to the consumer are "live", so that the consumer can be used to
+		 * Manipulate this response's cookies with the given consumer. The cookies
+		 * provided to the consumer are "live", so that the consumer can be used to
 		 * {@linkplain MultiValueMap#set(Object, Object) overwrite} existing cookies,
-		 * {@linkplain MultiValueMap#remove(Object) remove} cookies, or use any of the other
-		 * {@link MultiValueMap} methods.
+		 * {@linkplain MultiValueMap#remove(Object) remove} cookies, or use any of the
+		 * other {@link MultiValueMap} methods.
 		 * @param cookiesConsumer a function that consumes the cookies
 		 * @return this builder
 		 */
@@ -167,6 +169,7 @@ public interface RenderingResponse extends ServerResponse {
 		 * @return the built response
 		 */
 		RenderingResponse build();
+
 	}
 
 }

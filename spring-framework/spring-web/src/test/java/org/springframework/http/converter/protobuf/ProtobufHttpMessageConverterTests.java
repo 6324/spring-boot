@@ -56,7 +56,6 @@ public class ProtobufHttpMessageConverterTests {
 
 	private Msg testMsg;
 
-
 	@BeforeEach
 	public void setup() {
 		this.registryInitializer = mock(ExtensionRegistryInitializer.class);
@@ -65,7 +64,6 @@ public class ProtobufHttpMessageConverterTests {
 		this.testMsg = Msg.newBuilder().setFoo("Foo").setBlah(SecondMsg.newBuilder().setBlah(123).build()).build();
 	}
 
-
 	@Test
 	public void extensionRegistryInitialized() {
 		verify(this.registryInitializer, times(1)).initializeExtensionRegistry(any());
@@ -73,13 +71,13 @@ public class ProtobufHttpMessageConverterTests {
 
 	@Test
 	public void extensionRegistryInitializerNull() {
-		ProtobufHttpMessageConverter converter = new ProtobufHttpMessageConverter((ExtensionRegistryInitializer)null);
+		ProtobufHttpMessageConverter converter = new ProtobufHttpMessageConverter((ExtensionRegistryInitializer) null);
 		assertThat(converter.extensionRegistry).isNotNull();
 	}
 
 	@Test
 	public void extensionRegistryNull() {
-		ProtobufHttpMessageConverter converter = new ProtobufHttpMessageConverter((ExtensionRegistry)null);
+		ProtobufHttpMessageConverter converter = new ProtobufHttpMessageConverter((ExtensionRegistry) null);
 		assertThat(converter.extensionRegistry).isNotNull();
 	}
 
@@ -132,19 +130,18 @@ public class ProtobufHttpMessageConverterTests {
 		Message result = Msg.parseFrom(outputMessage.getBodyAsBytes());
 		assertThat(result).isEqualTo(this.testMsg);
 
-		String messageHeader =
-				outputMessage.getHeaders().getFirst(ProtobufHttpMessageConverter.X_PROTOBUF_MESSAGE_HEADER);
+		String messageHeader = outputMessage.getHeaders()
+				.getFirst(ProtobufHttpMessageConverter.X_PROTOBUF_MESSAGE_HEADER);
 		assertThat(messageHeader).isEqualTo("Msg");
-		String schemaHeader =
-				outputMessage.getHeaders().getFirst(ProtobufHttpMessageConverter.X_PROTOBUF_SCHEMA_HEADER);
+		String schemaHeader = outputMessage.getHeaders()
+				.getFirst(ProtobufHttpMessageConverter.X_PROTOBUF_SCHEMA_HEADER);
 		assertThat(schemaHeader).isEqualTo("sample.proto");
 	}
 
 	@Test
 	public void writeJsonWithGoogleProtobuf() throws IOException {
 		this.converter = new ProtobufHttpMessageConverter(
-				new ProtobufHttpMessageConverter.ProtobufJavaUtilSupport(null, null),
-				this.extensionRegistry);
+				new ProtobufHttpMessageConverter.ProtobufJavaUtilSupport(null, null), this.extensionRegistry);
 		MockHttpOutputMessage outputMessage = new MockHttpOutputMessage();
 		MediaType contentType = MediaType.APPLICATION_JSON;
 		this.converter.write(this.testMsg, contentType, outputMessage);
@@ -158,16 +155,14 @@ public class ProtobufHttpMessageConverterTests {
 		JsonFormat.parser().merge(body, builder);
 		assertThat(builder.build()).isEqualTo(this.testMsg);
 
-		assertThat(outputMessage.getHeaders().getFirst(
-				ProtobufHttpMessageConverter.X_PROTOBUF_MESSAGE_HEADER)).isNull();
-		assertThat(outputMessage.getHeaders().getFirst(
-				ProtobufHttpMessageConverter.X_PROTOBUF_SCHEMA_HEADER)).isNull();
+		assertThat(outputMessage.getHeaders().getFirst(ProtobufHttpMessageConverter.X_PROTOBUF_MESSAGE_HEADER))
+				.isNull();
+		assertThat(outputMessage.getHeaders().getFirst(ProtobufHttpMessageConverter.X_PROTOBUF_SCHEMA_HEADER)).isNull();
 	}
 
 	@Test
 	public void writeJsonWithJavaFormat() throws IOException {
-		this.converter = new ProtobufHttpMessageConverter(
-				new ProtobufHttpMessageConverter.ProtobufJavaFormatSupport(),
+		this.converter = new ProtobufHttpMessageConverter(new ProtobufHttpMessageConverter.ProtobufJavaFormatSupport(),
 				this.extensionRegistry);
 		MockHttpOutputMessage outputMessage = new MockHttpOutputMessage();
 		MediaType contentType = MediaType.APPLICATION_JSON_UTF8;
@@ -182,10 +177,9 @@ public class ProtobufHttpMessageConverterTests {
 		JsonFormat.parser().merge(body, builder);
 		assertThat(builder.build()).isEqualTo(this.testMsg);
 
-		assertThat(outputMessage.getHeaders().getFirst(
-				ProtobufHttpMessageConverter.X_PROTOBUF_MESSAGE_HEADER)).isNull();
-		assertThat(outputMessage.getHeaders().getFirst(
-				ProtobufHttpMessageConverter.X_PROTOBUF_SCHEMA_HEADER)).isNull();
+		assertThat(outputMessage.getHeaders().getFirst(ProtobufHttpMessageConverter.X_PROTOBUF_MESSAGE_HEADER))
+				.isNull();
+		assertThat(outputMessage.getHeaders().getFirst(ProtobufHttpMessageConverter.X_PROTOBUF_SCHEMA_HEADER)).isNull();
 	}
 
 	@Test

@@ -38,10 +38,11 @@ import org.springframework.util.Assert;
 import org.springframework.web.servlet.view.AbstractView;
 
 /**
- * Abstract base class for Jackson based and content type independent
- * {@link AbstractView} implementations.
+ * Abstract base class for Jackson based and content type independent {@link AbstractView}
+ * implementations.
  *
- * <p>Compatible with Jackson 2.6 and higher, as of Spring 4.3.
+ * <p>
+ * Compatible with Jackson 2.6 and higher, as of Spring 4.3.
  *
  * @author Jeremy Grelle
  * @author Arjen Poutsma
@@ -63,7 +64,6 @@ public abstract class AbstractJackson2View extends AbstractView {
 
 	protected boolean updateContentLength = false;
 
-
 	protected AbstractJackson2View(ObjectMapper objectMapper, String contentType) {
 		this.objectMapper = objectMapper;
 		configurePrettyPrint();
@@ -72,11 +72,13 @@ public abstract class AbstractJackson2View extends AbstractView {
 	}
 
 	/**
-	 * Set the {@code ObjectMapper} for this view.
-	 * If not set, a default {@link ObjectMapper#ObjectMapper() ObjectMapper} will be used.
-	 * <p>Setting a custom-configured {@code ObjectMapper} is one way to take further control of
-	 * the JSON serialization process. The other option is to use Jackson's provided annotations
-	 * on the types to be serialized, in which case a custom-configured ObjectMapper is unnecessary.
+	 * Set the {@code ObjectMapper} for this view. If not set, a default
+	 * {@link ObjectMapper#ObjectMapper() ObjectMapper} will be used.
+	 * <p>
+	 * Setting a custom-configured {@code ObjectMapper} is one way to take further control
+	 * of the JSON serialization process. The other option is to use Jackson's provided
+	 * annotations on the types to be serialized, in which case a custom-configured
+	 * ObjectMapper is unnecessary.
 	 */
 	public void setObjectMapper(ObjectMapper objectMapper) {
 		this.objectMapper = objectMapper;
@@ -91,8 +93,8 @@ public abstract class AbstractJackson2View extends AbstractView {
 	}
 
 	/**
-	 * Set the {@code JsonEncoding} for this view.
-	 * By default, {@linkplain JsonEncoding#UTF8 UTF-8} is used.
+	 * Set the {@code JsonEncoding} for this view. By default,
+	 * {@linkplain JsonEncoding#UTF8 UTF-8} is used.
 	 */
 	public void setEncoding(JsonEncoding encoding) {
 		Assert.notNull(encoding, "'encoding' must not be null");
@@ -107,13 +109,13 @@ public abstract class AbstractJackson2View extends AbstractView {
 	}
 
 	/**
-	 * Whether to use the default pretty printer when writing the output.
-	 * This is a shortcut for setting up an {@code ObjectMapper} as follows:
-	 * <pre class="code">
+	 * Whether to use the default pretty printer when writing the output. This is a
+	 * shortcut for setting up an {@code ObjectMapper} as follows: <pre class="code">
 	 * ObjectMapper mapper = new ObjectMapper();
 	 * mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 	 * </pre>
-	 * <p>The default value is {@code false}.
+	 * <p>
+	 * The default value is {@code false}.
 	 */
 	public void setPrettyPrint(boolean prettyPrint) {
 		this.prettyPrint = prettyPrint;
@@ -128,7 +130,9 @@ public abstract class AbstractJackson2View extends AbstractView {
 
 	/**
 	 * Disables caching of the generated JSON.
-	 * <p>Default is {@code true}, which will prevent the client from caching the generated JSON.
+	 * <p>
+	 * Default is {@code true}, which will prevent the client from caching the generated
+	 * JSON.
 	 */
 	public void setDisableCaching(boolean disableCaching) {
 		this.disableCaching = disableCaching;
@@ -136,9 +140,10 @@ public abstract class AbstractJackson2View extends AbstractView {
 
 	/**
 	 * Whether to update the 'Content-Length' header of the response. When set to
-	 * {@code true}, the response is buffered in order to determine the content
-	 * length and set the 'Content-Length' header of the response.
-	 * <p>The default setting is {@code false}.
+	 * {@code true}, the response is buffered in order to determine the content length and
+	 * set the 'Content-Length' header of the response.
+	 * <p>
+	 * The default setting is {@code false}.
 	 */
 	public void setUpdateContentLength(boolean updateContentLength) {
 		this.updateContentLength = updateContentLength;
@@ -220,8 +225,8 @@ public abstract class AbstractJackson2View extends AbstractView {
 				filters = container.getFilters();
 			}
 
-			ObjectWriter objectWriter = (serializationView != null ?
-					this.objectMapper.writerWithView(serializationView) : this.objectMapper.writer());
+			ObjectWriter objectWriter = (serializationView != null ? this.objectMapper.writerWithView(serializationView)
+					: this.objectMapper.writer());
 			if (filters != null) {
 				objectWriter = objectWriter.with(filters);
 			}
@@ -232,16 +237,15 @@ public abstract class AbstractJackson2View extends AbstractView {
 		}
 	}
 
-
 	/**
-	 * Set the attribute in the model that should be rendered by this view.
-	 * When set, all other model attributes will be ignored.
+	 * Set the attribute in the model that should be rendered by this view. When set, all
+	 * other model attributes will be ignored.
 	 */
 	public abstract void setModelKey(String modelKey);
 
 	/**
-	 * Filter out undesired attributes from the given model.
-	 * The return value can be either another {@link Map} or a single value object.
+	 * Filter out undesired attributes from the given model. The return value can be
+	 * either another {@link Map} or a single value object.
 	 * @param model the model, as passed on to {@link #renderMergedOutputModel}
 	 * @return the value to be rendered
 	 */

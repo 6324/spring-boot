@@ -40,7 +40,6 @@ public class RequestScopedProxyTests {
 
 	private final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
-
 	@BeforeEach
 	public void setup() {
 		this.beanFactory.registerScope("request", new RequestScope());
@@ -48,7 +47,6 @@ public class RequestScopedProxyTests {
 		reader.loadBeanDefinitions(new ClassPathResource("requestScopedProxyTests.xml", getClass()));
 		this.beanFactory.preInstantiateSingletons();
 	}
-
 
 	@Test
 	public void testGetFromScope() throws Exception {
@@ -179,8 +177,8 @@ public class RequestScopedProxyTests {
 		assertThat(AopUtils.isCglibProxy(bean.getSpouse())).isTrue();
 
 		BeanDefinition beanDef = this.beanFactory.getBeanDefinition("outerBean");
-		BeanDefinitionHolder innerBeanDef =
-				(BeanDefinitionHolder) beanDef.getPropertyValues().getPropertyValue("spouse").getValue();
+		BeanDefinitionHolder innerBeanDef = (BeanDefinitionHolder) beanDef.getPropertyValues()
+				.getPropertyValue("spouse").getValue();
 		String name = innerBeanDef.getBeanName();
 
 		MockHttpServletRequest request = new MockHttpServletRequest();

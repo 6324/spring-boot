@@ -50,9 +50,10 @@ public class PathVariableMapMethodArgumentResolverTests {
 	private MockHttpServletRequest request;
 
 	private MethodParameter paramMap;
-	private MethodParameter paramNamedMap;
-	private MethodParameter paramMapNoAnnot;
 
+	private MethodParameter paramNamedMap;
+
+	private MethodParameter paramMapNoAnnot;
 
 	@BeforeEach
 	public void setup() throws Exception {
@@ -66,7 +67,6 @@ public class PathVariableMapMethodArgumentResolverTests {
 		paramNamedMap = new MethodParameter(method, 1);
 		paramMapNoAnnot = new MethodParameter(method, 2);
 	}
-
 
 	@Test
 	public void supportsParameter() {
@@ -90,16 +90,14 @@ public class PathVariableMapMethodArgumentResolverTests {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void resolveArgumentNoUriVars() throws Exception {
-		Map<String, String> map = (Map<String, String>) resolver.resolveArgument(paramMap, mavContainer, webRequest, null);
+		Map<String, String> map = (Map<String, String>) resolver.resolveArgument(paramMap, mavContainer, webRequest,
+				null);
 
 		assertThat(map).isEqualTo(Collections.emptyMap());
 	}
 
-
-	public void handle(
-			@PathVariable Map<String, String> map,
-			@PathVariable(value = "name") Map<String, String> namedMap,
-			Map<String, String> mapWithoutAnnotat) {
+	public void handle(@PathVariable Map<String, String> map,
+			@PathVariable(value = "name") Map<String, String> namedMap, Map<String, String> mapWithoutAnnotat) {
 	}
 
 }

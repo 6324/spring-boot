@@ -47,15 +47,13 @@ final class SimpleBufferingAsyncClientHttpRequest extends AbstractBufferingAsync
 
 	private final AsyncListenableTaskExecutor taskExecutor;
 
-
-	SimpleBufferingAsyncClientHttpRequest(HttpURLConnection connection,
-			boolean outputStreaming, AsyncListenableTaskExecutor taskExecutor) {
+	SimpleBufferingAsyncClientHttpRequest(HttpURLConnection connection, boolean outputStreaming,
+			AsyncListenableTaskExecutor taskExecutor) {
 
 		this.connection = connection;
 		this.outputStreaming = outputStreaming;
 		this.taskExecutor = taskExecutor;
 	}
-
 
 	@Override
 	public String getMethodValue() {
@@ -73,8 +71,8 @@ final class SimpleBufferingAsyncClientHttpRequest extends AbstractBufferingAsync
 	}
 
 	@Override
-	protected ListenableFuture<ClientHttpResponse> executeInternal(
-			final HttpHeaders headers, final byte[] bufferedOutput) throws IOException {
+	protected ListenableFuture<ClientHttpResponse> executeInternal(final HttpHeaders headers,
+			final byte[] bufferedOutput) throws IOException {
 
 		return this.taskExecutor.submitListenable(new Callable<ClientHttpResponse>() {
 			@Override

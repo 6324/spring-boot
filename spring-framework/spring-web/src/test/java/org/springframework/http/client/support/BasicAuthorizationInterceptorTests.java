@@ -42,22 +42,20 @@ public class BasicAuthorizationInterceptorTests {
 
 	@Test
 	public void createWhenUsernameContainsColonShouldThrowException() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new BasicAuthorizationInterceptor("username:", "password"))
-			.withMessageContaining("Username must not contain a colon");
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> new BasicAuthorizationInterceptor("username:", "password"))
+				.withMessageContaining("Username must not contain a colon");
 	}
 
 	@Test
 	public void createWhenUsernameIsNullShouldUseEmptyUsername() throws Exception {
-		BasicAuthorizationInterceptor interceptor = new BasicAuthorizationInterceptor(
-				null, "password");
+		BasicAuthorizationInterceptor interceptor = new BasicAuthorizationInterceptor(null, "password");
 		assertThat(new DirectFieldAccessor(interceptor).getPropertyValue("username")).isEqualTo("");
 	}
 
 	@Test
 	public void createWhenPasswordIsNullShouldUseEmptyPassword() throws Exception {
-		BasicAuthorizationInterceptor interceptor = new BasicAuthorizationInterceptor(
-				"username", null);
+		BasicAuthorizationInterceptor interceptor = new BasicAuthorizationInterceptor("username", null);
 		assertThat(new DirectFieldAccessor(interceptor).getPropertyValue("password")).isEqualTo("");
 	}
 
@@ -67,8 +65,7 @@ public class BasicAuthorizationInterceptorTests {
 		ClientHttpRequest request = requestFactory.createRequest(new URI("https://example.com"), HttpMethod.GET);
 		ClientHttpRequestExecution execution = mock(ClientHttpRequestExecution.class);
 		byte[] body = new byte[] {};
-		new BasicAuthorizationInterceptor("spring", "boot").intercept(request, body,
-				execution);
+		new BasicAuthorizationInterceptor("spring", "boot").intercept(request, body, execution);
 		verify(execution).execute(request, body);
 		assertThat(request.getHeaders().getFirst("Authorization")).isEqualTo("Basic c3ByaW5nOmJvb3Q=");
 	}

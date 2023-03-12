@@ -67,7 +67,6 @@ public class SimpleWebApplicationContext extends StaticWebApplicationContext {
 		super.refresh();
 	}
 
-
 	public static class LocaleChecker implements Controller, LastModified {
 
 		@Override
@@ -90,8 +89,8 @@ public class SimpleWebApplicationContext extends StaticWebApplicationContext {
 		public long getLastModified(HttpServletRequest request) {
 			return 1427846400000L;
 		}
-	}
 
+	}
 
 	public static class DummyThemeSource implements ThemeSource {
 
@@ -112,6 +111,7 @@ public class SimpleWebApplicationContext extends StaticWebApplicationContext {
 				return null;
 			}
 		}
+
 	}
 
 }

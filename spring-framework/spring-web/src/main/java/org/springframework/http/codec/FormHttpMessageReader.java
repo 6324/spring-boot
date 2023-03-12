@@ -42,8 +42,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
 /**
- * Implementation of an {@link HttpMessageReader} to read HTML form data, i.e.
- * request body with media type {@code "application/x-www-form-urlencoded"}.
+ * Implementation of an {@link HttpMessageReader} to read HTML form data, i.e. request
+ * body with media type {@code "application/x-www-form-urlencoded"}.
  *
  * @author Sebastien Deleuze
  * @author Rossen Stoyanchev
@@ -57,19 +57,18 @@ public class FormHttpMessageReader extends LoggingCodecSupport
 	 */
 	public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
-	private static final ResolvableType MULTIVALUE_STRINGS_TYPE =
-			ResolvableType.forClassWithGenerics(MultiValueMap.class, String.class, String.class);
-
+	private static final ResolvableType MULTIVALUE_STRINGS_TYPE = ResolvableType
+			.forClassWithGenerics(MultiValueMap.class, String.class, String.class);
 
 	private Charset defaultCharset = DEFAULT_CHARSET;
 
 	private int maxInMemorySize = 256 * 1024;
 
-
 	/**
-	 * Set the default character set to use for reading form data when the
-	 * request Content-Type header does not explicitly specify it.
-	 * <p>By default this is set to "UTF-8".
+	 * Set the default character set to use for reading form data when the request
+	 * Content-Type header does not explicitly specify it.
+	 * <p>
+	 * By default this is set to "UTF-8".
 	 */
 	public void setDefaultCharset(Charset charset) {
 		Assert.notNull(charset, "Charset must not be null");
@@ -84,10 +83,11 @@ public class FormHttpMessageReader extends LoggingCodecSupport
 	}
 
 	/**
-	 * Set the max number of bytes for input form data. As form data is buffered
-	 * before it is parsed, this helps to limit the amount of buffering. Once
-	 * the limit is exceeded, {@link DataBufferLimitException} is raised.
-	 * <p>By default this is set to 256K.
+	 * Set the max number of bytes for input form data. As form data is buffered before it
+	 * is parsed, this helps to limit the amount of buffering. Once the limit is exceeded,
+	 * {@link DataBufferLimitException} is raised.
+	 * <p>
+	 * By default this is set to 256K.
 	 * @param byteCount the max number of bytes to buffer, or -1 for unlimited
 	 * @since 5.1.11
 	 */
@@ -103,47 +103,44 @@ public class FormHttpMessageReader extends LoggingCodecSupport
 		return this.maxInMemorySize;
 	}
 
-
 	@Override
 	public boolean canRead(ResolvableType elementType, @Nullable MediaType mediaType) {
-		boolean multiValueUnresolved =
-				elementType.hasUnresolvableGenerics() &&
-						MultiValueMap.class.isAssignableFrom(elementType.toClass());
+		boolean multiValueUnresolved = elementType.hasUnresolvableGenerics()
+				&& MultiValueMap.class.isAssignableFrom(elementType.toClass());
 
-		return ((MULTIVALUE_STRINGS_TYPE.isAssignableFrom(elementType) || multiValueUnresolved) &&
-				(mediaType == null || MediaType.APPLICATION_FORM_URLENCODED.isCompatibleWith(mediaType)));
+		return ((MULTIVALUE_STRINGS_TYPE.isAssignableFrom(elementType) || multiValueUnresolved)
+				&& (mediaType == null || MediaType.APPLICATION_FORM_URLENCODED.isCompatibleWith(mediaType)));
 	}
 
 	@Override
-	public Flux<MultiValueMap<String, String>> read(ResolvableType elementType,
-			ReactiveHttpInputMessage message, Map<String, Object> hints) {
+	public Flux<MultiValueMap<String, String>> read(ResolvableType elementType, ReactiveHttpInputMessage message,
+			Map<String, Object> hints) {
 
 		return Flux.from(readMono(elementType, message, hints));
 	}
 
 	@Override
-	public Mono<MultiValueMap<String, String>> readMono(ResolvableType elementType,
-			ReactiveHttpInputMessage message, Map<String, Object> hints) {
+	public Mono<MultiValueMap<String, String>> readMono(ResolvableType elementType, ReactiveHttpInputMessage message,
+			Map<String, Object> hints) {
 
 		MediaType contentType = message.getHeaders().getContentType();
 		Charset charset = getMediaTypeCharset(contentType);
 
-		return DataBufferUtils.join(message.getBody(), this.maxInMemorySize)
-				.map(buffer -> {
-					CharBuffer charBuffer = charset.decode(buffer.asByteBuffer());
-					String body = charBuffer.toString();
-					DataBufferUtils.release(buffer);
-					MultiValueMap<String, String> formData = parseFormData(charset, body);
-					logFormData(formData, hints);
-					return formData;
-				});
+		return DataBufferUtils.join(message.getBody(), this.maxInMemorySize).map(buffer -> {
+			CharBuffer charBuffer = charset.decode(buffer.asByteBuffer());
+			String body = charBuffer.toString();
+			DataBufferUtils.release(buffer);
+			MultiValueMap<String, String> formData = parseFormData(charset, body);
+			logFormData(formData, hints);
+			return formData;
+		});
 	}
 
 	private void logFormData(MultiValueMap<String, String> formData, Map<String, Object> hints) {
-		LogFormatUtils.traceDebug(logger, traceOn -> Hints.getLogPrefix(hints) + "Read " +
-				(isEnableLoggingRequestDetails() ?
-						LogFormatUtils.formatValue(formData, !traceOn) :
-						"form fields " + formData.keySet() + " (content masked)"));
+		LogFormatUtils.traceDebug(logger,
+				traceOn -> Hints.getLogPrefix(hints) + "Read "
+						+ (isEnableLoggingRequestDetails() ? LogFormatUtils.formatValue(formData, !traceOn)
+								: "form fields " + formData.keySet() + " (content masked)"));
 	}
 
 	private Charset getMediaTypeCharset(@Nullable MediaType mediaType) {
@@ -165,7 +162,7 @@ public class FormHttpMessageReader extends LoggingCodecSupport
 					result.add(URLDecoder.decode(pair, charset.name()), null);
 				}
 				else {
-					String name = URLDecoder.decode(pair.substring(0, idx),  charset.name());
+					String name = URLDecoder.decode(pair.substring(0, idx), charset.name());
 					String value = URLDecoder.decode(pair.substring(idx + 1), charset.name());
 					result.add(name, value);
 				}

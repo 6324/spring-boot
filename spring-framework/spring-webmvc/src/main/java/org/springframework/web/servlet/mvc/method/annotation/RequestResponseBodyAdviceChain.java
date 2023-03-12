@@ -33,8 +33,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.method.ControllerAdviceBean;
 
 /**
- * Invokes {@link RequestBodyAdvice} and {@link ResponseBodyAdvice} where each
- * instance may be (and is most likely) wrapped with
+ * Invokes {@link RequestBodyAdvice} and {@link ResponseBodyAdvice} where each instance
+ * may be (and is most likely) wrapped with
  * {@link org.springframework.web.method.ControllerAdviceBean ControllerAdviceBean}.
  *
  * @author Rossen Stoyanchev
@@ -45,7 +45,6 @@ class RequestResponseBodyAdviceChain implements RequestBodyAdvice, ResponseBodyA
 	private final List<Object> requestBodyAdvice = new ArrayList<>(4);
 
 	private final List<Object> responseBodyAdvice = new ArrayList<>(4);
-
 
 	/**
 	 * Create an instance from a list of objects that are either of type
@@ -61,8 +60,8 @@ class RequestResponseBodyAdviceChain implements RequestBodyAdvice, ResponseBodyA
 		if (requestResponseBodyAdvice != null) {
 			List<T> result = new ArrayList<>();
 			for (Object advice : requestResponseBodyAdvice) {
-				Class<?> beanType = (advice instanceof ControllerAdviceBean ?
-						((ControllerAdviceBean) advice).getBeanType() : advice.getClass());
+				Class<?> beanType = (advice instanceof ControllerAdviceBean
+						? ((ControllerAdviceBean) advice).getBeanType() : advice.getClass());
 				if (beanType != null && adviceType.isAssignableFrom(beanType)) {
 					result.add((T) advice);
 				}
@@ -71,7 +70,6 @@ class RequestResponseBodyAdviceChain implements RequestBodyAdvice, ResponseBodyA
 		}
 		return Collections.emptyList();
 	}
-
 
 	@Override
 	public boolean supports(MethodParameter param, Type type, Class<? extends HttpMessageConverter<?>> converterType) {
@@ -84,8 +82,8 @@ class RequestResponseBodyAdviceChain implements RequestBodyAdvice, ResponseBodyA
 	}
 
 	@Override
-	public HttpInputMessage beforeBodyRead(HttpInputMessage request, MethodParameter parameter,
-			Type targetType, Class<? extends HttpMessageConverter<?>> converterType) throws IOException {
+	public HttpInputMessage beforeBodyRead(HttpInputMessage request, MethodParameter parameter, Type targetType,
+			Class<? extends HttpMessageConverter<?>> converterType) throws IOException {
 
 		for (RequestBodyAdvice advice : getMatchingAdvice(parameter, RequestBodyAdvice.class)) {
 			if (advice.supports(parameter, targetType, converterType)) {
@@ -96,8 +94,8 @@ class RequestResponseBodyAdviceChain implements RequestBodyAdvice, ResponseBodyA
 	}
 
 	@Override
-	public Object afterBodyRead(Object body, HttpInputMessage inputMessage, MethodParameter parameter,
-			Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
+	public Object afterBodyRead(Object body, HttpInputMessage inputMessage, MethodParameter parameter, Type targetType,
+			Class<? extends HttpMessageConverter<?>> converterType) {
 
 		for (RequestBodyAdvice advice : getMatchingAdvice(parameter, RequestBodyAdvice.class)) {
 			if (advice.supports(parameter, targetType, converterType)) {
@@ -110,8 +108,8 @@ class RequestResponseBodyAdviceChain implements RequestBodyAdvice, ResponseBodyA
 	@Override
 	@Nullable
 	public Object beforeBodyWrite(@Nullable Object body, MethodParameter returnType, MediaType contentType,
-			Class<? extends HttpMessageConverter<?>> converterType,
-			ServerHttpRequest request, ServerHttpResponse response) {
+			Class<? extends HttpMessageConverter<?>> converterType, ServerHttpRequest request,
+			ServerHttpResponse response) {
 
 		return processBody(body, returnType, contentType, converterType, request, response);
 	}
@@ -129,17 +127,16 @@ class RequestResponseBodyAdviceChain implements RequestBodyAdvice, ResponseBodyA
 		return body;
 	}
 
-
 	@SuppressWarnings("unchecked")
 	@Nullable
 	private <T> Object processBody(@Nullable Object body, MethodParameter returnType, MediaType contentType,
-			Class<? extends HttpMessageConverter<?>> converterType,
-			ServerHttpRequest request, ServerHttpResponse response) {
+			Class<? extends HttpMessageConverter<?>> converterType, ServerHttpRequest request,
+			ServerHttpResponse response) {
 
 		for (ResponseBodyAdvice<?> advice : getMatchingAdvice(returnType, ResponseBodyAdvice.class)) {
 			if (advice.supports(returnType, converterType)) {
-				body = ((ResponseBodyAdvice<T>) advice).beforeBodyWrite((T) body, returnType,
-						contentType, converterType, request, response);
+				body = ((ResponseBodyAdvice<T>) advice).beforeBodyWrite((T) body, returnType, contentType,
+						converterType, request, response);
 			}
 		}
 		return body;

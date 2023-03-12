@@ -27,8 +27,8 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link ClientHttpRequest} implementation that uses standard JDK facilities to
- * execute buffered requests. Created via the {@link SimpleClientHttpRequestFactory}.
+ * {@link ClientHttpRequest} implementation that uses standard JDK facilities to execute
+ * buffered requests. Created via the {@link SimpleClientHttpRequestFactory}.
  *
  * @author Arjen Poutsma
  * @author Juergen Hoeller
@@ -41,12 +41,10 @@ final class SimpleBufferingClientHttpRequest extends AbstractBufferingClientHttp
 
 	private final boolean outputStreaming;
 
-
 	SimpleBufferingClientHttpRequest(HttpURLConnection connection, boolean outputStreaming) {
 		this.connection = connection;
 		this.outputStreaming = outputStreaming;
 	}
-
 
 	@Override
 	public String getMethodValue() {
@@ -84,7 +82,6 @@ final class SimpleBufferingClientHttpRequest extends AbstractBufferingClientHttp
 		return new SimpleClientHttpResponse(this.connection);
 	}
 
-
 	/**
 	 * Add the given headers to the given HTTP connection.
 	 * @param connection the connection to add the headers to
@@ -100,7 +97,7 @@ final class SimpleBufferingClientHttpRequest extends AbstractBufferingClientHttp
 			}
 		}
 		headers.forEach((headerName, headerValues) -> {
-			if (HttpHeaders.COOKIE.equalsIgnoreCase(headerName)) {  // RFC 6265
+			if (HttpHeaders.COOKIE.equalsIgnoreCase(headerName)) { // RFC 6265
 				String headerValue = StringUtils.collectionToDelimitedString(headerValues, "; ");
 				connection.setRequestProperty(headerName, headerValue);
 			}

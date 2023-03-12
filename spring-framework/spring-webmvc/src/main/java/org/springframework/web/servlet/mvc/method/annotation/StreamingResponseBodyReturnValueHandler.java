@@ -37,8 +37,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
  * Supports return values of type
- * {@link org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody}
- * and also {@code ResponseEntity<StreamingResponseBody>}.
+ * {@link org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody} and
+ * also {@code ResponseEntity<StreamingResponseBody>}.
  *
  * @author Rossen Stoyanchev
  * @since 4.2
@@ -94,7 +94,6 @@ public class StreamingResponseBodyReturnValueHandler implements HandlerMethodRet
 		WebAsyncUtils.getAsyncManager(webRequest).startCallableProcessing(callable, mavContainer);
 	}
 
-
 	private static class StreamingResponseBodyTask implements Callable<Void> {
 
 		private final OutputStream outputStream;
@@ -112,6 +111,7 @@ public class StreamingResponseBodyReturnValueHandler implements HandlerMethodRet
 			this.outputStream.flush();
 			return null;
 		}
+
 	}
 
 }

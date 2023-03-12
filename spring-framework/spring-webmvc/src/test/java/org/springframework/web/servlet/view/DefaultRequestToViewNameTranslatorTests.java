@@ -30,12 +30,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DefaultRequestToViewNameTranslatorTests {
 
 	private static final String VIEW_NAME = "apple";
+
 	private static final String EXTENSION = ".html";
+
 	private static final String CONTEXT_PATH = "/sundays";
 
 	private DefaultRequestToViewNameTranslator translator;
-	private MockHttpServletRequest request;
 
+	private MockHttpServletRequest request;
 
 	@BeforeEach
 	public void setUp() {
@@ -43,7 +45,6 @@ public class DefaultRequestToViewNameTranslatorTests {
 		this.request = new MockHttpServletRequest();
 		this.request.setContextPath(CONTEXT_PATH);
 	}
-
 
 	@Test
 	public void testGetViewNameLeavesLeadingSlashIfSoConfigured() {
@@ -130,11 +131,12 @@ public class DefaultRequestToViewNameTranslatorTests {
 		}
 	}
 
-
 	private void assertViewName(String expectedViewName) {
 		String actualViewName = this.translator.getViewName(this.request);
 		assertThat(actualViewName).isNotNull();
-		assertThat(actualViewName).as("Did not get the expected viewName from the DefaultRequestToViewNameTranslator.getViewName(..)").isEqualTo(expectedViewName);
+		assertThat(actualViewName)
+				.as("Did not get the expected viewName from the DefaultRequestToViewNameTranslator.getViewName(..)")
+				.isEqualTo(expectedViewName);
 	}
 
 }

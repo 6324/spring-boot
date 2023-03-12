@@ -44,7 +44,6 @@ public class PathResourceResolverTests {
 
 	private final PathResourceResolver resolver = new PathResourceResolver();
 
-
 	@Test
 	public void resolveFromClasspath() throws IOException {
 		Resource location = new ClassPathResource("test/", PathResourceResolver.class);
@@ -100,10 +99,8 @@ public class PathResourceResolverTests {
 
 	@Test
 	public void checkResourceWithAllowedLocations() {
-		this.resolver.setAllowedLocations(
-				new ClassPathResource("test/", PathResourceResolver.class),
-				new ClassPathResource("testalternatepath/", PathResourceResolver.class)
-		);
+		this.resolver.setAllowedLocations(new ClassPathResource("test/", PathResourceResolver.class),
+				new ClassPathResource("testalternatepath/", PathResourceResolver.class));
 
 		Resource location = getResource("main.css");
 		List<Resource> locations = Collections.singletonList(location);
@@ -125,11 +122,11 @@ public class PathResourceResolverTests {
 
 	@Test // SPR-12624
 	public void checkRelativeLocation() throws Exception {
-		String location= new UrlResource(getClass().getResource("./test/")).getURL().toExternalForm();
-		location = location.replace("/test/org/springframework","/test/org/../org/springframework");
+		String location = new UrlResource(getClass().getResource("./test/")).getURL().toExternalForm();
+		location = location.replace("/test/org/springframework", "/test/org/../org/springframework");
 
-		Resource actual = this.resolver.resolveResource(
-				null, "main.css", Collections.singletonList(new UrlResource(location)), null);
+		Resource actual = this.resolver.resolveResource(null, "main.css",
+				Collections.singletonList(new UrlResource(location)), null);
 
 		assertThat(actual).isNotNull();
 	}
@@ -177,16 +174,13 @@ public class PathResourceResolverTests {
 		return new ClassPathResource("test/" + filePath, getClass());
 	}
 
-
 	private static class TestUrlResource extends UrlResource {
 
 		private String relativePath;
 
-
 		public TestUrlResource(String path) throws MalformedURLException {
 			super(path);
 		}
-
 
 		public String getSavedRelativePath() {
 			return this.relativePath;
@@ -197,6 +191,7 @@ public class PathResourceResolverTests {
 			this.relativePath = relativePath;
 			return this;
 		}
+
 	}
 
 }

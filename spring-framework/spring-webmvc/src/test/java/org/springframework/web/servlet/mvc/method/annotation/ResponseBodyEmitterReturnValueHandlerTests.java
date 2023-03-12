@@ -52,6 +52,7 @@ import static org.springframework.web.testfixture.method.ResolvableMethod.on;
 
 /**
  * Unit tests for ResponseBodyEmitterReturnValueHandler.
+ *
  * @author Rossen Stoyanchev
  */
 public class ResponseBodyEmitterReturnValueHandlerTests {
@@ -66,12 +67,10 @@ public class ResponseBodyEmitterReturnValueHandlerTests {
 
 	private final ModelAndViewContainer mavContainer = new ModelAndViewContainer();
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 
-		List<HttpMessageConverter<?>> converters =
-				Collections.singletonList(new MappingJackson2HttpMessageConverter());
+		List<HttpMessageConverter<?>> converters = Collections.singletonList(new MappingJackson2HttpMessageConverter());
 
 		this.handler = new ResponseBodyEmitterReturnValueHandler(converters);
 		this.request = new MockHttpServletRequest();
@@ -83,39 +82,40 @@ public class ResponseBodyEmitterReturnValueHandlerTests {
 		this.request.setAsyncSupported(true);
 	}
 
-
 	@Test
 	public void supportsReturnTypes() throws Exception {
 
-		assertThat(this.handler.supportsReturnType(
-				on(TestController.class).resolveReturnType(ResponseBodyEmitter.class))).isTrue();
+		assertThat(
+				this.handler.supportsReturnType(on(TestController.class).resolveReturnType(ResponseBodyEmitter.class)))
+						.isTrue();
 
-		assertThat(this.handler.supportsReturnType(
-				on(TestController.class).resolveReturnType(SseEmitter.class))).isTrue();
+		assertThat(this.handler.supportsReturnType(on(TestController.class).resolveReturnType(SseEmitter.class)))
+				.isTrue();
 
 		assertThat(this.handler.supportsReturnType(
 				on(TestController.class).resolveReturnType(ResponseEntity.class, ResponseBodyEmitter.class))).isTrue();
 
-		assertThat(this.handler.supportsReturnType(
-				on(TestController.class).resolveReturnType(Flux.class, String.class))).isTrue();
+		assertThat(
+				this.handler.supportsReturnType(on(TestController.class).resolveReturnType(Flux.class, String.class)))
+						.isTrue();
 
-		assertThat(this.handler.supportsReturnType(
-				on(TestController.class).resolveReturnType(forClassWithGenerics(ResponseEntity.class,
-								forClassWithGenerics(Flux.class, String.class))))).isTrue();
+		assertThat(this.handler.supportsReturnType(on(TestController.class).resolveReturnType(
+				forClassWithGenerics(ResponseEntity.class, forClassWithGenerics(Flux.class, String.class))))).isTrue();
 	}
 
 	@Test
 	public void doesNotSupportReturnTypes() throws Exception {
 
-		assertThat(this.handler.supportsReturnType(
-				on(TestController.class).resolveReturnType(ResponseEntity.class, String.class))).isFalse();
+		assertThat(this.handler
+				.supportsReturnType(on(TestController.class).resolveReturnType(ResponseEntity.class, String.class)))
+						.isFalse();
 
-		assertThat(this.handler.supportsReturnType(
-				on(TestController.class).resolveReturnType(forClassWithGenerics(ResponseEntity.class,
-						forClassWithGenerics(AtomicReference.class, String.class))))).isFalse();
+		assertThat(this.handler.supportsReturnType(on(TestController.class).resolveReturnType(
+				forClassWithGenerics(ResponseEntity.class, forClassWithGenerics(AtomicReference.class, String.class)))))
+						.isFalse();
 
-		assertThat(this.handler.supportsReturnType(
-				on(TestController.class).resolveReturnType(ResponseEntity.class))).isFalse();
+		assertThat(this.handler.supportsReturnType(on(TestController.class).resolveReturnType(ResponseEntity.class)))
+				.isFalse();
 	}
 
 	@Test
@@ -142,9 +142,8 @@ public class ResponseBodyEmitterReturnValueHandlerTests {
 		bean.setName("Jason");
 		emitter.send(bean);
 
-		assertThat(this.response.getContentAsString()).isEqualTo(("{\"id\":1,\"name\":\"Joe\"}\n" +
-						"{\"id\":2,\"name\":\"John\"}\n" +
-						"{\"id\":3,\"name\":\"Jason\"}"));
+		assertThat(this.response.getContentAsString()).isEqualTo(
+				("{\"id\":1,\"name\":\"Joe\"}\n" + "{\"id\":2,\"name\":\"John\"}\n" + "{\"id\":3,\"name\":\"Jason\"}"));
 
 		MockAsyncContext asyncContext = (MockAsyncContext) this.request.getAsyncContext();
 		assertThat(asyncContext.getDispatchedPath()).isNull();
@@ -208,17 +207,13 @@ public class ResponseBodyEmitterReturnValueHandlerTests {
 		bean2.setId(2L);
 		bean2.setName("John");
 
-		emitter.send(SseEmitter.event().
-				comment("a test").name("update").id("1").reconnectTime(5000L).data(bean1).data(bean2));
+		emitter.send(SseEmitter.event().comment("a test").name("update").id("1").reconnectTime(5000L).data(bean1)
+				.data(bean2));
 
 		assertThat(this.response.getContentType()).isEqualTo("text/event-stream");
-		assertThat(this.response.getContentAsString()).isEqualTo((":a test\n" +
-						"event:update\n" +
-						"id:1\n" +
-						"retry:5000\n" +
-						"data:{\"id\":1,\"name\":\"Joe\"}\n" +
-						"data:{\"id\":2,\"name\":\"John\"}\n" +
-						"\n"));
+		assertThat(this.response.getContentAsString())
+				.isEqualTo((":a test\n" + "event:update\n" + "id:1\n" + "retry:5000\n"
+						+ "data:{\"id\":1,\"name\":\"Joe\"}\n" + "data:{\"id\":2,\"name\":\"John\"}\n" + "\n"));
 	}
 
 	@Test
@@ -323,31 +318,50 @@ public class ResponseBodyEmitterReturnValueHandlerTests {
 		assertThat(this.response.isCommitted()).isFalse();
 	}
 
-
 	@SuppressWarnings("unused")
 	private static class TestController {
 
-		private ResponseBodyEmitter h1() { return null; }
+		private ResponseBodyEmitter h1() {
+			return null;
+		}
 
-		private ResponseEntity<ResponseBodyEmitter> h2() { return null; }
+		private ResponseEntity<ResponseBodyEmitter> h2() {
+			return null;
+		}
 
-		private SseEmitter h3() { return null; }
+		private SseEmitter h3() {
+			return null;
+		}
 
-		private ResponseEntity<SseEmitter> h4() { return null; }
+		private ResponseEntity<SseEmitter> h4() {
+			return null;
+		}
 
-		private ResponseEntity<String> h5() { return null; }
+		private ResponseEntity<String> h5() {
+			return null;
+		}
 
-		private ResponseEntity<AtomicReference<String>> h6() { return null; }
+		private ResponseEntity<AtomicReference<String>> h6() {
+			return null;
+		}
 
-		private ResponseEntity<?> h7() { return null; }
+		private ResponseEntity<?> h7() {
+			return null;
+		}
 
-		private Flux<String> h8() { return null; }
+		private Flux<String> h8() {
+			return null;
+		}
 
-		private ResponseEntity<Flux<String>> h9() { return null; }
+		private ResponseEntity<Flux<String>> h9() {
+			return null;
+		}
 
-		private ResponseEntity<Flux<SimpleBean>> h10() { return null; }
+		private ResponseEntity<Flux<SimpleBean>> h10() {
+			return null;
+		}
+
 	}
-
 
 	@SuppressWarnings("unused")
 	private static class SimpleBean {
@@ -371,6 +385,7 @@ public class ResponseBodyEmitterReturnValueHandlerTests {
 		public void setName(String name) {
 			this.name = name;
 		}
+
 	}
 
 }

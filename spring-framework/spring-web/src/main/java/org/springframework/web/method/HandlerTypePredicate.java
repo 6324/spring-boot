@@ -30,15 +30,15 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * A {@code Predicate} to match request handling component types if
- * <strong>any</strong> of the following selectors match:
+ * A {@code Predicate} to match request handling component types if <strong>any</strong>
+ * of the following selectors match:
  * <ul>
  * <li>Base packages -- for selecting handlers by their package.
  * <li>Assignable types -- for selecting handlers by super type.
  * <li>Annotations -- for selecting handlers annotated in a specific way.
  * </ul>
- * <p>Composability methods on {@link Predicate} can be used :
- * <pre class="code">
+ * <p>
+ * Composability methods on {@link Predicate} can be used : <pre class="code">
  * Predicate&lt;Class&lt;?&gt;&gt; predicate =
  * 		HandlerTypePredicate.forAnnotation(RestController.class)
  * 				.and(HandlerTypePredicate.forBasePackage("org.example"));
@@ -55,7 +55,6 @@ public final class HandlerTypePredicate implements Predicate<Class<?>> {
 
 	private final List<Class<? extends Annotation>> annotations;
 
-
 	/**
 	 * Private constructor. See static factory methods.
 	 */
@@ -66,7 +65,6 @@ public final class HandlerTypePredicate implements Predicate<Class<?>> {
 		this.assignableTypes = Collections.unmodifiableList(assignableTypes);
 		this.annotations = Collections.unmodifiableList(annotations);
 	}
-
 
 	@Override
 	public boolean test(Class<?> controllerType) {
@@ -97,15 +95,13 @@ public final class HandlerTypePredicate implements Predicate<Class<?>> {
 		return (!this.basePackages.isEmpty() || !this.assignableTypes.isEmpty() || !this.annotations.isEmpty());
 	}
 
-
 	// Static factory methods
 
 	/**
 	 * {@code Predicate} that applies to any handlers.
 	 */
 	public static HandlerTypePredicate forAnyHandlerType() {
-		return new HandlerTypePredicate(
-				Collections.emptySet(), Collections.emptyList(), Collections.emptyList());
+		return new HandlerTypePredicate(Collections.emptySet(), Collections.emptyList(), Collections.emptyList());
 	}
 
 	/**
@@ -117,8 +113,8 @@ public final class HandlerTypePredicate implements Predicate<Class<?>> {
 	}
 
 	/**
-	 * Type-safe alternative to {@link #forBasePackage(String...)} to specify a
-	 * base package through a class.
+	 * Type-safe alternative to {@link #forBasePackage(String...)} to specify a base
+	 * package through a class.
 	 * @param packageClasses one or more base package classes
 	 */
 	public static HandlerTypePredicate forBasePackageClass(Class<?>... packageClasses) {
@@ -149,7 +145,6 @@ public final class HandlerTypePredicate implements Predicate<Class<?>> {
 		return new Builder();
 	}
 
-
 	/**
 	 * A {@link HandlerTypePredicate} builder.
 	 */
@@ -171,8 +166,8 @@ public final class HandlerTypePredicate implements Predicate<Class<?>> {
 		}
 
 		/**
-		 * Type-safe alternative to {@link #forBasePackage(String...)} to specify a
-		 * base package through a class.
+		 * Type-safe alternative to {@link #forBasePackage(String...)} to specify a base
+		 * package through a class.
 		 * @param packageClasses one or more base package names
 		 */
 		public Builder basePackageClass(Class<?>... packageClasses) {
@@ -206,6 +201,7 @@ public final class HandlerTypePredicate implements Predicate<Class<?>> {
 		public HandlerTypePredicate build() {
 			return new HandlerTypePredicate(this.basePackages, this.assignableTypes, this.annotations);
 		}
+
 	}
 
 }

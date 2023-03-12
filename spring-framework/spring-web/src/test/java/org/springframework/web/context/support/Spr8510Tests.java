@@ -46,17 +46,16 @@ public class Spr8510Tests {
 
 		MockServletContext sc = new MockServletContext();
 
-		assertThatExceptionOfType(Throwable.class).isThrownBy(() ->
-				cll.contextInitialized(new ServletContextEvent(sc)))
-			.withMessageEndingWith("Could not open ServletContext resource [/programmatic.xml]");
+		assertThatExceptionOfType(Throwable.class).isThrownBy(() -> cll.contextInitialized(new ServletContextEvent(sc)))
+				.withMessageEndingWith("Could not open ServletContext resource [/programmatic.xml]");
 	}
 
 	/**
-	 * If a contextConfigLocation init-param has been specified for the ContextLoaderListener,
-	 * then it should take precedence. This is generally not a recommended practice, but
-	 * when it does happen, the init-param should be considered more specific than the
-	 * programmatic configuration, given that it still quite possibly externalized in
-	 * hybrid web.xml + WebApplicationInitializer cases.
+	 * If a contextConfigLocation init-param has been specified for the
+	 * ContextLoaderListener, then it should take precedence. This is generally not a
+	 * recommended practice, but when it does happen, the init-param should be considered
+	 * more specific than the programmatic configuration, given that it still quite
+	 * possibly externalized in hybrid web.xml + WebApplicationInitializer cases.
 	 */
 	@Test
 	public void abstractRefreshableWAC_respectsInitParam_overProgrammaticConfigLocations() {
@@ -67,27 +66,25 @@ public class Spr8510Tests {
 		MockServletContext sc = new MockServletContext();
 		sc.addInitParameter(ContextLoader.CONFIG_LOCATION_PARAM, "from-init-param.xml");
 
-		assertThatExceptionOfType(Throwable.class).isThrownBy(() ->
-				cll.contextInitialized(new ServletContextEvent(sc)))
-			.withMessageEndingWith("Could not open ServletContext resource [/from-init-param.xml]");
+		assertThatExceptionOfType(Throwable.class).isThrownBy(() -> cll.contextInitialized(new ServletContextEvent(sc)))
+				.withMessageEndingWith("Could not open ServletContext resource [/from-init-param.xml]");
 	}
 
 	/**
-	 * If setConfigLocation has not been called explicitly against the application context,
-	 * then fall back to the ContextLoaderListener init-param if present.
+	 * If setConfigLocation has not been called explicitly against the application
+	 * context, then fall back to the ContextLoaderListener init-param if present.
 	 */
 	@Test
 	public void abstractRefreshableWAC_fallsBackToInitParam() {
 		XmlWebApplicationContext ctx = new XmlWebApplicationContext();
-		//ctx.setConfigLocation("programmatic.xml"); // nothing set programmatically
+		// ctx.setConfigLocation("programmatic.xml"); // nothing set programmatically
 		ContextLoaderListener cll = new ContextLoaderListener(ctx);
 
 		MockServletContext sc = new MockServletContext();
 		sc.addInitParameter(ContextLoader.CONFIG_LOCATION_PARAM, "from-init-param.xml");
 
-		assertThatExceptionOfType(Throwable.class).isThrownBy(() ->
-				cll.contextInitialized(new ServletContextEvent(sc)))
-			.withMessageEndingWith("Could not open ServletContext resource [/from-init-param.xml]");
+		assertThatExceptionOfType(Throwable.class).isThrownBy(() -> cll.contextInitialized(new ServletContextEvent(sc)))
+				.withMessageEndingWith("Could not open ServletContext resource [/from-init-param.xml]");
 	}
 
 	/**
@@ -101,15 +98,14 @@ public class Spr8510Tests {
 				return new String[] { "/WEB-INF/custom.xml" };
 			}
 		};
-		//ctx.setConfigLocation("programmatic.xml"); // nothing set programmatically
+		// ctx.setConfigLocation("programmatic.xml"); // nothing set programmatically
 		ContextLoaderListener cll = new ContextLoaderListener(ctx);
 
 		MockServletContext sc = new MockServletContext();
 		sc.addInitParameter(ContextLoader.CONFIG_LOCATION_PARAM, "from-init-param.xml");
 
-		assertThatExceptionOfType(Throwable.class).isThrownBy(() ->
-				cll.contextInitialized(new ServletContextEvent(sc)))
-			.withMessageEndingWith("Could not open ServletContext resource [/from-init-param.xml]");
+		assertThatExceptionOfType(Throwable.class).isThrownBy(() -> cll.contextInitialized(new ServletContextEvent(sc)))
+				.withMessageEndingWith("Could not open ServletContext resource [/from-init-param.xml]");
 	}
 
 	/**
@@ -119,16 +115,16 @@ public class Spr8510Tests {
 	@Test
 	public void abstractRefreshableWAC_fallsBackToConventionBasedNaming() {
 		XmlWebApplicationContext ctx = new XmlWebApplicationContext();
-		//ctx.setConfigLocation("programmatic.xml"); // nothing set programmatically
+		// ctx.setConfigLocation("programmatic.xml"); // nothing set programmatically
 		ContextLoaderListener cll = new ContextLoaderListener(ctx);
 
 		MockServletContext sc = new MockServletContext();
 		// no init-param set
-		//sc.addInitParameter(ContextLoader.CONFIG_LOCATION_PARAM, "from-init-param.xml");
+		// sc.addInitParameter(ContextLoader.CONFIG_LOCATION_PARAM,
+		// "from-init-param.xml");
 
-		assertThatExceptionOfType(Throwable.class).isThrownBy(() ->
-				cll.contextInitialized(new ServletContextEvent(sc)))
-			.withMessageEndingWith("Could not open ServletContext resource [/WEB-INF/applicationContext.xml]");
+		assertThatExceptionOfType(Throwable.class).isThrownBy(() -> cll.contextInitialized(new ServletContextEvent(sc)))
+				.withMessageEndingWith("Could not open ServletContext resource [/WEB-INF/applicationContext.xml]");
 	}
 
 	/**
@@ -146,7 +142,8 @@ public class Spr8510Tests {
 	}
 
 	/**
-	 * Ensure that ContextLoaderListener and AnnotationConfigApplicationContext interact nicely.
+	 * Ensure that ContextLoaderListener and AnnotationConfigApplicationContext interact
+	 * nicely.
 	 */
 	@Test
 	public void annotationConfigWAC() {
@@ -157,4 +154,5 @@ public class Spr8510Tests {
 		ContextLoaderListener cll = new ContextLoaderListener(ctx);
 		cll.contextInitialized(new ServletContextEvent(new MockServletContext()));
 	}
+
 }

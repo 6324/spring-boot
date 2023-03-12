@@ -61,8 +61,8 @@ import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.xml.StaxUtils;
 
 /**
- * Decode from a bytes stream containing XML elements to a stream of
- * {@code Object}s (POJOs).
+ * Decode from a bytes stream containing XML elements to a stream of {@code Object}s
+ * (POJOs).
  *
  * @author Sebastien Deleuze
  * @author Arjen Poutsma
@@ -82,7 +82,6 @@ public class Jaxb2XmlDecoder extends AbstractDecoder<Object> {
 
 	private static final XMLInputFactory inputFactory = StaxUtils.createDefensiveInputFactory();
 
-
 	private final XmlEventDecoder xmlEventDecoder = new XmlEventDecoder();
 
 	private final JaxbContextContainer jaxbContexts = new JaxbContextContainer();
@@ -90,7 +89,6 @@ public class Jaxb2XmlDecoder extends AbstractDecoder<Object> {
 	private Function<Unmarshaller, Unmarshaller> unmarshallerProcessor = Function.identity();
 
 	private int maxInMemorySize = 256 * 1024;
-
 
 	public Jaxb2XmlDecoder() {
 		super(MimeTypeUtils.APPLICATION_XML, MimeTypeUtils.TEXT_XML, new MediaType("application", "*+xml"));
@@ -104,7 +102,6 @@ public class Jaxb2XmlDecoder extends AbstractDecoder<Object> {
 	public Jaxb2XmlDecoder(MimeType... supportedMimeTypes) {
 		super(supportedMimeTypes);
 	}
-
 
 	/**
 	 * Configure a processor function to customize Unmarshaller instances.
@@ -124,11 +121,12 @@ public class Jaxb2XmlDecoder extends AbstractDecoder<Object> {
 	}
 
 	/**
-	 * Set the max number of bytes that can be buffered by this decoder.
-	 * This is either the size of the entire input when decoding as a whole, or when
-	 * using async parsing with Aalto XML, it is the size of one top-level XML tree.
-	 * When the limit is exceeded, {@link DataBufferLimitException} is raised.
-	 * <p>By default this is set to 256K.
+	 * Set the max number of bytes that can be buffered by this decoder. This is either
+	 * the size of the entire input when decoding as a whole, or when using async parsing
+	 * with Aalto XML, it is the size of one top-level XML tree. When the limit is
+	 * exceeded, {@link DataBufferLimitException} is raised.
+	 * <p>
+	 * By default this is set to 256K.
 	 * @param byteCount the max number of bytes to buffer, or -1 for unlimited
 	 * @since 5.1.11
 	 */
@@ -145,20 +143,19 @@ public class Jaxb2XmlDecoder extends AbstractDecoder<Object> {
 		return this.maxInMemorySize;
 	}
 
-
 	@Override
 	public boolean canDecode(ResolvableType elementType, @Nullable MimeType mimeType) {
 		Class<?> outputClass = elementType.toClass();
-		return (outputClass.isAnnotationPresent(XmlRootElement.class) ||
-				outputClass.isAnnotationPresent(XmlType.class)) && super.canDecode(elementType, mimeType);
+		return (outputClass.isAnnotationPresent(XmlRootElement.class) || outputClass.isAnnotationPresent(XmlType.class))
+				&& super.canDecode(elementType, mimeType);
 	}
 
 	@Override
 	public Flux<Object> decode(Publisher<DataBuffer> inputStream, ResolvableType elementType,
 			@Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
 
-		Flux<XMLEvent> xmlEventFlux = this.xmlEventDecoder.decode(
-				inputStream, ResolvableType.forClass(XMLEvent.class), mimeType, hints);
+		Flux<XMLEvent> xmlEventFlux = this.xmlEventDecoder.decode(inputStream, ResolvableType.forClass(XMLEvent.class),
+				mimeType, hints);
 
 		Class<?> outputClass = elementType.toClass();
 		QName typeName = toQName(outputClass);
@@ -175,7 +172,8 @@ public class Jaxb2XmlDecoder extends AbstractDecoder<Object> {
 	}
 
 	@Override
-	@SuppressWarnings({"rawtypes", "unchecked", "cast"})  // XMLEventReader is Iterator<Object> on JDK 9
+	@SuppressWarnings({ "rawtypes", "unchecked", "cast" }) // XMLEventReader is
+															// Iterator<Object> on JDK 9
 	public Mono<Object> decodeToMono(Publisher<DataBuffer> input, ResolvableType elementType,
 			@Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
 
@@ -184,9 +182,10 @@ public class Jaxb2XmlDecoder extends AbstractDecoder<Object> {
 	}
 
 	@Override
-	@SuppressWarnings({"rawtypes", "unchecked", "cast"})  // XMLEventReader is Iterator<Object> on JDK 9
-	public Object decode(DataBuffer dataBuffer, ResolvableType targetType,
-			@Nullable MimeType mimeType, @Nullable Map<String, Object> hints) throws DecodingException {
+	@SuppressWarnings({ "rawtypes", "unchecked", "cast" }) // XMLEventReader is
+															// Iterator<Object> on JDK 9
+	public Object decode(DataBuffer dataBuffer, ResolvableType targetType, @Nullable MimeType mimeType,
+			@Nullable Map<String, Object> hints) throws DecodingException {
 
 		try {
 			Iterator eventReader = inputFactory.createXMLEventReader(dataBuffer.asInputStream());
@@ -232,8 +231,8 @@ public class Jaxb2XmlDecoder extends AbstractDecoder<Object> {
 	}
 
 	/**
-	 * Returns the qualified name for the given class, according to the mapping rules
-	 * in the JAXB specification.
+	 * Returns the qualified name for the given class, according to the mapping rules in
+	 * the JAXB specification.
 	 */
 	QName toQName(Class<?> outputClass) {
 		String localPart;
@@ -250,8 +249,8 @@ public class Jaxb2XmlDecoder extends AbstractDecoder<Object> {
 			namespaceUri = annotation.namespace();
 		}
 		else {
-			throw new IllegalArgumentException("Output class [" + outputClass.getName() +
-					"] is neither annotated with @XmlRootElement nor @XmlType");
+			throw new IllegalArgumentException("Output class [" + outputClass.getName()
+					+ "] is neither annotated with @XmlRootElement nor @XmlType");
 		}
 
 		if (JAXB_DEFAULT_ANNOTATION_VALUE.equals(localPart)) {
@@ -272,11 +271,11 @@ public class Jaxb2XmlDecoder extends AbstractDecoder<Object> {
 
 	/**
 	 * Split a flux of {@link XMLEvent XMLEvents} into a flux of XMLEvent lists, one list
-	 * for each branch of the tree that starts with the given qualified name.
-	 * That is, given the XMLEvents shown {@linkplain XmlEventDecoder here},
-	 * and the {@code desiredName} "{@code child}", this method returns a flux
-	 * of two lists, each of which containing the events of a particular branch
-	 * of the tree that starts with "{@code child}".
+	 * for each branch of the tree that starts with the given qualified name. That is,
+	 * given the XMLEvents shown {@linkplain XmlEventDecoder here}, and the
+	 * {@code desiredName} "{@code child}", this method returns a flux of two lists, each
+	 * of which containing the events of a particular branch of the tree that starts with
+	 * "{@code child}".
 	 * <ol>
 	 * <li>The first list, dealing with the first branch of the tree:
 	 * <ol>
@@ -296,7 +295,6 @@ public class Jaxb2XmlDecoder extends AbstractDecoder<Object> {
 	Flux<List<XMLEvent>> split(Flux<XMLEvent> xmlEventFlux, QName desiredName) {
 		return xmlEventFlux.handle(new SplitHandler(desiredName));
 	}
-
 
 	private static class SplitHandler implements BiConsumer<XMLEvent, SynchronousSink<List<XMLEvent>>> {
 
@@ -338,6 +336,7 @@ public class Jaxb2XmlDecoder extends AbstractDecoder<Object> {
 				}
 			}
 		}
+
 	}
 
 }

@@ -27,7 +27,8 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 
 /**
- * Used by {@link CandidateComponentsIndexer} to collect {@link CandidateComponentsMetadata}.
+ * Used by {@link CandidateComponentsIndexer} to collect
+ * {@link CandidateComponentsMetadata}.
  *
  * @author Stephane Nicoll
  * @since 5.0
@@ -44,7 +45,6 @@ class MetadataCollector {
 
 	private final Set<String> processedSourceTypes = new HashSet<>();
 
-
 	/**
 	 * Create a new {@code MetadataProcessor} instance.
 	 * @param processingEnvironment the processing environment of the build
@@ -57,7 +57,6 @@ class MetadataCollector {
 		this.previousMetadata = previousMetadata;
 		this.typeHelper = new TypeHelper(processingEnvironment);
 	}
-
 
 	public void processing(RoundEnvironment roundEnv) {
 		for (Element element : roundEnv.getRootElements()) {
@@ -93,13 +92,11 @@ class MetadataCollector {
 
 	private boolean shouldBeMerged(ItemMetadata itemMetadata) {
 		String sourceType = itemMetadata.getType();
-		return (sourceType != null && !deletedInCurrentBuild(sourceType)
-				&& !processedInCurrentBuild(sourceType));
+		return (sourceType != null && !deletedInCurrentBuild(sourceType) && !processedInCurrentBuild(sourceType));
 	}
 
 	private boolean deletedInCurrentBuild(String sourceType) {
-		return this.processingEnvironment.getElementUtils()
-				.getTypeElement(sourceType) == null;
+		return this.processingEnvironment.getElementUtils().getTypeElement(sourceType) == null;
 	}
 
 	private boolean processedInCurrentBuild(String sourceType) {

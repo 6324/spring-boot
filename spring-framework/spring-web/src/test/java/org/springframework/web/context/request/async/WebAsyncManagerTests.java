@@ -53,7 +53,6 @@ public class WebAsyncManagerTests {
 
 	private MockHttpServletRequest servletRequest;
 
-
 	@BeforeEach
 	public void setup() {
 		this.servletRequest = new MockHttpServletRequest();
@@ -65,18 +64,16 @@ public class WebAsyncManagerTests {
 		reset(this.asyncWebRequest);
 	}
 
-
 	@Test
 	public void startAsyncProcessingWithoutAsyncWebRequest() throws Exception {
 		WebAsyncManager manager = WebAsyncUtils.getAsyncManager(new MockHttpServletRequest());
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				manager.startCallableProcessing(new StubCallable(1)))
-			.withMessage("AsyncWebRequest must not be null");
+		assertThatIllegalStateException().isThrownBy(() -> manager.startCallableProcessing(new StubCallable(1)))
+				.withMessage("AsyncWebRequest must not be null");
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				manager.startDeferredResultProcessing(new DeferredResult<String>()))
-			.withMessage("AsyncWebRequest must not be null");
+		assertThatIllegalStateException()
+				.isThrownBy(() -> manager.startDeferredResultProcessing(new DeferredResult<String>()))
+				.withMessage("AsyncWebRequest must not be null");
 	}
 
 	@Test
@@ -94,8 +91,7 @@ public class WebAsyncManagerTests {
 	@Test
 	public void setAsyncWebRequestAfterAsyncStarted() {
 		this.asyncWebRequest.startAsync();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.asyncManager.setAsyncWebRequest(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.asyncManager.setAsyncWebRequest(null));
 	}
 
 	@Test
@@ -152,9 +148,8 @@ public class WebAsyncManagerTests {
 
 		this.asyncManager.registerCallableInterceptor("interceptor", interceptor);
 
-		assertThatExceptionOfType(Exception.class).isThrownBy(() ->
-				this.asyncManager.startCallableProcessing(task))
-			.isEqualTo(exception);
+		assertThatExceptionOfType(Exception.class).isThrownBy(() -> this.asyncManager.startCallableProcessing(task))
+				.isEqualTo(exception);
 
 		assertThat(this.asyncManager.hasConcurrentResult()).isFalse();
 
@@ -248,9 +243,9 @@ public class WebAsyncManagerTests {
 
 	@Test
 	public void startCallableProcessingNullInput() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.asyncManager.startCallableProcessing((Callable<?>) null))
-			.withMessage("Callable must not be null");
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> this.asyncManager.startCallableProcessing((Callable<?>) null))
+				.withMessage("Callable must not be null");
 	}
 
 	@Test
@@ -285,9 +280,8 @@ public class WebAsyncManagerTests {
 
 		this.asyncManager.registerDeferredResultInterceptor("interceptor", interceptor);
 
-		assertThatExceptionOfType(Exception.class).isThrownBy(() ->
-				this.asyncManager.startDeferredResultProcessing(deferredResult))
-			.isEqualTo(exception);
+		assertThatExceptionOfType(Exception.class)
+				.isThrownBy(() -> this.asyncManager.startDeferredResultProcessing(deferredResult)).isEqualTo(exception);
 
 		assertThat(this.asyncManager.hasConcurrentResult()).isFalse();
 
@@ -340,9 +334,8 @@ public class WebAsyncManagerTests {
 
 	@Test
 	public void startDeferredResultProcessingNullInput() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.asyncManager.startDeferredResultProcessing(null))
-			.withMessage("DeferredResult must not be null");
+		assertThatIllegalArgumentException().isThrownBy(() -> this.asyncManager.startDeferredResultProcessing(null))
+				.withMessage("DeferredResult must not be null");
 	}
 
 	private void setupDefaultAsyncScenario() {
@@ -357,7 +350,6 @@ public class WebAsyncManagerTests {
 		verify(this.asyncWebRequest).startAsync();
 		verify(this.asyncWebRequest).dispatch();
 	}
-
 
 	private final class StubCallable implements Callable<Object> {
 
@@ -374,8 +366,8 @@ public class WebAsyncManagerTests {
 			}
 			return this.value;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	private static class SyncTaskExecutor extends SimpleAsyncTaskExecutor {
@@ -384,6 +376,7 @@ public class WebAsyncManagerTests {
 		public void execute(Runnable task, long startTimeout) {
 			task.run();
 		}
+
 	}
 
 }

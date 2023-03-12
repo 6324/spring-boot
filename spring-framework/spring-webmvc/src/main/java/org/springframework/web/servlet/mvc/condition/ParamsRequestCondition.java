@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.WebUtils;
 
 /**
- * A logical conjunction (' && ') request condition that matches a request against
- * a set parameter expressions with syntax defined in {@link RequestMapping#params()}.
+ * A logical conjunction (' && ') request condition that matches a request against a set
+ * parameter expressions with syntax defined in {@link RequestMapping#params()}.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -41,11 +41,10 @@ public final class ParamsRequestCondition extends AbstractRequestCondition<Param
 
 	private final Set<ParamExpression> expressions;
 
-
 	/**
 	 * Create a new instance from the given param expressions.
 	 * @param params expressions with syntax defined in {@link RequestMapping#params()};
-	 * 	if 0, the condition will match to every request.
+	 * if 0, the condition will match to every request.
 	 */
 	public ParamsRequestCondition(String... params) {
 		this.expressions = parseExpressions(params);
@@ -66,7 +65,6 @@ public final class ParamsRequestCondition extends AbstractRequestCondition<Param
 		this.expressions = conditions;
 	}
 
-
 	/**
 	 * Return the contained request parameter expressions.
 	 */
@@ -85,8 +83,8 @@ public final class ParamsRequestCondition extends AbstractRequestCondition<Param
 	}
 
 	/**
-	 * Returns a new instance with the union of the param expressions
-	 * from "this" and the "other" instance.
+	 * Returns a new instance with the union of the param expressions from "this" and the
+	 * "other" instance.
 	 */
 	@Override
 	public ParamsRequestCondition combine(ParamsRequestCondition other) {
@@ -105,8 +103,8 @@ public final class ParamsRequestCondition extends AbstractRequestCondition<Param
 	}
 
 	/**
-	 * Returns "this" instance if the request matches all param expressions;
-	 * or {@code null} otherwise.
+	 * Returns "this" instance if the request matches all param expressions; or
+	 * {@code null} otherwise.
 	 */
 	@Override
 	@Nullable
@@ -120,15 +118,16 @@ public final class ParamsRequestCondition extends AbstractRequestCondition<Param
 	}
 
 	/**
-	 * Compare to another condition based on parameter expressions. A condition
-	 * is considered to be a more specific match, if it has:
+	 * Compare to another condition based on parameter expressions. A condition is
+	 * considered to be a more specific match, if it has:
 	 * <ol>
 	 * <li>A greater number of expressions.
 	 * <li>A greater number of non-negated expressions with a concrete value.
 	 * </ol>
-	 * <p>It is assumed that both instances have been obtained via
-	 * {@link #getMatchingCondition(HttpServletRequest)} and each instance
-	 * contains the matching parameter expressions only or is otherwise empty.
+	 * <p>
+	 * It is assumed that both instances have been obtained via
+	 * {@link #getMatchingCondition(HttpServletRequest)} and each instance contains the
+	 * matching parameter expressions only or is otherwise empty.
 	 */
 	@Override
 	public int compareTo(ParamsRequestCondition other, HttpServletRequest request) {
@@ -149,14 +148,12 @@ public final class ParamsRequestCondition extends AbstractRequestCondition<Param
 		return count;
 	}
 
-
 	/**
 	 * Parses and matches a single param expression to a request.
 	 */
 	static class ParamExpression extends AbstractNameValueExpression<String> {
 
 		private final Set<String> namesToMatch = new HashSet<>(WebUtils.SUBMIT_IMAGE_SUFFIXES.length + 1);
-
 
 		ParamExpression(String expression) {
 			super(expression);
@@ -190,6 +187,7 @@ public final class ParamsRequestCondition extends AbstractRequestCondition<Param
 		protected boolean matchValue(HttpServletRequest request) {
 			return ObjectUtils.nullSafeEquals(this.value, request.getParameter(this.name));
 		}
+
 	}
 
 }

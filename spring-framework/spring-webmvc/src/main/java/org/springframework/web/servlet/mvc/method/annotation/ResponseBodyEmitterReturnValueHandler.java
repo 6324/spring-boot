@@ -49,12 +49,12 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Handler for return values of type {@link ResponseBodyEmitter} and sub-classes
- * such as {@link SseEmitter} including the same types wrapped with
- * {@link ResponseEntity}.
+ * Handler for return values of type {@link ResponseBodyEmitter} and sub-classes such as
+ * {@link SseEmitter} including the same types wrapped with {@link ResponseEntity}.
  *
- * <p>As of 5.0 also supports reactive return value types for any reactive
- * library with registered adapters in {@link ReactiveAdapterRegistry}.
+ * <p>
+ * As of 5.0 also supports reactive return value types for any reactive library with
+ * registered adapters in {@link ReactiveAdapterRegistry}.
  *
  * @author Rossen Stoyanchev
  * @since 4.2
@@ -66,7 +66,6 @@ public class ResponseBodyEmitterReturnValueHandler implements HandlerMethodRetur
 	private final List<HttpMessageConverter<?>> sseMessageConverters;
 
 	private final ReactiveTypeHandler reactiveHandler;
-
 
 	/**
 	 * Simple constructor with reactive type support based on a default instance of
@@ -110,15 +109,13 @@ public class ResponseBodyEmitterReturnValueHandler implements HandlerMethodRetur
 		return result;
 	}
 
-
 	@Override
 	public boolean supportsReturnType(MethodParameter returnType) {
-		Class<?> bodyType = ResponseEntity.class.isAssignableFrom(returnType.getParameterType()) ?
-				ResolvableType.forMethodParameter(returnType).getGeneric().resolve() :
-				returnType.getParameterType();
+		Class<?> bodyType = ResponseEntity.class.isAssignableFrom(returnType.getParameterType())
+				? ResolvableType.forMethodParameter(returnType).getGeneric().resolve() : returnType.getParameterType();
 
-		return (bodyType != null && (ResponseBodyEmitter.class.isAssignableFrom(bodyType) ||
-				this.reactiveHandler.isReactiveType(bodyType)));
+		return (bodyType != null && (ResponseBodyEmitter.class.isAssignableFrom(bodyType)
+				|| this.reactiveHandler.isReactiveType(bodyType)));
 	}
 
 	@Override
@@ -190,7 +187,6 @@ public class ResponseBodyEmitterReturnValueHandler implements HandlerMethodRetur
 		emitter.initialize(handler);
 	}
 
-
 	/**
 	 * ResponseBodyEmitter.Handler that writes with HttpMessageConverter's.
 	 */
@@ -252,12 +248,12 @@ public class ResponseBodyEmitterReturnValueHandler implements HandlerMethodRetur
 		public void onCompletion(Runnable callback) {
 			this.deferredResult.onCompletion(callback);
 		}
+
 	}
 
-
 	/**
-	 * Wrap to silently ignore header changes HttpMessageConverter's that would
-	 * otherwise cause HttpHeaders to raise exceptions.
+	 * Wrap to silently ignore header changes HttpMessageConverter's that would otherwise
+	 * cause HttpHeaders to raise exceptions.
 	 */
 	private static class StreamingServletServerHttpResponse implements ServerHttpResponse {
 
@@ -294,6 +290,7 @@ public class ResponseBodyEmitterReturnValueHandler implements HandlerMethodRetur
 		public void close() {
 			this.delegate.close();
 		}
+
 	}
 
 }

@@ -30,11 +30,9 @@ class CandidateComponentsMetadata {
 
 	private final List<ItemMetadata> items;
 
-
 	public CandidateComponentsMetadata() {
 		this.items = new ArrayList<>();
 	}
-
 
 	public void add(ItemMetadata item) {
 		this.items.add(item);

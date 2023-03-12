@@ -35,14 +35,15 @@ import org.springframework.util.ObjectUtils;
 /**
  * Spring's default implementation of the {@link ResponseErrorHandler} interface.
  *
- * <p>This error handler checks for the status code on the
- * {@link ClientHttpResponse}. Any code in the 4xx or 5xx series is considered
- * to be an error. This behavior can be changed by overriding
- * {@link #hasError(HttpStatus)}. Unknown status codes will be ignored by
- * {@link #hasError(ClientHttpResponse)}.
+ * <p>
+ * This error handler checks for the status code on the {@link ClientHttpResponse}. Any
+ * code in the 4xx or 5xx series is considered to be an error. This behavior can be
+ * changed by overriding {@link #hasError(HttpStatus)}. Unknown status codes will be
+ * ignored by {@link #hasError(ClientHttpResponse)}.
  *
- * <p>See {@link #handleError(ClientHttpResponse)} for more details on specific
- * exception types.
+ * <p>
+ * See {@link #handleError(ClientHttpResponse)} for more details on specific exception
+ * types.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -68,8 +69,9 @@ public class DefaultResponseErrorHandler implements ResponseErrorHandler {
 
 	/**
 	 * Template method called from {@link #hasError(ClientHttpResponse)}.
-	 * <p>The default implementation checks {@link HttpStatus#isError()}.
-	 * Can be overridden in subclasses.
+	 * <p>
+	 * The default implementation checks {@link HttpStatus#isError()}. Can be overridden
+	 * in subclasses.
 	 * @param statusCode the HTTP status code as enum value
 	 * @return {@code true} if the response indicates an error; {@code false} otherwise
 	 * @see HttpStatus#isError()
@@ -80,10 +82,11 @@ public class DefaultResponseErrorHandler implements ResponseErrorHandler {
 
 	/**
 	 * Template method called from {@link #hasError(ClientHttpResponse)}.
-	 * <p>The default implementation checks if the given status code is
+	 * <p>
+	 * The default implementation checks if the given status code is
 	 * {@link org.springframework.http.HttpStatus.Series#CLIENT_ERROR CLIENT_ERROR} or
-	 * {@link org.springframework.http.HttpStatus.Series#SERVER_ERROR SERVER_ERROR}.
-	 * Can be overridden in subclasses.
+	 * {@link org.springframework.http.HttpStatus.Series#SERVER_ERROR SERVER_ERROR}. Can
+	 * be overridden in subclasses.
 	 * @param unknownStatusCode the HTTP status code as raw value
 	 * @return {@code true} if the response indicates an error; {@code false} otherwise
 	 * @since 4.3.21
@@ -97,14 +100,15 @@ public class DefaultResponseErrorHandler implements ResponseErrorHandler {
 
 	/**
 	 * Handle the error in the given response with the given resolved status code.
-	 * <p>The default implementation throws:
+	 * <p>
+	 * The default implementation throws:
 	 * <ul>
-	 * <li>{@link HttpClientErrorException} if the status code is in the 4xx
-	 * series, or one of its sub-classes such as
-	 * {@link HttpClientErrorException.BadRequest} and others.
-	 * <li>{@link HttpServerErrorException} if the status code is in the 5xx
-	 * series, or one of its sub-classes such as
-	 * {@link HttpServerErrorException.InternalServerError} and others.
+	 * <li>{@link HttpClientErrorException} if the status code is in the 4xx series, or
+	 * one of its sub-classes such as {@link HttpClientErrorException.BadRequest} and
+	 * others.
+	 * <li>{@link HttpServerErrorException} if the status code is in the 5xx series, or
+	 * one of its sub-classes such as {@link HttpServerErrorException.InternalServerError}
+	 * and others.
 	 * <li>{@link UnknownHttpStatusCodeException} for error status codes not in the
 	 * {@link HttpStatus} enum range.
 	 * </ul>
@@ -116,23 +120,21 @@ public class DefaultResponseErrorHandler implements ResponseErrorHandler {
 		HttpStatus statusCode = HttpStatus.resolve(response.getRawStatusCode());
 		if (statusCode == null) {
 			byte[] body = getResponseBody(response);
-			String message = getErrorMessage(response.getRawStatusCode(),
-					response.getStatusText(), body, getCharset(response));
-			throw new UnknownHttpStatusCodeException(message,
-					response.getRawStatusCode(), response.getStatusText(),
+			String message = getErrorMessage(response.getRawStatusCode(), response.getStatusText(), body,
+					getCharset(response));
+			throw new UnknownHttpStatusCodeException(message, response.getRawStatusCode(), response.getStatusText(),
 					response.getHeaders(), body, getCharset(response));
 		}
 		handleError(response, statusCode);
 	}
 
 	/**
-	 * Return error message with details from the response body, possibly truncated:
-	 * <pre>
+	 * Return error message with details from the response body, possibly truncated: <pre>
 	 * 404 Not Found: [{'id': 123, 'message': 'my very long... (500 bytes)]
 	 * </pre>
 	 */
-	private String getErrorMessage(
-			int rawStatusCode, String statusText, @Nullable byte[] responseBody, @Nullable Charset charset) {
+	private String getErrorMessage(int rawStatusCode, String statusText, @Nullable byte[] responseBody,
+			@Nullable Charset charset) {
 
 		String preface = rawStatusCode + " " + statusText + ": ";
 		if (ObjectUtils.isEmpty(responseBody)) {
@@ -163,10 +165,10 @@ public class DefaultResponseErrorHandler implements ResponseErrorHandler {
 	/**
 	 * Handle the error based on the resolved status code.
 	 *
-	 * <p>The default implementation delegates to
-	 * {@link HttpClientErrorException#create} for errors in the 4xx range, to
-	 * {@link HttpServerErrorException#create} for errors in the 5xx range,
-	 * or otherwise raises {@link UnknownHttpStatusCodeException}.
+	 * <p>
+	 * The default implementation delegates to {@link HttpClientErrorException#create} for
+	 * errors in the 4xx range, to {@link HttpServerErrorException#create} for errors in
+	 * the 5xx range, or otherwise raises {@link UnknownHttpStatusCodeException}.
 	 *
 	 * @since 5.0
 	 * @see HttpClientErrorException#create
@@ -180,12 +182,12 @@ public class DefaultResponseErrorHandler implements ResponseErrorHandler {
 		String message = getErrorMessage(statusCode.value(), statusText, body, charset);
 
 		switch (statusCode.series()) {
-			case CLIENT_ERROR:
-				throw HttpClientErrorException.create(message, statusCode, statusText, headers, body, charset);
-			case SERVER_ERROR:
-				throw HttpServerErrorException.create(message, statusCode, statusText, headers, body, charset);
-			default:
-				throw new UnknownHttpStatusCodeException(message, statusCode.value(), statusText, headers, body, charset);
+		case CLIENT_ERROR:
+			throw HttpClientErrorException.create(message, statusCode, statusText, headers, body, charset);
+		case SERVER_ERROR:
+			throw HttpServerErrorException.create(message, statusCode, statusText, headers, body, charset);
+		default:
+			throw new UnknownHttpStatusCodeException(message, statusCode.value(), statusText, headers, body, charset);
 		}
 	}
 
@@ -194,10 +196,11 @@ public class DefaultResponseErrorHandler implements ResponseErrorHandler {
 	 * @param response the response to inspect
 	 * @return the associated HTTP status
 	 * @throws IOException in case of I/O errors
-	 * @throws UnknownHttpStatusCodeException in case of an unknown status code
-	 * that cannot be represented with the {@link HttpStatus} enum
+	 * @throws UnknownHttpStatusCodeException in case of an unknown status code that
+	 * cannot be represented with the {@link HttpStatus} enum
 	 * @since 4.3.8
-	 * @deprecated as of 5.0, in favor of {@link #handleError(ClientHttpResponse, HttpStatus)}
+	 * @deprecated as of 5.0, in favor of
+	 * {@link #handleError(ClientHttpResponse, HttpStatus)}
 	 */
 	@Deprecated
 	protected HttpStatus getHttpStatusCode(ClientHttpResponse response) throws IOException {
@@ -212,8 +215,8 @@ public class DefaultResponseErrorHandler implements ResponseErrorHandler {
 	/**
 	 * Read the body of the given response (for inclusion in a status exception).
 	 * @param response the response to inspect
-	 * @return the response body as a byte array,
-	 * or an empty byte array if the body could not be read
+	 * @return the response body as a byte array, or an empty byte array if the body could
+	 * not be read
 	 * @since 4.3.8
 	 */
 	protected byte[] getResponseBody(ClientHttpResponse response) {

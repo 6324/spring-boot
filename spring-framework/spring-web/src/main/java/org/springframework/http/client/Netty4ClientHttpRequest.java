@@ -41,7 +41,8 @@ import org.springframework.util.concurrent.SettableListenableFuture;
 /**
  * {@link ClientHttpRequest} implementation based on Netty 4.
  *
- * <p>Created via the {@link Netty4ClientHttpRequestFactory}.
+ * <p>
+ * Created via the {@link Netty4ClientHttpRequestFactory}.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -61,14 +62,12 @@ class Netty4ClientHttpRequest extends AbstractAsyncClientHttpRequest implements 
 
 	private final ByteBufOutputStream body;
 
-
 	public Netty4ClientHttpRequest(Bootstrap bootstrap, URI uri, HttpMethod method) {
 		this.bootstrap = bootstrap;
 		this.uri = uri;
 		this.method = method;
 		this.body = new ByteBufOutputStream(Unpooled.buffer(1024));
 	}
-
 
 	@Override
 	public HttpMethod getMethod() {
@@ -130,13 +129,13 @@ class Netty4ClientHttpRequest extends AbstractAsyncClientHttpRequest implements 
 	}
 
 	private FullHttpRequest createFullHttpRequest(HttpHeaders headers) {
-		io.netty.handler.codec.http.HttpMethod nettyMethod =
-				io.netty.handler.codec.http.HttpMethod.valueOf(this.method.name());
+		io.netty.handler.codec.http.HttpMethod nettyMethod = io.netty.handler.codec.http.HttpMethod
+				.valueOf(this.method.name());
 
 		String authority = this.uri.getRawAuthority();
 		String path = this.uri.toString().substring(this.uri.toString().indexOf(authority) + authority.length());
-		FullHttpRequest nettyRequest = new DefaultFullHttpRequest(
-				HttpVersion.HTTP_1_1, nettyMethod, path, this.body.buffer());
+		FullHttpRequest nettyRequest = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1, nettyMethod, path,
+				this.body.buffer());
 
 		nettyRequest.headers().set(HttpHeaders.HOST, this.uri.getHost() + ":" + getPort(this.uri));
 		nettyRequest.headers().set(HttpHeaders.CONNECTION, "close");
@@ -161,7 +160,6 @@ class Netty4ClientHttpRequest extends AbstractAsyncClientHttpRequest implements 
 		return port;
 	}
 
-
 	/**
 	 * A SimpleChannelInboundHandler to update the given SettableListenableFuture.
 	 */
@@ -182,6 +180,7 @@ class Netty4ClientHttpRequest extends AbstractAsyncClientHttpRequest implements 
 		public void exceptionCaught(ChannelHandlerContext context, Throwable cause) throws Exception {
 			this.responseFuture.setException(cause);
 		}
+
 	}
 
 }

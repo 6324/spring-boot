@@ -36,11 +36,9 @@ public class AsyncTaskMethodReturnValueHandler implements HandlerMethodReturnVal
 	@Nullable
 	private final BeanFactory beanFactory;
 
-
 	public AsyncTaskMethodReturnValueHandler(@Nullable BeanFactory beanFactory) {
 		this.beanFactory = beanFactory;
 	}
-
 
 	@Override
 	public boolean supportsReturnType(MethodParameter returnType) {

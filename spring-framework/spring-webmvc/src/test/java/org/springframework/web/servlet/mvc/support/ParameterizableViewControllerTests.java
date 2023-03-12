@@ -43,7 +43,6 @@ public class ParameterizableViewControllerTests {
 
 	private final MockHttpServletResponse response = new MockHttpServletResponse();
 
-
 	@Test
 	public void defaultViewName() throws Exception {
 		ModelAndView modelAndView = this.controller.handleRequest(this.request, this.response);

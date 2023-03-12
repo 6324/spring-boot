@@ -55,7 +55,6 @@ public class ResourceUrlProviderTests {
 
 	private final ResourceUrlProvider urlProvider = new ResourceUrlProvider();
 
-
 	@BeforeEach
 	public void setUp() throws Exception {
 		this.locations.add(new ClassPathResource("test/", getClass()));
@@ -66,7 +65,6 @@ public class ResourceUrlProviderTests {
 		this.handlerMap.put("/resources/**", this.handler);
 		this.urlProvider.setHandlerMap(this.handlerMap);
 	}
-
 
 	@Test
 	public void getStaticResourceUrl() {
@@ -168,21 +166,21 @@ public class ResourceUrlProviderTests {
 		assertThat(lookupForPath).isEqualTo("/some-pattern/some-path");
 	}
 
-
 	@Configuration
-	@SuppressWarnings({"unused", "WeakerAccess"})
+	@SuppressWarnings({ "unused", "WeakerAccess" })
 	static class HandlerMappingConfiguration {
 
 		@Bean
 		public SimpleUrlHandlerMapping simpleUrlHandlerMapping() {
 			return new SimpleUrlHandlerMapping(
-				Collections.singletonMap("/resources/**", new ResourceHttpRequestHandler()));
+					Collections.singletonMap("/resources/**", new ResourceHttpRequestHandler()));
 		}
 
 		@Bean
 		public ResourceUrlProvider resourceUrlProvider() {
 			return new ResourceUrlProvider();
 		}
+
 	}
 
 }

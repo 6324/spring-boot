@@ -54,12 +54,10 @@ public class WebSessionIntegrationTests extends AbstractHttpHandlerIntegrationTe
 
 	private final TestWebHandler handler = new TestWebHandler();
 
-
 	@Override
 	protected HttpHandler createHttpHandler() {
 		return WebHttpHandlerBuilder.webHandler(this.handler).sessionManager(this.sessionManager).build();
 	}
-
 
 	@ParameterizedHttpServerTest
 	public void createSession(HttpServer httpServer) throws Exception {
@@ -84,7 +82,6 @@ public class WebSessionIntegrationTests extends AbstractHttpHandlerIntegrationTe
 	@ParameterizedHttpServerTest
 	public void expiredSessionIsRecreated(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
-
 
 		// First request: no session yet, new session created
 		RequestEntity<Void> request = RequestEntity.get(createUri()).build();
@@ -123,7 +120,6 @@ public class WebSessionIntegrationTests extends AbstractHttpHandlerIntegrationTe
 	public void expiredSessionEnds(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
 
-
 		// First request: no session yet, new session created
 		RequestEntity<Void> request = RequestEntity.get(createUri()).build();
 		ResponseEntity<Void> response = this.restTemplate.exchange(request, Void.class);
@@ -150,7 +146,6 @@ public class WebSessionIntegrationTests extends AbstractHttpHandlerIntegrationTe
 	@ParameterizedHttpServerTest
 	public void changeSessionId(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
-
 
 		// First request: no session yet, new session created
 		RequestEntity<Void> request = RequestEntity.get(createUri()).build();
@@ -201,7 +196,7 @@ public class WebSessionIntegrationTests extends AbstractHttpHandlerIntegrationTe
 		assertThat(headerValues).isNotNull();
 		assertThat(headerValues.size()).isEqualTo(1);
 
-		for (String s : headerValues.get(0).split(";")){
+		for (String s : headerValues.get(0).split(";")) {
 			if (s.startsWith("SESSION=")) {
 				return s.substring("SESSION=".length());
 			}
@@ -213,11 +208,9 @@ public class WebSessionIntegrationTests extends AbstractHttpHandlerIntegrationTe
 		return new URI("http://localhost:" + this.port + "/");
 	}
 
-
 	private static class TestWebHandler implements WebHandler {
 
 		private AtomicInteger currentValue = new AtomicInteger();
-
 
 		public int getSessionRequestCount() {
 			return this.currentValue.get();
@@ -231,8 +224,8 @@ public class WebSessionIntegrationTests extends AbstractHttpHandlerIntegrationTe
 				}).then();
 			}
 			else if (exchange.getRequest().getQueryParams().containsKey("changeId")) {
-				return exchange.getSession().flatMap(session ->
-						session.changeSessionId().doOnSuccess(aVoid -> updateSessionAttribute(session)));
+				return exchange.getSession().flatMap(
+						session -> session.changeSessionId().doOnSuccess(aVoid -> updateSessionAttribute(session)));
 			}
 			else if (exchange.getRequest().getQueryParams().containsKey("invalidate")) {
 				return exchange.getSession().doOnNext(WebSession::invalidate).then();
@@ -247,6 +240,7 @@ public class WebSessionIntegrationTests extends AbstractHttpHandlerIntegrationTe
 			session.getAttributes().put("counter", ++value);
 			this.currentValue.set(value);
 		}
+
 	}
 
 }

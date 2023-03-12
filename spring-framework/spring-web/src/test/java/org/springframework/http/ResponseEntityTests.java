@@ -40,8 +40,8 @@ public class ResponseEntityTests {
 		String headerValue2 = "HeaderValue2";
 		Integer entity = 42;
 
-		ResponseEntity<Integer> responseEntity =
-				ResponseEntity.status(HttpStatus.OK).header(headerName, headerValue1, headerValue2).body(entity);
+		ResponseEntity<Integer> responseEntity = ResponseEntity.status(HttpStatus.OK)
+				.header(headerName, headerValue1, headerValue2).body(entity);
 
 		assertThat(responseEntity).isNotNull();
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -165,14 +165,9 @@ public class ResponseEntityTests {
 		long contentLength = 67890;
 		MediaType contentType = MediaType.TEXT_PLAIN;
 
-		ResponseEntity<Void> responseEntity = ResponseEntity.ok().
-				allow(HttpMethod.GET).
-				lastModified(12345L).
-				location(location).
-				contentLength(contentLength).
-				contentType(contentType).
-				headers(headers -> assertThat(headers).hasSize(5)).
-				build();
+		ResponseEntity<Void> responseEntity = ResponseEntity.ok().allow(HttpMethod.GET).lastModified(12345L)
+				.location(location).contentLength(contentLength).contentType(contentType)
+				.headers(headers -> assertThat(headers).hasSize(5)).build();
 
 		assertThat(responseEntity).isNotNull();
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -215,12 +210,10 @@ public class ResponseEntityTests {
 
 	}
 
-	@Test  // SPR-12792
+	@Test // SPR-12792
 	public void headersCopyWithEmptyAndNull() {
-		ResponseEntity<Void> responseEntityWithEmptyHeaders =
-				ResponseEntity.ok().headers(new HttpHeaders()).build();
-		ResponseEntity<Void> responseEntityWithNullHeaders =
-				ResponseEntity.ok().headers((HttpHeaders) null).build();
+		ResponseEntity<Void> responseEntityWithEmptyHeaders = ResponseEntity.ok().headers(new HttpHeaders()).build();
+		ResponseEntity<Void> responseEntityWithNullHeaders = ResponseEntity.ok().headers((HttpHeaders) null).build();
 
 		assertThat(responseEntityWithEmptyHeaders.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(responseEntityWithEmptyHeaders.getHeaders().isEmpty()).isTrue();
@@ -231,10 +224,8 @@ public class ResponseEntityTests {
 	public void emptyCacheControl() {
 		Integer entity = 42;
 
-		ResponseEntity<Integer> responseEntity =
-				ResponseEntity.status(HttpStatus.OK)
-						.cacheControl(CacheControl.empty())
-						.body(entity);
+		ResponseEntity<Integer> responseEntity = ResponseEntity.status(HttpStatus.OK).cacheControl(CacheControl.empty())
+				.body(entity);
 
 		assertThat(responseEntity).isNotNull();
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -246,29 +237,26 @@ public class ResponseEntityTests {
 	public void cacheControl() {
 		Integer entity = 42;
 
-		ResponseEntity<Integer> responseEntity =
-				ResponseEntity.status(HttpStatus.OK)
-						.cacheControl(CacheControl.maxAge(1, TimeUnit.HOURS).cachePrivate().
-								mustRevalidate().proxyRevalidate().sMaxAge(30, TimeUnit.MINUTES))
-						.body(entity);
+		ResponseEntity<Integer> responseEntity = ResponseEntity.status(HttpStatus.OK)
+				.cacheControl(CacheControl.maxAge(1, TimeUnit.HOURS).cachePrivate().mustRevalidate().proxyRevalidate()
+						.sMaxAge(30, TimeUnit.MINUTES))
+				.body(entity);
 
 		assertThat(responseEntity).isNotNull();
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(responseEntity.getHeaders().containsKey(HttpHeaders.CACHE_CONTROL)).isTrue();
 		assertThat((int) responseEntity.getBody()).isEqualTo((int) entity);
 		String cacheControlHeader = responseEntity.getHeaders().getCacheControl();
-		assertThat(cacheControlHeader).isEqualTo(
-				"max-age=3600, must-revalidate, private, proxy-revalidate, s-maxage=1800");
+		assertThat(cacheControlHeader)
+				.isEqualTo("max-age=3600, must-revalidate, private, proxy-revalidate, s-maxage=1800");
 	}
 
 	@Test
 	public void cacheControlNoCache() {
 		Integer entity = 42;
 
-		ResponseEntity<Integer> responseEntity =
-				ResponseEntity.status(HttpStatus.OK)
-						.cacheControl(CacheControl.noStore())
-						.body(entity);
+		ResponseEntity<Integer> responseEntity = ResponseEntity.status(HttpStatus.OK)
+				.cacheControl(CacheControl.noStore()).body(entity);
 
 		assertThat(responseEntity).isNotNull();
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);

@@ -29,7 +29,8 @@ import org.springframework.util.concurrent.ListenableFuture;
  *
  * @author Arjen Poutsma
  * @since 4.0
- * @deprecated as of Spring 5.0, in favor of {@link org.springframework.http.client.reactive.AbstractClientHttpRequest}
+ * @deprecated as of Spring 5.0, in favor of
+ * {@link org.springframework.http.client.reactive.AbstractClientHttpRequest}
  */
 @Deprecated
 abstract class AbstractAsyncClientHttpRequest implements AsyncClientHttpRequest {
@@ -37,7 +38,6 @@ abstract class AbstractAsyncClientHttpRequest implements AsyncClientHttpRequest 
 	private final HttpHeaders headers = new HttpHeaders();
 
 	private boolean executed = false;
-
 
 	@Override
 	public final HttpHeaders getHeaders() {
@@ -66,7 +66,6 @@ abstract class AbstractAsyncClientHttpRequest implements AsyncClientHttpRequest 
 		Assert.state(!this.executed, "ClientHttpRequest already executed");
 	}
 
-
 	/**
 	 * Abstract template method that returns the body.
 	 * @param headers the HTTP headers
@@ -75,11 +74,11 @@ abstract class AbstractAsyncClientHttpRequest implements AsyncClientHttpRequest 
 	protected abstract OutputStream getBodyInternal(HttpHeaders headers) throws IOException;
 
 	/**
-	 * Abstract template method that writes the given headers and content to the HTTP request.
+	 * Abstract template method that writes the given headers and content to the HTTP
+	 * request.
 	 * @param headers the HTTP headers
 	 * @return the response object for the executed request
 	 */
-	protected abstract ListenableFuture<ClientHttpResponse> executeInternal(HttpHeaders headers)
-			throws IOException;
+	protected abstract ListenableFuture<ClientHttpResponse> executeInternal(HttpHeaders headers) throws IOException;
 
 }

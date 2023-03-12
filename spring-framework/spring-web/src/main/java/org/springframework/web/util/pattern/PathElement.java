@@ -34,7 +34,7 @@ abstract class PathElement {
 
 	protected static final int CAPTURE_VARIABLE_WEIGHT = 1;
 
-	protected static final MultiValueMap<String,String> NO_PARAMETERS = new LinkedMultiValueMap<>();
+	protected static final MultiValueMap<String, String> NO_PARAMETERS = new LinkedMultiValueMap<>();
 
 	// Position in the pattern where this path element starts
 	protected final int pos;
@@ -50,7 +50,6 @@ abstract class PathElement {
 	@Nullable
 	protected PathElement prev;
 
-
 	/**
 	 * Create a new path element.
 	 * @param pos the position where this path element starts in the pattern data
@@ -61,7 +60,6 @@ abstract class PathElement {
 		this.separator = separator;
 	}
 
-
 	/**
 	 * Attempt to match this path element.
 	 * @param candidatePos the current position within the candidate path
@@ -71,7 +69,8 @@ abstract class PathElement {
 	public abstract boolean matches(int candidatePos, MatchingContext matchingContext);
 
 	/**
-	 * Return the length of the path element where captures are considered to be one character long.
+	 * Return the length of the path element where captures are considered to be one
+	 * character long.
 	 * @return the normalized length
 	 */
 	public abstract int getNormalizedLength();
@@ -93,7 +92,8 @@ abstract class PathElement {
 	}
 
 	/**
-	 * Return the score for this PathElement, combined score is used to compare parsed patterns.
+	 * Return the score for this PathElement, combined score is used to compare parsed
+	 * patterns.
 	 */
 	public int getScore() {
 		return 0;

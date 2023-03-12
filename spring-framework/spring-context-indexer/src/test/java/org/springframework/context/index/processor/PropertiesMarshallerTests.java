@@ -43,8 +43,8 @@ public class PropertiesMarshallerTests {
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		PropertiesMarshaller.write(metadata, outputStream);
-		CandidateComponentsMetadata readMetadata = PropertiesMarshaller.read(
-				new ByteArrayInputStream(outputStream.toByteArray()));
+		CandidateComponentsMetadata readMetadata = PropertiesMarshaller
+				.read(new ByteArrayInputStream(outputStream.toByteArray()));
 		assertThat(readMetadata).has(Metadata.of("com.foo", "first", "second"));
 		assertThat(readMetadata).has(Metadata.of("com.bar", "first"));
 		assertThat(readMetadata.getItems()).hasSize(2);

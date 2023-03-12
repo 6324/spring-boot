@@ -42,13 +42,10 @@ public class ReactorClientHttpConnector implements ClientHttpConnector {
 
 	private final static Function<HttpClient, HttpClient> defaultInitializer = client -> client.compress(true);
 
-
 	private final HttpClient httpClient;
 
-
 	/**
-	 * Default constructor. Initializes {@link HttpClient} via:
-	 * <pre class="code">
+	 * Default constructor. Initializes {@link HttpClient} via: <pre class="code">
 	 * HttpClient.create().compress()
 	 * </pre>
 	 */
@@ -58,16 +55,16 @@ public class ReactorClientHttpConnector implements ClientHttpConnector {
 
 	/**
 	 * Constructor with externally managed Reactor Netty resources, including
-	 * {@link LoopResources} for event loop threads, and {@link ConnectionProvider}
-	 * for the connection pool.
-	 * <p>This constructor should be used only when you don't want the client
-	 * to participate in the Reactor Netty global resources. By default the
-	 * client participates in the Reactor Netty global resources held in
-	 * {@link reactor.netty.http.HttpResources}, which is recommended since
-	 * fixed, shared resources are favored for event loop concurrency. However,
-	 * consider declaring a {@link ReactorResourceFactory} bean with
-	 * {@code globalResources=true} in order to ensure the Reactor Netty global
-	 * resources are shut down when the Spring ApplicationContext is closed.
+	 * {@link LoopResources} for event loop threads, and {@link ConnectionProvider} for
+	 * the connection pool.
+	 * <p>
+	 * This constructor should be used only when you don't want the client to participate
+	 * in the Reactor Netty global resources. By default the client participates in the
+	 * Reactor Netty global resources held in {@link reactor.netty.http.HttpResources},
+	 * which is recommended since fixed, shared resources are favored for event loop
+	 * concurrency. However, consider declaring a {@link ReactorResourceFactory} bean with
+	 * {@code globalResources=true} in order to ensure the Reactor Netty global resources
+	 * are shut down when the Spring ApplicationContext is closed.
 	 * @param factory the resource factory to obtain the resources from
 	 * @param mapper a mapper for further initialization of the created client
 	 * @since 5.1
@@ -94,7 +91,6 @@ public class ReactorClientHttpConnector implements ClientHttpConnector {
 		this.httpClient = httpClient;
 	}
 
-
 	@Override
 	public Mono<ClientHttpResponse> connect(HttpMethod method, URI uri,
 			Function<? super ClientHttpRequest, Mono<Void>> requestCallback) {
@@ -105,16 +101,13 @@ public class ReactorClientHttpConnector implements ClientHttpConnector {
 
 		AtomicReference<ReactorClientHttpResponse> responseRef = new AtomicReference<>();
 
-		return this.httpClient
-				.request(io.netty.handler.codec.http.HttpMethod.valueOf(method.name()))
+		return this.httpClient.request(io.netty.handler.codec.http.HttpMethod.valueOf(method.name()))
 				.uri(uri.toString())
 				.send((request, outbound) -> requestCallback.apply(adaptRequest(method, uri, request, outbound)))
 				.responseConnection((response, connection) -> {
 					responseRef.set(new ReactorClientHttpResponse(response, connection));
 					return Mono.just((ClientHttpResponse) responseRef.get());
-				})
-				.next()
-				.doOnCancel(() -> {
+				}).next().doOnCancel(() -> {
 					ReactorClientHttpResponse response = responseRef.get();
 					if (response != null) {
 						response.releaseAfterCancel(method);

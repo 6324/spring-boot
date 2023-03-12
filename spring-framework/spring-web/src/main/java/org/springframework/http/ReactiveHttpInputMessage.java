@@ -24,8 +24,9 @@ import org.springframework.core.io.buffer.DataBuffer;
 /**
  * An "reactive" HTTP input message that exposes the input as {@link Publisher}.
  *
- * <p>Typically implemented by an HTTP request on the server-side or a response
- * on the client-side.
+ * <p>
+ * Typically implemented by an HTTP request on the server-side or a response on the
+ * client-side.
  *
  * @author Arjen Poutsma
  * @since 5.0

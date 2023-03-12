@@ -56,8 +56,8 @@ public class SessionAttributeMethodArgumentResolver extends AbstractNamedValueMe
 
 	@Override
 	protected void handleMissingValue(String name, MethodParameter parameter) throws ServletException {
-		throw new ServletRequestBindingException("Missing session attribute '" + name +
-				"' of type " + parameter.getNestedParameterType().getSimpleName());
+		throw new ServletRequestBindingException("Missing session attribute '" + name + "' of type "
+				+ parameter.getNestedParameterType().getSimpleName());
 	}
 
 }

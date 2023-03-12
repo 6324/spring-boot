@@ -71,7 +71,6 @@ public class AnnotationConfigDispatcherServletInitializerTests {
 
 	private Map<String, MockFilterRegistration> filterRegistrations;
 
-
 	@BeforeEach
 	public void setUp() throws Exception {
 		servletContext = new MyMockServletContext();
@@ -138,7 +137,8 @@ public class AnnotationConfigDispatcherServletInitializerTests {
 
 		for (MockFilterRegistration filterRegistration : filterRegistrations.values()) {
 			assertThat(filterRegistration.isAsyncSupported()).isFalse();
-			assertThat(filterRegistration.getMappings().get(SERVLET_NAME)).isEqualTo(EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE));
+			assertThat(filterRegistration.getMappings().get(SERVLET_NAME))
+					.isEqualTo(EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE));
 		}
 	}
 
@@ -148,8 +148,9 @@ public class AnnotationConfigDispatcherServletInitializerTests {
 		initializer = new MyAnnotationConfigDispatcherServletInitializer() {
 			@Override
 			protected Class<?>[] getRootConfigClasses() {
-				return new Class<?>[] {MyConfiguration.class};
+				return new Class<?>[] { MyConfiguration.class };
 			}
+
 			@Override
 			protected Class<?>[] getServletConfigClasses() {
 				return null;
@@ -183,7 +184,6 @@ public class AnnotationConfigDispatcherServletInitializerTests {
 		assertThat(filterRegistrations.size()).isEqualTo(0);
 	}
 
-
 	private class MyMockServletContext extends MockServletContext {
 
 		@Override
@@ -214,8 +214,8 @@ public class AnnotationConfigDispatcherServletInitializerTests {
 			filterRegistrations.put(filterName, registration);
 			return registration;
 		}
-	}
 
+	}
 
 	private static class MyAnnotationConfigDispatcherServletInitializer
 			extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -227,22 +227,18 @@ public class AnnotationConfigDispatcherServletInitializerTests {
 
 		@Override
 		protected Class<?>[] getServletConfigClasses() {
-			return new Class<?>[] {MyConfiguration.class};
+			return new Class<?>[] { MyConfiguration.class };
 		}
 
 		@Override
 		protected String[] getServletMappings() {
-			return new String[]{"/myservlet"};
+			return new String[] { "/myservlet" };
 		}
 
 		@Override
 		protected Filter[] getServletFilters() {
-			return new Filter[] {
-					new HiddenHttpMethodFilter(),
-					new DelegatingFilterProxy("a"),
-					new DelegatingFilterProxy("b"),
-					new DelegatingFilterProxy("c")
-			};
+			return new Filter[] { new HiddenHttpMethodFilter(), new DelegatingFilterProxy("a"),
+					new DelegatingFilterProxy("b"), new DelegatingFilterProxy("c") };
 		}
 
 		@Override
@@ -254,12 +250,12 @@ public class AnnotationConfigDispatcherServletInitializerTests {
 		protected Class<?>[] getRootConfigClasses() {
 			return null;
 		}
-	}
 
+	}
 
 	public static class MyBean {
-	}
 
+	}
 
 	@Configuration
 	public static class MyConfiguration {
@@ -268,6 +264,7 @@ public class AnnotationConfigDispatcherServletInitializerTests {
 		public MyBean bean() {
 			return new MyBean();
 		}
+
 	}
 
 }

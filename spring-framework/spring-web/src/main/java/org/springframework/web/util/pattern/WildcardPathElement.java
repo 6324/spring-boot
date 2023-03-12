@@ -21,9 +21,9 @@ import org.springframework.http.server.PathContainer.Element;
 import org.springframework.web.util.pattern.PathPattern.MatchingContext;
 
 /**
- * A wildcard path element. In the pattern '/foo/&ast;/goo' the * is
- * represented by a WildcardPathElement. Within a path it matches at least
- * one character but at the end of a path it can match zero characters.
+ * A wildcard path element. In the pattern '/foo/&ast;/goo' the * is represented by a
+ * WildcardPathElement. Within a path it matches at least one character but at the end of
+ * a path it can match zero characters.
  *
  * @author Andy Clement
  * @since 5.0
@@ -34,11 +34,9 @@ class WildcardPathElement extends PathElement {
 		super(pos, separator);
 	}
 
-
 	/**
-	 * Matching on a WildcardPathElement is quite straight forward. Scan the
-	 * candidate from the candidateIndex onwards for the next separator or the end of the
-	 * candidate.
+	 * Matching on a WildcardPathElement is quite straight forward. Scan the candidate
+	 * from the candidateIndex onwards for the next separator or the end of the candidate.
 	 */
 	@Override
 	public boolean matches(int pathIndex, MatchingContext matchingContext) {
@@ -50,7 +48,7 @@ class WildcardPathElement extends PathElement {
 				// Should not match a separator
 				return false;
 			}
-			segmentData = ((PathContainer.PathSegment)element).valueToMatch();
+			segmentData = ((PathContainer.PathSegment) element).valueToMatch();
 			pathIndex++;
 		}
 
@@ -65,15 +63,38 @@ class WildcardPathElement extends PathElement {
 					return true;
 				}
 				else {
-					return (matchingContext.isMatchOptionalTrailingSeparator() &&  // if optional slash is on...
-							segmentData != null && segmentData.length() > 0 &&  // and there is at least one character to match the *...
-							(pathIndex + 1) == matchingContext.pathLength &&   // and the next path element is the end of the candidate...
-							matchingContext.isSeparator(pathIndex));  // and the final element is a separator
+					return (matchingContext.isMatchOptionalTrailingSeparator() && // if
+																					// optional
+																					// slash
+																					// is
+																					// on...
+							segmentData != null && segmentData.length() > 0 && // and
+																				// there
+																				// is at
+																				// least
+																				// one
+																				// character
+																				// to
+																				// match
+																				// the
+																				// *...
+							(pathIndex + 1) == matchingContext.pathLength && // and the
+																				// next
+																				// path
+																				// element
+																				// is the
+																				// end of
+																				// the
+																				// candidate...
+							matchingContext.isSeparator(pathIndex)); // and the final
+																		// element is a
+																		// separator
 				}
 			}
 		}
 		else {
-			// Within a path (e.g. /aa/*/bb) there must be at least one character to match the wildcard
+			// Within a path (e.g. /aa/*/bb) there must be at least one character to match
+			// the wildcard
 			if (segmentData == null || segmentData.length() == 0) {
 				return false;
 			}
@@ -96,7 +117,6 @@ class WildcardPathElement extends PathElement {
 		return WILDCARD_WEIGHT;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Wildcard(*)";
@@ -104,6 +124,7 @@ class WildcardPathElement extends PathElement {
 
 	@Override
 	public char[] getChars() {
-		return new char[] {'*'};
+		return new char[] { '*' };
 	}
+
 }

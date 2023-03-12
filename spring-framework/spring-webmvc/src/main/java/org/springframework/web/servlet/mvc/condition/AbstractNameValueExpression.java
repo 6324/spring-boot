@@ -40,7 +40,6 @@ abstract class AbstractNameValueExpression<T> implements NameValueExpression<T> 
 
 	protected final boolean isNegated;
 
-
 	AbstractNameValueExpression(String expression) {
 		int separator = expression.indexOf('=');
 		if (separator == -1) {
@@ -54,7 +53,6 @@ abstract class AbstractNameValueExpression<T> implements NameValueExpression<T> 
 			this.value = parseValue(expression.substring(separator + 1));
 		}
 	}
-
 
 	@Override
 	public String getName() {
@@ -83,7 +81,6 @@ abstract class AbstractNameValueExpression<T> implements NameValueExpression<T> 
 		return this.isNegated != isMatch;
 	}
 
-
 	protected abstract boolean isCaseSensitiveName();
 
 	protected abstract T parseValue(String valueExpression);
@@ -91,7 +88,6 @@ abstract class AbstractNameValueExpression<T> implements NameValueExpression<T> 
 	protected abstract boolean matchName(HttpServletRequest request);
 
 	protected abstract boolean matchValue(HttpServletRequest request);
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {
@@ -102,8 +98,8 @@ abstract class AbstractNameValueExpression<T> implements NameValueExpression<T> 
 			return false;
 		}
 		AbstractNameValueExpression<?> that = (AbstractNameValueExpression<?>) other;
-		return ((isCaseSensitiveName() ? this.name.equals(that.name) : this.name.equalsIgnoreCase(that.name)) &&
-				ObjectUtils.nullSafeEquals(this.value, that.value) && this.isNegated == that.isNegated);
+		return ((isCaseSensitiveName() ? this.name.equals(that.name) : this.name.equalsIgnoreCase(that.name))
+				&& ObjectUtils.nullSafeEquals(this.value, that.value) && this.isNegated == that.isNegated);
 	}
 
 	@Override

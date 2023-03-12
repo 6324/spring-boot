@@ -19,8 +19,8 @@ package org.springframework.http;
 import org.springframework.util.InvalidMimeTypeException;
 
 /**
- * Exception thrown from {@link MediaType#parseMediaType(String)} in case of
- * encountering an invalid media type specification String.
+ * Exception thrown from {@link MediaType#parseMediaType(String)} in case of encountering
+ * an invalid media type specification String.
  *
  * @author Juergen Hoeller
  * @since 3.2.2
@@ -29,7 +29,6 @@ import org.springframework.util.InvalidMimeTypeException;
 public class InvalidMediaTypeException extends IllegalArgumentException {
 
 	private final String mediaType;
-
 
 	/**
 	 * Create a new InvalidMediaTypeException for the given media type.
@@ -48,7 +47,6 @@ public class InvalidMediaTypeException extends IllegalArgumentException {
 		super(ex.getMessage(), ex);
 		this.mediaType = ex.getMimeType();
 	}
-
 
 	/**
 	 * Return the offending media type.

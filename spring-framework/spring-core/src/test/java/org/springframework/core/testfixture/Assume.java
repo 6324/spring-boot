@@ -21,8 +21,8 @@ import org.apache.commons.logging.Log;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 /**
- * Utility methods that allow JUnit tests to assume certain conditions hold
- * {@code true}. If an assumption fails, it means the test should be aborted.
+ * Utility methods that allow JUnit tests to assume certain conditions hold {@code true}.
+ * If an assumption fails, it means the test should be aborted.
  *
  * @author Rob Winch
  * @author Phillip Webb

@@ -54,12 +54,11 @@ final class DefaultRenderingResponseBuilder implements RenderingResponse.Builder
 
 	private final Map<String, Object> model = new LinkedHashMap<>();
 
-
 	public DefaultRenderingResponseBuilder(RenderingResponse other) {
 		Assert.notNull(other, "RenderingResponse must not be null");
 		this.name = other.name();
-		this.status = (other instanceof DefaultRenderingResponse ?
-				((DefaultRenderingResponse) other).statusCode : other.statusCode().value());
+		this.status = (other instanceof DefaultRenderingResponse ? ((DefaultRenderingResponse) other).statusCode
+				: other.statusCode().value());
 		this.headers.putAll(other.headers());
 		this.model.putAll(other.model());
 	}
@@ -68,7 +67,6 @@ final class DefaultRenderingResponseBuilder implements RenderingResponse.Builder
 		Assert.notNull(name, "Name must not be null");
 		this.name = name;
 	}
-
 
 	@Override
 	public RenderingResponse.Builder status(HttpStatus status) {
@@ -149,7 +147,6 @@ final class DefaultRenderingResponseBuilder implements RenderingResponse.Builder
 		return new DefaultRenderingResponse(this.status, this.headers, this.cookies, this.name, this.model);
 	}
 
-
 	private static final class DefaultRenderingResponse extends DefaultServerResponseBuilder.AbstractServerResponse
 			implements RenderingResponse {
 
@@ -157,8 +154,8 @@ final class DefaultRenderingResponseBuilder implements RenderingResponse.Builder
 
 		private final Map<String, Object> model;
 
-		public DefaultRenderingResponse(int statusCode, HttpHeaders headers,
-				MultiValueMap<String, Cookie> cookies, String name, Map<String, Object> model) {
+		public DefaultRenderingResponse(int statusCode, HttpHeaders headers, MultiValueMap<String, Cookie> cookies,
+				String name, Map<String, Object> model) {
 
 			super(statusCode, headers, cookies);
 			this.name = name;
@@ -176,8 +173,8 @@ final class DefaultRenderingResponseBuilder implements RenderingResponse.Builder
 		}
 
 		@Override
-		protected ModelAndView writeToInternal(HttpServletRequest request,
-				HttpServletResponse response, Context context) {
+		protected ModelAndView writeToInternal(HttpServletRequest request, HttpServletResponse response,
+				Context context) {
 
 			HttpStatus status = HttpStatus.resolve(this.statusCode);
 			ModelAndView mav;

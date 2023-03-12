@@ -29,12 +29,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of {@link org.springframework.http.converter.HttpMessageConverter}
- * that can read and write JSON using the
- * <a href="http://json-b.net/">JSON Binding API</a>.
+ * Implementation of {@link org.springframework.http.converter.HttpMessageConverter} that
+ * can read and write JSON using the <a href="http://json-b.net/">JSON Binding API</a>.
  *
- * <p>This converter can be used to bind to typed beans or untyped {@code HashMap}s.
- * By default, it supports {@code application/json} and {@code application/*+json} with
+ * <p>
+ * This converter can be used to bind to typed beans or untyped {@code HashMap}s. By
+ * default, it supports {@code application/json} and {@code application/*+json} with
  * {@code UTF-8} character set.
  *
  * @author Juergen Hoeller
@@ -46,7 +46,6 @@ import org.springframework.util.Assert;
 public class JsonbHttpMessageConverter extends AbstractJsonHttpMessageConverter {
 
 	private Jsonb jsonb;
-
 
 	/**
 	 * Construct a new {@code JsonbHttpMessageConverter} with default configuration.
@@ -72,12 +71,12 @@ public class JsonbHttpMessageConverter extends AbstractJsonHttpMessageConverter 
 		this.jsonb = jsonb;
 	}
 
-
 	/**
-	 * Set the {@code Jsonb} instance to use.
-	 * If not set, a default {@code Jsonb} instance will be created.
-	 * <p>Setting a custom-configured {@code Jsonb} is one way to take further
-	 * control of the JSON serialization process.
+	 * Set the {@code Jsonb} instance to use. If not set, a default {@code Jsonb} instance
+	 * will be created.
+	 * <p>
+	 * Setting a custom-configured {@code Jsonb} is one way to take further control of the
+	 * JSON serialization process.
 	 * @see #JsonbHttpMessageConverter(Jsonb)
 	 * @see #JsonbHttpMessageConverter(JsonbConfig)
 	 * @see JsonbBuilder
@@ -93,7 +92,6 @@ public class JsonbHttpMessageConverter extends AbstractJsonHttpMessageConverter 
 	public Jsonb getJsonb() {
 		return this.jsonb;
 	}
-
 
 	@Override
 	protected Object readInternal(Type resolvedType, Reader reader) throws Exception {

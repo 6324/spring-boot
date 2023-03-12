@@ -30,8 +30,8 @@ import org.springframework.web.server.WebExceptionHandler;
 import org.springframework.web.server.WebHandler;
 
 /**
- * WebHandler decorator that invokes one or more {@link WebExceptionHandler WebExceptionHandlers}
- * after the delegate {@link WebHandler}.
+ * WebHandler decorator that invokes one or more {@link WebExceptionHandler
+ * WebExceptionHandlers} after the delegate {@link WebHandler}.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -39,7 +39,6 @@ import org.springframework.web.server.WebHandler;
 public class ExceptionHandlingWebHandler extends WebHandlerDecorator {
 
 	private final List<WebExceptionHandler> exceptionHandlers;
-
 
 	/**
 	 * Create an {@code ExceptionHandlingWebHandler} for the given delegate.
@@ -54,14 +53,12 @@ public class ExceptionHandlingWebHandler extends WebHandlerDecorator {
 		this.exceptionHandlers = Collections.unmodifiableList(handlersToUse);
 	}
 
-
 	/**
 	 * Return a read-only list of the configured exception handlers.
 	 */
 	public List<WebExceptionHandler> getExceptionHandlers() {
 		return this.exceptionHandlers;
 	}
-
 
 	@Override
 	public Mono<Void> handle(ServerWebExchange exchange) {
@@ -79,13 +76,13 @@ public class ExceptionHandlingWebHandler extends WebHandlerDecorator {
 		return completion;
 	}
 
-
 	/**
-	 * WebExceptionHandler to insert a checkpoint with current URL information.
-	 * Must be the first in order to ensure we catch the error signal before
-	 * the exception is handled and e.g. turned into an error response.
+	 * WebExceptionHandler to insert a checkpoint with current URL information. Must be
+	 * the first in order to ensure we catch the error signal before the exception is
+	 * handled and e.g. turned into an error response.
+	 *
 	 * @since 5.2
- 	 */
+	 */
 	private static class CheckpointInsertingHandler implements WebExceptionHandler {
 
 		@Override
@@ -97,6 +94,7 @@ public class ExceptionHandlingWebHandler extends WebHandlerDecorator {
 			String description = "HTTP " + httpMethod + " \"" + request.getPath() + query + "\"";
 			return Mono.<Void>error(ex).checkpoint(description + " [ExceptionHandlingWebHandler]");
 		}
+
 	}
 
 }

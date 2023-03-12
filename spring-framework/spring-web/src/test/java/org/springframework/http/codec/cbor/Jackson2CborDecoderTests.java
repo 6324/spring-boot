@@ -67,14 +67,9 @@ public class Jackson2CborDecoderTests extends AbstractDecoderTests<Jackson2CborD
 	@Override
 	@Test
 	public void decode() {
-		Flux<DataBuffer> input = Flux.just(this.pojo1, this.pojo2)
-				.map(this::writeObject)
-				.flatMap(this::dataBuffer);
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-				testDecodeAll(input, Pojo.class, step -> step
-						.expectNext(pojo1)
-						.expectNext(pojo2)
-						.verifyComplete()));
+		Flux<DataBuffer> input = Flux.just(this.pojo1, this.pojo2).map(this::writeObject).flatMap(this::dataBuffer);
+		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> testDecodeAll(input, Pojo.class,
+				step -> step.expectNext(pojo1).expectNext(pojo2).verifyComplete()));
 
 	}
 
@@ -93,14 +88,10 @@ public class Jackson2CborDecoderTests extends AbstractDecoderTests<Jackson2CborD
 	public void decodeToMono() {
 		List<Pojo> expected = Arrays.asList(pojo1, pojo2);
 
-		Flux<DataBuffer> input = Flux.just(expected)
-				.map(this::writeObject)
-				.flatMap(this::dataBuffer);
+		Flux<DataBuffer> input = Flux.just(expected).map(this::writeObject).flatMap(this::dataBuffer);
 
 		ResolvableType elementType = ResolvableType.forClassWithGenerics(List.class, Pojo.class);
-		testDecodeToMono(input, elementType, step -> step
-				.expectNext(expected)
-				.expectComplete()
-				.verify(), null, null);
+		testDecodeToMono(input, elementType, step -> step.expectNext(expected).expectComplete().verify(), null, null);
 	}
+
 }

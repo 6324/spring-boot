@@ -26,12 +26,13 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.util.Assert;
 
 /**
- * Interceptor that places the configured {@link ConversionService} in request scope
- * so it's available during request processing. The request attribute name is
+ * Interceptor that places the configured {@link ConversionService} in request scope so
+ * it's available during request processing. The request attribute name is
  * "org.springframework.core.convert.ConversionService", the value of
  * {@code ConversionService.class.getName()}.
  *
- * <p>Mainly for use within JSP tags such as the spring:eval tag.
+ * <p>
+ * Mainly for use within JSP tags such as the spring:eval tag.
  *
  * @author Keith Donald
  * @since 3.0.1
@@ -40,16 +41,15 @@ public class ConversionServiceExposingInterceptor extends HandlerInterceptorAdap
 
 	private final ConversionService conversionService;
 
-
 	/**
 	 * Creates a new {@link ConversionServiceExposingInterceptor}.
-	 * @param conversionService the conversion service to export to request scope when this interceptor is invoked
+	 * @param conversionService the conversion service to export to request scope when
+	 * this interceptor is invoked
 	 */
 	public ConversionServiceExposingInterceptor(ConversionService conversionService) {
 		Assert.notNull(conversionService, "The ConversionService may not be null");
 		this.conversionService = conversionService;
 	}
-
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

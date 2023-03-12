@@ -23,4 +23,5 @@ package org.springframework.context.index.sample;
  */
 @MetaController
 public class SampleMetaController {
+
 }

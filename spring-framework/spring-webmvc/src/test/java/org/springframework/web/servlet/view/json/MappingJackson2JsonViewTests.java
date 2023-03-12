@@ -73,7 +73,6 @@ public class MappingJackson2JsonViewTests {
 
 	private ScriptableObject jsScope;
 
-
 	@BeforeEach
 	public void setUp() {
 		request = new MockHttpServletRequest();
@@ -84,7 +83,6 @@ public class MappingJackson2JsonViewTests {
 
 		view = new MappingJackson2JsonView();
 	}
-
 
 	@Test
 	public void isExposePathVars() {
@@ -322,24 +320,22 @@ public class MappingJackson2JsonViewTests {
 	private void validateResult() throws Exception {
 		String json = response.getContentAsString();
 		DirectFieldAccessor viewAccessor = new DirectFieldAccessor(view);
-		String jsonPrefix = (String)viewAccessor.getPropertyValue("jsonPrefix");
+		String jsonPrefix = (String) viewAccessor.getPropertyValue("jsonPrefix");
 		if (jsonPrefix != null) {
 			json = json.substring(5);
 		}
-		Object jsResult =
-				jsContext.evaluateString(jsScope, "(" + json + ")", "JSON Stream", 1, null);
+		Object jsResult = jsContext.evaluateString(jsScope, "(" + json + ")", "JSON Stream", 1, null);
 		assertThat(jsResult).as("Json Result did not eval as valid JavaScript").isNotNull();
 		assertThat(response.getContentType()).isEqualTo("application/json");
 	}
 
-
 	public interface MyJacksonView1 {
-	}
 
+	}
 
 	public interface MyJacksonView2 {
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	public static class TestBeanSimple {
@@ -373,13 +369,13 @@ public class MappingJackson2JsonViewTests {
 		public TestChildBean getChild() {
 			return child;
 		}
+
 	}
 
-
-	@JsonSerialize(using=TestBeanSimpleSerializer.class)
+	@JsonSerialize(using = TestBeanSimpleSerializer.class)
 	public static class TestBeanSimpleAnnotated extends TestBeanSimple {
-	}
 
+	}
 
 	public static class TestChildBean {
 
@@ -404,8 +400,8 @@ public class MappingJackson2JsonViewTests {
 		public void setParent(TestBeanSimple parent) {
 			this.parent = parent;
 		}
-	}
 
+	}
 
 	public static class TestBeanSimpleSerializer extends JsonSerializer<Object> {
 
@@ -416,14 +412,15 @@ public class MappingJackson2JsonViewTests {
 			jgen.writeString("custom");
 			jgen.writeEndObject();
 		}
-	}
 
+	}
 
 	@JsonFilter("myJacksonFilter")
 	@SuppressWarnings("unused")
 	private static class TestSimpleBeanFiltered {
 
 		private String property1;
+
 		private String property2;
 
 		public String getProperty1() {
@@ -441,8 +438,8 @@ public class MappingJackson2JsonViewTests {
 		public void setProperty2(String property2) {
 			this.property2 = property2;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	public static class DelegatingSerializerFactory extends BeanSerializerFactory {
@@ -452,7 +449,8 @@ public class MappingJackson2JsonViewTests {
 		}
 
 		@Override
-		public JsonSerializer<Object> createSerializer(SerializerProvider prov, JavaType type) throws JsonMappingException {
+		public JsonSerializer<Object> createSerializer(SerializerProvider prov, JavaType type)
+				throws JsonMappingException {
 			if (type.getRawClass() == TestBeanSimple.class) {
 				return new TestBeanSimpleSerializer();
 			}
@@ -460,6 +458,7 @@ public class MappingJackson2JsonViewTests {
 				return super.createSerializer(prov, type);
 			}
 		}
+
 	}
 
 }

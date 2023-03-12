@@ -32,13 +32,14 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Resolves {@link Map} method arguments annotated with {@code @RequestHeader}.
- * For individual header values annotated with {@code @RequestHeader} see
+ * Resolves {@link Map} method arguments annotated with {@code @RequestHeader}. For
+ * individual header values annotated with {@code @RequestHeader} see
  * {@link RequestHeaderMethodArgumentResolver} instead.
  *
- * <p>The created {@link Map} contains all request header name/value pairs.
- * The method parameter type may be a {@link MultiValueMap} to receive all
- * values for a header, not only the first one.
+ * <p>
+ * The created {@link Map} contains all request header name/value pairs. The method
+ * parameter type may be a {@link MultiValueMap} to receive all values for a header, not
+ * only the first one.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -48,8 +49,8 @@ public class RequestHeaderMapMethodArgumentResolver implements HandlerMethodArgu
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return (parameter.hasParameterAnnotation(RequestHeader.class) &&
-				Map.class.isAssignableFrom(parameter.getParameterType()));
+		return (parameter.hasParameterAnnotation(RequestHeader.class)
+				&& Map.class.isAssignableFrom(parameter.getParameterType()));
 	}
 
 	@Override

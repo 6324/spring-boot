@@ -65,14 +65,12 @@ class EncoderHttpMessageWriterTests {
 
 	private static final MediaType TEXT_PLAIN_UTF_8 = new MediaType("text", "plain", UTF_8);
 
-
 	@Mock
 	private HttpMessageEncoder<String> encoder;
 
 	private final ArgumentCaptor<MediaType> mediaTypeCaptor = ArgumentCaptor.forClass(MediaType.class);
 
 	private final MockServerHttpResponse response = new MockServerHttpResponse();
-
 
 	@Test
 	void getWritableMediaTypes() {
@@ -166,13 +164,11 @@ class EncoderHttpMessageWriterTests {
 
 	@Test // gh-22952
 	void monoBodyDoesNotCancelEncodedFlux() {
-		Mono<String> inputStream = Mono.just("body")
-				.doOnCancel(() -> {
-					throw new AssertionError("Cancel signal not expected");
-				});
+		Mono<String> inputStream = Mono.just("body").doOnCancel(() -> {
+			throw new AssertionError("Cancel signal not expected");
+		});
 		new EncoderHttpMessageWriter<>(CharSequenceEncoder.allMimeTypes())
-				.write(inputStream, forClass(String.class), TEXT_PLAIN, this.response, NO_HINTS)
-				.block();
+				.write(inputStream, forClass(String.class), TEXT_PLAIN, this.response, NO_HINTS).block();
 	}
 
 	@Test // SPR-17220
@@ -184,7 +180,7 @@ class EncoderHttpMessageWriterTests {
 		assertThat(this.response.getHeaders().getContentLength()).isEqualTo(0);
 	}
 
-	@Test  // gh-22936
+	@Test // gh-22936
 	void isStreamingMediaType() throws InvocationTargetException, IllegalAccessException {
 		configureEncoder(TEXT_HTML);
 		MediaType streamingMediaType = new MediaType(TEXT_PLAIN, Collections.singletonMap("streaming", "true"));
@@ -195,7 +191,8 @@ class EncoderHttpMessageWriterTests {
 		ReflectionUtils.makeAccessible(method);
 
 		assertThat((boolean) (Boolean) method.invoke(writer, streamingMediaType)).isTrue();
-		assertThat((boolean) (Boolean) method.invoke(writer, new MediaType(TEXT_PLAIN, Collections.singletonMap("streaming", "false")))).isFalse();
+		assertThat((boolean) (Boolean) method.invoke(writer,
+				new MediaType(TEXT_PLAIN, Collections.singletonMap("streaming", "false")))).isFalse();
 		assertThat((boolean) (Boolean) method.invoke(writer, TEXT_HTML)).isFalse();
 	}
 

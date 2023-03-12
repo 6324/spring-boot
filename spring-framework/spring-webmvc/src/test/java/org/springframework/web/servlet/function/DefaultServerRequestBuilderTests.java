@@ -37,8 +37,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class DefaultServerRequestBuilderTests {
 
-	private final List<HttpMessageConverter<?>> messageConverters = Collections.singletonList(
-			new StringHttpMessageConverter());
+	private final List<HttpMessageConverter<?>> messageConverters = Collections
+			.singletonList(new StringHttpMessageConverter());
 
 	@Test
 	public void from() throws ServletException, IOException {
@@ -47,16 +47,10 @@ public class DefaultServerRequestBuilderTests {
 
 		ServerRequest other = ServerRequest.create(request, messageConverters);
 
-		ServerRequest result = ServerRequest.from(other)
-				.method(HttpMethod.HEAD)
-				.header("foo", "bar")
-				.headers(httpHeaders -> httpHeaders.set("baz", "qux"))
-				.cookie("foo", "bar")
-				.cookies(cookies -> cookies.set("baz", new Cookie("baz", "qux")))
-				.attribute("foo", "bar")
-				.attributes(attributes -> attributes.put("baz", "qux"))
-				.body("baz")
-				.build();
+		ServerRequest result = ServerRequest.from(other).method(HttpMethod.HEAD).header("foo", "bar")
+				.headers(httpHeaders -> httpHeaders.set("baz", "qux")).cookie("foo", "bar")
+				.cookies(cookies -> cookies.set("baz", new Cookie("baz", "qux"))).attribute("foo", "bar")
+				.attributes(attributes -> attributes.put("baz", "qux")).body("baz").build();
 
 		assertThat(result.method()).isEqualTo(HttpMethod.HEAD);
 		assertThat(result.headers().asHttpHeaders().size()).isEqualTo(2);

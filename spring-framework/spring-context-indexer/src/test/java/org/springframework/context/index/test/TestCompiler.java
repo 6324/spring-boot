@@ -47,7 +47,6 @@ public class TestCompiler {
 
 	private final File outputLocation;
 
-
 	public TestCompiler(Path tempDir) throws IOException {
 		this(ToolProvider.getSystemJavaCompiler(), tempDir);
 	}
@@ -60,7 +59,6 @@ public class TestCompiler {
 		this.fileManager.setLocation(StandardLocation.CLASS_OUTPUT, temp);
 		this.fileManager.setLocation(StandardLocation.SOURCE_OUTPUT, temp);
 	}
-
 
 	public TestCompilationTask getTask(Class<?>... types) {
 		List<String> names = Arrays.stream(types).map(Class::getName).collect(Collectors.toList());
@@ -101,7 +99,6 @@ public class TestCompiler {
 		return ORIGINAL_SOURCE_FOLDER;
 	}
 
-
 	/**
 	 * A compilation task.
 	 */
@@ -119,6 +116,7 @@ public class TestCompiler {
 				throw new IllegalStateException("Compilation failed");
 			}
 		}
+
 	}
 
 }

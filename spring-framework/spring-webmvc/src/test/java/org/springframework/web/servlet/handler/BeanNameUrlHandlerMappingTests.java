@@ -42,13 +42,12 @@ public class BeanNameUrlHandlerMappingTests {
 
 	private ConfigurableWebApplicationContext wac;
 
-
 	@BeforeEach
 	public void setUp() throws Exception {
 		MockServletContext sc = new MockServletContext("");
 		wac = new XmlWebApplicationContext();
 		wac.setServletContext(sc);
-		wac.setConfigLocations(new String[] {CONF});
+		wac.setConfigLocations(new String[] { CONF });
 		wac.refresh();
 	}
 
@@ -193,8 +192,7 @@ public class BeanNameUrlHandlerMappingTests {
 	@Test
 	public void doubleMappings() throws ServletException {
 		BeanNameUrlHandlerMapping hm = (BeanNameUrlHandlerMapping) wac.getBean("handlerMapping");
-		assertThatIllegalStateException().isThrownBy(() ->
-				hm.registerHandler("/mypath/welcome.html", new Object()));
+		assertThatIllegalStateException().isThrownBy(() -> hm.registerHandler("/mypath/welcome.html", new Object()));
 	}
 
 }

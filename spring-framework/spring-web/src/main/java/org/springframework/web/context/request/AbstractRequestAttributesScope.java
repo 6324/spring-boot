@@ -21,14 +21,16 @@ import org.springframework.beans.factory.config.Scope;
 import org.springframework.lang.Nullable;
 
 /**
- * Abstract {@link Scope} implementation that reads from a particular scope
- * in the current thread-bound {@link RequestAttributes} object.
+ * Abstract {@link Scope} implementation that reads from a particular scope in the current
+ * thread-bound {@link RequestAttributes} object.
  *
- * <p>Subclasses simply need to implement {@link #getScope()} to instruct
- * this class which {@link RequestAttributes} scope to read attributes from.
+ * <p>
+ * Subclasses simply need to implement {@link #getScope()} to instruct this class which
+ * {@link RequestAttributes} scope to read attributes from.
  *
- * <p>Subclasses may wish to override the {@link #get} and {@link #remove}
- * methods to add synchronization around the call back into this super class.
+ * <p>
+ * Subclasses may wish to override the {@link #get} and {@link #remove} methods to add
+ * synchronization around the call back into this super class.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -44,11 +46,14 @@ public abstract class AbstractRequestAttributesScope implements Scope {
 		if (scopedObject == null) {
 			scopedObject = objectFactory.getObject();
 			attributes.setAttribute(name, scopedObject, getScope());
-			// Retrieve object again, registering it for implicit session attribute updates.
-			// As a bonus, we also allow for potential decoration at the getAttribute level.
+			// Retrieve object again, registering it for implicit session attribute
+			// updates.
+			// As a bonus, we also allow for potential decoration at the getAttribute
+			// level.
 			Object retrievedObject = attributes.getAttribute(name, getScope());
 			if (retrievedObject != null) {
-				// Only proceed with retrieved object if still present (the expected case).
+				// Only proceed with retrieved object if still present (the expected
+				// case).
 				// If it disappeared concurrently, we return our locally created instance.
 				scopedObject = retrievedObject;
 			}
@@ -83,11 +88,10 @@ public abstract class AbstractRequestAttributesScope implements Scope {
 		return attributes.resolveReference(key);
 	}
 
-
 	/**
 	 * Template method that determines the actual target scope.
-	 * @return the target scope, in the form of an appropriate
-	 * {@link RequestAttributes} constant
+	 * @return the target scope, in the form of an appropriate {@link RequestAttributes}
+	 * constant
 	 * @see RequestAttributes#SCOPE_REQUEST
 	 * @see RequestAttributes#SCOPE_SESSION
 	 */

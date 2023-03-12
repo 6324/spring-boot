@@ -61,15 +61,17 @@ public class HttpComponentsClientHttpRequestFactoryTests extends AbstractHttpReq
 		hrf.setReadTimeout(4567);
 
 		URI uri = new URI(baseUrl + "/status/ok");
-		HttpComponentsClientHttpRequest request = (HttpComponentsClientHttpRequest)
-				hrf.createRequest(uri, HttpMethod.GET);
+		HttpComponentsClientHttpRequest request = (HttpComponentsClientHttpRequest) hrf.createRequest(uri,
+				HttpMethod.GET);
 
 		Object config = request.getHttpContext().getAttribute(HttpClientContext.REQUEST_CONFIG);
 		assertThat(config).as("Request config should be set").isNotNull();
-		assertThat(RequestConfig.class.isInstance(config)).as("Wrong request config type" + config.getClass().getName()).isTrue();
+		assertThat(RequestConfig.class.isInstance(config)).as("Wrong request config type" + config.getClass().getName())
+				.isTrue();
 		RequestConfig requestConfig = (RequestConfig) config;
 		assertThat(requestConfig.getConnectTimeout()).as("Wrong custom connection timeout").isEqualTo(1234);
-		assertThat(requestConfig.getConnectionRequestTimeout()).as("Wrong custom connection request timeout").isEqualTo(4321);
+		assertThat(requestConfig.getConnectionRequestTimeout()).as("Wrong custom connection request timeout")
+				.isEqualTo(4321);
 		assertThat(requestConfig.getSocketTimeout()).as("Wrong custom socket timeout").isEqualTo(4567);
 	}
 
@@ -94,8 +96,8 @@ public class HttpComponentsClientHttpRequestFactoryTests extends AbstractHttpReq
 
 	@Test
 	public void localSettingsOverrideClientDefaultSettings() throws Exception {
-		RequestConfig defaultConfig = RequestConfig.custom()
-				.setConnectTimeout(1234).setConnectionRequestTimeout(6789).build();
+		RequestConfig defaultConfig = RequestConfig.custom().setConnectTimeout(1234).setConnectionRequestTimeout(6789)
+				.build();
 		CloseableHttpClient client = mock(CloseableHttpClient.class,
 				withSettings().extraInterfaces(Configurable.class));
 		Configurable configurable = (Configurable) client;
@@ -112,8 +114,7 @@ public class HttpComponentsClientHttpRequestFactoryTests extends AbstractHttpReq
 
 	@Test
 	public void mergeBasedOnCurrentHttpClient() throws Exception {
-		RequestConfig defaultConfig = RequestConfig.custom()
-				.setSocketTimeout(1234).build();
+		RequestConfig defaultConfig = RequestConfig.custom().setSocketTimeout(1234).build();
 		final CloseableHttpClient client = mock(CloseableHttpClient.class,
 				withSettings().extraInterfaces(Configurable.class));
 		Configurable configurable = (Configurable) client;
@@ -132,9 +133,8 @@ public class HttpComponentsClientHttpRequestFactoryTests extends AbstractHttpReq
 		assertThat(requestConfig.getConnectionRequestTimeout()).isEqualTo(-1);
 		assertThat(requestConfig.getSocketTimeout()).isEqualTo(5000);
 
-		// Update the Http client so that it returns an updated  config
-		RequestConfig updatedDefaultConfig = RequestConfig.custom()
-				.setConnectTimeout(1234).build();
+		// Update the Http client so that it returns an updated config
+		RequestConfig updatedDefaultConfig = RequestConfig.custom().setConnectTimeout(1234).build();
 		given(configurable.getConfig()).willReturn(updatedDefaultConfig);
 		hrf.setReadTimeout(7000);
 		RequestConfig requestConfig2 = retrieveRequestConfig(hrf);
@@ -145,8 +145,8 @@ public class HttpComponentsClientHttpRequestFactoryTests extends AbstractHttpReq
 
 	private RequestConfig retrieveRequestConfig(HttpComponentsClientHttpRequestFactory factory) throws Exception {
 		URI uri = new URI(baseUrl + "/status/ok");
-		HttpComponentsClientHttpRequest request = (HttpComponentsClientHttpRequest)
-				factory.createRequest(uri, HttpMethod.GET);
+		HttpComponentsClientHttpRequest request = (HttpComponentsClientHttpRequest) factory.createRequest(uri,
+				HttpMethod.GET);
 		return (RequestConfig) request.getHttpContext().getAttribute(HttpClientContext.REQUEST_CONFIG);
 	}
 
@@ -165,7 +165,8 @@ public class HttpComponentsClientHttpRequestFactoryTests extends AbstractHttpReq
 	}
 
 	private void testRequestBodyAllowed(URI uri, HttpMethod method, boolean allowed) {
-		HttpUriRequest request = ((HttpComponentsClientHttpRequestFactory) this.factory).createHttpUriRequest(method, uri);
+		HttpUriRequest request = ((HttpComponentsClientHttpRequestFactory) this.factory).createHttpUriRequest(method,
+				uri);
 		Object actual = request instanceof HttpEntityEnclosingRequest;
 		assertThat(actual).isEqualTo(allowed);
 	}

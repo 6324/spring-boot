@@ -63,7 +63,6 @@ public class ModelFactoryTests {
 
 	private ModelAndViewContainer mavContainer;
 
-
 	@BeforeEach
 	public void setUp() throws Exception {
 		this.webRequest = new ServletWebRequest(new MockHttpServletRequest());
@@ -72,7 +71,6 @@ public class ModelFactoryTests {
 		this.controller = new TestController();
 		this.mavContainer = new ModelAndViewContainer();
 	}
-
 
 	@Test
 	public void modelAttributeMethod() throws Exception {
@@ -150,8 +148,8 @@ public class ModelFactoryTests {
 	public void sessionAttributeNotPresent() throws Exception {
 		ModelFactory modelFactory = new ModelFactory(null, null, this.attributeHandler);
 		HandlerMethod handlerMethod = createHandlerMethod("handleSessionAttr", String.class);
-		assertThatExceptionOfType(HttpSessionRequiredException.class).isThrownBy(() ->
-				modelFactory.initModel(this.webRequest, this.mavContainer, handlerMethod));
+		assertThatExceptionOfType(HttpSessionRequiredException.class)
+				.isThrownBy(() -> modelFactory.initModel(this.webRequest, this.mavContainer, handlerMethod));
 
 		// Now add attribute and try again
 		this.attributeStore.storeAttribute(this.webRequest, "sessionAttr", "sessionAttrValue");
@@ -220,7 +218,7 @@ public class ModelFactoryTests {
 		assertThat(this.attributeStore.retrieveAttribute(this.webRequest, attributeName)).isNull();
 	}
 
-	@Test  // SPR-12542
+	@Test // SPR-12542
 	public void updateModelWhenRedirecting() throws Exception {
 		String attributeName = "sessionAttr";
 		String attribute = "value";
@@ -244,7 +242,6 @@ public class ModelFactoryTests {
 		assertThat(this.attributeStore.retrieveAttribute(this.webRequest, attributeName)).isEqualTo(attribute);
 	}
 
-
 	private ModelFactory createModelFactory(String methodName, Class<?>... parameterTypes) throws Exception {
 		HandlerMethodArgumentResolverComposite resolvers = new HandlerMethodArgumentResolverComposite();
 		resolvers.addResolver(new ModelMethodProcessor());
@@ -262,8 +259,7 @@ public class ModelFactoryTests {
 		return new InvocableHandlerMethod(this.controller, method);
 	}
 
-
-	@SessionAttributes({"sessionAttr", "foo"})
+	@SessionAttributes({ "sessionAttr", "foo" })
 	static class TestController {
 
 		@ModelAttribute
@@ -286,7 +282,7 @@ public class ModelFactoryTests {
 			return null;
 		}
 
-		@ModelAttribute(name="foo", binding=false)
+		@ModelAttribute(name = "foo", binding = false)
 		public Foo modelAttrWithBindingDisabled() {
 			return new Foo();
 		}
@@ -296,10 +292,11 @@ public class ModelFactoryTests {
 
 		public void handleSessionAttr(@ModelAttribute("sessionAttr") String sessionAttr) {
 		}
+
 	}
 
-
 	private static class Foo {
+
 	}
 
 }

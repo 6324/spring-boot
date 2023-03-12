@@ -32,13 +32,14 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.util.HtmlUtils;
 
 /**
- * Simple adapter to expose the bind status of a field or object.
- * Set as a variable both by the JSP bind tag and FreeMarker macros.
+ * Simple adapter to expose the bind status of a field or object. Set as a variable both
+ * by the JSP bind tag and FreeMarker macros.
  *
- * <p>Obviously, object status representations (i.e. errors at the object level
- * rather than the field level) do not have an expression and a value but only
- * error codes and messages. For simplicity's sake and to be able to use the same
- * tags and macros, the same status class is used for both scenarios.
+ * <p>
+ * Obviously, object status representations (i.e. errors at the object level rather than
+ * the field level) do not have an expression and a value but only error codes and
+ * messages. For simplicity's sake and to be able to use the same tags and macros, the
+ * same status class is used for both scenarios.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -84,12 +85,11 @@ public class BindStatus {
 	@Nullable
 	private BindingResult bindingResult;
 
-
 	/**
 	 * Create a new BindStatus instance, representing a field or object status.
 	 * @param requestContext the current RequestContext
-	 * @param path the bean and property path for which values and errors
-	 * will be resolved (e.g. "customer.address.street")
+	 * @param path the bean and property path for which values and errors will be resolved
+	 * (e.g. "customer.address.street")
 	 * @param htmlEscape whether to HTML-escape error messages and string values
 	 * @throws IllegalStateException if no corresponding Errors object found
 	 */
@@ -150,8 +150,8 @@ public class BindStatus {
 			// Let's do the best we can: extract a plain target if appropriate.
 			Object target = requestContext.getModelObject(beanName);
 			if (target == null) {
-				throw new IllegalStateException("Neither BindingResult nor plain target object for bean name '" +
-						beanName + "' available as request attribute");
+				throw new IllegalStateException("Neither BindingResult nor plain target object for bean name '"
+						+ beanName + "' available as request attribute");
 			}
 			if (this.expression != null && !"*".equals(this.expression) && !this.expression.endsWith("*")) {
 				BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(target);
@@ -180,21 +180,21 @@ public class BindStatus {
 		return errorCodes;
 	}
 
-
 	/**
-	 * Return the bean and property path for which values and errors
-	 * will be resolved (e.g. "customer.address.street").
+	 * Return the bean and property path for which values and errors will be resolved
+	 * (e.g. "customer.address.street").
 	 */
 	public String getPath() {
 		return this.path;
 	}
 
 	/**
-	 * Return a bind expression that can be used in HTML forms as input name
-	 * for the respective field, or {@code null} if not field-specific.
-	 * <p>Returns a bind path appropriate for resubmission, e.g. "address.street".
-	 * Note that the complete bind path as required by the bind tag is
-	 * "customer.address.street", if bound to a "customer" bean.
+	 * Return a bind expression that can be used in HTML forms as input name for the
+	 * respective field, or {@code null} if not field-specific.
+	 * <p>
+	 * Returns a bind path appropriate for resubmission, e.g. "address.street". Note that
+	 * the complete bind path as required by the bind tag is "customer.address.street", if
+	 * bound to a "customer" bean.
 	 */
 	@Nullable
 	public String getExpression() {
@@ -202,10 +202,11 @@ public class BindStatus {
 	}
 
 	/**
-	 * Return the current value of the field, i.e. either the property value
-	 * or a rejected update, or {@code null} if not field-specific.
-	 * <p>This value will be an HTML-escaped String if the original value
-	 * already was a String.
+	 * Return the current value of the field, i.e. either the property value or a rejected
+	 * update, or {@code null} if not field-specific.
+	 * <p>
+	 * This value will be an HTML-escaped String if the original value already was a
+	 * String.
 	 */
 	@Nullable
 	public Object getValue() {
@@ -214,8 +215,8 @@ public class BindStatus {
 
 	/**
 	 * Get the '{@code Class}' type of the field. Favor this instead of
-	 * '{@code getValue().getClass()}' since '{@code getValue()}' may
-	 * return '{@code null}'.
+	 * '{@code getValue().getClass()}' since '{@code getValue()}' may return
+	 * '{@code null}'.
 	 */
 	@Nullable
 	public Class<?> getValueType() {
@@ -223,8 +224,8 @@ public class BindStatus {
 	}
 
 	/**
-	 * Return the actual value of the field, i.e. the raw property value,
-	 * or {@code null} if not available.
+	 * Return the actual value of the field, i.e. the raw property value, or {@code null}
+	 * if not available.
 	 */
 	@Nullable
 	public Object getActualValue() {
@@ -232,11 +233,11 @@ public class BindStatus {
 	}
 
 	/**
-	 * Return a suitable display value for the field, i.e. the stringified
-	 * value if not null, and an empty string in case of a null value.
-	 * <p>This value will be an HTML-escaped String if the original value
-	 * was non-null: the {@code toString} result of the original value
-	 * will get HTML-escaped.
+	 * Return a suitable display value for the field, i.e. the stringified value if not
+	 * null, and an empty string in case of a null value.
+	 * <p>
+	 * This value will be an HTML-escaped String if the original value was non-null: the
+	 * {@code toString} result of the original value will get HTML-escaped.
 	 */
 	public String getDisplayValue() {
 		if (this.value instanceof String) {
@@ -256,8 +257,8 @@ public class BindStatus {
 	}
 
 	/**
-	 * Return the error codes for the field or object, if any.
-	 * Returns an empty array instead of null if none.
+	 * Return the error codes for the field or object, if any. Returns an empty array
+	 * instead of null if none.
 	 */
 	public String[] getErrorCodes() {
 		return this.errorCodes;
@@ -271,8 +272,8 @@ public class BindStatus {
 	}
 
 	/**
-	 * Return the resolved error messages for the field or object,
-	 * if any. Returns an empty array instead of null if none.
+	 * Return the resolved error messages for the field or object, if any. Returns an
+	 * empty array instead of null if none.
 	 */
 	public String[] getErrorMessages() {
 		return initErrorMessages();
@@ -287,9 +288,10 @@ public class BindStatus {
 	}
 
 	/**
-	 * Return an error message string, concatenating all messages
-	 * separated by the given delimiter.
-	 * @param delimiter separator string, e.g. ", " or "<br>"
+	 * Return an error message string, concatenating all messages separated by the given
+	 * delimiter.
+	 * @param delimiter separator string, e.g. ", " or "<br>
+	 * "
 	 * @return the error message string
 	 */
 	public String getErrorMessagesAsString(String delimiter) {
@@ -316,8 +318,8 @@ public class BindStatus {
 	}
 
 	/**
-	 * Return the Errors instance (typically a BindingResult) that this
-	 * bind status is currently associated with.
+	 * Return the Errors instance (typically a BindingResult) that this bind status is
+	 * currently associated with.
 	 * @return the current Errors instance, or {@code null} if none
 	 * @see org.springframework.validation.BindingResult
 	 */
@@ -327,8 +329,8 @@ public class BindStatus {
 	}
 
 	/**
-	 * Return the PropertyEditor for the property that this bind status
-	 * is currently bound to.
+	 * Return the PropertyEditor for the property that this bind status is currently bound
+	 * to.
 	 * @return the current PropertyEditor, or {@code null} if none
 	 */
 	@Nullable
@@ -337,8 +339,8 @@ public class BindStatus {
 	}
 
 	/**
-	 * Find a PropertyEditor for the given value class, associated with
-	 * the property that this bound status is currently bound to.
+	 * Find a PropertyEditor for the given value class, associated with the property that
+	 * this bound status is currently bound to.
 	 * @param valueClass the value class that an editor is needed for
 	 * @return the associated PropertyEditor, or {@code null} if none
 	 */
@@ -346,7 +348,6 @@ public class BindStatus {
 	public PropertyEditor findEditor(Class<?> valueClass) {
 		return (this.bindingResult != null ? this.bindingResult.findEditor(this.expression, valueClass) : null);
 	}
-
 
 	@Override
 	public String toString() {

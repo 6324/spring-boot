@@ -34,10 +34,11 @@ import org.springframework.web.context.request.ServletWebRequest;
 /**
  * A Servlet 3.0 implementation of {@link AsyncWebRequest}.
  *
- * <p>The servlet and all filters involved in an async request must have async
- * support enabled using the Servlet API or by adding an
- * <code>&ltasync-supported&gttrue&lt/async-supported&gt</code> element to servlet and filter
- * declarations in {@code web.xml}.
+ * <p>
+ * The servlet and all filters involved in an async request must have async support
+ * enabled using the Servlet API or by adding an
+ * <code>&ltasync-supported&gttrue&lt/async-supported&gt</code> element to servlet and
+ * filter declarations in {@code web.xml}.
  *
  * @author Rossen Stoyanchev
  * @since 3.2
@@ -56,7 +57,6 @@ public class StandardServletAsyncWebRequest extends ServletWebRequest implements
 
 	private final List<Runnable> completionHandlers = new ArrayList<>();
 
-
 	/**
 	 * Create a new instance for the given request/response pair.
 	 * @param request current HTTP request
@@ -66,10 +66,9 @@ public class StandardServletAsyncWebRequest extends ServletWebRequest implements
 		super(request, response);
 	}
 
-
 	/**
-	 * In Servlet 3 async processing, the timeout period begins after the
-	 * container processing thread has exited.
+	 * In Servlet 3 async processing, the timeout period begins after the container
+	 * processing thread has exited.
 	 */
 	@Override
 	public void setTimeout(Long timeout) {
@@ -99,8 +98,9 @@ public class StandardServletAsyncWebRequest extends ServletWebRequest implements
 
 	/**
 	 * Whether async request processing has completed.
-	 * <p>It is important to avoid use of request and response objects after async
-	 * processing has completed. Servlet containers often re-use them.
+	 * <p>
+	 * It is important to avoid use of request and response objects after async processing
+	 * has completed. Servlet containers often re-use them.
 	 */
 	@Override
 	public boolean isAsyncComplete() {
@@ -110,10 +110,10 @@ public class StandardServletAsyncWebRequest extends ServletWebRequest implements
 	@Override
 	public void startAsync() {
 		Assert.state(getRequest().isAsyncSupported(),
-				"Async support must be enabled on a servlet and for all filters involved " +
-				"in async request processing. This is done in Java code using the Servlet API " +
-				"or by adding \"<async-supported>true</async-supported>\" to servlet and " +
-				"filter declarations in web.xml.");
+				"Async support must be enabled on a servlet and for all filters involved "
+						+ "in async request processing. This is done in Java code using the Servlet API "
+						+ "or by adding \"<async-supported>true</async-supported>\" to servlet and "
+						+ "filter declarations in web.xml.");
 		Assert.state(!isAsyncComplete(), "Async processing has already completed");
 
 		if (isAsyncStarted()) {
@@ -131,7 +131,6 @@ public class StandardServletAsyncWebRequest extends ServletWebRequest implements
 		Assert.notNull(this.asyncContext, "Cannot dispatch without an AsyncContext");
 		this.asyncContext.dispatch();
 	}
-
 
 	// ---------------------------------------------------------------------
 	// Implementation of AsyncListener methods

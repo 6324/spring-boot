@@ -45,9 +45,8 @@ public class RequestEntityTests {
 		URI url = new URI("https://example.com");
 		Integer entity = 42;
 
-		RequestEntity<Object> requestEntity =
-				RequestEntity.method(HttpMethod.GET, url)
-						.header(headerName, headerValue).body(entity);
+		RequestEntity<Object> requestEntity = RequestEntity.method(HttpMethod.GET, url).header(headerName, headerValue)
+				.body(entity);
 
 		assertThat(requestEntity).isNotNull();
 		assertThat(requestEntity.getMethod()).isEqualTo(HttpMethod.GET);
@@ -81,13 +80,14 @@ public class RequestEntityTests {
 
 	@Test
 	public void get() {
-		RequestEntity<Void> requestEntity = RequestEntity.get(URI.create("https://example.com")).accept(
-				MediaType.IMAGE_GIF, MediaType.IMAGE_JPEG, MediaType.IMAGE_PNG).build();
+		RequestEntity<Void> requestEntity = RequestEntity.get(URI.create("https://example.com"))
+				.accept(MediaType.IMAGE_GIF, MediaType.IMAGE_JPEG, MediaType.IMAGE_PNG).build();
 
 		assertThat(requestEntity).isNotNull();
 		assertThat(requestEntity.getMethod()).isEqualTo(HttpMethod.GET);
 		assertThat(requestEntity.getHeaders().containsKey(HttpHeaders.ACCEPT)).isTrue();
-		assertThat(requestEntity.getHeaders().getFirst(HttpHeaders.ACCEPT)).isEqualTo("image/gif, image/jpeg, image/png");
+		assertThat(requestEntity.getHeaders().getFirst(HttpHeaders.ACCEPT))
+				.isEqualTo("image/gif, image/jpeg, image/png");
 		assertThat(requestEntity.getBody()).isNull();
 	}
 
@@ -99,15 +99,10 @@ public class RequestEntityTests {
 		long contentLength = 67890;
 		MediaType contentType = MediaType.TEXT_PLAIN;
 
-		RequestEntity<Void> responseEntity = RequestEntity.post(new URI("https://example.com")).
-				accept(accept).
-				acceptCharset(StandardCharsets.UTF_8).
-				ifModifiedSince(ifModifiedSince).
-				ifNoneMatch(ifNoneMatch).
-				contentLength(contentLength).
-				contentType(contentType).
-				headers(headers -> assertThat(headers).hasSize(6)).
-				build();
+		RequestEntity<Void> responseEntity = RequestEntity.post(new URI("https://example.com")).accept(accept)
+				.acceptCharset(StandardCharsets.UTF_8).ifModifiedSince(ifModifiedSince).ifNoneMatch(ifNoneMatch)
+				.contentLength(contentLength).contentType(contentType)
+				.headers(headers -> assertThat(headers).hasSize(6)).build();
 
 		assertThat(responseEntity).isNotNull();
 		assertThat(responseEntity.getMethod()).isEqualTo(HttpMethod.POST);
@@ -151,11 +146,12 @@ public class RequestEntityTests {
 
 	}
 
-	@Test  // SPR-13154
+	@Test // SPR-13154
 	public void types() throws URISyntaxException {
 		URI url = new URI("https://example.com");
 		List<String> body = Arrays.asList("foo", "bar");
-		ParameterizedTypeReference<?> typeReference = new ParameterizedTypeReference<List<String>>() {};
+		ParameterizedTypeReference<?> typeReference = new ParameterizedTypeReference<List<String>>() {
+		};
 
 		RequestEntity<?> entity = RequestEntity.post(url).body(body, typeReference.getType());
 		assertThat(entity.getType()).isEqualTo(typeReference.getType());

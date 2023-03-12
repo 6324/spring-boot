@@ -46,13 +46,14 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 
 /**
- * Helper class to get information from the {@code HandlerMapping} that would
- * serve a specific request.
+ * Helper class to get information from the {@code HandlerMapping} that would serve a
+ * specific request.
  *
- * <p>Provides the following methods:
+ * <p>
+ * Provides the following methods:
  * <ul>
- * <li>{@link #getMatchableHandlerMapping} &mdash; obtain a {@code HandlerMapping}
- * to check request-matching criteria against.
+ * <li>{@link #getMatchableHandlerMapping} &mdash; obtain a {@code HandlerMapping} to
+ * check request-matching criteria against.
  * <li>{@link #getCorsConfiguration} &mdash; obtain the CORS configuration for the
  * request.
  * </ul>
@@ -60,15 +61,13 @@ import org.springframework.web.servlet.HandlerMapping;
  * @author Rossen Stoyanchev
  * @since 4.3.1
  */
-public class HandlerMappingIntrospector
-		implements CorsConfigurationSource, ApplicationContextAware, InitializingBean {
+public class HandlerMappingIntrospector implements CorsConfigurationSource, ApplicationContextAware, InitializingBean {
 
 	@Nullable
 	private ApplicationContext applicationContext;
 
 	@Nullable
 	private List<HandlerMapping> handlerMappings;
-
 
 	/**
 	 * Constructor for use with {@link ApplicationContextAware}.
@@ -77,9 +76,9 @@ public class HandlerMappingIntrospector
 	}
 
 	/**
-	 * Constructor that detects the configured {@code HandlerMapping}s in the
-	 * given {@code ApplicationContext} or falls back on
-	 * "DispatcherServlet.properties" like the {@code DispatcherServlet}.
+	 * Constructor that detects the configured {@code HandlerMapping}s in the given
+	 * {@code ApplicationContext} or falls back on "DispatcherServlet.properties" like the
+	 * {@code DispatcherServlet}.
 	 * @deprecated as of 4.3.12, in favor of {@link #setApplicationContext}
 	 */
 	@Deprecated
@@ -87,14 +86,12 @@ public class HandlerMappingIntrospector
 		this.handlerMappings = initHandlerMappings(context);
 	}
 
-
 	/**
 	 * Return the configured HandlerMapping's.
 	 */
 	public List<HandlerMapping> getHandlerMappings() {
 		return (this.handlerMappings != null ? this.handlerMappings : Collections.emptyList());
 	}
-
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) {
@@ -109,12 +106,12 @@ public class HandlerMappingIntrospector
 		}
 	}
 
-
 	/**
-	 * Find the {@link HandlerMapping} that would handle the given request and
-	 * return it as a {@link MatchableHandlerMapping} that can be used to test
-	 * request-matching criteria.
-	 * <p>If the matching HandlerMapping is not an instance of
+	 * Find the {@link HandlerMapping} that would handle the given request and return it
+	 * as a {@link MatchableHandlerMapping} that can be used to test request-matching
+	 * criteria.
+	 * <p>
+	 * If the matching HandlerMapping is not an instance of
 	 * {@link MatchableHandlerMapping}, an IllegalStateException is raised.
 	 * @param request the current request
 	 * @return the resolved matcher, or {@code null}
@@ -167,10 +164,9 @@ public class HandlerMappingIntrospector
 		return null;
 	}
 
-
 	private static List<HandlerMapping> initHandlerMappings(ApplicationContext applicationContext) {
-		Map<String, HandlerMapping> beans = BeanFactoryUtils.beansOfTypeIncludingAncestors(
-				applicationContext, HandlerMapping.class, true, false);
+		Map<String, HandlerMapping> beans = BeanFactoryUtils.beansOfTypeIncludingAncestors(applicationContext,
+				HandlerMapping.class, true, false);
 		if (!beans.isEmpty()) {
 			List<HandlerMapping> mappings = new ArrayList<>(beans.values());
 			AnnotationAwareOrderComparator.sort(mappings);
@@ -206,7 +202,6 @@ public class HandlerMappingIntrospector
 		return result;
 	}
 
-
 	/**
 	 * Request wrapper that ignores request attribute changes.
 	 */
@@ -220,6 +215,7 @@ public class HandlerMappingIntrospector
 		public void setAttribute(String name, Object value) {
 			// Ignore attribute change...
 		}
+
 	}
 
 }

@@ -53,7 +53,6 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
 
 	private boolean preserveFilename = false;
 
-
 	/**
 	 * Create an instance wrapping the given FileItem.
 	 * @param fileItem the FileItem to wrap
@@ -63,21 +62,21 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
 		this.size = this.fileItem.getSize();
 	}
 
-
 	/**
-	 * Return the underlying {@code org.apache.commons.fileupload.FileItem}
-	 * instance. There is hardly any need to access this.
+	 * Return the underlying {@code org.apache.commons.fileupload.FileItem} instance.
+	 * There is hardly any need to access this.
 	 */
 	public final FileItem getFileItem() {
 		return this.fileItem;
 	}
 
 	/**
-	 * Set whether to preserve the filename as sent by the client, not stripping off
-	 * path information in {@link CommonsMultipartFile#getOriginalFilename()}.
-	 * <p>Default is "false", stripping off path information that may prefix the
-	 * actual filename e.g. from Opera. Switch this to "true" for preserving the
-	 * client-specified filename as-is, including potential path separators.
+	 * Set whether to preserve the filename as sent by the client, not stripping off path
+	 * information in {@link CommonsMultipartFile#getOriginalFilename()}.
+	 * <p>
+	 * Default is "false", stripping off path information that may prefix the actual
+	 * filename e.g. from Opera. Switch this to "true" for preserving the client-specified
+	 * filename as-is, including potential path separators.
 	 * @since 4.3.5
 	 * @see #getOriginalFilename()
 	 * @see CommonsMultipartResolver#setPreserveFilename(boolean)
@@ -85,7 +84,6 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
 	public void setPreserveFilename(boolean preserveFilename) {
 		this.preserveFilename = preserveFilename;
 	}
-
 
 	@Override
 	public String getName() {
@@ -110,7 +108,7 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
 		int winSep = filename.lastIndexOf('\\');
 		// Cut off at latest possible point
 		int pos = Math.max(winSep, unixSep);
-		if (pos != -1)  {
+		if (pos != -1) {
 			// Any sort of path separator found...
 			return filename.substring(pos + 1);
 		}
@@ -171,9 +169,9 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
 				if (!this.fileItem.isInMemory()) {
 					action = (isAvailable() ? "copied" : "moved");
 				}
-				return "Part '" + getName() + "',  filename '" + getOriginalFilename() + "'" +
-						(traceOn ? ", stored " + getStorageDescription() : "") +
-						": " + action + " to [" + dest.getAbsolutePath() + "]";
+				return "Part '" + getName() + "',  filename '" + getOriginalFilename() + "'"
+						+ (traceOn ? ", stored " + getStorageDescription() : "") + ": " + action + " to ["
+						+ dest.getAbsolutePath() + "]";
 			});
 		}
 		catch (FileUploadException ex) {
@@ -199,8 +197,8 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
 	}
 
 	/**
-	 * Determine whether the multipart content is still available.
-	 * If a temporary file has been moved, the content is no longer available.
+	 * Determine whether the multipart content is still available. If a temporary file has
+	 * been moved, the content is no longer available.
 	 */
 	protected boolean isAvailable() {
 		// If in memory, it's available.
@@ -216,9 +214,8 @@ public class CommonsMultipartFile implements MultipartFile, Serializable {
 	}
 
 	/**
-	 * Return a description for the storage location of the multipart content.
-	 * Tries to be as specific as possible: mentions the file location in case
-	 * of a temporary file.
+	 * Return a description for the storage location of the multipart content. Tries to be
+	 * as specific as possible: mentions the file location in case of a temporary file.
 	 */
 	public String getStorageDescription() {
 		if (this.fileItem.isInMemory()) {

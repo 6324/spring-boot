@@ -47,9 +47,10 @@ import org.springframework.util.MimeTypeUtils;
 /**
  * Encode from single value to a byte stream containing XML elements.
  *
- * <p>{@link javax.xml.bind.annotation.XmlElements @XmlElements} and
- * {@link javax.xml.bind.annotation.XmlElement @XmlElement} can be used
- * to specify how collections should be marshalled.
+ * <p>
+ * {@link javax.xml.bind.annotation.XmlElements @XmlElements} and
+ * {@link javax.xml.bind.annotation.XmlElement @XmlElement} can be used to specify how
+ * collections should be marshalled.
  *
  * @author Sebastien Deleuze
  * @author Arjen Poutsma
@@ -62,11 +63,9 @@ public class Jaxb2XmlEncoder extends AbstractSingleValueEncoder<Object> {
 
 	private Function<Marshaller, Marshaller> marshallerProcessor = Function.identity();
 
-
 	public Jaxb2XmlEncoder() {
 		super(MimeTypeUtils.APPLICATION_XML, MimeTypeUtils.TEXT_XML);
 	}
-
 
 	/**
 	 * Configure a processor function to customize Marshaller instances.
@@ -85,13 +84,12 @@ public class Jaxb2XmlEncoder extends AbstractSingleValueEncoder<Object> {
 		return this.marshallerProcessor;
 	}
 
-
 	@Override
 	public boolean canEncode(ResolvableType elementType, @Nullable MimeType mimeType) {
 		if (super.canEncode(elementType, mimeType)) {
 			Class<?> outputClass = elementType.toClass();
-			return (outputClass.isAnnotationPresent(XmlRootElement.class) ||
-					outputClass.isAnnotationPresent(XmlType.class));
+			return (outputClass.isAnnotationPresent(XmlRootElement.class)
+					|| outputClass.isAnnotationPresent(XmlType.class));
 		}
 		else {
 			return false;
@@ -99,16 +97,16 @@ public class Jaxb2XmlEncoder extends AbstractSingleValueEncoder<Object> {
 	}
 
 	@Override
-	protected Flux<DataBuffer> encode(Object value, DataBufferFactory bufferFactory,
-			ResolvableType valueType, @Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
+	protected Flux<DataBuffer> encode(Object value, DataBufferFactory bufferFactory, ResolvableType valueType,
+			@Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
 
 		// we're relying on doOnDiscard in base class
 		return Mono.fromCallable(() -> encodeValue(value, bufferFactory, valueType, mimeType, hints)).flux();
 	}
 
 	@Override
-	public DataBuffer encodeValue(Object value, DataBufferFactory bufferFactory,
-			ResolvableType valueType, @Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
+	public DataBuffer encodeValue(Object value, DataBufferFactory bufferFactory, ResolvableType valueType,
+			@Nullable MimeType mimeType, @Nullable Map<String, Object> hints) {
 
 		if (!Hints.isLoggingSuppressed(hints)) {
 			LogFormatUtils.traceDebug(logger, traceOn -> {

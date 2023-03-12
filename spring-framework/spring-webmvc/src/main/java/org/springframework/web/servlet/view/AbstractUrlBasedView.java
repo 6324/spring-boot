@@ -22,8 +22,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
 
 /**
- * Abstract base class for URL-based views. Provides a consistent way of
- * holding the URL that a View wraps, in the form of a "url" bean property.
+ * Abstract base class for URL-based views. Provides a consistent way of holding the URL
+ * that a View wraps, in the form of a "url" bean property.
  *
  * @author Juergen Hoeller
  * @since 13.12.2003
@@ -32,7 +32,6 @@ public abstract class AbstractUrlBasedView extends AbstractView implements Initi
 
 	@Nullable
 	private String url;
-
 
 	/**
 	 * Constructor for use as a bean.
@@ -48,10 +47,9 @@ public abstract class AbstractUrlBasedView extends AbstractView implements Initi
 		this.url = url;
 	}
 
-
 	/**
-	 * Set the URL of the resource that this view wraps.
-	 * The URL must be appropriate for the concrete View implementation.
+	 * Set the URL of the resource that this view wraps. The URL must be appropriate for
+	 * the concrete View implementation.
 	 */
 	public void setUrl(@Nullable String url) {
 		this.url = url;
@@ -74,19 +72,20 @@ public abstract class AbstractUrlBasedView extends AbstractView implements Initi
 
 	/**
 	 * Return whether the 'url' property is required.
-	 * <p>The default implementation returns {@code true}.
-	 * This can be overridden in subclasses.
+	 * <p>
+	 * The default implementation returns {@code true}. This can be overridden in
+	 * subclasses.
 	 */
 	protected boolean isUrlRequired() {
 		return true;
 	}
 
 	/**
-	 * Check whether the underlying resource that the configured URL points to
-	 * actually exists.
+	 * Check whether the underlying resource that the configured URL points to actually
+	 * exists.
 	 * @param locale the desired Locale that we're looking for
-	 * @return {@code true} if the resource exists (or is assumed to exist);
-	 * {@code false} if we know that it does not exist
+	 * @return {@code true} if the resource exists (or is assumed to exist); {@code false}
+	 * if we know that it does not exist
 	 * @throws Exception if the resource exists but is invalid (e.g. could not be parsed)
 	 */
 	public boolean checkResource(Locale locale) throws Exception {

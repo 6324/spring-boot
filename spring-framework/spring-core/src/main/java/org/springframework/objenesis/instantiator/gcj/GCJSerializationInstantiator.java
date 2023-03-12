@@ -15,37 +15,37 @@
  */
 package org.springframework.objenesis.instantiator.gcj;
 
-
 import org.springframework.objenesis.ObjenesisException;
 import org.springframework.objenesis.instantiator.SerializationInstantiatorHelper;
 import org.springframework.objenesis.instantiator.annotations.Instantiator;
 import org.springframework.objenesis.instantiator.annotations.Typology;
 
 /**
- * Instantiates a class by making a call to internal GCJ private methods. It is only supposed to
- * work on GCJ JVMs. This instantiator will create classes in a way compatible with serialization,
- * calling the first non-serializable superclass' no-arg constructor.
+ * Instantiates a class by making a call to internal GCJ private methods. It is only
+ * supposed to work on GCJ JVMs. This instantiator will create classes in a way compatible
+ * with serialization, calling the first non-serializable superclass' no-arg constructor.
  *
  * @author Leonardo Mesquita
  * @see org.springframework.objenesis.instantiator.ObjectInstantiator
  */
 @Instantiator(Typology.SERIALIZATION)
 public class GCJSerializationInstantiator<T> extends GCJInstantiatorBase<T> {
-   private final Class<? super T> superType;
 
-   public GCJSerializationInstantiator(Class<T> type) {
-      super(type);
-      this.superType = SerializationInstantiatorHelper.getNonSerializableSuperClass(type);
-   }
+	private final Class<? super T> superType;
 
-   @Override
-   public T newInstance() {
-      try {
-         return type.cast(newObjectMethod.invoke(dummyStream, type, superType));
-      }
-      catch(Exception e) {
-         throw new ObjenesisException(e);
-      }
-   }
+	public GCJSerializationInstantiator(Class<T> type) {
+		super(type);
+		this.superType = SerializationInstantiatorHelper.getNonSerializableSuperClass(type);
+	}
+
+	@Override
+	public T newInstance() {
+		try {
+			return type.cast(newObjectMethod.invoke(dummyStream, type, superType));
+		}
+		catch (Exception e) {
+			throw new ObjenesisException(e);
+		}
+	}
 
 }

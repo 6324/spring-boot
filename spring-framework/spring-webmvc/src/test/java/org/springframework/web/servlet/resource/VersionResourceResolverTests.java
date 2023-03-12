@@ -51,7 +51,6 @@ public class VersionResourceResolverTests {
 
 	private VersionStrategy versionStrategy;
 
-
 	@BeforeEach
 	public void setup() {
 		this.locations = new ArrayList<>();
@@ -147,13 +146,12 @@ public class VersionResourceResolverTests {
 		given(this.versionStrategy.removeVersion(versionFile, version)).willReturn(file);
 		given(this.versionStrategy.getResourceVersion(expected)).willReturn(version);
 
-		this.resolver
-				.setStrategyMap(Collections.singletonMap("/**", this.versionStrategy));
+		this.resolver.setStrategyMap(Collections.singletonMap("/**", this.versionStrategy));
 		Resource actual = this.resolver.resolveResourceInternal(request, versionFile, this.locations, this.chain);
 		assertThat(actual.getFilename()).isEqualTo(expected.getFilename());
 		verify(this.versionStrategy, times(1)).getResourceVersion(expected);
 		assertThat(actual).isInstanceOf(HttpResource.class);
-		assertThat(((HttpResource)actual).getResponseHeaders().getETag()).isEqualTo("\"" + version + "\"");
+		assertThat(((HttpResource) actual).getResponseHeaders().getETag()).isEqualTo("\"" + version + "\"");
 	}
 
 	@Test
@@ -179,9 +177,11 @@ public class VersionResourceResolverTests {
 
 		assertThat(this.resolver.getStrategyMap()).hasSize(4);
 		assertThat(this.resolver.getStrategyForPath("js/something.js")).isInstanceOf(FixedVersionStrategy.class);
-		assertThat(this.resolver.getStrategyForPath("fixedversion/js/something.js")).isInstanceOf(FixedVersionStrategy.class);
+		assertThat(this.resolver.getStrategyForPath("fixedversion/js/something.js"))
+				.isInstanceOf(FixedVersionStrategy.class);
 		assertThat(this.resolver.getStrategyForPath("css/something.css")).isInstanceOf(FixedVersionStrategy.class);
-		assertThat(this.resolver.getStrategyForPath("fixedversion/css/something.css")).isInstanceOf(FixedVersionStrategy.class);
+		assertThat(this.resolver.getStrategyForPath("fixedversion/css/something.css"))
+				.isInstanceOf(FixedVersionStrategy.class);
 	}
 
 	@Test // SPR-15372
@@ -190,6 +190,5 @@ public class VersionResourceResolverTests {
 		String resolved = this.resolver.resolveUrlPathInternal("/foo.css", this.locations, this.chain);
 		assertThat(resolved).isEqualTo("/foo.css");
 	}
-
 
 }

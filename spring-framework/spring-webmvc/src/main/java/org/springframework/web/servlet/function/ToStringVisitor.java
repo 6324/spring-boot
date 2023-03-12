@@ -24,8 +24,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
 
 /**
- * Implementation of {@link RouterFunctions.Visitor} that creates a formatted
- * string representation of router functions.
+ * Implementation of {@link RouterFunctions.Visitor} that creates a formatted string
+ * representation of router functions.
  *
  * @author Arjen Poutsma
  * @since 5.2
@@ -35,7 +35,6 @@ class ToStringVisitor implements RouterFunctions.Visitor, RequestPredicates.Visi
 	private final StringBuilder builder = new StringBuilder();
 
 	private int indent = 0;
-
 
 	// RouterFunctions.Visitor
 
@@ -79,7 +78,6 @@ class ToStringVisitor implements RouterFunctions.Visitor, RequestPredicates.Visi
 			this.builder.append(' ');
 		}
 	}
-
 
 	// RequestPredicates.Visitor
 

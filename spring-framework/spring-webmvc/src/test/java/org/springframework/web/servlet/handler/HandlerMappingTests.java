@@ -37,29 +37,31 @@ import static org.mockito.Mockito.mock;
 
 /**
  * Unit tests for {@link org.springframework.web.servlet.HandlerMapping}.
+ *
  * @author Brian Clozel
  */
 public class HandlerMappingTests {
 
 	private AbstractHandlerMapping handlerMapping = new TestHandlerMapping();
-	private StaticWebApplicationContext context = new StaticWebApplicationContext();
-	private MockHttpServletRequest request = new MockHttpServletRequest();
 
+	private StaticWebApplicationContext context = new StaticWebApplicationContext();
+
+	private MockHttpServletRequest request = new MockHttpServletRequest();
 
 	@Test
 	public void orderedInterceptors() throws Exception {
 		HandlerInterceptor i1 = mock(HandlerInterceptor.class);
-		MappedInterceptor mappedInterceptor1 = new MappedInterceptor(new String[]{"/**"}, i1);
+		MappedInterceptor mappedInterceptor1 = new MappedInterceptor(new String[] { "/**" }, i1);
 		HandlerInterceptor i2 = mock(HandlerInterceptor.class);
 		HandlerInterceptor i3 = mock(HandlerInterceptor.class);
-		MappedInterceptor mappedInterceptor3 = new MappedInterceptor(new String[]{"/**"}, i3);
+		MappedInterceptor mappedInterceptor3 = new MappedInterceptor(new String[] { "/**" }, i3);
 		HandlerInterceptor i4 = mock(HandlerInterceptor.class);
 
 		this.handlerMapping.setInterceptors(mappedInterceptor1, i2, mappedInterceptor3, i4);
 		this.handlerMapping.setApplicationContext(this.context);
 		HandlerExecutionChain chain = this.handlerMapping.getHandlerExecutionChain(new SimpleHandler(), this.request);
-		assertThat(chain.getInterceptors()).contains(
-				mappedInterceptor1.getInterceptor(), i2, mappedInterceptor3.getInterceptor(), i4);
+		assertThat(chain.getInterceptors()).contains(mappedInterceptor1.getInterceptor(), i2,
+				mappedInterceptor3.getInterceptor(), i4);
 	}
 
 	class TestHandlerMapping extends AbstractHandlerMapping {
@@ -68,6 +70,7 @@ public class HandlerMappingTests {
 		protected Object getHandlerInternal(HttpServletRequest request) throws Exception {
 			return new SimpleHandler();
 		}
+
 	}
 
 	class SimpleHandler extends WebContentGenerator implements HttpRequestHandler {
@@ -77,7 +80,8 @@ public class HandlerMappingTests {
 		}
 
 		@Override
-		public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		public void handleRequest(HttpServletRequest request, HttpServletResponse response)
+				throws ServletException, IOException {
 			response.setStatus(HttpStatus.OK.value());
 		}
 

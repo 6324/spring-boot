@@ -29,7 +29,6 @@ public class MissingServletRequestParameterException extends ServletRequestBindi
 
 	private final String parameterType;
 
-
 	/**
 	 * Constructor for MissingServletRequestParameterException.
 	 * @param parameterName the name of the missing parameter
@@ -40,7 +39,6 @@ public class MissingServletRequestParameterException extends ServletRequestBindi
 		this.parameterName = parameterName;
 		this.parameterType = parameterType;
 	}
-
 
 	@Override
 	public String getMessage() {

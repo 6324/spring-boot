@@ -47,8 +47,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * {@link ServletHttpHandlerAdapter} extension that uses Tomcat APIs for reading
- * from the request and writing to the response with {@link ByteBuffer}.
+ * {@link ServletHttpHandlerAdapter} extension that uses Tomcat APIs for reading from the
+ * request and writing to the response with {@link ByteBuffer}.
  *
  * @author Violeta Georgieva
  * @author Brian Clozel
@@ -57,29 +57,25 @@ import org.springframework.util.ReflectionUtils;
  */
 public class TomcatHttpHandlerAdapter extends ServletHttpHandlerAdapter {
 
-
 	public TomcatHttpHandlerAdapter(HttpHandler httpHandler) {
 		super(httpHandler);
 	}
-
 
 	@Override
 	protected ServletServerHttpRequest createRequest(HttpServletRequest request, AsyncContext asyncContext)
 			throws IOException, URISyntaxException {
 
 		Assert.notNull(getServletPath(), "Servlet path is not initialized");
-		return new TomcatServerHttpRequest(
-				request, asyncContext, getServletPath(), getDataBufferFactory(), getBufferSize());
+		return new TomcatServerHttpRequest(request, asyncContext, getServletPath(), getDataBufferFactory(),
+				getBufferSize());
 	}
 
 	@Override
-	protected ServletServerHttpResponse createResponse(HttpServletResponse response,
-			AsyncContext asyncContext, ServletServerHttpRequest request) throws IOException {
+	protected ServletServerHttpResponse createResponse(HttpServletResponse response, AsyncContext asyncContext,
+			ServletServerHttpRequest request) throws IOException {
 
-		return new TomcatServerHttpResponse(
-				response, asyncContext, getDataBufferFactory(), getBufferSize(), request);
+		return new TomcatServerHttpResponse(response, asyncContext, getDataBufferFactory(), getBufferSize(), request);
 	}
-
 
 	private static final class TomcatServerHttpRequest extends ServletServerHttpRequest {
 
@@ -96,9 +92,8 @@ public class TomcatHttpHandlerAdapter extends ServletHttpHandlerAdapter {
 			COYOTE_REQUEST_FIELD = field;
 		}
 
-		TomcatServerHttpRequest(HttpServletRequest request, AsyncContext context,
-				String servletPath, DataBufferFactory factory, int bufferSize)
-				throws IOException, URISyntaxException {
+		TomcatServerHttpRequest(HttpServletRequest request, AsyncContext context, String servletPath,
+				DataBufferFactory factory, int bufferSize) throws IOException, URISyntaxException {
 
 			super(createTomcatHttpHeaders(request), request, context, servletPath, factory, bufferSize);
 			this.factory = factory;
@@ -107,8 +102,8 @@ public class TomcatHttpHandlerAdapter extends ServletHttpHandlerAdapter {
 
 		private static HttpHeaders createTomcatHttpHeaders(HttpServletRequest request) {
 			RequestFacade requestFacade = getRequestFacade(request);
-			org.apache.catalina.connector.Request connectorRequest = (org.apache.catalina.connector.Request)
-					ReflectionUtils.getField(COYOTE_REQUEST_FIELD, requestFacade);
+			org.apache.catalina.connector.Request connectorRequest = (org.apache.catalina.connector.Request) ReflectionUtils
+					.getField(COYOTE_REQUEST_FIELD, requestFacade);
 			Assert.state(connectorRequest != null, "No Tomcat connector request");
 			Request tomcatRequest = connectorRequest.getCoyoteRequest();
 			TomcatHeadersAdapter headers = new TomcatHeadersAdapter(tomcatRequest.getMimeHeaders());
@@ -125,8 +120,8 @@ public class TomcatHttpHandlerAdapter extends ServletHttpHandlerAdapter {
 				return getRequestFacade(wrappedRequest);
 			}
 			else {
-				throw new IllegalArgumentException("Cannot convert [" + request.getClass() +
-						"] to org.apache.catalina.connector.RequestFacade");
+				throw new IllegalArgumentException(
+						"Cannot convert [" + request.getClass() + "] to org.apache.catalina.connector.RequestFacade");
 			}
 		}
 
@@ -134,7 +129,8 @@ public class TomcatHttpHandlerAdapter extends ServletHttpHandlerAdapter {
 		protected DataBuffer readFromInputStream() throws IOException {
 			ServletInputStream inputStream = ((ServletRequest) getNativeRequest()).getInputStream();
 			if (!(inputStream instanceof CoyoteInputStream)) {
-				// It's possible InputStream can be wrapped, preventing use of CoyoteInputStream
+				// It's possible InputStream can be wrapped, preventing use of
+				// CoyoteInputStream
 				return super.readFromInputStream();
 			}
 			boolean release = true;
@@ -162,8 +158,8 @@ public class TomcatHttpHandlerAdapter extends ServletHttpHandlerAdapter {
 				}
 			}
 		}
-	}
 
+	}
 
 	private static final class TomcatServerHttpResponse extends ServletServerHttpResponse {
 
@@ -176,16 +172,16 @@ public class TomcatHttpHandlerAdapter extends ServletHttpHandlerAdapter {
 			COYOTE_RESPONSE_FIELD = field;
 		}
 
-		TomcatServerHttpResponse(HttpServletResponse response, AsyncContext context,
-				DataBufferFactory factory, int bufferSize, ServletServerHttpRequest request) throws IOException {
+		TomcatServerHttpResponse(HttpServletResponse response, AsyncContext context, DataBufferFactory factory,
+				int bufferSize, ServletServerHttpRequest request) throws IOException {
 
 			super(createTomcatHttpHeaders(response), response, context, factory, bufferSize, request);
 		}
 
 		private static HttpHeaders createTomcatHttpHeaders(HttpServletResponse response) {
 			ResponseFacade responseFacade = getResponseFacade(response);
-			org.apache.catalina.connector.Response connectorResponse = (org.apache.catalina.connector.Response)
-					ReflectionUtils.getField(COYOTE_RESPONSE_FIELD, responseFacade);
+			org.apache.catalina.connector.Response connectorResponse = (org.apache.catalina.connector.Response) ReflectionUtils
+					.getField(COYOTE_RESPONSE_FIELD, responseFacade);
 			Assert.state(connectorResponse != null, "No Tomcat connector response");
 			Response tomcatResponse = connectorResponse.getCoyoteResponse();
 			TomcatHeadersAdapter headers = new TomcatHeadersAdapter(tomcatResponse.getMimeHeaders());
@@ -202,8 +198,8 @@ public class TomcatHttpHandlerAdapter extends ServletHttpHandlerAdapter {
 				return getResponseFacade(wrappedResponse);
 			}
 			else {
-				throw new IllegalArgumentException("Cannot convert [" + response.getClass() +
-						"] to org.apache.catalina.connector.ResponseFacade");
+				throw new IllegalArgumentException(
+						"Cannot convert [" + response.getClass() + "] to org.apache.catalina.connector.ResponseFacade");
 			}
 		}
 
@@ -241,6 +237,7 @@ public class TomcatHttpHandlerAdapter extends ServletHttpHandlerAdapter {
 			((CoyoteOutputStream) response.getOutputStream()).write(input);
 			return len;
 		}
+
 	}
 
 }

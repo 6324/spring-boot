@@ -25,169 +25,520 @@ import org.springframework.web.servlet.support.BindStatus;
 import org.springframework.web.util.TagUtils;
 
 /**
- * The {@code <option>} tag renders a single HTML 'option'. Sets 'selected' as
- * appropriate based on bound value.
+ * The {@code <option>} tag renders a single HTML 'option'. Sets 'selected' as appropriate
+ * based on bound value.
  *
- * <p><b>Must be used nested inside a {@link SelectTag}.</b>
+ * <p>
+ * <b>Must be used nested inside a {@link SelectTag}.</b>
  *
- * <p>Provides full support for databinding by marking an
- * '{@code option}' as 'selected' if the {@link #setValue value}
- * matches the value bound to the out {@link SelectTag}.
+ * <p>
+ * Provides full support for databinding by marking an '{@code option}' as 'selected' if
+ * the {@link #setValue value} matches the value bound to the out {@link SelectTag}.
  *
- * <p>The {@link #setValue value} property is required and corresponds to
- * the '{@code value}' attribute of the rendered '{@code option}'.
+ * <p>
+ * The {@link #setValue value} property is required and corresponds to the '{@code value}'
+ * attribute of the rendered '{@code option}'.
  *
- * <p>An optional {@link #setLabel label} property can be specified, the
- * value of which corresponds to inner text of the rendered
- * '{@code option}' tag. If no {@link #setLabel label} is specified
- * then the {@link #setValue value} property will be used when rendering
- * the inner text.
+ * <p>
+ * An optional {@link #setLabel label} property can be specified, the value of which
+ * corresponds to inner text of the rendered '{@code option}' tag. If no {@link #setLabel
+ * label} is specified then the {@link #setValue value} property will be used when
+ * rendering the inner text.
  *
  * <p>
  * <table>
- * <caption>Attribute Summary</caption>
- * <thead>
+ * <caption>Attribute Summary</caption> <thead>
  * <tr>
  * <th class="colFirst">Attribute</th>
  * <th class="colOne">Required?</th>
  * <th class="colOne">Runtime Expression?</th>
  * <th class="colLast">Description</th>
  * </tr>
- * </thead>
- * <tbody>
+ * </thead> <tbody>
  * <tr class="altColor">
- * <td><p>cssClass</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute</p></td>
+ * <td>
+ * <p>
+ * cssClass
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>cssErrorClass</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute. Used when the bound field has
- * errors.</p></td>
+ * <td>
+ * <p>
+ * cssErrorClass
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute. Used when the bound field has errors.
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>cssStyle</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute</p></td>
+ * <td>
+ * <p>
+ * cssStyle
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>dir</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Standard Attribute</p></td>
+ * <td>
+ * <p>
+ * dir
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Standard Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>disabled</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute. Setting the value of this attribute to 'true'
- * will disable the HTML element.</p></td>
+ * <td>
+ * <p>
+ * disabled
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute. Setting the value of this attribute to 'true' will disable the
+ * HTML element.
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>htmlEscape</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>Enable/disable HTML escaping of rendered values.</p></td>
+ * <td>
+ * <p>
+ * htmlEscape
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * Enable/disable HTML escaping of rendered values.
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>id</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Standard Attribute</p></td>
+ * <td>
+ * <p>
+ * id
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Standard Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>label</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute</p></td>
+ * <td>
+ * <p>
+ * label
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>lang</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Standard Attribute</p></td>
+ * <td>
+ * <p>
+ * lang
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Standard Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>onclick</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onclick
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>ondblclick</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * ondblclick
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>onkeydown</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onkeydown
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>onkeypress</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onkeypress
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>onkeyup</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onkeyup
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>onmousedown</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onmousedown
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>onmousemove</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onmousemove
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>onmouseout</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onmouseout
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>onmouseover</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onmouseover
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>onmouseup</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onmouseup
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>tabindex</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Standard Attribute</p></td>
+ * <td>
+ * <p>
+ * tabindex
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Standard Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>title</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Standard Attribute</p></td>
+ * <td>
+ * <p>
+ * title
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Standard Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>value</p></td>
- * <td><p>true</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute</p></td>
+ * <td>
+ * <p>
+ * value
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute
+ * </p>
+ * </td>
  * </tr>
  * </tbody>
  * </table>
@@ -224,7 +575,6 @@ public class OptionTag extends AbstractHtmlElementBodyTag implements BodyTag {
 	 */
 	private static final String DISABLED_ATTRIBUTE = "disabled";
 
-
 	/**
 	 * The 'value' attribute of the rendered HTML {@code <option>} tag.
 	 */
@@ -244,7 +594,6 @@ public class OptionTag extends AbstractHtmlElementBodyTag implements BodyTag {
 	private Object oldDisplayValue;
 
 	private boolean disabled;
-
 
 	/**
 	 * Set the 'value' attribute of the rendered HTML {@code <option>} tag.
@@ -277,7 +626,8 @@ public class OptionTag extends AbstractHtmlElementBodyTag implements BodyTag {
 
 	/**
 	 * Set the text body of the rendered HTML {@code <option>} tag.
-	 * <p>May be a runtime expression.
+	 * <p>
+	 * May be a runtime expression.
 	 */
 	public void setLabel(String label) {
 		this.label = label;
@@ -290,7 +640,6 @@ public class OptionTag extends AbstractHtmlElementBodyTag implements BodyTag {
 	protected String getLabel() {
 		return this.label;
 	}
-
 
 	@Override
 	protected void renderDefaultContent(TagWriter tagWriter) throws JspException {
@@ -320,7 +669,8 @@ public class OptionTag extends AbstractHtmlElementBodyTag implements BodyTag {
 		this.oldValue = this.pageContext.getAttribute(VALUE_VARIABLE_NAME);
 		this.pageContext.setAttribute(VALUE_VARIABLE_NAME, value);
 		this.oldDisplayValue = this.pageContext.getAttribute(DISPLAY_VALUE_VARIABLE_NAME);
-		this.pageContext.setAttribute(DISPLAY_VALUE_VARIABLE_NAME, getDisplayString(value, getBindStatus().getEditor()));
+		this.pageContext.setAttribute(DISPLAY_VALUE_VARIABLE_NAME,
+				getDisplayString(value, getBindStatus().getEditor()));
 	}
 
 	@Override
@@ -371,9 +721,10 @@ public class OptionTag extends AbstractHtmlElementBodyTag implements BodyTag {
 
 	/**
 	 * Return the value of the label for this '{@code option}' element.
-	 * <p>If the {@link #setLabel label} property is set then the resolved value
-	 * of that property is used, otherwise the value of the {@code resolvedValue}
-	 * argument is used.
+	 * <p>
+	 * If the {@link #setLabel label} property is set then the resolved value of that
+	 * property is used, otherwise the value of the {@code resolvedValue} argument is
+	 * used.
 	 */
 	private String getLabelValue(Object resolvedValue) throws JspException {
 		String label = getLabel();

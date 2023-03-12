@@ -32,7 +32,6 @@ public class UnknownHttpStatusCodeException extends RestClientResponseException 
 
 	private static final long serialVersionUID = 7103980251635005491L;
 
-
 	/**
 	 * Construct a new instance of {@code HttpStatusCodeException} based on an
 	 * {@link HttpStatus}, status text, and response body content.
@@ -45,8 +44,8 @@ public class UnknownHttpStatusCodeException extends RestClientResponseException 
 	public UnknownHttpStatusCodeException(int rawStatusCode, String statusText, @Nullable HttpHeaders responseHeaders,
 			@Nullable byte[] responseBody, @Nullable Charset responseCharset) {
 
-		this("Unknown status code [" + rawStatusCode + "]" + " " + statusText,
-				rawStatusCode, statusText, responseHeaders, responseBody, responseCharset);
+		this("Unknown status code [" + rawStatusCode + "]" + " " + statusText, rawStatusCode, statusText,
+				responseHeaders, responseBody, responseCharset);
 	}
 
 	/**
@@ -64,4 +63,5 @@ public class UnknownHttpStatusCodeException extends RestClientResponseException 
 
 		super(message, rawStatusCode, statusText, responseHeaders, responseBody, responseCharset);
 	}
+
 }

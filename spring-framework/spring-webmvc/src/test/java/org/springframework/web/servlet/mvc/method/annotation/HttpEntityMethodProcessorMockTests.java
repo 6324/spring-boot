@@ -85,7 +85,8 @@ import static org.springframework.web.servlet.HandlerMapping.PRODUCIBLE_MEDIA_TY
  * Test fixture for {@link HttpEntityMethodProcessor} delegating to a mock
  * {@link HttpMessageConverter}.
  *
- * <p>Also see {@link HttpEntityMethodProcessorTests}.
+ * <p>
+ * Also see {@link HttpEntityMethodProcessorTests}.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -94,7 +95,6 @@ import static org.springframework.web.servlet.HandlerMapping.PRODUCIBLE_MEDIA_TY
 public class HttpEntityMethodProcessorMockTests {
 
 	private static final ZoneId GMT = ZoneId.of("GMT");
-
 
 	private HttpEntityMethodProcessor processor;
 
@@ -132,28 +132,25 @@ public class HttpEntityMethodProcessorMockTests {
 
 	private ServletWebRequest webRequest;
 
-
 	@BeforeEach
 	@SuppressWarnings("unchecked")
 	public void setup() throws Exception {
 
 		stringHttpMessageConverter = mock(HttpMessageConverter.class);
-		given(stringHttpMessageConverter.getSupportedMediaTypes())
-				.willReturn(Collections.singletonList(TEXT_PLAIN));
+		given(stringHttpMessageConverter.getSupportedMediaTypes()).willReturn(Collections.singletonList(TEXT_PLAIN));
 
 		resourceMessageConverter = mock(HttpMessageConverter.class);
-		given(resourceMessageConverter.getSupportedMediaTypes())
-				.willReturn(Collections.singletonList(MediaType.ALL));
+		given(resourceMessageConverter.getSupportedMediaTypes()).willReturn(Collections.singletonList(MediaType.ALL));
 
 		resourceRegionMessageConverter = mock(HttpMessageConverter.class);
 		given(resourceRegionMessageConverter.getSupportedMediaTypes())
 				.willReturn(Collections.singletonList(MediaType.ALL));
 
-		processor = new HttpEntityMethodProcessor(Arrays.asList(
-				stringHttpMessageConverter, resourceMessageConverter, resourceRegionMessageConverter));
+		processor = new HttpEntityMethodProcessor(
+				Arrays.asList(stringHttpMessageConverter, resourceMessageConverter, resourceRegionMessageConverter));
 
-		Method handle1 = getClass().getMethod("handle1", HttpEntity.class, ResponseEntity.class,
-				Integer.TYPE, RequestEntity.class);
+		Method handle1 = getClass().getMethod("handle1", HttpEntity.class, ResponseEntity.class, Integer.TYPE,
+				RequestEntity.class);
 
 		paramHttpEntity = new MethodParameter(handle1, 0);
 		paramRequestEntity = new MethodParameter(handle1, 3);
@@ -172,20 +169,23 @@ public class HttpEntityMethodProcessorMockTests {
 		webRequest = new ServletWebRequest(servletRequest, servletResponse);
 	}
 
-
 	@Test
 	public void supportsParameter() {
 		assertThat(processor.supportsParameter(paramHttpEntity)).as("HttpEntity parameter not supported").isTrue();
-		assertThat(processor.supportsParameter(paramRequestEntity)).as("RequestEntity parameter not supported").isTrue();
+		assertThat(processor.supportsParameter(paramRequestEntity)).as("RequestEntity parameter not supported")
+				.isTrue();
 		assertThat(processor.supportsParameter(paramResponseEntity)).as("ResponseEntity parameter supported").isFalse();
 		assertThat(processor.supportsParameter(paramInt)).as("non-entity parameter supported").isFalse();
 	}
 
 	@Test
 	public void supportsReturnType() {
-		assertThat(processor.supportsReturnType(returnTypeResponseEntity)).as("ResponseEntity return type not supported").isTrue();
-		assertThat(processor.supportsReturnType(returnTypeHttpEntity)).as("HttpEntity return type not supported").isTrue();
-		assertThat(processor.supportsReturnType(returnTypeHttpEntitySubclass)).as("Custom HttpEntity subclass not supported").isTrue();
+		assertThat(processor.supportsReturnType(returnTypeResponseEntity))
+				.as("ResponseEntity return type not supported").isTrue();
+		assertThat(processor.supportsReturnType(returnTypeHttpEntity)).as("HttpEntity return type not supported")
+				.isTrue();
+		assertThat(processor.supportsReturnType(returnTypeHttpEntitySubclass))
+				.as("Custom HttpEntity subclass not supported").isTrue();
 		assertThat(processor.supportsReturnType(paramRequestEntity)).as("RequestEntity parameter supported").isFalse();
 		assertThat(processor.supportsReturnType(returnTypeInt)).as("non-ResponseBody return type supported").isFalse();
 	}
@@ -229,7 +229,8 @@ public class HttpEntityMethodProcessorMockTests {
 		assertThat(mavContainer.isRequestHandled()).as("The requestHandled flag shouldn't change").isFalse();
 		RequestEntity<?> requestEntity = (RequestEntity<?>) result;
 		assertThat(requestEntity.getMethod()).as("Invalid method").isEqualTo(HttpMethod.GET);
-		// using default port (which is 80), so do not need to append the port (-1 means ignore)
+		// using default port (which is 80), so do not need to append the port (-1 means
+		// ignore)
 		URI uri = new URI("http", null, "www.example.com", -1, "/path", null, null);
 		assertThat(requestEntity.getUrl()).as("Invalid url").isEqualTo(uri);
 		assertThat(requestEntity.getBody()).as("Invalid argument").isEqualTo(body);
@@ -244,16 +245,16 @@ public class HttpEntityMethodProcessorMockTests {
 		given(stringHttpMessageConverter.getSupportedMediaTypes()).willReturn(Collections.singletonList(contentType));
 		given(stringHttpMessageConverter.canRead(String.class, contentType)).willReturn(false);
 
-		assertThatExceptionOfType(HttpMediaTypeNotSupportedException.class).isThrownBy(() ->
-				processor.resolveArgument(paramHttpEntity, mavContainer, webRequest, null));
+		assertThatExceptionOfType(HttpMediaTypeNotSupportedException.class)
+				.isThrownBy(() -> processor.resolveArgument(paramHttpEntity, mavContainer, webRequest, null));
 	}
 
 	@Test
 	public void shouldFailResolvingWhenContentTypeNotSupported() throws Exception {
 		servletRequest.setMethod("POST");
 		servletRequest.setContent("some content".getBytes(StandardCharsets.UTF_8));
-		assertThatExceptionOfType(HttpMediaTypeNotSupportedException.class).isThrownBy(() ->
-				processor.resolveArgument(paramHttpEntity, mavContainer, webRequest, null));
+		assertThatExceptionOfType(HttpMediaTypeNotSupportedException.class)
+				.isThrownBy(() -> processor.resolveArgument(paramHttpEntity, mavContainer, webRequest, null));
 	}
 
 	@Test
@@ -314,27 +315,23 @@ public class HttpEntityMethodProcessorMockTests {
 		servletRequest.addHeader("Accept", accepted.toString());
 
 		given(stringHttpMessageConverter.canWrite(String.class, null)).willReturn(true);
-		given(stringHttpMessageConverter.getSupportedMediaTypes())
-				.willReturn(Collections.singletonList(TEXT_PLAIN));
+		given(stringHttpMessageConverter.getSupportedMediaTypes()).willReturn(Collections.singletonList(TEXT_PLAIN));
 
-		assertThatExceptionOfType(HttpMediaTypeNotAcceptableException.class).isThrownBy(() ->
-				processor.handleReturnValue(returnValue, returnTypeResponseEntity, mavContainer, webRequest));
+		assertThatExceptionOfType(HttpMediaTypeNotAcceptableException.class).isThrownBy(
+				() -> processor.handleReturnValue(returnValue, returnTypeResponseEntity, mavContainer, webRequest));
 	}
 
 	@Test // gh-23205
 	public void shouldFailWithServerErrorIfContentTypeFromResponseEntity() {
-		ResponseEntity<String> returnValue = ResponseEntity.ok()
-				.contentType(MediaType.APPLICATION_XML)
-				.body("<foo/>");
+		ResponseEntity<String> returnValue = ResponseEntity.ok().contentType(MediaType.APPLICATION_XML).body("<foo/>");
 
 		given(stringHttpMessageConverter.canWrite(String.class, TEXT_PLAIN)).willReturn(true);
 		given(stringHttpMessageConverter.getSupportedMediaTypes()).willReturn(Collections.singletonList(TEXT_PLAIN));
 
-		assertThatThrownBy(() ->
-				processor.handleReturnValue(
-						returnValue, returnTypeResponseEntity, mavContainer, webRequest))
-				.isInstanceOf(HttpMessageNotWritableException.class)
-				.hasMessageContaining("with preset Content-Type");
+		assertThatThrownBy(
+				() -> processor.handleReturnValue(returnValue, returnTypeResponseEntity, mavContainer, webRequest))
+						.isInstanceOf(HttpMessageNotWritableException.class)
+						.hasMessageContaining("with preset Content-Type");
 	}
 
 	@Test // gh-23287
@@ -347,11 +344,10 @@ public class HttpEntityMethodProcessorMockTests {
 		given(stringHttpMessageConverter.canWrite(String.class, TEXT_PLAIN)).willReturn(true);
 		given(stringHttpMessageConverter.getSupportedMediaTypes()).willReturn(Collections.singletonList(TEXT_PLAIN));
 
-		assertThatThrownBy(() ->
-				processor.handleReturnValue(
-						returnValue, returnTypeResponseEntity, mavContainer, webRequest))
-				.isInstanceOf(HttpMessageNotWritableException.class)
-				.hasMessageContaining("with preset Content-Type");
+		assertThatThrownBy(
+				() -> processor.handleReturnValue(returnValue, returnTypeResponseEntity, mavContainer, webRequest))
+						.isInstanceOf(HttpMessageNotWritableException.class)
+						.hasMessageContaining("with preset Content-Type");
 	}
 
 	@Test
@@ -362,21 +358,20 @@ public class HttpEntityMethodProcessorMockTests {
 		servletRequest.addHeader("Accept", accepted.toString());
 
 		given(stringHttpMessageConverter.canWrite(String.class, null)).willReturn(true);
-		given(stringHttpMessageConverter.getSupportedMediaTypes())
-				.willReturn(Collections.singletonList(TEXT_PLAIN));
+		given(stringHttpMessageConverter.getSupportedMediaTypes()).willReturn(Collections.singletonList(TEXT_PLAIN));
 		given(stringHttpMessageConverter.canWrite(String.class, accepted)).willReturn(false);
 
-		assertThatExceptionOfType(HttpMediaTypeNotAcceptableException.class).isThrownBy(() ->
-				processor.handleReturnValue(returnValue, returnTypeResponseEntityProduces, mavContainer, webRequest));
+		assertThatExceptionOfType(HttpMediaTypeNotAcceptableException.class).isThrownBy(() -> processor
+				.handleReturnValue(returnValue, returnTypeResponseEntityProduces, mavContainer, webRequest));
 	}
 
-	@Test  // SPR-9142
+	@Test // SPR-9142
 	public void shouldFailHandlingWhenAcceptHeaderIllegal() throws Exception {
 		ResponseEntity<String> returnValue = new ResponseEntity<>("Body", HttpStatus.ACCEPTED);
 		servletRequest.addHeader("Accept", "01");
 
-		assertThatExceptionOfType(HttpMediaTypeNotAcceptableException.class).isThrownBy(() ->
-				processor.handleReturnValue(returnValue, returnTypeResponseEntity, mavContainer, webRequest));
+		assertThatExceptionOfType(HttpMediaTypeNotAcceptableException.class).isThrownBy(
+				() -> processor.handleReturnValue(returnValue, returnTypeResponseEntity, mavContainer, webRequest));
 	}
 
 	@Test
@@ -454,7 +449,7 @@ public class HttpEntityMethodProcessorMockTests {
 		assertConditionalResponse(HttpStatus.NOT_MODIFIED, null, eTagValue, -1);
 	}
 
-	@Test  // SPR-14559
+	@Test // SPR-14559
 	public void shouldHandleInvalidIfNoneMatchWithHttp200() throws Exception {
 		String etagValue = "\"deadb33f8badf00d\"";
 		servletRequest.addHeader(HttpHeaders.IF_NONE_MATCH, "unquoted");
@@ -474,8 +469,8 @@ public class HttpEntityMethodProcessorMockTests {
 		ZonedDateTime dateTime = ofEpochMilli(currentTime).atZone(GMT);
 		servletRequest.addHeader(HttpHeaders.IF_MODIFIED_SINCE, RFC_1123_DATE_TIME.format(dateTime));
 		servletRequest.addHeader(HttpHeaders.IF_NONE_MATCH, etagValue);
-		ResponseEntity<String> returnValue = ResponseEntity.ok()
-				.eTag(etagValue).lastModified(oneMinuteAgo).body("body");
+		ResponseEntity<String> returnValue = ResponseEntity.ok().eTag(etagValue).lastModified(oneMinuteAgo)
+				.body("body");
 
 		initStringMessageConversion(TEXT_PLAIN);
 		processor.handleReturnValue(returnValue, returnTypeResponseEntity, mavContainer, webRequest);
@@ -488,8 +483,8 @@ public class HttpEntityMethodProcessorMockTests {
 		long currentTime = new Date().getTime();
 		long oneMinuteAgo = currentTime - (1000 * 60);
 		String etagValue = "\"deadb33f8badf00d\"";
-		ResponseEntity<String> returnValue = ResponseEntity.status(HttpStatus.NOT_MODIFIED)
-				.eTag(etagValue).lastModified(oneMinuteAgo).body("body");
+		ResponseEntity<String> returnValue = ResponseEntity.status(HttpStatus.NOT_MODIFIED).eTag(etagValue)
+				.lastModified(oneMinuteAgo).body("body");
 
 		initStringMessageConversion(TEXT_PLAIN);
 		processor.handleReturnValue(returnValue, returnTypeResponseEntity, mavContainer, webRequest);
@@ -506,8 +501,8 @@ public class HttpEntityMethodProcessorMockTests {
 		ZonedDateTime dateTime = ofEpochMilli(currentTime).atZone(GMT);
 		servletRequest.addHeader(HttpHeaders.IF_MODIFIED_SINCE, RFC_1123_DATE_TIME.format(dateTime));
 		servletRequest.addHeader(HttpHeaders.IF_NONE_MATCH, etagValue);
-		ResponseEntity<String> returnValue = ResponseEntity.ok()
-				.eTag(changedEtagValue).lastModified(oneMinuteAgo).body("body");
+		ResponseEntity<String> returnValue = ResponseEntity.ok().eTag(changedEtagValue).lastModified(oneMinuteAgo)
+				.body("body");
 
 		initStringMessageConversion(TEXT_PLAIN);
 		processor.handleReturnValue(returnValue, returnTypeResponseEntity, mavContainer, webRequest);
@@ -515,7 +510,7 @@ public class HttpEntityMethodProcessorMockTests {
 		assertConditionalResponse(HttpStatus.OK, null, changedEtagValue, oneMinuteAgo);
 	}
 
-	@Test  // SPR-13496
+	@Test // SPR-13496
 	public void shouldHandleConditionalRequestIfNoneMatchWildcard() throws Exception {
 		String wildcardValue = "*";
 		String etagValue = "\"some-etag\"";
@@ -529,7 +524,7 @@ public class HttpEntityMethodProcessorMockTests {
 		assertConditionalResponse(HttpStatus.OK, "body", etagValue, -1);
 	}
 
-	@Test  // SPR-13626
+	@Test // SPR-13626
 	public void shouldHandleGetIfNoneMatchWildcard() throws Exception {
 		String wildcardValue = "*";
 		String etagValue = "\"some-etag\"";
@@ -542,7 +537,7 @@ public class HttpEntityMethodProcessorMockTests {
 		assertConditionalResponse(HttpStatus.OK, "body", etagValue, -1);
 	}
 
-	@Test  // SPR-13626
+	@Test // SPR-13626
 	public void shouldHandleIfNoneMatchIfMatch() throws Exception {
 		String etagValue = "\"some-etag\"";
 		servletRequest.addHeader(HttpHeaders.IF_NONE_MATCH, etagValue);
@@ -555,7 +550,7 @@ public class HttpEntityMethodProcessorMockTests {
 		assertConditionalResponse(HttpStatus.NOT_MODIFIED, null, etagValue, -1);
 	}
 
-	@Test  // SPR-13626
+	@Test // SPR-13626
 	public void shouldHandleIfNoneMatchIfUnmodifiedSince() throws Exception {
 		String etagValue = "\"some-etag\"";
 		servletRequest.addHeader(HttpHeaders.IF_NONE_MATCH, etagValue);
@@ -580,8 +575,8 @@ public class HttpEntityMethodProcessorMockTests {
 
 		processor.handleReturnValue(returnValue, returnTypeResponseEntityResource, mavContainer, webRequest);
 
-		then(resourceMessageConverter).should(times(1)).write(
-				any(ByteArrayResource.class), eq(APPLICATION_OCTET_STREAM), any(HttpOutputMessage.class));
+		then(resourceMessageConverter).should(times(1)).write(any(ByteArrayResource.class),
+				eq(APPLICATION_OCTET_STREAM), any(HttpOutputMessage.class));
 		assertThat(servletResponse.getStatus()).isEqualTo(200);
 	}
 
@@ -596,9 +591,9 @@ public class HttpEntityMethodProcessorMockTests {
 
 		processor.handleReturnValue(returnValue, returnTypeResponseEntityResource, mavContainer, webRequest);
 
-		then(resourceRegionMessageConverter).should(times(1)).write(
-				anyCollection(), eq(APPLICATION_OCTET_STREAM),
-				argThat(outputMessage -> "bytes".equals(outputMessage.getHeaders().getFirst(HttpHeaders.ACCEPT_RANGES))));
+		then(resourceRegionMessageConverter).should(times(1)).write(anyCollection(), eq(APPLICATION_OCTET_STREAM),
+				argThat(outputMessage -> "bytes"
+						.equals(outputMessage.getHeaders().getFirst(HttpHeaders.ACCEPT_RANGES))));
 		assertThat(servletResponse.getStatus()).isEqualTo(206);
 	}
 
@@ -613,12 +608,12 @@ public class HttpEntityMethodProcessorMockTests {
 
 		processor.handleReturnValue(returnValue, returnTypeResponseEntityResource, mavContainer, webRequest);
 
-		then(resourceRegionMessageConverter).should(never()).write(
-				anyCollection(), eq(APPLICATION_OCTET_STREAM), any(HttpOutputMessage.class));
+		then(resourceRegionMessageConverter).should(never()).write(anyCollection(), eq(APPLICATION_OCTET_STREAM),
+				any(HttpOutputMessage.class));
 		assertThat(servletResponse.getStatus()).isEqualTo(416);
 	}
 
-	@Test //SPR-16754
+	@Test // SPR-16754
 	public void disableRangeSupportForStreamingResponses() throws Exception {
 		InputStream is = new ByteArrayInputStream("Content".getBytes(StandardCharsets.UTF_8));
 		InputStreamResource resource = new InputStreamResource(is, "test");
@@ -629,16 +624,15 @@ public class HttpEntityMethodProcessorMockTests {
 		given(resourceMessageConverter.canWrite(any(), eq(APPLICATION_OCTET_STREAM))).willReturn(true);
 
 		processor.handleReturnValue(returnValue, returnTypeResponseEntityResource, mavContainer, webRequest);
-		then(resourceMessageConverter).should(times(1)).write(
-				any(InputStreamResource.class), eq(APPLICATION_OCTET_STREAM), any(HttpOutputMessage.class));
+		then(resourceMessageConverter).should(times(1)).write(any(InputStreamResource.class),
+				eq(APPLICATION_OCTET_STREAM), any(HttpOutputMessage.class));
 		assertThat(servletResponse.getStatus()).isEqualTo(200);
 		assertThat(servletResponse.getHeader(HttpHeaders.ACCEPT_RANGES)).isNull();
 	}
 
-	@Test //SPR-16921
+	@Test // SPR-16921
 	public void disableRangeSupportIfContentRangePresent() throws Exception {
-		ResponseEntity<Resource> returnValue = ResponseEntity
-				.status(HttpStatus.PARTIAL_CONTENT)
+		ResponseEntity<Resource> returnValue = ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
 				.header(HttpHeaders.RANGE, "bytes=0-5")
 				.body(new ByteArrayResource("Content".getBytes(StandardCharsets.UTF_8)));
 
@@ -651,7 +645,7 @@ public class HttpEntityMethodProcessorMockTests {
 		assertThat(servletResponse.getStatus()).isEqualTo(206);
 	}
 
-	@Test  //SPR-14767
+	@Test // SPR-14767
 	public void shouldHandleValidatorHeadersInputResponses() throws Exception {
 		servletRequest.setMethod("PUT");
 		String etagValue = "\"some-etag\"";
@@ -670,8 +664,7 @@ public class HttpEntityMethodProcessorMockTests {
 		servletRequest.addHeader(HttpHeaders.IF_UNMODIFIED_SINCE, RFC_1123_DATE_TIME.format(dateTime));
 
 		long justModified = dateTime.plus(1, ChronoUnit.SECONDS).toEpochSecond() * 1000;
-		ResponseEntity<String> returnValue = ResponseEntity.ok()
-				.lastModified(justModified).body("body");
+		ResponseEntity<String> returnValue = ResponseEntity.ok().lastModified(justModified).body("body");
 		initStringMessageConversion(TEXT_PLAIN);
 		processor.handleReturnValue(returnValue, returnTypeResponseEntity, mavContainer, webRequest);
 
@@ -680,44 +673,43 @@ public class HttpEntityMethodProcessorMockTests {
 
 	@Test
 	public void varyHeader() throws Exception {
-		String[] entityValues = {"Accept-Language", "User-Agent"};
+		String[] entityValues = { "Accept-Language", "User-Agent" };
 		String[] existingValues = {};
-		String[] expected = {"Accept-Language, User-Agent"};
+		String[] expected = { "Accept-Language, User-Agent" };
 		testVaryHeader(entityValues, existingValues, expected);
 	}
 
 	@Test
 	public void varyHeaderWithExistingWildcard() throws Exception {
-		String[] entityValues = {"Accept-Language"};
-		String[] existingValues = {"*"};
-		String[] expected = {"*"};
+		String[] entityValues = { "Accept-Language" };
+		String[] existingValues = { "*" };
+		String[] expected = { "*" };
 		testVaryHeader(entityValues, existingValues, expected);
 	}
 
 	@Test
 	public void varyHeaderWithExistingCommaValues() throws Exception {
-		String[] entityValues = {"Accept-Language", "User-Agent"};
-		String[] existingValues = {"Accept-Encoding", "Accept-Language"};
-		String[] expected = {"Accept-Encoding", "Accept-Language", "User-Agent"};
+		String[] entityValues = { "Accept-Language", "User-Agent" };
+		String[] existingValues = { "Accept-Encoding", "Accept-Language" };
+		String[] expected = { "Accept-Encoding", "Accept-Language", "User-Agent" };
 		testVaryHeader(entityValues, existingValues, expected);
 	}
 
 	@Test
 	public void varyHeaderWithExistingCommaSeparatedValues() throws Exception {
-		String[] entityValues = {"Accept-Language", "User-Agent"};
-		String[] existingValues = {"Accept-Encoding, Accept-Language"};
-		String[] expected = {"Accept-Encoding, Accept-Language", "User-Agent"};
+		String[] entityValues = { "Accept-Language", "User-Agent" };
+		String[] existingValues = { "Accept-Encoding, Accept-Language" };
+		String[] expected = { "Accept-Encoding, Accept-Language", "User-Agent" };
 		testVaryHeader(entityValues, existingValues, expected);
 	}
 
 	@Test
 	public void handleReturnValueVaryHeader() throws Exception {
-		String[] entityValues = {"Accept-Language", "User-Agent"};
-		String[] existingValues = {"Accept-Encoding, Accept-Language"};
-		String[] expected = {"Accept-Encoding, Accept-Language", "User-Agent"};
+		String[] entityValues = { "Accept-Language", "User-Agent" };
+		String[] existingValues = { "Accept-Encoding, Accept-Language" };
+		String[] expected = { "Accept-Encoding, Accept-Language", "User-Agent" };
 		testVaryHeader(entityValues, existingValues, expected);
 	}
-
 
 	private void testVaryHeader(String[] entityValues, String[] existingValues, String[] expected) throws Exception {
 		ResponseEntity<String> returnValue = ResponseEntity.ok().varyBy(entityValues).body("Foo");
@@ -760,14 +752,14 @@ public class HttpEntityMethodProcessorMockTests {
 		}
 		if (lastModified != -1) {
 			assertThat(servletResponse.getHeaderValues(HttpHeaders.LAST_MODIFIED).size()).isEqualTo(1);
-			assertThat((servletResponse.getDateHeader(HttpHeaders.LAST_MODIFIED) / 1000)).isEqualTo((lastModified / 1000));
+			assertThat((servletResponse.getDateHeader(HttpHeaders.LAST_MODIFIED) / 1000))
+					.isEqualTo((lastModified / 1000));
 		}
 	}
 
-
 	@SuppressWarnings("unused")
-	public ResponseEntity<String> handle1(HttpEntity<String> httpEntity, ResponseEntity<String> entity,
-			int i, RequestEntity<String> requestEntity) {
+	public ResponseEntity<String> handle1(HttpEntity<String> httpEntity, ResponseEntity<String> entity, int i,
+			RequestEntity<String> requestEntity) {
 
 		return entity;
 	}
@@ -788,7 +780,7 @@ public class HttpEntityMethodProcessorMockTests {
 	}
 
 	@SuppressWarnings("unused")
-	@RequestMapping(produces = {"text/html", "application/xhtml+xml"})
+	@RequestMapping(produces = { "text/html", "application/xhtml+xml" })
 	public ResponseEntity<String> handle4() {
 		return null;
 	}
@@ -800,6 +792,7 @@ public class HttpEntityMethodProcessorMockTests {
 
 	@SuppressWarnings("unused")
 	public static class CustomHttpEntity extends HttpEntity<Object> {
+
 	}
 
 }

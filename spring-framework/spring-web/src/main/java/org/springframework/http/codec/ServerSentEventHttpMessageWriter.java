@@ -57,28 +57,25 @@ public class ServerSentEventHttpMessageWriter implements HttpMessageWriter<Objec
 
 	private static final List<MediaType> WRITABLE_MEDIA_TYPES = Collections.singletonList(MediaType.TEXT_EVENT_STREAM);
 
-
 	@Nullable
 	private final Encoder<?> encoder;
 
-
 	/**
-	 * Constructor without an {@code Encoder}. In this mode only {@code String}
-	 * is supported for event data to be encoded.
+	 * Constructor without an {@code Encoder}. In this mode only {@code String} is
+	 * supported for event data to be encoded.
 	 */
 	public ServerSentEventHttpMessageWriter() {
 		this(null);
 	}
 
 	/**
-	 * Constructor with JSON {@code Encoder} for encoding objects.
-	 * Support for {@code String} event data is built-in.
+	 * Constructor with JSON {@code Encoder} for encoding objects. Support for
+	 * {@code String} event data is built-in.
 	 * @param encoder the Encoder to use (may be {@code null})
 	 */
 	public ServerSentEventHttpMessageWriter(@Nullable Encoder<?> encoder) {
 		this.encoder = encoder;
 	}
-
 
 	/**
 	 * Return the configured {@code Encoder}, if any.
@@ -93,11 +90,10 @@ public class ServerSentEventHttpMessageWriter implements HttpMessageWriter<Objec
 		return WRITABLE_MEDIA_TYPES;
 	}
 
-
 	@Override
 	public boolean canWrite(ResolvableType elementType, @Nullable MediaType mediaType) {
-		return (mediaType == null || MediaType.TEXT_EVENT_STREAM.includes(mediaType) ||
-				ServerSentEvent.class.isAssignableFrom(elementType.toClass()));
+		return (mediaType == null || MediaType.TEXT_EVENT_STREAM.includes(mediaType)
+				|| ServerSentEvent.class.isAssignableFrom(elementType.toClass()));
 	}
 
 	@Override
@@ -111,16 +107,16 @@ public class ServerSentEventHttpMessageWriter implements HttpMessageWriter<Objec
 		return message.writeAndFlushWith(encode(input, elementType, mediaType, bufferFactory, hints));
 	}
 
-	private Flux<Publisher<DataBuffer>> encode(Publisher<?> input, ResolvableType elementType,
-			MediaType mediaType, DataBufferFactory factory, Map<String, Object> hints) {
+	private Flux<Publisher<DataBuffer>> encode(Publisher<?> input, ResolvableType elementType, MediaType mediaType,
+			DataBufferFactory factory, Map<String, Object> hints) {
 
-		ResolvableType dataType = (ServerSentEvent.class.isAssignableFrom(elementType.toClass()) ?
-				elementType.getGeneric() : elementType);
+		ResolvableType dataType = (ServerSentEvent.class.isAssignableFrom(elementType.toClass())
+				? elementType.getGeneric() : elementType);
 
 		return Flux.from(input).map(element -> {
 
-			ServerSentEvent<?> sse = (element instanceof ServerSentEvent ?
-					(ServerSentEvent<?>) element : ServerSentEvent.builder().data(element).build());
+			ServerSentEvent<?> sse = (element instanceof ServerSentEvent ? (ServerSentEvent<?>) element
+					: ServerSentEvent.builder().data(element).build());
 
 			StringBuilder sb = new StringBuilder();
 			String id = sse.id();
@@ -167,8 +163,7 @@ public class ServerSentEventHttpMessageWriter implements HttpMessageWriter<Objec
 		if (this.encoder == null) {
 			throw new CodecException("No SSE encoder configured and the data is not String.");
 		}
-		return Flux.just(factory.join(Arrays.asList(
-				encodeText(eventContent, mediaType, factory),
+		return Flux.just(factory.join(Arrays.asList(encodeText(eventContent, mediaType, factory),
 				((Encoder<T>) this.encoder).encodeValue(data, factory, dataType, mediaType, hints),
 				encodeText("\n\n", mediaType, factory))));
 	}
@@ -180,7 +175,7 @@ public class ServerSentEventHttpMessageWriter implements HttpMessageWriter<Objec
 	private DataBuffer encodeText(CharSequence text, MediaType mediaType, DataBufferFactory bufferFactory) {
 		Assert.notNull(mediaType.getCharset(), "Expected MediaType with charset");
 		byte[] bytes = text.toString().getBytes(mediaType.getCharset());
-		return bufferFactory.wrap(bytes);  // wrapping, not allocating
+		return bufferFactory.wrap(bytes); // wrapping, not allocating
 	}
 
 	@Override

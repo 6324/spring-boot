@@ -52,19 +52,14 @@ public class Jaxb2XmlEncoderTests extends AbstractEncoderTests<Jaxb2XmlEncoder> 
 	@Override
 	@Test
 	public void canEncode() {
-		assertThat(this.encoder.canEncode(ResolvableType.forClass(Pojo.class),
-		MediaType.APPLICATION_XML)).isTrue();
-		assertThat(this.encoder.canEncode(ResolvableType.forClass(Pojo.class),
-		MediaType.TEXT_XML)).isTrue();
-		assertThat(this.encoder.canEncode(ResolvableType.forClass(Pojo.class),
-		MediaType.APPLICATION_JSON)).isFalse();
+		assertThat(this.encoder.canEncode(ResolvableType.forClass(Pojo.class), MediaType.APPLICATION_XML)).isTrue();
+		assertThat(this.encoder.canEncode(ResolvableType.forClass(Pojo.class), MediaType.TEXT_XML)).isTrue();
+		assertThat(this.encoder.canEncode(ResolvableType.forClass(Pojo.class), MediaType.APPLICATION_JSON)).isFalse();
 
-		assertThat(this.encoder.canEncode(
-		ResolvableType.forClass(Jaxb2XmlDecoderTests.TypePojo.class),
-		MediaType.APPLICATION_XML)).isTrue();
+		assertThat(this.encoder.canEncode(ResolvableType.forClass(Jaxb2XmlDecoderTests.TypePojo.class),
+				MediaType.APPLICATION_XML)).isTrue();
 
-		assertThat(this.encoder.canEncode(ResolvableType.forClass(getClass()),
-		MediaType.APPLICATION_XML)).isFalse();
+		assertThat(this.encoder.canEncode(ResolvableType.forClass(getClass()), MediaType.APPLICATION_XML)).isFalse();
 
 		// SPR-15464
 		assertThat(this.encoder.canEncode(ResolvableType.NONE, null)).isFalse();
@@ -75,31 +70,26 @@ public class Jaxb2XmlEncoderTests extends AbstractEncoderTests<Jaxb2XmlEncoder> 
 	public void encode() {
 		Mono<Pojo> input = Mono.just(new Pojo("foofoo", "barbar"));
 
-		testEncode(input, Pojo.class, step -> step
-				.consumeNextWith(
-						expectXml("<?xml version='1.0' encoding='UTF-8' standalone='yes'?>" +
-								"<pojo><bar>barbar</bar><foo>foofoo</foo></pojo>"))
-				.verifyComplete());
+		testEncode(input, Pojo.class,
+				step -> step.consumeNextWith(expectXml("<?xml version='1.0' encoding='UTF-8' standalone='yes'?>"
+						+ "<pojo><bar>barbar</bar><foo>foofoo</foo></pojo>")).verifyComplete());
 	}
 
 	@Test
 	public void encodeError() {
 		Flux<Pojo> input = Flux.error(RuntimeException::new);
 
-		testEncode(input, Pojo.class, step -> step
-				.expectError(RuntimeException.class)
-				.verify());
+		testEncode(input, Pojo.class, step -> step.expectError(RuntimeException.class).verify());
 	}
 
 	@Test
 	public void encodeElementsWithCommonType() {
 		Mono<Container> input = Mono.just(new Container());
 
-		testEncode(input, Pojo.class, step -> step
-				.consumeNextWith(
-						expectXml("<?xml version='1.0' encoding='UTF-8' standalone='yes'?>" +
-								"<container><foo><name>name1</name></foo><bar><title>title1</title></bar></container>"))
-				.verifyComplete());
+		testEncode(input, Pojo.class,
+				step -> step.consumeNextWith(expectXml("<?xml version='1.0' encoding='UTF-8' standalone='yes'?>"
+						+ "<container><foo><name>name1</name></foo><bar><title>title1</title></bar></container>"))
+						.verifyComplete());
 	}
 
 	protected Consumer<DataBuffer> expectXml(String expected) {
@@ -112,7 +102,9 @@ public class Jaxb2XmlEncoderTests extends AbstractEncoderTests<Jaxb2XmlEncoder> 
 		};
 	}
 
-	public static class Model {}
+	public static class Model {
+
+	}
 
 	public static class Foo extends Model {
 
@@ -129,6 +121,7 @@ public class Jaxb2XmlEncoderTests extends AbstractEncoderTests<Jaxb2XmlEncoder> 
 		public void setName(String name) {
 			this.name = name;
 		}
+
 	}
 
 	public static class Bar extends Model {
@@ -146,18 +139,17 @@ public class Jaxb2XmlEncoderTests extends AbstractEncoderTests<Jaxb2XmlEncoder> 
 		public void setTitle(String title) {
 			this.title = title;
 		}
+
 	}
 
 	@XmlRootElement
 	public static class Container {
 
-		@XmlElements({
-				@XmlElement(name="foo", type=Foo.class),
-				@XmlElement(name="bar", type=Bar.class)
-		})
+		@XmlElements({ @XmlElement(name = "foo", type = Foo.class), @XmlElement(name = "bar", type = Bar.class) })
 		public List<Model> getElements() {
 			return Arrays.asList(new Foo("name1"), new Bar("title1"));
 		}
+
 	}
 
 }

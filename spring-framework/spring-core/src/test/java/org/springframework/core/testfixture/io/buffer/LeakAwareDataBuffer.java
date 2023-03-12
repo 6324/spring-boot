@@ -32,7 +32,6 @@ class LeakAwareDataBuffer extends DataBufferWrapper implements PooledDataBuffer 
 
 	private final LeakAwareDataBufferFactory dataBufferFactory;
 
-
 	LeakAwareDataBuffer(DataBuffer delegate, LeakAwareDataBufferFactory dataBufferFactory) {
 		super(delegate);
 		Assert.notNull(dataBufferFactory, "DataBufferFactory must not be null");
@@ -41,9 +40,8 @@ class LeakAwareDataBuffer extends DataBufferWrapper implements PooledDataBuffer 
 	}
 
 	private static AssertionError createLeakError(DataBuffer delegate) {
-		String message = String.format("DataBuffer leak detected: {%s} has not been released.%n" +
-				"Stack trace of buffer allocation statement follows:",
-				delegate);
+		String message = String.format("DataBuffer leak detected: {%s} has not been released.%n"
+				+ "Stack trace of buffer allocation statement follows:", delegate);
 		AssertionError result = new AssertionError(message);
 		// remove first four irrelevant stack trace elements
 		StackTraceElement[] oldTrace = result.getStackTrace();
@@ -57,12 +55,10 @@ class LeakAwareDataBuffer extends DataBufferWrapper implements PooledDataBuffer 
 		return this.leakError;
 	}
 
-
 	@Override
 	public boolean isAllocated() {
 		DataBuffer delegate = dataBuffer();
-		return delegate instanceof PooledDataBuffer &&
-				((PooledDataBuffer) delegate).isAllocated();
+		return delegate instanceof PooledDataBuffer && ((PooledDataBuffer) delegate).isAllocated();
 	}
 
 	@Override
@@ -92,4 +88,5 @@ class LeakAwareDataBuffer extends DataBufferWrapper implements PooledDataBuffer 
 	public String toString() {
 		return String.format("LeakAwareDataBuffer (%s)", dataBuffer());
 	}
+
 }

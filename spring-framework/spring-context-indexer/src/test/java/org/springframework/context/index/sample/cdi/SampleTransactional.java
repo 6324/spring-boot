@@ -28,4 +28,5 @@ import javax.transaction.Transactional;
  */
 @Transactional
 public class SampleTransactional {
+
 }

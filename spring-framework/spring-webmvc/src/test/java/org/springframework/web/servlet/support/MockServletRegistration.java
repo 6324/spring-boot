@@ -115,4 +115,5 @@ class MockServletRegistration implements ServletRegistration.Dynamic {
 	public Map<String, String> getInitParameters() {
 		return null;
 	}
+
 }

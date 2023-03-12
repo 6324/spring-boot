@@ -42,11 +42,9 @@ class UndertowHeadersAdapter implements MultiValueMap<String, String> {
 
 	private final HeaderMap headers;
 
-
 	UndertowHeadersAdapter(HeaderMap headers) {
 		this.headers = headers;
 	}
-
 
 	@Override
 	public String getFirst(String key) {
@@ -82,8 +80,7 @@ class UndertowHeadersAdapter implements MultiValueMap<String, String> {
 	@Override
 	public Map<String, String> toSingleValueMap() {
 		Map<String, String> singleValueMap = new LinkedHashMap<>(this.headers.size());
-		this.headers.forEach(values ->
-				singleValueMap.put(values.getHeaderName().toString(), values.getFirst()));
+		this.headers.forEach(values -> singleValueMap.put(values.getHeaderName().toString(), values.getFirst()));
 		return singleValueMap;
 	}
 
@@ -104,10 +101,8 @@ class UndertowHeadersAdapter implements MultiValueMap<String, String> {
 
 	@Override
 	public boolean containsValue(Object value) {
-		return (value instanceof String &&
-				this.headers.getHeaderNames().stream()
-						.map(this.headers::get)
-						.anyMatch(values -> values.contains(value)));
+		return (value instanceof String && this.headers.getHeaderNames().stream().map(this.headers::get)
+				.anyMatch(values -> values.contains(value)));
 	}
 
 	@Override
@@ -138,8 +133,7 @@ class UndertowHeadersAdapter implements MultiValueMap<String, String> {
 
 	@Override
 	public void putAll(Map<? extends String, ? extends List<String>> map) {
-		map.forEach((key, values) ->
-				this.headers.putAll(HttpString.tryFromString(key), values));
+		map.forEach((key, values) -> this.headers.putAll(HttpString.tryFromString(key), values));
 	}
 
 	@Override
@@ -149,16 +143,12 @@ class UndertowHeadersAdapter implements MultiValueMap<String, String> {
 
 	@Override
 	public Set<String> keySet() {
-		return this.headers.getHeaderNames().stream()
-				.map(HttpString::toString)
-				.collect(Collectors.toSet());
+		return this.headers.getHeaderNames().stream().map(HttpString::toString).collect(Collectors.toSet());
 	}
 
 	@Override
 	public Collection<List<String>> values() {
-		return this.headers.getHeaderNames().stream()
-				.map(this.headers::get)
-				.collect(Collectors.toList());
+		return this.headers.getHeaderNames().stream().map(this.headers::get).collect(Collectors.toList());
 	}
 
 	@Override
@@ -176,12 +166,10 @@ class UndertowHeadersAdapter implements MultiValueMap<String, String> {
 		};
 	}
 
-
 	@Override
 	public String toString() {
 		return org.springframework.http.HttpHeaders.formatHeaders(this);
 	}
-
 
 	private class EntryIterator implements Iterator<Entry<String, List<String>>> {
 
@@ -196,8 +184,8 @@ class UndertowHeadersAdapter implements MultiValueMap<String, String> {
 		public Entry<String, List<String>> next() {
 			return new HeaderEntry(this.names.next());
 		}
-	}
 
+	}
 
 	private class HeaderEntry implements Entry<String, List<String>> {
 
@@ -223,6 +211,7 @@ class UndertowHeadersAdapter implements MultiValueMap<String, String> {
 			headers.putAll(this.key, value);
 			return previousValues;
 		}
+
 	}
 
 }

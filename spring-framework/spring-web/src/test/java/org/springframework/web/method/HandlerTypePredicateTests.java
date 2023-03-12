@@ -26,6 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link HandlerTypePredicate}.
+ *
  * @author Rossen Stoyanchev
  */
 public class HandlerTypePredicateTests {
@@ -51,16 +52,23 @@ public class HandlerTypePredicateTests {
 		assertThat(predicate.test(AnotherApiController.class)).isTrue();
 	}
 
-
 	@Controller
-	private static class HtmlController {}
+	private static class HtmlController {
+
+	}
 
 	@RestController
-	private static class ApiController {}
+	private static class ApiController {
+
+	}
 
 	@RestController
-	private static class AnotherApiController implements Special {}
+	private static class AnotherApiController implements Special {
 
-	interface Special {}
+	}
+
+	interface Special {
+
+	}
 
 }

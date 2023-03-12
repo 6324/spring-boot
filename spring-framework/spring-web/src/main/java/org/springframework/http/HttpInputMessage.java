@@ -20,11 +20,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Represents an HTTP input message, consisting of {@linkplain #getHeaders() headers}
- * and a readable {@linkplain #getBody() body}.
+ * Represents an HTTP input message, consisting of {@linkplain #getHeaders() headers} and
+ * a readable {@linkplain #getBody() body}.
  *
- * <p>Typically implemented by an HTTP request handle on the server side,
- * or an HTTP response handle on the client side.
+ * <p>
+ * Typically implemented by an HTTP request handle on the server side, or an HTTP response
+ * handle on the client side.
  *
  * @author Arjen Poutsma
  * @since 3.0

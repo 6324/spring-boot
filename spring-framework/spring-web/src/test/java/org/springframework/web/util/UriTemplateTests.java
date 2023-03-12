@@ -49,10 +49,10 @@ public class UriTemplateTests {
 		assertThat(result).as("Invalid expanded template").isEqualTo(new URI("/hotels/1/bookings/42"));
 	}
 
-	@Test  // SPR-9712
+	@Test // SPR-9712
 	public void expandVarArgsWithArrayValue() throws Exception {
 		UriTemplate template = new UriTemplate("/sum?numbers={numbers}");
-		URI result = template.expand(new int[] {1, 2, 3});
+		URI result = template.expand(new int[] { 1, 2, 3 });
 		assertThat(result).isEqualTo(new URI("/sum?numbers=1,2,3"));
 	}
 
@@ -104,8 +104,7 @@ public class UriTemplateTests {
 		uriVariables.put("booking", "42");
 		uriVariables.put("bar", "1");
 		UriTemplate template = new UriTemplate("/hotels/{hotel}/bookings/{booking}");
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				template.expand(uriVariables));
+		assertThatIllegalArgumentException().isThrownBy(() -> template.expand(uriVariables));
 	}
 
 	@Test
@@ -153,7 +152,7 @@ public class UriTemplateTests {
 		assertThat(result).as("Invalid match").isEqualTo(expected);
 	}
 
-	@Test  // SPR-13627
+	@Test // SPR-13627
 	public void matchCustomRegexWithNestedCurlyBraces() throws Exception {
 		UriTemplate template = new UriTemplate("/site.{domain:co.[a-z]{2}}");
 		Map<String, String> result = template.match("/site.co.eu");
@@ -178,7 +177,7 @@ public class UriTemplateTests {
 		assertThat(result).as("Invalid match").isEqualTo(expected);
 	}
 
-	@Test  // SPR-16169
+	@Test // SPR-16169
 	public void matchWithMultipleSegmentsAtTheEnd() throws Exception {
 		UriTemplate template = new UriTemplate("/account/{accountId}");
 		assertThat(template.matches("/account/15/alias/5")).isFalse();
@@ -199,7 +198,7 @@ public class UriTemplateTests {
 		assertThat(template.matches("/search?query=foo#bar")).isTrue();
 	}
 
-	@Test  // SPR-13705
+	@Test // SPR-13705
 	public void matchesWithSlashAtTheEnd() throws Exception {
 		assertThat(new UriTemplate("/test/").matches("/test/")).isTrue();
 	}

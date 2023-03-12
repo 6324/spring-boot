@@ -34,11 +34,9 @@ final class BufferingClientHttpRequestWrapper extends AbstractBufferingClientHtt
 
 	private final ClientHttpRequest request;
 
-
 	BufferingClientHttpRequestWrapper(ClientHttpRequest request) {
 		this.request = request;
 	}
-
 
 	@Override
 	@Nullable

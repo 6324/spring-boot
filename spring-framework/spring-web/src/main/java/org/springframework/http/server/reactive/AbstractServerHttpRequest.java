@@ -45,7 +45,6 @@ public abstract class AbstractServerHttpRequest implements ServerHttpRequest {
 
 	private static final Pattern QUERY_PATTERN = Pattern.compile("([^&=]+)(=?)([^&]+)?");
 
-
 	protected final Log logger = HttpLogging.forLogName(getClass());
 
 	private final URI uri;
@@ -69,7 +68,6 @@ public abstract class AbstractServerHttpRequest implements ServerHttpRequest {
 	@Nullable
 	private String logPrefix;
 
-
 	/**
 	 * Constructor with the URI and headers for the request.
 	 * @param uri the URI for the request
@@ -81,7 +79,6 @@ public abstract class AbstractServerHttpRequest implements ServerHttpRequest {
 		this.path = RequestPath.parse(uri, contextPath);
 		this.headers = HttpHeaders.readOnlyHttpHeaders(headers);
 	}
-
 
 	@Override
 	public String getId() {
@@ -95,8 +92,8 @@ public abstract class AbstractServerHttpRequest implements ServerHttpRequest {
 	}
 
 	/**
-	 * Obtain the request id to use, or {@code null} in which case the Object
-	 * identity of this request instance is used.
+	 * Obtain the request id to use, or {@code null} in which case the Object identity of
+	 * this request instance is used.
 	 * @since 5.1
 	 */
 	@Nullable
@@ -128,11 +125,12 @@ public abstract class AbstractServerHttpRequest implements ServerHttpRequest {
 	}
 
 	/**
-	 * A method for parsing of the query into name-value pairs. The return
-	 * value is turned into an immutable map and cached.
-	 * <p>Note that this method is invoked lazily on first access to
-	 * {@link #getQueryParams()}. The invocation is not synchronized but the
-	 * parsing is thread-safe nevertheless.
+	 * A method for parsing of the query into name-value pairs. The return value is turned
+	 * into an immutable map and cached.
+	 * <p>
+	 * Note that this method is invoked lazily on first access to
+	 * {@link #getQueryParams()}. The invocation is not synchronized but the parsing is
+	 * thread-safe nevertheless.
 	 */
 	protected MultiValueMap<String, String> initQueryParams() {
 		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
@@ -157,8 +155,8 @@ public abstract class AbstractServerHttpRequest implements ServerHttpRequest {
 		}
 		catch (UnsupportedEncodingException ex) {
 			if (logger.isWarnEnabled()) {
-				logger.warn(getLogPrefix() + "Could not decode query value [" + value + "] as 'UTF-8'. " +
-						"Falling back on default encoding: " + ex.getMessage());
+				logger.warn(getLogPrefix() + "Could not decode query value [" + value + "] as 'UTF-8'. "
+						+ "Falling back on default encoding: " + ex.getMessage());
 			}
 			return URLDecoder.decode(value);
 		}
@@ -173,13 +171,13 @@ public abstract class AbstractServerHttpRequest implements ServerHttpRequest {
 	}
 
 	/**
-	 * Obtain the cookies from the underlying "native" request and adapt those to
-	 * an {@link HttpCookie} map. The return value is turned into an immutable
-	 * map and cached.
-	 * <p>Note that this method is invoked lazily on access to
-	 * {@link #getCookies()}. Sub-classes should synchronize cookie
-	 * initialization if the underlying "native" request does not provide
-	 * thread-safe access to cookie data.
+	 * Obtain the cookies from the underlying "native" request and adapt those to an
+	 * {@link HttpCookie} map. The return value is turned into an immutable map and
+	 * cached.
+	 * <p>
+	 * Note that this method is invoked lazily on access to {@link #getCookies()}.
+	 * Sub-classes should synchronize cookie initialization if the underlying "native"
+	 * request does not provide thread-safe access to cookie data.
 	 */
 	protected abstract MultiValueMap<String, HttpCookie> initCookies();
 
@@ -202,8 +200,9 @@ public abstract class AbstractServerHttpRequest implements ServerHttpRequest {
 
 	/**
 	 * Return the underlying server response.
-	 * <p><strong>Note:</strong> This is exposed mainly for internal framework
-	 * use such as WebSocket upgrades in the spring-webflux module.
+	 * <p>
+	 * <strong>Note:</strong> This is exposed mainly for internal framework use such as
+	 * WebSocket upgrades in the spring-webflux module.
 	 */
 	public abstract <T> T getNativeRequest();
 

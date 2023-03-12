@@ -35,7 +35,6 @@ public class RestClientResponseException extends RestClientException {
 
 	private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
-
 	private final int rawStatusCode;
 
 	private final String statusText;
@@ -47,7 +46,6 @@ public class RestClientResponseException extends RestClientException {
 
 	@Nullable
 	private final String responseCharset;
-
 
 	/**
 	 * Construct a new instance of with the given response data.
@@ -67,7 +65,6 @@ public class RestClientResponseException extends RestClientException {
 		this.responseBody = (responseBody != null ? responseBody : new byte[0]);
 		this.responseCharset = (responseCharset != null ? responseCharset.name() : null);
 	}
-
 
 	/**
 	 * Return the raw HTTP status code value.
@@ -99,16 +96,16 @@ public class RestClientResponseException extends RestClientException {
 	}
 
 	/**
-	 * Return the response body converted to String. The charset used is that
-	 * of the response "Content-Type" or otherwise {@code "UTF-8"}.
+	 * Return the response body converted to String. The charset used is that of the
+	 * response "Content-Type" or otherwise {@code "UTF-8"}.
 	 */
 	public String getResponseBodyAsString() {
 		return getResponseBodyAsString(DEFAULT_CHARSET);
 	}
 
 	/**
-	 * Return the response body converted to String. The charset used is that
-	 * of the response "Content-Type" or otherwise the one given.
+	 * Return the response body converted to String. The charset used is that of the
+	 * response "Content-Type" or otherwise the one given.
 	 * @param fallbackCharset the charset to use on if the response doesn't specify.
 	 * @since 5.1.11
 	 */

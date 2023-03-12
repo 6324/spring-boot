@@ -39,12 +39,13 @@ import org.springframework.util.Assert;
 
 /**
  * Allows for creating Jackson ({@link JsonSerializer}, {@link JsonDeserializer},
- * {@link KeyDeserializer}, {@link TypeResolverBuilder}, {@link TypeIdResolver})
- * beans with autowiring against a Spring {@link ApplicationContext}.
+ * {@link KeyDeserializer}, {@link TypeResolverBuilder}, {@link TypeIdResolver}) beans
+ * with autowiring against a Spring {@link ApplicationContext}.
  *
- * <p>As of Spring 4.3, this overrides all factory methods in {@link HandlerInstantiator},
- * including non-abstract ones and recently introduced ones from Jackson 2.4 and 2.5:
- * for {@link ValueInstantiator}, {@link ObjectIdGenerator}, {@link ObjectIdResolver},
+ * <p>
+ * As of Spring 4.3, this overrides all factory methods in {@link HandlerInstantiator},
+ * including non-abstract ones and recently introduced ones from Jackson 2.4 and 2.5: for
+ * {@link ValueInstantiator}, {@link ObjectIdGenerator}, {@link ObjectIdResolver},
  * {@link PropertyNamingStrategy}, {@link Converter}, {@link VirtualBeanPropertyWriter}.
  *
  * @author Sebastien Deleuze
@@ -58,7 +59,6 @@ public class SpringHandlerInstantiator extends HandlerInstantiator {
 
 	private final AutowireCapableBeanFactory beanFactory;
 
-
 	/**
 	 * Create a new SpringHandlerInstantiator for the given BeanFactory.
 	 * @param beanFactory the target BeanFactory
@@ -68,31 +68,29 @@ public class SpringHandlerInstantiator extends HandlerInstantiator {
 		this.beanFactory = beanFactory;
 	}
 
-
 	@Override
-	public JsonDeserializer<?> deserializerInstance(DeserializationConfig config,
-			Annotated annotated, Class<?> implClass) {
+	public JsonDeserializer<?> deserializerInstance(DeserializationConfig config, Annotated annotated,
+			Class<?> implClass) {
 
 		return (JsonDeserializer<?>) this.beanFactory.createBean(implClass);
 	}
 
 	@Override
-	public KeyDeserializer keyDeserializerInstance(DeserializationConfig config,
-			Annotated annotated, Class<?> implClass) {
+	public KeyDeserializer keyDeserializerInstance(DeserializationConfig config, Annotated annotated,
+			Class<?> implClass) {
 
 		return (KeyDeserializer) this.beanFactory.createBean(implClass);
 	}
 
 	@Override
-	public JsonSerializer<?> serializerInstance(SerializationConfig config,
-			Annotated annotated, Class<?> implClass) {
+	public JsonSerializer<?> serializerInstance(SerializationConfig config, Annotated annotated, Class<?> implClass) {
 
 		return (JsonSerializer<?>) this.beanFactory.createBean(implClass);
 	}
 
 	@Override
-	public TypeResolverBuilder<?> typeResolverBuilderInstance(MapperConfig<?> config,
-			Annotated annotated, Class<?> implClass) {
+	public TypeResolverBuilder<?> typeResolverBuilderInstance(MapperConfig<?> config, Annotated annotated,
+			Class<?> implClass) {
 
 		return (TypeResolverBuilder<?>) this.beanFactory.createBean(implClass);
 	}
@@ -104,40 +102,39 @@ public class SpringHandlerInstantiator extends HandlerInstantiator {
 
 	/** @since 4.3 */
 	@Override
-	public ValueInstantiator valueInstantiatorInstance(MapperConfig<?> config,
-			Annotated annotated, Class<?> implClass) {
+	public ValueInstantiator valueInstantiatorInstance(MapperConfig<?> config, Annotated annotated,
+			Class<?> implClass) {
 
 		return (ValueInstantiator) this.beanFactory.createBean(implClass);
 	}
 
 	/** @since 4.3 */
 	@Override
-	public ObjectIdGenerator<?> objectIdGeneratorInstance(MapperConfig<?> config,
-			Annotated annotated, Class<?> implClass) {
+	public ObjectIdGenerator<?> objectIdGeneratorInstance(MapperConfig<?> config, Annotated annotated,
+			Class<?> implClass) {
 
 		return (ObjectIdGenerator<?>) this.beanFactory.createBean(implClass);
 	}
 
 	/** @since 4.3 */
 	@Override
-	public ObjectIdResolver resolverIdGeneratorInstance(MapperConfig<?> config,
-			Annotated annotated, Class<?> implClass) {
+	public ObjectIdResolver resolverIdGeneratorInstance(MapperConfig<?> config, Annotated annotated,
+			Class<?> implClass) {
 
 		return (ObjectIdResolver) this.beanFactory.createBean(implClass);
 	}
 
 	/** @since 4.3 */
 	@Override
-	public PropertyNamingStrategy namingStrategyInstance(MapperConfig<?> config,
-			Annotated annotated, Class<?> implClass) {
+	public PropertyNamingStrategy namingStrategyInstance(MapperConfig<?> config, Annotated annotated,
+			Class<?> implClass) {
 
 		return (PropertyNamingStrategy) this.beanFactory.createBean(implClass);
 	}
 
 	/** @since 4.3 */
 	@Override
-	public Converter<?, ?> converterInstance(MapperConfig<?> config,
-			Annotated annotated, Class<?> implClass) {
+	public Converter<?, ?> converterInstance(MapperConfig<?> config, Annotated annotated, Class<?> implClass) {
 
 		return (Converter<?, ?>) this.beanFactory.createBean(implClass);
 	}

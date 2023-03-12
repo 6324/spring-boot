@@ -24,56 +24,59 @@ import org.springframework.objenesis.instantiator.ObjectInstantiator;
 import org.springframework.objenesis.instantiator.annotations.Instantiator;
 import org.springframework.objenesis.instantiator.annotations.Typology;
 
-
 /**
  * Instantiator for Android API level 11 to 17 which creates objects without driving their
- * constructors, using internal methods on the Dalvik implementation of {@link ObjectStreamClass}.
+ * constructors, using internal methods on the Dalvik implementation of
+ * {@link ObjectStreamClass}.
  *
  * @author Ian Parkinson (Google Inc.)
  */
 @Instantiator(Typology.STANDARD)
 public class Android17Instantiator<T> implements ObjectInstantiator<T> {
-   private final Class<T> type;
-   private final Method newInstanceMethod;
-   private final Integer objectConstructorId;
 
-   public Android17Instantiator(Class<T> type) {
-      this.type = type;
-      newInstanceMethod = getNewInstanceMethod();
-      objectConstructorId = findConstructorIdForJavaLangObjectConstructor();
-   }
+	private final Class<T> type;
 
-   public T newInstance() {
-      try {
-         return type.cast(newInstanceMethod.invoke(null, type, objectConstructorId));
-      }
-      catch(Exception e) {
-         throw new ObjenesisException(e);
-      }
-   }
+	private final Method newInstanceMethod;
 
-   private static Method getNewInstanceMethod() {
-      try {
-         Method newInstanceMethod = ObjectStreamClass.class.getDeclaredMethod(
-            "newInstance", Class.class, Integer.TYPE);
-         newInstanceMethod.setAccessible(true);
-         return newInstanceMethod;
-      }
-      catch(RuntimeException | NoSuchMethodException e) {
-         throw new ObjenesisException(e);
-      }
-   }
+	private final Integer objectConstructorId;
 
-   private static Integer findConstructorIdForJavaLangObjectConstructor() {
-      try {
-         Method newInstanceMethod = ObjectStreamClass.class.getDeclaredMethod(
-            "getConstructorId", Class.class);
-         newInstanceMethod.setAccessible(true);
+	public Android17Instantiator(Class<T> type) {
+		this.type = type;
+		newInstanceMethod = getNewInstanceMethod();
+		objectConstructorId = findConstructorIdForJavaLangObjectConstructor();
+	}
 
-         return (Integer) newInstanceMethod.invoke(null, Object.class);
-      }
-      catch(RuntimeException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-         throw new ObjenesisException(e);
-      }
-   }
+	public T newInstance() {
+		try {
+			return type.cast(newInstanceMethod.invoke(null, type, objectConstructorId));
+		}
+		catch (Exception e) {
+			throw new ObjenesisException(e);
+		}
+	}
+
+	private static Method getNewInstanceMethod() {
+		try {
+			Method newInstanceMethod = ObjectStreamClass.class.getDeclaredMethod("newInstance", Class.class,
+					Integer.TYPE);
+			newInstanceMethod.setAccessible(true);
+			return newInstanceMethod;
+		}
+		catch (RuntimeException | NoSuchMethodException e) {
+			throw new ObjenesisException(e);
+		}
+	}
+
+	private static Integer findConstructorIdForJavaLangObjectConstructor() {
+		try {
+			Method newInstanceMethod = ObjectStreamClass.class.getDeclaredMethod("getConstructorId", Class.class);
+			newInstanceMethod.setAccessible(true);
+
+			return (Integer) newInstanceMethod.invoke(null, Object.class);
+		}
+		catch (RuntimeException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+			throw new ObjenesisException(e);
+		}
+	}
+
 }

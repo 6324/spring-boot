@@ -52,7 +52,8 @@ public class ControllerTests {
 		ParameterizableViewController pvc = new ParameterizableViewController();
 		pvc.setViewName(viewName);
 		// We don't care about the params.
-		ModelAndView mv = pvc.handleRequest(new MockHttpServletRequest("GET", "foo.html"), new MockHttpServletResponse());
+		ModelAndView mv = pvc.handleRequest(new MockHttpServletRequest("GET", "foo.html"),
+				new MockHttpServletResponse());
 		assertThat(mv.getModel().size() == 0).as("model has no data").isTrue();
 		assertThat(mv.getViewName().equals(viewName)).as("model has correct viewname").isTrue();
 		assertThat(pvc.getViewName().equals(viewName)).as("getViewName matches").isTrue();
@@ -79,8 +80,7 @@ public class ControllerTests {
 		doTestServletForwardingController(sfc, false);
 	}
 
-	private void doTestServletForwardingController(ServletForwardingController sfc, boolean include)
-			throws Exception {
+	private void doTestServletForwardingController(ServletForwardingController sfc, boolean include) throws Exception {
 
 		HttpServletRequest request = mock(HttpServletRequest.class);
 		HttpServletResponse response = mock(HttpServletResponse.class);
@@ -161,12 +161,14 @@ public class ControllerTests {
 		assertThat(TestServlet.destroyed).isTrue();
 	}
 
-
 	public static class TestServlet implements Servlet {
 
 		private static ServletConfig config;
+
 		private static ServletRequest request;
+
 		private static ServletResponse response;
+
 		private static boolean destroyed;
 
 		public TestServlet() {
@@ -201,6 +203,7 @@ public class ControllerTests {
 		public void destroy() {
 			destroyed = true;
 		}
+
 	}
 
 }

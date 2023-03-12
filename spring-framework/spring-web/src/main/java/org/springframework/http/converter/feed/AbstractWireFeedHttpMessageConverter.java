@@ -41,8 +41,9 @@ import org.springframework.util.StringUtils;
  * Abstract base class for Atom and RSS Feed message converters, using the
  * <a href="https://github.com/rometools/rome">ROME tools</a> project.
  *
- * <p><b>NOTE: As of Spring 4.1, this is based on the {@code com.rometools}
- * variant of ROME, version 1.5. Please upgrade your build dependency.</b>
+ * <p>
+ * <b>NOTE: As of Spring 4.1, this is based on the {@code com.rometools} variant of ROME,
+ * version 1.5. Please upgrade your build dependency.</b>
  *
  * @author Arjen Poutsma
  * @since 3.0.2
@@ -50,19 +51,16 @@ import org.springframework.util.StringUtils;
  * @see AtomFeedHttpMessageConverter
  * @see RssChannelHttpMessageConverter
  */
-public abstract class AbstractWireFeedHttpMessageConverter<T extends WireFeed>
-		extends AbstractHttpMessageConverter<T> {
+public abstract class AbstractWireFeedHttpMessageConverter<T extends WireFeed> extends AbstractHttpMessageConverter<T> {
 
 	/**
 	 * The default charset used by the converter.
 	 */
 	public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
-
 	protected AbstractWireFeedHttpMessageConverter(MediaType supportedMediaType) {
 		super(supportedMediaType);
 	}
-
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -71,8 +69,8 @@ public abstract class AbstractWireFeedHttpMessageConverter<T extends WireFeed>
 
 		WireFeedInput feedInput = new WireFeedInput();
 		MediaType contentType = inputMessage.getHeaders().getContentType();
-		Charset charset = (contentType != null && contentType.getCharset() != null ?
-				contentType.getCharset() : DEFAULT_CHARSET);
+		Charset charset = (contentType != null && contentType.getCharset() != null ? contentType.getCharset()
+				: DEFAULT_CHARSET);
 		try {
 			Reader reader = new InputStreamReader(inputMessage.getBody(), charset);
 			return (T) feedInput.build(reader);
@@ -86,8 +84,8 @@ public abstract class AbstractWireFeedHttpMessageConverter<T extends WireFeed>
 	protected void writeInternal(T wireFeed, HttpOutputMessage outputMessage)
 			throws IOException, HttpMessageNotWritableException {
 
-		Charset charset = (StringUtils.hasLength(wireFeed.getEncoding()) ?
-				Charset.forName(wireFeed.getEncoding()) : DEFAULT_CHARSET);
+		Charset charset = (StringUtils.hasLength(wireFeed.getEncoding()) ? Charset.forName(wireFeed.getEncoding())
+				: DEFAULT_CHARSET);
 		MediaType contentType = outputMessage.getHeaders().getContentType();
 		if (contentType != null) {
 			contentType = new MediaType(contentType, charset);

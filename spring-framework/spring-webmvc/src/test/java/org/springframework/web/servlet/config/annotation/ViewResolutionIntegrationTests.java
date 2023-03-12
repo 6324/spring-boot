@@ -70,23 +70,20 @@ public class ViewResolutionIntegrationTests {
 
 	@Test
 	public void freemarkerInvalidConfig() throws Exception {
-		assertThatExceptionOfType(RuntimeException.class).isThrownBy(() ->
-				runTest(InvalidFreeMarkerWebConfig.class))
-			.withMessageContaining("In addition to a FreeMarker view resolver ");
+		assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> runTest(InvalidFreeMarkerWebConfig.class))
+				.withMessageContaining("In addition to a FreeMarker view resolver ");
 	}
 
 	@Test
 	public void tilesInvalidConfig() throws Exception {
-		assertThatExceptionOfType(RuntimeException.class).isThrownBy(() ->
-				runTest(InvalidTilesWebConfig.class))
-			.withMessageContaining("In addition to a Tiles view resolver ");
+		assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> runTest(InvalidTilesWebConfig.class))
+				.withMessageContaining("In addition to a Tiles view resolver ");
 	}
 
 	@Test
 	public void groovyMarkupInvalidConfig() throws Exception {
-		assertThatExceptionOfType(RuntimeException.class).isThrownBy(() ->
-				runTest(InvalidGroovyMarkupWebConfig.class))
-			.withMessageContaining("In addition to a Groovy markup view resolver ");
+		assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> runTest(InvalidGroovyMarkupWebConfig.class))
+				.withMessageContaining("In addition to a Groovy markup view resolver ");
 	}
 
 	// SPR-12013
@@ -96,7 +93,6 @@ public class ViewResolutionIntegrationTests {
 		MockHttpServletResponse response = runTest(ExistingViewResolverConfig.class);
 		assertThat(response.getContentAsString()).isEqualTo("<html><body>Hello World!</body></html>");
 	}
-
 
 	private MockHttpServletResponse runTest(Class<?> configClass) throws ServletException, IOException {
 		String basePath = "org/springframework/web/servlet/config/annotation";
@@ -115,7 +111,6 @@ public class ViewResolutionIntegrationTests {
 		return response;
 	}
 
-
 	@Controller
 	static class SampleController {
 
@@ -124,6 +119,7 @@ public class ViewResolutionIntegrationTests {
 			model.addAttribute("hello", "Hello World!");
 			return "index";
 		}
+
 	}
 
 	@EnableWebMvc
@@ -133,6 +129,7 @@ public class ViewResolutionIntegrationTests {
 		public SampleController sampleController() {
 			return new SampleController();
 		}
+
 	}
 
 	@Configuration
@@ -149,6 +146,7 @@ public class ViewResolutionIntegrationTests {
 			configurer.setTemplateLoaderPath("/WEB-INF/");
 			return configurer;
 		}
+
 	}
 
 	@Configuration
@@ -165,6 +163,7 @@ public class ViewResolutionIntegrationTests {
 			configurer.setDefinitions("/WEB-INF/tiles.xml");
 			return configurer;
 		}
+
 	}
 
 	@Configuration
@@ -181,6 +180,7 @@ public class ViewResolutionIntegrationTests {
 			configurer.setResourceLoaderPath("/WEB-INF/");
 			return configurer;
 		}
+
 	}
 
 	@Configuration
@@ -190,6 +190,7 @@ public class ViewResolutionIntegrationTests {
 		public void configureViewResolvers(ViewResolverRegistry registry) {
 			registry.freeMarker();
 		}
+
 	}
 
 	@Configuration
@@ -199,6 +200,7 @@ public class ViewResolutionIntegrationTests {
 		public void configureViewResolvers(ViewResolverRegistry registry) {
 			registry.tiles();
 		}
+
 	}
 
 	@Configuration
@@ -208,6 +210,7 @@ public class ViewResolutionIntegrationTests {
 		public void configureViewResolvers(ViewResolverRegistry registry) {
 			registry.groovy();
 		}
+
 	}
 
 	/**
@@ -227,6 +230,7 @@ public class ViewResolutionIntegrationTests {
 			configurer.setTemplateLoaderPath("/WEB-INF/");
 			return configurer;
 		}
+
 	}
 
 }

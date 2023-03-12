@@ -30,7 +30,6 @@ class MockFilterRegistration implements Dynamic {
 
 	private Map<String, EnumSet<DispatcherType>> mappings = new HashMap<>();
 
-
 	public Map<String, EnumSet<DispatcherType>> getMappings() {
 		return this.mappings;
 	}
@@ -45,8 +44,8 @@ class MockFilterRegistration implements Dynamic {
 	}
 
 	@Override
-	public void addMappingForServletNames(EnumSet<DispatcherType> dispatcherTypes,
-			boolean isMatchAfter, String... servletNames) {
+	public void addMappingForServletNames(EnumSet<DispatcherType> dispatcherTypes, boolean isMatchAfter,
+			String... servletNames) {
 
 		for (String servletName : servletNames) {
 			this.mappings.put(servletName, dispatcherTypes);
@@ -66,8 +65,8 @@ class MockFilterRegistration implements Dynamic {
 	}
 
 	@Override
-	public void addMappingForUrlPatterns(EnumSet<DispatcherType> dispatcherTypes,
-			boolean isMatchAfter, String... urlPatterns) {
+	public void addMappingForUrlPatterns(EnumSet<DispatcherType> dispatcherTypes, boolean isMatchAfter,
+			String... urlPatterns) {
 	}
 
 	@Override

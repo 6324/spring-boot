@@ -19,8 +19,8 @@ package org.springframework.web.filter;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Simple request logging filter that writes the request URI
- * (and optionally the query string) to the Commons Log.
+ * Simple request logging filter that writes the request URI (and optionally the query
+ * string) to the Commons Log.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller

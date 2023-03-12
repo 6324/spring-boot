@@ -26,10 +26,11 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * Helps with configuring HandlerMappings path matching options such as trailing
- * slash match, suffix registration, path matcher and path helper.
+ * Helps with configuring HandlerMappings path matching options such as trailing slash
+ * match, suffix registration, path matcher and path helper.
  *
- * <p>Configured path matcher and path helper instances are shared for:
+ * <p>
+ * Configured path matcher and path helper instances are shared for:
  * <ul>
  * <li>RequestMappings</li>
  * <li>ViewControllerMappings</li>
@@ -61,17 +62,17 @@ public class PathMatchConfigurer {
 	@Nullable
 	private Map<String, Predicate<Class<?>>> pathPrefixes;
 
-
 	/**
-	 * Whether to use suffix pattern match (".*") when matching patterns to
-	 * requests. If enabled a method mapped to "/users" also matches to "/users.*".
-	 * <p>By default this is set to {@code true}.
+	 * Whether to use suffix pattern match (".*") when matching patterns to requests. If
+	 * enabled a method mapped to "/users" also matches to "/users.*".
+	 * <p>
+	 * By default this is set to {@code true}.
 	 * @see #registeredSuffixPatternMatch
 	 * @deprecated as of 5.2.4. See class-level note in
-	 * {@link RequestMappingHandlerMapping} on the deprecation of path extension
-	 * config options. As there is no replacement for this method, for the time
-	 * being it's necessary to set it to {@code false}. In 5.3 when {@code false}
-	 * becomes the default, use of this property will no longer be necessary.
+	 * {@link RequestMappingHandlerMapping} on the deprecation of path extension config
+	 * options. As there is no replacement for this method, for the time being it's
+	 * necessary to set it to {@code false}. In 5.3 when {@code false} becomes the
+	 * default, use of this property will no longer be necessary.
 	 */
 	@Deprecated
 	public PathMatchConfigurer setUseSuffixPatternMatch(Boolean suffixPatternMatch) {
@@ -80,16 +81,16 @@ public class PathMatchConfigurer {
 	}
 
 	/**
-	 * Whether suffix pattern matching should work only against path extensions
-	 * explicitly registered when you
-	 * {@link WebMvcConfigurer#configureContentNegotiation configure content
-	 * negotiation}. This is generally recommended to reduce ambiguity and to
+	 * Whether suffix pattern matching should work only against path extensions explicitly
+	 * registered when you {@link WebMvcConfigurer#configureContentNegotiation configure
+	 * content negotiation}. This is generally recommended to reduce ambiguity and to
 	 * avoid issues such as when a "." appears in the path for other reasons.
-	 * <p>By default this is set to "false".
+	 * <p>
+	 * By default this is set to "false".
 	 * @see WebMvcConfigurer#configureContentNegotiation
 	 * @deprecated as of 5.2.4. See class-level note in
-	 * {@link RequestMappingHandlerMapping} on the deprecation of path extension
-	 * config options.
+	 * {@link RequestMappingHandlerMapping} on the deprecation of path extension config
+	 * options.
 	 */
 	@Deprecated
 	public PathMatchConfigurer setUseRegisteredSuffixPatternMatch(Boolean registeredSuffixPatternMatch) {
@@ -98,9 +99,10 @@ public class PathMatchConfigurer {
 	}
 
 	/**
-	 * Whether to match to URLs irrespective of the presence of a trailing slash.
-	 * If enabled a method mapped to "/users" also matches to "/users/".
-	 * <p>The default value is {@code true}.
+	 * Whether to match to URLs irrespective of the presence of a trailing slash. If
+	 * enabled a method mapped to "/users" also matches to "/users/".
+	 * <p>
+	 * The default value is {@code true}.
 	 */
 	public PathMatchConfigurer setUseTrailingSlashMatch(Boolean trailingSlashMatch) {
 		this.trailingSlashMatch = trailingSlashMatch;
@@ -109,9 +111,10 @@ public class PathMatchConfigurer {
 
 	/**
 	 * Set the UrlPathHelper to use for resolution of lookup paths.
-	 * <p>Use this to override the default UrlPathHelper with a custom subclass,
-	 * or to share common UrlPathHelper settings across multiple HandlerMappings
-	 * and MethodNameResolvers.
+	 * <p>
+	 * Use this to override the default UrlPathHelper with a custom subclass, or to share
+	 * common UrlPathHelper settings across multiple HandlerMappings and
+	 * MethodNameResolvers.
 	 */
 	public PathMatchConfigurer setUrlPathHelper(UrlPathHelper urlPathHelper) {
 		this.urlPathHelper = urlPathHelper;
@@ -119,8 +122,8 @@ public class PathMatchConfigurer {
 	}
 
 	/**
-	 * Set the PathMatcher implementation to use for matching URL paths
-	 * against registered URL patterns. Default is AntPathMatcher.
+	 * Set the PathMatcher implementation to use for matching URL paths against registered
+	 * URL patterns. Default is AntPathMatcher.
 	 * @see org.springframework.util.AntPathMatcher
 	 */
 	public PathMatchConfigurer setPathMatcher(PathMatcher pathMatcher) {
@@ -130,10 +133,12 @@ public class PathMatchConfigurer {
 
 	/**
 	 * Configure a path prefix to apply to matching controller methods.
-	 * <p>Prefixes are used to enrich the mappings of every {@code @RequestMapping}
-	 * method whose controller type is matched by the corresponding
-	 * {@code Predicate}. The prefix for the first matching predicate is used.
-	 * <p>Consider using {@link org.springframework.web.method.HandlerTypePredicate
+	 * <p>
+	 * Prefixes are used to enrich the mappings of every {@code @RequestMapping} method
+	 * whose controller type is matched by the corresponding {@code Predicate}. The prefix
+	 * for the first matching predicate is used.
+	 * <p>
+	 * Consider using {@link org.springframework.web.method.HandlerTypePredicate
 	 * HandlerTypePredicate} to group controllers.
 	 * @param prefix the prefix to apply
 	 * @param predicate a predicate for matching controller types
@@ -147,12 +152,11 @@ public class PathMatchConfigurer {
 		return this;
 	}
 
-
 	/**
 	 * Whether to use registered suffixes for pattern matching.
 	 * @deprecated as of 5.2.4. See class-level note in
-	 * {@link RequestMappingHandlerMapping} on the deprecation of path extension
-	 * config options.
+	 * {@link RequestMappingHandlerMapping} on the deprecation of path extension config
+	 * options.
 	 */
 	@Nullable
 	@Deprecated
@@ -163,8 +167,8 @@ public class PathMatchConfigurer {
 	/**
 	 * Whether to use registered suffixes for pattern matching.
 	 * @deprecated as of 5.2.4. See class-level note in
-	 * {@link RequestMappingHandlerMapping} on the deprecation of path extension
-	 * config options.
+	 * {@link RequestMappingHandlerMapping} on the deprecation of path extension config
+	 * options.
 	 */
 	@Nullable
 	@Deprecated
@@ -191,4 +195,5 @@ public class PathMatchConfigurer {
 	protected Map<String, Predicate<Class<?>>> getPathPrefixes() {
 		return this.pathPrefixes;
 	}
+
 }

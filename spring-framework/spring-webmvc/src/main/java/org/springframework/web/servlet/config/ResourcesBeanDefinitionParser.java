@@ -57,10 +57,11 @@ import org.springframework.web.servlet.resource.WebJarsResourceResolver;
 
 /**
  * {@link org.springframework.beans.factory.xml.BeanDefinitionParser} that parses a
- * {@code resources} element to register a {@link ResourceHttpRequestHandler} and
- * register a {@link SimpleUrlHandlerMapping} for mapping resource requests, and a
+ * {@code resources} element to register a {@link ResourceHttpRequestHandler} and register
+ * a {@link SimpleUrlHandlerMapping} for mapping resource requests, and a
  * {@link HttpRequestHandlerAdapter}. Will also create a resource handling chain with
- * {@link ResourceResolver ResourceResolvers} and {@link ResourceTransformer ResourceTransformers}.
+ * {@link ResourceResolver ResourceResolvers} and {@link ResourceTransformer
+ * ResourceTransformers}.
  *
  * @author Keith Donald
  * @author Jeremy Grelle
@@ -81,9 +82,8 @@ class ResourcesBeanDefinitionParser implements BeanDefinitionParser {
 
 	private static final String RESOURCE_URL_PROVIDER = "mvcResourceUrlProvider";
 
-	private static final boolean webJarsPresent = ClassUtils.isPresent(
-			"org.webjars.WebJarAssetLocator", ResourcesBeanDefinitionParser.class.getClassLoader());
-
+	private static final boolean webJarsPresent = ClassUtils.isPresent("org.webjars.WebJarAssetLocator",
+			ResourcesBeanDefinitionParser.class.getClassLoader());
 
 	@Override
 	public BeanDefinition parse(Element element, ParserContext context) {
@@ -114,7 +114,8 @@ class ResourcesBeanDefinitionParser implements BeanDefinitionParser {
 		handlerMappingDef.getPropertyValues().add("pathMatcher", pathMatcherRef).add("urlPathHelper", pathHelperRef);
 
 		String orderValue = element.getAttribute("order");
-		// Use a default of near-lowest precedence, still allowing for even lower precedence in other mappings
+		// Use a default of near-lowest precedence, still allowing for even lower
+		// precedence in other mappings
 		Object order = StringUtils.hasText(orderValue) ? orderValue : Ordered.LOWEST_PRECEDENCE - 1;
 		handlerMappingDef.getPropertyValues().add("order", order);
 
@@ -125,7 +126,8 @@ class ResourcesBeanDefinitionParser implements BeanDefinitionParser {
 		context.getRegistry().registerBeanDefinition(beanName, handlerMappingDef);
 		context.registerComponent(new BeanComponentDefinition(handlerMappingDef, beanName));
 
-		// Ensure BeanNameUrlHandlerMapping (SPR-8289) and default HandlerAdapters are not "turned off"
+		// Ensure BeanNameUrlHandlerMapping (SPR-8289) and default HandlerAdapters are not
+		// "turned off"
 		// Register HttpRequestHandlerAdapter
 		MvcNamespaceUtils.registerDefaultComponents(context, source);
 
@@ -155,8 +157,8 @@ class ResourcesBeanDefinitionParser implements BeanDefinitionParser {
 	}
 
 	@Nullable
-	private String registerResourceHandler(ParserContext context, Element element,
-			RuntimeBeanReference pathHelperRef, @Nullable Object source) {
+	private String registerResourceHandler(ParserContext context, Element element, RuntimeBeanReference pathHelperRef,
+			@Nullable Object source) {
 
 		String locationAttr = element.getAttribute("location");
 		if (!StringUtils.hasText(locationAttr)) {
@@ -199,7 +201,6 @@ class ResourcesBeanDefinitionParser implements BeanDefinitionParser {
 		return beanName;
 	}
 
-
 	private CacheControl parseCacheControl(Element element) {
 		CacheControl cacheControl;
 		if ("true".equals(element.getAttribute("no-cache"))) {
@@ -238,14 +239,14 @@ class ResourcesBeanDefinitionParser implements BeanDefinitionParser {
 					Long.parseLong(element.getAttribute("stale-while-revalidate")), TimeUnit.SECONDS);
 		}
 		if (element.hasAttribute("stale-if-error")) {
-			cacheControl = cacheControl.staleIfError(
-					Long.parseLong(element.getAttribute("stale-if-error")), TimeUnit.SECONDS);
+			cacheControl = cacheControl.staleIfError(Long.parseLong(element.getAttribute("stale-if-error")),
+					TimeUnit.SECONDS);
 		}
 		return cacheControl;
 	}
 
-	private void parseResourceChain(
-			RootBeanDefinition resourceHandlerDef, ParserContext context, Element element, @Nullable Object source) {
+	private void parseResourceChain(RootBeanDefinition resourceHandlerDef, ParserContext context, Element element,
+			@Nullable Object source) {
 
 		String autoRegistration = element.getAttribute("auto-registration");
 		boolean isAutoRegistration = !(StringUtils.hasText(autoRegistration) && "false".equals(autoRegistration));
@@ -256,8 +257,8 @@ class ResourcesBeanDefinitionParser implements BeanDefinitionParser {
 		resourceTransformers.setSource(source);
 
 		parseResourceCache(resourceResolvers, resourceTransformers, element, source);
-		parseResourceResolversTransformers(
-				isAutoRegistration, resourceResolvers, resourceTransformers, context, element, source);
+		parseResourceResolversTransformers(isAutoRegistration, resourceResolvers, resourceTransformers, context,
+				element, source);
 
 		if (!resourceResolvers.isEmpty()) {
 			resourceHandlerDef.getPropertyValues().add("resourceResolvers", resourceResolvers);
@@ -267,8 +268,8 @@ class ResourcesBeanDefinitionParser implements BeanDefinitionParser {
 		}
 	}
 
-	private void parseResourceCache(ManagedList<Object> resourceResolvers,
-			ManagedList<Object> resourceTransformers, Element element, @Nullable Object source) {
+	private void parseResourceCache(ManagedList<Object> resourceResolvers, ManagedList<Object> resourceTransformers,
+			Element element, @Nullable Object source) {
 
 		String resourceCache = element.getAttribute("resource-cache");
 		if ("true".equals(resourceCache)) {
@@ -305,9 +306,8 @@ class ResourcesBeanDefinitionParser implements BeanDefinitionParser {
 		}
 	}
 
-	private void parseResourceResolversTransformers(boolean isAutoRegistration,
-			ManagedList<Object> resourceResolvers, ManagedList<Object> resourceTransformers,
-			ParserContext context, Element element, @Nullable Object source) {
+	private void parseResourceResolversTransformers(boolean isAutoRegistration, ManagedList<Object> resourceResolvers,
+			ManagedList<Object> resourceTransformers, ParserContext context, Element element, @Nullable Object source) {
 
 		Element resolversElement = DomUtils.getChildElementByTagName(element, "resolvers");
 		if (resolversElement != null) {
@@ -317,7 +317,8 @@ class ResourcesBeanDefinitionParser implements BeanDefinitionParser {
 					versionResolverDef.setSource(source);
 					resourceResolvers.add(versionResolverDef);
 					if (isAutoRegistration) {
-						RootBeanDefinition cssLinkTransformerDef = new RootBeanDefinition(CssLinkResourceTransformer.class);
+						RootBeanDefinition cssLinkTransformerDef = new RootBeanDefinition(
+								CssLinkResourceTransformer.class);
 						cssLinkTransformerDef.setSource(source);
 						cssLinkTransformerDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 						resourceTransformers.add(cssLinkTransformerDef);

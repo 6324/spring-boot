@@ -70,11 +70,9 @@ public class Jackson2JsonDecoderTests extends AbstractDecoderTests<Jackson2JsonD
 
 	private final Pojo pojo2 = new Pojo("f2", "b2");
 
-
 	public Jackson2JsonDecoderTests() {
 		super(new Jackson2JsonDecoder());
 	}
-
 
 	@Override
 	@Test
@@ -93,7 +91,7 @@ public class Jackson2JsonDecoderTests extends AbstractDecoderTests<Jackson2JsonD
 				new MediaType("application", "json", StandardCharsets.ISO_8859_1))).isTrue();
 	}
 
-	@Test  // SPR-15866
+	@Test // SPR-15866
 	public void canDecodeWithProvidedMimeType() {
 		MimeType textJavascript = new MimeType("text", "javascript", StandardCharsets.UTF_8);
 		Jackson2JsonDecoder decoder = new Jackson2JsonDecoder(new ObjectMapper(), textJavascript);
@@ -106,38 +104,31 @@ public class Jackson2JsonDecoderTests extends AbstractDecoderTests<Jackson2JsonD
 		MimeType textJavascript = new MimeType("text", "javascript", StandardCharsets.UTF_8);
 		Jackson2JsonDecoder decoder = new Jackson2JsonDecoder(new ObjectMapper(), textJavascript);
 
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-				decoder.getMimeTypes().add(new MimeType("text", "ecmascript")));
+		assertThatExceptionOfType(UnsupportedOperationException.class)
+				.isThrownBy(() -> decoder.getMimeTypes().add(new MimeType("text", "ecmascript")));
 	}
 
 	@Override
 	@Test
 	public void decode() {
-		Flux<DataBuffer> input = Flux.concat(
-				stringBuffer("[{\"bar\":\"b1\",\"foo\":\"f1\"},"),
+		Flux<DataBuffer> input = Flux.concat(stringBuffer("[{\"bar\":\"b1\",\"foo\":\"f1\"},"),
 				stringBuffer("{\"bar\":\"b2\",\"foo\":\"f2\"}]"));
 
-		testDecodeAll(input, Pojo.class, step -> step
-				.expectNext(pojo1)
-				.expectNext(pojo2)
-				.verifyComplete());
+		testDecodeAll(input, Pojo.class, step -> step.expectNext(pojo1).expectNext(pojo2).verifyComplete());
 	}
 
 	@Override
 	@Test
 	public void decodeToMono() {
-		Flux<DataBuffer> input = Flux.concat(
-				stringBuffer("[{\"bar\":\"b1\",\"foo\":\"f1\"},"),
+		Flux<DataBuffer> input = Flux.concat(stringBuffer("[{\"bar\":\"b1\",\"foo\":\"f1\"},"),
 				stringBuffer("{\"bar\":\"b2\",\"foo\":\"f2\"}]"));
 
 		ResolvableType elementType = ResolvableType.forClassWithGenerics(List.class, Pojo.class);
 
-		testDecodeToMonoAll(input, elementType, step -> step
-				.expectNext(asList(new Pojo("f1", "b1"), new Pojo("f2", "b2")))
-				.expectComplete()
-				.verify(), null, null);
+		testDecodeToMonoAll(input, elementType,
+				step -> step.expectNext(asList(new Pojo("f1", "b1"), new Pojo("f2", "b2"))).expectComplete().verify(),
+				null, null);
 	}
-
 
 	@Test
 	public void decodeEmptyArrayToFlux() {
@@ -153,75 +144,64 @@ public class Jackson2JsonDecoderTests extends AbstractDecoderTests<Jackson2JsonD
 		ResolvableType elementType = forClass(JacksonViewBean.class);
 		Map<String, Object> hints = singletonMap(JSON_VIEW_HINT, MyJacksonView1.class);
 
-		testDecode(input, elementType, step -> step
-				.consumeNextWith(o -> {
-					JacksonViewBean b = (JacksonViewBean) o;
-					assertThat(b.getWithView1()).isEqualTo("with");
-					assertThat(b.getWithView2()).isNull();
-					assertThat(b.getWithoutView()).isNull();
-				}), null, hints);
+		testDecode(input, elementType, step -> step.consumeNextWith(o -> {
+			JacksonViewBean b = (JacksonViewBean) o;
+			assertThat(b.getWithView1()).isEqualTo("with");
+			assertThat(b.getWithView2()).isNull();
+			assertThat(b.getWithoutView()).isNull();
+		}), null, hints);
 	}
 
 	@Test
 	public void classLevelJsonView() {
-		Flux<DataBuffer> input = Flux.from(stringBuffer(
-				"{\"withView1\" : \"with\", \"withView2\" : \"with\", \"withoutView\" : \"without\"}"));
+		Flux<DataBuffer> input = Flux.from(
+				stringBuffer("{\"withView1\" : \"with\", \"withView2\" : \"with\", \"withoutView\" : \"without\"}"));
 		ResolvableType elementType = forClass(JacksonViewBean.class);
 		Map<String, Object> hints = singletonMap(JSON_VIEW_HINT, MyJacksonView3.class);
 
-		testDecode(input, elementType, step -> step
-				.consumeNextWith(o -> {
-					JacksonViewBean b = (JacksonViewBean) o;
-					assertThat(b.getWithoutView()).isEqualTo("without");
-					assertThat(b.getWithView1()).isNull();
-					assertThat(b.getWithView2()).isNull();
-				})
-				.verifyComplete(), null, hints);
+		testDecode(input, elementType, step -> step.consumeNextWith(o -> {
+			JacksonViewBean b = (JacksonViewBean) o;
+			assertThat(b.getWithoutView()).isEqualTo("without");
+			assertThat(b.getWithView1()).isNull();
+			assertThat(b.getWithView2()).isNull();
+		}).verifyComplete(), null, hints);
 	}
 
 	@Test
 	public void invalidData() {
-		Flux<DataBuffer> input =
-				Flux.from(stringBuffer("{\"foofoo\": \"foofoo\", \"barbar\": \"barbar\""));
-		testDecode(input, Pojo.class, step -> step
-				.verifyError(DecodingException.class));
+		Flux<DataBuffer> input = Flux.from(stringBuffer("{\"foofoo\": \"foofoo\", \"barbar\": \"barbar\""));
+		testDecode(input, Pojo.class, step -> step.verifyError(DecodingException.class));
 	}
 
 	@Test // gh-22042
 	public void decodeWithNullLiteral() {
-		Flux<Object> result = this.decoder.decode(Flux.concat(stringBuffer("null")),
-				ResolvableType.forType(Pojo.class), MediaType.APPLICATION_JSON, Collections.emptyMap());
+		Flux<Object> result = this.decoder.decode(Flux.concat(stringBuffer("null")), ResolvableType.forType(Pojo.class),
+				MediaType.APPLICATION_JSON, Collections.emptyMap());
 
 		StepVerifier.create(result).expectComplete().verify();
 	}
 
 	@Test
 	public void noDefaultConstructor() {
-		Flux<DataBuffer> input =
-				Flux.from(stringBuffer("{\"property1\":\"foo\",\"property2\":\"bar\"}"));
+		Flux<DataBuffer> input = Flux.from(stringBuffer("{\"property1\":\"foo\",\"property2\":\"bar\"}"));
 		ResolvableType elementType = forClass(BeanWithNoDefaultConstructor.class);
 		Flux<Object> flux = new Jackson2JsonDecoder().decode(input, elementType, null, emptyMap());
 		StepVerifier.create(flux).verifyError(CodecException.class);
 	}
 
-	@Test  // SPR-15975
-	public void  customDeserializer() {
+	@Test // SPR-15975
+	public void customDeserializer() {
 		Mono<DataBuffer> input = stringBuffer("{\"test\": 1}");
 
-		testDecode(input, TestObject.class, step -> step
-				.consumeNextWith(o -> assertThat(o.getTest()).isEqualTo(1))
-				.verifyComplete()
-		);
+		testDecode(input, TestObject.class,
+				step -> step.consumeNextWith(o -> assertThat(o.getTest()).isEqualTo(1)).verifyComplete());
 	}
 
 	@Test
 	public void bigDecimalFlux() {
 		Flux<DataBuffer> input = stringBuffer("[ 1E+2 ]").flux();
 
-		testDecode(input, BigDecimal.class, step -> step
-				.expectNext(new BigDecimal("1E+2"))
-				.verifyComplete()
-		);
+		testDecode(input, BigDecimal.class, step -> step.expectNext(new BigDecimal("1E+2")).verifyComplete());
 	}
 
 	@Test
@@ -229,25 +209,19 @@ public class Jackson2JsonDecoderTests extends AbstractDecoderTests<Jackson2JsonD
 	public void decodeNonUtf8Encoding() {
 		Mono<DataBuffer> input = stringBuffer("{\"foo\":\"bar\"}", StandardCharsets.UTF_16);
 
-		testDecode(input, ResolvableType.forType(new ParameterizedTypeReference<Map<String, String>>() {}),
-				step -> step.assertNext(o -> assertThat((Map<String, String>) o).containsEntry("foo", "bar"))
-						.verifyComplete(),
-				MediaType.parseMediaType("application/json; charset=utf-16"),
-				null);
+		testDecode(input, ResolvableType.forType(new ParameterizedTypeReference<Map<String, String>>() {
+		}), step -> step.assertNext(o -> assertThat((Map<String, String>) o).containsEntry("foo", "bar"))
+				.verifyComplete(), MediaType.parseMediaType("application/json; charset=utf-16"), null);
 	}
 
 	@Test
 	@SuppressWarnings("unchecked")
 	public void decodeNonUnicode() {
-		Flux<DataBuffer> input = Flux.concat(
-				stringBuffer("{\"føø\":\"bår\"}", StandardCharsets.ISO_8859_1)
-		);
+		Flux<DataBuffer> input = Flux.concat(stringBuffer("{\"føø\":\"bår\"}", StandardCharsets.ISO_8859_1));
 
-		testDecode(input, ResolvableType.forType(new ParameterizedTypeReference<Map<String, String>>() {}),
-				step -> step.assertNext(o -> assertThat((Map<String, String>) o).containsEntry("føø", "bår"))
-						.verifyComplete(),
-				MediaType.parseMediaType("application/json; charset=iso-8859-1"),
-				null);
+		testDecode(input, ResolvableType.forType(new ParameterizedTypeReference<Map<String, String>>() {
+		}), step -> step.assertNext(o -> assertThat((Map<String, String>) o).containsEntry("føø", "bår"))
+				.verifyComplete(), MediaType.parseMediaType("application/json; charset=iso-8859-1"), null);
 	}
 
 	@Test
@@ -255,27 +229,20 @@ public class Jackson2JsonDecoderTests extends AbstractDecoderTests<Jackson2JsonD
 	public void decodeMonoNonUtf8Encoding() {
 		Mono<DataBuffer> input = stringBuffer("{\"foo\":\"bar\"}", StandardCharsets.UTF_16);
 
-		testDecodeToMono(input, ResolvableType.forType(new ParameterizedTypeReference<Map<String, String>>() {}),
-				step -> step.assertNext(o -> assertThat((Map<String, String>) o).containsEntry("foo", "bar"))
-						.verifyComplete(),
-				MediaType.parseMediaType("application/json; charset=utf-16"),
-				null);
+		testDecodeToMono(input, ResolvableType.forType(new ParameterizedTypeReference<Map<String, String>>() {
+		}), step -> step.assertNext(o -> assertThat((Map<String, String>) o).containsEntry("foo", "bar"))
+				.verifyComplete(), MediaType.parseMediaType("application/json; charset=utf-16"), null);
 	}
 
 	@Test
 	@SuppressWarnings("unchecked")
 	public void decodeAscii() {
-		Flux<DataBuffer> input = Flux.concat(
-				stringBuffer("{\"foo\":\"bar\"}", StandardCharsets.US_ASCII)
-		);
+		Flux<DataBuffer> input = Flux.concat(stringBuffer("{\"foo\":\"bar\"}", StandardCharsets.US_ASCII));
 
-		testDecode(input, ResolvableType.forType(new ParameterizedTypeReference<Map<String, String>>() {}),
-				step -> step.assertNext(o -> assertThat((Map<String, String>) o).containsEntry("foo", "bar"))
-						.verifyComplete(),
-				MediaType.parseMediaType("application/json; charset=us-ascii"),
-				null);
+		testDecode(input, ResolvableType.forType(new ParameterizedTypeReference<Map<String, String>>() {
+		}), step -> step.assertNext(o -> assertThat((Map<String, String>) o).containsEntry("foo", "bar"))
+				.verifyComplete(), MediaType.parseMediaType("application/json; charset=us-ascii"), null);
 	}
-
 
 	private Mono<DataBuffer> stringBuffer(String value) {
 		return stringBuffer(value, StandardCharsets.UTF_8);
@@ -289,7 +256,6 @@ public class Jackson2JsonDecoderTests extends AbstractDecoderTests<Jackson2JsonD
 			return Mono.just(buffer);
 		});
 	}
-
 
 	@SuppressWarnings("unused")
 	private static class BeanWithNoDefaultConstructor {
@@ -310,8 +276,8 @@ public class Jackson2JsonDecoderTests extends AbstractDecoderTests<Jackson2JsonD
 		public String getProperty2() {
 			return this.property2;
 		}
-	}
 
+	}
 
 	@JsonDeserialize(using = Deserializer.class)
 	public static class TestObject {
@@ -321,11 +287,12 @@ public class Jackson2JsonDecoderTests extends AbstractDecoderTests<Jackson2JsonD
 		public int getTest() {
 			return this.test;
 		}
+
 		public void setTest(int test) {
 			this.test = test;
 		}
-	}
 
+	}
 
 	public static class Deserializer extends StdDeserializer<TestObject> {
 
@@ -342,6 +309,7 @@ public class Jackson2JsonDecoderTests extends AbstractDecoderTests<Jackson2JsonD
 			result.setTest(node.get("test").asInt());
 			return result;
 		}
+
 	}
 
 }

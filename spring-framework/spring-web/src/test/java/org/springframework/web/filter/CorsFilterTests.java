@@ -36,6 +36,7 @@ import static org.assertj.core.api.Assertions.fail;
 
 /**
  * Unit tests for {@link CorsFilter}.
+ *
  * @author Sebastien Deleuze
  */
 public class CorsFilterTests {
@@ -71,7 +72,8 @@ public class CorsFilterTests {
 	@Test
 	public void sameOriginRequest() throws ServletException, IOException {
 
-		MockHttpServletRequest request = new MockHttpServletRequest(HttpMethod.GET.name(), "https://domain1.com/test.html");
+		MockHttpServletRequest request = new MockHttpServletRequest(HttpMethod.GET.name(),
+				"https://domain1.com/test.html");
 		request.addHeader(HttpHeaders.ORIGIN, "https://domain1.com");
 		request.setScheme("https");
 		request.setServerName("domain1.com");
@@ -108,8 +110,8 @@ public class CorsFilterTests {
 		request.addHeader("header2", "foo");
 		MockHttpServletResponse response = new MockHttpServletResponse();
 
-		FilterChain filterChain = (filterRequest, filterResponse) ->
-			fail("Invalid requests must not be forwarded to the filter chain");
+		FilterChain filterChain = (filterRequest,
+				filterResponse) -> fail("Invalid requests must not be forwarded to the filter chain");
 		filter.doFilter(request, response, filterChain);
 		assertThat(response.getHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN)).isNull();
 	}
@@ -123,8 +125,8 @@ public class CorsFilterTests {
 		request.addHeader(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, "header1, header2");
 		MockHttpServletResponse response = new MockHttpServletResponse();
 
-		FilterChain filterChain = (filterRequest, filterResponse) ->
-				fail("Preflight requests must not be forwarded to the filter chain");
+		FilterChain filterChain = (filterRequest,
+				filterResponse) -> fail("Preflight requests must not be forwarded to the filter chain");
 		filter.doFilter(request, response, filterChain);
 
 		assertThat(response.getHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN)).isEqualTo("https://domain2.com");
@@ -142,8 +144,8 @@ public class CorsFilterTests {
 		request.addHeader(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, "header1, header2");
 		MockHttpServletResponse response = new MockHttpServletResponse();
 
-		FilterChain filterChain = (filterRequest, filterResponse) ->
-				fail("Preflight requests must not be forwarded to the filter chain");
+		FilterChain filterChain = (filterRequest,
+				filterResponse) -> fail("Preflight requests must not be forwarded to the filter chain");
 		filter.doFilter(request, response, filterChain);
 
 		assertThat(response.getHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN)).isNull();

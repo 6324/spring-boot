@@ -29,13 +29,14 @@ import org.springframework.util.ObjectUtils;
 
 /**
  * Implements the {@link RequestCondition} contract by delegating to multiple
- * {@code RequestCondition} types and using a logical conjunction (' && ') to
- * ensure all conditions match a given request.
+ * {@code RequestCondition} types and using a logical conjunction (' && ') to ensure all
+ * conditions match a given request.
  *
- * <p>When {@code CompositeRequestCondition} instances are combined or compared
- * they are expected to (a) contain the same number of conditions and (b) that
- * conditions in the respective index are of the same type. It is acceptable to
- * provide {@code null} conditions or no conditions at all to the constructor.
+ * <p>
+ * When {@code CompositeRequestCondition} instances are combined or compared they are
+ * expected to (a) contain the same number of conditions and (b) that conditions in the
+ * respective index are of the same type. It is acceptable to provide {@code null}
+ * conditions or no conditions at all to the constructor.
  *
  * @author Rossen Stoyanchev
  * @since 3.2
@@ -44,12 +45,11 @@ public class CompositeRequestCondition extends AbstractRequestCondition<Composit
 
 	private final RequestConditionHolder[] requestConditions;
 
-
 	/**
-	 * Create an instance with 0 or more {@code RequestCondition} types. It is
-	 * important to create {@code CompositeRequestCondition} instances with the
-	 * same number of conditions so they may be compared and combined.
-	 * It is acceptable to provide {@code null} conditions.
+	 * Create an instance with 0 or more {@code RequestCondition} types. It is important
+	 * to create {@code CompositeRequestCondition} instances with the same number of
+	 * conditions so they may be compared and combined. It is acceptable to provide
+	 * {@code null} conditions.
 	 */
 	public CompositeRequestCondition(RequestCondition<?>... requestConditions) {
 		this.requestConditions = wrap(requestConditions);
@@ -58,7 +58,6 @@ public class CompositeRequestCondition extends AbstractRequestCondition<Composit
 	private CompositeRequestCondition(RequestConditionHolder[] requestConditions) {
 		this.requestConditions = requestConditions;
 	}
-
 
 	private RequestConditionHolder[] wrap(RequestCondition<?>... rawConditions) {
 		RequestConditionHolder[] wrappedConditions = new RequestConditionHolder[rawConditions.length];
@@ -106,9 +105,9 @@ public class CompositeRequestCondition extends AbstractRequestCondition<Composit
 	}
 
 	/**
-	 * If one instance is empty, return the other.
-	 * If both instances have conditions, combine the individual conditions
-	 * after ensuring they are of the same type and number.
+	 * If one instance is empty, return the other. If both instances have conditions,
+	 * combine the individual conditions after ensuring they are of the same type and
+	 * number.
 	 */
 	@Override
 	public CompositeRequestCondition combine(CompositeRequestCondition other) {
@@ -133,15 +132,16 @@ public class CompositeRequestCondition extends AbstractRequestCondition<Composit
 
 	private void assertNumberOfConditions(CompositeRequestCondition other) {
 		Assert.isTrue(getLength() == other.getLength(),
-				"Cannot combine CompositeRequestConditions with a different number of conditions. " +
-				ObjectUtils.nullSafeToString(this.requestConditions) + " and  " +
-				ObjectUtils.nullSafeToString(other.requestConditions));
+				"Cannot combine CompositeRequestConditions with a different number of conditions. "
+						+ ObjectUtils.nullSafeToString(this.requestConditions) + " and  "
+						+ ObjectUtils.nullSafeToString(other.requestConditions));
 	}
 
 	/**
 	 * Delegate to <em>all</em> contained conditions to match the request and return the
 	 * resulting "matching" condition instances.
-	 * <p>An empty {@code CompositeRequestCondition} matches to all requests.
+	 * <p>
+	 * An empty {@code CompositeRequestCondition} matches to all requests.
 	 */
 	@Override
 	@Nullable
@@ -160,8 +160,8 @@ public class CompositeRequestCondition extends AbstractRequestCondition<Composit
 	}
 
 	/**
-	 * If one instance is empty, the other "wins". If both instances have
-	 * conditions, compare them in the order in which they were provided.
+	 * If one instance is empty, the other "wins". If both instances have conditions,
+	 * compare them in the order in which they were provided.
 	 */
 	@Override
 	public int compareTo(CompositeRequestCondition other, HttpServletRequest request) {

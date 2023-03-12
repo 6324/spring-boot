@@ -56,24 +56,28 @@ public class DelegatingWebMvcConfigurationIntegrationTests {
 
 	@Test
 	void requestMappingHandlerMappingUsesMvcInfrastructureByDefault() {
-		load(context -> { });
+		load(context -> {
+		});
 		RequestMappingHandlerMapping handlerMapping = this.context.getBean(RequestMappingHandlerMapping.class);
-		assertThat(handlerMapping.getContentNegotiationManager()).isSameAs(this.context.getBean("mvcContentNegotiationManager"));
+		assertThat(handlerMapping.getContentNegotiationManager())
+				.isSameAs(this.context.getBean("mvcContentNegotiationManager"));
 	}
 
 	@Test
 	void requestMappingHandlerMappingWithPrimaryUsesQualifiedContentNegotiationManager() {
 		load(registerPrimaryBean("testContentNegotiationManager", ContentNegotiationManager.class));
 		RequestMappingHandlerMapping handlerMapping = this.context.getBean(RequestMappingHandlerMapping.class);
-		assertThat(handlerMapping.getContentNegotiationManager()).isSameAs(this.context.getBean("mvcContentNegotiationManager"));
-		assertThat(this.context.getBeansOfType(ContentNegotiationManager.class)).containsOnlyKeys(
-				"mvcContentNegotiationManager", "testContentNegotiationManager");
+		assertThat(handlerMapping.getContentNegotiationManager())
+				.isSameAs(this.context.getBean("mvcContentNegotiationManager"));
+		assertThat(this.context.getBeansOfType(ContentNegotiationManager.class))
+				.containsOnlyKeys("mvcContentNegotiationManager", "testContentNegotiationManager");
 	}
 
 	@Test
 	void viewControllerHandlerMappingUsesMvcInfrastructureByDefault() {
 		load(context -> context.registerBean(ViewControllerConfiguration.class));
-		AbstractHandlerMapping handlerMapping = this.context.getBean("viewControllerHandlerMapping", AbstractHandlerMapping.class);
+		AbstractHandlerMapping handlerMapping = this.context.getBean("viewControllerHandlerMapping",
+				AbstractHandlerMapping.class);
 		assertThat(handlerMapping.getPathMatcher()).isSameAs(this.context.getBean("mvcPathMatcher"));
 		assertThat(handlerMapping.getUrlPathHelper()).isSameAs(this.context.getBean("mvcUrlPathHelper"));
 	}
@@ -82,26 +86,29 @@ public class DelegatingWebMvcConfigurationIntegrationTests {
 	void viewControllerHandlerMappingWithPrimaryUsesQualifiedPathMatcher() {
 		load(registerPrimaryBean("testPathMatcher", PathMatcher.class)
 				.andThen(context -> context.registerBean(ViewControllerConfiguration.class)));
-		AbstractHandlerMapping handlerMapping = this.context.getBean("viewControllerHandlerMapping", AbstractHandlerMapping.class);
+		AbstractHandlerMapping handlerMapping = this.context.getBean("viewControllerHandlerMapping",
+				AbstractHandlerMapping.class);
 		assertThat(handlerMapping.getPathMatcher()).isSameAs(this.context.getBean("mvcPathMatcher"));
-		assertThat(this.context.getBeansOfType(PathMatcher.class)).containsOnlyKeys(
-				"mvcPathMatcher", "testPathMatcher");
+		assertThat(this.context.getBeansOfType(PathMatcher.class)).containsOnlyKeys("mvcPathMatcher",
+				"testPathMatcher");
 	}
 
 	@Test
 	void viewControllerHandlerMappingWithPrimaryUsesQualifiedUrlPathHelper() {
 		load(registerPrimaryBean("testUrlPathHelper", UrlPathHelper.class)
 				.andThen(context -> context.registerBean(ViewControllerConfiguration.class)));
-		AbstractHandlerMapping handlerMapping = this.context.getBean("viewControllerHandlerMapping", AbstractHandlerMapping.class);
+		AbstractHandlerMapping handlerMapping = this.context.getBean("viewControllerHandlerMapping",
+				AbstractHandlerMapping.class);
 		assertThat(handlerMapping.getUrlPathHelper()).isSameAs(this.context.getBean("mvcUrlPathHelper"));
-		assertThat(this.context.getBeansOfType(UrlPathHelper.class)).containsOnlyKeys(
-				"mvcUrlPathHelper", "testUrlPathHelper");
+		assertThat(this.context.getBeansOfType(UrlPathHelper.class)).containsOnlyKeys("mvcUrlPathHelper",
+				"testUrlPathHelper");
 	}
 
 	@Test
 	void resourceHandlerMappingUsesMvcInfrastructureByDefault() {
 		load(context -> context.registerBean(ResourceHandlerConfiguration.class));
-		AbstractHandlerMapping handlerMapping = this.context.getBean("resourceHandlerMapping", AbstractHandlerMapping.class);
+		AbstractHandlerMapping handlerMapping = this.context.getBean("resourceHandlerMapping",
+				AbstractHandlerMapping.class);
 		assertThat(handlerMapping.getPathMatcher()).isSameAs(this.context.getBean("mvcPathMatcher"));
 		assertThat(handlerMapping.getUrlPathHelper()).isSameAs(this.context.getBean("mvcUrlPathHelper"));
 	}
@@ -110,64 +117,69 @@ public class DelegatingWebMvcConfigurationIntegrationTests {
 	void resourceHandlerMappingWithPrimaryUsesQualifiedPathMatcher() {
 		load(registerPrimaryBean("testPathMatcher", PathMatcher.class)
 				.andThen(context -> context.registerBean(ResourceHandlerConfiguration.class)));
-		AbstractHandlerMapping handlerMapping = this.context.getBean("resourceHandlerMapping", AbstractHandlerMapping.class);
+		AbstractHandlerMapping handlerMapping = this.context.getBean("resourceHandlerMapping",
+				AbstractHandlerMapping.class);
 		assertThat(handlerMapping.getPathMatcher()).isSameAs(this.context.getBean("mvcPathMatcher"));
-		assertThat(this.context.getBeansOfType(PathMatcher.class)).containsOnlyKeys(
-				"mvcPathMatcher", "testPathMatcher");
+		assertThat(this.context.getBeansOfType(PathMatcher.class)).containsOnlyKeys("mvcPathMatcher",
+				"testPathMatcher");
 	}
 
 	@Test
 	void resourceHandlerMappingWithPrimaryUsesQualifiedUrlPathHelper() {
 		load(registerPrimaryBean("testUrlPathHelper", UrlPathHelper.class)
 				.andThen(context -> context.registerBean(ResourceHandlerConfiguration.class)));
-		AbstractHandlerMapping handlerMapping = this.context.getBean("resourceHandlerMapping", AbstractHandlerMapping.class);
+		AbstractHandlerMapping handlerMapping = this.context.getBean("resourceHandlerMapping",
+				AbstractHandlerMapping.class);
 		assertThat(handlerMapping.getUrlPathHelper()).isSameAs(this.context.getBean("mvcUrlPathHelper"));
-		assertThat(this.context.getBeansOfType(UrlPathHelper.class)).containsOnlyKeys(
-				"mvcUrlPathHelper", "testUrlPathHelper");
+		assertThat(this.context.getBeansOfType(UrlPathHelper.class)).containsOnlyKeys("mvcUrlPathHelper",
+				"testUrlPathHelper");
 	}
 
 	@Test
 	void requestMappingHandlerAdapterUsesMvcInfrastructureByDefault() {
-		load(context -> { });
+		load(context -> {
+		});
 		RequestMappingHandlerAdapter mappingHandlerAdapter = this.context.getBean(RequestMappingHandlerAdapter.class);
-		assertThat(mappingHandlerAdapter).hasFieldOrPropertyWithValue(
-				"contentNegotiationManager", this.context.getBean("mvcContentNegotiationManager"));
-		assertThat(mappingHandlerAdapter.getWebBindingInitializer()).hasFieldOrPropertyWithValue(
-				"conversionService", this.context.getBean("mvcConversionService"));
-		assertThat(mappingHandlerAdapter.getWebBindingInitializer()).hasFieldOrPropertyWithValue(
-				"validator", this.context.getBean("mvcValidator"));
+		assertThat(mappingHandlerAdapter).hasFieldOrPropertyWithValue("contentNegotiationManager",
+				this.context.getBean("mvcContentNegotiationManager"));
+		assertThat(mappingHandlerAdapter.getWebBindingInitializer()).hasFieldOrPropertyWithValue("conversionService",
+				this.context.getBean("mvcConversionService"));
+		assertThat(mappingHandlerAdapter.getWebBindingInitializer()).hasFieldOrPropertyWithValue("validator",
+				this.context.getBean("mvcValidator"));
 	}
 
 	@Test
 	void requestMappingHandlerAdapterWithPrimaryUsesQualifiedContentNegotiationManager() {
 		load(registerPrimaryBean("testContentNegotiationManager", ContentNegotiationManager.class));
 		RequestMappingHandlerAdapter mappingHandlerAdapter = this.context.getBean(RequestMappingHandlerAdapter.class);
-		assertThat(mappingHandlerAdapter).hasFieldOrPropertyWithValue(
-				"contentNegotiationManager", this.context.getBean("mvcContentNegotiationManager"));
-		assertThat(this.context.getBeansOfType(ContentNegotiationManager.class)).containsOnlyKeys(
-				"mvcContentNegotiationManager", "testContentNegotiationManager");
+		assertThat(mappingHandlerAdapter).hasFieldOrPropertyWithValue("contentNegotiationManager",
+				this.context.getBean("mvcContentNegotiationManager"));
+		assertThat(this.context.getBeansOfType(ContentNegotiationManager.class))
+				.containsOnlyKeys("mvcContentNegotiationManager", "testContentNegotiationManager");
 	}
 
 	@Test
 	void requestMappingHandlerAdapterWithPrimaryUsesQualifiedConversionService() {
 		load(registerPrimaryBean("testConversionService", ConversionService.class));
 		RequestMappingHandlerAdapter mappingHandlerAdapter = this.context.getBean(RequestMappingHandlerAdapter.class);
-		assertThat(mappingHandlerAdapter.getWebBindingInitializer()).hasFieldOrPropertyWithValue(
-				"conversionService", this.context.getBean("mvcConversionService"));
-		assertThat(this.context.getBeansOfType(ConversionService.class)).containsOnlyKeys("mvcConversionService", "testConversionService");
+		assertThat(mappingHandlerAdapter.getWebBindingInitializer()).hasFieldOrPropertyWithValue("conversionService",
+				this.context.getBean("mvcConversionService"));
+		assertThat(this.context.getBeansOfType(ConversionService.class)).containsOnlyKeys("mvcConversionService",
+				"testConversionService");
 	}
 
 	@Test
 	void requestMappingHandlerAdapterWithPrimaryUsesQualifiedValidator() {
 		load(registerPrimaryBean("testValidator", Validator.class));
 		RequestMappingHandlerAdapter mappingHandlerAdapter = this.context.getBean(RequestMappingHandlerAdapter.class);
-		assertThat(mappingHandlerAdapter.getWebBindingInitializer()).hasFieldOrPropertyWithValue(
-				"validator", this.context.getBean("mvcValidator"));
+		assertThat(mappingHandlerAdapter.getWebBindingInitializer()).hasFieldOrPropertyWithValue("validator",
+				this.context.getBean("mvcValidator"));
 		assertThat(this.context.getBeansOfType(Validator.class)).containsOnlyKeys("mvcValidator", "testValidator");
 	}
 
 	private <T> Consumer<GenericWebApplicationContext> registerPrimaryBean(String beanName, Class<T> type) {
-		return context -> context.registerBean(beanName, type, () -> mock(type), definition -> definition.setPrimary(true));
+		return context -> context.registerBean(beanName, type, () -> mock(type),
+				definition -> definition.setPrimary(true));
 	}
 
 	private void load(Consumer<GenericWebApplicationContext> context) {
@@ -188,6 +200,7 @@ public class DelegatingWebMvcConfigurationIntegrationTests {
 		public void addViewControllers(ViewControllerRegistry registry) {
 			registry.addViewController("/test");
 		}
+
 	}
 
 	@Configuration
@@ -197,5 +210,7 @@ public class DelegatingWebMvcConfigurationIntegrationTests {
 		public void addResourceHandlers(ResourceHandlerRegistry registry) {
 			registry.addResourceHandler("/resources/**");
 		}
+
 	}
+
 }

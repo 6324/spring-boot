@@ -69,7 +69,7 @@ public class ServerHttpRequestTests {
 		assertThat(params.get("a")).isEqualTo(Arrays.asList("1", "2"));
 	}
 
-	@Test  // SPR-15140
+	@Test // SPR-15140
 	public void queryParamsWithEncodedValue() throws Exception {
 		MultiValueMap<String, String> params = createHttpRequest("/path?a=%20%2B+%C3%A0").getQueryParams();
 		assertThat(params.size()).isEqualTo(1);
@@ -114,11 +114,10 @@ public class ServerHttpRequestTests {
 
 	@Test
 	public void mutateWithInvalidPath() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				createHttpRequest("/").mutate().path("foo-bar"));
+		assertThatIllegalArgumentException().isThrownBy(() -> createHttpRequest("/").mutate().path("foo-bar"));
 	}
 
-	@Test  // SPR-16434
+	@Test // SPR-16434
 	public void mutatePathWithEncodedQueryParams() throws Exception {
 		ServerHttpRequest request = createHttpRequest("/path?name=%E6%89%8E%E6%A0%B9");
 		request = request.mutate().path("/mutatedPath").build();
@@ -183,8 +182,7 @@ public class ServerHttpRequestTests {
 	void mutateContextPathWithoutUpdatingPathShouldFail() throws Exception {
 		ServerHttpRequest request = createHttpRequest("/context/path", "/context");
 
-		assertThatThrownBy(() -> request.mutate().path("/fail").build())
-				.isInstanceOf(IllegalArgumentException.class)
+		assertThatThrownBy(() -> request.mutate().path("/fail").build()).isInstanceOf(IllegalArgumentException.class)
 				.hasMessage("Invalid contextPath '/context': must match the start of requestPath: '/fail'");
 	}
 
@@ -227,6 +225,7 @@ public class ServerHttpRequestTests {
 				}
 			};
 		}
+
 	}
 
 }

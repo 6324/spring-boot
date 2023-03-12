@@ -32,7 +32,6 @@ public class TagWriterTests {
 
 	private final TagWriter writer = new TagWriter(this.data);
 
-
 	@Test
 	public void simpleTag() throws Exception {
 		this.writer.startTag("br");
@@ -99,7 +98,8 @@ public class TagWriterTests {
 		}
 		this.writer.endTag();
 
-		assertThat(this.data.toString()).isEqualTo("<span class=\"highlight\"><strong>Rob</strong> <emphasis>Harrop</emphasis></span>");
+		assertThat(this.data.toString())
+				.isEqualTo("<span class=\"highlight\"><strong>Rob</strong> <emphasis>Harrop</emphasis></span>");
 	}
 
 	@Test

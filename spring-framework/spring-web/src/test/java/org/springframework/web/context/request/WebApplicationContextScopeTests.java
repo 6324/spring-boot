@@ -37,7 +37,6 @@ public class WebApplicationContextScopeTests {
 
 	private static final String NAME = "scoped";
 
-
 	private WebApplicationContext initApplicationContext(String scope) {
 		MockServletContext sc = new MockServletContext();
 		GenericWebApplicationContext ac = new GenericWebApplicationContext(sc);

@@ -48,16 +48,15 @@ public class ServletResponseMethodArgumentResolver implements HandlerMethodArgum
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		Class<?> paramType = parameter.getParameterType();
-		return (ServletResponse.class.isAssignableFrom(paramType) ||
-				OutputStream.class.isAssignableFrom(paramType) ||
-				Writer.class.isAssignableFrom(paramType));
+		return (ServletResponse.class.isAssignableFrom(paramType) || OutputStream.class.isAssignableFrom(paramType)
+				|| Writer.class.isAssignableFrom(paramType));
 	}
 
 	/**
-	 * Set {@link ModelAndViewContainer#setRequestHandled(boolean)} to
-	 * {@code false} to indicate that the method signature provides access
-	 * to the response. If subsequently the underlying method returns
-	 * {@code null}, the request is considered directly handled.
+	 * Set {@link ModelAndViewContainer#setRequestHandled(boolean)} to {@code false} to
+	 * indicate that the method signature provides access to the response. If subsequently
+	 * the underlying method returns {@code null}, the request is considered directly
+	 * handled.
 	 */
 	@Override
 	public Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,

@@ -48,12 +48,13 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link org.aopalliance.intercept.MethodInterceptor} for accessing a
- * specific port of a JAX-WS service.
+ * {@link org.aopalliance.intercept.MethodInterceptor} for accessing a specific port of a
+ * JAX-WS service.
  *
- * <p>Uses either {@link LocalJaxWsServiceFactory}'s facilities underneath,
- * or takes an explicit reference to an existing JAX-WS Service instance
- * (e.g. obtained via {@link org.springframework.jndi.JndiObjectFactoryBean}).
+ * <p>
+ * Uses either {@link LocalJaxWsServiceFactory}'s facilities underneath, or takes an
+ * explicit reference to an existing JAX-WS Service instance (e.g. obtained via
+ * {@link org.springframework.jndi.JndiObjectFactoryBean}).
  *
  * @author Juergen Hoeller
  * @since 2.5
@@ -110,11 +111,10 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 
 	private final Object preparationMonitor = new Object();
 
-
 	/**
-	 * Set a reference to an existing JAX-WS Service instance,
-	 * for example obtained via {@link org.springframework.jndi.JndiObjectFactoryBean}.
-	 * If not set, {@link LocalJaxWsServiceFactory}'s properties have to be specified.
+	 * Set a reference to an existing JAX-WS Service instance, for example obtained via
+	 * {@link org.springframework.jndi.JndiObjectFactoryBean}. If not set,
+	 * {@link LocalJaxWsServiceFactory}'s properties have to be specified.
 	 * @see #setWsdlDocumentUrl
 	 * @see #setNamespaceUri
 	 * @see #setServiceName
@@ -133,8 +133,7 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	}
 
 	/**
-	 * Set the name of the port.
-	 * Corresponds to the "wsdl:port" name.
+	 * Set the name of the port. Corresponds to the "wsdl:port" name.
 	 */
 	public void setPortName(@Nullable String portName) {
 		this.portName = portName;
@@ -244,8 +243,9 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 
 	/**
 	 * Set custom properties to be set on the stub.
-	 * <p>Can be populated with a String "value" (parsed via PropertiesEditor)
-	 * or a "props" element in XML bean definitions.
+	 * <p>
+	 * Can be populated with a String "value" (parsed via PropertiesEditor) or a "props"
+	 * element in XML bean definitions.
 	 * @see javax.xml.ws.BindingProvider#getRequestContext()
 	 */
 	public void setCustomProperties(Map<String, Object> customProperties) {
@@ -253,11 +253,12 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	}
 
 	/**
-	 * Allow Map access to the custom properties to be set on the stub,
-	 * with the option to add or override specific entries.
-	 * <p>Useful for specifying entries directly, for example via
-	 * "customProperties[myKey]". This is particularly useful for
-	 * adding or overriding entries in child bean definitions.
+	 * Allow Map access to the custom properties to be set on the stub, with the option to
+	 * add or override specific entries.
+	 * <p>
+	 * Useful for specifying entries directly, for example via "customProperties[myKey]".
+	 * This is particularly useful for adding or overriding entries in child bean
+	 * definitions.
 	 */
 	public Map<String, Object> getCustomProperties() {
 		if (this.customProperties == null) {
@@ -277,8 +278,8 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	}
 
 	/**
-	 * Specify WebServiceFeature objects (e.g. as inner bean definitions)
-	 * to apply to JAX-WS port stub creation.
+	 * Specify WebServiceFeature objects (e.g. as inner bean definitions) to apply to
+	 * JAX-WS port stub creation.
 	 * @since 4.0
 	 * @see Service#getPort(Class, javax.xml.ws.WebServiceFeature...)
 	 * @see #setServiceFeatures
@@ -307,17 +308,17 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 
 	/**
 	 * Set whether to look up the JAX-WS service on startup.
-	 * <p>Default is "true". Turn this flag off to allow for late start
-	 * of the target server. In this case, the JAX-WS service will be
-	 * lazily fetched on first access.
+	 * <p>
+	 * Default is "true". Turn this flag off to allow for late start of the target server.
+	 * In this case, the JAX-WS service will be lazily fetched on first access.
 	 */
 	public void setLookupServiceOnStartup(boolean lookupServiceOnStartup) {
 		this.lookupServiceOnStartup = lookupServiceOnStartup;
 	}
 
 	/**
-	 * Set the bean ClassLoader to use for this interceptor: primarily for
-	 * building a client proxy in the {@link JaxWsPortProxyFactoryBean} subclass.
+	 * Set the bean ClassLoader to use for this interceptor: primarily for building a
+	 * client proxy in the {@link JaxWsPortProxyFactoryBean} subclass.
 	 */
 	@Override
 	public void setBeanClassLoader(@Nullable ClassLoader classLoader) {
@@ -331,7 +332,6 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	protected ClassLoader getBeanClassLoader() {
 		return this.beanClassLoader;
 	}
-
 
 	@Override
 	public void afterPropertiesSet() {
@@ -364,10 +364,10 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	}
 
 	/**
-	 * Initialize this client interceptor's properties from the given WebService annotation,
-	 * if necessary and possible (i.e. if "wsdlDocumentUrl", "namespaceUri", "serviceName"
-	 * and "portName" haven't been set but corresponding values are declared at the
-	 * annotation level of the specified service interface).
+	 * Initialize this client interceptor's properties from the given WebService
+	 * annotation, if necessary and possible (i.e. if "wsdlDocumentUrl", "namespaceUri",
+	 * "serviceName" and "portName" haven't been set but corresponding values are declared
+	 * at the annotation level of the specified service interface).
 	 * @param ann the WebService annotation found on the specified service interface
 	 */
 	protected void applyDefaultsFromAnnotation(WebService ann) {
@@ -378,8 +378,8 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 					setWsdlDocumentUrl(new URL(wsdl));
 				}
 				catch (MalformedURLException ex) {
-					throw new IllegalStateException(
-							"Encountered invalid @Service wsdlLocation value [" + wsdl + "]", ex);
+					throw new IllegalStateException("Encountered invalid @Service wsdlLocation value [" + wsdl + "]",
+							ex);
 				}
 			}
 		}
@@ -404,8 +404,8 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	}
 
 	/**
-	 * Return whether this client interceptor has already been prepared,
-	 * i.e. has already looked up the JAX-WS service and port.
+	 * Return whether this client interceptor has already been prepared, i.e. has already
+	 * looked up the JAX-WS service and port.
 	 */
 	protected boolean isPrepared() {
 		synchronized (this.preparationMonitor) {
@@ -427,23 +427,22 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 	 * Obtain the port stub from the given JAX-WS Service.
 	 * @param service the Service object to obtain the port from
 	 * @param portQName the name of the desired port, if specified
-	 * @return the corresponding port object as returned from
-	 * {@code Service.getPort(...)}
+	 * @return the corresponding port object as returned from {@code Service.getPort(...)}
 	 */
 	protected Object getPortStub(Service service, @Nullable QName portQName) {
 		if (this.portFeatures != null) {
-			return (portQName != null ? service.getPort(portQName, getServiceInterface(), this.portFeatures) :
-					service.getPort(getServiceInterface(), this.portFeatures));
+			return (portQName != null ? service.getPort(portQName, getServiceInterface(), this.portFeatures)
+					: service.getPort(getServiceInterface(), this.portFeatures));
 		}
 		else {
-			return (portQName != null ? service.getPort(portQName, getServiceInterface()) :
-					service.getPort(getServiceInterface()));
+			return (portQName != null ? service.getPort(portQName, getServiceInterface())
+					: service.getPort(getServiceInterface()));
 		}
 	}
 
 	/**
-	 * Prepare the given JAX-WS port stub, applying properties to it.
-	 * Called by {@link #prepare}.
+	 * Prepare the given JAX-WS port stub, applying properties to it. Called by
+	 * {@link #prepare}.
 	 * @param stub the current JAX-WS port stub
 	 * @see #setUsername
 	 * @see #setPassword
@@ -478,22 +477,21 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 		stubProperties.putAll(getCustomProperties());
 		if (!stubProperties.isEmpty()) {
 			if (!(stub instanceof BindingProvider)) {
-				throw new RemoteLookupFailureException("Port stub of class [" + stub.getClass().getName() +
-						"] is not a customizable JAX-WS stub: it does not implement interface [javax.xml.ws.BindingProvider]");
+				throw new RemoteLookupFailureException("Port stub of class [" + stub.getClass().getName()
+						+ "] is not a customizable JAX-WS stub: it does not implement interface [javax.xml.ws.BindingProvider]");
 			}
 			((BindingProvider) stub).getRequestContext().putAll(stubProperties);
 		}
 	}
 
 	/**
-	 * Return the underlying JAX-WS port stub that this interceptor delegates to
-	 * for each method invocation on the proxy.
+	 * Return the underlying JAX-WS port stub that this interceptor delegates to for each
+	 * method invocation on the proxy.
 	 */
 	@Nullable
 	protected Object getPortStub() {
 		return this.portStub;
 	}
-
 
 	@Override
 	@Nullable
@@ -531,8 +529,7 @@ public class JaxWsPortClientInterceptor extends LocalJaxWsServiceFactory
 					"Could not connect to remote service [" + getEndpointAddress() + "]", ex);
 		}
 		catch (WebServiceException ex) {
-			throw new RemoteAccessException(
-					"Could not access remote service at [" + getEndpointAddress() + "]", ex);
+			throw new RemoteAccessException("Could not access remote service at [" + getEndpointAddress() + "]", ex);
 		}
 	}
 

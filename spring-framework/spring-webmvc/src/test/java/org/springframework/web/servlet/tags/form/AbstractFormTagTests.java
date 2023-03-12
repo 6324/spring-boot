@@ -30,7 +30,6 @@ public abstract class AbstractFormTagTests extends AbstractHtmlElementTagTests {
 
 	private FormTag formTag = new FormTag();
 
-
 	@Override
 	protected void extendRequest(MockHttpServletRequest request) {
 		request.setAttribute(COMMAND_NAME, createTestBean());

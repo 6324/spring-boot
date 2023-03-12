@@ -63,18 +63,20 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * {@code HttpMessageReader} for parsing {@code "multipart/form-data"} requests
- * to a stream of {@link Part}'s using the Synchronoss NIO Multipart library.
+ * {@code HttpMessageReader} for parsing {@code "multipart/form-data"} requests to a
+ * stream of {@link Part}'s using the Synchronoss NIO Multipart library.
  *
- * <p>This reader can be provided to {@link MultipartHttpMessageReader} in order
- * to aggregate all parts into a Map.
+ * <p>
+ * This reader can be provided to {@link MultipartHttpMessageReader} in order to aggregate
+ * all parts into a Map.
  *
  * @author Sebastien Deleuze
  * @author Rossen Stoyanchev
  * @author Arjen Poutsma
  * @author Brian Clozel
  * @since 5.0
- * @see <a href="https://github.com/synchronoss/nio-multipart">Synchronoss NIO Multipart</a>
+ * @see <a href="https://github.com/synchronoss/nio-multipart">Synchronoss NIO
+ * Multipart</a>
  * @see MultipartHttpMessageReader
  */
 public class SynchronossPartHttpMessageReader extends LoggingCodecSupport implements HttpMessageReader<Part> {
@@ -82,25 +84,24 @@ public class SynchronossPartHttpMessageReader extends LoggingCodecSupport implem
 	// Static DataBufferFactory to copy from FileInputStream or wrap bytes[].
 	private static final DataBufferFactory bufferFactory = new DefaultDataBufferFactory();
 
-
 	private int maxInMemorySize = 256 * 1024;
 
 	private long maxDiskUsagePerPart = -1;
 
 	private int maxParts = -1;
 
-
 	/**
-	 * Configure the maximum amount of memory that is allowed to use per part.
-	 * When the limit is exceeded:
+	 * Configure the maximum amount of memory that is allowed to use per part. When the
+	 * limit is exceeded:
 	 * <ul>
 	 * <li>file parts are written to a temporary file.
 	 * <li>non-file parts are rejected with {@link DataBufferLimitException}.
 	 * </ul>
-	 * <p>By default this is set to 256K.
-	 * @param byteCount the in-memory limit in bytes; if set to -1 this limit is
-	 * not enforced, and all parts may be written to disk and are limited only
-	 * by the {@link #setMaxDiskUsagePerPart(long) maxDiskUsagePerPart} property.
+	 * <p>
+	 * By default this is set to 256K.
+	 * @param byteCount the in-memory limit in bytes; if set to -1 this limit is not
+	 * enforced, and all parts may be written to disk and are limited only by the
+	 * {@link #setMaxDiskUsagePerPart(long) maxDiskUsagePerPart} property.
 	 * @since 5.1.11
 	 */
 	public void setMaxInMemorySize(int byteCount) {
@@ -117,7 +118,8 @@ public class SynchronossPartHttpMessageReader extends LoggingCodecSupport implem
 
 	/**
 	 * Configure the maximum amount of disk space allowed for file parts.
-	 * <p>By default this is set to -1.
+	 * <p>
+	 * By default this is set to -1.
 	 * @param maxDiskUsagePerPart the disk limit in bytes, or -1 for unlimited
 	 * @since 5.1.11
 	 */
@@ -149,7 +151,6 @@ public class SynchronossPartHttpMessageReader extends LoggingCodecSupport implem
 		return this.maxParts;
 	}
 
-
 	@Override
 	public List<MediaType> getReadableMediaTypes() {
 		return MultipartHttpMessageReader.MIME_TYPES;
@@ -172,26 +173,25 @@ public class SynchronossPartHttpMessageReader extends LoggingCodecSupport implem
 
 	@Override
 	public Flux<Part> read(ResolvableType elementType, ReactiveHttpInputMessage message, Map<String, Object> hints) {
-		return Flux.create(new SynchronossPartGenerator(message))
-				.doOnNext(part -> {
-					if (!Hints.isLoggingSuppressed(hints)) {
-						LogFormatUtils.traceDebug(logger, traceOn -> Hints.getLogPrefix(hints) + "Parsed " +
-								(isEnableLoggingRequestDetails() ?
-										LogFormatUtils.formatValue(part, !traceOn) :
-										"parts '" + part.name() + "' (content masked)"));
-					}
-				});
+		return Flux.create(new SynchronossPartGenerator(message)).doOnNext(part -> {
+			if (!Hints.isLoggingSuppressed(hints)) {
+				LogFormatUtils.traceDebug(logger,
+						traceOn -> Hints.getLogPrefix(hints) + "Parsed "
+								+ (isEnableLoggingRequestDetails() ? LogFormatUtils.formatValue(part, !traceOn)
+										: "parts '" + part.name() + "' (content masked)"));
+			}
+		});
 	}
 
 	@Override
-	public Mono<Part> readMono(ResolvableType elementType, ReactiveHttpInputMessage message, Map<String, Object> hints) {
+	public Mono<Part> readMono(ResolvableType elementType, ReactiveHttpInputMessage message,
+			Map<String, Object> hints) {
 		return Mono.error(new UnsupportedOperationException("Cannot read multipart request body into single Part"));
 	}
 
-
 	/**
-	 * Subscribe to the input stream and feed the Synchronoss parser. Then listen
-	 * for parser output, creating parts, and pushing them into the FluxSink.
+	 * Subscribe to the input stream and feed the Synchronoss parser. Then listen for
+	 * parser output, creating parts, and pushing them into the FluxSink.
 	 */
 	private class SynchronossPartGenerator extends BaseSubscriber<DataBuffer> implements Consumer<FluxSink<Part>> {
 
@@ -221,9 +221,7 @@ public class SynchronossPartHttpMessageReader extends LoggingCodecSupport implem
 
 			this.listener = new FluxSinkAdapterListener(sink, context, this.storageFactory);
 
-			this.parser = Multipart
-					.multipart(context)
-					.usePartBodyStreamStorageFactory(this.storageFactory)
+			this.parser = Multipart.multipart(context).usePartBodyStreamStorageFactory(this.storageFactory)
 					.forNIO(this.listener);
 
 			this.inputMessage.getBody().subscribe(this);
@@ -283,14 +281,13 @@ public class SynchronossPartHttpMessageReader extends LoggingCodecSupport implem
 			long length = headers.getContentLength();
 			return (int) length == length ? (int) length : -1;
 		}
-	}
 
+	}
 
 	private class LimitedPartBodyStreamStorageFactory implements PartBodyStreamStorageFactory {
 
-		private final PartBodyStreamStorageFactory storageFactory = (maxInMemorySize > 0 ?
-				new DefaultPartBodyStreamStorageFactory(maxInMemorySize) :
-				new DefaultPartBodyStreamStorageFactory());
+		private final PartBodyStreamStorageFactory storageFactory = (maxInMemorySize > 0
+				? new DefaultPartBodyStreamStorageFactory(maxInMemorySize) : new DefaultPartBodyStreamStorageFactory());
 
 		private int index = 1;
 
@@ -316,12 +313,12 @@ public class SynchronossPartHttpMessageReader extends LoggingCodecSupport implem
 		public void increaseByteCount(long byteCount) {
 			this.partSize += byteCount;
 			if (maxInMemorySize > 0 && !this.isFilePart && this.partSize >= maxInMemorySize) {
-				throw new DataBufferLimitException("Part[" + this.index + "] " +
-						"exceeded the in-memory limit of " + maxInMemorySize + " bytes");
+				throw new DataBufferLimitException(
+						"Part[" + this.index + "] " + "exceeded the in-memory limit of " + maxInMemorySize + " bytes");
 			}
 			if (maxDiskUsagePerPart > 0 && this.isFilePart && this.partSize > maxDiskUsagePerPart) {
-				throw new DecodingException("Part[" + this.index + "] " +
-						"exceeded the disk usage limit of " + maxDiskUsagePerPart + " bytes");
+				throw new DecodingException("Part[" + this.index + "] " + "exceeded the disk usage limit of "
+						+ maxDiskUsagePerPart + " bytes");
 			}
 		}
 
@@ -330,8 +327,8 @@ public class SynchronossPartHttpMessageReader extends LoggingCodecSupport implem
 			this.isFilePart = false;
 			this.partSize = 0;
 		}
-	}
 
+	}
 
 	/**
 	 * Listen for parser output and adapt to {@code Flux<Sink<Part>>}.
@@ -346,8 +343,8 @@ public class SynchronossPartHttpMessageReader extends LoggingCodecSupport implem
 
 		private final AtomicInteger terminated = new AtomicInteger(0);
 
-		FluxSinkAdapterListener(
-				FluxSink<Part> sink, MultipartContext context, LimitedPartBodyStreamStorageFactory factory) {
+		FluxSinkAdapterListener(FluxSink<Part> sink, MultipartContext context,
+				LimitedPartBodyStreamStorageFactory factory) {
 
 			this.sink = sink;
 			this.context = context;
@@ -397,8 +394,8 @@ public class SynchronossPartHttpMessageReader extends LoggingCodecSupport implem
 		@Override
 		public void onNestedPartFinished() {
 		}
-	}
 
+	}
 
 	private abstract static class AbstractSynchronossPart implements Part {
 
@@ -426,8 +423,8 @@ public class SynchronossPartHttpMessageReader extends LoggingCodecSupport implem
 		public String toString() {
 			return "Part '" + this.name + "', headers=" + this.headers;
 		}
-	}
 
+	}
 
 	private static class SynchronossPart extends AbstractSynchronossPart {
 
@@ -447,13 +444,13 @@ public class SynchronossPartHttpMessageReader extends LoggingCodecSupport implem
 		protected StreamStorage getStorage() {
 			return this.storage;
 		}
-	}
 
+	}
 
 	private static class SynchronossFilePart extends SynchronossPart implements FilePart {
 
-		private static final OpenOption[] FILE_CHANNEL_OPTIONS =
-				{StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE};
+		private static final OpenOption[] FILE_CHANNEL_OPTIONS = { StandardOpenOption.CREATE,
+				StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE };
 
 		private final String filename;
 
@@ -510,8 +507,8 @@ public class SynchronossPartHttpMessageReader extends LoggingCodecSupport implem
 		public String toString() {
 			return "Part '" + name() + "', filename='" + this.filename + "'";
 		}
-	}
 
+	}
 
 	private static class SynchronossFormFieldPart extends AbstractSynchronossPart implements FormFieldPart {
 
@@ -542,6 +539,7 @@ public class SynchronossPartHttpMessageReader extends LoggingCodecSupport implem
 		public String toString() {
 			return "Part '" + name() + "=" + this.content + "'";
 		}
+
 	}
 
 }

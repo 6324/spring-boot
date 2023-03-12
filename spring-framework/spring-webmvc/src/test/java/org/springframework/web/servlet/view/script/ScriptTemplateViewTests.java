@@ -63,7 +63,6 @@ public class ScriptTemplateViewTests {
 
 	private StaticWebApplicationContext wac;
 
-
 	@BeforeEach
 	public void setup() {
 		this.configurer = new ScriptTemplateConfigurer();
@@ -71,7 +70,6 @@ public class ScriptTemplateViewTests {
 		this.wac.getBeanFactory().registerSingleton("scriptTemplateConfigurer", this.configurer);
 		this.view = new ScriptTemplateView();
 	}
-
 
 	@Test
 	public void missingTemplate() throws Exception {
@@ -88,9 +86,9 @@ public class ScriptTemplateViewTests {
 
 	@Test
 	public void missingScriptTemplateConfig() {
-		assertThatExceptionOfType(ApplicationContextException.class).isThrownBy(() ->
-				this.view.setApplicationContext(new StaticApplicationContext()))
-			.withMessageContaining("ScriptTemplateConfig");
+		assertThatExceptionOfType(ApplicationContextException.class)
+				.isThrownBy(() -> this.view.setApplicationContext(new StaticApplicationContext()))
+				.withMessageContaining("ScriptTemplateConfig");
 	}
 
 	@Test
@@ -174,8 +172,7 @@ public class ScriptTemplateViewTests {
 	public void nonInvocableScriptEngineWithRenderFunction() {
 		this.view.setEngine(mock(ScriptEngine.class));
 		this.view.setRenderFunction("render");
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.view.setApplicationContext(this.wac));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.view.setApplicationContext(this.wac));
 	}
 
 	@Test
@@ -183,29 +180,26 @@ public class ScriptTemplateViewTests {
 		this.view.setEngine(mock(InvocableScriptEngine.class));
 		this.view.setEngineName("test");
 		this.view.setRenderFunction("render");
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.view.setApplicationContext(this.wac))
-			.withMessageContaining("You should define either 'engine', 'engineSupplier' or 'engineName'.");
+		assertThatIllegalArgumentException().isThrownBy(() -> this.view.setApplicationContext(this.wac))
+				.withMessageContaining("You should define either 'engine', 'engineSupplier' or 'engineName'.");
 	}
 
-	@Test  // gh-23258
+	@Test // gh-23258
 	public void engineAndEngineSupplierBothDefined() {
 		ScriptEngine engine = mock(InvocableScriptEngine.class);
 		this.view.setEngineSupplier(() -> engine);
 		this.view.setEngine(engine);
 		this.view.setRenderFunction("render");
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.view.setApplicationContext(this.wac))
+		assertThatIllegalArgumentException().isThrownBy(() -> this.view.setApplicationContext(this.wac))
 				.withMessageContaining("You should define either 'engine', 'engineSupplier' or 'engineName'.");
 	}
 
-	@Test  // gh-23258
+	@Test // gh-23258
 	public void engineNameAndEngineSupplierBothDefined() {
 		this.view.setEngineSupplier(() -> mock(InvocableScriptEngine.class));
 		this.view.setEngineName("test");
 		this.view.setRenderFunction("render");
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.view.setApplicationContext(this.wac))
+		assertThatIllegalArgumentException().isThrownBy(() -> this.view.setApplicationContext(this.wac))
 				.withMessageContaining("You should define either 'engine', 'engineSupplier' or 'engineName'.");
 	}
 
@@ -214,9 +208,8 @@ public class ScriptTemplateViewTests {
 		this.view.setEngine(mock(InvocableScriptEngine.class));
 		this.view.setRenderFunction("render");
 		this.view.setSharedEngine(false);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.view.setApplicationContext(this.wac))
-			.withMessageContaining("sharedEngine");
+		assertThatIllegalArgumentException().isThrownBy(() -> this.view.setApplicationContext(this.wac))
+				.withMessageContaining("sharedEngine");
 	}
 
 	@Test // SPR-14210
@@ -266,24 +259,24 @@ public class ScriptTemplateViewTests {
 		this.view.setApplicationContext(this.wac);
 
 		this.view.render(model, request, response);
-		assertThat(response.getHeader(HttpHeaders.CONTENT_TYPE)).isEqualTo((MediaType.TEXT_HTML_VALUE + ";charset=" +
-				StandardCharsets.UTF_8));
+		assertThat(response.getHeader(HttpHeaders.CONTENT_TYPE))
+				.isEqualTo((MediaType.TEXT_HTML_VALUE + ";charset=" + StandardCharsets.UTF_8));
 
 		response = new MockHttpServletResponse();
 		this.view.setContentType(MediaType.TEXT_PLAIN_VALUE);
 		this.view.render(model, request, response);
-		assertThat(response.getHeader(HttpHeaders.CONTENT_TYPE)).isEqualTo((MediaType.TEXT_PLAIN_VALUE + ";charset=" +
-				StandardCharsets.UTF_8));
+		assertThat(response.getHeader(HttpHeaders.CONTENT_TYPE))
+				.isEqualTo((MediaType.TEXT_PLAIN_VALUE + ";charset=" + StandardCharsets.UTF_8));
 
 		response = new MockHttpServletResponse();
 		this.view.setCharset(StandardCharsets.ISO_8859_1);
 		this.view.render(model, request, response);
-		assertThat(response.getHeader(HttpHeaders.CONTENT_TYPE)).isEqualTo((MediaType.TEXT_PLAIN_VALUE + ";charset=" +
-				StandardCharsets.ISO_8859_1));
+		assertThat(response.getHeader(HttpHeaders.CONTENT_TYPE))
+				.isEqualTo((MediaType.TEXT_PLAIN_VALUE + ";charset=" + StandardCharsets.ISO_8859_1));
 
 	}
 
-	@Test  // gh-23258
+	@Test // gh-23258
 	public void engineSupplierWithSharedEngine() {
 		this.configurer.setEngineSupplier(() -> mock(InvocableScriptEngine.class));
 		this.configurer.setRenderObject("Template");
@@ -302,7 +295,7 @@ public class ScriptTemplateViewTests {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Test  // gh-23258
+	@Test // gh-23258
 	public void engineSupplierWithNonSharedEngine() {
 		this.configurer.setEngineSupplier(() -> mock(InvocableScriptEngine.class));
 		this.configurer.setRenderObject("Template");
@@ -321,6 +314,7 @@ public class ScriptTemplateViewTests {
 	}
 
 	private interface InvocableScriptEngine extends ScriptEngine, Invocable {
+
 	}
 
 }

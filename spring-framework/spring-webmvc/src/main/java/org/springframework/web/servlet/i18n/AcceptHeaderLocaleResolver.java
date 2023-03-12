@@ -29,12 +29,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.LocaleResolver;
 
 /**
- * {@link LocaleResolver} implementation that simply uses the primary locale
- * specified in the "accept-language" header of the HTTP request (that is,
- * the locale sent by the client browser, normally that of the client's OS).
+ * {@link LocaleResolver} implementation that simply uses the primary locale specified in
+ * the "accept-language" header of the HTTP request (that is, the locale sent by the
+ * client browser, normally that of the client's OS).
  *
- * <p>Note: Does not support {@code setLocale}, since the accept header
- * can only be changed through changing the client's locale settings.
+ * <p>
+ * Note: Does not support {@code setLocale}, since the accept header can only be changed
+ * through changing the client's locale settings.
  *
  * @author Juergen Hoeller
  * @author Rossen Stoyanchev
@@ -48,11 +49,10 @@ public class AcceptHeaderLocaleResolver implements LocaleResolver {
 	@Nullable
 	private Locale defaultLocale;
 
-
 	/**
-	 * Configure supported locales to check against the requested locales
-	 * determined via {@link HttpServletRequest#getLocales()}. If this is not
-	 * configured then {@link HttpServletRequest#getLocale()} is used instead.
+	 * Configure supported locales to check against the requested locales determined via
+	 * {@link HttpServletRequest#getLocales()}. If this is not configured then
+	 * {@link HttpServletRequest#getLocale()} is used instead.
 	 * @param locales the supported locales
 	 * @since 4.3
 	 */
@@ -70,10 +70,11 @@ public class AcceptHeaderLocaleResolver implements LocaleResolver {
 	}
 
 	/**
-	 * Configure a fixed default locale to fall back on if the request does not
-	 * have an "Accept-Language" header.
-	 * <p>By default this is not set in which case when there is "Accept-Language"
-	 * header, the default locale for the server is used as defined in
+	 * Configure a fixed default locale to fall back on if the request does not have an
+	 * "Accept-Language" header.
+	 * <p>
+	 * By default this is not set in which case when there is "Accept-Language" header,
+	 * the default locale for the server is used as defined in
 	 * {@link HttpServletRequest#getLocale()}.
 	 * @param defaultLocale the default locale to use
 	 * @since 4.3
@@ -84,14 +85,14 @@ public class AcceptHeaderLocaleResolver implements LocaleResolver {
 
 	/**
 	 * The configured default locale, if any.
-	 * <p>This method may be overridden in subclasses.
+	 * <p>
+	 * This method may be overridden in subclasses.
 	 * @since 4.3
 	 */
 	@Nullable
 	public Locale getDefaultLocale() {
 		return this.defaultLocale;
 	}
-
 
 	@Override
 	public Locale resolveLocale(HttpServletRequest request) {
@@ -119,15 +120,16 @@ public class AcceptHeaderLocaleResolver implements LocaleResolver {
 			Locale locale = requestLocales.nextElement();
 			if (supportedLocales.contains(locale)) {
 				if (languageMatch == null || languageMatch.getLanguage().equals(locale.getLanguage())) {
-					// Full match: language + country, possibly narrowed from earlier language-only match
+					// Full match: language + country, possibly narrowed from earlier
+					// language-only match
 					return locale;
 				}
 			}
 			else if (languageMatch == null) {
 				// Let's try to find a language-only match as a fallback
 				for (Locale candidate : supportedLocales) {
-					if (!StringUtils.hasLength(candidate.getCountry()) &&
-							candidate.getLanguage().equals(locale.getLanguage())) {
+					if (!StringUtils.hasLength(candidate.getCountry())
+							&& candidate.getLanguage().equals(locale.getLanguage())) {
 						languageMatch = candidate;
 						break;
 					}

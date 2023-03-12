@@ -66,11 +66,10 @@ class DefaultServerResponseBuilder implements ServerResponse.BodyBuilder {
 
 	private final MultiValueMap<String, Cookie> cookies = new LinkedMultiValueMap<>();
 
-
 	public DefaultServerResponseBuilder(ServerResponse other) {
 		Assert.notNull(other, "ServerResponse must not be null");
-		this.statusCode = (other instanceof AbstractServerResponse ?
-				((AbstractServerResponse) other).statusCode : other.statusCode().value());
+		this.statusCode = (other instanceof AbstractServerResponse ? ((AbstractServerResponse) other).statusCode
+				: other.statusCode().value());
 		this.headers.addAll(other.headers());
 		this.cookies.addAll(other.cookies());
 	}
@@ -183,57 +182,45 @@ class DefaultServerResponseBuilder implements ServerResponse.BodyBuilder {
 	}
 
 	@Override
-	public ServerResponse build(
-			BiFunction<HttpServletRequest, HttpServletResponse, ModelAndView> writeFunction) {
+	public ServerResponse build(BiFunction<HttpServletRequest, HttpServletResponse, ModelAndView> writeFunction) {
 
 		return new WriterFunctionResponse(this.statusCode, this.headers, this.cookies, writeFunction);
 	}
 
 	@Override
 	public ServerResponse body(Object body) {
-		return DefaultEntityResponseBuilder.fromObject(body)
-				.status(this.statusCode)
-				.headers(headers -> headers.putAll(this.headers))
-				.cookies(cookies -> cookies.addAll(this.cookies))
+		return DefaultEntityResponseBuilder.fromObject(body).status(this.statusCode)
+				.headers(headers -> headers.putAll(this.headers)).cookies(cookies -> cookies.addAll(this.cookies))
 				.build();
 	}
 
 	@Override
 	public <T> ServerResponse body(T body, ParameterizedTypeReference<T> bodyType) {
-		return DefaultEntityResponseBuilder.fromObject(body, bodyType)
-				.status(this.statusCode)
-				.headers(headers -> headers.putAll(this.headers))
-				.cookies(cookies -> cookies.addAll(this.cookies))
+		return DefaultEntityResponseBuilder.fromObject(body, bodyType).status(this.statusCode)
+				.headers(headers -> headers.putAll(this.headers)).cookies(cookies -> cookies.addAll(this.cookies))
 				.build();
 	}
 
 	@Override
 	public ServerResponse render(String name, Object... modelAttributes) {
-		return new DefaultRenderingResponseBuilder(name)
-				.status(this.statusCode)
-				.headers(headers -> headers.putAll(this.headers))
-				.cookies(cookies -> cookies.addAll(this.cookies))
-				.modelAttributes(modelAttributes)
-				.build();
+		return new DefaultRenderingResponseBuilder(name).status(this.statusCode)
+				.headers(headers -> headers.putAll(this.headers)).cookies(cookies -> cookies.addAll(this.cookies))
+				.modelAttributes(modelAttributes).build();
 	}
 
 	@Override
 	public ServerResponse render(String name, Map<String, ?> model) {
-		return new DefaultRenderingResponseBuilder(name)
-				.status(this.statusCode)
-				.headers(headers -> headers.putAll(this.headers))
-				.cookies(cookies -> cookies.addAll(this.cookies))
-				.modelAttributes(model)
-				.build();
+		return new DefaultRenderingResponseBuilder(name).status(this.statusCode)
+				.headers(headers -> headers.putAll(this.headers)).cookies(cookies -> cookies.addAll(this.cookies))
+				.modelAttributes(model).build();
 	}
-
 
 	/**
 	 * Abstract base class for {@link ServerResponse} implementations.
 	 */
 	abstract static class AbstractServerResponse implements ServerResponse {
 
-		private static final Set<HttpMethod> SAFE_METHODS =	EnumSet.of(HttpMethod.GET, HttpMethod.HEAD);
+		private static final Set<HttpMethod> SAFE_METHODS = EnumSet.of(HttpMethod.GET, HttpMethod.HEAD);
 
 		final int statusCode;
 
@@ -243,13 +230,11 @@ class DefaultServerResponseBuilder implements ServerResponse.BodyBuilder {
 
 		private final List<ErrorHandler<?>> errorHandlers = new ArrayList<>();
 
-		protected AbstractServerResponse(
-				int statusCode, HttpHeaders headers, MultiValueMap<String, Cookie> cookies) {
+		protected AbstractServerResponse(int statusCode, HttpHeaders headers, MultiValueMap<String, Cookie> cookies) {
 
 			this.statusCode = statusCode;
 			this.headers = HttpHeaders.readOnlyHttpHeaders(headers);
-			this.cookies =
-					CollectionUtils.unmodifiableMultiValueMap(new LinkedMultiValueMap<>(cookies));
+			this.cookies = CollectionUtils.unmodifiableMultiValueMap(new LinkedMultiValueMap<>(cookies));
 		}
 
 		protected <T extends ServerResponse> void addErrorHandler(Predicate<Throwable> predicate,
@@ -259,7 +244,6 @@ class DefaultServerResponseBuilder implements ServerResponse.BodyBuilder {
 			Assert.notNull(errorHandler, "ErrorHandler must not be null");
 			this.errorHandlers.add(new ErrorHandler<>(predicate, errorHandler));
 		}
-
 
 		@Override
 		public final HttpStatus statusCode() {
@@ -282,8 +266,8 @@ class DefaultServerResponseBuilder implements ServerResponse.BodyBuilder {
 		}
 
 		@Override
-		public ModelAndView writeTo(HttpServletRequest request, HttpServletResponse response,
-				Context context) throws ServletException, IOException {
+		public ModelAndView writeTo(HttpServletRequest request, HttpServletResponse response, Context context)
+				throws ServletException, IOException {
 
 			try {
 				writeStatusAndHeaders(response);
@@ -291,8 +275,8 @@ class DefaultServerResponseBuilder implements ServerResponse.BodyBuilder {
 				long lastModified = headers().getLastModified();
 				ServletWebRequest servletWebRequest = new ServletWebRequest(request, response);
 				HttpMethod httpMethod = HttpMethod.resolve(request.getMethod());
-				if (SAFE_METHODS.contains(httpMethod) &&
-						servletWebRequest.checkNotModified(headers().getETag(), lastModified)) {
+				if (SAFE_METHODS.contains(httpMethod)
+						&& servletWebRequest.checkNotModified(headers().getETag(), lastModified)) {
 					return null;
 				}
 				else {
@@ -316,38 +300,33 @@ class DefaultServerResponseBuilder implements ServerResponse.BodyBuilder {
 					servletResponse.addHeader(headerName, headerValue);
 				}
 			});
-			// HttpServletResponse exposes some headers as properties: we should include those if not already present
+			// HttpServletResponse exposes some headers as properties: we should include
+			// those if not already present
 			if (servletResponse.getContentType() == null && this.headers.getContentType() != null) {
 				servletResponse.setContentType(this.headers.getContentType().toString());
 			}
-			if (servletResponse.getCharacterEncoding() == null &&
-					this.headers.getContentType() != null &&
-					this.headers.getContentType().getCharset() != null) {
+			if (servletResponse.getCharacterEncoding() == null && this.headers.getContentType() != null
+					&& this.headers.getContentType().getCharset() != null) {
 				servletResponse.setCharacterEncoding(this.headers.getContentType().getCharset().name());
 			}
 		}
 
 		private void writeCookies(HttpServletResponse servletResponse) {
-			this.cookies.values().stream()
-					.flatMap(Collection::stream)
-					.forEach(servletResponse::addCookie);
+			this.cookies.values().stream().flatMap(Collection::stream).forEach(servletResponse::addCookie);
 		}
 
 		@Nullable
-		protected abstract ModelAndView writeToInternal(
-				HttpServletRequest request, HttpServletResponse response, Context context)
-				throws ServletException, IOException;
+		protected abstract ModelAndView writeToInternal(HttpServletRequest request, HttpServletResponse response,
+				Context context) throws ServletException, IOException;
 
 		@Nullable
 		protected ModelAndView handleError(Throwable t, HttpServletRequest servletRequest,
 				HttpServletResponse servletResponse, Context context) {
 
-			return this.errorHandlers.stream()
-					.filter(errorHandler -> errorHandler.test(t))
-					.findFirst()
+			return this.errorHandlers.stream().filter(errorHandler -> errorHandler.test(t)).findFirst()
 					.map(errorHandler -> {
-						ServerRequest serverRequest = (ServerRequest)
-								servletRequest.getAttribute(RouterFunctions.REQUEST_ATTRIBUTE);
+						ServerRequest serverRequest = (ServerRequest) servletRequest
+								.getAttribute(RouterFunctions.REQUEST_ATTRIBUTE);
 						ServerResponse serverResponse = errorHandler.handle(t, serverRequest);
 						try {
 							return serverResponse.writeTo(servletRequest, servletResponse, context);
@@ -358,17 +337,14 @@ class DefaultServerResponseBuilder implements ServerResponse.BodyBuilder {
 						catch (IOException ex) {
 							throw new UncheckedIOException(ex);
 						}
-					})
-					.orElseThrow(() -> new IllegalStateException(t));
+					}).orElseThrow(() -> new IllegalStateException(t));
 		}
-
 
 		private static class ErrorHandler<T extends ServerResponse> {
 
 			private final Predicate<Throwable> predicate;
 
-			private final BiFunction<Throwable, ServerRequest, T>
-					responseProvider;
+			private final BiFunction<Throwable, ServerRequest, T> responseProvider;
 
 			public ErrorHandler(Predicate<Throwable> predicate,
 					BiFunction<Throwable, ServerRequest, T> responseProvider) {
@@ -386,16 +362,16 @@ class DefaultServerResponseBuilder implements ServerResponse.BodyBuilder {
 			public T handle(Throwable t, ServerRequest serverRequest) {
 				return this.responseProvider.apply(t, serverRequest);
 			}
-		}
-	}
 
+		}
+
+	}
 
 	private static class WriterFunctionResponse extends AbstractServerResponse {
 
 		private final BiFunction<HttpServletRequest, HttpServletResponse, ModelAndView> writeFunction;
 
-		public WriterFunctionResponse(
-				int statusCode, HttpHeaders headers, MultiValueMap<String, Cookie> cookies,
+		public WriterFunctionResponse(int statusCode, HttpHeaders headers, MultiValueMap<String, Cookie> cookies,
 				BiFunction<HttpServletRequest, HttpServletResponse, ModelAndView> writeFunction) {
 
 			super(statusCode, headers, cookies);
@@ -404,11 +380,12 @@ class DefaultServerResponseBuilder implements ServerResponse.BodyBuilder {
 		}
 
 		@Override
-		protected ModelAndView writeToInternal(
-				HttpServletRequest request, HttpServletResponse response, Context context) {
+		protected ModelAndView writeToInternal(HttpServletRequest request, HttpServletResponse response,
+				Context context) {
 
 			return this.writeFunction.apply(request, response);
 		}
+
 	}
 
 }

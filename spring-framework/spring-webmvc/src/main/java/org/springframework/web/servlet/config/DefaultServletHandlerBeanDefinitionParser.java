@@ -34,7 +34,7 @@ import org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler
 
 /**
  * {@link BeanDefinitionParser} that parses a {@code default-servlet-handler} element to
- * register a {@link DefaultServletHttpRequestHandler}.  Will also register a
+ * register a {@link DefaultServletHttpRequestHandler}. Will also register a
  * {@link SimpleUrlHandlerMapping} for mapping resource requests, and a
  * {@link HttpRequestHandlerAdapter}.
  *
@@ -58,7 +58,8 @@ class DefaultServletHandlerBeanDefinitionParser implements BeanDefinitionParser 
 		}
 		String defaultServletHandlerName = parserContext.getReaderContext().generateBeanName(defaultServletHandlerDef);
 		parserContext.getRegistry().registerBeanDefinition(defaultServletHandlerName, defaultServletHandlerDef);
-		parserContext.registerComponent(new BeanComponentDefinition(defaultServletHandlerDef, defaultServletHandlerName));
+		parserContext
+				.registerComponent(new BeanComponentDefinition(defaultServletHandlerDef, defaultServletHandlerName));
 
 		Map<String, String> urlMap = new ManagedMap<>();
 		urlMap.put("/**", defaultServletHandlerName);
@@ -72,7 +73,8 @@ class DefaultServletHandlerBeanDefinitionParser implements BeanDefinitionParser 
 		parserContext.getRegistry().registerBeanDefinition(handlerMappingBeanName, handlerMappingDef);
 		parserContext.registerComponent(new BeanComponentDefinition(handlerMappingDef, handlerMappingBeanName));
 
-		// Ensure BeanNameUrlHandlerMapping (SPR-8289) and default HandlerAdapters are not "turned off"
+		// Ensure BeanNameUrlHandlerMapping (SPR-8289) and default HandlerAdapters are not
+		// "turned off"
 		MvcNamespaceUtils.registerDefaultComponents(parserContext, source);
 
 		return null;

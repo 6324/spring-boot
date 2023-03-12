@@ -22,8 +22,8 @@ import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionBindingListener;
 
 /**
- * Adapter that implements the Servlet HttpSessionBindingListener interface,
- * wrapping a session destruction callback.
+ * Adapter that implements the Servlet HttpSessionBindingListener interface, wrapping a
+ * session destruction callback.
  *
  * @author Juergen Hoeller
  * @since 3.0
@@ -35,16 +35,14 @@ public class DestructionCallbackBindingListener implements HttpSessionBindingLis
 
 	private final Runnable destructionCallback;
 
-
 	/**
 	 * Create a new DestructionCallbackBindingListener for the given callback.
-	 * @param destructionCallback the Runnable to execute when this listener
-	 * object gets unbound from the session
+	 * @param destructionCallback the Runnable to execute when this listener object gets
+	 * unbound from the session
 	 */
 	public DestructionCallbackBindingListener(Runnable destructionCallback) {
 		this.destructionCallback = destructionCallback;
 	}
-
 
 	@Override
 	public void valueBound(HttpSessionBindingEvent event) {

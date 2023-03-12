@@ -15,10 +15,11 @@
  */
 package org.springframework.objenesis.strategy;
 
-
 /**
- * Base {@link org.springframework.objenesis..strategy.InstantiatorStrategy} class basically. Only implements {@link org.springframework.objenesis..strategy.InstantiatorStrategy}
- * 
+ * Base {@link org.springframework.objenesis..strategy.InstantiatorStrategy} class
+ * basically. Only implements
+ * {@link org.springframework.objenesis..strategy.InstantiatorStrategy}
+ *
  * @author Henri Tremblay
  */
 public abstract class BaseInstantiatorStrategy implements InstantiatorStrategy {

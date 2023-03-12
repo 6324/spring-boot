@@ -34,13 +34,14 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * The default implementation of {@link CorsProcessor},
- * as defined by the <a href="https://www.w3.org/TR/cors/">CORS W3C recommendation</a>.
+ * The default implementation of {@link CorsProcessor}, as defined by the
+ * <a href="https://www.w3.org/TR/cors/">CORS W3C recommendation</a>.
  *
- * <p>Note that when input {@link CorsConfiguration} is {@code null}, this
- * implementation does not reject simple or actual requests outright but simply
- * avoid adding CORS headers to the response. CORS processing is also skipped
- * if the response already contains CORS headers.
+ * <p>
+ * Note that when input {@link CorsConfiguration} is {@code null}, this implementation
+ * does not reject simple or actual requests outright but simply avoid adding CORS headers
+ * to the response. CORS processing is also skipped if the response already contains CORS
+ * headers.
  *
  * @author Sebastien Deleuze
  * @author Rossen Stoyanchev
@@ -50,9 +51,8 @@ public class DefaultCorsProcessor implements CorsProcessor {
 
 	private static final Log logger = LogFactory.getLog(DefaultCorsProcessor.class);
 
-	private static final List<String> VARY_HEADERS = Arrays.asList(
-			HttpHeaders.ORIGIN, HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS);
-
+	private static final List<String> VARY_HEADERS = Arrays.asList(HttpHeaders.ORIGIN,
+			HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS);
 
 	@Override
 	public boolean process(@Nullable CorsConfiguration config, ServerWebExchange exchange) {
@@ -106,8 +106,7 @@ public class DefaultCorsProcessor implements CorsProcessor {
 	/**
 	 * Handle the given request.
 	 */
-	protected boolean handleInternal(ServerWebExchange exchange,
-			CorsConfiguration config, boolean preFlightRequest) {
+	protected boolean handleInternal(ServerWebExchange exchange, CorsConfiguration config, boolean preFlightRequest) {
 
 		ServerHttpRequest request = exchange.getRequest();
 		ServerHttpResponse response = exchange.getResponse();
@@ -164,8 +163,7 @@ public class DefaultCorsProcessor implements CorsProcessor {
 
 	/**
 	 * Check the origin and determine the origin for the response. The default
-	 * implementation simply delegates to
-	 * {@link CorsConfiguration#checkOrigin(String)}.
+	 * implementation simply delegates to {@link CorsConfiguration#checkOrigin(String)}.
 	 */
 	@Nullable
 	protected String checkOrigin(CorsConfiguration config, @Nullable String requestOrigin) {
@@ -173,8 +171,8 @@ public class DefaultCorsProcessor implements CorsProcessor {
 	}
 
 	/**
-	 * Check the HTTP method and determine the methods for the response of a
-	 * pre-flight request. The default implementation simply delegates to
+	 * Check the HTTP method and determine the methods for the response of a pre-flight
+	 * request. The default implementation simply delegates to
 	 * {@link CorsConfiguration#checkHttpMethod(HttpMethod)}.
 	 */
 	@Nullable
@@ -188,8 +186,8 @@ public class DefaultCorsProcessor implements CorsProcessor {
 	}
 
 	/**
-	 * Check the headers and determine the headers for the response of a
-	 * pre-flight request. The default implementation simply delegates to
+	 * Check the headers and determine the headers for the response of a pre-flight
+	 * request. The default implementation simply delegates to
 	 * {@link CorsConfiguration#checkOrigin(String)}.
 	 */
 	@Nullable

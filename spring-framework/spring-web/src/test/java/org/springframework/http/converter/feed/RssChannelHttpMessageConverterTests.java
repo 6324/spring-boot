@@ -44,7 +44,6 @@ public class RssChannelHttpMessageConverterTests {
 
 	private final RssChannelHttpMessageConverter converter = new RssChannelHttpMessageConverter();
 
-
 	@Test
 	public void canReadAndWrite() {
 		assertThat(converter.canRead(Channel.class, MediaType.APPLICATION_RSS_XML)).isTrue();
@@ -95,14 +94,10 @@ public class RssChannelHttpMessageConverterTests {
 		MockHttpOutputMessage outputMessage = new MockHttpOutputMessage();
 		converter.write(channel, null, outputMessage);
 
-		assertThat(outputMessage.getHeaders().getContentType())
-				.as("Invalid content-type")
-				.isEqualTo(RSS_XML_UTF8);
-		String expected = "<rss version=\"2.0\">" +
-				"<channel><title>title</title><link>https://example.com</link><description>description</description>" +
-				"<item><title>title1</title></item>" +
-				"<item><title>title2</title></item>" +
-				"</channel></rss>";
+		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type").isEqualTo(RSS_XML_UTF8);
+		String expected = "<rss version=\"2.0\">"
+				+ "<channel><title>title</title><link>https://example.com</link><description>description</description>"
+				+ "<item><title>title1</title></item>" + "<item><title>title2</title></item>" + "</channel></rss>";
 		assertThat(XmlContent.of(outputMessage.getBodyAsString(StandardCharsets.UTF_8)))
 				.isSimilarToIgnoringWhitespace(expected);
 	}
@@ -123,8 +118,7 @@ public class RssChannelHttpMessageConverterTests {
 		MockHttpOutputMessage outputMessage = new MockHttpOutputMessage();
 		converter.write(channel, null, outputMessage);
 
-		assertThat(outputMessage.getHeaders().getContentType())
-				.as("Invalid content-type")
+		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type")
 				.isEqualTo(new MediaType("application", "rss+xml", Charset.forName(encoding)));
 	}
 
@@ -138,11 +132,8 @@ public class RssChannelHttpMessageConverterTests {
 		MockHttpOutputMessage message = new MockHttpOutputMessage();
 		converter.write(channel, new MediaType("application", "rss+xml", singletonMap("x", "y")), message);
 
-		assertThat(message.getHeaders().getContentType().getParameters())
-				.as("Invalid content-type")
-				.hasSize(2)
-				.containsEntry("x", "y")
-				.containsEntry("charset", "UTF-8");
+		assertThat(message.getHeaders().getContentType().getParameters()).as("Invalid content-type").hasSize(2)
+				.containsEntry("x", "y").containsEntry("charset", "UTF-8");
 	}
 
 }

@@ -31,14 +31,15 @@ import org.springframework.util.Assert;
 import org.springframework.web.WebApplicationInitializer;
 
 /**
- * Base class for a {@link org.springframework.web.WebApplicationInitializer}
- * that installs a Spring Reactive Web Application on a Servlet container.
+ * Base class for a {@link org.springframework.web.WebApplicationInitializer} that
+ * installs a Spring Reactive Web Application on a Servlet container.
  *
- * <p>Spring configuration is loaded and given to
- * {@link WebHttpHandlerBuilder#applicationContext WebHttpHandlerBuilder}
- * which scans the context looking for specific beans and creates a reactive
- * {@link HttpHandler}. The resulting handler is installed as a Servlet through
- * the {@link ServletHttpHandlerAdapter}.
+ * <p>
+ * Spring configuration is loaded and given to
+ * {@link WebHttpHandlerBuilder#applicationContext WebHttpHandlerBuilder} which scans the
+ * context looking for specific beans and creates a reactive {@link HttpHandler}. The
+ * resulting handler is installed as a Servlet through the
+ * {@link ServletHttpHandlerAdapter}.
  *
  * @author Rossen Stoyanchev
  * @since 5.0.2
@@ -49,7 +50,6 @@ public abstract class AbstractReactiveWebInitializer implements WebApplicationIn
 	 * The default servlet name to use. See {@link #getServletName}.
 	 */
 	public static final String DEFAULT_SERVLET_NAME = "http-handler-adapter";
-
 
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
@@ -67,8 +67,8 @@ public abstract class AbstractReactiveWebInitializer implements WebApplicationIn
 
 		ServletRegistration.Dynamic registration = servletContext.addServlet(servletName, servlet);
 		if (registration == null) {
-			throw new IllegalStateException("Failed to register servlet with name '" + servletName + "'. " +
-					"Check if there is another servlet registered under the same name.");
+			throw new IllegalStateException("Failed to register servlet with name '" + servletName + "'. "
+					+ "Check if there is another servlet registered under the same name.");
 		}
 
 		registration.setLoadOnStartup(1);
@@ -78,15 +78,16 @@ public abstract class AbstractReactiveWebInitializer implements WebApplicationIn
 
 	/**
 	 * Return the name to use to register the {@link ServletHttpHandlerAdapter}.
-	 * <p>By default this is {@link #DEFAULT_SERVLET_NAME}.
+	 * <p>
+	 * By default this is {@link #DEFAULT_SERVLET_NAME}.
 	 */
 	protected String getServletName() {
 		return DEFAULT_SERVLET_NAME;
 	}
 
 	/**
-	 * Return the Spring configuration that contains application beans including
-	 * the ones detected by {@link WebHttpHandlerBuilder#applicationContext}.
+	 * Return the Spring configuration that contains application beans including the ones
+	 * detected by {@link WebHttpHandlerBuilder#applicationContext}.
 	 */
 	protected ApplicationContext createApplicationContext() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
@@ -98,9 +99,9 @@ public abstract class AbstractReactiveWebInitializer implements WebApplicationIn
 
 	/**
 	 * Specify {@link org.springframework.context.annotation.Configuration @Configuration}
-	 * and/or {@link org.springframework.stereotype.Component @Component}
-	 * classes that make up the application configuration. The config classes
-	 * are given to {@linkplain #createApplicationContext()}.
+	 * and/or {@link org.springframework.stereotype.Component @Component} classes that
+	 * make up the application configuration. The config classes are given to
+	 * {@linkplain #createApplicationContext()}.
 	 */
 	protected abstract Class<?>[] getConfigClasses();
 
@@ -117,11 +118,11 @@ public abstract class AbstractReactiveWebInitializer implements WebApplicationIn
 	}
 
 	/**
-	 * Register a {@link ServletContextListener} that closes the given
-	 * application context when the servlet context is destroyed.
+	 * Register a {@link ServletContextListener} that closes the given application context
+	 * when the servlet context is destroyed.
 	 * @param servletContext the servlet context to listen to
-	 * @param applicationContext the application context that is to be
-	 * closed when {@code servletContext} is destroyed
+	 * @param applicationContext the application context that is to be closed when
+	 * {@code servletContext} is destroyed
 	 */
 	protected void registerCloseListener(ServletContext servletContext, ApplicationContext applicationContext) {
 		if (applicationContext instanceof ConfigurableApplicationContext) {
@@ -132,14 +133,14 @@ public abstract class AbstractReactiveWebInitializer implements WebApplicationIn
 	}
 
 	/**
-	 * Return the Servlet mapping to use. Only the default Servlet mapping '/'
-	 * and path-based Servlet mappings such as '/api/*' are supported.
-	 * <p>By default this is set to '/'.
+	 * Return the Servlet mapping to use. Only the default Servlet mapping '/' and
+	 * path-based Servlet mappings such as '/api/*' are supported.
+	 * <p>
+	 * By default this is set to '/'.
 	 */
 	protected String getServletMapping() {
 		return "/";
 	}
-
 
 	private static class ServletContextDestroyedListener implements ServletContextListener {
 
@@ -157,6 +158,7 @@ public abstract class AbstractReactiveWebInitializer implements WebApplicationIn
 		public void contextDestroyed(ServletContextEvent sce) {
 			this.applicationContext.close();
 		}
+
 	}
 
 }

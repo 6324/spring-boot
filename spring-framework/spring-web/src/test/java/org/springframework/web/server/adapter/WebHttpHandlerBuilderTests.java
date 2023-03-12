@@ -42,11 +42,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link WebHttpHandlerBuilder}.
+ *
  * @author Rossen Stoyanchev
  */
 public class WebHttpHandlerBuilderTests {
 
-	@Test  // SPR-15074
+	@Test // SPR-15074
 	public void orderedWebFilterBeans() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 		context.register(OrderedWebFilterBeanConfig.class);
@@ -75,7 +76,7 @@ public class WebHttpHandlerBuilderTests {
 		assertThat(builder.hasForwardedHeaderTransformer()).isTrue();
 	}
 
-	@Test  // SPR-15074
+	@Test // SPR-15074
 	public void orderedWebExceptionHandlerBeans() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 		context.register(OrderedExceptionHandlerBeanConfig.class);
@@ -103,7 +104,7 @@ public class WebHttpHandlerBuilderTests {
 		assertThat(response.getBodyAsString().block(ofMillis(5000))).isEqualTo("handled");
 	}
 
-	@Test  // SPR-16972
+	@Test // SPR-16972
 	public void cloneWithApplicationContext() {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 		context.register(NoFilterConfig.class);
@@ -114,13 +115,11 @@ public class WebHttpHandlerBuilderTests {
 		assertThat(((HttpWebHandlerAdapter) builder.clone().build()).getApplicationContext()).isSameAs(context);
 	}
 
-
 	private static Mono<Void> writeToResponse(ServerWebExchange exchange, String value) {
 		byte[] bytes = value.getBytes(StandardCharsets.UTF_8);
 		DataBuffer buffer = new DefaultDataBufferFactory().wrap(bytes);
 		return exchange.getResponse().writeWith(Flux.just(buffer));
 	}
-
 
 	@Configuration
 	@SuppressWarnings("unused")
@@ -128,12 +127,14 @@ public class WebHttpHandlerBuilderTests {
 
 		private static final String ATTRIBUTE = "attr";
 
-		@Bean @Order(2)
+		@Bean
+		@Order(2)
 		public WebFilter filterA() {
 			return createFilter("FilterA");
 		}
 
-		@Bean @Order(1)
+		@Bean
+		@Order(1)
 		public WebFilter filterB() {
 			return createFilter("FilterB");
 		}
@@ -154,8 +155,8 @@ public class WebHttpHandlerBuilderTests {
 				return writeToResponse(exchange, value);
 			};
 		}
-	}
 
+	}
 
 	@Configuration
 	@SuppressWarnings("unused")
@@ -177,6 +178,7 @@ public class WebHttpHandlerBuilderTests {
 		public WebHandler webHandler() {
 			return exchange -> Mono.error(new Exception());
 		}
+
 	}
 
 	@Configuration
@@ -193,6 +195,7 @@ public class WebHttpHandlerBuilderTests {
 		public WebHandler webHandler() {
 			return exchange -> Mono.error(new Exception());
 		}
+
 	}
 
 	@Configuration
@@ -203,6 +206,7 @@ public class WebHttpHandlerBuilderTests {
 		public WebHandler webHandler() {
 			return exchange -> writeToResponse(exchange, "handled");
 		}
+
 	}
 
 }

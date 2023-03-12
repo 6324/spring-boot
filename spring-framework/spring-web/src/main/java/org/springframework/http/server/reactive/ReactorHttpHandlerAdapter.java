@@ -41,15 +41,12 @@ public class ReactorHttpHandlerAdapter implements BiFunction<HttpServerRequest, 
 
 	private static final Log logger = HttpLogging.forLogName(ReactorHttpHandlerAdapter.class);
 
-
 	private final HttpHandler httpHandler;
-
 
 	public ReactorHttpHandlerAdapter(HttpHandler httpHandler) {
 		Assert.notNull(httpHandler, "HttpHandler must not be null");
 		this.httpHandler = httpHandler;
 	}
-
 
 	@Override
 	public Mono<Void> apply(HttpServerRequest reactorRequest, HttpServerResponse reactorResponse) {

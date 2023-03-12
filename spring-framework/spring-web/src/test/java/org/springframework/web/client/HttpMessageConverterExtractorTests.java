@@ -54,19 +54,25 @@ public class HttpMessageConverterExtractorTests {
 
 	@SuppressWarnings("unchecked")
 	private final HttpMessageConverter<String> converter = mock(HttpMessageConverter.class);
-	private final HttpMessageConverterExtractor<?> extractor = new HttpMessageConverterExtractor<>(String.class, asList(converter));
-	private final MediaType contentType = MediaType.TEXT_PLAIN;
-	private final HttpHeaders responseHeaders = new HttpHeaders();
-	private final ClientHttpResponse response = mock(ClientHttpResponse.class);
 
+	private final HttpMessageConverterExtractor<?> extractor = new HttpMessageConverterExtractor<>(String.class,
+			asList(converter));
+
+	private final MediaType contentType = MediaType.TEXT_PLAIN;
+
+	private final HttpHeaders responseHeaders = new HttpHeaders();
+
+	private final ClientHttpResponse response = mock(ClientHttpResponse.class);
 
 	@Test
 	public void constructorPreconditions() {
 		assertThatIllegalArgumentException()
-				.isThrownBy(() -> new HttpMessageConverterExtractor<>(String.class, (List<HttpMessageConverter<?>>) null))
+				.isThrownBy(
+						() -> new HttpMessageConverterExtractor<>(String.class, (List<HttpMessageConverter<?>>) null))
 				.withMessage("'messageConverters' must not be empty");
 		assertThatIllegalArgumentException()
-				.isThrownBy(() -> new HttpMessageConverterExtractor<>(String.class, Arrays.asList(null, this.converter)))
+				.isThrownBy(
+						() -> new HttpMessageConverterExtractor<>(String.class, Arrays.asList(null, this.converter)))
 				.withMessage("'messageConverters' must not contain null elements");
 	}
 
@@ -153,11 +159,13 @@ public class HttpMessageConverterExtractorTests {
 	public void generics() throws IOException {
 		responseHeaders.setContentType(contentType);
 		String expected = "Foo";
-		ParameterizedTypeReference<List<String>> reference = new ParameterizedTypeReference<List<String>>() {};
+		ParameterizedTypeReference<List<String>> reference = new ParameterizedTypeReference<List<String>>() {
+		};
 		Type type = reference.getType();
 
 		GenericHttpMessageConverter<String> converter = mock(GenericHttpMessageConverter.class);
-		HttpMessageConverterExtractor<?> extractor = new HttpMessageConverterExtractor<List<String>>(type, asList(converter));
+		HttpMessageConverterExtractor<?> extractor = new HttpMessageConverterExtractor<List<String>>(type,
+				asList(converter));
 
 		given(response.getRawStatusCode()).willReturn(HttpStatus.OK.value());
 		given(response.getHeaders()).willReturn(responseHeaders);
@@ -169,7 +177,7 @@ public class HttpMessageConverterExtractorTests {
 		assertThat(result).isEqualTo(expected);
 	}
 
-	@Test  // SPR-13592
+	@Test // SPR-13592
 	public void converterThrowsIOException() throws IOException {
 		responseHeaders.setContentType(contentType);
 		given(response.getRawStatusCode()).willReturn(HttpStatus.OK.value());
@@ -178,11 +186,12 @@ public class HttpMessageConverterExtractorTests {
 		given(converter.canRead(String.class, contentType)).willReturn(true);
 		given(converter.read(eq(String.class), any(HttpInputMessage.class))).willThrow(IOException.class);
 		assertThatExceptionOfType(RestClientException.class).isThrownBy(() -> extractor.extractData(response))
-			.withMessageContaining("Error while extracting response for type [class java.lang.String] and content type [text/plain]")
-			.withCauseInstanceOf(IOException.class);
+				.withMessageContaining(
+						"Error while extracting response for type [class java.lang.String] and content type [text/plain]")
+				.withCauseInstanceOf(IOException.class);
 	}
 
-	@Test  // SPR-13592
+	@Test // SPR-13592
 	public void converterThrowsHttpMessageNotReadableException() throws IOException {
 		responseHeaders.setContentType(contentType);
 		given(response.getRawStatusCode()).willReturn(HttpStatus.OK.value());
@@ -190,8 +199,9 @@ public class HttpMessageConverterExtractorTests {
 		given(response.getBody()).willReturn(new ByteArrayInputStream("Foobar".getBytes()));
 		given(converter.canRead(String.class, contentType)).willThrow(HttpMessageNotReadableException.class);
 		assertThatExceptionOfType(RestClientException.class).isThrownBy(() -> extractor.extractData(response))
-			.withMessageContaining("Error while extracting response for type [class java.lang.String] and content type [text/plain]")
-			.withCauseInstanceOf(HttpMessageNotReadableException.class);
+				.withMessageContaining(
+						"Error while extracting response for type [class java.lang.String] and content type [text/plain]")
+				.withCauseInstanceOf(HttpMessageNotReadableException.class);
 	}
 
 }

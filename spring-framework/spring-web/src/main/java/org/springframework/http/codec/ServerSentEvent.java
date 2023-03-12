@@ -22,15 +22,16 @@ import org.springframework.lang.Nullable;
 
 /**
  * Representation for a Server-Sent Event for use with Spring's reactive Web support.
- * {@code Flux<ServerSentEvent>} or {@code Observable<ServerSentEvent>} is the
- * reactive equivalent to Spring MVC's {@code SseEmitter}.
+ * {@code Flux<ServerSentEvent>} or {@code Observable<ServerSentEvent>} is the reactive
+ * equivalent to Spring MVC's {@code SseEmitter}.
  *
  * @author Sebastien Deleuze
  * @author Arjen Poutsma
  * @since 5.0
  * @param <T> the type of data that this event contains
  * @see ServerSentEventHttpMessageWriter
- * @see <a href="https://www.w3.org/TR/eventsource/">Server-Sent Events W3C recommendation</a>
+ * @see <a href="https://www.w3.org/TR/eventsource/">Server-Sent Events W3C
+ * recommendation</a>
  */
 public final class ServerSentEvent<T> {
 
@@ -49,7 +50,6 @@ public final class ServerSentEvent<T> {
 	@Nullable
 	private final T data;
 
-
 	private ServerSentEvent(@Nullable String id, @Nullable String event, @Nullable Duration retry,
 			@Nullable String comment, @Nullable T data) {
 
@@ -59,7 +59,6 @@ public final class ServerSentEvent<T> {
 		this.comment = comment;
 		this.data = data;
 	}
-
 
 	/**
 	 * Return the {@code id} field of this event, if available.
@@ -101,13 +100,11 @@ public final class ServerSentEvent<T> {
 		return this.data;
 	}
 
-
 	@Override
 	public String toString() {
-		return ("ServerSentEvent [id = '" + this.id + "\', event='" + this.event + "\', retry=" +
-				this.retry + ", comment='" + this.comment + "', data=" + this.data + ']');
+		return ("ServerSentEvent [id = '" + this.id + "\', event='" + this.event + "\', retry=" + this.retry
+				+ ", comment='" + this.comment + "', data=" + this.data + ']');
 	}
-
 
 	/**
 	 * Return a builder for a {@code SseEvent}.
@@ -119,14 +116,14 @@ public final class ServerSentEvent<T> {
 	}
 
 	/**
-	 * Return a builder for a {@code SseEvent}, populated with the give {@linkplain #data() data}.
+	 * Return a builder for a {@code SseEvent}, populated with the give
+	 * {@linkplain #data() data}.
 	 * @param <T> the type of data that this event contains
 	 * @return the builder
 	 */
 	public static <T> Builder<T> builder(T data) {
 		return new BuilderImpl<>(data);
 	}
-
 
 	/**
 	 * A mutable builder for a {@code SseEvent}.
@@ -157,18 +154,20 @@ public final class ServerSentEvent<T> {
 		Builder<T> retry(Duration retry);
 
 		/**
-		 * Set SSE comment. If a multi-line comment is provided, it will be turned into multiple
-		 * SSE comment lines as defined in Server-Sent Events W3C recommendation.
+		 * Set SSE comment. If a multi-line comment is provided, it will be turned into
+		 * multiple SSE comment lines as defined in Server-Sent Events W3C recommendation.
 		 * @param comment the comment to set
 		 * @return {@code this} builder
 		 */
 		Builder<T> comment(String comment);
 
 		/**
-		 * Set the value of the {@code data} field. If the {@code data} argument is a multi-line
-		 * {@code String}, it will be turned into multiple {@code data} field lines as defined
-		 * in the Server-Sent Events W3C recommendation. If {@code data} is not a String, it will
-		 * be {@linkplain org.springframework.http.codec.json.Jackson2JsonEncoder encoded} into JSON.
+		 * Set the value of the {@code data} field. If the {@code data} argument is a
+		 * multi-line {@code String}, it will be turned into multiple {@code data} field
+		 * lines as defined in the Server-Sent Events W3C recommendation. If {@code data}
+		 * is not a String, it will be
+		 * {@linkplain org.springframework.http.codec.json.Jackson2JsonEncoder encoded}
+		 * into JSON.
 		 * @param data the value of the data field
 		 * @return {@code this} builder
 		 */
@@ -179,8 +178,8 @@ public final class ServerSentEvent<T> {
 		 * @return the built event
 		 */
 		ServerSentEvent<T> build();
-	}
 
+	}
 
 	private static class BuilderImpl<T> implements Builder<T> {
 
@@ -240,6 +239,7 @@ public final class ServerSentEvent<T> {
 		public ServerSentEvent<T> build() {
 			return new ServerSentEvent<>(this.id, this.event, this.retry, this.comment, this.data);
 		}
+
 	}
 
 }

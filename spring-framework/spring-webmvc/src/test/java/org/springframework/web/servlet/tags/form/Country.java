@@ -34,17 +34,14 @@ public class Country {
 
 	public static final Country COUNTRY_US = new Country("US", "United States");
 
-
 	private final String isoCode;
 
 	private final String name;
-
 
 	public Country(String isoCode, String name) {
 		this.isoCode = isoCode;
 		this.name = name;
 	}
-
 
 	public String getIsoCode() {
 		return this.isoCode;
@@ -53,7 +50,6 @@ public class Country {
 	public String getName() {
 		return this.name;
 	}
-
 
 	@Override
 	public String toString() {

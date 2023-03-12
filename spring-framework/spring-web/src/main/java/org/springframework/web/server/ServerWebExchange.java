@@ -34,9 +34,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.MultiValueMap;
 
 /**
- * Contract for an HTTP request-response interaction. Provides access to the HTTP
- * request and response and also exposes additional server-side processing
- * related properties and features such as request attributes.
+ * Contract for an HTTP request-response interaction. Provides access to the HTTP request
+ * and response and also exposes additional server-side processing related properties and
+ * features such as request attributes.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -44,14 +44,13 @@ import org.springframework.util.MultiValueMap;
 public interface ServerWebExchange {
 
 	/**
-	 * Name of {@link #getAttributes() attribute} whose value can be used to
-	 * correlate log messages for this exchange. Use {@link #getLogPrefix()} to
-	 * obtain a consistently formatted prefix based on this attribute.
+	 * Name of {@link #getAttributes() attribute} whose value can be used to correlate log
+	 * messages for this exchange. Use {@link #getLogPrefix()} to obtain a consistently
+	 * formatted prefix based on this attribute.
 	 * @since 5.1
 	 * @see #getLogPrefix()
 	 */
 	String LOG_ID_ATTRIBUTE = ServerWebExchange.class.getName() + ".LOG_ID";
-
 
 	/**
 	 * Return the current HTTP request.
@@ -107,12 +106,11 @@ public interface ServerWebExchange {
 	}
 
 	/**
-	 * Return the web session for the current request. Always guaranteed  to
-	 * return an instance either matching to the session id requested by the
-	 * client, or with a new session id either because the client did not
-	 * specify one or because the underlying session had expired. Use of this
-	 * method does not automatically create a session. See {@link WebSession}
-	 * for more details.
+	 * Return the web session for the current request. Always guaranteed to return an
+	 * instance either matching to the session id requested by the client, or with a new
+	 * session id either because the client did not specify one or because the underlying
+	 * session had expired. Use of this method does not automatically create a session.
+	 * See {@link WebSession} for more details.
 	 */
 	Mono<WebSession> getSession();
 
@@ -124,20 +122,23 @@ public interface ServerWebExchange {
 	/**
 	 * Return the form data from the body of the request if the Content-Type is
 	 * {@code "application/x-www-form-urlencoded"} or an empty map otherwise.
-	 * <p><strong>Note:</strong> calling this method causes the request body to
-	 * be read and parsed in full and the resulting {@code MultiValueMap} is
-	 * cached so that this method is safe to call more than once.
+	 * <p>
+	 * <strong>Note:</strong> calling this method causes the request body to be read and
+	 * parsed in full and the resulting {@code MultiValueMap} is cached so that this
+	 * method is safe to call more than once.
 	 */
 	Mono<MultiValueMap<String, String>> getFormData();
 
 	/**
 	 * Return the parts of a multipart request if the Content-Type is
 	 * {@code "multipart/form-data"} or an empty map otherwise.
-	 * <p><strong>Note:</strong> calling this method causes the request body to
-	 * be read and parsed in full and the resulting {@code MultiValueMap} is
-	 * cached so that this method is safe to call more than once.
-	 * <p><strong>Note:</strong>the {@linkplain Part#content() contents} of each
-	 * part is not cached, and can only be read once.
+	 * <p>
+	 * <strong>Note:</strong> calling this method causes the request body to be read and
+	 * parsed in full and the resulting {@code MultiValueMap} is cached so that this
+	 * method is safe to call more than once.
+	 * <p>
+	 * <strong>Note:</strong>the {@linkplain Part#content() contents} of each part is not
+	 * cached, and can only be read once.
 	 */
 	Mono<MultiValueMap<String, Part>> getMultipartData();
 
@@ -148,8 +149,8 @@ public interface ServerWebExchange {
 	LocaleContext getLocaleContext();
 
 	/**
-	 * Return the {@link ApplicationContext} associated with the web application,
-	 * if it was initialized with one via
+	 * Return the {@link ApplicationContext} associated with the web application, if it
+	 * was initialized with one via
 	 * {@link org.springframework.web.server.adapter.WebHttpHandlerBuilder#applicationContext(ApplicationContext)}.
 	 * @since 5.0.3
 	 * @see org.springframework.web.server.adapter.WebHttpHandlerBuilder#applicationContext(ApplicationContext)
@@ -158,22 +159,22 @@ public interface ServerWebExchange {
 	ApplicationContext getApplicationContext();
 
 	/**
-	 * Returns {@code true} if the one of the {@code checkNotModified} methods
-	 * in this contract were used and they returned true.
+	 * Returns {@code true} if the one of the {@code checkNotModified} methods in this
+	 * contract were used and they returned true.
 	 */
 	boolean isNotModified();
 
 	/**
-	 * An overloaded variant of {@link #checkNotModified(String, Instant)} with
-	 * a last-modified timestamp only.
+	 * An overloaded variant of {@link #checkNotModified(String, Instant)} with a
+	 * last-modified timestamp only.
 	 * @param lastModified the last-modified time
 	 * @return whether the request qualifies as not modified
 	 */
 	boolean checkNotModified(Instant lastModified);
 
 	/**
-	 * An overloaded variant of {@link #checkNotModified(String, Instant)} with
-	 * an {@code ETag} (entity tag) value only.
+	 * An overloaded variant of {@link #checkNotModified(String, Instant)} with an
+	 * {@code ETag} (entity tag) value only.
 	 * @param etag the entity tag for the underlying resource.
 	 * @return true if the request does not require further processing.
 	 */
@@ -181,27 +182,25 @@ public interface ServerWebExchange {
 
 	/**
 	 * Check whether the requested resource has been modified given the supplied
-	 * {@code ETag} (entity tag) and last-modified timestamp as determined by
-	 * the application. Also transparently prepares the response, setting HTTP
-	 * status, and adding "ETag" and "Last-Modified" headers when applicable.
-	 * This method works with conditional GET/HEAD requests as well as with
-	 * conditional POST/PUT/DELETE requests.
-	 * <p><strong>Note:</strong> The HTTP specification recommends setting both
-	 * ETag and Last-Modified values, but you can also use
-	 * {@code #checkNotModified(String)} or
+	 * {@code ETag} (entity tag) and last-modified timestamp as determined by the
+	 * application. Also transparently prepares the response, setting HTTP status, and
+	 * adding "ETag" and "Last-Modified" headers when applicable. This method works with
+	 * conditional GET/HEAD requests as well as with conditional POST/PUT/DELETE requests.
+	 * <p>
+	 * <strong>Note:</strong> The HTTP specification recommends setting both ETag and
+	 * Last-Modified values, but you can also use {@code #checkNotModified(String)} or
 	 * {@link #checkNotModified(Instant)}.
-	 * @param etag the entity tag that the application determined for the
-	 * underlying resource. This parameter will be padded with quotes (")
-	 * if necessary.
-	 * @param lastModified the last-modified timestamp that the application
-	 * determined for the underlying resource
+	 * @param etag the entity tag that the application determined for the underlying
+	 * resource. This parameter will be padded with quotes (") if necessary.
+	 * @param lastModified the last-modified timestamp that the application determined for
+	 * the underlying resource
 	 * @return true if the request does not require further processing.
 	 */
 	boolean checkNotModified(@Nullable String etag, Instant lastModified);
 
 	/**
-	 * Transform the given url according to the registered transformation function(s).
-	 * By default, this method returns the given {@code url}, though additional
+	 * Transform the given url according to the registered transformation function(s). By
+	 * default, this method returns the given {@code url}, though additional
 	 * transformation functions can by registered with {@link #addUrlTransformer}
 	 * @param url the URL to transform
 	 * @return the transformed URL
@@ -209,45 +208,44 @@ public interface ServerWebExchange {
 	String transformUrl(String url);
 
 	/**
-	 * Register an additional URL transformation function for use with {@link #transformUrl}.
-	 * The given function can be used to insert an id for authentication, a nonce for CSRF
-	 * protection, etc.
-	 * <p>Note that the given function is applied after any previously registered functions.
+	 * Register an additional URL transformation function for use with
+	 * {@link #transformUrl}. The given function can be used to insert an id for
+	 * authentication, a nonce for CSRF protection, etc.
+	 * <p>
+	 * Note that the given function is applied after any previously registered functions.
 	 * @param transformer a URL transformation function to add
 	 */
 	void addUrlTransformer(Function<String, String> transformer);
 
 	/**
-	 * Return a log message prefix to use to correlate messages for this exchange.
-	 * The prefix is based on the value of the attribute {@link #LOG_ID_ATTRIBUTE}
-	 * along with some extra formatting so that the prefix can be conveniently
-	 * prepended with no further formatting no separators required.
-	 * @return the log message prefix or an empty String if the
-	 * {@link #LOG_ID_ATTRIBUTE} is not set.
+	 * Return a log message prefix to use to correlate messages for this exchange. The
+	 * prefix is based on the value of the attribute {@link #LOG_ID_ATTRIBUTE} along with
+	 * some extra formatting so that the prefix can be conveniently prepended with no
+	 * further formatting no separators required.
+	 * @return the log message prefix or an empty String if the {@link #LOG_ID_ATTRIBUTE}
+	 * is not set.
 	 * @since 5.1
 	 */
 	String getLogPrefix();
 
 	/**
-	 * Return a builder to mutate properties of this exchange by wrapping it
-	 * with {@link ServerWebExchangeDecorator} and returning either mutated
-	 * values or delegating back to this instance.
+	 * Return a builder to mutate properties of this exchange by wrapping it with
+	 * {@link ServerWebExchangeDecorator} and returning either mutated values or
+	 * delegating back to this instance.
 	 */
 	default Builder mutate() {
 		return new DefaultServerWebExchangeBuilder(this);
 	}
 
-
 	/**
-	 * Builder for mutating an existing {@link ServerWebExchange}.
-	 * Removes the need
+	 * Builder for mutating an existing {@link ServerWebExchange}. Removes the need
 	 */
 	interface Builder {
 
 		/**
 		 * Configure a consumer to modify the current request using a builder.
-		 * <p>Effectively this:
-		 * <pre>
+		 * <p>
+		 * Effectively this: <pre>
 		 * exchange.mutate().request(builder-> builder.method(HttpMethod.PUT));
 		 *
 		 * // vs...
@@ -264,8 +262,8 @@ public interface ServerWebExchange {
 
 		/**
 		 * Set the request to use especially when there is a need to override
-		 * {@link ServerHttpRequest} methods. To simply mutate request properties
-		 * see {@link #request(Consumer)} instead.
+		 * {@link ServerHttpRequest} methods. To simply mutate request properties see
+		 * {@link #request(Consumer)} instead.
 		 * @see org.springframework.http.server.reactive.ServerHttpRequestDecorator
 		 */
 		Builder request(ServerHttpRequest request);
@@ -285,6 +283,7 @@ public interface ServerWebExchange {
 		 * Build a {@link ServerWebExchange} decorator with the mutated properties.
 		 */
 		ServerWebExchange build();
+
 	}
 
 }

@@ -23,11 +23,11 @@ import org.springframework.http.HttpRequest;
 /**
  * Intercepts client-side HTTP requests. Implementations of this interface can be
  * {@linkplain org.springframework.web.client.RestTemplate#setInterceptors registered}
- * with the {@link org.springframework.web.client.RestTemplate RestTemplate},
- * as to modify the outgoing {@link ClientHttpRequest} and/or the incoming
- * {@link ClientHttpResponse}.
+ * with the {@link org.springframework.web.client.RestTemplate RestTemplate}, as to modify
+ * the outgoing {@link ClientHttpRequest} and/or the incoming {@link ClientHttpResponse}.
  *
- * <p>The main entry point for interceptors is
+ * <p>
+ * The main entry point for interceptors is
  * {@link #intercept(HttpRequest, byte[], ClientHttpRequestExecution)}.
  *
  * @author Arjen Poutsma
@@ -38,13 +38,15 @@ public interface ClientHttpRequestInterceptor {
 
 	/**
 	 * Intercept the given request, and return a response. The given
-	 * {@link ClientHttpRequestExecution} allows the interceptor to pass on the
-	 * request and response to the next entity in the chain.
-	 * <p>A typical implementation of this method would follow the following pattern:
+	 * {@link ClientHttpRequestExecution} allows the interceptor to pass on the request
+	 * and response to the next entity in the chain.
+	 * <p>
+	 * A typical implementation of this method would follow the following pattern:
 	 * <ol>
 	 * <li>Examine the {@linkplain HttpRequest request} and body</li>
-	 * <li>Optionally {@linkplain org.springframework.http.client.support.HttpRequestWrapper
-	 * wrap} the request to filter HTTP attributes.</li>
+	 * <li>Optionally
+	 * {@linkplain org.springframework.http.client.support.HttpRequestWrapper wrap} the
+	 * request to filter HTTP attributes.</li>
 	 * <li>Optionally modify the body of the request.</li>
 	 * <li><strong>Either</strong>
 	 * <ul>

@@ -20,12 +20,13 @@ import javax.servlet.jsp.PageContext;
 
 /**
  * Utility class for generating '{@code id}' attributes values for JSP tags. Given the
- * name of a tag (the data bound path in most cases) returns a unique ID for that name within
- * the current {@link PageContext}. Each request for an ID for a given name will append an
- * ever increasing counter to the name itself. For instance, given the name '{@code person.name}',
- * the first request will give '{@code person.name1}' and the second will give
- * '{@code person.name2}'. This supports the common use case where a set of radio or check buttons
- * are generated for the same data field, with each button being a distinct tag instance.
+ * name of a tag (the data bound path in most cases) returns a unique ID for that name
+ * within the current {@link PageContext}. Each request for an ID for a given name will
+ * append an ever increasing counter to the name itself. For instance, given the name
+ * '{@code person.name}', the first request will give '{@code person.name1}' and the
+ * second will give '{@code person.name2}'. This supports the common use case where a set
+ * of radio or check buttons are generated for the same data field, with each button being
+ * a distinct tag instance.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -39,7 +40,8 @@ abstract class TagIdGenerator {
 	private static final String PAGE_CONTEXT_ATTRIBUTE_PREFIX = TagIdGenerator.class.getName() + ".";
 
 	/**
-	 * Get the next unique ID (within the given {@link PageContext}) for the supplied name.
+	 * Get the next unique ID (within the given {@link PageContext}) for the supplied
+	 * name.
 	 */
 	public static String nextId(String name, PageContext pageContext) {
 		String attributeName = PAGE_CONTEXT_ATTRIBUTE_PREFIX + name;

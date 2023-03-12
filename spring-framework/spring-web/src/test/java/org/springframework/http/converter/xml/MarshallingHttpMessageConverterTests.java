@@ -102,9 +102,9 @@ public class MarshallingHttpMessageConverterTests {
 		given(unmarshaller.unmarshal(isA(StreamSource.class))).willReturn(Integer.valueOf(3));
 
 		MarshallingHttpMessageConverter converter = new MarshallingHttpMessageConverter(marshaller, unmarshaller);
-		assertThatExceptionOfType(HttpMessageNotReadableException.class).isThrownBy(() ->
-				converter.read(String.class, inputMessage))
-			.withCauseInstanceOf(TypeMismatchException.class);
+		assertThatExceptionOfType(HttpMessageNotReadableException.class)
+				.isThrownBy(() -> converter.read(String.class, inputMessage))
+				.withCauseInstanceOf(TypeMismatchException.class);
 	}
 
 	@Test
@@ -118,9 +118,8 @@ public class MarshallingHttpMessageConverterTests {
 		MarshallingHttpMessageConverter converter = new MarshallingHttpMessageConverter();
 		converter.setUnmarshaller(unmarshaller);
 
-		assertThatExceptionOfType(HttpMessageNotReadableException.class).isThrownBy(() ->
-				converter.read(Object.class, inputMessage))
-			.withCause(ex);
+		assertThatExceptionOfType(HttpMessageNotReadableException.class)
+				.isThrownBy(() -> converter.read(Object.class, inputMessage)).withCause(ex);
 	}
 
 	@Test
@@ -134,7 +133,8 @@ public class MarshallingHttpMessageConverterTests {
 		MarshallingHttpMessageConverter converter = new MarshallingHttpMessageConverter(marshaller);
 		converter.write(body, null, outputMessage);
 
-		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type").isEqualTo(new MediaType("application", "xml"));
+		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type")
+				.isEqualTo(new MediaType("application", "xml"));
 	}
 
 	@Test
@@ -147,14 +147,14 @@ public class MarshallingHttpMessageConverterTests {
 		willThrow(ex).given(marshaller).marshal(eq(body), isA(Result.class));
 
 		MarshallingHttpMessageConverter converter = new MarshallingHttpMessageConverter(marshaller);
-		assertThatExceptionOfType(HttpMessageNotWritableException.class).isThrownBy(() ->
-				converter.write(body, null, outputMessage))
-			.withCause(ex);
+		assertThatExceptionOfType(HttpMessageNotWritableException.class)
+				.isThrownBy(() -> converter.write(body, null, outputMessage)).withCause(ex);
 	}
 
 	@Test
 	public void supports() throws Exception {
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-				new MarshallingHttpMessageConverter().supports(Object.class));
+		assertThatExceptionOfType(UnsupportedOperationException.class)
+				.isThrownBy(() -> new MarshallingHttpMessageConverter().supports(Object.class));
 	}
+
 }

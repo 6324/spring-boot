@@ -74,7 +74,6 @@ public class ExceptionHandlerExceptionResolverTests {
 
 	private MockHttpServletResponse response;
 
-
 	@BeforeAll
 	public static void setupOnce() {
 		ExceptionHandlerExceptionResolver resolver = new ExceptionHandlerExceptionResolver();
@@ -91,7 +90,6 @@ public class ExceptionHandlerExceptionResolverTests {
 		this.request.setAttribute(DispatcherServlet.OUTPUT_FLASH_MAP_ATTRIBUTE, new FlashMap());
 		this.response = new MockHttpServletResponse();
 	}
-
 
 	@Test
 	public void nullHandler() {
@@ -186,7 +184,7 @@ public class ExceptionHandlerExceptionResolverTests {
 		assertThat(this.response.getContentAsString()).isEqualTo("IllegalArgumentException");
 	}
 
-	@Test  // SPR-13546
+	@Test // SPR-13546
 	public void resolveExceptionModelAtArgument() throws Exception {
 		IllegalArgumentException ex = new IllegalArgumentException();
 		HandlerMethod handlerMethod = new HandlerMethod(new ModelArgumentController(), "handle");
@@ -198,7 +196,7 @@ public class ExceptionHandlerExceptionResolverTests {
 		assertThat(mav.getModelMap().get("exceptionClassName")).isEqualTo("IllegalArgumentException");
 	}
 
-	@Test  // SPR-14651
+	@Test // SPR-14651
 	public void resolveRedirectAttributesAtArgument() throws Exception {
 		IllegalArgumentException ex = new IllegalArgumentException();
 		HandlerMethod handlerMethod = new HandlerMethod(new RedirectAttributesController(), "handle");
@@ -224,7 +222,8 @@ public class ExceptionHandlerExceptionResolverTests {
 
 		assertThat(mav).as("Exception was not handled").isNotNull();
 		assertThat(mav.isEmpty()).isTrue();
-		assertThat(this.response.getContentAsString()).isEqualTo("AnotherTestExceptionResolver: IllegalAccessException");
+		assertThat(this.response.getContentAsString())
+				.isEqualTo("AnotherTestExceptionResolver: IllegalAccessException");
 	}
 
 	@Test
@@ -242,7 +241,7 @@ public class ExceptionHandlerExceptionResolverTests {
 		assertThat(this.response.getContentAsString()).isEqualTo("TestExceptionResolver: IllegalStateException");
 	}
 
-	@Test  // SPR-12605
+	@Test // SPR-12605
 	public void resolveExceptionWithHandlerMethodArg() throws Exception {
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(MyConfig.class);
 		this.resolver.setApplicationContext(ctx);
@@ -301,7 +300,8 @@ public class ExceptionHandlerExceptionResolverTests {
 
 		assertThat(mav).as("Exception was not handled").isNotNull();
 		assertThat(mav.isEmpty()).isTrue();
-		assertThat(this.response.getContentAsString()).isEqualTo("BasePackageTestExceptionResolver: IllegalStateException");
+		assertThat(this.response.getContentAsString())
+				.isEqualTo("BasePackageTestExceptionResolver: IllegalStateException");
 	}
 
 	@Test
@@ -318,51 +318,53 @@ public class ExceptionHandlerExceptionResolverTests {
 		assertThat(this.response.getContentAsString()).isEqualTo("DefaultTestExceptionResolver: IllegalStateException");
 	}
 
-	@Test  // SPR-16496
+	@Test // SPR-16496
 	public void resolveExceptionControllerAdviceAgainstProxy() throws Exception {
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(MyControllerAdviceConfig.class);
 		this.resolver.setApplicationContext(ctx);
 		this.resolver.afterPropertiesSet();
 
 		IllegalStateException ex = new IllegalStateException();
-		HandlerMethod handlerMethod = new HandlerMethod(new ProxyFactory(new ResponseBodyController()).getProxy(), "handle");
+		HandlerMethod handlerMethod = new HandlerMethod(new ProxyFactory(new ResponseBodyController()).getProxy(),
+				"handle");
 		ModelAndView mav = this.resolver.resolveException(this.request, this.response, handlerMethod, ex);
 
 		assertThat(mav).as("Exception was not handled").isNotNull();
 		assertThat(mav.isEmpty()).isTrue();
-		assertThat(this.response.getContentAsString()).isEqualTo("BasePackageTestExceptionResolver: IllegalStateException");
+		assertThat(this.response.getContentAsString())
+				.isEqualTo("BasePackageTestExceptionResolver: IllegalStateException");
 	}
-
 
 	private void assertMethodProcessorCount(int resolverCount, int handlerCount) {
 		assertThat(this.resolver.getArgumentResolvers().getResolvers().size()).isEqualTo(resolverCount);
 		assertThat(this.resolver.getReturnValueHandlers().getHandlers().size()).isEqualTo(handlerCount);
 	}
 
-
 	@Controller
 	static class ModelAndViewController {
 
-		public void handle() {}
+		public void handle() {
+		}
 
 		@ExceptionHandler
 		public ModelAndView handle(Exception ex) throws IOException {
 			return new ModelAndView("errorView", "detail", ex.getMessage());
 		}
-	}
 
+	}
 
 	@Controller
 	static class ResponseWriterController {
 
-		public void handle() {}
+		public void handle() {
+		}
 
 		@ExceptionHandler
 		public void handleException(Exception ex, Writer writer) throws IOException {
 			writer.write(ClassUtils.getShortName(ex.getClass()));
 		}
-	}
 
+	}
 
 	interface ResponseBodyInterface {
 
@@ -371,14 +373,15 @@ public class ExceptionHandlerExceptionResolverTests {
 		@ExceptionHandler
 		@ResponseBody
 		String handleException(IllegalArgumentException ex);
-	}
 
+	}
 
 	@Controller
 	static class ResponseBodyController extends WebApplicationObjectSupport implements ResponseBodyInterface {
 
 		@Override
-		public void handle() {}
+		public void handle() {
+		}
 
 		@Override
 		@ExceptionHandler
@@ -386,43 +389,47 @@ public class ExceptionHandlerExceptionResolverTests {
 		public String handleException(IllegalArgumentException ex) {
 			return ClassUtils.getShortName(ex.getClass());
 		}
-	}
 
+	}
 
 	@Controller
 	static class IoExceptionController {
 
-		public void handle() {}
+		public void handle() {
+		}
 
 		@ExceptionHandler(value = IOException.class)
 		public void handleException() {
 		}
-	}
 
+	}
 
 	@Controller
 	static class ModelArgumentController {
 
-		public void handle() {}
+		public void handle() {
+		}
 
 		@ExceptionHandler
 		public void handleException(Exception ex, Model model) {
 			model.addAttribute("exceptionClassName", ClassUtils.getShortName(ex.getClass()));
 		}
+
 	}
 
 	@Controller
 	static class RedirectAttributesController {
 
-		public void handle() {}
+		public void handle() {
+		}
 
 		@ExceptionHandler
 		public String handleException(Exception ex, RedirectAttributes redirectAttributes) {
 			redirectAttributes.addFlashAttribute("exceptionClassName", ClassUtils.getShortName(ex.getClass()));
 			return "redirect:/";
 		}
-	}
 
+	}
 
 	@RestControllerAdvice
 	@Order(1)
@@ -442,19 +449,19 @@ public class ExceptionHandlerExceptionResolverTests {
 		public String handleAssertionError(Error err) {
 			return err.toString();
 		}
-	}
 
+	}
 
 	@RestControllerAdvice
 	@Order(2)
 	static class AnotherTestExceptionResolver {
 
-		@ExceptionHandler({IllegalStateException.class, IllegalAccessException.class})
+		@ExceptionHandler({ IllegalStateException.class, IllegalAccessException.class })
 		public String handleException(Exception ex) {
 			return "AnotherTestExceptionResolver: " + ClassUtils.getShortName(ex.getClass());
 		}
-	}
 
+	}
 
 	@Configuration
 	static class MyConfig {
@@ -468,8 +475,8 @@ public class ExceptionHandlerExceptionResolverTests {
 		public AnotherTestExceptionResolver anotherTestExceptionResolver() {
 			return new AnotherTestExceptionResolver();
 		}
-	}
 
+	}
 
 	@RestControllerAdvice("java.lang")
 	@Order(1)
@@ -479,8 +486,8 @@ public class ExceptionHandlerExceptionResolverTests {
 		public String handleException(IllegalStateException ex) {
 			return "NotCalledTestExceptionResolver: " + ClassUtils.getShortName(ex.getClass());
 		}
-	}
 
+	}
 
 	@RestControllerAdvice(assignableTypes = WebApplicationObjectSupport.class)
 	@Order(2)
@@ -490,8 +497,8 @@ public class ExceptionHandlerExceptionResolverTests {
 		public String handleException(IllegalStateException ex) {
 			return "BasePackageTestExceptionResolver: " + ClassUtils.getShortName(ex.getClass());
 		}
-	}
 
+	}
 
 	@RestControllerAdvice
 	@Order(3)
@@ -501,8 +508,8 @@ public class ExceptionHandlerExceptionResolverTests {
 		public String handleException(IllegalStateException ex) {
 			return "DefaultTestExceptionResolver: " + ClassUtils.getShortName(ex.getClass());
 		}
-	}
 
+	}
 
 	@Configuration
 	static class MyControllerAdviceConfig {
@@ -521,6 +528,7 @@ public class ExceptionHandlerExceptionResolverTests {
 		public DefaultTestExceptionResolver defaultTestExceptionResolver() {
 			return new DefaultTestExceptionResolver();
 		}
+
 	}
 
 }

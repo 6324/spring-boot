@@ -73,26 +73,33 @@ import org.springframework.util.xml.StaxUtils;
 /**
  * A builder used to create {@link ObjectMapper} instances with a fluent API.
  *
- * <p>It customizes Jackson's default properties with the following ones:
+ * <p>
+ * It customizes Jackson's default properties with the following ones:
  * <ul>
  * <li>{@link MapperFeature#DEFAULT_VIEW_INCLUSION} is disabled</li>
  * <li>{@link DeserializationFeature#FAIL_ON_UNKNOWN_PROPERTIES} is disabled</li>
  * </ul>
  *
- * <p>It also automatically registers the following well-known modules if they are
- * detected on the classpath:
+ * <p>
+ * It also automatically registers the following well-known modules if they are detected
+ * on the classpath:
  * <ul>
- * <li><a href="https://github.com/FasterXML/jackson-datatype-jdk8">jackson-datatype-jdk8</a>:
- * support for other Java 8 types like {@link java.util.Optional}</li>
- * <li><a href="https://github.com/FasterXML/jackson-datatype-jsr310">jackson-datatype-jsr310</a>:
+ * <li><a href=
+ * "https://github.com/FasterXML/jackson-datatype-jdk8">jackson-datatype-jdk8</a>: support
+ * for other Java 8 types like {@link java.util.Optional}</li>
+ * <li><a href=
+ * "https://github.com/FasterXML/jackson-datatype-jsr310">jackson-datatype-jsr310</a>:
  * support for Java 8 Date & Time API types</li>
- * <li><a href="https://github.com/FasterXML/jackson-datatype-joda">jackson-datatype-joda</a>:
- * support for Joda-Time types</li>
- * <li><a href="https://github.com/FasterXML/jackson-module-kotlin">jackson-module-kotlin</a>:
- * support for Kotlin classes and data classes</li>
+ * <li><a href=
+ * "https://github.com/FasterXML/jackson-datatype-joda">jackson-datatype-joda</a>: support
+ * for Joda-Time types</li>
+ * <li><a href=
+ * "https://github.com/FasterXML/jackson-module-kotlin">jackson-module-kotlin</a>: support
+ * for Kotlin classes and data classes</li>
  * </ul>
  *
- * <p>Compatible with Jackson 2.6 and higher, as of Spring 4.3.
+ * <p>
+ * Compatible with Jackson 2.6 and higher, as of Spring 4.3.
  *
  * @author Sebastien Deleuze
  * @author Juergen Hoeller
@@ -169,11 +176,10 @@ public class Jackson2ObjectMapperBuilder {
 	@Nullable
 	private Boolean defaultUseWrapper;
 
-
 	/**
-	 * If set to {@code true}, an {@link XmlMapper} will be created using its
-	 * default constructor. This is only applicable to {@link #build()} calls,
-	 * not to {@link #configure} calls.
+	 * If set to {@code true}, an {@link XmlMapper} will be created using its default
+	 * constructor. This is only applicable to {@link #build()} calls, not to
+	 * {@link #configure} calls.
 	 */
 	public Jackson2ObjectMapperBuilder createXmlMapper(boolean createXmlMapper) {
 		this.createXmlMapper = createXmlMapper;
@@ -192,8 +198,9 @@ public class Jackson2ObjectMapperBuilder {
 
 	/**
 	 * Define the format for date/time with the given {@link DateFormat}.
-	 * <p>Note: Setting this property makes the exposed {@link ObjectMapper}
-	 * non-thread-safe, according to Jackson's thread safety rules.
+	 * <p>
+	 * Note: Setting this property makes the exposed {@link ObjectMapper} non-thread-safe,
+	 * according to Jackson's thread safety rules.
 	 * @see #simpleDateFormat(String)
 	 */
 	public Jackson2ObjectMapperBuilder dateFormat(DateFormat dateFormat) {
@@ -203,8 +210,9 @@ public class Jackson2ObjectMapperBuilder {
 
 	/**
 	 * Define the date/time format with a {@link SimpleDateFormat}.
-	 * <p>Note: Setting this property makes the exposed {@link ObjectMapper}
-	 * non-thread-safe, according to Jackson's thread safety rules.
+	 * <p>
+	 * Note: Setting this property makes the exposed {@link ObjectMapper} non-thread-safe,
+	 * according to Jackson's thread safety rules.
 	 * @see #dateFormat(DateFormat)
 	 */
 	public Jackson2ObjectMapperBuilder simpleDateFormat(String format) {
@@ -213,8 +221,8 @@ public class Jackson2ObjectMapperBuilder {
 	}
 
 	/**
-	 * Override the default {@link Locale} to use for formatting.
-	 * Default value used is {@link Locale#getDefault()}.
+	 * Override the default {@link Locale} to use for formatting. Default value used is
+	 * {@link Locale#getDefault()}.
 	 * @since 4.1.5
 	 */
 	public Jackson2ObjectMapperBuilder locale(Locale locale) {
@@ -223,8 +231,8 @@ public class Jackson2ObjectMapperBuilder {
 	}
 
 	/**
-	 * Override the default {@link Locale} to use for formatting.
-	 * Default value used is {@link Locale#getDefault()}.
+	 * Override the default {@link Locale} to use for formatting. Default value used is
+	 * {@link Locale#getDefault()}.
 	 * @param localeString the locale ID as a String representation
 	 * @since 4.1.5
 	 */
@@ -234,8 +242,8 @@ public class Jackson2ObjectMapperBuilder {
 	}
 
 	/**
-	 * Override the default {@link TimeZone} to use for formatting.
-	 * Default value used is UTC (NOT local timezone).
+	 * Override the default {@link TimeZone} to use for formatting. Default value used is
+	 * UTC (NOT local timezone).
 	 * @since 4.1.5
 	 */
 	public Jackson2ObjectMapperBuilder timeZone(TimeZone timeZone) {
@@ -244,8 +252,8 @@ public class Jackson2ObjectMapperBuilder {
 	}
 
 	/**
-	 * Override the default {@link TimeZone} to use for formatting.
-	 * Default value used is UTC (NOT local timezone).
+	 * Override the default {@link TimeZone} to use for formatting. Default value used is
+	 * UTC (NOT local timezone).
 	 * @param timeZoneString the zone ID as a String representation
 	 * @since 4.1.5
 	 */
@@ -263,13 +271,11 @@ public class Jackson2ObjectMapperBuilder {
 	}
 
 	/**
-	 * Alternative to {@link #annotationIntrospector(AnnotationIntrospector)}
-	 * that allows combining with rather than replacing the currently set
-	 * introspector, e.g. via
+	 * Alternative to {@link #annotationIntrospector(AnnotationIntrospector)} that allows
+	 * combining with rather than replacing the currently set introspector, e.g. via
 	 * {@link AnnotationIntrospectorPair#pair(AnnotationIntrospector, AnnotationIntrospector)}.
-	 * @param pairingFunction a function to apply to the currently set
-	 * introspector (possibly {@code null}); the result of the function becomes
-	 * the new introspector.
+	 * @param pairingFunction a function to apply to the currently set introspector
+	 * (possibly {@code null}); the result of the function becomes the new introspector.
 	 * @since 5.2.4
 	 */
 	public Jackson2ObjectMapperBuilder annotationIntrospector(
@@ -307,7 +313,8 @@ public class Jackson2ObjectMapperBuilder {
 	}
 
 	/**
-	 * Set the global filters to use in order to support {@link JsonFilter @JsonFilter} annotated POJO.
+	 * Set the global filters to use in order to support {@link JsonFilter @JsonFilter}
+	 * annotated POJO.
 	 * @since 4.2
 	 * @see MappingJacksonValue#setFilters(FilterProvider)
 	 */
@@ -319,8 +326,8 @@ public class Jackson2ObjectMapperBuilder {
 	/**
 	 * Add mix-in annotations to use for augmenting specified class or interface.
 	 * @param target class (or interface) whose annotations to effectively override
-	 * @param mixinSource class (or interface) whose annotations are to be "added"
-	 * to target's annotations as value
+	 * @param mixinSource class (or interface) whose annotations are to be "added" to
+	 * target's annotations as value
 	 * @since 4.1.2
 	 * @see com.fasterxml.jackson.databind.ObjectMapper#addMixIn(Class, Class)
 	 */
@@ -332,8 +339,8 @@ public class Jackson2ObjectMapperBuilder {
 	/**
 	 * Add mix-in annotations to use for augmenting specified class or interface.
 	 * @param mixIns a Map of entries with target classes (or interface) whose annotations
-	 * to effectively override as key and mix-in classes (or interface) whose
-	 * annotations are to be "added" to target's annotations as value.
+	 * to effectively override as key and mix-in classes (or interface) whose annotations
+	 * are to be "added" to target's annotations as value.
 	 * @since 4.1.2
 	 * @see com.fasterxml.jackson.databind.ObjectMapper#addMixIn(Class, Class)
 	 */
@@ -343,8 +350,8 @@ public class Jackson2ObjectMapperBuilder {
 	}
 
 	/**
-	 * Configure custom serializers. Each serializer is registered for the type
-	 * returned by {@link JsonSerializer#handledType()}, which must not be {@code null}.
+	 * Configure custom serializers. Each serializer is registered for the type returned
+	 * by {@link JsonSerializer#handledType()}, which must not be {@code null}.
 	 * @see #serializersByType(Map)
 	 */
 	public Jackson2ObjectMapperBuilder serializers(JsonSerializer<?>... serializers) {
@@ -518,11 +525,13 @@ public class Jackson2ObjectMapperBuilder {
 	 * Specify one or more modules to be registered with the {@link ObjectMapper}.
 	 * Multiple invocations are not additive, the last one defines the modules to
 	 * register.
-	 * <p>Note: If this is set, no finding of modules is going to happen - not by
-	 * Jackson, and not by Spring either (see {@link #findModulesViaServiceLoader}).
-	 * As a consequence, specifying an empty list here will suppress any kind of
-	 * module detection.
-	 * <p>Specify either this or {@link #modulesToInstall}, not both.
+	 * <p>
+	 * Note: If this is set, no finding of modules is going to happen - not by Jackson,
+	 * and not by Spring either (see {@link #findModulesViaServiceLoader}). As a
+	 * consequence, specifying an empty list here will suppress any kind of module
+	 * detection.
+	 * <p>
+	 * Specify either this or {@link #modulesToInstall}, not both.
 	 * @since 4.1.5
 	 * @see #modules(List)
 	 * @see com.fasterxml.jackson.databind.Module
@@ -535,11 +544,13 @@ public class Jackson2ObjectMapperBuilder {
 	 * Set a complete list of modules to be registered with the {@link ObjectMapper}.
 	 * Multiple invocations are not additive, the last one defines the modules to
 	 * register.
-	 * <p>Note: If this is set, no finding of modules is going to happen - not by
-	 * Jackson, and not by Spring either (see {@link #findModulesViaServiceLoader}).
-	 * As a consequence, specifying an empty list here will suppress any kind of
-	 * module detection.
-	 * <p>Specify either this or {@link #modulesToInstall}, not both.
+	 * <p>
+	 * Note: If this is set, no finding of modules is going to happen - not by Jackson,
+	 * and not by Spring either (see {@link #findModulesViaServiceLoader}). As a
+	 * consequence, specifying an empty list here will suppress any kind of module
+	 * detection.
+	 * <p>
+	 * Specify either this or {@link #modulesToInstall}, not both.
 	 * @see #modules(Module...)
 	 * @see com.fasterxml.jackson.databind.Module
 	 */
@@ -552,13 +563,15 @@ public class Jackson2ObjectMapperBuilder {
 
 	/**
 	 * Specify one or more modules to be registered with the {@link ObjectMapper}.
-	 * Multiple invocations are not additive, the last one defines the modules
-	 * to register.
-	 * <p>Modules specified here will be registered after
-	 * Spring's autodetection of JSR-310 and Joda-Time, or Jackson's
-	 * finding of modules (see {@link #findModulesViaServiceLoader}),
-	 * allowing to eventually override their configuration.
-	 * <p>Specify either this or {@link #modules}, not both.
+	 * Multiple invocations are not additive, the last one defines the modules to
+	 * register.
+	 * <p>
+	 * Modules specified here will be registered after Spring's autodetection of JSR-310
+	 * and Joda-Time, or Jackson's finding of modules (see
+	 * {@link #findModulesViaServiceLoader}), allowing to eventually override their
+	 * configuration.
+	 * <p>
+	 * Specify either this or {@link #modules}, not both.
 	 * @since 4.1.5
 	 * @see com.fasterxml.jackson.databind.Module
 	 */
@@ -569,14 +582,16 @@ public class Jackson2ObjectMapperBuilder {
 	}
 
 	/**
-	 * Specify one or more modules by class to be registered with
-	 * the {@link ObjectMapper}. Multiple invocations are not additive,
-	 * the last one defines the modules to register.
-	 * <p>Modules specified here will be registered after
-	 * Spring's autodetection of JSR-310 and Joda-Time, or Jackson's
-	 * finding of modules (see {@link #findModulesViaServiceLoader}),
-	 * allowing to eventually override their configuration.
-	 * <p>Specify either this or {@link #modules}, not both.
+	 * Specify one or more modules by class to be registered with the
+	 * {@link ObjectMapper}. Multiple invocations are not additive, the last one defines
+	 * the modules to register.
+	 * <p>
+	 * Modules specified here will be registered after Spring's autodetection of JSR-310
+	 * and Joda-Time, or Jackson's finding of modules (see
+	 * {@link #findModulesViaServiceLoader}), allowing to eventually override their
+	 * configuration.
+	 * <p>
+	 * Specify either this or {@link #modules}, not both.
 	 * @see #modulesToInstall(Module...)
 	 * @see com.fasterxml.jackson.databind.Module
 	 */
@@ -588,11 +603,12 @@ public class Jackson2ObjectMapperBuilder {
 	}
 
 	/**
-	 * Set whether to let Jackson find available modules via the JDK ServiceLoader,
-	 * based on META-INF metadata in the classpath.
-	 * <p>If this mode is not set, Spring's Jackson2ObjectMapperBuilder itself
-	 * will try to find the JSR-310 and Joda-Time support modules on the classpath -
-	 * provided that Java 8 and Joda-Time themselves are available, respectively.
+	 * Set whether to let Jackson find available modules via the JDK ServiceLoader, based
+	 * on META-INF metadata in the classpath.
+	 * <p>
+	 * If this mode is not set, Spring's Jackson2ObjectMapperBuilder itself will try to
+	 * find the JSR-310 and Joda-Time support modules on the classpath - provided that
+	 * Java 8 and Joda-Time themselves are available, respectively.
 	 * @see com.fasterxml.jackson.databind.ObjectMapper#findModules()
 	 */
 	public Jackson2ObjectMapperBuilder findModulesViaServiceLoader(boolean findModules) {
@@ -609,8 +625,9 @@ public class Jackson2ObjectMapperBuilder {
 	}
 
 	/**
-	 * Customize the construction of Jackson handlers ({@link JsonSerializer}, {@link JsonDeserializer},
-	 * {@link KeyDeserializer}, {@code TypeResolverBuilder} and {@code TypeIdResolver}).
+	 * Customize the construction of Jackson handlers ({@link JsonSerializer},
+	 * {@link JsonDeserializer}, {@link KeyDeserializer}, {@code TypeResolverBuilder} and
+	 * {@code TypeIdResolver}).
 	 * @since 4.1.3
 	 * @see Jackson2ObjectMapperBuilder#applicationContext(ApplicationContext)
 	 */
@@ -620,8 +637,9 @@ public class Jackson2ObjectMapperBuilder {
 	}
 
 	/**
-	 * Set the Spring {@link ApplicationContext} in order to autowire Jackson handlers ({@link JsonSerializer},
-	 * {@link JsonDeserializer}, {@link KeyDeserializer}, {@code TypeResolverBuilder} and {@code TypeIdResolver}).
+	 * Set the Spring {@link ApplicationContext} in order to autowire Jackson handlers
+	 * ({@link JsonSerializer}, {@link JsonDeserializer}, {@link KeyDeserializer},
+	 * {@code TypeResolverBuilder} and {@code TypeIdResolver}).
 	 * @since 4.1.3
 	 * @see SpringHandlerInstantiator
 	 */
@@ -630,21 +648,21 @@ public class Jackson2ObjectMapperBuilder {
 		return this;
 	}
 
-
 	/**
 	 * Build a new {@link ObjectMapper} instance.
-	 * <p>Each build operation produces an independent {@link ObjectMapper} instance.
-	 * The builder's settings can get modified, with a subsequent build operation
-	 * then producing a new {@link ObjectMapper} based on the most recent settings.
+	 * <p>
+	 * Each build operation produces an independent {@link ObjectMapper} instance. The
+	 * builder's settings can get modified, with a subsequent build operation then
+	 * producing a new {@link ObjectMapper} based on the most recent settings.
 	 * @return the newly built ObjectMapper
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends ObjectMapper> T build() {
 		ObjectMapper mapper;
 		if (this.createXmlMapper) {
-			mapper = (this.defaultUseWrapper != null ?
-					new XmlObjectMapperInitializer().create(this.defaultUseWrapper, this.factory) :
-					new XmlObjectMapperInitializer().create(this.factory));
+			mapper = (this.defaultUseWrapper != null
+					? new XmlObjectMapperInitializer().create(this.defaultUseWrapper, this.factory)
+					: new XmlObjectMapperInitializer().create(this.factory));
 		}
 		else {
 			mapper = (this.factory != null ? new ObjectMapper(this.factory) : new ObjectMapper());
@@ -654,8 +672,8 @@ public class Jackson2ObjectMapperBuilder {
 	}
 
 	/**
-	 * Configure an existing {@link ObjectMapper} instance with this builder's
-	 * settings. This can be applied to any number of {@code ObjectMappers}.
+	 * Configure an existing {@link ObjectMapper} instance with this builder's settings.
+	 * This can be applied to any number of {@code ObjectMappers}.
 	 * @param objectMapper the ObjectMapper to configure
 	 */
 	public void configure(ObjectMapper objectMapper) {
@@ -663,7 +681,8 @@ public class Jackson2ObjectMapperBuilder {
 
 		MultiValueMap<Object, Module> modulesToRegister = new LinkedMultiValueMap<>();
 		if (this.findModulesViaServiceLoader) {
-			ObjectMapper.findModules(this.moduleClassLoader).forEach(module -> registerModule(module, modulesToRegister));
+			ObjectMapper.findModules(this.moduleClassLoader)
+					.forEach(module -> registerModule(module, modulesToRegister));
 		}
 		else if (this.findWellKnownModules) {
 			registerWellKnownModulesIfAvailable(modulesToRegister);
@@ -742,7 +761,6 @@ public class Jackson2ObjectMapperBuilder {
 		}
 	}
 
-
 	// Any change to this method should be also applied to spring-jms and spring-messaging
 	// MappingJackson2MessageConverter default constructors
 	private void customizeDefaultFeatures(ObjectMapper objectMapper) {
@@ -756,14 +774,14 @@ public class Jackson2ObjectMapperBuilder {
 
 	@SuppressWarnings("unchecked")
 	private <T> void addSerializers(SimpleModule module) {
-		this.serializers.forEach((type, serializer) ->
-				module.addSerializer((Class<? extends T>) type, (JsonSerializer<T>) serializer));
+		this.serializers.forEach(
+				(type, serializer) -> module.addSerializer((Class<? extends T>) type, (JsonSerializer<T>) serializer));
 	}
 
 	@SuppressWarnings("unchecked")
 	private <T> void addDeserializers(SimpleModule module) {
-		this.deserializers.forEach((type, deserializer) ->
-				module.addDeserializer((Class<T>) type, (JsonDeserializer<? extends T>) deserializer));
+		this.deserializers.forEach((type, deserializer) -> module.addDeserializer((Class<T>) type,
+				(JsonDeserializer<? extends T>) deserializer));
 	}
 
 	private void configureFeature(ObjectMapper objectMapper, Object feature, boolean enabled) {
@@ -790,8 +808,8 @@ public class Jackson2ObjectMapperBuilder {
 	@SuppressWarnings("unchecked")
 	private void registerWellKnownModulesIfAvailable(MultiValueMap<Object, Module> modulesToRegister) {
 		try {
-			Class<? extends Module> jdk8ModuleClass = (Class<? extends Module>)
-					ClassUtils.forName("com.fasterxml.jackson.datatype.jdk8.Jdk8Module", this.moduleClassLoader);
+			Class<? extends Module> jdk8ModuleClass = (Class<? extends Module>) ClassUtils
+					.forName("com.fasterxml.jackson.datatype.jdk8.Jdk8Module", this.moduleClassLoader);
 			Module jdk8Module = BeanUtils.instantiateClass(jdk8ModuleClass);
 			modulesToRegister.set(jdk8Module.getTypeId(), jdk8Module);
 		}
@@ -800,8 +818,8 @@ public class Jackson2ObjectMapperBuilder {
 		}
 
 		try {
-			Class<? extends Module> javaTimeModuleClass = (Class<? extends Module>)
-					ClassUtils.forName("com.fasterxml.jackson.datatype.jsr310.JavaTimeModule", this.moduleClassLoader);
+			Class<? extends Module> javaTimeModuleClass = (Class<? extends Module>) ClassUtils
+					.forName("com.fasterxml.jackson.datatype.jsr310.JavaTimeModule", this.moduleClassLoader);
 			Module javaTimeModule = BeanUtils.instantiateClass(javaTimeModuleClass);
 			modulesToRegister.set(javaTimeModule.getTypeId(), javaTimeModule);
 		}
@@ -812,8 +830,8 @@ public class Jackson2ObjectMapperBuilder {
 		// Joda-Time 2.x present?
 		if (ClassUtils.isPresent("org.joda.time.YearMonth", this.moduleClassLoader)) {
 			try {
-				Class<? extends Module> jodaModuleClass = (Class<? extends Module>)
-						ClassUtils.forName("com.fasterxml.jackson.datatype.joda.JodaModule", this.moduleClassLoader);
+				Class<? extends Module> jodaModuleClass = (Class<? extends Module>) ClassUtils
+						.forName("com.fasterxml.jackson.datatype.joda.JodaModule", this.moduleClassLoader);
 				Module jodaModule = BeanUtils.instantiateClass(jodaModuleClass);
 				modulesToRegister.set(jodaModule.getTypeId(), jodaModule);
 			}
@@ -825,43 +843,42 @@ public class Jackson2ObjectMapperBuilder {
 		// Kotlin present?
 		if (KotlinDetector.isKotlinPresent()) {
 			try {
-				Class<? extends Module> kotlinModuleClass = (Class<? extends Module>)
-						ClassUtils.forName("com.fasterxml.jackson.module.kotlin.KotlinModule", this.moduleClassLoader);
+				Class<? extends Module> kotlinModuleClass = (Class<? extends Module>) ClassUtils
+						.forName("com.fasterxml.jackson.module.kotlin.KotlinModule", this.moduleClassLoader);
 				Module kotlinModule = BeanUtils.instantiateClass(kotlinModuleClass);
 				modulesToRegister.set(kotlinModule.getTypeId(), kotlinModule);
 			}
 			catch (ClassNotFoundException ex) {
 				if (!kotlinWarningLogged) {
 					kotlinWarningLogged = true;
-					logger.warn("For Jackson Kotlin classes support please add " +
-							"\"com.fasterxml.jackson.module:jackson-module-kotlin\" to the classpath");
+					logger.warn("For Jackson Kotlin classes support please add "
+							+ "\"com.fasterxml.jackson.module:jackson-module-kotlin\" to the classpath");
 				}
 			}
 		}
 	}
 
-
 	// Convenience factory methods
 
 	/**
-	 * Obtain a {@link Jackson2ObjectMapperBuilder} instance in order to
-	 * build a regular JSON {@link ObjectMapper} instance.
+	 * Obtain a {@link Jackson2ObjectMapperBuilder} instance in order to build a regular
+	 * JSON {@link ObjectMapper} instance.
 	 */
 	public static Jackson2ObjectMapperBuilder json() {
 		return new Jackson2ObjectMapperBuilder();
 	}
 
 	/**
-	 * Obtain a {@link Jackson2ObjectMapperBuilder} instance in order to
-	 * build an {@link XmlMapper} instance.
+	 * Obtain a {@link Jackson2ObjectMapperBuilder} instance in order to build an
+	 * {@link XmlMapper} instance.
 	 */
 	public static Jackson2ObjectMapperBuilder xml() {
 		return new Jackson2ObjectMapperBuilder().createXmlMapper(true);
 	}
 
 	/**
-	 * Obtain a {@link Jackson2ObjectMapperBuilder} instance in order to
-	 * build a Smile data format {@link ObjectMapper} instance.
+	 * Obtain a {@link Jackson2ObjectMapperBuilder} instance in order to build a Smile
+	 * data format {@link ObjectMapper} instance.
 	 * @since 5.0
 	 */
 	public static Jackson2ObjectMapperBuilder smile() {
@@ -869,14 +886,13 @@ public class Jackson2ObjectMapperBuilder {
 	}
 
 	/**
-	 * Obtain a {@link Jackson2ObjectMapperBuilder} instance in order to
-	 * build a CBOR data format {@link ObjectMapper} instance.
+	 * Obtain a {@link Jackson2ObjectMapperBuilder} instance in order to build a CBOR data
+	 * format {@link ObjectMapper} instance.
 	 * @since 5.0
 	 */
 	public static Jackson2ObjectMapperBuilder cbor() {
 		return new Jackson2ObjectMapperBuilder().factory(new CborFactoryInitializer().create());
 	}
-
 
 	private static class XmlObjectMapperInitializer {
 
@@ -899,22 +915,23 @@ public class Jackson2ObjectMapperBuilder {
 				return new XmlMapper(new XmlFactory(StaxUtils.createDefensiveInputFactory()), module);
 			}
 		}
-	}
 
+	}
 
 	private static class SmileFactoryInitializer {
 
 		public JsonFactory create() {
 			return new SmileFactory();
 		}
-	}
 
+	}
 
 	private static class CborFactoryInitializer {
 
 		public JsonFactory create() {
 			return new CBORFactory();
 		}
+
 	}
 
 }

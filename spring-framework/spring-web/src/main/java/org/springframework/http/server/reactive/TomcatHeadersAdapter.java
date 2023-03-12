@@ -45,11 +45,9 @@ class TomcatHeadersAdapter implements MultiValueMap<String, String> {
 
 	private final MimeHeaders headers;
 
-
 	TomcatHeadersAdapter(MimeHeaders headers) {
 		this.headers = headers;
 	}
-
 
 	@Override
 	public String getFirst(String key) {
@@ -195,12 +193,10 @@ class TomcatHeadersAdapter implements MultiValueMap<String, String> {
 		};
 	}
 
-
 	@Override
 	public String toString() {
 		return HttpHeaders.formatHeaders(this);
 	}
-
 
 	private class EntryIterator implements Iterator<Entry<String, List<String>>> {
 
@@ -215,8 +211,8 @@ class TomcatHeadersAdapter implements MultiValueMap<String, String> {
 		public Entry<String, List<String>> next() {
 			return new HeaderEntry(this.names.nextElement());
 		}
-	}
 
+	}
 
 	private final class HeaderEntry implements Entry<String, List<String>> {
 
@@ -245,6 +241,7 @@ class TomcatHeadersAdapter implements MultiValueMap<String, String> {
 			addAll(this.key, value);
 			return previous;
 		}
+
 	}
 
 }

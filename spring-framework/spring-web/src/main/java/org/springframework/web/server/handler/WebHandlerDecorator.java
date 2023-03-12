@@ -32,7 +32,6 @@ public class WebHandlerDecorator implements WebHandler {
 
 	private final WebHandler delegate;
 
-
 	/**
 	 * Create a {@code WebHandlerDecorator} for the given delegate.
 	 * @param delegate the WebHandler delegate
@@ -42,14 +41,12 @@ public class WebHandlerDecorator implements WebHandler {
 		this.delegate = delegate;
 	}
 
-
 	/**
 	 * Return the wrapped delegate.
 	 */
 	public WebHandler getDelegate() {
 		return this.delegate;
 	}
-
 
 	@Override
 	public Mono<Void> handle(ServerWebExchange exchange) {

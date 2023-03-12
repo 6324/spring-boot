@@ -21,13 +21,13 @@ import java.util.List;
 import org.springframework.util.MultiValueMap;
 
 /**
- * Structured representation of a URI path parsed via {@link #parsePath(String)}
- * into a sequence of {@link Separator} and {@link PathSegment} elements.
+ * Structured representation of a URI path parsed via {@link #parsePath(String)} into a
+ * sequence of {@link Separator} and {@link PathSegment} elements.
  *
- * <p>Each {@link PathSegment} exposes its content in decoded form and with path
- * parameters removed. This makes it safe to match one path segment at a time
- * without the risk of decoded reserved characters altering the structure of
- * the path.
+ * <p>
+ * Each {@link PathSegment} exposes its content in decoded form and with path parameters
+ * removed. This makes it safe to match one path segment at a time without the risk of
+ * decoded reserved characters altering the structure of the path.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -54,8 +54,8 @@ public interface PathContainer {
 	}
 
 	/**
-	 * Extract a sub-path from the given start offset into the element list
-	 * (inclusive) and to the end offset (exclusive).
+	 * Extract a sub-path from the given start offset into the element list (inclusive)
+	 * and to the end offset (exclusive).
 	 * @param startIndex the start element index (inclusive)
 	 * @param endIndex the end element index (exclusive)
 	 * @return the sub-path
@@ -64,10 +64,9 @@ public interface PathContainer {
 		return DefaultPathContainer.subPath(this, startIndex, endIndex);
 	}
 
-
 	/**
-	 * Parse the path value into a sequence of {@code "/"} {@link Separator Separator}
-	 * and {@link PathSegment PathSegment} elements.
+	 * Parse the path value into a sequence of {@code "/"} {@link Separator Separator} and
+	 * {@link PathSegment PathSegment} elements.
 	 * @param path the encoded, raw path value to parse
 	 * @return the parsed path
 	 */
@@ -87,7 +86,6 @@ public interface PathContainer {
 		return DefaultPathContainer.createFromUrlPath(path, options);
 	}
 
-
 	/**
 	 * A path element, either separator or path segment.
 	 */
@@ -97,15 +95,15 @@ public interface PathContainer {
 		 * The unmodified, original value of this element.
 		 */
 		String value();
-	}
 
+	}
 
 	/**
 	 * Path separator element.
 	 */
 	interface Separator extends Element {
-	}
 
+	}
 
 	/**
 	 * Path segment element.
@@ -126,25 +124,28 @@ public interface PathContainer {
 		 * Path parameters associated with this path segment.
 		 */
 		MultiValueMap<String, String> parameters();
-	}
 
+	}
 
 	/**
 	 * Options to customize parsing based on the type of input path.
+	 *
 	 * @since 5.2
 	 */
 	class Options {
 
 		/**
 		 * Options for HTTP URL paths:
-		 * <p>Separator '/' with URL decoding and parsing of path params.
+		 * <p>
+		 * Separator '/' with URL decoding and parsing of path params.
 		 */
 		public final static Options HTTP_PATH = Options.create('/', true);
 
 		/**
 		 * Options for a message route:
-		 * <p>Separator '.' without URL decoding nor parsing of params. Escape
-		 * sequences for the separator char in segment values are still decoded.
+		 * <p>
+		 * Separator '.' without URL decoding nor parsing of params. Escape sequences for
+		 * the separator char in segment values are still decoded.
 		 */
 		public final static Options MESSAGE_ROUTE = Options.create('.', false);
 
@@ -167,15 +168,16 @@ public interface PathContainer {
 
 		/**
 		 * Create an {@link Options} instance with the given settings.
-		 * @param separator the separator for parsing the path into segments;
-		 * currently this must be slash or dot.
-		 * @param decodeAndParseSegments whether to URL decode path segment
-		 * values and parse path parameters. If set to false, only escape
-		 * sequences for the separator char are decoded.
+		 * @param separator the separator for parsing the path into segments; currently
+		 * this must be slash or dot.
+		 * @param decodeAndParseSegments whether to URL decode path segment values and
+		 * parse path parameters. If set to false, only escape sequences for the separator
+		 * char are decoded.
 		 */
 		public static Options create(char separator, boolean decodeAndParseSegments) {
 			return new Options(separator, decodeAndParseSegments);
 		}
+
 	}
 
 }

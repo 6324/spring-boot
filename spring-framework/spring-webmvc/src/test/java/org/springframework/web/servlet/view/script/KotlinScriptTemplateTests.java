@@ -48,12 +48,12 @@ public class KotlinScriptTemplateTests {
 
 	private ServletContext servletContext;
 
-
 	@BeforeEach
 	public void setup() {
 		this.webAppContext = mock(WebApplicationContext.class);
 		this.servletContext = new MockServletContext();
-		this.servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, this.webAppContext);
+		this.servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE,
+				this.webAppContext);
 	}
 
 	@Test
@@ -81,14 +81,13 @@ public class KotlinScriptTemplateTests {
 		model.put("hello", "Hello");
 		model.put("foo", "Foo");
 		model.put("footer", "</body></html>");
-		MockHttpServletResponse response = render("org/springframework/web/servlet/view/script/kotlin/eval.kts",
-				model, Locale.ENGLISH, ScriptTemplatingConfigurationWithoutRenderFunction.class);
+		MockHttpServletResponse response = render("org/springframework/web/servlet/view/script/kotlin/eval.kts", model,
+				Locale.ENGLISH, ScriptTemplatingConfigurationWithoutRenderFunction.class);
 		assertThat(response.getContentAsString()).isEqualTo("<html><body>\n<p>Hello Foo</p>\n</body></html>");
 	}
 
-
-	private MockHttpServletResponse render(String viewUrl, Map<String, Object> model,
-			Locale locale, Class<?> configuration) throws Exception {
+	private MockHttpServletResponse render(String viewUrl, Map<String, Object> model, Locale locale,
+			Class<?> configuration) throws Exception {
 
 		ScriptTemplateView view = createViewWithUrl(viewUrl, configuration);
 		MockHttpServletResponse response = new MockHttpServletResponse();
@@ -110,7 +109,6 @@ public class KotlinScriptTemplateTests {
 		return view;
 	}
 
-
 	@Configuration
 	static class ScriptTemplatingConfiguration {
 
@@ -129,6 +127,7 @@ public class KotlinScriptTemplateTests {
 			messageSource.setBasename("org/springframework/web/servlet/view/script/messages");
 			return messageSource;
 		}
+
 	}
 
 	@Configuration
@@ -138,6 +137,7 @@ public class KotlinScriptTemplateTests {
 		public ScriptTemplateConfigurer kotlinScriptConfigurer() {
 			return new ScriptTemplateConfigurer("kotlin");
 		}
+
 	}
 
 }

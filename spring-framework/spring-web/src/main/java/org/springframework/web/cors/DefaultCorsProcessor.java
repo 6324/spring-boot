@@ -42,10 +42,11 @@ import org.springframework.util.CollectionUtils;
  * The default implementation of {@link CorsProcessor}, as defined by the
  * <a href="https://www.w3.org/TR/cors/">CORS W3C recommendation</a>.
  *
- * <p>Note that when input {@link CorsConfiguration} is {@code null}, this
- * implementation does not reject simple or actual requests outright but simply
- * avoid adding CORS headers to the response. CORS processing is also skipped
- * if the response already contains CORS headers.
+ * <p>
+ * Note that when input {@link CorsConfiguration} is {@code null}, this implementation
+ * does not reject simple or actual requests outright but simply avoid adding CORS headers
+ * to the response. CORS processing is also skipped if the response already contains CORS
+ * headers.
  *
  * @author Sebastien Deleuze
  * @author Rossen Stoyanchev
@@ -54,7 +55,6 @@ import org.springframework.util.CollectionUtils;
 public class DefaultCorsProcessor implements CorsProcessor {
 
 	private static final Log logger = LogFactory.getLog(DefaultCorsProcessor.class);
-
 
 	@Override
 	@SuppressWarnings("resource")
@@ -92,13 +92,13 @@ public class DefaultCorsProcessor implements CorsProcessor {
 			}
 		}
 
-		return handleInternal(new ServletServerHttpRequest(request), new ServletServerHttpResponse(response), config, preFlightRequest);
+		return handleInternal(new ServletServerHttpRequest(request), new ServletServerHttpResponse(response), config,
+				preFlightRequest);
 	}
 
 	/**
-	 * Invoked when one of the CORS checks failed.
-	 * The default implementation sets the response status to 403 and writes
-	 * "Invalid CORS request" to the response.
+	 * Invoked when one of the CORS checks failed. The default implementation sets the
+	 * response status to 403 and writes "Invalid CORS request" to the response.
 	 */
 	protected void rejectRequest(ServerHttpResponse response) throws IOException {
 		response.setStatusCode(HttpStatus.FORBIDDEN);
@@ -109,8 +109,8 @@ public class DefaultCorsProcessor implements CorsProcessor {
 	/**
 	 * Handle the given request.
 	 */
-	protected boolean handleInternal(ServerHttpRequest request, ServerHttpResponse response,
-			CorsConfiguration config, boolean preFlightRequest) throws IOException {
+	protected boolean handleInternal(ServerHttpRequest request, ServerHttpResponse response, CorsConfiguration config,
+			boolean preFlightRequest) throws IOException {
 
 		String requestOrigin = request.getHeaders().getOrigin();
 		String allowOrigin = checkOrigin(config, requestOrigin);
@@ -175,8 +175,8 @@ public class DefaultCorsProcessor implements CorsProcessor {
 	}
 
 	/**
-	 * Check the HTTP method and determine the methods for the response of a
-	 * pre-flight request. The default implementation simply delegates to
+	 * Check the HTTP method and determine the methods for the response of a pre-flight
+	 * request. The default implementation simply delegates to
 	 * {@link org.springframework.web.cors.CorsConfiguration#checkHttpMethod(HttpMethod)}.
 	 */
 	@Nullable
@@ -190,8 +190,8 @@ public class DefaultCorsProcessor implements CorsProcessor {
 	}
 
 	/**
-	 * Check the headers and determine the headers for the response of a
-	 * pre-flight request. The default implementation simply delegates to
+	 * Check the headers and determine the headers for the response of a pre-flight
+	 * request. The default implementation simply delegates to
 	 * {@link org.springframework.web.cors.CorsConfiguration#checkOrigin(String)}.
 	 */
 	@Nullable

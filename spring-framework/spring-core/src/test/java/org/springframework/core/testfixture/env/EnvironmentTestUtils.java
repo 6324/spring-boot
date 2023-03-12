@@ -41,7 +41,8 @@ public class EnvironmentTestUtils {
 					Field field = cl.getDeclaredField("m");
 					field.setAccessible(true);
 					Object obj = field.get(env);
-					if (obj != null && obj.getClass().getName().equals("java.lang.ProcessEnvironment$StringEnvironment")) {
+					if (obj != null
+							&& obj.getClass().getName().equals("java.lang.ProcessEnvironment$StringEnvironment")) {
 						return (Map<String, String>) obj;
 					}
 				}
@@ -61,7 +62,8 @@ public class EnvironmentTestUtils {
 		}
 
 		try {
-			Field theCaseInsensitiveEnvironmentField = processEnvironmentClass.getDeclaredField("theCaseInsensitiveEnvironment");
+			Field theCaseInsensitiveEnvironmentField = processEnvironmentClass
+					.getDeclaredField("theCaseInsensitiveEnvironment");
 			theCaseInsensitiveEnvironmentField.setAccessible(true);
 			Object obj = theCaseInsensitiveEnvironmentField.get(null);
 			return (Map<String, String>) obj;

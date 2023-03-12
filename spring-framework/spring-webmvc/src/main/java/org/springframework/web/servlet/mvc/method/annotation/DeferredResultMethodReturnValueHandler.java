@@ -31,8 +31,8 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Handler for return values of type {@link DeferredResult},
- * {@link ListenableFuture}, and {@link CompletionStage}.
+ * Handler for return values of type {@link DeferredResult}, {@link ListenableFuture}, and
+ * {@link CompletionStage}.
  *
  * @author Rossen Stoyanchev
  * @since 3.2
@@ -42,9 +42,8 @@ public class DeferredResultMethodReturnValueHandler implements HandlerMethodRetu
 	@Override
 	public boolean supportsReturnType(MethodParameter returnType) {
 		Class<?> type = returnType.getParameterType();
-		return (DeferredResult.class.isAssignableFrom(type) ||
-				ListenableFuture.class.isAssignableFrom(type) ||
-				CompletionStage.class.isAssignableFrom(type));
+		return (DeferredResult.class.isAssignableFrom(type) || ListenableFuture.class.isAssignableFrom(type)
+				|| CompletionStage.class.isAssignableFrom(type));
 	}
 
 	@Override
@@ -82,6 +81,7 @@ public class DeferredResultMethodReturnValueHandler implements HandlerMethodRetu
 			public void onSuccess(@Nullable Object value) {
 				result.setResult(value);
 			}
+
 			@Override
 			public void onFailure(Throwable ex) {
 				result.setErrorResult(ex);

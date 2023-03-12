@@ -37,12 +37,12 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.util.concurrent.ListenableFutureCallbackRegistry;
 import org.springframework.util.concurrent.SuccessCallback;
 
-
 /**
- * {@link ClientHttpRequest} implementation based on
- * Apache HttpComponents HttpAsyncClient.
+ * {@link ClientHttpRequest} implementation based on Apache HttpComponents
+ * HttpAsyncClient.
  *
- * <p>Created via the {@link HttpComponentsClientHttpRequestFactory}.
+ * <p>
+ * Created via the {@link HttpComponentsClientHttpRequestFactory}.
  *
  * @author Oleg Kalnichevski
  * @author Arjen Poutsma
@@ -59,13 +59,11 @@ final class HttpComponentsAsyncClientHttpRequest extends AbstractBufferingAsyncC
 
 	private final HttpContext httpContext;
 
-
 	HttpComponentsAsyncClientHttpRequest(HttpAsyncClient client, HttpUriRequest request, HttpContext context) {
 		this.httpClient = client;
 		this.httpRequest = request;
 		this.httpContext = context;
 	}
-
 
 	@Override
 	public String getMethodValue() {
@@ -98,13 +96,11 @@ final class HttpComponentsAsyncClientHttpRequest extends AbstractBufferingAsyncC
 		return new ClientHttpResponseFuture(futureResponse, callback);
 	}
 
-
 	private static class HttpResponseFutureCallback implements FutureCallback<HttpResponse> {
 
 		private final HttpUriRequest request;
 
-		private final ListenableFutureCallbackRegistry<ClientHttpResponse> callbacks =
-				new ListenableFutureCallbackRegistry<>();
+		private final ListenableFutureCallbackRegistry<ClientHttpResponse> callbacks = new ListenableFutureCallbackRegistry<>();
 
 		public HttpResponseFutureCallback(HttpUriRequest request) {
 			this.request = request;
@@ -136,8 +132,8 @@ final class HttpComponentsAsyncClientHttpRequest extends AbstractBufferingAsyncC
 		public void cancelled() {
 			this.request.abort();
 		}
-	}
 
+	}
 
 	private static class ClientHttpResponseFuture extends FutureAdapter<ClientHttpResponse, HttpResponse>
 			implements ListenableFuture<ClientHttpResponse> {
@@ -166,6 +162,7 @@ final class HttpComponentsAsyncClientHttpRequest extends AbstractBufferingAsyncC
 			this.callback.addSuccessCallback(successCallback);
 			this.callback.addFailureCallback(failureCallback);
 		}
+
 	}
 
 }

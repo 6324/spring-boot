@@ -34,10 +34,11 @@ import org.springframework.web.servlet.tags.NestedPathTag;
 /**
  * Base tag for all data-binding aware JSP form tags.
  *
- * <p>Provides the common {@link #setPath path} and {@link #setId id} properties.
- * Provides sub-classes with utility methods for accessing the {@link BindStatus}
- * of their bound value and also for {@link #writeOptionalAttribute interacting}
- * with the {@link TagWriter}.
+ * <p>
+ * Provides the common {@link #setPath path} and {@link #setId id} properties. Provides
+ * sub-classes with utility methods for accessing the {@link BindStatus} of their bound
+ * value and also for {@link #writeOptionalAttribute interacting} with the
+ * {@link TagWriter}.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -47,11 +48,11 @@ import org.springframework.web.servlet.tags.NestedPathTag;
 public abstract class AbstractDataBoundFormElementTag extends AbstractFormTag implements EditorAwareTag {
 
 	/**
-	 * Name of the exposed path variable within the scope of this tag: "nestedPath".
-	 * Same value as {@link org.springframework.web.servlet.tags.NestedPathTag#NESTED_PATH_VARIABLE_NAME}.
+	 * Name of the exposed path variable within the scope of this tag: "nestedPath". Same
+	 * value as
+	 * {@link org.springframework.web.servlet.tags.NestedPathTag#NESTED_PATH_VARIABLE_NAME}.
 	 */
 	protected static final String NESTED_PATH_VARIABLE_NAME = NestedPathTag.NESTED_PATH_VARIABLE_NAME;
-
 
 	/**
 	 * The property path from the {@link FormTag#setModelAttribute form object}.
@@ -71,10 +72,9 @@ public abstract class AbstractDataBoundFormElementTag extends AbstractFormTag im
 	@Nullable
 	private BindStatus bindStatus;
 
-
 	/**
-	 * Set the property path from the {@link FormTag#setModelAttribute form object}.
-	 * May be a runtime expression.
+	 * Set the property path from the {@link FormTag#setModelAttribute form object}. May
+	 * be a runtime expression.
 	 */
 	public void setPath(String path) {
 		this.path = path;
@@ -91,8 +91,9 @@ public abstract class AbstractDataBoundFormElementTag extends AbstractFormTag im
 
 	/**
 	 * Set the value of the '{@code id}' attribute.
-	 * <p>May be a runtime expression; defaults to the value of {@link #getName()}.
-	 * Note that the default value may not be valid for certain tags.
+	 * <p>
+	 * May be a runtime expression; defaults to the value of {@link #getName()}. Note that
+	 * the default value may not be valid for certain tags.
 	 */
 	@Override
 	public void setId(@Nullable String id) {
@@ -108,14 +109,13 @@ public abstract class AbstractDataBoundFormElementTag extends AbstractFormTag im
 		return this.id;
 	}
 
-
 	/**
-	 * Writes the default set of attributes to the supplied {@link TagWriter}.
-	 * Further abstract sub-classes should override this method to add in
-	 * any additional default attributes but <strong>must</strong> remember
-	 * to call the {@code super} method.
-	 * <p>Concrete sub-classes should call this method when/if they want
-	 * to render default attributes.
+	 * Writes the default set of attributes to the supplied {@link TagWriter}. Further
+	 * abstract sub-classes should override this method to add in any additional default
+	 * attributes but <strong>must</strong> remember to call the {@code super} method.
+	 * <p>
+	 * Concrete sub-classes should call this method when/if they want to render default
+	 * attributes.
 	 * @param tagWriter the {@link TagWriter} to which any attributes are to be written
 	 */
 	protected void writeDefaultAttributes(TagWriter tagWriter) throws JspException {
@@ -124,8 +124,8 @@ public abstract class AbstractDataBoundFormElementTag extends AbstractFormTag im
 	}
 
 	/**
-	 * Determine the '{@code id}' attribute value for this tag,
-	 * autogenerating one if none specified.
+	 * Determine the '{@code id}' attribute value for this tag, autogenerating one if none
+	 * specified.
 	 * @see #getId()
 	 * @see #autogenerateId()
 	 */
@@ -141,8 +141,9 @@ public abstract class AbstractDataBoundFormElementTag extends AbstractFormTag im
 
 	/**
 	 * Autogenerate the '{@code id}' attribute value for this tag.
-	 * <p>The default implementation simply delegates to {@link #getName()},
-	 * deleting invalid characters (such as "[" or "]").
+	 * <p>
+	 * The default implementation simply delegates to {@link #getName()}, deleting invalid
+	 * characters (such as "[" or "]").
 	 */
 	@Nullable
 	protected String autogenerateId() throws JspException {
@@ -152,11 +153,11 @@ public abstract class AbstractDataBoundFormElementTag extends AbstractFormTag im
 
 	/**
 	 * Get the value for the HTML '{@code name}' attribute.
-	 * <p>The default implementation simply delegates to
-	 * {@link #getPropertyPath()} to use the property path as the name.
-	 * For the most part this is desirable as it links with the server-side
-	 * expectation for data binding. However, some subclasses may wish to change
-	 * the value of the '{@code name}' attribute without changing the bind path.
+	 * <p>
+	 * The default implementation simply delegates to {@link #getPropertyPath()} to use
+	 * the property path as the name. For the most part this is desirable as it links with
+	 * the server-side expectation for data binding. However, some subclasses may wish to
+	 * change the value of the '{@code name}' attribute without changing the bind path.
 	 * @return the value for the HTML '{@code name}' attribute
 	 */
 	@Nullable
@@ -190,8 +191,8 @@ public abstract class AbstractDataBoundFormElementTag extends AbstractFormTag im
 	}
 
 	/**
-	 * Build the property path for this tag, including the nested path
-	 * but <i>not</i> prefixed with the name of the form attribute.
+	 * Build the property path for this tag, including the nested path but <i>not</i>
+	 * prefixed with the name of the form attribute.
 	 * @see #getNestedPath()
 	 * @see #getPath()
 	 */
@@ -219,7 +220,8 @@ public abstract class AbstractDataBoundFormElementTag extends AbstractFormTag im
 
 	/**
 	 * Exposes the {@link PropertyEditor} for {@link EditorAwareTag}.
-	 * <p>Use {@link #getPropertyEditor()} for internal rendering purposes.
+	 * <p>
+	 * Use {@link #getPropertyEditor()} for internal rendering purposes.
 	 */
 	@Override
 	@Nullable
@@ -228,8 +230,8 @@ public abstract class AbstractDataBoundFormElementTag extends AbstractFormTag im
 	}
 
 	/**
-	 * Get a display String for the given value, converted by a PropertyEditor
-	 * that the BindStatus may have registered for the value's Class.
+	 * Get a display String for the given value, converted by a PropertyEditor that the
+	 * BindStatus may have registered for the value's Class.
 	 */
 	protected String convertToDisplayString(@Nullable Object value) throws JspException {
 		PropertyEditor editor = (value != null ? getBindStatus().findEditor(value.getClass()) : null);
@@ -237,8 +239,8 @@ public abstract class AbstractDataBoundFormElementTag extends AbstractFormTag im
 	}
 
 	/**
-	 * Process the given form field through a {@link RequestDataValueProcessor}
-	 * instance if one is configured or otherwise returns the same value.
+	 * Process the given form field through a {@link RequestDataValueProcessor} instance
+	 * if one is configured or otherwise returns the same value.
 	 */
 	protected final String processFieldValue(@Nullable String name, String value, String type) {
 		RequestDataValueProcessor processor = getRequestContext().getRequestDataValueProcessor();

@@ -68,8 +68,11 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 public class ViewResolverTests {
 
 	private final StaticWebApplicationContext wac = new StaticWebApplicationContext();
+
 	private final MockServletContext sc = new MockServletContext();
+
 	private final MockHttpServletRequest request = new MockHttpServletRequest(this.sc);
+
 	private final HttpServletResponse response = new MockHttpServletResponse();
 
 	@BeforeEach
@@ -100,9 +103,8 @@ public class ViewResolverTests {
 
 	@Test
 	public void urlBasedViewResolverOverridesCustomRequestContextAttributeWithNonNullValue() throws Exception {
-		assertThat(new TestView().getRequestContextAttribute())
-			.as("requestContextAttribute when instantiated directly")
-			.isEqualTo("testRequestContext");
+		assertThat(new TestView().getRequestContextAttribute()).as("requestContextAttribute when instantiated directly")
+				.isEqualTo("testRequestContext");
 
 		UrlBasedViewResolver vr = new UrlBasedViewResolver();
 		vr.setViewClass(TestView.class);
@@ -113,15 +115,14 @@ public class ViewResolverTests {
 		View view = vr.resolveViewName("example", Locale.getDefault());
 		assertThat(view).isInstanceOf(TestView.class);
 		assertThat(((TestView) view).getRequestContextAttribute())
-			.as("requestContextAttribute when instantiated dynamically by UrlBasedViewResolver")
-			.isEqualTo("viewResolverRequestContext");
+				.as("requestContextAttribute when instantiated dynamically by UrlBasedViewResolver")
+				.isEqualTo("viewResolverRequestContext");
 	}
 
 	@Test
 	public void urlBasedViewResolverDoesNotOverrideCustomRequestContextAttributeWithNull() throws Exception {
-		assertThat(new TestView().getRequestContextAttribute())
-			.as("requestContextAttribute when instantiated directly")
-			.isEqualTo("testRequestContext");
+		assertThat(new TestView().getRequestContextAttribute()).as("requestContextAttribute when instantiated directly")
+				.isEqualTo("testRequestContext");
 
 		UrlBasedViewResolver vr = new UrlBasedViewResolver();
 		vr.setViewClass(TestView.class);
@@ -131,8 +132,8 @@ public class ViewResolverTests {
 		View view = vr.resolveViewName("example", Locale.getDefault());
 		assertThat(view).isInstanceOf(TestView.class);
 		assertThat(((TestView) view).getRequestContextAttribute())
-			.as("requestContextAttribute when instantiated dynamically by UrlBasedViewResolver")
-			.isEqualTo("testRequestContext");
+				.as("requestContextAttribute when instantiated dynamically by UrlBasedViewResolver")
+				.isEqualTo("testRequestContext");
 	}
 
 	@Test
@@ -168,12 +169,14 @@ public class ViewResolverTests {
 		View view = vr.resolveViewName("example1", Locale.getDefault());
 		assertThat(view).isInstanceOf(JstlView.class);
 		assertThat(((InternalResourceView) view).getUrl()).as("Correct URL").isEqualTo("example1");
-		assertThat(((InternalResourceView) view).getContentType()).as("Correct textContentType").isEqualTo("myContentType");
+		assertThat(((InternalResourceView) view).getContentType()).as("Correct textContentType")
+				.isEqualTo("myContentType");
 
 		view = vr.resolveViewName("example2", Locale.getDefault());
 		assertThat(view).isInstanceOf(JstlView.class);
 		assertThat(((InternalResourceView) view).getUrl()).as("Correct URL").isEqualTo("example2");
-		assertThat(((InternalResourceView) view).getContentType()).as("Correct textContentType").isEqualTo("myContentType");
+		assertThat(((InternalResourceView) view).getContentType()).as("Correct textContentType")
+				.isEqualTo("myContentType");
 
 		this.request.setAttribute(DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE, this.wac);
 		this.request.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE, new AcceptHeaderLocaleResolver());
@@ -306,7 +309,7 @@ public class ViewResolverTests {
 		Map<String, Object> map = new HashMap<>();
 		map.put("key2", 2);
 		vr.setAttributesMap(map);
-		vr.setExposedContextBeanNames(new String[] {"myBean2"});
+		vr.setExposedContextBeanNames(new String[] { "myBean2" });
 		vr.setApplicationContext(this.wac);
 
 		HttpServletRequest request = new MockHttpServletRequest(this.sc) {
@@ -367,7 +370,8 @@ public class ViewResolverTests {
 	public void internalResourceViewResolverWithJstlAndContextParam() throws Exception {
 		Locale locale = !Locale.GERMAN.equals(Locale.getDefault()) ? Locale.GERMAN : Locale.FRENCH;
 
-		this.sc.addInitParameter(Config.FMT_LOCALIZATION_CONTEXT, "org/springframework/web/context/WEB-INF/context-messages");
+		this.sc.addInitParameter(Config.FMT_LOCALIZATION_CONTEXT,
+				"org/springframework/web/context/WEB-INF/context-messages");
 		this.wac.addMessage("code1", locale, "messageX");
 		this.wac.refresh();
 		InternalResourceViewResolver vr = new InternalResourceViewResolver();
@@ -467,8 +471,8 @@ public class ViewResolverTests {
 		XmlViewResolver vr = new XmlViewResolver();
 		vr.setCache(false);
 		vr.setApplicationContext(wac);
-		assertThatExceptionOfType(BeanDefinitionStoreException.class).isThrownBy(() ->
-				vr.resolveViewName("example1", Locale.getDefault()));
+		assertThatExceptionOfType(BeanDefinitionStoreException.class)
+				.isThrownBy(() -> vr.resolveViewName("example1", Locale.getDefault()));
 	}
 
 	@Test
@@ -558,7 +562,6 @@ public class ViewResolverTests {
 		assertThat(count.intValue()).isEqualTo(2);
 	}
 
-
 	public static class TestView extends InternalResourceView {
 
 		public TestView() {
@@ -567,9 +570,11 @@ public class ViewResolverTests {
 
 		public void setLocation(Resource location) {
 			if (!(location instanceof ServletContextResource)) {
-				throw new IllegalArgumentException("Expecting ServletContextResource, not " + location.getClass().getName());
+				throw new IllegalArgumentException(
+						"Expecting ServletContextResource, not " + location.getClass().getName());
 			}
 		}
+
 	}
 
 }

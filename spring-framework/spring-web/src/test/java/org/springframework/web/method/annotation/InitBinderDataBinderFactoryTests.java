@@ -46,14 +46,11 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
  */
 public class InitBinderDataBinderFactoryTests {
 
-	private final ConfigurableWebBindingInitializer bindingInitializer =
-			new ConfigurableWebBindingInitializer();
+	private final ConfigurableWebBindingInitializer bindingInitializer = new ConfigurableWebBindingInitializer();
 
-	private final HandlerMethodArgumentResolverComposite argumentResolvers =
-			new HandlerMethodArgumentResolverComposite();
+	private final HandlerMethodArgumentResolverComposite argumentResolvers = new HandlerMethodArgumentResolverComposite();
 
 	private final NativeWebRequest webRequest = new ServletWebRequest(new MockHttpServletRequest());
-
 
 	@Test
 	public void createBinder() throws Exception {
@@ -103,8 +100,7 @@ public class InitBinderDataBinderFactoryTests {
 	@Test
 	public void returnValueNotExpected() throws Exception {
 		WebDataBinderFactory factory = createFactory("initBinderReturnValue", WebDataBinder.class);
-		assertThatIllegalStateException().isThrownBy(() ->
-				factory.createBinder(this.webRequest, null, "invalidName"));
+		assertThatIllegalStateException().isThrownBy(() -> factory.createBinder(this.webRequest, null, "invalidName"));
 	}
 
 	@Test
@@ -119,8 +115,7 @@ public class InitBinderDataBinderFactoryTests {
 		assertThat(dataBinder.getDisallowedFields()[0]).isEqualTo("requestParam-22");
 	}
 
-	private WebDataBinderFactory createFactory(String methodName, Class<?>... parameterTypes)
-			throws Exception {
+	private WebDataBinderFactory createFactory(String methodName, Class<?>... parameterTypes) throws Exception {
 
 		Object handler = new InitBinderHandler();
 		Method method = handler.getClass().getMethod(methodName, parameterTypes);
@@ -130,10 +125,8 @@ public class InitBinderDataBinderFactoryTests {
 		handlerMethod.setDataBinderFactory(new DefaultDataBinderFactory(null));
 		handlerMethod.setParameterNameDiscoverer(new LocalVariableTableParameterNameDiscoverer());
 
-		return new InitBinderDataBinderFactory(
-				Collections.singletonList(handlerMethod), this.bindingInitializer);
+		return new InitBinderDataBinderFactory(Collections.singletonList(handlerMethod), this.bindingInitializer);
 	}
-
 
 	private static class InitBinderHandler {
 
@@ -142,7 +135,7 @@ public class InitBinderDataBinderFactoryTests {
 			dataBinder.setDisallowedFields("id");
 		}
 
-		@InitBinder(value="foo")
+		@InitBinder(value = "foo")
 		public void initBinderWithAttributeName(WebDataBinder dataBinder) {
 			dataBinder.setDisallowedFields("id");
 		}
@@ -156,6 +149,7 @@ public class InitBinderDataBinderFactoryTests {
 		public void initBinderTypeConversion(WebDataBinder dataBinder, @RequestParam int requestParam) {
 			dataBinder.setDisallowedFields("requestParam-" + requestParam);
 		}
+
 	}
 
 }

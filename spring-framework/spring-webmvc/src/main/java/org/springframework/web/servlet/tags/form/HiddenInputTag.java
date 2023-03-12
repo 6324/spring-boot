@@ -19,43 +19,89 @@ package org.springframework.web.servlet.tags.form;
 import javax.servlet.jsp.JspException;
 
 /**
- * The {@code <hidden>} tag renders an HTML 'input' tag with type 'hidden' using
- * the bound value.
+ * The {@code <hidden>} tag renders an HTML 'input' tag with type 'hidden' using the bound
+ * value.
  *
- * <p>Example (binding to 'name' property of form backing object):
- * <pre class="code">
+ * <p>
+ * Example (binding to 'name' property of form backing object): <pre class="code">
  * &lt;form:hidden path=&quot;name&quot;/&gt;
  * </pre>
  *
  * <p>
  * <table>
- * <caption>Attribute Summary</caption>
- * <thead>
+ * <caption>Attribute Summary</caption> <thead>
  * <tr>
  * <th class="colFirst">Attribute</th>
  * <th class="colOne">Required?</th>
  * <th class="colOne">Runtime Expression?</th>
  * <th class="colLast">Description</th>
  * </tr>
- * </thead>
- * <tbody>
+ * </thead> <tbody>
  * <tr class="altColor">
- * <td><p>htmlEscape</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>Enable/disable HTML escaping of rendered values.</p></td>
+ * <td>
+ * <p>
+ * htmlEscape
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * Enable/disable HTML escaping of rendered values.
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>id</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Standard Attribute</p></td>
+ * <td>
+ * <p>
+ * id
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Standard Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>path</p></td>
- * <td><p>true</p></td>
- * <td><p>true</p></td>
- * <td><p>Path to property for data binding</p></td>
+ * <td>
+ * <p>
+ * path
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * Path to property for data binding
+ * </p>
+ * </td>
  * </tr>
  * </tbody>
  * </table>
@@ -75,10 +121,8 @@ public class HiddenInputTag extends AbstractHtmlElementTag {
 
 	private boolean disabled;
 
-
 	/**
-	 * Set the value of the '{@code disabled}' attribute.
-	 * May be a runtime expression.
+	 * Set the value of the '{@code disabled}' attribute. May be a runtime expression.
 	 */
 	public void setDisabled(boolean disabled) {
 		this.disabled = disabled;
@@ -90,7 +134,6 @@ public class HiddenInputTag extends AbstractHtmlElementTag {
 	public boolean isDisabled() {
 		return this.disabled;
 	}
-
 
 	/**
 	 * Flags "type" as an illegal dynamic attribute.

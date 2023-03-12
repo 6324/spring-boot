@@ -39,10 +39,9 @@ public class InterceptingAsyncClientHttpRequestFactory implements AsyncClientHtt
 
 	private List<AsyncClientHttpRequestInterceptor> interceptors;
 
-
 	/**
-	 * Create new instance of {@link InterceptingAsyncClientHttpRequestFactory}
-	 * with delegated request factory and list of interceptors.
+	 * Create new instance of {@link InterceptingAsyncClientHttpRequestFactory} with
+	 * delegated request factory and list of interceptors.
 	 * @param delegate the request factory to delegate to
 	 * @param interceptors the list of interceptors to use
 	 */
@@ -52,7 +51,6 @@ public class InterceptingAsyncClientHttpRequestFactory implements AsyncClientHtt
 		this.delegate = delegate;
 		this.interceptors = (interceptors != null ? interceptors : Collections.emptyList());
 	}
-
 
 	@Override
 	public AsyncClientHttpRequest createAsyncRequest(URI uri, HttpMethod method) {

@@ -80,7 +80,6 @@ public class ResponseEntityExceptionHandlerTests {
 
 	private WebRequest request = new ServletWebRequest(this.servletRequest, this.servletResponse);
 
-
 	@Test
 	public void supportsAllDefaultHandlerExceptionResolverExceptionTypes() throws Exception {
 		Class<ResponseEntityExceptionHandler> clazz = ResponseEntityExceptionHandler.class;
@@ -186,10 +185,9 @@ public class ResponseEntityExceptionHandlerTests {
 
 	@Test
 	public void noHandlerFoundException() {
-		ServletServerHttpRequest req = new ServletServerHttpRequest(
-				new MockHttpServletRequest("GET","/resource"));
-		Exception ex = new NoHandlerFoundException(req.getMethod().toString(),
-				req.getServletRequest().getRequestURI(),req.getHeaders());
+		ServletServerHttpRequest req = new ServletServerHttpRequest(new MockHttpServletRequest("GET", "/resource"));
+		Exception ex = new NoHandlerFoundException(req.getMethod().toString(), req.getServletRequest().getRequestURI(),
+				req.getHeaders());
 		testException(ex);
 	}
 
@@ -266,7 +264,6 @@ public class ResponseEntityExceptionHandlerTests {
 		}
 	}
 
-
 	private ResponseEntity<Object> testException(Exception ex) {
 		try {
 			ResponseEntity<Object> responseEntity = this.exceptionHandlerSupport.handleException(ex, this.request);
@@ -287,7 +284,6 @@ public class ResponseEntityExceptionHandlerTests {
 		}
 	}
 
-
 	@Controller
 	private static class ExceptionThrowingController {
 
@@ -295,8 +291,8 @@ public class ResponseEntityExceptionHandlerTests {
 		public void handleRequest() throws Exception {
 			throw new ServletRequestBindingException("message");
 		}
-	}
 
+	}
 
 	@Controller
 	private static class NestedExceptionThrowingController {
@@ -305,21 +301,21 @@ public class ResponseEntityExceptionHandlerTests {
 		public void handleRequest() throws Exception {
 			throw new IllegalStateException(new ServletRequestBindingException("message"));
 		}
-	}
 
+	}
 
 	@ControllerAdvice
 	private static class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
 
 		@Override
-		protected ResponseEntity<Object> handleServletRequestBindingException(
-				ServletRequestBindingException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+		protected ResponseEntity<Object> handleServletRequestBindingException(ServletRequestBindingException ex,
+				HttpHeaders headers, HttpStatus status, WebRequest request) {
 
 			headers.set("someHeader", "someHeaderValue");
 			return handleExceptionInternal(ex, "error content", headers, status, request);
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	void handle(String arg) {

@@ -64,7 +64,6 @@ public class MappingJackson2XmlViewTests {
 
 	private ScriptableObject jsScope;
 
-
 	@BeforeEach
 	public void setUp() {
 		request = new MockHttpServletRequest();
@@ -75,7 +74,6 @@ public class MappingJackson2XmlViewTests {
 
 		view = new MappingJackson2XmlView();
 	}
-
 
 	@Test
 	public void isExposePathVars() {
@@ -205,8 +203,7 @@ public class MappingJackson2XmlViewTests {
 		model.put("foo", "foo");
 		model.put("bar", "bar");
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				view.render(model, request, response));
+		assertThatIllegalStateException().isThrownBy(() -> view.render(model, request, response));
 	}
 
 	@Test
@@ -229,20 +226,19 @@ public class MappingJackson2XmlViewTests {
 	}
 
 	private void validateResult() throws Exception {
-		Object xmlResult =
-				jsContext.evaluateString(jsScope, "(" + response.getContentAsString() + ")", "XML Stream", 1, null);
+		Object xmlResult = jsContext.evaluateString(jsScope, "(" + response.getContentAsString() + ")", "XML Stream", 1,
+				null);
 		assertThat(xmlResult).as("XML Result did not eval as valid JavaScript").isNotNull();
 		assertThat(response.getContentType()).isEqualTo("application/xml");
 	}
 
-
 	public interface MyJacksonView1 {
-	}
 
+	}
 
 	public interface MyJacksonView2 {
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	public static class TestBeanSimple {
@@ -276,13 +272,13 @@ public class MappingJackson2XmlViewTests {
 		public TestChildBean getChild() {
 			return child;
 		}
+
 	}
 
-
-	@JsonSerialize(using=TestBeanSimpleSerializer.class)
+	@JsonSerialize(using = TestBeanSimpleSerializer.class)
 	public static class TestBeanSimpleAnnotated extends TestBeanSimple {
-	}
 
+	}
 
 	public static class TestChildBean {
 
@@ -307,8 +303,8 @@ public class MappingJackson2XmlViewTests {
 		public void setParent(TestBeanSimple parent) {
 			this.parent = parent;
 		}
-	}
 
+	}
 
 	public static class TestBeanSimpleSerializer extends JsonSerializer<Object> {
 
@@ -319,8 +315,8 @@ public class MappingJackson2XmlViewTests {
 			jgen.writeString("custom");
 			jgen.writeEndObject();
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	public static class DelegatingSerializerFactory extends BeanSerializerFactory {
@@ -330,7 +326,8 @@ public class MappingJackson2XmlViewTests {
 		}
 
 		@Override
-		public JsonSerializer<Object> createSerializer(SerializerProvider prov, JavaType type) throws JsonMappingException {
+		public JsonSerializer<Object> createSerializer(SerializerProvider prov, JavaType type)
+				throws JsonMappingException {
 			if (type.getRawClass() == TestBeanSimple.class) {
 				return new TestBeanSimpleSerializer();
 			}
@@ -338,6 +335,7 @@ public class MappingJackson2XmlViewTests {
 				return super.createSerializer(prov, type);
 			}
 		}
+
 	}
 
 }

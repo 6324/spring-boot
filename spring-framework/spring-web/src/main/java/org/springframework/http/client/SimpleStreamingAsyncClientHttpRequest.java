@@ -30,9 +30,9 @@ import org.springframework.util.StreamUtils;
 import org.springframework.util.concurrent.ListenableFuture;
 
 /**
- * {@link org.springframework.http.client.ClientHttpRequest} implementation
- * that uses standard Java facilities to execute streaming requests. Created
- * via the {@link org.springframework.http.client.SimpleClientHttpRequestFactory}.
+ * {@link org.springframework.http.client.ClientHttpRequest} implementation that uses
+ * standard Java facilities to execute streaming requests. Created via the
+ * {@link org.springframework.http.client.SimpleClientHttpRequestFactory}.
  *
  * @author Arjen Poutsma
  * @since 3.0
@@ -55,16 +55,14 @@ final class SimpleStreamingAsyncClientHttpRequest extends AbstractAsyncClientHtt
 
 	private final AsyncListenableTaskExecutor taskExecutor;
 
-
-	SimpleStreamingAsyncClientHttpRequest(HttpURLConnection connection, int chunkSize,
-			boolean outputStreaming, AsyncListenableTaskExecutor taskExecutor) {
+	SimpleStreamingAsyncClientHttpRequest(HttpURLConnection connection, int chunkSize, boolean outputStreaming,
+			AsyncListenableTaskExecutor taskExecutor) {
 
 		this.connection = connection;
 		this.chunkSize = chunkSize;
 		this.outputStreaming = outputStreaming;
 		this.taskExecutor = taskExecutor;
 	}
-
 
 	@Override
 	public String getMethodValue() {
@@ -77,8 +75,7 @@ final class SimpleStreamingAsyncClientHttpRequest extends AbstractAsyncClientHtt
 			return this.connection.getURL().toURI();
 		}
 		catch (URISyntaxException ex) {
-			throw new IllegalStateException(
-					"Could not get HttpURLConnection URI: " + ex.getMessage(), ex);
+			throw new IllegalStateException("Could not get HttpURLConnection URI: " + ex.getMessage(), ex);
 		}
 	}
 

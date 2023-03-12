@@ -47,7 +47,6 @@ public class JaxWsSoapFaultException extends SoapFaultException {
 		return ((SOAPFaultException) getCause()).getFault();
 	}
 
-
 	@Override
 	public String getFaultCode() {
 		return getFault().getFaultCode();

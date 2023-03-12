@@ -59,19 +59,16 @@ public class XsltViewTests {
 
 	private final MockHttpServletResponse response = new MockHttpServletResponse();
 
-
 	@Test
 	public void withNoSource() throws Exception {
 		final XsltView view = getXsltView(HTML_OUTPUT);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				view.render(emptyMap(), request, response));
+		assertThatIllegalArgumentException().isThrownBy(() -> view.render(emptyMap(), request, response));
 	}
 
 	@Test
 	public void withoutUrl() throws Exception {
 		final XsltView view = new XsltView();
-		assertThatIllegalArgumentException().isThrownBy(
-				view::afterPropertiesSet);
+		assertThatIllegalArgumentException().isThrownBy(view::afterPropertiesSet);
 	}
 
 	@Test

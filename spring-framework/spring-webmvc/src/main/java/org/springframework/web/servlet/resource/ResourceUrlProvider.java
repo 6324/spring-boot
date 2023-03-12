@@ -40,11 +40,12 @@ import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * A central component to use to obtain the public URL path that clients should
- * use to access a static resource.
+ * A central component to use to obtain the public URL path that clients should use to
+ * access a static resource.
  *
- * <p>This class is aware of Spring MVC handler mappings used to serve static
- * resources and uses the {@code ResourceResolver} chains of the configured
+ * <p>
+ * This class is aware of Spring MVC handler mappings used to serve static resources and
+ * uses the {@code ResourceResolver} chains of the configured
  * {@code ResourceHttpRequestHandler}s to make its decisions.
  *
  * @author Rossen Stoyanchev
@@ -62,11 +63,10 @@ public class ResourceUrlProvider implements ApplicationListener<ContextRefreshed
 
 	private boolean autodetect = true;
 
-
 	/**
 	 * Configure a {@code UrlPathHelper} to use in
-	 * {@link #getForRequestUrl(javax.servlet.http.HttpServletRequest, String)}
-	 * in order to derive the lookup path for a target request URL path.
+	 * {@link #getForRequestUrl(javax.servlet.http.HttpServletRequest, String)} in order
+	 * to derive the lookup path for a target request URL path.
 	 */
 	public void setUrlPathHelper(UrlPathHelper urlPathHelper) {
 		this.urlPathHelper = urlPathHelper;
@@ -81,8 +81,8 @@ public class ResourceUrlProvider implements ApplicationListener<ContextRefreshed
 	}
 
 	/**
-	 * Configure a {@code PathMatcher} to use when comparing target lookup path
-	 * against resource mappings.
+	 * Configure a {@code PathMatcher} to use when comparing target lookup path against
+	 * resource mappings.
 	 */
 	public void setPathMatcher(PathMatcher pathMatcher) {
 		this.pathMatcher = pathMatcher;
@@ -97,9 +97,10 @@ public class ResourceUrlProvider implements ApplicationListener<ContextRefreshed
 
 	/**
 	 * Manually configure the resource mappings.
-	 * <p><strong>Note:</strong> by default resource mappings are auto-detected
-	 * from the Spring {@code ApplicationContext}. However if this property is
-	 * used, the auto-detection is turned off.
+	 * <p>
+	 * <strong>Note:</strong> by default resource mappings are auto-detected from the
+	 * Spring {@code ApplicationContext}. However if this property is used, the
+	 * auto-detection is turned off.
 	 */
 	public void setHandlerMap(@Nullable Map<String, ResourceHttpRequestHandler> handlerMap) {
 		if (handlerMap != null) {
@@ -110,16 +111,16 @@ public class ResourceUrlProvider implements ApplicationListener<ContextRefreshed
 	}
 
 	/**
-	 * Return the resource mappings, either manually configured or auto-detected
-	 * when the Spring {@code ApplicationContext} is refreshed.
+	 * Return the resource mappings, either manually configured or auto-detected when the
+	 * Spring {@code ApplicationContext} is refreshed.
 	 */
 	public Map<String, ResourceHttpRequestHandler> getHandlerMap() {
 		return this.handlerMap;
 	}
 
 	/**
-	 * Return {@code false} if resource mappings were manually configured,
-	 * {@code true} otherwise.
+	 * Return {@code false} if resource mappings were manually configured, {@code true}
+	 * otherwise.
 	 */
 	public boolean isAutodetect() {
 		return this.autodetect;
@@ -135,7 +136,6 @@ public class ResourceUrlProvider implements ApplicationListener<ContextRefreshed
 			}
 		}
 	}
-
 
 	protected void detectResourceHandlers(ApplicationContext appContext) {
 		Map<String, SimpleUrlHandlerMapping> beans = appContext.getBeansOfType(SimpleUrlHandlerMapping.class);
@@ -158,9 +158,9 @@ public class ResourceUrlProvider implements ApplicationListener<ContextRefreshed
 	}
 
 	/**
-	 * A variation on {@link #getForLookupPath(String)} that accepts a full request
-	 * URL path (i.e. including context and servlet path) and returns the full request
-	 * URL path to expose for public use.
+	 * A variation on {@link #getForLookupPath(String)} that accepts a full request URL
+	 * path (i.e. including context and servlet path) and returns the full request URL
+	 * path to expose for public use.
 	 * @param request the current request
 	 * @param requestUrl the request URL path to resolve
 	 * @return the resolved public URL path, or {@code null} if unresolved
@@ -200,14 +200,16 @@ public class ResourceUrlProvider implements ApplicationListener<ContextRefreshed
 	}
 
 	/**
-	 * Compare the given path against configured resource handler mappings and
-	 * if a match is found use the {@code ResourceResolver} chain of the matched
-	 * {@code ResourceHttpRequestHandler} to resolve the URL path to expose for
-	 * public use.
-	 * <p>It is expected that the given path is what Spring MVC would use for
-	 * request mapping purposes, i.e. excluding context and servlet path portions.
-	 * <p>If several handler mappings match, the handler used will be the one
-	 * configured with the most specific pattern.
+	 * Compare the given path against configured resource handler mappings and if a match
+	 * is found use the {@code ResourceResolver} chain of the matched
+	 * {@code ResourceHttpRequestHandler} to resolve the URL path to expose for public
+	 * use.
+	 * <p>
+	 * It is expected that the given path is what Spring MVC would use for request mapping
+	 * purposes, i.e. excluding context and servlet path portions.
+	 * <p>
+	 * If several handler mappings match, the handler used will be the one configured with
+	 * the most specific pattern.
 	 * @param lookupPath the lookup path to check
 	 * @return the resolved public URL path, or {@code null} if unresolved
 	 */
@@ -219,7 +221,8 @@ public class ResourceUrlProvider implements ApplicationListener<ContextRefreshed
 		do {
 			previous = lookupPath;
 			lookupPath = StringUtils.replace(lookupPath, "//", "/");
-		} while (!lookupPath.equals(previous));
+		}
+		while (!lookupPath.equals(previous));
 
 		List<String> matchingPatterns = new ArrayList<>();
 		for (String pattern : this.handlerMap.keySet()) {

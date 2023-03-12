@@ -26,7 +26,6 @@ import org.springframework.http.codec.ServerCodecConfigurer;
  */
 public class DefaultServerCodecConfigurer extends BaseCodecConfigurer implements ServerCodecConfigurer {
 
-
 	public DefaultServerCodecConfigurer() {
 		super(new ServerDefaultCodecsImpl());
 	}
@@ -34,7 +33,6 @@ public class DefaultServerCodecConfigurer extends BaseCodecConfigurer implements
 	private DefaultServerCodecConfigurer(BaseCodecConfigurer other) {
 		super(other);
 	}
-
 
 	@Override
 	public ServerDefaultCodecs defaultCodecs() {
@@ -50,4 +48,5 @@ public class DefaultServerCodecConfigurer extends BaseCodecConfigurer implements
 	protected BaseDefaultCodecs cloneDefaultCodecs() {
 		return new ServerDefaultCodecsImpl((ServerDefaultCodecsImpl) defaultCodecs());
 	}
+
 }

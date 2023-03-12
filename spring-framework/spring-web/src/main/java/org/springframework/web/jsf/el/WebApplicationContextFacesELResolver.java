@@ -36,13 +36,15 @@ import org.springframework.web.jsf.FacesContextUtils;
  * Special JSF {@code ELResolver} that exposes the Spring {@code WebApplicationContext}
  * instance under a variable named "webApplicationContext".
  *
- * <p>In contrast to {@link SpringBeanFacesELResolver}, this ELResolver variant
- * does <i>not</i> resolve JSF variable names as Spring bean names. It rather
- * exposes Spring's root WebApplicationContext <i>itself</i> under a special name,
- * and is able to resolve "webApplicationContext.mySpringManagedBusinessObject"
- * dereferences to Spring-defined beans in that application context.
+ * <p>
+ * In contrast to {@link SpringBeanFacesELResolver}, this ELResolver variant does
+ * <i>not</i> resolve JSF variable names as Spring bean names. It rather exposes Spring's
+ * root WebApplicationContext <i>itself</i> under a special name, and is able to resolve
+ * "webApplicationContext.mySpringManagedBusinessObject" dereferences to Spring-defined
+ * beans in that application context.
  *
- * <p>Configure this resolver in your {@code faces-config.xml} file as follows:
+ * <p>
+ * Configure this resolver in your {@code faces-config.xml} file as follows:
  *
  * <pre class="code">
  * &lt;application>
@@ -62,10 +64,8 @@ public class WebApplicationContextFacesELResolver extends ELResolver {
 	 */
 	public static final String WEB_APPLICATION_CONTEXT_VARIABLE_NAME = "webApplicationContext";
 
-
 	/** Logger available to subclasses. */
 	protected final Log logger = LogFactory.getLog(getClass());
-
 
 	@Override
 	@Nullable
@@ -90,7 +90,8 @@ public class WebApplicationContextFacesELResolver extends ELResolver {
 					}
 				}
 				else {
-					// Mimic standard JSF/JSP behavior when base is a Map by returning null.
+					// Mimic standard JSF/JSP behavior when base is a Map by returning
+					// null.
 					return null;
 				}
 			}
@@ -128,7 +129,8 @@ public class WebApplicationContextFacesELResolver extends ELResolver {
 					}
 				}
 				else {
-					// Mimic standard JSF/JSP behavior when base is a Map by returning null.
+					// Mimic standard JSF/JSP behavior when base is a Map by returning
+					// null.
 					return null;
 				}
 			}
@@ -167,11 +169,11 @@ public class WebApplicationContextFacesELResolver extends ELResolver {
 		return Object.class;
 	}
 
-
 	/**
 	 * Retrieve the {@link WebApplicationContext} reference to expose.
-	 * <p>The default implementation delegates to {@link FacesContextUtils},
-	 * returning {@code null} if no {@code WebApplicationContext} found.
+	 * <p>
+	 * The default implementation delegates to {@link FacesContextUtils}, returning
+	 * {@code null} if no {@code WebApplicationContext} found.
 	 * @param elContext the current JSF ELContext
 	 * @return the Spring web application context
 	 * @see org.springframework.web.jsf.FacesContextUtils#getWebApplicationContext

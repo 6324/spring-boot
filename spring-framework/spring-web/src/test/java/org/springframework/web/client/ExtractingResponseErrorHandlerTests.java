@@ -44,19 +44,16 @@ public class ExtractingResponseErrorHandlerTests {
 
 	private final ClientHttpResponse response = mock(ClientHttpResponse.class);
 
-
 	@BeforeEach
 	public void setup() {
 		HttpMessageConverter<Object> converter = new MappingJackson2HttpMessageConverter();
-		this.errorHandler = new ExtractingResponseErrorHandler(
-				Collections.singletonList(converter));
+		this.errorHandler = new ExtractingResponseErrorHandler(Collections.singletonList(converter));
 
-		this.errorHandler.setStatusMapping(
-				Collections.singletonMap(HttpStatus.I_AM_A_TEAPOT, MyRestClientException.class));
-		this.errorHandler.setSeriesMapping(Collections
-				.singletonMap(HttpStatus.Series.SERVER_ERROR, MyRestClientException.class));
+		this.errorHandler
+				.setStatusMapping(Collections.singletonMap(HttpStatus.I_AM_A_TEAPOT, MyRestClientException.class));
+		this.errorHandler.setSeriesMapping(
+				Collections.singletonMap(HttpStatus.Series.SERVER_ERROR, MyRestClientException.class));
 	}
-
 
 	@Test
 	public void hasError() throws Exception {
@@ -72,8 +69,7 @@ public class ExtractingResponseErrorHandlerTests {
 
 	@Test
 	public void hasErrorOverride() throws Exception {
-		this.errorHandler.setSeriesMapping(Collections
-				.singletonMap(HttpStatus.Series.CLIENT_ERROR, null));
+		this.errorHandler.setSeriesMapping(Collections.singletonMap(HttpStatus.Series.CLIENT_ERROR, null));
 
 		given(this.response.getRawStatusCode()).willReturn(HttpStatus.I_AM_A_TEAPOT.value());
 		assertThat(this.errorHandler.hasError(this.response)).isTrue();
@@ -96,9 +92,9 @@ public class ExtractingResponseErrorHandlerTests {
 		responseHeaders.setContentLength(body.length);
 		given(this.response.getBody()).willReturn(new ByteArrayInputStream(body));
 
-		assertThatExceptionOfType(MyRestClientException.class).isThrownBy(() ->
-				this.errorHandler.handleError(this.response))
-			.satisfies(ex -> assertThat(ex.getFoo()).isEqualTo("bar"));
+		assertThatExceptionOfType(MyRestClientException.class)
+				.isThrownBy(() -> this.errorHandler.handleError(this.response))
+				.satisfies(ex -> assertThat(ex.getFoo()).isEqualTo("bar"));
 	}
 
 	@Test
@@ -112,9 +108,9 @@ public class ExtractingResponseErrorHandlerTests {
 		responseHeaders.setContentLength(body.length);
 		given(this.response.getBody()).willReturn(new ByteArrayInputStream(body));
 
-		assertThatExceptionOfType(MyRestClientException.class).isThrownBy(() ->
-				this.errorHandler.handleError(this.response))
-			.satisfies(ex -> assertThat(ex.getFoo()).isEqualTo("bar"));
+		assertThatExceptionOfType(MyRestClientException.class)
+				.isThrownBy(() -> this.errorHandler.handleError(this.response))
+				.satisfies(ex -> assertThat(ex.getFoo()).isEqualTo("bar"));
 	}
 
 	@Test
@@ -128,18 +124,16 @@ public class ExtractingResponseErrorHandlerTests {
 		responseHeaders.setContentLength(body.length);
 		given(this.response.getBody()).willReturn(new ByteArrayInputStream(body));
 
-		assertThatExceptionOfType(HttpClientErrorException.class).isThrownBy(() ->
-				this.errorHandler.handleError(this.response))
-			.satisfies(ex -> {
-				assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-				assertThat(ex.getResponseBodyAsByteArray()).isEqualTo(body);
-			});
+		assertThatExceptionOfType(HttpClientErrorException.class)
+				.isThrownBy(() -> this.errorHandler.handleError(this.response)).satisfies(ex -> {
+					assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+					assertThat(ex.getResponseBodyAsByteArray()).isEqualTo(body);
+				});
 	}
 
 	@Test
 	public void handleNoMatchOverride() throws Exception {
-		this.errorHandler.setSeriesMapping(Collections
-				.singletonMap(HttpStatus.Series.CLIENT_ERROR, null));
+		this.errorHandler.setSeriesMapping(Collections.singletonMap(HttpStatus.Series.CLIENT_ERROR, null));
 
 		given(this.response.getRawStatusCode()).willReturn(HttpStatus.NOT_FOUND.value());
 		HttpHeaders responseHeaders = new HttpHeaders();
@@ -152,7 +146,6 @@ public class ExtractingResponseErrorHandlerTests {
 
 		this.errorHandler.handleError(this.response);
 	}
-
 
 	@SuppressWarnings("serial")
 	private static class MyRestClientException extends RestClientException {

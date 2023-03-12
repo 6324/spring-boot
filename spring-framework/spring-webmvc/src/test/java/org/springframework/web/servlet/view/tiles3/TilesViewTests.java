@@ -54,7 +54,6 @@ public class TilesViewTests {
 
 	private MockHttpServletResponse response;
 
-
 	@BeforeEach
 	public void setUp() throws Exception {
 		MockServletContext servletContext = new MockServletContext();

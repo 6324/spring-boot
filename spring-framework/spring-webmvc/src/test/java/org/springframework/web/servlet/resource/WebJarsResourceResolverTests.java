@@ -51,7 +51,6 @@ public class WebJarsResourceResolverTests {
 
 	private HttpServletRequest request = new MockHttpServletRequest();
 
-
 	@BeforeEach
 	public void setup() {
 		// for this to work, an actual WebJar must be on the test classpath
@@ -59,7 +58,6 @@ public class WebJarsResourceResolverTests {
 		this.resolver = new WebJarsResourceResolver();
 		this.chain = mock(ResourceResolverChain.class);
 	}
-
 
 	@Test
 	public void resolveUrlExisting() {

@@ -34,4 +34,5 @@ import org.springframework.stereotype.Controller;
 @Documented
 @Controller
 public @interface MetaController {
+
 }

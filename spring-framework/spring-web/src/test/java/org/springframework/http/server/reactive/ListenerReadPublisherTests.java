@@ -38,12 +38,10 @@ public class ListenerReadPublisherTests {
 
 	private final TestSubscriber subscriber = new TestSubscriber();
 
-
 	@BeforeEach
 	public void setup() {
 		this.publisher.subscribe(this.subscriber);
 	}
-
 
 	@Test
 	public void twoReads() {
@@ -76,18 +74,15 @@ public class ListenerReadPublisherTests {
 		assertThat(this.publisher.getDiscardCalls()).isEqualTo(1);
 	}
 
-
 	private static final class TestListenerReadPublisher extends AbstractListenerReadPublisher<DataBuffer> {
 
 		private int readCalls = 0;
 
 		private int discardCalls = 0;
 
-
 		public TestListenerReadPublisher() {
 			super("");
 		}
-
 
 		public int getReadCalls() {
 			return this.readCalls;
@@ -117,15 +112,14 @@ public class ListenerReadPublisherTests {
 		protected void discardData() {
 			this.discardCalls++;
 		}
-	}
 
+	}
 
 	private static final class TestSubscriber implements Subscriber<DataBuffer> {
 
 		private Subscription subscription;
 
 		private boolean cancelOnNext;
-
 
 		public Subscription getSubscription() {
 			return this.subscription;
@@ -134,7 +128,6 @@ public class ListenerReadPublisherTests {
 		public void setCancelOnNext(boolean cancelOnNext) {
 			this.cancelOnNext = cancelOnNext;
 		}
-
 
 		@Override
 		public void onSubscribe(Subscription subscription) {
@@ -155,6 +148,7 @@ public class ListenerReadPublisherTests {
 		@Override
 		public void onComplete() {
 		}
+
 	}
 
 }

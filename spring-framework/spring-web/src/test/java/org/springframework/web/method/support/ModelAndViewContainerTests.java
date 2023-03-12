@@ -33,12 +33,10 @@ public class ModelAndViewContainerTests {
 
 	private ModelAndViewContainer mavContainer;
 
-
 	@BeforeEach
 	public void setup() {
 		this.mavContainer = new ModelAndViewContainer();
 	}
-
 
 	@Test
 	public void getModel() {
@@ -75,7 +73,7 @@ public class ModelAndViewContainerTests {
 		assertThat(this.mavContainer.getModel().isEmpty()).isTrue();
 	}
 
-	@Test  // SPR-14045
+	@Test // SPR-14045
 	public void ignoreDefaultModelAndWithoutRedirectModel() {
 		this.mavContainer.setIgnoreDefaultModelOnRedirect(true);
 		this.mavContainer.setRedirectModelScenario(true);
@@ -84,6 +82,5 @@ public class ModelAndViewContainerTests {
 		assertThat(this.mavContainer.getModel().size()).isEqualTo(1);
 		assertThat(this.mavContainer.getModel().get("name")).isEqualTo("value");
 	}
-
 
 }

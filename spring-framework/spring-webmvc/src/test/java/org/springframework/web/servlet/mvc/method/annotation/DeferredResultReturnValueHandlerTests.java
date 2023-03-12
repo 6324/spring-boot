@@ -50,7 +50,6 @@ public class DeferredResultReturnValueHandlerTests {
 
 	private NativeWebRequest webRequest;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		this.handler = new DeferredResultMethodReturnValueHandler();
@@ -63,17 +62,19 @@ public class DeferredResultReturnValueHandlerTests {
 		this.request.setAsyncSupported(true);
 	}
 
-
 	@Test
 	public void supportsReturnType() throws Exception {
-		assertThat(this.handler.supportsReturnType(
-				on(TestController.class).resolveReturnType(DeferredResult.class, String.class))).isTrue();
+		assertThat(this.handler
+				.supportsReturnType(on(TestController.class).resolveReturnType(DeferredResult.class, String.class)))
+						.isTrue();
 
-		assertThat(this.handler.supportsReturnType(
-				on(TestController.class).resolveReturnType(ListenableFuture.class, String.class))).isTrue();
+		assertThat(this.handler
+				.supportsReturnType(on(TestController.class).resolveReturnType(ListenableFuture.class, String.class)))
+						.isTrue();
 
-		assertThat(this.handler.supportsReturnType(
-				on(TestController.class).resolveReturnType(CompletableFuture.class, String.class))).isTrue();
+		assertThat(this.handler
+				.supportsReturnType(on(TestController.class).resolveReturnType(CompletableFuture.class, String.class)))
+						.isTrue();
 	}
 
 	@Test
@@ -120,9 +121,8 @@ public class DeferredResultReturnValueHandlerTests {
 		testHandle(future, CompletableFuture.class, () -> future.completeExceptionally(ex), ex);
 	}
 
-
-	private void testHandle(Object returnValue, Class<?> asyncType,
-			Runnable setResultTask, Object expectedValue) throws Exception {
+	private void testHandle(Object returnValue, Class<?> asyncType, Runnable setResultTask, Object expectedValue)
+			throws Exception {
 
 		ModelAndViewContainer mavContainer = new ModelAndViewContainer();
 		MethodParameter returnType = on(TestController.class).resolveReturnType(asyncType, String.class);
@@ -137,17 +137,25 @@ public class DeferredResultReturnValueHandlerTests {
 		assertThat(WebAsyncUtils.getAsyncManager(this.webRequest).getConcurrentResult()).isEqualTo(expectedValue);
 	}
 
-
 	@SuppressWarnings("unused")
 	static class TestController {
 
-		String handleString() { return null; }
+		String handleString() {
+			return null;
+		}
 
-		DeferredResult<String> handleDeferredResult() { return null; }
+		DeferredResult<String> handleDeferredResult() {
+			return null;
+		}
 
-		ListenableFuture<String> handleListenableFuture() { return null; }
+		ListenableFuture<String> handleListenableFuture() {
+			return null;
+		}
 
-		CompletableFuture<String> handleCompletableFuture() { return null; }
+		CompletableFuture<String> handleCompletableFuture() {
+			return null;
+		}
+
 	}
 
 }

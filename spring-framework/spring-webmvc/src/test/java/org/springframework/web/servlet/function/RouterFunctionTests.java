@@ -47,7 +47,6 @@ public class RouterFunctionTests {
 		assertThat(resultHandlerFunction.get()).isEqualTo(handlerFunction);
 	}
 
-
 	@Test
 	public void andOther() {
 		HandlerFunction<ServerResponse> handlerFunction = request -> ServerResponse.ok().body("42");
@@ -65,7 +64,6 @@ public class RouterFunctionTests {
 		assertThat(resultHandlerFunction.get()).isEqualTo(handlerFunction);
 	}
 
-
 	@Test
 	public void andRoute() {
 		RouterFunction<ServerResponse> routerFunction1 = request -> Optional.empty();
@@ -81,21 +79,17 @@ public class RouterFunctionTests {
 		assertThat(resultHandlerFunction.isPresent()).isTrue();
 	}
 
-
 	@Test
 	public void filter() {
 		String string = "42";
-		HandlerFunction<EntityResponse<String>> handlerFunction =
-				request -> EntityResponse.fromObject(string).build();
-		RouterFunction<EntityResponse<String>> routerFunction =
-				request -> Optional.of(handlerFunction);
+		HandlerFunction<EntityResponse<String>> handlerFunction = request -> EntityResponse.fromObject(string).build();
+		RouterFunction<EntityResponse<String>> routerFunction = request -> Optional.of(handlerFunction);
 
-		HandlerFilterFunction<EntityResponse<String>, EntityResponse<Integer>> filterFunction =
-				(request, next) -> {
-					String stringResponse = next.handle(request).entity();
-					Integer intResponse = Integer.parseInt(stringResponse);
-					return EntityResponse.fromObject(intResponse).build();
-				};
+		HandlerFilterFunction<EntityResponse<String>, EntityResponse<Integer>> filterFunction = (request, next) -> {
+			String stringResponse = next.handle(request).entity();
+			Integer intResponse = Integer.parseInt(stringResponse);
+			return EntityResponse.fromObject(intResponse).build();
+		};
 
 		RouterFunction<EntityResponse<Integer>> result = routerFunction.filter(filterFunction);
 		assertThat(result).isNotNull();
@@ -103,21 +97,20 @@ public class RouterFunctionTests {
 		MockHttpServletRequest servletRequest = new MockHttpServletRequest();
 		ServerRequest request = new DefaultServerRequest(servletRequest, emptyList());
 
-		Optional<EntityResponse<Integer>> resultHandlerFunction = result.route(request)
-				.map(hf -> {
-					try {
-						return hf.handle(request);
-					}
-					catch (Exception ex) {
-						throw new AssertionError(ex.getMessage(), ex);
-					}
-				});
+		Optional<EntityResponse<Integer>> resultHandlerFunction = result.route(request).map(hf -> {
+			try {
+				return hf.handle(request);
+			}
+			catch (Exception ex) {
+				throw new AssertionError(ex.getMessage(), ex);
+			}
+		});
 		assertThat(resultHandlerFunction.isPresent()).isTrue();
 		assertThat((int) resultHandlerFunction.get().entity()).isEqualTo(42);
 	}
 
-
 	private ServerResponse handlerMethod(ServerRequest request) {
 		return ServerResponse.ok().body("42");
 	}
+
 }

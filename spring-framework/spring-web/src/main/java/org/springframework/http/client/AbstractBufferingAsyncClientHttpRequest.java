@@ -24,8 +24,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.util.concurrent.ListenableFuture;
 
 /**
- * Base implementation of {@link AsyncClientHttpRequest} that buffers output
- * in a byte array before sending it over the wire.
+ * Base implementation of {@link AsyncClientHttpRequest} that buffers output in a byte
+ * array before sending it over the wire.
  *
  * @author Arjen Poutsma
  * @since 4.0
@@ -35,7 +35,6 @@ import org.springframework.util.concurrent.ListenableFuture;
 abstract class AbstractBufferingAsyncClientHttpRequest extends AbstractAsyncClientHttpRequest {
 
 	private ByteArrayOutputStream bufferedOutput = new ByteArrayOutputStream(1024);
-
 
 	@Override
 	protected OutputStream getBodyInternal(HttpHeaders headers) throws IOException {
@@ -54,12 +53,13 @@ abstract class AbstractBufferingAsyncClientHttpRequest extends AbstractAsyncClie
 	}
 
 	/**
-	 * Abstract template method that writes the given headers and content to the HTTP request.
+	 * Abstract template method that writes the given headers and content to the HTTP
+	 * request.
 	 * @param headers the HTTP headers
 	 * @param bufferedOutput the body content
 	 * @return the response object for the executed request
 	 */
-	protected abstract ListenableFuture<ClientHttpResponse> executeInternal(
-			HttpHeaders headers, byte[] bufferedOutput) throws IOException;
+	protected abstract ListenableFuture<ClientHttpResponse> executeInternal(HttpHeaders headers, byte[] bufferedOutput)
+			throws IOException;
 
 }

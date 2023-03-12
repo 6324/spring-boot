@@ -24,9 +24,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * An {@code HttpCookie} subclass with the additional attributes allowed in
- * the "Set-Cookie" response header. To build an instance use the {@link #from}
- * static method.
+ * An {@code HttpCookie} subclass with the additional attributes allowed in the
+ * "Set-Cookie" response header. To build an instance use the {@link #from} static method.
  *
  * @author Rossen Stoyanchev
  * @author Brian Clozel
@@ -50,12 +49,11 @@ public final class ResponseCookie extends HttpCookie {
 	@Nullable
 	private final String sameSite;
 
-
 	/**
 	 * Private constructor. See {@link #from(String, String)}.
 	 */
-	private ResponseCookie(String name, String value, Duration maxAge, @Nullable String domain,
-			@Nullable String path, boolean secure, boolean httpOnly, @Nullable String sameSite) {
+	private ResponseCookie(String name, String value, Duration maxAge, @Nullable String domain, @Nullable String path,
+			boolean secure, boolean httpOnly, @Nullable String sameSite) {
 
 		super(name, value);
 		Assert.notNull(maxAge, "Max age must not be null");
@@ -73,13 +71,12 @@ public final class ResponseCookie extends HttpCookie {
 		Rfc6265Utils.validatePath(path);
 	}
 
-
 	/**
 	 * Return the cookie "Max-Age" attribute in seconds.
-	 * <p>A positive value indicates when the cookie expires relative to the
-	 * current time. A value of 0 means the cookie should expire immediately.
-	 * A negative value means no "Max-Age" attribute in which case the cookie
-	 * is removed when the browser is closed.
+	 * <p>
+	 * A positive value indicates when the cookie expires relative to the current time. A
+	 * value of 0 means the cookie should expire immediately. A negative value means no
+	 * "Max-Age" attribute in which case the cookie is removed when the browser is closed.
 	 */
 	public Duration getMaxAge() {
 		return this.maxAge;
@@ -110,7 +107,8 @@ public final class ResponseCookie extends HttpCookie {
 
 	/**
 	 * Return {@code true} if the cookie has the "HttpOnly" attribute.
-	 * @see <a href="https://www.owasp.org/index.php/HTTPOnly">https://www.owasp.org/index.php/HTTPOnly</a>
+	 * @see <a href=
+	 * "https://www.owasp.org/index.php/HTTPOnly">https://www.owasp.org/index.php/HTTPOnly</a>
 	 */
 	public boolean isHttpOnly() {
 		return this.httpOnly;
@@ -118,16 +116,18 @@ public final class ResponseCookie extends HttpCookie {
 
 	/**
 	 * Return the cookie "SameSite" attribute, or {@code null} if not set.
-	 * <p>This limits the scope of the cookie such that it will only be attached to
-	 * same site requests if {@code "Strict"} or cross-site requests if {@code "Lax"}.
-	 * @see <a href="https://tools.ietf.org/html/draft-ietf-httpbis-rfc6265bis#section-4.1.2.7">RFC6265 bis</a>
+	 * <p>
+	 * This limits the scope of the cookie such that it will only be attached to same site
+	 * requests if {@code "Strict"} or cross-site requests if {@code "Lax"}.
+	 * @see <a href=
+	 * "https://tools.ietf.org/html/draft-ietf-httpbis-rfc6265bis#section-4.1.2.7">RFC6265
+	 * bis</a>
 	 * @since 5.1
 	 */
 	@Nullable
 	public String getSameSite() {
 		return this.sameSite;
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {
@@ -138,9 +138,9 @@ public final class ResponseCookie extends HttpCookie {
 			return false;
 		}
 		ResponseCookie otherCookie = (ResponseCookie) other;
-		return (getName().equalsIgnoreCase(otherCookie.getName()) &&
-				ObjectUtils.nullSafeEquals(this.path, otherCookie.getPath()) &&
-				ObjectUtils.nullSafeEquals(this.domain, otherCookie.getDomain()));
+		return (getName().equalsIgnoreCase(otherCookie.getName())
+				&& ObjectUtils.nullSafeEquals(this.path, otherCookie.getPath())
+				&& ObjectUtils.nullSafeEquals(this.domain, otherCookie.getDomain()));
 	}
 
 	@Override
@@ -179,10 +179,9 @@ public final class ResponseCookie extends HttpCookie {
 		return sb.toString();
 	}
 
-
 	/**
-	 * Factory method to obtain a builder for a server-defined cookie that starts
-	 * with a name-value pair and may also include attributes.
+	 * Factory method to obtain a builder for a server-defined cookie that starts with a
+	 * name-value pair and may also include attributes.
 	 * @param name the cookie name
 	 * @param value the cookie value
 	 * @return a builder to create the cookie with
@@ -193,9 +192,9 @@ public final class ResponseCookie extends HttpCookie {
 
 	/**
 	 * Factory method to obtain a builder for a server-defined cookie. Unlike
-	 * {@link #from(String, String)} this option assumes input from a remote
-	 * server, which can be handled more leniently, e.g. ignoring a empty domain
-	 * name with double quotes.
+	 * {@link #from(String, String)} this option assumes input from a remote server, which
+	 * can be handled more leniently, e.g. ignoring a empty domain name with double
+	 * quotes.
 	 * @param name the cookie name
 	 * @param value the cookie value
 	 * @return a builder to create the cookie with
@@ -204,7 +203,6 @@ public final class ResponseCookie extends HttpCookie {
 	public static ResponseCookieBuilder fromClientResponse(final String name, final String value) {
 		return from(name, value, true);
 	}
-
 
 	private static ResponseCookieBuilder from(final String name, final String value, boolean lenient) {
 
@@ -282,12 +280,11 @@ public final class ResponseCookie extends HttpCookie {
 
 			@Override
 			public ResponseCookie build() {
-				return new ResponseCookie(name, value, this.maxAge, this.domain, this.path,
-						this.secure, this.httpOnly, this.sameSite);
+				return new ResponseCookie(name, value, this.maxAge, this.domain, this.path, this.secure, this.httpOnly,
+						this.sameSite);
 			}
 		};
 	}
-
 
 	/**
 	 * A builder for a server-defined HttpCookie with attributes.
@@ -297,10 +294,11 @@ public final class ResponseCookie extends HttpCookie {
 		/**
 		 * Set the cookie "Max-Age" attribute.
 		 *
-		 * <p>A positive value indicates when the cookie should expire relative
-		 * to the current time. A value of 0 means the cookie should expire
-		 * immediately. A negative value results in no "Max-Age" attribute in
-		 * which case the cookie is removed when the browser is closed.
+		 * <p>
+		 * A positive value indicates when the cookie should expire relative to the
+		 * current time. A value of 0 means the cookie should expire immediately. A
+		 * negative value results in no "Max-Age" attribute in which case the cookie is
+		 * removed when the browser is closed.
 		 */
 		ResponseCookieBuilder maxAge(Duration maxAge);
 
@@ -326,17 +324,20 @@ public final class ResponseCookie extends HttpCookie {
 
 		/**
 		 * Add the "HttpOnly" attribute to the cookie.
-		 * @see <a href="https://www.owasp.org/index.php/HTTPOnly">https://www.owasp.org/index.php/HTTPOnly</a>
+		 * @see <a href=
+		 * "https://www.owasp.org/index.php/HTTPOnly">https://www.owasp.org/index.php/HTTPOnly</a>
 		 */
 		ResponseCookieBuilder httpOnly(boolean httpOnly);
 
 		/**
 		 * Add the "SameSite" attribute to the cookie.
-		 * <p>This limits the scope of the cookie such that it will only be
-		 * attached to same site requests if {@code "Strict"} or cross-site
-		 * requests if {@code "Lax"}.
+		 * <p>
+		 * This limits the scope of the cookie such that it will only be attached to same
+		 * site requests if {@code "Strict"} or cross-site requests if {@code "Lax"}.
 		 * @since 5.1
-		 * @see <a href="https://tools.ietf.org/html/draft-ietf-httpbis-rfc6265bis#section-4.1.2.7">RFC6265 bis</a>
+		 * @see <a href=
+		 * "https://tools.ietf.org/html/draft-ietf-httpbis-rfc6265bis#section-4.1.2.7">RFC6265
+		 * bis</a>
 		 */
 		ResponseCookieBuilder sameSite(@Nullable String sameSite);
 
@@ -344,26 +345,22 @@ public final class ResponseCookie extends HttpCookie {
 		 * Create the HttpCookie.
 		 */
 		ResponseCookie build();
-	}
 
+	}
 
 	private static class Rfc6265Utils {
 
-		private static final String SEPARATOR_CHARS = new String(new char[] {
-				'(', ')', '<', '>', '@', ',', ';', ':', '\\', '"', '/', '[', ']', '?', '=', '{', '}', ' '
-		});
+		private static final String SEPARATOR_CHARS = new String(new char[] { '(', ')', '<', '>', '@', ',', ';', ':',
+				'\\', '"', '/', '[', ']', '?', '=', '{', '}', ' ' });
 
-		private static final String DOMAIN_CHARS =
-				"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-";
-
+		private static final String DOMAIN_CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-";
 
 		public static void validateCookieName(String name) {
 			for (int i = 0; i < name.length(); i++) {
 				char c = name.charAt(i);
 				// CTL = <US-ASCII control chars (octets 0 - 31) and DEL (127)>
 				if (c <= 0x1F || c == 0x7F) {
-					throw new IllegalArgumentException(
-							name + ": RFC2616 token cannot have control chars");
+					throw new IllegalArgumentException(name + ": RFC2616 token cannot have control chars");
 				}
 				if (SEPARATOR_CHARS.indexOf(c) >= 0) {
 					throw new IllegalArgumentException(
@@ -390,8 +387,7 @@ public final class ResponseCookie extends HttpCookie {
 			for (int i = start; i < end; i++) {
 				char c = chars[i];
 				if (c < 0x21 || c == 0x22 || c == 0x2c || c == 0x3b || c == 0x5c || c == 0x7f) {
-					throw new IllegalArgumentException(
-							"RFC2616 cookie value cannot have '" + c + "'");
+					throw new IllegalArgumentException("RFC2616 cookie value cannot have '" + c + "'");
 				}
 				if (c >= 0x80) {
 					throw new IllegalArgumentException(
@@ -429,6 +425,7 @@ public final class ResponseCookie extends HttpCookie {
 				}
 			}
 		}
+
 	}
 
 }

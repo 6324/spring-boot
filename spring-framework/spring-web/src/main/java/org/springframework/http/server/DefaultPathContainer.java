@@ -51,17 +51,14 @@ final class DefaultPathContainer implements PathContainer {
 		SEPARATORS.put('.', new DefaultSeparator('.', "%2E"));
 	}
 
-
 	private final String path;
 
 	private final List<Element> elements;
-
 
 	private DefaultPathContainer(String path, List<Element> elements) {
 		this.path = path;
 		this.elements = Collections.unmodifiableList(elements);
 	}
-
 
 	@Override
 	public String value() {
@@ -72,7 +69,6 @@ final class DefaultPathContainer implements PathContainer {
 	public List<Element> elements() {
 		return this.elements;
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {
@@ -94,7 +90,6 @@ final class DefaultPathContainer implements PathContainer {
 	public String toString() {
 		return value();
 	}
-
 
 	static PathContainer createFromUrlPath(String path, Options options) {
 		if (path.isEmpty()) {
@@ -118,9 +113,8 @@ final class DefaultPathContainer implements PathContainer {
 			int end = path.indexOf(separator, begin);
 			String segment = (end != -1 ? path.substring(begin, end) : path.substring(begin));
 			if (!segment.isEmpty()) {
-				elements.add(options.shouldDecodeAndParseSegments() ?
-						decodeAndParsePathSegment(segment) :
-						new DefaultPathSegment(segment, separatorElement));
+				elements.add(options.shouldDecodeAndParseSegments() ? decodeAndParsePathSegment(segment)
+						: new DefaultPathSegment(segment, separatorElement));
 			}
 			if (end == -1) {
 				break;
@@ -201,19 +195,16 @@ final class DefaultPathContainer implements PathContainer {
 		return new DefaultPathContainer(path, subList);
 	}
 
-
 	private static class DefaultSeparator implements Separator {
 
 		private final String separator;
 
 		private final String encodedSequence;
 
-
 		DefaultSeparator(char separator, String encodedSequence) {
 			this.separator = String.valueOf(separator);
 			this.encodedSequence = encodedSequence;
 		}
-
 
 		@Override
 		public String value() {
@@ -223,8 +214,8 @@ final class DefaultPathContainer implements PathContainer {
 		public String encodedSequence() {
 			return this.encodedSequence;
 		}
-	}
 
+	}
 
 	private static class DefaultPathSegment implements PathSegment {
 
@@ -235,7 +226,6 @@ final class DefaultPathContainer implements PathContainer {
 		private final char[] valueToMatchAsChars;
 
 		private final MultiValueMap<String, String> parameters;
-
 
 		/**
 		 * Constructor for decoded and parsed segments.
@@ -252,12 +242,11 @@ final class DefaultPathContainer implements PathContainer {
 		 */
 		DefaultPathSegment(String value, DefaultSeparator separator) {
 			this.value = value;
-			this.valueToMatch = value.contains(separator.encodedSequence()) ?
-					value.replaceAll(separator.encodedSequence(), separator.value()) : value;
+			this.valueToMatch = value.contains(separator.encodedSequence())
+					? value.replaceAll(separator.encodedSequence(), separator.value()) : value;
 			this.valueToMatchAsChars = this.valueToMatch.toCharArray();
 			this.parameters = EMPTY_PARAMS;
 		}
-
 
 		@Override
 		public String value() {
@@ -299,7 +288,7 @@ final class DefaultPathContainer implements PathContainer {
 		public String toString() {
 			return "[value='" + this.value + "']";
 		}
+
 	}
 
 }
-

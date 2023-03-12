@@ -46,7 +46,6 @@ public class DispatcherServletInitializerTests {
 
 	private static final String SERVLET_MAPPING = "/myservlet";
 
-
 	private final MockServletContext servletContext = new MyMockServletContext();
 
 	private final AbstractDispatcherServletInitializer initializer = new MyDispatcherServletInitializer();
@@ -54,7 +53,6 @@ public class DispatcherServletInitializerTests {
 	private final Map<String, Servlet> servlets = new LinkedHashMap<>(2);
 
 	private final Map<String, MockServletRegistration> registrations = new LinkedHashMap<>(2);
-
 
 	@Test
 	public void register() throws ServletException {
@@ -80,7 +78,6 @@ public class DispatcherServletInitializerTests {
 		assertThat(registration.getRunAsRole()).isEqualTo(ROLE_NAME);
 	}
 
-
 	private class MyMockServletContext extends MockServletContext {
 
 		@Override
@@ -90,6 +87,7 @@ public class DispatcherServletInitializerTests {
 			registrations.put(servletName, registration);
 			return registration;
 		}
+
 	}
 
 	private static class MyDispatcherServletInitializer extends AbstractDispatcherServletInitializer {
@@ -125,16 +123,20 @@ public class DispatcherServletInitializerTests {
 		protected WebApplicationContext createRootApplicationContext() {
 			return null;
 		}
+
 	}
 
 	private static class MyBean {
+
 	}
 
 	@SuppressWarnings("serial")
 	private static class MyDispatcherServlet extends DispatcherServlet {
+
 		public MyDispatcherServlet(WebApplicationContext webApplicationContext) {
 			super(webApplicationContext);
 		}
+
 	}
 
 }

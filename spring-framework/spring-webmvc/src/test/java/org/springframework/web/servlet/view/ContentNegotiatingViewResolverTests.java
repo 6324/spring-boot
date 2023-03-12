@@ -227,7 +227,8 @@ public class ContentNegotiatingViewResolverTests {
 	public void resolveViewNameAcceptHeaderSortByQuality() throws Exception {
 		request.addHeader("Accept", "text/plain;q=0.5, application/json");
 
-		viewResolver.setContentNegotiationManager(new ContentNegotiationManager(new HeaderContentNegotiationStrategy()));
+		viewResolver
+				.setContentNegotiationManager(new ContentNegotiationManager(new HeaderContentNegotiationStrategy()));
 
 		ViewResolver htmlViewResolver = mock(ViewResolver.class);
 		ViewResolver jsonViewResolver = mock(ViewResolver.class);
@@ -270,7 +271,8 @@ public class ContentNegotiatingViewResolverTests {
 		View result = viewResolver.resolveViewName(viewName, locale);
 
 		assertThat(result).as("Invalid view").isSameAs(viewMock);
-		assertThat(request.getAttribute(View.SELECTED_CONTENT_TYPE)).isEqualTo(new MediaType("application", "vnd.example-v2+xml"));
+		assertThat(request.getAttribute(View.SELECTED_CONTENT_TYPE))
+				.isEqualTo(new MediaType("application", "vnd.example-v2+xml"));
 	}
 
 	@Test

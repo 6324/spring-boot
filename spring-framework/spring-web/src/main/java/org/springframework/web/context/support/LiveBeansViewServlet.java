@@ -30,8 +30,9 @@ import org.springframework.util.Assert;
 /**
  * Servlet variant of {@link LiveBeansView}'s MBean exposure.
  *
- * <p>Generates a JSON snapshot for current beans and their dependencies in
- * all ApplicationContexts that live within the current web application.
+ * <p>
+ * Generates a JSON snapshot for current beans and their dependencies in all
+ * ApplicationContexts that live within the current web application.
  *
  * @author Juergen Hoeller
  * @since 3.2
@@ -43,7 +44,6 @@ public class LiveBeansViewServlet extends HttpServlet {
 	@Nullable
 	private LiveBeansView liveBeansView;
 
-
 	@Override
 	public void init() throws ServletException {
 		this.liveBeansView = buildLiveBeansView();
@@ -52,7 +52,6 @@ public class LiveBeansViewServlet extends HttpServlet {
 	protected LiveBeansView buildLiveBeansView() {
 		return new ServletContextLiveBeansView(getServletContext());
 	}
-
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

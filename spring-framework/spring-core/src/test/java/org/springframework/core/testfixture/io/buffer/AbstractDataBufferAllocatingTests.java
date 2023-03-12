@@ -42,8 +42,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 /**
- * Base class for tests that read or write data buffers with an extension to check
- * that allocated buffers have been released.
+ * Base class for tests that read or write data buffers with an extension to check that
+ * allocated buffers have been released.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -55,7 +55,6 @@ public abstract class AbstractDataBufferAllocatingTests {
 	AfterEachCallback leakDetector = context -> waitForDataBufferRelease(Duration.ofSeconds(2));
 
 	protected DataBufferFactory bufferFactory;
-
 
 	protected DataBuffer createDataBuffer(int capacity) {
 		return this.bufferFactory.allocateBuffer(capacity);
@@ -136,31 +135,29 @@ public abstract class AbstractDataBufferAllocatingTests {
 		return metrics.stream().mapToLong(PoolArenaMetric::numActiveAllocations).sum();
 	}
 
-
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.METHOD)
 	@ParameterizedTest(name = "[{index}] {0}")
 	@MethodSource("org.springframework.core.testfixture.io.buffer.AbstractDataBufferAllocatingTests#dataBufferFactories()")
 	public @interface ParameterizedDataBufferAllocatingTest {
+
 	}
 
 	public static Stream<Arguments> dataBufferFactories() {
 		return Stream.of(
-			arguments("NettyDataBufferFactory - UnpooledByteBufAllocator - preferDirect = true",
-					new NettyDataBufferFactory(new UnpooledByteBufAllocator(true))),
-			arguments("NettyDataBufferFactory - UnpooledByteBufAllocator - preferDirect = false",
-					new NettyDataBufferFactory(new UnpooledByteBufAllocator(false))),
-			// 1) Disable caching for reliable leak detection, see https://github.com/netty/netty/issues/5275
-			// 2) maxOrder is 4 (vs default 11) but can be increased if necessary
-			arguments("NettyDataBufferFactory - PooledByteBufAllocator - preferDirect = true",
-					new NettyDataBufferFactory(new PooledByteBufAllocator(true, 1, 1, 4096, 4, 0, 0, 0, true))),
-			arguments("NettyDataBufferFactory - PooledByteBufAllocator - preferDirect = false",
-					new NettyDataBufferFactory(new PooledByteBufAllocator(false, 1, 1, 4096, 4, 0, 0, 0, true))),
-			arguments("DefaultDataBufferFactory - preferDirect = true",
-					new DefaultDataBufferFactory(true)),
-			arguments("DefaultDataBufferFactory - preferDirect = false",
-					new DefaultDataBufferFactory(false))
-		);
+				arguments("NettyDataBufferFactory - UnpooledByteBufAllocator - preferDirect = true",
+						new NettyDataBufferFactory(new UnpooledByteBufAllocator(true))),
+				arguments("NettyDataBufferFactory - UnpooledByteBufAllocator - preferDirect = false",
+						new NettyDataBufferFactory(new UnpooledByteBufAllocator(false))),
+				// 1) Disable caching for reliable leak detection, see
+				// https://github.com/netty/netty/issues/5275
+				// 2) maxOrder is 4 (vs default 11) but can be increased if necessary
+				arguments("NettyDataBufferFactory - PooledByteBufAllocator - preferDirect = true",
+						new NettyDataBufferFactory(new PooledByteBufAllocator(true, 1, 1, 4096, 4, 0, 0, 0, true))),
+				arguments("NettyDataBufferFactory - PooledByteBufAllocator - preferDirect = false",
+						new NettyDataBufferFactory(new PooledByteBufAllocator(false, 1, 1, 4096, 4, 0, 0, 0, true))),
+				arguments("DefaultDataBufferFactory - preferDirect = true", new DefaultDataBufferFactory(true)),
+				arguments("DefaultDataBufferFactory - preferDirect = false", new DefaultDataBufferFactory(false)));
 	}
 
 }

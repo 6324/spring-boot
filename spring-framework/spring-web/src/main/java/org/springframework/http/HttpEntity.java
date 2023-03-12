@@ -23,21 +23,18 @@ import org.springframework.util.ObjectUtils;
 /**
  * Represents an HTTP request or response entity, consisting of headers and body.
  *
- * <p>Typically used in combination with the {@link org.springframework.web.client.RestTemplate},
- * like so:
- * <pre class="code">
+ * <p>
+ * Typically used in combination with the
+ * {@link org.springframework.web.client.RestTemplate}, like so: <pre class="code">
  * HttpHeaders headers = new HttpHeaders();
  * headers.setContentType(MediaType.TEXT_PLAIN);
  * HttpEntity&lt;String&gt; entity = new HttpEntity&lt;String&gt;(helloWorld, headers);
  * URI location = template.postForLocation("https://example.com", entity);
- * </pre>
- * or
- * <pre class="code">
+ * </pre> or <pre class="code">
  * HttpEntity&lt;String&gt; entity = template.getForEntity("https://example.com", String.class);
  * String body = entity.getBody();
  * MediaType contentType = entity.getHeaders().getContentType();
- * </pre>
- * Can also be used in Spring MVC, as a return value from a @Controller method:
+ * </pre> Can also be used in Spring MVC, as a return value from a @Controller method:
  * <pre class="code">
  * &#64;RequestMapping("/handle")
  * public HttpEntity&lt;String&gt; handle() {
@@ -62,12 +59,10 @@ public class HttpEntity<T> {
 	 */
 	public static final HttpEntity<?> EMPTY = new HttpEntity<>();
 
-
 	private final HttpHeaders headers;
 
 	@Nullable
 	private final T body;
-
 
 	/**
 	 * Create a new, empty {@code HttpEntity}.
@@ -106,7 +101,6 @@ public class HttpEntity<T> {
 		this.headers = HttpHeaders.readOnlyHttpHeaders(tempHeaders);
 	}
 
-
 	/**
 	 * Returns the headers of this entity.
 	 */
@@ -129,7 +123,6 @@ public class HttpEntity<T> {
 		return (this.body != null);
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -139,8 +132,8 @@ public class HttpEntity<T> {
 			return false;
 		}
 		HttpEntity<?> otherEntity = (HttpEntity<?>) other;
-		return (ObjectUtils.nullSafeEquals(this.headers, otherEntity.headers) &&
-				ObjectUtils.nullSafeEquals(this.body, otherEntity.body));
+		return (ObjectUtils.nullSafeEquals(this.headers, otherEntity.headers)
+				&& ObjectUtils.nullSafeEquals(this.body, otherEntity.body));
 	}
 
 	@Override

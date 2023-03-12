@@ -64,7 +64,6 @@ public class ServletRequestMethodArgumentResolverTests {
 
 	private Method method;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		resolver = new ServletRequestMethodArgumentResolver();
@@ -73,10 +72,9 @@ public class ServletRequestMethodArgumentResolverTests {
 		webRequest = new ServletWebRequest(servletRequest, new MockHttpServletResponse());
 
 		method = getClass().getMethod("supportedParams", ServletRequest.class, MultipartRequest.class,
-				HttpSession.class, Principal.class, Locale.class, InputStream.class, Reader.class,
-				WebRequest.class, TimeZone.class, ZoneId.class, HttpMethod.class, PushBuilder.class);
+				HttpSession.class, Principal.class, Locale.class, InputStream.class, Reader.class, WebRequest.class,
+				TimeZone.class, ZoneId.class, HttpMethod.class, PushBuilder.class);
 	}
-
 
 	@Test
 	public void servletRequest() throws Exception {
@@ -137,8 +135,7 @@ public class ServletRequestMethodArgumentResolverTests {
 	@Test
 	public void localeFromResolver() throws Exception {
 		Locale locale = Locale.ENGLISH;
-		servletRequest.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE,
-				new FixedLocaleResolver(locale));
+		servletRequest.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE, new FixedLocaleResolver(locale));
 
 		MethodParameter localeParameter = new MethodParameter(method, 4);
 		assertThat(resolver.supportsParameter(localeParameter)).as("Locale not supported").isTrue();
@@ -245,20 +242,9 @@ public class ServletRequestMethodArgumentResolverTests {
 		assertThat(result).as("Invalid result").isSameAs(pushBuilder);
 	}
 
-
 	@SuppressWarnings("unused")
-	public void supportedParams(ServletRequest p0,
-								MultipartRequest p1,
-								HttpSession p2,
-								Principal p3,
-								Locale p4,
-								InputStream p5,
-								Reader p6,
-								WebRequest p7,
-								TimeZone p8,
-								ZoneId p9,
-								HttpMethod p10,
-								PushBuilder p11) {
+	public void supportedParams(ServletRequest p0, MultipartRequest p1, HttpSession p2, Principal p3, Locale p4,
+			InputStream p5, Reader p6, WebRequest p7, TimeZone p8, ZoneId p9, HttpMethod p10, PushBuilder p11) {
 	}
 
 }

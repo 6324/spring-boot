@@ -23,43 +23,43 @@ import org.springframework.objenesis.instantiator.ObjectInstantiator;
 import org.springframework.objenesis.instantiator.annotations.Instantiator;
 import org.springframework.objenesis.instantiator.annotations.Typology;
 
-
 /**
- * Instantiator for Android API level 10 and lover which creates objects without driving their
- * constructors, using internal methods on the Dalvik implementation of
+ * Instantiator for Android API level 10 and lover which creates objects without driving
+ * their constructors, using internal methods on the Dalvik implementation of
  * {@link ObjectInputStream}.
  *
  * @author Piotr 'Qertoip' Włodarek
  */
 @Instantiator(Typology.STANDARD)
 public class Android10Instantiator<T> implements ObjectInstantiator<T> {
-   private final Class<T> type;
-   private final Method newStaticMethod;
 
-   public Android10Instantiator(Class<T> type) {
-      this.type = type;
-      newStaticMethod = getNewStaticMethod();
-   }
+	private final Class<T> type;
 
-   public T newInstance() {
-      try {
-         return type.cast(newStaticMethod.invoke(null, type, Object.class));
-      }
-      catch(Exception e) {
-         throw new ObjenesisException(e);
-      }
-   }
+	private final Method newStaticMethod;
 
-   private static Method getNewStaticMethod() {
-      try {
-         Method newStaticMethod = ObjectInputStream.class.getDeclaredMethod(
-           "newInstance", Class.class, Class.class);
-         newStaticMethod.setAccessible(true);
-         return newStaticMethod;
-      }
-      catch(RuntimeException | NoSuchMethodException e) {
-         throw new ObjenesisException(e);
-      }
-   }
+	public Android10Instantiator(Class<T> type) {
+		this.type = type;
+		newStaticMethod = getNewStaticMethod();
+	}
+
+	public T newInstance() {
+		try {
+			return type.cast(newStaticMethod.invoke(null, type, Object.class));
+		}
+		catch (Exception e) {
+			throw new ObjenesisException(e);
+		}
+	}
+
+	private static Method getNewStaticMethod() {
+		try {
+			Method newStaticMethod = ObjectInputStream.class.getDeclaredMethod("newInstance", Class.class, Class.class);
+			newStaticMethod.setAccessible(true);
+			return newStaticMethod;
+		}
+		catch (RuntimeException | NoSuchMethodException e) {
+			throw new ObjenesisException(e);
+		}
+	}
 
 }

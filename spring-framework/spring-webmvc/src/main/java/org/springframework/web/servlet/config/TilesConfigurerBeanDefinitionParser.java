@@ -43,7 +43,6 @@ public class TilesConfigurerBeanDefinitionParser extends AbstractSingleBeanDefin
 	 */
 	public static final String BEAN_NAME = "mvcTilesConfigurer";
 
-
 	@Override
 	protected String getBeanClassName(Element element) {
 		return "org.springframework.web.servlet.view.tiles3.TilesConfigurer";

@@ -27,15 +27,17 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of {@link org.springframework.http.converter.HttpMessageConverter}
- * that can read and write JSON using the
+ * Implementation of {@link org.springframework.http.converter.HttpMessageConverter} that
+ * can read and write JSON using the
  * <a href="https://code.google.com/p/google-gson/">Google Gson</a> library.
  *
- * <p>This converter can be used to bind to typed beans or untyped {@code HashMap}s.
- * By default, it supports {@code application/json} and {@code application/*+json} with
+ * <p>
+ * This converter can be used to bind to typed beans or untyped {@code HashMap}s. By
+ * default, it supports {@code application/json} and {@code application/*+json} with
  * {@code UTF-8} character set.
  *
- * <p>Tested against Gson 2.8; compatible with Gson 2.0 and higher.
+ * <p>
+ * Tested against Gson 2.8; compatible with Gson 2.0 and higher.
  *
  * @author Roy Clarkson
  * @author Juergen Hoeller
@@ -47,7 +49,6 @@ import org.springframework.util.Assert;
 public class GsonHttpMessageConverter extends AbstractJsonHttpMessageConverter {
 
 	private Gson gson;
-
 
 	/**
 	 * Construct a new {@code GsonHttpMessageConverter} with default configuration.
@@ -66,12 +67,12 @@ public class GsonHttpMessageConverter extends AbstractJsonHttpMessageConverter {
 		this.gson = gson;
 	}
 
-
 	/**
-	 * Set the {@code Gson} instance to use.
-	 * If not set, a default {@link Gson#Gson() Gson} instance will be used.
-	 * <p>Setting a custom-configured {@code Gson} is one way to take further
-	 * control of the JSON serialization process.
+	 * Set the {@code Gson} instance to use. If not set, a default {@link Gson#Gson()
+	 * Gson} instance will be used.
+	 * <p>
+	 * Setting a custom-configured {@code Gson} is one way to take further control of the
+	 * JSON serialization process.
 	 * @see #GsonHttpMessageConverter(Gson)
 	 */
 	public void setGson(Gson gson) {
@@ -85,7 +86,6 @@ public class GsonHttpMessageConverter extends AbstractJsonHttpMessageConverter {
 	public Gson getGson() {
 		return this.gson;
 	}
-
 
 	@Override
 	protected Object readInternal(Type resolvedType, Reader reader) throws Exception {

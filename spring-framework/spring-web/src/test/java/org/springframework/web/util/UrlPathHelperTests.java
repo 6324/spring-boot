@@ -40,7 +40,6 @@ public class UrlPathHelperTests {
 
 	private final MockHttpServletRequest request = new MockHttpServletRequest();
 
-
 	@Test
 	public void getPathWithinApplication() {
 		request.setContextPath("/petclinic");
@@ -71,7 +70,8 @@ public class UrlPathHelperTests {
 		request.setServletPath("/main");
 		request.setRequestURI("/petclinic/main/welcome.html");
 
-		assertThat(helper.getPathWithinServletMapping(request)).as("Incorrect path returned").isEqualTo("/welcome.html");
+		assertThat(helper.getPathWithinServletMapping(request)).as("Incorrect path returned")
+				.isEqualTo("/welcome.html");
 	}
 
 	@Test
@@ -81,7 +81,8 @@ public class UrlPathHelperTests {
 		request.setServletPath("/main");
 		request.setRequestURI("/petclinic/main/welcome.html");
 
-		assertThat(helper.getLookupPathForRequest(request)).as("Incorrect path returned").isEqualTo("/main/welcome.html");
+		assertThat(helper.getLookupPathForRequest(request)).as("Incorrect path returned")
+				.isEqualTo("/main/welcome.html");
 	}
 
 	// SPR-11101
@@ -166,12 +167,11 @@ public class UrlPathHelperTests {
 		assertThat(helper.getLookupPathForRequest(request)).isEqualTo("/welcome.html;c=d");
 	}
 
-
 	//
-	// suite of tests root requests for default servlets (SRV 11.2) on Websphere vs Tomcat and other containers
+	// suite of tests root requests for default servlets (SRV 11.2) on Websphere vs Tomcat
+	// and other containers
 	// see: https://jira.springframework.org/browse/SPR-7064
 	//
-
 
 	//
 	// / mapping (default servlet)
@@ -206,7 +206,7 @@ public class UrlPathHelperTests {
 		assertThat(helper.getLookupPathForRequest(request)).isEqualTo("/foo/");
 	}
 
-	//SPR-12372 & SPR-13455
+	// SPR-12372 & SPR-13455
 	@Test
 	public void removeDuplicateSlashesInPath() throws Exception {
 		request.setContextPath("/SPR-12372");
@@ -284,7 +284,6 @@ public class UrlPathHelperTests {
 			UrlPathHelper.websphereComplianceFlag = false;
 		}
 	}
-
 
 	//
 	// /foo/* mapping

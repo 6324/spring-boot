@@ -34,7 +34,6 @@ import org.springframework.web.testfixture.servlet.MockServletContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * Integration tests using {@link ResourceUrlEncodingFilter} and
  * {@link ResourceUrlProvider} with the latter configured in Spring MVC Java config.
@@ -51,7 +50,6 @@ public class ResourceUrlProviderJavaConfigTests {
 
 	private MockHttpServletResponse response;
 
-
 	@BeforeEach
 	@SuppressWarnings("resource")
 	public void setup() throws Exception {
@@ -64,11 +62,11 @@ public class ResourceUrlProviderJavaConfigTests {
 		this.request.setContextPath("/myapp");
 		this.response = new MockHttpServletResponse();
 
-		this.filterChain = new MockFilterChain(this.servlet,
-				new ResourceUrlEncodingFilter(),
+		this.filterChain = new MockFilterChain(this.servlet, new ResourceUrlEncodingFilter(),
 				(request, response, chain) -> {
 					Object urlProvider = context.getBean(ResourceUrlProvider.class);
-					request.setAttribute(ResourceUrlProviderExposingInterceptor.RESOURCE_URL_PROVIDER_ATTR, urlProvider);
+					request.setAttribute(ResourceUrlProviderExposingInterceptor.RESOURCE_URL_PROVIDER_ATTR,
+							urlProvider);
 					chain.doFilter(request, response);
 				});
 	}
@@ -79,7 +77,8 @@ public class ResourceUrlProviderJavaConfigTests {
 		this.request.setServletPath("/index");
 		this.filterChain.doFilter(this.request, this.response);
 
-		assertThat(resolvePublicResourceUrlPath("/myapp/resources/foo.css")).isEqualTo("/myapp/resources/foo-e36d2e05253c6c7085a91522ce43a0b4.css");
+		assertThat(resolvePublicResourceUrlPath("/myapp/resources/foo.css"))
+				.isEqualTo("/myapp/resources/foo-e36d2e05253c6c7085a91522ce43a0b4.css");
 	}
 
 	@Test
@@ -88,7 +87,8 @@ public class ResourceUrlProviderJavaConfigTests {
 		this.request.setServletPath("/myservlet");
 		this.filterChain.doFilter(this.request, this.response);
 
-		assertThat(resolvePublicResourceUrlPath("/myapp/myservlet/resources/foo.css")).isEqualTo("/myapp/myservlet/resources/foo-e36d2e05253c6c7085a91522ce43a0b4.css");
+		assertThat(resolvePublicResourceUrlPath("/myapp/myservlet/resources/foo.css"))
+				.isEqualTo("/myapp/myservlet/resources/foo-e36d2e05253c6c7085a91522ce43a0b4.css");
 	}
 
 	@Test
@@ -100,11 +100,9 @@ public class ResourceUrlProviderJavaConfigTests {
 		assertThat(resolvePublicResourceUrlPath("/myapp/myservlet/index")).isEqualTo("/myapp/myservlet/index");
 	}
 
-
 	private String resolvePublicResourceUrlPath(String path) {
 		return this.servlet.wrappedResponse.encodeURL(path);
 	}
-
 
 	@Configuration
 	static class WebConfig extends WebMvcConfigurationSupport {
@@ -112,9 +110,10 @@ public class ResourceUrlProviderJavaConfigTests {
 		@Override
 		public void addResourceHandlers(ResourceHandlerRegistry registry) {
 			registry.addResourceHandler("/resources/**")
-				.addResourceLocations("classpath:org/springframework/web/servlet/resource/test/")
-				.resourceChain(true).addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"));
+					.addResourceLocations("classpath:org/springframework/web/servlet/resource/test/")
+					.resourceChain(true).addResolver(new VersionResourceResolver().addContentVersionStrategy("/**"));
 		}
+
 	}
 
 	@SuppressWarnings("serial")
@@ -126,6 +125,7 @@ public class ResourceUrlProviderJavaConfigTests {
 		protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 			this.wrappedResponse = response;
 		}
+
 	}
 
 }

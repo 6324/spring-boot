@@ -246,9 +246,8 @@ public class RadioButtonTagTests extends AbstractFormTagTests {
 
 	@Test
 	public void dynamicTypeAttribute() throws JspException {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.tag.setDynamicAttribute(null, "type", "email"))
-			.withMessage("Attribute type=\"email\" is not allowed");
+		assertThatIllegalArgumentException().isThrownBy(() -> this.tag.setDynamicAttribute(null, "type", "email"))
+				.withMessage("Attribute type=\"email\" is not allowed");
 	}
 
 	private void assertTagOpened(String output) {
@@ -272,7 +271,6 @@ public class RadioButtonTagTests extends AbstractFormTagTests {
 		return bean;
 	}
 
-
 	private static class MyFloatEditor extends PropertyEditorSupport {
 
 		@Override
@@ -284,6 +282,7 @@ public class RadioButtonTagTests extends AbstractFormTagTests {
 		public String getAsText() {
 			return "F" + getValue();
 		}
+
 	}
 
 }

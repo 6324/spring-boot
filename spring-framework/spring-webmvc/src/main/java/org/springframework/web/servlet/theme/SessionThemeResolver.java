@@ -24,13 +24,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.util.WebUtils;
 
 /**
- * {@link org.springframework.web.servlet.ThemeResolver} implementation that
- * uses a theme attribute in the user's session in case of a custom setting,
- * with a fallback to the default theme. This is most appropriate if the
- * application needs user sessions anyway.
+ * {@link org.springframework.web.servlet.ThemeResolver} implementation that uses a theme
+ * attribute in the user's session in case of a custom setting, with a fallback to the
+ * default theme. This is most appropriate if the application needs user sessions anyway.
  *
- * <p>Custom controllers can override the user's theme by calling
- * {@code setThemeName}, e.g. responding to a theme change request.
+ * <p>
+ * Custom controllers can override the user's theme by calling {@code setThemeName}, e.g.
+ * responding to a theme change request.
  *
  * @author Jean-Pierre Pawlak
  * @author Juergen Hoeller
@@ -40,15 +40,13 @@ import org.springframework.web.util.WebUtils;
 public class SessionThemeResolver extends AbstractThemeResolver {
 
 	/**
-	 * Name of the session attribute that holds the theme name.
-	 * Only used internally by this implementation.
-	 * Use {@code RequestContext(Utils).getTheme()}
-	 * to retrieve the current theme in controllers or views.
+	 * Name of the session attribute that holds the theme name. Only used internally by
+	 * this implementation. Use {@code RequestContext(Utils).getTheme()} to retrieve the
+	 * current theme in controllers or views.
 	 * @see org.springframework.web.servlet.support.RequestContext#getTheme
 	 * @see org.springframework.web.servlet.support.RequestContextUtils#getTheme
 	 */
 	public static final String THEME_SESSION_ATTRIBUTE_NAME = SessionThemeResolver.class.getName() + ".THEME";
-
 
 	@Override
 	public String resolveThemeName(HttpServletRequest request) {
@@ -58,8 +56,8 @@ public class SessionThemeResolver extends AbstractThemeResolver {
 	}
 
 	@Override
-	public void setThemeName(
-			HttpServletRequest request, @Nullable HttpServletResponse response, @Nullable String themeName) {
+	public void setThemeName(HttpServletRequest request, @Nullable HttpServletResponse response,
+			@Nullable String themeName) {
 
 		WebUtils.setSessionAttribute(request, THEME_SESSION_ATTRIBUTE_NAME,
 				(StringUtils.hasText(themeName) ? themeName : null));

@@ -28,14 +28,15 @@ import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler;
 
 /**
- * Configures a request handler for serving static resources by forwarding
- * the request to the Servlet container's "default" Servlet. This is intended
- * to be used when the Spring MVC {@link DispatcherServlet} is mapped to "/"
- * thus overriding the Servlet container's default handling of static resources.
+ * Configures a request handler for serving static resources by forwarding the request to
+ * the Servlet container's "default" Servlet. This is intended to be used when the Spring
+ * MVC {@link DispatcherServlet} is mapped to "/" thus overriding the Servlet container's
+ * default handling of static resources.
  *
- * <p>Since this handler is configured at the lowest precedence, effectively
- * it allows all other handler mappings to handle the request, and if none
- * of them do, this handler can forward it to the "default" Servlet.
+ * <p>
+ * Since this handler is configured at the lowest precedence, effectively it allows all
+ * other handler mappings to handle the request, and if none of them do, this handler can
+ * forward it to the "default" Servlet.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -49,7 +50,6 @@ public class DefaultServletHandlerConfigurer {
 	@Nullable
 	private DefaultServletHttpRequestHandler handler;
 
-
 	/**
 	 * Create a {@link DefaultServletHandlerConfigurer} instance.
 	 * @param servletContext the ServletContext to use.
@@ -59,12 +59,12 @@ public class DefaultServletHandlerConfigurer {
 		this.servletContext = servletContext;
 	}
 
-
 	/**
 	 * Enable forwarding to the "default" Servlet.
-	 * <p>When this method is used the {@link DefaultServletHttpRequestHandler}
-	 * will try to autodetect the "default" Servlet name. Alternatively, you can
-	 * specify the name of the default Servlet via {@link #enable(String)}.
+	 * <p>
+	 * When this method is used the {@link DefaultServletHttpRequestHandler} will try to
+	 * autodetect the "default" Servlet name. Alternatively, you can specify the name of
+	 * the default Servlet via {@link #enable(String)}.
 	 * @see DefaultServletHttpRequestHandler
 	 */
 	public void enable() {
@@ -73,8 +73,9 @@ public class DefaultServletHandlerConfigurer {
 
 	/**
 	 * Enable forwarding to the "default" Servlet identified by the given name.
-	 * <p>This is useful when the default Servlet cannot be autodetected,
-	 * for example when it has been manually configured.
+	 * <p>
+	 * This is useful when the default Servlet cannot be autodetected, for example when it
+	 * has been manually configured.
 	 * @see DefaultServletHttpRequestHandler
 	 */
 	public void enable(@Nullable String defaultServletName) {
@@ -85,12 +86,10 @@ public class DefaultServletHandlerConfigurer {
 		this.handler.setServletContext(this.servletContext);
 	}
 
-
 	/**
 	 * Return a handler mapping instance ordered at {@link Ordered#LOWEST_PRECEDENCE}
-	 * containing the {@link DefaultServletHttpRequestHandler} instance mapped
-	 * to {@code "/**"}; or {@code null} if default servlet handling was not
-	 * been enabled.
+	 * containing the {@link DefaultServletHttpRequestHandler} instance mapped to
+	 * {@code "/**"}; or {@code null} if default servlet handling was not been enabled.
 	 * @since 4.3.12
 	 */
 	@Nullable
@@ -98,8 +97,7 @@ public class DefaultServletHandlerConfigurer {
 		if (this.handler == null) {
 			return null;
 		}
-		return new SimpleUrlHandlerMapping(Collections.singletonMap("/**", this.handler),
-				Ordered.LOWEST_PRECEDENCE);
+		return new SimpleUrlHandlerMapping(Collections.singletonMap("/**", this.handler), Ordered.LOWEST_PRECEDENCE);
 	}
 
 }

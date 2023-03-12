@@ -50,11 +50,10 @@ public class HandlerExecutionChainTests {
 
 	private AsyncHandlerInterceptor interceptor3;
 
-
 	@BeforeEach
 	public void setup() {
 		this.request = new MockHttpServletRequest();
-		this.response= new MockHttpServletResponse() ;
+		this.response = new MockHttpServletResponse();
 
 		this.handler = new Object();
 		this.chain = new HandlerExecutionChain(this.handler);
@@ -69,7 +68,6 @@ public class HandlerExecutionChainTests {
 		this.chain.addInterceptor(this.interceptor3);
 		assertThat(this.chain.getInterceptors().length).isEqualTo(3);
 	}
-
 
 	@Test
 	public void successScenario() throws Exception {

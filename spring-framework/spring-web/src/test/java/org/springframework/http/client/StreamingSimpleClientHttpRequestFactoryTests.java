@@ -42,7 +42,7 @@ public class StreamingSimpleClientHttpRequestFactoryTests extends AbstractHttpRe
 		return factory;
 	}
 
-	@Test  // SPR-8809
+	@Test // SPR-8809
 	public void interceptor() throws Exception {
 		final String headerName = "MyHeader";
 		final String headerValue = "MyValue";
@@ -50,8 +50,8 @@ public class StreamingSimpleClientHttpRequestFactoryTests extends AbstractHttpRe
 			request.getHeaders().add(headerName, headerValue);
 			return execution.execute(request, body);
 		};
-		InterceptingClientHttpRequestFactory factory = new InterceptingClientHttpRequestFactory(
-				createRequestFactory(), Collections.singletonList(interceptor));
+		InterceptingClientHttpRequestFactory factory = new InterceptingClientHttpRequestFactory(createRequestFactory(),
+				Collections.singletonList(interceptor));
 
 		ClientHttpResponse response = null;
 		try {

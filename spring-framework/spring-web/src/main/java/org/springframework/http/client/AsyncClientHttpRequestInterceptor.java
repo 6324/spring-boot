@@ -23,13 +23,14 @@ import org.springframework.util.concurrent.ListenableFuture;
 
 /**
  * Intercepts client-side HTTP requests. Implementations of this interface can be
- * {@linkplain org.springframework.web.client.AsyncRestTemplate#setInterceptors registered}
- * with the {@link org.springframework.web.client.AsyncRestTemplate} as to modify
- * the outgoing {@link HttpRequest} and/or register to modify the incoming
+ * {@linkplain org.springframework.web.client.AsyncRestTemplate#setInterceptors
+ * registered} with the {@link org.springframework.web.client.AsyncRestTemplate} as to
+ * modify the outgoing {@link HttpRequest} and/or register to modify the incoming
  * {@link ClientHttpResponse} with help of a
  * {@link org.springframework.util.concurrent.ListenableFutureAdapter}.
  *
- * <p>The main entry point for interceptors is {@link #intercept}.
+ * <p>
+ * The main entry point for interceptors is {@link #intercept}.
  *
  * @author Jakub Narloch
  * @author Rossen Stoyanchev
@@ -44,13 +45,15 @@ public interface AsyncClientHttpRequestInterceptor {
 
 	/**
 	 * Intercept the given request, and return a response future. The given
-	 * {@link AsyncClientHttpRequestExecution} allows the interceptor to pass on
-	 * the request to the next entity in the chain.
-	 * <p>An implementation might follow this pattern:
+	 * {@link AsyncClientHttpRequestExecution} allows the interceptor to pass on the
+	 * request to the next entity in the chain.
+	 * <p>
+	 * An implementation might follow this pattern:
 	 * <ol>
 	 * <li>Examine the {@linkplain HttpRequest request} and body</li>
-	 * <li>Optionally {@linkplain org.springframework.http.client.support.HttpRequestWrapper
-	 * wrap} the request to filter HTTP attributes.</li>
+	 * <li>Optionally
+	 * {@linkplain org.springframework.http.client.support.HttpRequestWrapper wrap} the
+	 * request to filter HTTP attributes.</li>
 	 * <li>Optionally modify the body of the request.</li>
 	 * <li>One of the following:
 	 * <ul>

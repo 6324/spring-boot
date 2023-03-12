@@ -46,8 +46,8 @@ abstract class AbstractMockWebServerTests {
 
 	protected static final MediaType MULTIPART_RELATED = new MediaType("multipart", "related");
 
-	protected static final MediaType textContentType =
-			new MediaType("text", "plain", Collections.singletonMap("charset", "UTF-8"));
+	protected static final MediaType textContentType = new MediaType("text", "plain",
+			Collections.singletonMap("charset", "UTF-8"));
 
 	protected static final String helloWorld = "H\u00e9llo W\u00f6rld";
 
@@ -56,7 +56,6 @@ abstract class AbstractMockWebServerTests {
 	protected int port;
 
 	protected String baseUrl;
-
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -71,16 +70,13 @@ abstract class AbstractMockWebServerTests {
 		this.server.shutdown();
 	}
 
-
 	private MockResponse getRequest(RecordedRequest request, byte[] body, String contentType) {
 		if (request.getMethod().equals("OPTIONS")) {
 			return new MockResponse().setResponseCode(200).setHeader("Allow", "GET, OPTIONS, HEAD, TRACE");
 		}
 		Buffer buf = new Buffer();
 		buf.write(body);
-		MockResponse response = new MockResponse()
-				.setHeader(CONTENT_LENGTH, body.length)
-				.setBody(buf)
+		MockResponse response = new MockResponse().setHeader(CONTENT_LENGTH, body.length).setBody(buf)
 				.setResponseCode(200);
 		if (contentType != null) {
 			response = response.setHeader(CONTENT_TYPE, contentType);
@@ -88,11 +84,12 @@ abstract class AbstractMockWebServerTests {
 		return response;
 	}
 
-	private MockResponse postRequest(RecordedRequest request, String expectedRequestContent,
-			String location, String contentType, byte[] responseBody) {
+	private MockResponse postRequest(RecordedRequest request, String expectedRequestContent, String location,
+			String contentType, byte[] responseBody) {
 
 		assertThat(request.getHeaders().values(CONTENT_LENGTH).size()).isEqualTo(1);
-		assertThat(Integer.parseInt(request.getHeader(CONTENT_LENGTH))).as("Invalid request content-length").isGreaterThan(0);
+		assertThat(Integer.parseInt(request.getHeader(CONTENT_LENGTH))).as("Invalid request content-length")
+				.isGreaterThan(0);
 		String requestContentType = request.getHeader(CONTENT_TYPE);
 		assertThat(requestContentType).as("No content-type").isNotNull();
 		Charset charset = StandardCharsets.ISO_8859_1;
@@ -103,25 +100,18 @@ abstract class AbstractMockWebServerTests {
 		assertThat(request.getBody().readString(charset)).as("Invalid request body").isEqualTo(expectedRequestContent);
 		Buffer buf = new Buffer();
 		buf.write(responseBody);
-		return new MockResponse()
-				.setHeader(LOCATION, baseUrl + location)
-				.setHeader(CONTENT_TYPE, contentType)
-				.setHeader(CONTENT_LENGTH, responseBody.length)
-				.setBody(buf)
-				.setResponseCode(201);
+		return new MockResponse().setHeader(LOCATION, baseUrl + location).setHeader(CONTENT_TYPE, contentType)
+				.setHeader(CONTENT_LENGTH, responseBody.length).setBody(buf).setResponseCode(201);
 	}
 
 	private MockResponse jsonPostRequest(RecordedRequest request, String location, String contentType) {
 		if (request.getBodySize() > 0) {
-			assertThat(Integer.parseInt(request.getHeader(CONTENT_LENGTH))).as("Invalid request content-length").isGreaterThan(0);
+			assertThat(Integer.parseInt(request.getHeader(CONTENT_LENGTH))).as("Invalid request content-length")
+					.isGreaterThan(0);
 			assertThat(request.getHeader(CONTENT_TYPE)).as("No content-type").isNotNull();
 		}
-		return new MockResponse()
-				.setHeader(LOCATION, baseUrl + location)
-				.setHeader(CONTENT_TYPE, contentType)
-				.setHeader(CONTENT_LENGTH, request.getBody().size())
-				.setBody(request.getBody())
-				.setResponseCode(201);
+		return new MockResponse().setHeader(LOCATION, baseUrl + location).setHeader(CONTENT_TYPE, contentType)
+				.setHeader(CONTENT_LENGTH, request.getBody().size()).setBody(request.getBody()).setResponseCode(201);
 	}
 
 	private MockResponse multipartFormDataRequest(RecordedRequest request) {
@@ -161,8 +151,8 @@ abstract class AbstractMockWebServerTests {
 		}
 	}
 
-	private void assertPart(Buffer buffer, String disposition, String boundary, String name,
-			String contentType, String value) throws EOFException {
+	private void assertPart(Buffer buffer, String disposition, String boundary, String name, String contentType,
+			String value) throws EOFException {
 
 		assertThat(buffer.readUtf8Line()).contains("--" + boundary);
 		String line = buffer.readUtf8Line();
@@ -174,8 +164,8 @@ abstract class AbstractMockWebServerTests {
 		assertThat(buffer.readUtf8Line()).isEqualTo(value);
 	}
 
-	private void assertFilePart(Buffer buffer, String disposition, String boundary, String name,
-			String filename, String contentType) throws EOFException {
+	private void assertFilePart(Buffer buffer, String disposition, String boundary, String name, String filename,
+			String contentType) throws EOFException {
 
 		assertThat(buffer.readUtf8Line()).contains("--" + boundary);
 		String line = buffer.readUtf8Line();
@@ -194,11 +184,12 @@ abstract class AbstractMockWebServerTests {
 		return new MockResponse().setResponseCode(200);
 	}
 
-	private MockResponse patchRequest(RecordedRequest request, String expectedRequestContent,
-			String contentType, byte[] responseBody) {
+	private MockResponse patchRequest(RecordedRequest request, String expectedRequestContent, String contentType,
+			byte[] responseBody) {
 
 		assertThat(request.getMethod()).isEqualTo("PATCH");
-		assertThat(Integer.parseInt(request.getHeader(CONTENT_LENGTH))).as("Invalid request content-length").isGreaterThan(0);
+		assertThat(Integer.parseInt(request.getHeader(CONTENT_LENGTH))).as("Invalid request content-length")
+				.isGreaterThan(0);
 		String requestContentType = request.getHeader(CONTENT_TYPE);
 		assertThat(requestContentType).as("No content-type").isNotNull();
 		Charset charset = StandardCharsets.ISO_8859_1;
@@ -209,14 +200,13 @@ abstract class AbstractMockWebServerTests {
 		assertThat(request.getBody().readString(charset)).as("Invalid request body").isEqualTo(expectedRequestContent);
 		Buffer buf = new Buffer();
 		buf.write(responseBody);
-		return new MockResponse().setResponseCode(201)
-				.setHeader(CONTENT_LENGTH, responseBody.length)
-				.setHeader(CONTENT_TYPE, contentType)
-				.setBody(buf);
+		return new MockResponse().setResponseCode(201).setHeader(CONTENT_LENGTH, responseBody.length)
+				.setHeader(CONTENT_TYPE, contentType).setBody(buf);
 	}
 
 	private MockResponse putRequest(RecordedRequest request, String expectedRequestContent) {
-		assertThat(Integer.parseInt(request.getHeader(CONTENT_LENGTH))).as("Invalid request content-length").isGreaterThan(0);
+		assertThat(Integer.parseInt(request.getHeader(CONTENT_LENGTH))).as("Invalid request content-length")
+				.isGreaterThan(0);
 		String requestContentType = request.getHeader(CONTENT_TYPE);
 		assertThat(requestContentType).as("No content-type").isNotNull();
 		Charset charset = StandardCharsets.ISO_8859_1;
@@ -227,7 +217,6 @@ abstract class AbstractMockWebServerTests {
 		assertThat(request.getBody().readString(charset)).as("Invalid request body").isEqualTo(expectedRequestContent);
 		return new MockResponse().setResponseCode(202);
 	}
-
 
 	protected class TestDispatcher extends Dispatcher {
 
@@ -296,6 +285,7 @@ abstract class AbstractMockWebServerTests {
 				return new MockResponse().setResponseCode(500).setBody(ex.toString());
 			}
 		}
+
 	}
 
 }

@@ -33,8 +33,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
- * Interceptor that allows for changing the current locale on every request,
- * via a configurable request parameter (default parameter name: "locale").
+ * Interceptor that allows for changing the current locale on every request, via a
+ * configurable request parameter (default parameter name: "locale").
  *
  * @author Juergen Hoeller
  * @author Rossen Stoyanchev
@@ -48,7 +48,6 @@ public class LocaleChangeInterceptor extends HandlerInterceptorAdapter {
 	 */
 	public static final String DEFAULT_PARAM_NAME = "locale";
 
-
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	private String paramName = DEFAULT_PARAM_NAME;
@@ -58,18 +57,17 @@ public class LocaleChangeInterceptor extends HandlerInterceptorAdapter {
 
 	private boolean ignoreInvalidLocale = false;
 
-
 	/**
-	 * Set the name of the parameter that contains a locale specification
-	 * in a locale change request. Default is "locale".
+	 * Set the name of the parameter that contains a locale specification in a locale
+	 * change request. Default is "locale".
 	 */
 	public void setParamName(String paramName) {
 		this.paramName = paramName;
 	}
 
 	/**
-	 * Return the name of the parameter that contains a locale specification
-	 * in a locale change request.
+	 * Return the name of the parameter that contains a locale specification in a locale
+	 * change request.
 	 */
 	public String getParamName() {
 		return this.paramName;
@@ -110,9 +108,10 @@ public class LocaleChangeInterceptor extends HandlerInterceptorAdapter {
 	}
 
 	/**
-	 * Specify whether to parse request parameter values as BCP 47 language tags
-	 * instead of Java's legacy locale specification format.
-	 * <p><b>NOTE: As of 5.1, this resolver leniently accepts the legacy
+	 * Specify whether to parse request parameter values as BCP 47 language tags instead
+	 * of Java's legacy locale specification format.
+	 * <p>
+	 * <b>NOTE: As of 5.1, this resolver leniently accepts the legacy
 	 * {@link Locale#toString} format as well as BCP 47 language tags.</b>
 	 * @since 4.3
 	 * @see Locale#forLanguageTag(String)
@@ -127,8 +126,8 @@ public class LocaleChangeInterceptor extends HandlerInterceptorAdapter {
 	}
 
 	/**
-	 * Return whether to use BCP 47 language tags instead of Java's legacy
-	 * locale specification format.
+	 * Return whether to use BCP 47 language tags instead of Java's legacy locale
+	 * specification format.
 	 * @since 4.3
 	 * @deprecated as of 5.1 since it always returns {@code true} now
 	 */
@@ -136,7 +135,6 @@ public class LocaleChangeInterceptor extends HandlerInterceptorAdapter {
 	public boolean isLanguageTagCompliant() {
 		return true;
 	}
-
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -147,8 +145,7 @@ public class LocaleChangeInterceptor extends HandlerInterceptorAdapter {
 			if (checkHttpMethod(request.getMethod())) {
 				LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
 				if (localeResolver == null) {
-					throw new IllegalStateException(
-							"No LocaleResolver found: not in a DispatcherServlet request?");
+					throw new IllegalStateException("No LocaleResolver found: not in a DispatcherServlet request?");
 				}
 				try {
 					localeResolver.setLocale(request, response, parseLocaleValue(newLocale));
@@ -184,8 +181,9 @@ public class LocaleChangeInterceptor extends HandlerInterceptorAdapter {
 
 	/**
 	 * Parse the given locale value as coming from a request parameter.
-	 * <p>The default implementation calls {@link StringUtils#parseLocale(String)},
-	 * accepting the {@link Locale#toString} format as well as BCP 47 language tags.
+	 * <p>
+	 * The default implementation calls {@link StringUtils#parseLocale(String)}, accepting
+	 * the {@link Locale#toString} format as well as BCP 47 language tags.
 	 * @param localeValue the locale value to parse
 	 * @return the corresponding {@code Locale} instance
 	 * @since 4.3

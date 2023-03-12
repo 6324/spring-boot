@@ -24,8 +24,8 @@ import sun.misc.Unsafe;
 
 /**
  * Instantiates an object, WITHOUT calling it's constructor, using
- * {@code sun.misc.Unsafe.allocateInstance()}. Unsafe and its methods are implemented by most
- * modern JVMs.
+ * {@code sun.misc.Unsafe.allocateInstance()}. Unsafe and its methods are implemented by
+ * most modern JVMs.
  *
  * @author Henri Tremblay
  * @see ObjectInstantiator
@@ -34,19 +34,23 @@ import sun.misc.Unsafe;
 @Instantiator(Typology.STANDARD)
 public class UnsafeFactoryInstantiator<T> implements ObjectInstantiator<T> {
 
-   private final Unsafe unsafe;
-   private final Class<T> type;
+	private final Unsafe unsafe;
 
-   public UnsafeFactoryInstantiator(Class<T> type) {
-      this.unsafe = UnsafeUtils.getUnsafe(); // retrieve it to fail right away at instantiator creation if not there
-      this.type = type;
-   }
+	private final Class<T> type;
 
-   public T newInstance() {
-      try {
-         return type.cast(unsafe.allocateInstance(type));
-      } catch (InstantiationException e) {
-         throw new ObjenesisException(e);
-      }
-   }
+	public UnsafeFactoryInstantiator(Class<T> type) {
+		this.unsafe = UnsafeUtils.getUnsafe(); // retrieve it to fail right away at
+												// instantiator creation if not there
+		this.type = type;
+	}
+
+	public T newInstance() {
+		try {
+			return type.cast(unsafe.allocateInstance(type));
+		}
+		catch (InstantiationException e) {
+			throw new ObjenesisException(e);
+		}
+	}
+
 }

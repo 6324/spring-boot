@@ -47,9 +47,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
 /**
- * {@code Filter} that parses form data for HTTP PUT, PATCH, and DELETE requests
- * and exposes it as Servlet request parameters. By default the Servlet spec
- * only requires this for HTTP POST.
+ * {@code Filter} that parses form data for HTTP PUT, PATCH, and DELETE requests and
+ * exposes it as Servlet request parameters. By default the Servlet spec only requires
+ * this for HTTP POST.
  *
  * @author Rossen Stoyanchev
  * @since 5.1
@@ -60,10 +60,10 @@ public class FormContentFilter extends OncePerRequestFilter {
 
 	private FormHttpMessageConverter formConverter = new AllEncompassingFormHttpMessageConverter();
 
-
 	/**
 	 * Set the converter to use for parsing form content.
-	 * <p>By default this is an instance of {@link AllEncompassingFormHttpMessageConverter}.
+	 * <p>
+	 * By default this is an instance of {@link AllEncompassingFormHttpMessageConverter}.
 	 */
 	public void setFormConverter(FormHttpMessageConverter converter) {
 		Assert.notNull(converter, "FormHttpMessageConverter is required");
@@ -71,18 +71,15 @@ public class FormContentFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * The default character set to use for reading form data.
-	 * This is a shortcut for:<br>
+	 * The default character set to use for reading form data. This is a shortcut for:<br>
 	 * {@code getFormConverter.setCharset(charset)}.
 	 */
 	public void setCharset(Charset charset) {
 		this.formConverter.setCharset(charset);
 	}
 
-
 	@Override
-	protected void doFilterInternal(
-			HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
 		MultiValueMap<String, String> params = parseIfNecessary(request);
@@ -122,7 +119,6 @@ public class FormContentFilter extends OncePerRequestFilter {
 		}
 		return false;
 	}
-
 
 	private static class FormContentRequestWrapper extends HttpServletRequestWrapper {
 
@@ -178,6 +174,7 @@ public class FormContentFilter extends OncePerRequestFilter {
 				return StringUtils.toStringArray(result);
 			}
 		}
+
 	}
 
 }

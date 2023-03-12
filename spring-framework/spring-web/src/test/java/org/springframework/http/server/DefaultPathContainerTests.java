@@ -30,6 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link DefaultPathContainer}.
+ *
  * @author Rossen Stoyanchev
  */
 public class DefaultPathContainerTests {
@@ -144,10 +145,8 @@ public class DefaultPathContainerTests {
 	public void pathWithCustomSeparator() {
 		PathContainer path = PathContainer.parsePath("a.b%2Eb.c", PathContainer.Options.MESSAGE_ROUTE);
 
-		List<String> decodedSegments = path.elements().stream()
-				.filter(e -> e instanceof PathSegment)
-				.map(e -> ((PathSegment) e).valueToMatch())
-				.collect(Collectors.toList());
+		List<String> decodedSegments = path.elements().stream().filter(e -> e instanceof PathSegment)
+				.map(e -> ((PathSegment) e).valueToMatch()).collect(Collectors.toList());
 
 		assertThat(decodedSegments).isEqualTo(Arrays.asList("a", "b.b", "c"));
 	}

@@ -28,13 +28,14 @@ import org.springframework.objenesis.instantiator.annotations.Typology;
 @Instantiator(Typology.NOT_COMPLIANT)
 public class FailingInstantiator<T> implements ObjectInstantiator<T> {
 
-    public FailingInstantiator(Class<T> type) {
-    }
+	public FailingInstantiator(Class<T> type) {
+	}
 
-    /**
-     * @return Always throwing an exception
-     */
-    public T newInstance() {
-        throw new ObjenesisException("Always failing");
-    }
+	/**
+	 * @return Always throwing an exception
+	 */
+	public T newInstance() {
+		throw new ObjenesisException("Always failing");
+	}
+
 }

@@ -29,8 +29,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.StreamUtils;
 
 /**
- * Wrapper for a {@link ClientHttpRequest} that has support for {@link ClientHttpRequestInterceptor
- * ClientHttpRequestInterceptors}.
+ * Wrapper for a {@link ClientHttpRequest} that has support for
+ * {@link ClientHttpRequestInterceptor ClientHttpRequestInterceptors}.
  *
  * @author Arjen Poutsma
  * @since 3.1
@@ -45,7 +45,6 @@ class InterceptingClientHttpRequest extends AbstractBufferingClientHttpRequest {
 
 	private URI uri;
 
-
 	protected InterceptingClientHttpRequest(ClientHttpRequestFactory requestFactory,
 			List<ClientHttpRequestInterceptor> interceptors, URI uri, HttpMethod method) {
 
@@ -54,7 +53,6 @@ class InterceptingClientHttpRequest extends AbstractBufferingClientHttpRequest {
 		this.method = method;
 		this.uri = uri;
 	}
-
 
 	@Override
 	public HttpMethod getMethod() {
@@ -76,7 +74,6 @@ class InterceptingClientHttpRequest extends AbstractBufferingClientHttpRequest {
 		InterceptingRequestExecution requestExecution = new InterceptingRequestExecution();
 		return requestExecution.execute(this, bufferedOutput);
 	}
-
 
 	private class InterceptingRequestExecution implements ClientHttpRequestExecution {
 
@@ -109,6 +106,7 @@ class InterceptingClientHttpRequest extends AbstractBufferingClientHttpRequest {
 				return delegate.execute();
 			}
 		}
+
 	}
 
 }

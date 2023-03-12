@@ -33,10 +33,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link ClientHttpRequest} implementation based on
- * Apache HttpComponents HttpClient.
+ * {@link ClientHttpRequest} implementation based on Apache HttpComponents HttpClient.
  *
- * <p>Created via the {@link HttpComponentsClientHttpRequestFactory}.
+ * <p>
+ * Created via the {@link HttpComponentsClientHttpRequestFactory}.
  *
  * @author Oleg Kalnichevski
  * @author Arjen Poutsma
@@ -52,13 +52,11 @@ final class HttpComponentsClientHttpRequest extends AbstractBufferingClientHttpR
 
 	private final HttpContext httpContext;
 
-
 	HttpComponentsClientHttpRequest(HttpClient client, HttpUriRequest request, HttpContext context) {
 		this.httpClient = client;
 		this.httpRequest = request;
 		this.httpContext = context;
 	}
-
 
 	@Override
 	public String getMethodValue() {
@@ -74,7 +72,6 @@ final class HttpComponentsClientHttpRequest extends AbstractBufferingClientHttpR
 		return this.httpContext;
 	}
 
-
 	@Override
 	protected ClientHttpResponse executeInternal(HttpHeaders headers, byte[] bufferedOutput) throws IOException {
 		addHeaders(this.httpRequest, headers);
@@ -88,7 +85,6 @@ final class HttpComponentsClientHttpRequest extends AbstractBufferingClientHttpR
 		return new HttpComponentsClientHttpResponse(httpResponse);
 	}
 
-
 	/**
 	 * Add the given headers to the given HTTP request.
 	 * @param httpRequest the request to add the headers to
@@ -96,12 +92,12 @@ final class HttpComponentsClientHttpRequest extends AbstractBufferingClientHttpR
 	 */
 	static void addHeaders(HttpUriRequest httpRequest, HttpHeaders headers) {
 		headers.forEach((headerName, headerValues) -> {
-			if (HttpHeaders.COOKIE.equalsIgnoreCase(headerName)) {  // RFC 6265
+			if (HttpHeaders.COOKIE.equalsIgnoreCase(headerName)) { // RFC 6265
 				String headerValue = StringUtils.collectionToDelimitedString(headerValues, "; ");
 				httpRequest.addHeader(headerName, headerValue);
 			}
-			else if (!HTTP.CONTENT_LEN.equalsIgnoreCase(headerName) &&
-					!HTTP.TRANSFER_ENCODING.equalsIgnoreCase(headerName)) {
+			else if (!HTTP.CONTENT_LEN.equalsIgnoreCase(headerName)
+					&& !HTTP.TRANSFER_ENCODING.equalsIgnoreCase(headerName)) {
 				for (String headerValue : headerValues) {
 					httpRequest.addHeader(headerName, headerValue);
 				}

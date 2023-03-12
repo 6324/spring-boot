@@ -44,7 +44,6 @@ public class CharacterEncodingFilterTests {
 
 	private static final String ENCODING = "UTF-8";
 
-
 	@Test
 	public void forceEncodingAlwaysSetsEncoding() throws Exception {
 		HttpServletRequest request = mock(HttpServletRequest.class);

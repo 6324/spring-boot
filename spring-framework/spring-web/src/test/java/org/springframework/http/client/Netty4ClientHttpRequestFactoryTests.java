@@ -31,7 +31,6 @@ public class Netty4ClientHttpRequestFactoryTests extends AbstractHttpRequestFact
 
 	private static EventLoopGroup eventLoopGroup;
 
-
 	@BeforeAll
 	public static void createEventLoopGroup() {
 		eventLoopGroup = new NioEventLoopGroup();

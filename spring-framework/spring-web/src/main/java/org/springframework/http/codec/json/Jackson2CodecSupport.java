@@ -51,29 +51,26 @@ import org.springframework.util.ObjectUtils;
 public abstract class Jackson2CodecSupport {
 
 	/**
-	 * The key for the hint to specify a "JSON View" for encoding or decoding
-	 * with the value expected to be a {@link Class}.
-	 * @see <a href="https://www.baeldung.com/jackson-json-view-annotation">Jackson JSON Views</a>
+	 * The key for the hint to specify a "JSON View" for encoding or decoding with the
+	 * value expected to be a {@link Class}.
+	 * @see <a href="https://www.baeldung.com/jackson-json-view-annotation">Jackson JSON
+	 * Views</a>
 	 */
 	public static final String JSON_VIEW_HINT = Jackson2CodecSupport.class.getName() + ".jsonView";
 
 	/**
 	 * The key for the hint to access the actual ResolvableType passed into
 	 * {@link org.springframework.http.codec.HttpMessageReader#read(ResolvableType, ResolvableType, ServerHttpRequest, ServerHttpResponse, Map)}
-	 * (server-side only). Currently set when the method argument has generics because
-	 * in case of reactive types, use of {@code ResolvableType.getGeneric()} means no
+	 * (server-side only). Currently set when the method argument has generics because in
+	 * case of reactive types, use of {@code ResolvableType.getGeneric()} means no
 	 * MethodParameter source and no knowledge of the containing class.
 	 */
 	static final String ACTUAL_TYPE_HINT = Jackson2CodecSupport.class.getName() + ".actualType";
 
-	private static final String JSON_VIEW_HINT_ERROR =
-			"@JsonView only supported for write hints with exactly 1 class argument: ";
+	private static final String JSON_VIEW_HINT_ERROR = "@JsonView only supported for write hints with exactly 1 class argument: ";
 
 	private static final List<MimeType> DEFAULT_MIME_TYPES = Collections.unmodifiableList(
-			Arrays.asList(
-					new MimeType("application", "json"),
-					new MimeType("application", "*+json")));
-
+			Arrays.asList(new MimeType("application", "json"), new MimeType("application", "*+json")));
 
 	protected final Log logger = HttpLogging.forLogName(getClass());
 
@@ -81,17 +78,15 @@ public abstract class Jackson2CodecSupport {
 
 	private final List<MimeType> mimeTypes;
 
-
 	/**
 	 * Constructor with a Jackson {@link ObjectMapper} to use.
 	 */
 	protected Jackson2CodecSupport(ObjectMapper objectMapper, MimeType... mimeTypes) {
 		Assert.notNull(objectMapper, "ObjectMapper must not be null");
 		this.objectMapper = objectMapper;
-		this.mimeTypes = !ObjectUtils.isEmpty(mimeTypes) ?
-				Collections.unmodifiableList(Arrays.asList(mimeTypes)) : DEFAULT_MIME_TYPES;
+		this.mimeTypes = !ObjectUtils.isEmpty(mimeTypes) ? Collections.unmodifiableList(Arrays.asList(mimeTypes))
+				: DEFAULT_MIME_TYPES;
 	}
-
 
 	public ObjectMapper getObjectMapper() {
 		return this.objectMapper;
@@ -103,7 +98,6 @@ public abstract class Jackson2CodecSupport {
 	protected List<MimeType> getMimeTypes() {
 		return this.mimeTypes;
 	}
-
 
 	protected boolean supportsMimeType(@Nullable MimeType mimeType) {
 		return (mimeType == null || this.mimeTypes.stream().anyMatch(m -> m.isCompatibleWith(mimeType)));

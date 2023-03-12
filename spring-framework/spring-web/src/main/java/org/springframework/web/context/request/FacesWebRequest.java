@@ -30,7 +30,8 @@ import org.springframework.util.StringUtils;
 /**
  * {@link WebRequest} adapter for a JSF {@link javax.faces.context.FacesContext}.
  *
- * <p>Requires JSF 2.0 or higher, as of Spring 4.0.
+ * <p>
+ * Requires JSF 2.0 or higher, as of Spring 4.0.
  *
  * @author Juergen Hoeller
  * @since 2.5.2
@@ -45,7 +46,6 @@ public class FacesWebRequest extends FacesRequestAttributes implements NativeWeb
 	public FacesWebRequest(FacesContext facesContext) {
 		super(facesContext);
 	}
-
 
 	@Override
 	public Object getNativeRequest() {
@@ -80,7 +80,6 @@ public class FacesWebRequest extends FacesRequestAttributes implements NativeWeb
 		}
 		return null;
 	}
-
 
 	@Override
 	@Nullable
@@ -185,7 +184,6 @@ public class FacesWebRequest extends FacesRequestAttributes implements NativeWeb
 		}
 		return sb.toString();
 	}
-
 
 	@Override
 	public String toString() {

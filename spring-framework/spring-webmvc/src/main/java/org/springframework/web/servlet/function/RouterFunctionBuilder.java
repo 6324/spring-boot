@@ -40,7 +40,6 @@ class RouterFunctionBuilder implements RouterFunctions.Builder {
 
 	private List<HandlerFilterFunction<ServerResponse, ServerResponse>> filterFunctions = new ArrayList<>();
 
-
 	@Override
 	public RouterFunctions.Builder add(RouterFunction<ServerResponse> routerFunction) {
 		Assert.notNull(routerFunction, "RouterFunction must not be null");
@@ -48,8 +47,7 @@ class RouterFunctionBuilder implements RouterFunctions.Builder {
 		return this;
 	}
 
-	private RouterFunctions.Builder add(RequestPredicate predicate,
-			HandlerFunction<ServerResponse> handlerFunction) {
+	private RouterFunctions.Builder add(RequestPredicate predicate, HandlerFunction<ServerResponse> handlerFunction) {
 
 		this.routerFunctions.add(RouterFunctions.route(predicate, handlerFunction));
 		return this;
@@ -133,8 +131,7 @@ class RouterFunctionBuilder implements RouterFunctions.Builder {
 	}
 
 	@Override
-	public RouterFunctions.Builder route(RequestPredicate predicate,
-			HandlerFunction<ServerResponse> handlerFunction) {
+	public RouterFunctions.Builder route(RequestPredicate predicate, HandlerFunction<ServerResponse> handlerFunction) {
 		return add(RouterFunctions.route(predicate, handlerFunction));
 	}
 
@@ -156,8 +153,7 @@ class RouterFunctionBuilder implements RouterFunctions.Builder {
 	}
 
 	@Override
-	public RouterFunctions.Builder nest(RequestPredicate predicate,
-			Consumer<RouterFunctions.Builder> builderConsumer) {
+	public RouterFunctions.Builder nest(RequestPredicate predicate, Consumer<RouterFunctions.Builder> builderConsumer) {
 
 		Assert.notNull(builderConsumer, "Consumer must not be null");
 
@@ -180,8 +176,7 @@ class RouterFunctionBuilder implements RouterFunctions.Builder {
 	}
 
 	@Override
-	public RouterFunctions.Builder path(String pattern,
-			Consumer<RouterFunctions.Builder> builderConsumer) {
+	public RouterFunctions.Builder path(String pattern, Consumer<RouterFunctions.Builder> builderConsumer) {
 
 		return nest(RequestPredicates.path(pattern), builderConsumer);
 	}
@@ -208,8 +203,7 @@ class RouterFunctionBuilder implements RouterFunctions.Builder {
 	}
 
 	@Override
-	public RouterFunctions.Builder after(
-			BiFunction<ServerRequest, ServerResponse, ServerResponse> responseProcessor) {
+	public RouterFunctions.Builder after(BiFunction<ServerRequest, ServerResponse, ServerResponse> responseProcessor) {
 
 		Assert.notNull(responseProcessor, "ResponseProcessor must not be null");
 		return filter(HandlerFilterFunction.ofResponseProcessor(responseProcessor));
@@ -231,8 +225,7 @@ class RouterFunctionBuilder implements RouterFunctions.Builder {
 		Assert.notNull(exceptionType, "ExceptionType must not be null");
 		Assert.notNull(responseProvider, "ResponseProvider must not be null");
 
-		return filter(HandlerFilterFunction.ofErrorHandler(exceptionType::isInstance,
-				responseProvider));
+		return filter(HandlerFilterFunction.ofErrorHandler(exceptionType::isInstance, responseProvider));
 	}
 
 	@Override
@@ -246,18 +239,16 @@ class RouterFunctionBuilder implements RouterFunctions.Builder {
 			return result;
 		}
 		else {
-			HandlerFilterFunction<ServerResponse, ServerResponse> filter =
-					this.filterFunctions.stream()
-							.reduce(HandlerFilterFunction::andThen)
-							.orElseThrow(IllegalStateException::new);
+			HandlerFilterFunction<ServerResponse, ServerResponse> filter = this.filterFunctions.stream()
+					.reduce(HandlerFilterFunction::andThen).orElseThrow(IllegalStateException::new);
 
 			return result.filter(filter);
 		}
 	}
 
-
 	/**
-	 * Router function returned by {@link #build()} that simply iterates over the registered routes.
+	 * Router function returned by {@link #build()} that simply iterates over the
+	 * registered routes.
 	 */
 	private static class BuiltRouterFunction extends RouterFunctions.AbstractRouterFunction<ServerResponse> {
 
@@ -283,7 +274,7 @@ class RouterFunctionBuilder implements RouterFunctions.Builder {
 		public void accept(RouterFunctions.Visitor visitor) {
 			this.routerFunctions.forEach(routerFunction -> routerFunction.accept(visitor));
 		}
-	}
 
+	}
 
 }

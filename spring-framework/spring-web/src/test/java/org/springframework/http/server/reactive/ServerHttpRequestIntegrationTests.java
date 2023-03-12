@@ -39,7 +39,6 @@ class ServerHttpRequestIntegrationTests extends AbstractHttpHandlerIntegrationTe
 		return new CheckRequestHandler();
 	}
 
-
 	@ParameterizedHttpServerTest
 	void checkUri(HttpServer httpServer) throws Exception {
 		startServer(httpServer);
@@ -49,7 +48,6 @@ class ServerHttpRequestIntegrationTests extends AbstractHttpHandlerIntegrationTe
 		ResponseEntity<Void> response = new RestTemplate().exchange(request, Void.class);
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
-
 
 	static class CheckRequestHandler implements HttpHandler {
 
@@ -64,6 +62,7 @@ class ServerHttpRequestIntegrationTests extends AbstractHttpHandlerIntegrationTe
 			assertThat(uri.getQuery()).isEqualTo("param=bar");
 			return Mono.empty();
 		}
+
 	}
 
 }

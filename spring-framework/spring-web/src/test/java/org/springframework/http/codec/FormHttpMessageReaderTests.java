@@ -45,15 +45,13 @@ public class FormHttpMessageReaderTests extends AbstractLeakCheckingTests {
 
 	private final FormHttpMessageReader reader = new FormHttpMessageReader();
 
-
 	@Test
 	public void canRead() {
 		assertThat(this.reader.canRead(
 				ResolvableType.forClassWithGenerics(MultiValueMap.class, String.class, String.class),
 				MediaType.APPLICATION_FORM_URLENCODED)).isTrue();
 
-		assertThat(this.reader.canRead(
-				ResolvableType.forInstance(new LinkedMultiValueMap<String, String>()),
+		assertThat(this.reader.canRead(ResolvableType.forInstance(new LinkedMultiValueMap<String, String>()),
 				MediaType.APPLICATION_FORM_URLENCODED)).isTrue();
 
 		assertThat(this.reader.canRead(
@@ -64,8 +62,7 @@ public class FormHttpMessageReaderTests extends AbstractLeakCheckingTests {
 				ResolvableType.forClassWithGenerics(MultiValueMap.class, Object.class, String.class),
 				MediaType.APPLICATION_FORM_URLENCODED)).isFalse();
 
-		assertThat(this.reader.canRead(
-				ResolvableType.forClassWithGenerics(Map.class, String.class, String.class),
+		assertThat(this.reader.canRead(ResolvableType.forClassWithGenerics(Map.class, String.class, String.class),
 				MediaType.APPLICATION_FORM_URLENCODED)).isFalse();
 
 		assertThat(this.reader.canRead(
@@ -106,26 +103,20 @@ public class FormHttpMessageReaderTests extends AbstractLeakCheckingTests {
 	@Test
 	public void readFormError() {
 		DataBuffer fooBuffer = stringBuffer("name=value");
-		Flux<DataBuffer> body =
-				Flux.just(fooBuffer).concatWith(Flux.error(new RuntimeException()));
+		Flux<DataBuffer> body = Flux.just(fooBuffer).concatWith(Flux.error(new RuntimeException()));
 		MockServerHttpRequest request = request(body);
 
 		Flux<MultiValueMap<String, String>> result = this.reader.read(null, request, null);
-		StepVerifier.create(result)
-				.expectError()
-				.verify();
+		StepVerifier.create(result).expectError().verify();
 	}
-
 
 	private MockServerHttpRequest request(String body) {
 		return request(Mono.just(stringBuffer(body)));
 	}
 
 	private MockServerHttpRequest request(Publisher<? extends DataBuffer> body) {
-		return MockServerHttpRequest
-					.method(HttpMethod.GET, "/")
-					.header(HttpHeaders.CONTENT_TYPE,  MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-					.body(body);
+		return MockServerHttpRequest.method(HttpMethod.GET, "/")
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE).body(body);
 	}
 
 	private DataBuffer stringBuffer(String value) {

@@ -99,16 +99,16 @@ class HeadersAdaptersTests {
 	@ParameterizedTest(name = "[{index}] {0}")
 	@MethodSource("headers")
 	@interface ParameterizedHeadersTest {
+
 	}
 
 	static Stream<Arguments> headers() {
 		return Stream.of(
-			arguments("Map", CollectionUtils.toMultiValueMap(new LinkedCaseInsensitiveMap<>(8, Locale.ENGLISH))),
-			arguments("Netty", new NettyHeadersAdapter(new DefaultHttpHeaders())),
-			arguments("Tomcat", new TomcatHeadersAdapter(new MimeHeaders())),
-			arguments("Undertow", new UndertowHeadersAdapter(new HeaderMap())),
-			arguments("Jetty", new JettyHeadersAdapter(new HttpFields()))
-		);
+				arguments("Map", CollectionUtils.toMultiValueMap(new LinkedCaseInsensitiveMap<>(8, Locale.ENGLISH))),
+				arguments("Netty", new NettyHeadersAdapter(new DefaultHttpHeaders())),
+				arguments("Tomcat", new TomcatHeadersAdapter(new MimeHeaders())),
+				arguments("Undertow", new UndertowHeadersAdapter(new HeaderMap())),
+				arguments("Jetty", new JettyHeadersAdapter(new HttpFields())));
 	}
 
 }

@@ -38,13 +38,15 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.HandlerMapping;
 
 /**
- * Resolves arguments of type {@link Map} annotated with {@link MatrixVariable @MatrixVariable}
- * where the annotation does not specify a name. In other words the purpose of this resolver
- * is to provide access to multiple matrix variables, either all or associated with a specific
- * path variable.
+ * Resolves arguments of type {@link Map} annotated with
+ * {@link MatrixVariable @MatrixVariable} where the annotation does not specify a name. In
+ * other words the purpose of this resolver is to provide access to multiple matrix
+ * variables, either all or associated with a specific path variable.
  *
- * <p>When a name is specified, an argument of type Map is considered to be a single attribute
- * with a Map value, and is resolved by {@link MatrixVariableMethodArgumentResolver} instead.
+ * <p>
+ * When a name is specified, an argument of type Map is considered to be a single
+ * attribute with a Map value, and is resolved by
+ * {@link MatrixVariableMethodArgumentResolver} instead.
  *
  * @author Rossen Stoyanchev
  * @since 3.2
@@ -54,8 +56,8 @@ public class MatrixVariableMapMethodArgumentResolver implements HandlerMethodArg
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		MatrixVariable matrixVariable = parameter.getParameterAnnotation(MatrixVariable.class);
-		return (matrixVariable != null && Map.class.isAssignableFrom(parameter.getParameterType()) &&
-				!StringUtils.hasText(matrixVariable.name()));
+		return (matrixVariable != null && Map.class.isAssignableFrom(parameter.getParameterType())
+				&& !StringUtils.hasText(matrixVariable.name()));
 	}
 
 	@Override
@@ -64,9 +66,8 @@ public class MatrixVariableMapMethodArgumentResolver implements HandlerMethodArg
 			NativeWebRequest request, @Nullable WebDataBinderFactory binderFactory) throws Exception {
 
 		@SuppressWarnings("unchecked")
-		Map<String, MultiValueMap<String, String>> matrixVariables =
-				(Map<String, MultiValueMap<String, String>>) request.getAttribute(
-						HandlerMapping.MATRIX_VARIABLES_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST);
+		Map<String, MultiValueMap<String, String>> matrixVariables = (Map<String, MultiValueMap<String, String>>) request
+				.getAttribute(HandlerMapping.MATRIX_VARIABLES_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST);
 
 		if (CollectionUtils.isEmpty(matrixVariables)) {
 			return Collections.emptyMap();

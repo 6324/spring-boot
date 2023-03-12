@@ -67,8 +67,7 @@ public class RequestAndSessionScopedBeanTests {
 		assertThat(target).isNotSameAs(target3);
 
 		RequestContextHolder.setRequestAttributes(null);
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				wac.getBean(targetBeanName));
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> wac.getBean(targetBeanName));
 	}
 
 	@Test
@@ -90,8 +89,7 @@ public class RequestAndSessionScopedBeanTests {
 		assertThat(request.getSession().getAttribute(targetBeanName)).isSameAs(target);
 
 		RequestContextHolder.setRequestAttributes(null);
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				wac.getBean(targetBeanName));
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> wac.getBean(targetBeanName));
 	}
 
 }

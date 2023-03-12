@@ -31,19 +31,20 @@ import com.lowagie.text.pdf.PdfWriter;
 import org.springframework.web.servlet.view.AbstractView;
 
 /**
- * Abstract superclass for PDF views. Application-specific view classes
- * will extend this class. The view will be held in the subclass itself,
- * not in a template.
+ * Abstract superclass for PDF views. Application-specific view classes will extend this
+ * class. The view will be held in the subclass itself, not in a template.
  *
- * <p>This view implementation uses Bruno Lowagie's
- * <a href="https://www.lowagie.com/iText">iText</a> API.
- * Known to work with the original iText 2.1.7 as well as its fork
- * <a href="https://github.com/LibrePDF/OpenPDF">OpenPDF</a>.
- * <b>We strongly recommend OpenPDF since it is actively maintained
- * and fixes an important vulnerability for untrusted PDF content.</b>
+ * <p>
+ * This view implementation uses Bruno Lowagie's
+ * <a href="https://www.lowagie.com/iText">iText</a> API. Known to work with the original
+ * iText 2.1.7 as well as its fork
+ * <a href="https://github.com/LibrePDF/OpenPDF">OpenPDF</a>. <b>We strongly recommend
+ * OpenPDF since it is actively maintained and fixes an important vulnerability for
+ * untrusted PDF content.</b>
  *
- * <p>Note: Internet Explorer requires a ".pdf" extension, as it doesn't
- * always respect the declared content type.
+ * <p>
+ * Note: Internet Explorer requires a ".pdf" extension, as it doesn't always respect the
+ * declared content type.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -53,14 +54,13 @@ import org.springframework.web.servlet.view.AbstractView;
 public abstract class AbstractPdfView extends AbstractView {
 
 	/**
-	 * This constructor sets the appropriate content type "application/pdf".
-	 * Note that IE won't take much notice of this, but there's not a lot we
-	 * can do about this. Generated documents should have a ".pdf" extension.
+	 * This constructor sets the appropriate content type "application/pdf". Note that IE
+	 * won't take much notice of this, but there's not a lot we can do about this.
+	 * Generated documents should have a ".pdf" extension.
 	 */
 	public AbstractPdfView() {
 		setContentType("application/pdf");
 	}
-
 
 	@Override
 	protected boolean generatesDownloadContent() {
@@ -68,8 +68,8 @@ public abstract class AbstractPdfView extends AbstractView {
 	}
 
 	@Override
-	protected final void renderMergedOutputModel(
-			Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	protected final void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 
 		// IE workaround: write into byte array first.
 		ByteArrayOutputStream baos = createTemporaryOutputStream();
@@ -91,8 +91,9 @@ public abstract class AbstractPdfView extends AbstractView {
 
 	/**
 	 * Create a new document to hold the PDF contents.
-	 * <p>By default returns an A4 document, but the subclass can specify any
-	 * Document, possibly parameterized via bean properties defined on the View.
+	 * <p>
+	 * By default returns an A4 document, but the subclass can specify any Document,
+	 * possibly parameterized via bean properties defined on the View.
 	 * @return the newly created iText Document instance
 	 * @see com.lowagie.text.Document#Document(com.lowagie.text.Rectangle)
 	 */
@@ -112,11 +113,12 @@ public abstract class AbstractPdfView extends AbstractView {
 	}
 
 	/**
-	 * Prepare the given PdfWriter. Called before building the PDF document,
-	 * that is, before the call to {@code Document.open()}.
-	 * <p>Useful for registering a page event listener, for example.
-	 * The default implementation sets the viewer preferences as returned
-	 * by this class's {@code getViewerPreferences()} method.
+	 * Prepare the given PdfWriter. Called before building the PDF document, that is,
+	 * before the call to {@code Document.open()}.
+	 * <p>
+	 * Useful for registering a page event listener, for example. The default
+	 * implementation sets the viewer preferences as returned by this class's
+	 * {@code getViewerPreferences()} method.
 	 * @param model the model, in case meta information must be populated from it
 	 * @param writer the PdfWriter to prepare
 	 * @param request in case we need locale etc. Shouldn't look at attributes.
@@ -134,10 +136,10 @@ public abstract class AbstractPdfView extends AbstractView {
 
 	/**
 	 * Return the viewer preferences for the PDF file.
-	 * <p>By default returns {@code AllowPrinting} and
-	 * {@code PageLayoutSinglePage}, but can be subclassed.
-	 * The subclass can either have fixed preferences or retrieve
-	 * them from bean properties defined on the View.
+	 * <p>
+	 * By default returns {@code AllowPrinting} and {@code PageLayoutSinglePage}, but can
+	 * be subclassed. The subclass can either have fixed preferences or retrieve them from
+	 * bean properties defined on the View.
 	 * @return an int containing the bits information against PdfWriter definitions
 	 * @see com.lowagie.text.pdf.PdfWriter#AllowPrinting
 	 * @see com.lowagie.text.pdf.PdfWriter#PageLayoutSinglePage
@@ -147,11 +149,11 @@ public abstract class AbstractPdfView extends AbstractView {
 	}
 
 	/**
-	 * Populate the iText Document's meta fields (author, title, etc.).
-	 * <br>Default is an empty implementation. Subclasses may override this method
-	 * to add meta fields such as title, subject, author, creator, keywords, etc.
-	 * This method is called after assigning a PdfWriter to the Document and
-	 * before calling {@code document.open()}.
+	 * Populate the iText Document's meta fields (author, title, etc.). <br>
+	 * Default is an empty implementation. Subclasses may override this method to add meta
+	 * fields such as title, subject, author, creator, keywords, etc. This method is
+	 * called after assigning a PdfWriter to the Document and before calling
+	 * {@code document.open()}.
 	 * @param model the model, in case meta information must be populated from it
 	 * @param document the iText document being populated
 	 * @param request in case we need locale etc. Shouldn't look at attributes.
@@ -168,12 +170,12 @@ public abstract class AbstractPdfView extends AbstractView {
 	}
 
 	/**
-	 * Subclasses must implement this method to build an iText PDF document,
-	 * given the model. Called between {@code Document.open()} and
-	 * {@code Document.close()} calls.
-	 * <p>Note that the passed-in HTTP response is just supposed to be used
-	 * for setting cookies or other HTTP headers. The built PDF document itself
-	 * will automatically get written to the response after this method returns.
+	 * Subclasses must implement this method to build an iText PDF document, given the
+	 * model. Called between {@code Document.open()} and {@code Document.close()} calls.
+	 * <p>
+	 * Note that the passed-in HTTP response is just supposed to be used for setting
+	 * cookies or other HTTP headers. The built PDF document itself will automatically get
+	 * written to the response after this method returns.
 	 * @param model the model Map
 	 * @param document the iText Document to add elements to
 	 * @param writer the PdfWriter to use

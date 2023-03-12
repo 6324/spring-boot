@@ -39,8 +39,8 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.springframework.web.context.request.async.CallableProcessingInterceptor.RESULT_NONE;
 
 /**
- * {@link WebAsyncManager} tests where container-triggered timeout/completion
- * events are simulated.
+ * {@link WebAsyncManager} tests where container-triggered timeout/completion events are
+ * simulated.
  *
  * @author Rossen Stoyanchev
  */
@@ -56,7 +56,6 @@ public class WebAsyncManagerTimeoutTests {
 
 	private MockHttpServletResponse servletResponse;
 
-
 	@BeforeEach
 	public void setup() {
 		this.servletRequest = new MockHttpServletRequest("GET", "/test");
@@ -70,7 +69,6 @@ public class WebAsyncManagerTimeoutTests {
 		this.asyncManager.setTaskExecutor(executor);
 		this.asyncManager.setAsyncWebRequest(this.asyncWebRequest);
 	}
-
 
 	@Test
 	public void startCallableProcessingTimeoutAndComplete() throws Exception {
@@ -275,12 +273,13 @@ public class WebAsyncManagerTimeoutTests {
 		assertThat(((MockAsyncContext) this.servletRequest.getAsyncContext()).getDispatchedPath()).isEqualTo("/test");
 	}
 
-
 	private final class StubCallable implements Callable<Object> {
+
 		@Override
 		public Object call() throws Exception {
 			return 21;
 		}
+
 	}
 
 }

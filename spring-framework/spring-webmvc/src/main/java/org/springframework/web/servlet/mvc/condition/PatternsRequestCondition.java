@@ -36,8 +36,8 @@ import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * A logical disjunction (' || ') request condition that matches a request
- * against a set of URL path patterns.
+ * A logical disjunction (' || ') request condition that matches a request against a set
+ * of URL path patterns.
  *
  * @author Rossen Stoyanchev
  * @since 3.1
@@ -45,7 +45,6 @@ import org.springframework.web.util.UrlPathHelper;
 public class PatternsRequestCondition extends AbstractRequestCondition<PatternsRequestCondition> {
 
 	private final static Set<String> EMPTY_PATH_PATTERN = Collections.singleton("");
-
 
 	private final Set<String> patterns;
 
@@ -59,12 +58,11 @@ public class PatternsRequestCondition extends AbstractRequestCondition<PatternsR
 
 	private final List<String> fileExtensions = new ArrayList<>();
 
-
 	/**
-	 * Creates a new instance with the given URL patterns. Each pattern that is
-	 * not empty and does not start with "/" is prepended with "/".
-	 * @param patterns 0 or more URL patterns; if 0 the condition will match to
-	 * every request.
+	 * Creates a new instance with the given URL patterns. Each pattern that is not empty
+	 * and does not start with "/" is prepended with "/".
+	 * @param patterns 0 or more URL patterns; if 0 the condition will match to every
+	 * request.
 	 */
 	public PatternsRequestCondition(String... patterns) {
 		this(patterns, null, null, true, true, null);
@@ -73,8 +71,10 @@ public class PatternsRequestCondition extends AbstractRequestCondition<PatternsR
 	/**
 	 * Alternative constructor with additional, optional {@link UrlPathHelper},
 	 * {@link PathMatcher}, and whether to automatically match trailing slashes.
-	 * @param patterns the URL patterns to use; if 0, the condition will match to every request.
-	 * @param urlPathHelper a {@link UrlPathHelper} for determining the lookup path for a request
+	 * @param patterns the URL patterns to use; if 0, the condition will match to every
+	 * request.
+	 * @param urlPathHelper a {@link UrlPathHelper} for determining the lookup path for a
+	 * request
 	 * @param pathMatcher a {@link PathMatcher} for pattern path matching
 	 * @param useTrailingSlashMatch whether to match irrespective of a trailing slash
 	 * @since 5.2.4
@@ -87,7 +87,8 @@ public class PatternsRequestCondition extends AbstractRequestCondition<PatternsR
 
 	/**
 	 * Alternative constructor with additional optional parameters.
-	 * @param patterns the URL patterns to use; if 0, the condition will match to every request.
+	 * @param patterns the URL patterns to use; if 0, the condition will match to every
+	 * request.
 	 * @param urlPathHelper for determining the lookup path of a request
 	 * @param pathMatcher for path matching with patterns
 	 * @param useSuffixPatternMatch whether to enable matching by suffix (".*")
@@ -105,8 +106,10 @@ public class PatternsRequestCondition extends AbstractRequestCondition<PatternsR
 
 	/**
 	 * Alternative constructor with additional optional parameters.
-	 * @param patterns the URL patterns to use; if 0, the condition will match to every request.
-	 * @param urlPathHelper a {@link UrlPathHelper} for determining the lookup path for a request
+	 * @param patterns the URL patterns to use; if 0, the condition will match to every
+	 * request.
+	 * @param urlPathHelper a {@link UrlPathHelper} for determining the lookup path for a
+	 * request
 	 * @param pathMatcher a {@link PathMatcher} for pattern path matching
 	 * @param useSuffixPatternMatch whether to enable matching by suffix (".*")
 	 * @param useTrailingSlashMatch whether to match irrespective of a trailing slash
@@ -117,8 +120,8 @@ public class PatternsRequestCondition extends AbstractRequestCondition<PatternsR
 	 */
 	@Deprecated
 	public PatternsRequestCondition(String[] patterns, @Nullable UrlPathHelper urlPathHelper,
-			@Nullable PathMatcher pathMatcher, boolean useSuffixPatternMatch,
-			boolean useTrailingSlashMatch, @Nullable List<String> fileExtensions) {
+			@Nullable PathMatcher pathMatcher, boolean useSuffixPatternMatch, boolean useTrailingSlashMatch,
+			@Nullable List<String> fileExtensions) {
 
 		this.patterns = initPatterns(patterns);
 		this.pathHelper = urlPathHelper != null ? urlPathHelper : UrlPathHelper.defaultInstance;
@@ -173,7 +176,6 @@ public class PatternsRequestCondition extends AbstractRequestCondition<PatternsR
 		this.fileExtensions.addAll(other.fileExtensions);
 	}
 
-
 	public Set<String> getPatterns() {
 		return this.patterns;
 	}
@@ -189,8 +191,8 @@ public class PatternsRequestCondition extends AbstractRequestCondition<PatternsR
 	}
 
 	/**
-	 * Returns a new instance with URL patterns from the current instance ("this") and
-	 * the "other" instance as follows:
+	 * Returns a new instance with URL patterns from the current instance ("this") and the
+	 * "other" instance as follows:
 	 * <ul>
 	 * <li>If there are patterns in both instances, combine the patterns in "this" with
 	 * the patterns in "other" using {@link PathMatcher#combine(String, String)}.
@@ -225,10 +227,11 @@ public class PatternsRequestCondition extends AbstractRequestCondition<PatternsR
 	}
 
 	/**
-	 * Checks if any of the patterns match the given request and returns an instance
-	 * that is guaranteed to contain matching patterns, sorted via
+	 * Checks if any of the patterns match the given request and returns an instance that
+	 * is guaranteed to contain matching patterns, sorted via
 	 * {@link PathMatcher#getPatternComparator(String)}.
-	 * <p>A matching pattern is obtained by making checks in the following order:
+	 * <p>
+	 * A matching pattern is obtained by making checks in the following order:
 	 * <ul>
 	 * <li>Direct match
 	 * <li>Pattern match with ".*" appended if the pattern doesn't already contain a "."
@@ -236,9 +239,8 @@ public class PatternsRequestCondition extends AbstractRequestCondition<PatternsR
 	 * <li>Pattern match with "/" appended if the pattern doesn't already end in "/"
 	 * </ul>
 	 * @param request the current request
-	 * @return the same instance if the condition contains no patterns;
-	 * or a new condition with sorted matching patterns;
-	 * or {@code null} if no patterns match.
+	 * @return the same instance if the condition contains no patterns; or a new condition
+	 * with sorted matching patterns; or {@code null} if no patterns match.
 	 */
 	@Override
 	@Nullable
@@ -249,10 +251,10 @@ public class PatternsRequestCondition extends AbstractRequestCondition<PatternsR
 	}
 
 	/**
-	 * Find the patterns matching the given lookup path. Invoking this method should
-	 * yield results equivalent to those of calling {@link #getMatchingCondition}.
-	 * This method is provided as an alternative to be used if no request is available
-	 * (e.g. introspection, tooling, etc).
+	 * Find the patterns matching the given lookup path. Invoking this method should yield
+	 * results equivalent to those of calling {@link #getMatchingCondition}. This method
+	 * is provided as an alternative to be used if no request is available (e.g.
+	 * introspection, tooling, etc).
 	 * @param lookupPath the lookup path to match to existing patterns
 	 * @return a collection of matching patterns sorted with the closest match at the top
 	 */
@@ -306,15 +308,14 @@ public class PatternsRequestCondition extends AbstractRequestCondition<PatternsR
 	}
 
 	/**
-	 * Compare the two conditions based on the URL patterns they contain.
-	 * Patterns are compared one at a time, from top to bottom via
-	 * {@link PathMatcher#getPatternComparator(String)}. If all compared
-	 * patterns match equally, but one instance has more patterns, it is
-	 * considered a closer match.
-	 * <p>It is assumed that both instances have been obtained via
-	 * {@link #getMatchingCondition(HttpServletRequest)} to ensure they
-	 * contain only patterns that match the request and are sorted with
-	 * the best matches on top.
+	 * Compare the two conditions based on the URL patterns they contain. Patterns are
+	 * compared one at a time, from top to bottom via
+	 * {@link PathMatcher#getPatternComparator(String)}. If all compared patterns match
+	 * equally, but one instance has more patterns, it is considered a closer match.
+	 * <p>
+	 * It is assumed that both instances have been obtained via
+	 * {@link #getMatchingCondition(HttpServletRequest)} to ensure they contain only
+	 * patterns that match the request and are sorted with the best matches on top.
 	 */
 	@Override
 	public int compareTo(PatternsRequestCondition other, HttpServletRequest request) {

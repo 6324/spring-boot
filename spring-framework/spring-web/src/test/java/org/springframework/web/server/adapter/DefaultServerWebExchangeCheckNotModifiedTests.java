@@ -45,12 +45,10 @@ class DefaultServerWebExchangeCheckNotModifiedTests {
 
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
 
-
 	@BeforeEach
 	void setup() {
 		this.dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
 	}
-
 
 	@Test
 	void checkNotModifiedNon2xxStatus() {
@@ -194,10 +192,8 @@ class DefaultServerWebExchangeCheckNotModifiedTests {
 	void checkNotModifiedETagAndModifiedTimestamp() {
 		String eTag = "\"Foo\"";
 		Instant oneMinuteAgo = currentDate.minusSeconds(60);
-		MockServerWebExchange exchange = MockServerWebExchange.from(get("/")
-				.ifNoneMatch(eTag)
-				.ifModifiedSince(oneMinuteAgo.toEpochMilli())
-				);
+		MockServerWebExchange exchange = MockServerWebExchange
+				.from(get("/").ifNoneMatch(eTag).ifModifiedSince(oneMinuteAgo.toEpochMilli()));
 
 		assertThat(exchange.checkNotModified(eTag, currentDate)).isTrue();
 

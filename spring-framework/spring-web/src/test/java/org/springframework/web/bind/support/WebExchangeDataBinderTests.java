@@ -56,14 +56,12 @@ public class WebExchangeDataBinderTests {
 
 	private WebExchangeDataBinder binder;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		this.testBean = new TestBean();
 		this.binder = new WebExchangeDataBinder(this.testBean, "person");
 		this.binder.registerCustomEditor(ITestBean.class, new TestBeanPropertyEditor());
 	}
-
 
 	@Test
 	public void testBindingWithNestedObjectCreation() throws Exception {
@@ -203,28 +201,24 @@ public class WebExchangeDataBinderTests {
 
 		assertThat(bean.getName()).isEqualTo("bar");
 		assertThat(bean.getSomeList()).isEqualTo(Arrays.asList("123", "abc"));
-		assertThat(bean.getSomeArray()).isEqualTo(new String[] {"dec", "456"});
+		assertThat(bean.getSomeArray()).isEqualTo(new String[] { "dec", "456" });
 		assertThat(bean.getPart().filename()).isEqualTo("foo.txt");
 		assertThat(bean.getSomePartList().size()).isEqualTo(2);
 		assertThat(bean.getSomePartList().get(0).filename()).isEqualTo("foo.txt");
 		assertThat(bean.getSomePartList().get(1).filename()).isEqualTo("spring.png");
 	}
 
-
-
 	private ServerWebExchange exchange(MultiValueMap<String, String> formData) {
 
 		MockClientHttpRequest request = new MockClientHttpRequest(HttpMethod.POST, "/");
 
-		new FormHttpMessageWriter().write(Mono.just(formData),
-				forClassWithGenerics(MultiValueMap.class, String.class, String.class),
-				MediaType.APPLICATION_FORM_URLENCODED, request, Collections.emptyMap()).block();
+		new FormHttpMessageWriter()
+				.write(Mono.just(formData), forClassWithGenerics(MultiValueMap.class, String.class, String.class),
+						MediaType.APPLICATION_FORM_URLENCODED, request, Collections.emptyMap())
+				.block();
 
-		return MockServerWebExchange.from(
-				MockServerHttpRequest
-						.post("/")
-						.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-						.body(request.getBody()));
+		return MockServerWebExchange.from(MockServerHttpRequest.post("/")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED).body(request.getBody()));
 	}
 
 	private ServerWebExchange exchangeMultipart(MultiValueMap<String, ?> multipartData) {
@@ -234,12 +228,9 @@ public class WebExchangeDataBinderTests {
 		new MultipartHttpMessageWriter().write(Mono.just(multipartData), forClass(MultiValueMap.class),
 				MediaType.MULTIPART_FORM_DATA, request, Collections.emptyMap()).block();
 
-		return MockServerWebExchange.from(MockServerHttpRequest
-				.post("/")
-				.contentType(request.getHeaders().getContentType())
-				.body(request.getBody()));
+		return MockServerWebExchange.from(MockServerHttpRequest.post("/")
+				.contentType(request.getHeaders().getContentType()).body(request.getBody()));
 	}
-
 
 	private static class TestBeanPropertyEditor extends PropertyEditorSupport {
 
@@ -247,6 +238,7 @@ public class WebExchangeDataBinderTests {
 		public void setAsText(String text) {
 			setValue(new TestBean());
 		}
+
 	}
 
 	@SuppressWarnings("unused")
@@ -261,7 +253,6 @@ public class WebExchangeDataBinderTests {
 		private FilePart part;
 
 		private List<FilePart> somePartList;
-
 
 		public String getName() {
 			return this.name;
@@ -302,6 +293,7 @@ public class WebExchangeDataBinderTests {
 		public void setSomePartList(List<FilePart> somePartList) {
 			this.somePartList = somePartList;
 		}
+
 	}
 
 }

@@ -80,11 +80,11 @@ public class DelegatingPhaseListenerTests {
 		assertThat(target2.afterCalled).isTrue();
 	}
 
-
 	@SuppressWarnings("serial")
 	public static class TestListener implements PhaseListener {
 
 		boolean beforeCalled = false;
+
 		boolean afterCalled = false;
 
 		@Override
@@ -101,6 +101,7 @@ public class DelegatingPhaseListenerTests {
 		public void afterPhase(PhaseEvent arg0) {
 			afterCalled = true;
 		}
+
 	}
 
 }

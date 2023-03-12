@@ -31,33 +31,40 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.lang.Nullable;
 
 /**
- * {@link org.springframework.web.context.WebApplicationContext} implementation which takes
- * its configuration from Groovy bean definition scripts and/or XML files, as understood by
- * a {@link org.springframework.beans.factory.groovy.GroovyBeanDefinitionReader}.
- * This is essentially the equivalent of
- * {@link org.springframework.context.support.GenericGroovyApplicationContext}
- * for a web environment.
+ * {@link org.springframework.web.context.WebApplicationContext} implementation which
+ * takes its configuration from Groovy bean definition scripts and/or XML files, as
+ * understood by a
+ * {@link org.springframework.beans.factory.groovy.GroovyBeanDefinitionReader}. This is
+ * essentially the equivalent of
+ * {@link org.springframework.context.support.GenericGroovyApplicationContext} for a web
+ * environment.
  *
- * <p>By default, the configuration will be taken from "/WEB-INF/applicationContext.groovy"
- * for the root context, and "/WEB-INF/test-servlet.groovy" for a context with the namespace
- * "test-servlet" (like for a DispatcherServlet instance with the servlet-name "test").
+ * <p>
+ * By default, the configuration will be taken from "/WEB-INF/applicationContext.groovy"
+ * for the root context, and "/WEB-INF/test-servlet.groovy" for a context with the
+ * namespace "test-servlet" (like for a DispatcherServlet instance with the servlet-name
+ * "test").
  *
- * <p>The config location defaults can be overridden via the "contextConfigLocation"
+ * <p>
+ * The config location defaults can be overridden via the "contextConfigLocation"
  * context-param of {@link org.springframework.web.context.ContextLoader} and servlet
- * init-param of {@link org.springframework.web.servlet.FrameworkServlet}. Config locations
- * can either denote concrete files like "/WEB-INF/context.groovy" or Ant-style patterns
- * like "/WEB-INF/*-context.groovy" (see {@link org.springframework.util.PathMatcher}
- * javadoc for pattern details). Note that ".xml" files will be parsed as XML content;
- * all other kinds of resources will be parsed as Groovy scripts.
+ * init-param of {@link org.springframework.web.servlet.FrameworkServlet}. Config
+ * locations can either denote concrete files like "/WEB-INF/context.groovy" or Ant-style
+ * patterns like "/WEB-INF/*-context.groovy" (see
+ * {@link org.springframework.util.PathMatcher} javadoc for pattern details). Note that
+ * ".xml" files will be parsed as XML content; all other kinds of resources will be parsed
+ * as Groovy scripts.
  *
- * <p>Note: In case of multiple config locations, later bean definitions will
- * override ones defined in earlier loaded files. This can be leveraged to
- * deliberately override certain bean definitions via an extra Groovy script.
+ * <p>
+ * Note: In case of multiple config locations, later bean definitions will override ones
+ * defined in earlier loaded files. This can be leveraged to deliberately override certain
+ * bean definitions via an extra Groovy script.
  *
- * <p><b>For a WebApplicationContext that reads in a different bean definition format,
- * create an analogous subclass of {@link AbstractRefreshableWebApplicationContext}.</b>
- * Such a context implementation can be specified as "contextClass" context-param
- * for ContextLoader or "contextClass" init-param for FrameworkServlet.
+ * <p>
+ * <b>For a WebApplicationContext that reads in a different bean definition format, create
+ * an analogous subclass of {@link AbstractRefreshableWebApplicationContext}.</b> Such a
+ * context implementation can be specified as "contextClass" context-param for
+ * ContextLoader or "contextClass" init-param for FrameworkServlet.
  *
  * @author Juergen Hoeller
  * @since 4.1
@@ -67,7 +74,8 @@ import org.springframework.lang.Nullable;
  * @see org.springframework.web.context.ContextLoader#initWebApplicationContext
  * @see org.springframework.web.servlet.FrameworkServlet#initWebApplicationContext
  */
-public abstract class GroovyWebApplicationContext extends AbstractRefreshableWebApplicationContext implements GroovyObject {
+public abstract class GroovyWebApplicationContext extends AbstractRefreshableWebApplicationContext
+		implements GroovyObject {
 
 	/** Default config location for the root context. */
 	public static final String DEFAULT_CONFIG_LOCATION = "/WEB-INF/applicationContext.groovy";
@@ -78,11 +86,9 @@ public abstract class GroovyWebApplicationContext extends AbstractRefreshableWeb
 	/** Default suffix for building a config location for a namespace. */
 	public static final String DEFAULT_CONFIG_LOCATION_SUFFIX = ".groovy";
 
-
 	private final BeanWrapper contextWrapper = new BeanWrapperImpl(this);
 
 	private MetaClass metaClass = GroovySystem.getMetaClassRegistry().getMetaClass(getClass());
-
 
 	/**
 	 * Loads the bean definitions via an GroovyBeanDefinitionReader.
@@ -107,9 +113,10 @@ public abstract class GroovyWebApplicationContext extends AbstractRefreshableWeb
 	}
 
 	/**
-	 * Initialize the bean definition reader used for loading the bean
-	 * definitions of this context. Default implementation is empty.
-	 * <p>Can be overridden in subclasses.
+	 * Initialize the bean definition reader used for loading the bean definitions of this
+	 * context. Default implementation is empty.
+	 * <p>
+	 * Can be overridden in subclasses.
 	 * @param beanDefinitionReader the bean definition reader used by this context
 	 */
 	protected void initBeanDefinitionReader(GroovyBeanDefinitionReader beanDefinitionReader) {
@@ -117,10 +124,12 @@ public abstract class GroovyWebApplicationContext extends AbstractRefreshableWeb
 
 	/**
 	 * Load the bean definitions with the given GroovyBeanDefinitionReader.
-	 * <p>The lifecycle of the bean factory is handled by the refreshBeanFactory method;
+	 * <p>
+	 * The lifecycle of the bean factory is handled by the refreshBeanFactory method;
 	 * therefore this method is just supposed to load and/or register bean definitions.
-	 * <p>Delegates to a ResourcePatternResolver for resolving location patterns
-	 * into Resource instances.
+	 * <p>
+	 * Delegates to a ResourcePatternResolver for resolving location patterns into
+	 * Resource instances.
 	 * @throws IOException if the required Groovy script or XML file isn't found
 	 * @see #refreshBeanFactory
 	 * @see #getConfigLocations
@@ -144,13 +153,12 @@ public abstract class GroovyWebApplicationContext extends AbstractRefreshableWeb
 	@Override
 	protected String[] getDefaultConfigLocations() {
 		if (getNamespace() != null) {
-			return new String[] {DEFAULT_CONFIG_LOCATION_PREFIX + getNamespace() + DEFAULT_CONFIG_LOCATION_SUFFIX};
+			return new String[] { DEFAULT_CONFIG_LOCATION_PREFIX + getNamespace() + DEFAULT_CONFIG_LOCATION_SUFFIX };
 		}
 		else {
-			return new String[] {DEFAULT_CONFIG_LOCATION};
+			return new String[] { DEFAULT_CONFIG_LOCATION };
 		}
 	}
-
 
 	// Implementation of the GroovyObject interface
 

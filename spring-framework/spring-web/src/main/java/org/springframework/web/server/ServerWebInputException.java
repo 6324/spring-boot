@@ -21,9 +21,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
 
 /**
- * Exception for errors that fit response status 400 (bad request) for use in
- * Spring Web applications. The exception provides additional fields (e.g.
- * an optional {@link MethodParameter} if related to the error).
+ * Exception for errors that fit response status 400 (bad request) for use in Spring Web
+ * applications. The exception provides additional fields (e.g. an optional
+ * {@link MethodParameter} if related to the error).
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -33,7 +33,6 @@ public class ServerWebInputException extends ResponseStatusException {
 
 	@Nullable
 	private final MethodParameter parameter;
-
 
 	/**
 	 * Constructor with an explanation only.
@@ -56,7 +55,6 @@ public class ServerWebInputException extends ResponseStatusException {
 		super(HttpStatus.BAD_REQUEST, reason, cause);
 		this.parameter = parameter;
 	}
-
 
 	/**
 	 * Return the {@code MethodParameter} associated with this error, if any.

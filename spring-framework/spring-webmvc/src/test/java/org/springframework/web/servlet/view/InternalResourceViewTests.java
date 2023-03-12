@@ -47,10 +47,12 @@ import static org.mockito.Mockito.verify;
 public class InternalResourceViewTests {
 
 	@SuppressWarnings("serial")
-	private static final Map<String, Object> model = Collections.unmodifiableMap(new HashMap<String, Object>() {{
-		put("foo", "bar");
-		put("I", 1L);
-	}});
+	private static final Map<String, Object> model = Collections.unmodifiableMap(new HashMap<String, Object>() {
+		{
+			put("foo", "bar");
+			put("I", 1L);
+		}
+	});
 
 	private static final String url = "forward-to";
 
@@ -60,14 +62,12 @@ public class InternalResourceViewTests {
 
 	private final InternalResourceView view = new InternalResourceView();
 
-
 	/**
 	 * If the url property isn't supplied, view initialization should fail.
 	 */
 	@Test
 	public void rejectsNullUrl() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(
-				view::afterPropertiesSet);
+		assertThatIllegalArgumentException().isThrownBy(view::afterPropertiesSet);
 	}
 
 	@Test
@@ -89,8 +89,8 @@ public class InternalResourceViewTests {
 		view.render(model, request, response);
 		assertThat(response.getForwardedUrl()).isEqualTo(url);
 
-		model.forEach((key, value) -> assertThat(request.getAttribute(key)).as("Values for model key '" + key
-						+ "' must match").isEqualTo(value));
+		model.forEach((key, value) -> assertThat(request.getAttribute(key))
+				.as("Values for model key '" + key + "' must match").isEqualTo(value));
 	}
 
 	@Test

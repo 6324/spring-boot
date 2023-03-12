@@ -60,6 +60,7 @@ import static org.springframework.web.testfixture.method.ResolvableMethod.on;
 
 /**
  * Unit tests for {@link ReactiveTypeHandler}.
+ *
  * @author Rossen Stoyanchev
  */
 public class ReactiveTypeHandlerTests {
@@ -71,7 +72,6 @@ public class ReactiveTypeHandlerTests {
 	private MockHttpServletResponse servletResponse;
 
 	private NativeWebRequest webRequest;
-
 
 	@BeforeEach
 	public void setup() throws Exception {
@@ -92,7 +92,6 @@ public class ReactiveTypeHandlerTests {
 		WebAsyncUtils.getAsyncManager(this.webRequest).setAsyncWebRequest(webRequest);
 		this.servletRequest.setAsyncSupported(true);
 	}
-
 
 	@Test
 	public void supportsType() throws Exception {
@@ -120,8 +119,8 @@ public class ReactiveTypeHandlerTests {
 		// RxJava 1 Single
 		AtomicReference<SingleEmitter<String>> ref = new AtomicReference<>();
 		Single<String> single = Single.fromEmitter(ref::set);
-		testDeferredResultSubscriber(single, Single.class, forClass(String.class),
-				() -> ref.get().onSuccess("foo"), "foo");
+		testDeferredResultSubscriber(single, Single.class, forClass(String.class), () -> ref.get().onSuccess("foo"),
+				"foo");
 
 		// RxJava 2 Single
 		AtomicReference<io.reactivex.SingleEmitter<String>> ref2 = new AtomicReference<>();
@@ -231,7 +230,8 @@ public class ReactiveTypeHandlerTests {
 		processor.onNext(ServerSentEvent.builder("baz").id("3").build());
 		processor.onComplete();
 
-		assertThat(emitterHandler.getValuesAsText()).isEqualTo("id:1\ndata:foo\n\nid:2\ndata:bar\n\nid:3\ndata:baz\n\n");
+		assertThat(emitterHandler.getValuesAsText())
+				.isEqualTo("id:1\ndata:foo\n\nid:2\ndata:bar\n\nid:3\ndata:baz\n\n");
 	}
 
 	@Test
@@ -307,9 +307,8 @@ public class ReactiveTypeHandlerTests {
 		resetRequest();
 	}
 
-
-	private void testDeferredResultSubscriber(Object returnValue, Class<?> asyncType,
-			ResolvableType elementType, Runnable produceTask, Object expected) throws Exception {
+	private void testDeferredResultSubscriber(Object returnValue, Class<?> asyncType, ResolvableType elementType,
+			Runnable produceTask, Object expected) throws Exception {
 
 		ResponseBodyEmitter emitter = handleValue(returnValue, asyncType, elementType);
 		assertThat(emitter).isNull();
@@ -325,38 +324,50 @@ public class ReactiveTypeHandlerTests {
 		resetRequest();
 	}
 
-	private ResponseBodyEmitter handleValue(Object returnValue, Class<?> asyncType,
-			ResolvableType genericType) throws Exception {
+	private ResponseBodyEmitter handleValue(Object returnValue, Class<?> asyncType, ResolvableType genericType)
+			throws Exception {
 
 		ModelAndViewContainer mavContainer = new ModelAndViewContainer();
 		MethodParameter returnType = on(TestController.class).resolveReturnType(asyncType, genericType);
 		return this.handler.handleValue(returnValue, returnType, mavContainer, this.webRequest);
 	}
 
-
 	@SuppressWarnings("unused")
 	static class TestController {
 
-		String handleString() { return null; }
+		String handleString() {
+			return null;
+		}
 
-		Mono<String> handleMono() { return null; }
+		Mono<String> handleMono() {
+			return null;
+		}
 
-		Single<String> handleSingle() { return null; }
+		Single<String> handleSingle() {
+			return null;
+		}
 
-		io.reactivex.Single<String> handleSingleRxJava2() { return null; }
+		io.reactivex.Single<String> handleSingleRxJava2() {
+			return null;
+		}
 
-		Flux<Bar> handleFlux() { return null; }
+		Flux<Bar> handleFlux() {
+			return null;
+		}
 
-		Flux<String> handleFluxString() { return null; }
+		Flux<String> handleFluxString() {
+			return null;
+		}
 
-		Flux<ServerSentEvent<String>> handleFluxSseEventBuilder() { return null; }
+		Flux<ServerSentEvent<String>> handleFluxSseEventBuilder() {
+			return null;
+		}
+
 	}
-
 
 	private static class EmitterHandler implements ResponseBodyEmitter.Handler {
 
 		private final List<Object> values = new ArrayList<>();
-
 
 		public List<?> getValues() {
 			return this.values;
@@ -390,6 +401,7 @@ public class ReactiveTypeHandlerTests {
 		@Override
 		public void onCompletion(Runnable callback) {
 		}
+
 	}
 
 	private static class Bar {
@@ -404,6 +416,7 @@ public class ReactiveTypeHandlerTests {
 		public String getValue() {
 			return this.value;
 		}
+
 	}
 
 }

@@ -45,12 +45,9 @@ public class ProtobufEncoderTests extends AbstractEncoderTests<ProtobufEncoder> 
 
 	private final static MimeType PROTOBUF_MIME_TYPE = new MimeType("application", "x-protobuf");
 
-	private Msg msg1 =
-			Msg.newBuilder().setFoo("Foo").setBlah(SecondMsg.newBuilder().setBlah(123).build()).build();
+	private Msg msg1 = Msg.newBuilder().setFoo("Foo").setBlah(SecondMsg.newBuilder().setBlah(123).build()).build();
 
-	private Msg msg2 =
-			Msg.newBuilder().setFoo("Bar").setBlah(SecondMsg.newBuilder().setBlah(456).build()).build();
-
+	private Msg msg2 = Msg.newBuilder().setFoo("Bar").setBlah(SecondMsg.newBuilder().setBlah(456).build()).build();
 
 	public ProtobufEncoderTests() {
 		super(new ProtobufEncoder());
@@ -71,30 +68,26 @@ public class ProtobufEncoderTests extends AbstractEncoderTests<ProtobufEncoder> 
 	public void encode() {
 		Mono<Message> input = Mono.just(this.msg1);
 
-		testEncodeAll(input, Msg.class, step -> step
-				.consumeNextWith(dataBuffer -> {
-					try {
-						assertThat(Msg.parseFrom(dataBuffer.asInputStream())).isEqualTo(this.msg1);
+		testEncodeAll(input, Msg.class, step -> step.consumeNextWith(dataBuffer -> {
+			try {
+				assertThat(Msg.parseFrom(dataBuffer.asInputStream())).isEqualTo(this.msg1);
 
-					}
-					catch (IOException ex) {
-						throw new UncheckedIOException(ex);
-					}
-					finally {
-						DataBufferUtils.release(dataBuffer);
-					}
-				})
-				.verifyComplete());
+			}
+			catch (IOException ex) {
+				throw new UncheckedIOException(ex);
+			}
+			finally {
+				DataBufferUtils.release(dataBuffer);
+			}
+		}).verifyComplete());
 	}
 
 	@Test
 	public void encodeStream() {
 		Flux<Message> input = Flux.just(this.msg1, this.msg2);
 
-		testEncodeAll(input, Msg.class, step -> step
-				.consumeNextWith(expect(this.msg1))
-				.consumeNextWith(expect(this.msg2))
-				.verifyComplete());
+		testEncodeAll(input, Msg.class,
+				step -> step.consumeNextWith(expect(this.msg1)).consumeNextWith(expect(this.msg2)).verifyComplete());
 	}
 
 	protected final Consumer<DataBuffer> expect(Msg msg) {
@@ -111,4 +104,5 @@ public class ProtobufEncoderTests extends AbstractEncoderTests<ProtobufEncoder> 
 			}
 		};
 	}
+
 }

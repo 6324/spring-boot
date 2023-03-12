@@ -46,12 +46,12 @@ public class JythonScriptTemplateTests {
 
 	private ServletContext servletContext;
 
-
 	@BeforeEach
 	public void setup() {
 		this.webAppContext = mock(WebApplicationContext.class);
 		this.servletContext = new MockServletContext();
-		this.servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, this.webAppContext);
+		this.servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE,
+				this.webAppContext);
 	}
 
 	@Test
@@ -61,7 +61,8 @@ public class JythonScriptTemplateTests {
 		model.put("body", "This is the body");
 		String url = "org/springframework/web/servlet/view/script/jython/template.html";
 		MockHttpServletResponse response = render(url, model);
-		assertThat(response.getContentAsString()).isEqualTo("<html><head><title>Layout example</title></head><body><p>This is the body</p></body></html>");
+		assertThat(response.getContentAsString()).isEqualTo(
+				"<html><head><title>Layout example</title></head><body><p>This is the body</p></body></html>");
 	}
 
 	private MockHttpServletResponse render(String viewUrl, Map<String, Object> model) throws Exception {
@@ -84,7 +85,6 @@ public class JythonScriptTemplateTests {
 		return view;
 	}
 
-
 	@Configuration
 	static class ScriptTemplatingConfiguration {
 
@@ -96,6 +96,7 @@ public class JythonScriptTemplateTests {
 			configurer.setRenderFunction("render");
 			return configurer;
 		}
+
 	}
 
 }

@@ -30,11 +30,12 @@ import org.springframework.web.server.ServerWebExchange;
 
 /**
  * {@link LocaleContextResolver} implementation that simply uses the primary locale
- * specified in the "Accept-Language" header of the HTTP request (that is,
- * the locale sent by the client browser, normally that of the client's OS).
+ * specified in the "Accept-Language" header of the HTTP request (that is, the locale sent
+ * by the client browser, normally that of the client's OS).
  *
- * <p>Note: Does not support {@link #setLocaleContext}, since the accept header
- * can only be changed through changing the client's locale settings.
+ * <p>
+ * Note: Does not support {@link #setLocaleContext}, since the accept header can only be
+ * changed through changing the client's locale settings.
  *
  * @author Sebastien Deleuze
  * @author Juergen Hoeller
@@ -48,10 +49,9 @@ public class AcceptHeaderLocaleContextResolver implements LocaleContextResolver 
 	@Nullable
 	private Locale defaultLocale;
 
-
 	/**
-	 * Configure supported locales to check against the requested locales
-	 * determined via {@link HttpHeaders#getAcceptLanguageAsLocales()}.
+	 * Configure supported locales to check against the requested locales determined via
+	 * {@link HttpHeaders#getAcceptLanguageAsLocales()}.
 	 * @param locales the supported locales
 	 */
 	public void setSupportedLocales(List<Locale> locales) {
@@ -67,8 +67,8 @@ public class AcceptHeaderLocaleContextResolver implements LocaleContextResolver 
 	}
 
 	/**
-	 * Configure a fixed default locale to fall back on if the request does not
-	 * have an "Accept-Language" header (not set by default).
+	 * Configure a fixed default locale to fall back on if the request does not have an
+	 * "Accept-Language" header (not set by default).
 	 * @param defaultLocale the default locale to use
 	 */
 	public void setDefaultLocale(@Nullable Locale defaultLocale) {
@@ -77,13 +77,13 @@ public class AcceptHeaderLocaleContextResolver implements LocaleContextResolver 
 
 	/**
 	 * The configured default locale, if any.
-	 * <p>This method may be overridden in subclasses.
+	 * <p>
+	 * This method may be overridden in subclasses.
 	 */
 	@Nullable
 	public Locale getDefaultLocale() {
 		return this.defaultLocale;
 	}
-
 
 	@Override
 	public LocaleContext resolveLocaleContext(ServerWebExchange exchange) {
@@ -100,26 +100,27 @@ public class AcceptHeaderLocaleContextResolver implements LocaleContextResolver 
 	@Nullable
 	private Locale resolveSupportedLocale(@Nullable List<Locale> requestLocales) {
 		if (CollectionUtils.isEmpty(requestLocales)) {
-			return getDefaultLocale();  // may be null
+			return getDefaultLocale(); // may be null
 		}
 		List<Locale> supportedLocales = getSupportedLocales();
 		if (supportedLocales.isEmpty()) {
-			return requestLocales.get(0);  // never null
+			return requestLocales.get(0); // never null
 		}
 
 		Locale languageMatch = null;
 		for (Locale locale : requestLocales) {
 			if (supportedLocales.contains(locale)) {
 				if (languageMatch == null || languageMatch.getLanguage().equals(locale.getLanguage())) {
-					// Full match: language + country, possibly narrowed from earlier language-only match
+					// Full match: language + country, possibly narrowed from earlier
+					// language-only match
 					return locale;
 				}
 			}
 			else if (languageMatch == null) {
 				// Let's try to find a language-only match as a fallback
 				for (Locale candidate : supportedLocales) {
-					if (!StringUtils.hasLength(candidate.getCountry()) &&
-							candidate.getLanguage().equals(locale.getLanguage())) {
+					if (!StringUtils.hasLength(candidate.getCountry())
+							&& candidate.getLanguage().equals(locale.getLanguage())) {
 						languageMatch = candidate;
 						break;
 					}

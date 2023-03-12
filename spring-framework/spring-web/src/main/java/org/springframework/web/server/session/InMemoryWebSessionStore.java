@@ -47,7 +47,6 @@ public class InMemoryWebSessionStore implements WebSessionStore {
 
 	private static final IdGenerator idGenerator = new JdkIdGenerator();
 
-
 	private int maxSessions = 10000;
 
 	private Clock clock = Clock.system(ZoneId.of("GMT"));
@@ -56,12 +55,12 @@ public class InMemoryWebSessionStore implements WebSessionStore {
 
 	private final ExpiredSessionChecker expiredSessionChecker = new ExpiredSessionChecker();
 
-
 	/**
-	 * Set the maximum number of sessions that can be stored. Once the limit is
-	 * reached, any attempt to store an additional session will result in an
+	 * Set the maximum number of sessions that can be stored. Once the limit is reached,
+	 * any attempt to store an additional session will result in an
 	 * {@link IllegalStateException}.
-	 * <p>By default set to 10000.
+	 * <p>
+	 * By default set to 10000.
 	 * @param maxSessions the maximum number of sessions
 	 * @since 5.0.8
 	 */
@@ -78,12 +77,14 @@ public class InMemoryWebSessionStore implements WebSessionStore {
 	}
 
 	/**
-	 * Configure the {@link Clock} to use to set lastAccessTime on every created
-	 * session and to calculate if it is expired.
-	 * <p>This may be useful to align to different timezone or to set the clock
-	 * back in a test, e.g. {@code Clock.offset(clock, Duration.ofMinutes(-31))}
-	 * in order to simulate session expiration.
-	 * <p>By default this is {@code Clock.system(ZoneId.of("GMT"))}.
+	 * Configure the {@link Clock} to use to set lastAccessTime on every created session
+	 * and to calculate if it is expired.
+	 * <p>
+	 * This may be useful to align to different timezone or to set the clock back in a
+	 * test, e.g. {@code Clock.offset(clock, Duration.ofMinutes(-31))} in order to
+	 * simulate session expiration.
+	 * <p>
+	 * By default this is {@code Clock.system(ZoneId.of("GMT"))}.
 	 * @param clock the clock to use
 	 */
 	public void setClock(Clock clock) {
@@ -100,15 +101,14 @@ public class InMemoryWebSessionStore implements WebSessionStore {
 	}
 
 	/**
-	 * Return the map of sessions with an {@link Collections#unmodifiableMap
-	 * unmodifiable} wrapper. This could be used for management purposes, to
-	 * list active sessions, invalidate expired ones, etc.
+	 * Return the map of sessions with an {@link Collections#unmodifiableMap unmodifiable}
+	 * wrapper. This could be used for management purposes, to list active sessions,
+	 * invalidate expired ones, etc.
 	 * @since 5.0.8
 	 */
 	public Map<String, WebSession> getSessions() {
 		return Collections.unmodifiableMap(this.sessions);
 	}
-
 
 	@Override
 	public Mono<WebSession> createWebSession() {
@@ -155,16 +155,15 @@ public class InMemoryWebSessionStore implements WebSessionStore {
 	}
 
 	/**
-	 * Check for expired sessions and remove them. Typically such checks are
-	 * kicked off lazily during calls to {@link #createWebSession() create} or
-	 * {@link #retrieveSession retrieve}, no less than 60 seconds apart.
-	 * This method can be called to force a check at a specific time.
+	 * Check for expired sessions and remove them. Typically such checks are kicked off
+	 * lazily during calls to {@link #createWebSession() create} or
+	 * {@link #retrieveSession retrieve}, no less than 60 seconds apart. This method can
+	 * be called to force a check at a specific time.
 	 * @since 5.0.8
 	 */
 	public void removeExpiredSessions() {
 		this.expiredSessionChecker.removeExpiredSessions(this.clock.instant());
 	}
-
 
 	private class InMemoryWebSession implements WebSession {
 
@@ -179,7 +178,6 @@ public class InMemoryWebSessionStore implements WebSessionStore {
 		private volatile Duration maxIdleTime = Duration.ofMinutes(30);
 
 		private final AtomicReference<State> state = new AtomicReference<>(State.NEW);
-
 
 		public InMemoryWebSession(Instant creationTime) {
 			this.creationTime = creationTime;
@@ -294,26 +292,24 @@ public class InMemoryWebSessionStore implements WebSessionStore {
 		}
 
 		private boolean checkExpired(Instant currentTime) {
-			return isStarted() && !this.maxIdleTime.isNegative() &&
-					currentTime.minus(this.maxIdleTime).isAfter(this.lastAccessTime);
+			return isStarted() && !this.maxIdleTime.isNegative()
+					&& currentTime.minus(this.maxIdleTime).isAfter(this.lastAccessTime);
 		}
 
 		private void updateLastAccessTime(Instant currentTime) {
 			this.lastAccessTime = currentTime;
 		}
-	}
 
+	}
 
 	private class ExpiredSessionChecker {
 
 		/** Max time between expiration checks. */
 		private static final int CHECK_PERIOD = 60 * 1000;
 
-
 		private final ReentrantLock lock = new ReentrantLock();
 
 		private Instant checkTime = clock.instant().plus(CHECK_PERIOD, ChronoUnit.MILLIS);
-
 
 		public void checkIfNecessary(Instant now) {
 			if (this.checkTime.isBefore(now)) {
@@ -342,9 +338,13 @@ public class InMemoryWebSessionStore implements WebSessionStore {
 				}
 			}
 		}
+
 	}
 
+	private enum State {
 
-	private enum State { NEW, STARTED, EXPIRED }
+		NEW, STARTED, EXPIRED
+
+	}
 
 }

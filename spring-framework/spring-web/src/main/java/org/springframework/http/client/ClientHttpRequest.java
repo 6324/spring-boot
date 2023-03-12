@@ -23,11 +23,12 @@ import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.HttpRequest;
 
 /**
- * Represents a client-side HTTP request.
- * Created via an implementation of the {@link ClientHttpRequestFactory}.
+ * Represents a client-side HTTP request. Created via an implementation of the
+ * {@link ClientHttpRequestFactory}.
  *
- * <p>A {@code ClientHttpRequest} can be {@linkplain #execute() executed},
- * receiving a {@link ClientHttpResponse} which can be read from.
+ * <p>
+ * A {@code ClientHttpRequest} can be {@linkplain #execute() executed}, receiving a
+ * {@link ClientHttpResponse} which can be read from.
  *
  * @author Arjen Poutsma
  * @since 3.0

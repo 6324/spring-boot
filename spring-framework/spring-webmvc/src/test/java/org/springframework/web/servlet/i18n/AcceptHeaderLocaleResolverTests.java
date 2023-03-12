@@ -47,7 +47,6 @@ public class AcceptHeaderLocaleResolverTests {
 
 	private final AcceptHeaderLocaleResolver resolver = new AcceptHeaderLocaleResolver();
 
-
 	@Test
 	public void resolve() {
 		assertThat(this.resolver.resolveLocale(request(CANADA))).isEqualTo(CANADA);
@@ -105,7 +104,6 @@ public class AcceptHeaderLocaleResolverTests {
 		request.setPreferredLocales(Collections.singletonList(US));
 		assertThat(this.resolver.resolveLocale(request)).isEqualTo(US);
 	}
-
 
 	private HttpServletRequest request(Locale... locales) {
 		MockHttpServletRequest request = new MockHttpServletRequest();

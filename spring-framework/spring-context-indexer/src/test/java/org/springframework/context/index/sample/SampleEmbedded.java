@@ -36,6 +36,7 @@ public class SampleEmbedded {
 		public static class AnotherPublicCandidate {
 
 		}
+
 	}
 
 }

@@ -26,7 +26,9 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Convenient super class for application classes that need REST access.
  *
- * <p>Requires a {@link ClientHttpRequestFactory} or a {@link RestTemplate} instance to be set.
+ * <p>
+ * Requires a {@link ClientHttpRequestFactory} or a {@link RestTemplate} instance to be
+ * set.
  *
  * @author Arjen Poutsma
  * @since 3.0
@@ -40,23 +42,23 @@ public class RestGatewaySupport {
 
 	private RestTemplate restTemplate;
 
-
 	/**
-	 * Construct a new instance of the {@link RestGatewaySupport}, with default parameters.
+	 * Construct a new instance of the {@link RestGatewaySupport}, with default
+	 * parameters.
 	 */
 	public RestGatewaySupport() {
 		this.restTemplate = new RestTemplate();
 	}
 
 	/**
-	 * Construct a new instance of the {@link RestGatewaySupport}, with the given {@link ClientHttpRequestFactory}.
+	 * Construct a new instance of the {@link RestGatewaySupport}, with the given
+	 * {@link ClientHttpRequestFactory}.
 	 * @see RestTemplate#RestTemplate(ClientHttpRequestFactory)
 	 */
 	public RestGatewaySupport(ClientHttpRequestFactory requestFactory) {
 		Assert.notNull(requestFactory, "'requestFactory' must not be null");
 		this.restTemplate = new RestTemplate(requestFactory);
 	}
-
 
 	/**
 	 * Sets the {@link RestTemplate} for the gateway.

@@ -24,9 +24,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Adapt {@link MultipartFile} to {@link org.springframework.core.io.Resource},
- * exposing the content as {@code InputStream} and also overriding
- * {@link #contentLength()} as well as {@link #getFilename()}.
+ * Adapt {@link MultipartFile} to {@link org.springframework.core.io.Resource}, exposing
+ * the content as {@code InputStream} and also overriding {@link #contentLength()} as well
+ * as {@link #getFilename()}.
  *
  * @author Rossen Stoyanchev
  * @since 5.1
@@ -35,12 +35,10 @@ class MultipartFileResource extends AbstractResource {
 
 	private final MultipartFile multipartFile;
 
-
 	public MultipartFileResource(MultipartFile multipartFile) {
 		Assert.notNull(multipartFile, "MultipartFile must not be null");
 		this.multipartFile = multipartFile;
 	}
-
 
 	/**
 	 * This implementation always returns {@code true}.
@@ -69,8 +67,8 @@ class MultipartFileResource extends AbstractResource {
 	}
 
 	/**
-	 * This implementation throws IllegalStateException if attempting to
-	 * read the underlying stream multiple times.
+	 * This implementation throws IllegalStateException if attempting to read the
+	 * underlying stream multiple times.
 	 */
 	@Override
 	public InputStream getInputStream() throws IOException, IllegalStateException {
@@ -85,11 +83,10 @@ class MultipartFileResource extends AbstractResource {
 		return "MultipartFile resource [" + this.multipartFile.getName() + "]";
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
-		return (this == other || (other instanceof MultipartFileResource &&
-				((MultipartFileResource) other).multipartFile.equals(this.multipartFile)));
+		return (this == other || (other instanceof MultipartFileResource
+				&& ((MultipartFileResource) other).multipartFile.equals(this.multipartFile)));
 	}
 
 	@Override

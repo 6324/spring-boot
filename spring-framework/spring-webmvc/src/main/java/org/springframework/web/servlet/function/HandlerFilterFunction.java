@@ -36,9 +36,9 @@ public interface HandlerFilterFunction<T extends ServerResponse, R extends Serve
 
 	/**
 	 * Apply this filter to the given handler function. The given
-	 * {@linkplain HandlerFunction handler function} represents the next entity in the chain,
-	 * and can be {@linkplain HandlerFunction#handle(ServerRequest) invoked} in order to
-	 * proceed to this entity, or not invoked to block the chain.
+	 * {@linkplain HandlerFunction handler function} represents the next entity in the
+	 * chain, and can be {@linkplain HandlerFunction#handle(ServerRequest) invoked} in
+	 * order to proceed to this entity, or not invoked to block the chain.
 	 * @param request the request
 	 * @param next the next handler or filter function in the chain
 	 * @return the filtered response
@@ -46,8 +46,8 @@ public interface HandlerFilterFunction<T extends ServerResponse, R extends Serve
 	R filter(ServerRequest request, HandlerFunction<T> next) throws Exception;
 
 	/**
-	 * Return a composed filter function that first applies this filter, and then applies the
-	 * {@code after} filter.
+	 * Return a composed filter function that first applies this filter, and then applies
+	 * the {@code after} filter.
 	 * @param after the filter to apply after this filter is applied
 	 * @return a composed filter that first applies this function and then applies the
 	 * {@code after} function
@@ -61,7 +61,8 @@ public interface HandlerFilterFunction<T extends ServerResponse, R extends Serve
 	}
 
 	/**
-	 * Apply this filter to the given handler function, resulting in a filtered handler function.
+	 * Apply this filter to the given handler function, resulting in a filtered handler
+	 * function.
 	 * @param handler the handler function to filter
 	 * @return the filtered handler function
 	 */
@@ -76,8 +77,8 @@ public interface HandlerFilterFunction<T extends ServerResponse, R extends Serve
 	 * @param requestProcessor the request processor
 	 * @return the filter adaptation of the request processor
 	 */
-	static <T extends ServerResponse> HandlerFilterFunction<T, T>
-	ofRequestProcessor(Function<ServerRequest, ServerRequest> requestProcessor) {
+	static <T extends ServerResponse> HandlerFilterFunction<T, T> ofRequestProcessor(
+			Function<ServerRequest, ServerRequest> requestProcessor) {
 
 		Assert.notNull(requestProcessor, "Function must not be null");
 		return (request, next) -> next.handle(requestProcessor.apply(request));
@@ -89,22 +90,22 @@ public interface HandlerFilterFunction<T extends ServerResponse, R extends Serve
 	 * @param responseProcessor the response processor
 	 * @return the filter adaptation of the request processor
 	 */
-	static <T extends ServerResponse, R extends ServerResponse> HandlerFilterFunction<T, R>
-	ofResponseProcessor(BiFunction<ServerRequest, T, R> responseProcessor) {
+	static <T extends ServerResponse, R extends ServerResponse> HandlerFilterFunction<T, R> ofResponseProcessor(
+			BiFunction<ServerRequest, T, R> responseProcessor) {
 
 		Assert.notNull(responseProcessor, "Function must not be null");
 		return (request, next) -> responseProcessor.apply(request, next.handle(request));
 	}
 
 	/**
-	 * Adapt the given predicate and response provider function to a filter function that returns
-	 * a {@code ServerResponse} on a given exception.
+	 * Adapt the given predicate and response provider function to a filter function that
+	 * returns a {@code ServerResponse} on a given exception.
 	 * @param predicate the predicate to match an exception
 	 * @param errorHandler the response provider
 	 * @return the filter adaption of the error handler
 	 */
-	static <T extends ServerResponse> HandlerFilterFunction<T, T>
-	ofErrorHandler(Predicate<Throwable> predicate, BiFunction<Throwable, ServerRequest, T> errorHandler) {
+	static <T extends ServerResponse> HandlerFilterFunction<T, T> ofErrorHandler(Predicate<Throwable> predicate,
+			BiFunction<Throwable, ServerRequest, T> errorHandler) {
 
 		Assert.notNull(predicate, "Predicate must not be null");
 		Assert.notNull(errorHandler, "ErrorHandler must not be null");
@@ -113,8 +114,7 @@ public interface HandlerFilterFunction<T extends ServerResponse, R extends Serve
 			try {
 				T t = next.handle(request);
 				if (t instanceof DefaultServerResponseBuilder.AbstractServerResponse) {
-					((DefaultServerResponseBuilder.AbstractServerResponse) t)
-							.addErrorHandler(predicate, errorHandler);
+					((DefaultServerResponseBuilder.AbstractServerResponse) t).addErrorHandler(predicate, errorHandler);
 				}
 				return t;
 			}

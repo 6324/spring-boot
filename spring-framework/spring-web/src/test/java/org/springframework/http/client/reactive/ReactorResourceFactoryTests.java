@@ -31,6 +31,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 /**
  * Unit tests for {@link ReactorResourceFactory}.
+ *
  * @author Rossen Stoyanchev
  */
 public class ReactorResourceFactoryTests {
@@ -40,7 +41,6 @@ public class ReactorResourceFactoryTests {
 	private final ConnectionProvider connectionProvider = mock(ConnectionProvider.class);
 
 	private final LoopResources loopResources = mock(LoopResources.class);
-
 
 	@Test
 	void globalResources() throws Exception {
@@ -82,7 +82,8 @@ public class ReactorResourceFactoryTests {
 		assertThat(connectionProvider).isNotSameAs(HttpResources.get());
 		assertThat(loopResources).isNotSameAs(HttpResources.get());
 
-		// The below does not work since ConnectionPoolProvider simply checks if pool is empty.
+		// The below does not work since ConnectionPoolProvider simply checks if pool is
+		// empty.
 		// assertFalse(connectionProvider.isDisposed());
 		assertThat(loopResources.isDisposed()).isFalse();
 
@@ -112,7 +113,8 @@ public class ReactorResourceFactoryTests {
 
 		// Managed (destroy disposes)..
 		verify(this.connectionProvider).disposeLater();
-		verify(this.loopResources).disposeLater(eq(Duration.ofSeconds(LoopResources.DEFAULT_SHUTDOWN_QUIET_PERIOD)), eq(Duration.ofSeconds(LoopResources.DEFAULT_SHUTDOWN_TIMEOUT)));
+		verify(this.loopResources).disposeLater(eq(Duration.ofSeconds(LoopResources.DEFAULT_SHUTDOWN_QUIET_PERIOD)),
+				eq(Duration.ofSeconds(LoopResources.DEFAULT_SHUTDOWN_TIMEOUT)));
 		verifyNoMoreInteractions(this.connectionProvider, this.loopResources);
 	}
 

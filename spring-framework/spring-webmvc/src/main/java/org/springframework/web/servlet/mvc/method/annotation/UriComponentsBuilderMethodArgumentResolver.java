@@ -28,11 +28,11 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
-
 /**
  * Resolvers argument values of type {@link UriComponentsBuilder}.
  *
- * <p>The returned instance is initialized via
+ * <p>
+ * The returned instance is initialized via
  * {@link ServletUriComponentsBuilder#fromServletMapping(HttpServletRequest)}.
  *
  * @author Rossen Stoyanchev

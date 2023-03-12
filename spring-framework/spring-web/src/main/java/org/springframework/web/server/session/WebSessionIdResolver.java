@@ -21,9 +21,9 @@ import java.util.List;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * Contract for session id resolution strategies. Allows for session id
- * resolution through the request and for sending the session id or expiring
- * the session through the response.
+ * Contract for session id resolution strategies. Allows for session id resolution through
+ * the request and for sending the session id or expiring the session through the
+ * response.
  *
  * @author Rossen Stoyanchev
  * @since 5.0

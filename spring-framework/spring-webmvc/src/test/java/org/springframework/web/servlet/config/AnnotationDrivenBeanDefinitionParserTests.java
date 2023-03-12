@@ -69,8 +69,7 @@ public class AnnotationDrivenBeanDefinitionParserTests {
 		assertThat(adapter).isNotNull();
 		Object initializer = adapter.getWebBindingInitializer();
 		assertThat(initializer).isNotNull();
-		MessageCodesResolver resolver =
-				((ConfigurableWebBindingInitializer) initializer).getMessageCodesResolver();
+		MessageCodesResolver resolver = ((ConfigurableWebBindingInitializer) initializer).getMessageCodesResolver();
 		assertThat(resolver).isNotNull();
 		assertThat(resolver.getClass()).isEqualTo(TestMessageCodesResolver.class);
 		assertThat(new DirectFieldAccessor(adapter).getPropertyValue("ignoreDefaultModelOnRedirect")).isEqualTo(false);
@@ -223,6 +222,7 @@ class TestHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		return null;
 	}
+
 }
 
 class TestHandlerMethodReturnValueHandler implements HandlerMethodReturnValueHandler {
@@ -233,8 +233,7 @@ class TestHandlerMethodReturnValueHandler implements HandlerMethodReturnValueHan
 	}
 
 	@Override
-	public void handleReturnValue(Object returnValue,
-			MethodParameter returnType, ModelAndViewContainer mavContainer,
+	public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest) throws Exception {
 	}
 
@@ -255,6 +254,10 @@ class TestMessageCodesResolver implements MessageCodesResolver {
 
 }
 
-class TestPathMatcher extends AntPathMatcher { }
+class TestPathMatcher extends AntPathMatcher {
 
-class TestPathHelper extends UrlPathHelper { }
+}
+
+class TestPathHelper extends UrlPathHelper {
+
+}

@@ -34,7 +34,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class HttpMessageConverterTests {
 
-
 	@Test
 	public void canRead() {
 		MediaType mediaType = new MediaType("foo", "bar");
@@ -75,7 +74,6 @@ public class HttpMessageConverterTests {
 		assertThat(converter.canWrite(MyType.class, MediaType.ALL)).isTrue();
 	}
 
-
 	private static class MyHttpMessageConverter<T> extends AbstractHttpMessageConverter<T> {
 
 		private MyHttpMessageConverter(MediaType supportedMediaType) {
@@ -98,6 +96,7 @@ public class HttpMessageConverterTests {
 				throws IOException, HttpMessageNotWritableException {
 			throw new AssertionError("Not expected");
 		}
+
 	}
 
 	private static class MyType {

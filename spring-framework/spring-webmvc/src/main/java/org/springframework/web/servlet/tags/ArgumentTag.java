@@ -22,22 +22,21 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import org.springframework.lang.Nullable;
 
 /**
- * The {@code <argument>} tag is based on the JSTL {@code fmt:param} tag.
- * The purpose is to support arguments inside the message and theme tags.
+ * The {@code <argument>} tag is based on the JSTL {@code fmt:param} tag. The purpose is
+ * to support arguments inside the message and theme tags.
  *
- * <p>This tag must be nested under an argument aware tag.
+ * <p>
+ * This tag must be nested under an argument aware tag.
  *
  * <table>
- * <caption>Attribute Summary</caption>
- * <thead>
+ * <caption>Attribute Summary</caption> <thead>
  * <tr>
  * <th>Attribute</th>
  * <th>Required?</th>
  * <th>Runtime Expression?</th>
  * <th>Description</th>
  * </tr>
- * </thead>
- * <tbody>
+ * </thead> <tbody>
  * <tr>
  * <td>value</td>
  * <td>false</td>
@@ -60,17 +59,15 @@ public class ArgumentTag extends BodyTagSupport {
 
 	private boolean valueSet;
 
-
 	/**
-	 * Set the value of the argument (optional).
-	 * If not set, the tag's body content will get evaluated.
+	 * Set the value of the argument (optional). If not set, the tag's body content will
+	 * get evaluated.
 	 * @param value the parameter value
 	 */
 	public void setValue(Object value) {
 		this.value = value;
 		this.valueSet = true;
 	}
-
 
 	@Override
 	public int doEndTag() throws JspException {

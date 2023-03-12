@@ -71,12 +71,11 @@ import org.springframework.web.servlet.ModelAndView;
  */
 final class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T> {
 
-	private static final boolean reactiveStreamsPresent = ClassUtils.isPresent(
-			"org.reactivestreams.Publisher", DefaultEntityResponseBuilder.class.getClassLoader());
+	private static final boolean reactiveStreamsPresent = ClassUtils.isPresent("org.reactivestreams.Publisher",
+			DefaultEntityResponseBuilder.class.getClassLoader());
 
-	private static final Type RESOURCE_REGION_LIST_TYPE =
-				new ParameterizedTypeReference<List<ResourceRegion>>() { }.getType();
-
+	private static final Type RESOURCE_REGION_LIST_TYPE = new ParameterizedTypeReference<List<ResourceRegion>>() {
+	}.getType();
 
 	private final T entity;
 
@@ -87,7 +86,6 @@ final class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T>
 	private final HttpHeaders headers = new HttpHeaders();
 
 	private final MultiValueMap<String, Cookie> cookies = new LinkedMultiValueMap<>();
-
 
 	private DefaultEntityResponseBuilder(T entity, @Nullable Type entityType) {
 		this.entity = entity;
@@ -115,8 +113,7 @@ final class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T>
 	}
 
 	@Override
-	public EntityResponse.Builder<T> cookies(
-			Consumer<MultiValueMap<String, Cookie>> cookiesConsumer) {
+	public EntityResponse.Builder<T> cookies(Consumer<MultiValueMap<String, Cookie>> cookiesConsumer) {
 		cookiesConsumer.accept(this.cookies);
 		return this;
 	}
@@ -201,13 +198,13 @@ final class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T>
 		return this;
 	}
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public EntityResponse<T> build() {
 		if (this.entity instanceof CompletionStage) {
 			CompletionStage completionStage = (CompletionStage) this.entity;
-			return new CompletionStageEntityResponse(this.status, this.headers, this.cookies,
-					completionStage, this.entityType);
+			return new CompletionStageEntityResponse(this.status, this.headers, this.cookies, completionStage,
+					this.entityType);
 		}
 		else if (reactiveStreamsPresent && PublisherEntityResponse.isPublisher(this.entity)) {
 			Publisher publisher = (Publisher) this.entity;
@@ -218,7 +215,6 @@ final class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T>
 		}
 	}
 
-
 	/**
 	 * Return a new {@link EntityResponse.Builder} from the given object.
 	 */
@@ -227,12 +223,12 @@ final class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T>
 	}
 
 	/**
-	 * Return a new {@link EntityResponse.Builder} from the given object and type reference.
+	 * Return a new {@link EntityResponse.Builder} from the given object and type
+	 * reference.
 	 */
 	public static <T> EntityResponse.Builder<T> fromObject(T t, ParameterizedTypeReference<?> bodyType) {
 		return new DefaultEntityResponseBuilder<>(t, bodyType.getType());
 	}
-
 
 	/**
 	 * Default {@link EntityResponse} implementation for synchronous bodies.
@@ -244,8 +240,8 @@ final class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T>
 
 		private final Type entityType;
 
-		public DefaultEntityResponse(int statusCode, HttpHeaders headers,
-				MultiValueMap<String, Cookie> cookies, T entity, Type entityType) {
+		public DefaultEntityResponse(int statusCode, HttpHeaders headers, MultiValueMap<String, Cookie> cookies,
+				T entity, Type entityType) {
 
 			super(statusCode, headers, cookies);
 			this.entity = entity;
@@ -253,8 +249,7 @@ final class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T>
 		}
 
 		private static <T> boolean isResource(T entity) {
-			return !(entity instanceof InputStreamResource) &&
-					(entity instanceof Resource);
+			return !(entity instanceof InputStreamResource) && (entity instanceof Resource);
 		}
 
 		@Override
@@ -263,18 +258,16 @@ final class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T>
 		}
 
 		@Override
-		protected ModelAndView writeToInternal(HttpServletRequest servletRequest,
-				HttpServletResponse servletResponse, Context context)
-				throws ServletException, IOException {
+		protected ModelAndView writeToInternal(HttpServletRequest servletRequest, HttpServletResponse servletResponse,
+				Context context) throws ServletException, IOException {
 
-			writeEntityWithMessageConverters(this.entity, servletRequest,servletResponse, context);
+			writeEntityWithMessageConverters(this.entity, servletRequest, servletResponse, context);
 			return null;
 		}
 
 		@SuppressWarnings({ "unchecked", "resource" })
 		protected void writeEntityWithMessageConverters(Object entity, HttpServletRequest request,
-				HttpServletResponse response, ServerResponse.Context context)
-				throws ServletException, IOException {
+				HttpServletResponse response, ServerResponse.Context context) throws ServletException, IOException {
 
 			ServletServerHttpResponse serverResponse = new ServletServerHttpResponse(response);
 			MediaType contentType = getContentType(response);
@@ -294,23 +287,24 @@ final class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T>
 						entityType = RESOURCE_REGION_LIST_TYPE;
 					}
 					catch (IllegalArgumentException ex) {
-						serverResponse.getHeaders().set(HttpHeaders.CONTENT_RANGE, "bytes */" + resource.contentLength());
-						serverResponse.getServletResponse().setStatus(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE.value());
+						serverResponse.getHeaders().set(HttpHeaders.CONTENT_RANGE,
+								"bytes */" + resource.contentLength());
+						serverResponse.getServletResponse()
+								.setStatus(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE.value());
 					}
 				}
 			}
 
 			for (HttpMessageConverter<?> messageConverter : context.messageConverters()) {
 				if (messageConverter instanceof GenericHttpMessageConverter<?>) {
-					GenericHttpMessageConverter<Object> genericMessageConverter =
-							(GenericHttpMessageConverter<Object>) messageConverter;
+					GenericHttpMessageConverter<Object> genericMessageConverter = (GenericHttpMessageConverter<Object>) messageConverter;
 					if (genericMessageConverter.canWrite(entityType, entityClass, contentType)) {
 						genericMessageConverter.write(entity, entityType, contentType, serverResponse);
 						return;
 					}
 				}
 				if (messageConverter.canWrite(entityClass, contentType)) {
-					((HttpMessageConverter<Object>)messageConverter).write(entity, contentType, serverResponse);
+					((HttpMessageConverter<Object>) messageConverter).write(entity, contentType, serverResponse);
 					return;
 				}
 			}
@@ -339,43 +333,39 @@ final class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T>
 			}
 		}
 
-		private static List<MediaType> producibleMediaTypes(
-				List<HttpMessageConverter<?>> messageConverters,
+		private static List<MediaType> producibleMediaTypes(List<HttpMessageConverter<?>> messageConverters,
 				Class<?> entityClass) {
 
-			return messageConverters.stream()
-					.filter(messageConverter -> messageConverter.canWrite(entityClass, null))
+			return messageConverters.stream().filter(messageConverter -> messageConverter.canWrite(entityClass, null))
 					.flatMap(messageConverter -> messageConverter.getSupportedMediaTypes().stream())
 					.collect(Collectors.toList());
 		}
 
 	}
 
-
 	/**
-	 * {@link EntityResponse} implementation for asynchronous {@link CompletionStage} bodies.
+	 * {@link EntityResponse} implementation for asynchronous {@link CompletionStage}
+	 * bodies.
 	 */
 	private static class CompletionStageEntityResponse<T> extends DefaultEntityResponse<CompletionStage<T>> {
 
-		public CompletionStageEntityResponse(int statusCode, HttpHeaders headers,
-				MultiValueMap<String, Cookie> cookies, CompletionStage<T> entity, Type entityType) {
+		public CompletionStageEntityResponse(int statusCode, HttpHeaders headers, MultiValueMap<String, Cookie> cookies,
+				CompletionStage<T> entity, Type entityType) {
 
 			super(statusCode, headers, cookies, entity, entityType);
 		}
 
 		@Override
-		protected ModelAndView writeToInternal(HttpServletRequest servletRequest,
-				HttpServletResponse servletResponse, Context context) {
+		protected ModelAndView writeToInternal(HttpServletRequest servletRequest, HttpServletResponse servletResponse,
+				Context context) {
 
 			AsyncContext asyncContext = servletRequest.startAsync(servletRequest, servletResponse);
 			entity().whenComplete((entity, throwable) -> {
 				try {
 					if (entity != null) {
 
-						tryWriteEntityWithMessageConverters(entity,
-								(HttpServletRequest) asyncContext.getRequest(),
-								(HttpServletResponse) asyncContext.getResponse(),
-								context);
+						tryWriteEntityWithMessageConverters(entity, (HttpServletRequest) asyncContext.getRequest(),
+								(HttpServletResponse) asyncContext.getResponse(), context);
 					}
 					else if (throwable != null) {
 						handleError(throwable, servletRequest, servletResponse, context);
@@ -387,20 +377,20 @@ final class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T>
 			});
 			return null;
 		}
-	}
 
+	}
 
 	private static class PublisherEntityResponse<T> extends DefaultEntityResponse<Publisher<T>> {
 
-		public PublisherEntityResponse(int statusCode, HttpHeaders headers,
-				MultiValueMap<String, Cookie> cookies, Publisher<T> entity, Type entityType) {
+		public PublisherEntityResponse(int statusCode, HttpHeaders headers, MultiValueMap<String, Cookie> cookies,
+				Publisher<T> entity, Type entityType) {
 
 			super(statusCode, headers, cookies, entity, entityType);
 		}
 
 		@Override
-		protected ModelAndView writeToInternal(HttpServletRequest servletRequest,
-				HttpServletResponse servletResponse, Context context) {
+		protected ModelAndView writeToInternal(HttpServletRequest servletRequest, HttpServletResponse servletResponse,
+				Context context) {
 
 			AsyncContext asyncContext = servletRequest.startAsync(servletRequest,
 					new NoContentLengthResponseWrapper(servletResponse));
@@ -411,7 +401,6 @@ final class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T>
 		public static boolean isPublisher(Object entity) {
 			return (entity instanceof Publisher);
 		}
-
 
 		@SuppressWarnings("SubscriberImplementation")
 		private class ProducingSubscriber implements Subscriber<T> {
@@ -457,8 +446,8 @@ final class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T>
 			public void onComplete() {
 				this.asyncContext.complete();
 			}
-		}
 
+		}
 
 		private static class NoContentLengthResponseWrapper extends HttpServletResponseWrapper {
 
@@ -487,7 +476,9 @@ final class DefaultEntityResponseBuilder<T> implements EntityResponse.Builder<T>
 			@Override
 			public void setContentLengthLong(long len) {
 			}
+
 		}
+
 	}
 
 }

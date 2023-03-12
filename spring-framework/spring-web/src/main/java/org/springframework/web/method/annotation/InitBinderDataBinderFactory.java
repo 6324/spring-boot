@@ -40,7 +40,6 @@ public class InitBinderDataBinderFactory extends DefaultDataBinderFactory {
 
 	private final List<InvocableHandlerMethod> binderMethods;
 
-
 	/**
 	 * Create a new InitBinderDataBinderFactory instance.
 	 * @param binderMethods {@code @InitBinder} methods
@@ -53,11 +52,11 @@ public class InitBinderDataBinderFactory extends DefaultDataBinderFactory {
 		this.binderMethods = (binderMethods != null ? binderMethods : Collections.emptyList());
 	}
 
-
 	/**
 	 * Initialize a WebDataBinder with {@code @InitBinder} methods.
-	 * <p>If the {@code @InitBinder} annotation specifies attributes names,
-	 * it is invoked only if the names include the target object name.
+	 * <p>
+	 * If the {@code @InitBinder} annotation specifies attributes names, it is invoked
+	 * only if the names include the target object name.
 	 * @throws Exception if one of the invoked @{@link InitBinder} methods fails
 	 * @see #isBinderMethodApplicable
 	 */
@@ -75,9 +74,9 @@ public class InitBinderDataBinderFactory extends DefaultDataBinderFactory {
 	}
 
 	/**
-	 * Determine whether the given {@code @InitBinder} method should be used
-	 * to initialize the given {@link WebDataBinder} instance. By default we
-	 * check the specified attribute names in the annotation value, if any.
+	 * Determine whether the given {@code @InitBinder} method should be used to initialize
+	 * the given {@link WebDataBinder} instance. By default we check the specified
+	 * attribute names in the annotation value, if any.
 	 */
 	protected boolean isBinderMethodApplicable(HandlerMethod initBinderMethod, WebDataBinder dataBinder) {
 		InitBinder ann = initBinderMethod.getMethodAnnotation(InitBinder.class);

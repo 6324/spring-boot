@@ -58,17 +58,15 @@ public class DefaultHandlerExceptionResolverTests {
 
 	private final MockHttpServletResponse response = new MockHttpServletResponse();
 
-
 	@BeforeEach
 	public void setup() {
 		exceptionResolver.setWarnLogCategory(exceptionResolver.getClass().getName());
 	}
 
-
 	@Test
 	public void handleHttpRequestMethodNotSupported() {
-		HttpRequestMethodNotSupportedException ex =
-				new HttpRequestMethodNotSupportedException("GET", new String[]{"POST", "PUT"});
+		HttpRequestMethodNotSupportedException ex = new HttpRequestMethodNotSupportedException("GET",
+				new String[] { "POST", "PUT" });
 		ModelAndView mav = exceptionResolver.resolveException(request, response, null, ex);
 		assertThat(mav).as("No ModelAndView returned").isNotNull();
 		assertThat(mav.isEmpty()).as("No Empty ModelAndView returned").isTrue();
@@ -96,7 +94,8 @@ public class DefaultHandlerExceptionResolverTests {
 		assertThat(mav).as("No ModelAndView returned").isNotNull();
 		assertThat(mav.isEmpty()).as("No Empty ModelAndView returned").isTrue();
 		assertThat(response.getStatus()).as("Invalid status code").isEqualTo(500);
-		assertThat(response.getErrorMessage()).isEqualTo("Missing URI template variable 'foo' for method parameter of type String");
+		assertThat(response.getErrorMessage())
+				.isEqualTo("Missing URI template variable 'foo' for method parameter of type String");
 	}
 
 	@Test
@@ -182,10 +181,9 @@ public class DefaultHandlerExceptionResolverTests {
 
 	@Test
 	public void handleNoHandlerFoundException() throws Exception {
-		ServletServerHttpRequest req = new ServletServerHttpRequest(
-				new MockHttpServletRequest("GET","/resource"));
+		ServletServerHttpRequest req = new ServletServerHttpRequest(new MockHttpServletRequest("GET", "/resource"));
 		NoHandlerFoundException ex = new NoHandlerFoundException(req.getMethod().name(),
-				req.getServletRequest().getRequestURI(),req.getHeaders());
+				req.getServletRequest().getRequestURI(), req.getHeaders());
 		ModelAndView mav = exceptionResolver.resolveException(request, response, null, ex);
 		assertThat(mav).as("No ModelAndView returned").isNotNull();
 		assertThat(mav.isEmpty()).as("No Empty ModelAndView returned").isTrue();
@@ -194,8 +192,8 @@ public class DefaultHandlerExceptionResolverTests {
 
 	@Test
 	public void handleConversionNotSupportedException() throws Exception {
-		ConversionNotSupportedException ex =
-				new ConversionNotSupportedException(new Object(), String.class, new Exception());
+		ConversionNotSupportedException ex = new ConversionNotSupportedException(new Object(), String.class,
+				new Exception());
 		ModelAndView mav = exceptionResolver.resolveException(request, response, null, ex);
 		assertThat(mav).as("No ModelAndView returned").isNotNull();
 		assertThat(mav.isEmpty()).as("No Empty ModelAndView returned").isTrue();
@@ -205,7 +203,7 @@ public class DefaultHandlerExceptionResolverTests {
 		assertThat(request.getAttribute("javax.servlet.error.exception")).isSameAs(ex);
 	}
 
-	@Test  // SPR-14669
+	@Test // SPR-14669
 	public void handleAsyncRequestTimeoutException() throws Exception {
 		Exception ex = new AsyncRequestTimeoutException();
 		ModelAndView mav = exceptionResolver.resolveException(request, response, null, ex);
@@ -213,7 +211,6 @@ public class DefaultHandlerExceptionResolverTests {
 		assertThat(mav.isEmpty()).as("No Empty ModelAndView returned").isTrue();
 		assertThat(response.getStatus()).as("Invalid status code").isEqualTo(503);
 	}
-
 
 	@SuppressWarnings("unused")
 	public void handle(String arg) {

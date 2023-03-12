@@ -57,20 +57,28 @@ class RequestHeaderMethodArgumentResolverTests {
 	private RequestHeaderMethodArgumentResolver resolver;
 
 	private MethodParameter paramNamedDefaultValueStringHeader;
+
 	private MethodParameter paramNamedValueStringArray;
+
 	private MethodParameter paramSystemProperty;
+
 	private MethodParameter paramContextPath;
+
 	private MethodParameter paramResolvedNameWithExpression;
+
 	private MethodParameter paramResolvedNameWithPlaceholder;
+
 	private MethodParameter paramNamedValueMap;
+
 	private MethodParameter paramDate;
+
 	private MethodParameter paramInstant;
+
 	private MethodParameter paramUuid;
 
 	private MockHttpServletRequest servletRequest;
 
 	private NativeWebRequest webRequest;
-
 
 	@BeforeEach
 	@SuppressWarnings("resource")
@@ -103,12 +111,14 @@ class RequestHeaderMethodArgumentResolverTests {
 		RequestContextHolder.resetRequestAttributes();
 	}
 
-
 	@Test
 	void supportsParameter() {
-		assertThat(resolver.supportsParameter(paramNamedDefaultValueStringHeader)).as("String parameter not supported").isTrue();
-		assertThat(resolver.supportsParameter(paramNamedValueStringArray)).as("String array parameter not supported").isTrue();
-		assertThat(resolver.supportsParameter(paramNamedValueMap)).as("non-@RequestParam parameter supported").isFalse();
+		assertThat(resolver.supportsParameter(paramNamedDefaultValueStringHeader)).as("String parameter not supported")
+				.isTrue();
+		assertThat(resolver.supportsParameter(paramNamedValueStringArray)).as("String array parameter not supported")
+				.isTrue();
+		assertThat(resolver.supportsParameter(paramNamedValueMap)).as("non-@RequestParam parameter supported")
+				.isFalse();
 	}
 
 	@Test
@@ -123,7 +133,7 @@ class RequestHeaderMethodArgumentResolverTests {
 
 	@Test
 	void resolveStringArrayArgument() throws Exception {
-		String[] expected = new String[] {"foo", "bar"};
+		String[] expected = new String[] { "foo", "bar" };
 		servletRequest.addHeader("name", expected);
 
 		Object result = resolver.resolveArgument(paramNamedValueStringArray, null, webRequest, null);
@@ -194,8 +204,8 @@ class RequestHeaderMethodArgumentResolverTests {
 
 	@Test
 	void notFound() throws Exception {
-		assertThatExceptionOfType(ServletRequestBindingException.class).isThrownBy(() ->
-				resolver.resolveArgument(paramNamedValueStringArray, null, webRequest, null));
+		assertThatExceptionOfType(ServletRequestBindingException.class)
+				.isThrownBy(() -> resolver.resolveArgument(paramNamedValueStringArray, null, webRequest, null));
 	}
 
 	@Test
@@ -245,9 +255,8 @@ class RequestHeaderMethodArgumentResolverTests {
 		ConfigurableWebBindingInitializer bindingInitializer = new ConfigurableWebBindingInitializer();
 		bindingInitializer.setConversionService(new DefaultFormattingConversionService());
 
-		assertThatExceptionOfType(MethodArgumentTypeMismatchException.class).isThrownBy(
-				() -> resolver.resolveArgument(paramUuid, null, webRequest,
-						new DefaultDataBinderFactory(bindingInitializer)));
+		assertThatExceptionOfType(MethodArgumentTypeMismatchException.class).isThrownBy(() -> resolver
+				.resolveArgument(paramUuid, null, webRequest, new DefaultDataBinderFactory(bindingInitializer)));
 	}
 
 	@Test
@@ -271,17 +280,13 @@ class RequestHeaderMethodArgumentResolverTests {
 		assertThat(result).isNull();
 	}
 
-
-	void params(
-			@RequestHeader(name = "name", defaultValue = "bar") String param1,
+	void params(@RequestHeader(name = "name", defaultValue = "bar") String param1,
 			@RequestHeader("name") String[] param2,
-			@RequestHeader(name = "name", defaultValue="#{systemProperties.systemProperty}") String param3,
-			@RequestHeader(name = "name", defaultValue="#{request.contextPath}") String param4,
+			@RequestHeader(name = "name", defaultValue = "#{systemProperties.systemProperty}") String param3,
+			@RequestHeader(name = "name", defaultValue = "#{request.contextPath}") String param4,
 			@RequestHeader("#{systemProperties.systemProperty}") String param5,
-			@RequestHeader("${systemProperty}") String param6,
-			@RequestHeader("name") Map<?, ?> unsupported,
-			@RequestHeader("name") Date dateParam,
-			@RequestHeader("name") Instant instantParam,
+			@RequestHeader("${systemProperty}") String param6, @RequestHeader("name") Map<?, ?> unsupported,
+			@RequestHeader("name") Date dateParam, @RequestHeader("name") Instant instantParam,
 			@RequestHeader("name") UUID uuid) {
 	}
 

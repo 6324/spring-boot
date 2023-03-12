@@ -74,7 +74,6 @@ class CandidateComponentsIndexerTests {
 
 	private TestCompiler compiler;
 
-
 	@BeforeEach
 	void createCompiler(@TempDir Path tempDir) throws IOException {
 		this.compiler = new TestCompiler(tempDir);
@@ -199,8 +198,7 @@ class CandidateComponentsIndexerTests {
 	}
 
 	@Test
-	void embeddedCandidatesAreDetected()
-			throws IOException, ClassNotFoundException {
+	void embeddedCandidatesAreDetected() throws IOException, ClassNotFoundException {
 		// Validate nested type structure
 		String nestedType = "org.springframework.context.index.sample.SampleEmbedded.Another$AnotherPublicCandidate";
 		Class<?> type = ClassUtils.forName(nestedType, getClass().getClassLoader());

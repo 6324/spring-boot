@@ -62,11 +62,12 @@ public class RequestResponseBodyAdviceChainTests {
 	private Class<? extends HttpMessageConverter<?>> converterType;
 
 	private MethodParameter paramType;
+
 	private MethodParameter returnType;
 
 	private ServerHttpRequest request;
-	private ServerHttpResponse response;
 
+	private ServerHttpResponse response;
 
 	@BeforeEach
 	public void setup() {
@@ -78,7 +79,6 @@ public class RequestResponseBodyAdviceChainTests {
 		this.request = new ServletServerHttpRequest(new MockHttpServletRequest());
 		this.response = new ServletServerHttpResponse(new MockHttpServletResponse());
 	}
-
 
 	@SuppressWarnings("unchecked")
 	@Test
@@ -93,14 +93,15 @@ public class RequestResponseBodyAdviceChainTests {
 		given(requestAdvice.beforeBodyRead(eq(this.request), eq(this.paramType), eq(String.class),
 				eq(this.converterType))).willReturn(wrapped);
 
-		assertThat(chain.beforeBodyRead(this.request, this.paramType, String.class, this.converterType)).isSameAs(wrapped);
+		assertThat(chain.beforeBodyRead(this.request, this.paramType, String.class, this.converterType))
+				.isSameAs(wrapped);
 
 		String modified = "body++";
-		given(requestAdvice.afterBodyRead(eq(this.body), eq(this.request), eq(this.paramType),
-				eq(String.class), eq(this.converterType))).willReturn(modified);
+		given(requestAdvice.afterBodyRead(eq(this.body), eq(this.request), eq(this.paramType), eq(String.class),
+				eq(this.converterType))).willReturn(modified);
 
-		assertThat(chain.afterBodyRead(this.body, this.request, this.paramType,
-				String.class, this.converterType)).isEqualTo(modified);
+		assertThat(chain.afterBodyRead(this.body, this.request, this.paramType, String.class, this.converterType))
+				.isEqualTo(modified);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -116,8 +117,8 @@ public class RequestResponseBodyAdviceChainTests {
 		given(responseAdvice.beforeBodyWrite(eq(this.body), eq(this.returnType), eq(this.contentType),
 				eq(this.converterType), same(this.request), same(this.response))).willReturn(expected);
 
-		String actual = (String) chain.beforeBodyWrite(this.body, this.returnType, this.contentType,
-				this.converterType, this.request, this.response);
+		String actual = (String) chain.beforeBodyWrite(this.body, this.returnType, this.contentType, this.converterType,
+				this.request, this.response);
 
 		assertThat(actual).isEqualTo(expected);
 	}
@@ -125,10 +126,11 @@ public class RequestResponseBodyAdviceChainTests {
 	@Test
 	public void controllerAdvice() {
 		Object adviceBean = new ControllerAdviceBean(new MyControllerAdvice());
-		RequestResponseBodyAdviceChain chain = new RequestResponseBodyAdviceChain(Collections.singletonList(adviceBean));
+		RequestResponseBodyAdviceChain chain = new RequestResponseBodyAdviceChain(
+				Collections.singletonList(adviceBean));
 
-		String actual = (String) chain.beforeBodyWrite(this.body, this.returnType, this.contentType,
-				this.converterType, this.request, this.response);
+		String actual = (String) chain.beforeBodyWrite(this.body, this.returnType, this.contentType, this.converterType,
+				this.request, this.response);
 
 		assertThat(actual).isEqualTo("body-MyControllerAdvice");
 	}
@@ -136,14 +138,14 @@ public class RequestResponseBodyAdviceChainTests {
 	@Test
 	public void controllerAdviceNotApplicable() {
 		Object adviceBean = new ControllerAdviceBean(new TargetedControllerAdvice());
-		RequestResponseBodyAdviceChain chain = new RequestResponseBodyAdviceChain(Collections.singletonList(adviceBean));
+		RequestResponseBodyAdviceChain chain = new RequestResponseBodyAdviceChain(
+				Collections.singletonList(adviceBean));
 
-		String actual = (String) chain.beforeBodyWrite(this.body, this.returnType, this.contentType,
-				this.converterType, this.request, this.response);
+		String actual = (String) chain.beforeBodyWrite(this.body, this.returnType, this.contentType, this.converterType,
+				this.request, this.response);
 
 		assertThat(actual).isEqualTo(this.body);
 	}
-
 
 	@ControllerAdvice
 	private static class MyControllerAdvice implements ResponseBodyAdvice<String> {
@@ -154,14 +156,14 @@ public class RequestResponseBodyAdviceChainTests {
 		}
 
 		@Override
-		public String beforeBodyWrite(String body, MethodParameter returnType,
-				MediaType contentType, Class<? extends HttpMessageConverter<?>> converterType,
-				ServerHttpRequest request, ServerHttpResponse response) {
+		public String beforeBodyWrite(String body, MethodParameter returnType, MediaType contentType,
+				Class<? extends HttpMessageConverter<?>> converterType, ServerHttpRequest request,
+				ServerHttpResponse response) {
 
 			return body + "-MyControllerAdvice";
 		}
-	}
 
+	}
 
 	@ControllerAdvice(annotations = Controller.class)
 	private static class TargetedControllerAdvice implements ResponseBodyAdvice<String> {
@@ -172,14 +174,14 @@ public class RequestResponseBodyAdviceChainTests {
 		}
 
 		@Override
-		public String beforeBodyWrite(String body, MethodParameter returnType,
-				MediaType contentType, Class<? extends HttpMessageConverter<?>> converterType,
-				ServerHttpRequest request, ServerHttpResponse response) {
+		public String beforeBodyWrite(String body, MethodParameter returnType, MediaType contentType,
+				Class<? extends HttpMessageConverter<?>> converterType, ServerHttpRequest request,
+				ServerHttpResponse response) {
 
 			return body + "-TargetedControllerAdvice";
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	@ResponseBody

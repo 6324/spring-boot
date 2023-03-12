@@ -62,20 +62,17 @@ public class DefaultServerWebExchange implements ServerWebExchange {
 
 	private static final List<HttpMethod> SAFE_METHODS = Arrays.asList(HttpMethod.GET, HttpMethod.HEAD);
 
-	private static final ResolvableType FORM_DATA_TYPE =
-			ResolvableType.forClassWithGenerics(MultiValueMap.class, String.class, String.class);
+	private static final ResolvableType FORM_DATA_TYPE = ResolvableType.forClassWithGenerics(MultiValueMap.class,
+			String.class, String.class);
 
-	private static final ResolvableType MULTIPART_DATA_TYPE = ResolvableType.forClassWithGenerics(
-			MultiValueMap.class, String.class, Part.class);
+	private static final ResolvableType MULTIPART_DATA_TYPE = ResolvableType.forClassWithGenerics(MultiValueMap.class,
+			String.class, Part.class);
 
-	private static final Mono<MultiValueMap<String, String>> EMPTY_FORM_DATA =
-			Mono.just(CollectionUtils.unmodifiableMultiValueMap(new LinkedMultiValueMap<String, String>(0)))
-					.cache();
+	private static final Mono<MultiValueMap<String, String>> EMPTY_FORM_DATA = Mono
+			.just(CollectionUtils.unmodifiableMultiValueMap(new LinkedMultiValueMap<String, String>(0))).cache();
 
-	private static final Mono<MultiValueMap<String, Part>> EMPTY_MULTIPART_DATA =
-			Mono.just(CollectionUtils.unmodifiableMultiValueMap(new LinkedMultiValueMap<String, Part>(0)))
-					.cache();
-
+	private static final Mono<MultiValueMap<String, Part>> EMPTY_MULTIPART_DATA = Mono
+			.just(CollectionUtils.unmodifiableMultiValueMap(new LinkedMultiValueMap<String, Part>(0))).cache();
 
 	private final ServerHttpRequest request;
 
@@ -103,7 +100,6 @@ public class DefaultServerWebExchange implements ServerWebExchange {
 
 	private String logPrefix = "";
 
-
 	public DefaultServerWebExchange(ServerHttpRequest request, ServerHttpResponse response,
 			WebSessionManager sessionManager, ServerCodecConfigurer codecConfigurer,
 			LocaleContextResolver localeContextResolver) {
@@ -111,9 +107,9 @@ public class DefaultServerWebExchange implements ServerWebExchange {
 		this(request, response, sessionManager, codecConfigurer, localeContextResolver, null);
 	}
 
-	DefaultServerWebExchange(ServerHttpRequest request, ServerHttpResponse response,
-			WebSessionManager sessionManager, ServerCodecConfigurer codecConfigurer,
-			LocaleContextResolver localeContextResolver, @Nullable ApplicationContext applicationContext) {
+	DefaultServerWebExchange(ServerHttpRequest request, ServerHttpResponse response, WebSessionManager sessionManager,
+			ServerCodecConfigurer codecConfigurer, LocaleContextResolver localeContextResolver,
+			@Nullable ApplicationContext applicationContext) {
 
 		Assert.notNull(request, "'request' is required");
 		Assert.notNull(response, "'response' is required");
@@ -142,11 +138,9 @@ public class DefaultServerWebExchange implements ServerWebExchange {
 			if (MediaType.APPLICATION_FORM_URLENCODED.isCompatibleWith(contentType)) {
 				return ((HttpMessageReader<MultiValueMap<String, String>>) configurer.getReaders().stream()
 						.filter(reader -> reader.canRead(FORM_DATA_TYPE, MediaType.APPLICATION_FORM_URLENCODED))
-						.findFirst()
-						.orElseThrow(() -> new IllegalStateException("No form data HttpMessageReader.")))
-						.readMono(FORM_DATA_TYPE, request, Hints.from(Hints.LOG_PREFIX_HINT, logPrefix))
-						.switchIfEmpty(EMPTY_FORM_DATA)
-						.cache();
+						.findFirst().orElseThrow(() -> new IllegalStateException("No form data HttpMessageReader.")))
+								.readMono(FORM_DATA_TYPE, request, Hints.from(Hints.LOG_PREFIX_HINT, logPrefix))
+								.switchIfEmpty(EMPTY_FORM_DATA).cache();
 			}
 		}
 		catch (InvalidMediaTypeException ex) {
@@ -164,11 +158,9 @@ public class DefaultServerWebExchange implements ServerWebExchange {
 			if (MediaType.MULTIPART_FORM_DATA.isCompatibleWith(contentType)) {
 				return ((HttpMessageReader<MultiValueMap<String, Part>>) configurer.getReaders().stream()
 						.filter(reader -> reader.canRead(MULTIPART_DATA_TYPE, MediaType.MULTIPART_FORM_DATA))
-						.findFirst()
-						.orElseThrow(() -> new IllegalStateException("No multipart HttpMessageReader.")))
-						.readMono(MULTIPART_DATA_TYPE, request, Hints.from(Hints.LOG_PREFIX_HINT, logPrefix))
-						.switchIfEmpty(EMPTY_MULTIPART_DATA)
-						.cache();
+						.findFirst().orElseThrow(() -> new IllegalStateException("No multipart HttpMessageReader.")))
+								.readMono(MULTIPART_DATA_TYPE, request, Hints.from(Hints.LOG_PREFIX_HINT, logPrefix))
+								.switchIfEmpty(EMPTY_MULTIPART_DATA).cache();
 			}
 		}
 		catch (InvalidMediaTypeException ex) {
@@ -176,7 +168,6 @@ public class DefaultServerWebExchange implements ServerWebExchange {
 		}
 		return EMPTY_MULTIPART_DATA;
 	}
-
 
 	@Override
 	public ServerHttpRequest getRequest() {
@@ -273,8 +264,7 @@ public class DefaultServerWebExchange implements ServerWebExchange {
 
 		boolean isHttpGetOrHead = SAFE_METHODS.contains(getRequest().getMethod());
 		if (this.notModified) {
-			getResponse().setStatusCode(isHttpGetOrHead ?
-					HttpStatus.NOT_MODIFIED : HttpStatus.PRECONDITION_FAILED);
+			getResponse().setStatusCode(isHttpGetOrHead ? HttpStatus.NOT_MODIFIED : HttpStatus.PRECONDITION_FAILED);
 		}
 		if (isHttpGetOrHead) {
 			if (lastModified.isAfter(Instant.EPOCH) && getResponseHeaders().getLastModified() == -1) {
@@ -322,7 +312,8 @@ public class DefaultServerWebExchange implements ServerWebExchange {
 			etag = etag.substring(2);
 		}
 		for (String clientEtag : ifNoneMatch) {
-			// Compare weak/strong ETags as per https://tools.ietf.org/html/rfc7232#section-2.3
+			// Compare weak/strong ETags as per
+			// https://tools.ietf.org/html/rfc7232#section-2.3
 			if (StringUtils.hasLength(clientEtag)) {
 				if (clientEtag.startsWith("W/")) {
 					clientEtag = clientEtag.substring(2);

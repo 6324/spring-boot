@@ -81,19 +81,20 @@ public class HttpInvokerTests {
 
 		pfb.setHttpInvokerRequestExecutor(new AbstractHttpInvokerRequestExecutor() {
 			@Override
-			protected RemoteInvocationResult doExecuteRequest(
-					HttpInvokerClientConfiguration config, ByteArrayOutputStream baos) throws Exception {
+			protected RemoteInvocationResult doExecuteRequest(HttpInvokerClientConfiguration config,
+					ByteArrayOutputStream baos) throws Exception {
 				assertThat(config.getServiceUrl()).isEqualTo("https://myurl");
 				MockHttpServletRequest request = new MockHttpServletRequest();
 				MockHttpServletResponse response = new MockHttpServletResponse();
 				request.setContent(baos.toByteArray());
 				exporter.handleRequest(request, response);
-				return readRemoteInvocationResult(
-						new ByteArrayInputStream(response.getContentAsByteArray()), config.getCodebaseUrl());
+				return readRemoteInvocationResult(new ByteArrayInputStream(response.getContentAsByteArray()),
+						config.getCodebaseUrl());
 			}
 		});
 		if (explicitClassLoader) {
-			((BeanClassLoaderAware) pfb.getHttpInvokerRequestExecutor()).setBeanClassLoader(getClass().getClassLoader());
+			((BeanClassLoaderAware) pfb.getHttpInvokerRequestExecutor())
+					.setBeanClassLoader(getClass().getClassLoader());
 		}
 
 		pfb.afterPropertiesSet();
@@ -102,25 +103,24 @@ public class HttpInvokerTests {
 		assertThat(proxy.getAge()).isEqualTo(99);
 		proxy.setAge(50);
 		assertThat(proxy.getAge()).isEqualTo(50);
-		proxy.setStringArray(new String[] {"str1", "str2"});
-		assertThat(Arrays.equals(new String[] {"str1", "str2"}, proxy.getStringArray())).isTrue();
-		proxy.setSomeIntegerArray(new Integer[] {1, 2, 3});
-		assertThat(Arrays.equals(new Integer[] {1, 2, 3}, proxy.getSomeIntegerArray())).isTrue();
-		proxy.setNestedIntegerArray(new Integer[][] {{1, 2, 3}, {4, 5, 6}});
+		proxy.setStringArray(new String[] { "str1", "str2" });
+		assertThat(Arrays.equals(new String[] { "str1", "str2" }, proxy.getStringArray())).isTrue();
+		proxy.setSomeIntegerArray(new Integer[] { 1, 2, 3 });
+		assertThat(Arrays.equals(new Integer[] { 1, 2, 3 }, proxy.getSomeIntegerArray())).isTrue();
+		proxy.setNestedIntegerArray(new Integer[][] { { 1, 2, 3 }, { 4, 5, 6 } });
 		Integer[][] integerArray = proxy.getNestedIntegerArray();
-		assertThat(Arrays.equals(new Integer[] {1, 2, 3}, integerArray[0])).isTrue();
-		assertThat(Arrays.equals(new Integer[] {4, 5, 6}, integerArray[1])).isTrue();
-		proxy.setSomeIntArray(new int[] {1, 2, 3});
-		assertThat(Arrays.equals(new int[] {1, 2, 3}, proxy.getSomeIntArray())).isTrue();
-		proxy.setNestedIntArray(new int[][] {{1, 2, 3}, {4, 5, 6}});
+		assertThat(Arrays.equals(new Integer[] { 1, 2, 3 }, integerArray[0])).isTrue();
+		assertThat(Arrays.equals(new Integer[] { 4, 5, 6 }, integerArray[1])).isTrue();
+		proxy.setSomeIntArray(new int[] { 1, 2, 3 });
+		assertThat(Arrays.equals(new int[] { 1, 2, 3 }, proxy.getSomeIntArray())).isTrue();
+		proxy.setNestedIntArray(new int[][] { { 1, 2, 3 }, { 4, 5, 6 } });
 		int[][] intArray = proxy.getNestedIntArray();
-		assertThat(Arrays.equals(new int[] {1, 2, 3}, intArray[0])).isTrue();
-		assertThat(Arrays.equals(new int[] {4, 5, 6}, intArray[1])).isTrue();
+		assertThat(Arrays.equals(new int[] { 1, 2, 3 }, intArray[0])).isTrue();
+		assertThat(Arrays.equals(new int[] { 4, 5, 6 }, intArray[1])).isTrue();
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				proxy.exceptional(new IllegalStateException()));
-		assertThatExceptionOfType(IllegalAccessException.class).isThrownBy(() ->
-				proxy.exceptional(new IllegalAccessException()));
+		assertThatIllegalStateException().isThrownBy(() -> proxy.exceptional(new IllegalStateException()));
+		assertThatExceptionOfType(IllegalAccessException.class)
+				.isThrownBy(() -> proxy.exceptional(new IllegalAccessException()));
 	}
 
 	@Test
@@ -138,17 +138,16 @@ public class HttpInvokerTests {
 
 		pfb.setHttpInvokerRequestExecutor(new HttpInvokerRequestExecutor() {
 			@Override
-			public RemoteInvocationResult executeRequest(
-					HttpInvokerClientConfiguration config, RemoteInvocation invocation) throws IOException {
+			public RemoteInvocationResult executeRequest(HttpInvokerClientConfiguration config,
+					RemoteInvocation invocation) throws IOException {
 				throw new IOException("argh");
 			}
 		});
 
 		pfb.afterPropertiesSet();
 		ITestBean proxy = (ITestBean) pfb.getObject();
-		assertThatExceptionOfType(RemoteAccessException.class).isThrownBy(() ->
-				proxy.setAge(50))
-			.withCauseInstanceOf(IOException.class);
+		assertThatExceptionOfType(RemoteAccessException.class).isThrownBy(() -> proxy.setAge(50))
+				.withCauseInstanceOf(IOException.class);
 	}
 
 	@Test
@@ -165,9 +164,10 @@ public class HttpInvokerTests {
 					return is;
 				}
 			}
+
 			@Override
-			protected OutputStream decorateOutputStream(
-					HttpServletRequest request, HttpServletResponse response, OutputStream os) throws IOException {
+			protected OutputStream decorateOutputStream(HttpServletRequest request, HttpServletResponse response,
+					OutputStream os) throws IOException {
 				if ("gzip".equals(request.getHeader("Compression"))) {
 					return new GZIPOutputStream(os);
 				}
@@ -186,9 +186,8 @@ public class HttpInvokerTests {
 
 		pfb.setHttpInvokerRequestExecutor(new AbstractHttpInvokerRequestExecutor() {
 			@Override
-			protected RemoteInvocationResult doExecuteRequest(
-					HttpInvokerClientConfiguration config, ByteArrayOutputStream baos)
-					throws IOException, ClassNotFoundException {
+			protected RemoteInvocationResult doExecuteRequest(HttpInvokerClientConfiguration config,
+					ByteArrayOutputStream baos) throws IOException, ClassNotFoundException {
 				assertThat(config.getServiceUrl()).isEqualTo("https://myurl");
 				MockHttpServletRequest request = new MockHttpServletRequest();
 				request.addHeader("Compression", "gzip");
@@ -200,13 +199,15 @@ public class HttpInvokerTests {
 				catch (ServletException ex) {
 					throw new IOException(ex.toString());
 				}
-				return readRemoteInvocationResult(
-						new ByteArrayInputStream(response.getContentAsByteArray()), config.getCodebaseUrl());
+				return readRemoteInvocationResult(new ByteArrayInputStream(response.getContentAsByteArray()),
+						config.getCodebaseUrl());
 			}
+
 			@Override
 			protected OutputStream decorateOutputStream(OutputStream os) throws IOException {
 				return new GZIPOutputStream(os);
 			}
+
 			@Override
 			protected InputStream decorateInputStream(InputStream is) throws IOException {
 				return new GZIPInputStream(is);
@@ -220,10 +221,9 @@ public class HttpInvokerTests {
 		proxy.setAge(50);
 		assertThat(proxy.getAge()).isEqualTo(50);
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				proxy.exceptional(new IllegalStateException()));
-		assertThatExceptionOfType(IllegalAccessException.class).isThrownBy(() ->
-				proxy.exceptional(new IllegalAccessException()));
+		assertThatIllegalStateException().isThrownBy(() -> proxy.exceptional(new IllegalStateException()));
+		assertThatExceptionOfType(IllegalAccessException.class)
+				.isThrownBy(() -> proxy.exceptional(new IllegalAccessException()));
 	}
 
 	@Test
@@ -236,11 +236,12 @@ public class HttpInvokerTests {
 					throws IOException, ClassNotFoundException {
 				Object obj = ois.readObject();
 				if (!(obj instanceof TestRemoteInvocationWrapper)) {
-					throw new IOException("Deserialized object needs to be assignable to type [" +
-							TestRemoteInvocationWrapper.class.getName() + "]: " + obj);
+					throw new IOException("Deserialized object needs to be assignable to type ["
+							+ TestRemoteInvocationWrapper.class.getName() + "]: " + obj);
 				}
 				return ((TestRemoteInvocationWrapper) obj).remoteInvocation;
 			}
+
 			@Override
 			protected void doWriteRemoteInvocationResult(RemoteInvocationResult result, ObjectOutputStream oos)
 					throws IOException {
@@ -257,20 +258,23 @@ public class HttpInvokerTests {
 
 		pfb.setHttpInvokerRequestExecutor(new AbstractHttpInvokerRequestExecutor() {
 			@Override
-			protected RemoteInvocationResult doExecuteRequest(
-					HttpInvokerClientConfiguration config, ByteArrayOutputStream baos) throws Exception {
+			protected RemoteInvocationResult doExecuteRequest(HttpInvokerClientConfiguration config,
+					ByteArrayOutputStream baos) throws Exception {
 				assertThat(config.getServiceUrl()).isEqualTo("https://myurl");
 				MockHttpServletRequest request = new MockHttpServletRequest();
 				MockHttpServletResponse response = new MockHttpServletResponse();
 				request.setContent(baos.toByteArray());
 				exporter.handleRequest(request, response);
-				return readRemoteInvocationResult(
-						new ByteArrayInputStream(response.getContentAsByteArray()), config.getCodebaseUrl());
+				return readRemoteInvocationResult(new ByteArrayInputStream(response.getContentAsByteArray()),
+						config.getCodebaseUrl());
 			}
+
 			@Override
-			protected void doWriteRemoteInvocation(RemoteInvocation invocation, ObjectOutputStream oos) throws IOException {
+			protected void doWriteRemoteInvocation(RemoteInvocation invocation, ObjectOutputStream oos)
+					throws IOException {
 				oos.writeObject(new TestRemoteInvocationWrapper(invocation));
 			}
+
 			@Override
 			protected RemoteInvocationResult doReadRemoteInvocationResult(ObjectInputStream ois)
 					throws IOException, ClassNotFoundException {
@@ -290,10 +294,9 @@ public class HttpInvokerTests {
 		proxy.setAge(50);
 		assertThat(proxy.getAge()).isEqualTo(50);
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				proxy.exceptional(new IllegalStateException()));
-		assertThatExceptionOfType(IllegalAccessException.class).isThrownBy(() ->
-				proxy.exceptional(new IllegalAccessException()));
+		assertThatIllegalStateException().isThrownBy(() -> proxy.exceptional(new IllegalStateException()));
+		assertThatExceptionOfType(IllegalAccessException.class)
+				.isThrownBy(() -> proxy.exceptional(new IllegalAccessException()));
 	}
 
 	@Test
@@ -324,8 +327,7 @@ public class HttpInvokerTests {
 			public RemoteInvocation createRemoteInvocation(MethodInvocation methodInvocation) {
 				RemoteInvocation invocation = new RemoteInvocation(methodInvocation);
 				invocation.addAttribute("myKey", "myValue");
-				assertThatIllegalStateException().isThrownBy(() ->
-						invocation.addAttribute("myKey", "myValue"));
+				assertThatIllegalStateException().isThrownBy(() -> invocation.addAttribute("myKey", "myValue"));
 				assertThat(invocation.getAttributes()).isNotNull();
 				assertThat(invocation.getAttributes().size()).isEqualTo(1);
 				assertThat(invocation.getAttributes().get("myKey")).isEqualTo("myValue");
@@ -336,15 +338,15 @@ public class HttpInvokerTests {
 
 		pfb.setHttpInvokerRequestExecutor(new AbstractHttpInvokerRequestExecutor() {
 			@Override
-			protected RemoteInvocationResult doExecuteRequest(
-					HttpInvokerClientConfiguration config, ByteArrayOutputStream baos) throws Exception {
+			protected RemoteInvocationResult doExecuteRequest(HttpInvokerClientConfiguration config,
+					ByteArrayOutputStream baos) throws Exception {
 				assertThat(config.getServiceUrl()).isEqualTo("https://myurl");
 				MockHttpServletRequest request = new MockHttpServletRequest();
 				MockHttpServletResponse response = new MockHttpServletResponse();
 				request.setContent(baos.toByteArray());
 				exporter.handleRequest(request, response);
-				return readRemoteInvocationResult(
-						new ByteArrayInputStream(response.getContentAsByteArray()), config.getCodebaseUrl());
+				return readRemoteInvocationResult(new ByteArrayInputStream(response.getContentAsByteArray()),
+						config.getCodebaseUrl());
 			}
 		});
 
@@ -389,15 +391,15 @@ public class HttpInvokerTests {
 
 		pfb.setHttpInvokerRequestExecutor(new AbstractHttpInvokerRequestExecutor() {
 			@Override
-			protected RemoteInvocationResult doExecuteRequest(
-					HttpInvokerClientConfiguration config, ByteArrayOutputStream baos) throws Exception {
+			protected RemoteInvocationResult doExecuteRequest(HttpInvokerClientConfiguration config,
+					ByteArrayOutputStream baos) throws Exception {
 				assertThat(config.getServiceUrl()).isEqualTo("https://myurl");
 				MockHttpServletRequest request = new MockHttpServletRequest();
 				MockHttpServletResponse response = new MockHttpServletResponse();
 				request.setContent(baos.toByteArray());
 				exporter.handleRequest(request, response);
-				return readRemoteInvocationResult(
-						new ByteArrayInputStream(response.getContentAsByteArray()), config.getCodebaseUrl());
+				return readRemoteInvocationResult(new ByteArrayInputStream(response.getContentAsByteArray()),
+						config.getCodebaseUrl());
 			}
 		});
 
@@ -416,8 +418,8 @@ public class HttpInvokerTests {
 
 		pfb.setHttpInvokerRequestExecutor(new HttpInvokerRequestExecutor() {
 			@Override
-			public RemoteInvocationResult executeRequest(
-					HttpInvokerClientConfiguration config, RemoteInvocation invocation) throws IOException {
+			public RemoteInvocationResult executeRequest(HttpInvokerClientConfiguration config,
+					RemoteInvocation invocation) throws IOException {
 				throw new IOException("argh");
 			}
 		});
@@ -433,11 +435,9 @@ public class HttpInvokerTests {
 
 		// should go through
 
-		assertThatExceptionOfType(RemoteAccessException.class).isThrownBy(() ->
-				proxy.setAge(50))
-			.withCauseInstanceOf(IOException.class);
+		assertThatExceptionOfType(RemoteAccessException.class).isThrownBy(() -> proxy.setAge(50))
+				.withCauseInstanceOf(IOException.class);
 	}
-
 
 	@SuppressWarnings("serial")
 	private static class TestRemoteInvocation extends RemoteInvocation {
@@ -445,8 +445,8 @@ public class HttpInvokerTests {
 		public TestRemoteInvocation(MethodInvocation methodInvocation) {
 			super(methodInvocation);
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	private static class TestRemoteInvocationWrapper implements Serializable {
@@ -456,8 +456,8 @@ public class HttpInvokerTests {
 		public TestRemoteInvocationWrapper(RemoteInvocation remoteInvocation) {
 			this.remoteInvocation = remoteInvocation;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	private static class TestRemoteInvocationResultWrapper implements Serializable {
@@ -467,6 +467,7 @@ public class HttpInvokerTests {
 		public TestRemoteInvocationResultWrapper(RemoteInvocationResult remoteInvocationResult) {
 			this.remoteInvocationResult = remoteInvocationResult;
 		}
+
 	}
 
 }

@@ -19,11 +19,11 @@ package org.springframework.web.context.request;
 import org.springframework.lang.Nullable;
 
 /**
- * Request-backed {@link org.springframework.beans.factory.config.Scope}
- * implementation.
+ * Request-backed {@link org.springframework.beans.factory.config.Scope} implementation.
  *
- * <p>Relies on a thread-bound {@link RequestAttributes} instance, which
- * can be exported through {@link RequestContextListener},
+ * <p>
+ * Relies on a thread-bound {@link RequestAttributes} instance, which can be exported
+ * through {@link RequestContextListener},
  * {@link org.springframework.web.filter.RequestContextFilter} or
  * {@link org.springframework.web.servlet.DispatcherServlet}.
  *
@@ -45,8 +45,8 @@ public class RequestScope extends AbstractRequestAttributesScope {
 	}
 
 	/**
-	 * There is no conversation id concept for a request, so this method
-	 * returns {@code null}.
+	 * There is no conversation id concept for a request, so this method returns
+	 * {@code null}.
 	 */
 	@Override
 	@Nullable

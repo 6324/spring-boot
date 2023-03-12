@@ -28,9 +28,10 @@ import org.springframework.util.Assert;
 /**
  * Abstract base class for {@link UriTemplateHandler} implementations.
  *
- * <p>Support {@link #setBaseUrl} and {@link #setDefaultUriVariables} properties
- * that should be relevant regardless of the URI template expand and encode
- * mechanism used in sub-classes.
+ * <p>
+ * Support {@link #setBaseUrl} and {@link #setDefaultUriVariables} properties that should
+ * be relevant regardless of the URI template expand and encode mechanism used in
+ * sub-classes.
  *
  * @author Rossen Stoyanchev
  * @since 4.3
@@ -44,12 +45,10 @@ public abstract class AbstractUriTemplateHandler implements UriTemplateHandler {
 
 	private final Map<String, Object> defaultUriVariables = new HashMap<>();
 
-
 	/**
-	 * Configure a base URL to prepend URI templates with. The base URL must
-	 * have a scheme and host but may optionally contain a port and a path.
-	 * The base URL must be fully expanded and encoded which can be done via
-	 * {@link UriComponentsBuilder}.
+	 * Configure a base URL to prepend URI templates with. The base URL must have a scheme
+	 * and host but may optionally contain a port and a path. The base URL must be fully
+	 * expanded and encoded which can be done via {@link UriComponentsBuilder}.
 	 * @param baseUrl the base URL.
 	 */
 	public void setBaseUrl(@Nullable String baseUrl) {
@@ -72,10 +71,10 @@ public abstract class AbstractUriTemplateHandler implements UriTemplateHandler {
 	}
 
 	/**
-	 * Configure default URI variable values to use with every expanded URI
-	 * template. These default values apply only when expanding with a Map, and
-	 * not with an array, where the Map supplied to {@link #expand(String, Map)}
-	 * can override the default values.
+	 * Configure default URI variable values to use with every expanded URI template.
+	 * These default values apply only when expanding with a Map, and not with an array,
+	 * where the Map supplied to {@link #expand(String, Map)} can override the default
+	 * values.
 	 * @param defaultUriVariables the default URI variable values
 	 * @since 4.3
 	 */
@@ -92,7 +91,6 @@ public abstract class AbstractUriTemplateHandler implements UriTemplateHandler {
 	public Map<String, ?> getDefaultUriVariables() {
 		return Collections.unmodifiableMap(this.defaultUriVariables);
 	}
-
 
 	@Override
 	public URI expand(String uriTemplate, Map<String, ?> uriVariables) {
@@ -112,7 +110,6 @@ public abstract class AbstractUriTemplateHandler implements UriTemplateHandler {
 		return insertBaseUrl(url);
 	}
 
-
 	/**
 	 * Actually expand and encode the URI template.
 	 */
@@ -122,7 +119,6 @@ public abstract class AbstractUriTemplateHandler implements UriTemplateHandler {
 	 * Actually expand and encode the URI template.
 	 */
 	protected abstract URI expandInternal(String uriTemplate, Object... uriVariables);
-
 
 	/**
 	 * Insert a base URL (if configured) unless the given URL has a host already.

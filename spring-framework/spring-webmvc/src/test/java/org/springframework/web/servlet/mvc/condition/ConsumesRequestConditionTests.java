@@ -157,7 +157,6 @@ public class ConsumesRequestConditionTests {
 		assertThat(result > 0).as("Invalid comparison result: " + result).isTrue();
 	}
 
-
 	@Test
 	public void combine() {
 		ConsumesRequestCondition condition1 = new ConsumesRequestCondition("text/plain");
@@ -178,8 +177,8 @@ public class ConsumesRequestConditionTests {
 
 	@Test
 	public void parseConsumesAndHeaders() {
-		String[] consumes = new String[] {"text/plain"};
-		String[] headers = new String[]{"foo=bar", "content-type=application/xml,application/pdf"};
+		String[] consumes = new String[] { "text/plain" };
+		String[] headers = new String[] { "foo=bar", "content-type=application/xml,application/pdf" };
 		ConsumesRequestCondition condition = new ConsumesRequestCondition(consumes, headers);
 
 		assertConditions(condition, "text/plain", "application/xml", "application/pdf");
@@ -204,7 +203,7 @@ public class ConsumesRequestConditionTests {
 	private void assertConditions(ConsumesRequestCondition condition, String... expected) {
 		Collection<ConsumeMediaTypeExpression> expressions = condition.getContent();
 		assertThat(expressions.stream().map(expr -> expr.getMediaType().toString()))
-			.containsExactlyInAnyOrder(expected);
+				.containsExactlyInAnyOrder(expected);
 	}
 
 }

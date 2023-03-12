@@ -101,10 +101,11 @@ import org.springframework.web.util.WebUtils;
  * Extension of {@link AbstractHandlerMethodAdapter} that supports
  * {@link RequestMapping @RequestMapping} annotated {@link HandlerMethod HandlerMethods}.
  *
- * <p>Support for custom argument and return value types can be added via
- * {@link #setCustomArgumentResolvers} and {@link #setCustomReturnValueHandlers},
- * or alternatively, to re-configure all argument and return value types,
- * use {@link #setArgumentResolvers} and {@link #setReturnValueHandlers}.
+ * <p>
+ * Support for custom argument and return value types can be added via
+ * {@link #setCustomArgumentResolvers} and {@link #setCustomReturnValueHandlers}, or
+ * alternatively, to re-configure all argument and return value types, use
+ * {@link #setArgumentResolvers} and {@link #setReturnValueHandlers}.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -118,16 +119,14 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	/**
 	 * MethodFilter that matches {@link InitBinder @InitBinder} methods.
 	 */
-	public static final MethodFilter INIT_BINDER_METHODS = method ->
-			AnnotatedElementUtils.hasAnnotation(method, InitBinder.class);
+	public static final MethodFilter INIT_BINDER_METHODS = method -> AnnotatedElementUtils.hasAnnotation(method,
+			InitBinder.class);
 
 	/**
 	 * MethodFilter that matches {@link ModelAttribute @ModelAttribute} methods.
 	 */
-	public static final MethodFilter MODEL_ATTRIBUTE_METHODS = method ->
-			(!AnnotatedElementUtils.hasAnnotation(method, RequestMapping.class) &&
-					AnnotatedElementUtils.hasAnnotation(method, ModelAttribute.class));
-
+	public static final MethodFilter MODEL_ATTRIBUTE_METHODS = method -> (!AnnotatedElementUtils.hasAnnotation(method,
+			RequestMapping.class) && AnnotatedElementUtils.hasAnnotation(method, ModelAttribute.class));
 
 	@Nullable
 	private List<HandlerMethodArgumentResolver> customArgumentResolvers;
@@ -190,7 +189,6 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 
 	private final Map<ControllerAdviceBean, Set<Method>> modelAttributeAdviceCache = new LinkedHashMap<>();
 
-
 	public RequestMappingHandlerAdapter() {
 		this.messageConverters = new ArrayList<>(4);
 		this.messageConverters.add(new ByteArrayHttpMessageConverter());
@@ -204,11 +202,10 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 		this.messageConverters.add(new AllEncompassingFormHttpMessageConverter());
 	}
 
-
 	/**
-	 * Provide resolvers for custom argument types. Custom resolvers are ordered
-	 * after built-in ones. To override the built-in support for argument
-	 * resolution use {@link #setArgumentResolvers} instead.
+	 * Provide resolvers for custom argument types. Custom resolvers are ordered after
+	 * built-in ones. To override the built-in support for argument resolution use
+	 * {@link #setArgumentResolvers} instead.
 	 */
 	public void setCustomArgumentResolvers(@Nullable List<HandlerMethodArgumentResolver> argumentResolvers) {
 		this.customArgumentResolvers = argumentResolvers;
@@ -223,8 +220,8 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	/**
-	 * Configure the complete list of supported argument types thus overriding
-	 * the resolvers that would otherwise be configured by default.
+	 * Configure the complete list of supported argument types thus overriding the
+	 * resolvers that would otherwise be configured by default.
 	 */
 	public void setArgumentResolvers(@Nullable List<HandlerMethodArgumentResolver> argumentResolvers) {
 		if (argumentResolvers == null) {
@@ -237,8 +234,8 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	/**
-	 * Return the configured argument resolvers, or possibly {@code null} if
-	 * not initialized yet via {@link #afterPropertiesSet()}.
+	 * Return the configured argument resolvers, or possibly {@code null} if not
+	 * initialized yet via {@link #afterPropertiesSet()}.
 	 */
 	@Nullable
 	public List<HandlerMethodArgumentResolver> getArgumentResolvers() {
@@ -268,9 +265,9 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	/**
-	 * Provide handlers for custom return value types. Custom handlers are
-	 * ordered after built-in ones. To override the built-in support for
-	 * return value handling use {@link #setReturnValueHandlers}.
+	 * Provide handlers for custom return value types. Custom handlers are ordered after
+	 * built-in ones. To override the built-in support for return value handling use
+	 * {@link #setReturnValueHandlers}.
 	 */
 	public void setCustomReturnValueHandlers(@Nullable List<HandlerMethodReturnValueHandler> returnValueHandlers) {
 		this.customReturnValueHandlers = returnValueHandlers;
@@ -285,8 +282,8 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	/**
-	 * Configure the complete list of supported return value types thus
-	 * overriding handlers that would otherwise be configured by default.
+	 * Configure the complete list of supported return value types thus overriding
+	 * handlers that would otherwise be configured by default.
 	 */
 	public void setReturnValueHandlers(@Nullable List<HandlerMethodReturnValueHandler> returnValueHandlers) {
 		if (returnValueHandlers == null) {
@@ -299,8 +296,8 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	/**
-	 * Return the configured handlers, or possibly {@code null} if not
-	 * initialized yet via {@link #afterPropertiesSet()}.
+	 * Return the configured handlers, or possibly {@code null} if not initialized yet via
+	 * {@link #afterPropertiesSet()}.
 	 */
 	@Nullable
 	public List<HandlerMethodReturnValueHandler> getReturnValueHandlers() {
@@ -309,24 +306,26 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 
 	/**
 	 * Provide custom {@link ModelAndViewResolver ModelAndViewResolvers}.
-	 * <p><strong>Note:</strong> This method is available for backwards
-	 * compatibility only. However, it is recommended to re-write a
-	 * {@code ModelAndViewResolver} as {@link HandlerMethodReturnValueHandler}.
-	 * An adapter between the two interfaces is not possible since the
-	 * {@link HandlerMethodReturnValueHandler#supportsReturnType} method
-	 * cannot be implemented. Hence {@code ModelAndViewResolver}s are limited
-	 * to always being invoked at the end after all other return value
-	 * handlers have been given a chance.
-	 * <p>A {@code HandlerMethodReturnValueHandler} provides better access to
-	 * the return type and controller method information and can be ordered
-	 * freely relative to other return value handlers.
+	 * <p>
+	 * <strong>Note:</strong> This method is available for backwards compatibility only.
+	 * However, it is recommended to re-write a {@code ModelAndViewResolver} as
+	 * {@link HandlerMethodReturnValueHandler}. An adapter between the two interfaces is
+	 * not possible since the {@link HandlerMethodReturnValueHandler#supportsReturnType}
+	 * method cannot be implemented. Hence {@code ModelAndViewResolver}s are limited to
+	 * always being invoked at the end after all other return value handlers have been
+	 * given a chance.
+	 * <p>
+	 * A {@code HandlerMethodReturnValueHandler} provides better access to the return type
+	 * and controller method information and can be ordered freely relative to other
+	 * return value handlers.
 	 */
 	public void setModelAndViewResolvers(@Nullable List<ModelAndViewResolver> modelAndViewResolvers) {
 		this.modelAndViewResolvers = modelAndViewResolvers;
 	}
 
 	/**
-	 * Return the configured {@link ModelAndViewResolver ModelAndViewResolvers}, or {@code null}.
+	 * Return the configured {@link ModelAndViewResolver ModelAndViewResolvers}, or
+	 * {@code null}.
 	 */
 	@Nullable
 	public List<ModelAndViewResolver> getModelAndViewResolvers() {
@@ -334,17 +333,16 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	/**
-	 * Set the {@link ContentNegotiationManager} to use to determine requested media types.
-	 * If not set, the default constructor is used.
+	 * Set the {@link ContentNegotiationManager} to use to determine requested media
+	 * types. If not set, the default constructor is used.
 	 */
 	public void setContentNegotiationManager(ContentNegotiationManager contentNegotiationManager) {
 		this.contentNegotiationManager = contentNegotiationManager;
 	}
 
 	/**
-	 * Provide the converters to use in argument resolvers and return value
-	 * handlers that support reading and/or writing to the body of the
-	 * request and response.
+	 * Provide the converters to use in argument resolvers and return value handlers that
+	 * support reading and/or writing to the body of the request and response.
 	 */
 	public void setMessageConverters(List<HttpMessageConverter<?>> messageConverters) {
 		this.messageConverters = messageConverters;
@@ -358,9 +356,9 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	/**
-	 * Add one or more {@code RequestBodyAdvice} instances to intercept the
-	 * request before it is read and converted for {@code @RequestBody} and
-	 * {@code HttpEntity} method arguments.
+	 * Add one or more {@code RequestBodyAdvice} instances to intercept the request before
+	 * it is read and converted for {@code @RequestBody} and {@code HttpEntity} method
+	 * arguments.
 	 */
 	public void setRequestBodyAdvice(@Nullable List<RequestBodyAdvice> requestBodyAdvice) {
 		if (requestBodyAdvice != null) {
@@ -369,9 +367,9 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	/**
-	 * Add one or more {@code ResponseBodyAdvice} instances to intercept the
-	 * response before {@code @ResponseBody} or {@code ResponseEntity} return
-	 * values are written to the response body.
+	 * Add one or more {@code ResponseBodyAdvice} instances to intercept the response
+	 * before {@code @ResponseBody} or {@code ResponseEntity} return values are written to
+	 * the response body.
 	 */
 	public void setResponseBodyAdvice(@Nullable List<ResponseBodyAdvice<?>> responseBodyAdvice) {
 		if (responseBodyAdvice != null) {
@@ -380,8 +378,8 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	/**
-	 * Provide a WebBindingInitializer with "global" initialization to apply
-	 * to every DataBinder instance.
+	 * Provide a WebBindingInitializer with "global" initialization to apply to every
+	 * DataBinder instance.
 	 */
 	public void setWebBindingInitializer(@Nullable WebBindingInitializer webBindingInitializer) {
 		this.webBindingInitializer = webBindingInitializer;
@@ -396,24 +394,25 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	/**
-	 * Set the default {@link AsyncTaskExecutor} to use when a controller method
-	 * return a {@link Callable}. Controller methods can override this default on
-	 * a per-request basis by returning an {@link WebAsyncTask}.
-	 * <p>By default a {@link SimpleAsyncTaskExecutor} instance is used.
-	 * It's recommended to change that default in production as the simple executor
-	 * does not re-use threads.
+	 * Set the default {@link AsyncTaskExecutor} to use when a controller method return a
+	 * {@link Callable}. Controller methods can override this default on a per-request
+	 * basis by returning an {@link WebAsyncTask}.
+	 * <p>
+	 * By default a {@link SimpleAsyncTaskExecutor} instance is used. It's recommended to
+	 * change that default in production as the simple executor does not re-use threads.
 	 */
 	public void setTaskExecutor(AsyncTaskExecutor taskExecutor) {
 		this.taskExecutor = taskExecutor;
 	}
 
 	/**
-	 * Specify the amount of time, in milliseconds, before concurrent handling
-	 * should time out. In Servlet 3, the timeout begins after the main request
-	 * processing thread has exited and ends when the request is dispatched again
-	 * for further processing of the concurrently produced result.
-	 * <p>If this value is not set, the default timeout of the underlying
-	 * implementation is used.
+	 * Specify the amount of time, in milliseconds, before concurrent handling should time
+	 * out. In Servlet 3, the timeout begins after the main request processing thread has
+	 * exited and ends when the request is dispatched again for further processing of the
+	 * concurrently produced result.
+	 * <p>
+	 * If this value is not set, the default timeout of the underlying implementation is
+	 * used.
 	 * @param timeout the timeout value in milliseconds
 	 */
 	public void setAsyncRequestTimeout(long timeout) {
@@ -429,7 +428,8 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	/**
-	 * Configure {@code DeferredResultProcessingInterceptor}'s to register on async requests.
+	 * Configure {@code DeferredResultProcessingInterceptor}'s to register on async
+	 * requests.
 	 * @param interceptors the interceptors to register
 	 */
 	public void setDeferredResultInterceptors(List<DeferredResultProcessingInterceptor> interceptors) {
@@ -437,8 +437,8 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	/**
-	 * Configure the registry for reactive library types to be supported as
-	 * return values from controller methods.
+	 * Configure the registry for reactive library types to be supported as return values
+	 * from controller methods.
 	 * @since 5.0.5
 	 */
 	public void setReactiveAdapterRegistry(ReactiveAdapterRegistry reactiveAdapterRegistry) {
@@ -454,17 +454,18 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	/**
-	 * By default the content of the "default" model is used both during
-	 * rendering and redirect scenarios. Alternatively a controller method
-	 * can declare a {@link RedirectAttributes} argument and use it to provide
-	 * attributes for a redirect.
-	 * <p>Setting this flag to {@code true} guarantees the "default" model is
-	 * never used in a redirect scenario even if a RedirectAttributes argument
-	 * is not declared. Setting it to {@code false} means the "default" model
-	 * may be used in a redirect if the controller method doesn't declare a
-	 * RedirectAttributes argument.
-	 * <p>The default setting is {@code false} but new applications should
-	 * consider setting it to {@code true}.
+	 * By default the content of the "default" model is used both during rendering and
+	 * redirect scenarios. Alternatively a controller method can declare a
+	 * {@link RedirectAttributes} argument and use it to provide attributes for a
+	 * redirect.
+	 * <p>
+	 * Setting this flag to {@code true} guarantees the "default" model is never used in a
+	 * redirect scenario even if a RedirectAttributes argument is not declared. Setting it
+	 * to {@code false} means the "default" model may be used in a redirect if the
+	 * controller method doesn't declare a RedirectAttributes argument.
+	 * <p>
+	 * The default setting is {@code false} but new applications should consider setting
+	 * it to {@code true}.
 	 * @see RedirectAttributes
 	 */
 	public void setIgnoreDefaultModelOnRedirect(boolean ignoreDefaultModelOnRedirect) {
@@ -473,27 +474,28 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 
 	/**
 	 * Specify the strategy to store session attributes with. The default is
-	 * {@link org.springframework.web.bind.support.DefaultSessionAttributeStore},
-	 * storing session attributes in the HttpSession with the same attribute
-	 * name as in the model.
+	 * {@link org.springframework.web.bind.support.DefaultSessionAttributeStore}, storing
+	 * session attributes in the HttpSession with the same attribute name as in the model.
 	 */
 	public void setSessionAttributeStore(SessionAttributeStore sessionAttributeStore) {
 		this.sessionAttributeStore = sessionAttributeStore;
 	}
 
 	/**
-	 * Cache content produced by {@code @SessionAttributes} annotated handlers
-	 * for the given number of seconds.
-	 * <p>Possible values are:
+	 * Cache content produced by {@code @SessionAttributes} annotated handlers for the
+	 * given number of seconds.
+	 * <p>
+	 * Possible values are:
 	 * <ul>
 	 * <li>-1: no generation of cache-related headers</li>
 	 * <li>0 (default value): "Cache-Control: no-store" will prevent caching</li>
-	 * <li>1 or higher: "Cache-Control: max-age=seconds" will ask to cache content;
-	 * not advised when dealing with session attributes</li>
+	 * <li>1 or higher: "Cache-Control: max-age=seconds" will ask to cache content; not
+	 * advised when dealing with session attributes</li>
 	 * </ul>
-	 * <p>In contrast to the "cacheSeconds" property which will apply to all general
-	 * handlers (but not to {@code @SessionAttributes} annotated handlers),
-	 * this setting will apply to {@code @SessionAttributes} handlers only.
+	 * <p>
+	 * In contrast to the "cacheSeconds" property which will apply to all general handlers
+	 * (but not to {@code @SessionAttributes} annotated handlers), this setting will apply
+	 * to {@code @SessionAttributes} handlers only.
 	 * @see #setCacheSeconds
 	 * @see org.springframework.web.bind.annotation.SessionAttributes
 	 */
@@ -502,20 +504,23 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	/**
-	 * Set if controller execution should be synchronized on the session,
-	 * to serialize parallel invocations from the same client.
-	 * <p>More specifically, the execution of the {@code handleRequestInternal}
-	 * method will get synchronized if this flag is "true". The best available
-	 * session mutex will be used for the synchronization; ideally, this will
-	 * be a mutex exposed by HttpSessionMutexListener.
-	 * <p>The session mutex is guaranteed to be the same object during
-	 * the entire lifetime of the session, available under the key defined
-	 * by the {@code SESSION_MUTEX_ATTRIBUTE} constant. It serves as a
-	 * safe reference to synchronize on for locking on the current session.
-	 * <p>In many cases, the HttpSession reference itself is a safe mutex
-	 * as well, since it will always be the same object reference for the
-	 * same active logical session. However, this is not guaranteed across
-	 * different servlet containers; the only 100% safe way is a session mutex.
+	 * Set if controller execution should be synchronized on the session, to serialize
+	 * parallel invocations from the same client.
+	 * <p>
+	 * More specifically, the execution of the {@code handleRequestInternal} method will
+	 * get synchronized if this flag is "true". The best available session mutex will be
+	 * used for the synchronization; ideally, this will be a mutex exposed by
+	 * HttpSessionMutexListener.
+	 * <p>
+	 * The session mutex is guaranteed to be the same object during the entire lifetime of
+	 * the session, available under the key defined by the {@code SESSION_MUTEX_ATTRIBUTE}
+	 * constant. It serves as a safe reference to synchronize on for locking on the
+	 * current session.
+	 * <p>
+	 * In many cases, the HttpSession reference itself is a safe mutex as well, since it
+	 * will always be the same object reference for the same active logical session.
+	 * However, this is not guaranteed across different servlet containers; the only 100%
+	 * safe way is a session mutex.
 	 * @see org.springframework.web.util.HttpSessionMutexListener
 	 * @see org.springframework.web.util.WebUtils#getSessionMutex(javax.servlet.http.HttpSession)
 	 */
@@ -524,17 +529,18 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	/**
-	 * Set the ParameterNameDiscoverer to use for resolving method parameter names if needed
-	 * (e.g. for default attribute names).
-	 * <p>Default is a {@link org.springframework.core.DefaultParameterNameDiscoverer}.
+	 * Set the ParameterNameDiscoverer to use for resolving method parameter names if
+	 * needed (e.g. for default attribute names).
+	 * <p>
+	 * Default is a {@link org.springframework.core.DefaultParameterNameDiscoverer}.
 	 */
 	public void setParameterNameDiscoverer(ParameterNameDiscoverer parameterNameDiscoverer) {
 		this.parameterNameDiscoverer = parameterNameDiscoverer;
 	}
 
 	/**
-	 * A {@link ConfigurableBeanFactory} is expected for resolving expressions
-	 * in method argument default values.
+	 * A {@link ConfigurableBeanFactory} is expected for resolving expressions in method
+	 * argument default values.
 	 */
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) {
@@ -550,7 +556,6 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	protected ConfigurableBeanFactory getBeanFactory() {
 		return this.beanFactory;
 	}
-
 
 	@Override
 	public void afterPropertiesSet() {
@@ -593,7 +598,8 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 			if (!binderMethods.isEmpty()) {
 				this.initBinderAdviceCache.put(adviceBean, binderMethods);
 			}
-			if (RequestBodyAdvice.class.isAssignableFrom(beanType) || ResponseBodyAdvice.class.isAssignableFrom(beanType)) {
+			if (RequestBodyAdvice.class.isAssignableFrom(beanType)
+					|| ResponseBodyAdvice.class.isAssignableFrom(beanType)) {
 				requestResponseBodyAdviceBeans.add(adviceBean);
 			}
 		}
@@ -611,8 +617,8 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 				logger.debug("ControllerAdvice beans: none");
 			}
 			else {
-				logger.debug("ControllerAdvice beans: " + modelSize + " @ModelAttribute, " + binderSize +
-						" @InitBinder, " + reqCount + " RequestBodyAdvice, " + resCount + " ResponseBodyAdvice");
+				logger.debug("ControllerAdvice beans: " + modelSize + " @ModelAttribute, " + binderSize
+						+ " @InitBinder, " + reqCount + " RequestBodyAdvice, " + resCount + " ResponseBodyAdvice");
 			}
 		}
 	}
@@ -621,14 +627,14 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 
 	private int getBodyAdviceCount(Class<?> adviceType) {
 		List<Object> advice = this.requestResponseBodyAdvice;
-		return RequestBodyAdvice.class.isAssignableFrom(adviceType) ?
-				RequestResponseBodyAdviceChain.getAdviceByType(advice, RequestBodyAdvice.class).size() :
-				RequestResponseBodyAdviceChain.getAdviceByType(advice, ResponseBodyAdvice.class).size();
+		return RequestBodyAdvice.class.isAssignableFrom(adviceType)
+				? RequestResponseBodyAdviceChain.getAdviceByType(advice, RequestBodyAdvice.class).size()
+				: RequestResponseBodyAdviceChain.getAdviceByType(advice, ResponseBodyAdvice.class).size();
 	}
 
 	/**
-	 * Return the list of argument resolvers to use including built-in resolvers
-	 * and custom resolvers provided via {@link #setCustomArgumentResolvers}.
+	 * Return the list of argument resolvers to use including built-in resolvers and
+	 * custom resolvers provided via {@link #setCustomArgumentResolvers}.
 	 */
 	private List<HandlerMethodArgumentResolver> getDefaultArgumentResolvers() {
 		List<HandlerMethodArgumentResolver> resolvers = new ArrayList<>(30);
@@ -674,8 +680,8 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	/**
-	 * Return the list of argument resolvers to use for {@code @InitBinder}
-	 * methods including built-in and custom resolvers.
+	 * Return the list of argument resolvers to use for {@code @InitBinder} methods
+	 * including built-in and custom resolvers.
 	 */
 	private List<HandlerMethodArgumentResolver> getDefaultInitBinderArgumentResolvers() {
 		List<HandlerMethodArgumentResolver> resolvers = new ArrayList<>(20);
@@ -707,8 +713,8 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	/**
-	 * Return the list of return value handlers to use including built-in and
-	 * custom handlers provided via {@link #setReturnValueHandlers}.
+	 * Return the list of return value handlers to use including built-in and custom
+	 * handlers provided via {@link #setReturnValueHandlers}.
 	 */
 	private List<HandlerMethodReturnValueHandler> getDefaultReturnValueHandlers() {
 		List<HandlerMethodReturnValueHandler> handlers = new ArrayList<>(20);
@@ -717,11 +723,11 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 		handlers.add(new ModelAndViewMethodReturnValueHandler());
 		handlers.add(new ModelMethodProcessor());
 		handlers.add(new ViewMethodReturnValueHandler());
-		handlers.add(new ResponseBodyEmitterReturnValueHandler(getMessageConverters(),
-				this.reactiveAdapterRegistry, this.taskExecutor, this.contentNegotiationManager));
+		handlers.add(new ResponseBodyEmitterReturnValueHandler(getMessageConverters(), this.reactiveAdapterRegistry,
+				this.taskExecutor, this.contentNegotiationManager));
 		handlers.add(new StreamingResponseBodyReturnValueHandler());
-		handlers.add(new HttpEntityMethodProcessor(getMessageConverters(),
-				this.contentNegotiationManager, this.requestResponseBodyAdvice));
+		handlers.add(new HttpEntityMethodProcessor(getMessageConverters(), this.contentNegotiationManager,
+				this.requestResponseBodyAdvice));
 		handlers.add(new HttpHeadersReturnValueHandler());
 		handlers.add(new CallableMethodReturnValueHandler());
 		handlers.add(new DeferredResultMethodReturnValueHandler());
@@ -729,8 +735,8 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 
 		// Annotation-based return value types
 		handlers.add(new ModelAttributeMethodProcessor(false));
-		handlers.add(new RequestResponseBodyMethodProcessor(getMessageConverters(),
-				this.contentNegotiationManager, this.requestResponseBodyAdvice));
+		handlers.add(new RequestResponseBodyMethodProcessor(getMessageConverters(), this.contentNegotiationManager,
+				this.requestResponseBodyAdvice));
 
 		// Multi-purpose return value types
 		handlers.add(new ViewNameMethodReturnValueHandler());
@@ -752,14 +758,12 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 		return handlers;
 	}
 
-
 	/**
-	 * Always return {@code true} since any method argument and return value
-	 * type will be processed in some way. A method argument not recognized
-	 * by any HandlerMethodArgumentResolver is interpreted as a request parameter
-	 * if it is a simple type, or as a model attribute otherwise. A return value
-	 * not recognized by any HandlerMethodReturnValueHandler will be interpreted
-	 * as a model attribute.
+	 * Always return {@code true} since any method argument and return value type will be
+	 * processed in some way. A method argument not recognized by any
+	 * HandlerMethodArgumentResolver is interpreted as a request parameter if it is a
+	 * simple type, or as a model attribute otherwise. A return value not recognized by
+	 * any HandlerMethodReturnValueHandler will be interpreted as a model attribute.
 	 */
 	@Override
 	protected boolean supportsInternal(HandlerMethod handlerMethod) {
@@ -767,8 +771,8 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	@Override
-	protected ModelAndView handleInternal(HttpServletRequest request,
-			HttpServletResponse response, HandlerMethod handlerMethod) throws Exception {
+	protected ModelAndView handleInternal(HttpServletRequest request, HttpServletResponse response,
+			HandlerMethod handlerMethod) throws Exception {
 
 		ModelAndView mav;
 		checkRequest(request);
@@ -814,14 +818,12 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 		return -1;
 	}
 
-
 	/**
 	 * Return the {@link SessionAttributesHandler} instance for the given handler type
 	 * (never {@code null}).
 	 */
 	private SessionAttributesHandler getSessionAttributesHandler(HandlerMethod handlerMethod) {
-		return this.sessionAttributesHandlerCache.computeIfAbsent(
-				handlerMethod.getBeanType(),
+		return this.sessionAttributesHandlerCache.computeIfAbsent(handlerMethod.getBeanType(),
 				type -> new SessionAttributesHandler(type, this.sessionAttributeStore));
 	}
 
@@ -832,8 +834,8 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	 * @see #createInvocableHandlerMethod(HandlerMethod)
 	 */
 	@Nullable
-	protected ModelAndView invokeHandlerMethod(HttpServletRequest request,
-			HttpServletResponse response, HandlerMethod handlerMethod) throws Exception {
+	protected ModelAndView invokeHandlerMethod(HttpServletRequest request, HttpServletResponse response,
+			HandlerMethod handlerMethod) throws Exception {
 
 		ServletWebRequest webRequest = new ServletWebRequest(request, response);
 		try {
@@ -888,9 +890,11 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	/**
-	 * Create a {@link ServletInvocableHandlerMethod} from the given {@link HandlerMethod} definition.
+	 * Create a {@link ServletInvocableHandlerMethod} from the given {@link HandlerMethod}
+	 * definition.
 	 * @param handlerMethod the {@link HandlerMethod} definition
-	 * @return the corresponding {@link ServletInvocableHandlerMethod} (or custom subclass thereof)
+	 * @return the corresponding {@link ServletInvocableHandlerMethod} (or custom subclass
+	 * thereof)
 	 * @since 4.2
 	 */
 	protected ServletInvocableHandlerMethod createInvocableHandlerMethod(HandlerMethod handlerMethod) {
@@ -922,7 +926,8 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 		return new ModelFactory(attrMethods, binderFactory, sessionAttrHandler);
 	}
 
-	private InvocableHandlerMethod createModelAttributeMethod(WebDataBinderFactory factory, Object bean, Method method) {
+	private InvocableHandlerMethod createModelAttributeMethod(WebDataBinderFactory factory, Object bean,
+			Method method) {
 		InvocableHandlerMethod attrMethod = new InvocableHandlerMethod(bean, method);
 		if (this.argumentResolvers != null) {
 			attrMethod.setHandlerMethodArgumentResolvers(this.argumentResolvers);
@@ -968,8 +973,9 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 
 	/**
 	 * Template method to create a new InitBinderDataBinderFactory instance.
-	 * <p>The default implementation creates a ServletRequestDataBinderFactory.
-	 * This can be overridden for custom ServletRequestDataBinder subclasses.
+	 * <p>
+	 * The default implementation creates a ServletRequestDataBinderFactory. This can be
+	 * overridden for custom ServletRequestDataBinder subclasses.
 	 * @param binderMethods {@code @InitBinder} methods
 	 * @return the InitBinderDataBinderFactory instance to use
 	 * @throws Exception in case of invalid state or arguments
@@ -981,8 +987,8 @@ public class RequestMappingHandlerAdapter extends AbstractHandlerMethodAdapter
 	}
 
 	@Nullable
-	private ModelAndView getModelAndView(ModelAndViewContainer mavContainer,
-			ModelFactory modelFactory, NativeWebRequest webRequest) throws Exception {
+	private ModelAndView getModelAndView(ModelAndViewContainer mavContainer, ModelFactory modelFactory,
+			NativeWebRequest webRequest) throws Exception {
 
 		modelFactory.updateModel(webRequest, mavContainer);
 		if (mavContainer.isRequestHandled()) {

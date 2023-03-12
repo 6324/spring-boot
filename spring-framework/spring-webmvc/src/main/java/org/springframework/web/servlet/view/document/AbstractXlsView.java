@@ -29,10 +29,11 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.servlet.view.AbstractView;
 
 /**
- * Convenient superclass for Excel document views in traditional XLS format.
- * Compatible with Apache POI 3.5 and higher.
+ * Convenient superclass for Excel document views in traditional XLS format. Compatible
+ * with Apache POI 3.5 and higher.
  *
- * <p>For working with the workbook in the subclass, see
+ * <p>
+ * For working with the workbook in the subclass, see
  * <a href="https://poi.apache.org">Apache's POI site</a>
  *
  * @author Juergen Hoeller
@@ -41,13 +42,12 @@ import org.springframework.web.servlet.view.AbstractView;
 public abstract class AbstractXlsView extends AbstractView {
 
 	/**
-	 * Default Constructor.
-	 * Sets the content type of the view to "application/vnd.ms-excel".
+	 * Default Constructor. Sets the content type of the view to
+	 * "application/vnd.ms-excel".
 	 */
 	public AbstractXlsView() {
 		setContentType("application/vnd.ms-excel");
 	}
-
 
 	@Override
 	protected boolean generatesDownloadContent() {
@@ -58,8 +58,8 @@ public abstract class AbstractXlsView extends AbstractView {
 	 * Renders the Excel view, given the specified model.
 	 */
 	@Override
-	protected final void renderMergedOutputModel(
-			Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	protected final void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 
 		// Create a fresh workbook instance for this render step.
 		Workbook workbook = createWorkbook(model, request);
@@ -74,12 +74,12 @@ public abstract class AbstractXlsView extends AbstractView {
 		renderWorkbook(workbook, response);
 	}
 
-
 	/**
 	 * Template method for creating the POI {@link Workbook} instance.
-	 * <p>The default implementation creates a traditional {@link HSSFWorkbook}.
-	 * Spring-provided subclasses are overriding this for the OOXML-based variants;
-	 * custom subclasses may override this for reading a workbook from a file.
+	 * <p>
+	 * The default implementation creates a traditional {@link HSSFWorkbook}.
+	 * Spring-provided subclasses are overriding this for the OOXML-based variants; custom
+	 * subclasses may override this for reading a workbook from a file.
 	 * @param model the model Map
 	 * @param request current HTTP request (for taking the URL or headers into account)
 	 * @return the new {@link Workbook} instance
@@ -89,8 +89,8 @@ public abstract class AbstractXlsView extends AbstractView {
 	}
 
 	/**
-	 * The actual render step: taking the POI {@link Workbook} and rendering
-	 * it to the given response.
+	 * The actual render step: taking the POI {@link Workbook} and rendering it to the
+	 * given response.
 	 * @param workbook the POI Workbook to render
 	 * @param response current HTTP response
 	 * @throws IOException when thrown by I/O methods that we're delegating to
@@ -102,15 +102,14 @@ public abstract class AbstractXlsView extends AbstractView {
 	}
 
 	/**
-	 * Application-provided subclasses must implement this method to populate
-	 * the Excel workbook document, given the model.
+	 * Application-provided subclasses must implement this method to populate the Excel
+	 * workbook document, given the model.
 	 * @param model the model Map
 	 * @param workbook the Excel workbook to populate
 	 * @param request in case we need locale etc. Shouldn't look at attributes.
 	 * @param response in case we need to set cookies. Shouldn't write to it.
 	 */
-	protected abstract void buildExcelDocument(
-			Map<String, Object> model, Workbook workbook, HttpServletRequest request, HttpServletResponse response)
-			throws Exception;
+	protected abstract void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request,
+			HttpServletResponse response) throws Exception;
 
 }

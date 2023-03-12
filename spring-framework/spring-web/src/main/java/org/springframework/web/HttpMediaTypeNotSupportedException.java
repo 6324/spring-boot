@@ -22,8 +22,8 @@ import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 
 /**
- * Exception thrown when a client POSTs, PUTs, or PATCHes content of a type
- * not supported by request handler.
+ * Exception thrown when a client POSTs, PUTs, or PATCHes content of a type not supported
+ * by request handler.
  *
  * @author Arjen Poutsma
  * @since 3.0
@@ -33,7 +33,6 @@ public class HttpMediaTypeNotSupportedException extends HttpMediaTypeException {
 
 	@Nullable
 	private final MediaType contentType;
-
 
 	/**
 	 * Create a new HttpMediaTypeNotSupportedException.
@@ -50,8 +49,8 @@ public class HttpMediaTypeNotSupportedException extends HttpMediaTypeException {
 	 * @param supportedMediaTypes the list of supported media types
 	 */
 	public HttpMediaTypeNotSupportedException(@Nullable MediaType contentType, List<MediaType> supportedMediaTypes) {
-		this(contentType, supportedMediaTypes, "Content type '" +
-				(contentType != null ? contentType : "") + "' not supported");
+		this(contentType, supportedMediaTypes,
+				"Content type '" + (contentType != null ? contentType : "") + "' not supported");
 	}
 
 	/**
@@ -60,13 +59,12 @@ public class HttpMediaTypeNotSupportedException extends HttpMediaTypeException {
 	 * @param supportedMediaTypes the list of supported media types
 	 * @param msg the detail message
 	 */
-	public HttpMediaTypeNotSupportedException(@Nullable MediaType contentType,
-			List<MediaType> supportedMediaTypes, String msg) {
+	public HttpMediaTypeNotSupportedException(@Nullable MediaType contentType, List<MediaType> supportedMediaTypes,
+			String msg) {
 
 		super(msg, supportedMediaTypes);
 		this.contentType = contentType;
 	}
-
 
 	/**
 	 * Return the HTTP request content type method that caused the failure.

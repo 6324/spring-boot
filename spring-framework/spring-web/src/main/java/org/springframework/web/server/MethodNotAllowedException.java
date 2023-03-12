@@ -42,7 +42,6 @@ public class MethodNotAllowedException extends ResponseStatusException {
 
 	private final Set<HttpMethod> httpMethods;
 
-
 	public MethodNotAllowedException(HttpMethod method, Collection<HttpMethod> supportedMethods) {
 		this(method.name(), supportedMethods);
 	}
@@ -56,7 +55,6 @@ public class MethodNotAllowedException extends ResponseStatusException {
 		this.method = method;
 		this.httpMethods = Collections.unmodifiableSet(new LinkedHashSet<>(supportedMethods));
 	}
-
 
 	/**
 	 * Return a Map with an "Allow" header.

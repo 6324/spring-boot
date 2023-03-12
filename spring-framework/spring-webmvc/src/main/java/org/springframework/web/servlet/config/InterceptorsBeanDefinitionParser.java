@@ -34,7 +34,8 @@ import org.springframework.web.servlet.handler.MappedInterceptor;
 
 /**
  * {@link org.springframework.beans.factory.xml.BeanDefinitionParser} that parses a
- * {@code interceptors} element to register a set of {@link MappedInterceptor} definitions.
+ * {@code interceptors} element to register a set of {@link MappedInterceptor}
+ * definitions.
  *
  * @author Keith Donald
  * @since 3.0

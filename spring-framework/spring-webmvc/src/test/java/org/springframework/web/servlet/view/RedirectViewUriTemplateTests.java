@@ -116,8 +116,8 @@ public class RedirectViewUriTemplateTests {
 
 	@Test
 	public void uriTemplateNullValue() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new RedirectView("/{foo}").renderMergedOutputModel(new ModelMap(), this.request, this.response));
+		assertThatIllegalArgumentException().isThrownBy(
+				() -> new RedirectView("/{foo}").renderMergedOutputModel(new ModelMap(), this.request, this.response));
 	}
 
 	@Test

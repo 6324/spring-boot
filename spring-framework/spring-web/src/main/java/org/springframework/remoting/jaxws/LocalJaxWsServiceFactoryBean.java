@@ -23,12 +23,12 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
 
 /**
- * {@link org.springframework.beans.factory.FactoryBean} for locally
- * defined JAX-WS Service references.
- * Uses {@link LocalJaxWsServiceFactory}'s facilities underneath.
+ * {@link org.springframework.beans.factory.FactoryBean} for locally defined JAX-WS
+ * Service references. Uses {@link LocalJaxWsServiceFactory}'s facilities underneath.
  *
- * <p>Alternatively, JAX-WS Service references can be looked up
- * in the JNDI environment of the Java EE container.
+ * <p>
+ * Alternatively, JAX-WS Service references can be looked up in the JNDI environment of
+ * the Java EE container.
  *
  * @author Juergen Hoeller
  * @since 2.5
@@ -41,7 +41,6 @@ public class LocalJaxWsServiceFactoryBean extends LocalJaxWsServiceFactory
 
 	@Nullable
 	private Service service;
-
 
 	@Override
 	public void afterPropertiesSet() {

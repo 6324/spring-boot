@@ -25,4 +25,5 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class SampleEmbeddable {
+
 }

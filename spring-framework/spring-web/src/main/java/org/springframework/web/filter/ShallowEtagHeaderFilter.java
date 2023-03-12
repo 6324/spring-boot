@@ -37,17 +37,19 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 import org.springframework.web.util.WebUtils;
 
 /**
- * {@link javax.servlet.Filter} that generates an {@code ETag} value based on the
- * content on the response. This ETag is compared to the {@code If-None-Match}
- * header of the request. If these headers are equal, the response content is
- * not sent, but rather a {@code 304 "Not Modified"} status instead.
+ * {@link javax.servlet.Filter} that generates an {@code ETag} value based on the content
+ * on the response. This ETag is compared to the {@code If-None-Match} header of the
+ * request. If these headers are equal, the response content is not sent, but rather a
+ * {@code 304 "Not Modified"} status instead.
  *
- * <p>Since the ETag is based on the response content, the response
- * (e.g. a {@link org.springframework.web.servlet.View}) is still rendered.
- * As such, this filter only saves bandwidth, not server performance.
+ * <p>
+ * Since the ETag is based on the response content, the response (e.g. a
+ * {@link org.springframework.web.servlet.View}) is still rendered. As such, this filter
+ * only saves bandwidth, not server performance.
  *
- * <p><b>NOTE:</b> As of Spring Framework 5.0, this filter uses request/response
- * decorators built on the Servlet 3.1 API.
+ * <p>
+ * <b>NOTE:</b> As of Spring Framework 5.0, this filter uses request/response decorators
+ * built on the Servlet 3.1 API.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -61,33 +63,33 @@ public class ShallowEtagHeaderFilter extends OncePerRequestFilter {
 
 	private static final String STREAMING_ATTRIBUTE = ShallowEtagHeaderFilter.class.getName() + ".STREAMING";
 
-
 	private boolean writeWeakETag = false;
-
 
 	/**
 	 * Set whether the ETag value written to the response should be weak, as per RFC 7232.
-	 * <p>Should be configured using an {@code <init-param>} for parameter name
+	 * <p>
+	 * Should be configured using an {@code <init-param>} for parameter name
 	 * "writeWeakETag" in the filter definition in {@code web.xml}.
 	 * @since 4.3
-	 * @see <a href="https://tools.ietf.org/html/rfc7232#section-2.3">RFC 7232 section 2.3</a>
+	 * @see <a href="https://tools.ietf.org/html/rfc7232#section-2.3">RFC 7232 section
+	 * 2.3</a>
 	 */
 	public void setWriteWeakETag(boolean writeWeakETag) {
 		this.writeWeakETag = writeWeakETag;
 	}
 
 	/**
-	 * Return whether the ETag value written to the response should be weak, as per RFC 7232.
+	 * Return whether the ETag value written to the response should be weak, as per RFC
+	 * 7232.
 	 * @since 4.3
 	 */
 	public boolean isWriteWeakETag() {
 		return this.writeWeakETag;
 	}
 
-
 	/**
-	 * The default value is {@code false} so that the filter may delay the generation
-	 * of an ETag until the last asynchronously dispatched thread.
+	 * The default value is {@code false} so that the filter may delay the generation of
+	 * an ETag until the last asynchronously dispatched thread.
 	 */
 	@Override
 	protected boolean shouldNotFilterAsyncDispatch() {
@@ -111,8 +113,8 @@ public class ShallowEtagHeaderFilter extends OncePerRequestFilter {
 	}
 
 	private void updateResponse(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		ConditionalContentCachingResponseWrapper wrapper =
-				WebUtils.getNativeResponse(response, ConditionalContentCachingResponseWrapper.class);
+		ConditionalContentCachingResponseWrapper wrapper = WebUtils.getNativeResponse(response,
+				ConditionalContentCachingResponseWrapper.class);
 		Assert.notNull(wrapper, "ContentCachingResponseWrapper not found");
 		HttpServletResponse rawResponse = (HttpServletResponse) wrapper.getResponse();
 
@@ -131,13 +133,14 @@ public class ShallowEtagHeaderFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Whether an ETag should be calculated for the given request and response
-	 * exchange. By default this is {@code true} if all of the following match:
+	 * Whether an ETag should be calculated for the given request and response exchange.
+	 * By default this is {@code true} if all of the following match:
 	 * <ul>
 	 * <li>Response is not committed.</li>
 	 * <li>Response status codes is in the {@code 2xx} series.</li>
 	 * <li>Request method is a GET.</li>
-	 * <li>Response Cache-Control header does not contain "no-store" (or is not present at all).</li>
+	 * <li>Response Cache-Control header does not contain "no-store" (or is not present at
+	 * all).</li>
 	 * </ul>
 	 * @param request the HTTP request
 	 * @param response the HTTP response
@@ -148,9 +151,8 @@ public class ShallowEtagHeaderFilter extends OncePerRequestFilter {
 	protected boolean isEligibleForEtag(HttpServletRequest request, HttpServletResponse response,
 			int responseStatusCode, InputStream inputStream) {
 
-		if (!response.isCommitted() &&
-				responseStatusCode >= 200 && responseStatusCode < 300 &&
-				HttpMethod.GET.matches(request.getMethod())) {
+		if (!response.isCommitted() && responseStatusCode >= 200 && responseStatusCode < 300
+				&& HttpMethod.GET.matches(request.getMethod())) {
 
 			String cacheControl = response.getHeader(HttpHeaders.CACHE_CONTROL);
 			return (cacheControl == null || !cacheControl.contains(DIRECTIVE_NO_STORE));
@@ -161,7 +163,8 @@ public class ShallowEtagHeaderFilter extends OncePerRequestFilter {
 
 	/**
 	 * Generate the ETag header value from the given response body byte array.
-	 * <p>The default implementation generates an MD5 hash.
+	 * <p>
+	 * The default implementation generates an MD5 hash.
 	 * @param inputStream the response body as an InputStream
 	 * @param isWeak whether the generated ETag should be weak
 	 * @return the ETag header value
@@ -189,14 +192,13 @@ public class ShallowEtagHeaderFilter extends OncePerRequestFilter {
 		return requestETag.equals(responseETag);
 	}
 
-
 	/**
-	 * This method can be used to suppress the content caching response wrapper
-	 * of the ShallowEtagHeaderFilter. The main reason for this is streaming
-	 * scenarios which are not to be cached and do not need an eTag.
-	 * <p><strong>Note:</strong> This method must be called before the response
-	 * is written to in order for the entire response content to be written
-	 * without caching.
+	 * This method can be used to suppress the content caching response wrapper of the
+	 * ShallowEtagHeaderFilter. The main reason for this is streaming scenarios which are
+	 * not to be cached and do not need an eTag.
+	 * <p>
+	 * <strong>Note:</strong> This method must be called before the response is written to
+	 * in order for the entire response content to be written without caching.
 	 * @since 4.2
 	 */
 	public static void disableContentCaching(ServletRequest request) {
@@ -208,10 +210,9 @@ public class ShallowEtagHeaderFilter extends OncePerRequestFilter {
 		return (request.getAttribute(STREAMING_ATTRIBUTE) != null);
 	}
 
-
 	/**
-	 * Returns the raw OutputStream, instead of the one that does caching,
-	 * if {@link #isContentCachingDisabled}.
+	 * Returns the raw OutputStream, instead of the one that does caching, if
+	 * {@link #isContentCachingDisabled}.
 	 */
 	private static class ConditionalContentCachingResponseWrapper extends ContentCachingResponseWrapper {
 
@@ -224,19 +225,20 @@ public class ShallowEtagHeaderFilter extends OncePerRequestFilter {
 
 		@Override
 		public ServletOutputStream getOutputStream() throws IOException {
-			return (isContentCachingDisabled(this.request) || hasETag() ?
-					getResponse().getOutputStream() : super.getOutputStream());
+			return (isContentCachingDisabled(this.request) || hasETag() ? getResponse().getOutputStream()
+					: super.getOutputStream());
 		}
 
 		@Override
 		public PrintWriter getWriter() throws IOException {
-			return (isContentCachingDisabled(this.request) || hasETag()?
-					getResponse().getWriter() : super.getWriter());
+			return (isContentCachingDisabled(this.request) || hasETag() ? getResponse().getWriter()
+					: super.getWriter());
 		}
 
 		private boolean hasETag() {
 			return StringUtils.hasText(getHeader(HttpHeaders.ETAG));
 		}
+
 	}
 
 }

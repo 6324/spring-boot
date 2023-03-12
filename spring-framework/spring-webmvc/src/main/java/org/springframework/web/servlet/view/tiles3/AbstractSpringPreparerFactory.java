@@ -39,11 +39,11 @@ public abstract class AbstractSpringPreparerFactory implements PreparerFactory {
 
 	@Override
 	public ViewPreparer getPreparer(String name, Request context) {
-		WebApplicationContext webApplicationContext = (WebApplicationContext) context.getContext("request").get(
-				DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		WebApplicationContext webApplicationContext = (WebApplicationContext) context.getContext("request")
+				.get(DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 		if (webApplicationContext == null) {
-			webApplicationContext = (WebApplicationContext) context.getContext("application").get(
-					WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+			webApplicationContext = (WebApplicationContext) context.getContext("application")
+					.get(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 			if (webApplicationContext == null) {
 				throw new IllegalStateException("No WebApplicationContext found: no ContextLoaderListener registered?");
 			}
@@ -52,8 +52,8 @@ public abstract class AbstractSpringPreparerFactory implements PreparerFactory {
 	}
 
 	/**
-	 * Obtain a preparer instance for the given preparer name,
-	 * based on the given Spring WebApplicationContext.
+	 * Obtain a preparer instance for the given preparer name, based on the given Spring
+	 * WebApplicationContext.
 	 * @param name the name of the preparer
 	 * @param context the current Spring WebApplicationContext
 	 * @return the preparer instance

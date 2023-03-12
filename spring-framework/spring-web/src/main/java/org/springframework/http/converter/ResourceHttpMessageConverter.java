@@ -31,11 +31,12 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StreamUtils;
 
 /**
- * Implementation of {@link HttpMessageConverter} that can read/write {@link Resource Resources}
- * and supports byte range requests.
+ * Implementation of {@link HttpMessageConverter} that can read/write {@link Resource
+ * Resources} and supports byte range requests.
  *
- * <p>By default, this converter can read all media types. The {@link MediaTypeFactory} is used
- * to determine the {@code Content-Type} of written resources.
+ * <p>
+ * By default, this converter can read all media types. The {@link MediaTypeFactory} is
+ * used to determine the {@code Content-Type} of written resources.
  *
  * @author Arjen Poutsma
  * @author Juergen Hoeller
@@ -46,11 +47,10 @@ public class ResourceHttpMessageConverter extends AbstractHttpMessageConverter<R
 
 	private final boolean supportsReadStreaming;
 
-
 	/**
-	 * Create a new instance of the {@code ResourceHttpMessageConverter}
-	 * that supports read streaming, i.e. can convert an
-	 * {@code HttpInputMessage} to {@code InputStreamResource}.
+	 * Create a new instance of the {@code ResourceHttpMessageConverter} that supports
+	 * read streaming, i.e. can convert an {@code HttpInputMessage} to
+	 * {@code InputStreamResource}.
 	 */
 	public ResourceHttpMessageConverter() {
 		super(MediaType.ALL);
@@ -59,15 +59,14 @@ public class ResourceHttpMessageConverter extends AbstractHttpMessageConverter<R
 
 	/**
 	 * Create a new instance of the {@code ResourceHttpMessageConverter}.
-	 * @param supportsReadStreaming whether the converter should support
-	 * read streaming, i.e. convert to {@code InputStreamResource}
+	 * @param supportsReadStreaming whether the converter should support read streaming,
+	 * i.e. convert to {@code InputStreamResource}
 	 * @since 5.0
 	 */
 	public ResourceHttpMessageConverter(boolean supportsReadStreaming) {
 		super(MediaType.ALL);
 		this.supportsReadStreaming = supportsReadStreaming;
 	}
-
 
 	@Override
 	protected boolean supports(Class<?> clazz) {
@@ -84,6 +83,7 @@ public class ResourceHttpMessageConverter extends AbstractHttpMessageConverter<R
 				public String getFilename() {
 					return inputMessage.getHeaders().getContentDisposition().getFilename();
 				}
+
 				@Override
 				public long contentLength() throws IOException {
 					long length = inputMessage.getHeaders().getContentLength();
@@ -113,8 +113,10 @@ public class ResourceHttpMessageConverter extends AbstractHttpMessageConverter<R
 
 	@Override
 	protected Long getContentLength(Resource resource, @Nullable MediaType contentType) throws IOException {
-		// Don't try to determine contentLength on InputStreamResource - cannot be read afterwards...
-		// Note: custom InputStreamResource subclasses could provide a pre-calculated content length!
+		// Don't try to determine contentLength on InputStreamResource - cannot be read
+		// afterwards...
+		// Note: custom InputStreamResource subclasses could provide a pre-calculated
+		// content length!
 		if (InputStreamResource.class == resource.getClass()) {
 			return null;
 		}

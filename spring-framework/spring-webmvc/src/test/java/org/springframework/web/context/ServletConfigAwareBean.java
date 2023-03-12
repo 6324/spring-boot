@@ -33,4 +33,5 @@ public class ServletConfigAwareBean implements ServletConfigAware {
 	public ServletConfig getServletConfig() {
 		return servletConfig;
 	}
+
 }

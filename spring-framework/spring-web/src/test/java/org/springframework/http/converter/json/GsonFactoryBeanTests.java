@@ -35,7 +35,6 @@ public class GsonFactoryBeanTests {
 
 	private GsonFactoryBean factory = new GsonFactoryBean();
 
-
 	@Test
 	public void serializeNulls() throws Exception {
 		this.factory.setSerializeNulls(true);
@@ -140,7 +139,7 @@ public class GsonFactoryBeanTests {
 		this.factory.afterPropertiesSet();
 		Gson gson = this.factory.getObject();
 		ByteArrayBean bean = new ByteArrayBean();
-		bean.setBytes(new byte[] {0x1, 0x2});
+		bean.setBytes(new byte[] { 0x1, 0x2 });
 		String result = gson.toJson(bean);
 		assertThat(result).isEqualTo("{\"bytes\":\"AQI\\u003d\"}");
 	}
@@ -152,7 +151,7 @@ public class GsonFactoryBeanTests {
 		this.factory.afterPropertiesSet();
 		Gson gson = this.factory.getObject();
 		ByteArrayBean bean = new ByteArrayBean();
-		bean.setBytes(new byte[] {0x1, 0x2});
+		bean.setBytes(new byte[] { 0x1, 0x2 });
 		String result = gson.toJson(bean);
 		assertThat(result).isEqualTo("{\"bytes\":\"AQI=\"}");
 	}
@@ -163,11 +162,10 @@ public class GsonFactoryBeanTests {
 		this.factory.afterPropertiesSet();
 		Gson gson = this.factory.getObject();
 		ByteArrayBean bean = new ByteArrayBean();
-		bean.setBytes(new byte[] {0x1, 0x2});
+		bean.setBytes(new byte[] { 0x1, 0x2 });
 		String result = gson.toJson(bean);
 		assertThat(result).isEqualTo("{\"bytes\":[1,2]}");
 	}
-
 
 	private static class StringBean {
 
@@ -181,8 +179,8 @@ public class GsonFactoryBeanTests {
 		public void setName(String name) {
 			this.name = name;
 		}
-	}
 
+	}
 
 	private static class DateBean {
 
@@ -196,8 +194,8 @@ public class GsonFactoryBeanTests {
 		public void setDate(Date date) {
 			this.date = date;
 		}
-	}
 
+	}
 
 	private static class ByteArrayBean {
 
@@ -211,6 +209,7 @@ public class GsonFactoryBeanTests {
 		public void setBytes(byte[] bytes) {
 			this.bytes = bytes;
 		}
+
 	}
 
 }

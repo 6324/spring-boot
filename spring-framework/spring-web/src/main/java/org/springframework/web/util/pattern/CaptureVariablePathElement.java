@@ -24,8 +24,8 @@ import org.springframework.lang.Nullable;
 
 /**
  * A path element representing capturing a piece of the path as a variable. In the pattern
- * '/foo/{bar}/goo' the {bar} is represented as a {@link CaptureVariablePathElement}. There
- * must be at least one character to bind to the variable.
+ * '/foo/{bar}/goo' the {bar} is represented as a {@link CaptureVariablePathElement}.
+ * There must be at least one character to bind to the variable.
  *
  * @author Andy Clement
  * @since 5.0
@@ -36,7 +36,6 @@ class CaptureVariablePathElement extends PathElement {
 
 	@Nullable
 	private Pattern constraintPattern;
-
 
 	/**
 	 * Create a new {@link CaptureVariablePathElement} instance.
@@ -59,8 +58,8 @@ class CaptureVariablePathElement extends PathElement {
 		else {
 			this.variableName = new String(captureDescriptor, 1, colon - 1);
 			if (caseSensitive) {
-				this.constraintPattern = Pattern.compile(
-						new String(captureDescriptor, colon + 1, captureDescriptor.length - colon - 2));
+				this.constraintPattern = Pattern
+						.compile(new String(captureDescriptor, colon + 1, captureDescriptor.length - colon - 2));
 			}
 			else {
 				this.constraintPattern = Pattern.compile(
@@ -69,7 +68,6 @@ class CaptureVariablePathElement extends PathElement {
 			}
 		}
 	}
-
 
 	@Override
 	public boolean matches(int pathIndex, PathPattern.MatchingContext matchingContext) {
@@ -106,9 +104,8 @@ class CaptureVariablePathElement extends PathElement {
 				// Needs to be at least one character #SPR15264
 				match = (pathIndex == matchingContext.pathLength);
 				if (!match && matchingContext.isMatchOptionalTrailingSeparator()) {
-					match = //(nextPos > candidateIndex) &&
-							(pathIndex + 1) == matchingContext.pathLength &&
-							matchingContext.isSeparator(pathIndex);
+					match = // (nextPos > candidateIndex) &&
+							(pathIndex + 1) == matchingContext.pathLength && matchingContext.isSeparator(pathIndex);
 				}
 			}
 		}
@@ -120,7 +117,7 @@ class CaptureVariablePathElement extends PathElement {
 
 		if (match && matchingContext.extractingVariables) {
 			matchingContext.set(this.variableName, candidateCapture,
-					((PathSegment)matchingContext.pathElements.get(pathIndex-1)).parameters());
+					((PathSegment) matchingContext.pathElements.get(pathIndex - 1)).parameters());
 		}
 		return match;
 	}
@@ -149,11 +146,10 @@ class CaptureVariablePathElement extends PathElement {
 		return CAPTURE_VARIABLE_WEIGHT;
 	}
 
-
 	@Override
 	public String toString() {
-		return "CaptureVariable({" + this.variableName +
-				(this.constraintPattern != null ? ":" + this.constraintPattern.pattern() : "") + "})";
+		return "CaptureVariable({" + this.variableName
+				+ (this.constraintPattern != null ? ":" + this.constraintPattern.pattern() : "") + "})";
 	}
 
 	@Override

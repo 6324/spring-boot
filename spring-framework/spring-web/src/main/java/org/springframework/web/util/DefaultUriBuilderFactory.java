@@ -28,11 +28,12 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@code UriBuilderFactory} that relies on {@link UriComponentsBuilder} for
- * the actual building of the URI.
+ * {@code UriBuilderFactory} that relies on {@link UriComponentsBuilder} for the actual
+ * building of the URI.
  *
- * <p>Provides options to create {@link UriBuilder} instances with a common
- * base URI, alternative encoding mode strategies, among others.
+ * <p>
+ * Provides options to create {@link UriBuilder} instances with a common base URI,
+ * alternative encoding mode strategies, among others.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -49,10 +50,10 @@ public class DefaultUriBuilderFactory implements UriBuilderFactory {
 
 	private boolean parsePath = true;
 
-
 	/**
 	 * Default constructor without a base URI.
-	 * <p>The target address must be specified on each UriBuilder.
+	 * <p>
+	 * The target address must be specified on each UriBuilder.
 	 */
 	public DefaultUriBuilderFactory() {
 		this.baseUri = null;
@@ -60,11 +61,11 @@ public class DefaultUriBuilderFactory implements UriBuilderFactory {
 
 	/**
 	 * Constructor with a base URI.
-	 * <p>The given URI template is parsed via
-	 * {@link UriComponentsBuilder#fromUriString} and then applied as a base URI
-	 * to every UriBuilder via {@link UriComponentsBuilder#uriComponents} unless
-	 * the UriBuilder itself was created with a URI template that already has a
-	 * target address.
+	 * <p>
+	 * The given URI template is parsed via {@link UriComponentsBuilder#fromUriString} and
+	 * then applied as a base URI to every UriBuilder via
+	 * {@link UriComponentsBuilder#uriComponents} unless the UriBuilder itself was created
+	 * with a URI template that already has a target address.
 	 * @param baseUriTemplate the URI template to use a base URL
 	 */
 	public DefaultUriBuilderFactory(String baseUriTemplate) {
@@ -79,15 +80,15 @@ public class DefaultUriBuilderFactory implements UriBuilderFactory {
 		this.baseUri = baseUri;
 	}
 
-
 	/**
 	 * Set the {@link EncodingMode encoding mode} to use.
-	 * <p>By default this is set to {@link EncodingMode#TEMPLATE_AND_VALUES
+	 * <p>
+	 * By default this is set to {@link EncodingMode#TEMPLATE_AND_VALUES
 	 * EncodingMode.TEMPLATE_AND_VALUES}.
-	 * <p><strong>Note:</strong> Prior to 5.1 the default was
-	 * {@link EncodingMode#URI_COMPONENT EncodingMode.URI_COMPONENT}
-	 * therefore the {@code WebClient} {@code RestTemplate} have switched their
-	 * default behavior.
+	 * <p>
+	 * <strong>Note:</strong> Prior to 5.1 the default was
+	 * {@link EncodingMode#URI_COMPONENT EncodingMode.URI_COMPONENT} therefore the
+	 * {@code WebClient} {@code RestTemplate} have switched their default behavior.
 	 * @param encodingMode the encoding mode to use
 	 */
 	public void setEncodingMode(EncodingMode encodingMode) {
@@ -102,8 +103,8 @@ public class DefaultUriBuilderFactory implements UriBuilderFactory {
 	}
 
 	/**
-	 * Provide default URI variable values to use when expanding URI templates
-	 * with a Map of variables.
+	 * Provide default URI variable values to use when expanding URI templates with a Map
+	 * of variables.
 	 * @param defaultUriVariables default URI variable values
 	 */
 	public void setDefaultUriVariables(@Nullable Map<String, ?> defaultUriVariables) {
@@ -121,11 +122,12 @@ public class DefaultUriBuilderFactory implements UriBuilderFactory {
 	}
 
 	/**
-	 * Whether to parse the input path into path segments if the encoding mode
-	 * is set to {@link EncodingMode#URI_COMPONENT EncodingMode.URI_COMPONENT},
-	 * which ensures that URI variables in the path are encoded according to
-	 * path segment rules and for example a '/' is encoded.
-	 * <p>By default this is set to {@code true}.
+	 * Whether to parse the input path into path segments if the encoding mode is set to
+	 * {@link EncodingMode#URI_COMPONENT EncodingMode.URI_COMPONENT}, which ensures that
+	 * URI variables in the path are encoded according to path segment rules and for
+	 * example a '/' is encoded.
+	 * <p>
+	 * By default this is set to {@code true}.
 	 * @param parsePath whether to parse the path into path segments
 	 */
 	public void setParsePath(boolean parsePath) {
@@ -133,13 +135,12 @@ public class DefaultUriBuilderFactory implements UriBuilderFactory {
 	}
 
 	/**
-	 * Whether to parse the path into path segments if the encoding mode is set
-	 * to {@link EncodingMode#URI_COMPONENT EncodingMode.URI_COMPONENT}.
+	 * Whether to parse the path into path segments if the encoding mode is set to
+	 * {@link EncodingMode#URI_COMPONENT EncodingMode.URI_COMPONENT}.
 	 */
 	public boolean shouldParsePath() {
 		return this.parsePath;
 	}
-
 
 	// UriTemplateHandler
 
@@ -165,10 +166,8 @@ public class DefaultUriBuilderFactory implements UriBuilderFactory {
 		return new DefaultUriBuilder("");
 	}
 
-
 	/**
-	 * Enum to represent multiple URI encoding strategies. The following are
-	 * available:
+	 * Enum to represent multiple URI encoding strategies. The following are available:
 	 * <ul>
 	 * <li>{@link #TEMPLATE_AND_VALUES}
 	 * <li>{@link #VALUES_ONLY}
@@ -180,37 +179,37 @@ public class DefaultUriBuilderFactory implements UriBuilderFactory {
 	public enum EncodingMode {
 
 		/**
-		 * Pre-encode the URI template first, then strictly encode URI variables
-		 * when expanded, with the following rules:
+		 * Pre-encode the URI template first, then strictly encode URI variables when
+		 * expanded, with the following rules:
 		 * <ul>
-		 * <li>For the URI template replace <em>only</em> non-ASCII and illegal
-		 * (within a given URI component type) characters with escaped octets.
-		 * <li>For URI variables do the same and also replace characters with
-		 * reserved meaning.
+		 * <li>For the URI template replace <em>only</em> non-ASCII and illegal (within a
+		 * given URI component type) characters with escaped octets.
+		 * <li>For URI variables do the same and also replace characters with reserved
+		 * meaning.
 		 * </ul>
-		 * <p>For most cases, this mode is most likely to give the expected
-		 * result because in treats URI variables as opaque data to be fully
-		 * encoded, while {@link #URI_COMPONENT} by comparison is useful only
-		 * if intentionally expanding URI variables with reserved characters.
+		 * <p>
+		 * For most cases, this mode is most likely to give the expected result because in
+		 * treats URI variables as opaque data to be fully encoded, while
+		 * {@link #URI_COMPONENT} by comparison is useful only if intentionally expanding
+		 * URI variables with reserved characters.
 		 * @since 5.0.8
 		 * @see UriComponentsBuilder#encode()
 		 */
 		TEMPLATE_AND_VALUES,
 
 		/**
-		 * Does not encode the URI template and instead applies strict encoding
-		 * to URI variables via {@link UriUtils#encodeUriVariables} prior to
-		 * expanding them into the template.
+		 * Does not encode the URI template and instead applies strict encoding to URI
+		 * variables via {@link UriUtils#encodeUriVariables} prior to expanding them into
+		 * the template.
 		 * @see UriUtils#encodeUriVariables(Object...)
 		 * @see UriUtils#encodeUriVariables(Map)
 		 */
 		VALUES_ONLY,
 
 		/**
-		 * Expand URI variables first, and then encode the resulting URI
-		 * component values, replacing <em>only</em> non-ASCII and illegal
-		 * (within a given URI component type) characters, but not characters
-		 * with reserved meaning.
+		 * Expand URI variables first, and then encode the resulting URI component values,
+		 * replacing <em>only</em> non-ASCII and illegal (within a given URI component
+		 * type) characters, but not characters with reserved meaning.
 		 * @see UriComponents#encode()
 		 */
 		URI_COMPONENT,
@@ -219,8 +218,8 @@ public class DefaultUriBuilderFactory implements UriBuilderFactory {
 		 * No encoding should be applied.
 		 */
 		NONE
-	}
 
+	}
 
 	/**
 	 * {@link DefaultUriBuilderFactory} specific implementation of UriBuilder.
@@ -266,7 +265,6 @@ public class DefaultUriBuilderFactory implements UriBuilderFactory {
 				}
 			}
 		}
-
 
 		@Override
 		public DefaultUriBuilder scheme(@Nullable String scheme) {
@@ -403,6 +401,7 @@ public class DefaultUriBuilderFactory implements UriBuilderFactory {
 			}
 			return URI.create(uric.toString());
 		}
+
 	}
 
 }

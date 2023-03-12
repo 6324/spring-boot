@@ -35,20 +35,18 @@ import org.springframework.web.context.request.NativeWebRequest;
  * @author Rossen Stoyanchev
  * @since 3.2
  * @deprecated as of 5.2.4. See class-level note in
- * {@link ContentNegotiationManagerFactoryBean} on the deprecation of path
- * extension config options.
+ * {@link ContentNegotiationManagerFactoryBean} on the deprecation of path extension
+ * config options.
  */
 @Deprecated
 public class ServletPathExtensionContentNegotiationStrategy extends PathExtensionContentNegotiationStrategy {
 
 	private final ServletContext servletContext;
 
-
 	/**
-	 * Create an instance without any mappings to start with. Mappings may be
-	 * added later when extensions are resolved through
-	 * {@link ServletContext#getMimeType(String)} or via
-	 * {@link org.springframework.http.MediaTypeFactory}.
+	 * Create an instance without any mappings to start with. Mappings may be added later
+	 * when extensions are resolved through {@link ServletContext#getMimeType(String)} or
+	 * via {@link org.springframework.http.MediaTypeFactory}.
 	 */
 	public ServletPathExtensionContentNegotiationStrategy(ServletContext context) {
 		this(context, null);
@@ -57,18 +55,17 @@ public class ServletPathExtensionContentNegotiationStrategy extends PathExtensio
 	/**
 	 * Create an instance with the given extension-to-MediaType lookup.
 	 */
-	public ServletPathExtensionContentNegotiationStrategy(
-			ServletContext servletContext, @Nullable Map<String, MediaType> mediaTypes) {
+	public ServletPathExtensionContentNegotiationStrategy(ServletContext servletContext,
+			@Nullable Map<String, MediaType> mediaTypes) {
 
 		super(mediaTypes);
 		Assert.notNull(servletContext, "ServletContext is required");
 		this.servletContext = servletContext;
 	}
 
-
 	/**
-	 * Resolve file extension via {@link ServletContext#getMimeType(String)}
-	 * and also delegate to base class for a potential
+	 * Resolve file extension via {@link ServletContext#getMimeType(String)} and also
+	 * delegate to base class for a potential
 	 * {@link org.springframework.http.MediaTypeFactory} lookup.
 	 */
 	@Override
@@ -92,8 +89,8 @@ public class ServletPathExtensionContentNegotiationStrategy extends PathExtensio
 
 	/**
 	 * Extends the base class
-	 * {@link PathExtensionContentNegotiationStrategy#getMediaTypeForResource}
-	 * with the ability to also look up through the ServletContext.
+	 * {@link PathExtensionContentNegotiationStrategy#getMediaTypeForResource} with the
+	 * ability to also look up through the ServletContext.
 	 * @param resource the resource to look up
 	 * @return the MediaType for the extension, or {@code null} if none found
 	 * @since 4.3

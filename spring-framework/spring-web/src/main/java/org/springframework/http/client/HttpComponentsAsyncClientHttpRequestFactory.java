@@ -52,7 +52,6 @@ public class HttpComponentsAsyncClientHttpRequestFactory extends HttpComponentsC
 
 	private HttpAsyncClient asyncClient;
 
-
 	/**
 	 * Create a new instance of the {@code HttpComponentsAsyncClientHttpRequestFactory}
 	 * with a default {@link HttpAsyncClient} and {@link HttpClient}.
@@ -75,8 +74,10 @@ public class HttpComponentsAsyncClientHttpRequestFactory extends HttpComponentsC
 
 	/**
 	 * Create a new instance of the {@code HttpComponentsAsyncClientHttpRequestFactory}
-	 * with the given {@link CloseableHttpAsyncClient} instance and a default {@link HttpClient}.
-	 * @param asyncClient the CloseableHttpAsyncClient instance to use for this request factory
+	 * with the given {@link CloseableHttpAsyncClient} instance and a default
+	 * {@link HttpClient}.
+	 * @param asyncClient the CloseableHttpAsyncClient instance to use for this request
+	 * factory
 	 */
 	public HttpComponentsAsyncClientHttpRequestFactory(CloseableHttpAsyncClient asyncClient) {
 		super();
@@ -97,17 +98,18 @@ public class HttpComponentsAsyncClientHttpRequestFactory extends HttpComponentsC
 
 	/**
 	 * Create a new instance of the {@code HttpComponentsAsyncClientHttpRequestFactory}
-	 * with the given {@link CloseableHttpClient} and {@link CloseableHttpAsyncClient} instances.
+	 * with the given {@link CloseableHttpClient} and {@link CloseableHttpAsyncClient}
+	 * instances.
 	 * @param httpClient the CloseableHttpClient instance to use for this request factory
-	 * @param asyncClient the CloseableHttpAsyncClient instance to use for this request factory
+	 * @param asyncClient the CloseableHttpAsyncClient instance to use for this request
+	 * factory
 	 */
-	public HttpComponentsAsyncClientHttpRequestFactory(
-			CloseableHttpClient httpClient, CloseableHttpAsyncClient asyncClient) {
+	public HttpComponentsAsyncClientHttpRequestFactory(CloseableHttpClient httpClient,
+			CloseableHttpAsyncClient asyncClient) {
 
 		super(httpClient);
 		this.asyncClient = asyncClient;
 	}
-
 
 	/**
 	 * Set the {@code HttpAsyncClient} used for
@@ -151,7 +153,6 @@ public class HttpComponentsAsyncClientHttpRequestFactory extends HttpComponentsC
 				"No CloseableHttpAsyncClient - use getAsyncClient() instead");
 		return (CloseableHttpAsyncClient) this.asyncClient;
 	}
-
 
 	@Override
 	public void afterPropertiesSet() {

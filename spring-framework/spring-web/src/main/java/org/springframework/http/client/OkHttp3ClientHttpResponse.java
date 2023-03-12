@@ -42,12 +42,10 @@ class OkHttp3ClientHttpResponse extends AbstractClientHttpResponse {
 	@Nullable
 	private volatile HttpHeaders headers;
 
-
 	public OkHttp3ClientHttpResponse(Response response) {
 		Assert.notNull(response, "Response must not be null");
 		this.response = response;
 	}
-
 
 	@Override
 	public int getRawStatusCode() {

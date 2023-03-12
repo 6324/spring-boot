@@ -85,7 +85,6 @@ public class RequestMappingHandlerAdapterTests {
 
 	private StaticWebApplicationContext webAppContext;
 
-
 	@BeforeAll
 	public static void setupOnce() {
 		RequestMappingHandlerAdapter adapter = new RequestMappingHandlerAdapter();
@@ -105,7 +104,6 @@ public class RequestMappingHandlerAdapterTests {
 		this.request = new MockHttpServletRequest("GET", "/");
 		this.response = new MockHttpServletResponse();
 	}
-
 
 	@Test
 	public void cacheControlWithoutSessionAttributes() throws Exception {
@@ -283,7 +281,6 @@ public class RequestMappingHandlerAdapterTests {
 		assertThat(this.handlerAdapter.getReturnValueHandlers().size()).isEqualTo(handlerCount);
 	}
 
-
 	@SuppressWarnings("unused")
 	private static class SimpleController {
 
@@ -297,8 +294,7 @@ public class RequestMappingHandlerAdapterTests {
 		}
 
 		public ResponseEntity<Map<String, String>> handleWithResponseEntity() {
-			return new ResponseEntity<>(Collections.singletonMap(
-					"foo", "bar"), HttpStatus.OK);
+			return new ResponseEntity<>(Collections.singletonMap("foo", "bar"), HttpStatus.OK);
 		}
 
 		public ResponseEntity<String> handleBadRequest() {
@@ -307,15 +303,14 @@ public class RequestMappingHandlerAdapterTests {
 
 	}
 
-
 	@SessionAttributes("attr1")
 	private static class SessionAttributeController {
 
 		@SuppressWarnings("unused")
 		public void handle() {
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class RedirectAttributeController {
@@ -324,8 +319,8 @@ public class RequestMappingHandlerAdapterTests {
 			model.addAttribute("someAttr", "someAttrValue");
 			return "redirect:/path";
 		}
-	}
 
+	}
 
 	@ControllerAdvice
 	private static class ModelAttributeAdvice {
@@ -337,10 +332,10 @@ public class RequestMappingHandlerAdapterTests {
 			model.addAttribute("attr2", "gAttr2");
 			model.addAttribute("instance", this);
 		}
+
 	}
 
-
-	@ControllerAdvice({"org.springframework.web.servlet.mvc.method.annotation", "java.lang"})
+	@ControllerAdvice({ "org.springframework.web.servlet.mvc.method.annotation", "java.lang" })
 	private static class ModelAttributePackageAdvice {
 
 		@SuppressWarnings("unused")
@@ -348,8 +343,8 @@ public class RequestMappingHandlerAdapterTests {
 		public void addAttributes(Model model) {
 			model.addAttribute("attr2", "gAttr2");
 		}
-	}
 
+	}
 
 	@ControllerAdvice("java.lang")
 	private static class ModelAttributeNotUsedPackageAdvice {
@@ -359,6 +354,7 @@ public class RequestMappingHandlerAdapterTests {
 		public void addAttributes(Model model) {
 			model.addAttribute("attr3", "gAttr3");
 		}
+
 	}
 
 	/**
@@ -366,10 +362,12 @@ public class RequestMappingHandlerAdapterTests {
 	 * of verifying that controller advice implementing both {@link ResponseBodyAdvice}
 	 * and {@link RequestBodyAdvice} does not get registered twice.
 	 *
-	 * @see <a href="https://github.com/spring-projects/spring-framework/pull/22638">gh-22638</a>
+	 * @see <a href=
+	 * "https://github.com/spring-projects/spring-framework/pull/22638">gh-22638</a>
 	 */
 	@ControllerAdvice
-	private static class ResponseCodeSuppressingAdvice extends AbstractMappingJacksonResponseBodyAdvice implements RequestBodyAdvice {
+	private static class ResponseCodeSuppressingAdvice extends AbstractMappingJacksonResponseBodyAdvice
+			implements RequestBodyAdvice {
 
 		@Override
 		protected void beforeBodyWriteInternal(MappingJacksonValue bodyContainer, MediaType contentType,

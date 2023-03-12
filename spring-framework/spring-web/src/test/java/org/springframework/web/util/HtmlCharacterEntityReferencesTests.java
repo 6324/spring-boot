@@ -43,16 +43,15 @@ public class HtmlCharacterEntityReferencesTests {
 		for (int character = 0; character < 10000; character++) {
 			String referenceName = charactersMap.get(character);
 			if (referenceName != null) {
-				String fullReference = HtmlCharacterEntityReferences.REFERENCE_START + referenceName + HtmlCharacterEntityReferences.REFERENCE_END;
+				String fullReference = HtmlCharacterEntityReferences.REFERENCE_START + referenceName
+						+ HtmlCharacterEntityReferences.REFERENCE_END;
 				assertThat(references.isMappedToReference((char) character))
-						.as("The unicode character " + character + " should be mapped to a reference")
-						.isTrue();
+						.as("The unicode character " + character + " should be mapped to a reference").isTrue();
 				assertThat(references.convertToReference((char) character))
 						.as("The reference of unicode character " + character + " should be entity " + referenceName)
 						.isEqualTo(fullReference);
-				assertThat(references.convertToCharacter(referenceName))
-						.as("The entity reference [" + referenceName + "] should be mapped to unicode character " + character)
-						.isEqualTo((char) character);
+				assertThat(references.convertToCharacter(referenceName)).as("The entity reference [" + referenceName
+						+ "] should be mapped to unicode character " + character).isEqualTo((char) character);
 			}
 			else if (character == 39) {
 				assertThat(references.isMappedToReference((char) character)).isTrue();
@@ -60,22 +59,18 @@ public class HtmlCharacterEntityReferencesTests {
 			}
 			else {
 				assertThat(references.isMappedToReference((char) character))
-						.as("The unicode character " + character + " should not be mapped to a reference")
-						.isFalse();
+						.as("The unicode character " + character + " should not be mapped to a reference").isFalse();
 				assertThat(references.convertToReference((char) character))
-						.as("No entity reference of unicode character " + character + " should exist")
-						.isNull();
+						.as("No entity reference of unicode character " + character + " should exist").isNull();
 			}
 		}
 		assertThat(references.getSupportedReferenceCount())
 				.as("The registered entity count of entityReferences should match the number of entity references")
 				.isEqualTo(charactersMap.size() + 1);
-		assertThat(references.getSupportedReferenceCount()).as(
-				"The HTML 4.0 Standard defines 252+1 entity references so do entityReferences")
-				.isEqualTo(252 + 1);
+		assertThat(references.getSupportedReferenceCount())
+				.as("The HTML 4.0 Standard defines 252+1 entity references so do entityReferences").isEqualTo(252 + 1);
 		assertThat((int) references.convertToCharacter("invalid"))
-				.as("Invalid entity reference names should not be convertible")
-				.isEqualTo((char) -1);
+				.as("Invalid entity reference names should not be convertible").isEqualTo((char) -1);
 	}
 
 	// SPR-9293
@@ -102,7 +97,6 @@ public class HtmlCharacterEntityReferencesTests {
 		}
 		return referencedCharactersMap;
 	}
-
 
 	private static class CharacterEntityResourceIterator {
 
@@ -183,6 +177,7 @@ public class HtmlCharacterEntityReferencesTests {
 			tokenizer.nextToken();
 			return tokenizer.sval;
 		}
+
 	}
 
 }

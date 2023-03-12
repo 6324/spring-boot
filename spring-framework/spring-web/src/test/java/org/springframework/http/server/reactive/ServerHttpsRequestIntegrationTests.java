@@ -53,7 +53,6 @@ class ServerHttpsRequestIntegrationTests {
 
 	private RestTemplate restTemplate;
 
-
 	@BeforeEach
 	void startServer() throws Exception {
 		this.server.setHandler(new CheckRequestHandler());
@@ -65,12 +64,10 @@ class ServerHttpsRequestIntegrationTests {
 
 		SSLContextBuilder builder = new SSLContextBuilder();
 		builder.loadTrustMaterial(new TrustSelfSignedStrategy());
-		SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(
-				builder.build(), NoopHostnameVerifier.INSTANCE);
-		CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(
-				socketFactory).build();
-		HttpComponentsClientHttpRequestFactory requestFactory =
-				new HttpComponentsClientHttpRequestFactory(httpclient);
+		SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(builder.build(),
+				NoopHostnameVerifier.INSTANCE);
+		CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(socketFactory).build();
+		HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpclient);
 		this.restTemplate = new RestTemplate(requestFactory);
 	}
 
@@ -87,7 +84,6 @@ class ServerHttpsRequestIntegrationTests {
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
 
-
 	private static class CheckRequestHandler implements HttpHandler {
 
 		@Override
@@ -101,6 +97,7 @@ class ServerHttpsRequestIntegrationTests {
 			assertThat(uri.getQuery()).isEqualTo("param=bar");
 			return Mono.empty();
 		}
+
 	}
 
 }

@@ -33,7 +33,8 @@ import org.springframework.util.concurrent.SettableListenableFuture;
 /**
  * {@link AsyncClientHttpRequest} implementation based on OkHttp 3.x.
  *
- * <p>Created via the {@link OkHttp3ClientHttpRequestFactory}.
+ * <p>
+ * Created via the {@link OkHttp3ClientHttpRequestFactory}.
  *
  * @author Luciano Leggieri
  * @author Arjen Poutsma
@@ -50,13 +51,11 @@ class OkHttp3AsyncClientHttpRequest extends AbstractBufferingAsyncClientHttpRequ
 
 	private final HttpMethod method;
 
-
 	public OkHttp3AsyncClientHttpRequest(OkHttpClient client, URI uri, HttpMethod method) {
 		this.client = client;
 		this.uri = uri;
 		this.method = method;
 	}
-
 
 	@Override
 	public HttpMethod getMethod() {
@@ -81,7 +80,6 @@ class OkHttp3AsyncClientHttpRequest extends AbstractBufferingAsyncClientHttpRequ
 		return new OkHttpListenableFuture(this.client.newCall(request));
 	}
 
-
 	private static class OkHttpListenableFuture extends SettableListenableFuture<ClientHttpResponse> {
 
 		private final Call call;
@@ -93,6 +91,7 @@ class OkHttp3AsyncClientHttpRequest extends AbstractBufferingAsyncClientHttpRequ
 				public void onResponse(Call call, Response response) {
 					set(new OkHttp3ClientHttpResponse(response));
 				}
+
 				@Override
 				public void onFailure(Call call, IOException ex) {
 					setException(ex);
@@ -104,6 +103,7 @@ class OkHttp3AsyncClientHttpRequest extends AbstractBufferingAsyncClientHttpRequ
 		protected void interruptTask() {
 			this.call.cancel();
 		}
+
 	}
 
 }

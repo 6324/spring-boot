@@ -36,24 +36,28 @@ import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.WebUtils;
 
 /**
- * Base class for {@code Filter}s that perform logging operations before and after a request
- * is processed.
+ * Base class for {@code Filter}s that perform logging operations before and after a
+ * request is processed.
  *
- * <p>Subclasses should override the {@code beforeRequest(HttpServletRequest, String)} and
+ * <p>
+ * Subclasses should override the {@code beforeRequest(HttpServletRequest, String)} and
  * {@code afterRequest(HttpServletRequest, String)} methods to perform the actual logging
  * around the request.
  *
- * <p>Subclasses are passed the message to write to the log in the {@code beforeRequest} and
- * {@code afterRequest} methods. By default, only the URI of the request is logged. However,
- * setting the {@code includeQueryString} property to {@code true} will cause the query string of
- * the request to be included also; this can be further extended through {@code includeClientInfo}
- * and {@code includeHeaders}. The payload (body content) of the request can be logged via the
- * {@code includePayload} flag: Note that this will only log the part of the payload which has
- * actually been read, not necessarily the entire body of the request.
+ * <p>
+ * Subclasses are passed the message to write to the log in the {@code beforeRequest} and
+ * {@code afterRequest} methods. By default, only the URI of the request is logged.
+ * However, setting the {@code includeQueryString} property to {@code true} will cause the
+ * query string of the request to be included also; this can be further extended through
+ * {@code includeClientInfo} and {@code includeHeaders}. The payload (body content) of the
+ * request can be logged via the {@code includePayload} flag: Note that this will only log
+ * the part of the payload which has actually been read, not necessarily the entire body
+ * of the request.
  *
- * <p>Prefixes and suffixes for the before and after messages can be configured using the
- * {@code beforeMessagePrefix}, {@code afterMessagePrefix}, {@code beforeMessageSuffix} and
- * {@code afterMessageSuffix} properties.
+ * <p>
+ * Prefixes and suffixes for the before and after messages can be configured using the
+ * {@code beforeMessagePrefix}, {@code afterMessagePrefix}, {@code beforeMessageSuffix}
+ * and {@code afterMessageSuffix} properties.
  *
  * @author Rob Harrop
  * @author Juergen Hoeller
@@ -90,7 +94,6 @@ public abstract class AbstractRequestLoggingFilter extends OncePerRequestFilter 
 
 	private static final int DEFAULT_MAX_PAYLOAD_LENGTH = 50;
 
-
 	private boolean includeQueryString = false;
 
 	private boolean includeClientInfo = false;
@@ -112,10 +115,10 @@ public abstract class AbstractRequestLoggingFilter extends OncePerRequestFilter 
 
 	private String afterMessageSuffix = DEFAULT_AFTER_MESSAGE_SUFFIX;
 
-
 	/**
 	 * Set whether the query string should be included in the log message.
-	 * <p>Should be configured using an {@code <init-param>} for parameter name
+	 * <p>
+	 * Should be configured using an {@code <init-param>} for parameter name
 	 * "includeQueryString" in the filter definition in {@code web.xml}.
 	 */
 	public void setIncludeQueryString(boolean includeQueryString) {
@@ -130,9 +133,10 @@ public abstract class AbstractRequestLoggingFilter extends OncePerRequestFilter 
 	}
 
 	/**
-	 * Set whether the client address and session id should be included in the
-	 * log message.
-	 * <p>Should be configured using an {@code <init-param>} for parameter name
+	 * Set whether the client address and session id should be included in the log
+	 * message.
+	 * <p>
+	 * Should be configured using an {@code <init-param>} for parameter name
 	 * "includeClientInfo" in the filter definition in {@code web.xml}.
 	 */
 	public void setIncludeClientInfo(boolean includeClientInfo) {
@@ -140,8 +144,8 @@ public abstract class AbstractRequestLoggingFilter extends OncePerRequestFilter 
 	}
 
 	/**
-	 * Return whether the client address and session id should be included in the
-	 * log message.
+	 * Return whether the client address and session id should be included in the log
+	 * message.
 	 */
 	protected boolean isIncludeClientInfo() {
 		return this.includeClientInfo;
@@ -149,7 +153,8 @@ public abstract class AbstractRequestLoggingFilter extends OncePerRequestFilter 
 
 	/**
 	 * Set whether the request headers should be included in the log message.
-	 * <p>Should be configured using an {@code <init-param>} for parameter name
+	 * <p>
+	 * Should be configured using an {@code <init-param>} for parameter name
 	 * "includeHeaders" in the filter definition in {@code web.xml}.
 	 * @since 4.3
 	 */
@@ -167,7 +172,8 @@ public abstract class AbstractRequestLoggingFilter extends OncePerRequestFilter 
 
 	/**
 	 * Set whether the request payload (body) should be included in the log message.
-	 * <p>Should be configured using an {@code <init-param>} for parameter name
+	 * <p>
+	 * Should be configured using an {@code <init-param>} for parameter name
 	 * "includePayload" in the filter definition in {@code web.xml}.
 	 * @since 3.0
 	 */
@@ -186,7 +192,8 @@ public abstract class AbstractRequestLoggingFilter extends OncePerRequestFilter 
 	/**
 	 * Configure a predicate for selecting which headers should be logged if
 	 * {@link #setIncludeHeaders(boolean)} is set to {@code true}.
-	 * <p>By default this is not set in which case all headers are logged.
+	 * <p>
+	 * By default this is not set in which case all headers are logged.
 	 * @param headerPredicate the predicate to use
 	 * @since 5.2
 	 */
@@ -222,42 +229,41 @@ public abstract class AbstractRequestLoggingFilter extends OncePerRequestFilter 
 	}
 
 	/**
-	 * Set the value that should be prepended to the log message written
-	 * <i>before</i> a request is processed.
+	 * Set the value that should be prepended to the log message written <i>before</i> a
+	 * request is processed.
 	 */
 	public void setBeforeMessagePrefix(String beforeMessagePrefix) {
 		this.beforeMessagePrefix = beforeMessagePrefix;
 	}
 
 	/**
-	 * Set the value that should be appended to the log message written
-	 * <i>before</i> a request is processed.
+	 * Set the value that should be appended to the log message written <i>before</i> a
+	 * request is processed.
 	 */
 	public void setBeforeMessageSuffix(String beforeMessageSuffix) {
 		this.beforeMessageSuffix = beforeMessageSuffix;
 	}
 
 	/**
-	 * Set the value that should be prepended to the log message written
-	 * <i>after</i> a request is processed.
+	 * Set the value that should be prepended to the log message written <i>after</i> a
+	 * request is processed.
 	 */
 	public void setAfterMessagePrefix(String afterMessagePrefix) {
 		this.afterMessagePrefix = afterMessagePrefix;
 	}
 
 	/**
-	 * Set the value that should be appended to the log message written
-	 * <i>after</i> a request is processed.
+	 * Set the value that should be appended to the log message written <i>after</i> a
+	 * request is processed.
 	 */
 	public void setAfterMessageSuffix(String afterMessageSuffix) {
 		this.afterMessageSuffix = afterMessageSuffix;
 	}
 
-
 	/**
-	 * The default value is "false" so that the filter may log a "before" message
-	 * at the start of request processing and an "after" message at the end from
-	 * when the last asynchronously dispatched thread is exiting.
+	 * The default value is "false" so that the filter may log a "before" message at the
+	 * start of request processing and an "after" message at the end from when the last
+	 * asynchronously dispatched thread is exiting.
 	 */
 	@Override
 	protected boolean shouldNotFilterAsyncDispatch() {
@@ -265,8 +271,9 @@ public abstract class AbstractRequestLoggingFilter extends OncePerRequestFilter 
 	}
 
 	/**
-	 * Forwards the request to the next filter in the chain and delegates down to the subclasses
-	 * to perform the actual request logging both before and after the request is processed.
+	 * Forwards the request to the next filter in the chain and delegates down to the
+	 * subclasses to perform the actual request logging both before and after the request
+	 * is processed.
 	 * @see #beforeRequest
 	 * @see #afterRequest
 	 */
@@ -313,11 +320,13 @@ public abstract class AbstractRequestLoggingFilter extends OncePerRequestFilter 
 
 	/**
 	 * Create a log message for the given request, prefix and suffix.
-	 * <p>If {@code includeQueryString} is {@code true}, then the inner part
-	 * of the log message will take the form {@code request_uri?query_string};
-	 * otherwise the message will simply be of the form {@code request_uri}.
-	 * <p>The final message is composed of the inner part as described and
-	 * the supplied prefix and suffix.
+	 * <p>
+	 * If {@code includeQueryString} is {@code true}, then the inner part of the log
+	 * message will take the form {@code request_uri?query_string}; otherwise the message
+	 * will simply be of the form {@code request_uri}.
+	 * <p>
+	 * The final message is composed of the inner part as described and the supplied
+	 * prefix and suffix.
 	 */
 	protected String createMessage(HttpServletRequest request, String prefix, String suffix) {
 		StringBuilder msg = new StringBuilder();
@@ -380,8 +389,7 @@ public abstract class AbstractRequestLoggingFilter extends OncePerRequestFilter 
 	 */
 	@Nullable
 	protected String getMessagePayload(HttpServletRequest request) {
-		ContentCachingRequestWrapper wrapper =
-				WebUtils.getNativeRequest(request, ContentCachingRequestWrapper.class);
+		ContentCachingRequestWrapper wrapper = WebUtils.getNativeRequest(request, ContentCachingRequestWrapper.class);
 		if (wrapper != null) {
 			byte[] buf = wrapper.getContentAsByteArray();
 			if (buf.length > 0) {
@@ -397,16 +405,16 @@ public abstract class AbstractRequestLoggingFilter extends OncePerRequestFilter 
 		return null;
 	}
 
-
 	/**
-	 * Determine whether to call the {@link #beforeRequest}/{@link #afterRequest}
-	 * methods for the current request, i.e. whether logging is currently active
-	 * (and the log message is worth building).
-	 * <p>The default implementation always returns {@code true}. Subclasses may
-	 * override this with a log level check.
+	 * Determine whether to call the {@link #beforeRequest}/{@link #afterRequest} methods
+	 * for the current request, i.e. whether logging is currently active (and the log
+	 * message is worth building).
+	 * <p>
+	 * The default implementation always returns {@code true}. Subclasses may override
+	 * this with a log level check.
 	 * @param request current HTTP request
-	 * @return {@code true} if the before/after method should get called;
-	 * {@code false} otherwise
+	 * @return {@code true} if the before/after method should get called; {@code false}
+	 * otherwise
 	 * @since 4.1.5
 	 */
 	protected boolean shouldLog(HttpServletRequest request) {

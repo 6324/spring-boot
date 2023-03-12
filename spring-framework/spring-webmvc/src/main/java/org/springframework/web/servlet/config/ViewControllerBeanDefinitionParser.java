@@ -34,15 +34,16 @@ import org.springframework.web.servlet.mvc.ParameterizableViewController;
 import org.springframework.web.servlet.view.RedirectView;
 
 /**
- * {@link org.springframework.beans.factory.xml.BeanDefinitionParser} that
- * parses the following MVC namespace elements:
+ * {@link org.springframework.beans.factory.xml.BeanDefinitionParser} that parses the
+ * following MVC namespace elements:
  * <ul>
  * <li>{@code <view-controller>}
  * <li>{@code <redirect-view-controller>}
  * <li>{@code <status-controller>}
  * </ul>
  *
- * <p>All elements result in the registration of a
+ * <p>
+ * All elements result in the registration of a
  * {@link org.springframework.web.servlet.mvc.ParameterizableViewController
  * ParameterizableViewController} with all controllers mapped using in a single
  * {@link org.springframework.web.servlet.handler.SimpleUrlHandlerMapping
@@ -55,9 +56,7 @@ import org.springframework.web.servlet.view.RedirectView;
  */
 class ViewControllerBeanDefinitionParser implements BeanDefinitionParser {
 
-	private static final String HANDLER_MAPPING_BEAN_NAME =
-			"org.springframework.web.servlet.config.viewControllerHandlerMapping";
-
+	private static final String HANDLER_MAPPING_BEAN_NAME = "org.springframework.web.servlet.config.viewControllerHandlerMapping";
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -67,7 +66,8 @@ class ViewControllerBeanDefinitionParser implements BeanDefinitionParser {
 		// Register SimpleUrlHandlerMapping for view controllers
 		BeanDefinition hm = registerHandlerMapping(parserContext, source);
 
-		// Ensure BeanNameUrlHandlerMapping (SPR-8289) and default HandlerAdapters are not "turned off"
+		// Ensure BeanNameUrlHandlerMapping (SPR-8289) and default HandlerAdapters are not
+		// "turned off"
 		MvcNamespaceUtils.registerDefaultComponents(parserContext, source);
 
 		// Create view controller bean definition
@@ -123,8 +123,10 @@ class ViewControllerBeanDefinitionParser implements BeanDefinitionParser {
 		beanDef.setSource(source);
 		beanDef.getPropertyValues().add("order", "1");
 		beanDef.getPropertyValues().add("pathMatcher", MvcNamespaceUtils.registerPathMatcher(null, context, source));
-		beanDef.getPropertyValues().add("urlPathHelper", MvcNamespaceUtils.registerUrlPathHelper(null, context, source));
-		RuntimeBeanReference corsConfigurationsRef = MvcNamespaceUtils.registerCorsConfigurations(null, context, source);
+		beanDef.getPropertyValues().add("urlPathHelper",
+				MvcNamespaceUtils.registerUrlPathHelper(null, context, source));
+		RuntimeBeanReference corsConfigurationsRef = MvcNamespaceUtils.registerCorsConfigurations(null, context,
+				source);
 		beanDef.getPropertyValues().add("corsConfigurations", corsConfigurationsRef);
 
 		return beanDef;

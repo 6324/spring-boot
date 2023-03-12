@@ -28,14 +28,15 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * A generic composite servlet {@link Filter} that just delegates its behavior
- * to a chain (list) of user-supplied filters, achieving the functionality of a
- * {@link FilterChain}, but conveniently using only {@link Filter} instances.
+ * A generic composite servlet {@link Filter} that just delegates its behavior to a chain
+ * (list) of user-supplied filters, achieving the functionality of a {@link FilterChain},
+ * but conveniently using only {@link Filter} instances.
  *
- * <p>This is useful for filters that require dependency injection, and can
- * therefore be set up in a Spring application context. Typically, this
- * composite would be used in conjunction with {@link DelegatingFilterProxy},
- * so that it can be declared in Spring but applied to a servlet context.
+ * <p>
+ * This is useful for filters that require dependency injection, and can therefore be set
+ * up in a Spring application context. Typically, this composite would be used in
+ * conjunction with {@link DelegatingFilterProxy}, so that it can be declared in Spring
+ * but applied to a servlet context.
  *
  * @author Dave Syer
  * @since 3.1
@@ -44,14 +45,13 @@ public class CompositeFilter implements Filter {
 
 	private List<? extends Filter> filters = new ArrayList<>();
 
-
 	public void setFilters(List<? extends Filter> filters) {
 		this.filters = new ArrayList<>(filters);
 	}
 
-
 	/**
-	 * Initialize all the filters, calling each one's init method in turn in the order supplied.
+	 * Initialize all the filters, calling each one's init method in turn in the order
+	 * supplied.
 	 * @see Filter#init(FilterConfig)
 	 */
 	@Override
@@ -62,9 +62,10 @@ public class CompositeFilter implements Filter {
 	}
 
 	/**
-	 * Forms a temporary chain from the list of delegate filters supplied ({@link #setFilters})
-	 * and executes them in order. Each filter delegates to the next one in the list, achieving
-	 * the normal behavior of a {@link FilterChain}, despite the fact that this is a {@link Filter}.
+	 * Forms a temporary chain from the list of delegate filters supplied
+	 * ({@link #setFilters}) and executes them in order. Each filter delegates to the next
+	 * one in the list, achieving the normal behavior of a {@link FilterChain}, despite
+	 * the fact that this is a {@link Filter}.
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	@Override
@@ -75,7 +76,8 @@ public class CompositeFilter implements Filter {
 	}
 
 	/**
-	 * Clean up all the filters supplied, calling each one's destroy method in turn, but in reverse order.
+	 * Clean up all the filters supplied, calling each one's destroy method in turn, but
+	 * in reverse order.
 	 * @see Filter#init(FilterConfig)
 	 */
 	@Override
@@ -85,7 +87,6 @@ public class CompositeFilter implements Filter {
 			filter.destroy();
 		}
 	}
-
 
 	private static class VirtualFilterChain implements FilterChain {
 
@@ -113,6 +114,7 @@ public class CompositeFilter implements Filter {
 				nextFilter.doFilter(request, response, this);
 			}
 		}
+
 	}
 
 }

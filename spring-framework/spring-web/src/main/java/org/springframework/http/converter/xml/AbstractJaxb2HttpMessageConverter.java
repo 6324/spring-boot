@@ -27,8 +27,8 @@ import javax.xml.bind.Unmarshaller;
 import org.springframework.http.converter.HttpMessageConversionException;
 
 /**
- * Abstract base class for {@link org.springframework.http.converter.HttpMessageConverter HttpMessageConverters}
- * that use JAXB2. Creates {@link JAXBContext} object lazily.
+ * Abstract base class for {@link org.springframework.http.converter.HttpMessageConverter
+ * HttpMessageConverters} that use JAXB2. Creates {@link JAXBContext} object lazily.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -38,7 +38,6 @@ import org.springframework.http.converter.HttpMessageConversionException;
 public abstract class AbstractJaxb2HttpMessageConverter<T> extends AbstractXmlHttpMessageConverter<T> {
 
 	private final ConcurrentMap<Class<?>, JAXBContext> jaxbContexts = new ConcurrentHashMap<>(64);
-
 
 	/**
 	 * Create a new {@link Marshaller} for the given class.
@@ -60,8 +59,8 @@ public abstract class AbstractJaxb2HttpMessageConverter<T> extends AbstractXmlHt
 	}
 
 	/**
-	 * Customize the {@link Marshaller} created by this
-	 * message converter before using it to write the object to the output.
+	 * Customize the {@link Marshaller} created by this message converter before using it
+	 * to write the object to the output.
 	 * @param marshaller the marshaller to customize
 	 * @since 4.0.3
 	 * @see #createMarshaller(Class)
@@ -89,8 +88,8 @@ public abstract class AbstractJaxb2HttpMessageConverter<T> extends AbstractXmlHt
 	}
 
 	/**
-	 * Customize the {@link Unmarshaller} created by this
-	 * message converter before using it to read the object from the input.
+	 * Customize the {@link Unmarshaller} created by this message converter before using
+	 * it to read the object from the input.
 	 * @param unmarshaller the unmarshaller to customize
 	 * @since 4.0.3
 	 * @see #createUnmarshaller(Class)

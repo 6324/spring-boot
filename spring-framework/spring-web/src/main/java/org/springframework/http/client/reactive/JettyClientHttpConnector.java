@@ -39,14 +39,14 @@ import org.springframework.util.Assert;
  *
  * @author Sebastien Deleuze
  * @since 5.1
- * @see <a href="https://github.com/jetty-project/jetty-reactive-httpclient">Jetty ReactiveStreams HttpClient</a>
+ * @see <a href="https://github.com/jetty-project/jetty-reactive-httpclient">Jetty
+ * ReactiveStreams HttpClient</a>
  */
 public class JettyClientHttpConnector implements ClientHttpConnector {
 
 	private final HttpClient httpClient;
 
 	private DataBufferFactory bufferFactory = new DefaultDataBufferFactory();
-
 
 	/**
 	 * Default constructor that creates a new instance of {@link HttpClient}.
@@ -63,8 +63,8 @@ public class JettyClientHttpConnector implements ClientHttpConnector {
 	}
 
 	/**
-	 * Constructor with an initialized {@link HttpClient} and configures it
-	 * with the given {@link JettyResourceFactory}.
+	 * Constructor with an initialized {@link HttpClient} and configures it with the given
+	 * {@link JettyResourceFactory}.
 	 * @param httpClient the {@link HttpClient} to use
 	 * @param resourceFactory the {@link JettyResourceFactory} to use
 	 * @since 5.2
@@ -94,11 +94,9 @@ public class JettyClientHttpConnector implements ClientHttpConnector {
 		}
 	}
 
-
 	public void setBufferFactory(DataBufferFactory bufferFactory) {
 		this.bufferFactory = bufferFactory;
 	}
-
 
 	@Override
 	public Mono<ClientHttpResponse> connect(HttpMethod method, URI uri,
@@ -119,12 +117,11 @@ public class JettyClientHttpConnector implements ClientHttpConnector {
 
 		Request request = this.httpClient.newRequest(uri).method(method.toString());
 
-		return requestCallback.apply(new JettyClientHttpRequest(request, this.bufferFactory))
-				.then(Mono.fromDirect(ReactiveRequest.newBuilder(request).build()
-						.response((reactiveResponse, chunkPublisher) -> {
-							Flux<DataBuffer> content = Flux.from(chunkPublisher).map(this::toDataBuffer);
-							return Mono.just(new JettyClientHttpResponse(reactiveResponse, content));
-						})));
+		return requestCallback.apply(new JettyClientHttpRequest(request, this.bufferFactory)).then(Mono
+				.fromDirect(ReactiveRequest.newBuilder(request).build().response((reactiveResponse, chunkPublisher) -> {
+					Flux<DataBuffer> content = Flux.from(chunkPublisher).map(this::toDataBuffer);
+					return Mono.just(new JettyClientHttpResponse(reactiveResponse, content));
+				})));
 	}
 
 	private DataBuffer toDataBuffer(ContentChunk chunk) {

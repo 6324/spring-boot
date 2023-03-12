@@ -27,41 +27,39 @@ import org.springframework.util.Assert;
 import org.springframework.web.util.JavaScriptUtils;
 
 /**
- * The {@code <escapeBody>} tag is used to escape its enclosed body content,
- * applying HTML escaping and/or JavaScript escaping.
+ * The {@code <escapeBody>} tag is used to escape its enclosed body content, applying HTML
+ * escaping and/or JavaScript escaping.
  *
- * <p>Provides a "htmlEscape" property for explicitly specifying whether to
- * apply HTML escaping. If not set, a page-level default (e.g. from the
- * HtmlEscapeTag) or an application-wide default (the "defaultHtmlEscape"
- * context-param in web.xml) is used.
+ * <p>
+ * Provides a "htmlEscape" property for explicitly specifying whether to apply HTML
+ * escaping. If not set, a page-level default (e.g. from the HtmlEscapeTag) or an
+ * application-wide default (the "defaultHtmlEscape" context-param in web.xml) is used.
  *
- * <p>Provides a "javaScriptEscape" property for specifying whether to apply
- * JavaScript escaping. Can be combined with HTML escaping or used standalone.
+ * <p>
+ * Provides a "javaScriptEscape" property for specifying whether to apply JavaScript
+ * escaping. Can be combined with HTML escaping or used standalone.
  *
  * <table>
- * <caption>Attribute Summary</caption>
- * <thead>
+ * <caption>Attribute Summary</caption> <thead>
  * <tr>
  * <th>Attribute</th>
  * <th>Required?</th>
  * <th>Runtime Expression?</th>
  * <th>Description</th>
  * </tr>
- * </thead>
- * <tbody>
+ * </thead> <tbody>
  * <tr>
  * <td>htmlEscape</td>
  * <td>false</td>
  * <td>true</td>
- * <td>Set HTML escaping for this tag, as boolean value.
- * Overrides the default HTML escaping setting for the current page.</td>
+ * <td>Set HTML escaping for this tag, as boolean value. Overrides the default HTML
+ * escaping setting for the current page.</td>
  * </tr>
  * <tr>
  * <td>javaScriptEscape</td>
  * <td>false</td>
  * <td>true</td>
- * <td>Set JavaScript escaping for this tag, as boolean value.
- * Default is false.</td>
+ * <td>Set JavaScript escaping for this tag, as boolean value. Default is false.</td>
  * </tr>
  * </tbody>
  * </table>
@@ -79,15 +77,12 @@ public class EscapeBodyTag extends HtmlEscapingAwareTag implements BodyTag {
 	@Nullable
 	private BodyContent bodyContent;
 
-
 	/**
-	 * Set JavaScript escaping for this tag, as boolean value.
-	 * Default is "false".
+	 * Set JavaScript escaping for this tag, as boolean value. Default is "false".
 	 */
 	public void setJavaScriptEscape(boolean javaScriptEscape) throws JspException {
 		this.javaScriptEscape = javaScriptEscape;
 	}
-
 
 	@Override
 	protected int doStartTagInternal() {
@@ -132,7 +127,8 @@ public class EscapeBodyTag extends HtmlEscapingAwareTag implements BodyTag {
 
 	/**
 	 * Write the escaped body content to the page.
-	 * <p>Can be overridden in subclasses, e.g. for testing purposes.
+	 * <p>
+	 * Can be overridden in subclasses, e.g. for testing purposes.
 	 * @param content the content to write
 	 * @throws IOException if writing failed
 	 */

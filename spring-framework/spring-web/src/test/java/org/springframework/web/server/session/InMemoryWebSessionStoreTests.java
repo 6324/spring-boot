@@ -35,12 +35,12 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 /**
  * Unit tests for {@link InMemoryWebSessionStore}.
+ *
  * @author Rob Winch
  */
 public class InMemoryWebSessionStoreTests {
 
 	private InMemoryWebSessionStore store = new InMemoryWebSessionStore();
-
 
 	@Test
 	public void startsSessionExplicitly() {
@@ -62,9 +62,7 @@ public class InMemoryWebSessionStoreTests {
 	@Disabled // TODO: remove if/when Blockhound is enabled
 	@Test // gh-24027
 	public void createSessionDoesNotBlock() {
-		Mono.defer(() -> this.store.createWebSession())
-				.subscribeOn(Schedulers.parallel())
-				.block();
+		Mono.defer(() -> this.store.createWebSession()).subscribeOn(Schedulers.parallel()).block();
 	}
 
 	@Test
@@ -136,14 +134,15 @@ public class InMemoryWebSessionStoreTests {
 	public void expirationCheckPeriod() {
 
 		DirectFieldAccessor accessor = new DirectFieldAccessor(this.store);
-		Map<?,?> sessions = (Map<?, ?>) accessor.getPropertyValue("sessions");
+		Map<?, ?> sessions = (Map<?, ?>) accessor.getPropertyValue("sessions");
 		assertThat(sessions).isNotNull();
 
 		// Create 100 sessions
 		IntStream.range(0, 100).forEach(i -> insertSession());
 		assertThat(sessions.size()).isEqualTo(100);
 
-		// Force a new clock (31 min later), don't use setter which would clean expired sessions
+		// Force a new clock (31 min later), don't use setter which would clean expired
+		// sessions
 		accessor.setPropertyValue("clock", Clock.offset(this.store.getClock(), Duration.ofMinutes(31)));
 		assertThat(sessions.size()).isEqualTo(100);
 
@@ -156,9 +155,8 @@ public class InMemoryWebSessionStoreTests {
 	public void maxSessions() {
 
 		IntStream.range(0, 10000).forEach(i -> insertSession());
-		assertThatIllegalStateException().isThrownBy(
-				this::insertSession)
-			.withMessage("Max sessions limit reached: 10000");
+		assertThatIllegalStateException().isThrownBy(this::insertSession)
+				.withMessage("Max sessions limit reached: 10000");
 	}
 
 	private WebSession insertSession() {

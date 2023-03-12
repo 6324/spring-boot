@@ -31,7 +31,6 @@ public class HttpStatusTests {
 
 	private Map<Integer, String> statusCodes = new LinkedHashMap<>();
 
-
 	@BeforeEach
 	public void createStatusCodes() {
 		statusCodes.put(100, "CONTINUE");
@@ -104,7 +103,6 @@ public class HttpStatusTests {
 		statusCodes.put(510, "NOT_EXTENDED");
 		statusCodes.put(511, "NETWORK_AUTHENTICATION_REQUIRED");
 	}
-
 
 	@Test
 	public void fromMapToEnum() {

@@ -62,12 +62,12 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 public class SelectTagTests extends AbstractFormTagTests {
 
 	private static final Locale LOCALE_AT = new Locale("de", "AT");
+
 	private static final Locale LOCALE_NL = new Locale("nl", "NL");
 
 	private SelectTag tag;
 
 	private TestBeanWithRealCountry bean;
-
 
 	@Override
 	@SuppressWarnings("serial")
@@ -196,6 +196,7 @@ public class SelectTagTests extends AbstractFormTagTests {
 			public void setAsText(String text) throws IllegalArgumentException {
 				setValue(Country.getCountryWithIsoCode(text));
 			}
+
 			@Override
 			public String getAsText() {
 				return ((Country) getValue()).getName();
@@ -225,6 +226,7 @@ public class SelectTagTests extends AbstractFormTagTests {
 			public void setAsText(String text) throws IllegalArgumentException {
 				setValue(Country.getCountryWithIsoCode(text));
 			}
+
 			@Override
 			public String getAsText() {
 				return ((Country) getValue()).getName();
@@ -249,20 +251,21 @@ public class SelectTagTests extends AbstractFormTagTests {
 		TestBeanWithRealCountry withCountry = (TestBeanWithRealCountry) getTestBean();
 		withCountry.setRealCountry(null);
 		testBean.setBean(withCountry);
-		BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(testBean , "testBean");
+		BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(testBean, "testBean");
 		bindingResult.getPropertyAccessor().registerCustomEditor(Country.class, new PropertyEditorSupport() {
 			@Override
 			public void setAsText(String text) throws IllegalArgumentException {
-				if (text==null || text.length()==0) {
+				if (text == null || text.length() == 0) {
 					setValue(null);
 					return;
 				}
 				setValue(Country.getCountryWithIsoCode(text));
 			}
+
 			@Override
 			public String getAsText() {
 				Country value = (Country) getValue();
-				if (value==null) {
+				if (value == null) {
 					return null;
 				}
 				return value.getName();
@@ -285,12 +288,13 @@ public class SelectTagTests extends AbstractFormTagTests {
 		this.tag.setItemLabel("name");
 		TestBeanWrapper testBean = new TestBeanWrapper();
 		testBean.setBean(getTestBean());
-		BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(testBean , "testBean");
+		BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(testBean, "testBean");
 		bindingResult.getPropertyAccessor().registerCustomEditor(Country.class, new PropertyEditorSupport() {
 			@Override
 			public void setAsText(String text) throws IllegalArgumentException {
 				setValue(Country.getCountryWithIsoCode(text));
 			}
+
 			@Override
 			public String getAsText() {
 				return ((Country) getValue()).getName();
@@ -318,10 +322,11 @@ public class SelectTagTests extends AbstractFormTagTests {
 			public void setAsText(String text) throws IllegalArgumentException {
 				setValue(Country.getCountryWithIsoCode(text));
 			}
+
 			@Override
 			public String getAsText() {
 				Country value = (Country) getValue();
-				if (value==null) {
+				if (value == null) {
 					return "";
 				}
 				return value.getName();
@@ -348,10 +353,9 @@ public class SelectTagTests extends AbstractFormTagTests {
 		this.tag.setPath("country");
 		this.tag.setItems(new TestBean());
 		this.tag.setItemValue("isoCode");
-		assertThatExceptionOfType(JspException.class).as("use a non-Collection typed value as the value of 'items'").isThrownBy(
-				this.tag::doStartTag)
-			.withMessageContaining("items")
-			.withMessageContaining("org.springframework.beans.testfixture.beans.TestBean");
+		assertThatExceptionOfType(JspException.class).as("use a non-Collection typed value as the value of 'items'")
+				.isThrownBy(this.tag::doStartTag).withMessageContaining("items")
+				.withMessageContaining("org.springframework.beans.testfixture.beans.TestBean");
 	}
 
 	@Test
@@ -429,11 +433,9 @@ public class SelectTagTests extends AbstractFormTagTests {
 
 		this.tag.setPath("myFloat");
 
-		Float[] array = new Float[] {
-				new Float("12.30"), new Float("12.32"), new Float("12.34"), new Float("12.36"),
-				new Float("12.38"), new Float("12.40"), new Float("12.42"), new Float("12.44"),
-				new Float("12.46"), new Float("12.48")
-		};
+		Float[] array = new Float[] { new Float("12.30"), new Float("12.32"), new Float("12.34"), new Float("12.36"),
+				new Float("12.38"), new Float("12.40"), new Float("12.42"), new Float("12.44"), new Float("12.46"),
+				new Float("12.48") };
 
 		this.tag.setItems(array);
 		int result = this.tag.doStartTag();
@@ -506,6 +508,7 @@ public class SelectTagTests extends AbstractFormTagTests {
 			public String print(Country object, Locale locale) {
 				return object.getName();
 			}
+
 			@Override
 			public Country parse(String text, Locale locale) throws ParseException {
 				return new Country(text, text);
@@ -554,6 +557,7 @@ public class SelectTagTests extends AbstractFormTagTests {
 			public String print(Country object, Locale locale) {
 				return object.getName();
 			}
+
 			@Override
 			public Country parse(String text, Locale locale) throws ParseException {
 				return new Country(text, text);
@@ -672,19 +676,18 @@ public class SelectTagTests extends AbstractFormTagTests {
 	}
 
 	/**
-	 * Tests new support added as a result of <a
-	 * href="https://opensource.atlassian.com/projects/spring/browse/SPR-2660"
-	 * target="_blank">SPR-2660</a>.
+	 * Tests new support added as a result of
+	 * <a href="https://opensource.atlassian.com/projects/spring/browse/SPR-2660" target=
+	 * "_blank">SPR-2660</a>.
 	 * <p>
-	 * Specifically, if the {@code items} attribute is supplied a
-	 * {@link Map}, and {@code itemValue} and {@code itemLabel}
-	 * are supplied non-null values, then:
+	 * Specifically, if the {@code items} attribute is supplied a {@link Map}, and
+	 * {@code itemValue} and {@code itemLabel} are supplied non-null values, then:
 	 * </p>
 	 * <ul>
-	 * <li>{@code itemValue} will be used as the property name of the
-	 * map's <em>key</em>, and</li>
-	 * <li>{@code itemLabel} will be used as the property name of the
-	 * map's <em>value</em>.</li>
+	 * <li>{@code itemValue} will be used as the property name of the map's <em>key</em>,
+	 * and</li>
+	 * <li>{@code itemLabel} will be used as the property name of the map's
+	 * <em>value</em>.</li>
 	 * </ul>
 	 */
 	@Test
@@ -742,14 +745,18 @@ public class SelectTagTests extends AbstractFormTagTests {
 
 			Element e;
 			e = (Element) selectElement.selectSingleNode("option[@value = '" + austria.getIsoCode() + "']");
-			assertThat(e).as("Option node not found with Country ISO code value [" + austria.getIsoCode() + "].").isNotNull();
+			assertThat(e).as("Option node not found with Country ISO code value [" + austria.getIsoCode() + "].")
+					.isNotNull();
 			assertThat(e.attribute("selected").getValue()).as("AT node not selected.").isEqualTo("selected");
-			assertThat(e.getData()).as("AT Locale displayLanguage property not used for option label.").isEqualTo(LOCALE_AT.getDisplayLanguage());
+			assertThat(e.getData()).as("AT Locale displayLanguage property not used for option label.")
+					.isEqualTo(LOCALE_AT.getDisplayLanguage());
 
 			e = (Element) selectElement.selectSingleNode("option[@value = '" + usa.getIsoCode() + "']");
-			assertThat(e).as("Option node not found with Country ISO code value [" + usa.getIsoCode() + "].").isNotNull();
+			assertThat(e).as("Option node not found with Country ISO code value [" + usa.getIsoCode() + "].")
+					.isNotNull();
 			assertThat(e.attribute("selected").getValue()).as("US node not selected.").isEqualTo("selected");
-			assertThat(e.getData()).as("US Locale displayLanguage property not used for option label.").isEqualTo(Locale.US.getDisplayLanguage());
+			assertThat(e.getData()).as("US Locale displayLanguage property not used for option label.")
+					.isEqualTo(Locale.US.getDisplayLanguage());
 
 		}
 		finally {
@@ -927,7 +934,6 @@ public class SelectTagTests extends AbstractFormTagTests {
 		assertThat(children.size()).as("Incorrect number of children").isEqualTo(4);
 	}
 
-
 	private void assertStringArray() throws JspException, DocumentException {
 		int result = this.tag.doStartTag();
 		assertThat(result).isEqualTo(Tag.SKIP_BODY);
@@ -953,7 +959,7 @@ public class SelectTagTests extends AbstractFormTagTests {
 		Map map = new TreeMap(new Comparator() {
 			@Override
 			public int compare(Object o1, Object o2) {
-				return ((Country)o1).getName().compareTo(((Country)o2).getName());
+				return ((Country) o1).getName().compareTo(((Country) o2).getName());
 			}
 		});
 		map.put(Country.COUNTRY_AT, LOCALE_AT);
@@ -963,7 +969,7 @@ public class SelectTagTests extends AbstractFormTagTests {
 	}
 
 	private String[] getNames() {
-		return new String[]{"Rod", "Rob", "Juergen", "Adrian"};
+		return new String[] { "Rod", "Rob", "Juergen", "Adrian" };
 	}
 
 	private Map getSexes() {
@@ -1012,7 +1018,7 @@ public class SelectTagTests extends AbstractFormTagTests {
 		this.bean.setCountry("UK");
 		this.bean.setSex("M");
 		this.bean.setMyFloat(new Float("12.34"));
-		this.bean.setSomeIntegerArray(new Integer[]{12, 34});
+		this.bean.setSomeIntegerArray(new Integer[] { 12, 34 });
 		return this.bean;
 	}
 
@@ -1021,6 +1027,7 @@ public class SelectTagTests extends AbstractFormTagTests {
 	}
 
 	public static class TestBeanWrapper {
+
 		private TestBean bean;
 
 		public TestBean getBean() {

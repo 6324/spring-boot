@@ -50,7 +50,6 @@ public class ServletResponseMethodArgumentResolverTests {
 
 	private Method method;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		resolver = new ServletResponseMethodArgumentResolver();
@@ -60,7 +59,6 @@ public class ServletResponseMethodArgumentResolverTests {
 
 		method = getClass().getMethod("supportedParams", ServletResponse.class, OutputStream.class, Writer.class);
 	}
-
 
 	@Test
 	public void servletResponse() throws Exception {
@@ -72,7 +70,7 @@ public class ServletResponseMethodArgumentResolverTests {
 		assertThat(mavContainer.isRequestHandled()).isTrue();
 	}
 
-	@Test  // SPR-8983
+	@Test // SPR-8983
 	public void servletResponseNoMavContainer() throws Exception {
 		MethodParameter servletResponseParameter = new MethodParameter(method, 0);
 		assertThat(resolver.supportsParameter(servletResponseParameter)).as("ServletResponse not supported").isTrue();
@@ -100,7 +98,6 @@ public class ServletResponseMethodArgumentResolverTests {
 		assertThat(result).as("Invalid result").isSameAs(servletResponse.getWriter());
 		assertThat(mavContainer.isRequestHandled()).isTrue();
 	}
-
 
 	@SuppressWarnings("unused")
 	public void supportedParams(ServletResponse p0, OutputStream p1, Writer p2) {

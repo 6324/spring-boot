@@ -31,8 +31,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.MultiValueMap;
 
 /**
- * Wraps another {@link ClientHttpRequest} and delegates all methods to it.
- * Sub-classes can override specific methods selectively.
+ * Wraps another {@link ClientHttpRequest} and delegates all methods to it. Sub-classes
+ * can override specific methods selectively.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -41,17 +41,14 @@ public class ClientHttpRequestDecorator implements ClientHttpRequest {
 
 	private final ClientHttpRequest delegate;
 
-
 	public ClientHttpRequestDecorator(ClientHttpRequest delegate) {
 		Assert.notNull(delegate, "Delegate is required");
 		this.delegate = delegate;
 	}
 
-
 	public ClientHttpRequest getDelegate() {
 		return this.delegate;
 	}
-
 
 	// ClientHttpRequest delegation methods...
 
@@ -104,7 +101,6 @@ public class ClientHttpRequestDecorator implements ClientHttpRequest {
 	public Mono<Void> setComplete() {
 		return this.delegate.setComplete();
 	}
-
 
 	@Override
 	public String toString() {

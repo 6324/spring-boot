@@ -43,8 +43,9 @@ import org.springframework.web.util.UrlPathHelper;
  * A simple {@code ResourceResolver} that tries to find a resource under the given
  * locations matching to the request path.
  *
- * <p>This resolver does not delegate to the {@code ResourceResolverChain} and is
- * expected to be configured at the end in a chain of resolvers.
+ * <p>
+ * This resolver does not delegate to the {@code ResourceResolverChain} and is expected to
+ * be configured at the end in a chain of resolvers.
  *
  * @author Jeremy Grelle
  * @author Rossen Stoyanchev
@@ -61,20 +62,21 @@ public class PathResourceResolver extends AbstractResourceResolver {
 	@Nullable
 	private UrlPathHelper urlPathHelper;
 
-
 	/**
-	 * By default when a Resource is found, the path of the resolved resource is
-	 * compared to ensure it's under the input location where it was found.
-	 * However sometimes that may not be the case, e.g. when
+	 * By default when a Resource is found, the path of the resolved resource is compared
+	 * to ensure it's under the input location where it was found. However sometimes that
+	 * may not be the case, e.g. when
 	 * {@link org.springframework.web.servlet.resource.CssLinkResourceTransformer}
-	 * resolves public URLs of links it contains, the CSS file is the location
-	 * and the resources being resolved are css files, images, fonts and others
-	 * located in adjacent or parent directories.
-	 * <p>This property allows configuring a complete list of locations under
-	 * which resources must be so that if a resource is not under the location
-	 * relative to which it was found, this list may be checked as well.
-	 * <p>By default {@link ResourceHttpRequestHandler} initializes this property
-	 * to match its list of locations.
+	 * resolves public URLs of links it contains, the CSS file is the location and the
+	 * resources being resolved are css files, images, fonts and others located in
+	 * adjacent or parent directories.
+	 * <p>
+	 * This property allows configuring a complete list of locations under which resources
+	 * must be so that if a resource is not under the location relative to which it was
+	 * found, this list may be checked as well.
+	 * <p>
+	 * By default {@link ResourceHttpRequestHandler} initializes this property to match
+	 * its list of locations.
 	 * @param locations the list of allowed locations
 	 * @since 4.1.2
 	 * @see ResourceHttpRequestHandler#initAllowedLocations()
@@ -89,12 +91,13 @@ public class PathResourceResolver extends AbstractResourceResolver {
 	}
 
 	/**
-	 * Configure charsets associated with locations. If a static resource is found
-	 * under a {@link org.springframework.core.io.UrlResource URL resource}
-	 * location the charset is used to encode the relative path
-	 * <p><strong>Note:</strong> the charset is used only if the
-	 * {@link #setUrlPathHelper urlPathHelper} property is also configured and
-	 * its {@code urlDecode} property is set to true.
+	 * Configure charsets associated with locations. If a static resource is found under a
+	 * {@link org.springframework.core.io.UrlResource URL resource} location the charset
+	 * is used to encode the relative path
+	 * <p>
+	 * <strong>Note:</strong> the charset is used only if the {@link #setUrlPathHelper
+	 * urlPathHelper} property is also configured and its {@code urlDecode} property is
+	 * set to true.
 	 * @since 4.3.13
 	 */
 	public void setLocationCharsets(Map<Resource, Charset> locationCharsets) {
@@ -111,9 +114,9 @@ public class PathResourceResolver extends AbstractResourceResolver {
 	}
 
 	/**
-	 * Provide a reference to the {@link UrlPathHelper} used to map requests to
-	 * static resources. This helps to derive information about the lookup path
-	 * such as whether it is decoded or not.
+	 * Provide a reference to the {@link UrlPathHelper} used to map requests to static
+	 * resources. This helps to derive information about the lookup path such as whether
+	 * it is decoded or not.
 	 * @since 4.3.13
 	 */
 	public void setUrlPathHelper(@Nullable UrlPathHelper urlPathHelper) {
@@ -129,7 +132,6 @@ public class PathResourceResolver extends AbstractResourceResolver {
 		return this.urlPathHelper;
 	}
 
-
 	@Override
 	protected Resource resolveResourceInternal(@Nullable HttpServletRequest request, String requestPath,
 			List<? extends Resource> locations, ResourceResolverChain chain) {
@@ -141,8 +143,8 @@ public class PathResourceResolver extends AbstractResourceResolver {
 	protected String resolveUrlPathInternal(String resourcePath, List<? extends Resource> locations,
 			ResourceResolverChain chain) {
 
-		return (StringUtils.hasText(resourcePath) &&
-				getResource(resourcePath, null, locations) != null ? resourcePath : null);
+		return (StringUtils.hasText(resourcePath) && getResource(resourcePath, null, locations) != null ? resourcePath
+				: null);
 	}
 
 	@Nullable
@@ -174,8 +176,9 @@ public class PathResourceResolver extends AbstractResourceResolver {
 
 	/**
 	 * Find the resource under the given location.
-	 * <p>The default implementation checks if there is a readable
-	 * {@code Resource} for the given path relative to the location.
+	 * <p>
+	 * The default implementation checks if there is a readable {@code Resource} for the
+	 * given path relative to the location.
 	 * @param resourcePath the path to the resource
 	 * @param location the location to check
 	 * @return the resource, or {@code null} if none found
@@ -189,10 +192,10 @@ public class PathResourceResolver extends AbstractResourceResolver {
 			}
 			else if (logger.isWarnEnabled()) {
 				Resource[] allowedLocations = getAllowedLocations();
-				logger.warn("Resource path \"" + resourcePath + "\" was successfully resolved " +
-						"but resource \"" +	resource.getURL() + "\" is neither under the " +
-						"current location \"" + location.getURL() + "\" nor under any of the " +
-						"allowed locations " + (allowedLocations != null ? Arrays.asList(allowedLocations) : "[]"));
+				logger.warn("Resource path \"" + resourcePath + "\" was successfully resolved " + "but resource \""
+						+ resource.getURL() + "\" is neither under the " + "current location \"" + location.getURL()
+						+ "\" nor under any of the " + "allowed locations "
+						+ (allowedLocations != null ? Arrays.asList(allowedLocations) : "[]"));
 			}
 		}
 		return null;
@@ -200,9 +203,9 @@ public class PathResourceResolver extends AbstractResourceResolver {
 
 	/**
 	 * Perform additional checks on a resolved resource beyond checking whether the
-	 * resources exists and is readable. The default implementation also verifies
-	 * the resource is either under the location relative to which it was found or
-	 * is under one of the {@link #setAllowedLocations allowed locations}.
+	 * resources exists and is readable. The default implementation also verifies the
+	 * resource is either under the location relative to which it was found or is under
+	 * one of the {@link #setAllowedLocations allowed locations}.
 	 * @param resource the resource to check
 	 * @param location the location relative to which the resource was found
 	 * @return "true" if resource is in a valid location, "false" otherwise.

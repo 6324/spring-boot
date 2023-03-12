@@ -19,9 +19,9 @@ package org.springframework.web.bind;
 import org.springframework.core.MethodParameter;
 
 /**
- * {@link ServletRequestBindingException} subclass that indicates that a matrix
- * variable expected in the method parameters of an {@code @RequestMapping}
- * method is not present among the matrix variables extracted from the URL.
+ * {@link ServletRequestBindingException} subclass that indicates that a matrix variable
+ * expected in the method parameters of an {@code @RequestMapping} method is not present
+ * among the matrix variables extracted from the URL.
  *
  * @author Juergen Hoeller
  * @since 5.1
@@ -34,7 +34,6 @@ public class MissingMatrixVariableException extends ServletRequestBindingExcepti
 
 	private final MethodParameter parameter;
 
-
 	/**
 	 * Constructor for MissingMatrixVariableException.
 	 * @param variableName the name of the missing matrix variable
@@ -46,11 +45,10 @@ public class MissingMatrixVariableException extends ServletRequestBindingExcepti
 		this.parameter = parameter;
 	}
 
-
 	@Override
 	public String getMessage() {
-		return "Missing matrix variable '" + this.variableName +
-				"' for method parameter of type " + this.parameter.getNestedParameterType().getSimpleName();
+		return "Missing matrix variable '" + this.variableName + "' for method parameter of type "
+				+ this.parameter.getNestedParameterType().getSimpleName();
 	}
 
 	/**

@@ -40,17 +40,17 @@ import org.springframework.util.MultiValueMap;
 public interface ServerHttpRequest extends HttpRequest, ReactiveHttpInputMessage {
 
 	/**
-	 * Return an id that represents the underlying connection, if available,
-	 * or the request for the purpose of correlating log messages.
+	 * Return an id that represents the underlying connection, if available, or the
+	 * request for the purpose of correlating log messages.
 	 * @since 5.1
 	 * @see org.springframework.web.server.ServerWebExchange#getLogPrefix()
 	 */
 	String getId();
 
 	/**
-	 * Returns a structured representation of the request path including the
-	 * context path + path within application portions, path segments with
-	 * encoded and decoded values, and path parameters.
+	 * Returns a structured representation of the request path including the context path
+	 * + path within application portions, path segments with encoded and decoded values,
+	 * and path parameters.
 	 */
 	RequestPath getPath();
 
@@ -82,8 +82,8 @@ public interface ServerHttpRequest extends HttpRequest, ReactiveHttpInputMessage
 	}
 
 	/**
-	 * Return the SSL session information if the request has been transmitted
-	 * over a secure protocol including SSL certificates, if available.
+	 * Return the SSL session information if the request has been transmitted over a
+	 * secure protocol including SSL certificates, if available.
 	 * @return the session information, or {@code null} if none available
 	 * @since 5.0.2
 	 */
@@ -93,14 +93,13 @@ public interface ServerHttpRequest extends HttpRequest, ReactiveHttpInputMessage
 	}
 
 	/**
-	 * Return a builder to mutate properties of this request by wrapping it
-	 * with {@link ServerHttpRequestDecorator} and returning either mutated
-	 * values or delegating back to this instance.
+	 * Return a builder to mutate properties of this request by wrapping it with
+	 * {@link ServerHttpRequestDecorator} and returning either mutated values or
+	 * delegating back to this instance.
 	 */
 	default ServerHttpRequest.Builder mutate() {
 		return new DefaultServerHttpRequestBuilder(this);
 	}
-
 
 	/**
 	 * Builder for mutating an existing {@link ServerHttpRequest}.
@@ -115,23 +114,22 @@ public interface ServerHttpRequest extends HttpRequest, ReactiveHttpInputMessage
 		/**
 		 * Set the URI to use with the following conditions:
 		 * <ul>
-		 * <li>If {@link #path(String) path} is also set, it overrides the path
-		 * of the URI provided here.
-		 * <li>If {@link #contextPath(String) contextPath} is also set, or
-		 * already present, it must match the start of the path of the URI
+		 * <li>If {@link #path(String) path} is also set, it overrides the path of the URI
 		 * provided here.
+		 * <li>If {@link #contextPath(String) contextPath} is also set, or already
+		 * present, it must match the start of the path of the URI provided here.
 		 * </ul>
 		 */
 		Builder uri(URI uri);
 
 		/**
-		 * Set the path to use instead of the {@code "rawPath"} of the URI of
-		 * the request with the following conditions:
+		 * Set the path to use instead of the {@code "rawPath"} of the URI of the request
+		 * with the following conditions:
 		 * <ul>
-		 * <li>If {@link #uri(URI) uri} is also set, the path given here
-		 * overrides the path of the given URI.
-		 * <li>If {@link #contextPath(String) contextPath} is also set, or
-		 * already present, it must match the start of the path given here.
+		 * <li>If {@link #uri(URI) uri} is also set, the path given here overrides the
+		 * path of the given URI.
+		 * <li>If {@link #contextPath(String) contextPath} is also set, or already
+		 * present, it must match the start of the path given here.
 		 * <li>The given value must begin with a slash.
 		 * </ul>
 		 */
@@ -139,16 +137,18 @@ public interface ServerHttpRequest extends HttpRequest, ReactiveHttpInputMessage
 
 		/**
 		 * Set the contextPath to use.
-		 * <p>The given value must be a valid {@link RequestPath#contextPath()
-		 * contextPath} and it must match the start of the path of the URI of
-		 * the request. That means changing the contextPath, implies also
-		 * changing the path via {@link #path(String)}.
+		 * <p>
+		 * The given value must be a valid {@link RequestPath#contextPath() contextPath}
+		 * and it must match the start of the path of the URI of the request. That means
+		 * changing the contextPath, implies also changing the path via
+		 * {@link #path(String)}.
 		 */
 		Builder contextPath(String contextPath);
 
 		/**
 		 * Set or override the specified header values under the given name.
-		 * <p>If you need to add header values, remove headers, etc., use
+		 * <p>
+		 * If you need to add header values, remove headers, etc., use
 		 * {@link #headers(Consumer)} for greater control.
 		 * @param headerName the header name
 		 * @param headerValues the header values
@@ -158,19 +158,19 @@ public interface ServerHttpRequest extends HttpRequest, ReactiveHttpInputMessage
 		Builder header(String headerName, String... headerValues);
 
 		/**
-		 * Manipulate request headers. The provided {@code HttpHeaders} contains
-		 * current request headers, so that the {@code Consumer} can
+		 * Manipulate request headers. The provided {@code HttpHeaders} contains current
+		 * request headers, so that the {@code Consumer} can
 		 * {@linkplain HttpHeaders#set(String, String) overwrite} or
-		 * {@linkplain HttpHeaders#remove(Object) remove} existing values, or
-		 * use any other {@link HttpHeaders} methods.
+		 * {@linkplain HttpHeaders#remove(Object) remove} existing values, or use any
+		 * other {@link HttpHeaders} methods.
 		 * @see #header(String, String...)
 		 */
 		Builder headers(Consumer<HttpHeaders> headersConsumer);
 
 		/**
-		 * Set the SSL session information. This may be useful in environments
-		 * where TLS termination is done at the router, but SSL information is
-		 * made available in some other way such as through a header.
+		 * Set the SSL session information. This may be useful in environments where TLS
+		 * termination is done at the router, but SSL information is made available in
+		 * some other way such as through a header.
 		 * @since 5.0.7
 		 */
 		Builder sslInfo(SslInfo sslInfo);
@@ -179,6 +179,7 @@ public interface ServerHttpRequest extends HttpRequest, ReactiveHttpInputMessage
 		 * Build a {@link ServerHttpRequest} decorator with the mutated properties.
 		 */
 		ServerHttpRequest build();
+
 	}
 
 }

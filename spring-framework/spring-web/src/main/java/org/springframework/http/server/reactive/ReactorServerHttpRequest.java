@@ -51,11 +51,9 @@ class ReactorServerHttpRequest extends AbstractServerHttpRequest {
 
 	private static final AtomicLong logPrefixIndex = new AtomicLong(0);
 
-
 	private final HttpServerRequest request;
 
 	private final NettyDataBufferFactory bufferFactory;
-
 
 	public ReactorServerHttpRequest(HttpServerRequest request, NettyDataBufferFactory bufferFactory)
 			throws URISyntaxException {
@@ -98,8 +96,7 @@ class ReactorServerHttpRequest extends AbstractServerHttpRequest {
 		else {
 			InetSocketAddress localAddress = request.hostAddress();
 			Assert.state(localAddress != null, "No host address available");
-			return new URI(scheme, null, localAddress.getHostString(),
-					localAddress.getPort(), null, null, null);
+			return new URI(scheme, null, localAddress.getHostString(), localAddress.getPort(), null, null, null);
 		}
 	}
 
@@ -133,7 +130,6 @@ class ReactorServerHttpRequest extends AbstractServerHttpRequest {
 		NettyHeadersAdapter headersMap = new NettyHeadersAdapter(channel.requestHeaders());
 		return new HttpHeaders(headersMap);
 	}
-
 
 	@Override
 	public String getMethodValue() {
@@ -194,8 +190,7 @@ class ReactorServerHttpRequest extends AbstractServerHttpRequest {
 	@Nullable
 	protected String initId() {
 		if (this.request instanceof Connection) {
-			return ((Connection) this.request).channel().id().asShortText() +
-					"-" + logPrefixIndex.incrementAndGet();
+			return ((Connection) this.request).channel().id().asShortText() + "-" + logPrefixIndex.incrementAndGet();
 		}
 		return null;
 	}

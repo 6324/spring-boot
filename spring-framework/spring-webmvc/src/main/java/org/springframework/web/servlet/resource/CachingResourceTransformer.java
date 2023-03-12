@@ -43,7 +43,6 @@ public class CachingResourceTransformer implements ResourceTransformer {
 
 	private final Cache cache;
 
-
 	public CachingResourceTransformer(Cache cache) {
 		Assert.notNull(cache, "Cache is required");
 		this.cache = cache;
@@ -57,14 +56,12 @@ public class CachingResourceTransformer implements ResourceTransformer {
 		this.cache = cache;
 	}
 
-
 	/**
 	 * Return the configured {@code Cache}.
 	 */
 	public Cache getCache() {
 		return this.cache;
 	}
-
 
 	@Override
 	public Resource transform(HttpServletRequest request, Resource resource, ResourceTransformerChain transformerChain)

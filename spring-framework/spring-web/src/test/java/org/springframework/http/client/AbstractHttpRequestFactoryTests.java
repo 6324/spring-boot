@@ -44,7 +44,6 @@ public abstract class AbstractHttpRequestFactoryTests extends AbstractMockWebSer
 
 	protected ClientHttpRequestFactory factory;
 
-
 	@BeforeEach
 	public final void createFactory() throws Exception {
 		factory = createRequestFactory();
@@ -60,9 +59,7 @@ public abstract class AbstractHttpRequestFactoryTests extends AbstractMockWebSer
 		}
 	}
 
-
 	protected abstract ClientHttpRequestFactory createRequestFactory();
-
 
 	@Test
 	public void status() throws Exception {
@@ -100,7 +97,8 @@ public abstract class AbstractHttpRequestFactoryTests extends AbstractMockWebSer
 		try (ClientHttpResponse response = request.execute()) {
 			assertThat(response.getStatusCode()).as("Invalid status code").isEqualTo(HttpStatus.OK);
 			assertThat(response.getHeaders().containsKey(headerName)).as("Header not found").isTrue();
-			assertThat(response.getHeaders().get(headerName)).as("Header value not found").isEqualTo(Arrays.asList(headerValue1, headerValue2));
+			assertThat(response.getHeaders().get(headerName)).as("Header value not found")
+					.isEqualTo(Arrays.asList(headerValue1, headerValue2));
 			byte[] result = FileCopyUtils.copyToByteArray(response.getBody());
 			assertThat(Arrays.equals(body, result)).as("Invalid body").isTrue();
 		}
@@ -124,8 +122,7 @@ public abstract class AbstractHttpRequestFactoryTests extends AbstractMockWebSer
 		}
 
 		request.execute();
-		assertThatIllegalStateException().isThrownBy(() ->
-				FileCopyUtils.copy(body, request.getBody()));
+		assertThatIllegalStateException().isThrownBy(() -> FileCopyUtils.copy(body, request.getBody()));
 	}
 
 	@Test
@@ -136,10 +133,10 @@ public abstract class AbstractHttpRequestFactoryTests extends AbstractMockWebSer
 		request.getHeaders().add("MyHeader", "value");
 		byte[] body = "Hello World".getBytes(StandardCharsets.UTF_8);
 		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> {
-				FileCopyUtils.copy(body, request.getBody());
-				try (ClientHttpResponse response = request.execute()) {
-					request.getHeaders().add("MyHeader", "value");
-				}
+			FileCopyUtils.copy(body, request.getBody());
+			try (ClientHttpResponse response = request.execute()) {
+				request.getHeaders().add("MyHeader", "value");
+			}
 		});
 	}
 

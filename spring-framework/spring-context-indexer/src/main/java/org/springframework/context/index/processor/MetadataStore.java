@@ -36,11 +36,9 @@ class MetadataStore {
 
 	private final ProcessingEnvironment environment;
 
-
 	public MetadataStore(ProcessingEnvironment environment) {
 		this.environment = environment;
 	}
-
 
 	public CandidateComponentsMetadata readMetadata() {
 		try {
@@ -59,7 +57,6 @@ class MetadataStore {
 			}
 		}
 	}
-
 
 	private CandidateComponentsMetadata readMetadata(InputStream in) throws IOException {
 		try {

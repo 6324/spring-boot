@@ -47,7 +47,6 @@ public class ResourceUrlEncodingFilterTests {
 
 	private ResourceUrlProvider urlProvider;
 
-
 	@BeforeEach
 	public void createFilter() {
 		VersionResourceResolver versionResolver = new VersionResourceResolver();
@@ -72,11 +71,10 @@ public class ResourceUrlEncodingFilterTests {
 		return urlProvider;
 	}
 
-
 	@Test
 	public void encodeURL() throws Exception {
-		testEncodeUrl(new MockHttpServletRequest("GET", "/"),
-				"/resources/bar.css", "/resources/bar-11e16cf79faee7ac698c805cf28248d2.css");
+		testEncodeUrl(new MockHttpServletRequest("GET", "/"), "/resources/bar.css",
+				"/resources/bar-11e16cf79faee7ac698c805cf28248d2.css");
 	}
 
 	@Test
@@ -87,7 +85,6 @@ public class ResourceUrlEncodingFilterTests {
 		testEncodeUrl(request, "/context/resources/bar.css",
 				"/context/resources/bar-11e16cf79faee7ac698c805cf28248d2.css");
 	}
-
 
 	@Test
 	public void encodeUrlWithContextAndForwardedRequest() throws Exception {
@@ -155,8 +152,7 @@ public class ResourceUrlEncodingFilterTests {
 		testEncodeUrl(request, "/resources/bar.css#something",
 				"/resources/bar-11e16cf79faee7ac698c805cf28248d2.css#something");
 
-		testEncodeUrl(request,
-				"/resources/bar.css?foo=bar&url=https://example.org#something",
+		testEncodeUrl(request, "/resources/bar.css?foo=bar&url=https://example.org#something",
 				"/resources/bar-11e16cf79faee7ac698c805cf28248d2.css?foo=bar&url=https://example.org#something");
 	}
 
@@ -167,8 +163,8 @@ public class ResourceUrlEncodingFilterTests {
 		request.setServletPath("/a/logo.png");
 
 		this.filter.doFilter(request, new MockHttpServletResponse(), (req, res) -> {
-			ResourceUrlProviderExposingInterceptor interceptor =
-					new ResourceUrlProviderExposingInterceptor(this.urlProvider);
+			ResourceUrlProviderExposingInterceptor interceptor = new ResourceUrlProviderExposingInterceptor(
+					this.urlProvider);
 
 			assertThatThrownBy(() -> interceptor.preHandle((HttpServletRequest) req, (HttpServletResponse) res, null))
 					.isInstanceOf(ServletRequestBindingException.class);

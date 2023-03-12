@@ -68,7 +68,6 @@ public class ResourceHttpRequestHandlerTests {
 
 	private MockHttpServletResponse response;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		List<Resource> paths = new ArrayList<>(2);
@@ -88,7 +87,6 @@ public class ResourceHttpRequestHandlerTests {
 		this.response = new MockHttpServletResponse();
 	}
 
-
 	@Test
 	public void getResource() throws Exception {
 		this.request.setAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE, "foo.css");
@@ -98,7 +96,8 @@ public class ResourceHttpRequestHandlerTests {
 		assertThat(this.response.getContentLength()).isEqualTo(17);
 		assertThat(this.response.getHeader("Cache-Control")).isEqualTo("max-age=3600");
 		assertThat(this.response.containsHeader("Last-Modified")).isTrue();
-		assertThat(this.response.getDateHeader("Last-Modified") / 1000).isEqualTo(resourceLastModified("test/foo.css") / 1000);
+		assertThat(this.response.getDateHeader("Last-Modified") / 1000)
+				.isEqualTo(resourceLastModified("test/foo.css") / 1000);
 		assertThat(this.response.getHeader("Accept-Ranges")).isEqualTo("bytes");
 		assertThat(this.response.getHeaders("Accept-Ranges").size()).isEqualTo(1);
 		assertThat(this.response.getContentAsString()).isEqualTo("h1 { color:red; }");
@@ -115,7 +114,8 @@ public class ResourceHttpRequestHandlerTests {
 		assertThat(this.response.getContentLength()).isEqualTo(17);
 		assertThat(this.response.getHeader("Cache-Control")).isEqualTo("max-age=3600");
 		assertThat(this.response.containsHeader("Last-Modified")).isTrue();
-		assertThat(this.response.getDateHeader("Last-Modified") / 1000).isEqualTo(resourceLastModified("test/foo.css") / 1000);
+		assertThat(this.response.getDateHeader("Last-Modified") / 1000)
+				.isEqualTo(resourceLastModified("test/foo.css") / 1000);
 		assertThat(this.response.getHeader("Accept-Ranges")).isEqualTo("bytes");
 		assertThat(this.response.getHeaders("Accept-Ranges").size()).isEqualTo(1);
 	}
@@ -138,15 +138,16 @@ public class ResourceHttpRequestHandlerTests {
 
 		assertThat(this.response.getHeader("Cache-Control")).isEqualTo("no-store");
 		assertThat(this.response.containsHeader("Last-Modified")).isTrue();
-		assertThat(this.response.getDateHeader("Last-Modified") / 1000).isEqualTo(resourceLastModified("test/foo.css") / 1000);
+		assertThat(this.response.getDateHeader("Last-Modified") / 1000)
+				.isEqualTo(resourceLastModified("test/foo.css") / 1000);
 		assertThat(this.response.getHeader("Accept-Ranges")).isEqualTo("bytes");
 		assertThat(this.response.getHeaders("Accept-Ranges").size()).isEqualTo(1);
 	}
 
 	@Test
 	public void getVersionedResource() throws Exception {
-		VersionResourceResolver versionResolver = new VersionResourceResolver()
-				.addFixedVersionStrategy("versionString", "/**");
+		VersionResourceResolver versionResolver = new VersionResourceResolver().addFixedVersionStrategy("versionString",
+				"/**");
 		this.handler.setResourceResolvers(Arrays.asList(versionResolver, new PathResourceResolver()));
 		this.handler.afterPropertiesSet();
 
@@ -169,9 +170,11 @@ public class ResourceHttpRequestHandlerTests {
 		this.handler.handleRequest(this.request, this.response);
 
 		assertThat(this.response.getHeader("Cache-Control")).isEqualTo("max-age=3600, must-revalidate");
-		assertThat(this.response.getDateHeader("Expires") >= System.currentTimeMillis() - 1000 + (3600 * 1000)).isTrue();
+		assertThat(this.response.getDateHeader("Expires") >= System.currentTimeMillis() - 1000 + (3600 * 1000))
+				.isTrue();
 		assertThat(this.response.containsHeader("Last-Modified")).isTrue();
-		assertThat(this.response.getDateHeader("Last-Modified") / 1000).isEqualTo(resourceLastModified("test/foo.css") / 1000);
+		assertThat(this.response.getDateHeader("Last-Modified") / 1000)
+				.isEqualTo(resourceLastModified("test/foo.css") / 1000);
 		assertThat(this.response.getHeader("Accept-Ranges")).isEqualTo("bytes");
 		assertThat(this.response.getHeaders("Accept-Ranges").size()).isEqualTo(1);
 	}
@@ -191,7 +194,8 @@ public class ResourceHttpRequestHandlerTests {
 		assertThat(this.response.getHeader("Cache-Control")).isEqualTo("no-cache");
 		assertThat(this.response.getDateHeader("Expires") <= System.currentTimeMillis()).isTrue();
 		assertThat(this.response.containsHeader("Last-Modified")).isTrue();
-		assertThat(this.response.getDateHeader("Last-Modified") / 1000).isEqualTo(resourceLastModified("test/foo.css") / 1000);
+		assertThat(this.response.getDateHeader("Last-Modified") / 1000)
+				.isEqualTo(resourceLastModified("test/foo.css") / 1000);
 		assertThat(this.response.getHeader("Accept-Ranges")).isEqualTo("bytes");
 		assertThat(this.response.getHeaders("Accept-Ranges").size()).isEqualTo(1);
 	}
@@ -204,7 +208,8 @@ public class ResourceHttpRequestHandlerTests {
 		assertThat(this.response.getContentType()).isEqualTo("text/html");
 		assertThat(this.response.getHeader("Cache-Control")).isEqualTo("max-age=3600");
 		assertThat(this.response.containsHeader("Last-Modified")).isTrue();
-		assertThat(this.response.getDateHeader("Last-Modified") / 1000).isEqualTo(resourceLastModified("test/foo.html") / 1000);
+		assertThat(this.response.getDateHeader("Last-Modified") / 1000)
+				.isEqualTo(resourceLastModified("test/foo.html") / 1000);
 		assertThat(this.response.getHeader("Accept-Ranges")).isEqualTo("bytes");
 		assertThat(this.response.getHeaders("Accept-Ranges").size()).isEqualTo(1);
 	}
@@ -218,7 +223,8 @@ public class ResourceHttpRequestHandlerTests {
 		assertThat(this.response.getContentLength()).isEqualTo(17);
 		assertThat(this.response.getHeader("Cache-Control")).isEqualTo("max-age=3600");
 		assertThat(this.response.containsHeader("Last-Modified")).isTrue();
-		assertThat(this.response.getDateHeader("Last-Modified") / 1000).isEqualTo(resourceLastModified("testalternatepath/baz.css") / 1000);
+		assertThat(this.response.getDateHeader("Last-Modified") / 1000)
+				.isEqualTo(resourceLastModified("testalternatepath/baz.css") / 1000);
 		assertThat(this.response.getHeader("Accept-Ranges")).isEqualTo("bytes");
 		assertThat(this.response.getHeaders("Accept-Ranges").size()).isEqualTo(1);
 		assertThat(this.response.getContentAsString()).isEqualTo("h1 { color:red; }");
@@ -242,7 +248,7 @@ public class ResourceHttpRequestHandlerTests {
 		assertThat(this.response.getContentAsString()).isEqualTo("function foo() { console.log(\"hello world\"); }");
 	}
 
-	@Test  // SPR-13658
+	@Test // SPR-13658
 	public void getResourceWithRegisteredMediaType() throws Exception {
 		ContentNegotiationManagerFactoryBean factory = new ContentNegotiationManagerFactoryBean();
 		factory.addMediaType("bar", new MediaType("foo", "bar"));
@@ -263,7 +269,7 @@ public class ResourceHttpRequestHandlerTests {
 		assertThat(this.response.getContentAsString()).isEqualTo("h1 { color:red; }");
 	}
 
-	@Test  // SPR-14577
+	@Test // SPR-14577
 	public void getMediaTypeWithFavorPathExtensionOff() throws Exception {
 		ContentNegotiationManagerFactoryBean factory = new ContentNegotiationManagerFactoryBean();
 		factory.setFavorPathExtension(false);
@@ -284,7 +290,7 @@ public class ResourceHttpRequestHandlerTests {
 		assertThat(this.response.getContentType()).isEqualTo("text/html");
 	}
 
-	@Test  // SPR-14368
+	@Test // SPR-14368
 	public void getResourceWithMediaTypeResolvedThroughServletContext() throws Exception {
 
 		MockServletContext servletContext = new MockServletContext() {
@@ -511,16 +517,15 @@ public class ResourceHttpRequestHandlerTests {
 
 	@Test
 	public void noPathWithinHandlerMappingAttribute() throws Exception {
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.handler.handleRequest(this.request, this.response));
+		assertThatIllegalStateException().isThrownBy(() -> this.handler.handleRequest(this.request, this.response));
 	}
 
 	@Test
 	public void unsupportedHttpMethod() throws Exception {
 		this.request.setAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE, "foo.css");
 		this.request.setMethod("POST");
-		assertThatExceptionOfType(HttpRequestMethodNotSupportedException.class).isThrownBy(() ->
-				this.handler.handleRequest(this.request, this.response));
+		assertThatExceptionOfType(HttpRequestMethodNotSupportedException.class)
+				.isThrownBy(() -> this.handler.handleRequest(this.request, this.response));
 	}
 
 	@Test
@@ -673,9 +678,8 @@ public class ResourceHttpRequestHandlerTests {
 		handler.handleRequest(this.request, this.response);
 
 		assertThat(this.response.getStatus()).isEqualTo(206);
-		assertThat(this.response.getHeaderNames()).containsExactlyInAnyOrder(
-				"Content-Type", "Content-Length", "Content-Range", "Accept-Ranges",
-				"Last-Modified", "Content-Encoding", "Vary");
+		assertThat(this.response.getHeaderNames()).containsExactlyInAnyOrder("Content-Type", "Content-Length",
+				"Content-Range", "Accept-Ranges", "Last-Modified", "Content-Encoding", "Vary");
 
 		assertThat(this.response.getContentType()).isEqualTo("text/javascript");
 		assertThat(this.response.getContentLength()).isEqualTo(2);
@@ -699,7 +703,7 @@ public class ResourceHttpRequestHandlerTests {
 		assertThat(this.response.getHeaderValues("Accept-Ranges")).containsExactly("bytes");
 	}
 
-	@Test  // SPR-14005
+	@Test // SPR-14005
 	public void doOverwriteExistingCacheControlHeaders() throws Exception {
 		this.request.setAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE, "foo.css");
 		this.response.setHeader("Cache-Control", "no-store");
@@ -709,11 +713,9 @@ public class ResourceHttpRequestHandlerTests {
 		assertThat(this.response.getHeader("Cache-Control")).isEqualTo("max-age=3600");
 	}
 
-
 	private long resourceLastModified(String resourceName) throws IOException {
 		return new ClassPathResource(resourceName, getClass()).getFile().lastModified();
 	}
-
 
 	private static class TestServletContext extends MockServletContext {
 
@@ -729,6 +731,7 @@ public class ResourceHttpRequestHandlerTests {
 				return super.getMimeType(filePath);
 			}
 		}
+
 	}
 
 }

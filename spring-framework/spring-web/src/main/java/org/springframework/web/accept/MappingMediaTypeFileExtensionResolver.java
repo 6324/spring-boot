@@ -31,11 +31,12 @@ import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 
 /**
- * An implementation of {@code MediaTypeFileExtensionResolver} that maintains
- * lookups between file extensions and MediaTypes in both directions.
+ * An implementation of {@code MediaTypeFileExtensionResolver} that maintains lookups
+ * between file extensions and MediaTypes in both directions.
  *
- * <p>Initially created with a map of file extensions and media types.
- * Subsequently subclasses can use {@link #addMapping} to add more mappings.
+ * <p>
+ * Initially created with a map of file extensions and media types. Subsequently
+ * subclasses can use {@link #addMapping} to add more mappings.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -48,7 +49,6 @@ public class MappingMediaTypeFileExtensionResolver implements MediaTypeFileExten
 	private final ConcurrentMap<MediaType, List<String>> fileExtensions = new ConcurrentHashMap<>(64);
 
 	private final List<String> allFileExtensions = new CopyOnWriteArrayList<>();
-
 
 	/**
 	 * Create an instance with the given map of file extensions and media types.
@@ -65,7 +65,6 @@ public class MappingMediaTypeFileExtensionResolver implements MediaTypeFileExten
 			this.allFileExtensions.addAll(allFileExtensions);
 		}
 	}
-
 
 	public Map<String, MediaType> getMediaTypes() {
 		return this.mediaTypes;
@@ -87,10 +86,8 @@ public class MappingMediaTypeFileExtensionResolver implements MediaTypeFileExten
 	}
 
 	private void addFileExtension(MediaType mediaType, String extension) {
-		this.fileExtensions.computeIfAbsent(mediaType, key -> new CopyOnWriteArrayList<>())
-				.add(extension);
+		this.fileExtensions.computeIfAbsent(mediaType, key -> new CopyOnWriteArrayList<>()).add(extension);
 	}
-
 
 	@Override
 	public List<String> resolveFileExtensions(MediaType mediaType) {

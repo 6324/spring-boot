@@ -29,14 +29,16 @@ import org.springframework.util.StringUtils;
 /**
  * Abstract base class for {@link VersionStrategy} implementations.
  *
- * <p>Supports versions as:
+ * <p>
+ * Supports versions as:
  * <ul>
  * <li>prefix in the request path, like "version/static/myresource.js"
  * <li>file name suffix in the request path, like "static/myresource-version.js"
  * </ul>
  *
- * <p>Note: This base class does <i>not</i> provide support for generating the
- * version string.
+ * <p>
+ * Note: This base class does <i>not</i> provide support for generating the version
+ * string.
  *
  * @author Brian Clozel
  * @author Rossen Stoyanchev
@@ -48,17 +50,14 @@ public abstract class AbstractVersionStrategy implements VersionStrategy {
 
 	private final VersionPathStrategy pathStrategy;
 
-
 	protected AbstractVersionStrategy(VersionPathStrategy pathStrategy) {
 		Assert.notNull(pathStrategy, "VersionPathStrategy is required");
 		this.pathStrategy = pathStrategy;
 	}
 
-
 	public VersionPathStrategy getVersionPathStrategy() {
 		return this.pathStrategy;
 	}
-
 
 	@Override
 	@Nullable
@@ -76,10 +75,8 @@ public abstract class AbstractVersionStrategy implements VersionStrategy {
 		return this.pathStrategy.addVersion(requestPath, version);
 	}
 
-
 	/**
-	 * A prefix-based {@code VersionPathStrategy},
-	 * e.g. {@code "{version}/path/foo.js"}.
+	 * A prefix-based {@code VersionPathStrategy}, e.g. {@code "{version}/path/foo.js"}.
 	 */
 	protected static class PrefixVersionPathStrategy implements VersionPathStrategy {
 
@@ -107,16 +104,15 @@ public abstract class AbstractVersionStrategy implements VersionStrategy {
 				return path;
 			}
 			else {
-				return (this.prefix.endsWith("/") || path.startsWith("/") ?
-						this.prefix + path : this.prefix + '/' + path);
+				return (this.prefix.endsWith("/") || path.startsWith("/") ? this.prefix + path
+						: this.prefix + '/' + path);
 			}
 		}
+
 	}
 
-
 	/**
-	 * File name-based {@code VersionPathStrategy},
-	 * e.g. {@code "path/foo-{version}.css"}.
+	 * File name-based {@code VersionPathStrategy}, e.g. {@code "path/foo-{version}.css"}.
 	 */
 	protected static class FileNameVersionPathStrategy implements VersionPathStrategy {
 
@@ -146,6 +142,7 @@ public abstract class AbstractVersionStrategy implements VersionStrategy {
 			String extension = StringUtils.getFilenameExtension(requestPath);
 			return (baseFilename + '-' + version + '.' + extension);
 		}
+
 	}
 
 }

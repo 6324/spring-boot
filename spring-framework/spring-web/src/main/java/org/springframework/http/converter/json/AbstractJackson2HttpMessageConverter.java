@@ -63,7 +63,8 @@ import org.springframework.util.TypeUtils;
  * Abstract base class for Jackson based and content type independent
  * {@link HttpMessageConverter} implementations.
  *
- * <p>Compatible with Jackson 2.9 and higher, as of Spring 5.0.
+ * <p>
+ * Compatible with Jackson 2.9 and higher, as of Spring 5.0.
  *
  * @author Arjen Poutsma
  * @author Keith Donald
@@ -85,14 +86,12 @@ public abstract class AbstractJackson2HttpMessageConverter extends AbstractGener
 		ENCODINGS.put("US-ASCII", JsonEncoding.UTF8);
 	}
 
-
 	/**
 	 * The default charset used by the converter.
 	 */
 	@Nullable
 	@Deprecated
 	public static final Charset DEFAULT_CHARSET = null;
-
 
 	protected ObjectMapper objectMapper;
 
@@ -101,7 +100,6 @@ public abstract class AbstractJackson2HttpMessageConverter extends AbstractGener
 
 	@Nullable
 	private PrettyPrinter ssePrettyPrinter;
-
 
 	protected AbstractJackson2HttpMessageConverter(ObjectMapper objectMapper) {
 		this.objectMapper = objectMapper;
@@ -120,17 +118,16 @@ public abstract class AbstractJackson2HttpMessageConverter extends AbstractGener
 		setSupportedMediaTypes(Arrays.asList(supportedMediaTypes));
 	}
 
-
 	/**
-	 * Set the {@code ObjectMapper} for this view.
-	 * If not set, a default {@link ObjectMapper#ObjectMapper() ObjectMapper} is used.
-	 * <p>Setting a custom-configured {@code ObjectMapper} is one way to take further
-	 * control of the JSON serialization process. For example, an extended
-	 * {@link com.fasterxml.jackson.databind.ser.SerializerFactory}
-	 * can be configured that provides custom serializers for specific types.
-	 * The other option for refining the serialization process is to use Jackson's
-	 * provided annotations on the types to be serialized, in which case a
-	 * custom-configured ObjectMapper is unnecessary.
+	 * Set the {@code ObjectMapper} for this view. If not set, a default
+	 * {@link ObjectMapper#ObjectMapper() ObjectMapper} is used.
+	 * <p>
+	 * Setting a custom-configured {@code ObjectMapper} is one way to take further control
+	 * of the JSON serialization process. For example, an extended
+	 * {@link com.fasterxml.jackson.databind.ser.SerializerFactory} can be configured that
+	 * provides custom serializers for specific types. The other option for refining the
+	 * serialization process is to use Jackson's provided annotations on the types to be
+	 * serialized, in which case a custom-configured ObjectMapper is unnecessary.
 	 */
 	public void setObjectMapper(ObjectMapper objectMapper) {
 		Assert.notNull(objectMapper, "ObjectMapper must not be null");
@@ -146,9 +143,8 @@ public abstract class AbstractJackson2HttpMessageConverter extends AbstractGener
 	}
 
 	/**
-	 * Whether to use the {@link DefaultPrettyPrinter} when writing JSON.
-	 * This is a shortcut for setting up an {@code ObjectMapper} as follows:
-	 * <pre class="code">
+	 * Whether to use the {@link DefaultPrettyPrinter} when writing JSON. This is a
+	 * shortcut for setting up an {@code ObjectMapper} as follows: <pre class="code">
 	 * ObjectMapper mapper = new ObjectMapper();
 	 * mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 	 * converter.setObjectMapper(mapper);
@@ -164,7 +160,6 @@ public abstract class AbstractJackson2HttpMessageConverter extends AbstractGener
 			this.objectMapper.configure(SerializationFeature.INDENT_OUTPUT, this.prettyPrint);
 		}
 	}
-
 
 	@Override
 	public boolean canRead(Class<?> clazz, @Nullable MediaType mediaType) {
@@ -208,8 +203,8 @@ public abstract class AbstractJackson2HttpMessageConverter extends AbstractGener
 	 * Determine whether to log the given exception coming from a
 	 * {@link ObjectMapper#canDeserialize} / {@link ObjectMapper#canSerialize} check.
 	 * @param type the class that Jackson tested for (de-)serializability
-	 * @param cause the Jackson-thrown exception to evaluate
-	 * (typically a {@link JsonMappingException})
+	 * @param cause the Jackson-thrown exception to evaluate (typically a
+	 * {@link JsonMappingException})
 	 * @since 4.3
 	 */
 	protected void logWarningIfNecessary(Type type, @Nullable Throwable cause) {
@@ -217,12 +212,13 @@ public abstract class AbstractJackson2HttpMessageConverter extends AbstractGener
 			return;
 		}
 
-		// Do not log warning for serializer not found (note: different message wording on Jackson 2.9)
+		// Do not log warning for serializer not found (note: different message wording on
+		// Jackson 2.9)
 		boolean debugLevel = (cause instanceof JsonMappingException && cause.getMessage().startsWith("Cannot find"));
 
 		if (debugLevel ? logger.isDebugEnabled() : logger.isWarnEnabled()) {
-			String msg = "Failed to evaluate Jackson " + (type instanceof JavaType ? "de" : "") +
-					"serialization for type [" + type + "]";
+			String msg = "Failed to evaluate Jackson " + (type instanceof JavaType ? "de" : "")
+					+ "serialization for type [" + type + "]";
 			if (debugLevel) {
 				logger.debug(msg, cause);
 			}
@@ -288,8 +284,9 @@ public abstract class AbstractJackson2HttpMessageConverter extends AbstractGener
 
 	/**
 	 * Determine the charset to use for JSON input.
-	 * <p>By default this is either the charset from the input {@code MediaType}
-	 * or otherwise falling back on {@code UTF-8}. Can be overridden in subclasses.
+	 * <p>
+	 * By default this is either the charset from the input {@code MediaType} or otherwise
+	 * falling back on {@code UTF-8}. Can be overridden in subclasses.
 	 * @param contentType the content type of the HTTP input message
 	 * @return the charset to use
 	 * @since 5.1.18
@@ -330,8 +327,8 @@ public abstract class AbstractJackson2HttpMessageConverter extends AbstractGener
 				javaType = getJavaType(type, null);
 			}
 
-			ObjectWriter objectWriter = (serializationView != null ?
-					this.objectMapper.writerWithView(serializationView) : this.objectMapper.writer());
+			ObjectWriter objectWriter = (serializationView != null ? this.objectMapper.writerWithView(serializationView)
+					: this.objectMapper.writer());
 			if (filters != null) {
 				objectWriter = objectWriter.with(filters);
 			}
@@ -339,8 +336,8 @@ public abstract class AbstractJackson2HttpMessageConverter extends AbstractGener
 				objectWriter = objectWriter.forType(javaType);
 			}
 			SerializationConfig config = objectWriter.getConfig();
-			if (contentType != null && contentType.isCompatibleWith(MediaType.TEXT_EVENT_STREAM) &&
-					config.isEnabled(SerializationFeature.INDENT_OUTPUT)) {
+			if (contentType != null && contentType.isCompatibleWith(MediaType.TEXT_EVENT_STREAM)
+					&& config.isEnabled(SerializationFeature.INDENT_OUTPUT)) {
 				objectWriter = objectWriter.with(this.ssePrettyPrinter);
 			}
 			objectWriter.writeValue(generator, value);
@@ -376,8 +373,8 @@ public abstract class AbstractJackson2HttpMessageConverter extends AbstractGener
 	/**
 	 * Return the Jackson {@link JavaType} for the specified type and context class.
 	 * @param type the generic type to return the Jackson JavaType for
-	 * @param contextClass a context class for the target type, for example a class
-	 * in which the target type appears in a method signature (can be {@code null})
+	 * @param contextClass a context class for the target type, for example a class in
+	 * which the target type appears in a method signature (can be {@code null})
 	 * @return the Jackson JavaType
 	 */
 	protected JavaType getJavaType(Type type, @Nullable Class<?> contextClass) {

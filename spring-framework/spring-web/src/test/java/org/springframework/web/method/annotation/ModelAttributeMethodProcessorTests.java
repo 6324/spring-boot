@@ -68,15 +68,20 @@ public class ModelAttributeMethodProcessorTests {
 	private ModelAttributeMethodProcessor processor;
 
 	private MethodParameter paramNamedValidModelAttr;
+
 	private MethodParameter paramErrors;
+
 	private MethodParameter paramInt;
+
 	private MethodParameter paramModelAttr;
+
 	private MethodParameter paramBindingDisabledAttr;
+
 	private MethodParameter paramNonSimpleType;
 
 	private MethodParameter returnParamNamedModelAttr;
-	private MethodParameter returnParamNonSimpleType;
 
+	private MethodParameter returnParamNonSimpleType;
 
 	@BeforeEach
 	public void setup() throws Exception {
@@ -84,9 +89,8 @@ public class ModelAttributeMethodProcessorTests {
 		this.container = new ModelAndViewContainer();
 		this.processor = new ModelAttributeMethodProcessor(false);
 
-		Method method = ModelAttributeHandler.class.getDeclaredMethod("modelAttribute",
-				TestBean.class, Errors.class, int.class, TestBean.class,
-				TestBean.class, TestBean.class);
+		Method method = ModelAttributeHandler.class.getDeclaredMethod("modelAttribute", TestBean.class, Errors.class,
+				int.class, TestBean.class, TestBean.class, TestBean.class);
 
 		this.paramNamedValidModelAttr = new SynthesizingMethodParameter(method, 0);
 		this.paramErrors = new SynthesizingMethodParameter(method, 1);
@@ -101,7 +105,6 @@ public class ModelAttributeMethodProcessorTests {
 		method = getClass().getDeclaredMethod("notAnnotatedReturnValue");
 		this.returnParamNonSimpleType = new MethodParameter(method, -1);
 	}
-
 
 	@Test
 	public void supportedParameters() throws Exception {
@@ -225,12 +228,12 @@ public class ModelAttributeMethodProcessorTests {
 		WebDataBinderFactory binderFactory = mock(WebDataBinderFactory.class);
 		given(binderFactory.createBinder(this.request, target, name)).willReturn(dataBinder);
 
-		assertThatExceptionOfType(BindException.class).isThrownBy(() ->
-				this.processor.resolveArgument(this.paramNonSimpleType, this.container, this.request, binderFactory));
+		assertThatExceptionOfType(BindException.class).isThrownBy(() -> this.processor
+				.resolveArgument(this.paramNonSimpleType, this.container, this.request, binderFactory));
 		verify(binderFactory).createBinder(this.request, target, name);
 	}
 
-	@Test  // SPR-9378
+	@Test // SPR-9378
 	public void resolveArgumentOrdering() throws Exception {
 		String name = "testBean";
 		Object testBean = new TestBean(name);
@@ -248,7 +251,8 @@ public class ModelAttributeMethodProcessorTests {
 
 		Object[] values = this.container.getModel().values().toArray();
 		assertThat(values[1]).as("Resolved attribute should be updated to be last").isSameAs(testBean);
-		assertThat(values[2]).as("BindingResult of resolved attr should be last").isSameAs(dataBinder.getBindingResult());
+		assertThat(values[2]).as("BindingResult of resolved attr should be last")
+				.isSameAs(dataBinder.getBindingResult());
 	}
 
 	@Test
@@ -264,7 +268,6 @@ public class ModelAttributeMethodProcessorTests {
 		assertThat(this.container.getModel().get("testBean")).isSameAs(testBean);
 	}
 
-
 	private void testGetAttributeFromModel(String expectedAttrName, MethodParameter param) throws Exception {
 		Object target = new TestBean();
 		this.container.addAttribute(expectedAttrName, target);
@@ -277,13 +280,11 @@ public class ModelAttributeMethodProcessorTests {
 		verify(factory).createBinder(this.request, target, expectedAttrName);
 	}
 
-
 	private static class StubRequestDataBinder extends WebRequestDataBinder {
 
 		private boolean bindInvoked;
 
 		private boolean validateInvoked;
-
 
 		public StubRequestDataBinder(Object target, String objectName) {
 			super(target, objectName);
@@ -311,35 +312,32 @@ public class ModelAttributeMethodProcessorTests {
 		public void validate(Object... validationHints) {
 			validateInvoked = true;
 		}
+
 	}
 
-
-	@Target({METHOD, FIELD, CONSTRUCTOR, PARAMETER})
+	@Target({ METHOD, FIELD, CONSTRUCTOR, PARAMETER })
 	@Retention(RUNTIME)
 	public @interface Valid {
+
 	}
 
-
-	@SessionAttributes(types=TestBean.class)
+	@SessionAttributes(types = TestBean.class)
 	private static class ModelAttributeHandler {
 
 		@SuppressWarnings("unused")
-		public void modelAttribute(
-				@ModelAttribute("attrName") @Valid TestBean annotatedAttr,
-				Errors errors,
-				int intArg,
+		public void modelAttribute(@ModelAttribute("attrName") @Valid TestBean annotatedAttr, Errors errors, int intArg,
 				@ModelAttribute TestBean defaultNameAttr,
-				@ModelAttribute(name="noBindAttr", binding=false) @Valid TestBean noBindAttr,
+				@ModelAttribute(name = "noBindAttr", binding = false) @Valid TestBean noBindAttr,
 				TestBean notAnnotatedAttr) {
 		}
+
 	}
 
-
-	@ModelAttribute("modelAttrName") @SuppressWarnings("unused")
+	@ModelAttribute("modelAttrName")
+	@SuppressWarnings("unused")
 	private String annotatedReturnValue() {
 		return null;
 	}
-
 
 	@SuppressWarnings("unused")
 	private TestBean notAnnotatedReturnValue() {

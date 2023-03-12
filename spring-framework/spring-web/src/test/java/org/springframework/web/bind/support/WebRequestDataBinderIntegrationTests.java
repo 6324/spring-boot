@@ -62,7 +62,6 @@ public class WebRequestDataBinderIntegrationTests {
 
 	protected static MediaType contentType;
 
-
 	@BeforeAll
 	public static void startJettyServer() throws Exception {
 		// Let server pick its own random, available port.
@@ -94,7 +93,6 @@ public class WebRequestDataBinderIntegrationTests {
 			jettyServer.stop();
 		}
 	}
-
 
 	@Test
 	public void partsBinding() {
@@ -129,7 +127,6 @@ public class WebRequestDataBinderIntegrationTests {
 		assertThat(bean.getPartList().size()).isEqualTo(parts.get("partList").size());
 	}
 
-
 	@SuppressWarnings("serial")
 	private abstract static class AbstractStandardMultipartServlet<T> extends HttpServlet {
 
@@ -146,8 +143,8 @@ public class WebRequestDataBinderIntegrationTests {
 		public void setBean(T bean) {
 			this.bean = bean;
 		}
-	}
 
+	}
 
 	private static class PartsBean {
 
@@ -172,13 +169,13 @@ public class WebRequestDataBinderIntegrationTests {
 		public void setSecondPart(Part secondPart) {
 			this.secondPart = secondPart;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	private static class PartsServlet extends AbstractStandardMultipartServlet<PartsBean> {
-	}
 
+	}
 
 	private static class PartListBean {
 
@@ -192,11 +189,12 @@ public class WebRequestDataBinderIntegrationTests {
 		public void setPartList(List<Part> partList) {
 			this.partList = partList;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	private static class PartListServlet extends AbstractStandardMultipartServlet<PartListBean> {
+
 	}
 
 }

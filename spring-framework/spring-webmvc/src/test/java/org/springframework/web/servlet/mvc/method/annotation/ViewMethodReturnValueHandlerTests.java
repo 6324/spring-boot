@@ -46,14 +46,12 @@ public class ViewMethodReturnValueHandlerTests {
 
 	private ServletWebRequest webRequest;
 
-
 	@BeforeEach
 	public void setup() {
 		this.handler = new ViewMethodReturnValueHandler();
 		this.mavContainer = new ModelAndViewContainer();
 		this.webRequest = new ServletWebRequest(new MockHttpServletRequest());
 	}
-
 
 	@Test
 	public void supportsReturnType() throws Exception {
@@ -77,14 +75,14 @@ public class ViewMethodReturnValueHandlerTests {
 		this.handler.handleReturnValue(redirectView, param, this.mavContainer, this.webRequest);
 
 		assertThat(this.mavContainer.getView()).isSameAs(redirectView);
-		assertThat(this.mavContainer.getModel()).as("Should have switched to the RedirectModel").isSameAs(redirectModel);
+		assertThat(this.mavContainer.getModel()).as("Should have switched to the RedirectModel")
+				.isSameAs(redirectModel);
 	}
 
 	private MethodParameter createReturnValueParam(String methodName) throws Exception {
 		Method method = getClass().getDeclaredMethod(methodName);
 		return new MethodParameter(method, -1);
 	}
-
 
 	View view() {
 		return null;

@@ -35,19 +35,22 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerExecutionChain;
 
 /**
- * Abstract base class for URL-mapped {@link org.springframework.web.servlet.HandlerMapping}
- * implementations. Provides infrastructure for mapping handlers to URLs and configurable
- * URL lookup. For information on the latter, see "alwaysUseFullPath" property.
+ * Abstract base class for URL-mapped
+ * {@link org.springframework.web.servlet.HandlerMapping} implementations. Provides
+ * infrastructure for mapping handlers to URLs and configurable URL lookup. For
+ * information on the latter, see "alwaysUseFullPath" property.
  *
- * <p>Supports direct matches, e.g. a registered "/test" matches "/test", and
- * various Ant-style pattern matches, e.g. a registered "/t*" pattern matches
- * both "/test" and "/team", "/test/*" matches all paths in the "/test" directory,
- * "/test/**" matches all paths below "/test". For details, see the
+ * <p>
+ * Supports direct matches, e.g. a registered "/test" matches "/test", and various
+ * Ant-style pattern matches, e.g. a registered "/t*" pattern matches both "/test" and
+ * "/team", "/test/*" matches all paths in the "/test" directory, "/test/**" matches all
+ * paths below "/test". For details, see the
  * {@link org.springframework.util.AntPathMatcher AntPathMatcher} javadoc.
  *
- * <p>Will search all path patterns to find the most exact match for the
- * current request path. The most exact match is defined as the longest
- * path pattern that matches the current request path.
+ * <p>
+ * Will search all path patterns to find the most exact match for the current request
+ * path. The most exact match is defined as the longest path pattern that matches the
+ * current request path.
  *
  * @author Juergen Hoeller
  * @author Arjen Poutsma
@@ -64,19 +67,19 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 
 	private final Map<String, Object> handlerMap = new LinkedHashMap<>();
 
-
 	/**
-	 * Set the root handler for this handler mapping, that is,
-	 * the handler to be registered for the root path ("/").
-	 * <p>Default is {@code null}, indicating no root handler.
+	 * Set the root handler for this handler mapping, that is, the handler to be
+	 * registered for the root path ("/").
+	 * <p>
+	 * Default is {@code null}, indicating no root handler.
 	 */
 	public void setRootHandler(@Nullable Object rootHandler) {
 		this.rootHandler = rootHandler;
 	}
 
 	/**
-	 * Return the root handler for this handler mapping (registered for "/"),
-	 * or {@code null} if none.
+	 * Return the root handler for this handler mapping (registered for "/"), or
+	 * {@code null} if none.
 	 */
 	@Nullable
 	public Object getRootHandler() {
@@ -84,9 +87,10 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 	}
 
 	/**
-	 * Whether to match to URLs irrespective of the presence of a trailing slash.
-	 * If enabled a URL pattern such as "/users" also matches to "/users/".
-	 * <p>The default value is {@code false}.
+	 * Whether to match to URLs irrespective of the presence of a trailing slash. If
+	 * enabled a URL pattern such as "/users" also matches to "/users/".
+	 * <p>
+	 * The default value is {@code false}.
 	 */
 	public void setUseTrailingSlashMatch(boolean useTrailingSlashMatch) {
 		this.useTrailingSlashMatch = useTrailingSlashMatch;
@@ -100,14 +104,15 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 	}
 
 	/**
-	 * Set whether to lazily initialize handlers. Only applicable to
-	 * singleton handlers, as prototypes are always lazily initialized.
-	 * Default is "false", as eager initialization allows for more efficiency
-	 * through referencing the controller objects directly.
-	 * <p>If you want to allow your controllers to be lazily initialized,
-	 * make them "lazy-init" and set this flag to true. Just making them
-	 * "lazy-init" will not work, as they are initialized through the
-	 * references from the handler mapping in this case.
+	 * Set whether to lazily initialize handlers. Only applicable to singleton handlers,
+	 * as prototypes are always lazily initialized. Default is "false", as eager
+	 * initialization allows for more efficiency through referencing the controller
+	 * objects directly.
+	 * <p>
+	 * If you want to allow your controllers to be lazily initialized, make them
+	 * "lazy-init" and set this flag to true. Just making them "lazy-init" will not work,
+	 * as they are initialized through the references from the handler mapping in this
+	 * case.
 	 */
 	public void setLazyInitHandlers(boolean lazyInitHandlers) {
 		this.lazyInitHandlers = lazyInitHandlers;
@@ -149,11 +154,13 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 
 	/**
 	 * Look up a handler instance for the given URL path.
-	 * <p>Supports direct matches, e.g. a registered "/test" matches "/test",
-	 * and various Ant-style pattern matches, e.g. a registered "/t*" matches
-	 * both "/test" and "/team". For details, see the AntPathMatcher class.
-	 * <p>Looks for the most exact pattern, where most exact is defined as
-	 * the longest path pattern.
+	 * <p>
+	 * Supports direct matches, e.g. a registered "/test" matches "/test", and various
+	 * Ant-style pattern matches, e.g. a registered "/t*" matches both "/test" and
+	 * "/team". For details, see the AntPathMatcher class.
+	 * <p>
+	 * Looks for the most exact pattern, where most exact is defined as the longest path
+	 * pattern.
 	 * @param urlPath the URL the bean is mapped to
 	 * @param request current HTTP request (to expose the path within the mapping to)
 	 * @return the associated handler instance, or {@code null} if not found
@@ -215,7 +222,8 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 			validateHandler(handler, request);
 			String pathWithinMapping = getPathMatcher().extractPathWithinPattern(bestMatch, urlPath);
 
-			// There might be multiple 'best patterns', let's make sure we have the correct URI template variables
+			// There might be multiple 'best patterns', let's make sure we have the
+			// correct URI template variables
 			// for all of them
 			Map<String, String> uriTemplateVariables = new LinkedHashMap<>();
 			for (String matchingPattern : matchingPatterns) {
@@ -237,8 +245,9 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 
 	/**
 	 * Validate the given handler against the current request.
-	 * <p>The default implementation is empty. Can be overridden in subclasses,
-	 * for example to enforce specific preconditions expressed in URL mappings.
+	 * <p>
+	 * The default implementation is empty. Can be overridden in subclasses, for example
+	 * to enforce specific preconditions expressed in URL mappings.
 	 * @param handler the handler object to validate
 	 * @param request current HTTP request
 	 * @throws Exception if validation failed
@@ -247,18 +256,20 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 	}
 
 	/**
-	 * Build a handler object for the given raw handler, exposing the actual
-	 * handler, the {@link #PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE}, as well as
-	 * the {@link #URI_TEMPLATE_VARIABLES_ATTRIBUTE} before executing the handler.
-	 * <p>The default implementation builds a {@link HandlerExecutionChain}
-	 * with a special interceptor that exposes the path attribute and uri template variables
+	 * Build a handler object for the given raw handler, exposing the actual handler, the
+	 * {@link #PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE}, as well as the
+	 * {@link #URI_TEMPLATE_VARIABLES_ATTRIBUTE} before executing the handler.
+	 * <p>
+	 * The default implementation builds a {@link HandlerExecutionChain} with a special
+	 * interceptor that exposes the path attribute and uri template variables
 	 * @param rawHandler the raw handler to expose
 	 * @param pathWithinMapping the path to expose before executing the handler
-	 * @param uriTemplateVariables the URI template variables, can be {@code null} if no variables found
+	 * @param uriTemplateVariables the URI template variables, can be {@code null} if no
+	 * variables found
 	 * @return the final handler object
 	 */
-	protected Object buildPathExposingHandler(Object rawHandler, String bestMatchingPattern,
-			String pathWithinMapping, @Nullable Map<String, String> uriTemplateVariables) {
+	protected Object buildPathExposingHandler(Object rawHandler, String bestMatchingPattern, String pathWithinMapping,
+			@Nullable Map<String, String> uriTemplateVariables) {
 
 		HandlerExecutionChain chain = new HandlerExecutionChain(rawHandler);
 		chain.addInterceptor(new PathExposingHandlerInterceptor(bestMatchingPattern, pathWithinMapping));
@@ -323,8 +334,8 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 	/**
 	 * Register the specified handler for the given URL path.
 	 * @param urlPath the URL the bean should be mapped to
-	 * @param handler the handler instance or handler bean name String
-	 * (a bean name will automatically be resolved into the corresponding handler bean)
+	 * @param handler the handler instance or handler bean name String (a bean name will
+	 * automatically be resolved into the corresponding handler bean)
 	 * @throws BeansException if the handler couldn't be registered
 	 * @throws IllegalStateException if there is a conflicting handler registered
 	 */
@@ -345,9 +356,8 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 		Object mappedHandler = this.handlerMap.get(urlPath);
 		if (mappedHandler != null) {
 			if (mappedHandler != resolvedHandler) {
-				throw new IllegalStateException(
-						"Cannot map " + getHandlerDescription(handler) + " to URL path [" + urlPath +
-						"]: There is already " + getHandlerDescription(mappedHandler) + " mapped.");
+				throw new IllegalStateException("Cannot map " + getHandlerDescription(handler) + " to URL path ["
+						+ urlPath + "]: There is already " + getHandlerDescription(mappedHandler) + " mapped.");
 			}
 		}
 		else {
@@ -376,11 +386,10 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 		return (handler instanceof String ? "'" + handler + "'" : handler.toString());
 	}
 
-
 	/**
-	 * Return the registered handlers as an unmodifiable Map, with the registered path
-	 * as key and the handler object (or handler bean name in case of a lazy-init handler)
-	 * as value.
+	 * Return the registered handlers as an unmodifiable Map, with the registered path as
+	 * key and the handler object (or handler bean name in case of a lazy-init handler) as
+	 * value.
 	 * @see #getDefaultHandler()
 	 */
 	public final Map<String, Object> getHandlerMap() {
@@ -388,16 +397,17 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 	}
 
 	/**
-	 * Indicates whether this handler mapping support type-level mappings. Default to {@code false}.
+	 * Indicates whether this handler mapping support type-level mappings. Default to
+	 * {@code false}.
 	 */
 	protected boolean supportsTypeLevelMappings() {
 		return false;
 	}
 
-
 	/**
 	 * Special interceptor for exposing the
 	 * {@link AbstractUrlHandlerMapping#PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE} attribute.
+	 *
 	 * @see AbstractUrlHandlerMapping#exposePathWithinMapping
 	 */
 	private class PathExposingHandlerInterceptor extends HandlerInterceptorAdapter {
@@ -424,6 +434,7 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 	/**
 	 * Special interceptor for exposing the
 	 * {@link AbstractUrlHandlerMapping#URI_TEMPLATE_VARIABLES_ATTRIBUTE} attribute.
+	 *
 	 * @see AbstractUrlHandlerMapping#exposePathWithinMapping
 	 */
 	private class UriTemplateVariablesHandlerInterceptor extends HandlerInterceptorAdapter {
@@ -439,6 +450,7 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 			exposeUriTemplateVariables(this.uriTemplateVariables, request);
 			return true;
 		}
+
 	}
 
 }

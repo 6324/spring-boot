@@ -39,7 +39,6 @@ import org.springframework.web.testfixture.servlet.MockHttpServletResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * Unit tests for
  * {@link org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBodyReturnValueHandler}.
@@ -58,7 +57,6 @@ public class StreamingResponseBodyReturnValueHandlerTests {
 
 	private MockHttpServletResponse response;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		this.handler = new StreamingResponseBodyReturnValueHandler();
@@ -73,13 +71,15 @@ public class StreamingResponseBodyReturnValueHandlerTests {
 		this.request.setAsyncSupported(true);
 	}
 
-
 	@Test
 	public void supportsReturnType() throws Exception {
 		assertThat(this.handler.supportsReturnType(returnType(TestController.class, "handle"))).isTrue();
 		assertThat(this.handler.supportsReturnType(returnType(TestController.class, "handleResponseEntity"))).isTrue();
-		assertThat(this.handler.supportsReturnType(returnType(TestController.class, "handleResponseEntityString"))).isFalse();
-		assertThat(this.handler.supportsReturnType(returnType(TestController.class, "handleResponseEntityParameterized"))).isFalse();
+		assertThat(this.handler.supportsReturnType(returnType(TestController.class, "handleResponseEntityString")))
+				.isFalse();
+		assertThat(
+				this.handler.supportsReturnType(returnType(TestController.class, "handleResponseEntityParameterized")))
+						.isFalse();
 	}
 
 	@Test
@@ -98,17 +98,15 @@ public class StreamingResponseBodyReturnValueHandlerTests {
 		assertThat(this.response.getContentAsString()).isEqualTo("foo");
 	}
 
-
 	@Test
 	public void responseEntity() throws Exception {
 		CountDownLatch latch = new CountDownLatch(1);
 
 		MethodParameter returnType = returnType(TestController.class, "handleResponseEntity");
-		ResponseEntity<StreamingResponseBody> emitter = ResponseEntity.ok().header("foo", "bar")
-				.body(outputStream -> {
-					outputStream.write("foo".getBytes(StandardCharsets.UTF_8));
-					latch.countDown();
-				});
+		ResponseEntity<StreamingResponseBody> emitter = ResponseEntity.ok().header("foo", "bar").body(outputStream -> {
+			outputStream.write("foo".getBytes(StandardCharsets.UTF_8));
+			latch.countDown();
+		});
 		this.handler.handleReturnValue(emitter, returnType, this.mavContainer, this.webRequest);
 
 		assertThat(this.request.isAsyncStarted()).isTrue();
@@ -144,7 +142,6 @@ public class StreamingResponseBodyReturnValueHandlerTests {
 		return new MethodParameter(method, -1);
 	}
 
-
 	@SuppressWarnings("unused")
 	private static class TestController {
 
@@ -163,6 +160,7 @@ public class StreamingResponseBodyReturnValueHandlerTests {
 		private ResponseEntity<AtomicReference<String>> handleResponseEntityParameterized() {
 			return null;
 		}
+
 	}
 
 }

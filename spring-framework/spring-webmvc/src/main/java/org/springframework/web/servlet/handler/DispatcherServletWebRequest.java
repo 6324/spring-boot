@@ -26,8 +26,8 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
  * {@link ServletWebRequest} subclass that is aware of
- * {@link org.springframework.web.servlet.DispatcherServlet}'s
- * request context, such as the Locale determined by the configured
+ * {@link org.springframework.web.servlet.DispatcherServlet}'s request context, such as
+ * the Locale determined by the configured
  * {@link org.springframework.web.servlet.LocaleResolver}.
  *
  * @author Juergen Hoeller
@@ -46,7 +46,8 @@ public class DispatcherServletWebRequest extends ServletWebRequest {
 	}
 
 	/**
-	 * Create a new DispatcherServletWebRequest instance for the given request and response.
+	 * Create a new DispatcherServletWebRequest instance for the given request and
+	 * response.
 	 * @param request current HTTP request
 	 * @param response current HTTP response
 	 */

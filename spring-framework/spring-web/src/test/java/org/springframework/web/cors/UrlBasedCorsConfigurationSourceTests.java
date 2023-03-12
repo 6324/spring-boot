@@ -26,6 +26,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 /**
  * Unit tests for {@link UrlBasedCorsConfigurationSource}.
+ *
  * @author Sebastien Deleuze
  */
 public class UrlBasedCorsConfigurationSourceTests {
@@ -52,8 +53,8 @@ public class UrlBasedCorsConfigurationSourceTests {
 
 	@Test
 	public void unmodifiableConfigurationsMap() {
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-				this.configSource.getCorsConfigurations().put("/**", new CorsConfiguration()));
+		assertThatExceptionOfType(UnsupportedOperationException.class)
+				.isThrownBy(() -> this.configSource.getCorsConfigurations().put("/**", new CorsConfiguration()));
 	}
 
 }

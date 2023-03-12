@@ -56,7 +56,8 @@ public class MultipartBodyBuilderTests {
 
 		Publisher<String> publisher = Flux.just("foo", "bar", "baz");
 		builder.asyncPart("publisherClass", publisher, String.class).header("baz", "qux");
-		builder.asyncPart("publisherPtr", publisher, new ParameterizedTypeReference<String>() {}).header("baz", "qux");
+		builder.asyncPart("publisherPtr", publisher, new ParameterizedTypeReference<String>() {
+		}).header("baz", "qux");
 
 		MultiValueMap<String, HttpEntity<?>> result = builder.build();
 
@@ -80,13 +81,15 @@ public class MultipartBodyBuilderTests {
 		resultEntity = result.getFirst("publisherClass");
 		assertThat(resultEntity).isNotNull();
 		assertThat(resultEntity.getBody()).isEqualTo(publisher);
-		assertThat(((PublisherEntity<?, ?>) resultEntity).getResolvableType()).isEqualTo(ResolvableType.forClass(String.class));
+		assertThat(((PublisherEntity<?, ?>) resultEntity).getResolvableType())
+				.isEqualTo(ResolvableType.forClass(String.class));
 		assertThat(resultEntity.getHeaders().getFirst("baz")).isEqualTo("qux");
 
 		resultEntity = result.getFirst("publisherPtr");
 		assertThat(resultEntity).isNotNull();
 		assertThat(resultEntity.getBody()).isEqualTo(publisher);
-		assertThat(((PublisherEntity<?, ?>) resultEntity).getResolvableType()).isEqualTo(ResolvableType.forClass(String.class));
+		assertThat(((PublisherEntity<?, ?>) resultEntity).getResolvableType())
+				.isEqualTo(ResolvableType.forClass(String.class));
 		assertThat(resultEntity.getHeaders().getFirst("baz")).isEqualTo("qux");
 	}
 
@@ -101,7 +104,8 @@ public class MultipartBodyBuilderTests {
 		assertThat(entity).isNotNull();
 		assertThat(entity.getClass()).isEqualTo(PublisherEntity.class);
 
-		// Now build a new MultipartBodyBuilder, as BodyInserters.fromMultipartData would do...
+		// Now build a new MultipartBodyBuilder, as BodyInserters.fromMultipartData would
+		// do...
 
 		builder = new MultipartBodyBuilder();
 		builder.part("publisherClass", entity);

@@ -42,20 +42,17 @@ public class HttpRangeTests {
 
 	@Test
 	public void invalidFirstPosition() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-			HttpRange.createByteRange(-1));
+		assertThatIllegalArgumentException().isThrownBy(() -> HttpRange.createByteRange(-1));
 	}
 
 	@Test
 	public void invalidLastLessThanFirst() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				HttpRange.createByteRange(10, 9));
+		assertThatIllegalArgumentException().isThrownBy(() -> HttpRange.createByteRange(10, 9));
 	}
 
 	@Test
 	public void invalidSuffixLength() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				HttpRange.createSuffixRange(-1));
+		assertThatIllegalArgumentException().isThrownBy(() -> HttpRange.createSuffixRange(-1));
 	}
 
 	@Test
@@ -110,7 +107,7 @@ public class HttpRangeTests {
 
 		// 1. At limit..
 		StringBuilder atLimit = new StringBuilder("bytes=0-0");
-		for (int i=0; i < 99; i++) {
+		for (int i = 0; i < 99; i++) {
 			atLimit.append(",").append(i).append("-").append(i + 1);
 		}
 		List<HttpRange> ranges = HttpRange.parseRanges(atLimit.toString());
@@ -118,11 +115,10 @@ public class HttpRangeTests {
 
 		// 2. Above limit..
 		StringBuilder aboveLimit = new StringBuilder("bytes=0-0");
-		for (int i=0; i < 100; i++) {
+		for (int i = 0; i < 100; i++) {
 			aboveLimit.append(",").append(i).append("-").append(i + 1);
 		}
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				HttpRange.parseRanges(aboveLimit.toString()));
+		assertThatIllegalArgumentException().isThrownBy(() -> HttpRange.parseRanges(aboveLimit.toString()));
 	}
 
 	@Test
@@ -149,8 +145,7 @@ public class HttpRangeTests {
 	public void toResourceRegionInputStreamResource() {
 		InputStreamResource resource = mock(InputStreamResource.class);
 		HttpRange range = HttpRange.createByteRange(0, 9);
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				range.toResourceRegion(resource));
+		assertThatIllegalArgumentException().isThrownBy(() -> range.toResourceRegion(resource));
 	}
 
 	@Test
@@ -189,8 +184,7 @@ public class HttpRangeTests {
 
 		// 2. At length
 		List<HttpRange> atLengthRanges = HttpRange.parseRanges("bytes=0-1,2-4");
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				HttpRange.toResourceRegions(atLengthRanges, resource));
+		assertThatIllegalArgumentException().isThrownBy(() -> HttpRange.toResourceRegions(atLengthRanges, resource));
 	}
 
 }

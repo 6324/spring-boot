@@ -52,7 +52,6 @@ public class ViewResolverRegistryTests {
 
 	private ViewResolverRegistry registry;
 
-
 	@BeforeEach
 	public void setup() {
 		StaticWebApplicationContext context = new StaticWebApplicationContext();
@@ -63,7 +62,6 @@ public class ViewResolverRegistryTests {
 
 		this.registry = new ViewResolverRegistry(new ContentNegotiationManager(), context);
 	}
-
 
 	@Test
 	public void order() {
@@ -204,7 +202,6 @@ public class ViewResolverRegistryTests {
 		assertThat(resolver2).isSameAs(resolver1);
 	}
 
-
 	@SuppressWarnings("unchecked")
 	private <T extends ViewResolver> T checkAndGetResolver(Class<T> resolverType) {
 		assertThat(this.registry.getViewResolvers()).isNotNull();
@@ -214,8 +211,8 @@ public class ViewResolverRegistryTests {
 	}
 
 	private void checkPropertyValues(ViewResolver resolver, Object... nameValuePairs) {
-		DirectFieldAccessor accessor =  new DirectFieldAccessor(resolver);
-		for (int i = 0; i < nameValuePairs.length ; i++, i++) {
+		DirectFieldAccessor accessor = new DirectFieldAccessor(resolver);
+		for (int i = 0; i < nameValuePairs.length; i++, i++) {
 			Object expected = nameValuePairs[i + 1];
 			Object actual = accessor.getPropertyValue((String) nameValuePairs[i]);
 			assertThat(actual).isEqualTo(expected);

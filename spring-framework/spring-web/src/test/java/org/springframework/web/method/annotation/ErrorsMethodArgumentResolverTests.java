@@ -46,14 +46,12 @@ public class ErrorsMethodArgumentResolverTests {
 
 	private NativeWebRequest webRequest;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		paramErrors = new MethodParameter(getClass().getDeclaredMethod("handle", Errors.class), 0);
 		bindingResult = new WebDataBinder(new Object(), "attr").getBindingResult();
 		webRequest = new ServletWebRequest(new MockHttpServletRequest());
 	}
-
 
 	@Test
 	public void supports() {
@@ -80,16 +78,15 @@ public class ErrorsMethodArgumentResolverTests {
 		mavContainer.addAllAttributes(bindingResult.getModel());
 		mavContainer.addAttribute("ignore1", "value1");
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				resolver.resolveArgument(paramErrors, mavContainer, webRequest, null));
+		assertThatIllegalStateException()
+				.isThrownBy(() -> resolver.resolveArgument(paramErrors, mavContainer, webRequest, null));
 	}
 
 	@Test
 	public void noBindingResult() throws Exception {
-		assertThatIllegalStateException().isThrownBy(() ->
-				resolver.resolveArgument(paramErrors, new ModelAndViewContainer(), webRequest, null));
+		assertThatIllegalStateException()
+				.isThrownBy(() -> resolver.resolveArgument(paramErrors, new ModelAndViewContainer(), webRequest, null));
 	}
-
 
 	@SuppressWarnings("unused")
 	private void handle(Errors errors) {

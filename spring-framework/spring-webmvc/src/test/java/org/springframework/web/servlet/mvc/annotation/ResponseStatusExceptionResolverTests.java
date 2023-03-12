@@ -56,12 +56,10 @@ public class ResponseStatusExceptionResolverTests {
 
 	private final MockHttpServletResponse response = new MockHttpServletResponse();
 
-
 	@BeforeEach
 	public void setup() {
 		exceptionResolver.setWarnLogCategory(exceptionResolver.getClass().getName());
 	}
-
 
 	@Test
 	public void statusCode() {
@@ -125,7 +123,7 @@ public class ResponseStatusExceptionResolverTests {
 		assertResolved(mav, 400, null);
 	}
 
-	@Test  // SPR-15524
+	@Test // SPR-15524
 	public void responseStatusExceptionWithReason() throws Exception {
 		ResponseStatusException ex = new ResponseStatusException(HttpStatus.BAD_REQUEST, "The reason");
 		ModelAndView mav = exceptionResolver.resolveException(request, response, null, ex);
@@ -134,8 +132,7 @@ public class ResponseStatusExceptionResolverTests {
 
 	@Test
 	void responseStatusExceptionWithHeaders() {
-		Exception ex = new MethodNotAllowedException(
-				HttpMethod.GET, Arrays.asList(HttpMethod.POST, HttpMethod.PUT));
+		Exception ex = new MethodNotAllowedException(HttpMethod.GET, Arrays.asList(HttpMethod.POST, HttpMethod.PUT));
 
 		ModelAndView mav = exceptionResolver.resolveException(request, response, null, ex);
 
@@ -150,20 +147,22 @@ public class ResponseStatusExceptionResolverTests {
 		assertThat(response.isCommitted()).isTrue();
 	}
 
-
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@SuppressWarnings("serial")
 	private static class StatusCodeException extends Exception {
+
 	}
 
 	@ResponseStatus(code = HttpStatus.GONE, reason = "You suck!")
 	@SuppressWarnings("serial")
 	private static class StatusCodeAndReasonException extends Exception {
+
 	}
 
 	@ResponseStatus(code = HttpStatus.GONE, reason = "gone.reason")
 	@SuppressWarnings("serial")
 	private static class StatusCodeAndReasonMessageException extends Exception {
+
 	}
 
 	@ResponseStatus
@@ -173,11 +172,13 @@ public class ResponseStatusExceptionResolverTests {
 
 		@AliasFor(annotation = ResponseStatus.class, attribute = "code")
 		HttpStatus responseStatus() default HttpStatus.INTERNAL_SERVER_ERROR;
+
 	}
 
 	@ComposedResponseStatus(responseStatus = HttpStatus.BAD_REQUEST)
 	@SuppressWarnings("serial")
 	private static class StatusCodeFromComposedResponseStatusException extends Exception {
+
 	}
 
 }

@@ -85,7 +85,6 @@ public class RequestPartIntegrationTests {
 
 	private static String baseUrl;
 
-
 	@BeforeAll
 	public static void startServer() throws Exception {
 		// Let server pick its own random, available port.
@@ -140,7 +139,6 @@ public class RequestPartIntegrationTests {
 		restTemplate.setMessageConverters(Collections.singletonList(converter));
 	}
 
-
 	@Test
 	public void commonsMultipartResolver() throws Exception {
 		testCreate(baseUrl + "/commons-resolver/test", "Jason");
@@ -153,25 +151,20 @@ public class RequestPartIntegrationTests {
 		testCreate(baseUrl + "/standard-resolver/test", "Arjen");
 	}
 
-	@Test  // SPR-13319
+	@Test // SPR-13319
 	public void standardMultipartResolverWithEncodedFileName() throws Exception {
 		byte[] boundary = MimeTypeUtils.generateMultipartBoundary();
 		String boundaryText = new String(boundary, "US-ASCII");
 		Map<String, String> params = Collections.singletonMap("boundary", boundaryText);
 
-		String content =
-				"--" + boundaryText + "\n" +
-				"Content-Disposition: form-data; name=\"file\"; filename*=\"utf-8''%C3%A9l%C3%A8ve.txt\"\n" +
-				"Content-Type: text/plain\n" +
-				"Content-Length: 7\n" +
-				"\n" +
-				"content\n" +
-				"--" + boundaryText + "--";
+		String content = "--" + boundaryText + "\n"
+				+ "Content-Disposition: form-data; name=\"file\"; filename*=\"utf-8''%C3%A9l%C3%A8ve.txt\"\n"
+				+ "Content-Type: text/plain\n" + "Content-Length: 7\n" + "\n" + "content\n" + "--" + boundaryText
+				+ "--";
 
-		RequestEntity<byte[]> requestEntity =
-				RequestEntity.post(new URI(baseUrl + "/standard-resolver/spr13319"))
-						.contentType(new MediaType(MediaType.MULTIPART_FORM_DATA, params))
-						.body(content.getBytes(StandardCharsets.US_ASCII));
+		RequestEntity<byte[]> requestEntity = RequestEntity.post(new URI(baseUrl + "/standard-resolver/spr13319"))
+				.contentType(new MediaType(MediaType.MULTIPART_FORM_DATA, params))
+				.body(content.getBytes(StandardCharsets.US_ASCII));
 
 		ByteArrayHttpMessageConverter converter = new ByteArrayHttpMessageConverter();
 		converter.setSupportedMediaTypes(Collections.singletonList(MediaType.MULTIPART_FORM_DATA));
@@ -189,12 +182,11 @@ public class RequestPartIntegrationTests {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(new MediaType("application", "octet-stream", StandardCharsets.ISO_8859_1));
-		parts.add("iso-8859-1-data", new HttpEntity<>(new byte[] {(byte) 0xC4}, headers)); // SPR-13096
+		parts.add("iso-8859-1-data", new HttpEntity<>(new byte[] { (byte) 0xC4 }, headers)); // SPR-13096
 
 		URI location = restTemplate.postForLocation(url, parts);
 		assertThat(location.toString()).isEqualTo(("http://localhost:8080/test/" + basename + "/logo.jpg"));
 	}
-
 
 	@Configuration
 	@EnableWebMvc
@@ -204,8 +196,8 @@ public class RequestPartIntegrationTests {
 		public RequestPartTestController controller() {
 			return new RequestPartTestController();
 		}
-	}
 
+	}
 
 	@Configuration
 	@SuppressWarnings("unused")
@@ -215,8 +207,8 @@ public class RequestPartIntegrationTests {
 		public MultipartResolver multipartResolver() {
 			return new CommonsMultipartResolver();
 		}
-	}
 
+	}
 
 	@Configuration
 	@SuppressWarnings("unused")
@@ -226,20 +218,20 @@ public class RequestPartIntegrationTests {
 		public MultipartResolver multipartResolver() {
 			return new StandardServletMultipartResolver();
 		}
-	}
 
+	}
 
 	@Controller
 	@SuppressWarnings("unused")
 	private static class RequestPartTestController {
 
-		@RequestMapping(value = "/test", method = POST, consumes = {"multipart/mixed", "multipart/form-data"})
+		@RequestMapping(value = "/test", method = POST, consumes = { "multipart/mixed", "multipart/form-data" })
 		public ResponseEntity<Object> create(@RequestPart(name = "json-data") TestData testData,
 				@RequestPart("file-data") Optional<MultipartFile> file,
 				@RequestPart(name = "empty-data", required = false) TestData emptyData,
 				@RequestPart(name = "iso-8859-1-data") byte[] iso88591Data) {
 
-			assertThat(iso88591Data).isEqualTo(new byte[]{(byte) 0xC4});
+			assertThat(iso88591Data).isEqualTo(new byte[] { (byte) 0xC4 });
 
 			String url = "http://localhost:8080/test/" + testData.getName() + "/" + file.get().getOriginalFilename();
 			HttpHeaders headers = new HttpHeaders();
@@ -252,8 +244,8 @@ public class RequestPartIntegrationTests {
 			assertThat(multipartFile.getOriginalFilename()).isEqualTo("élève.txt");
 			return ResponseEntity.ok().build();
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class TestData {
@@ -275,6 +267,7 @@ public class RequestPartIntegrationTests {
 		public void setName(String name) {
 			this.name = name;
 		}
+
 	}
 
 }

@@ -15,22 +15,21 @@
  */
 package org.springframework.objenesis.strategy;
 
-
 import org.springframework.objenesis.instantiator.ObjectInstantiator;
 
 /**
  * Defines a strategy to determine the best instantiator for a class.
- * 
+ *
  * @author Henri Tremblay
  */
 public interface InstantiatorStrategy {
 
-   /**
-    * Create a dedicated instantiator for the given class
-    *
-    * @param <T> Type to instantiate
-    * @param type Class that will be instantiated
-    * @return Dedicated instantiator
-    */
-   <T> ObjectInstantiator<T> newInstantiatorOf(Class<T> type);
+	/**
+	 * Create a dedicated instantiator for the given class
+	 * @param <T> Type to instantiate
+	 * @param type Class that will be instantiated
+	 * @return Dedicated instantiator
+	 */
+	<T> ObjectInstantiator<T> newInstantiatorOf(Class<T> type);
+
 }

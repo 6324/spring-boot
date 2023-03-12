@@ -40,12 +40,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link FilteringWebHandler}.
+ *
  * @author Rossen Stoyanchev
  */
 public class FilteringWebHandlerTests {
 
 	private static Log logger = LogFactory.getLog(FilteringWebHandlerTests.class);
-
 
 	@Test
 	public void multipleFilters() throws Exception {
@@ -56,8 +56,7 @@ public class FilteringWebHandlerTests {
 		StubWebHandler targetHandler = new StubWebHandler();
 
 		new FilteringWebHandler(targetHandler, Arrays.asList(filter1, filter2, filter3))
-				.handle(MockServerWebExchange.from(MockServerHttpRequest.get("/")))
-				.block(Duration.ZERO);
+				.handle(MockServerWebExchange.from(MockServerHttpRequest.get("/"))).block(Duration.ZERO);
 
 		assertThat(filter1.invoked()).isTrue();
 		assertThat(filter2.invoked()).isTrue();
@@ -71,8 +70,7 @@ public class FilteringWebHandlerTests {
 		StubWebHandler targetHandler = new StubWebHandler();
 
 		new FilteringWebHandler(targetHandler, Collections.emptyList())
-				.handle(MockServerWebExchange.from(MockServerHttpRequest.get("/")))
-				.block(Duration.ZERO);
+				.handle(MockServerWebExchange.from(MockServerHttpRequest.get("/"))).block(Duration.ZERO);
 
 		assertThat(targetHandler.invoked()).isTrue();
 	}
@@ -86,8 +84,7 @@ public class FilteringWebHandlerTests {
 		StubWebHandler targetHandler = new StubWebHandler();
 
 		new FilteringWebHandler(targetHandler, Arrays.asList(filter1, filter2, filter3))
-				.handle(MockServerWebExchange.from(MockServerHttpRequest.get("/")))
-				.block(Duration.ZERO);
+				.handle(MockServerWebExchange.from(MockServerHttpRequest.get("/"))).block(Duration.ZERO);
 
 		assertThat(filter1.invoked()).isTrue();
 		assertThat(filter2.invoked()).isTrue();
@@ -102,8 +99,7 @@ public class FilteringWebHandlerTests {
 		StubWebHandler targetHandler = new StubWebHandler();
 
 		new FilteringWebHandler(targetHandler, Collections.singletonList(filter))
-				.handle(MockServerWebExchange.from(MockServerHttpRequest.get("/")))
-				.block(Duration.ofSeconds(5));
+				.handle(MockServerWebExchange.from(MockServerHttpRequest.get("/"))).block(Duration.ofSeconds(5));
 
 		assertThat(filter.invoked()).isTrue();
 		assertThat(targetHandler.invoked()).isTrue();
@@ -117,17 +113,13 @@ public class FilteringWebHandlerTests {
 
 		TestExceptionHandler exceptionHandler = new TestExceptionHandler();
 
-		WebHttpHandlerBuilder.webHandler(new StubWebHandler())
-				.filter(new ExceptionFilter())
-				.exceptionHandler(exceptionHandler).build()
-				.handle(request, response)
-				.block();
+		WebHttpHandlerBuilder.webHandler(new StubWebHandler()).filter(new ExceptionFilter())
+				.exceptionHandler(exceptionHandler).build().handle(request, response).block();
 
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
 		assertThat(exceptionHandler.ex).isNotNull();
 		assertThat(exceptionHandler.ex.getMessage()).isEqualTo("boo");
 	}
-
 
 	private static class TestFilter implements WebFilter {
 
@@ -146,8 +138,8 @@ public class FilteringWebHandlerTests {
 		public Mono<Void> doFilter(ServerWebExchange exchange, WebFilterChain chain) {
 			return chain.filter(exchange);
 		}
-	}
 
+	}
 
 	private static class ShortcircuitingFilter extends TestFilter {
 
@@ -155,8 +147,8 @@ public class FilteringWebHandlerTests {
 		public Mono<Void> doFilter(ServerWebExchange exchange, WebFilterChain chain) {
 			return Mono.empty();
 		}
-	}
 
+	}
 
 	private static class AsyncFilter extends TestFilter {
 
@@ -171,8 +163,8 @@ public class FilteringWebHandlerTests {
 		private Mono<String> doAsyncWork() {
 			return Mono.delay(Duration.ofMillis(100L)).map(l -> "123");
 		}
-	}
 
+	}
 
 	private static class ExceptionFilter implements WebFilter {
 
@@ -180,8 +172,8 @@ public class FilteringWebHandlerTests {
 		public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
 			return Mono.error(new IllegalStateException("boo"));
 		}
-	}
 
+	}
 
 	private static class TestExceptionHandler implements WebExceptionHandler {
 
@@ -192,8 +184,8 @@ public class FilteringWebHandlerTests {
 			this.ex = ex;
 			return Mono.error(ex);
 		}
-	}
 
+	}
 
 	private static class StubWebHandler implements WebHandler {
 
@@ -209,6 +201,7 @@ public class FilteringWebHandlerTests {
 			this.invoked = true;
 			return Mono.empty();
 		}
+
 	}
 
 }

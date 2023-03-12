@@ -27,14 +27,14 @@ import org.springframework.lang.Nullable;
  *
  * @author Rossen Stoyanchev
  * @since 3.1
- * @param <T> the type of objects that this RequestCondition can be combined
- * with and compared to
+ * @param <T> the type of objects that this RequestCondition can be combined with and
+ * compared to
  */
 public abstract class AbstractRequestCondition<T extends AbstractRequestCondition<T>> implements RequestCondition<T> {
 
 	/**
-	 * Indicates whether this condition is empty, i.e. whether or not it
-	 * contains any discrete items.
+	 * Indicates whether this condition is empty, i.e. whether or not it contains any
+	 * discrete items.
 	 * @return {@code true} if empty; {@code false} otherwise
 	 */
 	public boolean isEmpty() {
@@ -43,18 +43,19 @@ public abstract class AbstractRequestCondition<T extends AbstractRequestConditio
 
 	/**
 	 * Return the discrete items a request condition is composed of.
-	 * <p>For example URL patterns, HTTP request methods, param expressions, etc.
+	 * <p>
+	 * For example URL patterns, HTTP request methods, param expressions, etc.
 	 * @return a collection of objects (never {@code null})
 	 */
 	protected abstract Collection<?> getContent();
 
 	/**
 	 * The notation to use when printing discrete items of content.
-	 * <p>For example {@code " || "} for URL patterns or {@code " && "}
-	 * for param expressions.
+	 * <p>
+	 * For example {@code " || "} for URL patterns or {@code " && "} for param
+	 * expressions.
 	 */
 	protected abstract String getToStringInfix();
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {

@@ -57,10 +57,11 @@ import org.springframework.web.testfixture.servlet.MockHttpServletResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Test fixture with {@link HttpEntityMethodProcessor} delegating to
- * actual {@link HttpMessageConverter} instances.
+ * Test fixture with {@link HttpEntityMethodProcessor} delegating to actual
+ * {@link HttpMessageConverter} instances.
  *
- * <p>Also see {@link HttpEntityMethodProcessorMockTests}.
+ * <p>
+ * Also see {@link HttpEntityMethodProcessorMockTests}.
  *
  * @author Rossen Stoyanchev
  */
@@ -81,7 +82,6 @@ public class HttpEntityMethodProcessorTests {
 
 	private MockHttpServletResponse servletResponse;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		Method method = getClass().getDeclaredMethod("handle", HttpEntity.class, HttpEntity.class);
@@ -96,7 +96,6 @@ public class HttpEntityMethodProcessorTests {
 		webRequest = new ServletWebRequest(servletRequest, servletResponse);
 	}
 
-
 	@Test
 	public void resolveArgument() throws Exception {
 		String content = "{\"name\" : \"Jad\"}";
@@ -108,14 +107,14 @@ public class HttpEntityMethodProcessorTests {
 		HttpEntityMethodProcessor processor = new HttpEntityMethodProcessor(converters);
 
 		@SuppressWarnings("unchecked")
-		HttpEntity<SimpleBean> result = (HttpEntity<SimpleBean>) processor.resolveArgument(
-				paramSimpleBean, mavContainer, webRequest, binderFactory);
+		HttpEntity<SimpleBean> result = (HttpEntity<SimpleBean>) processor.resolveArgument(paramSimpleBean,
+				mavContainer, webRequest, binderFactory);
 
 		assertThat(result).isNotNull();
 		assertThat(result.getBody().getName()).isEqualTo("Jad");
 	}
 
-	@Test  // SPR-12861
+	@Test // SPR-12861
 	public void resolveArgumentWithEmptyBody() throws Exception {
 		this.servletRequest.setContent(new byte[0]);
 		this.servletRequest.setContentType("application/json");
@@ -124,8 +123,8 @@ public class HttpEntityMethodProcessorTests {
 		converters.add(new MappingJackson2HttpMessageConverter());
 		HttpEntityMethodProcessor processor = new HttpEntityMethodProcessor(converters);
 
-		HttpEntity<?> result = (HttpEntity<?>) processor.resolveArgument(this.paramSimpleBean,
-				this.mavContainer, this.webRequest, this.binderFactory);
+		HttpEntity<?> result = (HttpEntity<?>) processor.resolveArgument(this.paramSimpleBean, this.mavContainer,
+				this.webRequest, this.binderFactory);
 
 		assertThat(result).isNotNull();
 		assertThat(result.getBody()).isNull();
@@ -142,8 +141,8 @@ public class HttpEntityMethodProcessorTests {
 		HttpEntityMethodProcessor processor = new HttpEntityMethodProcessor(converters);
 
 		@SuppressWarnings("unchecked")
-		HttpEntity<List<SimpleBean>> result = (HttpEntity<List<SimpleBean>>) processor.resolveArgument(
-				paramList, mavContainer, webRequest, binderFactory);
+		HttpEntity<List<SimpleBean>> result = (HttpEntity<List<SimpleBean>>) processor.resolveArgument(paramList,
+				mavContainer, webRequest, binderFactory);
 
 		assertThat(result).isNotNull();
 		assertThat(result.getBody().get(0).getName()).isEqualTo("Jad");
@@ -165,14 +164,14 @@ public class HttpEntityMethodProcessorTests {
 		HttpEntityMethodProcessor processor = new HttpEntityMethodProcessor(converters);
 
 		@SuppressWarnings("unchecked")
-		HttpEntity<SimpleBean> result = (HttpEntity<SimpleBean>)
-				processor.resolveArgument(methodParam, mavContainer, webRequest, binderFactory);
+		HttpEntity<SimpleBean> result = (HttpEntity<SimpleBean>) processor.resolveArgument(methodParam, mavContainer,
+				webRequest, binderFactory);
 
 		assertThat(result).isNotNull();
 		assertThat(result.getBody().getName()).isEqualTo("Jad");
 	}
 
-	@Test  // SPR-12811
+	@Test // SPR-12811
 	public void jacksonTypeInfoList() throws Exception {
 		Method method = JacksonController.class.getMethod("handleList");
 		HandlerMethod handlerMethod = new HandlerMethod(new JacksonController(), method);
@@ -190,9 +189,9 @@ public class HttpEntityMethodProcessorTests {
 		assertThat(content.contains("\"type\":\"bar\"")).isTrue();
 	}
 
-	@Test  // SPR-13423
+	@Test // SPR-13423
 	public void handleReturnValueCharSequence() throws Exception {
-		List<HttpMessageConverter<?>>converters = new ArrayList<>();
+		List<HttpMessageConverter<?>> converters = new ArrayList<>();
 		converters.add(new ByteArrayHttpMessageConverter());
 		converters.add(new StringHttpMessageConverter());
 
@@ -207,7 +206,7 @@ public class HttpEntityMethodProcessorTests {
 		assertThat(servletResponse.getContentAsString()).isEqualTo("Foo");
 	}
 
-	@Test  // SPR-13423
+	@Test // SPR-13423
 	public void handleReturnValueWithETagAndETagFilter() throws Exception {
 
 		String eTagValue = "\"deadb33f8badf00d\"";
@@ -219,8 +218,8 @@ public class HttpEntityMethodProcessorTests {
 		FilterChain chain = (req, res) -> {
 			ResponseEntity<String> returnValue = ResponseEntity.ok().eTag(eTagValue).body(content);
 			try {
-				ServletWebRequest requestToUse =
-						new ServletWebRequest((HttpServletRequest) req, (HttpServletResponse) res);
+				ServletWebRequest requestToUse = new ServletWebRequest((HttpServletRequest) req,
+						(HttpServletResponse) res);
 
 				new HttpEntityMethodProcessor(Collections.singletonList(new StringHttpMessageConverter()))
 						.handleReturnValue(returnValue, returnType, mavContainer, requestToUse);
@@ -242,7 +241,6 @@ public class HttpEntityMethodProcessorTests {
 		assertThat(this.servletResponse.getContentAsString()).isEqualTo(content);
 	}
 
-
 	@SuppressWarnings("unused")
 	private void handle(HttpEntity<List<SimpleBean>> arg1, HttpEntity<SimpleBean> arg2) {
 	}
@@ -251,27 +249,26 @@ public class HttpEntityMethodProcessorTests {
 		return null;
 	}
 
-
 	@SuppressWarnings("unused")
 	private static abstract class MyParameterizedController<DTO extends Identifiable> {
 
 		public void handleDto(HttpEntity<DTO> dto) {
 		}
-	}
 
+	}
 
 	@SuppressWarnings("unused")
 	private static class MySimpleParameterizedController extends MyParameterizedController<SimpleBean> {
-	}
 
+	}
 
 	private interface Identifiable extends Serializable {
 
 		Long getId();
 
 		void setId(Long id);
-	}
 
+	}
 
 	@SuppressWarnings({ "serial" })
 	private static class SimpleBean implements Identifiable {
@@ -298,8 +295,8 @@ public class HttpEntityMethodProcessorTests {
 		public void setName(String name) {
 			this.name = name;
 		}
-	}
 
+	}
 
 	private final class ValidatingBinderFactory implements WebDataBinderFactory {
 
@@ -311,8 +308,8 @@ public class HttpEntityMethodProcessorTests {
 			dataBinder.setValidator(validator);
 			return dataBinder;
 		}
-	}
 
+	}
 
 	@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 	private static class ParentClass {
@@ -333,8 +330,8 @@ public class HttpEntityMethodProcessorTests {
 		public void setParentProperty(String parentProperty) {
 			this.parentProperty = parentProperty;
 		}
-	}
 
+	}
 
 	@JsonTypeName("foo")
 	private static class Foo extends ParentClass {
@@ -345,8 +342,8 @@ public class HttpEntityMethodProcessorTests {
 		public Foo(String parentProperty) {
 			super(parentProperty);
 		}
-	}
 
+	}
 
 	@JsonTypeName("bar")
 	private static class Bar extends ParentClass {
@@ -357,8 +354,8 @@ public class HttpEntityMethodProcessorTests {
 		public Bar(String parentProperty) {
 			super(parentProperty);
 		}
-	}
 
+	}
 
 	private static class JacksonController {
 
@@ -370,6 +367,7 @@ public class HttpEntityMethodProcessorTests {
 			list.add(new Bar("bar"));
 			return new HttpEntity<>(list);
 		}
+
 	}
 
 }

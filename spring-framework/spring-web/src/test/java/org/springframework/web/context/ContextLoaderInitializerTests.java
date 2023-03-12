@@ -78,8 +78,7 @@ public class ContextLoaderInitializerTests {
 
 	}
 
-	private static class MyContextLoaderInitializer
-			extends AbstractContextLoaderInitializer {
+	private static class MyContextLoaderInitializer extends AbstractContextLoaderInitializer {
 
 		@Override
 		protected WebApplicationContext createRootApplicationContext() {
@@ -87,9 +86,11 @@ public class ContextLoaderInitializerTests {
 			rootContext.registerSingleton(BEAN_NAME, MyBean.class);
 			return rootContext;
 		}
+
 	}
 
 	private static class MyBean {
 
 	}
+
 }

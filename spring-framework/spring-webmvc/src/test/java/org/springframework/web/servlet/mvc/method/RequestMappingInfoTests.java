@@ -176,8 +176,8 @@ public class RequestMappingInfoTests {
 		RequestMappingInfo oneMethod = paths().methods(GET).build();
 		RequestMappingInfo oneMethodOneParam = paths().methods(GET).params("foo").build();
 
-		Comparator<RequestMappingInfo> comparator =
-				(info, otherInfo) -> info.compareTo(otherInfo, new MockHttpServletRequest());
+		Comparator<RequestMappingInfo> comparator = (info, otherInfo) -> info.compareTo(otherInfo,
+				new MockHttpServletRequest());
 
 		List<RequestMappingInfo> list = asList(noMethods, oneMethod, oneMethodOneParam);
 		Collections.shuffle(list);
@@ -211,71 +211,53 @@ public class RequestMappingInfoTests {
 
 	@Test
 	public void equals() {
-		RequestMappingInfo info1 = paths("/foo").methods(GET)
-				.params("foo=bar", "customFoo=customBar").headers("foo=bar")
-				.consumes("text/plain").produces("text/plain")
-				.build();
+		RequestMappingInfo info1 = paths("/foo").methods(GET).params("foo=bar", "customFoo=customBar")
+				.headers("foo=bar").consumes("text/plain").produces("text/plain").build();
 
-		RequestMappingInfo info2 = paths("/foo").methods(GET)
-				.params("foo=bar", "customFoo=customBar").headers("foo=bar")
-				.consumes("text/plain").produces("text/plain")
-				.build();
+		RequestMappingInfo info2 = paths("/foo").methods(GET).params("foo=bar", "customFoo=customBar")
+				.headers("foo=bar").consumes("text/plain").produces("text/plain").build();
 
 		assertThat(info2).isEqualTo(info1);
 		assertThat(info2.hashCode()).isEqualTo(info1.hashCode());
 
-		info2 = paths("/foo", "/NOOOOOO").methods(GET)
-				.params("foo=bar", "customFoo=customBar").headers("foo=bar")
-				.consumes("text/plain").produces("text/plain")
-				.build();
+		info2 = paths("/foo", "/NOOOOOO").methods(GET).params("foo=bar", "customFoo=customBar").headers("foo=bar")
+				.consumes("text/plain").produces("text/plain").build();
 
 		assertThat(info1.equals(info2)).isFalse();
 		assertThat(info2.hashCode()).isNotEqualTo(info1.hashCode());
 
-		info2 = paths("/foo").methods(GET, RequestMethod.POST)
-				.params("foo=bar", "customFoo=customBar").headers("foo=bar")
-				.consumes("text/plain").produces("text/plain")
-				.build();
+		info2 = paths("/foo").methods(GET, RequestMethod.POST).params("foo=bar", "customFoo=customBar")
+				.headers("foo=bar").consumes("text/plain").produces("text/plain").build();
 
 		assertThat(info1.equals(info2)).isFalse();
 		assertThat(info2.hashCode()).isNotEqualTo(info1.hashCode());
 
-		info2 = paths("/foo").methods(GET)
-				.params("/NOOOOOO", "customFoo=customBar").headers("foo=bar")
-				.consumes("text/plain").produces("text/plain")
-				.build();
+		info2 = paths("/foo").methods(GET).params("/NOOOOOO", "customFoo=customBar").headers("foo=bar")
+				.consumes("text/plain").produces("text/plain").build();
 
 		assertThat(info1.equals(info2)).isFalse();
 		assertThat(info2.hashCode()).isNotEqualTo(info1.hashCode());
 
-		info2 = paths("/foo").methods(GET)
-				.params("foo=bar", "customFoo=customBar").headers("/NOOOOOO")
-				.consumes("text/plain").produces("text/plain")
-				.build();
+		info2 = paths("/foo").methods(GET).params("foo=bar", "customFoo=customBar").headers("/NOOOOOO")
+				.consumes("text/plain").produces("text/plain").build();
 
 		assertThat(info1.equals(info2)).isFalse();
 		assertThat(info2.hashCode()).isNotEqualTo(info1.hashCode());
 
-		info2 = paths("/foo").methods(GET)
-				.params("foo=bar", "customFoo=customBar").headers("foo=bar")
-				.consumes("text/NOOOOOO").produces("text/plain")
-				.build();
+		info2 = paths("/foo").methods(GET).params("foo=bar", "customFoo=customBar").headers("foo=bar")
+				.consumes("text/NOOOOOO").produces("text/plain").build();
 
 		assertThat(info1.equals(info2)).isFalse();
 		assertThat(info2.hashCode()).isNotEqualTo(info1.hashCode());
 
-		info2 = paths("/foo").methods(GET)
-				.params("foo=bar", "customFoo=customBar").headers("foo=bar")
-				.consumes("text/plain").produces("text/NOOOOOO")
-				.build();
+		info2 = paths("/foo").methods(GET).params("foo=bar", "customFoo=customBar").headers("foo=bar")
+				.consumes("text/plain").produces("text/NOOOOOO").build();
 
 		assertThat(info1.equals(info2)).isFalse();
 		assertThat(info2.hashCode()).isNotEqualTo(info1.hashCode());
 
-		info2 = paths("/foo").methods(GET)
-				.params("foo=bar", "customFoo=NOOOOOO").headers("foo=bar")
-				.consumes("text/plain").produces("text/plain")
-				.build();
+		info2 = paths("/foo").methods(GET).params("foo=bar", "customFoo=NOOOOOO").headers("foo=bar")
+				.consumes("text/plain").produces("text/plain").build();
 
 		assertThat(info1.equals(info2)).isFalse();
 		assertThat(info2.hashCode()).isNotEqualTo(info1.hashCode());

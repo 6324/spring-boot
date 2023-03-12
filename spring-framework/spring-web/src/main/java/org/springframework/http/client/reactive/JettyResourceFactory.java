@@ -16,7 +16,6 @@
 
 package org.springframework.http.client.reactive;
 
-
 import java.nio.ByteBuffer;
 import java.util.concurrent.Executor;
 
@@ -38,8 +37,9 @@ import org.springframework.util.Assert;
  * Factory to manage Jetty resources, i.e. {@link Executor}, {@link ByteBufferPool} and
  * {@link Scheduler}, within the lifecycle of a Spring {@code ApplicationContext}.
  *
- * <p>This factory implements {@link InitializingBean} and {@link DisposableBean}
- * and is expected typically to be declared as a Spring-managed bean.
+ * <p>
+ * This factory implements {@link InitializingBean} and {@link DisposableBean} and is
+ * expected typically to be declared as a Spring-managed bean.
  *
  * @author Sebastien Deleuze
  * @since 5.1
@@ -57,10 +57,10 @@ public class JettyResourceFactory implements InitializingBean, DisposableBean {
 
 	private String threadPrefix = "jetty-http";
 
-
 	/**
 	 * Configure the {@link Executor} to use.
-	 * <p>By default, initialized with a {@link QueuedThreadPool}.
+	 * <p>
+	 * By default, initialized with a {@link QueuedThreadPool}.
 	 * @param executor the executor to use
 	 */
 	public void setExecutor(@Nullable Executor executor) {
@@ -69,7 +69,8 @@ public class JettyResourceFactory implements InitializingBean, DisposableBean {
 
 	/**
 	 * Configure the {@link ByteBufferPool} to use.
-	 * <p>By default, initialized with a {@link MappedByteBufferPool}.
+	 * <p>
+	 * By default, initialized with a {@link MappedByteBufferPool}.
 	 * @param byteBufferPool the {@link ByteBuffer} pool to use
 	 */
 	public void setByteBufferPool(@Nullable ByteBufferPool byteBufferPool) {
@@ -78,7 +79,8 @@ public class JettyResourceFactory implements InitializingBean, DisposableBean {
 
 	/**
 	 * Configure the {@link Scheduler} to use.
-	 * <p>By default, initialized with a {@link ScheduledExecutorScheduler}.
+	 * <p>
+	 * By default, initialized with a {@link ScheduledExecutorScheduler}.
 	 * @param scheduler the {@link Scheduler} to use
 	 */
 	public void setScheduler(@Nullable Scheduler scheduler) {
@@ -86,10 +88,11 @@ public class JettyResourceFactory implements InitializingBean, DisposableBean {
 	}
 
 	/**
-	 * Configure the thread prefix to initialize {@link QueuedThreadPool} executor with. This
-	 * is used only when a {@link Executor} instance isn't
+	 * Configure the thread prefix to initialize {@link QueuedThreadPool} executor with.
+	 * This is used only when a {@link Executor} instance isn't
 	 * {@link #setExecutor(Executor) provided}.
-	 * <p>By default set to "jetty-http".
+	 * <p>
+	 * By default set to "jetty-http".
 	 * @param threadPrefix the thread prefix to use
 	 */
 	public void setThreadPrefix(String threadPrefix) {
@@ -140,7 +143,7 @@ public class JettyResourceFactory implements InitializingBean, DisposableBean {
 		}
 
 		if (this.executor instanceof LifeCycle) {
-			((LifeCycle)this.executor).start();
+			((LifeCycle) this.executor).start();
 		}
 		this.scheduler.start();
 	}
@@ -149,7 +152,7 @@ public class JettyResourceFactory implements InitializingBean, DisposableBean {
 	public void destroy() throws Exception {
 		try {
 			if (this.executor instanceof LifeCycle) {
-				((LifeCycle)this.executor).stop();
+				((LifeCycle) this.executor).stop();
 			}
 		}
 		catch (Throwable ex) {

@@ -59,7 +59,6 @@ class UndertowServerHttpRequest extends AbstractServerHttpRequest {
 
 	private final RequestBodyPublisher body;
 
-
 	public UndertowServerHttpRequest(HttpServerExchange exchange, DataBufferFactory bufferFactory)
 			throws URISyntaxException {
 
@@ -135,7 +134,6 @@ class UndertowServerHttpRequest extends AbstractServerHttpRequest {
 		return ObjectUtils.getIdentityHexString(this.exchange.getConnection());
 	}
 
-
 	private class RequestBodyPublisher extends AbstractListenerReadPublisher<DataBuffer> {
 
 		private final StreamSourceChannel channel;
@@ -208,8 +206,8 @@ class UndertowServerHttpRequest extends AbstractServerHttpRequest {
 		protected void discardData() {
 			// Nothing to discard since we pass data buffers on immediately..
 		}
-	}
 
+	}
 
 	private static class UndertowDataBuffer extends DataBufferWrapper implements PooledDataBuffer {
 
@@ -217,15 +215,13 @@ class UndertowServerHttpRequest extends AbstractServerHttpRequest {
 
 		private final AtomicInteger refCount;
 
-
 		public UndertowDataBuffer(DataBuffer dataBuffer, PooledByteBuffer pooledByteBuffer) {
 			super(dataBuffer);
 			this.pooledByteBuffer = pooledByteBuffer;
 			this.refCount = new AtomicInteger(1);
 		}
 
-		private UndertowDataBuffer(DataBuffer dataBuffer, PooledByteBuffer pooledByteBuffer,
-				AtomicInteger refCount) {
+		private UndertowDataBuffer(DataBuffer dataBuffer, PooledByteBuffer pooledByteBuffer, AtomicInteger refCount) {
 			super(dataBuffer);
 			this.refCount = refCount;
 			this.pooledByteBuffer = pooledByteBuffer;

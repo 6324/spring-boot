@@ -25,11 +25,11 @@ import java.lang.annotation.Target;
 import org.springframework.core.annotation.AliasFor;
 
 /**
- * Annotation for mapping HTTP {@code PATCH} requests onto specific handler
- * methods.
+ * Annotation for mapping HTTP {@code PATCH} requests onto specific handler methods.
  *
- * <p>Specifically, {@code @PatchMapping} is a <em>composed annotation</em> that
- * acts as a shortcut for {@code @RequestMapping(method = RequestMethod.PATCH)}.
+ * <p>
+ * Specifically, {@code @PatchMapping} is a <em>composed annotation</em> that acts as a
+ * shortcut for {@code @RequestMapping(method = RequestMethod.PATCH)}.
  *
  * @author Sam Brannen
  * @since 4.3

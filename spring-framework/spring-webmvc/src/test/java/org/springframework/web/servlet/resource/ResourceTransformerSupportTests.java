@@ -44,7 +44,6 @@ public class ResourceTransformerSupportTests {
 
 	private final MockHttpServletRequest request = new MockHttpServletRequest("GET", "/");
 
-
 	@BeforeEach
 	public void setUp() {
 		VersionResourceResolver versionResolver = new VersionResourceResolver();
@@ -69,7 +68,6 @@ public class ResourceTransformerSupportTests {
 		urlProvider.setHandlerMap(Collections.singletonMap("/resources/**", handler));
 		return urlProvider;
 	}
-
 
 	@Test
 	public void resolveUrlPath() {
@@ -114,13 +112,13 @@ public class ResourceTransformerSupportTests {
 		return new ClassPathResource("test/" + filePath, getClass());
 	}
 
-
 	private static class TestResourceTransformerSupport extends ResourceTransformerSupport {
 
 		@Override
 		public Resource transform(HttpServletRequest request, Resource resource, ResourceTransformerChain chain) {
 			throw new IllegalStateException("Should never be called");
 		}
+
 	}
 
 }

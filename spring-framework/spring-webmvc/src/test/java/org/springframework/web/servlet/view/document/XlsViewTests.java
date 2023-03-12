@@ -49,14 +49,13 @@ public class XlsViewTests {
 
 	private final MockHttpServletResponse response = new MockHttpServletResponse();
 
-
 	@Test
 	@SuppressWarnings("resource")
 	public void testXls() throws Exception {
 		View excelView = new AbstractXlsView() {
 			@Override
-			protected void buildExcelDocument(Map<String, Object> model, Workbook workbook,
-					HttpServletRequest request, HttpServletResponse response) throws Exception {
+			protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request,
+					HttpServletResponse response) throws Exception {
 				Sheet sheet = workbook.createSheet("Test Sheet");
 				Row row = sheet.createRow(0);
 				Cell cell = row.createCell(0);
@@ -79,8 +78,8 @@ public class XlsViewTests {
 	public void testXlsxView() throws Exception {
 		View excelView = new AbstractXlsxView() {
 			@Override
-			protected void buildExcelDocument(Map<String, Object> model, Workbook workbook,
-					HttpServletRequest request, HttpServletResponse response) throws Exception {
+			protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request,
+					HttpServletResponse response) throws Exception {
 				Sheet sheet = workbook.createSheet("Test Sheet");
 				Row row = sheet.createRow(0);
 				Cell cell = row.createCell(0);
@@ -103,8 +102,8 @@ public class XlsViewTests {
 	public void testXlsxStreamingView() throws Exception {
 		View excelView = new AbstractXlsxStreamingView() {
 			@Override
-			protected void buildExcelDocument(Map<String, Object> model, Workbook workbook,
-					HttpServletRequest request, HttpServletResponse response) throws Exception {
+			protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request,
+					HttpServletResponse response) throws Exception {
 				Sheet sheet = workbook.createSheet("Test Sheet");
 				Row row = sheet.createRow(0);
 				Cell cell = row.createCell(0);

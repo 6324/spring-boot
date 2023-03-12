@@ -32,7 +32,8 @@ import org.springframework.web.testfixture.servlet.MockHttpServletRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Test fixture with {@link org.springframework.web.method.annotation.ModelMethodProcessor}.
+ * Test fixture with
+ * {@link org.springframework.web.method.annotation.ModelMethodProcessor}.
  *
  * @author Rossen Stoyanchev
  */
@@ -72,7 +73,8 @@ public class ModelMethodProcessorTests {
 
 	@Test
 	public void resolveArgumentValue() throws Exception {
-		assertThat(processor.resolveArgument(paramModel, mavContainer, webRequest, null)).isSameAs(mavContainer.getModel());
+		assertThat(processor.resolveArgument(paramModel, mavContainer, webRequest, null))
+				.isSameAs(mavContainer.getModel());
 	}
 
 	@Test
@@ -81,7 +83,7 @@ public class ModelMethodProcessorTests {
 		Model returnValue = new ExtendedModelMap();
 		returnValue.addAttribute("attr2", "value2");
 
-		processor.handleReturnValue(returnValue , returnParamModel, mavContainer, webRequest);
+		processor.handleReturnValue(returnValue, returnParamModel, mavContainer, webRequest);
 
 		assertThat(mavContainer.getModel().get("attr1")).isEqualTo("value1");
 		assertThat(mavContainer.getModel().get("attr2")).isEqualTo("value2");

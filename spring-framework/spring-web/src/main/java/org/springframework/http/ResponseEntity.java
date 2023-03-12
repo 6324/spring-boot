@@ -31,10 +31,11 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Extension of {@link HttpEntity} that adds a {@link HttpStatus} status code.
- * Used in {@code RestTemplate} as well {@code @Controller} methods.
+ * Extension of {@link HttpEntity} that adds a {@link HttpStatus} status code. Used in
+ * {@code RestTemplate} as well {@code @Controller} methods.
  *
- * <p>In {@code RestTemplate}, this class is returned by
+ * <p>
+ * In {@code RestTemplate}, this class is returned by
  * {@link org.springframework.web.client.RestTemplate#getForEntity getForEntity()} and
  * {@link org.springframework.web.client.RestTemplate#exchange exchange()}:
  * <pre class="code">
@@ -44,7 +45,8 @@ import org.springframework.util.ObjectUtils;
  * HttpStatus statusCode = entity.getStatusCode();
  * </pre>
  *
- * <p>Can also be used in Spring MVC, as the return value from a @Controller method:
+ * <p>
+ * Can also be used in Spring MVC, as the return value from a @Controller method:
  * <pre class="code">
  * &#64;RequestMapping("/handle")
  * public ResponseEntity&lt;String&gt; handle() {
@@ -56,8 +58,7 @@ import org.springframework.util.ObjectUtils;
  * }
  * </pre>
  *
- * Or, by using a builder accessible via static methods:
- * <pre class="code">
+ * Or, by using a builder accessible via static methods: <pre class="code">
  * &#64;RequestMapping("/handle")
  * public ResponseEntity&lt;String&gt; handle() {
  *   URI location = ...;
@@ -70,8 +71,10 @@ import org.springframework.util.ObjectUtils;
  * @since 3.0.2
  * @param <T> the body type
  * @see #getStatusCode()
- * @see org.springframework.web.client.RestOperations#getForEntity(String, Class, Object...)
- * @see org.springframework.web.client.RestOperations#getForEntity(String, Class, java.util.Map)
+ * @see org.springframework.web.client.RestOperations#getForEntity(String, Class,
+ * Object...)
+ * @see org.springframework.web.client.RestOperations#getForEntity(String, Class,
+ * java.util.Map)
  * @see org.springframework.web.client.RestOperations#getForEntity(URI, Class)
  * @see RequestEntity
  */
@@ -79,9 +82,9 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 
 	private final Object status;
 
-
 	/**
-	 * Create a new {@code ResponseEntity} with the given status code, and no body nor headers.
+	 * Create a new {@code ResponseEntity} with the given status code, and no body nor
+	 * headers.
 	 * @param status the status code
 	 */
 	public ResponseEntity(HttpStatus status) {
@@ -89,7 +92,8 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 	}
 
 	/**
-	 * Create a new {@code ResponseEntity} with the given body and status code, and no headers.
+	 * Create a new {@code ResponseEntity} with the given body and status code, and no
+	 * headers.
 	 * @param body the entity body
 	 * @param status the status code
 	 */
@@ -98,7 +102,8 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 	}
 
 	/**
-	 * Create a new {@code HttpEntity} with the given headers and status code, and no body.
+	 * Create a new {@code HttpEntity} with the given headers and status code, and no
+	 * body.
 	 * @param headers the entity headers
 	 * @param status the status code
 	 */
@@ -119,8 +124,8 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 	}
 
 	/**
-	 * Create a new {@code HttpEntity} with the given body, headers, and status code.
-	 * Just used behind the nested builder API.
+	 * Create a new {@code HttpEntity} with the given body, headers, and status code. Just
+	 * used behind the nested builder API.
 	 * @param body the entity body
 	 * @param headers the entity headers
 	 * @param status the status code (as {@code HttpStatus} or as {@code Integer} value)
@@ -130,7 +135,6 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 		Assert.notNull(status, "HttpStatus must not be null");
 		this.status = status;
 	}
-
 
 	/**
 	 * Return the HTTP status code of the response.
@@ -158,7 +162,6 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 			return (Integer) this.status;
 		}
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {
@@ -197,7 +200,6 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 		return builder.toString();
 	}
 
-
 	// Static builder methods
 
 	/**
@@ -231,8 +233,8 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 	}
 
 	/**
-	 * A shortcut for creating a {@code ResponseEntity} with the given body and
-	 * the status set to {@linkplain HttpStatus#OK OK}.
+	 * A shortcut for creating a {@code ResponseEntity} with the given body and the status
+	 * set to {@linkplain HttpStatus#OK OK}.
 	 * @return the created {@code ResponseEntity}
 	 * @since 4.1
 	 */
@@ -241,8 +243,8 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 	}
 
 	/**
-	 * A shortcut for creating a {@code ResponseEntity} with the given body
-	 * and the {@linkplain HttpStatus#OK OK} status, or an empty body and a
+	 * A shortcut for creating a {@code ResponseEntity} with the given body and the
+	 * {@linkplain HttpStatus#OK OK} status, or an empty body and a
 	 * {@linkplain HttpStatus#NOT_FOUND NOT FOUND} status in case of an
 	 * {@linkplain Optional#empty()} parameter.
 	 * @return the created {@code ResponseEntity}
@@ -254,8 +256,8 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 	}
 
 	/**
-	 * Create a new builder with a {@linkplain HttpStatus#CREATED CREATED} status
-	 * and a location header set to the given URI.
+	 * Create a new builder with a {@linkplain HttpStatus#CREATED CREATED} status and a
+	 * location header set to the given URI.
 	 * @param location the location URI
 	 * @return the created builder
 	 * @since 4.1
@@ -301,8 +303,8 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 	}
 
 	/**
-	 * Create a builder with an
-	 * {@linkplain HttpStatus#UNPROCESSABLE_ENTITY UNPROCESSABLE_ENTITY} status.
+	 * Create a builder with an {@linkplain HttpStatus#UNPROCESSABLE_ENTITY
+	 * UNPROCESSABLE_ENTITY} status.
 	 * @return the created builder
 	 * @since 4.1.3
 	 */
@@ -310,9 +312,9 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 		return status(HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 
-
 	/**
 	 * Defines a builder that adds headers to the response entity.
+	 *
 	 * @since 4.1
 	 * @param <B> the builder subclass
 	 */
@@ -337,8 +339,8 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 		B headers(@Nullable HttpHeaders headers);
 
 		/**
-		 * Manipulate this entity's headers with the given consumer. The
-		 * headers provided to the consumer are "live", so that the consumer can be used to
+		 * Manipulate this entity's headers with the given consumer. The headers provided
+		 * to the consumer are "live", so that the consumer can be used to
 		 * {@linkplain HttpHeaders#set(String, String) overwrite} existing header values,
 		 * {@linkplain HttpHeaders#remove(Object) remove} values, or use any of the other
 		 * {@link HttpHeaders} methods.
@@ -349,8 +351,8 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 		B headers(Consumer<HttpHeaders> headersConsumer);
 
 		/**
-		 * Set the set of allowed {@link HttpMethod HTTP methods}, as specified
-		 * by the {@code Allow} header.
+		 * Set the set of allowed {@link HttpMethod HTTP methods}, as specified by the
+		 * {@code Allow} header.
 		 * @param allowedMethods the allowed methods
 		 * @return this builder
 		 * @see HttpHeaders#setAllow(Set)
@@ -388,8 +390,9 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 		/**
 		 * Set the time the resource was last changed, as specified by the
 		 * {@code Last-Modified} header.
-		 * <p>The date should be specified as the number of milliseconds since
-		 * January 1, 1970 GMT.
+		 * <p>
+		 * The date should be specified as the number of milliseconds since January 1,
+		 * 1970 GMT.
 		 * @param lastModified the last modified date
 		 * @return this builder
 		 * @see HttpHeaders#setLastModified(long)
@@ -407,21 +410,23 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 		/**
 		 * Set the caching directives for the resource, as specified by the HTTP 1.1
 		 * {@code Cache-Control} header.
-		 * <p>A {@code CacheControl} instance can be built like
+		 * <p>
+		 * A {@code CacheControl} instance can be built like
 		 * {@code CacheControl.maxAge(3600).cachePublic().noTransform()}.
 		 * @param cacheControl a builder for cache-related HTTP response headers
 		 * @return this builder
 		 * @since 4.2
-		 * @see <a href="https://tools.ietf.org/html/rfc7234#section-5.2">RFC-7234 Section 5.2</a>
+		 * @see <a href="https://tools.ietf.org/html/rfc7234#section-5.2">RFC-7234 Section
+		 * 5.2</a>
 		 */
 		B cacheControl(CacheControl cacheControl);
 
 		/**
-		 * Configure one or more request header names (e.g. "Accept-Language") to
-		 * add to the "Vary" response header to inform clients that the response is
-		 * subject to content negotiation and variances based on the value of the
-		 * given request headers. The configured request header names are added only
-		 * if not already present in the response "Vary" header.
+		 * Configure one or more request header names (e.g. "Accept-Language") to add to
+		 * the "Vary" response header to inform clients that the response is subject to
+		 * content negotiation and variances based on the value of the given request
+		 * headers. The configured request header names are added only if not already
+		 * present in the response "Vary" header.
 		 * @param requestHeaders request header names
 		 * @since 4.3
 		 */
@@ -433,18 +438,19 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 		 * @see BodyBuilder#body(Object)
 		 */
 		<T> ResponseEntity<T> build();
-	}
 
+	}
 
 	/**
 	 * Defines a builder that adds a body to the response entity.
+	 *
 	 * @since 4.1
 	 */
 	public interface BodyBuilder extends HeadersBuilder<BodyBuilder> {
 
 		/**
-		 * Set the length of the body in bytes, as specified by the
-		 * {@code Content-Length} header.
+		 * Set the length of the body in bytes, as specified by the {@code Content-Length}
+		 * header.
 		 * @param contentLength the content length
 		 * @return this builder
 		 * @see HttpHeaders#setContentLength(long)
@@ -467,8 +473,8 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 		 * @return the built response entity
 		 */
 		<T> ResponseEntity<T> body(@Nullable T body);
-	}
 
+	}
 
 	private static class DefaultBuilder implements BodyBuilder {
 
@@ -577,6 +583,7 @@ public class ResponseEntity<T> extends HttpEntity<T> {
 		public <T> ResponseEntity<T> body(@Nullable T body) {
 			return new ResponseEntity<>(body, this.headers, this.statusCode);
 		}
+
 	}
 
 }

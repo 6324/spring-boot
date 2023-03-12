@@ -38,7 +38,6 @@ public class UrlFilenameViewControllerTests {
 
 	private PathMatcher pathMatcher = new AntPathMatcher();
 
-
 	@Test
 	public void withPlainFilename() throws Exception {
 		UrlFilenameViewController ctrl = new UrlFilenameViewController();
@@ -150,16 +149,20 @@ public class UrlFilenameViewControllerTests {
 	public void settingPrefixToNullCausesEmptyStringToBeUsed() throws Exception {
 		UrlFilenameViewController ctrl = new UrlFilenameViewController();
 		ctrl.setPrefix(null);
-		assertThat(ctrl.getPrefix()).as("For setPrefix(..) with null, the empty string must be used instead.").isNotNull();
-		assertThat(ctrl.getPrefix()).as("For setPrefix(..) with null, the empty string must be used instead.").isEqualTo("");
+		assertThat(ctrl.getPrefix()).as("For setPrefix(..) with null, the empty string must be used instead.")
+				.isNotNull();
+		assertThat(ctrl.getPrefix()).as("For setPrefix(..) with null, the empty string must be used instead.")
+				.isEqualTo("");
 	}
 
 	@Test
 	public void settingSuffixToNullCausesEmptyStringToBeUsed() throws Exception {
 		UrlFilenameViewController ctrl = new UrlFilenameViewController();
 		ctrl.setSuffix(null);
-		assertThat(ctrl.getSuffix()).as("For setPrefix(..) with null, the empty string must be used instead.").isNotNull();
-		assertThat(ctrl.getSuffix()).as("For setPrefix(..) with null, the empty string must be used instead.").isEqualTo("");
+		assertThat(ctrl.getSuffix()).as("For setPrefix(..) with null, the empty string must be used instead.")
+				.isNotNull();
+		assertThat(ctrl.getSuffix()).as("For setPrefix(..) with null, the empty string must be used instead.")
+				.isEqualTo("");
 	}
 
 	/**

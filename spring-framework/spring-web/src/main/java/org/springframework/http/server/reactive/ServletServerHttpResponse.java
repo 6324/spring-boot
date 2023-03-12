@@ -91,7 +91,6 @@ class ServletServerHttpResponse extends AbstractListenerServerHttpResponse {
 		response.getOutputStream().setWriteListener(new ResponseBodyWriteListener());
 	}
 
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T getNativeResponse() {
@@ -173,9 +172,9 @@ class ServletServerHttpResponse extends AbstractListenerServerHttpResponse {
 	}
 
 	/**
-	 * Write the DataBuffer to the response body OutputStream.
-	 * Invoked only when {@link ServletOutputStream#isReady()} returns "true"
-	 * and the readable bytes in the DataBuffer is greater than 0.
+	 * Write the DataBuffer to the response body OutputStream. Invoked only when
+	 * {@link ServletOutputStream#isReady()} returns "true" and the readable bytes in the
+	 * DataBuffer is greater than 0.
 	 * @return the number of bytes written
 	 */
 	protected int writeToOutputStream(DataBuffer dataBuffer) throws IOException {
@@ -212,11 +211,11 @@ class ServletServerHttpResponse extends AbstractListenerServerHttpResponse {
 		return this.outputStream.isReady();
 	}
 
-
 	private final class ResponseAsyncListener implements AsyncListener {
 
 		@Override
-		public void onStartAsync(AsyncEvent event) {}
+		public void onStartAsync(AsyncEvent event) {
+		}
 
 		@Override
 		public void onTimeout(AsyncEvent event) {
@@ -258,8 +257,8 @@ class ServletServerHttpResponse extends AbstractListenerServerHttpResponse {
 				processor.onComplete();
 			}
 		}
-	}
 
+	}
 
 	private class ResponseBodyWriteListener implements WriteListener {
 
@@ -292,8 +291,8 @@ class ServletServerHttpResponse extends AbstractListenerServerHttpResponse {
 				}
 			}
 		}
-	}
 
+	}
 
 	private class ResponseBodyFlushProcessor extends AbstractListenerWriteFlushProcessor<DataBuffer> {
 
@@ -325,11 +324,10 @@ class ServletServerHttpResponse extends AbstractListenerServerHttpResponse {
 		protected boolean isFlushPending() {
 			return flushOnNext;
 		}
+
 	}
 
-
 	private class ResponseBodyProcessor extends AbstractListenerWriteProcessor<DataBuffer> {
-
 
 		public ResponseBodyProcessor() {
 			super(request.getLogPrefix());
@@ -357,7 +355,8 @@ class ServletServerHttpResponse extends AbstractListenerServerHttpResponse {
 			boolean ready = ServletServerHttpResponse.this.isWritePossible();
 			int remaining = dataBuffer.readableByteCount();
 			if (ready && remaining > 0) {
-				// In case of IOException, onError handling should call discardData(DataBuffer)..
+				// In case of IOException, onError handling should call
+				// discardData(DataBuffer)..
 				int written = writeToOutputStream(dataBuffer);
 				if (logger.isTraceEnabled()) {
 					logger.trace(getLogPrefix() + "Wrote " + written + " of " + remaining + " bytes");
@@ -388,6 +387,7 @@ class ServletServerHttpResponse extends AbstractListenerServerHttpResponse {
 		protected void discardData(DataBuffer dataBuffer) {
 			DataBufferUtils.release(dataBuffer);
 		}
+
 	}
 
 }

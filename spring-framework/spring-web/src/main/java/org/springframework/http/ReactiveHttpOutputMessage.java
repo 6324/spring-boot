@@ -27,8 +27,9 @@ import org.springframework.core.io.buffer.DataBufferFactory;
 /**
  * A "reactive" HTTP output message that accepts output as a {@link Publisher}.
  *
- * <p>Typically implemented by an HTTP request on the client-side or an
- * HTTP response on the server-side.
+ * <p>
+ * Typically implemented by an HTTP request on the client-side or an HTTP response on the
+ * server-side.
  *
  * @author Arjen Poutsma
  * @author Sebastien Deleuze
@@ -45,9 +46,10 @@ public interface ReactiveHttpOutputMessage extends HttpMessage {
 
 	/**
 	 * Register an action to apply just before the HttpOutputMessage is committed.
-	 * <p><strong>Note:</strong> the supplied action must be properly deferred,
-	 * e.g. via {@link Mono#defer} or {@link Mono#fromRunnable}, to ensure it's
-	 * executed in the right order, relative to other actions.
+	 * <p>
+	 * <strong>Note:</strong> the supplied action must be properly deferred, e.g. via
+	 * {@link Mono#defer} or {@link Mono#fromRunnable}, to ensure it's executed in the
+	 * right order, relative to other actions.
 	 * @param action the action to apply
 	 */
 	void beforeCommit(Supplier<? extends Mono<Void>> action);
@@ -58,8 +60,8 @@ public interface ReactiveHttpOutputMessage extends HttpMessage {
 	boolean isCommitted();
 
 	/**
-	 * Use the given {@link Publisher} to write the body of the message to the
-	 * underlying HTTP layer.
+	 * Use the given {@link Publisher} to write the body of the message to the underlying
+	 * HTTP layer.
 	 * @param body the body content publisher
 	 * @return a {@link Mono} that indicates completion or error
 	 */
@@ -67,9 +69,9 @@ public interface ReactiveHttpOutputMessage extends HttpMessage {
 	Mono<Void> writeWith(Publisher<? extends DataBuffer> body);
 
 	/**
-	 * Use the given {@link Publisher} of {@code Publishers} to write the body
-	 * of the HttpOutputMessage to the underlying HTTP layer, flushing after
-	 * each {@code Publisher<DataBuffer>}.
+	 * Use the given {@link Publisher} of {@code Publishers} to write the body of the
+	 * HttpOutputMessage to the underlying HTTP layer, flushing after each
+	 * {@code Publisher<DataBuffer>}.
 	 * @param body the body content publisher
 	 * @return a {@link Mono} that indicates completion or error
 	 */
@@ -77,12 +79,12 @@ public interface ReactiveHttpOutputMessage extends HttpMessage {
 
 	/**
 	 * Indicate that message handling is complete, allowing for any cleanup or
-	 * end-of-processing tasks to be performed such as applying header changes
-	 * made via {@link #getHeaders()} to the underlying HTTP message (if not
-	 * applied already).
-	 * <p>This method should be automatically invoked at the end of message
-	 * processing so typically applications should not have to invoke it.
-	 * If invoked multiple times it should have no side effects.
+	 * end-of-processing tasks to be performed such as applying header changes made via
+	 * {@link #getHeaders()} to the underlying HTTP message (if not applied already).
+	 * <p>
+	 * This method should be automatically invoked at the end of message processing so
+	 * typically applications should not have to invoke it. If invoked multiple times it
+	 * should have no side effects.
 	 * @return a {@link Mono} that indicates completion or error
 	 */
 	Mono<Void> setComplete();

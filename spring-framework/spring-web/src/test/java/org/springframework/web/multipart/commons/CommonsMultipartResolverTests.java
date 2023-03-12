@@ -274,7 +274,8 @@ public class CommonsMultipartResolverTests {
 	public void withServletContextAndFilter() throws Exception {
 		StaticWebApplicationContext wac = new StaticWebApplicationContext();
 		wac.setServletContext(new MockServletContext());
-		wac.registerSingleton("filterMultipartResolver", MockCommonsMultipartResolver.class, new MutablePropertyValues());
+		wac.registerSingleton("filterMultipartResolver", MockCommonsMultipartResolver.class,
+				new MutablePropertyValues());
 		wac.getServletContext().setAttribute(WebUtils.TEMP_DIR_CONTEXT_ATTRIBUTE, new File("mytemp"));
 		wac.refresh();
 		wac.getServletContext().setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, wac);
@@ -338,6 +339,7 @@ public class CommonsMultipartResolverTests {
 
 		MultipartFilter filter = new MultipartFilter() {
 			private boolean invoked = false;
+
 			@Override
 			protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 					FilterChain filterChain) throws ServletException, IOException {
@@ -363,7 +365,6 @@ public class CommonsMultipartResolverTests {
 		assertThat(((MockFileItem) file2.getFileItem()).deleted).isTrue();
 	}
 
-
 	public static class MockCommonsMultipartResolver extends CommonsMultipartResolver {
 
 		private boolean empty;
@@ -381,16 +382,17 @@ public class CommonsMultipartResolverTests {
 						throw new IllegalStateException("Already a multipart request");
 					}
 					List<FileItem> fileItems = new ArrayList<>();
-					MockFileItem fileItem1 = new MockFileItem(
-						"field1", "type1", empty ? "" : "field1.txt", empty ? "" : "text1");
-					MockFileItem fileItem1x = new MockFileItem(
-						"field1", "type1", empty ? "" : "field1.txt", empty ? "" : "text1");
-					MockFileItem fileItem2 = new MockFileItem(
-						"field2", "type2", empty ? "" : "C:\\mypath/field2.txt", empty ? "" : "text2");
-					MockFileItem fileItem2x = new MockFileItem(
-						"field2x", "type2", empty ? "" : "C:/mypath\\field2x.txt", empty ? "" : "text2");
+					MockFileItem fileItem1 = new MockFileItem("field1", "type1", empty ? "" : "field1.txt",
+							empty ? "" : "text1");
+					MockFileItem fileItem1x = new MockFileItem("field1", "type1", empty ? "" : "field1.txt",
+							empty ? "" : "text1");
+					MockFileItem fileItem2 = new MockFileItem("field2", "type2", empty ? "" : "C:\\mypath/field2.txt",
+							empty ? "" : "text2");
+					MockFileItem fileItem2x = new MockFileItem("field2x", "type2",
+							empty ? "" : "C:/mypath\\field2x.txt", empty ? "" : "text2");
 					MockFileItem fileItem3 = new MockFileItem("field3", null, null, "value3");
-					MockFileItem fileItem4 = new MockFileItem("field4", "text/html; charset=iso-8859-1", null, "value4");
+					MockFileItem fileItem4 = new MockFileItem("field4", "text/html; charset=iso-8859-1", null,
+							"value4");
 					MockFileItem fileItem5 = new MockFileItem("field4", null, null, "value5");
 					fileItems.add(fileItem1);
 					fileItems.add(fileItem1x);
@@ -403,17 +405,21 @@ public class CommonsMultipartResolverTests {
 				}
 			};
 		}
-	}
 
+	}
 
 	private static class MockFileItem implements FileItem {
 
 		private String fieldName;
+
 		private String contentType;
+
 		private String name;
+
 		private String value;
 
 		private File writtenFile;
+
 		private boolean deleted;
 
 		public MockFileItem(String fieldName, String contentType, String name, String value) {
@@ -507,12 +513,13 @@ public class CommonsMultipartResolverTests {
 		public void setHeaders(FileItemHeaders headers) {
 			throw new UnsupportedOperationException();
 		}
-	}
 
+	}
 
 	public class MultipartTestBean1 {
 
 		private MultipartFile[] field1;
+
 		private byte[] field2;
 
 		public void setField1(MultipartFile[] field1) {
@@ -530,12 +537,13 @@ public class CommonsMultipartResolverTests {
 		public byte[] getField2() {
 			return field2;
 		}
-	}
 
+	}
 
 	public class MultipartTestBean2 {
 
 		private String[] field1;
+
 		private String field2;
 
 		public void setField1(String[] field1) {
@@ -553,6 +561,7 @@ public class CommonsMultipartResolverTests {
 		public String getField2() {
 			return field2;
 		}
+
 	}
 
 }

@@ -43,7 +43,6 @@ public class HeaderContentNegotiationStrategyTests {
 
 	private final NativeWebRequest webRequest = new ServletWebRequest(this.servletRequest);
 
-
 	@Test
 	public void resolveMediaTypes() throws Exception {
 		this.servletRequest.addHeader("Accept", "text/plain; q=0.5, text/html, text/x-dvi; q=0.8, text/x-c");
@@ -56,7 +55,7 @@ public class HeaderContentNegotiationStrategyTests {
 		assertThat(mediaTypes.get(3).toString()).isEqualTo("text/plain;q=0.5");
 	}
 
-	@Test  // SPR-14506
+	@Test // SPR-14506
 	public void resolveMediaTypesFromMultipleHeaderValues() throws Exception {
 		this.servletRequest.addHeader("Accept", "text/plain; q=0.5, text/html");
 		this.servletRequest.addHeader("Accept", "text/x-dvi; q=0.8, text/x-c");
@@ -72,8 +71,8 @@ public class HeaderContentNegotiationStrategyTests {
 	@Test
 	public void resolveMediaTypesParseError() throws Exception {
 		this.servletRequest.addHeader("Accept", "textplain; q=0.5");
-		assertThatExceptionOfType(HttpMediaTypeNotAcceptableException.class).isThrownBy(() ->
-				this.strategy.resolveMediaTypes(this.webRequest));
+		assertThatExceptionOfType(HttpMediaTypeNotAcceptableException.class)
+				.isThrownBy(() -> this.strategy.resolveMediaTypes(this.webRequest));
 	}
 
 }

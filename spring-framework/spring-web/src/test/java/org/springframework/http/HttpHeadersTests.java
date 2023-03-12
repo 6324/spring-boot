@@ -57,7 +57,6 @@ public class HttpHeadersTests {
 
 	private final HttpHeaders headers = new HttpHeaders();
 
-
 	@Test
 	public void getOrEmpty() {
 		String key = "FOO";
@@ -92,7 +91,7 @@ public class HttpHeadersTests {
 		assertThat(headers.getFirst("Accept")).as("Invalid Accept header").isEqualTo("text/html, text/plain");
 	}
 
-	@Test  // SPR-9655
+	@Test // SPR-9655
 	public void acceptWithMultipleHeaderValues() {
 		headers.add("Accept", "text/html");
 		headers.add("Accept", "text/plain");
@@ -100,7 +99,7 @@ public class HttpHeadersTests {
 		assertThat(headers.getAccept()).as("Invalid Accept header").isEqualTo(expected);
 	}
 
-	@Test  // SPR-14506
+	@Test // SPR-14506
 	public void acceptWithMultipleCommaSeparatedHeaderValues() {
 		headers.add("Accept", "text/html,text/pdf");
 		headers.add("Accept", "text/plain,text/csv");
@@ -124,7 +123,8 @@ public class HttpHeadersTests {
 	@Test
 	public void acceptCharsetWildcard() {
 		headers.set("Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7");
-		assertThat(headers.getAcceptCharset()).as("Invalid Accept header").isEqualTo(Arrays.asList(StandardCharsets.ISO_8859_1, StandardCharsets.UTF_8));
+		assertThat(headers.getAcceptCharset()).as("Invalid Accept header")
+				.isEqualTo(Arrays.asList(StandardCharsets.ISO_8859_1, StandardCharsets.UTF_8));
 	}
 
 	@Test
@@ -148,7 +148,8 @@ public class HttpHeadersTests {
 		MediaType contentType = new MediaType("text", "html", StandardCharsets.UTF_8);
 		headers.setContentType(contentType);
 		assertThat(headers.getContentType()).as("Invalid Content-Type header").isEqualTo(contentType);
-		assertThat(headers.getFirst("Content-Type")).as("Invalid Content-Type header").isEqualTo("text/html;charset=UTF-8");
+		assertThat(headers.getFirst("Content-Type")).as("Invalid Content-Type header")
+				.isEqualTo("text/html;charset=UTF-8");
 	}
 
 	@Test
@@ -156,7 +157,8 @@ public class HttpHeadersTests {
 		URI location = new URI("https://www.example.com/hotels");
 		headers.setLocation(location);
 		assertThat(headers.getLocation()).as("Invalid Location header").isEqualTo(location);
-		assertThat(headers.getFirst("Location")).as("Invalid Location header").isEqualTo("https://www.example.com/hotels");
+		assertThat(headers.getFirst("Location")).as("Invalid Location header")
+				.isEqualTo("https://www.example.com/hotels");
 	}
 
 	@Test
@@ -216,7 +218,8 @@ public class HttpHeadersTests {
 		headers.add(HttpHeaders.IF_MATCH, "\"v2,0\"");
 		headers.add(HttpHeaders.IF_MATCH, "W/\"v2,1\", \"v2,2\"");
 		assertThat(headers.get(HttpHeaders.IF_MATCH).get(0)).as("Invalid If-Match header").isEqualTo("\"v2,0\"");
-		assertThat(headers.get(HttpHeaders.IF_MATCH).get(1)).as("Invalid If-Match header").isEqualTo("W/\"v2,1\", \"v2,2\"");
+		assertThat(headers.get(HttpHeaders.IF_MATCH).get(1)).as("Invalid If-Match header")
+				.isEqualTo("W/\"v2,1\", \"v2,2\"");
 		assertThat(headers.getIfMatch()).contains("\"v2,0\"", "W/\"v2,1\"", "\"v2,2\"");
 	}
 
@@ -245,7 +248,8 @@ public class HttpHeadersTests {
 		ifNoneMatchList.add(ifNoneMatch2);
 		headers.setIfNoneMatch(ifNoneMatchList);
 		assertThat(headers.getIfNoneMatch()).contains("\"v2.6\"", "\"v2.7\"", "\"v2.8\"");
-		assertThat(headers.getFirst("If-None-Match")).as("Invalid If-None-Match header").isEqualTo("\"v2.6\", \"v2.7\", \"v2.8\"");
+		assertThat(headers.getFirst("If-None-Match")).as("Invalid If-None-Match header")
+				.isEqualTo("\"v2.6\", \"v2.7\", \"v2.8\"");
 	}
 
 	@Test
@@ -292,7 +296,8 @@ public class HttpHeadersTests {
 		long date = calendar.getTimeInMillis();
 		headers.setLastModified(date);
 		assertThat(headers.getLastModified()).as("Invalid Last-Modified header").isEqualTo(date);
-		assertThat(headers.getFirst("last-modified")).as("Invalid Last-Modified header").isEqualTo("Thu, 18 Dec 2008 10:20:00 GMT");
+		assertThat(headers.getFirst("last-modified")).as("Invalid Last-Modified header")
+				.isEqualTo("Thu, 18 Dec 2008 10:20:00 GMT");
 	}
 
 	@Test
@@ -309,11 +314,12 @@ public class HttpHeadersTests {
 	public void expiresZonedDateTime() {
 		ZonedDateTime zonedDateTime = ZonedDateTime.of(2008, 12, 18, 10, 20, 0, 0, ZoneId.of("GMT"));
 		headers.setExpires(zonedDateTime);
-		assertThat(headers.getExpires()).as("Invalid Expires header").isEqualTo(zonedDateTime.toInstant().toEpochMilli());
+		assertThat(headers.getExpires()).as("Invalid Expires header")
+				.isEqualTo(zonedDateTime.toInstant().toEpochMilli());
 		assertThat(headers.getFirst("expires")).as("Invalid Expires header").isEqualTo("Thu, 18 Dec 2008 10:20:00 GMT");
 	}
 
-	@Test  // SPR-10648 (example is from INT-3063)
+	@Test // SPR-10648 (example is from INT-3063)
 	public void expiresInvalidDate() {
 		headers.set("Expires", "-1");
 		assertThat(headers.getExpires()).isEqualTo(-1);
@@ -326,10 +332,11 @@ public class HttpHeadersTests {
 		long date = calendar.getTimeInMillis();
 		headers.setIfModifiedSince(date);
 		assertThat(headers.getIfModifiedSince()).as("Invalid If-Modified-Since header").isEqualTo(date);
-		assertThat(headers.getFirst("if-modified-since")).as("Invalid If-Modified-Since header").isEqualTo("Thu, 18 Dec 2008 10:20:00 GMT");
+		assertThat(headers.getFirst("if-modified-since")).as("Invalid If-Modified-Since header")
+				.isEqualTo("Thu, 18 Dec 2008 10:20:00 GMT");
 	}
 
-	@Test  // SPR-14144
+	@Test // SPR-14144
 	public void invalidIfModifiedSinceHeader() {
 		headers.set(HttpHeaders.IF_MODIFIED_SINCE, "0");
 		assertThat(headers.getIfModifiedSince()).isEqualTo(-1);
@@ -381,14 +388,15 @@ public class HttpHeadersTests {
 	public void contentDisposition() {
 		ContentDisposition disposition = headers.getContentDisposition();
 		assertThat(disposition).isNotNull();
-		assertThat(headers.getContentDisposition()).as("Invalid Content-Disposition header").isEqualTo(ContentDisposition.empty());
+		assertThat(headers.getContentDisposition()).as("Invalid Content-Disposition header")
+				.isEqualTo(ContentDisposition.empty());
 
 		disposition = ContentDisposition.builder("attachment").name("foo").filename("foo.txt").size(123L).build();
 		headers.setContentDisposition(disposition);
 		assertThat(headers.getContentDisposition()).as("Invalid Content-Disposition header").isEqualTo(disposition);
 	}
 
-	@Test  // SPR-11917
+	@Test // SPR-11917
 	public void getAllowEmptySet() {
 		headers.setAllow(Collections.emptySet());
 		assertThat(headers.getAllow()).isEmpty();
@@ -476,13 +484,9 @@ public class HttpHeadersTests {
 		headers.setAcceptLanguage(Locale.LanguageRange.parse(headerValue));
 		assertThat(headers.getFirst(HttpHeaders.ACCEPT_LANGUAGE)).isEqualTo(headerValue);
 
-		List<Locale.LanguageRange> expectedRanges = Arrays.asList(
-				new Locale.LanguageRange("fr-ch"),
-				new Locale.LanguageRange("fr", 0.9),
-				new Locale.LanguageRange("en-*", 0.8),
-				new Locale.LanguageRange("de", 0.7),
-				new Locale.LanguageRange("*", 0.5)
-		);
+		List<Locale.LanguageRange> expectedRanges = Arrays.asList(new Locale.LanguageRange("fr-ch"),
+				new Locale.LanguageRange("fr", 0.9), new Locale.LanguageRange("en-*", 0.8),
+				new Locale.LanguageRange("de", 0.7), new Locale.LanguageRange("*", 0.5));
 		assertThat(headers.getAcceptLanguage()).isEqualTo(expectedRanges);
 		assertThat(headers.getAcceptLanguageAsLocales().get(0)).isEqualTo(Locale.forLanguageTag("fr-ch"));
 
@@ -505,7 +509,7 @@ public class HttpHeadersTests {
 
 	@Test
 	public void contentLanguageSerialized() {
-		headers.set(HttpHeaders.CONTENT_LANGUAGE,  "de, en_CA");
+		headers.set(HttpHeaders.CONTENT_LANGUAGE, "de, en_CA");
 		assertThat(headers.getContentLanguage()).as("Expected one (first) locale").isEqualTo(Locale.GERMAN);
 	}
 
@@ -532,8 +536,8 @@ public class HttpHeadersTests {
 		headers.add(HttpHeaders.DATE, "Fri, 02 Jun 2017 02:22:00 GMT");
 		headers.add(HttpHeaders.DATE, "Sat, 18 Dec 2010 10:20:00 GMT");
 		assertThat(headers.getFirstZonedDateTime(HttpHeaders.DATE).isEqual(date)).isTrue();
-		assertThat(headers.get(HttpHeaders.DATE)).isEqualTo(Arrays.asList("Fri, 02 Jun 2017 02:22:00 GMT",
-				"Sat, 18 Dec 2010 10:20:00 GMT"));
+		assertThat(headers.get(HttpHeaders.DATE))
+				.isEqualTo(Arrays.asList("Fri, 02 Jun 2017 02:22:00 GMT", "Sat, 18 Dec 2010 10:20:00 GMT"));
 
 		// obsolete RFC 850 format
 		headers.clear();
@@ -597,7 +601,7 @@ public class HttpHeadersTests {
 		assertThat(keySet.contains("Charlie")).as("Charlie should not be present").isFalse();
 
 		// toArray()
-		assertThat(keySet.toArray()).isEqualTo(new String[] {"Alpha", "Bravo"});
+		assertThat(keySet.toArray()).isEqualTo(new String[] { "Alpha", "Bravo" });
 
 		// spliterator() via stream()
 		assertThat(keySet.stream().collect(toList())).isEqualTo(Arrays.asList("Alpha", "Bravo"));
@@ -623,15 +627,14 @@ public class HttpHeadersTests {
 		assertThat(headers.size()).isEqualTo(0);
 
 		// Unsupported operations
+		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> keySet.add("x"));
 		assertThatExceptionOfType(UnsupportedOperationException.class)
-			.isThrownBy(() -> keySet.add("x"));
-		assertThatExceptionOfType(UnsupportedOperationException.class)
-			.isThrownBy(() -> keySet.addAll(Collections.singleton("enigma")));
+				.isThrownBy(() -> keySet.addAll(Collections.singleton("enigma")));
 	}
 
 	/**
-	 * This method intentionally checks a wider/different range of functionality
-	 * than {@link #removalFromKeySetRemovesEntryFromUnderlyingMap()}.
+	 * This method intentionally checks a wider/different range of functionality than
+	 * {@link #removalFromKeySetRemovesEntryFromUnderlyingMap()}.
 	 */
 	@Test // https://github.com/spring-projects/spring-framework/issues/23633
 	public void keySetRemovalChecks() {
@@ -711,4 +714,5 @@ public class HttpHeadersTests {
 		assertThat(headers1).isEqualTo(headers2);
 		assertThat(headers2).isEqualTo(headers1);
 	}
+
 }

@@ -127,8 +127,7 @@ public class ParamTagTests extends AbstractTagTests {
 		tag.setName("name");
 		tag.setValue("value");
 		tag.setParent(null);
-		assertThatExceptionOfType(JspException.class).isThrownBy(
-				tag::doEndTag);
+		assertThatExceptionOfType(JspException.class).isThrownBy(tag::doEndTag);
 	}
 
 	@SuppressWarnings("serial")

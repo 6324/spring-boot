@@ -38,9 +38,11 @@ import org.springframework.util.Assert;
 /**
  * Abstract base class for most {@link HttpMessageConverter} implementations.
  *
- * <p>This base class adds support for setting supported {@code MediaTypes}, through the
+ * <p>
+ * This base class adds support for setting supported {@code MediaTypes}, through the
  * {@link #setSupportedMediaTypes(List) supportedMediaTypes} bean property. It also adds
- * support for {@code Content-Type} and {@code Content-Length} when writing to output messages.
+ * support for {@code Content-Type} and {@code Content-Length} when writing to output
+ * messages.
  *
  * @author Arjen Poutsma
  * @author Juergen Hoeller
@@ -58,7 +60,6 @@ public abstract class AbstractHttpMessageConverter<T> implements HttpMessageConv
 	@Nullable
 	private Charset defaultCharset;
 
-
 	/**
 	 * Construct an {@code AbstractHttpMessageConverter} with no supported media types.
 	 * @see #setSupportedMediaTypes
@@ -75,7 +76,8 @@ public abstract class AbstractHttpMessageConverter<T> implements HttpMessageConv
 	}
 
 	/**
-	 * Construct an {@code AbstractHttpMessageConverter} with multiple supported media types.
+	 * Construct an {@code AbstractHttpMessageConverter} with multiple supported media
+	 * types.
 	 * @param supportedMediaTypes the supported media types
 	 */
 	protected AbstractHttpMessageConverter(MediaType... supportedMediaTypes) {
@@ -93,7 +95,6 @@ public abstract class AbstractHttpMessageConverter<T> implements HttpMessageConv
 		this.defaultCharset = defaultCharset;
 		setSupportedMediaTypes(Arrays.asList(supportedMediaTypes));
 	}
-
 
 	/**
 	 * Set the list of {@link MediaType} objects supported by this converter.
@@ -125,10 +126,9 @@ public abstract class AbstractHttpMessageConverter<T> implements HttpMessageConv
 		return this.defaultCharset;
 	}
 
-
 	/**
-	 * This implementation checks if the given class is {@linkplain #supports(Class) supported},
-	 * and if the {@linkplain #getSupportedMediaTypes() supported media types}
+	 * This implementation checks if the given class is {@linkplain #supports(Class)
+	 * supported}, and if the {@linkplain #getSupportedMediaTypes() supported media types}
 	 * {@linkplain MediaType#includes(MediaType) include} the given media type.
 	 */
 	@Override
@@ -138,12 +138,12 @@ public abstract class AbstractHttpMessageConverter<T> implements HttpMessageConv
 
 	/**
 	 * Returns {@code true} if any of the {@linkplain #setSupportedMediaTypes(List)
-	 * supported} media types {@link MediaType#includes(MediaType) include} the
-	 * given media type.
+	 * supported} media types {@link MediaType#includes(MediaType) include} the given
+	 * media type.
 	 * @param mediaType the media type to read, can be {@code null} if not specified.
 	 * Typically the value of a {@code Content-Type} header.
-	 * @return {@code true} if the supported media types include the media type,
-	 * or if the media type is {@code null}
+	 * @return {@code true} if the supported media types include the media type, or if the
+	 * media type is {@code null}
 	 */
 	protected boolean canRead(@Nullable MediaType mediaType) {
 		if (mediaType == null) {
@@ -158,9 +158,8 @@ public abstract class AbstractHttpMessageConverter<T> implements HttpMessageConv
 	}
 
 	/**
-	 * This implementation checks if the given class is
-	 * {@linkplain #supports(Class) supported}, and if the
-	 * {@linkplain #getSupportedMediaTypes() supported} media types
+	 * This implementation checks if the given class is {@linkplain #supports(Class)
+	 * supported}, and if the {@linkplain #getSupportedMediaTypes() supported} media types
 	 * {@linkplain MediaType#includes(MediaType) include} the given media type.
 	 */
 	@Override
@@ -173,8 +172,8 @@ public abstract class AbstractHttpMessageConverter<T> implements HttpMessageConv
 	 * {@linkplain #setSupportedMediaTypes(List) supported media types}.
 	 * @param mediaType the media type to write, can be {@code null} if not specified.
 	 * Typically the value of an {@code Accept} header.
-	 * @return {@code true} if the supported media types are compatible with the media type,
-	 * or if the media type is {@code null}
+	 * @return {@code true} if the supported media types are compatible with the media
+	 * type, or if the media type is {@code null}
 	 */
 	protected boolean canWrite(@Nullable MediaType mediaType) {
 		if (mediaType == null || MediaType.ALL.equalsTypeAndSubtype(mediaType)) {
@@ -189,8 +188,9 @@ public abstract class AbstractHttpMessageConverter<T> implements HttpMessageConv
 	}
 
 	/**
-	 * This implementation simple delegates to {@link #readInternal(Class, HttpInputMessage)}.
-	 * Future implementations might add some default behavior, however.
+	 * This implementation simple delegates to
+	 * {@link #readInternal(Class, HttpInputMessage)}. Future implementations might add
+	 * some default behavior, however.
 	 */
 	@Override
 	public final T read(Class<? extends T> clazz, HttpInputMessage inputMessage)
@@ -217,6 +217,7 @@ public abstract class AbstractHttpMessageConverter<T> implements HttpMessageConv
 				public OutputStream getBody() {
 					return outputStream;
 				}
+
 				@Override
 				public HttpHeaders getHeaders() {
 					return headers;
@@ -231,7 +232,8 @@ public abstract class AbstractHttpMessageConverter<T> implements HttpMessageConv
 
 	/**
 	 * Add default headers to the output message.
-	 * <p>This implementation delegates to {@link #getDefaultContentType(Object)} if a
+	 * <p>
+	 * This implementation delegates to {@link #getDefaultContentType(Object)} if a
 	 * content type was not provided, set if necessary the default character set, calls
 	 * {@link #getContentLength}, and sets the corresponding headers.
 	 * @since 4.2
@@ -265,11 +267,12 @@ public abstract class AbstractHttpMessageConverter<T> implements HttpMessageConv
 	}
 
 	/**
-	 * Returns the default content type for the given type. Called when {@link #write}
-	 * is invoked without a specified content type parameter.
-	 * <p>By default, this returns the first element of the
-	 * {@link #setSupportedMediaTypes(List) supportedMediaTypes} property, if any.
-	 * Can be overridden in subclasses.
+	 * Returns the default content type for the given type. Called when {@link #write} is
+	 * invoked without a specified content type parameter.
+	 * <p>
+	 * By default, this returns the first element of the
+	 * {@link #setSupportedMediaTypes(List) supportedMediaTypes} property, if any. Can be
+	 * overridden in subclasses.
 	 * @param t the type to return the content type for
 	 * @return the content type, or {@code null} if not known
 	 */
@@ -281,7 +284,8 @@ public abstract class AbstractHttpMessageConverter<T> implements HttpMessageConv
 
 	/**
 	 * Returns the content length for the given type.
-	 * <p>By default, this returns {@code null}, meaning that the content length is unknown.
+	 * <p>
+	 * By default, this returns {@code null}, meaning that the content length is unknown.
 	 * Can be overridden in subclasses.
 	 * @param t the type to return the content length for
 	 * @return the content length, or {@code null} if not known
@@ -290,7 +294,6 @@ public abstract class AbstractHttpMessageConverter<T> implements HttpMessageConv
 	protected Long getContentLength(T t, @Nullable MediaType contentType) throws IOException {
 		return null;
 	}
-
 
 	/**
 	 * Indicates whether the given class is supported by this converter.

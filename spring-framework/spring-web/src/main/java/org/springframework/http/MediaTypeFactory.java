@@ -33,8 +33,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
 /**
- * A factory delegate for resolving {@link MediaType} objects
- * from {@link Resource} handles or filenames.
+ * A factory delegate for resolving {@link MediaType} objects from {@link Resource}
+ * handles or filenames.
  *
  * @author Juergen Hoeller
  * @author Arjen Poutsma
@@ -46,14 +46,11 @@ public final class MediaTypeFactory {
 
 	private static final MultiValueMap<String, MediaType> fileExtensionToMediaTypes = parseMimeTypes();
 
-
 	private MediaTypeFactory() {
 	}
 
-
 	/**
-	 * Parse the {@code mime.types} file found in the resources. Format is:
-	 * <code>
+	 * Parse the {@code mime.types} file found in the resources. Format is: <code>
 	 * # comments begin with a '#'<br>
 	 * # the format is &lt;mime type> &lt;space separated file extensions><br>
 	 * # for example:<br>
@@ -92,9 +89,7 @@ public final class MediaTypeFactory {
 	 * @return the corresponding media type, or {@code null} if none found
 	 */
 	public static Optional<MediaType> getMediaType(@Nullable Resource resource) {
-		return Optional.ofNullable(resource)
-				.map(Resource::getFilename)
-				.flatMap(MediaTypeFactory::getMediaType);
+		return Optional.ofNullable(resource).map(Resource::getFilename).flatMap(MediaTypeFactory::getMediaType);
 	}
 
 	/**
@@ -112,10 +107,8 @@ public final class MediaTypeFactory {
 	 * @return the corresponding media types, or an empty list if none found
 	 */
 	public static List<MediaType> getMediaTypes(@Nullable String filename) {
-		return Optional.ofNullable(StringUtils.getFilenameExtension(filename))
-				.map(s -> s.toLowerCase(Locale.ENGLISH))
-				.map(fileExtensionToMediaTypes::get)
-				.orElse(Collections.emptyList());
+		return Optional.ofNullable(StringUtils.getFilenameExtension(filename)).map(s -> s.toLowerCase(Locale.ENGLISH))
+				.map(fileExtensionToMediaTypes::get).orElse(Collections.emptyList());
 	}
 
 }

@@ -29,19 +29,21 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.bind.support.SimpleSessionStatus;
 
 /**
- * Records model and view related decisions made by
- * {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers} and
- * {@link HandlerMethodReturnValueHandler HandlerMethodReturnValueHandlers} during the course of invocation of
- * a controller method.
+ * Records model and view related decisions made by {@link HandlerMethodArgumentResolver
+ * HandlerMethodArgumentResolvers} and {@link HandlerMethodReturnValueHandler
+ * HandlerMethodReturnValueHandlers} during the course of invocation of a controller
+ * method.
  *
- * <p>The {@link #setRequestHandled} flag can be used to indicate the request
- * has been handled directly and view resolution is not required.
+ * <p>
+ * The {@link #setRequestHandled} flag can be used to indicate the request has been
+ * handled directly and view resolution is not required.
  *
- * <p>A default {@link Model} is automatically created at instantiation.
- * An alternate model instance may be provided via {@link #setRedirectModel}
- * for use in a redirect scenario. When {@link #setRedirectModelScenario} is set
- * to {@code true} signalling a redirect scenario, the {@link #getModel()}
- * returns the redirect model instead of the default model.
+ * <p>
+ * A default {@link Model} is automatically created at instantiation. An alternate model
+ * instance may be provided via {@link #setRedirectModel} for use in a redirect scenario.
+ * When {@link #setRedirectModelScenario} is set to {@code true} signalling a redirect
+ * scenario, the {@link #getModel()} returns the redirect model instead of the default
+ * model.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -72,34 +74,34 @@ public class ModelAndViewContainer {
 
 	private boolean requestHandled = false;
 
-
 	/**
-	 * By default the content of the "default" model is used both during
-	 * rendering and redirect scenarios. Alternatively controller methods
-	 * can declare an argument of type {@code RedirectAttributes} and use
-	 * it to provide attributes to prepare the redirect URL.
-	 * <p>Setting this flag to {@code true} guarantees the "default" model is
-	 * never used in a redirect scenario even if a RedirectAttributes argument
-	 * is not declared. Setting it to {@code false} means the "default" model
-	 * may be used in a redirect if the controller method doesn't declare a
-	 * RedirectAttributes argument.
-	 * <p>The default setting is {@code false}.
+	 * By default the content of the "default" model is used both during rendering and
+	 * redirect scenarios. Alternatively controller methods can declare an argument of
+	 * type {@code RedirectAttributes} and use it to provide attributes to prepare the
+	 * redirect URL.
+	 * <p>
+	 * Setting this flag to {@code true} guarantees the "default" model is never used in a
+	 * redirect scenario even if a RedirectAttributes argument is not declared. Setting it
+	 * to {@code false} means the "default" model may be used in a redirect if the
+	 * controller method doesn't declare a RedirectAttributes argument.
+	 * <p>
+	 * The default setting is {@code false}.
 	 */
 	public void setIgnoreDefaultModelOnRedirect(boolean ignoreDefaultModelOnRedirect) {
 		this.ignoreDefaultModelOnRedirect = ignoreDefaultModelOnRedirect;
 	}
 
 	/**
-	 * Set a view name to be resolved by the DispatcherServlet via a ViewResolver.
-	 * Will override any pre-existing view name or View.
+	 * Set a view name to be resolved by the DispatcherServlet via a ViewResolver. Will
+	 * override any pre-existing view name or View.
 	 */
 	public void setViewName(@Nullable String viewName) {
 		this.view = viewName;
 	}
 
 	/**
-	 * Return the view name to be resolved by the DispatcherServlet via a
-	 * ViewResolver, or {@code null} if a View object is set.
+	 * Return the view name to be resolved by the DispatcherServlet via a ViewResolver, or
+	 * {@code null} if a View object is set.
 	 */
 	@Nullable
 	public String getViewName() {
@@ -107,16 +109,16 @@ public class ModelAndViewContainer {
 	}
 
 	/**
-	 * Set a View object to be used by the DispatcherServlet.
-	 * Will override any pre-existing view name or View.
+	 * Set a View object to be used by the DispatcherServlet. Will override any
+	 * pre-existing view name or View.
 	 */
 	public void setView(@Nullable Object view) {
 		this.view = view;
 	}
 
 	/**
-	 * Return the View object, or {@code null} if we using a view name
-	 * to be resolved by the DispatcherServlet via a ViewResolver.
+	 * Return the View object, or {@code null} if we using a view name to be resolved by
+	 * the DispatcherServlet via a ViewResolver.
 	 */
 	@Nullable
 	public Object getView() {
@@ -124,18 +126,18 @@ public class ModelAndViewContainer {
 	}
 
 	/**
-	 * Whether the view is a view reference specified via a name to be
-	 * resolved by the DispatcherServlet via a ViewResolver.
+	 * Whether the view is a view reference specified via a name to be resolved by the
+	 * DispatcherServlet via a ViewResolver.
 	 */
 	public boolean isViewReference() {
 		return (this.view instanceof String);
 	}
 
 	/**
-	 * Return the model to use -- either the "default" or the "redirect" model.
-	 * The default model is used if {@code redirectModelScenario=false} or
-	 * there is no redirect model (i.e. RedirectAttributes was not declared as
-	 * a method argument) and {@code ignoreDefaultModelOnRedirect=false}.
+	 * Return the model to use -- either the "default" or the "redirect" model. The
+	 * default model is used if {@code redirectModelScenario=false} or there is no
+	 * redirect model (i.e. RedirectAttributes was not declared as a method argument) and
+	 * {@code ignoreDefaultModelOnRedirect=false}.
 	 */
 	public ModelMap getModel() {
 		if (useDefaultModel()) {
@@ -158,11 +160,12 @@ public class ModelAndViewContainer {
 
 	/**
 	 * Return the "default" model created at instantiation.
-	 * <p>In general it is recommended to use {@link #getModel()} instead which
-	 * returns either the "default" model (template rendering) or the "redirect"
-	 * model (redirect URL preparation). Use of this method may be needed for
-	 * advanced cases when access to the "default" model is needed regardless,
-	 * e.g. to save model attributes specified via {@code @SessionAttributes}.
+	 * <p>
+	 * In general it is recommended to use {@link #getModel()} instead which returns
+	 * either the "default" model (template rendering) or the "redirect" model (redirect
+	 * URL preparation). Use of this method may be needed for advanced cases when access
+	 * to the "default" model is needed regardless, e.g. to save model attributes
+	 * specified via {@code @SessionAttributes}.
 	 * @return the default model (never {@code null})
 	 * @since 4.1.4
 	 */
@@ -172,25 +175,26 @@ public class ModelAndViewContainer {
 
 	/**
 	 * Provide a separate model instance to use in a redirect scenario.
-	 * <p>The provided additional model however is not used unless
-	 * {@link #setRedirectModelScenario} gets set to {@code true}
-	 * to signal an actual redirect scenario.
+	 * <p>
+	 * The provided additional model however is not used unless
+	 * {@link #setRedirectModelScenario} gets set to {@code true} to signal an actual
+	 * redirect scenario.
 	 */
 	public void setRedirectModel(ModelMap redirectModel) {
 		this.redirectModel = redirectModel;
 	}
 
 	/**
-	 * Whether the controller has returned a redirect instruction, e.g. a
-	 * "redirect:" prefixed view name, a RedirectView instance, etc.
+	 * Whether the controller has returned a redirect instruction, e.g. a "redirect:"
+	 * prefixed view name, a RedirectView instance, etc.
 	 */
 	public void setRedirectModelScenario(boolean redirectModelScenario) {
 		this.redirectModelScenario = redirectModelScenario;
 	}
 
 	/**
-	 * Provide an HTTP status that will be passed on to with the
-	 * {@code ModelAndView} used for view rendering purposes.
+	 * Provide an HTTP status that will be passed on to with the {@code ModelAndView} used
+	 * for view rendering purposes.
 	 * @since 4.3
 	 */
 	public void setStatus(@Nullable HttpStatus status) {
@@ -207,8 +211,8 @@ public class ModelAndViewContainer {
 	}
 
 	/**
-	 * Programmatically register an attribute for which data binding should not occur,
-	 * not even for a subsequent {@code @ModelAttribute} declaration.
+	 * Programmatically register an attribute for which data binding should not occur, not
+	 * even for a subsequent {@code @ModelAttribute} declaration.
 	 * @param attributeName the name of the attribute
 	 * @since 4.3
 	 */
@@ -227,8 +231,9 @@ public class ModelAndViewContainer {
 	/**
 	 * Register whether data binding should occur for a corresponding model attribute,
 	 * corresponding to an {@code @ModelAttribute(binding=true/false)} declaration.
-	 * <p>Note: While this flag will be taken into account by {@link #isBindingDisabled},
-	 * a hard {@link #setBindingDisabled} declaration will always override it.
+	 * <p>
+	 * Note: While this flag will be taken into account by {@link #isBindingDisabled}, a
+	 * hard {@link #setBindingDisabled} declaration will always override it.
 	 * @param attributeName the name of the attribute
 	 * @since 4.3.13
 	 */
@@ -242,8 +247,8 @@ public class ModelAndViewContainer {
 	}
 
 	/**
-	 * Return the {@link SessionStatus} instance to use that can be used to
-	 * signal that session processing is complete.
+	 * Return the {@link SessionStatus} instance to use that can be used to signal that
+	 * session processing is complete.
 	 */
 	public SessionStatus getSessionStatus() {
 		return this.sessionStatus;
@@ -251,10 +256,11 @@ public class ModelAndViewContainer {
 
 	/**
 	 * Whether the request has been handled fully within the handler, e.g.
-	 * {@code @ResponseBody} method, and therefore view resolution is not
-	 * necessary. This flag can also be set when controller methods declare an
-	 * argument of type {@code ServletResponse} or {@code OutputStream}).
-	 * <p>The default value is {@code false}.
+	 * {@code @ResponseBody} method, and therefore view resolution is not necessary. This
+	 * flag can also be set when controller methods declare an argument of type
+	 * {@code ServletResponse} or {@code OutputStream}).
+	 * <p>
+	 * The default value is {@code false}.
 	 */
 	public void setRequestHandled(boolean requestHandled) {
 		this.requestHandled = requestHandled;
@@ -268,8 +274,8 @@ public class ModelAndViewContainer {
 	}
 
 	/**
-	 * Add the supplied attribute to the underlying model.
-	 * A shortcut for {@code getModel().addAttribute(String, Object)}.
+	 * Add the supplied attribute to the underlying model. A shortcut for
+	 * {@code getModel().addAttribute(String, Object)}.
 	 */
 	public ModelAndViewContainer addAttribute(String name, @Nullable Object value) {
 		getModel().addAttribute(name, value);
@@ -277,8 +283,8 @@ public class ModelAndViewContainer {
 	}
 
 	/**
-	 * Add the supplied attribute to the underlying model.
-	 * A shortcut for {@code getModel().addAttribute(Object)}.
+	 * Add the supplied attribute to the underlying model. A shortcut for
+	 * {@code getModel().addAttribute(Object)}.
 	 */
 	public ModelAndViewContainer addAttribute(Object value) {
 		getModel().addAttribute(value);
@@ -286,8 +292,8 @@ public class ModelAndViewContainer {
 	}
 
 	/**
-	 * Copy all attributes to the underlying model.
-	 * A shortcut for {@code getModel().addAllAttributes(Map)}.
+	 * Copy all attributes to the underlying model. A shortcut for
+	 * {@code getModel().addAllAttributes(Map)}.
 	 */
 	public ModelAndViewContainer addAllAttributes(@Nullable Map<String, ?> attributes) {
 		getModel().addAllAttributes(attributes);
@@ -295,9 +301,9 @@ public class ModelAndViewContainer {
 	}
 
 	/**
-	 * Copy attributes in the supplied {@code Map} with existing objects of
-	 * the same name taking precedence (i.e. not getting replaced).
-	 * A shortcut for {@code getModel().mergeAttributes(Map<String, ?>)}.
+	 * Copy attributes in the supplied {@code Map} with existing objects of the same name
+	 * taking precedence (i.e. not getting replaced). A shortcut for
+	 * {@code getModel().mergeAttributes(Map<String, ?>)}.
 	 */
 	public ModelAndViewContainer mergeAttributes(@Nullable Map<String, ?> attributes) {
 		getModel().mergeAttributes(attributes);
@@ -317,13 +323,12 @@ public class ModelAndViewContainer {
 	}
 
 	/**
-	 * Whether the underlying model contains the given attribute name.
-	 * A shortcut for {@code getModel().containsAttribute(String)}.
+	 * Whether the underlying model contains the given attribute name. A shortcut for
+	 * {@code getModel().containsAttribute(String)}.
 	 */
 	public boolean containsAttribute(String name) {
 		return getModel().containsAttribute(name);
 	}
-
 
 	/**
 	 * Return diagnostic information.

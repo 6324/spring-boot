@@ -82,8 +82,7 @@ public class ByteArrayMultipartFileEditorTests {
 	public void setValueAsMultipartFileWithBadBytes() throws Exception {
 		MultipartFile file = mock(MultipartFile.class);
 		given(file.getBytes()).willThrow(new IOException());
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				editor.setValue(file));
+		assertThatIllegalArgumentException().isThrownBy(() -> editor.setValue(file));
 	}
 
 }

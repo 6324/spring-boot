@@ -47,15 +47,14 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 /**
- * Unit tests for {@link DefaultResponseErrorHandler} handling of specific
- * HTTP status codes.
+ * Unit tests for {@link DefaultResponseErrorHandler} handling of specific HTTP status
+ * codes.
  */
 class DefaultResponseErrorHandlerHttpStatusTests {
 
 	private final DefaultResponseErrorHandler handler = new DefaultResponseErrorHandler();
 
 	private final ClientHttpResponse response = mock(ClientHttpResponse.class);
-
 
 	@ParameterizedTest(name = "[{index}] error: [{0}]")
 	@DisplayName("hasError() returns true")
@@ -68,7 +67,8 @@ class DefaultResponseErrorHandlerHttpStatusTests {
 	@ParameterizedTest(name = "[{index}] error: [{0}], exception: [{1}]")
 	@DisplayName("handleError() throws an exception")
 	@MethodSource("errorCodes")
-	void handleErrorException(HttpStatus httpStatus, Class<? extends Throwable> expectedExceptionClass) throws Exception {
+	void handleErrorException(HttpStatus httpStatus, Class<? extends Throwable> expectedExceptionClass)
+			throws Exception {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.TEXT_PLAIN);
 
@@ -79,26 +79,25 @@ class DefaultResponseErrorHandlerHttpStatusTests {
 	}
 
 	static Object[][] errorCodes() {
-		return new Object[][]{
-			// 4xx
-			{BAD_REQUEST, HttpClientErrorException.BadRequest.class},
-			{UNAUTHORIZED, HttpClientErrorException.Unauthorized.class},
-			{FORBIDDEN, HttpClientErrorException.Forbidden.class},
-			{NOT_FOUND, HttpClientErrorException.NotFound.class},
-			{METHOD_NOT_ALLOWED, HttpClientErrorException.MethodNotAllowed.class},
-			{NOT_ACCEPTABLE, HttpClientErrorException.NotAcceptable.class},
-			{CONFLICT, HttpClientErrorException.Conflict.class},
-			{TOO_MANY_REQUESTS, HttpClientErrorException.TooManyRequests.class},
-			{UNPROCESSABLE_ENTITY, HttpClientErrorException.UnprocessableEntity.class},
-			{I_AM_A_TEAPOT, HttpClientErrorException.class},
-			// 5xx
-			{INTERNAL_SERVER_ERROR, HttpServerErrorException.InternalServerError.class},
-			{NOT_IMPLEMENTED, HttpServerErrorException.NotImplemented.class},
-			{BAD_GATEWAY, HttpServerErrorException.BadGateway.class},
-			{SERVICE_UNAVAILABLE, HttpServerErrorException.ServiceUnavailable.class},
-			{GATEWAY_TIMEOUT, HttpServerErrorException.GatewayTimeout.class},
-			{HTTP_VERSION_NOT_SUPPORTED, HttpServerErrorException.class}
-		};
+		return new Object[][] {
+				// 4xx
+				{ BAD_REQUEST, HttpClientErrorException.BadRequest.class },
+				{ UNAUTHORIZED, HttpClientErrorException.Unauthorized.class },
+				{ FORBIDDEN, HttpClientErrorException.Forbidden.class },
+				{ NOT_FOUND, HttpClientErrorException.NotFound.class },
+				{ METHOD_NOT_ALLOWED, HttpClientErrorException.MethodNotAllowed.class },
+				{ NOT_ACCEPTABLE, HttpClientErrorException.NotAcceptable.class },
+				{ CONFLICT, HttpClientErrorException.Conflict.class },
+				{ TOO_MANY_REQUESTS, HttpClientErrorException.TooManyRequests.class },
+				{ UNPROCESSABLE_ENTITY, HttpClientErrorException.UnprocessableEntity.class },
+				{ I_AM_A_TEAPOT, HttpClientErrorException.class },
+				// 5xx
+				{ INTERNAL_SERVER_ERROR, HttpServerErrorException.InternalServerError.class },
+				{ NOT_IMPLEMENTED, HttpServerErrorException.NotImplemented.class },
+				{ BAD_GATEWAY, HttpServerErrorException.BadGateway.class },
+				{ SERVICE_UNAVAILABLE, HttpServerErrorException.ServiceUnavailable.class },
+				{ GATEWAY_TIMEOUT, HttpServerErrorException.GatewayTimeout.class },
+				{ HTTP_VERSION_NOT_SUPPORTED, HttpServerErrorException.class } };
 	}
 
 }

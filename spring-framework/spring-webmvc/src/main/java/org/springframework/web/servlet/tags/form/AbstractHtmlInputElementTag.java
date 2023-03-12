@@ -23,8 +23,9 @@ import org.springframework.lang.Nullable;
 /**
  * Base class for databinding-aware JSP tags that render HTML form input element.
  *
- * <p>Provides a set of properties corresponding to the set of HTML attributes
- * that are common across form input elements.
+ * <p>
+ * Provides a set of properties corresponding to the set of HTML attributes that are
+ * common across form input elements.
  *
  * @author Rob Harrop
  * @author Rick Evans
@@ -64,7 +65,6 @@ public abstract class AbstractHtmlInputElementTag extends AbstractHtmlElementTag
 	 */
 	public static final String READONLY_ATTRIBUTE = "readonly";
 
-
 	@Nullable
 	private String onfocus;
 
@@ -81,10 +81,8 @@ public abstract class AbstractHtmlInputElementTag extends AbstractHtmlElementTag
 
 	private boolean readonly;
 
-
 	/**
-	 * Set the value of the '{@code onfocus}' attribute.
-	 * May be a runtime expression.
+	 * Set the value of the '{@code onfocus}' attribute. May be a runtime expression.
 	 */
 	public void setOnfocus(String onfocus) {
 		this.onfocus = onfocus;
@@ -99,8 +97,7 @@ public abstract class AbstractHtmlInputElementTag extends AbstractHtmlElementTag
 	}
 
 	/**
-	 * Set the value of the '{@code onblur}' attribute.
-	 * May be a runtime expression.
+	 * Set the value of the '{@code onblur}' attribute. May be a runtime expression.
 	 */
 	public void setOnblur(String onblur) {
 		this.onblur = onblur;
@@ -115,8 +112,7 @@ public abstract class AbstractHtmlInputElementTag extends AbstractHtmlElementTag
 	}
 
 	/**
-	 * Set the value of the '{@code onchange}' attribute.
-	 * May be a runtime expression.
+	 * Set the value of the '{@code onchange}' attribute. May be a runtime expression.
 	 */
 	public void setOnchange(String onchange) {
 		this.onchange = onchange;
@@ -131,8 +127,7 @@ public abstract class AbstractHtmlInputElementTag extends AbstractHtmlElementTag
 	}
 
 	/**
-	 * Set the value of the '{@code accesskey}' attribute.
-	 * May be a runtime expression.
+	 * Set the value of the '{@code accesskey}' attribute. May be a runtime expression.
 	 */
 	public void setAccesskey(String accesskey) {
 		this.accesskey = accesskey;
@@ -173,7 +168,6 @@ public abstract class AbstractHtmlInputElementTag extends AbstractHtmlElementTag
 	protected boolean isReadonly() {
 		return this.readonly;
 	}
-
 
 	/**
 	 * Adds input-specific optional attributes as defined by this base class.

@@ -29,8 +29,8 @@ import org.springframework.util.StreamUtils;
 import org.springframework.util.concurrent.ListenableFuture;
 
 /**
- * An {@link AsyncClientHttpRequest} wrapper that enriches it proceeds the actual
- * request execution with calling the registered interceptors.
+ * An {@link AsyncClientHttpRequest} wrapper that enriches it proceeds the actual request
+ * execution with calling the registered interceptors.
  *
  * @author Jakub Narloch
  * @author Rossen Stoyanchev
@@ -48,7 +48,6 @@ class InterceptingAsyncClientHttpRequest extends AbstractBufferingAsyncClientHtt
 
 	private HttpMethod httpMethod;
 
-
 	/**
 	 * Create new instance of {@link InterceptingAsyncClientHttpRequest}.
 	 * @param requestFactory the async request factory
@@ -64,7 +63,6 @@ class InterceptingAsyncClientHttpRequest extends AbstractBufferingAsyncClientHtt
 		this.uri = uri;
 		this.httpMethod = httpMethod;
 	}
-
 
 	@Override
 	protected ListenableFuture<ClientHttpResponse> executeInternal(HttpHeaders headers, byte[] body)
@@ -88,7 +86,6 @@ class InterceptingAsyncClientHttpRequest extends AbstractBufferingAsyncClientHtt
 		return this.uri;
 	}
 
-
 	private class AsyncRequestExecution implements AsyncClientHttpRequestExecution {
 
 		private Iterator<AsyncClientHttpRequestInterceptor> iterator;
@@ -98,8 +95,7 @@ class InterceptingAsyncClientHttpRequest extends AbstractBufferingAsyncClientHtt
 		}
 
 		@Override
-		public ListenableFuture<ClientHttpResponse> executeAsync(HttpRequest request, byte[] body)
-				throws IOException {
+		public ListenableFuture<ClientHttpResponse> executeAsync(HttpRequest request, byte[] body) throws IOException {
 
 			if (this.iterator.hasNext()) {
 				AsyncClientHttpRequestInterceptor interceptor = this.iterator.next();
@@ -120,6 +116,7 @@ class InterceptingAsyncClientHttpRequest extends AbstractBufferingAsyncClientHtt
 				return delegate.executeAsync();
 			}
 		}
+
 	}
 
 }

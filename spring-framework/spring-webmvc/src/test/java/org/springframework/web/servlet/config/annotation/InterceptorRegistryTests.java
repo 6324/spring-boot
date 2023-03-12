@@ -44,8 +44,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
 /**
- * Test fixture with a {@link InterceptorRegistry}, two {@link HandlerInterceptor}s and two
- * {@link WebRequestInterceptor}s.
+ * Test fixture with a {@link InterceptorRegistry}, two {@link HandlerInterceptor}s and
+ * two {@link WebRequestInterceptor}s.
  *
  * @author Rossen Stoyanchev
  * @author Eko Kurniawan Khannedy
@@ -65,7 +65,6 @@ public class InterceptorRegistryTests {
 	private final MockHttpServletRequest request = new MockHttpServletRequest();
 
 	private final MockHttpServletResponse response = new MockHttpServletResponse();
-
 
 	@BeforeEach
 	public void setUp() {
@@ -91,7 +90,8 @@ public class InterceptorRegistryTests {
 
 	@Test
 	public void addInterceptorsWithUrlPatterns() {
-		this.registry.addInterceptor(this.interceptor1).addPathPatterns("/path1/**").excludePathPatterns("/path1/secret");
+		this.registry.addInterceptor(this.interceptor1).addPathPatterns("/path1/**")
+				.excludePathPatterns("/path1/secret");
 		this.registry.addInterceptor(this.interceptor2).addPathPatterns("/path2");
 
 		assertThat(getInterceptorsForPath("/path1/test")).isEqualTo(Arrays.asList(this.interceptor1));
@@ -142,7 +142,7 @@ public class InterceptorRegistryTests {
 		verifyWebInterceptor(interceptors.get(0), this.webInterceptor2);
 	}
 
-	@Test  // SPR-11130
+	@Test // SPR-11130
 	public void addInterceptorWithExcludePathPatternOnly() {
 		this.registry.addInterceptor(this.interceptor1).excludePathPatterns("/path1/secret");
 		this.registry.addInterceptor(this.interceptor2).addPathPatterns("/path2");
@@ -176,7 +176,6 @@ public class InterceptorRegistryTests {
 		assertThat(interceptors.get(1)).isSameAs(this.interceptor2);
 	}
 
-
 	private List<HandlerInterceptor> getInterceptorsForPath(String lookupPath) {
 		PathMatcher pathMatcher = new AntPathMatcher();
 		List<HandlerInterceptor> result = new ArrayList<>();
@@ -197,15 +196,14 @@ public class InterceptorRegistryTests {
 		return result;
 	}
 
-	private void verifyWebInterceptor(HandlerInterceptor interceptor,
-			TestWebRequestInterceptor webInterceptor) throws Exception {
+	private void verifyWebInterceptor(HandlerInterceptor interceptor, TestWebRequestInterceptor webInterceptor)
+			throws Exception {
 
 		boolean condition = interceptor instanceof WebRequestHandlerInterceptorAdapter;
 		assertThat(condition).isTrue();
 		interceptor.preHandle(this.request, this.response, null);
 		assertThat(webInterceptor.preHandleInvoked).isTrue();
 	}
-
 
 	private static class TestWebRequestInterceptor implements WebRequestInterceptor {
 
@@ -223,6 +221,7 @@ public class InterceptorRegistryTests {
 		@Override
 		public void afterCompletion(WebRequest request, @Nullable Exception ex) throws Exception {
 		}
+
 	}
 
 }

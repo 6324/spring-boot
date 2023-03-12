@@ -44,9 +44,8 @@ class DefaultResourceTransformerChain implements ResourceTransformerChain {
 	@Nullable
 	private final ResourceTransformerChain nextChain;
 
-
-	public DefaultResourceTransformerChain(
-			ResourceResolverChain resolverChain, @Nullable List<ResourceTransformer> transformers) {
+	public DefaultResourceTransformerChain(ResourceResolverChain resolverChain,
+			@Nullable List<ResourceTransformer> transformers) {
 
 		Assert.notNull(resolverChain, "ResourceResolverChain is required");
 		this.resolverChain = resolverChain;
@@ -78,7 +77,6 @@ class DefaultResourceTransformerChain implements ResourceTransformerChain {
 		this.nextChain = chain;
 	}
 
-
 	@Override
 	public ResourceResolverChain getResolverChain() {
 		return this.resolverChain;
@@ -86,8 +84,8 @@ class DefaultResourceTransformerChain implements ResourceTransformerChain {
 
 	@Override
 	public Resource transform(HttpServletRequest request, Resource resource) throws IOException {
-		return (this.transformer != null && this.nextChain != null ?
-				this.transformer.transform(request, resource, this.nextChain) : resource);
+		return (this.transformer != null && this.nextChain != null
+				? this.transformer.transform(request, resource, this.nextChain) : resource);
 	}
 
 }

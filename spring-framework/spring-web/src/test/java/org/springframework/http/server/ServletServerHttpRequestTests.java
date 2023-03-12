@@ -43,13 +43,11 @@ public class ServletServerHttpRequestTests {
 
 	private MockHttpServletRequest mockRequest;
 
-
 	@BeforeEach
 	public void create() {
 		mockRequest = new MockHttpServletRequest();
 		request = new ServletServerHttpRequest(mockRequest);
 	}
-
 
 	@Test
 	public void getMethod() {
@@ -79,7 +77,7 @@ public class ServletServerHttpRequestTests {
 		assertThat(request.getURI()).isEqualTo(uri);
 	}
 
-	@Test  // SPR-16414
+	@Test // SPR-16414
 	public void getUriWithQueryParam() throws URISyntaxException {
 		mockRequest.setScheme("https");
 		mockRequest.setServerPort(443);
@@ -89,7 +87,7 @@ public class ServletServerHttpRequestTests {
 		assertThat(request.getURI()).isEqualTo(new URI("https://example.com/path?query=foo"));
 	}
 
-	@Test  // SPR-16414
+	@Test // SPR-16414
 	public void getUriWithMalformedQueryParam() throws URISyntaxException {
 		mockRequest.setScheme("https");
 		mockRequest.setServerPort(443);
@@ -99,10 +97,10 @@ public class ServletServerHttpRequestTests {
 		assertThat(request.getURI()).isEqualTo(new URI("https://example.com/path"));
 	}
 
-	@Test  // SPR-13876
+	@Test // SPR-13876
 	public void getUriWithEncoding() throws URISyntaxException {
-		URI uri = new URI("https://example.com/%E4%B8%AD%E6%96%87" +
-				"?redirect=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-framework");
+		URI uri = new URI("https://example.com/%E4%B8%AD%E6%96%87"
+				+ "?redirect=https%3A%2F%2Fgithub.com%2Fspring-projects%2Fspring-framework");
 		mockRequest.setScheme(uri.getScheme());
 		mockRequest.setServerName(uri.getHost());
 		mockRequest.setServerPort(uri.getPort());
@@ -128,7 +126,8 @@ public class ServletServerHttpRequestTests {
 		assertThat(headerValues.size()).as("Invalid header values returned").isEqualTo(2);
 		assertThat(headerValues.contains(headerValue1)).as("Invalid header values returned").isTrue();
 		assertThat(headerValues.contains(headerValue2)).as("Invalid header values returned").isTrue();
-		assertThat(headers.getContentType()).as("Invalid Content-Type").isEqualTo(new MediaType("text", "plain", StandardCharsets.UTF_8));
+		assertThat(headers.getContentType()).as("Invalid Content-Type")
+				.isEqualTo(new MediaType("text", "plain", StandardCharsets.UTF_8));
 	}
 
 	@Test
@@ -166,7 +165,7 @@ public class ServletServerHttpRequestTests {
 		mockRequest.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
 		mockRequest.setMethod("POST");
 		mockRequest.addParameter("name 1", "value 1");
-		mockRequest.addParameter("name 2", new String[] {"value 2+1", "value 2+2"});
+		mockRequest.addParameter("name 2", new String[] { "value 2+1", "value 2+2" });
 		mockRequest.addParameter("name 3", (String) null);
 
 		byte[] result = FileCopyUtils.copyToByteArray(request.getBody());

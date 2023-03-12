@@ -36,14 +36,16 @@ import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.lang.Nullable;
 
 /**
- * {@link ClientHttpRequest} implementation based on
- * Apache HttpComponents HttpClient in streaming mode.
+ * {@link ClientHttpRequest} implementation based on Apache HttpComponents HttpClient in
+ * streaming mode.
  *
- * <p>Created via the {@link HttpComponentsClientHttpRequestFactory}.
+ * <p>
+ * Created via the {@link HttpComponentsClientHttpRequestFactory}.
  *
  * @author Arjen Poutsma
  * @since 4.0
- * @see HttpComponentsClientHttpRequestFactory#createRequest(java.net.URI, org.springframework.http.HttpMethod)
+ * @see HttpComponentsClientHttpRequestFactory#createRequest(java.net.URI,
+ * org.springframework.http.HttpMethod)
  */
 final class HttpComponentsStreamingClientHttpRequest extends AbstractClientHttpRequest
 		implements StreamingHttpOutputMessage {
@@ -57,13 +59,11 @@ final class HttpComponentsStreamingClientHttpRequest extends AbstractClientHttpR
 	@Nullable
 	private Body body;
 
-
 	HttpComponentsStreamingClientHttpRequest(HttpClient client, HttpUriRequest request, HttpContext context) {
 		this.httpClient = client;
 		this.httpRequest = request;
 		this.httpContext = context;
 	}
-
 
 	@Override
 	public String getMethodValue() {
@@ -99,7 +99,6 @@ final class HttpComponentsStreamingClientHttpRequest extends AbstractClientHttpR
 		HttpResponse httpResponse = this.httpClient.execute(this.httpRequest, this.httpContext);
 		return new HttpComponentsClientHttpResponse(httpResponse);
 	}
-
 
 	private static class StreamingHttpEntity implements HttpEntity {
 
@@ -162,6 +161,7 @@ final class HttpComponentsStreamingClientHttpRequest extends AbstractClientHttpR
 		public void consumeContent() throws IOException {
 			throw new UnsupportedOperationException();
 		}
+
 	}
 
 }

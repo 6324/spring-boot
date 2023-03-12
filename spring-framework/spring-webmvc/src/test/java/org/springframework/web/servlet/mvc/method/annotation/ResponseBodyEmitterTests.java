@@ -50,7 +50,6 @@ public class ResponseBodyEmitterTests {
 
 	private final ResponseBodyEmitter emitter = new ResponseBodyEmitter();
 
-
 	@Test
 	public void sendBeforeHandlerInitialized() throws Exception {
 		this.emitter.send("foo", MediaType.TEXT_PLAIN);
@@ -96,8 +95,7 @@ public class ResponseBodyEmitterTests {
 	@Test
 	public void sendFailsAfterComplete() throws Exception {
 		this.emitter.complete();
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.emitter.send("foo"));
+		assertThatIllegalStateException().isThrownBy(() -> this.emitter.send("foo"));
 	}
 
 	@Test
@@ -147,14 +145,13 @@ public class ResponseBodyEmitterTests {
 
 		IOException failure = new IOException();
 		willThrow(failure).given(this.handler).send("foo", MediaType.TEXT_PLAIN);
-		assertThatIOException().isThrownBy(() ->
-				this.emitter.send("foo", MediaType.TEXT_PLAIN));
+		assertThatIOException().isThrownBy(() -> this.emitter.send("foo", MediaType.TEXT_PLAIN));
 		verify(this.handler).send("foo", MediaType.TEXT_PLAIN);
 		verifyNoMoreInteractions(this.handler);
 	}
 
 	@Test
-	public void onTimeoutBeforeHandlerInitialized() throws Exception  {
+	public void onTimeoutBeforeHandlerInitialized() throws Exception {
 		Runnable runnable = mock(Runnable.class);
 		this.emitter.onTimeout(runnable);
 		this.emitter.initialize(this.handler);
@@ -169,7 +166,7 @@ public class ResponseBodyEmitterTests {
 	}
 
 	@Test
-	public void onTimeoutAfterHandlerInitialized() throws Exception  {
+	public void onTimeoutAfterHandlerInitialized() throws Exception {
 		this.emitter.initialize(this.handler);
 
 		ArgumentCaptor<Runnable> captor = ArgumentCaptor.forClass(Runnable.class);
@@ -185,7 +182,7 @@ public class ResponseBodyEmitterTests {
 	}
 
 	@Test
-	public void onCompletionBeforeHandlerInitialized() throws Exception  {
+	public void onCompletionBeforeHandlerInitialized() throws Exception {
 		Runnable runnable = mock(Runnable.class);
 		this.emitter.onCompletion(runnable);
 		this.emitter.initialize(this.handler);
@@ -200,7 +197,7 @@ public class ResponseBodyEmitterTests {
 	}
 
 	@Test
-	public void onCompletionAfterHandlerInitialized() throws Exception  {
+	public void onCompletionAfterHandlerInitialized() throws Exception {
 		this.emitter.initialize(this.handler);
 
 		ArgumentCaptor<Runnable> captor = ArgumentCaptor.forClass(Runnable.class);

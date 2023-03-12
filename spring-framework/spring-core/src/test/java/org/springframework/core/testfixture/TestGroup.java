@@ -43,13 +43,12 @@ public enum TestGroup {
 	LONG_RUNNING,
 
 	/**
-	 * Performance-related tests that may fail unpredictably based on CPU profile and load.
-	 * Any test using {@link Thread#sleep}, {@link Object#wait}, Spring's
+	 * Performance-related tests that may fail unpredictably based on CPU profile and
+	 * load. Any test using {@link Thread#sleep}, {@link Object#wait}, Spring's
 	 * {@code StopWatch}, etc. should be considered a candidate as their successful
 	 * execution is likely to be based on events occurring within a given time window.
 	 */
 	PERFORMANCE;
-
 
 	/**
 	 * Determine if this {@link TestGroup} is active.
@@ -59,21 +58,20 @@ public enum TestGroup {
 		return loadTestGroups().contains(this);
 	}
 
-
 	private static final String TEST_GROUPS_SYSTEM_PROPERTY = "testGroups";
 
 	/**
-	 * Load test groups dynamically instead of during static initialization in
-	 * order to avoid a {@link NoClassDefFoundError} being thrown while attempting
-	 * to load collaborator classes.
+	 * Load test groups dynamically instead of during static initialization in order to
+	 * avoid a {@link NoClassDefFoundError} being thrown while attempting to load
+	 * collaborator classes.
 	 */
 	static Set<TestGroup> loadTestGroups() {
 		try {
 			return TestGroup.parse(System.getProperty(TEST_GROUPS_SYSTEM_PROPERTY));
 		}
 		catch (Exception ex) {
-			throw new IllegalStateException("Failed to parse '" + TEST_GROUPS_SYSTEM_PROPERTY +
-					"' system property: " + ex.getMessage(), ex);
+			throw new IllegalStateException(
+					"Failed to parse '" + TEST_GROUPS_SYSTEM_PROPERTY + "' system property: " + ex.getMessage(), ex);
 		}
 	}
 
@@ -81,8 +79,8 @@ public enum TestGroup {
 	 * Parse the specified comma separated string of groups.
 	 * @param value the comma separated string of groups
 	 * @return a set of groups
-	 * @throws IllegalArgumentException if any specified group name is not a
-	 * valid {@link TestGroup}
+	 * @throws IllegalArgumentException if any specified group name is not a valid
+	 * {@link TestGroup}
 	 */
 	static Set<TestGroup> parse(String value) throws IllegalArgumentException {
 		if (!StringUtils.hasText(value)) {
@@ -109,9 +107,9 @@ public enum TestGroup {
 			}
 			catch (IllegalArgumentException ex) {
 				throw new IllegalArgumentException(format(
-						"Unable to find test group '%s' when parsing testGroups value: '%s'. " +
-						"Available groups include: [%s]", group.trim(), originalValue,
-						StringUtils.arrayToCommaDelimitedString(TestGroup.values())));
+						"Unable to find test group '%s' when parsing testGroups value: '%s'. "
+								+ "Available groups include: [%s]",
+						group.trim(), originalValue, StringUtils.arrayToCommaDelimitedString(TestGroup.values())));
 			}
 		}
 		return groups;

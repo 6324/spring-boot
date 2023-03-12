@@ -75,7 +75,6 @@ public class ClientCodecConfigurerTests {
 
 	private final AtomicInteger index = new AtomicInteger(0);
 
-
 	@Test
 	public void defaultReaders() {
 		List<HttpMessageReader<?>> readers = this.configurer.getReaders();
@@ -171,7 +170,8 @@ public class ClientCodecConfigurerTests {
 		// Clone has the customizations
 
 		Decoder<?> sseDecoder = findCodec(clone.getReaders(), ServerSentEventHttpMessageReader.class).getDecoder();
-		List<HttpMessageWriter<?>> writers = findCodec(clone.getWriters(), MultipartHttpMessageWriter.class).getPartWriters();
+		List<HttpMessageWriter<?>> writers = findCodec(clone.getWriters(), MultipartHttpMessageWriter.class)
+				.getPartWriters();
 
 		assertThat(sseDecoder).isSameAs(jackson2Decoder);
 		assertThat(writers).hasSize(2);
@@ -189,8 +189,8 @@ public class ClientCodecConfigurerTests {
 	public void cloneShouldNotDropMultipartCodecs() {
 
 		ClientCodecConfigurer clone = this.configurer.clone();
-		List<HttpMessageWriter<?>> writers =
-				findCodec(clone.getWriters(), MultipartHttpMessageWriter.class).getPartWriters();
+		List<HttpMessageWriter<?>> writers = findCodec(clone.getWriters(), MultipartHttpMessageWriter.class)
+				.getPartWriters();
 
 		assertThat(writers).hasSize(10);
 	}
@@ -203,8 +203,8 @@ public class ClientCodecConfigurerTests {
 		this.configurer.registerDefaults(false);
 		this.configurer.customCodecs().register(new Jackson2JsonEncoder());
 
-		List<HttpMessageWriter<?>> writers =
-				findCodec(clone.getWriters(), MultipartHttpMessageWriter.class).getPartWriters();
+		List<HttpMessageWriter<?>> writers = findCodec(clone.getWriters(), MultipartHttpMessageWriter.class)
+				.getPartWriters();
 
 		assertThat(writers).hasSize(10);
 	}

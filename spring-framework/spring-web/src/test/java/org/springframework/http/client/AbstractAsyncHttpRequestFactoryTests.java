@@ -45,7 +45,6 @@ public abstract class AbstractAsyncHttpRequestFactoryTests extends AbstractMockW
 
 	protected AsyncClientHttpRequestFactory factory;
 
-
 	@BeforeEach
 	public final void createFactory() throws Exception {
 		this.factory = createRequestFactory();
@@ -62,7 +61,6 @@ public abstract class AbstractAsyncHttpRequestFactoryTests extends AbstractMockW
 	}
 
 	protected abstract AsyncClientHttpRequestFactory createRequestFactory();
-
 
 	@Test
 	public void status() throws Exception {
@@ -97,6 +95,7 @@ public abstract class AbstractAsyncHttpRequestFactoryTests extends AbstractMockW
 					throw new AssertionError(ex.getMessage(), ex);
 				}
 			}
+
 			@Override
 			public void onFailure(Throwable ex) {
 				throw new AssertionError(ex.getMessage(), ex);
@@ -136,7 +135,8 @@ public abstract class AbstractAsyncHttpRequestFactoryTests extends AbstractMockW
 		try {
 			assertThat(response.getStatusCode()).as("Invalid status code").isEqualTo(HttpStatus.OK);
 			assertThat(response.getHeaders().containsKey(headerName)).as("Header not found").isTrue();
-			assertThat(response.getHeaders().get(headerName)).as("Header value not found").isEqualTo(Arrays.asList(headerValue1, headerValue2));
+			assertThat(response.getHeaders().get(headerName)).as("Header value not found")
+					.isEqualTo(Arrays.asList(headerValue1, headerValue2));
 			byte[] result = FileCopyUtils.copyToByteArray(response.getBody());
 			assertThat(Arrays.equals(body, result)).as("Invalid body").isTrue();
 		}
@@ -161,8 +161,7 @@ public abstract class AbstractAsyncHttpRequestFactoryTests extends AbstractMockW
 		Future<ClientHttpResponse> futureResponse = request.executeAsync();
 		ClientHttpResponse response = futureResponse.get();
 		try {
-			assertThatIllegalStateException().isThrownBy(() ->
-					FileCopyUtils.copy(body, request.getBody()));
+			assertThatIllegalStateException().isThrownBy(() -> FileCopyUtils.copy(body, request.getBody()));
 		}
 		finally {
 			response.close();
@@ -179,8 +178,8 @@ public abstract class AbstractAsyncHttpRequestFactoryTests extends AbstractMockW
 		Future<ClientHttpResponse> futureResponse = request.executeAsync();
 		ClientHttpResponse response = futureResponse.get();
 		try {
-			assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-					request.getHeaders().add("MyHeader", "value"));
+			assertThatExceptionOfType(UnsupportedOperationException.class)
+					.isThrownBy(() -> request.getHeaders().add("MyHeader", "value"));
 		}
 		finally {
 			response.close();
@@ -200,7 +199,8 @@ public abstract class AbstractAsyncHttpRequestFactoryTests extends AbstractMockW
 	protected void assertHttpMethod(String path, HttpMethod method) throws Exception {
 		ClientHttpResponse response = null;
 		try {
-			AsyncClientHttpRequest request = this.factory.createAsyncRequest(new URI(baseUrl + "/methods/" + path), method);
+			AsyncClientHttpRequest request = this.factory.createAsyncRequest(new URI(baseUrl + "/methods/" + path),
+					method);
 			if (method == HttpMethod.POST || method == HttpMethod.PUT || method == HttpMethod.PATCH) {
 				// requires a body
 				request.getBody().write(32);
@@ -225,6 +225,5 @@ public abstract class AbstractAsyncHttpRequestFactoryTests extends AbstractMockW
 		futureResponse.cancel(true);
 		assertThat(futureResponse.isCancelled()).isTrue();
 	}
-
 
 }

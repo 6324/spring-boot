@@ -39,13 +39,11 @@ class WebMvcConfigurerComposite implements WebMvcConfigurer {
 
 	private final List<WebMvcConfigurer> delegates = new ArrayList<>();
 
-
 	public void addWebMvcConfigurers(List<WebMvcConfigurer> configurers) {
 		if (!CollectionUtils.isEmpty(configurers)) {
 			this.delegates.addAll(configurers);
 		}
 	}
-
 
 	@Override
 	public void configurePathMatch(PathMatchConfigurer configurer) {
@@ -166,8 +164,7 @@ class WebMvcConfigurerComposite implements WebMvcConfigurer {
 			Validator validator = configurer.getValidator();
 			if (validator != null) {
 				if (selected != null) {
-					throw new IllegalStateException("No unique Validator found: {" +
-							selected + ", " + validator + "}");
+					throw new IllegalStateException("No unique Validator found: {" + selected + ", " + validator + "}");
 				}
 				selected = validator;
 			}
@@ -183,8 +180,8 @@ class WebMvcConfigurerComposite implements WebMvcConfigurer {
 			MessageCodesResolver messageCodesResolver = configurer.getMessageCodesResolver();
 			if (messageCodesResolver != null) {
 				if (selected != null) {
-					throw new IllegalStateException("No unique MessageCodesResolver found: {" +
-							selected + ", " + messageCodesResolver + "}");
+					throw new IllegalStateException(
+							"No unique MessageCodesResolver found: {" + selected + ", " + messageCodesResolver + "}");
 				}
 				selected = messageCodesResolver;
 			}

@@ -51,7 +51,6 @@ public class HandlerExecutionChain {
 
 	private int interceptorIndex = -1;
 
-
 	/**
 	 * Create a new HandlerExecutionChain.
 	 * @param handler the handler object to execute
@@ -63,8 +62,8 @@ public class HandlerExecutionChain {
 	/**
 	 * Create a new HandlerExecutionChain.
 	 * @param handler the handler object to execute
-	 * @param interceptors the array of interceptors to apply
-	 * (in the given order) before the handler itself executes
+	 * @param interceptors the array of interceptors to apply (in the given order) before
+	 * the handler itself executes
 	 */
 	public HandlerExecutionChain(Object handler, @Nullable HandlerInterceptor... interceptors) {
 		if (handler instanceof HandlerExecutionChain) {
@@ -79,7 +78,6 @@ public class HandlerExecutionChain {
 			this.interceptors = interceptors;
 		}
 	}
-
 
 	/**
 	 * Return the handler object to execute.
@@ -136,12 +134,11 @@ public class HandlerExecutionChain {
 		return this.interceptors;
 	}
 
-
 	/**
 	 * Apply preHandle methods of registered interceptors.
-	 * @return {@code true} if the execution chain should proceed with the
-	 * next interceptor or the handler itself. Else, DispatcherServlet assumes
-	 * that this interceptor has already dealt with the response itself.
+	 * @return {@code true} if the execution chain should proceed with the next
+	 * interceptor or the handler itself. Else, DispatcherServlet assumes that this
+	 * interceptor has already dealt with the response itself.
 	 */
 	boolean applyPreHandle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HandlerInterceptor[] interceptors = getInterceptors();
@@ -174,9 +171,9 @@ public class HandlerExecutionChain {
 	}
 
 	/**
-	 * Trigger afterCompletion callbacks on the mapped HandlerInterceptors.
-	 * Will just invoke afterCompletion for all interceptors whose preHandle invocation
-	 * has successfully completed and returned true.
+	 * Trigger afterCompletion callbacks on the mapped HandlerInterceptors. Will just
+	 * invoke afterCompletion for all interceptors whose preHandle invocation has
+	 * successfully completed and returned true.
 	 */
 	void triggerAfterCompletion(HttpServletRequest request, HttpServletResponse response, @Nullable Exception ex)
 			throws Exception {
@@ -210,14 +207,14 @@ public class HandlerExecutionChain {
 					}
 					catch (Throwable ex) {
 						if (logger.isErrorEnabled()) {
-							logger.error("Interceptor [" + interceptor + "] failed in afterConcurrentHandlingStarted", ex);
+							logger.error("Interceptor [" + interceptor + "] failed in afterConcurrentHandlingStarted",
+									ex);
 						}
 					}
 				}
 			}
 		}
 	}
-
 
 	/**
 	 * Delegates to the handler's {@code toString()} implementation.

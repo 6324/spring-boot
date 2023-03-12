@@ -34,7 +34,6 @@ public class MockHttpInputMessage implements HttpInputMessage {
 
 	private final InputStream body;
 
-
 	public MockHttpInputMessage(byte[] contents) {
 		Assert.notNull(contents, "'contents' must not be null");
 		this.body = new ByteArrayInputStream(contents);
@@ -44,7 +43,6 @@ public class MockHttpInputMessage implements HttpInputMessage {
 		Assert.notNull(body, "'body' must not be null");
 		this.body = body;
 	}
-
 
 	@Override
 	public HttpHeaders getHeaders() {

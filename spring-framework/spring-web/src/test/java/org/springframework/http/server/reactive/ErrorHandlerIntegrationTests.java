@@ -37,12 +37,10 @@ class ErrorHandlerIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 
 	private final ErrorHandler handler = new ErrorHandler();
 
-
 	@Override
 	protected HttpHandler createHttpHandler() {
 		return handler;
 	}
-
 
 	@ParameterizedHttpServerTest
 	void responseBodyError(HttpServer httpServer) throws Exception {
@@ -83,7 +81,6 @@ class ErrorHandlerIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 	}
 
-
 	private static class ErrorHandler implements HttpHandler {
 
 		@Override
@@ -100,8 +97,8 @@ class ErrorHandlerIntegrationTests extends AbstractHttpHandlerIntegrationTests {
 				return Mono.empty();
 			}
 		}
-	}
 
+	}
 
 	private static final ResponseErrorHandler NO_OP_ERROR_HANDLER = new ResponseErrorHandler() {
 

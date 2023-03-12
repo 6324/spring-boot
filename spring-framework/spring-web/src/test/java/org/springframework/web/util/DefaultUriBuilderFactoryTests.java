@@ -29,6 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link DefaultUriBuilderFactory}.
+ *
  * @author Rossen Stoyanchev
  */
 public class DefaultUriBuilderFactoryTests {
@@ -58,7 +59,8 @@ public class DefaultUriBuilderFactoryTests {
 	public void baseUriWithFullOverride() {
 		DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory("https://foo.example/v1?id=123");
 		URI uri = factory.uriString("https://example.com/1/2").build();
-		assertThat(uri.toString()).as("Use of host should case baseUri to be completely ignored").isEqualTo("https://example.com/1/2");
+		assertThat(uri.toString()).as("Use of host should case baseUri to be completely ignored")
+				.isEqualTo("https://example.com/1/2");
 	}
 
 	@Test
@@ -89,7 +91,8 @@ public class DefaultUriBuilderFactoryTests {
 		DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory("https://{host}/v1");
 		factory.setDefaultUriVariables(singletonMap("host", "foo.example"));
 		URI uri = factory.uriString("/bar").build();
-		assertThat(uri.toString()).as("Expected delegation to build(Map) method").isEqualTo("https://foo.example/v1/bar");
+		assertThat(uri.toString()).as("Expected delegation to build(Map) method")
+				.isEqualTo("https://foo.example/v1/bar");
 	}
 
 	@Test
@@ -140,7 +143,8 @@ public class DefaultUriBuilderFactoryTests {
 		factory.setDefaultUriVariables(singletonMap("host", "www.example.com"));
 		UriBuilder uriBuilder = factory.uriString("https://{host}/user/{userId}/dashboard");
 
-		assertThat(uriBuilder.build(singletonMap("userId", "john;doe")).toString()).isEqualTo("https://www.example.com/user/john%3Bdoe/dashboard");
+		assertThat(uriBuilder.build(singletonMap("userId", "john;doe")).toString())
+				.isEqualTo("https://www.example.com/user/john%3Bdoe/dashboard");
 	}
 
 	@Test

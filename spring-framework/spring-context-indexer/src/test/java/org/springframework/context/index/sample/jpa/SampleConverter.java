@@ -25,4 +25,5 @@ import javax.persistence.Converter;
  */
 @Converter
 public class SampleConverter {
+
 }

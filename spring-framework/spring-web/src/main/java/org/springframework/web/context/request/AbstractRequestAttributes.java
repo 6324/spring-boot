@@ -22,9 +22,9 @@ import java.util.Map;
 import org.springframework.util.Assert;
 
 /**
- * Abstract support class for RequestAttributes implementations,
- * offering a request completion mechanism for request-specific destruction
- * callbacks and for updating accessed session attributes.
+ * Abstract support class for RequestAttributes implementations, offering a request
+ * completion mechanism for request-specific destruction callbacks and for updating
+ * accessed session attributes.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -37,11 +37,11 @@ public abstract class AbstractRequestAttributes implements RequestAttributes {
 
 	private volatile boolean requestActive = true;
 
-
 	/**
 	 * Signal that the request has been completed.
-	 * <p>Executes all request destruction callbacks and updates the
-	 * session attributes that have been accessed during request processing.
+	 * <p>
+	 * Executes all request destruction callbacks and updates the session attributes that
+	 * have been accessed during request processing.
 	 */
 	public void requestCompleted() {
 		executeRequestDestructionCallbacks();
@@ -82,8 +82,8 @@ public abstract class AbstractRequestAttributes implements RequestAttributes {
 	}
 
 	/**
-	 * Execute all callbacks that have been registered for execution
-	 * after request completion.
+	 * Execute all callbacks that have been registered for execution after request
+	 * completion.
 	 */
 	private void executeRequestDestructionCallbacks() {
 		synchronized (this.requestDestructionCallbacks) {
@@ -95,8 +95,8 @@ public abstract class AbstractRequestAttributes implements RequestAttributes {
 	}
 
 	/**
-	 * Update all session attributes that have been accessed during request processing,
-	 * to expose their potentially updated state to the underlying session manager.
+	 * Update all session attributes that have been accessed during request processing, to
+	 * expose their potentially updated state to the underlying session manager.
 	 */
 	protected abstract void updateAccessedSessionAttributes();
 

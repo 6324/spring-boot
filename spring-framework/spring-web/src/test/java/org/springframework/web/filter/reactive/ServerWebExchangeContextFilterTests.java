@@ -31,6 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link ServerWebExchangeContextFilter}.
+ *
  * @author Rossen Stoyanchev
  */
 public class ServerWebExchangeContextFilterTests {
@@ -39,10 +40,8 @@ public class ServerWebExchangeContextFilterTests {
 	public void extractServerWebExchangeFromContext() {
 		MyService service = new MyService();
 
-		HttpHandler httpHandler = WebHttpHandlerBuilder
-				.webHandler(exchange -> service.service().then())
-				.filter(new ServerWebExchangeContextFilter())
-				.build();
+		HttpHandler httpHandler = WebHttpHandlerBuilder.webHandler(exchange -> service.service().then())
+				.filter(new ServerWebExchangeContextFilter()).build();
 
 		httpHandler.handle(MockServerHttpRequest.get("/path").build(), new MockServerHttpResponse())
 				.block(Duration.ofSeconds(5));
@@ -50,11 +49,9 @@ public class ServerWebExchangeContextFilterTests {
 		assertThat(service.getExchange()).isNotNull();
 	}
 
-
 	private static class MyService {
 
 		private final AtomicReference<ServerWebExchange> exchangeRef = new AtomicReference<>();
-
 
 		public ServerWebExchange getExchange() {
 			return this.exchangeRef.get();
@@ -66,6 +63,7 @@ public class ServerWebExchangeContextFilterTests {
 				return context;
 			});
 		}
+
 	}
 
 }

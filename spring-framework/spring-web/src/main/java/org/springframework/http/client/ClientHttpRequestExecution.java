@@ -23,8 +23,9 @@ import org.springframework.http.HttpRequest;
 /**
  * Represents the context of a client-side HTTP request execution.
  *
- * <p>Used to invoke the next interceptor in the interceptor chain,
- * or - if the calling interceptor is last - execute the request itself.
+ * <p>
+ * Used to invoke the next interceptor in the interceptor chain, or - if the calling
+ * interceptor is last - execute the request itself.
  *
  * @author Arjen Poutsma
  * @since 3.1
@@ -34,8 +35,8 @@ import org.springframework.http.HttpRequest;
 public interface ClientHttpRequestExecution {
 
 	/**
-	 * Execute the request with the given request attributes and body,
-	 * and return the response.
+	 * Execute the request with the given request attributes and body, and return the
+	 * response.
 	 * @param request the request, containing method, URI, and headers
 	 * @param body the body of the request to execute
 	 * @return the response

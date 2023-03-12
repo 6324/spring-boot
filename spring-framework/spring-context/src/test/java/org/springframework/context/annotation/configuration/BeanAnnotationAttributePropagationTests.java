@@ -232,7 +232,7 @@ public class BeanAnnotationAttributePropagationTests {
 		@Configuration
 		class Config {
 
-		// will probably never happen, doesn't make much sense
+			// will probably never happen, doesn't make much sense
 			@Bean
 			Object foo() {
 				return null;

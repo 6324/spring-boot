@@ -58,6 +58,7 @@ public class OptionsTagTests extends AbstractHtmlElementTagTests {
 	private static final String COMMAND_NAME = "testBean";
 
 	private SelectTag selectTag;
+
 	private OptionsTag tag;
 
 	@Override
@@ -74,6 +75,7 @@ public class OptionsTagTests extends AbstractHtmlElementTagTests {
 			protected TagWriter createTagWriter() {
 				return new TagWriter(getWriter());
 			}
+
 			@Override
 			public String getName() {
 				// Should not be used other than to delegate to
@@ -88,8 +90,8 @@ public class OptionsTagTests extends AbstractHtmlElementTagTests {
 
 	@Test
 	public void withCollection() throws Exception {
-		getPageContext().setAttribute(
-				SelectTag.LIST_VALUE_PAGE_ATTRIBUTE, new BindStatus(getRequestContext(), "testBean.country", false));
+		getPageContext().setAttribute(SelectTag.LIST_VALUE_PAGE_ATTRIBUTE,
+				new BindStatus(getRequestContext(), "testBean.country", false));
 
 		this.tag.setItems(Country.getCountries());
 		this.tag.setItemValue("isoCode");
@@ -121,8 +123,8 @@ public class OptionsTagTests extends AbstractHtmlElementTagTests {
 		String dynamicAttribute1 = "attr1";
 		String dynamicAttribute2 = "attr2";
 
-		getPageContext().setAttribute(
-				SelectTag.LIST_VALUE_PAGE_ATTRIBUTE, new BindStatus(getRequestContext(), "testBean.country", false));
+		getPageContext().setAttribute(SelectTag.LIST_VALUE_PAGE_ATTRIBUTE,
+				new BindStatus(getRequestContext(), "testBean.country", false));
 
 		this.tag.setItems(Country.getCountries());
 		this.tag.setItemValue("isoCode");
@@ -165,8 +167,8 @@ public class OptionsTagTests extends AbstractHtmlElementTagTests {
 		errors.getPropertyAccessor().registerCustomEditor(Float.class, propertyEditor);
 		exposeBindingResult(errors);
 
-		getPageContext().setAttribute(
-				SelectTag.LIST_VALUE_PAGE_ATTRIBUTE, new BindStatus(getRequestContext(), "testBean.myFloat", false));
+		getPageContext().setAttribute(SelectTag.LIST_VALUE_PAGE_ATTRIBUTE,
+				new BindStatus(getRequestContext(), "testBean.myFloat", false));
 
 		List<Float> floats = new ArrayList<>();
 		floats.add(new Float("12.30"));
@@ -202,8 +204,8 @@ public class OptionsTagTests extends AbstractHtmlElementTagTests {
 
 	@Test
 	public void withItemsNullReference() throws Exception {
-		getPageContext().setAttribute(
-				SelectTag.LIST_VALUE_PAGE_ATTRIBUTE, new BindStatus(getRequestContext(), "testBean.country", false));
+		getPageContext().setAttribute(SelectTag.LIST_VALUE_PAGE_ATTRIBUTE,
+				new BindStatus(getRequestContext(), "testBean.country", false));
 
 		this.tag.setItems(Collections.emptyList());
 		this.tag.setItemValue("isoCode");

@@ -55,14 +55,16 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMappi
 
 /**
  * Creates {@link RequestMappingInfo} instances from type and method-level
- * {@link RequestMapping @RequestMapping} annotations in
- * {@link Controller @Controller} classes.
+ * {@link RequestMapping @RequestMapping} annotations in {@link Controller @Controller}
+ * classes.
  *
- * <p><strong>Deprecation Note:</strong></p> In 5.2.4,
- * {@link #setUseSuffixPatternMatch(boolean) useSuffixPatternMatch} and
+ * <p>
+ * <strong>Deprecation Note:</strong>
+ * </p>
+ * In 5.2.4, {@link #setUseSuffixPatternMatch(boolean) useSuffixPatternMatch} and
  * {@link #setUseRegisteredSuffixPatternMatch(boolean) useRegisteredSuffixPatternMatch}
- * are deprecated in order to discourage use of path extensions for request
- * mapping and for content negotiation (with similar deprecations in
+ * are deprecated in order to discourage use of path extensions for request mapping and
+ * for content negotiation (with similar deprecations in
  * {@link org.springframework.web.accept.ContentNegotiationManagerFactoryBean
  * ContentNegotiationManagerFactoryBean}). For further context, please read issue
  * <a href="https://github.com/spring-projects/spring-framework/issues/24179">#24719</a>.
@@ -90,18 +92,18 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 
 	private RequestMappingInfo.BuilderConfiguration config = new RequestMappingInfo.BuilderConfiguration();
 
-
 	/**
-	 * Whether to use suffix pattern match (".*") when matching patterns to
-	 * requests. If enabled a method mapped to "/users" also matches to "/users.*".
-	 * <p>The default value is {@code true}.
-	 * <p>Also see {@link #setUseRegisteredSuffixPatternMatch(boolean)} for
-	 * more fine-grained control over specific suffixes to allow.
-	 * @deprecated as of 5.2.4. See class level comment about deprecation of
-	 * path extension config options. As there is no replacement for this method,
-	 * for the time being it's necessary to set it to {@code false}. In 5.3
-	 * when {@code false} becomes the default, use of this property will no
-	 * longer be necessary.
+	 * Whether to use suffix pattern match (".*") when matching patterns to requests. If
+	 * enabled a method mapped to "/users" also matches to "/users.*".
+	 * <p>
+	 * The default value is {@code true}.
+	 * <p>
+	 * Also see {@link #setUseRegisteredSuffixPatternMatch(boolean)} for more fine-grained
+	 * control over specific suffixes to allow.
+	 * @deprecated as of 5.2.4. See class level comment about deprecation of path
+	 * extension config options. As there is no replacement for this method, for the time
+	 * being it's necessary to set it to {@code false}. In 5.3 when {@code false} becomes
+	 * the default, use of this property will no longer be necessary.
 	 */
 	@Deprecated
 	public void setUseSuffixPatternMatch(boolean useSuffixPatternMatch) {
@@ -109,13 +111,14 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 	}
 
 	/**
-	 * Whether suffix pattern matching should work only against path extensions
-	 * explicitly registered with the {@link ContentNegotiationManager}. This
-	 * is generally recommended to reduce ambiguity and to avoid issues such as
-	 * when a "." appears in the path for other reasons.
-	 * <p>By default this is set to "false".
-	 * @deprecated as of 5.2.4. See class level comment about deprecation of
-	 * path extension config options.
+	 * Whether suffix pattern matching should work only against path extensions explicitly
+	 * registered with the {@link ContentNegotiationManager}. This is generally
+	 * recommended to reduce ambiguity and to avoid issues such as when a "." appears in
+	 * the path for other reasons.
+	 * <p>
+	 * By default this is set to "false".
+	 * @deprecated as of 5.2.4. See class level comment about deprecation of path
+	 * extension config options.
 	 */
 	@Deprecated
 	public void setUseRegisteredSuffixPatternMatch(boolean useRegisteredSuffixPatternMatch) {
@@ -124,9 +127,10 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 	}
 
 	/**
-	 * Whether to match to URLs irrespective of the presence of a trailing slash.
-	 * If enabled a method mapped to "/users" also matches to "/users/".
-	 * <p>The default value is {@code true}.
+	 * Whether to match to URLs irrespective of the presence of a trailing slash. If
+	 * enabled a method mapped to "/users" also matches to "/users/".
+	 * <p>
+	 * The default value is {@code true}.
 	 */
 	public void setUseTrailingSlashMatch(boolean useTrailingSlashMatch) {
 		this.useTrailingSlashMatch = useTrailingSlashMatch;
@@ -134,10 +138,12 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 
 	/**
 	 * Configure path prefixes to apply to controller methods.
-	 * <p>Prefixes are used to enrich the mappings of every {@code @RequestMapping}
-	 * method whose controller type is matched by the corresponding
-	 * {@code Predicate}. The prefix for the first matching predicate is used.
-	 * <p>Consider using {@link org.springframework.web.method.HandlerTypePredicate
+	 * <p>
+	 * Prefixes are used to enrich the mappings of every {@code @RequestMapping} method
+	 * whose controller type is matched by the corresponding {@code Predicate}. The prefix
+	 * for the first matching predicate is used.
+	 * <p>
+	 * Consider using {@link org.springframework.web.method.HandlerTypePredicate
 	 * HandlerTypePredicate} to group controllers.
 	 * @param prefixes a map with path prefixes as key
 	 * @since 5.1
@@ -155,8 +161,8 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 	}
 
 	/**
-	 * Set the {@link ContentNegotiationManager} to use to determine requested media types.
-	 * If not set, the default constructor is used.
+	 * Set the {@link ContentNegotiationManager} to use to determine requested media
+	 * types. If not set, the default constructor is used.
 	 */
 	public void setContentNegotiationManager(ContentNegotiationManager contentNegotiationManager) {
 		Assert.notNull(contentNegotiationManager, "ContentNegotiationManager must not be null");
@@ -189,11 +195,10 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 		super.afterPropertiesSet();
 	}
 
-
 	/**
 	 * Whether to use registered suffixes for pattern matching.
-	 * @deprecated as of 5.2.4. See class-level note on the deprecation of path
-	 * extension config options.
+	 * @deprecated as of 5.2.4. See class-level note on the deprecation of path extension
+	 * config options.
 	 */
 	@Deprecated
 	public boolean useSuffixPatternMatch() {
@@ -202,8 +207,8 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 
 	/**
 	 * Whether to use registered suffixes for pattern matching.
-	 * @deprecated as of 5.2.4. See class-level note on the deprecation of path
-	 * extension config options.
+	 * @deprecated as of 5.2.4. See class-level note on the deprecation of path extension
+	 * config options.
 	 */
 	@Deprecated
 	public boolean useRegisteredSuffixPatternMatch() {
@@ -219,8 +224,8 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 
 	/**
 	 * Return the file extensions to use for suffix pattern matching.
-	 * @deprecated as of 5.2.4. See class-level note on the deprecation of path
-	 * extension config options.
+	 * @deprecated as of 5.2.4. See class-level note on the deprecation of path extension
+	 * config options.
 	 */
 	@Nullable
 	@Deprecated
@@ -229,23 +234,23 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 		return this.config.getFileExtensions();
 	}
 
-
 	/**
 	 * {@inheritDoc}
-	 * <p>Expects a handler to have either a type-level @{@link Controller}
-	 * annotation or a type-level @{@link RequestMapping} annotation.
+	 * <p>
+	 * Expects a handler to have either a type-level @{@link Controller} annotation or a
+	 * type-level @{@link RequestMapping} annotation.
 	 */
 	@Override
 	protected boolean isHandler(Class<?> beanType) {
-		return (AnnotatedElementUtils.hasAnnotation(beanType, Controller.class) ||
-				AnnotatedElementUtils.hasAnnotation(beanType, RequestMapping.class));
+		return (AnnotatedElementUtils.hasAnnotation(beanType, Controller.class)
+				|| AnnotatedElementUtils.hasAnnotation(beanType, RequestMapping.class));
 	}
 
 	/**
-	 * Uses method and type-level @{@link RequestMapping} annotations to create
-	 * the RequestMappingInfo.
-	 * @return the created RequestMappingInfo, or {@code null} if the method
-	 * does not have a {@code @RequestMapping} annotation.
+	 * Uses method and type-level @{@link RequestMapping} annotations to create the
+	 * RequestMappingInfo.
+	 * @return the created RequestMappingInfo, or {@code null} if the method does not have
+	 * a {@code @RequestMapping} annotation.
 	 * @see #getCustomMethodCondition(Method)
 	 * @see #getCustomTypeCondition(Class)
 	 */
@@ -282,27 +287,27 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 
 	/**
 	 * Delegates to {@link #createRequestMappingInfo(RequestMapping, RequestCondition)},
-	 * supplying the appropriate custom {@link RequestCondition} depending on whether
-	 * the supplied {@code annotatedElement} is a class or method.
+	 * supplying the appropriate custom {@link RequestCondition} depending on whether the
+	 * supplied {@code annotatedElement} is a class or method.
 	 * @see #getCustomTypeCondition(Class)
 	 * @see #getCustomMethodCondition(Method)
 	 */
 	@Nullable
 	private RequestMappingInfo createRequestMappingInfo(AnnotatedElement element) {
 		RequestMapping requestMapping = AnnotatedElementUtils.findMergedAnnotation(element, RequestMapping.class);
-		RequestCondition<?> condition = (element instanceof Class ?
-				getCustomTypeCondition((Class<?>) element) : getCustomMethodCondition((Method) element));
+		RequestCondition<?> condition = (element instanceof Class ? getCustomTypeCondition((Class<?>) element)
+				: getCustomMethodCondition((Method) element));
 		return (requestMapping != null ? createRequestMappingInfo(requestMapping, condition) : null);
 	}
 
 	/**
-	 * Provide a custom type-level request condition.
-	 * The custom {@link RequestCondition} can be of any type so long as the
-	 * same condition type is returned from all calls to this method in order
-	 * to ensure custom request conditions can be combined and compared.
-	 * <p>Consider extending {@link AbstractRequestCondition} for custom
-	 * condition types and using {@link CompositeRequestCondition} to provide
-	 * multiple custom conditions.
+	 * Provide a custom type-level request condition. The custom {@link RequestCondition}
+	 * can be of any type so long as the same condition type is returned from all calls to
+	 * this method in order to ensure custom request conditions can be combined and
+	 * compared.
+	 * <p>
+	 * Consider extending {@link AbstractRequestCondition} for custom condition types and
+	 * using {@link CompositeRequestCondition} to provide multiple custom conditions.
 	 * @param handlerType the handler type for which to create the condition
 	 * @return the condition, or {@code null}
 	 */
@@ -312,13 +317,13 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 	}
 
 	/**
-	 * Provide a custom method-level request condition.
-	 * The custom {@link RequestCondition} can be of any type so long as the
-	 * same condition type is returned from all calls to this method in order
-	 * to ensure custom request conditions can be combined and compared.
-	 * <p>Consider extending {@link AbstractRequestCondition} for custom
-	 * condition types and using {@link CompositeRequestCondition} to provide
-	 * multiple custom conditions.
+	 * Provide a custom method-level request condition. The custom
+	 * {@link RequestCondition} can be of any type so long as the same condition type is
+	 * returned from all calls to this method in order to ensure custom request conditions
+	 * can be combined and compared.
+	 * <p>
+	 * Consider extending {@link AbstractRequestCondition} for custom condition types and
+	 * using {@link CompositeRequestCondition} to provide multiple custom conditions.
 	 * @param method the handler method for which to create the condition
 	 * @return the condition, or {@code null}
 	 */
@@ -329,21 +334,17 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 
 	/**
 	 * Create a {@link RequestMappingInfo} from the supplied
-	 * {@link RequestMapping @RequestMapping} annotation, which is either
-	 * a directly declared annotation, a meta-annotation, or the synthesized
-	 * result of merging annotation attributes within an annotation hierarchy.
+	 * {@link RequestMapping @RequestMapping} annotation, which is either a directly
+	 * declared annotation, a meta-annotation, or the synthesized result of merging
+	 * annotation attributes within an annotation hierarchy.
 	 */
-	protected RequestMappingInfo createRequestMappingInfo(
-			RequestMapping requestMapping, @Nullable RequestCondition<?> customCondition) {
+	protected RequestMappingInfo createRequestMappingInfo(RequestMapping requestMapping,
+			@Nullable RequestCondition<?> customCondition) {
 
 		RequestMappingInfo.Builder builder = RequestMappingInfo
-				.paths(resolveEmbeddedValuesInPatterns(requestMapping.path()))
-				.methods(requestMapping.method())
-				.params(requestMapping.params())
-				.headers(requestMapping.headers())
-				.consumes(requestMapping.consumes())
-				.produces(requestMapping.produces())
-				.mappingName(requestMapping.name());
+				.paths(resolveEmbeddedValuesInPatterns(requestMapping.path())).methods(requestMapping.method())
+				.params(requestMapping.params()).headers(requestMapping.headers()).consumes(requestMapping.consumes())
+				.produces(requestMapping.produces()).mappingName(requestMapping.name());
 		if (customCondition != null) {
 			builder.customCondition(customCondition);
 		}
@@ -452,8 +453,8 @@ public class RequestMappingHandlerMapping extends RequestMappingInfoHandlerMappi
 			config.setAllowCredentials(false);
 		}
 		else if (!allowCredentials.isEmpty()) {
-			throw new IllegalStateException("@CrossOrigin's allowCredentials value must be \"true\", \"false\", " +
-					"or an empty string (\"\"): current value is [" + allowCredentials + "]");
+			throw new IllegalStateException("@CrossOrigin's allowCredentials value must be \"true\", \"false\", "
+					+ "or an empty string (\"\"): current value is [" + allowCredentials + "]");
 		}
 
 		if (annotation.maxAge() >= 0 && config.getMaxAge() == null) {

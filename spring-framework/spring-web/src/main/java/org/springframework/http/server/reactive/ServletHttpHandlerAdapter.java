@@ -47,8 +47,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Adapt {@link HttpHandler} to an {@link HttpServlet} using Servlet Async support
- * and Servlet 3.1 non-blocking I/O.
+ * Adapt {@link HttpHandler} to an {@link HttpServlet} using Servlet Async support and
+ * Servlet 3.1 non-blocking I/O.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -63,7 +63,6 @@ public class ServletHttpHandlerAdapter implements Servlet {
 
 	private static final String WRITE_ERROR_ATTRIBUTE_NAME = ServletHttpHandlerAdapter.class.getName() + ".ERROR";
 
-
 	private final HttpHandler httpHandler;
 
 	private int bufferSize = DEFAULT_BUFFER_SIZE;
@@ -73,16 +72,15 @@ public class ServletHttpHandlerAdapter implements Servlet {
 
 	private DataBufferFactory dataBufferFactory = new DefaultDataBufferFactory(false);
 
-
 	public ServletHttpHandlerAdapter(HttpHandler httpHandler) {
 		Assert.notNull(httpHandler, "HttpHandler must not be null");
 		this.httpHandler = httpHandler;
 	}
 
-
 	/**
 	 * Set the size of the input buffer used for reading in bytes.
-	 * <p>By default this is set to 8192.
+	 * <p>
+	 * By default this is set to 8192.
 	 */
 	public void setBufferSize(int bufferSize) {
 		Assert.isTrue(bufferSize > 0, "Buffer size must be larger than zero");
@@ -97,11 +95,11 @@ public class ServletHttpHandlerAdapter implements Servlet {
 	}
 
 	/**
-	 * Return the Servlet path under which the Servlet is deployed by checking
-	 * the Servlet registration from {@link #init(ServletConfig)}.
-	 * @return the path, or an empty string if the Servlet is deployed without
-	 * a prefix (i.e. "/" or "/*"), or {@code null} if this method is invoked
-	 * before the {@link #init(ServletConfig)} Servlet container callback.
+	 * Return the Servlet path under which the Servlet is deployed by checking the Servlet
+	 * registration from {@link #init(ServletConfig)}.
+	 * @return the path, or an empty string if the Servlet is deployed without a prefix
+	 * (i.e. "/" or "/*"), or {@code null} if this method is invoked before the
+	 * {@link #init(ServletConfig)} Servlet container callback.
 	 */
 	@Nullable
 	public String getServletPath() {
@@ -116,7 +114,6 @@ public class ServletHttpHandlerAdapter implements Servlet {
 	public DataBufferFactory getDataBufferFactory() {
 		return this.dataBufferFactory;
 	}
-
 
 	// Servlet methods...
 
@@ -147,12 +144,10 @@ public class ServletHttpHandlerAdapter implements Servlet {
 			}
 		}
 
-		throw new IllegalArgumentException("Expected a single Servlet mapping: " +
-				"either the default Servlet mapping (i.e. '/'), " +
-				"or a path based mapping (e.g. '/*', '/foo/*'). " +
-				"Actual mappings: " + mappings + " for Servlet '" + name + "'");
+		throw new IllegalArgumentException("Expected a single Servlet mapping: "
+				+ "either the default Servlet mapping (i.e. '/'), " + "or a path based mapping (e.g. '/*', '/foo/*'). "
+				+ "Actual mappings: " + mappings + " for Servlet '" + name + "'");
 	}
-
 
 	@Override
 	public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
@@ -196,12 +191,12 @@ public class ServletHttpHandlerAdapter implements Servlet {
 			throws IOException, URISyntaxException {
 
 		Assert.notNull(this.servletPath, "Servlet path is not initialized");
-		return new ServletServerHttpRequest(
-				request, context, this.servletPath, getDataBufferFactory(), getBufferSize());
+		return new ServletServerHttpRequest(request, context, this.servletPath, getDataBufferFactory(),
+				getBufferSize());
 	}
 
-	protected ServletServerHttpResponse createResponse(HttpServletResponse response,
-			AsyncContext context, ServletServerHttpRequest request) throws IOException {
+	protected ServletServerHttpResponse createResponse(HttpServletResponse response, AsyncContext context,
+			ServletServerHttpRequest request) throws IOException {
 
 		return new ServletServerHttpResponse(response, context, getDataBufferFactory(), getBufferSize(), request);
 	}
@@ -221,7 +216,6 @@ public class ServletHttpHandlerAdapter implements Servlet {
 	public void destroy() {
 	}
 
-
 	/**
 	 * We cannot combine ERROR_LISTENER and HandlerResultSubscriber due to:
 	 * https://issues.jboss.org/browse/WFLY-8515.
@@ -237,7 +231,6 @@ public class ServletHttpHandlerAdapter implements Servlet {
 			// e.g. TIMEOUT_LISTENER (above) may have completed the AsyncContext
 		}
 	}
-
 
 	private static class HandlerResultAsyncListener implements AsyncListener {
 
@@ -274,8 +267,8 @@ public class ServletHttpHandlerAdapter implements Servlet {
 		public void onComplete(AsyncEvent event) {
 			// no-op
 		}
-	}
 
+	}
 
 	private class HandlerResultSubscriber implements Subscriber<Void> {
 
@@ -285,8 +278,8 @@ public class ServletHttpHandlerAdapter implements Servlet {
 
 		private final String logPrefix;
 
-		public HandlerResultSubscriber(
-				AsyncContext asyncContext, AtomicBoolean isCompleted, ServletServerHttpRequest httpRequest) {
+		public HandlerResultSubscriber(AsyncContext asyncContext, AtomicBoolean isCompleted,
+				ServletServerHttpRequest httpRequest) {
 
 			this.asyncContext = asyncContext;
 			this.isCompleted = isCompleted;
@@ -330,6 +323,7 @@ public class ServletHttpHandlerAdapter implements Servlet {
 			logger.trace(this.logPrefix + "Handling completed");
 			runIfAsyncNotComplete(this.asyncContext, this.isCompleted, this.asyncContext::complete);
 		}
+
 	}
 
 }

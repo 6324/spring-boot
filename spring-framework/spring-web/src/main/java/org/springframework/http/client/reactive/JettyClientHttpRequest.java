@@ -44,7 +44,8 @@ import org.springframework.http.MediaType;
  *
  * @author Sebastien Deleuze
  * @since 5.1
- * @see <a href="https://github.com/jetty-project/jetty-reactive-httpclient">Jetty ReactiveStreams HttpClient</a>
+ * @see <a href="https://github.com/jetty-project/jetty-reactive-httpclient">Jetty
+ * ReactiveStreams HttpClient</a>
  */
 class JettyClientHttpRequest extends AbstractClientHttpRequest {
 
@@ -52,12 +53,10 @@ class JettyClientHttpRequest extends AbstractClientHttpRequest {
 
 	private final DataBufferFactory bufferFactory;
 
-
 	public JettyClientHttpRequest(Request jettyRequest, DataBufferFactory bufferFactory) {
 		this.jettyRequest = jettyRequest;
 		this.bufferFactory = bufferFactory;
 	}
-
 
 	@Override
 	public HttpMethod getMethod() {
@@ -81,8 +80,7 @@ class JettyClientHttpRequest extends AbstractClientHttpRequest {
 
 	@Override
 	public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
-		ReactiveRequest.Content content = Flux.from(body)
-				.map(this::toContentChunk)
+		ReactiveRequest.Content content = Flux.from(body).map(this::toContentChunk)
 				.as(chunks -> ReactiveRequest.Content.fromPublisher(chunks, getContentType()));
 		this.jettyRequest.content(new PublisherContentProvider(content));
 		return doCommit(this::completes);
@@ -90,10 +88,8 @@ class JettyClientHttpRequest extends AbstractClientHttpRequest {
 
 	@Override
 	public Mono<Void> writeAndFlushWith(Publisher<? extends Publisher<? extends DataBuffer>> body) {
-		ReactiveRequest.Content content = Flux.from(body)
-				.flatMap(Function.identity())
-				.doOnDiscard(PooledDataBuffer.class, DataBufferUtils::release)
-				.map(this::toContentChunk)
+		ReactiveRequest.Content content = Flux.from(body).flatMap(Function.identity())
+				.doOnDiscard(PooledDataBuffer.class, DataBufferUtils::release).map(this::toContentChunk)
 				.as(chunks -> ReactiveRequest.Content.fromPublisher(chunks, getContentType()));
 		this.jettyRequest.content(new PublisherContentProvider(content));
 		return doCommit(this::completes);
@@ -114,6 +110,7 @@ class JettyClientHttpRequest extends AbstractClientHttpRequest {
 			public void succeeded() {
 				DataBufferUtils.release(buffer);
 			}
+
 			@Override
 			public void failed(Throwable x) {
 				DataBufferUtils.release(buffer);
@@ -122,12 +119,10 @@ class JettyClientHttpRequest extends AbstractClientHttpRequest {
 		});
 	}
 
-
 	@Override
 	protected void applyCookies() {
 		getCookies().values().stream().flatMap(Collection::stream)
-				.map(cookie -> new HttpCookie(cookie.getName(), cookie.getValue()))
-				.forEach(this.jettyRequest::cookie);
+				.map(cookie -> new HttpCookie(cookie.getName(), cookie.getValue())).forEach(this.jettyRequest::cookie);
 	}
 
 	@Override

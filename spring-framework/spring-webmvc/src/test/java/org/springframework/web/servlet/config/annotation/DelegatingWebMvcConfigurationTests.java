@@ -84,7 +84,6 @@ public class DelegatingWebMvcConfigurationTests {
 
 	private final DelegatingWebMvcConfiguration delegatingConfig = new DelegatingWebMvcConfiguration();
 
-
 	@Test
 	public void requestMappingHandlerAdapter() throws Exception {
 		delegatingConfig.setConfigurers(Collections.singletonList(webMvcConfigurer));
@@ -92,8 +91,8 @@ public class DelegatingWebMvcConfigurationTests {
 				this.delegatingConfig.mvcContentNegotiationManager(), this.delegatingConfig.mvcConversionService(),
 				this.delegatingConfig.mvcValidator());
 
-		ConfigurableWebBindingInitializer initializer =
-				(ConfigurableWebBindingInitializer) adapter.getWebBindingInitializer();
+		ConfigurableWebBindingInitializer initializer = (ConfigurableWebBindingInitializer) adapter
+				.getWebBindingInitializer();
 
 		verify(webMvcConfigurer).configureMessageConverters(converters.capture());
 		verify(webMvcConfigurer).configureContentNegotiation(contentNegotiationConfigurer.capture());
@@ -133,7 +132,8 @@ public class DelegatingWebMvcConfigurationTests {
 		RequestMappingHandlerAdapter adapter = delegatingConfig.requestMappingHandlerAdapter(
 				this.delegatingConfig.mvcContentNegotiationManager(), this.delegatingConfig.mvcConversionService(),
 				this.delegatingConfig.mvcValidator());
-		assertThat(adapter.getMessageConverters().size()).as("Only one custom converter should be registered").isEqualTo(2);
+		assertThat(adapter.getMessageConverters().size()).as("Only one custom converter should be registered")
+				.isEqualTo(2);
 		assertThat(adapter.getMessageConverters().get(0)).isSameAs(customConverter);
 		assertThat(adapter.getMessageConverters().get(1)).isSameAs(stringConverter);
 	}
@@ -188,9 +188,8 @@ public class DelegatingWebMvcConfigurationTests {
 		});
 		delegatingConfig.setConfigurers(configurers);
 
-		HandlerExceptionResolverComposite composite =
-				(HandlerExceptionResolverComposite) delegatingConfig
-						.handlerExceptionResolver(delegatingConfig.mvcContentNegotiationManager());
+		HandlerExceptionResolverComposite composite = (HandlerExceptionResolverComposite) delegatingConfig
+				.handlerExceptionResolver(delegatingConfig.mvcContentNegotiationManager());
 		assertThat(composite.getExceptionResolvers().size()).as("Only one custom converter is expected").isEqualTo(1);
 	}
 
@@ -203,10 +202,8 @@ public class DelegatingWebMvcConfigurationTests {
 		configurers.add(new WebMvcConfigurer() {
 			@Override
 			public void configurePathMatch(PathMatchConfigurer configurer) {
-				configurer.setUseRegisteredSuffixPatternMatch(true)
-						.setUseTrailingSlashMatch(false)
-						.setUrlPathHelper(pathHelper)
-						.setPathMatcher(pathMatcher);
+				configurer.setUseRegisteredSuffixPatternMatch(true).setUseTrailingSlashMatch(false)
+						.setUrlPathHelper(pathHelper).setPathMatcher(pathMatcher);
 			}
 		});
 		delegatingConfig.setConfigurers(configurers);
@@ -215,11 +212,16 @@ public class DelegatingWebMvcConfigurationTests {
 				delegatingConfig.mvcContentNegotiationManager(), delegatingConfig.mvcConversionService(),
 				delegatingConfig.mvcResourceUrlProvider());
 		assertThat(handlerMapping).isNotNull();
-		assertThat(handlerMapping.useRegisteredSuffixPatternMatch()).as("PathMatchConfigurer should configure RegisteredSuffixPatternMatch").isEqualTo(true);
-		assertThat(handlerMapping.useSuffixPatternMatch()).as("PathMatchConfigurer should configure SuffixPatternMatch").isEqualTo(true);
-		assertThat(handlerMapping.useTrailingSlashMatch()).as("PathMatchConfigurer should configure TrailingSlashMatch").isEqualTo(false);
-		assertThat(handlerMapping.getUrlPathHelper()).as("PathMatchConfigurer should configure UrlPathHelper").isEqualTo(pathHelper);
-		assertThat(handlerMapping.getPathMatcher()).as("PathMatchConfigurer should configure PathMatcher").isEqualTo(pathMatcher);
+		assertThat(handlerMapping.useRegisteredSuffixPatternMatch())
+				.as("PathMatchConfigurer should configure RegisteredSuffixPatternMatch").isEqualTo(true);
+		assertThat(handlerMapping.useSuffixPatternMatch()).as("PathMatchConfigurer should configure SuffixPatternMatch")
+				.isEqualTo(true);
+		assertThat(handlerMapping.useTrailingSlashMatch()).as("PathMatchConfigurer should configure TrailingSlashMatch")
+				.isEqualTo(false);
+		assertThat(handlerMapping.getUrlPathHelper()).as("PathMatchConfigurer should configure UrlPathHelper")
+				.isEqualTo(pathHelper);
+		assertThat(handlerMapping.getPathMatcher()).as("PathMatchConfigurer should configure PathMatcher")
+				.isEqualTo(pathMatcher);
 	}
 
 }

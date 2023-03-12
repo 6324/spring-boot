@@ -51,16 +51,16 @@ public class TilesConfigurerTests {
 		ApplicationContext tilesContext = ServletUtil.getApplicationContext(servletContext);
 
 		BasicTilesContainer container = (BasicTilesContainer) TilesAccess.getContainer(tilesContext);
-		Request requestContext = new ServletRequest(container.getApplicationContext(),
-				new MockHttpServletRequest(), new MockHttpServletResponse());
+		Request requestContext = new ServletRequest(container.getApplicationContext(), new MockHttpServletRequest(),
+				new MockHttpServletResponse());
 		assertThat(container.getDefinitionsFactory().getDefinition("test", requestContext)).isNotNull();
 
 		tc.destroy();
 	}
 
-
 	@Configuration
 	public static class AppConfig {
+
 	}
 
 }

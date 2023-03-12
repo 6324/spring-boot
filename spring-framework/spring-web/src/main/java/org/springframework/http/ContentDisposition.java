@@ -44,9 +44,7 @@ import static java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME;
  */
 public final class ContentDisposition {
 
-	private static final String INVALID_HEADER_FIELD_PARAMETER_FORMAT =
-			"Invalid header field parameter format (as defined in RFC 5987)";
-
+	private static final String INVALID_HEADER_FIELD_PARAMETER_FORMAT = "Invalid header field parameter format (as defined in RFC 5987)";
 
 	@Nullable
 	private final String type;
@@ -72,7 +70,6 @@ public final class ContentDisposition {
 	@Nullable
 	private final ZonedDateTime readDate;
 
-
 	/**
 	 * Private constructor. See static factory methods in this class.
 	 */
@@ -90,10 +87,9 @@ public final class ContentDisposition {
 		this.readDate = readDate;
 	}
 
-
 	/**
-	 * Return the disposition type, like for example {@literal inline}, {@literal attachment},
-	 * {@literal form-data}, or {@code null} if not defined.
+	 * Return the disposition type, like for example {@literal inline},
+	 * {@literal attachment}, {@literal form-data}, or {@code null} if not defined.
 	 */
 	@Nullable
 	public String getType() {
@@ -110,7 +106,8 @@ public final class ContentDisposition {
 
 	/**
 	 * Return the value of the {@literal filename} parameter (or the value of the
-	 * {@literal filename*} one decoded as defined in the RFC 5987), or {@code null} if not defined.
+	 * {@literal filename*} one decoded as defined in the RFC 5987), or {@code null} if
+	 * not defined.
 	 */
 	@Nullable
 	public String getFilename() {
@@ -118,7 +115,8 @@ public final class ContentDisposition {
 	}
 
 	/**
-	 * Return the charset defined in {@literal filename*} parameter, or {@code null} if not defined.
+	 * Return the charset defined in {@literal filename*} parameter, or {@code null} if
+	 * not defined.
 	 */
 	@Nullable
 	public Charset getCharset() {
@@ -138,7 +136,8 @@ public final class ContentDisposition {
 	}
 
 	/**
-	 * Return the value of the {@literal creation-date} parameter, or {@code null} if not defined.
+	 * Return the value of the {@literal creation-date} parameter, or {@code null} if not
+	 * defined.
 	 * @deprecated since 5.2.3 as per
 	 * <a href="https://tools.ietf.org/html/rfc6266#appendix-B">RFC 6266, Apendix B</a>,
 	 * to be removed in a future release.
@@ -150,7 +149,8 @@ public final class ContentDisposition {
 	}
 
 	/**
-	 * Return the value of the {@literal modification-date} parameter, or {@code null} if not defined.
+	 * Return the value of the {@literal modification-date} parameter, or {@code null} if
+	 * not defined.
 	 * @deprecated since 5.2.3 as per
 	 * <a href="https://tools.ietf.org/html/rfc6266#appendix-B">RFC 6266, Apendix B</a>,
 	 * to be removed in a future release.
@@ -162,7 +162,8 @@ public final class ContentDisposition {
 	}
 
 	/**
-	 * Return the value of the {@literal read-date} parameter, or {@code null} if not defined.
+	 * Return the value of the {@literal read-date} parameter, or {@code null} if not
+	 * defined.
 	 * @deprecated since 5.2.3 as per
 	 * <a href="https://tools.ietf.org/html/rfc6266#appendix-B">RFC 6266, Apendix B</a>,
 	 * to be removed in a future release.
@@ -173,7 +174,6 @@ public final class ContentDisposition {
 		return this.readDate;
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -183,14 +183,14 @@ public final class ContentDisposition {
 			return false;
 		}
 		ContentDisposition otherCd = (ContentDisposition) other;
-		return (ObjectUtils.nullSafeEquals(this.type, otherCd.type) &&
-				ObjectUtils.nullSafeEquals(this.name, otherCd.name) &&
-				ObjectUtils.nullSafeEquals(this.filename, otherCd.filename) &&
-				ObjectUtils.nullSafeEquals(this.charset, otherCd.charset) &&
-				ObjectUtils.nullSafeEquals(this.size, otherCd.size) &&
-				ObjectUtils.nullSafeEquals(this.creationDate, otherCd.creationDate)&&
-				ObjectUtils.nullSafeEquals(this.modificationDate, otherCd.modificationDate)&&
-				ObjectUtils.nullSafeEquals(this.readDate, otherCd.readDate));
+		return (ObjectUtils.nullSafeEquals(this.type, otherCd.type)
+				&& ObjectUtils.nullSafeEquals(this.name, otherCd.name)
+				&& ObjectUtils.nullSafeEquals(this.filename, otherCd.filename)
+				&& ObjectUtils.nullSafeEquals(this.charset, otherCd.charset)
+				&& ObjectUtils.nullSafeEquals(this.size, otherCd.size)
+				&& ObjectUtils.nullSafeEquals(this.creationDate, otherCd.creationDate)
+				&& ObjectUtils.nullSafeEquals(this.modificationDate, otherCd.modificationDate)
+				&& ObjectUtils.nullSafeEquals(this.readDate, otherCd.readDate));
 	}
 
 	@Override
@@ -252,7 +252,6 @@ public final class ContentDisposition {
 		return sb.toString();
 	}
 
-
 	/**
 	 * Return a builder for a {@code ContentDisposition}.
 	 * @param type the disposition type like for example {@literal inline},
@@ -291,13 +290,12 @@ public final class ContentDisposition {
 			int eqIndex = part.indexOf('=');
 			if (eqIndex != -1) {
 				String attribute = part.substring(0, eqIndex);
-				String value = (part.startsWith("\"", eqIndex + 1) && part.endsWith("\"") ?
-						part.substring(eqIndex + 2, part.length() - 1) :
-						part.substring(eqIndex + 1));
-				if (attribute.equals("name") ) {
+				String value = (part.startsWith("\"", eqIndex + 1) && part.endsWith("\"")
+						? part.substring(eqIndex + 2, part.length() - 1) : part.substring(eqIndex + 1));
+				if (attribute.equals("name")) {
 					name = value;
 				}
-				else if (attribute.equals("filename*") ) {
+				else if (attribute.equals("filename*")) {
 					int idx1 = value.indexOf('\'');
 					int idx2 = value.indexOf('\'', idx1 + 1);
 					if (idx1 != -1 && idx2 != -1) {
@@ -314,7 +312,7 @@ public final class ContentDisposition {
 				else if (attribute.equals("filename") && (filename == null)) {
 					filename = value;
 				}
-				else if (attribute.equals("size") ) {
+				else if (attribute.equals("size")) {
 					size = Long.parseLong(value);
 				}
 				else if (attribute.equals("creation-date")) {
@@ -388,7 +386,8 @@ public final class ContentDisposition {
 
 	/**
 	 * Decode the given header field param as described in RFC 5987.
-	 * <p>Only the US-ASCII, UTF-8 and ISO-8859-1 charsets are supported.
+	 * <p>
+	 * Only the US-ASCII, UTF-8 and ISO-8859-1 charsets are supported.
 	 * @param filename the filename
 	 * @param charset the charset for the filename
 	 * @return the encoded header field param
@@ -407,14 +406,14 @@ public final class ContentDisposition {
 				index++;
 			}
 			else if (b == '%' && index < value.length - 2) {
-				char[] array = new char[]{(char) value[index + 1], (char) value[index + 2]};
+				char[] array = new char[] { (char) value[index + 1], (char) value[index + 2] };
 				try {
 					baos.write(Integer.parseInt(String.valueOf(array), 16));
 				}
 				catch (NumberFormatException ex) {
 					throw new IllegalArgumentException(INVALID_HEADER_FIELD_PARAMETER_FORMAT, ex);
 				}
-				index+=3;
+				index += 3;
 			}
 			else {
 				throw new IllegalArgumentException(INVALID_HEADER_FIELD_PARAMETER_FORMAT);
@@ -424,9 +423,9 @@ public final class ContentDisposition {
 	}
 
 	private static boolean isRFC5987AttrChar(byte c) {
-		return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ||
-				c == '!' || c == '#' || c == '$' || c == '&' || c == '+' || c == '-' ||
-				c == '.' || c == '^' || c == '_' || c == '`' || c == '|' || c == '~';
+		return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '!' || c == '#'
+				|| c == '$' || c == '&' || c == '+' || c == '-' || c == '.' || c == '^' || c == '_' || c == '`'
+				|| c == '|' || c == '~';
 	}
 
 	private static String escapeQuotationsInFilename(String filename) {
@@ -449,8 +448,8 @@ public final class ContentDisposition {
 	/**
 	 * Encode the given header field param as describe in RFC 5987.
 	 * @param input the header field param
-	 * @param charset the charset of the header field param string,
-	 * only the US-ASCII, UTF-8 and ISO-8859-1 charsets are supported
+	 * @param charset the charset of the header field param string, only the US-ASCII,
+	 * UTF-8 and ISO-8859-1 charsets are supported
 	 * @return the encoded header field param
 	 * @see <a href="https://tools.ietf.org/html/rfc5987">RFC 5987</a>
 	 */
@@ -479,7 +478,6 @@ public final class ContentDisposition {
 		return sb.toString();
 	}
 
-
 	/**
 	 * A mutable builder for {@code ContentDisposition}.
 	 */
@@ -491,31 +489,29 @@ public final class ContentDisposition {
 		Builder name(String name);
 
 		/**
-		 * Set the value of the {@literal filename} parameter. The given
-		 * filename will be formatted as quoted-string, as defined in RFC 2616,
-		 * section 2.2, and any quote characters within the filename value will
-		 * be escaped with a backslash, e.g. {@code "foo\"bar.txt"} becomes
-		 * {@code "foo\\\"bar.txt"}.
+		 * Set the value of the {@literal filename} parameter. The given filename will be
+		 * formatted as quoted-string, as defined in RFC 2616, section 2.2, and any quote
+		 * characters within the filename value will be escaped with a backslash, e.g.
+		 * {@code "foo\"bar.txt"} becomes {@code "foo\\\"bar.txt"}.
 		 */
 		Builder filename(String filename);
 
 		/**
-		 * Set the value of the {@literal filename*} that will be encoded as
-		 * defined in the RFC 5987. Only the US-ASCII, UTF-8 and ISO-8859-1
-		 * charsets are supported.
-		 * <p><strong>Note:</strong> Do not use this for a
-		 * {@code "multipart/form-data"} requests as per
-		 * <a link="https://tools.ietf.org/html/rfc7578#section-4.2">RFC 7578, Section 4.2</a>
-		 * and also RFC 5987 itself mentions it does not apply to multipart
-		 * requests.
+		 * Set the value of the {@literal filename*} that will be encoded as defined in
+		 * the RFC 5987. Only the US-ASCII, UTF-8 and ISO-8859-1 charsets are supported.
+		 * <p>
+		 * <strong>Note:</strong> Do not use this for a {@code "multipart/form-data"}
+		 * requests as per <a link="https://tools.ietf.org/html/rfc7578#section-4.2">RFC
+		 * 7578, Section 4.2</a> and also RFC 5987 itself mentions it does not apply to
+		 * multipart requests.
 		 */
 		Builder filename(String filename, Charset charset);
 
 		/**
 		 * Set the value of the {@literal size} parameter.
 		 * @deprecated since 5.2.3 as per
-		 * <a href="https://tools.ietf.org/html/rfc6266#appendix-B">RFC 6266, Apendix B</a>,
-		 * to be removed in a future release.
+		 * <a href="https://tools.ietf.org/html/rfc6266#appendix-B">RFC 6266, Apendix
+		 * B</a>, to be removed in a future release.
 		 */
 		@Deprecated
 		Builder size(Long size);
@@ -523,8 +519,8 @@ public final class ContentDisposition {
 		/**
 		 * Set the value of the {@literal creation-date} parameter.
 		 * @deprecated since 5.2.3 as per
-		 * <a href="https://tools.ietf.org/html/rfc6266#appendix-B">RFC 6266, Apendix B</a>,
-		 * to be removed in a future release.
+		 * <a href="https://tools.ietf.org/html/rfc6266#appendix-B">RFC 6266, Apendix
+		 * B</a>, to be removed in a future release.
 		 */
 		@Deprecated
 		Builder creationDate(ZonedDateTime creationDate);
@@ -532,8 +528,8 @@ public final class ContentDisposition {
 		/**
 		 * Set the value of the {@literal modification-date} parameter.
 		 * @deprecated since 5.2.3 as per
-		 * <a href="https://tools.ietf.org/html/rfc6266#appendix-B">RFC 6266, Apendix B</a>,
-		 * to be removed in a future release.
+		 * <a href="https://tools.ietf.org/html/rfc6266#appendix-B">RFC 6266, Apendix
+		 * B</a>, to be removed in a future release.
 		 */
 		@Deprecated
 		Builder modificationDate(ZonedDateTime modificationDate);
@@ -541,8 +537,8 @@ public final class ContentDisposition {
 		/**
 		 * Set the value of the {@literal read-date} parameter.
 		 * @deprecated since 5.2.3 as per
-		 * <a href="https://tools.ietf.org/html/rfc6266#appendix-B">RFC 6266, Apendix B</a>,
-		 * to be removed in a future release.
+		 * <a href="https://tools.ietf.org/html/rfc6266#appendix-B">RFC 6266, Apendix
+		 * B</a>, to be removed in a future release.
 		 */
 		@Deprecated
 		Builder readDate(ZonedDateTime readDate);
@@ -551,8 +547,8 @@ public final class ContentDisposition {
 		 * Build the content disposition.
 		 */
 		ContentDisposition build();
-	}
 
+	}
 
 	private static class BuilderImpl implements Builder {
 
@@ -631,9 +627,10 @@ public final class ContentDisposition {
 
 		@Override
 		public ContentDisposition build() {
-			return new ContentDisposition(this.type, this.name, this.filename, this.charset,
-					this.size, this.creationDate, this.modificationDate, this.readDate);
+			return new ContentDisposition(this.type, this.name, this.filename, this.charset, this.size,
+					this.creationDate, this.modificationDate, this.readDate);
 		}
+
 	}
 
 }

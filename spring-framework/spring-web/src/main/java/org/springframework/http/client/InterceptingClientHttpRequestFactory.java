@@ -36,9 +36,9 @@ public class InterceptingClientHttpRequestFactory extends AbstractClientHttpRequ
 
 	private final List<ClientHttpRequestInterceptor> interceptors;
 
-
 	/**
-	 * Create a new instance of the {@code InterceptingClientHttpRequestFactory} with the given parameters.
+	 * Create a new instance of the {@code InterceptingClientHttpRequestFactory} with the
+	 * given parameters.
 	 * @param requestFactory the request factory to wrap
 	 * @param interceptors the interceptors that are to be applied (can be {@code null})
 	 */
@@ -48,7 +48,6 @@ public class InterceptingClientHttpRequestFactory extends AbstractClientHttpRequ
 		super(requestFactory);
 		this.interceptors = (interceptors != null ? interceptors : Collections.emptyList());
 	}
-
 
 	@Override
 	protected ClientHttpRequest createRequest(URI uri, HttpMethod httpMethod, ClientHttpRequestFactory requestFactory) {

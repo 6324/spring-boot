@@ -38,8 +38,8 @@ import org.springframework.http.MediaType;
 import org.springframework.util.Assert;
 
 /**
- * {@link ServletHttpHandlerAdapter} extension that uses Jetty APIs for writing
- * to the response with {@link ByteBuffer}.
+ * {@link ServletHttpHandlerAdapter} extension that uses Jetty APIs for writing to the
+ * response with {@link ByteBuffer}.
  *
  * @author Violeta Georgieva
  * @author Brian Clozel
@@ -52,7 +52,6 @@ public class JettyHttpHandlerAdapter extends ServletHttpHandlerAdapter {
 		super(httpHandler);
 	}
 
-
 	@Override
 	protected ServletServerHttpRequest createRequest(HttpServletRequest request, AsyncContext context)
 			throws IOException, URISyntaxException {
@@ -62,19 +61,16 @@ public class JettyHttpHandlerAdapter extends ServletHttpHandlerAdapter {
 	}
 
 	@Override
-	protected ServletServerHttpResponse createResponse(HttpServletResponse response,
-			AsyncContext context, ServletServerHttpRequest request) throws IOException {
+	protected ServletServerHttpResponse createResponse(HttpServletResponse response, AsyncContext context,
+			ServletServerHttpRequest request) throws IOException {
 
-		return new JettyServerHttpResponse(
-				response, context, getDataBufferFactory(), getBufferSize(), request);
+		return new JettyServerHttpResponse(response, context, getDataBufferFactory(), getBufferSize(), request);
 	}
-
 
 	private static final class JettyServerHttpRequest extends ServletServerHttpRequest {
 
-		JettyServerHttpRequest(HttpServletRequest request, AsyncContext asyncContext,
-				String servletPath, DataBufferFactory bufferFactory, int bufferSize)
-				throws IOException, URISyntaxException {
+		JettyServerHttpRequest(HttpServletRequest request, AsyncContext asyncContext, String servletPath,
+				DataBufferFactory bufferFactory, int bufferSize) throws IOException, URISyntaxException {
 
 			super(createHeaders(request), request, asyncContext, servletPath, bufferFactory, bufferSize);
 		}
@@ -83,14 +79,13 @@ public class JettyHttpHandlerAdapter extends ServletHttpHandlerAdapter {
 			HttpFields fields = ((Request) request).getMetaData().getFields();
 			return new HttpHeaders(new JettyHeadersAdapter(fields));
 		}
-	}
 
+	}
 
 	private static final class JettyServerHttpResponse extends ServletServerHttpResponse {
 
 		JettyServerHttpResponse(HttpServletResponse response, AsyncContext asyncContext,
-				DataBufferFactory bufferFactory, int bufferSize, ServletServerHttpRequest request)
-				throws IOException {
+				DataBufferFactory bufferFactory, int bufferSize, ServletServerHttpRequest request) throws IOException {
 
 			super(createHeaders(response), response, asyncContext, bufferFactory, bufferSize, request);
 		}
@@ -132,6 +127,7 @@ public class JettyHttpHandlerAdapter extends ServletHttpHandlerAdapter {
 			((HttpOutput) response.getOutputStream()).write(input);
 			return len;
 		}
+
 	}
 
 }

@@ -27,11 +27,12 @@ import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPatternParser;
 
 /**
- * Provide a per reactive request {@link CorsConfiguration} instance based on a
- * collection of {@link CorsConfiguration} mapped on path patterns.
+ * Provide a per reactive request {@link CorsConfiguration} instance based on a collection
+ * of {@link CorsConfiguration} mapped on path patterns.
  *
- * <p>Exact path mapping URIs (such as {@code "/admin"}) are supported
- * as well as Ant-style path patterns (such as {@code "/admin/**"}).
+ * <p>
+ * Exact path mapping URIs (such as {@code "/admin"}) are supported as well as Ant-style
+ * path patterns (such as {@code "/admin/**"}).
  *
  * @author Sebastien Deleuze
  * @author Brian Clozel
@@ -42,7 +43,6 @@ public class UrlBasedCorsConfigurationSource implements CorsConfigurationSource 
 	private final Map<PathPattern, CorsConfiguration> corsConfigurations;
 
 	private final PathPatternParser patternParser;
-
 
 	/**
 	 * Construct a new {@code UrlBasedCorsConfigurationSource} instance with default
@@ -61,7 +61,6 @@ public class UrlBasedCorsConfigurationSource implements CorsConfigurationSource 
 		this.corsConfigurations = new LinkedHashMap<>();
 		this.patternParser = patternParser;
 	}
-
 
 	/**
 	 * Set CORS configuration based on URL patterns.
@@ -84,11 +83,8 @@ public class UrlBasedCorsConfigurationSource implements CorsConfigurationSource 
 	@Nullable
 	public CorsConfiguration getCorsConfiguration(ServerWebExchange exchange) {
 		PathContainer lookupPath = exchange.getRequest().getPath().pathWithinApplication();
-		return this.corsConfigurations.entrySet().stream()
-				.filter(entry -> entry.getKey().matches(lookupPath))
-				.map(Map.Entry::getValue)
-				.findFirst()
-				.orElse(null);
+		return this.corsConfigurations.entrySet().stream().filter(entry -> entry.getKey().matches(lookupPath))
+				.map(Map.Entry::getValue).findFirst().orElse(null);
 	}
 
 }

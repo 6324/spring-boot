@@ -58,12 +58,15 @@ public class RequestContextFilterTests {
 
 		// Expect one invocation by the filter being tested
 		class DummyFilterChain implements FilterChain {
+
 			public int invocations = 0;
+
 			@Override
 			public void doFilter(ServletRequest req, ServletResponse resp) throws IOException, ServletException {
 				++invocations;
 				if (invocations == 1) {
-					assertThat(RequestContextHolder.currentRequestAttributes().getAttribute("myAttr", RequestAttributes.SCOPE_REQUEST)).isSameAs("myValue");
+					assertThat(RequestContextHolder.currentRequestAttributes().getAttribute("myAttr",
+							RequestAttributes.SCOPE_REQUEST)).isSameAs("myValue");
 					if (sex != null) {
 						throw sex;
 					}
@@ -72,6 +75,7 @@ public class RequestContextFilterTests {
 					throw new IllegalStateException("Too many invocations");
 				}
 			}
+
 		}
 
 		DummyFilterChain fc = new DummyFilterChain();
@@ -88,8 +92,7 @@ public class RequestContextFilterTests {
 			assertThat(sex).isNotNull();
 		}
 
-		assertThatIllegalStateException().isThrownBy(
-				RequestContextHolder::currentRequestAttributes);
+		assertThatIllegalStateException().isThrownBy(RequestContextHolder::currentRequestAttributes);
 
 		assertThat(fc.invocations).isEqualTo(1);
 	}

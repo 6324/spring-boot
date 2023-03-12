@@ -34,12 +34,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 /**
- * Implementation of the {@code DataBufferFactory} interface that keeps track of
- * memory leaks.
- * <p>Useful for unit tests that handle data buffers. Simply inherit from
- * {@link AbstractLeakCheckingTests} or call {@link #checkForLeaks()} in
- * a JUnit <em>after</em> method yourself, and any buffers that have not been
- * released will result in an {@link AssertionError}.
+ * Implementation of the {@code DataBufferFactory} interface that keeps track of memory
+ * leaks.
+ * <p>
+ * Useful for unit tests that handle data buffers. Simply inherit from
+ * {@link AbstractLeakCheckingTests} or call {@link #checkForLeaks()} in a JUnit
+ * <em>after</em> method yourself, and any buffers that have not been released will result
+ * in an {@link AssertionError}.
  *
  * @author Arjen Poutsma
  * @see LeakAwareDataBufferFactory
@@ -48,13 +49,11 @@ public class LeakAwareDataBufferFactory implements DataBufferFactory {
 
 	private static final Log logger = LogFactory.getLog(LeakAwareDataBufferFactory.class);
 
-
 	private final DataBufferFactory delegate;
 
 	private final List<LeakAwareDataBuffer> created = new ArrayList<>();
 
 	private final AtomicBoolean trackCreated = new AtomicBoolean(true);
-
 
 	/**
 	 * Creates a new {@code LeakAwareDataBufferFactory} by wrapping a
@@ -73,11 +72,10 @@ public class LeakAwareDataBufferFactory implements DataBufferFactory {
 		this.delegate = delegate;
 	}
 
-
 	/**
-	 * Checks whether all of the data buffers allocated by this factory have also been released.
-	 * If not, then an {@link AssertionError} is thrown. Typically used from a JUnit <em>after</em>
-	 * method.
+	 * Checks whether all of the data buffers allocated by this factory have also been
+	 * released. If not, then an {@link AssertionError} is thrown. Typically used from a
+	 * JUnit <em>after</em> method.
 	 */
 	public void checkForLeaks() {
 		this.trackCreated.set(false);
@@ -95,10 +93,8 @@ public class LeakAwareDataBufferFactory implements DataBufferFactory {
 				}
 				continue;
 			}
-			List<AssertionError> errors = this.created.stream()
-					.filter(LeakAwareDataBuffer::isAllocated)
-					.map(LeakAwareDataBuffer::leakError)
-					.collect(Collectors.toList());
+			List<AssertionError> errors = this.created.stream().filter(LeakAwareDataBuffer::isAllocated)
+					.map(LeakAwareDataBuffer::leakError).collect(Collectors.toList());
 
 			errors.forEach(it -> logger.error("Leaked error: ", it));
 			throw new AssertionError(errors.size() + " buffer leaks detected (see logs above)");

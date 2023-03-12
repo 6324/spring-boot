@@ -25,9 +25,10 @@ import org.springframework.util.SystemPropertyUtils;
 /**
  * Helper class for resolving placeholders in texts. Usually applied to file paths.
  *
- * <p>A text may contain {@code ${...}} placeholders, to be resolved as servlet context
- * init parameters or system properties: e.g. {@code ${user.dir}}. Default values can
- * be supplied using the ":" separator between key and value.
+ * <p>
+ * A text may contain {@code ${...}} placeholders, to be resolved as servlet context init
+ * parameters or system properties: e.g. {@code ${user.dir}}. Default values can be
+ * supplied using the ":" separator between key and value.
  *
  * @author Juergen Hoeller
  * @author Marten Deinum
@@ -37,14 +38,13 @@ import org.springframework.util.SystemPropertyUtils;
  */
 public abstract class ServletContextPropertyUtils {
 
-	private static final PropertyPlaceholderHelper strictHelper =
-			new PropertyPlaceholderHelper(SystemPropertyUtils.PLACEHOLDER_PREFIX,
-					SystemPropertyUtils.PLACEHOLDER_SUFFIX, SystemPropertyUtils.VALUE_SEPARATOR, false);
+	private static final PropertyPlaceholderHelper strictHelper = new PropertyPlaceholderHelper(
+			SystemPropertyUtils.PLACEHOLDER_PREFIX, SystemPropertyUtils.PLACEHOLDER_SUFFIX,
+			SystemPropertyUtils.VALUE_SEPARATOR, false);
 
-	private static final PropertyPlaceholderHelper nonStrictHelper =
-			new PropertyPlaceholderHelper(SystemPropertyUtils.PLACEHOLDER_PREFIX,
-					SystemPropertyUtils.PLACEHOLDER_SUFFIX, SystemPropertyUtils.VALUE_SEPARATOR, true);
-
+	private static final PropertyPlaceholderHelper nonStrictHelper = new PropertyPlaceholderHelper(
+			SystemPropertyUtils.PLACEHOLDER_PREFIX, SystemPropertyUtils.PLACEHOLDER_SUFFIX,
+			SystemPropertyUtils.VALUE_SEPARATOR, true);
 
 	/**
 	 * Resolve ${...} placeholders in the given text, replacing them with corresponding
@@ -64,18 +64,21 @@ public abstract class ServletContextPropertyUtils {
 	/**
 	 * Resolve ${...} placeholders in the given text, replacing them with corresponding
 	 * servlet context init parameter or system property values. Unresolvable placeholders
-	 * with no default value are ignored and passed through unchanged if the flag is set to true.
+	 * with no default value are ignored and passed through unchanged if the flag is set
+	 * to true.
 	 * @param text the String to resolve
 	 * @param servletContext the servletContext to use for lookups.
-	 * @param ignoreUnresolvablePlaceholders flag to determine is unresolved placeholders are ignored
+	 * @param ignoreUnresolvablePlaceholders flag to determine is unresolved placeholders
+	 * are ignored
 	 * @return the resolved String
-	 * @throws IllegalArgumentException if there is an unresolvable placeholder and the flag is false
+	 * @throws IllegalArgumentException if there is an unresolvable placeholder and the
+	 * flag is false
 	 * @see SystemPropertyUtils#PLACEHOLDER_PREFIX
 	 * @see SystemPropertyUtils#PLACEHOLDER_SUFFIX
 	 * @see SystemPropertyUtils#resolvePlaceholders(String, boolean)
 	 */
-	public static String resolvePlaceholders(
-			String text, ServletContext servletContext, boolean ignoreUnresolvablePlaceholders) {
+	public static String resolvePlaceholders(String text, ServletContext servletContext,
+			boolean ignoreUnresolvablePlaceholders) {
 
 		if (text.isEmpty()) {
 			return text;
@@ -83,7 +86,6 @@ public abstract class ServletContextPropertyUtils {
 		PropertyPlaceholderHelper helper = (ignoreUnresolvablePlaceholders ? nonStrictHelper : strictHelper);
 		return helper.replacePlaceholders(text, new ServletContextPlaceholderResolver(text, servletContext));
 	}
-
 
 	private static class ServletContextPlaceholderResolver implements PropertyPlaceholderHelper.PlaceholderResolver {
 
@@ -112,11 +114,12 @@ public abstract class ServletContextPropertyUtils {
 				return propVal;
 			}
 			catch (Throwable ex) {
-				System.err.println("Could not resolve placeholder '" + placeholderName + "' in [" +
-						this.text + "] as ServletContext init-parameter or system property: " + ex);
+				System.err.println("Could not resolve placeholder '" + placeholderName + "' in [" + this.text
+						+ "] as ServletContext init-parameter or system property: " + ex);
 				return null;
 			}
 		}
+
 	}
 
 }

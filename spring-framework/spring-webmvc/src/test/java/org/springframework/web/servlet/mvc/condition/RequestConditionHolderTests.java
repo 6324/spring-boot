@@ -56,8 +56,7 @@ public class RequestConditionHolderTests {
 	public void combineIncompatible() {
 		RequestConditionHolder params = new RequestConditionHolder(new ParamsRequestCondition("name"));
 		RequestConditionHolder headers = new RequestConditionHolder(new HeadersRequestCondition("name"));
-		assertThatExceptionOfType(ClassCastException.class).isThrownBy(() ->
-				params.combine(headers));
+		assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> params.combine(headers));
 	}
 
 	@Test
@@ -116,8 +115,8 @@ public class RequestConditionHolderTests {
 	public void compareIncompatible() {
 		RequestConditionHolder params = new RequestConditionHolder(new ParamsRequestCondition("name"));
 		RequestConditionHolder headers = new RequestConditionHolder(new HeadersRequestCondition("name"));
-		assertThatExceptionOfType(ClassCastException.class).isThrownBy(() ->
-				params.compareTo(headers, new MockHttpServletRequest()));
+		assertThatExceptionOfType(ClassCastException.class)
+				.isThrownBy(() -> params.compareTo(headers, new MockHttpServletRequest()));
 	}
 
 }

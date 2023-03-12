@@ -44,10 +44,8 @@ public class XmlContentAssert extends AbstractAssert<XmlContentAssert, Object> {
 		return this;
 	}
 
-	public XmlContentAssert isSimilarTo(String control,
-			DifferenceEvaluator differenceEvaluator) {
-		XmlAssert.assertThat(super.actual).and(control).withDifferenceEvaluator(
-				differenceEvaluator).areSimilar();
+	public XmlContentAssert isSimilarTo(String control, DifferenceEvaluator differenceEvaluator) {
+		XmlAssert.assertThat(super.actual).and(control).withDifferenceEvaluator(differenceEvaluator).areSimilar();
 		return this;
 	}
 
@@ -55,7 +53,6 @@ public class XmlContentAssert extends AbstractAssert<XmlContentAssert, Object> {
 		XmlAssert.assertThat(super.actual).and(control).ignoreWhitespace().areSimilar();
 		return this;
 	}
-
 
 	public XmlContentAssert isSimilarToIgnoringWhitespace(String control, NodeMatcher nodeMatcher) {
 		XmlAssert.assertThat(super.actual).and(control).ignoreWhitespace().withNodeMatcher(nodeMatcher).areSimilar();

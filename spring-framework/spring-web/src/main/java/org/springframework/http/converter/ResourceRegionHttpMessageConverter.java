@@ -37,8 +37,8 @@ import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.StreamUtils;
 
 /**
- * Implementation of {@link HttpMessageConverter} that can write a single {@link ResourceRegion},
- * or Collections of {@link ResourceRegion ResourceRegions}.
+ * Implementation of {@link HttpMessageConverter} that can write a single
+ * {@link ResourceRegion}, or Collections of {@link ResourceRegion ResourceRegions}.
  *
  * @author Brian Clozel
  * @author Juergen Hoeller
@@ -49,7 +49,6 @@ public class ResourceRegionHttpMessageConverter extends AbstractGenericHttpMessa
 	public ResourceRegionHttpMessageConverter() {
 		super(MediaType.ALL);
 	}
-
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -141,7 +140,6 @@ public class ResourceRegionHttpMessageConverter extends AbstractGenericHttpMessa
 		}
 	}
 
-
 	protected void writeResourceRegion(ResourceRegion region, HttpOutputMessage outputMessage) throws IOException {
 		Assert.notNull(region, "ResourceRegion must not be null");
 		HttpHeaders responseHeaders = outputMessage.getHeaders();
@@ -206,9 +204,8 @@ public class ResourceRegionHttpMessageConverter extends AbstractGenericHttpMessa
 				}
 				Long resourceLength = region.getResource().contentLength();
 				end = Math.min(end, resourceLength - inputStreamPosition - 1);
-				print(out, "Content-Range: bytes " +
-						region.getPosition() + '-' + (region.getPosition() + region.getCount() - 1) +
-						'/' + resourceLength);
+				print(out, "Content-Range: bytes " + region.getPosition() + '-'
+						+ (region.getPosition() + region.getCount() - 1) + '/' + resourceLength);
 				println(out);
 				println(out);
 				// Printing content

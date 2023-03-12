@@ -37,8 +37,8 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 
 /**
- * Annotation {@link Processor} that writes {@link CandidateComponentsMetadata}
- * file for spring components.
+ * Annotation {@link Processor} that writes {@link CandidateComponentsMetadata} file for
+ * spring components.
  *
  * @author Stephane Nicoll
  * @author Juergen Hoeller
@@ -46,8 +46,8 @@ import javax.lang.model.element.TypeElement;
  */
 public class CandidateComponentsIndexer implements Processor {
 
-	private static final Set<ElementKind> TYPE_KINDS =
-			Collections.unmodifiableSet(EnumSet.of(ElementKind.CLASS, ElementKind.INTERFACE));
+	private static final Set<ElementKind> TYPE_KINDS = Collections
+			.unmodifiableSet(EnumSet.of(ElementKind.CLASS, ElementKind.INTERFACE));
 
 	private MetadataStore metadataStore;
 
@@ -56,7 +56,6 @@ public class CandidateComponentsIndexer implements Processor {
 	private TypeHelper typeHelper;
 
 	private List<StereotypesProvider> stereotypesProviders;
-
 
 	@Override
 	public Set<String> getSupportedOptions() {
@@ -92,12 +91,11 @@ public class CandidateComponentsIndexer implements Processor {
 	}
 
 	@Override
-	public Iterable<? extends Completion> getCompletions(
-			Element element, AnnotationMirror annotation, ExecutableElement member, String userText) {
+	public Iterable<? extends Completion> getCompletions(Element element, AnnotationMirror annotation,
+			ExecutableElement member, String userText) {
 
 		return Collections.emptyList();
 	}
-
 
 	private List<StereotypesProvider> getStereotypesProviders(ProcessingEnvironment env) {
 		List<StereotypesProvider> result = new ArrayList<>();

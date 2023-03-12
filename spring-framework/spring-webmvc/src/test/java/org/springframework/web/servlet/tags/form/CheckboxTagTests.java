@@ -614,8 +614,7 @@ public class CheckboxTagTests extends AbstractFormTagTests {
 	@Test
 	public void withNullValue() throws Exception {
 		this.tag.setPath("name");
-		assertThatIllegalArgumentException().as("null value binding to a non-boolean").isThrownBy(
-				this.tag::doStartTag);
+		assertThatIllegalArgumentException().as("null value binding to a non-boolean").isThrownBy(this.tag::doStartTag);
 	}
 
 	@Test
@@ -643,11 +642,9 @@ public class CheckboxTagTests extends AbstractFormTagTests {
 
 	@Test
 	public void dynamicTypeAttribute() throws JspException {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.tag.setDynamicAttribute(null, "type", "email"))
-			.withMessage("Attribute type=\"email\" is not allowed");
+		assertThatIllegalArgumentException().isThrownBy(() -> this.tag.setDynamicAttribute(null, "type", "email"))
+				.withMessage("Attribute type=\"email\" is not allowed");
 	}
-
 
 	private Date getDate() {
 		Calendar cal = Calendar.getInstance();
@@ -685,15 +682,14 @@ public class CheckboxTagTests extends AbstractFormTagTests {
 		this.bean.setName("Rob Harrop");
 		this.bean.setJedi(true);
 		this.bean.setSomeBoolean(Boolean.TRUE);
-		this.bean.setStringArray(new String[] {"bar", "foo"});
-		this.bean.setSomeIntegerArray(new Integer[] {2, 1});
+		this.bean.setStringArray(new String[] { "bar", "foo" });
+		this.bean.setSomeIntegerArray(new Integer[] { 2, 1 });
 		this.bean.setOtherColours(colours);
 		this.bean.setPets(pets);
 		this.bean.setSomeList(someList);
 		this.bean.setSomeMap(someMap);
 		return this.bean;
 	}
-
 
 	private class MyStringTrimmerEditor extends StringTrimmerEditor {
 
@@ -708,8 +704,8 @@ public class CheckboxTagTests extends AbstractFormTagTests {
 			this.count++;
 			super.setAsText(text);
 		}
-	}
 
+	}
 
 	private class MyIntegerEditor extends PropertyEditorSupport {
 
@@ -720,6 +716,7 @@ public class CheckboxTagTests extends AbstractFormTagTests {
 			this.count++;
 			setValue(new Integer(text.trim()));
 		}
+
 	}
 
 }

@@ -22,8 +22,8 @@ import org.springframework.http.server.PathContainer.PathSegment;
 import org.springframework.web.util.pattern.PathPattern.MatchingContext;
 
 /**
- * A literal path element. In the pattern '/foo/bar/goo' there are three
- * literal path elements 'foo', 'bar' and 'goo'.
+ * A literal path element. In the pattern '/foo/bar/goo' there are three literal path
+ * elements 'foo', 'bar' and 'goo'.
  *
  * @author Andy Clement
  */
@@ -34,7 +34,6 @@ class LiteralPathElement extends PathElement {
 	private int len;
 
 	private boolean caseSensitive;
-
 
 	public LiteralPathElement(int pos, char[] literalText, boolean caseSensitive, char separator) {
 		super(pos, separator);
@@ -52,7 +51,6 @@ class LiteralPathElement extends PathElement {
 		}
 	}
 
-
 	@Override
 	public boolean matches(int pathIndex, MatchingContext matchingContext) {
 		if (pathIndex >= matchingContext.pathLength) {
@@ -63,13 +61,13 @@ class LiteralPathElement extends PathElement {
 		if (!(element instanceof PathContainer.PathSegment)) {
 			return false;
 		}
-		String value = ((PathSegment)element).valueToMatch();
+		String value = ((PathSegment) element).valueToMatch();
 		if (value.length() != this.len) {
 			// Not enough data to match this path element
 			return false;
 		}
 
-		char[] data = ((PathContainer.PathSegment)element).valueToMatchAsChars();
+		char[] data = ((PathContainer.PathSegment) element).valueToMatchAsChars();
 		if (this.caseSensitive) {
 			for (int i = 0; i < this.len; i++) {
 				if (data[i] != this.text[i]) {
@@ -97,9 +95,8 @@ class LiteralPathElement extends PathElement {
 					return true;
 				}
 				else {
-					return (matchingContext.isMatchOptionalTrailingSeparator() &&
-							(pathIndex + 1) == matchingContext.pathLength &&
-							matchingContext.isSeparator(pathIndex));
+					return (matchingContext.isMatchOptionalTrailingSeparator()
+							&& (pathIndex + 1) == matchingContext.pathLength && matchingContext.isSeparator(pathIndex));
 				}
 			}
 		}
@@ -117,7 +114,6 @@ class LiteralPathElement extends PathElement {
 	public char[] getChars() {
 		return this.text;
 	}
-
 
 	@Override
 	public String toString() {

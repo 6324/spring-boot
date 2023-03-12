@@ -21,8 +21,8 @@ import org.springframework.http.server.PathContainer.PathSegment;
 import org.springframework.web.util.pattern.PathPattern.MatchingContext;
 
 /**
- * A literal path element that does includes the single character wildcard '?' one
- * or more times (to basically many any character at that position).
+ * A literal path element that does includes the single character wildcard '?' one or more
+ * times (to basically many any character at that position).
  *
  * @author Andy Clement
  * @since 5.0
@@ -37,9 +37,8 @@ class SingleCharWildcardedPathElement extends PathElement {
 
 	private final boolean caseSensitive;
 
-
-	public SingleCharWildcardedPathElement(
-			int pos, char[] literalText, int questionMarkCount, boolean caseSensitive, char separator) {
+	public SingleCharWildcardedPathElement(int pos, char[] literalText, int questionMarkCount, boolean caseSensitive,
+			char separator) {
 
 		super(pos, separator);
 		this.len = literalText.length;
@@ -56,7 +55,6 @@ class SingleCharWildcardedPathElement extends PathElement {
 		}
 	}
 
-
 	@Override
 	public boolean matches(int pathIndex, MatchingContext matchingContext) {
 		if (pathIndex >= matchingContext.pathLength) {
@@ -68,13 +66,13 @@ class SingleCharWildcardedPathElement extends PathElement {
 		if (!(element instanceof PathSegment)) {
 			return false;
 		}
-		String value = ((PathSegment)element).valueToMatch();
+		String value = ((PathSegment) element).valueToMatch();
 		if (value.length() != this.len) {
 			// Not enough data to match this path element
 			return false;
 		}
 
-		char[] data = ((PathSegment)element).valueToMatchAsChars();
+		char[] data = ((PathSegment) element).valueToMatchAsChars();
 		if (this.caseSensitive) {
 			for (int i = 0; i < this.len; i++) {
 				char ch = this.text[i];
@@ -104,9 +102,8 @@ class SingleCharWildcardedPathElement extends PathElement {
 					return true;
 				}
 				else {
-					return (matchingContext.isMatchOptionalTrailingSeparator() &&
-							(pathIndex + 1) == matchingContext.pathLength &&
-							matchingContext.isSeparator(pathIndex));
+					return (matchingContext.isMatchOptionalTrailingSeparator()
+							&& (pathIndex + 1) == matchingContext.pathLength && matchingContext.isSeparator(pathIndex));
 				}
 			}
 		}
@@ -124,7 +121,6 @@ class SingleCharWildcardedPathElement extends PathElement {
 	public int getNormalizedLength() {
 		return this.len;
 	}
-
 
 	@Override
 	public String toString() {

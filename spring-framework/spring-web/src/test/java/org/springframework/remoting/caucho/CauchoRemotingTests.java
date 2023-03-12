@@ -43,8 +43,7 @@ public class CauchoRemotingTests {
 	@Test
 	public void hessianProxyFactoryBeanWithClassInsteadOfInterface() throws Exception {
 		HessianProxyFactoryBean factory = new HessianProxyFactoryBean();
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				factory.setServiceInterface(TestBean.class));
+		assertThatIllegalArgumentException().isThrownBy(() -> factory.setServiceInterface(TestBean.class));
 	}
 
 	@Test
@@ -59,8 +58,7 @@ public class CauchoRemotingTests {
 		assertThat(condition).isTrue();
 		ITestBean bean = (ITestBean) factory.getObject();
 
-		assertThatExceptionOfType(RemoteAccessException.class).isThrownBy(() ->
-				bean.setName("test"));
+		assertThatExceptionOfType(RemoteAccessException.class).isThrownBy(() -> bean.setName("test"));
 	}
 
 	@Test
@@ -78,8 +76,7 @@ public class CauchoRemotingTests {
 		assertThat(condition).isTrue();
 		ITestBean bean = (ITestBean) factory.getObject();
 
-		assertThatExceptionOfType(RemoteAccessException.class).isThrownBy(() ->
-				bean.setName("test"));
+		assertThatExceptionOfType(RemoteAccessException.class).isThrownBy(() -> bean.setName("test"));
 	}
 
 	@Test
@@ -102,8 +99,7 @@ public class CauchoRemotingTests {
 		assertThat(proxyFactory.password).isEqualTo("bean");
 		assertThat(proxyFactory.overloadEnabled).isTrue();
 
-		assertThatExceptionOfType(RemoteAccessException.class).isThrownBy(() ->
-				bean.setName("test"));
+		assertThatExceptionOfType(RemoteAccessException.class).isThrownBy(() -> bean.setName("test"));
 	}
 
 	@Test
@@ -125,7 +121,7 @@ public class CauchoRemotingTests {
 			HessianClientInterceptor client = new HessianClientInterceptor();
 			client.setServiceUrl("http://localhost:" + port + "/hessian");
 			client.setServiceInterface(ITestBean.class);
-			//client.setHessian2(true);
+			// client.setHessian2(true);
 			client.prepare();
 			ITestBean proxy = ProxyFactory.getProxy(ITestBean.class, client);
 			assertThat(proxy.getName()).isEqualTo("tb");
@@ -137,11 +133,12 @@ public class CauchoRemotingTests {
 		}
 	}
 
-
 	private static class TestHessianProxyFactory extends HessianProxyFactory {
 
 		private String user;
+
 		private String password;
+
 		private boolean overloadEnabled;
 
 		@Override
@@ -158,6 +155,7 @@ public class CauchoRemotingTests {
 		public void setOverloadEnabled(boolean overloadEnabled) {
 			this.overloadEnabled = overloadEnabled;
 		}
+
 	}
 
 }

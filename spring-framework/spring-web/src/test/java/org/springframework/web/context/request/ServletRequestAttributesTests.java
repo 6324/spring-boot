@@ -49,11 +49,9 @@ public class ServletRequestAttributesTests {
 	private static final Serializable VALUE = new Serializable() {
 	};
 
-
 	@Test
 	public void ctorRejectsNullArg() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ServletRequestAttributes(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> new ServletRequestAttributes(null));
 	}
 
 	@Test
@@ -70,8 +68,8 @@ public class ServletRequestAttributesTests {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		ServletRequestAttributes attrs = new ServletRequestAttributes(request);
 		request.close();
-		assertThatIllegalStateException().isThrownBy(() ->
-				attrs.setAttribute(KEY, VALUE, RequestAttributes.SCOPE_REQUEST));
+		assertThatIllegalStateException()
+				.isThrownBy(() -> attrs.setAttribute(KEY, VALUE, RequestAttributes.SCOPE_REQUEST));
 	}
 
 	@Test

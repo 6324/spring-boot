@@ -47,8 +47,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 /**
- * Base class for {@code @RequestAttribute} and {@code @SessionAttribute} method
- * method argument resolution tests.
+ * Base class for {@code @RequestAttribute} and {@code @SessionAttribute} method method
+ * argument resolution tests.
  *
  * @author Rossen Stoyanchev
  * @since 4.3
@@ -60,7 +60,6 @@ public abstract class AbstractRequestAttributesArgumentResolverTests {
 	private HandlerMethodArgumentResolver resolver;
 
 	private Method handleMethod;
-
 
 	@BeforeEach
 	public void setup() throws Exception {
@@ -74,13 +73,11 @@ public abstract class AbstractRequestAttributesArgumentResolverTests {
 				.getDeclaredMethod(getHandleMethodName(), Foo.class, Foo.class, Foo.class, Optional.class);
 	}
 
-
 	protected abstract HandlerMethodArgumentResolver createResolver();
 
 	protected abstract String getHandleMethodName();
 
 	protected abstract int getScope();
-
 
 	@Test
 	public void supportsParameter() throws Exception {
@@ -91,9 +88,8 @@ public abstract class AbstractRequestAttributesArgumentResolverTests {
 	@Test
 	public void resolve() throws Exception {
 		MethodParameter param = initMethodParameter(0);
-		assertThatExceptionOfType(ServletRequestBindingException.class).isThrownBy(() ->
-				testResolveArgument(param))
-			.withMessageStartingWith("Missing ");
+		assertThatExceptionOfType(ServletRequestBindingException.class).isThrownBy(() -> testResolveArgument(param))
+				.withMessageStartingWith("Missing ");
 
 		Foo foo = new Foo();
 		this.webRequest.setAttribute("foo", foo, getScope());
@@ -156,25 +152,20 @@ public abstract class AbstractRequestAttributesArgumentResolverTests {
 		return param.withContainingClass(this.resolver.getClass());
 	}
 
-
 	@SuppressWarnings("unused")
-	private void handleWithRequestAttribute(
-			@RequestAttribute Foo foo,
-			@RequestAttribute("specialFoo") Foo namedFoo,
-			@RequestAttribute(name="foo", required = false) Foo notRequiredFoo,
-			@RequestAttribute(name="foo") Optional<Foo> optionalFoo) {
+	private void handleWithRequestAttribute(@RequestAttribute Foo foo, @RequestAttribute("specialFoo") Foo namedFoo,
+			@RequestAttribute(name = "foo", required = false) Foo notRequiredFoo,
+			@RequestAttribute(name = "foo") Optional<Foo> optionalFoo) {
 	}
 
 	@SuppressWarnings("unused")
-	private void handleWithSessionAttribute(
-			@SessionAttribute Foo foo,
-			@SessionAttribute("specialFoo") Foo namedFoo,
-			@SessionAttribute(name="foo", required = false) Foo notRequiredFoo,
-			@SessionAttribute(name="foo") Optional<Foo> optionalFoo) {
+	private void handleWithSessionAttribute(@SessionAttribute Foo foo, @SessionAttribute("specialFoo") Foo namedFoo,
+			@SessionAttribute(name = "foo", required = false) Foo notRequiredFoo,
+			@SessionAttribute(name = "foo") Optional<Foo> optionalFoo) {
 	}
-
 
 	private static class Foo {
+
 	}
 
 }

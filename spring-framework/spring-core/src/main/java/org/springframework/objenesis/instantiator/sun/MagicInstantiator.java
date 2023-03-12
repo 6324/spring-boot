@@ -28,254 +28,283 @@ import java.io.IOException;
 
 import static org.springframework.objenesis.instantiator.util.ClassDefinitionUtils.*;
 
-
 /**
- * This instantiator will correctly bypass the constructors by instantiating the class using the default
- * constructor from Object. It will be allowed to do so by extending {@code MagicAccessorImpl} which prevents
- * its children to be verified by the class loader
+ * This instantiator will correctly bypass the constructors by instantiating the class
+ * using the default constructor from Object. It will be allowed to do so by extending
+ * {@code MagicAccessorImpl} which prevents its children to be verified by the class
+ * loader
  *
  * @author Henri Tremblay
  */
 @Instantiator(Typology.STANDARD)
 public class MagicInstantiator<T> implements ObjectInstantiator<T> {
 
-   private static final String MAGIC_ACCESSOR = getMagicClass();
+	private static final String MAGIC_ACCESSOR = getMagicClass();
 
-   private static final int INDEX_CLASS_THIS = 1;
-   private static final int INDEX_CLASS_SUPERCLASS = 2;
-   private static final int INDEX_UTF8_CONSTRUCTOR_NAME = 3;
-   private static final int INDEX_UTF8_CONSTRUCTOR_DESC = 4;
-   private static final int INDEX_UTF8_CODE_ATTRIBUTE = 5;
-   private static final int INDEX_UTF8_INSTANTIATOR_CLASS = 7;
-   private static final int INDEX_UTF8_SUPERCLASS = 8;
-   private static final int INDEX_CLASS_INTERFACE = 9;
-   private static final int INDEX_UTF8_INTERFACE = 10;
-   private static final int INDEX_UTF8_NEWINSTANCE_NAME = 11;
-   private static final int INDEX_UTF8_NEWINSTANCE_DESC = 12;
-   private static final int INDEX_METHODREF_OBJECT_CONSTRUCTOR = 13;
-   private static final int INDEX_CLASS_OBJECT = 14;
-   private static final int INDEX_UTF8_OBJECT = 15;
-   private static final int INDEX_NAMEANDTYPE_DEFAULT_CONSTRUCTOR = 16;
-   private static final int INDEX_CLASS_TYPE = 17;
-   private static final int INDEX_UTF8_TYPE = 18;
+	private static final int INDEX_CLASS_THIS = 1;
 
-   private static final int CONSTANT_POOL_COUNT = 19;
+	private static final int INDEX_CLASS_SUPERCLASS = 2;
 
-   private static final byte[] CONSTRUCTOR_CODE = { OPS_aload_0, OPS_invokespecial, 0, INDEX_METHODREF_OBJECT_CONSTRUCTOR, OPS_return};
-   private static final int CONSTRUCTOR_CODE_ATTRIBUTE_LENGTH = 12 + CONSTRUCTOR_CODE.length;
+	private static final int INDEX_UTF8_CONSTRUCTOR_NAME = 3;
 
-   private static final byte[] NEWINSTANCE_CODE = { OPS_new, 0, INDEX_CLASS_TYPE, OPS_dup, OPS_invokespecial, 0, INDEX_METHODREF_OBJECT_CONSTRUCTOR, OPS_areturn};
-   private static final int NEWINSTANCE_CODE_ATTRIBUTE_LENGTH = 12 + NEWINSTANCE_CODE.length;
+	private static final int INDEX_UTF8_CONSTRUCTOR_DESC = 4;
 
-   private static final String CONSTRUCTOR_NAME = "<init>";
-   private static final String CONSTRUCTOR_DESC = "()V";
+	private static final int INDEX_UTF8_CODE_ATTRIBUTE = 5;
 
-   private final ObjectInstantiator<T> instantiator;
+	private static final int INDEX_UTF8_INSTANTIATOR_CLASS = 7;
 
-   public MagicInstantiator(Class<T> type) {
-      instantiator = newInstantiatorOf(type);
-   }
+	private static final int INDEX_UTF8_SUPERCLASS = 8;
 
-   /**
-    * Get the underlying instantiator.
-    *
-    * {@link MagicInstantiator} is a wrapper around another object
-    * which implements {@link ObjectInstantiator} interface.
-    * This method exposes that instantiator.
-    *
-    * @return the underlying instantiator
-    */
-   public ObjectInstantiator<T> getInstantiator() {
-      return instantiator;
-   }
+	private static final int INDEX_CLASS_INTERFACE = 9;
 
-   private ObjectInstantiator<T> newInstantiatorOf(Class<T> type) {
-      String suffix = type.getSimpleName();
-      String className = getClass().getName() + "$$$" + suffix;
+	private static final int INDEX_UTF8_INTERFACE = 10;
 
-      Class<ObjectInstantiator<T>> clazz = ClassUtils.getExistingClass(getClass().getClassLoader(), className);
+	private static final int INDEX_UTF8_NEWINSTANCE_NAME = 11;
 
-      if(clazz == null) {
-         byte[] classBytes = writeExtendingClass(type, className);
+	private static final int INDEX_UTF8_NEWINSTANCE_DESC = 12;
 
-         try {
-            clazz = ClassDefinitionUtils.defineClass(className, classBytes, type, getClass().getClassLoader());
-         } catch (Exception e) {
-            throw new ObjenesisException(e);
-         }
-      }
+	private static final int INDEX_METHODREF_OBJECT_CONSTRUCTOR = 13;
 
-      return ClassUtils.newInstance(clazz);
-   }
+	private static final int INDEX_CLASS_OBJECT = 14;
 
-   /**
-    * Will generate the bytes for a class extending the type passed in parameter. This class will
-    * only have an empty default constructor
-    *
-    * @param type type to extend
-    * @param className name of the wrapped instantiator class
-    * @return the byte for the class
-    * @throws ObjenesisException is something goes wrong
-    */
-   private byte[] writeExtendingClass(Class<?> type, String className) {
-      String clazz = ClassUtils.classNameToInternalClassName(className);
+	private static final int INDEX_UTF8_OBJECT = 15;
 
-      ByteArrayOutputStream bIn = new ByteArrayOutputStream(1000);  // 1000 should be large enough to fit the entire class
-      try(DataOutputStream in = new DataOutputStream(bIn)) {
-         in.write(MAGIC);
-         in.write(VERSION);
-         in.writeShort(CONSTANT_POOL_COUNT);
+	private static final int INDEX_NAMEANDTYPE_DEFAULT_CONSTRUCTOR = 16;
 
-         // set all the constant pool here
+	private static final int INDEX_CLASS_TYPE = 17;
 
-         // 1. class
-         in.writeByte(CONSTANT_Class);
-         in.writeShort(INDEX_UTF8_INSTANTIATOR_CLASS);
+	private static final int INDEX_UTF8_TYPE = 18;
 
-         // 2. super class
-         in.writeByte(CONSTANT_Class);
-         in.writeShort(INDEX_UTF8_SUPERCLASS);
+	private static final int CONSTANT_POOL_COUNT = 19;
 
-         // 3. default constructor name
-         in.writeByte(CONSTANT_Utf8);
-         in.writeUTF(CONSTRUCTOR_NAME);
+	private static final byte[] CONSTRUCTOR_CODE = { OPS_aload_0, OPS_invokespecial, 0,
+			INDEX_METHODREF_OBJECT_CONSTRUCTOR, OPS_return };
 
-         // 4. default constructor description
-         in.writeByte(CONSTANT_Utf8);
-         in.writeUTF(CONSTRUCTOR_DESC);
+	private static final int CONSTRUCTOR_CODE_ATTRIBUTE_LENGTH = 12 + CONSTRUCTOR_CODE.length;
 
-         // 5. Code
-         in.writeByte(CONSTANT_Utf8);
-         in.writeUTF("Code");
+	private static final byte[] NEWINSTANCE_CODE = { OPS_new, 0, INDEX_CLASS_TYPE, OPS_dup, OPS_invokespecial, 0,
+			INDEX_METHODREF_OBJECT_CONSTRUCTOR, OPS_areturn };
 
-         // 6. Class name
-         in.writeByte(CONSTANT_Utf8);
-         in.writeUTF("L" + clazz + ";");
+	private static final int NEWINSTANCE_CODE_ATTRIBUTE_LENGTH = 12 + NEWINSTANCE_CODE.length;
 
-         // 7. Class name (again)
-         in.writeByte(CONSTANT_Utf8);
-         in.writeUTF(clazz);
+	private static final String CONSTRUCTOR_NAME = "<init>";
 
-         // 8. Superclass name
-         in.writeByte(CONSTANT_Utf8);
-//         in.writeUTF("java/lang/Object");
-         in.writeUTF(MAGIC_ACCESSOR);
+	private static final String CONSTRUCTOR_DESC = "()V";
 
-         // 9. ObjectInstantiator interface
-         in.writeByte(CONSTANT_Class);
-         in.writeShort(INDEX_UTF8_INTERFACE);
+	private final ObjectInstantiator<T> instantiator;
 
-         // 10. ObjectInstantiator name
-         in.writeByte(CONSTANT_Utf8);
-         in.writeUTF(ObjectInstantiator.class.getName().replace('.', '/'));
+	public MagicInstantiator(Class<T> type) {
+		instantiator = newInstantiatorOf(type);
+	}
 
-         // 11. newInstance name
-         in.writeByte(CONSTANT_Utf8);
-         in.writeUTF("newInstance");
+	/**
+	 * Get the underlying instantiator.
+	 *
+	 * {@link MagicInstantiator} is a wrapper around another object which implements
+	 * {@link ObjectInstantiator} interface. This method exposes that instantiator.
+	 * @return the underlying instantiator
+	 */
+	public ObjectInstantiator<T> getInstantiator() {
+		return instantiator;
+	}
 
-         // 12. newInstance desc
-         in.writeByte(CONSTANT_Utf8);
-         in.writeUTF("()Ljava/lang/Object;");
+	private ObjectInstantiator<T> newInstantiatorOf(Class<T> type) {
+		String suffix = type.getSimpleName();
+		String className = getClass().getName() + "$$$" + suffix;
 
-         // 13. Methodref to the Object constructor
-         in.writeByte(CONSTANT_Methodref);
-         in.writeShort(INDEX_CLASS_OBJECT);
-         in.writeShort(INDEX_NAMEANDTYPE_DEFAULT_CONSTRUCTOR);
+		Class<ObjectInstantiator<T>> clazz = ClassUtils.getExistingClass(getClass().getClassLoader(), className);
 
-         // 14. Object class
-         in.writeByte(CONSTANT_Class);
-         in.writeShort(INDEX_UTF8_OBJECT);
+		if (clazz == null) {
+			byte[] classBytes = writeExtendingClass(type, className);
 
-         // 15. Object class name
-         in.writeByte(CONSTANT_Utf8);
-         in.writeUTF("java/lang/Object");
+			try {
+				clazz = ClassDefinitionUtils.defineClass(className, classBytes, type, getClass().getClassLoader());
+			}
+			catch (Exception e) {
+				throw new ObjenesisException(e);
+			}
+		}
 
-         // 16. Default constructor name and type
-         in.writeByte(CONSTANT_NameAndType);
-         in.writeShort(INDEX_UTF8_CONSTRUCTOR_NAME);
-         in.writeShort(INDEX_UTF8_CONSTRUCTOR_DESC);
+		return ClassUtils.newInstance(clazz);
+	}
 
-         // 17. Type to instantiate class
-         in.writeByte(CONSTANT_Class);
-         in.writeShort(INDEX_UTF8_TYPE);
+	/**
+	 * Will generate the bytes for a class extending the type passed in parameter. This
+	 * class will only have an empty default constructor
+	 * @param type type to extend
+	 * @param className name of the wrapped instantiator class
+	 * @return the byte for the class
+	 * @throws ObjenesisException is something goes wrong
+	 */
+	private byte[] writeExtendingClass(Class<?> type, String className) {
+		String clazz = ClassUtils.classNameToInternalClassName(className);
 
-         // 18. Type to instantiate name
-         in.writeByte(CONSTANT_Utf8);
-         in.writeUTF(ClassUtils.classNameToInternalClassName(type.getName()));
+		ByteArrayOutputStream bIn = new ByteArrayOutputStream(1000); // 1000 should be
+																		// large enough to
+																		// fit the entire
+																		// class
+		try (DataOutputStream in = new DataOutputStream(bIn)) {
+			in.write(MAGIC);
+			in.write(VERSION);
+			in.writeShort(CONSTANT_POOL_COUNT);
 
-         // end of constant pool
+			// set all the constant pool here
 
-         // access flags: We want public, ACC_SUPER is always there
-         in.writeShort(ACC_PUBLIC | ACC_SUPER | ACC_FINAL);
+			// 1. class
+			in.writeByte(CONSTANT_Class);
+			in.writeShort(INDEX_UTF8_INSTANTIATOR_CLASS);
 
-         // this class index in the constant pool
-         in.writeShort(INDEX_CLASS_THIS);
+			// 2. super class
+			in.writeByte(CONSTANT_Class);
+			in.writeShort(INDEX_UTF8_SUPERCLASS);
 
-         // super class index in the constant pool
-         in.writeShort(INDEX_CLASS_SUPERCLASS);
+			// 3. default constructor name
+			in.writeByte(CONSTANT_Utf8);
+			in.writeUTF(CONSTRUCTOR_NAME);
 
-         // interfaces implemented count (we have none)
-         in.writeShort(1);
-         in.writeShort(INDEX_CLASS_INTERFACE);
+			// 4. default constructor description
+			in.writeByte(CONSTANT_Utf8);
+			in.writeUTF(CONSTRUCTOR_DESC);
 
-         // fields count (we have none)
-         in.writeShort(0);
+			// 5. Code
+			in.writeByte(CONSTANT_Utf8);
+			in.writeUTF("Code");
 
-         // method count (we have two: the default constructor and newInstance)
-         in.writeShort(2);
+			// 6. Class name
+			in.writeByte(CONSTANT_Utf8);
+			in.writeUTF("L" + clazz + ";");
 
-         // default constructor method_info
-         in.writeShort(ACC_PUBLIC);
-         in.writeShort(INDEX_UTF8_CONSTRUCTOR_NAME); // index of the method name (<init>)
-         in.writeShort(INDEX_UTF8_CONSTRUCTOR_DESC); // index of the description
-         in.writeShort(1); // number of attributes: only one, the code
+			// 7. Class name (again)
+			in.writeByte(CONSTANT_Utf8);
+			in.writeUTF(clazz);
 
-         // code attribute of the default constructor
-         in.writeShort(INDEX_UTF8_CODE_ATTRIBUTE);
-         in.writeInt(CONSTRUCTOR_CODE_ATTRIBUTE_LENGTH); // attribute length
-         in.writeShort(0); // max_stack
-         in.writeShort(1); // max_locals
-         in.writeInt(CONSTRUCTOR_CODE.length); // code length
-         in.write(CONSTRUCTOR_CODE);
-         in.writeShort(0); // exception_table_length = 0
-         in.writeShort(0); // attributes count = 0, no need to have LineNumberTable and LocalVariableTable
+			// 8. Superclass name
+			in.writeByte(CONSTANT_Utf8);
+			// in.writeUTF("java/lang/Object");
+			in.writeUTF(MAGIC_ACCESSOR);
 
-         // newInstance method_info
-         in.writeShort(ACC_PUBLIC);
-         in.writeShort(INDEX_UTF8_NEWINSTANCE_NAME); // index of the method name (newInstance)
-         in.writeShort(INDEX_UTF8_NEWINSTANCE_DESC); // index of the description
-         in.writeShort(1); // number of attributes: only one, the code
+			// 9. ObjectInstantiator interface
+			in.writeByte(CONSTANT_Class);
+			in.writeShort(INDEX_UTF8_INTERFACE);
 
-         // code attribute of newInstance
-         in.writeShort(INDEX_UTF8_CODE_ATTRIBUTE);
-         in.writeInt(NEWINSTANCE_CODE_ATTRIBUTE_LENGTH); // attribute length
-         in.writeShort(2); // max_stack
-         in.writeShort(1); // max_locals
-         in.writeInt(NEWINSTANCE_CODE.length); // code length
-         in.write(NEWINSTANCE_CODE);
-         in.writeShort(0); // exception_table_length = 0
-         in.writeShort(0); // attributes count = 0, no need to have LineNumberTable and LocalVariableTable
+			// 10. ObjectInstantiator name
+			in.writeByte(CONSTANT_Utf8);
+			in.writeUTF(ObjectInstantiator.class.getName().replace('.', '/'));
 
-         // class attributes
-         in.writeShort(0); // none. No need to have a source file attribute
+			// 11. newInstance name
+			in.writeByte(CONSTANT_Utf8);
+			in.writeUTF("newInstance");
 
-      } catch (IOException e) {
-         throw new ObjenesisException(e);
-      }
+			// 12. newInstance desc
+			in.writeByte(CONSTANT_Utf8);
+			in.writeUTF("()Ljava/lang/Object;");
 
-      return bIn.toByteArray();
-   }
+			// 13. Methodref to the Object constructor
+			in.writeByte(CONSTANT_Methodref);
+			in.writeShort(INDEX_CLASS_OBJECT);
+			in.writeShort(INDEX_NAMEANDTYPE_DEFAULT_CONSTRUCTOR);
 
-   public T newInstance() {
-      return instantiator.newInstance();
-   }
+			// 14. Object class
+			in.writeByte(CONSTANT_Class);
+			in.writeShort(INDEX_UTF8_OBJECT);
 
-   private static String getMagicClass() {
-      try {
-         Class.forName("sun.reflect.MagicAccessorImpl", false, MagicInstantiator.class.getClassLoader());
-         return "sun/reflect/MagicAccessorImpl";
-      } catch (ClassNotFoundException e) {
-         return "jdk/internal/reflect/MagicAccessorImpl";
-      }
-   }
+			// 15. Object class name
+			in.writeByte(CONSTANT_Utf8);
+			in.writeUTF("java/lang/Object");
+
+			// 16. Default constructor name and type
+			in.writeByte(CONSTANT_NameAndType);
+			in.writeShort(INDEX_UTF8_CONSTRUCTOR_NAME);
+			in.writeShort(INDEX_UTF8_CONSTRUCTOR_DESC);
+
+			// 17. Type to instantiate class
+			in.writeByte(CONSTANT_Class);
+			in.writeShort(INDEX_UTF8_TYPE);
+
+			// 18. Type to instantiate name
+			in.writeByte(CONSTANT_Utf8);
+			in.writeUTF(ClassUtils.classNameToInternalClassName(type.getName()));
+
+			// end of constant pool
+
+			// access flags: We want public, ACC_SUPER is always there
+			in.writeShort(ACC_PUBLIC | ACC_SUPER | ACC_FINAL);
+
+			// this class index in the constant pool
+			in.writeShort(INDEX_CLASS_THIS);
+
+			// super class index in the constant pool
+			in.writeShort(INDEX_CLASS_SUPERCLASS);
+
+			// interfaces implemented count (we have none)
+			in.writeShort(1);
+			in.writeShort(INDEX_CLASS_INTERFACE);
+
+			// fields count (we have none)
+			in.writeShort(0);
+
+			// method count (we have two: the default constructor and newInstance)
+			in.writeShort(2);
+
+			// default constructor method_info
+			in.writeShort(ACC_PUBLIC);
+			in.writeShort(INDEX_UTF8_CONSTRUCTOR_NAME); // index of the method name
+														// (<init>)
+			in.writeShort(INDEX_UTF8_CONSTRUCTOR_DESC); // index of the description
+			in.writeShort(1); // number of attributes: only one, the code
+
+			// code attribute of the default constructor
+			in.writeShort(INDEX_UTF8_CODE_ATTRIBUTE);
+			in.writeInt(CONSTRUCTOR_CODE_ATTRIBUTE_LENGTH); // attribute length
+			in.writeShort(0); // max_stack
+			in.writeShort(1); // max_locals
+			in.writeInt(CONSTRUCTOR_CODE.length); // code length
+			in.write(CONSTRUCTOR_CODE);
+			in.writeShort(0); // exception_table_length = 0
+			in.writeShort(0); // attributes count = 0, no need to have LineNumberTable and
+								// LocalVariableTable
+
+			// newInstance method_info
+			in.writeShort(ACC_PUBLIC);
+			in.writeShort(INDEX_UTF8_NEWINSTANCE_NAME); // index of the method name
+														// (newInstance)
+			in.writeShort(INDEX_UTF8_NEWINSTANCE_DESC); // index of the description
+			in.writeShort(1); // number of attributes: only one, the code
+
+			// code attribute of newInstance
+			in.writeShort(INDEX_UTF8_CODE_ATTRIBUTE);
+			in.writeInt(NEWINSTANCE_CODE_ATTRIBUTE_LENGTH); // attribute length
+			in.writeShort(2); // max_stack
+			in.writeShort(1); // max_locals
+			in.writeInt(NEWINSTANCE_CODE.length); // code length
+			in.write(NEWINSTANCE_CODE);
+			in.writeShort(0); // exception_table_length = 0
+			in.writeShort(0); // attributes count = 0, no need to have LineNumberTable and
+								// LocalVariableTable
+
+			// class attributes
+			in.writeShort(0); // none. No need to have a source file attribute
+
+		}
+		catch (IOException e) {
+			throw new ObjenesisException(e);
+		}
+
+		return bIn.toByteArray();
+	}
+
+	public T newInstance() {
+		return instantiator.newInstance();
+	}
+
+	private static String getMagicClass() {
+		try {
+			Class.forName("sun.reflect.MagicAccessorImpl", false, MagicInstantiator.class.getClassLoader());
+			return "sun/reflect/MagicAccessorImpl";
+		}
+		catch (ClassNotFoundException e) {
+			return "jdk/internal/reflect/MagicAccessorImpl";
+		}
+	}
+
 }

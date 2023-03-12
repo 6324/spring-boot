@@ -35,21 +35,24 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Spring Controller implementation that wraps a servlet instance which it manages
- * internally. Such a wrapped servlet is not known outside of this controller;
- * its entire lifecycle is covered here (in contrast to {@link ServletForwardingController}).
+ * internally. Such a wrapped servlet is not known outside of this controller; its entire
+ * lifecycle is covered here (in contrast to {@link ServletForwardingController}).
  *
- * <p>Useful to invoke an existing servlet via Spring's dispatching infrastructure,
- * for example to apply Spring HandlerInterceptors to its requests.
+ * <p>
+ * Useful to invoke an existing servlet via Spring's dispatching infrastructure, for
+ * example to apply Spring HandlerInterceptors to its requests.
  *
- * <p>Note that Struts has a special requirement in that it parses {@code web.xml}
- * to find its servlet mapping. Therefore, you need to specify the DispatcherServlet's
- * servlet name as "servletName" on this controller, so that Struts finds the
- * DispatcherServlet's mapping (thinking that it refers to the ActionServlet).
+ * <p>
+ * Note that Struts has a special requirement in that it parses {@code web.xml} to find
+ * its servlet mapping. Therefore, you need to specify the DispatcherServlet's servlet
+ * name as "servletName" on this controller, so that Struts finds the DispatcherServlet's
+ * mapping (thinking that it refers to the ActionServlet).
  *
- * <p><b>Example:</b> a DispatcherServlet XML context, forwarding "*.do" to the Struts
- * ActionServlet wrapped by a ServletWrappingController. All such requests will go
- * through the configured HandlerInterceptor chain (e.g. an OpenSessionInViewInterceptor).
- * From the Struts point of view, everything will work as usual.
+ * <p>
+ * <b>Example:</b> a DispatcherServlet XML context, forwarding "*.do" to the Struts
+ * ActionServlet wrapped by a ServletWrappingController. All such requests will go through
+ * the configured HandlerInterceptor chain (e.g. an OpenSessionInViewInterceptor). From
+ * the Struts point of view, everything will work as usual.
  *
  * <pre class="code">
  * &lt;bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping"&gt;
@@ -100,15 +103,13 @@ public class ServletWrappingController extends AbstractController
 	@Nullable
 	private Servlet servletInstance;
 
-
 	public ServletWrappingController() {
 		super(false);
 	}
 
-
 	/**
-	 * Set the class of the servlet to wrap.
-	 * Needs to implement {@code javax.servlet.Servlet}.
+	 * Set the class of the servlet to wrap. Needs to implement
+	 * {@code javax.servlet.Servlet}.
 	 * @see javax.servlet.Servlet
 	 */
 	public void setServletClass(Class<? extends Servlet> servletClass) {
@@ -116,16 +117,14 @@ public class ServletWrappingController extends AbstractController
 	}
 
 	/**
-	 * Set the name of the servlet to wrap.
-	 * Default is the bean name of this controller.
+	 * Set the name of the servlet to wrap. Default is the bean name of this controller.
 	 */
 	public void setServletName(String servletName) {
 		this.servletName = servletName;
 	}
 
 	/**
-	 * Specify init parameters for the servlet to wrap,
-	 * as name-value pairs.
+	 * Specify init parameters for the servlet to wrap, as name-value pairs.
 	 */
 	public void setInitParameters(Properties initParameters) {
 		this.initParameters = initParameters;
@@ -135,7 +134,6 @@ public class ServletWrappingController extends AbstractController
 	public void setBeanName(String name) {
 		this.beanName = name;
 	}
-
 
 	/**
 	 * Initialize the wrapped Servlet instance.
@@ -153,10 +151,10 @@ public class ServletWrappingController extends AbstractController
 		this.servletInstance.init(new DelegatingServletConfig());
 	}
 
-
 	/**
 	 * Invoke the wrapped Servlet instance.
-	 * @see javax.servlet.Servlet#service(javax.servlet.ServletRequest, javax.servlet.ServletResponse)
+	 * @see javax.servlet.Servlet#service(javax.servlet.ServletRequest,
+	 * javax.servlet.ServletResponse)
 	 */
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
@@ -166,7 +164,6 @@ public class ServletWrappingController extends AbstractController
 		this.servletInstance.service(request, response);
 		return null;
 	}
-
 
 	/**
 	 * Destroy the wrapped Servlet instance.
@@ -179,11 +176,10 @@ public class ServletWrappingController extends AbstractController
 		}
 	}
 
-
 	/**
-	 * Internal implementation of the ServletConfig interface, to be passed
-	 * to the wrapped servlet. Delegates to ServletWrappingController fields
-	 * and methods to provide init parameters and other environment info.
+	 * Internal implementation of the ServletConfig interface, to be passed to the wrapped
+	 * servlet. Delegates to ServletWrappingController fields and methods to provide init
+	 * parameters and other environment info.
 	 */
 	private class DelegatingServletConfig implements ServletConfig {
 
@@ -205,10 +201,11 @@ public class ServletWrappingController extends AbstractController
 		}
 
 		@Override
-		@SuppressWarnings({"rawtypes", "unchecked"})
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public Enumeration<String> getInitParameterNames() {
 			return (Enumeration) initParameters.keys();
 		}
+
 	}
 
 }

@@ -61,7 +61,6 @@ public class StandardMultipartHttpServletRequest extends AbstractMultipartHttpSe
 	@Nullable
 	private Set<String> multipartParameterNames;
 
-
 	/**
 	 * Create a new StandardMultipartHttpServletRequest wrapper for the given request,
 	 * immediately parsing the multipart content.
@@ -75,8 +74,8 @@ public class StandardMultipartHttpServletRequest extends AbstractMultipartHttpSe
 	/**
 	 * Create a new StandardMultipartHttpServletRequest wrapper for the given request.
 	 * @param request the servlet request to wrap
-	 * @param lazyParsing whether multipart parsing should be triggered lazily on
-	 * first access of multipart files or parameters
+	 * @param lazyParsing whether multipart parsing should be triggered lazily on first
+	 * access of multipart files or parameters
 	 * @throws MultipartException if an immediate parsing attempt failed
 	 * @since 3.2.9
 	 */
@@ -88,7 +87,6 @@ public class StandardMultipartHttpServletRequest extends AbstractMultipartHttpSe
 			parseRequest(request);
 		}
 	}
-
 
 	private void parseRequest(HttpServletRequest request) {
 		try {
@@ -200,7 +198,6 @@ public class StandardMultipartHttpServletRequest extends AbstractMultipartHttpSe
 		}
 	}
 
-
 	/**
 	 * Spring MultipartFile adapter, wrapping a Servlet 3.0 Part object.
 	 */
@@ -255,7 +252,8 @@ public class StandardMultipartHttpServletRequest extends AbstractMultipartHttpSe
 		public void transferTo(File dest) throws IOException, IllegalStateException {
 			this.part.write(dest.getPath());
 			if (dest.isAbsolute() && !dest.exists()) {
-				// Servlet 3.0 Part.write is not guaranteed to support absolute file paths:
+				// Servlet 3.0 Part.write is not guaranteed to support absolute file
+				// paths:
 				// may translate the given path to a relative location within a temp dir
 				// (e.g. on Jetty whereas Tomcat and Undertow detect absolute paths).
 				// At least we offloaded the file from memory storage; it'll get deleted
@@ -269,8 +267,8 @@ public class StandardMultipartHttpServletRequest extends AbstractMultipartHttpSe
 		public void transferTo(Path dest) throws IOException, IllegalStateException {
 			FileCopyUtils.copy(this.part.getInputStream(), Files.newOutputStream(dest));
 		}
-	}
 
+	}
 
 	/**
 	 * Inner class to avoid a hard dependency on the JavaMail API.
@@ -285,6 +283,7 @@ public class StandardMultipartHttpServletRequest extends AbstractMultipartHttpSe
 				throw new IllegalStateException(ex);
 			}
 		}
+
 	}
 
 }

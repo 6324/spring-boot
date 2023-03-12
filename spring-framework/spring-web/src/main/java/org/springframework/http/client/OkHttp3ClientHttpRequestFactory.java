@@ -50,7 +50,6 @@ public class OkHttp3ClientHttpRequestFactory
 
 	private final boolean defaultClient;
 
-
 	/**
 	 * Create a factory with a default {@link OkHttpClient} instance.
 	 */
@@ -69,37 +68,29 @@ public class OkHttp3ClientHttpRequestFactory
 		this.defaultClient = false;
 	}
 
-
 	/**
-	 * Set the underlying read timeout in milliseconds.
-	 * A value of 0 specifies an infinite timeout.
+	 * Set the underlying read timeout in milliseconds. A value of 0 specifies an infinite
+	 * timeout.
 	 */
 	public void setReadTimeout(int readTimeout) {
-		this.client = this.client.newBuilder()
-				.readTimeout(readTimeout, TimeUnit.MILLISECONDS)
-				.build();
+		this.client = this.client.newBuilder().readTimeout(readTimeout, TimeUnit.MILLISECONDS).build();
 	}
 
 	/**
-	 * Set the underlying write timeout in milliseconds.
-	 * A value of 0 specifies an infinite timeout.
+	 * Set the underlying write timeout in milliseconds. A value of 0 specifies an
+	 * infinite timeout.
 	 */
 	public void setWriteTimeout(int writeTimeout) {
-		this.client = this.client.newBuilder()
-				.writeTimeout(writeTimeout, TimeUnit.MILLISECONDS)
-				.build();
+		this.client = this.client.newBuilder().writeTimeout(writeTimeout, TimeUnit.MILLISECONDS).build();
 	}
 
 	/**
-	 * Set the underlying connect timeout in milliseconds.
-	 * A value of 0 specifies an infinite timeout.
+	 * Set the underlying connect timeout in milliseconds. A value of 0 specifies an
+	 * infinite timeout.
 	 */
 	public void setConnectTimeout(int connectTimeout) {
-		this.client = this.client.newBuilder()
-				.connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
-				.build();
+		this.client = this.client.newBuilder().connectTimeout(connectTimeout, TimeUnit.MILLISECONDS).build();
 	}
-
 
 	@Override
 	public ClientHttpRequest createRequest(URI uri, HttpMethod httpMethod) {
@@ -110,7 +101,6 @@ public class OkHttp3ClientHttpRequestFactory
 	public AsyncClientHttpRequest createAsyncRequest(URI uri, HttpMethod httpMethod) {
 		return new OkHttp3AsyncClientHttpRequest(this.client, uri, httpMethod);
 	}
-
 
 	@Override
 	public void destroy() throws IOException {
@@ -125,14 +115,12 @@ public class OkHttp3ClientHttpRequestFactory
 		}
 	}
 
-
 	static Request buildRequest(HttpHeaders headers, byte[] content, URI uri, HttpMethod method)
 			throws MalformedURLException {
 
 		okhttp3.MediaType contentType = getContentType(headers);
-		RequestBody body = (content.length > 0 ||
-				okhttp3.internal.http.HttpMethod.requiresRequestBody(method.name()) ?
-				RequestBody.create(contentType, content) : null);
+		RequestBody body = (content.length > 0 || okhttp3.internal.http.HttpMethod.requiresRequestBody(method.name())
+				? RequestBody.create(contentType, content) : null);
 
 		Request.Builder builder = new Request.Builder().url(uri.toURL()).method(method.name(), body);
 		headers.forEach((headerName, headerValues) -> {

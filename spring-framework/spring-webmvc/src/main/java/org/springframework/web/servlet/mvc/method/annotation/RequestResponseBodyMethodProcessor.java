@@ -46,14 +46,15 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
 /**
- * Resolves method arguments annotated with {@code @RequestBody} and handles return
- * values from methods annotated with {@code @ResponseBody} by reading and writing
- * to the body of the request or response with an {@link HttpMessageConverter}.
+ * Resolves method arguments annotated with {@code @RequestBody} and handles return values
+ * from methods annotated with {@code @ResponseBody} by reading and writing to the body of
+ * the request or response with an {@link HttpMessageConverter}.
  *
- * <p>An {@code @RequestBody} method argument is also validated if it is annotated
- * with {@code @javax.validation.Valid}. In case of validation failure,
- * {@link MethodArgumentNotValidException} is raised and results in an HTTP 400
- * response status code if {@link DefaultHandlerExceptionResolver} is configured.
+ * <p>
+ * An {@code @RequestBody} method argument is also validated if it is annotated with
+ * {@code @javax.validation.Valid}. In case of validation failure,
+ * {@link MethodArgumentNotValidException} is raised and results in an HTTP 400 response
+ * status code if {@link DefaultHandlerExceptionResolver} is configured.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -64,18 +65,17 @@ public class RequestResponseBodyMethodProcessor extends AbstractMessageConverter
 
 	/**
 	 * Basic constructor with converters only. Suitable for resolving
-	 * {@code @RequestBody}. For handling {@code @ResponseBody} consider also
-	 * providing a {@code ContentNegotiationManager}.
+	 * {@code @RequestBody}. For handling {@code @ResponseBody} consider also providing a
+	 * {@code ContentNegotiationManager}.
 	 */
 	public RequestResponseBodyMethodProcessor(List<HttpMessageConverter<?>> converters) {
 		super(converters);
 	}
 
 	/**
-	 * Basic constructor with converters and {@code ContentNegotiationManager}.
-	 * Suitable for resolving {@code @RequestBody} and handling
-	 * {@code @ResponseBody} without {@code Request~} or
-	 * {@code ResponseBodyAdvice}.
+	 * Basic constructor with converters and {@code ContentNegotiationManager}. Suitable
+	 * for resolving {@code @RequestBody} and handling {@code @ResponseBody} without
+	 * {@code Request~} or {@code ResponseBodyAdvice}.
 	 */
 	public RequestResponseBodyMethodProcessor(List<HttpMessageConverter<?>> converters,
 			@Nullable ContentNegotiationManager manager) {
@@ -84,8 +84,8 @@ public class RequestResponseBodyMethodProcessor extends AbstractMessageConverter
 	}
 
 	/**
-	 * Complete constructor for resolving {@code @RequestBody} method arguments.
-	 * For handling {@code @ResponseBody} consider also providing a
+	 * Complete constructor for resolving {@code @RequestBody} method arguments. For
+	 * handling {@code @ResponseBody} consider also providing a
 	 * {@code ContentNegotiationManager}.
 	 * @since 4.2
 	 */
@@ -105,7 +105,6 @@ public class RequestResponseBodyMethodProcessor extends AbstractMessageConverter
 		super(converters, manager, requestResponseBodyAdvice);
 	}
 
-
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return parameter.hasParameterAnnotation(RequestBody.class);
@@ -113,15 +112,15 @@ public class RequestResponseBodyMethodProcessor extends AbstractMessageConverter
 
 	@Override
 	public boolean supportsReturnType(MethodParameter returnType) {
-		return (AnnotatedElementUtils.hasAnnotation(returnType.getContainingClass(), ResponseBody.class) ||
-				returnType.hasMethodAnnotation(ResponseBody.class));
+		return (AnnotatedElementUtils.hasAnnotation(returnType.getContainingClass(), ResponseBody.class)
+				|| returnType.hasMethodAnnotation(ResponseBody.class));
 	}
 
 	/**
 	 * Throws MethodArgumentNotValidException if validation fails.
-	 * @throws HttpMessageNotReadableException if {@link RequestBody#required()}
-	 * is {@code true} and there is no body content or if there is no suitable
-	 * converter to read the content with.
+	 * @throws HttpMessageNotReadableException if {@link RequestBody#required()} is
+	 * {@code true} and there is no body content or if there is no suitable converter to
+	 * read the content with.
 	 */
 	@Override
 	public Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,
@@ -157,8 +156,8 @@ public class RequestResponseBodyMethodProcessor extends AbstractMessageConverter
 
 		Object arg = readWithMessageConverters(inputMessage, parameter, paramType);
 		if (arg == null && checkRequired(parameter)) {
-			throw new HttpMessageNotReadableException("Required request body is missing: " +
-					parameter.getExecutable().toGenericString(), inputMessage);
+			throw new HttpMessageNotReadableException(
+					"Required request body is missing: " + parameter.getExecutable().toGenericString(), inputMessage);
 		}
 		return arg;
 	}

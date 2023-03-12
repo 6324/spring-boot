@@ -33,6 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ThemeResolverTests {
 
 	private static final String TEST_THEME_NAME = "test.theme";
+
 	private static final String DEFAULT_TEST_THEME_NAME = "default.theme";
 
 	private void internalTest(ThemeResolver themeResolver, boolean shouldSet, String defaultName) {
@@ -71,7 +72,7 @@ public class ThemeResolverTests {
 
 	@Test
 	public void sessionThemeResolver() {
-		internalTest(new SessionThemeResolver(), true,AbstractThemeResolver.ORIGINAL_DEFAULT_THEME_NAME);
+		internalTest(new SessionThemeResolver(), true, AbstractThemeResolver.ORIGINAL_DEFAULT_THEME_NAME);
 	}
 
 	@Test

@@ -47,7 +47,6 @@ public class InterceptorRegistration {
 
 	private int order = 0;
 
-
 	/**
 	 * Create an {@link InterceptorRegistration} instance.
 	 */
@@ -55,7 +54,6 @@ public class InterceptorRegistration {
 		Assert.notNull(interceptor, "Interceptor is required");
 		this.interceptor = interceptor;
 	}
-
 
 	/**
 	 * Add URL patterns to which the registered interceptor should apply to.
@@ -91,9 +89,8 @@ public class InterceptorRegistration {
 
 	/**
 	 * A PathMatcher implementation to use with this interceptor. This is an optional,
-	 * advanced property required only if using custom PathMatcher implementations
-	 * that support mapping metadata other than the Ant path patterns supported
-	 * by default.
+	 * advanced property required only if using custom PathMatcher implementations that
+	 * support mapping metadata other than the Ant path patterns supported by default.
 	 */
 	public InterceptorRegistration pathMatcher(PathMatcher pathMatcher) {
 		this.pathMatcher = pathMatcher;
@@ -104,7 +101,7 @@ public class InterceptorRegistration {
 	 * Specify an order position to be used. Default is 0.
 	 * @since 4.3.23
 	 */
-	public InterceptorRegistration order(int order){
+	public InterceptorRegistration order(int order) {
 		this.order = order;
 		return this;
 	}
@@ -117,8 +114,8 @@ public class InterceptorRegistration {
 	}
 
 	/**
-	 * Build the underlying interceptor. If URL patterns are provided, the returned
-	 * type is {@link MappedInterceptor}; otherwise {@link HandlerInterceptor}.
+	 * Build the underlying interceptor. If URL patterns are provided, the returned type
+	 * is {@link MappedInterceptor}; otherwise {@link HandlerInterceptor}.
 	 */
 	protected Object getInterceptor() {
 		if (this.includePatterns.isEmpty() && this.excludePatterns.isEmpty()) {

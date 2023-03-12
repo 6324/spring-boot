@@ -35,10 +35,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartResolver;
 
 /**
- * {@link ServerHttpRequest} implementation that accesses one part of a multipart
- * request. If using {@link MultipartResolver} configuration the part is accessed
- * through a {@link MultipartFile}. Or if using Servlet 3.0 multipart processing
- * the part is accessed through {@code ServletRequest.getPart}.
+ * {@link ServerHttpRequest} implementation that accesses one part of a multipart request.
+ * If using {@link MultipartResolver} configuration the part is accessed through a
+ * {@link MultipartFile}. Or if using Servlet 3.0 multipart processing the part is
+ * accessed through {@code ServletRequest.getPart}.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -52,11 +52,11 @@ public class RequestPartServletServerHttpRequest extends ServletServerHttpReques
 
 	private final HttpHeaders multipartHeaders;
 
-
 	/**
 	 * Create a new {@code RequestPartServletServerHttpRequest} instance.
 	 * @param request the current servlet request
-	 * @param requestPartName the name of the part to adapt to the {@link ServerHttpRequest} contract
+	 * @param requestPartName the name of the part to adapt to the
+	 * {@link ServerHttpRequest} contract
 	 * @throws MissingServletRequestPartException if the request part cannot be found
 	 * @throws MultipartException if MultipartHttpServletRequest cannot be initialized
 	 */
@@ -74,7 +74,6 @@ public class RequestPartServletServerHttpRequest extends ServletServerHttpReques
 		}
 		this.multipartHeaders = multipartHeaders;
 	}
-
 
 	@Override
 	public HttpHeaders getHeaders() {

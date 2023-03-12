@@ -94,7 +94,7 @@ public class CorsConfigurationTests {
 		assertThat((boolean) config.getAllowCredentials()).isTrue();
 	}
 
-	@Test  // SPR-15772
+	@Test // SPR-15772
 	public void combineWithDefaultPermitValues() {
 		CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
 		CorsConfiguration other = new CorsConfiguration();
@@ -120,16 +120,16 @@ public class CorsConfigurationTests {
 		assertThat(config.getAllowedOrigins()).containsExactly("*");
 		assertThat(config.getAllowedHeaders()).containsExactly("*");
 		assertThat(combinedConfig).isNotNull();
-		assertThat(combinedConfig.getAllowedMethods())
-				.containsExactly(HttpMethod.GET.name(), HttpMethod.HEAD.name(), HttpMethod.POST.name());
+		assertThat(combinedConfig.getAllowedMethods()).containsExactly(HttpMethod.GET.name(), HttpMethod.HEAD.name(),
+				HttpMethod.POST.name());
 		assertThat(combinedConfig.getExposedHeaders()).isEmpty();
 
 		combinedConfig = new CorsConfiguration().combine(config);
 		assertThat(config.getAllowedOrigins()).containsExactly("*");
 		assertThat(config.getAllowedHeaders()).containsExactly("*");
 		assertThat(combinedConfig).isNotNull();
-		assertThat(combinedConfig.getAllowedMethods())
-				.containsExactly(HttpMethod.GET.name(), HttpMethod.HEAD.name(), HttpMethod.POST.name());
+		assertThat(combinedConfig.getAllowedMethods()).containsExactly(HttpMethod.GET.name(), HttpMethod.HEAD.name(),
+				HttpMethod.POST.name());
 		assertThat(combinedConfig.getExposedHeaders()).isEmpty();
 	}
 
@@ -163,7 +163,7 @@ public class CorsConfigurationTests {
 		assertThat(combinedConfig.getAllowedHeaders()).containsExactly("*");
 	}
 
-	@Test  // SPR-14792
+	@Test // SPR-14792
 	public void combineWithDuplicatedElements() {
 		CorsConfiguration config = new CorsConfiguration();
 		config.addAllowedOrigin("https://domain1.com");
@@ -180,10 +180,12 @@ public class CorsConfigurationTests {
 		other.addExposedHeader("header3");
 		other.addAllowedMethod(HttpMethod.GET.name());
 		CorsConfiguration combinedConfig = config.combine(other);
-		assertThat(combinedConfig.getAllowedOrigins()).isEqualTo(Arrays.asList("https://domain1.com", "https://domain2.com"));
+		assertThat(combinedConfig.getAllowedOrigins())
+				.isEqualTo(Arrays.asList("https://domain1.com", "https://domain2.com"));
 		assertThat(combinedConfig.getAllowedHeaders()).isEqualTo(Arrays.asList("header1", "header2"));
 		assertThat(combinedConfig.getExposedHeaders()).isEqualTo(Arrays.asList("header3", "header4"));
-		assertThat(combinedConfig.getAllowedMethods()).isEqualTo(Arrays.asList(HttpMethod.GET.name(), HttpMethod.PUT.name()));
+		assertThat(combinedConfig.getAllowedMethods())
+				.isEqualTo(Arrays.asList(HttpMethod.GET.name(), HttpMethod.PUT.name()));
 	}
 
 	@Test
@@ -264,8 +266,10 @@ public class CorsConfigurationTests {
 		config.addAllowedHeader("header1");
 		config.addAllowedHeader("header2");
 		assertThat(config.checkHeaders(Arrays.asList("header1"))).isEqualTo(Arrays.asList("header1"));
-		assertThat(config.checkHeaders(Arrays.asList("header1", "header2"))).isEqualTo(Arrays.asList("header1", "header2"));
-		assertThat(config.checkHeaders(Arrays.asList("header1", "header2", "header3"))).isEqualTo(Arrays.asList("header1", "header2"));
+		assertThat(config.checkHeaders(Arrays.asList("header1", "header2")))
+				.isEqualTo(Arrays.asList("header1", "header2"));
+		assertThat(config.checkHeaders(Arrays.asList("header1", "header2", "header3")))
+				.isEqualTo(Arrays.asList("header1", "header2"));
 	}
 
 	@Test
@@ -280,7 +284,7 @@ public class CorsConfigurationTests {
 		assertThat(config.checkHeaders(Arrays.asList("header1"))).isNull();
 	}
 
-	@Test  // SPR-15772
+	@Test // SPR-15772
 	public void changePermitDefaultValues() {
 		CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
 		config.addAllowedOrigin("https://domain.com");

@@ -23,14 +23,14 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.lang.Nullable;
 
 /**
- * Interface to be implemented by configurable web application contexts.
- * Supported by {@link ContextLoader} and
- * {@link org.springframework.web.servlet.FrameworkServlet}.
+ * Interface to be implemented by configurable web application contexts. Supported by
+ * {@link ContextLoader} and {@link org.springframework.web.servlet.FrameworkServlet}.
  *
- * <p>Note: The setters of this interface need to be called before an
- * invocation of the {@link #refresh} method inherited from
- * {@link org.springframework.context.ConfigurableApplicationContext}.
- * They do not cause an initialization of the context on their own.
+ * <p>
+ * Note: The setters of this interface need to be called before an invocation of the
+ * {@link #refresh} method inherited from
+ * {@link org.springframework.context.ConfigurableApplicationContext}. They do not cause
+ * an initialization of the context on their own.
  *
  * @author Juergen Hoeller
  * @since 05.12.2003
@@ -51,18 +51,18 @@ public interface ConfigurableWebApplicationContext extends WebApplicationContext
 	 */
 	String SERVLET_CONFIG_BEAN_NAME = "servletConfig";
 
-
 	/**
 	 * Set the ServletContext for this web application context.
-	 * <p>Does not cause an initialization of the context: refresh needs to be
-	 * called after the setting of all configuration properties.
+	 * <p>
+	 * Does not cause an initialization of the context: refresh needs to be called after
+	 * the setting of all configuration properties.
 	 * @see #refresh()
 	 */
 	void setServletContext(@Nullable ServletContext servletContext);
 
 	/**
-	 * Set the ServletConfig for this web application context.
-	 * Only called for a WebApplicationContext that belongs to a specific Servlet.
+	 * Set the ServletConfig for this web application context. Only called for a
+	 * WebApplicationContext that belongs to a specific Servlet.
 	 * @see #refresh()
 	 */
 	void setServletConfig(@Nullable ServletConfig servletConfig);
@@ -74,9 +74,9 @@ public interface ConfigurableWebApplicationContext extends WebApplicationContext
 	ServletConfig getServletConfig();
 
 	/**
-	 * Set the namespace for this web application context,
-	 * to be used for building a default context config location.
-	 * The root web application context does not have a namespace.
+	 * Set the namespace for this web application context, to be used for building a
+	 * default context config location. The root web application context does not have a
+	 * namespace.
 	 */
 	void setNamespace(@Nullable String namespace);
 
@@ -87,23 +87,25 @@ public interface ConfigurableWebApplicationContext extends WebApplicationContext
 	String getNamespace();
 
 	/**
-	 * Set the config locations for this web application context in init-param style,
-	 * i.e. with distinct locations separated by commas, semicolons or whitespace.
-	 * <p>If not set, the implementation is supposed to use a default for the
-	 * given namespace or the root web application context, as appropriate.
+	 * Set the config locations for this web application context in init-param style, i.e.
+	 * with distinct locations separated by commas, semicolons or whitespace.
+	 * <p>
+	 * If not set, the implementation is supposed to use a default for the given namespace
+	 * or the root web application context, as appropriate.
 	 */
 	void setConfigLocation(String configLocation);
 
 	/**
 	 * Set the config locations for this web application context.
-	 * <p>If not set, the implementation is supposed to use a default for the
-	 * given namespace or the root web application context, as appropriate.
+	 * <p>
+	 * If not set, the implementation is supposed to use a default for the given namespace
+	 * or the root web application context, as appropriate.
 	 */
 	void setConfigLocations(String... configLocations);
 
 	/**
-	 * Return the config locations for this web application context,
-	 * or {@code null} if none specified.
+	 * Return the config locations for this web application context, or {@code null} if
+	 * none specified.
 	 */
 	@Nullable
 	String[] getConfigLocations();

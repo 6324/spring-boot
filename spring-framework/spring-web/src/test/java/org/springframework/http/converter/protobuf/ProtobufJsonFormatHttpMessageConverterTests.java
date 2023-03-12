@@ -49,8 +49,8 @@ public class ProtobufJsonFormatHttpMessageConverterTests {
 	private final ProtobufHttpMessageConverter converter = new ProtobufJsonFormatHttpMessageConverter(
 			JsonFormat.parser(), JsonFormat.printer(), this.registryInitializer);
 
-	private final Msg testMsg = Msg.newBuilder().setFoo("Foo").setBlah(SecondMsg.newBuilder().setBlah(123).build()).build();
-
+	private final Msg testMsg = Msg.newBuilder().setFoo("Foo").setBlah(SecondMsg.newBuilder().setBlah(123).build())
+			.build();
 
 	@Test
 	public void extensionRegistryInitialized() {
@@ -59,13 +59,13 @@ public class ProtobufJsonFormatHttpMessageConverterTests {
 
 	@Test
 	public void extensionRegistryInitializerNull() {
-		ProtobufHttpMessageConverter converter = new ProtobufHttpMessageConverter((ExtensionRegistryInitializer)null);
+		ProtobufHttpMessageConverter converter = new ProtobufHttpMessageConverter((ExtensionRegistryInitializer) null);
 		assertThat(converter).isNotNull();
 	}
 
 	@Test
 	public void extensionRegistryInitializer() {
-		ProtobufHttpMessageConverter converter = new ProtobufHttpMessageConverter((ExtensionRegistry)null);
+		ProtobufHttpMessageConverter converter = new ProtobufHttpMessageConverter((ExtensionRegistry) null);
 		assertThat(converter).isNotNull();
 	}
 
@@ -112,11 +112,11 @@ public class ProtobufJsonFormatHttpMessageConverterTests {
 		Message result = Msg.parseFrom(outputMessage.getBodyAsBytes());
 		assertThat(result).isEqualTo(this.testMsg);
 
-		String messageHeader =
-				outputMessage.getHeaders().getFirst(ProtobufHttpMessageConverter.X_PROTOBUF_MESSAGE_HEADER);
+		String messageHeader = outputMessage.getHeaders()
+				.getFirst(ProtobufHttpMessageConverter.X_PROTOBUF_MESSAGE_HEADER);
 		assertThat(messageHeader).isEqualTo("Msg");
-		String schemaHeader =
-				outputMessage.getHeaders().getFirst(ProtobufHttpMessageConverter.X_PROTOBUF_SCHEMA_HEADER);
+		String schemaHeader = outputMessage.getHeaders()
+				.getFirst(ProtobufHttpMessageConverter.X_PROTOBUF_SCHEMA_HEADER);
 		assertThat(schemaHeader).isEqualTo("sample.proto");
 	}
 

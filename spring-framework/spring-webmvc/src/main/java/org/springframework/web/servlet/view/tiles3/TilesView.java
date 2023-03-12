@@ -44,9 +44,8 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.AbstractUrlBasedView;
 
 /**
- * {@link org.springframework.web.servlet.View} implementation that renders
- * through the Tiles Request API. The "url" property is interpreted as name of a
- * Tiles definition.
+ * {@link org.springframework.web.servlet.View} implementation that renders through the
+ * Tiles Request API. The "url" property is interpreted as name of a Tiles definition.
  *
  * @author Nicolas Le Bas
  * @author mick semb wever
@@ -66,10 +65,9 @@ public class TilesView extends AbstractUrlBasedView {
 	@Nullable
 	private ApplicationContext applicationContext;
 
-
 	/**
-	 * Set the {@link Renderer} to use.
-	 * If not set, by default {@link DefinitionRenderer} is used.
+	 * Set the {@link Renderer} to use. If not set, by default {@link DefinitionRenderer}
+	 * is used.
 	 */
 	public void setRenderer(Renderer renderer) {
 		this.renderer = renderer;
@@ -85,8 +83,9 @@ public class TilesView extends AbstractUrlBasedView {
 
 	/**
 	 * Specify whether to always include the view rather than forward to it.
-	 * <p>Default is "false". Switch this flag on to enforce the use of a
-	 * Servlet include, even if a forward would be possible.
+	 * <p>
+	 * Default is "false". Switch this flag on to enforce the use of a Servlet include,
+	 * even if a forward would be possible.
 	 * @since 4.1.2
 	 * @see TilesViewResolver#setAlwaysInclude
 	 */
@@ -107,7 +106,6 @@ public class TilesView extends AbstractUrlBasedView {
 			this.renderer = new DefinitionRenderer(container);
 		}
 	}
-
 
 	@Override
 	public boolean checkResource(final Locale locale) throws Exception {
@@ -149,7 +147,8 @@ public class TilesView extends AbstractUrlBasedView {
 
 	/**
 	 * Create a Tiles {@link Request}.
-	 * <p>This implementation creates a {@link ServletRequest}.
+	 * <p>
+	 * This implementation creates a {@link ServletRequest}.
 	 * @param request the current request
 	 * @param response the current response
 	 * @return the Tiles request

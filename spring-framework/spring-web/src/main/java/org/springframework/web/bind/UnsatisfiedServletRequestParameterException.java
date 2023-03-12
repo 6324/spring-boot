@@ -26,9 +26,9 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link ServletRequestBindingException} subclass that indicates an unsatisfied
- * parameter condition, as typically expressed using an {@code @RequestMapping}
- * annotation at the {@code @Controller} type level.
+ * {@link ServletRequestBindingException} subclass that indicates an unsatisfied parameter
+ * condition, as typically expressed using an {@code @RequestMapping} annotation at the
+ * {@code @Controller} type level.
  *
  * @author Juergen Hoeller
  * @since 3.0
@@ -40,7 +40,6 @@ public class UnsatisfiedServletRequestParameterException extends ServletRequestB
 	private final List<String[]> paramConditions;
 
 	private final Map<String, String[]> actualParams;
-
 
 	/**
 	 * Create a new UnsatisfiedServletRequestParameterException.
@@ -68,7 +67,6 @@ public class UnsatisfiedServletRequestParameterException extends ServletRequestB
 		this.actualParams = actualParams;
 	}
 
-
 	@Override
 	public String getMessage() {
 		StringBuilder sb = new StringBuilder("Parameter conditions ");
@@ -88,8 +86,8 @@ public class UnsatisfiedServletRequestParameterException extends ServletRequestB
 	}
 
 	/**
-	 * Return the parameter conditions that have been violated or the first group
-	 * in case of multiple groups.
+	 * Return the parameter conditions that have been violated or the first group in case
+	 * of multiple groups.
 	 * @see org.springframework.web.bind.annotation.RequestMapping#params()
 	 */
 	public final String[] getParamConditions() {
@@ -112,7 +110,6 @@ public class UnsatisfiedServletRequestParameterException extends ServletRequestB
 	public final Map<String, String[]> getActualParams() {
 		return this.actualParams;
 	}
-
 
 	private static String requestParameterMapToString(Map<String, String[]> actualParams) {
 		StringBuilder result = new StringBuilder();

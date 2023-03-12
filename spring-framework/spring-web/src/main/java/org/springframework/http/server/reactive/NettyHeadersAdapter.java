@@ -40,11 +40,9 @@ class NettyHeadersAdapter implements MultiValueMap<String, String> {
 
 	private final HttpHeaders headers;
 
-
 	NettyHeadersAdapter(HttpHeaders headers) {
 		this.headers = headers;
 	}
-
 
 	@Override
 	@Nullable
@@ -80,12 +78,11 @@ class NettyHeadersAdapter implements MultiValueMap<String, String> {
 	@Override
 	public Map<String, String> toSingleValueMap() {
 		Map<String, String> singleValueMap = new LinkedHashMap<>(this.headers.size());
-		this.headers.entries()
-				.forEach(entry -> {
-					if (!singleValueMap.containsKey(entry.getKey())) {
-						singleValueMap.put(entry.getKey(), entry.getValue());
-					}
-				});
+		this.headers.entries().forEach(entry -> {
+			if (!singleValueMap.containsKey(entry.getKey())) {
+				singleValueMap.put(entry.getKey(), entry.getValue());
+			}
+		});
 		return singleValueMap;
 	}
 
@@ -106,9 +103,8 @@ class NettyHeadersAdapter implements MultiValueMap<String, String> {
 
 	@Override
 	public boolean containsValue(Object value) {
-		return (value instanceof String &&
-				this.headers.entries().stream()
-						.anyMatch(entry -> value.equals(entry.getValue())));
+		return (value instanceof String
+				&& this.headers.entries().stream().anyMatch(entry -> value.equals(entry.getValue())));
 	}
 
 	@Override
@@ -156,8 +152,7 @@ class NettyHeadersAdapter implements MultiValueMap<String, String> {
 
 	@Override
 	public Collection<List<String>> values() {
-		return this.headers.names().stream()
-				.map(this.headers::getAll).collect(Collectors.toList());
+		return this.headers.names().stream().map(this.headers::getAll).collect(Collectors.toList());
 	}
 
 	@Override
@@ -175,12 +170,10 @@ class NettyHeadersAdapter implements MultiValueMap<String, String> {
 		};
 	}
 
-
 	@Override
 	public String toString() {
 		return org.springframework.http.HttpHeaders.formatHeaders(this);
 	}
-
 
 	private class EntryIterator implements Iterator<Entry<String, List<String>>> {
 
@@ -195,8 +188,8 @@ class NettyHeadersAdapter implements MultiValueMap<String, String> {
 		public Entry<String, List<String>> next() {
 			return new HeaderEntry(this.names.next());
 		}
-	}
 
+	}
 
 	private class HeaderEntry implements Entry<String, List<String>> {
 
@@ -222,6 +215,7 @@ class NettyHeadersAdapter implements MultiValueMap<String, String> {
 			headers.set(this.key, value);
 			return previousValues;
 		}
+
 	}
 
 }

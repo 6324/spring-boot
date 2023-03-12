@@ -38,12 +38,10 @@ public class EchoHandlerIntegrationTests extends AbstractHttpHandlerIntegrationT
 
 	private final Random rnd = new Random();
 
-
 	@Override
 	protected EchoHandler createHttpHandler() {
 		return new EchoHandler();
 	}
-
 
 	@ParameterizedHttpServerTest
 	public void echo(HttpServer httpServer) throws Exception {
@@ -57,7 +55,6 @@ public class EchoHandlerIntegrationTests extends AbstractHttpHandlerIntegrationT
 
 		assertThat(response.getBody()).isEqualTo(body);
 	}
-
 
 	private byte[] randomBytes() {
 		byte[] buffer = new byte[REQUEST_SIZE];
@@ -74,6 +71,7 @@ public class EchoHandlerIntegrationTests extends AbstractHttpHandlerIntegrationT
 		public Mono<Void> handle(ServerHttpRequest request, ServerHttpResponse response) {
 			return response.writeWith(request.getBody());
 		}
+
 	}
 
 }

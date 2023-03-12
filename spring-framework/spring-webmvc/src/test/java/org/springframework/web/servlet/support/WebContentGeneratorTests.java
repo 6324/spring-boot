@@ -25,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link WebContentGenerator}.
+ *
  * @author Rossen Stoyanchev
  */
 public class WebContentGeneratorTests {
@@ -58,7 +59,8 @@ public class WebContentGeneratorTests {
 	public void getAllowHeaderWithSupportedMethodsSetterEmpty() throws Exception {
 		WebContentGenerator generator = new TestWebContentGenerator();
 		generator.setSupportedMethods();
-		assertThat(generator.getAllowHeader()).as("Effectively \"no restriction\" on supported methods").isEqualTo("GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS");
+		assertThat(generator.getAllowHeader()).as("Effectively \"no restriction\" on supported methods")
+				.isEqualTo("GET,HEAD,POST,PUT,PATCH,DELETE,OPTIONS");
 	}
 
 	@Test
@@ -72,33 +74,33 @@ public class WebContentGeneratorTests {
 
 	@Test
 	public void varyHeader() throws Exception {
-		String[] configuredValues = {"Accept-Language", "User-Agent"};
+		String[] configuredValues = { "Accept-Language", "User-Agent" };
 		String[] responseValues = {};
-		String[] expected = {"Accept-Language", "User-Agent"};
+		String[] expected = { "Accept-Language", "User-Agent" };
 		testVaryHeader(configuredValues, responseValues, expected);
 	}
 
 	@Test
 	public void varyHeaderWithExistingWildcard() throws Exception {
-		String[] configuredValues = {"Accept-Language"};
-		String[] responseValues = {"*"};
-		String[] expected = {"*"};
+		String[] configuredValues = { "Accept-Language" };
+		String[] responseValues = { "*" };
+		String[] expected = { "*" };
 		testVaryHeader(configuredValues, responseValues, expected);
 	}
 
 	@Test
 	public void varyHeaderWithExistingCommaValues() throws Exception {
-		String[] configuredValues = {"Accept-Language", "User-Agent"};
-		String[] responseValues = {"Accept-Encoding", "Accept-Language"};
-		String[] expected = {"Accept-Encoding", "Accept-Language", "User-Agent"};
+		String[] configuredValues = { "Accept-Language", "User-Agent" };
+		String[] responseValues = { "Accept-Encoding", "Accept-Language" };
+		String[] expected = { "Accept-Encoding", "Accept-Language", "User-Agent" };
 		testVaryHeader(configuredValues, responseValues, expected);
 	}
 
 	@Test
 	public void varyHeaderWithExistingCommaSeparatedValues() throws Exception {
-		String[] configuredValues = {"Accept-Language", "User-Agent"};
-		String[] responseValues = {"Accept-Encoding, Accept-Language"};
-		String[] expected = {"Accept-Encoding, Accept-Language", "User-Agent"};
+		String[] configuredValues = { "Accept-Language", "User-Agent" };
+		String[] responseValues = { "Accept-Encoding, Accept-Language" };
+		String[] expected = { "Accept-Encoding, Accept-Language", "User-Agent" };
 		testVaryHeader(configuredValues, responseValues, expected);
 	}
 
@@ -113,7 +115,6 @@ public class WebContentGeneratorTests {
 		assertThat(response.getHeaderValues("Vary")).isEqualTo(Arrays.asList(expected));
 	}
 
-
 	private static class TestWebContentGenerator extends WebContentGenerator {
 
 		public TestWebContentGenerator() {
@@ -126,5 +127,7 @@ public class WebContentGeneratorTests {
 		public TestWebContentGenerator(String... supportedMethods) {
 			super(supportedMethods);
 		}
+
 	}
+
 }

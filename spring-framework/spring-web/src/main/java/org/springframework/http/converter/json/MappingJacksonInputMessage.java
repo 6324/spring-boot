@@ -24,8 +24,8 @@ import org.springframework.http.HttpInputMessage;
 import org.springframework.lang.Nullable;
 
 /**
- * {@link HttpInputMessage} that can eventually stores a Jackson view that will be used
- * to deserialize the message.
+ * {@link HttpInputMessage} that can eventually stores a Jackson view that will be used to
+ * deserialize the message.
  *
  * @author Sebastien Deleuze
  * @since 4.2
@@ -39,7 +39,6 @@ public class MappingJacksonInputMessage implements HttpInputMessage {
 	@Nullable
 	private Class<?> deserializationView;
 
-
 	public MappingJacksonInputMessage(InputStream body, HttpHeaders headers) {
 		this.body = body;
 		this.headers = headers;
@@ -49,7 +48,6 @@ public class MappingJacksonInputMessage implements HttpInputMessage {
 		this(body, headers);
 		this.deserializationView = deserializationView;
 	}
-
 
 	@Override
 	public InputStream getBody() throws IOException {

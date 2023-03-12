@@ -48,7 +48,6 @@ public class GroovyMarkupConfigurerTests {
 
 	private GroovyMarkupConfigurer configurer;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		this.applicationContext = new StaticApplicationContext();
@@ -108,18 +107,16 @@ public class GroovyMarkupConfigurerTests {
 		assertThat(classLoader).isNotNull();
 		URLClassLoader urlClassLoader = (URLClassLoader) classLoader;
 		assertThat(urlClassLoader.getURLs()).hasSize(1);
-		assertThat(urlClassLoader.getURLs()[0].toString())
-				.endsWith("org/springframework/web/servlet/view/groovy/");
+		assertThat(urlClassLoader.getURLs()[0].toString()).endsWith("org/springframework/web/servlet/view/groovy/");
 
-		this.configurer.setResourceLoaderPath(RESOURCE_LOADER_PATH + ",classpath:org/springframework/web/servlet/view/");
+		this.configurer
+				.setResourceLoaderPath(RESOURCE_LOADER_PATH + ",classpath:org/springframework/web/servlet/view/");
 		classLoader = this.configurer.createTemplateClassLoader();
 		assertThat(classLoader).isNotNull();
 		urlClassLoader = (URLClassLoader) classLoader;
 		assertThat(urlClassLoader.getURLs()).hasSize(2);
-		assertThat(urlClassLoader.getURLs()[0].toString())
-				.endsWith("org/springframework/web/servlet/view/groovy/");
-		assertThat(urlClassLoader.getURLs()[1].toString())
-				.endsWith("org/springframework/web/servlet/view/");
+		assertThat(urlClassLoader.getURLs()[0].toString()).endsWith("org/springframework/web/servlet/view/groovy/");
+		assertThat(urlClassLoader.getURLs()[1].toString()).endsWith("org/springframework/web/servlet/view/");
 	}
 
 	private class TestTemplateEngine extends MarkupTemplateEngine {
@@ -127,6 +124,7 @@ public class GroovyMarkupConfigurerTests {
 		public TestTemplateEngine() {
 			super(new TemplateConfiguration());
 		}
+
 	}
 
 	@Test
@@ -162,8 +160,8 @@ public class GroovyMarkupConfigurerTests {
 	@Test
 	public void failMissingTemplate() throws Exception {
 		LocaleContextHolder.setLocale(Locale.US);
-		assertThatIOException().isThrownBy(() ->
-			this.configurer.resolveTemplate(getClass().getClassLoader(), TEMPLATE_PREFIX + "missing.tpl"));
+		assertThatIOException().isThrownBy(
+				() -> this.configurer.resolveTemplate(getClass().getClassLoader(), TEMPLATE_PREFIX + "missing.tpl"));
 	}
 
 }

@@ -60,8 +60,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 
 /**
- * Default implementation of {@link CodecConfigurer.DefaultCodecs} that serves
- * as a base for client and server specific variants.
+ * Default implementation of {@link CodecConfigurer.DefaultCodecs} that serves as a base
+ * for client and server specific variants.
  *
  * @author Rossen Stoyanchev
  * @author Sebastien Deleuze
@@ -80,14 +80,14 @@ class BaseDefaultCodecs implements CodecConfigurer.DefaultCodecs, CodecConfigure
 
 	static {
 		ClassLoader classLoader = BaseCodecConfigurer.class.getClassLoader();
-		jackson2Present = ClassUtils.isPresent("com.fasterxml.jackson.databind.ObjectMapper", classLoader) &&
-						ClassUtils.isPresent("com.fasterxml.jackson.core.JsonGenerator", classLoader);
+		jackson2Present = ClassUtils.isPresent("com.fasterxml.jackson.databind.ObjectMapper", classLoader)
+				&& ClassUtils.isPresent("com.fasterxml.jackson.core.JsonGenerator", classLoader);
 		jackson2SmilePresent = ClassUtils.isPresent("com.fasterxml.jackson.dataformat.smile.SmileFactory", classLoader);
 		jaxb2Present = ClassUtils.isPresent("javax.xml.bind.Binder", classLoader);
 		protobufPresent = ClassUtils.isPresent("com.google.protobuf.Message", classLoader);
-		synchronossMultipartPresent = ClassUtils.isPresent("org.synchronoss.cloud.nio.multipart.NioMultipartParser", classLoader);
+		synchronossMultipartPresent = ClassUtils.isPresent("org.synchronoss.cloud.nio.multipart.NioMultipartParser",
+				classLoader);
 	}
-
 
 	@Nullable
 	private Decoder<?> jackson2JsonDecoder;
@@ -120,7 +120,6 @@ class BaseDefaultCodecs implements CodecConfigurer.DefaultCodecs, CodecConfigure
 	private Boolean enableLoggingRequestDetails;
 
 	private boolean registerDefaults = true;
-
 
 	BaseDefaultCodecs() {
 	}
@@ -211,7 +210,6 @@ class BaseDefaultCodecs implements CodecConfigurer.DefaultCodecs, CodecConfigure
 		this.registerDefaults = registerDefaults;
 	}
 
-
 	/**
 	 * Return readers that support specific types.
 	 */
@@ -226,8 +224,8 @@ class BaseDefaultCodecs implements CodecConfigurer.DefaultCodecs, CodecConfigure
 		addCodec(readers, new ResourceHttpMessageReader(new ResourceDecoder()));
 		addCodec(readers, new DecoderHttpMessageReader<>(StringDecoder.textPlainOnly()));
 		if (protobufPresent) {
-			addCodec(readers, new DecoderHttpMessageReader<>(this.protobufDecoder != null ?
-					(ProtobufDecoder) this.protobufDecoder : new ProtobufDecoder()));
+			addCodec(readers, new DecoderHttpMessageReader<>(
+					this.protobufDecoder != null ? (ProtobufDecoder) this.protobufDecoder : new ProtobufDecoder()));
 		}
 		addCodec(readers, new FormHttpMessageReader());
 
@@ -247,9 +245,9 @@ class BaseDefaultCodecs implements CodecConfigurer.DefaultCodecs, CodecConfigure
 	}
 
 	/**
-	 * Apply {@link #maxInMemorySize()} and {@link #enableLoggingRequestDetails},
-	 * if configured by the application, to the given codec , including any
-	 * codec it contains.
+	 * Apply {@link #maxInMemorySize()} and {@link #enableLoggingRequestDetails}, if
+	 * configured by the application, to the given codec , including any codec it
+	 * contains.
 	 */
 	private void initCodec(@Nullable Object codec) {
 
@@ -342,12 +340,12 @@ class BaseDefaultCodecs implements CodecConfigurer.DefaultCodecs, CodecConfigure
 			addCodec(readers, new DecoderHttpMessageReader<>(getJackson2JsonDecoder()));
 		}
 		if (jackson2SmilePresent) {
-			addCodec(readers, new DecoderHttpMessageReader<>(this.jackson2SmileDecoder != null ?
-					(Jackson2SmileDecoder) this.jackson2SmileDecoder : new Jackson2SmileDecoder()));
+			addCodec(readers, new DecoderHttpMessageReader<>(this.jackson2SmileDecoder != null
+					? (Jackson2SmileDecoder) this.jackson2SmileDecoder : new Jackson2SmileDecoder()));
 		}
 		if (jaxb2Present) {
-			addCodec(readers, new DecoderHttpMessageReader<>(this.jaxb2Decoder != null ?
-					(Jaxb2XmlDecoder) this.jaxb2Decoder : new Jaxb2XmlDecoder()));
+			addCodec(readers, new DecoderHttpMessageReader<>(
+					this.jaxb2Decoder != null ? (Jaxb2XmlDecoder) this.jaxb2Decoder : new Jaxb2XmlDecoder()));
 		}
 
 		// client vs server..
@@ -377,7 +375,7 @@ class BaseDefaultCodecs implements CodecConfigurer.DefaultCodecs, CodecConfigure
 	/**
 	 * Return all writers that support specific types.
 	 */
-	@SuppressWarnings({"rawtypes" })
+	@SuppressWarnings({ "rawtypes" })
 	final List<HttpMessageWriter<?>> getTypedWriters() {
 		if (!this.registerDefaults) {
 			return Collections.emptyList();
@@ -402,8 +400,8 @@ class BaseDefaultCodecs implements CodecConfigurer.DefaultCodecs, CodecConfigure
 		writers.add(new ResourceHttpMessageWriter());
 		writers.add(new EncoderHttpMessageWriter<>(CharSequenceEncoder.textPlainOnly()));
 		if (protobufPresent) {
-			writers.add(new ProtobufHttpMessageWriter(this.protobufEncoder != null ?
-					(ProtobufEncoder) this.protobufEncoder : new ProtobufEncoder()));
+			writers.add(new ProtobufHttpMessageWriter(
+					this.protobufEncoder != null ? (ProtobufEncoder) this.protobufEncoder : new ProtobufEncoder()));
 		}
 		return writers;
 	}
@@ -435,12 +433,12 @@ class BaseDefaultCodecs implements CodecConfigurer.DefaultCodecs, CodecConfigure
 			writers.add(new EncoderHttpMessageWriter<>(getJackson2JsonEncoder()));
 		}
 		if (jackson2SmilePresent) {
-			writers.add(new EncoderHttpMessageWriter<>(this.jackson2SmileEncoder != null ?
-					(Jackson2SmileEncoder) this.jackson2SmileEncoder : new Jackson2SmileEncoder()));
+			writers.add(new EncoderHttpMessageWriter<>(this.jackson2SmileEncoder != null
+					? (Jackson2SmileEncoder) this.jackson2SmileEncoder : new Jackson2SmileEncoder()));
 		}
 		if (jaxb2Present) {
-			writers.add(new EncoderHttpMessageWriter<>(this.jaxb2Encoder != null ?
-					(Jaxb2XmlEncoder) this.jaxb2Encoder : new Jaxb2XmlEncoder()));
+			writers.add(new EncoderHttpMessageWriter<>(
+					this.jaxb2Encoder != null ? (Jaxb2XmlEncoder) this.jaxb2Encoder : new Jaxb2XmlEncoder()));
 		}
 		return writers;
 	}
@@ -472,12 +470,8 @@ class BaseDefaultCodecs implements CodecConfigurer.DefaultCodecs, CodecConfigure
 	}
 
 	private void applyDefaultConfig(Map<?, Boolean> readers) {
-		readers.entrySet().stream()
-				.filter(Map.Entry::getValue)
-				.map(Map.Entry::getKey)
-				.forEach(this::initCodec);
+		readers.entrySet().stream().filter(Map.Entry::getValue).map(Map.Entry::getKey).forEach(this::initCodec);
 	}
-
 
 	// Accessors for use in subclasses...
 

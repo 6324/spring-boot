@@ -21,9 +21,9 @@ import javax.servlet.jsp.JspException;
 import org.springframework.lang.Nullable;
 
 /**
- * Abstract base class to provide common methods for
- * implementing databinding-aware JSP tags for rendering an HTML '{@code input}'
- * element with a '{@code type}' of '{@code checkbox}' or '{@code radio}'.
+ * Abstract base class to provide common methods for implementing databinding-aware JSP
+ * tags for rendering an HTML '{@code input}' element with a '{@code type}' of
+ * '{@code checkbox}' or '{@code radio}'.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -35,8 +35,7 @@ public abstract class AbstractCheckedElementTag extends AbstractHtmlInputElement
 
 	/**
 	 * Render the '{@code input(checkbox)}' with the supplied value, marking the
-	 * '{@code input}' element as 'checked' if the supplied value matches the
-	 * bound value.
+	 * '{@code input}' element as 'checked' if the supplied value matches the bound value.
 	 */
 	protected void renderFromValue(@Nullable Object value, TagWriter tagWriter) throws JspException {
 		renderFromValue(value, value, tagWriter);
@@ -44,8 +43,7 @@ public abstract class AbstractCheckedElementTag extends AbstractHtmlInputElement
 
 	/**
 	 * Render the '{@code input(checkbox)}' with the supplied value, marking the
-	 * '{@code input}' element as 'checked' if the supplied value matches the
-	 * bound value.
+	 * '{@code input}' element as 'checked' if the supplied value matches the bound value.
 	 */
 	protected void renderFromValue(@Nullable Object item, @Nullable Object value, TagWriter tagWriter)
 			throws JspException {
@@ -58,17 +56,16 @@ public abstract class AbstractCheckedElementTag extends AbstractHtmlInputElement
 	}
 
 	/**
-	 * Determines whether the supplied value matched the selected value
-	 * through delegating to {@link SelectedValueComparator#isSelected}.
+	 * Determines whether the supplied value matched the selected value through delegating
+	 * to {@link SelectedValueComparator#isSelected}.
 	 */
 	private boolean isOptionSelected(@Nullable Object value) throws JspException {
 		return SelectedValueComparator.isSelected(getBindStatus(), value);
 	}
 
 	/**
-	 * Render the '{@code input(checkbox)}' with the supplied value, marking
-	 * the '{@code input}' element as 'checked' if the supplied Boolean is
-	 * {@code true}.
+	 * Render the '{@code input(checkbox)}' with the supplied value, marking the
+	 * '{@code input}' element as 'checked' if the supplied Boolean is {@code true}.
 	 */
 	protected void renderFromBoolean(Boolean boundValue, TagWriter tagWriter) throws JspException {
 		tagWriter.writeAttribute("value", processFieldValue(getName(), "true", getInputType()));
@@ -87,11 +84,9 @@ public abstract class AbstractCheckedElementTag extends AbstractHtmlInputElement
 		return (id != null ? TagIdGenerator.nextId(id, this.pageContext) : null);
 	}
 
-
 	/**
-	 * Writes the '{@code input}' element to the supplied
-	 * {@link TagWriter},
-	 * marking it as 'checked' if appropriate.
+	 * Writes the '{@code input}' element to the supplied {@link TagWriter}, marking it as
+	 * 'checked' if appropriate.
 	 */
 	@Override
 	protected abstract int writeTagContent(TagWriter tagWriter) throws JspException;
@@ -105,8 +100,7 @@ public abstract class AbstractCheckedElementTag extends AbstractHtmlInputElement
 	}
 
 	/**
-	 * Return the type of the HTML input element to generate:
-	 * "checkbox" or "radio".
+	 * Return the type of the HTML input element to generate: "checkbox" or "radio".
 	 */
 	protected abstract String getInputType();
 

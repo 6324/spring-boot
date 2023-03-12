@@ -25,9 +25,9 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 
 /**
- * A {@link StereotypesProvider} implementation that extracts the stereotypes
- * flagged by the {@value INDEXED_ANNOTATION} annotation. This implementation
- * honors stereotypes defined this way on meta-annotations.
+ * A {@link StereotypesProvider} implementation that extracts the stereotypes flagged by
+ * the {@value INDEXED_ANNOTATION} annotation. This implementation honors stereotypes
+ * defined this way on meta-annotations.
  *
  * @author Stephane Nicoll
  * @since 5.0
@@ -38,11 +38,9 @@ class IndexedStereotypesProvider implements StereotypesProvider {
 
 	private final TypeHelper typeHelper;
 
-
 	public IndexedStereotypesProvider(TypeHelper typeHelper) {
 		this.typeHelper = typeHelper;
 	}
-
 
 	@Override
 	public Set<String> getStereotypes(Element element) {
@@ -77,8 +75,7 @@ class IndexedStereotypesProvider implements StereotypesProvider {
 			if (superClass != null) {
 				collectStereotypesOnTypes(seen, stereotypes, superClass);
 			}
-			this.typeHelper.getDirectInterfaces(type).forEach(
-					i -> collectStereotypesOnTypes(seen, stereotypes, i));
+			this.typeHelper.getDirectInterfaces(type).forEach(i -> collectStereotypesOnTypes(seen, stereotypes, i));
 		}
 	}
 

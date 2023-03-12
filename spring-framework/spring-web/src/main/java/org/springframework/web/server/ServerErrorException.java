@@ -24,8 +24,8 @@ import org.springframework.lang.Nullable;
 
 /**
  * Exception for an {@link HttpStatus#INTERNAL_SERVER_ERROR} that exposes extra
- * information about a controller method that failed, or a controller method
- * argument that could not be resolved.
+ * information about a controller method that failed, or a controller method argument that
+ * could not be resolved.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -38,7 +38,6 @@ public class ServerErrorException extends ResponseStatusException {
 
 	@Nullable
 	private final MethodParameter parameter;
-
 
 	/**
 	 * Constructor for a 500 error with a reason and an optional cause.
@@ -71,7 +70,8 @@ public class ServerErrorException extends ResponseStatusException {
 
 	/**
 	 * Constructor for a 500 error linked to a specific {@code MethodParameter}.
-	 * @deprecated in favor of {@link #ServerErrorException(String, MethodParameter, Throwable)}
+	 * @deprecated in favor of
+	 * {@link #ServerErrorException(String, MethodParameter, Throwable)}
 	 */
 	@Deprecated
 	public ServerErrorException(String reason, MethodParameter parameter) {
@@ -88,7 +88,6 @@ public class ServerErrorException extends ResponseStatusException {
 		this.handlerMethod = null;
 		this.parameter = null;
 	}
-
 
 	/**
 	 * Return the handler method associated with the error, if any.

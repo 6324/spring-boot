@@ -27,9 +27,9 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- * HttpServletRequest decorator that makes all Spring beans in a
- * given WebApplicationContext accessible as request attributes,
- * through lazy checking once an attribute gets accessed.
+ * HttpServletRequest decorator that makes all Spring beans in a given
+ * WebApplicationContext accessible as request attributes, through lazy checking once an
+ * attribute gets accessed.
  *
  * @author Juergen Hoeller
  * @since 2.5
@@ -44,7 +44,6 @@ public class ContextExposingHttpServletRequest extends HttpServletRequestWrapper
 	@Nullable
 	private Set<String> explicitAttributes;
 
-
 	/**
 	 * Create a new ContextExposingHttpServletRequest for the given request.
 	 * @param originalRequest the original HttpServletRequest
@@ -58,9 +57,9 @@ public class ContextExposingHttpServletRequest extends HttpServletRequestWrapper
 	 * Create a new ContextExposingHttpServletRequest for the given request.
 	 * @param originalRequest the original HttpServletRequest
 	 * @param context the WebApplicationContext that this request runs in
-	 * @param exposedContextBeanNames the names of beans in the context which
-	 * are supposed to be exposed (if this is non-null, only the beans in this
-	 * Set are eligible for exposure as attributes)
+	 * @param exposedContextBeanNames the names of beans in the context which are supposed
+	 * to be exposed (if this is non-null, only the beans in this Set are eligible for
+	 * exposure as attributes)
 	 */
 	public ContextExposingHttpServletRequest(HttpServletRequest originalRequest, WebApplicationContext context,
 			@Nullable Set<String> exposedContextBeanNames) {
@@ -71,7 +70,6 @@ public class ContextExposingHttpServletRequest extends HttpServletRequestWrapper
 		this.exposedContextBeanNames = exposedContextBeanNames;
 	}
 
-
 	/**
 	 * Return the WebApplicationContext that this request runs in.
 	 */
@@ -79,13 +77,12 @@ public class ContextExposingHttpServletRequest extends HttpServletRequestWrapper
 		return this.webApplicationContext;
 	}
 
-
 	@Override
 	@Nullable
 	public Object getAttribute(String name) {
-		if ((this.explicitAttributes == null || !this.explicitAttributes.contains(name)) &&
-				(this.exposedContextBeanNames == null || this.exposedContextBeanNames.contains(name)) &&
-				this.webApplicationContext.containsBean(name)) {
+		if ((this.explicitAttributes == null || !this.explicitAttributes.contains(name))
+				&& (this.exposedContextBeanNames == null || this.exposedContextBeanNames.contains(name))
+				&& this.webApplicationContext.containsBean(name)) {
 			return this.webApplicationContext.getBean(name);
 		}
 		else {

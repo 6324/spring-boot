@@ -37,7 +37,6 @@ final class JaxbContextContainer {
 
 	private final ConcurrentMap<Class<?>, JAXBContext> jaxbContexts = new ConcurrentHashMap<>(64);
 
-
 	public Marshaller createMarshaller(Class<?> clazz) throws CodecException, JAXBException {
 		JAXBContext jaxbContext = getJaxbContext(clazz);
 		return jaxbContext.createMarshaller();
@@ -54,8 +53,8 @@ final class JaxbContextContainer {
 				return JAXBContext.newInstance(clazz);
 			}
 			catch (JAXBException ex) {
-				throw new CodecException(
-						"Could not create JAXBContext for class [" + clazz + "]: " + ex.getMessage(), ex);
+				throw new CodecException("Could not create JAXBContext for class [" + clazz + "]: " + ex.getMessage(),
+						ex);
 			}
 		});
 	}

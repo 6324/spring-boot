@@ -43,7 +43,6 @@ public class TilesViewResolverTests {
 
 	private Renderer renderer;
 
-
 	@BeforeEach
 	public void setUp() {
 		StaticWebApplicationContext wac = new StaticWebApplicationContext();
@@ -69,4 +68,5 @@ public class TilesViewResolverTests {
 		verify(this.renderer).isRenderable(eq("/template.test"), isA(Request.class));
 		verify(this.renderer).isRenderable(eq("/nonexistent.test"), isA(Request.class));
 	}
+
 }

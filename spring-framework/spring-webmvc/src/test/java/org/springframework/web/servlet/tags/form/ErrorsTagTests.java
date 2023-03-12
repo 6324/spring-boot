@@ -53,7 +53,6 @@ public class ErrorsTagTests extends AbstractFormTagTests {
 
 	private ErrorsTag tag;
 
-
 	@Override
 	@SuppressWarnings("serial")
 	protected void onSetUp() {
@@ -72,7 +71,6 @@ public class ErrorsTagTests extends AbstractFormTagTests {
 	protected TestBean createTestBean() {
 		return new TestBean();
 	}
-
 
 	@Test
 	public void withExplicitNonWhitespaceBodyContent() throws Exception {
@@ -378,7 +376,8 @@ public class ErrorsTagTests extends AbstractFormTagTests {
 		this.tag.doEndTag();
 		this.tag.doFinally();
 		assertThat(getOutput()).isEqualTo(bodyContent);
-		assertThat(getPageContext().getAttribute(ErrorsTag.MESSAGES_ATTRIBUTE, PageContext.APPLICATION_SCOPE)).isEqualTo(existingAttribute);
+		assertThat(getPageContext().getAttribute(ErrorsTag.MESSAGES_ATTRIBUTE, PageContext.APPLICATION_SCOPE))
+				.isEqualTo(existingAttribute);
 	}
 
 	/**

@@ -31,11 +31,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.lang.Nullable;
 
 /**
- * A {@code ResourceResolver} that delegates to the chain to locate a resource
- * and then attempts to find a variation with the ".gz" extension.
+ * A {@code ResourceResolver} that delegates to the chain to locate a resource and then
+ * attempts to find a variation with the ".gz" extension.
  *
- * <p>The resolver gets involved only if the "Accept-Encoding" request header
- * contains the value "gzip" indicating the client accepts gzipped responses.
+ * <p>
+ * The resolver gets involved only if the "Accept-Encoding" request header contains the
+ * value "gzip" indicating the client accepts gzipped responses.
  *
  * @author Jeremy Grelle
  * @author Rossen Stoyanchev
@@ -74,12 +75,11 @@ public class GzipResourceResolver extends AbstractResourceResolver {
 	}
 
 	@Override
-	protected String resolveUrlPathInternal(String resourceUrlPath,
-			List<? extends Resource> locations, ResourceResolverChain chain) {
+	protected String resolveUrlPathInternal(String resourceUrlPath, List<? extends Resource> locations,
+			ResourceResolverChain chain) {
 
 		return chain.resolveUrlPath(resourceUrlPath, locations);
 	}
-
 
 	/**
 	 * A gzipped {@link HttpResource}.
@@ -163,12 +163,13 @@ public class GzipResourceResolver extends AbstractResourceResolver {
 
 		@Override
 		public HttpHeaders getResponseHeaders() {
-			HttpHeaders headers = (this.original instanceof HttpResource ?
-					((HttpResource) this.original).getResponseHeaders() : new HttpHeaders());
+			HttpHeaders headers = (this.original instanceof HttpResource
+					? ((HttpResource) this.original).getResponseHeaders() : new HttpHeaders());
 			headers.add(HttpHeaders.CONTENT_ENCODING, "gzip");
 			headers.add(HttpHeaders.VARY, HttpHeaders.ACCEPT_ENCODING);
 			return headers;
 		}
+
 	}
 
 }

@@ -24,20 +24,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.FlashMap;
 
 /**
- * A specialization of the {@link Model} interface that controllers can use to
- * select attributes for a redirect scenario. Since the intent of adding
- * redirect attributes is very explicit --  i.e. to be used for a redirect URL,
- * attribute values may be formatted as Strings and stored that way to make
- * them eligible to be appended to the query string or expanded as URI
- * variables in {@code org.springframework.web.servlet.view.RedirectView}.
+ * A specialization of the {@link Model} interface that controllers can use to select
+ * attributes for a redirect scenario. Since the intent of adding redirect attributes is
+ * very explicit -- i.e. to be used for a redirect URL, attribute values may be formatted
+ * as Strings and stored that way to make them eligible to be appended to the query string
+ * or expanded as URI variables in
+ * {@code org.springframework.web.servlet.view.RedirectView}.
  *
- * <p>This interface also provides a way to add flash attributes. For a
- * general overview of flash attributes see {@link FlashMap}. You can use
- * {@link RedirectAttributes} to store flash attributes and they will be
- * automatically propagated to the "output" FlashMap of the current request.
+ * <p>
+ * This interface also provides a way to add flash attributes. For a general overview of
+ * flash attributes see {@link FlashMap}. You can use {@link RedirectAttributes} to store
+ * flash attributes and they will be automatically propagated to the "output" FlashMap of
+ * the current request.
  *
- * <p>Example usage in an {@code @Controller}:
- * <pre class="code">
+ * <p>
+ * Example usage in an {@code @Controller}: <pre class="code">
  * &#064;RequestMapping(value = "/accounts", method = RequestMethod.POST)
  * public String handle(Account account, BindingResult result, RedirectAttributes redirectAttrs) {
  *   if (result.hasErrors()) {
@@ -49,11 +50,13 @@ import org.springframework.web.servlet.FlashMap;
  * }
  * </pre>
  *
- * <p>A RedirectAttributes model is empty when the method is called and is never
- * used unless the method returns a redirect view name or a RedirectView.
+ * <p>
+ * A RedirectAttributes model is empty when the method is called and is never used unless
+ * the method returns a redirect view name or a RedirectView.
  *
- * <p>After the redirect, flash attributes are automatically added to the model
- * of the controller that serves the target URL.
+ * <p>
+ * After the redirect, flash attributes are automatically added to the model of the
+ * controller that serves the target URL.
  *
  * @author Rossen Stoyanchev
  * @since 3.1
@@ -90,4 +93,5 @@ public interface RedirectAttributes extends Model {
 	 * Return the attributes candidate for flash storage or an empty Map.
 	 */
 	Map<String, ?> getFlashAttributes();
+
 }

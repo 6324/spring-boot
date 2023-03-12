@@ -40,21 +40,19 @@ import org.springframework.web.util.JavaScriptUtils;
 import org.springframework.web.util.TagUtils;
 
 /**
- * The {@code <eval>} tag evaluates a Spring expression (SpEL) and either prints
- * the result or assigns it to a variable. Supports the standard JSP evaluation
- * context consisting of implicit variables and scoped attributes.
+ * The {@code <eval>} tag evaluates a Spring expression (SpEL) and either prints the
+ * result or assigns it to a variable. Supports the standard JSP evaluation context
+ * consisting of implicit variables and scoped attributes.
  *
  * <table>
- * <caption>Attribute Summary</caption>
- * <thead>
+ * <caption>Attribute Summary</caption> <thead>
  * <tr>
  * <th>Attribute</th>
  * <th>Required?</th>
  * <th>Runtime Expression?</th>
  * <th>Description</th>
  * </tr>
- * </thead>
- * <tbody>
+ * </thead> <tbody>
  * <tr>
  * <td>expression</td>
  * <td>true</td>
@@ -65,31 +63,29 @@ import org.springframework.web.util.TagUtils;
  * <td>htmlEscape</td>
  * <td>false</td>
  * <td>true</td>
- * <td>Set HTML escaping for this tag, as a boolean value.
- * Overrides the default HTML escaping setting for the current page.</td>
+ * <td>Set HTML escaping for this tag, as a boolean value. Overrides the default HTML
+ * escaping setting for the current page.</td>
  * </tr>
  * <tr>
  * <td>javaScriptEscape</td>
  * <td>false</td>
  * <td>true</td>
- * <td>Set JavaScript escaping for this tag, as a boolean value.
- * Default is false.</td>
+ * <td>Set JavaScript escaping for this tag, as a boolean value. Default is false.</td>
  * </tr>
  * <tr>
  * <td>scope</td>
  * <td>false</td>
  * <td>true</td>
- * <td>The scope for the var. 'application', 'session', 'request' and 'page'
- * scopes are supported. Defaults to page scope. This attribute has no effect
- * unless the var attribute is also defined.</td>
+ * <td>The scope for the var. 'application', 'session', 'request' and 'page' scopes are
+ * supported. Defaults to page scope. This attribute has no effect unless the var
+ * attribute is also defined.</td>
  * </tr>
  * <tr>
  * <td>var</td>
  * <td>false</td>
  * <td>true</td>
- * <td>The name of the variable to export the evaluation result to.
- * If not specified the evaluation result is converted to a String and written
- * as output.</td>
+ * <td>The name of the variable to export the evaluation result to. If not specified the
+ * evaluation result is converted to a String and written as output.</td>
  * </tr>
  * </tbody>
  * </table>
@@ -102,12 +98,10 @@ import org.springframework.web.util.TagUtils;
 public class EvalTag extends HtmlEscapingAwareTag {
 
 	/**
-	 * {@link javax.servlet.jsp.PageContext} attribute for the
-	 * page-level {@link EvaluationContext} instance.
+	 * {@link javax.servlet.jsp.PageContext} attribute for the page-level
+	 * {@link EvaluationContext} instance.
 	 */
-	private static final String EVALUATION_CONTEXT_PAGE_ATTRIBUTE =
-			"org.springframework.web.servlet.tags.EVALUATION_CONTEXT";
-
+	private static final String EVALUATION_CONTEXT_PAGE_ATTRIBUTE = "org.springframework.web.servlet.tags.EVALUATION_CONTEXT";
 
 	private final ExpressionParser expressionParser = new SpelExpressionParser();
 
@@ -121,7 +115,6 @@ public class EvalTag extends HtmlEscapingAwareTag {
 
 	private boolean javaScriptEscape = false;
 
-
 	/**
 	 * Set the expression to evaluate.
 	 */
@@ -130,29 +123,27 @@ public class EvalTag extends HtmlEscapingAwareTag {
 	}
 
 	/**
-	 * Set the variable name to expose the evaluation result under.
-	 * Defaults to rendering the result to the current JspWriter.
+	 * Set the variable name to expose the evaluation result under. Defaults to rendering
+	 * the result to the current JspWriter.
 	 */
 	public void setVar(String var) {
 		this.var = var;
 	}
 
 	/**
-	 * Set the scope to export the evaluation result to.
-	 * This attribute has no meaning unless var is also defined.
+	 * Set the scope to export the evaluation result to. This attribute has no meaning
+	 * unless var is also defined.
 	 */
 	public void setScope(String scope) {
 		this.scope = TagUtils.getScope(scope);
 	}
 
 	/**
-	 * Set JavaScript escaping for this tag, as boolean value.
-	 * Default is "false".
+	 * Set JavaScript escaping for this tag, as boolean value. Default is "false".
 	 */
 	public void setJavaScriptEscape(boolean javaScriptEscape) throws JspException {
 		this.javaScriptEscape = javaScriptEscape;
 	}
-
 
 	@Override
 	public int doStartTagInternal() throws JspException {
@@ -161,8 +152,8 @@ public class EvalTag extends HtmlEscapingAwareTag {
 
 	@Override
 	public int doEndTag() throws JspException {
-		EvaluationContext evaluationContext =
-				(EvaluationContext) this.pageContext.getAttribute(EVALUATION_CONTEXT_PAGE_ATTRIBUTE);
+		EvaluationContext evaluationContext = (EvaluationContext) this.pageContext
+				.getAttribute(EVALUATION_CONTEXT_PAGE_ATTRIBUTE);
 		if (evaluationContext == null) {
 			evaluationContext = createEvaluationContext(this.pageContext);
 			this.pageContext.setAttribute(EVALUATION_CONTEXT_PAGE_ATTRIBUTE, evaluationContext);
@@ -173,8 +164,8 @@ public class EvalTag extends HtmlEscapingAwareTag {
 		}
 		else {
 			try {
-				String result = (this.expression != null ?
-						this.expression.getValue(evaluationContext, String.class) : null);
+				String result = (this.expression != null ? this.expression.getValue(evaluationContext, String.class)
+						: null);
 				result = ObjectUtils.getDisplayString(result);
 				result = htmlEscape(result);
 				result = (this.javaScriptEscape ? JavaScriptUtils.javaScriptEscape(result) : result);
@@ -205,7 +196,6 @@ public class EvalTag extends HtmlEscapingAwareTag {
 		return (ConversionService) pageContext.getRequest().getAttribute(ConversionService.class.getName());
 	}
 
-
 	@SuppressWarnings("deprecation")
 	private static class JspPropertyAccessor implements PropertyAccessor {
 
@@ -227,8 +217,8 @@ public class EvalTag extends HtmlEscapingAwareTag {
 
 		@Override
 		public boolean canRead(EvaluationContext context, @Nullable Object target, String name) throws AccessException {
-			return (target == null &&
-					(resolveImplicitVariable(name) != null || this.pageContext.findAttribute(name) != null));
+			return (target == null
+					&& (resolveImplicitVariable(name) != null || this.pageContext.findAttribute(name) != null));
 		}
 
 		@Override
@@ -263,6 +253,7 @@ public class EvalTag extends HtmlEscapingAwareTag {
 						"Unexpected exception occurred accessing '" + name + "' as an implicit variable", ex);
 			}
 		}
+
 	}
 
 }

@@ -22,8 +22,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.LocaleResolver;
 
 /**
- * Abstract base class for {@link LocaleResolver} implementations.
- * Provides support for a default locale.
+ * Abstract base class for {@link LocaleResolver} implementations. Provides support for a
+ * default locale.
  *
  * @author Juergen Hoeller
  * @since 1.2.9
@@ -33,7 +33,6 @@ public abstract class AbstractLocaleResolver implements LocaleResolver {
 
 	@Nullable
 	private Locale defaultLocale;
-
 
 	/**
 	 * Set a default Locale that this resolver will return if no other locale found.

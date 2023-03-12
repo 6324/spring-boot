@@ -82,21 +82,19 @@ public class Jackson2JsonEncoderTests extends AbstractEncoderTests<Jackson2JsonE
 		// SPR-15910
 		assertThat(this.encoder.canEncode(ResolvableType.forClass(Object.class), APPLICATION_OCTET_STREAM)).isFalse();
 
-
 	}
 
 	@Override
 	@Test
 	public void encode() throws Exception {
-		Flux<Object> input = Flux.just(new Pojo("foo", "bar"),
-				new Pojo("foofoo", "barbar"),
+		Flux<Object> input = Flux.just(new Pojo("foo", "bar"), new Pojo("foofoo", "barbar"),
 				new Pojo("foofoofoo", "barbarbar"));
 
-		testEncodeAll(input, ResolvableType.forClass(Pojo.class), step -> step
-				.consumeNextWith(expectString("{\"foo\":\"foo\",\"bar\":\"bar\"}\n"))
-				.consumeNextWith(expectString("{\"foo\":\"foofoo\",\"bar\":\"barbar\"}\n"))
-				.consumeNextWith(expectString("{\"foo\":\"foofoofoo\",\"bar\":\"barbarbar\"}\n"))
-				.verifyComplete(),
+		testEncodeAll(input, ResolvableType.forClass(Pojo.class),
+				step -> step.consumeNextWith(expectString("{\"foo\":\"foo\",\"bar\":\"bar\"}\n"))
+						.consumeNextWith(expectString("{\"foo\":\"foofoo\",\"bar\":\"barbar\"}\n"))
+						.consumeNextWith(expectString("{\"foo\":\"foofoofoo\",\"bar\":\"barbarbar\"}\n"))
+						.verifyComplete(),
 				APPLICATION_STREAM_JSON, null);
 	}
 
@@ -113,8 +111,8 @@ public class Jackson2JsonEncoderTests extends AbstractEncoderTests<Jackson2JsonE
 		MimeType textJavascript = new MimeType("text", "javascript", StandardCharsets.UTF_8);
 		Jackson2JsonEncoder encoder = new Jackson2JsonEncoder(new ObjectMapper(), textJavascript);
 
-		assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-				encoder.getMimeTypes().add(new MimeType("text", "ecmascript")));
+		assertThatExceptionOfType(UnsupportedOperationException.class)
+				.isThrownBy(() -> encoder.getMimeTypes().add(new MimeType("text", "ecmascript")));
 	}
 
 	@Test
@@ -128,52 +126,41 @@ public class Jackson2JsonEncoderTests extends AbstractEncoderTests<Jackson2JsonE
 
 	@Test
 	public void encodeNonStream() {
-		Flux<Pojo> input = Flux.just(
-				new Pojo("foo", "bar"),
-				new Pojo("foofoo", "barbar"),
-				new Pojo("foofoofoo", "barbarbar")
-		);
+		Flux<Pojo> input = Flux.just(new Pojo("foo", "bar"), new Pojo("foofoo", "barbar"),
+				new Pojo("foofoofoo", "barbarbar"));
 
-		testEncode(input, Pojo.class, step -> step
-				.consumeNextWith(expectString("[" +
-						"{\"foo\":\"foo\",\"bar\":\"bar\"}," +
-						"{\"foo\":\"foofoo\",\"bar\":\"barbar\"}," +
-						"{\"foo\":\"foofoofoo\",\"bar\":\"barbarbar\"}]")
-						.andThen(DataBufferUtils::release))
-				.verifyComplete());
+		testEncode(input, Pojo.class,
+				step -> step.consumeNextWith(expectString("[" + "{\"foo\":\"foo\",\"bar\":\"bar\"},"
+						+ "{\"foo\":\"foofoo\",\"bar\":\"barbar\"}," + "{\"foo\":\"foofoofoo\",\"bar\":\"barbarbar\"}]")
+								.andThen(DataBufferUtils::release))
+						.verifyComplete());
 	}
 
 	@Test
 	public void encodeWithType() {
 		Flux<ParentClass> input = Flux.just(new Foo(), new Bar());
 
-		testEncode(input, ParentClass.class, step -> step
-				.consumeNextWith(expectString("[{\"type\":\"foo\"},{\"type\":\"bar\"}]")
-						.andThen(DataBufferUtils::release))
-				.verifyComplete());
+		testEncode(input, ParentClass.class,
+				step -> step.consumeNextWith(
+						expectString("[{\"type\":\"foo\"},{\"type\":\"bar\"}]").andThen(DataBufferUtils::release))
+						.verifyComplete());
 	}
 
-
-	@Test  // SPR-15727
+	@Test // SPR-15727
 	public void encodeAsStreamWithCustomStreamingType() {
 		MediaType fooMediaType = new MediaType("application", "foo");
 		MediaType barMediaType = new MediaType("application", "bar");
 		this.encoder.setStreamingMediaTypes(Arrays.asList(fooMediaType, barMediaType));
-		Flux<Pojo> input = Flux.just(
-				new Pojo("foo", "bar"),
-				new Pojo("foofoo", "barbar"),
-				new Pojo("foofoofoo", "barbarbar")
-		);
+		Flux<Pojo> input = Flux.just(new Pojo("foo", "bar"), new Pojo("foofoo", "barbar"),
+				new Pojo("foofoofoo", "barbarbar"));
 
 		testEncode(input, ResolvableType.forClass(Pojo.class), step -> step
-				.consumeNextWith(expectString("{\"foo\":\"foo\",\"bar\":\"bar\"}\n")
-						.andThen(DataBufferUtils::release))
-				.consumeNextWith(expectString("{\"foo\":\"foofoo\",\"bar\":\"barbar\"}\n")
-						.andThen(DataBufferUtils::release))
+				.consumeNextWith(expectString("{\"foo\":\"foo\",\"bar\":\"bar\"}\n").andThen(DataBufferUtils::release))
+				.consumeNextWith(
+						expectString("{\"foo\":\"foofoo\",\"bar\":\"barbar\"}\n").andThen(DataBufferUtils::release))
 				.consumeNextWith(expectString("{\"foo\":\"foofoofoo\",\"bar\":\"barbarbar\"}\n")
 						.andThen(DataBufferUtils::release))
-				.verifyComplete(),
-				barMediaType, null);
+				.verifyComplete(), barMediaType, null);
 	}
 
 	@Test
@@ -187,9 +174,8 @@ public class Jackson2JsonEncoderTests extends AbstractEncoderTests<Jackson2JsonE
 		ResolvableType type = ResolvableType.forClass(JacksonViewBean.class);
 		Map<String, Object> hints = singletonMap(JSON_VIEW_HINT, MyJacksonView1.class);
 
-		testEncode(input, type, step -> step
-						.consumeNextWith(expectString("{\"withView1\":\"with\"}")
-								.andThen(DataBufferUtils::release))
+		testEncode(input, type,
+				step -> step.consumeNextWith(expectString("{\"withView1\":\"with\"}").andThen(DataBufferUtils::release))
 						.verifyComplete(),
 				null, hints);
 	}
@@ -205,9 +191,10 @@ public class Jackson2JsonEncoderTests extends AbstractEncoderTests<Jackson2JsonE
 		ResolvableType type = ResolvableType.forClass(JacksonViewBean.class);
 		Map<String, Object> hints = singletonMap(JSON_VIEW_HINT, MyJacksonView3.class);
 
-		testEncode(input, type, step -> step
-						.consumeNextWith(expectString("{\"withoutView\":\"without\"}")
-								.andThen(DataBufferUtils::release))
+		testEncode(input, type,
+				step -> step
+						.consumeNextWith(
+								expectString("{\"withoutView\":\"without\"}").andThen(DataBufferUtils::release))
 						.verifyComplete(),
 				null, hints);
 	}
@@ -221,34 +208,33 @@ public class Jackson2JsonEncoderTests extends AbstractEncoderTests<Jackson2JsonE
 		Flux<DataBuffer> result = encoder.encode(Flux.just(new Pojo("foo", "bar")), this.bufferFactory,
 				ResolvableType.forClass(Pojo.class), MimeTypeUtils.APPLICATION_JSON, Collections.emptyMap());
 
-		StepVerifier.create(result)
-				.consumeNextWith(expectString("[{\"foo\":\"foo\",\"bar\":\"bar\"}]"))
-				.expectComplete()
-				.verify(Duration.ofSeconds(5));
+		StepVerifier.create(result).consumeNextWith(expectString("[{\"foo\":\"foo\",\"bar\":\"bar\"}]"))
+				.expectComplete().verify(Duration.ofSeconds(5));
 	}
 
 	@Test
 	public void encodeAscii() {
 		Mono<Object> input = Mono.just(new Pojo("foo", "bar"));
 
-		testEncode(input, ResolvableType.forClass(Pojo.class), step -> step
-				.consumeNextWith(expectString("{\"foo\":\"foo\",\"bar\":\"bar\"}"))
-				.verifyComplete(),
+		testEncode(input, ResolvableType.forClass(Pojo.class),
+				step -> step.consumeNextWith(expectString("{\"foo\":\"foo\",\"bar\":\"bar\"}")).verifyComplete(),
 				new MimeType("application", "json", StandardCharsets.US_ASCII), null);
 
 	}
 
-
 	@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 	private static class ParentClass {
+
 	}
 
 	@JsonTypeName("foo")
 	private static class Foo extends ParentClass {
+
 	}
 
 	@JsonTypeName("bar")
 	private static class Bar extends ParentClass {
+
 	}
 
 }

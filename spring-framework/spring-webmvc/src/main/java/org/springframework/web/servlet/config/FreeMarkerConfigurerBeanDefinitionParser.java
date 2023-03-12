@@ -42,7 +42,6 @@ public class FreeMarkerConfigurerBeanDefinitionParser extends AbstractSingleBean
 	 */
 	public static final String BEAN_NAME = "mvcFreeMarkerConfigurer";
 
-
 	@Override
 	protected String getBeanClassName(Element element) {
 		return "org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer";

@@ -29,8 +29,8 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.RenderKit;
 
 /**
- * Mock implementation of the {@code FacesContext} class to facilitate
- * standalone Action unit tests.
+ * Mock implementation of the {@code FacesContext} class to facilitate standalone Action
+ * unit tests.
  *
  * @author Ulrik Sandberg
  * @see javax.faces.context.FacesContext
@@ -42,7 +42,6 @@ public class MockFacesContext extends FacesContext {
 	private Application application;
 
 	private UIViewRoot viewRoot;
-
 
 	@Override
 	public Application getApplication() {

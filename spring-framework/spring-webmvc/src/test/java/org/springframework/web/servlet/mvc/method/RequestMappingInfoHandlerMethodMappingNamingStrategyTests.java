@@ -61,12 +61,12 @@ public class RequestMappingInfoHandlerMethodMappingNamingStrategyTests {
 		assertThat(strategy.getName(handlerMethod, rmi)).isEqualTo("TC#handle");
 	}
 
-
 	private static class TestController {
 
 		@RequestMapping
 		public void handle() {
 		}
+
 	}
 
 }

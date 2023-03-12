@@ -28,11 +28,11 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.DisposableBean;
 
 /**
- * Web application listener that cleans up remaining disposable attributes
- * in the ServletContext, i.e. attributes which implement {@link DisposableBean}
- * and haven't been removed before. This is typically used for destroying objects
- * in "application" scope, for which the lifecycle implies destruction at the
- * very end of the web application's shutdown phase.
+ * Web application listener that cleans up remaining disposable attributes in the
+ * ServletContext, i.e. attributes which implement {@link DisposableBean} and haven't been
+ * removed before. This is typically used for destroying objects in "application" scope,
+ * for which the lifecycle implies destruction at the very end of the web application's
+ * shutdown phase.
  *
  * @author Juergen Hoeller
  * @since 3.0
@@ -43,7 +43,6 @@ public class ContextCleanupListener implements ServletContextListener {
 
 	private static final Log logger = LogFactory.getLog(ContextCleanupListener.class);
 
-
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 	}
@@ -52,7 +51,6 @@ public class ContextCleanupListener implements ServletContextListener {
 	public void contextDestroyed(ServletContextEvent event) {
 		cleanupAttributes(event.getServletContext());
 	}
-
 
 	/**
 	 * Find all Spring-internal ServletContext attributes which implement
@@ -72,8 +70,8 @@ public class ContextCleanupListener implements ServletContextListener {
 					}
 					catch (Throwable ex) {
 						if (logger.isWarnEnabled()) {
-							logger.warn("Invocation of destroy method failed on ServletContext " +
-									"attribute with name '" + attrName + "'", ex);
+							logger.warn("Invocation of destroy method failed on ServletContext "
+									+ "attribute with name '" + attrName + "'", ex);
 						}
 					}
 				}

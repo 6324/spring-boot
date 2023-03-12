@@ -55,25 +55,24 @@ public class ServletWebRequest extends ServletRequestAttributes implements Nativ
 	private static final List<String> SAFE_METHODS = Arrays.asList("GET", "HEAD");
 
 	/**
-	 * Pattern matching ETag multiple field values in headers such as "If-Match", "If-None-Match".
-	 * @see <a href="https://tools.ietf.org/html/rfc7232#section-2.3">Section 2.3 of RFC 7232</a>
+	 * Pattern matching ETag multiple field values in headers such as "If-Match",
+	 * "If-None-Match".
+	 * @see <a href="https://tools.ietf.org/html/rfc7232#section-2.3">Section 2.3 of RFC
+	 * 7232</a>
 	 */
 	private static final Pattern ETAG_HEADER_VALUE_PATTERN = Pattern.compile("\\*|\\s*((W\\/)?(\"[^\"]*\"))\\s*,?");
 
 	/**
 	 * Date formats as specified in the HTTP RFC.
-	 * @see <a href="https://tools.ietf.org/html/rfc7231#section-7.1.1.1">Section 7.1.1.1 of RFC 7231</a>
+	 * @see <a href="https://tools.ietf.org/html/rfc7231#section-7.1.1.1">Section 7.1.1.1
+	 * of RFC 7231</a>
 	 */
-	private static final String[] DATE_FORMATS = new String[] {
-			"EEE, dd MMM yyyy HH:mm:ss zzz",
-			"EEE, dd-MMM-yy HH:mm:ss zzz",
-			"EEE MMM dd HH:mm:ss yyyy"
-	};
+	private static final String[] DATE_FORMATS = new String[] { "EEE, dd MMM yyyy HH:mm:ss zzz",
+			"EEE, dd-MMM-yy HH:mm:ss zzz", "EEE MMM dd HH:mm:ss yyyy" };
 
 	private static final TimeZone GMT = TimeZone.getTimeZone("GMT");
 
 	private boolean notModified = false;
-
 
 	/**
 	 * Create a new ServletWebRequest instance for the given request.
@@ -91,7 +90,6 @@ public class ServletWebRequest extends ServletRequestAttributes implements Nativ
 	public ServletWebRequest(HttpServletRequest request, @Nullable HttpServletResponse response) {
 		super(request, response);
 	}
-
 
 	@Override
 	public Object getNativeRequest() {
@@ -195,7 +193,6 @@ public class ServletWebRequest extends ServletRequestAttributes implements Nativ
 		return getRequest().isSecure();
 	}
 
-
 	@Override
 	public boolean checkNotModified(long lastModifiedTimestamp) {
 		return checkNotModified(null, lastModifiedTimestamp);
@@ -232,8 +229,8 @@ public class ServletWebRequest extends ServletRequestAttributes implements Nativ
 		if (response != null) {
 			boolean isHttpGetOrHead = SAFE_METHODS.contains(getRequest().getMethod());
 			if (this.notModified) {
-				response.setStatus(isHttpGetOrHead ?
-						HttpStatus.NOT_MODIFIED.value() : HttpStatus.PRECONDITION_FAILED.value());
+				response.setStatus(
+						isHttpGetOrHead ? HttpStatus.NOT_MODIFIED.value() : HttpStatus.PRECONDITION_FAILED.value());
 			}
 			if (isHttpGetOrHead) {
 				if (lastModifiedTimestamp > 0 && parseDateValue(response.getHeader(HttpHeaders.LAST_MODIFIED)) == -1) {
@@ -285,7 +282,8 @@ public class ServletWebRequest extends ServletRequestAttributes implements Nativ
 		while (ifNoneMatch.hasMoreElements()) {
 			String clientETags = ifNoneMatch.nextElement();
 			Matcher etagMatcher = ETAG_HEADER_VALUE_PATTERN.matcher(clientETags);
-			// Compare weak/strong ETags as per https://tools.ietf.org/html/rfc7232#section-2.3
+			// Compare weak/strong ETags as per
+			// https://tools.ietf.org/html/rfc7232#section-2.3
 			while (etagMatcher.find()) {
 				if (StringUtils.hasLength(etagMatcher.group()) && etag.equals(etagMatcher.group(3))) {
 					this.notModified = true;
@@ -331,7 +329,8 @@ public class ServletWebRequest extends ServletRequestAttributes implements Nativ
 		}
 		catch (IllegalArgumentException ex) {
 			String headerValue = getHeader(headerName);
-			// Possibly an IE 10 style value: "Wed, 09 Apr 2014 09:57:42 GMT; length=13774"
+			// Possibly an IE 10 style value: "Wed, 09 Apr 2014 09:57:42 GMT;
+			// length=13774"
 			if (headerValue != null) {
 				int separatorIndex = headerValue.indexOf(';');
 				if (separatorIndex != -1) {
@@ -386,7 +385,6 @@ public class ServletWebRequest extends ServletRequestAttributes implements Nativ
 		}
 		return sb.toString();
 	}
-
 
 	@Override
 	public String toString() {

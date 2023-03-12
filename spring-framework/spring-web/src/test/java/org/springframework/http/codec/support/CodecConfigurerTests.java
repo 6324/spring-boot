@@ -73,7 +73,6 @@ class CodecConfigurerTests {
 
 	private final AtomicInteger index = new AtomicInteger(0);
 
-
 	@Test
 	void defaultReaders() {
 		List<HttpMessageReader<?>> readers = this.configurer.getReaders();
@@ -338,28 +337,22 @@ class CodecConfigurerTests {
 
 		List<Decoder<?>> decoders = clone.getReaders().stream()
 				.filter(reader -> reader instanceof DecoderHttpMessageReader)
-				.map(reader -> ((DecoderHttpMessageReader<?>) reader).getDecoder())
-				.collect(Collectors.toList());
+				.map(reader -> ((DecoderHttpMessageReader<?>) reader).getDecoder()).collect(Collectors.toList());
 
 		List<Encoder<?>> encoders = clone.getWriters().stream()
 				.filter(writer -> writer instanceof EncoderHttpMessageWriter)
-				.map(reader -> ((EncoderHttpMessageWriter<?>) reader).getEncoder())
-				.collect(Collectors.toList());
+				.map(reader -> ((EncoderHttpMessageWriter<?>) reader).getEncoder()).collect(Collectors.toList());
 
 		assertThat(decoders).contains(jacksonDecoder, jaxb2Decoder, protoDecoder);
 		assertThat(encoders).contains(jacksonEncoder, jaxb2Encoder, protoEncoder);
 
 		// Original does not have the customizations
 
-		decoders = this.configurer.getReaders().stream()
-				.filter(reader -> reader instanceof DecoderHttpMessageReader)
-				.map(reader -> ((DecoderHttpMessageReader<?>) reader).getDecoder())
-				.collect(Collectors.toList());
+		decoders = this.configurer.getReaders().stream().filter(reader -> reader instanceof DecoderHttpMessageReader)
+				.map(reader -> ((DecoderHttpMessageReader<?>) reader).getDecoder()).collect(Collectors.toList());
 
-		encoders = this.configurer.getWriters().stream()
-				.filter(writer -> writer instanceof EncoderHttpMessageWriter)
-				.map(reader -> ((EncoderHttpMessageWriter<?>) reader).getEncoder())
-				.collect(Collectors.toList());
+		encoders = this.configurer.getWriters().stream().filter(writer -> writer instanceof EncoderHttpMessageWriter)
+				.map(reader -> ((EncoderHttpMessageWriter<?>) reader).getEncoder()).collect(Collectors.toList());
 
 		assertThat(decoders).doesNotContain(jacksonDecoder, jaxb2Decoder, protoDecoder);
 		assertThat(encoders).doesNotContain(jacksonEncoder, jaxb2Encoder, protoEncoder);
@@ -394,34 +387,31 @@ class CodecConfigurerTests {
 		assertThat(decoder.getClass()).isEqualTo(StringDecoder.class);
 		assertThat(decoder.canDecode(ResolvableType.forClass(String.class), MimeTypeUtils.TEXT_PLAIN)).isTrue();
 		Object expected = !textOnly;
-		assertThat(decoder.canDecode(ResolvableType.forClass(String.class), MediaType.TEXT_EVENT_STREAM)).isEqualTo(expected);
+		assertThat(decoder.canDecode(ResolvableType.forClass(String.class), MediaType.TEXT_EVENT_STREAM))
+				.isEqualTo(expected);
 	}
 
 	private void assertStringEncoder(Encoder<?> encoder, boolean textOnly) {
 		assertThat(encoder.getClass()).isEqualTo(CharSequenceEncoder.class);
 		assertThat(encoder.canEncode(ResolvableType.forClass(String.class), MimeTypeUtils.TEXT_PLAIN)).isTrue();
 		Object expected = !textOnly;
-		assertThat(encoder.canEncode(ResolvableType.forClass(String.class), MediaType.TEXT_EVENT_STREAM)).isEqualTo(expected);
+		assertThat(encoder.canEncode(ResolvableType.forClass(String.class), MediaType.TEXT_EVENT_STREAM))
+				.isEqualTo(expected);
 	}
 
 	private void assertDecoderInstance(Decoder<?> decoder) {
-		assertThat(this.configurer.getReaders().stream()
-				.filter(writer -> writer instanceof DecoderHttpMessageReader)
+		assertThat(this.configurer.getReaders().stream().filter(writer -> writer instanceof DecoderHttpMessageReader)
 				.map(writer -> ((DecoderHttpMessageReader<?>) writer).getDecoder())
-				.filter(e -> decoder.getClass().equals(e.getClass()))
-				.findFirst()
-				.filter(e -> e == decoder).orElse(null)).isSameAs(decoder);
+				.filter(e -> decoder.getClass().equals(e.getClass())).findFirst().filter(e -> e == decoder)
+				.orElse(null)).isSameAs(decoder);
 	}
 
 	private void assertEncoderInstance(Encoder<?> encoder) {
-		assertThat(this.configurer.getWriters().stream()
-				.filter(writer -> writer instanceof EncoderHttpMessageWriter)
+		assertThat(this.configurer.getWriters().stream().filter(writer -> writer instanceof EncoderHttpMessageWriter)
 				.map(writer -> ((EncoderHttpMessageWriter<?>) writer).getEncoder())
-				.filter(e -> encoder.getClass().equals(e.getClass()))
-				.findFirst()
-				.filter(e -> e == encoder).orElse(null)).isSameAs(encoder);
+				.filter(e -> encoder.getClass().equals(e.getClass())).findFirst().filter(e -> e == encoder)
+				.orElse(null)).isSameAs(encoder);
 	}
-
 
 	private static class TestCodecConfigurer extends BaseCodecConfigurer {
 
@@ -442,6 +432,7 @@ class CodecConfigurerTests {
 		public CodecConfigurer clone() {
 			return new TestCodecConfigurer(this);
 		}
+
 	}
 
 }

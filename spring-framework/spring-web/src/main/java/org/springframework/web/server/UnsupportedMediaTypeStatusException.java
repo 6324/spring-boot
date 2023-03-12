@@ -41,7 +41,6 @@ public class UnsupportedMediaTypeStatusException extends ResponseStatusException
 	@Nullable
 	private final ResolvableType bodyType;
 
-
 	/**
 	 * Constructor for when the specified Content-Type is invalid.
 	 */
@@ -73,14 +72,13 @@ public class UnsupportedMediaTypeStatusException extends ResponseStatusException
 	}
 
 	private static String initReason(@Nullable MediaType contentType, @Nullable ResolvableType bodyType) {
-		return "Content type '" + (contentType != null ? contentType : "") + "' not supported" +
-				(bodyType != null ? " for bodyType=" + bodyType.toString() : "");
+		return "Content type '" + (contentType != null ? contentType : "") + "' not supported"
+				+ (bodyType != null ? " for bodyType=" + bodyType.toString() : "");
 	}
 
-
 	/**
-	 * Return the request Content-Type header if it was parsed successfully,
-	 * or {@code null} otherwise.
+	 * Return the request Content-Type header if it was parsed successfully, or
+	 * {@code null} otherwise.
 	 */
 	@Nullable
 	public MediaType getContentType() {
@@ -88,8 +86,8 @@ public class UnsupportedMediaTypeStatusException extends ResponseStatusException
 	}
 
 	/**
-	 * Return the list of supported content types in cases when the Content-Type
-	 * header is parsed but not supported, or an empty list otherwise.
+	 * Return the list of supported content types in cases when the Content-Type header is
+	 * parsed but not supported, or an empty list otherwise.
 	 */
 	public List<MediaType> getSupportedMediaTypes() {
 		return this.supportedMediaTypes;
@@ -97,8 +95,9 @@ public class UnsupportedMediaTypeStatusException extends ResponseStatusException
 
 	/**
 	 * Return the body type in the context of which this exception was generated.
-	 * <p>This is applicable when the exception was raised as a result trying to
-	 * encode from or decode to a specific Java type.
+	 * <p>
+	 * This is applicable when the exception was raised as a result trying to encode from
+	 * or decode to a specific Java type.
 	 * @return the body type, or {@code null} if not available
 	 * @since 5.1
 	 */

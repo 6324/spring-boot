@@ -38,10 +38,12 @@ import org.springframework.lang.Nullable;
 /**
  * {@link javax.servlet.http.HttpServletRequest} wrapper that caches all content read from
  * the {@linkplain #getInputStream() input stream} and {@linkplain #getReader() reader},
- * and allows this content to be retrieved via a {@link #getContentAsByteArray() byte array}.
+ * and allows this content to be retrieved via a {@link #getContentAsByteArray() byte
+ * array}.
  *
- * <p>Used e.g. by {@link org.springframework.web.filter.AbstractRequestLoggingFilter}.
- * Note: As of Spring Framework 5.0, this wrapper is built on the Servlet 3.1 API.
+ * <p>
+ * Used e.g. by {@link org.springframework.web.filter.AbstractRequestLoggingFilter}. Note:
+ * As of Spring Framework 5.0, this wrapper is built on the Servlet 3.1 API.
  *
  * @author Juergen Hoeller
  * @author Brian Clozel
@@ -51,7 +53,6 @@ import org.springframework.lang.Nullable;
 public class ContentCachingRequestWrapper extends HttpServletRequestWrapper {
 
 	private static final String FORM_CONTENT_TYPE = "application/x-www-form-urlencoded";
-
 
 	private final ByteArrayOutputStream cachedContent;
 
@@ -63,7 +64,6 @@ public class ContentCachingRequestWrapper extends HttpServletRequestWrapper {
 
 	@Nullable
 	private BufferedReader reader;
-
 
 	/**
 	 * Create a new ContentCachingRequestWrapper for the given servlet request.
@@ -88,7 +88,6 @@ public class ContentCachingRequestWrapper extends HttpServletRequestWrapper {
 		this.cachedContent = new ByteArrayOutputStream(contentCacheLimit);
 		this.contentCacheLimit = contentCacheLimit;
 	}
-
 
 	@Override
 	public ServletInputStream getInputStream() throws IOException {
@@ -144,11 +143,9 @@ public class ContentCachingRequestWrapper extends HttpServletRequestWrapper {
 		return super.getParameterValues(name);
 	}
 
-
 	private boolean isFormPost() {
 		String contentType = getContentType();
-		return (contentType != null && contentType.contains(FORM_CONTENT_TYPE) &&
-				HttpMethod.POST.matches(getMethod()));
+		return (contentType != null && contentType.contains(FORM_CONTENT_TYPE) && HttpMethod.POST.matches(getMethod()));
 	}
 
 	private void writeRequestParametersToCachedContent() {
@@ -156,10 +153,10 @@ public class ContentCachingRequestWrapper extends HttpServletRequestWrapper {
 			if (this.cachedContent.size() == 0) {
 				String requestEncoding = getCharacterEncoding();
 				Map<String, String[]> form = super.getParameterMap();
-				for (Iterator<String> nameIterator = form.keySet().iterator(); nameIterator.hasNext(); ) {
+				for (Iterator<String> nameIterator = form.keySet().iterator(); nameIterator.hasNext();) {
 					String name = nameIterator.next();
 					List<String> values = Arrays.asList(form.get(name));
-					for (Iterator<String> valueIterator = values.iterator(); valueIterator.hasNext(); ) {
+					for (Iterator<String> valueIterator = values.iterator(); valueIterator.hasNext();) {
 						String value = valueIterator.next();
 						this.cachedContent.write(URLEncoder.encode(name, requestEncoding).getBytes());
 						if (value != null) {
@@ -183,7 +180,8 @@ public class ContentCachingRequestWrapper extends HttpServletRequestWrapper {
 
 	/**
 	 * Return the cached request content as a byte array.
-	 * <p>The returned array will never be larger than the content cache limit.
+	 * <p>
+	 * The returned array will never be larger than the content cache limit.
 	 * @see #ContentCachingRequestWrapper(HttpServletRequest, int)
 	 */
 	public byte[] getContentAsByteArray() {
@@ -191,18 +189,18 @@ public class ContentCachingRequestWrapper extends HttpServletRequestWrapper {
 	}
 
 	/**
-	 * Template method for handling a content overflow: specifically, a request
-	 * body being read that exceeds the specified content cache limit.
-	 * <p>The default implementation is empty. Subclasses may override this to
-	 * throw a payload-too-large exception or the like.
-	 * @param contentCacheLimit the maximum number of bytes to cache per request
-	 * which has just been exceeded
+	 * Template method for handling a content overflow: specifically, a request body being
+	 * read that exceeds the specified content cache limit.
+	 * <p>
+	 * The default implementation is empty. Subclasses may override this to throw a
+	 * payload-too-large exception or the like.
+	 * @param contentCacheLimit the maximum number of bytes to cache per request which has
+	 * just been exceeded
 	 * @since 4.3.6
 	 * @see #ContentCachingRequestWrapper(HttpServletRequest, int)
 	 */
 	protected void handleContentOverflow(int contentCacheLimit) {
 	}
-
 
 	private class ContentCachingInputStream extends ServletInputStream {
 
@@ -238,8 +236,7 @@ public class ContentCachingRequestWrapper extends HttpServletRequestWrapper {
 
 		private void writeToCache(final byte[] b, final int off, int count) {
 			if (!this.overflow && count > 0) {
-				if (contentCacheLimit != null &&
-						count + cachedContent.size() > contentCacheLimit) {
+				if (contentCacheLimit != null && count + cachedContent.size() > contentCacheLimit) {
 					this.overflow = true;
 					cachedContent.write(b, off, contentCacheLimit - cachedContent.size());
 					handleContentOverflow(contentCacheLimit);
@@ -277,6 +274,7 @@ public class ContentCachingRequestWrapper extends HttpServletRequestWrapper {
 		public void setReadListener(ReadListener readListener) {
 			this.is.setReadListener(readListener);
 		}
+
 	}
 
 }

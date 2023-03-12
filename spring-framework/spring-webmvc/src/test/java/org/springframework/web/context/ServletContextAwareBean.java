@@ -33,4 +33,5 @@ public class ServletContextAwareBean implements ServletContextAware {
 	public ServletContext getServletContext() {
 		return servletContext;
 	}
+
 }

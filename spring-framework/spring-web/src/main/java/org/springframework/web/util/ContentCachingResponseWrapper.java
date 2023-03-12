@@ -32,12 +32,14 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.FastByteArrayOutputStream;
 
 /**
- * {@link javax.servlet.http.HttpServletResponse} wrapper that caches all content written to
- * the {@linkplain #getOutputStream() output stream} and {@linkplain #getWriter() writer},
- * and allows this content to be retrieved via a {@link #getContentAsByteArray() byte array}.
+ * {@link javax.servlet.http.HttpServletResponse} wrapper that caches all content written
+ * to the {@linkplain #getOutputStream() output stream} and {@linkplain #getWriter()
+ * writer}, and allows this content to be retrieved via a {@link #getContentAsByteArray()
+ * byte array}.
  *
- * <p>Used e.g. by {@link org.springframework.web.filter.ShallowEtagHeaderFilter}.
- * Note: As of Spring Framework 5.0, this wrapper is built on the Servlet 3.1 API.
+ * <p>
+ * Used e.g. by {@link org.springframework.web.filter.ShallowEtagHeaderFilter}. Note: As
+ * of Spring Framework 5.0, this wrapper is built on the Servlet 3.1 API.
  *
  * @author Juergen Hoeller
  * @since 4.1.3
@@ -56,7 +58,6 @@ public class ContentCachingResponseWrapper extends HttpServletResponseWrapper {
 	@Nullable
 	private Integer contentLength;
 
-
 	/**
 	 * Create a new ContentCachingResponseWrapper for the given servlet response.
 	 * @param response the original servlet response
@@ -64,7 +65,6 @@ public class ContentCachingResponseWrapper extends HttpServletResponseWrapper {
 	public ContentCachingResponseWrapper(HttpServletResponse response) {
 		super(response);
 	}
-
 
 	@Override
 	public void sendError(int sc) throws IOException {
@@ -109,15 +109,16 @@ public class ContentCachingResponseWrapper extends HttpServletResponseWrapper {
 	public PrintWriter getWriter() throws IOException {
 		if (this.writer == null) {
 			String characterEncoding = getCharacterEncoding();
-			this.writer = (characterEncoding != null ? new ResponsePrintWriter(characterEncoding) :
-					new ResponsePrintWriter(WebUtils.DEFAULT_CHARACTER_ENCODING));
+			this.writer = (characterEncoding != null ? new ResponsePrintWriter(characterEncoding)
+					: new ResponsePrintWriter(WebUtils.DEFAULT_CHARACTER_ENCODING));
 		}
 		return this.writer;
 	}
 
 	@Override
 	public void flushBuffer() throws IOException {
-		// do not flush the underlying response as the content as not been copied to it yet
+		// do not flush the underlying response as the content as not been copied to it
+		// yet
 	}
 
 	@Override
@@ -132,8 +133,8 @@ public class ContentCachingResponseWrapper extends HttpServletResponseWrapper {
 	@Override
 	public void setContentLengthLong(long len) {
 		if (len > Integer.MAX_VALUE) {
-			throw new IllegalArgumentException("Content-Length exceeds ContentCachingResponseWrapper's maximum (" +
-					Integer.MAX_VALUE + "): " + len);
+			throw new IllegalArgumentException("Content-Length exceeds ContentCachingResponseWrapper's maximum ("
+					+ Integer.MAX_VALUE + "): " + len);
 		}
 		int lenInt = (int) len;
 		if (lenInt > this.content.size()) {
@@ -202,8 +203,8 @@ public class ContentCachingResponseWrapper extends HttpServletResponseWrapper {
 
 	/**
 	 * Copy the cached body content to the response.
-	 * @param complete whether to set a corresponding content length
-	 * for the complete cached body content
+	 * @param complete whether to set a corresponding content length for the complete
+	 * cached body content
 	 * @since 4.2
 	 */
 	protected void copyBodyToResponse(boolean complete) throws IOException {
@@ -222,7 +223,6 @@ public class ContentCachingResponseWrapper extends HttpServletResponseWrapper {
 			}
 		}
 	}
-
 
 	private class ResponseServletOutputStream extends ServletOutputStream {
 
@@ -251,8 +251,8 @@ public class ContentCachingResponseWrapper extends HttpServletResponseWrapper {
 		public void setWriteListener(WriteListener writeListener) {
 			this.os.setWriteListener(writeListener);
 		}
-	}
 
+	}
 
 	private class ResponsePrintWriter extends PrintWriter {
 
@@ -277,6 +277,7 @@ public class ContentCachingResponseWrapper extends HttpServletResponseWrapper {
 			super.write(c);
 			super.flush();
 		}
+
 	}
 
 }

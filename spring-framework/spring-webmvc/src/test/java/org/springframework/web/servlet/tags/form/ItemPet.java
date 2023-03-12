@@ -58,7 +58,6 @@ public class ItemPet {
 		return this.name.hashCode();
 	}
 
-
 	public static class CustomEditor extends PropertyEditorSupport {
 
 		@Override
@@ -70,6 +69,7 @@ public class ItemPet {
 		public String getAsText() {
 			return ((ItemPet) getValue()).getName();
 		}
+
 	}
 
 }

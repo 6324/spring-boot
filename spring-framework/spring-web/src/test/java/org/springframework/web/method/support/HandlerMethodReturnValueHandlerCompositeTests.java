@@ -46,7 +46,6 @@ public class HandlerMethodReturnValueHandlerCompositeTests {
 
 	private MethodParameter stringType;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		this.integerType = new MethodParameter(getClass().getDeclaredMethod("handleInteger"), -1);
@@ -60,7 +59,6 @@ public class HandlerMethodReturnValueHandlerCompositeTests {
 
 		mavContainer = new ModelAndViewContainer();
 	}
-
 
 	@Test
 	public void supportsReturnType() throws Exception {
@@ -85,7 +83,7 @@ public class HandlerMethodReturnValueHandlerCompositeTests {
 		verifyNoMoreInteractions(anotherIntegerHandler);
 	}
 
-	@Test  // SPR-13083
+	@Test // SPR-13083
 	public void handleReturnValueWithAsyncHandler() throws Exception {
 		Promise<Integer> promise = new Promise<>();
 		MethodParameter promiseType = new MethodParameter(getClass().getDeclaredMethod("handlePromise"), -1);
@@ -110,10 +108,9 @@ public class HandlerMethodReturnValueHandlerCompositeTests {
 
 	@Test
 	public void noSuitableReturnValueHandler() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.handlers.handleReturnValue("value", this.stringType, null, null));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> this.handlers.handleReturnValue("value", this.stringType, null, null));
 	}
-
 
 	private Integer handleInteger() {
 		return null;
@@ -127,6 +124,8 @@ public class HandlerMethodReturnValueHandlerCompositeTests {
 		return null;
 	}
 
-	private static class Promise<T> {}
+	private static class Promise<T> {
+
+	}
 
 }

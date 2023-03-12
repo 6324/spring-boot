@@ -23,8 +23,8 @@ import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 
 /**
- * Parse the <code>&lt;mvc:groovy-configurer&gt;</code> MVC namespace element and register a
- * {@code GroovyConfigurer} bean.
+ * Parse the <code>&lt;mvc:groovy-configurer&gt;</code> MVC namespace element and register
+ * a {@code GroovyConfigurer} bean.
  *
  * @author Sebastien Deleuze
  * @since 4.1
@@ -35,7 +35,6 @@ public class GroovyMarkupConfigurerBeanDefinitionParser extends AbstractSimpleBe
 	 * The bean name used for the {@code GroovyMarkupConfigurer}.
 	 */
 	public static final String BEAN_NAME = "mvcGroovyMarkupConfigurer";
-
 
 	@Override
 	protected String resolveId(Element element, AbstractBeanDefinition definition, ParserContext parserContext) {

@@ -24,36 +24,32 @@ import org.springframework.lang.Nullable;
 import org.springframework.validation.Errors;
 
 /**
- * This {@code <hasBindErrors>} tag provides an {@link Errors} instance in case of
- * bind errors. The HTML escaping flag participates in a page-wide or
- * application-wide setting (i.e. by HtmlEscapeTag or a "defaultHtmlEscape"
- * context-param in web.xml).
+ * This {@code <hasBindErrors>} tag provides an {@link Errors} instance in case of bind
+ * errors. The HTML escaping flag participates in a page-wide or application-wide setting
+ * (i.e. by HtmlEscapeTag or a "defaultHtmlEscape" context-param in web.xml).
  *
  * <table>
- * <caption>Attribute Summary</caption>
- * <thead>
+ * <caption>Attribute Summary</caption> <thead>
  * <tr>
  * <th>Attribute</th>
  * <th>Required?</th>
  * <th>Runtime Expression?</th>
  * <th>Description</th>
  * </tr>
- * </thead>
- * <tbody>
+ * </thead> <tbody>
  * <tr>
  * <td>htmlEscape</td>
  * <td>false</td>
  * <td>true</td>
- * <td>Set HTML escaping for this tag, as boolean value.
- * Overrides the default HTML escaping setting for the current page.</td>
+ * <td>Set HTML escaping for this tag, as boolean value. Overrides the default HTML
+ * escaping setting for the current page.</td>
  * </tr>
  * <tr>
  * <td>name</td>
  * <td>true</td>
  * <td>true</td>
- * <td>The name of the bean in the request that needs to be inspected for errors.
- * If errors are available for this bean, they will be bound under the
- * 'errors' key.</td>
+ * <td>The name of the bean in the request that needs to be inspected for errors. If
+ * errors are available for this bean, they will be bound under the 'errors' key.</td>
  * </tr>
  * </tbody>
  * </table>
@@ -71,12 +67,10 @@ public class BindErrorsTag extends HtmlEscapingAwareTag {
 	 */
 	public static final String ERRORS_VARIABLE_NAME = "errors";
 
-
 	private String name = "";
 
 	@Nullable
 	private Errors errors;
-
 
 	/**
 	 * Set the name of the bean that this tag should check.
@@ -91,7 +85,6 @@ public class BindErrorsTag extends HtmlEscapingAwareTag {
 	public String getName() {
 		return this.name;
 	}
-
 
 	@Override
 	protected final int doStartTagInternal() throws ServletException, JspException {
@@ -113,13 +106,13 @@ public class BindErrorsTag extends HtmlEscapingAwareTag {
 
 	/**
 	 * Retrieve the Errors instance that this tag is currently bound to.
-	 * <p>Intended for cooperating nesting tags.
+	 * <p>
+	 * Intended for cooperating nesting tags.
 	 */
 	@Nullable
 	public final Errors getErrors() {
 		return this.errors;
 	}
-
 
 	@Override
 	public void doFinally() {

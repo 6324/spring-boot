@@ -45,7 +45,6 @@ public class RequestScopeTests {
 
 	private final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		this.beanFactory.registerScope("request", new RequestScope());
@@ -59,7 +58,6 @@ public class RequestScopeTests {
 	public void resetRequestAttributes() {
 		RequestContextHolder.setRequestAttributes(null);
 	}
-
 
 	@Test
 	public void getFromScope() throws Exception {
@@ -114,9 +112,8 @@ public class RequestScopeTests {
 
 		String name = "requestScopedObjectCircle1";
 		assertThat(request.getAttribute(name)).isNull();
-		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() ->
-				this.beanFactory.getBean(name))
-			.matches(ex -> ex.contains(BeanCurrentlyInCreationException.class));
+		assertThatExceptionOfType(BeanCreationException.class).isThrownBy(() -> this.beanFactory.getBean(name))
+				.matches(ex -> ex.contains(BeanCurrentlyInCreationException.class));
 	}
 
 	@Test

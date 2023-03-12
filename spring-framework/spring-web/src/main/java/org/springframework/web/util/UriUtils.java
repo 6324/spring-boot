@@ -32,17 +32,17 @@ import org.springframework.util.StringUtils;
 /**
  * Utility methods for URI encoding and decoding based on RFC 3986.
  *
- * <p>There are two types of encode methods:
+ * <p>
+ * There are two types of encode methods:
  * <ul>
- * <li>{@code "encodeXyz"} -- these encode a specific URI component (e.g. path,
- * query) by percent encoding illegal characters, which includes non-US-ASCII
- * characters, and also characters that are otherwise illegal within the given
- * URI component type, as defined in RFC 3986. The effect of this method, with
- * regards to encoding, is comparable to using the multi-argument constructor
- * of {@link URI}.
- * <li>{@code "encode"} and {@code "encodeUriVariables"} -- these can be used
- * to encode URI variable values by percent encoding all characters that are
- * either illegal, or have any reserved meaning, anywhere within a URI.
+ * <li>{@code "encodeXyz"} -- these encode a specific URI component (e.g. path, query) by
+ * percent encoding illegal characters, which includes non-US-ASCII characters, and also
+ * characters that are otherwise illegal within the given URI component type, as defined
+ * in RFC 3986. The effect of this method, with regards to encoding, is comparable to
+ * using the multi-argument constructor of {@link URI}.
+ * <li>{@code "encode"} and {@code "encodeUriVariables"} -- these can be used to encode
+ * URI variable values by percent encoding all characters that are either illegal, or have
+ * any reserved meaning, anywhere within a URI.
  * </ul>
  *
  * @author Arjen Poutsma
@@ -244,9 +244,9 @@ public abstract class UriUtils {
 
 	/**
 	 * Encode the query parameters from the given {@code MultiValueMap} with UTF-8.
-	 * <p>This can be used with {@link UriComponentsBuilder#queryParams(MultiValueMap)}
-	 * when building a URI from an already encoded template.
-	 * <pre class="code">
+	 * <p>
+	 * This can be used with {@link UriComponentsBuilder#queryParams(MultiValueMap)} when
+	 * building a URI from an already encoded template. <pre class="code">
 	 * MultiValueMap&lt;String, String&gt; params = new LinkedMultiValueMap<>(2);
 	 * // add to params...
 	 *
@@ -291,7 +291,6 @@ public abstract class UriUtils {
 		return encode(fragment, charset, HierarchicalUriComponents.Type.FRAGMENT);
 	}
 
-
 	/**
 	 * Variant of {@link #encode(String, Charset)} with a String charset.
 	 * @param source the String to be encoded
@@ -303,11 +302,11 @@ public abstract class UriUtils {
 	}
 
 	/**
-	 * Encode all characters that are either illegal, or have any reserved
-	 * meaning, anywhere within a URI, as defined in
-	 * <a href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>.
-	 * This is useful to ensure that the given String will be preserved as-is
-	 * and will not have any o impact on the structure or meaning of the URI.
+	 * Encode all characters that are either illegal, or have any reserved meaning,
+	 * anywhere within a URI, as defined in
+	 * <a href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>. This is useful to
+	 * ensure that the given String will be preserved as-is and will not have any o impact
+	 * on the structure or meaning of the URI.
 	 * @param source the String to be encoded
 	 * @param charset the character encoding to encode to
 	 * @return the encoded String
@@ -318,8 +317,8 @@ public abstract class UriUtils {
 	}
 
 	/**
-	 * Convenience method to apply {@link #encode(String, Charset)} to all
-	 * given URI variable values.
+	 * Convenience method to apply {@link #encode(String, Charset)} to all given URI
+	 * variable values.
 	 * @param uriVariables the URI variable values to be encoded
 	 * @return the encoded String
 	 * @since 5.0
@@ -334,19 +333,17 @@ public abstract class UriUtils {
 	}
 
 	/**
-	 * Convenience method to apply {@link #encode(String, Charset)} to all
-	 * given URI variable values.
+	 * Convenience method to apply {@link #encode(String, Charset)} to all given URI
+	 * variable values.
 	 * @param uriVariables the URI variable values to be encoded
 	 * @return the encoded String
 	 * @since 5.0
 	 */
 	public static Object[] encodeUriVariables(Object... uriVariables) {
-		return Arrays.stream(uriVariables)
-				.map(value -> {
-					String stringValue = (value != null ? value.toString() : "");
-					return encode(stringValue, StandardCharsets.UTF_8);
-				})
-				.toArray();
+		return Arrays.stream(uriVariables).map(value -> {
+			String stringValue = (value != null ? value.toString() : "");
+			return encode(stringValue, StandardCharsets.UTF_8);
+		}).toArray();
 	}
 
 	private static String encode(String scheme, String encoding, HierarchicalUriComponents.Type type) {
@@ -357,14 +354,15 @@ public abstract class UriUtils {
 		return HierarchicalUriComponents.encodeUriComponent(scheme, charset, type);
 	}
 
-
 	/**
 	 * Decode the given encoded URI component.
-	 * <p>See {@link StringUtils#uriDecode(String, Charset)} for the decoding rules.
+	 * <p>
+	 * See {@link StringUtils#uriDecode(String, Charset)} for the decoding rules.
 	 * @param source the encoded String
 	 * @param encoding the character encoding to use
 	 * @return the decoded value
-	 * @throws IllegalArgumentException when the given source contains invalid encoded sequences
+	 * @throws IllegalArgumentException when the given source contains invalid encoded
+	 * sequences
 	 * @see StringUtils#uriDecode(String, Charset)
 	 * @see java.net.URLDecoder#decode(String, String)
 	 */
@@ -374,11 +372,13 @@ public abstract class UriUtils {
 
 	/**
 	 * Decode the given encoded URI component.
-	 * <p>See {@link StringUtils#uriDecode(String, Charset)} for the decoding rules.
+	 * <p>
+	 * See {@link StringUtils#uriDecode(String, Charset)} for the decoding rules.
 	 * @param source the encoded String
 	 * @param charset the character encoding to use
 	 * @return the decoded value
-	 * @throws IllegalArgumentException when the given source contains invalid encoded sequences
+	 * @throws IllegalArgumentException when the given source contains invalid encoded
+	 * sequences
 	 * @since 5.0
 	 * @see StringUtils#uriDecode(String, Charset)
 	 * @see java.net.URLDecoder#decode(String, String)

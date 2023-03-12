@@ -47,8 +47,8 @@ public class ServletCookieValueMethodArgumentResolverTests {
 	private ServletWebRequest webRequest;
 
 	private MethodParameter cookieParameter;
-	private MethodParameter cookieStringParameter;
 
+	private MethodParameter cookieStringParameter;
 
 	@BeforeEach
 	public void setup() throws Exception {
@@ -60,7 +60,6 @@ public class ServletCookieValueMethodArgumentResolverTests {
 		cookieParameter = new SynthesizingMethodParameter(method, 0);
 		cookieStringParameter = new SynthesizingMethodParameter(method, 1);
 	}
-
 
 	@Test
 	public void resolveCookieArgument() throws Exception {
@@ -79,7 +78,6 @@ public class ServletCookieValueMethodArgumentResolverTests {
 		String result = (String) resolver.resolveArgument(cookieStringParameter, null, webRequest, null);
 		assertThat(result).as("Invalid result").isEqualTo(cookie.getValue());
 	}
-
 
 	public void params(@CookieValue("name") Cookie cookie,
 			@CookieValue(name = "name", defaultValue = "bar") String cookieString) {

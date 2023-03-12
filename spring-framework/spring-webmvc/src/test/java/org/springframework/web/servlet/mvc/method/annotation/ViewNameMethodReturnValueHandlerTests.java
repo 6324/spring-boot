@@ -43,7 +43,6 @@ public class ViewNameMethodReturnValueHandlerTests {
 
 	private MethodParameter param;
 
-
 	@BeforeEach
 	public void setup() throws NoSuchMethodException {
 		this.handler = new ViewNameMethodReturnValueHandler();
@@ -52,7 +51,6 @@ public class ViewNameMethodReturnValueHandlerTests {
 
 		this.param = new MethodParameter(getClass().getDeclaredMethod("viewName"), -1);
 	}
-
 
 	@Test
 	public void supportsReturnType() throws Exception {
@@ -93,7 +91,6 @@ public class ViewNameMethodReturnValueHandlerTests {
 		assertThat(this.mavContainer.getViewName()).isEqualTo("redirect:testView");
 		assertThat(this.mavContainer.getModel()).isSameAs(redirectModel);
 	}
-
 
 	@SuppressWarnings("unused")
 	String viewName() {

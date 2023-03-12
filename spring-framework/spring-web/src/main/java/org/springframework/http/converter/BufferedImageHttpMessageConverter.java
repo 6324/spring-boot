@@ -51,18 +51,21 @@ import org.springframework.util.StringUtils;
  * Implementation of {@link HttpMessageConverter} that can read and write
  * {@link BufferedImage BufferedImages}.
  *
- * <p>By default, this converter can read all media types that are supported
- * by the {@linkplain ImageIO#getReaderMIMETypes() registered image readers},
- * and writes using the media type of the first available
- * {@linkplain javax.imageio.ImageIO#getWriterMIMETypes() registered image writer}.
- * The latter can be overridden by setting the
- * {@link #setDefaultContentType defaultContentType} property.
+ * <p>
+ * By default, this converter can read all media types that are supported by the
+ * {@linkplain ImageIO#getReaderMIMETypes() registered image readers}, and writes using
+ * the media type of the first available
+ * {@linkplain javax.imageio.ImageIO#getWriterMIMETypes() registered image writer}. The
+ * latter can be overridden by setting the {@link #setDefaultContentType
+ * defaultContentType} property.
  *
- * <p>If the {@link #setCacheDir cacheDir} property is set, this converter
- * will cache image data.
+ * <p>
+ * If the {@link #setCacheDir cacheDir} property is set, this converter will cache image
+ * data.
  *
- * <p>The {@link #process(ImageReadParam)} and {@link #process(ImageWriteParam)}
- * template methods allow subclasses to override Image I/O parameters.
+ * <p>
+ * The {@link #process(ImageReadParam)} and {@link #process(ImageWriteParam)} template
+ * methods allow subclasses to override Image I/O parameters.
  *
  * @author Arjen Poutsma
  * @since 3.0
@@ -76,7 +79,6 @@ public class BufferedImageHttpMessageConverter implements HttpMessageConverter<B
 
 	@Nullable
 	private File cacheDir;
-
 
 	public BufferedImageHttpMessageConverter() {
 		String[] readerMediaTypes = ImageIO.getReaderMIMETypes();
@@ -95,10 +97,10 @@ public class BufferedImageHttpMessageConverter implements HttpMessageConverter<B
 		}
 	}
 
-
 	/**
 	 * Sets the default {@code Content-Type} to be used for writing.
-	 * @throws IllegalArgumentException if the given content type is not supported by the Java Image I/O API
+	 * @throws IllegalArgumentException if the given content type is not supported by the
+	 * Java Image I/O API
 	 */
 	public void setDefaultContentType(@Nullable MediaType defaultContentType) {
 		if (defaultContentType != null) {
@@ -113,8 +115,8 @@ public class BufferedImageHttpMessageConverter implements HttpMessageConverter<B
 	}
 
 	/**
-	 * Returns the default {@code Content-Type} to be used for writing.
-	 * Called when {@link #write} is invoked without a specified content type parameter.
+	 * Returns the default {@code Content-Type} to be used for writing. Called when
+	 * {@link #write} is invoked without a specified content type parameter.
 	 */
 	@Nullable
 	public MediaType getDefaultContentType() {
@@ -122,15 +124,14 @@ public class BufferedImageHttpMessageConverter implements HttpMessageConverter<B
 	}
 
 	/**
-	 * Sets the cache directory. If this property is set to an existing directory,
-	 * this converter will cache image data.
+	 * Sets the cache directory. If this property is set to an existing directory, this
+	 * converter will cache image data.
 	 */
 	public void setCacheDir(File cacheDir) {
 		Assert.notNull(cacheDir, "'cacheDir' must not be null");
 		Assert.isTrue(cacheDir.isDirectory(), "'cacheDir' is not a directory");
 		this.cacheDir = cacheDir;
 	}
-
 
 	@Override
 	public boolean canRead(Class<?> clazz, @Nullable MediaType mediaType) {
@@ -215,8 +216,7 @@ public class BufferedImageHttpMessageConverter implements HttpMessageConverter<B
 
 	@Override
 	public void write(final BufferedImage image, @Nullable final MediaType contentType,
-			final HttpOutputMessage outputMessage)
-			throws IOException, HttpMessageNotWritableException {
+			final HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
 
 		final MediaType selectedContentType = getContentType(contentType);
 		outputMessage.getHeaders().setContentType(selectedContentType);
@@ -234,8 +234,8 @@ public class BufferedImageHttpMessageConverter implements HttpMessageConverter<B
 		if (contentType == null || contentType.isWildcardType() || contentType.isWildcardSubtype()) {
 			contentType = getDefaultContentType();
 		}
-		Assert.notNull(contentType, "Could not select Content-Type. " +
-				"Please specify one through the 'defaultContentType' property.");
+		Assert.notNull(contentType,
+				"Could not select Content-Type. " + "Please specify one through the 'defaultContentType' property.");
 		return contentType;
 	}
 
@@ -283,19 +283,20 @@ public class BufferedImageHttpMessageConverter implements HttpMessageConverter<B
 		}
 	}
 
-
 	/**
-	 * Template method that allows for manipulating the {@link ImageReadParam}
-	 * before it is used to read an image.
-	 * <p>The default implementation is empty.
+	 * Template method that allows for manipulating the {@link ImageReadParam} before it
+	 * is used to read an image.
+	 * <p>
+	 * The default implementation is empty.
 	 */
 	protected void process(ImageReadParam irp) {
 	}
 
 	/**
-	 * Template method that allows for manipulating the {@link ImageWriteParam}
-	 * before it is used to write an image.
-	 * <p>The default implementation is empty.
+	 * Template method that allows for manipulating the {@link ImageWriteParam} before it
+	 * is used to write an image.
+	 * <p>
+	 * The default implementation is empty.
 	 */
 	protected void process(ImageWriteParam iwp) {
 	}

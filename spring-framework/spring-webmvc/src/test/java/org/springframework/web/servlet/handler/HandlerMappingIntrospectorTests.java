@@ -116,8 +116,7 @@ public class HandlerMappingIntrospectorTests {
 		cxt.refresh();
 
 		MockHttpServletRequest request = new MockHttpServletRequest();
-		assertThatIllegalStateException().isThrownBy(() ->
-				getIntrospector(cxt).getMatchableHandlerMapping(request));
+		assertThatIllegalStateException().isThrownBy(() -> getIntrospector(cxt).getMatchableHandlerMapping(request));
 	}
 
 	@Test
@@ -160,18 +159,17 @@ public class HandlerMappingIntrospectorTests {
 		return introspector;
 	}
 
-
 	private static class TestHandlerMapping implements HandlerMapping {
 
 		@Override
 		public HandlerExecutionChain getHandler(HttpServletRequest request) throws Exception {
 			return new HandlerExecutionChain(new Object());
 		}
+
 	}
 
-
 	@Configuration
-	@SuppressWarnings({"WeakerAccess", "unused"})
+	@SuppressWarnings({ "WeakerAccess", "unused" })
 	static class TestConfig {
 
 		@Bean
@@ -183,8 +181,8 @@ public class HandlerMappingIntrospectorTests {
 		public TestController testController() {
 			return new TestController();
 		}
-	}
 
+	}
 
 	@CrossOrigin("http://localhost:9000")
 	@Controller
@@ -193,6 +191,7 @@ public class HandlerMappingIntrospectorTests {
 		@PostMapping("/path")
 		public void handle() {
 		}
+
 	}
 
 }

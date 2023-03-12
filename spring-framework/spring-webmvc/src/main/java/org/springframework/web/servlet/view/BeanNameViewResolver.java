@@ -27,24 +27,26 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 
 /**
- * A simple implementation of {@link org.springframework.web.servlet.ViewResolver}
- * that interprets a view name as a bean name in the current application context,
- * i.e. typically in the XML file of the executing {@code DispatcherServlet}.
+ * A simple implementation of {@link org.springframework.web.servlet.ViewResolver} that
+ * interprets a view name as a bean name in the current application context, i.e.
+ * typically in the XML file of the executing {@code DispatcherServlet}.
  *
- * <p>This resolver can be handy for small applications, keeping all definitions
- * ranging from controllers to views in the same place. For larger applications,
- * {@link XmlViewResolver} will be the better choice, as it separates the XML
- * view bean definitions into a dedicated views file.
+ * <p>
+ * This resolver can be handy for small applications, keeping all definitions ranging from
+ * controllers to views in the same place. For larger applications,
+ * {@link XmlViewResolver} will be the better choice, as it separates the XML view bean
+ * definitions into a dedicated views file.
  *
- * <p>Note: Neither this {@code ViewResolver} nor {@link XmlViewResolver} supports
- * internationalization. Consider {@link ResourceBundleViewResolver} if you need
- * to apply different view resources per locale.
+ * <p>
+ * Note: Neither this {@code ViewResolver} nor {@link XmlViewResolver} supports
+ * internationalization. Consider {@link ResourceBundleViewResolver} if you need to apply
+ * different view resources per locale.
  *
- * <p>Note: This {@code ViewResolver} implements the {@link Ordered} interface
- * in order to allow for flexible participation in {@code ViewResolver} chaining.
- * For example, some special views could be defined via this {@code ViewResolver}
- * (giving it 0 as "order" value), while all remaining views could be resolved by
- * a {@link UrlBasedViewResolver}.
+ * <p>
+ * Note: This {@code ViewResolver} implements the {@link Ordered} interface in order to
+ * allow for flexible participation in {@code ViewResolver} chaining. For example, some
+ * special views could be defined via this {@code ViewResolver} (giving it 0 as "order"
+ * value), while all remaining views could be resolved by a {@link UrlBasedViewResolver}.
  *
  * @author Juergen Hoeller
  * @since 18.06.2003
@@ -54,12 +56,12 @@ import org.springframework.web.servlet.ViewResolver;
  */
 public class BeanNameViewResolver extends WebApplicationObjectSupport implements ViewResolver, Ordered {
 
-	private int order = Ordered.LOWEST_PRECEDENCE;  // default: same as non-Ordered
-
+	private int order = Ordered.LOWEST_PRECEDENCE; // default: same as non-Ordered
 
 	/**
 	 * Specify the order value for this ViewResolver bean.
-	 * <p>The default value is {@code Ordered.LOWEST_PRECEDENCE}, meaning non-ordered.
+	 * <p>
+	 * The default value is {@code Ordered.LOWEST_PRECEDENCE}, meaning non-ordered.
 	 * @see org.springframework.core.Ordered#getOrder()
 	 */
 	public void setOrder(int order) {
@@ -70,7 +72,6 @@ public class BeanNameViewResolver extends WebApplicationObjectSupport implements
 	public int getOrder() {
 		return this.order;
 	}
-
 
 	@Override
 	@Nullable

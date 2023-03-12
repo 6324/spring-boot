@@ -46,7 +46,6 @@ public class AppCacheManifestTransformerTests {
 
 	private HttpServletRequest request;
 
-
 	@BeforeEach
 	public void setup() {
 		VersionResourceResolver versionResolver = new VersionResourceResolver();
@@ -75,7 +74,6 @@ public class AppCacheManifestTransformerTests {
 		return resourceUrlProvider;
 	}
 
-
 	@Test
 	public void noTransformIfExtensionDoesNotMatch() throws Exception {
 		this.request = new MockHttpServletRequest("GET", "/static/foo.css");
@@ -103,17 +101,14 @@ public class AppCacheManifestTransformerTests {
 		byte[] bytes = FileCopyUtils.copyToByteArray(actual.getInputStream());
 		String content = new String(bytes, "UTF-8");
 
-		assertThat(content).as("rewrite resource links")
-				.contains("/static/foo-e36d2e05253c6c7085a91522ce43a0b4.css")
+		assertThat(content).as("rewrite resource links").contains("/static/foo-e36d2e05253c6c7085a91522ce43a0b4.css")
 				.contains("/static/bar-11e16cf79faee7ac698c805cf28248d2.css")
 				.contains("/static/js/bar-bd508c62235b832d960298ca6c0b7645.js");
 
-		assertThat(content).as("not rewrite external resources")
-				.contains("//example.org/style.css")
+		assertThat(content).as("not rewrite external resources").contains("//example.org/style.css")
 				.contains("https://example.org/image.png");
 
-		assertThat(content).as("generate fingerprint")
-				.contains("# Hash: 65ebc023e50b2b731fcace2871f0dae3");
+		assertThat(content).as("generate fingerprint").contains("# Hash: 65ebc023e50b2b731fcace2871f0dae3");
 	}
 
 	private Resource getResource(String filePath) {

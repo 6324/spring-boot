@@ -30,20 +30,22 @@ import org.springframework.web.context.request.NativeWebRequest;
 
 /**
  * {@code DeferredResult} provides an alternative to using a {@link Callable} for
- * asynchronous request processing. While a {@code Callable} is executed concurrently
- * on behalf of the application, with a {@code DeferredResult} the application can
- * produce the result from a thread of its choice.
+ * asynchronous request processing. While a {@code Callable} is executed concurrently on
+ * behalf of the application, with a {@code DeferredResult} the application can produce
+ * the result from a thread of its choice.
  *
- * <p>Subclasses can extend this class to easily associate additional data or behavior
- * with the {@link DeferredResult}. For example, one might want to associate the user
- * used to create the {@link DeferredResult} by extending the class and adding an
- * additional property for the user. In this way, the user could easily be accessed
- * later without the need to use a data structure to do the mapping.
+ * <p>
+ * Subclasses can extend this class to easily associate additional data or behavior with
+ * the {@link DeferredResult}. For example, one might want to associate the user used to
+ * create the {@link DeferredResult} by extending the class and adding an additional
+ * property for the user. In this way, the user could easily be accessed later without the
+ * need to use a data structure to do the mapping.
  *
- * <p>An example of associating additional behavior to this class might be realized
- * by extending the class to implement an additional interface. For example, one
- * might want to implement {@link Comparable} so that when the {@link DeferredResult}
- * is added to a {@link PriorityQueue} it is handled in the correct order.
+ * <p>
+ * An example of associating additional behavior to this class might be realized by
+ * extending the class to implement an additional interface. For example, one might want
+ * to implement {@link Comparable} so that when the {@link DeferredResult} is added to a
+ * {@link PriorityQueue} it is handled in the correct order.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -56,7 +58,6 @@ public class DeferredResult<T> {
 	private static final Object RESULT_NONE = new Object();
 
 	private static final Log logger = LogFactory.getLog(DeferredResult.class);
-
 
 	@Nullable
 	private final Long timeoutValue;
@@ -75,7 +76,6 @@ public class DeferredResult<T> {
 
 	private volatile boolean expired = false;
 
-
 	/**
 	 * Create a DeferredResult.
 	 */
@@ -85,9 +85,10 @@ public class DeferredResult<T> {
 
 	/**
 	 * Create a DeferredResult with a custom timeout value.
-	 * <p>By default not set in which case the default configured in the MVC
-	 * Java Config or the MVC namespace is used, or if that's not set, then the
-	 * timeout depends on the default of the underlying server.
+	 * <p>
+	 * By default not set in which case the default configured in the MVC Java Config or
+	 * the MVC namespace is used, or if that's not set, then the timeout depends on the
+	 * default of the underlying server.
 	 * @param timeoutValue timeout value in milliseconds
 	 */
 	public DeferredResult(Long timeoutValue) {
@@ -95,8 +96,8 @@ public class DeferredResult<T> {
 	}
 
 	/**
-	 * Create a DeferredResult with a timeout value and a default result to use
-	 * in case of timeout.
+	 * Create a DeferredResult with a timeout value and a default result to use in case of
+	 * timeout.
 	 * @param timeoutValue timeout value in milliseconds (ignored if {@code null})
 	 * @param timeoutResult the result to use
 	 */
@@ -106,8 +107,8 @@ public class DeferredResult<T> {
 	}
 
 	/**
-	 * Variant of {@link #DeferredResult(Long, Object)} that accepts a dynamic
-	 * fallback value based on a {@link Supplier}.
+	 * Variant of {@link #DeferredResult(Long, Object)} that accepts a dynamic fallback
+	 * value based on a {@link Supplier}.
 	 * @param timeoutValue timeout value in milliseconds (ignored if {@code null})
 	 * @param timeoutResult the result supplier to use
 	 * @since 5.1.1
@@ -117,14 +118,14 @@ public class DeferredResult<T> {
 		this.timeoutResult = timeoutResult;
 	}
 
-
 	/**
-	 * Return {@code true} if this DeferredResult is no longer usable either
-	 * because it was previously set or because the underlying request expired.
-	 * <p>The result may have been set with a call to {@link #setResult(Object)},
-	 * or {@link #setErrorResult(Object)}, or as a result of a timeout, if a
-	 * timeout result was provided to the constructor. The request may also
-	 * expire due to a timeout or network error.
+	 * Return {@code true} if this DeferredResult is no longer usable either because it
+	 * was previously set or because the underlying request expired.
+	 * <p>
+	 * The result may have been set with a call to {@link #setResult(Object)}, or
+	 * {@link #setErrorResult(Object)}, or as a result of a timeout, if a timeout result
+	 * was provided to the constructor. The request may also expire due to a timeout or
+	 * network error.
 	 */
 	public final boolean isSetOrExpired() {
 		return (this.result != RESULT_NONE || this.expired);
@@ -139,9 +140,9 @@ public class DeferredResult<T> {
 	}
 
 	/**
-	 * Return the result, or {@code null} if the result wasn't set. Since the result
-	 * can also be {@code null}, it is recommended to use {@link #hasResult()} first
-	 * to check if there is a result prior to calling this method.
+	 * Return the result, or {@code null} if the result wasn't set. Since the result can
+	 * also be {@code null}, it is recommended to use {@link #hasResult()} first to check
+	 * if there is a result prior to calling this method.
 	 * @since 4.0
 	 */
 	@Nullable
@@ -160,10 +161,11 @@ public class DeferredResult<T> {
 
 	/**
 	 * Register code to invoke when the async request times out.
-	 * <p>This method is called from a container thread when an async request
-	 * times out before the {@code DeferredResult} has been populated.
-	 * It may invoke {@link DeferredResult#setResult setResult} or
-	 * {@link DeferredResult#setErrorResult setErrorResult} to resume processing.
+	 * <p>
+	 * This method is called from a container thread when an async request times out
+	 * before the {@code DeferredResult} has been populated. It may invoke
+	 * {@link DeferredResult#setResult setResult} or {@link DeferredResult#setErrorResult
+	 * setErrorResult} to resume processing.
 	 */
 	public void onTimeout(Runnable callback) {
 		this.timeoutCallback = callback;
@@ -171,11 +173,11 @@ public class DeferredResult<T> {
 
 	/**
 	 * Register code to invoke when an error occurred during the async request.
-	 * <p>This method is called from a container thread when an error occurs
-	 * while processing an async request before the {@code DeferredResult} has
-	 * been populated. It may invoke {@link DeferredResult#setResult setResult}
-	 * or {@link DeferredResult#setErrorResult setErrorResult} to resume
-	 * processing.
+	 * <p>
+	 * This method is called from a container thread when an error occurs while processing
+	 * an async request before the {@code DeferredResult} has been populated. It may
+	 * invoke {@link DeferredResult#setResult setResult} or
+	 * {@link DeferredResult#setErrorResult setErrorResult} to resume processing.
 	 * @since 5.0
 	 */
 	public void onError(Consumer<Throwable> callback) {
@@ -184,9 +186,10 @@ public class DeferredResult<T> {
 
 	/**
 	 * Register code to invoke when the async request completes.
-	 * <p>This method is called from a container thread when an async request
-	 * completed for any reason including timeout and network error. This is useful
-	 * for detecting that a {@code DeferredResult} instance is no longer usable.
+	 * <p>
+	 * This method is called from a container thread when an async request completed for
+	 * any reason including timeout and network error. This is useful for detecting that a
+	 * {@code DeferredResult} instance is no longer usable.
 	 */
 	public void onCompletion(Runnable callback) {
 		this.completionCallback = callback;
@@ -269,19 +272,17 @@ public class DeferredResult<T> {
 	}
 
 	/**
-	 * Set an error value for the {@link DeferredResult} and handle it.
-	 * The value may be an {@link Exception} or {@link Throwable} in which case
-	 * it will be processed as if a handler raised the exception.
+	 * Set an error value for the {@link DeferredResult} and handle it. The value may be
+	 * an {@link Exception} or {@link Throwable} in which case it will be processed as if
+	 * a handler raised the exception.
 	 * @param result the error result value
-	 * @return {@code true} if the result was set to the error value and passed on
-	 * for handling; {@code false} if the result was already set or the async
-	 * request expired
+	 * @return {@code true} if the result was set to the error value and passed on for
+	 * handling; {@code false} if the result was already set or the async request expired
 	 * @see #isSetOrExpired()
 	 */
 	public boolean setErrorResult(Object result) {
 		return setResultInternal(result);
 	}
-
 
 	final DeferredResultProcessingInterceptor getInterceptor() {
 		return new DeferredResultProcessingInterceptor() {
@@ -307,6 +308,7 @@ public class DeferredResult<T> {
 				}
 				return continueProcessing;
 			}
+
 			@Override
 			public <S> boolean handleError(NativeWebRequest request, DeferredResult<S> deferredResult, Throwable t) {
 				try {
@@ -324,6 +326,7 @@ public class DeferredResult<T> {
 				}
 				return false;
 			}
+
 			@Override
 			public <S> void afterCompletion(NativeWebRequest request, DeferredResult<S> deferredResult) {
 				expired = true;
@@ -334,7 +337,6 @@ public class DeferredResult<T> {
 		};
 	}
 
-
 	/**
 	 * Handles a DeferredResult value when set.
 	 */
@@ -342,6 +344,7 @@ public class DeferredResult<T> {
 	public interface DeferredResultHandler {
 
 		void handleResult(Object result);
+
 	}
 
 }

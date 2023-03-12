@@ -32,22 +32,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link HttpHeadResponseDecorator}.
+ *
  * @author Rossen Stoyanchev
  */
 public class HttpHeadResponseDecoratorTests {
 
-	private final LeakAwareDataBufferFactory bufferFactory =
-			new LeakAwareDataBufferFactory(new NettyDataBufferFactory(PooledByteBufAllocator.DEFAULT));
+	private final LeakAwareDataBufferFactory bufferFactory = new LeakAwareDataBufferFactory(
+			new NettyDataBufferFactory(PooledByteBufAllocator.DEFAULT));
 
-	private final ServerHttpResponse response =
-			new HttpHeadResponseDecorator(new MockServerHttpResponse(this.bufferFactory));
-
+	private final ServerHttpResponse response = new HttpHeadResponseDecorator(
+			new MockServerHttpResponse(this.bufferFactory));
 
 	@AfterEach
 	public void tearDown() {
 		this.bufferFactory.checkForLeaks();
 	}
-
 
 	@Test
 	public void write() {

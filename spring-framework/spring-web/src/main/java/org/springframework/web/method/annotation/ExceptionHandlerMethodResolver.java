@@ -34,8 +34,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 /**
  * Discovers {@linkplain ExceptionHandler @ExceptionHandler} methods in a given class,
- * including all of its superclasses, and helps to resolve a given {@link Exception}
- * to the exception types supported by a given {@link Method}.
+ * including all of its superclasses, and helps to resolve a given {@link Exception} to
+ * the exception types supported by a given {@link Method}.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -46,14 +46,12 @@ public class ExceptionHandlerMethodResolver {
 	/**
 	 * A filter for selecting {@code @ExceptionHandler} methods.
 	 */
-	public static final MethodFilter EXCEPTION_HANDLER_METHODS = method ->
-			AnnotatedElementUtils.hasAnnotation(method, ExceptionHandler.class);
-
+	public static final MethodFilter EXCEPTION_HANDLER_METHODS = method -> AnnotatedElementUtils.hasAnnotation(method,
+			ExceptionHandler.class);
 
 	private final Map<Class<? extends Throwable>, Method> mappedMethods = new HashMap<>(16);
 
 	private final Map<Class<? extends Throwable>, Method> exceptionLookupCache = new ConcurrentReferenceHashMap<>(16);
-
 
 	/**
 	 * A constructor that finds {@link ExceptionHandler} methods in the given type.
@@ -67,10 +65,9 @@ public class ExceptionHandlerMethodResolver {
 		}
 	}
 
-
 	/**
-	 * Extract exception mappings from the {@code @ExceptionHandler} annotation first,
-	 * and then as a fallback from the method signature itself.
+	 * Extract exception mappings from the {@code @ExceptionHandler} annotation first, and
+	 * then as a fallback from the method signature itself.
 	 */
 	@SuppressWarnings("unchecked")
 	private List<Class<? extends Throwable>> detectExceptionMappings(Method method) {
@@ -98,8 +95,8 @@ public class ExceptionHandlerMethodResolver {
 	private void addExceptionMapping(Class<? extends Throwable> exceptionType, Method method) {
 		Method oldMethod = this.mappedMethods.put(exceptionType, method);
 		if (oldMethod != null && !oldMethod.equals(method)) {
-			throw new IllegalStateException("Ambiguous @ExceptionHandler method mapped for [" +
-					exceptionType + "]: {" + oldMethod + ", " + method + "}");
+			throw new IllegalStateException("Ambiguous @ExceptionHandler method mapped for [" + exceptionType + "]: {"
+					+ oldMethod + ", " + method + "}");
 		}
 	}
 
@@ -111,8 +108,8 @@ public class ExceptionHandlerMethodResolver {
 	}
 
 	/**
-	 * Find a {@link Method} to handle the given exception.
-	 * Use {@link ExceptionDepthComparator} if more than one match is found.
+	 * Find a {@link Method} to handle the given exception. Use
+	 * {@link ExceptionDepthComparator} if more than one match is found.
 	 * @param exception the exception
 	 * @return a Method to handle the exception, or {@code null} if none found
 	 */
@@ -122,8 +119,8 @@ public class ExceptionHandlerMethodResolver {
 	}
 
 	/**
-	 * Find a {@link Method} to handle the given Throwable.
-	 * Use {@link ExceptionDepthComparator} if more than one match is found.
+	 * Find a {@link Method} to handle the given Throwable. Use
+	 * {@link ExceptionDepthComparator} if more than one match is found.
 	 * @param exception the exception
 	 * @return a Method to handle the exception, or {@code null} if none found
 	 * @since 5.0
@@ -141,8 +138,8 @@ public class ExceptionHandlerMethodResolver {
 	}
 
 	/**
-	 * Find a {@link Method} to handle the given exception type. This can be
-	 * useful if an {@link Exception} instance is not available (e.g. for tools).
+	 * Find a {@link Method} to handle the given exception type. This can be useful if an
+	 * {@link Exception} instance is not available (e.g. for tools).
 	 * @param exceptionType the exception type
 	 * @return a Method to handle the exception, or {@code null} if none found
 	 */
@@ -157,7 +154,8 @@ public class ExceptionHandlerMethodResolver {
 	}
 
 	/**
-	 * Return the {@link Method} mapped to the given exception type, or {@code null} if none.
+	 * Return the {@link Method} mapped to the given exception type, or {@code null} if
+	 * none.
 	 */
 	@Nullable
 	private Method getMappedMethod(Class<? extends Throwable> exceptionType) {

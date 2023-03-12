@@ -35,10 +35,11 @@ import org.springframework.web.servlet.view.AbstractView;
  * Spring-MVC {@link View} that allows for response context to be rendered as the result
  * of marshalling by a {@link Marshaller}.
  *
- * <p>The Object to be marshalled is supplied as a parameter in the model and then
+ * <p>
+ * The Object to be marshalled is supplied as a parameter in the model and then
  * {@linkplain #locateToBeMarshalled(Map) detected} during response rendering. Users can
- * either specify a specific entry in the model via the {@link #setModelKey(String) sourceKey}
- * property or have Spring locate the Source object.
+ * either specify a specific entry in the model via the {@link #setModelKey(String)
+ * sourceKey} property or have Spring locate the Source object.
  *
  * @author Arjen Poutsma
  * @author Juergen Hoeller
@@ -51,17 +52,15 @@ public class MarshallingView extends AbstractView {
 	 */
 	public static final String DEFAULT_CONTENT_TYPE = "application/xml";
 
-
 	@Nullable
 	private Marshaller marshaller;
 
 	@Nullable
 	private String modelKey;
 
-
 	/**
-	 * Construct a new {@code MarshallingView} with no {@link Marshaller} set.
-	 * The marshaller must be set after construction by invoking {@link #setMarshaller}.
+	 * Construct a new {@code MarshallingView} with no {@link Marshaller} set. The
+	 * marshaller must be set after construction by invoking {@link #setMarshaller}.
 	 */
 	public MarshallingView() {
 		setContentType(DEFAULT_CONTENT_TYPE);
@@ -77,7 +76,6 @@ public class MarshallingView extends AbstractView {
 		this.marshaller = marshaller;
 	}
 
-
 	/**
 	 * Set the {@link Marshaller} to be used by this view.
 	 */
@@ -86,8 +84,8 @@ public class MarshallingView extends AbstractView {
 	}
 
 	/**
-	 * Set the name of the model key that represents the object to be marshalled.
-	 * If not specified, the model map will be searched for a supported value type.
+	 * Set the name of the model key that represents the object to be marshalled. If not
+	 * specified, the model map will be searched for a supported value type.
 	 * @see Marshaller#supports(Class)
 	 */
 	public void setModelKey(String modelKey) {
@@ -98,7 +96,6 @@ public class MarshallingView extends AbstractView {
 	protected void initApplicationContext() {
 		Assert.notNull(this.marshaller, "Property 'marshaller' is required");
 	}
-
 
 	@Override
 	protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
@@ -120,9 +117,10 @@ public class MarshallingView extends AbstractView {
 
 	/**
 	 * Locate the object to be marshalled.
-	 * <p>The default implementation first attempts to look under the configured
-	 * {@linkplain #setModelKey(String) model key}, if any, before attempting to
-	 * locate an object of {@linkplain Marshaller#supports(Class) supported type}.
+	 * <p>
+	 * The default implementation first attempts to look under the configured
+	 * {@linkplain #setModelKey(String) model key}, if any, before attempting to locate an
+	 * object of {@linkplain Marshaller#supports(Class) supported type}.
 	 * @param model the model Map
 	 * @return the Object to be marshalled (or {@code null} if none found)
 	 * @throws IllegalStateException if the model object specified by the
@@ -137,15 +135,15 @@ public class MarshallingView extends AbstractView {
 				throw new IllegalStateException("Model contains no object with key [" + this.modelKey + "]");
 			}
 			if (!isEligibleForMarshalling(this.modelKey, value)) {
-				throw new IllegalStateException("Model object [" + value + "] retrieved via key [" +
-						this.modelKey + "] is not supported by the Marshaller");
+				throw new IllegalStateException("Model object [" + value + "] retrieved via key [" + this.modelKey
+						+ "] is not supported by the Marshaller");
 			}
 			return value;
 		}
 		for (Map.Entry<String, Object> entry : model.entrySet()) {
 			Object value = entry.getValue();
-			if (value != null && (model.size() == 1 || !(value instanceof BindingResult)) &&
-					isEligibleForMarshalling(entry.getKey(), value)) {
+			if (value != null && (model.size() == 1 || !(value instanceof BindingResult))
+					&& isEligibleForMarshalling(entry.getKey(), value)) {
 				return value;
 			}
 		}
@@ -153,10 +151,11 @@ public class MarshallingView extends AbstractView {
 	}
 
 	/**
-	 * Check whether the given value from the current view's model is eligible
-	 * for marshalling through the configured {@link Marshaller}.
-	 * <p>The default implementation calls {@link Marshaller#supports(Class)},
-	 * unwrapping a given {@link JAXBElement} first if applicable.
+	 * Check whether the given value from the current view's model is eligible for
+	 * marshalling through the configured {@link Marshaller}.
+	 * <p>
+	 * The default implementation calls {@link Marshaller#supports(Class)}, unwrapping a
+	 * given {@link JAXBElement} first if applicable.
 	 * @param modelKey the value's key in the model (never {@code null})
 	 * @param value the value to check (never {@code null})
 	 * @return whether the given value is to be considered as eligible

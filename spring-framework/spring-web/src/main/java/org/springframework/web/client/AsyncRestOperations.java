@@ -30,15 +30,16 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.concurrent.ListenableFuture;
 
 /**
- * Interface specifying a basic set of asynchronous RESTful operations.
- * Implemented by {@link AsyncRestTemplate}. Not often used directly, but a useful
- * option to enhance testability, as it can easily be mocked or stubbed.
+ * Interface specifying a basic set of asynchronous RESTful operations. Implemented by
+ * {@link AsyncRestTemplate}. Not often used directly, but a useful option to enhance
+ * testability, as it can easily be mocked or stubbed.
  *
  * @author Arjen Poutsma
  * @since 4.0
  * @see AsyncRestTemplate
  * @see RestOperations
- * @deprecated as of Spring 5.0, in favor of {@link org.springframework.web.reactive.function.client.WebClient}
+ * @deprecated as of Spring 5.0, in favor of
+ * {@link org.springframework.web.reactive.function.client.WebClient}
  */
 @Deprecated
 public interface AsyncRestOperations {
@@ -48,65 +49,64 @@ public interface AsyncRestOperations {
 	 */
 	RestOperations getRestOperations();
 
-
 	// GET
 
 	/**
-	 * Asynchronously retrieve an entity by doing a GET on the specified URL.
-	 * The response is converted and stored in an {@link ResponseEntity}.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
+	 * Asynchronously retrieve an entity by doing a GET on the specified URL. The response
+	 * is converted and stored in an {@link ResponseEntity}.
+	 * <p>
+	 * URI Template variables are expanded using the given URI variables, if any.
 	 * @param url the URL
 	 * @param responseType the type of the return value
 	 * @param uriVariables the variables to expand the template
 	 * @return the entity wrapped in a {@link Future}
 	 */
-	<T> ListenableFuture<ResponseEntity<T>> getForEntity(String url, Class<T> responseType,
-			Object... uriVariables) throws RestClientException;
+	<T> ListenableFuture<ResponseEntity<T>> getForEntity(String url, Class<T> responseType, Object... uriVariables)
+			throws RestClientException;
 
 	/**
-	 * Asynchronously retrieve a representation by doing a GET on the URI template.
-	 * The response is converted and stored in an {@link ResponseEntity}.
-	 * <p>URI Template variables are expanded using the given map.
+	 * Asynchronously retrieve a representation by doing a GET on the URI template. The
+	 * response is converted and stored in an {@link ResponseEntity}.
+	 * <p>
+	 * URI Template variables are expanded using the given map.
 	 * @param url the URL
 	 * @param responseType the type of the return value
 	 * @param uriVariables the map containing variables for the URI template
 	 * @return the entity wrapped in a {@link Future}
 	 */
-	<T> ListenableFuture<ResponseEntity<T>> getForEntity(String url, Class<T> responseType,
-			Map<String, ?> uriVariables) throws RestClientException;
+	<T> ListenableFuture<ResponseEntity<T>> getForEntity(String url, Class<T> responseType, Map<String, ?> uriVariables)
+			throws RestClientException;
 
 	/**
-	 * Asynchronously retrieve a representation by doing a GET on the URL.
-	 * The response is converted and stored in an {@link ResponseEntity}.
+	 * Asynchronously retrieve a representation by doing a GET on the URL. The response is
+	 * converted and stored in an {@link ResponseEntity}.
 	 * @param url the URL
 	 * @param responseType the type of the return value
 	 * @return the entity wrapped in a {@link Future}
 	 */
-	<T> ListenableFuture<ResponseEntity<T>> getForEntity(URI url, Class<T> responseType)
-			throws RestClientException;
-
+	<T> ListenableFuture<ResponseEntity<T>> getForEntity(URI url, Class<T> responseType) throws RestClientException;
 
 	// HEAD
 
 	/**
 	 * Asynchronously retrieve all headers of the resource specified by the URI template.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
+	 * <p>
+	 * URI Template variables are expanded using the given URI variables, if any.
 	 * @param url the URL
 	 * @param uriVariables the variables to expand the template
 	 * @return all HTTP headers of that resource wrapped in a {@link Future}
 	 */
-	ListenableFuture<HttpHeaders> headForHeaders(String url, Object... uriVariables)
-			throws RestClientException;
+	ListenableFuture<HttpHeaders> headForHeaders(String url, Object... uriVariables) throws RestClientException;
 
 	/**
 	 * Asynchronously retrieve all headers of the resource specified by the URI template.
-	 * <p>URI Template variables are expanded using the given map.
+	 * <p>
+	 * URI Template variables are expanded using the given map.
 	 * @param url the URL
 	 * @param uriVariables the map containing variables for the URI template
 	 * @return all HTTP headers of that resource wrapped in a {@link Future}
 	 */
-	ListenableFuture<HttpHeaders> headForHeaders(String url, Map<String, ?> uriVariables)
-			throws RestClientException;
+	ListenableFuture<HttpHeaders> headForHeaders(String url, Map<String, ?> uriVariables) throws RestClientException;
 
 	/**
 	 * Asynchronously retrieve all headers of the resource specified by the URL.
@@ -115,14 +115,14 @@ public interface AsyncRestOperations {
 	 */
 	ListenableFuture<HttpHeaders> headForHeaders(URI url) throws RestClientException;
 
-
 	// POST
 
 	/**
 	 * Create a new resource by POSTing the given object to the URI template, and
 	 * asynchronously returns the value of the {@code Location} header. This header
 	 * typically indicates where the new resource is stored.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
+	 * <p>
+	 * URI Template variables are expanded using the given URI variables, if any.
 	 * @param url the URL
 	 * @param request the Object to be POSTed (may be {@code null})
 	 * @param uriVariables the variables to expand the template
@@ -136,7 +136,8 @@ public interface AsyncRestOperations {
 	 * Create a new resource by POSTing the given object to the URI template, and
 	 * asynchronously returns the value of the {@code Location} header. This header
 	 * typically indicates where the new resource is stored.
-	 * <p>URI Template variables are expanded using the given map.
+	 * <p>
+	 * URI Template variables are expanded using the given map.
 	 * @param url the URL
 	 * @param request the Object to be POSTed (may be {@code null})
 	 * @param uriVariables the variables to expand the template
@@ -158,9 +159,10 @@ public interface AsyncRestOperations {
 	ListenableFuture<URI> postForLocation(URI url, @Nullable HttpEntity<?> request) throws RestClientException;
 
 	/**
-	 * Create a new resource by POSTing the given object to the URI template,
-	 * and asynchronously returns the response as {@link ResponseEntity}.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
+	 * Create a new resource by POSTing the given object to the URI template, and
+	 * asynchronously returns the response as {@link ResponseEntity}.
+	 * <p>
+	 * URI Template variables are expanded using the given URI variables, if any.
 	 * @param url the URL
 	 * @param request the Object to be POSTed (may be {@code null})
 	 * @param uriVariables the variables to expand the template
@@ -171,9 +173,10 @@ public interface AsyncRestOperations {
 			Class<T> responseType, Object... uriVariables) throws RestClientException;
 
 	/**
-	 * Create a new resource by POSTing the given object to the URI template,
-	 * and asynchronously returns the response as {@link ResponseEntity}.
-	 * <p>URI Template variables are expanded using the given map.
+	 * Create a new resource by POSTing the given object to the URI template, and
+	 * asynchronously returns the response as {@link ResponseEntity}.
+	 * <p>
+	 * URI Template variables are expanded using the given map.
 	 * @param url the URL
 	 * @param request the Object to be POSTed (may be {@code null})
 	 * @param uriVariables the variables to expand the template
@@ -184,8 +187,8 @@ public interface AsyncRestOperations {
 			Class<T> responseType, Map<String, ?> uriVariables) throws RestClientException;
 
 	/**
-	 * Create a new resource by POSTing the given object to the URL,
-	 * and asynchronously returns the response as {@link ResponseEntity}.
+	 * Create a new resource by POSTing the given object to the URL, and asynchronously
+	 * returns the response as {@link ResponseEntity}.
 	 * @param url the URL
 	 * @param request the Object to be POSTed (may be {@code null})
 	 * @return the entity wrapped in a {@link Future}
@@ -194,13 +197,14 @@ public interface AsyncRestOperations {
 	<T> ListenableFuture<ResponseEntity<T>> postForEntity(URI url, @Nullable HttpEntity<?> request,
 			Class<T> responseType) throws RestClientException;
 
-
 	// PUT
 
 	/**
 	 * Create or update a resource by PUTting the given object to the URI.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
-	 * <p>The Future will return a {@code null} result upon completion.
+	 * <p>
+	 * URI Template variables are expanded using the given URI variables, if any.
+	 * <p>
+	 * The Future will return a {@code null} result upon completion.
 	 * @param url the URL
 	 * @param request the Object to be PUT (may be {@code null})
 	 * @param uriVariables the variables to expand the template
@@ -211,8 +215,10 @@ public interface AsyncRestOperations {
 
 	/**
 	 * Creates a new resource by PUTting the given object to URI template.
-	 * <p>URI Template variables are expanded using the given map.
-	 * <p>The Future will return a {@code null} result upon completion.
+	 * <p>
+	 * URI Template variables are expanded using the given map.
+	 * <p>
+	 * The Future will return a {@code null} result upon completion.
 	 * @param url the URL
 	 * @param request the Object to be PUT (may be {@code null})
 	 * @param uriVariables the variables to expand the template
@@ -223,20 +229,22 @@ public interface AsyncRestOperations {
 
 	/**
 	 * Creates a new resource by PUTting the given object to URL.
-	 * <p>The Future will return a {@code null} result upon completion.
+	 * <p>
+	 * The Future will return a {@code null} result upon completion.
 	 * @param url the URL
 	 * @param request the Object to be PUT (may be {@code null})
 	 * @see HttpEntity
 	 */
 	ListenableFuture<?> put(URI url, @Nullable HttpEntity<?> request) throws RestClientException;
 
-
 	// DELETE
 
 	/**
 	 * Asynchronously delete the resources at the specified URI.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
-	 * <p>The Future will return a {@code null} result upon completion.
+	 * <p>
+	 * URI Template variables are expanded using the given URI variables, if any.
+	 * <p>
+	 * The Future will return a {@code null} result upon completion.
 	 * @param url the URL
 	 * @param uriVariables the variables to expand in the template
 	 */
@@ -244,8 +252,10 @@ public interface AsyncRestOperations {
 
 	/**
 	 * Asynchronously delete the resources at the specified URI.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
-	 * <p>The Future will return a {@code null} result upon completion.
+	 * <p>
+	 * URI Template variables are expanded using the given URI variables, if any.
+	 * <p>
+	 * The Future will return a {@code null} result upon completion.
 	 * @param url the URL
 	 * @param uriVariables the variables to expand in the template
 	 */
@@ -253,28 +263,30 @@ public interface AsyncRestOperations {
 
 	/**
 	 * Asynchronously delete the resources at the specified URI.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
-	 * <p>The Future will return a {@code null} result upon completion.
+	 * <p>
+	 * URI Template variables are expanded using the given URI variables, if any.
+	 * <p>
+	 * The Future will return a {@code null} result upon completion.
 	 * @param url the URL
 	 */
 	ListenableFuture<?> delete(URI url) throws RestClientException;
-
 
 	// OPTIONS
 
 	/**
 	 * Asynchronously return the value of the Allow header for the given URI.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
+	 * <p>
+	 * URI Template variables are expanded using the given URI variables, if any.
 	 * @param url the URL
 	 * @param uriVariables the variables to expand in the template
 	 * @return the value of the allow header wrapped in a {@link Future}
 	 */
-	ListenableFuture<Set<HttpMethod>> optionsForAllow(String url, Object... uriVariables)
-			throws RestClientException;
+	ListenableFuture<Set<HttpMethod>> optionsForAllow(String url, Object... uriVariables) throws RestClientException;
 
 	/**
 	 * Asynchronously return the value of the Allow header for the given URI.
-	 * <p>URI Template variables are expanded using the given map.
+	 * <p>
+	 * URI Template variables are expanded using the given map.
 	 * @param url the URL
 	 * @param uriVariables the variables to expand in the template
 	 * @return the value of the allow header wrapped in a {@link Future}
@@ -289,18 +301,17 @@ public interface AsyncRestOperations {
 	 */
 	ListenableFuture<Set<HttpMethod>> optionsForAllow(URI url) throws RestClientException;
 
-
 	// exchange
 
 	/**
-	 * Asynchronously execute the HTTP method to the given URI template, writing the
-	 * given request entity to the request, and returns the response as
-	 * {@link ResponseEntity}.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
+	 * Asynchronously execute the HTTP method to the given URI template, writing the given
+	 * request entity to the request, and returns the response as {@link ResponseEntity}.
+	 * <p>
+	 * URI Template variables are expanded using the given URI variables, if any.
 	 * @param url the URL
 	 * @param method the HTTP method (GET, POST, etc)
-	 * @param requestEntity the entity (headers and/or body) to write to the request
-	 * (may be {@code null})
+	 * @param requestEntity the entity (headers and/or body) to write to the request (may
+	 * be {@code null})
 	 * @param responseType the type of the return value
 	 * @param uriVariables the variables to expand in the template
 	 * @return the response as entity wrapped in a {@link Future}
@@ -310,43 +321,63 @@ public interface AsyncRestOperations {
 			throws RestClientException;
 
 	/**
-	 * Asynchronously execute the HTTP method to the given URI template, writing the
-	 * given request entity to the request, and returns the response as
-	 * {@link ResponseEntity}.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
+	 * Asynchronously execute the HTTP method to the given URI template, writing the given
+	 * request entity to the request, and returns the response as {@link ResponseEntity}.
+	 * <p>
+	 * URI Template variables are expanded using the given URI variables, if any.
 	 * @param url the URL
 	 * @param method the HTTP method (GET, POST, etc)
-	 * @param requestEntity the entity (headers and/or body) to write to the request
-	 * (may be {@code null})
+	 * @param requestEntity the entity (headers and/or body) to write to the request (may
+	 * be {@code null})
 	 * @param responseType the type of the return value
 	 * @param uriVariables the variables to expand in the template
 	 * @return the response as entity wrapped in a {@link Future}
 	 */
 	<T> ListenableFuture<ResponseEntity<T>> exchange(String url, HttpMethod method,
-			@Nullable HttpEntity<?> requestEntity, Class<T> responseType,
-			Map<String, ?> uriVariables) throws RestClientException;
+			@Nullable HttpEntity<?> requestEntity, Class<T> responseType, Map<String, ?> uriVariables)
+			throws RestClientException;
 
 	/**
-	 * Asynchronously execute the HTTP method to the given URI template, writing the
-	 * given request entity to the request, and returns the response as
-	 * {@link ResponseEntity}.
+	 * Asynchronously execute the HTTP method to the given URI template, writing the given
+	 * request entity to the request, and returns the response as {@link ResponseEntity}.
 	 * @param url the URL
 	 * @param method the HTTP method (GET, POST, etc)
-	 * @param requestEntity the entity (headers and/or body) to write to the request
-	 * (may be {@code null})
+	 * @param requestEntity the entity (headers and/or body) to write to the request (may
+	 * be {@code null})
 	 * @param responseType the type of the return value
 	 * @return the response as entity wrapped in a {@link Future}
 	 */
-	<T> ListenableFuture<ResponseEntity<T>> exchange(URI url, HttpMethod method,
-			@Nullable HttpEntity<?> requestEntity, Class<T> responseType)
+	<T> ListenableFuture<ResponseEntity<T>> exchange(URI url, HttpMethod method, @Nullable HttpEntity<?> requestEntity,
+			Class<T> responseType) throws RestClientException;
+
+	/**
+	 * Asynchronously execute the HTTP method to the given URI template, writing the given
+	 * request entity to the request, and returns the response as {@link ResponseEntity}.
+	 * The given {@link ParameterizedTypeReference} is used to pass generic type
+	 * information: <pre class="code">
+	 * ParameterizedTypeReference&lt;List&lt;MyBean&gt;&gt; myBean =
+	 *     new ParameterizedTypeReference&lt;List&lt;MyBean&gt;&gt;() {};
+	 *
+	 * ResponseEntity&lt;List&lt;MyBean&gt;&gt; response =
+	 *     template.exchange(&quot;https://example.com&quot;,HttpMethod.GET, null, myBean);
+	 * </pre>
+	 * @param url the URL
+	 * @param method the HTTP method (GET, POST, etc)
+	 * @param requestEntity the entity (headers and/or body) to write to the request (may
+	 * be {@code null})
+	 * @param responseType the type of the return value
+	 * @param uriVariables the variables to expand in the template
+	 * @return the response as entity wrapped in a {@link Future}
+	 */
+	<T> ListenableFuture<ResponseEntity<T>> exchange(String url, HttpMethod method,
+			@Nullable HttpEntity<?> requestEntity, ParameterizedTypeReference<T> responseType, Object... uriVariables)
 			throws RestClientException;
 
 	/**
 	 * Asynchronously execute the HTTP method to the given URI template, writing the given
 	 * request entity to the request, and returns the response as {@link ResponseEntity}.
 	 * The given {@link ParameterizedTypeReference} is used to pass generic type
-	 * information:
-	 * <pre class="code">
+	 * information: <pre class="code">
 	 * ParameterizedTypeReference&lt;List&lt;MyBean&gt;&gt; myBean =
 	 *     new ParameterizedTypeReference&lt;List&lt;MyBean&gt;&gt;() {};
 	 *
@@ -355,32 +386,8 @@ public interface AsyncRestOperations {
 	 * </pre>
 	 * @param url the URL
 	 * @param method the HTTP method (GET, POST, etc)
-	 * @param requestEntity the entity (headers and/or body) to write to the
-	 * request (may be {@code null})
-	 * @param responseType the type of the return value
-	 * @param uriVariables the variables to expand in the template
-	 * @return the response as entity wrapped in a {@link Future}
-	 */
-	<T> ListenableFuture<ResponseEntity<T>> exchange(String url, HttpMethod method,
-			@Nullable HttpEntity<?> requestEntity, ParameterizedTypeReference<T> responseType,
-			Object... uriVariables) throws RestClientException;
-
-	/**
-	 * Asynchronously execute the HTTP method to the given URI template, writing the given
-	 * request entity to the request, and returns the response as {@link ResponseEntity}.
-	 * The given {@link ParameterizedTypeReference} is used to pass generic type
-	 * information:
-	 * <pre class="code">
-	 * ParameterizedTypeReference&lt;List&lt;MyBean&gt;&gt; myBean =
-	 *     new ParameterizedTypeReference&lt;List&lt;MyBean&gt;&gt;() {};
-	 *
-	 * ResponseEntity&lt;List&lt;MyBean&gt;&gt; response =
-	 *     template.exchange(&quot;https://example.com&quot;,HttpMethod.GET, null, myBean);
-	 * </pre>
-	 * @param url the URL
-	 * @param method the HTTP method (GET, POST, etc)
-	 * @param requestEntity the entity (headers and/or body) to write to the request
-	 * (may be {@code null})
+	 * @param requestEntity the entity (headers and/or body) to write to the request (may
+	 * be {@code null})
 	 * @param responseType the type of the return value
 	 * @param uriVariables the variables to expand in the template
 	 * @return the response as entity wrapped in a {@link Future}
@@ -393,8 +400,7 @@ public interface AsyncRestOperations {
 	 * Asynchronously execute the HTTP method to the given URI template, writing the given
 	 * request entity to the request, and returns the response as {@link ResponseEntity}.
 	 * The given {@link ParameterizedTypeReference} is used to pass generic type
-	 * information:
-	 * <pre class="code">
+	 * information: <pre class="code">
 	 * ParameterizedTypeReference&lt;List&lt;MyBean&gt;&gt; myBean =
 	 *     new ParameterizedTypeReference&lt;List&lt;MyBean&gt;&gt;() {};
 	 *
@@ -403,15 +409,13 @@ public interface AsyncRestOperations {
 	 * </pre>
 	 * @param url the URL
 	 * @param method the HTTP method (GET, POST, etc)
-	 * @param requestEntity the entity (headers and/or body) to write to the request
-	 * (may be {@code null})
+	 * @param requestEntity the entity (headers and/or body) to write to the request (may
+	 * be {@code null})
 	 * @param responseType the type of the return value
 	 * @return the response as entity wrapped in a {@link Future}
 	 */
-	<T> ListenableFuture<ResponseEntity<T>> exchange(URI url, HttpMethod method,
-			@Nullable HttpEntity<?> requestEntity, ParameterizedTypeReference<T> responseType)
-			throws RestClientException;
-
+	<T> ListenableFuture<ResponseEntity<T>> exchange(URI url, HttpMethod method, @Nullable HttpEntity<?> requestEntity,
+			ParameterizedTypeReference<T> responseType) throws RestClientException;
 
 	// general execution
 
@@ -419,7 +423,8 @@ public interface AsyncRestOperations {
 	 * Asynchronously execute the HTTP method to the given URI template, preparing the
 	 * request with the {@link AsyncRequestCallback}, and reading the response with a
 	 * {@link ResponseExtractor}.
-	 * <p>URI Template variables are expanded using the given URI variables, if any.
+	 * <p>
+	 * URI Template variables are expanded using the given URI variables, if any.
 	 * @param url the URL
 	 * @param method the HTTP method (GET, POST, etc)
 	 * @param requestCallback object that prepares the request
@@ -427,15 +432,15 @@ public interface AsyncRestOperations {
 	 * @param uriVariables the variables to expand in the template
 	 * @return an arbitrary object, as returned by the {@link ResponseExtractor}
 	 */
-	<T> ListenableFuture<T> execute(String url, HttpMethod method,
-			@Nullable AsyncRequestCallback requestCallback, @Nullable ResponseExtractor<T> responseExtractor,
-			Object... uriVariables) throws RestClientException;
+	<T> ListenableFuture<T> execute(String url, HttpMethod method, @Nullable AsyncRequestCallback requestCallback,
+			@Nullable ResponseExtractor<T> responseExtractor, Object... uriVariables) throws RestClientException;
 
 	/**
 	 * Asynchronously execute the HTTP method to the given URI template, preparing the
 	 * request with the {@link AsyncRequestCallback}, and reading the response with a
 	 * {@link ResponseExtractor}.
-	 * <p>URI Template variables are expanded using the given URI variables map.
+	 * <p>
+	 * URI Template variables are expanded using the given URI variables map.
 	 * @param url the URL
 	 * @param method the HTTP method (GET, POST, etc)
 	 * @param requestCallback object that prepares the request
@@ -443,13 +448,12 @@ public interface AsyncRestOperations {
 	 * @param uriVariables the variables to expand in the template
 	 * @return an arbitrary object, as returned by the {@link ResponseExtractor}
 	 */
-	<T> ListenableFuture<T> execute(String url, HttpMethod method,
-			@Nullable AsyncRequestCallback requestCallback, @Nullable ResponseExtractor<T> responseExtractor,
-			Map<String, ?> uriVariables) throws RestClientException;
+	<T> ListenableFuture<T> execute(String url, HttpMethod method, @Nullable AsyncRequestCallback requestCallback,
+			@Nullable ResponseExtractor<T> responseExtractor, Map<String, ?> uriVariables) throws RestClientException;
 
 	/**
-	 * Asynchronously execute the HTTP method to the given URL, preparing the request
-	 * with the {@link AsyncRequestCallback}, and reading the response with a
+	 * Asynchronously execute the HTTP method to the given URL, preparing the request with
+	 * the {@link AsyncRequestCallback}, and reading the response with a
 	 * {@link ResponseExtractor}.
 	 * @param url the URL
 	 * @param method the HTTP method (GET, POST, etc)
@@ -457,8 +461,7 @@ public interface AsyncRestOperations {
 	 * @param responseExtractor object that extracts the return value from the response
 	 * @return an arbitrary object, as returned by the {@link ResponseExtractor}
 	 */
-	<T> ListenableFuture<T> execute(URI url, HttpMethod method,
-			@Nullable AsyncRequestCallback requestCallback, @Nullable ResponseExtractor<T> responseExtractor)
-			throws RestClientException;
+	<T> ListenableFuture<T> execute(URI url, HttpMethod method, @Nullable AsyncRequestCallback requestCallback,
+			@Nullable ResponseExtractor<T> responseExtractor) throws RestClientException;
 
 }

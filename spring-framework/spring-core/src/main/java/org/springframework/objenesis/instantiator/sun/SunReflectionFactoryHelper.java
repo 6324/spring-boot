@@ -14,69 +14,65 @@
  * limitations under the License.
  */
 package org.springframework.objenesis.instantiator.sun;
+
 import org.springframework.objenesis.ObjenesisException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-
-
-
 /**
- * Helper methods providing access to {@link sun.reflect.ReflectionFactory} via reflection, for use
- * by the {@link ObjectInstantiator}s that use it.
- * 
+ * Helper methods providing access to {@link sun.reflect.ReflectionFactory} via
+ * reflection, for use by the {@link ObjectInstantiator}s that use it.
+ *
  * @author Henri Tremblay
  */
 @SuppressWarnings("restriction")
 class SunReflectionFactoryHelper {
 
-   @SuppressWarnings("unchecked")
-   public static <T> Constructor<T> newConstructorForSerialization(Class<T> type,
-      Constructor<?> constructor) {
-      Class<?> reflectionFactoryClass = getReflectionFactoryClass();
-      Object reflectionFactory = createReflectionFactory(reflectionFactoryClass);
+	@SuppressWarnings("unchecked")
+	public static <T> Constructor<T> newConstructorForSerialization(Class<T> type, Constructor<?> constructor) {
+		Class<?> reflectionFactoryClass = getReflectionFactoryClass();
+		Object reflectionFactory = createReflectionFactory(reflectionFactoryClass);
 
-      Method newConstructorForSerializationMethod = getNewConstructorForSerializationMethod(
-         reflectionFactoryClass);
+		Method newConstructorForSerializationMethod = getNewConstructorForSerializationMethod(reflectionFactoryClass);
 
-      try {
-         return (Constructor<T>) newConstructorForSerializationMethod.invoke(
-            reflectionFactory, type, constructor);
-      }
-      catch(IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
-         throw new ObjenesisException(e);
-      }
-   }
+		try {
+			return (Constructor<T>) newConstructorForSerializationMethod.invoke(reflectionFactory, type, constructor);
+		}
+		catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+			throw new ObjenesisException(e);
+		}
+	}
 
-   private static Class<?> getReflectionFactoryClass() {
-      try {
-         return Class.forName("sun.reflect.ReflectionFactory");
-      }
-      catch(ClassNotFoundException e) {
-         throw new ObjenesisException(e);
-      }
-   }
+	private static Class<?> getReflectionFactoryClass() {
+		try {
+			return Class.forName("sun.reflect.ReflectionFactory");
+		}
+		catch (ClassNotFoundException e) {
+			throw new ObjenesisException(e);
+		}
+	}
 
-   private static Object createReflectionFactory(Class<?> reflectionFactoryClass) {
-      try {
-         Method method = reflectionFactoryClass.getDeclaredMethod(
-            "getReflectionFactory");
-         return method.invoke(null);
-      }
-      catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException | IllegalArgumentException e) {
-         throw new ObjenesisException(e);
-      }
-   }
+	private static Object createReflectionFactory(Class<?> reflectionFactoryClass) {
+		try {
+			Method method = reflectionFactoryClass.getDeclaredMethod("getReflectionFactory");
+			return method.invoke(null);
+		}
+		catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException
+				| IllegalArgumentException e) {
+			throw new ObjenesisException(e);
+		}
+	}
 
-   private static Method getNewConstructorForSerializationMethod(Class<?> reflectionFactoryClass) {
-      try {
-         return reflectionFactoryClass.getDeclaredMethod(
-            "newConstructorForSerialization", Class.class, Constructor.class);
-      }
-      catch(NoSuchMethodException e) {
-         throw new ObjenesisException(e);
-      }
-   }
+	private static Method getNewConstructorForSerializationMethod(Class<?> reflectionFactoryClass) {
+		try {
+			return reflectionFactoryClass.getDeclaredMethod("newConstructorForSerialization", Class.class,
+					Constructor.class);
+		}
+		catch (NoSuchMethodException e) {
+			throw new ObjenesisException(e);
+		}
+	}
+
 }

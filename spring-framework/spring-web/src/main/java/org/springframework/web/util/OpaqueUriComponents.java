@@ -33,7 +33,8 @@ import org.springframework.util.ObjectUtils;
  * @author Arjen Poutsma
  * @author Phillip Webb
  * @since 3.2
- * @see <a href="https://tools.ietf.org/html/rfc3986#section-1.2.3">Hierarchical vs Opaque URIs</a>
+ * @see <a href="https://tools.ietf.org/html/rfc3986#section-1.2.3">Hierarchical vs Opaque
+ * URIs</a>
  */
 @SuppressWarnings("serial")
 final class OpaqueUriComponents extends UriComponents {
@@ -43,12 +44,10 @@ final class OpaqueUriComponents extends UriComponents {
 	@Nullable
 	private final String ssp;
 
-
 	OpaqueUriComponents(@Nullable String scheme, @Nullable String schemeSpecificPart, @Nullable String fragment) {
 		super(scheme, fragment);
 		this.ssp = schemeSpecificPart;
 	}
-
 
 	@Override
 	@Nullable
@@ -155,7 +154,6 @@ final class OpaqueUriComponents extends UriComponents {
 		}
 	}
 
-
 	@Override
 	public boolean equals(@Nullable Object other) {
 		if (this == other) {
@@ -165,9 +163,9 @@ final class OpaqueUriComponents extends UriComponents {
 			return false;
 		}
 		OpaqueUriComponents otherComp = (OpaqueUriComponents) other;
-		return (ObjectUtils.nullSafeEquals(getScheme(), otherComp.getScheme()) &&
-				ObjectUtils.nullSafeEquals(this.ssp, otherComp.ssp) &&
-				ObjectUtils.nullSafeEquals(getFragment(), otherComp.getFragment()));
+		return (ObjectUtils.nullSafeEquals(getScheme(), otherComp.getScheme())
+				&& ObjectUtils.nullSafeEquals(this.ssp, otherComp.ssp)
+				&& ObjectUtils.nullSafeEquals(getFragment(), otherComp.getFragment()));
 	}
 
 	@Override

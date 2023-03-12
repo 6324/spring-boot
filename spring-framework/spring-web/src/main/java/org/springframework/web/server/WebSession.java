@@ -29,10 +29,11 @@ import org.springframework.util.Assert;
  * Main contract for using a server-side session that provides access to session
  * attributes across HTTP requests.
  *
- * <p>The creation of a {@code WebSession} instance does not automatically start
- * a session thus causing the session id to be sent to the client (typically via
- * a cookie). A session starts implicitly when session attributes are added.
- * A session may also be created explicitly via {@link #start()}.
+ * <p>
+ * The creation of a {@code WebSession} instance does not automatically start a session
+ * thus causing the session id to be sent to the client (typically via a cookie). A
+ * session starts implicitly when session attributes are added. A session may also be
+ * created explicitly via {@link #start()}.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -94,17 +95,16 @@ public interface WebSession {
 	void start();
 
 	/**
-	 * Whether a session with the client has been started explicitly via
-	 * {@link #start()} or implicitly by adding session attributes.
-	 * If "false" then the session id is not sent to the client and the
-	 * {@link #save()} method is essentially a no-op.
+	 * Whether a session with the client has been started explicitly via {@link #start()}
+	 * or implicitly by adding session attributes. If "false" then the session id is not
+	 * sent to the client and the {@link #save()} method is essentially a no-op.
 	 */
 	boolean isStarted();
 
 	/**
-	 * Generate a new id for the session and update the underlying session
-	 * storage to reflect the new id. After a successful call {@link #getId()}
-	 * reflects the new session id.
+	 * Generate a new id for the session and update the underlying session storage to
+	 * reflect the new id. After a successful call {@link #getId()} reflects the new
+	 * session id.
 	 * @return completion notification (success or error)
 	 */
 	Mono<Void> changeSessionId();
@@ -118,16 +118,16 @@ public interface WebSession {
 	/**
 	 * Save the session through the {@code WebSessionStore} as follows:
 	 * <ul>
-	 * <li>If the session is new (i.e. created but never persisted), it must have
-	 * been started explicitly via {@link #start()} or implicitly by adding
-	 * attributes, or otherwise this method should have no effect.
-	 * <li>If the session was retrieved through the {@code WebSessionStore},
-	 * the implementation for this method must check whether the session was
+	 * <li>If the session is new (i.e. created but never persisted), it must have been
+	 * started explicitly via {@link #start()} or implicitly by adding attributes, or
+	 * otherwise this method should have no effect.
+	 * <li>If the session was retrieved through the {@code WebSessionStore}, the
+	 * implementation for this method must check whether the session was
 	 * {@link #invalidate() invalidated} and if so return an error.
 	 * </ul>
-	 * <p>Note that this method is not intended for direct use by applications.
-	 * Instead it is automatically invoked just before the response is
-	 * committed.
+	 * <p>
+	 * Note that this method is not intended for direct use by applications. Instead it is
+	 * automatically invoked just before the response is committed.
 	 * @return {@code Mono} to indicate completion with success or error
 	 */
 	Mono<Void> save();
@@ -135,10 +135,11 @@ public interface WebSession {
 	/**
 	 * Return {@code true} if the session expired after {@link #getMaxIdleTime()
 	 * maxIdleTime} elapsed.
-	 * <p>Typically expiration checks should be automatically made when a session
-	 * is accessed, a new {@code WebSession} instance created if necessary, at
-	 * the start of request processing so that applications don't have to worry
-	 * about expired session by default.
+	 * <p>
+	 * Typically expiration checks should be automatically made when a session is
+	 * accessed, a new {@code WebSession} instance created if necessary, at the start of
+	 * request processing so that applications don't have to worry about expired session
+	 * by default.
 	 */
 	boolean isExpired();
 
@@ -148,24 +149,22 @@ public interface WebSession {
 	Instant getCreationTime();
 
 	/**
-	 * Return the last time of session access as a result of user activity such
-	 * as an HTTP request. Together with {@link #getMaxIdleTime()
-	 * maxIdleTimeInSeconds} this helps to determine when a session is
-	 * {@link #isExpired() expired}.
+	 * Return the last time of session access as a result of user activity such as an HTTP
+	 * request. Together with {@link #getMaxIdleTime() maxIdleTimeInSeconds} this helps to
+	 * determine when a session is {@link #isExpired() expired}.
 	 */
 	Instant getLastAccessTime();
 
 	/**
 	 * Configure the max amount of time that may elapse after the
-	 * {@link #getLastAccessTime() lastAccessTime} before a session is considered
-	 * expired. A negative value indicates the session should not expire.
+	 * {@link #getLastAccessTime() lastAccessTime} before a session is considered expired.
+	 * A negative value indicates the session should not expire.
 	 */
 	void setMaxIdleTime(Duration maxIdleTime);
 
 	/**
-	 * Return the maximum time after the {@link #getLastAccessTime()
-	 * lastAccessTime} before a session expires. A negative time indicates the
-	 * session doesn't expire.
+	 * Return the maximum time after the {@link #getLastAccessTime() lastAccessTime}
+	 * before a session expires. A negative time indicates the session doesn't expire.
 	 */
 	Duration getMaxIdleTime();
 

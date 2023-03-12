@@ -52,7 +52,6 @@ class ServletWebRequestHttpMethodsTests {
 
 	private final Date currentDate = new Date();
 
-
 	@ParameterizedHttpMethodTest
 	void checkNotModifiedNon2xxStatus(String method) {
 		setUpRequest(method);
@@ -66,7 +65,7 @@ class ServletWebRequestHttpMethodsTests {
 		assertThat(servletResponse.getHeader("Last-Modified")).isNull();
 	}
 
-	@ParameterizedHttpMethodTest  // SPR-13516
+	@ParameterizedHttpMethodTest // SPR-13516
 	void checkNotModifiedInvalidStatus(String method) {
 		setUpRequest(method);
 
@@ -77,7 +76,7 @@ class ServletWebRequestHttpMethodsTests {
 		assertThat(request.checkNotModified(epochTime)).isFalse();
 	}
 
-	@ParameterizedHttpMethodTest  // SPR-14559
+	@ParameterizedHttpMethodTest // SPR-14559
 	void checkNotModifiedInvalidIfNoneMatchHeader(String method) {
 		setUpRequest(method);
 
@@ -150,7 +149,6 @@ class ServletWebRequestHttpMethodsTests {
 		assertThat(servletResponse.getHeader("ETag")).isEqualTo(etag);
 	}
 
-
 	@ParameterizedHttpMethodTest
 	void checkModifiedETag(String method) {
 		setUpRequest(method);
@@ -216,7 +214,7 @@ class ServletWebRequestHttpMethodsTests {
 		assertThat(servletResponse.getDateHeader("Last-Modified") / 1000).isEqualTo(currentDate.getTime() / 1000);
 	}
 
-	@ParameterizedHttpMethodTest  // SPR-14224
+	@ParameterizedHttpMethodTest // SPR-14224
 	void checkNotModifiedETagAndModifiedTimestamp(String method) {
 		setUpRequest(method);
 
@@ -345,12 +343,12 @@ class ServletWebRequestHttpMethodsTests {
 		this.servletRequest.setRequestURI("https://example.org");
 	}
 
-
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.METHOD)
 	@ParameterizedTest(name = "[{index}] {0}")
 	@ValueSource(strings = { "GET", "HEAD" })
 	@interface ParameterizedHttpMethodTest {
+
 	}
 
 }

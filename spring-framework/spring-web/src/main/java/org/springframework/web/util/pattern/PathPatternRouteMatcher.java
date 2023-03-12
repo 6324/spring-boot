@@ -26,9 +26,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.RouteMatcher;
 
 /**
- * {@code RouteMatcher} built on {@link PathPatternParser} that uses
- * {@link PathContainer} and {@link PathPattern} as parsed representations of
- * routes and patterns.
+ * {@code RouteMatcher} built on {@link PathPatternParser} that uses {@link PathContainer}
+ * and {@link PathPattern} as parsed representations of routes and patterns.
  *
  * @author Rossen Stoyanchev
  * @since 5.2
@@ -39,11 +38,10 @@ public class PathPatternRouteMatcher implements RouteMatcher {
 
 	private final Map<String, PathPattern> pathPatternCache = new ConcurrentHashMap<>();
 
-
 	/**
 	 * Default constructor with {@link PathPatternParser} customized for
-	 * {@link org.springframework.http.server.PathContainer.Options#MESSAGE_ROUTE MESSAGE_ROUTE}
-	 * and without matching of trailing separator.
+	 * {@link org.springframework.http.server.PathContainer.Options#MESSAGE_ROUTE
+	 * MESSAGE_ROUTE} and without matching of trailing separator.
 	 */
 	public PathPatternRouteMatcher() {
 		this.parser = new PathPatternParser();
@@ -58,7 +56,6 @@ public class PathPatternRouteMatcher implements RouteMatcher {
 		Assert.notNull(parser, "PathPatternParser must not be null");
 		this.parser = parser;
 	}
-
 
 	@Override
 	public Route parseRoute(String routeValue) {
@@ -101,27 +98,24 @@ public class PathPatternRouteMatcher implements RouteMatcher {
 		return ((PathContainerRoute) route).pathContainer;
 	}
 
-
 	private static class PathContainerRoute implements Route {
 
 		private final PathContainer pathContainer;
 
-
 		PathContainerRoute(PathContainer pathContainer) {
 			this.pathContainer = pathContainer;
 		}
-
 
 		@Override
 		public String value() {
 			return this.pathContainer.value();
 		}
 
-
 		@Override
 		public String toString() {
 			return value();
 		}
+
 	}
 
 }

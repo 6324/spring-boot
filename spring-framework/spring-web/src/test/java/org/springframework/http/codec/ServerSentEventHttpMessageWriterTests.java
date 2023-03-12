@@ -53,9 +53,8 @@ class ServerSentEventHttpMessageWriterTests extends AbstractDataBufferAllocating
 
 	private static final Map<String, Object> HINTS = Collections.emptyMap();
 
-	private ServerSentEventHttpMessageWriter messageWriter =
-			new ServerSentEventHttpMessageWriter(new Jackson2JsonEncoder());
-
+	private ServerSentEventHttpMessageWriter messageWriter = new ServerSentEventHttpMessageWriter(
+			new Jackson2JsonEncoder());
 
 	@ParameterizedDataBufferAllocatingTest
 	void canWrite(String displayName, DataBufferFactory bufferFactory) {
@@ -84,10 +83,9 @@ class ServerSentEventHttpMessageWriterTests extends AbstractDataBufferAllocating
 		testWrite(source, outputMessage, ServerSentEvent.class);
 
 		StepVerifier.create(outputMessage.getBody())
-				.consumeNextWith(stringConsumer(
-						"id:c42\nevent:foo\nretry:123\n:bla\n:bla bla\n:bla bla bla\ndata:bar\n\n"))
-				.expectComplete()
-				.verify();
+				.consumeNextWith(
+						stringConsumer("id:c42\nevent:foo\nretry:123\n:bla\n:bla bla\n:bla bla bla\ndata:bar\n\n"))
+				.expectComplete().verify();
 	}
 
 	@ParameterizedDataBufferAllocatingTest
@@ -98,11 +96,8 @@ class ServerSentEventHttpMessageWriterTests extends AbstractDataBufferAllocating
 		Flux<String> source = Flux.just("foo", "bar");
 		testWrite(source, outputMessage, String.class);
 
-		StepVerifier.create(outputMessage.getBody())
-				.consumeNextWith(stringConsumer("data:foo\n\n"))
-				.consumeNextWith(stringConsumer("data:bar\n\n"))
-				.expectComplete()
-				.verify();
+		StepVerifier.create(outputMessage.getBody()).consumeNextWith(stringConsumer("data:foo\n\n"))
+				.consumeNextWith(stringConsumer("data:bar\n\n")).expectComplete().verify();
 	}
 
 	@ParameterizedDataBufferAllocatingTest
@@ -113,11 +108,8 @@ class ServerSentEventHttpMessageWriterTests extends AbstractDataBufferAllocating
 		Flux<String> source = Flux.just("foo\nbar", "foo\nbaz");
 		testWrite(source, outputMessage, String.class);
 
-		StepVerifier.create(outputMessage.getBody())
-				.consumeNextWith(stringConsumer("data:foo\ndata:bar\n\n"))
-				.consumeNextWith(stringConsumer("data:foo\ndata:baz\n\n"))
-				.expectComplete()
-				.verify();
+		StepVerifier.create(outputMessage.getBody()).consumeNextWith(stringConsumer("data:foo\ndata:bar\n\n"))
+				.consumeNextWith(stringConsumer("data:foo\ndata:baz\n\n")).expectComplete().verify();
 	}
 
 	@ParameterizedDataBufferAllocatingTest // SPR-16516
@@ -131,14 +123,11 @@ class ServerSentEventHttpMessageWriterTests extends AbstractDataBufferAllocating
 		testWrite(source, mediaType, outputMessage, String.class);
 
 		assertThat(outputMessage.getHeaders().getContentType()).isEqualTo(mediaType);
-		StepVerifier.create(outputMessage.getBody())
-				.consumeNextWith(dataBuffer -> {
-					String value = dataBuffer.toString(charset);
-					DataBufferUtils.release(dataBuffer);
-					assertThat(value).isEqualTo("data:\u00A3\n\n");
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(outputMessage.getBody()).consumeNextWith(dataBuffer -> {
+			String value = dataBuffer.toString(charset);
+			DataBufferUtils.release(dataBuffer);
+			assertThat(value).isEqualTo("data:\u00A3\n\n");
+		}).expectComplete().verify();
 	}
 
 	@ParameterizedDataBufferAllocatingTest
@@ -152,11 +141,10 @@ class ServerSentEventHttpMessageWriterTests extends AbstractDataBufferAllocating
 		StepVerifier.create(outputMessage.getBody())
 				.consumeNextWith(stringConsumer("data:{\"foo\":\"foofoo\",\"bar\":\"barbar\"}\n\n"))
 				.consumeNextWith(stringConsumer("data:{\"foo\":\"foofoofoo\",\"bar\":\"barbarbar\"}\n\n"))
-				.expectComplete()
-				.verify();
+				.expectComplete().verify();
 	}
 
-	@ParameterizedDataBufferAllocatingTest  // SPR-14899
+	@ParameterizedDataBufferAllocatingTest // SPR-14899
 	void writePojoWithPrettyPrint(String displayName, DataBufferFactory bufferFactory) {
 		super.bufferFactory = bufferFactory;
 
@@ -168,14 +156,11 @@ class ServerSentEventHttpMessageWriterTests extends AbstractDataBufferAllocating
 		testWrite(source, outputMessage, Pojo.class);
 
 		StepVerifier.create(outputMessage.getBody())
-				.consumeNextWith(stringConsumer("data:{\n" +
-						"data:  \"foo\" : \"foofoo\",\n" +
-						"data:  \"bar\" : \"barbar\"\n" + "data:}\n\n"))
-				.consumeNextWith(stringConsumer("data:{\n" +
-						"data:  \"foo\" : \"foofoofoo\",\n" +
-						"data:  \"bar\" : \"barbarbar\"\n" + "data:}\n\n"))
-				.expectComplete()
-				.verify();
+				.consumeNextWith(stringConsumer(
+						"data:{\n" + "data:  \"foo\" : \"foofoo\",\n" + "data:  \"bar\" : \"barbar\"\n" + "data:}\n\n"))
+				.consumeNextWith(stringConsumer("data:{\n" + "data:  \"foo\" : \"foofoofoo\",\n"
+						+ "data:  \"bar\" : \"barbarbar\"\n" + "data:}\n\n"))
+				.expectComplete().verify();
 	}
 
 	@ParameterizedDataBufferAllocatingTest // SPR-16516, SPR-16539
@@ -189,26 +174,21 @@ class ServerSentEventHttpMessageWriterTests extends AbstractDataBufferAllocating
 		testWrite(source, mediaType, outputMessage, Pojo.class);
 
 		assertThat(outputMessage.getHeaders().getContentType()).isEqualTo(mediaType);
-		StepVerifier.create(outputMessage.getBody())
-				.consumeNextWith(dataBuffer -> {
-					String value = dataBuffer.toString(charset);
-					DataBufferUtils.release(dataBuffer);
-					assertThat(value).isEqualTo("data:{\"foo\":\"foo\uD834\uDD1E\",\"bar\":\"bar\uD834\uDD1E\"}\n\n");
-				})
-				.expectComplete()
-				.verify();
+		StepVerifier.create(outputMessage.getBody()).consumeNextWith(dataBuffer -> {
+			String value = dataBuffer.toString(charset);
+			DataBufferUtils.release(dataBuffer);
+			assertThat(value).isEqualTo("data:{\"foo\":\"foo\uD834\uDD1E\",\"bar\":\"bar\uD834\uDD1E\"}\n\n");
+		}).expectComplete().verify();
 	}
-
 
 	private <T> void testWrite(Publisher<T> source, MockServerHttpResponse response, Class<T> clazz) {
 		testWrite(source, MediaType.TEXT_EVENT_STREAM, response, clazz);
 	}
 
-	private <T> void testWrite(
-			Publisher<T> source, MediaType mediaType, MockServerHttpResponse response, Class<T> clazz) {
+	private <T> void testWrite(Publisher<T> source, MediaType mediaType, MockServerHttpResponse response,
+			Class<T> clazz) {
 
-		Mono<Void> result =
-				this.messageWriter.write(source, forClass(clazz), mediaType, response, HINTS);
+		Mono<Void> result = this.messageWriter.write(source, forClass(clazz), mediaType, response, HINTS);
 
 		StepVerifier.create(result).verifyComplete();
 	}

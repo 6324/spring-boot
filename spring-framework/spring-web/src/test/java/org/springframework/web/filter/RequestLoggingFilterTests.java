@@ -43,10 +43,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 class RequestLoggingFilterTests {
 
 	private final MockHttpServletRequest request = new MockHttpServletRequest("POST", "/hotels");
-	private final MockHttpServletResponse response = new MockHttpServletResponse();
-	private final FilterChain filterChain = (request, response) -> {};
-	private final MyRequestLoggingFilter filter = new MyRequestLoggingFilter();
 
+	private final MockHttpServletResponse response = new MockHttpServletResponse();
+
+	private final FilterChain filterChain = (request, response) -> {
+	};
+
+	private final MyRequestLoggingFilter filter = new MyRequestLoggingFilter();
 
 	@Test
 	void defaultPrefix() throws Exception {
@@ -170,10 +173,10 @@ class RequestLoggingFilterTests {
 
 		applyFilter();
 
-		assertThat(filter.beforeRequestMessage)
-			.isEqualTo("Before request [POST /hotels, headers=[Content-Type:\"application/json\", token:\"masked\"]]");
-		assertThat(filter.afterRequestMessage)
-			.isEqualTo("After request [POST /hotels, headers=[Content-Type:\"application/json\", token:\"masked\"]]");
+		assertThat(filter.beforeRequestMessage).isEqualTo(
+				"Before request [POST /hotels, headers=[Content-Type:\"application/json\", token:\"masked\"]]");
+		assertThat(filter.afterRequestMessage).isEqualTo(
+				"After request [POST /hotels, headers=[Content-Type:\"application/json\", token:\"masked\"]]");
 	}
 
 	@Test
@@ -224,8 +227,8 @@ class RequestLoggingFilterTests {
 			((HttpServletResponse) filterResponse).setStatus(HttpServletResponse.SC_OK);
 			byte[] buf = FileCopyUtils.copyToByteArray(filterRequest.getInputStream());
 			assertThat(buf).isEqualTo(requestBody);
-			ContentCachingRequestWrapper wrapper =
-					WebUtils.getNativeRequest(filterRequest, ContentCachingRequestWrapper.class);
+			ContentCachingRequestWrapper wrapper = WebUtils.getNativeRequest(filterRequest,
+					ContentCachingRequestWrapper.class);
 			assertThat(wrapper.getContentAsByteArray()).isEqualTo("Hel".getBytes(StandardCharsets.UTF_8));
 		};
 
@@ -258,30 +261,19 @@ class RequestLoggingFilterTests {
 
 		filter.doFilter(request, response, filterChain);
 
-		assertThat(filter.beforeRequestMessage)
-				.isEqualTo("Before request ["
-						+ "POST /hotels?booking=42"
-						+ ", client=4.2.2.2"
-						+ ", session=42"
-						+ ", user=Arthur"
-						+ ", headers=[Content-Type:\"application/json;charset=ISO-8859-1\", Content-Length:\"22\"]"
-						+ "]");
+		assertThat(filter.beforeRequestMessage).isEqualTo("Before request [" + "POST /hotels?booking=42"
+				+ ", client=4.2.2.2" + ", session=42" + ", user=Arthur"
+				+ ", headers=[Content-Type:\"application/json;charset=ISO-8859-1\", Content-Length:\"22\"]" + "]");
 
-		assertThat(filter.afterRequestMessage)
-				.isEqualTo("After request ["
-						+ "POST /hotels?booking=42"
-						+ ", client=4.2.2.2"
-						+ ", session=42"
-						+ ", user=Arthur"
+		assertThat(filter.afterRequestMessage).isEqualTo(
+				"After request [" + "POST /hotels?booking=42" + ", client=4.2.2.2" + ", session=42" + ", user=Arthur"
 						+ ", headers=[Content-Type:\"application/json;charset=ISO-8859-1\", Content-Length:\"22\"]"
-						+ ", payload={\"msg\": \"Hello World\"}"
-						+ "]");
+						+ ", payload={\"msg\": \"Hello World\"}" + "]");
 	}
 
 	private void applyFilter() throws Exception {
 		filter.doFilter(request, response, filterChain);
 	}
-
 
 	private static class MyRequestLoggingFilter extends AbstractRequestLoggingFilter {
 
@@ -298,6 +290,7 @@ class RequestLoggingFilterTests {
 		protected void afterRequest(HttpServletRequest request, String message) {
 			this.afterRequestMessage = message;
 		}
+
 	}
 
 }

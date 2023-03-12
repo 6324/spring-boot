@@ -43,11 +43,9 @@ class JettyHeadersAdapter implements MultiValueMap<String, String> {
 
 	private final HttpFields headers;
 
-
 	JettyHeadersAdapter(HttpFields headers) {
 		this.headers = headers;
 	}
-
 
 	@Override
 	public String getFirst(String key) {
@@ -108,8 +106,7 @@ class JettyHeadersAdapter implements MultiValueMap<String, String> {
 
 	@Override
 	public boolean containsValue(Object value) {
-		return (value instanceof String &&
-				this.headers.stream().anyMatch(field -> field.contains((String) value)));
+		return (value instanceof String && this.headers.stream().anyMatch(field -> field.contains((String) value)));
 	}
 
 	@Nullable
@@ -157,8 +154,8 @@ class JettyHeadersAdapter implements MultiValueMap<String, String> {
 
 	@Override
 	public Collection<List<String>> values() {
-		return this.headers.getFieldNamesCollection().stream()
-				.map(this.headers::getValuesList).collect(Collectors.toList());
+		return this.headers.getFieldNamesCollection().stream().map(this.headers::getValuesList)
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -176,12 +173,10 @@ class JettyHeadersAdapter implements MultiValueMap<String, String> {
 		};
 	}
 
-
 	@Override
 	public String toString() {
 		return HttpHeaders.formatHeaders(this);
 	}
-
 
 	private class EntryIterator implements Iterator<Entry<String, List<String>>> {
 
@@ -196,8 +191,8 @@ class JettyHeadersAdapter implements MultiValueMap<String, String> {
 		public Entry<String, List<String>> next() {
 			return new HeaderEntry(this.names.nextElement());
 		}
-	}
 
+	}
 
 	private class HeaderEntry implements Entry<String, List<String>> {
 
@@ -223,6 +218,7 @@ class JettyHeadersAdapter implements MultiValueMap<String, String> {
 			headers.put(this.key, value);
 			return previousValues;
 		}
+
 	}
 
 }

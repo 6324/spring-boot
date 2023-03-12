@@ -79,9 +79,7 @@ public class DefaultRenderingResponseTests {
 	public void headers() throws Exception {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("foo", "bar");
-		RenderingResponse result = RenderingResponse.create("foo")
-				.headers(h -> h.addAll(headers))
-				.build();
+		RenderingResponse result = RenderingResponse.create("foo").headers(h -> h.addAll(headers)).build();
 
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
@@ -93,8 +91,7 @@ public class DefaultRenderingResponseTests {
 
 	@Test
 	public void modelAttribute() throws Exception {
-		RenderingResponse result = RenderingResponse.create("foo")
-				.modelAttribute("foo", "bar").build();
+		RenderingResponse result = RenderingResponse.create("foo").modelAttribute("foo", "bar").build();
 
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
@@ -104,11 +101,9 @@ public class DefaultRenderingResponseTests {
 		assertThat(mav.getModel().get("foo")).isEqualTo("bar");
 	}
 
-
 	@Test
 	public void modelAttributeConventions() throws Exception {
-		RenderingResponse result = RenderingResponse.create("foo")
-				.modelAttribute("bar").build();
+		RenderingResponse result = RenderingResponse.create("foo").modelAttribute("bar").build();
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
 		ModelAndView mav = result.writeTo(request, response, EMPTY_CONTEXT);
@@ -119,8 +114,7 @@ public class DefaultRenderingResponseTests {
 	@Test
 	public void modelAttributes() throws Exception {
 		Map<String, String> model = Collections.singletonMap("foo", "bar");
-		RenderingResponse result = RenderingResponse.create("foo")
-				.modelAttributes(model).build();
+		RenderingResponse result = RenderingResponse.create("foo").modelAttributes(model).build();
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
 		ModelAndView mav = result.writeTo(request, response, EMPTY_CONTEXT);
@@ -130,8 +124,7 @@ public class DefaultRenderingResponseTests {
 
 	@Test
 	public void modelAttributesConventions() throws Exception {
-		RenderingResponse result = RenderingResponse.create("foo")
-				.modelAttributes("bar").build();
+		RenderingResponse result = RenderingResponse.create("foo").modelAttributes("bar").build();
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
 		ModelAndView mav = result.writeTo(request, response, EMPTY_CONTEXT);
@@ -143,8 +136,8 @@ public class DefaultRenderingResponseTests {
 	public void cookies() throws Exception {
 		MultiValueMap<String, Cookie> newCookies = new LinkedMultiValueMap<>();
 		newCookies.add("name", new Cookie("name", "value"));
-		RenderingResponse result =
-				RenderingResponse.create("foo").cookies(cookies -> cookies.addAll(newCookies)).build();
+		RenderingResponse result = RenderingResponse.create("foo").cookies(cookies -> cookies.addAll(newCookies))
+				.build();
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
 		ModelAndView mav = result.writeTo(request, response, EMPTY_CONTEXT);
@@ -157,9 +150,7 @@ public class DefaultRenderingResponseTests {
 	@Test
 	public void notModifiedEtag() throws Exception {
 		String etag = "\"foo\"";
-		RenderingResponse result = RenderingResponse.create("bar")
-				.header(HttpHeaders.ETAG, etag)
-				.build();
+		RenderingResponse result = RenderingResponse.create("bar").header(HttpHeaders.ETAG, etag).build();
 
 		MockHttpServletRequest request = new MockHttpServletRequest("GET", "https://example.com");
 		request.addHeader(HttpHeaders.IF_NONE_MATCH, etag);
@@ -169,7 +160,6 @@ public class DefaultRenderingResponseTests {
 		assertThat(mav).isNull();
 		assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_MODIFIED.value());
 	}
-
 
 	@Test
 	public void notModifiedLastModified() throws Exception {
@@ -181,13 +171,12 @@ public class DefaultRenderingResponseTests {
 				.build();
 
 		MockHttpServletRequest request = new MockHttpServletRequest("GET", "https://example.com");
-		request.addHeader(HttpHeaders.IF_MODIFIED_SINCE,DateTimeFormatter.RFC_1123_DATE_TIME.format(now));
+		request.addHeader(HttpHeaders.IF_MODIFIED_SINCE, DateTimeFormatter.RFC_1123_DATE_TIME.format(now));
 		MockHttpServletResponse response = new MockHttpServletResponse();
 
 		ModelAndView mav = result.writeTo(request, response, EMPTY_CONTEXT);
 		assertThat(mav).isNull();
 		assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_MODIFIED.value());
 	}
-
 
 }

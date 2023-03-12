@@ -96,7 +96,8 @@ public class BindTagTests extends AbstractTagTests {
 		assertThat(status.getErrorMessages().length == 1).as("Correct errorMessages").isTrue();
 		assertThat("code1".equals(status.getErrorCode())).as("Correct errorCode").isTrue();
 		assertThat("message1".equals(status.getErrorMessage())).as("Correct errorMessage").isTrue();
-		assertThat("message1".equals(status.getErrorMessagesAsString(","))).as("Correct errorMessagesAsString").isTrue();
+		assertThat("message1".equals(status.getErrorMessagesAsString(","))).as("Correct errorMessagesAsString")
+				.isTrue();
 
 		tag = new BindTag();
 		tag.setPageContext(pc);
@@ -112,7 +113,8 @@ public class BindTagTests extends AbstractTagTests {
 		assertThat(status.getErrorMessages().length == 1).as("Correct errorMessages").isTrue();
 		assertThat("code1".equals(status.getErrorCode())).as("Correct errorCode").isTrue();
 		assertThat("message1".equals(status.getErrorMessage())).as("Correct errorMessage").isTrue();
-		assertThat("message1".equals(status.getErrorMessagesAsString(","))).as("Correct errorMessagesAsString").isTrue();
+		assertThat("message1".equals(status.getErrorMessagesAsString(","))).as("Correct errorMessagesAsString")
+				.isTrue();
 	}
 
 	@Test
@@ -168,7 +170,8 @@ public class BindTagTests extends AbstractTagTests {
 		assertThat(status.isError()).as("Correct isError").isTrue();
 		assertThat(status.getErrorMessages().length == 1).as("Correct errorMessages").isTrue();
 		assertThat("message1".equals(status.getErrorMessage())).as("Correct errorMessage").isTrue();
-		assertThat("message1".equals(status.getErrorMessagesAsString(","))).as("Correct errorMessagesAsString").isTrue();
+		assertThat("message1".equals(status.getErrorMessagesAsString(","))).as("Correct errorMessagesAsString")
+				.isTrue();
 
 		tag = new BindTag();
 		tag.setPageContext(pc);
@@ -182,7 +185,8 @@ public class BindTagTests extends AbstractTagTests {
 		assertThat(status.isError()).as("Correct isError").isTrue();
 		assertThat(status.getErrorMessages().length == 1).as("Correct errorMessages").isTrue();
 		assertThat("message1".equals(status.getErrorMessage())).as("Correct errorMessage").isTrue();
-		assertThat("message1".equals(status.getErrorMessagesAsString(","))).as("Correct errorMessagesAsString").isTrue();
+		assertThat("message1".equals(status.getErrorMessagesAsString(","))).as("Correct errorMessagesAsString")
+				.isTrue();
 	}
 
 	@Test
@@ -197,7 +201,8 @@ public class BindTagTests extends AbstractTagTests {
 		tag.setPath("tb");
 		tag.doStartTag();
 		BindStatus status = (BindStatus) pc.getAttribute(BindTag.STATUS_VARIABLE_NAME, PageContext.REQUEST_SCOPE);
-		assertThat(status.getErrorMessagesAsString(",")).as("Error messages String should be 'message1'").isEqualTo("message1");
+		assertThat(status.getErrorMessagesAsString(",")).as("Error messages String should be 'message1'")
+				.isEqualTo("message1");
 
 		// two errors
 		pc = createPageContext();
@@ -210,7 +215,8 @@ public class BindTagTests extends AbstractTagTests {
 		tag.setPath("tb");
 		tag.doStartTag();
 		status = (BindStatus) pc.getAttribute(BindTag.STATUS_VARIABLE_NAME, PageContext.REQUEST_SCOPE);
-		assertThat(status.getErrorMessagesAsString(",")).as("Error messages String should be 'message1,message2'").isEqualTo("message1,message2");
+		assertThat(status.getErrorMessagesAsString(",")).as("Error messages String should be 'message1,message2'")
+				.isEqualTo("message1,message2");
 
 		// no errors
 		pc = createPageContext();
@@ -254,7 +260,8 @@ public class BindTagTests extends AbstractTagTests {
 		assertThat("message &amp; 1".equals(status.getErrorMessage())).as("Correct errorMessage").isTrue();
 		assertThat("message &amp; 1".equals(status.getErrorMessages()[0])).as("Correct errorMessage").isTrue();
 		assertThat("message2".equals(status.getErrorMessages()[1])).as("Correct errorMessage").isTrue();
-		assertThat("message &amp; 1 - message2".equals(status.getErrorMessagesAsString(" - "))).as("Correct errorMessagesAsString").isTrue();
+		assertThat("message &amp; 1 - message2".equals(status.getErrorMessagesAsString(" - ")))
+				.as("Correct errorMessagesAsString").isTrue();
 
 		tag = new BindTag();
 		tag.setPageContext(pc);
@@ -270,7 +277,8 @@ public class BindTagTests extends AbstractTagTests {
 		assertThat(status.getErrorMessages().length == 1).as("Correct errorMessages").isTrue();
 		assertThat("code2".equals(status.getErrorCode())).as("Correct errorCode").isTrue();
 		assertThat("message2".equals(status.getErrorMessage())).as("Correct errorMessage").isTrue();
-		assertThat("message2".equals(status.getErrorMessagesAsString(" - "))).as("Correct errorMessagesAsString").isTrue();
+		assertThat("message2".equals(status.getErrorMessagesAsString(" - "))).as("Correct errorMessagesAsString")
+				.isTrue();
 
 		tag = new BindTag();
 		tag.setPageContext(pc);
@@ -377,7 +385,8 @@ public class BindTagTests extends AbstractTagTests {
 		assertThat("message &amp; 1".equals(status.getErrorMessage())).as("Correct errorMessage").isTrue();
 		assertThat("message &amp; 1".equals(status.getErrorMessages()[0])).as("Correct errorMessage").isTrue();
 		assertThat("message2".equals(status.getErrorMessages()[1])).as("Correct errorMessage").isTrue();
-		assertThat("message &amp; 1 - message2".equals(status.getErrorMessagesAsString(" - "))).as("Correct errorMessagesAsString").isTrue();
+		assertThat("message &amp; 1 - message2".equals(status.getErrorMessagesAsString(" - ")))
+				.as("Correct errorMessagesAsString").isTrue();
 
 		tag = new BindTag();
 		tag.setPageContext(pc);
@@ -391,7 +400,8 @@ public class BindTagTests extends AbstractTagTests {
 		assertThat(status.isError()).as("Correct isError").isTrue();
 		assertThat(status.getErrorMessages().length == 1).as("Correct errorMessages").isTrue();
 		assertThat("message2".equals(status.getErrorMessage())).as("Correct errorMessage").isTrue();
-		assertThat("message2".equals(status.getErrorMessagesAsString(" - "))).as("Correct errorMessagesAsString").isTrue();
+		assertThat("message2".equals(status.getErrorMessagesAsString(" - "))).as("Correct errorMessagesAsString")
+				.isTrue();
 
 		tag = new BindTag();
 		tag.setPageContext(pc);
@@ -435,7 +445,8 @@ public class BindTagTests extends AbstractTagTests {
 		assertThat(status.getErrorMessages().length == 1).as("Correct errorMessages").isTrue();
 		assertThat("code1".equals(status.getErrorCode())).as("Correct errorCode").isTrue();
 		assertThat("message1".equals(status.getErrorMessage())).as("Correct errorMessage").isTrue();
-		assertThat("message1".equals(status.getErrorMessagesAsString(" - "))).as("Correct errorMessagesAsString").isTrue();
+		assertThat("message1".equals(status.getErrorMessagesAsString(" - "))).as("Correct errorMessagesAsString")
+				.isTrue();
 	}
 
 	@Test
@@ -628,10 +639,8 @@ public class BindTagTests extends AbstractTagTests {
 		BindTag tag = new BindTag();
 		tag.setPageContext(pc);
 		tag.setPath("tb");
-		assertThatExceptionOfType(JspException.class).isThrownBy(
-				tag::doStartTag);
+		assertThatExceptionOfType(JspException.class).isThrownBy(tag::doStartTag);
 	}
-
 
 	@Test
 	public void bindErrorsTagWithoutErrors() throws JspException {
@@ -642,7 +651,8 @@ public class BindTagTests extends AbstractTagTests {
 		tag.setPageContext(pc);
 		tag.setName("tb");
 		assertThat(tag.doStartTag() == Tag.SKIP_BODY).as("Correct doStartTag return value").isTrue();
-		assertThat(pc.getAttribute(BindErrorsTag.ERRORS_VARIABLE_NAME) == null).as("Doesn't have errors variable").isTrue();
+		assertThat(pc.getAttribute(BindErrorsTag.ERRORS_VARIABLE_NAME) == null).as("Doesn't have errors variable")
+				.isTrue();
 	}
 
 	@Test
@@ -655,7 +665,8 @@ public class BindTagTests extends AbstractTagTests {
 		tag.setPageContext(pc);
 		tag.setName("tb");
 		assertThat(tag.doStartTag() == Tag.EVAL_BODY_INCLUDE).as("Correct doStartTag return value").isTrue();
-		assertThat(pc.getAttribute(BindErrorsTag.ERRORS_VARIABLE_NAME, PageContext.REQUEST_SCOPE) == errors).as("Has errors variable").isTrue();
+		assertThat(pc.getAttribute(BindErrorsTag.ERRORS_VARIABLE_NAME, PageContext.REQUEST_SCOPE) == errors)
+				.as("Has errors variable").isTrue();
 	}
 
 	@Test
@@ -666,7 +677,6 @@ public class BindTagTests extends AbstractTagTests {
 		tag.setName("tb");
 		assertThat(tag.doStartTag() == Tag.SKIP_BODY).as("Correct doStartTag return value").isTrue();
 	}
-
 
 	@Test
 	public void nestedPathDoEndTag() throws JspException {
@@ -694,7 +704,8 @@ public class BindTagTests extends AbstractTagTests {
 		anotherTag.doStartTag();
 		anotherTag.doEndTag();
 
-		assertThat(pc.getAttribute(NestedPathTag.NESTED_PATH_VARIABLE_NAME, PageContext.REQUEST_SCOPE)).isEqualTo("foo.");
+		assertThat(pc.getAttribute(NestedPathTag.NESTED_PATH_VARIABLE_NAME, PageContext.REQUEST_SCOPE))
+				.isEqualTo("foo.");
 
 		tag.doEndTag();
 		assertThat(pc.getAttribute(NestedPathTag.NESTED_PATH_VARIABLE_NAME, PageContext.REQUEST_SCOPE)).isNull();
@@ -709,7 +720,8 @@ public class BindTagTests extends AbstractTagTests {
 		int returnValue = tag.doStartTag();
 
 		assertThat(returnValue).isEqualTo(Tag.EVAL_BODY_INCLUDE);
-		assertThat(pc.getAttribute(NestedPathTag.NESTED_PATH_VARIABLE_NAME, PageContext.REQUEST_SCOPE)).isEqualTo("foo.");
+		assertThat(pc.getAttribute(NestedPathTag.NESTED_PATH_VARIABLE_NAME, PageContext.REQUEST_SCOPE))
+				.isEqualTo("foo.");
 	}
 
 	@Test
@@ -719,21 +731,24 @@ public class BindTagTests extends AbstractTagTests {
 		tag.setPath("foo");
 		tag.setPageContext(pc);
 		tag.doStartTag();
-		assertThat(pc.getAttribute(NestedPathTag.NESTED_PATH_VARIABLE_NAME, PageContext.REQUEST_SCOPE)).isEqualTo("foo.");
+		assertThat(pc.getAttribute(NestedPathTag.NESTED_PATH_VARIABLE_NAME, PageContext.REQUEST_SCOPE))
+				.isEqualTo("foo.");
 
 		NestedPathTag anotherTag = new NestedPathTag();
 		anotherTag.setPageContext(pc);
 		anotherTag.setPath("bar");
 		anotherTag.doStartTag();
 
-		assertThat(pc.getAttribute(NestedPathTag.NESTED_PATH_VARIABLE_NAME, PageContext.REQUEST_SCOPE)).isEqualTo("foo.bar.");
+		assertThat(pc.getAttribute(NestedPathTag.NESTED_PATH_VARIABLE_NAME, PageContext.REQUEST_SCOPE))
+				.isEqualTo("foo.bar.");
 
 		NestedPathTag yetAnotherTag = new NestedPathTag();
 		yetAnotherTag.setPageContext(pc);
 		yetAnotherTag.setPath("boo");
 		yetAnotherTag.doStartTag();
 
-		assertThat(pc.getAttribute(NestedPathTag.NESTED_PATH_VARIABLE_NAME, PageContext.REQUEST_SCOPE)).isEqualTo("foo.bar.boo.");
+		assertThat(pc.getAttribute(NestedPathTag.NESTED_PATH_VARIABLE_NAME, PageContext.REQUEST_SCOPE))
+				.isEqualTo("foo.bar.boo.");
 
 		yetAnotherTag.doEndTag();
 
@@ -742,7 +757,8 @@ public class BindTagTests extends AbstractTagTests {
 		andAnotherTag.setPath("boo2");
 		andAnotherTag.doStartTag();
 
-		assertThat(pc.getAttribute(NestedPathTag.NESTED_PATH_VARIABLE_NAME, PageContext.REQUEST_SCOPE)).isEqualTo("foo.bar.boo2.");
+		assertThat(pc.getAttribute(NestedPathTag.NESTED_PATH_VARIABLE_NAME, PageContext.REQUEST_SCOPE))
+				.isEqualTo("foo.bar.boo2.");
 	}
 
 	@Test
@@ -899,8 +915,7 @@ public class BindTagTests extends AbstractTagTests {
 		transform.setPageContext(pc);
 		transform.setVar("var");
 		transform.setValue("bla");
-		assertThatExceptionOfType(JspException.class).as("executed outside BindTag").isThrownBy(
-				transform::doStartTag);
+		assertThatExceptionOfType(JspException.class).as("executed outside BindTag").isThrownBy(transform::doStartTag);
 
 		// now try to execute the tag outside a bindtag, but inside a messageTag
 		MessageTag message = new MessageTag();
@@ -910,8 +925,8 @@ public class BindTagTests extends AbstractTagTests {
 		transform.setVar("var");
 		transform.setValue("bla");
 		transform.setParent(message);
-		assertThatExceptionOfType(JspException.class).as("executed outside BindTag and inside messagetag").isThrownBy(
-				transform::doStartTag);
+		assertThatExceptionOfType(JspException.class).as("executed outside BindTag and inside messagetag")
+				.isThrownBy(transform::doStartTag);
 	}
 
 	@Test

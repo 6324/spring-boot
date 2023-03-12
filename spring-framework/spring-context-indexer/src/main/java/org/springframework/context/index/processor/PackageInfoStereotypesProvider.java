@@ -23,8 +23,8 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 
 /**
- * A {@link StereotypesProvider} implementation that provides the
- * {@value STEREOTYPE} stereotype for each package-info.
+ * A {@link StereotypesProvider} implementation that provides the {@value STEREOTYPE}
+ * stereotype for each package-info.
  *
  * @author Stephane Nicoll
  * @since 5.0
@@ -32,7 +32,6 @@ import javax.lang.model.element.ElementKind;
 class PackageInfoStereotypesProvider implements StereotypesProvider {
 
 	public static final String STEREOTYPE = "package-info";
-
 
 	@Override
 	public Set<String> getStereotypes(Element element) {

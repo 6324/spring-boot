@@ -24,12 +24,13 @@ import org.springframework.lang.Nullable;
 
 /**
  * Generic callback interface used by {@link RestTemplate}'s retrieval methods
- * Implementations of this interface perform the actual work of extracting data
- * from a {@link ClientHttpResponse}, but don't need to worry about exception
- * handling or closing resources.
+ * Implementations of this interface perform the actual work of extracting data from a
+ * {@link ClientHttpResponse}, but don't need to worry about exception handling or closing
+ * resources.
  *
- * <p>Used internally by the {@link RestTemplate}, but also useful for
- * application code. There is one available factory method, see
+ * <p>
+ * Used internally by the {@link RestTemplate}, but also useful for application code.
+ * There is one available factory method, see
  * {@link RestTemplate#responseEntityExtractor(Type)}.
  *
  * @author Arjen Poutsma

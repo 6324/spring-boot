@@ -25,11 +25,11 @@ import java.lang.annotation.Target;
 import org.springframework.core.annotation.AliasFor;
 
 /**
- * Annotation for mapping HTTP {@code DELETE} requests onto specific handler
- * methods.
+ * Annotation for mapping HTTP {@code DELETE} requests onto specific handler methods.
  *
- * <p>Specifically, {@code @DeleteMapping} is a <em>composed annotation</em> that
- * acts as a shortcut for {@code @RequestMapping(method = RequestMethod.DELETE)}.
+ * <p>
+ * Specifically, {@code @DeleteMapping} is a <em>composed annotation</em> that acts as a
+ * shortcut for {@code @RequestMapping(method = RequestMethod.DELETE)}.
  *
  * @author Sam Brannen
  * @since 4.3

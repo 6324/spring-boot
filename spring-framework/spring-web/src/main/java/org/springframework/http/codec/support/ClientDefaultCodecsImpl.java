@@ -48,28 +48,24 @@ class ClientDefaultCodecsImpl extends BaseDefaultCodecs implements ClientCodecCo
 	@Nullable
 	private Supplier<List<HttpMessageWriter<?>>> partWritersSupplier;
 
-
 	ClientDefaultCodecsImpl() {
 	}
 
 	ClientDefaultCodecsImpl(ClientDefaultCodecsImpl other) {
 		super(other);
-		this.multipartCodecs = (other.multipartCodecs != null ?
-				new DefaultMultipartCodecs(other.multipartCodecs) : null);
+		this.multipartCodecs = (other.multipartCodecs != null ? new DefaultMultipartCodecs(other.multipartCodecs)
+				: null);
 		this.sseDecoder = other.sseDecoder;
 	}
 
-
 	/**
-	 * Set a supplier for part writers to use when
-	 * {@link #multipartCodecs()} are not explicitly configured.
-	 * That's the same set of writers as for general except for the multipart
-	 * writer itself.
+	 * Set a supplier for part writers to use when {@link #multipartCodecs()} are not
+	 * explicitly configured. That's the same set of writers as for general except for the
+	 * multipart writer itself.
 	 */
 	void setPartWritersSupplier(Supplier<List<HttpMessageWriter<?>>> supplier) {
 		this.partWritersSupplier = supplier;
 	}
-
 
 	@Override
 	public ClientCodecConfigurer.MultipartCodecs multipartCodecs() {
@@ -96,9 +92,8 @@ class ClientDefaultCodecsImpl extends BaseDefaultCodecs implements ClientCodecCo
 	@Override
 	protected void extendObjectReaders(List<HttpMessageReader<?>> objectReaders) {
 
-		Decoder<?> decoder = (this.sseDecoder != null ?
-				this.sseDecoder :
-				jackson2Present ? getJackson2JsonDecoder() : null);
+		Decoder<?> decoder = (this.sseDecoder != null ? this.sseDecoder
+				: jackson2Present ? getJackson2JsonDecoder() : null);
 
 		addCodec(objectReaders, new ServerSentEventHttpMessageReader(decoder));
 	}
@@ -120,7 +115,6 @@ class ClientDefaultCodecsImpl extends BaseDefaultCodecs implements ClientCodecCo
 		}
 	}
 
-
 	/**
 	 * Default implementation of {@link ClientCodecConfigurer.MultipartCodecs}.
 	 */
@@ -128,14 +122,12 @@ class ClientDefaultCodecsImpl extends BaseDefaultCodecs implements ClientCodecCo
 
 		private final List<HttpMessageWriter<?>> writers = new ArrayList<>();
 
-
 		DefaultMultipartCodecs() {
 		}
 
 		DefaultMultipartCodecs(DefaultMultipartCodecs other) {
 			this.writers.addAll(other.writers);
 		}
-
 
 		@Override
 		public ClientCodecConfigurer.MultipartCodecs encoder(Encoder<?> encoder) {
@@ -152,6 +144,7 @@ class ClientDefaultCodecsImpl extends BaseDefaultCodecs implements ClientCodecCo
 		List<HttpMessageWriter<?>> getWriters() {
 			return this.writers;
 		}
+
 	}
 
 }

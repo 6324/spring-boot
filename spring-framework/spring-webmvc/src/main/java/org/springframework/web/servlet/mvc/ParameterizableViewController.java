@@ -27,9 +27,9 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
- * Trivial controller that always returns a pre-configured view and optionally
- * sets the response status code. The view and status can be configured using
- * the provided configuration properties.
+ * Trivial controller that always returns a pre-configured view and optionally sets the
+ * response status code. The view and status can be configured using the provided
+ * configuration properties.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -46,7 +46,6 @@ public class ParameterizableViewController extends AbstractController {
 
 	private boolean statusOnly;
 
-
 	public ParameterizableViewController() {
 		super(false);
 		setSupportedMethods(HttpMethod.GET.name(), HttpMethod.HEAD.name());
@@ -54,16 +53,16 @@ public class ParameterizableViewController extends AbstractController {
 
 	/**
 	 * Set a view name for the ModelAndView to return, to be resolved by the
-	 * DispatcherServlet via a ViewResolver. Will override any pre-existing
-	 * view name or View.
+	 * DispatcherServlet via a ViewResolver. Will override any pre-existing view name or
+	 * View.
 	 */
 	public void setViewName(@Nullable String viewName) {
 		this.view = viewName;
 	}
 
 	/**
-	 * Return the name of the view to delegate to, or {@code null} if using a
-	 * View instance.
+	 * Return the name of the view to delegate to, or {@code null} if using a View
+	 * instance.
 	 */
 	@Nullable
 	public String getViewName() {
@@ -80,8 +79,8 @@ public class ParameterizableViewController extends AbstractController {
 	}
 
 	/**
-	 * Set a View object for the ModelAndView to return.
-	 * Will override any pre-existing view name or View.
+	 * Set a View object for the ModelAndView to return. Will override any pre-existing
+	 * view name or View.
 	 * @since 4.1
 	 */
 	public void setView(View view) {
@@ -89,8 +88,8 @@ public class ParameterizableViewController extends AbstractController {
 	}
 
 	/**
-	 * Return the View object, or {@code null} if we are using a view name
-	 * to be resolved by the DispatcherServlet via a ViewResolver.
+	 * Return the View object, or {@code null} if we are using a view name to be resolved
+	 * by the DispatcherServlet via a ViewResolver.
 	 * @since 4.1
 	 */
 	@Nullable
@@ -99,14 +98,15 @@ public class ParameterizableViewController extends AbstractController {
 	}
 
 	/**
-	 * Configure the HTTP status code that this controller should set on the
-	 * response.
-	 * <p>When a "redirect:" prefixed view name is configured, there is no need
-	 * to set this property since RedirectView will do that. However this property
-	 * may still be used to override the 3xx status code of {@code RedirectView}.
-	 * For full control over redirecting provide a {@code RedirectView} instance.
-	 * <p>If the status code is 204 and no view is configured, the request is
-	 * fully handled within the controller.
+	 * Configure the HTTP status code that this controller should set on the response.
+	 * <p>
+	 * When a "redirect:" prefixed view name is configured, there is no need to set this
+	 * property since RedirectView will do that. However this property may still be used
+	 * to override the 3xx status code of {@code RedirectView}. For full control over
+	 * redirecting provide a {@code RedirectView} instance.
+	 * <p>
+	 * If the status code is 204 and no view is configured, the request is fully handled
+	 * within the controller.
 	 * @since 4.1
 	 */
 	public void setStatusCode(@Nullable HttpStatus statusCode) {
@@ -122,12 +122,12 @@ public class ParameterizableViewController extends AbstractController {
 		return this.statusCode;
 	}
 
-
 	/**
-	 * The property can be used to indicate the request is considered fully
-	 * handled within the controller and that no view should be used for rendering.
-	 * Useful in combination with {@link #setStatusCode}.
-	 * <p>By default this is set to {@code false}.
+	 * The property can be used to indicate the request is considered fully handled within
+	 * the controller and that no view should be used for rendering. Useful in combination
+	 * with {@link #setStatusCode}.
+	 * <p>
+	 * By default this is set to {@code false}.
 	 * @since 4.1
 	 */
 	public void setStatusOnly(boolean statusOnly) {
@@ -141,11 +141,11 @@ public class ParameterizableViewController extends AbstractController {
 		return this.statusOnly;
 	}
 
-
 	/**
 	 * Return a ModelAndView object with the specified view name.
-	 * <p>The content of the {@link RequestContextUtils#getInputFlashMap
-	 * "input" FlashMap} is also added to the model.
+	 * <p>
+	 * The content of the {@link RequestContextUtils#getInputFlashMap "input" FlashMap} is
+	 * also added to the model.
 	 * @see #getViewName()
 	 */
 	@Override
@@ -198,4 +198,5 @@ public class ParameterizableViewController extends AbstractController {
 		}
 		return sb.toString();
 	}
+
 }

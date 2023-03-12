@@ -29,15 +29,19 @@ import org.springframework.lang.Nullable;
  * A {@code ResourceResolver} that delegates to the chain to locate a resource and then
  * attempts to find a matching versioned resource contained in a WebJar JAR file.
  *
- * <p>This allows WebJars.org users to write version agnostic paths in their templates,
- * like {@code <script src="/jquery/jquery.min.js"/>}.
- * This path will be resolved to the unique version {@code <script src="/jquery/1.2.0/jquery.min.js"/>},
- * which is a better fit for HTTP caching and version management in applications.
+ * <p>
+ * This allows WebJars.org users to write version agnostic paths in their templates, like
+ * {@code <script src="/jquery/jquery.min.js"/>}. This path will be resolved to the unique
+ * version {@code <script src="/jquery/1.2.0/jquery.min.js"/>}, which is a better fit for
+ * HTTP caching and version management in applications.
  *
- * <p>This also resolves resources for version agnostic HTTP requests {@code "GET /jquery/jquery.min.js"}.
+ * <p>
+ * This also resolves resources for version agnostic HTTP requests
+ * {@code "GET /jquery/jquery.min.js"}.
  *
- * <p>This resolver requires the {@code org.webjars:webjars-locator-core} library
- * on the classpath and is automatically registered if that library is present.
+ * <p>
+ * This resolver requires the {@code org.webjars:webjars-locator-core} library on the
+ * classpath and is automatically registered if that library is present.
  *
  * @author Brian Clozel
  * @since 4.2
@@ -50,26 +54,24 @@ public class WebJarsResourceResolver extends AbstractResourceResolver {
 
 	private static final int WEBJARS_LOCATION_LENGTH = WEBJARS_LOCATION.length();
 
-
 	private final WebJarAssetLocator webJarAssetLocator;
 
-
 	/**
-	 * Create a {@code WebJarsResourceResolver} with a default {@code WebJarAssetLocator} instance.
+	 * Create a {@code WebJarsResourceResolver} with a default {@code WebJarAssetLocator}
+	 * instance.
 	 */
 	public WebJarsResourceResolver() {
 		this(new WebJarAssetLocator());
 	}
 
 	/**
-	 * Create a {@code WebJarsResourceResolver} with a custom {@code WebJarAssetLocator} instance,
-	 * e.g. with a custom index.
+	 * Create a {@code WebJarsResourceResolver} with a custom {@code WebJarAssetLocator}
+	 * instance, e.g. with a custom index.
 	 * @since 4.3
 	 */
 	public WebJarsResourceResolver(WebJarAssetLocator webJarAssetLocator) {
 		this.webJarAssetLocator = webJarAssetLocator;
 	}
-
 
 	@Override
 	protected Resource resolveResourceInternal(@Nullable HttpServletRequest request, String requestPath,
@@ -86,8 +88,8 @@ public class WebJarsResourceResolver extends AbstractResourceResolver {
 	}
 
 	@Override
-	protected String resolveUrlPathInternal(String resourceUrlPath,
-			List<? extends Resource> locations, ResourceResolverChain chain) {
+	protected String resolveUrlPathInternal(String resourceUrlPath, List<? extends Resource> locations,
+			ResourceResolverChain chain) {
 
 		String path = chain.resolveUrlPath(resourceUrlPath, locations);
 		if (path == null) {

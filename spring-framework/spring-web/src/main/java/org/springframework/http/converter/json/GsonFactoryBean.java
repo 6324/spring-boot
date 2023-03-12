@@ -48,11 +48,10 @@ public class GsonFactoryBean implements FactoryBean<Gson>, InitializingBean {
 	@Nullable
 	private Gson gson;
 
-
 	/**
-	 * Whether to Base64-encode {@code byte[]} properties when reading and
-	 * writing JSON.
-	 * <p>When set to {@code true}, a custom {@link com.google.gson.TypeAdapter} will be
+	 * Whether to Base64-encode {@code byte[]} properties when reading and writing JSON.
+	 * <p>
+	 * When set to {@code true}, a custom {@link com.google.gson.TypeAdapter} will be
 	 * registered via {@link GsonBuilder#registerTypeHierarchyAdapter(Class, Object)}
 	 * which serializes a {@code byte[]} property to and from a Base64-encoded String
 	 * instead of a JSON array.
@@ -63,9 +62,8 @@ public class GsonFactoryBean implements FactoryBean<Gson>, InitializingBean {
 	}
 
 	/**
-	 * Whether to use the {@link GsonBuilder#serializeNulls()} option when writing
-	 * JSON. This is a shortcut for setting up a {@code Gson} as follows:
-	 * <pre class="code">
+	 * Whether to use the {@link GsonBuilder#serializeNulls()} option when writing JSON.
+	 * This is a shortcut for setting up a {@code Gson} as follows: <pre class="code">
 	 * new GsonBuilder().serializeNulls().create();
 	 * </pre>
 	 */
@@ -74,9 +72,8 @@ public class GsonFactoryBean implements FactoryBean<Gson>, InitializingBean {
 	}
 
 	/**
-	 * Whether to use the {@link GsonBuilder#setPrettyPrinting()} when writing
-	 * JSON. This is a shortcut for setting up a {@code Gson} as follows:
-	 * <pre class="code">
+	 * Whether to use the {@link GsonBuilder#setPrettyPrinting()} when writing JSON. This
+	 * is a shortcut for setting up a {@code Gson} as follows: <pre class="code">
 	 * new GsonBuilder().setPrettyPrinting().create();
 	 * </pre>
 	 */
@@ -85,10 +82,9 @@ public class GsonFactoryBean implements FactoryBean<Gson>, InitializingBean {
 	}
 
 	/**
-	 * Whether to use the {@link GsonBuilder#disableHtmlEscaping()} when writing
-	 * JSON. Set to {@code true} to disable HTML escaping in JSON. This is a
-	 * shortcut for setting up a {@code Gson} as follows:
-	 * <pre class="code">
+	 * Whether to use the {@link GsonBuilder#disableHtmlEscaping()} when writing JSON. Set
+	 * to {@code true} to disable HTML escaping in JSON. This is a shortcut for setting up
+	 * a {@code Gson} as follows: <pre class="code">
 	 * new GsonBuilder().disableHtmlEscaping().create();
 	 * </pre>
 	 */
@@ -97,9 +93,8 @@ public class GsonFactoryBean implements FactoryBean<Gson>, InitializingBean {
 	}
 
 	/**
-	 * Define the date/time format with a {@link SimpleDateFormat}-style pattern.
-	 * This is a shortcut for setting up a {@code Gson} as follows:
-	 * <pre class="code">
+	 * Define the date/time format with a {@link SimpleDateFormat}-style pattern. This is
+	 * a shortcut for setting up a {@code Gson} as follows: <pre class="code">
 	 * new GsonBuilder().setDateFormat(dateFormatPattern).create();
 	 * </pre>
 	 */
@@ -107,11 +102,10 @@ public class GsonFactoryBean implements FactoryBean<Gson>, InitializingBean {
 		this.dateFormatPattern = dateFormatPattern;
 	}
 
-
 	@Override
 	public void afterPropertiesSet() {
-		GsonBuilder builder = (this.base64EncodeByteArrays ?
-				GsonBuilderUtils.gsonBuilderWithBase64EncodedByteArrays() : new GsonBuilder());
+		GsonBuilder builder = (this.base64EncodeByteArrays ? GsonBuilderUtils.gsonBuilderWithBase64EncodedByteArrays()
+				: new GsonBuilder());
 		if (this.serializeNulls) {
 			builder.serializeNulls();
 		}
@@ -126,7 +120,6 @@ public class GsonFactoryBean implements FactoryBean<Gson>, InitializingBean {
 		}
 		this.gson = builder.create();
 	}
-
 
 	/**
 	 * Return the created Gson instance.

@@ -52,31 +52,39 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 
 /**
- * Implementation of {@link ViewResolver} that resolves a view based on the request file name
- * or {@code Accept} header.
+ * Implementation of {@link ViewResolver} that resolves a view based on the request file
+ * name or {@code Accept} header.
  *
- * <p>The {@code ContentNegotiatingViewResolver} does not resolve views itself, but delegates to
- * other {@link ViewResolver ViewResolvers}. By default, these other view resolvers are picked up automatically
- * from the application context, though they can also be set explicitly by using the
- * {@link #setViewResolvers viewResolvers} property. <strong>Note</strong> that in order for this
- * view resolver to work properly, the {@link #setOrder order} property needs to be set to a higher
- * precedence than the others (the default is {@link Ordered#HIGHEST_PRECEDENCE}).
+ * <p>
+ * The {@code ContentNegotiatingViewResolver} does not resolve views itself, but delegates
+ * to other {@link ViewResolver ViewResolvers}. By default, these other view resolvers are
+ * picked up automatically from the application context, though they can also be set
+ * explicitly by using the {@link #setViewResolvers viewResolvers} property.
+ * <strong>Note</strong> that in order for this view resolver to work properly, the
+ * {@link #setOrder order} property needs to be set to a higher precedence than the others
+ * (the default is {@link Ordered#HIGHEST_PRECEDENCE}).
  *
- * <p>This view resolver uses the requested {@linkplain MediaType media type} to select a suitable
- * {@link View} for a request. The requested media type is determined through the configured
- * {@link ContentNegotiationManager}. Once the requested media type has been determined, this resolver
- * queries each delegate view resolver for a {@link View} and determines if the requested media type
- * is {@linkplain MediaType#includes(MediaType) compatible} with the view's
- * {@linkplain View#getContentType() content type}). The most compatible view is returned.
+ * <p>
+ * This view resolver uses the requested {@linkplain MediaType media type} to select a
+ * suitable {@link View} for a request. The requested media type is determined through the
+ * configured {@link ContentNegotiationManager}. Once the requested media type has been
+ * determined, this resolver queries each delegate view resolver for a {@link View} and
+ * determines if the requested media type is {@linkplain MediaType#includes(MediaType)
+ * compatible} with the view's {@linkplain View#getContentType() content type}). The most
+ * compatible view is returned.
  *
- * <p>Additionally, this view resolver exposes the {@link #setDefaultViews(List) defaultViews} property,
- * allowing you to override the views provided by the view resolvers. Note that these default views are
- * offered as candidates, and still need have the content type requested (via file extension, parameter,
- * or {@code Accept} header, described above).
+ * <p>
+ * Additionally, this view resolver exposes the {@link #setDefaultViews(List)
+ * defaultViews} property, allowing you to override the views provided by the view
+ * resolvers. Note that these default views are offered as candidates, and still need have
+ * the content type requested (via file extension, parameter, or {@code Accept} header,
+ * described above).
  *
- * <p>For example, if the request path is {@code /view.html}, this view resolver will look for a view
- * that has the {@code text/html} content type (based on the {@code html} file extension). A request
- * for {@code /view} with a {@code text/html} request {@code Accept} header has the same result.
+ * <p>
+ * For example, if the request path is {@code /view.html}, this view resolver will look
+ * for a view that has the {@code text/html} content type (based on the {@code html} file
+ * extension). A request for {@code /view} with a {@code text/html} request {@code Accept}
+ * header has the same result.
  *
  * @author Arjen Poutsma
  * @author Juergen Hoeller
@@ -104,11 +112,12 @@ public class ContentNegotiatingViewResolver extends WebApplicationObjectSupport
 
 	private int order = Ordered.HIGHEST_PRECEDENCE;
 
-
 	/**
-	 * Set the {@link ContentNegotiationManager} to use to determine requested media types.
-	 * <p>If not set, ContentNegotiationManager's default constructor will be used,
-	 * applying a {@link org.springframework.web.accept.HeaderContentNegotiationStrategy}.
+	 * Set the {@link ContentNegotiationManager} to use to determine requested media
+	 * types.
+	 * <p>
+	 * If not set, ContentNegotiationManager's default constructor will be used, applying
+	 * a {@link org.springframework.web.accept.HeaderContentNegotiationStrategy}.
 	 * @see ContentNegotiationManager#ContentNegotiationManager()
 	 */
 	public void setContentNegotiationManager(@Nullable ContentNegotiationManager contentNegotiationManager) {
@@ -116,7 +125,8 @@ public class ContentNegotiatingViewResolver extends WebApplicationObjectSupport
 	}
 
 	/**
-	 * Return the {@link ContentNegotiationManager} to use to determine requested media types.
+	 * Return the {@link ContentNegotiationManager} to use to determine requested media
+	 * types.
 	 * @since 4.1.9
 	 */
 	@Nullable
@@ -127,11 +137,12 @@ public class ContentNegotiatingViewResolver extends WebApplicationObjectSupport
 	/**
 	 * Indicate whether a {@link HttpServletResponse#SC_NOT_ACCEPTABLE 406 Not Acceptable}
 	 * status code should be returned if no suitable view can be found.
-	 * <p>Default is {@code false}, meaning that this view resolver returns {@code null} for
+	 * <p>
+	 * Default is {@code false}, meaning that this view resolver returns {@code null} for
 	 * {@link #resolveViewName(String, Locale)} when an acceptable view cannot be found.
-	 * This will allow for view resolvers chaining. When this property is set to {@code true},
-	 * {@link #resolveViewName(String, Locale)} will respond with a view that sets the
-	 * response status to {@code 406 Not Acceptable} instead.
+	 * This will allow for view resolvers chaining. When this property is set to
+	 * {@code true}, {@link #resolveViewName(String, Locale)} will respond with a view
+	 * that sets the response status to {@code 406 Not Acceptable} instead.
 	 */
 	public void setUseNotAcceptableStatusCode(boolean useNotAcceptableStatusCode) {
 		this.useNotAcceptableStatusCode = useNotAcceptableStatusCode;
@@ -145,29 +156,29 @@ public class ContentNegotiatingViewResolver extends WebApplicationObjectSupport
 	}
 
 	/**
-	 * Set the default views to use when a more specific view can not be obtained
-	 * from the {@link ViewResolver} chain.
+	 * Set the default views to use when a more specific view can not be obtained from the
+	 * {@link ViewResolver} chain.
 	 */
 	public void setDefaultViews(List<View> defaultViews) {
 		this.defaultViews = defaultViews;
 	}
 
 	public List<View> getDefaultViews() {
-		return (this.defaultViews != null ? Collections.unmodifiableList(this.defaultViews) :
-				Collections.emptyList());
+		return (this.defaultViews != null ? Collections.unmodifiableList(this.defaultViews) : Collections.emptyList());
 	}
 
 	/**
 	 * Sets the view resolvers to be wrapped by this view resolver.
-	 * <p>If this property is not set, view resolvers will be detected automatically.
+	 * <p>
+	 * If this property is not set, view resolvers will be detected automatically.
 	 */
 	public void setViewResolvers(List<ViewResolver> viewResolvers) {
 		this.viewResolvers = viewResolvers;
 	}
 
 	public List<ViewResolver> getViewResolvers() {
-		return (this.viewResolvers != null ? Collections.unmodifiableList(this.viewResolvers) :
-				Collections.emptyList());
+		return (this.viewResolvers != null ? Collections.unmodifiableList(this.viewResolvers)
+				: Collections.emptyList());
 	}
 
 	public void setOrder(int order) {
@@ -179,11 +190,10 @@ public class ContentNegotiatingViewResolver extends WebApplicationObjectSupport
 		return this.order;
 	}
 
-
 	@Override
 	protected void initServletContext(ServletContext servletContext) {
-		Collection<ViewResolver> matchingBeans =
-				BeanFactoryUtils.beansOfTypeIncludingAncestors(obtainApplicationContext(), ViewResolver.class).values();
+		Collection<ViewResolver> matchingBeans = BeanFactoryUtils
+				.beansOfTypeIncludingAncestors(obtainApplicationContext(), ViewResolver.class).values();
 		if (this.viewResolvers == null) {
 			this.viewResolvers = new ArrayList<>(matchingBeans.size());
 			for (ViewResolver viewResolver : matchingBeans) {
@@ -217,7 +227,6 @@ public class ContentNegotiatingViewResolver extends WebApplicationObjectSupport
 		}
 	}
 
-
 	@Override
 	@Nullable
 	public View resolveViewName(String viewName, Locale locale) throws Exception {
@@ -232,8 +241,8 @@ public class ContentNegotiatingViewResolver extends WebApplicationObjectSupport
 			}
 		}
 
-		String mediaTypeInfo = logger.isDebugEnabled() && requestedMediaTypes != null ?
-				" given " + requestedMediaTypes.toString() : "";
+		String mediaTypeInfo = logger.isDebugEnabled() && requestedMediaTypes != null
+				? " given " + requestedMediaTypes.toString() : "";
 
 		if (this.useNotAcceptableStatusCode) {
 			if (logger.isDebugEnabled()) {
@@ -281,8 +290,8 @@ public class ContentNegotiatingViewResolver extends WebApplicationObjectSupport
 
 	@SuppressWarnings("unchecked")
 	private List<MediaType> getProducibleMediaTypes(HttpServletRequest request) {
-		Set<MediaType> mediaTypes = (Set<MediaType>)
-				request.getAttribute(HandlerMapping.PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE);
+		Set<MediaType> mediaTypes = (Set<MediaType>) request
+				.getAttribute(HandlerMapping.PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE);
 		if (!CollectionUtils.isEmpty(mediaTypes)) {
 			return new ArrayList<>(mediaTypes);
 		}
@@ -292,8 +301,8 @@ public class ContentNegotiatingViewResolver extends WebApplicationObjectSupport
 	}
 
 	/**
-	 * Return the more specific of the acceptable and the producible media types
-	 * with the q-value of the former.
+	 * Return the more specific of the acceptable and the producible media types with the
+	 * q-value of the former.
 	 */
 	private MediaType getMostSpecificMediaType(MediaType acceptType, MediaType produceType) {
 		produceType = produceType.copyQualityValue(acceptType);
@@ -355,7 +364,6 @@ public class ContentNegotiatingViewResolver extends WebApplicationObjectSupport
 		}
 		return null;
 	}
-
 
 	private static final View NOT_ACCEPTABLE_VIEW = new View() {
 

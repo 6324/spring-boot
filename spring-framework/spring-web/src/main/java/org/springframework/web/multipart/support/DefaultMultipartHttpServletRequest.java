@@ -32,10 +32,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Default implementation of the
- * {@link org.springframework.web.multipart.MultipartHttpServletRequest}
- * interface. Provides management of pre-generated parameter values.
+ * {@link org.springframework.web.multipart.MultipartHttpServletRequest} interface.
+ * Provides management of pre-generated parameter values.
  *
- * <p>Used by {@link org.springframework.web.multipart.commons.CommonsMultipartResolver}.
+ * <p>
+ * Used by {@link org.springframework.web.multipart.commons.CommonsMultipartResolver}.
  *
  * @author Trevor D. Cook
  * @author Juergen Hoeller
@@ -53,13 +54,12 @@ public class DefaultMultipartHttpServletRequest extends AbstractMultipartHttpSer
 	@Nullable
 	private Map<String, String> multipartParameterContentTypes;
 
-
 	/**
 	 * Wrap the given HttpServletRequest in a MultipartHttpServletRequest.
 	 * @param request the servlet request to wrap
 	 * @param mpFiles a map of the multipart files
-	 * @param mpParams a map of the parameters to expose,
-	 * with Strings as keys and String arrays as values
+	 * @param mpParams a map of the parameters to expose, with Strings as keys and String
+	 * arrays as values
 	 */
 	public DefaultMultipartHttpServletRequest(HttpServletRequest request, MultiValueMap<String, MultipartFile> mpFiles,
 			Map<String, String[]> mpParams, Map<String, String> mpParamContentTypes) {
@@ -77,7 +77,6 @@ public class DefaultMultipartHttpServletRequest extends AbstractMultipartHttpSer
 	public DefaultMultipartHttpServletRequest(HttpServletRequest request) {
 		super(request);
 	}
-
 
 	@Override
 	@Nullable
@@ -155,18 +154,17 @@ public class DefaultMultipartHttpServletRequest extends AbstractMultipartHttpSer
 		}
 	}
 
-
 	/**
-	 * Set a Map with parameter names as keys and String array objects as values.
-	 * To be invoked by subclasses on initialization.
+	 * Set a Map with parameter names as keys and String array objects as values. To be
+	 * invoked by subclasses on initialization.
 	 */
 	protected final void setMultipartParameters(Map<String, String[]> multipartParameters) {
 		this.multipartParameters = multipartParameters;
 	}
 
 	/**
-	 * Obtain the multipart parameter Map for retrieval,
-	 * lazily initializing it if necessary.
+	 * Obtain the multipart parameter Map for retrieval, lazily initializing it if
+	 * necessary.
 	 * @see #initializeMultipart()
 	 */
 	protected Map<String, String[]> getMultipartParameters() {
@@ -177,16 +175,16 @@ public class DefaultMultipartHttpServletRequest extends AbstractMultipartHttpSer
 	}
 
 	/**
-	 * Set a Map with parameter names as keys and content type Strings as values.
-	 * To be invoked by subclasses on initialization.
+	 * Set a Map with parameter names as keys and content type Strings as values. To be
+	 * invoked by subclasses on initialization.
 	 */
 	protected final void setMultipartParameterContentTypes(Map<String, String> multipartParameterContentTypes) {
 		this.multipartParameterContentTypes = multipartParameterContentTypes;
 	}
 
 	/**
-	 * Obtain the multipart parameter content type Map for retrieval,
-	 * lazily initializing it if necessary.
+	 * Obtain the multipart parameter content type Map for retrieval, lazily initializing
+	 * it if necessary.
 	 * @see #initializeMultipart()
 	 */
 	protected Map<String, String> getMultipartParameterContentTypes() {

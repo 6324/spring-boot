@@ -48,11 +48,13 @@ import org.springframework.util.ClassUtils;
  * Implementation of {@link org.springframework.http.converter.HttpMessageConverter
  * HttpMessageConverter} that can read and write XML using JAXB2.
  *
- * <p>This converter can read classes annotated with {@link XmlRootElement} and
- * {@link XmlType}, and write classes annotated with {@link XmlRootElement},
- * or subclasses thereof.
+ * <p>
+ * This converter can read classes annotated with {@link XmlRootElement} and
+ * {@link XmlType}, and write classes annotated with {@link XmlRootElement}, or subclasses
+ * thereof.
  *
- * <p>Note: When using Spring's Marshaller/Unmarshaller abstractions from {@code spring-oxm},
+ * <p>
+ * Note: When using Spring's Marshaller/Unmarshaller abstractions from {@code spring-oxm},
  * you should use the {@link MarshallingHttpMessageConverter} instead.
  *
  * @author Arjen Poutsma
@@ -67,10 +69,10 @@ public class Jaxb2RootElementHttpMessageConverter extends AbstractJaxb2HttpMessa
 
 	private boolean processExternalEntities = false;
 
-
 	/**
 	 * Indicate whether DTD parsing should be supported.
-	 * <p>Default is {@code false} meaning that DTD is disabled.
+	 * <p>
+	 * Default is {@code false} meaning that DTD is disabled.
 	 */
 	public void setSupportDtd(boolean supportDtd) {
 		this.supportDtd = supportDtd;
@@ -85,9 +87,11 @@ public class Jaxb2RootElementHttpMessageConverter extends AbstractJaxb2HttpMessa
 
 	/**
 	 * Indicate whether external XML entities are processed when converting to a Source.
-	 * <p>Default is {@code false}, meaning that external entities are not resolved.
-	 * <p><strong>Note:</strong> setting this option to {@code true} also
-	 * automatically sets {@link #setSupportDtd} to {@code true}.
+	 * <p>
+	 * Default is {@code false}, meaning that external entities are not resolved.
+	 * <p>
+	 * <strong>Note:</strong> setting this option to {@code true} also automatically sets
+	 * {@link #setSupportDtd} to {@code true}.
 	 */
 	public void setProcessExternalEntities(boolean processExternalEntities) {
 		this.processExternalEntities = processExternalEntities;
@@ -103,11 +107,10 @@ public class Jaxb2RootElementHttpMessageConverter extends AbstractJaxb2HttpMessa
 		return this.processExternalEntities;
 	}
 
-
 	@Override
 	public boolean canRead(Class<?> clazz, @Nullable MediaType mediaType) {
-		return (clazz.isAnnotationPresent(XmlRootElement.class) || clazz.isAnnotationPresent(XmlType.class)) &&
-				canRead(mediaType);
+		return (clazz.isAnnotationPresent(XmlRootElement.class) || clazz.isAnnotationPresent(XmlType.class))
+				&& canRead(mediaType);
 	}
 
 	@Override
@@ -136,8 +139,8 @@ public class Jaxb2RootElementHttpMessageConverter extends AbstractJaxb2HttpMessa
 		}
 		catch (NullPointerException ex) {
 			if (!isSupportDtd()) {
-				throw new IllegalStateException("NPE while unmarshalling. " +
-						"This can happen due to the presence of DTD declarations which are disabled.", ex);
+				throw new IllegalStateException("NPE while unmarshalling. "
+						+ "This can happen due to the presence of DTD declarations which are disabled.", ex);
 			}
 			throw ex;
 		}
@@ -149,7 +152,7 @@ public class Jaxb2RootElementHttpMessageConverter extends AbstractJaxb2HttpMessa
 		}
 	}
 
-	@SuppressWarnings("deprecation")  // on JDK 9
+	@SuppressWarnings("deprecation") // on JDK 9
 	protected Source processSource(Source source) {
 		if (source instanceof StreamSource) {
 			StreamSource streamSource = (StreamSource) source;
@@ -196,8 +199,7 @@ public class Jaxb2RootElementHttpMessageConverter extends AbstractJaxb2HttpMessa
 		}
 	}
 
-
-	private static final EntityResolver NO_OP_ENTITY_RESOLVER =
-			(publicId, systemId) -> new InputSource(new StringReader(""));
+	private static final EntityResolver NO_OP_ENTITY_RESOLVER = (publicId,
+			systemId) -> new InputSource(new StringReader(""));
 
 }

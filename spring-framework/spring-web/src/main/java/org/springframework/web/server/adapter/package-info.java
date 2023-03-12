@@ -1,7 +1,7 @@
 /**
  * Implementations to adapt to the underlying
- * {@code org.springframework.http.client.reactive} reactive HTTP adapter
- * and {@link org.springframework.http.server.reactive.HttpHandler}.
+ * {@code org.springframework.http.client.reactive} reactive HTTP adapter and
+ * {@link org.springframework.http.server.reactive.HttpHandler}.
  */
 @NonNullApi
 @NonNullFields

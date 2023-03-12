@@ -49,8 +49,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for redirect view, and query string construction.
- * Doesn't test URL encoding, although it does check that it's called.
+ * Tests for redirect view, and query string construction. Doesn't test URL encoding,
+ * although it does check that it's called.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -65,7 +65,6 @@ public class RedirectViewTests {
 
 	private MockHttpServletResponse response;
 
-
 	@BeforeEach
 	public void setUp() throws Exception {
 		this.request = new MockHttpServletRequest();
@@ -77,12 +76,10 @@ public class RedirectViewTests {
 
 	}
 
-
 	@Test
 	public void noUrlSet() throws Exception {
 		RedirectView rv = new RedirectView();
-		assertThatIllegalArgumentException().isThrownBy(
-				rv::afterPropertiesSet);
+		assertThatIllegalArgumentException().isThrownBy(rv::afterPropertiesSet);
 	}
 
 	@Test
@@ -166,7 +163,7 @@ public class RedirectViewTests {
 		wac.getBean(RequestDataValueProcessorWrapper.class).setRequestDataValueProcessor(mockProcessor);
 
 		RedirectView rv = new RedirectView();
-		rv.setApplicationContext(wac);	// Init RedirectView with WebAppCxt
+		rv.setApplicationContext(wac); // Init RedirectView with WebAppCxt
 		rv.setUrl("/path");
 
 		request.setAttribute(DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE, wac);
@@ -175,7 +172,6 @@ public class RedirectViewTests {
 		rv.render(new ModelMap(), request, response);
 		verify(mockProcessor).processUrl(request, "/path");
 	}
-
 
 	@Test
 	public void updateTargetUrlWithContextLoader() throws Exception {
@@ -210,7 +206,7 @@ public class RedirectViewTests {
 		assertThat(rv.isRemoteHost("/path")).isFalse();
 		assertThat(rv.isRemoteHost("http://somewhereelse.example")).isFalse();
 
-		rv.setHosts(new String[] {"url.somewhere.com"});
+		rv.setHosts(new String[] { "url.somewhere.com" });
 
 		assertThat(rv.isRemoteHost("https://url.somewhere.com")).isFalse();
 		assertThat(rv.isRemoteHost("/path")).isFalse();
@@ -308,7 +304,7 @@ public class RedirectViewTests {
 	public void arrayParam() throws Exception {
 		String url = "https://url.somewhere.com";
 		String key = "foo";
-		String[] val = new String[] {"bar", "baz"};
+		String[] val = new String[] { "bar", "baz" };
 		Map<String, String[]> model = new HashMap<>();
 		model.put(key, val);
 		try {
@@ -370,8 +366,7 @@ public class RedirectViewTests {
 		assertThat(response.getHeader("Location")).isEqualTo("https://url.somewhere.com?foo=bar&a=b&c=d#bazz");
 	}
 
-	private void doTest(Map<String, ?> map, String url, boolean contextRelative, String expectedUrl)
-			throws Exception {
+	private void doTest(Map<String, ?> map, String url, boolean contextRelative, String expectedUrl) throws Exception {
 
 		TestRedirectView rv = new TestRedirectView(url, contextRelative, map);
 		rv.render(map, request, response);
@@ -380,13 +375,11 @@ public class RedirectViewTests {
 		assertThat(this.response.getRedirectedUrl()).isEqualTo(expectedUrl);
 	}
 
-
 	private static class TestRedirectView extends RedirectView {
 
 		private Map<String, ?> expectedModel;
 
 		private boolean queryPropertiesCalled = false;
-
 
 		public TestRedirectView(String url, boolean contextRelative, Map<String, ?> expectedModel) {
 			super(url, contextRelative);
@@ -402,6 +395,7 @@ public class RedirectViewTests {
 			this.queryPropertiesCalled = true;
 			return super.queryProperties(model);
 		}
+
 	}
 
 }

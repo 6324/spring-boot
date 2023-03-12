@@ -51,7 +51,6 @@ public class ResourceBundleViewResolverTests {
 
 	private final StaticWebApplicationContext wac = new StaticWebApplicationContext();
 
-
 	@BeforeEach
 	public void setUp() throws Exception {
 		rb.setBasename(PROPS_FILE);
@@ -66,20 +65,18 @@ public class ResourceBundleViewResolverTests {
 	}
 
 	/**
-	 * Not a constant: allows overrides.
-	 * Controls whether to cache views.
+	 * Not a constant: allows overrides. Controls whether to cache views.
 	 */
 	protected boolean getCache() {
 		return true;
 	}
 
-
 	@Test
 	public void parentsAreAbstract() throws Exception {
-		assertThatExceptionOfType(BeanIsAbstractException.class).isThrownBy(() ->
-				rb.resolveViewName("debug.Parent", Locale.ENGLISH));
-		assertThatExceptionOfType(BeanIsAbstractException.class).isThrownBy(() ->
-				rb.resolveViewName("testParent", Locale.ENGLISH));
+		assertThatExceptionOfType(BeanIsAbstractException.class)
+				.isThrownBy(() -> rb.resolveViewName("debug.Parent", Locale.ENGLISH));
+		assertThatExceptionOfType(BeanIsAbstractException.class)
+				.isThrownBy(() -> rb.resolveViewName("testParent", Locale.ENGLISH));
 	}
 
 	@Test
@@ -103,7 +100,8 @@ public class ResourceBundleViewResolverTests {
 		assertThat(v).isInstanceOf(InternalResourceView.class);
 		InternalResourceView jv = (InternalResourceView) v;
 		assertThat(jv.getUrl()).as("French debugView must have correct URL").isEqualTo("jsp/debug/deboug.jsp");
-		assertThat(jv.getContentType()).as("Correct overridden (XML) content type").isEqualTo("text/xml;charset=ISO-8859-1");
+		assertThat(jv.getContentType()).as("Correct overridden (XML) content type")
+				.isEqualTo("text/xml;charset=ISO-8859-1");
 	}
 
 	@Test
@@ -112,14 +110,15 @@ public class ResourceBundleViewResolverTests {
 		rb.setBasename(PROPS_FILE);
 		rb.setCache(getCache());
 		rb.setDefaultParentView("testParent");
-		rb.setLocalesToInitialize(new Locale[] {Locale.ENGLISH, Locale.FRENCH});
+		rb.setLocalesToInitialize(new Locale[] { Locale.ENGLISH, Locale.FRENCH });
 		rb.setApplicationContext(wac);
 
 		View v = rb.resolveViewName("debugView", Locale.FRENCH);
 		assertThat(v).isInstanceOf(InternalResourceView.class);
 		InternalResourceView jv = (InternalResourceView) v;
 		assertThat(jv.getUrl()).as("French debugView must have correct URL").isEqualTo("jsp/debug/deboug.jsp");
-		assertThat(jv.getContentType()).as("Correct overridden (XML) content type").isEqualTo("text/xml;charset=ISO-8859-1");
+		assertThat(jv.getContentType()).as("Correct overridden (XML) content type")
+				.isEqualTo("text/xml;charset=ISO-8859-1");
 	}
 
 	@Test
@@ -148,10 +147,9 @@ public class ResourceBundleViewResolverTests {
 	@Test
 	public void noSuchBasename() throws Exception {
 		rb.setBasename("weoriwoierqupowiuer");
-		assertThatExceptionOfType(MissingResourceException.class).isThrownBy(() ->
-				rb.resolveViewName("debugView", Locale.ENGLISH));
+		assertThatExceptionOfType(MissingResourceException.class)
+				.isThrownBy(() -> rb.resolveViewName("debugView", Locale.ENGLISH));
 	}
-
 
 	static class TestView extends AbstractView {
 
@@ -159,7 +157,8 @@ public class ResourceBundleViewResolverTests {
 
 		public void setLocation(Resource location) {
 			if (!(location instanceof ServletContextResource)) {
-				throw new IllegalArgumentException("Expecting ServletContextResource, not " + location.getClass().getName());
+				throw new IllegalArgumentException(
+						"Expecting ServletContextResource, not " + location.getClass().getName());
 			}
 		}
 
@@ -172,6 +171,7 @@ public class ResourceBundleViewResolverTests {
 		protected void initApplicationContext() {
 			++initCount;
 		}
+
 	}
 
 }

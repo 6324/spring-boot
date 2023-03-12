@@ -57,19 +57,23 @@ public class CorsBeanDefinitionParser implements BeanDefinitionParser {
 			for (Element mapping : mappings) {
 				CorsConfiguration config = new CorsConfiguration();
 				if (mapping.hasAttribute("allowed-origins")) {
-					String[] allowedOrigins = StringUtils.tokenizeToStringArray(mapping.getAttribute("allowed-origins"), ",");
+					String[] allowedOrigins = StringUtils.tokenizeToStringArray(mapping.getAttribute("allowed-origins"),
+							",");
 					config.setAllowedOrigins(Arrays.asList(allowedOrigins));
 				}
 				if (mapping.hasAttribute("allowed-methods")) {
-					String[] allowedMethods = StringUtils.tokenizeToStringArray(mapping.getAttribute("allowed-methods"), ",");
+					String[] allowedMethods = StringUtils.tokenizeToStringArray(mapping.getAttribute("allowed-methods"),
+							",");
 					config.setAllowedMethods(Arrays.asList(allowedMethods));
 				}
 				if (mapping.hasAttribute("allowed-headers")) {
-					String[] allowedHeaders = StringUtils.tokenizeToStringArray(mapping.getAttribute("allowed-headers"), ",");
+					String[] allowedHeaders = StringUtils.tokenizeToStringArray(mapping.getAttribute("allowed-headers"),
+							",");
 					config.setAllowedHeaders(Arrays.asList(allowedHeaders));
 				}
 				if (mapping.hasAttribute("exposed-headers")) {
-					String[] exposedHeaders = StringUtils.tokenizeToStringArray(mapping.getAttribute("exposed-headers"), ",");
+					String[] exposedHeaders = StringUtils.tokenizeToStringArray(mapping.getAttribute("exposed-headers"),
+							",");
 					config.setExposedHeaders(Arrays.asList(exposedHeaders));
 				}
 				if (mapping.hasAttribute("allow-credentials")) {
@@ -82,8 +86,8 @@ public class CorsBeanDefinitionParser implements BeanDefinitionParser {
 			}
 		}
 
-		MvcNamespaceUtils.registerCorsConfigurations(
-				corsConfigurations, parserContext, parserContext.extractSource(element));
+		MvcNamespaceUtils.registerCorsConfigurations(corsConfigurations, parserContext,
+				parserContext.extractSource(element));
 		return null;
 	}
 

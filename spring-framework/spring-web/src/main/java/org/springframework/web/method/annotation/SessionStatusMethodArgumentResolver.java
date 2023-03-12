@@ -26,8 +26,8 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * Resolves a {@link SessionStatus} argument by obtaining it from
- * the {@link ModelAndViewContainer}.
+ * Resolves a {@link SessionStatus} argument by obtaining it from the
+ * {@link ModelAndViewContainer}.
  *
  * @author Rossen Stoyanchev
  * @since 3.1

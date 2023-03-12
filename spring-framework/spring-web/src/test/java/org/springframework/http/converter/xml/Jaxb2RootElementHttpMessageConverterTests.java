@@ -64,7 +64,6 @@ public class Jaxb2RootElementHttpMessageConverterTests {
 
 	private RootElement rootElementCglib;
 
-
 	@BeforeEach
 	public void setup() {
 		converter = new Jaxb2RootElementHttpMessageConverter();
@@ -77,18 +76,21 @@ public class Jaxb2RootElementHttpMessageConverterTests {
 		rootElementCglib = (RootElement) proxy.getProxy();
 	}
 
-
 	@Test
 	public void canRead() {
-		assertThat(converter.canRead(RootElement.class, null)).as("Converter does not support reading @XmlRootElement").isTrue();
+		assertThat(converter.canRead(RootElement.class, null)).as("Converter does not support reading @XmlRootElement")
+				.isTrue();
 		assertThat(converter.canRead(Type.class, null)).as("Converter does not support reading @XmlType").isTrue();
 	}
 
 	@Test
 	public void canWrite() {
-		assertThat(converter.canWrite(RootElement.class, null)).as("Converter does not support writing @XmlRootElement").isTrue();
-		assertThat(converter.canWrite(RootElementSubclass.class, null)).as("Converter does not support writing @XmlRootElement subclass").isTrue();
-		assertThat(converter.canWrite(rootElementCglib.getClass(), null)).as("Converter does not support writing @XmlRootElement subclass").isTrue();
+		assertThat(converter.canWrite(RootElement.class, null)).as("Converter does not support writing @XmlRootElement")
+				.isTrue();
+		assertThat(converter.canWrite(RootElementSubclass.class, null))
+				.as("Converter does not support writing @XmlRootElement subclass").isTrue();
+		assertThat(converter.canWrite(rootElementCglib.getClass(), null))
+				.as("Converter does not support writing @XmlRootElement subclass").isTrue();
 		assertThat(converter.canWrite(Type.class, null)).as("Converter supports writing @XmlType").isFalse();
 	}
 
@@ -119,10 +121,9 @@ public class Jaxb2RootElementHttpMessageConverterTests {
 	@Test
 	public void readXmlRootElementExternalEntityDisabled() throws Exception {
 		Resource external = new ClassPathResource("external.txt", getClass());
-		String content =  "<!DOCTYPE root SYSTEM \"https://192.168.28.42/1.jsp\" [" +
-				"  <!ELEMENT external ANY >\n" +
-				"  <!ENTITY ext SYSTEM \"" + external.getURI() + "\" >]>" +
-				"  <rootElement><external>&ext;</external></rootElement>";
+		String content = "<!DOCTYPE root SYSTEM \"https://192.168.28.42/1.jsp\" [" + "  <!ELEMENT external ANY >\n"
+				+ "  <!ENTITY ext SYSTEM \"" + external.getURI() + "\" >]>"
+				+ "  <rootElement><external>&ext;</external></rootElement>";
 		MockHttpInputMessage inputMessage = new MockHttpInputMessage(content.getBytes("UTF-8"));
 		converter.setSupportDtd(true);
 		RootElement rootElement = (RootElement) converter.read(RootElement.class, inputMessage);
@@ -133,10 +134,8 @@ public class Jaxb2RootElementHttpMessageConverterTests {
 	@Test
 	public void readXmlRootElementExternalEntityEnabled() throws Exception {
 		Resource external = new ClassPathResource("external.txt", getClass());
-		String content =  "<!DOCTYPE root [" +
-				"  <!ELEMENT external ANY >\n" +
-				"  <!ENTITY ext SYSTEM \"" + external.getURI() + "\" >]>" +
-				"  <rootElement><external>&ext;</external></rootElement>";
+		String content = "<!DOCTYPE root [" + "  <!ELEMENT external ANY >\n" + "  <!ENTITY ext SYSTEM \""
+				+ external.getURI() + "\" >]>" + "  <rootElement><external>&ext;</external></rootElement>";
 		MockHttpInputMessage inputMessage = new MockHttpInputMessage(content.getBytes("UTF-8"));
 		this.converter.setProcessExternalEntities(true);
 		RootElement rootElement = (RootElement) converter.read(RootElement.class, inputMessage);
@@ -148,42 +147,41 @@ public class Jaxb2RootElementHttpMessageConverterTests {
 	public void testXmlBomb() throws Exception {
 		// https://en.wikipedia.org/wiki/Billion_laughs
 		// https://msdn.microsoft.com/en-us/magazine/ee335713.aspx
-		String content = "<?xml version=\"1.0\"?>\n" +
-				"<!DOCTYPE lolz [\n" +
-				" <!ENTITY lol \"lol\">\n" +
-				" <!ELEMENT lolz (#PCDATA)>\n" +
-				" <!ENTITY lol1 \"&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;\">\n" +
-				" <!ENTITY lol2 \"&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;\">\n" +
-				" <!ENTITY lol3 \"&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;\">\n" +
-				" <!ENTITY lol4 \"&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;\">\n" +
-				" <!ENTITY lol5 \"&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;\">\n" +
-				" <!ENTITY lol6 \"&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;\">\n" +
-				" <!ENTITY lol7 \"&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;\">\n" +
-				" <!ENTITY lol8 \"&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;\">\n" +
-				" <!ENTITY lol9 \"&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;\">\n" +
-				"]>\n" +
-				"<rootElement><external>&lol9;</external></rootElement>";
+		String content = "<?xml version=\"1.0\"?>\n" + "<!DOCTYPE lolz [\n" + " <!ENTITY lol \"lol\">\n"
+				+ " <!ELEMENT lolz (#PCDATA)>\n"
+				+ " <!ENTITY lol1 \"&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;\">\n"
+				+ " <!ENTITY lol2 \"&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;\">\n"
+				+ " <!ENTITY lol3 \"&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;\">\n"
+				+ " <!ENTITY lol4 \"&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;\">\n"
+				+ " <!ENTITY lol5 \"&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;\">\n"
+				+ " <!ENTITY lol6 \"&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;\">\n"
+				+ " <!ENTITY lol7 \"&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;\">\n"
+				+ " <!ENTITY lol8 \"&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;\">\n"
+				+ " <!ENTITY lol9 \"&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;\">\n" + "]>\n"
+				+ "<rootElement><external>&lol9;</external></rootElement>";
 		MockHttpInputMessage inputMessage = new MockHttpInputMessage(content.getBytes("UTF-8"));
-		assertThatExceptionOfType(HttpMessageNotReadableException.class).isThrownBy(() ->
-				this.converter.read(RootElement.class, inputMessage))
-			.withMessageContaining("DOCTYPE");
+		assertThatExceptionOfType(HttpMessageNotReadableException.class)
+				.isThrownBy(() -> this.converter.read(RootElement.class, inputMessage))
+				.withMessageContaining("DOCTYPE");
 	}
 
 	@Test
 	public void writeXmlRootElement() throws Exception {
 		MockHttpOutputMessage outputMessage = new MockHttpOutputMessage();
 		converter.write(rootElement, null, outputMessage);
-		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type").isEqualTo(new MediaType("application", "xml"));
+		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type")
+				.isEqualTo(new MediaType("application", "xml"));
 		DifferenceEvaluator ev = chain(Default, downgradeDifferencesToEqual(XML_STANDALONE));
 		assertThat(XmlContent.of(outputMessage.getBodyAsString(StandardCharsets.UTF_8)))
-			.isSimilarTo("<rootElement><type s=\"Hello World\"/></rootElement>", ev);
+				.isSimilarTo("<rootElement><type s=\"Hello World\"/></rootElement>", ev);
 	}
 
 	@Test
 	public void writeXmlRootElementSubclass() throws Exception {
 		MockHttpOutputMessage outputMessage = new MockHttpOutputMessage();
 		converter.write(rootElementCglib, null, outputMessage);
-		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type").isEqualTo(new MediaType("application", "xml"));
+		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type")
+				.isEqualTo(new MediaType("application", "xml"));
 		DifferenceEvaluator ev = chain(Default, downgradeDifferencesToEqual(XML_STANDALONE));
 		assertThat(XmlContent.of(outputMessage.getBodyAsString(StandardCharsets.UTF_8)))
 				.isSimilarTo("<rootElement><type s=\"Hello World\"/></rootElement>", ev);
@@ -211,13 +209,12 @@ public class Jaxb2RootElementHttpMessageConverterTests {
 		assertThat(result.getElement().getField2()).isEqualTo("b");
 	}
 
-
 	@XmlRootElement
 	public static class RootElement {
 
 		private Type type = new Type();
 
-		@XmlElement(required=false)
+		@XmlElement(required = false)
 		public String external;
 
 		public Type getType() {
@@ -228,8 +225,8 @@ public class Jaxb2RootElementHttpMessageConverterTests {
 		public void setType(Type type) {
 			this.type = type;
 		}
-	}
 
+	}
 
 	@XmlType
 	public static class Type {
@@ -239,10 +236,9 @@ public class Jaxb2RootElementHttpMessageConverterTests {
 
 	}
 
-
 	public static class RootElementSubclass extends RootElement {
-	}
 
+	}
 
 	public static class MyJaxb2RootElementHttpMessageConverter extends Jaxb2RootElementHttpMessageConverter {
 
@@ -255,8 +251,8 @@ public class Jaxb2RootElementHttpMessageConverterTests {
 		protected void customizeUnmarshaller(Unmarshaller unmarshaller) {
 			unmarshaller.setAdapter(new MyCustomElementAdapter());
 		}
-	}
 
+	}
 
 	public static class MyCustomElement {
 
@@ -287,8 +283,8 @@ public class Jaxb2RootElementHttpMessageConverterTests {
 		public void setField2(String field2) {
 			this.field2 = field2;
 		}
-	}
 
+	}
 
 	@XmlRootElement
 	public static class MyRootElement {
@@ -311,8 +307,8 @@ public class Jaxb2RootElementHttpMessageConverterTests {
 		public void setElement(MyCustomElement element) {
 			this.element = element;
 		}
-	}
 
+	}
 
 	public static class MyCustomElementAdapter extends XmlAdapter<String, MyCustomElement> {
 

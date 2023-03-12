@@ -32,7 +32,6 @@ import static org.mockito.Mockito.verify;
  */
 public class SimpleClientHttpRequestFactoryTests {
 
-
 	@Test // SPR-13225
 	public void headerWithNullValue() {
 		HttpURLConnection urlConnection = mock(HttpURLConnection.class);

@@ -36,14 +36,11 @@ public class PathResourceLookupFunctionTests {
 
 	@Test
 	public void normal() throws Exception {
-		ClassPathResource location =
-				new ClassPathResource("org/springframework/web/servlet/function/");
+		ClassPathResource location = new ClassPathResource("org/springframework/web/servlet/function/");
 
-		PathResourceLookupFunction function =
-				new PathResourceLookupFunction("/resources/**", location);
+		PathResourceLookupFunction function = new PathResourceLookupFunction("/resources/**", location);
 
-		MockHttpServletRequest servletRequest =
-				new MockHttpServletRequest("GET", "/resources/response.txt");
+		MockHttpServletRequest servletRequest = new MockHttpServletRequest("GET", "/resources/response.txt");
 		ServerRequest request = new DefaultServerRequest(servletRequest, Collections.emptyList());
 
 		Optional<Resource> result = function.apply(request);
@@ -55,35 +52,27 @@ public class PathResourceLookupFunctionTests {
 
 	@Test
 	public void subPath() throws Exception {
-		ClassPathResource location =
-				new ClassPathResource("org/springframework/web/servlet/function/");
+		ClassPathResource location = new ClassPathResource("org/springframework/web/servlet/function/");
 
-		PathResourceLookupFunction function =
-				new PathResourceLookupFunction("/resources/**", location);
+		PathResourceLookupFunction function = new PathResourceLookupFunction("/resources/**", location);
 
-		MockHttpServletRequest servletRequest =
-				new MockHttpServletRequest("GET", "/resources/child/response.txt");
+		MockHttpServletRequest servletRequest = new MockHttpServletRequest("GET", "/resources/child/response.txt");
 		ServerRequest request = new DefaultServerRequest(servletRequest, Collections.emptyList());
 
 		Optional<Resource> result = function.apply(request);
 		assertThat(result.isPresent()).isTrue();
 
-		File expected =
-				new ClassPathResource("org/springframework/web/servlet/function/child/response.txt")
-						.getFile();
+		File expected = new ClassPathResource("org/springframework/web/servlet/function/child/response.txt").getFile();
 		assertThat(result.get().getFile()).isEqualTo(expected);
 	}
 
 	@Test
 	public void notFound() {
-		ClassPathResource location =
-				new ClassPathResource("org/springframework/web/reactive/function/server/");
+		ClassPathResource location = new ClassPathResource("org/springframework/web/reactive/function/server/");
 
-		PathResourceLookupFunction function =
-				new PathResourceLookupFunction("/resources/**", location);
+		PathResourceLookupFunction function = new PathResourceLookupFunction("/resources/**", location);
 
-		MockHttpServletRequest servletRequest =
-				new MockHttpServletRequest("GET", "/resources/foo.txt");
+		MockHttpServletRequest servletRequest = new MockHttpServletRequest("GET", "/resources/foo.txt");
 		ServerRequest request = new DefaultServerRequest(servletRequest, Collections.emptyList());
 
 		Optional<Resource> result = function.apply(request);
@@ -94,12 +83,11 @@ public class PathResourceLookupFunctionTests {
 	public void composeResourceLookupFunction() throws Exception {
 		ClassPathResource defaultResource = new ClassPathResource("response.txt", getClass());
 
-		Function<ServerRequest, Optional<Resource>> lookupFunction =
-				new PathResourceLookupFunction("/resources/**",
-						new ClassPathResource("org/springframework/web/servlet/function/"));
+		Function<ServerRequest, Optional<Resource>> lookupFunction = new PathResourceLookupFunction("/resources/**",
+				new ClassPathResource("org/springframework/web/servlet/function/"));
 
-		Function<ServerRequest, Optional<Resource>> customLookupFunction =
-				lookupFunction.andThen((Optional<Resource> optionalResource) -> {
+		Function<ServerRequest, Optional<Resource>> customLookupFunction = lookupFunction
+				.andThen((Optional<Resource> optionalResource) -> {
 					if (optionalResource.isPresent()) {
 						return optionalResource;
 					}

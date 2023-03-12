@@ -89,58 +89,64 @@ import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolv
  * A {@link BeanDefinitionParser} that provides the configuration for the
  * {@code <annotation-driven/>} MVC namespace element.
  *
- * <p>This class registers the following {@link HandlerMapping HandlerMappings}:</p>
+ * <p>
+ * This class registers the following {@link HandlerMapping HandlerMappings}:
+ * </p>
  * <ul>
- * <li>{@link RequestMappingHandlerMapping}
- * ordered at 0 for mapping requests to annotated controller methods.
- * <li>{@link BeanNameUrlHandlerMapping}
- * ordered at 2 to map URL paths to controller bean names.
+ * <li>{@link RequestMappingHandlerMapping} ordered at 0 for mapping requests to annotated
+ * controller methods.
+ * <li>{@link BeanNameUrlHandlerMapping} ordered at 2 to map URL paths to controller bean
+ * names.
  * </ul>
  *
- * <p><strong>Note:</strong> Additional HandlerMappings may be registered
- * as a result of using the {@code <view-controller>} or the
- * {@code <resources>} MVC namespace elements.
+ * <p>
+ * <strong>Note:</strong> Additional HandlerMappings may be registered as a result of
+ * using the {@code <view-controller>} or the {@code <resources>} MVC namespace elements.
  *
- * <p>This class registers the following {@link HandlerAdapter HandlerAdapters}:
+ * <p>
+ * This class registers the following {@link HandlerAdapter HandlerAdapters}:
  * <ul>
- * <li>{@link RequestMappingHandlerAdapter}
- * for processing requests with annotated controller methods.
- * <li>{@link HttpRequestHandlerAdapter}
- * for processing requests with {@link HttpRequestHandler HttpRequestHandlers}.
- * <li>{@link SimpleControllerHandlerAdapter}
- * for processing requests with interface-based {@link Controller Controllers}.
+ * <li>{@link RequestMappingHandlerAdapter} for processing requests with annotated
+ * controller methods.
+ * <li>{@link HttpRequestHandlerAdapter} for processing requests with
+ * {@link HttpRequestHandler HttpRequestHandlers}.
+ * <li>{@link SimpleControllerHandlerAdapter} for processing requests with interface-based
+ * {@link Controller Controllers}.
  * </ul>
  *
- * <p>This class registers the following {@link HandlerExceptionResolver HandlerExceptionResolvers}:
+ * <p>
+ * This class registers the following {@link HandlerExceptionResolver
+ * HandlerExceptionResolvers}:
  * <ul>
  * <li>{@link ExceptionHandlerExceptionResolver} for handling exceptions through
  * {@link org.springframework.web.bind.annotation.ExceptionHandler} methods.
- * <li>{@link ResponseStatusExceptionResolver} for exceptions annotated
- * with {@link org.springframework.web.bind.annotation.ResponseStatus}.
- * <li>{@link DefaultHandlerExceptionResolver} for resolving known Spring
- * exception types
+ * <li>{@link ResponseStatusExceptionResolver} for exceptions annotated with
+ * {@link org.springframework.web.bind.annotation.ResponseStatus}.
+ * <li>{@link DefaultHandlerExceptionResolver} for resolving known Spring exception types
  * </ul>
  *
- * <p>This class registers an {@link org.springframework.util.AntPathMatcher}
- * and a {@link org.springframework.web.util.UrlPathHelper} to be used by:
+ * <p>
+ * This class registers an {@link org.springframework.util.AntPathMatcher} and a
+ * {@link org.springframework.web.util.UrlPathHelper} to be used by:
  * <ul>
  * <li>the {@link RequestMappingHandlerMapping},
  * <li>the {@link HandlerMapping} for ViewControllers
  * <li>and the {@link HandlerMapping} for serving resources
  * </ul>
- * Note that those beans can be configured by using the {@code path-matching}
- * MVC namespace element.
+ * Note that those beans can be configured by using the {@code path-matching} MVC
+ * namespace element.
  *
- * <p>Both the {@link RequestMappingHandlerAdapter} and the
- * {@link ExceptionHandlerExceptionResolver} are configured with instances of
- * the following by default:
+ * <p>
+ * Both the {@link RequestMappingHandlerAdapter} and the
+ * {@link ExceptionHandlerExceptionResolver} are configured with instances of the
+ * following by default:
  * <ul>
  * <li>A {@link ContentNegotiationManager}
  * <li>A {@link DefaultFormattingConversionService}
  * <li>A {@link org.springframework.validation.beanvalidation.LocalValidatorFactoryBean}
  * if a JSR-303 implementation is available on the classpath
- * <li>A range of {@link HttpMessageConverter HttpMessageConverters} depending on which third-party
- * libraries are available on the classpath.
+ * <li>A range of {@link HttpMessageConverter HttpMessageConverters} depending on which
+ * third-party libraries are available on the classpath.
  * </ul>
  *
  * @author Keith Donald
@@ -158,7 +164,6 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 	public static final String HANDLER_ADAPTER_BEAN_NAME = RequestMappingHandlerAdapter.class.getName();
 
 	public static final String CONTENT_NEGOTIATION_MANAGER_BEAN_NAME = "mvcContentNegotiationManager";
-
 
 	private static final boolean javaxValidationPresent;
 
@@ -181,14 +186,13 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		javaxValidationPresent = ClassUtils.isPresent("javax.validation.Validator", classLoader);
 		romePresent = ClassUtils.isPresent("com.rometools.rome.feed.WireFeed", classLoader);
 		jaxb2Present = ClassUtils.isPresent("javax.xml.bind.Binder", classLoader);
-		jackson2Present = ClassUtils.isPresent("com.fasterxml.jackson.databind.ObjectMapper", classLoader) &&
-						ClassUtils.isPresent("com.fasterxml.jackson.core.JsonGenerator", classLoader);
+		jackson2Present = ClassUtils.isPresent("com.fasterxml.jackson.databind.ObjectMapper", classLoader)
+				&& ClassUtils.isPresent("com.fasterxml.jackson.core.JsonGenerator", classLoader);
 		jackson2XmlPresent = ClassUtils.isPresent("com.fasterxml.jackson.dataformat.xml.XmlMapper", classLoader);
 		jackson2SmilePresent = ClassUtils.isPresent("com.fasterxml.jackson.dataformat.smile.SmileFactory", classLoader);
 		jackson2CborPresent = ClassUtils.isPresent("com.fasterxml.jackson.dataformat.cbor.CBORFactory", classLoader);
 		gsonPresent = ClassUtils.isPresent("com.google.gson.Gson", classLoader);
 	}
-
 
 	@Override
 	@Nullable
@@ -235,7 +239,8 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		String asyncTimeout = getAsyncTimeout(element);
 		RuntimeBeanReference asyncExecutor = getAsyncExecutor(element);
 		ManagedList<?> callableInterceptors = getInterceptors(element, source, context, "callable-interceptors");
-		ManagedList<?> deferredResultInterceptors = getInterceptors(element, source, context, "deferred-result-interceptors");
+		ManagedList<?> deferredResultInterceptors = getInterceptors(element, source, context,
+				"deferred-result-interceptors");
 
 		RootBeanDefinition handlerAdapterDef = new RootBeanDefinition(RequestMappingHandlerAdapter.class);
 		handlerAdapterDef.setSource(source);
@@ -267,8 +272,8 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		handlerAdapterDef.getPropertyValues().add("deferredResultInterceptors", deferredResultInterceptors);
 		readerContext.getRegistry().registerBeanDefinition(HANDLER_ADAPTER_BEAN_NAME, handlerAdapterDef);
 
-		RootBeanDefinition uriContributorDef =
-				new RootBeanDefinition(CompositeUriComponentsContributorFactoryBean.class);
+		RootBeanDefinition uriContributorDef = new RootBeanDefinition(
+				CompositeUriComponentsContributorFactoryBean.class);
 		uriContributorDef.setSource(source);
 		uriContributorDef.getPropertyValues().addPropertyValue("handlerAdapter", handlerAdapterDef);
 		uriContributorDef.getPropertyValues().addPropertyValue("conversionService", conversionService);
@@ -320,7 +325,8 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		context.registerComponent(new BeanComponentDefinition(statusExceptionResolver, statusExResolverName));
 		context.registerComponent(new BeanComponentDefinition(defaultExceptionResolver, defaultExResolverName));
 
-		// Ensure BeanNameUrlHandlerMapping (SPR-8289) and default HandlerAdapters are not "turned off"
+		// Ensure BeanNameUrlHandlerMapping (SPR-8289) and default HandlerAdapters are not
+		// "turned off"
 		MvcNamespaceUtils.registerDefaultComponents(context, source);
 
 		context.popAndRegisterContainingComponent();
@@ -377,8 +383,8 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		}
 	}
 
-	private RuntimeBeanReference getContentNegotiationManager(
-			Element element, @Nullable Object source, ParserContext context) {
+	private RuntimeBeanReference getContentNegotiationManager(Element element, @Nullable Object source,
+			ParserContext context) {
 
 		RuntimeBeanReference beanRef;
 		if (element.hasAttribute("content-negotiation-manager")) {
@@ -398,8 +404,8 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		return beanRef;
 	}
 
-	private void configurePathMatchingProperties(
-			RootBeanDefinition handlerMappingDef, Element element, ParserContext context) {
+	private void configurePathMatchingProperties(RootBeanDefinition handlerMappingDef, Element element,
+			ParserContext context) {
 
 		Element pathMatchingElement = DomUtils.getChildElementByTagName(element, "path-matching");
 		if (pathMatchingElement != null) {
@@ -414,8 +420,10 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 				handlerMappingDef.getPropertyValues().add("useTrailingSlashMatch", useTrailingSlashMatch);
 			}
 			if (pathMatchingElement.hasAttribute("registered-suffixes-only")) {
-				Boolean useRegisteredSuffixPatternMatch = Boolean.valueOf(pathMatchingElement.getAttribute("registered-suffixes-only"));
-				handlerMappingDef.getPropertyValues().add("useRegisteredSuffixPatternMatch", useRegisteredSuffixPatternMatch);
+				Boolean useRegisteredSuffixPatternMatch = Boolean
+						.valueOf(pathMatchingElement.getAttribute("registered-suffixes-only"));
+				handlerMappingDef.getPropertyValues().add("useRegisteredSuffixPatternMatch",
+						useRegisteredSuffixPatternMatch);
 			}
 
 			RuntimeBeanReference pathHelperRef = null;
@@ -480,8 +488,8 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		return null;
 	}
 
-	private ManagedList<?> getInterceptors(
-			Element element, @Nullable Object source, ParserContext context, String interceptorElementName) {
+	private ManagedList<?> getInterceptors(Element element, @Nullable Object source, ParserContext context,
+			String interceptorElementName) {
 
 		ManagedList<Object> interceptors = new ManagedList<>();
 		Element asyncElement = DomUtils.getChildElementByTagName(element, "async-support");
@@ -518,7 +526,8 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 				BeanDefinitionHolder beanDef = (BeanDefinitionHolder) object;
 				String className = beanDef.getBeanDefinition().getBeanClassName();
 				Assert.notNull(className, "No resolver class");
-				Class<?> clazz = ClassUtils.resolveClassName(className, context.getReaderContext().getBeanClassLoader());
+				Class<?> clazz = ClassUtils.resolveClassName(className,
+						context.getReaderContext().getBeanClassLoader());
 				if (WebArgumentResolver.class.isAssignableFrom(clazz)) {
 					RootBeanDefinition adapter = new RootBeanDefinition(ServletWebArgumentResolverAdapter.class);
 					adapter.getConstructorArgumentValues().addIndexedArgumentValue(0, beanDef);
@@ -634,11 +643,10 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		return list;
 	}
 
-
 	/**
 	 * A FactoryBean for a CompositeUriComponentsContributor that obtains the
-	 * HandlerMethodArgumentResolver's configured in RequestMappingHandlerAdapter
-	 * after it is fully initialized.
+	 * HandlerMethodArgumentResolver's configured in RequestMappingHandlerAdapter after it
+	 * is fully initialized.
 	 */
 	static class CompositeUriComponentsContributorFactoryBean
 			implements FactoryBean<CompositeUriComponentsContributor>, InitializingBean {
@@ -682,6 +690,7 @@ class AnnotationDrivenBeanDefinitionParser implements BeanDefinitionParser {
 		public boolean isSingleton() {
 			return true;
 		}
+
 	}
 
 }

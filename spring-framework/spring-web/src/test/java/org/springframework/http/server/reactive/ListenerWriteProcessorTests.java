@@ -43,14 +43,12 @@ public class ListenerWriteProcessorTests {
 
 	private final TestSubscription subscription = new TestSubscription();
 
-
 	@BeforeEach
 	public void setup() {
 		this.processor.subscribe(this.resultSubscriber);
 		this.processor.onSubscribe(this.subscription);
 		assertThat(subscription.getDemand()).isEqualTo(1);
 	}
-
 
 	@Test // SPR-17410
 	public void writePublisherError() {
@@ -102,7 +100,6 @@ public class ListenerWriteProcessorTests {
 		assertThat(this.processor.getDiscardedBuffers().get(1)).isSameAs(buffer1);
 	}
 
-
 	private static final class TestListenerWriteProcessor extends AbstractListenerWriteProcessor<DataBuffer> {
 
 		private final List<DataBuffer> discardedBuffers = new ArrayList<>();
@@ -110,7 +107,6 @@ public class ListenerWriteProcessorTests {
 		private boolean writePossible;
 
 		private boolean failOnWrite;
-
 
 		public List<DataBuffer> getDiscardedBuffers() {
 			return this.discardedBuffers;
@@ -123,7 +119,6 @@ public class ListenerWriteProcessorTests {
 		public void setFailOnWrite(boolean failOnWrite) {
 			this.failOnWrite = failOnWrite;
 		}
-
 
 		@Override
 		protected boolean isDataEmpty(DataBuffer dataBuffer) {
@@ -153,18 +148,16 @@ public class ListenerWriteProcessorTests {
 		protected void discardData(DataBuffer dataBuffer) {
 			this.discardedBuffers.add(dataBuffer);
 		}
-	}
 
+	}
 
 	private static final class TestSubscription implements Subscription {
 
 		private long demand;
 
-
 		public long getDemand() {
 			return this.demand;
 		}
-
 
 		@Override
 		public void request(long n) {
@@ -174,17 +167,16 @@ public class ListenerWriteProcessorTests {
 		@Override
 		public void cancel() {
 		}
+
 	}
 
 	private static final class TestResultSubscriber implements Subscriber<Void> {
 
 		private Throwable error;
 
-
 		public Throwable getError() {
 			return this.error;
 		}
-
 
 		@Override
 		public void onSubscribe(Subscription subscription) {
@@ -202,6 +194,7 @@ public class ListenerWriteProcessorTests {
 		@Override
 		public void onComplete() {
 		}
+
 	}
 
 }

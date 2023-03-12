@@ -27,13 +27,14 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.util.HtmlUtils;
 
 /**
- * Errors wrapper that adds automatic HTML escaping to the wrapped instance,
- * for convenient usage in HTML views. Can be retrieved easily via
- * RequestContext's {@code getErrors} method.
+ * Errors wrapper that adds automatic HTML escaping to the wrapped instance, for
+ * convenient usage in HTML views. Can be retrieved easily via RequestContext's
+ * {@code getErrors} method.
  *
- * <p>Note that BindTag does <i>not</i> use this class to avoid unnecessary
- * creation of ObjectError instances. It just escapes the messages and values
- * that get copied into the respective BindStatus instance.
+ * <p>
+ * Note that BindTag does <i>not</i> use this class to avoid unnecessary creation of
+ * ObjectError instances. It just escapes the messages and values that get copied into the
+ * respective BindStatus instance.
  *
  * @author Juergen Hoeller
  * @since 01.03.2003
@@ -43,7 +44,6 @@ import org.springframework.web.util.HtmlUtils;
 public class EscapedErrors implements Errors {
 
 	private final Errors source;
-
 
 	/**
 	 * Create a new EscapedErrors instance for the given source instance.
@@ -56,7 +56,6 @@ public class EscapedErrors implements Errors {
 	public Errors getSource() {
 		return this.source;
 	}
-
 
 	@Override
 	public String getObjectName() {
@@ -82,7 +81,6 @@ public class EscapedErrors implements Errors {
 	public void popNestedPath() throws IllegalStateException {
 		this.source.popNestedPath();
 	}
-
 
 	@Override
 	public void reject(String errorCode) {
@@ -120,7 +118,6 @@ public class EscapedErrors implements Errors {
 	public void addAllErrors(Errors errors) {
 		this.source.addAllErrors(errors);
 	}
-
 
 	@Override
 	public boolean hasErrors() {
@@ -229,13 +226,12 @@ public class EscapedErrors implements Errors {
 			if (value instanceof String) {
 				value = HtmlUtils.htmlEscape((String) value);
 			}
-			return (T) new FieldError(
-					fieldError.getObjectName(), fieldError.getField(), value, fieldError.isBindingFailure(),
-					fieldError.getCodes(), fieldError.getArguments(), defaultMessage);
+			return (T) new FieldError(fieldError.getObjectName(), fieldError.getField(), value,
+					fieldError.isBindingFailure(), fieldError.getCodes(), fieldError.getArguments(), defaultMessage);
 		}
 		else {
-			return (T) new ObjectError(
-					source.getObjectName(), source.getCodes(), source.getArguments(), defaultMessage);
+			return (T) new ObjectError(source.getObjectName(), source.getCodes(), source.getArguments(),
+					defaultMessage);
 		}
 	}
 

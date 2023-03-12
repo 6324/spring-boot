@@ -24,9 +24,9 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * Strategy for contributing to the building of a {@link UriComponents} by
- * looking at a method parameter and an argument value and deciding what
- * part of the target URL should be updated.
+ * Strategy for contributing to the building of a {@link UriComponents} by looking at a
+ * method parameter and an argument value and deciding what part of the target URL should
+ * be updated.
  *
  * @author Oliver Gierke
  * @author Rossen Stoyanchev
@@ -41,8 +41,8 @@ public interface UriComponentsContributor {
 
 	/**
 	 * Process the given method argument and either update the
-	 * {@link UriComponentsBuilder} or add to the map with URI variables
-	 * to use to expand the URI after all arguments are processed.
+	 * {@link UriComponentsBuilder} or add to the map with URI variables to use to expand
+	 * the URI after all arguments are processed.
 	 * @param parameter the controller method parameter (never {@code null})
 	 * @param value the argument value (possibly {@code null})
 	 * @param builder the builder to update (never {@code null})

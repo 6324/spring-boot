@@ -35,13 +35,13 @@ import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.context.request.NativeWebRequest;
 
 /**
- * Central class to determine requested {@linkplain MediaType media types}
- * for a request. This is done by delegating to a list of configured
- * {@code ContentNegotiationStrategy} instances.
+ * Central class to determine requested {@linkplain MediaType media types} for a request.
+ * This is done by delegating to a list of configured {@code ContentNegotiationStrategy}
+ * instances.
  *
- * <p>Also provides methods to look up file extensions for a media type.
- * This is done by delegating to the list of configured
- * {@code MediaTypeFileExtensionResolver} instances.
+ * <p>
+ * Also provides methods to look up file extensions for a media type. This is done by
+ * delegating to the list of configured {@code MediaTypeFileExtensionResolver} instances.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -53,11 +53,10 @@ public class ContentNegotiationManager implements ContentNegotiationStrategy, Me
 
 	private final Set<MediaTypeFileExtensionResolver> resolvers = new LinkedHashSet<>();
 
-
 	/**
-	 * Create an instance with the given list of
-	 * {@code ContentNegotiationStrategy} strategies each of which may also be
-	 * an instance of {@code MediaTypeFileExtensionResolver}.
+	 * Create an instance with the given list of {@code ContentNegotiationStrategy}
+	 * strategies each of which may also be an instance of
+	 * {@code MediaTypeFileExtensionResolver}.
 	 * @param strategies the strategies to use
 	 */
 	public ContentNegotiationManager(ContentNegotiationStrategy... strategies) {
@@ -87,7 +86,6 @@ public class ContentNegotiationManager implements ContentNegotiationStrategy, Me
 		this(new HeaderContentNegotiationStrategy());
 	}
 
-
 	/**
 	 * Return the configured content negotiation strategies.
 	 * @since 3.2.16
@@ -114,8 +112,8 @@ public class ContentNegotiationManager implements ContentNegotiationStrategy, Me
 	}
 
 	/**
-	 * Register more {@code MediaTypeFileExtensionResolver} instances in addition
-	 * to those detected at construction.
+	 * Register more {@code MediaTypeFileExtensionResolver} instances in addition to those
+	 * detected at construction.
 	 * @param resolvers the resolvers to add
 	 */
 	public void addFileExtensionResolvers(MediaTypeFileExtensionResolver... resolvers) {
@@ -141,10 +139,11 @@ public class ContentNegotiationManager implements ContentNegotiationStrategy, Me
 
 	/**
 	 * {@inheritDoc}
-	 * <p>At startup this method returns extensions explicitly registered with
-	 * either {@link PathExtensionContentNegotiationStrategy} or
-	 * {@link ParameterContentNegotiationStrategy}. At runtime if there is a
-	 * "path extension" strategy and its
+	 * <p>
+	 * At startup this method returns extensions explicitly registered with either
+	 * {@link PathExtensionContentNegotiationStrategy} or
+	 * {@link ParameterContentNegotiationStrategy}. At runtime if there is a "path
+	 * extension" strategy and its
 	 * {@link PathExtensionContentNegotiationStrategy#setUseRegisteredExtensionsOnly(boolean)
 	 * useRegisteredExtensionsOnly} property is set to "false", the list of extensions may
 	 * increase as file extensions are resolved via

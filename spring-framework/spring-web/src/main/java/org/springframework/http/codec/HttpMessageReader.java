@@ -31,8 +31,8 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.lang.Nullable;
 
 /**
- * Strategy for reading from a {@link ReactiveHttpInputMessage} and decoding
- * the stream of bytes to Objects of type {@code <T>}.
+ * Strategy for reading from a {@link ReactiveHttpInputMessage} and decoding the stream of
+ * bytes to Objects of type {@code <T>}.
  *
  * @author Rossen Stoyanchev
  * @author Arjen Poutsma
@@ -77,11 +77,11 @@ public interface HttpMessageReader<T> {
 
 	/**
 	 * Server-side only alternative to
-	 * {@link #read(ResolvableType, ReactiveHttpInputMessage, Map)}
-	 * with additional context available.
-	 * @param actualType the actual type of the target method parameter;
-	 * for annotated controllers, the {@link MethodParameter} can be accessed
-	 * via {@link ResolvableType#getSource()}.
+	 * {@link #read(ResolvableType, ReactiveHttpInputMessage, Map)} with additional
+	 * context available.
+	 * @param actualType the actual type of the target method parameter; for annotated
+	 * controllers, the {@link MethodParameter} can be accessed via
+	 * {@link ResolvableType#getSource()}.
 	 * @param elementType the type of Objects in the output stream
 	 * @param request the current request
 	 * @param response the current response
@@ -96,11 +96,11 @@ public interface HttpMessageReader<T> {
 
 	/**
 	 * Server-side only alternative to
-	 * {@link #readMono(ResolvableType, ReactiveHttpInputMessage, Map)}
-	 * with additional, context available.
-	 * @param actualType the actual type of the target method parameter;
-	 * for annotated controllers, the {@link MethodParameter} can be accessed
-	 * via {@link ResolvableType#getSource()}.
+	 * {@link #readMono(ResolvableType, ReactiveHttpInputMessage, Map)} with additional,
+	 * context available.
+	 * @param actualType the actual type of the target method parameter; for annotated
+	 * controllers, the {@link MethodParameter} can be accessed via
+	 * {@link ResolvableType#getSource()}.
 	 * @param elementType the type of Objects in the output stream
 	 * @param request the current request
 	 * @param response the current response

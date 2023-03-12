@@ -34,10 +34,10 @@ import org.springframework.util.Assert;
  * Abstract base class for {@code Publisher} implementations that bridge between
  * event-listener read APIs and Reactive Streams.
  *
- * <p>Specifically a base class for reading from the HTTP request body with
- * Servlet 3.1 non-blocking I/O and Undertow XNIO as well as handling incoming
- * WebSocket messages with standard Java WebSocket (JSR-356), Jetty, and
- * Undertow.
+ * <p>
+ * Specifically a base class for reading from the HTTP request body with Servlet 3.1
+ * non-blocking I/O and Undertow XNIO as well as handling incoming WebSocket messages with
+ * standard Java WebSocket (JSR-356), Jetty, and Undertow.
  *
  * @author Arjen Poutsma
  * @author Violeta Georgieva
@@ -56,14 +56,13 @@ public abstract class AbstractListenerReadPublisher<T> implements Publisher<T> {
 	 */
 	protected static Log rsReadLogger = LogDelegateFactory.getHiddenLog(AbstractListenerReadPublisher.class);
 
-
 	private final AtomicReference<State> state = new AtomicReference<>(State.UNSUBSCRIBED);
 
 	private volatile long demand;
 
 	@SuppressWarnings("rawtypes")
-	private static final AtomicLongFieldUpdater<AbstractListenerReadPublisher> DEMAND_FIELD_UPDATER =
-			AtomicLongFieldUpdater.newUpdater(AbstractListenerReadPublisher.class, "demand");
+	private static final AtomicLongFieldUpdater<AbstractListenerReadPublisher> DEMAND_FIELD_UPDATER = AtomicLongFieldUpdater
+			.newUpdater(AbstractListenerReadPublisher.class, "demand");
 
 	@Nullable
 	private volatile Subscriber<? super T> subscriber;
@@ -74,7 +73,6 @@ public abstract class AbstractListenerReadPublisher<T> implements Publisher<T> {
 	private volatile Throwable errorBeforeDemand;
 
 	private final String logPrefix;
-
 
 	public AbstractListenerReadPublisher() {
 		this("");
@@ -88,7 +86,6 @@ public abstract class AbstractListenerReadPublisher<T> implements Publisher<T> {
 		this.logPrefix = logPrefix;
 	}
 
-
 	/**
 	 * Return the configured log message prefix.
 	 * @since 5.1
@@ -97,7 +94,6 @@ public abstract class AbstractListenerReadPublisher<T> implements Publisher<T> {
 		return this.logPrefix;
 	}
 
-
 	// Publisher implementation...
 
 	@Override
@@ -105,13 +101,11 @@ public abstract class AbstractListenerReadPublisher<T> implements Publisher<T> {
 		this.state.get().subscribe(this, subscriber);
 	}
 
-
 	// Async I/O notification methods...
 
 	/**
-	 * Invoked when reading is possible, either in the same thread after a check
-	 * via {@link #checkOnDataAvailable()}, or as a callback from the underlying
-	 * container.
+	 * Invoked when reading is possible, either in the same thread after a check via
+	 * {@link #checkOnDataAvailable()}, or as a callback from the underlying container.
 	 */
 	public final void onDataAvailable() {
 		rsReadLogger.trace(getLogPrefix() + "onDataAvailable");
@@ -119,8 +113,8 @@ public abstract class AbstractListenerReadPublisher<T> implements Publisher<T> {
 	}
 
 	/**
-	 * Sub-classes can call this method to delegate a contain notification when
-	 * all data has been read.
+	 * Sub-classes can call this method to delegate a contain notification when all data
+	 * has been read.
 	 */
 	public void onAllDataRead() {
 		rsReadLogger.trace(getLogPrefix() + "onAllDataRead");
@@ -137,12 +131,11 @@ public abstract class AbstractListenerReadPublisher<T> implements Publisher<T> {
 		this.state.get().onError(this, ex);
 	}
 
-
 	// Read API methods to be implemented or template methods to override...
 
 	/**
-	 * Check if data is available and either call {@link #onDataAvailable()}
-	 * immediately or schedule a notification.
+	 * Check if data is available and either call {@link #onDataAvailable()} immediately
+	 * or schedule a notification.
 	 */
 	protected abstract void checkOnDataAvailable();
 
@@ -155,30 +148,30 @@ public abstract class AbstractListenerReadPublisher<T> implements Publisher<T> {
 
 	/**
 	 * Invoked when reading is paused due to a lack of demand.
-	 * <p><strong>Note:</strong> This method is guaranteed not to compete with
-	 * {@link #checkOnDataAvailable()} so it can be used to safely suspend
-	 * reading, if the underlying API supports it, i.e. without competing with
-	 * an implicit call to resume via {@code checkOnDataAvailable()}.
+	 * <p>
+	 * <strong>Note:</strong> This method is guaranteed not to compete with
+	 * {@link #checkOnDataAvailable()} so it can be used to safely suspend reading, if the
+	 * underlying API supports it, i.e. without competing with an implicit call to resume
+	 * via {@code checkOnDataAvailable()}.
 	 * @since 5.0.2
 	 */
 	protected abstract void readingPaused();
 
 	/**
-	 * Invoked after an I/O read error from the underlying server or after a
-	 * cancellation signal from the downstream consumer to allow sub-classes
-	 * to discard any current cached data they might have.
+	 * Invoked after an I/O read error from the underlying server or after a cancellation
+	 * signal from the downstream consumer to allow sub-classes to discard any current
+	 * cached data they might have.
 	 * @since 5.0.11
 	 */
 	protected abstract void discardData();
 
-
 	// Private methods for use in State...
 
 	/**
-	 * Read and publish data one at a time until there is no more data, no more
-	 * demand, or perhaps we completed in the mean time.
-	 * @return {@code true} if there is more demand; {@code false} if there is
-	 * no more demand or we have completed.
+	 * Read and publish data one at a time until there is no more data, no more demand, or
+	 * perhaps we completed in the mean time.
+	 * @return {@code true} if there is more demand; {@code false} if there is no more
+	 * demand or we have completed.
 	 */
 	private boolean readAndPublish() throws IOException {
 		long r;
@@ -245,12 +238,10 @@ public abstract class AbstractListenerReadPublisher<T> implements Publisher<T> {
 		return new ReadSubscription();
 	}
 
-
 	/**
 	 * Subscription that delegates signals to State.
 	 */
 	private final class ReadSubscription implements Subscription {
-
 
 		@Override
 		public final void request(long n) {
@@ -267,12 +258,13 @@ public abstract class AbstractListenerReadPublisher<T> implements Publisher<T> {
 			}
 			state.get().cancel(AbstractListenerReadPublisher.this);
 		}
-	}
 
+	}
 
 	/**
 	 * Represents a state for the {@link Publisher} to be in.
-	 * <p><pre>
+	 * <p>
+	 * <pre>
 	 *        UNSUBSCRIBED
 	 *             |
 	 *             v
@@ -303,8 +295,8 @@ public abstract class AbstractListenerReadPublisher<T> implements Publisher<T> {
 					publisher.handleCompletionOrErrorBeforeDemand();
 				}
 				else {
-					throw new IllegalStateException("Failed to transition to SUBSCRIBING, " +
-							"subscriber: " + subscriber);
+					throw new IllegalStateException(
+							"Failed to transition to SUBSCRIBING, " + "subscriber: " + subscriber);
 				}
 			}
 
@@ -322,8 +314,8 @@ public abstract class AbstractListenerReadPublisher<T> implements Publisher<T> {
 		},
 
 		/**
-		 * Very brief state where we know we have a Subscriber but must not
-		 * send onComplete and onError until we after onSubscribe.
+		 * Very brief state where we know we have a Subscriber but must not send
+		 * onComplete and onError until we after onSubscribe.
 		 */
 		SUBSCRIBING {
 			@Override
@@ -390,7 +382,8 @@ public abstract class AbstractListenerReadPublisher<T> implements Publisher<T> {
 						publisher.onError(ex);
 					}
 				}
-				// Else, either competing onDataAvailable (request vs container), or concurrent completion
+				// Else, either competing onDataAvailable (request vs container), or
+				// concurrent completion
 			}
 		},
 
@@ -410,14 +403,17 @@ public abstract class AbstractListenerReadPublisher<T> implements Publisher<T> {
 			<T> void request(AbstractListenerReadPublisher<T> publisher, long n) {
 				// ignore
 			}
+
 			@Override
 			<T> void cancel(AbstractListenerReadPublisher<T> publisher) {
 				// ignore
 			}
+
 			@Override
 			<T> void onAllDataRead(AbstractListenerReadPublisher<T> publisher) {
 				// ignore
 			}
+
 			@Override
 			<T> void onError(AbstractListenerReadPublisher<T> publisher, Throwable t) {
 				// ignore
@@ -469,6 +465,7 @@ public abstract class AbstractListenerReadPublisher<T> implements Publisher<T> {
 				publisher.state.get().onError(publisher, t);
 			}
 		}
+
 	}
 
 }

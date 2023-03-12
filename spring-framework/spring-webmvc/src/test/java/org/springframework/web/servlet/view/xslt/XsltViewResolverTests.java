@@ -48,4 +48,5 @@ public class XsltViewResolverTests {
 		assertThat(view).as("View should not be null").isNotNull();
 		assertThat(view.getUrl()).as("Incorrect URL").isEqualTo((prefix + viewName + suffix));
 	}
+
 }

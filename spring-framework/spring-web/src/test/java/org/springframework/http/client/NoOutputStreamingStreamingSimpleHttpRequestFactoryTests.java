@@ -16,7 +16,6 @@
 
 package org.springframework.http.client;
 
-
 public class NoOutputStreamingStreamingSimpleHttpRequestFactoryTests extends AbstractHttpRequestFactoryTests {
 
 	@Override
@@ -26,4 +25,5 @@ public class NoOutputStreamingStreamingSimpleHttpRequestFactoryTests extends Abs
 		factory.setOutputStreaming(false);
 		return factory;
 	}
+
 }

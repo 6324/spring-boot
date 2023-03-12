@@ -39,9 +39,11 @@ import org.springframework.web.servlet.function.ServerRequest;
 import org.springframework.web.servlet.handler.AbstractHandlerMapping;
 
 /**
- * {@code HandlerMapping} implementation that supports {@link RouterFunction RouterFunctions}.
+ * {@code HandlerMapping} implementation that supports {@link RouterFunction
+ * RouterFunctions}.
  *
- * <p>If no {@link RouterFunction} is provided at
+ * <p>
+ * If no {@link RouterFunction} is provided at
  * {@linkplain #RouterFunctionMapping(RouterFunction) construction time}, this mapping
  * will detect all router functions in the application context, and consult them in
  * {@linkplain org.springframework.core.annotation.Order order}.
@@ -58,19 +60,19 @@ public class RouterFunctionMapping extends AbstractHandlerMapping implements Ini
 
 	private boolean detectHandlerFunctionsInAncestorContexts = false;
 
-
-
 	/**
 	 * Create an empty {@code RouterFunctionMapping}.
-	 * <p>If this constructor is used, this mapping will detect all
-	 * {@link RouterFunction} instances available in the application context.
+	 * <p>
+	 * If this constructor is used, this mapping will detect all {@link RouterFunction}
+	 * instances available in the application context.
 	 */
 	public RouterFunctionMapping() {
 	}
 
 	/**
 	 * Create a {@code RouterFunctionMapping} with the given {@link RouterFunction}.
-	 * <p>If this constructor is used, no application context detection will occur.
+	 * <p>
+	 * If this constructor is used, no application context detection will occur.
 	 * @param routerFunction the router function to use for mapping
 	 */
 	public RouterFunctionMapping(RouterFunction<?> routerFunction) {
@@ -79,7 +81,8 @@ public class RouterFunctionMapping extends AbstractHandlerMapping implements Ini
 
 	/**
 	 * Set the router function to map to.
-	 * <p>If this property is used, no application context detection will occur.
+	 * <p>
+	 * If this property is used, no application context detection will occur.
 	 */
 	public void setRouterFunction(@Nullable RouterFunction<?> routerFunction) {
 		this.routerFunction = routerFunction;
@@ -87,9 +90,10 @@ public class RouterFunctionMapping extends AbstractHandlerMapping implements Ini
 
 	/**
 	 * Return the configured {@link RouterFunction}.
-	 * <p><strong>Note:</strong> When router functions are detected from the
-	 * ApplicationContext, this method may return {@code null} if invoked
-	 * prior to {@link #afterPropertiesSet()}.
+	 * <p>
+	 * <strong>Note:</strong> When router functions are detected from the
+	 * ApplicationContext, this method may return {@code null} if invoked prior to
+	 * {@link #afterPropertiesSet()}.
 	 * @return the router function or {@code null}
 	 */
 	@Nullable
@@ -103,11 +107,13 @@ public class RouterFunctionMapping extends AbstractHandlerMapping implements Ini
 
 	/**
 	 * Set whether to detect handler functions in ancestor ApplicationContexts.
-	 * <p>Default is "false": Only handler functions in the current ApplicationContext
-	 * will be detected, i.e. only in the context that this HandlerMapping itself
-	 * is defined in (typically the current DispatcherServlet's context).
-	 * <p>Switch this flag on to detect handler beans in ancestor contexts
-	 * (typically the Spring root WebApplicationContext) as well.
+	 * <p>
+	 * Default is "false": Only handler functions in the current ApplicationContext will
+	 * be detected, i.e. only in the context that this HandlerMapping itself is defined in
+	 * (typically the current DispatcherServlet's context).
+	 * <p>
+	 * Switch this flag on to detect handler beans in ancestor contexts (typically the
+	 * Spring root WebApplicationContext) as well.
 	 */
 	public void setDetectHandlerFunctionsInAncestorContexts(boolean detectHandlerFunctionsInAncestorContexts) {
 		this.detectHandlerFunctionsInAncestorContexts = detectHandlerFunctionsInAncestorContexts;
@@ -124,24 +130,21 @@ public class RouterFunctionMapping extends AbstractHandlerMapping implements Ini
 	}
 
 	/**
-	 * Detect a all {@linkplain RouterFunction router functions} in the
-	 * current application context.
+	 * Detect a all {@linkplain RouterFunction router functions} in the current
+	 * application context.
 	 */
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void initRouterFunction() {
 		ApplicationContext applicationContext = obtainApplicationContext();
-		Map<String, RouterFunction> beans =
-				(this.detectHandlerFunctionsInAncestorContexts ?
-						BeanFactoryUtils.beansOfTypeIncludingAncestors(applicationContext, RouterFunction.class) :
-						applicationContext.getBeansOfType(RouterFunction.class));
+		Map<String, RouterFunction> beans = (this.detectHandlerFunctionsInAncestorContexts
+				? BeanFactoryUtils.beansOfTypeIncludingAncestors(applicationContext, RouterFunction.class)
+				: applicationContext.getBeansOfType(RouterFunction.class));
 
 		List<RouterFunction> routerFunctions = new ArrayList<>(beans.values());
 		if (!CollectionUtils.isEmpty(routerFunctions) && logger.isInfoEnabled()) {
 			routerFunctions.forEach(routerFunction -> logger.info("Mapped " + routerFunction));
 		}
-		this.routerFunction = routerFunctions.stream()
-				.reduce(RouterFunction::andOther)
-				.orElse(null);
+		this.routerFunction = routerFunctions.stream().reduce(RouterFunction::andOther).orElse(null);
 	}
 
 	/**

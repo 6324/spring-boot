@@ -58,9 +58,8 @@ class UndertowServerHttpResponse extends AbstractListenerServerHttpResponse impl
 	@Nullable
 	private StreamSinkChannel responseChannel;
 
-
-	UndertowServerHttpResponse(
-			HttpServerExchange exchange, DataBufferFactory bufferFactory, UndertowServerHttpRequest request) {
+	UndertowServerHttpResponse(HttpServerExchange exchange, DataBufferFactory bufferFactory,
+			UndertowServerHttpRequest request) {
 
 		super(bufferFactory, createHeaders(exchange));
 		Assert.notNull(exchange, "HttpServerExchange must not be null");
@@ -72,7 +71,6 @@ class UndertowServerHttpResponse extends AbstractListenerServerHttpResponse impl
 		UndertowHeadersAdapter headersMap = new UndertowHeadersAdapter(exchange.getResponseHeaders());
 		return new HttpHeaders(headersMap);
 	}
-
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -128,24 +126,22 @@ class UndertowServerHttpResponse extends AbstractListenerServerHttpResponse impl
 
 	@Override
 	public Mono<Void> writeWith(Path file, long position, long count) {
-		return doCommit(() ->
-				Mono.create(sink -> {
-					try {
-						FileChannel source = FileChannel.open(file, StandardOpenOption.READ);
+		return doCommit(() -> Mono.create(sink -> {
+			try {
+				FileChannel source = FileChannel.open(file, StandardOpenOption.READ);
 
-						TransferBodyListener listener = new TransferBodyListener(source, position,
-								count, sink);
-						sink.onDispose(listener::closeSource);
+				TransferBodyListener listener = new TransferBodyListener(source, position, count, sink);
+				sink.onDispose(listener::closeSource);
 
-						StreamSinkChannel destination = this.exchange.getResponseChannel();
-						destination.getWriteSetter().set(listener::transfer);
+				StreamSinkChannel destination = this.exchange.getResponseChannel();
+				destination.getWriteSetter().set(listener::transfer);
 
-						listener.transfer(destination);
-					}
-					catch (IOException ex) {
-						sink.error(ex);
-					}
-				}));
+				listener.transfer(destination);
+			}
+			catch (IOException ex) {
+				sink.error(ex);
+			}
+		}));
 	}
 
 	@Override
@@ -160,7 +156,6 @@ class UndertowServerHttpResponse extends AbstractListenerServerHttpResponse impl
 		return new ResponseBodyProcessor(this.responseChannel);
 	}
 
-
 	private class ResponseBodyProcessor extends AbstractListenerWriteProcessor<DataBuffer> {
 
 		private final StreamSinkChannel channel;
@@ -170,7 +165,6 @@ class UndertowServerHttpResponse extends AbstractListenerServerHttpResponse impl
 
 		/** Keep track of write listener calls, for {@link #writePossible}. */
 		private volatile boolean writePossible;
-
 
 		public ResponseBodyProcessor(StreamSinkChannel channel) {
 			super(request.getLogPrefix());
@@ -199,7 +193,8 @@ class UndertowServerHttpResponse extends AbstractListenerServerHttpResponse impl
 			// Track write listener calls from here on..
 			this.writePossible = false;
 
-			// In case of IOException, onError handling should call discardData(DataBuffer)..
+			// In case of IOException, onError handling should call
+			// discardData(DataBuffer)..
 			int total = buffer.remaining();
 			int written = writeByteBuffer(buffer);
 
@@ -259,8 +254,8 @@ class UndertowServerHttpResponse extends AbstractListenerServerHttpResponse impl
 		protected void discardData(DataBuffer dataBuffer) {
 			DataBufferUtils.release(dataBuffer);
 		}
-	}
 
+	}
 
 	private class ResponseBodyFlushProcessor extends AbstractListenerWriteFlushProcessor<DataBuffer> {
 
@@ -305,8 +300,8 @@ class UndertowServerHttpResponse extends AbstractListenerServerHttpResponse impl
 		protected boolean isFlushPending() {
 			return false;
 		}
-	}
 
+	}
 
 	private static class TransferBodyListener {
 
@@ -317,7 +312,6 @@ class UndertowServerHttpResponse extends AbstractListenerServerHttpResponse impl
 		private long position;
 
 		private long count;
-
 
 		public TransferBodyListener(FileChannel source, long position, long count, MonoSink<Void> sink) {
 			this.source = source;
@@ -354,7 +348,6 @@ class UndertowServerHttpResponse extends AbstractListenerServerHttpResponse impl
 			catch (IOException ignore) {
 			}
 		}
-
 
 	}
 

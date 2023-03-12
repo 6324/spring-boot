@@ -29,9 +29,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * A {@link UriComponentsContributor} containing a list of other contributors
- * to delegate and also encapsulating a specific {@link ConversionService} to
- * use for formatting method argument values to Strings.
+ * A {@link UriComponentsContributor} containing a list of other contributors to delegate
+ * and also encapsulating a specific {@link ConversionService} to use for formatting
+ * method argument values to Strings.
  *
  * @author Rossen Stoyanchev
  * @since 4.0
@@ -42,15 +42,15 @@ public class CompositeUriComponentsContributor implements UriComponentsContribut
 
 	private final ConversionService conversionService;
 
-
 	/**
-	 * Create an instance from a collection of {@link UriComponentsContributor UriComponentsContributors} or
-	 * {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}. Since both of these tend to be implemented
-	 * by the same class, the most convenient option is to obtain the configured
-	 * {@code HandlerMethodArgumentResolvers} in {@code RequestMappingHandlerAdapter}
-	 * and provide that to this constructor.
-	 * @param contributors a collection of {@link UriComponentsContributor}
-	 * or {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}.
+	 * Create an instance from a collection of {@link UriComponentsContributor
+	 * UriComponentsContributors} or {@link HandlerMethodArgumentResolver
+	 * HandlerMethodArgumentResolvers}. Since both of these tend to be implemented by the
+	 * same class, the most convenient option is to obtain the configured
+	 * {@code HandlerMethodArgumentResolvers} in {@code RequestMappingHandlerAdapter} and
+	 * provide that to this constructor.
+	 * @param contributors a collection of {@link UriComponentsContributor} or
+	 * {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}.
 	 */
 	public CompositeUriComponentsContributor(UriComponentsContributor... contributors) {
 		Collections.addAll(this.contributors, contributors);
@@ -58,31 +58,34 @@ public class CompositeUriComponentsContributor implements UriComponentsContribut
 	}
 
 	/**
-	 * Create an instance from a collection of {@link UriComponentsContributor UriComponentsContributors} or
-	 * {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}. Since both of these tend to be implemented
-	 * by the same class, the most convenient option is to obtain the configured
-	 * {@code HandlerMethodArgumentResolvers} in {@code RequestMappingHandlerAdapter}
-	 * and provide that to this constructor.
-	 * @param contributors a collection of {@link UriComponentsContributor}
-	 * or {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}.
+	 * Create an instance from a collection of {@link UriComponentsContributor
+	 * UriComponentsContributors} or {@link HandlerMethodArgumentResolver
+	 * HandlerMethodArgumentResolvers}. Since both of these tend to be implemented by the
+	 * same class, the most convenient option is to obtain the configured
+	 * {@code HandlerMethodArgumentResolvers} in {@code RequestMappingHandlerAdapter} and
+	 * provide that to this constructor.
+	 * @param contributors a collection of {@link UriComponentsContributor} or
+	 * {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}.
 	 */
 	public CompositeUriComponentsContributor(Collection<?> contributors) {
 		this(contributors, null);
 	}
 
 	/**
-	 * Create an instance from a collection of {@link UriComponentsContributor UriComponentsContributors} or
-	 * {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}. Since both of these tend to be implemented
-	 * by the same class, the most convenient option is to obtain the configured
+	 * Create an instance from a collection of {@link UriComponentsContributor
+	 * UriComponentsContributors} or {@link HandlerMethodArgumentResolver
+	 * HandlerMethodArgumentResolvers}. Since both of these tend to be implemented by the
+	 * same class, the most convenient option is to obtain the configured
 	 * {@code HandlerMethodArgumentResolvers} in the {@code RequestMappingHandlerAdapter}
 	 * and provide that to this constructor.
-	 * <p>If the {@link ConversionService} argument is {@code null},
-	 * {@link org.springframework.format.support.DefaultFormattingConversionService}
-	 * will be used by default.
-	 * @param contributors a collection of {@link UriComponentsContributor}
-	 * or {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}.
-	 * @param cs a ConversionService to use when method argument values
-	 * need to be formatted as Strings before being added to the URI
+	 * <p>
+	 * If the {@link ConversionService} argument is {@code null},
+	 * {@link org.springframework.format.support.DefaultFormattingConversionService} will
+	 * be used by default.
+	 * @param contributors a collection of {@link UriComponentsContributor} or
+	 * {@link HandlerMethodArgumentResolver HandlerMethodArgumentResolvers}.
+	 * @param cs a ConversionService to use when method argument values need to be
+	 * formatted as Strings before being added to the URI
 	 */
 	public CompositeUriComponentsContributor(@Nullable Collection<?> contributors, @Nullable ConversionService cs) {
 		if (contributors != null) {
@@ -90,7 +93,6 @@ public class CompositeUriComponentsContributor implements UriComponentsContribut
 		}
 		this.conversionService = (cs != null ? cs : new DefaultFormattingConversionService());
 	}
-
 
 	public boolean hasContributors() {
 		return this.contributors.isEmpty();
@@ -114,8 +116,8 @@ public class CompositeUriComponentsContributor implements UriComponentsContribut
 	}
 
 	@Override
-	public void contributeMethodArgument(MethodParameter parameter, Object value,
-			UriComponentsBuilder builder, Map<String, Object> uriVariables, ConversionService conversionService) {
+	public void contributeMethodArgument(MethodParameter parameter, Object value, UriComponentsBuilder builder,
+			Map<String, Object> uriVariables, ConversionService conversionService) {
 
 		for (Object contributor : this.contributors) {
 			if (contributor instanceof UriComponentsContributor) {

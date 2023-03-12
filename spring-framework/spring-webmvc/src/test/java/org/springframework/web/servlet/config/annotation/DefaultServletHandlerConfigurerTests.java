@@ -43,14 +43,12 @@ public class DefaultServletHandlerConfigurerTests {
 
 	private MockHttpServletResponse response;
 
-
 	@BeforeEach
 	public void setup() {
 		response = new MockHttpServletResponse();
 		servletContext = new DispatchingMockServletContext();
 		configurer = new DefaultServletHandlerConfigurer(servletContext);
 	}
-
 
 	@Test
 	public void notEnabled() {
@@ -61,7 +59,8 @@ public class DefaultServletHandlerConfigurerTests {
 	public void enable() throws Exception {
 		configurer.enable();
 		SimpleUrlHandlerMapping handlerMapping = configurer.buildHandlerMapping();
-		DefaultServletHttpRequestHandler handler = (DefaultServletHttpRequestHandler) handlerMapping.getUrlMap().get("/**");
+		DefaultServletHttpRequestHandler handler = (DefaultServletHttpRequestHandler) handlerMapping.getUrlMap()
+				.get("/**");
 
 		assertThat(handler).isNotNull();
 		assertThat(handlerMapping.getOrder()).isEqualTo(Integer.MAX_VALUE);
@@ -69,7 +68,8 @@ public class DefaultServletHandlerConfigurerTests {
 		handler.handleRequest(new MockHttpServletRequest(), response);
 
 		String expected = "default";
-		assertThat(servletContext.url).as("The ServletContext was not called with the default servlet name").isEqualTo(expected);
+		assertThat(servletContext.url).as("The ServletContext was not called with the default servlet name")
+				.isEqualTo(expected);
 		assertThat(response.getForwardedUrl()).as("The request was not forwarded").isEqualTo(expected);
 	}
 
@@ -77,7 +77,8 @@ public class DefaultServletHandlerConfigurerTests {
 	public void enableWithServletName() throws Exception {
 		configurer.enable("defaultServlet");
 		SimpleUrlHandlerMapping handlerMapping = configurer.buildHandlerMapping();
-		DefaultServletHttpRequestHandler handler = (DefaultServletHttpRequestHandler) handlerMapping.getUrlMap().get("/**");
+		DefaultServletHttpRequestHandler handler = (DefaultServletHttpRequestHandler) handlerMapping.getUrlMap()
+				.get("/**");
 
 		assertThat(handler).isNotNull();
 		assertThat(handlerMapping.getOrder()).isEqualTo(Integer.MAX_VALUE);
@@ -85,10 +86,10 @@ public class DefaultServletHandlerConfigurerTests {
 		handler.handleRequest(new MockHttpServletRequest(), response);
 
 		String expected = "defaultServlet";
-		assertThat(servletContext.url).as("The ServletContext was not called with the default servlet name").isEqualTo(expected);
+		assertThat(servletContext.url).as("The ServletContext was not called with the default servlet name")
+				.isEqualTo(expected);
 		assertThat(response.getForwardedUrl()).as("The request was not forwarded").isEqualTo(expected);
 	}
-
 
 	private static class DispatchingMockServletContext extends MockServletContext {
 
@@ -99,6 +100,7 @@ public class DefaultServletHandlerConfigurerTests {
 			this.url = url;
 			return new MockRequestDispatcher(url);
 		}
+
 	}
 
 }

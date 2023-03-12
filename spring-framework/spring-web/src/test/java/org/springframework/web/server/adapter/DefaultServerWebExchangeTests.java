@@ -56,16 +56,14 @@ public class DefaultServerWebExchangeTests {
 		assertThat(exchange.transformUrl("/foo")).isEqualTo("/foo;p=abc?q=123");
 	}
 
-
 	private DefaultServerWebExchange createExchange() {
 		MockServerHttpRequest request = MockServerHttpRequest.get("https://example.com").build();
 		return createExchange(request);
 	}
 
 	private DefaultServerWebExchange createExchange(MockServerHttpRequest request) {
-		return new DefaultServerWebExchange(request, new MockServerHttpResponse(),
-				new DefaultWebSessionManager(), ServerCodecConfigurer.create(),
-				new AcceptHeaderLocaleContextResolver());
+		return new DefaultServerWebExchange(request, new MockServerHttpResponse(), new DefaultWebSessionManager(),
+				ServerCodecConfigurer.create(), new AcceptHeaderLocaleContextResolver());
 	}
 
 }

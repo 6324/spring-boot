@@ -111,7 +111,7 @@ public class PatternsRequestConditionTests {
 		assertThat(match.getPatterns().iterator().next()).isEqualTo("/{foo}.*");
 
 		boolean useSuffixPatternMatch = false;
-		condition = new PatternsRequestCondition(new String[] {"/{foo}"}, null, null, useSuffixPatternMatch, false);
+		condition = new PatternsRequestCondition(new String[] { "/{foo}" }, null, null, useSuffixPatternMatch, false);
 		match = condition.getMatchingCondition(request);
 
 		assertThat(match).isNotNull();
@@ -120,8 +120,8 @@ public class PatternsRequestConditionTests {
 
 	@Test // SPR-8410
 	public void matchSuffixPatternUsingFileExtensions() {
-		PatternsRequestCondition condition = new PatternsRequestCondition(
-				new String[] {"/jobs/{jobName}"}, null, null, true, false, Collections.singletonList("json"));
+		PatternsRequestCondition condition = new PatternsRequestCondition(new String[] { "/jobs/{jobName}" }, null,
+				null, true, false, Collections.singletonList("json"));
 
 		MockHttpServletRequest request = new MockHttpServletRequest("GET", "/jobs/my.job");
 		PatternsRequestCondition match = condition.getMatchingCondition(request);
@@ -138,11 +138,11 @@ public class PatternsRequestConditionTests {
 
 	@Test
 	public void matchSuffixPatternUsingFileExtensions2() {
-		PatternsRequestCondition condition1 = new PatternsRequestCondition(
-				new String[] {"/prefix"}, null, null, true, false, Arrays.asList("json"));
+		PatternsRequestCondition condition1 = new PatternsRequestCondition(new String[] { "/prefix" }, null, null, true,
+				false, Arrays.asList("json"));
 
-		PatternsRequestCondition condition2 = new PatternsRequestCondition(
-				new String[] {"/suffix"}, null, null, true, false, null);
+		PatternsRequestCondition condition2 = new PatternsRequestCondition(new String[] { "/suffix" }, null, null, true,
+				false, null);
 
 		PatternsRequestCondition combined = condition1.combine(condition2);
 
@@ -162,7 +162,7 @@ public class PatternsRequestConditionTests {
 		assertThat(match).isNotNull();
 		assertThat(match.getPatterns().iterator().next()).as("Should match by default").isEqualTo("/foo/");
 
-		condition = new PatternsRequestCondition(new String[] {"/foo"}, null, null, false, true);
+		condition = new PatternsRequestCondition(new String[] { "/foo" }, null, null, false, true);
 		match = condition.getMatchingCondition(request);
 
 		assertThat(match).isNotNull();
@@ -170,7 +170,7 @@ public class PatternsRequestConditionTests {
 				.as("Trailing slash should be insensitive to useSuffixPatternMatch settings (SPR-6164, SPR-5636)")
 				.isEqualTo("/foo/");
 
-		condition = new PatternsRequestCondition(new String[] {"/foo"}, null, null, false);
+		condition = new PatternsRequestCondition(new String[] { "/foo" }, null, null, false);
 		match = condition.getMatchingCondition(request);
 
 		assertThat(match).isNull();

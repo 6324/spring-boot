@@ -34,13 +34,14 @@ import org.springframework.web.util.WebUtils;
  * {@link RequestAttributes} adapter for a JSF {@link javax.faces.context.FacesContext}.
  * Used as default in a JSF environment, wrapping the current FacesContext.
  *
- * <p><b>NOTE:</b> In contrast to {@link ServletRequestAttributes}, this variant does
- * <i>not</i> support destruction callbacks for scoped attributes, neither for the
- * request scope nor for the session scope. If you rely on such implicit destruction
- * callbacks, consider defining a Spring {@link RequestContextListener} in your
- * {@code web.xml}.
+ * <p>
+ * <b>NOTE:</b> In contrast to {@link ServletRequestAttributes}, this variant does
+ * <i>not</i> support destruction callbacks for scoped attributes, neither for the request
+ * scope nor for the session scope. If you rely on such implicit destruction callbacks,
+ * consider defining a Spring {@link RequestContextListener} in your {@code web.xml}.
  *
- * <p>Requires JSF 2.0 or higher, as of Spring 4.0.
+ * <p>
+ * Requires JSF 2.0 or higher, as of Spring 4.0.
  *
  * @author Juergen Hoeller
  * @since 2.5.2
@@ -58,7 +59,6 @@ public class FacesRequestAttributes implements RequestAttributes {
 
 	private final FacesContext facesContext;
 
-
 	/**
 	 * Create a new FacesRequestAttributes adapter for the given FacesContext.
 	 * @param facesContext the current FacesContext
@@ -68,7 +68,6 @@ public class FacesRequestAttributes implements RequestAttributes {
 		Assert.notNull(facesContext, "FacesContext must not be null");
 		this.facesContext = facesContext;
 	}
-
 
 	/**
 	 * Return the JSF FacesContext that this adapter operates on.
@@ -101,7 +100,6 @@ public class FacesRequestAttributes implements RequestAttributes {
 		}
 	}
 
-
 	@Override
 	public Object getAttribute(String name, int scope) {
 		return getAttributeMap(scope).get(name);
@@ -125,8 +123,8 @@ public class FacesRequestAttributes implements RequestAttributes {
 	@Override
 	public void registerDestructionCallback(String name, Runnable callback, int scope) {
 		if (logger.isWarnEnabled()) {
-			logger.warn("Could not register destruction callback [" + callback + "] for attribute '" + name +
-					"' because FacesRequestAttributes does not support such callbacks");
+			logger.warn("Could not register destruction callback [" + callback + "] for attribute '" + name
+					+ "' because FacesRequestAttributes does not support such callbacks");
 		}
 	}
 
@@ -203,7 +201,8 @@ public class FacesRequestAttributes implements RequestAttributes {
 
 	@Override
 	public Object getSessionMutex() {
-		// Enforce presence of a session first to allow listeners to create the mutex attribute
+		// Enforce presence of a session first to allow listeners to create the mutex
+		// attribute
 		ExternalContext externalContext = getExternalContext();
 		Object session = externalContext.getSession(true);
 		Object mutex = externalContext.getSessionMap().get(WebUtils.SESSION_MUTEX_ATTRIBUTE);

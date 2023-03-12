@@ -26,13 +26,14 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.lang.Nullable;
 
 /**
- * Implementation of {@link ClientHttpResponse} that can not only check if
- * the response has a message body, but also if its length is 0 (i.e. empty)
- * by actually reading the input stream.
+ * Implementation of {@link ClientHttpResponse} that can not only check if the response
+ * has a message body, but also if its length is 0 (i.e. empty) by actually reading the
+ * input stream.
  *
  * @author Brian Clozel
  * @since 4.1.5
- * @see <a href="https://tools.ietf.org/html/rfc7230#section-3.3.3">RFC 7230 Section 3.3.3</a>
+ * @see <a href="https://tools.ietf.org/html/rfc7230#section-3.3.3">RFC 7230 Section
+ * 3.3.3</a>
  */
 class MessageBodyClientHttpResponseWrapper implements ClientHttpResponse {
 
@@ -41,15 +42,14 @@ class MessageBodyClientHttpResponseWrapper implements ClientHttpResponse {
 	@Nullable
 	private PushbackInputStream pushbackInputStream;
 
-
 	public MessageBodyClientHttpResponseWrapper(ClientHttpResponse response) throws IOException {
 		this.response = response;
 	}
 
-
 	/**
 	 * Indicates whether the response has a message body.
-	 * <p>Implementation returns {@code false} for:
+	 * <p>
+	 * Implementation returns {@code false} for:
 	 * <ul>
 	 * <li>a response status of {@code 1XX}, {@code 204} or {@code 304}</li>
 	 * <li>a {@code Content-Length} header of {@code 0}</li>
@@ -59,8 +59,8 @@ class MessageBodyClientHttpResponseWrapper implements ClientHttpResponse {
 	 */
 	public boolean hasMessageBody() throws IOException {
 		HttpStatus status = HttpStatus.resolve(getRawStatusCode());
-		if (status != null && (status.is1xxInformational() || status == HttpStatus.NO_CONTENT ||
-				status == HttpStatus.NOT_MODIFIED)) {
+		if (status != null && (status.is1xxInformational() || status == HttpStatus.NO_CONTENT
+				|| status == HttpStatus.NOT_MODIFIED)) {
 			return false;
 		}
 		if (getHeaders().getContentLength() == 0) {
@@ -71,12 +71,15 @@ class MessageBodyClientHttpResponseWrapper implements ClientHttpResponse {
 
 	/**
 	 * Indicates whether the response has an empty message body.
-	 * <p>Implementation tries to read the first bytes of the response stream:
+	 * <p>
+	 * Implementation tries to read the first bytes of the response stream:
 	 * <ul>
 	 * <li>if no bytes are available, the message body is empty</li>
-	 * <li>otherwise it is not empty and the stream is reset to its start for further reading</li>
+	 * <li>otherwise it is not empty and the stream is reset to its start for further
+	 * reading</li>
 	 * </ul>
-	 * @return {@code true} if the response has a zero-length message body, {@code false} otherwise
+	 * @return {@code true} if the response has a zero-length message body, {@code false}
+	 * otherwise
 	 * @throws IOException in case of I/O errors
 	 */
 	@SuppressWarnings("ConstantConditions")
@@ -108,7 +111,6 @@ class MessageBodyClientHttpResponseWrapper implements ClientHttpResponse {
 			}
 		}
 	}
-
 
 	@Override
 	public HttpHeaders getHeaders() {

@@ -24,10 +24,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.DataBinder;
 
 /**
- * A {@link ModelMap} implementation of {@link RedirectAttributes} that formats
- * values as Strings using a {@link DataBinder}. Also provides a place to store
- * flash attributes so they can survive a redirect without the need to be
- * embedded in the redirect URL.
+ * A {@link ModelMap} implementation of {@link RedirectAttributes} that formats values as
+ * Strings using a {@link DataBinder}. Also provides a place to store flash attributes so
+ * they can survive a redirect without the need to be embedded in the redirect URL.
  *
  * @author Rossen Stoyanchev
  * @since 3.1
@@ -40,10 +39,9 @@ public class RedirectAttributesModelMap extends ModelMap implements RedirectAttr
 
 	private final ModelMap flashAttributes = new ModelMap();
 
-
 	/**
-	 * Default constructor without a DataBinder.
-	 * Attribute values are converted to String via {@link #toString()}.
+	 * Default constructor without a DataBinder. Attribute values are converted to String
+	 * via {@link #toString()}.
 	 */
 	public RedirectAttributesModelMap() {
 		this(null);
@@ -57,7 +55,6 @@ public class RedirectAttributesModelMap extends ModelMap implements RedirectAttr
 		this.dataBinder = dataBinder;
 	}
 
-
 	/**
 	 * Return the attributes candidate for flash storage or an empty Map.
 	 */
@@ -68,7 +65,8 @@ public class RedirectAttributesModelMap extends ModelMap implements RedirectAttr
 
 	/**
 	 * {@inheritDoc}
-	 * <p>Formats the attribute value as a String before adding it.
+	 * <p>
+	 * Formats the attribute value as a String before adding it.
 	 */
 	@Override
 	public RedirectAttributesModelMap addAttribute(String attributeName, @Nullable Object attributeValue) {
@@ -86,7 +84,8 @@ public class RedirectAttributesModelMap extends ModelMap implements RedirectAttr
 
 	/**
 	 * {@inheritDoc}
-	 * <p>Formats the attribute value as a String before adding it.
+	 * <p>
+	 * Formats the attribute value as a String before adding it.
 	 */
 	@Override
 	public RedirectAttributesModelMap addAttribute(Object attributeValue) {
@@ -96,7 +95,8 @@ public class RedirectAttributesModelMap extends ModelMap implements RedirectAttr
 
 	/**
 	 * {@inheritDoc}
-	 * <p>Each attribute value is formatted as a String before being added.
+	 * <p>
+	 * Each attribute value is formatted as a String before being added.
 	 */
 	@Override
 	public RedirectAttributesModelMap addAllAttributes(@Nullable Collection<?> attributeValues) {
@@ -106,7 +106,8 @@ public class RedirectAttributesModelMap extends ModelMap implements RedirectAttr
 
 	/**
 	 * {@inheritDoc}
-	 * <p>Each attribute value is formatted as a String before being added.
+	 * <p>
+	 * Each attribute value is formatted as a String before being added.
 	 */
 	@Override
 	public RedirectAttributesModelMap addAllAttributes(@Nullable Map<String, ?> attributes) {
@@ -118,7 +119,8 @@ public class RedirectAttributesModelMap extends ModelMap implements RedirectAttr
 
 	/**
 	 * {@inheritDoc}
-	 * <p>Each attribute value is formatted as a String before being merged.
+	 * <p>
+	 * Each attribute value is formatted as a String before being merged.
 	 */
 	@Override
 	public RedirectAttributesModelMap mergeAttributes(@Nullable Map<String, ?> attributes) {
@@ -139,7 +141,8 @@ public class RedirectAttributesModelMap extends ModelMap implements RedirectAttr
 
 	/**
 	 * {@inheritDoc}
-	 * <p>The value is formatted as a String before being added.
+	 * <p>
+	 * The value is formatted as a String before being added.
 	 */
 	@Override
 	public Object put(String key, @Nullable Object value) {
@@ -148,7 +151,8 @@ public class RedirectAttributesModelMap extends ModelMap implements RedirectAttr
 
 	/**
 	 * {@inheritDoc}
-	 * <p>Each value is formatted as a String before being added.
+	 * <p>
+	 * Each value is formatted as a String before being added.
 	 */
 	@Override
 	public void putAll(@Nullable Map<? extends String, ? extends Object> map) {

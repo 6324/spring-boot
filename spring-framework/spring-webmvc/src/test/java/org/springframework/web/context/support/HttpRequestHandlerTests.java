@@ -52,7 +52,8 @@ public class HttpRequestHandlerTests {
 		StaticWebApplicationContext wac = new StaticWebApplicationContext();
 		wac.getBeanFactory().registerSingleton("myHandler", new HttpRequestHandler() {
 			@Override
-			public void handleRequest(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+			public void handleRequest(HttpServletRequest req, HttpServletResponse res)
+					throws ServletException, IOException {
 				assertThat(req).isSameAs(request);
 				assertThat(res).isSameAs(response);
 				String exception = request.getParameter("exception");
@@ -76,14 +77,11 @@ public class HttpRequestHandlerTests {
 		assertThat(response.getContentAsString()).isEqualTo("myResponse");
 
 		request.setParameter("exception", "ServletException");
-		assertThatExceptionOfType(ServletException.class).isThrownBy(() ->
-				servlet.service(request, response))
-			.withMessage("test");
+		assertThatExceptionOfType(ServletException.class).isThrownBy(() -> servlet.service(request, response))
+				.withMessage("test");
 
 		request.setParameter("exception", "IOException");
-		assertThatIOException().isThrownBy(() ->
-				servlet.service(request, response))
-			.withMessage("test");
+		assertThatIOException().isThrownBy(() -> servlet.service(request, response)).withMessage("test");
 	}
 
 }

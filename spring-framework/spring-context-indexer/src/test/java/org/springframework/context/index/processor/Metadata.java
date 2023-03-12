@@ -37,11 +37,9 @@ class Metadata {
 		return of(type, Arrays.asList(stereotypes));
 	}
 
-	public static Condition<CandidateComponentsMetadata> of(String type,
-			List<String> stereotypes) {
+	public static Condition<CandidateComponentsMetadata> of(String type, List<String> stereotypes) {
 		return new Condition<>(metadata -> {
-			ItemMetadata itemMetadata = metadata.getItems().stream()
-					.filter(item -> item.getType().equals(type))
+			ItemMetadata itemMetadata = metadata.getItems().stream().filter(item -> item.getType().equals(type))
 					.findFirst().orElse(null);
 			return itemMetadata != null && itemMetadata.getStereotypes().size() == stereotypes.size()
 					&& itemMetadata.getStereotypes().containsAll(stereotypes);

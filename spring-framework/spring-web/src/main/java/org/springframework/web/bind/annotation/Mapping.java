@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
  * @since 3.0
  * @see RequestMapping
  */
-@Target({ElementType.ANNOTATION_TYPE})
+@Target({ ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Mapping {
 

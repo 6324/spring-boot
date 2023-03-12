@@ -76,7 +76,6 @@ class DefaultServerRequestBuilder implements ServerRequest.Builder {
 
 	private byte[] body = new byte[0];
 
-
 	public DefaultServerRequestBuilder(ServerRequest other) {
 		Assert.notNull(other, "ServerRequest must not be null");
 		this.servletRequest = other.servletRequest();
@@ -156,10 +155,9 @@ class DefaultServerRequestBuilder implements ServerRequest.Builder {
 
 	@Override
 	public ServerRequest build() {
-		return new BuiltServerRequest(this.servletRequest, this.methodName, this.uri,
-				this.headers, this.cookies, this.attributes, this.body, this.messageConverters);
+		return new BuiltServerRequest(this.servletRequest, this.methodName, this.uri, this.headers, this.cookies,
+				this.attributes, this.body, this.messageConverters);
 	}
-
 
 	private static class BuiltServerRequest implements ServerRequest {
 
@@ -179,9 +177,8 @@ class DefaultServerRequestBuilder implements ServerRequest.Builder {
 
 		private final List<HttpMessageConverter<?>> messageConverters;
 
-		public BuiltServerRequest(HttpServletRequest servletRequest, String methodName, URI uri,
-				HttpHeaders headers, MultiValueMap<String, Cookie> cookies,
-				Map<String, Object> attributes, byte[] body,
+		public BuiltServerRequest(HttpServletRequest servletRequest, String methodName, URI uri, HttpHeaders headers,
+				MultiValueMap<String, Cookie> cookies, Map<String, Object> attributes, byte[] body,
 				List<HttpMessageConverter<?>> messageConverters) {
 
 			this.servletRequest = servletRequest;
@@ -247,15 +244,13 @@ class DefaultServerRequestBuilder implements ServerRequest.Builder {
 
 			for (HttpMessageConverter<?> messageConverter : this.messageConverters) {
 				if (messageConverter instanceof GenericHttpMessageConverter) {
-					GenericHttpMessageConverter<T> genericMessageConverter =
-							(GenericHttpMessageConverter<T>) messageConverter;
+					GenericHttpMessageConverter<T> genericMessageConverter = (GenericHttpMessageConverter<T>) messageConverter;
 					if (genericMessageConverter.canRead(bodyType, bodyClass, contentType)) {
 						return genericMessageConverter.read(bodyType, bodyClass, inputMessage);
 					}
 				}
 				if (messageConverter.canRead(bodyClass, contentType)) {
-					HttpMessageConverter<T> theConverter =
-							(HttpMessageConverter<T>) messageConverter;
+					HttpMessageConverter<T> theConverter = (HttpMessageConverter<T>) messageConverter;
 					Class<? extends T> clazz = (Class<? extends T>) bodyClass;
 					return theConverter.read(clazz, inputMessage);
 				}
@@ -301,7 +296,6 @@ class DefaultServerRequestBuilder implements ServerRequest.Builder {
 			return this.servletRequest;
 		}
 
-
 		private class BuiltInputMessage implements HttpInputMessage {
 
 			@Override
@@ -313,9 +307,10 @@ class DefaultServerRequestBuilder implements ServerRequest.Builder {
 			public HttpHeaders getHeaders() {
 				return headers;
 			}
-		}
-	}
 
+		}
+
+	}
 
 	private static class BodyInputStream extends ServletInputStream {
 
@@ -384,6 +379,7 @@ class DefaultServerRequestBuilder implements ServerRequest.Builder {
 		public boolean markSupported() {
 			return this.delegate.markSupported();
 		}
+
 	}
 
 }

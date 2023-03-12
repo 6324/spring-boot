@@ -28,8 +28,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StreamUtils;
 
 /**
- * {@link ClientHttpRequest} implementation that uses standard JDK facilities to
- * execute streaming requests. Created via the {@link SimpleClientHttpRequestFactory}.
+ * {@link ClientHttpRequest} implementation that uses standard JDK facilities to execute
+ * streaming requests. Created via the {@link SimpleClientHttpRequestFactory}.
  *
  * @author Arjen Poutsma
  * @since 3.0
@@ -48,13 +48,11 @@ final class SimpleStreamingClientHttpRequest extends AbstractClientHttpRequest {
 
 	private final boolean outputStreaming;
 
-
 	SimpleStreamingClientHttpRequest(HttpURLConnection connection, int chunkSize, boolean outputStreaming) {
 		this.connection = connection;
 		this.chunkSize = chunkSize;
 		this.outputStreaming = outputStreaming;
 	}
-
 
 	@Override
 	public String getMethodValue() {

@@ -45,14 +45,12 @@ public class ViewControllerRegistryTests {
 
 	private MockHttpServletResponse response;
 
-
 	@BeforeEach
 	public void setup() {
 		this.registry = new ViewControllerRegistry(new StaticApplicationContext());
 		this.request = new MockHttpServletRequest("GET", "/");
 		this.response = new MockHttpServletResponse();
 	}
-
 
 	@Test
 	public void noViewControllers() {
@@ -96,10 +94,8 @@ public class ViewControllerRegistryTests {
 
 	@Test
 	public void addRedirectViewControllerWithCustomSettings() throws Exception {
-		this.registry.addRedirectViewController("/path", "/redirectTo")
-				.setContextRelative(false)
-				.setKeepQueryParams(true)
-				.setStatusCode(HttpStatus.PERMANENT_REDIRECT);
+		this.registry.addRedirectViewController("/path", "/redirectTo").setContextRelative(false)
+				.setKeepQueryParams(true).setStatusCode(HttpStatus.PERMANENT_REDIRECT);
 
 		RedirectView redirectView = getRedirectView("/path");
 		this.request.setQueryString("a=b");
@@ -132,7 +128,6 @@ public class ViewControllerRegistryTests {
 		handlerMapping = this.registry.buildHandlerMapping();
 		assertThat(handlerMapping.getOrder()).isEqualTo(2);
 	}
-
 
 	private ParameterizableViewController getController(String path) {
 		Map<String, ?> urlMap = this.registry.buildHandlerMapping().getUrlMap();

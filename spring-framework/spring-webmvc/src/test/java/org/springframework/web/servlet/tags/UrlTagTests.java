@@ -42,14 +42,12 @@ public class UrlTagTests extends AbstractTagTests {
 
 	private MockPageContext context;
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		context = createPageContext();
 		tag = new UrlTag();
 		tag.setPageContext(context);
 	}
-
 
 	@Test
 	public void paramSupport() {
@@ -407,15 +405,14 @@ public class UrlTagTests extends AbstractTagTests {
 		param.setValue("v lue");
 		params.add(param);
 
-		String uri = tag.replaceUriTemplateParams("url/{name}", params,
-				usedParams);
+		String uri = tag.replaceUriTemplateParams("url/{name}", params, usedParams);
 
 		assertThat(uri).isEqualTo("url/v%20lue");
 		assertThat(usedParams.size()).isEqualTo(1);
 		assertThat(usedParams.contains("name")).isTrue();
 	}
 
-	@Test  // SPR-11401
+	@Test // SPR-11401
 	public void replaceUriTemplateParamsTemplateWithPathSegment() throws JspException {
 		List<Param> params = new LinkedList<>();
 		Set<String> usedParams = new HashSet<>();

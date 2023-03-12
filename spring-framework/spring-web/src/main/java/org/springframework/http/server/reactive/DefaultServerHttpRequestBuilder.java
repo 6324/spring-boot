@@ -65,7 +65,6 @@ class DefaultServerHttpRequestBuilder implements ServerHttpRequest.Builder {
 
 	private final ServerHttpRequest originalRequest;
 
-
 	public DefaultServerHttpRequestBuilder(ServerHttpRequest original) {
 		Assert.notNull(original, "ServerHttpRequest is required");
 
@@ -82,10 +81,9 @@ class DefaultServerHttpRequestBuilder implements ServerHttpRequest.Builder {
 		this.originalRequest = original;
 	}
 
-	private static <K, V> void copyMultiValueMap(MultiValueMap<K,V> source, MultiValueMap<K,V> target) {
+	private static <K, V> void copyMultiValueMap(MultiValueMap<K, V> source, MultiValueMap<K, V> target) {
 		source.forEach((key, value) -> target.put(key, new LinkedList<>(value)));
 	}
-
 
 	@Override
 	public ServerHttpRequest.Builder method(HttpMethod httpMethod) {
@@ -133,8 +131,8 @@ class DefaultServerHttpRequestBuilder implements ServerHttpRequest.Builder {
 
 	@Override
 	public ServerHttpRequest build() {
-		return new MutatedServerHttpRequest(getUriToUse(), this.contextPath, this.httpHeaders,
-				this.httpMethodValue, this.cookies, this.sslInfo, this.body, this.originalRequest);
+		return new MutatedServerHttpRequest(getUriToUse(), this.contextPath, this.httpHeaders, this.httpMethodValue,
+				this.cookies, this.sslInfo, this.body, this.originalRequest);
 	}
 
 	private URI getUriToUse() {
@@ -175,7 +173,6 @@ class DefaultServerHttpRequestBuilder implements ServerHttpRequest.Builder {
 		}
 	}
 
-
 	private static class MutatedServerHttpRequest extends AbstractServerHttpRequest {
 
 		private final String methodValue;
@@ -189,10 +186,9 @@ class DefaultServerHttpRequestBuilder implements ServerHttpRequest.Builder {
 
 		private final ServerHttpRequest originalRequest;
 
-
-		public MutatedServerHttpRequest(URI uri, @Nullable String contextPath,
-				HttpHeaders headers, String methodValue, MultiValueMap<String, HttpCookie> cookies,
-				@Nullable SslInfo sslInfo, Flux<DataBuffer> body, ServerHttpRequest originalRequest) {
+		public MutatedServerHttpRequest(URI uri, @Nullable String contextPath, HttpHeaders headers, String methodValue,
+				MultiValueMap<String, HttpCookie> cookies, @Nullable SslInfo sslInfo, Flux<DataBuffer> body,
+				ServerHttpRequest originalRequest) {
 
 			super(uri, contextPath, headers);
 			this.methodValue = methodValue;
@@ -245,6 +241,7 @@ class DefaultServerHttpRequestBuilder implements ServerHttpRequest.Builder {
 		public String getId() {
 			return this.originalRequest.getId();
 		}
+
 	}
 
 }

@@ -92,10 +92,8 @@ public class CookieLocaleResolverTests {
 
 		CookieLocaleResolver resolver = new CookieLocaleResolver();
 		resolver.setCookieName("LanguageKoekje");
-		assertThatIllegalStateException().isThrownBy(() ->
-				resolver.resolveLocaleContext(request))
-			.withMessageContaining("LanguageKoekje")
-			.withMessageContaining("++ GMT+1");
+		assertThatIllegalStateException().isThrownBy(() -> resolver.resolveLocaleContext(request))
+				.withMessageContaining("LanguageKoekje").withMessageContaining("++ GMT+1");
 	}
 
 	@Test
@@ -124,10 +122,8 @@ public class CookieLocaleResolverTests {
 
 		CookieLocaleResolver resolver = new CookieLocaleResolver();
 		resolver.setCookieName("LanguageKoekje");
-		assertThatIllegalStateException().isThrownBy(() ->
-				resolver.resolveLocaleContext(request))
-			.withMessageContaining("LanguageKoekje")
-			.withMessageContaining("nl X-MT");
+		assertThatIllegalStateException().isThrownBy(() -> resolver.resolveLocaleContext(request))
+				.withMessageContaining("LanguageKoekje").withMessageContaining("nl X-MT");
 	}
 
 	@Test

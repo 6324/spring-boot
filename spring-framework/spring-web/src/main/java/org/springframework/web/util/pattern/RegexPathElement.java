@@ -25,10 +25,10 @@ import org.springframework.http.server.PathContainer.PathSegment;
 import org.springframework.web.util.pattern.PathPattern.MatchingContext;
 
 /**
- * A regex path element. Used to represent any complicated element of the path.
- * For example in '<tt>/foo/&ast;_&ast;/&ast;_{foobar}</tt>' both <tt>*_*</tt> and <tt>*_{foobar}</tt>
- * are {@link RegexPathElement} path elements. Derived from the general
- * {@link org.springframework.util.AntPathMatcher} approach.
+ * A regex path element. Used to represent any complicated element of the path. For
+ * example in '<tt>/foo/&ast;_&ast;/&ast;_{foobar}</tt>' both <tt>*_*</tt> and
+ * <tt>*_{foobar}</tt> are {@link RegexPathElement} path elements. Derived from the
+ * general {@link org.springframework.util.AntPathMatcher} approach.
  *
  * @author Andy Clement
  * @since 5.0
@@ -38,7 +38,6 @@ class RegexPathElement extends PathElement {
 	private static final Pattern GLOB_PATTERN = Pattern.compile("\\?|\\*|\\{((?:\\{[^/]+?}|[^/{}]|\\\\[{}])+?)}");
 
 	private static final String DEFAULT_VARIABLE_PATTERN = "(.*)";
-
 
 	private final char[] regex;
 
@@ -50,14 +49,12 @@ class RegexPathElement extends PathElement {
 
 	private final List<String> variableNames = new ArrayList<>();
 
-
 	RegexPathElement(int pos, char[] regex, boolean caseSensitive, char[] completePattern, char separator) {
 		super(pos, separator);
 		this.regex = regex;
 		this.caseSensitive = caseSensitive;
 		this.pattern = buildPattern(regex, completePattern);
 	}
-
 
 	public Pattern buildPattern(char[] regex, char[] completePattern) {
 		StringBuilder patternBuilder = new StringBuilder();
@@ -74,7 +71,7 @@ class RegexPathElement extends PathElement {
 			else if ("*".equals(match)) {
 				patternBuilder.append(".*");
 				int pos = matcher.start();
-				if (pos < 1 || text.charAt(pos-1) != '.') {
+				if (pos < 1 || text.charAt(pos - 1) != '.') {
 					// To be compatible with the AntPathMatcher comparator,
 					// '.*' is not considered a wildcard usage
 					this.wildcardCount++;
@@ -135,19 +132,19 @@ class RegexPathElement extends PathElement {
 
 		if (matches) {
 			if (isNoMorePattern()) {
-				if (matchingContext.determineRemainingPath &&
-					(this.variableNames.isEmpty() || textToMatch.length() > 0)) {
+				if (matchingContext.determineRemainingPath
+						&& (this.variableNames.isEmpty() || textToMatch.length() > 0)) {
 					matchingContext.remainingPathIndex = pathIndex + 1;
 					matches = true;
 				}
 				else {
 					// No more pattern, is there more data?
-					// If pattern is capturing variables there must be some actual data to bind to them
+					// If pattern is capturing variables there must be some actual data to
+					// bind to them
 					matches = (pathIndex + 1) >= matchingContext.pathLength
 							&& (this.variableNames.isEmpty() || textToMatch.length() > 0);
 					if (!matches && matchingContext.isMatchOptionalTrailingSeparator()) {
-						matches = (this.variableNames.isEmpty()
-								|| textToMatch.length() > 0)
+						matches = (this.variableNames.isEmpty() || textToMatch.length() > 0)
 								&& (pathIndex + 2) >= matchingContext.pathLength
 								&& matchingContext.isSeparator(pathIndex + 1);
 					}
@@ -169,10 +166,8 @@ class RegexPathElement extends PathElement {
 			for (int i = 1; i <= matcher.groupCount(); i++) {
 				String name = this.variableNames.get(i - 1);
 				String value = matcher.group(i);
-				matchingContext.set(name, value,
-						(i == this.variableNames.size())?
-								((PathSegment)matchingContext.pathElements.get(pathIndex)).parameters():
-								NO_PARAMETERS);
+				matchingContext.set(name, value, (i == this.variableNames.size())
+						? ((PathSegment) matchingContext.pathElements.get(pathIndex)).parameters() : NO_PARAMETERS);
 			}
 		}
 		return matches;
@@ -202,7 +197,6 @@ class RegexPathElement extends PathElement {
 		return (getCaptureCount() * CAPTURE_VARIABLE_WEIGHT + getWildcardCount() * WILDCARD_WEIGHT);
 	}
 
-
 	@Override
 	public String toString() {
 		return "Regex(" + String.valueOf(this.regex) + ")";
@@ -212,4 +206,5 @@ class RegexPathElement extends PathElement {
 	public char[] getChars() {
 		return this.regex;
 	}
+
 }

@@ -44,7 +44,6 @@ class WriteOnlyHandlerIntegrationTests extends AbstractHttpHandlerIntegrationTes
 
 	private byte[] body;
 
-
 	@Override
 	protected WriteOnlyHandler createHttpHandler() {
 		return new WriteOnlyHandler();
@@ -57,9 +56,8 @@ class WriteOnlyHandlerIntegrationTests extends AbstractHttpHandlerIntegrationTes
 		RestTemplate restTemplate = new RestTemplate();
 
 		this.body = randomBytes();
-		RequestEntity<byte[]> request = RequestEntity.post(
-				new URI("http://localhost:" + port)).body(
-						"".getBytes(StandardCharsets.UTF_8));
+		RequestEntity<byte[]> request = RequestEntity.post(new URI("http://localhost:" + port))
+				.body("".getBytes(StandardCharsets.UTF_8));
 		ResponseEntity<byte[]> response = restTemplate.exchange(request, byte[].class);
 
 		assertThat(response.getBody()).isEqualTo(body);
@@ -71,7 +69,6 @@ class WriteOnlyHandlerIntegrationTests extends AbstractHttpHandlerIntegrationTes
 		return buffer;
 	}
 
-
 	class WriteOnlyHandler implements HttpHandler {
 
 		@Override
@@ -80,6 +77,7 @@ class WriteOnlyHandlerIntegrationTests extends AbstractHttpHandlerIntegrationTes
 			buffer.write(body);
 			return response.writeAndFlushWith(Flux.just(Flux.just(buffer)));
 		}
+
 	}
 
 }

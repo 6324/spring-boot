@@ -21,7 +21,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
 /**
- * Exception to be thrown when validation on an argument annotated with {@code @Valid} fails.
+ * Exception to be thrown when validation on an argument annotated with {@code @Valid}
+ * fails.
  *
  * @author Rossen Stoyanchev
  * @since 3.1
@@ -32,7 +33,6 @@ public class MethodArgumentNotValidException extends Exception {
 	private final MethodParameter parameter;
 
 	private final BindingResult bindingResult;
-
 
 	/**
 	 * Constructor for {@link MethodArgumentNotValidException}.
@@ -58,12 +58,11 @@ public class MethodArgumentNotValidException extends Exception {
 		return this.bindingResult;
 	}
 
-
 	@Override
 	public String getMessage() {
 		StringBuilder sb = new StringBuilder("Validation failed for argument [")
-			.append(this.parameter.getParameterIndex()).append("] in ")
-			.append(this.parameter.getExecutable().toGenericString());
+				.append(this.parameter.getParameterIndex()).append("] in ")
+				.append(this.parameter.getExecutable().toGenericString());
 		if (this.bindingResult.getErrorCount() > 1) {
 			sb.append(" with ").append(this.bindingResult.getErrorCount()).append(" errors");
 		}

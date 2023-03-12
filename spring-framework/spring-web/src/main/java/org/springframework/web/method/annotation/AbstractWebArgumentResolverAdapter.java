@@ -33,15 +33,16 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  * An abstract base class adapting a {@link WebArgumentResolver} to the
  * {@link HandlerMethodArgumentResolver} contract.
  *
- * <p><strong>Note:</strong> This class is provided for backwards compatibility.
- * However it is recommended to re-write a {@code WebArgumentResolver} as
- * {@code HandlerMethodArgumentResolver}. Since {@link #supportsParameter}
- * can only be implemented by actually resolving the value and then checking
- * the result is not {@code WebArgumentResolver#UNRESOLVED} any exceptions
- * raised must be absorbed and ignored since it's not clear whether the adapter
- * doesn't support the parameter or whether it failed for an internal reason.
- * The {@code HandlerMethodArgumentResolver} contract also provides access to
- * model attributes and to {@code WebDataBinderFactory} (for type conversion).
+ * <p>
+ * <strong>Note:</strong> This class is provided for backwards compatibility. However it
+ * is recommended to re-write a {@code WebArgumentResolver} as
+ * {@code HandlerMethodArgumentResolver}. Since {@link #supportsParameter} can only be
+ * implemented by actually resolving the value and then checking the result is not
+ * {@code WebArgumentResolver#UNRESOLVED} any exceptions raised must be absorbed and
+ * ignored since it's not clear whether the adapter doesn't support the parameter or
+ * whether it failed for an internal reason. The {@code HandlerMethodArgumentResolver}
+ * contract also provides access to model attributes and to {@code WebDataBinderFactory}
+ * (for type conversion).
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -53,7 +54,6 @@ public abstract class AbstractWebArgumentResolverAdapter implements HandlerMetho
 
 	private final WebArgumentResolver adaptee;
 
-
 	/**
 	 * Create a new instance.
 	 */
@@ -61,7 +61,6 @@ public abstract class AbstractWebArgumentResolverAdapter implements HandlerMetho
 		Assert.notNull(adaptee, "'adaptee' must not be null");
 		this.adaptee = adaptee;
 	}
-
 
 	/**
 	 * Actually resolve the value and check the resolved value is not
@@ -90,8 +89,8 @@ public abstract class AbstractWebArgumentResolverAdapter implements HandlerMetho
 
 	/**
 	 * Delegate to the {@link WebArgumentResolver} instance.
-	 * @throws IllegalStateException if the resolved value is not assignable
-	 * to the method parameter.
+	 * @throws IllegalStateException if the resolved value is not assignable to the method
+	 * parameter.
 	 */
 	@Override
 	@Nullable
@@ -102,13 +101,12 @@ public abstract class AbstractWebArgumentResolverAdapter implements HandlerMetho
 		Object result = this.adaptee.resolveArgument(parameter, webRequest);
 		if (result == WebArgumentResolver.UNRESOLVED || !ClassUtils.isAssignableValue(paramType, result)) {
 			throw new IllegalStateException(
-					"Standard argument type [" + paramType.getName() + "] in method " + parameter.getMethod() +
-					"resolved to incompatible value of type [" + (result != null ? result.getClass() : null) +
-					"]. Consider declaring the argument type in a less specific fashion.");
+					"Standard argument type [" + paramType.getName() + "] in method " + parameter.getMethod()
+							+ "resolved to incompatible value of type [" + (result != null ? result.getClass() : null)
+							+ "]. Consider declaring the argument type in a less specific fashion.");
 		}
 		return result;
 	}
-
 
 	/**
 	 * Required for access to NativeWebRequest in {@link #supportsParameter}.

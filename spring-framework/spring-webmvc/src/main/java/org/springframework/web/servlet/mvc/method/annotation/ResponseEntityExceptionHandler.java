@@ -54,24 +54,26 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.util.WebUtils;
 
 /**
- * A convenient base class for {@link ControllerAdvice @ControllerAdvice} classes
- * that wish to provide centralized exception handling across all
- * {@code @RequestMapping} methods through {@code @ExceptionHandler} methods.
+ * A convenient base class for {@link ControllerAdvice @ControllerAdvice} classes that
+ * wish to provide centralized exception handling across all {@code @RequestMapping}
+ * methods through {@code @ExceptionHandler} methods.
  *
- * <p>This base class provides an {@code @ExceptionHandler} method for handling
- * internal Spring MVC exceptions. This method returns a {@code ResponseEntity}
- * for writing to the response with a {@link HttpMessageConverter message converter},
- * in contrast to
+ * <p>
+ * This base class provides an {@code @ExceptionHandler} method for handling internal
+ * Spring MVC exceptions. This method returns a {@code ResponseEntity} for writing to the
+ * response with a {@link HttpMessageConverter message converter}, in contrast to
  * {@link org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver
  * DefaultHandlerExceptionResolver} which returns a
  * {@link org.springframework.web.servlet.ModelAndView ModelAndView}.
  *
- * <p>If there is no need to write error content to the response body, or when
- * using view resolution (e.g., via {@code ContentNegotiatingViewResolver}),
- * then {@code DefaultHandlerExceptionResolver} is good enough.
+ * <p>
+ * If there is no need to write error content to the response body, or when using view
+ * resolution (e.g., via {@code ContentNegotiatingViewResolver}), then
+ * {@code DefaultHandlerExceptionResolver} is good enough.
  *
- * <p>Note that in order for an {@code @ControllerAdvice} subclass to be
- * detected, {@link ExceptionHandlerExceptionResolver} must be configured.
+ * <p>
+ * Note that in order for an {@code @ControllerAdvice} subclass to be detected,
+ * {@link ExceptionHandlerExceptionResolver} must be configured.
  *
  * @author Rossen Stoyanchev
  * @since 3.2
@@ -97,36 +99,26 @@ public abstract class ResponseEntityExceptionHandler {
 	 */
 	protected final Log logger = LogFactory.getLog(getClass());
 
-
 	/**
 	 * Provides handling for standard Spring MVC exceptions.
 	 * @param ex the target exception
 	 * @param request the current request
 	 */
-	@ExceptionHandler({
-			HttpRequestMethodNotSupportedException.class,
-			HttpMediaTypeNotSupportedException.class,
-			HttpMediaTypeNotAcceptableException.class,
-			MissingPathVariableException.class,
-			MissingServletRequestParameterException.class,
-			ServletRequestBindingException.class,
-			ConversionNotSupportedException.class,
-			TypeMismatchException.class,
-			HttpMessageNotReadableException.class,
-			HttpMessageNotWritableException.class,
-			MethodArgumentNotValidException.class,
-			MissingServletRequestPartException.class,
-			BindException.class,
-			NoHandlerFoundException.class,
-			AsyncRequestTimeoutException.class
-		})
+	@ExceptionHandler({ HttpRequestMethodNotSupportedException.class, HttpMediaTypeNotSupportedException.class,
+			HttpMediaTypeNotAcceptableException.class, MissingPathVariableException.class,
+			MissingServletRequestParameterException.class, ServletRequestBindingException.class,
+			ConversionNotSupportedException.class, TypeMismatchException.class, HttpMessageNotReadableException.class,
+			HttpMessageNotWritableException.class, MethodArgumentNotValidException.class,
+			MissingServletRequestPartException.class, BindException.class, NoHandlerFoundException.class,
+			AsyncRequestTimeoutException.class })
 	@Nullable
 	public final ResponseEntity<Object> handleException(Exception ex, WebRequest request) throws Exception {
 		HttpHeaders headers = new HttpHeaders();
 
 		if (ex instanceof HttpRequestMethodNotSupportedException) {
 			HttpStatus status = HttpStatus.METHOD_NOT_ALLOWED;
-			return handleHttpRequestMethodNotSupported((HttpRequestMethodNotSupportedException) ex, headers, status, request);
+			return handleHttpRequestMethodNotSupported((HttpRequestMethodNotSupportedException) ex, headers, status,
+					request);
 		}
 		else if (ex instanceof HttpMediaTypeNotSupportedException) {
 			HttpStatus status = HttpStatus.UNSUPPORTED_MEDIA_TYPE;
@@ -142,7 +134,8 @@ public abstract class ResponseEntityExceptionHandler {
 		}
 		else if (ex instanceof MissingServletRequestParameterException) {
 			HttpStatus status = HttpStatus.BAD_REQUEST;
-			return handleMissingServletRequestParameter((MissingServletRequestParameterException) ex, headers, status, request);
+			return handleMissingServletRequestParameter((MissingServletRequestParameterException) ex, headers, status,
+					request);
 		}
 		else if (ex instanceof ServletRequestBindingException) {
 			HttpStatus status = HttpStatus.BAD_REQUEST;
@@ -188,14 +181,16 @@ public abstract class ResponseEntityExceptionHandler {
 			// Unknown exception, typically a wrapper with a common MVC exception as cause
 			// (since @ExceptionHandler type declarations also match first-level causes):
 			// We only deal with top-level MVC exceptions here, so let's rethrow the given
-			// exception for further processing through the HandlerExceptionResolver chain.
+			// exception for further processing through the HandlerExceptionResolver
+			// chain.
 			throw ex;
 		}
 	}
 
 	/**
 	 * Customize the response for HttpRequestMethodNotSupportedException.
-	 * <p>This method logs a warning, sets the "Allow" header, and delegates to
+	 * <p>
+	 * This method logs a warning, sets the "Allow" header, and delegates to
 	 * {@link #handleExceptionInternal}.
 	 * @param ex the exception
 	 * @param headers the headers to be written to the response
@@ -203,8 +198,8 @@ public abstract class ResponseEntityExceptionHandler {
 	 * @param request the current request
 	 * @return a {@code ResponseEntity} instance
 	 */
-	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(
-			HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
 		pageNotFoundLogger.warn(ex.getMessage());
 
@@ -217,7 +212,8 @@ public abstract class ResponseEntityExceptionHandler {
 
 	/**
 	 * Customize the response for HttpMediaTypeNotSupportedException.
-	 * <p>This method sets the "Accept" header and delegates to
+	 * <p>
+	 * This method sets the "Accept" header and delegates to
 	 * {@link #handleExceptionInternal}.
 	 * @param ex the exception
 	 * @param headers the headers to be written to the response
@@ -225,8 +221,8 @@ public abstract class ResponseEntityExceptionHandler {
 	 * @param request the current request
 	 * @return a {@code ResponseEntity} instance
 	 */
-	protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(
-			HttpMediaTypeNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
 		List<MediaType> mediaTypes = ex.getSupportedMediaTypes();
 		if (!CollectionUtils.isEmpty(mediaTypes)) {
@@ -238,22 +234,24 @@ public abstract class ResponseEntityExceptionHandler {
 
 	/**
 	 * Customize the response for HttpMediaTypeNotAcceptableException.
-	 * <p>This method delegates to {@link #handleExceptionInternal}.
+	 * <p>
+	 * This method delegates to {@link #handleExceptionInternal}.
 	 * @param ex the exception
 	 * @param headers the headers to be written to the response
 	 * @param status the selected response status
 	 * @param request the current request
 	 * @return a {@code ResponseEntity} instance
 	 */
-	protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(
-			HttpMediaTypeNotAcceptableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(HttpMediaTypeNotAcceptableException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
 		return handleExceptionInternal(ex, null, headers, status, request);
 	}
 
 	/**
 	 * Customize the response for MissingPathVariableException.
-	 * <p>This method delegates to {@link #handleExceptionInternal}.
+	 * <p>
+	 * This method delegates to {@link #handleExceptionInternal}.
 	 * @param ex the exception
 	 * @param headers the headers to be written to the response
 	 * @param status the selected response status
@@ -261,150 +259,160 @@ public abstract class ResponseEntityExceptionHandler {
 	 * @return a {@code ResponseEntity} instance
 	 * @since 4.2
 	 */
-	protected ResponseEntity<Object> handleMissingPathVariable(
-			MissingPathVariableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers,
+			HttpStatus status, WebRequest request) {
 
 		return handleExceptionInternal(ex, null, headers, status, request);
 	}
 
 	/**
 	 * Customize the response for MissingServletRequestParameterException.
-	 * <p>This method delegates to {@link #handleExceptionInternal}.
+	 * <p>
+	 * This method delegates to {@link #handleExceptionInternal}.
 	 * @param ex the exception
 	 * @param headers the headers to be written to the response
 	 * @param status the selected response status
 	 * @param request the current request
 	 * @return a {@code ResponseEntity} instance
 	 */
-	protected ResponseEntity<Object> handleMissingServletRequestParameter(
-			MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
 		return handleExceptionInternal(ex, null, headers, status, request);
 	}
 
 	/**
 	 * Customize the response for ServletRequestBindingException.
-	 * <p>This method delegates to {@link #handleExceptionInternal}.
+	 * <p>
+	 * This method delegates to {@link #handleExceptionInternal}.
 	 * @param ex the exception
 	 * @param headers the headers to be written to the response
 	 * @param status the selected response status
 	 * @param request the current request
 	 * @return a {@code ResponseEntity} instance
 	 */
-	protected ResponseEntity<Object> handleServletRequestBindingException(
-			ServletRequestBindingException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleServletRequestBindingException(ServletRequestBindingException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
 		return handleExceptionInternal(ex, null, headers, status, request);
 	}
 
 	/**
 	 * Customize the response for ConversionNotSupportedException.
-	 * <p>This method delegates to {@link #handleExceptionInternal}.
+	 * <p>
+	 * This method delegates to {@link #handleExceptionInternal}.
 	 * @param ex the exception
 	 * @param headers the headers to be written to the response
 	 * @param status the selected response status
 	 * @param request the current request
 	 * @return a {@code ResponseEntity} instance
 	 */
-	protected ResponseEntity<Object> handleConversionNotSupported(
-			ConversionNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleConversionNotSupported(ConversionNotSupportedException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
 		return handleExceptionInternal(ex, null, headers, status, request);
 	}
 
 	/**
 	 * Customize the response for TypeMismatchException.
-	 * <p>This method delegates to {@link #handleExceptionInternal}.
+	 * <p>
+	 * This method delegates to {@link #handleExceptionInternal}.
 	 * @param ex the exception
 	 * @param headers the headers to be written to the response
 	 * @param status the selected response status
 	 * @param request the current request
 	 * @return a {@code ResponseEntity} instance
 	 */
-	protected ResponseEntity<Object> handleTypeMismatch(
-			TypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers,
+			HttpStatus status, WebRequest request) {
 
 		return handleExceptionInternal(ex, null, headers, status, request);
 	}
 
 	/**
 	 * Customize the response for HttpMessageNotReadableException.
-	 * <p>This method delegates to {@link #handleExceptionInternal}.
+	 * <p>
+	 * This method delegates to {@link #handleExceptionInternal}.
 	 * @param ex the exception
 	 * @param headers the headers to be written to the response
 	 * @param status the selected response status
 	 * @param request the current request
 	 * @return a {@code ResponseEntity} instance
 	 */
-	protected ResponseEntity<Object> handleHttpMessageNotReadable(
-			HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
 		return handleExceptionInternal(ex, null, headers, status, request);
 	}
 
 	/**
 	 * Customize the response for HttpMessageNotWritableException.
-	 * <p>This method delegates to {@link #handleExceptionInternal}.
+	 * <p>
+	 * This method delegates to {@link #handleExceptionInternal}.
 	 * @param ex the exception
 	 * @param headers the headers to be written to the response
 	 * @param status the selected response status
 	 * @param request the current request
 	 * @return a {@code ResponseEntity} instance
 	 */
-	protected ResponseEntity<Object> handleHttpMessageNotWritable(
-			HttpMessageNotWritableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleHttpMessageNotWritable(HttpMessageNotWritableException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
 		return handleExceptionInternal(ex, null, headers, status, request);
 	}
 
 	/**
 	 * Customize the response for MethodArgumentNotValidException.
-	 * <p>This method delegates to {@link #handleExceptionInternal}.
+	 * <p>
+	 * This method delegates to {@link #handleExceptionInternal}.
 	 * @param ex the exception
 	 * @param headers the headers to be written to the response
 	 * @param status the selected response status
 	 * @param request the current request
 	 * @return a {@code ResponseEntity} instance
 	 */
-	protected ResponseEntity<Object> handleMethodArgumentNotValid(
-			MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
 		return handleExceptionInternal(ex, null, headers, status, request);
 	}
 
 	/**
 	 * Customize the response for MissingServletRequestPartException.
-	 * <p>This method delegates to {@link #handleExceptionInternal}.
+	 * <p>
+	 * This method delegates to {@link #handleExceptionInternal}.
 	 * @param ex the exception
 	 * @param headers the headers to be written to the response
 	 * @param status the selected response status
 	 * @param request the current request
 	 * @return a {@code ResponseEntity} instance
 	 */
-	protected ResponseEntity<Object> handleMissingServletRequestPart(
-			MissingServletRequestPartException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleMissingServletRequestPart(MissingServletRequestPartException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
 		return handleExceptionInternal(ex, null, headers, status, request);
 	}
 
 	/**
 	 * Customize the response for BindException.
-	 * <p>This method delegates to {@link #handleExceptionInternal}.
+	 * <p>
+	 * This method delegates to {@link #handleExceptionInternal}.
 	 * @param ex the exception
 	 * @param headers the headers to be written to the response
 	 * @param status the selected response status
 	 * @param request the current request
 	 * @return a {@code ResponseEntity} instance
 	 */
-	protected ResponseEntity<Object> handleBindException(
-			BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status,
+			WebRequest request) {
 
 		return handleExceptionInternal(ex, null, headers, status, request);
 	}
 
 	/**
 	 * Customize the response for NoHandlerFoundException.
-	 * <p>This method delegates to {@link #handleExceptionInternal}.
+	 * <p>
+	 * This method delegates to {@link #handleExceptionInternal}.
 	 * @param ex the exception
 	 * @param headers the headers to be written to the response
 	 * @param status the selected response status
@@ -412,15 +420,16 @@ public abstract class ResponseEntityExceptionHandler {
 	 * @return a {@code ResponseEntity} instance
 	 * @since 4.0
 	 */
-	protected ResponseEntity<Object> handleNoHandlerFoundException(
-			NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,
+			HttpStatus status, WebRequest request) {
 
 		return handleExceptionInternal(ex, null, headers, status, request);
 	}
 
 	/**
 	 * Customize the response for AsyncRequestTimeoutException.
-	 * <p>This method delegates to {@link #handleExceptionInternal}.
+	 * <p>
+	 * This method delegates to {@link #handleExceptionInternal}.
 	 * @param ex the exception
 	 * @param headers the headers to be written to the response
 	 * @param status the selected response status
@@ -429,8 +438,8 @@ public abstract class ResponseEntityExceptionHandler {
 	 * @since 4.2.8
 	 */
 	@Nullable
-	protected ResponseEntity<Object> handleAsyncRequestTimeoutException(
-			AsyncRequestTimeoutException ex, HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
+	protected ResponseEntity<Object> handleAsyncRequestTimeoutException(AsyncRequestTimeoutException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
 
 		if (webRequest instanceof ServletWebRequest) {
 			ServletWebRequest servletWebRequest = (ServletWebRequest) webRequest;
@@ -448,17 +457,18 @@ public abstract class ResponseEntityExceptionHandler {
 
 	/**
 	 * A single place to customize the response body of all exception types.
-	 * <p>The default implementation sets the {@link WebUtils#ERROR_EXCEPTION_ATTRIBUTE}
-	 * request attribute and creates a {@link ResponseEntity} from the given
-	 * body, headers, and status.
+	 * <p>
+	 * The default implementation sets the {@link WebUtils#ERROR_EXCEPTION_ATTRIBUTE}
+	 * request attribute and creates a {@link ResponseEntity} from the given body,
+	 * headers, and status.
 	 * @param ex the exception
 	 * @param body the body for the response
 	 * @param headers the headers for the response
 	 * @param status the response status
 	 * @param request the current request
 	 */
-	protected ResponseEntity<Object> handleExceptionInternal(
-			Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, @Nullable Object body, HttpHeaders headers,
+			HttpStatus status, WebRequest request) {
 
 		if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
 			request.setAttribute(WebUtils.ERROR_EXCEPTION_ATTRIBUTE, ex, WebRequest.SCOPE_REQUEST);

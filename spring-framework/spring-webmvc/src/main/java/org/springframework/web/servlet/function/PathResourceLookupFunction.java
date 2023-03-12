@@ -44,14 +44,12 @@ class PathResourceLookupFunction implements Function<ServerRequest, Optional<Res
 
 	private final Resource location;
 
-
 	public PathResourceLookupFunction(String pattern, Resource location) {
 		Assert.hasLength(pattern, "'pattern' must not be empty");
 		Assert.notNull(location, "'location' must not be null");
 		this.pattern = PathPatternParser.defaultInstance.parse(pattern);
 		this.location = location;
 	}
-
 
 	@Override
 	public Optional<Resource> apply(ServerRequest request) {
@@ -111,8 +109,8 @@ class PathResourceLookupFunction implements Function<ServerRequest, Optional<Res
 			}
 		}
 		if (path.contains("..") && StringUtils.cleanPath(path).contains("../")) {
-				return true;
-			}
+			return true;
+		}
 		return false;
 	}
 
@@ -149,7 +147,6 @@ class PathResourceLookupFunction implements Function<ServerRequest, Optional<Res
 		}
 		return true;
 	}
-
 
 	@Override
 	public String toString() {

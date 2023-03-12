@@ -29,11 +29,12 @@ import org.springframework.util.PathMatcher;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * Provide a per request {@link CorsConfiguration} instance based on a
- * collection of {@link CorsConfiguration} mapped on path patterns.
+ * Provide a per request {@link CorsConfiguration} instance based on a collection of
+ * {@link CorsConfiguration} mapped on path patterns.
  *
- * <p>Exact path mapping URIs (such as {@code "/admin"}) are supported
- * as well as Ant-style path patterns (such as {@code "/admin/**"}).
+ * <p>
+ * Exact path mapping URIs (such as {@code "/admin"}) are supported as well as Ant-style
+ * path patterns (such as {@code "/admin/**"}).
  *
  * @author Sebastien Deleuze
  * @since 4.2
@@ -49,10 +50,9 @@ public class UrlBasedCorsConfigurationSource implements CorsConfigurationSource 
 	@Nullable
 	private String lookupPathAttributeName;
 
-
 	/**
-	 * Set the PathMatcher implementation to use for matching URL paths
-	 * against registered URL patterns. Default is AntPathMatcher.
+	 * Set the PathMatcher implementation to use for matching URL paths against registered
+	 * URL patterns. Default is AntPathMatcher.
 	 * @see org.springframework.util.AntPathMatcher
 	 */
 	public void setPathMatcher(PathMatcher pathMatcher) {
@@ -77,8 +77,8 @@ public class UrlBasedCorsConfigurationSource implements CorsConfigurationSource 
 	}
 
 	/**
-	 * Optionally configure the name of the attribute that caches the lookupPath.
-	 * This is used to make the call to
+	 * Optionally configure the name of the attribute that caches the lookupPath. This is
+	 * used to make the call to
 	 * {@link UrlPathHelper#getLookupPathForRequest(HttpServletRequest, String)}
 	 * @param lookupPathAttributeName the request attribute to check
 	 * @since 5.2
@@ -97,7 +97,8 @@ public class UrlBasedCorsConfigurationSource implements CorsConfigurationSource 
 
 	/**
 	 * Set the UrlPathHelper to use for resolution of lookup paths.
-	 * <p>Use this to override the default UrlPathHelper with a custom subclass.
+	 * <p>
+	 * Use this to override the default UrlPathHelper with a custom subclass.
 	 */
 	public void setUrlPathHelper(UrlPathHelper urlPathHelper) {
 		Assert.notNull(urlPathHelper, "UrlPathHelper must not be null");
@@ -127,7 +128,6 @@ public class UrlBasedCorsConfigurationSource implements CorsConfigurationSource 
 	public void registerCorsConfiguration(String path, CorsConfiguration config) {
 		this.corsConfigurations.put(path, config);
 	}
-
 
 	@Override
 	@Nullable

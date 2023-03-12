@@ -21,9 +21,8 @@ import org.springframework.core.MethodParameter;
 import org.springframework.lang.Nullable;
 
 /**
- * A TypeMismatchException raised while resolving a controller method argument.
- * Provides access to the target {@link org.springframework.core.MethodParameter
- * MethodParameter}.
+ * A TypeMismatchException raised while resolving a controller method argument. Provides
+ * access to the target {@link org.springframework.core.MethodParameter MethodParameter}.
  *
  * @author Rossen Stoyanchev
  * @since 4.2
@@ -35,15 +34,13 @@ public class MethodArgumentTypeMismatchException extends TypeMismatchException {
 
 	private final MethodParameter parameter;
 
-
-	public MethodArgumentTypeMismatchException(@Nullable Object value,
-			@Nullable Class<?> requiredType, String name, MethodParameter param, Throwable cause) {
+	public MethodArgumentTypeMismatchException(@Nullable Object value, @Nullable Class<?> requiredType, String name,
+			MethodParameter param, Throwable cause) {
 
 		super(value, requiredType, cause);
 		this.name = name;
 		this.parameter = param;
 	}
-
 
 	/**
 	 * Return the name of the method argument.

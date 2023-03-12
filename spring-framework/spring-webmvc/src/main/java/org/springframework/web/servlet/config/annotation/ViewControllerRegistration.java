@@ -36,16 +36,15 @@ public class ViewControllerRegistration {
 
 	private final ParameterizableViewController controller = new ParameterizableViewController();
 
-
 	public ViewControllerRegistration(String urlPath) {
 		Assert.notNull(urlPath, "'urlPath' is required.");
 		this.urlPath = urlPath;
 	}
 
-
 	/**
 	 * Set the status code to set on the response. Optional.
-	 * <p>If not set the response status will be 200 (OK).
+	 * <p>
+	 * If not set the response status will be 200 (OK).
 	 */
 	public ViewControllerRegistration setStatusCode(HttpStatus statusCode) {
 		this.controller.setStatusCode(statusCode);
@@ -54,10 +53,11 @@ public class ViewControllerRegistration {
 
 	/**
 	 * Set the view name to return. Optional.
-	 * <p>If not specified, the view controller will return {@code null} as the
-	 * view name in which case the configured {@link RequestToViewNameTranslator}
-	 * will select the view name. The {@code DefaultRequestToViewNameTranslator}
-	 * for example translates "/foo/bar" to "foo/bar".
+	 * <p>
+	 * If not specified, the view controller will return {@code null} as the view name in
+	 * which case the configured {@link RequestToViewNameTranslator} will select the view
+	 * name. The {@code DefaultRequestToViewNameTranslator} for example translates
+	 * "/foo/bar" to "foo/bar".
 	 * @see org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator
 	 */
 	public void setViewName(String viewName) {

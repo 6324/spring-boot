@@ -1,6 +1,6 @@
 /**
- * Locale related support classes.
- * Provides standard LocaleContextResolver implementations.
+ * Locale related support classes. Provides standard LocaleContextResolver
+ * implementations.
  */
 @NonNullApi
 @NonNullFields

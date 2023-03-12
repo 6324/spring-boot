@@ -35,7 +35,6 @@ public class ContentCachingRequestWrapperTests {
 
 	private final MockHttpServletRequest request = new MockHttpServletRequest();
 
-
 	@Test
 	public void cachedContent() throws Exception {
 		this.request.setMethod("GET");
@@ -72,9 +71,8 @@ public class ContentCachingRequestWrapperTests {
 			}
 		};
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				FileCopyUtils.copyToByteArray(wrapper.getInputStream()))
-			.withMessage("3");
+		assertThatIllegalStateException().isThrownBy(() -> FileCopyUtils.copyToByteArray(wrapper.getInputStream()))
+				.withMessage("3");
 	}
 
 	@Test
@@ -93,7 +91,7 @@ public class ContentCachingRequestWrapperTests {
 		assertThat(new String(FileCopyUtils.copyToByteArray(wrapper.getInputStream()))).isEqualTo("");
 	}
 
-	@Test  // SPR-12810
+	@Test // SPR-12810
 	public void inputStreamFormPostRequest() throws Exception {
 		this.request.setMethod("POST");
 		this.request.setContentType(FORM_CONTENT_TYPE);

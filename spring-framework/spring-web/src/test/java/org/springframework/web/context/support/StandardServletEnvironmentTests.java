@@ -26,7 +26,6 @@ import org.springframework.core.env.StandardEnvironment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * Unit tests for {@link StandardServletEnvironment}.
  *
@@ -42,16 +41,20 @@ public class StandardServletEnvironmentTests {
 		ConfigurableEnvironment env = new StandardServletEnvironment();
 		MutablePropertySources sources = env.getPropertySources();
 
-		assertThat(sources.precedenceOf(PropertySource.named(
-				StandardServletEnvironment.SERVLET_CONFIG_PROPERTY_SOURCE_NAME))).isEqualTo(0);
-		assertThat(sources.precedenceOf(PropertySource.named(
-				StandardServletEnvironment.SERVLET_CONTEXT_PROPERTY_SOURCE_NAME))).isEqualTo(1);
-		assertThat(sources.precedenceOf(PropertySource.named(
-				StandardServletEnvironment.JNDI_PROPERTY_SOURCE_NAME))).isEqualTo(2);
-		assertThat(sources.precedenceOf(PropertySource.named(
-				StandardEnvironment.SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME))).isEqualTo(3);
-		assertThat(sources.precedenceOf(PropertySource.named(
-				StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME))).isEqualTo(4);
+		assertThat(sources
+				.precedenceOf(PropertySource.named(StandardServletEnvironment.SERVLET_CONFIG_PROPERTY_SOURCE_NAME)))
+						.isEqualTo(0);
+		assertThat(sources
+				.precedenceOf(PropertySource.named(StandardServletEnvironment.SERVLET_CONTEXT_PROPERTY_SOURCE_NAME)))
+						.isEqualTo(1);
+		assertThat(sources.precedenceOf(PropertySource.named(StandardServletEnvironment.JNDI_PROPERTY_SOURCE_NAME)))
+				.isEqualTo(2);
+		assertThat(
+				sources.precedenceOf(PropertySource.named(StandardEnvironment.SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME)))
+						.isEqualTo(3);
+		assertThat(
+				sources.precedenceOf(PropertySource.named(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME)))
+						.isEqualTo(4);
 		assertThat(sources).hasSize(5);
 	}
 

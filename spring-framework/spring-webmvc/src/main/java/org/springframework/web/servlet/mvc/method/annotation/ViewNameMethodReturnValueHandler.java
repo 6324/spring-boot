@@ -25,16 +25,18 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.RequestToViewNameTranslator;
 
 /**
- * Handles return values of types {@code void} and {@code String} interpreting them
- * as view name reference. As of 4.2, it also handles general {@code CharSequence}
- * types, e.g. {@code StringBuilder} or Groovy's {@code GString}, as view names.
+ * Handles return values of types {@code void} and {@code String} interpreting them as
+ * view name reference. As of 4.2, it also handles general {@code CharSequence} types,
+ * e.g. {@code StringBuilder} or Groovy's {@code GString}, as view names.
  *
- * <p>A {@code null} return value, either due to a {@code void} return type or
- * as the actual return value is left as-is allowing the configured
- * {@link RequestToViewNameTranslator} to select a view name by convention.
+ * <p>
+ * A {@code null} return value, either due to a {@code void} return type or as the actual
+ * return value is left as-is allowing the configured {@link RequestToViewNameTranslator}
+ * to select a view name by convention.
  *
- * <p>A String return value can be interpreted in more than one ways depending on
- * the presence of annotations like {@code @ModelAttribute} or {@code @ResponseBody}.
+ * <p>
+ * A String return value can be interpreted in more than one ways depending on the
+ * presence of annotations like {@code @ModelAttribute} or {@code @ResponseBody}.
  * Therefore this handler should be configured after the handlers that support these
  * annotations.
  *
@@ -47,12 +49,13 @@ public class ViewNameMethodReturnValueHandler implements HandlerMethodReturnValu
 	@Nullable
 	private String[] redirectPatterns;
 
-
 	/**
-	 * Configure one more simple patterns (as described in {@link PatternMatchUtils#simpleMatch})
-	 * to use in order to recognize custom redirect prefixes in addition to "redirect:".
-	 * <p>Note that simply configuring this property will not make a custom redirect prefix work.
-	 * There must be a custom View that recognizes the prefix as well.
+	 * Configure one more simple patterns (as described in
+	 * {@link PatternMatchUtils#simpleMatch}) to use in order to recognize custom redirect
+	 * prefixes in addition to "redirect:".
+	 * <p>
+	 * Note that simply configuring this property will not make a custom redirect prefix
+	 * work. There must be a custom View that recognizes the prefix as well.
 	 * @since 4.1
 	 */
 	public void setRedirectPatterns(@Nullable String... redirectPatterns) {
@@ -66,7 +69,6 @@ public class ViewNameMethodReturnValueHandler implements HandlerMethodReturnValu
 	public String[] getRedirectPatterns() {
 		return this.redirectPatterns;
 	}
-
 
 	@Override
 	public boolean supportsReturnType(MethodParameter returnType) {
@@ -87,18 +89,18 @@ public class ViewNameMethodReturnValueHandler implements HandlerMethodReturnValu
 		}
 		else if (returnValue != null) {
 			// should not happen
-			throw new UnsupportedOperationException("Unexpected return type: " +
-					returnType.getParameterType().getName() + " in method: " + returnType.getMethod());
+			throw new UnsupportedOperationException("Unexpected return type: " + returnType.getParameterType().getName()
+					+ " in method: " + returnType.getMethod());
 		}
 	}
 
 	/**
-	 * Whether the given view name is a redirect view reference.
-	 * The default implementation checks the configured redirect patterns and
-	 * also if the view name starts with the "redirect:" prefix.
+	 * Whether the given view name is a redirect view reference. The default
+	 * implementation checks the configured redirect patterns and also if the view name
+	 * starts with the "redirect:" prefix.
 	 * @param viewName the view name to check, never {@code null}
-	 * @return "true" if the given view name is recognized as a redirect view
-	 * reference; "false" otherwise.
+	 * @return "true" if the given view name is recognized as a redirect view reference;
+	 * "false" otherwise.
 	 */
 	protected boolean isRedirectViewName(String viewName) {
 		return (PatternMatchUtils.simpleMatch(this.redirectPatterns, viewName) || viewName.startsWith("redirect:"));

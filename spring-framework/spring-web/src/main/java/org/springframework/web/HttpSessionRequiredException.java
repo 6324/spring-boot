@@ -32,7 +32,6 @@ public class HttpSessionRequiredException extends ServletException {
 	@Nullable
 	private final String expectedAttribute;
 
-
 	/**
 	 * Create a new HttpSessionRequiredException.
 	 * @param msg the detail message
@@ -52,7 +51,6 @@ public class HttpSessionRequiredException extends ServletException {
 		super(msg);
 		this.expectedAttribute = expectedAttribute;
 	}
-
 
 	/**
 	 * Return the name of the expected session attribute, if any.

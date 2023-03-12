@@ -47,32 +47,29 @@ public class TagUtilsTests {
 		assertThat(TagUtils.getScope("application")).isEqualTo(PageContext.APPLICATION_SCOPE);
 
 		// non-existent scope
-		assertThat(TagUtils.getScope("bla")).as("TagUtils.getScope(..) with a non-existent scope argument must " +
-				"just return the default scope (PageContext.PAGE_SCOPE).").isEqualTo(PageContext.PAGE_SCOPE);
+		assertThat(TagUtils.getScope("bla")).as("TagUtils.getScope(..) with a non-existent scope argument must "
+				+ "just return the default scope (PageContext.PAGE_SCOPE).").isEqualTo(PageContext.PAGE_SCOPE);
 	}
 
 	@Test
 	public void getScopeWithNullScopeArgument() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				TagUtils.getScope(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> TagUtils.getScope(null));
 	}
 
 	@Test
 	public void hasAncestorOfTypeWhereAncestorTagIsNotATagType() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				TagUtils.hasAncestorOfType(new TagSupport(), String.class));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> TagUtils.hasAncestorOfType(new TagSupport(), String.class));
 	}
 
 	@Test
 	public void hasAncestorOfTypeWithNullTagArgument() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				TagUtils.hasAncestorOfType(null, TagSupport.class));
+		assertThatIllegalArgumentException().isThrownBy(() -> TagUtils.hasAncestorOfType(null, TagSupport.class));
 	}
 
 	@Test
 	public void hasAncestorOfTypeWithNullAncestorTagClassArgument() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				TagUtils.hasAncestorOfType(new TagSupport(), null));
+		assertThatIllegalArgumentException().isThrownBy(() -> TagUtils.hasAncestorOfType(new TagSupport(), null));
 	}
 
 	@Test
@@ -106,14 +103,14 @@ public class TagUtilsTests {
 
 	@Test
 	public void assertHasAncestorOfTypeWithNullTagName() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				TagUtils.assertHasAncestorOfType(new TagA(), TagC.class, null, "c"));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> TagUtils.assertHasAncestorOfType(new TagA(), TagC.class, null, "c"));
 	}
 
 	@Test
 	public void assertHasAncestorOfTypeWithNullAncestorTagName() throws Exception {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				TagUtils.assertHasAncestorOfType(new TagA(), TagC.class, "a", null));
+		assertThatIllegalArgumentException()
+				.isThrownBy(() -> TagUtils.assertHasAncestorOfType(new TagA(), TagC.class, "a", null));
 	}
 
 	@Test
@@ -125,8 +122,7 @@ public class TagUtilsTests {
 		a.setParent(b);
 		b.setParent(anotherB);
 
-		assertThatIllegalStateException().isThrownBy(() ->
-				TagUtils.assertHasAncestorOfType(a, TagC.class, "a", "c"));
+		assertThatIllegalStateException().isThrownBy(() -> TagUtils.assertHasAncestorOfType(a, TagC.class, "a", "c"));
 	}
 
 	@Test

@@ -45,10 +45,10 @@ public class CookieWebSessionIdResolver implements WebSessionIdResolver {
 	@Nullable
 	private Consumer<ResponseCookie.ResponseCookieBuilder> cookieInitializer = null;
 
-
 	/**
 	 * Set the name of the cookie to use for the session id.
-	 * <p>By default set to "SESSION".
+	 * <p>
+	 * By default set to "SESSION".
 	 * @param cookieName the cookie name
 	 */
 	public void setCookieName(String cookieName) {
@@ -64,9 +64,10 @@ public class CookieWebSessionIdResolver implements WebSessionIdResolver {
 	}
 
 	/**
-	 * Set the value for the "Max-Age" attribute of the cookie that holds the
-	 * session id. For the range of values see {@link ResponseCookie#getMaxAge()}.
-	 * <p>By default set to -1.
+	 * Set the value for the "Max-Age" attribute of the cookie that holds the session id.
+	 * For the range of values see {@link ResponseCookie#getMaxAge()}.
+	 * <p>
+	 * By default set to -1.
 	 * @param maxAge the maxAge duration value
 	 */
 	public void setCookieMaxAge(Duration maxAge) {
@@ -81,16 +82,15 @@ public class CookieWebSessionIdResolver implements WebSessionIdResolver {
 	}
 
 	/**
-	 * Add a {@link Consumer} for a {@code ResponseCookieBuilder} that will be invoked
-	 * for each cookie being built, just before the call to {@code build()}.
+	 * Add a {@link Consumer} for a {@code ResponseCookieBuilder} that will be invoked for
+	 * each cookie being built, just before the call to {@code build()}.
 	 * @param initializer consumer for a cookie builder
 	 * @since 5.1
 	 */
 	public void addCookieInitializer(Consumer<ResponseCookie.ResponseCookieBuilder> initializer) {
-		this.cookieInitializer = this.cookieInitializer != null ?
-				this.cookieInitializer.andThen(initializer) : initializer;
+		this.cookieInitializer = this.cookieInitializer != null ? this.cookieInitializer.andThen(initializer)
+				: initializer;
 	}
-
 
 	@Override
 	public List<String> resolveSessionIds(ServerWebExchange exchange) {
@@ -115,15 +115,11 @@ public class CookieWebSessionIdResolver implements WebSessionIdResolver {
 		exchange.getResponse().getCookies().set(this.cookieName, cookie);
 	}
 
-	private ResponseCookie initSessionCookie(
-			ServerWebExchange exchange, String id, Duration maxAge) {
+	private ResponseCookie initSessionCookie(ServerWebExchange exchange, String id, Duration maxAge) {
 
 		ResponseCookie.ResponseCookieBuilder cookieBuilder = ResponseCookie.from(this.cookieName, id)
-				.path(exchange.getRequest().getPath().contextPath().value() + "/")
-				.maxAge(maxAge)
-				.httpOnly(true)
-				.secure("https".equalsIgnoreCase(exchange.getRequest().getURI().getScheme()))
-				.sameSite("Lax");
+				.path(exchange.getRequest().getPath().contextPath().value() + "/").maxAge(maxAge).httpOnly(true)
+				.secure("https".equalsIgnoreCase(exchange.getRequest().getURI().getScheme())).sameSite("Lax");
 
 		if (this.cookieInitializer != null) {
 			this.cookieInitializer.accept(cookieBuilder);

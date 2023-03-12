@@ -49,12 +49,10 @@ class RandomHandlerIntegrationTests extends AbstractHttpHandlerIntegrationTests 
 
 	private final DataBufferFactory dataBufferFactory = new DefaultDataBufferFactory();
 
-
 	@Override
 	protected RandomHandler createHttpHandler() {
 		return handler;
 	}
-
 
 	@ParameterizedHttpServerTest
 	void random(HttpServer httpServer) throws Exception {
@@ -73,7 +71,6 @@ class RandomHandlerIntegrationTests extends AbstractHttpHandlerIntegrationTests 
 		assertThat(response.getBody().length).isEqualTo(RESPONSE_SIZE);
 	}
 
-
 	private byte[] randomBytes() {
 		byte[] buffer = new byte[REQUEST_SIZE];
 		rnd.nextBytes(buffer);
@@ -86,11 +83,10 @@ class RandomHandlerIntegrationTests extends AbstractHttpHandlerIntegrationTests 
 
 		@Override
 		public Mono<Void> handle(ServerHttpRequest request, ServerHttpResponse response) {
-			Mono<Integer> requestSizeMono = request.getBody().
-					reduce(0, (integer, dataBuffer) -> integer +
-							dataBuffer.readableByteCount()).
-					doOnNext(size -> assertThat(size).isEqualTo(REQUEST_SIZE)).
-					doOnError(throwable -> assertThat(throwable).isNull());
+			Mono<Integer> requestSizeMono = request.getBody()
+					.reduce(0, (integer, dataBuffer) -> integer + dataBuffer.readableByteCount())
+					.doOnNext(size -> assertThat(size).isEqualTo(REQUEST_SIZE))
+					.doOnError(throwable -> assertThat(throwable).isNull());
 
 			response.getHeaders().setContentLength(RESPONSE_SIZE);
 

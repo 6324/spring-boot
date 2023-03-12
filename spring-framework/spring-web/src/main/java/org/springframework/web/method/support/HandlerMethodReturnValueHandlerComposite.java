@@ -28,8 +28,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.context.request.NativeWebRequest;
 
 /**
- * Handles method return values by delegating to a list of registered {@link HandlerMethodReturnValueHandler HandlerMethodReturnValueHandlers}.
- * Previously resolved return types are cached for faster lookups.
+ * Handles method return values by delegating to a list of registered
+ * {@link HandlerMethodReturnValueHandler HandlerMethodReturnValueHandlers}. Previously
+ * resolved return types are cached for faster lookups.
  *
  * @author Rossen Stoyanchev
  * @since 3.1
@@ -40,7 +41,6 @@ public class HandlerMethodReturnValueHandlerComposite implements HandlerMethodRe
 
 	private final List<HandlerMethodReturnValueHandler> returnValueHandlers = new ArrayList<>();
 
-
 	/**
 	 * Return a read-only list with the registered handlers, or an empty list.
 	 */
@@ -49,8 +49,8 @@ public class HandlerMethodReturnValueHandlerComposite implements HandlerMethodRe
 	}
 
 	/**
-	 * Whether the given {@linkplain MethodParameter method return type} is supported by any registered
-	 * {@link HandlerMethodReturnValueHandler}.
+	 * Whether the given {@linkplain MethodParameter method return type} is supported by
+	 * any registered {@link HandlerMethodReturnValueHandler}.
 	 */
 	@Override
 	public boolean supportsReturnType(MethodParameter returnType) {
@@ -68,8 +68,10 @@ public class HandlerMethodReturnValueHandlerComposite implements HandlerMethodRe
 	}
 
 	/**
-	 * Iterate over registered {@link HandlerMethodReturnValueHandler HandlerMethodReturnValueHandlers} and invoke the one that supports it.
-	 * @throws IllegalStateException if no suitable {@link HandlerMethodReturnValueHandler} is found.
+	 * Iterate over registered {@link HandlerMethodReturnValueHandler
+	 * HandlerMethodReturnValueHandlers} and invoke the one that supports it.
+	 * @throws IllegalStateException if no suitable
+	 * {@link HandlerMethodReturnValueHandler} is found.
 	 */
 	@Override
 	public void handleReturnValue(@Nullable Object returnValue, MethodParameter returnType,
@@ -98,8 +100,8 @@ public class HandlerMethodReturnValueHandlerComposite implements HandlerMethodRe
 
 	private boolean isAsyncReturnValue(@Nullable Object value, MethodParameter returnType) {
 		for (HandlerMethodReturnValueHandler handler : this.returnValueHandlers) {
-			if (handler instanceof AsyncHandlerMethodReturnValueHandler &&
-					((AsyncHandlerMethodReturnValueHandler) handler).isAsyncReturnValue(value, returnType)) {
+			if (handler instanceof AsyncHandlerMethodReturnValueHandler
+					&& ((AsyncHandlerMethodReturnValueHandler) handler).isAsyncReturnValue(value, returnType)) {
 				return true;
 			}
 		}
@@ -115,7 +117,8 @@ public class HandlerMethodReturnValueHandlerComposite implements HandlerMethodRe
 	}
 
 	/**
-	 * Add the given {@link HandlerMethodReturnValueHandler HandlerMethodReturnValueHandlers}.
+	 * Add the given {@link HandlerMethodReturnValueHandler
+	 * HandlerMethodReturnValueHandlers}.
 	 */
 	public HandlerMethodReturnValueHandlerComposite addHandlers(
 			@Nullable List<? extends HandlerMethodReturnValueHandler> handlers) {

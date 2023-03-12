@@ -31,24 +31,25 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.ModelAndViewResolver;
 
 /**
- * This return value handler is intended to be ordered after all others as it
- * attempts to handle _any_ return value type (i.e. returns {@code true} for
- * all return types).
+ * This return value handler is intended to be ordered after all others as it attempts to
+ * handle _any_ return value type (i.e. returns {@code true} for all return types).
  *
- * <p>The return value is handled either with a {@link ModelAndViewResolver}
- * or otherwise by regarding it as a model attribute if it is a non-simple
- * type. If neither of these succeeds (essentially simple type other than
- * String), {@link UnsupportedOperationException} is raised.
+ * <p>
+ * The return value is handled either with a {@link ModelAndViewResolver} or otherwise by
+ * regarding it as a model attribute if it is a non-simple type. If neither of these
+ * succeeds (essentially simple type other than String),
+ * {@link UnsupportedOperationException} is raised.
  *
- * <p><strong>Note:</strong> This class is primarily needed to support
- * {@link ModelAndViewResolver}, which unfortunately cannot be properly
- * adapted to the {@link HandlerMethodReturnValueHandler} contract since the
- * {@link HandlerMethodReturnValueHandler#supportsReturnType} method
- * cannot be implemented. Hence {@code ModelAndViewResolver}s are limited
- * to always being invoked at the end after all other return value
- * handlers have been given a chance. It is recommended to re-implement
- * a {@code ModelAndViewResolver} as {@code HandlerMethodReturnValueHandler},
- * which also provides better access to the return type and method information.
+ * <p>
+ * <strong>Note:</strong> This class is primarily needed to support
+ * {@link ModelAndViewResolver}, which unfortunately cannot be properly adapted to the
+ * {@link HandlerMethodReturnValueHandler} contract since the
+ * {@link HandlerMethodReturnValueHandler#supportsReturnType} method cannot be
+ * implemented. Hence {@code ModelAndViewResolver}s are limited to always being invoked at
+ * the end after all other return value handlers have been given a chance. It is
+ * recommended to re-implement a {@code ModelAndViewResolver} as
+ * {@code HandlerMethodReturnValueHandler}, which also provides better access to the
+ * return type and method information.
  *
  * @author Rossen Stoyanchev
  * @since 3.1
@@ -60,14 +61,12 @@ public class ModelAndViewResolverMethodReturnValueHandler implements HandlerMeth
 
 	private final ModelAttributeMethodProcessor modelAttributeProcessor = new ModelAttributeMethodProcessor(true);
 
-
 	/**
 	 * Create a new instance.
 	 */
 	public ModelAndViewResolverMethodReturnValueHandler(@Nullable List<ModelAndViewResolver> mavResolvers) {
 		this.mavResolvers = mavResolvers;
 	}
-
 
 	/**
 	 * Always returns {@code true}. See class-level note.
@@ -104,8 +103,8 @@ public class ModelAndViewResolverMethodReturnValueHandler implements HandlerMeth
 			this.modelAttributeProcessor.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
 		}
 		else {
-			throw new UnsupportedOperationException("Unexpected return type: " +
-					returnType.getParameterType().getName() + " in method: " + returnType.getMethod());
+			throw new UnsupportedOperationException("Unexpected return type: " + returnType.getParameterType().getName()
+					+ " in method: " + returnType.getMethod());
 		}
 	}
 

@@ -19,15 +19,16 @@ package org.springframework.http.client;
 import org.springframework.http.client.support.HttpAccessor;
 
 /**
- * Callback interface for initializing a {@link ClientHttpRequest} prior to it
- * being used.
+ * Callback interface for initializing a {@link ClientHttpRequest} prior to it being used.
  *
- * <p>Typically used with {@link HttpAccessor} and subclasses such as
- * {@link org.springframework.web.client.RestTemplate RestTemplate} to apply
- * consistent settings or headers to each request.
+ * <p>
+ * Typically used with {@link HttpAccessor} and subclasses such as
+ * {@link org.springframework.web.client.RestTemplate RestTemplate} to apply consistent
+ * settings or headers to each request.
  *
- * <p>Unlike {@link ClientHttpRequestInterceptor}, this interface can apply
- * customizations without needing to read the entire request body into memory.
+ * <p>
+ * Unlike {@link ClientHttpRequestInterceptor}, this interface can apply customizations
+ * without needing to read the entire request body into memory.
  *
  * @author Phillip Webb
  * @since 5.2

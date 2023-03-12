@@ -73,7 +73,6 @@ public class BufferedSimpleHttpRequestFactoryTests extends AbstractHttpRequestFa
 		assertThat(connection.getDoOutput()).isEqualTo(allowed);
 	}
 
-
 	private static class TestHttpURLConnection extends HttpURLConnection {
 
 		public TestHttpURLConnection(URL uri) {
@@ -97,6 +96,7 @@ public class BufferedSimpleHttpRequestFactoryTests extends AbstractHttpRequestFa
 		public InputStream getInputStream() throws IOException {
 			return new ByteArrayInputStream(new byte[0]);
 		}
+
 	}
 
 }

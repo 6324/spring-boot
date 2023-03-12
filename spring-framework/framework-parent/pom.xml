@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework</groupId>
-        <artifactId>framework-bom</artifactId>
+        <artifactId>spring-framework-bom</artifactId>
         <version>5.2.12.RELEASE</version>
         <relativePath>../framework-bom</relativePath>
     </parent>
@@ -23,21 +23,16 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-
+        <kotlin.version>1.7.22</kotlin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
-    <scm>
-        <url>${git.url}</url>
-        <connection>${git.connection}</connection>
-        <developerConnection>${git.developerConnection}</developerConnection>
-    </scm>
+
     <issueManagement>
         <system>Github</system>
         <url>https://github.com/spring-projects/spring-boot/issues</url>
     </issueManagement>
     <dependencies>
-
 
     </dependencies>
 
@@ -64,6 +59,7 @@
                 <artifactId>reactor-bom</artifactId>
                 <version>Dysprosium-SR15</version>
                 <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>io.rsocket</groupId>
@@ -123,8 +119,6 @@
                 <artifactId>aspectjtools</artifactId>
                 <version>1.9.6</version>
             </dependency>
-
-
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-pool2</artifactId>
@@ -192,12 +186,6 @@
                 <groupId>com.caucho</groupId>
                 <artifactId>hessian</artifactId>
                 <version>4.0.63</version>
-            </dependency>
-
-            <dependency>
-                <groupId>javax.activation</groupId>
-                <artifactId>javax.activation</artifactId>
-                <version>1.2.0</version>
             </dependency>
 
             <dependency>
@@ -448,13 +436,13 @@
             </dependency>
 
             <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
+                <groupId>org.apache.tomcat</groupId>
                 <artifactId>tomcat-embed-util</artifactId>
                 <version>9.0.37</version>
             </dependency>
 
             <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
+                <groupId>org.apache.tomcat</groupId>
                 <artifactId>tomcat-websocket</artifactId>
                 <version>9.0.37</version>
                 <exclusions>
@@ -1001,7 +989,40 @@
                 <artifactId>tyrus-container-servlet</artifactId>
                 <version>1.13.1</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.ant</groupId>
+                <artifactId>ant</artifactId>
+                <version>1.10.3</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.jetbrains.kotlin</groupId>
+                    <artifactId>kotlin-maven-plugin</artifactId>
+                    <configuration>
+                        <args>
+                            <arg>-Xjsr305=strict</arg>
+                        </args>
+                        <compilerPlugins>
+                            <plugin>spring</plugin>
+                        </compilerPlugins>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.jetbrains.kotlin</groupId>
+                            <artifactId>kotlin-maven-allopen</artifactId>
+                            <version>${kotlin.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>

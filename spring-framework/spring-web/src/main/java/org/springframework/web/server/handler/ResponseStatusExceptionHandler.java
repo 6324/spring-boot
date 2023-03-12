@@ -31,9 +31,9 @@ import org.springframework.web.server.WebExceptionHandler;
 /**
  * Handle {@link ResponseStatusException} by setting the response status.
  *
- * <p>By default exception stack traces are not shown for successfully resolved
- * exceptions. Use {@link #setWarnLogCategory(String)} to enable logging with
- * stack traces.
+ * <p>
+ * By default exception stack traces are not shown for successfully resolved exceptions.
+ * Use {@link #setWarnLogCategory(String)} to enable logging with stack traces.
  *
  * @author Rossen Stoyanchev
  * @author Sebastien Deleuze
@@ -43,15 +43,14 @@ public class ResponseStatusExceptionHandler implements WebExceptionHandler {
 
 	private static final Log logger = LogFactory.getLog(ResponseStatusExceptionHandler.class);
 
-
 	@Nullable
 	private Log warnLogger;
 
-
 	/**
 	 * Set the log category for warn logging.
-	 * <p>Default is no warn logging. Specify this setting to activate warn
-	 * logging into a specific category.
+	 * <p>
+	 * Default is no warn logging. Specify this setting to activate warn logging into a
+	 * specific category.
 	 * @since 5.1
 	 * @see org.apache.commons.logging.LogFactory#getLog(String)
 	 * @see java.util.logging.Logger#getLogger(String)
@@ -59,7 +58,6 @@ public class ResponseStatusExceptionHandler implements WebExceptionHandler {
 	public void setWarnLogCategory(String loggerName) {
 		this.warnLogger = LogFactory.getLog(loggerName);
 	}
-
 
 	@Override
 	public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
@@ -79,7 +77,6 @@ public class ResponseStatusExceptionHandler implements WebExceptionHandler {
 		return exchange.getResponse().setComplete();
 	}
 
-
 	private String formatError(Throwable ex, ServerHttpRequest request) {
 		String reason = ex.getClass().getSimpleName() + ": " + ex.getMessage();
 		String path = request.getURI().getRawPath();
@@ -93,8 +90,7 @@ public class ResponseStatusExceptionHandler implements WebExceptionHandler {
 			if (response.setStatusCode(status)) {
 				if (ex instanceof ResponseStatusException) {
 					((ResponseStatusException) ex).getResponseHeaders()
-							.forEach((name, values) ->
-									values.forEach(value -> response.getHeaders().add(name, value)));
+							.forEach((name, values) -> values.forEach(value -> response.getHeaders().add(name, value)));
 				}
 				result = true;
 			}

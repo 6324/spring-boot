@@ -33,8 +33,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
- * Specialized {@link org.springframework.validation.DataBinder} to perform data
- * binding from URL query params or form data in the request data to Java objects.
+ * Specialized {@link org.springframework.validation.DataBinder} to perform data binding
+ * from URL query params or form data in the request data to Java objects.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
@@ -43,8 +43,8 @@ public class WebExchangeDataBinder extends WebDataBinder {
 
 	/**
 	 * Create a new instance, with default object name.
-	 * @param target the target object to bind onto (or {@code null} if the
-	 * binder is just used to convert a plain parameter value)
+	 * @param target the target object to bind onto (or {@code null} if the binder is just
+	 * used to convert a plain parameter value)
 	 * @see #DEFAULT_OBJECT_NAME
 	 */
 	public WebExchangeDataBinder(@Nullable Object target) {
@@ -53,14 +53,13 @@ public class WebExchangeDataBinder extends WebDataBinder {
 
 	/**
 	 * Create a new instance.
-	 * @param target the target object to bind onto (or {@code null} if the
-	 * binder is just used to convert a plain parameter value)
+	 * @param target the target object to bind onto (or {@code null} if the binder is just
+	 * used to convert a plain parameter value)
 	 * @param objectName the name of the target object
 	 */
 	public WebExchangeDataBinder(@Nullable Object target, String objectName) {
 		super(target, objectName);
 	}
-
 
 	/**
 	 * Bind query params, form data, and or multipart form data to the binder target.
@@ -68,24 +67,21 @@ public class WebExchangeDataBinder extends WebDataBinder {
 	 * @return a {@code Mono<Void>} when binding is complete
 	 */
 	public Mono<Void> bind(ServerWebExchange exchange) {
-		return getValuesToBind(exchange)
-				.doOnNext(values -> doBind(new MutablePropertyValues(values)))
-				.then();
+		return getValuesToBind(exchange).doOnNext(values -> doBind(new MutablePropertyValues(values))).then();
 	}
 
 	/**
-	 * Protected method to obtain the values for data binding. By default this
-	 * method delegates to {@link #extractValuesToBind(ServerWebExchange)}.
+	 * Protected method to obtain the values for data binding. By default this method
+	 * delegates to {@link #extractValuesToBind(ServerWebExchange)}.
 	 */
 	protected Mono<Map<String, Object>> getValuesToBind(ServerWebExchange exchange) {
 		return extractValuesToBind(exchange);
 	}
 
-
 	/**
-	 * Combine query params and form data for multipart form data from the body
-	 * of the request into a {@code Map<String, Object>} of values to use for
-	 * data binding purposes.
+	 * Combine query params and form data for multipart form data from the body of the
+	 * request into a {@code Map<String, Object>} of values to use for data binding
+	 * purposes.
 	 * @param exchange the current exchange
 	 * @return a {@code Mono} with the values to bind
 	 * @see org.springframework.http.server.reactive.ServerHttpRequest#getQueryParams()
@@ -97,14 +93,13 @@ public class WebExchangeDataBinder extends WebDataBinder {
 		Mono<MultiValueMap<String, String>> formData = exchange.getFormData();
 		Mono<MultiValueMap<String, Part>> multipartData = exchange.getMultipartData();
 
-		return Mono.zip(Mono.just(queryParams), formData, multipartData)
-				.map(tuple -> {
-					Map<String, Object> result = new TreeMap<>();
-					tuple.getT1().forEach((key, values) -> addBindValue(result, key, values));
-					tuple.getT2().forEach((key, values) -> addBindValue(result, key, values));
-					tuple.getT3().forEach((key, values) -> addBindValue(result, key, values));
-					return result;
-				});
+		return Mono.zip(Mono.just(queryParams), formData, multipartData).map(tuple -> {
+			Map<String, Object> result = new TreeMap<>();
+			tuple.getT1().forEach((key, values) -> addBindValue(result, key, values));
+			tuple.getT2().forEach((key, values) -> addBindValue(result, key, values));
+			tuple.getT3().forEach((key, values) -> addBindValue(result, key, values));
+			return result;
+		});
 	}
 
 	private static void addBindValue(Map<String, Object> params, String key, List<?> values) {

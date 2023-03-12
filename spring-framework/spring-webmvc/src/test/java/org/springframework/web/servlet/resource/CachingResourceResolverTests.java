@@ -49,7 +49,6 @@ public class CachingResourceResolverTests {
 
 	private List<Resource> locations;
 
-
 	@BeforeEach
 	public void setup() {
 
@@ -63,7 +62,6 @@ public class CachingResourceResolverTests {
 		this.locations = new ArrayList<>();
 		this.locations.add(new ClassPathResource("test/", getClass()));
 	}
-
 
 	@Test
 	public void resolveResourceInternal() {
@@ -127,7 +125,7 @@ public class CachingResourceResolverTests {
 		// 2. Resolve with Accept-Encoding
 
 		request = new MockHttpServletRequest("GET", file);
-		request.addHeader("Accept-Encoding",  "gzip ; a=b  , deflate ,  br  ; c=d ");
+		request.addHeader("Accept-Encoding", "gzip ; a=b  , deflate ,  br  ; c=d ");
 		expected = this.chain.resolveResource(request, file, this.locations);
 
 		cacheKey = resourceKey(file + "+encoding=br,gzip");

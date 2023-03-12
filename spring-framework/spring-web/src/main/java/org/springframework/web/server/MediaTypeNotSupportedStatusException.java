@@ -27,15 +27,14 @@ import org.springframework.http.MediaType;
  *
  * @author Rossen Stoyanchev
  * @since 5.0
- * @deprecated in favor of {@link UnsupportedMediaTypeStatusException},
- * with this class never thrown by Spring code and to be removed in 5.3
+ * @deprecated in favor of {@link UnsupportedMediaTypeStatusException}, with this class
+ * never thrown by Spring code and to be removed in 5.3
  */
 @Deprecated
 @SuppressWarnings("serial")
 public class MediaTypeNotSupportedStatusException extends ResponseStatusException {
 
 	private final List<MediaType> supportedMediaTypes;
-
 
 	/**
 	 * Constructor for when the Content-Type is invalid.
@@ -53,10 +52,9 @@ public class MediaTypeNotSupportedStatusException extends ResponseStatusExceptio
 		this.supportedMediaTypes = Collections.unmodifiableList(supportedMediaTypes);
 	}
 
-
 	/**
-	 * Return the list of supported content types in cases when the Accept
-	 * header is parsed but not supported, or an empty list otherwise.
+	 * Return the list of supported content types in cases when the Accept header is
+	 * parsed but not supported, or an empty list otherwise.
 	 */
 	public List<MediaType> getSupportedMediaTypes() {
 		return this.supportedMediaTypes;

@@ -340,7 +340,7 @@ public class WebRequestDataBinderTests {
 	@Test
 	public void testMultipleValuesForParameter() throws Exception {
 		MockHttpServletRequest request = new MockHttpServletRequest();
-		String[] original = new String[] {"Tony", "Rod"};
+		String[] original = new String[] { "Tony", "Rod" };
 		request.addParameter("forname", original);
 
 		ServletRequestParameterPropertyValues pvs = new ServletRequestParameterPropertyValues(request);
@@ -350,7 +350,6 @@ public class WebRequestDataBinderTests {
 		String[] values = (String[]) pvs.getPropertyValue("forname").getValue();
 		assertThat(Arrays.asList(original)).as("Correct values").isEqualTo(Arrays.asList(values));
 	}
-
 
 	public static class EnumHolder {
 
@@ -363,13 +362,17 @@ public class WebRequestDataBinderTests {
 		public void setMyEnum(MyEnum myEnum) {
 			this.myEnum = myEnum;
 		}
+
 	}
 
 	public enum MyEnum {
+
 		FOO, BAR
+
 	}
 
 	static class TestBeanWithConcreteSpouse extends TestBean {
+
 		public void setConcreteSpouse(TestBean spouse) {
 			setSpouse(spouse);
 		}
@@ -377,7 +380,7 @@ public class WebRequestDataBinderTests {
 		public TestBean getConcreteSpouse() {
 			return (TestBean) getSpouse();
 		}
-	}
 
+	}
 
 }

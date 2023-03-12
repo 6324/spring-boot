@@ -68,18 +68,15 @@ public class FreeMarkerViewTests {
 
 		fv.setUrl("anythingButNull");
 
-		assertThatExceptionOfType(ApplicationContextException.class).isThrownBy(() ->
-				fv.setApplicationContext(wac))
-			.withMessageContaining("FreeMarkerConfig");
+		assertThatExceptionOfType(ApplicationContextException.class).isThrownBy(() -> fv.setApplicationContext(wac))
+				.withMessageContaining("FreeMarkerConfig");
 	}
 
 	@Test
 	public void noTemplateName() throws Exception {
 		FreeMarkerView fv = new FreeMarkerView();
 
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				fv.afterPropertiesSet())
-			.withMessageContaining("url");
+		assertThatIllegalArgumentException().isThrownBy(() -> fv.afterPropertiesSet()).withMessageContaining("url");
 	}
 
 	@Test
@@ -177,7 +174,6 @@ public class FreeMarkerViewTests {
 		assertThat(((InternalResourceView) view).getUrl()).as("Correct URL").isEqualTo("myUrl");
 	}
 
-
 	private class TestConfiguration extends Configuration {
 
 		TestConfiguration() {
@@ -202,6 +198,7 @@ public class FreeMarkerViewTests {
 				throw new FileNotFoundException();
 			}
 		}
+
 	}
 
 }

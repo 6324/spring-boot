@@ -37,7 +37,6 @@ public class LabelTagTests extends AbstractFormTagTests {
 
 	private LabelTag tag;
 
-
 	@Override
 	@SuppressWarnings("serial")
 	protected void onSetUp() {
@@ -59,7 +58,6 @@ public class LabelTagTests extends AbstractFormTagTests {
 		nestedPathTag.setPageContext(pageContext);
 		nestedPathTag.doStartTag();
 	}
-
 
 	@Test
 	public void simpleRender() throws Exception {
@@ -148,7 +146,6 @@ public class LabelTagTests extends AbstractFormTagTests {
 		assertThat(output.startsWith("<label ")).isTrue();
 		assertThat(output.endsWith("</label>")).isTrue();
 	}
-
 
 	@Override
 	protected TestBean createTestBean() {

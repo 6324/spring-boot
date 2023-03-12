@@ -41,8 +41,8 @@ public abstract class AbstractMockWebServerTests {
 
 	protected String baseUrl;
 
-	protected static final MediaType textContentType =
-			new MediaType("text", "plain", Collections.singletonMap("charset", "UTF-8"));
+	protected static final MediaType textContentType = new MediaType("text", "plain",
+			Collections.singletonMap("charset", "UTF-8"));
 
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -59,35 +59,33 @@ public abstract class AbstractMockWebServerTests {
 	}
 
 	protected class TestDispatcher extends Dispatcher {
+
 		@Override
 		public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
 			try {
 				if (request.getPath().equals("/echo")) {
-					assertThat(request.getHeader("Host"))
-							.contains("localhost:" + port);
-					MockResponse response = new MockResponse()
-							.setHeaders(request.getHeaders())
-							.setHeader("Content-Length", request.getBody().size())
-							.setResponseCode(200)
+					assertThat(request.getHeader("Host")).contains("localhost:" + port);
+					MockResponse response = new MockResponse().setHeaders(request.getHeaders())
+							.setHeader("Content-Length", request.getBody().size()).setResponseCode(200)
 							.setBody(request.getBody());
 					request.getBody().flush();
 					return response;
 				}
-				else if(request.getPath().equals("/status/ok")) {
+				else if (request.getPath().equals("/status/ok")) {
 					return new MockResponse();
 				}
-				else if(request.getPath().equals("/status/notfound")) {
+				else if (request.getPath().equals("/status/notfound")) {
 					return new MockResponse().setResponseCode(404);
 				}
-				else if(request.getPath().startsWith("/params")) {
+				else if (request.getPath().startsWith("/params")) {
 					assertThat(request.getPath()).contains("param1=value");
 					assertThat(request.getPath()).contains("param2=value1&param2=value2");
 					return new MockResponse();
 				}
-				else if(request.getPath().equals("/methods/post")) {
+				else if (request.getPath().equals("/methods/post")) {
 					assertThat(request.getMethod()).isEqualTo("POST");
 					String transferEncoding = request.getHeader("Transfer-Encoding");
-					if(StringUtils.hasLength(transferEncoding)) {
+					if (StringUtils.hasLength(transferEncoding)) {
 						assertThat(transferEncoding).isEqualTo("chunked");
 					}
 					else {
@@ -96,8 +94,8 @@ public abstract class AbstractMockWebServerTests {
 					}
 					return new MockResponse().setResponseCode(200);
 				}
-				else if(request.getPath().startsWith("/methods/")) {
-					String expectedMethod = request.getPath().replace("/methods/","").toUpperCase();
+				else if (request.getPath().startsWith("/methods/")) {
+					String expectedMethod = request.getPath().replace("/methods/", "").toUpperCase();
 					assertThat(request.getMethod()).isEqualTo(expectedMethod);
 					return new MockResponse();
 				}
@@ -107,5 +105,7 @@ public abstract class AbstractMockWebServerTests {
 				return new MockResponse().setResponseCode(500).setBody(exc.toString());
 			}
 		}
+
 	}
+
 }

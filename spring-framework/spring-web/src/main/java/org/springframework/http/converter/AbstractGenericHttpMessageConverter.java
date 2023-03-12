@@ -38,14 +38,16 @@ public abstract class AbstractGenericHttpMessageConverter<T> extends AbstractHtt
 		implements GenericHttpMessageConverter<T> {
 
 	/**
-	 * Construct an {@code AbstractGenericHttpMessageConverter} with no supported media types.
+	 * Construct an {@code AbstractGenericHttpMessageConverter} with no supported media
+	 * types.
 	 * @see #setSupportedMediaTypes
 	 */
 	protected AbstractGenericHttpMessageConverter() {
 	}
 
 	/**
-	 * Construct an {@code AbstractGenericHttpMessageConverter} with one supported media type.
+	 * Construct an {@code AbstractGenericHttpMessageConverter} with one supported media
+	 * type.
 	 * @param supportedMediaType the supported media type
 	 */
 	protected AbstractGenericHttpMessageConverter(MediaType supportedMediaType) {
@@ -53,13 +55,13 @@ public abstract class AbstractGenericHttpMessageConverter<T> extends AbstractHtt
 	}
 
 	/**
-	 * Construct an {@code AbstractGenericHttpMessageConverter} with multiple supported media type.
+	 * Construct an {@code AbstractGenericHttpMessageConverter} with multiple supported
+	 * media type.
 	 * @param supportedMediaTypes the supported media types
 	 */
 	protected AbstractGenericHttpMessageConverter(MediaType... supportedMediaTypes) {
 		super(supportedMediaTypes);
 	}
-
 
 	@Override
 	protected boolean supports(Class<?> clazz) {
@@ -94,6 +96,7 @@ public abstract class AbstractGenericHttpMessageConverter<T> extends AbstractHtt
 				public OutputStream getBody() {
 					return outputStream;
 				}
+
 				@Override
 				public HttpHeaders getHeaders() {
 					return headers;

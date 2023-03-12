@@ -24,7 +24,7 @@ import org.springframework.lang.Nullable;
  * @author Brian Clozel
  * @author Rossen Stoyanchev
  * @since 4.1
-*/
+ */
 public interface VersionPathStrategy {
 
 	/**
@@ -36,8 +36,8 @@ public interface VersionPathStrategy {
 	String extractVersion(String requestPath);
 
 	/**
-	 * Remove the version from the request path. It is assumed that the given
-	 * version was extracted via {@link #extractVersion(String)}.
+	 * Remove the version from the request path. It is assumed that the given version was
+	 * extracted via {@link #extractVersion(String)}.
 	 * @param requestPath the request path of the resource being resolved
 	 * @param version the version obtained from {@link #extractVersion(String)}
 	 * @return the request path with the version removed

@@ -54,14 +54,16 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.AbstractUrlBasedView;
 
 /**
- * An {@link AbstractUrlBasedView} subclass designed to run any template library
- * based on a JSR-223 script engine.
+ * An {@link AbstractUrlBasedView} subclass designed to run any template library based on
+ * a JSR-223 script engine.
  *
- * <p>If not set, each property is auto-detected by looking up a single
- * {@link ScriptTemplateConfig} bean in the web application context and using
- * it to obtain the configured properties.
+ * <p>
+ * If not set, each property is auto-detected by looking up a single
+ * {@link ScriptTemplateConfig} bean in the web application context and using it to obtain
+ * the configured properties.
  *
- * <p>The Nashorn JavaScript engine requires Java 8+ and may require setting the
+ * <p>
+ * The Nashorn JavaScript engine requires Java 8+ and may require setting the
  * {@code sharedEngine} property to {@code false} in order to run properly. See
  * {@link ScriptTemplateConfigurer#setSharedEngine(Boolean)} for more details.
  *
@@ -82,10 +84,8 @@ public class ScriptTemplateView extends AbstractUrlBasedView {
 
 	private static final String DEFAULT_RESOURCE_LOADER_PATH = "classpath:";
 
-
-	private static final ThreadLocal<Map<Object, ScriptEngine>> enginesHolder =
-			new NamedThreadLocal<>("ScriptTemplateView engines");
-
+	private static final ThreadLocal<Map<Object, ScriptEngine>> enginesHolder = new NamedThreadLocal<>(
+			"ScriptTemplateView engines");
 
 	@Nullable
 	private ScriptEngine engine;
@@ -117,7 +117,6 @@ public class ScriptTemplateView extends AbstractUrlBasedView {
 	@Nullable
 	private volatile ScriptEngineManager scriptEngineManager;
 
-
 	/**
 	 * Constructor for use as a bean.
 	 * @see #setUrl
@@ -134,7 +133,6 @@ public class ScriptTemplateView extends AbstractUrlBasedView {
 		super(url);
 		setContentType(null);
 	}
-
 
 	/**
 	 * See {@link ScriptTemplateConfigurer#setEngine(ScriptEngine)} documentation.
@@ -209,7 +207,6 @@ public class ScriptTemplateView extends AbstractUrlBasedView {
 		}
 	}
 
-
 	@Override
 	protected void initApplicationContext(ApplicationContext context) {
 		super.initApplicationContext(context);
@@ -257,13 +254,11 @@ public class ScriptTemplateView extends AbstractUrlBasedView {
 		if (this.engineName != null) {
 			engineCount++;
 		}
-		Assert.isTrue(engineCount == 1,
-				"You should define either 'engine', 'engineSupplier' or 'engineName'.");
+		Assert.isTrue(engineCount == 1, "You should define either 'engine', 'engineSupplier' or 'engineName'.");
 
 		if (Boolean.FALSE.equals(this.sharedEngine)) {
-			Assert.isTrue(this.engine == null,
-					"When 'sharedEngine' is set to false, you should specify the " +
-					"script engine using 'engineName' or 'engineSupplier' , not 'engine'.");
+			Assert.isTrue(this.engine == null, "When 'sharedEngine' is set to false, you should specify the "
+					+ "script engine using 'engineName' or 'engineSupplier' , not 'engine'.");
 		}
 		else if (this.engine != null) {
 			loadScripts(this.engine);
@@ -364,16 +359,15 @@ public class ScriptTemplateView extends AbstractUrlBasedView {
 
 	protected ScriptTemplateConfig autodetectViewConfig() throws BeansException {
 		try {
-			return BeanFactoryUtils.beanOfTypeIncludingAncestors(
-					obtainApplicationContext(), ScriptTemplateConfig.class, true, false);
+			return BeanFactoryUtils.beanOfTypeIncludingAncestors(obtainApplicationContext(), ScriptTemplateConfig.class,
+					true, false);
 		}
 		catch (NoSuchBeanDefinitionException ex) {
-			throw new ApplicationContextException("Expected a single ScriptTemplateConfig bean in the current " +
-					"Servlet web application context or the parent root context: ScriptTemplateConfigurer is " +
-					"the usual implementation. This bean may have any name.", ex);
+			throw new ApplicationContextException("Expected a single ScriptTemplateConfig bean in the current "
+					+ "Servlet web application context or the parent root context: ScriptTemplateConfigurer is "
+					+ "the usual implementation. This bean may have any name.", ex);
 		}
 	}
-
 
 	@Override
 	public boolean checkResource(Locale locale) throws Exception {
@@ -441,17 +435,16 @@ public class ScriptTemplateView extends AbstractUrlBasedView {
 		if (resource == null) {
 			throw new IllegalStateException("Template resource [" + path + "] not found");
 		}
-		InputStreamReader reader = (this.charset != null ?
-				new InputStreamReader(resource.getInputStream(), this.charset) :
-				new InputStreamReader(resource.getInputStream()));
+		InputStreamReader reader = (this.charset != null
+				? new InputStreamReader(resource.getInputStream(), this.charset)
+				: new InputStreamReader(resource.getInputStream()));
 		return FileCopyUtils.copyToString(reader);
 	}
 
-
 	/**
-	 * Key class for the {@code enginesHolder ThreadLocal}.
-	 * Only used if scripts have been specified; otherwise, the
-	 * {@code engineName String} will be used as cache key directly.
+	 * Key class for the {@code enginesHolder ThreadLocal}. Only used if scripts have been
+	 * specified; otherwise, the {@code engineName String} will be used as cache key
+	 * directly.
 	 */
 	private static class EngineKey {
 
@@ -480,6 +473,7 @@ public class ScriptTemplateView extends AbstractUrlBasedView {
 		public int hashCode() {
 			return (this.engineName.hashCode() * 29 + Arrays.hashCode(this.scripts));
 		}
+
 	}
 
 }

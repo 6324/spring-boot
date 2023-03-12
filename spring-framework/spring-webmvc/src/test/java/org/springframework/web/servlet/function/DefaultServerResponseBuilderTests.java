@@ -74,16 +74,12 @@ public class DefaultServerResponseBuilderTests {
 	@Test
 	public void from() {
 		Cookie cookie = new Cookie("foo", "bar");
-		ServerResponse other = ServerResponse.ok()
-				.header("foo", "bar")
-				.cookie(cookie)
-				.build();
+		ServerResponse other = ServerResponse.ok().header("foo", "bar").cookie(cookie).build();
 		ServerResponse result = ServerResponse.from(other).build();
 		assertThat(result.statusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(result.headers().getFirst("foo")).isEqualTo("bar");
 		assertThat(result.cookies().getFirst("foo")).isEqualTo(cookie);
 	}
-
 
 	@Test
 	public void ok() {
@@ -199,7 +195,6 @@ public class DefaultServerResponseBuilderTests {
 		assertThat(response.headers().getVary()).isEqualTo(expected);
 	}
 
-
 	@Test
 	public void statusCode() {
 		HttpStatus statusCode = HttpStatus.ACCEPTED;
@@ -211,9 +206,7 @@ public class DefaultServerResponseBuilderTests {
 	public void headers() {
 		HttpHeaders newHeaders = new HttpHeaders();
 		newHeaders.set("foo", "bar");
-		ServerResponse response = ServerResponse.ok()
-				.headers(headers -> headers.addAll(newHeaders))
-				.build();
+		ServerResponse response = ServerResponse.ok().headers(headers -> headers.addAll(newHeaders)).build();
 		assertThat(response.headers()).isEqualTo(newHeaders);
 	}
 
@@ -221,18 +214,14 @@ public class DefaultServerResponseBuilderTests {
 	public void cookies() {
 		MultiValueMap<String, Cookie> newCookies = new LinkedMultiValueMap<>();
 		newCookies.add("name", new Cookie("name", "value"));
-		ServerResponse response = ServerResponse.ok()
-				.cookies(cookies -> cookies.addAll(newCookies))
-				.build();
+		ServerResponse response = ServerResponse.ok().cookies(cookies -> cookies.addAll(newCookies)).build();
 		assertThat(response.cookies()).isEqualTo(newCookies);
 	}
 
 	@Test
 	public void build() throws Exception {
 		Cookie cookie = new Cookie("name", "value");
-		ServerResponse response = ServerResponse.status(HttpStatus.CREATED)
-				.header("MyKey", "MyValue")
-				.cookie(cookie)
+		ServerResponse response = ServerResponse.status(HttpStatus.CREATED).header("MyKey", "MyValue").cookie(cookie)
 				.build();
 
 		MockHttpServletRequest mockRequest = new MockHttpServletRequest("GET", "https://example.com");
@@ -249,9 +238,7 @@ public class DefaultServerResponseBuilderTests {
 	@Test
 	public void notModifiedEtag() throws Exception {
 		String etag = "\"foo\"";
-		ServerResponse response = ServerResponse.ok()
-				.eTag(etag)
-				.body("bar");
+		ServerResponse response = ServerResponse.ok().eTag(etag).body("bar");
 
 		MockHttpServletRequest mockRequest = new MockHttpServletRequest("GET", "https://example.com");
 		mockRequest.addHeader(HttpHeaders.IF_NONE_MATCH, etag);
@@ -268,9 +255,7 @@ public class DefaultServerResponseBuilderTests {
 		ZonedDateTime now = ZonedDateTime.now();
 		ZonedDateTime oneMinuteBeforeNow = now.minus(1, ChronoUnit.MINUTES);
 
-		ServerResponse response = ServerResponse.ok()
-				.lastModified(oneMinuteBeforeNow)
-				.body("bar");
+		ServerResponse response = ServerResponse.ok().lastModified(oneMinuteBeforeNow).body("bar");
 
 		MockHttpServletRequest mockRequest = new MockHttpServletRequest("GET", "https://example.com");
 		mockRequest.addHeader(HttpHeaders.IF_MODIFIED_SINCE, DateTimeFormatter.RFC_1123_DATE_TIME.format(now));
@@ -302,7 +287,8 @@ public class DefaultServerResponseBuilderTests {
 		List<String> body = new ArrayList<>();
 		body.add("foo");
 		body.add("bar");
-		ServerResponse response = ServerResponse.ok().body(body, new ParameterizedTypeReference<List<String>>() {});
+		ServerResponse response = ServerResponse.ok().body(body, new ParameterizedTypeReference<List<String>>() {
+		});
 
 		MockHttpServletRequest mockRequest = new MockHttpServletRequest("GET", "https://example.com");
 		MockHttpServletResponse mockResponse = new MockHttpServletResponse();
@@ -328,7 +314,6 @@ public class DefaultServerResponseBuilderTests {
 
 		ModelAndView mav = response.writeTo(mockRequest, mockResponse, context);
 		assertThat(mav).isNull();
-
 
 		assertThat(mockResponse.getContentAsString()).isEqualTo(body);
 	}

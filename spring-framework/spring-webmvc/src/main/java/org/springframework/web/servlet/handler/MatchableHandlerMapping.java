@@ -22,9 +22,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.HandlerMapping;
 
 /**
- * Additional interface that a {@link HandlerMapping} can implement to expose
- * a request matching API aligned with its internal request matching
- * configuration and implementation.
+ * Additional interface that a {@link HandlerMapping} can implement to expose a request
+ * matching API aligned with its internal request matching configuration and
+ * implementation.
  *
  * @author Rossen Stoyanchev
  * @since 4.3.1

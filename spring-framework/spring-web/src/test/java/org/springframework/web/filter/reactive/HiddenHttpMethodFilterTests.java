@@ -34,6 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests for {@link HiddenHttpMethodFilter}.
+ *
  * @author Greg Turnquist
  * @author Rossen Stoyanchev
  */
@@ -42,7 +43,6 @@ public class HiddenHttpMethodFilterTests {
 	private final HiddenHttpMethodFilter filter = new HiddenHttpMethodFilter();
 
 	private final TestWebFilterChain filterChain = new TestWebFilterChain();
-
 
 	@Test
 	public void filterWithParameter() {
@@ -77,42 +77,33 @@ public class HiddenHttpMethodFilterTests {
 
 	@Test
 	public void filterWithInvalidMethodValue() {
-		StepVerifier.create(postForm("_method=INVALID"))
-				.consumeErrorWith(error -> {
-					assertThat(error).isInstanceOf(IllegalArgumentException.class);
-					assertThat(error.getMessage()).isEqualTo("HttpMethod 'INVALID' not supported");
-				})
-				.verify();
+		StepVerifier.create(postForm("_method=INVALID")).consumeErrorWith(error -> {
+			assertThat(error).isInstanceOf(IllegalArgumentException.class);
+			assertThat(error.getMessage()).isEqualTo("HttpMethod 'INVALID' not supported");
+		}).verify();
 	}
 
 	@Test
 	public void filterWithHttpPut() {
 
-		ServerWebExchange exchange = MockServerWebExchange.from(
-				MockServerHttpRequest.put("/")
-						.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-						.body("_method=DELETE"));
+		ServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.put("/")
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE).body("_method=DELETE"));
 
 		this.filter.filter(exchange, this.filterChain).block(Duration.ZERO);
 		assertThat(this.filterChain.getHttpMethod()).isEqualTo(HttpMethod.PUT);
 	}
 
-
 	private Mono<Void> postForm(String body) {
 
-		MockServerWebExchange exchange = MockServerWebExchange.from(
-				MockServerHttpRequest.post("/")
-						.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-						.body(body));
+		MockServerWebExchange exchange = MockServerWebExchange.from(MockServerHttpRequest.post("/")
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE).body(body));
 
 		return this.filter.filter(exchange, this.filterChain);
 	}
 
-
 	private static class TestWebFilterChain implements WebFilterChain {
 
 		private HttpMethod httpMethod;
-
 
 		public HttpMethod getHttpMethod() {
 			return this.httpMethod;
@@ -123,6 +114,7 @@ public class HiddenHttpMethodFilterTests {
 			this.httpMethod = exchange.getRequest().getMethod();
 			return Mono.empty();
 		}
+
 	}
 
 }

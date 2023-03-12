@@ -43,32 +43,29 @@ public class UriComponentsTests {
 
 	@Test
 	public void expandAndEncode() {
-		UriComponents uri = UriComponentsBuilder
-				.fromPath("/hotel list/{city} specials").queryParam("q", "{value}").build()
-				.expand("Z\u00fcrich", "a+b").encode();
+		UriComponents uri = UriComponentsBuilder.fromPath("/hotel list/{city} specials").queryParam("q", "{value}")
+				.build().expand("Z\u00fcrich", "a+b").encode();
 
 		assertThat(uri.toString()).isEqualTo("/hotel%20list/Z%C3%BCrich%20specials?q=a+b");
 	}
 
 	@Test
 	public void encodeAndExpand() {
-		UriComponents uri = UriComponentsBuilder
-				.fromPath("/hotel list/{city} specials").queryParam("q", "{value}").encode().build()
-				.expand("Z\u00fcrich", "a+b");
+		UriComponents uri = UriComponentsBuilder.fromPath("/hotel list/{city} specials").queryParam("q", "{value}")
+				.encode().build().expand("Z\u00fcrich", "a+b");
 
 		assertThat(uri.toString()).isEqualTo("/hotel%20list/Z%C3%BCrich%20specials?q=a%2Bb");
 	}
 
 	@Test
 	public void encodeAndExpandPartially() {
-		UriComponents uri = UriComponentsBuilder
-				.fromPath("/hotel list/{city} specials").queryParam("q", "{value}").encode()
-				.uriVariables(Collections.singletonMap("city", "Z\u00fcrich")).build();
+		UriComponents uri = UriComponentsBuilder.fromPath("/hotel list/{city} specials").queryParam("q", "{value}")
+				.encode().uriVariables(Collections.singletonMap("city", "Z\u00fcrich")).build();
 
 		assertThat(uri.expand("a+b").toString()).isEqualTo("/hotel%20list/Z%C3%BCrich%20specials?q=a%2Bb");
 	}
 
-	@Test  // SPR-17168
+	@Test // SPR-17168
 	public void encodeAndExpandWithDollarSign() {
 		UriComponents uri = UriComponentsBuilder.fromPath("/path").queryParam("q", "{value}").encode().build();
 		assertThat(uri.expand("JavaClass$1.class").toString()).isEqualTo("/path?q=JavaClass%241.class");
@@ -88,17 +85,18 @@ public class UriComponentsTests {
 
 	@Test
 	public void toUriAlreadyEncoded() throws URISyntaxException {
-		UriComponents uri = UriComponentsBuilder.fromUriString("https://example.com/hotel%20list/Z%C3%BCrich").build(true);
+		UriComponents uri = UriComponentsBuilder.fromUriString("https://example.com/hotel%20list/Z%C3%BCrich")
+				.build(true);
 		assertThat(uri.encode().toUri()).isEqualTo(new URI("https://example.com/hotel%20list/Z%C3%BCrich"));
 	}
 
 	@Test
 	public void toUriWithIpv6HostAlreadyEncoded() throws URISyntaxException {
-		UriComponents uri = UriComponentsBuilder.fromUriString(
-				"http://[1abc:2abc:3abc::5ABC:6abc]:8080/hotel%20list/Z%C3%BCrich").build(true);
+		UriComponents uri = UriComponentsBuilder
+				.fromUriString("http://[1abc:2abc:3abc::5ABC:6abc]:8080/hotel%20list/Z%C3%BCrich").build(true);
 
-		assertThat(uri.encode().toUri()).isEqualTo(
-				new URI("http://[1abc:2abc:3abc::5ABC:6abc]:8080/hotel%20list/Z%C3%BCrich"));
+		assertThat(uri.encode().toUri())
+				.isEqualTo(new URI("http://[1abc:2abc:3abc::5ABC:6abc]:8080/hotel%20list/Z%C3%BCrich"));
 	}
 
 	@Test
@@ -110,7 +108,7 @@ public class UriComponentsTests {
 		assertThat(uri.toUriString()).isEqualTo("https://example.com/1 2 3 4");
 	}
 
-	@Test  // SPR-13311
+	@Test // SPR-13311
 	public void expandWithRegexVar() {
 		String template = "/myurl/{name:[a-z]{1,5}}/show";
 		UriComponents uri = UriComponentsBuilder.fromUriString(template).build();
@@ -119,22 +117,21 @@ public class UriComponentsTests {
 		assertThat(uri.getPath()).isEqualTo("/myurl/test/show");
 	}
 
-	@Test  // SPR-17630
+	@Test // SPR-17630
 	public void uirTemplateExpandWithMismatchedCurlyBraces() {
 		UriComponents uri = UriComponentsBuilder.fromUriString("/myurl/?q={{{{").encode().build();
 		assertThat(uri.toUriString()).isEqualTo("/myurl/?q=%7B%7B%7B%7B");
 	}
 
-	@Test  // gh-22447
+	@Test // gh-22447
 	public void expandWithFragmentOrder() {
-		UriComponents uri = UriComponentsBuilder
-				.fromUriString("https://{host}/{path}#{fragment}").build()
+		UriComponents uri = UriComponentsBuilder.fromUriString("https://{host}/{path}#{fragment}").build()
 				.expand("example.com", "foo", "bar");
 
 		assertThat(uri.toUriString()).isEqualTo("https://example.com/foo#bar");
 	}
 
-	@Test  // SPR-12123
+	@Test // SPR-12123
 	public void port() {
 		UriComponents uri1 = fromUriString("https://example.com:8080/bar").build();
 		UriComponents uri2 = fromUriString("https://example.com/bar").port(8080).build();
@@ -153,20 +150,18 @@ public class UriComponentsTests {
 
 	@Test
 	public void expandEncoded() {
-		assertThatIllegalStateException().isThrownBy(() ->
-				UriComponentsBuilder.fromPath("/{foo}").build().encode().expand("bar"));
+		assertThatIllegalStateException()
+				.isThrownBy(() -> UriComponentsBuilder.fromPath("/{foo}").build().encode().expand("bar"));
 	}
 
 	@Test
 	public void invalidCharacters() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				UriComponentsBuilder.fromPath("/{foo}").build(true));
+		assertThatIllegalArgumentException().isThrownBy(() -> UriComponentsBuilder.fromPath("/{foo}").build(true));
 	}
 
 	@Test
 	public void invalidEncodedSequence() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				UriComponentsBuilder.fromPath("/fo%2o").build(true));
+		assertThatIllegalArgumentException().isThrownBy(() -> UriComponentsBuilder.fromPath("/fo%2o").build(true));
 	}
 
 	@Test
@@ -177,8 +172,8 @@ public class UriComponentsTests {
 
 	@Test
 	public void serializable() throws Exception {
-		UriComponents uri = UriComponentsBuilder.fromUriString(
-				"https://example.com").path("/{foo}").query("bar={baz}").build();
+		UriComponents uri = UriComponentsBuilder.fromUriString("https://example.com").path("/{foo}").query("bar={baz}")
+				.build();
 
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		ObjectOutputStream oos = new ObjectOutputStream(bos);

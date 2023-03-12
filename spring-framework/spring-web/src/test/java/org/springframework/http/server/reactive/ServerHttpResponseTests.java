@@ -72,7 +72,7 @@ public class ServerHttpResponseTests {
 		assertThat(new String(response.body.get(2).asByteBuffer().array(), StandardCharsets.UTF_8)).isEqualTo("c");
 	}
 
-	@Test  // SPR-14952
+	@Test // SPR-14952
 	void writeAndFlushWithFluxOfDefaultDataBuffer() {
 		TestServerHttpResponse response = new TestServerHttpResponse();
 		Flux<Flux<DefaultDataBuffer>> flux = Flux.just(Flux.just(wrap("foo")));
@@ -169,8 +169,7 @@ public class ServerHttpResponseTests {
 			response.getHeaders().setContentLength(3);
 			response.beforeCommit(preCommitAction);
 
-			StepVerifier.create(response.writeWith(Flux.just(wrap("body"))))
-					.expectErrorMessage("Max sessions")
+			StepVerifier.create(response.writeWith(Flux.just(wrap("body")))).expectErrorMessage("Max sessions")
 					.verify();
 
 			assertThat(response.statusCodeWritten).isFalse();
@@ -197,8 +196,8 @@ public class ServerHttpResponseTests {
 
 		HttpMessageWriter<Object> messageWriter = new EncoderHttpMessageWriter<>(new Jackson2JsonEncoder());
 		Mono<Void> result = messageWriter.write(Mono.just(Collections.singletonMap("foo", "bar")),
-				ResolvableType.forClass(Mono.class), ResolvableType.forClass(Map.class), null,
-				request, response, Collections.emptyMap());
+				ResolvableType.forClass(Mono.class), ResolvableType.forClass(Map.class), null, request, response,
+				Collections.emptyMap());
 
 		StepVerifier.create(result).expectError(AbortedException.class).verify();
 
@@ -208,7 +207,6 @@ public class ServerHttpResponseTests {
 	private DefaultDataBuffer wrap(String a) {
 		return new DefaultDataBufferFactory().wrap(ByteBuffer.wrap(a.getBytes(StandardCharsets.UTF_8)));
 	}
-
 
 	private static class TestServerHttpResponse extends AbstractServerHttpResponse {
 
@@ -258,13 +256,12 @@ public class ServerHttpResponseTests {
 		@Override
 		protected Mono<Void> writeAndFlushWithInternal(
 				Publisher<? extends Publisher<? extends DataBuffer>> bodyWithFlush) {
-			return Flux.from(bodyWithFlush).flatMap(body ->
-				Flux.from(body).map(b -> {
-					this.body.add(b);
-					return b;
-				})
-			).then();
+			return Flux.from(bodyWithFlush).flatMap(body -> Flux.from(body).map(b -> {
+				this.body.add(b);
+				return b;
+			})).then();
 		}
+
 	}
 
 }

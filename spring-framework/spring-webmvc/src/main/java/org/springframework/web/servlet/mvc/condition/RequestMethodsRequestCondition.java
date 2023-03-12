@@ -35,8 +35,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.cors.CorsUtils;
 
 /**
- * A logical disjunction (' || ') request condition that matches a request
- * against a set of {@link RequestMethod RequestMethods}.
+ * A logical disjunction (' || ') request condition that matches a request against a set
+ * of {@link RequestMethod RequestMethods}.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -54,18 +54,16 @@ public final class RequestMethodsRequestCondition extends AbstractRequestConditi
 		}
 	}
 
-
 	private final Set<RequestMethod> methods;
-
 
 	/**
 	 * Create a new instance with the given request methods.
-	 * @param requestMethods 0 or more HTTP request methods;
-	 * if, 0 the condition will match to every request
+	 * @param requestMethods 0 or more HTTP request methods; if, 0 the condition will
+	 * match to every request
 	 */
 	public RequestMethodsRequestCondition(RequestMethod... requestMethods) {
-		this.methods = (ObjectUtils.isEmpty(requestMethods) ?
-				Collections.emptySet() : new LinkedHashSet<>(Arrays.asList(requestMethods)));
+		this.methods = (ObjectUtils.isEmpty(requestMethods) ? Collections.emptySet()
+				: new LinkedHashSet<>(Arrays.asList(requestMethods)));
 	}
 
 	/**
@@ -74,7 +72,6 @@ public final class RequestMethodsRequestCondition extends AbstractRequestConditi
 	private RequestMethodsRequestCondition(Set<RequestMethod> methods) {
 		this.methods = methods;
 	}
-
 
 	/**
 	 * Returns all {@link RequestMethod RequestMethods} contained in this condition.
@@ -94,8 +91,8 @@ public final class RequestMethodsRequestCondition extends AbstractRequestConditi
 	}
 
 	/**
-	 * Returns a new instance with a union of the HTTP request methods
-	 * from "this" and the "other" instance.
+	 * Returns a new instance with a union of the HTTP request methods from "this" and the
+	 * "other" instance.
 	 */
 	@Override
 	public RequestMethodsRequestCondition combine(RequestMethodsRequestCondition other) {
@@ -114,13 +111,12 @@ public final class RequestMethodsRequestCondition extends AbstractRequestConditi
 	}
 
 	/**
-	 * Check if any of the HTTP request methods match the given request and
-	 * return an instance that contains the matching HTTP request method only.
+	 * Check if any of the HTTP request methods match the given request and return an
+	 * instance that contains the matching HTTP request method only.
 	 * @param request the current request
-	 * @return the same instance if the condition is empty (unless the request
-	 * method is HTTP OPTIONS), a new condition with the matched request method,
-	 * or {@code null} if there is no match or the condition is empty and the
-	 * request method is OPTIONS.
+	 * @return the same instance if the condition is empty (unless the request method is
+	 * HTTP OPTIONS), a new condition with the matched request method, or {@code null} if
+	 * there is no match or the condition is empty and the request method is OPTIONS.
 	 */
 	@Override
 	@Nullable
@@ -130,10 +126,11 @@ public final class RequestMethodsRequestCondition extends AbstractRequestConditi
 		}
 
 		if (getMethods().isEmpty()) {
-			if (RequestMethod.OPTIONS.name().equals(request.getMethod()) &&
-					!DispatcherType.ERROR.equals(request.getDispatcherType())) {
+			if (RequestMethod.OPTIONS.name().equals(request.getMethod())
+					&& !DispatcherType.ERROR.equals(request.getDispatcherType())) {
 
-				return null; // We handle OPTIONS transparently, so don't match if no explicit declarations
+				return null; // We handle OPTIONS transparently, so don't match if no
+								// explicit declarations
 			}
 			return this;
 		}
@@ -142,9 +139,9 @@ public final class RequestMethodsRequestCondition extends AbstractRequestConditi
 	}
 
 	/**
-	 * On a pre-flight request match to the would-be, actual request.
-	 * Hence empty conditions is a match, otherwise try to match to the HTTP
-	 * method in the "Access-Control-Request-Method" header.
+	 * On a pre-flight request match to the would-be, actual request. Hence empty
+	 * conditions is a match, otherwise try to match to the HTTP method in the
+	 * "Access-Control-Request-Method" header.
 	 */
 	@Nullable
 	private RequestMethodsRequestCondition matchPreFlight(HttpServletRequest request) {
@@ -180,7 +177,8 @@ public final class RequestMethodsRequestCondition extends AbstractRequestConditi
 	 * <li>Less than 0 if "this" instance has an HTTP request method but "other" doesn't
 	 * <li>Greater than 0 "other" has an HTTP request method but "this" doesn't
 	 * </ul>
-	 * <p>It is assumed that both instances have been obtained via
+	 * <p>
+	 * It is assumed that both instances have been obtained via
 	 * {@link #getMatchingCondition(HttpServletRequest)} and therefore each instance
 	 * contains the matching HTTP request method only or is otherwise empty.
 	 */

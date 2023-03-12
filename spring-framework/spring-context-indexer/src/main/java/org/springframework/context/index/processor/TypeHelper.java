@@ -41,12 +41,10 @@ class TypeHelper {
 
 	private final Types types;
 
-
 	public TypeHelper(ProcessingEnvironment env) {
 		this.env = env;
 		this.types = env.getTypeUtils();
 	}
-
 
 	public String getType(Element element) {
 		return getType(element != null ? element.asType() : null);
@@ -87,7 +85,7 @@ class TypeHelper {
 	public Element getSuperClass(Element element) {
 		List<? extends TypeMirror> superTypes = this.types.directSupertypes(element.asType());
 		if (superTypes.isEmpty()) {
-			return null;  // reached java.lang.Object
+			return null; // reached java.lang.Object
 		}
 		return this.types.asElement(superTypes.get(0));
 	}

@@ -23,208 +23,702 @@ import javax.servlet.jsp.JspException;
 import org.springframework.lang.Nullable;
 
 /**
- * The {@code <input>} tag renders an HTML 'input' tag with type 'text' using
- * the bound value.
+ * The {@code <input>} tag renders an HTML 'input' tag with type 'text' using the bound
+ * value.
  *
  * <p>
  * <table>
- * <caption>Attribute Summary</caption>
- * <thead>
+ * <caption>Attribute Summary</caption> <thead>
  * <tr>
  * <th class="colFirst">Attribute</th>
  * <th class="colOne">Required?</th>
  * <th class="colOne">Runtime Expression?</th>
  * <th class="colLast">Description</th>
  * </tr>
- * </thead>
- * <tbody>
+ * </thead> <tbody>
  * <tr class="altColor">
- * <td><p>accesskey</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Standard Attribute</p></td>
+ * <td>
+ * <p>
+ * accesskey
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Standard Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>alt</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute</p></td>
+ * <td>
+ * <p>
+ * alt
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>autocomplete</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>Common Optional Attribute</p></td>
+ * <td>
+ * <p>
+ * autocomplete
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * Common Optional Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>cssClass</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute</p></td>
+ * <td>
+ * <p>
+ * cssClass
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>cssErrorClass</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute. Used when the bound field has errors.</p></td>
+ * <td>
+ * <p>
+ * cssErrorClass
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute. Used when the bound field has errors.
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>cssStyle</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute</p></td>
+ * <td>
+ * <p>
+ * cssStyle
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>dir</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Standard Attribute</p></td>
+ * <td>
+ * <p>
+ * dir
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Standard Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>disabled</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute. Setting the value of this attribute to
- * 'true' will disable the HTML element.</p></td>
+ * <td>
+ * <p>
+ * disabled
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute. Setting the value of this attribute to 'true' will disable the
+ * HTML element.
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>htmlEscape</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>Enable/disable HTML escaping of rendered values.</p></td>
+ * <td>
+ * <p>
+ * htmlEscape
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * Enable/disable HTML escaping of rendered values.
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>id</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Standard Attribute</p></td>
+ * <td>
+ * <p>
+ * id
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Standard Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>lang</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Standard Attribute</p></td>
+ * <td>
+ * <p>
+ * lang
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Standard Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>maxlength</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute</p></td>
+ * <td>
+ * <p>
+ * maxlength
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>onblur</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onblur
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>onchange</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onchange
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>onclick</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onclick
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>ondblclick</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * ondblclick
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>onfocus</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onfocus
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>onkeydown</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onkeydown
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>onkeypress</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onkeypress
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>onkeyup</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onkeyup
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>onmousedown</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onmousedown
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>onmousemove</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onmousemove
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>onmouseout</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onmouseout
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>onmouseover</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onmouseover
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>onmouseup</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onmouseup
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>onselect</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Event Attribute</p></td>
+ * <td>
+ * <p>
+ * onselect
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Event Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>path</p></td>
- * <td><p>true</p></td>
- * <td><p>true</p></td>
- * <td><p>Path to property for data binding</p></td>
+ * <td>
+ * <p>
+ * path
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * Path to property for data binding
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>readonly</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute. Setting the value of this attribute to
- * 'true' will make the HTML element readonly.</p></td>
+ * <td>
+ * <p>
+ * readonly
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute. Setting the value of this attribute to 'true' will make the
+ * HTML element readonly.
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>size</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Optional Attribute</p></td>
+ * <td>
+ * <p>
+ * size
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Optional Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="rowColor">
- * <td><p>tabindex</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Standard Attribute</p></td>
+ * <td>
+ * <p>
+ * tabindex
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Standard Attribute
+ * </p>
+ * </td>
  * </tr>
  * <tr class="altColor">
- * <td><p>title</p></td>
- * <td><p>false</p></td>
- * <td><p>true</p></td>
- * <td><p>HTML Standard Attribute</p></td>
+ * <td>
+ * <p>
+ * title
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * false
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * true
+ * </p>
+ * </td>
+ * <td>
+ * <p>
+ * HTML Standard Attribute
+ * </p>
+ * </td>
  * </tr>
  * </tbody>
  * </table>
@@ -247,7 +741,6 @@ public class InputTag extends AbstractHtmlInputElementTag {
 
 	public static final String AUTOCOMPLETE_ATTRIBUTE = "autocomplete";
 
-
 	@Nullable
 	private String size;
 
@@ -263,10 +756,8 @@ public class InputTag extends AbstractHtmlInputElementTag {
 	@Nullable
 	private String autocomplete;
 
-
 	/**
-	 * Set the value of the '{@code size}' attribute.
-	 * May be a runtime expression.
+	 * Set the value of the '{@code size}' attribute. May be a runtime expression.
 	 */
 	public void setSize(String size) {
 		this.size = size;
@@ -281,8 +772,7 @@ public class InputTag extends AbstractHtmlInputElementTag {
 	}
 
 	/**
-	 * Set the value of the '{@code maxlength}' attribute.
-	 * May be a runtime expression.
+	 * Set the value of the '{@code maxlength}' attribute. May be a runtime expression.
 	 */
 	public void setMaxlength(String maxlength) {
 		this.maxlength = maxlength;
@@ -297,8 +787,7 @@ public class InputTag extends AbstractHtmlInputElementTag {
 	}
 
 	/**
-	 * Set the value of the '{@code alt}' attribute.
-	 * May be a runtime expression.
+	 * Set the value of the '{@code alt}' attribute. May be a runtime expression.
 	 */
 	public void setAlt(String alt) {
 		this.alt = alt;
@@ -313,8 +802,7 @@ public class InputTag extends AbstractHtmlInputElementTag {
 	}
 
 	/**
-	 * Set the value of the '{@code onselect}' attribute.
-	 * May be a runtime expression.
+	 * Set the value of the '{@code onselect}' attribute. May be a runtime expression.
 	 */
 	public void setOnselect(String onselect) {
 		this.onselect = onselect;
@@ -329,8 +817,7 @@ public class InputTag extends AbstractHtmlInputElementTag {
 	}
 
 	/**
-	 * Set the value of the '{@code autocomplete}' attribute.
-	 * May be a runtime expression.
+	 * Set the value of the '{@code autocomplete}' attribute. May be a runtime expression.
 	 */
 	public void setAutocomplete(String autocomplete) {
 		this.autocomplete = autocomplete;
@@ -344,11 +831,10 @@ public class InputTag extends AbstractHtmlInputElementTag {
 		return this.autocomplete;
 	}
 
-
 	/**
-	 * Writes the '{@code input}' tag to the supplied {@link TagWriter}.
-	 * Uses the value returned by {@link #getType()} to determine which
-	 * type of '{@code input}' element to render.
+	 * Writes the '{@code input}' tag to the supplied {@link TagWriter}. Uses the value
+	 * returned by {@link #getType()} to determine which type of '{@code input}' element
+	 * to render.
 	 */
 	@Override
 	protected int writeTagContent(TagWriter tagWriter) throws JspException {
@@ -373,9 +859,9 @@ public class InputTag extends AbstractHtmlInputElementTag {
 	}
 
 	/**
-	 * Writes the '{@code value}' attribute to the supplied {@link TagWriter}.
-	 * Subclasses may choose to override this implementation to control exactly
-	 * when the value is written.
+	 * Writes the '{@code value}' attribute to the supplied {@link TagWriter}. Subclasses
+	 * may choose to override this implementation to control exactly when the value is
+	 * written.
 	 */
 	protected void writeValue(TagWriter tagWriter) throws JspException {
 		String value = getDisplayString(getBoundValue(), getPropertyEditor());
@@ -391,8 +877,8 @@ public class InputTag extends AbstractHtmlInputElementTag {
 	}
 
 	/**
-	 * Flags {@code type="checkbox"} and {@code type="radio"} as illegal
-	 * dynamic attributes.
+	 * Flags {@code type="checkbox"} and {@code type="radio"} as illegal dynamic
+	 * attributes.
 	 */
 	@Override
 	protected boolean isValidDynamicAttribute(String localName, Object value) {
@@ -400,9 +886,9 @@ public class InputTag extends AbstractHtmlInputElementTag {
 	}
 
 	/**
-	 * Get the value of the '{@code type}' attribute. Subclasses
-	 * can override this to change the type of '{@code input}' element
-	 * rendered. Default value is '{@code text}'.
+	 * Get the value of the '{@code type}' attribute. Subclasses can override this to
+	 * change the type of '{@code input}' element rendered. Default value is
+	 * '{@code text}'.
 	 */
 	protected String getType() {
 		return "text";

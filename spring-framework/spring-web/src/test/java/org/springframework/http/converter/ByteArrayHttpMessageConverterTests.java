@@ -27,7 +27,8 @@ import org.springframework.http.MockHttpOutputMessage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** @author Arjen Poutsma */
+/**
+ * @author Arjen Poutsma */
 public class ByteArrayHttpMessageConverterTests {
 
 	private ByteArrayHttpMessageConverter converter;
@@ -50,7 +51,7 @@ public class ByteArrayHttpMessageConverterTests {
 
 	@Test
 	public void read() throws IOException {
-		byte[] body = new byte[]{0x1, 0x2};
+		byte[] body = new byte[] { 0x1, 0x2 };
 		MockHttpInputMessage inputMessage = new MockHttpInputMessage(body);
 		inputMessage.getHeaders().setContentType(new MediaType("application", "octet-stream"));
 		byte[] result = converter.read(byte[].class, inputMessage);
@@ -60,10 +61,11 @@ public class ByteArrayHttpMessageConverterTests {
 	@Test
 	public void write() throws IOException {
 		MockHttpOutputMessage outputMessage = new MockHttpOutputMessage();
-		byte[] body = new byte[]{0x1, 0x2};
+		byte[] body = new byte[] { 0x1, 0x2 };
 		converter.write(body, null, outputMessage);
 		assertThat(outputMessage.getBodyAsBytes()).as("Invalid result").isEqualTo(body);
-		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type").isEqualTo(new MediaType("application", "octet-stream"));
+		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type")
+				.isEqualTo(new MediaType("application", "octet-stream"));
 		assertThat(outputMessage.getHeaders().getContentLength()).as("Invalid content-length").isEqualTo(2);
 	}
 

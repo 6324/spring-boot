@@ -22,8 +22,8 @@ import java.util.List;
 import org.springframework.util.CollectionUtils;
 
 /**
- * The HTTP accessor that extends the base {@link AsyncHttpAccessor} with
- * request intercepting functionality.
+ * The HTTP accessor that extends the base {@link AsyncHttpAccessor} with request
+ * intercepting functionality.
  *
  * @author Jakub Narloch
  * @author Rossen Stoyanchev
@@ -33,9 +33,7 @@ import org.springframework.util.CollectionUtils;
 @Deprecated
 public abstract class InterceptingAsyncHttpAccessor extends AsyncHttpAccessor {
 
-	private List<org.springframework.http.client.AsyncClientHttpRequestInterceptor> interceptors =
-			new ArrayList<>();
-
+	private List<org.springframework.http.client.AsyncClientHttpRequestInterceptor> interceptors = new ArrayList<>();
 
 	/**
 	 * Set the request interceptors that this accessor should use.
@@ -52,12 +50,12 @@ public abstract class InterceptingAsyncHttpAccessor extends AsyncHttpAccessor {
 		return this.interceptors;
 	}
 
-
 	@Override
 	public org.springframework.http.client.AsyncClientHttpRequestFactory getAsyncRequestFactory() {
 		org.springframework.http.client.AsyncClientHttpRequestFactory delegate = super.getAsyncRequestFactory();
 		if (!CollectionUtils.isEmpty(getInterceptors())) {
-			return new org.springframework.http.client.InterceptingAsyncClientHttpRequestFactory(delegate, getInterceptors());
+			return new org.springframework.http.client.InterceptingAsyncClientHttpRequestFactory(delegate,
+					getInterceptors());
 		}
 		else {
 			return delegate;

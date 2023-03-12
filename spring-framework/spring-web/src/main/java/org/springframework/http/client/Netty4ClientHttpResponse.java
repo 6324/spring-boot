@@ -48,7 +48,6 @@ class Netty4ClientHttpResponse extends AbstractClientHttpResponse {
 	@Nullable
 	private volatile HttpHeaders headers;
 
-
 	public Netty4ClientHttpResponse(ChannelHandlerContext context, FullHttpResponse nettyResponse) {
 		Assert.notNull(context, "ChannelHandlerContext must not be null");
 		Assert.notNull(nettyResponse, "FullHttpResponse must not be null");
@@ -57,7 +56,6 @@ class Netty4ClientHttpResponse extends AbstractClientHttpResponse {
 		this.body = new ByteBufInputStream(this.nettyResponse.content());
 		this.nettyResponse.retain();
 	}
-
 
 	@Override
 	public int getRawStatusCode() throws IOException {

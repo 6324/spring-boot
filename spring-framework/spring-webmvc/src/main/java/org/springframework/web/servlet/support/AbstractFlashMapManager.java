@@ -49,18 +49,17 @@ public abstract class AbstractFlashMapManager implements FlashMapManager {
 
 	private static final Object DEFAULT_FLASH_MAPS_MUTEX = new Object();
 
-
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	private int flashMapTimeout = 180;
 
 	private UrlPathHelper urlPathHelper = UrlPathHelper.defaultInstance;
 
-
 	/**
-	 * Set the amount of time in seconds after a {@link FlashMap} is saved
-	 * (at request completion) and before it expires.
-	 * <p>The default value is 180 seconds.
+	 * Set the amount of time in seconds after a {@link FlashMap} is saved (at request
+	 * completion) and before it expires.
+	 * <p>
+	 * The default value is 180 seconds.
 	 */
 	public void setFlashMapTimeout(int flashMapTimeout) {
 		this.flashMapTimeout = flashMapTimeout;
@@ -87,7 +86,6 @@ public abstract class AbstractFlashMapManager implements FlashMapManager {
 	public UrlPathHelper getUrlPathHelper() {
 		return this.urlPathHelper;
 	}
-
 
 	@Override
 	@Nullable
@@ -159,8 +157,8 @@ public abstract class AbstractFlashMapManager implements FlashMapManager {
 	}
 
 	/**
-	 * Whether the given FlashMap matches the current request.
-	 * Uses the expected request path and query parameters saved in the FlashMap.
+	 * Whether the given FlashMap matches the current request. Uses the expected request
+	 * path and query parameters saved in the FlashMap.
 	 */
 	protected boolean isFlashMapForRequest(FlashMap flashMap, HttpServletRequest request) {
 		String expectedPath = flashMap.getTargetRequestPath();
@@ -246,15 +244,16 @@ public abstract class AbstractFlashMapManager implements FlashMapManager {
 	 * @param request the current request
 	 * @param response the current response
 	 */
-	protected abstract void updateFlashMaps(
-			List<FlashMap> flashMaps, HttpServletRequest request, HttpServletResponse response);
+	protected abstract void updateFlashMaps(List<FlashMap> flashMaps, HttpServletRequest request,
+			HttpServletResponse response);
 
 	/**
 	 * Obtain a mutex for modifying the FlashMap List as handled by
 	 * {@link #retrieveFlashMaps} and {@link #updateFlashMaps},
-	 * <p>The default implementation returns a shared static mutex.
-	 * Subclasses are encouraged to return a more specific mutex, or
-	 * {@code null} to indicate that no synchronization is necessary.
+	 * <p>
+	 * The default implementation returns a shared static mutex. Subclasses are encouraged
+	 * to return a more specific mutex, or {@code null} to indicate that no
+	 * synchronization is necessary.
 	 * @param request the current request
 	 * @return the mutex to use (may be {@code null} if none applicable)
 	 * @since 4.0.3

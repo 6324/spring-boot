@@ -29,15 +29,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link ForwardedHeaderTransformer}.
+ *
  * @author Rossen Stoyanchev
  */
 public class ForwardedHeaderTransformerTests {
 
 	private static final String BASE_URL = "https://example.com/path";
 
-
 	private final ForwardedHeaderTransformer requestMutator = new ForwardedHeaderTransformer();
-
 
 	@Test
 	public void removeOnly() {
@@ -95,9 +94,7 @@ public class ForwardedHeaderTransformerTests {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("X-Forwarded-Prefix", "/prefix");
 		ServerHttpRequest request = MockServerHttpRequest
-				.method(HttpMethod.GET, new URI("https://example.com/a%20b?q=a%2Bb"))
-				.headers(headers)
-				.build();
+				.method(HttpMethod.GET, new URI("https://example.com/a%20b?q=a%2Bb")).headers(headers).build();
 
 		request = this.requestMutator.apply(request);
 
@@ -123,16 +120,13 @@ public class ForwardedHeaderTransformerTests {
 		headers.add("Forwarded", "host=84.198.58.199;proto=https");
 
 		ServerHttpRequest request = MockServerHttpRequest
-				.method(HttpMethod.GET, new URI("https://example.com/a%20b?q=a%2Bb"))
-				.headers(headers)
-				.build();
+				.method(HttpMethod.GET, new URI("https://example.com/a%20b?q=a%2Bb")).headers(headers).build();
 
 		request = this.requestMutator.apply(request);
 
 		assertThat(request.getURI()).isEqualTo(new URI("https://84.198.58.199/a%20b?q=a%2Bb"));
 		assertForwardedHeadersRemoved(request);
 	}
-
 
 	private MockServerHttpRequest getRequest(HttpHeaders headers) {
 		return MockServerHttpRequest.get(BASE_URL).headers(headers).build();

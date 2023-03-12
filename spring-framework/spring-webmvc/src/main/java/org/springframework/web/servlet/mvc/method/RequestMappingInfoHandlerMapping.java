@@ -49,8 +49,8 @@ import org.springframework.web.servlet.mvc.condition.ProducesRequestCondition;
 import org.springframework.web.util.WebUtils;
 
 /**
- * Abstract base class for classes for which {@link RequestMappingInfo} defines
- * the mapping between a request and a handler method.
+ * Abstract base class for classes for which {@link RequestMappingInfo} defines the
+ * mapping between a request and a handler method.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -70,11 +70,9 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 		}
 	}
 
-
 	protected RequestMappingInfoHandlerMapping() {
 		setHandlerMethodMappingNamingStrategy(new RequestMappingInfoHandlerMethodMappingNamingStrategy());
 	}
-
 
 	/**
 	 * Get the URL path patterns associated with the supplied {@link RequestMappingInfo}.
@@ -85,9 +83,9 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 	}
 
 	/**
-	 * Check if the given RequestMappingInfo matches the current request and
-	 * return a (potentially new) instance with conditions that match the
-	 * current request -- for example with a subset of URL patterns.
+	 * Check if the given RequestMappingInfo matches the current request and return a
+	 * (potentially new) instance with conditions that match the current request -- for
+	 * example with a subset of URL patterns.
 	 * @return an info in case of a match; or {@code null} otherwise.
 	 */
 	@Override
@@ -115,7 +113,8 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 	}
 
 	/**
-	 * Expose URI template variables, matrix variables, and producible media types in the request.
+	 * Expose URI template variables, matrix variables, and producible media types in the
+	 * request.
 	 * @see HandlerMapping#URI_TEMPLATE_VARIABLES_ATTRIBUTE
 	 * @see HandlerMapping#MATRIX_VARIABLES_ATTRIBUTE
 	 * @see HandlerMapping#PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE
@@ -157,8 +156,8 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 		return !getUrlPathHelper().shouldRemoveSemicolonContent();
 	}
 
-	private Map<String, MultiValueMap<String, String>> extractMatrixVariables(
-			HttpServletRequest request, Map<String, String> uriVariables) {
+	private Map<String, MultiValueMap<String, String>> extractMatrixVariables(HttpServletRequest request,
+			Map<String, String> uriVariables) {
 
 		Map<String, MultiValueMap<String, String>> result = new LinkedHashMap<>();
 		uriVariables.forEach((uriVarKey, uriVarValue) -> {
@@ -188,16 +187,16 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 	}
 
 	/**
-	 * Iterate all RequestMappingInfo's once again, look if any match by URL at
-	 * least and raise exceptions according to what doesn't match.
-	 * @throws HttpRequestMethodNotSupportedException if there are matches by URL
-	 * but not by HTTP method
-	 * @throws HttpMediaTypeNotAcceptableException if there are matches by URL
-	 * but not by consumable/producible media types
+	 * Iterate all RequestMappingInfo's once again, look if any match by URL at least and
+	 * raise exceptions according to what doesn't match.
+	 * @throws HttpRequestMethodNotSupportedException if there are matches by URL but not
+	 * by HTTP method
+	 * @throws HttpMediaTypeNotAcceptableException if there are matches by URL but not by
+	 * consumable/producible media types
 	 */
 	@Override
-	protected HandlerMethod handleNoMatch(
-			Set<RequestMappingInfo> infos, String lookupPath, HttpServletRequest request) throws ServletException {
+	protected HandlerMethod handleNoMatch(Set<RequestMappingInfo> infos, String lookupPath, HttpServletRequest request)
+			throws ServletException {
 
 		PartialMatchHelper helper = new PartialMatchHelper(infos, request);
 		if (helper.isEmpty()) {
@@ -239,7 +238,6 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 
 		return null;
 	}
-
 
 	/**
 	 * Aggregate all partial matches and expose methods checking across them.
@@ -325,8 +323,8 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 		}
 
 		/**
-		 * Return declared "consumable" types but only among those that also
-		 * match the "methods" condition.
+		 * Return declared "consumable" types but only among those that also match the
+		 * "methods" condition.
 		 */
 		public Set<MediaType> getConsumableMediaTypes() {
 			Set<MediaType> result = new LinkedHashSet<>();
@@ -339,8 +337,8 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 		}
 
 		/**
-		 * Return declared "producible" types but only among those that also
-		 * match the "methods" and "consumes" conditions.
+		 * Return declared "producible" types but only among those that also match the
+		 * "methods" and "consumes" conditions.
 		 */
 		public Set<MediaType> getProducibleMediaTypes() {
 			Set<MediaType> result = new LinkedHashSet<>();
@@ -353,8 +351,8 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 		}
 
 		/**
-		 * Return declared "params" conditions but only among those that also
-		 * match the "methods", "consumes", and "params" conditions.
+		 * Return declared "params" conditions but only among those that also match the
+		 * "methods", "consumes", and "params" conditions.
 		 */
 		public List<String[]> getParamConditions() {
 			List<String[]> result = new ArrayList<>();
@@ -373,7 +371,6 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 			}
 			return result;
 		}
-
 
 		/**
 		 * Container for a RequestMappingInfo that matches the URL path at least.
@@ -427,9 +424,10 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 			public String toString() {
 				return this.info.toString();
 			}
-		}
-	}
 
+		}
+
+	}
 
 	/**
 	 * Default handler for HTTP OPTIONS.
@@ -468,6 +466,7 @@ public abstract class RequestMappingInfoHandlerMapping extends AbstractHandlerMe
 		public HttpHeaders handle() {
 			return this.headers;
 		}
+
 	}
 
 }

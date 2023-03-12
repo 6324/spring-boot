@@ -32,14 +32,13 @@ import org.springframework.web.servlet.support.RequestContext;
 /**
  * Superclass for all tags that require a {@link RequestContext}.
  *
- * <p>The {@code RequestContext} instance provides easy access
- * to current state like the
- * {@link org.springframework.web.context.WebApplicationContext},
- * the {@link java.util.Locale}, the
- * {@link org.springframework.ui.context.Theme}, etc.
+ * <p>
+ * The {@code RequestContext} instance provides easy access to current state like the
+ * {@link org.springframework.web.context.WebApplicationContext}, the
+ * {@link java.util.Locale}, the {@link org.springframework.ui.context.Theme}, etc.
  *
- * <p>Mainly intended for
- * {@link org.springframework.web.servlet.DispatcherServlet} requests;
+ * <p>
+ * Mainly intended for {@link org.springframework.web.servlet.DispatcherServlet} requests;
  * will use fallbacks when used outside {@code DispatcherServlet}.
  *
  * @author Rod Johnson
@@ -51,24 +50,20 @@ import org.springframework.web.servlet.support.RequestContext;
 public abstract class RequestContextAwareTag extends TagSupport implements TryCatchFinally {
 
 	/**
-	 * {@link javax.servlet.jsp.PageContext} attribute for the
-	 * page-level {@link RequestContext} instance.
+	 * {@link javax.servlet.jsp.PageContext} attribute for the page-level
+	 * {@link RequestContext} instance.
 	 */
-	public static final String REQUEST_CONTEXT_PAGE_ATTRIBUTE =
-			"org.springframework.web.servlet.tags.REQUEST_CONTEXT";
-
+	public static final String REQUEST_CONTEXT_PAGE_ATTRIBUTE = "org.springframework.web.servlet.tags.REQUEST_CONTEXT";
 
 	/** Logger available to subclasses. */
 	protected final Log logger = LogFactory.getLog(getClass());
 
-
 	@Nullable
 	private RequestContext requestContext;
 
-
 	/**
-	 * Create and expose the current RequestContext.
-	 * Delegates to {@link #doStartTagInternal()} for actual work.
+	 * Create and expose the current RequestContext. Delegates to
+	 * {@link #doStartTagInternal()} for actual work.
 	 * @see #REQUEST_CONTEXT_PAGE_ATTRIBUTE
 	 * @see org.springframework.web.servlet.support.JspAwareRequestContext
 	 */
@@ -103,12 +98,11 @@ public abstract class RequestContextAwareTag extends TagSupport implements TryCa
 	/**
 	 * Called by doStartTag to perform the actual work.
 	 * @return same as TagSupport.doStartTag
-	 * @throws Exception any exception, any checked one other than
-	 * a JspException gets wrapped in a JspException by doStartTag
+	 * @throws Exception any exception, any checked one other than a JspException gets
+	 * wrapped in a JspException by doStartTag
 	 * @see javax.servlet.jsp.tagext.TagSupport#doStartTag
 	 */
 	protected abstract int doStartTagInternal() throws Exception;
-
 
 	@Override
 	public void doCatch(Throwable throwable) throws Throwable {

@@ -44,17 +44,14 @@ public class RelativeRedirectFilterTests {
 
 	private HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
 
-
 	@Test
 	public void sendRedirectHttpStatusWhenNullThenIllegalArgumentException() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.filter.setRedirectStatus(null));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.filter.setRedirectStatus(null));
 	}
 
 	@Test
 	public void sendRedirectHttpStatusWhenNot3xxThenIllegalArgumentException() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				this.filter.setRedirectStatus(HttpStatus.OK));
+		assertThatIllegalArgumentException().isThrownBy(() -> this.filter.setRedirectStatus(HttpStatus.OK));
 	}
 
 	@Test
@@ -100,7 +97,6 @@ public class RelativeRedirectFilterTests {
 		current = (HttpServletResponse) chain.getResponse();
 		assertThat(current).isSameAs(wrapped2);
 	}
-
 
 	private void sendRedirect(String location) throws Exception {
 		MockFilterChain chain = new MockFilterChain();

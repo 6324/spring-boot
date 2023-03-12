@@ -34,15 +34,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link ExceptionHandlingWebHandler}.
+ *
  * @author Rossen Stoyanchev
  */
 public class ExceptionHandlingWebHandlerTests {
 
 	private final WebHandler targetHandler = new StubWebHandler(new IllegalStateException("boo"));
 
-	private final ServerWebExchange exchange =
-			MockServerWebExchange.from(MockServerHttpRequest.get("http://localhost:8080"));
-
+	private final ServerWebExchange exchange = MockServerWebExchange
+			.from(MockServerHttpRequest.get("http://localhost:8080"));
 
 	@Test
 	public void handleErrorSignal() throws Exception {
@@ -52,11 +52,8 @@ public class ExceptionHandlingWebHandlerTests {
 
 	@Test
 	public void handleErrorSignalWithMultipleHttpErrorHandlers() throws Exception {
-		createWebHandler(
-				new UnresolvedExceptionHandler(),
-				new UnresolvedExceptionHandler(),
-				new BadRequestExceptionHandler(),
-				new UnresolvedExceptionHandler()).handle(this.exchange).block();
+		createWebHandler(new UnresolvedExceptionHandler(), new UnresolvedExceptionHandler(),
+				new BadRequestExceptionHandler(), new UnresolvedExceptionHandler()).handle(this.exchange).block();
 
 		assertThat(this.exchange.getResponse().getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 	}
@@ -89,13 +86,11 @@ public class ExceptionHandlingWebHandlerTests {
 		return new ExceptionHandlingWebHandler(this.targetHandler, Arrays.asList(handlers));
 	}
 
-
 	private static class StubWebHandler implements WebHandler {
 
 		private final RuntimeException exception;
 
 		private final boolean raise;
-
 
 		StubWebHandler(RuntimeException exception) {
 			this(exception, false);
@@ -113,6 +108,7 @@ public class ExceptionHandlingWebHandlerTests {
 			}
 			return Mono.error(this.exception);
 		}
+
 	}
 
 	private static class BadRequestExceptionHandler implements WebExceptionHandler {
@@ -122,6 +118,7 @@ public class ExceptionHandlingWebHandlerTests {
 			exchange.getResponse().setStatusCode(HttpStatus.BAD_REQUEST);
 			return Mono.empty();
 		}
+
 	}
 
 	/** Leave the exception unresolved. */
@@ -131,6 +128,7 @@ public class ExceptionHandlingWebHandlerTests {
 		public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
 			return Mono.error(ex);
 		}
+
 	}
 
 }

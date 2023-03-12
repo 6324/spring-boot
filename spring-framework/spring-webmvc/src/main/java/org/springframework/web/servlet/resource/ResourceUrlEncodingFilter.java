@@ -37,8 +37,8 @@ import org.springframework.web.util.UrlPathHelper;
 
 /**
  * A filter that wraps the {@link HttpServletResponse} and overrides its
- * {@link HttpServletResponse#encodeURL(String) encodeURL} method in order to
- * translate internal resource request URLs into public URL paths for external use.
+ * {@link HttpServletResponse#encodeURL(String) encodeURL} method in order to translate
+ * internal resource request URLs into public URL paths for external use.
  *
  * @author Jeremy Grelle
  * @author Rossen Stoyanchev
@@ -50,7 +50,6 @@ public class ResourceUrlEncodingFilter extends GenericFilterBean {
 
 	private static final Log logger = LogFactory.getLog(ResourceUrlEncodingFilter.class);
 
-
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
@@ -58,13 +57,12 @@ public class ResourceUrlEncodingFilter extends GenericFilterBean {
 		if (!(request instanceof HttpServletRequest) || !(response instanceof HttpServletResponse)) {
 			throw new ServletException("ResourceUrlEncodingFilter only supports HTTP requests");
 		}
-		ResourceUrlEncodingRequestWrapper wrappedRequest =
-				new ResourceUrlEncodingRequestWrapper((HttpServletRequest) request);
-		ResourceUrlEncodingResponseWrapper wrappedResponse =
-				new ResourceUrlEncodingResponseWrapper(wrappedRequest, (HttpServletResponse) response);
+		ResourceUrlEncodingRequestWrapper wrappedRequest = new ResourceUrlEncodingRequestWrapper(
+				(HttpServletRequest) request);
+		ResourceUrlEncodingResponseWrapper wrappedResponse = new ResourceUrlEncodingResponseWrapper(wrappedRequest,
+				(HttpServletResponse) response);
 		filterChain.doFilter(wrappedRequest, wrappedResponse);
 	}
-
 
 	private static class ResourceUrlEncodingRequestWrapper extends HttpServletRequestWrapper {
 
@@ -114,8 +112,8 @@ public class ResourceUrlEncodingFilter extends GenericFilterBean {
 		@Nullable
 		public String resolveUrlPath(String url) {
 			if (this.resourceUrlProvider == null) {
-				logger.trace("ResourceUrlProvider not available via request attribute " +
-						ResourceUrlProviderExposingInterceptor.RESOURCE_URL_PROVIDER_ATTR);
+				logger.trace("ResourceUrlProvider not available via request attribute "
+						+ ResourceUrlProviderExposingInterceptor.RESOURCE_URL_PROVIDER_ATTR);
 				return null;
 			}
 			if (this.indexLookupPath != null && url.startsWith(this.prefixLookupPath)) {
@@ -141,8 +139,8 @@ public class ResourceUrlEncodingFilter extends GenericFilterBean {
 			}
 			return end;
 		}
-	}
 
+	}
 
 	private static class ResourceUrlEncodingResponseWrapper extends HttpServletResponseWrapper {
 
@@ -161,21 +159,22 @@ public class ResourceUrlEncodingFilter extends GenericFilterBean {
 			}
 			return super.encodeURL(url);
 		}
-	}
 
+	}
 
 	/**
 	 * Runtime exception to get far enough (to ResourceUrlProviderExposingInterceptor)
-	 * where it can be re-thrown as ServletRequestBindingException to result in
-	 * a 400 response.
+	 * where it can be re-thrown as ServletRequestBindingException to result in a 400
+	 * response.
 	 */
 	@SuppressWarnings("serial")
 	static class LookupPathIndexException extends IllegalArgumentException {
 
 		LookupPathIndexException(String lookupPath, String requestUri) {
-			super("Failed to find lookupPath '" + lookupPath + "' within requestUri '" + requestUri + "'. " +
-					"This could be because the path has invalid encoded characters or isn't normalized.");
+			super("Failed to find lookupPath '" + lookupPath + "' within requestUri '" + requestUri + "'. "
+					+ "This could be because the path has invalid encoded characters or isn't normalized.");
 		}
+
 	}
 
 }

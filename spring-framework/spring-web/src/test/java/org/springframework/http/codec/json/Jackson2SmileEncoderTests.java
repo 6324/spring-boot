@@ -49,6 +49,7 @@ import static org.springframework.http.MediaType.APPLICATION_XML;
 public class Jackson2SmileEncoderTests extends AbstractEncoderTests<Jackson2SmileEncoder> {
 
 	private final static MimeType SMILE_MIME_TYPE = new MimeType("application", "x-jackson-smile");
+
 	private final static MimeType STREAM_SMILE_MIME_TYPE = new MimeType("application", "stream+x-jackson-smile");
 
 	private final Jackson2SmileEncoder encoder = new Jackson2SmileEncoder();
@@ -84,36 +85,30 @@ public class Jackson2SmileEncoderTests extends AbstractEncoderTests<Jackson2Smil
 	@Override
 	@Test
 	public void encode() {
-		List<Pojo> list = Arrays.asList(
-				new Pojo("foo", "bar"),
-				new Pojo("foofoo", "barbar"),
+		List<Pojo> list = Arrays.asList(new Pojo("foo", "bar"), new Pojo("foofoo", "barbar"),
 				new Pojo("foofoofoo", "barbarbar"));
 
 		Flux<Pojo> input = Flux.fromIterable(list);
 
-		testEncode(input, Pojo.class, step -> step
-				.consumeNextWith(dataBuffer -> {
-					try {
-						Object actual = this.mapper.reader().forType(List.class)
-								.readValue(dataBuffer.asInputStream());
-						assertThat(actual).isEqualTo(list);
-					}
-					catch (IOException e) {
-						throw new UncheckedIOException(e);
-					}
-					finally {
-						release(dataBuffer);
-					}
-				}));
+		testEncode(input, Pojo.class, step -> step.consumeNextWith(dataBuffer -> {
+			try {
+				Object actual = this.mapper.reader().forType(List.class).readValue(dataBuffer.asInputStream());
+				assertThat(actual).isEqualTo(list);
+			}
+			catch (IOException e) {
+				throw new UncheckedIOException(e);
+			}
+			finally {
+				release(dataBuffer);
+			}
+		}));
 	}
 
 	@Test
 	public void encodeError() throws Exception {
 		Mono<Pojo> input = Mono.error(new InputException());
 
-		testEncode(input, Pojo.class, step -> step
-				.expectError(InputException.class)
-				.verify());
+		testEncode(input, Pojo.class, step -> step.expectError(InputException.class).verify());
 
 	}
 
@@ -125,21 +120,18 @@ public class Jackson2SmileEncoderTests extends AbstractEncoderTests<Jackson2Smil
 		Flux<Pojo> input = Flux.just(pojo1, pojo2, pojo3);
 		ResolvableType type = ResolvableType.forClass(Pojo.class);
 
-		Flux<DataBuffer> result = this.encoder
-				.encode(input, bufferFactory, type, STREAM_SMILE_MIME_TYPE, null);
+		Flux<DataBuffer> result = this.encoder.encode(input, bufferFactory, type, STREAM_SMILE_MIME_TYPE, null);
 
-		Mono<MappingIterator<Pojo>> joined = DataBufferUtils.join(result)
-				.map(buffer -> {
-					try {
-						return this.mapper.reader().forType(Pojo.class).readValues(buffer.asInputStream(true));
-					}
-					catch (IOException ex) {
-						throw new UncheckedIOException(ex);
-					}
-				});
+		Mono<MappingIterator<Pojo>> joined = DataBufferUtils.join(result).map(buffer -> {
+			try {
+				return this.mapper.reader().forType(Pojo.class).readValues(buffer.asInputStream(true));
+			}
+			catch (IOException ex) {
+				throw new UncheckedIOException(ex);
+			}
+		});
 
-		StepVerifier.create(joined)
-				.assertNext(iter -> assertThat(iter).toIterable().contains(pojo1, pojo2, pojo3))
+		StepVerifier.create(joined).assertNext(iter -> assertThat(iter).toIterable().contains(pojo1, pojo2, pojo3))
 				.verifyComplete();
 	}
 

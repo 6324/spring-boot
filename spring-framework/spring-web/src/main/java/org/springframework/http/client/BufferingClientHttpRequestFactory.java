@@ -22,10 +22,11 @@ import java.net.URI;
 import org.springframework.http.HttpMethod;
 
 /**
- * Wrapper for a {@link ClientHttpRequestFactory} that buffers
- * all outgoing and incoming streams in memory.
+ * Wrapper for a {@link ClientHttpRequestFactory} that buffers all outgoing and incoming
+ * streams in memory.
  *
- * <p>Using this wrapper allows for multiple reads of the
+ * <p>
+ * Using this wrapper allows for multiple reads of the
  * {@linkplain ClientHttpResponse#getBody() response body}.
  *
  * @author Arjen Poutsma
@@ -41,7 +42,6 @@ public class BufferingClientHttpRequestFactory extends AbstractClientHttpRequest
 		super(requestFactory);
 	}
 
-
 	@Override
 	protected ClientHttpRequest createRequest(URI uri, HttpMethod httpMethod, ClientHttpRequestFactory requestFactory)
 			throws IOException {
@@ -56,9 +56,10 @@ public class BufferingClientHttpRequestFactory extends AbstractClientHttpRequest
 	}
 
 	/**
-	 * Indicates whether the request/response exchange for the given URI and method
-	 * should be buffered in memory.
-	 * <p>The default implementation returns {@code true} for all URIs and methods.
+	 * Indicates whether the request/response exchange for the given URI and method should
+	 * be buffered in memory.
+	 * <p>
+	 * The default implementation returns {@code true} for all URIs and methods.
 	 * Subclasses can override this method to change this behavior.
 	 * @param uri the URI
 	 * @param httpMethod the method

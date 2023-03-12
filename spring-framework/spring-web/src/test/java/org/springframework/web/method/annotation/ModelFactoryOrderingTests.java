@@ -64,7 +64,6 @@ public class ModelFactoryOrderingTests {
 
 	private SessionAttributeStore sessionAttributeStore;
 
-
 	@BeforeEach
 	public void setup() {
 		this.sessionAttributeStore = new DefaultSessionAttributeStore();
@@ -108,7 +107,8 @@ public class ModelFactoryOrderingTests {
 		runTest(new UnresolvedDependencyController());
 		assertInvokedBefore("getA", "getC1", "getC2", "getC3", "getC4");
 
-		// No other order guarantees for methods with unresolvable dependencies (and methods that depend on them),
+		// No other order guarantees for methods with unresolvable dependencies (and
+		// methods that depend on them),
 		// Required dependencies will be created via default constructor.
 	}
 
@@ -144,8 +144,9 @@ public class ModelFactoryOrderingTests {
 	private void assertInvokedBefore(String beforeMethod, String... afterMethods) {
 		List<String> actual = getInvokedMethods();
 		for (String afterMethod : afterMethods) {
-			assertThat(actual.indexOf(beforeMethod) < actual.indexOf(afterMethod)).as(beforeMethod + " should be before " + afterMethod + ". Actual order: " +
-						actual.toString()).isTrue();
+			assertThat(actual.indexOf(beforeMethod) < actual.indexOf(afterMethod))
+					.as(beforeMethod + " should be before " + afterMethod + ". Actual order: " + actual.toString())
+					.isTrue();
 		}
 	}
 
@@ -153,7 +154,6 @@ public class ModelFactoryOrderingTests {
 	private List<String> getInvokedMethods() {
 		return (List<String>) this.mavContainer.getModel().get("methods");
 	}
-
 
 	private static class AbstractController {
 
@@ -166,6 +166,7 @@ public class ModelFactoryOrderingTests {
 			((List<String>) model.asMap().get("methods")).add(methodName);
 			return returnValue;
 		}
+
 	}
 
 	private static class StraightLineDependencyController extends AbstractController {
@@ -190,7 +191,6 @@ public class ModelFactoryOrderingTests {
 			return updateAndReturn(model, "getC1", new C1());
 		}
 
-
 		@ModelAttribute
 		public C2 getC2(@ModelAttribute C1 c1, Model model) throws IOException {
 			return updateAndReturn(model, "getC2", new C2());
@@ -205,6 +205,7 @@ public class ModelFactoryOrderingTests {
 		public C4 getC4(@ModelAttribute C3 c3, Model model) throws IOException {
 			return updateAndReturn(model, "getC4", new C4());
 		}
+
 	}
 
 	private static class TreeDependencyController extends AbstractController {
@@ -243,6 +244,7 @@ public class ModelFactoryOrderingTests {
 		public C4 getC4(@ModelAttribute B2 b2, Model model) throws IOException {
 			return updateAndReturn(model, "getC4", new C4());
 		}
+
 	}
 
 	private static class InvertedTreeDependencyController extends AbstractController {
@@ -310,23 +312,43 @@ public class ModelFactoryOrderingTests {
 		public C4 getC4(@ModelAttribute B2 b2, Model model) throws IOException {
 			return updateAndReturn(model, "getC4", new C4());
 		}
+
 	}
 
-	private static class A { }
-	private static class B1 { }
-	private static class B2 { }
-	private static class C1 { }
-	private static class C2 { }
-	private static class C3 { }
-	private static class C4 { }
+	private static class A {
 
+	}
+
+	private static class B1 {
+
+	}
+
+	private static class B2 {
+
+	}
+
+	private static class C1 {
+
+	}
+
+	private static class C2 {
+
+	}
+
+	private static class C3 {
+
+	}
+
+	private static class C4 {
+
+	}
 
 	private static final ReflectionUtils.MethodFilter METHOD_FILTER = new ReflectionUtils.MethodFilter() {
 
 		@Override
 		public boolean matches(Method method) {
-			return ((AnnotationUtils.findAnnotation(method, RequestMapping.class) == null) &&
-					(AnnotationUtils.findAnnotation(method, ModelAttribute.class) != null));
+			return ((AnnotationUtils.findAnnotation(method, RequestMapping.class) == null)
+					&& (AnnotationUtils.findAnnotation(method, ModelAttribute.class) != null));
 		}
 	};
 

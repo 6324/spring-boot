@@ -30,10 +30,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StreamUtils;
 
 /**
- * {@link ClientHttpResponse} implementation based on
- * Apache HttpComponents HttpClient.
+ * {@link ClientHttpResponse} implementation based on Apache HttpComponents HttpClient.
  *
- * <p>Created via the {@link HttpComponentsClientHttpRequest}.
+ * <p>
+ * Created via the {@link HttpComponentsClientHttpRequest}.
  *
  * @author Oleg Kalnichevski
  * @author Arjen Poutsma
@@ -47,11 +47,9 @@ final class HttpComponentsClientHttpResponse extends AbstractClientHttpResponse 
 	@Nullable
 	private HttpHeaders headers;
 
-
 	HttpComponentsClientHttpResponse(HttpResponse httpResponse) {
 		this.httpResponse = httpResponse;
 	}
-
 
 	@Override
 	public int getRawStatusCode() throws IOException {

@@ -39,10 +39,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SimpleMappingExceptionResolverTests {
 
 	private SimpleMappingExceptionResolver exceptionResolver;
+
 	private MockHttpServletRequest request;
+
 	private MockHttpServletResponse response;
+
 	private Object handler1;
+
 	private Object handler2;
+
 	private Exception genericException;
 
 	@BeforeEach
@@ -67,7 +72,8 @@ public class SimpleMappingExceptionResolverTests {
 		exceptionResolver.setDefaultErrorView("default-view");
 		ModelAndView mav = exceptionResolver.resolveException(request, response, handler1, genericException);
 		assertThat(mav.getViewName()).isEqualTo("default-view");
-		assertThat(mav.getModel().get(SimpleMappingExceptionResolver.DEFAULT_EXCEPTION_ATTRIBUTE)).isEqualTo(genericException);
+		assertThat(mav.getModel().get(SimpleMappingExceptionResolver.DEFAULT_EXCEPTION_ATTRIBUTE))
+				.isEqualTo(genericException);
 	}
 
 	@Test
@@ -204,7 +210,8 @@ public class SimpleMappingExceptionResolverTests {
 		props.setProperty("Exception", "error");
 		exceptionResolver.setExceptionMappings(props);
 		exceptionResolver.setExcludedExceptions(IllegalArgumentException.class);
-		ModelAndView mav = exceptionResolver.resolveException(request, response, handler1, new IllegalArgumentException());
+		ModelAndView mav = exceptionResolver.resolveException(request, response, handler1,
+				new IllegalArgumentException());
 		assertThat(mav).isNull();
 	}
 
@@ -277,12 +284,10 @@ public class SimpleMappingExceptionResolverTests {
 		assertThat(mav.getViewName()).isEqualTo("another-some-error");
 	}
 
-
 	@SuppressWarnings("serial")
 	private static class SomeOddException extends Exception {
 
 	}
-
 
 	@SuppressWarnings("serial")
 	private static class AnotherOddException extends Exception {

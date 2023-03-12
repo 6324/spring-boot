@@ -35,12 +35,14 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 
 /**
- * Abstract base class for {@link org.springframework.http.converter.HttpMessageConverter HttpMessageConverters}
- * that convert from/to XML.
+ * Abstract base class for {@link org.springframework.http.converter.HttpMessageConverter
+ * HttpMessageConverters} that convert from/to XML.
  *
- * <p>By default, subclasses of this converter support {@code text/xml}, {@code application/xml}, and {@code
- * application/*-xml}. This can be overridden by setting the {@link #setSupportedMediaTypes(java.util.List)
- * supportedMediaTypes} property.
+ * <p>
+ * By default, subclasses of this converter support {@code text/xml},
+ * {@code application/xml}, and {@code
+ * application/*-xml}. This can be overridden by setting the
+ * {@link #setSupportedMediaTypes(java.util.List) supportedMediaTypes} property.
  *
  * @author Arjen Poutsma
  * @author Juergen Hoeller
@@ -51,15 +53,14 @@ public abstract class AbstractXmlHttpMessageConverter<T> extends AbstractHttpMes
 
 	private final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 
-
 	/**
-	 * Protected constructor that sets the {@link #setSupportedMediaTypes(java.util.List) supportedMediaTypes}
-	 * to {@code text/xml} and {@code application/xml}, and {@code application/*-xml}.
+	 * Protected constructor that sets the {@link #setSupportedMediaTypes(java.util.List)
+	 * supportedMediaTypes} to {@code text/xml} and {@code application/xml}, and
+	 * {@code application/*-xml}.
 	 */
 	protected AbstractXmlHttpMessageConverter() {
 		super(MediaType.APPLICATION_XML, MediaType.TEXT_XML, new MediaType("application", "*+xml"));
 	}
-
 
 	@Override
 	public final T readInternal(Class<? extends T> clazz, HttpInputMessage inputMessage)
@@ -72,8 +73,8 @@ public abstract class AbstractXmlHttpMessageConverter<T> extends AbstractHttpMes
 			throw ex;
 		}
 		catch (Exception ex) {
-			throw new HttpMessageNotReadableException("Could not unmarshal to [" + clazz + "]: " + ex.getMessage(),
-					ex, inputMessage);
+			throw new HttpMessageNotReadableException("Could not unmarshal to [" + clazz + "]: " + ex.getMessage(), ex,
+					inputMessage);
 		}
 	}
 
@@ -102,7 +103,6 @@ public abstract class AbstractXmlHttpMessageConverter<T> extends AbstractHttpMes
 		this.transformerFactory.newTransformer().transform(source, result);
 	}
 
-
 	/**
 	 * Abstract template method called from {@link #read(Class, HttpInputMessage)}.
 	 * @param clazz the type of object to return
@@ -114,7 +114,8 @@ public abstract class AbstractXmlHttpMessageConverter<T> extends AbstractHttpMes
 	protected abstract T readFromSource(Class<? extends T> clazz, HttpHeaders headers, Source source) throws Exception;
 
 	/**
-	 * Abstract template method called from {@link #writeInternal(Object, HttpOutputMessage)}.
+	 * Abstract template method called from
+	 * {@link #writeInternal(Object, HttpOutputMessage)}.
 	 * @param t the object to write to the output message
 	 * @param headers the HTTP output headers
 	 * @param result the HTTP output body

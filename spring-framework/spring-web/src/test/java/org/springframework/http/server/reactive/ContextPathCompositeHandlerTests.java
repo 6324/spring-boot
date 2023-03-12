@@ -48,9 +48,9 @@ public class ContextPathCompositeHandlerTests {
 	}
 
 	private void testInvalid(String contextPath, String expectedError) {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new ContextPathCompositeHandler(Collections.singletonMap(contextPath, new TestHttpHandler())))
-			.withMessage(expectedError);
+		assertThatIllegalArgumentException().isThrownBy(
+				() -> new ContextPathCompositeHandler(Collections.singletonMap(contextPath, new TestHttpHandler())))
+				.withMessage(expectedError);
 	}
 
 	@Test
@@ -89,9 +89,10 @@ public class ContextPathCompositeHandlerTests {
 
 	@Test
 	public void matchWithNativeContextPath() {
-		MockServerHttpRequest request = MockServerHttpRequest
-				.get("/yet/another/path")
-				.contextPath("/yet")  // contextPath in underlying request
+		MockServerHttpRequest request = MockServerHttpRequest.get("/yet/another/path").contextPath("/yet") // contextPath
+																											// in
+																											// underlying
+																											// request
 				.build();
 
 		TestHttpHandler handler = new TestHttpHandler();
@@ -140,7 +141,6 @@ public class ContextPathCompositeHandlerTests {
 		assertThat(commitInvoked.get()).isTrue();
 	}
 
-
 	private ServerHttpResponse testHandle(String pathToHandle, Map<String, HttpHandler> handlerMap) {
 		ServerHttpRequest request = MockServerHttpRequest.get(pathToHandle).build();
 		ServerHttpResponse response = new MockServerHttpResponse();
@@ -156,7 +156,6 @@ public class ContextPathCompositeHandlerTests {
 	private void assertNotInvoked(TestHttpHandler... handlers) {
 		Arrays.stream(handlers).forEach(handler -> assertThat(handler.wasInvoked()).isFalse());
 	}
-
 
 	@SuppressWarnings("WeakerAccess")
 	private static class TestHttpHandler implements HttpHandler {
@@ -176,6 +175,7 @@ public class ContextPathCompositeHandlerTests {
 			this.request = request;
 			return Mono.empty();
 		}
+
 	}
 
 }

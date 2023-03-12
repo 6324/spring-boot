@@ -49,7 +49,6 @@ public class CglibProxyControllerTests {
 
 	private DispatcherServlet servlet;
 
-
 	@Test
 	public void typeLevel() throws Exception {
 		initServlet(TypeLevelImpl.class);
@@ -80,7 +79,6 @@ public class CglibProxyControllerTests {
 		assertThat(response.getContentAsString()).isEqualTo("doIt");
 	}
 
-
 	@SuppressWarnings("serial")
 	private void initServlet(final Class<?> controllerClass) throws ServletException {
 		servlet = new DispatcherServlet() {
@@ -102,7 +100,6 @@ public class CglibProxyControllerTests {
 		servlet.init(new MockServletConfig());
 	}
 
-
 	@Controller
 	@RequestMapping("/test")
 	public static class TypeLevelImpl {
@@ -111,8 +108,8 @@ public class CglibProxyControllerTests {
 		public void doIt(Writer writer) throws IOException {
 			writer.write("doIt");
 		}
-	}
 
+	}
 
 	@Controller
 	public static class MethodLevelImpl {
@@ -121,8 +118,8 @@ public class CglibProxyControllerTests {
 		public void doIt(Writer writer) throws IOException {
 			writer.write("doIt");
 		}
-	}
 
+	}
 
 	@Controller
 	@RequestMapping("/hotels")
@@ -132,6 +129,7 @@ public class CglibProxyControllerTests {
 		public void doIt(Writer writer) throws IOException {
 			writer.write("doIt");
 		}
+
 	}
 
 }

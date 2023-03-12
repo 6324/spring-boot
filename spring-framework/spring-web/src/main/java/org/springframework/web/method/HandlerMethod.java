@@ -44,14 +44,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * Encapsulates information about a handler method consisting of a
- * {@linkplain #getMethod() method} and a {@linkplain #getBean() bean}.
- * Provides convenient access to method parameters, the method return value,
- * method annotations, etc.
+ * {@linkplain #getMethod() method} and a {@linkplain #getBean() bean}. Provides
+ * convenient access to method parameters, the method return value, method annotations,
+ * etc.
  *
- * <p>The class may be created with a bean instance or with a bean name
- * (e.g. lazy-init bean, prototype bean). Use {@link #createWithResolvedBean()}
- * to obtain a {@code HandlerMethod} instance with a bean instance resolved
- * through the associated {@link BeanFactory}.
+ * <p>
+ * The class may be created with a bean instance or with a bean name (e.g. lazy-init bean,
+ * prototype bean). Use {@link #createWithResolvedBean()} to obtain a
+ * {@code HandlerMethod} instance with a bean instance resolved through the associated
+ * {@link BeanFactory}.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -91,7 +92,6 @@ public class HandlerMethod {
 
 	private final String description;
 
-
 	/**
 	 * Create an instance from a bean instance and a method.
 	 */
@@ -126,9 +126,9 @@ public class HandlerMethod {
 	}
 
 	/**
-	 * Create an instance from a bean name, a method, and a {@code BeanFactory}.
-	 * The method {@link #createWithResolvedBean()} may be used later to
-	 * re-create the {@code HandlerMethod} with an initialized bean.
+	 * Create an instance from a bean name, a method, and a {@code BeanFactory}. The
+	 * method {@link #createWithResolvedBean()} may be used later to re-create the
+	 * {@code HandlerMethod} with an initialized bean.
 	 */
 	public HandlerMethod(String beanName, BeanFactory beanFactory, Method method) {
 		Assert.hasText(beanName, "Bean name is required");
@@ -211,7 +211,6 @@ public class HandlerMethod {
 		return beanType.getName() + "#" + method.getName() + joiner.toString();
 	}
 
-
 	/**
 	 * Return the bean for this handler method.
 	 */
@@ -228,8 +227,9 @@ public class HandlerMethod {
 
 	/**
 	 * This method returns the type of the handler for this handler method.
-	 * <p>Note that if the bean type is a CGLIB-generated class, the original
-	 * user-defined class is returned.
+	 * <p>
+	 * Note that if the bean type is a CGLIB-generated class, the original user-defined
+	 * class is returned.
 	 */
 	public Class<?> getBeanType() {
 		return this.beanType;
@@ -237,7 +237,8 @@ public class HandlerMethod {
 
 	/**
 	 * If the bean method is a bridge method, this method returns the bridged
-	 * (user-defined) method. Otherwise it returns the same method as {@link #getMethod()}.
+	 * (user-defined) method. Otherwise it returns the same method as
+	 * {@link #getMethod()}.
 	 */
 	protected Method getBridgedMethod() {
 		return this.bridgedMethod;
@@ -292,10 +293,11 @@ public class HandlerMethod {
 	}
 
 	/**
-	 * Return a single annotation on the underlying method traversing its super methods
-	 * if no annotation can be found on the given method itself.
-	 * <p>Also supports <em>merged</em> composed annotations with attribute
-	 * overrides as of Spring Framework 4.2.2.
+	 * Return a single annotation on the underlying method traversing its super methods if
+	 * no annotation can be found on the given method itself.
+	 * <p>
+	 * Also supports <em>merged</em> composed annotations with attribute overrides as of
+	 * Spring Framework 4.2.2.
 	 * @param annotationType the type of annotation to introspect the method for
 	 * @return the annotation, or {@code null} if none found
 	 * @see AnnotatedElementUtils#findMergedAnnotation
@@ -316,8 +318,8 @@ public class HandlerMethod {
 	}
 
 	/**
-	 * Return the HandlerMethod from which this HandlerMethod instance was
-	 * resolved via {@link #createWithResolvedBean()}.
+	 * Return the HandlerMethod from which this HandlerMethod instance was resolved via
+	 * {@link #createWithResolvedBean()}.
 	 */
 	@Nullable
 	public HandlerMethod getResolvedFromHandlerMethod() {
@@ -325,8 +327,8 @@ public class HandlerMethod {
 	}
 
 	/**
-	 * If the provided instance contains a bean name rather than an object instance,
-	 * the bean name is resolved before a {@link HandlerMethod} is created and returned.
+	 * If the provided instance contains a bean name rather than an object instance, the
+	 * bean name is resolved before a {@link HandlerMethod} is created and returned.
 	 */
 	public HandlerMethod createWithResolvedBean() {
 		Object handler = this.bean;
@@ -343,10 +345,8 @@ public class HandlerMethod {
 	 * @since 4.3
 	 */
 	public String getShortLogMessage() {
-		return getBeanType().getName() + "#" + this.method.getName() +
-				"[" + this.method.getParameterCount() + " args]";
+		return getBeanType().getName() + "#" + this.method.getName() + "[" + this.method.getParameterCount() + " args]";
 	}
-
 
 	private List<Annotation[][]> getInterfaceParameterAnnotations() {
 		List<Annotation[][]> parameterAnnotations = this.interfaceParameterAnnotations;
@@ -365,8 +365,8 @@ public class HandlerMethod {
 	}
 
 	private boolean isOverrideFor(Method candidate) {
-		if (!candidate.getName().equals(this.method.getName()) ||
-				candidate.getParameterCount() != this.method.getParameterCount()) {
+		if (!candidate.getName().equals(this.method.getName())
+				|| candidate.getParameterCount() != this.method.getParameterCount()) {
 			return false;
 		}
 		Class<?>[] paramTypes = this.method.getParameterTypes();
@@ -374,14 +374,13 @@ public class HandlerMethod {
 			return true;
 		}
 		for (int i = 0; i < paramTypes.length; i++) {
-			if (paramTypes[i] !=
-					ResolvableType.forMethodParameter(candidate, i, this.method.getDeclaringClass()).resolve()) {
+			if (paramTypes[i] != ResolvableType.forMethodParameter(candidate, i, this.method.getDeclaringClass())
+					.resolve()) {
 				return false;
 			}
 		}
 		return true;
 	}
-
 
 	@Override
 	public boolean equals(@Nullable Object other) {
@@ -405,7 +404,6 @@ public class HandlerMethod {
 		return this.description;
 	}
 
-
 	// Support methods for use in "InvocableHandlerMethod" sub-class variants..
 
 	@Nullable
@@ -421,41 +419,38 @@ public class HandlerMethod {
 	}
 
 	protected static String formatArgumentError(MethodParameter param, String message) {
-		return "Could not resolve parameter [" + param.getParameterIndex() + "] in " +
-				param.getExecutable().toGenericString() + (StringUtils.hasText(message) ? ": " + message : "");
+		return "Could not resolve parameter [" + param.getParameterIndex() + "] in "
+				+ param.getExecutable().toGenericString() + (StringUtils.hasText(message) ? ": " + message : "");
 	}
 
 	/**
 	 * Assert that the target bean class is an instance of the class where the given
 	 * method is declared. In some cases the actual controller instance at request-
-	 * processing time may be a JDK dynamic proxy (lazy initialization, prototype
-	 * beans, and others). {@code @Controller}'s that require proxying should prefer
-	 * class-based proxy mechanisms.
+	 * processing time may be a JDK dynamic proxy (lazy initialization, prototype beans,
+	 * and others). {@code @Controller}'s that require proxying should prefer class-based
+	 * proxy mechanisms.
 	 */
 	protected void assertTargetBean(Method method, Object targetBean, Object[] args) {
 		Class<?> methodDeclaringClass = method.getDeclaringClass();
 		Class<?> targetBeanClass = targetBean.getClass();
 		if (!methodDeclaringClass.isAssignableFrom(targetBeanClass)) {
-			String text = "The mapped handler method class '" + methodDeclaringClass.getName() +
-					"' is not an instance of the actual controller bean class '" +
-					targetBeanClass.getName() + "'. If the controller requires proxying " +
-					"(e.g. due to @Transactional), please use class-based proxying.";
+			String text = "The mapped handler method class '" + methodDeclaringClass.getName()
+					+ "' is not an instance of the actual controller bean class '" + targetBeanClass.getName()
+					+ "'. If the controller requires proxying "
+					+ "(e.g. due to @Transactional), please use class-based proxying.";
 			throw new IllegalStateException(formatInvokeError(text, args));
 		}
 	}
 
 	protected String formatInvokeError(String text, Object[] args) {
 		String formattedArgs = IntStream.range(0, args.length)
-				.mapToObj(i -> (args[i] != null ?
-						"[" + i + "] [type=" + args[i].getClass().getName() + "] [value=" + args[i] + "]" :
-						"[" + i + "] [null]"))
+				.mapToObj(i -> (args[i] != null
+						? "[" + i + "] [type=" + args[i].getClass().getName() + "] [value=" + args[i] + "]"
+						: "[" + i + "] [null]"))
 				.collect(Collectors.joining(",\n", " ", " "));
-		return text + "\n" +
-				"Controller [" + getBeanType().getName() + "]\n" +
-				"Method [" + getBridgedMethod().toGenericString() + "] " +
-				"with argument values:\n" + formattedArgs;
+		return text + "\n" + "Controller [" + getBeanType().getName() + "]\n" + "Method ["
+				+ getBridgedMethod().toGenericString() + "] " + "with argument values:\n" + formattedArgs;
 	}
-
 
 	/**
 	 * A MethodParameter with HandlerMethod-specific behavior.
@@ -527,8 +522,8 @@ public class HandlerMethod {
 		public HandlerMethodParameter clone() {
 			return new HandlerMethodParameter(this);
 		}
-	}
 
+	}
 
 	/**
 	 * A MethodParameter for a HandlerMethod return type based on an actual return value.
@@ -557,6 +552,7 @@ public class HandlerMethod {
 		public ReturnValueMethodParameter clone() {
 			return new ReturnValueMethodParameter(this);
 		}
+
 	}
 
 }

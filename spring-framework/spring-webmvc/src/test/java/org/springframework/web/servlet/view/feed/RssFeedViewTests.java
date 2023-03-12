@@ -42,7 +42,6 @@ public class RssFeedViewTests {
 
 	private final AbstractRssFeedView view = new MyRssFeedView();
 
-
 	@Test
 	public void render() throws Exception {
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -54,16 +53,12 @@ public class RssFeedViewTests {
 
 		view.render(model, request, response);
 		assertThat(response.getContentType()).as("Invalid content-type").isEqualTo("application/rss+xml");
-		String expected = "<rss version=\"2.0\">" +
-				"<channel><title>Test Feed</title>" +
-				"<link>https://example.com</link>" +
-				"<description>Test feed description</description>" +
-				"<item><title>2</title><description>This is entry 2</description></item>" +
-				"<item><title>1</title><description>This is entry 1</description></item>" +
-				"</channel></rss>";
+		String expected = "<rss version=\"2.0\">" + "<channel><title>Test Feed</title>"
+				+ "<link>https://example.com</link>" + "<description>Test feed description</description>"
+				+ "<item><title>2</title><description>This is entry 2</description></item>"
+				+ "<item><title>1</title><description>This is entry 1</description></item>" + "</channel></rss>";
 		assertThat(XmlContent.of(response.getContentAsString())).isSimilarToIgnoringWhitespace(expected);
 	}
-
 
 	private static class MyRssFeedView extends AbstractRssFeedView {
 
@@ -75,8 +70,8 @@ public class RssFeedViewTests {
 		}
 
 		@Override
-		protected List<Item> buildFeedItems(Map<String, Object> model,
-				HttpServletRequest request, HttpServletResponse response) throws Exception {
+		protected List<Item> buildFeedItems(Map<String, Object> model, HttpServletRequest request,
+				HttpServletResponse response) throws Exception {
 
 			List<Item> items = new ArrayList<>();
 			for (String name : model.keySet()) {
@@ -89,6 +84,7 @@ public class RssFeedViewTests {
 			}
 			return items;
 		}
+
 	}
 
 }

@@ -39,7 +39,6 @@ public class ShallowEtagHeaderFilterTests {
 
 	private final ShallowEtagHeaderFilter filter = new ShallowEtagHeaderFilter();
 
-
 	@Test
 	public void isEligibleForEtag() {
 		MockHttpServletRequest request = new MockHttpServletRequest("GET", "/hotels");
@@ -55,7 +54,7 @@ public class ShallowEtagHeaderFilterTests {
 		assertThat(filter.isEligibleForEtag(request, response, 200, StreamUtils.emptyInput())).isFalse();
 
 		request = new MockHttpServletRequest("POST", "/hotels");
-		request.addHeader("Cache-Control","must-revalidate, no-store");
+		request.addHeader("Cache-Control", "must-revalidate, no-store");
 		assertThat(filter.isEligibleForEtag(request, response, 200, StreamUtils.emptyInput())).isFalse();
 	}
 
@@ -164,7 +163,7 @@ public class ShallowEtagHeaderFilterTests {
 		assertThat(response.getContentAsByteArray()).as("Invalid content").isEqualTo(expecteds);
 	}
 
-	@Test  // SPR-12960
+	@Test // SPR-12960
 	public void filterWriterWithDisabledCaching() throws Exception {
 		final MockHttpServletRequest request = new MockHttpServletRequest("GET", "/hotels");
 		MockHttpServletResponse response = new MockHttpServletResponse();

@@ -27,8 +27,8 @@ import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Adapter that implements the Servlet HandlerInterceptor interface
- * and wraps an underlying WebRequestInterceptor.
+ * Adapter that implements the Servlet HandlerInterceptor interface and wraps an
+ * underlying WebRequestInterceptor.
  *
  * @author Juergen Hoeller
  * @since 2.0
@@ -39,16 +39,15 @@ public class WebRequestHandlerInterceptorAdapter implements AsyncHandlerIntercep
 
 	private final WebRequestInterceptor requestInterceptor;
 
-
 	/**
-	 * Create a new WebRequestHandlerInterceptorAdapter for the given WebRequestInterceptor.
+	 * Create a new WebRequestHandlerInterceptorAdapter for the given
+	 * WebRequestInterceptor.
 	 * @param requestInterceptor the WebRequestInterceptor to wrap
 	 */
 	public WebRequestHandlerInterceptorAdapter(WebRequestInterceptor requestInterceptor) {
 		Assert.notNull(requestInterceptor, "WebRequestInterceptor must not be null");
 		this.requestInterceptor = requestInterceptor;
 	}
-
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -74,7 +73,8 @@ public class WebRequestHandlerInterceptorAdapter implements AsyncHandlerIntercep
 	}
 
 	@Override
-	public void afterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response, Object handler) {
+	public void afterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response,
+			Object handler) {
 		if (this.requestInterceptor instanceof AsyncWebRequestInterceptor) {
 			AsyncWebRequestInterceptor asyncInterceptor = (AsyncWebRequestInterceptor) this.requestInterceptor;
 			DispatcherServletWebRequest webRequest = new DispatcherServletWebRequest(request, response);

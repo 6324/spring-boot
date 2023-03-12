@@ -46,19 +46,23 @@ import static org.mockito.Mockito.mock;
  */
 public class ForwardedHeaderFilterTests {
 
-	private static final String X_FORWARDED_PROTO = "x-forwarded-proto";  // SPR-14372 (case insensitive)
-	private static final String X_FORWARDED_HOST = "x-forwarded-host";
-	private static final String X_FORWARDED_PORT = "x-forwarded-port";
-	private static final String X_FORWARDED_PREFIX = "x-forwarded-prefix";
-	private static final String X_FORWARDED_SSL = "x-forwarded-ssl";
+	private static final String X_FORWARDED_PROTO = "x-forwarded-proto"; // SPR-14372
+																			// (case
+																			// insensitive)
 
+	private static final String X_FORWARDED_HOST = "x-forwarded-host";
+
+	private static final String X_FORWARDED_PORT = "x-forwarded-port";
+
+	private static final String X_FORWARDED_PREFIX = "x-forwarded-prefix";
+
+	private static final String X_FORWARDED_SSL = "x-forwarded-ssl";
 
 	private final ForwardedHeaderFilter filter = new ForwardedHeaderFilter();
 
 	private MockHttpServletRequest request;
 
 	private MockFilterChain filterChain;
-
 
 	@BeforeEach
 	@SuppressWarnings("serial")
@@ -67,9 +71,9 @@ public class ForwardedHeaderFilterTests {
 		this.request.setScheme("http");
 		this.request.setServerName("localhost");
 		this.request.setServerPort(80);
-		this.filterChain = new MockFilterChain(new HttpServlet() {});
+		this.filterChain = new MockFilterChain(new HttpServlet() {
+		});
 	}
-
 
 	@Test
 	public void contextPathEmpty() throws Exception {
@@ -116,7 +120,6 @@ public class ForwardedHeaderFilterTests {
 		this.filter.doFilterInternal(this.request, response, this.filterChain);
 		return (HttpServletRequest) this.filterChain.getRequest();
 	}
-
 
 	@Test
 	public void contextPathPreserveEncoding() throws Exception {
@@ -502,8 +505,8 @@ public class ForwardedHeaderFilterTests {
 	private String sendRedirect(final String location) throws ServletException, IOException {
 		Filter filter = new OncePerRequestFilter() {
 			@Override
-			protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res,
-					FilterChain chain) throws IOException {
+			protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+					throws IOException {
 
 				res.sendRedirect(location);
 			}

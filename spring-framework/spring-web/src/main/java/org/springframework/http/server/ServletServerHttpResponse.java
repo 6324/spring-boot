@@ -31,7 +31,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 /**
- * {@link ServerHttpResponse} implementation that is based on a {@link HttpServletResponse}.
+ * {@link ServerHttpResponse} implementation that is based on a
+ * {@link HttpServletResponse}.
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -47,9 +48,9 @@ public class ServletServerHttpResponse implements ServerHttpResponse {
 
 	private boolean bodyUsed = false;
 
-
 	/**
-	 * Construct a new instance of the ServletServerHttpResponse based on the given {@link HttpServletResponse}.
+	 * Construct a new instance of the ServletServerHttpResponse based on the given
+	 * {@link HttpServletResponse}.
 	 * @param servletResponse the servlet response
 	 */
 	public ServletServerHttpResponse(HttpServletResponse servletResponse) {
@@ -57,7 +58,6 @@ public class ServletServerHttpResponse implements ServerHttpResponse {
 		this.servletResponse = servletResponse;
 		this.headers = new ServletResponseHttpHeaders();
 	}
-
 
 	/**
 	 * Return the {@code HttpServletResponse} this object is based on.
@@ -104,27 +104,28 @@ public class ServletServerHttpResponse implements ServerHttpResponse {
 					this.servletResponse.addHeader(headerName, headerValue);
 				}
 			});
-			// HttpServletResponse exposes some headers as properties: we should include those if not already present
+			// HttpServletResponse exposes some headers as properties: we should include
+			// those if not already present
 			if (this.servletResponse.getContentType() == null && this.headers.getContentType() != null) {
 				this.servletResponse.setContentType(this.headers.getContentType().toString());
 			}
-			if (this.servletResponse.getCharacterEncoding() == null && this.headers.getContentType() != null &&
-					this.headers.getContentType().getCharset() != null) {
+			if (this.servletResponse.getCharacterEncoding() == null && this.headers.getContentType() != null
+					&& this.headers.getContentType().getCharset() != null) {
 				this.servletResponse.setCharacterEncoding(this.headers.getContentType().getCharset().name());
 			}
 			this.headersWritten = true;
 		}
 	}
 
-
 	/**
-	 * Extends HttpHeaders with the ability to look up headers already present in
-	 * the underlying HttpServletResponse.
+	 * Extends HttpHeaders with the ability to look up headers already present in the
+	 * underlying HttpServletResponse.
 	 *
-	 * <p>The intent is merely to expose what is available through the HttpServletResponse
-	 * i.e. the ability to look up specific header values by name. All other
-	 * map-related operations (e.g. iteration, removal, etc) apply only to values
-	 * added directly through HttpHeaders methods.
+	 * <p>
+	 * The intent is merely to expose what is available through the HttpServletResponse
+	 * i.e. the ability to look up specific header values by name. All other map-related
+	 * operations (e.g. iteration, removal, etc) apply only to values added directly
+	 * through HttpHeaders methods.
 	 *
 	 * @since 4.0.3
 	 */
@@ -175,6 +176,7 @@ public class ServletServerHttpResponse implements ServerHttpResponse {
 			}
 			return values;
 		}
+
 	}
 
 }

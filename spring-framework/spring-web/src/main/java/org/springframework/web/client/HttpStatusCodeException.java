@@ -35,9 +35,7 @@ public abstract class HttpStatusCodeException extends RestClientResponseExceptio
 
 	private static final long serialVersionUID = 5696801857651587810L;
 
-
 	private final HttpStatus statusCode;
-
 
 	/**
 	 * Construct a new instance with an {@link HttpStatus}.
@@ -64,15 +62,15 @@ public abstract class HttpStatusCodeException extends RestClientResponseExceptio
 	 * @param responseCharset the response body charset, may be {@code null}
 	 * @since 3.0.5
 	 */
-	protected HttpStatusCodeException(HttpStatus statusCode, String statusText,
-			@Nullable byte[] responseBody, @Nullable Charset responseCharset) {
+	protected HttpStatusCodeException(HttpStatus statusCode, String statusText, @Nullable byte[] responseBody,
+			@Nullable Charset responseCharset) {
 
 		this(statusCode, statusText, null, responseBody, responseCharset);
 	}
 
 	/**
-	 * Construct instance with an {@link HttpStatus}, status text, content, and
-	 * a response charset.
+	 * Construct instance with an {@link HttpStatus}, status text, content, and a response
+	 * charset.
 	 * @param statusCode the status code
 	 * @param statusText the status text
 	 * @param responseHeaders the response headers, may be {@code null}
@@ -80,16 +78,16 @@ public abstract class HttpStatusCodeException extends RestClientResponseExceptio
 	 * @param responseCharset the response body charset, may be {@code null}
 	 * @since 3.1.2
 	 */
-	protected HttpStatusCodeException(HttpStatus statusCode, String statusText,
-			@Nullable HttpHeaders responseHeaders, @Nullable byte[] responseBody, @Nullable Charset responseCharset) {
+	protected HttpStatusCodeException(HttpStatus statusCode, String statusText, @Nullable HttpHeaders responseHeaders,
+			@Nullable byte[] responseBody, @Nullable Charset responseCharset) {
 
-		this(getMessage(statusCode, statusText),
-				statusCode, statusText, responseHeaders, responseBody, responseCharset);
+		this(getMessage(statusCode, statusText), statusCode, statusText, responseHeaders, responseBody,
+				responseCharset);
 	}
 
 	/**
-	 * Construct instance with an {@link HttpStatus}, status text, content, and
-	 * a response charset.
+	 * Construct instance with an {@link HttpStatus}, status text, content, and a response
+	 * charset.
 	 * @param message the exception message
 	 * @param statusCode the status code
 	 * @param statusText the status text

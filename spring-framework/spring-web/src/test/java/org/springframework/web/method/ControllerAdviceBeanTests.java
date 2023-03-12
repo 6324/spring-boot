@@ -51,25 +51,20 @@ public class ControllerAdviceBeanTests {
 
 	@Test
 	public void constructorPreconditions() {
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> new ControllerAdviceBean(null))
-			.withMessage("Bean must not be null");
+		assertThatIllegalArgumentException().isThrownBy(() -> new ControllerAdviceBean(null))
+				.withMessage("Bean must not be null");
 
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> new ControllerAdviceBean((String) null, null))
-			.withMessage("Bean name must contain text");
+		assertThatIllegalArgumentException().isThrownBy(() -> new ControllerAdviceBean((String) null, null))
+				.withMessage("Bean name must contain text");
 
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> new ControllerAdviceBean("", null))
-			.withMessage("Bean name must contain text");
+		assertThatIllegalArgumentException().isThrownBy(() -> new ControllerAdviceBean("", null))
+				.withMessage("Bean name must contain text");
 
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> new ControllerAdviceBean("\t", null))
-			.withMessage("Bean name must contain text");
+		assertThatIllegalArgumentException().isThrownBy(() -> new ControllerAdviceBean("\t", null))
+				.withMessage("Bean name must contain text");
 
-		assertThatIllegalArgumentException()
-			.isThrownBy(() -> new ControllerAdviceBean("myBean", null))
-			.withMessage("BeanFactory must not be null");
+		assertThatIllegalArgumentException().isThrownBy(() -> new ControllerAdviceBean("myBean", null))
+				.withMessage("BeanFactory must not be null");
 	}
 
 	@Test
@@ -202,14 +197,13 @@ public class ControllerAdviceBeanTests {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void findAnnotatedBeansSortsBeans() {
 		Class[] expectedTypes = {
-			// Since ControllerAdviceBean currently treats PriorityOrdered the same as Ordered,
-			// OrderedControllerAdvice is sorted before PriorityOrderedControllerAdvice.
-			OrderedControllerAdvice.class,
-			PriorityOrderedControllerAdvice.class,
-			OrderAnnotationControllerAdvice.class,
-			PriorityAnnotationControllerAdvice.class,
-			SimpleControllerAdvice.class,
-		};
+				// Since ControllerAdviceBean currently treats PriorityOrdered the same as
+				// Ordered,
+				// OrderedControllerAdvice is sorted before
+				// PriorityOrderedControllerAdvice.
+				OrderedControllerAdvice.class, PriorityOrderedControllerAdvice.class,
+				OrderAnnotationControllerAdvice.class, PriorityAnnotationControllerAdvice.class,
+				SimpleControllerAdvice.class, };
 
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
 		List<ControllerAdviceBean> adviceBeans = ControllerAdviceBean.findAnnotatedBeans(context);
@@ -217,7 +211,8 @@ public class ControllerAdviceBeanTests {
 		assertThat(adviceBeans).extracting(ControllerAdviceBean::getBeanType).containsExactly(expectedTypes);
 	}
 
-	private void assertEqualsHashCodeAndToString(ControllerAdviceBean bean1, ControllerAdviceBean bean2, String toString) {
+	private void assertEqualsHashCodeAndToString(ControllerAdviceBean bean1, ControllerAdviceBean bean2,
+			String toString) {
 		assertThat(bean1).isEqualTo(bean2);
 		assertThat(bean2).isEqualTo(bean1);
 		assertThat(bean1.hashCode()).isEqualTo(bean2.hashCode());
@@ -250,24 +245,30 @@ public class ControllerAdviceBeanTests {
 		assertThat(controllerAdvice.isApplicableToBeanType(controllerBeanType)).as(message).isTrue();
 	}
 
-	private void assertNotApplicable(String message, ControllerAdviceBean controllerAdvice, Class<?> controllerBeanType) {
+	private void assertNotApplicable(String message, ControllerAdviceBean controllerAdvice,
+			Class<?> controllerBeanType) {
 		assertThat(controllerAdvice).isNotNull();
 		assertThat(controllerAdvice.isApplicableToBeanType(controllerBeanType)).as(message).isFalse();
 	}
 
-
 	// ControllerAdvice classes
 
 	@ControllerAdvice
-	static class SimpleControllerAdvice {}
+	static class SimpleControllerAdvice {
+
+	}
 
 	@ControllerAdvice
 	@Order(100)
-	static class OrderAnnotationControllerAdvice {}
+	static class OrderAnnotationControllerAdvice {
+
+	}
 
 	@ControllerAdvice
 	@Priority(200)
-	static class PriorityAnnotationControllerAdvice {}
+	static class PriorityAnnotationControllerAdvice {
+
+	}
 
 	@ControllerAdvice
 	// @Order and @Priority should be ignored due to implementation of Ordered.
@@ -279,6 +280,7 @@ public class ControllerAdviceBeanTests {
 		public int getOrder() {
 			return 42;
 		}
+
 	}
 
 	@ControllerAdvice
@@ -291,48 +293,75 @@ public class ControllerAdviceBeanTests {
 		public int getOrder() {
 			return 55;
 		}
+
 	}
 
 	@ControllerAdvice(annotations = ControllerAnnotation.class)
-	static class AnnotationSupport {}
+	static class AnnotationSupport {
+
+	}
 
 	@ControllerAdvice(basePackageClasses = MarkerClass.class)
-	static class MarkerClassSupport {}
+	static class MarkerClassSupport {
 
-	@ControllerAdvice(assignableTypes = {ControllerInterface.class,
-			AbstractController.class})
-	static class AssignableTypesSupport {}
+	}
+
+	@ControllerAdvice(assignableTypes = { ControllerInterface.class, AbstractController.class })
+	static class AssignableTypesSupport {
+
+	}
 
 	@ControllerAdvice(basePackages = "org.springframework.web.method")
-	static class BasePackageSupport {}
+	static class BasePackageSupport {
+
+	}
 
 	@ControllerAdvice("org.springframework.web.method")
-	static class BasePackageValueSupport {}
+	static class BasePackageValueSupport {
+
+	}
 
 	@ControllerAdvice(annotations = ControllerAnnotation.class, assignableTypes = ControllerInterface.class)
-	static class MultipleSelectorsSupport {}
+	static class MultipleSelectorsSupport {
 
-	@ControllerAdvice(basePackages = "java.util", annotations = {RestController.class})
-	static class ShouldNotMatch {}
+	}
 
+	@ControllerAdvice(basePackages = "java.util", annotations = { RestController.class })
+	static class ShouldNotMatch {
+
+	}
 
 	// Support classes
 
-	static class MarkerClass {}
+	static class MarkerClass {
+
+	}
 
 	@Retention(RetentionPolicy.RUNTIME)
-	static @interface ControllerAnnotation {}
+	static @interface ControllerAnnotation {
+
+	}
 
 	@ControllerAnnotation
-	public static class AnnotatedController {}
+	public static class AnnotatedController {
 
-	static interface ControllerInterface {}
+	}
 
-	static class ImplementationController implements ControllerInterface {}
+	static interface ControllerInterface {
 
-	static abstract class AbstractController {}
+	}
 
-	static class InheritanceController extends AbstractController {}
+	static class ImplementationController implements ControllerInterface {
+
+	}
+
+	static abstract class AbstractController {
+
+	}
+
+	static class InheritanceController extends AbstractController {
+
+	}
 
 	@Configuration(proxyBeanMethods = false)
 	static class Config {
@@ -361,6 +390,7 @@ public class ControllerAdviceBeanTests {
 		PriorityOrderedControllerAdvice priorityOrderedControllerAdvice() {
 			return new PriorityOrderedControllerAdvice();
 		}
+
 	}
 
 }

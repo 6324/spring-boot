@@ -26,12 +26,13 @@ import org.springframework.web.context.ServletConfigAware;
 import org.springframework.web.context.ServletContextAware;
 
 /**
- * {@link org.springframework.beans.factory.config.BeanPostProcessor}
- * implementation that passes the ServletContext to beans that implement
- * the {@link ServletContextAware} interface.
+ * {@link org.springframework.beans.factory.config.BeanPostProcessor} implementation that
+ * passes the ServletContext to beans that implement the {@link ServletContextAware}
+ * interface.
  *
- * <p>Web application contexts will automatically register this with their
- * underlying bean factory. Applications do not use this directly.
+ * <p>
+ * Web application contexts will automatically register this with their underlying bean
+ * factory. Applications do not use this directly.
  *
  * @author Juergen Hoeller
  * @author Phillip Webb
@@ -46,7 +47,6 @@ public class ServletContextAwareProcessor implements BeanPostProcessor {
 
 	@Nullable
 	private ServletConfig servletConfig;
-
 
 	/**
 	 * Create a new ServletContextAwareProcessor without an initial context or config.
@@ -73,16 +73,16 @@ public class ServletContextAwareProcessor implements BeanPostProcessor {
 	/**
 	 * Create a new ServletContextAwareProcessor for the given context and config.
 	 */
-	public ServletContextAwareProcessor(@Nullable ServletContext servletContext, @Nullable ServletConfig servletConfig) {
+	public ServletContextAwareProcessor(@Nullable ServletContext servletContext,
+			@Nullable ServletConfig servletConfig) {
 		this.servletContext = servletContext;
 		this.servletConfig = servletConfig;
 	}
 
-
 	/**
-	 * Returns the {@link ServletContext} to be injected or {@code null}. This method
-	 * can be overridden by subclasses when a context is obtained after the post-processor
-	 * has been registered.
+	 * Returns the {@link ServletContext} to be injected or {@code null}. This method can
+	 * be overridden by subclasses when a context is obtained after the post-processor has
+	 * been registered.
 	 */
 	@Nullable
 	protected ServletContext getServletContext() {
@@ -93,9 +93,9 @@ public class ServletContextAwareProcessor implements BeanPostProcessor {
 	}
 
 	/**
-	 * Returns the {@link ServletConfig} to be injected or {@code null}. This method
-	 * can be overridden by subclasses when a context is obtained after the post-processor
-	 * has been registered.
+	 * Returns the {@link ServletConfig} to be injected or {@code null}. This method can
+	 * be overridden by subclasses when a context is obtained after the post-processor has
+	 * been registered.
 	 */
 	@Nullable
 	protected ServletConfig getServletConfig() {

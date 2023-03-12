@@ -45,12 +45,10 @@ class DefaultServerWebExchangeBuilder implements ServerWebExchange.Builder {
 	@Nullable
 	private Mono<Principal> principalMono;
 
-
 	DefaultServerWebExchangeBuilder(ServerWebExchange delegate) {
 		Assert.notNull(delegate, "Delegate is required");
 		this.delegate = delegate;
 	}
-
 
 	@Override
 	public ServerWebExchange.Builder request(Consumer<ServerHttpRequest.Builder> consumer) {
@@ -82,10 +80,9 @@ class DefaultServerWebExchangeBuilder implements ServerWebExchange.Builder {
 		return new MutativeDecorator(this.delegate, this.request, this.response, this.principalMono);
 	}
 
-
 	/**
-	 * An immutable wrapper of an exchange returning property overrides -- given
-	 * to the constructor -- or original values otherwise.
+	 * An immutable wrapper of an exchange returning property overrides -- given to the
+	 * constructor -- or original values otherwise.
 	 */
 	private static class MutativeDecorator extends ServerWebExchangeDecorator {
 
@@ -122,7 +119,7 @@ class DefaultServerWebExchangeBuilder implements ServerWebExchange.Builder {
 		public <T extends Principal> Mono<T> getPrincipal() {
 			return (this.principalMono != null ? (Mono<T>) this.principalMono : getDelegate().getPrincipal());
 		}
+
 	}
 
 }
-

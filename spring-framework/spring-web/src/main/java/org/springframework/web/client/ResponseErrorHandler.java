@@ -23,8 +23,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.client.ClientHttpResponse;
 
 /**
- * Strategy interface used by the {@link RestTemplate} to determine
- * whether a particular response has an error or not.
+ * Strategy interface used by the {@link RestTemplate} to determine whether a particular
+ * response has an error or not.
  *
  * @author Arjen Poutsma
  * @since 3.0
@@ -33,7 +33,8 @@ public interface ResponseErrorHandler {
 
 	/**
 	 * Indicate whether the given response has any errors.
-	 * <p>Implementations will typically inspect the
+	 * <p>
+	 * Implementations will typically inspect the
 	 * {@link ClientHttpResponse#getStatusCode() HttpStatus} of the response.
 	 * @param response the response to inspect
 	 * @return {@code true} if the response indicates an error; {@code false} otherwise
@@ -43,16 +44,17 @@ public interface ResponseErrorHandler {
 
 	/**
 	 * Handle the error in the given response.
-	 * <p>This method is only called when {@link #hasError(ClientHttpResponse)}
-	 * has returned {@code true}.
+	 * <p>
+	 * This method is only called when {@link #hasError(ClientHttpResponse)} has returned
+	 * {@code true}.
 	 * @param response the response with the error
 	 * @throws IOException in case of I/O errors
 	 */
 	void handleError(ClientHttpResponse response) throws IOException;
 
 	/**
-	 * Alternative to {@link #handleError(ClientHttpResponse)} with extra
-	 * information providing access to the request URL and HTTP method.
+	 * Alternative to {@link #handleError(ClientHttpResponse)} with extra information
+	 * providing access to the request URL and HTTP method.
 	 * @param url the request URL
 	 * @param method the HTTP method
 	 * @param response the response with the error

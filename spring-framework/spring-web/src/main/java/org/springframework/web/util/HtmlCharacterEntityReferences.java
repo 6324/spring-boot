@@ -27,11 +27,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Represents a set of character entity references defined by the
- * HTML 4.0 standard.
+ * Represents a set of character entity references defined by the HTML 4.0 standard.
  *
- * <p>A complete description of the HTML 4.0 character set can be found
- * at https://www.w3.org/TR/html4/charset.html.
+ * <p>
+ * A complete description of the HTML 4.0 character set can be found at
+ * https://www.w3.org/TR/html4/charset.html.
  *
  * @author Juergen Hoeller
  * @author Martin Kersten
@@ -52,14 +52,13 @@ class HtmlCharacterEntityReferences {
 
 	static final char CHAR_NULL = (char) -1;
 
-
 	private final String[] characterToEntityReferenceMap = new String[3000];
 
 	private final Map<String, Character> entityReferenceToCharacterMap = new HashMap<>(512);
 
-
 	/**
-	 * Returns a new set of character entity references reflecting the HTML 4.0 character set.
+	 * Returns a new set of character entity references reflecting the HTML 4.0 character
+	 * set.
 	 */
 	public HtmlCharacterEntityReferences() {
 		Properties entityReferences = new Properties();
@@ -80,7 +79,8 @@ class HtmlCharacterEntityReferences {
 		}
 		catch (IOException ex) {
 			throw new IllegalStateException(
-					"Failed to parse reference definition file [HtmlCharacterEntityReferences.properties]: " +  ex.getMessage());
+					"Failed to parse reference definition file [HtmlCharacterEntityReferences.properties]: "
+							+ ex.getMessage());
 		}
 
 		// Parse reference definition properties
@@ -96,7 +96,6 @@ class HtmlCharacterEntityReferences {
 			this.entityReferenceToCharacterMap.put(reference, (char) referredChar);
 		}
 	}
-
 
 	/**
 	 * Return the number of supported entity references.
@@ -133,18 +132,18 @@ class HtmlCharacterEntityReferences {
 	 */
 	@Nullable
 	public String convertToReference(char character, String encoding) {
-		if (encoding.startsWith("UTF-")){
-			switch (character){
-				case '<':
-					return "&lt;";
-				case '>':
-					return "&gt;";
-				case '"':
-					return "&quot;";
-				case '&':
-					return "&amp;";
-				case '\'':
-					return "&#39;";
+		if (encoding.startsWith("UTF-")) {
+			switch (character) {
+			case '<':
+				return "&lt;";
+			case '>':
+				return "&gt;";
+			case '"':
+				return "&quot;";
+			case '&':
+				return "&amp;";
+			case '\'':
+				return "&#39;";
 			}
 		}
 		else if (character < 1000 || (character >= 8000 && character < 10000)) {

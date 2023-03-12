@@ -33,28 +33,26 @@ import org.springframework.util.MultiValueMap;
 
 /**
  * A convenient base class for classes that need to wrap another
- * {@link ServerWebExchange}. Pre-implements all methods by delegating to the
- * wrapped instance.
+ * {@link ServerWebExchange}. Pre-implements all methods by delegating to the wrapped
+ * instance.
  *
- * <p><strong>Note:</strong> if the purpose for using a decorator is to override
- * properties like {@link #getPrincipal()}, consider using
- * {@link ServerWebExchange#mutate()} instead.
+ * <p>
+ * <strong>Note:</strong> if the purpose for using a decorator is to override properties
+ * like {@link #getPrincipal()}, consider using {@link ServerWebExchange#mutate()}
+ * instead.
  *
  * @author Rossen Stoyanchev
  * @since 5.0
- *
  * @see ServerWebExchange#mutate()
  */
 public class ServerWebExchangeDecorator implements ServerWebExchange {
 
 	private final ServerWebExchange delegate;
 
-
 	protected ServerWebExchangeDecorator(ServerWebExchange delegate) {
 		Assert.notNull(delegate, "ServerWebExchange 'delegate' is required.");
 		this.delegate = delegate;
 	}
-
 
 	public ServerWebExchange getDelegate() {
 		return this.delegate;

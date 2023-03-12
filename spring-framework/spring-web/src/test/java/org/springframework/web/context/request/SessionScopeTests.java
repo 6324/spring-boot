@@ -47,7 +47,6 @@ public class SessionScopeTests {
 
 	private final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
-
 	@BeforeEach
 	public void setup() throws Exception {
 		this.beanFactory.registerScope("session", new SessionScope());
@@ -59,7 +58,6 @@ public class SessionScopeTests {
 	public void resetRequestAttributes() {
 		RequestContextHolder.setRequestAttributes(null);
 	}
-
 
 	@Test
 	public void getFromScope() throws Exception {
@@ -198,7 +196,6 @@ public class SessionScopeTests {
 		}
 	}
 
-
 	private static class CustomDestructionAwareBeanPostProcessor implements DestructionAwareBeanPostProcessor {
 
 		@Override
@@ -219,8 +216,8 @@ public class SessionScopeTests {
 		public boolean requiresDestruction(Object bean) {
 			return true;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	private static class CustomSerializableDestructionAwareBeanPostProcessor
@@ -247,6 +244,7 @@ public class SessionScopeTests {
 		public boolean requiresDestruction(Object bean) {
 			return true;
 		}
+
 	}
 
 }

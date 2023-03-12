@@ -55,12 +55,11 @@ public class WebApplicationObjectSupportTests {
 		StaticApplicationContext ac = new StaticApplicationContext();
 		ac.registerBeanDefinition("test", new RootBeanDefinition(TestWebApplicationObject.class));
 		WebApplicationObjectSupport wao = (WebApplicationObjectSupport) ac.getBean("test");
-		assertThatIllegalStateException().isThrownBy(
-				wao::getWebApplicationContext);
+		assertThatIllegalStateException().isThrownBy(wao::getWebApplicationContext);
 	}
 
-
 	public static class TestWebApplicationObject extends WebApplicationObjectSupport {
+
 	}
 
 }

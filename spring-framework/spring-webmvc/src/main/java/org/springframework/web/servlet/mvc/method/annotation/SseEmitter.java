@@ -50,16 +50,16 @@ public class SseEmitter extends ResponseBodyEmitter {
 
 	/**
 	 * Create a SseEmitter with a custom timeout value.
-	 * <p>By default not set in which case the default configured in the MVC
-	 * Java Config or the MVC namespace is used, or if that's not set, then the
-	 * timeout depends on the default of the underlying server.
+	 * <p>
+	 * By default not set in which case the default configured in the MVC Java Config or
+	 * the MVC namespace is used, or if that's not set, then the timeout depends on the
+	 * default of the underlying server.
 	 * @param timeout the timeout value in milliseconds
 	 * @since 4.2.2
 	 */
 	public SseEmitter(Long timeout) {
 		super(timeout);
 	}
-
 
 	@Override
 	protected void extendResponse(ServerHttpResponse outputMessage) {
@@ -72,15 +72,15 @@ public class SseEmitter extends ResponseBodyEmitter {
 	}
 
 	/**
-	 * Send the object formatted as a single SSE "data" line. It's equivalent to:
-	 * <pre>
+	 * Send the object formatted as a single SSE "data" line. It's equivalent to: <pre>
 	 * // static import of SseEmitter.*
 	 *
 	 * SseEmitter emitter = new SseEmitter();
 	 * emitter.send(event().data(myObject));
 	 * </pre>
-	 * <p>Please, see {@link ResponseBodyEmitter#send(Object) parent Javadoc}
-	 * for important notes on exception handling.
+	 * <p>
+	 * Please, see {@link ResponseBodyEmitter#send(Object) parent Javadoc} for important
+	 * notes on exception handling.
 	 * @param object the object to write
 	 * @throws IOException raised when an I/O error occurs
 	 * @throws java.lang.IllegalStateException wraps any other errors
@@ -91,15 +91,15 @@ public class SseEmitter extends ResponseBodyEmitter {
 	}
 
 	/**
-	 * Send the object formatted as a single SSE "data" line. It's equivalent to:
-	 * <pre>
+	 * Send the object formatted as a single SSE "data" line. It's equivalent to: <pre>
 	 * // static import of SseEmitter.*
 	 *
 	 * SseEmitter emitter = new SseEmitter();
 	 * emitter.send(event().data(myObject, MediaType.APPLICATION_JSON));
 	 * </pre>
-	 * <p>Please, see {@link ResponseBodyEmitter#send(Object) parent Javadoc}
-	 * for important notes on exception handling.
+	 * <p>
+	 * Please, see {@link ResponseBodyEmitter#send(Object) parent Javadoc} for important
+	 * notes on exception handling.
 	 * @param object the object to write
 	 * @param mediaType a MediaType hint for selecting an HttpMessageConverter
 	 * @throws IOException raised when an I/O error occurs
@@ -110,8 +110,7 @@ public class SseEmitter extends ResponseBodyEmitter {
 	}
 
 	/**
-	 * Send an SSE event prepared with the given builder. For example:
-	 * <pre>
+	 * Send an SSE event prepared with the given builder. For example: <pre>
 	 * // static import of SseEmitter
 	 * SseEmitter emitter = new SseEmitter();
 	 * emitter.send(event().name("update").id("1").data(myObject));
@@ -133,11 +132,9 @@ public class SseEmitter extends ResponseBodyEmitter {
 		return "SseEmitter@" + ObjectUtils.getIdentityHexString(this);
 	}
 
-
 	public static SseEventBuilder event() {
 		return new SseEventBuilderImpl();
 	}
-
 
 	/**
 	 * A builder for an SSE event.
@@ -175,13 +172,13 @@ public class SseEmitter extends ResponseBodyEmitter {
 		SseEventBuilder data(Object object, @Nullable MediaType mediaType);
 
 		/**
-		 * Return one or more Object-MediaType  pairs to write via
+		 * Return one or more Object-MediaType pairs to write via
 		 * {@link #send(Object, MediaType)}.
 		 * @since 4.2.3
 		 */
 		Set<DataWithMediaType> build();
-	}
 
+	}
 
 	/**
 	 * Default implementation of SseEventBuilder.
@@ -255,6 +252,7 @@ public class SseEmitter extends ResponseBodyEmitter {
 				this.sb = null;
 			}
 		}
+
 	}
 
 }

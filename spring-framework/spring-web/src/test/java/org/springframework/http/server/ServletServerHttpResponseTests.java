@@ -42,13 +42,11 @@ public class ServletServerHttpResponseTests {
 
 	private MockHttpServletResponse mockResponse;
 
-
 	@BeforeEach
 	public void create() throws Exception {
 		mockResponse = new MockHttpServletResponse();
 		response = new ServletServerHttpResponse(mockResponse);
 	}
-
 
 	@Test
 	public void setStatusCode() throws Exception {
@@ -71,7 +69,8 @@ public class ServletServerHttpResponseTests {
 		List<String> headerValues = mockResponse.getHeaders(headerName);
 		assertThat(headerValues.contains(headerValue1)).as("Header not set").isTrue();
 		assertThat(headerValues.contains(headerValue2)).as("Header not set").isTrue();
-		assertThat(mockResponse.getHeader("Content-Type")).as("Invalid Content-Type").isEqualTo("text/plain;charset=UTF-8");
+		assertThat(mockResponse.getHeader("Content-Type")).as("Invalid Content-Type")
+				.isEqualTo("text/plain;charset=UTF-8");
 		assertThat(mockResponse.getContentType()).as("Invalid Content-Type").isEqualTo("text/plain;charset=UTF-8");
 		assertThat(mockResponse.getCharacterEncoding()).as("Invalid Content-Type").isEqualTo("UTF-8");
 	}

@@ -28,10 +28,11 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StreamUtils;
 
 /**
- * {@link ClientHttpResponse} implementation based on
- * Apache HttpComponents HttpAsyncClient.
+ * {@link ClientHttpResponse} implementation based on Apache HttpComponents
+ * HttpAsyncClient.
  *
- * <p>Created via the {@link HttpComponentsAsyncClientHttpRequest}.
+ * <p>
+ * Created via the {@link HttpComponentsAsyncClientHttpRequest}.
  *
  * @author Oleg Kalnichevski
  * @author Arjen Poutsma
@@ -47,11 +48,9 @@ final class HttpComponentsAsyncClientHttpResponse extends AbstractClientHttpResp
 	@Nullable
 	private HttpHeaders headers;
 
-
 	HttpComponentsAsyncClientHttpResponse(HttpResponse httpResponse) {
 		this.httpResponse = httpResponse;
 	}
-
 
 	@Override
 	public int getRawStatusCode() throws IOException {
@@ -82,8 +81,8 @@ final class HttpComponentsAsyncClientHttpResponse extends AbstractClientHttpResp
 
 	@Override
 	public void close() {
-        // HTTP responses returned by async HTTP client are not bound to an
-        // active connection and do not have to deallocate any resources...
+		// HTTP responses returned by async HTTP client are not bound to an
+		// active connection and do not have to deallocate any resources...
 	}
 
 }

@@ -34,8 +34,7 @@ public class RequestPredicateTests {
 
 	@BeforeEach
 	public void createRequest() {
-		this.request = new DefaultServerRequest(new MockHttpServletRequest(),
-				Collections.emptyList());
+		this.request = new DefaultServerRequest(new MockHttpServletRequest(), Collections.emptyList());
 	}
 
 	@Test

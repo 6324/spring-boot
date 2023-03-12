@@ -34,22 +34,26 @@ import org.springframework.web.context.ServletConfigAware;
 import org.springframework.web.context.ServletContextAware;
 
 /**
- * Static {@link org.springframework.web.context.WebApplicationContext}
- * implementation for testing. Not intended for use in production applications.
+ * Static {@link org.springframework.web.context.WebApplicationContext} implementation for
+ * testing. Not intended for use in production applications.
  *
- * <p>Implements the {@link org.springframework.web.context.ConfigurableWebApplicationContext}
- * interface to allow for direct replacement of an {@link XmlWebApplicationContext},
- * despite not actually supporting external configuration files.
+ * <p>
+ * Implements the
+ * {@link org.springframework.web.context.ConfigurableWebApplicationContext} interface to
+ * allow for direct replacement of an {@link XmlWebApplicationContext}, despite not
+ * actually supporting external configuration files.
  *
- * <p>Interprets resource paths as servlet context resources, i.e. as paths beneath
- * the web application root. Absolute paths, e.g. for files outside the web app root,
- * can be accessed via "file:" URLs, as implemented by
+ * <p>
+ * Interprets resource paths as servlet context resources, i.e. as paths beneath the web
+ * application root. Absolute paths, e.g. for files outside the web app root, can be
+ * accessed via "file:" URLs, as implemented by
  * {@link org.springframework.core.io.DefaultResourceLoader}.
  *
- * <p>In addition to the special beans detected by
- * {@link org.springframework.context.support.AbstractApplicationContext},
- * this class detects a bean of type {@link org.springframework.ui.context.ThemeSource}
- * in the context, under the special bean name "themeSource".
+ * <p>
+ * In addition to the special beans detected by
+ * {@link org.springframework.context.support.AbstractApplicationContext}, this class
+ * detects a bean of type {@link org.springframework.ui.context.ThemeSource} in the
+ * context, under the special bean name "themeSource".
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -70,11 +74,9 @@ public abstract class StaticWebApplicationContext extends StaticApplicationConte
 	@Nullable
 	private ThemeSource themeSource;
 
-
 	public StaticWebApplicationContext() {
 		setDisplayName("Root WebApplicationContext");
 	}
-
 
 	/**
 	 * Set the ServletContext that this WebApplicationContext runs in.
@@ -140,7 +142,6 @@ public abstract class StaticWebApplicationContext extends StaticApplicationConte
 	public String[] getConfigLocations() {
 		return null;
 	}
-
 
 	/**
 	 * Register request/session scopes, a {@link ServletContextAwareProcessor}, etc.

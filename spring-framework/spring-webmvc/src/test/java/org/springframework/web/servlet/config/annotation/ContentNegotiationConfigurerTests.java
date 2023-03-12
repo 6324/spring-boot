@@ -34,6 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test fixture for {@link ContentNegotiationConfigurer} tests.
+ *
  * @author Rossen Stoyanchev
  */
 public class ContentNegotiationConfigurerTests {
@@ -44,7 +45,6 @@ public class ContentNegotiationConfigurerTests {
 
 	private MockHttpServletRequest servletRequest;
 
-
 	@BeforeEach
 	public void setup() {
 		this.servletRequest = new MockHttpServletRequest();
@@ -52,24 +52,26 @@ public class ContentNegotiationConfigurerTests {
 		this.configurer = new ContentNegotiationConfigurer(this.servletRequest.getServletContext());
 	}
 
-
 	@Test
 	public void defaultSettings() throws Exception {
 		ContentNegotiationManager manager = this.configurer.buildContentNegotiationManager();
 
 		this.servletRequest.setRequestURI("/flower.gif");
 
-		assertThat(manager.resolveMediaTypes(this.webRequest).get(0)).as("Should be able to resolve file extensions by default").isEqualTo(MediaType.IMAGE_GIF);
+		assertThat(manager.resolveMediaTypes(this.webRequest).get(0))
+				.as("Should be able to resolve file extensions by default").isEqualTo(MediaType.IMAGE_GIF);
 
 		this.servletRequest.setRequestURI("/flower?format=gif");
 		this.servletRequest.addParameter("format", "gif");
 
-		assertThat(manager.resolveMediaTypes(this.webRequest)).as("Should not resolve request parameters by default").isEqualTo(ContentNegotiationStrategy.MEDIA_TYPE_ALL_LIST);
+		assertThat(manager.resolveMediaTypes(this.webRequest)).as("Should not resolve request parameters by default")
+				.isEqualTo(ContentNegotiationStrategy.MEDIA_TYPE_ALL_LIST);
 
 		this.servletRequest.setRequestURI("/flower");
 		this.servletRequest.addHeader("Accept", MediaType.IMAGE_GIF_VALUE);
 
-		assertThat(manager.resolveMediaTypes(this.webRequest).get(0)).as("Should resolve Accept header by default").isEqualTo(MediaType.IMAGE_GIF);
+		assertThat(manager.resolveMediaTypes(this.webRequest).get(0)).as("Should resolve Accept header by default")
+				.isEqualTo(MediaType.IMAGE_GIF);
 	}
 
 	@Test
@@ -102,7 +104,8 @@ public class ContentNegotiationConfigurerTests {
 		this.servletRequest.setRequestURI("/flower");
 		this.servletRequest.addHeader("Accept", MediaType.IMAGE_GIF_VALUE);
 
-		assertThat(manager.resolveMediaTypes(this.webRequest)).isEqualTo(ContentNegotiationStrategy.MEDIA_TYPE_ALL_LIST);
+		assertThat(manager.resolveMediaTypes(this.webRequest))
+				.isEqualTo(ContentNegotiationStrategy.MEDIA_TYPE_ALL_LIST);
 	}
 
 	@Test
@@ -118,7 +121,8 @@ public class ContentNegotiationConfigurerTests {
 		this.configurer.defaultContentType(MediaType.APPLICATION_JSON, MediaType.ALL);
 		ContentNegotiationManager manager = this.configurer.buildContentNegotiationManager();
 
-		assertThat(manager.resolveMediaTypes(this.webRequest)).isEqualTo(Arrays.asList(MediaType.APPLICATION_JSON, MediaType.ALL));
+		assertThat(manager.resolveMediaTypes(this.webRequest))
+				.isEqualTo(Arrays.asList(MediaType.APPLICATION_JSON, MediaType.ALL));
 	}
 
 	@Test

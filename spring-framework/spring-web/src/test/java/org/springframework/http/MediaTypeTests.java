@@ -50,14 +50,12 @@ public class MediaTypeTests {
 
 	@Test
 	public void slashInType() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new MediaType("text/plain"));
+		assertThatIllegalArgumentException().isThrownBy(() -> new MediaType("text/plain"));
 	}
 
 	@Test
 	public void slashInSubtype() {
-		assertThatIllegalArgumentException().isThrownBy(() ->
-				new MediaType("text", "/"));
+		assertThatIllegalArgumentException().isThrownBy(() -> new MediaType("text", "/"));
 	}
 
 	@Test
@@ -77,68 +75,65 @@ public class MediaTypeTests {
 
 	@Test
 	public void parseMediaTypeNoSubtype() {
-		assertThatExceptionOfType(InvalidMediaTypeException.class).isThrownBy(() ->
-				MediaType.parseMediaType("audio"));
+		assertThatExceptionOfType(InvalidMediaTypeException.class).isThrownBy(() -> MediaType.parseMediaType("audio"));
 	}
 
 	@Test
 	public void parseMediaTypeNoSubtypeSlash() {
-		assertThatExceptionOfType(InvalidMediaTypeException.class).isThrownBy(() ->
-				MediaType.parseMediaType("audio/"));
+		assertThatExceptionOfType(InvalidMediaTypeException.class).isThrownBy(() -> MediaType.parseMediaType("audio/"));
 	}
 
 	@Test
 	public void parseMediaTypeTypeRange() {
-		assertThatExceptionOfType(InvalidMediaTypeException.class).isThrownBy(() ->
-				MediaType.parseMediaType("*/json"));
+		assertThatExceptionOfType(InvalidMediaTypeException.class).isThrownBy(() -> MediaType.parseMediaType("*/json"));
 	}
 
 	@Test
 	public void parseMediaTypeIllegalType() {
-		assertThatExceptionOfType(InvalidMediaTypeException.class).isThrownBy(() ->
-				MediaType.parseMediaType("audio(/basic"));
+		assertThatExceptionOfType(InvalidMediaTypeException.class)
+				.isThrownBy(() -> MediaType.parseMediaType("audio(/basic"));
 	}
 
 	@Test
 	public void parseMediaTypeIllegalSubtype() {
-		assertThatExceptionOfType(InvalidMediaTypeException.class).isThrownBy(() ->
-				MediaType.parseMediaType("audio/basic)"));
+		assertThatExceptionOfType(InvalidMediaTypeException.class)
+				.isThrownBy(() -> MediaType.parseMediaType("audio/basic)"));
 	}
 
 	@Test
 	public void parseMediaTypeEmptyParameterAttribute() {
-		assertThatExceptionOfType(InvalidMediaTypeException.class).isThrownBy(() ->
-				MediaType.parseMediaType("audio/*;=value"));
+		assertThatExceptionOfType(InvalidMediaTypeException.class)
+				.isThrownBy(() -> MediaType.parseMediaType("audio/*;=value"));
 	}
 
 	@Test
 	public void parseMediaTypeEmptyParameterValue() {
-		assertThatExceptionOfType(InvalidMediaTypeException.class).isThrownBy(() ->
-				MediaType.parseMediaType("audio/*;attr="));
+		assertThatExceptionOfType(InvalidMediaTypeException.class)
+				.isThrownBy(() -> MediaType.parseMediaType("audio/*;attr="));
 	}
 
 	@Test
 	public void parseMediaTypeIllegalParameterAttribute() {
-		assertThatExceptionOfType(InvalidMediaTypeException.class).isThrownBy(() ->
-				MediaType.parseMediaType("audio/*;attr<=value"));
+		assertThatExceptionOfType(InvalidMediaTypeException.class)
+				.isThrownBy(() -> MediaType.parseMediaType("audio/*;attr<=value"));
 	}
 
 	@Test
 	public void parseMediaTypeIllegalParameterValue() {
-		assertThatExceptionOfType(InvalidMediaTypeException.class).isThrownBy(() ->
-				MediaType.parseMediaType("audio/*;attr=v>alue"));
+		assertThatExceptionOfType(InvalidMediaTypeException.class)
+				.isThrownBy(() -> MediaType.parseMediaType("audio/*;attr=v>alue"));
 	}
 
 	@Test
 	public void parseMediaTypeIllegalQualityFactor() {
-		assertThatExceptionOfType(InvalidMediaTypeException.class).isThrownBy(() ->
-				MediaType.parseMediaType("audio/basic;q=1.1"));
+		assertThatExceptionOfType(InvalidMediaTypeException.class)
+				.isThrownBy(() -> MediaType.parseMediaType("audio/basic;q=1.1"));
 	}
 
 	@Test
 	public void parseMediaTypeIllegalCharset() {
-		assertThatExceptionOfType(InvalidMediaTypeException.class).isThrownBy(() ->
-				MediaType.parseMediaType("text/html; charset=foo-bar"));
+		assertThatExceptionOfType(InvalidMediaTypeException.class)
+				.isThrownBy(() -> MediaType.parseMediaType("text/html; charset=foo-bar"));
 	}
 
 	@Test
@@ -162,7 +157,7 @@ public class MediaTypeTests {
 		assertThat(mediaTypes.size()).as("Invalid amount of media types").isEqualTo(0);
 	}
 
-	@Test  // gh-23241
+	@Test // gh-23241
 	public void parseMediaTypesWithTrailingComma() {
 		List<MediaType> mediaTypes = MediaType.parseMediaTypes("text/plain, text/html, ");
 		assertThat(mediaTypes).as("No media types returned").isNotNull();
@@ -236,7 +231,6 @@ public class MediaTypeTests {
 		m2 = new MediaType("audio", "basic", Collections.singletonMap("foo", "Bar"));
 		assertThat(m1.compareTo(m2) != 0).as("Invalid comparison result").isTrue();
 		assertThat(m2.compareTo(m1) != 0).as("Invalid comparison result").isTrue();
-
 
 	}
 
@@ -462,7 +456,7 @@ public class MediaTypeTests {
 		assertThat(new MediaType("text", "*").isConcrete()).as("text/* concrete").isFalse();
 	}
 
-	@Test  // gh-26127
+	@Test // gh-26127
 	void serialize() throws Exception {
 		MediaType original = new MediaType("text", "plain", StandardCharsets.UTF_8);
 		MediaType deserialized = (MediaType) SerializationTestUtils.serializeAndDeserialize(original);

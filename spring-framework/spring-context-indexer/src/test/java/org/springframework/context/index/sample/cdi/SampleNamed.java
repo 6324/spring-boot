@@ -25,4 +25,5 @@ import javax.inject.Named;
  */
 @Named
 public class SampleNamed {
+
 }

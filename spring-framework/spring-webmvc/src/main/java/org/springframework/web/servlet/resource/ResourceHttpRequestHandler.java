@@ -66,27 +66,29 @@ import org.springframework.web.servlet.support.WebContentGenerator;
 import org.springframework.web.util.UrlPathHelper;
 
 /**
- * {@code HttpRequestHandler} that serves static resources in an optimized way
- * according to the guidelines of Page Speed, YSlow, etc.
+ * {@code HttpRequestHandler} that serves static resources in an optimized way according
+ * to the guidelines of Page Speed, YSlow, etc.
  *
- * <p>The {@linkplain #setLocations "locations"} property takes a list of Spring
- * {@link Resource} locations from which static resources are allowed to be served
- * by this handler. Resources could be served from a classpath location, e.g.
- * "classpath:/META-INF/public-web-resources/", allowing convenient packaging
- * and serving of resources such as .js, .css, and others in jar files.
+ * <p>
+ * The {@linkplain #setLocations "locations"} property takes a list of Spring
+ * {@link Resource} locations from which static resources are allowed to be served by this
+ * handler. Resources could be served from a classpath location, e.g.
+ * "classpath:/META-INF/public-web-resources/", allowing convenient packaging and serving
+ * of resources such as .js, .css, and others in jar files.
  *
- * <p>This request handler may also be configured with a
- * {@link #setResourceResolvers(List) resourcesResolver} and
- * {@link #setResourceTransformers(List) resourceTransformer} chains to support
- * arbitrary resolution and transformation of resources being served. By default
- * a {@link PathResourceResolver} simply finds resources based on the configured
- * "locations". An application can configure additional resolvers and transformers
- * such as the {@link VersionResourceResolver} which can resolve and prepare URLs
- * for resources with a version in the URL.
+ * <p>
+ * This request handler may also be configured with a {@link #setResourceResolvers(List)
+ * resourcesResolver} and {@link #setResourceTransformers(List) resourceTransformer}
+ * chains to support arbitrary resolution and transformation of resources being served. By
+ * default a {@link PathResourceResolver} simply finds resources based on the configured
+ * "locations". An application can configure additional resolvers and transformers such as
+ * the {@link VersionResourceResolver} which can resolve and prepare URLs for resources
+ * with a version in the URL.
  *
- * <p>This handler also properly evaluates the {@code Last-Modified} header
- * (if present) so that a {@code 304} status code will be returned as appropriate,
- * avoiding unnecessary overhead for resources that are already cached by the client.
+ * <p>
+ * This handler also properly evaluates the {@code Last-Modified} header (if present) so
+ * that a {@code 304} status code will be returned as appropriate, avoiding unnecessary
+ * overhead for resources that are already cached by the client.
  *
  * @author Keith Donald
  * @author Jeremy Grelle
@@ -102,7 +104,6 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 	private static final Log logger = LogFactory.getLog(ResourceHttpRequestHandler.class);
 
 	private static final String URL_RESOURCE_CHARSET_PREFIX = "[charset=";
-
 
 	private final List<String> locationValues = new ArrayList<>(4);
 
@@ -140,18 +141,15 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 	@Nullable
 	private StringValueResolver embeddedValueResolver;
 
-
 	public ResourceHttpRequestHandler() {
 		super(HttpMethod.GET.name(), HttpMethod.HEAD.name());
 	}
 
-
 	/**
-	 * An alternative to {@link #setLocations(List)} that accepts a list of
-	 * String-based location values, with support for {@link UrlResource}'s
-	 * (e.g. files or HTTP URLs) with a special prefix to indicate the charset
-	 * to use when appending relative paths. For example
-	 * {@code "[charset=Windows-31J]https://example.org/path"}.
+	 * An alternative to {@link #setLocations(List)} that accepts a list of String-based
+	 * location values, with support for {@link UrlResource}'s (e.g. files or HTTP URLs)
+	 * with a special prefix to indicate the charset to use when appending relative paths.
+	 * For example {@code "[charset=Windows-31J]https://example.org/path"}.
 	 * @since 4.3.13
 	 */
 	public void setLocationValues(List<String> locationValues) {
@@ -161,8 +159,8 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 	}
 
 	/**
-	 * Set the {@code List} of {@code Resource} locations to use as sources
-	 * for serving static resources.
+	 * Set the {@code List} of {@code Resource} locations to use as sources for serving
+	 * static resources.
 	 * @see #setLocationValues(List)
 	 */
 	public void setLocations(List<Resource> locations) {
@@ -173,9 +171,10 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 
 	/**
 	 * Return the configured {@code List} of {@code Resource} locations.
-	 * <p>Note that if {@link #setLocationValues(List) locationValues} are provided,
-	 * instead of loaded Resource-based locations, this method will return
-	 * empty until after initialization via {@link #afterPropertiesSet()}.
+	 * <p>
+	 * Note that if {@link #setLocationValues(List) locationValues} are provided, instead
+	 * of loaded Resource-based locations, this method will return empty until after
+	 * initialization via {@link #afterPropertiesSet()}.
 	 * @see #setLocationValues
 	 * @see #setLocations
 	 */
@@ -185,8 +184,9 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 
 	/**
 	 * Configure the list of {@link ResourceResolver ResourceResolvers} to use.
-	 * <p>By default {@link PathResourceResolver} is configured. If using this property,
-	 * it is recommended to add {@link PathResourceResolver} as the last resolver.
+	 * <p>
+	 * By default {@link PathResourceResolver} is configured. If using this property, it
+	 * is recommended to add {@link PathResourceResolver} as the last resolver.
 	 */
 	public void setResourceResolvers(@Nullable List<ResourceResolver> resourceResolvers) {
 		this.resourceResolvers.clear();
@@ -204,7 +204,8 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 
 	/**
 	 * Configure the list of {@link ResourceTransformer ResourceTransformers} to use.
-	 * <p>By default no transformers are configured for use.
+	 * <p>
+	 * By default no transformers are configured for use.
 	 */
 	public void setResourceTransformers(@Nullable List<ResourceTransformer> resourceTransformers) {
 		this.resourceTransformers.clear();
@@ -222,7 +223,8 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 
 	/**
 	 * Configure the {@link ResourceHttpMessageConverter} to use.
-	 * <p>By default a {@link ResourceHttpMessageConverter} will be configured.
+	 * <p>
+	 * By default a {@link ResourceHttpMessageConverter} will be configured.
 	 * @since 4.3
 	 */
 	public void setResourceHttpMessageConverter(@Nullable ResourceHttpMessageConverter messageConverter) {
@@ -240,7 +242,8 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 
 	/**
 	 * Configure the {@link ResourceRegionHttpMessageConverter} to use.
-	 * <p>By default a {@link ResourceRegionHttpMessageConverter} will be configured.
+	 * <p>
+	 * By default a {@link ResourceRegionHttpMessageConverter} will be configured.
 	 * @since 4.3
 	 */
 	public void setResourceRegionHttpMessageConverter(@Nullable ResourceRegionHttpMessageConverter messageConverter) {
@@ -257,13 +260,12 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 	}
 
 	/**
-	 * Configure a {@code ContentNegotiationManager} to help determine the
-	 * media types for resources being served. If the manager contains a path
-	 * extension strategy it will be checked for registered file extension.
+	 * Configure a {@code ContentNegotiationManager} to help determine the media types for
+	 * resources being served. If the manager contains a path extension strategy it will
+	 * be checked for registered file extension.
 	 * @since 4.3
-	 * @deprecated as of 5.2.4 in favor of using {@link #setMediaTypes(Map)}
-	 * with mappings possibly obtained from
-	 * {@link ContentNegotiationManager#getMediaTypeMappings()}.
+	 * @deprecated as of 5.2.4 in favor of using {@link #setMediaTypes(Map)} with mappings
+	 * possibly obtained from {@link ContentNegotiationManager#getMediaTypeMappings()}.
 	 */
 	@Deprecated
 	public void setContentNegotiationManager(@Nullable ContentNegotiationManager contentNegotiationManager) {
@@ -282,19 +284,17 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 	}
 
 	/**
-	 * Add mappings between file extensions, extracted from the filename of a
-	 * static {@link Resource}, and corresponding media type  to set on the
-	 * response.
-	 * <p>Use of this method is typically not necessary since mappings are
-	 * otherwise determined via
-	 * {@link javax.servlet.ServletContext#getMimeType(String)} or via
+	 * Add mappings between file extensions, extracted from the filename of a static
+	 * {@link Resource}, and corresponding media type to set on the response.
+	 * <p>
+	 * Use of this method is typically not necessary since mappings are otherwise
+	 * determined via {@link javax.servlet.ServletContext#getMimeType(String)} or via
 	 * {@link MediaTypeFactory#getMediaType(Resource)}.
 	 * @param mediaTypes media type mappings
 	 * @since 5.2.4
 	 */
 	public void setMediaTypes(Map<String, MediaType> mediaTypes) {
-		mediaTypes.forEach((ext, mediaType) ->
-				this.mediaTypes.put(ext.toLowerCase(Locale.ENGLISH), mediaType));
+		mediaTypes.forEach((ext, mediaType) -> this.mediaTypes.put(ext.toLowerCase(Locale.ENGLISH), mediaType));
 	}
 
 	/**
@@ -307,7 +307,8 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 
 	/**
 	 * Specify the CORS configuration for resources served by this handler.
-	 * <p>By default this is not set in which allows cross-origin requests.
+	 * <p>
+	 * By default this is not set in which allows cross-origin requests.
 	 */
 	public void setCorsConfiguration(CorsConfiguration corsConfiguration) {
 		this.corsConfiguration = corsConfiguration;
@@ -323,9 +324,9 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 	}
 
 	/**
-	 * Provide a reference to the {@link UrlPathHelper} used to map requests to
-	 * static resources. This helps to derive information about the lookup path
-	 * such as whether it is decoded or not.
+	 * Provide a reference to the {@link UrlPathHelper} used to map requests to static
+	 * resources. This helps to derive information about the lookup path such as whether
+	 * it is decoded or not.
 	 * @since 4.3.13
 	 */
 	public void setUrlPathHelper(@Nullable UrlPathHelper urlPathHelper) {
@@ -346,14 +347,13 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 		this.embeddedValueResolver = resolver;
 	}
 
-
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		resolveResourceLocations();
 
 		if (logger.isWarnEnabled() && CollectionUtils.isEmpty(this.locations)) {
-			logger.warn("Locations list is empty. No resources will be served unless a " +
-					"custom ResourceResolver is configured as an alternative to PathResourceResolver.");
+			logger.warn("Locations list is empty. No resources will be served unless a "
+					+ "custom ResourceResolver is configured as an alternative to PathResourceResolver.");
 		}
 
 		if (this.resourceResolvers.isEmpty()) {
@@ -379,8 +379,7 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 		}
 
 		@SuppressWarnings("deprecation")
-		org.springframework.web.accept.PathExtensionContentNegotiationStrategy strategy =
-				initContentNegotiationStrategy();
+		org.springframework.web.accept.PathExtensionContentNegotiationStrategy strategy = initContentNegotiationStrategy();
 		if (strategy != null) {
 			setMediaTypes(strategy.getMediaTypes());
 		}
@@ -391,8 +390,8 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 			return;
 		}
 		else if (!CollectionUtils.isEmpty(this.locations)) {
-			throw new IllegalArgumentException("Please set either Resource-based \"locations\" or " +
-					"String-based \"locationValues\", but not both.");
+			throw new IllegalArgumentException("Please set either Resource-based \"locations\" or "
+					+ "String-based \"locationValues\", but not both.");
 		}
 
 		ApplicationContext applicationContext = obtainApplicationContext();
@@ -427,9 +426,9 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 	}
 
 	/**
-	 * Look for a {@code PathResourceResolver} among the configured resource
-	 * resolvers and set its {@code allowedLocations} property (if empty) to
-	 * match the {@link #setLocations locations} configured on this class.
+	 * Look for a {@code PathResourceResolver} among the configured resource resolvers and
+	 * set its {@code allowedLocations} property (if empty) to match the
+	 * {@link #setLocations locations} configured on this class.
 	 */
 	protected void initAllowedLocations() {
 		if (CollectionUtils.isEmpty(this.locations)) {
@@ -452,11 +451,11 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 
 	/**
 	 * Initialize the strategy to use to determine the media type for a resource.
-	 * @deprecated as of 5.2.4 this method returns {@code null}, and if a
-	 * sub-class returns an actual instance,the instance is used only as a
-	 * source of media type mappings, if it contains any. Please, use
-	 * {@link #setMediaTypes(Map)} instead, or if you need to change behavior,
-	 * you can override {@link #getMediaType(HttpServletRequest, Resource)}.
+	 * @deprecated as of 5.2.4 this method returns {@code null}, and if a sub-class
+	 * returns an actual instance,the instance is used only as a source of media type
+	 * mappings, if it contains any. Please, use {@link #setMediaTypes(Map)} instead, or
+	 * if you need to change behavior, you can override
+	 * {@link #getMediaType(HttpServletRequest, Resource)}.
 	 */
 	@Nullable
 	@Deprecated
@@ -467,15 +466,16 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 
 	/**
 	 * Processes a resource request.
-	 * <p>Checks for the existence of the requested resource in the configured list of locations.
-	 * If the resource does not exist, a {@code 404} response will be returned to the client.
-	 * If the resource exists, the request will be checked for the presence of the
-	 * {@code Last-Modified} header, and its value will be compared against the last-modified
-	 * timestamp of the given resource, returning a {@code 304} status code if the
-	 * {@code Last-Modified} value  is greater. If the resource is newer than the
-	 * {@code Last-Modified} value, or the header is not present, the content resource
-	 * of the resource will be written to the response with caching headers
-	 * set to expire one year in the future.
+	 * <p>
+	 * Checks for the existence of the requested resource in the configured list of
+	 * locations. If the resource does not exist, a {@code 404} response will be returned
+	 * to the client. If the resource exists, the request will be checked for the presence
+	 * of the {@code Last-Modified} header, and its value will be compared against the
+	 * last-modified timestamp of the given resource, returning a {@code 304} status code
+	 * if the {@code Last-Modified} value is greater. If the resource is newer than the
+	 * {@code Last-Modified} value, or the header is not present, the content resource of
+	 * the resource will be written to the response with caching headers set to expire one
+	 * year in the future.
 	 */
 	@Override
 	public void handleRequest(HttpServletRequest request, HttpServletResponse response)
@@ -522,8 +522,8 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 			try {
 				List<HttpRange> httpRanges = inputMessage.getHeaders().getRange();
 				response.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT);
-				this.resourceRegionHttpMessageConverter.write(
-						HttpRange.toResourceRegions(httpRanges, resource), mediaType, outputMessage);
+				this.resourceRegionHttpMessageConverter.write(HttpRange.toResourceRegions(httpRanges, resource),
+						mediaType, outputMessage);
 			}
 			catch (IllegalArgumentException ex) {
 				response.setHeader(HttpHeaders.CONTENT_RANGE, "bytes */" + resource.contentLength());
@@ -536,8 +536,8 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 	protected Resource getResource(HttpServletRequest request) throws IOException {
 		String path = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 		if (path == null) {
-			throw new IllegalStateException("Required request attribute '" +
-					HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE + "' is not set");
+			throw new IllegalStateException("Required request attribute '"
+					+ HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE + "' is not set");
 		}
 
 		path = processPath(path);
@@ -560,13 +560,13 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 
 	/**
 	 * Process the given resource path.
-	 * <p>The default implementation replaces:
+	 * <p>
+	 * The default implementation replaces:
 	 * <ul>
 	 * <li>Backslash with forward slash.
 	 * <li>Duplicate occurrences of slash with a single slash.
-	 * <li>Any combination of leading slash and control characters (00-1F and 7F)
-	 * with a single "/" or "". For example {@code "  / // foo/bar"}
-	 * becomes {@code "/foo/bar"}.
+	 * <li>Any combination of leading slash and control characters (00-1F and 7F) with a
+	 * single "/" or "". For example {@code "  / // foo/bar"} becomes {@code "/foo/bar"}.
 	 * </ul>
 	 * @since 3.2.12
 	 */
@@ -623,7 +623,8 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 	private boolean isInvalidEncodedPath(String path) {
 		if (path.contains("%")) {
 			try {
-				// Use URLDecoder (vs UriUtils) to preserve potentially decoded UTF-8 chars
+				// Use URLDecoder (vs UriUtils) to preserve potentially decoded UTF-8
+				// chars
 				String decodedPath = URLDecoder.decode(path, "UTF-8");
 				if (isInvalidPath(decodedPath)) {
 					return true;
@@ -652,9 +653,10 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 	 * <li>Paths that represent a {@link org.springframework.util.ResourceUtils#isUrl
 	 * valid URL} or would represent one after the leading slash is removed.
 	 * </ul>
-	 * <p><strong>Note:</strong> this method assumes that leading, duplicate '/'
-	 * or control characters (e.g. white space) have been trimmed so that the
-	 * path starts predictably with a single '/' or does not have one.
+	 * <p>
+	 * <strong>Note:</strong> this method assumes that leading, duplicate '/' or control
+	 * characters (e.g. white space) have been trimmed so that the path starts predictably
+	 * with a single '/' or does not have one.
 	 * @param path the path to validate
 	 * @return {@code true} if the path is invalid, {@code false} otherwise
 	 * @since 3.0.6
@@ -685,10 +687,9 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 	}
 
 	/**
-	 * Determine the media type for the given request and the resource matched
-	 * to it. This implementation tries to determine the MediaType using one of
-	 * the following lookups based on the resource filename and its path
-	 * extension:
+	 * Determine the media type for the given request and the resource matched to it. This
+	 * implementation tries to determine the MediaType using one of the following lookups
+	 * based on the resource filename and its path extension:
 	 * <ol>
 	 * <li>{@link javax.servlet.ServletContext#getMimeType(String)}
 	 * <li>{@link #getMediaTypes()}
@@ -723,8 +724,8 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 	}
 
 	/**
-	 * Set headers on the given servlet response.
-	 * Called for GET requests as well as HEAD requests.
+	 * Set headers on the given servlet response. Called for GET requests as well as HEAD
+	 * requests.
 	 * @param response current servlet response
 	 * @param resource the identified resource (never {@code null})
 	 * @param mediaType the resource's media type (never {@code null})
@@ -763,7 +764,6 @@ public class ResourceHttpRequestHandler extends WebContentGenerator
 
 		response.setHeader(HttpHeaders.ACCEPT_RANGES, "bytes");
 	}
-
 
 	@Override
 	public String toString() {

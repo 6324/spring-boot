@@ -49,9 +49,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriBuilder;
 
 /**
- * Represents a server-side HTTP request, as handled by a {@code HandlerFunction}.
- * Access to headers and body is offered by {@link Headers} and
- * {@link #body(Class)}, respectively.
+ * Represents a server-side HTTP request, as handled by a {@code HandlerFunction}. Access
+ * to headers and body is offered by {@link Headers} and {@link #body(Class)},
+ * respectively.
  *
  * @author Arjen Poutsma
  * @since 5.2
@@ -60,8 +60,8 @@ public interface ServerRequest {
 
 	/**
 	 * Get the HTTP method.
-	 * @return the HTTP method as an HttpMethod enum value, or {@code null}
-	 * if not resolvable (e.g. in case of a non-standard HTTP method)
+	 * @return the HTTP method as an HttpMethod enum value, or {@code null} if not
+	 * resolvable (e.g. in case of a non-standard HTTP method)
 	 */
 	@Nullable
 	default HttpMethod method() {
@@ -82,7 +82,6 @@ public interface ServerRequest {
 	/**
 	 * Get a {@code UriBuilderComponents} from the URI associated with this
 	 * {@code ServerRequest}.
-	 *
 	 * @return a URI builder
 	 */
 	UriBuilder uriBuilder();
@@ -159,8 +158,8 @@ public interface ServerRequest {
 	Map<String, Object> attributes();
 
 	/**
-	 * Get the first parameter with the given name, if present. Servlet
-	 * parameters are contained in the query string or posted form data.
+	 * Get the first parameter with the given name, if present. Servlet parameters are
+	 * contained in the query string or posted form data.
 	 * @param name the parameter name
 	 * @return the parameter value
 	 * @see HttpServletRequest#getParameter(String)
@@ -180,8 +179,8 @@ public interface ServerRequest {
 	}
 
 	/**
-	 * Get all parameters for this request. Servlet parameters are contained
-	 * in the query string or posted form data.
+	 * Get all parameters for this request. Servlet parameters are contained in the query
+	 * string or posted form data.
 	 * @see HttpServletRequest#getParameterMap()
 	 */
 	MultiValueMap<String, String> params();
@@ -208,11 +207,10 @@ public interface ServerRequest {
 	Map<String, String> pathVariables();
 
 	/**
-	 * Get the web session for this request. Always guaranteed to
-	 * return an instance either matching to the session id requested by the
-	 * client, or with a new session id either because the client did not
-	 * specify one or because the underlying session had expired. Use of this
-	 * method does not automatically create a session.
+	 * Get the web session for this request. Always guaranteed to return an instance
+	 * either matching to the session id requested by the client, or with a new session id
+	 * either because the client did not specify one or because the underlying session had
+	 * expired. Use of this method does not automatically create a session.
 	 */
 	HttpSession session();
 
@@ -227,12 +225,12 @@ public interface ServerRequest {
 	HttpServletRequest servletRequest();
 
 	/**
-	 * Check whether the requested resource has been modified given the
-	 * supplied last-modified timestamp (as determined by the application).
-	 * If not modified, this method returns a response with corresponding
-	 * status code and headers, otherwise an empty result.
-	 * <p>Typical usage:
-	 * <pre class="code">
+	 * Check whether the requested resource has been modified given the supplied
+	 * last-modified timestamp (as determined by the application). If not modified, this
+	 * method returns a response with corresponding status code and headers, otherwise an
+	 * empty result.
+	 * <p>
+	 * Typical usage: <pre class="code">
 	 * public ServerResponse myHandleMethod(ServerRequest request) {
 	 *   Instant lastModified = // application-specific calculation
 	 *	 return request.checkNotModified(lastModified)
@@ -241,18 +239,18 @@ public interface ServerRequest {
 	 *		 return ServerResponse.ok().body(...);
 	 *	   });
 	 * }</pre>
-	 * <p>This method works with conditional GET/HEAD requests, but
-	 * also with conditional POST/PUT/DELETE requests.
-	 * <p><strong>Note:</strong> you can use either
-	 * this {@code #checkNotModified(Instant)} method; or
-	 * {@link #checkNotModified(String)}. If you want enforce both
-	 * a strong entity tag and a Last-Modified value,
-	 * as recommended by the HTTP specification,
+	 * <p>
+	 * This method works with conditional GET/HEAD requests, but also with conditional
+	 * POST/PUT/DELETE requests.
+	 * <p>
+	 * <strong>Note:</strong> you can use either this {@code #checkNotModified(Instant)}
+	 * method; or {@link #checkNotModified(String)}. If you want enforce both a strong
+	 * entity tag and a Last-Modified value, as recommended by the HTTP specification,
 	 * then you should use {@link #checkNotModified(Instant, String)}.
-	 * @param lastModified the last-modified timestamp that the
-	 * application determined for the underlying resource
-	 * @return a corresponding response if the request qualifies as not
-	 * modified, or an empty result otherwise.
+	 * @param lastModified the last-modified timestamp that the application determined for
+	 * the underlying resource
+	 * @return a corresponding response if the request qualifies as not modified, or an
+	 * empty result otherwise.
 	 * @since 5.2.5
 	 */
 	default Optional<ServerResponse> checkNotModified(Instant lastModified) {
@@ -261,12 +259,12 @@ public interface ServerRequest {
 	}
 
 	/**
-	 * Check whether the requested resource has been modified given the
-	 * supplied {@code ETag} (entity tag), as determined by the application.
-	 * If not modified, this method returns a response with corresponding
-	 * status code and headers, otherwise an empty result.
-	 * <p>Typical usage:
-	 * <pre class="code">
+	 * Check whether the requested resource has been modified given the supplied
+	 * {@code ETag} (entity tag), as determined by the application. If not modified, this
+	 * method returns a response with corresponding status code and headers, otherwise an
+	 * empty result.
+	 * <p>
+	 * Typical usage: <pre class="code">
 	 * public ServerResponse myHandleMethod(ServerRequest request) {
 	 *   String eTag = // application-specific calculation
 	 *	 return request.checkNotModified(eTag)
@@ -275,19 +273,18 @@ public interface ServerRequest {
 	 *		 return ServerResponse.ok().body(...);
 	 *	   });
 	 * }</pre>
-	 * <p>This method works with conditional GET/HEAD requests, but
-	 * also with conditional POST/PUT/DELETE requests.
-	 * <p><strong>Note:</strong> you can use either
-	 * this {@link #checkNotModified(Instant)} method; or
-	 * {@code #checkNotModified(String)}. If you want enforce both
-	 * a strong entity tag and a Last-Modified value,
-	 * as recommended by the HTTP specification,
+	 * <p>
+	 * This method works with conditional GET/HEAD requests, but also with conditional
+	 * POST/PUT/DELETE requests.
+	 * <p>
+	 * <strong>Note:</strong> you can use either this {@link #checkNotModified(Instant)}
+	 * method; or {@code #checkNotModified(String)}. If you want enforce both a strong
+	 * entity tag and a Last-Modified value, as recommended by the HTTP specification,
 	 * then you should use {@link #checkNotModified(Instant, String)}.
-	 * @param etag the entity tag that the application determined
-	 * for the underlying resource. This parameter will be padded
-	 * with quotes (") if necessary.
-	 * @return a corresponding response if the request qualifies as not
-	 * modified, or an empty result otherwise.
+	 * @param etag the entity tag that the application determined for the underlying
+	 * resource. This parameter will be padded with quotes (") if necessary.
+	 * @return a corresponding response if the request qualifies as not modified, or an
+	 * empty result otherwise.
 	 * @since 5.2.5
 	 */
 	default Optional<ServerResponse> checkNotModified(String etag) {
@@ -296,13 +293,12 @@ public interface ServerRequest {
 	}
 
 	/**
-	 * Check whether the requested resource has been modified given the
-	 * supplied {@code ETag} (entity tag) and last-modified timestamp,
-	 * as determined by the application.
-	 * If not modified, this method returns a response with corresponding
+	 * Check whether the requested resource has been modified given the supplied
+	 * {@code ETag} (entity tag) and last-modified timestamp, as determined by the
+	 * application. If not modified, this method returns a response with corresponding
 	 * status code and headers, otherwise an empty result.
-	 * <p>Typical usage:
-	 * <pre class="code">
+	 * <p>
+	 * Typical usage: <pre class="code">
 	 * public ServerResponse myHandleMethod(ServerRequest request) {
 	 *   Instant lastModified = // application-specific calculation
 	 *   String eTag = // application-specific calculation
@@ -312,15 +308,15 @@ public interface ServerRequest {
 	 *		 return ServerResponse.ok().body(...);
 	 *	   });
 	 * }</pre>
-	 * <p>This method works with conditional GET/HEAD requests, but
-	 * also with conditional POST/PUT/DELETE requests.
-	 * @param lastModified the last-modified timestamp that the
-	 * application determined for the underlying resource
-	 * @param etag the entity tag that the application determined
-	 * for the underlying resource. This parameter will be padded
-	 * with quotes (") if necessary.
-	 * @return a corresponding response if the request qualifies as not
-	 * modified, or an empty result otherwise.
+	 * <p>
+	 * This method works with conditional GET/HEAD requests, but also with conditional
+	 * POST/PUT/DELETE requests.
+	 * @param lastModified the last-modified timestamp that the application determined for
+	 * the underlying resource
+	 * @param etag the entity tag that the application determined for the underlying
+	 * resource. This parameter will be padded with quotes (") if necessary.
+	 * @return a corresponding response if the request qualifies as not modified, or an
+	 * empty result otherwise.
 	 * @since 5.2.5
 	 */
 	default Optional<ServerResponse> checkNotModified(Instant lastModified, String etag) {
@@ -329,12 +325,11 @@ public interface ServerRequest {
 		return DefaultServerRequest.checkNotModified(servletRequest(), lastModified, etag);
 	}
 
-
 	// Static methods
 
 	/**
-	 * Create a new {@code ServerRequest} based on the given {@code HttpServletRequest} and
-	 * message converters.
+	 * Create a new {@code ServerRequest} based on the given {@code HttpServletRequest}
+	 * and message converters.
 	 * @param servletRequest the request
 	 * @param messageReaders the message readers
 	 * @return the created {@code ServerRequest}
@@ -352,10 +347,9 @@ public interface ServerRequest {
 		return new DefaultServerRequestBuilder(other);
 	}
 
-
-
 	/**
 	 * Represents the headers of the HTTP request.
+	 *
 	 * @see ServerRequest#headers()
 	 */
 	interface Headers {
@@ -363,13 +357,14 @@ public interface ServerRequest {
 		/**
 		 * Get the list of acceptable media types, as specified by the {@code Accept}
 		 * header.
-		 * <p>Returns an empty list if the acceptable media types are unspecified.
+		 * <p>
+		 * Returns an empty list if the acceptable media types are unspecified.
 		 */
 		List<MediaType> accept();
 
 		/**
-		 * Get the list of acceptable charsets, as specified by the
-		 * {@code Accept-Charset} header.
+		 * Get the list of acceptable charsets, as specified by the {@code Accept-Charset}
+		 * header.
 		 */
 		List<Charset> acceptCharset();
 
@@ -380,42 +375,46 @@ public interface ServerRequest {
 		List<Locale.LanguageRange> acceptLanguage();
 
 		/**
-		 * Get the length of the body in bytes, as specified by the
-		 * {@code Content-Length} header.
+		 * Get the length of the body in bytes, as specified by the {@code Content-Length}
+		 * header.
 		 */
 		OptionalLong contentLength();
 
 		/**
-		 * Get the media type of the body, as specified by the
-		 * {@code Content-Type} header.
+		 * Get the media type of the body, as specified by the {@code Content-Type}
+		 * header.
 		 */
 		Optional<MediaType> contentType();
 
 		/**
 		 * Get the value of the {@code Host} header, if available.
-		 * <p>If the header value does not contain a port, the
-		 * {@linkplain InetSocketAddress#getPort() port} in the returned address will
-		 * be {@code 0}.
+		 * <p>
+		 * If the header value does not contain a port, the
+		 * {@linkplain InetSocketAddress#getPort() port} in the returned address will be
+		 * {@code 0}.
 		 */
 		@Nullable
 		InetSocketAddress host();
 
 		/**
 		 * Get the value of the {@code Range} header.
-		 * <p>Returns an empty list when the range is unknown.
+		 * <p>
+		 * Returns an empty list when the range is unknown.
 		 */
 		List<HttpRange> range();
 
 		/**
 		 * Get the header value(s), if any, for the header of the given name.
-		 * <p>Returns an empty list if no header values are found.
+		 * <p>
+		 * Returns an empty list if no header values are found.
 		 * @param headerName the header name
 		 */
 		List<String> header(String headerName);
 
 		/**
 		 * Get the first header value, if any, for the header for the given name.
-		 * <p>Returns {@code null} if no header values are found.
+		 * <p>
+		 * Returns {@code null} if no header values are found.
 		 * @param headerName the header name
 		 * @since 5.2.5
 		 */
@@ -429,8 +428,8 @@ public interface ServerRequest {
 		 * Get the headers as an instance of {@link HttpHeaders}.
 		 */
 		HttpHeaders asHttpHeaders();
-	}
 
+	}
 
 	/**
 	 * Defines a builder for a request.
@@ -453,7 +452,7 @@ public interface ServerRequest {
 
 		/**
 		 * Add the given header value(s) under the given name.
-		 * @param headerName  the header name
+		 * @param headerName the header name
 		 * @param headerValues the header value(s)
 		 * @return this builder
 		 * @see HttpHeaders#add(String, String)
@@ -462,10 +461,11 @@ public interface ServerRequest {
 
 		/**
 		 * Manipulate this request's headers with the given consumer.
-		 * <p>The headers provided to the consumer are "live", so that the consumer can be used to
-		 * {@linkplain HttpHeaders#set(String, String) overwrite} existing header values,
-		 * {@linkplain HttpHeaders#remove(Object) remove} values, or use any of the other
-		 * {@link HttpHeaders} methods.
+		 * <p>
+		 * The headers provided to the consumer are "live", so that the consumer can be
+		 * used to {@linkplain HttpHeaders#set(String, String) overwrite} existing header
+		 * values, {@linkplain HttpHeaders#remove(Object) remove} values, or use any of
+		 * the other {@link HttpHeaders} methods.
 		 * @param headersConsumer a function that consumes the {@code HttpHeaders}
 		 * @return this builder
 		 */
@@ -481,10 +481,11 @@ public interface ServerRequest {
 
 		/**
 		 * Manipulate this request's cookies with the given consumer.
-		 * <p>The map provided to the consumer is "live", so that the consumer can be used to
+		 * <p>
+		 * The map provided to the consumer is "live", so that the consumer can be used to
 		 * {@linkplain MultiValueMap#set(Object, Object) overwrite} existing cookies,
-		 * {@linkplain MultiValueMap#remove(Object) remove} cookies, or use any of the other
-		 * {@link MultiValueMap} methods.
+		 * {@linkplain MultiValueMap#remove(Object) remove} cookies, or use any of the
+		 * other {@link MultiValueMap} methods.
 		 * @param cookiesConsumer a function that consumes the cookies map
 		 * @return this builder
 		 */
@@ -492,9 +493,10 @@ public interface ServerRequest {
 
 		/**
 		 * Set the body of the request.
-		 * <p>Calling this methods will
-		 * {@linkplain org.springframework.core.io.buffer.DataBufferUtils#release(DataBuffer) release}
-		 * the existing body of the builder.
+		 * <p>
+		 * Calling this methods will
+		 * {@linkplain org.springframework.core.io.buffer.DataBufferUtils#release(DataBuffer)
+		 * release} the existing body of the builder.
 		 * @param body the new body
 		 * @return this builder
 		 */
@@ -502,9 +504,10 @@ public interface ServerRequest {
 
 		/**
 		 * Set the body of the request to the UTF-8 encoded bytes of the given string.
-		 * <p>Calling this methods will
-		 * {@linkplain org.springframework.core.io.buffer.DataBufferUtils#release(DataBuffer) release}
-		 * the existing body of the builder.
+		 * <p>
+		 * Calling this methods will
+		 * {@linkplain org.springframework.core.io.buffer.DataBufferUtils#release(DataBuffer)
+		 * release} the existing body of the builder.
 		 * @param body the new body
 		 * @return this builder
 		 */
@@ -512,7 +515,7 @@ public interface ServerRequest {
 
 		/**
 		 * Add an attribute with the given name and value.
-		 * @param name  the attribute name
+		 * @param name the attribute name
 		 * @param value the attribute value
 		 * @return this builder
 		 */
@@ -520,8 +523,9 @@ public interface ServerRequest {
 
 		/**
 		 * Manipulate this request's attributes with the given consumer.
-		 * <p>The map provided to the consumer is "live", so that the consumer can be used
-		 * to {@linkplain Map#put(Object, Object) overwrite} existing attributes,
+		 * <p>
+		 * The map provided to the consumer is "live", so that the consumer can be used to
+		 * {@linkplain Map#put(Object, Object) overwrite} existing attributes,
 		 * {@linkplain Map#remove(Object) remove} attributes, or use any of the other
 		 * {@link Map} methods.
 		 * @param attributesConsumer a function that consumes the attributes map
@@ -534,6 +538,7 @@ public interface ServerRequest {
 		 * @return the built request
 		 */
 		ServerRequest build();
+
 	}
 
 }

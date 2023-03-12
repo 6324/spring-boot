@@ -46,31 +46,31 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link javax.servlet.Filter} that makes form encoded data available through
- * the {@code ServletRequest.getParameter*()} family of methods during HTTP PUT
- * or PATCH requests.
+ * {@link javax.servlet.Filter} that makes form encoded data available through the
+ * {@code ServletRequest.getParameter*()} family of methods during HTTP PUT or PATCH
+ * requests.
  *
- * <p>The Servlet spec requires form data to be available for HTTP POST but
- * not for HTTP PUT or PATCH requests. This filter intercepts HTTP PUT and PATCH
- * requests where content type is {@code 'application/x-www-form-urlencoded'},
- * reads form encoded content from the body of the request, and wraps the ServletRequest
- * in order to make the form data available as request parameters just like
- * it is for HTTP POST requests.
+ * <p>
+ * The Servlet spec requires form data to be available for HTTP POST but not for HTTP PUT
+ * or PATCH requests. This filter intercepts HTTP PUT and PATCH requests where content
+ * type is {@code 'application/x-www-form-urlencoded'}, reads form encoded content from
+ * the body of the request, and wraps the ServletRequest in order to make the form data
+ * available as request parameters just like it is for HTTP POST requests.
  *
  * @author Rossen Stoyanchev
  * @since 3.1
- * @deprecated as of 5.1 in favor of {@link FormContentFilter} which is the same
- * but also handles DELETE.
+ * @deprecated as of 5.1 in favor of {@link FormContentFilter} which is the same but also
+ * handles DELETE.
  */
 @Deprecated
 public class HttpPutFormContentFilter extends OncePerRequestFilter {
 
 	private FormHttpMessageConverter formConverter = new AllEncompassingFormHttpMessageConverter();
 
-
 	/**
 	 * Set the converter to use for parsing form content.
-	 * <p>By default this is an instance of {@link AllEncompassingFormHttpMessageConverter}.
+	 * <p>
+	 * By default this is an instance of {@link AllEncompassingFormHttpMessageConverter}.
 	 */
 	public void setFormConverter(FormHttpMessageConverter converter) {
 		Assert.notNull(converter, "FormHttpMessageConverter is required.");
@@ -82,14 +82,12 @@ public class HttpPutFormContentFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * The default character set to use for reading form data.
-	 * This is a shortcut for:<br>
+	 * The default character set to use for reading form data. This is a shortcut for:<br>
 	 * {@code getFormConverter.setCharset(charset)}.
 	 */
 	public void setCharset(Charset charset) {
 		this.formConverter.setCharset(charset);
 	}
-
 
 	@Override
 	protected void doFilterInternal(final HttpServletRequest request, HttpServletResponse response,
@@ -128,7 +126,6 @@ public class HttpPutFormContentFilter extends OncePerRequestFilter {
 			return false;
 		}
 	}
-
 
 	private static class HttpPutFormContentRequestWrapper extends HttpServletRequestWrapper {
 
@@ -184,6 +181,7 @@ public class HttpPutFormContentFilter extends OncePerRequestFilter {
 				return StringUtils.toStringArray(result);
 			}
 		}
+
 	}
 
 }

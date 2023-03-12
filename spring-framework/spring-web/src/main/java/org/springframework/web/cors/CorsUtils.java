@@ -47,9 +47,9 @@ public abstract class CorsUtils {
 		String scheme = request.getScheme();
 		String host = request.getServerName();
 		int port = request.getServerPort();
-		return !(ObjectUtils.nullSafeEquals(scheme, originUrl.getScheme()) &&
-				ObjectUtils.nullSafeEquals(host, originUrl.getHost()) &&
-				getPort(scheme, port) == getPort(originUrl.getScheme(), originUrl.getPort()));
+		return !(ObjectUtils.nullSafeEquals(scheme, originUrl.getScheme())
+				&& ObjectUtils.nullSafeEquals(host, originUrl.getHost())
+				&& getPort(scheme, port) == getPort(originUrl.getScheme(), originUrl.getPort()));
 
 	}
 
@@ -66,13 +66,13 @@ public abstract class CorsUtils {
 	}
 
 	/**
-	 * Returns {@code true} if the request is a valid CORS pre-flight one by checking {code OPTIONS} method with
-	 * {@code Origin} and {@code Access-Control-Request-Method} headers presence.
+	 * Returns {@code true} if the request is a valid CORS pre-flight one by checking
+	 * {code OPTIONS} method with {@code Origin} and {@code Access-Control-Request-Method}
+	 * headers presence.
 	 */
 	public static boolean isPreFlightRequest(HttpServletRequest request) {
-		return (HttpMethod.OPTIONS.matches(request.getMethod()) &&
-				request.getHeader(HttpHeaders.ORIGIN) != null &&
-				request.getHeader(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD) != null);
+		return (HttpMethod.OPTIONS.matches(request.getMethod()) && request.getHeader(HttpHeaders.ORIGIN) != null
+				&& request.getHeader(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD) != null);
 	}
 
 }

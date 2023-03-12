@@ -45,11 +45,9 @@ class ReadOnlyHttpHeaders extends HttpHeaders {
 	@Nullable
 	private List<MediaType> cachedAccept;
 
-
 	ReadOnlyHttpHeaders(MultiValueMap<String, String> headers) {
 		super(headers);
 	}
-
 
 	@Override
 	public MediaType getContentType() {
@@ -149,8 +147,11 @@ class ReadOnlyHttpHeaders extends HttpHeaders {
 	@Override
 	public Set<Entry<String, List<String>>> entrySet() {
 		return this.headers.entrySet().stream().map(SimpleImmutableEntry::new)
-				.collect(Collectors.collectingAndThen(
-						Collectors.toCollection(LinkedHashSet::new), // Retain original ordering of entries
+				.collect(Collectors.collectingAndThen(Collectors.toCollection(LinkedHashSet::new), // Retain
+																									// original
+																									// ordering
+																									// of
+																									// entries
 						Collections::unmodifiableSet));
 	}
 

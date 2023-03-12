@@ -43,14 +43,12 @@ import org.springframework.web.util.UrlPathHelper;
  */
 public abstract class MvcNamespaceUtils {
 
-	private static final String BEAN_NAME_URL_HANDLER_MAPPING_BEAN_NAME =
-			BeanNameUrlHandlerMapping.class.getName();
+	private static final String BEAN_NAME_URL_HANDLER_MAPPING_BEAN_NAME = BeanNameUrlHandlerMapping.class.getName();
 
-	private static final String SIMPLE_CONTROLLER_HANDLER_ADAPTER_BEAN_NAME =
-			SimpleControllerHandlerAdapter.class.getName();
+	private static final String SIMPLE_CONTROLLER_HANDLER_ADAPTER_BEAN_NAME = SimpleControllerHandlerAdapter.class
+			.getName();
 
-	private static final String HTTP_REQUEST_HANDLER_ADAPTER_BEAN_NAME =
-			HttpRequestHandlerAdapter.class.getName();
+	private static final String HTTP_REQUEST_HANDLER_ADAPTER_BEAN_NAME = HttpRequestHandlerAdapter.class.getName();
 
 	private static final String URL_PATH_HELPER_BEAN_NAME = "mvcUrlPathHelper";
 
@@ -60,7 +58,6 @@ public abstract class MvcNamespaceUtils {
 
 	private static final String HANDLER_MAPPING_INTROSPECTOR_BEAN_NAME = "mvcHandlerMappingIntrospector";
 
-
 	public static void registerDefaultComponents(ParserContext parserContext, @Nullable Object source) {
 		registerBeanNameUrlHandlerMapping(parserContext, source);
 		registerHttpRequestHandlerAdapter(parserContext, source);
@@ -69,12 +66,12 @@ public abstract class MvcNamespaceUtils {
 	}
 
 	/**
-	 * Adds an alias to an existing well-known name or registers a new instance of a {@link UrlPathHelper}
-	 * under that well-known name, unless already registered.
+	 * Adds an alias to an existing well-known name or registers a new instance of a
+	 * {@link UrlPathHelper} under that well-known name, unless already registered.
 	 * @return a RuntimeBeanReference to this {@link UrlPathHelper} instance
 	 */
-	public static RuntimeBeanReference registerUrlPathHelper(
-			@Nullable RuntimeBeanReference urlPathHelperRef, ParserContext parserContext, @Nullable Object source) {
+	public static RuntimeBeanReference registerUrlPathHelper(@Nullable RuntimeBeanReference urlPathHelperRef,
+			ParserContext parserContext, @Nullable Object source) {
 
 		if (urlPathHelperRef != null) {
 			if (parserContext.getRegistry().isAlias(URL_PATH_HELPER_BEAN_NAME)) {
@@ -82,8 +79,8 @@ public abstract class MvcNamespaceUtils {
 			}
 			parserContext.getRegistry().registerAlias(urlPathHelperRef.getBeanName(), URL_PATH_HELPER_BEAN_NAME);
 		}
-		else if (!parserContext.getRegistry().isAlias(URL_PATH_HELPER_BEAN_NAME) &&
-				!parserContext.getRegistry().containsBeanDefinition(URL_PATH_HELPER_BEAN_NAME)) {
+		else if (!parserContext.getRegistry().isAlias(URL_PATH_HELPER_BEAN_NAME)
+				&& !parserContext.getRegistry().containsBeanDefinition(URL_PATH_HELPER_BEAN_NAME)) {
 			RootBeanDefinition urlPathHelperDef = new RootBeanDefinition(UrlPathHelper.class);
 			urlPathHelperDef.setSource(source);
 			urlPathHelperDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
@@ -94,8 +91,8 @@ public abstract class MvcNamespaceUtils {
 	}
 
 	/**
-	 * Adds an alias to an existing well-known name or registers a new instance of a {@link PathMatcher}
-	 * under that well-known name, unless already registered.
+	 * Adds an alias to an existing well-known name or registers a new instance of a
+	 * {@link PathMatcher} under that well-known name, unless already registered.
 	 * @return a RuntimeBeanReference to this {@link PathMatcher} instance
 	 */
 	public static RuntimeBeanReference registerPathMatcher(@Nullable RuntimeBeanReference pathMatcherRef,
@@ -107,8 +104,8 @@ public abstract class MvcNamespaceUtils {
 			}
 			parserContext.getRegistry().registerAlias(pathMatcherRef.getBeanName(), PATH_MATCHER_BEAN_NAME);
 		}
-		else if (!parserContext.getRegistry().isAlias(PATH_MATCHER_BEAN_NAME) &&
-				!parserContext.getRegistry().containsBeanDefinition(PATH_MATCHER_BEAN_NAME)) {
+		else if (!parserContext.getRegistry().isAlias(PATH_MATCHER_BEAN_NAME)
+				&& !parserContext.getRegistry().containsBeanDefinition(PATH_MATCHER_BEAN_NAME)) {
 			RootBeanDefinition pathMatcherDef = new RootBeanDefinition(AntPathMatcher.class);
 			pathMatcherDef.setSource(source);
 			pathMatcherDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
@@ -119,15 +116,16 @@ public abstract class MvcNamespaceUtils {
 	}
 
 	/**
-	 * Registers  an {@link HttpRequestHandlerAdapter} under a well-known
-	 * name unless already registered.
+	 * Registers an {@link HttpRequestHandlerAdapter} under a well-known name unless
+	 * already registered.
 	 */
 	private static void registerBeanNameUrlHandlerMapping(ParserContext context, @Nullable Object source) {
 		if (!context.getRegistry().containsBeanDefinition(BEAN_NAME_URL_HANDLER_MAPPING_BEAN_NAME)) {
 			RootBeanDefinition mappingDef = new RootBeanDefinition(BeanNameUrlHandlerMapping.class);
 			mappingDef.setSource(source);
 			mappingDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-			mappingDef.getPropertyValues().add("order", 2);	// consistent with WebMvcConfigurationSupport
+			mappingDef.getPropertyValues().add("order", 2); // consistent with
+															// WebMvcConfigurationSupport
 			RuntimeBeanReference corsRef = MvcNamespaceUtils.registerCorsConfigurations(null, context, source);
 			mappingDef.getPropertyValues().add("corsConfigurations", corsRef);
 			context.getRegistry().registerBeanDefinition(BEAN_NAME_URL_HANDLER_MAPPING_BEAN_NAME, mappingDef);
@@ -136,8 +134,8 @@ public abstract class MvcNamespaceUtils {
 	}
 
 	/**
-	 * Registers  an {@link HttpRequestHandlerAdapter} under a well-known
-	 * name unless already registered.
+	 * Registers an {@link HttpRequestHandlerAdapter} under a well-known name unless
+	 * already registered.
 	 */
 	private static void registerHttpRequestHandlerAdapter(ParserContext context, @Nullable Object source) {
 		if (!context.getRegistry().containsBeanDefinition(HTTP_REQUEST_HANDLER_ADAPTER_BEAN_NAME)) {
@@ -150,8 +148,8 @@ public abstract class MvcNamespaceUtils {
 	}
 
 	/**
-	 * Registers a {@link SimpleControllerHandlerAdapter} under a well-known
-	 * name unless already registered.
+	 * Registers a {@link SimpleControllerHandlerAdapter} under a well-known name unless
+	 * already registered.
 	 */
 	private static void registerSimpleControllerHandlerAdapter(ParserContext context, @Nullable Object source) {
 		if (!context.getRegistry().containsBeanDefinition(SIMPLE_CONTROLLER_HANDLER_ADAPTER_BEAN_NAME)) {
@@ -159,19 +157,21 @@ public abstract class MvcNamespaceUtils {
 			beanDef.setSource(source);
 			beanDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 			context.getRegistry().registerBeanDefinition(SIMPLE_CONTROLLER_HANDLER_ADAPTER_BEAN_NAME, beanDef);
-			context.registerComponent(new BeanComponentDefinition(beanDef, SIMPLE_CONTROLLER_HANDLER_ADAPTER_BEAN_NAME));
+			context.registerComponent(
+					new BeanComponentDefinition(beanDef, SIMPLE_CONTROLLER_HANDLER_ADAPTER_BEAN_NAME));
 		}
 	}
 
 	/**
-	 * Registers a {@code Map<String, CorsConfiguration>} (mapped {@code CorsConfiguration}s)
-	 * under a well-known name unless already registered. The bean definition may be updated
-	 * if a non-null CORS configuration is provided.
-	 * @return a RuntimeBeanReference to this {@code Map<String, CorsConfiguration>} instance
+	 * Registers a {@code Map<String, CorsConfiguration>} (mapped
+	 * {@code CorsConfiguration}s) under a well-known name unless already registered. The
+	 * bean definition may be updated if a non-null CORS configuration is provided.
+	 * @return a RuntimeBeanReference to this {@code Map<String, CorsConfiguration>}
+	 * instance
 	 */
 	public static RuntimeBeanReference registerCorsConfigurations(
-			@Nullable Map<String, CorsConfiguration> corsConfigurations,
-			ParserContext context, @Nullable Object source) {
+			@Nullable Map<String, CorsConfiguration> corsConfigurations, ParserContext context,
+			@Nullable Object source) {
 
 		if (!context.getRegistry().containsBeanDefinition(CORS_CONFIGURATION_BEAN_NAME)) {
 			RootBeanDefinition corsDef = new RootBeanDefinition(LinkedHashMap.class);
@@ -191,8 +191,8 @@ public abstract class MvcNamespaceUtils {
 	}
 
 	/**
-	 * Registers  an {@link HandlerMappingIntrospector} under a well-known name
-	 * unless already registered.
+	 * Registers an {@link HandlerMappingIntrospector} under a well-known name unless
+	 * already registered.
 	 */
 	private static void registerHandlerMappingIntrospector(ParserContext parserContext, @Nullable Object source) {
 		if (!parserContext.getRegistry().containsBeanDefinition(HANDLER_MAPPING_INTROSPECTOR_BEAN_NAME)) {
@@ -201,13 +201,14 @@ public abstract class MvcNamespaceUtils {
 			beanDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 			beanDef.setLazyInit(true);
 			parserContext.getRegistry().registerBeanDefinition(HANDLER_MAPPING_INTROSPECTOR_BEAN_NAME, beanDef);
-			parserContext.registerComponent(new BeanComponentDefinition(beanDef, HANDLER_MAPPING_INTROSPECTOR_BEAN_NAME));
+			parserContext
+					.registerComponent(new BeanComponentDefinition(beanDef, HANDLER_MAPPING_INTROSPECTOR_BEAN_NAME));
 		}
 	}
 
 	/**
-	 * Find the {@code ContentNegotiationManager} bean created by or registered
-	 * with the {@code annotation-driven} element.
+	 * Find the {@code ContentNegotiationManager} bean created by or registered with the
+	 * {@code annotation-driven} element.
 	 * @return a bean definition, bean reference, or {@code null} if none defined
 	 */
 	@Nullable

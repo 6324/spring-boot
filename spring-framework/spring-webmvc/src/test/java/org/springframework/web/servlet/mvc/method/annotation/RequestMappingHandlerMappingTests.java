@@ -65,10 +65,10 @@ public class RequestMappingHandlerMappingTests {
 	private final StaticWebApplicationContext wac = new StaticWebApplicationContext();
 
 	private final RequestMappingHandlerMapping handlerMapping = new RequestMappingHandlerMapping();
+
 	{
 		this.handlerMapping.setApplicationContext(wac);
 	}
-
 
 	@Test
 	public void useRegisteredSuffixPatternMatch() {
@@ -133,9 +133,7 @@ public class RequestMappingHandlerMappingTests {
 
 	@Test
 	public void resolveEmbeddedValuesInPatterns() {
-		this.handlerMapping.setEmbeddedValueResolver(
-				value -> "/${pattern}/bar".equals(value) ? "/foo/bar" : value
-		);
+		this.handlerMapping.setEmbeddedValueResolver(value -> "/${pattern}/bar".equals(value) ? "/foo/bar" : value);
 
 		String[] patterns = new String[] { "/foo", "/${pattern}/bar" };
 		String[] result = this.handlerMapping.resolveEmbeddedValuesInPatterns(patterns);
@@ -146,8 +144,8 @@ public class RequestMappingHandlerMappingTests {
 	@Test
 	public void pathPrefix() throws NoSuchMethodException {
 		this.handlerMapping.setEmbeddedValueResolver(value -> "/${prefix}".equals(value) ? "/api" : value);
-		this.handlerMapping.setPathPrefixes(Collections.singletonMap(
-				"/${prefix}", HandlerTypePredicate.forAnnotation(RestController.class)));
+		this.handlerMapping.setPathPrefixes(
+				Collections.singletonMap("/${prefix}", HandlerTypePredicate.forAnnotation(RestController.class)));
 
 		Method method = UserController.class.getMethod("getUser");
 		RequestMappingInfo info = this.handlerMapping.getMappingForMethod(method, UserController.class);
@@ -198,8 +196,7 @@ public class RequestMappingHandlerMappingTests {
 		this.wac.refresh();
 		this.handlerMapping.afterPropertiesSet();
 		RequestMappingInfo info = this.handlerMapping.getHandlerMethods().keySet().stream()
-				.filter(i -> i.getPatternsCondition().getPatterns().equals(Collections.singleton("/post")))
-				.findFirst()
+				.filter(i -> i.getPatternsCondition().getPatterns().equals(Collections.singleton("/post"))).findFirst()
 				.orElseThrow(() -> new AssertionError("No /post"));
 
 		assertThat(info.getConsumesCondition().isBodyRequired()).isFalse();
@@ -257,7 +254,6 @@ public class RequestMappingHandlerMappingTests {
 		return info;
 	}
 
-
 	@Controller
 	@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	static class ComposedAnnotationController {
@@ -292,9 +288,7 @@ public class RequestMappingHandlerMappingTests {
 
 	}
 
-
-	@RequestMapping(method = RequestMethod.POST,
-			produces = MediaType.APPLICATION_JSON_VALUE,
+	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 	@Target(ElementType.METHOD)
 	@Retention(RetentionPolicy.RUNTIME)
@@ -302,8 +296,8 @@ public class RequestMappingHandlerMappingTests {
 
 		@AliasFor(annotation = RequestMapping.class)
 		String[] value() default {};
-	}
 
+	}
 
 	@RestController
 	@RequestMapping("/user")
@@ -313,10 +307,11 @@ public class RequestMappingHandlerMappingTests {
 		public Principal getUser() {
 			return mock(Principal.class);
 		}
+
 	}
 
-
 	private static class Foo {
+
 	}
 
 }

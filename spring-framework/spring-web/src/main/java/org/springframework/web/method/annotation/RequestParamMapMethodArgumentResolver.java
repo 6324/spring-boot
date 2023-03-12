@@ -39,15 +39,16 @@ import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.multipart.support.MultipartResolutionDelegate;
 
 /**
- * Resolves {@link Map} method arguments annotated with an @{@link RequestParam}
- * where the annotation does not specify a request parameter name.
+ * Resolves {@link Map} method arguments annotated with an @{@link RequestParam} where the
+ * annotation does not specify a request parameter name.
  *
- * <p>The created {@link Map} contains all request parameter name/value pairs,
- * or all multipart files for a given parameter name if specifically declared
- * with {@link MultipartFile} as the value type. If the method parameter type is
- * {@link MultiValueMap} instead, the created map contains all request parameters
- * and all their values for cases where request parameters have multiple values
- * (or multiple multipart files of the same name).
+ * <p>
+ * The created {@link Map} contains all request parameter name/value pairs, or all
+ * multipart files for a given parameter name if specifically declared with
+ * {@link MultipartFile} as the value type. If the method parameter type is
+ * {@link MultiValueMap} instead, the created map contains all request parameters and all
+ * their values for cases where request parameters have multiple values (or multiple
+ * multipart files of the same name).
  *
  * @author Arjen Poutsma
  * @author Rossen Stoyanchev
@@ -63,8 +64,8 @@ public class RequestParamMapMethodArgumentResolver implements HandlerMethodArgum
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		RequestParam requestParam = parameter.getParameterAnnotation(RequestParam.class);
-		return (requestParam != null && Map.class.isAssignableFrom(parameter.getParameterType()) &&
-				!StringUtils.hasText(requestParam.name()));
+		return (requestParam != null && Map.class.isAssignableFrom(parameter.getParameterType())
+				&& !StringUtils.hasText(requestParam.name()));
 	}
 
 	@Override

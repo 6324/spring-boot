@@ -186,8 +186,7 @@ public class DelegatingFilterProxyTests {
 
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
-		assertThatIllegalStateException().isThrownBy(() ->
-				filterProxy.doFilter(request, response, null));
+		assertThatIllegalStateException().isThrownBy(() -> filterProxy.doFilter(request, response, null));
 	}
 
 	@Test
@@ -332,8 +331,7 @@ public class DelegatingFilterProxyTests {
 	}
 
 	@Test
-	public void testDelegatingFilterProxyNotInjectedWacServletAttrPreferred()
-			throws ServletException, IOException {
+	public void testDelegatingFilterProxyNotInjectedWacServletAttrPreferred() throws ServletException, IOException {
 
 		ServletContext sc = new MockServletContext();
 		StaticWebApplicationContext wac = new StaticWebApplicationContext();
@@ -399,7 +397,6 @@ public class DelegatingFilterProxyTests {
 		assertThat(targetFilter.filterConfig).isNull();
 	}
 
-
 	public static class MockFilter implements Filter {
 
 		public FilterConfig filterConfig;
@@ -420,6 +417,7 @@ public class DelegatingFilterProxyTests {
 		public void destroy() {
 			this.filterConfig = null;
 		}
+
 	}
 
 }

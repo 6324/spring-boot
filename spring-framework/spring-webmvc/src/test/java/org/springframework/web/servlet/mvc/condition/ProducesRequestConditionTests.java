@@ -100,19 +100,23 @@ public class ProducesRequestConditionTests {
 		String base = "application/atom+xml";
 		ProducesRequestCondition condition = new ProducesRequestCondition(base + ";type=feed");
 		HttpServletRequest request = createRequest(base + ";type=entry");
-		assertThat(condition.getMatchingCondition(request)).as("Declared parameter value must match if present in request").isNull();
+		assertThat(condition.getMatchingCondition(request))
+				.as("Declared parameter value must match if present in request").isNull();
 
 		condition = new ProducesRequestCondition(base + ";type=feed");
 		request = createRequest(base + ";type=feed");
-		assertThat(condition.getMatchingCondition(request)).as("Declared parameter value must match if present in request").isNotNull();
+		assertThat(condition.getMatchingCondition(request))
+				.as("Declared parameter value must match if present in request").isNotNull();
 
 		condition = new ProducesRequestCondition(base + ";type=feed");
 		request = createRequest(base);
-		assertThat(condition.getMatchingCondition(request)).as("Declared parameter has no impact if not present in request").isNotNull();
+		assertThat(condition.getMatchingCondition(request))
+				.as("Declared parameter has no impact if not present in request").isNotNull();
 
 		condition = new ProducesRequestCondition(base);
 		request = createRequest(base + ";type=feed");
-		assertThat(condition.getMatchingCondition(request)).as("No impact from other parameters in request").isNotNull();
+		assertThat(condition.getMatchingCondition(request)).as("No impact from other parameters in request")
+				.isNotNull();
 	}
 
 	@Test
@@ -133,7 +137,7 @@ public class ProducesRequestConditionTests {
 
 	@Test
 	public void matchByRequestParameter() {
-		String[] produces = {"text/plain"};
+		String[] produces = { "text/plain" };
 		String[] headers = {};
 		ProducesRequestCondition condition = new ProducesRequestCondition(produces, headers);
 		HttpServletRequest request = new MockHttpServletRequest("GET", "/foo.txt");
@@ -152,12 +156,11 @@ public class ProducesRequestConditionTests {
 
 	@Test // gh-22853
 	public void matchAndCompare() {
-		ContentNegotiationManager manager = new ContentNegotiationManager(
-				new HeaderContentNegotiationStrategy(),
+		ContentNegotiationManager manager = new ContentNegotiationManager(new HeaderContentNegotiationStrategy(),
 				new FixedContentNegotiationStrategy(MediaType.TEXT_HTML));
 
 		ProducesRequestCondition none = new ProducesRequestCondition(new String[0], null, manager);
-		ProducesRequestCondition html = new ProducesRequestCondition(new String[] {"text/html"}, null, manager);
+		ProducesRequestCondition html = new ProducesRequestCondition(new String[] { "text/html" }, null, manager);
 
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.addHeader("Accept", "*/*");
@@ -259,8 +262,10 @@ public class ProducesRequestConditionTests {
 		ProducesRequestCondition condition1 = new ProducesRequestCondition();
 		ProducesRequestCondition condition2 = new ProducesRequestCondition("application/json");
 
-		assertThat(condition1.compareTo(condition2, request) < 0).as("Should have picked '*/*' condition as an exact match").isTrue();
-		assertThat(condition2.compareTo(condition1, request) > 0).as("Should have picked '*/*' condition as an exact match").isTrue();
+		assertThat(condition1.compareTo(condition2, request) < 0)
+				.as("Should have picked '*/*' condition as an exact match").isTrue();
+		assertThat(condition2.compareTo(condition1, request) > 0)
+				.as("Should have picked '*/*' condition as an exact match").isTrue();
 
 		condition1 = new ProducesRequestCondition("*/*");
 		condition2 = new ProducesRequestCondition("application/json");
@@ -330,8 +335,8 @@ public class ProducesRequestConditionTests {
 
 	@Test
 	public void instantiateWithProducesAndHeaderConditions() {
-		String[] produces = new String[] {"text/plain"};
-		String[] headers = new String[]{"foo=bar", "accept=application/xml,application/pdf"};
+		String[] produces = new String[] { "text/plain" };
+		String[] headers = new String[] { "foo=bar", "accept=application/xml,application/pdf" };
 		ProducesRequestCondition condition = new ProducesRequestCondition(produces, headers);
 
 		assertConditions(condition, "text/plain", "application/xml", "application/pdf");
@@ -352,7 +357,6 @@ public class ProducesRequestConditionTests {
 		assertThat(result).isNull();
 	}
 
-
 	private MockHttpServletRequest createRequest(String... headerValue) {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		Arrays.stream(headerValue).forEach(value -> request.addHeader("Accept", headerValue));
@@ -362,7 +366,7 @@ public class ProducesRequestConditionTests {
 	private void assertConditions(ProducesRequestCondition condition, String... expected) {
 		Collection<ProduceMediaTypeExpression> expressions = condition.getContent();
 		assertThat(expressions.stream().map(expr -> expr.getMediaType().toString()))
-			.containsExactlyInAnyOrder(expected);
+				.containsExactlyInAnyOrder(expected);
 	}
 
 }

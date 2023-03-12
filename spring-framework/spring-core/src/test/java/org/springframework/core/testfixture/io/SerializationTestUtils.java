@@ -19,8 +19,8 @@ package org.springframework.core.testfixture.io;
 import java.io.*;
 
 /**
- * Utilities for testing serializability of objects.
- * Exposes static methods for use in other test cases.
+ * Utilities for testing serializability of objects. Exposes static methods for use in
+ * other test cases.
  *
  * @author Rod Johnson
  */

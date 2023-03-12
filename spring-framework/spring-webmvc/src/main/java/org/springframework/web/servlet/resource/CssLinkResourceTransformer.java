@@ -36,15 +36,16 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * A {@link ResourceTransformer} implementation that modifies links in a CSS
- * file to match the public URL paths that should be exposed to clients (e.g.
- * with an MD5 content-based hash inserted in the URL).
+ * A {@link ResourceTransformer} implementation that modifies links in a CSS file to match
+ * the public URL paths that should be exposed to clients (e.g. with an MD5 content-based
+ * hash inserted in the URL).
  *
- * <p>The implementation looks for links in CSS {@code @import} statements and
- * also inside CSS {@code url()} functions. All links are then passed through the
- * {@link ResourceResolverChain} and resolved relative to the location of the
- * containing CSS file. If successfully resolved, the link is modified, otherwise
- * the original link is preserved.
+ * <p>
+ * The implementation looks for links in CSS {@code @import} statements and also inside
+ * CSS {@code url()} functions. All links are then passed through the
+ * {@link ResourceResolverChain} and resolved relative to the location of the containing
+ * CSS file. If successfully resolved, the link is modified, otherwise the original link
+ * is preserved.
  *
  * @author Rossen Stoyanchev
  * @since 4.1
@@ -57,12 +58,10 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 
 	private final List<LinkParser> linkParsers = new ArrayList<>(2);
 
-
 	public CssLinkResourceTransformer() {
 		this.linkParsers.add(new ImportStatementLinkParser());
 		this.linkParsers.add(new UrlFunctionLinkParser());
 	}
-
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -72,9 +71,9 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 		resource = transformerChain.transform(request, resource);
 
 		String filename = resource.getFilename();
-		if (!"css".equals(StringUtils.getFilenameExtension(filename)) ||
-				resource instanceof EncodedResourceResolver.EncodedResource ||
-				resource instanceof GzipResourceResolver.GzippedResource) {
+		if (!"css".equals(StringUtils.getFilenameExtension(filename))
+				|| resource instanceof EncodedResourceResolver.EncodedResource
+				|| resource instanceof GzipResourceResolver.GzippedResource) {
 			return resource;
 		}
 
@@ -113,7 +112,6 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 		return ((schemeIndex > 0 && !link.substring(0, schemeIndex).contains("/")) || link.indexOf("//") == 0);
 	}
 
-
 	/**
 	 * Extract content chunks that represent links.
 	 */
@@ -123,7 +121,6 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 		void parse(String content, SortedSet<ContentChunkInfo> result);
 
 	}
-
 
 	/**
 	 * Abstract base class for {@link LinkParser} implementations.
@@ -165,12 +162,12 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 		}
 
 		/**
-		 * Invoked after a keyword match, after whitespace has been removed, and when
-		 * the next char is neither a single nor double quote.
+		 * Invoked after a keyword match, after whitespace has been removed, and when the
+		 * next char is neither a single nor double quote.
 		 */
 		protected abstract int extractLink(int index, String content, SortedSet<ContentChunkInfo> linksToAdd);
-	}
 
+	}
 
 	private static class ImportStatementLinkParser extends AbstractLinkParser {
 
@@ -189,8 +186,8 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 			}
 			return index;
 		}
-	}
 
+	}
 
 	private static class UrlFunctionLinkParser extends AbstractLinkParser {
 
@@ -204,8 +201,8 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 			// A url() function without unquoted
 			return extractLink(index - 1, ")", content, linksToAdd);
 		}
-	}
 
+	}
 
 	private static class ContentChunkInfo implements Comparable<ContentChunkInfo> {
 
@@ -247,6 +244,7 @@ public class CssLinkResourceTransformer extends ResourceTransformerSupport {
 		public int hashCode() {
 			return this.start * 31 + this.end;
 		}
+
 	}
 
 }

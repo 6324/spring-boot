@@ -30,7 +30,6 @@ import org.springframework.http.codec.HttpMessageWriter;
  */
 public class DefaultClientCodecConfigurer extends BaseCodecConfigurer implements ClientCodecConfigurer {
 
-
 	public DefaultClientCodecConfigurer() {
 		super(new ClientDefaultCodecsImpl());
 		((ClientDefaultCodecsImpl) defaultCodecs()).setPartWritersSupplier(this::getPartWriters);
@@ -40,7 +39,6 @@ public class DefaultClientCodecConfigurer extends BaseCodecConfigurer implements
 		super(other);
 		((ClientDefaultCodecsImpl) defaultCodecs()).setPartWritersSupplier(this::getPartWriters);
 	}
-
 
 	@Override
 	public ClientDefaultCodecs defaultCodecs() {

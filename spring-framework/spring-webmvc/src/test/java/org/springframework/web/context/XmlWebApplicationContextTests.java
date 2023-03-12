@@ -67,6 +67,7 @@ public class XmlWebApplicationContextTests extends AbstractApplicationContextTes
 						}
 						return bean;
 					}
+
 					@Override
 					public Object postProcessAfterInitialization(Object bean, String name) throws BeansException {
 						return bean;
@@ -101,15 +102,18 @@ public class XmlWebApplicationContextTests extends AbstractApplicationContextTes
 	@Override
 	protected void doTestEvents(TestApplicationListener listener, TestApplicationListener parentListener,
 			MyEvent event) {
-		TestApplicationListener listenerBean = (TestApplicationListener) this.applicationContext.getBean("testListener");
-		TestApplicationListener parentListenerBean = (TestApplicationListener) this.applicationContext.getParent().getBean("parentListener");
+		TestApplicationListener listenerBean = (TestApplicationListener) this.applicationContext
+				.getBean("testListener");
+		TestApplicationListener parentListenerBean = (TestApplicationListener) this.applicationContext.getParent()
+				.getBean("parentListener");
 		super.doTestEvents(listenerBean, parentListenerBean, event);
 	}
 
 	@Test
 	@Override
 	public void count() {
-		assertThat(this.applicationContext.getBeanDefinitionCount() == 14).as("should have 14 beans, not "+ this.applicationContext.getBeanDefinitionCount()).isTrue();
+		assertThat(this.applicationContext.getBeanDefinitionCount() == 14)
+				.as("should have 14 beans, not " + this.applicationContext.getBeanDefinitionCount()).isTrue();
 	}
 
 	@Test
@@ -122,8 +126,8 @@ public class XmlWebApplicationContextTests extends AbstractApplicationContextTes
 		wac.setNamespace("testNamespace");
 		wac.setConfigLocations("/org/springframework/web/context/WEB-INF/test-servlet.xml");
 		wac.refresh();
-		assertThatExceptionOfType(NoSuchMessageException.class).isThrownBy(() ->
-				wac.getMessage("someMessage", null, Locale.getDefault()));
+		assertThatExceptionOfType(NoSuchMessageException.class)
+				.isThrownBy(() -> wac.getMessage("someMessage", null, Locale.getDefault()));
 		String msg = wac.getMessage("someMessage", null, "default", Locale.getDefault());
 		assertThat("default".equals(msg)).as("Default message returned").isTrue();
 	}
@@ -160,7 +164,6 @@ public class XmlWebApplicationContextTests extends AbstractApplicationContextTes
 		assertThat(iib.destroyed && iib.customDestroyed).isTrue();
 	}
 
-
 	public static class InitAndIB implements InitializingBean, DisposableBean {
 
 		public static boolean constructed;
@@ -195,6 +198,7 @@ public class XmlWebApplicationContextTests extends AbstractApplicationContextTes
 			Assert.state(!this.customDestroyed, "Already customDestroyed");
 			this.customDestroyed = true;
 		}
+
 	}
 
 }

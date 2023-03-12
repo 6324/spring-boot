@@ -25,19 +25,18 @@ import org.springframework.lang.Nullable;
  * The {@code <param>} tag collects name-value parameters and passes them to a
  * {@link ParamAware} ancestor in the tag hierarchy.
  *
- * <p>This tag must be nested under a param aware tag.
+ * <p>
+ * This tag must be nested under a param aware tag.
  *
  * <table>
- * <caption>Attribute Summary</caption>
- * <thead>
+ * <caption>Attribute Summary</caption> <thead>
  * <tr>
  * <th>Attribute</th>
  * <th>Required?</th>
  * <th>Runtime Expression?</th>
  * <th>Description</th>
  * </tr>
- * </thead>
- * <tbody>
+ * </thead> <tbody>
  * <tr>
  * <td>name</td>
  * <td>true</td>
@@ -69,7 +68,6 @@ public class ParamTag extends BodyTagSupport {
 
 	private boolean valueSet;
 
-
 	/**
 	 * Set the name of the parameter (required).
 	 */
@@ -84,7 +82,6 @@ public class ParamTag extends BodyTagSupport {
 		this.value = value;
 		this.valueSet = true;
 	}
-
 
 	@Override
 	public int doEndTag() throws JspException {

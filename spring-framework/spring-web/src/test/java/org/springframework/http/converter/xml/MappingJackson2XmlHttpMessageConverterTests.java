@@ -45,7 +45,6 @@ public class MappingJackson2XmlHttpMessageConverterTests {
 
 	private final MappingJackson2XmlHttpMessageConverter converter = new MappingJackson2XmlHttpMessageConverter();
 
-
 	@Test
 	public void canRead() {
 		assertThat(converter.canRead(MyBean.class, new MediaType("application", "xml"))).isTrue();
@@ -61,28 +60,24 @@ public class MappingJackson2XmlHttpMessageConverterTests {
 		assertThat(converter.canWrite(MyBean.class, new MediaType("text", "xml"))).isTrue();
 		assertThat(converter.canWrite(MyBean.class, new MediaType("application", "soap+xml"))).isTrue();
 		assertThat(converter.canWrite(MyBean.class, new MediaType("text", "xml", StandardCharsets.UTF_8))).isTrue();
-		assertThat(converter.canWrite(MyBean.class, new MediaType("text", "xml", StandardCharsets.ISO_8859_1))).isFalse();
+		assertThat(converter.canWrite(MyBean.class, new MediaType("text", "xml", StandardCharsets.ISO_8859_1)))
+				.isFalse();
 	}
 
 	@Test
 	public void read() throws IOException {
-		String body = "<MyBean>" +
-				"<string>Foo</string>" +
-				"<number>42</number>" +
-				"<fraction>42.0</fraction>" +
-				"<array><array>Foo</array>" +
-				"<array>Bar</array></array>" +
-				"<bool>true</bool>" +
-				"<bytes>AQI=</bytes></MyBean>";
+		String body = "<MyBean>" + "<string>Foo</string>" + "<number>42</number>" + "<fraction>42.0</fraction>"
+				+ "<array><array>Foo</array>" + "<array>Bar</array></array>" + "<bool>true</bool>"
+				+ "<bytes>AQI=</bytes></MyBean>";
 		MockHttpInputMessage inputMessage = new MockHttpInputMessage(body.getBytes("UTF-8"));
 		inputMessage.getHeaders().setContentType(new MediaType("application", "xml"));
 		MyBean result = (MyBean) converter.read(MyBean.class, inputMessage);
 		assertThat(result.getString()).isEqualTo("Foo");
 		assertThat(result.getNumber()).isEqualTo(42);
 		assertThat(result.getFraction()).isCloseTo(42F, within(0F));
-		assertThat(result.getArray()).isEqualTo(new String[]{"Foo", "Bar"});
+		assertThat(result.getArray()).isEqualTo(new String[] { "Foo", "Bar" });
 		assertThat(result.isBool()).isTrue();
-		assertThat(result.getBytes()).isEqualTo(new byte[]{0x1, 0x2});
+		assertThat(result.getBytes()).isEqualTo(new byte[] { 0x1, 0x2 });
 	}
 
 	@Test
@@ -92,9 +87,9 @@ public class MappingJackson2XmlHttpMessageConverterTests {
 		body.setString("Foo");
 		body.setNumber(42);
 		body.setFraction(42F);
-		body.setArray(new String[]{"Foo", "Bar"});
+		body.setArray(new String[] { "Foo", "Bar" });
 		body.setBool(true);
-		body.setBytes(new byte[]{0x1, 0x2});
+		body.setBytes(new byte[] { 0x1, 0x2 });
 		converter.write(body, null, outputMessage);
 		String result = outputMessage.getBodyAsString(StandardCharsets.UTF_8);
 		assertThat(result.contains("<string>Foo</string>")).isTrue();
@@ -103,7 +98,8 @@ public class MappingJackson2XmlHttpMessageConverterTests {
 		assertThat(result.contains("<array><array>Foo</array><array>Bar</array></array>")).isTrue();
 		assertThat(result.contains("<bool>true</bool>")).isTrue();
 		assertThat(result.contains("<bytes>AQI=</bytes>")).isTrue();
-		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type").isEqualTo(new MediaType("application", "xml", StandardCharsets.UTF_8));
+		assertThat(outputMessage.getHeaders().getContentType()).as("Invalid content-type")
+				.isEqualTo(new MediaType("application", "xml", StandardCharsets.UTF_8));
 	}
 
 	@Test
@@ -111,8 +107,8 @@ public class MappingJackson2XmlHttpMessageConverterTests {
 		String body = "FooBar";
 		MockHttpInputMessage inputMessage = new MockHttpInputMessage(body.getBytes("UTF-8"));
 		inputMessage.getHeaders().setContentType(new MediaType("application", "xml"));
-		assertThatExceptionOfType(HttpMessageNotReadableException.class).isThrownBy(() ->
-				converter.read(MyBean.class, inputMessage));
+		assertThatExceptionOfType(HttpMessageNotReadableException.class)
+				.isThrownBy(() -> converter.read(MyBean.class, inputMessage));
 	}
 
 	@Test
@@ -150,52 +146,45 @@ public class MappingJackson2XmlHttpMessageConverterTests {
 
 	@Test
 	public void readWithExternalReference() throws IOException {
-		String body = "<!DOCTYPE MyBean SYSTEM \"https://192.168.28.42/1.jsp\" [" +
-				"  <!ELEMENT root ANY >\n" +
-				"  <!ENTITY ext SYSTEM \"" +
-				new ClassPathResource("external.txt", getClass()).getURI() +
-				"\" >]><MyBean><string>&ext;</string></MyBean>";
+		String body = "<!DOCTYPE MyBean SYSTEM \"https://192.168.28.42/1.jsp\" [" + "  <!ELEMENT root ANY >\n"
+				+ "  <!ENTITY ext SYSTEM \"" + new ClassPathResource("external.txt", getClass()).getURI()
+				+ "\" >]><MyBean><string>&ext;</string></MyBean>";
 
 		MockHttpInputMessage inputMessage = new MockHttpInputMessage(body.getBytes("UTF-8"));
 		inputMessage.getHeaders().setContentType(new MediaType("application", "xml"));
 
-		assertThatExceptionOfType(HttpMessageNotReadableException.class).isThrownBy(() ->
-				this.converter.read(MyBean.class, inputMessage));
+		assertThatExceptionOfType(HttpMessageNotReadableException.class)
+				.isThrownBy(() -> this.converter.read(MyBean.class, inputMessage));
 	}
 
 	@Test
 	public void readWithXmlBomb() throws IOException {
 		// https://en.wikipedia.org/wiki/Billion_laughs
 		// https://msdn.microsoft.com/en-us/magazine/ee335713.aspx
-		String body = "<?xml version=\"1.0\"?>\n" +
-				"<!DOCTYPE lolz [\n" +
-				" <!ENTITY lol \"lol\">\n" +
-				" <!ELEMENT lolz (#PCDATA)>\n" +
-				" <!ENTITY lol1 \"&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;\">\n" +
-				" <!ENTITY lol2 \"&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;\">\n" +
-				" <!ENTITY lol3 \"&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;\">\n" +
-				" <!ENTITY lol4 \"&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;\">\n" +
-				" <!ENTITY lol5 \"&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;\">\n" +
-				" <!ENTITY lol6 \"&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;\">\n" +
-				" <!ENTITY lol7 \"&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;\">\n" +
-				" <!ENTITY lol8 \"&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;\">\n" +
-				" <!ENTITY lol9 \"&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;\">\n" +
-				"]>\n" +
-				"<MyBean>&lol9;</MyBean>";
+		String body = "<?xml version=\"1.0\"?>\n" + "<!DOCTYPE lolz [\n" + " <!ENTITY lol \"lol\">\n"
+				+ " <!ELEMENT lolz (#PCDATA)>\n"
+				+ " <!ENTITY lol1 \"&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;\">\n"
+				+ " <!ENTITY lol2 \"&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;\">\n"
+				+ " <!ENTITY lol3 \"&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;\">\n"
+				+ " <!ENTITY lol4 \"&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;\">\n"
+				+ " <!ENTITY lol5 \"&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;\">\n"
+				+ " <!ENTITY lol6 \"&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;\">\n"
+				+ " <!ENTITY lol7 \"&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;\">\n"
+				+ " <!ENTITY lol8 \"&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;\">\n"
+				+ " <!ENTITY lol9 \"&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;\">\n" + "]>\n"
+				+ "<MyBean>&lol9;</MyBean>";
 
 		MockHttpInputMessage inputMessage = new MockHttpInputMessage(body.getBytes("UTF-8"));
 		inputMessage.getHeaders().setContentType(new MediaType("application", "xml"));
 
-		assertThatExceptionOfType(HttpMessageNotReadableException.class).isThrownBy(() ->
-				this.converter.read(MyBean.class, inputMessage));
+		assertThatExceptionOfType(HttpMessageNotReadableException.class)
+				.isThrownBy(() -> this.converter.read(MyBean.class, inputMessage));
 	}
 
 	@Test
 	@SuppressWarnings("unchecked")
 	public void readNonUnicode() throws Exception {
-		String body = "<MyBean>" +
-				"<string>føø bår</string>" +
-				"</MyBean>";
+		String body = "<MyBean>" + "<string>føø bår</string>" + "</MyBean>";
 
 		Charset charset = StandardCharsets.ISO_8859_1;
 		MockHttpInputMessage inputMessage = new MockHttpInputMessage(body.getBytes(charset));
@@ -203,8 +192,6 @@ public class MappingJackson2XmlHttpMessageConverterTests {
 		MyBean result = (MyBean) converter.read(MyBean.class, inputMessage);
 		assertThat(result.getString()).isEqualTo("føø bår");
 	}
-
-
 
 	public static class MyBean {
 
@@ -267,13 +254,16 @@ public class MappingJackson2XmlHttpMessageConverterTests {
 		public void setArray(String[] array) {
 			this.array = array;
 		}
+
 	}
 
+	private interface MyJacksonView1 {
 
-	private interface MyJacksonView1 {};
+	};
 
-	private interface MyJacksonView2 {};
+	private interface MyJacksonView2 {
 
+	};
 
 	@SuppressWarnings("unused")
 	private static class JacksonViewBean {
@@ -309,11 +299,12 @@ public class MappingJackson2XmlHttpMessageConverterTests {
 		public void setWithoutView(String withoutView) {
 			this.withoutView = withoutView;
 		}
-	}
 
+	}
 
 	@SuppressWarnings("serial")
 	private static class MyXmlMapper extends XmlMapper {
+
 	}
 
 }

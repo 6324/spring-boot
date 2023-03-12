@@ -29,13 +29,14 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.util.WebUtils;
 
 /**
- * Convenient superclass for application objects running in a {@link WebApplicationContext}.
- * Provides {@code getWebApplicationContext()}, {@code getServletContext()}, and
- * {@code getTempDir()} accessors.
+ * Convenient superclass for application objects running in a
+ * {@link WebApplicationContext}. Provides {@code getWebApplicationContext()},
+ * {@code getServletContext()}, and {@code getTempDir()} accessors.
  *
- * <p>Note: It is generally recommended to use individual callback interfaces for the actual
- * callbacks needed. This broad base class is primarily intended for use within the framework,
- * in case of {@link ServletContext} access etc typically being needed.
+ * <p>
+ * Note: It is generally recommended to use individual callback interfaces for the actual
+ * callbacks needed. This broad base class is primarily intended for use within the
+ * framework, in case of {@link ServletContext} access etc typically being needed.
  *
  * @author Juergen Hoeller
  * @since 28.08.2003
@@ -46,7 +47,6 @@ public abstract class WebApplicationObjectSupport extends ApplicationObjectSuppo
 	@Nullable
 	private ServletContext servletContext;
 
-
 	@Override
 	public final void setServletContext(ServletContext servletContext) {
 		if (servletContext != this.servletContext) {
@@ -56,8 +56,8 @@ public abstract class WebApplicationObjectSupport extends ApplicationObjectSuppo
 	}
 
 	/**
-	 * Overrides the base class behavior to enforce running in an ApplicationContext.
-	 * All accessors will throw IllegalStateException if not running in a context.
+	 * Overrides the base class behavior to enforce running in an ApplicationContext. All
+	 * accessors will throw IllegalStateException if not running in a context.
 	 * @see #getApplicationContext()
 	 * @see #getMessageSourceAccessor()
 	 * @see #getWebApplicationContext()
@@ -70,8 +70,8 @@ public abstract class WebApplicationObjectSupport extends ApplicationObjectSuppo
 	}
 
 	/**
-	 * Calls {@link #initServletContext(javax.servlet.ServletContext)} if the
-	 * given ApplicationContext is a {@link WebApplicationContext}.
+	 * Calls {@link #initServletContext(javax.servlet.ServletContext)} if the given
+	 * ApplicationContext is a {@link WebApplicationContext}.
 	 */
 	@Override
 	protected void initApplicationContext(ApplicationContext context) {
@@ -85,11 +85,12 @@ public abstract class WebApplicationObjectSupport extends ApplicationObjectSuppo
 	}
 
 	/**
-	 * Subclasses may override this for custom initialization based
-	 * on the ServletContext that this application object runs in.
-	 * <p>The default implementation is empty. Called by
-	 * {@link #initApplicationContext(org.springframework.context.ApplicationContext)}
-	 * as well as {@link #setServletContext(javax.servlet.ServletContext)}.
+	 * Subclasses may override this for custom initialization based on the ServletContext
+	 * that this application object runs in.
+	 * <p>
+	 * The default implementation is empty. Called by
+	 * {@link #initApplicationContext(org.springframework.context.ApplicationContext)} as
+	 * well as {@link #setServletContext(javax.servlet.ServletContext)}.
 	 * @param servletContext the ServletContext that this application object runs in
 	 * (never {@code null})
 	 */
@@ -98,10 +99,11 @@ public abstract class WebApplicationObjectSupport extends ApplicationObjectSuppo
 
 	/**
 	 * Return the current application context as WebApplicationContext.
-	 * <p><b>NOTE:</b> Only use this if you actually need to access
+	 * <p>
+	 * <b>NOTE:</b> Only use this if you actually need to access
 	 * WebApplicationContext-specific functionality. Preferably use
-	 * {@code getApplicationContext()} or {@code getServletContext()}
-	 * else, to be able to run in non-WebApplicationContext environments as well.
+	 * {@code getApplicationContext()} or {@code getServletContext()} else, to be able to
+	 * run in non-WebApplicationContext environments as well.
 	 * @throws IllegalStateException if not running in a WebApplicationContext
 	 * @see #getApplicationContext()
 	 */
@@ -112,8 +114,8 @@ public abstract class WebApplicationObjectSupport extends ApplicationObjectSuppo
 			return (WebApplicationContext) getApplicationContext();
 		}
 		else if (isContextRequired()) {
-			throw new IllegalStateException("WebApplicationObjectSupport instance [" + this +
-					"] does not run in a WebApplicationContext but in: " + ctx);
+			throw new IllegalStateException("WebApplicationObjectSupport instance [" + this
+					+ "] does not run in a WebApplicationContext but in: " + ctx);
 		}
 		else {
 			return null;
@@ -136,15 +138,15 @@ public abstract class WebApplicationObjectSupport extends ApplicationObjectSuppo
 			servletContext = wac.getServletContext();
 		}
 		if (servletContext == null && isContextRequired()) {
-			throw new IllegalStateException("WebApplicationObjectSupport instance [" + this +
-					"] does not run within a ServletContext. Make sure the object is fully configured!");
+			throw new IllegalStateException("WebApplicationObjectSupport instance [" + this
+					+ "] does not run within a ServletContext. Make sure the object is fully configured!");
 		}
 		return servletContext;
 	}
 
 	/**
-	 * Return the temporary directory for the current web application,
-	 * as provided by the servlet container.
+	 * Return the temporary directory for the current web application, as provided by the
+	 * servlet container.
 	 * @return the File representing the temporary directory
 	 * @throws IllegalStateException if not running within a ServletContext
 	 * @see org.springframework.web.util.WebUtils#getTempDir(javax.servlet.ServletContext)

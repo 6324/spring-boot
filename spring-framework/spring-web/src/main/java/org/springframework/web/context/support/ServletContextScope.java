@@ -30,18 +30,23 @@ import org.springframework.util.Assert;
 /**
  * {@link Scope} wrapper for a ServletContext, i.e. for global web application attributes.
  *
- * <p>This differs from traditional Spring singletons in that it exposes attributes in the
+ * <p>
+ * This differs from traditional Spring singletons in that it exposes attributes in the
  * ServletContext. Those attributes will get destroyed whenever the entire application
  * shuts down, which might be earlier or later than the shutdown of the containing Spring
  * ApplicationContext.
  *
- * <p>The associated destruction mechanism relies on a
+ * <p>
+ * The associated destruction mechanism relies on a
  * {@link org.springframework.web.context.ContextCleanupListener} being registered in
- * {@code web.xml}. Note that {@link org.springframework.web.context.ContextLoaderListener}
- * includes ContextCleanupListener's functionality.
+ * {@code web.xml}. Note that
+ * {@link org.springframework.web.context.ContextLoaderListener} includes
+ * ContextCleanupListener's functionality.
  *
- * <p>This scope is registered as default scope with key
- * {@link org.springframework.web.context.WebApplicationContext#SCOPE_APPLICATION "application"}.
+ * <p>
+ * This scope is registered as default scope with key
+ * {@link org.springframework.web.context.WebApplicationContext#SCOPE_APPLICATION
+ * "application"}.
  *
  * @author Juergen Hoeller
  * @since 3.0
@@ -53,7 +58,6 @@ public class ServletContextScope implements Scope, DisposableBean {
 
 	private final Map<String, Runnable> destructionCallbacks = new LinkedHashMap<>();
 
-
 	/**
 	 * Create a new Scope wrapper for the given ServletContext.
 	 * @param servletContext the ServletContext to wrap
@@ -62,7 +66,6 @@ public class ServletContextScope implements Scope, DisposableBean {
 		Assert.notNull(servletContext, "ServletContext must not be null");
 		this.servletContext = servletContext;
 	}
-
 
 	@Override
 	public Object get(String name, ObjectFactory<?> objectFactory) {
@@ -109,10 +112,9 @@ public class ServletContextScope implements Scope, DisposableBean {
 		return null;
 	}
 
-
 	/**
-	 * Invoke all registered destruction callbacks.
-	 * To be called on ServletContext shutdown.
+	 * Invoke all registered destruction callbacks. To be called on ServletContext
+	 * shutdown.
 	 * @see org.springframework.web.context.ContextCleanupListener
 	 */
 	@Override

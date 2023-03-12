@@ -30,11 +30,11 @@ import org.springframework.web.context.request.NativeWebRequest;
 public interface AsyncWebRequest extends NativeWebRequest {
 
 	/**
-	 * Set the time required for concurrent handling to complete.
-	 * This property should not be set when concurrent handling is in progress,
-	 * i.e. when {@link #isAsyncStarted()} is {@code true}.
-	 * @param timeout amount of time in milliseconds; {@code null} means no
-	 * 	timeout, i.e. rely on the default timeout of the container.
+	 * Set the time required for concurrent handling to complete. This property should not
+	 * be set when concurrent handling is in progress, i.e. when {@link #isAsyncStarted()}
+	 * is {@code true}.
+	 * @param timeout amount of time in milliseconds; {@code null} means no timeout, i.e.
+	 * rely on the default timeout of the container.
 	 */
 	void setTimeout(@Nullable Long timeout);
 
@@ -44,8 +44,8 @@ public interface AsyncWebRequest extends NativeWebRequest {
 	void addTimeoutHandler(Runnable runnable);
 
 	/**
-	 * Add a handler to invoke when an error occurred while concurrent
-	 * handling of a request.
+	 * Add a handler to invoke when an error occurred while concurrent handling of a
+	 * request.
 	 * @since 5.0
 	 */
 	void addErrorHandler(Consumer<Throwable> exceptionHandler);
@@ -56,17 +56,16 @@ public interface AsyncWebRequest extends NativeWebRequest {
 	void addCompletionHandler(Runnable runnable);
 
 	/**
-	 * Mark the start of asynchronous request processing so that when the main
-	 * processing thread exits, the response remains open for further processing
-	 * in another thread.
+	 * Mark the start of asynchronous request processing so that when the main processing
+	 * thread exits, the response remains open for further processing in another thread.
 	 * @throws IllegalStateException if async processing has completed or is not supported
 	 */
 	void startAsync();
 
 	/**
 	 * Whether the request is in async mode following a call to {@link #startAsync()}.
-	 * Returns "false" if asynchronous processing never started, has completed,
-	 * or the request was dispatched for further processing.
+	 * Returns "false" if asynchronous processing never started, has completed, or the
+	 * request was dispatched for further processing.
 	 */
 	boolean isAsyncStarted();
 

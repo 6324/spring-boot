@@ -38,12 +38,13 @@ import org.springframework.web.method.annotation.ModelAttributeMethodProcessor;
 import org.springframework.web.servlet.HandlerMapping;
 
 /**
- * A Servlet-specific {@link ModelAttributeMethodProcessor} that applies data
- * binding through a WebDataBinder of type {@link ServletRequestDataBinder}.
+ * A Servlet-specific {@link ModelAttributeMethodProcessor} that applies data binding
+ * through a WebDataBinder of type {@link ServletRequestDataBinder}.
  *
- * <p>Also adds a fall-back strategy to instantiate the model attribute from a
- * URI template variable or from a request parameter if the name matches the
- * model attribute name and there is an appropriate type conversion strategy.
+ * <p>
+ * Also adds a fall-back strategy to instantiate the model attribute from a URI template
+ * variable or from a request parameter if the name matches the model attribute name and
+ * there is an appropriate type conversion strategy.
  *
  * @author Rossen Stoyanchev
  * @author Juergen Hoeller
@@ -53,20 +54,19 @@ public class ServletModelAttributeMethodProcessor extends ModelAttributeMethodPr
 
 	/**
 	 * Class constructor.
-	 * @param annotationNotRequired if "true", non-simple method arguments and
-	 * return values are considered model attributes with or without a
-	 * {@code @ModelAttribute} annotation
+	 * @param annotationNotRequired if "true", non-simple method arguments and return
+	 * values are considered model attributes with or without a {@code @ModelAttribute}
+	 * annotation
 	 */
 	public ServletModelAttributeMethodProcessor(boolean annotationNotRequired) {
 		super(annotationNotRequired);
 	}
 
-
 	/**
-	 * Instantiate the model attribute from a URI template variable or from a
-	 * request parameter if the name matches to the model attribute name and
-	 * if there is an appropriate type conversion strategy. If none of these
-	 * are true delegate back to the base class.
+	 * Instantiate the model attribute from a URI template variable or from a request
+	 * parameter if the name matches to the model attribute name and if there is an
+	 * appropriate type conversion strategy. If none of these are true delegate back to
+	 * the base class.
 	 * @see #createAttributeFromRequestValue
 	 */
 	@Override
@@ -75,8 +75,7 @@ public class ServletModelAttributeMethodProcessor extends ModelAttributeMethodPr
 
 		String value = getRequestValueForAttribute(attributeName, request);
 		if (value != null) {
-			Object attribute = createAttributeFromRequestValue(
-					value, attributeName, parameter, binderFactory, request);
+			Object attribute = createAttributeFromRequestValue(value, attributeName, parameter, binderFactory, request);
 			if (attribute != null) {
 				return attribute;
 			}
@@ -86,10 +85,11 @@ public class ServletModelAttributeMethodProcessor extends ModelAttributeMethodPr
 	}
 
 	/**
-	 * Obtain a value from the request that may be used to instantiate the
-	 * model attribute through type conversion from String to the target type.
-	 * <p>The default implementation looks for the attribute name to match
-	 * a URI variable first and then a request parameter.
+	 * Obtain a value from the request that may be used to instantiate the model attribute
+	 * through type conversion from String to the target type.
+	 * <p>
+	 * The default implementation looks for the attribute name to match a URI variable
+	 * first and then a request parameter.
 	 * @param attributeName the model attribute name
 	 * @param request the current request
 	 * @return the request value to try to convert, or {@code null} if none
@@ -110,28 +110,28 @@ public class ServletModelAttributeMethodProcessor extends ModelAttributeMethodPr
 
 	@SuppressWarnings("unchecked")
 	protected final Map<String, String> getUriTemplateVariables(NativeWebRequest request) {
-		Map<String, String> variables = (Map<String, String>) request.getAttribute(
-				HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST);
+		Map<String, String> variables = (Map<String, String>) request
+				.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST);
 		return (variables != null ? variables : Collections.emptyMap());
 	}
 
 	/**
-	 * Create a model attribute from a String request value (e.g. URI template
-	 * variable, request parameter) using type conversion.
-	 * <p>The default implementation converts only if there a registered
-	 * {@link Converter} that can perform the conversion.
+	 * Create a model attribute from a String request value (e.g. URI template variable,
+	 * request parameter) using type conversion.
+	 * <p>
+	 * The default implementation converts only if there a registered {@link Converter}
+	 * that can perform the conversion.
 	 * @param sourceValue the source value to create the model attribute from
 	 * @param attributeName the name of the attribute (never {@code null})
 	 * @param parameter the method parameter
 	 * @param binderFactory for creating WebDataBinder instance
 	 * @param request the current request
-	 * @return the created model attribute, or {@code null} if no suitable
-	 * conversion found
+	 * @return the created model attribute, or {@code null} if no suitable conversion
+	 * found
 	 */
 	@Nullable
 	protected Object createAttributeFromRequestValue(String sourceValue, String attributeName,
-			MethodParameter parameter, WebDataBinderFactory binderFactory, NativeWebRequest request)
-			throws Exception {
+			MethodParameter parameter, WebDataBinderFactory binderFactory, NativeWebRequest request) throws Exception {
 
 		DataBinder binder = binderFactory.createBinder(request, null, attributeName);
 		ConversionService conversionService = binder.getConversionService();

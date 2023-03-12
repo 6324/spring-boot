@@ -33,7 +33,6 @@ public class FixedContentNegotiationStrategy implements ContentNegotiationStrate
 
 	private final List<MediaType> contentTypes;
 
-
 	/**
 	 * Constructor with a single default {@code MediaType}.
 	 */
@@ -42,10 +41,11 @@ public class FixedContentNegotiationStrategy implements ContentNegotiationStrate
 	}
 
 	/**
-	 * Constructor with an ordered List of default {@code MediaType}'s to return
-	 * for use in applications that support a variety of content types.
-	 * <p>Consider appending {@link MediaType#ALL} at the end if destinations
-	 * are present which do not support any of the other default media types.
+	 * Constructor with an ordered List of default {@code MediaType}'s to return for use
+	 * in applications that support a variety of content types.
+	 * <p>
+	 * Consider appending {@link MediaType#ALL} at the end if destinations are present
+	 * which do not support any of the other default media types.
 	 * @since 5.0
 	 */
 	public FixedContentNegotiationStrategy(List<MediaType> contentTypes) {
@@ -53,14 +53,12 @@ public class FixedContentNegotiationStrategy implements ContentNegotiationStrate
 		this.contentTypes = Collections.unmodifiableList(contentTypes);
 	}
 
-
 	/**
 	 * Return the configured list of media types.
 	 */
 	public List<MediaType> getContentTypes() {
 		return this.contentTypes;
 	}
-
 
 	@Override
 	public List<MediaType> resolveMediaTypes(NativeWebRequest request) {

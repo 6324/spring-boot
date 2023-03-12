@@ -24,9 +24,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * {@link org.springframework.beans.factory.FactoryBean} for a specific port of a
- * JAX-WS service. Exposes a proxy for the port, to be used for bean references.
- * Inherits configuration properties from {@link JaxWsPortClientInterceptor}.
+ * {@link org.springframework.beans.factory.FactoryBean} for a specific port of a JAX-WS
+ * service. Exposes a proxy for the port, to be used for bean references. Inherits
+ * configuration properties from {@link JaxWsPortClientInterceptor}.
  *
  * @author Juergen Hoeller
  * @since 2.5
@@ -37,7 +37,6 @@ public class JaxWsPortProxyFactoryBean extends JaxWsPortClientInterceptor implem
 
 	@Nullable
 	private Object serviceProxy;
-
 
 	@Override
 	public void afterPropertiesSet() {
@@ -53,7 +52,6 @@ public class JaxWsPortProxyFactoryBean extends JaxWsPortClientInterceptor implem
 		pf.addAdvice(this);
 		this.serviceProxy = pf.getProxy(getBeanClassLoader());
 	}
-
 
 	@Override
 	@Nullable

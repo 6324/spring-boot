@@ -22,8 +22,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 /**
- * Convenience subclass of {@link UrlBasedViewResolver} that supports
- * {@link TilesView} (i.e. Tiles definitions) and custom subclasses of it.
+ * Convenience subclass of {@link UrlBasedViewResolver} that supports {@link TilesView}
+ * (i.e. Tiles definitions) and custom subclasses of it.
  *
  * @author Nicolas Le Bas
  * @author Rossen Stoyanchev
@@ -39,11 +39,9 @@ public class TilesViewResolver extends UrlBasedViewResolver {
 	@Nullable
 	private Boolean alwaysInclude;
 
-
 	public TilesViewResolver() {
 		setViewClass(requiredViewClass());
 	}
-
 
 	/**
 	 * This resolver requires {@link TilesView}.
@@ -64,15 +62,15 @@ public class TilesViewResolver extends UrlBasedViewResolver {
 
 	/**
 	 * Specify whether to always include the view rather than forward to it.
-	 * <p>Default is "false". Switch this flag on to enforce the use of a
-	 * Servlet include, even if a forward would be possible.
+	 * <p>
+	 * Default is "false". Switch this flag on to enforce the use of a Servlet include,
+	 * even if a forward would be possible.
 	 * @since 4.1.2
 	 * @see TilesView#setAlwaysInclude
 	 */
 	public void setAlwaysInclude(Boolean alwaysInclude) {
 		this.alwaysInclude = alwaysInclude;
 	}
-
 
 	@Override
 	protected TilesView buildView(String viewName) throws Exception {

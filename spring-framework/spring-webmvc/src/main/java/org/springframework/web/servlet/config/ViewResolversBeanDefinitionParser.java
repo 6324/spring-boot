@@ -43,14 +43,16 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
  * Parse the {@code view-resolvers} MVC namespace element and register
  * {@link org.springframework.web.servlet.ViewResolver} bean definitions.
  *
- * <p>All registered resolvers are wrapped in a single (composite) ViewResolver
- * with its order property set to 0 so that other external resolvers may be ordered
- * before or after it.
+ * <p>
+ * All registered resolvers are wrapped in a single (composite) ViewResolver with its
+ * order property set to 0 so that other external resolvers may be ordered before or after
+ * it.
  *
- * <p>When content negotiation is enabled the order property is set to highest priority
- * instead with the ContentNegotiatingViewResolver encapsulating all other registered
- * view resolver instances. That way the resolvers registered through the MVC namespace
- * form self-encapsulated resolver chain.
+ * <p>
+ * When content negotiation is enabled the order property is set to highest priority
+ * instead with the ContentNegotiatingViewResolver encapsulating all other registered view
+ * resolver instances. That way the resolvers registered through the MVC namespace form
+ * self-encapsulated resolver chain.
  *
  * @author Sivaprasad Valluru
  * @author Sebastien Deleuze
@@ -68,7 +70,6 @@ public class ViewResolversBeanDefinitionParser implements BeanDefinitionParser {
 	 */
 	public static final String VIEW_RESOLVER_BEAN_NAME = "mvcViewResolver";
 
-
 	@Override
 	public BeanDefinition parse(Element element, ParserContext context) {
 		Object source = context.extractSource(element);
@@ -76,8 +77,8 @@ public class ViewResolversBeanDefinitionParser implements BeanDefinitionParser {
 
 		ManagedList<Object> resolvers = new ManagedList<>(4);
 		resolvers.setSource(context.extractSource(element));
-		String[] names = new String[] {
-				"jsp", "tiles", "bean-name", "freemarker", "groovy", "script-template", "bean", "ref"};
+		String[] names = new String[] { "jsp", "tiles", "bean-name", "freemarker", "groovy", "script-template", "bean",
+				"ref" };
 
 		for (Element resolverElement : DomUtils.getChildElementsByTagName(element, names)) {
 			String name = resolverElement.getLocalName();
@@ -127,7 +128,7 @@ public class ViewResolversBeanDefinitionParser implements BeanDefinitionParser {
 		compositeResolverBeanDef.setSource(source);
 		compositeResolverBeanDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 
-		names = new String[] {"content-negotiation"};
+		names = new String[] { "content-negotiation" };
 		List<Element> contentNegotiationElements = DomUtils.getChildElementsByTagName(element, names);
 		if (contentNegotiationElements.isEmpty()) {
 			compositeResolverBeanDef.getPropertyValues().add("viewResolvers", resolvers);

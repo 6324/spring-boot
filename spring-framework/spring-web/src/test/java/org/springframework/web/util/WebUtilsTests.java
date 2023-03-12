@@ -50,7 +50,7 @@ public class WebUtilsTests {
 		params.put("myKey1", "myValue1");
 		params.put("myKey2_myValue2", "xxx");
 		params.put("myKey3_myValue3.x", "xxx");
-		params.put("myKey4_myValue4.y", new String[] {"yyy"});
+		params.put("myKey4_myValue4.y", new String[] { "yyy" });
 
 		assertThat(WebUtils.findParameterValue(params, "myKey0")).isNull();
 		assertThat(WebUtils.findParameterValue(params, "myKey1")).isEqualTo("myValue1");
@@ -144,18 +144,16 @@ public class WebUtilsTests {
 		// Handling of IPv6 hosts as described in SPR-13525
 		assertThat(checkSameOrigin("http", "[::1]", -1, "http://[::1]")).isTrue();
 		assertThat(checkSameOrigin("http", "[::1]", 8080, "http://[::1]:8080")).isTrue();
-		assertThat(checkSameOrigin("http",
-				"[2001:0db8:0000:85a3:0000:0000:ac1f:8001]", -1,
+		assertThat(checkSameOrigin("http", "[2001:0db8:0000:85a3:0000:0000:ac1f:8001]", -1,
 				"http://[2001:0db8:0000:85a3:0000:0000:ac1f:8001]")).isTrue();
-		assertThat(checkSameOrigin("http",
-				"[2001:0db8:0000:85a3:0000:0000:ac1f:8001]", 8080,
+		assertThat(checkSameOrigin("http", "[2001:0db8:0000:85a3:0000:0000:ac1f:8001]", 8080,
 				"http://[2001:0db8:0000:85a3:0000:0000:ac1f:8001]:8080")).isTrue();
 		assertThat(checkSameOrigin("http", "[::1]", -1, "http://[::1]:8080")).isFalse();
-		assertThat(checkSameOrigin("http", "[::1]", 8080,
-				"http://[2001:0db8:0000:85a3:0000:0000:ac1f:8001]:8080")).isFalse();
+		assertThat(checkSameOrigin("http", "[::1]", 8080, "http://[2001:0db8:0000:85a3:0000:0000:ac1f:8001]:8080"))
+				.isFalse();
 	}
 
-	@Test  // SPR-16262
+	@Test // SPR-16262
 	public void isSameOriginWithXForwardedHeaders() throws Exception {
 		String server = "mydomain1.example";
 		testWithXForwardedHeaders(server, -1, "https", null, -1, "https://mydomain1.example");
@@ -166,7 +164,7 @@ public class WebUtilsTests {
 		testWithXForwardedHeaders(server, 123, "https", "mydomain2.example", 456, "https://mydomain2.example:456");
 	}
 
-	@Test  // SPR-16262
+	@Test // SPR-16262
 	public void isSameOriginWithForwardedHeader() throws Exception {
 		String server = "mydomain1.example";
 		testWithForwardedHeader(server, -1, "proto=https", "https://mydomain1.example");
@@ -174,9 +172,9 @@ public class WebUtilsTests {
 		testWithForwardedHeader(server, -1, "proto=https; host=mydomain2.example", "https://mydomain2.example");
 		testWithForwardedHeader(server, 123, "proto=https; host=mydomain2.example", "https://mydomain2.example");
 		testWithForwardedHeader(server, -1, "proto=https; host=mydomain2.example:456", "https://mydomain2.example:456");
-		testWithForwardedHeader(server, 123, "proto=https; host=mydomain2.example:456", "https://mydomain2.example:456");
+		testWithForwardedHeader(server, 123, "proto=https; host=mydomain2.example:456",
+				"https://mydomain2.example:456");
 	}
-
 
 	private boolean checkValidOrigin(String serverName, int port, String originHeader, List<String> allowed) {
 		MockHttpServletRequest servletRequest = new MockHttpServletRequest();
@@ -201,8 +199,8 @@ public class WebUtilsTests {
 		return WebUtils.isSameOrigin(request);
 	}
 
-	private void testWithXForwardedHeaders(String serverName, int port, String forwardedProto,
-			String forwardedHost, int forwardedPort, String originHeader) throws Exception {
+	private void testWithXForwardedHeaders(String serverName, int port, String forwardedProto, String forwardedHost,
+			int forwardedPort, String originHeader) throws Exception {
 
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setServerName(serverName);
@@ -226,8 +224,8 @@ public class WebUtilsTests {
 		assertThat(WebUtils.isSameOrigin(httpRequest)).isTrue();
 	}
 
-	private void testWithForwardedHeader(String serverName, int port, String forwardedHeader,
-			String originHeader) throws Exception {
+	private void testWithForwardedHeader(String serverName, int port, String forwardedHeader, String originHeader)
+			throws Exception {
 
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setServerName(serverName);

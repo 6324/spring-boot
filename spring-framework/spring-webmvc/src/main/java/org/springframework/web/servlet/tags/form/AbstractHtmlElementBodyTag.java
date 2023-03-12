@@ -44,7 +44,6 @@ public abstract class AbstractHtmlElementBodyTag extends AbstractHtmlElementTag 
 	@Nullable
 	private TagWriter tagWriter;
 
-
 	@Override
 	protected int writeTagContent(TagWriter tagWriter) throws JspException {
 		onWriteTagContent();
@@ -59,9 +58,9 @@ public abstract class AbstractHtmlElementBodyTag extends AbstractHtmlElementTag 
 	}
 
 	/**
-	 * If {@link #shouldRender rendering}, flush any buffered
-	 * {@link BodyContent} or, if no {@link BodyContent} is supplied,
-	 * {@link #renderDefaultContent render the default content}.
+	 * If {@link #shouldRender rendering}, flush any buffered {@link BodyContent} or, if
+	 * no {@link BodyContent} is supplied, {@link #renderDefaultContent render the default
+	 * content}.
 	 * @return a {@link javax.servlet.jsp.tagext.Tag#EVAL_PAGE} result
 	 */
 	@Override
@@ -80,9 +79,10 @@ public abstract class AbstractHtmlElementBodyTag extends AbstractHtmlElementTag 
 
 	/**
 	 * Render the tag contents based on the supplied {@link BodyContent}.
-	 * <p>The default implementation simply {@link #flushBufferedBodyContent flushes}
-	 * the {@link BodyContent} directly to the output. Subclasses may choose to
-	 * override this to add additional content to the output.
+	 * <p>
+	 * The default implementation simply {@link #flushBufferedBodyContent flushes} the
+	 * {@link BodyContent} directly to the output. Subclasses may choose to override this
+	 * to add additional content to the output.
 	 */
 	protected void renderFromBodyContent(BodyContent bodyContent, TagWriter tagWriter) throws JspException {
 		flushBufferedBodyContent(bodyContent);
@@ -99,30 +99,29 @@ public abstract class AbstractHtmlElementBodyTag extends AbstractHtmlElementTag 
 		this.bodyContent = null;
 	}
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// Template methods
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	/**
-	 * Called at the start of {@link #writeTagContent} allowing subclasses to perform
-	 * any precondition checks or setup tasks that might be necessary.
+	 * Called at the start of {@link #writeTagContent} allowing subclasses to perform any
+	 * precondition checks or setup tasks that might be necessary.
 	 */
 	protected void onWriteTagContent() {
 	}
 
 	/**
 	 * Should rendering of this tag proceed at all. Returns '{@code true}' by default
-	 * causing rendering to occur always, Subclasses can override this if they
-	 * provide conditional rendering.
+	 * causing rendering to occur always, Subclasses can override this if they provide
+	 * conditional rendering.
 	 */
 	protected boolean shouldRender() throws JspException {
 		return true;
 	}
 
 	/**
-	 * Called during {@link #writeTagContent} allowing subclasses to add any attributes to the
-	 * {@link javax.servlet.jsp.PageContext} as needed.
+	 * Called during {@link #writeTagContent} allowing subclasses to add any attributes to
+	 * the {@link javax.servlet.jsp.PageContext} as needed.
 	 */
 	protected void exposeAttributes() throws JspException {
 	}
@@ -135,8 +134,8 @@ public abstract class AbstractHtmlElementBodyTag extends AbstractHtmlElementTag 
 	}
 
 	/**
-	 * The user customised the output of the error messages - flush the
-	 * buffered content into the main {@link javax.servlet.jsp.JspWriter}.
+	 * The user customised the output of the error messages - flush the buffered content
+	 * into the main {@link javax.servlet.jsp.JspWriter}.
 	 */
 	protected void flushBufferedBodyContent(BodyContent bodyContent) throws JspException {
 		try {
@@ -149,10 +148,9 @@ public abstract class AbstractHtmlElementBodyTag extends AbstractHtmlElementTag 
 
 	protected abstract void renderDefaultContent(TagWriter tagWriter) throws JspException;
 
-
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 	// BodyTag implementation
-	//---------------------------------------------------------------------
+	// ---------------------------------------------------------------------
 
 	@Override
 	public void doInitBody() throws JspException {

@@ -45,13 +45,11 @@ class ReactorServerHttpResponse extends AbstractServerHttpResponse implements Ze
 
 	private final HttpServerResponse response;
 
-
 	public ReactorServerHttpResponse(HttpServerResponse response, DataBufferFactory bufferFactory) {
 		super(bufferFactory, new HttpHeaders(new NettyHeadersAdapter(response.responseHeaders())));
 		Assert.notNull(response, "HttpServerResponse must not be null");
 		this.response = response;
 	}
-
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -95,7 +93,8 @@ class ReactorServerHttpResponse extends AbstractServerHttpResponse implements Ze
 
 	@Override
 	protected void applyCookies() {
-		// Netty Cookie doesn't support sameSite. When this is resolved, we can adapt to it again:
+		// Netty Cookie doesn't support sameSite. When this is resolved, we can adapt to
+		// it again:
 		// https://github.com/netty/netty/issues/8161
 		for (List<ResponseCookie> cookies : getCookies().values()) {
 			for (ResponseCookie cookie : cookies) {
@@ -110,9 +109,8 @@ class ReactorServerHttpResponse extends AbstractServerHttpResponse implements Ze
 	}
 
 	private Publisher<ByteBuf> toByteBufs(Publisher<? extends DataBuffer> dataBuffers) {
-		return dataBuffers instanceof Mono ?
-				Mono.from(dataBuffers).map(NettyDataBufferFactory::toByteBuf) :
-				Flux.from(dataBuffers).map(NettyDataBufferFactory::toByteBuf);
+		return dataBuffers instanceof Mono ? Mono.from(dataBuffers).map(NettyDataBufferFactory::toByteBuf)
+				: Flux.from(dataBuffers).map(NettyDataBufferFactory::toByteBuf);
 	}
 
 }

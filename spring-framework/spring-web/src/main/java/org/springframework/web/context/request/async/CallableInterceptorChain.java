@@ -42,16 +42,13 @@ class CallableInterceptorChain {
 
 	private volatile Future<?> taskFuture;
 
-
 	public CallableInterceptorChain(List<CallableProcessingInterceptor> interceptors) {
 		this.interceptors = interceptors;
 	}
 
-
 	public void setTaskFuture(Future<?> taskFuture) {
 		this.taskFuture = taskFuture;
 	}
-
 
 	public void applyBeforeConcurrentHandling(NativeWebRequest request, Callable<?> task) throws Exception {
 		for (CallableProcessingInterceptor interceptor : this.interceptors) {
@@ -138,7 +135,7 @@ class CallableInterceptorChain {
 	}
 
 	public void triggerAfterCompletion(NativeWebRequest request, Callable<?> task) {
-		for (int i = this.interceptors.size()-1; i >= 0; i--) {
+		for (int i = this.interceptors.size() - 1; i >= 0; i--) {
 			try {
 				this.interceptors.get(i).afterCompletion(request, task);
 			}

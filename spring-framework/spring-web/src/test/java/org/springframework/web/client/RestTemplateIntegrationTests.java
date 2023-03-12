@@ -66,9 +66,10 @@ import static org.springframework.http.MediaType.MULTIPART_MIXED;
  *
  * <h3>Logging configuration for {@code MockWebServer}</h3>
  *
- * <p>In order for our log4j2 configuration to be used in an IDE, you must
- * set the following system property before running any tests &mdash; for
- * example, in <em>Run Configurations</em> in Eclipse.
+ * <p>
+ * In order for our log4j2 configuration to be used in an IDE, you must set the following
+ * system property before running any tests &mdash; for example, in <em>Run
+ * Configurations</em> in Eclipse.
  *
  * <pre class="code">
  * -Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager
@@ -85,35 +86,32 @@ class RestTemplateIntegrationTests extends AbstractMockWebServerTests {
 	@ParameterizedTest(name = "[{index}] {0}")
 	@MethodSource("clientHttpRequestFactories")
 	@interface ParameterizedRestTemplateTest {
+
 	}
 
 	@SuppressWarnings("deprecation")
 	static Stream<ClientHttpRequestFactory> clientHttpRequestFactories() {
-		return Stream.of(
-			new SimpleClientHttpRequestFactory(),
-			new HttpComponentsClientHttpRequestFactory(),
-			new org.springframework.http.client.Netty4ClientHttpRequestFactory(),
-			new OkHttp3ClientHttpRequestFactory()
-		);
+		return Stream.of(new SimpleClientHttpRequestFactory(), new HttpComponentsClientHttpRequestFactory(),
+				new org.springframework.http.client.Netty4ClientHttpRequestFactory(),
+				new OkHttp3ClientHttpRequestFactory());
 	}
-
 
 	private RestTemplate template;
 
 	private ClientHttpRequestFactory clientHttpRequestFactory;
 
-
 	/**
 	 * Custom JUnit Jupiter extension that handles exceptions thrown by test methods.
 	 *
-	 * <p>If the test method throws an {@link HttpServerErrorException}, this
-	 * extension will throw an {@link AssertionError} that wraps the
-	 * {@code HttpServerErrorException} using the
-	 * {@link HttpServerErrorException#getResponseBodyAsString() response body}
+	 * <p>
+	 * If the test method throws an {@link HttpServerErrorException}, this extension will
+	 * throw an {@link AssertionError} that wraps the {@code HttpServerErrorException}
+	 * using the {@link HttpServerErrorException#getResponseBodyAsString() response body}
 	 * as the failure message.
 	 *
-	 * <p>This mechanism provides an actually meaningful failure message if the
-	 * test fails due to an {@code AssertionError} on the server.
+	 * <p>
+	 * This mechanism provides an actually meaningful failure message if the test fails
+	 * due to an {@code AssertionError} on the server.
 	 */
 	@RegisterExtension
 	TestExecutionExceptionHandler serverErrorToAssertionErrorConverter = (context, throwable) -> {
@@ -126,10 +124,10 @@ class RestTemplateIntegrationTests extends AbstractMockWebServerTests {
 			}
 			throw new AssertionError(responseBody, ex);
 		}
-		// Else throw as-is in order to comply with the contract of TestExecutionExceptionHandler.
+		// Else throw as-is in order to comply with the contract of
+		// TestExecutionExceptionHandler.
 		throw throwable;
 	};
-
 
 	private void setUpClient(ClientHttpRequestFactory clientHttpRequestFactory) {
 		this.clientHttpRequestFactory = clientHttpRequestFactory;
@@ -237,38 +235,38 @@ class RestTemplateIntegrationTests extends AbstractMockWebServerTests {
 	void notFound(ClientHttpRequestFactory clientHttpRequestFactory) {
 		setUpClient(clientHttpRequestFactory);
 
-		assertThatExceptionOfType(HttpClientErrorException.class).isThrownBy(() ->
-				template.execute(baseUrl + "/status/notfound", HttpMethod.GET, null, null))
-			.satisfies(ex -> {
-				assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-				assertThat(ex.getStatusText()).isNotNull();
-				assertThat(ex.getResponseBodyAsString()).isNotNull();
-			});
+		assertThatExceptionOfType(HttpClientErrorException.class)
+				.isThrownBy(() -> template.execute(baseUrl + "/status/notfound", HttpMethod.GET, null, null))
+				.satisfies(ex -> {
+					assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+					assertThat(ex.getStatusText()).isNotNull();
+					assertThat(ex.getResponseBodyAsString()).isNotNull();
+				});
 	}
 
 	@ParameterizedRestTemplateTest
 	void badRequest(ClientHttpRequestFactory clientHttpRequestFactory) {
 		setUpClient(clientHttpRequestFactory);
 
-		assertThatExceptionOfType(HttpClientErrorException.class).isThrownBy(() ->
-				template.execute(baseUrl + "/status/badrequest", HttpMethod.GET, null, null))
-			.satisfies(ex -> {
-				assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-				assertThat(ex.getMessage()).isEqualTo("400 Client Error: [no body]");
-			});
+		assertThatExceptionOfType(HttpClientErrorException.class)
+				.isThrownBy(() -> template.execute(baseUrl + "/status/badrequest", HttpMethod.GET, null, null))
+				.satisfies(ex -> {
+					assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+					assertThat(ex.getMessage()).isEqualTo("400 Client Error: [no body]");
+				});
 	}
 
 	@ParameterizedRestTemplateTest
 	void serverError(ClientHttpRequestFactory clientHttpRequestFactory) {
 		setUpClient(clientHttpRequestFactory);
 
-		assertThatExceptionOfType(HttpServerErrorException.class).isThrownBy(() ->
-				template.execute(baseUrl + "/status/server", HttpMethod.GET, null, null))
-			.satisfies(ex -> {
-				assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
-				assertThat(ex.getStatusText()).isNotNull();
-				assertThat(ex.getResponseBodyAsString()).isNotNull();
-			});
+		assertThatExceptionOfType(HttpServerErrorException.class)
+				.isThrownBy(() -> template.execute(baseUrl + "/status/server", HttpMethod.GET, null, null))
+				.satisfies(ex -> {
+					assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+					assertThat(ex.getStatusText()).isNotNull();
+					assertThat(ex.getResponseBodyAsString()).isNotNull();
+				});
 	}
 
 	@ParameterizedRestTemplateTest
@@ -276,7 +274,8 @@ class RestTemplateIntegrationTests extends AbstractMockWebServerTests {
 		setUpClient(clientHttpRequestFactory);
 
 		Set<HttpMethod> allowed = template.optionsForAllow(new URI(baseUrl + "/get"));
-		assertThat(allowed).as("Invalid response").isEqualTo(EnumSet.of(HttpMethod.GET, HttpMethod.OPTIONS, HttpMethod.HEAD, HttpMethod.TRACE));
+		assertThat(allowed).as("Invalid response")
+				.isEqualTo(EnumSet.of(HttpMethod.GET, HttpMethod.OPTIONS, HttpMethod.HEAD, HttpMethod.TRACE));
 	}
 
 	@ParameterizedRestTemplateTest
@@ -317,7 +316,8 @@ class RestTemplateIntegrationTests extends AbstractMockWebServerTests {
 
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.setContentType(MULTIPART_RELATED);
-		template.postForLocation(baseUrl + "/multipartRelated", new HttpEntity<>(createMultipartParts(), requestHeaders));
+		template.postForLocation(baseUrl + "/multipartRelated",
+				new HttpEntity<>(createMultipartParts(), requestHeaders));
 	}
 
 	private MultiValueMap<String, Object> createMultipartParts() {
@@ -331,10 +331,8 @@ class RestTemplateIntegrationTests extends AbstractMockWebServerTests {
 	}
 
 	private void addSupportedMediaTypeToFormHttpMessageConverter(MediaType mediaType) {
-		this.template.getMessageConverters().stream()
-				.filter(FormHttpMessageConverter.class::isInstance)
-				.map(FormHttpMessageConverter.class::cast)
-				.findFirst()
+		this.template.getMessageConverters().stream().filter(FormHttpMessageConverter.class::isInstance)
+				.map(FormHttpMessageConverter.class::cast).findFirst()
 				.orElseThrow(() -> new IllegalStateException("Failed to find FormHttpMessageConverter"))
 				.addSupportedMediaTypes(mediaType);
 	}
@@ -358,8 +356,8 @@ class RestTemplateIntegrationTests extends AbstractMockWebServerTests {
 		HttpHeaders requestHeaders = new HttpHeaders();
 		requestHeaders.set("MyHeader", "MyValue");
 		HttpEntity<String> requestEntity = new HttpEntity<>(requestHeaders);
-		ResponseEntity<String> response =
-				template.exchange(baseUrl + "/{method}", HttpMethod.GET, requestEntity, String.class, "get");
+		ResponseEntity<String> response = template.exchange(baseUrl + "/{method}", HttpMethod.GET, requestEntity,
+				String.class, "get");
 		assertThat(response.getBody()).as("Invalid content").isEqualTo(helloWorld);
 	}
 
@@ -409,7 +407,7 @@ class RestTemplateIntegrationTests extends AbstractMockWebServerTests {
 		assertThat(s.contains("\"without\":\"without\"")).isFalse();
 	}
 
-	@ParameterizedRestTemplateTest  // SPR-12123
+	@ParameterizedRestTemplateTest // SPR-12123
 	void serverPort(ClientHttpRequestFactory clientHttpRequestFactory) {
 		setUpClient(clientHttpRequestFactory);
 
@@ -417,16 +415,16 @@ class RestTemplateIntegrationTests extends AbstractMockWebServerTests {
 		assertThat(s).as("Invalid content").isEqualTo(helloWorld);
 	}
 
-	@ParameterizedRestTemplateTest  // SPR-13154
+	@ParameterizedRestTemplateTest // SPR-13154
 	void jsonPostForObjectWithJacksonTypeInfoList(ClientHttpRequestFactory clientHttpRequestFactory) throws Exception {
 		setUpClient(clientHttpRequestFactory);
 
 		List<ParentClass> list = new ArrayList<>();
 		list.add(new Foo("foo"));
 		list.add(new Bar("bar"));
-		ParameterizedTypeReference<?> typeReference = new ParameterizedTypeReference<List<ParentClass>>() {};
-		RequestEntity<List<ParentClass>> entity = RequestEntity
-				.post(new URI(baseUrl + "/jsonpost"))
+		ParameterizedTypeReference<?> typeReference = new ParameterizedTypeReference<List<ParentClass>>() {
+		};
+		RequestEntity<List<ParentClass>> entity = RequestEntity.post(new URI(baseUrl + "/jsonpost"))
 				.contentType(new MediaType("application", "json", StandardCharsets.UTF_8))
 				.body(list, typeReference.getType());
 		String content = template.exchange(entity, String.class).getBody();
@@ -434,18 +432,20 @@ class RestTemplateIntegrationTests extends AbstractMockWebServerTests {
 		assertThat(content.contains("\"type\":\"bar\"")).isTrue();
 	}
 
-	@ParameterizedRestTemplateTest  // SPR-15015
+	@ParameterizedRestTemplateTest // SPR-15015
 	void postWithoutBody(ClientHttpRequestFactory clientHttpRequestFactory) throws Exception {
 		setUpClient(clientHttpRequestFactory);
 
 		assertThat(template.postForObject(baseUrl + "/jsonpost", null, String.class)).isNull();
 	}
 
+	public interface MyJacksonView1 {
 
-	public interface MyJacksonView1 {}
+	}
 
-	public interface MyJacksonView2 {}
+	public interface MyJacksonView2 {
 
+	}
 
 	public static class MySampleBean {
 
@@ -489,8 +489,8 @@ class RestTemplateIntegrationTests extends AbstractMockWebServerTests {
 		public void setWithout(String without) {
 			this.without = without;
 		}
-	}
 
+	}
 
 	@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 	public static class ParentClass {
@@ -511,8 +511,8 @@ class RestTemplateIntegrationTests extends AbstractMockWebServerTests {
 		public void setParentProperty(String parentProperty) {
 			this.parentProperty = parentProperty;
 		}
-	}
 
+	}
 
 	@JsonTypeName("foo")
 	public static class Foo extends ParentClass {
@@ -523,8 +523,8 @@ class RestTemplateIntegrationTests extends AbstractMockWebServerTests {
 		public Foo(String parentProperty) {
 			super(parentProperty);
 		}
-	}
 
+	}
 
 	@JsonTypeName("bar")
 	public static class Bar extends ParentClass {
@@ -535,6 +535,7 @@ class RestTemplateIntegrationTests extends AbstractMockWebServerTests {
 		public Bar(String parentProperty) {
 			super(parentProperty);
 		}
+
 	}
 
 }

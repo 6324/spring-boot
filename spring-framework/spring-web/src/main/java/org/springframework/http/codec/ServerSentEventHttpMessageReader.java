@@ -38,8 +38,9 @@ import org.springframework.http.ReactiveHttpInputMessage;
 import org.springframework.lang.Nullable;
 
 /**
- * Reader that supports a stream of {@link ServerSentEvent ServerSentEvents} and also plain
- * {@link Object Objects} which is the same as an {@link ServerSentEvent} with data only.
+ * Reader that supports a stream of {@link ServerSentEvent ServerSentEvents} and also
+ * plain {@link Object Objects} which is the same as an {@link ServerSentEvent} with data
+ * only.
  *
  * @author Sebastien Deleuze
  * @author Rossen Stoyanchev
@@ -51,29 +52,26 @@ public class ServerSentEventHttpMessageReader implements HttpMessageReader<Objec
 
 	private static final DataBufferFactory bufferFactory = new DefaultDataBufferFactory();
 
-
 	@Nullable
 	private final Decoder<?> decoder;
 
 	private final StringDecoder lineDecoder = StringDecoder.textPlainOnly();
 
-
 	/**
-	 * Constructor without a {@code Decoder}. In this mode only {@code String}
-	 * is supported as the data of an event.
+	 * Constructor without a {@code Decoder}. In this mode only {@code String} is
+	 * supported as the data of an event.
 	 */
 	public ServerSentEventHttpMessageReader() {
 		this(null);
 	}
 
 	/**
-	 * Constructor with JSON {@code Decoder} for decoding to Objects.
-	 * Support for decoding to {@code String} event data is built-in.
+	 * Constructor with JSON {@code Decoder} for decoding to Objects. Support for decoding
+	 * to {@code String} event data is built-in.
 	 */
 	public ServerSentEventHttpMessageReader(@Nullable Decoder<?> decoder) {
 		this.decoder = decoder;
 	}
-
 
 	/**
 	 * Return the configured {@code Decoder}.
@@ -84,12 +82,14 @@ public class ServerSentEventHttpMessageReader implements HttpMessageReader<Objec
 	}
 
 	/**
-	 * Configure a limit on the maximum number of bytes per SSE event which are
-	 * buffered before the event is parsed.
-	 * <p>Note that the {@link #getDecoder() data decoder}, if provided, must
-	 * also be customized accordingly to raise the limit if necessary in order
-	 * to be able to parse the data portion of the event.
-	 * <p>By default this is set to 256K.
+	 * Configure a limit on the maximum number of bytes per SSE event which are buffered
+	 * before the event is parsed.
+	 * <p>
+	 * Note that the {@link #getDecoder() data decoder}, if provided, must also be
+	 * customized accordingly to raise the limit if necessary in order to be able to parse
+	 * the data portion of the event.
+	 * <p>
+	 * By default this is set to 256K.
 	 * @param byteCount the max number of bytes to buffer, or -1 for unlimited
 	 * @since 5.1.13
 	 */
@@ -105,7 +105,6 @@ public class ServerSentEventHttpMessageReader implements HttpMessageReader<Objec
 		return this.lineDecoder.getMaxInMemorySize();
 	}
 
-
 	@Override
 	public List<MediaType> getReadableMediaTypes() {
 		return Collections.singletonList(MediaType.TEXT_EVENT_STREAM);
@@ -120,10 +119,8 @@ public class ServerSentEventHttpMessageReader implements HttpMessageReader<Objec
 		return ServerSentEvent.class.isAssignableFrom(elementType.toClass());
 	}
 
-
 	@Override
-	public Flux<Object> read(
-			ResolvableType elementType, ReactiveHttpInputMessage message, Map<String, Object> hints) {
+	public Flux<Object> read(ResolvableType elementType, ReactiveHttpInputMessage message, Map<String, Object> hints) {
 
 		LimitTracker limitTracker = new LimitTracker();
 
@@ -131,9 +128,7 @@ public class ServerSentEventHttpMessageReader implements HttpMessageReader<Objec
 		ResolvableType valueType = (shouldWrap ? elementType.getGeneric() : elementType);
 
 		return this.lineDecoder.decode(message.getBody(), STRING_TYPE, null, hints)
-				.doOnNext(limitTracker::afterLineParsed)
-				.bufferUntil(String::isEmpty)
-				.concatMap(lines -> {
+				.doOnNext(limitTracker::afterLineParsed).bufferUntil(String::isEmpty).concatMap(lines -> {
 					Object event = buildEvent(lines, valueType, shouldWrap, hints);
 					return (event != null ? Mono.just(event) : Mono.empty());
 				});
@@ -194,13 +189,13 @@ public class ServerSentEventHttpMessageReader implements HttpMessageReader<Objec
 			throw new CodecException("No SSE decoder configured and the data is not String.");
 		}
 		byte[] bytes = data.toString().getBytes(StandardCharsets.UTF_8);
-		DataBuffer buffer = bufferFactory.wrap(bytes);  // wrapping only, no allocation
+		DataBuffer buffer = bufferFactory.wrap(bytes); // wrapping only, no allocation
 		return this.decoder.decode(buffer, dataType, MediaType.TEXT_EVENT_STREAM, hints);
 	}
 
 	@Override
-	public Mono<Object> readMono(
-			ResolvableType elementType, ReactiveHttpInputMessage message, Map<String, Object> hints) {
+	public Mono<Object> readMono(ResolvableType elementType, ReactiveHttpInputMessage message,
+			Map<String, Object> hints) {
 
 		// In order of readers, we're ahead of String + "*/*"
 		// If this is called, simply delegate to StringDecoder
@@ -213,7 +208,6 @@ public class ServerSentEventHttpMessageReader implements HttpMessageReader<Objec
 		return Mono.error(new UnsupportedOperationException(
 				"ServerSentEventHttpMessageReader only supports reading stream of events as a Flux"));
 	}
-
 
 	private class LimitTracker {
 
@@ -241,6 +235,7 @@ public class ServerSentEventHttpMessageReader implements HttpMessageReader<Objec
 			// Do not release here, it's likely down via doOnDiscard..
 			throw new DataBufferLimitException("Exceeded limit on max bytes to buffer : " + getMaxInMemorySize());
 		}
+
 	}
 
 }

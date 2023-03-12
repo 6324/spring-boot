@@ -34,6 +34,7 @@ import static org.mockito.Mockito.verify;
 
 /**
  * A test fixture with a {@link StandardServletAsyncWebRequest}.
+ *
  * @author Rossen Stoyanchev
  */
 public class StandardServletAsyncWebRequestTests {
@@ -44,16 +45,14 @@ public class StandardServletAsyncWebRequestTests {
 
 	private MockHttpServletResponse response;
 
-
 	@BeforeEach
 	public void setup() {
 		this.request = new MockHttpServletRequest();
 		this.request.setAsyncSupported(true);
 		this.response = new MockHttpServletResponse();
 		this.asyncRequest = new StandardServletAsyncWebRequest(this.request, this.response);
-		this.asyncRequest.setTimeout(44*1000L);
+		this.asyncRequest.setTimeout(44 * 1000L);
 	}
-
 
 	@Test
 	public void isAsyncStarted() throws Exception {
@@ -78,7 +77,7 @@ public class StandardServletAsyncWebRequestTests {
 		this.asyncRequest.startAsync();
 		this.asyncRequest.startAsync();
 		this.asyncRequest.startAsync();
-		this.asyncRequest.startAsync();	// idempotent
+		this.asyncRequest.startAsync(); // idempotent
 
 		MockAsyncContext context = (MockAsyncContext) this.request.getAsyncContext();
 		assertThat(context).isNotNull();
@@ -88,17 +87,15 @@ public class StandardServletAsyncWebRequestTests {
 	@Test
 	public void startAsyncNotSupported() throws Exception {
 		this.request.setAsyncSupported(false);
-		assertThatIllegalStateException().isThrownBy(
-				this.asyncRequest::startAsync)
-			.withMessageContaining("Async support must be enabled");
+		assertThatIllegalStateException().isThrownBy(this.asyncRequest::startAsync)
+				.withMessageContaining("Async support must be enabled");
 	}
 
 	@Test
 	public void startAsyncAfterCompleted() throws Exception {
 		this.asyncRequest.onComplete(new AsyncEvent(new MockAsyncContext(this.request, this.response)));
-		assertThatIllegalStateException().isThrownBy(
-				this.asyncRequest::startAsync)
-			.withMessage("Async processing has already completed");
+		assertThatIllegalStateException().isThrownBy(this.asyncRequest::startAsync)
+				.withMessage("Async processing has already completed");
 	}
 
 	@Test
@@ -128,8 +125,7 @@ public class StandardServletAsyncWebRequestTests {
 	@Test
 	public void setTimeoutDuringConcurrentHandling() {
 		this.asyncRequest.startAsync();
-		assertThatIllegalStateException().isThrownBy(() ->
-				this.asyncRequest.setTimeout(25L));
+		assertThatIllegalStateException().isThrownBy(() -> this.asyncRequest.setTimeout(25L));
 	}
 
 	@Test
@@ -170,4 +166,5 @@ public class StandardServletAsyncWebRequestTests {
 		verify(handler).run();
 		assertThat(this.asyncRequest.isAsyncComplete()).isTrue();
 	}
+
 }
