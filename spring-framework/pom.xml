@@ -30,9 +30,10 @@
         <module>spring-aspects</module>
         <module>spring-beans</module>
         <module>spring-context</module>
-        <!--		<module>spring-context-indexer</module>-->
+        <module>spring-context-indexer</module>
         <module>spring-context-support</module>
         <module>spring-core</module>
+        <module>spring-core/kotlin-coroutines</module>
         <module>spring-expression</module>
         <module>spring-instrument</module>
         <module>spring-jcl</module>
