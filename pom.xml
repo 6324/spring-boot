@@ -109,7 +109,7 @@
 			</build>
 			<modules>
 				<module>spring-boot-project</module>
-				<module>spring-debug</module>
+<!--				<module>spring-debug</module>-->
 				<!-- Smoke tests are built via the invoker plugin -->
 				<module>spring-boot-tests</module>
 			</modules>
@@ -124,7 +124,7 @@
 			</activation>
 			<modules>
 				<module>spring-boot-project</module>
-				<module>spring-debug</module>
+<!--				<module>spring-debug</module>-->
 				<module>spring-boot-tests</module>
 			</modules>
 		</profile>
