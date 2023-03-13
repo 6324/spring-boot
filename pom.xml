@@ -6,6 +6,9 @@
 	<groupId>org.springframework.boot</groupId>
 	<artifactId>spring-boot-build</artifactId>
 	<version>${revision}</version>
+	<modules>
+		<module>spring-debug</module>
+	</modules>
 	<packaging>pom</packaging>
 	<name>Spring Boot Build</name>
 	<description>Spring Boot Build</description>
@@ -106,6 +109,7 @@
 			</build>
 			<modules>
 				<module>spring-boot-project</module>
+				<module>spring-debug</module>
 				<!-- Smoke tests are built via the invoker plugin -->
 				<module>spring-boot-tests</module>
 			</modules>
@@ -120,6 +124,7 @@
 			</activation>
 			<modules>
 				<module>spring-boot-project</module>
+				<module>spring-debug</module>
 				<module>spring-boot-tests</module>
 			</modules>
 		</profile>
