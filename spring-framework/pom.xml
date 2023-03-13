@@ -44,7 +44,7 @@
         <module>spring-messaging</module>
         <module>spring-orm</module>
         <module>spring-oxm</module>
-        <!--		<module>spring-test</module>-->
+        <module>spring-test</module>
         <module>spring-tx</module>
         <module>spring-web</module>
         <module>spring-webflux</module>
