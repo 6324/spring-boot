@@ -1262,15 +1262,15 @@
 											</outputDirectory>
 											<excludes>META-INF/**</excludes>
 										</artifactItem>
-										<artifactItem>
-											<groupId>org.springframework.boot</groupId>
-											<artifactId>spring-boot-gradle-plugin</artifactId>
-											<version>${revision}</version>
-											<classifier>docs</classifier>
-											<type>zip</type>
-											<outputDirectory>${project.build.directory}/contents/gradle-plugin</outputDirectory>
-											<excludes>META-INF/**</excludes>
-										</artifactItem>
+<!--										<artifactItem>-->
+<!--											<groupId>org.springframework.boot</groupId>-->
+<!--											<artifactId>spring-boot-gradle-plugin</artifactId>-->
+<!--											<version>${revision}</version>-->
+<!--											<classifier>docs</classifier>-->
+<!--											<type>zip</type>-->
+<!--											<outputDirectory>${project.build.directory}/contents/gradle-plugin</outputDirectory>-->
+<!--											<excludes>META-INF/**</excludes>-->
+<!--										</artifactItem>-->
 										<artifactItem>
 											<groupId>org.springframework.boot</groupId>
 											<artifactId>spring-boot-actuator-autoconfigure</artifactId>
