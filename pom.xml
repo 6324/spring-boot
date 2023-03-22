@@ -9,171 +9,20 @@
 	<packaging>pom</packaging>
 	<name>Spring Boot Build</name>
 	<description>Spring Boot Build</description>
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-web</artifactId>
-				<version>2.2.14.BUILD-SNAPSHOT</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+
 	<properties>
 		<revision>2.2.14.BUILD-SNAPSHOT</revision>
 		<main.basedir>${basedir}</main.basedir>
 	</properties>
-	<!-- Most elements are in profiles so they are stripped out during maven-flatten -->
-	<profiles>
-		<!-- Default profile for command line build -->
-		<profile>
-			<id>default</id>
-			<activation>
-				<property>
-					<name>!disable-spring-boot-default-profile</name>
-				</property>
-			</activation>
-			<properties>
-				<spring-javaformat.version>0.0.26</spring-javaformat.version>
-				<nohttp-checkstyle.version>0.0.4.RELEASE</nohttp-checkstyle.version>
-			</properties>
-			<build>
-				<plugins>
-				</plugins>
-			</build>
-			<modules>
-<!--				<module>spring-framework-maven</module>-->
-				<module>spring-boot-project</module>
-				<module>spring-debug</module>
 
-				<!-- Smoke tests are built via the invoker plugin -->
-<!--				<module>spring-boot-tests</module>-->
-			</modules>
-		</profile>
-		<!-- M2E profile to allow easy import into Eclipse -->
-		<profile>
-			<id>m2e</id>
-			<activation>
-				<property>
-					<name>m2e.version</name>
-				</property>
-			</activation>
-			<modules>
-				<module>spring-boot-project</module>
-				<!--				<module>spring-debug</module>-->
-				<module>spring-boot-tests</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>repository</id>
-			<activation>
-				<property>
-					<name>repository</name>
-				</property>
-			</activation>
-			<repositories>
-				<repository>
-					<id>repository</id>
-					<url>${repository}</url>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</repository>
-			</repositories>
-			<pluginRepositories>
-				<pluginRepository>
-					<id>repository</id>
-					<url>${repository}</url>
-					<snapshots>
-						<enabled>true</enabled>
-					</snapshots>
-				</pluginRepository>
-			</pluginRepositories>
-		</profile>
-	</profiles>
-	<repositories>
-		<!-- Repositories to allow snapshot and milestone BOM imports during development.
-			This section is stripped by the flatten plugin during install/deploy. -->
-		<repository>
-			<id>central</id>
-			<url>https://repo.maven.apache.org/maven2</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>spring-milestone</id>
-			<name>Spring Milestone</name>
-			<url>https://repo.spring.io/milestone</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>spring-snapshot</id>
-			<name>Spring Snapshot</name>
-			<url>https://repo.spring.io/snapshot</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>rabbit-milestone</id>
-			<name>Rabbit Milestone</name>
-			<url>https://dl.bintray.com/rabbitmq/maven-milestones</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>central</id>
-			<url>https://repo.maven.apache.org/maven2</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-		<pluginRepository>
-			<id>spring-release</id>
-			<name>Spring Release</name>
-			<url>https://repo.spring.io/release</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>spring-milestone</id>
-			<name>Spring Milestone</name>
-			<url>https://repo.spring.io/milestone</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-		<pluginRepository>
-			<id>spring-snapshot</id>
-			<name>Spring Snapshot</name>
-			<url>https://repo.spring.io/snapshot</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>com.gradle</groupId>
-					<artifactId>gradle-enterprise-maven-extension</artifactId>
-					<version>1.8.1</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-		<plugins>
-			<plugin>
-				<groupId>com.gradle</groupId>
-				<artifactId>gradle-enterprise-maven-extension</artifactId>
-				<configuration>
-					<gradleEnterprise>
-					</gradleEnterprise>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+
+	<modules>
+		<module>spring-parent</module>
+		<module>spring-framework-maven</module>
+		<module>spring-boot-project</module>
+		<module>spring-debug</module>
+
+		<!--				<module>spring-boot-tests</module>-->
+	</modules>
+
 </project>
