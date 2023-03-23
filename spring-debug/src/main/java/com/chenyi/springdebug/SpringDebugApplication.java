@@ -5,7 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import cn.hutool.core.date.DateUtil;
-//import cn.hutool.core.util.StrUtil;
 
 @SpringBootApplication
 public class SpringDebugApplication {
@@ -16,7 +15,7 @@ public class SpringDebugApplication {
 		System.out.println(SystemUtil.getJavaRuntimeInfo());
 		System.out.println(SystemUtil.getJavaSpecInfo());
 
-		 SpringApplication.run(SpringDebugApplication.class, args);
+		SpringApplication.run(SpringDebugApplication.class, args);
 	}
 
 }

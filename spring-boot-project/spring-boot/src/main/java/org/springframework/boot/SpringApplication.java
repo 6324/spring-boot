@@ -290,6 +290,7 @@ public class SpringApplication {
 	}
 
 	/**
+	 *
 	 * Run the Spring application, creating and refreshing a new
 	 * {@link ApplicationContext}.
 	 * @param args the application arguments (usually passed from a Java main method)
@@ -315,6 +316,7 @@ public class SpringApplication {
 			refreshContext(context);
 			afterRefresh(context, applicationArguments);
 			stopWatch.stop();
+			//启动web容器完成
 			if (this.logStartupInfo) {
 				new StartupInfoLogger(this.mainApplicationClass).logStarted(getApplicationLog(), stopWatch);
 			}

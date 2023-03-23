@@ -82,6 +82,11 @@ class StartupInfoLogger {
 		return message;
 	}
 
+	/**
+	 * 在这里拼接 启动完成语句
+	 * @param stopWatch
+	 * @return
+	 */
 	private CharSequence getStartedMessage(StopWatch stopWatch) {
 		StringBuilder message = new StringBuilder();
 		message.append("Started ");
