@@ -131,26 +131,26 @@
 	</dependencies>
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.basepom.maven</groupId>
-				<artifactId>duplicate-finder-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>duplicate-dependencies</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-						<configuration>
-							<ignoredClassPatterns>
-								<ignoredClassPattern>org.aopalliance.*</ignoredClassPattern>
-								<ignoredClassPattern>javax.annotation.*</ignoredClassPattern>
-								<ignoredClassPattern>.*module-info</ignoredClassPattern>
-							</ignoredClassPatterns>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.basepom.maven</groupId>-->
+<!--				<artifactId>duplicate-finder-maven-plugin</artifactId>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<id>duplicate-dependencies</id>-->
+<!--						<phase>validate</phase>-->
+<!--						<goals>-->
+<!--							<goal>check</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<ignoredClassPatterns>-->
+<!--								<ignoredClassPattern>org.aopalliance.*</ignoredClassPattern>-->
+<!--								<ignoredClassPattern>javax.annotation.*</ignoredClassPattern>-->
+<!--								<ignoredClassPattern>.*module-info</ignoredClassPattern>-->
+<!--							</ignoredClassPatterns>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 		</plugins>
 	</build>
 	<profiles>

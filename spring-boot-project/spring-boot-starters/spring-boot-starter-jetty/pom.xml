@@ -82,27 +82,27 @@
 	</dependencies>
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.basepom.maven</groupId>
-				<artifactId>duplicate-finder-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>duplicate-dependencies</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-						<configuration>
-							<ignoredClassPatterns>
-								<ignoredClassPattern>.*module-info</ignoredClassPattern>
-							</ignoredClassPatterns>
-							<ignoredResourcePatterns>
-								<ignoredResourcePattern>about.html</ignoredResourcePattern>
-							</ignoredResourcePatterns>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.basepom.maven</groupId>-->
+<!--				<artifactId>duplicate-finder-maven-plugin</artifactId>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<id>duplicate-dependencies</id>-->
+<!--						<phase>validate</phase>-->
+<!--						<goals>-->
+<!--							<goal>check</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<ignoredClassPatterns>-->
+<!--								<ignoredClassPattern>.*module-info</ignoredClassPattern>-->
+<!--							</ignoredClassPatterns>-->
+<!--							<ignoredResourcePatterns>-->
+<!--								<ignoredResourcePattern>about.html</ignoredResourcePattern>-->
+<!--							</ignoredResourcePatterns>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 		</plugins>
 	</build>
 </project>

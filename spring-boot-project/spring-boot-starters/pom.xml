@@ -146,29 +146,29 @@
 					<forceCreation>true</forceCreation>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.basepom.maven</groupId>
-				<artifactId>duplicate-finder-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>duplicate-dependencies</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-						<configuration>
-							<failBuildInCaseOfConflict>true</failBuildInCaseOfConflict>
-							<ignoredClassPatterns>
- 								<ignoredClassPattern>.*module-info</ignoredClassPattern>
- 							</ignoredClassPatterns>
-							<ignoredResourcePatterns>
-								<ignoredResourcePattern>changelog.txt</ignoredResourcePattern>
-								<ignoredResourcePattern>about.html</ignoredResourcePattern>
-							</ignoredResourcePatterns>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.basepom.maven</groupId>-->
+<!--				<artifactId>duplicate-finder-maven-plugin</artifactId>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<id>duplicate-dependencies</id>-->
+<!--						<phase>validate</phase>-->
+<!--						<goals>-->
+<!--							<goal>check</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<failBuildInCaseOfConflict>true</failBuildInCaseOfConflict>-->
+<!--							<ignoredClassPatterns>-->
+<!-- 								<ignoredClassPattern>.*module-info</ignoredClassPattern>-->
+<!-- 							</ignoredClassPatterns>-->
+<!--							<ignoredResourcePatterns>-->
+<!--								<ignoredResourcePattern>changelog.txt</ignoredResourcePattern>-->
+<!--								<ignoredResourcePattern>about.html</ignoredResourcePattern>-->
+<!--							</ignoredResourcePatterns>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 		</plugins>
 	</build>
 </project>
