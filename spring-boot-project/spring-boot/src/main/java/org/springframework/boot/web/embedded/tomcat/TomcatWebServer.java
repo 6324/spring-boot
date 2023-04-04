@@ -201,7 +201,7 @@ public class TomcatWebServer implements WebServer {
 				checkThatConnectorsHaveStarted();
 				this.started = true;
 				//tomcat启动成功
-				logger.info("tomcat 启动完成 整个启动流程完成");
+				logger.debug("tomcat 启动完成 整个启动流程完成");
 				logger.info("Tomcat started on port(s): " + getPortsDescription(true) + " with context path '"
 						+ getContextPath() + "'");
 			}

@@ -42,6 +42,10 @@ public class MainMethodRunner {
 		this.args = (args != null) ? args.clone() : null;
 	}
 
+	/**
+	 * 反射调用 用户定义的启动类
+	 * @throws Exception
+	 */
 	public void run() throws Exception {
 		Class<?> mainClass = Thread.currentThread().getContextClassLoader().loadClass(this.mainClassName);
 		Method mainMethod = mainClass.getDeclaredMethod("main", String[].class);

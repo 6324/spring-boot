@@ -18,9 +18,17 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.24</version>
+		</dependency>
+	</dependencies>
+
 
 	<modules>
-		<module>spring-framework-maven</module>
+<!--		<module>spring-framework-maven</module>-->
 		<module>spring-boot-project</module>
 		<module>spring-debug</module>
 		<!--				<module>spring-boot-tests</module>-->

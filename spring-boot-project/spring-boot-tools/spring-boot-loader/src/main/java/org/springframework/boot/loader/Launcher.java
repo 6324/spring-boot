@@ -45,7 +45,7 @@ public abstract class Launcher {
 	 * @param args the incoming arguments
 	 * @throws Exception if the application fails to launch
 	 */
-	protected void launch(String[] args) throws Exception {
+	public void launch(String[] args) throws Exception {
 		JarFile.registerUrlProtocolHandler();
 		ClassLoader classLoader = createClassLoader(getClassPathArchives());
 		launch(args, getMainClass(), classLoader);

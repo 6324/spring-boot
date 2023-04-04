@@ -16,6 +16,7 @@
 
 package org.springframework.boot.loader;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.loader.archive.Archive;
 
 /**
@@ -48,6 +49,12 @@ public class JarLauncher extends ExecutableArchiveLauncher {
 		return entry.getName().startsWith(BOOT_INF_LIB);
 	}
 
+
+	/**
+	 * 真实启动方法
+	 * @param args
+	 * @throws Exception
+	 */
 	public static void main(String[] args) throws Exception {
 		new JarLauncher().launch(args);
 	}

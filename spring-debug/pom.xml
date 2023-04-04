@@ -20,38 +20,46 @@
 	</properties>
 	<dependencies>
 
-		<dependency>
-			<groupId>cn.hutool</groupId>
-			<artifactId>hutool-all</artifactId>
-			<version>5.8.15</version>
-		</dependency>
-
-
-		<!--		<dependency>-->
-		<!--			<groupId>org.springframework.boot</groupId>-->
-		<!--			<artifactId>spring-boot-dependencies</artifactId>-->
-		<!--			<scope>import</scope>-->
-		<!--		</dependency>-->
-
-		<!--		<dependency>-->
-		<!--			<groupId>org.springframework.boot</groupId>-->
-		<!--			<artifactId>spring-boot-starter-parent</artifactId>-->
-		<!--		</dependency>-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<version>2.2.14.BUILD-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-parent</artifactId>
+			<version>2.2.14.BUILD-SNAPSHOT</version>
+			<type>pom</type>
+		</dependency>
+
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+			<version>5.8.15</version>
+		</dependency>
 	</dependencies>
 
 	<build>
-		<!--		<plugins>-->
-		<!--			<plugin>-->
-		<!--				<groupId>org.springframework.boot</groupId>-->
-		<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
-		<!--			</plugin>-->
-		<!--		</plugins>-->
+		<plugins>
+<!--			<plugin>-->
+<!--				<groupId>org.springframework.boot</groupId>-->
+<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--				<version>2.2.14.BUILD-SNAPSHOT</version>-->
+<!--				<configuration>-->
+<!--					<mainClass>com.chenyi.springdebug.SpringDebugApplication</mainClass>-->
+<!--					<includeSystemScope>true</includeSystemScope>-->
+<!--				</configuration>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<id>repackage</id>-->
+<!--						<goals>-->
+<!--							<goal>repackage</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
+		</plugins>
 	</build>
 
 </project>

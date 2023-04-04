@@ -51,6 +51,11 @@ public abstract class ExecutableArchiveLauncher extends Launcher {
 		return this.archive;
 	}
 
+	/**
+	 * 找到用户定义的启动类
+	 * @return
+	 * @throws Exception
+	 */
 	@Override
 	protected String getMainClass() throws Exception {
 		Manifest manifest = this.archive.getManifest();
