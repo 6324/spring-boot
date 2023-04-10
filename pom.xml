@@ -28,7 +28,6 @@
 
 
 	<modules>
-<!--		<module>spring-framework-maven</module>-->
 		<module>spring-boot-project</module>
 		<module>spring-debug</module>
 		<!--				<module>spring-boot-tests</module>-->
