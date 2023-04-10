@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-public class SimpleController {
+public class ZZZController {
 	@GetMapping("/hello")
 	public String index() {
 		System.out.println("1111");
