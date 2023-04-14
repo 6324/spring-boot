@@ -35,7 +35,6 @@
 
     <modules>
         <module>spring-boot-project</module>
-        <module>spring-debug</module>
     </modules>
 
 </project>
