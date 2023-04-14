@@ -12,7 +12,7 @@
 
     <parent>
         <groupId>com.chenyi</groupId>
-        <artifactId>group</artifactId>
+        <artifactId>group-project</artifactId>
         <version>1.0</version>
     </parent>
 
