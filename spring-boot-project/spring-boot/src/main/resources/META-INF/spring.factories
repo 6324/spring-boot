@@ -11,7 +11,7 @@ org.springframework.boot.context.event.EventPublishingRunListener
 org.springframework.boot.SpringBootExceptionReporter=\
 org.springframework.boot.diagnostics.FailureAnalyzers
 
-# Application Context Initializers
+# Application Context Initializers ??spring???
 org.springframework.context.ApplicationContextInitializer=\
 org.springframework.boot.context.ConfigurationWarningsApplicationContextInitializer,\
 org.springframework.boot.context.ContextIdApplicationContextInitializer,\
