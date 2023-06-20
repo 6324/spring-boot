@@ -207,6 +207,7 @@ public class SpringApplication {
 
 	private boolean addCommandLineProperties = true;
 
+	//postProcessApplicationContext用到的 转换服务
 	private boolean addConversionService = true;
 
 	private Banner banner;
@@ -268,13 +269,16 @@ public class SpringApplication {
 		this.resourceLoader = resourceLoader;
 		Assert.notNull(primarySources, "PrimarySources must not be null");
 		this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources));
-		//判断使用哪种web容器 默认servelet
+		//判断使用哪种web容器 默认servlet
 		this.webApplicationType = WebApplicationType.deduceFromClasspath();
+		//设置ApplicationContextInitializer子类启动项
 		setInitializers((Collection) getSpringFactoriesInstances(ApplicationContextInitializer.class));
+		//初始化监听类
 		setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));
 		this.mainApplicationClass = deduceMainApplicationClass();
 	}
 
+	//通过栈帧找到main方法
 	private Class<?> deduceMainApplicationClass() {
 		try {
 			StackTraceElement[] stackTrace = new RuntimeException().getStackTrace();
@@ -304,14 +308,20 @@ public class SpringApplication {
 		Collection<SpringBootExceptionReporter> exceptionReporters = new ArrayList<>();
 		//设置无界面的程序
 		configureHeadlessProperty();
+		//初始化EventPublishingRunListener
 		SpringApplicationRunListeners listeners = getRunListeners(args);
 		listeners.starting();
 		try {
 			ApplicationArguments applicationArguments = new DefaultApplicationArguments(args);
+			//读取application.properties配置文件
 			ConfigurableEnvironment environment = prepareEnvironment(listeners, applicationArguments);
 			configureIgnoreBeanInfo(environment);
+			//打印banner 可以使用#ImageBanner
 			Banner printedBanner = printBanner(environment);
+			//创建上下文 默认是AnnotationConfigServletWebServerApplicationContext
+			//里面初始化了两个属性1.AnnotatedBeanDefinitionReader注解读取器  2.ClassPathBeanDefinitionScanner Bean扫描器
 			context = createApplicationContext();
+			//SPI方式初始化错误报告
 			exceptionReporters = getSpringFactoriesInstances(SpringBootExceptionReporter.class,
 					new Class[] { ConfigurableApplicationContext.class }, context);
 			prepareContext(context, environment, listeners, applicationArguments, printedBanner);
@@ -340,6 +350,7 @@ public class SpringApplication {
 		return context;
 	}
 
+	//设置环境变量 默认是 StandardServletEnvironment
 	private ConfigurableEnvironment prepareEnvironment(SpringApplicationRunListeners listeners,
 			ApplicationArguments applicationArguments) {
 		// Create and configure the environment
@@ -367,10 +378,12 @@ public class SpringApplication {
 		}
 	}
 
+	//准备上下文
 	private void prepareContext(ConfigurableApplicationContext context, ConfigurableEnvironment environment,
 			SpringApplicationRunListeners listeners, ApplicationArguments applicationArguments, Banner printedBanner) {
 		context.setEnvironment(environment);
 		postProcessApplicationContext(context);
+		//todo 6.20看到这里了
 		applyInitializers(context);
 		listeners.contextPrepared(context);
 		if (this.logStartupInfo) {
@@ -416,6 +429,7 @@ public class SpringApplication {
 
 	private SpringApplicationRunListeners getRunListeners(String[] args) {
 		Class<?>[] types = new Class<?>[] { SpringApplication.class, String[].class };
+		//获取spring.factories中SpringApplicationRunListener的映射
 		return new SpringApplicationRunListeners(logger,
 				getSpringFactoriesInstances(SpringApplicationRunListener.class, types, this, args));
 	}
@@ -424,6 +438,7 @@ public class SpringApplication {
 		return getSpringFactoriesInstances(type, new Class<?>[] {});
 	}
 
+	//SPI 反射 实例化spring工厂
 	private <T> Collection<T> getSpringFactoriesInstances(Class<T> type, Class<?>[] parameterTypes, Object... args) {
 		ClassLoader classLoader = getClassLoader();
 		// Use names and ensure unique to protect against duplicates
@@ -598,7 +613,9 @@ public class SpringApplication {
 	 * apply additional processing as required.
 	 * @param context the application context
 	 */
-	protected void postProcessApplicationContext(ConfigurableApplicationContext context) {
+
+	//后处理
+	protected void postProcessApplicationContext(ConfigurableApplicationContext  context) {
 		if (this.beanNameGenerator != null) {
 			context.getBeanFactory().registerSingleton(AnnotationConfigUtils.CONFIGURATION_BEAN_NAME_GENERATOR,
 					this.beanNameGenerator);
@@ -612,6 +629,7 @@ public class SpringApplication {
 			}
 		}
 		if (this.addConversionService) {
+			//ApplicationConversionService 这是干嘛用的
 			context.getBeanFactory().setConversionService(ApplicationConversionService.getSharedInstance());
 		}
 	}
@@ -1233,8 +1251,8 @@ public class SpringApplication {
 
 	/**
 	 * A basic main that can be used to launch an application. This method is useful when
-	 * application sources are defined via a {@literal --spring.main.sources} command line
 	 * argument.
+	 * application sources are defined via a {@literal --spring.main.sources} command line
 	 * <p>
 	 * Most developers will want to define their own main method and call the
 	 * {@link #run(Class, String...) run} method instead.

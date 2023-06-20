@@ -53,6 +53,7 @@ import org.springframework.util.ClassUtils;
  * @see ServletWebServerApplicationContext
  * @see AnnotationConfigServletWebApplicationContext
  */
+//默认上下文
 public class AnnotationConfigServletWebServerApplicationContext extends ServletWebServerApplicationContext
 		implements AnnotationConfigRegistry {
 
