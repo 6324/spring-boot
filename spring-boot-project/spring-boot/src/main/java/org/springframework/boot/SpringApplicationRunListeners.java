@@ -31,12 +31,14 @@ import org.springframework.util.ReflectionUtils;
  *
  * @author Phillip Webb
  */
+//监听器集合 用于操作监听器 基本上都是遍历然后操作的方法
 class SpringApplicationRunListeners {
 
 	private final Log log;
 
 	private final List<SpringApplicationRunListener> listeners;
 
+	//spi 走到这里
 	SpringApplicationRunListeners(Log log, Collection<? extends SpringApplicationRunListener> listeners) {
 		this.log = log;
 		this.listeners = new ArrayList<>(listeners);

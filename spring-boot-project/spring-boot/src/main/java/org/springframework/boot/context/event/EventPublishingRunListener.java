@@ -43,6 +43,7 @@ import org.springframework.util.ErrorHandler;
  * @author Artsiom Yudovin
  * @since 1.0.0
  */
+//监听器  貌似只有这一个实现方法
 public class EventPublishingRunListener implements SpringApplicationRunListener, Ordered {
 
 	private final SpringApplication application;

@@ -53,7 +53,7 @@ import org.springframework.util.ClassUtils;
  * @see ServletWebServerApplicationContext
  * @see AnnotationConfigServletWebApplicationContext
  */
-//默认上下文
+//默认上下文 spring boot的类
 public class AnnotationConfigServletWebServerApplicationContext extends ServletWebServerApplicationContext
 		implements AnnotationConfigRegistry {
 

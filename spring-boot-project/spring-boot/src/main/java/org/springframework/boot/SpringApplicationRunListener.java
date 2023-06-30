@@ -33,6 +33,7 @@ import org.springframework.core.io.support.SpringFactoriesLoader;
  * @author Andy Wilkinson
  * @since 1.0.0
  */
+//监听器父类接口 目前只看到EventPublishingRunListener这一个实现方法
 public interface SpringApplicationRunListener {
 
 	/**

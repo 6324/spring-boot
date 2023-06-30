@@ -38,6 +38,7 @@ import org.springframework.util.StringUtils;
  * @author Phillip Webb
  * @author Dave Syer
  */
+//启动打印日志 搞这么麻烦
 class StartupInfoLogger {
 
 	private static final Log logger = LogFactory.getLog(StartupInfoLogger.class);

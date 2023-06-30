@@ -75,6 +75,8 @@ class BeanDefinitionLoader {
 	 * @param registry the bean definition registry that will contain the loaded beans
 	 * @param sources the bean sources
 	 */
+	//bean加载器构造  初始化注解解析器 bean扫描器
+	//registry ==context
 	BeanDefinitionLoader(BeanDefinitionRegistry registry, Object... sources) {
 		Assert.notNull(registry, "Registry must not be null");
 		Assert.notEmpty(sources, "Sources must not be empty");

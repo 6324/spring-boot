@@ -324,7 +324,9 @@ public class SpringApplication {
 			//SPI方式初始化错误报告
 			exceptionReporters = getSpringFactoriesInstances(SpringBootExceptionReporter.class,
 					new Class[] { ConfigurableApplicationContext.class }, context);
+			//准备上下文
 			prepareContext(context, environment, listeners, applicationArguments, printedBanner);
+			//扫描bean
 			refreshContext(context);
 			afterRefresh(context, applicationArguments);
 			stopWatch.stop();
@@ -381,36 +383,42 @@ public class SpringApplication {
 	//准备上下文
 	private void prepareContext(ConfigurableApplicationContext context, ConfigurableEnvironment environment,
 			SpringApplicationRunListeners listeners, ApplicationArguments applicationArguments, Banner printedBanner) {
+		//设置配置环境变量
 		context.setEnvironment(environment);
 		postProcessApplicationContext(context);
-		//todo 6.20看到这里了
+		//上下文绑定初始化类
 		applyInitializers(context);
 		listeners.contextPrepared(context);
 		if (this.logStartupInfo) {
 			logStartupInfo(context.getParent() == null);
 			logStartupProfileInfo(context);
 		}
-		// Add boot specific singleton beans
+		// Add boot specific singleton beans 在此之前 已经注册了几个bean 比如监听器 注解处理器 应该是从spi那里注入进来的
 		ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
 		beanFactory.registerSingleton("springApplicationArguments", applicationArguments);
 		if (printedBanner != null) {
 			beanFactory.registerSingleton("springBootBanner", printedBanner);
 		}
+		//默认不覆盖bean
 		if (beanFactory instanceof DefaultListableBeanFactory) {
 			((DefaultListableBeanFactory) beanFactory)
 					.setAllowBeanDefinitionOverriding(this.allowBeanDefinitionOverriding);
 		}
+		//添加懒加载bean处理器
 		if (this.lazyInitialization) {
 			context.addBeanFactoryPostProcessor(new LazyInitializationBeanFactoryPostProcessor());
 		}
 		// Load the sources
 		Set<Object> sources = getAllSources();
 		Assert.notEmpty(sources, "Sources must not be empty");
+		//初始化bean加载器
 		load(context, sources.toArray(new Object[0]));
+		//时间发布绑定上下文
 		listeners.contextLoaded(context);
 	}
 
 	private void refreshContext(ConfigurableApplicationContext context) {
+		//放在这里的原因是上下文刚在此之前准备好
 		if (this.registerShutdownHook) {
 			try {
 				context.registerShutdownHook();
@@ -697,6 +705,7 @@ public class SpringApplication {
 	 * @param context the context to load beans into
 	 * @param sources the sources to load
 	 */
+	//初始化bean加载器
 	protected void load(ApplicationContext context, Object[] sources) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Loading source " + StringUtils.arrayToCommaDelimitedString(sources));
@@ -741,6 +750,7 @@ public class SpringApplication {
 	 * @param context the application context
 	 * @return the BeanDefinitionRegistry if it can be determined
 	 */
+	//获取定义bean的方式 默认是BeanDefinitionRegistry
 	private BeanDefinitionRegistry getBeanDefinitionRegistry(ApplicationContext context) {
 		if (context instanceof BeanDefinitionRegistry) {
 			return (BeanDefinitionRegistry) context;
@@ -757,6 +767,7 @@ public class SpringApplication {
 	 * @param sources the sources to load
 	 * @return the {@link BeanDefinitionLoader} that will be used to load beans
 	 */
+	//创建BeanDefinitionRegistry加载器 工厂模式
 	protected BeanDefinitionLoader createBeanDefinitionLoader(BeanDefinitionRegistry registry, Object[] sources) {
 		return new BeanDefinitionLoader(registry, sources);
 	}

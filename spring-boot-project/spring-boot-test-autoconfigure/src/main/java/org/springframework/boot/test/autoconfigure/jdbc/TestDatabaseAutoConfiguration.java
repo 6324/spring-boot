@@ -91,6 +91,7 @@ public class TestDatabaseAutoConfiguration {
 		public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		}
 
+		//这里是怎么把spring跟jdbc关联的
 		private void process(BeanDefinitionRegistry registry, ConfigurableListableBeanFactory beanFactory) {
 			BeanDefinitionHolder holder = getDataSourceBeanDefinition(beanFactory);
 			if (holder != null) {
