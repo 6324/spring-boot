@@ -872,6 +872,7 @@
 			<plugin>
 				<groupId>com.gradle</groupId>
 				<artifactId>gradle-enterprise-maven-extension</artifactId>
+				<version>1.17.2</version>
 				<configuration>
 					<gradleEnterprise>
 						<plugins>
